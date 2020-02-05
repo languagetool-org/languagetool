@@ -4509,39 +4509,6 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Does she still wear <marker>weeds</marker>?</example>
     	<example type="ambiguous" inputform="comes[come/VBZ,comes/NN]" outputform="comes[come/VBZ]">What we know <marker>comes</marker> from a book.</example>
       </rule>
-<!-- MFU 2019-12-12: This rule is not correct. Verb + to + VBZ is not correct English. Also, the rule incorrectly assigns VBZ to nouns, as in: Mary was asked to dances occasionally.
-      <rule>
-        <pattern>
-          <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">agree|aim|appear|arrange|ask|attempt|beg|afford|wait|choose|claim|decide|demand|desire|expect|fail|guarantee|happen|help|hope|manage|offer|plan|prepare|pretend|promise|prove|refuse|seem|tend|threaten|undertake|want|wish|begin|bother|continue|intend|propose|start|forget|like|mean|need|regret|remember|stop|try</token>
-          <token>to</token>
-          <marker>
-          <and>
-          <token postag="VBZ"/>
-          <token postag="NNS"/>
-          </and>
-        </marker>
-        </pattern>
-        <disambig postag="VBZ"/>
-        <example type="untouched">He tried to laugh.</example>
-        <example type="ambiguous" inputform="laughs[laugh/NNS,laugh/VBZ]" outputform="laughs[laugh/VBZ]">He tried to <marker>laughs</marker>.</example>
-      </rule>
--->
-      <rule>
-        <pattern>
-          <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">agree|aim|appear|arrange|ask|attempt|beg|afford|wait|choose|claim|decide|demand|desire|expect|fail|guarantee|happen|help|hope|manage|offer|plan|prepare|pretend|promise|prove|refuse|seem|tend|threaten|undertake|want|wish|begin|bother|continue|intend|propose|start|forget|like|mean|need|regret|remember|stop|try</token>
-          <token>not</token>
-          <token>to</token>
-          <marker>
-          <and>
-          <token postag="VBZ"/>
-          <token postag="NNS"/>
-          </and>
-        </marker>
-        </pattern>
-        <disambig postag="VBZ"/>
-        <example type="untouched">He tried not to laugh.</example>
-        <example type="ambiguous" inputform="laughs[laugh/NNS,laugh/VBZ]" outputform="laughs[laugh/VBZ]">He tried not to <marker>laughs</marker>.</example>
-      </rule>
      </rulegroup>
      <rule name="Modal verb + plural noun/vbz + plural verb => NNS" id="MD_NNSVBZ_NNS">
       <pattern>

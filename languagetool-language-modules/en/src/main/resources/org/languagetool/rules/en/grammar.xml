@@ -20772,18 +20772,42 @@ USA
                     <token>to</token>
                     <token/>
                 </antipattern>
+                <antipattern><!-- from books to zips -->
+                    <token>from</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token>to</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- to beavers and squirrels -->
+                    <token>to</token>
+                    <token chunk="B-NP-plural" postag="NNS"/>
+                    <token chunk="I-NP-plural" regexp="yes">and|or</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- added to purchases -->
+                    <token postag_regexp="yes" postag="VB[DGNPZ]?"/>
+                    <token>to</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- message to does  -->
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                    <token>to</token>
+                    <token>does</token>
+                </antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="VB[DGNPZ]?"/>
                     <token min="0">not</token>
                     <token>to</token>
                     <marker>
-                        <token postag="VBZ"><exception>is</exception><exception postag="NNS|NNPS?" postag_regexp="yes"/></token>
+                        <token postag="VBZ"><exception>is</exception><exception postag="NNPS?" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>The verb after "to" should be in the base form: <suggestion><match no="4" postag="VB"/></suggestion>.</message>
                 <short>Grammatical problem: use the base form</short>
                 <example correction="learn">I was surprised to <marker>learns</marker> this.</example>
-                <example correction="laugh">He tried not to <marker>laughs</marker>.</example>
+                <example correction="laugh">He tried not to <marker>laughs</marker>.</example><!-- laughs/E-NP-plural, thus do not use chunk in the pattern -->
+                <example correction="say">What would it have to <marker>says</marker>?</example>
+                <example correction="award">Film companies will spend as much as several million dollars on marketing to <marker>awards</marker> voters for a movie in the running for Best Picture, in attempts to improve chances of receiving Oscars and other movie awards conferred in Oscar season.</example><!-- The sentence from https://en.wikipedia.org/wiki/Academy_Awards does not make sense to me -->
                 <example>I was surprised to <marker>learn</marker> this.</example>
                 <example>Morocco's disputed claim to portions of western Algeria</example>
                 <example>He spoke to chosen people.</example>
@@ -20795,17 +20819,62 @@ USA
                 <example>What happens to babies who are born at sea?</example>
                 <example>The guy who we spoke to seems fair.</example>
                 <example>Whichever college he wants to go to is fine with me.</example>
-                <!-- FIXME: 'says' is NNS -->
-                <!--  example correction="say">What would it have to <marker>says</marker>?</example -->
-                <example correction="learn">I was surprised to <marker>learns</marker> this.</example>
-                <!-- 'gets' is NNS
-                example correction="get">She is manipulating her father to <marker>gets</marker> her way.</example -->
+                <example>You must confirm not to Bill but to Joe.</example>
+                <example>We have all types of products from books to zips.</example>
+                <example>... for cities and counties are also added to purchases.</example>
+                <example>More than 7,500 were jailed or deported to places like New Caledonia. </example>
+                <example>... status in the colonial system, gave rise to demands for greater political autonomy, and eventual...</example>
+                <example>Such scripts are to tone what abjads are to vowels. </example>
+                <example>...review the talk page before making changes to lines to see if there is a previous established...</example>
+                <example>Rabbits are related to beavers and squirrels.</example>
+                <example>The user you to want to send this message to does not exist.</example>
+                <example>The user that you to want to send this message to does (I think) not really exist.</example>
+                <example>The users that the technician wants to send these messages to does not exist.</example>
+            </rule>
+            <rule><!-- MFU 2020-02-05 he tried to laughs. This pattern (except for the NNP exception) was in disambiguation.xml -->
+                <antipattern><!-- agree to terms and conditions -->
+                    <token>to</token>
+                    <token chunk="B-NP-plural" postag="NNS"/>
+                    <token chunk="I-NP-plural" regexp="yes">and|or</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- offered to schools in -->
+                    <token>to</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token postag="IN"/>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">agree|aim|appear|arrange|ask|attempt|beg|afford|wait|choose|claim|decide|demand|desire|expect|fail|guarantee|happen|help|hope|manage|offer|plan|prepare|pretend|promise|prove|refuse|seem|tend|threaten|undertake|want|wish|begin|bother|continue|intend|propose|start|forget|like|mean|need|regret|remember|stop|try</token>
+                    <token>to</token>
+                    <marker>
+                        <token postag="VBZ">
+                            <exception postag_regexp="yes" postag="NNPS?"/>
+                            </token>
+                    </marker>
+                </pattern>
+                <message>The verb after "to" should be in the base form: <suggestion><match no="3" postag="VB"/></suggestion>.</message>
+                <short>Grammatical problem: use the base form</short>
+                <example correction="laugh">He tried to <marker>laughs</marker>.</example>
+                <example correction="piece">You’ll need to <marker>pieces</marker>.</example>
+                <example correction="continue">Those who want to <marker>continues</marker> developing under emacs or sublime...</example>
+                <example correction="provide">But, to start with, you need to <marker>provides</marker> us with more information.</example>
+                <example correction="highlight">Also, I’d like to <marker>highlights</marker> 2 things:</example>
+                <example>He tried to <marker>laugh</marker>.</example>
+                <example>... so users don’t need to agree to terms and conditions.</example>
+                <example>... device in a laptop form factor offered to schools in 1997 as an inexpensive ($799 US, original...</example>
+                <example>... and what happened to Bills at the convention.</example>
+                <example type="triggers_error">... is like what happened to Divines: several troops were ...</example>
             </rule>
             <rule>
                 <antipattern>
                     <token>to</token>
                     <token postag="VBN"/>
                     <token postag="NN.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern><!-- taught to beginning students -->
+                    <token>to</token>
+                    <token postag="JJ"/>
+                    <token postag="NNS"/>
                 </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes" skip="2">advise|ask|encourage|invite|order|persuade|remind|warn|expect|intend|want|allow|enable|force|teach|convince|manipulate|try<exception scope="next">,</exception></token>
@@ -20819,6 +20888,8 @@ USA
                 <example correction="get">She is manipulating her father to <marker>got</marker> her way.</example>
                 <example correction="lift">He tried very hard to <marker>lifted</marker> the rock.</example>
                 <example>She teaches English to advanced students.</example>
+                <example>...incorrect Bohr model is still often taught to beginning students.</example>
+                <example>She sometimes teaches to interesting students, but usually they are quite boring.</example>
             </rule>
             <rule>
                 <antipattern><!-- invited to dances occasionally -->
