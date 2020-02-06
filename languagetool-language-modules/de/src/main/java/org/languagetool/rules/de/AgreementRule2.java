@@ -56,6 +56,7 @@ public class AgreementRule2 extends Rule {
     asList(token("halb")),       // "Halb Traum, halb Wirklichkeit"
     asList(token("hinter")),     // "Hinter Bäumen"
     asList(token("vermutlich")), // "Vermutlich Ende 1813 erkrankte..."
+    asList(token("Einfach"), token("Bescheid")),    // "Einfach Bescheid sagen ..."
     asList(token("wohl")),       // "Wohl Anfang 1725 begegnete Bach ..."
     asList(token("erst")),       // "Erst X, dann ..."
     asList(token("lieber")),     // "Lieber X als Y"
@@ -68,7 +69,9 @@ public class AgreementRule2 extends Rule {
     asList(token("voll"), token("Sorge")),
     asList(token("Personal"), token("Computer")),
     asList(token("Ganz"), token("Gentleman")),
-    asList(token("Russisch"), token("Roulette"))
+    asList(token("Russisch"), token("Roulette")),
+    asList(token("International"), token("Management")),
+    asList(token("GmbH"))
   );
   private final Language language;
 
