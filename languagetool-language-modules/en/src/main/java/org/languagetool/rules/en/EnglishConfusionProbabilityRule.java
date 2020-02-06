@@ -71,6 +71,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "have I known",// vs. "know"
       "had I known",
       "had you known",
+      "his fluffy butt",
       "it's now better", // vs. no
       "it’s now better", // vs. no
       "it is now better" // vs. no

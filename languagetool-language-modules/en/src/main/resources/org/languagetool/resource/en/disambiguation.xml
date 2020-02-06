@@ -238,6 +238,23 @@
         <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
+    <rule id="SERIE_A" name="Serie A">
+        <!-- https://en.wikipedia.org/wiki/Serie_A -->
+        <pattern case_sensitive="yes">
+            <token>Serie</token>
+            <token regexp="yes">A|B</token>
+        </pattern>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
+    <rule id="CREATIVE_COMMONS" name="Creative Commons">
+        <pattern case_sensitive="yes">
+            <token>Creative</token>
+            <token>Commons</token>
+        </pattern>
+        <disambig action="add"><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
     <rule id="NNP_THOUSAND_OAKS" name="Thousand Oaks">
         <pattern case_sensitive="yes">
             <token>Thousand</token>
@@ -8779,7 +8796,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
+    <rule name="PIGMENTOSA" id="PIGMENTOSA">
+        <pattern>
+            <token regexp="yes">retinitis|urticaria|prurigo|dermatopathia|purpura|stratum</token>
+            <token>pigmentosa</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="Habeas Corpus" id="HABEAS_CORPUS_SPELLING">
         <pattern>
             <token>habeas</token>
@@ -8867,4 +8890,37 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+
+    <rule name="cc'mon spelling" id="C_MON_SPELLING">
+        <pattern>
+            <token>c</token>
+            <token regexp="yes" spacebefore="no">&apostrophe;</token>
+            <token spacebefore="no">mon</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="macula lutea" id="MACULA_LUTEA">
+        <pattern>
+            <token>macula</token>
+            <token regexp="yes">lutea|luteae</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="carpe diem" id="CARPE_DIEM_SPELLING">
+        <pattern>
+            <token>carpe</token>
+            <token regexp="yes">diems?|noctem</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="clary sage" id="CLARY_SAGE">
+        <pattern>
+            <token>clary</token>
+            <token>sage</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
