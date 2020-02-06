@@ -11501,7 +11501,7 @@ USA
            </rule>
         </rulegroup>
         <rulegroup id="PLURAL_VERB_AFTER_THIS" name="Plural verb after 'this' or 'that'">
-    <!-- Created by Tiago F. Santos, 2018-09-15. Edited by MFU 2018-12-10, 2019-01-28, 2019-05-13  -->
+    <!-- Created by Tiago F. Santos, 2018-09-15. Edited by MFU 2018-12-10, 2019-01-28, 2019-05-13, 2020-02-06 -->
             <rule>
                 <antipattern><!--  and those that owe this are called subditus natus; -->
                     <token>those</token>
@@ -11579,6 +11579,14 @@ USA
                     <token postag='VBP'/>
                     <token regexp='yes'>th(?:is|at)</token>
                 </antipattern>
+                <antipattern><!-- #2411 remove this agree button on this -->
+                    <token postag='VB.*' postag_regexp='yes'/>
+                    <token regexp='yes'>th(?:is|at)</token>
+                    <token postag='VBP?' postag_regexp='yes'/>
+                    <token chunk="E-NP-singular" postag='NN(:UN?)?' postag_regexp='yes'/>
+                    <token postag='IN'/>
+                    <token postag='DT|PRP\$' postag_regexp='yes'/>
+                </antipattern>
                 <pattern>
                     <token regexp='yes'>th(?:is|at)
                         <exception scope="previous" postag='IN'/>
@@ -11596,6 +11604,8 @@ USA
                 <example correction='This writes'><marker>This write</marker> up the results nicely; it's the best AI summarizer that I know.</example>
                 <example correction='This writes'><marker>This write</marker> have many defects; he is careless, slow, and lazy.</example><!-- Should be a noun: writer -->
                 <example correction='This writes'><marker>This write</marker> up is for this device.</example><!-- #2258 Should be hyphenated: https://www.lexico.com/definition/write-up -->
+                <example correction='this agrees'>Sometimes the garment codes do not agree, but if <marker>this agree</marker> button the garments carefully.</example><!-- #2411 -->
+                <example correction='this agrees'>... but if <marker>this agree</marker> button on your buttons carefully.</example><!-- #2411 'button on' is not a standard phrasal verb. -->
                 <example>Certain frogs that lay eggs underground have unpigmented eggs.</example>
                 <example>... blocs; other organisational tactics pioneered in this time include security culture, affinity groups and the use of ...</example>
                 <example>Anything that can be misunderstood will be.</example>
@@ -11672,6 +11682,7 @@ USA
                 <example>Has anyone had this happen?</example><!-- #2258 -->
                 <example>I had this happen to me for one of the older on/off versions.</example><!-- #2258 -->
                 <example>... but having this occur three times now makes me angry.</example><!-- #2258 -->
+                <example>Now they remove this <marker>agree button</marker> on this website.</example><!-- #2411 -->
            </rule>
         </rulegroup>
         <rulegroup id="THIS_NNS_VB" name="this + plural noun + verb (these)">
