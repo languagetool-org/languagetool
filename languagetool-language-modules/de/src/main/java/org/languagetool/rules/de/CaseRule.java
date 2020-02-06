@@ -557,7 +557,9 @@ public class CaseRule extends Rule {
     "Hinfahrt",
     "Hilfsstoff",
     "Hilfsstoffe",
-    "Hundert",   // je nach Kontext groß (TODO) 
+    "Hundert",   // groß und klein möglich 
+    "Zehntausend",   // groß und klein möglich 
+    "Hunderttausend",   // groß und klein möglich 
     "Hyperwallet", // Anglizismus
     "Ihnen",
     "Ihr",
