@@ -524,7 +524,7 @@ USA
             <example correction="doesn't">He <marker>does n't</marker> like her.</example>
         </rule>
         
-      <rulegroup id="INCORRECT_CONTRACTIONS" name="Contraction errors: e.g. did'nt->didn't" default="temp_off">
+      <rulegroup id="INCORRECT_CONTRACTIONS" name="Contraction errors: e.g. did'nt->didn't">
           <url>https://en.wikipedia.org/wiki/Wikipedia:List_of_English_contractions</url>
           <rule>
             <pattern>
@@ -3124,6 +3124,16 @@ USA
         </rulegroup>
         <rulegroup id="IT_IS" name="its vs. it's">
             <url>https://www.dictionary.com/e/its-vs-its/</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token>gonna</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion>?</message>
+                <example correction="It's"><marker>Its</marker> gonna be great.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>all<exception scope="previous">after</exception></token>
@@ -6666,7 +6676,16 @@ USA
                 <example>You are the center of the Universe, not mine, but your own.</example>
                 <example correction="you're">A reason I think life goes by so quickly when <marker>your</marker> older.</example>
             </rule>
-
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>your</token>
+                    </marker>
+                    <token>gonna</token>
+                </pattern>
+                <message>Did you mean <suggestion>you're</suggestion>?</message>
+                <example correction="You're"><marker>Your</marker> gonna be the best.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
@@ -12602,6 +12621,10 @@ USA
                 <token>mosh</token>
                 <token regexp="yes">pits?</token>
             </antipattern>
+            <antipattern><!-- https://en.wikipedia.org/wiki/Serie_A -->
+                <token>serie</token>
+                <token>a</token>
+            </antipattern>
             <antipattern><!-- https://en.equipauto.com/ -->
                 <token>equip</token>
                 <token>auto</token>
@@ -15284,7 +15307,7 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rule id="ERDOGAN" name="Erdogan (Erdoğan)" default="temp_off">
+        <rule id="ERDOGAN" name="Erdogan (Erdoğan)">
             <pattern>
                 <token>Erdogan</token>
             </pattern>
@@ -15362,6 +15385,19 @@ USA
             <message>Did you mean <suggestion>New Zealand</suggestion>?</message>
             <url>https://en.wikipedia.org/wiki/New_Zealand</url>
             <example correction="New Zealand">I live in <marker>New Zeeland</marker>.</example>
+        </rule>
+        <rule id="LEHMANN_BROTHERS" name="Lehman Brothers" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Lehman</token>
+                <token regexp="yes">Brothers|College</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Lehmann?</token>
+                <token regexp="yes">Brothers|College</token>
+            </pattern>
+            <message>Did you mean <suggestion>Lehman <match no="2" case_conversion="startupper" /></suggestion>?</message>
+            <url>https://en.wikipedia.org/wiki/Lehman_Brothers</url>
+            <example correction="Lehman Brothers"><marker>Lehmann Brothers</marker> was a popular investment bank.</example>
         </rule>
         <rulegroup id="LOREAL" name="L’Oréal">
             <antipattern case_sensitive="yes">
@@ -19014,7 +19050,7 @@ USA
         </rule>
         <rulegroup id="A_PLURAL" name="Agreement: 'a' + plural word">
             <antipattern><!-- category A -->
-                <token regexp="yes">category|class|division|formula|grade|group|hepatitis|influenza|series|type|zone|dock|band</token>
+                <token regexp="yes">category|class|division|document|formula|grade|group|hepatitis|influenza|series|type|zone|dock|band|source</token>
                 <token case_sensitive="yes">A</token>
             </antipattern>
             <antipattern>
@@ -19023,13 +19059,29 @@ USA
             </antipattern>
             <antipattern>
                 <token case_sensitive="yes">A</token>
-                <token regexp="yes">levels|records</token>
+                <token regexp="yes">levels?|records?</token>
             </antipattern>
             <antipattern><!-- "He registered a ups.com user" -->
-                <token regexp="yes">an?</token>
-                <token />
+                <token regexp="yes" skip="2">an?</token>
                 <token>.</token>
                 <token regexp="yes" spacebefore="no">\w{2,6}</token>
+            </antipattern>
+            <antipattern>
+                <token>serie</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern><!-- spanish name -->
+                <token>a</token>
+                <token>las</token>
+            </antipattern>
+            <antipattern><!-- A Creative Commons Attribution -->
+                <token>Creative</token>
+                <token>Commons</token>
+                <token />
+            </antipattern>
+            <antipattern>
+                <token>A</token>
+                <token>nucleotides</token>
             </antipattern>
             <rule>
                 <antipattern><!-- an operations center campus -->
@@ -19045,7 +19097,7 @@ USA
                         <token postag="NNP?S" postag_regexp="yes">
                             <exception postag="NN:.*|VBZ|NNP?|C[CD]" postag_regexp="yes"/>
                             <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception> <!-- e.g. "a LAPS" -->
-                            <exception regexp="yes">savings|headquarters|innings</exception> <!-- savings has singular concord according to OED; headquarters may as well -->
+                            <exception regexp="yes">savings|headquarters|innings|sideways</exception> <!-- savings has singular concord according to OED; headquarters may as well -->
                         </token>
                     </marker>
                     <token><exception postag="NN.*" postag_regexp="yes"/><exception regexp="yes">&apostrophe;|and</exception></token>
@@ -19065,6 +19117,7 @@ USA
                 <example>Division A teams are the best.</example>
                 <example>Dock A floats.</example>
                 <example>He registered a ups.com user</example>
+                <example>He moved to Juventus where he won trophies including two Serie A titles.</example>
                 <example>Atlas District, an arts and entertainment district in the Near Northeast</example>
                 <example>"The murderer," wrote Schopenhauer, "who is condemned to death according to the law must, it is true, be now used as a mere means, and with complete right."</example>
                 <example>As a consequence, a LAPS is very similar in structure to an EIS sensor.</example>
@@ -34391,7 +34444,7 @@ The accident victim died from her injuries.
             <example correction="it, girls">Go for <marker>it girls</marker>!</example>
             <example correction="it, guys">Get ready for <marker>it guys</marker>!</example>
         </rule>
-        <rule id="ME_MYSELF_AND_I_COMMA" name="Comma in 'Me myself and I'" default="temp_off">
+        <rule id="ME_MYSELF_AND_I_COMMA" name="Comma in 'Me myself and I'">
             <pattern>
                 <marker>
                     <token>me</token>
@@ -44237,14 +44290,31 @@ The accident victim died from her injuries.
             <suggestion>don't you</suggestion>
             <example correction="Don't you"><marker>Dontcha</marker> think this could be done easier?</example>
         </rule>
-        <rule id="WHATCHA" name="whatcha (what are you)">
-            <pattern>
-                <token regexp="yes">wh?atcha</token>
-            </pattern>
-            <message>The word '\1' is informal. Consider replacing it.</message>
-            <suggestion>what are you</suggestion>
-            <example correction="What are you"><marker>Whatcha</marker> doing?</example>
-        </rule>
+        <rulegroup id="WHATCHA" name="whatcha (what are you)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">wh?atcha</token>
+                    </marker>
+                    <token postag="VBG" />
+                </pattern>
+                <message>The word '\1' is informal. Consider replacing it.</message>
+                <suggestion>what are you</suggestion>
+                <example correction="What are you"><marker>Whatcha</marker> doing?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">wh?atcha</token>
+                    </marker>
+                    <token postag="VBG" negate_pos="yes" />
+                </pattern>
+                <message>The word '\1' is informal. Consider replacing it.</message>
+                <suggestion>what do you</suggestion>
+                <suggestion>what are you</suggestion>
+                <example correction="What do you|What are you"><marker>Whatcha</marker> have?</example>
+            </rule>
+        </rulegroup>
         <rule id="OUTTA" name="outta (out of)">
             <pattern>
                 <token>outta</token>
