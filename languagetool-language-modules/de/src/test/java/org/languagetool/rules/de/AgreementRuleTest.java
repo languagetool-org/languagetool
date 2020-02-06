@@ -188,6 +188,9 @@ public class AgreementRuleTest {
     assertGood("Hast du etwas das Carina machen kann?");
     assertGood("Ein Artikel in den Ruhr Nachrichten.");
     assertGood("Ich wollte nur allen Hallo sagen.");
+    assertGood("Ich habe deshalb allen Freund*innen Bescheid gegeben.");   // Gendersternchen, https://github.com/languagetool-org/languagetool/issues/2417
+    assertGood("Ich habe deshalb allen Freund_innen Bescheid gegeben.");
+    assertGood("Ich habe deshalb allen Freund:innen Bescheid gegeben.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");

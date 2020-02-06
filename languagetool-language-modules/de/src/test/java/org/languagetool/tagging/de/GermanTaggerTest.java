@@ -46,6 +46,15 @@ public class GermanTaggerTest {
   }
   
   @Test
+  public void testGenderGap() throws IOException {
+    // https://github.com/languagetool-org/languagetool/issues/2417
+    GermanTagger tagger = new GermanTagger();
+    assertTrue(tagger.tag(Arrays.asList("viele", "Freund", "*", "innen")).get(1).hasPartialPosTag(":PLU:FEM"));
+    assertTrue(tagger.tag(Arrays.asList("viele", "Freund", "_", "innen")).get(1).hasPartialPosTag(":PLU:FEM"));
+    assertTrue(tagger.tag(Arrays.asList("viele", "Freund", ":", "innen")).get(1).hasPartialPosTag(":PLU:FEM"));
+  }
+  
+  @Test
   public void testTagger() throws IOException {
     GermanTagger tagger = new GermanTagger();
 
