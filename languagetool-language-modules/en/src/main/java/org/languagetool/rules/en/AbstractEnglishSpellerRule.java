@@ -27,6 +27,7 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -61,7 +62,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       if (parts.length != 2) {
         throw new RuntimeException("Unexpected format in " + path + ": " + line + " - expected two parts delimited by ';'");
       }
-      words.put(parts[column], parts[column == 1 ? 0 : 1]);
+      words.put(parts[column].toLowerCase(), parts[column == 1 ? 0 : 1]);
     }
     return words;
   }
@@ -112,7 +113,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         VariantInfo variantInfo = isValidInOtherVariant(word);
         if (variantInfo != null) {
           String message = "Possible spelling mistake. '" + word + "' is " + variantInfo.getVariantName() + ".";
-          replaceFormsOfFirstMatch(message, sentence, ruleMatches, variantInfo.otherVariant());
+          String suggestion = StringTools.startsWithUppercase(word) ?
+              StringTools.uppercaseFirstChar(variantInfo.otherVariant()) : variantInfo.otherVariant();
+          replaceFormsOfFirstMatch(message, sentence, ruleMatches, suggestion);
         }
       }
     }

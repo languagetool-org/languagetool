@@ -41,7 +41,7 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
 
   @Override
   protected VariantInfo isValidInOtherVariant(String word) {
-    String otherVariant = BRITISH_ENGLISH.get(word);
+    String otherVariant = BRITISH_ENGLISH.get(word.toLowerCase());
     if (otherVariant != null) {
       return new VariantInfo("British English", otherVariant);
     }
