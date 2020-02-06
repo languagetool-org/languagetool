@@ -9004,17 +9004,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Après-Ski-Party">Die <marker>Apres-Ski Party</marker> war ein voller Erfolg.</example>
             </rule>
         </rulegroup>
-        <rule id="COPY_AND_PASTE" name="Copy-and-paste">
-            <pattern>
-                <token>Copy</token>
-                <token regexp="yes">[au]nd|&amp;</token>
-                <token regexp="yes">Pastes?</token>
-            </pattern>
-            <message>Dieses Wort wird im Deutschen mit Bindestrichen geschrieben.</message>
-            <suggestion>Copy-and-<match case_conversion="alllower" no="3" /></suggestion>
-            <url>https://www.duden.de/rechtschreibung/Copy_and_paste</url>
-            <example correction="Copy-and-paste">Ich mache einfach <marker>Copy and Paste</marker>, um die Texte in mein Dokument zu übernehmen.</example>
-        </rule>
+        <rulegroup id="COPY_AND_PASTE" name="Copy-and-paste">
+            <rule>
+                <pattern>
+                    <token>Copy</token>
+                    <token regexp="yes">[au]nd|&amp;</token>
+                    <token regexp="yes">Pastes?</token>
+                </pattern>
+                <message>Dieses Wort wird im Deutschen mit Bindestrichen geschrieben.</message>
+                <suggestion>Copy-and-<match case_conversion="alllower" no="3" /></suggestion>
+                <url>https://www.duden.de/rechtschreibung/Copy_and_paste</url>
+                <example correction="Copy-and-paste">Ich mache einfach <marker>Copy and Paste</marker>, um die Texte in mein Dokument zu übernehmen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Copy\-?Paste</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Copy-and-paste</suggestion>?</message>
+                <url>https://www.duden.de/rechtschreibung/Copy_and_paste</url>
+                <example correction="Copy-and-paste">Ich mache einfach <marker>Copy-Paste</marker>, um die Texte in mein Dokument zu übernehmen.</example>
+            </rule>
+        </rulegroup>
         <rule id="DRAG_AND_DROP" name="Drag-and-drop">
             <pattern>
                 <token>Drag</token>
