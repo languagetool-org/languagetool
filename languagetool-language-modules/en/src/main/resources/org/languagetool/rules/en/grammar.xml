@@ -11392,6 +11392,16 @@ USA
                 <token>roses</token>
                 <token>parade</token>
             </antipattern>
+            <antipattern><!-- #2410 had from the Book of Trades document created -->
+                <token postag='VB.*' postag_regexp='yes'/>
+                <token postag='IN'/>
+                <token postag='DT'/>
+                <token postag='NN(:UN?)?' postag_regexp='yes' regexp='yes'>\p{Lu}\p{Ll}+</token><!-- Assume that text with initial capitals is a proper noun  -->
+                <token>of</token>
+                <token postag='NNS' regexp='yes'>\p{Lu}\p{Ll}+</token>
+                <token postag='NN'>document</token>
+                <token postag='VBN'/>
+            </antipattern>
             <pattern>
                 <token postag='NN'>
                     <exception postag='^(?!.*NN(?!(S|P))).*$' postag_regexp='yes'/>
@@ -11409,12 +11419,14 @@ USA
             <message>Possible agreement error. Did you mean <suggestion><match no='4' postag='VBZ'/></suggestion>? (Some collective nouns can be treated as both singular and plural, so '\4' is not always incorrect.)</message>
             <url>https://www.lexico.com/definition/collective_noun</url>
             <example correction='is'>A fleet of ships <marker>are</marker> spotted.</example>
+            <example correction='documents'>This data from the Book of Trades <marker>document</marker> the changes to society.</example><!-- #2410 -->
             <example>A fleet of ships <marker>is</marker> spotted.</example>
             <example>...involvement of the inhabitants drove the band of thugs <marker>out</marker> of the town.</example>
             <example>I'm taking a couple of days <marker>off</marker>.</example>
             <example>What sort of curtains <marker>do</marker> you think would go with the carpet?</example>
             <example><marker>References to the concept of atoms</marker> date back to ancient Greece and India.</example>
             <example>...at the periphery of syllables like consonants, and moves at...</example>
+            <example>Today an impression of some of those original textile tradesmen can be had from the Book of Trades document created by Thomas.</example><!-- #2410 -->
             <example type="triggers_error">Only a handful of activists <marker>are</marker> articulate in our union.</example>
             <example type="triggers_error">A couple of swallows <marker>are</marker> flying overhead.</example>
             <example type="triggers_error">Only a handful of men <marker>want</marker> to take childcare leave.</example>
