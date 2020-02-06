@@ -146,14 +146,17 @@ public class GermanTagger extends BaseTagger {
     String prevWord = null;
     for (String word : sentenceTokens) {
       List<AnalyzedToken> readings = new ArrayList<>();
-      List<TaggedWord> taggerTokens;
+      List<TaggedWord> taggerTokens = null;
       // Gender star etc:
       String genderGap = "[*:_]";
-      if (idxPos+2 < sentenceTokens.size() && sentenceTokens.get(idxPos+1).matches(genderGap) && sentenceTokens.get(idxPos+2).equals("in")) {
-        taggerTokens = getWordTagger().tag(word + "in");
-      } else if (idxPos+2 < sentenceTokens.size() && sentenceTokens.get(idxPos+1).matches(genderGap) && sentenceTokens.get(idxPos+2).equals("innen")) {
-        taggerTokens = getWordTagger().tag(word + "innen");
-      } else {
+      if (idxPos+2 < sentenceTokens.size() && sentenceTokens.get(idxPos+1).matches(genderGap)) {
+        if (sentenceTokens.get(idxPos+2).matches("in|innen|r|e")) {  // "jede*r", "sein*e"
+          taggerTokens = new ArrayList<>();
+          taggerTokens.addAll(getWordTagger().tag(word));
+          taggerTokens.addAll(getWordTagger().tag(word + sentenceTokens.get(idxPos+2)));
+        }
+      }
+      if (taggerTokens == null) {
         taggerTokens = getWordTagger().tag(word);
       }
 
