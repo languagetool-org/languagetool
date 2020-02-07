@@ -11433,6 +11433,11 @@ USA
                 <token postag="NN">document</token>
                 <token postag="VBN"/>
             </antipattern>
+            <antipattern><!-- #2420 a bag of algae bread -->
+                <token>of</token>
+                <token chunk="B-NP-plural" postag="NNS"/>
+                <token chunk="E-NP-plural" postag_regexp="yes" postag="NN:UN?"/>
+            </antipattern>
             <pattern>
                 <token postag="NN">
                     <exception postag="^(?!.*NN(?!(S|P))).*$" postag_regexp="yes"/>
@@ -11458,6 +11463,7 @@ USA
             <example><marker>References to the concept of atoms</marker> date back to ancient Greece and India.</example>
             <example>...at the periphery of syllables like consonants, and moves at...</example>
             <example>Today an impression of some of those original textile tradesmen can be had from the Book of Trades document created by Thomas.</example><!-- #2410 -->
+            <example>He carried a bag of <marker>algae bread</marker> in his wings.</example><!-- #2420 -->
             <example type="triggers_error">Only a handful of activists <marker>are</marker> articulate in our union.</example>
             <example type="triggers_error">A couple of swallows <marker>are</marker> flying overhead.</example>
             <example type="triggers_error">Only a handful of men <marker>want</marker> to take childcare leave.</example>
