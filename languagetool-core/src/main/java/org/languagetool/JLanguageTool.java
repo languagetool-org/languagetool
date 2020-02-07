@@ -506,7 +506,8 @@ public class JLanguageTool {
   public void activateRemoteRules(File configFile) throws IOException {
     try {
       List<RemoteRuleConfig> configs = RemoteRuleConfig.load(configFile);
-      List<Rule> rules = language.getRelevantRemoteRules(getMessageBundle(language), configs);
+      List<Rule> rules = language.getRelevantRemoteRules(getMessageBundle(language), configs,
+        userConfig, motherTongue, altLanguages);
       userRules.addAll(rules);
     } catch (IOException e) {
       throw new IOException("Could not load remote rules.", e);

@@ -27,7 +27,10 @@ import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
-import org.languagetool.rules.patterns.*;
+import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.rules.patterns.Unifier;
+import org.languagetool.rules.patterns.UnifierConfiguration;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -187,6 +190,13 @@ public abstract class Language {
    */
   public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel,
                                                          UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    return Collections.emptyList();
+  }
+
+
+  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs,
+                                           UserConfig userConfig, Language motherTongue, List<Language> altLanguages)
+    throws IOException {
     return Collections.emptyList();
   }
 
@@ -577,9 +587,5 @@ public abstract class Language {
   @Override
   public int hashCode() {
     return getShortCodeWithCountryAndVariant().hashCode();
-  }
-
-  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs) throws IOException {
-    return Collections.emptyList();
   }
 }

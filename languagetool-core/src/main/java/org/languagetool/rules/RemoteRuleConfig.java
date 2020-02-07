@@ -23,6 +23,8 @@ package org.languagetool.rules;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
@@ -142,12 +144,16 @@ public class RemoteRuleConfig {
     return options;
   }
 
+  public static RemoteRuleConfig getRelevantConfig(String rule, List<RemoteRuleConfig> configs) {
+    return configs.stream().filter(config -> config.getRuleId().equals(rule)).findFirst().orElse(null);
+  }
+
   public static RemoteRuleConfig getRelevantConfig(Rule rule, List<RemoteRuleConfig> configs) {
-    return configs.stream().filter(config -> config.getRuleId().equals(rule.getId())).findFirst().orElse(null);
+    return getRelevantConfig(rule.getId(), configs);
   }
 
   public static List<RemoteRuleConfig> parse(InputStream json) throws IOException {
-    ObjectMapper mapper = new ObjectMapper();
+    ObjectMapper mapper = new ObjectMapper(new JsonFactory().enable(JsonParser.Feature.ALLOW_COMMENTS));
     return mapper.readValue(json, new TypeReference<List<RemoteRuleConfig>>() {});
   }
 
