@@ -4586,6 +4586,11 @@ USA
                     <token postag="NNS" regexp="yes">\p{Lu}\p{Ll}+</token>
                     <token regexp="yes">\p{Ll}+</token>
                 </antipattern>
+                <antipattern><!-- #2423 -->
+                    <token>arms</token>
+                    <token>reduction</token>
+                    <token postag_regexp="yes" postag="NN.*" regexp="yes" inflected="yes">conference|discussion|talk|treaty</token>
+                </antipattern>
                 <pattern>
                     <token><exception postag="PRP$"/><exception inflected="yes" regexp="yes">give|avail|serve</exception></token>
                     <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"/></token>
@@ -4597,6 +4602,10 @@ USA
                 </pattern>
                 <message>Apostrophe might be missing. Did you mean <suggestion><match no="3"/>'</suggestion> or <suggestion><match suppress_misspelled="yes" no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"/>'s</suggestion>?</message>
                 <short>Possible typo</short>
+                <example correction="presidents'|president's">This is a transcript of the <marker>presidents</marker> speech from March.</example>
+                <example correction="Presidents'|President's">This is a transcript of the <marker>Presidents</marker> speech from March.</example>
+                <example correction="darts'|dart's">The <marker>darts</marker> trajectory is calculated thus:</example>
+                <example correction="arms'|arm's">This video shows the <marker>arms</marker> reduction in movement after surgery to...</example><!-- #2423 -->
                 <example>This is a transcript of the <marker>president's</marker> speech.</example>
                 <example>Publishers today are at loss...</example>
                 <example>Owen was seven years younger.</example>
@@ -4606,11 +4615,8 @@ USA
                 <example>Universities A and B are old universities...</example>
                 <example>He made his final report to the Senate Foreign Relations Committee on U.S. affairs abroad.</example>
                 <example>He gave the customers chips or checks or premium points.</example>
-                <example correction="presidents'|president's">This is a transcript of the <marker>presidents</marker> speech from March.</example>
-                <example correction="Presidents'|President's">This is a transcript of the <marker>Presidents</marker> speech from March.</example>
                 <example>Legalized Abortion on Crime, authored by the economists Steven D. Levitt and John Donohue.</example>
                 <example>Gershwin overlays the slow blues theme from section B in the final “Grandioso.”</example>
-                <example correction="darts'|dart's">The <marker>darts</marker> trajectory is calculated thus:</example>
                 <example>The English <marker>darts</marker> player is likely to win this tournament.</example>
                 <example>The main communications equipment failed.</example>
                 <example>The <marker>darts</marker> tip is made of tungsten.</example><!-- False negative -->
@@ -4631,6 +4637,7 @@ USA
                 <example>The upcoming Ashes series in 2013 will be held in England.</example>
                 <example>But not all the earnings news was cheery.</example>
                 <example>The earnings release was scheduled for May.</example>
+                <example>... voted against the ratification of New Start, a nuclear <marker>arms reduction treaty</marker> between the United States and Russian Federation.</example><!-- #2423 -->
                 <example type="triggers_error">The new restaurant was making the <marker>owners</marker> money hand over fist.</example>
             </rule>
             <rule>
