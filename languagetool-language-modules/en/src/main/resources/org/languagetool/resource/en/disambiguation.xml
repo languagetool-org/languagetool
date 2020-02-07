@@ -4970,12 +4970,21 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
         <rule id="PRPPOSS_VB_NN_VBZ" name="Possessive pronoun + verb/noun + verb sing/modal => noun">
+            <antipattern><!-- #2426 that what your selling is worth buying -->
+                <token postag_regexp="yes" postag="SENT_START|WDT"/>
+                <token>what</token>
+                <token postag="PRP$"/>
+                <token postag="VBG"/>
+                <token>is</token>
+                <token>worth</token><!-- 'worth+VBG' seems a special case: www.lexico.com/definition/worth, 2.1 -->
+                <token postag="VBG"/>
+            </antipattern>
             <pattern>
                 <token postag="PRP$"/>
                 <marker>
                     <and>
                         <token postag="NN.*" postag_regexp="yes"/>
-                        <token postag="VBG" postag_regexp="yes"/>
+                        <token postag="VBG"/>
                     </and>
                 </marker>
                 <token postag_regexp="yes" postag="VBZ|MD"/>
@@ -4983,10 +4992,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="filter" postag="NN.*"/>
             <example type="untouched">I do what I want to.</example>
             <example type="untouched">Make sure that your <marker>watering can</marker> does not have a hole.</example>
+            <example type="untouched">Incorrect grammar: They need some unbiased proof that what your <marker>selling</marker> is worth buying.</example>
             <example type="ambiguous" inputform="singing[sing/VBG,singe/VBG,singing/JJ,singing/NN:U]" outputform="singing[singing/NN:U]">Your <marker>singing</marker> puts professional singers to shame.</example>
             <example type="ambiguous" inputform="singing[sing/VBG,singe/VBG,singing/JJ,singing/NN:U]" outputform="singing[singing/NN:U]">Her <marker>singing</marker> can shatter glasses!</example>
             <example type="ambiguous" inputform="dreaming[dream/VBG,dreaming/NN:UN]" outputform="dreaming[dreaming/NN:UN]">Your <marker>dreaming</marker> will not change the world. Do something!</example>
             <example type="ambiguous" inputform="fighting[fight/VBG,fighting/NN:U]" outputform="fighting[fighting/NN:U]">... and their <marker>fighting</marker> won't change the situation.</example>
+            <example type="ambiguous" inputform="selling[sell/VBG,selling/NN:U]" outputform="selling[selling/NN:U]">What your <marker>selling</marker> shows is that you have no real interest; you sold only 3 items this week.</example><!-- #2426 -->
+            <example type="ambiguous" inputform="selling[sell/VBG,selling/NN:U]" outputform="selling[selling/NN:U]">Not impressed! What your <marker>selling</marker> is is simply reading from a script.</example><!-- #2426 Better with a comma after the first 'is'. -->
+            <example type="ambiguous" inputform="selling[sell/VBG,selling/NN:U]" outputform="selling[selling/NN:U]">... but your <marker>selling</marker> can teach others a thing or two; you're excellent.</example><!-- #2426 -->
+            <example type="ambiguous" inputform="selling[sell/VBG,selling/NN:U]" outputform="selling[selling/NN:U]">You want a raise? Tell me what your <marker>selling</marker> is worth!</example><!-- #2426 -->
         </rule>
 
         <rule id="PRPPOSS_VBG_JJ_NN" name="Possessive pronoun + verb/adjective + noun sing => adjective">
