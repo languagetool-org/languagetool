@@ -41,14 +41,20 @@ public class PunctuationMarkAtParagraphEnd2Test {
     assertThat(lt.check("This is a test.").size(), is(0));
     assertThat(lt.check("This is a test").size(), is(0));  // too short
     assertThat(lt.check("This is a really nice test").size(), is(0));  // no error, might not be finished
-    assertThat(lt.check("This is a really nice test\n").size(), is(1));
-    assertThat(lt.check("This is a really nice test\n\n").size(), is(1));
+    assertThat(lt.check("This is a really nice test, and it has enough tokens\n").size(), is(1));
+    assertThat(lt.check("This is a really nice test, and it has enough tokens\n\n").size(), is(1));
     assertThat(lt.check("This is a test.\n\nRegards,\nJim").size(), is(0));
     assertThat(lt.check("This is a test.\n\nRegards,\n\nJim").size(), is(0));
     assertThat(lt.check("This is a test.\n\nKind Regards,\nJim").size(), is(0));
     assertThat(lt.check("This is a test.\n\nKind Regards,\n\nJim").size(), is(0));
     assertThat(lt.check("This is a test.\n\nKind Regards,\n\nJim Tester").size(), is(0));
     assertThat(lt.check("This is a test.\n\nKind Regards,\n\nJim van Tester").size(), is(0));
+    assertThat(lt.check("This is headline-style text").size(), is(0));
+    assertThat(lt.check("This is headline-style text.").size(), is(0));
+    assertThat(lt.check("This is headline-style text. If it gets longer, a dot is needed.").size(), is(0));
+    assertThat(lt.check("This is headline-style text. If it gets longer, a dot is needed").size(), is(1));
+    assertThat(lt.check("This is a test\n\nKind Regards,\n\nJim van Tester").size(), is(0));  // too short to find missing dot
+    assertThat(lt.check("This is a really nice test, and it has enough tokens\n\nKind Regards,\n\nJim van Tester").size(), is(1));
   }
 
 }

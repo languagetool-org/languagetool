@@ -21,6 +21,7 @@ package org.languagetool.rules;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.util.*;
@@ -31,8 +32,14 @@ import java.util.*;
  */
 public class PunctuationMarkAtParagraphEnd2 extends TextLevelRule {
 
+  // more than this many word tokens needed for a "real" paragraph that requires a period (etc) at the end:
+  private static final int TOKEN_THRESHOLD = 10;
+  
+  private final Language lang;
+
   public PunctuationMarkAtParagraphEnd2(ResourceBundle messages, Language lang) {
     super(messages);
+    this.lang = Objects.requireNonNull(lang);
     super.setCategory(Categories.PUNCTUATION.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Grammar);
     setDefaultTempOff();  // TODO
@@ -52,21 +59,28 @@ public class PunctuationMarkAtParagraphEnd2 extends TextLevelRule {
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     int pos = 0;
-    int sentCount = 0;
+    int sentPos = 0;
+    int tokenCount = 0;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokens();
+      for (AnalyzedTokenReadings token : tokens) {
+        if (!token.isNonWord() && !token.isWhitespace()) {
+          tokenCount++;
+        }
+      }
       AnalyzedTokenReadings lastNonSpaceToken = getLastNonSpaceToken(tokens);
-      boolean paragraphEnd = tokens[tokens.length - 1].isParagraphEnd();
-      boolean endsInWhitespace = tokens[tokens.length - 1].isWhitespace();
-      if (lastNonSpaceToken != null && !lastNonSpaceToken.getToken().matches("[:.?!…]") && paragraphEnd && !maybeEndsInGreeting(tokens) &&
-        (sentCount < sentences.size() - 1 || endsInWhitespace)) {
-        RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+lastNonSpaceToken.getStartPos(), pos+lastNonSpaceToken.getEndPos(),
+      boolean isParaEnd = Tools.isParagraphEnd(sentences, sentPos, lang);
+      if (isParaEnd && tokenCount > TOKEN_THRESHOLD && lastNonSpaceToken != null && !lastNonSpaceToken.getToken().matches("[:.?!…]")) {
+        RuleMatch ruleMatch = new RuleMatch(this, sentence, pos + lastNonSpaceToken.getStartPos(), pos + lastNonSpaceToken.getEndPos(),
           messages.getString("punctuation_mark_paragraph_end_msg"));
         ruleMatch.setSuggestedReplacement(lastNonSpaceToken.getToken() + ".");
         ruleMatches.add(ruleMatch);
       }
+      if (isParaEnd) {
+        tokenCount = 0;
+      }
+      sentPos++;
       pos += sentence.getText().length();
-      sentCount++;
     }
     return toRuleMatchArray(ruleMatches);
   }
@@ -78,23 +92,6 @@ public class PunctuationMarkAtParagraphEnd2 extends TextLevelRule {
       }
     }
     return null;
-  }
-
-  private boolean maybeEndsInGreeting(AnalyzedTokenReadings[] tokens) {
-    int tokensToLineBreak = 0;
-    boolean hasLinebreak = false;
-    boolean hasContentAfterLinebreak = false;
-    for (int i = tokens.length - 1; i >= 0; i--) {
-      if (!tokens[i].isWhitespace()) {
-        hasContentAfterLinebreak = true;
-      }
-      if (tokens[i].isLinebreak()) {
-        hasLinebreak = true;
-        break;
-      }
-      tokensToLineBreak++;
-    }
-    return hasLinebreak && hasContentAfterLinebreak && tokensToLineBreak < 8;  // includes whitespace
   }
 
   @Override
