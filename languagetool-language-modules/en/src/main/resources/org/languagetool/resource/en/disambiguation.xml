@@ -2291,6 +2291,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RB"/>
             <token postag_regexp="yes" postag="VB[DZ]"/>
         </antipattern>
+        <antipattern><!-- #2415 A tries to -->
+            <token case_sensitive="yes">A</token>
+            <token postag_regexp="yes" postag="VB[DZ]"/>
+            <token postag="TO"/>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT|RB" postag_regexp="yes" /><exception regexp="yes">th[eo]se|each|that|much</exception></token>
             <marker>
@@ -2304,6 +2309,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="filter" postag="NN.*"/>
         <example type="untouched">These may be to bring about political change.</example>
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">The <marker>dogs</marker> bark loudly.</example>
+        <example type="ambiguous" inputform="couple[couple/NN,couple/VB,couple/VBP]" outputform="couple[couple/NN]">I can see a <marker>couple</marker> to the left of the tree.</example><!-- #2415 -->
         <example type="untouched">Anarcho-pacifism is a tendency that rejects violence.</example>
         <example type="untouched">... while some <marker>may</marker> not possess the earlier book.</example>
         <example type="untouched">... and some <marker>look</marker> not to earthly treasures, but to the riches of Heaven.</example>
@@ -2313,7 +2319,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I can either plant this Sat or next week.</example>
         <example type="untouched">So I will either catch you from my car tomorrow morning, or we can talk on Monday.</example>
         <example type="untouched">Please carefully review all documents so that we can next move to final execution copies.</example>
+        <example type="untouched">A <marker>tries</marker> to overtake B.</example><!-- #2415 -->
     </rule>
+
     <rule name="each + verb/NN -&gt; NN" id="EACH_VB_NN">
         <pattern>
             <token postag="IN"/>
