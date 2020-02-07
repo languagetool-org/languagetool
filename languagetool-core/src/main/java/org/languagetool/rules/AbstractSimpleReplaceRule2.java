@@ -71,11 +71,11 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
    */
   public abstract Locale getLocale();
 
-  private static final LoadingCache<PathAndLanguage, List<Map<String, String>>> cache = CacheBuilder.newBuilder()
+  private static final LoadingCache<PathAndLanguage, List<Map<String, SuggestionWithMessage>>> cache = CacheBuilder.newBuilder()
           .expireAfterWrite(30, TimeUnit.MINUTES)
-          .build(new CacheLoader<PathAndLanguage, List<Map<String, String>>>() {
+          .build(new CacheLoader<PathAndLanguage, List<Map<String, SuggestionWithMessage>>>() {
             @Override
-            public List<Map<String, String>> load(@NotNull PathAndLanguage lap) throws IOException {
+            public List<Map<String, SuggestionWithMessage>> load(@NotNull PathAndLanguage lap) throws IOException {
               return loadWords(lap.path, lap.lang, lap.caseSensitive);
             }
           });
@@ -96,7 +96,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
   /**
    * @return the list of wrong words for which this rule can suggest correction. The list cannot be modified.
    */
-  public List<Map<String, String>> getWrongWords() {
+  public List<Map<String, SuggestionWithMessage>> getWrongWords() {
     try {
       return cache.get(new PathAndLanguage(getFileName(), language, isCaseSensitive()));
     } catch (ExecutionException e) {
@@ -106,13 +106,13 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
 
   /**
    * Load the list of words.
-   * Same as {@link AbstractSimpleReplaceRule#loadFromPath} but allows multiple words.   
+   * Same as {@link AbstractSimpleReplaceRule#loadFromPath} but allows multiple words and a custom message (optional).
    * @param filename the file from classpath to load
    * @return the list of maps containing the error-corrections pairs. The n-th map contains key strings of (n+1) words.
    */
-  private static List<Map<String, String>> loadWords(String filename, Language lang, boolean caseSensitive)
+  private static List<Map<String, SuggestionWithMessage>> loadWords(String filename, Language lang, boolean caseSensitive)
           throws IOException {
-    List<Map<String, String>> list = new ArrayList<>();
+    List<Map<String, SuggestionWithMessage>> list = new ArrayList<>();
     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(filename);
     try (
       InputStreamReader isr = new InputStreamReader(stream, StandardCharsets.UTF_8);
@@ -145,13 +145,23 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
           for (int i = list.size(); i < wordCount; i++) {
             list.add(new HashMap<>());
           }
-          list.get(wordCount - 1).put(caseSensitive ? wrongForm : wrongForm.toLowerCase(), parts[1]);
+          SuggestionWithMessage sugg;
+          if (parts[1].contains("\t")) {
+            String[] suggestionParts = parts[1].split("\t");
+            if (suggestionParts.length != 2) {
+              throw new IOException("Invalid format - use only one tab character to separate suggestion from the message: " + line);
+            }
+            sugg = new SuggestionWithMessage(suggestionParts[0], suggestionParts[1]);
+          } else {
+            sugg = new SuggestionWithMessage(parts[1]);
+          }
+          list.get(wordCount - 1).put(caseSensitive ? wrongForm : wrongForm.toLowerCase(), sugg);
         }
       }
     }
     // seal the result (prevent modification from outside this class)
-    List<Map<String,String>> result = new ArrayList<>();
-    for (Map<String, String> map : list) {
+    List<Map<String,SuggestionWithMessage>> result = new ArrayList<>();
+    for (Map<String, SuggestionWithMessage> map : list) {
       result.add(Collections.unmodifiableMap(map));
     }
     return Collections.unmodifiableList(result);
@@ -171,7 +181,7 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
-    List<Map<String, String>> wrongWords = getWrongWords();
+    List<Map<String, SuggestionWithMessage>> wrongWords = getWrongWords();
     Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(wrongWords.size());
 
     for (int i = 1; i < tokens.length; i++) {
@@ -191,11 +201,11 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
       for (int j = 0; j < len; j++) { // longest words first
         String crt = variants.get(j);
         int crtWordCount = len - j;
-        String crtMatch = isCaseSensitive() ?
+        SuggestionWithMessage crtMatch = isCaseSensitive() ?
           wrongWords.get(crtWordCount - 1).get(crt) :
           wrongWords.get(crtWordCount - 1).get(crt.toLowerCase(getLocale()));
         if (crtMatch != null) {
-          List<String> replacements = Arrays.asList(crtMatch.split("\\|"));
+          List<String> replacements = Arrays.asList(crtMatch.getSuggestion().split("\\|"));
           String msgSuggestions = "";
           for (int k = 0; k < replacements.size(); k++) {
             if (k > 0) {
@@ -204,6 +214,9 @@ public abstract class AbstractSimpleReplaceRule2 extends Rule {
             msgSuggestions += "<suggestion>" + replacements.get(k) + "</suggestion>";
           }
           String msg = getSuggestion().replaceFirst("\\$match", crt).replaceFirst("\\$suggestions", msgSuggestions);
+          if (crtMatch.getMessage() != null) {
+            msg = crtMatch.getMessage();
+          }
           int startPos = prevTokensList.get(len - crtWordCount).getStartPos();
           int endPos = prevTokensList.get(len - 1).getEndPos();
           RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg, getShort());
