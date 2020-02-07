@@ -53,9 +53,9 @@ public abstract class RemoteRule extends Rule {
   private static final ConcurrentMap<String, ExecutorService> executors = new ConcurrentHashMap<>();
   protected final RemoteRuleConfig serviceConfiguration;
 
-  public RemoteRule(ResourceBundle messages, List<RemoteRuleConfig> configuredServices) {
+  public RemoteRule(ResourceBundle messages, RemoteRuleConfig config) {
     super(messages);
-    serviceConfiguration = RemoteRuleConfig.getRelevantConfig(this, configuredServices);
+    serviceConfiguration = config;
     String rule = getId();
     lastFailure.putIfAbsent(rule, 0L);
     consecutiveFailures.putIfAbsent(rule, new AtomicInteger());
