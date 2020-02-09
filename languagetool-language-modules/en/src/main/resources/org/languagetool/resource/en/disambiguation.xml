@@ -8280,16 +8280,25 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <rule id="PRO_ADJECTIVE" name="pro + ADJECTIVE">
             <pattern>
                 <token>pro</token>
-                <token regexp="yes">bono|forma|rata|tempore</token>
+                <token regexp="yes">bono|forma|rata|tem|tempore</token>
             </pattern>
             <disambig action="replace"><wd pos="JJ"/><wd pos="JJ"/></disambig>
         </rule>
+
         <rule id="PRO_ADVERB" name="pro + ADVERB">
             <pattern>
                 <token>pro</token>
-                <token regexp="yes">bono|forma|rata|tempore</token>
+                <token regexp="yes">bono|forma|rata|tem|tempore</token>
             </pattern>
             <disambig action="add"><wd pos="RB"/><wd pos="RB"/></disambig>
+        </rule>
+
+        <rule id="PRO_SPELLING" name="pro + ADJECTIVE">
+            <pattern>
+                <token>pro</token>
+                <token regexp="yes">bono|forma|rata|tem|tempore</token>
+            </pattern>
+            <disambig action="ignore_spelling" />
         </rule>
 
         <rule id="PROXIME_ACCESSIT" name="proxime accessit">
@@ -8323,6 +8332,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>quos</token>
             </pattern>
             <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/><wd pos="NNS"/></disambig>
+        </rule>
+
+        <rule id="QUID_PRO_QUO_SPELLING" name="quid pro quo">
+            <pattern>
+                <token>quid</token>
+                <token>pro</token>
+                <token regexp="yes">quos?</token>
+            </pattern>
+            <disambig action="ignore_spelling" />
         </rule>
 
         <rule id="QUOD_ERAT_DEMONSTRANDUM" name="quod erat demonstrandum">
