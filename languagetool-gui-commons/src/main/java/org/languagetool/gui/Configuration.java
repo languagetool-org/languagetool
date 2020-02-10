@@ -58,6 +58,14 @@ public class Configuration {
   static final int DEFAULT_NUM_CHECK_PARAS = -1;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
   static final int FONT_STYLE_INVALID = -1;
   static final int FONT_SIZE_INVALID = -1;
+  static final boolean DEFAULT_DO_RESET = false;
+  static final boolean DEFAULT_MULTI_THREAD = false;
+  static final boolean DEFAULT_FULL_CHECK_FIRST = true;
+  static final boolean DEFAULT_USE_QUEUE = true;
+  static final boolean DEFAULT_USE_DOC_LANGUAGE = true;
+  static final boolean DEFAULT_DO_REMOTE_CHECK = false;
+  static final boolean DEFAULT_USE_OTHER_SERVER = false;
+
   static final Color STYLE_COLOR = new Color(0, 175, 0);
 
   private static final String CONFIG_FILE = ".languagetool.cfg";
@@ -78,9 +86,10 @@ public class Configuration {
   private static final String TAGGER_SHOWS_DISAMBIG_LOG_KEY = "taggerShowsDisambigLog";
   private static final String SERVER_RUN_KEY = "serverMode";
   private static final String SERVER_PORT_KEY = "serverPort";
+  private static final String NO_DEFAULT_CHECK_KEY = "noDefaultCheck";
   private static final String PARA_CHECK_KEY = "numberParagraphs";
   private static final String RESET_CHECK_KEY = "doResetCheck";
-  private static final String NO_MULTI_RESET_KEY = "noMultiReset";
+  private static final String USE_QUEUE_KEY = "useTextLevelQueue";
   private static final String DO_FULL_CHECK_AT_FIRST_KEY = "doFullCheckAtFirst";
   private static final String USE_DOC_LANG_KEY = "useDocumentLanguage";
   private static final String USE_GUI_KEY = "useGUIConfig";
@@ -148,18 +157,18 @@ public class Configuration {
   private int fontSize = FONT_SIZE_INVALID;
   private int serverPort = DEFAULT_SERVER_PORT;
   private int numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
-  private boolean doResetCheck = false;
-  private boolean noMultiReset = true;
-  private boolean doFullCheckAtFirst = true;
+  private boolean doResetCheck = DEFAULT_DO_RESET;
+  private boolean isMultiThreadLO = DEFAULT_MULTI_THREAD;
+  private boolean doFullCheckAtFirst = DEFAULT_FULL_CHECK_FIRST;
+  private boolean useTextLevelQueue = DEFAULT_USE_QUEUE;
+  private boolean useDocLanguage = DEFAULT_USE_DOC_LANGUAGE;
+  private boolean doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
+  private boolean useOtherServer = DEFAULT_USE_OTHER_SERVER;
   private String externalRuleDirectory;
   private String lookAndFeelName;
-  private boolean switchOff = false;
-  private boolean useDocLanguage = true;
-  private boolean isMultiThreadLO = false;
   private String currentProfile = null;
-  private boolean doRemoteCheck = false;
-  private boolean useOtherServer = false;
   private String otherServerUrl = null;
+  private boolean switchOff = false;
 
   /**
    * Uses the configuration file from the default location.
@@ -226,18 +235,18 @@ public class Configuration {
     fontSize = FONT_SIZE_INVALID;
     serverPort = DEFAULT_SERVER_PORT;
     numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
-    doResetCheck = false;
-    noMultiReset = true;
-    doFullCheckAtFirst = true;
+    doResetCheck = DEFAULT_DO_RESET;
+    isMultiThreadLO = DEFAULT_MULTI_THREAD;
+    doFullCheckAtFirst = DEFAULT_FULL_CHECK_FIRST;
+    useTextLevelQueue = DEFAULT_USE_QUEUE;
+    useDocLanguage = DEFAULT_USE_DOC_LANGUAGE;
+    doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
+    useOtherServer = DEFAULT_USE_OTHER_SERVER;
     externalRuleDirectory = null;
     lookAndFeelName = null;
-    switchOff = false;
-    useDocLanguage = true;
-    isMultiThreadLO = false;
     currentProfile = null;
-    doRemoteCheck = false;
-    useOtherServer = false;
     otherServerUrl = null;
+    switchOff = false;
   }
   /**
    * Returns a copy of the given configuration.
@@ -272,7 +281,7 @@ public class Configuration {
     this.serverPort = configuration.serverPort;
     this.numParasToCheck = configuration.numParasToCheck;
     this.doResetCheck = configuration.doResetCheck;
-    this.noMultiReset = configuration.noMultiReset;
+    this.useTextLevelQueue = configuration.useTextLevelQueue;
     this.doFullCheckAtFirst = configuration.doFullCheckAtFirst;
     this.isMultiThreadLO = configuration.isMultiThreadLO;
     this.useDocLanguage = configuration.useDocLanguage;
@@ -522,8 +531,8 @@ public class Configuration {
    * if more than one document loaded?
    * @since 4.5
    */
-  public boolean isNoMultiReset() {
-    return noMultiReset;
+  public boolean useTextLevelQueue() {
+    return useTextLevelQueue;
   }
 
   /**
@@ -531,8 +540,8 @@ public class Configuration {
    * if more than one document loaded?
    * @since 4.5
    */
-  public void setNoMultiReset(boolean noMultiReset) {
-    this.noMultiReset = noMultiReset;
+  public void setUseTextLevelQueue(boolean useTextLevelQueue) {
+    this.useTextLevelQueue = useTextLevelQueue;
   }
 
   /**
@@ -1002,9 +1011,12 @@ public class Configuration {
         externalRuleDirectory = extRules;
       }
 
-      String paraCheckString = (String) props.get(prefix + PARA_CHECK_KEY);
-      if (paraCheckString != null) {
-        numParasToCheck = Integer.parseInt(paraCheckString);
+      String paraCheckString = (String) props.get(prefix + NO_DEFAULT_CHECK_KEY);
+      if(paraCheckString != null && Boolean.parseBoolean(paraCheckString)) {
+        paraCheckString = (String) props.get(prefix + PARA_CHECK_KEY);
+        if (paraCheckString != null) {
+          numParasToCheck = Integer.parseInt(paraCheckString);
+        }
       }
 
       String resetCheckString = (String) props.get(prefix + RESET_CHECK_KEY);
@@ -1012,9 +1024,9 @@ public class Configuration {
         doResetCheck = Boolean.parseBoolean(resetCheckString);
       }
 
-      String noMultiResetString = (String) props.get(prefix + NO_MULTI_RESET_KEY);
-      if (noMultiResetString != null) {
-        noMultiReset = Boolean.parseBoolean(noMultiResetString);
+      String useTextLevelQueueString = (String) props.get(prefix + USE_QUEUE_KEY);
+      if (useTextLevelQueueString != null) {
+        useTextLevelQueue = Boolean.parseBoolean(useTextLevelQueueString);
       }
 
       String doFullCheckAtFirstString = (String) props.get(prefix + DO_FULL_CHECK_AT_FIRST_KEY);
@@ -1199,26 +1211,33 @@ public class Configuration {
         props.setProperty(prefix + USE_GUI_KEY, Boolean.toString(guiConfig));
         props.setProperty(prefix + SERVER_RUN_KEY, Boolean.toString(runServer));
         props.setProperty(prefix + SERVER_PORT_KEY, Integer.toString(serverPort));
-        props.setProperty(prefix + PARA_CHECK_KEY, Integer.toString(numParasToCheck));
-        props.setProperty(prefix + RESET_CHECK_KEY, Boolean.toString(doResetCheck));
-        props.setProperty(prefix + NO_MULTI_RESET_KEY, Boolean.toString(noMultiReset));
-        if(!doFullCheckAtFirst) {
+        if(numParasToCheck != DEFAULT_NUM_CHECK_PARAS) {
+          props.setProperty(prefix + NO_DEFAULT_CHECK_KEY, Boolean.toString(true));
+          props.setProperty(prefix + PARA_CHECK_KEY, Integer.toString(numParasToCheck));
+        }
+        if(doResetCheck != DEFAULT_DO_RESET) {
+          props.setProperty(prefix + RESET_CHECK_KEY, Boolean.toString(doResetCheck));
+        }
+        if(useTextLevelQueue != DEFAULT_USE_QUEUE) {
+          props.setProperty(prefix + USE_QUEUE_KEY, Boolean.toString(useTextLevelQueue));
+        }
+        if(doFullCheckAtFirst != DEFAULT_FULL_CHECK_FIRST) {
           props.setProperty(prefix + DO_FULL_CHECK_AT_FIRST_KEY, Boolean.toString(doFullCheckAtFirst));
         }
-        if(!useDocLanguage) {
+        if(useDocLanguage != DEFAULT_USE_DOC_LANGUAGE) {
           props.setProperty(prefix + USE_DOC_LANG_KEY, Boolean.toString(useDocLanguage));
+        }
+        if(isMultiThreadLO != DEFAULT_MULTI_THREAD) {
+          props.setProperty(prefix + IS_MULTI_THREAD_LO_KEY, Boolean.toString(isMultiThreadLO));
+        }
+        if(doRemoteCheck != DEFAULT_DO_REMOTE_CHECK) {
+          props.setProperty(prefix + DO_REMOTE_CHECK_KEY, Boolean.toString(doRemoteCheck));
+        }
+        if(useOtherServer != DEFAULT_USE_OTHER_SERVER) {
+          props.setProperty(prefix + USE_OTHER_SERVER_KEY, Boolean.toString(useOtherServer));
         }
         if(switchOff) {
           props.setProperty(prefix + LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));
-        }
-        if(isMultiThreadLO) {
-          props.setProperty(prefix + IS_MULTI_THREAD_LO_KEY, Boolean.toString(isMultiThreadLO));
-        }
-        if(doRemoteCheck) {
-          props.setProperty(prefix + DO_REMOTE_CHECK_KEY, Boolean.toString(doRemoteCheck));
-        }
-        if(useOtherServer) {
-          props.setProperty(prefix + USE_OTHER_SERVER_KEY, Boolean.toString(useOtherServer));
         }
         if (otherServerUrl != null) {
           props.setProperty(prefix + OTHER_SERVER_URL_KEY, otherServerUrl);
@@ -1294,9 +1313,10 @@ public class Configuration {
     allProfileKeys.add(TAGGER_SHOWS_DISAMBIG_LOG_KEY);
     allProfileKeys.add(SERVER_RUN_KEY);
     allProfileKeys.add(SERVER_PORT_KEY);
+    allProfileKeys.add(NO_DEFAULT_CHECK_KEY);
     allProfileKeys.add(PARA_CHECK_KEY);
     allProfileKeys.add(RESET_CHECK_KEY);
-    allProfileKeys.add(NO_MULTI_RESET_KEY);
+    allProfileKeys.add(USE_QUEUE_KEY);
     allProfileKeys.add(DO_FULL_CHECK_AT_FIRST_KEY);
     allProfileKeys.add(USE_DOC_LANG_KEY);
     allProfileKeys.add(USE_GUI_KEY);

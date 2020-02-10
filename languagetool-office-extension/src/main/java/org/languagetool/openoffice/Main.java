@@ -418,6 +418,7 @@ public class Main extends WeakBase implements XJobExecutor,
         MessageHandler.showError(new RuntimeException("Could not get home directory"));
         directory = null;
       } else if (SystemUtils.IS_OS_WINDOWS) {
+        // Path: \\user\<YourUserName>\AppData\Roaming\languagetool.org\LanguageTool\LibreOffice  
         File appDataDir = null;
         try {
           String appData = System.getenv("APPDATA");
@@ -434,6 +435,7 @@ public class Main extends WeakBase implements XJobExecutor,
           directory = new File(userHome, path);
         }
       } else if (SystemUtils.IS_OS_LINUX) {
+        // Path: /home/<YourUserName>/.config/LanguageTool/LibreOffice  
         File appDataDir = null;
         try {
           String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
