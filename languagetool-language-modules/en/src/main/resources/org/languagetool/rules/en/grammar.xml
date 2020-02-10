@@ -6412,7 +6412,8 @@ USA
             <message>Did you mean <suggestion><match no="1"/> whom to</suggestion>?</message>
             <example correction="about whom to">What do you think <marker>about who to</marker> promote?</example>
         </rule>
-        <rulegroup id="WHOM_WHO" name="whom (who)">
+
+        <rulegroup id="WHO_WHOM" name="who (whom)">
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -6447,8 +6448,24 @@ USA
                 <message>Did you mean <suggestion>\3m</suggestion> instead of 'who'?</message>
                 <example correction="whom">The hall was filled with students, many of <marker>who</marker> were girls.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="IN">
+                      <exception>like</exception></token>
+                    <marker>
+                        <token regexp='yes'>who(?:ever)?</token>
+                    </marker>
+                    <token postag="PRP" regexp="yes">I|you|he|she|it|we|they</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="2" regexp_match="ho" regexp_replace="hom"/></suggestion> instead of 'who'?</message>
+                <example correction="whom">Depending on <marker>who</marker> you like more...</example> 
+                <example correction="whom">... they are not obligated to purchase from <marker>who</marker> they sold to, and vice-versa.</example>
+                <example correction="whom">I didn ' t know the performer, but eventually found out <marker>who</marker> she was.</example>
+                <example>Legion of Whom?</example>
+            </rule>
         </rulegroup>
-        <rulegroup id="WHO_WHOM" name="who (whom)">
+
+        <rulegroup id="WHOM_WHO" name="whom (who)">
             <url>https://www.dictionary.com/e/whomever-vs-whoever/</url>
             <rule>
                 <antipattern>
@@ -6473,22 +6490,8 @@ USA
                                                                 https://forum.wordreference.com/threads/who-whom-you-are-talking-to.512760/ -->
                 <example>Legion of Whom?</example>
             </rule>
-            <rule>
-                <pattern>
-                    <token postag="IN">
-                      <exception>like</exception></token>
-                    <marker>
-                        <token regexp='yes'>who(?:ever)?</token>
-                    </marker>
-                    <token postag="PRP" regexp="yes">I|you|he|she|it|we|they</token>
-                </pattern>
-                <message>Did you mean <suggestion><match no="2" regexp_match="ho" regexp_replace="hom"/></suggestion> instead of 'who'?</message>
-                <example correction="whom">Depending on <marker>who</marker> you like more...</example> 
-                <example correction="whom">... they are not obligated to purchase from <marker>who</marker> they sold to, and vice-versa.</example>
-                <example correction="whom">I didn ' t know the performer, but eventually found out <marker>who</marker> she was.</example>
-                <example>Legion of Whom?</example>
-            </rule>
         </rulegroup>
+
         <!-- .*/VBG you're::word=\0 your::pivots=you're,your::options=you're,your -->
         <rule id="VBG_YOURE" name="VBG you're (your)">
             <antipattern>
