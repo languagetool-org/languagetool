@@ -755,6 +755,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("eMail-Adressen?", "eMail-", "E-Mail-");
     putRepl("[hH]ats", "ats", "at es");
     putRepl("[Ww]ieviele?", "ieviel", "ie viel");
+    putRepl("[Aa]dhoc", "dhoc", "d hoc");
     put("As", "Ass");
     put("[bB]i[sß](s?[ij]|ch)en", "bisschen");
     putRepl("Todos?", "Todo", "To-do");
