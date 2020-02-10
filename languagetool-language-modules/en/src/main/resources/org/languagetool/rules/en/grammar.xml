@@ -6421,7 +6421,8 @@ USA
             <example correction="about whom to">What do you think <marker>about who to</marker> promote?</example>
         </rule>
 
-        <rulegroup id="WHO_WHOM" name="who (whom)">
+        <rulegroup id="WHO_WHOM" name="who (whom)"><!-- Also related rulegroup IN_WHO -->
+            <url>https://www.lexico.com/grammar/who-or-whom</url>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -6430,7 +6431,7 @@ USA
                         <token>who</token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion>\3m</suggestion> instead of 'who'?</message>
+                <message>In a formal text, use <suggestion>\3m</suggestion>, not 'who'.</message>
                 <example correction="whom">With <marker>who</marker> did you go?</example>
                 <example>For who is so tolerant of an unjust city, so ironclad, that they can hold back?</example>
             </rule>
@@ -6442,7 +6443,7 @@ USA
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
-                <message>Did you mean <suggestion>\2m</suggestion> instead of 'who'?</message>
+                <message>In a formal text, use <suggestion>\2m</suggestion>, not 'who'.</message>
                 <example correction="whom">Sarah gave the tickets to <marker>who</marker>?</example>
             </rule>
             <rule>
@@ -6453,23 +6454,59 @@ USA
                         <token>who</token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion>\3m</suggestion> instead of 'who'?</message>
+                <message>In a formal text, use <suggestion>\3m</suggestion>, not 'who'.</message>
                 <example correction="whom">The hall was filled with students, many of <marker>who</marker> were girls.</example>
             </rule>
             <rule>
+                <antipattern><!-- #2412 who we are -->
+                    <token regexp="yes">who(ever)?</token>
+                    <token regexp="yes">you|we|they</token>
+                    <token regexp="yes">are|were</token>
+                </antipattern>
+                <antipattern><!-- #2412 who I am -->
+                    <token regexp="yes">who(ever)?</token>
+                    <token>I</token>
+                    <token regexp="yes">am|was</token>
+                </antipattern>
+                <antipattern><!-- #2412 who she was -->
+                    <token regexp="yes">who(ever)?</token>
+                    <token regexp="yes">s?he|it</token>
+                    <token regexp="yes">is|was</token>
+                </antipattern>
+                <antipattern><!-- #2412 found out who they met -->
+                    <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+                    <token postag="RP"/>
+                    <token regexp="yes">who(ever)?</token>
+                    <token postag="PRP"/>
+                    <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+                    <token>
+                        <exception postag="IN"/><!-- Not: After they found out who she confided in, -->
+                        </token>
+                </antipattern>
                 <pattern>
                     <token postag="IN">
-                      <exception>like</exception></token>
+                        <exception>like</exception></token>
                     <marker>
-                        <token regexp='yes'>who(?:ever)?</token>
+                        <token regexp="yes">who(?:ever)?</token>
                     </marker>
                     <token postag="PRP" regexp="yes">I|you|he|she|it|we|they</token>
                 </pattern>
-                <message>Did you mean <suggestion><match no="2" regexp_match="ho" regexp_replace="hom"/></suggestion> instead of 'who'?</message>
-                <example correction="whom">Depending on <marker>who</marker> you like more...</example> 
+                <message>In a formal text, use <suggestion><match no="2" regexp_match="ho" regexp_replace="hom"/></suggestion>, not '\2'.</message>
+                <example correction="whom">Her mother, in <marker>who</marker> she confided, said it wasn't easy for her.</example>
+                <example correction="whom">After they found out in <marker>who</marker> she confided, they told the police.</example>
+                <example correction="whom">After they found out <marker>who</marker> she confided in, they told the police.</example>
+                <example correction="whom">Depending on <marker>who</marker> you like more...</example>
+                <example correction="whom">Your victim could be the workmate with <marker>who</marker> you shared a sandwich from your lunchbox.</example>
                 <example correction="whom">... they are not obligated to purchase from <marker>who</marker> they sold to, and vice-versa.</example>
-                <example correction="whom">I didn ' t know the performer, but eventually found out <marker>who</marker> she was.</example>
-                <example>Legion of Whom?</example>
+                <example correction="whomever">Growers must always be allowed to do business with <marker>whoever</marker> they wish.</example>
+                <example>Her mother, in <marker>whom</marker> she confided, said it wasn't easy for her.</example>
+                <example>I didn't know the performer, but eventually found out <marker>who</marker> she was.</example>
+                <example>A search for who we are.</example><!-- #2412 -->
+                <example>As for who I am, you wouldn't believe me if I told you.</example><!-- #2412 -->
+                <example>They are different and they are important because of who they are.</example><!-- #2412 -->
+                <example>Love yourself for who you are.</example><!-- #2412 -->
+                <example>Just remember, the universe reflects back to you who you really think you are.</example><!-- #2412 Did not trigger an error, but keep for reference. -->
+                <example>I eventually found out <marker>who</marker> they met.</example>
             </rule>
         </rulegroup>
 
