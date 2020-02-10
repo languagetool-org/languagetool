@@ -101,12 +101,13 @@ public class FlatParagraphTools {
    */
   public boolean isFlatParaFromIter() {
     try {
-    if (xFlatPara == null) {
-      if (debugMode) {
-        MessageHandler.printToLogFile("!?! FlatParagraph == null");
+      xFlatPara = getFlatParagraph();
+      if (xFlatPara == null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("!?! FlatParagraph == null");
+        }
+        return false;
       }
-      return false;
-    }
       return xFlatParaIter.getParaBefore(xFlatPara) != null || xFlatParaIter.getParaAfter(xFlatPara) != null;
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
@@ -239,6 +240,7 @@ public class FlatParagraphTools {
   List<int[]> getFootnotePositions() {
     List<int[]> paraPositions = new ArrayList<>();
     try {
+      xFlatPara = getFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
           MessageHandler.printToLogFile("!?! FlatParagraph == null");
@@ -271,6 +273,7 @@ public class FlatParagraphTools {
    */
   void markFlatParasAsChecked(int from, int to, List<Boolean> isChecked) {
     try {
+      xFlatPara = getFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
           MessageHandler.printToLogFile("!?! FlatParagraph == null");
@@ -327,6 +330,7 @@ public class FlatParagraphTools {
   List<Boolean> isChecked(List<Integer> changedParas, int nDiv) {
     List<Boolean> isChecked = new ArrayList<>();
     try {
+      xFlatPara = getFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
           MessageHandler.printToLogFile("!?! FlatParagraph == null");
@@ -360,6 +364,7 @@ public class FlatParagraphTools {
       if(changedParas == null || changedParas.isEmpty()) {
         return;
       }
+      xFlatPara = getFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
           MessageHandler.printToLogFile("!?! FlatParagraph == null");
