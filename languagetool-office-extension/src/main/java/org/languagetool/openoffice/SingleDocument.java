@@ -851,10 +851,14 @@ class SingleDocument {
       }
     }
     Arrays.sort(errorArray, new ErrorPositionComparator());
-    if(ignoredMatches.containsKey(paraNum)) {
-      List<Integer> xIgnoredMatches = ignoredMatches.get(paraNum);
+    return filterIgnoredMatches(errorArray, paraNum);
+  }
+  
+  private SingleProofreadingError[] filterIgnoredMatches (SingleProofreadingError[] unFilteredErrors, int nPara) {
+    if(!ignoredMatches.isEmpty() && ignoredMatches.containsKey(nPara)) {
+      List<Integer> xIgnoredMatches = ignoredMatches.get(nPara);
       List<SingleProofreadingError> filteredErrors = new ArrayList<>();
-      for (SingleProofreadingError error : errorArray) {
+      for (SingleProofreadingError error : unFilteredErrors) {
         boolean noFilter = true;
         for (int nIgnore : xIgnoredMatches) {
           if(error.nErrorStart <= nIgnore && error.nErrorStart + error.nErrorLength > nIgnore) {
@@ -868,7 +872,7 @@ class SingleDocument {
       }
       return filteredErrors.toArray(new SingleProofreadingError[0]);
     }
-    return errorArray;
+    return unFilteredErrors;
   }
 
   private List<SingleProofreadingError[]> checkTextRules( String paraText, int paraNum, 
@@ -1101,7 +1105,6 @@ class SingleDocument {
     //  make the method thread save
     MultiDocumentsHandler mDH = mDocHandler;
     FlatParagraphTools flatPara = this.flatPara;
-//    XComponent xComponent = this.xComponent;
     List<String> allParas = this.allParas;
     List<Integer> headings = this.headings;
     boolean textIsChanged = this.textIsChanged;
@@ -1196,16 +1199,21 @@ class SingleDocument {
             resetCheck();
           }
         } else {
-          List<Integer> changedParas;
+          Map<Integer, SingleProofreadingError[]> changedParas;
           if (debugMode > 0) {
             MessageHandler.printToLogFile("Mark paragraphs from " + startPara + " to " + endPara);
           }
-          changedParas = new ArrayList<>();
+          changedParas = new HashMap<>();
           for(int n = startPara; n < endPara; n++) {
-              changedParas.add(n);
+            SingleProofreadingError[] errors = paragraphsCache.get(cacheNum).getMatches(n, 0);
+            if(errors != null && errors.length != 0) {
+              SingleProofreadingError[] filteredErrors = filterIgnoredMatches(errors, n);
+              if(filteredErrors != null && filteredErrors.length != 0) {
+                changedParas.put(n, filteredErrors);
+              }
+            }
           }
-//          FlatParagraphTools flatPara = new FlatParagraphTools(xComponent);
-          flatPara.addMarksToParagraphs(changedParas, paragraphsCache.get(cacheNum), divNum);
+          flatPara.addMarksToParagraphs(changedParas, divNum);
         }
       }
     } catch (Throwable t) {
@@ -1366,7 +1374,7 @@ class SingleDocument {
     ignoredMatches = new HashMap<>();
   }
   
-  public void ignoreOnce() {
+  public String ignoreOnce() {
     ViewCursorTools viewCursor = new ViewCursorTools(xContext);
     int x = viewCursor.getViewCursorCharacter();
     int y = viewCursor.getViewCursorParagraph();
@@ -1390,6 +1398,7 @@ class SingleDocument {
     if (debugMode > 0) {
       MessageHandler.printToLogFile("Ignore Match added at: paragraph: " + y + "; character: " + x);
     }
+    return docID;
   }
   
   private String getRuleIdFromCache(int nPara, int nChar) {

@@ -20,6 +20,7 @@ package org.languagetool.openoffice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
 
@@ -354,7 +355,7 @@ public class FlatParagraphTools {
   /**
    */
 
-  public void addMarksToParagraphs(List<Integer> changedParas, ResultCache cache, int nDiv) {
+  public void addMarksToParagraphs(Map<Integer, SingleProofreadingError[]> changedParas, int nDiv) {
     try {
       if(changedParas == null || changedParas.isEmpty()) {
         return;
@@ -375,8 +376,8 @@ public class FlatParagraphTools {
       int num = 0;
       int nMarked = 0;
       while (tmpFlatPara != null && nMarked < changedParas.size()) {
-        if(changedParas.contains(num - nDiv)) {
-          markOneParagraph(tmpFlatPara, cache.getMatches(num - nDiv, 0));
+        if(changedParas.containsKey(num - nDiv)) {
+          markOneParagraph(tmpFlatPara, changedParas.get(num - nDiv));
           nMarked++;
         }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);

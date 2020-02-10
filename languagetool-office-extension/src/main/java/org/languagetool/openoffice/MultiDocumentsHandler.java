@@ -93,7 +93,6 @@ public class MultiDocumentsHandler {
   
   private XComponentContext xContext;       //  The context of the document
   private List<SingleDocument> documents;   //  The List of LO documents to be checked
-//  private boolean proofIsRunning = false;   //  true if a check is almost running
   private XComponent goneContext = null;    //  save component of closed document
   private boolean recheck = true;
   private int docNum;                       //  number of the current document
@@ -608,13 +607,13 @@ public class MultiDocumentsHandler {
     menuDocId = new String(docId);
   }
   
-  public void ignoreOnce() {
+  public String ignoreOnce() {
     for (SingleDocument document : documents) {
       if(menuDocId.equals(document.getDocID())) {
-        document.ignoreOnce();
-        break;
+        return document.ignoreOnce();
       }
     }
+    return null;
   }
   
   public void deactivateRule() {
@@ -899,7 +898,7 @@ public class MultiDocumentsHandler {
         ltMenu.removeItem(profilesPos, (short)1);
       }
       toolsMenu.setPopupMenu(ltId, ltMenu);
-      menubar.setPopupMenu(toolsId, toolsMenu);
+//      menubar.setPopupMenu(toolsId, toolsMenu);
     }
       
     private void setProfileMenu() {
