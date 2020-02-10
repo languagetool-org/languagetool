@@ -104,9 +104,12 @@ public class MorfologikSpeller {
     // needs to be reset every time, possible bug: HMatrix for distance computation is not reset;
     // output changes when reused
     Speller speller = new Speller(dictionary, maxEditDistance);
-    List<Speller.CandidateData> replacementCandidates = speller.findReplacementCandidates(word);
-    for (Speller.CandidateData candidate : replacementCandidates) {
-      suggestions.add(new WeightedSuggestion(candidate.getWord(), candidate.getDistance()));
+    List<Speller.CandidateData> replacementCandidates;
+    if (word.length() < 50) {   // slow for long words (the limit is arbitrary)
+      replacementCandidates = speller.findReplacementCandidates(word);
+      for (Speller.CandidateData candidate : replacementCandidates) {
+        suggestions.add(new WeightedSuggestion(candidate.getWord(), candidate.getDistance()));
+      }
     }
     List<Speller.CandidateData> runOnCandidates = speller.replaceRunOnWordCandidates(word);
     for (Speller.CandidateData runOnCandidate : runOnCandidates) {
