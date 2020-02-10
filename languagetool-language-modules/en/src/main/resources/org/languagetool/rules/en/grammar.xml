@@ -27777,10 +27777,17 @@ USA
             <short>Grammatical problem</short>
             <example correction="two dozen">You need <marker>two dozens of</marker> eggs.</example>
         </rule>
+
         <rule id="NODT_DOZEN" name="Numeral (dozen, hundred, thousand, million) without a determiner or a number">
-            <antipattern><!-- city in california -->
-                <token>thousand</token>
-                <token>oaks</token>
+            <antipattern case_sensitive="yes"><!-- city in California -->
+                <token>Thousand</token>
+                <token>Oaks</token>
+            </antipattern>
+            <antipattern case_sensitive="yes"><!-- #2439 https://en.wikipedia.org/wiki/The_Six_Million_Dollar_Man -->
+                <token>Six</token>
+                <token>Million</token>
+                <token>Dollar</token>
+                <token>Man</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">dozen|hundred|thousand|[bm]illion
@@ -27791,12 +27798,15 @@ USA
             <message>Use <suggestion>a <match no="1"/></suggestion> or use a number before '<match no="1"/>'.</message>
             <short>Grammatical problem: missing determiner</short>
             <example correction="a hundred">You need almost <marker>hundred</marker> examples.</example>
+            <example correction="a thousand">There are about <marker>thousand</marker> oaks in this park.</example>
             <example>You need almost <marker>a hundred</marker> examples.</example>
             <example>The U.S. government gave USD250 million to UNITA between 1986 to 1991.</example>
             <example>It was selected as the first of Life magazine's 'hundred photos that changed the world'.</example>
             <example>a couple dozen</example>
             <example>At a peak of 6 <!--note: non-breaking space --><marker>million</marker>.</example>
+            <example>... which inspired the television series The Six Million Dollar Man.</example><!-- #2439 -->
         </rule>
+
         <rule id="MUCH_COUNTABLE" name="'much' + countable noun, e.g. 'much (many) children'">
             <antipattern>
                 <token>how</token>
