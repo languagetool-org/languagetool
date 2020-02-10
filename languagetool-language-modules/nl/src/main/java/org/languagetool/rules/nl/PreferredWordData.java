@@ -40,8 +40,7 @@ class PreferredWordData {
 
   private final List<PreferredWordRuleWithSuggestion> spellingRules = new ArrayList<>();
   
-  PreferredWordData(String ruleDesc) {
-    String filePath = "/nl/preferredwords.csv";
+  PreferredWordData(String ruleDesc, String filePath, String ruleId) {
     Language dutch = Languages.getLanguageForShortCode("nl");
     String message = "Voor dit woord is een gebruikelijker alternatief.";
     String shortMessage = "Gebruikelijker woord";
@@ -57,7 +56,7 @@ class PreferredWordData {
       String oldWord = parts[0];
       String newWord = parts[1];
       List<PatternToken> patternTokens = getTokens(oldWord, dutch);
-      PatternRule rule = new PatternRule("NL_PREFERRED_WORD_RULE_INTERNAL", dutch, patternTokens, ruleDesc, message, shortMessage);
+      PatternRule rule = new PatternRule(ruleId + "_INTERNAL", dutch, patternTokens, ruleDesc, message, shortMessage);
       spellingRules.add(new PreferredWordRuleWithSuggestion(rule, oldWord, newWord));
     }
   }
