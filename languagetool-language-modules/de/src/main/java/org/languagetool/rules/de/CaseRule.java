@@ -408,6 +408,12 @@ public class CaseRule extends Rule {
       regex("Hey|Hi|Hallo"),
       regex("Süßer?|Hübscher?"),
       pos("PKT")
+    ),
+    Arrays.asList( // Hey Süßer, 
+      regex("Hey|Hi|Hallo"),
+      token("du"),
+      regex("Süßer?|Hübscher?"),
+      pos("PKT")
     )
   );
 
