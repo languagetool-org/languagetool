@@ -5220,6 +5220,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> tomorrow's calloused hands!</example>
         </rule>
 
+    <rule id="DT_VBZ_NNU_IN"  name="determiner + noun/verb => verb + noun + preposition"><!-- #2436 -->
+        <pattern>
+            <token postag="DT"/>
+                <marker>
+                    <and>
+                        <token chunk="B-VP" postag="VBZ"/>
+                        <token postag="NNS"/>
+                    </and>
+                </marker>
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+                <token postag="IN"/>
+        </pattern>
+        <disambig postag="VBZ"/>
+        <example type="ambiguous" inputform="makes[make/NNS,make/VBZ]" outputform="makes[make/VBZ]">This <marker>makes</marker> access to the machine easier.</example>
+    </rule>
+
         <rule id="JJ_VBZ_NNS" name="Adjective + verb singular/plural noun => noun">
           <antipattern><!-- The reinforcement spar makes it stronger and ... -->
             <token postag="NN"/>
