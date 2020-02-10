@@ -43,6 +43,9 @@ public class PunctuationMarkAtParagraphEnd2Test {
     assertThat(lt.check("This is a really nice test").size(), is(0));  // no error, might not be finished
     assertThat(lt.check("This is a really nice test, and it has enough tokens\n").size(), is(1));
     assertThat(lt.check("This is a really nice test, and it has enough tokens\n\n").size(), is(1));
+    assertThat(lt.check("\"This is a really nice test, and it has enough tokens.\"\n\n").size(), is(0));
+    assertThat(lt.check("\"This is a really nice test, and it has enough tokens\"\n").size(), is(0));  // not really clear whether the rule should match here...
+    assertThat(lt.check("\"This is a really nice test, and it has enough tokens\"\n\n").size(), is(0));  // not really clear whether the rule should match here...
     assertThat(lt.check("This is a test.\n\nRegards,\nJim").size(), is(0));
     assertThat(lt.check("This is a test.\n\nRegards,\n\nJim").size(), is(0));
     assertThat(lt.check("This is a test.\n\nKind Regards,\nJim").size(), is(0));

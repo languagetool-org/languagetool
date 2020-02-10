@@ -70,7 +70,8 @@ public class PunctuationMarkAtParagraphEnd2 extends TextLevelRule {
       }
       AnalyzedTokenReadings lastNonSpaceToken = getLastNonSpaceToken(tokens);
       boolean isParaEnd = Tools.isParagraphEnd(sentences, sentPos, lang);
-      if (isParaEnd && tokenCount > TOKEN_THRESHOLD && lastNonSpaceToken != null && !lastNonSpaceToken.getToken().matches("[:.?!…]")) {
+      if (isParaEnd && tokenCount > TOKEN_THRESHOLD &&
+          lastNonSpaceToken != null && !lastNonSpaceToken.getToken().matches("[:.?!…]") && !lastNonSpaceToken.isNonWord()) {
         RuleMatch ruleMatch = new RuleMatch(this, sentence, pos + lastNonSpaceToken.getStartPos(), pos + lastNonSpaceToken.getEndPos(),
           messages.getString("punctuation_mark_paragraph_end_msg"));
         ruleMatch.setSuggestedReplacement(lastNonSpaceToken.getToken() + ".");
