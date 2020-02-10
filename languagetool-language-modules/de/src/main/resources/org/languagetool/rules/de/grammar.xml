@@ -10062,16 +10062,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Die Karten werden genau so ausgeteilt, dass jeder Spieler mindestens drei Karten bekommt und genau drei Karten im Stock verbleiben.</example>
         </rule>
         <rule id="LOG_IN" name="'Log in (Log-in)'">
+            <antipattern>
+                <token regexp="yes">das|ein|dem</token>
+                <token>Log</token>
+                <token>in</token>
+                <token regexp="yes">de[mn]|eine[mn]|das|die</token>
+            </antipattern>
             <pattern case_sensitive='yes'>
                 <marker>
                     <token>Log</token>
                     <token regexp="yes">[Ii]n</token>
                 </marker>
             </pattern>
-            <message>&getrennt;: Meinten Sie <suggestion>Log-in</suggestion>?</message>
+            <message>&getrennt;: Meinten Sie <suggestion>Log-in</suggestion> (= Anmeldedaten)?</message>
+            <url>https://www.duden.de/rechtschreibung/Log_in</url>
             <short>&getrennt;.</short>
             <example correction="Log-in">Der <marker>Log in</marker> erfordert ein Passwort.</example>
+            <example correction="Log-in">Wie lautet das <marker>Log in</marker> meines Nutzers?</example>
             <example>Sie <marker>log in</marker> Bezug auf ihr Alter.</example>
+            <example>Hast du das Log in den Apache Ordner verschoben?</example>
         </rule>
         <rulegroup id="JE_UM_SO" name="'je ... um so (umso) ...'">
             <rule>
