@@ -3448,6 +3448,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">Adverb. We must do this now.</example>
       <example type="untouched">Adjective. The <marker>basic</marker> installed software is not sufficient. We need the enhanced software.</example>
       <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">How about we do this <marker>work</marker>?</example>
+      <example type="ambiguous" inputform="sister[sister/JJ,sister/NN]" outputform="sister[sister/NN]">My <marker>sister</marker> believes you!</example>
     </rule>
         <rule>
             <pattern>
@@ -5084,35 +5085,35 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="ambiguous" inputform="loving[love/VBG,loving/JJ,loving/NN:UN]" outputform="loving[loving/JJ]">Your <marker>loving</marker> friend</example>
         </rule>
 
-        <rule id="PRPPOSS_JJ_NN" name="Possessive pronoun + adj/noun =>noun">
-          <antipattern><!-- its home games -->
-              <token postag="PRP$"/>
-              <token chunk="I-NP-plural" postag="JJ"/>
-              <token chunk="E-NP-plural" postag="NNS"/>
-          </antipattern>
-          <antipattern><!-- Chunker error: His last view -->
-              <token postag="PRP$">his</token>
-              <token chunk="I-NP-plural" postag="JJ"/>
-              <token chunk="E-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
-          </antipattern>
-          <pattern>
+    <rule id="PRPPOSS_JJ_NN" name="Possessive pronoun + adj/noun =>noun">
+        <antipattern><!-- its home games -->
+            <token postag="PRP$"/>
+            <token chunk="I-NP-plural" postag="JJ"/>
+            <token chunk="E-NP-plural" postag="NNS"/>
+        </antipattern>
+        <antipattern><!-- Chunker error: His last view -->
+            <token postag="PRP$">his</token>
+            <token chunk="I-NP-plural" postag="JJ"/>
+            <token chunk="E-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
+        </antipattern>
+        <pattern>
             <token postag="PRP$"/>
             <marker>
-            <and>
-              <token postag="NN.*" postag_regexp="yes"/>
-              <token postag="JJ" postag_regexp="yes"><exception postag="CD"/></token>
-            </and>
+                <and>
+                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token postag="JJ" postag_regexp="yes"><exception postag="CD"/></token>
+                </and>
             </marker>
-            <token postag="VB.*" postag_regexp="yes" />
-          </pattern>
-          <disambig action="filter" postag="NN.*"/>
-          <example type="untouched">I do what I want to.</example>
-          <example type="untouched">Your two best boys.</example>
-          <example type="untouched">His last film The Sacrifice was produced in Sweden in 1986.</example>
-          <example type="untouched">Adjective: The national team plays its <marker>home</marker> games at the Ghazi Stadium in Kabul.</example>
-          <example type="untouched">His last view of the land he had inhabited was by moonlight...</example><!-- Chunker error: view/E-NP-plural -->
-          <!-- example type="ambiguous" inputform="sister[sister/JJ,sister/NN]" outputform="sister[sister/NN]">My <marker>sister</marker> believes you!</example -->
-        </rule>
+            <token postag="VB.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="NN.*"/>
+        <example type="untouched">I do what I want to.</example>
+        <example type="untouched">Your two best boys.</example>
+        <example type="untouched">His last film The Sacrifice was produced in Sweden in 1986.</example>
+        <example type="untouched">Adjective: The national team plays its <marker>home</marker> games at the Ghazi Stadium in Kabul.</example>
+        <example type="untouched">His last view of the land he had inhabited was by moonlight...</example><!-- Chunker error: view/E-NP-plural -->
+        <!-- example type="ambiguous" inputform="sister[sister/JJ,sister/NN]" outputform="sister[sister/NN]">My <marker>sister</marker> believes you!</example -->
+    </rule>
 
         <rule id="VBZNNS_DT_NN" name="verb singular/noun + det + noun => verb">
           <antipattern><!-- https://www.lexico.com/definition/with_one's_head_in_the_clouds-->
