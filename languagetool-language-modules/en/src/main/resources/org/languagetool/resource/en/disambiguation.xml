@@ -5096,6 +5096,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="I-NP-plural" postag="JJ"/>
             <token chunk="E-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
         </antipattern>
+        <antipattern><!--  #2441 our great team -->
+            <token postag="PRP$"/>
+            <token chunk="I-NP-singular" postag="JJ"/>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+        </antipattern>
         <pattern>
             <token postag="PRP$"/>
             <marker>
@@ -5112,7 +5117,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">His last film The Sacrifice was produced in Sweden in 1986.</example>
         <example type="untouched">Adjective: The national team plays its <marker>home</marker> games at the Ghazi Stadium in Kabul.</example>
         <example type="untouched">His last view of the land he had inhabited was by moonlight...</example><!-- Chunker error: view/E-NP-plural -->
-        <!-- example type="ambiguous" inputform="sister[sister/JJ,sister/NN]" outputform="sister[sister/NN]">My <marker>sister</marker> believes you!</example -->
+        <example type="untouched">I really like our great team</example><!-- #2441 -->
+        <example type="ambiguous" inputform="sister[sister/JJ,sister/NN]" outputform="sister[sister/NN]">I hope my <marker>sister</marker> takes her driving test soon.</example>
     </rule>
 
         <rule id="VBZNNS_DT_NN" name="verb singular/noun + det + noun => verb">
