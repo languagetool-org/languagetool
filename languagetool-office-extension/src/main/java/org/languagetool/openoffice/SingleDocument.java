@@ -1177,6 +1177,21 @@ class SingleDocument {
         if(mDH.getTextLevelCheckQueue().isInterrupted()) {
           return;
         }
+        Map<Integer, SingleProofreadingError[]> changedParasMap;
+        if (debugMode > 0) {
+          MessageHandler.printToLogFile("Mark paragraphs from " + startPara + " to " + endPara);
+        }
+        changedParasMap = new HashMap<>();
+        for(int n = startPara; n < endPara; n++) {
+          SingleProofreadingError[] errors = paragraphsCache.get(cacheNum).getMatches(n, 0);
+          if(errors != null && errors.length != 0) {
+            SingleProofreadingError[] filteredErrors = filterIgnoredMatches(errors, n);
+            if(filteredErrors != null && filteredErrors.length != 0) {
+              changedParasMap.put(n, filteredErrors);
+            }
+          }
+        }
+        flatPara.addMarksToParagraphs(changedParasMap, divNum);
         if(doReset) {
           if (debugMode > 0) {
             MessageHandler.printToLogFile("Do Reset (useQueue == true)");
@@ -1198,22 +1213,6 @@ class SingleDocument {
             resetCheck = true;
             resetCheck();
           }
-        } else {
-          Map<Integer, SingleProofreadingError[]> changedParas;
-          if (debugMode > 0) {
-            MessageHandler.printToLogFile("Mark paragraphs from " + startPara + " to " + endPara);
-          }
-          changedParas = new HashMap<>();
-          for(int n = startPara; n < endPara; n++) {
-            SingleProofreadingError[] errors = paragraphsCache.get(cacheNum).getMatches(n, 0);
-            if(errors != null && errors.length != 0) {
-              SingleProofreadingError[] filteredErrors = filterIgnoredMatches(errors, n);
-              if(filteredErrors != null && filteredErrors.length != 0) {
-                changedParas.put(n, filteredErrors);
-              }
-            }
-          }
-          flatPara.addMarksToParagraphs(changedParas, divNum);
         }
       }
     } catch (Throwable t) {
