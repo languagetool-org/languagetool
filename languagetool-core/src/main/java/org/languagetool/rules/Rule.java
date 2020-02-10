@@ -440,4 +440,15 @@ public abstract class Rule {
     correctExamples.add(correctSentence);
   }
 
+  /**
+   * Convenience method to set a pair of sentences: an incorrect sentence and the same sentence
+   * with the error corrected.
+   * @since 4.9
+   */
+  protected void setExamplePair(IncorrectExample incorrectSentence, CorrectExample correctSentence) {
+    incorrectExamples.clear();
+    correctExamples.clear();
+    addExamplePair(incorrectSentence, correctSentence);
+  }
+
 }
