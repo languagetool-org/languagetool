@@ -257,6 +257,7 @@ public class AgreementRuleTest {
     assertGood("Unser Hund vergräbt seine Knochen im Garten.");
     assertGood("Ob das Mehrwert bringt?");
     assertGood("Warum das Sinn macht?");
+    assertGood("Das hängt davon ab, ob die Deutsch sprechen");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");

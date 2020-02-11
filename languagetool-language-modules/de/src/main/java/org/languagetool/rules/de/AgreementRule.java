@@ -544,6 +544,11 @@ public class AgreementRule extends Rule {
     Arrays.asList( // Ich wollte erstmal allen Hallo sagen.
       token("Hallo"),
       new PatternTokenBuilder().csToken("sagen").matchInflectedForms().build()
+    ),
+    Arrays.asList( // "ob die Deutsch sprechen"
+      token("die"),
+      tokenRegex("Deutsch|Englisch|Spanisch|Französisch|Russisch|Polnisch|Holländisch|Niederländisch|Portugiesisch"),
+      new PatternTokenBuilder().csToken("sprechen").matchInflectedForms().build()
     )
   );
 
