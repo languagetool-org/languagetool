@@ -27757,51 +27757,52 @@ USA
             <suggestion>\2,</suggestion>
             <example correction="sooner,">The <marker>sooner</marker> the better!</example>
         </rule>
+
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
-        <antipattern case_sensitive="yes">
-            <token regexp="yes" skip="3">\d+<exception regexp="yes">[01]</exception></token>
-            <token regexp="yes">AVE|Ave(nue)?|Street|BLVD|Blvd|Boulevard|Terrace|Square|St|Center|Cove|Highway|Circle|Drive|Parkway|Northeast|Crescent|Trail|Alley|Loop</token>
-        </antipattern>
-        <antipattern>
-            <token>magnitude</token>
-            <token regexp="yes">\d+</token>
-            <token>earthquake</token>
-        </antipattern>
-        <antipattern>
-            <token regexp="yes">\d+</token>
-            <token regexp="yes">step|page|star|sold|slide|sept|version</token>
-          </antipattern>
-          <antipattern>
-            <token regexp="yes">\d+0</token>
-            <token>decade</token>
-        </antipattern>
-        <antipattern><!-- A 100,000 person lower bound has -->
+            <antipattern case_sensitive="yes">
+                <token regexp="yes" skip="3">\d+<exception regexp="yes">[01]</exception></token>
+                <token regexp="yes">AVE|Ave(nue)?|Street|BLVD|Blvd|Boulevard|Terrace|Square|St|Center|Cove|Highway|Circle|Drive|Parkway|Northeast|Crescent|Trail|Alley|Loop</token>
+            </antipattern>
+            <antipattern>
+                <token>magnitude</token>
+                <token regexp="yes">\d+</token>
+                <token>earthquake</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes">step|page|star|sold|slide|sept|version</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+0</token>
+                <token>decade</token>
+            </antipattern>
+            <antipattern><!-- A 100,000 person lower bound has -->
                 <token postag="CD" />
                 <token postag="NN.*" postag_regexp="yes" />
                 <token regexp="yes">upper|lower</token>
                 <token>bound</token>
             </antipattern>
-          <antipattern>
-            <token regexp="yes">8|16|32|64|128|256|512|1024|2048|4096</token>
-            <token>bit</token>
-          </antipattern>
-          <antipattern>
-            <token regexp="yes">\d+</token>
-            <token>to</token>
-            <token regexp="yes">\d+</token>
-            <token>vote</token>
-          </antipattern>
-          <antipattern><!-- A 2 House Legislature for New York City -->
-            <token postag="CD" />
-            <token>house</token>
-            <token regexp="yes">legislatures?</token>
-        </antipattern>
-         <antipattern>
-            <token regexp="yes">s?he|you|I|we|they|it</token>
-            <token inflected="yes">be</token>
-            <token postag="CD"/>
-          </antipattern>
-          <antipattern>
+            <antipattern>
+                <token regexp="yes">8|16|32|64|128|256|512|1024|2048|4096</token>
+                <token>bit</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token>to</token>
+                <token regexp="yes">\d+</token>
+                <token>vote</token>
+            </antipattern>
+            <antipattern><!-- A 2 House Legislature for New York City -->
+                <token postag="CD" />
+                <token>house</token>
+                <token regexp="yes">legislatures?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">s?he|you|I|we|they|it</token>
+                <token inflected="yes">be</token>
+                <token postag="CD"/>
+            </antipattern>
+            <antipattern>
                 <token>top</token>
                 <token postag="CD"/>
                 <token regexp="yes">hit|all</token>
@@ -28265,6 +28266,7 @@ USA
             <example type="triggers_error">But then he got 502 bad gateway.</example><!-- 2019-10-09 MFU adds: This is only an FP if '502 bad gateway' is emphasised (italics/bold) in the original text. -->
             <example type="triggers_error">England eventually faced a massive 707 run target for victory and failed, Australia winning the ...</example>
         </rule>
+
         <rulegroup id="TH_CENTURY" name="'19 century' (19th century)">
             <rule>
                 <pattern>
