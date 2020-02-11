@@ -4545,6 +4545,7 @@ USA
             <url>https://en.wikipedia.org/wiki/International_Workers%27_Day</url>
             <example correction="International Workers' Day">Schools are closed during <marker>International Workers Day</marker>.</example>
         </rule>
+
         <rulegroup id="POSSESSIVE_APOSTROPHE" name="Possessive apostrophe error" type="typographical">
             <antipattern><!-- Applicable to rules 1 and 2. I did not find a dictionary reference, but the terms are on many tennis websites. -->
                 <token regexp="yes">singles|doubles</token>
@@ -4603,6 +4604,15 @@ USA
                     <token>reduction</token>
                     <token postag_regexp="yes" postag="NN.*" regexp="yes" inflected="yes">conference|discussion|talk|treaty</token>
                 </antipattern>
+                <antipattern><!-- https://forum.languagetool.org/t/en-possible-false-positive-2020-02-11/5368 -->
+                    <token postag="SENT_START"/>
+                    <token>In</token>
+                    <token>the</token>
+                    <token>old</token>
+                    <token>days</token>
+                    <token postag_regexp="yes" postag="NN:UN?"/>
+                    <token postag_regexp="yes" postag="VBD|RB"/>
+                </antipattern>
                 <pattern>
                     <token><exception postag="PRP$"/><exception inflected="yes" regexp="yes">give|avail|serve</exception></token>
                     <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"/></token>
@@ -4650,6 +4660,8 @@ USA
                 <example>But not all the earnings news was cheery.</example>
                 <example>The earnings release was scheduled for May.</example>
                 <example>... voted against the ratification of New Start, a nuclear <marker>arms reduction treaty</marker> between the United States and Russian Federation.</example><!-- #2423 -->
+                <example>In the old days friendship had more meaning.</example><!-- https://forum.languagetool.org/t/en-possible-false-positive-2020-02-11/5368 -->
+                <example>In the old days friendship really had more meaning.</example>
                 <example type="triggers_error">The new restaurant was making the <marker>owners</marker> money hand over fist.</example>
             </rule>
             <rule>
@@ -4685,6 +4697,7 @@ USA
                 <short>Possible typo</short>
                 <example correction="presidents'|president's">This is a transcript of the <marker>presidents</marker> speech.</example>
                 <example correction="add-ons'|add-on's">Some users were confused about the <marker>add-ons</marker> functionality.</example><!-- (\p{Ll} does not include the hyphen character -->
+                <example correction="days'|day's">In the old <marker>days</marker> friendship, we had some fun, but it's all gone now.</example><!-- https://forum.languagetool.org/t/en-possible-false-positive-2020-02-11/5368 -->
                 <example>This is a transcript of the <marker>president's</marker> speech.</example>
                 <example>Publishers today are at loss...</example>
                 <example>The Romans may have marked the centre of Londinium.</example>
@@ -4712,6 +4725,7 @@ USA
                 <example correction="day's">Please grant me one <marker>days'</marker> leave of absence on March 1st.</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="APOSTROPHE_PLURAL" name="Possessive form instead of plural">
             <rule>
                 <antipattern><!-- Bhaktivedanta Swami -->
