@@ -206,9 +206,7 @@ class PipelinePool {
     } else {
       configureFromGUI(lt, lang);
     }
-    if (config.getRemoteRulesConfigFile() != null) {
-      lt.activateRemoteRules(config.getRemoteRulesConfigFile());
-    }
+    lt.activateRemoteRules(config.getRemoteRulesConfigFile());
     if (params.useQuerySettings) {
       Tools.selectRules(lt, new HashSet<>(params.disabledCategories), new HashSet<>(params.enabledCategories),
         new HashSet<>(params.disabledRules), new HashSet<>(params.enabledRules), params.useEnabledOnly);

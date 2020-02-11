@@ -183,9 +183,7 @@ public class SentenceSourceChecker {
         lt.enableRule(rule.getId());
       }
     }
-    if (remoteRules != null) {
-      lt.activateRemoteRules(remoteRules);
-    }
+    lt.activateRemoteRules(remoteRules);
     if (ruleIds != null) {
       enableOnlySpecifiedRules(ruleIds, lt);
     } else {
