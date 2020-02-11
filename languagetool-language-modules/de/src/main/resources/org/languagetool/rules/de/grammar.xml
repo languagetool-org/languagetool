@@ -32996,13 +32996,13 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rulegroup id="MAKE_UP" name="'Make-up'">
+            <url>https://www.duden.de/rechtschreibung/Make_up</url>
             <rule>
                 <pattern>
                     <token case_sensitive="yes">Make</token>
                     <token regexp="yes">ups?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion>Make-<match no="2" case_conversion="alllower" /></suggestion> (= Schminke)?</message>
-                <url>https://www.duden.de/rechtschreibung/Make_up</url>
                 <example correction="Make-up">Ihr <marker>Make Up</marker> wurde professionell aufgetragen.</example>
             </rule>
             <rule>
@@ -33010,7 +33010,6 @@ Andere Projekte</example>
                     <token case_sensitive="yes" regexp="yes">Makeups?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="Makeup" regexp_replace="Make-up" /></suggestion> (= Schminke)?</message>
-                <url>https://www.duden.de/rechtschreibung/Make_up</url>
                 <example correction="Make-up">Sie musste ihr <marker>Makeup</marker> auffrischen.</example>
             </rule>
             <rule>
@@ -33018,8 +33017,33 @@ Andere Projekte</example>
                     <token case_sensitive="yes" regexp="yes">Make-?Ups?</token>
                 </pattern>
                 <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="(?i)make-?up" regexp_replace="Make-up" /></suggestion> (= Schminke)?</message>
-                <url>https://www.duden.de/rechtschreibung/Make_up</url>
                 <example correction="Make-ups">Während des Auftragens ihres <marker>Make-Ups</marker> ging etwas schief.</example>
+            </rule>
+        </rulegroup>
+
+        <rulegroup id="STAND_UP" name="'Stand-up'" default="temp_off">
+            <url>https://www.duden.de/rechtschreibung/Stand_up</url>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">Stand</token>
+                    <token regexp="yes">ups?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Stand-<match no="2" case_conversion="alllower" /></suggestion> (= Meeting oder Comedian)?</message>
+                <example correction="Stand-up">Das <marker>Stand Up</marker> wurde abgesagt.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Standups?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="Standup" regexp_replace="Stand-up" /></suggestion> (= Meeting oder Comedian)?</message>
+                <example correction="Stand-up">Sie mussten ihr <marker>Standup</marker> verschieben.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">Stand-?Ups?</token>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion><match no="1" regexp_match="(?i)stand-?up" regexp_replace="Stand-up" /></suggestion> (= Meeting oder Comedian)?</message>
+                <example correction="Stand-ups">Während des <marker>Stand-Ups</marker> stellte er seine Idee vor.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PLAY_OFF" name="'Play-off'">
