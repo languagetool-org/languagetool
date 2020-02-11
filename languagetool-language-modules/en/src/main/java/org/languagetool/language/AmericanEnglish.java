@@ -72,7 +72,7 @@ public class AmericanEnglish extends English {
     Rule speller = new MorfologikAmericanSpellerRule(messageBundle, this, userConfig, altLanguages);
     RemoteRuleConfig bert = RemoteRuleConfig.getRelevantConfig("BERT", configs);
     if (bert != null) {
-      rules.add(new BERTSuggestionRanking(speller, bert));
+      rules.add(new BERTSuggestionRanking(speller, bert, userConfig));
     } else {
       rules.add(speller);
     }
