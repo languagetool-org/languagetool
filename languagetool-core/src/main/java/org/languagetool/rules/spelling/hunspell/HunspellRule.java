@@ -229,7 +229,7 @@ public class HunspellRule extends SpellingCheckRule {
             boolean isSpecialCase = cleanWord.matches(".+-[A-ZÖÄÜ].*");
             if (acceptingLanguage != null && !isSpecialCase) {
               if (isAcceptedWordFromLanguage(acceptingLanguage, cleanWord)) {
-                break;
+                continue;
               }
               // e.g. "Der Typ ist in UK echt famous" -> could be German 'famos'
               ruleMatch = new RuleMatch(this, sentence,
