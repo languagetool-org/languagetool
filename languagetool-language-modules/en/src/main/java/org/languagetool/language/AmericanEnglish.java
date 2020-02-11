@@ -73,6 +73,8 @@ public class AmericanEnglish extends English {
     RemoteRuleConfig bert = RemoteRuleConfig.getRelevantConfig("BERT", configs);
     if (bert != null) {
       rules.add(new BERTSuggestionRanking(speller, bert));
+    } else {
+      rules.add(speller);
     }
     return rules;
   }

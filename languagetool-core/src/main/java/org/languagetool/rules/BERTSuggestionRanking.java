@@ -115,28 +115,26 @@ public class BERTSuggestionRanking extends RemoteRule {
         .filter(Objects::nonNull).collect(Collectors.toList());
       requests = requests.stream().filter(Objects::nonNull).collect(Collectors.toList());
 
-      List<List<Double>> results;
       if (requests.isEmpty()) {
-        results = Collections.emptyList();
+        return new RemoteRuleResult(false, matches);
       } else {
-        results = model.batchScore(requests);
-      }
+        List<List<Double>> results = model.batchScore(requests);
+        Comparator<Pair<String, Double>> suggestionOrdering = Comparator.comparing(Pair::getRight);
+        suggestionOrdering = suggestionOrdering.reversed();
 
-      Comparator<Pair<String, Double>> suggestionOrdering = Comparator.comparing(Pair::getRight);
-      suggestionOrdering = suggestionOrdering.reversed();
-
-      for (int i = 0; i < indices.size(); i++) {
-        List<Double> scores = results.get(i);
-        RemoteLanguageModel.Request req = requests.get(i);
-        RuleMatch match = matches.get(indices.get(i).intValue());
-        List<String> ranked = Streams.zip(req.candidates.stream(), scores.stream(), Pair::of)
-          .sorted(suggestionOrdering)
-          .map(Pair::getLeft)
-          .collect(Collectors.toList());
-        System.out.printf("Reordered from %s to %s%n", req.candidates, ranked);
-        match.setSuggestedReplacements(ranked);
+        for (int i = 0; i < indices.size(); i++) {
+          List<Double> scores = results.get(i);
+          RemoteLanguageModel.Request req = requests.get(i);
+          RuleMatch match = matches.get(indices.get(i).intValue());
+          List<String> ranked = Streams.zip(req.candidates.stream(), scores.stream(), Pair::of)
+            .sorted(suggestionOrdering)
+            .map(Pair::getLeft)
+            .collect(Collectors.toList());
+          System.out.printf("Reordered from %s to %s%n", req.candidates, ranked);
+          match.setSuggestedReplacements(ranked);
+        }
+        return new RemoteRuleResult(true, matches);
       }
-      return new RemoteRuleResult(true, matches);
     };
   }
 
