@@ -24,9 +24,11 @@ package org.languagetool.rules;
 import com.google.common.collect.Streams;
 import org.apache.commons.lang3.tuple.Pair;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.bert.RemoteLanguageModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import javax.net.ssl.SSLException;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
@@ -37,6 +39,7 @@ import java.util.stream.Stream;
  * reorder suggestions from another rule using BERT as a LM
  */
 public class BERTSuggestionRanking extends RemoteRule {
+  private static final Logger logger = LoggerFactory.getLogger(BERTSuggestionRanking.class);
 
   private final int suggestionLimit = 10;
 
@@ -44,7 +47,7 @@ public class BERTSuggestionRanking extends RemoteRule {
   private final RemoteLanguageModel model;
   protected Stream<String> stream;
 
-  public BERTSuggestionRanking(Rule rule, RemoteRuleConfig config) {
+  public BERTSuggestionRanking(Rule rule, RemoteRuleConfig config, UserConfig userConfig) {
     super(rule.messages, config);
     this.wrappedRule = rule;
     String host = serviceConfiguration.getUrl();
@@ -54,13 +57,15 @@ public class BERTSuggestionRanking extends RemoteRule {
     String cert = serviceConfiguration.getOptions().get("clientCertificate");
     String ca = serviceConfiguration.getOptions().get("rootCertificate");
 
-    // mb just log error and continue without reranking
-    try {
-      this.model = new RemoteLanguageModel(host, port, ssl, key, cert, ca);
-    } catch (SSLException e) {
-      throw new RuntimeException(String.format(
-        "Could not connect to BERT service at %s for suggestion reranking", serviceConfiguration), e);
+    RemoteLanguageModel model = null;
+    if (userConfig.isAbTestEnabled() && getId().equals(userConfig.getAbTest())) {
+      try {
+        model = new RemoteLanguageModel(host, port, ssl, key, cert, ca);
+      } catch (Exception e) {
+        logger.error("Could not connect to BERT service at " + serviceConfiguration + " for suggestion reranking", e);
+      }
     }
+    this.model = model;
   }
 
   class MatchesForReordering extends RemoteRequest {
@@ -97,6 +102,9 @@ public class BERTSuggestionRanking extends RemoteRule {
   @Override
   protected Callable<RemoteRuleResult> executeRequest(RemoteRequest request) {
     return () -> {
+      if (model == null) {
+        return fallbackResults(request);
+      }
       List<RuleMatch> matches = ((MatchesForReordering) request).matches;
       List<RemoteLanguageModel.Request> requests = matches.stream().map(match -> {
         List<String> suggestions = match.getSuggestedReplacements();
@@ -130,7 +138,7 @@ public class BERTSuggestionRanking extends RemoteRule {
             .sorted(suggestionOrdering)
             .map(Pair::getLeft)
             .collect(Collectors.toList());
-          System.out.printf("Reordered from %s to %s%n", req.candidates, ranked);
+          logger.info("Reordered from {} to {}", req.candidates, ranked);
           match.setSuggestedReplacements(ranked);
         }
         return new RemoteRuleResult(true, matches);
@@ -140,7 +148,7 @@ public class BERTSuggestionRanking extends RemoteRule {
 
   @Override
   public String getId() {
-    return "BERT";
+    return "BERT_SUGGESTION_RANKING";
   }
 
   @Override
