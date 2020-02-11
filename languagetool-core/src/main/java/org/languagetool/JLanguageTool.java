@@ -945,7 +945,7 @@ public class JLanguageTool {
       toPos = annotatedText.getOriginalTextPositionFor(toPos -1, true) + 1;
     }
     RuleMatch thisMatch = new RuleMatch(match);
-    thisMatch.setOffsetPosition(fromPos, toPos, thisMatch);
+    thisMatch.setOffsetPosition(fromPos, toPos);
     List<SuggestedReplacement> replacements = match.getSuggestedReplacementObjects();
     thisMatch.setSuggestedReplacementObjects(extendSuggestions(replacements));
 
@@ -1330,7 +1330,7 @@ public class JLanguageTool {
             int newFromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos(), false);
             int newToPos = annotatedText.getOriginalTextPositionFor(match.getToPos() - 1, true) + 1;
             RuleMatch newMatch = new RuleMatch(match);
-            newMatch.setOffsetPosition(newFromPos, newToPos, newMatch);
+            newMatch.setOffsetPosition(newFromPos, newToPos);
             newMatch.setLine(range.from.line);
             newMatch.setEndLine(range.to.line);
             if (match.getLine() == 0) {

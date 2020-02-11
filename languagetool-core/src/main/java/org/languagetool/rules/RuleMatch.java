@@ -271,9 +271,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
     return offsetPosition.getEnd();
   }
 
-  public void setOffsetPosition(int fromPos, int toPos, RuleMatch ruleMatch) {
+  public void setOffsetPosition(int fromPos, int toPos) {
     if (toPos <= fromPos) {
-      throw new RuntimeException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ") for match: " + ruleMatch);
+      throw new RuntimeException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ") for match: " + this);
     }
     offsetPosition = new OffsetPosition(fromPos, toPos);
   }
