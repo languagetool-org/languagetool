@@ -29,13 +29,17 @@ import java.util.stream.Collectors;
  */
 public class LanguageAnnotator {
 
+  private static final int MIN_TOKENS = 4;  // fragments shorter than this will get the previous fragment's language
+
   public LanguageAnnotator() {
   }
 
   public List<FragmentWithLanguage> detectLanguages(String input, Language mainLang, List<Language> secondLangs) {
     List<TokenWithLanguages> tokens = getTokensWithPotentialLanguages(input, mainLang, secondLangs);
     List<List<TokenWithLanguages>> tokenRanges = getTokenRanges(tokens);   // split at boundaries like "."
+    //System.out.println("tokenRanges: " + tokenRanges);
     List<TokenRangeWithLanguage> tokenRangesWithLang = getTokenRangesWithLang(tokenRanges, mainLang, secondLangs);
+    //System.out.println("tokenRangesWithLang: " + tokenRangesWithLang);
     Language curLang;
     Language prevLang = mainLang;
     int curPos = 0;
@@ -123,6 +127,7 @@ public class LanguageAnnotator {
   List<TokenRangeWithLanguage> getTokenRangesWithLang(List<List<TokenWithLanguages>> tokenRanges, Language mainLang, List<Language> secondLangs) {
     List<TokenRangeWithLanguage> result = new ArrayList<>();
     int i = 0;
+    Language prevTopLang = null;
     for (List<TokenWithLanguages> tokens : tokenRanges) {
       //System.out.println(">"+tokens);
       Language topLang = null;
@@ -141,10 +146,15 @@ public class LanguageAnnotator {
         }
       }
       if (topLang == null) {
-        topLang = getTopLang(mainLang, secondLangs, tokens);
+        if (tokens.size() < MIN_TOKENS && prevTopLang != null) {
+          topLang = prevTopLang;
+        } else {
+          topLang = getTopLang(mainLang, secondLangs, tokens);
+        }
       }
       List<String> tokenList = tokens.stream().map(k -> k.token).collect(Collectors.toList());
       result.add(new TokenRangeWithLanguage(tokenList, topLang));
+      prevTopLang = topLang;
       i++;
     }
     return result;

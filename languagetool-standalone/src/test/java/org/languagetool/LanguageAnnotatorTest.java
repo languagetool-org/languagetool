@@ -59,6 +59,8 @@ public class LanguageAnnotatorTest {
                                          "Hier steht was auf Deutsch. \"This is English text two.\"", de, enList).toString(),
                                       is("[| de-DE: Hier steht was auf Deutsch. |, | en-US:  This is English text one. |, " +
                                           "| de-DE:  Hier steht was auf Deutsch. |, | en-US:  \"This is English text two.\" |]"));
+    assertThat(annotator.detectLanguages("Nutzen Sie es auf unserer Webseite foobar.com?", de, enList).toString(),
+                                      is("[| de-DE: Nutzen Sie es auf unserer Webseite foobar.com? |]"));
     // TODO: sentences with typos
   }
   
