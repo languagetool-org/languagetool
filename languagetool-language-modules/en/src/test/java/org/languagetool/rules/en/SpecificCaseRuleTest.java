@@ -42,13 +42,19 @@ public class SpecificCaseRuleTest {
     assertBad("harry potter");
     assertBad("harry Potter");
     assertBad("Harry potter");
+
     RuleMatch[] matches1 = assertBad("I like Harry potter.");
     assertThat(matches1[0].getFromPos(), is(7));
     assertThat(matches1[0].getToPos(), is(19));
     assertThat(matches1[0].getSuggestedReplacements().toString(), is("[Harry Potter]"));
     assertThat(matches1[0].getMessage(), is("If the term is a proper noun, use initial capitals."));
+    
     RuleMatch[] matches2 = assertBad("Alexander The Great");
     assertThat(matches2[0].getMessage(), is("If the term is a proper noun, use the suggested capitalization."));
+
+    RuleMatch[] matches3 = assertBad("I like Harry  potter.");  // note the two spaces
+    assertThat(matches3[0].getFromPos(), is(7));
+    assertThat(matches3[0].getToPos(), is(20));
   }
 
   private void assertGood(String input) throws IOException {
