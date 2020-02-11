@@ -28077,6 +28077,10 @@ USA
                 <token spacebefore="no">,</token>
                 <token regexp="yes" spacebefore="no">\d+</token>
             </antipattern>
+            <antipattern><!-- #2440 £33 billion bid -->
+                <token regexp="yes">(US\$|\$|€|£)\d+</token>
+                <token chunk="I-NP-singular" postag="CD"/>
+            </antipattern>
             <antipattern><!-- 50th ave apartment -->
                 <token postag="CD" />
                 <token regexp="yes">Ave(nue)?|Terrace|Square|Plaza|Parkway</token>
@@ -28145,6 +28149,8 @@ USA
             <example correction="elements">... if we group 5 <marker>element</marker> in this manner.</example><!-- If the correct typography is used, the rule does not trigger an error. https://en.wikipedia.org/wiki/Group_5_element -->
             <example correction="pixels">The maximum allowed height is 32,000 <marker>pixel</marker>.</example>
             <example correction="weeks">The icon changed 2 <marker>week</marker> ago.</example>
+            <example correction="bids">The servers crashed because the two billion <marker>bid</marker> were truly overwhelming.</example><!-- #2440 -->
+            <example correction="bids">In a test of the auction website, the white-hat hackers showed that with a 2 billion <marker>bid</marker>, they could crash the servers.</example><!-- #2440. The corrected sentence is not correct: #2448 -->
             <example>Four piece with two hanging toms.</example><!-- TODO: not found because "four" is tagged as NNP -->
             <example>1777 American Revolutionary War: British forces abandon the Siege of Fort Stanwix...</example>
             <example>I have <marker>one bottle</marker> of wine.</example>
@@ -28263,6 +28269,8 @@ USA
             <example>There were 6 wrong <marker>pattern attempts</marker> during the test.</example><!--  #2167 -->
             <example>They discussed 3 newer <marker>pattern runs</marker> in the meeting.</example><!--  #2167 -->
             <example>Only 1 in 12 stay and are happy with our service.</example><!--  #2167 -->
+            <example>When they came back with a £33 billion bid, CBS could not refuse.</example><!-- #2440 -->
+            <example type="triggers_error">When Sony came back with a 2 billion bid, CBS could not refuse.</example><!-- #2440 -->
             <example type="triggers_error">But then he got 502 bad gateway.</example><!-- 2019-10-09 MFU adds: This is only an FP if '502 bad gateway' is emphasised (italics/bold) in the original text. -->
             <example type="triggers_error">England eventually faced a massive 707 run target for victory and failed, Australia winning the ...</example>
         </rule>
