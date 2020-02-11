@@ -74,7 +74,14 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "his fluffy butt",
       "it's now better", // vs. no
       "it’s now better", // vs. no
-      "it is now better" // vs. no
+      "it is now better", // vs. no
+      "let us know below",
+      "let us know in",
+      "your kind of",
+      "sneak peek",
+      "the 4 of you",
+      "confirm you own the",
+      "your ride"
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
