@@ -6,7 +6,7 @@ option java_outer_classname = "BertLmProto";
 
 service BertLm {
     rpc Score (ScoreRequest) returns (BertLmResponse);
-//    rpc BatchScore (BatchScoreRequest) returns (BatchBertLmResponse);
+    rpc BatchScore (BatchScoreRequest) returns (BatchBertLmResponse);
 }
 
 message Mask {
@@ -28,3 +28,10 @@ message BertLmResponse {
     repeated Prediction scores = 1;
 }
 
+message BatchScoreRequest {
+    repeated ScoreRequest requests = 1;
+}
+
+message BatchBertLmResponse {
+    repeated BertLmResponse responses = 1;
+}

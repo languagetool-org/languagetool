@@ -67,30 +67,36 @@ public abstract class RemoteRule extends Rule {
     shutdownRoutines.forEach(Runnable::run);
   }
 
-  protected abstract Callable<RemoteRuleResult> fetchMatches(List<AnalyzedSentence> sentences);
+  class RemoteRequest {}
+
+  protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences);
+  protected abstract Callable<RemoteRuleResult> executeRequest(RemoteRequest request);
+  protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
 
   public FutureTask<List<RuleMatch>> run(List<AnalyzedSentence> sentences) {
     return new FutureTask<>(() -> {
       long startTime = System.nanoTime();
       long characters = sentences.stream().mapToInt(sentence -> sentence.getText().length()).sum();
       String rule = getId();
+      RemoteRequest req = prepareRequest(sentences);
+      RemoteRuleResult result;
 
       if (consecutiveFailures.get(rule).get() >= serviceConfiguration.getFall()) {
         long failureInterval = System.currentTimeMillis() - lastFailure.get(rule);
         if (failureInterval < serviceConfiguration.getDownMilliseconds()) {
           RemoteRuleMetrics.request(rule, 0, 0, characters, RemoteRuleMetrics.RequestResult.DOWN);
-          return Collections.emptyList();
+          result = fallbackResults(req);
+          return result.getMatches();
         }
       }
       RemoteRuleMetrics.up(rule, true);
 
       for (int i = 0; i <= serviceConfiguration.getMaxRetries(); i++) {
-        Callable<RemoteRuleResult> task = fetchMatches(sentences);
+        Callable<RemoteRuleResult> task = executeRequest(req);
         try {
           long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +
             Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());
           Future<RemoteRuleResult> future = executors.get(rule).submit(task);
-          RemoteRuleResult result;
           if (timeout <= 0)  { // for debugging, disable timeout
             result = future.get();
           } else {
@@ -110,14 +116,14 @@ public abstract class RemoteRule extends Rule {
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
           logger.warn("Error while fetching results for remote rule " + rule + ", tried " + (i + 1) + " times" , e);
 
-          RemoteRuleMetrics.RequestResult result;
+          RemoteRuleMetrics.RequestResult status;
           if (e instanceof TimeoutException || e instanceof InterruptedException) {
-            result = RemoteRuleMetrics.RequestResult.TIMEOUT;
+            status = RemoteRuleMetrics.RequestResult.TIMEOUT;
           } else {
-            result = RemoteRuleMetrics.RequestResult.ERROR;
+            status = RemoteRuleMetrics.RequestResult.ERROR;
           }
 
-          RemoteRuleMetrics.request(rule, i, System.nanoTime() - startTime, characters, result);
+          RemoteRuleMetrics.request(rule, i, System.nanoTime() - startTime, characters, status);
         }
       }
       RemoteRuleMetrics.failures(rule, consecutiveFailures.get(rule).incrementAndGet());
@@ -128,7 +134,8 @@ public abstract class RemoteRule extends Rule {
         RemoteRuleMetrics.downtime(rule, serviceConfiguration.getDownMilliseconds());
         RemoteRuleMetrics.up(rule, false);
       }
-      return Collections.emptyList();
+      result = fallbackResults(req);
+      return result.getMatches();
     });
   }
 

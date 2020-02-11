@@ -25,12 +25,11 @@ import com.google.common.collect.Streams;
 import org.apache.commons.lang3.tuple.Pair;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.languagemodel.bert.RemoteLanguageModel;
-import org.languagetool.languagemodel.bert.grpc.BertLmProto;
 
 import javax.net.ssl.SSLException;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -64,32 +63,78 @@ public class BERTSuggestionRanking extends RemoteRule {
     }
   }
 
+  class MatchesForReordering extends RemoteRequest {
+    final List<RuleMatch> matches;
+    MatchesForReordering(List<RuleMatch> matches) {
+      this.matches = matches;
+    }
+  }
+
   @Override
-  protected Callable<RemoteRuleResult> fetchMatches(List<AnalyzedSentence> sentences) {
-    return () -> {
-      List<RuleMatch> matches = new LinkedList<>();
+  protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences) {
+    List<RuleMatch> matches = new LinkedList<>();
+    try {
+      int offset = 0;
       for (AnalyzedSentence sentence : sentences) {
-        Collections.addAll(matches, wrappedRule.match(sentence));
+        RuleMatch[] sentenceMatches = wrappedRule.match(sentence);
+        for (RuleMatch match : sentenceMatches) {
+          match.setOffsetPosition(match.getFromPos() + offset, match.getToPos() + offset);
+        }
+        Collections.addAll(matches, sentenceMatches);
+        offset += sentence.getText().length();
       }
-      for (RuleMatch match : matches) {
+      return new MatchesForReordering(matches);
+    } catch (IOException e) {
+      return new MatchesForReordering(Collections.emptyList());
+    }
+  }
+
+  @Override
+  protected RemoteRuleResult fallbackResults(RemoteRequest request) {
+    return new RemoteRuleResult(false, ((MatchesForReordering) request).matches);
+  }
+
+  @Override
+  protected Callable<RemoteRuleResult> executeRequest(RemoteRequest request) {
+    return () -> {
+      List<RuleMatch> matches = ((MatchesForReordering) request).matches;
+      List<RemoteLanguageModel.Request> requests = matches.stream().map(match -> {
         List<String> suggestions = match.getSuggestedReplacements();
         if (suggestions != null && suggestions.size() > 1) {
           if (suggestionLimit > 0) {
             suggestions = suggestions.subList(0, Math.min(suggestions.size(), suggestionLimit));
           }
-          Future<BertLmProto.BertLmResponse> response = model.score(
-            match.getSentence(), match.getFromPos(), match.getToPos(), suggestions);
-          // TODO timeout, return original ordering
-          List<Double> scores = RemoteLanguageModel.scores(response.get());
-          Comparator<Pair<String, Double>> suggestionOrdering = Comparator.comparing(Pair::getRight);
-          suggestionOrdering = suggestionOrdering.reversed();
-          List<String> ranked = Streams.zip(suggestions.stream(), scores.stream(), Pair::of)
-            .sorted(suggestionOrdering)
-            .map(Pair::getLeft)
-            .collect(Collectors.toList());
-          System.out.printf("Reordered from %s to %s%n", suggestions, ranked);
-          match.setSuggestedReplacements(ranked);
+          return new RemoteLanguageModel.Request(
+            match.getSentence().getText(), match.getFromPos(), match.getToPos(), suggestions);
+        } else {
+          return null;
         }
+      }).collect(Collectors.toList());
+      Streams.FunctionWithIndex<RemoteLanguageModel.Request, Long> mapIndices = (req, index) -> req != null ? index : null;
+      List<Long> indices = Streams.mapWithIndex(requests.stream(), mapIndices)
+        .filter(Objects::nonNull).collect(Collectors.toList());
+      requests = requests.stream().filter(Objects::nonNull).collect(Collectors.toList());
+
+      List<List<Double>> results;
+      if (requests.isEmpty()) {
+        results = Collections.emptyList();
+      } else {
+        results = model.batchScore(requests);
+      }
+
+      Comparator<Pair<String, Double>> suggestionOrdering = Comparator.comparing(Pair::getRight);
+      suggestionOrdering = suggestionOrdering.reversed();
+
+      for (int i = 0; i < indices.size(); i++) {
+        List<Double> scores = results.get(i);
+        RemoteLanguageModel.Request req = requests.get(i);
+        RuleMatch match = matches.get(indices.get(i).intValue());
+        List<String> ranked = Streams.zip(req.candidates.stream(), scores.stream(), Pair::of)
+          .sorted(suggestionOrdering)
+          .map(Pair::getLeft)
+          .collect(Collectors.toList());
+        System.out.printf("Reordered from %s to %s%n", req.candidates, ranked);
+        match.setSuggestedReplacements(ranked);
       }
       return new RemoteRuleResult(true, matches);
     };

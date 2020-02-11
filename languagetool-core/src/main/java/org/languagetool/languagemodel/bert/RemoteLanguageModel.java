@@ -21,33 +21,54 @@
 package org.languagetool.languagemodel.bert;
 
 
-import com.google.common.util.concurrent.ListenableFuture;
 import io.grpc.ManagedChannel;
 import io.grpc.netty.shaded.io.grpc.netty.GrpcSslContexts;
 import io.grpc.netty.shaded.io.grpc.netty.NegotiationType;
 import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
 import org.languagetool.languagemodel.bert.grpc.BertLmGrpc;
 
 import javax.net.ssl.SSLException;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Future;
+import java.util.stream.Collectors;
 
 import static org.languagetool.languagemodel.bert.grpc.BertLmProto.*;
 
 public class RemoteLanguageModel {
-  private final BertLmGrpc.BertLmFutureStub model;
+  private final BertLmGrpc.BertLmBlockingStub model;
   private final ManagedChannel channel;
+
+  public static class Request {
+    public String text;
+    public int start;
+    public int end;
+    public List<String> candidates;
+
+    public Request(String text, int start, int end, List<String> candidates) {
+      this.text = text;
+      this.start = start;
+      this.end = end;
+      this.candidates = candidates;
+    }
+
+    public ScoreRequest convert() {
+      List<Mask> masks = Arrays.asList(Mask.newBuilder()
+        .setStart(start)
+        .setEnd(end)
+        .addAllCandidates(candidates)
+        .build());
+      return ScoreRequest.newBuilder().setText(text).addAllMask(masks).build();
+    }
+  }
 
   public RemoteLanguageModel(String host, int port, boolean useSSL,
                              @Nullable String clientPrivateKey, @Nullable  String clientCertificate,
                              @Nullable String rootCertificate) throws SSLException {
     // TODO configure deadline/retries/... here?
-    model = BertLmGrpc.newFutureStub(getChannel(
+    model = BertLmGrpc.newBlockingStub(getChannel(
       host, port, useSSL, clientPrivateKey, clientCertificate, rootCertificate));
     channel = getChannel(host, port, useSSL, clientPrivateKey, clientCertificate, rootCertificate);
   }
@@ -78,27 +99,20 @@ public class RemoteLanguageModel {
   }
 
 
-/*
-  public List<List<Double>> batchScore(List<AnalyzedSentence> sentences,
-                                  List<AnalyzedTokenReadings> tokens, List<List<String>> candidates) {}
-*/
-
-  public Future<BertLmResponse> score(AnalyzedSentence sentence, int start, int end, List<String> candidates) {
-    // TODO deal with max seq length, extract windows
-    // TODO mask multiple tokens in a sentence
-    List<Mask> masks = Arrays.asList(Mask.newBuilder()
-      .setStart(start)
-      .setEnd(end)
-      .addAllCandidates(candidates)
-      .build());
-    ScoreRequest req = ScoreRequest.newBuilder().setText(sentence.getText()).addAllMask(masks).build();
-    ListenableFuture<BertLmResponse> res = model.score(req);
-    return res;
+  public List<List<Double>> batchScore(List<Request> requests) {
+    BatchScoreRequest batch = BatchScoreRequest.newBuilder().addAllRequests(
+      requests.stream().map(Request::convert).collect(Collectors.toList())
+    ).build();
+    // TODO multiple masks
+    return model.batchScore(batch).getResponsesList().stream().map(r ->
+      r.getScoresList().get(0).getScoreList()).collect(Collectors.toList());
   }
 
-  public static List<Double> scores(BertLmResponse response) {
+  public List<Double> score(Request req) {
+    // TODO deal with max seq length, extract windows
+    // TODO mask multiple tokens in a sentence
     // TODO multiple masks
-    return response.getScoresList().get(0).getScoreList();
+    return model.score(req.convert()).getScoresList().get(0).getScoreList();
   }
 
 }
