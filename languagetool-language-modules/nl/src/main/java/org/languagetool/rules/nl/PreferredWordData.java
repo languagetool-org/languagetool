@@ -18,13 +18,10 @@
  */
 package org.languagetool.rules.nl;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -39,7 +36,7 @@ import org.languagetool.rules.patterns.PatternTokenBuilder;
 class PreferredWordData {
 
   private final List<PreferredWordRuleWithSuggestion> spellingRules = new ArrayList<>();
-  
+
   PreferredWordData(String ruleDesc, String filePath, String ruleId) {
     Language dutch = Languages.getLanguageForShortCode("nl");
     String message = "Voor dit woord is een gebruikelijker alternatief.";
@@ -55,39 +52,21 @@ class PreferredWordData {
       }
       String oldWord = parts[0];
       String newWord = parts[1];
-      List<PatternToken> patternTokens = getTokens(oldWord, dutch);
+      List<PatternToken> patternTokens = getTokens(oldWord);
       PatternRule rule = new PatternRule(ruleId + "_INTERNAL", dutch, patternTokens, ruleDesc, message, shortMessage);
       spellingRules.add(new PreferredWordRuleWithSuggestion(rule, oldWord, newWord));
     }
   }
 
   @NotNull
-  private List<PatternToken> getTokens(String oldWord, Language lang) {
+  private List<PatternToken> getTokens(String oldWord) {
     PatternTokenBuilder builder = new PatternTokenBuilder();
     String[] newWordTokens = oldWord.split(" ");
     List<PatternToken> patternTokens = new ArrayList<>();
     for (String part : newWordTokens) {
-      PatternToken token;
-      if (isBaseform(oldWord, lang)) {
-        token = builder.csToken(part).matchInflectedForms().build();
-      } else {
-        token = builder.csToken(part).build();
-      }
-      patternTokens.add(token);
+      patternTokens.add(builder.csToken(part).build());
     }
     return patternTokens;
-  }
-
-  private boolean isBaseform(String term, Language lang) {
-    try {
-      AnalyzedTokenReadings lookup = lang.getTagger().tag(Collections.singletonList(term)).get(0);
-      if (lookup != null) {
-        return lookup.hasLemma(term);
-      }
-      return false;
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   public List<PreferredWordRuleWithSuggestion> get() {
