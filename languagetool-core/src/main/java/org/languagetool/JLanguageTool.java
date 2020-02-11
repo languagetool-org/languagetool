@@ -503,9 +503,14 @@ public class JLanguageTool {
     }
   }
 
-  public void activateRemoteRules(File configFile) throws IOException {
+  public void activateRemoteRules(@Nullable File configFile) throws IOException {
     try {
-      List<RemoteRuleConfig> configs = RemoteRuleConfig.load(configFile);
+      List<RemoteRuleConfig> configs;
+      if (configFile != null) {
+        configs = RemoteRuleConfig.load(configFile);
+      }  else {
+        configs = Collections.emptyList();
+      }
       List<Rule> rules = language.getRelevantRemoteRules(getMessageBundle(language), configs,
         userConfig, motherTongue, altLanguages);
       userRules.addAll(rules);

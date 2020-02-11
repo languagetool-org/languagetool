@@ -194,6 +194,9 @@ public abstract class Language {
   }
 
 
+  /**
+   * Can return non-remote rules (e.g. if configuration missing, or for A/B tests), will be executed normally
+   */
   public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs,
                                            UserConfig userConfig, Language motherTongue, List<Language> altLanguages)
     throws IOException {

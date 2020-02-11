@@ -40,6 +40,7 @@ import java.util.stream.Stream;
  */
 public class BERTSuggestionRanking extends RemoteRule {
   private static final Logger logger = LoggerFactory.getLogger(BERTSuggestionRanking.class);
+  public static final String RULE_ID = "BERT_SUGGESTION_RANKING";
 
   private final int suggestionLimit = 10;
 
@@ -58,7 +59,7 @@ public class BERTSuggestionRanking extends RemoteRule {
     String ca = serviceConfiguration.getOptions().get("rootCertificate");
 
     RemoteLanguageModel model = null;
-    if (userConfig.isAbTestEnabled() && getId().equals(userConfig.getAbTest())) {
+    if (getId().equals(userConfig.getAbTest())) {
       try {
         model = new RemoteLanguageModel(host, port, ssl, key, cert, ca);
       } catch (Exception e) {
@@ -148,7 +149,7 @@ public class BERTSuggestionRanking extends RemoteRule {
 
   @Override
   public String getId() {
-    return "BERT_SUGGESTION_RANKING";
+    return RULE_ID;
   }
 
   @Override

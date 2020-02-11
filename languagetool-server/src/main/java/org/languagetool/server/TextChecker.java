@@ -121,6 +121,7 @@ abstract class TextChecker {
       logger.info("Prewarming finished.");
     }
     if (config.getAbTest() != null) {
+      UserConfig.enableABTests();
       logger.info("A/B-Test enabled: " + config.getAbTest());
       if (config.getAbTest().equals("SuggestionsOrderer")) {
         SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
@@ -212,9 +213,52 @@ abstract class TextChecker {
 
     boolean filterDictionaryMatches = "true".equals(parameters.get("filterDictionaryMatches"));
 
+
+    Long textSessionId = null;
+    try {
+      if (parameters.containsKey("textSessionId")) {
+        String textSessionIdStr = parameters.get("textSessionId");
+        if (textSessionIdStr.contains(":")) { // transitioning to new format used in chrome addon
+          // format: "{random number in 0..99999}:{unix time}"
+          long random, timestamp;
+          int sepPos = textSessionIdStr.indexOf(':');
+          random = Long.valueOf(textSessionIdStr.substring(0, sepPos));
+          timestamp = Long.valueOf(textSessionIdStr.substring(sepPos + 1));
+          // use random number to choose a slice in possible range of values
+          // then choose position in slice by timestamp
+          long maxRandom = 100000;
+          long randomSegmentSize = (Long.MAX_VALUE - maxRandom) / maxRandom;
+          long segmentOffset = random * randomSegmentSize;
+          if (timestamp > randomSegmentSize) {
+            logger.warn(String.format("Could not transform textSessionId '%s'", textSessionIdStr));
+          }
+          textSessionId = segmentOffset + timestamp;
+        } else {
+          textSessionId = Long.valueOf(textSessionIdStr);
+        }
+      }
+    } catch (NumberFormatException ex) {
+      logger.warn("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
+    }
+
+    String abTest = null;
+    if (agent != null && config.getAbTestClients() != null && config.getAbTestClients().matcher(agent).matches()) {
+      boolean testRolledOut;
+      // partial rollout; deterministic if textSessionId given to make testing easier
+      if (textSessionId != null) {
+        testRolledOut = textSessionId % 100 < config.getAbTestRollout();
+      } else {
+        testRolledOut = random.nextInt(100) < config.getAbTestRollout();
+      }
+      if (testRolledOut) {
+        abTest = config.getAbTest();
+      }
+    }
+
     UserConfig userConfig = new UserConfig(
             limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList(),
-            getRuleValues(parameters), config.getMaxSpellingSuggestions(), null, null, filterDictionaryMatches);
+            getRuleValues(parameters), config.getMaxSpellingSuggestions(), null, null, filterDictionaryMatches,
+      abTest, textSessionId);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
@@ -275,50 +319,6 @@ abstract class TextChecker {
     QueryParams params = new QueryParams(altLanguages, enabledRules, disabledRules,
       enabledCategories, disabledCategories, useEnabledOnly,
       useQuerySettings, allowIncompleteResults, enableHiddenRules, mode, callback);
-
-    Long textSessionId = null;
-    try {
-      if (parameters.containsKey("textSessionId")) {
-        String textSessionIdStr = parameters.get("textSessionId");
-        if (textSessionIdStr.contains(":")) { // transitioning to new format used in chrome addon
-          // format: "{random number in 0..99999}:{unix time}"
-          long random, timestamp;
-          int sepPos = textSessionIdStr.indexOf(':');
-          random = Long.valueOf(textSessionIdStr.substring(0, sepPos));
-          timestamp = Long.valueOf(textSessionIdStr.substring(sepPos + 1));
-          // use random number to choose a slice in possible range of values
-          // then choose position in slice by timestamp
-          long maxRandom = 100000;
-          long randomSegmentSize = (Long.MAX_VALUE - maxRandom) / maxRandom;
-          long segmentOffset = random * randomSegmentSize;
-          if (timestamp > randomSegmentSize) {
-            logger.warn(String.format("Could not transform textSessionId '%s'", textSessionIdStr));
-          }
-          textSessionId = segmentOffset + timestamp;
-        } else {
-          textSessionId = Long.valueOf(textSessionIdStr);
-        }
-
-        userConfig.setTextSessionId(textSessionId);
-      }
-    } catch (NumberFormatException ex) {
-      logger.warn("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
-    }
-
-    userConfig.setAbTestEnabled(true);
-    if (agent != null && config.getAbTestClients() != null && config.getAbTestClients().matcher(agent).matches()) {
-      boolean testRolledOut;
-      // partial rollout; deterministic if textSessionId given to make testing easier
-      if (textSessionId != null) {
-        testRolledOut = textSessionId % 100 < config.getAbTestRollout();
-      } else {
-        testRolledOut = random.nextInt(100) < config.getAbTestRollout();
-      }
-      if (testRolledOut) {
-        userConfig.setAbTest(config.getAbTest());
-      }
-    }
-
 
     int textSize = aText.getPlainText().length();
 
