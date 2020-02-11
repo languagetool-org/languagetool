@@ -148,10 +148,6 @@ public class RemoteRuleConfig {
     return configs.stream().filter(config -> config.getRuleId().equals(rule)).findFirst().orElse(null);
   }
 
-  public static RemoteRuleConfig getRelevantConfig(Rule rule, List<RemoteRuleConfig> configs) {
-    return getRelevantConfig(rule.getId(), configs);
-  }
-
   public static List<RemoteRuleConfig> parse(InputStream json) throws IOException {
     ObjectMapper mapper = new ObjectMapper(new JsonFactory().enable(JsonParser.Feature.ALLOW_COMMENTS));
     return mapper.readValue(json, new TypeReference<List<RemoteRuleConfig>>() {});
