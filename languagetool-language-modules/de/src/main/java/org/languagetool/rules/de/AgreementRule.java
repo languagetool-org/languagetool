@@ -878,9 +878,10 @@ public class AgreementRule extends Rule {
       AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 2];
       if (StringTools.startsWithUppercase(nextToken.getToken())) {
         String potentialCompound = token2.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
-        String testPhrase = token1.getToken() + " " + potentialCompound;
+        String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
+        String testPhrase = origToken1 + " " + potentialCompound;
         String hyphenPotentialCompound = token2.getToken() + "-" + nextToken.getToken();
-        String hyphenTestPhrase = token1.getToken() + " " + hyphenPotentialCompound;
+        String hyphenTestPhrase = origToken1 + " " + hyphenPotentialCompound;
         return getRuleMatch(token1, sentence, nextToken, testPhrase, hyphenTestPhrase);
       }
     }
@@ -895,9 +896,10 @@ public class AgreementRule extends Rule {
       AnalyzedTokenReadings nextToken = sentence.getTokensWithoutWhitespace()[tokenPos + 3];
       if (StringTools.startsWithUppercase(nextToken.getToken())) {
         String potentialCompound = token3.getToken() + StringTools.lowercaseFirstChar(nextToken.getToken());
-        String testPhrase = token1.getToken() + " " + token2.getToken() + " " + potentialCompound;
+        String origToken1 = sentence.getTokensWithoutWhitespace()[tokenPos].getToken();  // before 'ins' etc. replacement
+        String testPhrase = origToken1 + " " + token2.getToken() + " " + potentialCompound;
         String hyphenPotentialCompound = token3.getToken() + "-" + nextToken.getToken();
-        String hyphenTestPhrase = token1.getToken() + " " + token2.getToken() + " " + hyphenPotentialCompound;
+        String hyphenTestPhrase = origToken1 + " " + token2.getToken() + " " + hyphenPotentialCompound;
         return getRuleMatch(token1, sentence, nextToken, testPhrase, hyphenTestPhrase);
       }
     }

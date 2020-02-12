@@ -56,6 +56,8 @@ public class AgreementRuleTest {
     assertBad("Ein neuer LanguageTool Account", "Ein neuer LanguageTool-Account");
     assertBad("Danke für deine Account Daten", "deine Accountdaten", "deine Account-Daten");
     assertBad("Mit seinem Konkurrent Alistair Müller", "sein Konkurrent", "seinem Konkurrenten");
+    assertBad("Wir gehen ins Fitness Studio", "ins Fitnessstudio", "ins Fitness-Studio");
+    assertBad("Wir gehen durchs Fitness Studio", "durchs Fitnessstudio", "durchs Fitness-Studio");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
   }
