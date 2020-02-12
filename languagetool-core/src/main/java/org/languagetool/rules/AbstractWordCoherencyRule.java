@@ -21,6 +21,7 @@ package org.languagetool.rules;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -77,7 +78,11 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
               String msg = getMessage(token, otherSpelling);
               RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg);
               String marked = sentence.getText().substring(tmpToken.getStartPos(), tmpToken.getEndPos());
-              ruleMatch.setSuggestedReplacement(marked.replaceFirst(token, otherSpelling));
+              String replacement = marked.replaceFirst("(?i)" + token, otherSpelling);
+              if (StringTools.startsWithUppercase(tmpToken.getToken())) {
+                replacement = StringTools.uppercaseFirstChar(replacement);
+              }
+              ruleMatch.setSuggestedReplacement(replacement);
               ruleMatches.add(ruleMatch);
               break;
             } else if (getWordMap().containsKey(token)) {

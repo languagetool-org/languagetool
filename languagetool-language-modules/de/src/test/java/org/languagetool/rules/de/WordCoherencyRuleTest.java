@@ -38,7 +38,7 @@ public class WordCoherencyRuleTest {
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
 
   @Before
-  public void before() throws IOException {
+  public void before() {
     TestTools.disableAllRulesExcept(lt, "DE_WORD_COHERENCY");
   }
   
@@ -50,6 +50,7 @@ public class WordCoherencyRuleTest {
     assertGood("Das ist aufwändig, aber nicht zu aufwändig.");
     assertGood("Das ist aufwändig. Aber nicht zu aufwändig.");
     // errors:
+    assertError("Das ist aufwendig. Aufwändig ist das.", "Aufwendig");
     assertError("Das ist aufwendig, aber nicht zu aufwändig.");
     assertError("Das ist aufwendig. Aber nicht zu aufwändig.");
     assertError("Das ist aufwendiger, aber nicht zu aufwändig.");
@@ -124,6 +125,14 @@ public class WordCoherencyRuleTest {
     assertThat(ruleMatches.size(), is(1));
     assertThat(ruleMatches.get(0).getFromPos(), is(33));
     assertThat(ruleMatches.get(0).getToPos(), is(42));
+  }
+
+  private void assertError(String s, String expectedSuggestion) throws IOException {
+    WordCoherencyRule rule = new WordCoherencyRule(TestTools.getEnglishMessages());
+    List<AnalyzedSentence> analyzedSentences = lt.analyzeText(s);
+    RuleMatch[] matches = rule.match(analyzedSentences);
+    assertEquals(1, matches.length);
+    assertEquals("[" + expectedSuggestion + "]", matches[0].getSuggestedReplacements().toString());
   }
 
   private void assertError(String s) throws IOException {
