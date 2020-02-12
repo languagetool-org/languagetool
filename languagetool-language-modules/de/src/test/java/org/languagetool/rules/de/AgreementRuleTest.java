@@ -377,22 +377,22 @@ public class AgreementRuleTest {
   @Test
   public void testDetNounRuleErrorMessages() throws IOException {
     // check detailed error messages:
-    assertBadWithMessage("Das Fahrrads.", "bezüglich Kasus");
-    assertBadWithMessage("Der Fahrrad.", "bezüglich Genus");
-    assertBadWithMessage("Das Fahrräder.", "bezüglich Numerus");
-    assertBadWithMessage("Die Tischen sind ecking.", "bezüglich Kasus");
+    assertBadWithMessage("Das Fahrrads.", "des Kasus");
+    assertBadWithMessage("Der Fahrrad.", "des Genus");
+    assertBadWithMessage("Das Fahrräder.", "des Numerus");
+    assertBadWithMessage("Die Tischen sind ecking.", "des Kasus");
     assertBadWithMessage("Die Tischen sind ecking.", "und Genus");
     //TODO: input is actually correct
-    assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellt werden.", "bezüglich Kasus, Genus oder Numerus.");
+    assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellt werden.", "des Kasus, Genus oder Numerus.");
   }
 
   @Test
   public void testRegression() throws IOException {
-      JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-      // used to be not detected > 1.0.1:
-      String str = "Und so.\r\nDie Bier.";
-      List<RuleMatch> matches = lt.check(str);
-      assertEquals(1, matches.size());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    // used to be not detected > 1.0.1:
+    String str = "Und so.\r\nDie Bier.";
+    List<RuleMatch> matches = lt.check(str);
+    assertEquals(1, matches.size());
   }
 
   @Test
