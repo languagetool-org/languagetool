@@ -2714,6 +2714,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig postag="NNP"/>
         <example type="untouched">It is in many Caribbean and Latin American countries...</example>
     </rule>
+
     <rule name="Uppercase word/NNP|NN -&gt; NNP" id="UPPER_NNP">
         <antipattern><!-- What Will It Do? -->
             <token postag="WP"/>
@@ -2732,10 +2733,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token skip="-1" postag_regexp="yes" postag="VBP?"/>
             <token>?</token>
         </antipattern>
-        <antipattern><!-- #2224. : So explain [Why is this antipattern necessary?] -->
+        <antipattern><!-- #2224. : So explain -->
             <token>:</token>
             <token regexp="yes">\p{Lu}\p{Ll}+</token>
             <token regexp="yes">\p{Ll}+</token>
+        </antipattern>
+        <antipattern><!-- #2437 "Call it -->
+            <token chunk="B-VP" postag_regexp="yes" postag="VB.*" regexp="yes">\p{Lu}\p{Ll}+</token>
+            <token postag="PRP"/>
+        </antipattern>
+        <antipattern><!-- #2437 say Call it -->
+            <token chunk="I-VP" postag_regexp="yes" postag="VB.*" regexp="yes">\p{Lu}\p{Ll}+</token>
+            <token postag="PRP"/>
         </antipattern>
         <pattern case_sensitive="yes">
             <and>
@@ -2754,8 +2763,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">The song 'Who Do You <marker>Love</marker>?' with its roots of hip hop...</example>
         <example type="untouched">Jake: <marker>So</marker> explain to me why you are unhappy.</example><!-- #2224 -->
         <example type="untouched">The fat psychiatrist: <marker>So</marker> explain to me why you are unhappy.</example><!-- #2224 -->
+        <example type="untouched">"Call it folk wisdom."</example><!-- #2437 -->
+        <example type="untouched">...and I say Call it enough for the day.</example><!-- #2437 -->
+        <example type="untouched">Because I wanted to Call it enough for the day...</example><!-- #2437 -->
         <example type="ambiguous" inputform="Bobby[Bobby/NNP,bobby/NN]" outputform="Bobby[Bobby/NNP]">His name was <marker>Bobby</marker> Brown and he acted as a clerk.</example>
     </rule>
+
     <rule name="NNP + Uppercase NN -&gt; NNP" id="UPPER_NN_NNP">
         <pattern case_sensitive="yes">
             <token inflected="yes" regexp="yes" postag="NNP">\p{Lu}\p{Ll}+</token>
