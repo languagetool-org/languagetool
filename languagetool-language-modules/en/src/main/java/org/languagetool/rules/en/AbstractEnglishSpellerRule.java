@@ -235,10 +235,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Add-on");
     } else if ("Addons".equals(word)) {
       return Arrays.asList("Add-ons");
-    } else if ("Adhoc".equals(word)) {
-      return Arrays.asList("Ad hoc");
-    } else if ("adhoc".equals(word)) {
-      return Arrays.asList("ad hoc");
     } else if ("ios".equals(word)) {
       return Arrays.asList("iOS");
     } else if ("yrs".equals(word)) {
@@ -623,6 +619,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("I'm going to", "I'm a");
     } else if ("dontcha".equals(word)) {
       return Arrays.asList("don't you");
+    } else if ("tobe".equals(word)) {
+      return Arrays.asList("to be");
+    } else if ("Gi".equals(word) || "Ji".equals(word)) {
+      return Arrays.asList("Hi");
     } else if ("Dontcha".equals(word)) {
       return Arrays.asList("don't you");
     } else if ("greatfruit".equals(word)) {
