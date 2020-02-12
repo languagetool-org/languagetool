@@ -9458,44 +9458,8 @@ USA
                 <example correction="it is|if it|it|it, it">On one server <marker>it it</marker> working fine and showing data.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TURN_IT_OF" name="turn it of (off)">
-            <antipattern>
-                <token>of</token>
-                <token>course</token>
-            </antipattern>
-            <antipattern>
-                <token>of</token>
-                <token postag="DT|PRP\$" postag_regexp="yes" />
-            </antipattern>
-            <rule>
-                <pattern>
-                    <token inflected="yes" regexp="yes">turn|shut</token>
-                    <token regexp="yes">it|him|her|them|you|us|lights?</token>
-                    <marker>
-                        <token>of</token>
-                    </marker>
-                </pattern>
-                <message>Did you mean the adverb <suggestion>off</suggestion> (= disabled, not active, suspended)?</message>
-                <example correction="off">The light is still on. Please turn it <marker>of</marker>.</example>
-                <example>The front right turning light of my corolla stoppped flashing when I push the turn signal switch up.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes" regexp="yes">turn|shut</token>
-                    <token postag="DT" />
-                    <token postag="JJ.*" postag_regexp="yes" min="0" />
-                    <token regexp="yes">lights?|switch(es)?|tv|radio|ac|alarms?|pc|computer|screen|(smart)?phone|engine</token>
-                    <marker>
-                        <token>of</token>
-                    </marker>
-                </pattern>
-                <message>Did you mean the adverb <suggestion>off</suggestion> (= disabled, not active, suspended)?</message>
-                <example correction="off">The light is still on. Please shut the light <marker>of</marker>.</example>
-                <example>Sami turned the lights of the living room.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="IT_ITS" name="confusion of 'it' and 'its'" default="temp_off"><!-- needs higher prio than PRP_VB, PRP_VBZ and PRP_JJ, but less than PRP_PORTRAIT  -->
-            <rule><!--- "... Google and it new service" -->
+            <rule default="temp_off"><!--- "... Google and it new service" -->
                 <antipattern>
                     <token>it</token>
                     <token postag="RB.*" postag_regexp="yes" />
@@ -37245,6 +37209,42 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rulegroup id="TURN_IT_OF" name="turn it of (off)">
+            <antipattern>
+                <token>of</token>
+                <token>course</token>
+            </antipattern>
+            <antipattern>
+                <token>of</token>
+                <token postag="DT|PRP\$" postag_regexp="yes" />
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">turn|shut</token>
+                    <token regexp="yes">it|him|her|them|you|us|lights?</token>
+                    <marker>
+                        <token>of</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the adverb <suggestion>off</suggestion> (= disabled, not active, suspended)?</message>
+                <example correction="off">The light is still on. Please turn it <marker>of</marker>.</example>
+                <example>The front right turning light of my corolla stoppped flashing when I push the turn signal switch up.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">turn|shut</token>
+                    <token postag="DT" />
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">lights?|switch(es)?|tv|radio|ac|alarms?|pc|computer|screen|(smart)?phone|engines?|machines?</token>
+                    <marker>
+                        <token>of</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the adverb <suggestion>off</suggestion> (= disabled, not active, suspended)?</message>
+                <example correction="off">The light is still on. Please shut the light <marker>of</marker>.</example>
+                <example>Sami turned the lights of the living room.</example>
+            </rule>
+        </rulegroup>
         <rule id="I_AS_LOOKING" name="I as (was) looking">
             <antipattern>
                 <token postag="VB.*|UNKNOWN|IN" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
