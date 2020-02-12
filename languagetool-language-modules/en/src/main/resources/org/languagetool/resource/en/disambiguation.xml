@@ -4469,6 +4469,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <token postag="JJ" />
         <token postag="VBG" />
       </antipattern>
+      <antipattern><!-- "(call it macro b)" / "and search it" -->
+        <token regexp="yes">[\(,\[]|and|or|&amp;</token>
+        <token postag="VB.*" postag_regexp="yes" />
+        <token regexp="yes">it|him|her|them|us|me</token>
+      </antipattern>
       <pattern>
         <marker>
           <and>
@@ -4483,7 +4488,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </marker>
         <token>
             <exception regexp="yes">\.|…</exception>
-            <exception regexp="yes">that|it</exception>
+            <exception>that</exception>
         </token>
       </pattern>
       <disambig postag="NN:UN"/>

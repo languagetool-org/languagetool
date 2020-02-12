@@ -9465,6 +9465,11 @@ USA
                     <token postag="RB.*" postag_regexp="yes" />
                     <token postag="VB.*" postag_regexp="yes" />
                 </antipattern>
+                <antipattern>
+                    <token>it</token>
+                    <token inflected="yes">be</token>
+                    <token postag="VB.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token postag="NNP" />
                     <token regexp="yes">and|or|&amp;</token>
@@ -9537,6 +9542,12 @@ USA
                     <token>it</token>
                     <token>success</token>
                 </antipattern>
+                <antipattern><!-- "The largest region of Alaska, much of it uninhabited wilderness." -->
+                    <token>,</token>
+                    <token regexp="yes">much|lots</token>
+                    <token>of</token>
+                    <token>it</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
                     <marker>
@@ -9570,8 +9581,11 @@ USA
                 <example correction="Its"><marker>It</marker> origins date back to 1952 when a group of dentists set up the ‘British Society of Dental Hypnosis’.</example>
                 <example correction="its">Investors should be made aware that companies featured might pay consideration to OTC Investment News and/or <marker>it</marker> shareholders.</example>
                 <example correction="its">Is it implemented as a method with closure as <marker>it</marker> input?</example>
+                <example correction="Its"><marker>It</marker> alpha decays to the extremely long-lived (in practice, stable) bismuth-209.</example>
+                <example correction="its">The airport is served by the metro, the suburban rail, buses to Piraeus port, Athens' city centre and <marker>it</marker> suburbs, and also taxis.</example>
                 <example>The legislation specifies that no contract may be entered into later than February 15, 2001 and <marker>it</marker> sunsets on that date.</example>
                 <example>Maybe they’ll have a fix for it by then.</example>
+                <example>The largest region of Alaska, much of it uninhabited wilderness.</example>
                 <example>Abano.it Touristic informations web site.</example>
                 <example>I think I’ll go back to the Samsung sensor but I don’t like the one and done concept for it if water gets too deep.</example>
                 <example>If it something else, change it to this one.</example><!-- different error -->
@@ -9783,6 +9797,7 @@ USA
                 <example correction="is|it is">I did post a list of missing and coming soon troops for console to at least give you an idea about what <marker>it</marker> coming, some sooner than others.</example>
                 <example correction="is|it is">It just says an update <marker>it</marker> available and hangs waiting for the download to start?</example>
                 <example correction="is|it is">But since the author decided to go with it and everything else <marker>it</marker> working I suppose they can try it this way and figure how to change it later when/if they experience performance hit.</example>
+                <example correction="is|it is">The life dies in which life condition <marker>it</marker> reborn in the same life condition.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9859,7 +9874,10 @@ USA
                 <example>Like I mentioned above, get the hub in exclusion mode, and then at each switch turn it on/off until the mobile app says it excluded a device.</example>
                 <example>All I want to do is turn it on or off as part of my ST routine.</example>
                 <example>Nah, call it morning breath.</example>
-                <example>Get the code read and search it online.</example>
+                <example>Get the code read and search it online.</example><!-- different error -->
+                <example>TODO: The largest region of Alaska, much of it uninhabited wilderness.</example>
+                <example type="triggers_error">It crystal lattice is isotypic with the oxides of most trivalent rare-earth metals.</example><!-- caught by IT_ITS -->
+                <example type="triggers_error">The Aegean Islands are within the sea and some bound it on its southern periphery, including Crete and Rhodes.</example><!-- see #2435 -->
                 <example type="triggers_error">It more or less uses the tutorial Alex posted.</example><!-- see #2431 -->
                 <example type="triggers_error">Understanding how wall switches work makes it easier to make repairs and replacements and choose the right switches for your needs.</example><!-- see #2427 -->
                 <example type="triggers_error">This is usually powered on from few seconds, power off for few seconds power on for few seconds do this 5 time (5 power ups) and on the 5th time leave it on for 10 seconds.</example><!-- see #2427 -->
@@ -37527,6 +37545,7 @@ The accident victim died from her injuries.
                 <message>The word "\2" is an adjective and doesn't fit in this context. Did you mean the adverb <suggestion><match no="2" regexp_match="$" regexp_replace="ly" /></suggestion>?</message>
                 <example correction="quickly">Two weeks is way to fast, we could <marker>quick</marker> run out of resources and then the Mystics would not stop till caught up!</example>
                 <example correction="quickly">Would be nice if you could <marker>quick</marker> test/fix it for next release.</example>
+                <example correction="sexually">He could <marker>sexual</marker> assault her.</example>
                 <example correction="potentially">This could <marker>potential</marker> increase our dues substantially if a large number of new members do not join.</example>
                 <example>As always, if you need immediate help and your assistant is not available, please see me or another member of our administrative team for assistance.</example>
             </rule>
