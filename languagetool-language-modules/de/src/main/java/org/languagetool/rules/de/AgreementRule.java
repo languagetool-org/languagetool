@@ -960,6 +960,13 @@ public class AgreementRule extends Rule {
     Set<String> set = retainCommonCategories(token1, token2, token3);
     RuleMatch ruleMatch = null;
     if (set.isEmpty()) {
+      if (token3.getToken().matches("Herr|Frau") && tokenPos + 3 < sentence.getTokensWithoutWhitespace().length) {
+        AnalyzedTokenReadings token4 = sentence.getTokensWithoutWhitespace()[tokenPos + 3];
+        if (!token4.isTagged() || token4.hasPosTagStartingWith("EIG:")) {
+          // 'Aber das ignorierte Herr Grey bewusst.'
+          return null;
+        }
+      }
       RuleMatch compoundMatch = getCompoundError(token1, token2, token3, tokenPos, sentence);
       if (compoundMatch != null) {
         return compoundMatch;

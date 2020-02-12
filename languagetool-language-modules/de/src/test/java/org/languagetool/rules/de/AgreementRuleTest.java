@@ -42,7 +42,7 @@ public class AgreementRuleTest {
   private JLanguageTool lt;
 
   @Before
-  public void setUp() throws IOException {
+  public void setUp() {
     rule = new AgreementRule(TestTools.getMessages("de"), (GermanyGerman)Languages.getLanguageForShortCode("de-DE"));
     lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
   }
@@ -123,6 +123,8 @@ public class AgreementRuleTest {
     assertGood("Sie fragte verwirrt: „Ist das Zucker?“");
     assertGood("Er versuchte sich vorzustellen, was sein Klient für ein Mensch sei.");
     assertGood("Sie legen ein Teilstück jenes Weges zurück, den die Tausenden Juden 1945 auf sich nehmen mussten.");
+    assertGood("Aber das ignorierte Herr Grey bewusst.");
+    assertGood("Aber das ignorierte Herr Müller bewusst.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
