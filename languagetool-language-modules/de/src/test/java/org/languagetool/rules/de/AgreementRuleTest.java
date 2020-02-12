@@ -261,7 +261,7 @@ public class AgreementRuleTest {
     assertGood("Warum das Sinn macht?");
     assertGood("Das hängt davon ab, ob die Deutsch sprechen");
     assertGood("Die meisten Coaches wissen nichts.");
-    assertGood("Die Präsent AG.")
+    assertGood("Die Präsent AG.");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");

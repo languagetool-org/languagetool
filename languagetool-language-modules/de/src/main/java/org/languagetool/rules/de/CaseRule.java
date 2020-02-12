@@ -416,13 +416,13 @@ public class CaseRule extends Rule {
       csToken("Time")
     ),
     Arrays.asList( // Hey Süßer, 
-      regex("Hey|Hi|Hallo"),
+      regex("Hey|Hi|Hallo|Na"),
       regex("Süßer?|Hübscher?"),
       pos("PKT")
     ),
-    Arrays.asList( // Hey Süßer, 
-      regex("Hey|Hi|Hallo"),
-      token("du"),
+    Arrays.asList( // Hey mein Süßer, 
+      regex("Hey|Hi|Hallo|Na"),
+      regex("du|meine?"),
       regex("Süßer?|Hübscher?"),
       pos("PKT")
     )
