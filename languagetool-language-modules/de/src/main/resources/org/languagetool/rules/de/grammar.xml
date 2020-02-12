@@ -3871,10 +3871,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>seid</token>
                     </marker>
                     <token postag="ADV:TMP"/>
-                    <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes"/>
+                    <token postag="VER:(AUX:|MOD:)?(1:SIN|2:SIN|3:SIN|1:PLU|3:PLU).*" postag_regexp="yes">
+                        <exception regexp="yes">erwachsen|missraten|verkommen|überlegen|verlegen</exception>
+                    </token>
                 </pattern>
                 <message>Meinten Sie <suggestion>seit</suggestion> (Präposition) statt 'seid' (Verbform)?</message>
                 <example correction="Seit"><marker>Seid</marker> gestern geht es mir wieder besser.</example>
+                <example>Ihr Mädchen <marker>seid</marker> immer verlegen.</example>
             </rule>
             <rule>
                 <pattern>
