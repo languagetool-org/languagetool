@@ -2748,11 +2748,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <pattern case_sensitive="yes">
             <and>
-                <marker>
-                    <token regexp="yes">\p{Lu}\p{Ll}+<exception scope="previous" postag="SENT_START"/><exception postag="JJ" inflected="yes" regexp="yes">\p{Lu}\p{Ll}+</exception></token>
-                </marker>
+                <token regexp="yes">\p{Lu}\p{Ll}+
+                    <exception scope="previous" postag="SENT_START"/>
+                    <exception postag="JJ" inflected="yes" regexp="yes">\p{Lu}\p{Ll}+</exception>
+                    </token>
                 <token inflected="yes" regexp="yes" postag_regexp="yes" postag="NNP?|NN:.*">\p{Lu}\p{Ll}+</token>
-                <token inflected="yes" regexp="yes" postag_regexp="yes" postag="NNP?|NN:.*">\p{Ll}+</token>
+                <token inflected="yes" regexp="yes" postag_regexp="yes" postag="NNP?|NN:.*">\p{Ll}+</token><!-- Refer to the discussion in #2437 -->
             </and>
         </pattern>
         <disambig postag="NNP"/>
@@ -2766,7 +2767,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">"Call it folk wisdom."</example><!-- #2437 -->
         <example type="untouched">...and I say Call it enough for the day.</example><!-- #2437 -->
         <example type="untouched">Because I wanted to Call it enough for the day...</example><!-- #2437 -->
+        <example type="untouched">This new Example'S not correct.</example>
+        <example type="untouched">The Canadian Badlands is important.</example><!-- Canadian/JJ -->
         <example type="ambiguous" inputform="Bobby[Bobby/NNP,bobby/NN]" outputform="Bobby[Bobby/NNP]">His name was <marker>Bobby</marker> Brown and he acted as a clerk.</example>
+        <example type="ambiguous" inputform="Brown[Brown/NNP,brown/JJ,brown/NN,brown/NN:U,brown/VB,brown/VBP]" outputform="Brown[Brown/NNP]">His name was Bobby <marker>Brown</marker> and he was tall.</example>
         <example type="ambiguous" inputform="Bond[Bond/NNP,bond/NN,bond/VB,bond/VBP]" outputform="Bond[Bond/NNP]">My name is <marker>Bond</marker>, but my friends call me...</example>
         <example type="ambiguous" inputform="Bond[Bond/NNP,bond/NN,bond/VB,bond/VBP]" outputform="Bond[Bond/NNP]">My name is <marker>Bond</marker> and I'm a spy.</example>
         <example type="ambiguous" inputform="Peter[Peter/NNP,peter/NN,peter/VB,peter/VBP]" outputform="Peter[Peter/NNP]">Is that man called <marker>Peter</marker>?</example>
