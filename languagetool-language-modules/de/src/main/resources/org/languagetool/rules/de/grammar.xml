@@ -7369,6 +7369,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
         </rule>
+        <rule id="SAO_PAOLO" name="Sau Paulo (São Paulo)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>São</token>
+                <token>Paulo</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">S[áãàa][ou]</token>
+                <token regexp="yes">Pa[ou]l[uo]s?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>São <match no="2" regexp_match="(?i)Pa[ou]lo" regexp_replace="Paulo" /></suggestion> (= Stadt in Brasilien)?</message>
+            <url>https://de.wikipedia.org/wiki/S%C3%A3o_Paulo</url>
+            <example correction="São Paulo">Er ist aus <marker>Sao Paolo</marker>.</example>
+        </rule>
         <rulegroup id="LOREAL" name="L’Oréal">
             <antipattern case_sensitive="yes">
                 <token>L</token>
@@ -33021,8 +33034,17 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
 
-        <rulegroup id="STAND_UP" name="'Stand-up'" default="temp_off">
+        <rulegroup id="STAND_UP" name="'Stand-up'">
             <url>https://www.duden.de/rechtschreibung/Stand_up</url>
+            <antipattern><!-- Englische Namen -->
+                <token>Stand</token>
+                <token>up</token>
+                <token regexp="yes">and|or|&amp;</token>
+            </antipattern>
+            <antipattern><!-- Englische Namen -->
+                <token>Standup</token>
+                <token regexp="yes" postag="UNKNOWN">.*[a-z].*</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token case_sensitive="yes">Stand</token>
