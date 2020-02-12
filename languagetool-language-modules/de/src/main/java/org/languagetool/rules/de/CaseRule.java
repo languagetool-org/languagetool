@@ -123,13 +123,18 @@ public class CaseRule extends Rule {
     ),
     // names with english adjectives
     Arrays.asList(
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial"),
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern"),
       pos("UNKNOWN")
     ),
     // names with english adjectives
     Arrays.asList(
       pos("UNKNOWN"),
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial")
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern")
+    ),
+    // names with english adjectives
+    Arrays.asList(
+      token("National"),
+      regex("Sales")
     ),
     Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
@@ -176,9 +181,15 @@ public class CaseRule extends Rule {
       pos("UNKNOWN")
     ),
     Arrays.asList(
+      // "... und Expert*innnen ..."
+      regex("[A-Z].+"),
+      token("*"),
+      token("innen")
+    ),
+    Arrays.asList(
       // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", ...
       posRegex("UNKNOWN|EIG:.+"),
-      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe")
+      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich")
     ),
     Arrays.asList(
       token(","),
