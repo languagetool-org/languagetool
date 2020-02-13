@@ -228,6 +228,10 @@ public class AgreementRule extends Rule {
       token("Lied"),
       token("ich") // Wes Brot ich ess, des Lied ich sing
     ),
+    Arrays.asList( // Es ist einige Grad kälter (see example on https://www.duden.de/rechtschreibung/Grad)
+      token("einige"),
+      token("Grad")
+    ),
     Arrays.asList(
       pos(JLanguageTool.SENTENCE_START_TAGNAME),
       tokenRegex("D(a|ie)s"),
