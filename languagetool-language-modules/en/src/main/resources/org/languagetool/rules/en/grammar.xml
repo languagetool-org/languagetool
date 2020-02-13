@@ -9458,7 +9458,7 @@ USA
                 <example correction="it is|if it|it|it, it">On one server <marker>it it</marker> working fine and showing data.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IT_ITS" name="confusion of 'it' and 'its'" default="temp_off"><!-- needs higher prio than PRP_VB, PRP_VBZ and PRP_JJ, but less than PRP_PORTRAIT  -->
+        <rulegroup id="IT_ITS" name="confusion of 'it' and 'its'"><!-- needs higher prio than PRP_VB, PRP_VBZ and PRP_JJ, but less than PRP_PORTRAIT  -->
             <rule><!--- "... Google and it new service" -->
                 <antipattern>
                     <token>it</token>
@@ -9526,11 +9526,6 @@ USA
                     <token postag="NN:UN?" postag_regexp="yes" />
                     <token postag="PCT" />
                 </antipattern>
-                <antipattern><!-- www.google.it -->
-                    <token regexp="yes">.+</token>
-                    <token spacebefore="no">.</token>
-                    <token spacebefore="no">it</token>
-                </antipattern>
                 <antipattern><!-- "It time to consider" (different error) -->
                     <token>it</token>
                     <token postag="NN:UN?" postag_regexp="yes" />
@@ -9551,7 +9546,7 @@ USA
                 <pattern>
                     <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
                     <marker>
-                        <token case_sensitive="yes" regexp="yes">[Ii]t</token>
+                        <token case_sensitive="yes" regexp="yes" postag="PRP">[Ii]t</token>
                     </marker>
                     <token postag_regexp="yes" postag="JJ.*" min="0">
                         <exception postag="RB.*|VB.*|CC|UH" postag_regexp="yes" />
@@ -9624,11 +9619,6 @@ USA
                 <token postag="VB.*" postag_regexp="yes" />
                 <token postag="PRP" />
                 <token postag="IN" />
-            </antipattern>
-            <antipattern><!-- www.google.it -->
-                <token regexp="yes">.+</token>
-                <token spacebefore="no">.</token>
-                <token spacebefore="no">it</token>
             </antipattern>
             <antipattern><!-- "Is she ...?" -->
                 <token inflected="yes">be</token>
@@ -10234,6 +10224,10 @@ USA
                 <token skip="3" regexp="yes">how|like|otherwise|as|way|extent|than</token>
                 <token postag="MD" />
             </antipattern>
+            <antipattern><!-- https://en.wiktionary.org/wiki/3D_print -->
+                <token regexp="yes">3\-?d</token>
+                <token inflected="yes">print</token>
+            </antipattern>
             <antipattern><!-- https://www.merriam-webster.com/dictionary/cheap%20out -->
                 <token skip="1">cheap</token>
                 <token>out</token>
@@ -10257,6 +10251,10 @@ USA
             <antipattern><!-- I can strict press many times -->
                 <token>strict</token>
                 <token>press</token>
+            </antipattern>
+            <antipattern><!-- informal verb -->
+                <token>deep</token>
+                <token inflected="yes">dive</token>
             </antipattern>
             <antipattern><!-- dead-end = VB -->
                 <token>dead</token>
@@ -10424,7 +10422,7 @@ USA
             </antipattern>
             <antipattern><!-- nouns that are verbs when written as two words, needs different rule with suggestion -->
                 <token postag="MD" skip="2" />
-                <token regexp="yes">run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
+                <token regexp="yes">run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
             </antipattern>
             <antipattern case_sensitive="yes"><!-- A.I -->
                 <token regexp="yes">[A-Z]</token>
@@ -15948,7 +15946,7 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rule id="SAO_PAOLO" name="Sau Paulo (São Paulo)" default="temp_off">
+        <rule id="SAO_PAOLO" name="Sau Paulo (São Paulo)">
             <antipattern case_sensitive="yes">
                 <token>São</token>
                 <token>Paulo</token>
@@ -25324,7 +25322,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/go</url>
             <example correction="goes">He <marker>gos</marker> home.</example>
         </rule>
-        <rule id="PRP_PORTRAIT" name="he portraits (portrays)" default="temp_off">
+        <rule id="PRP_PORTRAIT" name="he portraits (portrays)">
             <antipattern>
                 <token postag="VB.*|UNKNOWN|IN" postag_regexp="yes" />
                 <token regexp="yes">it|you</token>
@@ -25385,7 +25383,7 @@ USA
                 <example>Please make it his favorite song.</example>
                 <example>He his dad and I were going to the barbecue.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">s?he|it</token>
                     <marker>
@@ -25422,7 +25420,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/soothe</url>
             <example correction="soothes">It <marker>sooths</marker> my skin.</example>
         </rule>
-        <rulegroup id="PRP_DISCUSES" name="he discuses (discusses)">
+        <rulegroup id="DISCUS_DISCUSS" name="he discuses (discusses)">
             <url>https://www.merriam-webster.com/dictionary/discuss</url>
             <rule>
                 <pattern>
@@ -25432,7 +25430,7 @@ USA
                         <token>discuses</token>
                     </marker>
                 </pattern>
-                <message>Did you mean the verb <suggestion>discusses</suggestion> (= 'to discuss')?</message>
+                <message>Did you mean the verb <suggestion>discusses</suggestion> (= talk about something)?</message>
                 <example correction="discusses">He <marker>discuses</marker> the topic.</example>
             </rule>
             <rule>
@@ -25443,8 +25441,20 @@ USA
                         <token>discuses</token>
                     </marker>
                 </pattern>
-                <message>Did you mean the verb <suggestion>discuss</suggestion> (= 'to discuss')?</message>
+                <message>Did you mean the verb <suggestion>discuss</suggestion> (= talk about something)?</message>
                 <example correction="discuss">We <marker>discuses</marker> the topic.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="NN.*|PRP" postag_regexp="yes" /> 
+                    <token postag="MD" />
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>discus</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the verb <suggestion>discuss</suggestion> (= talk about something)?</message>
+                <example correction="discuss">We can <marker>discus</marker> the topic.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRP_SAIS" name="it sais (says)">
@@ -25979,7 +25989,7 @@ USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">s?he|it</token>
+                    <token regexp="yes" postag="PRP">s?he|it</token>
                     <token postag="RB"><!-- TODO RB.* "She better doing it" -->
                         <exception regexp="yes">before|after</exception>
                     </token>
@@ -30838,9 +30848,18 @@ USA
             </rule>
         </rulegroup>
         <rule id="PRP_VB" name="Missing verb: PRONOUN + NOUN (VERB)">
+            <antipattern><!-- "Have we anything new to test?" -->
+                <token inflected="yes">have</token>
+                <token postag="PRP" />
+                <token regexp="yes">(any|some|every)(thing|body|one)</token>
+            </antipattern>
+            <antipattern><!-- https://en.wiktionary.org/wiki/3D_print -->
+                <token regexp="yes">3\-?d</token>
+                <token inflected="yes">print</token>
+            </antipattern>
             <antipattern><!-- I beta test -->
                 <token>beta</token>
-                <token>test</token>
+                <token inflected="yes">test</token>
             </antipattern>
             <antipattern><!-- if I ask you anything -->
                 <token postag_regexp="yes" postag="VB.*"/>
@@ -30969,17 +30988,17 @@ USA
                 <token>love</token>
                 <token>you</token>
             </antipattern>
-            <antipattern><!-- we Argentinians -->
-                <token regexp="yes">we|you</token>
-                <token postag="NNPS"/>
-                <token postag="RB.*" postag_regexp="yes" min="0" />
-                <token postag="VB.*|MD" postag_regexp="yes" />
-            </antipattern>
             <antipattern><!-- we children cannot do it -->
                 <token>we</token>
-                <token regexp="yes">children|democrats|republicans</token>
+                <token postag="NNP?S" postag_regexp="yes" />
                 <token postag="RB.*" postag_regexp="yes" min="0" />
-                <token postag="VB.*|MD" postag_regexp="yes" />
+                <token postag="VB[PD]?|MD" postag_regexp="yes" />
+            </antipattern>
+            <antipattern><!-- we humans all can live together -->
+                <token>we</token>
+                <token postag="NNP?S" postag_regexp="yes" />
+                <token>all</token>
+                <token postag="VB[PD]?|MD" postag_regexp="yes" />
             </antipattern>
             <antipattern><!-- World War I -->
                 <token regexp="yes">current|Article|mustang|war|phase|grade</token>
@@ -31027,15 +31046,14 @@ USA
             <pattern>
                 <token><exception inflected="yes">be</exception></token>
                 <marker>
-                    <token regexp="yes">I|you|he|she|it|we|they<exception regexp="yes" case_sensitive="yes">IT|i</exception></token>
+                    <token regexp="yes" postag="PRP">I|you|he|she|it|we|they<exception regexp="yes" case_sensitive="yes">IT|i</exception></token>
                     <token postag_regexp="yes" postag="NN.*">
                         <exception postag_regexp="yes" postag="VB.*|RB.*|JJR?|NNP|MD"/>
                         <!-- our confusion rule will find 'he things it's great' and offer a suggestion -->
                         <exception regexp="yes">things?</exception>
-                        <exception regexp="yes">errors|proxies</exception><!-- verbs from technical speech (that we haven't POS tagged) -->
                         <exception regexp="yes">re|auto</exception><!-- "He re attends the event" (different error) -->
                         <exception>oh</exception><!-- "I pray to you oh lord" (different error) -->
-                        <exception regexp="yes">&adverb_abbreviations;|&verb_abbreviations;</exception><!-- short informal forms of adverbs (that we haven't POS tagged) -->
+                        <exception regexp="yes">&adverb_abbreviations;|&verb_abbreviations;|&not_really_verbs;</exception><!-- short informal forms of adverbs (that we haven't POS tagged) -->
                     </token>
                 </marker>
             </pattern>
@@ -31054,6 +31072,7 @@ USA
             <example>Is it bad?</example>
             <example>Without you life is cruel.</example>
             <example>I pray to you oh lord.</example>
+            <example>Have we anything new to test?</example>
             <example>All of you girls</example>
             <example>... if I ask you anything else today.</example>
             <example>I wouldn’t read within it anything other than the half (of the Qur’an) that I had previously memorized.</example>
@@ -31096,8 +31115,8 @@ USA
             <example>I want to make the top of it <marker>semolina</marker> and and melt the chocolate...</example><!-- #2407 -->
             <example>I'm getting ready to paint the top of it <marker>black</marker> and put a rose decal on it.</example><!-- #2407 -->
 <!-- GUI shows a warning, but testrules does not complain. --><example>State Wise Registration Details of <marker>G.I Applications</marker></example>
-            <example type="triggers_error">We <marker>students</marker> all like baseball.</example>
-            <example type="triggers_error">publisher=<marker>iT News for Australian Business</marker>|accessdate=4 December...</example>
+            <example>We <marker>students</marker> all like baseball.</example>
+            <example>publisher=<marker>iT News for Australian Business</marker>|accessdate=4 December...</example>
             <example type="triggers_error">Even when a new century begins it is only we <marker>mortals</marker> who ring bells and fire off pistols.</example>
             <example type="triggers_error">Upon <marker>you bishops</marker> and you state presidents rests the responsibility...</example>
         </rule>
@@ -39936,7 +39955,7 @@ The accident victim died from her injuries.
                 <short>Possible typo</short>
                 <example correction="lost">I <marker>loss</marker> a good friend.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="PRP|NN.*" postag_regexp="yes" />
                     <token postag="MD" />
