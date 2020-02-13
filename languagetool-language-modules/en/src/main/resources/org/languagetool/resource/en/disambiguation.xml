@@ -8879,6 +8879,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
     </rulegroup>
 
+    <rule id="REMOVE_PRP_IN_ITALIAN_DOMAINS" name="www.google.it ('it' is no PRP)">
+        <pattern>
+            <token regexp="yes">[a-z0-9\-]+</token>
+            <token spacebefore="no">.</token>
+            <marker>
+                <token case_sensitive="yes" spacebefore="no">it</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="PRP" />
+    </rule>
+
     <rule name="Ignore common chemical formulas" id="IGNORE_COMMON_CHEMICAL_FORMULAS">
     <!-- Created by Tiago F. Santos, 2019-08-29  -->
     <!-- List retreived and triaged from https://en.wikipedia.org/wiki/Glossary_of_chemical_formulas -->
