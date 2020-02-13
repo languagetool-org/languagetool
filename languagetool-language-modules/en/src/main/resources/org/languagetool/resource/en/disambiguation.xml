@@ -3307,6 +3307,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="stable[stable/JJ,stable/NN,stable/VB,stable/VBP]" outputform="stable[stable/JJ]">One of the most <marker>stable</marker> and prosperous of the post-Communist states is the Czech Republic.</example>
     </rule>
+
+    <rule name="JJ + JJ/NN > NN + VB/NN > VB + NOUNPHRASE" id="JJ_NN_VB_NOUNPHRASE"><!-- This is based on the antipattern #2433 in DT_JJ_NN_NN and DT_JJ_NN_JJ -->
+        <pattern>
+            <token chunk="B-NP-singular" postag="JJ"/>
+            <marker>
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+                <token chunk="B-VP" postag="VBP"/>
+            </marker>
+            <token chunk="B-NP-singular"/>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">MD not JJ. But we <marker>must</marker> all understand they are a fledgling business...</example>
+        <example type="ambiguous" inputform="safety[safety/JJ,safety/NN:U,safety/VB,safety/VBP]" outputform="safety[safety/NN:U]">... together with its education services and level of social <marker>safety</marker> make it attractive for locals and visitors alike.</example><!-- #2433 -->
+        <example type="ambiguous" inputform="make[make/NN:UN,make/VB,make/VBP]" outputform="make[make/VBP]">... together with its education services and level of social safety <marker>make</marker> it attractive for locals and visitors alike.</example><!-- #2433 -->
+    </rule>
+
     <rulegroup name="a few + JJ + NNS" id="a_few_JJ_NNS">
      <rule>
         <pattern>
