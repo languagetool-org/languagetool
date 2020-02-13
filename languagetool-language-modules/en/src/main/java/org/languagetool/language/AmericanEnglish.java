@@ -74,7 +74,7 @@ public class AmericanEnglish extends English {
                                            UserConfig userConfig, Language motherTongue, List<Language> altLanguages)
     throws IOException {
     List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(messageBundle, configs, userConfig, motherTongue, altLanguages));
-    RemoteRuleConfig bert = RemoteRuleConfig.getRelevantConfig("BERT", configs);
+    RemoteRuleConfig bert = RemoteRuleConfig.getRelevantConfig(BERTSuggestionRanking.RULE_ID, configs);
     if (UserConfig.hasABTestsEnabled()) {
       Rule speller = new MorfologikAmericanSpellerRule(messageBundle, this, userConfig, altLanguages);
       if (bert != null) {
