@@ -37403,6 +37403,100 @@ Andere Projekte</example>
     <!-- Zeichensetzung -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Zeichensetzung">
+        <rulegroup id="KONJUNKTION_DASS_DAS" name="Super das (, dass) viele Autos nun elektrisch fahren.">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|VER:AUX:3:.+" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="ADJ:PRD:GRU|ADV:MOD" postag_regexp="yes"/>
+                        <token postag="ADJ:PRD:GRU|ADV:MOD" postag_regexp="yes" min="0"/>
+                        <token>das</token>
+                    </marker>
+                    <token postag="ADV:.+|PRO:IND:.+" postag_regexp="yes" min="0"/>
+                    <token postag="SUB:.+:PLU:.+" postag_regexp="yes"></token>
+                    <token skip="-1" min="0">
+                        <exception scope="next" postag="PKT"/>
+                        <exception postag="PKT"/>
+                    </token>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token postag="PKT"/>
+                </pattern>
+                <message>Meinten Sie möglicherweise die Konjunktion 'dass'?</message>
+                <suggestion>\2 \3, dass</suggestion>
+                <example correction="Gut, dass"><marker>Gut das</marker> auch Männer weinen.</example>
+                <example correction="Super, dass"><marker>Super das</marker> viele Autos jetzt elektrisch fahren.</example>
+                <example correction="Wirklich toll, dass"><marker>Wirklich toll das</marker> Menschen sich weiterentwickeln.</example>
+                <example correction="super, dass">Aber das ist <marker>super das</marker> Autos jetzt elektrisch fahren.</example>
+                <example>So schön das Auto auch ist.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="ADJ:PRD:GRU|ADV:MOD" postag_regexp="yes">
+                            <exception postag="KON:.+|PRO:.+" postag_regexp="yes"/>
+                            <exception regexp="yes">einfach|also</exception>
+                        </token>
+                        <token postag="ADJ:PRD:GRU|ADV:MOD" postag_regexp="yes" min="0">
+                            <exception postag="VER:.+|PRO:.+" postag_regexp="yes"/>
+                            <exception regexp="yes">einfach|also</exception>
+                        </token>
+                        <token>das</token>
+                    </marker>
+                    <token postag="ADV:.+|PRO:IND:.+" postag_regexp="yes" min="0"/>
+                    <token postag="EIG:.+|SUB:.+:SIN:.+" postag_regexp="yes">
+                        <exception postag="SUB:.+:INF" postag_regexp="yes"/>
+                    </token>
+                    <token skip="-1" min="0">
+                        <exception scope="next" postag="PKT"/>
+                        <exception postag="PKT"/>
+                    </token>
+                    <token postag="VER:.+" postag_regexp="yes">
+                        <exception scope="previous" postag="ADJ:PRD:GRU"/>
+                        <exception postag="VER:INF:.+" postag_regexp="yes"/>
+                    </token>
+                    <token postag="PKT"/>
+                </pattern>
+                <message>Meinten Sie möglicherweise die Konjunktion 'dass'?</message>
+                <suggestion>\2 \3, dass</suggestion>
+                <example correction="Sehr schön, dass"><marker>Sehr schön das</marker> Peter Zeit hatte.</example>
+                <example correction="Schön, dass"><marker>Schön das</marker> hier Klarheit herrscht.</example>
+                <example>So viel das Herz begehrt.</example>
+                <example>Was das Auge nicht sieht, verlangt das Herz nicht.</example>
+                <example>Vielleicht das Paket installieren?</example>
+                <example>Alleine das Nutzen der Blocken-Funktion auf Twitter verrät, wie Personen ihren eigenen Horizont einschränken.</example>
+                <example>So schön das Auto auch ist.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[0-9].+</token>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token skip="-1"/>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                    <token>das</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="SUB:.+" postag_regexp="yes"/>
+                        <token>das</token>
+                    </marker>
+                    <token postag="ADJ:.+" postag_regexp="yes" min="0">
+                        <exception postag="ADJ:.+:NEU:.+" postag_regexp="yes"/>
+                    </token>
+                    <token postag="SUB:.+" postag_regexp="yes">
+                        <exception postag="SUB:.+:(NEU|ADJ|INF)|ADJ:NOM:.+" postag_regexp="yes"/>
+                    </token>
+                    <token skip="-1"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                </pattern>
+                <message>Meinten Sie möglicherweise die Konjunktion 'dass'?</message>
+                <suggestion>\1, dass</suggestion>
+                <example correction="Hinweis, dass">Er braucht einen <marker>Hinweis das</marker> Meilen ihm gutgeschrieben werden.</example>
+                <example correction="Problem, dass">Ich habe nun das <marker>Problem das</marker> Ermittlung der IP möglich ist.</example>
+                <example>1858 wurde im Palast das Warschauer Konservatorium eingerichtet.</example>
+                <example>Mitte 1965 gründete die NASA das Apollo Site Selection Board, dessen Aufgabe es war, nach der Abwägung von wissenschaftlichen und flugbetrieblichen Aspekten Vorschläge für mögliche Landeplätze zu machen.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="KOMMA_VOR_UND_ODER" name="Fehlerhaftes Komma vor 'und' oder 'oder'">
             <rule>  <!-- Fehlerhaftes Komma bei Aufzählung -->
                 <antipattern>
