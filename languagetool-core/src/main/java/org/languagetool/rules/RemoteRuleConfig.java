@@ -30,6 +30,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.File;
@@ -123,7 +125,49 @@ public class RemoteRuleConfig {
   public float getTimeoutPerCharacterMilliseconds() {
     return timeoutPerCharacterMilliseconds != null ? timeoutPerCharacterMilliseconds : DEFAULT_TIMEOUT_PER_CHAR;
   }
+  public Map<String, String> getOptions() {
+    return options;
+  }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
+
+    RemoteRuleConfig that = (RemoteRuleConfig) o;
+
+    return new EqualsBuilder()
+      .append(ruleId, that.ruleId)
+      .append(url, that.url)
+      .append(port, that.port)
+      .append(maxRetries, that.maxRetries)
+      .append(baseTimeoutMilliseconds, that.baseTimeoutMilliseconds)
+      .append(timeoutPerCharacterMilliseconds, that.timeoutPerCharacterMilliseconds)
+      .append(fall, that.fall)
+      .append(downMilliseconds, that.downMilliseconds)
+      .append(options, that.options)
+      .isEquals();
+  }
+
+  @Override
+  public int hashCode() {
+    return new HashCodeBuilder(17, 37)
+      .append(ruleId)
+      .append(url)
+      .append(port)
+      .append(maxRetries)
+      .append(baseTimeoutMilliseconds)
+      .append(timeoutPerCharacterMilliseconds)
+      .append(fall)
+      .append(downMilliseconds)
+      .append(options)
+      .toHashCode();
+  }
 
   @Override
   public String toString() {
@@ -138,10 +182,6 @@ public class RemoteRuleConfig {
       .append("down", downMilliseconds)
       .append("options", options)
       .build();
-  }
-
-  public Map<String, String> getOptions() {
-    return options;
   }
 
   public static RemoteRuleConfig getRelevantConfig(String rule, List<RemoteRuleConfig> configs) {
