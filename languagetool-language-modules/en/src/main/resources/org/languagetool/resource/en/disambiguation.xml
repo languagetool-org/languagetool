@@ -3213,11 +3213,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="filterall"/>
     </rule>
+
     <rule name="DT|JJ + JJ/NN + NN -&gt; JJ" id="DT_JJ_NN_JJ">
         <antipattern>
             <token regexp="yes">I|you|we|they</token>
             <token postag_regexp="yes" postag="RB"/>
             <token postag_regexp="yes" postag="VBP"/>
+        </antipattern>
+        <antipattern><!-- #2433 social safety make it -->
+            <token postag="JJ"/>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+            <token chunk="B-VP" postag="VBP"/>
+            <token chunk="B-NP-singular"/>
         </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$">
@@ -3235,7 +3242,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">When did you first <marker>meet</marker> Tom?</example>
         <example type="untouched">Verb. She will soon <marker>clear</marker> away these dishes.</example>
         <example type="untouched">Phrasal verb. ...being a supply teacher; students would often <marker>cut up</marker> and play baffling tricks.</example>
+        <example type="untouched">Noun. ... together with its education services and level of social <marker>safety</marker> make it attractive for locals and visitors alike.</example><!-- #2433 -->
     </rule>
+
     <rule name="DT|JJ + JJ + NN/VBP -&gt; NN" id="DT_JJ_NN_NN">
         <antipattern><!-- a few separate -->
             <token>a</token>
@@ -3249,6 +3258,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="JJ"/>
             <token>and</token>
             <token postag="JJ"/>
+        </antipattern>
+        <antipattern><!-- #2433 social safety make it -->
+            <token postag="JJ"/>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+            <token chunk="B-VP" postag="VBP"/>
+            <token chunk="B-NP-singular"/>
         </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
@@ -3272,11 +3287,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Adjective. ... sites may have housed up to 600 individuals in a few <marker>separate</marker> but closely spaced settlement clusters.</example>
         <example type="untouched">Verb. ... and although a few <marker>separate</marker>, many do not.</example>
         <example type="untouched">Verb. Most strands remain together, but a few <marker>separate</marker>.</example>
+        <example type="untouched">Verb. Its stable economy together with its education services and level of social safety <marker>make</marker> it attractive for locals and visitors alike.</example><!-- #2433 -->
         <example type="untouched">Adjective. One of the most <marker>stable</marker> and prosperous of the post-Communist states is the Czech Republic.</example>
         <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example>
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> gathers no moss.</example>
         <!-- Correct: The air filter's dirtier than the oil filter. -->
     </rule>
+
     <rule name="DT|JJ + JJR + JJ/NN -&gt; JJ + CC + JJ" id="DT_JJR_JJ_CC_JJ"><!-- This is an antipattern in DT_JJ_NN_NN -->
         <pattern>
             <token postag_regexp="yes" postag="DT|PRP\$"/>
