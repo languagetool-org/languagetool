@@ -800,13 +800,12 @@ public class HTTPServerConfig {
 
   /**
    * @return the file from which remote rules should be configured, or {@code null}
-   * @since 4.6
+   * @since 4.9
    */
   @Nullable
   File getRemoteRulesConfigFile() {
     return remoteRulesConfigFile;
   }
-
 
   /**
    * @return the database driver name like {@code org.mariadb.jdbc.Driver}, or {@code null}
@@ -974,8 +973,8 @@ public class HTTPServerConfig {
   }
 
   /**
-   * @since 4.6
    * Clients that a A/B test runs on; null -> disabled
+   * @since 4.9
    */
   @Experimental
   @Nullable
@@ -984,9 +983,8 @@ public class HTTPServerConfig {
   }
 
   /**
-   * @since 4.6
    * Clients that a A/B test runs on; null -> disabled
-   * @param pattern
+   * @since 4.9
    */
   @Experimental
   public void setAbTestClients(@Nullable String pattern) {
@@ -998,8 +996,8 @@ public class HTTPServerConfig {
   }
 
   /**
-   * @since 4.6
    * @param abTestRollout percentage [0,100] of users to include in ab test rollout
+   * @since 4.9
    */
   @Experimental
   public void setAbTestRollout(int abTestRollout) {
@@ -1007,8 +1005,7 @@ public class HTTPServerConfig {
   }
 
   /**
-   * @since 4.6
-   * @param abTestRollout percentage [0,100] of users to include in ab test rollout
+   * @since 4.9
    */
   @Experimental
   public int getAbTestRollout() {

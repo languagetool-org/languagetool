@@ -107,7 +107,7 @@ public class RemoteRuleConfig {
     return url;
   }
   public int getPort() {
-    return port  != null ? port : DEFAULT_PORT;
+    return port != null ? port : DEFAULT_PORT;
   }
   public int getMaxRetries() {
     return maxRetries != null ? maxRetries : DEFAULT_RETRIES;

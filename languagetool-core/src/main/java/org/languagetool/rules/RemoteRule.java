@@ -35,9 +35,10 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
- *
+ * @since 4.9
  */
 public abstract class RemoteRule extends Rule {
+  
   private static final Logger logger = LoggerFactory.getLogger(RemoteRule.class);
 
   /* needs to be shared between rule instances because new instances may be created and discarded often
@@ -56,11 +57,11 @@ public abstract class RemoteRule extends Rule {
   public RemoteRule(ResourceBundle messages, RemoteRuleConfig config) {
     super(messages);
     serviceConfiguration = config;
-    String rule = getId();
-    lastFailure.putIfAbsent(rule, 0L);
-    consecutiveFailures.putIfAbsent(rule, new AtomicInteger());
+    String ruleId = getId();
+    lastFailure.putIfAbsent(ruleId, 0L);
+    consecutiveFailures.putIfAbsent(ruleId, new AtomicInteger());
     // TODO maybe use fixed pool, take number of concurrent requests from configuration?
-    executors.putIfAbsent(rule, Executors.newCachedThreadPool(threadFactory));
+    executors.putIfAbsent(ruleId, Executors.newCachedThreadPool(threadFactory));
   }
 
   public static void shutdown() {
@@ -77,26 +78,26 @@ public abstract class RemoteRule extends Rule {
     return new FutureTask<>(() -> {
       long startTime = System.nanoTime();
       long characters = sentences.stream().mapToInt(sentence -> sentence.getText().length()).sum();
-      String rule = getId();
+      String ruleId = getId();
       RemoteRequest req = prepareRequest(sentences);
       RemoteRuleResult result;
 
-      if (consecutiveFailures.get(rule).get() >= serviceConfiguration.getFall()) {
-        long failureInterval = System.currentTimeMillis() - lastFailure.get(rule);
+      if (consecutiveFailures.get(ruleId).get() >= serviceConfiguration.getFall()) {
+        long failureInterval = System.currentTimeMillis() - lastFailure.get(ruleId);
         if (failureInterval < serviceConfiguration.getDownMilliseconds()) {
-          RemoteRuleMetrics.request(rule, 0, 0, characters, RemoteRuleMetrics.RequestResult.DOWN);
+          RemoteRuleMetrics.request(ruleId, 0, 0, characters, RemoteRuleMetrics.RequestResult.DOWN);
           result = fallbackResults(req);
           return result.getMatches();
         }
       }
-      RemoteRuleMetrics.up(rule, true);
+      RemoteRuleMetrics.up(ruleId, true);
 
       for (int i = 0; i <= serviceConfiguration.getMaxRetries(); i++) {
         Callable<RemoteRuleResult> task = executeRequest(req);
         try {
           long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +
             Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());
-          Future<RemoteRuleResult> future = executors.get(rule).submit(task);
+          Future<RemoteRuleResult> future = executors.get(ruleId).submit(task);
           if (timeout <= 0)  { // for debugging, disable timeout
             result = future.get();
           } else {
@@ -105,16 +106,16 @@ public abstract class RemoteRule extends Rule {
           future.cancel(true);
 
           if (result.isRemote()) { // don't reset failures if no remote call took place
-            consecutiveFailures.get(rule).set(0);
-            RemoteRuleMetrics.failures(rule, 0);
+            consecutiveFailures.get(ruleId).set(0);
+            RemoteRuleMetrics.failures(ruleId, 0);
           }
 
           RemoteRuleMetrics.RequestResult requestResult = result.isRemote() ?
             RemoteRuleMetrics.RequestResult.SUCCESS : RemoteRuleMetrics.RequestResult.SKIPPED;
-          RemoteRuleMetrics.request(rule, i, System.nanoTime() - startTime, characters, requestResult);
+          RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, requestResult);
           return result.getMatches();
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-          logger.warn("Error while fetching results for remote rule " + rule + ", tried " + (i + 1) + " times" , e);
+          logger.warn("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times" , e);
 
           RemoteRuleMetrics.RequestResult status;
           if (e instanceof TimeoutException || e instanceof InterruptedException) {
@@ -123,16 +124,16 @@ public abstract class RemoteRule extends Rule {
             status = RemoteRuleMetrics.RequestResult.ERROR;
           }
 
-          RemoteRuleMetrics.request(rule, i, System.nanoTime() - startTime, characters, status);
+          RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, status);
         }
       }
-      RemoteRuleMetrics.failures(rule, consecutiveFailures.get(rule).incrementAndGet());
-      logger.warn("Fetching results for remote rule " + rule + " failed.");
-      if (consecutiveFailures.get(rule).get() >= serviceConfiguration.getFall()) {
-        lastFailure.put(rule, System.currentTimeMillis());
-        logger.warn("Remote rule " + rule + " marked as DOWN.");
-        RemoteRuleMetrics.downtime(rule, serviceConfiguration.getDownMilliseconds());
-        RemoteRuleMetrics.up(rule, false);
+      RemoteRuleMetrics.failures(ruleId, consecutiveFailures.get(ruleId).incrementAndGet());
+      logger.warn("Fetching results for remote rule " + ruleId + " failed.");
+      if (consecutiveFailures.get(ruleId).get() >= serviceConfiguration.getFall()) {
+        lastFailure.put(ruleId, System.currentTimeMillis());
+        logger.warn("Remote rule " + ruleId + " marked as DOWN.");
+        RemoteRuleMetrics.downtime(ruleId, serviceConfiguration.getDownMilliseconds());
+        RemoteRuleMetrics.up(ruleId, false);
       }
       result = fallbackResults(req);
       return result.getMatches();
