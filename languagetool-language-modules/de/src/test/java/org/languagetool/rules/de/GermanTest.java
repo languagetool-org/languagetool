@@ -79,6 +79,14 @@ public class GermanTest extends LanguageSpecificTest {
           origWord = "Genetiv";
           suggWord = "Genitiv";
         }
+        if (message.contains("Partizip 1")) {
+          origWord = "Partizip 1";
+          suggWord = "Partizip I";
+        }
+        if (message.contains("Partizip 2")) {
+          origWord = "Partizip 2";
+          suggWord = "Partizip II";
+        }
         if (message.contains(" fordert ")) {
           origWord = "fordert";
           suggWord = "erfordert";
