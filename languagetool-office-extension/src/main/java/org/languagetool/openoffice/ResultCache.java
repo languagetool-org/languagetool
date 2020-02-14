@@ -129,6 +129,24 @@ class ResultCache {
   }
 
   /**
+   * get all Proofreading errors of on paragraph from cache
+   */
+  SingleProofreadingError[] getMatches(int numberOfParagraph) {
+    CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
+    if(sentenceEntries == null) {
+      return null;
+    }
+    List<SingleProofreadingError> allErrors = new ArrayList<>();
+    for (int pos : sentenceEntries.keySet()) {
+      SingleProofreadingError[] errors = sentenceEntries.getErrorArray(pos);
+      for (SingleProofreadingError error : errors) {
+        allErrors.add(error);
+      }
+    }
+    return allErrors.toArray(new SingleProofreadingError[0]);
+  }
+
+  /**
    * get next sentence position from cache
    */
   int getNextSentencePosition(int numberOfParagraph, int startOfSentencePosition) {

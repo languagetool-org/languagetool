@@ -249,6 +249,7 @@ public class MultiDocumentsHandler {
   /**
    * Inform listener that the doc should be rechecked.
    */
+/*  
   public boolean resetCheck(String docId) {
     if(documents.isEmpty()) {
       return false;
@@ -263,16 +264,17 @@ public class MultiDocumentsHandler {
     }
     return mainThread.resetCheck();
   }
-
+*/
   /** 
    * Reset only changed paragraphs
    */
+/*  
   void optimizeReset() {
     if(documents.size() > 0) {
       documents.get(docNum).optimizeReset();
     }
   }
-  
+*/  
   /**
    * Checks the language under the cursor. Used for opening the configuration dialog.
    * @return the language under the visible cursor
@@ -553,8 +555,8 @@ public class MultiDocumentsHandler {
   
   void initDocuments() {
     recheck = false;
-    sortedTextRules = new SortedTextRules();
     setConfigValues(config, langTool);
+    sortedTextRules = new SortedTextRules();
     for (SingleDocument document : documents) {
       document.resetCache();
     }

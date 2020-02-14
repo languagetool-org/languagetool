@@ -22,8 +22,6 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.List;
 
-import org.languagetool.openoffice.TextLevelCheckQueue.QueueEntry;
-
 /**
  * Class of a queue to handle parallel check of text level rules
  * @since 4.9
