@@ -39105,7 +39105,7 @@ The accident victim died from her injuries.
             </antipattern>
             <antipattern>
                 <token skip="1">by</token>
-                <token regexp="yes">now|far|nature</token>
+                <token regexp="yes">now|far|nature|natural</token>
             </antipattern>
             <antipattern>
                 <token postag="VB.*" postag_regexp="yes">
@@ -39117,7 +39117,7 @@ The accident victim died from her injuries.
                 <token>by</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes" skip="6">which|what|how|who</token>
+                <token regexp="yes" skip="4">(which|what|how|who|where)(ever)?</token>
                 <token postag="MD" />
                 <token postag="RB" min="0" />
                 <token>by</token>
@@ -39129,14 +39129,14 @@ The accident victim died from her injuries.
                 <token>by</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">can(not)?|will|[wc]ould|must|should|did|might|to|please</token>
+                <token regexp="yes">can(not)?|ll|will|[wc]ould|must|should|did|might|to|please</token>
                 <token postag="RB" min="0" />
                 <token>by</token>
                 <token postag="RB" min="0" />
                 <token postag="VBG" />
             </antipattern>
             <antipattern>
-                <token regexp="yes">can(not)?|will|[wc]ould|must|should|did|might|to|please</token>
+                <token regexp="yes">can(not)?|ll|will|[wc]ould|must|should|did|might|to|please</token>
                 <token postag="RB" min="0" />
                 <token>by</token>
                 <token postag="RB" min="0" />
@@ -39229,10 +39229,19 @@ The accident victim died from her injuries.
             </antipattern>
             <antipattern>
                 <token postag="IN" /><!-- at will (will = noun) -->
-                <token>will</token>
+                <token skip="1">will</token>
                 <token>by</token>
             </antipattern>
+            <antipattern>
+                <token>by</token>
+                <token postag="PRP$" />
+                <token>side</token>
+            </antipattern>
             <rule>
+                <antipattern>
+                    <token />
+                    <token spacebefore="yes">ll</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">
                         can(not)?|will|ll|[wc]ould|must|should|did|might|to|please|gonna|wanna|may
@@ -39250,7 +39259,7 @@ The accident victim died from her injuries.
                 <message>Did you maybe mean <suggestion>buy</suggestion> or <suggestion>be</suggestion>?</message>
                 <example>Referred to by Tom.</example>
                 <example correction="buy|be">I would <marker>by</marker> a new iPhone if I had the money.</example>
-                <example correction="buy|be">I will <marker>by</marker> you lunch.</example>
+                <example correction="buy|be">I'll <marker>by</marker> you lunch.</example>
                 <example correction="buy|be">Soup cannot <marker>by</marker> eaten with a fork.</example>
                 <example correction="buy|be">Your family wants you to <marker>by</marker> happy.</example>
                 <example correction="buy|be">I may <marker>by</marker> a new abwheel again.</example>
@@ -39280,6 +39289,7 @@ The accident victim died from her injuries.
                 <example>In Japan, reigning emperors are known simply as "the Emperor" and he is now referred to primarily by his posthumous name.</example>
                 <example>I will again by the end of this month.</example>
                 <example>From the article linked to by Solomon.</example>
+                <example>... and you by my side.</example>
                 <example>The rate at which the central bank lends money can indeed be chosen at will by the central bank; this is the rate that makes the financial headlines.</example>
                 <example>we save extra over what some other families might by not having a huge tank of hot water on standby all the time.</example>
                 <example>According to an MNB forecast however, until 2011, the deficit will by a small margin fall short of the 3.0% criterion.</example>
@@ -40878,14 +40888,43 @@ The accident victim died from her injuries.
             <example correction="dependent">They are <marker>dependant</marker> on the results</example>
         </rule>
         <rule id="BUY_VBG" name="buy (by) + gerund verb">
+            <antipattern>
+                <token regexp="yes">to|please</token>
+                <token>buy</token>
+            </antipattern>
+            <antipattern><!-- financial term-->
+                <token>buy</token>
+                <token regexp="yes">ratings?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="MD" />
+                <token regexp="yes" min="0">&apostrophe;</token>
+                <token min="0">t</token>
+                <token>buy</token>
+                <token postag="NN.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token postag="MD|PRP" postag_regexp="yes" />
+                <token postag="RB.*" postag_regexp="yes" min="0" />
+                <token>buy</token>
+                <token postag="NN.*" postag_regexp="yes" />
+            </antipattern>
             <pattern>
                 <marker>
                     <token>buy</token>
                 </marker>
-                <token postag='VBG'><exception>cooking</exception></token>
+                <token postag='VBG'><exception>clothing</exception></token>
             </pattern>
             <message>Did you mean <suggestion>by</suggestion>?</message>
             <example correction='by'>We exploit these two features <marker>buy</marker> using Named Entity recognition.</example>
+            <example correction="By"><marker>Buy</marker> making it our top pick in the sector.</example>
+            <example correction="by">Get some <marker>buy</marker> doing treasure maps.</example>
+            <example correction="by">Several years can go <marker>buy</marker> waiting for recovery.</example>
+            <example>I'm here to buy wedding gifts.</example>
+            <example>You can't buy advertising like that.</example>
+            <example>I usually buy clothing at a local store.</example>
+            <example>On May 30, Salomon Smith Barney reiterated its Buy rating on Sprint PCS shares.</example>
+            <example>For ENE, our Strong Buy rating expects that the deal spread, currently about 30% will narrow as progress is made toward a closing.</example>
         </rule>
         <rule id="FURTHER_ADIEU" name="Further ado instead of further adieu">
             <pattern>
