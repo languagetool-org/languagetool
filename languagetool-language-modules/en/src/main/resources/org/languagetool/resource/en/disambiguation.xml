@@ -6086,6 +6086,30 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="blue[blue/JJ,blue/NN:UN,blue/VB,blue/VBP]" outputform="blue[blue/VB,blue/VBP]">If you want to blacken or <marker>blue</marker> the metal, you must...</example><!-- black/B-NP-singular. Cannot do a test with 'black', thus use 'blacken' -->
     </rule>
 
+    <rule id="VBN_TO_VB_IN"  name="past participle + to + noun/verb > verb + preposition">
+        <antipattern><!-- committed to Water at -->
+            <token postag="TO"/>
+            <token chunk="E-NP-singular" regexp="yes">\p{Lu}\p{L}+</token>
+        </antipattern>
+        <pattern>
+            <token postag="VBN"/>
+            <token postag="TO"/>
+            <marker>
+                <token postag="VB">
+                    <exception postag_regexp="yes" postag="NNPS?"/>
+                    </token>
+            </marker>
+            <token postag_regexp="yes" postag="IN|CC"/>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">A three-man committee has recommended to Commission Chairman Charles O. Emmerich...</example>
+        <example type="untouched">We have suggested to Peter on many occasions to do more tests.</example>
+        <example type="untouched">They were committed to Water at this time in their fast.</example>
+        <example type="ambiguous" inputform="flood[flood/JJ,flood/NN,flood/VB,flood/VBP]" outputform="flood[flood/VB]">The banks were said to <marker>flood</marker> when Aquarius put his jar into the river.</example><!-- flood/E-NP-singular, thus do not use the chunker in the pattern. -->
+        <example type="ambiguous" inputform="sleep[sleep/NN:U,sleep/VB,sleep/VBP]" outputform="sleep[sleep/VB]">You are generally expected to <marker>sleep</marker> at night.</example>
+        <example type="ambiguous" inputform="dream[dream/NN,dream/VB,dream/VBP]" outputform="dream[dream/VB]">Sheep are often erroneously believed to <marker>dream</marker> when they graze in the fields.</example>
+    </rule>
+
     <rule name="Proper noun: All Blacks" id="ALL_BLACKS"><!-- www.lexico.com/en/definition/all_blacks-->
       <pattern case_sensitive="yes">
         <token>All</token>
