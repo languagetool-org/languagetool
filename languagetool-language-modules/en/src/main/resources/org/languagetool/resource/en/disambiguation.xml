@@ -6053,6 +6053,39 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="filterall"/>
         </rule>
 
+    <rule id="TO_VB_OR_VB"  name="to + noun/verb > verb + and/or + noun/verb > verb">
+        <antipattern><!-- singular noun phrase -->
+            <token postag="TO"/>
+            <token chunk="B-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+            <token chunk="I-NP-singular" postag="CC" regexp="yes">and|or</token>
+            <token postag_regexp="yes" postag="NN:UN?"/><!-- Do not use E-NP-singular, because this token is not necessarily the end of a noun phrase. -->
+        </antipattern>
+        <antipattern><!-- plural noun phrase -->
+            <token postag="TO"/>
+            <token chunk="B-NP-plural" postag_regexp="yes" postag="NN:UN?"/>
+        </antipattern>
+        <pattern>
+            <token postag="TO"/>
+            <marker>
+                <token postag_regexp="yes" postag="VBP?"/>
+                <token postag="CC" regexp="yes">and|or</token>
+                <token postag_regexp="yes" postag="VBP?"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="untouched">... and is applicable to oil or sludge.</example>
+        <example type="untouched">... and is applicable to sludge or water in such conditions.</example>
+        <example type="untouched">... and is applicable to milk and water (as shown on page 3).</example>
+        <example type="untouched">This did not apply to oil and slurry seal because the...</example>
+        <example type="untouched">This did not apply to oil or water glass because the...</example>
+        <example type="untouched">This does not apply to oil and water mixtures because the...</example>
+        <example type="untouched">This test is not applicable to blue or black oil, except on Mondays.</example>
+        <example type="ambiguous" inputform="abstract[abstract/JJ,abstract/NN,abstract/VB,abstract/VBP]" outputform="abstract[abstract/VB,abstract/VBP]">... making its purpose difficult to <marker>abstract</marker> or quantify to any single concept.</example><!-- abstract/E-NP-singular, thus do not use the chunker in the pattern. -->
+        <example type="ambiguous" inputform="control[control/NN:UN,control/VB,control/VBP]" outputform="control[control/VB,control/VBP]">It is not easy to check and <marker>control</marker> these decisions.</example>
+        <example type="ambiguous" inputform="abstract[abstract/JJ,abstract/NN,abstract/VB,abstract/VBP]" outputform="abstract[abstract/VB,abstract/VBP]">Although to summarize and <marker>abstract</marker> the information is not easy...</example>
+        <example type="ambiguous" inputform="blue[blue/JJ,blue/NN:UN,blue/VB,blue/VBP]" outputform="blue[blue/VB,blue/VBP]">If you want to blacken or <marker>blue</marker> the metal, you must...</example><!-- black/B-NP-singular. Cannot do a test with 'black', thus use 'blacken' -->
+    </rule>
+
     <rule name="Proper noun: All Blacks" id="ALL_BLACKS"><!-- www.lexico.com/en/definition/all_blacks-->
       <pattern case_sensitive="yes">
         <token>All</token>
