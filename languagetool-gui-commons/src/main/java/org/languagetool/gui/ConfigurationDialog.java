@@ -616,18 +616,10 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridx = 1;
     portPanel.add(numParaField, cons);
     
-    JCheckBox resetCheckbox = new JCheckBox(Tools.getLabel(messages.getString("guiDoResetCheck")));
-    resetCheckbox.setSelected(config.isResetCheck());
-    resetCheckbox.setEnabled(config.useTextLevelQueue());
-    resetCheckbox.addItemListener(e -> {
-      config.setDoResetCheck(resetCheckbox.isSelected());
-    });
-
     JCheckBox useQueueResetbox = new JCheckBox(Tools.getLabel(messages.getString("guiUseTextLevelQueue")));
     useQueueResetbox.setSelected(config.useTextLevelQueue());
     useQueueResetbox.addItemListener(e -> {
       config.setUseTextLevelQueue(useQueueResetbox.isSelected());
-      resetCheckbox.setEnabled(useQueueResetbox.isSelected());
     });
     
     cons.insets = new Insets(0, 4, 0, 0);
@@ -635,12 +627,6 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(useQueueResetbox, cons);
 
-//    cons.insets = new Insets(0, 30, 0, 0);
-    cons.gridx = 0;
-    cons.gridy++;
-    portPanel.add(resetCheckbox, cons);
-    
-//    cons.insets = new Insets(0, 4, 0, 0);
     cons.gridx = 0;
     cons.gridy++;
     portPanel.add(fullTextCheckAtFirstBox, cons);
