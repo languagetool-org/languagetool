@@ -2434,13 +2434,19 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="NN(S|:UN?)"/>
             <token postag="IN"/>
         </antipattern>
-          <antipattern><!-- #2405 the community sees it as -->
+        <antipattern><!-- #2405 the community sees it as -->
             <token postag="DT"/>
             <token postag_regexp="yes" postag="NN(:UN?)?"/>
             <token postag="VBZ"/>
             <token regexp="yes">me|you|him|her|it|us|them|one</token>
             <token postag_regexp="yes" postag="CC|IN"/>
-          </antipattern>
+        </antipattern>
+        <antipattern><!-- #2469 the work make her -->
+            <token postag_regexp="yes" postag="DT"/>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+            <token chunk="B-VP" postag="VBP"/>
+            <token chunk="B-NP-singular"/>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -2462,6 +2468,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Verb: ... and over again continuously until the individual <marker>gains</marker> entry to a spiritual realm or Otherworld.</example><!-- chunker error: gains/I-NP-plural -->
         <example type="untouched">Verb: Otherwise, the community <marker>sees</marker> it as trolling, regardless of the intent.</example><!-- #2405 -->
         <example type="untouched">Verb: Also, this group <marker>sees</marker> them on many occasions.</example><!-- #2405 -->
+        <example type="untouched">Verb: ... that she brought to the work <marker>make</marker> her the master worker of the genre.</example><!-- #2469 -->
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">Today, the black <marker>dogs</marker> barks loudly.</example>
         <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Undoubtedly, the general <marker>will</marker> is an important notion in Rousseau.</example>
         <example type="ambiguous" inputform="course[course/NN:UN,course/VB,course/VBP]" outputform="course[course/NN:UN]">Panovsky's notion of the dialectic makes history follow a predetermined <marker>course</marker>.</example>
