@@ -16621,6 +16621,21 @@ USA
             <url>https://www.lexico.com/definition/work-life_balance</url>
             <example correction="Work-life"><marker>Work life</marker> balance is having enough time for work and enough to have a life.</example>
         </rule>
+        <rule id="HIGH_END_HYPHEN" name="missing hyphen in 'high end'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">high|low</token>
+                    <token>end</token>
+                </marker>
+                <token postag="JJ.*" postag_regexp="yes" min="0">
+                    <exception postag="IN" />
+                </token>
+                <token postag="NN.*" postag_regexp="yes" />
+            </pattern>
+            <message>Did you mean the adjective <suggestion>high-end</suggestion> (spelled with a hyphen)?</message>
+            <url>https://www.lexico.com/definition/high-end</url>
+            <example correction="high-end">The <marker>high end</marker> computer.</example>
+        </rule>
         <rule id="SO_CALLED_HYPHEN" name="missing hyphen in 'so called'">
             <pattern>
                 <marker>
