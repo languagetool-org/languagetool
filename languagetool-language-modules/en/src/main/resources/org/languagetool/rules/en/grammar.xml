@@ -9520,6 +9520,62 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="HAVE_RB_HAVE" name="duplicated use of 'have'" default="temp_off">
+            <!-- TODO: add other verbs -->
+            <!-- TODO: check examples with "had ... had" (might be a style rule) -->
+            <antipattern>
+                <token>have</token>
+                <token>to</token>
+                <token>have</token>
+            </antipattern>
+            <antipattern>
+                <token>had</token>
+                <token />
+                <token>had</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>has</token>
+                        <token regexp="yes">often|good|best|fast</token>
+                        <token>has</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>as \2 as</suggestion>, <suggestion>\1 \2</suggestion> or <suggestion>\2 \3</suggestion>?</message>
+                <example correction="as often as|has often|often has">He does it <marker>has often has</marker> he can</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">
+                        have
+                        <exception regexp="yes" scope="previous">who|that</exception>
+                    </token>
+                    <token postag="RB" />
+                    <token><match no="0" /></token>
+                </pattern>
+                <message>It seems that one "have" is obsolete. Please check.</message>
+                <suggestion>\2 \3</suggestion>
+                <suggestion>\1 \2</suggestion>
+                <example correction="eventually have|have eventually">I will <marker>have eventually have</marker> friends.</example>
+                <example correction="already have|have already">I <marker>have already have</marker> a post in the Developers Section.</example>
+                <example correction="already have|have already">Since Enron let us know in October to not rely on Enron alone for vaccinations, most of you may <marker>have already have</marker> shots.</example>
+                <example correction="ever has|has ever">Neither Tom nor Mary <marker>has ever has</marker> been married.</example>
+                <example correction="really have|have really">Just out of curiosity, did you <marker>have really have</marker> any fun?</example>
+                <!-- might be grammatically correct but one "had" seems better (TODO: check, maybe create style rule)
+                <example correction="already had|had already">Didn’t know you <marker>had already had</marker> them listed before.</example>
+                <example correction="never had|had never">Tom <marker>had never had</marker> a job before.</example>
+                <example correction="ever had|had ever">Lhazang Khan, now acting as the only outright foreign ruler that Tibet <marker>had ever had</marker>.</example>
+                <example correction="never had|had never">I want to start over from scratch, as if I had never had a certificate before.</example>
+                <example correction="always had|had always">But for the previous 20 years, though he had long been without any official executive title, he <marker>had always had</marker> de facto control over the company.</example>
+                <example correction="never had|had never">Markku <marker>had never had</marker> a one-night stand; it wasn't his nature.</example> -->
+                <example>Yet I had not had the issue before the new struts.</example>
+                <example>The model that you have will have automatically factory reset.</example>
+                <example>However, the model that you have does have a Wi-Fi radio.</example>
+                <example>I have always had problems.</example>
+                <example>I have to have that new dress.</example>
+                <example>Lhazang Khan, now acting as the only outright foreign ruler that Tibet had ever had.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MD_IT_JJ" name="missing 'be' in 'Would it possible'">
             <rule>
                 <pattern>
