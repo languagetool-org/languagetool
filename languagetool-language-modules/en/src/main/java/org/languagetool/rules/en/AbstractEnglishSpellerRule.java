@@ -343,6 +343,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("here's");
     } else if ("Heres".equals(word)) {
       return Arrays.asList("Here's");
+    } else if ("aways".equals(word)) {
+      return Arrays.asList("always");
     } else if ("McDonalds".equals(word)) {
       return Arrays.asList("McDonald's");
     } else if ("ux".equals(word)) {
@@ -393,6 +395,18 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("E-Book");
     } else if ("Ebooks".equals(word)) {
       return Arrays.asList("E-Books");
+    } else if ("sport".equals(word)) {
+      return Arrays.asList("e-sport");
+    } else if ("esports".equals(word)) {
+      return Arrays.asList("e-sports");
+    } else if ("eSport".equals(word)) {
+      return Arrays.asList("e-sport");
+    } else if ("eSports".equals(word)) {
+      return Arrays.asList("e-sport");
+    } else if ("Esport".equals(word)) {
+      return Arrays.asList("E-Sport");
+    } else if ("Esports".equals(word)) {
+      return Arrays.asList("E-Sport");
     } else if ("R&B".equals(word)) {
       return Arrays.asList("R & B", "R 'n' B");
     } else if ("ie".equals(word)) {
