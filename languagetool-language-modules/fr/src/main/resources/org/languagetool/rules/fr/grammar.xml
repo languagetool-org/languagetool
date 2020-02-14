@@ -12398,7 +12398,7 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="QUE_AVOIR" name="accord que + verbe avoir">
-      <rule>
+      <rule name="m p suivi par . s">
         <antipattern>
           <token regexp="yes">voulu|souhaité</token>
           <token min="0" max="2" regexp="yes">[mts]e?|lui|[nv]ous|[’´'‛′‘]</token>
@@ -12406,7 +12406,7 @@ though, and has since been slightly modified)-->
         </antipattern>
         <pattern>
           <token negate="yes" regexp="yes">plus|moins|dans|de|au|à|appareil</token>
-          <token postag="N . p" postag_regexp="yes"><exception>fois</exception></token>
+          <token postag="N m p"><exception>fois</exception></token>
           <token regexp="yes" skip="2">que?</token>
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"><exception scope="next" postag="V avoir ind.*" postag_regexp="yes"/></token>
           <marker>
@@ -12414,22 +12414,73 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en nombre.</message>
-          <suggestion><match no="5" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa $3 p"/></suggestion>
+          <suggestion><match no="5" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa m p"/></suggestion>
+          <example>L’homme que j’<marker>ai aidé</marker>.</example>
+          <example>L’homme que j’<marker>ai beaucoup aidé</marker>.</example>
+          <example>L’homme que j’<marker>ai un peu aidé</marker>.</example>
+          <example correction="aidés">Les hommes que j’ai <marker>aidée</marker>.</example>
+          <example correction="aidés">Les hommes que j’ai beaucoup <marker>aidée</marker>.</example>
+          <example correction="aidés">Les hommes que j’ai un peu <marker>aidée</marker>.</example>
+          <example>Pour faire savoir que cette arrestation a été décidée.</example>
         <example>Les documents qu’ils ont <marker>achetés</marker>.</example>
         <example correction="achetés">Les documents qu’ils ont <marker>acheté</marker>.</example>
-        <example>Les parties de poker qu’il a <marker>jouées</marker>.</example>
         <example>Le sac à main que j’ai acheté.</example>
         <example>Une fois que vous avez goûté au plaisir des jeux d’argent.</example>
         <example>Les lettres que j’ai voulu envoyer.</example>
         <example>Les lettres que j’ai voulu t’envoyer.</example>
         <example>Les images qu’elle a envoyées ont montré une structure inattendue.</example>
-        <example correction="eues">Les récompenses qu’elle a <marker>eue</marker>.</example>
+        <example correction="eus">Les bateaux qu’elle a <marker>eue</marker>.</example>
         <example>Les récompenses qu’elle a eues.</example>
       </rule>
-      <rule>
+        <rule name="f p suivi par . s">
+            <antipattern>
+                <token regexp="yes">voulu|souhaité</token>
+                <token min="0" max="2" regexp="yes">[mts]e?|lui|[nv]ous|[’´'‛′‘]</token>
+                <token postag="V.* inf" postag_regexp="yes"></token>
+            </antipattern>
+            <pattern>
+                <token negate="yes" regexp="yes">plus|moins|dans|de|au|à|appareil</token>
+                <token postag="N f p"><exception>fois</exception></token>
+                <token regexp="yes" skip="2">que?</token>
+                <token postag="V avoir ind.*" postag_regexp="yes" skip="2"><exception scope="next" postag="V avoir ind.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token postag="V.* ppa.* s" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en nombre.</message>
+            <suggestion><match no="5" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa f p"/></suggestion>
+            <example>La femme que j’<marker>ai aidée</marker>.</example>
+            <example>La femme que j’<marker>ai beaucoup aidée</marker>.</example>
+            <example>La femme que j’<marker>ai un peu aidée</marker>.</example>
+            <example>J’ai l’impression que tu <marker>as compris</marker>.</example>
+            <example>Une fois que tu as goûté au plaisir.</example>
+            <example correction="aidées">Les femmes que j’ai <marker>aidé</marker>.</example>
+            <example correction="aidées">Les femmes que j’ai beaucoup <marker>aidé</marker>.</example>
+            <example correction="aidées">Les femmes que j’ai un peu <marker>aidé</marker>.</example>
+            <example>Une meilleure situation que quand il <marker>a pris</marker> ses fonctions.</example>
+            <example>L’expert estime que les climatosceptiques <marker>ont fait</marker> pression.</example>
+            <example>De la même nature que celles qui ont été saisies.</example>
+            <example>La lettre que j’ai voulu envoyer.</example>
+            <example>Certains y voient la preuve qu’il a finalement été lâché par son soutien.</example>
+            <example>Cette finale qu’il a dominée.</example>
+            <example>La pommade qu’il a voulu me passer.</example>
+            <example>La pommade qu’il a voulu m’apporter.</example>
+            <example>Ne dis à personne que nous avons fait cela.</example>
+            <example>Cela montre qu’ils on compris.</example>
+            <example>Les documents qu’ils ont <marker>achetés</marker>.</example>
+            <example correction="achetées">Les chaussettes qu’ils ont <marker>acheté</marker>.</example>
+            <example>Le sac à main que j’ai acheté.</example>
+            <example>Une fois que vous avez goûté au plaisir des jeux d’argent.</example>
+            <example>Les lettres que j’ai voulu envoyer.</example>
+            <example>Les lettres que j’ai voulu t’envoyer.</example>
+            <example>Les images qu’elle a envoyées ont montré une structure inattendue.</example>
+            <example correction="eues">Les voitures qu’elle a <marker>eue</marker>.</example>
+            <example>Les récompenses qu’elle a eues.</example>
+        </rule>
+      <rule name="m s suivi par . p">
         <pattern>
           <token negate="yes" regexp="yes">plus|moins|dans|de|au|à</token>
-          <token postag="N . s" postag_regexp="yes">
+          <token postag="N m s">
             <exception postag="V.*" postag_regexp="yes"/>
           </token>
           <token regexp="yes" skip="2">que?</token>
@@ -12441,78 +12492,58 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en nombre.</message>
-          <suggestion><match no="5" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa $3 s"/></suggestion>
+          <suggestion><match no="5" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa m s"/></suggestion>
+          <example>L’homme que j’<marker>ai aidé</marker>.</example>
+          <example>L’homme que j’<marker>ai beaucoup aidé</marker>.</example>
+          <example>L’homme que j’<marker>ai un peu aidé</marker>.</example>
+          <example correction="aidé">L’homme que j’ai <marker>aidées</marker>.</example>
+          <example correction="aidé">L’homme que j’ai beaucoup <marker>aidées</marker>.</example>
+          <example correction="aidé">L’homme que j’ai un peu <marker>aidées</marker>.</example>
+          <example>Pour faire savoir que cette arrestation a été décidée.</example>
         <example>Le document qu’ils <marker>ont acheté</marker>.</example>
         <example correction="acheté">Le document qu’ils ont <marker>achetés</marker>.</example>
         <example>Tout cela pour dire qu’on a longtemps été confrontés à ce problème.</example>
         <example>C’est dans la soirée que ces poursuites avaient été entamées.</example>
       </rule>
-      <rule>
-        <antipattern>
-          <token regexp="yes">voulu|souhaité</token>
-          <token min="0" max="2" regexp="yes">[mts]e?|lui|[nv]ous|[’´'‛′‘]</token>
-          <token postag="V.* inf" postag_regexp="yes"/>
-        </antipattern>
-        <pattern>
-          <token negate="yes" regexp="yes">plus|moins|dans|de|aux?|à</token>
-          <token postag="N f .*" postag_regexp="yes">
-            <exception postag_regexp="yes" postag="N [me] .*"/>
-            <exception regexp="yes">impression|fois</exception>
-            <exception inflected="yes">estimer</exception>
-          </token>
-          <token regexp="yes" skip="2">que?<exception scope="next" regexp="yes">quand|celles?</exception></token>
-            <token postag="V avoir ind.*" postag_regexp="yes" skip="2">
-              <exception scope="next">été</exception>
-            </token>
-            <marker>
-            <token postag="V.* ppa m .*" postag_regexp="yes"/>
-          </marker>
-        </pattern>
-        <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en genre.</message>
-          <suggestion><match no="5" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa f $4"/></suggestion>
-        <example>La femme que j’<marker>ai aidée</marker>.</example>
-        <example>La femme que j’<marker>ai beaucoup aidée</marker>.</example>
-        <example>La femme que j’<marker>ai un peu aidée</marker>.</example>
-        <example>J’ai l’impression que tu <marker>as compris</marker>.</example>
-        <example>Une fois que tu as goûté au plaisir.</example>
-        <example correction="aidée">La femme que j’ai <marker>aidé</marker>.</example>
-        <example correction="aidée">La femme que j’ai beaucoup <marker>aidé</marker>.</example>
-        <example correction="aidée">La femme que j’ai un peu <marker>aidé</marker>.</example>
-        <example>Une meilleure situation que quand il <marker>a pris</marker> ses fonctions.</example>
-        <example>L’expert estime que les climatosceptiques <marker>ont fait</marker> pression.</example>
-        <example>De la même nature que celles qui ont été saisies.</example>
-        <example>La lettre que j’ai voulu envoyer.</example>
-        <example>Certains y voient la preuve qu’il a finalement été lâché par son soutien.</example>
-        <example>Cette finale qu’il a dominée.</example>
-        <example>La pommade qu’il a voulu me passer.</example>
-        <example>La pommade qu’il a voulu m’apporter.</example>
-        <example>Ne dis à personne que nous avons fait cela.</example>
-        <example>Cela montre qu’ils on compris.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token negate="yes" regexp="yes">plus|moins|dans|de|aux?|à</token>
-          <token postag="N m .*" postag_regexp="yes">
-            <exception postag_regexp="yes" postag="N [fe] .*"/>
-          </token>
-          <token regexp="yes" skip="2">que?</token>
-            <token postag="V avoir ind.*" postag_regexp="yes" skip="2">
-              <exception scope="next">été</exception>
-            </token>
-          <marker>
-            <token postag="V.* ppa f .*" postag_regexp="yes"/>
-          </marker>
-        </pattern>
-        <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en genre.</message>
-          <suggestion><match no="5" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa m $4"/></suggestion>
-        <example>L’homme que j’<marker>ai aidé</marker>.</example>
-        <example>L’homme que j’<marker>ai beaucoup aidé</marker>.</example>
-        <example>L’homme que j’<marker>ai un peu aidé</marker>.</example>
-        <example correction="aidé">L’homme que j’ai <marker>aidée</marker>.</example>
-        <example correction="aidé">L’homme que j’ai beaucoup <marker>aidée</marker>.</example>
-        <example correction="aidé">L’homme que j’ai un peu <marker>aidée</marker>.</example>
-        <example>Pour faire savoir que cette arrestation a été décidée.</example>
-      </rule>
+        <rule name="f s suivi par . p">
+            <pattern>
+                <token negate="yes" regexp="yes">plus|moins|dans|de|au|à</token>
+                <token postag="N f s">
+                    <exception postag="V.*" postag_regexp="yes"/>
+                </token>
+                <token regexp="yes" skip="2">que?</token>
+                <token postag="V avoir ind.*" postag_regexp="yes" skip="2">
+                    <exception scope="next">été</exception>
+                </token>
+                <marker>
+                    <token postag="V.* ppa.* p" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 » en nombre.</message>
+            <suggestion><match no="5" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa f s"/></suggestion>
+            <example>La femme que j’<marker>ai aidée</marker>.</example>
+            <example>La femme que j’<marker>ai beaucoup aidée</marker>.</example>
+            <example>La femme que j’<marker>ai un peu aidée</marker>.</example>
+            <example>J’ai l’impression que tu <marker>as compris</marker>.</example>
+            <example>Une fois que tu as goûté au plaisir.</example>
+            <example correction="aidée">La femme que j’ai <marker>aidés</marker>.</example>
+            <example correction="aidée">La femme que j’ai beaucoup <marker>aidés</marker>.</example>
+            <example correction="aidée">La femme que j’ai un peu <marker>aidés</marker>.</example>
+            <example>Une meilleure situation que quand il <marker>a pris</marker> ses fonctions.</example>
+            <example>L’expert estime que les climatosceptiques <marker>ont fait</marker> pression.</example>
+            <example>De la même nature que celles qui ont été saisies.</example>
+            <example>La lettre que j’ai voulu envoyer.</example>
+            <example>Certains y voient la preuve qu’il a finalement été lâché par son soutien.</example>
+            <example>Cette finale qu’il a dominée.</example>
+            <example>La pommade qu’il a voulu me passer.</example>
+            <example>La pommade qu’il a voulu m’apporter.</example>
+            <example>Ne dis à personne que nous avons fait cela.</example>
+            <example>Cela montre qu’ils on compris.</example>
+            <example>Le document qu’ils <marker>ont acheté</marker>.</example>
+            <example correction="achetée">La voiture qu’ils ont <marker>achetés</marker>.</example>
+            <example>Tout cela pour dire qu’on a longtemps été confrontés à ce problème.</example>
+            <example>C’est dans la soirée que ces poursuites avaient été entamées.</example>
+        </rule>
     </rulegroup>
     <rulegroup id="QUI_EST" name="accord qui + verbe être">
       <rule>
