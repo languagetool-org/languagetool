@@ -8702,6 +8702,49 @@ USA
                 <example>I'd rather have it safe.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AWAY_AWAYS" name="confusion of 'aways' vs. 'always'" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/always</url>
+            <rule>
+                <pattern>
+                    <token postag="MD" />
+                    <marker>
+                        <token>aways</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the adverb <suggestion>always</suggestion>?</message>
+                <example correction="always">I would <marker>aways</marker> lock the door before going to sleep.</example>
+                <example>It certainly will prove a stark contrast to recent league aways the Hatters have enjoyed at the likes of Molineux, Maine Road and Hillsborough.</example>
+                <example>This year there's three big aways - Rome, Dublin, and Cardiff.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PRP|NN.*" postag_regexp="yes" />
+                    <marker>
+                        <token>aways</token>
+                    </marker>
+                    <token postag="VB.*" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean the adverb <suggestion>always</suggestion>?</message>
+                <example correction="always">I <marker>aways</marker> check the stock price.</example>
+                <example correction="always">One <marker>aways</marker> has to compare individual/family healthcare insurance premium costs to what they cover when making comparisons among countries.</example>
+                <example>It certainly will prove a stark contrast to recent league aways the Hatters have enjoyed at the likes of Molineux, Maine Road and Hillsborough.</example>
+                <example>This year there's three big aways - Rome, Dublin, and Cardiff.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">be|have</token>
+                    <marker>
+                        <token>aways</token>
+                    </marker>
+                    <token postag="VB.*|JJ.*" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean the adverb <suggestion>always</suggestion>?</message>
+                <example correction="always">Russia is <marker>aways</marker> described as becoming more assertive on the international stage, something that is above their station.</example>
+                <example correction="always">I'm <marker>aways</marker> looking for you.</example>
+                <example>It certainly will prove a stark contrast to recent league aways the Hatters have enjoyed at the likes of Molineux, Maine Road and Hillsborough.</example>
+                <example>This year there's three big aways - Rome, Dublin, and Cardiff.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TEL_TELL" name="confusion of 'tel' vs. 'tell'" default="temp_off">
             <url>https://www.merriam-webster.com/dictionary/tell</url>
             <antipattern>
@@ -19910,6 +19953,12 @@ USA
             <antipattern>
                 <token>A</token>
                 <token>nucleotides</token>
+            </antipattern>
+            <antipattern><!-- https://www.merriam-webster.com/dictionary/a%20ways%20to%20go -->
+                <token>a</token>
+                <token>ways</token>
+                <token>to</token>
+                <token>go</token>
             </antipattern>
             <rule>
                 <antipattern><!-- an operations center campus -->
