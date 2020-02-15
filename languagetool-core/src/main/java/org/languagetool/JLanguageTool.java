@@ -885,6 +885,16 @@ public class JLanguageTool {
    * @since 2.3
    */
   public List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
+                                               List<Rule> rules, AnalyzedSentence analyzedSentence) throws IOException {
+    return checkAnalyzedSentence(paraMode, rules, analyzedSentence, false);
+  }
+  
+  /**
+   * This is an internal method that's public only for technical reasons, please use one
+   * of the {@link #check(String)} methods instead. 
+   * @since 4.9
+   */
+  public List<RuleMatch> checkAnalyzedSentence(ParagraphHandling paraMode,
                                                List<Rule> rules, AnalyzedSentence analyzedSentence, boolean checkRemoteRules) throws IOException {
     List<RuleMatch> sentenceMatches = new ArrayList<>();
     RuleLoggerManager logger = RuleLoggerManager.getInstance();
