@@ -158,6 +158,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("hom(o?e|ö)ophatisch(e[mnrs]?)?", "hom(o?e|ö)ophat", "homöopath");
     putRepl("Geschwindlichkeit(en)?", "lich", "ig");
     putRepl("Jänners?", "Jänner", "Januar");
+    putRepl("[äÄ]hlich(e[mnrs]?)?", "lich", "nlich");
+    putRepl("entf[ai]ngen?", "ent", "emp");
+    putRepl("entf[äi]ngs?t", "ent", "emp");
     put("check", "checke");
     put("Rückrad", "Rückgrat");
     put("ala", "à la");

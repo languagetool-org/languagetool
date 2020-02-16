@@ -415,6 +415,8 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Eigtl", "Eigtl.", rule, lt);
     assertFirstSuggestion("pflanzige", "pflanzliche", rule, lt);
     assertFirstSuggestion("geblogt", "gebloggt", rule, lt);
+    assertFirstSuggestion("ähliche", "ähnliche", rule, lt);
+    assertFirstSuggestion("entfängt", "empfängt", rule, lt);
   }
 
   @Test
