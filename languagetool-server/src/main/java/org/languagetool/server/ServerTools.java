@@ -22,11 +22,12 @@ import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
 
@@ -34,6 +35,8 @@ import java.util.TimeZone;
  * @since 3.4
  */
 final class ServerTools {
+  
+  private static final Logger LOG = LoggerFactory.getLogger(ServerTools.class);
 
   private ServerTools() {
   }
@@ -83,8 +86,8 @@ final class ServerTools {
     return dateFormat.format(date.getTime());
   }
 
-  static void print(String s) {
-    print(s, System.out);
+  static void print(final String s) {
+    LOG.info(s);
   }
 
   /* replace with structured logging:
@@ -105,11 +108,13 @@ final class ServerTools {
   various other exceptions
    */
 
-  static void print(String s, PrintStream outputStream) {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss ZZ");
-    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-    String now = dateFormat.format(new Date());
-    outputStream.println(now + " " + s);
+  static void print(final String s, final PrintStream outputStream) {
+    if (outputStream == System.err) {
+      LOG.error(s);
+    }
+    else {
+      LOG.info(s);
+    }
   }
 
   static void setCommonHeaders(HttpExchange httpExchange, String contentType, String allowOriginUrl) {
