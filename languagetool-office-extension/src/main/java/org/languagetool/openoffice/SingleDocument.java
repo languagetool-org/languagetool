@@ -129,7 +129,6 @@ class SingleDocument {
   private Map<Integer, List<Integer>> ignoredMatches;     //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
   private boolean isRemote;                               //  true: Check is done by remote server
   private boolean useQueue = true;                        //  true: use queue to check text level rules (will be overridden by config
-  private boolean preventReset = false;                   //  true: document is prevented for check again; this is used when the reset regards only another document
   private List<Integer> headings;                         //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
   private String lastSinglePara = null;                   //  stores the last paragraph which is checked as single paragraph
 
@@ -231,8 +230,12 @@ class SingleDocument {
     this.config = config;
     numParasToCheck = config.getNumParasToCheck();
     defaultParaCheck = PARA_CHECK_DEFAULT;
-    doFullCheckAtFirst = config.doFullCheckAtFirst();
     useQueue = config.useTextLevelQueue();
+    if(useQueue || numParasToCheck == 0) {
+      doFullCheckAtFirst = false;
+    } else {
+      doFullCheckAtFirst = config.doFullCheckAtFirst();
+    }
     changedParas = null;
     firstCheckIsDone = false;
   }
@@ -242,12 +245,6 @@ class SingleDocument {
   void setXComponent(XComponentContext xContext, XComponent xComponent) {
     this.xContext = xContext;
     this.xComponent = xComponent;
-  }
-  
-  /** Set the flag to prevent the document for reset check
-   */
-  void setPreventReset() {
-    preventReset = true;
   }
   
   /** Get xComponent of the document
@@ -269,7 +266,7 @@ class SingleDocument {
     singleParaCache.removeAll();
     paragraphsCache = new ArrayList<>();
     numParasReset = numParasToCheck;
-    if((doFullCheckAtFirst || numParasToCheck < 0) && mDocHandler != null) {
+    if((doFullCheckAtFirst || numParasToCheck < 0 || useQueue) && mDocHandler != null) {
       minToCheckPara = mDocHandler.getNumMinToCheckParas();
       for(int i = 0; i < minToCheckPara.size(); i++) {
         paragraphsCache.add(new ResultCache());
@@ -352,68 +349,66 @@ class SingleDocument {
       return nParas;
     }
     // Test if Size of allParas is correct; Reset if not
-    if(!preventReset) {
-      if (docCursor == null) {
-        docCursor = new DocumentCursorTools(xComponent);
+    if (docCursor == null) {
+      docCursor = new DocumentCursorTools(xComponent);
+    }
+    nParas = docCursor.getNumberOfAllTextParagraphs();
+    if (nParas < 2) {
+      return -1;
+    } else if (allParas.size() != nParas) {
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("*** resetAllParas: allParas.size: " + allParas.size() + ", nParas: " + nParas
+                + ", docID: " + docID + logLineBreak);
       }
-      nParas = docCursor.getNumberOfAllTextParagraphs();
-      if (nParas < 2) {
+      List<String> oldParas = allParas;
+      if (flatPara == null) {
+        flatPara = new FlatParagraphTools(xComponent);
+      }
+      if (!resetAllParas(docCursor, flatPara)) {
         return -1;
-      } else if (allParas.size() != nParas) {
-        if (debugMode > 0) {
-          MessageHandler.printToLogFile("*** resetAllParas: allParas.size: " + allParas.size() + ", nParas: " + nParas
-                  + ", docID: " + docID + logLineBreak);
-        }
-        List<String> oldParas = allParas;
-        if (flatPara == null) {
-          flatPara = new FlatParagraphTools(xComponent);
-        }
-        if (!resetAllParas(docCursor, flatPara)) {
-          return -1;
-        }
-        int from = 0;
-        while (from < allParas.size() && from < oldParas.size()
-            && allParas.get(from).equals(oldParas.get(from))) {
-          from++;
-        }
-        resetFrom = from - numParasReset;
-        int to = 1;
-        while (to <= allParas.size() && to <= oldParas.size()
-            && allParas.get(allParas.size() - to).equals(
-                oldParas.get(oldParas.size() - to))) {
-          to++;
-        }
-        to = allParas.size() - to;
-        resetTo = to + numParasReset;
-        if(!ignoredMatches.isEmpty()) {
-          Map<Integer, List<Integer>> tmpIgnoredMatches = new HashMap<>();
-          for (int i = 0; i < from; i++) {
-            if(ignoredMatches.containsKey(i)) {
-              tmpIgnoredMatches.put(i, ignoredMatches.get(i));
-            }
+      }
+      int from = 0;
+      while (from < allParas.size() && from < oldParas.size()
+          && allParas.get(from).equals(oldParas.get(from))) {
+        from++;
+      }
+      resetFrom = from - numParasReset;
+      int to = 1;
+      while (to <= allParas.size() && to <= oldParas.size()
+          && allParas.get(allParas.size() - to).equals(
+              oldParas.get(oldParas.size() - to))) {
+        to++;
+      }
+      to = allParas.size() - to;
+      resetTo = to + numParasReset;
+      if(!ignoredMatches.isEmpty()) {
+        Map<Integer, List<Integer>> tmpIgnoredMatches = new HashMap<>();
+        for (int i = 0; i < from; i++) {
+          if(ignoredMatches.containsKey(i)) {
+            tmpIgnoredMatches.put(i, ignoredMatches.get(i));
           }
-          for (int i = to + 1; i < oldParas.size(); i++) {
-            int n = i + allParas.size() - oldParas.size();
-            if(ignoredMatches.containsKey(i)) {
-              tmpIgnoredMatches.put(n, ignoredMatches.get(i));
-            }
+        }
+        for (int i = to + 1; i < oldParas.size(); i++) {
+          int n = i + allParas.size() - oldParas.size();
+          if(ignoredMatches.containsKey(i)) {
+            tmpIgnoredMatches.put(n, ignoredMatches.get(i));
           }
-          ignoredMatches = tmpIgnoredMatches;
         }
-        for(ResultCache cache : paragraphsCache) {
-          cache.removeAndShift(resetFrom, resetTo, allParas.size() - oldParas.size());
-        }
-        resetTo++;
-        isReset = true;
-        sentencesCache.removeAndShift(from, to, allParas.size() - oldParas.size());
-        resetCheck = true;
-        textIsChanged = true;
-        if(useQueue) {
-          for (int i = 0; i < minToCheckPara.size(); i++) {
-            if(minToCheckPara.get(i) != 0) {
-              for (int n = from; n <= to; n++) {
-                addQueueEntry(n, i, minToCheckPara.get(i), docID);
-              }
+        ignoredMatches = tmpIgnoredMatches;
+      }
+      for(ResultCache cache : paragraphsCache) {
+        cache.removeAndShift(resetFrom, resetTo, allParas.size() - oldParas.size());
+      }
+      resetTo++;
+      isReset = true;
+      sentencesCache.removeAndShift(from, to, allParas.size() - oldParas.size());
+      resetCheck = true;
+      textIsChanged = true;
+      if(useQueue) {
+        for (int i = 0; i < minToCheckPara.size(); i++) {
+          if(minToCheckPara.get(i) != 0) {
+            for (int n = from; n <= to; n++) {
+              addQueueEntry(n, i, minToCheckPara.get(i), docID);
             }
           }
         }
@@ -423,18 +418,16 @@ class SingleDocument {
     if (flatPara == null) {
       flatPara = new FlatParagraphTools(xComponent);
     }
-    if(!preventReset) {
-      nParas = flatPara.getNumberOfAllFlatPara();
-  
-      if (debugMode > 0) {
-        MessageHandler.printToLogFile("Number FlatParagraphs: " + nParas + "; docID: " + docID);
-      }
-  
-      if (nParas < allParas.size()) {   //  no automatic iteration
-        return getParaFromViewCursorOrDialog(chPara);   // try to get ViewCursor position
-      }
-      divNum = nParas - allParas.size();
+    nParas = flatPara.getNumberOfAllFlatPara();
+
+    if (debugMode > 0) {
+      MessageHandler.printToLogFile("Number FlatParagraphs: " + nParas + "; docID: " + docID);
     }
+
+    if (nParas < allParas.size()) {   //  no automatic iteration
+      return getParaFromViewCursorOrDialog(chPara);   // try to get ViewCursor position
+    }
+    divNum = nParas - allParas.size();
 
     nParas = flatPara.getCurNumFlatParagraph();
 
@@ -446,9 +439,6 @@ class SingleDocument {
     numLastFlPara = nParas;
     
     if (!chPara.equals(allParas.get(nParas))) {
-      if(preventReset) {
-        return -1;
-      }
       int nVParas = getParaFromViewCursorOrDialog(chPara);   // try to get ViewCursor position
       if (nVParas >= 0) {
         return nVParas;

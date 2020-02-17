@@ -681,12 +681,16 @@ public class MultiDocumentsHandler {
     SortedTextRules () {
       minToCheckParagraph = new ArrayList<Integer>();
       textLevelRules = new ArrayList<List<String>>();
+      int numParasToCheck = config.getNumParasToCheck();
       List<Rule> rules = langTool.getAllActiveOfficeRules();
       for(Rule rule : rules) {
         if(rule instanceof TextLevelRule && !langTool.getDisabledRules().contains(rule.getId()) 
             && !disabledRulesUI.contains(rule.getId())) {
-          insertRule(((TextLevelRule) rule).minToCheckParagraph(), rule.getId());
+          insertRule(((TextLevelRule) rule).minToCheckParagraph(), rule.getId(), numParasToCheck);
         }
+      }
+      if(useQueue && config.getNumParasToCheck() != 0) {
+        minToCheckParagraph.set(1, config.getNumParasToCheck());
       }
       if(debugMode) {
         MessageHandler.printToLogFile("Number different minToCheckParagraph: " + minToCheckParagraph.size());
@@ -699,19 +703,19 @@ public class MultiDocumentsHandler {
       }
     }
 
-    private void insertRule (int minPara, String RuleId) {
+    private void insertRule (int minPara, String RuleId, int nToCheck) {
       if(useQueue) {
         if(minPara == 0) {
-          int n = minToCheckParagraph.indexOf(-1);
+          int n = minToCheckParagraph.indexOf(nToCheck);
           if( n == 0 || minToCheckParagraph.size() == 0) {
             minToCheckParagraph.add(0, minPara);
             textLevelRules.add(0, new ArrayList<String>());
           }
           textLevelRules.get(0).add(new String(RuleId));
         } else {
-          int n = minToCheckParagraph.indexOf(-1);
+          int n = minToCheckParagraph.indexOf(nToCheck);
           if( n < 0) {
-            minToCheckParagraph.add(-1);
+            minToCheckParagraph.add(nToCheck);
             textLevelRules.add(new ArrayList<String>());
           }
           textLevelRules.get(textLevelRules.size() - 1).add(new String(RuleId));

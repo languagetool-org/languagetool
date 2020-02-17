@@ -67,10 +67,6 @@ public class TextLevelCheckQueue {
   */
   
   public void addQueueEntry(int nStart, int nEnd, int cacheNum, int nCheck, String docId, boolean overrideRunning) {
-//    if(debugMode) {
-//      MessageHandler.printToLogFile("try to add queue entry: docId = " + docId + ", nStart = " + nStart + ", nEnd = " + nEnd 
-//          + ", nCache = " + cacheNum + ", nCheck = " + nCheck + ", overrideRunning = " + overrideRunning);
-//    }
     if(nStart < 0 || nEnd <= nStart || cacheNum < 0 || docId == null) {
       return;
     }
@@ -119,14 +115,12 @@ public class TextLevelCheckQueue {
    * wake up the waiting iteration of the queue
    */
   private void wakeupQueue() {
-//    if(lastStart < 0) {
-      synchronized(queueWakeup) {
-        if(debugMode) {
-          MessageHandler.printToLogFile("wake queue");
-        }
-        queueWakeup.notify();
+    synchronized(queueWakeup) {
+      if(debugMode) {
+        MessageHandler.printToLogFile("wake queue");
       }
-//    }
+      queueWakeup.notify();
+    }
   }
   
   /**
@@ -217,24 +211,18 @@ public class TextLevelCheckQueue {
         break;
       }
     }
-//    MessageHandler.printToLogFile("no open cache entries for docId = " + docId + ", nDoc = " +  nDoc + " (docId = " + documents.get(nDoc).getDocID() + ")");
     for(int i = nDoc + 1; i < documents.size(); i++) {
-//      MessageHandler.printToLogFile("Check Documents for n = " + i);
       QueueEntry queueEntry = documents.get(i).getNextQueueEntry(-1, nCache);
       if(queueEntry != null) {
-//        MessageHandler.printToLogFile("entrie found for docId = " + documents.get(i).getDocID() + ", n = " +  i);
         return queueEntry;
       }
     }
     for(int i = 0; i < nDoc; i++) {
-//      MessageHandler.printToLogFile("Check Documents for n = " + i);
       QueueEntry queueEntry = documents.get(i).getNextQueueEntry(-1, nCache);
       if(queueEntry != null) {
-//        MessageHandler.printToLogFile("entrie found for docId = " + documents.get(i).getDocID() + ", n = " +  i);
         return queueEntry;
       }
     }
-//    MessageHandler.printToLogFile("return null (getNextQueueEntry)");
     return null;
   }
   
