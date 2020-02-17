@@ -12143,7 +12143,17 @@ onwaarschijnlijk
         </rulegroup>
     </category>
     <category id="AFKORTINGEN" name="Afkortingen">
-		
+        <rulegroup id="C_IPV_CA" name="c. → ca.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token spacebefore="yes">c</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="yes" regexp="yes">[0-9]+(%){0,1}</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>ca. \3</suggestion></message>
+                <example correction="ca. 15%">Vergoeding van de buitengerechtelijke kosten is <marker>c. 15%</marker> van de hoofdsom.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AD" name="ad. → ad">
             <rule>
                 <pattern case_sensitive="yes">
@@ -12564,7 +12574,7 @@ onwaarschijnlijk
                         <token regexp="yes" postag="SENT_END">[\p{L}]+</token>
                     </marker>
                 </pattern>
-                <message>Onverwacht einde. Voeg een leesteken (., ! of ?) toe of koppel de teksten.</message>
+                <message>Onverwacht einde. Als dit geen kop is, voeg dan een leesteken (., ! of ?) toe of koppel de teksten.</message>
                 <suggestion>\1.</suggestion>
                 <suggestion>\1?</suggestion>
                 <suggestion>\1!</suggestion>
@@ -13294,8 +13304,10 @@ onwaarschijnlijk
         </rulegroup>
         <rulegroup id="GETALLEN_0_20_OF_ROND" name="Getallen onder 20 en ronde getallen uitschrijven"><!-- picky -->
             <rule>
-                <antipattern><token regexp="yes">[A-Z][a-z].*(straat|weg|plein|steeg|dreef|boulevard)|[€.,/-]|lid|artikel|jaar|jaren|figuur|sub|stap|tabel|ISO'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
+                <antipattern><token regexp="yes">[A-Z][a-z].*(straat|weg|plein|steeg|dreef|boulevard)|[€.,/-]|lid|artikel|jaar|jaren|figuur|sub|stap|tabel|ISO|groep'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
                 <antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
+                </antipattern>
+				<antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">en|of</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
                 </antipattern>
 				<antipattern><token regexp="yes">[0-9]{1,2}</token><token>:</token><token regexp="yes">[0-9]{1,2}</token></antipattern>
                 <pattern>
@@ -37078,6 +37090,7 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="GEDACHTESTREEPJE" name="- → —">
             <rule>
+				<antipattern><token postag="SENT_START"/><token spacebefore="yes">-</token></antipattern><!-- bullet list -->
                 <pattern>
                     <marker>
                         <token spacebefore="yes">-</token>
