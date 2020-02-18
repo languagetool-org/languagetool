@@ -44,9 +44,45 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "your move is",
       "he unchecked the",
       "thank you for the patience",
+      "your patience regarding",
       "your fix",  // fix = bug fix
-      "on point"
-  );
+      "your commit",
+      "on point",
+      "chapter one",
+      "usb port",
+      // The quote in this case in management means: "Know the competition and your software, and you will win.":
+      "know the competition and",
+      "know the competition or",
+      "know your competition and",
+      "know your competition or",
+      "G Suite",
+      "paste event",
+      "need to know",
+      "of you not",   // "It would be wiser of you not to see him again."
+      "of her element",
+      "very grateful of you",
+      "your use case",
+      "he's", // vs. the's
+      "he’s",
+      "they're",
+      "they’re",
+      "your look is", // Really, your look is
+      "have you known",// vs. "know"
+      "have I known",// vs. "know"
+      "had I known",
+      "had you known",
+      "his fluffy butt",
+      "it's now better", // vs. no
+      "it’s now better", // vs. no
+      "it is now better", // vs. no
+      "let us know below",
+      "let us know in",
+      "your kind of",
+      "sneak peek",
+      "the 4 of you",
+      "confirm you own the",
+      "your ride"
+    );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
     this(messages, languageModel, language, 3);

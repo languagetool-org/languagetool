@@ -165,8 +165,11 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
                 "V.*", parts[0]);
             for (AnalyzedToken analyzedToken : analyzedTokenReadings) {
               try {
-                synthesized = synth.synthesize(infinitiveAsAnTkn,
-                    analyzedToken.getPOSTag());
+                String POSTag = analyzedToken.getPOSTag();
+                if (infinitiveAsAnTkn.getLemma().equals("haver")) {
+                  POSTag = "VA" + POSTag.substring(2);
+                }
+                synthesized = synth.synthesize(infinitiveAsAnTkn, POSTag);
               } catch (IOException e) {
                 throw new RuntimeException("Could not synthesize: "
                     + infinitiveAsAnTkn + " with tag "

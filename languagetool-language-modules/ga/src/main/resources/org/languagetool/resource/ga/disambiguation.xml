@@ -1,0 +1,1424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Disambiguation Rules for LanguageTool
+    Copyright (C) 2016 Trinity College, Dublin
+    Copyright (C) 2016-2019 Jim O'Regan
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+-->
+<!DOCTYPE rules [
+        <!ENTITY nbsp " ">
+        <!ENTITY apost "['`’]">
+        <!ENTITY interp "[\p{Punct}\-−–—―„«»…’]+">
+        ]>
+<rules lang="ga" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
+    <unification feature="number">
+        <equivalence type="sg">
+            <token postag=".*:Sg.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="pl">
+            <token postag=".*:Pl.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+    <unification feature="strength">
+        <equivalence type="weak">
+            <token postag=".*:Weak.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="strong">
+            <token postag=".*:Strong.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+    <unification feature="gender">
+        <equivalence type="m">
+            <token postag=".*:Masc:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="f">
+            <token postag=".*:Fem:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+    <unification feature="case">
+        <equivalence type="nom">
+            <token postag=".*:Com:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="gen">
+            <token postag=".*:Gen:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="voc">
+            <token postag=".*:Voc:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+    <unification feature="pers">
+        <equivalence type="p1">
+            <token postag=".*:1P:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="p2">
+            <token postag=".*:2P:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+        <equivalence type="p3">
+            <token postag=".*:3P:.*|SENT_END" postag_regexp="yes"/>
+        </equivalence>
+    </unification>
+
+    <rule id="AS_SIN_AMACH" name="as sin amach">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp">as</token>
+                <token postag="(?:CM:)?Pron:Dem" postag_regexp="yes"></token>
+                <token postag="Adv:Dir">amach</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="DO_DO_AMB" name="do do">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp">do</token>
+                <token postag="Det:Poss:2P:Sg">do</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="LEIS_SIN" name="leis sin">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp"></token>
+                <token postag="(?:CM:)?Pron:Dem" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="OS_COMHAIR" name="os comhair">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp"></token>
+                <token postag="Subst:Noun:Sg.*" inflected="yes" postag_regexp="yes">comhair</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="OS_AR_COMHAIR" name="os ár comhair">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp"></token>
+                <token postag="Det:Poss.*" postag_regexp="yes"></token>
+                <token postag="Subst:Noun:Sg.*" inflected="yes" postag_regexp="yes">comhair</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="CHOMH_MINIC_SIN" name="chomh minic sin">
+        <pattern>
+            <marker>
+                <token postag="Adv:Its">chomh</token>
+                <token postag="Adj:Base">minic</token>
+                <token postag="(?:CM:)?Pron:Dem" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="CHOMH_MINIC" name="chomh minic">
+        <pattern>
+            <marker>
+                <token postag="Adv:Its">chomh</token>
+                <token postag="Adj:Base">minic</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="SCUN_SCAN" name="scun scan">
+        <pattern>
+            <marker>
+                <token postag="Subst:Noun:Sg.*" postag_regexp="yes">scun</token>
+                <token postag="Subst:Noun:Sg.*" postag_regexp="yes">scan</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="DALA_AN_SCEIL" name="dála an scéil">
+        <pattern>
+            <marker>
+                <token postag="Subst:Noun:Sg">dála</token>
+                <token postag="Art:Sg:Def">an</token>
+                <token postag="Noun:Masc:Gen:Sg:DefArt">scéil</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rulegroup id="DAR_LE" name="dar le">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Verb:PresInd">dar</token>
+                    <token postag="(.*)?Prep:.*" postag_regexp="yes" inflected="yes">le</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Verb:PresInd">dar<exception scope="next" inflected="yes">le</exception></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="Verb:PresInd"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="A_HAON" name="a haon">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Part:Nm">a</token>
+                    <token regexp="yes" postag="Num:Card:hPref">haon|hochtó|hocht</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Part:Nm">a</token>
+                    <token regexp="yes" postag="Num:Card">dó|trí|ceathair|cúig|sé|seacht|naoi|deich</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>a</token>
+                </marker>
+                <token regexp="yes">[0-9]+</token>
+            </pattern>
+            <disambig action="filter" postag="Part:Nm"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>a</token>
+                <marker>
+                    <token regexp="yes">[0-9]+</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="Num:Dig"/></disambig>
+        </rule>
+    </rulegroup>
+    <rule id="DE_HAOINE" name="Dé hAoine">
+        <pattern>
+            <marker>
+                <token postag="Subst:Noun:Sg">Dé</token>
+                <token postag="Noun:Fem:Gen:Sg:hPref">hAoine</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="DE_MAIRT" name="Dé Máirt">
+        <pattern>
+            <marker>
+                <token postag="Subst:Noun:Sg">Dé</token>
+                <token postag="Noun:Fem:Gen:Sg">Máirt</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="DE_LUAIN" name="Dé Luain">
+        <pattern>
+            <marker>
+                <token postag="Subst:Noun:Sg">Dé</token>
+                <token regexp="yes" postag="Noun:Fem:Gen:Sg|Noun:Masc:Gen:Sg" postag_regexp="yes">Luain|Céadaoin|Sathairn|Domhnaigh</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="MAR_GHEALL_AR" name="mar gheall ar">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp">mar</token>
+                <token postag="Noun:Masc:Com:Sg:Len">gheall</token>
+            </marker>
+            <token regexp="yes">ar|air</token>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="AR_CHOR_AR_BITH" name="ar chor ar bith">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp">ar</token>
+                <token regexp="yes" postag="Noun:Masc:Com:Sg(?::Len)?" postag_regexp="yes">ch?or</token>
+                <token postag="Prep:Simp">ar</token>
+                <token postag="Noun:Masc:Com:Sg">bith</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="IN_AON_CHOR" name="in aon chor">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp:Vow">in</token>
+                <token postag="Det:Qty:Idf">aon</token>
+                <token regexp="yes" postag="Noun:Masc:Com:Sg(?::Len)?" postag_regexp="yes">ch?or</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="AON_CHOR" name="aon chor">
+        <pattern>
+            <marker>
+                <token postag="Det:Qty:Idf">aon</token>
+                <token regexp="yes" postag="Noun:Masc:Com:Sg(?::Len)?" postag_regexp="yes">ch?or</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <!--
+    <rule id="GO_DEIMHIN" name="go deimhin">
+        <pattern>
+            <marker>
+                <token postag="Part:Ad">go</token>
+                <token postag="Adj:Base">deimhin</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    -->
+    <rule id="MAC_LEINN" name="mac léinn">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc:.*" postag_regexp="yes" inflected="yes">mac</token>
+                <token postag="Noun:Masc:Gen:Sg">léinn</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="USC_OLLA" name="úsc olla">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc:.*" postag_regexp="yes" inflected="yes">úsc</token>
+                <token postag="Noun:Fem:Gen:Sg" inflected="yes">olann</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="I_CHOLM_CILLE" name="Í Cholm Cille">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token postag="Noun:Fem:(Com|Gen|Voc):Sg(:Len)?" postag_regexp="yes" inflected="yes">Í</token>
+                <token postag="Prop:Noun:Masc:Gen:Sg:Len">Cholm</token>
+                <token postag="Noun:Fem:Gen:Sg">Cille</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="OILEAN_I" name="Oileán Í">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token postag="Noun:Masc:.*:Sg.*" postag_regexp="yes">Oileán</token>
+                <token postag="Noun:Fem:Gen:Sg">Í</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="VTI_SUBJ_OBJ" name="VERB sé é">
+        <pattern>
+            <token postag="Verb:VTI:PresInd|Verb:VT:PresInd|Verb:VTI:PastInd(:Q|:NegQ|:Neg)?:Len" postag_regexp="yes"></token>
+            <marker>
+                <token postag="Pron:Pers:[123]P:(Sg|Pl)(:Masc|:Fem)?:Sbj" postag_regexp="yes"></token>
+                <token postag="Pron:Pers:[123]P:(Sg|Pl)(:Masc|:Fem)?" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rulegroup id="A_USAID" name="á úsáid">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Prep:Poss:3P:Sg:Masc:Obj">á</token>
+                    <token postag="Verbal:Noun:VT:Len">úsáid</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Prep:Poss:3P:Sg:Fem:Obj">á</token>
+                    <token postag="Verbal:Noun:VT:hPref">húsáid</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Prep:Poss:3P:Pl:Obj">á</token>
+                    <token postag="Verbal:Noun:VT:Ecl">n-úsáid</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="A_VERBAL_NOUN_VOWEL" name="á [verbal noun]">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Prep:Poss:3P:Sg:Masc:Obj">á</token>
+                    <token postag="Verbal:Noun:V[TI][ID]?:(?:Vow:)?Len" postag_regexp="yes" regexp="yes">[aeiouáéíóú].*</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Prep:Poss:3P:Sg:Fem:Obj">á</token>
+                    <token postag="Verbal:Noun:V[TI][ID]?:(?:Vow:)?hPref" postag_regexp="yes" regexp="yes">h[aeiouáéíóú].*</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Prep:Poss:3P:Pl:Obj">á</token>
+                    <token postag="Verbal:Noun:V[TI][ID]?:(?:Vow:)?Ecl" postag_regexp="yes" regexp="yes">n-[aeiouáéíóú].*</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+    </rulegroup>
+    <rule name="ar mhaithe le" id="ar_mhaithe_le">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp">ar</token>
+                <token postag="Noun:Fem:Com:Sg:Len">mhaithe</token>
+                <token postag="Prep:Simp|Prep:Rel|Pron:Prep.*|Prep:Poss.*" postag_regexp="yes" inflected="yes">le</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="is dual do" id="is_dual_do">
+        <pattern>
+            <marker>
+                <token postag="Cop:.*" postag_regexp="yes" inflected="yes">is</token>
+                <token postag="Subst:Noun:Sg.*" postag_regexp="yes">dual</token>
+                <token postag="Prep:Simp|Prep:Rel|Pron:Prep.*|Prep:Poss.*" postag_regexp="yes" inflected="yes">do</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule name="is áil le" id="is_ail_le">
+        <pattern>
+            <marker>
+                <token postag="Cop:.*" postag_regexp="yes" inflected="yes">is</token>
+                <token postag="Subst:Noun:Sg.*" postag_regexp="yes" regexp="yes">ái[ln]</token>
+                <token postag="Prep:Simp|Prep:Rel|Pron:Prep.*|Prep:Poss.*" postag_regexp="yes" inflected="yes">le</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="FEAR_GILL" name="fear gill">
+        <pattern>
+            <marker>
+                <token postag="Noun:.*" postag_regexp="yes" regexp="yes">fear|cluiche|ticéad|bean|bradaí</token>
+                <token postag="Noun:Masc:Gen:Sg">gill</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="CLOG_DUISITHE" name="clog dúisithe">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes">clog</token>
+                <token postag="Verbal:Adj">dúisithe</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="POLL_GAOITHE" name="poll gaoithe">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes">poll</token>
+                <token postag="Noun:Fem:Gen:Sg" regexp="yes">anála|gaoithe|ascaille|luaithe|séite|tóraíochta|plocóide|cré|glúine|luiche|ola|domhain|faire|gaile|péiste</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="POLL_BUAMA" name="poll buama">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes">poll</token>
+                <token postag="Noun:Masc:Gen:Sg" regexp="yes">buama|sóláis|gairbhéil|mianaigh|tairne|bioráin|leideora|coinín|sliogáin|maiste|iomlaisc|stopalláin</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="POLL_DUBH" name="poll dubh">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes">poll</token>
+                <token postag="Adj.*" postag_regexp="yes">dubh</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="POLL_SNAMHA" name="poll snámha">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes">poll</token>
+                <token postag="Verbal:Noun:VT?I?:Gen" postag_regexp="yes" regexp="yes">snámha|súite|silte</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="LE_CUNAMH_DE" name="le cúnamh Dé">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp">le</token>
+                <token postag="Noun:Masc:Com:Sg" regexp="yes">cúnamh|cuidiú</token>
+                <token postag="Noun:Masc:Gen:Sg">Dé</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rulegroup id="LINN_EISC" name="linn éisc">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Noun:Fem.*" postag_regexp="yes">linn</token>
+                    <token postag="Noun:Masc:Gen:Sg">éisc</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="Noun:Fem.*" postag_regexp="yes">linn</token>
+                <marker>
+                    <token postag="Noun:Masc:Gen:Sg">éisc</token>
+                </marker>
+            </pattern>
+            <disambig action="remove"><wd lemma="éasc" pos="Noun:Masc:Gen:Sg">éisc</wd></disambig>
+        </rule>
+    </rulegroup>
+    <rule id="LINN_FOLA" name="linn fola">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes">linn</token>
+                <token postag="Noun:Fem:Gen:Sg" regexp="yes">fola|trá</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="LINN_LACHAN" name="linn lachan">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes">linn</token>
+                <token postag="Noun:Fem:Gen:Weak:Pl">lachan</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="LINN_CHALAIDH" name="linn chalaidh">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes">linn</token>
+                <token postag="Noun:Masc:Gen:Sg:Len" regexp="yes">mhuilinn|chalaidh</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="CURSAI_NA_LINNE" name="cúrsaí na linne">
+        <pattern>
+            <marker>
+                <token postag="Noun:Masc.*" postag_regexp="yes" inflected="yes">cúrsa</token>
+                <token postag="Art:Gen:Sg:Def:Fem">na</token>
+                <token postag="Noun:Fem:Gen:Sg:DefArt">linne</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule name="de Valera" id="de_Valera">
+        <pattern>
+            <marker><token>de</token></marker>
+            <token regexp="yes">Valera|Brún|hÍde|Niro|Róiste|Cléir|Spáinn|Bhaldraithe</token>
+        </pattern>
+        <disambig postag="Part:Pat"/>
+    </rule>
+    <rule name="leath uair" id="leath_uair">
+        <pattern>
+            <marker><token>leath</token></marker>
+            <token postag="Noun:.*" postag_regexp="yes"></token>
+        </pattern>
+        <disambig postag="Det:Qty"/>
+    </rule>
+    <!-- the NI_FHEICIM rule interferes, put this first-->
+    <rule id="COP_MAITH_LE" name="is maith le">
+        <pattern>
+            <marker>
+                <token postag="Cop:.*" postag_regexp="yes"></token>
+                <token postag="Adj:Base(:Len)?" postag_regexp="yes" regexp="yes">maith|mhaith</token>
+                <token postag="Prep:Rel|Pron:Prep.*|Prep:Poss.*" postag_regexp="yes" inflected="yes">le</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="NI_IMPERATIVE" name="ní imperative">
+        <pattern>
+            <token>ní</token>
+            <marker>
+                <token postag="(?:C[UMC]:)?Verb:.*:Imper.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="(?:C[UMC]:)?Verb:.*:Imper.*"/>
+    </rule>
+    <rule id="NA_IMPERATIVE" name="ná imperative">
+        <pattern>
+            <marker>
+                <token postag="Part:Vb:Neg:Imp">ná</token>
+                <token postag="(?:C[UMC]:)?Verb:.*:Imper.*:Neg" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="IS_DEFART_FEMSG" name="is feminine singular defart">
+        <pattern>
+            <marker>
+                <token postag="Art:Gen:Sg:Def:Fem">na</token>
+                <token postag=".*Noun:Fem:Gen:Sg:DefArt" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="IS_DEFART_PL" name="is plural defart">
+        <pattern>
+            <marker>
+                <token postag="Art:Pl:Def|Prep:Art:Pl" postag_regexp="yes"></token>
+                <token postag=".*:Pl:DefArt" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="IS_DEFART" name="is defart">
+        <pattern>
+            <marker>
+                <token postag="Art:Gen:Sg:Def:Fem|Art:Pl:Def|CU:Prep:Art:Sg|Cop:Pres:Pron:Pers:3P:Sg:Masc:Art:Sg:Def|Cop:Q:Art:Sg|Det:Q:Art:Sg|Prep:Art:Pl|Prep:Art:Sg|Art:Sg:Def" postag_regexp="yes"></token>
+                <token postag=".*:DefArt|Num:Ord|.*Verb.*Q.*|.*Noun.*Len" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="NOT_DEFART" name="not defart">
+        <pattern>
+            <token negate_pos="yes" postag="Art:Gen:Sg:Def:Fem|Art:Pl:Def|Art:Sg:Def|CU:Prep:Art:Sg|Cop:Pres:Pron:Pers:3P:Sg:Masc:Art:Sg:Def|Cop:Q:Art:Sg|Det:Q:Art:Sg|Prep:Art:Pl|Prep:Art:Sg" postag_regexp="yes"></token>
+            <marker>
+                <token postag=".*:DefArt" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag=".*:DefArt"/>
+    </rule>
+    <rule id="NOT_NVOC" name="not vocative noun">
+        <pattern>
+            <token negate="yes">a</token>
+            <marker>
+                <token postag=".*(Noun|Subst).*:Voc.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag=".*:Voc.*"/>
+    </rule>
+    <rule id="NOT_DEFART_ADJ" name="not definite article before adj">
+        <pattern>
+            <marker>
+                <token negate_pos="yes" postag="Art:Gen:Sg:Def:Fem|Art:Pl:Def|Art:Sg:Def|CU:Prep:Art:Sg|Cop:Pres:Pron:Pers:3P:Sg:Masc:Art:Sg:Def|Cop:Q:Art:Sg|Det:Q:Art:Sg|Prep:Art:Pl|Prep:Art:Sg" postag_regexp="yes"></token>
+            </marker>
+            <token postag=".*Adj.*" postag_regexp="yes"><exception regexp="yes">droch|sean|príomh|fíor|iontach|dearg|leath|corr|gnáth|mór</exception></token>
+        </pattern>
+        <disambig action="remove" postag="Art.*|.*:Art.*"/>
+    </rule>
+    <rule id="COS_AR_BOLG" name="cos ar bolg">
+        <pattern>
+            <marker>
+                <token postag="Noun:Fem:.*" postag_regexp="yes">cos</token>
+                <token postag="Prep:Simp">ar</token>
+                <token postag="Noun:Masc:Com:Sg">bolg</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rule id="OS_ARD" name="os ard">
+        <pattern>
+            <marker>
+                <token postag="Prep:Simp">os</token>
+                <token postag="Noun:Masc:Com:Sg">ard</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    <rulegroup id="NI_BA_COMP" name="ní ba mhó">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Subst:Noun:Sg:Part:Comp">ní</token>
+                    <token postag="Part:Sup">ba</token>
+                    <token postag="Adj:Comp:Len"></token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Subst:Noun:Sg:Part:Comp">ní</token>
+                </marker>
+                <token>b</token>
+                <token regexp="yes" spacebefore="no">&apost;</token>
+                <token postag="Adj:Comp:Len" spacebefore="no"></token>
+            </pattern>
+            <disambig action="filter" postag="Subst:Noun:Sg:Part:Comp"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="Subst:Noun:Sg:Part:Comp">ní</token>
+                <marker>
+                    <token>b</token>
+                </marker>
+                <token regexp="yes" spacebefore="no">&apost;</token>
+                <token postag="Adj:Comp:Len" spacebefore="ignore"></token>
+            </pattern>
+            <disambig action="add"><wd lemma="ba" pos="Part:Sup"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="Subst:Noun:Sg:Part:Comp">ní</token>
+                <token>b</token>
+                <token regexp="yes" spacebefore="no">&apost;</token>
+                <marker>
+                    <token postag="Adj:Comp:Len" spacebefore="ignore"></token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="Adj:Comp:Len"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Subst:Noun:Sg:Part:Comp" regexp="yes">ní b[a']</token>
+                    <token postag="Adj:Comp:Len"></token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
+    </rulegroup>
+    <!--
+    <rule id="GO_RAIBH" name="go raibh">
+        <pattern>
+            <marker>
+                <token postag="Prep:Vb:.*" postag_regexp="yes">go</token>
+                <token postag="Verb:.*" postag_regexp="yes">raibh</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"></disambig>
+    </rule>
+    -->
+    <rule id="NUM_DIG_ORD" name="6ú">
+        <pattern>
+            <marker>
+                <token regexp="yes">[1-9][0-9]*ú</token>
+            </marker>
+        </pattern>
+        <disambig action="add"><wd pos="Num:Dig:Ord"></wd></disambig>
+    </rule>
+    <rule id="NUM_DIG_ORD_OBS" name="6adh">
+        <pattern>
+            <marker>
+                <token regexp="yes">[1-9][0-9]*adh</token>
+            </marker>
+        </pattern>
+        <disambig action="add"><wd pos="Num:Dig:Ord"></wd></disambig>
+    </rule>
+    <rulegroup id="DE_SHIOR" name="de shíor">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>de</token>
+                </marker>
+                <token>shíor</token>
+            </pattern>
+            <disambig action="filter" postag="Prep:Simp" />
+        </rule>
+        <rule>
+            <pattern>
+                <token>de</token>
+                <marker>
+                    <token>shíor</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="síor" pos="Subst:Noun:Sg:Len">shíor</wd></disambig>
+        </rule>
+    </rulegroup>
+    <rule id="DAOIS" name="d'aois">
+        <pattern>
+            <marker>
+                <token>d</token>
+            </marker>
+            <token regexp="yes">&apost;</token>
+            <token regexp="yes">aois|airgead</token>
+        </pattern>
+        <disambig action="add"><wd lemma="de" pos="Prep:Simp"></wd></disambig>
+    </rule>
+<!--
+    <rule id="VI" name="VI">
+        <pattern>
+            <marker>
+                <token regexp="yes">(?:M*(?:D?C{0,3}|C[DM])(?:L?X{0,3}|X[LC])(?:V?I{0,3}|I[VX]))</token>
+            </marker>
+        </pattern>
+        <disambig action="add"><wd pos="Num:Rom"></wd></disambig>
+    </rule>
+-->
+    <rulegroup id="GO_ADJ" name="go ADJ">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>go</token>
+                </marker>
+                <token postag="Adj(:.*)?" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="Part:Ad"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>go</token>
+                </marker>
+                <token postag="Adj(:.*)?" postag_regexp="yes" negate_pos="yes"/>
+            </pattern>
+            <disambig action="remove" postag="Part:Ad"/>
+        </rule>
+    </rulegroup>
+    <rule id="NI_RAIBH" name="ní raibh - raibh is a verb">
+        <pattern>
+            <token postag="(?:C[MUC]:)?Part:Vb.*" postag_regexp="yes"></token>
+            <marker>
+                <token postag="(?:C[MUC]:)?Verb:.*" postag_regexp="yes">raibh</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="(?:C[MUC]:)?Verb:.*"/>
+    </rule>
+    <rule id="LEAGAN_AMACH" name="leagan amach">
+        <pattern>
+            <marker>
+                <token postag="Verbal:Noun.*" postag_regexp="yes">leagan</token>
+            </marker>
+            <token>amach</token>
+        </pattern>
+        <disambig action="remove" postag="Verbal:Noun.*"/>
+    </rule>
+    <rule id="NIOS_ADJ" name="níos ADJ">
+        <pattern>
+            <marker>
+                <token postag="Verb:.*" postag_regexp="yes">níos</token>
+            </marker>
+            <token postag="Adj:.*|Adv.*" postag_regexp="yes"></token>
+        </pattern>
+        <disambig action="remove" postag="Verb:.*"/>
+    </rule>
+    <rule id="MO_THEACHSA" name="mo theachsa">
+        <pattern>
+            <token postag="(?:Prep:)?Det:Poss.*" postag_regexp="yes" negate_pos="yes"></token>
+            <marker>
+                <token postag="(?:C[MCU]:)?Noun:Emph.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="(?:C[MCU]:)?Noun:Emph.*"/>
+    </rule>
+    <rulegroup id="PREP_DAT" name="prep dat">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Prep:Simp"></token>
+                    <token postag="(?:C[MCU]:)?(?:Prop:)?Noun:.*:Dat:.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="Prep:Simp" negate_pos="yes"></token>
+                <marker>
+                    <token postag="(?:Prop:)Noun:.*:Dat:.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="(?:Prop:)Noun:.*:Dat:.*"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="CLOCHAN_AN_AIFIR" name="clochán an aifir">
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">clochán</token>
+                </marker>
+                <token>an</token>
+                <token>aifir</token>
+            </pattern>
+            <disambig action="remove" postag="Noun:Masc:Gen:Weak:Pl.*" />
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">clochán</token>
+                </marker>
+                <token>an</token>
+                <token>aifir</token>
+            </pattern>
+            <disambig action="remove" postag="Noun:Masc:Com:Sg:DefArt" />
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">clochán</token>
+                <marker>
+                    <token>an</token>
+                </marker>
+                <token>aifir</token>
+            </pattern>
+            <disambig action="filter" postag="Art:Sg:Def" />
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">clochán</token>
+                <token>an</token>
+                <marker>
+                    <token>aifir</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd pos="Noun:Masc:Pl:Gen:DefArt">aifir</wd></disambig>
+        </rule>
+    </rulegroup>
+    <!--
+    <rulegroup id="AN_DA" name="an dá">
+        <rule>
+            <pattern>
+                <token postag="(.*:)?Art.*" postag_regexp="yes" negate_pos="yes"/>
+                <marker>
+                    <token>dá</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="Num:Card:Def"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="(.*:)?Art.*" postag_regexp="yes"/>
+                <marker>
+                    <token>dá</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="Num:Card:Def"/>
+        </rule>
+    </rulegroup>
+    -->
+    <rule id="I_BHFUIL" name="i bhfuil">
+        <pattern>
+            <token postag="Prep:Simp">i</token>
+            <marker>
+                <token postag="Noun:Fem:Com:Sg:Ecl">bhfuil</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="Noun:Fem:Com:Sg:Ecl"/>
+    </rule>
+    <rule id="NI_OLANN" name="ní NEGVERB">
+        <pattern>
+            <marker>
+                <token postag="Part:Vb:Neg">ní</token>
+                <token postag=".*Verb.*:Neg.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall" />
+    </rule>
+    <rule id="CHAN_OLANN" name="chan NEGVERB">
+        <pattern>
+            <marker>
+                <token postag="CU:Part:Vb:Neg">chan</token>
+                <token postag=".*Verb.*:Neg.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall" />
+    </rule>
+    <rule id="FAOIN_GCEAD" name="faoin gcéad">
+        <pattern>
+            <marker>
+                <token postag="Prep:Art:Sg">faoin</token>
+                <token postag="Num:Card:Ecl">gcéad</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="SA_CHEAD_NOUNUNLEN" name="sa chéad áit">
+        <pattern>
+            <marker>
+                <token postag="Prep:Art:Sg">sa</token>
+                <token postag="Num:Ord:Len">chéad</token>
+                <token postag_regexp="yes" postag=".*Noun:(?:Masc|Fem):(?:Com|Dat):Sg" regexp="yes">[dts].*</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="SA_CHEAD_NOUNLEN" name="sa chéad áit">
+        <pattern>
+            <marker>
+                <token postag="Prep:Art:Sg">sa</token>
+                <token postag="Num:Ord:Len">chéad</token>
+                <token postag_regexp="yes" postag=".*Noun:(?:Masc|Fem):(?:Com|Dat):Sg:Len" regexp="yes">[^dts].*</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="SA_CHEAD_SEO" name="sa chéad seo">
+        <pattern>
+            <marker>
+                <token postag="Prep:Art:Sg">sa</token>
+                <token postag="Noun:Masc:Com:Sg:Len">chéad</token>
+                <token postag_regexp="yes" postag="CM:Det:Dem|Det:Dem" regexp="yes">sin|seo|san|úd</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="SA_CHEAD" name="sa chéad">
+        <antipattern>
+            <token>sa</token>
+            <token>chéad</token>
+            <token postag_regexp="yes" postag=".*Noun.*"></token>
+        </antipattern>
+        <antipattern>
+            <token>sa</token>
+            <token>chéad</token>
+            <token regexp="yes">sin|seo|úd</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <token postag="Prep:Art:Sg">sa</token>
+                <token postag="Num:Card:Len">chéad</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="NA_BA" name="na ba">
+        <pattern>
+            <marker>
+                <token postag="Art:Pl:Def">na</token>
+                <token postag="Noun:Fem:Com:Pl:DefArt">ba</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="BA_AR_A_LACHT" name="ba ar a lacht">
+        <pattern>
+            <marker>
+                <token postag="Noun:Fem:Com:Pl">ba</token>
+                <token postag="Prep:Simp">ar</token>
+                <token postag="Det:Poss:3P:Pl">a</token>
+                <token postag="Noun:Masc:Com:Sg:Ecl">lacht</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <!-- if singular, on 'her'; if plural, on 'their' -->
+    <rulegroup id="BO_AR_A_LACHT" name="bó ar a lacht">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Noun:Fem:(Com|Gen):Sg.*" postag_regexp="yes" inflected="yes">bó</token>
+                    <token postag="Prep:Simp">ar</token>
+                    <token postag="Det:Poss:3P:Sg:Fem">a</token>
+                    <token postag="Noun:Masc:Com:Sg">lacht</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Noun:Fem:(Com|Gen):Pl.*" postag_regexp="yes" inflected="yes">bó</token>
+                    <token postag="Prep:Simp">ar</token>
+                    <token postag="Det:Poss:3P:Pl">a</token>
+                    <token postag="Noun:Masc:Com:Sg:Ecl">lacht</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
+    <rule id="BA_AG_INIOR" name="ba ag iníor">
+        <pattern>
+            <marker>
+                <token postag="Noun:Fem:Com:Pl">ba</token>
+                <token postag="Prep:Simp">ag</token>
+                <token postag="Noun:Masc:Com:Sg">iníor</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="NAR_FHILLE" name="nár fhille">
+        <pattern>
+            <marker>
+                <token postag="Part:Vb:Neg:Subj">nár</token>
+                <token postag=".*Verb.*PresSubj:Neg.*" postag_regexp="yes"></token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="NOT_PRESSUBJ" name="fhille, é">
+        <pattern>
+            <token><exception postag="Part:Vb:Neg:Subj">nár</exception></token>
+            <marker>
+                <and>
+                    <token negate_pos="yes" postag=".*Verb.*PresSubj:Neg.*" postag_regexp="yes"></token>
+                    <token postag=".*Verb.*PresSubj:Neg.*" postag_regexp="yes"></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag=".*Verb.*PresSubj:Neg.*"/>
+    </rule>
+    <rule id="GO_N-OIBRI" name="go n-oibrí">
+        <pattern>
+            <marker>
+                <token postag="Part:Vb:Subj">go</token>
+                <token postag=".*Verb.*PresSubj.*" postag_regexp="yes" inflected="yes">oibrigh</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="START_BHI" name="Bhí">
+        <pattern>
+            <token postag="SENT_START"></token>
+            <marker>
+                <token>bhí</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="Verb:VI:PastInd:Len"/>
+    </rule>
+    <rulegroup id="GO_SUBJ" name="go SUBJ">
+        <rule>
+            <pattern>
+                <token postag="SENT_START"></token>
+                <marker>
+                    <token postag="Part:Vb:Subj">go</token>
+                    <token postag=".*Verb.*PresSubj.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START"></token>
+                <token regexp="yes">&interp;</token>
+                <marker>
+                    <token postag="Part:Vb:Subj">go</token>
+                    <token postag=".*Verb.*PresSubj.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
+    <rule id="COMHAIRLE_CONTAE" name="Comhairle Contae">
+        <pattern>
+            <marker>
+                <token postag="Noun:Fem:.*:Sg.*" postag_regexp="yes">comhairle</token>
+                <token postag="Noun:Masc:Gen:Sg">contae</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule id="CILL_DARA" name="Cill Dara">
+        <pattern>
+            <marker>
+                <token postag="Prop:Noun:Masc:.*:Sg.*" postag_regexp="yes">Cill</token>
+                <token postag="Prop:Noun:Masc:Gen:Sg">Dara</token>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rulegroup id="RTE_PONC_IE" name="rte.ie">  <!-- suppress in spell checker/capital -->
+        <rule>
+            <pattern>
+                <marker><token>rte</token></marker>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">ie</token>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>rte</token>
+                <token spacebefore="no">.</token>
+                <marker><token spacebefore="no">ie</token></marker>
+            </pattern>
+            <disambig action="immunize"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="AR_ARSA" name="ar (seisean)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Verb:PastInd">ar</token>
+                </marker>
+                <token regexp="yes">seisean|sise|siadsan</token>
+            </pattern>
+            <disambig action="filter" postag="Verb:PastInd"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Verb:PastInd">ar</token>
+                </marker>
+                <token regexp="yes" negate="yes">seisean|sise|siadsan</token>
+            </pattern>
+            <disambig action="remove" postag="Verb:PastInd"/>
+        </rule>
+    </rulegroup>
+    <rule id="AR_AR" name="ar ar">  <!-- suppress in word repeat rule -->
+        <pattern>
+            <marker><token>ar</token></marker>
+            <token>ar</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="CIAROG_CIAROG" name="ciaróg ciaróg">  <!-- suppress in word repeat rule -->
+        <pattern>
+            <marker><token>ciaróg</token></marker>
+            <token>ciaróg</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="DEO_DEO" name="deo deo">  <!-- suppress in word repeat rule -->
+        <pattern>
+            <marker><token>deo</token></marker>
+            <token>deo</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="DO_DO" name="do do">  <!-- suppress in word repeat rule -->
+        <pattern>
+            <marker><token>do</token></marker>
+            <token>do</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="E_E" name="é é">  <!-- suppress in word repeat rule -->
+        <pattern>
+            <marker><token>é</token></marker>
+            <token>é</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="FADA_FADA" name="fada fada">  <!-- suppress in word repeat rule -->
+        <pattern>
+            <marker><token>fada</token></marker>
+            <token>fada</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="FADO_FADO" name="fadó fadó">  <!-- suppress in word repeat rule -->
+        <pattern>
+            <marker><token>fadó</token></marker>
+            <token>fadó</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="LEOR_LEOR" name="leor leor">  <!-- suppress in word repeat rule -->
+        <pattern>
+            <marker><token>leor</token></marker>
+            <token>leor</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="ME_ME" name="mé mé">  <!-- suppress in word repeat rule -->
+        <pattern>
+            <marker><token>mé</token></marker>
+            <token>mé</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="MILLIUN_MILLIUN" name="milliún milliún">  <!-- suppress in word repeat rule -->
+        <pattern>
+            <marker><token>milliún</token></marker>
+            <token>milliún</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="LATE_LATE" name="Late Late">  <!-- suppress in word repeat rule -->
+        <pattern case_sensitive="yes">
+            <marker><token>Late</token></marker>
+            <token>Late</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="MOR_MOR" name="mór mór">  <!-- suppress in word repeat rule -->
+        <pattern>
+            <marker><token>mór</token></marker>
+            <token>mór</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="SIN_SIN" name="sin sin">  <!-- suppress in word repeat rule -->
+        <pattern>
+            <marker><token>sin</token></marker>
+            <token>sin</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="T_HYPHEN" name="t-">  <!-- suppress in spell checker -->
+        <pattern>
+            <marker><token>t</token></marker>
+            <token spacebefore="yes">-</token>
+            <token spacebefore="no" regexp="yes">[aeiouáéíóúsl].*</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="H_HYPHEN" name="h-">  <!-- suppress in spell checker -->
+        <pattern>
+            <marker><token>h</token></marker>
+            <token spacebefore="yes">-</token>
+            <token spacebefore="no" regexp="yes">[aeiouáéíóú].*</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="N_HYPHEN" name="n-">  <!-- suppress in spell checker -->
+        <pattern>
+            <marker><token>n</token></marker>
+            <token spacebefore="yes">-</token>
+            <token spacebefore="no" regexp="yes">[aeiouáéíóú].*</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="ARGOS_LTD" name="Argos Ltd">
+        <pattern>
+            <marker><token>Argos</token></marker>
+            <token>Ltd</token>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rule id="PICTIURLANN_SAVOY" name="pictiúrlann an Savoy">
+    	<pattern>
+            <token>pictúirlann</token>
+            <token min="0">an</token>
+	        <marker><token>Savoy</token></marker>
+        </pattern>
+        <disambig action="immunize"/>
+    </rule>
+    <rulegroup id="INTRODUCE_ERRORS" name="add wrong readings for rules">
+        <rule>
+            <pattern>
+                <token postag=".*Noun:(Masc|Fem):Com:Pl.*" postag_regexp="yes" regexp="yes">[^ ]*[eéií][^aeiouáéíóú]+</token>
+                <marker><token postag="Adj:Com:NotSlen:Pl"></token></marker>
+            </pattern>
+            <disambig action="add"><wd pos="Adj:Com:Slender:Pl:MorphErr"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag=".*Noun:Fem:Com:Sg.*" postag_regexp="yes"></token>
+                <marker><token postag="Adj:Masc:Com:Sg"></token></marker>
+            </pattern>
+            <disambig action="add"><wd pos="Adj:Fem:Com:Sg:MorphErr"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag=".*Noun:(Masc|Fem):Com:Pl.*" postag_regexp="yes" regexp="yes">[^ ]*[eéií][^aeiouáéíóú]+</token>
+                <token postag=".*Adj.*" postag_regexp="yes"></token>
+                <marker><token postag="Adj:Com:NotSlen:Pl"></token></marker>
+            </pattern>
+            <disambig action="add"><wd pos="Adj:Com:Slender:Pl:MorphErr"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag=".*Noun:Fem:Com:Sg.*" postag_regexp="yes"></token>
+                <token postag=".*Adj.*" postag_regexp="yes"></token>
+                <marker><token postag="Adj:Masc:Com:Sg"></token></marker>
+            </pattern>
+            <disambig action="add"><wd pos="Adj:Fem:Com:Sg:MorphErr"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>ag</token>
+                <token postag=".*Verbal:Noun.*" postag_regexp="yes"></token>
+                <marker><token>Ghaeilge</token></marker>
+            </pattern>
+            <disambig action="add"><wd pos="Prop:Noun:Fem:Gen:Sg:Len"/></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="NOUN_ADJ_ADJ" name="noun adj adj">
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="gender"/><feature id="case"/><feature id="number"/>
+                    <token postag=".*Noun.*Sg.*" postag_regexp="yes"></token>
+                    <token postag=".*Adj.*Sg.*" postag_regexp="yes"></token>
+                    <token postag=".*Adj.*Sg.*" postag_regexp="yes"></token>
+                </unify>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="case"/><feature id="strength"/><feature id="number"/>
+                    <token postag=".*Noun.*Pl.*" postag_regexp="yes"></token>
+                    <token postag=".*Adj.*Pl.*" postag_regexp="yes"></token>
+                    <token postag=".*Adj.*Pl.*" postag_regexp="yes"></token>
+                </unify>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="NOUN_ADJ" name="noun adj">
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="gender"/><feature id="case"/><feature id="number"/>
+                    <token postag=".*Noun.*Sg.*" postag_regexp="yes"></token>
+                    <token postag=".*Adj.*Sg.*" postag_regexp="yes"></token>
+                </unify>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="case"/><feature id="strength"/><feature id="number"/>
+                    <token postag=".*Noun.*Pl.*" postag_regexp="yes"></token>
+                    <token postag=".*Adj.*Pl.*" postag_regexp="yes"></token>
+                </unify>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="GEN_PREP" name="genitive prep">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="Prep:Simp" regexp="yes">chun|trasna|timpeall|fearacht|dála|cois</token>
+                </marker>
+                <token postag="Art:.*" postag_regexp="yes"></token>
+                <token postag=".*Noun:.*Gen:.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig><match no="1" postag="Prep:Simp" postag_regexp="yes" /></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>dála</token>
+                </marker>
+                <token postag="Art:.*" postag_regexp="yes"></token>
+                <token postag=".*Noun:.*Gen:.*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="replace"><wd pos="Prep:Simp">dála</wd></disambig>
+        </rule>
+    </rulegroup>
+</rules>

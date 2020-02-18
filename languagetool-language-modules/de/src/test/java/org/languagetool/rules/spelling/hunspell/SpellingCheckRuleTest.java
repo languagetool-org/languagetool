@@ -20,7 +20,7 @@ package org.languagetool.rules.spelling.hunspell;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.de.GermanSpellerRule;
@@ -37,7 +37,7 @@ public class SpellingCheckRuleTest {
 
   @Test
   public void testIgnoreSuggestionsWithHunspell() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
 
     assertThat(lt.check("Das ist ein einPseudoWortFürLanguageToolTests").size(), is(0));   // no error, as this word is in ignore.txt
 
@@ -48,7 +48,7 @@ public class SpellingCheckRuleTest {
 
   @Test
   public void testIgnorePhrases() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     assertThat(lt.check("Ein Test mit Auriensis Fantasiewortus").size(), is(2));
     for (Rule rule : lt.getAllActiveRules()) {
       if (rule instanceof SpellingCheckRule) {

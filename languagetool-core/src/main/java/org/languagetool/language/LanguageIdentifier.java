@@ -102,6 +102,7 @@ public class LanguageIdentifier {
         .build();
       textObjectFactory = new TextObjectFactoryBuilder()
         .maxTextLength(10000)
+        // note: keep these in sync with if(fasttextEnabled) in detectLanguage:
         .withTextFilter(UrlTextFilter.getInstance())
         .withTextFilter(RemoveMinorityScriptsTextFilter.forThreshold(0.3))
         .withTextFilter(new RemoveEMailSignatureFilter())
@@ -119,6 +120,7 @@ public class LanguageIdentifier {
         fasttextEnabled = true;
       } catch (IOException e) {
         fasttextEnabled = false;
+        logger.error("Error while starting fasttext (binary: " + fasttextBinary + ", model: " + fasttextModel + ")", e);
         throw new RuntimeException("Could not start fasttext process for language identification @ " + fasttextBinary + " with model @ " + fasttextModel, e);
       }
     }
@@ -199,11 +201,15 @@ public class LanguageIdentifier {
         preferredLangs + ". Use 'preferredVariants' to specify variants");
     }
     String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
-    shortText = textObjectFactory.forText(shortText).toString();
     shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
     Map.Entry<String,Double> result = null;
     if (fasttextEnabled) {
       try {
+        // do *not* use TextObjectFactory because of https://github.com/languagetool-org/languagetool/issues/1278
+        // (using it for optimaize is okay, assuming the same strong normalization was applied during training):
+        shortText = UrlTextFilter.getInstance().filter(shortText);
+        shortText = new RemoveEMailSignatureFilter().filter(shortText);
+        shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
         Map<String, Double> scores = runFasttext(shortText, noopLangs);
         result = getHighestScoringResult(scores);
         if (result.getValue().floatValue() < THRESHOLD) {
@@ -238,12 +244,14 @@ public class LanguageIdentifier {
       } catch (Exception e) {
         fasttextEnabled = false;
         RuleLoggerMessage msg = new RuleErrorNotification(this.getClass().getSimpleName(), "-",
-          String.format("Fasttext disabled, failed on '%s': %s", text, ExceptionUtils.getStackTrace(e)));
+          String.format("Fasttext disabled, failed on '%s' (shortText='%s'): %s", text, shortText, ExceptionUtils.getStackTrace(e)));
         RuleLoggerManager.getInstance().log(msg, Level.WARNING);
         fasttextProcess.destroy();
+        logger.error(String.format("Fasttext disabled, failed on '%s' (shortText='%s')", text, shortText), e);
       }
     }
     if (!fasttextEnabled) { // no else, value can change in if clause
+      shortText = textObjectFactory.forText(shortText).toString();
       result = detectLanguageCode(shortText);
       if (noopLangs.size() > 0) {
         logger.warn("Cannot consider noopLanguages because not in fastText mode: " + noopLangs);
@@ -289,9 +297,23 @@ public class LanguageIdentifier {
       fasttextOut.newLine();
       fasttextOut.flush();
       buffer = fasttextIn.readLine();
+      if (buffer == null) {
+        // hack to see if this helps us debug the rare case of readLine() returning null:
+        try {
+          logger.warn("fasttextIn.readLine() returned null, trying again after short delay for input '" + text + "'");
+          Thread.sleep(10);
+          buffer = fasttextIn.readLine();
+          if (buffer == null) {
+            logger.warn("fasttextIn.readLine() returned null again");
+          }
+        } catch (InterruptedException e) {
+          throw new RuntimeException(e);
+        }
+      }
     }
     String[] values = buffer.split(" ");
     if (values.length % 2 != 0) {
+      logger.error("Error while parsing fasttext output '{}'", buffer);
       throw new RuntimeException("Error while parsing fasttext output: " + buffer);
     }
     for (int i = 0; i < values.length; i += 2) {

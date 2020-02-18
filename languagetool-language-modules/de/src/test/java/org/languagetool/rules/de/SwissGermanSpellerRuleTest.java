@@ -20,6 +20,7 @@ package org.languagetool.rules.de;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
@@ -29,7 +30,7 @@ import static org.junit.Assert.assertThat;
 
 public class SwissGermanSpellerRuleTest {
 
-  private static final SwissGerman DE_CH = new SwissGerman();
+  private static final SwissGerman DE_CH = (SwissGerman) Languages.getLanguageForShortCode("de-CH");
 
   @Test
   public void testGetSuggestionsFromSpellingTxt() throws Exception {

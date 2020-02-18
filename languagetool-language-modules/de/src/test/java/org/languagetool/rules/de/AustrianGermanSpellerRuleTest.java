@@ -23,12 +23,13 @@ import static org.junit.Assert.assertThat;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.AustrianGerman;
 
 public class AustrianGermanSpellerRuleTest {
 
-  private static final AustrianGerman DE_AT = new AustrianGerman();
+  private static final AustrianGerman DE_AT = (AustrianGerman) Languages.getLanguageForShortCode("de-AT");
 
   @Test
   public void testGetSuggestionsFromSpellingTxt() throws Exception {

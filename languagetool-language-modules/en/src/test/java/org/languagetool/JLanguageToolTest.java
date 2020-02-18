@@ -108,7 +108,7 @@ public class JLanguageToolTest {
       assertNoError("It's a kind of agreement in which each party gives something to the other, Jack said.", lt);
       assertNoError("Later, you shall know it better.", lt);
       assertNoError("And the few must win what the many lose, for the opposite arrangement would not support markets as we know them at all, and is, in fact, unimaginable.", lt);
-      assertNoError("He explained his errand, but without bothering much to make it plausible, for he felt something well up in him which was the reason why he had fled the army.", lt);
+      assertNoError("He explained his errand, but without bothering much to make it plausible, for he felt something well up in him which was the reason he had fled the army.", lt);
       assertNoError("I think it's better, and it's not a big deal.", lt);
 
       assertOneError("A test test that should give errors.", lt);
@@ -235,7 +235,7 @@ public class JLanguageToolTest {
     String sentence = "And one two three.";
     AnalyzedSentence analyzedSentence = tool.getAnalyzedSentence(sentence);
     List<Rule> bothRules = new ArrayList<>(Arrays.asList(rule1, rule2));
-    List<RuleMatch> ruleMatches2 = tool.checkAnalyzedSentence(ParagraphHandling.NORMAL, bothRules, analyzedSentence);
+    List<RuleMatch> ruleMatches2 = tool.checkAnalyzedSentence(ParagraphHandling.NORMAL, bothRules, analyzedSentence, true);
     assertEquals("one overlapping rule must be filtered out", 1, ruleMatches2.size());
     assertEquals("msg1", ruleMatches2.get(0).getMessage());
   }

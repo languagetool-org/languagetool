@@ -30,11 +30,7 @@ import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.de.GermanTagger;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * Old to new spelling data and similar formats loaded form CSV.
@@ -49,27 +45,28 @@ class SpellingData {
   }
   
   SpellingData(String ruleDesc, String filePath, String message, String shortMessage, String ruleId, ITSIssueType issueType, boolean ignoreAfterQuote) {
-    try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filePath);
-         Scanner scanner = new Scanner(inputStream, "utf-8")) {
-      Language german = Languages.getLanguageForShortCode("de");
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        if (line.startsWith("#")) {
-          continue;
-        }
-        String[] parts = line.split(";");
-        if (parts.length < 2) {
-          throw new RuntimeException("Unexpected format in file " + filePath + ": " + line);
-        }
-        String alternative = parts[0];
-        List<String> suggestions = new ArrayList<>(Arrays.asList(parts).subList(1, parts.length));
-        List<PatternToken> patternTokens = getTokens(alternative, german);
-        PatternRule rule = new PatternRule(ruleId, german, patternTokens, ruleDesc, message, shortMessage);
-        rule.setLocQualityIssueType(issueType);
-        spellingRules.add(new SpellingRuleWithSuggestions(rule, alternative, suggestions, ignoreAfterQuote));
+    Language german = Languages.getLanguageForShortCode("de");
+    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(filePath);
+    Map<String,String> coherencyMap = new HashMap<>();
+    for (String line : lines) {
+      if (line.startsWith("#")) {
+        continue;
       }
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+      String[] parts = line.split(";");
+      if (parts.length < 2) {
+        throw new RuntimeException("Unexpected format in file " + filePath + ": " + line);
+      }
+      String alternative = parts[0];
+      String lookup = coherencyMap.get(parts[1]);
+      if (lookup != null && lookup.equals(alternative)) {
+        throw new RuntimeException("Contradictory entry in " + filePath + ": '" + alternative + "' suggests '" + lookup + "' and vice versa");
+      }
+      coherencyMap.put(parts[0], parts[1]);
+      List<String> suggestions = new ArrayList<>(Arrays.asList(parts).subList(1, parts.length));
+      List<PatternToken> patternTokens = getTokens(alternative, german);
+      PatternRule rule = new PatternRule(ruleId, german, patternTokens, ruleDesc, message, shortMessage);
+      rule.setLocQualityIssueType(issueType);
+      spellingRules.add(new SpellingRuleWithSuggestions(rule, alternative, suggestions, ignoreAfterQuote));
     }
   }
 

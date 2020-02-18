@@ -41,7 +41,7 @@ public class CommandLineToolsTest {
   private PrintStream stderr;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     this.stdout = System.out;
     this.stderr = System.err;
     this.out = new ByteArrayOutputStream();
@@ -51,13 +51,13 @@ public class CommandLineToolsTest {
   }
 
   @After
-  public void tearDown() throws Exception {
+  public void tearDown() {
     System.setOut(this.stdout);
     System.setErr(this.stderr);
   }
 
   @Test
-  public void testCheck() throws IOException, ParserConfigurationException, SAXException {
+  public void testCheck() throws IOException {
     JLanguageTool tool = new JLanguageTool(TestTools.getDemoLanguage());
 
     int matches = CommandLineTools.checkText("Foo.", tool);

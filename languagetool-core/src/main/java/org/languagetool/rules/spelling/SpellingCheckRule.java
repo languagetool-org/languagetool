@@ -73,12 +73,14 @@ public abstract class SpellingCheckRule extends Rule {
 
   private static final String SPELLING_IGNORE_FILE = "/hunspell/ignore.txt";
   private static final String SPELLING_FILE = "/hunspell/spelling.txt";
+  private static final String CUSTOM_SPELLING_FILE = "/hunspell/spelling_custom.txt";
+  private static final String GLOBAL_SPELLING_FILE = "spelling_global.txt";
   private static final String SPELLING_PROHIBIT_FILE = "/hunspell/prohibit.txt";
+  private static final String CUSTOM_SPELLING_PROHIBIT_FILE = "/hunspell/prohibit_custom.txt";
   private static final String SPELLING_FILE_VARIANT = null;
   private static final Comparator<String> STRING_LENGTH_COMPARATOR = Comparator.comparingInt(String::length);
 
   private final UserConfig userConfig;
-  private final Set<String> wordsToBeIgnored = new HashSet<>();
   private final Set<String> wordsToBeProhibited = new HashSet<>();
   private final List<RuleWithLanguage> altRules;
 
@@ -88,6 +90,7 @@ public abstract class SpellingCheckRule extends Rule {
   private List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
   private boolean considerIgnoreWords = true;
   private boolean convertsCase = false;
+  protected final Set<String> wordsToBeIgnored = new HashSet<>();
   protected int ignoreWordsWithLength = 0;
 
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig) {
@@ -179,7 +182,7 @@ public abstract class SpellingCheckRule extends Rule {
       List<String> combinedSuggestions = new ArrayList<>();
       combinedSuggestions.addAll(userCandidates);
       combinedSuggestions.addAll(candidates);
-      match.setSuggestedReplacements(combinedSuggestions);
+      match.addSuggestedReplacements(combinedSuggestions);
     }
     /*long timeDelta = System.currentTimeMillis() - startTime;
     System.out.printf("Reordering %d suggestions took %d ms.%n", result.getSuggestedReplacements().size(), timeDelta);*/
@@ -207,6 +210,12 @@ public abstract class SpellingCheckRule extends Rule {
 
   @Override
   public abstract RuleMatch[] match(AnalyzedSentence sentence) throws IOException;
+
+  /**
+   * @since 4.8
+   */
+  @Experimental
+  public abstract boolean isMisspelled(String word) throws IOException;
 
   @Override
   public boolean isDictionaryBasedSpellingRule() {
@@ -337,7 +346,7 @@ public abstract class SpellingCheckRule extends Rule {
     }
   }
 
-  protected void init() throws IOException {
+  protected synchronized void init() throws IOException {
     for (String ignoreWord : wordListLoader.loadWords(getIgnoreFileName())) {
       addIgnoreWords(ignoreWord);
     }
@@ -346,9 +355,21 @@ public abstract class SpellingCheckRule extends Rule {
         addIgnoreWords(ignoreWord);
       }
     }
+    for (String fileName : getAdditionalSpellingFileNames()) {
+      if (JLanguageTool.getDataBroker().resourceExists(fileName)) {
+        for (String ignoreWord : wordListLoader.loadWords(fileName)) {
+          addIgnoreWords(ignoreWord);
+        }
+      }
+    }
     updateIgnoredWordDictionary();
     for (String prohibitedWord : wordListLoader.loadWords(getProhibitFileName())) {
       addProhibitedWords(expandLine(prohibitedWord));
+    }
+    for (String fileName : getAdditionalProhibitFileNames()) {
+      for (String prohibitedWord : wordListLoader.loadWords(fileName)) {
+        addProhibitedWords(expandLine(prohibitedWord));
+      }
     }
   }
 
@@ -372,6 +393,16 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
+   * Get the name of additional spelling file, which lists words to be accepted
+   * and used for suggestions, even when the spell checker would not accept them.
+   * @since 4.8
+   */
+  public List<String> getAdditionalSpellingFileNames() {
+    // NOTE: also add to GermanSpellerRule.getSpeller() when adding items here:
+    return Arrays.asList(language.getShortCode() + CUSTOM_SPELLING_FILE, GLOBAL_SPELLING_FILE);
+  }
+
+  /**
    * 
    * Get the name of the spelling file for a language variant (e.g., en-US or de-AT), 
    * which lists words to be accepted and used for suggestions, even when the spell
@@ -392,6 +423,15 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
+   * Get the name of the prohibit file, which lists words not to be accepted, even
+   * when the spell checker would accept them.
+   * @since 2.8
+   */
+  protected List<String> getAdditionalProhibitFileNames() {
+    return Arrays.asList(language.getShortCode() + CUSTOM_SPELLING_PROHIBIT_FILE);
+  }
+
+  /**
    * Whether the word is prohibited, i.e. whether it should be marked as a spelling
    * error even if the spell checker would accept it. (This is useful to improve our spell
    * checker without waiting for the upstream checker to be updated.)
@@ -405,9 +445,31 @@ public abstract class SpellingCheckRule extends Rule {
    * Remove prohibited words from suggestions.
    * @since 2.8
    */
-  protected void filterSuggestions(List<String> suggestions) {
+  protected List<String> filterSuggestions(List<String> suggestions, AnalyzedSentence sentence, int i) {
     suggestions.removeIf(suggestion -> isProhibited(suggestion));
-    filterDupes(suggestions);
+    List<String> newSuggestions = new ArrayList<>();
+    for (String suggestion : suggestions) {
+      String suggestionWithoutS = suggestion.length() > 3 ? suggestion.substring(0, suggestion.length() - 2) : "";
+      if (suggestion.endsWith(" s") && isProperNoun(suggestionWithoutS)) {
+        // "Michael s" -> "Michael's"
+        //System.out.println("### " + suggestion + " => " + sentence.getText().replaceAll(suggestionWithoutS + "s", "**" + suggestionWithoutS + "s**"));
+        newSuggestions.add(0, suggestionWithoutS);
+        newSuggestions.add(0, suggestionWithoutS + "'s");
+      } else {
+        newSuggestions.add(suggestion);
+      }
+    }
+    filterDupes(newSuggestions);
+    return newSuggestions;
+  }
+
+  private boolean isProperNoun(String wordWithoutS) {
+    try {
+      List<AnalyzedTokenReadings> tags = language.getTagger().tag(Collections.singletonList(wordWithoutS));
+      return tags.stream().anyMatch(k -> k.hasPosTag("NNP"));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
   }
 
   /**
@@ -418,8 +480,8 @@ public abstract class SpellingCheckRule extends Rule {
     // if line consists of several words (separated by " "), a DisambiguationPatternRule
     // will be created where each words serves as a case-sensitive and non-inflected PatternToken
     // so that the entire multi-word entry is ignored by the spell checker
-    if (line.contains(" ")) {
-      List<String> tokens = language.getWordTokenizer().tokenize(line);
+    List<String> tokens = language.getWordTokenizer().tokenize(line);
+    if (tokens.size()>1) {
       List<PatternToken> patternTokens = new ArrayList<>(tokens.size());
       for(String token : tokens) {
         if (token.trim().isEmpty()) {

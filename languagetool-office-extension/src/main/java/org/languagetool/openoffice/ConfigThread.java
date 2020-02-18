@@ -21,14 +21,10 @@ package org.languagetool.openoffice;
 import java.util.List;
 import java.util.Set;
 
-import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.UserConfig;
 import org.languagetool.gui.Configuration;
 import org.languagetool.gui.ConfigurationDialog;
 import org.languagetool.rules.Rule;
-
-import com.sun.star.uno.XComponentContext;
 
 /**
  * A thread that shows the configuration dialog which lets the
@@ -39,16 +35,16 @@ import com.sun.star.uno.XComponentContext;
  */
 class ConfigThread extends Thread {
 
-  private Language docLanguage;
+  private final Language docLanguage;
   private final Configuration config;
   private final Main mainThread;
-
   private final ConfigurationDialog cfgDialog;
   
   ConfigThread(Language docLanguage, Configuration config, Main main) {
-    this.docLanguage = config.getDefaultLanguage();
-    if(this.docLanguage == null) {
+    if (config.getDefaultLanguage() == null) {
       this.docLanguage = docLanguage;
+    } else {
+      this.docLanguage = config.getDefaultLanguage();
     }
     this.config = config;
     this.mainThread = main; 
@@ -58,46 +54,23 @@ class ConfigThread extends Thread {
   @Override
   public void run() {
     try {
-      XComponentContext xContext = mainThread.getContext();
-      LinguisticServices linguServices = null;
-      if(xContext != null) {
-        linguServices = new LinguisticServices(xContext);
-      }
-      JLanguageTool langTool = new JLanguageTool(docLanguage, config.getMotherTongue(), null, 
-          new UserConfig(config.getConfigurableValues(), linguServices));
-      List<Rule> allRules = langTool.getAllRules();
-      for (Rule rule : allRules) {
-        if (rule.isOfficeDefaultOn()) {
-          rule.setDefaultOn();
-        } else if(rule.isOfficeDefaultOff()) {
-          rule.setDefaultOff();
-        }
-      }
-      Set<String> disabledRulesUI = null;
-      if (mainThread != null) {
-        disabledRulesUI = mainThread.getDisabledRules();
-        config.addDisabledRuleIds(disabledRulesUI);
-      }
+      List<Rule> allRules = mainThread.getJLanguageTool().getAllRules();
+      Set<String> disabledRulesUI = mainThread.getDisabledRules();
+      config.addDisabledRuleIds(disabledRulesUI);
       boolean configChanged = cfgDialog.show(allRules);
-      if(configChanged) {
-        if (mainThread != null) {
-          Set<String> disabledRules = config.getDisabledRuleIds();
-          for(String ruleId : disabledRulesUI) {
-            if(!disabledRules.contains(ruleId)) {
-              disabledRulesUI.remove(ruleId);
-            }
+      if (configChanged) {
+        Set<String> disabledRules = config.getDisabledRuleIds();
+        for(String ruleId : disabledRulesUI) {
+          if(!disabledRules.contains(ruleId)) {
+            disabledRulesUI.remove(ruleId);
           }
-          mainThread.setDisabledRules(disabledRulesUI);
-          config.removeDisabledRuleIds(disabledRulesUI);
         }
+        mainThread.setDisabledRules(disabledRulesUI);
+        config.removeDisabledRuleIds(disabledRulesUI);
         config.saveConfiguration(docLanguage);
-        if (mainThread != null) {
-          mainThread.resetDocument();
-        }
+        mainThread.resetDocument();
       } else {
-        if (mainThread != null) {
-          config.removeDisabledRuleIds(mainThread.getDisabledRules());
-        }
+        config.removeDisabledRuleIds(mainThread.getDisabledRules());
       }
     } catch (Throwable e) {
       MessageHandler.showError(e);

@@ -21,6 +21,7 @@ package org.languagetool.rules.de;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
@@ -41,9 +42,9 @@ public class AgreementRuleTest {
   private JLanguageTool lt;
 
   @Before
-  public void setUp() throws IOException {
-    rule = new AgreementRule(TestTools.getMessages("de"), new GermanyGerman());
-    lt = new JLanguageTool(new GermanyGerman());
+  public void setUp() {
+    rule = new AgreementRule(TestTools.getMessages("de"), (GermanyGerman)Languages.getLanguageForShortCode("de-DE"));
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
   }
 
   @Test
@@ -52,6 +53,11 @@ public class AgreementRuleTest {
     assertBad("Das ist die neue Original Mail", "die neue Originalmail", "die neue Original-Mail");
     assertBad("Die Standard Priorität ist 5.", "Die Standardpriorität", "Die Standard-Priorität");
     assertBad("Die derzeitige Standard Priorität ist 5.", "Die derzeitige Standardpriorität", "Die derzeitige Standard-Priorität");
+    assertBad("Ein neuer LanguageTool Account", "Ein neuer LanguageTool-Account");
+    assertBad("Danke für deine Account Daten", "deine Accountdaten", "deine Account-Daten");
+    assertBad("Mit seinem Konkurrent Alistair Müller", "sein Konkurrent", "seinem Konkurrenten");
+    assertBad("Wir gehen ins Fitness Studio", "ins Fitnessstudio", "ins Fitness-Studio");
+    assertBad("Wir gehen durchs Fitness Studio", "durchs Fitnessstudio", "durchs Fitness-Studio");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
   }
@@ -115,6 +121,12 @@ public class AgreementRuleTest {
     assertGood("Das Dach von meinen Autos.");
     assertGood("Da stellt sich die Frage: Ist das Science-Fiction oder moderne Mobilität?");
     assertGood("Er hat einen Post veröffentlicht.");
+    assertGood("Eine lückenlose Aufklärung sämtlicher physiologischer Gehirnprozesse");
+    assertGood("Sie fragte verwirrt: „Ist das Zucker?“");
+    assertGood("Er versuchte sich vorzustellen, was sein Klient für ein Mensch sei.");
+    assertGood("Sie legen ein Teilstück jenes Weges zurück, den die Tausenden Juden 1945 auf sich nehmen mussten.");
+    assertGood("Aber das ignorierte Herr Grey bewusst.");
+    assertGood("Aber das ignorierte Herr Müller bewusst.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
@@ -177,6 +189,16 @@ public class AgreementRuleTest {
     assertGood("Die Zeitdauer, während der Wissen nützlich bleibt, wird kürzer.");
     assertGood("Es sollte nicht viele solcher Bilder geben");
     assertGood("In den 80er Jahren.");
+    assertGood("Hast du etwas das Carina machen kann?");
+    assertGood("Ein Artikel in den Ruhr Nachrichten.");
+    assertGood("Ich wollte nur allen Hallo sagen.");
+    assertGood("Ich habe deshalb allen Freund*innen Bescheid gegeben.");   // Gendersternchen, https://github.com/languagetool-org/languagetool/issues/2417
+    assertGood("Ich habe deshalb allen Freund_innen Bescheid gegeben.");
+    assertGood("Ich habe deshalb allen Freund:innen Bescheid gegeben.");
+    assertGood("Sein*e Mitarbeiter*in ist davon auch betroffen.");
+    assertGood("Jede*r Mitarbeiter*in ist davon betroffen.");
+    assertGood("Alle Professor*innen");
+    assertGood("Gleichzeitig wünscht sich Ihr frostresistenter Mitbewohner einige Grad weniger im eigenen Zimmer?");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
@@ -238,6 +260,11 @@ public class AgreementRuleTest {
     assertGood("und das erst Jahrhunderte spätere Auftauchen der Legende");
     assertGood("Texas und New Mexico, beides spanische Kolonien, sind...");
     assertGood("Unser Hund vergräbt seine Knochen im Garten.");
+    assertGood("Ob das Mehrwert bringt?");
+    assertGood("Warum das Sinn macht?");
+    assertGood("Das hängt davon ab, ob die Deutsch sprechen");
+    assertGood("Die meisten Coaches wissen nichts.");
+    assertGood("Die Präsent AG.");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
@@ -312,6 +339,10 @@ public class AgreementRuleTest {
     assertGood("Unter diesen rief das großen Unmut hervor.");
     assertGood("Bei mir löste das Panik aus.");
 
+    assertGood("Dann wird das Konsequenzen haben.");
+    assertGood("Dann hat das Konsequenzen.");
+    assertGood("Sollte das Konsequenzen nach sich ziehen?");
+
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
 
@@ -353,22 +384,22 @@ public class AgreementRuleTest {
   @Test
   public void testDetNounRuleErrorMessages() throws IOException {
     // check detailed error messages:
-    assertBadWithMessage("Das Fahrrads.", "bezüglich Kasus");
-    assertBadWithMessage("Der Fahrrad.", "bezüglich Genus");
-    assertBadWithMessage("Das Fahrräder.", "bezüglich Numerus");
-    assertBadWithMessage("Die Tischen sind ecking.", "bezüglich Kasus");
+    assertBadWithMessage("Das Fahrrads.", "des Kasus");
+    assertBadWithMessage("Der Fahrrad.", "des Genus");
+    assertBadWithMessage("Das Fahrräder.", "des Numerus");
+    assertBadWithMessage("Die Tischen sind ecking.", "des Kasus");
     assertBadWithMessage("Die Tischen sind ecking.", "und Genus");
     //TODO: input is actually correct
-    assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellt werden.", "bezüglich Kasus, Genus oder Numerus.");
+    assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellt werden.", "des Kasus, Genus oder Numerus.");
   }
 
   @Test
   public void testRegression() throws IOException {
-      JLanguageTool lt = new JLanguageTool(new GermanyGerman());
-      // used to be not detected > 1.0.1:
-      String str = "Und so.\r\nDie Bier.";
-      List<RuleMatch> matches = lt.check(str);
-      assertEquals(1, matches.size());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    // used to be not detected > 1.0.1:
+    String str = "Und so.\r\nDie Bier.";
+    List<RuleMatch> matches = lt.check(str);
+    assertEquals(1, matches.size());
   }
 
   @Test

@@ -67,12 +67,12 @@ public class SimpleReplaceDiacriticsIEC extends AbstractSimpleReplaceRule {
 
   @Override
   public String getShort() {
-    return "Sobra l'accent (normativa nova)";
+    return "Hi sobra l'accent.";
   }
   
   @Override
   public String getMessage(String tokenStr,List<String> replacements) {
-    return "Sobra l'accent diacrític (segons la normativa nova).";
+    return "Hi sobra l'accent diacrític.";
   }
   
   @Override

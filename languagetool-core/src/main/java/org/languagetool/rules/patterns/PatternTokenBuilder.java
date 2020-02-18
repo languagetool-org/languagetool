@@ -61,6 +61,13 @@ public class PatternTokenBuilder {
     return this;
   }
 
+  public PatternTokenBuilder csTokenRegex(String token) {
+    this.token = Objects.requireNonNull(token);
+    regexp = true;
+    caseSensitive = true;
+    return this;
+  }
+
   public PatternTokenBuilder pos(String posTag) {
     return pos(posTag, false);
   }
@@ -119,13 +126,14 @@ public class PatternTokenBuilder {
     if (posTag != null) {
       patternToken = new PatternToken(null, false, false, false);
       patternToken.setPosToken(new PatternToken.PosToken(posTag, regexp, false));
-      patternToken.setNegation(negation);
     } else {
       patternToken = new PatternToken(token, caseSensitive, regexp, matchInflectedForms);
     }
     if (isWhiteSpaceSet) {
       patternToken.setWhitespaceBefore(isWhiteSpaceBefore);
     }
+
+    patternToken.setNegation(negation);
     patternToken.setSkipNext(skip);
     patternToken.setInsideMarker(marker);
     return patternToken;

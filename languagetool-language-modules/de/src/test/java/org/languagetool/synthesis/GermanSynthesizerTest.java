@@ -21,7 +21,7 @@ package org.languagetool.synthesis;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
-import org.languagetool.language.German;
+import org.languagetool.Languages;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -31,7 +31,7 @@ import static org.junit.Assert.assertThat;
 
 public class GermanSynthesizerTest {
 
-  private final GermanSynthesizer synthesizer = new GermanSynthesizer(new German());
+  private final GermanSynthesizer synthesizer = new GermanSynthesizer(Languages.getLanguageForShortCode("de"));
 
   @Ignore("for interactive debugging only")
   @Test

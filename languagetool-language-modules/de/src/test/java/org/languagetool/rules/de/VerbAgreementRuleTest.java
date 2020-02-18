@@ -21,8 +21,9 @@ package org.languagetool.rules.de;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -42,8 +43,8 @@ public class VerbAgreementRuleTest {
   
   @Before
   public void setUp() throws IOException {
-    lt = new JLanguageTool(new GermanyGerman());
-    rule = new VerbAgreementRule(TestTools.getMessages("de"), new GermanyGerman());
+    lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    rule = new VerbAgreementRule(TestTools.getMessages("de"), (German) Languages.getLanguageForShortCode("de-DE"));
   }
 
   @Test
@@ -102,12 +103,17 @@ public class VerbAgreementRuleTest {
     assertGood("„Werde ich tun!“");
     assertGood("Könntest dir mal eine Scheibe davon abschneiden!");
     assertGood("Müsstest dir das mal genauer anschauen.");
+    assertGood("Kannst ein neues Release machen.");
     assertGood("Sie fragte: „Muss ich aussagen?“");
     assertGood("„Können wir bitte das Thema wechseln, denn ich möchte ungern darüber reden?“");
     assertGood("Er sagt: „Willst du behaupten, dass mein Sohn euch liebt?“");
     assertGood("Kannst mich gerne anrufen.");
     assertGood("Kannst ihn gerne anrufen.");
     assertGood("Kannst sie gerne anrufen.");
+    assertGood("Aber wie ich sehe, benötigt ihr Nachschub.");
+    assertGood("Wie ich sehe, benötigt ihr Nachschub.");
+    assertGood("Einer wie du kennt doch bestimmt viele Studenten.");
+    assertGood("Für Sie mache ich eine Ausnahme.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");

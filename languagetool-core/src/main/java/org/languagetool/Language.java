@@ -24,9 +24,13 @@ import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
+import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
-import org.languagetool.rules.patterns.*;
+import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.rules.patterns.Unifier;
+import org.languagetool.rules.patterns.UnifierConfiguration;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
@@ -173,7 +177,7 @@ public abstract class Language {
    * languages that don't have such rules.
    * @since 2.7
    */
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
     return Collections.emptyList();
   }
 
@@ -186,6 +190,16 @@ public abstract class Language {
    */
   public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel,
                                                          UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    return Collections.emptyList();
+  }
+
+
+  /**
+   * Can return non-remote rules (e.g. if configuration missing, or for A/B tests), will be executed normally
+   */
+  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs,
+                                           UserConfig userConfig, Language motherTongue, List<Language> altLanguages)
+    throws IOException {
     return Collections.emptyList();
   }
 

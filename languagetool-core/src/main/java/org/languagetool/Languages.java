@@ -19,11 +19,7 @@
 package org.languagetool;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.language.Contributor;
 import org.languagetool.noop.NoopLanguage;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.patterns.AbstractPatternRule;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tools.MultiKeyProperties;
 import org.languagetool.tools.StringTools;
 
@@ -57,54 +53,14 @@ public final class Languages {
    * @since 4.5
    */
   public static Language addLanguage(String name, String code, File dictPath) {
-    Language lang = new Language() {
-      @Override
-      public String getShortCode() {
-        return code;
-      }
-      @Override
-      public String getName() {
-        return name;
-      }
-      @Override
-      public List<String> getRuleFileNames() {
-        return Collections.emptyList();
-      }
-      @Override
-      protected synchronized List<AbstractPatternRule> getPatternRules() {
-        return Collections.emptyList();
-      }
-      @Override
-      public String getCommonWordsPath() {
-        return new File(dictPath.getParentFile(), "common_words.txt").getAbsolutePath();
-      }
-      @Override
-      public String[] getCountries() { return new String[0]; }
-      @Override
-      public Contributor[] getMaintainers() { return new Contributor[0]; }
-      @Override
-      public boolean isSpellcheckOnlyLanguage() {
-        return true;
-      }
-      @Override
-      public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-        MorfologikSpellerRule r = new MorfologikSpellerRule(JLanguageTool.getMessageBundle(Languages.getLanguageForShortCode("en-US")), this) {
-          @Override
-          public String getFileName() {
-            return dictPath.getAbsolutePath();
-          }
-          @Override
-          public String getId() {
-            return code.toUpperCase() + "_SPELLER_RULE";
-          }
-          @Override
-          public String getSpellingFileName() {
-            return null;
-          }
-        };
-        return Collections.singletonList(r);
-      }
-    };
+    Language lang;
+    if (dictPath.getName().endsWith(".dict")) {
+      lang = new DynamicMorfologikLanguage(name, code, dictPath);
+    } else if (dictPath.getName().endsWith(".dic")) {
+      lang = new DynamicHunspellLanguage(name, code, dictPath);
+    } else {
+      throw new RuntimeException("Please specify a dictPath that ends in '.dict' (Morfologik binary dictionary) or '.dic' (Hunspell dictionary): " + dictPath);
+    }
     dynLanguages.add(lang);
     return lang;
   }

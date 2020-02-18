@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,7 +43,7 @@ public class WordCoherencyDataLoader {
     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
     Map<String, Set<String>> map = new HashMap<>();
     try (
-      InputStreamReader reader = new InputStreamReader(stream, "utf-8");
+      InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
       BufferedReader br = new BufferedReader(reader)
     ) {
       String line;

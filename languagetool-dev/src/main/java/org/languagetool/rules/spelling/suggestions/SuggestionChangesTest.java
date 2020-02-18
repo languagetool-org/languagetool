@@ -53,7 +53,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * needs to run with classpath of languagetool-standalone (needs access to language modules)
- * configure via JSON file, format specified in SuggestionChangesTestCenfig.java
+ * configure via JSON file, format specified in SuggestionChangesTestConfig.java
  * specify path via JVM parameter -Dconfig=... (system property)
  * used to create training data (features) for suggestion ranking models or test how code changes affect LT's performance
  *

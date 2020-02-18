@@ -142,7 +142,7 @@ public class Dutch extends Language {
 
   /** @since 4.5 */
   @Override
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
     return Arrays.asList(
             new DutchConfusionProbabilityRule(messages, languageModel, this)
     );
@@ -158,6 +158,7 @@ public class Dutch extends Language {
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
+      case SimpleReplaceRule.DUTCH_SIMPLE_REPLACE_RULE: return 1;
       case LongSentenceRule.RULE_ID: return -1;
     }
     return super.getPriorityForId(id);

@@ -2508,7 +2508,7 @@
     <rule>
       <pattern>
           <token postag_regexp="yes" postag='Z0[CM][SPN]0'>
-            <exception regexp='yes'>\d+|0|zeros?</exception></token>
+            <exception regexp='yes'>\d+|0|zeros?|2\.0</exception></token>
           <token regexp='yes'>e|-</token>
           <token postag_regexp="yes" postag='Z0M[SPN]0'/>
       </pattern>
@@ -2918,6 +2918,17 @@
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule-->
+    <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
+        <pattern><!-- chrome://, ftp://, file:// -->
+            <token regexp="yes">[a-z\-]+</token>
+            <token spacebefore="no">:</token>
+            <token spacebefore="no">/</token>
+            <token spacebefore="no">/</token>
+            <token spacebefore="no" min="0">/</token>
+            <token spacebefore="no" regexp="yes">[a-z0-9\-]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule id="EN_VOGUE" name="En vogue">
       <pattern>
           <token>en</token>

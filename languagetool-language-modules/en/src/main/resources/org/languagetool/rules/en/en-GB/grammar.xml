@@ -24,6 +24,8 @@ USA
 -->
 
 <!DOCTYPE rules [
+    <!ENTITY apostrophe "['’`´‘]">
+
     <!ENTITY hyphen "(?:[-‑])">
 
     <!ENTITY ambiguous_date '
@@ -190,7 +192,7 @@ USA
             <short>AmE/BrE: license/licence (noun plural)</short>
             <example correction="licences">Please show me your <marker>licenses</marker>.</example>
         </rule>
-        <rule  id="TRUNK_BOOT" name="trunk/boot (of car)">
+        <rule id="TRUNK_BOOT" name="trunk/boot (of car)">
             <antipattern>
                 <token>car</token>
                 <token regexp="yes" skip="-1">boots?</token>
@@ -232,33 +234,35 @@ USA
             <pattern>
                 <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">elephant|river|swimming|tree</exception></token>
                 <marker>
-                    <token regexp="yes" skip="-1">trunk|trunks<exception scope="next" inflected="yes" regexp="yes">elephant|river|swimming|tree</exception></token>
+                    <token regexp="yes" skip="-1">trunk|trunks<exception scope="next" inflected="yes" regexp="yes">elephant|river|swimming|tree|road|muzik</exception></token>
                 </marker>
                 <token postag="SENT_END"><exception scope="current" inflected="yes" regexp="yes">elephant|river|swimming|tree</exception></token>
             </pattern>
             <message>In the context of cars (automobiles), '<match no="2"/>' is American English. For British English use <suggestion><match no="2" postag="(NN.*)" postag_replace="$1">boot</match></suggestion>.</message>
             <url>https://en.wikipedia.org/wiki/Trunk_%28car%29</url>
             <short>AmE/BrE: trunk/boot</short>
-            <example type="incorrect" correction="boot">The automobile has a small <marker>trunk</marker>.</example>
-            <example type="incorrect" correction="boots">Automobiles that have large <marker>trunks</marker> are usually expensive.</example>
-            <example type="incorrect" correction="Boots"><marker>Trunks</marker> on some automobiles are at the front.</example>
-            <example type="incorrect" correction="boot">This Volkswagen has a large <marker>trunk</marker>.</example>
-            <example type="incorrect" correction="boots">Volkswagens and Chryslers usually have large <marker>trunks</marker>.</example>
-            <example type="correct">The elephant's <marker>trunk</marker> is long.</example>
-            <example type="correct">This tree <marker>trunk</marker> is large.</example>
-            <example type="correct">The <marker>trunks</marker> of some trees were damaged during the storm.</example>
-            <example type="correct">The arterial <marker>trunks</marker> of some rivers are ...</example>
-            <example type="correct"><marker>Trunks</marker> (swimming) of various colours are available from ...</example>
-            <example type="correct">If the electrical <marker>trunking</marker> on the car is ...</example>
-            <example type="correct">Put the <marker>trunk</marker> into the car boot.</example>
-            <example type="correct">The car boot contained <marker>trunks</marker> of many colours.</example>
-            <example type="correct">The car boots contained <marker>trunks</marker> of many sizes.</example>
-            <example type="correct">Put these items into the boot of the car: <marker>trunk</marker>, table, chair, kitchen sink.</example>
-            <example type="correct">Put the <marker>trunks</marker> into the boot of the car.</example>
-            <example type="correct">The lace on this <marker>boot</marker> is frayed.</example>
-            <example type="correct">The car boot contained a <marker>trunk</marker> and a ...</example>
-            <example type="correct">The car's boot contained a <marker>trunk</marker> and a ...</example>
-            <example type="correct">The <marker>trunks</marker> were in our car’s boot.</example>
+            <example correction="boot">The automobile has a small <marker>trunk</marker>.</example>
+            <example correction="boots">Automobiles that have large <marker>trunks</marker> are usually expensive.</example>
+            <example correction="Boots"><marker>Trunks</marker> on some automobiles are at the front.</example>
+            <example correction="boot">This Volkswagen has a large <marker>trunk</marker>.</example>
+            <example correction="boots">Volkswagens and Chryslers usually have large <marker>trunks</marker>.</example>
+            <example>The elephant's <marker>trunk</marker> is long.</example>
+            <example>This tree <marker>trunk</marker> is large.</example>
+            <example>The <marker>trunks</marker> of some trees were damaged during the storm.</example>
+            <example>The arterial <marker>trunks</marker> of some rivers are ...</example>
+            <example><marker>Trunks</marker> (swimming) of various colours are available from ...</example>
+            <example>If the electrical <marker>trunking</marker> on the car is ...</example>
+            <example>Put the <marker>trunk</marker> into the car boot.</example>
+            <example>The car boot contained <marker>trunks</marker> of many colours.</example>
+            <example>The car boots contained <marker>trunks</marker> of many sizes.</example>
+            <example>Put these items into the boot of the car: <marker>trunk</marker>, table, chair, kitchen sink.</example>
+            <example>Put the <marker>trunks</marker> into the boot of the car.</example>
+            <example>The lace on this <marker>boot</marker> is frayed.</example>
+            <example>The car boot contained a <marker>trunk</marker> and a ...</example>
+            <example>The car's boot contained a <marker>trunk</marker> and a ...</example>
+            <example>The <marker>trunks</marker> were in our car’s boot.</example>
+            <example>In the United Kingdom, trunk roads were first defined for Great Britain in the Trunk Roads Act 1936.</example>
+            <example>Trunk Muzik is a mixtape by southern rapper Yelawolf.</example>
             <example type="triggers_error">The boot of this Volkswagen contains a large <marker>trunk</marker>.</example>
             <example type="triggers_error">The boots of Volkswagens are sufficiently large to contain 2 or 3 <marker>trunks</marker>.</example>
             <example type="triggers_error">The <marker>trunk</marker> was in the Ford.</example>
@@ -274,11 +278,11 @@ USA
                 <token postag_regexp="yes" postag="NN|NNS" regexp="yes">planes?</token>
             </pattern>
             <message>The term '\1 \2' is common for American English. For British English use <suggestion><match no="2" postag="(NN.*)" postag_replace="$1">aeroplane</match></suggestion>.</message>
-            <url>https://en.oxforddictionaries.com/definition/airplane</url>
+            <url>https://www.lexico.com/definition/airplane</url>
             <short>AmE/BrE: air plane/aeroplane</short>
-            <example type="incorrect" correction="aeroplane">This <marker>air plane</marker> is very quiet.</example>
-            <example type="incorrect" correction="aeroplanes">These <marker>air planes</marker> can fly for 12 hours when they are fully loaded with fuel.</example>
-            <example type="correct">This <marker>aeroplane</marker> is very quiet.</example>
+            <example correction="aeroplane">This <marker>air plane</marker> is very quiet.</example>
+            <example correction="aeroplanes">These <marker>air planes</marker> can fly for 12 hours when they are fully loaded with fuel.</example>
+            <example>This <marker>aeroplane</marker> is very quiet.</example>
         </rule>
         <rule id="SI_UNITS_OF_MEASUREMENT_ADJECTIVES_AME" name="1-liter/1-litre">
             <pattern>
@@ -286,12 +290,12 @@ USA
             </pattern>
             <message>The word '<match no="1"/>' is an adjective (SI unit of measurement), but the spelling is not correct British English.</message>
             <short>AmE/BrE: SI units (adjectives)</short>
-            <example type="incorrect">Use a <marker>6-millimeter</marker> bolt.</example>
-            <example type="correct">Use a <marker>6-millimetre</marker> bolt.</example>
-            <example type="correct">Do not find incorrect English: use a <marker>10-millimeters</marker> bolt.</example>
-            <example type="correct">The 4.<marker>6-centigram</marker> difference is not a problem.</example><!-- Refer to OXFORD_SPELLING_GRAM -->
-            <example type="incorrect">Use a <marker>10-meter</marker> rope.</example>
-            <example type="incorrect">Also find typographic errors: a 5.7.<marker>8-femtoliter</marker> difference is not important.</example>
+            <example correction="">Use a <marker>6-millimeter</marker> bolt.</example>
+            <example>Use a <marker>6-millimetre</marker> bolt.</example>
+            <example>Do not find incorrect English: use a <marker>10-millimeters</marker> bolt.</example>
+            <example>The 4.<marker>6-centigram</marker> difference is not a problem.</example><!-- Refer to OXFORD_SPELLING_GRAM -->
+            <example correction="">Use a <marker>10-meter</marker> rope.</example>
+            <example correction="">Also find typographic errors: a 5.7.<marker>8-femtoliter</marker> difference is not important.</example>
        </rule>
         <rule id="TAKE_A_BATH" name="Collocation: take (have) a bath/nap"><!-- Refer to en-US/HAVE_A_BATH -->
             <pattern>
@@ -325,6 +329,16 @@ USA
             <short>AmE/BrE: ok/OK</short>
             <example correction="OK"><marker>Ok</marker>, I'll let you know.</example>
             <example correction="OK">Are you <marker>ok</marker>?</example>
+        </rule>
+        <rule id="ANYMORE" name="anymore (any more)"><!-- Premium #759 -->
+            <pattern>
+                <token>anymore</token>
+            </pattern>
+            <message>In British English, the spelling '\1' is sometimes considered incorrect. Did you mean <suggestion>any more</suggestion>.</message>
+            <url>https://www.collinsdictionary.com/dictionary/english/anymore</url>
+            <short>AmE/BrE: anymore/any more</short>
+            <example correction="any more">I don't want to do this <marker>anymore</marker>.</example>
+            <example>I don't want to do this <marker>any more</marker>.</example>
         </rule>
     </category>
     <category id="BRE_STYLE_OXFORD_SPELLING" name="British English, Oxford spelling (~iz~ not ~is~)" type="style">
@@ -369,10 +383,10 @@ USA
         <rulegroup id="OXFORD_SPELLING_Z_NOT_S" name="Oxford spelling is/iz">
         <!-- For general notes and design decisions, refer to OXFORD_SPELLING_ISE_VERBS. Rules developed by Mike Unwalla. -->
         <!-- Not uppercase: https://github.com/languagetool-org/languagetool/issues/1292 -->
-            <url>https://blog.oxforddictionaries.com/2011/03/28/ize-or-ise/</url>
+            <url>https://www.lexico.com/grammar/ize-ise-or-yse</url>
             <antipattern><!-- Dans l'organisation de ces autonomies... -->
                 <token>l</token>
-                <token spacebefore="no">'</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
                 <token spacebefore="no" postag_regexp="yes" postag="NN.*"/>
             </antipattern>
             <antipattern><!-- If the token before or the token after is a proper noun, then the target token is probably part of a proper name, and not a common noun. Example: Organisation of Islamic Cooperation. -->
@@ -427,7 +441,7 @@ USA
                 <example>Make sure that the regexp is correct. These are all ~isability nouns: advisability, disability, disabilities</example>
                 <example>'<marker>MAGNETISABILITY</marker>. All capitalised nouns are out of scope because the suggestion is ~ise.</example>
             </rule>
-            <rule id="OXFORD_SPELLING_ISE_VERBS" name="Oxford spelling of verbs (~ize not ~ise), **but not CAPITALISED verbs**"><!-- ~yse verbs are not ~yze in BrE: https://en.oxforddictionaries.com/spelling/ize-ise-or-yse -->
+            <rule id="OXFORD_SPELLING_ISE_VERBS" name="Oxford spelling of verbs (~ize not ~ise), **but not CAPITALISED verbs**"><!-- ~yse verbs are not ~yze in BrE: https://www.lexico.com/grammar/ize-ise-or-yse -->
                 <pattern>
                     <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)ise<exception regexp="yes">(?-i)[A-Z-]+</exception><exception regexp="yes" inflected="yes">abscise|advertise|advise|affranchise|alias|appraise|arise|braise|bruise|chastise|circumcise|comprise|compromise|counterpoise|cruise|demise|despise|devise|disenfranchise|disfranchise|disguise|dispraise|enfranchise|equipoise|excise|exercise|franchise|fundraise|improvise|incise|liaise|merchandise|misadvise|miscategorise|misraise|mortise|noise|outraise|overexercise|overpraise|overpromise|paralyse|poise|porpoise|practise|praise|premise|previse|prise|promise|raise|readvertise|readvise|rearise|reappraise|reprise|repromise|re-raise|reraise|revise|rise|supervise|surmise|surprise|televise|trellis|underpraise|upraise|uprise|wise</exception></token><!-- suppress_misspelled does not work with some verbs. The fail-safe solution is to put ~ise-only verbs in the exception. AmE prize = BrE prise (move or lift). BrE prize = to value. Aside: some z spellings are not verbs but are correct spellings: example 'braize' is a fish. --><!-- TODO: merchandize is a verb, but rare -->
                     <!-- Remove uppercase from the rule: case_sensitive="yes" in the token does not work; (?-i)([a-zA-Z][a-z]+... in the regexp does not work. Use an exception. -->
@@ -488,12 +502,12 @@ USA
 
     <category id="SEMANTICS" name="Semantics" type="inconsistency">
         <rulegroup id="DATE_FUTURE_VERB_PAST_US" name="Future date, but verb in past tense (UK)">
-            <rule> <!-- We have visited the client on 27/10/2040 -->
+            <rule><!-- We have visited the client on 27/10/2040 -->
                 <pattern>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
                     <token postag="VBN" skip="-1">
-                      <exception>scheduled</exception>
-                      <exception scope='next' regexp='yes'>before|until|will</exception></token>
+                        <exception>scheduled</exception>
+                        <exception scope='next' regexp='yes'>before|until|will</exception></token>
                     <marker> &date_dmy_numbers; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\7 month:\5 day:\3"/>
@@ -506,10 +520,10 @@ USA
                 <example>He promised to do it before 30/08/2020.</example>
                 <example>The data collected from 8/12/2019 to 8/29/2019 contained a lot of errors.</example><!-- XXX US standard style dates -->
             </rule>
-            <rule> <!-- On 27/10/2040, we have visited the client -->
+            <rule><!-- On 27/10/2040, we have visited the client -->
                 <pattern>
                     <token>
-                      <exception regexp='yes'>before|until</exception></token>
+                        <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy_numbers_skip; </marker>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
                     <token postag="VBN" skip="-1"/>
@@ -523,10 +537,10 @@ USA
                 <example>On 27/10/2010, we will inform the client.</example>
                 <example>He promised to do it before 30/08/2020.</example>
             </rule>
-            <rule> <!-- We visited the client on 27/10/2040  -->
+            <rule><!-- We visited the client on 27/10/2040  -->
                 <pattern>
                     <token postag="VBD" skip="-1">
-                      <exception scope='next' regexp='yes'>before|until|will</exception></token>
+                        <exception scope='next' regexp='yes'>before|until|will</exception></token>
                     <marker> &date_dmy_numbers; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
@@ -538,10 +552,10 @@ USA
                 <example>We will inform the client on 27/10/2010.</example>
                 <example>He promised to do it before 30/08/2020.</example>
             </rule>
-            <rule> <!-- On 27/10/2040, we visited the client -->
+            <rule><!-- On 27/10/2040, we visited the client -->
                 <pattern>
                     <token>
-                      <exception regexp='yes'>before|until</exception></token>
+                        <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy_numbers_skip; </marker>
                     <token postag="VBD" skip="-1"/>
                 </pattern>
@@ -555,5 +569,5 @@ USA
                 <example>He promised to do it before 30/08/2020.</example>
             </rule>
         </rulegroup>
-  </category>
+    </category>
 </rules>

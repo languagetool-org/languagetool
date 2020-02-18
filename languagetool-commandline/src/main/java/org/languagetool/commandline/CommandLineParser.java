@@ -28,9 +28,9 @@ import java.util.Arrays;
 /**
  * Parser for the command line arguments.
  */
-public class CommandLineParser {
+class CommandLineParser {
 
-  public CommandLineOptions parseOptions(String[] args) {
+  CommandLineOptions parseOptions(String[] args) {
     if (args.length < 1 || args.length > 12) {
       throw new WrongParameterNumberException();
     }
@@ -108,6 +108,9 @@ public class CommandLineParser {
       } else if (args[i].equals("--rulefile")) {
         checkArguments("--rulefile", i, args);
         options.setRuleFile(args[++i]);
+      } else if (args[i].equals("--remoterules")) {
+        checkArguments("--remoterules", i, args);
+        options.setRemoteRulesFile(args[++i]);
       } else if (args[i].equals("--falsefriends")) {
         checkArguments("--falsefriends", i, args);
         options.setFalseFriendFile(args[++i]);
@@ -179,7 +182,7 @@ public class CommandLineParser {
     return options;
   }
 
-  public void printUsage() {
+  void printUsage() {
     printUsage(System.out);
   }
 
@@ -187,7 +190,7 @@ public class CommandLineParser {
    * NOTE: please keep http://wiki.languagetool.org/command-line-options
    * up-to-date if you add an option
    */
-  public void printUsage(PrintStream stream) {
+  void printUsage(PrintStream stream) {
     stream.println("Usage: java -jar languagetool-commandline.jar [OPTION]... FILE\n"
             + " FILE                      plain text file to be checked\n"
             + " Available options:\n"
@@ -218,6 +221,7 @@ public class CommandLineParser {
             + "                           NOTE: only use with very robust rules, as this will otherwise introduce new errors\n"
             + "  --rulefile FILE          use an additional grammar file; if the filename contains a known language code,\n"
             + "                           it is used in addition of standard rules\n"
+            + "  --remoterules FILE       configure rules depending on external services via a JSON file (optional)\n"
             + "  --falsefriends FILE      use external false friend file to be used along with the built-in rules\n"
             + "  --bitextrules  FILE      use external bitext XML rule file (useful only in bitext mode)\n"
             + "  --languagemodel DIR      a directory with e.g. 'en' sub directory (i.e. a language code) that contains\n"

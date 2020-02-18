@@ -38,7 +38,7 @@ public class EsperantoTest {
     String input = "La Mondaj Ludoj de 2013 estis plur-sporta evento...";
     List<RuleMatch> ruleMatches = languageTool.check(input);
     assertThat(ruleMatches.size(), is(1));
-    assertThat(ruleMatches.get(0).getRule().getId(), is("HUNSPELL_NO_SUGGEST_RULE"));
+    assertThat(ruleMatches.get(0).getRule().getId(), is("HUNSPELL_RULE"));
   }
 
 }

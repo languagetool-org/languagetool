@@ -21,9 +21,9 @@ package org.languagetool.rules.en;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.UserConfig;
 import org.languagetool.language.AmericanEnglish;
-import org.languagetool.language.English;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.patterns.PatternRuleTest;
 
@@ -48,11 +48,11 @@ public class EnglishPatternRuleTest extends PatternRuleTest {
   // used to cause an ArrayIndexOutOfBoundsException in MatchState.setToken()
   @Test
   public void testBug() throws Exception {
-    JLanguageTool langTool = new JLanguageTool(new English());
+    JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("en"));
     langTool.check("Alexander between 369 and 358 BC\n\nAlexander");
   }
   
-  private class L2GermanRulesOnlyEnglish extends AmericanEnglish {
+  private static class L2GermanRulesOnlyEnglish extends AmericanEnglish {
     @Override
     public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) {
       return new ArrayList<>();
@@ -63,7 +63,7 @@ public class EnglishPatternRuleTest extends PatternRuleTest {
     }
   }
 
-  private class L2FrenchRulesOnlyEnglish extends AmericanEnglish {
+  private static class L2FrenchRulesOnlyEnglish extends AmericanEnglish {
     @Override
     public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) {
       return new ArrayList<>();

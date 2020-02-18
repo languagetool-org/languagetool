@@ -23,18 +23,15 @@ import static org.junit.Assert.assertEquals;
 import java.io.IOException;
 
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.TestTools;
-import org.languagetool.UserConfig;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.*;
 import org.languagetool.rules.Rule;
 
 /**
  * @author Fred Kruse
  */
 public class GermanStyleRepeatedWordRuleTest {
-  Language lang = new GermanyGerman();
+  
+  private Language lang = Languages.getLanguageForShortCode("de-DE");
 
   @Test
   public void testRule() throws IOException {

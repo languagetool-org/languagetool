@@ -134,7 +134,11 @@ class LanguageDetectionMinLengthEval {
     long startTime = System.currentTimeMillis();
     float minCharsTotal = 0;
     int languageCount = 0;
-    for (Language language : Languages.get()) {
+    List<Language> languages = new ArrayList<>();
+    languages.addAll(Languages.get());
+    //languages.add(new DynamicMorfologikLanguage("Norwegian (Bokmal)", "nb", new File("/home/dnaber/lt/dynamic-languages/no/nb_NO.dict")));
+    //languages.add(new DynamicMorfologikLanguage("Norwegian (Nynorsk)", "nn", new File("/home/dnaber/lt/dynamic-languages/no/nn_NO.dict")));
+    for (Language language : languages) {
       //if ((language.getShortCode().equals("ja"))) { continue; }
       if (language.isVariant()) {
         continue;

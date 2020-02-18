@@ -42,6 +42,5 @@ public class MultipleWhitespaceRuleTest {
   private int getMatches(String input, MultipleWhitespaceRule rule, JLanguageTool lt) throws IOException {
     return rule.match(Collections.singletonList(lt.getAnalyzedSentence(input))).length;
   }
-
-
+  
 }

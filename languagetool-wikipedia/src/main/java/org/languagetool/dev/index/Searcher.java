@@ -21,9 +21,8 @@ package org.languagetool.dev.index;
 import static org.languagetool.dev.dumpcheck.SentenceSourceIndexer.MAX_DOC_COUNT_FIELD;
 import static org.languagetool.dev.dumpcheck.SentenceSourceIndexer.MAX_DOC_COUNT_FIELD_VAL;
 import static org.languagetool.dev.dumpcheck.SentenceSourceIndexer.MAX_DOC_COUNT_VALUE;
-import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME;
-import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWERCASE;
-import static org.languagetool.dev.index.PatternRuleQueryBuilder.SOURCE_FIELD_NAME;
+import static org.languagetool.dev.index.Lucene.FIELD_NAME_LOWERCASE;
+import static org.languagetool.dev.index.Lucene.SOURCE_FIELD_NAME;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,9 +68,15 @@ public class Searcher {
   private IndexSearcher indexSearcher;
   private DirectoryReader reader;
   private boolean limitSearch = true;
+  private String fieldName;
 
   public Searcher(Directory directory) {
+    this(directory, FIELD_NAME_LOWERCASE);
+  }
+
+  public Searcher(Directory directory, String fieldName) {
     this.directory = directory;
+    this.fieldName = fieldName;
   }
 
   private void open() throws IOException {
@@ -129,17 +134,24 @@ public class Searcher {
   }
 
   public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language) throws IOException, UnsupportedPatternRuleException {
+    return findRuleMatchesOnIndex(rule, language, FIELD_NAME_LOWERCASE);
+  }
+
+  /**
+   * @since 4.8
+   */
+  public SearcherResult findRuleMatchesOnIndex(PatternRule rule, Language language, String fieldName) throws IOException, UnsupportedPatternRuleException {
     // it seems wasteful to re-open the index every time, but I had strange problems (OOM, Array out of bounds, ...)
     // when not doing so...
     open();
     try {
-      PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, indexSearcher);
+      PatternRuleQueryBuilder patternRuleQueryBuilder = new PatternRuleQueryBuilder(language, indexSearcher, fieldName);
       Query query = patternRuleQueryBuilder.buildRelaxedQuery(rule);
       if (query == null) {
         throw new NullPointerException("Cannot search on null query for rule: " + rule.getId());
       }
 
-      System.out.println("Running query: " + query.toString(FIELD_NAME_LOWERCASE));
+      System.out.println("Running query: " + query.toString());
       SearchRunnable runnable = new SearchRunnable(indexSearcher, query, language, rule);
       Thread searchThread = new Thread(runnable);
       searchThread.start();
@@ -251,7 +263,10 @@ public class Searcher {
         continue;
       }
       Document doc = indexSearcher.doc(match.doc);
-      String sentence = doc.get(FIELD_NAME);
+      String sentence = doc.get(fieldName);
+      if (sentence == null) {
+        throw new RuntimeException("No field '" + fieldName + "' found in doc " + match.doc);
+      }
       List<RuleMatch> ruleMatches = languageTool.check(sentence);
       docsChecked++;
       if (ruleMatches.size() > 0) {

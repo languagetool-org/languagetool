@@ -47,6 +47,9 @@ public class FrenchCompoundAwareHunspellRuleTest {
     assertSuggestion(lt, "problemes", "problèmes"); 
     assertSuggestion(lt, "coulurs", "couleurs"); 
     assertSuggestion(lt, "boton", "bot on", "bâton", "béton");  // "bouton" would be better? 
+    assertSuggestion(lt, "skype", "Skype");
+    assertSuggestion(lt, "Wordpress", "WordPress");
+    assertSuggestion(lt, "wordpress", "WordPress");
   }
 
   private void assertSuggestion(JLanguageTool lt, String input, String... expected) throws IOException {
@@ -54,7 +57,7 @@ public class FrenchCompoundAwareHunspellRuleTest {
     assertThat(matches.size(), is(1));
     int i = 0;
     for (String s : expected) {
-      assertThat("Got " + matches.get(0).getSuggestedReplacements(), matches.get(0).getSuggestedReplacements().get(i++), is(s));
+      assertThat("Got " + matches.get(0).getSuggestedReplacements() + " for '" + input + "'", matches.get(0).getSuggestedReplacements().get(i++), is(s));
     }
   }
 

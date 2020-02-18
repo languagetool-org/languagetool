@@ -19,6 +19,7 @@
 package org.languagetool.openoffice;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -132,10 +133,6 @@ public class Main extends WeakBase implements XJobExecutor,
       int[] footnotePositions = getPropertyValues("FootnotePositions", propertyValues);  // since LO 4.3
       paRes = documents.getCheckResults(paraText, locale, paRes, footnotePositions, docReset);
       docReset = false;
-      if(documents.doResetCheck()) {
-        resetCheck();
-        documents.optimizeReset();
-      }
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
@@ -153,6 +150,10 @@ public class Main extends WeakBase implements XJobExecutor,
       }
     }
     return new int[]{};  // e.g. for LO/OO < 4.3 and the 'FootnotePositions' property
+  }
+  
+  public SwJLanguageTool getJLanguageTool() {
+    return documents.getLanguageTool();
   }
 
   /**
@@ -265,7 +266,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Inform listener that the doc should be rechecked.
    */
-  private boolean resetCheck() {
+  public boolean resetCheck() {
     if (!xEventListeners.isEmpty()) {
       for (XLinguServiceEventListener xEvLis : xEventListeners) {
         if (xEvLis != null) {
@@ -344,8 +345,23 @@ public class Main extends WeakBase implements XJobExecutor,
         }
       } else if ("ignoreOnce".equals(sEvent)) {
         documents.ignoreOnce();
-        resetCheck();
-        documents.optimizeReset();
+/*        
+        String docId = documents.ignoreOnce();
+        if(docId != null) {
+          documents.resetCheck(docId);
+          documents.optimizeReset();
+        }
+*/
+      } else if ("deactivateRule".equals(sEvent)) {
+        documents.deactivateRule();
+        resetDocument();
+      } else if ("remoteHint".equals(sEvent)) {
+        if(documents.getConfiguration().useOtherServer()) {
+          MessageHandler.showMessage(MessageFormat.format(MESSAGES.getString("loRemoteInfoOtherServer"), 
+              documents.getConfiguration().getServerUrl()));
+        } else {
+          MessageHandler.showMessage(MESSAGES.getString("loRemoteInfoDefaultServer"));
+        }
       } else {
         MessageHandler.printToLogFile("Sorry, don't know what to do, sEvent = " + sEvent);
       }
@@ -407,6 +423,7 @@ public class Main extends WeakBase implements XJobExecutor,
         MessageHandler.showError(new RuntimeException("Could not get home directory"));
         directory = null;
       } else if (SystemUtils.IS_OS_WINDOWS) {
+        // Path: \\user\<YourUserName>\AppData\Roaming\languagetool.org\LanguageTool\LibreOffice  
         File appDataDir = null;
         try {
           String appData = System.getenv("APPDATA");
@@ -423,6 +440,7 @@ public class Main extends WeakBase implements XJobExecutor,
           directory = new File(userHome, path);
         }
       } else if (SystemUtils.IS_OS_LINUX) {
+        // Path: /home/<YourUserName>/.config/LanguageTool/LibreOffice  
         File appDataDir = null;
         try {
           String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
@@ -521,6 +539,7 @@ public class Main extends WeakBase implements XJobExecutor,
   public void resetIgnoreRules() {
     documents.resetDisabledRules();
     documents.setRecheck();
+    documents.resetIgnoreOnce();
     docReset = true;
   }
 

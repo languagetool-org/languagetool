@@ -18,34 +18,16 @@
  */
 package org.languagetool.tokenizers.zh;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.ictclas4j.bean.Sentence;
-import org.ictclas4j.segment.SentenceSeg;
-import org.ictclas4j.utility.Utility;
+import com.hankcs.hanlp.utility.SentencesUtil;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
 public class ChineseSentenceTokenizer implements SentenceTokenizer {
 
   @Override
   public List<String> tokenize(String text) {
-
-    SentenceSeg ss = new SentenceSeg(text);
-    List<Sentence> sens = ss.getSens();
-    List<String> list = new ArrayList<>();
-
-    for (Sentence sen : sens) {
-      String str = sen.getContent();
-      if (str.contains(Utility.SENTENCE_BEGIN)) {
-        str = str.substring(Utility.SENTENCE_BEGIN.length());
-      }
-      if (str.contains(Utility.SENTENCE_END)) {
-        str = str.substring(0, str.length() - Utility.SENTENCE_BEGIN.length());
-      }
-      list.add(str);
-    }
-    return list;
+    return SentencesUtil.toSentenceList(text);
   }
 
   /** Note: does have no effect for Chinese */

@@ -82,7 +82,7 @@ public class Portuguese extends Language implements AutoCloseable {
   public Contributor[] getMaintainers() {
     return new Contributor[] {
             new Contributor("Marco A.G. Pinto", "http://www.marcoagpinto.com/"),
-            new Contributor("Tiago F. Santos (3.6+)", "https://github.com/TiagoSantos81"),
+            new Contributor("Tiago F. Santos (3.6-4.7)", "https://github.com/TiagoSantos81"),
             new Contributor("Matheus Poletto (pt-BR)", "https://github.com/MatheusPoletto")
     };
   }
@@ -168,6 +168,7 @@ public class Portuguese extends Language implements AutoCloseable {
             new PortugueseWordRepeatRule(messages, this),
             new PortugueseWordRepeatBeginningRule(messages, this),
             new PortugueseAccentuationCheckRule(messages),
+            new PortugueseDiacriticsRule(messages),
             new PortugueseWrongWordInContextRule(messages),
             new PortugueseWordCoherencyRule(messages),
             new PortugueseUnitConversionRule(messages),
@@ -190,7 +191,7 @@ public class Portuguese extends Language implements AutoCloseable {
 
   /** @since 3.6 */
   @Override
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
     return Arrays.<Rule>asList(
             new PortugueseConfusionProbabilityRule(messages, languageModel, this)
     );
@@ -241,6 +242,7 @@ public class Portuguese extends Language implements AutoCloseable {
       case "BIASED_OPINION_WORDS":      return -31;
       case "WEAK_WORDS":                return -32;
       case "PT_AGREEMENT_REPLACE":      return -35;
+      case "PT_DIACRITICS_REPLACE":     return -45;   // prefer over spell checker
       case "HUNSPELL_RULE":             return -50;
       case "NO_VERB":                   return -52;
       case "CRASE_CONFUSION":           return -55;

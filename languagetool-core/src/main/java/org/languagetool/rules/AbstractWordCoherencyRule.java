@@ -21,6 +21,7 @@ package org.languagetool.rules;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
@@ -57,7 +58,7 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    Map<String, RuleMatch> shouldNotAppearWord = new HashMap<>();  // e.g. aufwändig -> RuleMatch of aufwendig
+    Map<String, String> shouldNotAppearWord = new HashMap<>();  // e.g. aufwändig -> aufwendig
     int pos = 0;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
@@ -70,19 +71,24 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
             if (baseform != null) {
               token = baseform;
             }
+            int fromPos = pos + tmpToken.getStartPos();
+            int toPos = pos + tmpToken.getEndPos();
             if (shouldNotAppearWord.containsKey(token)) {
-              RuleMatch otherMatch = shouldNotAppearWord.get(token);
-              String otherSpelling = otherMatch.getMessage();
+              String otherSpelling = shouldNotAppearWord.get(token);
               String msg = getMessage(token, otherSpelling);
-              RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), msg);
-              ruleMatch.setSuggestedReplacement(otherSpelling);
+              RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg);
+              String marked = sentence.getText().substring(tmpToken.getStartPos(), tmpToken.getEndPos());
+              String replacement = marked.replaceFirst("(?i)" + token, otherSpelling);
+              if (StringTools.startsWithUppercase(tmpToken.getToken())) {
+                replacement = StringTools.uppercaseFirstChar(replacement);
+              }
+              ruleMatch.setSuggestedReplacement(replacement);
               ruleMatches.add(ruleMatch);
               break;
             } else if (getWordMap().containsKey(token)) {
               Set<String> shouldNotAppearSet = getWordMap().get(token);
-              for(String shouldNotAppear : shouldNotAppearSet) {
-                RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, pos+tmpToken.getStartPos(), pos+tmpToken.getEndPos(), token);
-                shouldNotAppearWord.put(shouldNotAppear, potentialRuleMatch);
+              for (String shouldNotAppear : shouldNotAppearSet) {
+                shouldNotAppearWord.put(shouldNotAppear, token);
               }
             }
           }

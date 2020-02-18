@@ -1127,7 +1127,11 @@ RB => Règles Brutes
   <rule name="RB : adverbes" id="RB-ADVERBES">
     <pattern>
       <marker>
-        <token postag="A"><exception>causa</exception></token>
+        <token postag="A">
+            <exception>causa</exception>
+            <exception>puis</exception>
+            <exception>soit</exception>
+        </token>
       </marker>
     </pattern>
     <disambig postag="A"/>
@@ -1682,6 +1686,18 @@ RB => Règles Brutes
     <disambig postag="Z e sp"/>
   </rule>
 
+    <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
+        <pattern><!-- chrome://, ftp://, file:// -->
+            <token regexp="yes">[a-z\-]+</token>
+            <token spacebefore="no">:</token>
+            <token spacebefore="no">/</token>
+            <token spacebefore="no">/</token>
+            <token spacebefore="no" min="0">/</token>
+            <token spacebefore="no" regexp="yes">[a-z0-9\-]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule name="Ignore spelling of file names" id="IGNORE_SPELLING_OF_FILE_NAMES">
     <!-- Localized from English by Tiago F. Santos, 2019-08-30  -->
       <pattern>
@@ -1713,6 +1729,27 @@ RB => Règles Brutes
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+  
+  <rule name="Ignore spelling of numbered list items ('1-')" id="IGNORE_SPELLING_OF_LIST_ITEMS">
+    <pattern>
+      <token postag="SENT_START"/>
+      <marker>
+        <token regexp="yes">\d{1,2}\-</token>
+      </marker>
+      <token regexp="yes">[^0-9].*</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>
+  </rule>
+
+  <rule name="Ignore spelling of ('5e')" id="IGNORE_SPELLING_OF_NUMBERS">
+    <pattern>
+      <marker>
+        <token regexp="yes">\d+e</token>
+      </marker>
+    </pattern>
+    <disambig action="ignore_spelling"/>
+  </rule>
+
   </rulegroup>
     <rule name="Ignore spelling of domain names" id="IGNORE_DOMAIN_NAMES">
       <pattern case_sensitive="yes">

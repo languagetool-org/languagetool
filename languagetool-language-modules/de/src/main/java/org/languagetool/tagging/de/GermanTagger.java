@@ -141,11 +141,24 @@ public class GermanTagger extends BaseTagger {
     boolean firstWord = true;
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
+    int idxPos = 0;
 
     String prevWord = null;
     for (String word : sentenceTokens) {
       List<AnalyzedToken> readings = new ArrayList<>();
-      List<TaggedWord> taggerTokens = getWordTagger().tag(word);
+      List<TaggedWord> taggerTokens = null;
+      // Gender star etc:
+      String genderGap = "[*:_]";
+      if (idxPos+2 < sentenceTokens.size() && sentenceTokens.get(idxPos+1).matches(genderGap)) {
+        if (sentenceTokens.get(idxPos+2).matches("in|innen|r|e")) {  // "jede*r", "sein*e"
+          taggerTokens = new ArrayList<>();
+          taggerTokens.addAll(getWordTagger().tag(word));
+          taggerTokens.addAll(getWordTagger().tag(word + sentenceTokens.get(idxPos+2)));
+        }
+      }
+      if (taggerTokens == null) {
+        taggerTokens = getWordTagger().tag(word);
+      }
 
       //Only first iteration. Consider ":" as a potential sentence start marker
       if ((firstWord || ":".equals(prevWord)) && taggerTokens.isEmpty() && ignoreCase) { // e.g. "Das" -> "das" at start of sentence
@@ -245,6 +258,7 @@ public class GermanTagger extends BaseTagger {
       tokenReadings.add(new AnalyzedTokenReadings(readings.toArray(new AnalyzedToken[readings.size()]), pos));
       pos += word.length();
       prevWord = word;
+      idxPos++;
     }
     return tokenReadings;
   }

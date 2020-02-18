@@ -172,17 +172,19 @@ public class Catalan extends Language {
   public int getPriorityForId(String id) {
     switch (id) {
       case "CA_SIMPLE_REPLACE_BALEARIC": return 100;
+      case "INCORRECT_EXPRESSIONS": return 50;
       case "CONCORDANCES_CASOS_PARTICULARS": return 30;
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
       case "ACCENTUATION_CHECK": return 10;
+      case "HAVER_SENSE_HAC": return 10;
       case "CONCORDANCES_DET_NOM": return 5;
       case "REGIONAL_VERBS": return -10;
-      case "FALTA_ELEMENT_ENTRE_VERBS": return -10;
       case "FALTA_COMA_FRASE_CONDICIONAL": return -20;
       case "SUBSTANTIUS_JUNTS": return -25;
       case "MUNDAR": return -50;
       case "MORFOLOGIK_RULE_CA_ES": return -100;
+      case "FALTA_ELEMENT_ENTRE_VERBS": return -200;
       case "NOMBRES_ROMANS": return -400;
       case "UPPERCASE_SENTENCE_START": return -500;
     }

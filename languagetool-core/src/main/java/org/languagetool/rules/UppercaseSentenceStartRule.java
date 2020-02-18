@@ -45,13 +45,13 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           "iPhone",
           "iPhones",
           "iOS",
+          "iMovie",
           "iLife",
           "iWork",
           "iMac",
           "iMacs",
           "eBay",
           "fMRI",
-          "iOS",
           "iPad",
           "iPads",
           "iPod",
@@ -60,7 +60,9 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           "iRobot",
           "iRobots",
           "iTunes",
-          "mRNA"
+          "macOS",
+          "mRNA",
+          "iFood"
   ));
 
   private final Language language;

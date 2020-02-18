@@ -22,8 +22,8 @@ package org.languagetool.rules.en;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.English;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
@@ -38,7 +38,7 @@ public class ContractionSpellingRuleTest {
   @Before
   public void setUp() throws Exception {
     rule = new ContractionSpellingRule(TestTools.getMessages("en"));
-    langTool = new JLanguageTool(new English());
+    langTool = new JLanguageTool(Languages.getLanguageForShortCode("en"));
   }
 
   @Test

@@ -30,8 +30,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.BritishEnglish;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -39,7 +39,7 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
 
   @Test
   public void testSuggestions() throws IOException {
-    Language language = new BritishEnglish();
+    Language language = Languages.getLanguageForShortCode("en-GB");
     Rule rule = new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
     super.testNonVariantSpecificSuggestions(rule, language);
 
@@ -50,17 +50,20 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
 
   @Test
   public void testVariantMessages() throws IOException {
-    BritishEnglish language = new BritishEnglish();
+    Language language = Languages.getLanguageForShortCode("en-GB");
     JLanguageTool lt = new JLanguageTool(language);
     Rule rule = new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("This is a nice color."));
     assertEquals(1, matches.length);
     assertTrue(matches[0].getMessage().contains("is American English"));
+    RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("Color is the American English word."));
+    assertEquals(1, matches2.length);
+    assertTrue(matches2[0].getMessage().contains("is American English"));
   }
 
   @Test
   public void testMorfologikSpeller() throws IOException {
-    BritishEnglish language = new BritishEnglish();
+    Language language = Languages.getLanguageForShortCode("en-GB");
     MorfologikBritishSpellerRule rule =
             new MorfologikBritishSpellerRule(TestTools.getMessages("en"), language, null, Collections.emptyList());
 

@@ -96,6 +96,7 @@ public class QuestionWhitespaceRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokens();
+    String prevPrevToken = "";
     String prevToken = "";
     for (int i = 1; i < tokens.length; i++) {
       if (tokens[i].isImmunized()) {
@@ -104,7 +105,8 @@ public class QuestionWhitespaceRule extends Rule {
       String token = tokens[i].getToken();
       boolean isWhiteBefore = tokens[i].isWhitespaceBefore();
       String msg = null;
-      int fixLen = 0;
+      int fixFromPos = 0;
+      int fixToPos = 0;
       String suggestionText = null;
       if (!isWhiteBefore) {
         // Strictly speaking, the character before ?!; should be an
@@ -115,17 +117,17 @@ public class QuestionWhitespaceRule extends Rule {
           msg = "Point d'interrogation est précédé d'une espace fine insécable.";
           // non-breaking space
           suggestionText = prevToken + " ?";
-          fixLen = 1;
+          fixToPos = 1;
         } else if (token.equals("!") && !prevToken.equals("?")) {
           msg = "Point d'exclamation est précédé d'une espace fine insécable.";
           // non-breaking space
           suggestionText = prevToken + " !";
-          fixLen = 1;
+          fixToPos = 1;
         } else if (token.equals(";")) {
           msg = "Point-virgule est précédé d'une espace fine insécable.";
           // non-breaking space
           suggestionText = prevToken + " ;";
-          fixLen = 1;
+          fixToPos = 1;
         } else if (token.equals(":")) {
           // Avoid false positive for URL like http://www.languagetool.org.
           Matcher matcherUrl = urlPattern.matcher(prevToken);
@@ -133,25 +135,30 @@ public class QuestionWhitespaceRule extends Rule {
             msg = "Deux-points précédés d'une espace insécable.";
             // non-breaking space
             suggestionText = prevToken + " :";
-            fixLen = 1;
+            fixToPos = 1;
           }
         } else if (token.equals("»")) {
           msg = "Le guillemet fermant est précédé d'une espace insécable.";
-          // non-breaking space
-          suggestionText = prevToken + " »";
-          fixLen = 1;
+          if (prevPrevToken.equals("«")) {  // would be nice if this covered more than one word... ()
+            suggestionText = "« " + prevToken + " »";  // non-breaking spaces
+            fixFromPos = -1;
+            fixToPos = 2;
+          } else {
+            suggestionText = prevToken + " »";  // non-breaking space
+            fixToPos = 1;
+          }
         }
       }
 
       if (msg != null) {
-        int fromPos = tokens[i - 1].getStartPos();
-        int toPos = tokens[i - 1].getStartPos() + fixLen
-            + tokens[i - 1].getToken().length();
+        int fromPos = tokens[i - 1].getStartPos() + fixFromPos;
+        int toPos = fromPos + fixToPos + tokens[i - 1].getToken().length();
         RuleMatch ruleMatch = new RuleMatch(this, sentence, fromPos, toPos, msg,
             "Insérer un espace insécable");
         ruleMatch.setSuggestedReplacement(suggestionText);
         ruleMatches.add(ruleMatch);
       }
+      prevPrevToken = prevToken;
       prevToken = token;
     }
 

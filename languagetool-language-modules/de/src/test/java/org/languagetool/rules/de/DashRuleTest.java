@@ -24,8 +24,8 @@ import java.io.IOException;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.GermanyGerman;
 
 public class DashRuleTest {
 
@@ -33,7 +33,7 @@ public class DashRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    JLanguageTool lt = new JLanguageTool(new GermanyGerman());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
 
     // correct sentences:
     assertGood("Die große Diäten-Erhöhung kam dann doch.", lt);

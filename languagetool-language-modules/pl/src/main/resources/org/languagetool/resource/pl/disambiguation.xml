@@ -13299,10 +13299,29 @@
         <disambig action="immunize"/>
     </rule>
     
+    <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
+        <pattern><!-- chrome://, ftp://, file:// -->
+            <token regexp="yes">[a-z\-]+</token>
+            <token spacebefore="no">:</token>
+            <token spacebefore="no">/</token>
+            <token spacebefore="no">/</token>
+            <token spacebefore="no" min="0">/</token>
+            <token spacebefore="no" regexp="yes">[a-z0-9\-]+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
     <rule id="prez" name="prez. Komorowski">
       <pattern>
         <token regexp="yes">prez|cz|prob|urzęd|pol</token>
         <token spacebefore="no">.</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="degree" name="90° or 10°C">
+      <pattern>
+        <token regexp="yes">\d+°C?</token>
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>

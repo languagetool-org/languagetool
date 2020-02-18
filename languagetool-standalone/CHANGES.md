@@ -1,6 +1,126 @@
 # LanguageTool Change Log
 
-## 4.7 (release planned for 2019-09-26)
+## 4.9-SNAPSHOT (release planned for 2020-03-24)
+
+#### Arabic
+  * Added initial support for Arabic, contributed by Sohaib Afifi
+    (https://github.com/languagetool-org/languagetool/pull/2219)
+
+#### Irish
+  * Added initial support for Irish, contributed by Jim Regan
+    (https://github.com/languagetool-org/languagetool/pull/2260)
+
+#### German
+  * added and improved rules
+  * `compounds.txt` now automatically expands `ß` to `ss` when using German (Switzerland)
+  * German `spelling.txt` now supports `prefix_verb` syntax like `vorüber_eilen` so
+    the speller will accept all forms of "eilen" prefixed by "vorüber" 
+
+## 4.8 (released 2019-12-27)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.6)
+
+#### Chinese
+  * Now using https://github.com/hankcs/HanLP for tokenization (PR 1981)
+
+#### Danish
+  * corrections are now offered for spell check errors
+  * updated spell checker to version 2.4 (2018-04-15)
+    (source: https://extensions.libreoffice.org/extensions/stavekontrolden-danish-dictionary) 
+
+#### Dutch
+  * added and improved rules
+
+#### English
+  * added and improved rules
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.79 - 2019-12-01)
+  * updated en_US spellchecker dictionary from http://wordlist.aspell.net (Version 2019.10.06)
+  * updated en_CA spellchecker dictionary from http://wordlist.aspell.net (Version 2019.10.06)
+  * updated en_AU spellchecker dictionary from http://wordlist.aspell.net (Version 2019.10.06)
+
+#### Esperanto
+  * corrections are now offered for spell check errors 
+
+#### French
+  * improved rules
+  * updated spell checker (Grammalecte·dic/Dicollecte) to version 6.4.1 (2019-04-05)
+    (source: https://grammalecte.net/download.php?prj=fr)
+  * updated part-of-speech dictionaries to dicollecte-6.4.1
+    (https://github.com/languagetool-org/languagetool/pull/1963)
+
+#### German
+  * added and improved rules
+
+#### Greek
+  * updated spelling dictionary to el_GR 0.9 (14/03/2019), by George Zougianos
+
+#### Khmer
+  * updated spell checker to version 1.82 (2015-10-23)
+    (source: https://extensions.libreoffice.org/extensions/khmer-spelling-checker-sbbic-version)
+
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+
+#### Russian
+  * added new words
+  * improve java rule
+
+#### Swedish
+  * updated spelling dictionary to version 2.42 (Released Feb 03, 2019)
+    (source: https://extensions.libreoffice.org/extensions/swedish-spelling-dictionary-den-stora-svenska-ordlistan)
+
+#### Ukrainian
+  * dictionary update
+  * new rules
+  * tokenization improvements
+
+#### General
+  * The unmaintained code from package `org.languagetool.dev.wikipedia.atom`
+    has been removed. It hadn't been maintained for years and didn't work properly
+    anymore.
+  * `spelling_global.txt` has been added. Words or phrases added here will
+    be accepted for all languages.
+  * `prohibit_custom.txt` and `spelling_custom.txt` can be used to make your
+    own additions to `spelling.txt` and `prohibit.txt` without having to edit those
+    files after a LanguageTool update (you will still need to manually copy those
+    files).  
+    Paths to these files (`xx` = language code):  
+    `./org/languagetool/resource/xx/hunspell/prohibit_custom.txt`
+    `./org/languagetool/resource/xx/hunspell/spelling_custom.txt`  
+    Note that you can simply create these files if they don't exist for your language yet.
+
+#### HTTP API / LT server
+  * The dynamic languages feature (`lang-xx=...` and `lang-xx-dictPath=...`) now
+    also supports hunspell dictionaries. Just let `lang-xx-dictPath` point to the
+    absolute path of the `.dic` file. Note that hunspell is quite slow when it
+    comes to offering suggestions for misspelled words. 
+
+#### Java API
+  * `AbstractSimpleReplaceRule2` has been fixed so that it's now case-insensitive.
+    If you implement a sub class of it and you want the old behavior, please implement
+    `isCaseSensitive()` and have it return `true`. (Issue #2051)
+    
+#### Internal
+  * The internal hunspell has been updated from 1.3 to 1.7, now using
+    https://gitlab.com/dumonts/hunspell-java as the project providing the bindings.
+    For Portuguese, this speeds up generating suggestions for misspellings by
+    a factor of about 3 (but it's still slow compared to Morfologik).
+    32-bit systems are not supported anymore (only affects languages like German
+    and French).
+  * Experimental: the new `default="temp_off"` attribute in `grammar.xml` files will
+    turn off a rule/rulegroup, but keep it activated for our nightly regression tests.
+  * Many external dependencies have been updated to new versions.
+
+
+
+## 4.7 (2019-09-28)
+
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.5)
 
 #### Dutch
   * added and improved rules
@@ -12,8 +132,14 @@
 #### French
   * improved rules
 
+#### Galician
+  * improved rules
+
 #### German
   * added and improved rules
+
+#### Italian
+  * small rule improvements
 
 #### Portuguese
   * added rules and significantly improved accuracy
@@ -22,8 +148,15 @@
 
 #### Russian
   * improved rules
+  * added new words to spellchecker dictionary
+
+#### Spanish
+  * added and improved rules
 
 #### Ukrainian
+  * 2k of new words in the dictionary
+  * improved tokenization
+  * improved dynamic tagging
   * added and improved rules
 
 #### General

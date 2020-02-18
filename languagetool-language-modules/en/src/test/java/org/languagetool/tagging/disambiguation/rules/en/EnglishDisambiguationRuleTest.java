@@ -25,14 +25,13 @@ import org.junit.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
-import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.en.EnglishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.WordTokenizer;
 
-public class EnglishDisambiguationRuleTest extends DisambiguationRuleTest {
+public class EnglishDisambiguationRuleTest {
   
   private EnglishTagger tagger;
   private WordTokenizer tokenizer;

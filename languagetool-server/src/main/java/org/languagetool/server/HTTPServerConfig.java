@@ -27,7 +27,10 @@ import org.languagetool.rules.spelling.morfologik.suggestions_ordering.Suggestio
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * @since 2.0
@@ -49,6 +52,8 @@ public class HTTPServerConfig {
   protected boolean publicAccess = false;
   protected int port = DEFAULT_PORT;
   protected String allowOriginUrl = null;
+
+  protected URI serverURL = null;
   protected int maxTextLength = Integer.MAX_VALUE;
   protected int maxTextHardLength = Integer.MAX_VALUE;
   protected int maxTextLengthWithApiKey = Integer.MAX_VALUE;
@@ -75,6 +80,7 @@ public class HTTPServerConfig {
   protected boolean trustXForwardForHeader;
   protected int maxWorkQueueSize;
   protected File rulesConfigFile = null;
+  protected File remoteRulesConfigFile = null;
   protected int cacheSize = 0;
   protected long cacheTTLSeconds = 300;
   protected float maxErrorsPerWordRate = 0;
@@ -93,6 +99,7 @@ public class HTTPServerConfig {
   protected int prometheusPort = 9301;
   protected GlobalConfig globalConfig = new GlobalConfig();
   protected List<String> disabledRuleIds = new ArrayList<>();
+  protected boolean stoppable = false;
 
   protected boolean skipLoggingRuleMatches = false;
   protected boolean skipLoggingChecks = false;
@@ -100,6 +107,8 @@ public class HTTPServerConfig {
   protected int slowRuleLoggingThreshold = -1; // threshold in milliseconds, used by SlowRuleLogger; < 0 - disabled
 
   protected String abTest = null;
+  protected Pattern abTestClients = null;
+  protected int abTestRollout = 100; // percentage [0,100]
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
    */
@@ -167,6 +176,9 @@ public class HTTPServerConfig {
         case NN_MODEL_OPTION:
           setNeuralNetworkModelDir(args[++i]);
           break;
+        case "--stoppable":  // internal only, doesn't need to be documented
+          stoppable = true;
+          break;
         default:
           if (args[i].contains("=")) {
             System.out.println("WARNING: unknown option: " + args[i] +
@@ -192,17 +204,19 @@ public class HTTPServerConfig {
         requestLimit = Integer.parseInt(getOptionalProperty(props, "requestLimit", "0"));
         requestLimitInBytes = Integer.parseInt(getOptionalProperty(props, "requestLimitInBytes", "0"));
         timeoutRequestLimit = Integer.parseInt(getOptionalProperty(props, "timeoutRequestLimit", "0"));
-        pipelineCaching = Boolean.parseBoolean(getOptionalProperty(props, "pipelineCaching", "false"));
-        pipelinePrewarming = Boolean.parseBoolean(getOptionalProperty(props, "pipelinePrewarming", "false"));
+        pipelineCaching = Boolean.parseBoolean(getOptionalProperty(props, "pipelineCaching", "false").trim());
+        pipelinePrewarming = Boolean.parseBoolean(getOptionalProperty(props, "pipelinePrewarming", "false").trim());
         maxPipelinePoolSize = Integer.parseInt(getOptionalProperty(props, "maxPipelinePoolSize", "5"));
         pipelineExpireTime = Integer.parseInt(getOptionalProperty(props, "pipelineExpireTimeInSeconds", "10"));
         requestLimitPeriodInSeconds = Integer.parseInt(getOptionalProperty(props, "requestLimitPeriodInSeconds", "0"));
         ipFingerprintFactor = Integer.parseInt(getOptionalProperty(props, "ipFingerprintFactor", "1"));
-        trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, "trustXForwardForHeader", "false"));
+        trustXForwardForHeader = Boolean.valueOf(getOptionalProperty(props, "trustXForwardForHeader", "false").trim());
         maxWorkQueueSize = Integer.parseInt(getOptionalProperty(props, "maxWorkQueueSize", "0"));
         if (maxWorkQueueSize < 0) {
           throw new IllegalArgumentException("maxWorkQueueSize must be >= 0: " + maxWorkQueueSize);
         }
+        String url = getOptionalProperty(props, "serverURL", null);
+        setServerURL(url);
         String langModel = getOptionalProperty(props, "languageModel", null);
         if (langModel != null && loadLangModel) {
           setLanguageModelDirectory(langModel);
@@ -235,6 +249,13 @@ public class HTTPServerConfig {
             throw new RuntimeException("Rules Configuration file can not be found: " + rulesConfigFile);
           }
         }
+        String remoteRulesConfigFilePath = getOptionalProperty(props, "remoteRulesFile", null);
+        if (remoteRulesConfigFilePath != null) {
+          remoteRulesConfigFile = new File(remoteRulesConfigFilePath);
+          if (!remoteRulesConfigFile.exists() || !remoteRulesConfigFile.isFile()) {
+            throw new RuntimeException("Remote rules configuration file can not be found: " + remoteRulesConfigFile);
+          }
+        }
         cacheSize = Integer.parseInt(getOptionalProperty(props, "cacheSize", "0"));
         if (cacheSize < 0) {
           throw new IllegalArgumentException("Invalid value for cacheSize: " + cacheSize + ", use 0 to deactivate cache");
@@ -262,16 +283,15 @@ public class HTTPServerConfig {
         dbUrl = getOptionalProperty(props, "dbUrl", null);
         dbUsername = getOptionalProperty(props, "dbUsername", null);
         dbPassword = getOptionalProperty(props, "dbPassword", null);
-        dbLogging = Boolean.valueOf(getOptionalProperty(props, "dbLogging", "false"));
-        prometheusMonitoring = Boolean.valueOf(getOptionalProperty(props, "prometheusMonitoring", "false"));
+        dbLogging = Boolean.valueOf(getOptionalProperty(props, "dbLogging", "false").trim());
+        prometheusMonitoring = Boolean.valueOf(getOptionalProperty(props, "prometheusMonitoring", "false").trim());
         prometheusPort = Integer.parseInt(getOptionalProperty(props, "prometheusPort", "9301"));
-        skipLoggingRuleMatches = Boolean.valueOf(getOptionalProperty(props, "skipLoggingRuleMatches", "false"));
-        skipLoggingChecks = Boolean.valueOf(getOptionalProperty(props, "skipLoggingChecks", "false"));
+        skipLoggingRuleMatches = Boolean.valueOf(getOptionalProperty(props, "skipLoggingRuleMatches", "false").trim());
+        skipLoggingChecks = Boolean.valueOf(getOptionalProperty(props, "skipLoggingChecks", "false").trim());
         if (dbLogging && (dbDriver == null || dbUrl == null || dbUsername == null || dbPassword == null)) {
           throw new IllegalArgumentException("dbLogging can only be true if dbDriver, dbUrl, dbUsername, and dbPassword are all set");
         }
-        slowRuleLoggingThreshold = Integer.valueOf(getOptionalProperty(props,
-          "slowRuleLoggingThreshold", "-1"));
+        slowRuleLoggingThreshold = Integer.valueOf(getOptionalProperty(props, "slowRuleLoggingThreshold", "-1"));
         disabledRuleIds = Arrays.asList(getOptionalProperty(props, "disabledRuleIds", "").split(",\\s*"));
         globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
         globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
@@ -279,6 +299,8 @@ public class HTTPServerConfig {
 
         addDynamicLanguages(props);
         setAbTest(getOptionalProperty(props, "abTest", null));
+        setAbTestClients(getOptionalProperty(props, "abTestClients", null));
+        setAbTestRollout(Integer.parseInt(getOptionalProperty(props, "abTestRollout", "100")));
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + file + "'", e);
@@ -303,9 +325,6 @@ public class HTTPServerConfig {
         File dictPathFile = new File(dictPath);
         if (!dictPathFile.exists() || !dictPathFile.isFile()) {
           throw new IllegalArgumentException("dictionary file does not exist or is not a file: '" + dictPath + "'");
-        }
-        if (!dictPathFile.getName().endsWith(JLanguageTool.DICTIONARY_FILENAME_EXTENSION)) {
-          throw new IllegalArgumentException("dictionary file is supposed to have the filename extension '.dict': '" + dictPath + "'");
         }
         ServerTools.print("Adding dynamic spell checker language " + name + ", code: " + code + ", dictionary: " + dictPath);
         Language lang = Languages.addLanguage(name, code, new File(dictPath));
@@ -382,6 +401,32 @@ public class HTTPServerConfig {
    */
   public void setAllowOriginUrl(String allowOriginUrl) {
     this.allowOriginUrl = allowOriginUrl;
+  }
+
+  /**
+   * @since 4.8
+   * @return prefix / base URL for API requests
+   */
+  @Nullable
+  public URI getServerURL() {
+    return serverURL;
+  }
+
+  /**
+   * @since 4.8
+   * @param url prefix / base URL for API requests
+   */
+  public void setServerURL(@Nullable String url) {
+    if (url != null) {
+      try {
+        // ignore different protocols, ports,... just use path for relative requests
+        serverURL = new URI(new URI(url).getPath());
+      } catch (URISyntaxException e) {
+        throw new IllegalArgumentException("Could not parse provided serverURL: '" + url + "'", e);
+      }
+    } else {
+      serverURL = null;
+    }
   }
 
   /**
@@ -500,7 +545,6 @@ public class HTTPServerConfig {
     return word2vecModelDir;
   }
 
-
   /**
    * Get base directory for neural network models or {@code null}
    * @since 4.4
@@ -586,14 +630,13 @@ public class HTTPServerConfig {
 
   /**
    * @since 4.4
-   * Cache initalized JLanguageTool instances and share between non-parallel requests with identical paramenters
+   * Cache initialized JLanguageTool instances and share between non-parallel requests with identical parameters.
    * Improves response time (especially when dealing with many small requests without specific settings),
    * but increases memory usage
    */
   public boolean isPipelineCachingEnabled() {
     return pipelineCaching;
   }
-
 
   /**
    * @since 4.4
@@ -756,6 +799,15 @@ public class HTTPServerConfig {
   }
 
   /**
+   * @return the file from which remote rules should be configured, or {@code null}
+   * @since 4.9
+   */
+  @Nullable
+  File getRemoteRulesConfigFile() {
+    return remoteRulesConfigFile;
+  }
+
+  /**
    * @return the database driver name like {@code org.mariadb.jdbc.Driver}, or {@code null}
    * @since 4.2
    */
@@ -847,7 +899,6 @@ public class HTTPServerConfig {
 
   /**
    * @since 4.6
-   * @return
    */
   public boolean isPrometheusMonitoring() {
     return prometheusMonitoring;
@@ -855,7 +906,6 @@ public class HTTPServerConfig {
 
   /**
    * @since 4.6
-   * @return
    */
   public int getPrometheusPort() {
     return prometheusPort;
@@ -891,7 +941,14 @@ public class HTTPServerConfig {
   public List<String> getDisabledRuleIds() {
     return disabledRuleIds;
   }
-  
+
+  /**
+   * Whether the server can be stopped by sending a command (useful for tests only).
+   */
+  boolean isStoppable() {
+    return stoppable;
+  }
+
   /**
    * @since 4.4
    * See if a specific A/B-Test is to be run
@@ -908,13 +965,52 @@ public class HTTPServerConfig {
    */
   @Experimental
   public void setAbTest(@Nullable String abTest) {
-    List<String> values = Arrays.asList("SuggestionsOrderer", "SuggestionsRanker");
-    if (abTest != null && !values.contains(abTest)) {
-        throw new IllegalConfigurationException("Unknown value for 'abTest' property: Must be one of: " + values);
+    if (abTest != null && abTest.trim().isEmpty()) {
+      this.abTest = null;
+    } else {
+      this.abTest = abTest;
     }
-    this.abTest = abTest;
   }
 
+  /**
+   * Clients that a A/B test runs on; null -> disabled
+   * @since 4.9
+   */
+  @Experimental
+  @Nullable
+  public Pattern getAbTestClients() {
+    return abTestClients;
+  }
+
+  /**
+   * Clients that a A/B test runs on; null -> disabled
+   * @since 4.9
+   */
+  @Experimental
+  public void setAbTestClients(@Nullable String pattern) {
+    if (pattern == null) {
+      this.abTestClients = null;
+    } else {
+      this.abTestClients = Pattern.compile(pattern);
+    }
+  }
+
+  /**
+   * @param abTestRollout percentage [0,100] of users to include in ab test rollout
+   * @since 4.9
+   */
+  @Experimental
+  public void setAbTestRollout(int abTestRollout) {
+    this.abTestRollout = abTestRollout;
+  }
+
+  /**
+   * @since 4.9
+   */
+  @Experimental
+  public int getAbTestRollout() {
+    return abTestRollout;
+  }
 
   /**
    * @throws IllegalConfigurationException if property is not set 

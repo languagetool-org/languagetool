@@ -20,6 +20,7 @@ package org.languagetool;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,6 +34,15 @@ import java.util.Objects;
  */
 @Experimental
 public class UserConfig {
+
+  // don't do A/B tests in command line / GUI mode / tests, etc.; true when running as a server
+  private static boolean abTestEnabled = false;
+  public static void enableABTests() {
+    abTestEnabled = true;
+  }
+  public static boolean hasABTestsEnabled() {
+    return abTestEnabled;
+  }
 
   private final List<String> userSpecificSpellerWords;
   private final int maxSpellingSuggestions;
@@ -48,8 +58,8 @@ public class UserConfig {
 
   // partially indifferent for comparing UserConfigs (e.g. in PipelinePool)
   // provided to rules only for A/B tests ->
-  private long textSessionId;
-  private String abTest;
+  private final Long textSessionId;
+  private final String abTest;
 
   public UserConfig() {
     this(new ArrayList<>(), new HashMap<>());
@@ -81,10 +91,17 @@ public class UserConfig {
     this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, userDictName, linguServices, false);
   }
 
-
   public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
                     int maxSpellingSuggestions, String userDictName,
                     LinguServices linguServices, boolean filterDictionaryMatches) {
+    this(userSpecificSpellerWords, ruleValues, maxSpellingSuggestions, userDictName, linguServices,
+      filterDictionaryMatches, null, null);
+  }
+
+  public UserConfig(List<String> userSpecificSpellerWords, Map<String, Integer> ruleValues,
+                    int maxSpellingSuggestions, String userDictName,
+                    LinguServices linguServices, boolean filterDictionaryMatches,
+                    @Nullable String abTest, @Nullable Long textSessionId) {
     this.userSpecificSpellerWords = Objects.requireNonNull(userSpecificSpellerWords);
     for (Map.Entry<String, Integer> entry : ruleValues.entrySet()) {
       this.configurableRuleValues.put(entry.getKey(), entry.getValue());
@@ -93,6 +110,8 @@ public class UserConfig {
     this.userDictName = userDictName == null ? "default" : userDictName;
     this.linguServices = linguServices;
     this.filterDictionaryMatches = filterDictionaryMatches;
+    this.abTest = abTest;
+    this.textSessionId = textSessionId;
   }
 
   public List<String> getAcceptedWords() {
@@ -152,7 +171,6 @@ public class UserConfig {
       // -> (cached) textSessionId on server may say group A, but ID on client (relevant for saved correction) says B
       // only group must match; keeps hit rate of pipeline cache up
       .append(abTest, other.abTest)
-      .append(textSessionId % 2, other.textSessionId % 2)
       .isEquals();
   }
 
@@ -163,13 +181,23 @@ public class UserConfig {
       .append(maxSpellingSuggestions)
       .append(userDictName)
       .append(configurableRuleValues)
+      .append(abTest)
       .append(filterDictionaryMatches)
-      // skipping abTest and textSessionId on purpose - not relevant for caching
       .toHashCode();
   }
 
-  public void setTextSessionId(Long textSessionId) {
-    this.textSessionId = textSessionId;
+  @Override
+  public String toString() {
+    return "UserConfig{" +
+      "userSpecificSpellerWords=" + userSpecificSpellerWords +
+      ", maxSpellingSuggestions=" + maxSpellingSuggestions +
+      ", userDictName='" + userDictName + '\'' +
+      ", configurableRuleValues=" + configurableRuleValues +
+      ", linguServices=" + linguServices +
+      ", filterDictionaryMatches=" + filterDictionaryMatches +
+      ", textSessionId=" + textSessionId +
+      ", abTest='" + abTest + '\'' +
+      '}';
   }
 
   public Long getTextSessionId() {
@@ -178,10 +206,6 @@ public class UserConfig {
 
   public String getAbTest() {
     return abTest;
-  }
-
-  public void setAbTest(String abTest) {
-    this.abTest = abTest;
   }
 
   public boolean filterDictionaryMatches() {

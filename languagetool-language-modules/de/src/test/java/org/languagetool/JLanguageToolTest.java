@@ -24,15 +24,13 @@ import java.io.IOException;
 import java.util.List;
 
 import org.junit.Test;
-import org.languagetool.language.German;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 
 public class JLanguageToolTest {
 
   @Test
   public void testGerman() throws IOException {
-    JLanguageTool tool = new JLanguageTool(new German());
+    JLanguageTool tool = new JLanguageTool(Languages.getLanguageForShortCode("de"));
     assertEquals(0, tool.check("Ein Test, der keine Fehler geben sollte.").size());
     assertEquals(1, tool.check("Ein Test Test, der Fehler geben sollte.").size());
     tool.setListUnknownWords(true);
@@ -44,7 +42,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testGermanyGerman() throws IOException {
-    JLanguageTool tool = new JLanguageTool(new GermanyGerman());
+    JLanguageTool tool = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     assertEquals(0, tool.check("Ein Test, der keine Fehler geben sollte.").size());
     assertEquals(1, tool.check("Ein Test Test, der Fehler geben sollte.").size());
     tool.setListUnknownWords(true);
@@ -56,7 +54,7 @@ public class JLanguageToolTest {
 
   @Test
   public void testPositionsWithGerman() throws IOException {
-    JLanguageTool tool = new JLanguageTool(new GermanyGerman());
+    JLanguageTool tool = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     List<RuleMatch> matches = tool.check("Stundenkilometer");
     assertEquals(1, matches.size());
     RuleMatch match = matches.get(0);
@@ -66,7 +64,7 @@ public class JLanguageToolTest {
   
   @Test
   public void testCleanOverlappingWithGerman() throws IOException {
-    JLanguageTool tool = new JLanguageTool(new GermanyGerman());
+    JLanguageTool tool = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     // Juxtaposed errors in "TRGS - Technische" should not be removed.
     List<RuleMatch> matches = tool.check("TRGS - Technische Regeln für Gefahrstoffe");
     assertEquals(3, matches.size());

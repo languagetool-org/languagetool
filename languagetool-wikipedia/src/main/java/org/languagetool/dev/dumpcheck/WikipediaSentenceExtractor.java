@@ -18,15 +18,17 @@
  */
 package org.languagetool.dev.dumpcheck;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 
 import org.apache.commons.compress.compressors.CompressorException;
 import org.apache.commons.compress.compressors.CompressorStreamFactory;
 import org.languagetool.Language;
 import org.languagetool.Languages;
+
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Command line tool to extract sentences from a (optionally bz2-compressed) Wikipedia XML dump.
@@ -34,9 +36,10 @@ import org.languagetool.Languages;
  */
 class WikipediaSentenceExtractor {
 
-  private void extract(Language language, String xmlDumpPath) throws IOException, CompressorException {
+  private void extract(Language language, String xmlDumpPath, String outputFile) throws IOException, CompressorException {
     try (FileInputStream fis = new FileInputStream(xmlDumpPath);
-         BufferedInputStream bis = new BufferedInputStream(fis)) {
+         BufferedInputStream bis = new BufferedInputStream(fis);
+         FileWriter fw = new FileWriter(outputFile)) {
       InputStream input;
       if (xmlDumpPath.endsWith(".bz2")) {
         input = new CompressorStreamFactory().createCompressorInputStream(bis);
@@ -52,7 +55,9 @@ class WikipediaSentenceExtractor {
         if (skipSentence(sentence)) {
           continue;
         }
-        System.out.println(sentence);
+        //System.out.println(sentence);
+        fw.write(sentence);
+        fw.write("\n");
         sentenceCount++;
         if (sentenceCount % 1000 == 0) {
           System.err.println("Exporting sentence #" + sentenceCount + "...");
@@ -66,11 +71,11 @@ class WikipediaSentenceExtractor {
   }
 
   public static void main(String[] args) throws IOException, CompressorException {
-    if (args.length != 2) {
-      System.out.println("Usage: " + WikipediaSentenceExtractor.class.getSimpleName() + " <langCode> <wikipediaXmlDump>");
+    if (args.length != 3) {
+      System.out.println("Usage: " + WikipediaSentenceExtractor.class.getSimpleName() + " <langCode> <wikipediaXmlDump> <output>");
       System.exit(1);
     }
     WikipediaSentenceExtractor extractor = new WikipediaSentenceExtractor();
-    extractor.extract(Languages.getLanguageForShortCode(args[0]), args[1]);
+    extractor.extract(Languages.getLanguageForShortCode(args[0]), args[1], args[2]);
   }
 }

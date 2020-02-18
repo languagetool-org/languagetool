@@ -27,12 +27,12 @@ import java.util.List;
 import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.GermanyGerman;
+import org.languagetool.Languages;
 import org.languagetool.synthesis.Synthesizer;
 
 public class AgreementSuggestorTest {
 
-  private final Synthesizer synthesizer = new GermanyGerman().getSynthesizer();
+  private final Synthesizer synthesizer = Languages.getLanguageForShortCode("de-DE").getSynthesizer();
 
   @Test
   public void testSuggestions() {

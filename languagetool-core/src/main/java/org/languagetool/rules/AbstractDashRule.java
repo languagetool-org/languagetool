@@ -25,11 +25,7 @@ import org.languagetool.Language;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternToken;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -77,42 +73,34 @@ public abstract class AbstractDashRule extends Rule {
 
   protected static List<PatternRule> loadCompoundFile(String path, String msg, Language lang) {
     List<PatternRule> rules = new ArrayList<>();
-    try (
-        InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-        InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
-        BufferedReader br = new BufferedReader(reader)
-    ) {
-      String line;
-      int counter = 0;
-      while ((line = br.readLine()) != null) {
-        counter++;
-        if (line.isEmpty() || line.charAt(0) == '#') {
-          continue;     // ignore comments
-        }
-        if (line.endsWith("+")) {
-          continue; // skip non-hyphenated suggestions
-        } else if (line.endsWith("*")) {
-          line = removeLastCharacter(line);
-        }
-        List<PatternToken> tokList = new ArrayList<>();
-        String[] tokens = line.split("-");
-        int tokenCounter = 0;
-        for (String token : tokens) {
-          tokenCounter++;
-            // token
-          tokList.add(new PatternToken(token, true, false, false));
-          if (tokenCounter < tokens.length) {
-            // add dash
-            tokList.add(new PatternToken("[—–]", false, true, false));
-          }
-        }
-        PatternRule dashRule = new PatternRule
-            ("DASH_RULE" + counter, lang, tokList,
-                "", msg + "<suggestion>"+line.replaceAll("[–—]", "-")+"</suggestion>.", line.replaceAll("[–—]", "-"));
-        rules.add(dashRule);
+    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
+    int counter = 0;
+    for (String line : lines) {
+      counter++;
+      if (line.isEmpty() || line.charAt(0) == '#') {
+        continue;     // ignore comments
       }
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+      if (line.endsWith("+")) {
+        continue; // skip non-hyphenated suggestions
+      } else if (line.endsWith("*")) {
+        line = removeLastCharacter(line);
+      }
+      List<PatternToken> tokList = new ArrayList<>();
+      String[] tokens = line.split("-");
+      int tokenCounter = 0;
+      for (String token : tokens) {
+        tokenCounter++;
+          // token
+        tokList.add(new PatternToken(token, true, false, false));
+        if (tokenCounter < tokens.length) {
+          // add dash
+          tokList.add(new PatternToken("[—–]", false, true, false));
+        }
+      }
+      PatternRule dashRule = new PatternRule
+          ("DASH_RULE" + counter, lang, tokList,
+              "", msg + "<suggestion>"+line.replaceAll("[–—]", "-")+"</suggestion>.", line.replaceAll("[–—]", "-"));
+      rules.add(dashRule);
     }
     return rules;
   }

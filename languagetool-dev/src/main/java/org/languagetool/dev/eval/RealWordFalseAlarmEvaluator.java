@@ -20,6 +20,8 @@ package org.languagetool.dev.eval;
 
 import org.apache.commons.io.IOUtils;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.BritishEnglish;
 import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
@@ -48,7 +50,7 @@ class RealWordFalseAlarmEvaluator {
   // maximum error rate of a homophone in homophones-info.txt, items with a larger error rate will be ignored (eval mode only):
   private static final float MAX_ERROR_RATE = 10;
   
-  private final JLanguageTool langTool;
+  private final JLanguageTool lt;
   private final ConfusionProbabilityRule confusionRule;
   private final Map<String,List<ConfusionPair>> confusionPairs;
   private final LanguageModel languageModel;
@@ -57,18 +59,19 @@ class RealWordFalseAlarmEvaluator {
   private int globalRuleMatches;
 
   RealWordFalseAlarmEvaluator(File languageModelIndexDir) throws IOException {
+    Language lang = new AmericanEnglish();
     try (InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/confusion_sets.txt")) {
-      ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
+      ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(lang);
       confusionPairs = confusionSetLoader.loadConfusionPairs(inputStream);
     }
-    langTool = new JLanguageTool(new BritishEnglish());
-    List<Rule> rules = langTool.getAllActiveRules();
+    lt = new JLanguageTool(new BritishEnglish());
+    List<Rule> rules = lt.getAllActiveRules();
     for (Rule rule : rules) {
-      langTool.disableRule(rule.getId());
+      lt.disableRule(rule.getId());
     }
     languageModel = new LuceneLanguageModel(languageModelIndexDir);
-    confusionRule = new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, new English());
-    langTool.addRule(confusionRule);
+    confusionRule = new EnglishConfusionProbabilityRule(JLanguageTool.getMessageBundle(), languageModel, lang);
+    lt.addRule(confusionRule);
   }
   
   void close() {
@@ -118,7 +121,7 @@ class RealWordFalseAlarmEvaluator {
     int sentenceCount = 0;
     int ruleMatches = 0;
     for (String line : lines) {
-      List<RuleMatch> matches = langTool.check(line);
+      List<RuleMatch> matches = lt.check(line);
       sentenceCount++;
       globalSentenceCount++;
       if (matches.size() > 0) {

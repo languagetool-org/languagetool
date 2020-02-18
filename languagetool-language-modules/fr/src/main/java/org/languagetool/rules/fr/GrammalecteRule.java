@@ -84,7 +84,8 @@ public class GrammalecteRule extends Rule {
     "typo_points_suspension1",
     "typo_points_suspension2",
     "typo_points_suspension3",
-    "tab_début_ligne"
+    "tab_début_ligne",
+    "esp_milieu_ligne" // we already have WHITESPACE_RULE
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {

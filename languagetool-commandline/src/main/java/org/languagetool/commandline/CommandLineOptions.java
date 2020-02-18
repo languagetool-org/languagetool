@@ -83,6 +83,9 @@ public class CommandLineOptions {
   @Nullable
   private String ruleFile = null;
   @Nullable
+  private String remoteRulesFile;
+
+  @Nullable
   private String falseFriendFile = null;
   @Nullable
   private String bitextRuleFile = null;
@@ -261,7 +264,6 @@ public class CommandLineOptions {
     this.word2vecModel = neuralNetworkLanguageModel;
   }
 
-
   /**
    * @since 4.4
    */
@@ -323,6 +325,21 @@ public class CommandLineOptions {
    */
   public void setRuleFile(String ruleFile) {
     this.ruleFile = ruleFile;
+  }
+
+  /**
+   * @since 4.9
+   */
+  @Nullable
+  public String getRemoteRulesFile() {
+    return remoteRulesFile;
+  }
+
+  /**
+   * @since 4.9
+   */
+  public void setRemoteRulesFile(String remoteRulesFile) {
+    this.remoteRulesFile = remoteRulesFile;
   }
 
   @Nullable

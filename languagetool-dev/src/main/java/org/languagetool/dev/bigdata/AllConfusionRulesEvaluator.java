@@ -43,7 +43,7 @@ final class AllConfusionRulesEvaluator {
 
   public static void main(String[] args) throws IOException {
     if (args.length < 3 || args.length > 4) {
-      System.err.println("Usage: " + ConfusionRuleEvaluator.class.getSimpleName()
+      System.err.println("Usage: " + AllConfusionRulesEvaluator.class.getSimpleName()
               + " <langCode> <languageModelTopDir> <wikipediaXml|tatoebaFile|dir>...");
       System.err.println("   <languageModelTopDir> is a directory with sub-directories '1grams', '2grams', and '3grams' with Lucene indexes");
       System.err.println("   <wikipediaXml|tatoebaFile|dir> either a Wikipedia XML dump, or a Tatoeba file or");
@@ -65,8 +65,8 @@ final class AllConfusionRulesEvaluator {
     }
     ConfusionRuleEvaluator eval = new ConfusionRuleEvaluator(lang, languageModel, false, true); // TODO: consider bidirectional
     eval.setVerboseMode(false);
-    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
-    InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/confusion_sets.txt");
+    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(lang);
+    InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/" + lang.getShortCode() +"/confusion_sets.txt");
     Map<String,List<ConfusionPair>> confusionSetMap = confusionSetLoader.loadConfusionPairs(inputStream);
     Set<String> done = new HashSet<>();
     int fMeasureCount = 0;

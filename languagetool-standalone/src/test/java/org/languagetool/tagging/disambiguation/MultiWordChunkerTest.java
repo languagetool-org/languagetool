@@ -42,12 +42,12 @@ public class MultiWordChunkerTest {
 
   @Test
   public void testDisambiguateMultiSpace() throws Exception {
-      Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt");
-      JLanguageTool lt = new JLanguageTool(new Ukrainian());
-      AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("для  годиться.");
-      AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
-      AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
-      assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
-      assertTrue(tokens[4].getReadings().toString().contains("</adv>"));
-    }
+    Disambiguator chunker = new MultiWordChunker("/uk/multiwords.txt");
+    JLanguageTool lt = new JLanguageTool(new Ukrainian());
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence("для  годиться.");
+    AnalyzedSentence disambiguated = chunker.disambiguate(analyzedSentence);
+    AnalyzedTokenReadings[] tokens = disambiguated.getTokens();
+    assertTrue(tokens[1].getReadings().toString().contains("<adv>"));
+    assertTrue(tokens[4].getReadings().toString().contains("</adv>"));
+  }
 }

@@ -52,6 +52,7 @@ public abstract class Rule {
   private Category category;
   private URL url;
   private boolean defaultOff;
+  private boolean defaultTempOff;
   private boolean officeDefaultOn = false;
   private boolean officeDefaultOff = false;
 
@@ -79,6 +80,15 @@ public abstract class Rule {
    */
   public abstract String getId();
 
+  /**
+   * Same as {@link #getId()} for Java rules. For XML rules, this can contain a numbers
+   * that identifies the subrule of a rule group.
+   * @since 4.9
+   */
+  public String getFullId() {
+    return getId();
+  }
+  
   /**
    * A short description of the error this rule can detect, usually in the language of the text
    * that is checked.
@@ -307,10 +317,26 @@ public abstract class Rule {
   }
 
   /**
+   * Checks whether the rule has been turned off using "default='temp_off'" by default by the rule author.
+   * This is a special case where the rule is off for users but active for nightly regression checks.
+   */
+  public final boolean isDefaultTempOff() {
+    return defaultTempOff;
+  }
+
+  /**
    * Turns the rule off by default.
    */
   public final void setDefaultOff() {
     defaultOff = true;
+  }
+
+  /**
+   * Turns the pattern rule off by default, expect for internal regression tests.
+   */
+  public final void setDefaultTempOff() {
+    defaultOff = true;
+    defaultTempOff = true;
   }
 
   /**
@@ -412,6 +438,17 @@ public abstract class Rule {
       incorrectExamples.add(incorrectSentence);
     }
     correctExamples.add(correctSentence);
+  }
+
+  /**
+   * Convenience method to set a pair of sentences: an incorrect sentence and the same sentence
+   * with the error corrected.
+   * @since 4.9
+   */
+  protected void setExamplePair(IncorrectExample incorrectSentence, CorrectExample correctSentence) {
+    incorrectExamples.clear();
+    correctExamples.clear();
+    addExamplePair(incorrectSentence, correctSentence);
   }
 
 }

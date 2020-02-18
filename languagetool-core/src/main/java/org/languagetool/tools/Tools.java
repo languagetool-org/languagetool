@@ -75,7 +75,7 @@ public final class Tools {
     AnalyzedSentence srcText = srcLt.getAnalyzedSentence(src);
     AnalyzedSentence trgText = trgLt.getAnalyzedSentence(trg);
     List<Rule> nonBitextRules = trgLt.getAllRules();
-    List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence(JLanguageTool.ParagraphHandling.NORMAL, nonBitextRules, trgText);
+    List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence(JLanguageTool.ParagraphHandling.NORMAL, nonBitextRules, trgText, true);
     for (BitextRule bRule : bRules) {
       RuleMatch[] curMatch = bRule.match(srcText, trgText);
       if (curMatch != null && curMatch.length > 0) {
@@ -402,6 +402,28 @@ public final class Tools {
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  /**
+   * @since 4.9
+   */
+  public static boolean isParagraphEnd(List<AnalyzedSentence> sentences, int nTest, Language lang) {
+    if (nTest >= sentences.size() - 1) {
+      return true;
+    }
+    if (lang.getSentenceTokenizer().singleLineBreaksMarksPara()) {
+      if (sentences.get(nTest).getText().endsWith("\n") || sentences.get(nTest).getText().endsWith("\n\r")) {
+        return true;
+      }
+    } else {
+      if (sentences.get(nTest).getText().endsWith("\n\n") || sentences.get(nTest).getText().endsWith("\n\r\n\r") || sentences.get(nTest).getText().endsWith("\r\n\r\n")) {
+        return true;
+      }
+    }
+    if (sentences.get(nTest + 1).getText().startsWith("\n") || sentences.get(nTest + 1).getText().startsWith("\r\n")) {
+      return true;
+    }
+    return false;
   }
 
 }

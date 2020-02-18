@@ -25,6 +25,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Romanian;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestionWithMessage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,11 +55,11 @@ public class SimpleReplaceRuleTest {
   @Test
   public void testInvalidSuggestion()  {
     final List<String> invalidSuggestions = new ArrayList<>();
-    final List<Map<String,String>> wrongWords = rule.getWrongWords();
-    for (Map<String, String> ruleEntry : wrongWords) {
-      for (Map.Entry<String,String> entry : ruleEntry.entrySet()) {
+    final List<Map<String, SuggestionWithMessage>> wrongWords = rule.getWrongWords();
+    for (Map<String, SuggestionWithMessage> ruleEntry : wrongWords) {
+      for (Map.Entry<String,SuggestionWithMessage> entry : ruleEntry.entrySet()) {
         final String fromWord = entry.getKey();
-        final String toWord = entry.getValue();
+        final String toWord = entry.getValue().getSuggestion();
         if (toWord == null || fromWord.equals(toWord)) {
           invalidSuggestions.add(toWord);
         }

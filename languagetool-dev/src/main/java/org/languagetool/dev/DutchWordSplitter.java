@@ -23,6 +23,7 @@ import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
 
 public class DutchWordSplitter {
@@ -31,7 +32,7 @@ public class DutchWordSplitter {
     // exported as documented at http://wiki.languagetool.org/developing-a-tagger-dictionary#toc2,
     // then taking only the full form: awk '{print $1}' dictionary-nl.dump
     String filename = "/home/dnaber/lt/dictionary-nl.dump";
-    MorfologikMultiSpeller speller = new MorfologikMultiSpeller("/nl/spelling/nl_NL.dict", "/nl/spelling/spelling.txt", null, null, 1);
+    MorfologikMultiSpeller speller = new MorfologikMultiSpeller("/nl/spelling/nl_NL.dict", Collections.singletonList("/nl/spelling/spelling.txt"), null, null, 1);
     List<String> lines = Files.readAllLines(Paths.get(filename));
     int lineCount = 0;
     long lineTime = System.currentTimeMillis();

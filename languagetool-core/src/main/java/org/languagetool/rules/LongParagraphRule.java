@@ -29,6 +29,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Category.Location;
+import org.languagetool.tools.Tools;
 
 /**
  * A rule that warns on long paragraphs. Note that this rule is off by default.
@@ -118,7 +119,8 @@ public class LongParagraphRule extends TextLevelRule {
     int startPos = 0;
     int endPos = 0;
     int wordCount = 0;
-    for(AnalyzedSentence sentence : sentences) {
+    for(int n = 0; n < sentences.size(); n++) {
+      AnalyzedSentence sentence = sentences.get(n);
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
       for(AnalyzedTokenReadings token : tokens) {
         if(!token.isWhitespace() && !token.isSentenceStart() && !token.isNonWord()) {
@@ -130,7 +132,7 @@ public class LongParagraphRule extends TextLevelRule {
           }
         }
       }
-      if (sentence.hasParagraphEndMark(lang)) {
+      if (Tools.isParagraphEnd(sentences, n, lang)) {
         if (wordCount > maxWords) {
           RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg);
           ruleMatches.add(ruleMatch);
