@@ -43,6 +43,7 @@ import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.*;
 import java.util.*;
+import java.util.function.Function;
 import java.util.regex.Pattern;
 
 /**
@@ -195,12 +196,25 @@ public abstract class Language {
 
 
   /**
+   * For rules that depend on a remote server; based on {@link org.languagetool.rules.RemoteRule}
+   * will be executed asynchronously, with timeout, retries, etc.  as configured
    * Can return non-remote rules (e.g. if configuration missing, or for A/B tests), will be executed normally
    */
   public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs,
                                            UserConfig userConfig, Language motherTongue, List<Language> altLanguages)
     throws IOException {
     return Collections.emptyList();
+  }
+
+  /**
+   * For rules whose results are extended using some remote service, e.g. {@link org.languagetool.rules.BERTSuggestionRanking}
+   * @return function that transforms old rule into remote-enhanced rule
+   */
+  @Experimental
+  public Function<Rule, Rule> getRemoteEnhancedRules(
+    ResourceBundle messageBundle, List<RemoteRuleConfig> configs, UserConfig userConfig,
+    Language motherTongue, List<Language> altLanguages) throws IOException {
+    return Function.identity();
   }
 
   /**

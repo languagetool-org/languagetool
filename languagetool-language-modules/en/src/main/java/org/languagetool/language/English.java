@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 /**
  * Support for English - use the sub classes {@link BritishEnglish}, {@link AmericanEnglish},
@@ -330,5 +331,21 @@ public class English extends Language implements AutoCloseable {
       case LongParagraphRule.RULE_ID:   return -998;
     }
     return super.getPriorityForId(id);
+  }
+
+
+  @Override
+  public Function<Rule, Rule> getRemoteEnhancedRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    Function<Rule, Rule> fallback = super.getRemoteEnhancedRules(messageBundle, configs, userConfig, motherTongue, altLanguages);
+    RemoteRuleConfig bert = RemoteRuleConfig.getRelevantConfig(BERTSuggestionRanking.RULE_ID, configs);
+
+    return original -> {
+      if (original.isDictionaryBasedSpellingRule() && original.getId().startsWith("MORFOLOGIK_RULE_EN")) {
+        if (UserConfig.hasABTestsEnabled() && bert != null) {
+          return new BERTSuggestionRanking(original, bert, userConfig);
+        }
+      }
+      return fallback.apply(original);
+    };
   }
 }
