@@ -113,6 +113,7 @@ public class BERTSuggestionRanking extends RemoteRule {
       }
       return new MatchesForReordering(matches, requests);
     } catch (IOException e) {
+      logger.error("Error while executing rule " + wrappedRule.getId(), e);
       return new MatchesForReordering(Collections.emptyList(), Collections.emptyList());
     }
   }
