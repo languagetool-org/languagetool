@@ -6064,6 +6064,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="TO"/>
             <token chunk="B-NP-plural" postag_regexp="yes" postag="NN:UN?"/>
         </antipattern>
+        <antipattern><!-- #2473 open and account at -->
+            <token postag="CC" regexp="yes">and|or</token>
+            <token postag_regexp="yes" postag="NN:UN?"/>
+            <token postag="IN"/>
+        </antipattern>
         <pattern>
             <token postag="TO"/>
             <marker>
@@ -6080,6 +6085,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">This did not apply to oil or water glass because the...</example>
         <example type="untouched">This does not apply to oil and water mixtures because the...</example>
         <example type="untouched">This test is not applicable to blue or black oil, except on Mondays.</example>
+        <example type="untouched">So feel free to open and account at languagetoolplus.com.</example><!--  #2473 -->
         <example type="ambiguous" inputform="abstract[abstract/JJ,abstract/NN,abstract/VB,abstract/VBP]" outputform="abstract[abstract/VB,abstract/VBP]">... making its purpose difficult to <marker>abstract</marker> or quantify to any single concept.</example><!-- abstract/E-NP-singular, thus do not use the chunker in the pattern. -->
         <example type="ambiguous" inputform="control[control/NN:UN,control/VB,control/VBP]" outputform="control[control/VB,control/VBP]">It is not easy to check and <marker>control</marker> these decisions.</example>
         <example type="ambiguous" inputform="abstract[abstract/JJ,abstract/NN,abstract/VB,abstract/VBP]" outputform="abstract[abstract/VB,abstract/VBP]">Although to summarize and <marker>abstract</marker> the information is not easy...</example>
