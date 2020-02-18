@@ -17578,8 +17578,9 @@ steenwijk;Steenwijk
 		
         <rulegroup id="KOMMA_HOEWEL" name=", hoewel">
             <rule>
+				<antipattern><token skip="2">,</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
                 <pattern>
-					<token><exception postag="SENT_START"/><exception regexp="yes">,|en|of|alleen|[(]|–</exception></token>
+					<token><exception postag="SENT_START"/><exception regexp="yes">,|en|of|alleen|niet|maar[(]|–</exception></token>
                     <token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token>
                 </pattern>
                 <message>Voor '\2' komt meestal een komma: <suggestion>\1, \2</suggestion></message>
@@ -17589,6 +17590,7 @@ steenwijk;Steenwijk
         </rulegroup>
         <rulegroup id="KOMMA_MAAR" name=", maar">
             <rule>
+				<antipattern><token skip="2">,</token><token>maar</token></antipattern>
                 <antipattern><token>maar</token><token>al</token><token>te</token><token postag="BNW:STL:ONV"/></antipattern>
                 <antipattern><token>maar</token><token>heel</token><token>weinig</token></antipattern>
                 <antipattern><token>er</token><token>is</token><token>een</token><token>maar</token></antipattern>
@@ -30592,14 +30594,15 @@ steenwijk;Steenwijk
                 <pattern>
                     <token>dingen</token>
                 </pattern>
-                <message>'<match no="1"/>' is wel erg vaag. Waar heb je het over?</message>
+                <message>'<match no="1"/>' is wel erg vaag.</message>
                 <example type="incorrect">Deze <marker>dingen</marker> doen het niet!</example>
             </rule>
             <rule>
+				<antipattern><token>alles</token><token>op</token><token>alles</token></antipattern>
                 <pattern>
                     <token>alles</token>
                 </pattern>
-                <message>Wat bedoel je precies met '<match no="1"/>'?</message>
+                <message>'<match no="1"/>' is wel wat vaag.</message>
                 <example type="incorrect">Hier <marker>alles</marker> ok.</example>
             </rule>
             <rule>
