@@ -22071,6 +22071,11 @@ USA
     -->
         <rulegroup id="A_UNCOUNTABLE" name="Articles: a + uncountable noun">
             <rule>
+                <antipattern><!-- #2442 -->
+                    <token regexp="yes">an?</token>
+                    <token chunk="I-NP-singular"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN)?"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">an?</token>
@@ -22082,6 +22087,10 @@ USA
                 <short>Uncountable noun with an article</short>
                 <example><marker>The information</marker> in your files is correct.</example>
                 <example><marker>An intelligence</marker> service is known to be corrupt here.</example>
+                <example>It was thrown off of <marker>a garbage truck</marker></example><!--  #2442 -->
+                <example>Please focus on <marker>a research question</marker></example>
+                <example>Move it into <marker>a food processor</marker></example>
+                <example>Please keep <marker>a food diary</marker></example>
                 <example correction="Accommodation"><marker>An accommodation</marker> is too expensive.</example>
                 <example correction="wisdom">You need <marker>a wisdom</marker> in your life.</example>
                 <example correction="wisdom">The lack of <marker>a wisdom</marker> caused him to upset many people.</example>
