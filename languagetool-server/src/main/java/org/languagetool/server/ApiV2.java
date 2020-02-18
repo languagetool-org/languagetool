@@ -67,6 +67,8 @@ class ApiV2 {
       handleMaxTextLengthRequest(httpExchange, config);
     } else if (path.equals("configinfo")) {
       handleGetConfigurationInfoRequest(httpExchange, parameters, config);
+    } else if (path.equals("info")) {
+      handleSoftwareInfoRequest(httpExchange, parameters, config);
     } else if (path.equals("check")) {
       handleCheckRequest(httpExchange, parameters, errorRequestLimiter, remoteAddress);
     } else if (path.equals("words")) {
@@ -108,6 +110,14 @@ class ApiV2 {
     }
     Language lang = Languages.getLanguageForShortCode(parameters.get("language"));
     String response = getConfigurationInfo(lang, config);
+    ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);
+    httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
+    httpExchange.getResponseBody().write(response.getBytes(ENCODING));
+    ServerMetricsCollector.getInstance().logResponse(HttpURLConnection.HTTP_OK);
+  }
+
+  private void handleSoftwareInfoRequest(HttpExchange httpExchange, Map<String, String> parameters, HTTPServerConfig config) throws IOException {
+    String response = getSoftwareInfo();
     ServerTools.setCommonHeaders(httpExchange, JSON_CONTENT_TYPE, allowOriginUrl);
     httpExchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, response.getBytes(ENCODING).length);
     httpExchange.getResponseBody().write(response.getBytes(ENCODING));
@@ -349,6 +359,22 @@ class ApiV2 {
         g.writeEndObject();
       }
       g.writeEndArray();
+    }
+    return sw.toString();
+  }
+
+  String getSoftwareInfo() throws IOException {
+    StringWriter sw = new StringWriter();
+    try (JsonGenerator g = factory.createGenerator(sw)) {
+      g.writeStartObject();
+      g.writeObjectFieldStart("software");
+      g.writeStringField("name", "LanguageTool");
+      g.writeStringField("version", JLanguageTool.VERSION);
+      g.writeStringField("buildDate", JLanguageTool.BUILD_DATE);
+      g.writeStringField("commit", JLanguageTool.GIT_SHORT_ID);
+      g.writeBooleanField("premium", JLanguageTool.isPremiumVersion());
+      g.writeEndObject();
+      g.writeEndObject();
     }
     return sw.toString();
   }
