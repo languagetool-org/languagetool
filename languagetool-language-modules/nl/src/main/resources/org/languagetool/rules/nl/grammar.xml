@@ -95,6 +95,122 @@ regexp case-insensitive maken : (?i)
     <category id="STYLE" name="Stijlaspecten die niet in de andere categorieën worden afgehandeld.">
     </category>
     -->
+    <category id="PICKY" name="Regels die meer voor een pietje-proecies zijn." default="off">
+        <rulegroup id="GETALLEN_0_20_OF_ROND" name="Getallen onder 20 en ronde getallen uitschrijven"><!-- picky -->
+            <rule>
+                <antipattern><token regexp="yes">[A-Z][a-z].*(straat|weg|plein|steeg|dreef|boulevard)|[€.,/-]|lid|artikel|jaar|jaren|figuur|sub|stap|tabel|ISO|groep'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
+                <antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
+                </antipattern>
+				<antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">en|of</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
+                </antipattern>
+				<antipattern><token regexp="yes">[0-9]{1,2}</token><token>:</token><token regexp="yes">[0-9]{1,2}</token></antipattern>
+                <pattern>
+                    <token/>
+                    <marker>
+                        <token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token>
+                    </marker>
+                    <token/>
+                </pattern>
+                <message>Ronde getallen en getallen onder de twintig worden in tekst bij voorkeur in letters geschreven</message>
+                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url>
+                <short>Uitschrijven</short>
+                <example type="incorrect">Er was <marker>100</marker> man aanwezig.</example>
+                <example>Er was <marker>honderd</marker> man aanwezig.</example>
+            </rule>
+        </rulegroup>
+		<rulegroup id="INSPECIFIEK" name="vage aanduiding hoeveelheid"><!-- picky -->
+            <rule>
+                <antipattern><token>zoveel</token><token>mogelijk</token></antipattern>
+                <antipattern><token>zo</token><token postag="BNW:STL:VRB"/><token>mogelijk</token></antipattern>
+                <pattern>
+                    <token regexp="yes">doorgaans|meestal|waarschijnlijk|vaak|vermoedelijk|mogelijk|misschien|onzeker|twijfelachtig|soms|onwaarschijnlijk</token>
+                </pattern>
+                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1' heel verschillend wordt geïnterpreteerd.</message>
+                <example type="incorrect">Dit is <marker>doorgaans</marker> onduidelijk.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bijna</token>
+                    <token regexp="yes">zeker|altijd</token>
+                </pattern>
+                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <example type="incorrect">Dit is <marker>bijna zeker</marker> onduidelijk.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>zeer</token>
+                    <token>waarschijnlijk</token>
+                </pattern>
+                <message>Wanneer u precies wit zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <example type="incorrect">Dit is <marker>zeer waarschijnlijk</marker> onduidelijk.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>heel</token>
+                    <token>vaak</token>
+                </pattern>
+                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <example type="incorrect">Dit is <marker>heel vaak</marker> onduidelijk.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">grote|kleine</token>
+                    <token>kans</token>
+                </pattern>
+                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <example type="incorrect">Dit is <marker>grote kans</marker> onduidelijk.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>te</token>
+                    <token>verwachten</token>
+                </pattern>
+                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <example type="incorrect">Dit is <marker>te verwachten</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">kunnen</token>
+                    <token>gebeuren</token>
+                </pattern>
+                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
+                <example type="incorrect">Dit <marker>kan gebeuren</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij , jouw → we, ze, je, me"><!-- picky -->
+            <rule>
+				<antipattern><token postag="SENT_START"/><token regexp="yes">Wij|Zij|Jij</token><token regexp="yes">van|en|als</token></antipattern>
+				<antipattern><token regexp="yes">volgens|voor</token><token>mij</token></antipattern>
+				<antipattern><token>jou</token><token regexp="yes">en|of</token></antipattern>
+				<antipattern><token postag="SENT_START"/><token>mij</token><token>is</token></antipattern>
+				<antipattern><token>zoals</token><token regexp="yes">jij|wij|zij|mij</token></antipattern>
+				<antipattern><token>en</token><token regexp="yes">jij|wij|zij</token><token>?</token></antipattern>
+				<antipattern><token postag="SENT_START"/><token>voor</token><token>mij</token></antipattern>
+				<antipattern><token>je</token><token>je</token><token>mij</token></antipattern>
+				<antipattern><token>zij</token><token>het</token></antipattern>
+                <antipattern><token>zij</token><token>'</token><token>t</token></antipattern>
+                <pattern>
+					<token regexp="yes">jij|wij|zij|mij<exception postag="UNKNOWN"/></token>
+                </pattern>
+                <message>Als er geen speciale nadruk ligt op \1, dan is <suggestion><match no="1" regexp_match="(?i)ij" regexp_replace="e"/></suggestion> gebruikelijker.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
+                <short>Nadruk?</short>
+                <example correction="We"><marker>Wij</marker> vinden het fout.</example>
+                <example correction="We"><marker>Wij</marker> geven u een schatting van de kosten.</example>
+                <example correction="Ze"><marker>Zij</marker> vinden er hun tweede huis.</example>
+            </rule>
+            <rule>
+                <pattern>
+					<token regexp="yes">jouw|jou</token>
+                </pattern>
+                <message>Als er geen speciale nadruk ligt op \1, dan is <suggestion>je</suggestion> gebruikelijker.</message>
+                <url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
+                <short>Nadruk?</short>
+				<example correction="je">Ik zie <marker>jouw</marker> auto</example>
+            </rule>
+        </rulegroup>
+    </category>
+	
     <category id="SEMANTICS" name="Aandachtspunten in de betekenis en consistentie." >
         <rulegroup id="DATE_WEEKDAY" name="Dag komt niet overeen met datum">
             <rule>
@@ -13300,28 +13416,6 @@ onwaarschijnlijk
                 <example correction="twintigduizend envijfhonderd">En er werden verslagen <marker>twintigduizendenvijfhonderd</marker> man te voet en zeshonderd ruiters.</example>
                 <example correction="vijfduizend tweehonderd">Zo kwam er een einde aan de taak van zo'n <marker>vijfduizendtweehonderd</marker> medewerkers.</example>
                 <example correction="achtduizend vijfhonderd">Het heeft een richtprijs van <marker>achtduizendvijfhonderd</marker> euro, excl. BTW en installatie.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="GETALLEN_0_20_OF_ROND" name="Getallen onder 20 en ronde getallen uitschrijven"><!-- picky -->
-            <rule>
-                <antipattern><token regexp="yes">[A-Z][a-z].*(straat|weg|plein|steeg|dreef|boulevard)|[€.,/-]|lid|artikel|jaar|jaren|figuur|sub|stap|tabel|ISO|groep'</token><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token/></antipattern>
-                <antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
-                </antipattern>
-				<antipattern><token/><token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token><token regexp="yes">en|of</token><token regexp="yes">.{4,50}|[%.,/-]|GB|u|uur|(jan|feb|maa|apr|mei|jun|jul|aug|okt|nov|dec).*|º|mg|kg|dl|ml|m|mm|cm|km|kHz|TB</token>
-                </antipattern>
-				<antipattern><token regexp="yes">[0-9]{1,2}</token><token>:</token><token regexp="yes">[0-9]{1,2}</token></antipattern>
-                <pattern>
-                    <token/>
-                    <marker>
-                        <token regexp="yes">[0-9]|[1][0-9]|[1-9]0|[1-9][0-9]00|[1-9]00</token>
-                    </marker>
-                    <token/>
-                </pattern>
-                <message>Ronde getallen en getallen onder de twintig worden in tekst bij voorkeur in letters geschreven</message>
-                <url>https://onzetaal.nl/taaladvies/advies/getallen-in-letters-of-cijfers</url>
-                <short>Uitschrijven</short>
-                <example type="incorrect">Er was <marker>100</marker> man aanwezig.</example>
-                <example>Er was <marker>honderd</marker> man aanwezig.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GROTE_GETALLEN" name="grote getallen">
@@ -30628,65 +30722,6 @@ steenwijk;Steenwijk
                 <example type="incorrect"><marker>Men</marker> is niemand.</example>
             </rule>
         </rulegroup>
-		<rulegroup id="INSPECIFIEK" name="vage aanduiding hoeveelheid"><!-- picky -->
-            <rule>
-                <antipattern><token>zoveel</token><token>mogelijk</token></antipattern>
-                <antipattern><token>zo</token><token postag="BNW:STL:VRB"/><token>mogelijk</token></antipattern>
-                <pattern>
-                    <token regexp="yes">doorgaans|meestal|waarschijnlijk|vaak|vermoedelijk|mogelijk|misschien|onzeker|twijfelachtig|soms|onwaarschijnlijk</token>
-                </pattern>
-                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1' heel verschillend wordt geïnterpreteerd.</message>
-                <example type="incorrect">Dit is <marker>doorgaans</marker> onduidelijk.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>bijna</token>
-                    <token regexp="yes">zeker|altijd</token>
-                </pattern>
-                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-                <example type="incorrect">Dit is <marker>bijna zeker</marker> onduidelijk.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>zeer</token>
-                    <token>waarschijnlijk</token>
-                </pattern>
-                <message>Wanneer u precies wit zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-                <example type="incorrect">Dit is <marker>zeer waarschijnlijk</marker> onduidelijk.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>heel</token>
-                    <token>vaak</token>
-                </pattern>
-                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-                <example type="incorrect">Dit is <marker>heel vaak</marker> onduidelijk.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">grote|kleine</token>
-                    <token>kans</token>
-                </pattern>
-                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-                <example type="incorrect">Dit is <marker>grote kans</marker> onduidelijk.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>te</token>
-                    <token>verwachten</token>
-                </pattern>
-                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-                <example type="incorrect">Dit is <marker>te verwachten</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token inflected="yes">kunnen</token>
-                    <token>gebeuren</token>
-                </pattern>
-                <message>Wanneer u precies wilt zijn, kunt u beter een percentage geven; uit onderzoek blijkt dat '\1 \2' heel verschillend wordt geïnterpreteerd.</message>
-                <example type="incorrect">Dit <marker>kan gebeuren</marker>.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="OVERDRIJVING" name="mogelijke overdrijving">
             <rule>
                 <pattern>
@@ -35110,38 +35145,6 @@ steenwijk;Steenwijk
                 </pattern>
                 <message>U bedoelt waarschijnlijk: <suggestion>\1 \2 volbracht</suggestion>.</message>
                 <example correction="taak is volbracht">Mijn <marker>taak is voldaan</marker>.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="WIJ_ZIJ_MIJ" name="Wij, zij, jij , jouw → we, ze, je, me"><!-- picky -->
-            <rule>
-				<antipattern><token postag="SENT_START"/><token regexp="yes">Wij|Zij|Jij</token><token regexp="yes">van|en|als</token></antipattern>
-				<antipattern><token regexp="yes">volgens|voor</token><token>mij</token></antipattern>
-				<antipattern><token>jou</token><token regexp="yes">en|of</token></antipattern>
-				<antipattern><token postag="SENT_START"/><token>mij</token><token>is</token></antipattern>
-				<antipattern><token>zoals</token><token regexp="yes">jij|wij|zij|mij</token></antipattern>
-				<antipattern><token>en</token><token regexp="yes">jij|wij|zij</token><token>?</token></antipattern>
-				<antipattern><token postag="SENT_START"/><token>voor</token><token>mij</token></antipattern>
-				<antipattern><token>je</token><token>je</token><token>mij</token></antipattern>
-				<antipattern><token>zij</token><token>het</token></antipattern>
-                <antipattern><token>zij</token><token>'</token><token>t</token></antipattern>
-                <pattern>
-					<token regexp="yes">jij|wij|zij|mij<exception postag="UNKNOWN"/></token>
-                </pattern>
-                <message>Als er geen speciale nadruk ligt op \1, dan is <suggestion><match no="1" regexp_match="(?i)ij" regexp_replace="e"/></suggestion> gebruikelijker.</message>
-                <url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
-                <short>Nadruk?</short>
-                <example correction="We"><marker>Wij</marker> vinden het fout.</example>
-                <example correction="We"><marker>Wij</marker> geven u een schatting van de kosten.</example>
-                <example correction="Ze"><marker>Zij</marker> vinden er hun tweede huis.</example>
-            </rule>
-            <rule>
-                <pattern>
-					<token regexp="yes">jouw|jou</token>
-                </pattern>
-                <message>Als er geen speciale nadruk ligt op \1, dan is <suggestion>je</suggestion> gebruikelijker.</message>
-                <url>https://onzetaal.nl/taaladvies/advies/wij-we</url>
-                <short>Nadruk?</short>
-				<example correction="je">Ik zie <marker>jouw</marker> auto</example>
             </rule>
         </rulegroup>
         <rulegroup id="KORT_1" name="Zin van 1 woord">
