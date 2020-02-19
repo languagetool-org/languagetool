@@ -12259,6 +12259,27 @@ onwaarschijnlijk
         </rulegroup>
     </category>
     <category id="AFKORTINGEN" name="Afkortingen">
+        <rulegroup id="VON" name="von → v.o.n.">
+			<antipattern><token>von</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern><!-- van Neumann etc. -->
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>von</token>
+                </pattern>
+                <message>U bedoelt waarschijnlijk: <suggestion>v.o.n.</suggestion> (vrij op naam).</message>
+				<example correction="v.o.n.">Het huis kost 500.000 <marker>von</marker> nu.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MI" name="mi → m.i.">
+            <rule>
+				<antipattern><token skip ="5" regexp="yes">do|re|fa|so|sol|la|si|ti</token><token>mi</token></antipattern>
+				<antipattern><token skip ="5">mi</token><token regexp="yes">do|re|fa|so|sol|la|si|ti</token></antipattern>
+                <pattern case_sensitive="yes">
+                    <token>mi</token>
+                </pattern>
+				<message>Het is natuurlijk een noot, maar wellicht bedoelt u: <suggestion>m.i.</suggestion> (mijns inziens) of <suggestion>mij</suggestion>.</message>
+				<example correction="m.i.|mij">Het huis is <marker>mi</marker> te duur.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="C_IPV_CA" name="c. → ca.">
             <rule>
                 <pattern case_sensitive="yes">
