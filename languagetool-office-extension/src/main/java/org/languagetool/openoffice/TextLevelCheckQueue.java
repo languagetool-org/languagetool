@@ -51,6 +51,7 @@ public class TextLevelCheckQueue {
     multiDocHandler = multiDocumentsHandler;
     langTool = multiDocHandler.initLanguageTool();
     multiDocHandler.initCheck(langTool);
+    multiDocHandler.activateTextRulesByIndex(1, langTool);
     queueIterator = new QueueIterator();
     queueIterator.start();
   }
@@ -328,6 +329,9 @@ public class TextLevelCheckQueue {
             if(debugMode) {
               MessageHandler.printToLogFile("run queue entry: docId = " + queueEntry.docId + ", nStart = " 
                   + queueEntry.nStart + ", nEnd = " + queueEntry.nEnd + ", nCheck = " + queueEntry.nCheck + ", overrideRunning = " + queueEntry.overrideRunning);
+            }
+            if(lastCache != queueEntry.nCache) {
+              multiDocHandler.activateTextRulesByIndex(queueEntry.nCache, langTool);
             }
             lastStart = queueEntry.nStart;
             lastCache = queueEntry.nCache;

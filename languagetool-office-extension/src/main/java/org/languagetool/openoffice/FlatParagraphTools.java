@@ -48,7 +48,10 @@ import com.sun.star.uno.UnoRuntime;
  */
 public class FlatParagraphTools {
   
-  private static final boolean debugMode = false;   //  should be false except for testing
+  private static final int typeTolerance = 3;     //  Tolerance between checked text and FlatPraragrah text
+                                                  //  needed, because some changes in paragraph could be happened while checking
+  
+  private static final boolean debugMode = false; //  should be false except for testing
   
   private final XFlatParagraphIterator xFlatParaIter;
   private XFlatParagraph lastFlatPara;
@@ -120,10 +123,46 @@ public class FlatParagraphTools {
     
   /**
    * is true if FlatParagraph is from Automatic Iteration
-   * else is false and at failure
    */
   public boolean isFlatParaFromIter() {
     return (getCurrentFlatParagraph() != null);
+  }
+
+  /**
+   * is true if FlatParagraph is from Automatic Iteration
+   * a tolerance of some characters has to be assumed because of a possible delay between 
+   * initializing of the proof within LO and the work off in LT
+   */
+  public boolean isCurrentFlatPara(String paraText) {
+    XFlatParagraph xFlatPara = getCurrentFlatParagraph();
+    if (xFlatPara == null) {
+      if (debugMode) {
+        MessageHandler.printToLogFile("isCurrentFlatPara: FlatParagraph == null");
+      }
+      return false;
+    }
+    boolean ret = true;
+    String flatText = xFlatPara.getText();
+    int nText = paraText.length();
+    int nFlat = flatText.length();
+    if(nText < nFlat) {
+      if(nFlat - nText > typeTolerance) {
+        ret = false;
+      } else {
+        ret = flatText.startsWith(paraText);
+      }
+    } else {
+      if(nText - nFlat > typeTolerance) {
+        ret = false;
+      } else {
+        ret = paraText.startsWith(flatText);
+      }
+    }
+    if(debugMode && !ret) {
+      MessageHandler.printToLogFile("isCurrentFlatPara: " + ret + ":\nparaText: " + paraText
+          + "\nflatText: " + flatText);
+    }
+    return ret;
   }
 
   /**

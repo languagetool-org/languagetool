@@ -424,7 +424,7 @@ class SingleDocument {
       MessageHandler.printToLogFile("Number FlatParagraphs: " + nParas + "; docID: " + docID);
     }
 
-    if (nParas < allParas.size()) {   //  no automatic iteration
+    if (nParas < allParas.size() || !flatPara.isCurrentFlatPara(chPara)) {   //  no automatic iteration
       return getParaFromViewCursorOrDialog(chPara);   // try to get ViewCursor position
     }
     divNum = nParas - allParas.size();
@@ -439,10 +439,6 @@ class SingleDocument {
     numLastFlPara = nParas;
     
     if (!chPara.equals(allParas.get(nParas))) {
-      int nVParas = getParaFromViewCursorOrDialog(chPara);   // try to get ViewCursor position
-      if (nVParas >= 0) {
-        return nVParas;
-      }
       if (isReset) {
         return -1;
       } else {
@@ -814,7 +810,7 @@ class SingleDocument {
           parasToCheck = numParasToCheck;
         }
         defaultParaCheck = PARA_CHECK_DEFAULT;
-        mDocHandler.activateTextRulesByIndex(i);
+        mDocHandler.activateTextRulesByIndex(i, langTool);
         if (debugMode > 1) {
           MessageHandler.printToLogFile("ParaCeck: Index: " + i + "/" + minToCheckPara.size() 
             + "; numParasToCheck: " + numParasToCheck + logLineBreak);
@@ -858,7 +854,7 @@ class SingleDocument {
         firstCheckIsDone = true;
       }
       oldCache = null;
-      mDocHandler.reactivateTextRules();
+      mDocHandler.reactivateTextRules(langTool);
     }
     return pErrors;
   }
