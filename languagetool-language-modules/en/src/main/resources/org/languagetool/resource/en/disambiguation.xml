@@ -5404,8 +5404,19 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="DT"/>
             <token postag_regexp="yes" postag="NN(:UN?)?"/>
             <token postag="VBZ"/>
-            <token regexp="yes">me|you|him|her|it|us|them|one</token>
+            <token regexp="yes">&object_pronouns;</token>
             <token postag_regexp="yes" postag="CC|IN"/>
+        </antipattern>
+        <antipattern><!-- #2431 makes it harder -->
+            <token chunk="B-VP" postag="VBZ"/>
+            <token regexp="yes">&object_pronouns;</token>
+            <token postag_regexp="yes" postag="JJR?"/>
+        </antipattern>
+        <antipattern><!-- #2431 www.lexico.com/definition/more_or_less -->
+            <token>more</token>
+            <token>or</token>
+            <token>less</token>
+            <token postag="VBZ"/>
         </antipattern>
         <pattern>
             <token postag="JJ">
@@ -5436,6 +5447,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Proper noun. He did it via standard <marker>Windows</marker> deployment tools.</example><!-- #2393 -->
         <example type="untouched">Proper noun. THEY DID IT WITH THE STANDARD <marker>WINDOWS</marker> SOFTWARE.</example>
         <example type="untouched">Noun: Otherwise, the <marker>community</marker> sees it as trolling, regardless of the intent.</example><!-- #2405 -->
+        <example type="untouched">Not providing a clear indication of which documentation you are consulting makes it harder for us to get on the same page as you.</example><!-- #2431 -->
+        <example type="untouched">Being 16+ years old makes it worse.</example><!-- #2431 -->
+        <example type="untouched">That it clears up after driving makes it difficult.</example><!-- #2431 -->
+        <example type="untouched">Saint Gregory's narrative makes it impossible to suppose him younger than 20 at the time.</example><!-- #2431 -->
+        <example type="untouched">Furthermore, the complexity of the medium makes it difficult to write a useful boot program in one sector.</example><!-- #2431 -->
+        <example type="untouched">It more or less looks like it's ready.</example><!-- #2431 -->
         <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
         <example type="ambiguous" inputform="FORCES[force/NNS,force/VBZ]" outputform="FORCES[force/NNS]">THEY WANT MILITARY <marker>FORCES</marker>, I THINK.</example>
     </rule>
