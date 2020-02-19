@@ -12259,6 +12259,25 @@ onwaarschijnlijk
         </rulegroup>
     </category>
     <category id="AFKORTINGEN" name="Afkortingen">
+        <rulegroup id="EO" name="eo → e.o.">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>eo</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>EO</suggestion> (omroep) of <suggestion>e.o.</suggestion> (en omstreken).</message>
+				<example correction="EO|e.o.">Ik houd van raketten <marker>eo</marker> sinds mijn jeugd.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ED" name="ed → e.d.">
+            <rule>
+                <pattern case_sensitive="yes">
+					<marker><token>ed</token></marker>
+					<token negate="yes">.</token>
+                </pattern>
+                <message>U bedoelt vast: <suggestion>Ed</suggestion> (naam), <suggestion>e.d.</suggestion> (en dergelijke) of <suggestion>ed.</suggestion> (editie).</message>
+				<example correction="Ed|e.d.|ed.">Ik houd van raketten <marker>ed</marker> sinds mijn jeugd.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VON" name="von → v.o.n.">
 			<antipattern><token>von</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern><!-- van Neumann etc. -->
             <rule>
@@ -17693,6 +17712,7 @@ steenwijk;Steenwijk
 		
         <rulegroup id="KOMMA_HOEWEL" name=", hoewel">
             <rule>
+				<antipattern><token>(</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
 				<antipattern><token skip="2">,</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
                 <pattern>
 					<token><exception postag="SENT_START"/><exception regexp="yes">,|en|of|alleen|niet|maar[(]|–</exception></token>
