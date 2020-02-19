@@ -6,6 +6,7 @@
 <!DOCTYPE rules [
     <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY file_name_extensions "asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|yaml|yml|zip|zipx">
+    <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
 ]>
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -2330,6 +2331,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="VB[DZ]"/>
             <token postag="TO"/>
         </antipattern>
+        <antipattern><!-- #2435 some bound it -->
+            <token regexp="yes">these|those|all|each|some</token>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB[DZ]"/>
+            <token regexp="yes">&object_pronouns;</token>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT|RB" postag_regexp="yes" /><exception regexp="yes">th[eo]se|each|that|much</exception></token>
             <marker>
@@ -2354,6 +2360,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">So I will either catch you from my car tomorrow morning, or we can talk on Monday.</example>
         <example type="untouched">Please carefully review all documents so that we can next move to final execution copies.</example>
         <example type="untouched">A <marker>tries</marker> to overtake B.</example><!-- #2415 -->
+        <example type="untouched">The Aegean Islands are within the sea and some <marker>bound</marker> it on its southern periphery, including Crete and Rhodes.</example><!-- #2435 -->
     </rule>
 
     <rule name="each + verb/NN -&gt; NN" id="EACH_VB_NN">
