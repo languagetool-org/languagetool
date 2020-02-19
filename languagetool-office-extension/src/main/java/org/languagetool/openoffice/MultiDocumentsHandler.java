@@ -142,14 +142,12 @@ public class MultiDocumentsHandler {
         extraRemoteRules.clear();
       }
       langTool = initLanguageTool();
-      if(!switchOff && !testMode) {
+      if(!switchOff) {
         initCheck(langTool);
         initDocuments();
       }
     }
-//    if(ltMenu == null) {
-      ltMenu = new LanguagetoolMenu(xContext);
-//    }
+    ltMenu = new LanguagetoolMenu(xContext);
     if(switchOff) {
       return paRes;
     }
@@ -343,7 +341,7 @@ public class MultiDocumentsHandler {
   }
 
   /**
-   *  Set config Values for all documents
+   *  Set configuration Values for all documents
    */
   private void setConfigValues(Configuration config, SwJLanguageTool langTool) {
     this.config = config;
@@ -354,6 +352,9 @@ public class MultiDocumentsHandler {
     }
   }
 
+  /**
+   * Get language from locale
+   */
   private Language getLanguage(Locale locale) {
     try {
       if (locale.Language.equalsIgnoreCase(LIBREOFFICE_SPECIAL_LANGUAGE_TAG)) {
