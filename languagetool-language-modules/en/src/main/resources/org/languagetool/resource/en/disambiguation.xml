@@ -5381,64 +5381,64 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="makes[make/NNS,make/VBZ]" outputform="makes[make/VBZ]">This <marker>makes</marker> access to the machine easier.</example>
     </rule>
 
-        <rule id="JJ_VBZ_NNS" name="Adjective + verb singular/plural noun => noun">
-          <antipattern><!-- The reinforcement spar makes it stronger and ... -->
+    <rule id="JJ_VBZ_NNS" name="Adjective + verb singular/plural noun => noun">
+        <antipattern><!-- The reinforcement spar makes it stronger and ... -->
             <token postag="NN"/>
             <token chunk="B-VP" postag="VBZ"/>
-          </antipattern>
-          <antipattern><!-- This component parts the wires. parts/E-NP-plural -->
+        </antipattern>
+        <antipattern><!-- This component parts the wires. parts/E-NP-plural -->
             <token postag_regexp="yes" postag="DT|PRP\$"/>
             <token postag="NN"/>
             <token postag="VBZ"/>
             <token postag_regexp="yes" postag="DT|PRP\$"/>
-          </antipattern>
-          <antipattern><!-- What makes you happy makes me -->
+        </antipattern>
+        <antipattern><!-- What makes you happy makes me -->
             <token postag="WP"/>
             <token postag_regexp="yes" postag="VB[DZ]"/>
             <token postag_regexp="yes" postag="PRP|NNP"/>
             <token postag_regexp="yes" postag="JJR?"/>
             <token postag="VBZ"/>
             <token postag_regexp="yes" postag="PRP|NNP"/>
-          </antipattern>
-          <antipattern><!-- #2405 the community sees it as -->
+        </antipattern>
+        <antipattern><!-- #2405 the community sees it as -->
             <token postag="DT"/>
             <token postag_regexp="yes" postag="NN(:UN?)?"/>
             <token postag="VBZ"/>
             <token regexp="yes">me|you|him|her|it|us|them|one</token>
             <token postag_regexp="yes" postag="CC|IN"/>
-          </antipattern>
-          <pattern>
+        </antipattern>
+        <pattern>
             <token postag="JJ">
-              <exception scope="previous" regexp="yes">s?he|it</exception>
-              <exception postag_regexp="yes" postag="RB|NNP"/>
-              <exception scope="previous" postag="JJ"/>
-              </token>
+                <exception scope="previous" regexp="yes">s?he|it</exception>
+                <exception postag_regexp="yes" postag="RB|NNP"/>
+                <exception scope="previous" postag="JJ"/>
+                </token>
             <marker>
-              <and>
-                <token postag="VBZ"><exception regexp="yes">is|does</exception></token>
-                <token postag="NNS">
-                  <exception postag_regexp="yes" postag="NNPS?"/><!-- #2393 -->
-                  </token>
-              </and>
+                <and>
+                    <token postag="VBZ"><exception regexp="yes">is|does</exception></token>
+                    <token postag="NNS">
+                        <exception postag_regexp="yes" postag="NNPS?"/><!-- #2393 -->
+                    </token>
+                </and>
             </marker>
             <token>
-              <exception postag="RB"/>
-              </token>
-          </pattern>
-          <disambig postag="NNS"/>
-          <example type="untouched">I enjoy running.</example>
-          <example type="untouched">Hard work causes fitness and vice versa.</example>
-          <example type="untouched">This occurs when the core of a massive star exhausts its nuclear fuel.</example>
-          <example type="untouched">Tom wishes that were true.</example>
-          <example type="untouched">Verb. This component<marker>parts</marker> the wires automatically.</example>
-          <example type="untouched">Verb. The reinforcement spar <marker>makes</marker> it stronger and less prone to deformation.</example>
-          <example type="untouched">Verb. What makes you happy <marker>makes</marker> me happy.</example>
-          <example type="untouched">Proper noun. He did it via standard <marker>Windows</marker> deployment tools.</example><!-- #2393 -->
-          <example type="untouched">Proper noun. THEY DID IT WITH THE STANDARD <marker>WINDOWS</marker> SOFTWARE.</example>
-          <example type="untouched">Noun: Otherwise, the <marker>community</marker> sees it as trolling, regardless of the intent.</example><!-- #2405 -->
-          <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
-          <example type="ambiguous" inputform="FORCES[force/NNS,force/VBZ]" outputform="FORCES[force/NNS]">THEY WANT MILITARY <marker>FORCES</marker>, I THINK.</example>
-        </rule>
+                <exception postag="RB"/>
+                </token>
+        </pattern>
+        <disambig postag="NNS"/>
+        <example type="untouched">I enjoy running.</example>
+        <example type="untouched">Hard work causes fitness and vice versa.</example>
+        <example type="untouched">This occurs when the core of a massive star exhausts its nuclear fuel.</example>
+        <example type="untouched">Tom wishes that were true.</example>
+        <example type="untouched">Verb. This component<marker>parts</marker> the wires automatically.</example>
+        <example type="untouched">Verb. The reinforcement spar <marker>makes</marker> it stronger and less prone to deformation.</example>
+        <example type="untouched">Verb. What makes you happy <marker>makes</marker> me happy.</example>
+        <example type="untouched">Proper noun. He did it via standard <marker>Windows</marker> deployment tools.</example><!-- #2393 -->
+        <example type="untouched">Proper noun. THEY DID IT WITH THE STANDARD <marker>WINDOWS</marker> SOFTWARE.</example>
+        <example type="untouched">Noun: Otherwise, the <marker>community</marker> sees it as trolling, regardless of the intent.</example><!-- #2405 -->
+        <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
+        <example type="ambiguous" inputform="FORCES[force/NNS,force/VBZ]" outputform="FORCES[force/NNS]">THEY WANT MILITARY <marker>FORCES</marker>, I THINK.</example>
+    </rule>
 
         <rule id="DT_VBZNNS_NNS" name="Plural determiners + noun plur/vb sg => noun plur">
           <pattern>
