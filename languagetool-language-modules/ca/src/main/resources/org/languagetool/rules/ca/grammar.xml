@@ -7065,19 +7065,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Per a expressar molt millor expressions fins llavors ocultes.</example>
             <example>Per a conèixer una mica millor zones del país.</example>
         </rule>
-        <rule id="MAL_MALAMENT" name="mal/malament">
-            <pattern>
-                <token inflected="yes">parlar</token>
-                <marker>
+        <rulegroup id="MAL_MALAMENT" name="mal/malament">
+            <rule>
+                <pattern>
+                    <token inflected="yes">parlar</token>
+                    <marker>
+                        <token>mal</token>
+                    </marker>
+                    <token inflected="yes">de</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>malament</suggestion>?</message>
+                <short>Possible error</short>
+                <example correction="malament">No m'agrada parlar <marker>mal</marker> d'ell.</example>
+                <example>Parla bé de tothom.</example>
+            </rule>
+            <rule>
+                <antipattern>
                     <token>mal</token>
-                </marker>
-                <token inflected="yes">de</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion>malament</suggestion>?</message>
-            <short>Possible error</short>
-            <example correction="malament">No m'agrada parlar <marker>mal</marker> d'ell.</example>
-            <example>Parla bé de tothom.</example>
-        </rule>
+                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">estar</token>
+                    <token min="0" regexp="yes">molt|gens|gaire</token>
+                    <marker>
+                        <token>mal</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal dir <suggestion>malament</suggestion>.</message>
+                <example correction="malament">No estava gens <marker>mal</marker> això.</example>
+                <example correction="malament">Tothom sap que això està molt <marker>mal</marker>.</example>
+                <example>Això està molt mal fet.</example>
+                <example>Això està mal pensat.</example>
+                <example>Això està mal dit.</example>
+            </rule>
+        </rulegroup>
         <rule id="DE_PORTES_CAP_A_DINS" name="de portes *cap a dins/endins">
             <pattern>
                 <token>de</token>
