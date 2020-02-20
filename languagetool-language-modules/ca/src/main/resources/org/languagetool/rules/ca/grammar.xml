@@ -2109,6 +2109,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Havia utilitzat serveis d'assessoria.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>las</token>
+                </antipattern>
                 <pattern>
                     <unify negate="yes">
                         <feature id="nombre" />
@@ -16927,6 +16930,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El cos li va quedar completament las.</example>
                 <example>Ve de Las Palmas o de Las Vegas.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>las</token>
+                    </marker>
+                    <token postag="V.P.*" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>l'has</suggestion>?</message>
+                <example correction="l'has">Te <marker>las</marker> posat avui?</example>
+            </rule>
         </rulegroup>
         <!--     MOLT DIFÍCIL DE DIFERENCIAR
             <rule id="CA_LA" name="cala/ca la">
@@ -17932,13 +17945,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>suma</token>
                 </marker>
-                <token postag="NCFS000"><exception>constant</exception></token>
+                <token postag="NCFS000"><exception regexp="yes">constant|variable</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>summa</suggestion> (= màxima)?</message>
             <short>Possible confusió</short>
             <example correction="summa">Amb <marker>suma</marker> atenció</example>
             <example correction="summa">És de <marker>suma</marker> importància</example>
             <example>Amb summa atenció</example>
+            <example>Situació de suma variable.</example>
+            <example>És suma constant.</example>
         </rule>
         <rule id="A_BANS_ABANS" name="*a bans / abans">
             <pattern>
@@ -19498,27 +19513,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>No només no</example>
             <example>Val més fer això que no pas no fer-ho.</example>
         </rule>
-        <rule id="ELEMENTS_REPETITS" name="repetició: també... també">
-            <antipattern>
-                <marker>
-                    <token>ja</token>
-                    <token skip="7"/>
+        <rulegroup id="ELEMENTS_REPETITS" name="repetició: també... també">
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>ja</token>
+                        <token skip="7"/>
+                        <token><match no="0"/></token>
+                        <token><match no="1"/></token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token skip="6" regexp="yes">també|ja|encara<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
                     <token><match no="0"/></token>
-                    <token><match no="1"/></token>
-                </marker>
-            </antipattern>
-            <pattern>
-                <token skip="6" regexp="yes">també|ja|encara<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
-                <token><match no="0"/></token>
-            </pattern>
-            <message>Repetició probablement incorrecta.</message>
-            <suggestion><match no="1" include_skipped="all"/></suggestion>
-            <suggestion><match no="1" include_skipped="following"/> <match no="2"/></suggestion>
-            <example correction="També s'anomena|S'anomena també"><marker>També s'anomena també</marker> així.</example>
-            <example correction="encara no és|no és encara"><marker>encara no és encara</marker> definitiu.</example>
-            <example>També és blanc, i també és negre.</example>
-            <example>Ja per vergonya ja per timidesa</example>
-        </rule>
+                </pattern>
+                <message>Repetició probablement incorrecta.</message>
+                <suggestion><match no="1" include_skipped="all"/></suggestion>
+                <suggestion><match no="1" include_skipped="following"/> <match no="2"/></suggestion>
+                <example correction="També s'anomena|S'anomena també"><marker>També s'anomena també</marker> així.</example>
+                <example correction="encara no és|no és encara"><marker>encara no és encara</marker> definitiu.</example>
+                <example>També és blanc, i també és negre.</example>
+                <example>Ja per vergonya ja per timidesa</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="2" regexp="yes">només|sols|solament<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
+                    <token><match no="0"/></token>
+                </pattern>
+                <message>Repetició probablement incorrecta.</message>
+                <suggestion><match no="1" include_skipped="all"/></suggestion>
+                <suggestion><match no="1" include_skipped="following"/> <match no="2"/></suggestion>
+                <example correction="Només falta|Falta només"><marker>Només falta només</marker> això.</example>
+                <example correction="Només va faltar|Va faltar només"><marker>Només va faltar només</marker> això.</example>
+                <example>Sols és blanc, i sols és negre.</example>
+                <example>Només per vergonya, només per timidesa</example>
+            </rule>
+        </rulegroup>
         <!-- <rule id="ELEMENTS_REPETITS" name="elements repetits: ja...ja, no...no">
             <pattern>
             <token postag="SENT_START" skip="-1"><exception scope="next" postag="PR.*|PT.*|DT.*|.*LOC_CONJ.*|C.*" postag_regexp="yes"/></token>
@@ -25945,6 +25975,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Pronom feble inadequat.</message>
                 <suggestion>n'hi \3</suggestion>
                 <example correction="n'hi ha">Sempre <marker>la hi ha</marker>.</example>
+                <example>Sempre la hi ha duta ell.</example>
+                <example>Els hi hem d'aplicar.</example>
+                <example>que els hi havia deixats.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="&pronom_feble;" postag_regexp="yes"><exception>n'</exception></token>
+                    <token>hi</token>
+                    <token inflected="yes">haver<exception postag="_perfet|_obligacio" postag_regexp="yes"/></token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>n'hi \3</suggestion>?</message>
+                <example correction="N'hi ha"><marker>T'hi ha</marker> dues més.</example>
+                <example correction="n'hi ha">No <marker>s'hi ha</marker> dues d'iguals.</example>
                 <example>Sempre la hi ha duta ell.</example>
                 <example>Els hi hem d'aplicar.</example>
                 <example>que els hi havia deixats.</example>
@@ -39571,6 +39614,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>assentí</example>
             <example>tal negació s'assenta en un suport purament fàctic</example>
         </rule>
+        <rulegroup id="SENTIR_ASSENTAR" name="*senten les bases">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" postag="V.I.*" postag_regexp="yes">sentir</token>
+                    </marker>
+                    <token min="0" postag="D.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">base[12]|fonament</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">assentar</match></suggestion>?</message>
+                <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">establir</match></suggestion>
+                <example correction="assenten|estableixen">Ells són els qui <marker>senten</marker> les bases del futur</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes" postag="V.*" postag_regexp="yes">sentir</token>
+                    </marker>
+                    <token min="0" postag="D.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">base[12]|fonament</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">assentar</match></suggestion>?</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">establir</match></suggestion>
+                <example correction="assentin|estableixin">Quan <marker>sentin</marker> les bases del futur</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BOMBEJAR" name="bombejar / bombar">
             <!-- es pot completar amb més paraules -->
             <rule>
