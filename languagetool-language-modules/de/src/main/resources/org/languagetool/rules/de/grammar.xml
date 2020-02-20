@@ -11196,15 +11196,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="DIENSTAG_ABEND" name="'Dienstag abend (Dienstagabend)">
             <pattern>
-                <token regexp="yes">&wochentage;</token>
-                <token regexp="yes">&tageszeitangabenklein;</token>
+                <token postag="PRP:.+|ART:.+|ADJ:.+" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes">&wochentage;</token>
+                    <token regexp="yes">&tageszeitangabenklein;</token>
+                </marker>
             </pattern>
-            <message>Wochentag + Tageszeit wird groß- und zusammengeschrieben.</message>
-            <suggestion><match no="1"/><match case_conversion="startlower" no="2"/></suggestion>
+            <message>Verbindungen aus Wochentag und Tageszeitangabe schreibt man zusammen, sofern ihnen ein Artikel, ein Adjektiv oder eine Präposition vorausgeht.</message>
+            <suggestion><match no="2"/><match case_conversion="startlower" no="3"/></suggestion>
             <url>http://www.canoonet.eu/services/GermanSpelling/Reform/trennung/tageszeitangaben.jsp</url>
             <short>&getrennt;.</short>
             <example correction="Dienstagabend">Am <marker>Dienstag abend</marker> geht es rund!</example>
             <example correction="Dienstagabend">Am <marker>Dienstag Abend</marker> geht es rund!</example>
+            <example>Berlin, Alexanderplatz, Montag Morgen.</example>
+            <example>Ihr könnt uns Dienstag Abend besuchen.</example>
+            <example>Der Überfall fand Dienstag Abend statt.</example>
         </rule>
         <rule id="DIENSTAG_ABENDS" name="'Dienstag abend (dienstagabends)">
             <pattern>
