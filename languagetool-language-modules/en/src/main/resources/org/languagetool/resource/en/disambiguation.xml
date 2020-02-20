@@ -2123,54 +2123,54 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rulegroup name="was/is + verb/NN -> NN" id="was_is_VB_NN">
-    <rule>
-      <antipattern>
-        <token regexp="yes">you|we|they</token>
-        <token>are</token>
-        <token postag_regexp="yes" postag="VBP?"/>
-        <token postag="IN"/>
-      </antipattern>
-      <antipattern><!-- have to do is ask -->
-        <token regexp="yes">have|has|had</token>
-        <token>to</token>
-        <token>do</token>
-        <token min="0" max="2" postag="RB"/>
-        <token regexp="yes">is|was</token>
-        <token postag_regexp="yes" postag="VBP?"/>
-      </antipattern>
-      <antipattern><!-- All I could do was cry -->
-        <token postag="MD"/>
-        <token min="0" max="2" postag="RB"/>
-        <token>do</token>
-        <token min="0" max="2" postag="RB"/>
-        <token regexp="yes">is|was</token>
-        <token postag_regexp="yes" postag="VBP?"/><!-- Do not use chunks: cry/E-NP-singular -->
-      </antipattern>
-      <pattern>
-        <token regexp="yes">are|is|was|been</token>
-            <marker>
-                <and>
-                    <token postag_regexp="yes" postag="VBP?"/>
-                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"/></token>
-                </and>
-            </marker>
-      </pattern>
-      <disambig action="filter" postag="NN.*"/>
-      <example type="untouched">He was fine.</example>
-      <example type="untouched">Incorrect grammar. They are build from wood.</example>
-      <example type="untouched">Incorrect grammar. We are drive to London.</example>
-      <example type="untouched">If you want me to kiss you, all you have to do is ask.</example>
-      <example type="untouched">What the lazy technician had to do very occasionally was work.</example>
-      <example type="untouched">What the lazy technicians had to very occasionally do was work.</example>
-      <example type="untouched">What they might do rather occasionally was ask, if they had the time.</example>
-      <example type="untouched">All I could do was cry.</example>
-      <example type="untouched">What you can usually do is ask, you know.</example>
+        <rule>
+            <antipattern>
+                <token regexp="yes">you|we|they</token>
+                <token>are</token>
+                <token postag_regexp="yes" postag="VBP?"/>
+                <token postag="IN"/>
+            </antipattern>
+            <antipattern><!-- have to do is ask -->
+                <token regexp="yes">have|has|had</token>
+                <token>to</token>
+                <token>do</token>
+                <token min="0" max="2" postag="RB"/>
+                <token regexp="yes">is|was</token>
+                <token postag_regexp="yes" postag="VBP?"/>
+            </antipattern>
+            <antipattern><!-- All I could do was cry -->
+                <token postag="MD"/>
+                <token min="0" max="2" postag="RB"/>
+                <token>do</token>
+                <token min="0" max="2" postag="RB"/>
+                <token regexp="yes">is|was</token>
+                <token postag_regexp="yes" postag="VBP?"/><!-- Do not use chunks: cry/E-NP-singular -->
+            </antipattern>
+            <pattern>
+                <token regexp="yes">are|is|was|been</token>
+                <marker>
+                    <and>
+                        <token postag_regexp="yes" postag="VBP?"/>
+                        <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"/></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NN.*"/>
+            <example type="untouched">He was fine.</example>
+            <example type="untouched">Incorrect grammar. They are build from wood.</example>
+            <example type="untouched">Incorrect grammar. We are drive to London.</example>
+            <example type="untouched">If you want me to kiss you, all you have to do is ask.</example>
+            <example type="untouched">What the lazy technician had to do very occasionally was work.</example>
+            <example type="untouched">What the lazy technicians had to very occasionally do was work.</example>
+            <example type="untouched">What they might do rather occasionally was ask, if they had the time.</example>
+            <example type="untouched">All I could do was cry.</example>
+            <example type="untouched">What you can usually do is ask, you know.</example>
 <!-- Incorrectly disambiguated     <example type="untouched">Incorrect grammar. The criminal was lead into a life of crime by...</example> -->
 <!-- Incorrectly disambiguated     <example type="untouched">Incorrect grammar. ... and this was lead into the ...</example> -->
-      <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
-      <example type="ambiguous" inputform="book[book/NN,book/VB,book/VBP]" outputform="book[book/NN]">They are <marker>book</marker> salesmen, aren't they?</example>
-      <example type="ambiguous" inputform="lead[lead/NN:UN,lead/VB,lead/VBP]" outputform="lead[lead/NN:UN]">I think that this metal is <marker>lead</marker>.</example>
-    </rule>
+            <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
+            <example type="ambiguous" inputform="book[book/NN,book/VB,book/VBP]" outputform="book[book/NN]">They are <marker>book</marker> salesmen, aren't they?</example>
+            <example type="ambiguous" inputform="lead[lead/NN:UN,lead/VB,lead/VBP]" outputform="lead[lead/NN:UN]">I think that this metal is <marker>lead</marker>.</example>
+            </rule>
     <!-- rule>
       <pattern>
         <token regexp="yes">are|is|was|been</token>
@@ -2187,6 +2187,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was always <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
     </rule -->
     </rulegroup>
+
     <rulegroup name="was/is + verb/NN -> NN" id="was_is_not_VB_NN">
     <rule>
       <antipattern><!-- #2344 Education it is not limit Steve Jobs -->
