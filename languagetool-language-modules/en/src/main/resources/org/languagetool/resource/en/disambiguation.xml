@@ -3362,7 +3362,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-NP-singular" postag="JJ"/>
             <marker>
                 <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
-                <token chunk="B-VP" postag="VBP"/>
+                <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
             </marker>
             <token chunk="B-NP-singular"/>
         </pattern>
@@ -3370,6 +3370,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">MD not JJ. But we <marker>must</marker> all understand they are a fledgling business...</example>
         <example type="ambiguous" inputform="safety[safety/JJ,safety/NN:U,safety/VB,safety/VBP]" outputform="safety[safety/NN:U]">... together with its education services and level of social <marker>safety</marker> make it attractive for locals and visitors alike.</example><!-- #2433 -->
         <example type="ambiguous" inputform="make[make/NN:UN,make/VB,make/VBP]" outputform="make[make/VBP]">... together with its education services and level of social safety <marker>make</marker> it attractive for locals and visitors alike.</example><!-- #2433 -->
+        <example type="ambiguous" inputform="saw[saw/NN,saw/VB,saw/VBP,see/VBD]" outputform="saw[saw/VBP,see/VBD]">This period of Greek art <marker>saw</marker> a veneration of the human physical form.</example>
     </rule>
 
     <rulegroup name="a few + JJ + NNS" id="a_few_JJ_NNS">
