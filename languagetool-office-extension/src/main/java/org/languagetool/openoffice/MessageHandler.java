@@ -70,6 +70,7 @@ class MessageHandler {
     if (testMode) {
       throw new RuntimeException(e);
     }
+    printException(e);
     String msg = "An error has occurred in LanguageTool "
         + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + "):\n" + e + "\nStacktrace:\n";
     msg += Tools.getFullStackTrace(e);
@@ -97,7 +98,7 @@ class MessageHandler {
   /** 
    * Prints Exception to log-file  
    */
-  static void printException (Throwable t) {
+  static void printException(Throwable t) {
    printToLogFile(Tools.getFullStackTrace(t));
   }
 
@@ -129,6 +130,7 @@ class MessageHandler {
    * @param txt message to be shown
    */
   static void showMessage(String txt) {
+    printToLogFile(txt);
     DialogThread dt = new DialogThread(txt);
     dt.run();
   }

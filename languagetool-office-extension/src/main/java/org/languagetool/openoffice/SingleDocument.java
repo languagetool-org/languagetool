@@ -268,6 +268,9 @@ class SingleDocument {
     numParasReset = numParasToCheck;
     if((doFullCheckAtFirst || numParasToCheck < 0 || useQueue) && mDocHandler != null) {
       minToCheckPara = mDocHandler.getNumMinToCheckParas();
+      if(minToCheckPara == null) {
+        return;
+      }
       for(int i = 0; i < minToCheckPara.size(); i++) {
         paragraphsCache.add(new ResultCache());
       }
