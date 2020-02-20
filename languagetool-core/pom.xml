@@ -86,7 +86,13 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- grpc code generation -->
+
+            <!--
+             we use the the maven plugin to generate sources that we also include in our source tree (+ git)
+             this step otherwise doesn't play nice with IDEs,
+             i.e. you need to run mvn package manually because the IDEs don't do the code generation step and get compilation errors
+              -->
+        <!-- START OF gRPC code generation -->
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
@@ -95,6 +101,9 @@
                     <protocArtifact>com.google.protobuf:protoc:3.11.0:exe:${os.detected.classifier}</protocArtifact>
                     <pluginId>grpc-java</pluginId>
                     <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.27.1:exe:${os.detected.classifier}</pluginArtifact>
+                    <!-- output into src/main/java, but don't ever clear it (would delete all regular source files) -->
+                    <outputDirectory>${project.build.sourceDirectory}/</outputDirectory>
+                    <clearOutputDirectory>false</clearOutputDirectory>
                 </configuration>
                 <executions>
                     <execution>
@@ -105,10 +114,11 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- END OF gRPC code generation -->
         </plugins>
 
         <extensions>
-            <!-- grpc code generation -->
+            <!-- another dependency for gRPC code generation -->
             <extension>
                 <groupId>kr.motd.maven</groupId>
                 <artifactId>os-maven-plugin</artifactId>
