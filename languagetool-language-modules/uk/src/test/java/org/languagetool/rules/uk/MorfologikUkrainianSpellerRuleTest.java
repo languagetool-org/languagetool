@@ -57,6 +57,8 @@ public class MorfologikUkrainianSpellerRuleTest {
     // frequent infix notation
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("-ськ-")).length);
 
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("Шри-Ланка")).length);
+
     // accent
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Іва́н Петро́вич Котляре́вський"));
     assertEquals(0, matches.length);
