@@ -37,6 +37,7 @@ import javax.net.ssl.SSLException;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -152,9 +153,16 @@ public class BERTSuggestionRanking extends RemoteRule {
             .sorted(suggestionOrdering)
             .map(Pair::getLeft)
             .collect(Collectors.toList());
+          List<SuggestedReplacement> reranked = new LinkedList<>();
+          Map<String, SuggestedReplacement> suggestions = match.getSuggestedReplacementObjects().stream()
+            .collect(Collectors.toMap(SuggestedReplacement::getReplacement, Function.identity()));
+          for (String suggestionString : ranked) {
+            SuggestedReplacement suggestionObject = suggestions.get(suggestionString);
+            reranked.add(suggestionObject);
+          }
           String error = req.text.substring(req.start, req.end);
           logger.info("Reordered correction for '{}' from {} to {}", error, req.candidates, ranked);
-          match.setSuggestedReplacements(ranked);
+          match.setSuggestedReplacementObjects(reranked);
         }
         return new RemoteRuleResult(true, matches);
       }

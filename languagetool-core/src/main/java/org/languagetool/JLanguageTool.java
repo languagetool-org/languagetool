@@ -828,6 +828,10 @@ public class JLanguageTool {
             return Stream.empty();
           }
         }).collect(Collectors.toList());
+
+      for (RuleMatch match : remoteMatches) {
+        match.setSuggestedReplacementObjects(extendSuggestions(match.getSuggestedReplacementObjects()));
+      }
     }
 
     ruleMatches.addAll(remoteMatches);
@@ -1373,6 +1377,7 @@ public class JLanguageTool {
               newMatch.setColumn(range.from.column);
             }
             newMatch.setEndColumn(range.to.column);
+            newMatch.setSuggestedReplacementObjects(extendSuggestions(match.getSuggestedReplacementObjects()));
             adaptedMatches.add(newMatch);
           }
           ruleMatches.addAll(adaptedMatches);
