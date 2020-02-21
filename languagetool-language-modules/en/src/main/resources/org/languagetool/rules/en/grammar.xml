@@ -20664,6 +20664,11 @@ USA
                     <token>be</token>
                     <token chunk="E-NP-singular" postag="NN">queen</token><!-- Do not make a general exception for NN:U because 'queen' is NN. Refer to https://www.lexico.com/en/definition/queen: "[as complement] ‘he insisted the princess could be crowned queen’" -->
                 </antipattern>
+                <antipattern case_sensitive="yes"><!-- #2434 whether Being came -->
+                    <token postag="CC" regexp="yes">\p{Ll}+</token>
+                    <token>Being</token><!-- Acts as a proper noun -->
+                    <token postag="VBD" regexp="yes">\p{Ll}+</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be
                         <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
@@ -20697,7 +20702,7 @@ USA
                 <example>Your idea cannot be <marker>brand new</marker>. I heard about it from another source last year.</example>
                 <example type="triggers_error">What we are trying to do with Ridley now is go through the painstaking process of trying to...</example>
                 <example>Their opponents were club president Cesar de Zulueta and Valentin Barr.</example>
-                <example type="triggers_error">...in question of this school was whether Being came before Not-Being (in Chinese, 'ming' and ...</example>
+                <example>... question of this school was whether Being came before Not-Being (in Chinese, 'ming' and ...</example><!-- #2434 -->
                 <example type="triggers_error">A 10-day-old pup can die from being host to as few as 25 'A. caninum' worms.</example>
                 <example>... visited the islands (of whom 443,987 <marker>were cruise ship passengers</marker>).</example>
                 <example>The question is can you do everything we've asked...</example>
@@ -20797,6 +20802,7 @@ USA
                 <example>We are also <marker>market leaders</marker>.</example><!-- #2056 -->
             </rule>
         </rulegroup>
+
         <rulegroup id="MASS_AGREEMENT" name="Agreement: Mass/singular noun + non-third person verb">
             <rule>
                 <pattern>
