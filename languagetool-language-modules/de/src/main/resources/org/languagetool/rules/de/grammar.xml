@@ -626,11 +626,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="SCHNELLE_RUND" name="'schnelle rund (schneller und)' etc.">
             <pattern>
-                <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.+e</token>
+                <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.+e<exception>weitere</exception></token>
                 <token>rund</token>
             </pattern>
             <message>Meinten Sie <suggestion>\1r und</suggestion>?</message>
             <example correction="schneller und">Reinigen Sie Außenflächen <marker>schnelle rund</marker> müheloser als mit dem Besen.</example>
+            <example>Das Netz soll um weitere rund 22 Kilometer ergänzt werden.</example>
         </rule>
         <rule id="NACHEILEN" name="Nacheile (Nachteile)">
             <pattern case_sensitive="yes">
