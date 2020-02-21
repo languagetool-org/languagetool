@@ -2499,7 +2499,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Understanding how wall switches work makes it easier to make repairs and replacements and...</example><!-- #2427 -->
         <example type="untouched">I can no longer control it through Smartthings.</example><!-- #2427 -->
         <example type="untouched">Before the game starts she is unable to read all instructions.</example><!-- #2427 -->
-<!--        <example type="untouched">Too many makes it clunky?</example>-->
+        <example type="untouched">Too many makes it clunky?</example><!-- #2427 -->
 <!--        <example type="untouched">I mean like make it able to be similar to tyri but a better version.</example>-->
 <!--        <example type="untouched">The work makes it possible.</example>-->
 <!--        <example type="untouched">If a hard turn to the left makes it worse, here’s what I’d do.</example>-->
@@ -5516,6 +5516,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule id="DT_VBZNNS_NNS" name="Plural determiners + noun plur/vb sg => noun plur">
+        <antipattern><!-- #2427 -->
+            <token regexp="yes">both|some|many|th[eo]se|most</token>
+            <token chunk="B-VP" postag="VBZ"/>
+            <token chunk="E-NP-singular" regexp="yes">&object_pronouns;</token>
+        </antipattern>
         <pattern>
             <token regexp="yes">both|some|fewer|many|whose|th[eo]se|most</token>
             <marker>
@@ -5528,6 +5533,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig postag="NNS"/>
         <example type="ambiguous" inputform="hands[hand/NNS,hand/VBZ]" outputform="hands[hand/NNS]">It depends whose <marker>hands</marker> it's in.</example>
         <example type="untouched">He hands it over.</example>
+        <example type="untouched">Too many makes it clunky?</example><!-- #2427 -->
+        <example type="untouched">... and her attitude towards both makes her into a demon, according to the press.</example>
     </rule>
 
         <rule id="NN_CC_NN" name="nouns in coordination">
