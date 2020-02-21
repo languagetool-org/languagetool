@@ -270,12 +270,12 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
         <pattern><token>;</token></pattern>
         <disambig action="add"><wd lemma=";" pos="START">;</wd></disambig>    
 	</rule>
-
+<!--
     <rule id="START_QUOT" name=""> 
         <pattern><token postag="SENT_START"/><marker><token postag="AHL:OPN"/></marker></pattern>
         <disambig action="add"><wd pos="START"/></disambig>    
 	</rule>
-    
+	-->    
 	<!-- ADDING TAGS FOR FUNCTIONS FOR MULTIFUNCTIONAL TAGS -->
 	<!-- this added ambiguity can be removed using multi-word patterns if needed -->
 	<rule id="WKW-ODW-VRB" name="lopende is ook bijvoeglijk">
@@ -649,7 +649,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<pattern>
 			<marker>
 				<token postag_regexp="yes" postag="SENT_START|START"/>
-				<token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"/>
+				<token postag_regexp="yes" postag="WKW:(TGW|VLT):1EP"><exception>in</exception></token>
 				<token regexp="yes">het|dit|dat|die|de|een</token>
 			</marker>
 		</pattern>
