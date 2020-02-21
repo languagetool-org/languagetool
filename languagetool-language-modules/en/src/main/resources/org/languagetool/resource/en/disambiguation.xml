@@ -4422,265 +4422,268 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">Incorrect grammar. I have added that to <marker>me list</marker>.</example>
       <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/VBP]">Yes, actually we <marker>claim</marker> that this is true.</example>
     </rule>
+
     <rule id="E_NP_NN_VBP" name="noun phrase end -> NN">
-      <antipattern><!-- Fix for chunker: Only count every ... -->
-         <token postag="SENT_START"/>
-         <token postag="RB"/>
-         <token postag="VB"/>
-         <token postag="DT"/>
-      </antipattern>
-      <antipattern><!-- Fix for chunker: steadily you wax ... -->
-         <token regexp="yes">If?|you|we|they</token>
-         <token postag_regexp="yes" postag="VBP?"/>
-      </antipattern>
-      <antipattern>
-         <token>if</token>
-         <token postag="RB"/>
-         <token postag_regexp="yes" postag="VBP?"/>
-      </antipattern>
-      <antipattern><!-- Fix for chunker: did he last talk ... -->
-         <token>did</token>
-         <token regexp="yes">I|you|we|they|he|she|it</token>
-         <token postag="RB"/>
-         <token postag_regexp="yes" postag="VBP?"/>
-      </antipattern>
-      <antipattern><!-- Fix for chunker: passive: were ground -->
-        <token chunk="E-NP-plural"/>
-        <token regexp="yes">are|were</token>
-        <token postag="VBN"/>
-      </antipattern>
-      <antipattern><!-- that rise and fall -->
-         <token>that</token>
-         <token postag_regexp="yes" postag="VBP?"/>
-         <token regexp="yes">and|or</token>
-         <token postag_regexp="yes" postag="VBP?"/>
-      </antipattern>
-      <antipattern><!-- Fix for chunker. Incorrect grammar: the dog bark loudly. -->
-        <token>
-          <exception postag_regexp="yes" postag="VB.*"/></token>
-        <token postag_regexp="yes" postag="DT|PRP\$"/>
-        <token postag_regexp="yes" postag="NN(:UN?)?|JJR?"/>
-        <token postag="VBP"/>
-        <token postag="RB"/>
-        <token postag="SENT_END"/>
-      </antipattern>
-      <antipattern><!-- Fix for chunker. Line up by height against the wall. -->
-        <token postag="SENT_START"/>
-        <token postag="VB"/>
-        <token postag="RP"/>
-      </antipattern>
-      <antipattern><!-- Fix for chunker. Utah and Colorado form a  -->
-        <token postag="NNP"/>
-        <token regexp="yes">and|or</token>
-        <token postag="NNP"/>
-        <token postag="VB"/>
-        <token postag="DT"/>
-      </antipattern>
-      <antipattern><!-- Fix for chunker. regions of chromium form a  -->
-        <token postag="NNS"/>
-        <token regexp="yes">of</token>
-        <token postag_regexp="yes" postag="NN.*"/>
-        <token postag="VB"/>
-        <token postag="DT"/>
-      </antipattern>
-      <antipattern><!-- Fix for chunker. in this den love me -->
-        <token postag="DT"/>
-        <token postag_regexp="yes" postag="NN(:UN?)?"/>
-        <token postag="VBP"/>
-        <token postag="PRP"/>
-      </antipattern>
-      <antipattern><!-- Fix for chunker. Can't wait to / I can`t power off -->
-        <token postag_regexp="yes" postag="SENT_START|PRP"/>
-        <token postag="MD"/>
-        <token regexp="yes">&apostrophe;</token>
-        <token>t</token>
-        <token postag_regexp="yes" postag="VB|RB"/>
-      </antipattern>
-      <antipattern><!-- Fix for chunker. Won't further address it -->
-        <token postag="SENT_START"/>
-        <token postag="MD"/>
-        <token regexp="yes">&apostrophe;</token>
-        <token>t</token>
-        <token postag_regexp="yes" postag="JJR|RBR"/><!-- I tried this token with min/max in an attempt to use only 1 antipattern for this and for "Can't wait to", but I could not get it to work. -->
-        <token postag_regexp="yes" postag="VB|RB"/>
-      </antipattern>
-      <antipattern><!-- Fix for chunker. use anymore will, -->
-        <token postag_regexp="yes" postag="VB.*"/>
-        <token postag="RB"/>
-        <token postag="MD"/>
-        <token postag="PCT"/>
-      </antipattern>
-      <antipattern><!-- Fix for chunker. Will this actually work...? -->
-        <token postag="MD"/>
-        <token>this</token>
-        <token chunk="I-NP-singular" postag="RB"/>
-        <token skip="-1" chunk="E-NP-singular" postag="VBP"/>
-        <token>?</token>
-      </antipattern>
-      <antipattern><!-- Fix for chunker. Won't this still work...? -->
-        <token postag="MD"/>
-        <token regexp="yes">&apostrophe;</token>
-        <token>t</token>
-        <token>this</token>
-        <token chunk="I-NP-singular" postag="RB"/>
-        <token skip="-1" chunk="E-NP-singular" postag="VBP"/>
-        <token>?</token>
-      </antipattern>
-      <antipattern><!-- #2326 Fix for chunker. It will NOT work here -->
-        <token postag="MD"/>
-        <token case_sensitive="yes" postag="RB">NOT</token><!-- The problem seems to occur only with NOT -->
-        <token skip="-1" chunk="E-NP-singular" postag="NN:UN">
-            <exception scope="next">?</exception>
-            </token>
-        <token postag="SENT_END"/>
-      </antipattern>
-      <antipattern><!-- #2326 Fix for chunker. stress you WON'T need -->
-        <token postag="MD"/>
-        <token regexp="yes">&apostrophe;</token>
-        <token case_sensitive="yes">T</token>
-        <token skip="-1" chunk="E-NP-singular" postag="NN:UN">
-            <exception scope="next">?</exception>
-            </token>
-        <token postag="SENT_END"/>
-      </antipattern>
-      <antipattern><!-- #2328 Fix for chunker. we can reference? -->
-        <token chunk="B-VP" postag="MD"/>
-        <token postag="NN:UN"/>
-        <token postag="SENT_END">?</token>
-      </antipattern>
-      <antipattern><!-- Fix for chunker. to have to work -->
-        <token>to</token>
-        <token>have</token>
-        <token>to</token>
-        <token chunk="E-NP-singular" postag="VBP"/>
-      </antipattern>
-      <antipattern>
-        <token postag="PRP|NNP" postag_regexp="yes" />
-        <token postag="MD" />
-        <token regexp="yes" min="0">&apostrophe;</token>
-        <token postag="RB" />
-        <token chunk="E-NP-singular" postag="VBP"/>
-      </antipattern>
-      <antipattern><!-- #2403 Fix for chunker. Wire it up -->
-        <token chunk="E-NP-singular" postag_regexp="yes" postag="VBP?"/>
-        <token postag="PRP"/>
-        <token postag="RP"/>
-      </antipattern>
-      <antipattern><!-- #2407 make the top of it black -->
-        <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">make|paint</token><!-- The safe option is to specify the verbs that cause problems. -->
-        <token>the</token>
-        <token postag_regexp="yes" postag="NN.*"/>
-        <token>of</token>
-        <token postag="PRP"/>
-        <token chunk="E-NP-singular" postag_regexp="yes" postag="JJR?"/>
-      </antipattern>
-      <antipattern><!-- #2421 Fix for chunker. You're welcome -->
-        <token postag="PRP"/>
-        <token regexp="yes">&apostrophe;</token>
-        <token regexp="yes">re|s</token>
-        <token chunk="E-NP-singular" postag_regexp="yes" postag="JJR?"/>
-      </antipattern>
-      <antipattern><!-- "He would sexual assault her" (ADJECTIVE_ADVERB) -->
-        <token postag="NN.*|PRP" postag_regexp="yes" />
-        <token postag="MD" />
-        <token postag="JJ" />
-        <token postag="VBP?" postag_regexp="yes" />
-      </antipattern>
-      <antipattern><!-- "He sexual assaults her" (ADJECTIVE_ADVERB) -->
-        <token regexp="yes">s?he|it|we|they|you|I</token>
-        <token postag="JJ" />
-        <token postag="VBZ" />
-        <token postag="IN|PRP|DT" postag_regexp="yes" />
-      </antipattern>
-      <antipattern><!-- "He is sexual assaulting her" (ADJECTIVE_ADVERB) -->
-        <token regexp="yes">s?he|it|we|they|you|I</token>
-        <token inflected="yes">be</token>
-        <token postag="JJ" />
-        <token postag="VBG" />
-      </antipattern>
-      <antipattern><!-- "(call it macro b)" / "and search it" -->
-        <token regexp="yes">[\(,\[]|and|or|&amp;</token>
-        <token postag="VB.*" postag_regexp="yes" />
-        <token regexp="yes">it|him|her|them|us|me</token>
-      </antipattern>
-      <pattern>
-        <marker>
-          <and>
-            <token postag="NN:UN"><!-- 2020-02-04 MFU: Should this be "NN:UN?" ? -->
-              <exception scope="previous" postag="NNP?S|CD" postag_regexp="yes"/>
-              <exception scope="previous" regexp="yes">we(d|re)|th[oe]se|that|are</exception>
-              <exception scope="previous" inflected="yes">have</exception>
-            </token>
-            <token chunk="E-NP-singular"/>
+        <antipattern><!-- Fix for chunker: Only count every ... -->
+            <token postag="SENT_START"/>
+            <token postag="RB"/>
+            <token postag="VB"/>
+            <token postag="DT"/>
+        </antipattern>
+        <antipattern><!-- Fix for chunker: steadily you wax ... -->
+            <token regexp="yes">If?|you|we|they</token>
+            <token postag_regexp="yes" postag="VBP?"/>
+        </antipattern>
+        <antipattern>
+            <token>if</token>
+            <token postag="RB"/>
+            <token postag_regexp="yes" postag="VBP?"/>
+        </antipattern>
+        <antipattern><!-- Fix for chunker: did he last talk ... -->
+            <token>did</token>
+            <token regexp="yes">I|you|we|they|he|she|it</token>
+            <token postag="RB"/>
+            <token postag_regexp="yes" postag="VBP?"/>
+        </antipattern>
+        <antipattern><!-- Fix for chunker: passive: were ground -->
+            <token chunk="E-NP-plural"/>
+            <token regexp="yes">are|were</token>
+            <token postag="VBN"/>
+        </antipattern>
+        <antipattern><!-- that rise and fall -->
+            <token>that</token>
+            <token postag_regexp="yes" postag="VBP?"/>
+            <token regexp="yes">and|or</token>
+            <token postag_regexp="yes" postag="VBP?"/>
+        </antipattern>
+        <antipattern><!-- Fix for chunker. Incorrect grammar: the dog bark loudly. -->
+            <token>
+                <exception postag_regexp="yes" postag="VB.*"/>
+                </token>
+            <token postag_regexp="yes" postag="DT|PRP\$"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?|JJR?"/>
             <token postag="VBP"/>
-          </and>
-        </marker>
-        <token>
-            <exception regexp="yes">\.|…</exception>
-            <exception>that</exception>
-        </token>
-      </pattern>
-      <disambig postag="NN:UN"/>
-      <example type="untouched">They disputed a claim.</example>
-      <example type="untouched">Many claim that the behavior is in the past.</example>
-      <example type="untouched">Doubled consonants count as two consonants.</example>
-      <example type="untouched">The Beatles play to nearly 60,000 fans at Shea Stadium.</example>
-      <example type="untouched">Wed love to hear this!</example>
-      <example type="untouched">He sexual assault her.</example>
-      <example type="untouched">He is sexual assaulting her.</example>
-      <example type="untouched">So within macro A, i trigger another macro by keystroke (call it macro B) and I want to pause until macro B is finished before proceeding.</example>
-      <example type="untouched">Get the code read and search it online.</example>
-      <example type="untouched">Nah, call it morning breath.</example>
-      <example type="untouched">He would sexual assault her.</example>
-      <example type="untouched">...and angles that <marker>share</marker> a common vertex...</example>
-      <example type="untouched">I have <marker>notice</marker> she doesn't like me.</example><!-- Possibly a noun (=somebody has told me (that)), but possibly incorrect verb form (should be 'noticed') -->
-      <example type="untouched">Only <marker>count</marker> every 10th item when you do the test.</example>
-      <example type="untouched">Like the moon you change; steadily you <marker>wax</marker> and then wane again.</example>
-      <example type="untouched">Neurons there show activity levels that rise and <marker>fall</marker> with a period of about 24 hours.</example>
-      <example type="untouched">If all 5 <marker>call</marker> at 10:00, we will be busy.</example>
-      <example type="untouched">When did he last <marker>talk</marker> to them?</example>
-      <example type="untouched">Incorrect grammar. We are drive to London.</example>
-      <example type="untouched">If not set, it will use the default.</example>
-      <example type="untouched">Initially the rails <marker>were ground</marker> on a yearly basis or after ...</example>
-      <example type="untouched">Incorrect grammar. I am irritated when the dog <marker>bark</marker> loudly.</example>
-      <example type="untouched"><marker>Line up</marker> by height against the wall, please.</example>
-      <example type="untouched">Verb. Areas of southern Nevada, Utah and Colorado <marker>form</marker> a loose northern boundary, while the southern ...</example>
-      <example type="untouched">Verb. Darker (denser) regions of chromium <marker>form</marker> a band at right angles to the equator.</example>
-      <example type="untouched">Incorrect grammar. The creature in this den <marker>love</marker> me.</example>
-      <example type="untouched">Can’t <marker>wait</marker> to get your update.</example><!-- Incomplete sentence, but a verb in this context. -->
-      <example type="untouched">Can’t <marker>control</marker> with switches.</example><!-- Incomplete sentence, but a verb in this context. -->
-      <example type="untouched">Won’t <marker>start</marker>, but turns over.</example><!-- Incomplete sentence, but a verb in this context. -->
-      <example type="untouched">Won’t further <marker>address</marker> it.</example><!-- Incomplete sentence, but a verb in this context. -->
-      <example type="untouched">Those who send in old junk they don't use anymore <marker>will</marker>, without exception, receive a present.</example>
-      <example type="untouched">Will this actually <marker>work</marker> when the sun shines?</example>
-      <example type="untouched">Won't this still <marker>work</marker> on Sunday?</example>
-      <example type="untouched">It will NOT <marker>work</marker> in a normal environment.</example><!-- #2326 -->
-      <example type="untouched">IT WILL NOT <marker>WORK</marker> HERE.</example>
-      <example type="untouched">It will ACTUALLY <marker>work</marker> here.</example>
-      <example type="untouched">... you WON'T <marker>need</marker> at that point.</example><!-- #2326 -->
-      <example type="untouched">Do you have contact info or a case number we can <marker>reference</marker>?</example><!-- #2328 -->
-      <example type="untouched">I can`t <marker>power</marker> off or on or dimming it.</example><!-- #2328 -->
-      <example type="untouched">Tell Tom he's going <marker>to have to work</marker> late today.</example>
-      <example type="untouched">...the government which almost forces people <marker>to have to work</marker> for the larger, more corrupt businesses.</example>
-      <example type="untouched">We can either order in or I would love to cook anything you would like.</example>
-      <example type="untouched">That said, I would gladly revolt against corporate control.</example>
-      <example type="untouched">I will either put it in the mail to you today, or if I do end up making it to the states, I will mail it from there.</example>
-      <example type="untouched">Wire it up using jumper wires.</example><!-- #2403 -->
-      <example type="untouched">Please wire it up using jumper wires.</example><!-- #2403 -->
-      <example type="untouched">We accept the risks; wire us up after you do the safety tests.</example><!-- #2403 -->
-      <example type="untouched">Adjective: I want to make the analysis of it <marker>concrete</marker> and put an end to the discussion.</example><!-- #2407 Compare: I want to make the analysis of it unambiguous and put... -->
-      <example type="untouched">Noun: He wants to make the top of it <marker>concrete</marker> and put a flag pole on it.</example><!-- #2407 -->
-      <example type="untouched">Ambiguous: I'm getting ready to paint the top of it <marker>black</marker> and put a rose decal on it.</example><!-- #2407 -->
-      <example type="untouched">You're welcome, Tina.</example><!-- #2421 -->
-      <example type="untouched">It's welcome.</example><!-- #2421 -->
-      <example type="untouched">I had to unpair it and re-pair it and it work…</example>
-      <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
-      <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
-      <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
-      <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">But will NOT <marker>work</marker> of any type help you to forget your troubles?</example><!--  #2326 Unusual capitalization of NOT. -->
-      <example type="ambiguous" inputform="WORK[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="WORK[work/NN:UN]">BUT, WON'T <marker>WORK</marker> ON YOUR PART AFFECT THE COMPLETION TIME?</example>
-      <example type="ambiguous" inputform="reference[reference/NN:UN,reference/VB,reference/VBP]" outputform="reference[reference/NN:UN]">The document does not show the can reference. Do you know the can <marker>reference</marker>?</example><!-- A 'can reference' is a possible technical term. -->
+            <token postag="RB"/>
+            <token postag="SENT_END"/>
+        </antipattern>
+        <antipattern><!-- Fix for chunker. Line up by height against the wall. -->
+            <token postag="SENT_START"/>
+            <token postag="VB"/>
+            <token postag="RP"/>
+        </antipattern>
+        <antipattern><!-- Fix for chunker. Utah and Colorado form a  -->
+            <token postag="NNP"/>
+            <token regexp="yes">and|or</token>
+            <token postag="NNP"/>
+            <token postag="VB"/>
+            <token postag="DT"/>
+        </antipattern>
+        <antipattern><!-- Fix for chunker. regions of chromium form a  -->
+            <token postag="NNS"/>
+            <token regexp="yes">of</token>
+            <token postag_regexp="yes" postag="NN.*"/>
+            <token postag="VB"/>
+            <token postag="DT"/>
+        </antipattern>
+        <antipattern><!-- Fix for chunker. in this den love me -->
+            <token postag="DT"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token postag="VBP"/>
+            <token postag="PRP"/>
+        </antipattern>
+        <antipattern><!-- Fix for chunker. Can't wait to / I can`t power off -->
+            <token postag_regexp="yes" postag="SENT_START|PRP"/>
+            <token postag="MD"/>
+            <token regexp="yes">&apostrophe;</token>
+            <token>t</token>
+            <token postag_regexp="yes" postag="VB|RB"/>
+        </antipattern>
+        <antipattern><!-- Fix for chunker. Won't further address it -->
+            <token postag="SENT_START"/>
+            <token postag="MD"/>
+            <token regexp="yes">&apostrophe;</token>
+            <token>t</token>
+            <token postag_regexp="yes" postag="JJR|RBR"/><!-- I tried this token with min/max in an attempt to use only 1 antipattern for this and for "Can't wait to", but I could not get it to work. -->
+            <token postag_regexp="yes" postag="VB|RB"/>
+        </antipattern>
+        <antipattern><!-- Fix for chunker. use anymore will, -->
+            <token postag_regexp="yes" postag="VB.*"/>
+            <token postag="RB"/>
+            <token postag="MD"/>
+            <token postag="PCT"/>
+        </antipattern>
+        <antipattern><!-- Fix for chunker. Will this actually work...? -->
+            <token postag="MD"/>
+            <token>this</token>
+            <token chunk="I-NP-singular" postag="RB"/>
+            <token skip="-1" chunk="E-NP-singular" postag="VBP"/>
+            <token>?</token>
+        </antipattern>
+        <antipattern><!-- Fix for chunker. Won't this still work...? -->
+            <token postag="MD"/>
+            <token regexp="yes">&apostrophe;</token>
+            <token>t</token>
+            <token>this</token>
+            <token chunk="I-NP-singular" postag="RB"/>
+            <token skip="-1" chunk="E-NP-singular" postag="VBP"/>
+            <token>?</token>
+        </antipattern>
+        <antipattern><!-- #2326 Fix for chunker. It will NOT work here -->
+            <token postag="MD"/>
+            <token case_sensitive="yes" postag="RB">NOT</token><!-- The problem seems to occur only with NOT -->
+            <token skip="-1" chunk="E-NP-singular" postag="NN:UN">
+                <exception scope="next">?</exception>
+                </token>
+            <token postag="SENT_END"/>
+        </antipattern>
+        <antipattern><!-- #2326 Fix for chunker. stress you WON'T need -->
+            <token postag="MD"/>
+            <token regexp="yes">&apostrophe;</token>
+            <token case_sensitive="yes">T</token>
+            <token skip="-1" chunk="E-NP-singular" postag="NN:UN">
+                <exception scope="next">?</exception>
+                </token>
+            <token postag="SENT_END"/>
+        </antipattern>
+        <antipattern><!-- #2328 Fix for chunker. we can reference? -->
+            <token chunk="B-VP" postag="MD"/>
+            <token postag="NN:UN"/>
+            <token postag="SENT_END">?</token>
+        </antipattern>
+        <antipattern><!-- Fix for chunker. to have to work -->
+            <token>to</token>
+            <token>have</token>
+            <token>to</token>
+            <token chunk="E-NP-singular" postag="VBP"/>
+        </antipattern>
+        <antipattern>
+            <token postag="PRP|NNP" postag_regexp="yes" />
+            <token postag="MD" />
+            <token regexp="yes" min="0">&apostrophe;</token>
+            <token postag="RB" />
+            <token chunk="E-NP-singular" postag="VBP"/>
+        </antipattern>
+        <antipattern><!-- #2403 Fix for chunker. Wire it up -->
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="VBP?"/>
+            <token postag="PRP"/>
+            <token postag="RP"/>
+        </antipattern>
+        <antipattern><!-- #2407 make the top of it black -->
+            <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">make|paint</token><!-- The safe option is to specify the verbs that cause problems. -->
+            <token>the</token>
+            <token postag_regexp="yes" postag="NN.*"/>
+            <token>of</token>
+            <token postag="PRP"/>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="JJR?"/>
+        </antipattern>
+        <antipattern><!-- #2421 Fix for chunker. You're welcome -->
+            <token postag="PRP"/>
+            <token regexp="yes">&apostrophe;</token>
+            <token regexp="yes">re|s</token>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="JJR?"/>
+        </antipattern>
+        <antipattern><!-- "He would sexual assault her" (ADJECTIVE_ADVERB) -->
+            <token postag="NN.*|PRP" postag_regexp="yes" />
+            <token postag="MD" />
+            <token postag="JJ" />
+            <token postag="VBP?" postag_regexp="yes" />
+        </antipattern>
+        <antipattern><!-- "He sexual assaults her" (ADJECTIVE_ADVERB) -->
+            <token regexp="yes">s?he|it|we|they|you|I</token>
+            <token postag="JJ" />
+            <token postag="VBZ" />
+            <token postag="IN|PRP|DT" postag_regexp="yes" />
+        </antipattern>
+        <antipattern><!-- "He is sexual assaulting her" (ADJECTIVE_ADVERB) -->
+            <token regexp="yes">s?he|it|we|they|you|I</token>
+            <token inflected="yes">be</token>
+            <token postag="JJ" />
+            <token postag="VBG" />
+        </antipattern>
+        <antipattern><!-- "(call it macro b)" / "and search it" -->
+            <token regexp="yes">[\(,\[]|and|or|&amp;</token>
+            <token postag="VB.*" postag_regexp="yes" />
+            <token regexp="yes">it|him|her|them|us|me</token>
+        </antipattern>
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="NN:UN"><!-- 2020-02-04 MFU: Should this be "NN:UN?" ? -->
+                        <exception scope="previous" postag="NNP?S|CD" postag_regexp="yes"/>
+                        <exception scope="previous" regexp="yes">we(d|re)|th[oe]se|that|are</exception>
+                        <exception scope="previous" inflected="yes">have</exception>
+                    </token>
+                    <token chunk="E-NP-singular"/>
+                    <token postag="VBP"/>
+                </and>
+            </marker>
+            <token>
+                <exception regexp="yes">\.|…</exception>
+                <exception>that</exception>
+                </token>
+        </pattern>
+        <disambig postag="NN:UN"/>
+        <example type="untouched">They disputed a claim.</example>
+        <example type="untouched">Many claim that the behavior is in the past.</example>
+        <example type="untouched">Doubled consonants count as two consonants.</example>
+        <example type="untouched">The Beatles play to nearly 60,000 fans at Shea Stadium.</example>
+        <example type="untouched">Wed love to hear this!</example>
+        <example type="untouched">He sexual assault her.</example>
+        <example type="untouched">He is sexual assaulting her.</example>
+        <example type="untouched">So within macro A, i trigger another macro by keystroke (call it macro B) and I want to pause until macro B is finished before proceeding.</example>
+        <example type="untouched">Get the code read and search it online.</example>
+        <example type="untouched">Nah, call it morning breath.</example>
+        <example type="untouched">He would sexual assault her.</example>
+        <example type="untouched">...and angles that <marker>share</marker> a common vertex...</example>
+        <example type="untouched">I have <marker>notice</marker> she doesn't like me.</example><!-- Possibly a noun (=somebody has told me (that)), but possibly incorrect verb form (should be 'noticed') -->
+        <example type="untouched">Only <marker>count</marker> every 10th item when you do the test.</example>
+        <example type="untouched">Like the moon you change; steadily you <marker>wax</marker> and then wane again.</example>
+        <example type="untouched">Neurons there show activity levels that rise and <marker>fall</marker> with a period of about 24 hours.</example>
+        <example type="untouched">If all 5 <marker>call</marker> at 10:00, we will be busy.</example>
+        <example type="untouched">When did he last <marker>talk</marker> to them?</example>
+        <example type="untouched">Incorrect grammar. We are drive to London.</example>
+        <example type="untouched">If not set, it will use the default.</example>
+        <example type="untouched">Initially the rails <marker>were ground</marker> on a yearly basis or after ...</example>
+        <example type="untouched">Incorrect grammar. I am irritated when the dog <marker>bark</marker> loudly.</example>
+        <example type="untouched"><marker>Line up</marker> by height against the wall, please.</example>
+        <example type="untouched">Verb. Areas of southern Nevada, Utah and Colorado <marker>form</marker> a loose northern boundary, while the southern ...</example>
+        <example type="untouched">Verb. Darker (denser) regions of chromium <marker>form</marker> a band at right angles to the equator.</example>
+        <example type="untouched">Incorrect grammar. The creature in this den <marker>love</marker> me.</example>
+        <example type="untouched">Can’t <marker>wait</marker> to get your update.</example><!-- Incomplete sentence, but a verb in this context. -->
+        <example type="untouched">Can’t <marker>control</marker> with switches.</example><!-- Incomplete sentence, but a verb in this context. -->
+        <example type="untouched">Won’t <marker>start</marker>, but turns over.</example><!-- Incomplete sentence, but a verb in this context. -->
+        <example type="untouched">Won’t further <marker>address</marker> it.</example><!-- Incomplete sentence, but a verb in this context. -->
+        <example type="untouched">Those who send in old junk they don't use anymore <marker>will</marker>, without exception, receive a present.</example>
+        <example type="untouched">Will this actually <marker>work</marker> when the sun shines?</example>
+        <example type="untouched">Won't this still <marker>work</marker> on Sunday?</example>
+        <example type="untouched">It will NOT <marker>work</marker> in a normal environment.</example><!-- #2326 -->
+        <example type="untouched">IT WILL NOT <marker>WORK</marker> HERE.</example>
+        <example type="untouched">It will ACTUALLY <marker>work</marker> here.</example>
+        <example type="untouched">... you WON'T <marker>need</marker> at that point.</example><!-- #2326 -->
+        <example type="untouched">Do you have contact info or a case number we can <marker>reference</marker>?</example><!-- #2328 -->
+        <example type="untouched">I can`t <marker>power</marker> off or on or dimming it.</example><!-- #2328 -->
+        <example type="untouched">Tell Tom he's going <marker>to have to work</marker> late today.</example>
+        <example type="untouched">...the government which almost forces people <marker>to have to work</marker> for the larger, more corrupt businesses.</example>
+        <example type="untouched">We can either order in or I would love to cook anything you would like.</example>
+        <example type="untouched">That said, I would gladly revolt against corporate control.</example>
+        <example type="untouched">I will either put it in the mail to you today, or if I do end up making it to the states, I will mail it from there.</example>
+        <example type="untouched">Wire it up using jumper wires.</example><!-- #2403 -->
+        <example type="untouched">Please wire it up using jumper wires.</example><!-- #2403 -->
+        <example type="untouched">We accept the risks; wire us up after you do the safety tests.</example><!-- #2403 -->
+        <example type="untouched">Adjective: I want to make the analysis of it <marker>concrete</marker> and put an end to the discussion.</example><!-- #2407 Compare: I want to make the analysis of it unambiguous and put... -->
+        <example type="untouched">Noun: He wants to make the top of it <marker>concrete</marker> and put a flag pole on it.</example><!-- #2407 -->
+        <example type="untouched">Ambiguous: I'm getting ready to paint the top of it <marker>black</marker> and put a rose decal on it.</example><!-- #2407 -->
+        <example type="untouched">You're welcome, Tina.</example><!-- #2421 -->
+        <example type="untouched">It's welcome.</example><!-- #2421 -->
+        <example type="untouched">I had to unpair it and re-pair it and it work…</example>
+        <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
+        <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
+        <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
+        <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">But will NOT <marker>work</marker> of any type help you to forget your troubles?</example><!--  #2326 Unusual capitalization of NOT. -->
+        <example type="ambiguous" inputform="WORK[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="WORK[work/NN:UN]">BUT, WON'T <marker>WORK</marker> ON YOUR PART AFFECT THE COMPLETION TIME?</example>
+        <example type="ambiguous" inputform="reference[reference/NN:UN,reference/VB,reference/VBP]" outputform="reference[reference/NN:UN]">The document does not show the can reference. Do you know the can <marker>reference</marker>?</example><!-- A 'can reference' is a possible technical term. -->
     </rule>
+
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
       <antipattern><!-- Fix for chunker: staves off hunger -->
         <token postag="VBZ"/>
