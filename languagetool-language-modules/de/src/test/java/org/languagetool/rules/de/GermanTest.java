@@ -91,6 +91,14 @@ public class GermanTest extends LanguageSpecificTest {
           origWord = "fordert";
           suggWord = "erfordert";
         }
+        if (message.contains("auseinandergeschrieben")) {
+          origWord = "auseinandergeschrieben";
+          suggWord = "getrennt geschrieben";
+        }
+        if (message.contains("getrenntgeschrieben")) {
+          origWord = "getrenntgeschrieben";
+          suggWord = "getrennt geschrieben";
+        }
         if (origWord != null) {
           System.err.println("WARNING: Aus Gründen der Einheitlichkeit bitte '" + suggWord + "' nutzen statt '" + origWord + "' in der Regel " + patternRule.getFullId() + ", message: '" + message + "'");
         }
