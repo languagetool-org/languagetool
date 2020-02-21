@@ -5515,20 +5515,20 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="FORCES[force/NNS,force/VBZ]" outputform="FORCES[force/NNS]">THEY WANT MILITARY <marker>FORCES</marker>, I THINK.</example>
     </rule>
 
-        <rule id="DT_VBZNNS_NNS" name="Plural determiners + noun plur/vb sg => noun plur">
-          <pattern>
+    <rule id="DT_VBZNNS_NNS" name="Plural determiners + noun plur/vb sg => noun plur">
+        <pattern>
             <token regexp="yes">both|some|fewer|many|whose|th[eo]se|most</token>
             <marker>
-            <and>
-              <token postag="VBZ"><exception regexp="yes">is|does</exception></token>
-              <token postag="NNS"/>
-            </and>
+                <and>
+                    <token postag="VBZ"><exception regexp="yes">is|does</exception></token>
+                    <token postag="NNS"/>
+                </and>
             </marker>
-          </pattern>
-          <disambig postag="NNS"/>
-          <example type="ambiguous" inputform="hands[hand/NNS,hand/VBZ]" outputform="hands[hand/NNS]">It depends whose <marker>hands</marker> it's in.</example>
-          <example type="untouched">He hands it over.</example>
-        </rule>
+        </pattern>
+        <disambig postag="NNS"/>
+        <example type="ambiguous" inputform="hands[hand/NNS,hand/VBZ]" outputform="hands[hand/NNS]">It depends whose <marker>hands</marker> it's in.</example>
+        <example type="untouched">He hands it over.</example>
+    </rule>
 
         <rule id="NN_CC_NN" name="nouns in coordination">
             <antipattern><!-- #2252 someone they know and Ralph admires -->
