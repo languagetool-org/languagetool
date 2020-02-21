@@ -55,6 +55,9 @@ import java.util.stream.Stream;
  */
 abstract class TextChecker {
 
+  private static final int PINGS_CLEAN_MILLIS = 60 * 1000;  // internal pings database will be cleaned this often
+  private static final int PINGS_MAX_SIZE = 5000;
+
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
                                         List<RuleMatch> hiddenMatches, String incompleteResultReason, int compactMode);
@@ -89,6 +92,8 @@ abstract class TextChecker {
   private final DatabaseLogger databaseLogger;
   private final Long logServerId;
   private final Random random = new Random();
+  private final Set<DatabasePingLogEntry> pings = new HashSet<>();
+  private long pingsCleanDateMillis = System.currentTimeMillis();
   PipelinePool pipelinePool; // mocked in test -> package-private / not final
 
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
@@ -212,7 +217,6 @@ abstract class TextChecker {
     }
 
     boolean filterDictionaryMatches = "true".equals(parameters.get("filterDictionaryMatches"));
-
 
     Long textSessionId = null;
     try {
@@ -464,6 +468,25 @@ abstract class TextChecker {
         config.isSkipLoggingRuleMatches() ? Collections.emptyMap() : ruleMatchCount));
       databaseLogger.log(logEntry);
     }
+
+    if (databaseLogger.isLogging()) {
+      if (System.currentTimeMillis() - pingsCleanDateMillis > PINGS_CLEAN_MILLIS && pings.size() < PINGS_MAX_SIZE) {
+        logger.info("Cleaning pings DB (" + pings.size() + " items)");
+        pings.clear();
+        pingsCleanDateMillis = System.currentTimeMillis();
+      }
+      DatabasePingLogEntry ping = new DatabasePingLogEntry(agentId, userId);
+      if (!pings.contains(ping)) {
+        databaseLogger.log(ping);
+        if (pings.size() >= PINGS_MAX_SIZE) {
+          // prevent pings taking up unlimited amounts of memory
+          logger.warn("Pings DB has reached max size: " + pings.size());
+        } else {
+          pings.add(ping);
+        }
+      }
+    }
+
   }
   
   private Map<String, Integer> getRuleValues(Map<String, String> parameters) {

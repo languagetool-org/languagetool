@@ -152,6 +152,7 @@ class DatabaseLogger {
       String[] statements = {"org.languagetool.server.LogMapper.createRuleMatches",
         "org.languagetool.server.LogMapper.createCheckLog",
         "org.languagetool.server.LogMapper.createMiscLog",
+        "org.languagetool.server.LogMapper.createPings",
         "org.languagetool.server.LogMapper.createAccessLimits",
         "org.languagetool.server.LogMapper.createCheckError",
         "org.languagetool.server.LogMapper.createCacheStats",
@@ -172,6 +173,7 @@ class DatabaseLogger {
       session.delete("org.languagetool.server.LogMapper.dropRuleMatches");
       session.delete("org.languagetool.server.LogMapper.dropCheckLog");
       session.delete("org.languagetool.server.LogMapper.dropMiscLog");
+      session.delete("org.languagetool.server.LogMapper.dropPings");
       session.delete("org.languagetool.server.LogMapper.dropAccessLimits");
       session.delete("org.languagetool.server.LogMapper.dropCheckError");
       session.delete("org.languagetool.server.LogMapper.dropCacheStats");
