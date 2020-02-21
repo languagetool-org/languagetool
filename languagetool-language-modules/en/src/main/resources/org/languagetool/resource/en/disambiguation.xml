@@ -6050,58 +6050,62 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched">Remind me, what will are these people contesting?</example>
         </rule>
 
-        <rule id="NNJJ_NN_JJ" name="noun/adj + noun => adj + noun">
-          <antipattern>
+    <rule id="NNJJ_NN_JJ" name="noun/adj + noun => adj + noun">
+        <antipattern>
             <token postag="MD"/>
             <token>have</token>
-          </antipattern>
-          <antipattern><!-- This component parts the wires -->
+        </antipattern>
+        <antipattern><!-- This component parts the wires -->
             <token postag_regexp="yes" postag="DT|PRP\$"/>
             <token postag="NN"/>
             <token postag="VBZ"/>
             <token postag_regexp="yes" postag="DT|PRP\$"/>
-          </antipattern>
-          <antipattern><!--  #2069. a good chance things will not become worse. -->
+        </antipattern>
+        <antipattern><!--  #2069. a good chance things will not become worse. -->
             <token postag="DT"/>
             <token postag="JJ"/>
             <token postag_regexp="yes" postag="NN:UN?"/>
             <token postag="NNS"/>
             <token postag="MD"/>
-          </antipattern>
-          <antipattern><!-- time period three -->
+        </antipattern>
+        <antipattern><!-- time period three -->
             <token chunk="B-NP-singular">time</token>
             <token chunk="I-NP-singular">period</token>
             <token chunk="E-NP-singular"/><!-- For 'time period three', DT_JJ_NN assigns three/NN] thus I cannot use CD and a general AP -->
-          </antipattern>
-          <antipattern><!-- #2405 the community sees it as -->
+        </antipattern>
+        <antipattern><!-- #2405 the community sees it as -->
             <token postag="DT"/>
             <token postag_regexp="yes" postag="NN(:UN?)?"/>
             <token postag="VBZ"/>
             <token regexp="yes">me|you|him|her|it|us|them|one</token>
             <token postag_regexp="yes" postag="CC|IN"/>
-          </antipattern>
-          <pattern>
+        </antipattern>
+        <pattern>
             <marker>
-            <and>
-              <token postag="JJ.?" postag_regexp="yes"><exception postag="JJ.?|NN.*" negate_pos="yes" postag_regexp="yes"/></token>
-              <token postag="NN.*" postag_regexp="yes"><exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception></token>
-            </and>
+                <and>
+                    <token postag="JJ.?" postag_regexp="yes">
+                        <exception postag="JJ.?|NN.*" negate_pos="yes" postag_regexp="yes"/>
+                        </token>
+                    <token postag="NN.*" postag_regexp="yes">
+                        <exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception>
+                        </token>
+                </and>
             </marker>
             <token postag="NN.*" postag_regexp="yes"><exception postag="RB"/></token>
             <token><exception postag="NN.*" postag_regexp="yes"/><exception>for</exception></token>
-          </pattern>
-          <disambig action="filter" postag="JJ.?"/>
-          <!-- example type="ambiguous" inputform="red[red/JJ,red/NN:UN]" outputform="red[red/JJ]">I have many <marker>red</marker> wine.</example -->
-          <example type="untouched">This is a nice machine.</example>
-          <example type="untouched">Is much powerful and wondrous <marker>magic necessary for</marker> Harry Potter to fly?</example>
-          <example type="untouched">The circus will come to <marker>town</marker> tomorrow.</example>
-          <example type="untouched">His <marker>party</marker> may have brought the disease with them from Egypt.</example>
-          <example type="untouched">This <marker>component</marker> parts the wires automatically.</example>
-          <example type="untouched">Noun. We have a good <marker>chance</marker> things will not become worse.</example><!--  #2069 -->
-          <example type="untouched">Noun. ... will need to start over at time <marker>period</marker> three.</example>
-          <example type="untouched">Noun: Otherwise, the <marker>community</marker> sees it as trolling, regardless of the intent.</example><!-- #2405 -->
-          <example type="untouched">Noun: Also, this <marker>group</marker> sees them on many occasions.</example><!-- #2405 -->
-        </rule>
+        </pattern>
+        <disambig action="filter" postag="JJ.?"/>
+        <!-- example type="ambiguous" inputform="red[red/JJ,red/NN:UN]" outputform="red[red/JJ]">I have many <marker>red</marker> wine.</example -->
+        <example type="untouched">This is a nice machine.</example>
+        <example type="untouched">Is much powerful and wondrous <marker>magic necessary for</marker> Harry Potter to fly?</example>
+        <example type="untouched">The circus will come to <marker>town</marker> tomorrow.</example>
+        <example type="untouched">His <marker>party</marker> may have brought the disease with them from Egypt.</example>
+        <example type="untouched">This <marker>component</marker> parts the wires automatically.</example>
+        <example type="untouched">Noun. We have a good <marker>chance</marker> things will not become worse.</example><!--  #2069 -->
+        <example type="untouched">Noun. ... will need to start over at time <marker>period</marker> three.</example>
+        <example type="untouched">Noun: Otherwise, the <marker>community</marker> sees it as trolling, regardless of the intent.</example><!-- #2405 -->
+        <example type="untouched">Noun: Also, this <marker>group</marker> sees them on many occasions.</example><!-- #2405 -->
+    </rule>
 
         <rule id="BENEATH_NOTICE" name="beneath notice">
             <pattern>
