@@ -475,14 +475,16 @@ abstract class TextChecker {
         pings.clear();
         pingsCleanDateMillis = System.currentTimeMillis();
       }
-      DatabasePingLogEntry ping = new DatabasePingLogEntry(agentId, userId);
-      if (!pings.contains(ping)) {
-        databaseLogger.log(ping);
-        if (pings.size() >= PINGS_MAX_SIZE) {
-          // prevent pings taking up unlimited amounts of memory
-          logger.warn("Pings DB has reached max size: " + pings.size());
-        } else {
-          pings.add(ping);
+      if (agentId != null && userId != null) {
+        DatabasePingLogEntry ping = new DatabasePingLogEntry(agentId, userId);
+        if (!pings.contains(ping)) {
+          databaseLogger.log(ping);
+          if (pings.size() >= PINGS_MAX_SIZE) {
+            // prevent pings taking up unlimited amounts of memory
+            logger.warn("Pings DB has reached max size: " + pings.size());
+          } else {
+            pings.add(ping);
+          }
         }
       }
     }
