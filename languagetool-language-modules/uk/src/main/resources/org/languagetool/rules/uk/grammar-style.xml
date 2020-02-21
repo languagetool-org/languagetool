@@ -1526,7 +1526,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token regexp="yes" inflected="yes">вирішувати|вирішити</token>
             <token postag_regexp="yes" postag="(adj|numr):.:v_zna.*" min="0" max="2"/>
-            <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">проблема|питання</token>
+            <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_zna.*">проблема|питання|задача</token>
           </marker>
         </pattern>
         <message>Краще: <suggestion>розв'язувати \2 \3</suggestion></message>
@@ -1538,7 +1538,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token regexp="yes" inflected="yes">рішення|вирішення</token>
             <token postag_regexp="yes" postag="(adj|numr):.:v_rod.*" min="0" max="2"/>
-            <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*">проблема|питання</token>
+            <token regexp="yes" inflected="yes" postag_regexp="yes" postag="noun:inanim:.:v_rod.*">проблема|питання|задача</token>
           </marker>
         </pattern>
         <message>Краще: <suggestion>розв'язання \2 \3</suggestion></message>
@@ -1829,6 +1829,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>791 чоловік, 43 жінки</example>
       <example>Один чоловік сказав мені таке...</example>
       <example>Її першого чоловіка.</example>
+    </rule>
+
+    <rule id="viyskova_pidgotovka" name="Військова підготовка">
+      <pattern>
+        <token inflected="yes">військовий</token>
+        <token inflected="yes">підготовка</token>
+      </pattern>
+      <message>Краще: <suggestion>військовий вишкіл</suggestion></message>
+      <example correction="військовий вишкіл"><marker>військової підготовки</marker></example>
     </rule>
 
 <!--

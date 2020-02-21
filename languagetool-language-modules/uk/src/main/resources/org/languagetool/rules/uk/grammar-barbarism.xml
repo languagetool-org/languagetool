@@ -3316,6 +3316,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <marker>
+            <token>відповідно</token>
+            <token>вимогам</token>
+          </marker>
+        </pattern>
+        <message>Ви мали на увазі <suggestion>відповідно до <match no="2" postag_regexp="yes" postag="(noun:.*?)v_dav(.*)" postag_replace="$1v_rod$2"/></suggestion>?</message>
+        <example correction="Відповідно до вимог"><marker>Відповідно вимогам</marker>.</example>
+        <example>відповідно до вимог</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
             <token regexp="yes">[ву]</token>
             <token postag_regexp="yes" postag="adj:f:v_mis.*" min="0"/>
             <token>відповідності</token>
@@ -3343,6 +3355,111 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion>хай (най) діється (буде), що хоче</suggestion>
       <suggestion>де наше не пропадало</suggestion>
       <example correction="що буде те (то) й буде|хай буде, що буде|хай (най) діється (буде), що хоче|де наше не пропадало">А там <marker>будь що буде</marker>.</example>
+    </rule>
+
+    <rule id="v_drugy_raz" name="В другий раз">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token>другий</token>
+        <token>раз</token>
+      </pattern>
+      <message>Краще: <suggestion>іншим разом</suggestion></message>
+      <suggestion>вдруге</suggestion>
+      <example correction="іншим разом|вдруге">А <marker>в другий раз</marker> не полізуть.</example>
+    </rule>
+
+    <rule id="bez_oglyadki" name="Без оглядки">
+      <pattern>
+        <token>без</token>
+        <token>оглядки</token>
+      </pattern>
+      <message>Краще: <suggestion>не оглядаючись</suggestion></message>
+      <suggestion>не озираючись</suggestion>
+      <suggestion>безоглядно</suggestion>
+      <example correction="не оглядаючись|не озираючись|безоглядно">І побіг <marker>без оглядки</marker>.</example>
+    </rule>
+
+    <rule id="bezzaperechni_dokazy" name="Беззаперечні докази">
+      <pattern>
+        <marker>
+          <token inflected="yes">беззаперечний</token>
+        </marker>
+        <token inflected="yes">доказ</token>
+      </pattern>
+      <message>Краще: <suggestion>неспростовний</suggestion></message>
+      <example correction="неспростовний">Надав <marker>беззаперечні</marker> докази.</example>
+    </rule>
+
+    <rule id="bez_cili" name="Без цілі">
+      <pattern>
+        <token>без</token>
+        <marker>
+          <token>цілі</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>мети</suggestion></message>
+      <example correction="мети">блукав без <marker>цілі</marker>.</example>
+    </rule>
+
+    <rule id="virnishe_skazaty" name="Вірніше сказати">
+      <pattern>
+        <token>а</token>
+        <token>вірніше</token>
+        <token>сказати</token>
+      </pattern>
+      <message>Правильно: <suggestion>правду кажучи</suggestion></message>
+      <example correction="правду кажучи"><marker>а вірніше сказати</marker>.</example>
+    </rule>
+
+    <rule id="v_vydu_ciogo" name="В виду цього">
+      <pattern>
+        <token>в</token>
+        <token>виду</token>
+        <token>цього</token>
+      </pattern>
+      <message>Правильно: <suggestion>через це</suggestion></message>
+      <example correction="через це"><marker>в виду цього</marker>.</example>
+    </rule>
+
+    <rule id="volodity_jakostiamy" name="Володіти якостями">
+      <pattern>
+        <token inflected="yes">володіти</token>
+        <token>якостями</token>
+      </pattern>
+      <message>Правильно: <suggestion>мати риси</suggestion></message>
+      <example correction="мати риси"><marker>володів якостями</marker>.</example>
+    </rule>
+
+    <rule id="v_kiklisnomu_vidnoshenni" name="В кількісному відношенні">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token>кількісному</token>
+        <token>відношенні</token>
+      </pattern>
+      <message>Правильно: <suggestion>кількісно</suggestion></message>
+      <example correction="кількісно">а от <marker>у кількісному відношенні</marker>.</example>
+    </rule>
+
+    <rule id="vnosyty_vklad" name="Вносити вклад">
+      <pattern>
+        <token inflected="yes" regexp="yes">вносити|внести</token>
+        <token postag_regexp="yes" postag="adj:m:v_zna:rinanim.*" min="0"/>
+        <token>вклад</token>
+      </pattern>
+      <message>Правильно: <suggestion>(з)робити <match no="2"/> внесок</suggestion></message>
+      <example correction="(з)робити внесок">він <marker>вніс вклад</marker>.</example>
+      <example correction="(з)робити значний внесок">він <marker>вніс значний вклад</marker>.</example>
+    </rule>
+
+    <rule id="valytysia_z_ruk" name="Валитися з рук">
+      <pattern>
+        <token inflected="yes">валитися</token>
+        <token>з</token>
+        <token>рук</token>
+      </pattern>
+      <message>Правильно: <suggestion>падати з рук</suggestion></message>
+      <suggestion>не триматися рук</suggestion>
+      <example correction="падати з рук|не триматися рук">все <marker>валилося з рук</marker>.</example>
     </rule>
 
     <rulegroup id="V_JAKOSTI" name="В якості">
@@ -3817,20 +3934,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <!--
-        <rule>
-        <pattern>
+    <!--  може вживатися в урочистому стилі або релігійному контексті
+    <rule id="blagi_namiry" name="Благі наміри">
+      <pattern>
         <marker>
-        <token>більше</token>
-        <token>того</token>
+          <token inflected="yes">благий</token>
         </marker>
-        </pattern>
-        <message>Правильно: <suggestion>ще ж і надто</suggestion>, <suggestion>ще й надто</suggestion>, <suggestion>ще й більш (від) того</suggestion>, <suggestion>навіть/ба більш(е)</suggestion></message>
-        <example type="incorrect"><marker>Більше всього</marker> він любив футбол.</example>
-        <example type="incorrect"><marker>Більш усього</marker> він любив футбол.</example>
-        <example>Найбільше він любив футбол.</example>
-        </rule>
+        <token inflected="yes">намір</token>
+      </pattern>
+      <message>Правильно: <suggestion>добрий</suggestion></message>
+      <example correction="добрий">І <marker>благі</marker> наміри.</example>
+    </rule>
     -->
+
+    <rule id="bud_jakoyu_cinoyu" name="Будь-якою ціною">
+      <pattern>
+        <token>будь-якою</token>
+        <token>ціною</token>
+      </pattern>
+      <message>Правильно: <suggestion>за будь-яку ціну</suggestion></message>
+      <example correction="за будь-яку ціну">І <marker>будь-якою ціною</marker>.</example>
+    </rule>
 
     <rule id="VSE_RIVNO" name="Все рівно">
       <pattern>
@@ -4085,13 +4209,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </marker>
           <token regexp="yes">&punct_std;</token>
         </pattern>
-        <message>Правильно: <suggestion>ще ж і надто</suggestion></message>
+        <message>Правильно: <suggestion>щобільше</suggestion></message>
+        <suggestion>мало того</suggestion>
+        <suggestion>на додаток</suggestion>
+        <suggestion>до того</suggestion>
         <suggestion>ще й надто</suggestion>
-        <suggestion>ще й більш [від] того</suggestion>
-        <suggestion>навіть більш(е)</suggestion>
-        <suggestion>ба більше</suggestion>
-        <example correction="ще ж і надто|ще й надто|ще й більш [від] того|навіть більш(е)|ба більше">Шухевич знав про це, <marker>більше того</marker>, він допоміг виробити</example>
-        <example correction="ще ж і надто|ще й надто|ще й більш [від] того|навіть більш(е)|ба більше">ене, чесно кажучи, заскочило, <marker>більше того</marker> - обурило…</example>
+        <example correction="щобільше|мало того|на додаток|до того|ще й надто">Шухевич знав про це, <marker>більше того</marker>, він допоміг виробити</example>
+        <example correction="щобільше|мало того|на додаток|до того|ще й надто">ене, чесно кажучи, заскочило, <marker>більше того</marker> - обурило…</example>
         <example>...процесу в Україні, і не більше того.</example>
         <example>щораз більше того самого.</example>
         <example>не в стані більше того витримувати фізично</example>
@@ -5563,6 +5687,76 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion>абияк</suggestion>
       <example correction="легковажно|легкодумно|поверхово|абияк">зробити <marker>з кондачка</marker></example>
     </rule>
+
+    <rule id="otochuyuche_seredovysche" name="Оточуюче середовище">
+      <pattern>
+        <token inflected="yes">оточуючий</token>
+        <token inflected="yes">середовище</token>
+      </pattern>
+      <message>Правильно: <suggestion>довкілля</suggestion></message>
+      <example correction="довкілля"><marker>оточуючого середовища</marker></example>
+    </rule>
+
+    <rulegroup id="ne_podaty_vydu" name="Не подати виду">
+      <rule>
+        <pattern>
+          <marker>
+            <token>виду</token>
+            <token>не</token>
+            <token inflected="yes" regexp="yes">подати|подавати</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>знаку не подати</suggestion></message>
+        <example correction="знаку не подати">він <marker>виду не подав</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>не</token>
+            <token inflected="yes" regexp="yes">подати|подавати</token>
+            <token>виду</token>
+          </marker>
+        </pattern>
+        <message>Правильно: <suggestion>не подати знаку</suggestion></message>
+        <example correction="не подати знаку">він <marker>не подав виду</marker></example>
+      </rule>
+    </rulegroup>
+
+    <rule id="vyity_z_polozhennya" name="Вийти з положення">
+      <pattern>
+        <token inflected="yes">вийти</token>
+        <marker>
+          <token regexp="yes">і?з</token>
+          <token>положення</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>зі становища</suggestion></message>
+      <example correction="зі становища">він вийшов <marker>з положення</marker></example>
+    </rule>
+
+    <rule id="beznadiyne_polozhennya" name="Безнадійне положення">
+      <pattern>
+        <token inflected="yes" regexp="yes">безнадійний|безвихідний</token>
+        <marker>
+          <token>положення</token>
+        </marker>
+      </pattern>
+      <message>Правильно: <suggestion>становище</suggestion></message>
+      <example correction="становище">потрапив у безнадійне <marker>положення</marker></example>
+    </rule>
+
+    <rule id="vidvolikaty_uvagu" name="Відволікати увагу">
+      <pattern>
+        <marker>
+          <token inflected="yes">відволікати</token>
+        </marker>
+        <token>увагу</token>
+      </pattern>
+      <message>Правильно: <suggestion>відвертати</suggestion></message>
+      <example correction="відвертати">постійно <marker>відволікав</marker> увагу</example>
+    </rule>
+
 
     <rulegroup id="vechorom" name="Вечором і увечері">
       <rule>

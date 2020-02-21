@@ -1179,6 +1179,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="відтепер"><marker>від тепер</marker> і до кінця.</example>
     </rule>
 
+    <rule id="dva_prizvyscha" name="Два прізвища через дефіс">
+      <pattern>
+        <token regexp="yes">Джексона-Веніка|Колесніченка-Ківалова|Молотова-Ріббентропа</token>
+      </pattern>
+      <message>Два прізвища пишуться через тире</message>
+      <suggestion><match no="1" regexp_match="(.*?)-(.*?)" regexp_replace="$1 — $2"/></suggestion>
+      <example correction="Джексона — Веніка">поправка <marker>Джексона-Веніка</marker>.</example>
+    </rule>
 
 <!-- 
     з пробілом: ДСТУ 3582-97 (1997) http://www.stu.cn.ua/media/files/pdf/DSTU_3582-97.pdf
