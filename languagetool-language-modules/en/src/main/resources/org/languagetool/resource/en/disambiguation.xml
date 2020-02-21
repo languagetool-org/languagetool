@@ -6,6 +6,7 @@
 <!DOCTYPE rules [
     <!ENTITY apostrophe "['’`´‘]">
     <!ENTITY file_name_extensions "asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|yaml|yml|zip|zipx">
+    <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
     <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
 ]>
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -2463,6 +2464,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-VP" postag="VBP"/>
             <token regexp="yes">&object_pronouns;</token>
         </antipattern>
+        <antipattern><!-- #2427 Before the game starts she is -->
+            <token postag="DT"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="B-VP" postag="VBZ"/>
+            <token regexp="yes">&subject_pronouns;</token>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -2489,8 +2497,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">All I want to do is turn it on or off as part of my ST routine.</example><!-- #2427 -->
         <example type="untouched">The 5th time leave it on for 10 seconds.</example><!-- #2427 -->
         <example type="untouched">Understanding how wall switches work makes it easier to make repairs and replacements and...</example><!-- #2427 -->
-<!--         <example type="untouched">I can no longer control it through Smartthings.</example> -->
-<!--        <example type="untouched">Before the game starts she is unable to read all instructions and user agreements.</example>-->
+        <example type="untouched">I can no longer control it through Smartthings.</example><!-- #2427 -->
+        <example type="untouched">Before the game starts she is unable to read all instructions.</example><!-- #2427 -->
 <!--        <example type="untouched">Too many makes it clunky?</example>-->
 <!--        <example type="untouched">I mean like make it able to be similar to tyri but a better version.</example>-->
 <!--        <example type="untouched">The work makes it possible.</example>-->
@@ -5460,6 +5468,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>less</token>
             <token postag="VBZ"/>
         </antipattern>
+        <antipattern><!-- #2427 Before the game starts she is -->
+            <token postag="DT"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="B-VP" postag="VBZ"/>
+            <token regexp="yes">&subject_pronouns;</token>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+        </antipattern>
         <pattern>
             <token postag="JJ">
                 <exception scope="previous" regexp="yes">s?he|it</exception>
@@ -5495,6 +5510,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Saint Gregory's narrative makes it impossible to suppose him younger than 20 at the time.</example><!-- #2431 -->
         <example type="untouched">Furthermore, the complexity of the medium makes it difficult to write a useful boot program in one sector.</example><!-- #2431 -->
         <example type="untouched">It more or less looks like it's ready.</example><!-- #2431 -->
+        <example type="untouched">Verb: Before the game <marker>starts</marker> she is unable to read all instructions.</example><!-- #2427 -->
         <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
         <example type="ambiguous" inputform="FORCES[force/NNS,force/VBZ]" outputform="FORCES[force/NNS]">THEY WANT MILITARY <marker>FORCES</marker>, I THINK.</example>
     </rule>
@@ -6080,6 +6096,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">me|you|him|her|it|us|them|one</token>
             <token postag_regexp="yes" postag="CC|IN"/>
         </antipattern>
+        <antipattern><!-- #2427 Before the game starts she is -->
+            <token postag="DT"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="B-VP" postag="VBZ"/>
+            <token regexp="yes">&subject_pronouns;</token>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -6105,6 +6128,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Noun. ... will need to start over at time <marker>period</marker> three.</example>
         <example type="untouched">Noun: Otherwise, the <marker>community</marker> sees it as trolling, regardless of the intent.</example><!-- #2405 -->
         <example type="untouched">Noun: Also, this <marker>group</marker> sees them on many occasions.</example><!-- #2405 -->
+        <example type="untouched">Noun: Before the <marker>game</marker> starts she is unable to read all instructions.</example><!-- #2427 -->
     </rule>
 
         <rule id="BENEATH_NOTICE" name="beneath notice">
