@@ -1085,6 +1085,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
       <rule>
         <pattern>
+          <marker>
+            <token regexp="yes">[ву]
+              <exception scope="previous" inflected="yes" regexp="yes">влитися|втиснути|інтервал</exception>
+            </token>
+            <token regexp="yes">дві|три|чотири|п'ять|шість|сім|вісім|дев'ять|десять|одинадцять|дванадцять</token>
+            <token regexp="yes">години?</token>
+          </marker>
+          <token regexp="yes">годині|ранку|вечора|ночі</token>
+        </pattern>
+        <message>Правильно: <suggestion>о ... годині</suggestion></message>
+        <example correction="о ... годині">аж <marker>у вісім годин</marker> ночі</example>
+        <example>процедура вилилася в шість годин</example>
+        <example>матимемо різницю з Європою аж у дві години</example>
+        <example>хронометраж стрічки в чотири години</example>
+        <example>не можна у дві години фільму втиснути</example>
+      </rule>
+
+      <rule>
+        <pattern>
           <token regexp="yes">[ву]</token>
           <token regexp="yes">(2[0-4]|1[0-9]|[1-9]):[0-9]{2}</token>
         </pattern>
