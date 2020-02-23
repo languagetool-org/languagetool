@@ -58,7 +58,9 @@ public class LanguageIdentifier {
 
   // ast and gl often prevent the correct detection of Spanish (as the are quite similar
   // to Spanish, I assume) so we disable them for now. See LanguageDetectionEval.java:
-  private static final List<String> ignoreLangCodes = Arrays.asList("ast", "gl");
+  //pap is currently not supported by language-detector and and we still don't have a profile to offer,
+  //so, we add pap here to disable it for now.
+  private static final List<String> ignoreLangCodes = Arrays.asList("ast", "gl", "pap");
 
   // languages that we offer profiles for as they are not yet supported by language-detector:
   private static final List<String> externalLangCodes = Arrays.asList("eo");

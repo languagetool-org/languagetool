@@ -1,0 +1,48 @@
+SET UTF-8
+
+TRY aieonstrkldmuphbgáfvèòcóíyéwñzjùúüABCSKIHEPLGTFxMJRqYXVDç
+
+# For the default apostrophe and typographical apostrophe support in command-line
+WORDCHARS '’
+
+REP 2
+REP sion$ shon
+REP oe u
+
+MAP 8
+MAP uüùú
+MAP iìí
+MAP eèé
+MAP aàá
+MAP oòó
+MAP nñ
+MAP bv
+MAP kc
+
+SFX D Y 2
+SFX D   u     'i    u
+SFX D   a     'i    a
+
+SFX O Y 2
+SFX O   a     'é    a
+SFX O   0     é     i
+
+SFX M Y 3     
+SFX M   0     mentu     [^áé]
+SFX M   á     amentu    á
+SFX M   é     ementu    é
+
+SFX R Y 1
+SFX R   á     ador      á
+
+SFX Q Y 1
+SFX Q   á     adó       á
+
+SFX N Y 1
+SFX N   á     ando      á
+
+SFX H Y 1
+SFX H   á     ashon     á
+
+SFX P Y 1
+SFX P   0     nan
