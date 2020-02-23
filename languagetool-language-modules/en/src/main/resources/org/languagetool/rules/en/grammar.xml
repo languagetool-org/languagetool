@@ -8659,7 +8659,7 @@ USA
                 <example correction="safe">Am I <marker>save</marker> here?</example>
                 <example correction="safe">Is it <marker>save</marker> to use it?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="PRP|NN.*" postag_regexp="yes" />
                     <token postag="MD" />
@@ -8676,7 +8676,7 @@ USA
                 <message>The word "safe" is an adjective. Did you mean the verb <suggestion>save</suggestion>?</message>
                 <example correction="save">He could <marker>safe</marker> my life.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token inflected="yes" regexp="yes">be|have</token>
                     <token postag="PRP" />
@@ -8702,7 +8702,7 @@ USA
                 <example>I'd rather have it safe.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AWAY_AWAYS" name="confusion of 'aways' vs. 'always'" default="temp_off">
+        <rulegroup id="AWAY_AWAYS" name="confusion of 'aways' vs. 'always'">
             <url>https://www.merriam-webster.com/dictionary/always</url>
             <rule>
                 <pattern>
@@ -8745,7 +8745,7 @@ USA
                 <example>This year there's three big aways - Rome, Dublin, and Cardiff.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TEL_TELL" name="confusion of 'tel' vs. 'tell'" default="temp_off">
+        <rulegroup id="TEL_TELL" name="confusion of 'tel' vs. 'tell'">
             <url>https://www.merriam-webster.com/dictionary/tell</url>
             <antipattern>
                 <token skip="1">tel</token>
@@ -9520,7 +9520,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rulegroup id="HAVE_RB_HAVE" name="duplicated use of 'have'" default="temp_off">
+        <rulegroup id="HAVE_RB_HAVE" name="duplicated use of 'have'">
             <!-- TODO: add other verbs -->
             <!-- TODO: check examples with "had ... had" (might be a style rule) -->
             <antipattern>
@@ -9834,7 +9834,7 @@ USA
                 <example>TODO: He has concerns on <marker>it</marker> movement.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PRP_JJ" name="He scary (He is scary)" default="temp_off">
+        <rulegroup id="PRP_JJ" name="He scary (He is scary)">
             <!-- TODO: He not scary. -->
             <!-- TODO: He does colour-blind -->
             <!-- TODO: He does not colour-blind -->
@@ -16677,7 +16677,7 @@ USA
             <url>https://www.lexico.com/definition/work-life_balance</url>
             <example correction="Work-life"><marker>Work life</marker> balance is having enough time for work and enough to have a life.</example>
         </rule>
-        <rule id="HIGH_END_HYPHEN" name="missing hyphen in 'high end'" default="temp_off">
+        <rule id="HIGH_END_HYPHEN" name="missing hyphen in 'high end'">
             <pattern>
                 <marker>
                     <token regexp="yes">high|low</token>
@@ -25631,7 +25631,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/go</url>
             <example correction="goes">He <marker>gos</marker> home.</example>
         </rule>
-        <rule id="PRP_DOS" name="he dos (does)" default="temp_off">
+        <rule id="PRP_DOS" name="he dos (does)">
             <pattern>
                 <token regexp="yes">s?he|it</token>
                 <token postag="RB" min="0" />
