@@ -4893,7 +4893,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="NNP_CIUDAD_DE" name="NNP for Spanish names containing 'de'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os|Rancho|Cerro|Universidad|Copa</token>
+                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad</token>
                 <token>de</token>
                 <token regexp="yes" min="0">[Ll]a</token>
                 <token regexp="yes">[A-Z].+</token>
@@ -4905,7 +4905,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="NNP_CIUDAD_DEL" name="NNP for Spanish geo names containing 'del'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os|Rancho|Cerro|Universidad|Copa</token>
+                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad</token>
                 <token>del</token>
                 <token regexp="yes">[A-Z].+</token>
             </marker>
@@ -6640,7 +6640,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="IGNORE_SPELLING_OF_CIUDAD_DE" name="Ignore spelling of Hispanic names containing 'de'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco|Rancho|Cerro|Universidad|Copa</token>
+                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad</token>
                 <token>de</token>
                 <token regexp="yes" min="0">[Ll]a|[Ll][eoa]s</token>
             </marker>
@@ -6652,7 +6652,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="IGNORE_SPELLING_OF_CIUDAD" name="Ignore spelling of Hispanic names containing 'del'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os|Villas|Rancho|Cerro|Universidad|Copa</token>
+                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os|Villas|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad</token>
                 <token regexp="yes">[Dd]el</token>
             </marker>
             <token regexp="yes">[A-Z].+</token>
@@ -9379,6 +9379,33 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <pattern>
             <token regexp="yes">aurora|Coronae?</token>
             <token>borealis</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="corpus callosum" id="CORPUS_CALLOSUM">
+        <!-- https://www.merriam-webster.com/dictionary/callosum -->
+        <pattern>
+            <token>corpus</token>
+            <token>callosum</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="corpora callosa" id="CORPORA_CALLOSA">
+        <!-- https://www.merriam-webster.com/dictionary/callosum -->
+        <pattern>
+            <token>corpora</token>
+            <token>callosa</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="camino real" id="CAMINO_REAL">
+        <!-- https://www.merriam-webster.com/dictionary/camino -->
+        <pattern>
+            <token>camino</token>
+            <token regexp="yes">real(e?s)?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
