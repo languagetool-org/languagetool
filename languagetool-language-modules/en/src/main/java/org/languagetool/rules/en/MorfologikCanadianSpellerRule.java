@@ -23,8 +23,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.languagemodel.LanguageModel;
 
 public final class MorfologikCanadianSpellerRule extends AbstractEnglishSpellerRule {
 
@@ -34,6 +36,13 @@ public final class MorfologikCanadianSpellerRule extends AbstractEnglishSpellerR
   public MorfologikCanadianSpellerRule(ResourceBundle messages,
                                        Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
+  }
+
+  /**
+   * @since 4.9
+   */
+  public MorfologikCanadianSpellerRule(ResourceBundle messages, Language language, GlobalConfig globalConfig, UserConfig userConfig, List<Language> altLanguages, LanguageModel languageModel, Language motherTongue) throws IOException {
+    super(messages, language, globalConfig, userConfig, altLanguages, languageModel, motherTongue);
   }
 
   @Override

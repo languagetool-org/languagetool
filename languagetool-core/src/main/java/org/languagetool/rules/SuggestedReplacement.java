@@ -32,17 +32,30 @@ public class SuggestedReplacement {
 
   private String replacement;
   private String shortDescription;
+  private String displayValue;
   private SortedMap<String, Float> features = Collections.emptySortedMap();
   private Float confidence = null;
+  
   public SuggestedReplacement(String replacement) {
-    this.replacement = Objects.requireNonNull(replacement);
+    this(replacement, null, null);
   }
 
-  public SuggestedReplacement(SuggestedReplacement clone) {
-    this.replacement = clone.replacement;
-    setShortDescription(clone.getShortDescription());
-    setConfidence(clone.getConfidence());
-    setFeatures(clone.getFeatures());
+  public SuggestedReplacement(String replacement, String shortDescription) {
+    this(replacement, shortDescription, null);
+  }
+
+  public SuggestedReplacement(String replacement, String shortDescription, String displayValue) {
+    this.replacement = Objects.requireNonNull(replacement);
+    this.shortDescription = shortDescription;
+    this.displayValue = displayValue;
+  }
+
+  public SuggestedReplacement(SuggestedReplacement repl) {
+    this.replacement = repl.replacement;
+    this.displayValue = repl.displayValue;
+    setShortDescription(repl.getShortDescription());
+    setConfidence(repl.getConfidence());
+    setFeatures(repl.getFeatures());
   }
 
   public String getReplacement() {
@@ -59,6 +72,17 @@ public class SuggestedReplacement {
 
   public void setShortDescription(String desc) {
     this.shortDescription = desc;
+  }
+
+  /**
+   * Value shown in the UI. What actually gets replaced might be different, see {@link #getReplacement()} for that.
+   */
+  public String getDisplayValue() {
+    return displayValue;
+  }
+
+  public void setDisplayValue(String val) {
+    this.displayValue = val;
   }
 
   @Override

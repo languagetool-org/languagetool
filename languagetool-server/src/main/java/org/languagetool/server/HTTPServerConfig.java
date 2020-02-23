@@ -296,6 +296,14 @@ public class HTTPServerConfig {
         globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
         globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
         globalConfig.setGrammalectePassword(getOptionalProperty(props, "grammalectePassword", null));
+        String beolingusFile = getOptionalProperty(props, "beolingusFile", null);
+        if (beolingusFile != null) {
+          if (new File(beolingusFile).exists()) {
+            globalConfig.setBeolingusFile(new File(beolingusFile));
+          } else {
+            throw new IllegalArgumentException("beolingusFile not found: " + beolingusFile);
+          }
+        }
 
         addDynamicLanguages(props);
         setAbTest(getOptionalProperty(props, "abTest", null));
