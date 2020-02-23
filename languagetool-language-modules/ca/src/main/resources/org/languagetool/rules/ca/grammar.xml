@@ -83,7 +83,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY apostrofen_ela "Sporting|statu|scherzos?|ftalats?|snacks?|Stradivarius">
     <!ENTITY unitats "mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|[£€$]">
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
-    <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar">
+    <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar|hackejar">
     <!ENTITY verbs_no_intrans_consonant "felicitar|perjudicar|concernir|cansar|sorprendre"> <!--|preocupar|molestar-->
     <!ENTITY verbs_no_intrans_vocal "informar|afectar|assessorar|emprenyar|empipar|espantar|apassionar|atr[ae]ure|ajudar|acusar|obsequiar">
     <!ENTITY verbs_TE_INFUSIO "produir|prendre|servir|preparar|voler|beure|consumir|importar|vendre|exportar|llançar">
@@ -39619,7 +39619,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes" postag="V.I.*" postag_regexp="yes">sentir</token>
+                        <token inflected="yes" postag="V.I.*" postag_regexp="yes">sentir<exception>sent</exception></token>
                     </marker>
                     <token min="0" postag="D.*" postag_regexp="yes"/>
                     <token inflected="yes" regexp="yes">base[12]|fonament</token>
@@ -39627,6 +39627,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>¿Volíeu dir <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">assentar</match></suggestion>?</message>
                 <suggestion><match no="1" postag="(V.I.*)" postag_regexp="yes" postag_replace="$1">establir</match></suggestion>
                 <example correction="assenten|estableixen">Ells són els qui <marker>senten</marker> les bases del futur</example>
+                <example>Sent la base de l'argument, no era prou.</example>
             </rule>
             <rule>
                 <pattern>
