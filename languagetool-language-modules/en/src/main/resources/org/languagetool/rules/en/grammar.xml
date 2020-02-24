@@ -61,7 +61,7 @@ USA
     <!ENTITY verb_abbreviations "fwds?|rsvps?|dms?|pms?|execs?|reps?|mods?|noms?|intros?|intercoms?|bbqs?|chgs?|fts?|recs?|exps?">
     
     <!-- words that are informally used as verbs but aren't tagged and shouldn't be tagged as a verb -->
-    <!ENTITY not_really_verbs "self\-?(support|control)s?|nerds?|wrought|karates?|paths?|scapes?|videos?|fann(y|ies)?|bonus(es)?|back\-?ups?|pop\-?ups?|one\-?(shot|click)s?|idiot\-?proofs?|intakes?|rinds?|gaslits?|errors?|prox(y|ies)?|configs?|repros?|super\-?sets?|open\-?sources?|drag\-(and|n)\-drops?|hotfix(es)?|timeouts?|shutdowns?">
+    <!ENTITY not_really_verbs "self\-?(support|control)s?|overdraft|nerds?|wrought|karates?|paths?|scapes?|videos?|fann(y|ies)?|bonus(es)?|back\-?ups?|pop\-?ups?|one\-?(shot|click)s?|idiot\-?proofs?|intakes?|rinds?|gaslits?|errors?|prox(y|ies)?|configs?|repros?|super\-?sets?|open\-?sources?|drag\-(and|n)\-drops?|hotfix(es)?|timeouts?|shutdowns?">
 
     <!ENTITY ambiguous_date '
         <token regexp="yes">0?[1-9]|1[0-2]</token>
@@ -10529,6 +10529,10 @@ USA
                 <token>beta</token>
                 <token>test</token>
             </antipattern>
+            <antipattern><!-- https://www.lexico.com/definition/sweet_talk -->
+                <token>sweet</token>
+                <token>talk</token>
+            </antipattern>
             <antipattern><!-- "I would due to other circumstances" -->
                 <token>due</token>
                 <token>to</token>
@@ -18072,9 +18076,15 @@ USA
                 <token>t</token>
             </antipattern>
             <antipattern>
+                <token>buy</token>
+                <token>it</token>
+                <token>now</token>
+                <token regexp="yes">buttons?|links?|teasers?|ctas?</token>
+            </antipattern>
+            <antipattern>
                 <token>it</token>
                 <token min="0" max="1" postag="RB"/>
-                <token>second</token>
+                <token regexp="yes">second|first</token>
                 <token>hand</token>
             </antipattern>
             <antipattern>
@@ -18086,6 +18096,11 @@ USA
                 <token postag="VB.*" postag_regexp="yes" />
                 <token>it</token>
                 <token postag="VB.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token>it</token>
+                <token>pretty</token>
+                <token>much</token>
             </antipattern>
             <antipattern>
                 <token inflected="yes">have</token>
@@ -18193,6 +18208,7 @@ USA
             <example>He's doing it slightly rough, then.</example><!-- #2154 -->
             <example>He's finding it very rough on the sea.</example><!-- #2154 -->
             <example>He keeps it in sync.</example><!-- #2154 -->
+            <example>The buy it now button.</example>
             <example type="triggers_error">Si le grain ne meurt – 1926 (translated as If It Die)</example>
         </rule>
         <rulegroup id="DID_PAST" name="'did' with past tense verb">
@@ -25731,6 +25747,15 @@ USA
             <url>https://www.merriam-webster.com/dictionary/do</url>
             <example correction="does">He <marker>dos</marker> not want to go home.</example>
         </rule>
+        <rule id="WENT" name="wen't (went)">
+            <pattern>
+                <token>wen</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <message>Did you mean <suggestion>went</suggestion>, <suggestion>won\2t</suggestion>?</message>
+            <example correction="went|won't">I <marker>wen't</marker> to bed.</example>
+        </rule>
         <rule id="PRP_PORTRAIT" name="he portraits (portrays)">
             <antipattern>
                 <token postag="VB.*|UNKNOWN|IN" postag_regexp="yes" />
@@ -26043,7 +26068,7 @@ USA
                 <example correction="Could need|Could Ned"><marker>Could ned</marker> be there?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="APOLOGIES" name="I apologies (apologize)">
+        <rulegroup id="APOLOGIES_APOLOGIZE" name="I apologies (apologize)">
             <rule>
                 <antipattern>
                     <token>when</token>
@@ -26115,7 +26140,7 @@ USA
                 <example correction="apologize|apologise">I could <marker>apologies</marker> but it really wasn't me who did that.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PRIORITIES" name="I priorities (prioritize)">
+        <rulegroup id="PRIORITIES_PRIORITIZE" name="I priorities (prioritize)">
             <rule>
                 <antipattern>
                     <token>when</token>
@@ -26187,6 +26212,116 @@ USA
                 <message>Did you mean <suggestion>prioritize</suggestion> (American English) or <suggestion>prioritise</suggestion> (British English)?</message>
                 <example correction="prioritize|prioritise">They would probably <marker>priorities</marker> single parent families.</example>
                 <example correction="prioritize|prioritise">I would <marker>priorities</marker> this task.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BENTS_BENDS" name="She bents (bends)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="PRP" />
+                    <token postag="RB.*" min="0" postag_regexp="yes" />
+                    <marker>
+                        <token>bents</token>
+                    </marker>
+                </pattern>
+                <message>The word "\2" is a noun and adjective. Did you mean the verb <suggestion><match no="3" regexp_match="(?i)t" regexp_replace="d" /></suggestion>?</message>
+                <example correction="bends">She <marker>bents</marker> down.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BEINGS_BEGINS" name="It beings (begins) to rain" default="temp_off">
+            <antipattern>
+                <token regexp="yes">human|other|living|higher|outlandish|alien|individual|mortal|supernatural|supreme|well|light|fellow|celestial|primordial|sentient|subhuman|superior|social|world|fairy|in|divine|deficient</token>
+                <token>beings</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">it|s?he</token>
+                    <token postag="RB.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>beings</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the verb <suggestion>begins</suggestion>?</message>
+                <example correction="begins">It <marker>beings</marker> to rain.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>beings</token>
+                    </marker>
+                    <token>to</token>
+                    <token postag="VBP?" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean the verb <suggestion>begins</suggestion>?</message>
+                <example correction="begins">So something happens and the macro <marker>beings</marker> to fail.</example>
+                <example correction="begins">It happens before it <marker>beings</marker> to rain.</example>
+                <example>What is it that allows human beings to think the way we do?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="EMPHASIS_EMPHASIZE" name="I emphasis (emphasize)" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>when</token>
+                    <token>it</token>
+                    <token>comes</token>
+                    <token>to</token>
+                    <token>emphasis</token>
+                </antipattern>
+                <antipattern>
+                    <token>addition</token>
+                    <token>to</token>
+                    <token>emphasis</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">from</token>
+                    <token>to</token>
+                    <token>emphasis</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">subject|responses?|addition|due|alternatives?|exposure|similar|comparable</token>
+                    <token>to</token>
+                </antipattern>
+                <pattern>
+                    <token>
+                        to
+                        <exception regexp="yes" scope="previous" inflected="yes">refer|related|restrict|lead|respond|regard</exception>
+                    </token>
+                    <token>emphasis</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 emphasize</suggestion> (American English) or <suggestion>\1 emphasise</suggestion> (British English)?</message>
+                <example correction="to emphasize|to emphasise">I wanted <marker>to emphasis</marker> the task.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token regexp="yes">you|it</token>
+                </antipattern>
+                <antipattern><!-- the IT -->
+                    <token regexp="yes">the|an?|my|y?our|their|his|her|its|s</token>
+                    <token>IT</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">I|you|we|they|s?he|it
+                        <exception case_sensitive="yes">IT</exception>
+                    </token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>emphasis</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>emphasize</suggestion> (American English) or <suggestion>emphasise</suggestion> (British English)?</message>
+                <example correction="emphasize|emphasise">I <marker>emphasis</marker> this task.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PRP|NNP" postag_regexp="yes" />
+                    <token postag="MD" />
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>emphasis</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>emphasize</suggestion> (American English) or <suggestion>emphasise</suggestion> (British English)?</message>
+                <example correction="emphasize|emphasise">They would probably <marker>emphasis</marker> single parent families.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BELIVE_BELIEVE" name="I belive (believe)">
@@ -26295,6 +26430,11 @@ USA
                 <token regexp="yes">I|you|s?he|it|we|they</token>
                 <token regexp="yes">freakin.*</token>
             </antipattern>
+            <antipattern><!-- https://www.lexico.com/definition/lover_boy -->
+                <token>you</token>
+                <token>lover</token>
+                <token>boys</token>
+            </antipattern>
             <antipattern>
                 <token>you</token>
                 <token postag="VBG" /><!-- fucking, dithering -->
@@ -26308,7 +26448,7 @@ USA
             </antipattern>
             <antipattern>
                 <token>t</token>
-                <token>)</token>
+                <token regexp="yes">\)|/</token>
                 <token spacebefore="no">he</token>
                 <token postag="VBG" />
             </antipattern>
@@ -27950,6 +28090,35 @@ USA
             <url>https://en.wikipedia.org/wiki/Multi-factor_authentication</url>
             <example correction="2-factor">He enabled <marker>2 factor</marker> auth to protect his Facebook account.</example>
         </rule>
+        <rulegroup id="POST_IT_NOTE_HYPHEN" name="The post it (post-it) note" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/Post-it</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>post</token>
+                        <token>it</token>
+                        <token regexp="yes">notes?</token>
+                    </marker>
+                </pattern>
+                <message>It seems that a hyphen is missing.</message>
+                <suggestion>\1-\2 \3</suggestion>
+                <example correction="post-it note">He wrote it on a <marker>post it note</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>post</token>
+                        <token>it</token>
+                    </marker>
+                    <token postag="PCT" />
+                </pattern>
+                <message>It seems that a hyphen is missing if you mean the sticky note.</message>
+                <suggestion>\3-\4</suggestion>
+                <example correction="post-it">He wrote it on a <marker>post it</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="BIT_HYPHEN" name="missing hyphen in 'a 32 bit processor'">
             <pattern>
                 <marker>
@@ -37058,7 +37227,7 @@ The accident victim died from her injuries.
             <rule>
                 <antipattern>
                     <token>further</token>
-                    <token regexp="yes">research|down|details|to|reads</token>
+                    <token regexp="yes">research|down|details|to|reads|evidences?|questions</token>
                 </antipattern>
                 <antipattern>
                     <token>instead</token>
@@ -37082,6 +37251,10 @@ The accident victim died from her injuries.
                 <antipattern>
                     <token>thus</token>
                     <token>far</token>
+                </antipattern>
+                <antipattern>
+                    <token>equally</token>
+                    <token>important</token>
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START"></token>
@@ -37156,6 +37329,11 @@ The accident victim died from her injuries.
                     <token>similarly</token>
                     <token>to</token>
                 </antipattern>
+                <antipattern><!-- however defined, ...-->
+                    <token>however</token>
+                    <token postag="VB[DN]" postag_regexp="yes" />
+                    <token regexp="yes">[,\-–:;]</token>
+                </antipattern>
                 <antipattern><!-- However highly brokerage analysts rate the -->
                     <token postag="SENT_START"/>
                     <token postag_regexp="yes"  postag="W.+"/>
@@ -37165,16 +37343,25 @@ The accident victim died from her injuries.
                     <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
                     <token postag_regexp="yes" postag="DT|PRP\$|JJR?|NN.*"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="SENT_END" />
+                </antipattern>
+                <antipattern>
+                    <token>besides</token>
+                    <token postag="DT" min="0" />
+                    <token postag="NN.*" postag_regexp="yes" min="1" max="2" />
+                    <token regexp="yes">[,\-–:;]</token>
+                </antipattern>
                 <pattern>
                     <!-- TODO: also cover the case where a new sub-clause is connected by ";|, $adverb," and detect missing punctuation -->
                     <token postag="SENT_START"/>
                     <!-- now, next, then and yet are not solely linking adverbs and result in too many false positives -->
                     <marker>
-                        <token regexp="yes">a(ccordingly|dditionally|l(so|as))|anyhow|besides|c(omparatively|on(sequent|verse)ly)|currently|e(lsewhere|qually)|f(inally|urther(more)?)|h(ence(forth)?|owever)|in(deed|stead)|likewise|m(eanwhile|oreover)|n(amely|(ever|one)theless)|otherwise|rather|s(imilarly|till|ubsequently)|t(here(after|fore)|hus|ypically)
+                        <token regexp="yes">a(ccordingly|dditionally|l(so|as))|anyhow|besides|c(omparatively|on(sequent|verse)ly)|currently|e(lsewhere|qually)|f(inally|urther(more)?)|h(ence(forth)?|owever)|in(deed|stead)|likewise|m(eanwhile|oreover)|n(amely|(ever|one)theless)|otherwise|s(imilarly|till|ubsequently)|t(here(after|fore)|hus|ypically)
                             <exception negate_pos="yes" postag="RB">further</exception>
                         </token>
                     </marker>
-                    <token negate="yes" regexp="yes">[,:!\.\?\-\–]|and|or|&amp;</token>
+                    <token negate="yes" regexp="yes">[,:!\.\?\-\–…]|and|or|&amp;</token>
                 </pattern>
                 <message>Did you forget a comma after a conjunctive/linking adverb?</message>
                 <suggestion>\2,</suggestion>
@@ -37191,6 +37378,9 @@ The accident victim died from her injuries.
                 <example>Also specify your gender.</example>
                 <example>Also known as UCB, ...</example>
                 <example>Still the greatest.</example>
+                <example>Rather informal.</example>
+                <example>Finally </example>
+                <example>Besides death, there is life.</example>
                 <example>Also happens with other things.</example><!-- informal -->
                 <example>However you look at it, existing investors are likely to lose out.</example>
                 <example correction="Alas,"><marker>Alas</marker> James had finals and couldn’t attend.</example>
@@ -37228,7 +37418,9 @@ The accident victim died from her injuries.
                     <marker>
                         <token regexp="yes">addition|contrast|comparison</token>
                     </marker>
-                    <token negate="yes">,<exception regexp="yes">to|with</exception></token>
+                    <token negate="yes" regexp="yes">[,:!\.\?\-\–…]|and|or|&amp;
+                        <exception regexp="yes">to|with</exception>    
+                    </token>
                 </pattern>
                 <message>Did you forget a comma after a conjunctive/linking adverb?</message>
                 <suggestion>\3,</suggestion>
@@ -37822,6 +38014,10 @@ The accident victim died from her injuries.
             <antipattern>
                 <token case_sensitive="yes">IT</token>
             </antipattern>
+            <antipattern><!-- "to personal message someone" (informal) -->
+                <token>personal</token>
+                <token>message</token>
+            </antipattern>
             <antipattern>
                 <token postag="VB.*|UNKNOWN" postag_regexp="yes" />
                 <token regexp="yes">it|you|s?he|we|they|I</token>
@@ -37835,12 +38031,14 @@ The accident victim died from her injuries.
                     <token postag="MD">
                         <exception postag="VB.*" postag_regexp="yes" />
                     </token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token regexp="yes" min="0">(no)?t</token>
                     <marker>
                         <token regexp="yes">(im)?possible|probable|simple|(un)?comfortable|acceptable|sustainable|understandable|reliable|terrible|horrible|unbelievable|invisible|profitable|(un)?recognizable</token>
                     </marker>
                     <token postag="VBP?" postag_regexp="yes" />
                 </pattern>
-                <message>The word "\2" is an adjective and doesn't fit in this context. Did you mean the adverb <suggestion><match no="2" regexp_match="(?i)le$" regexp_replace="ly" /></suggestion>?</message>
+                <message>The word "\4" is an adjective and doesn't fit in this context. Did you mean the adverb <suggestion><match no="4" regexp_match="(?i)le$" regexp_replace="ly" /></suggestion>?</message>
                 <example correction="possibly">It could <marker>possible</marker> have something to do with his new car.</example>
                 <example correction="possibly">Nobody could <marker>possible</marker> live up to my list of demands.</example>
                 <example correction="reliably">Delves are different in that you can <marker>reliable</marker> run 3 delves every day.</example>
@@ -37861,33 +38059,19 @@ The accident victim died from her injuries.
                 <example>Is it possible going there without wearing a jacket?</example>
                 <example>Finally, are we comfortable transacting with the entity that has no assets, but rather is simply backed by a guaranty.</example>
             </rule>
-            <rule><!-- to + adjective ending in "le" + VB -->
-                <pattern>
-                    <token>to</token>
-                    <marker>
-                        <token regexp="yes">(im)?possible|probable|simple|(un)?comfortable|acceptable|sustainable|understandable|reliable|terrible|horrible|unbelievable|invisible|profitable|(un)?recognizable</token>
-                    </marker>
-                    <token postag="VB[GP]?" postag_regexp="yes">
-                        <exception postag="JJ.*|NN.*|DT|PRP\$?" postag_regexp="yes" />
-                    </token>
-                </pattern>
-                <message>The word "\2" is an adjective and doesn't fit in this context. Did you mean the adverb <suggestion><match no="2" regexp_match="(?i)le" regexp_replace="ly" /></suggestion>?</message>
-                <example correction="sustainably">He tried to <marker>sustainable</marker> achieve a clean environment.</example>
-                <example correction="possibly">How to <marker>possible</marker> create wildcard certifcates and then renew them?</example>
-                <example>It is subject to unbelievable events.</example>
-                <example correction="possibly">I think we should give consideration to <marker>possible</marker> using Gary's expertise on a part-time basis in Bakersfield and relocate and fill his position in Texas.</example>
-            </rule>
             <rule><!-- MD + (easy|literary) + VB -->
                 <pattern>
                     <token postag="MD">
                         <exception postag="VB.*" postag_regexp="yes" />
                     </token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token regexp="yes" min="0">(no)?t</token>
                     <marker>
                         <token regexp="yes">easy|literary</token>
                     </marker>
                     <token postag="VBP?" postag_regexp="yes" />
                 </pattern>
-                <message>The word "\2" is an adjective and doesn't fit in this context. Did you mean the adverb <suggestion><match no="2" regexp_match="(?i)y$" regexp_replace="ily" /></suggestion>?</message>
+                <message>The word "\4" is an adjective and doesn't fit in this context. Did you mean the adverb <suggestion><match no="4" regexp_match="(?i)y$" regexp_replace="ily" /></suggestion>?</message>
                 <example correction="easily">Two weeks is way to fast, we could <marker>easy</marker> run out of resources and then the Mystics would not stop till caught up!</example>
                 <example correction="easily">The actual search zone could <marker>easy</marker> be used to search in both languages.</example>
             </rule>
@@ -37924,12 +38108,14 @@ The accident victim died from her injuries.
                     <token postag="MD">
                         <exception postag="VB.*" postag_regexp="yes" />
                     </token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token regexp="yes" min="0">(no)?t</token>
                     <marker>
                         <token regexp="yes">quick|immediate|potential|actual|(un)?usual|sexual|final|ultimate|obvious|personal|rightful</token>
                     </marker>
                     <token postag="VBP?" postag_regexp="yes" />
                 </pattern>
-                <message>The word "\2" is an adjective and doesn't fit in this context. Did you mean the adverb <suggestion><match no="2" regexp_match="$" regexp_replace="ly" /></suggestion>?</message>
+                <message>The word "\4" is an adjective and doesn't fit in this context. Did you mean the adverb <suggestion><match no="4" regexp_match="$" regexp_replace="ly" /></suggestion>?</message>
                 <example correction="quickly">Two weeks is way to fast, we could <marker>quick</marker> run out of resources and then the Mystics would not stop till caught up!</example>
                 <example correction="quickly">Would be nice if you could <marker>quick</marker> test/fix it for next release.</example>
                 <example correction="sexually">He could <marker>sexual</marker> assault her.</example>
@@ -37970,12 +38156,14 @@ The accident victim died from her injuries.
                     <token postag="MD">
                         <exception postag="VB.*" postag_regexp="yes" />
                     </token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token regexp="yes" min="0">(no)?t</token>
                     <marker>
                         <token regexp="yes">automatic|accident</token>
                     </marker>
                     <token postag="VBP?" postag_regexp="yes" />
                 </pattern>
-                <message>The word "\2" is an adjective and doesn't fit in this context. Did you mean the adverb <suggestion><match no="2" regexp_match="$" regexp_replace="ally" /></suggestion>?</message>
+                <message>The word "\4" is an adjective and doesn't fit in this context. Did you mean the adverb <suggestion><match no="4" regexp_match="$" regexp_replace="ally" /></suggestion>?</message>
                 <example correction="automatically">Two weeks is way to fast, we could <marker>automatic</marker> run out of resources and then the Mystics would not stop till caught up!</example>
             </rule>
             <rule><!-- PRP + automatic|accident + VB -->
