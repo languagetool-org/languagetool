@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.en.translation;
 
-import org.jetbrains.annotations.Nullable;
 import org.languagetool.GlobalConfig;
 import org.languagetool.rules.translation.DataSource;
 import org.languagetool.rules.translation.TranslationEntry;
@@ -44,7 +43,6 @@ public class BeoLingusTranslator implements Translator {
   private final Map<String,List<TranslationEntry>> de2en = new HashMap<>();
   private final Map<String,List<TranslationEntry>> en2de = new HashMap<>();
 
-  @Nullable
   static synchronized public BeoLingusTranslator getInstance(GlobalConfig globalConfig) throws IOException {
     if (instance == null && globalConfig != null && globalConfig.getBeolingusFile() != null) {
       long t1 = System.currentTimeMillis();
@@ -80,6 +78,7 @@ public class BeoLingusTranslator implements Translator {
   }
 
   private void handleItem(Map<String, List<TranslationEntry>> map, String[] germanParts, String[] englishParts, int i, String germanPart) {
+    germanPart = germanPart.replaceAll("/.*?/", "");    // e.g. "oder {conj} /o.; od./"
     List<String> germanSubParts = split(germanPart);
     for (String germanSubPart : germanSubParts) {
       String key = cleanForLookup(germanSubPart);
@@ -92,7 +91,7 @@ public class BeoLingusTranslator implements Translator {
         l.add(new TranslationEntry(split(germanPart), split(englishParts[i]), germanParts.length));
         map.put(key, l);
       }
-      //System.out.println(cleanForLookup(germanSubPart) + " ==> " + new Entry(germanPart, englishParts[i]));
+      //System.out.println(cleanForLookup(germanSubPart) + " ==> " + new TranslationEntry(split(germanPart), split(englishParts[i]), germanParts.length));
     }
   }
 
@@ -127,6 +126,7 @@ public class BeoLingusTranslator implements Translator {
     return s.replaceAll("\\{.*?\\}", "")
             .replaceAll("\\[.*?\\]", "")
             .replaceAll("\\(.*?\\)", "")
+            .replaceAll("/.*?/\\b", "")   // abbreviations, e.g. "oder {conj} /o.; od./"
             .trim()
             .toLowerCase();
   }
