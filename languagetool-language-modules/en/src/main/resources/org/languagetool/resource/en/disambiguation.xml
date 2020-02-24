@@ -8,6 +8,7 @@
     <!ENTITY file_name_extensions "asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|yaml|yml|zip|zipx">
     <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
     <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
+    <!ENTITY hispanic_nnp "Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad|Torre|Camino">
 ]>
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -4893,7 +4894,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="NNP_CIUDAD_DE" name="NNP for Spanish names containing 'de'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad</token>
+                <token regexp="yes">&hispanic_nnp;</token>
                 <token>de</token>
                 <token regexp="yes" min="0">[Ll]a</token>
                 <token regexp="yes">[A-Z].+</token>
@@ -4905,7 +4906,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="NNP_CIUDAD_DEL" name="NNP for Spanish geo names containing 'del'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad</token>
+                <token regexp="yes">&hispanic_nnp;</token>
                 <token>del</token>
                 <token regexp="yes">[A-Z].+</token>
             </marker>
@@ -6640,7 +6641,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="IGNORE_SPELLING_OF_CIUDAD_DE" name="Ignore spelling of Hispanic names containing 'de'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad</token>
+                <token regexp="yes">&hispanic_nnp;</token>
                 <token>de</token>
                 <token regexp="yes" min="0">[Ll]a|[Ll][eoa]s</token>
             </marker>
@@ -6652,7 +6653,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="IGNORE_SPELLING_OF_CIUDAD" name="Ignore spelling of Hispanic names containing 'del'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os|Villas|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad</token>
+                <token regexp="yes">&hispanic_nnp;</token>
                 <token regexp="yes">[Dd]el</token>
             </marker>
             <token regexp="yes">[A-Z].+</token>
@@ -9406,6 +9407,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <pattern>
             <token>camino</token>
             <token regexp="yes">real(e?s)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="names with 'de'" id="DE_NAMES">
+        <pattern>
+            <token>de</token>
+            <token case_sensitive="yes">Blasio</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
