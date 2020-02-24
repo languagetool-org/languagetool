@@ -38059,6 +38059,22 @@ The accident victim died from her injuries.
                 <example>Is it possible going there without wearing a jacket?</example>
                 <example>Finally, are we comfortable transacting with the entity that has no assets, but rather is simply backed by a guaranty.</example>
             </rule>
+            <rule><!-- to + adjective ending in "le" + VB -->
+                <pattern>
+                    <token>to</token>
+                    <marker>
+                        <token regexp="yes">(im)?possible|probable|simple|(un)?comfortable|acceptable|sustainable|understandable|reliable|terrible|horrible|unbelievable|invisible|profitable|(un)?recognizable</token>
+                    </marker>
+                    <token postag="VB[GP]?" postag_regexp="yes">
+                        <exception postag="JJ.*|NN.*|DT|PRP\$?" postag_regexp="yes" />
+                    </token>
+                </pattern>
+                <message>The word "\2" is an adjective and doesn't fit in this context. Did you mean the adverb <suggestion><match no="2" regexp_match="(?i)le" regexp_replace="ly" /></suggestion>?</message>
+                <example correction="sustainably">He tried to <marker>sustainable</marker> achieve a clean environment.</example>
+                <example correction="possibly">How to <marker>possible</marker> create wildcard certifcates and then renew them?</example>
+                <example>It is subject to unbelievable events.</example>
+                <example correction="possibly">I think we should give consideration to <marker>possible</marker> using Gary's expertise on a part-time basis in Bakersfield and relocate and fill his position in Texas.</example>
+            </rule>
             <rule><!-- MD + (easy|literary) + VB -->
                 <pattern>
                     <token postag="MD">
