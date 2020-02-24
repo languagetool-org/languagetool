@@ -93,14 +93,19 @@ public class ProhibitedCompoundRule extends Rule {
           "Holzstele",
           "Brandschutz",
           "Testbahn",
+          "Testbahnen",
           "Reiszwecke",
+          "Reiszwecken",
           "Startglocke",
+          "Startglocken",
           "Ladepunkte",
           "Kinderpreise",
           "Kinderpreisen",
           "Belegungsoptionen",
           "Brandgebiete",
+          "Brandgebieten",
           "Innenfell",
+          "Innenfelle",
           "Batteriepreis",
           "Alltagsschuhe",
           "Alltagsschuhen",
@@ -108,6 +113,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Arbeiterschuhen",
           "Bartvogel",
           "Abschiedsmail",
+          "Abschiedsmails",
           "Wohnindex",
           "Entwicklungsstudio",
           "Ermittlungsgesetz",
@@ -115,7 +121,11 @@ public class ProhibitedCompoundRule extends Rule {
           "Stromspender",
           "Turmvverlag",  // eigtl. Turm-Verlag, muss hier als Ausnahme aber so stehen
           "Bäckerlunge",
-          "Reisbeutel"
+          "Reisbeutel",
+          "Reisbeuteln",
+          "Reisbeutels",
+          "Fellnase",
+          "Fellnasen"
   ));
 
   // have per-class static list of these and reference that in instance
