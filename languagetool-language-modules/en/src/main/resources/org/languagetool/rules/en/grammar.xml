@@ -1391,6 +1391,34 @@ USA
             <example correction="In other words"><marker>Another words</marker>, he is an ideal husband.</example>
         </rule>
         <rulegroup id="BEING_BEGIN" name="being (begin)">
+            <antipattern>
+                <token regexp="yes">human|other|living|higher|outlandish|alien|individual|mortal|supernatural|supreme|well|light|fellow|celestial|primordial|sentient|subhuman|superior|social|world|fairy|in|divine|deficient</token>
+                <token>beings</token>
+            </antipattern>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">it|s?he</token>
+                    <token postag="RB.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>beings</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the verb <suggestion>begins</suggestion>?</message>
+                <example correction="begins">It <marker>beings</marker> to rain.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>beings</token>
+                    </marker>
+                    <token>to</token>
+                    <token postag="VBP?" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean the verb <suggestion>begins</suggestion>?</message>
+                <example correction="begins">So something happens and the macro <marker>beings</marker> to fail.</example>
+                <example correction="begins">It happens before it <marker>beings</marker> to rain.</example>
+                <example>What is it that allows human beings to think the way we do?</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -26225,36 +26253,6 @@ USA
                 </pattern>
                 <message>The word "\2" is a noun and adjective. Did you mean the verb <suggestion><match no="3" regexp_match="(?i)t" regexp_replace="d" /></suggestion>?</message>
                 <example correction="bends">She <marker>bents</marker> down.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="BEINGS_BEGINS" name="It beings (begins) to rain" default="temp_off">
-            <antipattern>
-                <token regexp="yes">human|other|living|higher|outlandish|alien|individual|mortal|supernatural|supreme|well|light|fellow|celestial|primordial|sentient|subhuman|superior|social|world|fairy|in|divine|deficient</token>
-                <token>beings</token>
-            </antipattern>
-            <rule>
-                <pattern>
-                    <token regexp="yes">it|s?he</token>
-                    <token postag="RB.*" postag_regexp="yes" min="0" />
-                    <marker>
-                        <token>beings</token>
-                    </marker>
-                </pattern>
-                <message>Did you mean the verb <suggestion>begins</suggestion>?</message>
-                <example correction="begins">It <marker>beings</marker> to rain.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>beings</token>
-                    </marker>
-                    <token>to</token>
-                    <token postag="VBP?" postag_regexp="yes" />
-                </pattern>
-                <message>Did you mean the verb <suggestion>begins</suggestion>?</message>
-                <example correction="begins">So something happens and the macro <marker>beings</marker> to fail.</example>
-                <example correction="begins">It happens before it <marker>beings</marker> to rain.</example>
-                <example>What is it that allows human beings to think the way we do?</example>
             </rule>
         </rulegroup>
         <rulegroup id="EMPHASIS_EMPHASIZE" name="I emphasis (emphasize)" default="temp_off">
