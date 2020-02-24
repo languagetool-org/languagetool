@@ -37,7 +37,6 @@ import javax.net.ssl.SSLException;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.Callable;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -105,6 +104,11 @@ public class BERTSuggestionRanking extends RemoteRule {
       for (AnalyzedSentence sentence : sentences) {
         RuleMatch[] sentenceMatches = wrappedRule.match(sentence);
         for (RuleMatch match : sentenceMatches) {
+          if (suggestionLimit > 0) {
+            List<SuggestedReplacement> suggestions =  match.getSuggestedReplacementObjects();
+            suggestions = suggestions.subList(0, Math.min(suggestions.size(), suggestionLimit));
+            match.setSuggestedReplacementObjects(suggestions);
+          }
           // build request before correcting offset, as we send only sentence as text
           requests.add(buildRequest(match));
           match.setOffsetPosition(match.getFromPos() + offset, match.getToPos() + offset);
@@ -142,27 +146,21 @@ public class BERTSuggestionRanking extends RemoteRule {
         return new RemoteRuleResult(false, matches);
       } else {
         List<List<Double>> results = model.batchScore(requests);
-        Comparator<Pair<String, Double>> suggestionOrdering = Comparator.comparing(Pair::getRight);
+        Comparator<Pair<SuggestedReplacement, Double>> suggestionOrdering = Comparator.comparing(Pair::getRight);
         suggestionOrdering = suggestionOrdering.reversed();
 
         for (int i = 0; i < indices.size(); i++) {
           List<Double> scores = results.get(i);
           RemoteLanguageModel.Request req = requests.get(i);
           RuleMatch match = matches.get(indices.get(i).intValue());
-          List<String> ranked = Streams.zip(req.candidates.stream(), scores.stream(), Pair::of)
+          List<SuggestedReplacement> ranked = Streams
+            .zip(match.getSuggestedReplacementObjects().stream(), scores.stream(), Pair::of)
             .sorted(suggestionOrdering)
             .map(Pair::getLeft)
             .collect(Collectors.toList());
-          List<SuggestedReplacement> reranked = new LinkedList<>();
-          Map<String, SuggestedReplacement> suggestions = match.getSuggestedReplacementObjects().stream()
-            .collect(Collectors.toMap(SuggestedReplacement::getReplacement, Function.identity()));
-          for (String suggestionString : ranked) {
-            SuggestedReplacement suggestionObject = suggestions.get(suggestionString);
-            reranked.add(suggestionObject);
-          }
           String error = req.text.substring(req.start, req.end);
           logger.info("Reordered correction for '{}' from {} to {}", error, req.candidates, ranked);
-          match.setSuggestedReplacementObjects(reranked);
+          match.setSuggestedReplacementObjects(ranked);
         }
         return new RemoteRuleResult(true, matches);
       }
@@ -173,9 +171,6 @@ public class BERTSuggestionRanking extends RemoteRule {
   private RemoteLanguageModel.Request buildRequest(RuleMatch match) {
     List<String> suggestions = match.getSuggestedReplacements();
     if (suggestions != null && suggestions.size() > 1) {
-      if (suggestionLimit > 0) {
-        suggestions = suggestions.subList(0, Math.min(suggestions.size(), suggestionLimit));
-      }
       return new RemoteLanguageModel.Request(
         match.getSentence().getText(), match.getFromPos(), match.getToPos(), suggestions);
     } else {
