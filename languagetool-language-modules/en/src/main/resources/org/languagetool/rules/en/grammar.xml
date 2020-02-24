@@ -37239,6 +37239,16 @@ The accident victim died from her injuries.
             </rule>
         </rulegroup>
         <rulegroup id="MISSING_HYPHEN" name="Missing hyphens in compounds">
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="CD" />
+                    <token>year</token>
+                    <token>olds</token>
+                </pattern>
+                <message>It seems that hyphens are missing</message>
+                <suggestion>\1-\2-\3</suggestion>
+                <example correction="five-year-olds">All <marker>five year olds</marker> were preparing for pre-school.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">an?|the|my|his|her|its|their|our|your|s</token>
