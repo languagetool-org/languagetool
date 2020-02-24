@@ -379,7 +379,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
     }
  
-    boolean preventFurtherSuggestions = false;
+    int translationSuggestionCount = 0;
     if (ruleMatch == null && motherTongue != null) {
       TranslationData tData = getTranslation(word, motherTongue.getShortCode(), language.getShortCode());
       if (tData != null) {
@@ -392,8 +392,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             l.add(new SuggestedReplacement(cleanTranslationForReplace(s), String.join(", ", translation.getL1()), s));
           }
         }
-        ruleMatch.setSuggestedReplacementObjects(l);
-        preventFurtherSuggestions = true;
+        if (l.size() > 0) {
+          ruleMatch.setSuggestedReplacementObjects(l);
+          translationSuggestionCount = l.size();
+        }
       }
     }
     
@@ -435,7 +437,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
       defaultSuggestions.addAll(getAdditionalSuggestions(defaultSuggestions, word));
 
-      if (!(defaultSuggestions.isEmpty() && userSuggestions.isEmpty()) && !preventFurtherSuggestions) {
+      if (!(defaultSuggestions.isEmpty() && userSuggestions.isEmpty())) {
         defaultSuggestions = filterSuggestions(defaultSuggestions, sentence, idx);
         filterDupes(userSuggestions);
         defaultSuggestions = orderSuggestions(defaultSuggestions, word);
@@ -457,6 +459,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           }
         } else {
           addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, null, ruleMatch);
+        }
+        if (translationSuggestionCount > 0 && ruleMatch.getSuggestedReplacements().size() > translationSuggestionCount) {
+          RuleMatch newRuleMatch = new RuleMatch(ruleMatch.getRule(), ruleMatch.getSentence(), ruleMatch.getFromPos(), ruleMatch.getToPos(),
+            messages.getString("spelling") + " Translations to English are also offered.");
+          newRuleMatch.setSuggestedReplacementObjects(ruleMatch.getSuggestedReplacementObjects());
+          ruleMatch = newRuleMatch;
         }
       }
     } else {
