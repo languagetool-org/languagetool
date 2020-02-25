@@ -78,8 +78,8 @@ public class DictionaryMatchFilterTest {
   private boolean isForbiddenWordMatch(String word, RuleMatch match) {
     return match.getMessage().equals("Forbidden word: " + word);
   }
-  private boolean isSpellingMatch(String word, RuleMatch match) {
-    return match.getMessage().equals("Possible spelling mistake found");
+  private boolean isSpellingMatch(RuleMatch match) {
+    return match.getMessage().contains("Possible spelling mistake found");
   }
 
   @Test
@@ -96,10 +96,10 @@ public class DictionaryMatchFilterTest {
   @Test
   public void spellingRuleMatches() throws IOException {
     JLanguageTool lt = getLT(Collections.emptySet(), Collections.emptySet(), false);
-    assertTrue(isSpellingMatch("mistak", lt.check("This is a mistak").get(0)));
+    assertTrue(isSpellingMatch(lt.check("This is a mistak").get(0)));
     JLanguageTool lt2 = getLT(Collections.emptySet(), Sets.newHashSet("mistak"), true);
     assertEquals(lt2.check("This is a mistak.").size(), 0);
-    assertTrue(isSpellingMatch("mistke", lt2.check("This is another mistke.").get(0)));
+    assertTrue(isSpellingMatch(lt2.check("This is another mistke.").get(0)));
   }
 
   @Test
