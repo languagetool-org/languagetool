@@ -5283,6 +5283,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
         <rule id="PRPPOSS_VB_NN" name="Possessive pronoun + verb/noun =>noun">
+            <antipattern><!-- #2506 -->
+                <token>her</token>
+                <token>have</token>
+            </antipattern>
             <pattern>
                 <token postag="PRP$"/>
                 <marker>
@@ -5294,8 +5298,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig action="filter" postag="NN.*|JJ.*"/>
             <example type="untouched">I do what I want to.</example>
+            <example type="untouched">Grandy was really letting her have it tonight.</example><!-- #2506 -->
+            <example type="untouched">Well, Mom, you can let her have it tonight.</example><!-- #2506 -->
+            <example type="untouched">She said that what Rafe and her have is more than what Kate will ever have with ...</example><!-- #2506 have/E-NP-singular -->
+            <example type="untouched">The only option she and others like her have is to leave.</example><!-- #2506 -->
+            <example type="untouched">Incorrect grammar: which either Jane or her have.</example><!-- #2506 -->
             <example type="ambiguous" inputform="minds[mind/NNS,mind/VBZ]" outputform="minds[mind/NNS]">They should make up their <marker>minds</marker>!</example>
             <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Don't do anything against my <marker>will</marker>.</example>
+            <example type="ambiguous" inputform="books[book/NNS,book/VBZ]" outputform="books[book/NNS]">Her <marker>books</marker>, which are delightful, are some of my favourites.</example><!-- #2506 -->
+<!-- Was correctly disambiguated before the change for #2506. I tried to make APs such that this sentence is correctly disambiguated, but it became too complex <example type="ambiguous" inputform="have[have/NN,have/VB,have/VBP]" outputform="have[have/NN]">Her need is not the same as her <marker>have</marker> (or her want).</example> have/B-VP -->
         </rule>
 
         <rule id="PRPPOSS_VB_NN_VBZ" name="Possessive pronoun + verb/noun + verb sing/modal => noun">
