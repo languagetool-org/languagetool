@@ -43,6 +43,7 @@ import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtr
 import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.rules.translation.TranslationData;
 import org.languagetool.rules.translation.TranslationEntry;
+import org.languagetool.rules.translation.TranslationTools;
 import org.languagetool.tools.Tools;
 
 import static org.languagetool.JLanguageTool.*;
@@ -403,8 +404,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           String prevWord = idx > 0 ? tokens[idx-1].getToken() : null;
           for (TranslationEntry translation : tData.getTranslations()) {
             for (String s : translation.getL2()) {
-              String suffix = cleanTranslationForSuffix(s);
-              l.add(new SuggestedReplacement(cleanTranslationForReplace(s, prevWord), String.join(", ", translation.getL1()), suffix.isEmpty() ? null : suffix));
+              String suffix = TranslationTools.cleanTranslationForSuffix(s);
+              l.add(new SuggestedReplacement(TranslationTools.cleanTranslationForReplace(s, prevWord), String.join(", ", translation.getL1()), suffix.isEmpty() ? null : suffix));
             }
           }
           if (l.size() > 0) {
@@ -491,50 +492,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
  
     ruleMatches.add(ruleMatch);
     return ruleMatches;
-  }
-
-  String cleanTranslationForReplace(String s, String prevWord) {
-    String clean = s
-      .replaceAll("\\[.*?\\]", "")   // e.g. "[coll.]", "[Br.]"
-      .replaceAll("\\{.*?\\}", "")   // e.g. "to go {went; gone}"
-      .replaceAll("\\(.*?\\)", "")   // e.g. "icebox (old-fashioned)"
-      .replaceAll("/[A-Z]+/", "")    // e.g. "heavy goods vehicle /HGV/"
-      .trim();
-    if ("to".equals(prevWord) && clean.startsWith("to ")) {
-      return clean.substring(3);
-    }
-    return clean;
-  }
-
-  String cleanTranslationForSuffix(String s) {
-    StringBuilder sb = new StringBuilder();
-    List<String> lookingFor = new ArrayList<>();
-    for (int i = 0; i < s.length(); i++) {
-      char c = s.charAt(i);
-      if (c == '[') {
-        lookingFor.add("]");
-      } else if (c == ']' && lookingFor.contains("]")) {
-        sb.append(c);
-        sb.append(' ');
-        lookingFor.remove("]");
-      } else if (c == '(') {
-        lookingFor.add(")");
-      } else if (c == ')') {
-        sb.append(c);
-        sb.append(' ');
-        lookingFor.remove(")");
-      } else if (c == '{') {
-        lookingFor.add("}");
-      } else if (c == '}') {
-        sb.append(c);
-        sb.append(' ');
-        lookingFor.remove("}");
-      }
-      if (lookingFor.size() > 0) {
-        sb.append(c);
-      }
-    }
-    return sb.toString().trim();
   }
 
   /**
