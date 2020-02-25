@@ -29,6 +29,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -37,6 +38,7 @@ import java.util.stream.Collectors;
 public class BeoLingusTranslator implements Translator {
 
   private static final Logger logger = LoggerFactory.getLogger(BeoLingusTranslator.class);
+  private static final Pattern enUsPattern = Pattern.compile(".*?\\w+ \\[(Br|Am)\\.\\]/\\w+ \\[(Br|Am)\\.\\].*");
 
   private static BeoLingusTranslator instance;
 
@@ -95,8 +97,25 @@ public class BeoLingusTranslator implements Translator {
     }
   }
 
-  // split at ";", unless it's in "{...}":
+  // "tyre [Br.]/tire [Am.] pump" -> "tyre pump [Br.]" + "tire pump [Am.]"
   List<String> split(String s) {
+    List<String> parts = splitAtSemicolon(s);
+    List<String> newParts = new ArrayList<>();
+    for (String part : parts) {
+      if (enUsPattern.matcher(part).matches()) {
+        String variant1 = part.replaceFirst("^(.*?)(\\w+) (\\[(?:Br|Am)\\.\\])/\\w+ \\[(?:Br|Am)\\.\\](.*)", "$1$2$4 $3");
+        String variant2 = part.replaceFirst("^(.*?)(\\w+) (\\[(?:Br|Am)\\.\\])/(\\w+) (\\[(?:Br|Am)\\.\\])(.*)", "$1$4$6 $5");
+        newParts.add(variant1);
+        newParts.add(variant2);
+      } else {
+        newParts.add(part);
+      }
+    }
+    return newParts;
+  }
+
+  // split input like "family doctors; family physicians" at ";", unless it's in "{...}":
+  List<String> splitAtSemicolon(String s) {
     List<String> list = Arrays.stream(s.split(";\\s+")).map(k -> k.trim()).collect(Collectors.toList());
     List<String> mergedList = new ArrayList<>();
     int mergeListPos = 0;

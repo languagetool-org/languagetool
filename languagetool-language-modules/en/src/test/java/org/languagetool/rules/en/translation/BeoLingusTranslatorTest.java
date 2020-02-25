@@ -42,7 +42,7 @@ public class BeoLingusTranslatorTest {
   }
   
   @Test
-  public void testTranslate() throws IOException {
+  public void testTranslate() {
     List<TranslationEntry> result1 = translator.translate("Haus", "de", "en");
     assertThat(result1.size(), is(3));
     assertTrue(result1.get(0).getL2().contains("house"));
@@ -76,5 +76,20 @@ public class BeoLingusTranslatorTest {
     assertThat(translator.split("foo; bar { blah; blubb }; foo").toString(), is("[foo, bar { blah; blubb }, foo]"));
     assertThat(translator.split("foo; bar { blah; blubb; three four }; foo").toString(), is("[foo, bar { blah; blubb; three four }, foo]"));
   }
-  
+
+  @Test
+  public void testAmericanBritishVariants() {
+    List<TranslationEntry> result1 = translator.translate("Luftpumpe", "de", "en");
+    assertThat(result1.size(), is(1));
+    assertTrue(result1.get(0).getL2().contains("tyre pump [Br.]"));
+    assertTrue(result1.get(0).getL2().contains("tire pump [Am.]"));
+    assertTrue(result1.get(0).getL2().contains("tyre inflator [Br.]"));
+    assertTrue(result1.get(0).getL2().contains("tire inflator [Am.]"));
+
+    List<TranslationEntry> result2 = translator.translate("Testluftpumpe", "de", "en");
+    assertThat(result2.size(), is(1));
+    assertTrue(result2.get(0).getL2().contains("tyre pump [Br.]"));
+    assertTrue(result2.get(0).getL2().contains("tire pump [Am.]"));
+  }
+
 }
