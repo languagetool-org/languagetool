@@ -153,13 +153,18 @@ public class BERTSuggestionRanking extends RemoteRule {
           List<Double> scores = results.get(i);
           RemoteLanguageModel.Request req = requests.get(i);
           RuleMatch match = matches.get(indices.get(i).intValue());
+          String error = req.text.substring(req.start, req.end);
+          logger.info("Scored suggestions for '{}': {} -> {}", error, match.getSuggestedReplacements(), Streams
+            .zip(match.getSuggestedReplacementObjects().stream(), scores.stream(), Pair::of)
+            .sorted(suggestionOrdering)
+            .map(scored -> String.format("%s (%e)", scored.getLeft().getReplacement(), scored.getRight()))
+            .collect(Collectors.toList()));
           List<SuggestedReplacement> ranked = Streams
             .zip(match.getSuggestedReplacementObjects().stream(), scores.stream(), Pair::of)
             .sorted(suggestionOrdering)
             .map(Pair::getLeft)
             .collect(Collectors.toList());
-          String error = req.text.substring(req.start, req.end);
-          logger.info("Reordered correction for '{}' from {} to {}", error, req.candidates, ranked);
+          //logger.info("Reordered correction for '{}' from {} to {}", error, req.candidates, ranked);
           match.setSuggestedReplacementObjects(ranked);
         }
         return new RemoteRuleResult(true, matches);
