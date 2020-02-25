@@ -56,6 +56,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+import org.languagetool.tools.RuleMatchAsXmlSerializer;
 
 /**
  * @author Daniel Naber
@@ -555,9 +556,13 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   }
 
   private boolean match(Rule rule, String sentence, JLanguageTool lt) throws IOException {
-    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(sentence);
+    List<AnalyzedSentence> analyzedSentences = lt.analyzeText(sentence);
+    int matchCount = 0;
+    for (AnalyzedSentence analyzedSentence : analyzedSentences) {
     RuleMatch[] matches = rule.match(analyzedSentence);
-    return matches.length > 0;
+      matchCount += matches.length;
+    }
+    return matchCount > 0;
   }
 
   private List<RuleMatch> getMatches(Rule rule, String sentence, JLanguageTool lt) throws IOException {
