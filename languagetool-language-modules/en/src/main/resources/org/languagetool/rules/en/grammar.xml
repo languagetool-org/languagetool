@@ -18097,6 +18097,7 @@ USA
             <example correction="happens">What <marker>happen</marker> in Vegas, stays in Vegas.</example>
             <example>What make of computer do you use?</example>
         </rule>
+
         <rule id="IT_VBZ" name="'it' + non-3rd person verb">
             <antipattern>
                 <token postag_regexp="yes" postag="VBP?"/>
@@ -18179,6 +18180,35 @@ USA
                 <token>in</token>
                 <token>sync</token>
             </antipattern>
+            <antipattern><!-- #2507 www.lexico.com/definition/in_general -->
+                <token>in</token>
+                <token>general</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern><!-- #2507 -->
+                <token>in</token>
+                <token postag="SENT_END">general</token>
+            </antipattern>
+            <antipattern><!-- #2507 achieve it before bed -->
+                <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+                <token>it</token>
+                <token postag="IN"/>
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+            </antipattern>
+            <antipattern><!-- #2507 mentioned it in paragraph one -->
+                <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+                <token>it</token>
+                <token postag="IN"/>
+                <token chunk="B-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token chunk="E-NP-singular" postag="CD"/>
+            </antipattern>
+            <antipattern><!-- #2507 noted it in test samples -->
+                <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+                <token>it</token>
+                <token postag="IN"/>
+                <token chunk="B-NP-plural" postag_regexp="yes" postag="JJ|NN(:UN?)?"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+            </antipattern>
             <pattern>
                 <!-- 't': from "doesn't" etc -->
                 <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding|had</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
@@ -18201,6 +18231,7 @@ USA
             <example correction="keeps">I think it's a good thing because it <marker>keep</marker> us on our toes.</example>
             <example correction="becomes">The lights suddenly went out and it <marker>become</marker> dark.</example><!-- The suggestion is not correct; it should be 'became'. -->
             <example correction="works">I had to unpair it and re-pair it and it <marker>work</marker>…</example>
+            <example correction="generals">… many similar traits. They noted it in <marker>general</marker>, commanders, and other military personnel.</example><!-- #2507 -->
             <example>Does it <marker>support</marker> transparency?</example>
             <example>Doesn't it <marker>support</marker> transparency?</example>
             <example>The American publisher let it go out of print.</example>
@@ -18237,8 +18268,14 @@ USA
             <example>He's finding it very rough on the sea.</example><!-- #2154 -->
             <example>He keeps it in sync.</example><!-- #2154 -->
             <example>The buy it now button.</example>
+            <example>He mentioned it in paragraph one.</example><!-- #2507 -->
+            <example>He noted it in test samples.</example><!-- #2507 -->
+            <example>Let's achieve it before bed.</example><!-- #2507 -->
+            <example>He asked it in general.</example><!-- #2507 -->
+            <example>He asked it in general</example><!-- #2507 -->
             <example type="triggers_error">Si le grain ne meurt – 1926 (translated as If It Die)</example>
         </rule>
+
         <rulegroup id="DID_PAST" name="'did' with past tense verb">
             <rule>
                 <antipattern>
