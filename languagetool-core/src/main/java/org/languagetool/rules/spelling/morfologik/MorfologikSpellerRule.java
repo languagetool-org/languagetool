@@ -400,10 +400,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           ruleMatch.setType(RuleMatch.Type.Hint);
           ruleMatch.setSuggestedReplacements(new ArrayList<>());
           List<SuggestedReplacement> l = new ArrayList<>();
+          String prevWord = idx > 0 ? tokens[idx-1].getToken() : null;
           for (TranslationEntry translation : tData.getTranslations()) {
             for (String s : translation.getL2()) {
               String suffix = cleanTranslationForSuffix(s);
-              l.add(new SuggestedReplacement(cleanTranslationForReplace(s), String.join(", ", translation.getL1()), suffix.isEmpty() ? null : suffix));
+              l.add(new SuggestedReplacement(cleanTranslationForReplace(s, prevWord), String.join(", ", translation.getL1()), suffix.isEmpty() ? null : suffix));
             }
           }
           if (l.size() > 0) {
@@ -492,13 +493,17 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return ruleMatches;
   }
 
-  private String cleanTranslationForReplace(String s) {
-    return s
+  String cleanTranslationForReplace(String s, String prevWord) {
+    String clean = s
       .replaceAll("\\[.*?\\]", "")   // e.g. "[coll.]", "[Br.]"
       .replaceAll("\\{.*?\\}", "")   // e.g. "to go {went; gone}"
       .replaceAll("\\(.*?\\)", "")   // e.g. "icebox (old-fashioned)"
       .replaceAll("/[A-Z]+/", "")    // e.g. "heavy goods vehicle /HGV/"
       .trim();
+    if ("to".equals(prevWord) && clean.startsWith("to ")) {
+      return clean.substring(3);
+    }
+    return clean;
   }
 
   String cleanTranslationForSuffix(String s) {
