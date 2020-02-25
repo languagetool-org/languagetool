@@ -32,7 +32,7 @@ public class SuggestedReplacement {
 
   private String replacement;
   private String shortDescription;
-  private String displayValue;
+  private String suffix;
   private SortedMap<String, Float> features = Collections.emptySortedMap();
   private Float confidence = null;
   
@@ -44,15 +44,15 @@ public class SuggestedReplacement {
     this(replacement, shortDescription, null);
   }
 
-  public SuggestedReplacement(String replacement, String shortDescription, String displayValue) {
+  public SuggestedReplacement(String replacement, String shortDescription, String suffix) {
     this.replacement = Objects.requireNonNull(replacement);
     this.shortDescription = shortDescription;
-    this.displayValue = displayValue;
+    this.suffix = suffix;
   }
 
   public SuggestedReplacement(SuggestedReplacement repl) {
     this.replacement = repl.replacement;
-    this.displayValue = repl.displayValue;
+    this.suffix = repl.suffix;
     setShortDescription(repl.getShortDescription());
     setConfidence(repl.getConfidence());
     setFeatures(repl.getFeatures());
@@ -66,6 +66,7 @@ public class SuggestedReplacement {
     this.replacement = Objects.requireNonNull(replacement);
   }
 
+  @Nullable
   public String getShortDescription() {
     return shortDescription;
   }
@@ -75,14 +76,15 @@ public class SuggestedReplacement {
   }
 
   /**
-   * Value shown in the UI. What actually gets replaced might be different, see {@link #getReplacement()} for that.
+   * Value shown in the UI after the replacement (but not part of it).
    */
-  public String getDisplayValue() {
-    return displayValue;
+  @Nullable
+  public String getSuffix() {
+    return suffix;
   }
 
-  public void setDisplayValue(String val) {
-    this.displayValue = val;
+  public void setSuffix(String val) {
+    this.suffix = val;
   }
 
   @Override

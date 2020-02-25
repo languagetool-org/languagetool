@@ -389,7 +389,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         List<SuggestedReplacement> l = new ArrayList<>();
         for (TranslationEntry translation : tData.getTranslations()) {
           for (String s : translation.getL2()) {
-            l.add(new SuggestedReplacement(cleanTranslationForReplace(s), String.join(", ", translation.getL1()), s));
+            String suffix = cleanTranslationForSuffix(s);
+            l.add(new SuggestedReplacement(cleanTranslationForReplace(s), String.join(", ", translation.getL1()), suffix.isEmpty() ? null : suffix));
           }
         }
         if (l.size() > 0) {
@@ -483,6 +484,37 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       .replaceAll("\\(.*?\\)", "")   // e.g. "icebox (old-fashioned)"
       .replaceAll("/[A-Z]+/", "")    // e.g. "heavy goods vehicle /HGV/"
       .trim();
+  }
+
+  String cleanTranslationForSuffix(String s) {
+    StringBuilder sb = new StringBuilder();
+    List<String> lookingFor = new ArrayList<>();
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      if (c == '[') {
+        lookingFor.add("]");
+      } else if (c == ']' && lookingFor.contains("]")) {
+        sb.append(c);
+        sb.append(' ');
+        lookingFor.remove("]");
+      } else if (c == '(') {
+        lookingFor.add(")");
+      } else if (c == ')') {
+        sb.append(c);
+        sb.append(' ');
+        lookingFor.remove(")");
+      } else if (c == '{') {
+        lookingFor.add("}");
+      } else if (c == '}') {
+        sb.append(c);
+        sb.append(' ');
+        lookingFor.remove("}");
+      }
+      if (lookingFor.size() > 0) {
+        sb.append(c);
+      }
+    }
+    return sb.toString().trim();
   }
 
   /**

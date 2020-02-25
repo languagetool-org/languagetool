@@ -1022,7 +1022,7 @@ public class JLanguageTool {
       if (replacement.getShortDescription() == null) {  // don't overwrite more specific suggestions from the rule
         String descOrNull = descProvider.getShortDescription(replacement.getReplacement(), language);
         newReplacement.setShortDescription(descOrNull);
-        newReplacement.setDisplayValue(replacement.getDisplayValue());
+        newReplacement.setSuffix(replacement.getSuffix());
       }
       extended.add(newReplacement);
     }
