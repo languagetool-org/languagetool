@@ -38,7 +38,7 @@ class UnicodeBasedLangIdentifier {
 
   List<String> getAdditionalLangCodes(String str) {
     int cyrillicChars = 0;
-    int chineseChars = 0;
+    int cjkChars = 0;
     int significantChars = 0;
     for (int i = 0; i < Math.min(str.length(), maxCheckLength); i++) {
       int numericValue = str.charAt(i);
@@ -48,23 +48,26 @@ class UnicodeBasedLangIdentifier {
       if (numericValue >= 0x0400 && numericValue <= 0x04FF) {
         cyrillicChars++;
       }
-      if (numericValue >= 0x4E00 && numericValue <= 0x9FD5 ||  // https://de.wikipedia.org/wiki/Chinesische_Schrift
-          numericValue >= 0x3400 && numericValue <= 0x4DBF) {
-        chineseChars++;
+      if (numericValue >= 0x4E00 && numericValue <= 0x9FFF ||
+          numericValue >= 0x3040 && numericValue <= 0x309F ||
+          numericValue >= 0x30A0 && numericValue <= 0x30FF) {  // https://de.wikipedia.org/wiki/Japanische_Schrift
+        // there might be a better way to tell Chinese from Japanese, but we rely
+        // on the actual language identifier in a later step, so finding candidates is enough here
+        cjkChars++;
       }
     }
     List<String> langCodes = new ArrayList<>();
     float cyrillicCharsRate = (float)cyrillicChars / significantChars;
-    //System.out.println("cyrillicCharsRate: " + cyrillicCharsRate + " (" + cyrillicChars + "/" + significantChars + ")");
     if (cyrillicCharsRate >= THRESHOLD) {
       langCodes.add("ru");
       langCodes.add("uk");
       langCodes.add("be");
     }
-    float chineseCharsRate = (float)chineseChars / significantChars;
-    //System.out.println("chineseCharsRate: " + chineseCharsRate + " (" + chineseChars + "/" + significantChars + ")");
-    if (chineseCharsRate >= THRESHOLD) {
+    float cjkCharsRate = (float)cjkChars / significantChars;
+    if (cjkCharsRate >= THRESHOLD) {
       langCodes.add("zh");
+      langCodes.add("ja");
+      // Korean is not supported by LT, do we don't add it
     }
     return langCodes;
   }

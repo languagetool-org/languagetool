@@ -28,9 +28,9 @@ public class UnicodeBasedLangIdentifierTest {
   private final UnicodeBasedLangIdentifier ident = new UnicodeBasedLangIdentifier(100);
 
   @Test
-  public void testIsCyrillic() {
+  public void testGetAdditionalLangCodes() {
     String cyrillic = "[ru, uk, be]";
-    String chinese = "[zh]";
+    String cjk = "[zh, ja]";
 
     assertThat(codes(""), is("[]"));
     assertThat(codes(" "), is("[]"));
@@ -53,9 +53,15 @@ public class UnicodeBasedLangIdentifierTest {
     assertThat(codes("проверяет ваше правописание на более чем 20 языках" +
                      "Here's some English text"), is(cyrillic));
 
-    assertThat(codes("您的意思是"), is(chinese));
-    assertThat(codes("Linux嚴格來說是單指作業系統的内核"), is(chinese));
+    // Chinese:
+    // accept ambiguity here, we assume the actual language identifier will tell Chinese from Japanese
+    assertThat(codes("您的意思是"), is(cjk));
+    assertThat(codes("Linux嚴格來說是單指作業系統的内核"), is(cjk));
     assertThat(codes("通常情况下 but here's more text with Latin characters"), is("[]"));
+    // Japanese:
+    assertThat(codes("Linux（リナックス、他の読みは後述）とは、Unix系オペレーティングシステムカーネル"), is(cjk));
+    assertThat(codes("1990年代はFreeBSDと比較して安定性に劣ると言われてきたが"), is(cjk));
+    assertThat(codes("リーナス・トーバルズはカーネル開"), is(cjk));
   }
 
   private String codes(String s) {
