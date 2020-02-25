@@ -62,6 +62,17 @@ public class UnicodeBasedLangIdentifierTest {
     assertThat(codes("Linux（リナックス、他の読みは後述）とは、Unix系オペレーティングシステムカーネル"), is(cjk));
     assertThat(codes("1990年代はFreeBSDと比較して安定性に劣ると言われてきたが"), is(cjk));
     assertThat(codes("リーナス・トーバルズはカーネル開"), is(cjk));
+
+    // Khmer:
+    assertThat(codes("ហើយដោយ​ព្រោះ​"), is("[km]"));
+
+    // Tamil:
+    assertThat(codes("லேங்குவேஜ்"), is("[ta]"));
+
+    // Greek:
+    assertThat(codes("Το Linux μπορεί να εγκατασταθεί και"), is("[el]"));
+    assertThat(codes("Δημιουργός του πυρήνα Linux είναι ο"), is("[el]"));
+    assertThat(codes("Ο Τόρβαλντς ξεκίνησε"), is("[el]"));
   }
 
   private String codes(String s) {
