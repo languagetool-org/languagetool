@@ -380,22 +380,37 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     }
  
     int translationSuggestionCount = 0;
+    boolean preventFurtherSuggestions = false;
     if (ruleMatch == null && motherTongue != null) {
-      TranslationData tData = getTranslation(word, motherTongue.getShortCode(), language.getShortCode());
-      if (tData != null) {
-        ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(), "Translate to English?");
-        ruleMatch.setType(RuleMatch.Type.Hint);
-        ruleMatch.setSuggestedReplacements(new ArrayList<>());
-        List<SuggestedReplacement> l = new ArrayList<>();
-        for (TranslationEntry translation : tData.getTranslations()) {
-          for (String s : translation.getL2()) {
-            String suffix = cleanTranslationForSuffix(s);
-            l.add(new SuggestedReplacement(cleanTranslationForReplace(s), String.join(", ", translation.getL1()), suffix.isEmpty() ? null : suffix));
-          }
+      List<String> phrasesToTranslate = new ArrayList<>();
+      int translationEndPos = startPos + word.length();
+      if (idx + 1 < tokens.length) {
+        String nextWord = tokens[idx + 1].getToken();
+        if (isMisspelled(nextWord)) {
+          phrasesToTranslate.add(word + " " + nextWord);
+          translationEndPos = tokens[idx + 1].getEndPos();
+          preventFurtherSuggestions = true;  // mark gets extended, so suggestions for the original marker won't make sense
         }
-        if (l.size() > 0) {
-          ruleMatch.setSuggestedReplacementObjects(l);
-          translationSuggestionCount = l.size();
+      }
+      phrasesToTranslate.add(word);
+      for (String phraseToTranslate : phrasesToTranslate) {
+        TranslationData tData = getTranslation(phraseToTranslate, motherTongue.getShortCode(), language.getShortCode());
+        if (tData != null) {
+          ruleMatch = new RuleMatch(this, sentence, startPos, translationEndPos, "Translate to English?");
+          ruleMatch.setType(RuleMatch.Type.Hint);
+          ruleMatch.setSuggestedReplacements(new ArrayList<>());
+          List<SuggestedReplacement> l = new ArrayList<>();
+          for (TranslationEntry translation : tData.getTranslations()) {
+            for (String s : translation.getL2()) {
+              String suffix = cleanTranslationForSuffix(s);
+              l.add(new SuggestedReplacement(cleanTranslationForReplace(s), String.join(", ", translation.getL1()), suffix.isEmpty() ? null : suffix));
+            }
+          }
+          if (l.size() > 0) {
+            ruleMatch.setSuggestedReplacementObjects(l);
+            translationSuggestionCount = l.size();
+            break;  // let's assume the first phrase is the best because it's longer
+          }
         }
       }
     }
@@ -438,7 +453,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
       defaultSuggestions.addAll(getAdditionalSuggestions(defaultSuggestions, word));
 
-      if (!(defaultSuggestions.isEmpty() && userSuggestions.isEmpty())) {
+      if (!(defaultSuggestions.isEmpty() && userSuggestions.isEmpty()) && !preventFurtherSuggestions) {
         defaultSuggestions = filterSuggestions(defaultSuggestions, sentence, idx);
         filterDupes(userSuggestions);
         defaultSuggestions = orderSuggestions(defaultSuggestions, word);
