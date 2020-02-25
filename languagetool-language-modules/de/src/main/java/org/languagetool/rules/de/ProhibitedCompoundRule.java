@@ -125,7 +125,30 @@ public class ProhibitedCompoundRule extends Rule {
           "Reisbeuteln",
           "Reisbeutels",
           "Fellnase",
-          "Fellnasen"
+          "Fellnasen",
+          "Kletterwald",
+          "Kletterwalds",
+          "Lusthöhle",
+          "Lusthöhlen",
+          "Abschlagswert",
+          "Schuhfach",
+          "Schuhfächer",
+          "Spülkanüle",
+          "Spülkanülen",
+          "Tankkosten",
+          "Hangout",
+          "Hangouts",
+          "Kassenloser",
+          "kassenloser",
+          "Reisnadel",
+          "Reisnadeln",
+          "stielloses",
+          "stielloser",
+          "stiellosen",
+          "Beiratsregelung",
+          "Beiratsregelungen",
+          "Kreiskongress",
+          "Lagekosten"
   ));
 
   // have per-class static list of these and reference that in instance
