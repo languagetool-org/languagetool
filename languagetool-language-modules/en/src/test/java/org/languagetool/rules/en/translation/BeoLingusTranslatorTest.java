@@ -90,6 +90,11 @@ public class BeoLingusTranslatorTest {
     assertThat(result2.size(), is(1));
     assertTrue(result2.get(0).getL2().contains("tyre pump [Br.]"));
     assertTrue(result2.get(0).getL2().contains("tire pump [Am.]"));
+
+    List<TranslationEntry> result3 = translator.translate("Reifen wechseln", "de", "en");
+    assertThat(result3.size(), is(1));
+    assertTrue(result3.get(0).getL2().contains("to change the tyres [Br.]"));
+    assertTrue(result3.get(0).getL2().contains("to change the tires [Am.]"));
   }
 
 }

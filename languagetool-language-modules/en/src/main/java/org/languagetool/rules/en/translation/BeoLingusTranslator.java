@@ -38,7 +38,7 @@ import java.util.stream.Collectors;
 public class BeoLingusTranslator implements Translator {
 
   private static final Logger logger = LoggerFactory.getLogger(BeoLingusTranslator.class);
-  private static final Pattern enUsPattern = Pattern.compile(".*?\\w+ \\[(Br|Am)\\.\\]/\\w+ \\[(Br|Am)\\.\\].*");
+  private static final Pattern enUsPattern = Pattern.compile(".*?\\w+ \\[(Br|Am)\\.\\] ?/ ?\\w+ \\[(Br|Am)\\.\\].*");
 
   private static BeoLingusTranslator instance;
 
@@ -103,8 +103,8 @@ public class BeoLingusTranslator implements Translator {
     List<String> newParts = new ArrayList<>();
     for (String part : parts) {
       if (enUsPattern.matcher(part).matches()) {
-        String variant1 = part.replaceFirst("^(.*?)(\\w+) (\\[(?:Br|Am)\\.\\])/\\w+ \\[(?:Br|Am)\\.\\](.*)", "$1$2$4 $3");
-        String variant2 = part.replaceFirst("^(.*?)(\\w+) (\\[(?:Br|Am)\\.\\])/(\\w+) (\\[(?:Br|Am)\\.\\])(.*)", "$1$4$6 $5");
+        String variant1 = part.replaceFirst("^(.*?)(\\w+) (\\[(?:Br|Am)\\.\\]) ?/ ?\\w+ \\[(?:Br|Am)\\.\\](.*)", "$1$2$4 $3");
+        String variant2 = part.replaceFirst("^(.*?)(\\w+) (\\[(?:Br|Am)\\.\\]) ?/ ?(\\w+) (\\[(?:Br|Am)\\.\\])(.*)", "$1$4$6 $5");
         newParts.add(variant1);
         newParts.add(variant2);
       } else {
