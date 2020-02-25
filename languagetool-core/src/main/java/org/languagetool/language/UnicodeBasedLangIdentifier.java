@@ -18,36 +18,55 @@
  */
 package org.languagetool.language;
 
-class CyrillicIdentifier {
+import java.util.ArrayList;
+import java.util.List;
+
+class UnicodeBasedLangIdentifier {
 
   private static final int DEFAULT_MAX_CHECK_LENGTH = 50;
   private static final float THRESHOLD = 0.5f;
 
   private final int maxCheckLength;
 
-  CyrillicIdentifier() {
+  UnicodeBasedLangIdentifier() {
     this(DEFAULT_MAX_CHECK_LENGTH);
   }
 
-  CyrillicIdentifier(int maxCheckLength) {
+  UnicodeBasedLangIdentifier(int maxCheckLength) {
     this.maxCheckLength = maxCheckLength;
   }
 
-  boolean isCyrillic(String str) {
+  List<String> getAdditionalLangCodes(String str) {
     int cyrillicChars = 0;
+    int chineseChars = 0;
     int significantChars = 0;
     for (int i = 0; i < Math.min(str.length(), maxCheckLength); i++) {
       int numericValue = str.charAt(i);
       if (!Character.isWhitespace(numericValue) && !Character.isDigit(numericValue)) {
         significantChars++;
       }
-      if (numericValue > 1024 && numericValue < 1279) {
+      if (numericValue >= 0x0400 && numericValue <= 0x04FF) {
         cyrillicChars++;
       }
+      if (numericValue >= 0x4E00 && numericValue <= 0x9FD5 ||  // https://de.wikipedia.org/wiki/Chinesische_Schrift
+          numericValue >= 0x3400 && numericValue <= 0x4DBF) {
+        chineseChars++;
+      }
     }
+    List<String> langCodes = new ArrayList<>();
     float cyrillicCharsRate = (float)cyrillicChars / significantChars;
     //System.out.println("cyrillicCharsRate: " + cyrillicCharsRate + " (" + cyrillicChars + "/" + significantChars + ")");
-    return cyrillicCharsRate >= THRESHOLD;
+    if (cyrillicCharsRate >= THRESHOLD) {
+      langCodes.add("ru");
+      langCodes.add("uk");
+      langCodes.add("be");
+    }
+    float chineseCharsRate = (float)chineseChars / significantChars;
+    //System.out.println("chineseCharsRate: " + chineseCharsRate + " (" + chineseChars + "/" + significantChars + ")");
+    if (chineseCharsRate >= THRESHOLD) {
+      langCodes.add("zh");
+    }
+    return langCodes;
   }
 
 }

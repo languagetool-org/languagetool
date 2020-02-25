@@ -71,7 +71,7 @@ public class LanguageIdentifier {
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
   private final int maxLength;
-  private final CyrillicIdentifier cyrillicIdentifier = new CyrillicIdentifier();
+  private final UnicodeBasedLangIdentifier unicodeIdentifier = new UnicodeBasedLangIdentifier();
 
   private boolean fasttextEnabled = false;
   private Process fasttextProcess;
@@ -203,13 +203,9 @@ public class LanguageIdentifier {
     }
     String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
     shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
-    if (!preferredLangs.contains("ru") && !preferredLangs.contains("uk") && !preferredLangs.contains("be")) {
-      // Cyrillic is so different from Latin characters that we try to detect it even with preferredLangs not properly set:
-      if (cyrillicIdentifier.isCyrillic(text)) {
-        preferredLangs.add("ru");
-        preferredLangs.add("uk");
-        preferredLangs.add("be");
-      }
+    if (!preferredLangs.contains("ru") && !preferredLangs.contains("uk") && !preferredLangs.contains("be") && !preferredLangs.contains("zh")) {
+      // Cyrillic and Chinese are so different from Latin characters that we try to detect it even with preferredLangs not properly set:
+      preferredLangs.addAll(unicodeIdentifier.getAdditionalLangCodes(text));
     }
     Map.Entry<String,Double> result = null;
     if (fasttextEnabled) {
