@@ -5283,19 +5283,19 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
         <rule id="PRPPOSS_VB_NN" name="Possessive pronoun + verb/noun =>noun">
-          <pattern>
-            <token postag="PRP$"/>
-            <marker>
-            <and>
-              <token postag="NN.*" postag_regexp="yes"/>
-              <token postag="VB[PZ]?|MD" postag_regexp="yes"/>
-            </and>
-            </marker>
-          </pattern>
-          <disambig action="filter" postag="NN.*|JJ.*"/>
-          <example type="untouched">I do what I want to.</example>
-          <example type="ambiguous" inputform="minds[mind/NNS,mind/VBZ]" outputform="minds[mind/NNS]">They should make up their <marker>minds</marker>!</example>
-          <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Don't do anything against my <marker>will</marker>.</example>
+            <pattern>
+                <token postag="PRP$"/>
+                <marker>
+                    <and>
+                        <token postag="NN.*" postag_regexp="yes"/>
+                        <token postag="VB[PZ]?|MD" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NN.*|JJ.*"/>
+            <example type="untouched">I do what I want to.</example>
+            <example type="ambiguous" inputform="minds[mind/NNS,mind/VBZ]" outputform="minds[mind/NNS]">They should make up their <marker>minds</marker>!</example>
+            <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Don't do anything against my <marker>will</marker>.</example>
         </rule>
 
         <rule id="PRPPOSS_VB_NN_VBZ" name="Possessive pronoun + verb/noun + verb sing/modal => noun">
