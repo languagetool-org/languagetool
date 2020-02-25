@@ -19,7 +19,7 @@
 package org.languagetool.openoffice;
 
 /**
- * Helps detecting the language of strings by the Unicode range used by the characters.
+ * Helps to detect the language of strings by the Unicode range used by the characters.
  * @since 2.7
  */
 abstract class UnicodeLanguageDetector {

@@ -59,7 +59,11 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "so wir können",
     "wie zahlen sie",
     "war sich für nichts", // war sich für nichts zu schade
-    "ich drei bin" // seit ich drei bin.
+    "ich drei bin", // seit ich drei bin.
+    "was wird unser",
+    "die wird wieder",
+    "damit wir für",
+    "wie finden sie"
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {

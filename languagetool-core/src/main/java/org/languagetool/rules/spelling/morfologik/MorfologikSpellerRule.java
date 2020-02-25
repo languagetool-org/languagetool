@@ -35,11 +35,14 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
 import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
+import org.languagetool.rules.translation.TranslationData;
+import org.languagetool.rules.translation.TranslationEntry;
 import org.languagetool.tools.Tools;
 
 import static org.languagetool.JLanguageTool.*;
@@ -50,6 +53,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   protected MorfologikMultiSpeller speller2;
   protected MorfologikMultiSpeller speller3;
   protected Locale conversionLocale;
+  protected final Language motherTongue;
+  protected final GlobalConfig globalConfig;
 
   private final SuggestionsOrderer suggestionsOrderer;
   private final boolean runningExperiment;
@@ -79,13 +84,15 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   public MorfologikSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
-    this(messages, language, userConfig, altLanguages, null);
+    this(messages, language, null, userConfig, altLanguages, null, null);
   }
 
-  public MorfologikSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
-                               List<Language> altLanguages, LanguageModel languageModel) throws IOException {
+  public MorfologikSpellerRule(ResourceBundle messages, Language language, GlobalConfig globalConfig, UserConfig userConfig,
+                               List<Language> altLanguages, LanguageModel languageModel, Language motherTongue) throws IOException {
     super(messages, language, userConfig, altLanguages, languageModel);
+    this.globalConfig = globalConfig;
     this.userConfig = userConfig;
+    this.motherTongue = motherTongue;
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
     init();
@@ -167,6 +174,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     }
 
     return toRuleMatchArray(ruleMatches);
+  }
+
+  @Nullable
+  protected TranslationData getTranslation(String word, String sourceLang, String targetLang) throws IOException {
+    return null;
   }
 
   private boolean initSpellers() throws IOException {
@@ -367,7 +379,42 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
     }
  
-
+    int translationSuggestionCount = 0;
+    boolean preventFurtherSuggestions = false;
+    if (ruleMatch == null && motherTongue != null) {
+      List<String> phrasesToTranslate = new ArrayList<>();
+      int translationEndPos = startPos + word.length();
+      if (idx + 1 < tokens.length) {
+        String nextWord = tokens[idx + 1].getToken();
+        if (isMisspelled(nextWord)) {
+          phrasesToTranslate.add(word + " " + nextWord);
+          translationEndPos = tokens[idx + 1].getEndPos();
+          preventFurtherSuggestions = true;  // mark gets extended, so suggestions for the original marker won't make sense
+        }
+      }
+      phrasesToTranslate.add(word);
+      for (String phraseToTranslate : phrasesToTranslate) {
+        TranslationData tData = getTranslation(phraseToTranslate, motherTongue.getShortCode(), language.getShortCode());
+        if (tData != null) {
+          ruleMatch = new RuleMatch(this, sentence, startPos, translationEndPos, "Translate to English?");
+          ruleMatch.setType(RuleMatch.Type.Hint);
+          ruleMatch.setSuggestedReplacements(new ArrayList<>());
+          List<SuggestedReplacement> l = new ArrayList<>();
+          for (TranslationEntry translation : tData.getTranslations()) {
+            for (String s : translation.getL2()) {
+              String suffix = cleanTranslationForSuffix(s);
+              l.add(new SuggestedReplacement(cleanTranslationForReplace(s), String.join(", ", translation.getL1()), suffix.isEmpty() ? null : suffix));
+            }
+          }
+          if (l.size() > 0) {
+            ruleMatch.setSuggestedReplacementObjects(l);
+            translationSuggestionCount = l.size();
+            break;  // let's assume the first phrase is the best because it's longer
+          }
+        }
+      }
+    }
+    
     if (ruleMatch == null) {
       Language acceptingLanguage = acceptedInAlternativeLanguage(word);
       if (acceptingLanguage != null) {
@@ -406,7 +453,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
       defaultSuggestions.addAll(getAdditionalSuggestions(defaultSuggestions, word));
 
-      if (!(defaultSuggestions.isEmpty() && userSuggestions.isEmpty())) {
+      if (!(defaultSuggestions.isEmpty() && userSuggestions.isEmpty()) && !preventFurtherSuggestions) {
         defaultSuggestions = filterSuggestions(defaultSuggestions, sentence, idx);
         filterDupes(userSuggestions);
         defaultSuggestions = orderSuggestions(defaultSuggestions, word);
@@ -429,6 +476,12 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         } else {
           addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, null, ruleMatch);
         }
+        if (translationSuggestionCount > 0 && ruleMatch.getSuggestedReplacements().size() > translationSuggestionCount) {
+          RuleMatch newRuleMatch = new RuleMatch(ruleMatch.getRule(), ruleMatch.getSentence(), ruleMatch.getFromPos(), ruleMatch.getToPos(),
+            messages.getString("spelling") + " Translations to English are also offered.");
+          newRuleMatch.setSuggestedReplacementObjects(ruleMatch.getSuggestedReplacementObjects());
+          ruleMatch = newRuleMatch;
+        }
       }
     } else {
       // limited to save CPU
@@ -437,6 +490,46 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
  
     ruleMatches.add(ruleMatch);
     return ruleMatches;
+  }
+
+  private String cleanTranslationForReplace(String s) {
+    return s
+      .replaceAll("\\[.*?\\]", "")   // e.g. "[coll.]", "[Br.]"
+      .replaceAll("\\{.*?\\}", "")   // e.g. "to go {went; gone}"
+      .replaceAll("\\(.*?\\)", "")   // e.g. "icebox (old-fashioned)"
+      .replaceAll("/[A-Z]+/", "")    // e.g. "heavy goods vehicle /HGV/"
+      .trim();
+  }
+
+  String cleanTranslationForSuffix(String s) {
+    StringBuilder sb = new StringBuilder();
+    List<String> lookingFor = new ArrayList<>();
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      if (c == '[') {
+        lookingFor.add("]");
+      } else if (c == ']' && lookingFor.contains("]")) {
+        sb.append(c);
+        sb.append(' ');
+        lookingFor.remove("]");
+      } else if (c == '(') {
+        lookingFor.add(")");
+      } else if (c == ')') {
+        sb.append(c);
+        sb.append(' ');
+        lookingFor.remove(")");
+      } else if (c == '{') {
+        lookingFor.add("}");
+      } else if (c == '}') {
+        sb.append(c);
+        sb.append(' ');
+        lookingFor.remove("}");
+      }
+      if (lookingFor.size() > 0) {
+        sb.append(c);
+      }
+    }
+    return sb.toString().trim();
   }
 
   /**

@@ -24,8 +24,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
+import org.languagetool.languagemodel.LanguageModel;
 
 public final class MorfologikBritishSpellerRule extends AbstractEnglishSpellerRule {
 
@@ -37,6 +39,13 @@ public final class MorfologikBritishSpellerRule extends AbstractEnglishSpellerRu
   
   public MorfologikBritishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
+  }
+
+  /**
+   * @since 4.9
+   */
+  public MorfologikBritishSpellerRule(ResourceBundle messages, Language language, GlobalConfig globalConfig, UserConfig userConfig, List<Language> altLanguages, LanguageModel languageModel, Language motherTongue) throws IOException {
+    super(messages, language, globalConfig, userConfig, altLanguages, languageModel, motherTongue);
   }
 
   @Override

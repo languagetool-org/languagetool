@@ -520,7 +520,7 @@ public abstract class SpellingCheckRule extends Rule {
       try {
         rules = new ArrayList<>(altLanguage.getRelevantRules(messages, userConfig, null, Collections.emptyList()));
         rules.addAll(altLanguage.getRelevantLanguageModelCapableRules(messages, null,
-          userConfig, null, Collections.emptyList()));
+          null, userConfig, null, Collections.emptyList()));
       } catch (IOException e) {
         throw new RuntimeException(e);
       }

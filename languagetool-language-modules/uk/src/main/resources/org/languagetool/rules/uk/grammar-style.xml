@@ -1325,6 +1325,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="ridkyi_vs_ridkisny" name="Рідкий і рідкісний">
+      <pattern>
+        <unify>
+          <feature id="gender"/>
+          <feature id="case"/>
+          <marker>
+            <token inflected="yes">рідкий</token>
+          </marker>
+          <token inflected="yes" regexp="yes">виключення|виняток</token>
+        </unify>
+      </pattern>
+      <message>Правильно: <suggestion>рідкісний</suggestion></message>
+      <example correction="рідкісний">за <marker>рідкими</marker> винятками</example>
+    </rule>
+
     <rule id="LAVKA" name="Лавка">
       <pattern>
         <unify>
@@ -1650,7 +1665,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token regexp="yes">[ву]</token>
-          <token regexp="yes">значній|тій|меншій|більшій</token>
+          <token regexp="yes">значній|тій|повній|якійсь|певній|меншій|більшій|достатній</token>
           <token>мірі</token>
         </pattern>
         <message>Краще: <suggestion><match no="2" postag_regexp="yes" postag="(adj:f:)v_mis(.*)" postag_replace="$1v_oru$2"/> <match no="3" postag_regexp="yes" postag="(noun:inanim:f:)v_mis(.*)" postag_replace="$1v_oru$2"/></suggestion></message>

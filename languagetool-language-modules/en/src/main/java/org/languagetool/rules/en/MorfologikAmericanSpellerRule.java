@@ -19,7 +19,7 @@
 
 package org.languagetool.rules.en;
 
-import org.languagetool.Experimental;
+import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
@@ -36,7 +36,21 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
   private static final Map<String,String> BRITISH_ENGLISH = loadWordlist("en/en-US-GB.txt", 1);
 
   public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language) throws IOException {
-    super(messages, language, null, Collections.emptyList());
+    this(messages, language, null, null, Collections.emptyList(), null, null);
+  }
+
+  /**
+   * @since 4.2
+   */
+  public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
+    this(messages, language, null, userConfig, altLanguages, null, null);
+  }
+
+  /**
+   * @since 4.9
+   */
+  public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language, GlobalConfig globalConfig, UserConfig userConfig, List<Language> altLanguages, LanguageModel languageModel, Language motherTongue) throws IOException {
+    super(messages, language, globalConfig, userConfig, altLanguages, languageModel, motherTongue);
   }
 
   @Override
@@ -46,21 +60,6 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
       return new VariantInfo("British English", otherVariant);
     }
     return null;
-  }
-
-  /**
-   * @since 4.2
-   */
-  public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
-    super(messages, language, userConfig, altLanguages);
-  }
-
-  /**
-   * @since 4.5
-   */
-  @Experimental
-  public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages, LanguageModel languageModel) throws IOException {
-    super(messages, language, userConfig, altLanguages, languageModel);
   }
 
   @Override

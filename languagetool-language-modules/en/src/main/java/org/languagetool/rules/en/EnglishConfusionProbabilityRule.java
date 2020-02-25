@@ -81,7 +81,11 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "sneak peek",
       "the 4 of you",
       "confirm you own the",
-      "your ride"
+      "your ride",
+      "he most likely",
+      "good cause",
+      "big butt",
+      "news debate"
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {

@@ -8,6 +8,7 @@
     <!ENTITY file_name_extensions "asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|yaml|yml|zip|zipx">
     <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
     <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
+    <!ENTITY hispanic_nnp "Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad|Torre|Camino">
 ]>
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -245,6 +246,15 @@
         <pattern case_sensitive="yes">
             <token>Serie</token>
             <token regexp="yes">A|B</token>
+        </pattern>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
+    <rule id="HUANG_HE" name="Huang He">
+        <!-- https://en.wikipedia.org/wiki/Yellow_River -->
+        <pattern case_sensitive="yes">
+            <token>Huang</token>
+            <token>He</token>
         </pattern>
         <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
@@ -3595,57 +3605,65 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="required[require/VBD,require/VBN]" outputform="required[require/VBN]">The space <marker>required</marker> to store the input numbers is not counted.</example>
         <example type="untouched">He required to store the input numbers.</example>
     </rule>
+
     <rulegroup name="DT + whatever/NN + end of phrase -> NN" id="DT_NN_SENT_END">
         <rule>
-        <antipattern><!-- a ram and a buck are -->
-            <token postag="CC"/>
-            <token/>
-            <token/>
-            <token postag="VB[DP]" postag_regexp="yes"/>
-        </antipattern>
-        <antipattern><!-- were both drunk. -->
-            <token regexp="yes">are|were</token>
-            <token regexp="yes">all|both</token>
-            <token/>
-            <token postag="SENT_END"/>
-        </antipattern>
-        <antipattern><!-- ... do this now. -->
-            <token postag_regexp="yes" postag="VB.*"/>
-            <token postag="DT"/>
-            <token postag="RB"/>
-            <token postag="SENT_END"/>
-        </antipattern>
-        <antipattern><!-- the basic installed software is -->
-            <token postag="DT|PRP\$" postag_regexp="yes"/>
-            <token postag="JJ.?" postag_regexp="yes"/>
-            <token postag="JJ|VBN" postag_regexp="yes"/>
-            <token chunk="E-NP-singular"/>
-            <token postag="VB[DZ]" postag_regexp="yes"/>
-        </antipattern>
-        <pattern>
-            <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se|no|much</exception></token>
-            <marker>
-            <unify>
-                <feature id="number"/>
-                <and>
-                    <token postag="NN.*" postag_regexp="yes"/>
-                    <token postag="JJ.?" postag_regexp="yes"/>
-                </and>
-                <token postag="SENT_END|VB." postag_regexp="yes"><exception postag="NN.*|JJ.?|``|''" postag_regexp="yes"/></token>
-            </unify>
-            </marker>
-        </pattern>
-        <disambig action="unify"/>
-      <example type="ambiguous" inputform="cleaner[clean/JJR,cleaner/NN]" outputform="cleaner[cleaner/NN]">The bleach is next to the <marker>cleaner</marker>.</example>
-      <example type="untouched">Thank you, this is much cleaner.</example>
-      <example type="untouched">… the heads of a ram and <marker>a buck</marker> are budding forth.</example>
-      <example type="untouched">At the end of the party, they were both drunk.</example>
-      <example type="untouched">My clothes were dirty, but at the end of the wash, they were all cleaner.</example>
-      <example type="untouched">Adverb. We must do this now.</example>
-      <example type="untouched">Adjective. The <marker>basic</marker> installed software is not sufficient. We need the enhanced software.</example>
-      <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">How about we do this <marker>work</marker>?</example>
-      <example type="ambiguous" inputform="sister[sister/JJ,sister/NN]" outputform="sister[sister/NN]">My <marker>sister</marker> believes you!</example>
-    </rule>
+            <antipattern><!-- a ram and a buck are -->
+                <token postag="CC"/>
+                <token/>
+                <token/>
+                <token postag="VB[DP]" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern><!-- were both drunk. -->
+                <token regexp="yes">are|were</token>
+                <token regexp="yes">all|both</token>
+                <token/>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern><!-- ... do this now. -->
+                <token postag_regexp="yes" postag="VB.*"/>
+                <token postag="DT"/>
+                <token postag="RB"/>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern><!-- the basic installed software is -->
+                <token postag="DT|PRP\$" postag_regexp="yes"/>
+                <token postag="JJ.?" postag_regexp="yes"/>
+                <token postag="JJ|VBN" postag_regexp="yes"/>
+                <token chunk="E-NP-singular"/>
+                <token postag="VB[DZ]" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern><!-- #2503 we should either say: -->
+                <token postag="MD"/>
+                <token regexp="yes">all|each|either</token>
+                <token chunk="I-VP" postag="VBP?" postag_regexp="yes"/>
+                <token>:</token>
+            </antipattern>
+            <pattern>
+                <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se|no|much</exception></token>
+                <marker>
+                    <unify>
+                        <feature id="number"/>
+                        <and>
+                            <token postag="NN.*" postag_regexp="yes"/>
+                            <token postag="JJ.?" postag_regexp="yes"/>
+                        </and>
+                        <token postag="SENT_END|VB." postag_regexp="yes"><exception postag="NN.*|JJ.?|``|''" postag_regexp="yes"/></token>
+                    </unify>
+                </marker>
+            </pattern>
+            <disambig action="unify"/>
+            <example type="ambiguous" inputform="cleaner[clean/JJR,cleaner/NN]" outputform="cleaner[cleaner/NN]">The bleach is next to the <marker>cleaner</marker>.</example>
+            <example type="untouched">Thank you, this is much cleaner.</example>
+            <example type="untouched">… the heads of a ram and <marker>a buck</marker> are budding forth.</example>
+            <example type="untouched">At the end of the party, they were both drunk.</example>
+            <example type="untouched">My clothes were dirty, but at the end of the wash, they were all cleaner.</example>
+            <example type="untouched">Adverb. We must do this now.</example>
+            <example type="untouched">Adjective. The <marker>basic</marker> installed software is not sufficient. We need the enhanced software.</example>
+            <example type="untouched">Instead, we should either say:</example><!-- #2503 -->
+            <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">How about we do this <marker>work</marker>?</example>
+            <example type="ambiguous" inputform="sister[sister/JJ,sister/NN]" outputform="sister[sister/NN]">My <marker>sister</marker> believes you!</example>
+        </rule>
         <rule>
             <pattern>
             <token postag="DT|PRP\$" postag_regexp="yes"><exception regexp="yes">th[eo]se|no|much</exception></token>
@@ -3666,6 +3684,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">"Much better"</example>
         </rule>
     </rulegroup>
+
     <rule name="plural noun + that/which etc. + plural verb/nn => verb" id="NNS_WDT_VBNNS_VBP">
       <antipattern><!-- #2358 that league's 1948 title -->
         <token postag="WDT"/>
@@ -4656,6 +4675,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <exception>gold</exception>
                 </token>
         </antipattern>
+        <antipattern><!-- #2502 we cannot access" -->
+            <token>cannot</token><!-- Seems to occur only with 'cannot', not modals in general. -->
+            <token postag_regexp="yes" postag="VBP?"/>
+            <token spacebefore="no" regexp="yes">['’"”]</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -4730,6 +4754,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar: He was hope to get it done.</example><!-- #2422 hope/E-NP-singular -->
         <example type="untouched">Incorrect grammar: I actually was hope to make more changes to the rule.</example>
         <example type="untouched">Incorrect grammar. ... and this was lead into the ...</example><!-- #2422 -->
+        <example type="untouched">"There are some Instruments we cannot access"</example><!-- #2502 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
         <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
@@ -4893,7 +4918,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="NNP_CIUDAD_DE" name="NNP for Spanish names containing 'de'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os|Rancho|Cerro|Universidad|Copa</token>
+                <token regexp="yes">&hispanic_nnp;</token>
                 <token>de</token>
                 <token regexp="yes" min="0">[Ll]a</token>
                 <token regexp="yes">[A-Z].+</token>
@@ -4905,7 +4930,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="NNP_CIUDAD_DEL" name="NNP for Spanish geo names containing 'del'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os|Rancho|Cerro|Universidad|Copa</token>
+                <token regexp="yes">&hispanic_nnp;</token>
                 <token>del</token>
                 <token regexp="yes">[A-Z].+</token>
             </marker>
@@ -5273,19 +5298,30 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
         <rule id="PRPPOSS_VB_NN" name="Possessive pronoun + verb/noun =>noun">
-          <pattern>
-            <token postag="PRP$"/>
-            <marker>
-            <and>
-              <token postag="NN.*" postag_regexp="yes"/>
-              <token postag="VB[PZ]?|MD" postag_regexp="yes"/>
-            </and>
-            </marker>
-          </pattern>
-          <disambig action="filter" postag="NN.*|JJ.*"/>
-          <example type="untouched">I do what I want to.</example>
-          <example type="ambiguous" inputform="minds[mind/NNS,mind/VBZ]" outputform="minds[mind/NNS]">They should make up their <marker>minds</marker>!</example>
-          <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Don't do anything against my <marker>will</marker>.</example>
+            <antipattern><!-- #2506 -->
+                <token>her</token>
+                <token>have</token>
+            </antipattern>
+            <pattern>
+                <token postag="PRP$"/>
+                <marker>
+                    <and>
+                        <token postag="NN.*" postag_regexp="yes"/>
+                        <token postag="VB[PZ]?|MD" postag_regexp="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NN.*|JJ.*"/>
+            <example type="untouched">I do what I want to.</example>
+            <example type="untouched">Grandy was really letting her have it tonight.</example><!-- #2506 -->
+            <example type="untouched">Well, Mom, you can let her have it tonight.</example><!-- #2506 -->
+            <example type="untouched">She said that what Rafe and her have is more than what Kate will ever have with ...</example><!-- #2506 have/E-NP-singular -->
+            <example type="untouched">The only option she and others like her have is to leave.</example><!-- #2506 -->
+            <example type="untouched">Incorrect grammar: which either Jane or her have.</example><!-- #2506 -->
+            <example type="ambiguous" inputform="minds[mind/NNS,mind/VBZ]" outputform="minds[mind/NNS]">They should make up their <marker>minds</marker>!</example>
+            <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Don't do anything against my <marker>will</marker>.</example>
+            <example type="ambiguous" inputform="books[book/NNS,book/VBZ]" outputform="books[book/NNS]">Her <marker>books</marker>, which are delightful, are some of my favourites.</example><!-- #2506 -->
+<!-- Was correctly disambiguated before the change for #2506. I tried to make APs such that this sentence is correctly disambiguated, but it became too complex <example type="ambiguous" inputform="have[have/NN,have/VB,have/VBP]" outputform="have[have/NN]">Her need is not the same as her <marker>have</marker> (or her want).</example> have/B-VP -->
         </rule>
 
         <rule id="PRPPOSS_VB_NN_VBZ" name="Possessive pronoun + verb/noun + verb sing/modal => noun">
@@ -5622,6 +5658,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="VBP?" postag_regexp="yes"/>
                 <token postag="CC"/>
             </antipattern>
+            <antipattern><!-- #2501 I can't restart or logoff -->
+                <token regexp="yes">I|you|we|they|s?he|it</token>
+                <token postag="MD"/>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+                <token postag="VBP?" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="NN.*" postag_regexp="yes"><exception postag_regexp="yes" postag="RBR?|JJ"/></token>
@@ -5646,6 +5689,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">We will be lost when they <marker>die</marker> and computers take over the world.</example><!-- #2343 -->
             <example type="untouched">They could maybe go and hangout.</example><!-- #2386 -->
             <example type="untouched">She might possibly go and hangout.</example><!-- #2386 -->
+            <example type="untouched">I can't restart or logoff.</example><!-- #2501 -->
             <example type="ambiguous" inputform="man[man/NN:UN,man/VB,man/VBP]" outputform="man[man/NN:UN]">They are now <marker>man</marker> and wife duly married.</example>
             <example type="ambiguous" inputform="husband[husband/NN,husband/VB,husband/VBP]" outputform="husband[husband/NN]">They were <marker>husband</marker> and wife.</example>
             <example type="ambiguous" inputform="bosses[boss/NNS,boss/VBZ]" outputform="bosses[boss/NNS]">I know that <marker>bosses</marker> or workers can do these tasks.</example>
@@ -6640,7 +6684,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="IGNORE_SPELLING_OF_CIUDAD_DE" name="Ignore spelling of Hispanic names containing 'de'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco|Rancho|Cerro|Universidad|Copa</token>
+                <token regexp="yes">&hispanic_nnp;</token>
                 <token>de</token>
                 <token regexp="yes" min="0">[Ll]a|[Ll][eoa]s</token>
             </marker>
@@ -6652,7 +6696,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule id="IGNORE_SPELLING_OF_CIUDAD" name="Ignore spelling of Hispanic names containing 'del'">
         <pattern case_sensitive="yes">
             <marker>
-                <token regexp="yes">Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Di?os|Villas|Rancho|Cerro|Universidad|Copa</token>
+                <token regexp="yes">&hispanic_nnp;</token>
                 <token regexp="yes">[Dd]el</token>
             </marker>
             <token regexp="yes">[A-Z].+</token>
@@ -9379,6 +9423,50 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <pattern>
             <token regexp="yes">aurora|Coronae?</token>
             <token>borealis</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="corpus callosum" id="CORPUS_CALLOSUM">
+        <!-- https://www.merriam-webster.com/dictionary/callosum -->
+        <pattern>
+            <token>corpus</token>
+            <token>callosum</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="corpora callosa" id="CORPORA_CALLOSA">
+        <!-- https://www.merriam-webster.com/dictionary/callosum -->
+        <pattern>
+            <token>corpora</token>
+            <token>callosa</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="art deco" id="ART_DECO">
+        <!-- https://www.merriam-webster.com/dictionary/art%20deco -->
+        <pattern>
+            <token>art</token>
+            <token>deco</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="camino real" id="CAMINO_REAL">
+        <!-- https://www.merriam-webster.com/dictionary/camino -->
+        <pattern>
+            <token>camino</token>
+            <token regexp="yes">real(e?s)?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="names with 'de'" id="DE_NAMES">
+        <pattern>
+            <token>de</token>
+            <token case_sensitive="yes">Blasio</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>

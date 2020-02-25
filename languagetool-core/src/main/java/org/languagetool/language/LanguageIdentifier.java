@@ -71,6 +71,7 @@ public class LanguageIdentifier {
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
   private final int maxLength;
+  private final UnicodeBasedLangIdentifier unicodeIdentifier = new UnicodeBasedLangIdentifier();
 
   private boolean fasttextEnabled = false;
   private Process fasttextProcess;
@@ -195,13 +196,17 @@ public class LanguageIdentifier {
     // Chrome sends 'nn' (Nynorsk) or 'nb' (Bokmal), but fasttext detects 'no', so we have to map, and 
     // Bokmal seems to be the standard variant:
     List<String> noopLangs = noopLangsTmp.stream().map(k -> k.equals("nb") ? "no" : k).collect(Collectors.toList());
-    List<String> preferredLangs = preferredLangsTmp.stream().map(k -> k.equals("nb") ? "no" : k).collect(Collectors.toList());
+    List<String> preferredLangs = preferredLangsTmp.stream().map(k -> k.equals("nb") ? "no" : k).collect(Collectors.toCollection(ArrayList::new));
     if (preferredLangs.stream().anyMatch(k -> k.contains("-"))) {
       throw new IllegalArgumentException("preferredLanguages may only contain language codes without variants (e.g. 'en', but not 'en-US'): " +
-        preferredLangs + ". Use 'preferredVariants' to specify variants");
+        preferredLangs + ". Use 'preferredVariants' to specify variants.");
     }
     String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
     shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
+    if (!preferredLangs.contains("ru") && !preferredLangs.contains("uk") && !preferredLangs.contains("be") && !preferredLangs.contains("zh")) {
+      // Cyrillic and Chinese are so different from Latin characters that we try to detect it even with preferredLangs not properly set:
+      preferredLangs.addAll(unicodeIdentifier.getAdditionalLangCodes(text));
+    }
     Map.Entry<String,Double> result = null;
     if (fasttextEnabled) {
       try {

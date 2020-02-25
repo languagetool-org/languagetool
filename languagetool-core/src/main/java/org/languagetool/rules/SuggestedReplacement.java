@@ -32,17 +32,30 @@ public class SuggestedReplacement {
 
   private String replacement;
   private String shortDescription;
+  private String suffix;
   private SortedMap<String, Float> features = Collections.emptySortedMap();
   private Float confidence = null;
+  
   public SuggestedReplacement(String replacement) {
-    this.replacement = Objects.requireNonNull(replacement);
+    this(replacement, null, null);
   }
 
-  public SuggestedReplacement(SuggestedReplacement clone) {
-    this.replacement = clone.replacement;
-    setShortDescription(clone.getShortDescription());
-    setConfidence(clone.getConfidence());
-    setFeatures(clone.getFeatures());
+  public SuggestedReplacement(String replacement, String shortDescription) {
+    this(replacement, shortDescription, null);
+  }
+
+  public SuggestedReplacement(String replacement, String shortDescription, String suffix) {
+    this.replacement = Objects.requireNonNull(replacement);
+    this.shortDescription = shortDescription;
+    this.suffix = suffix;
+  }
+
+  public SuggestedReplacement(SuggestedReplacement repl) {
+    this.replacement = repl.replacement;
+    this.suffix = repl.suffix;
+    setShortDescription(repl.getShortDescription());
+    setConfidence(repl.getConfidence());
+    setFeatures(repl.getFeatures());
   }
 
   public String getReplacement() {
@@ -53,12 +66,25 @@ public class SuggestedReplacement {
     this.replacement = Objects.requireNonNull(replacement);
   }
 
+  @Nullable
   public String getShortDescription() {
     return shortDescription;
   }
 
   public void setShortDescription(String desc) {
     this.shortDescription = desc;
+  }
+
+  /**
+   * Value shown in the UI after the replacement (but not part of it).
+   */
+  @Nullable
+  public String getSuffix() {
+    return suffix;
+  }
+
+  public void setSuffix(String val) {
+    this.suffix = val;
   }
 
   @Override

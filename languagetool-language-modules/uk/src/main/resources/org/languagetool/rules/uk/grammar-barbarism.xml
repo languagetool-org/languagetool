@@ -304,6 +304,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="v_sylu_ciogo" name="В силу цього">
+      <pattern>
+        <token regexp="yes">[ву]
+          <exception scope="previous" regexp="yes" inflected="yes">вступ.*|(по)?вірити|вірячи|(по)?віривши|(зне)?віра</exception>
+        </token>
+        <token>силу</token>
+        <token postag_regexp="yes" postag="noun:inanim:.:v_rod.*">
+          <exception scope="next" regexp="yes" inflected="yes">закон|вступ.*|(по)?вірити</exception>
+        </token>
+        <!--
+        <token regexp="yes">цього|того|обставин|переконань|обмеженості|закритості|низки</token>
+        -->
+      </pattern>
+      <message>Правильно: <suggestion>через <match no="3" postag_regexp="yes" postag="(noun.*?)v_rod(.*)" postag_replace="$1v_zna$2"/></suggestion></message>
+      <example correction="через обставини"><marker>в силу обставин</marker></example>
+      <example>вступив в силу великого часу</example>
+      <example>віра в силу ідей</example>
+      <example>як не вірити в силу долі</example>
+      <example>дістав силу закону</example>
+      <example>ви в силу талісманів вірите?</example>
+    </rule>
+
     <rule id="HVORITY_CHYM" name="Хворіти чим замість на що">
       <pattern>
         <token inflected="yes" regexp="yes">.*?хворі(ти|вши|ючи)</token>
@@ -468,7 +490,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
         </pattern>
-        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(verb|advp).*" postag_replace="$0">вважатися</match> за <match
+        <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="(verb|advp).*">вважатися</match> за <match
           no="2" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_zna:(rinanim|ranim)?$2"/> <match
           no="3" postag_regexp="yes" postag="(.*)v_oru(.*)" postag_replace="$1v_zna$2"/></suggestion></message>
 
@@ -5110,21 +5132,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="vykliychennia_vs_vyniatok" name="Виключення і виняток">
       <rule>
         <pattern>
-          <unify>
-            <feature id="gender"/>
-            <feature id="case"/>
-            <marker>
-              <token inflected="yes">рідкий</token>
-            </marker>
-            <token inflected="yes" regexp="yes">виключення|виняток</token>
-          </unify>
-        </pattern>
-        <message>Правильно: <suggestion>рідкісний</suggestion></message>
-        <example correction="рідкісний">за <marker>рідкими</marker> винятками</example>
-      </rule>
-
-      <rule>
-        <pattern>
           <marker>
             <token inflected="yes">виключення</token>
             <token regexp="yes">і?з</token>
@@ -5135,6 +5142,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <short>Правильно «виняток з правила»</short>
         <example correction="виняток з правила">Це слово - <marker>виключення з правила</marker>.</example>
         <example>Це слово - виняток з правила.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="v_poriadku" name="В порядку виключення">
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>порядку</token>
+          <token regexp="yes">виключення|винятку|експерименту</token>
+        </pattern>
+        <message>Правильно: <suggestion>як <match no="3" postag_regexp="yes" postag="(noun:inanim:.:)v_rod(.*)" postag_replace="$1v_zna$2"/></suggestion></message>
+        <example correction="як виняток"><marker>в порядку винятку</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>порядку</token>
+          <token regexp="yes">зменшення|збільшення</token>
+        </pattern>
+        <message>Правильно: <suggestion>за <match no="3" postag_regexp="yes" postag="(noun:inanim:.:)v_rod(.*)" postag_replace="$1v_oru$2"/></suggestion></message>
+        <example correction="за зменшенням"><marker>в порядку зменшення</marker></example>
       </rule>
     </rulegroup>
 
@@ -5757,6 +5785,105 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="відвертати">постійно <marker>відволікав</marker> увагу</example>
     </rule>
 
+    <rule id="bez_vsiakyh" name="Без всяких">
+      <pattern>
+        <token>без</token>
+        <marker>
+          <token inflected="yes" postag_regexp="yes" postag="adj:p:v_rod.*" regexp="yes">[ув]сякий</token>
+        </marker>
+        <token postag_regexp="yes" postag="noun:.*?:p:v_rod.*">
+          <exception>сумнівів</exception>
+        </token>
+      </pattern>
+      <message>Правильно: <suggestion>жодних</suggestion></message>
+      <example correction="жодних">і без <marker>всяких</marker> вагань</example>
+    </rule>
+
+    <rule id="bez_sumniviv" name="Без сумнівів">
+      <pattern>
+        <token>без</token>
+        <token postag_regexp="yes" postag="adj:p:v_rod.*" regexp="yes" inflected="yes">[ву]сякий|[ву]сілякий</token>
+        <token>сумнівів</token>
+      </pattern>
+      <message>Правильно: <suggestion>поза жодними сумнівами</suggestion></message>
+      <example correction="поза жодними сумнівами">і <marker>без всяких сумнівів</marker></example>
+    </rule>
+
+    <rule id="bez_zhalyu" name="Без жалю">
+      <pattern>
+        <token>без</token>
+        <marker>
+          <token postag_regexp="yes" postag="adj:m:v_rod.*" regexp="yes" inflected="yes">[ву]сякий|[ву]сілякий</token>
+        </marker>
+        <token>жалю</token>
+      </pattern>
+      <message>Правильно: <suggestion>безжалісно</suggestion></message>
+      <example correction="безжалісно">і без <marker>всякого</marker> жалю</example>
+    </rule>
+
+    <rule id="v_stepeni" name="В ... степені">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token regexp="yes">різній|деякій|великій|найбільшій|значній|чималій|більшій|меншій|якійсь</token>
+        <token>степені</token>
+      </pattern>
+      <message>Правильно: <suggestion><match no="2" postag_regexp="yes" postag="(adj:f:)v_mis(.*)" postag_replace="$1v_oru$2"/> мірою</suggestion></message>
+      <example correction="великою мірою">і <marker>у великій степені</marker></example>
+    </rule>
+
+    <rulegroup id="v_vidnoshenniah" name="В ... відношеннях">
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token regexp="yes">багатьох|[ву]сіх</token>
+          <token>відношеннях</token>
+        </pattern>
+        <message>Правильно: <suggestion>з усіх боків</suggestion></message>
+        <suggestion>з усякого погляду</suggestion>
+        <example correction="з усіх боків|з усякого погляду">і <marker>в багатьох відношеннях</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token regexp="yes">деяких|певних|різних</token>
+          <token>відношеннях</token>
+        </pattern>
+        <message>Правильно: <suggestion>з <match no="2"/> боків</suggestion></message>
+        <suggestion>з <match no="2" postag_regexp="yes" postag="(adj:)p(:v_rod.*)" postag_replace="$1m$2"/> погляду</suggestion>
+        <example correction="з деяких боків|з деякого погляду">і <marker>в деяких відношеннях</marker></example>
+      </rule>
+    </rulegroup>
+
+    <rule id="vlastyvyi_dlia" name="Властивий для">
+      <pattern>
+        <token inflected="yes">властивий</token>
+        <token>для</token>
+        <token postag_regexp="yes" postag="noun.*?v_rod.*"/>
+      </pattern>
+      <message>Правильно: <suggestion><match no="1"/> <match no="3" postag_regexp="yes" postag="(noun.*?)v_rod(.*)" postag_replace="$1v_dav$2"/></suggestion></message>
+      <example correction="властивий йому"><marker>властивий для нього</marker></example>
+      <example correction="властивий мостам|властивий містам"><marker>властивий для міст</marker></example>
+    </rule>
+
+    <rule id="a_imenno" name="А іменно">
+      <pattern>
+        <token>а</token>
+        <token>іменно</token>
+      </pattern>
+      <message>Правильно: <suggestion>а саме</suggestion></message>
+      <example correction="а саме"><marker>а іменно</marker></example>
+    </rule>
+
+    <rule id="veduchyi" name="Ведучий">
+      <pattern>
+        <marker>
+          <token inflected="yes">ведучий</token>
+        </marker>
+        <token inflected="yes" regexp="yes">організація|галузь|роль|ланка</token>
+      </pattern>
+      <message>Правильно: <suggestion><match no="1" postag_regexp="yes" postag="adj.*" postag_replace="$0.*">провідний</match></suggestion></message>
+      <example correction="провідної"><marker>ведучої</marker> організації</example>
+    </rule>
 
     <rulegroup id="vechorom" name="Вечором і увечері">
       <rule>

@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2011 Daniel Naber (http://www.danielnaber.de)
+ * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -16,17 +16,22 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.openoffice;
+package org.languagetool.rules.translation;
 
-/**
- * Helps to detect Khmer strings by their Unicode range.
- */
-@SuppressWarnings("MagicNumber")
-class KhmerDetector extends UnicodeLanguageDetector {
+import java.util.List;
 
-  @Override
-  protected boolean isInAlphabet(int numericValue) {
-    return numericValue >= 6016 && numericValue <= 6143;
+/** @since 4.9 */
+public class TranslationData {
+
+  private final List<TranslationEntry> translations;
+  private final DataSource dataSource;
+
+  public TranslationData(List<TranslationEntry> translations, DataSource dataSource) {
+    this.translations = translations;
+    this.dataSource = dataSource;
   }
-  
+
+  public List<TranslationEntry> getTranslations() {
+    return translations;
+  }
 }

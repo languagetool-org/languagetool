@@ -25,7 +25,10 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
+import org.languagetool.rules.en.translation.BeoLingusTranslator;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.rules.translation.TranslationData;
+import org.languagetool.rules.translation.TranslationEntry;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tools.StringTools;
 
@@ -36,6 +39,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   private static final EnglishSynthesizer synthesizer = new EnglishSynthesizer(new English());
 
+  private final BeoLingusTranslator translator;
+
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
     this(messages, language, null, Collections.emptyList());
   }
@@ -44,7 +49,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
    * @since 4.4
    */
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
-    this(messages, language, userConfig, altLanguages, null);
+    this(messages, language, null, userConfig, altLanguages, null, null);
   }
 
   protected static Map<String,String> loadWordlist(String path, int column) {
@@ -72,10 +77,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
    * @since 4.5
    * optional: language model for better suggestions
    */
-  @Experimental
-  public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
-                                    List<Language> altLanguages, LanguageModel languageModel) throws IOException {
-    super(messages, language, userConfig, altLanguages, languageModel);
+  public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, GlobalConfig globalConfig, UserConfig userConfig,
+                                    List<Language> altLanguages, LanguageModel languageModel, Language motherTongue) throws IOException {
+    super(messages, language, globalConfig, userConfig, altLanguages, languageModel, motherTongue);
     super.ignoreWordsWithLength = 1;
     setCheckCompound(true);
     addExamplePair(Example.wrong("This <marker>sentenc</marker> contains a spelling mistake."),
@@ -84,6 +88,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     for (String ignoreWord : wordListLoader.loadWords(languageSpecificIgnoreFile)) {
       addIgnoreWords(ignoreWord);
     }
+    translator = BeoLingusTranslator.getInstance(globalConfig);
   }
 
   @Override
@@ -413,6 +418,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("i.e.");
     } else if ("eg".equals(word)) {
       return Arrays.asList("e.g.");
+    } else if ("ppl".equals(word)) {
+      return Arrays.asList("people");
+    } else if ("kiddin".equals(word)) {
+      return Arrays.asList("kidding");
     } else if ("Thx".equals(word)) {
       return Arrays.asList("Thanks");
     } else if ("thx".equals(word)) {
@@ -649,6 +658,18 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     }
 
     return super.getAdditionalTopSuggestions(suggestions, word);
+  }
+
+  @Override
+  protected TranslationData getTranslation(String word, String sourceLang, String targetLang) {
+    if (translator == null) {
+      return null;
+    }
+    List<TranslationEntry> translations = translator.translate(word, sourceLang, language.getShortCode());
+    if (translations.size() > 0) {
+      return new TranslationData(translations, translator.getDataSource());
+    }
+    return null;
   }
 
   private static class IrregularForms {
