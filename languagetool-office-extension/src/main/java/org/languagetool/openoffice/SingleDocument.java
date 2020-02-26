@@ -50,6 +50,7 @@ import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.text.TextMarkupType;
+import com.sun.star.text.XParagraphCursor;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.ui.ActionTriggerSeparatorType;
 import com.sun.star.ui.ContextMenuExecuteEvent;
@@ -110,6 +111,7 @@ class SingleDocument {
   
   private List<String> allParas = null;           //  List of paragraphs (only readable by parallel thread)
   private DocumentCursorTools docCursor = null;   //  Save document cursor for the single document
+  private ViewCursorTools viewCursor = null;      //  Get the view cursor for desktop
   private FlatParagraphTools flatPara = null;     //  Save information for flat paragraphs (including iterator and iterator provider) for the single document
   private Integer numLastVCPara = 0;              //  Save position of ViewCursor for the single documents
   private Integer numLastFlPara = 0;              //  Save position of FlatParagraph for the single documents
@@ -212,8 +214,8 @@ class SingleDocument {
         MessageHandler.printToLogFile("paRes.aErrors.length: " + paRes.aErrors.length + "; docID: " + docID + logLineBreak);
       }
       if(resetCheck) {
-        if(!useQueue) {
-          remarkChangedParagraphs(changedParas);
+        if(!useQueue && numParasToCheck != 0) {
+          remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
         }
         resetCheck = false;
       }
@@ -290,7 +292,7 @@ class SingleDocument {
    * remark changed paragraphs
    * override existing marks
    */
-  private void remarkChangedParagraphs(List<Integer> changedParas) {
+  private void remarkChangedParagraphs(List<Integer> changedParas, XParagraphCursor cursor, FlatParagraphTools flatPara) {
     Map <Integer, SingleProofreadingError[]> changedParasMap = new HashMap<>();
     for (int nPara : changedParas) {
       List<SingleProofreadingError[]> pErrors = new ArrayList<SingleProofreadingError[]>();
@@ -300,7 +302,7 @@ class SingleDocument {
       SingleProofreadingError[] sErrors = sentencesCache.getMatches(nPara);
       changedParasMap.put(nPara, mergeErrors(sErrors, pErrors));
     }
-    flatPara.markParagraphs(changedParasMap, divNum, true);
+    flatPara.markParagraphs(changedParasMap, divNum, true, cursor);
   }
 
   // Fix numbers that are (probably) foot notes.
@@ -322,6 +324,11 @@ class SingleDocument {
 
     if (contextMenuInterceptor == null) {
       contextMenuInterceptor = new ContextMenuInterceptor(xContext);
+    }
+    
+    docCursor = null;
+    if(flatPara != null) {
+      flatPara.init();
     }
 
     int nParas;
@@ -363,9 +370,21 @@ class SingleDocument {
         MessageHandler.printToLogFile("*** resetAllParas: allParas.size: " + allParas.size() + ", nParas: " + nParas
                 + ", docID: " + docID + logLineBreak);
       }
+      if(useQueue) {
+        mDocHandler.getTextLevelCheckQueue().setReset();
+      }
       List<String> oldParas = allParas;
       if (flatPara == null) {
         flatPara = new FlatParagraphTools(xComponent);
+      }
+      if(useQueue) {
+        while(!mDocHandler.getTextLevelCheckQueue().isWaiting()) {
+          try {
+            Thread.sleep(1);
+          } catch (InterruptedException e) {
+            MessageHandler.printException(e);;
+          }
+        }
       }
       if (!resetAllParas(docCursor, flatPara)) {
         return -1;
@@ -484,10 +503,9 @@ class SingleDocument {
    */
   private int getParaFromViewCursorOrDialog(String chPara) {
     // try to get ViewCursor position (proof initiated by mouse click)
-    if(xComponent != OfficeTools.getCurrentComponent(xContext) ) {
-      return -1;
+    if (viewCursor == null) {
+      viewCursor = new ViewCursorTools(xContext);
     }
-    ViewCursorTools viewCursor = new ViewCursorTools(xContext);
     isMouseOrDialog = true;
     int nParas = viewCursor.getViewCursorParagraph();
     if (nParas >= 0 && nParas < allParas.size() && chPara.equals(allParas.get(nParas))) {
@@ -498,6 +516,9 @@ class SingleDocument {
       return nParas;
     }
     // try to get next position from last ViewCursor position (proof per dialog box)
+    if(numLastVCPara >= allParas.size()) {
+      numLastVCPara = 0;
+    }
     for(int i = numLastVCPara; i < allParas.size(); i++) {
       if (chPara.equals(allParas.get(i))) {
         numLastVCPara = i;
@@ -1040,6 +1061,7 @@ class SingleDocument {
     //  make the method thread save
     MultiDocumentsHandler mDH = mDocHandler;
     FlatParagraphTools flatPara = this.flatPara;
+    DocumentCursorTools docCursor = this.docCursor;
     List<String> allParas = this.allParas;
     List<Integer> headings = this.headings;
     boolean textIsChanged = this.textIsChanged;
@@ -1111,6 +1133,12 @@ class SingleDocument {
         if(mDH.getTextLevelCheckQueue().isInterrupted()) {
           return;
         }
+        if (docCursor == null) {
+          docCursor = new DocumentCursorTools(xComponent);
+        }
+        if (flatPara == null) {
+          flatPara = new FlatParagraphTools(xComponent);
+        }
         if(override) {
           if (debugMode > 0) {
             MessageHandler.printToLogFile("Do Reset (useQueue == true)");
@@ -1124,7 +1152,7 @@ class SingleDocument {
             }
           }
           if(!changedParas.isEmpty()) {
-            remarkChangedParagraphs(changedParas);
+            remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
           }
         } else {
           Map<Integer, SingleProofreadingError[]> changedParasMap;
@@ -1141,7 +1169,7 @@ class SingleDocument {
               }
             }
           }
-          flatPara.markParagraphs(changedParasMap, divNum, false);
+          flatPara.markParagraphs(changedParasMap, divNum, false, docCursor.getParagraphCursor());
         }
       }
     } catch (Throwable t) {
@@ -1330,7 +1358,7 @@ class SingleDocument {
     if(numParasToCheck != 0) {
       List<Integer> changedParas = new ArrayList<>();
       changedParas.add(y);
-      remarkChangedParagraphs(changedParas);
+      remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
     }
     if (debugMode > 0) {
       MessageHandler.printToLogFile("Ignore Match added at: paragraph: " + y + "; character: " + x);

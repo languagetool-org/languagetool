@@ -43,11 +43,11 @@ class OfficeTools {
   private static final String MENU_BAR = "private:resource/menubar/menubar";
 
   /**
-   * Returns the current XDesktop
+   * Returns the XDesktop
    * Returns null if it fails
    */
   @Nullable
-  static XDesktop getCurrentDesktop(XComponentContext xContext) {
+  static XDesktop getDesktop(XComponentContext xContext) {
     try {
       if (xContext == null) {
         return null;
@@ -75,7 +75,7 @@ class OfficeTools {
   @Nullable
   static XComponent getCurrentComponent(XComponentContext xContext) {
     try {
-      XDesktop xdesktop = getCurrentDesktop(xContext);
+      XDesktop xdesktop = getDesktop(xContext);
       if(xdesktop == null) {
         return null;
       }
@@ -106,7 +106,7 @@ class OfficeTools {
 
   static XMenuBar getMenuBar(XComponentContext xContext) {
     try {
-      XDesktop desktop = OfficeTools.getCurrentDesktop(xContext);
+      XDesktop desktop = OfficeTools.getDesktop(xContext);
       if (desktop == null) {
         return null;
       }
