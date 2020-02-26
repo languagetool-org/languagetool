@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.en.translation;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.GlobalConfig;
@@ -95,6 +96,27 @@ public class BeoLingusTranslatorTest {
     assertThat(result3.size(), is(1));
     assertTrue(result3.get(0).getL2().contains("to change the tyres [Br.]"));
     assertTrue(result3.get(0).getL2().contains("to change the tires [Am.]"));
+  }
+
+  @Test
+  public void testCleanTranslationForReplace() {
+    assertThat(translator.cleanTranslationForReplace("", null), CoreMatchers.is(""));
+    assertThat(translator.cleanTranslationForReplace("to go", null), CoreMatchers.is("to go"));
+    assertThat(translator.cleanTranslationForReplace("to go", "foo"), CoreMatchers.is("to go"));
+    assertThat(translator.cleanTranslationForReplace("to go", "to"), CoreMatchers.is("go"));
+    assertThat(translator.cleanTranslationForReplace("foo (bar) {mus}", null), CoreMatchers.is("foo"));
+    assertThat(translator.cleanTranslationForReplace("some thing [Br.], something", null), CoreMatchers.is("some thing , something"));  // not quite clean yet...
+  }
+
+  @Test
+  public void testCleanTranslationForSuffix() {
+    assertThat(translator.cleanTranslationForSuffix(""), CoreMatchers.is(""));
+    assertThat(translator.cleanTranslationForSuffix(" "), CoreMatchers.is(""));
+    assertThat(translator.cleanTranslationForSuffix("foo bar"), CoreMatchers.is(""));
+    assertThat(translator.cleanTranslationForSuffix("foo bar [Br.]"), CoreMatchers.is("[Br.]"));
+    assertThat(translator.cleanTranslationForSuffix("foo bar {ugs} [Br.]"), CoreMatchers.is("{ugs} [Br.]"));
+    assertThat(translator.cleanTranslationForSuffix("foo bar {ugs} [Br.] (Blah)"), CoreMatchers.is("{ugs} [Br.] (Blah)"));
+    //assertThat(rule.cleanTranslationForAddition("foo (Blah {m})"), is("(Blah {m})"));  // nesting not supported yet
   }
 
 }

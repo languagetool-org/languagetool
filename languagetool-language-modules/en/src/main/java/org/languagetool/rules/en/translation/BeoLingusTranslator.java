@@ -170,6 +170,57 @@ public class BeoLingusTranslator implements Translator {
   }
 
   @Override
+  public String getMessage() {
+    return "Translate to English?";
+  }
+
+  @Override
+  public String cleanTranslationForReplace(String s, String prevWord) {
+    String clean = s
+      .replaceAll("\\[.*?\\]", "")   // e.g. "[coll.]", "[Br.]"
+      .replaceAll("\\{.*?\\}", "")   // e.g. "to go {went; gone}"
+      .replaceAll("\\(.*?\\)", "")   // e.g. "icebox (old-fashioned)"
+      .replaceAll("/[A-Z]+/", "")    // e.g. "heavy goods vehicle /HGV/"
+      .trim();
+    if ("to".equals(prevWord) && clean.startsWith("to ")) {
+      return clean.substring(3);
+    }
+    return clean;
+  }
+
+  @Override
+  public String cleanTranslationForSuffix(String s) {
+    StringBuilder sb = new StringBuilder();
+    List<String> lookingFor = new ArrayList<>();
+    for (int i = 0; i < s.length(); i++) {
+      char c = s.charAt(i);
+      if (c == '[') {
+        lookingFor.add("]");
+      } else if (c == ']' && lookingFor.contains("]")) {
+        sb.append(c);
+        sb.append(' ');
+        lookingFor.remove("]");
+      } else if (c == '(') {
+        lookingFor.add(")");
+      } else if (c == ')') {
+        sb.append(c);
+        sb.append(' ');
+        lookingFor.remove(")");
+      } else if (c == '{') {
+        lookingFor.add("}");
+      } else if (c == '}') {
+        sb.append(c);
+        sb.append(' ');
+        lookingFor.remove("}");
+      }
+      if (lookingFor.size() > 0) {
+        sb.append(c);
+      }
+    }
+    return sb.toString().trim();
+  }
+
+  @Override
   public DataSource getDataSource() {
     return new DataSource("https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html", "BEOLINGUS", "http://dict.tu-chemnitz.de");
   }

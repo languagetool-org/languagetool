@@ -41,9 +41,8 @@ import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
 import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
-import org.languagetool.rules.translation.TranslationData;
 import org.languagetool.rules.translation.TranslationEntry;
-import org.languagetool.rules.translation.TranslationTools;
+import org.languagetool.rules.translation.Translator;
 import org.languagetool.tools.Tools;
 
 import static org.languagetool.JLanguageTool.*;
@@ -178,7 +177,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   }
 
   @Nullable
-  protected TranslationData getTranslation(String word, String sourceLang, String targetLang) throws IOException {
+  protected Translator getTranslator(GlobalConfig globalConfig) throws IOException {
     return null;
   }
 
@@ -382,7 +381,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
  
     int translationSuggestionCount = 0;
     boolean preventFurtherSuggestions = false;
-    if (ruleMatch == null && motherTongue != null) {
+    Translator translator = getTranslator(globalConfig);
+    if (translator != null && ruleMatch == null && motherTongue != null) {
       List<String> phrasesToTranslate = new ArrayList<>();
       int translationEndPos = startPos + word.length();
       if (idx + 1 < tokens.length) {
@@ -395,17 +395,17 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       }
       phrasesToTranslate.add(word);
       for (String phraseToTranslate : phrasesToTranslate) {
-        TranslationData tData = getTranslation(phraseToTranslate, motherTongue.getShortCode(), language.getShortCode());
-        if (tData != null) {
-          ruleMatch = new RuleMatch(this, sentence, startPos, translationEndPos, "Translate to English?");
+        List<TranslationEntry> translations = translator.translate(phraseToTranslate, motherTongue.getShortCode(), language.getShortCode());
+        if (translations.size() > 0) {
+          ruleMatch = new RuleMatch(this, sentence, startPos, translationEndPos, translator.getMessage());
           ruleMatch.setType(RuleMatch.Type.Hint);
           ruleMatch.setSuggestedReplacements(new ArrayList<>());
           List<SuggestedReplacement> l = new ArrayList<>();
           String prevWord = idx > 0 ? tokens[idx-1].getToken() : null;
-          for (TranslationEntry translation : tData.getTranslations()) {
+          for (TranslationEntry translation : translations) {
             for (String s : translation.getL2()) {
-              String suffix = TranslationTools.cleanTranslationForSuffix(s);
-              l.add(new SuggestedReplacement(TranslationTools.cleanTranslationForReplace(s, prevWord), String.join(", ", translation.getL1()), suffix.isEmpty() ? null : suffix));
+              String suffix = translator.cleanTranslationForSuffix(s);
+              l.add(new SuggestedReplacement(translator.cleanTranslationForReplace(s, prevWord), String.join(", ", translation.getL1()), suffix.isEmpty() ? null : suffix));
             }
           }
           if (l.size() > 0) {

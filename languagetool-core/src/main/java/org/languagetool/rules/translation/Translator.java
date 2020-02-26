@@ -27,5 +27,11 @@ public interface Translator {
   List<TranslationEntry> translate(String term, String fromLang, String toLang) throws IOException;
 
   DataSource getDataSource();
-  
+
+  String getMessage();
+
+  String cleanTranslationForReplace(String s, String prevWord);
+
+  String cleanTranslationForSuffix(String s);
+
 }
