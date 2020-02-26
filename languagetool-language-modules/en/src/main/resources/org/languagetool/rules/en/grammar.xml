@@ -32759,6 +32759,24 @@ USA
             <example>If we see that your plan isn't a good fit anymore in the long run, we'd contact you.</example><!-- #2368 -->
             <example type="triggers_error">This is the first day of the new “My hips don’t hurt anymore” routine.</example>
         </rule>
+        <rule id="HUNDREDS_OF_THOUSAND" name="hundreds of thousand (thousands of) users" default="temp_off"><!-- #2512 -->
+            <pattern>
+                <marker>
+                    <token regexp="yes">tens|hundreds</token>
+                    <token>of</token>
+                    <token>thousand</token>
+                </marker>
+                <token postag="NNS"/>
+            </pattern>
+            <message>To describe a large number approximately, write <suggestion>\1 \2 thousands of</suggestion>.</message>
+            <url>http://www.bbc.co.uk/learningenglish/course/intermediate/unit-25/session-1</url>
+            <short>Grammar error</short>
+            <example correction="hundreds of thousands of">Now, <marker>hundreds of thousand</marker> people use LanguageTool.</example>
+            <example correction="Tens of thousands of"><marker>Tens of thousand</marker> books are in this library.</example>
+            <example>Now, <marker>hundreds of thousands of </marker> people use LanguageTool.</example>
+            <example>Now, a <marker>hundred thousand</marker> people use LanguageTool.</example><!-- Do not suggest 'hundred thousand', because an article is necessary, unlike for 'ten thousand' -->
+            <example><marker>Ten thousand</marker> books are in this library.</example>
+        </rule>
     </category>
 
     <!-- ====================================================================== -->
