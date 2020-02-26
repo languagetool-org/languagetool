@@ -206,6 +206,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("297 грн...");
     assertEquals(Arrays.asList("297", " ", "грн", "..."), testList);
 
+    testList = w.tokenize("297 грн.");
+    assertEquals(Arrays.asList("297", " ", "грн", "."), testList);
+
 //    testList = w.tokenize("297 грн.!!!");
 //    assertEquals(Arrays.asList("297", " ", "грн.", "!!!"), testList);
 
