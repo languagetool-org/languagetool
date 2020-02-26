@@ -23,6 +23,7 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.ngrams.FakeLanguageModel;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 
 import java.io.IOException;
@@ -69,15 +70,22 @@ public class LanguageSpecificTest {
     }
     System.out.println("Checking " + path + "...");
     Map<String, Set<String>> map = loader.loadWords(path);
-    List<String> invalid = new ArrayList<>();
+    Set<String> invalid = new HashSet<>();
+    Synthesizer synthesizer = lang.getSynthesizer();
     for (String key : map.keySet()) {
-      List<RuleMatch> matches = lt.check(key);
-      if (matches.size() > 0) {
-        invalid.add(key);
+      if (synthesizer != null) {
+        String[] forms = synthesizer.synthesize(new AnalyzedToken(key, "fake", key), ".*", true);
+        for (String form : forms) {
+          List<RuleMatch> matches = lt.check(form);
+          if (matches.size() > 0) {
+            invalid.add(form + " (a form of " + key + ")");
+          }
+        }
       }
     }
     if (invalid.size() > 0) {
-      fail(lang + ": These words trigger the rule because their base form is one of the forms in coherency.txt, giving false alarms: " + invalid);
+      fail(lang + ": These words trigger the rule because their base form is one of the forms in coherency.txt, " +
+        "giving false alarms:\n  " + String.join("\n  ", invalid));
     }
   }
   
