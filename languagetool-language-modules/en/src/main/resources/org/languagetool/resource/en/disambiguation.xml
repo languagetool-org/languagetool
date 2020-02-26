@@ -5214,39 +5214,42 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
         <rule id="RBNN_RB" name="adv/noun + verb -> adv">
-          <antipattern><!-- This set back is annoying -->
-              <token postag="DT"/>
-              <token postag_regexp="yes" postag="NN.*"/>
-              <token postag="RB"/>
-              <token postag="VBZ"/>
-          </antipattern>
-          <antipattern><!-- #2223 It's not good, so don't buy it -->
-              <token postag="CC"/>
-              <token postag="VBP"/>
-              <token regexp="yes">&apostrophe;</token>
-              <token>t</token>
-              <token postag_regexp="yes" postag="VBP?"/>
-          </antipattern>
-          <antipattern><!-- its home games -->
-              <token postag="PRP$"/>
-              <token chunk="I-NP-plural" postag_regexp="yes" postag="JJR?|NN.*"/>
-          </antipattern>
-          <pattern>
-            <marker>
-              <and>
-              <token postag="RB"><exception regexp="yes">supply|way</exception><exception scope="previous" postag="DT"/></token>
-              <token postag_regexp="yes" postag="NN:UN?"/>
-              </and>
-              </marker>
-              <token postag_regexp="yes" postag="VB.?"/>
-          </pattern>
-          <disambig postag="RB"/>
-          <example type="untouched">It took them forever.</example>
-          <example type="untouched">We <marker>supply</marker> parts to the auto manufacturer.[Adverb variant of 'supplely': https://www.lexico.com/definition/supplely]</example>
-          <example type="untouched">Incorrect. Should be 'setback', but 'back' is not an adverb in this context. This set <marker>back</marker> is annoying.</example>
-          <example type="untouched">It's not good, <marker>so</marker> don't buy it.</example><!-- #2223 -->
-          <example type="untouched">Adjective: The national team plays its <marker>home</marker> games at the Ghazi Stadium in Kabul.</example>
-          <example type="ambiguous" inputform="forever[forever/NN:U,forever/RB]" outputform="forever[forever/RB]">You're <marker>forever</marker> making mistakes.</example>
+            <antipattern><!-- This set back is annoying -->
+                <token postag="DT"/>
+                <token postag_regexp="yes" postag="NN.*"/>
+                <token postag="RB"/>
+                <token postag="VBZ"/>
+            </antipattern>
+            <antipattern><!-- #2223 It's not good, so don't buy it -->
+                <token postag="CC"/>
+                <token postag="VBP"/>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+                <token postag_regexp="yes" postag="VBP?"/>
+            </antipattern>
+            <antipattern><!-- its home games -->
+                <token postag="PRP$"/>
+                <token chunk="I-NP-plural" postag_regexp="yes" postag="JJR?|NN.*"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <and>
+                        <token postag="RB">
+                            <exception regexp="yes">supply|way</exception>
+                            <exception scope="previous" postag="DT"/>
+                            </token>
+                        <token postag_regexp="yes" postag="NN:UN?"/>
+                    </and>
+                </marker>
+                <token postag_regexp="yes" postag="VB.?"/>
+            </pattern>
+            <disambig postag="RB"/>
+            <example type="untouched">It took them forever.</example>
+            <example type="untouched">We <marker>supply</marker> parts to the auto manufacturer.[Adverb variant of 'supplely': https://www.lexico.com/definition/supplely]</example>
+            <example type="untouched">Incorrect. Should be 'setback', but 'back' is not an adverb in this context. This set <marker>back</marker> is annoying.</example>
+            <example type="untouched">It's not good, <marker>so</marker> don't buy it.</example><!-- #2223 -->
+            <example type="untouched">Adjective: The national team plays its <marker>home</marker> games at the Ghazi Stadium in Kabul.</example>
+            <example type="ambiguous" inputform="forever[forever/NN:U,forever/RB]" outputform="forever[forever/RB]">You're <marker>forever</marker> making mistakes.</example>
         </rule>
 
         <rule name="as" id="AS_ADVERB">
