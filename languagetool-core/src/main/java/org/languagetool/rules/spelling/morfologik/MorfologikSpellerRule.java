@@ -390,7 +390,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         if (isMisspelled(nextWord)) {
           phrasesToTranslate.add(word + " " + nextWord);
           translationEndPos = tokens[idx + 1].getEndPos();
-          preventFurtherSuggestions = true;  // mark gets extended, so suggestions for the original marker won't make sense
         }
       }
       phrasesToTranslate.add(word);
@@ -411,12 +410,15 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           if (l.size() > 0) {
             ruleMatch.setSuggestedReplacementObjects(l);
             translationSuggestionCount = l.size();
+            if (phraseToTranslate.contains(" ")) {
+              preventFurtherSuggestions = true;  // mark gets extended, so suggestions for the original marker won't make sense
+            }
             break;  // let's assume the first phrase is the best because it's longer
           }
         }
       }
     }
-    
+
     if (ruleMatch == null) {
       Language acceptingLanguage = acceptedInAlternativeLanguage(word);
       if (acceptingLanguage != null) {
