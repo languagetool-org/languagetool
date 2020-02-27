@@ -4297,6 +4297,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>To jest przykład—błędny—ale jest.</example>
 						</rule>
 				</rulegroup>
+            <!-- does not work due to sentence splitting
 				<rule id="BRAK_SPACJI_PO_INICJALE_IMIENIA" name="Brak spacji po inicjale imienia">
          <pattern>
           <token regexp='yes'>\p{Lu}</token>
@@ -4309,6 +4310,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>Wcześniej istnienie mapy poznawczej postulował E. Tolman.</example>
          <example>Taką tezę głosił J.A. Fodor.</example>
         </rule>
+        -->
 				<rule id="ZBEDNA_SPACJA" type="whitespace" name="Zbędna spacja po znaku interpunkcyjnym (cudzysłów, nawias)">
 						<pattern>
 								<token regexp="yes">[„\[]</token>
@@ -5075,6 +5077,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <example>Spółka z o.o.</example>
                       <example correction="z o.o.">Spółka <marker>z o. o.</marker> Jurek.</example>
                     </rule>
+                    <!-- does not work due to sentence splitting
                     <rule>
                       <pattern>
                         <token>p</token>                        
@@ -5088,6 +5091,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <short>Zbędna spacja</short>                                            
                       <example correction="p.n.e">To było w roku 241 <marker>p. n.e</marker>.</example>
                     </rule>
+                    -->
                     <rule>
                       <pattern>
                         <token>p</token>                        
@@ -18513,6 +18517,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Wczoraj wygrałem 10 mld.</example>
 								<example correction="mln">Brakuje nam 3 <marker>mln.</marker> złotych.</example>
 						</rule>
+                        <!-- does not work due to sentence splitting
                         <rule>
                         <pattern>
                             <token regexp="yes">npl|[tpw]g|cos|cosec|sec|sin|rkm</token>
@@ -18523,6 +18528,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Świat wg Garpa</example>
                         <example correction="wg">Świat <marker>wg.</marker> Garpa</example>
                         </rule>
+                        -->
                         <rule>
                         <pattern>
                             <marker>

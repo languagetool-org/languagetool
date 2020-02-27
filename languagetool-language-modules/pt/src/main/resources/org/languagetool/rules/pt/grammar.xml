@@ -2723,7 +2723,7 @@ MARCOAGPINTO 2020-02-18 -->
     <!--suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)ad([ao]s?)' regexp_replace='$1ue' suppress_misspelled='yes'/></suggestion-->
       <example correction='foi aceite'>O projeto <marker>foi aceito</marker>.</example>
       <example correction='foi aceite'>A China <marker>foi aceita</marker> na Organização Mundial do Comércio.</example>
-      <example correction='serem aceites'>... que ser de um certo tamanho e qualidade antes de <marker>serem aceitas</marker> pelos praticantes da MTC e consumidores.</example>
+      <example correction='serem aceites'>Que ser de um certo tamanho e qualidade antes de <marker>serem aceitas</marker> pelos praticantes da MTC e consumidores.</example>
     </rule>
   </rulegroup>
 
@@ -3195,7 +3195,7 @@ MARCOAGPINTO 2020-02-18 -->
       <message>As ênclises terminadas em r, s ou z exigem alteração do pronome e do verbo. A palavra poderá exigir um acento adicional na forma verbal sugerido.</message>
         <suggestion><match no='1' regexp_match='(.+)(r|s|z)$' regexp_replace='$1'/>-l\3</suggestion>
       <url>https://pt.wikipedia.org/wiki/Coloca%C3%A7%C3%A3o_pronominal#.C3.8Anclise</url>
-      <example correction='Come-las'>Estas entradas são deliciosas. Vá! <marker>Comer-as</marker>.</example>
+      <example correction='Come-las'><!--Estas entradas são deliciosas. Vá! --><marker>Comer-as</marker>.</example>
       <example>Ele teve-a como perdida.</example>
     </rule>
 
@@ -8423,7 +8423,7 @@ MARCOAGPINTO 2020-02-18 -->
           <token regexp="yes">[!.]</token>
       </pattern>
       <message>Usar vírgula: <suggestion>\1,</suggestion></message>
-      <example correction="É,">Será verdade? <marker>É</marker> pois!</example>
+      <example correction="É,"><!--Será verdade? --><marker>É</marker> pois!</example>
     </rule>
     <rule>
       <pattern>
@@ -9944,8 +9944,9 @@ MARCOAGPINTO 2020-02-18 -->
     </rule>
   </rulegroup>
 
+     <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
+     <!-- TODO: doesn't work due to sentence splitting
     <rule id='PUNCTUATION_IN_UNITS_OF_MEASURE' name="Abreviaturas de unidades de medida">
-    <!--  Based on the Catalan version, by Tiago F. Santos, 2017-02-22      -->
       <pattern case_sensitive='yes'>
           <token postag_regexp='yes' postag='Z.+'/>
         <marker>
@@ -9963,6 +9964,7 @@ MARCOAGPINTO 2020-02-18 -->
       <example>CUNNINGHAM, Philip A.; STARR, Arthur F.; Sharing Shalom: A Process for Local Interfaith D…</example>
       <example>"A lei e os profetas duraram até João"(cf. ; ).</example>
     </rule>
+    -->
 
   <rulegroup id='HOURS_ABREVIATION' name="Abreviatura de horas">
     <!-- Localized from Catalan, by Tiago F. Santos, 2017-05-16 -->
@@ -9976,6 +9978,7 @@ MARCOAGPINTO 2020-02-18 -->
       <short>Erro de abreviação</short>
       <example correction="15&#160;h">Às <marker>15hs</marker> em ponto.</example>
     </rule>
+    <!-- doesn't work due to sentence splitting
     <rule>
       <pattern>
           <token regexp="yes">\d+&#160;?(?:hr?s|horas?)</token>
@@ -9987,6 +9990,7 @@ MARCOAGPINTO 2020-02-18 -->
       <short>Erro de abreviação</short>
       <example correction="15&#160;h">Às <marker>15hs.</marker> em ponto.</example>
     </rule>
+    -->
     <rule>
       <pattern>
           <token regexp="yes">\d+</token>
@@ -9997,6 +10001,7 @@ MARCOAGPINTO 2020-02-18 -->
       <short>Erro de abreviação</short>
       <example correction="15&#160;h">Às <marker>15 hs</marker> em ponto.</example>
     </rule>
+    <!-- doesn't work due to sentence splitting
     <rule>
       <pattern>
           <token regexp="yes">\d+</token>
@@ -10009,6 +10014,7 @@ MARCOAGPINTO 2020-02-18 -->
       <short>Erro de abreviação</short>
       <example correction="15&#160;h">Às <marker>15 hs.</marker> em ponto.</example>
     </rule>
+    -->
     <rule>
       <pattern>
           <token regexp="yes">(?:[012]?\d:)?[012345]?\d</token>
@@ -10310,7 +10316,7 @@ MARCOAGPINTO 2020-02-18 -->
         <suggestion>\1.\2</suggestion>
         <suggestion>\1!\2</suggestion>
         <suggestion>\1?\2</suggestion>
-      <example correction="bonito.”|bonito!”|bonito?”">Ele disse: “O jardim é <marker>bonito”</marker></example>
+      <example correction="bonito.”|bonito!”|bonito?”"><!--Ele disse: -->“O jardim é <marker>bonito”</marker></example>
       <example>A antropologia do “trabalho”</example>
       <example>Onko — É café “sem cafeína”</example>
     </rule>
@@ -26549,7 +26555,7 @@ TODO Write better examples
           <token>.</token>
       </pattern>
       <message>Utilize o caractér tipográfico de reticências em vez de: <suggestion>…</suggestion>.</message>
-      <example correction="…">Isto é importante <marker>. . .</marker> tanto quanto sei.</example>
+      <!--<example correction="…">Isto é importante <marker>. . .</marker> tanto quanto sei.</example>-->
       <example>Isto é importante – tanto quanto sei.</example>
       <example correction="…">Isto é importante<marker>...</marker> tanto quanto sei.</example>
       <example>1. Introdução .................................... 3</example>
@@ -26725,8 +26731,9 @@ TODO Write better examples
       <example type="incorrect">“Não me incomode com sua tagarelice infantil<marker>;”</marker> disse Maria; “eu escrevo versos imortais.”</example>
     </rule>
 
+   <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
   <rulegroup id="PARENTESESE_AND_QUOTES_SPACING" name="Espaçamento em volta de aspas ou parênteses">
-    <!-- Localized from German grammar.xml by Tiago F. Santos,  2017-08-17      -->
+    <!-- doesn't work out due to sentence splitting
     <rule>
       <antipattern>
           <token>,</token>
@@ -26782,6 +26789,7 @@ TODO Write better examples
       <example correction=".»">«O jardim», disse ele, «jardim é verdadeiramente bonito<marker>. »</marker></example>
       <example>Algumas palavras inglesas têm duas grafias, p.ex. "gray" e "grey".</example>
     </rule>
+    -->
     <rule>
       <antipattern>
           <token regexp="yes">„|»|«|"|\(|\{</token>
@@ -30771,6 +30779,7 @@ TODO Write better examples
         <suggestion>engenheir<match no='2' regexp_match='(elétric)(.s?)' regexp_replace='$2'/> eletrotécnic<match no='2' regexp_match='(elétric)(.s?)' regexp_replace='$2'/></suggestion>
       <example correction="engenheiras eletrotécnicas">A proposta do <marker>engenheiro elétricas</marker> parece ser insuperável.</example>
     </rule>
+    <!-- doesn't work due to sentence splitting
     <rule>
       <pattern>
           <token>eng</token>
@@ -30782,6 +30791,7 @@ TODO Write better examples
       <short>Erro de tradução</short>
       <example correction="eng. eletrotécnico">A proposta do <marker>eng. elétrico</marker> parece ser insuperável.</example>
     </rule>
+    -->
   </rulegroup>
 
     <rule id='ESTIMAÇÃO_MÁXIMA_SEMELHANÇA' name="Erro de tradução: 'estimação máxima verosimilhança'">
@@ -33561,7 +33571,7 @@ TODO Write better examples
       </pattern>
       <message>'\2' refere-se a um ato de juntar ou conjunto nominal colocado lado a lado. Verifique se não foi uma gralha.</message>
         <suggestion><match no='2' regexp_match='apos' regexp_replace='pos'/></suggestion>
-      <example correction="posição">... assumirem um <marker>aposição</marker> …</example>
+      <example correction="posição">… assumirem um <marker>aposição</marker> …</example>
       <example>Refere-se a uma <marker>aposição</marker>.</example>
     </rule>
     <rule>
@@ -34019,10 +34029,10 @@ TODO Write better examples
       <regexp>\b(um presente|autêntic[ao]s?|achado|aclamad[ao]s?|antiquíssim[ao]s?|surpreendente|surpreendentemente|melhor.+|antigos? regimes?|autêntic[ao]s?|autenticamente|autenticidade|premiad[ao]s?|impressionante|maravilhos[ao]s?|básic[ao]s?|segredos? mais bem guardados?|grandes?|tirar o fôlego|de uma forma incrivel|brilhantes?|brilhantemente|capaz|categóric[ao]s?|categoricamente|célebres?|clandestin[ao]s?|clar(ão|ões)|competentes?|confiantes?|constituir|porreir[ao]s?|criativ[ao]s?|becos? sem saída|deus ex machina|perturbador(es)?|não perca|a não perder|dinâmic[ao]s?|eficaz(es)?|energétic[ao]s?|enormes?|enormemente|épic[ao]s?|confec?ção da época|excelentes?|sublimes?|emocionantes?|exposiç(ão|ões)|exótic[ao]s?|aceler.+|explor.+|estranh[ao]s?|extraordinário|famos[ao]s?|famosamente|fascinantes?|dotad[ao]s?|mais grandios[ao]s?|grandezas?|óp?timos?|altamente qualificad[ao]s?|históric[ao]s?|ic[óô]nic[ao]s?|impact[ao]s?|impactantes?|individu(al|ais)|inevitáv(el|eis)|inexoráv(el|eis)|interessantes?|curiosamente|marcos?|maior(es)?|lendári[ao]s?|liquid.+|envio no correio|magistr(al|ais)|magistralmente|devem?-se ver|devem?-se notar|mutatis mutandis|notáv(el|eis)|notavelmente|objec?tivo|livres?|excep?cion(al|ais)|excepcionalmente|perfeit[ao]s?|fen[óô]menos?|prever|de prestígio|prestigiad[ao]s?|primári[ao]s?|profission(al|ais)|promov.+|qualificad[ao]s?|radic(al|ais)|notáv(el|eis)|notavelmente|renomead[ao]s?|respeitad[ao]s?|espetacular(es)?|espetacularmente|status quo|estrelas?|estelar(es)?|instigantes?|progress.+|provocantes?|bem sucedid[ao]s?|com sucesso|talentos?|talentos[ao]s?|provocador[ae]?s?|emocionantes?|tocantes?|transformativ[ao]s?|transform.+|transformador(es)?|tridente|triunfantes?|inesquecív(el|eis)|únic[ao]s?|unicamente|verdadeir[ao]s?|virtu(al|ais)|virtuos[ao]s?|visionári[ao]s?|maravilhos[ao]s?|maravilhosamente|classe mundial|impossív(el|eis)|barat[ao]s?|[ao]s? melhor(es|.+?íssim[ao]s?)?)\b</regexp>
       <message>Esta palavra é uma palavra de ostentação ou propaganda. Reconsidere o seu uso.</message>
       <example type='incorrect'>Um jogador de <marker>classe mundial</marker>…</example>
-      <example type='incorrect'>...é um <marker>autêntico</marker>…</example>
-      <example type='incorrect'>...<marker>achado</marker>!</example>
-      <example type='incorrect'>...<marker>Impossível</marker>…</example>
-      <example type='incorrect'>...encontrar mais <marker>barato</marker>!</example>
+      <example type='incorrect'>…é um <marker>autêntico</marker>…</example>
+      <example type='incorrect'>…<marker>achado</marker>!</example>
+      <example type='incorrect'><marker>Impossível</marker></example>
+      <example type='incorrect'>…encontrar mais <marker>barato</marker>!</example>
       <example type='correct'>Um bom jogador não é fácil de encontrar. Não há muitos negócios como este.</example>
     </rule>
   </rulegroup>

@@ -347,10 +347,16 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       
       // necessary for XML Pattern rules containing <or>
       List<RuleMatch> matches = new ArrayList<>();
-      for (Rule auxRule : rules) { 
-        matches.addAll(getMatchesForSingleSentence(auxRule, badSentence, lt));
+      for (Rule auxRule : rules) {
+        if (lang.getShortCode().matches("gl|eo|ar|br|ca|zh|uk")) {
+          // this is less strict, getMatchesForText() should be used. Language maintainers
+          // should make sure their tests work even when in the strict mode:
+          matches.addAll(getMatchesForSingleSentence(auxRule, badSentence, lt));
+        } else {
+          matches.addAll(getMatchesForText(auxRule, badSentence, lt));
+        }
       }
-      
+
       if (rule instanceof RegexPatternRule || rule instanceof PatternRule && !((PatternRule)rule).isWithComplexPhrase()) {
         if (matches.size() != 1) {
           AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(badSentence);
@@ -393,7 +399,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           for (String replacement : matches.get(0).getSuggestedReplacements()) {
             String fixedSentence = badSentence.substring(0, fromPos)
                 + replacement + badSentence.substring(toPos);
-            matches = getMatchesForSingleSentence(rule, fixedSentence, lt);
+            matches = getMatchesForText(rule, fixedSentence, lt);
             if (matches.size() > 0) {
                 fail("Incorrect input:\n"
                         + "  " + badSentence
@@ -408,7 +414,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         }
       } else { // for multiple rules created with complex phrases
 
-        matches = getMatchesForSingleSentence(rule, badSentence, lt);
+        matches = getMatchesForText(rule, badSentence, lt);
         if (matches.isEmpty()
             && !complexRules.containsKey(rule.getId() + badSentence)) {
           complexRules.put(rule.getId() + badSentence, rule);
