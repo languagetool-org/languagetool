@@ -4930,6 +4930,36 @@ USA
         </rulegroup>
         <rulegroup id="MAY_BE" name="may be (maybe)">
             <url>https://dictionary.cambridge.org/de/grammatik/britisch-grammatik/maybe-or-may-be</url>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|CC" postag_regexp="yes" />
+                    <token inflected="yes" regexp="yes">do|be</token>
+                    <token min="0" regexp="yes">&apostrophe;</token>
+                    <token min="0">t</token>
+                    <token regexp="yes">you|s?he|they|we|it|I</token>
+                    <marker>
+                        <token>may</token>
+                        <token>be</token>
+                    </marker>
+                    <token postag="VB.*|JJ.*" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>maybe</suggestion> (= perhaps)?</message>
+                <example correction="maybe">Did you <marker>may be</marker> mean this?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">you|s?he|they|we|it|I</token>
+                    <marker>
+                        <token>may</token>
+                        <token>be</token>
+                    </marker>
+                    <token postag="VBZ?|MD" postag_regexp="yes">
+                        <exception postag="JJ.*|NN.*" postag_regexp="yes" />
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>maybe</suggestion> (= perhaps)?</message>
+                <example correction="maybe">You <marker>may be</marker> could check this.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
@@ -4938,7 +4968,7 @@ USA
                     </marker>
                     <token postag="PRP"><exception>one</exception></token>
                 </pattern>
-                <message>Did you mean <suggestion>maybe</suggestion> (=perhaps)?</message>
+                <message>Did you mean <suggestion>maybe</suggestion> (= perhaps)?</message>
                 <short>Possible typo</short>
                 <example correction="Maybe"><marker>May be</marker> I don't understand.</example>
                 <example>That they all may be one...</example>
@@ -4952,7 +4982,7 @@ USA
                     </marker>
                     <token>there</token>
                 </pattern>
-                <message>Did you mean <suggestion>maybe</suggestion> (=perhaps)?</message>
+                <message>Did you mean <suggestion>maybe</suggestion> (= perhaps)?</message>
                 <short>Possible typo</short>
                 <example correction="Maybe"><marker>May be</marker> there is someone who can help.</example>
                 <example>That they all may be there...</example>
@@ -4966,7 +4996,7 @@ USA
                     </marker>
                     <token postag="DT|PRP\$|NNP" postag_regexp="yes" />
                 </pattern>
-                <message>Did you mean <suggestion>maybe</suggestion> (=perhaps)?</message>
+                <message>Did you mean <suggestion>maybe</suggestion> (= perhaps)?</message>
                 <short>Possible typo</short>
                 <example correction="Maybe"><marker>May be</marker> a new one?.</example>
                 <example correction="Maybe"><marker>May be</marker> his father knows.</example>
@@ -4980,7 +5010,7 @@ USA
                         <token>be</token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion>maybe</suggestion> (=perhaps)?</message>
+                <message>Did you mean <suggestion>maybe</suggestion> (= perhaps)?</message>
                 <short>Possible typo</short>
                 <example correction="maybe">I paid (<marker>may be</marker>) an exorbitant price for this.</example>
                 <example>I paid (maybe) an exorbitant price.</example>
@@ -10031,7 +10061,6 @@ USA
         </rulegroup>
         <rulegroup id="PRP_JJ" name="He scary (He is scary)">
             <!-- TODO: You/they afraid -->
-            <!-- TODO: He not afraid-->
             <antipattern>
                 <token postag="VB.*|IN|UNKNOWN" postag_regexp="yes" />
                 <token regexp="yes">it|you</token>
@@ -10063,7 +10092,7 @@ USA
                 <token postag="PRP" />
             </antipattern>
             <antipattern>
-                <token regexp="yes">though|brough|overdue|fond|wont|dont|cold</token><!-- misspelled verbs (different error) -->
+                <token regexp="yes">though|br?ough|overdue|fond|wont|dont|cold</token><!-- misspelled verbs (different error) -->
                 <token postag="PRP" />
             </antipattern>
             <antipattern><!-- "she on purpose did that"  -->
@@ -10240,13 +10269,13 @@ USA
             <rule><!-- "Everything else it not working" -->
                 <pattern>
                     <or>
-                        <token postag="NN(:UN?)?|WDT|WP" postag_regexp="yes" />
-                        <token>else</token>
+                        <token postag="NN.*|WDT|WP" postag_regexp="yes" />
+                        <token regexp="yes">else|this</token>
                     </or>
                     <marker>
-                        <token>it</token>
+                        <token case_sensitive="yes" regexp="yes">[Ii]t</token>
                     </marker>
-                    <token regexp="yes">not|very|really|totally|absolutely</token>
+                    <token regexp="yes">not|very|really|totally|absolutely|also|so|an?|the</token>
                     <token postag="JJ.*" postag_regexp="yes">
                         <exception postag="VB[PZD]?|MD|RB.*|CC" postag_regexp="yes" />
                     </token>
@@ -10255,6 +10284,9 @@ USA
                 <example correction="is|it is">He told me that <marker>it</marker> not working.</example>
                 <example correction="is|it is">Session trace data is not sent to Insights, so <marker>it</marker> not possible to query or filter session traces (on any attribute).</example>
                 <example correction="is|it is">... that the script <marker>it</marker> not visible on the screen.</example>
+                <example correction="is|it is">Update: I stand corrected - this <marker>it</marker> the exact same issue as the old thread.</example>
+                <example correction="is|it is">I am guessing this <marker>it</marker> the primary reason your call is returning an error.</example>
+                <example correction="is|it is">Another way I think you can solve it is to minimize the action so that the script <marker>it</marker> not visible on the screen.</example>
                 <example>I use it a lot, and find it very reliable.</example>
                 <example>Only one is worth it not two.</example>
                 <example>Making it very difficult to stop in intersections.</example>
@@ -10262,14 +10294,45 @@ USA
                 <example>The methodology keeps changing every year, making it not comparable across years and unreliable as a KPI for open government data.</example>
                 <example>No, you having to ask for something does NOT automatically make it not worth getting.</example>
             </rule>
+
+            <rule default="temp_off"><!-- "It not easy" / "It a good source" -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[Ss]he|[Hh]e|[Ii]t</token>
+                    </marker>
+                    <token regexp="yes">not|very|really|totally|absolutely|also|so|an?|the</token>
+                    <token postag="JJ.*" postag_regexp="yes">
+                        <exception postag="VB[PZD]?|MD|RB.*|CC" postag_regexp="yes" />
+                        <exception regexp="yes">(?!(&adjectives_with_ing;)).{2,}ing</exception>
+                    </token>
+                </pattern>
+                <message>It seems that a verb is missing after "\1". Please verify.</message>
+                <suggestion>\1 is</suggestion>
+                <suggestion>\1 was</suggestion>
+                <example correction="It is|It was"><marker>It</marker> very easy.</example>
+                <example correction="It is|It was"><marker>It</marker> also good source to farm snotstones.</example>
+                <example correction="It is|It was"><marker>It</marker> the variable scope.</example>
+                <example correction="She is|She was"><marker>She</marker> the perfect replacement for Kraken in those Justice and Mab teams!</example>
+                <example correction="he is|he was">He was not performing good, but <marker>he</marker> very active.</example>
+                <example correction="He is|He was"><marker>He</marker> a racist and a fascist as the article mentions.</example>
+                <example correction="It is|It was"><marker>It</marker> also worth pointing out that this is not new information.</example>
+                <example correction="it is|it was">A pipe bender would be best, not sure if <marker>it</marker> a free loan from a parts store.</example>
+                <example correction="it is|it was">Hey, <marker>it</marker> a good day to die for the cause!</example>
+                <example correction="It is|It was"><marker>It</marker> a little bit of a muddy area.</example>
+                <example correction="it is|it was">I don’t know if <marker>it</marker> a good idea.</example>
+                <example type="triggers_error">She the attached images for the zen and the lamp in the iOS Alexa app.</example>
+                <example type="triggers_error">“Call it the bedroom light.”</example><!-- #2518 -->
+                <example type="triggers_error">This all makes it a more convenient number system.</example><!-- #2523 -->
+            </rule>
+
             <rule><!-- "Everything else it cool" -->
                 <pattern>
                     <or>
-                        <token postag="NN(:UN?)?|WDT|WP" postag_regexp="yes" />
-                        <token>else</token>
+                        <token postag="NN.*|WDT|WP" postag_regexp="yes" />
+                        <token regexp="yes">else|this</token>
                     </or>
                     <marker>
-                        <token>it</token>
+                        <token case_sensitive="yes" regexp="yes">[Ii]t</token>
                     </marker>
                     <token postag="JJ.*" postag_regexp="yes">
                         <exception postag="VB[PZD]?|MD|RB.*|CC" postag_regexp="yes" />
@@ -10283,11 +10346,12 @@ USA
                 <example correction="is|it is">It just says an update <marker>it</marker> available and hangs waiting for the download to start?</example>
                 <example correction="is|it is">But since the author decided to go with it and everything else <marker>it</marker> working I suppose they can try it this way and figure how to change it later when/if they experience performance hit.</example>
                 <example correction="is|it is">The life dies in which life condition <marker>it</marker> reborn in the same life condition.</example>
+                <example>As a lifetime IT professional, I suspect that it is highly unlikely that Samsung will continue to develop and support two applications.</example>
             </rule>
-            <rule>
+            <rule><!-- "He afraid" -->
                 <pattern>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">[Ss]he|[He]e|[Ii]t</token>
+                        <token regexp="yes" case_sensitive="yes">[Ss]he|[Hh]e|[Ii]t</token>
                     </marker>
                     <token postag="JJ.*" postag_regexp="yes">
                         <exception postag="VB[PZD]?|MD|RB.*|CC" postag_regexp="yes" />
@@ -10377,8 +10441,10 @@ USA
                 <example>Grandy was really letting her have it tonight.</example><!-- #2506 -->
                 <example>How many things has she broken?</example>
                 <example>Where was he/she born?</example>
+                <!-- <example type="triggers_error">The angry know it all.</example> -->
+                <!-- <example type="triggers_error">The very fact that you suddenly thought about her makes it obvious that you like her.</example> -->
             </rule>
-            <rule><!-- "We afraid of them." -->
+            <rule><!-- "We afraid" -->
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[Ww]e</token>
@@ -11159,7 +11225,7 @@ USA
             </antipattern>
             <antipattern><!-- nouns that are verbs when written as two words, needs different rule with suggestion (TODO!) -->
                 <token postag="MD" skip="2" />
-                <token regexp="yes">sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
+                <token regexp="yes">trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
             </antipattern>
             <antipattern case_sensitive="yes"><!-- A.I -->
                 <token regexp="yes">[A-Z]</token>
@@ -38409,6 +38475,31 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rule id="IT_IF" name="it vs. if" default="temp_off">
+            <antipattern>
+                <token postag="JJR" />
+                <token>than</token>
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START" />
+                <token regexp="yes" min="0">and|but</token>
+                <marker>
+                    <token>it</token>
+                </marker>
+                <token postag="DT|PRP|NNP" postag_regexp="yes" skip="8" />
+                <token>
+                    <exception scope="previous" postag="CC" />
+                    then
+                </token>
+                <token postag="DT|PRP|NNP" postag_regexp="yes" />
+                <token />
+                <token />
+            </pattern>
+            <message>Did you maybe mean <suggestion>if</suggestion>?</message>
+            <example correction="If"><marker>It</marker> the first one lights then it is working.</example>
+            <example correction="If"><marker>It</marker> it does, then the script will return "NOT_FOUND".</example>
+            <example>It all happened so fast and then it was over.</example>
+        </rule>
         <rule id="HAD_HARD" name="had vs. hard" default="temp_off">
             <pattern>
                 <token inflected="yes">be</token>
