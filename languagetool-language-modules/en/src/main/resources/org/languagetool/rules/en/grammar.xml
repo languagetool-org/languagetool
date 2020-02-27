@@ -40896,6 +40896,7 @@ The accident victim died from her injuries.
                 <example>Do you know the guys Tom is talking to?</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="YOUR" name="your (you're)">
             <url>https://en.wiktionary.org/wiki/your</url>
             <rule>
@@ -40914,6 +40915,25 @@ The accident victim died from her injuries.
                     <token>your</token>
                     <token postag_regexp="yes" postag="NN.*|JJ"/>
                     <token postag_regexp="yes" postag="NN.*"/>
+                </antipattern>
+                <antipattern><!-- Premium #999 that your meeting with Tom was fruitful -->
+                    <token postag="WDT"/>
+                    <token>your</token>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN.*"/>
+                    <token skip="-1" postag="IN"/>
+                    <token chunk="B-VP"/>
+                </antipattern>
+                <antipattern><!-- Premium #999 that your meeting with Tom was fruitful -->
+                    <token postag="WDT"/>
+                    <token>your</token>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN.*"/>
+                    <token skip="-1" postag="IN"/>
+                    <token chunk="B-VP"/>
+                </antipattern>
+                <antipattern><!-- Premium #999 your snoring didn't -->
+                    <token>your</token>
+                    <token postag_regexp="yes" postag="NN.*"/>
+                    <token postag_regexp="yes" postag="VB.*" inflected="yes">do</token>
                 </antipattern>
                 <pattern>
                     <token><exception postag="IN|VB.*" postag_regexp="yes"/><exception>t</exception></token>
@@ -40939,10 +40959,11 @@ The accident victim died from her injuries.
                 <example correction="you're|you are">If <marker>your</marker> thinking of going to Paris...</example>
                 <example correction="you're|you are">If <marker>your</marker> thinking of the time that we were in Paris...</example>
                 <example correction="you're|you are">They need some proof that what <marker>your</marker> selling is worth buying.</example><!-- Premium #999 selling/E-NP-singular -->
+                <example correction="you're|you are">I am glad that <marker>your</marker> meeting with Tom next Monday.</example>
                 <example type="triggers_error">If <marker>your</marker> testing of the rules is complete...</example>
                 <example type="triggers_error">I was wondering what your understanding of the Indian office's trading/marketing/origination plans are.</example><!-- Premium #999 -->
-                <example type="triggers_error">I am glad that your meeting with Tom was fruitful.</example><!-- Premium #999 -->
-                <example type="triggers_error">Tom said that your snoring didn't bother Mary.</example><!-- Premium #999 -->
+                <example>I am glad that your meeting with Tom was fruitful.</example><!-- Premium #999 -->
+                <example>Tom said that your snoring didn't bother Mary.</example><!-- Premium #999 -->
             </rule>
             <rule>
                 <pattern>
@@ -40972,6 +40993,7 @@ The accident victim died from her injuries.
                 <example correction="you're|you are">Let's see if <marker>your</marker> a developer.</example>
             </rule>
         </rulegroup>
+
         <rule id="PIGEON_ENGLISH" name="pigeon (pidgin) English/...">
             <pattern>
                 <marker>
