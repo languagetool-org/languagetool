@@ -421,6 +421,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("people");
     } else if ("kiddin".equals(word)) {
       return Arrays.asList("kidding");
+    } else if ("doin".equals(word)) {
+      return Arrays.asList("doing");
+    } else if ("nothin".equals(word)) {
+      return Arrays.asList("nothing");
     } else if ("Thx".equals(word)) {
       return Arrays.asList("Thanks");
     } else if ("thx".equals(word)) {
@@ -449,8 +453,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("What are you", "What do you");
     } else if ("sinc".equals(word)) {
       return Arrays.asList("sync");
+    } else if ("sweety".equals(word)) {
+      return Arrays.asList("sweetie");
+    } else if ("sweetys".equals(word)) {
+      return Arrays.asList("sweeties");
     } else if ("Hongkong".equals(word)) {
       return Arrays.asList("Hong Kong");
+    } else if ("Playstation".equalsIgnoreCase(word)) {
+      return Arrays.asList("PlayStation");
     } else if ("center".equals(word)) {
       // For non-US English
       return Arrays.asList("centre");
