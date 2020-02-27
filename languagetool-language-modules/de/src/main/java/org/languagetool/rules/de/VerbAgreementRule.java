@@ -195,7 +195,8 @@ public class VerbAgreementRule extends TextLevelRule {
     Arrays.asList( // Ohne sie hätte ich das nie geschafft.
      token("ohne"),
      token("sie"),
-     csToken("hätte")
+     token("hätte"),
+     token("ich")
     )
   );
 
