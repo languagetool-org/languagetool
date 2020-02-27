@@ -3458,15 +3458,24 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
-    <rule name="BLACK" id="BLACK">
-        <!-- https://www.duden.de/suchen/dudenonline/black -->
-        <!-- https://de.wikipedia.org/wiki/Black -->
-        <pattern case_sensitive="yes">
-            <token>Black</token>
-            <token regexp="yes">Fridays?|Mondays?|Rocks?|Angels?|Box(es)?|Panthers?|Power|Holes?|Tongues?|Mail|Metal|Jack|Sabbaths?|Lives|Site|Lakes?|Paintings?|Forests?|Mirrors?|Butlers?|Honeys?</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
+    <rulegroup name="BLACK" id="BLACK">
+        <rule>
+            <!-- https://www.duden.de/suchen/dudenonline/black -->
+            <!-- https://de.wikipedia.org/wiki/Black -->
+            <pattern case_sensitive="yes">
+                <token>Black</token>
+                <token regexp="yes">Fridays?|Mondays?|Rocks?|Angels?|Box(es)?|Panthers?|Power|Holes?|Tongues?|Mail|Metal|Jack|Sabbaths?|Lives|Site|Lakes?|Paintings?|Forests?|Mirrors?|Butlers?|Honeys?|Edition</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>Adjutant</token>
+                <token>Black</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
     <rule name="CONNECT" id="CONNECT">
         <pattern case_sensitive="yes">
             <token regexp="yes">Spotify|Staples</token>
@@ -3633,6 +3642,29 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <pattern case_sensitive="yes">
             <token>Dragon</token>
             <token regexp="yes">Balls?|Age|Quests?|\d+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="LETTER" id="LETTER">
+        <pattern case_sensitive="yes">
+            <token>Letter</token>
+            <token>of</token>
+            <token regexp="yes">Intents?|Comfort|Credit|Protest</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="ART" id="ART">
+        <pattern case_sensitive="yes">
+            <token>Art</token>
+            <token>of</token>
+            <token regexp="yes">Fighting|Anarchy|Balance|War|Belt|Trance|Infinity</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="MIXED" id="MIXED">
+        <pattern case_sensitive="yes">
+            <token>Mixed</token>
+            <token regexp="yes">Zones?|Martial|Ups?|Emotions|Economy|Drinks?|Grills?|Media|Pickles</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
