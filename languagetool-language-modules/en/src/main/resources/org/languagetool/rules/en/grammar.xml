@@ -4935,6 +4935,7 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="MAY_BE" name="may be (maybe)">
+            <url>https://dictionary.cambridge.org/de/grammatik/britisch-grammatik/maybe-or-may-be</url>
             <rule>
                 <pattern>
                     <marker>
@@ -4947,6 +4948,20 @@ USA
                 <short>Possible typo</short>
                 <example correction="Maybe"><marker>May be</marker> I don't understand.</example>
                 <example>That they all may be one...</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="PCT|SENT_START" postag_regexp="yes" />
+                    <marker>
+                        <token>may</token>
+                        <token>be</token>
+                    </marker>
+                    <token>there</token>
+                </pattern>
+                <message>Did you mean <suggestion>maybe</suggestion> (=perhaps)?</message>
+                <short>Possible typo</short>
+                <example correction="Maybe"><marker>May be</marker> there is someone who can help.</example>
+                <example>That they all may be there...</example>
             </rule>
             <rule>
                 <pattern>
@@ -9604,6 +9619,108 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="BE_DONT" name="I am don't (not) sure" default="temp_off">
+            <antipattern>
+                <token postag="W.*" postag_regexp="yes" skip="5" />
+                <token inflected="yes">be</token>
+            </antipattern>
+            <antipattern>
+                <token postag="CD" />
+                <token>am</token>
+            </antipattern>
+            <antipattern>
+                <token skip="3" regexp="yes">than|as</token>
+                <token inflected="yes">be</token>
+            </antipattern>
+            <antipattern>
+                <token postag="IN|VB.*|UNKNOWN" postag_regexp="yes" />
+                <token regexp="yes">you|it</token>
+            </antipattern>
+            <pattern>
+                <token postag="PRP" />
+                <token postag="RB" min="0" />
+                <marker>
+                    <token inflected="yes">
+                        be
+                        <exception>being</exception>
+                    </token>
+                    <token regexp="yes">doesn|don</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>\3 not</suggestion>?</message>
+            <example correction="am not">I <marker>am don't</marker> sure.</example>
+            <example>After 7 am don't open the door.</example>
+            <example>The human being doesn't evolve anymore.</example>
+            <example>Where I am doesn't matter.</example>
+            <example>People who are not smarter than I am don't interest me.</example>
+            <example>Not sure what you are asking but what ever it is don’t do it.</example>
+            <example>The best suggestion I have for you is don’t concentrate on the mythics when you open chests.</example>
+            <example>The only thing I can tell you is don’t drive this until a mechanic has looked at it.</example>
+        </rule>
+        <rule id="BE_RB_BE" name="be + adverb + be" default="temp_off"><!-- less prio than PHRASE_REPETITION -->
+            <antipattern><!-- different error -->
+                <token>may</token>
+                <token>be</token>
+            </antipattern>
+            <antipattern>
+                <token postag="W.*" postag_regexp="yes" skip="5" />
+                <token inflected="yes">be</token>
+                <token postag="RB" />
+                <token inflected="yes">be</token>
+            </antipattern>
+            <antipattern>
+                <token skip="3" regexp="yes">than|as</token>
+                <token inflected="yes">be</token>
+            </antipattern>
+            <antipattern>
+                <token postag="IN|VB.*|UNKNOWN" postag_regexp="yes" />
+                <token regexp="yes">you|it</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">
+                    be
+                    <exception>being</exception>
+                </token>
+                <token postag="RB" regexp="yes">
+                    really|very|totally|maybe|however|absolutely|also|often|usually|too|never|always|sometimes|likely|simply|generally
+                </token>
+                <token regexp="yes">
+                    is|was|were|are
+                </token>
+            </pattern>
+            <message>The grammar seems incorrect. Please check.</message>
+            <example correction="">It <marker>was very is</marker> to set up</example>
+            <example correction="">This <marker>is however is</marker> my first post.</example>
+            <example>I’m not being punished enough.</example>
+            <example>The proof I’m awful is that I always think of bad stuff.</example>
+            <example>May be there is better way though.</example>
+            <example>There's never been a problem before.</example>
+            <example>Tom is likely be late.</example>
+            <example>What is legal is not always just, and what is just is not always legal.</example>
+            <example>Being late is always better than not showing up at all.</example>
+            <example>Good news is there are other meds out there that don’t do this as badly.</example>
+            <example>Where I was yesterday is not your business.</example>
+            <example>I’ve got a very rudimentary way at present which I’m sure is very clunky</example>
+            <example>Automations can’t be written correctly if the state that the device is in is not reliable.</example>
+            <example>who I am inwardly and who I am outwardly are not quite the same person.</example>
+            <example>However, why in the name of all that’s holy are you using gmail?</example>
+            <example>The heads that are here are junior at best with little or no Enron or management experience.</example>
+            <example>People who are not smarter than I am really are not of interest to me.</example>
+            <example>Functionality I am after is a simple on/off.</example>
+        </rule>
+        <rule id="PEDAL_TO_THE_METAL" name="petal to the metal" default="temp_off">
+            <pattern>
+                <token regexp="yes">petal|pedel|paddle|patel|peddle</token>
+                <token>to</token>
+                <token>the</token>
+                <token regexp="yes">metal|floor</token>
+            </pattern>
+            <message>Did you mean the idiom <suggestion>pedal \2 \3 \4</suggestion>?</message>
+            <url>https://en.wikipedia.org/wiki/Pedal_to_the_Metal</url>
+            <example correction="Pedal to the metal"><marker>Petal to the metal</marker>!</example>
+        </rule>
         <rulegroup id="HAVE_RB_HAVE" name="duplicated use of 'have'">
             <!-- TODO: add other verbs -->
             <!-- TODO: check examples with "had ... had" (might be a style rule) -->
@@ -9924,6 +10041,16 @@ USA
             <antipattern>
                 <token postag="VB.*|IN|UNKNOWN" postag_regexp="yes" />
                 <token regexp="yes">it|you</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">have</token>
+                <token postag="PRP" />
+            </antipattern>
+            <antipattern><!-- Where was he/she born? -->
+                <token inflected="yes" skip="2" regexp="yes">be|have</token>
+                <token regexp="yes">s?he</token>
+                <token regexp="yes">n?or|and|&amp;|/</token>
+                <token regexp="yes">s?he</token>
             </antipattern>
             <antipattern><!-- "... as did she on his." -->
                 <token>as</token>
@@ -10254,6 +10381,8 @@ USA
                 <example>... that Ian brought to this work make it one of the masterpieces of Berkeley scholarship.</example><!-- #2462 -->
                 <example>Its stable economy together with its education services and level of social safety make it attractive for locals and visitors alike.</example><!-- see #2433 -->
                 <example>Grandy was really letting her have it tonight.</example><!-- #2506 -->
+                <example>How many things has she broken?</example>
+                <example>Where was he/she born?</example>
             </rule>
             <rule><!-- "We afraid of them." -->
                 <pattern>
@@ -10833,6 +10962,10 @@ USA
             <antipattern><!-- https://en.wiktionary.org/wiki/3D_print -->
                 <token regexp="yes">3\-?d</token>
                 <token inflected="yes">print</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">vid(eo)?</token>
+                <token inflected="yes">call</token>
             </antipattern>
             <antipattern><!-- https://www.merriam-webster.com/dictionary/cheap%20out -->
                 <token skip="1">cheap</token>
@@ -13911,9 +14044,12 @@ USA
                 <token>lynch</token>
                 <token regexp="yes">mobs?</token>
             </antipattern>
-            <antipattern><!-- https://en.wikipedia.org/wiki/Growroom -->
+            <antipattern>
+                <token case_sensitive="yes">GROW</token>
+            </antipattern>
+            <antipattern>
                 <token>grow</token>
-                <token regexp="yes">rooms?</token>
+                <token regexp="yes">rooms?|lights?</token>
             </antipattern>
             <antipattern><!-- "the develop branch" (tech speech) -->
                 <token>develop</token>
@@ -13982,7 +14118,7 @@ USA
             </antipattern>
             <antipattern> <!-- "Please click the unsubscribe link at the end of the mail" (TODO: we should probably have a rule that suggests putting the verb in quotes) -->
                 <token postag="VBP?" postag_regexp="yes" />
-                <token regexp="yes">buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?|modes?|screens?|errors?|tools?</token>
+                <token regexp="yes">CTAs?|buttons?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?|modes?|screens?|errors?|tools?</token>
             </antipattern>
             <antipattern> <!-- this is better covered by rule ALTER_BOY -->
                 <token regexp="yes">at|to|worship(s|ped)?|around</token>
@@ -14970,6 +15106,12 @@ USA
                 <token postag="VB.*" postag_regexp="yes" />
                 <token>her</token>
             </antipattern>
+            <antipattern>
+                <token postag="VB.*" postag_regexp="yes" />
+                <token>him</token>
+                <token regexp="yes">/|n?or|and|&amp;</token>
+                <token>her</token>
+            </antipattern>
             <antipattern><!-- "...people who work with her grow ..." -->
                 <token postag="NN.*|VB.*" postag_regexp="yes" />
                 <token>with</token>
@@ -15013,6 +15155,47 @@ USA
                 <token regexp="yes">an?|the</token>
                 <token>few</token>
             </antipattern>
+            <rule default="temp_off"><!-- the jumpstart -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">jumpstarts?</token>
+                    </marker>
+                </pattern>
+                <message>The word "\3" is a verb. The noun is either spelled <suggestion><match no="3" regexp_match="(?i)jumpstart" regexp_replace="jump start" /></suggestion> or <suggestion><match no="3" regexp_match="(?i)jumpstart" regexp_replace="jump-start" /></suggestion>?</message>
+                <example correction="jump start|jump-start">The <marker>jumpstart</marker> was successful.</example>
+            </rule>
+            <rule default="temp_off"><!-- the comprise -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">comprises?</token>
+                    </marker>
+                </pattern>
+                <message>The word "\3" is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="(?i)comprise" regexp_replace="compromise" /></suggestion> (= consent)?</message>
+                <url>https://www.merriam-webster.com/dictionary/compromise</url>
+                <example correction="compromise">They found a <marker>comprise</marker>.</example>
+            </rule>
+            <rule default="temp_off"><!-- the reship -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>reship</token>
+                    </marker>
+                </pattern>
+                <message>The word "\3" is a verb. Did you mean the noun <suggestion>reshipment</suggestion> (= act of reshipping)?</message>
+                <url>https://www.merriam-webster.com/dictionary/reshipment</url>
+                <example correction="reshipment">The <marker>reship</marker> order number.</example>
+            </rule>
             <rule><!-- the diagnose -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
@@ -26370,6 +26553,16 @@ USA
             </pattern>
             <message>Did you mean <suggestion>wasn't</suggestion>?</message>
             <example correction="wasn't">He <marker>wasent</marker> sure.</example>
+        </rule>
+        <rule id="DOESENT" name="dosent (doesn't)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token regexp="yes">doe?sent</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>doesn't</suggestion> (= verb)?</message>
+            <url>https://www.merriam-webster.com/dictionary/do</url>
+            <example correction="doesn't">He <marker>doesent</marker> want to go home.</example>
         </rule>
         <rulegroup id="PRP_DON" name="they don (don't)">
             <rule>
@@ -41717,11 +41910,12 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token regexp="yes">could|can(not)?|(?-i)I|you|we|they|s?he|it</token>
+                    <token postag="RB" min="0" />
                     <marker>
                         <token>breath</token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion>breathe</suggestion>? '\2' is a noun.</message>
+                <message>Did you mean the verb <suggestion>breathe</suggestion>? '\3' is a noun.</message>
                 <short>Possible grammatical error</short>
                 <example correction="breathe">I could <marker>breath</marker>.</example>
                 <example correction="breathe">I cannot <marker>breath</marker>.</example>
@@ -41739,7 +41933,7 @@ The accident victim died from her injuries.
                         <token>breath</token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion>breathe</suggestion>? '\4' is a noun.</message>
+                <message>Did you mean the verb <suggestion>breathe</suggestion>? '\4' is a noun.</message>
                 <short>Possible grammatical error</short>
                 <example correction="breathe">I couldn't <marker>breath</marker>.</example>
                 <example>They breathe slowly.</example>
