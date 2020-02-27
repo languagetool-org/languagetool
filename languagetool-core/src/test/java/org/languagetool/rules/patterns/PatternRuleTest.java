@@ -508,7 +508,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       for (String replacement : matches.get(0).getSuggestedReplacements()) {
         String fixedSentence = badSentence.substring(0, fromPos)
             + replacement + badSentence.substring(toPos);
-        List<RuleMatch> tempMatches = getMatchesForSingleSentence(rule, fixedSentence, lt);
+        List<RuleMatch> tempMatches = getMatchesForText(rule, fixedSentence, lt);
         assertEquals("Corrected sentence for rule " + rule.getFullId()
             + " triggered error: " + fixedSentence, 0, tempMatches.size());
       }
