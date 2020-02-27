@@ -55,7 +55,7 @@ USA
     <!ENTITY file_name_extensions "asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|docx?|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpe?g|js|json|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|yaml|yml|zip|zipx">
     <!ENTITY hyphen "(?:[-‑])">
     <!ENTITY adverb_abbreviations "spec|def|prob|int|ult|atm">
-    <!ENTITY adjectives_with_ing "alarming|amazing|aggravating|amusing|annoying|astonishing|astounding|boring|captivating|challenging|charming|comforting|confusing|convincing|depressing|disappointing|discouraging|disgusting|distressing|disturbing|embarrassing|encouraging|entertaining|exciting|exhausting|fascinating|frightening|frustrating|fulfilling|gratifying|inspiring|insulting|interesting|moving|mumbling|overwhelming|perplexing|pleasing|relaxing|relieving|satisfying|shocking|sickening|soothing|surprising|tempting|terrifying|threatening|thrilling|tiring|touching|troubling|unsettling|worrying">
+    <!ENTITY adjectives_with_ing "admiring|alarming|amazing|aggravating|amusing|annoying|astonishing|astounding|boring|captivating|challenging|charming|comforting|confusing|convincing|debilitating|deceiving|depressing|devastating|disappointing|disapproving|discouraging|disgusting|distracting|distressing|disturbing|embarrassing|encouraging|entertaining|enticing|exciting|exhausting|fascinating|frightening|frustrating|fulfilling|gratifying|inspiring|insulting|interesting|irritating|liberating|moving|mumbling|overwhelming|perplexing|pleasing|puzzling|relaxing|relieving|satisfying|shocking|sickening|soothing|surprising|tempting|terrifying|threatening|thrilling|tiring|touching|troubling|unsettling|uplifting|worrying">
 
     <!-- abbreviations of verbs (rather informal, but good for antipatterns) -->
     <!ENTITY verb_abbreviations "fwds?|rsvps?|dms?|pms?|execs?|reps?|mods?|noms?|intros?|intercoms?|bbqs?|chgs?|fts?|recs?|exps?|collab">
@@ -10255,7 +10255,7 @@ USA
                 <example>Its stable economy together with its education services and level of social safety make it attractive for locals and visitors alike.</example><!-- see #2433 -->
                 <example>Grandy was really letting her have it tonight.</example><!-- #2506 -->
             </rule>
-            <rule default="temp_off"><!-- "We afraid of them." -->
+            <rule><!-- "We afraid of them." -->
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[Ww]e</token>
@@ -10629,7 +10629,7 @@ USA
             <example correction="to be able">I need help in order <marker>to able</marker> to achieve this.</example>
             <example correction="to be able">Absent that, we need <marker>to able</marker> to present majority and minority proposals.</example>
         </rule>
-        <rulegroup id="PRP_ABLE_TO" name="missing 'be' before 'able'" default="temp_off">
+        <rulegroup id="PRP_ABLE_TO" name="missing 'be' before 'able'">
             <rule>
                 <pattern>
                     <token postag="MD" />
@@ -16631,7 +16631,7 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rule id="MCDONALDS" name="McDonald's" default="temp_off">
+        <rule id="MCDONALDS" name="McDonald's">
             <pattern>
                 <token>mcdonalds</token>
             </pattern>
@@ -16639,7 +16639,7 @@ USA
             <url>https://en.wikipedia.org/wiki/McDonald%27s</url>
             <example correction="McDonald's">I always eat lunch at <marker>Mcdonalds</marker>.</example>
         </rule>
-        <rule id="WENDYS" name="Wendy's" default="temp_off">
+        <rule id="WENDYS" name="Wendy's">
             <pattern>
                 <token>wendys</token>
             </pattern>
@@ -38235,6 +38235,31 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rule id="HAD_HARD" name="had vs. hard" default="temp_off">
+            <pattern>
+                <token inflected="yes">be</token>
+                <token regexp="yes" min="0">very|really</token>
+                <marker>
+                    <token>had</token>
+                </marker>
+                <token>to</token>
+            </pattern>
+            <message>Did you mean <suggestion>hard</suggestion>?</message>
+            <example correction="hard">It was really <marker>had</marker> to do it.</example>
+            <example correction="hard">Seems to me that it wouldn’t be <marker>had</marker> to add but what do I know.</example>
+            <example type="triggers_error">Betsy's dance card is too full, so she's had to decline.</example>
+        </rule>
+        <rule id="MUSH_MUCH" name="mush vs. much" default="temp_off">
+            <pattern>
+                <token regexp="yes">you|it|her|him|them|us|me</token>
+                <token>very</token>
+                <marker>
+                    <token regexp="yes">mush|match|mutch</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>much</suggestion>?</message>
+            <example correction="much">Thank you very <marker>mush</marker>.</example>
+        </rule>
         <rulegroup id="ONE_ONCE" name="I one (once) had">
             <url>https://www.merriam-webster.com/dictionary/once</url>
             <antipattern>
@@ -38265,7 +38290,7 @@ The accident victim died from her injuries.
                 <example correction="once">I have built up my strength far from what it <marker>one</marker> was.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WE_BE" name="we vs. be" default="temp_off">
+        <rulegroup id="WE_BE" name="we vs. be">
             <rule>
                 <pattern>
                     <token postag="MD" />
@@ -39042,7 +39067,7 @@ The accident victim died from her injuries.
                 <example correction="add">I wouldn't <marker>ad</marker> a new one.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="INTENT_INTEND" name="'intend' vs 'intent'" default="temp_off">
+        <rulegroup id="INTENT_INTEND" name="'intend' vs 'intent'">
             <url>https://www.merriam-webster.com/dictionary/intend</url>
             <antipattern>
                 <token postag="VB.*|UNKNOWN" postag_regexp="yes" />
@@ -39159,7 +39184,7 @@ The accident victim died from her injuries.
                 <short>Possible typo</short>
                 <example correction="comma">Please put a <marker>coma</marker> between the two main clauses.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes">miss</token>
                     <token regexp="yes">an?|the</token>
@@ -39917,7 +39942,7 @@ The accident victim died from her injuries.
                 <token postag="VB.*|UNKNOWN|IN" postag_regexp="yes" />
                 <token regexp="yes">you|it</token>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>I</token>
@@ -42387,7 +42412,7 @@ The accident victim died from her injuries.
             </rule>
         </rulegroup>
         <rulegroup id="WERE_WHERE" name="were (where)">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes" inflected="yes">about|to|ask|question|wonder</token>
                     <marker>
@@ -42399,7 +42424,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>where</suggestion>?</message>
                 <example correction="where">He asked <marker>were</marker> to insert it.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>where</token>
@@ -42452,7 +42477,7 @@ The accident victim died from her injuries.
             </rule>
         </rulegroup>
         <rulegroup id="ALTER_ALTAR" name="alter (altar)">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>altar</token>
                     <token regexp="yes">egos?</token>
