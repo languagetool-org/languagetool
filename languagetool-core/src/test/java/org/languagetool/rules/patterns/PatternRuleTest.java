@@ -348,7 +348,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       // necessary for XML Pattern rules containing <or>
       List<RuleMatch> matches = new ArrayList<>();
       for (Rule auxRule : rules) {
-        if (lang.getShortCode().matches("gl|eo|ar|br|ca|zh")) {
+        if (lang.getShortCode().matches("gl|eo|br|ca|zh")) {
           // this is less strict, getMatchesForText() should be used. Language maintainers
           // should make sure their tests work even when in the strict mode:
           matches.addAll(getMatchesForSingleSentence(auxRule, badSentence, lt));
