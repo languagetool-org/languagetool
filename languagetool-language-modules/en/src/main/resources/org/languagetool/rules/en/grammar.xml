@@ -38828,6 +38828,7 @@ The accident victim died from her injuries.
                 <token postag="IN" />
                 <token regexp="yes">it|you</token>
             </antipattern>
+            <!-- TODO add: "They didn't easy accomplish it" -->
             <rule><!-- MD + adjective ending in "le" + VB -->
                 <pattern>
                     <token postag="MD">
@@ -38880,7 +38881,7 @@ The accident victim died from her injuries.
                 <example>It is subject to unbelievable events.</example>
                 <example correction="possibly">I think we should give consideration to <marker>possible</marker> using Gary's expertise on a part-time basis in Bakersfield and relocate and fill his position in Texas.</example>
             </rule>
-            <rule><!-- MD + (easy|literary|temporary) + VB -->
+            <rule><!-- MD + (easy|literary|temporary|necessary) + VB -->
                 <pattern>
                     <token postag="MD">
                         <exception postag="VB.*" postag_regexp="yes" />
@@ -38888,7 +38889,7 @@ The accident victim died from her injuries.
                     <token regexp="yes" min="0">&apostrophe;</token>
                     <token regexp="yes" min="0">(no)?t</token>
                     <marker>
-                        <token regexp="yes">easy|literary|temporary</token>
+                        <token regexp="yes">easy|literary|temporary|necessary</token>
                     </marker>
                     <token postag="VBP?" postag_regexp="yes" />
                 </pattern>
@@ -38896,13 +38897,13 @@ The accident victim died from her injuries.
                 <example correction="easily">Two weeks is way to fast, we could <marker>easy</marker> run out of resources and then the Mystics would not stop till caught up!</example>
                 <example correction="easily">The actual search zone could <marker>easy</marker> be used to search in both languages.</example>
             </rule>
-            <rule><!-- PRP + (easy|literary|temporary) + VB -->
+            <rule><!-- PRP + (easy|literary|temporary|necessary) + VB -->
                 <pattern>
                     <token regexp="yes">
                         I|you|they|we|s?he|it
                     </token>
                     <marker>
-                        <token regexp="yes">easy|literary|temporary</token>
+                        <token regexp="yes">easy|literary|temporary|necessary</token>
                     </marker>
                     <token postag="VB[GDZP]?|MD" postag_regexp="yes" />
                 </pattern>
@@ -38911,11 +38912,11 @@ The accident victim died from her injuries.
                 <example correction="temporarily">It is critical that we <marker>temporary</marker> stay our course.</example>
                 <example>Take it easy home.</example>
             </rule>
-            <rule><!-- to + (easy|literary|temporary) + VB -->
+            <rule><!-- to + (easy|literary|temporary|necessary) + VB -->
                 <pattern>
                     <token>to</token>
                     <marker>
-                        <token regexp="yes">easy|literary|temporary</token>
+                        <token regexp="yes">easy|literary|temporary|necessary</token>
                     </marker>
                     <token postag="VB[GP]?" postag_regexp="yes">
                         <exception postag="JJ.*|NN.*|DT|PRP\$?" postag_regexp="yes" />
