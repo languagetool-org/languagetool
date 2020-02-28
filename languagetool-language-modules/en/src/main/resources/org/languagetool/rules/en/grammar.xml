@@ -4973,7 +4973,7 @@ USA
                 <example correction="Maybe"><marker>May be</marker> I don't understand.</example>
                 <example>That they all may be one...</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="PCT|SENT_START" postag_regexp="yes" />
                     <marker>
@@ -9643,7 +9643,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="BE_DONT" name="I am don't (not) sure" default="temp_off">
+        <rule id="BE_DONT" name="I am don't (not) sure">
             <antipattern>
                 <token postag="W.*" postag_regexp="yes" skip="5" />
                 <token inflected="yes">be</token>
@@ -9683,7 +9683,7 @@ USA
             <example>The best suggestion I have for you is don’t concentrate on the mythics when you open chests.</example>
             <example>The only thing I can tell you is don’t drive this until a mechanic has looked at it.</example>
         </rule>
-        <rule id="BE_RB_BE" name="be + adverb + be" default="temp_off"><!-- less prio than PHRASE_REPETITION -->
+        <rule id="BE_RB_BE" name="be + adverb + be"><!-- less prio than PHRASE_REPETITION -->
             <antipattern><!-- different error -->
                 <token>may</token>
                 <token>be</token>
@@ -9734,7 +9734,7 @@ USA
             <example>People who are not smarter than I am really are not of interest to me.</example>
             <example>Functionality I am after is a simple on/off.</example>
         </rule>
-        <rule id="PEDAL_TO_THE_METAL" name="petal to the metal" default="temp_off">
+        <rule id="PEDAL_TO_THE_METAL" name="petal to the metal">
             <pattern>
                 <token regexp="yes">petal|pedel|paddle|patel|peddle</token>
                 <token>to</token>
@@ -15215,7 +15215,7 @@ USA
                 <token regexp="yes">an?|the</token>
                 <token>few</token>
             </antipattern>
-            <rule default="temp_off"><!-- the jumpstart -->
+            <rule><!-- the jumpstart -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -15228,7 +15228,7 @@ USA
                 <message>The word "\3" is a verb. The noun is either spelled <suggestion><match no="3" regexp_match="(?i)jumpstart" regexp_replace="jump start" /></suggestion> or <suggestion><match no="3" regexp_match="(?i)jumpstart" regexp_replace="jump-start" /></suggestion>?</message>
                 <example correction="jump start|jump-start">The <marker>jumpstart</marker> was successful.</example>
             </rule>
-            <rule default="temp_off"><!-- the comprise -->
+            <rule><!-- the comprise -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -15242,7 +15242,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/compromise</url>
                 <example correction="compromise">They found a <marker>comprise</marker>.</example>
             </rule>
-            <rule default="temp_off"><!-- the reship -->
+            <rule ><!-- the reship -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -15252,7 +15252,7 @@ USA
                         <token>reship</token>
                     </marker>
                 </pattern>
-                <message>The word "\3" is a verb. Did you mean the noun <suggestion>reshipment</suggestion> (= act of reshipping)?</message>
+                <message>The word "\3" is a verb. Did you mean the noun <suggestion>reshipment</suggestion> (= act of reshipping something)?</message>
                 <url>https://www.merriam-webster.com/dictionary/reshipment</url>
                 <example correction="reshipment">The <marker>reship</marker> order number.</example>
             </rule>
@@ -26614,7 +26614,7 @@ USA
             <message>Did you mean <suggestion>wasn't</suggestion>?</message>
             <example correction="wasn't">He <marker>wasent</marker> sure.</example>
         </rule>
-        <rule id="DOESENT" name="dosent (doesn't)" default="temp_off">
+        <rule id="DOESENT" name="dosent (doesn't)">
             <pattern>
                 <marker>
                     <token regexp="yes">doe?sent</token>
@@ -38500,7 +38500,7 @@ The accident victim died from her injuries.
             <example correction="If"><marker>It</marker> it does, then the script will return "NOT_FOUND".</example>
             <example>It all happened so fast and then it was over.</example>
         </rule>
-        <rule id="HAD_HARD" name="had vs. hard" default="temp_off">
+        <rule id="HAD_HARD" name="had vs. hard">
             <pattern>
                 <token inflected="yes">be</token>
                 <token regexp="yes" min="0">very|really</token>
@@ -38514,9 +38514,9 @@ The accident victim died from her injuries.
             <example correction="hard">Seems to me that it wouldn’t be <marker>had</marker> to add but what do I know.</example>
             <example type="triggers_error">Betsy's dance card is too full, so she's had to decline.</example>
         </rule>
-        <rule id="MUSH_MUCH" name="mush vs. much" default="temp_off">
+        <rule id="MUSH_MUCH" name="mush vs. much">
             <pattern>
-                <token regexp="yes">you|it|her|him|them|us|me</token>
+                <token regexp="yes">you|it|her|him|them|us|me|thanks</token>
                 <token>very</token>
                 <marker>
                     <token regexp="yes">mush|match|mutch</token>
