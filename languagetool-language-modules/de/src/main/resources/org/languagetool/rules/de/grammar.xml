@@ -36078,7 +36078,8 @@ Andere Projekte</example>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
-                    <token regexp="yes">Bitte|So</token>
+                    <token regexp="yes">Bitte|So|Aber|Und|Danke|Oder</token>
+                    <token min="0">,</token>
                     <token postag="VER:3:PLU:PRÄ.*" postag_regexp="yes"/>
                     <marker>
                         <token skip="-1">sie</token>
@@ -36090,6 +36091,7 @@ Andere Projekte</example>
                 <example>Kommen <marker>Sie</marker> schnell!</example>
                 <example correction="Sie">Bitte kommen <marker>sie</marker> schnell!</example>
                 <example correction="Sie">So kommen <marker>sie</marker> doch!</example>
+                <example correction="Sie">Aber schalten <marker>sie</marker> unsere Stelle doch bitte frei.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DEN_DEM" name="'dem/den' (nur für wenige Verben)">
