@@ -2384,6 +2384,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
             <token regexp="yes">&object_pronouns;</token>
         </antipattern>
+        <antipattern><!-- #2521 A spreads it -->
+            <token>a</token>
+            <token postag_regexp="yes" postag="VBZ"/>
+            <token regexp="yes">&object_pronouns;</token>
+        </antipattern>
+        <antipattern><!-- #2521 a spreads was -->
+            <token>a</token>
+            <token postag_regexp="yes" postag="NNS"/>
+            <token postag_regexp="yes" postag="VB[ZD]"/>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT|RB" postag_regexp="yes" /><exception regexp="yes">th[eo]se|each|that|much</exception></token>
             <marker>
@@ -2409,6 +2419,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Please carefully review all documents so that we can next move to final execution copies.</example>
         <example type="untouched">A <marker>tries</marker> to overtake B.</example><!-- #2415 -->
         <example type="untouched">The Aegean Islands are within the sea and some <marker>bound</marker> it on its southern periphery, including Crete and Rhodes.</example><!-- #2435 -->
+        <example type="untouched">Incorrect grammar: A <marker>spreads</marker> it a first time yesterday, so I ...</example><!-- #2521 -->
+        <example type="untouched">If technician A <marker>spreads</marker> it too quickly, technician B must...</example><!-- #2521 spread/E-NP-plural -->
+        <example type="untouched">Incorrect grammar: ... but if he a <marker>tests</marker> them carelessly...</example><!-- #2521 -->
+        <example type="untouched">Incorrect grammar: ... and she thought that a <marker>spreads</marker> was not so nice to eat as butter.</example><!-- #2521 -->
     </rule>
 
     <rule name="each + verb/NN -&gt; NN" id="EACH_VB_NN">
