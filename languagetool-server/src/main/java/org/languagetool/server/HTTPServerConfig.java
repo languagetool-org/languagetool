@@ -246,14 +246,14 @@ public class HTTPServerConfig {
         if (rulesConfigFilePath != null) {
           rulesConfigFile = new File(rulesConfigFilePath);
           if (!rulesConfigFile.exists() || !rulesConfigFile.isFile()) {
-            throw new RuntimeException("Rules Configuration file can not be found: " + rulesConfigFile);
+            throw new RuntimeException("Rules Configuration file cannot be found: " + rulesConfigFile);
           }
         }
         String remoteRulesConfigFilePath = getOptionalProperty(props, "remoteRulesFile", null);
         if (remoteRulesConfigFilePath != null) {
           remoteRulesConfigFile = new File(remoteRulesConfigFilePath);
           if (!remoteRulesConfigFile.exists() || !remoteRulesConfigFile.isFile()) {
-            throw new RuntimeException("Remote rules configuration file can not be found: " + remoteRulesConfigFile);
+            throw new RuntimeException("Remote rules configuration file cannot be found: " + remoteRulesConfigFile);
           }
         }
         cacheSize = Integer.parseInt(getOptionalProperty(props, "cacheSize", "0"));
