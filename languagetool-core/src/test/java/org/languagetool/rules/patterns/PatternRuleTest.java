@@ -574,8 +574,15 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   private List<RuleMatch> getMatchesForText(Rule rule, String sentence, JLanguageTool lt) throws IOException {
     List<AnalyzedSentence> analyzedSentences = lt.analyzeText(sentence);
     List<RuleMatch> matches = new ArrayList<>();
+    int matchOffset = 0;
+    // fix offset calculation for testCorrectSentences / testBadSentences (e.g. position of marker)
     for (AnalyzedSentence analyzedSentence : analyzedSentences) {
-      matches.addAll(Arrays.asList(rule.match(analyzedSentence)));
+      List<RuleMatch> sentenceMatches = Arrays.asList(rule.match(analyzedSentence));
+      for (RuleMatch match : sentenceMatches) {
+        match.setOffsetPosition(match.getFromPos() + matchOffset, match.getToPos() + matchOffset);
+      }
+      matches.addAll(sentenceMatches);
+      matchOffset += analyzedSentence.getText().length();
     }
     return matches;
   }
