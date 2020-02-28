@@ -273,6 +273,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[iI]nterkurell(e[nmrs]?)?", "ku", "kultu");
     putRepl("[iI]ntersannt(e[mnrs]?)?", "sannt", "essant");
     putRepl("ubera(g|sch)end(e[nmrs]?)?", "uber", "überr");
+    putRepl("[Hh]ello", "ello", "allo");
+    putRepl("[Gg]etagged", "gged", "ggt");
     putRepl("[wW]olt$", "lt", "llt");
     putRepl("[zZ]uende", "ue", "u E");
     putRepl("[iI]nbälde", "nb", "n B");
