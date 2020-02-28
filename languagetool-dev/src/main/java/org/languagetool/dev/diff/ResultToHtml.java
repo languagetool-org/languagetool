@@ -23,6 +23,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
+import org.languagetool.tools.StringTools;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -33,8 +34,9 @@ import java.util.*;
  */
 class ResultToHtml {
 
+  private static final int THRESHOLD = 0;
   private final Map<String, String> ruleIdToCategoryId = new HashMap<>();
-  
+
   ResultToHtml(Language lang) {
     JLanguageTool lt = new JLanguageTool(lang);
     for (Rule rule : lt.getAllRules()) {
@@ -74,10 +76,12 @@ class ResultToHtml {
     print("</head>");
     print("<body>");
     print(matches.size() + " total matches<br>");
-    printToc(matches);
+    Map<String, Integer> matchToCount = getMatchToCount(matches);
+    printToc(matches, matchToCount);
     String prevRuleId = "";
     String prevCategoryId = "";
     boolean listStarted = false;
+    int skipped = 0;
     for (LightRuleMatch match : matches) {
       String categoryId = getCategoryId(match);
       if (!match.getFullRuleId().equals(prevRuleId)) {
@@ -87,20 +91,29 @@ class ResultToHtml {
         if (!categoryId.equals(prevCategoryId)) {
           print("<h1>Category " + categoryId + "</h1>");
         }
-        String tempOff = match.isTempOff() ? "[temp_off]" : "";
-        print("<a name='" + match.getFullRuleId() + "'></a><h3>" + match.getFullRuleId() + " " + tempOff + "</h3>");
-        print("Source: " + match.getRuleSource() + "<br><br>");
-        print("<ol>");
-        listStarted = true;
+        Integer count = matchToCount.get(match.getFullRuleId());
+        if (count >= THRESHOLD) {
+          String tempOff = match.isTempOff() ? "[temp_off]" : "";
+          print("<a name='" + match.getFullRuleId() + "'></a><h3>" + match.getFullRuleId() + " " + tempOff + " (" + count + " matches)</h3>");
+          print("Source: " + match.getRuleSource() + "<br><br>");
+          print("<ol>");
+          listStarted = true;
+        } else {
+          skipped++;
+        }
       }
       print("<li>");
       print("  <span class='message'>" + match.getMessage() + "</span><br>");
-      print("  <span class='sentence'>" + match.getContext() + "</span><br>");
+      print("  <span class='sentence'>" + StringTools.escapeHTML(match.getContext())
+        .replaceFirst("&lt;span class='marker'&gt;", "<span class='marker'>")
+        .replaceFirst("&lt;/span&gt;", "</span>")
+        + "</span><br>");
       print("</li>");
       prevRuleId = match.getFullRuleId();
       prevCategoryId = categoryId;
     }
     print("</ol>");
+    print("Note: " + skipped + " rules have been skipped because they matched fewer than " + THRESHOLD + " times");
     print("</body>");
     print("</html>");
   }
@@ -114,8 +127,7 @@ class ResultToHtml {
     return categoryId;
   }
 
-  private void printToc(List<LightRuleMatch> matches) {
-    Map<String, Integer> catToCount = getCatToCount(matches);
+  private void printToc(List<LightRuleMatch> matches, Map<String, Integer> matchToCount) {
     String prevRuleId = "";
     String prevCategoryId = "";
     print("<h1>TOC</h1>");
@@ -126,7 +138,10 @@ class ResultToHtml {
         if (!categoryId.equals(prevCategoryId)) {
           print("<h3>Category " + categoryId + "</h3>");
         }
-        print("<a href='#" + ruleId + "'>" + ruleId + " (" + catToCount.get(ruleId) + ")</a><br>");
+        Integer count = matchToCount.get(ruleId);
+        if (count >= THRESHOLD) {
+          print("<a href='#" + ruleId + "'>" + ruleId + " (" + count + ")</a><br>");
+        }
       }
       prevRuleId = ruleId;
       prevCategoryId = categoryId;
@@ -134,7 +149,7 @@ class ResultToHtml {
     print("<br>");
   }
 
-  private Map<String, Integer> getCatToCount(List<LightRuleMatch> matches) {
+  private Map<String, Integer> getMatchToCount(List<LightRuleMatch> matches) {
     Map<String, Integer> catToCount = new HashMap<>();
     for (LightRuleMatch match : matches) {
       String id = match.getFullRuleId();
