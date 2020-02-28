@@ -58,4 +58,17 @@ public class TranslationEntry implements Comparable<TranslationEntry> {
     return Integer.compare(o.itemCount, itemCount);
   }
 
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    TranslationEntry that = (TranslationEntry) o;
+    return l1.equals(that.l1) &&
+      l2.equals(that.l2);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(l1, l2);
+  }
 }

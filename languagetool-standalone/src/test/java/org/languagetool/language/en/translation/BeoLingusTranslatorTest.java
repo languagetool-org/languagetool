@@ -16,12 +16,14 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.en.translation;
+package org.languagetool.language.en.translation;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.GlobalConfig;
+import org.languagetool.rules.en.translation.BeoLingusTranslator;
 import org.languagetool.rules.translation.TranslationEntry;
 
 import java.io.File;
@@ -29,7 +31,8 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class BeoLingusTranslatorTest {
 
@@ -41,7 +44,24 @@ public class BeoLingusTranslatorTest {
     globalConfig.setBeolingusFile(new File("src/test/resources/beolingus_test.txt"));
     translator = BeoLingusTranslator.getInstance(globalConfig);
   }
-  
+
+  @Test
+  @Ignore("for interactive development only")
+  public void testForDevelopment() {
+    List<TranslationEntry> result1 = translator.translate("Luftpumpe", "de", "en");
+    System.out.println(result1);
+  }
+
+  @Test
+  public void testTranslateInflectedForm() {
+    List<TranslationEntry> result1 = translator.translate("Luftpumpen", "de", "en");
+    assertThat(result1.size(), is(1));
+    assertTrue(result1.get(0).getL2().contains("tyre pump [Br.]"));  // TODO: inflect
+    assertTrue(result1.get(0).getL2().contains("tire pump [Am.]"));
+    assertTrue(result1.get(0).getL2().contains("tyre inflator [Br.]"));
+    assertTrue(result1.get(0).getL2().contains("tire inflator [Am.]"));
+  }
+
   @Test
   public void testTranslate() {
     List<TranslationEntry> result1 = translator.translate("Haus", "de", "en");
@@ -66,8 +86,8 @@ public class BeoLingusTranslatorTest {
     assertTrue(result4.get(0).getL2().contains("search word {one; to}"));
     assertTrue(result4.get(0).getL2().contains("another item"));
   }
-  
-  @Test 
+
+  @Test
   public void testSplit() {
     assertThat(translator.split("foo").toString(), is("[foo]"));
     assertThat(translator.split("foo { bar } foo").toString(), is("[foo { bar } foo]"));

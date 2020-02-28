@@ -18,13 +18,18 @@
  */
 package org.languagetool.rules.en.translation;
 
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.GlobalConfig;
+import org.languagetool.Languages;
 import org.languagetool.rules.translation.DataSource;
 import org.languagetool.rules.translation.TranslationEntry;
 import org.languagetool.rules.translation.Translator;
+import org.languagetool.tagging.Tagger;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,6 +38,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
+ * German / English translator.
  * @since 4.9
  */
 public class BeoLingusTranslator implements Translator {
@@ -42,6 +48,7 @@ public class BeoLingusTranslator implements Translator {
 
   private static BeoLingusTranslator instance;
 
+  private final Tagger tagger;
   private final Map<String,List<TranslationEntry>> de2en = new HashMap<>();
   private final Map<String,List<TranslationEntry>> en2de = new HashMap<>();
 
@@ -57,6 +64,7 @@ public class BeoLingusTranslator implements Translator {
   }
   
   private BeoLingusTranslator(File file) throws IOException {
+    tagger = Languages.getLanguageForShortCode("de").getTagger();
     List<String> lines = Files.readAllLines(file.toPath());
     for (String line : lines) {
       if (line.trim().isEmpty() || line.startsWith("#")) {
@@ -98,7 +106,7 @@ public class BeoLingusTranslator implements Translator {
   }
 
   // "tyre [Br.]/tire [Am.] pump" -> "tyre pump [Br.]" + "tire pump [Am.]"
-  List<String> split(String s) {
+  public List<String> split(String s) {
     List<String> parts = splitAtSemicolon(s);
     List<String> newParts = new ArrayList<>();
     for (String part : parts) {
@@ -161,12 +169,45 @@ public class BeoLingusTranslator implements Translator {
       throw new RuntimeException("Not supported: " + fromLang + " -> " + toLang);
     }
     List<TranslationEntry> entries = map.get(term.toLowerCase());
-    if (entries == null) {
-      return new ArrayList<>();
+    Set<TranslationEntry> entriesSet = new HashSet<>();
+    if (entries != null) {
+      entriesSet.addAll(entries);
     }
-    List<TranslationEntry> sortedList = new ArrayList<>(entries);
+    entriesSet.addAll(getTranslationsForBaseforms(term, map));
+    List<TranslationEntry> sortedList = new ArrayList<>(entriesSet);
     Collections.sort(sortedList);
     return sortedList;
+  }
+
+  @Nonnull
+  private List<TranslationEntry> getTranslationsForBaseforms(String term, Map<String, List<TranslationEntry>> map) {
+    List<TranslationEntry> result = new ArrayList<>();
+    try {
+      List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(term));
+      for (AnalyzedTokenReadings reading : readings) {
+        List<AnalyzedToken> aTokens = reading.getReadings();
+        addResultsForTokens(map, aTokens, result);
+      }
+      return result;
+    } catch (IOException e) {
+      throw new RuntimeException("Could not tag '" + term + "'", e);
+    }
+  }
+
+  private void addResultsForTokens(Map<String, List<TranslationEntry>> map, List<AnalyzedToken> aTokens, List<TranslationEntry> result) {
+    for (AnalyzedToken aToken : aTokens) {
+      String lemma = aToken.getLemma();
+      if (lemma != null) {
+        List<TranslationEntry> tmp = map.get(lemma.toLowerCase());
+        if (tmp != null) {
+          for (TranslationEntry tmpEntry : tmp) {
+            if (!result.contains(tmpEntry)) {
+              result.add(tmpEntry);
+            }
+          }
+        }
+      }
+    }
   }
 
   @Override
