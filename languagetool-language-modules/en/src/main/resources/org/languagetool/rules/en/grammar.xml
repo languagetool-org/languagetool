@@ -14690,6 +14690,26 @@ USA
                 <example correction="they didn't">What <marker>the didn't</marker> know about was ...</example>
             </rule>
         </rulegroup>
+        <rulegroup id="COD_CODE" name="cod (code)">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">access|area|country|dial(ling)|dress|Morse|post(al)?|sec(ret|urity)|zip</token>
+                    <marker><token>cod</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion>code</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="code">Do you know the Morse <marker>cod</marker>?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>Cape</token>
+                    <marker><token>Code</token></marker>
+                </pattern>
+                <message>Did you mean <suggestion>Cod</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="Cod">She was rushed to Cape <marker>Code</marker> Hospital in Hyannis.</example>
+            </rule>
+        </rulegroup>
         <rule id="HE_DOSE" name="he dose (does)">
             <pattern>
                 <or>
@@ -14716,7 +14736,7 @@ USA
                 <marker>
                     <token regexp="yes" case_sensitive="yes">[Aa]n</token>
                 </marker>
-                <token regexp="yes">also|then|no|yes|that|this|t?here|wasn?|weren?|hasn?|haven?|[cw]ouldn?|shouldn?|didn?|doesn?|maybe|perhaps|might|because|therefore</token>
+                <token regexp="yes">also|no|yes|th(at|en|is)|here|wasn?|weren?|hasn?|haven?|[cw]ouldn?|shouldn?|didn?|doesn?|maybe|perhaps|might|because|there(fore)?</token>
             </pattern>
             <message>Did you mean <suggestion>and</suggestion>?</message>
             <example correction="and">He was going <marker>an</marker> also partying there.</example>
@@ -14850,7 +14870,7 @@ USA
         <rulegroup id="HIGH_LIGHT" name="high light (highlight)">
             <rule>
                 <pattern>
-                    <token regexp="yes">to|can|[cw]ould|cannot|should|did|will|[hw]as|have|were|been|he|she|it|they|I|we|you|please|be</token>
+                    <token regexp="yes">to|can(not)?|[cw]ould|should|did|will|[hw]as|have|were|been|he|she|it|they|I|we|you|please|be</token>
                     <marker>
                         <token>high</token>
                         <token regexp="yes">light(ed|s)?</token>
@@ -14881,7 +14901,7 @@ USA
         <rule id="THE_HEADQUARTER" name="the + headquarter">
             <pattern>
                 <or>
-                    <token regexp="yes">the|their|s|our|my|an?</token>
+                    <token regexp="yes">the(ir)?|s|our|my|an?</token>
                     <token postag="JJ.*" postag_regexp="yes" />
                 </or>
                 <marker>
