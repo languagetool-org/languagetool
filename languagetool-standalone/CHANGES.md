@@ -6,6 +6,10 @@
   * Added initial support for Arabic, contributed by Sohaib Afifi
     (https://github.com/languagetool-org/languagetool/pull/2219)
 
+#### English
+  * added and improved rules
+  * added new tag `ORD` for ordinal numbers (e.g., first, second, twenty-third etc.)
+
 #### Irish
   * Added initial support for Irish, contributed by Jim Regan
     (https://github.com/languagetool-org/languagetool/pull/2260)
