@@ -270,9 +270,10 @@
 
     <rule id="ORDINAL_NUMBERS" name="ordinal numbers">
         <pattern case_sensitive="yes">
-            <token regexp="yes">([a-z]+-)?first|([a-z]+-)?second|([a-z]+-)?third|([a-z]+-)?fourth|([a-z]+-)?fifth|([a-z]+-)?sixth|([a-z]+-)?seventh|([a-z]+-)?eighth|([a-z]+-)?ninth|tenth|eleventh|twelfth|thirteenth|fourteenth|fifteenth|sixteenth|seventeenth|eighteenth|nineteenth|twentieth|thirtieth|fortieth|fiftieth|sixtieth|seventieth|eightieth|ninetieth|hundredth|two hundredth|thousandth|millionth|billionth|trillionth</token>
+            <token regexp="yes">([a-z]+-)?first|([a-z]+-)?second|([a-z]+-)?third|([a-z]+-)?fourth|([a-z]+-)?fifth|([a-z]+-)?sixth|([a-z]+-)?seventh|([a-z]+-)?eighth|([a-z]+-)?ninth|tenth|eleventh|twelfth|thirteenth|fourteenth|fifteenth|sixteenth|seventeenth|eighteenth|nineteenth|twentieth|thirtieth|f(if|or)tieth|sixtieth|seventieth|eightieth|ninetieth|hundredth|thousandth|millionth|billionth|trillionth</token>
         </pattern>
         <disambig action="add"><wd pos="ORD"/></disambig>
+        <example type="ambiguous" inputform="third[third/JJ,third/NN:UN]" outputform="third[third/JJ,third/NN:UN,third/ORD]">Her <marker>third</marker> encounter...</example>
     </rule>
 
     <rule id="NNP_THOUSAND_OAKS" name="Thousand Oaks">
@@ -295,7 +296,7 @@
     <rule id="NNP_POKEMON_GO" name="Pokémon Go">
         <pattern>
             <token regexp="yes">Pok[eé]mon</token>
-            <token regexp="yes" case_sensitive="yes">Go|GO</token>
+            <token regexp="yes" case_sensitive="yes">G[oO]</token>
         </pattern>
         <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
@@ -320,7 +321,7 @@
      <rule>
          <pattern>
          <marker><token>last</token></marker>
-         <token regexp="yes">month|week|year|Christmas|night|minute|time|season|thing|weekend|decade|day|couple|summer|resort|century|name|word|chance|spring</token>
+         <token regexp="yes">month|week(end)?|year|Christmas|night|minute|time|season|thing|decade|day|couple|summer|resort|century|name|word|chance|spring</token>
          </pattern>
           <disambig postag="JJ"/>
          <example type="untouched">Nothing can last forever.</example>
