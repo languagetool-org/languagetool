@@ -39,6 +39,10 @@ public class TranslationEntry implements Comparable<TranslationEntry> {
     this.itemCount = itemCount;
   }
 
+  public int getItemCount() {
+    return itemCount;
+  }
+
   public List<String> getL1() {
     return l1;
   }

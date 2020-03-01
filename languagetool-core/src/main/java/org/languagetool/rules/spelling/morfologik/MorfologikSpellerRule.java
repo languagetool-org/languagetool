@@ -403,7 +403,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           String prevWord = idx > 0 ? tokens[idx-1].getToken() : null;
           for (TranslationEntry translation : translations) {
             for (String s : translation.getL2()) {
-              String suffix = translator.cleanTranslationForSuffix(s);
+              String suffix = translator.getTranslationSuffix(s);
               l.add(new SuggestedReplacement(translator.cleanTranslationForReplace(s, prevWord), String.join(", ", translation.getL1()), suffix.isEmpty() ? null : suffix));
             }
           }

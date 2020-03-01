@@ -32,6 +32,6 @@ public interface Translator {
 
   String cleanTranslationForReplace(String s, String prevWord);
 
-  String cleanTranslationForSuffix(String s);
+  String getTranslationSuffix(String s);
 
 }

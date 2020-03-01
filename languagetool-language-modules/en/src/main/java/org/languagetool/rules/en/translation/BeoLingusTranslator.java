@@ -26,6 +26,7 @@ import org.languagetool.rules.translation.DataSource;
 import org.languagetool.rules.translation.TranslationEntry;
 import org.languagetool.rules.translation.Translator;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,6 +52,7 @@ public class BeoLingusTranslator implements Translator {
   private final Tagger tagger;
   private final Map<String,List<TranslationEntry>> de2en = new HashMap<>();
   private final Map<String,List<TranslationEntry>> en2de = new HashMap<>();
+  private final Inflector inflector = new Inflector();
 
   static synchronized public BeoLingusTranslator getInstance(GlobalConfig globalConfig) throws IOException {
     if (instance == null && globalConfig != null && globalConfig.getBeolingusFile() != null) {
@@ -149,15 +151,6 @@ public class BeoLingusTranslator implements Translator {
     return mergedList;
   }
 
-  private String cleanForLookup(String s) {
-    return s.replaceAll("\\{.*?\\}", "")
-            .replaceAll("\\[.*?\\]", "")
-            .replaceAll("\\(.*?\\)", "")
-            .replaceAll("/.*?/\\b", "")   // abbreviations, e.g. "oder {conj} /o.; od./"
-            .trim()
-            .toLowerCase();
-  }
-
   @Override
   public List<TranslationEntry> translate(String term, String fromLang, String toLang) {
     Map<String, List<TranslationEntry>> map;
@@ -184,6 +177,7 @@ public class BeoLingusTranslator implements Translator {
     List<TranslationEntry> result = new ArrayList<>();
     try {
       List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList(term));
+      readings.addAll(tagger.tag(Collections.singletonList(StringTools.uppercaseFirstChar(term))));  // user can spell German noun lowercase here
       for (AnalyzedTokenReadings reading : readings) {
         List<AnalyzedToken> aTokens = reading.getReadings();
         addResultsForTokens(map, aTokens, result);
@@ -202,7 +196,10 @@ public class BeoLingusTranslator implements Translator {
         if (tmp != null) {
           for (TranslationEntry tmpEntry : tmp) {
             if (!result.contains(tmpEntry)) {
-              result.add(tmpEntry);
+              TranslationEntry entry = cleanTranslationEntry(tmpEntry, aToken);
+              if (entry != null) {
+                result.add(entry);
+              }
             }
           }
         }
@@ -210,9 +207,25 @@ public class BeoLingusTranslator implements Translator {
     }
   }
 
-  @Override
-  public String getMessage() {
-    return "Translate to English?";
+  private TranslationEntry cleanTranslationEntry(TranslationEntry tmpEntry, AnalyzedToken aToken) {
+    List<String> l = new ArrayList<>();
+    for (String s : tmpEntry.getL2()) {
+      List<String> inflected = inflector.inflect(cleanTranslationForReplace(s, null), aToken.getPOSTag());
+      for (String inflectedForm : inflected) {
+        String cleanEntry = inflectedForm + " " + getTranslationSuffix(s);
+        l.add(cleanEntry.trim());
+      }
+    }
+    return l.size() > 0 ? new TranslationEntry(tmpEntry.getL1(), l, tmpEntry.getItemCount()) : null;
+  }
+
+  private String cleanForLookup(String s) {
+    return s.replaceAll("\\{.*?\\}", "")
+      .replaceAll("\\[.*?\\]", "")
+      .replaceAll("\\(.*?\\)", "")
+      .replaceAll("/.*?/\\b", "")   // abbreviations, e.g. "oder {conj} /o.; od./"
+      .trim()
+      .toLowerCase();
   }
 
   @Override
@@ -230,7 +243,12 @@ public class BeoLingusTranslator implements Translator {
   }
 
   @Override
-  public String cleanTranslationForSuffix(String s) {
+  public String getMessage() {
+    return "Translate to English?";
+  }
+
+  @Override
+  public String getTranslationSuffix(String s) {
     StringBuilder sb = new StringBuilder();
     List<String> lookingFor = new ArrayList<>();
     for (int i = 0; i < s.length(); i++) {

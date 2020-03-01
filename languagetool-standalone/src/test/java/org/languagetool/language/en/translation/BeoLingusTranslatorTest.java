@@ -48,7 +48,7 @@ public class BeoLingusTranslatorTest {
   @Test
   @Ignore("for interactive development only")
   public void testForDevelopment() {
-    List<TranslationEntry> result1 = translator.translate("Luftpumpe", "de", "en");
+    List<TranslationEntry> result1 = translator.translate("Luftpumpen", "de", "en");
     System.out.println(result1);
   }
 
@@ -56,10 +56,10 @@ public class BeoLingusTranslatorTest {
   public void testTranslateInflectedForm() {
     List<TranslationEntry> result1 = translator.translate("Luftpumpen", "de", "en");
     assertThat(result1.size(), is(1));
-    assertTrue(result1.get(0).getL2().contains("tyre pump [Br.]"));  // TODO: inflect
-    assertTrue(result1.get(0).getL2().contains("tire pump [Am.]"));
-    assertTrue(result1.get(0).getL2().contains("tyre inflator [Br.]"));
-    assertTrue(result1.get(0).getL2().contains("tire inflator [Am.]"));
+    assertTrue(result1.get(0).getL2().contains("tyre pumps [Br.]"));
+    assertTrue(result1.get(0).getL2().contains("tire pumps [Am.]"));
+    assertTrue(result1.get(0).getL2().contains("tyre inflators [Br.]"));
+    assertTrue(result1.get(0).getL2().contains("tire inflators [Am.]"));
   }
 
   @Test
@@ -129,13 +129,13 @@ public class BeoLingusTranslatorTest {
   }
 
   @Test
-  public void testCleanTranslationForSuffix() {
-    assertThat(translator.cleanTranslationForSuffix(""), CoreMatchers.is(""));
-    assertThat(translator.cleanTranslationForSuffix(" "), CoreMatchers.is(""));
-    assertThat(translator.cleanTranslationForSuffix("foo bar"), CoreMatchers.is(""));
-    assertThat(translator.cleanTranslationForSuffix("foo bar [Br.]"), CoreMatchers.is("[Br.]"));
-    assertThat(translator.cleanTranslationForSuffix("foo bar {ugs} [Br.]"), CoreMatchers.is("{ugs} [Br.]"));
-    assertThat(translator.cleanTranslationForSuffix("foo bar {ugs} [Br.] (Blah)"), CoreMatchers.is("{ugs} [Br.] (Blah)"));
+  public void testGetTranslationSuffix() {
+    assertThat(translator.getTranslationSuffix(""), CoreMatchers.is(""));
+    assertThat(translator.getTranslationSuffix(" "), CoreMatchers.is(""));
+    assertThat(translator.getTranslationSuffix("foo bar"), CoreMatchers.is(""));
+    assertThat(translator.getTranslationSuffix("foo bar [Br.]"), CoreMatchers.is("[Br.]"));
+    assertThat(translator.getTranslationSuffix("foo bar {ugs} [Br.]"), CoreMatchers.is("{ugs} [Br.]"));
+    assertThat(translator.getTranslationSuffix("foo bar {ugs} [Br.] (Blah)"), CoreMatchers.is("{ugs} [Br.] (Blah)"));
     //assertThat(rule.cleanTranslationForAddition("foo (Blah {m})"), is("(Blah {m})"));  // nesting not supported yet
   }
 
