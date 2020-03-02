@@ -58,7 +58,7 @@ USA
     <!ENTITY adjectives_with_ing "admiring|alarming|amazing|aggravating|amusing|annoying|astonishing|astounding|boring|captivating|challenging|charming|comforting|confusing|convincing|debilitating|deceiving|depressing|devastating|disappointing|disapproving|discouraging|disgusting|distracting|distressing|disturbing|embarrassing|encouraging|entertaining|enticing|exciting|exhausting|fascinating|freaking|frightening|frustrating|fulfilling|gratifying|inspiring|insulting|interesting|irritating|liberating|moving|mumbling|overwhelming|perplexing|pleasing|puzzling|relaxing|relieving|satisfying|shocking|sickening|soothing|surprising|tempting|terrifying|threatening|thrilling|tiring|touching|troubling|unsettling|uplifting|worrying">
 
     <!-- abbreviations of verbs (rather informal, but good for antipatterns) -->
-    <!ENTITY verb_abbreviations "fwds?|rsvps?|dms?|pms?|execs?|reps?|mods?|noms?|intros?|intercoms?|bbqs?|chgs?|fts?|recs?|exps?|collab|dms?">
+    <!ENTITY verb_abbreviations "fwds?|rsvps?|dms?|pms?|execs?|reps?|mods?|noms?|intros?|intercoms?|bbqs?|chgs?|fts?|recs?|exps?|collab">
     
     <!-- words that are informally used as verbs but aren't tagged and shouldn't be tagged as a verb -->
     <!ENTITY not_really_verbs "self\-?(support|control)s?|overdrafts?|nerds?|wrought|karates?|paths?|scapes?|videos?|fann(y|ies)?|bonus(es)?|back\-?ups?|pop\-?ups?|one\-?(shot|click)s?|idiot\-?proofs?|intakes?|rinds?|gaslits?|errors?|prox(y|ies)?|configs?|repros?|super\-?sets?|open\-?sources?|drag\-(and|n)\-drops?|hotfix(es)?|timeouts?|shutdowns?">
@@ -11081,6 +11081,10 @@ USA
                 <token>beta</token>
                 <token>test</token>
             </antipattern>
+            <antipattern><!-- https://www.lexico.com/definition/problem-solve -->
+                <token>problem</token>
+                <token>solve</token>
+            </antipattern>
             <antipattern><!-- https://www.lexico.com/definition/sweet_talk -->
                 <token>sweet</token>
                 <token>talk</token>
@@ -11271,7 +11275,7 @@ USA
             </antipattern>
             <antipattern><!-- nouns that are verbs when written as two words, needs different rule with suggestion (TODO!) -->
                 <token postag="MD" skip="2" />
-                <token regexp="yes">trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
+                <token regexp="yes">fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
             </antipattern>
             <antipattern case_sensitive="yes"><!-- A.I -->
                 <token regexp="yes">[A-Z]</token>
@@ -11328,7 +11332,7 @@ USA
                     <token min="0" regexp="yes">&apostrophe;</token>
                     <token min="0" regexp="yes">(no)?t</token>
                     <marker>
-                        <token regexp="yes">nicer?|good|great|cool(er)?|handy|possible|sweet|safer?|better|ok|related|interesting|appropriate|important</token>
+                        <token regexp="yes">nicer?|good|great|cool(er)?|handy|possible|sweet|safer?|better|ok|related|interesting|appropriate|important|glad|happy|horrible|terrible</token>
                     </marker>
                     <token regexp="yes">to|if|when|as|\.|\!</token>
                 </pattern>
@@ -32408,6 +32412,13 @@ USA
                 <token postag="RB.*" postag_regexp="yes" min="0" />
                 <token postag="VB[PD]?|MD" postag_regexp="yes" />
             </antipattern>
+            <antipattern><!-- We firemen in Cleveland can do it -->
+                <token>we</token>
+                <token postag="NNP?S" postag_regexp="yes" />
+                <token regexp="yes">in|from</token>
+                <token postag="NNP" />
+                <token postag="VB[PD]?|MD" postag_regexp="yes" />
+            </antipattern>
             <antipattern><!-- we humans all can live together -->
                 <token>we</token>
                 <token postag="NNP?S" postag_regexp="yes" />
@@ -32415,7 +32426,7 @@ USA
                 <token postag="VB[PD]?|MD" postag_regexp="yes" />
             </antipattern>
             <antipattern><!-- World War I -->
-                <token regexp="yes">current|Article|mustang|war|phase|grade|type</token>
+                <token regexp="yes">current|article|mustang|war|phase|grade|type|class</token>
                 <token case_sensitive="yes">I</token>
             </antipattern>
             <antipattern><!-- has he permission -->
@@ -32486,7 +32497,9 @@ USA
             <example>Is it bad?</example>
             <example>Without you life is cruel.</example>
             <example>Without you life has no meaning.</example>
+            <example>We firemen in Cleveland can do it.</example>
             <example>Type I diabetes.</example>
+            <example>The Class I shareholder report.</example>
             <example>I pray to you oh lord.</example>
             <example>Have we anything new to test?</example>
             <example>All of you girls</example>
@@ -38654,21 +38667,6 @@ The accident victim died from her injuries.
             <message>Did you mean <suggestion>us</suggestion> or <suggestion>it</suggestion>?</message>
             <example correction="us|it">Let <marker>is</marker> know if you have time.</example>
         </rule>
-        <rule id="IS_KNOW_NN" name="There is know (no / now) time" default="temp_off">
-            <pattern>
-                <token inflected="yes">be</token>
-                <marker>
-                    <token>know</token>
-                </marker>
-                <token postag="NN.*" postag_regexp="yes">
-                    <exception postag="IN" />
-                </token>
-            </pattern>
-            <message>Did you mean <suggestion>now</suggestion> or <suggestion>no</suggestion>?</message>
-            <example correction="now|no">There is <marker>know</marker> place like home.</example>
-            <example correction="now|no">They are <marker>know</marker> being reviewed by VE.</example>
-            <example correction="now|no">My dream is <marker>know</marker> Roma, in Italy.</example>
-        </rule>
         <rule id="WHAT_IT_HAPPENING" name="what it (is) happening">
             <pattern>
                 <token postag="IN|VB.*|RB|PRP|SENT_START" postag_regexp="yes" />
@@ -39146,7 +39144,7 @@ The accident victim died from her injuries.
                 <example correction="easily">There is even a Remote Trigger action to <marker>easy</marker> triggering macros remotely (although it does not include a parameter facility, which is an odd omission).</example>
                 <example correction="temporarily">In certain circumstances, it would make sense to <marker>temporary</marker> disable those.</example>
             </rule>
-            <rule><!-- MD + quick|immediate|potential|occasional|actual|unusual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive + VB -->
+            <rule><!-- MD + quick|immediate|potential|regular|occasional|actual|unusual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive + VB -->
                 <pattern>
                     <token postag="MD">
                         <exception postag="VB.*" postag_regexp="yes" />
@@ -39154,7 +39152,7 @@ The accident victim died from her injuries.
                     <token regexp="yes" min="0">&apostrophe;</token>
                     <token regexp="yes" min="0">(no)?t</token>
                     <marker>
-                        <token regexp="yes">quick|immediate|potential|occasional|actual|(un)?usual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive</token>
+                        <token regexp="yes">quick|immediate|potential|regular|occasional|actual|(un)?usual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive</token>
                     </marker>
                     <token postag="VBP?" postag_regexp="yes" />
                 </pattern>
@@ -39165,13 +39163,13 @@ The accident victim died from her injuries.
                 <example correction="potentially">This could <marker>potential</marker> increase our dues substantially if a large number of new members do not join.</example>
                 <example>As always, if you need immediate help and your assistant is not available, please see me or another member of our administrative team for assistance.</example>
             </rule>
-            <rule><!-- PRP + quick|immediate|potential|occasional|actual|unusual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive + VB -->
+            <rule><!-- PRP + quick|immediate|potential|regular|occasional|actual|unusual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive + VB -->
                 <pattern>
                     <token regexp="yes">
                         I|you|they|we|s?he|it
                     </token>
                     <marker>
-                        <token regexp="yes">quick|immediate|potential|occasional|actual|(un)?usual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive</token>
+                        <token regexp="yes">quick|immediate|potential|regular|occasional|actual|(un)?usual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive</token>
                     </marker>
                     <token postag="VB[GDZP]?|MD" postag_regexp="yes" />
                 </pattern>
@@ -39182,11 +39180,11 @@ The accident victim died from her injuries.
                 <example correction="currently">We <marker>current</marker> support the following libraries.</example>
                 <example>She makes it obvious stating that.</example>
             </rule>
-            <rule><!-- to + quick|immediate|potential|occasional|actual|unusual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive + VB -->
+            <rule><!-- to + quick|immediate|potential|regular|occasional|actual|unusual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive + VB -->
                 <pattern>
                     <token>to</token>
                     <marker>
-                        <token regexp="yes">quick|immediate|potential|occasional|actual|(un)?usual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive</token>
+                        <token regexp="yes">quick|immediate|potential|regular|occasional|actual|(un)?usual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive</token>
                     </marker>
                     <token postag="VB[GP]?" postag_regexp="yes">
                         <exception postag="JJ.*|NN.*|DT|PRP\$?" postag_regexp="yes" />
@@ -41968,6 +41966,33 @@ The accident victim died from her injuries.
             </rule>
         </rulegroup>
         <rulegroup id="KNOW_NOW" name="know (now)">
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">was|been|were</token>
+                    <marker>
+                        <token>know</token>
+                    </marker>
+                    <token postag="NN.*|RB|IN" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>known</suggestion>, <suggestion>now</suggestion> or <suggestion>no</suggestion>?</message>
+                <example correction="known|now|no">They were <marker>know</marker> for their food.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <marker>
+                        <token>know</token>
+                    </marker>
+                    <token regexp="yes" min="0">the|an?</token>
+                    <token postag="NN.*|VBG|JJ.*" postag_regexp="yes">
+                        <exception postag="IN" />
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>now</suggestion> or <suggestion>no</suggestion>?</message>
+                <example correction="now|no">There is <marker>know</marker> place like home.</example>
+                <example correction="now|no">They are <marker>know</marker> being reviewed by VE.</example>
+                <example correction="now|no">My dream is <marker>know</marker> Roma, in Italy.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>know</token>
