@@ -56,11 +56,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <exception negate_pos="yes" postag_regexp="yes" postag="prep.*" />
         </token>
         <token postag_regexp="yes" postag="verb.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END" />
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END|PARA_END" />
         </token>
       </pattern>
       <message>Прийменник \1 перед дієсловом <suggestion>\2</suggestion></message>
       <example correction="їхати">Їм треба <marker>в їхати</marker>.</example>
+      <example correction="їхати">Їм треба <marker>в їхати</marker></example>
       <example correction="будь"><marker>для будь</marker> кого</example>
       <example correction="дер">програмою <marker>з дер</marker> жавного управління</example>
       <!-- ловимо іншим правилом
@@ -101,7 +102,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token postag_regexp="yes" postag="verb.*">
               <exception postag_regexp="yes" postag="verb.*:inf.*"/>
               <exception regexp="yes">було|буде</exception>
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END|PARA_END"/>
             </token>
           </marker>
         </pattern>
@@ -156,7 +157,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token postag_regexp="yes" postag="verb.*">
               <exception postag_regexp="yes" postag="verb.*:inf.*"/>
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END|PARA_END"/>
               <!--
               <exception inflected="yes">бути</exception>
               -->
@@ -197,7 +198,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token postag_regexp="yes" postag="verb.*">
               <exception postag_regexp="yes" postag="verb.*:(inf|past:n|futr:s:3).*"/>
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END|PARA_END"/>
               <exception inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*">бути</exception>
             </token>
           </marker>
@@ -221,7 +222,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token postag_regexp="yes" postag="verb.*">
               <exception postag_regexp="yes" postag="verb.*:inf.*"/>
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END|PARA_END"/>
               <exception inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*">бути</exception>
             </token>
           </marker>
@@ -2001,7 +2002,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
           <token postag_regexp="yes" postag="part.*" min="0"/>
           <token postag_regexp="yes" postag="verb.*:impr.*">
-            <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*|SENT_END"/>
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*|SENT_END|PARA_END"/>
           </token>
         </pattern>
         <message>Можливо, пропущена кома після кличного?</message>
@@ -2054,7 +2055,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
             <token>,</token>
             <token postag_regexp="yes" postag="verb.*:impr(:s:2|:p:1).*">
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*|SENT_END"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*|SENT_END|PARA_END"/>
               <exception postag_regexp="yes" postag="verb.*insert.*"/>
               <!--TODO: якщо знай, бач.., не виділені комою, вони не отримують тегу insert після зняття омонімії -->
               <exception case_sensitive="yes" regexp="yes">.*\.|[А-ЯІЇЄҐ].*|знай|бач|бачте|скажімо|дякуй|дякуйте</exception>
@@ -2096,7 +2097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>воно</token>
           <token postag_regexp="yes" postag="verb:.*:impers.*">
-            <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:impers.*|SENT_END"/>
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:impers.*|SENT_END|PARA_END"/>
           </token>
         </pattern>
         <message>Неправильна конструкція</message>
@@ -2113,7 +2114,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>решта</token>
           <token postag_regexp="yes" postag="verb:.*:impers.*">
-            <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:impers.*|SENT_END"/>
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:impers.*|SENT_END|PARA_END"/>
           </token>
         </pattern>
         <message>Неправильна конструкція</message>
