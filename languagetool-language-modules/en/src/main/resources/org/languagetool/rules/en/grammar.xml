@@ -22628,6 +22628,7 @@ USA
           <example>And name it something like ...</example>
           <example>I can offer you Lifetime Warranty.</example>
         </rule>
+
         <rulegroup id="TO_NON_BASE" name="'to' + non-base form">
             <rule>
                 <antipattern>
@@ -22641,11 +22642,11 @@ USA
                     <token>to</token>
                     <token chunk="E-NP-plural" postag="NNS"/>
                 </antipattern>
-                <antipattern><!-- to beavers and squirrels -->
+                <antipattern><!-- to beavers and squirrels / #2536 to Times New Roman-->
                     <token>to</token>
                     <token chunk="B-NP-plural" postag="NNS"/>
-                    <token chunk="I-NP-plural" regexp="yes">and|or</token>
-                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token chunk="I-NP-plural"/>
+                    <token chunk="E-NP-plural"/>
                 </antipattern>
                 <antipattern><!-- added to purchases -->
                     <token postag_regexp="yes" postag="VB[DGNPZ]?"/>
@@ -22656,6 +22657,14 @@ USA
                     <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
                     <token>to</token>
                     <token>does</token>
+                </antipattern>
+                <antipattern><!-- #2536 Apply To Labels -->
+                    <token postag_regexp="yes" postag="VB[DGNPZ]?"/>
+                    <token>to</token>
+                    <and>
+                        <token postag="NNS"/><!-- 'labels' has no chunk information -->
+                        <token postag="SENT_END"/>
+                    </and>
                 </antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="VB[DGNPZ]?"/>
@@ -22694,6 +22703,8 @@ USA
                 <example>The user that you to want to send this message to does (I think) not really exist.</example>
                 <example>The users that the technician wants to send these messages to does not exist.</example>
                 <example>Marketing to Kids Gets More Savvy with New Technologies.</example><!-- #2536 -->
+                <example>If you don't like the font you can change it back to Times New Roman.</example><!-- #2536 -->
+                <example>Apply To Labels</example><!-- #2536 -->
             </rule>
             <rule><!-- MFU 2020-02-05 he tried to laughs. This pattern (except for the NNP exception) was in disambiguation.xml -->
                 <antipattern><!-- agree to terms and conditions -->
@@ -22702,10 +22713,10 @@ USA
                     <token chunk="I-NP-plural" regexp="yes">and|or</token>
                     <token chunk="E-NP-plural" postag="NNS"/>
                 </antipattern>
-                <antipattern><!-- offered to schools in -->
+                <antipattern><!-- offered to schools in / #2536 to reports when / #2536 to rules we -->
                     <token>to</token>
                     <token chunk="E-NP-plural" postag="NNS"/>
-                    <token postag="IN"/>
+                    <token postag_regexp="yes" postag="IN|CC|PRP"/>
                 </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">agree|aim|appear|arrange|ask|attempt|beg|afford|wait|choose|claim|decide|demand|desire|expect|fail|guarantee|happen|help|hope|manage|offer|plan|prepare|pretend|promise|prove|refuse|seem|tend|threaten|undertake|want|wish|begin|bother|continue|intend|propose|start|forget|like|mean|need|regret|remember|stop|try</token>
@@ -22728,6 +22739,8 @@ USA
                 <example>... device in a laptop form factor offered to schools in 1997 as an inexpensive ($799 US, original...</example>
                 <example>... and what happened to Bills at the convention.</example>
                 <example type="triggers_error">... is like what happened to Divines: several troops were ...</example>
+                <example>Can you confirm this only happens to reports when referenced in a book?</example><!-- #2536 -->
+                <example>Until we agree to rules we cannot give up the tools...</example><!-- #2536 -->
             </rule>
             <rule>
                 <antipattern>
@@ -22735,10 +22748,15 @@ USA
                     <token postag="VBN"/>
                     <token postag="NN.*" postag_regexp="yes"/>
                 </antipattern>
-                <antipattern><!-- taught to beginning students -->
+                <antipattern><!-- taught to beginning students / #2536 to networking events -->
                     <token>to</token>
-                    <token postag="JJ"/>
-                    <token postag="NNS"/>
+                    <token chunk="B-NP-plural" postag_regexp="yes" postag="JJ|VBG"/>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- #2536 www.lexico.com/definition/prior_to -->
+                    <token>prior</token>
+                    <token>to</token>
+                    <token postag="VBG"/>
                 </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes" skip="2">advise|ask|encourage|invite|order|persuade|remind|warn|expect|intend|want|allow|enable|force|teach|convince|manipulate|try<exception scope="next">,</exception></token>
@@ -22754,6 +22772,8 @@ USA
                 <example>She teaches English to advanced students.</example>
                 <example>...incorrect Bohr model is still often taught to beginning students.</example>
                 <example>She sometimes teaches to interesting students, but usually they are quite boring.</example>
+                <example>He sent an invite to networking events</example><!-- #2536 -->
+                <example>13 Questions You Must Ask Prior To Choosing a Karate School</example><!-- #2536 -->
             </rule>
             <rule>
                 <antipattern><!-- invited to dances occasionally -->
@@ -22783,6 +22803,13 @@ USA
                     <token inflected="yes" regexp="yes" skip="-1">talk|lead|refer|from|go|listen|speak</token>
                     <token>to</token>
                 </antipattern>
+                <antipattern><!-- #2536 he was introduced to was -->
+                    <token chunk="E-NP-singular"/>
+                    <token regexp="yes">is|was|are|were</token>
+                    <token postag="VBN"/>
+                    <token>to</token>
+                    <token regexp="yes">is|was</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>to</token>
@@ -22792,14 +22819,23 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>\1 <match no="2" postag="VB"/></suggestion>?</message>
                 <example correction="to rename">I've decided <marker>to renamed</marker> the project.</example>
+                <example correction="to win">What is needed <marker>to won</marker> the ticket?</example>
+                <example correction="to be">However, the project they were introduced <marker>to were</marker> the very best.</example><!-- The suggestion is not correct -->
                 <example>Overtraining leads to increased sympathetic activity.</example>
                 <example>Refer all servicing to qualified service personnel.</example>
                 <example>They vary in their shape from round to flattened.</example>
                 <example>The last person I told my idea to thought I was nuts.</example>
-                <example correction="to win">What is needed <marker>to won</marker> the ticket?</example>
                 <example>The students we talked to said that Tom is easy to get along with.</example>
+                <example>And the project he was introduced to was the best.</example><!-- #2536 -->
+                <example>Also, the project they were introduced to was the best.</example>
             </rule>
             <rule>
+                <antipattern><!-- #2536 from doing to done -->
+                    <token>from</token>
+                    <token>doing</token>
+                    <token>to</token>
+                    <token>done</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>to</token>
@@ -22812,8 +22848,10 @@ USA
                 <example>Arabic is written from right to left.</example>
                 <example correction="to notice">Tom was the only one who seemed <marker>to noticed</marker>.</example>
                 <example>Desire is understood to be prior to thought.</example>
+                <example>Please change it from doing to done here</example><!-- #2536. Possibly italics in the original or possibly missing quote marks. -->
             </rule>
         </rulegroup>
+
         <rulegroup id="MANY_FEW_UNCOUNTABLE" name="'many/few' + uncountable noun, e.g. 'many (much) food'">
             <rule>
                 <pattern>
