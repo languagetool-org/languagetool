@@ -1950,6 +1950,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <rulegroup id="LYUBYI_ADJ" name="Прикметник люби́й">
       <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>любому</token>
+          <token>випадку</token>
+        </pattern>
+        <message>Правильно: <suggestion>в кожному разі</suggestion></message>
+        <suggestion>так чи так</suggestion>
+        <example correction="в кожному разі|так чи так"><marker>в любому випадку</marker></example>
+      </rule>
+    
+      <rule>
         <antipattern>
           <token inflected="yes">наш</token>
           <token inflected="yes">любий</token>
@@ -6024,6 +6035,153 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <message>Правильно: <suggestion>дорівнює</suggestion></message>
       <example correction="дорівнює">відстань <marker>рівна</marker> 0,2 км</example>
     </rule>
+
+    <rulegroup id="danyi_moment" name="Даний момент">
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>даний</token>
+          <token>момент</token>
+        </pattern>
+        <message>Краще: <suggestion>наразі</suggestion></message>
+        <suggestion><match no="1"/> цей момент</suggestion>
+        <suggestion><match no="1"/> цю хвилину</suggestion>
+        <suggestion>цієї миті</suggestion>
+        <example correction="наразі|в цей момент|в цю хвилину|цієї миті"><marker>в даний момент</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>на</token>
+          <token>даний</token>
+          <token>момент</token>
+        </pattern>
+        <message>Краще: <suggestion>на цей час</suggestion></message>
+        <suggestion>на цю мить</suggestion>
+        <suggestion>на цей момент</suggestion>
+        <suggestion>зараз</suggestion>
+        <suggestion>тепер</suggestion>
+        <suggestion>нині</suggestion>
+        <example correction="на цей час|на цю мить|на цей момент|зараз|тепер|нині"><marker>на даний момент</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>даний</token>
+          <token>час</token>
+        </pattern>
+        <message>Краще: <suggestion>зараз</suggestion></message>
+        <suggestion>тепер</suggestion>
+        <suggestion><match no="1"/> цей час</suggestion>
+        <suggestion>нині</suggestion>
+        <example correction="зараз|тепер|в цей час|нині"><marker>в даний час</marker></example>
+      </rule>
+    </rulegroup>
+
+    <rule id="v_danomu_vypadku" name="В даному випадку">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token>даному</token>
+        <token>випадку</token>
+      </pattern>
+      <message>Краще: <suggestion><match no="1"/> такому випадку</suggestion></message>
+      <suggestion><match no="1"/> цьому випадку</suggestion>
+      <suggestion><match no="1"/> такій ситуації</suggestion>
+      <example correction="в такому випадку|в цьому випадку|в такій ситуації"><marker>в даному випадку</marker></example>
+    </rule>
+
+    <rule id="blyzhchym_chason" name="Ближчим часом">
+      <pattern>
+        <token>ближчим</token>
+        <token>часом</token>
+      </pattern>
+      <message>Краще: <suggestion>незабаром</suggestion></message>
+      <suggestion>невдовзі</suggestion>
+      <suggestion>найближчим часом</suggestion>
+      <example correction="незабаром|невдовзі|найближчим часом"><marker>ближчим часом</marker></example>
+    </rule>
+
+    <rule id="v_protyvnomu_vypadku" name="В противному випадку">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token regexp="yes">(су)?противному</token>
+        <token>випадку</token>
+      </pattern>
+      <message>Краще: <suggestion>інакше</suggestion></message>
+      <suggestion>в протилежному разі</suggestion>
+      <example correction="інакше|в протилежному разі"><marker>в противному випадку</marker></example>
+    </rule>
+
+    <rule id="v_skoromu_casi" name="В скорому часі">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token>скорому</token>
+        <token>часі</token>
+      </pattern>
+      <message>Краще: <suggestion>незабаром</suggestion></message>
+      <suggestion>скоро</suggestion>
+      <suggestion>невдовзі</suggestion>
+      <example correction="незабаром|скоро|невдовзі"><marker>в скорому часі</marker></example>
+    </rule>
+
+    <rule id="v_dobru_put" name="В добру путь">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token>добру</token>
+        <token>путь</token>
+      </pattern>
+      <message>Краще: <suggestion>щасливої дороги</suggestion></message>
+      <example correction="щасливої дороги"><marker>в добру путь</marker></example>
+    </rule>
+
+    <rulegroup id="v_lezhachomu_polozhenni" name="В лежачому/стоячому положенні">
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>лежачому</token>
+          <token>положенні</token>
+        </pattern>
+        <message>Краще: <suggestion>лежачи</suggestion></message>
+        <suggestion>в положенні лежачи</suggestion>
+        <example correction="лежачи|в положенні лежачи"><marker>в лежачому положенні</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>стоячому</token>
+          <token>положенні</token>
+        </pattern>
+        <message>Краще: <suggestion>стоячки</suggestion></message>
+        <suggestion>навстоячки</suggestion>
+        <example correction="стоячки|навстоячки"><marker>в стоячому положенні</marker></example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="v_naiblyzhchyi_chas" name="В найближчий час">
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>найближчий</token>
+          <token>час</token>
+        </pattern>
+        <message>Краще: <suggestion>незабаром</suggestion></message>
+        <suggestion>невдовзі</suggestion>
+        <suggestion>найближчим часом</suggestion>
+        <example correction="незабаром|невдовзі|найближчим часом"><marker>в найближчий час</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">[ву]</token>
+          <token>найближчі</token>
+          <token>дні</token>
+        </pattern>
+        <message>Краще: <suggestion>найближчими днями</suggestion></message>
+        <example correction="найближчими днями"><marker>в найближчі дні</marker></example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="vechorom" name="Вечором і увечері">
       <rule>
