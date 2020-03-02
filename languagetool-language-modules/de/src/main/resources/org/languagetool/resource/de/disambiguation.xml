@@ -1756,7 +1756,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     <rule name="Big Ben" id="BIG_BEN">
         <pattern>
             <token>Big</token>
-            <token regexp="yes">Apple|B(en|an[dg]|uisnes|rother)s?|Datas?|Macs?|Points?|Pushs?</token>
+            <token regexp="yes">Apple|B(en|an[dg]|uisnes|rother)s?|Datas?|Macs?|Points?|Pushs?|Vegans?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -3470,12 +3470,20 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </rule>
         <rule>
             <pattern case_sensitive="yes">
-                <token>Adjutant</token>
-                <token>Black</token>
+                <token regexp="yes">Adjutant|Montana</token>
+                <token regexp="yes">Blacks?</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
+    <rule id="FRIDAYS_FOR_FUTURE" name="Fridays for Future">
+        <pattern>
+            <token case_sensitive="yes" regexp="yes">Fridays|Scientists|Parents</token>
+            <token case_sensitive="yes" regexp="yes">[Ff]or</token>
+            <token case_sensitive="yes" regexp="yes">Futures?|Hubraums?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="CONNECT" id="CONNECT">
         <pattern case_sensitive="yes">
             <token regexp="yes">Spotify|Staples</token>
