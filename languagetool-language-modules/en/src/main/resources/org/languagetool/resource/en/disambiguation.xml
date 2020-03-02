@@ -5656,6 +5656,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">&subject_pronouns;</token>
             <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
         </antipattern>
+        <antipattern><!-- #2427 This all makes it -->
+            <token postag="PDT"/>
+            <token postag="DT"/>
+            <token chunk="B-VP" postag="VBZ"/>
+            <token regexp="yes">&subject_pronouns;</token>
+        </antipattern>
         <pattern>
             <token postag="JJ">
                 <exception scope="previous" regexp="yes">s?he|it</exception>
@@ -5692,6 +5698,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Furthermore, the complexity of the medium makes it difficult to write a useful boot program in one sector.</example><!-- #2431 -->
         <example type="untouched">It more or less looks like it's ready.</example><!-- #2431 -->
         <example type="untouched">Verb: Before the game <marker>starts</marker> she is unable to read all instructions.</example><!-- #2427 -->
+        <example type="untouched">This all <marker>makes</marker> it a more convenient number system.</example><!-- #2523 -->
         <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]" outputform="forces[force/NNS]">I like military <marker>forces</marker>.</example>
         <example type="ambiguous" inputform="FORCES[force/NNS,force/VBZ]" outputform="FORCES[force/NNS]">THEY WANT MILITARY <marker>FORCES</marker>, I THINK.</example>
     </rule>
