@@ -7520,25 +7520,25 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="visando conseguir">Ele assinou um documento <marker>visando a conseguir</marker> dividendos.</example>
     </rule>
 
-    <rulegroup id='VISTO_QUE' name="Visto [não] VERBO-INFINITIVO">
+    <rulegroup id='VISTO_DADO_POR_QUE' name="Visto/dado/por [não] VERBO-INFINITIVO">
 		<!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-03-01   -->
 		<rule>
 			<pattern>
-				<token>visto</token>
+				<token regexp='yes'>visto|dado|por</token> <!-- MARCOAGPINTO improved - 2020-03-02 -->
 				<token>que</token>
 				<token>não</token>
 				<token postag_regexp='no' postag='VMII1S0'></token>
 			</pattern>
-			<message>Substitua por <suggestion>visto não <match no='4' postag='VMN01S0' postag_replace='VMII1S0' postag_regexp='no'/></suggestion>.</message>
+			<message>Substitua por <suggestion>\1 não <match no='4' postag='VMN01S0' postag_replace='VMII1S0' postag_regexp='no'/></suggestion>.</message>
 			<example correction="visto não querer">Tomei essa opção <marker>visto que não queria</marker> errar.</example>
 		</rule>
 		<rule>
 			<pattern>
-				<token>visto</token>
+				<token regexp='yes'>visto|dado|por</token> <!-- MARCOAGPINTO improved - 2020-03-02 -->
 				<token>que</token>				
 				<token postag_regexp='no' postag='VMII1S0'></token>
 			</pattern>
-			<message>Substitua por <suggestion>visto <match no='3' postag='VMN01S0' postag_replace='VMII1S0' postag_regexp='no'/></suggestion>.</message>
+			<message>Substitua por <suggestion>\1 <match no='3' postag='VMN01S0' postag_replace='VMII1S0' postag_regexp='no'/></suggestion>.</message>
 			<example correction="visto querer">Tomei essa opção <marker>visto que queria</marker> acertar.</example>
 		</rule>
 	</rulegroup>
