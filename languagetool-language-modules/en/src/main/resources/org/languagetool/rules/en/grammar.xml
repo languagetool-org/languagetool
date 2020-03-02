@@ -58,7 +58,7 @@ USA
     <!ENTITY adjectives_with_ing "admiring|alarming|amazing|aggravating|amusing|annoying|astonishing|astounding|boring|captivating|challenging|charming|comforting|confusing|convincing|debilitating|deceiving|depressing|devastating|disappointing|disapproving|discouraging|disgusting|distracting|distressing|disturbing|embarrassing|encouraging|entertaining|enticing|exciting|exhausting|fascinating|freaking|frightening|frustrating|fulfilling|gratifying|inspiring|insulting|interesting|irritating|liberating|moving|mumbling|overwhelming|perplexing|pleasing|puzzling|relaxing|relieving|satisfying|shocking|sickening|soothing|surprising|tempting|terrifying|threatening|thrilling|tiring|touching|troubling|unsettling|uplifting|worrying">
 
     <!-- abbreviations of verbs (rather informal, but good for antipatterns) -->
-    <!ENTITY verb_abbreviations "fwds?|rsvps?|dms?|pms?|execs?|reps?|mods?|noms?|intros?|intercoms?|bbqs?|chgs?|fts?|recs?|exps?|collab">
+    <!ENTITY verb_abbreviations "fwds?|rsvps?|dms?|pms?|execs?|reps?|mods?|noms?|intros?|intercoms?|bbqs?|chgs?|fts?|recs?|exps?|collab|dms?">
     
     <!-- words that are informally used as verbs but aren't tagged and shouldn't be tagged as a verb -->
     <!ENTITY not_really_verbs "self\-?(support|control)s?|overdrafts?|nerds?|wrought|karates?|paths?|scapes?|videos?|fann(y|ies)?|bonus(es)?|back\-?ups?|pop\-?ups?|one\-?(shot|click)s?|idiot\-?proofs?|intakes?|rinds?|gaslits?|errors?|prox(y|ies)?|configs?|repros?|super\-?sets?|open\-?sources?|drag\-(and|n)\-drops?|hotfix(es)?|timeouts?|shutdowns?">
@@ -9643,6 +9643,42 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="GOING_TO_JJ" name="going to (be / too) great" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>slow</token>
+                    <token>down</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">going|moving|driving|swimming|running|jumping|flying|walking</token>
+                    <marker>
+                        <token>to</token>
+                    </marker>
+                    <token regexp="yes">s?low|high|far|fast|quick(ly)?</token>
+                    <token postag="PCT|IN" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>too</suggestion>?</message>
+                <example correction="too">He is going <marker>to</marker> far.</example>
+                <example>I’m not going to slow down.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>going</token>
+                    <token>to</token>
+                    <marker>
+                        <token postag="JJ.*" postag_regexp="yes">
+                            <exception postag="VBP?|NN.*" postag_regexp="yes" />
+                        </token>
+                    </marker>
+                    <token postag="PCT|IN" postag_regexp="yes">
+                        <exception>than</exception>
+                    </token>
+                </pattern>
+                <message>It seems that a verb is missing in front of the adjective "\3".</message>
+                <suggestion>be \3</suggestion>
+                <example correction="be fixed">When is it going to <marker>fixed</marker>?</example>
+            </rule>
+        </rulegroup>
         <rule id="BE_DONT" name="I am don't (not) sure">
             <antipattern>
                 <token postag="W.*" postag_regexp="yes" skip="5" />
@@ -38603,6 +38639,36 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rule id="LET_IS_VB" name="let is (us) know" default="temp_off">
+            <antipattern>
+                <token postag="DT" />
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <token>let</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">[Ll]et</token>
+                <marker>
+                    <token case_sensitive="yes" regexp="yes">[Ii]s</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>us</suggestion> or <suggestion>it</suggestion>?</message>
+            <example correction="us|it">Let <marker>is</marker> know if you have time.</example>
+        </rule>
+        <rule id="IS_KNOW_NN" name="There is know (no / now) time" default="temp_off">
+            <pattern>
+                <token inflected="yes">be</token>
+                <marker>
+                    <token>know</token>
+                </marker>
+                <token postag="NN.*" postag_regexp="yes">
+                    <exception postag="IN" />
+                </token>
+            </pattern>
+            <message>Did you mean <suggestion>now</suggestion> or <suggestion>no</suggestion>?</message>
+            <example correction="now|no">There is <marker>know</marker> place like home.</example>
+            <example correction="now|no">They are <marker>know</marker> being reviewed by VE.</example>
+            <example correction="now|no">My dream is <marker>know</marker> Roma, in Italy.</example>
+        </rule>
         <rule id="WHAT_IT_HAPPENING" name="what it (is) happening">
             <pattern>
                 <token postag="IN|VB.*|RB|PRP|SENT_START" postag_regexp="yes" />
