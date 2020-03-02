@@ -27215,7 +27215,7 @@ USA
                 <token regexp="yes">and|n?or|&amp;</token>
                 <token regexp="yes">I|you|s?he|we|they|it</token>
             </antipattern>
-            <rule default="temp_off"><!-- "How he doing?" -->
+            <rule><!-- "How he doing?" -->
                 <pattern>
                     <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
                     <marker>
@@ -27308,7 +27308,7 @@ USA
                 <example>How are Tom and I doing so far?</example>
                 <example correction="I are leaving|I am leaving">My mom and <marker>I leaving</marker> on Monday.</example>
             </rule>
-            <rule default="temp_off"><!-- "How I doing?" -->
+            <rule><!-- "How I doing?" -->
                 <pattern>
                     <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
                     <marker>
@@ -27353,7 +27353,7 @@ USA
                 <example>...general, charge Q is determined by steady current I flowing for a time t as Q = It.</example>
                 <example>I mute them.</example>
             </rule>
-            <rule default="temp_off"><!-- "How you doing?" -->
+            <rule><!-- "How you doing?" -->
                 <pattern>
                     <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
                     <marker>
@@ -38564,7 +38564,7 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rule id="WHAT_IT_HAPPENING" name="what it (is) happening" default="temp_off">
+        <rule id="WHAT_IT_HAPPENING" name="what it (is) happening">
             <pattern>
                 <token postag="IN|VB.*|RB|PRP|SENT_START" postag_regexp="yes" />
                 <token>what</token>
@@ -38578,6 +38578,17 @@ The accident victim died from her injuries.
             <example correction="is">Don't you know anything else about what <marker>it</marker> happening?</example>
             <example correction="is">At least give me an idea about what <marker>it</marker> coming, some sooner than others.</example>
             <example correction="is">Please either tell us exactly what <marker>it</marker> happening.</example>
+        </rule>
+        <rule id="WHAT_IT_THE" name="what it (is) the" default="temp_off">
+            <pattern>
+                <token regexp="yes">what|when|how|who|where|which</token>
+                <marker>
+                    <token>it</token>
+                </marker>
+                <token regexp="yes">the|an?</token>
+            </pattern>
+            <message>Did you mean <suggestion>is</suggestion>?</message>
+            <example correction="is">What <marker>it</marker> the solution.</example>
         </rule>
         <rule id="IT_IF" name="it vs. if">
             <antipattern>
