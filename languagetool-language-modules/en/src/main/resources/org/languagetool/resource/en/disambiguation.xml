@@ -5529,64 +5529,64 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> an event.</example>
         </rule>
 
-        <rule id="VBZNNS_NNS" name="verb singular/noun + noun plural or uncountable => verb">
-          <antipattern><!-- arts and crafts industry/industries -->
+    <rule id="VBZNNS_NNS" name="verb singular/noun + noun plural or uncountable => verb">
+        <antipattern><!-- arts and crafts industry/industries -->
             <token postag="NNS"/>
             <token>and</token>
             <token postag="NNS"/>
             <token postag_regexp="yes" postag="NN(S|:UN?)"/>
-          </antipattern>
-          <antipattern><!-- are these rule changes -->
+        </antipattern>
+        <antipattern><!-- are these rule changes -->
             <token regexp="yes">are|were</token>
             <token postag_regexp="yes" postag="DT|PRP\$"/>
             <token postag_regexp="yes" postag="NN(:UN?)?|JJ"/>
             <token postag="NNS"/>
-          </antipattern>
-          <antipattern><!-- Sports prototypes,  -->
+        </antipattern>
+        <antipattern><!-- Sports prototypes,  -->
             <token postag="SENT_START"/>
             <token postag="NNS"/>
             <token postag="NNS"/>
             <token postag="PCT"/>
-          </antipattern>
-          <antipattern><!-- Premium #961 computer games tomorrow -->
+        </antipattern>
+        <antipattern><!-- Premium #961 computer games tomorrow -->
             <token chunk="B-NP-plural" postag_regexp="yes" postag="NN(:UN?)?|JJR?"/>
             <token chunk="E-NP-plural" postag="NNS"/>
             <token postag="RB"/>
-          </antipattern>
-          <antipattern><!-- chunker fix: more computer games tomorrow -->
+        </antipattern>
+        <antipattern><!-- chunker fix: more computer games tomorrow -->
             <token chunk="B-NP-plural" postag="JJR"/>
             <token postag_regexp="yes" postag="NN(:UN?)?"/>
             <token postag="NNS"/>
             <token chunk="E-NP-plural">tomorrow</token>
-          </antipattern>
-          <pattern>
+        </antipattern>
+        <pattern>
             <marker>
-              <and>
-                <token postag="NNS"><exception postag="NNPS?" postag_regexp="yes"/></token>
-                <token postag="VBZ"/>
-              </and>
+                <and>
+                    <token postag="NNS"><exception postag="NNPS?" postag_regexp="yes"/></token>
+                    <token postag="VBZ"/>
+                </and>
             </marker>
             <token postag="NN(S|:UN?)" postag_regexp="yes"><exception postag="IN|VBG?|JJ" postag_regexp="yes"/></token>
-          </pattern>
-          <disambig postag="VBZ"/>
-          <example type="untouched">This is work.</example>
-          <example type="untouched">...is placed on top of the opening to support the <marker>bricks</marker> above.</example>
-          <example type="untouched">... in the form of a buy and sell system with the <marker>tags</marker> taking the place of the more traditional...</example>
-          <example type="untouched">... with Paul Jones and the <marker>Blues Society</marker> of Italian bluesman Guido...</example>
-          <example type="untouched">... with DJ Hurricane to the <marker>AIDS benefit album</marker> 'No Alternative'.</example>
-          <example type="untouched">The <marker>Gates family</marker> regularly went to services at...</example>
-          <example type="untouched">In days past some used to color the <marker>eggs</marker> red, so as to show the kind of death by...</example>
-          <example type="untouched">... because otherwise an <marker>arms race</marker> in this new technology would ...</example>
-          <example type="untouched">These days more young <marker>husbands</marker> help their wives with housework.</example>
-          <example type="untouched">There is also an <marker>arts and crafts industry</marker> that produces...</example>
-          <example type="untouched">... if <marker>arts and crafts industries</marker> are thriving in that part of the country.</example>
-          <example type="untouched">Are these <marker>rule changes</marker> something we can add to our code base?</example>
-          <example type="untouched">Were your recent <marker>changes</marker> anything more than what was on your task list?</example>
-          <example type="untouched"><marker>Sports prototypes</marker>, unlike GT cars, do not rely on a...</example>
-          <example type="untouched">I played computer games yesterday.</example><!-- Premium #961 -->
-          <example type="untouched">I will play more computer games tomorrow.</example>
-          <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> fitness.</example>
-          <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> tomorrow's calloused hands!</example>
+            </pattern>
+            <disambig postag="VBZ"/>
+            <example type="untouched">This is work.</example>
+            <example type="untouched">...is placed on top of the opening to support the <marker>bricks</marker> above.</example>
+            <example type="untouched">... in the form of a buy and sell system with the <marker>tags</marker> taking the place of the more traditional...</example>
+            <example type="untouched">... with Paul Jones and the <marker>Blues Society</marker> of Italian bluesman Guido...</example>
+            <example type="untouched">... with DJ Hurricane to the <marker>AIDS benefit album</marker> 'No Alternative'.</example>
+            <example type="untouched">The <marker>Gates family</marker> regularly went to services at...</example>
+            <example type="untouched">In days past some used to color the <marker>eggs</marker> red, so as to show the kind of death by...</example>
+            <example type="untouched">... because otherwise an <marker>arms race</marker> in this new technology would ...</example>
+            <example type="untouched">These days more young <marker>husbands</marker> help their wives with housework.</example>
+            <example type="untouched">There is also an <marker>arts and crafts industry</marker> that produces...</example>
+            <example type="untouched">... if <marker>arts and crafts industries</marker> are thriving in that part of the country.</example>
+            <example type="untouched">Are these <marker>rule changes</marker> something we can add to our code base?</example>
+            <example type="untouched">Were your recent <marker>changes</marker> anything more than what was on your task list?</example>
+            <example type="untouched"><marker>Sports prototypes</marker>, unlike GT cars, do not rely on a...</example>
+            <example type="untouched">I played computer games yesterday.</example><!-- Premium #961 -->
+            <example type="untouched">I will play more computer games tomorrow.</example>
+            <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> fitness.</example>
+            <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> tomorrow's calloused hands!</example>
         </rule>
 
     <rule id="DT_VBZ_NNU_IN"  name="determiner + noun/verb => verb + noun + preposition"><!-- #2436 -->
