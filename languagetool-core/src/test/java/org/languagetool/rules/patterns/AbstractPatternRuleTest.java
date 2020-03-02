@@ -18,18 +18,19 @@
  */
 package org.languagetool.rules.patterns;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.databroker.ResourceDataBroker;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class AbstractPatternRuleTest {
+
   @Test
   public void shortMessageIsLongerThanErrorMessage() throws IOException {
     for (Language lang : Languages.get()) {
