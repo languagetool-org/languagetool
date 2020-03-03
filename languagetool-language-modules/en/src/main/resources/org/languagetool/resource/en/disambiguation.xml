@@ -4755,6 +4755,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>it</token>
             <token>smart</token><!-- The safe option it to add adjectives if they cause a problem. -->
         </antipattern>
+        <antipattern><!-- #2539 we email and share -->
+            <token regexp="yes">I|you|we|they</token>
+            <token postag_regexp="yes" postag="VB(P|D)?"/><!-- Not chunk: email/B-NP-singular -->
+            <token regexp="yes">and|or</token>
+            <token postag_regexp="yes" postag="VB(P|D)?"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -4834,6 +4840,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">... and usually, the sick hope to become well.</example><!-- #2528 -->
         <example type="untouched">Play it smart.</example><!-- #2522 -->
         <example type="untouched">Play it cool.</example>
+        <example type="untouched">Currently we email and share the stuff.</example><!-- #2539 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
         <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
@@ -5774,6 +5781,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token>t</token>
                 <token postag="VBP?" postag_regexp="yes"/>
             </antipattern>
+            <antipattern><!-- #2539 we email and share. Refer to PRP_VB_CC_VB -->
+                <token regexp="yes">I|you|we|they</token>
+                <token postag_regexp="yes" postag="VB(P|D)?"/><!-- Not chunk: email/B-NP-singular -->
+                <token regexp="yes">and|or</token>
+                <token postag_regexp="yes" postag="VB(P|D)?"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="NN.*" postag_regexp="yes"><exception postag_regexp="yes" postag="RBR?|JJ"/></token>
@@ -5799,9 +5812,23 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">They could maybe go and hangout.</example><!-- #2386 -->
             <example type="untouched">She might possibly go and hangout.</example><!-- #2386 -->
             <example type="untouched">I can't restart or logoff.</example><!-- #2501 -->
+            <example type="untouched">Currently we email and share the stuff.</example><!-- #2539 -->
             <example type="ambiguous" inputform="man[man/NN:UN,man/VB,man/VBP]" outputform="man[man/NN:UN]">They are now <marker>man</marker> and wife duly married.</example>
             <example type="ambiguous" inputform="husband[husband/NN,husband/VB,husband/VBP]" outputform="husband[husband/NN]">They were <marker>husband</marker> and wife.</example>
             <example type="ambiguous" inputform="bosses[boss/NNS,boss/VBZ]" outputform="bosses[boss/NNS]">I know that <marker>bosses</marker> or workers can do these tasks.</example>
+        </rule>
+
+        <rule id="PRP_VB_CC_VB" name="verbs in conjunction"><!-- This is an AP in NN_CC_NN -->
+            <pattern>
+                <token regexp="yes">I|you|we|they</token>
+                <marker>
+                    <token postag="VBP"/><!-- Not chunk: email/B-NP-singular -->
+                    <token postag="CC" regexp="yes">and|or</token>
+                    <token postag="VBP"/>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+            <example type="ambiguous" inputform="email[email/NN:U,email/VB,email/VBP]" outputform="email[email/VBP]">Currently we <marker>email</marker> and share the stuff.</example><!-- #2539-->
         </rule>
 
         <rule id="PRP_MD_RB_VB" name="pronoun + modal + adverb + noun/verb > verb"><!-- #2396 -->
