@@ -914,6 +914,9 @@ public class AgreementRule extends Rule {
   private RuleMatch getRuleMatch(AnalyzedTokenReadings token1, AnalyzedSentence sentence, AnalyzedTokenReadings nextToken, String testPhrase, String hyphenTestPhrase) {
     try {
       initLt();
+      if (nextToken.getReadings().stream().allMatch(k -> k.getPOSTag() != null && k.getPOSTag().startsWith("EIG:"))) {
+        return null;
+      }
       List<String> replacements = new ArrayList<>();
       if (lt.check(testPhrase).size() == 0 && nextToken.isTagged()) {
         replacements.add(testPhrase);
