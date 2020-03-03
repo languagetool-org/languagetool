@@ -42088,6 +42088,53 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rulegroup id="CAIXA_CAPSA" name="capsa/caixa">
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=capsa+caixa&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=8470&amp;idHit=8470&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=caixa+o+capsa%3F&amp;tematica=&amp;tipusCerca=cerca.tot</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">caixa</token>
+                    </marker>
+                    <token>de</token>
+                    <token min="0" postag="DA.*" postag_regexp="yes"/>
+                    <token regexp="yes">sorpreses|cartó|cartró|mistos|sabates|galetes|bombons|medicaments|colors|música|sorpreses|trons|Pandora|llumins|píndoles|compassos|lents|mocadors</token>
+                </pattern>
+                <message>Probablement val més dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">capsa</match></suggestion></message>
+                <example correction="capsa">Vet aquí la <marker>caixa</marker> de mistos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">caixa</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">xinesa|regal</token>
+                </pattern>
+                <message>Probablement val més dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">capsa</match></suggestion></message>
+                <example correction="capsa">Vet aquí la <marker>caixa</marker> xinesa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">capsa</token>
+                    </marker>
+                    <token>de</token>
+                    <token min="0" postag="DA.*" postag_regexp="yes"/>
+                    <token regexp="yes">taronges|cabals|morts|ressonància|canvis</token>
+                </pattern>
+                <message>Probablement val més dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">caixa</match></suggestion></message>
+                <example correction="caixa">Vet aquí la <marker>capsa</marker> de taronges.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">capsa</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">forta|negra</token>
+                </pattern>
+                <message>Probablement val més dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">caixa</match></suggestion></message>
+                <example correction="caixa">Vet aquí la <marker>capsa</marker> forta.</example>
+            </rule>
+        </rulegroup>
         <rule id="EN_ENTREDIT" name="en entredit">
             <pattern>
                 <token>en</token>
