@@ -5826,8 +5826,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                     <token postag="CC" regexp="yes">and|or</token>
                     <token postag="VBP"/>
                 </marker>
+                <token>
+                    <exception postag_regexp="yes" postag="VB.*|RB"/>
+                    </token>
             </pattern>
             <disambig action="filterall"/>
+            <example type="untouched">I thought I'd already told you oil and water don't mix.</example>
+            <example type="untouched">Who told you oil and water actually mixes well?</example>
+            <example type="untouched">... as he said to Jane and I milk and honey is the food of the gods.</example>
             <example type="ambiguous" inputform="email[email/NN:U,email/VB,email/VBP]" outputform="email[email/VBP]">Currently we <marker>email</marker> and share the stuff.</example><!-- #2539-->
         </rule>
 
