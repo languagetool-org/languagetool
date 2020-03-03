@@ -28696,6 +28696,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="ROI" name="*retorn de la inversió">
+            <pattern>
+                <marker>
+                    <token>retorn</token>
+                </marker>
+                <token inflected="yes">de</token>
+                <token postag="D.*" postag_regexp="yes" min="0"/>
+                <token inflected="yes">inversió</token>
+            </pattern>
+            <message>Anglicisme.</message>
+            <suggestion>rendibilitat</suggestion>
+            <example correction="rendibilitat">El <marker>retorn</marker> de la inversió.</example>
+        </rule>
         <rule id="CONDIR_EL_PANIC" name="*condir el pànic">
             <pattern>
                 <token inflected="yes">condir</token>
@@ -30023,31 +30036,93 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="autofinançament"><marker>autofinanciaçio</marker></example>
             <example correction="finançaments"><marker>finaçiacions</marker></example>
         </rule>
-        <rule id="LOW_COST" name="low cost/baix cost">
-            <pattern>
-                <token>low</token>
-                <token min="0">-</token>
-                <token>cost</token>
-            </pattern>
-            <message>Anglicisme innecessari.</message>
-            <suggestion>baix cost</suggestion>
-            <suggestion>de baix cost</suggestion>
-            <!--<url>http://esadir.cat/entrades/fitxa/node/low-cost</url>-->
-            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=%22low+cost%22&amp;numPagina=1&amp;database=TERMCAT&amp;idFont=1196732&amp;idHit=1196732&amp;tipusFont=Diccionaris+terminol%F2gics+del+TERMCAT&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=l%EDnia+a%E8ria+de+baix+cost&amp;tematica=Transports&amp;tipusCerca=cerca.queSignifica</url>
-            <example correction="baix cost|de baix cost">Una companyia <marker>low-cost</marker>.</example>
-        </rule>
-        <rule id="ON_LINE" name="on line/en línia">
-            <pattern>
-                <token>on</token>
-                <token min="0">-</token>
-                <token>line</token>
-            </pattern>
-            <message>Anglicisme innecessari.</message>
-            <suggestion>en línia</suggestion>
-            <suggestion>digital</suggestion>
-            <suggestion>electrònic</suggestion>
-            <example correction="en línia|digital|electrònic">Aprenentatge <marker>on line</marker>.</example>
-        </rule>
+        <rulegroup id="ANGLICISMES" name="anglicismes innecessaris">
+            <rule id="LOW_COST" name="low cost/baix cost">
+                <pattern>
+                    <token>low</token>
+                    <token min="0">-</token>
+                    <token>cost</token>
+                </pattern>
+                <message>Anglicisme innecessari.</message>
+                <suggestion>baix cost</suggestion>
+                <suggestion>de baix cost</suggestion>
+                <!--<url>http://esadir.cat/entrades/fitxa/node/low-cost</url>-->
+                <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=%22low+cost%22&amp;numPagina=1&amp;database=TERMCAT&amp;idFont=1196732&amp;idHit=1196732&amp;tipusFont=Diccionaris+terminol%F2gics+del+TERMCAT&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=l%EDnia+a%E8ria+de+baix+cost&amp;tematica=Transports&amp;tipusCerca=cerca.queSignifica</url>
+                <example correction="baix cost|de baix cost">Una companyia <marker>low-cost</marker>.</example>
+            </rule>
+            <rule id="ON_LINE" name="on line/en línia">
+                <pattern>
+                    <token>on</token>
+                    <token min="0">-</token>
+                    <token>line</token>
+                </pattern>
+                <message>Anglicisme innecessari.</message>
+                <suggestion>en línia</suggestion>
+                <suggestion>digital</suggestion>
+                <suggestion>electrònic</suggestion>
+                <example correction="en línia|digital|electrònic">Aprenentatge <marker>on line</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>joint</token>
+                    <token min="0">-</token>
+                    <token>venture</token>
+                </pattern>
+                <message>Anglicisme innecessari.</message>
+                <suggestion>aliança d'empreses</suggestion>
+                <example correction="aliança d'empreses">Una <marker>joint venture</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>business</token>
+                    <token min="0">-</token>
+                    <token>angel</token>
+                </pattern>
+                <message>Anglicisme innecessari.</message>
+                <suggestion>àngel inversor</suggestion>
+                <example correction="àngel inversor">Un <marker>business angel</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>business</token>
+                    <token min="0">-</token>
+                    <token>angels</token>
+                </pattern>
+                <message>Anglicisme innecessari.</message>
+                <suggestion>àngels inversors</suggestion>
+                <example correction="àngels inversors">Un <marker>business angels</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>spin</token>
+                    <token min="0">-</token>
+                    <token>off</token>
+                </pattern>
+                <message>Anglicisme innecessari.</message>
+                <suggestion>empresa derivada</suggestion>
+                <example correction="empresa derivada">Una <marker>spin-off</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>spin</token>
+                    <token min="0">-</token>
+                    <token>offs</token>
+                </pattern>
+                <message>Anglicisme innecessari.</message>
+                <suggestion>empreses derivades</suggestion>
+                <example correction="empreses derivades">Una <marker>spin-offs</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>know</token>
+                    <token min="0">-</token>
+                    <token>how</token>
+                </pattern>
+                <message>Anglicisme innecessari.</message>
+                <suggestion>saber fer</suggestion>
+                <example correction="saber fer">El <marker>know-how</marker> de l'empresa.</example>
+            </rule>
+        </rulegroup>
         <rule id="ENTRE_PITOS_I_FLAUTES" name="entre pitos i flautes">
             <pattern>
                 <token>entre</token>
@@ -42097,7 +42172,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token>de</token>
                     <token min="0" postag="DA.*" postag_regexp="yes"/>
-                    <token regexp="yes">sorpreses|cartó|cartró|mistos|sabates|galetes|bombons|medicaments|colors|música|sorpreses|trons|Pandora|llumins|píndoles|compassos|lents|mocadors</token>
+                    <token regexp="yes">cartó|cartró|mistos|sabates|galetes|bombons|medicaments|colors|música|sorpreses|trons|Pandora|llumins|píndoles|compassos|lents|mocadors</token>
                 </pattern>
                 <message>Probablement val més dir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">capsa</match></suggestion></message>
                 <example correction="capsa">Vet aquí la <marker>caixa</marker> de mistos.</example>
