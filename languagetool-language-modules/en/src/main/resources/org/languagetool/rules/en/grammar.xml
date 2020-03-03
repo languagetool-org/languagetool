@@ -8150,7 +8150,7 @@ USA
         <!-- can backup::word=can back up -->
         <rule id="CAN_BACKUP" name="can backup (back up)">
             <antipattern>
-                <token regexp="yes">subject|response|addition</token>
+                <token regexp="yes">subject|response|addition|attention</token>
                 <token>to</token>
                 <token>backup</token>
             </antipattern>
@@ -8447,7 +8447,7 @@ USA
             <pattern>
                 <token>
                     to
-                    <exception scope="previous" regexp="yes">subject|response|addition</exception>
+                    <exception scope="previous" regexp="yes">subject|response|addition|attention</exception>
                 </token>
                 <token>blackout</token>
             </pattern>
@@ -9643,7 +9643,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rulegroup id="GOING_TO_JJ" name="going to (be / too) great" default="temp_off">
+        <rulegroup id="GOING_TO_JJ" name="going to (be / too) great">
             <rule>
                 <antipattern>
                     <token>slow</token>
@@ -10488,6 +10488,19 @@ USA
                 <!-- <example type="triggers_error">The angry know it all.</example> -->
                 <!-- <example type="triggers_error">The very fact that you suddenly thought about her makes it obvious that you like her.</example> -->
             </rule>
+            <rule default="temp_off"><!-- "We unable" -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[Ww]e</token>
+                    </marker>
+                    <token regexp="yes">
+                        (un)?able
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 are</suggestion> or <suggestion>\1 were</suggestion>?</message>
+                <example correction="We are|We were"><marker>We</marker> unable to do it.</example>
+                <example>Are we able to do this?</example>
+            </rule>
             <rule><!-- "We afraid" -->
                 <pattern>
                     <marker>
@@ -11084,6 +11097,10 @@ USA
             <antipattern><!-- https://www.lexico.com/definition/problem-solve -->
                 <token>problem</token>
                 <token>solve</token>
+            </antipattern>
+            <antipattern><!-- sport training -->
+                <token>static</token>
+                <token>stretch</token>
             </antipattern>
             <antipattern><!-- https://www.lexico.com/definition/sweet_talk -->
                 <token>sweet</token>
@@ -16542,6 +16559,15 @@ USA
                 <message>Proper nouns need to be capitalized.</message>
                 <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>
                 <example correction="Donald Trump"><marker>Donald trump</marker> is president of the United States.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">donald|melania|ivank?a|fred|tiffany|barron|eric|president</token>
+                    <token>trumps</token>
+                </pattern>
+                <message>Please use a possesive apostrophe.</message>
+                <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" regexp_match="(?i)s" regexp_replace="" />'s</suggestion>
+                <example correction="Donald Trump's">It is <marker>Donald trumps</marker> plan to win the next election.</example>
             </rule>
             <rule>
                 <pattern>
@@ -26527,6 +26553,18 @@ USA
             <url>https://www.merriam-webster.com/dictionary/do</url>
             <example correction="does">He <marker>dos</marker> not want to go home.</example>
         </rule>
+        <rule id="PRP_NOWS" name="he nows (knows)" default="temp_off">
+            <pattern>
+                <token regexp="yes">s?he|it</token>
+                <token postag="RB" min="0" />
+                <marker>
+                    <token>nows</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>knows</suggestion> (= verb)?</message>
+            <url>https://www.merriam-webster.com/dictionary/know</url>
+            <example correction="knows">He <marker>nows</marker> nothing.</example>
+        </rule>
         <rule id="WENT" name="wen't (went)">
             <pattern>
                 <token>wen</token>
@@ -26950,7 +26988,7 @@ USA
                     <token>priorities</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">subject|responses?|addition|due|alternatives?|exposure|similar|comparable|access</token>
+                    <token regexp="yes">subject|responses?|attention|addition|due|alternatives?|exposure|similar|comparable|access</token>
                     <token>to</token>
                 </antipattern>
                 <pattern>
@@ -27037,7 +27075,7 @@ USA
                     <token>emphasis</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">subject|responses?|addition|due|alternatives?|exposure|similar|comparable|access</token>
+                    <token regexp="yes">subject|responses?|attention|addition|due|alternatives?|exposure|similar|comparable|access</token>
                     <token>to</token>
                 </antipattern>
                 <pattern>
@@ -32278,7 +32316,14 @@ USA
         </rulegroup>
         <rule id="PRP_VB" name="Missing verb: PRONOUN + NOUN (VERB)">
             <antipattern><!-- "Have we anything new to test?" -->
-                <token inflected="yes">have</token>
+                <token inflected="yes" regexp="yes">have|be</token>
+                <token postag="PRP" />
+                <token regexp="yes">(any|some|every)(thing|body|one)</token>
+            </antipattern>
+            <antipattern><!-- "Haven't we anything new to test?" -->
+                <token inflected="yes" regexp="yes">have|be</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
                 <token postag="PRP" />
                 <token regexp="yes">(any|some|every)(thing|body|one)</token>
             </antipattern>
@@ -32329,6 +32374,12 @@ USA
                 <token>you</token>
                 <token />
                 <token postag="SENT_END" regexp="yes">\p{P}</token>
+            </antipattern>
+            <antipattern><!-- you sons of bitches! -->
+                <token>you</token>
+                <token postag="NNS" />
+                <token>of</token>
+                <token postag="NNS" />
             </antipattern>
             <antipattern>
                 <token />
@@ -32517,7 +32568,9 @@ USA
             <example>The Class I shareholder report.</example>
             <example>I pray to you oh lord.</example>
             <example>Have we anything new to test?</example>
+            <example>Haven't we anything new to test?</example>
             <example>All of you girls</example>
+            <example>Aren't you something else?</example>
             <example>... if I ask you anything else today.</example>
             <example>I wouldn’t read within it anything other than the half (of the Qur’an) that I had previously memorized.</example>
             <example>They sold you garbage!</example>
@@ -38667,7 +38720,7 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rule id="LET_IS_VB" name="let is (us) know" default="temp_off">
+        <rule id="LET_IS_VB" name="let is (us) know">
             <antipattern>
                 <token postag="DT" />
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
@@ -38697,7 +38750,7 @@ The accident victim died from her injuries.
             <example correction="is">At least give me an idea about what <marker>it</marker> coming, some sooner than others.</example>
             <example correction="is">Please either tell us exactly what <marker>it</marker> happening.</example>
         </rule>
-        <rule id="WHAT_IT_THE" name="what it (is) the" default="temp_off">
+        <rule id="WHAT_IT_THE" name="what it (is) the">
             <pattern>
                 <token regexp="yes">what|when|how|who|where|which</token>
                 <marker>
@@ -39032,7 +39085,7 @@ The accident victim died from her injuries.
         </rulegroup>
         <rulegroup id="ADJECTIVE_ADVERB" name="adjective vs. adverb"><!-- TODO add more pairs (general(ly), direct(ly), eventual(ly), certain(ly), extreme(ly), immediate(ly), slow(ly) ...) -->
             <antipattern>
-                <token regexp="yes">subject|responses?|addition|due|alternatives?|exposure|similar|comparable|access|regards?|related</token>
+                <token regexp="yes">subject|responses?|addition|attention|due|alternatives?|exposure|similar|comparable|access|regards?|related</token>
                 <token>to</token>
                 <token postag="JJ" />
             </antipattern>
@@ -40589,6 +40642,10 @@ The accident victim died from her injuries.
                 <token skip="2">by</token>
                 <token regexp="yes">means|default|mistake|def(inition)?|design|convention|condition|exercise|chances?|doc(umentation)?|necc?ess?ity|laws?|miracles?|passion|hearts?|extensions?|return</token>
             </antipattern>
+            <antipattern><!-- She by saying -->
+                <token>by</token>
+                <token regexp="yes">saying|telling|giving|reading</token>
+            </antipattern>
             <antipattern>
                 <token skip="1">by</token>
                 <token regexp="yes">now|far|nature|natural</token>
@@ -40723,6 +40780,11 @@ The accident victim died from her injuries.
                 <token postag="PRP$" />
                 <token>side</token>
             </antipattern>
+            <antipattern>
+                <token>worth</token>
+                <token>it</token>
+                <token>by</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token />
@@ -40755,6 +40817,7 @@ The accident victim died from her injuries.
                 <example>Although written in Greek, by convention the works are referred to by Latin titles, and often by merely abbreviations of those.</example>
                 <example>The game was looked forward to by everyone.</example>
                 <example>Our plan was objected to by the majority.</example>
+                <example>Make it worth it by reading the entire book.</example>
                 <example>We know that reducing demand will not by itself solve our energy crisis.</example>
                 <example>Decent computer setup too, and I will by the looks of it be able to work in maybe two weeks.</example>
                 <example>Nobody can live by himself.</example>
@@ -41073,6 +41136,119 @@ The accident victim died from her injuries.
         </rulegroup>
         <rulegroup id="TO_TOO" name="to/two (too) late/soon/much">
             <url>https://en.wiktionary.org/wiki/too</url>
+            <antipattern><!-- https://dictionary.cambridge.org/de/worterbuch/englisch/not-amount-to-much -->
+                <token inflected="yes">amount</token>
+                <token>to</token>
+                <token>much</token>
+            </antipattern>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token postag="NN.*" postag_regexp="yes" />
+                    <token>to</token>
+                </antipattern>
+                <pattern>
+                    <token postag="PRP|NN.*" postag_regexp="yes" />
+                    <token postag="RB" min="0" />
+                    <token postag="MD" min="0" />
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token min="0">t</token>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <marker>
+                        <token>to</token>
+                    </marker>
+                    <token regexp="yes" case_sensitive="yes">
+                        far|soon|much|often|hard|high|low|early|good|bad|late
+                    </token>
+                    <token regexp="yes">\p{P}|but|because|as|since|unlike|unless|when</token>
+                </pattern>
+                <message>Did you mean <suggestion>too</suggestion>?</message>
+                <example correction="too">It fails <marker>to</marker> often.</example>
+                <example correction="too">I spoke <marker>to</marker> soon!</example>
+                <example correction="too">They cost <marker>to</marker> much.</example>
+                <example correction="too">I better stop before I go <marker>to</marker> far.</example>
+                <example correction="too">It’s <marker>to</marker> bad because I have spent a lot of money.</example>
+                <example>I'm assuming it defaults to false.</example>
+                <example>We will need to revoke this POA when we sell to Northwestern.</example>
+                <example>I don’t like it as much as I use to though.</example>
+                <example>Who should we talk to next?</example>
+                <example>Sami wanted to fast.</example>
+                <example>The results from surveys lead us to believe that employment growth will continue to slow.</example>
+                <example>I don't think his proposals amount to much.</example>
+                <example>I set tabs to hard.</example>
+                <example>With the promotion of birth control in the 1980s, Bangladesh's growth rate began to slow.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes" min="0">but|oo?h|aa?h|h[au]h|uhm|well|damn|shit|fuck|argh|mhm</token>
+                    <token regexp="yes" min="0">,|\-|–</token>
+                    <marker>
+                        <token>to</token>
+                    </marker>
+                    <token regexp="yes" postag="SENT_END">
+                        far|soon|much|often|hard|high|low|early|good|bad|late|fast|slow
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>too</suggestion>?</message>
+                <example correction="too">Ah <marker>to</marker> late</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes" min="0">but|oo?h|aa?h|uhm|well|damn|shit|fuck|argh|mhm</token>
+                    <token regexp="yes" min="0">,|\-|–</token>
+                    <marker>
+                        <token>to</token>
+                    </marker>
+                    <token regexp="yes">
+                        far|soon|much|often|hard|high|low|early|good|bad|late|fast|slow
+                    </token>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Did you mean <suggestion>too</suggestion>?</message>
+                <example correction="too">Ah <marker>to</marker> late.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes" regexp="yes">drive|fly|walk|go|swim|work|sprint|run|be</token>
+                    <marker>
+                        <token>to</token>
+                    </marker>
+                    <token regexp="yes">fast|slow</token>
+                    <token regexp="yes">\p{P}|but|because|as|since|unlike|unless|when</token>
+                </pattern>
+                <message>Did you mean <suggestion>too</suggestion>?</message>
+                <example correction="too">I drove <marker>to</marker> fast because I was in a hurry.</example>
+                <example>Sami wanted to fast.</example>
+                <example>The results from surveys lead us to believe that employment growth will continue to slow.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="CD" />
+                    <token regexp="yes">km|miles?|m|meters?|%|\$|€|£|USD|EUR|pounds?|dollars?|euros?|seconds?|min(utes?)?|hours?|days?|weeks?|months?|years?|percent</token>
+                    <marker>
+                        <token>to</token>
+                    </marker>
+                    <token regexp="yes">far|soon|much|often|hard|high|low|early|late</token>
+                    <token regexp="yes">\p{P}|but|because|as|since|unlike|unless|when</token>
+                </pattern>
+                <message>Did you mean <suggestion>too</suggestion>?</message>
+                <example correction="too">You’re 7 years <marker>to</marker> late.</example>
+                <example correction="too">His salary is 10 percent <marker>to</marker> high.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">\d+(%|\$|€|£|USD|EUR)|(\$|€|£|USD|EUR)\d+</token>
+                    <marker>
+                        <token>to</token>
+                    </marker>
+                    <token regexp="yes">far|soon|much|often|hard|high|low|early</token>
+                    <token regexp="yes">\p{P}|but|because|as|since|unlike|unless|when</token>
+                </pattern>
+                <message>Did you mean <suggestion>too</suggestion>?</message>
+                <example correction="too">He spent 10% <marker>to</marker> much.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">comes|came|much|is|w(?:as|ere)|are|been|s|re|&apostrophe;</token>
@@ -41981,7 +42157,7 @@ The accident victim died from her injuries.
             </rule>
         </rulegroup>
         <rulegroup id="KNOW_NOW" name="know (now)">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">was|been|were</token>
                     <marker>
@@ -41992,7 +42168,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>known</suggestion>, <suggestion>now</suggestion> or <suggestion>no</suggestion>?</message>
                 <example correction="known|now|no">They were <marker>know</marker> for their food.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes">be</token>
                     <marker>
