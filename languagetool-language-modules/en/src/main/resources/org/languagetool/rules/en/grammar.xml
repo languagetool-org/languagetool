@@ -26015,6 +26015,11 @@ USA
                     <token>need</token>
                     <token>is</token>
                 </antipattern>
+                <antipattern><!-- #2419 we frogs have / we parents-->
+                    <token regexp="yes" postag="PRP">we|they</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token postag_regexp="yes" postag="VB(P|D)?|RB"/>
+                </antipattern>
                 <pattern>
                     <token skip="1" regexp="yes" postag="PRP">we|they<exception scope="previous">Are</exception></token>
                     <marker>
@@ -26035,7 +26040,8 @@ USA
                 <example>All we need is love.</example>
                 <example>Phase I corresponds to the small-deformation regime.</example>
                 <example>They <marker>is</marker> happy. [Found by PERS_PRONOUN_AGREEMENT_SENT_START]</example>
-                <example type="triggers_error">We <marker>parents</marker> sometimes become blind in loving our children too...</example>
+                <example>We <marker>parents</marker> sometimes become blind in loving our children too...</example>
+                <example>Yes, sometimes we frogs have sticky feet.</example><!-- #2419 -->
             </rule>
             <rule>
                 <pattern>
