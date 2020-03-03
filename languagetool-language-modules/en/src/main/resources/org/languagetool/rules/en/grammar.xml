@@ -14416,7 +14416,7 @@ USA
                         <token case_sensitive="yes">french</token>
                     </marker>
                     <token postag="JJ.*" postag_regexp="yes" min="0" />
-                    <token regexp="yes">presidents?|bulldogs?|wars?|versions?|manicures?|websites?|sites?|university|universities|side|governments?|keyboards?|learners?|organi[zs]ations?|associations?|food|restaurants?|tutors?|lessons?|teachers?|students?|residents?|colleagues?|cars?|speakers?|press|translations?|translators?|regions?|military|guys?|toast|country|city|cities|community|towns?|accents?|people|villages?|words?|languages?|states?|citizens?|football|literature|laws?|revolution|\.|\!|\?</token>
+                    <token regexp="yes">presidents?|riviera|novels?|bulldogs?|wars?|versions?|manicures?|websites?|sites?|university|universities|side|governments?|keyboards?|learners?|organi[zs]ations?|associations?|food|restaurants?|tutors?|lessons?|teachers?|students?|residents?|colleagues?|cars?|speakers?|press|translations?|translators?|regions?|military|guys?|toast|country|city|cities|community|towns?|accents?|people|villages?|words?|languages?|states?|citizens?|football|literature|laws?|revolution|\.|\!|\?</token>
                 </pattern>
                 <message><suggestion>French</suggestion> needs to be capitalized when not used as a verb.</message>
                 <example correction="French">The <marker>french</marker> government.</example>
@@ -16982,6 +16982,25 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rulegroup id="COTE_D_AZUR" name="Côte d’Azur" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Côte</token>
+                <token>d</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                <token spacebefore="no">Azur</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">C[oô]te?</token>
+                    <token min="0">d</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token regexp="yes">d?[áàâa]z[üuúùû]re?</token>
+                </pattern>
+                <message>Did you mean <suggestion>Côte d'Azur</suggestion> (= French Riviera)?</message>
+                <url>https://en.wikipedia.org/wiki/French_Riviera</url>
+                <example correction="Côte d'Azur">The <marker>Cote d’Azur</marker> is the Mediterranean coastline of the southeast corner of France.</example>
+            </rule>
+        </rulegroup>
         <rule id="MCDONALDS" name="McDonald's">
             <pattern>
                 <token>mcdonalds</token>
