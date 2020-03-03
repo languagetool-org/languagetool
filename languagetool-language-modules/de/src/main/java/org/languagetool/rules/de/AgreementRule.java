@@ -557,6 +557,11 @@ public class AgreementRule extends Rule {
       token("die"),
       tokenRegex("Deutsch|Englisch|Spanisch|Französisch|Russisch|Polnisch|Holländisch|Niederländisch|Portugiesisch"),
       new PatternTokenBuilder().csToken("sprechen").matchInflectedForms().build()
+    ),
+    Arrays.asList( // "Ein Trainer, der zum einen Fußballspiele sehr gut lesen und analysieren kann"
+      token("zum"),
+      token("einen"),
+      posRegex("SUB:.*")
     )
   );
 

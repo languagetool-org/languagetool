@@ -567,7 +567,9 @@ public class CaseRule extends Rule {
     "Frevel",
     "Genüge",
     "Gefallen", // Gefallen finden
+    "Gläubige",
     "Gläubiger",
+    "Gläubigen",
     "Hechte",
     "Herzöge",
     "Herzögen",
