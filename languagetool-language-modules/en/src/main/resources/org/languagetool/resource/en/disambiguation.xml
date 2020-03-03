@@ -4760,6 +4760,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="VB(P|D)?"/><!-- Not chunk: email/B-NP-singular -->
             <token regexp="yes">and|or</token>
             <token postag_regexp="yes" postag="VB(P|D)?"/>
+        <antipattern><!-- Incorrect grammar "It sound's good" -->
+            <token regexp="yes">it|s?he</token>
+            <token postag="RB" min="0" />
+            <token postag="VBP" />
+            <token regexp="yes">&apostrophe;</token>
+            <token>s</token>
         </antipattern>
         <pattern>
             <marker>
@@ -4776,7 +4782,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>
                 <exception regexp="yes">\.|…</exception>
                 <exception>that</exception>
-                </token>
+            </token>
         </pattern>
         <disambig postag="NN:UN"/>
         <example type="untouched">They disputed a claim.</example>
@@ -4841,6 +4847,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Play it smart.</example><!-- #2522 -->
         <example type="untouched">Play it cool.</example>
         <example type="untouched">Currently we email and share the stuff.</example><!-- #2539 -->
+        <example type="untouched">Incorrect grammar: It sound's good.</example><!-- needed for VERB_APOSTROPHE_S -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
         <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
