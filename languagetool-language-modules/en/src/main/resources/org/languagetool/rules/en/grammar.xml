@@ -25492,6 +25492,11 @@ USA
                     <token inflected="yes">do</token>
                     <token>marvels</token>
                 </antipattern>
+                <antipattern><!-- Premium #999 www.lexico.com/definition/at_will -->
+                    <token>at</token>
+                    <token>will</token>
+                    <token postag="VB[DGZ]" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|than|wh(?:om?|ich)|a|the|neither|nor</exception></token>
                     <token skip="1" regexp="yes" postag="MD|VBD" postag_regexp="yes">did|will|could|can|should|would|does|ll|shall|cannot|might|may</token>
@@ -25516,13 +25521,14 @@ USA
                 <example correction="walk">He did <marker>walks</marker> to his house.</example>
                 <example correction="come">They will <marker>came</marker> home.</example>
                 <example correction="happen">A catastrophe that did not <marker>happened</marker>...</example>
-                <example>Confederate commanders would need it should troops pass that way in retreat.</example>
                 <example correction="have">I would definitely <marker>has</marker> that.</example>
-                <example>Warnings did go ignored.</example>
                 <example correction="designate">A proposed northern bypass of Birmingham will <marker>designated</marker> as I-422.</example>
-                <example>She did <marker>experiments</marker> to test the efficacy of the medication.</example>
                 <example correction="test">She did <marker>testing</marker> the samples.</example>
                 <example correction="convey">He may <marker>conveys</marker> the message.</example>
+                <example correction="show">He will <marker>shows</marker> you the samples.</example><!-- Premium #999 -->
+                <example>Confederate commanders would need it should troops pass that way in retreat.</example>
+                <example>Warnings did go ignored.</example>
+                <example>She did <marker>experiments</marker> to test the efficacy of the medication.</example>
                 <example>She did <marker>testing</marker> for a TV show.</example>
                 <example>May sometimes <marker>spends</marker> the time by herself.</example>
                 <example>Did <marker>giving</marker> him money help?</example>
@@ -25534,6 +25540,8 @@ USA
                 <example>Talking to the bully did not stop him. And neither did <marker>hitting</marker> him.</example>
                 <example>They were both scared: neither did <marker>confronting</marker> the bully.</example><!-- False negative with emphatic 'do'. -->
                 <example>The intensive course <marker>did marvels</marker> for my French.</example>
+                <example>This will costs €30.</example><!-- Premium #999. Treat as NN + VBZ, not as an error. -->
+                <example>The ability to model and modify systems at will affords science an ethical method of...</example><!-- Premium #999. -->
                 <example type="triggers_error">John Smith did rewrites.</example><!-- 'rewrite' is transitive (www.ldoceonline.com/dictionary/rewrite). Thus, this sentence must be the correct interpretation (did + NNS). -->
                 <example type="triggers_error">John Smith did rewrites for the editorial department.</example>
                 <example type="triggers_error">Would logs help?</example>
@@ -25714,6 +25722,7 @@ USA
                 <example type="triggers_error">... missed their mark while those that didn't missed Dragonov's vitals.</example><!-- #1727 -->
             </rule>
         </rulegroup>
+
         <rule id="MUST_HAVE_TO" name="'must to' instead of 'have to'">
             <pattern>
                 <marker>
