@@ -7379,6 +7379,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
         </rule>
+        <rulegroup id="COTE_D_AZUR" name="Côte d’Azur" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Côte</token>
+                <token>d</token>
+                <token spacebefore="no" regexp="yes">[’']</token>
+                <token spacebefore="no">Azur</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">C[oô]te?</token>
+                    <token min="0">d</token>
+                    <token regexp="yes" min="0">[’']</token>
+                    <token regexp="yes">d?[áàâa]z[üuúùû]re?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Côte d’Azur</suggestion> (= Teilstrück der franzözischen Küste)?</message>
+                <url>https://de.wikipedia.org/wiki/C%C3%B4te_d%E2%80%99Azur</url>
+                <example correction="Côte d’Azur">Als <marker>Cote d’Azur</marker> wird ein Teilstück der französischen Mittelmeerküste bezeichnet.</example>
+            </rule>
+        </rulegroup>
         <rule id="VERONIKA_POOTH" name="Veronika (Verona) Pooth">
             <antipattern case_sensitive="yes">
                 <token>Verona</token>
