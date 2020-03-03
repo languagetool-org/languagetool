@@ -224,6 +224,13 @@ public class BeoLingusTranslator implements Translator {
       .replaceAll("\\[.*?\\]", "")
       .replaceAll("\\(.*?\\)", "")
       .replaceAll("/.*?/\\b", "")   // abbreviations, e.g. "oder {conj} /o.; od./"
+      .replace("jdn./etw. ", "")
+      .replace("jdm./etw. ", "")
+      .replace("etw./jdn. ", "")
+      .replace("etw./jdm. ", "")
+      .replace("etw. ", "")
+      .replace("jdn. ", "")
+      .replace("jdm. ", "")
       .trim()
       .toLowerCase();
   }
@@ -234,6 +241,10 @@ public class BeoLingusTranslator implements Translator {
       .replaceAll("\\[.*?\\]", "")   // e.g. "[coll.]", "[Br.]"
       .replaceAll("\\{.*?\\}", "")   // e.g. "to go {went; gone}"
       .replaceAll("\\(.*?\\)", "")   // e.g. "icebox (old-fashioned)"
+      .replace("sth./sb.", "")
+      .replace("sb./sth.", "")
+      .replace("sth.", "")
+      .replace("sb.", "")
       .replaceAll("/[A-Z]+/", "")    // e.g. "heavy goods vehicle /HGV/"
       .trim();
     if ("to".equals(prevWord) && clean.startsWith("to ")) {
