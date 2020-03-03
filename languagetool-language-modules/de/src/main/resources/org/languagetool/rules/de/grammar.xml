@@ -17696,6 +17696,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Eine dieser Lösungen muss die <marker>beste</marker> sein.</example>
             <example>Von allen Vorschlägen scheint der von Tom der <marker>beste</marker> zu sein.</example>
         </rule>
+        <rulegroup id="PRP_VER_PRGK" name="bei fragen (Fragen)">
+            <rule>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">stimmen|votieren</token>
+                    <token>für</token>
+                    <token postag="VER:INF:.*" postag_regexp="yes" />
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">[vV]or|[bB]ei|[Ff]ür|[Ii]n</token>
+                    <marker>
+                        <token postag="VER:INF:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+en
+                            <exception postag_regexp="yes" postag="[APZ].+"></exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
+                <short>&prgk;.</short>
+                <example correction="Fragen">Ich stehe bei <marker>fragen</marker> gerne zur Verfügung.</example>
+                <example>Ich stehe bei <marker>jungen</marker> Erwachsenen.</example>
+                <example correction="Grenzen">Die Begeisterung hielt sich in <marker>grenzen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DAS_BESTE_AM" name="'das beste (Beste) am' etc.">
             <rule>
                 <pattern>
@@ -20567,17 +20589,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="GRENZEN_SUBST" name="'in grenzen (Grenzen)'">
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token regexp="yes">[Ii]n</token>
-                    <marker>
-                        <token>grenzen</token>
-                    </marker>
-                </pattern>
-                <message>&subanfang;<suggestion><match no="2" case_conversion="startupper"/></suggestion>&subende;</message>
-                <short>&prgk;.</short>
-                <example correction="Grenzen">Die Begeisterung hielt sich in <marker>grenzen</marker>.</example>
-            </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[Ii]n</token>
