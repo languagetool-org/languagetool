@@ -20,6 +20,7 @@ package org.languagetool.openoffice;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -224,7 +225,8 @@ class ResultCache {
     CacheSentenceEntries oEntry;
     CacheSentenceEntries nEntry;
     boolean isDifferent = true;
-    for (int nPara : entries.keySet()) {
+    Set<Integer> entrySet = new HashSet<Integer>(entries.keySet());
+    for (int nPara : entrySet) {
       if(oldCache != null) {
         nEntry = entries.get(nPara);
         oEntry = oldCache.getEntryByParagraph(nPara);
