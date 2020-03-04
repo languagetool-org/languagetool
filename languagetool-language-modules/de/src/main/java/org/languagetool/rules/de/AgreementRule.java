@@ -95,6 +95,10 @@ public class AgreementRule extends Rule {
       posRegex("SUB:.*"),
       posRegex("VER:INF.*")
     ),
+    Arrays.asList(  // "Besonders reizen mich Fahrräder."
+      token("mich"),
+      posRegex("SUB:.*")
+    ),
     Arrays.asList(  // "jenes Weges, den die Tausenden Juden 1945 ..."
       token("die"),
       token("Tausenden"),
