@@ -50,6 +50,19 @@ public class GermanTagger extends BaseTagger {
 
   private GermanCompoundTokenizer compoundTokenizer;
 
+  private static final List<String> allAdjGruTags = new ArrayList<>();
+  static {
+    for (String nomAkkGenDat : Arrays.asList("NOM", "AKK", "GEN", "DAT")) {
+      for (String pluSin : Arrays.asList("PLU", "SIN")) {
+        for (String masFemNeu : Arrays.asList("MAS", "FEM", "NEU")) {
+          for (String defIndSol : Arrays.asList("DEF", "IND", "SOL")) {
+            allAdjGruTags.add("ADJ:" + nomAkkGenDat + ":" + pluSin + ":" + masFemNeu + ":GRU:" + defIndSol);
+          }
+        }
+      }
+    }
+  }
+
   public GermanTagger() {
     super("/de/german.dict");
     try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(getManualRemovalsFileName())) {
@@ -305,6 +318,14 @@ public class GermanTagger extends BaseTagger {
    */
   private List<AnalyzedToken> getSubstantivatedForms(String word, List<String> sentenceTokens, int pos) {
     if (word.endsWith("er")) {
+      if (word.matches("\\d{4}+er")) {
+        // e.g. "Den 2019er Wert hatten sie geschätzt"
+        List<AnalyzedToken> list = new ArrayList<>();
+        for (String tag : allAdjGruTags) {
+          list.add(new AnalyzedToken(word, tag, word));
+        }
+        return list;
+      }
       List<TaggedWord> lowerCaseTags = getWordTagger().tag(word.toLowerCase());
       // do not add tag words whose lower case variant is an adverb (e.g, "Früher") to avoid false negatives for DE_CASE
       if (lowerCaseTags.stream().anyMatch(t -> t.getPosTag().startsWith("ADV"))) {
