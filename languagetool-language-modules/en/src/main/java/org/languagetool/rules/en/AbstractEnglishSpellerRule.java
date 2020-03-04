@@ -443,6 +443,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Little");
     } else if ("lil".equals(word)) {
       return Arrays.asList("little");
+    } else if ("gmail".equals(word) || "g-mail".equalsIgnoreCase(word)) {
+      return Arrays.asList("Gmail");
     } else if ("Sucka".equals(word)) {
       return Arrays.asList("Sucker");
     } else if ("sucka".equals(word)) {
