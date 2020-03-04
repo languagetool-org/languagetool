@@ -13780,13 +13780,14 @@ USA
             <example>AM broadcasting (radio broadcasting using amplitude modulation)...</example>
             <example>The 8 AM meeting is being held in the big conference room.</example>
         </rule>
+
         <rulegroup id="SHOULD_BE_DO" name="should be do (done)"> 
             <rule>
                 <pattern>
                     <token>should</token>
                     <token>be</token>
                     <marker>
-                        <token postag='VB|NN:UN' postag_regexp='yes'>
+                        <token postag='VBP?' postag_regexp='yes'><!-- #2542 MFU 2020-03-04. Was 'VB|NN:UN', but this rule is for incorrect verb forms. Incorrect grammar should not be disambiguated as NN:UN only. Thus, I removed NN:UN. -->
                             <exception postag='JJ|VBN' postag_regexp='yes'/>
                             <exception>president</exception>
                             <exception>off</exception>
@@ -13801,6 +13802,7 @@ USA
                 <example>All images should be <marker>part of</marker> the plugin.</example>
                 <example>Tom should be home by now.</example>
                 <example>We should be home soon.</example>
+                <example>There should be motivation.</example><!--  #2542 -->
             </rule>
             <rule id="MUST_BE_DO" name="must be do (done)">
                 <pattern>
@@ -13819,6 +13821,7 @@ USA
                 <example correction='done'>If you have after-school activities, the homework must be <marker>do</marker> first.</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="NEEDNT_TO_DO_AND_DONT_NEED_DO" name="needn't to do(do)">
             <rule>
                 <pattern>
