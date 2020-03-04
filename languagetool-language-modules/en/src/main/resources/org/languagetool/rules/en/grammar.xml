@@ -4801,18 +4801,47 @@ USA
         </rulegroup>
         <rulegroup id="VERB_APOSTROPHE_S" name="Verb with 's">
             <short>Possible typo</short>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="IN|VB.*|UNKNOWN" postag_regexp="yes" />
+                    <token regexp="yes">it|you</token>
+                    <token postag="NNP|NN:UN?" postag_regexp="yes" />
+                    <token regexp="yes">&apostrophe;</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[Ii]t|[Ss]he|[Hh]e</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token postag="VBP?" postag_regexp="yes">
+                            <exception regexp="yes">cc|let</exception>
+                        </token>
+                        <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                        <token spacebefore="no">s</token>
+                    </marker>
+                </pattern>
+                <message>Do not use 's with a verb. Did you mean <suggestion><match no="3" postag="VBZ" /></suggestion>?</message>
+                <example correction="sounds">It <marker>sound's</marker> too good.</example>
+                <example correction="seems">She <marker>seem's</marker> happy.</example>
+                <example correction="gets">It <marker>get’s</marker> easier when you can recognize who’s what.</example>
+                <example correction="is">It <marker>be’s</marker> like that sometimes.</example>
+                <example correction="lasts">But this happens maybe twice a month and it <marker>last’s</marker> for minutes.</example>
+                <example correction="gets">If it <marker>get’s</marker> flagged again, then a moderator will have to manually handle the flag.</example>
+                <example correction="sees">I think he <marker>see's</marker> my logic</example>
+                <example>If you like it then let's get it.</example>
+                <example>I can make you animal's best friend.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag_regexp="yes" postag="VBP?">
                         <exception postag_regexp="yes" postag="NN.*"/>
                         <exception>let</exception>
-                        <exception>cc</exception><!-- https://www.lexico.com/definition/cc -->
+                        <exception>cc</exception><!-- cc's https://www.lexico.com/definition/cc -->
                         <exception case_sensitive="yes" regexp="yes">[A-Z].+</exception><!-- Assume initial caps is NNP -->
                     </token>
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token spacebefore="no">s</token>
                 </pattern>
-                <message>Do not use 's with a verb. Did you mean <suggestion>\1\3</suggestion>?</message>
+                <message>Do not use 's with a verb. Did you mean <suggestion><match no="1" postag="VBZ" /></suggestion>?</message>
                 <example correction="becomes">If this <marker>become's</marker> a problem, stop the test.</example>
                 <example correction="begins">Before he <marker>begin's</marker> the test, the technician must…</example>
                 <example correction="disambiguates"><!--Not a noun in standard English. -->Sometimes, the special <marker>disambiguate's</marker> are not correct.</example>
@@ -10489,7 +10518,7 @@ USA
                 <!-- <example type="triggers_error">The angry know it all.</example> -->
                 <!-- <example type="triggers_error">The very fact that you suddenly thought about her makes it obvious that you like her.</example> -->
             </rule>
-            <rule default="temp_off"><!-- "We unable" -->
+            <rule><!-- "We unable" -->
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[Ww]e</token>
@@ -16985,7 +17014,7 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rulegroup id="COTE_D_AZUR" name="Côte d’Azur" default="temp_off">
+        <rulegroup id="COTE_D_AZUR" name="Côte d’Azur">
             <antipattern case_sensitive="yes">
                 <token>Côte</token>
                 <token>d</token>
@@ -16994,7 +17023,7 @@ USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">C[oô]te?</token>
+                    <token regexp="yes">C[oôóò]t[éèêe]?</token>
                     <token min="0">d</token>
                     <token regexp="yes" min="0">&apostrophe;</token>
                     <token regexp="yes">d?[áàâa]z[üuúùû]re?</token>
@@ -19516,10 +19545,23 @@ USA
                 <token>a</token>
                 <token>while</token>
             </antipattern>
+            <antipattern>
+                <token>of</token>
+                <token>a</token>
+                <token>sudden</token>
+            </antipattern>
+            <antipattern><!-- https://300daysofbetterwriting.wordpress.com/2013/02/28/thus-and-therefore-statements-should-follow-logically-from-the-previous-statements/ -->
+                <token regexp="yes">therefore|thus</token>
+                <token regexp="yes">statements?</token>
+            </antipattern>
+            <antipattern><!-- A really kind of weird conversation -->
+                <token regexp="yes">kind|sort</token>
+                <token>of</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes">a</token>
                 <marker>
-                    <token postag="RB"><exception postag="JJ[RS]?|NN.*" postag_regexp="yes"/><exception regexp="yes">not|after</exception></token>
+                    <token postag="RB"><exception postag="JJ[RS]?|NN.*" postag_regexp="yes"/><exception regexp="yes">not|after|approx</exception></token>
                     <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag="JJ[RS]?|VB[NG]" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
@@ -19530,6 +19572,8 @@ USA
             <example>Mc-Master-Carr is a supply company.</example>
             <example>It's nothing impressive. It's just a <marker>bit part</marker> in that play.</example>
             <example>The picture is done in a <marker>masterly</marker> style.</example>
+            <example>All of a sudden water came down from the roof.</example>
+            <example>That was a really kind of weird conversation.</example>
             <example><marker>Once in a while</marker> everything goes wrong.</example>
             <example correction="">This is a <marker>philosophically question</marker>.</example>
             <example type="triggers_error">Some Low Church Anglicans take a strictly memorialist view of the sacrament.</example>
@@ -26576,7 +26620,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/do</url>
             <example correction="does">He <marker>dos</marker> not want to go home.</example>
         </rule>
-        <rule id="PRP_NOWS" name="he nows (knows)" default="temp_off">
+        <rule id="PRP_NOWS" name="he nows (knows)">
             <pattern>
                 <token regexp="yes">s?he|it</token>
                 <token postag="RB" min="0" />
@@ -39468,6 +39512,22 @@ The accident victim died from her injuries.
             </rule>
         </rulegroup>
         <rulegroup id="HAS_AS" name="Has (as) far as I can tell">
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="IN|VB.*|UNKNOWN" postag_regexp="yes" />
+                    <token regexp="yes">you|it</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes" postag="PRP">[Ii]t|[Hh]e|[Ss]he|[Ww]e|[Tt]hey|[Yy]ou|I</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>as</token>
+                    </marker>
+                    <token>been</token>
+                </pattern>
+                <message>Did you mean <suggestion>has</suggestion>?</message>
+                <example correction="has">He <marker>as</marker> been very busy lately.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
@@ -41164,11 +41224,16 @@ The accident victim died from her injuries.
                 <token>to</token>
                 <token>much</token>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="VB.*" postag_regexp="yes" />
                     <token postag="NN.*" postag_regexp="yes" />
                     <token>to</token>
+                </antipattern>
+                <antipattern><!-- https://idioms.thefreedictionary.com/come+to+much -->
+                    <token inflected="yes">come</token>
+                    <token>to</token>
+                    <token>much</token>
                 </antipattern>
                 <pattern>
                     <token postag="PRP|NN.*" postag_regexp="yes" />
@@ -41191,6 +41256,7 @@ The accident victim died from her injuries.
                 <example correction="too">They cost <marker>to</marker> much.</example>
                 <example correction="too">I better stop before I go <marker>to</marker> far.</example>
                 <example correction="too">It’s <marker>to</marker> bad because I have spent a lot of money.</example>
+                <example>Did your efforts come to much?</example>
                 <example>I'm assuming it defaults to false.</example>
                 <example>We will need to revoke this POA when we sell to Northwestern.</example>
                 <example>I don’t like it as much as I use to though.</example>
@@ -41201,7 +41267,7 @@ The accident victim died from her injuries.
                 <example>I set tabs to hard.</example>
                 <example>With the promotion of birth control in the 1980s, Bangladesh's growth rate began to slow.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START" />
                     <token regexp="yes" min="0">but|oo?h|aa?h|h[au]h|uhm|well|damn|shit|fuck|argh|mhm</token>
@@ -41216,7 +41282,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>too</suggestion>?</message>
                 <example correction="too">Ah <marker>to</marker> late</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START" />
                     <token regexp="yes" min="0">but|oo?h|aa?h|uhm|well|damn|shit|fuck|argh|mhm</token>
@@ -41232,7 +41298,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>too</suggestion>?</message>
                 <example correction="too">Ah <marker>to</marker> late.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">drive|fly|walk|go|swim|work|sprint|run|be</token>
                     <marker>
@@ -41246,7 +41312,7 @@ The accident victim died from her injuries.
                 <example>Sami wanted to fast.</example>
                 <example>The results from surveys lead us to believe that employment growth will continue to slow.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="CD" />
                     <token regexp="yes">km|miles?|m|meters?|%|\$|€|£|USD|EUR|pounds?|dollars?|euros?|seconds?|min(utes?)?|hours?|days?|weeks?|months?|years?|percent</token>
@@ -41260,7 +41326,7 @@ The accident victim died from her injuries.
                 <example correction="too">You’re 7 years <marker>to</marker> late.</example>
                 <example correction="too">His salary is 10 percent <marker>to</marker> high.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">\d+(%|\$|€|£|USD|EUR)|(\$|€|£|USD|EUR)\d+</token>
                     <marker>
