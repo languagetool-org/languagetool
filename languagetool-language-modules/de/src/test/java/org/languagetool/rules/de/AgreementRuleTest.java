@@ -132,6 +132,7 @@ public class AgreementRuleTest {
     assertGood("Aber das ignorierte Herr Müller bewusst.");
     assertGood("Ich werde mich zurücknehmen und mich frischen Ideen zuwenden.");
     assertGood("Das, plus ein eigener Firmenwagen.");
+    assertGood("Dieses leise Summen stört nicht.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
