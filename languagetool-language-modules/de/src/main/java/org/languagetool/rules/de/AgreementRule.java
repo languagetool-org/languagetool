@@ -538,6 +538,10 @@ public class AgreementRule extends Rule {
       csToken("League")
     ),
     Arrays.asList(
+      csToken("Mark"),
+      posRegex("EIG:.*")
+    ),
+    Arrays.asList(
       csToken("Sales"),
       tokenRegex("Agent")
     ),
