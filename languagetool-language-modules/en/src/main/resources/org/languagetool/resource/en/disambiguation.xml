@@ -4803,6 +4803,23 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">&apostrophe;</token>
             <token>s</token>
         </antipattern>
+        <antipattern><!-- #2544 He was talk to [copy from was_is_VB_NN] -->
+            <token regexp="yes">&subject_pronouns;</token>
+            <token min="0" max="2" postag="RB"/>
+            <token regexp="yes">are|is|was</token>
+            <token postag_regexp="yes" postag="VBP?"><!-- Semantics is important here -->
+                <exception regexp="yes">founder|hope|lead</exception>
+                </token>
+            <token postag="IN"/>
+        </antipattern>
+        <antipattern><!-- #2544 He has been talk to [copy from was_is_VB_NN] -->
+            <token regexp="yes">&subject_pronouns;</token>
+            <token min="0" max="2" postag="RB"/>
+            <token regexp="yes">has|have|had</token>
+            <token>been</token>
+            <token postag_regexp="yes" postag="VBP?"/>
+            <token postag="IN"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -4884,6 +4901,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Play it cool.</example>
         <example type="untouched">Currently we email and share the stuff.</example><!-- #2539 -->
         <example type="untouched">Incorrect grammar: It sound's good.</example><!-- needed for VERB_APOSTROPHE_S -->
+        <example type="untouched">Incorrect grammar: He has been talk to me.</example><!-- #2544 -->
+        <example type="untouched">Incorrect grammar: He actually has been talk to the manager.</example><!-- #2544 -->
+        <example type="untouched">Incorrect grammar: He was talk to me.</example><!-- #2544 -->
+        <example type="untouched">Incorrect grammar: If she sneakily is talk about my secrets...</example><!-- #2544 -->
+        <example type="untouched">Incorrect grammar: ... and it was talk about in the media.</example><!-- #2544 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
         <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
