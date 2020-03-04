@@ -67,8 +67,15 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
     // there's no test here - the languages are supposed to extend this class and call runGrammarRulesFromXmlTest() 
   }
 
+  // for calling PatternRuleTest.main(), e.g. from scripts; allow to check and fail at the end
+  static class PatternRuleErrorCollector extends ErrorCollector {
+    public void check() throws Throwable {
+      verify();
+    }
+  }
+
   @org.junit.Rule
-  public final ErrorCollector ruleErrors = new ErrorCollector();
+  public final PatternRuleErrorCollector ruleErrors = new PatternRuleErrorCollector();
 
   @Test
   public void testSupportsLanguage() {
@@ -653,7 +660,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
    * Test XML patterns, as a help for people developing rules that are not
    * programmers.
    */
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws Throwable {
     PatternRuleTest test = new PatternRuleTest();
     System.out.println("Running XML pattern tests...");
     if (args.length == 0) {
@@ -662,6 +669,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       Set<Language> ignoredLanguages = TestTools.getLanguagesExcept(args);
       test.runGrammarRulesFromXmlTestIgnoringLanguages(ignoredLanguages);
     }
+    test.ruleErrors.check();
     System.out.println("Tests finished!");
   }
 
