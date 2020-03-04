@@ -130,6 +130,7 @@ public class AgreementRuleTest {
     assertGood("Sie legen ein Teilstück jenes Weges zurück, den die Tausenden Juden 1945 auf sich nehmen mussten.");
     assertGood("Aber das ignorierte Herr Grey bewusst.");
     assertGood("Aber das ignorierte Herr Müller bewusst.");
+    assertGood("Ich werde mich zurücknehmen und mich frischen Ideen zuwenden.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
