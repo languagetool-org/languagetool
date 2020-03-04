@@ -138,6 +138,7 @@ public class AgreementRuleTest {
     assertGood("Besonders reizen mich Fahrräder.");
     assertGood("Und nur, weil mich psychische Erkrankungen aus der Bahn werfen");
     assertGood("Das kostet dich Zinsen.");
+    assertGood("Sie hatten keine Chance gegen das kleinere Preußen.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");

@@ -635,6 +635,12 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         <!-- Er sah <marker>den gut erhaltenen Koffer</marker>  -->
     </rule>
     <rule name="NP unify 3b" id="UNIFY_ADJ_SUB">
+        <antipattern>
+            <!-- sonst falsche Tags für z.B. "Sie hatten keine Chance gegen das kleinere Preußen." -->
+            <token postag="ART:.*" postag_regexp="yes"/>
+            <token postag="ADJ:.*" postag_regexp="yes"/>
+            <token postag="SUB:.*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
             <unify>
                 <feature id="number"/><feature id="case"/><feature id="gender"/>
