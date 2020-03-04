@@ -62,6 +62,7 @@ public class EnglishSRXSentenceTokenizerTest {
     testSplit("James comes from the U.K. where he worked as a programmer.");
     testSplit("Don't split strings like U.S.A. please.");
     testSplit("Don't split strings like U. S. A. either.");
+    testSplit("Don't split strings like U.S.A either.");
     testSplit("Don't split... ", "Well you know. ", "Here comes more text.");
     testSplit("Don't split... well you know. ", "Here comes more text.");
     testSplit("The \".\" should not be a delimiter in quotes.");

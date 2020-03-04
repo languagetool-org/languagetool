@@ -2576,6 +2576,11 @@ USA
             <example>The only on demand service that works.</example>
         </rule>
         <rulegroup id="I_A" name="I a/an (am)">
+            <antipattern>
+                <token regexp="yes">[A-Z]</token>
+                <token regexp="yes">[A-Z]</token>
+                <token regexp="yes">[A-Z]</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception scope="previous" regexp="yes">am|were</exception>I</token>
@@ -2602,6 +2607,7 @@ USA
                 <example>Am I a good employee?</example>
                 <example>Were I a bird, I would fly to you.</example>
                 <example correction="am">I <marker>a</marker> not sure.</example>
+                <example>M A R I A</example>
             </rule>
         </rulegroup>
         <rule id="PLEASE_NOT_THAT" name="please not (note) that">
@@ -4805,6 +4811,20 @@ USA
                 <antipattern>
                     <token postag="IN|VB.*|UNKNOWN" postag_regexp="yes" />
                     <token regexp="yes">it|you</token>
+                    <token postag="NNP|NN:UN?" postag_regexp="yes" />
+                    <token regexp="yes">&apostrophe;</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">be|have</token>
+                    <token postag="PRP" />
+                    <token postag="NNP|NN:UN?" postag_regexp="yes" />
+                    <token regexp="yes">&apostrophe;</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">be|have</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <token postag="PRP" />
                     <token postag="NNP|NN:UN?" postag_regexp="yes" />
                     <token regexp="yes">&apostrophe;</token>
                 </antipattern>
@@ -14432,7 +14452,7 @@ USA
             <example>He pulled a stun gun.</example>
             <example>Vitamin C and A are almost the same.</example>
             <example>The restore of our backup failed.</example><!-- Dev Speech (https://en.wiktionary.org/wiki/restore#Noun) -->
-            <example type="triggers_error">In the U.S.A be the best.</example><!-- #2511 -->
+            <example>In the U.S.A be the best.</example><!-- #2511 -->
             <example>What is a Parse Error?</example>
             <example>When I Heard the Learn’d Astronomer</example>
             <example>Check out the <marker>send to a friend feature</marker> next to each article.</example><!-- Copied from Premium #845 -->
@@ -14672,6 +14692,22 @@ USA
                 <example>One must go to the library.</example>
                 <example>You must do to your excercises.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|DT|VB.*" postag_regexp="yes" />
+                    <token postag="JJ.*" postag_regexp="yes" min="0">
+                        <exception>one</exception>
+                    </token>
+                    <token min="0">RPM</token>
+                    <marker>
+                        <token>must</token>
+                        <token>offer</token>
+                    </marker>
+                    <token regexp="yes">requirements?|exceptions?|proposals?|rules?|process|generators?</token>
+                </pattern>
+                <message>Did you mean the adjective <suggestion>\4-\5</suggestion>?</message>
+                <example correction="must-offer">He started looking into the <marker>must offer</marker> requirements.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="WE_WOLD" name="wold vs. would">
             <rule>
@@ -14768,36 +14804,50 @@ USA
         </rule>
         <rulegroup id="THE_THEY" name="the (they)">
             <rule>
-                <antipattern>
-                    <token>the</token>
+                <antipattern><!-- adjective without hyphen "This book is a must-read" -->
                     <token>must</token>
-                    <token>have</token>
+                    <token regexp="yes">have|read|go|see|visit|be|do|offer|take</token>
+                </antipattern>
+                <antipattern case_sensitive="yes"><!-- the Will.I.Am Song -->
+                    <token>the</token>
+                    <token postag="MD" regexp="yes">[A-Z].+</token>
+                    <token postag="RB|VBP" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
                     <marker><token>the</token></marker>
-                    <token postag="MD"><exception>will</exception></token>
+                    <token postag="MD" />
+                    <token min="0" regexp="yes">&apostrophe;</token>
+                    <token postag="RB" min="0" />
+                    <token postag="VBP?" postag_regexp="yes" />
                 </pattern>
-                <message>Did you mean <suggestion>\1y</suggestion>?</message>
+                <message>Did you mean <suggestion>they</suggestion>, <suggestion>that</suggestion> or <suggestion>there</suggestion>?</message>
                 <short>Possible typo</short>
-                <example correction="They"><marker>The</marker> cannot help you.</example>
+                <example correction="They|That|There"><marker>The</marker> cannot help you.</example>
+                <example correction="They|That|There"><marker>The</marker> would not do it like that.</example>
+                <example correction="They|That|There"><marker>The</marker> will make me truly happy.</example>
+                <example correction="they|that|there">But <marker>the</marker> would be pretty far down my trouble list.</example>
+                <example correction="they|that|there">As usual, <marker>the</marker> will provide details separately on the location.</example>
+                <example correction="they|that|there">For <marker>the</marker> should be created.</example>
+                <example>On any Day, if the Must Offer Generator cannot generate the full PMax it must file a generation outage report.</example>
                 <example>The must have toy this year...</example>
+                <example>Justify the need.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>the</token>
-                        <token case_sensitive="yes" regexp="yes">don|didn</token>
-                        <token regexp="yes">&apostrophe;</token>
-                        <token>t</token>
                     </marker>
-                    <token postag="VB|VBP" postag_regexp="yes" />
+                    <token case_sensitive="yes" regexp="yes">don|didn</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <token postag="VBP?" postag_regexp="yes" />
                 </pattern>
-                <message>Did you mean <suggestion>they \2\3\4</suggestion>?</message>
+                <message>Did you mean <suggestion>they</suggestion> or <suggestion>that</suggestion>?</message>
                 <example>The Don't Laugh Challenge.</example>
                 <example>The Don't Quit Podcast.</example>
                 <example>Do the Don't.</example>
-                <example correction="They don't"><marker>The don't</marker> know.</example>
-                <example correction="they didn't">What <marker>the didn't</marker> know about was ...</example>
+                <example correction="They|That"><marker>The</marker> don't know.</example>
+                <example correction="they|that">What <marker>the</marker> didn't know about was ...</example>
             </rule>
         </rulegroup>
         <rulegroup id="COD_CODE" name="cod (code)">
@@ -15339,13 +15389,50 @@ USA
                 <!-- the reflect.com management -->
                 <token></token>
                 <token spacebefore="no">.</token>
-                <token spacebefore="no" regexp="yes">[a-z0-9]{2,6}</token>
+                <token spacebefore="no" regexp="yes">[a-z0-9\-]{2,12}</token>
             </antipattern>
             <antipattern>
                 <!-- only a few understand the problem -->
                 <token regexp="yes">an?|the</token>
                 <token>few</token>
             </antipattern>
+            <antipattern case_sensitive="yes"><!-- the Create Shop button -->
+                <token regexp="yes">the|an?</token>
+                <token postag="JJS?" postag_regexp="yes" min="0" />
+                <token postag="VB.*" postag_regexp="yes" regexp="yes">[A-Z].+</token>
+                <token regexp="yes">[A-Z].+</token>
+            </antipattern>
+            <antipattern><!-- "While solution s begins to work" -->
+                <token spacebefore="yes">s</token>
+            </antipattern>
+            <rule default="temp_off"><!-- the translate -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">translates?</token>
+                    </marker>
+                </pattern>
+                <message>The word "\3" is a verb. The noun is spelled <suggestion><match no="3" regexp_match="(?i)ranslate" regexp_replace="ranslation" /></suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/translation</url>
+                <example correction="translation">The <marker>translate</marker> to English was done correctly.</example>
+            </rule>
+            <rule default="temp_off"><!-- the depart -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">departs?</token>
+                    </marker>
+                </pattern>
+                <message>The word "\3" is a verb. The noun is spelled <suggestion><match no="3" regexp_match="(?i)epart" regexp_replace="eparture" /></suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/departure</url>
+                <example correction="departure">The <marker>depart</marker> time was delayed.</example>
+            </rule>
             <rule><!-- the jumpstart -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
@@ -15357,7 +15444,35 @@ USA
                     </marker>
                 </pattern>
                 <message>The word "\3" is a verb. The noun is either spelled <suggestion><match no="3" regexp_match="(?i)jumpstart" regexp_replace="jump start" /></suggestion> or <suggestion><match no="3" regexp_match="(?i)jumpstart" regexp_replace="jump-start" /></suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/jump-start</url>
                 <example correction="jump start|jump-start">The <marker>jumpstart</marker> was successful.</example>
+            </rule>
+            <rule default="temp_off"><!-- the brighten -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>brighten</token>
+                    </marker>
+                </pattern>
+                <message>The word "\3" is a verb and doesn't fit in this context. Did you mean the adjective <suggestion>bright</suggestion> or <suggestion>brightened</suggestion>?</message>
+                <example correction="bright|brightened">The <marker>brighten</marker> color.</example>
+            </rule>
+            <rule default="temp_off"><!-- the suppress -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>suppress</token>
+                    </marker>
+                </pattern>
+                <message>The word "\3" is a verb and doesn't fit in this context. Did you mean the noun <suggestion>suppression</suggestion> (= act of suppressing)?</message>
+                <url>https://www.merriam-webster.com/dictionary/suppression</url>
+                <example correction="suppression">The <marker>suppress</marker> of our enemies failed.</example>
             </rule>
             <rule><!-- the comprise -->
                 <pattern>
@@ -15551,6 +15666,10 @@ USA
                 <example correction="injury">He got an <marker>injure</marker> while playing football.</example>
             </rule>
             <rule><!-- the confirm -->
+                <antipattern>
+                    <token skip="2">confirm</token>
+                    <token regexp="yes">(button|link|form|account|page|screen|draft|view|parameter|permission|function|feature|request|command|procedure|call|api|section|query|dialog|option|menu|plugin|script|method|endpoint|event|operation|window)s?|process(es)?</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -15820,6 +15939,7 @@ USA
                 <message>The word '<match no="3" />' is not a noun. Did you mean <suggestion>beginning</suggestion>?</message>
                 <url>https://www.merriam-webster.com/dictionary/beginning</url>
                 <example correction="beginning">2020 is the <marker>begin</marker> of something fantastic.</example>
+                <example>Let solution S begin to work.</example>
             </rule>
             <rule><!-- the double-click -->
                 <pattern>
@@ -17095,7 +17215,7 @@ USA
                     </marker>
                     <token spacebefore="no" regexp="yes" min="0">&apostrophe;</token>
                     <token spacebefore="no" min="0">s</token>
-                    <token regexp="yes">polls?|elections?|slots?|voter?s?|countdown|campaigns?|ballots?|contests?|strategy|states?|20\d{2}|primar(y|ies)|presidential|counts?|results?|projections?|california|texas|florida|date</token>
+                    <token regexp="yes">polls?|elections?|slots?|voter?s?|countdown|campaigns?|ballots?|contests?|strategy|states?|20\d{2}|primar(y|ies)|presidential|counts?|results?|projections?|california|texas|florida|date|exit</token>
                 </pattern>
                 <message>The proper noun <suggestion>Super Tuesday</suggestion> should be capitalized.</message>
                 <example correction="Super Tuesday">He participates in the <marker>super tuesday</marker> polls.</example>
@@ -24910,14 +25030,23 @@ USA
                     <token>Thames</token>
                     <token regexp="yes">Water|Valley</token>
                 </antipattern>
+                <antipattern>
+                    <token>Sahara</token>
+                    <token regexp="yes">Ave|Avenue</token>
+                </antipattern>
+                <antipattern><!-- https://en.wikipedia.org/wiki/Kingston_upon_Thames -->
+                    <token>Kingston</token>
+                    <token>upon</token>
+                    <token>Thames</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <marker>
                         <token postag="IN"><exception scope="previous">Made</exception></token>
                         <token case_sensitive="yes" regexp="yes">Alps|Andes|Appalachians|Atlantic|Bahamas|Baltic|Caribbean|Caspian|Caucasus|Comoros|Danube|equator|Euphrates|Gambia|Ganges|Gobi|Himalayas|Indus|Kalahari|Maldives|Netherlands|Nile|Ob|Occident|Orient|Orinoco|Philippines|Pyrenees|Rhine|Rhone|Rockies|Sahara|Thames|Tiber|Tigris|UAE|Urals|USA|Volga|Yangtze</token>
                     </marker>
                     <token>
-                        <exception regexp="yes">'</exception>
-                        <exception postag="NNP?S|NN:UN?" postag_regexp="yes" />
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
                     </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the \2</suggestion>.</message>
@@ -24935,6 +25064,10 @@ USA
                         <token case_sensitive="yes" regexp="yes">Amazon|Colorado|Columbia|Hudson|Lena|Mackenzie|Mekong|Mississippi|Missouri|Niger|Ohio|Seine|Tagus</token>
                         <token case_sensitive="yes">River</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the \2 \3</suggestion>.</message>
                 <example correction="in the Amazon River">He lived <marker>in Amazon River</marker> from 1933 till 1945.</example>
@@ -24946,6 +25079,10 @@ USA
                         <token case_sensitive="yes">Atlas</token>
                         <token case_sensitive="yes">Mountains</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Atlas Mountains</suggestion>.</message>
                 <example correction="in the Atlas Mountains">He lived <marker>in Atlas Mountains</marker> from 1933 till 1945.</example>
@@ -24957,6 +25094,10 @@ USA
                         <token case_sensitive="yes">Cayman</token>
                         <token case_sensitive="yes">Islands</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Cayman Islands</suggestion>.</message>
                 <example correction="on the Cayman Islands">He lived <marker>on Cayman Islands</marker> from 1933 till 1945.</example>
@@ -24969,6 +25110,10 @@ USA
                         <token case_sensitive="yes">African</token>
                         <token case_sensitive="yes">Republic</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Central African Republic</suggestion>.</message>
                 <example correction="in the Central African Republic">He lived <marker>in Central African Republic</marker> from 1933 till 1945.</example>
@@ -24980,6 +25125,10 @@ USA
                         <token case_sensitive="yes">Channel</token>
                         <token case_sensitive="yes">Islands</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Channel Islands</suggestion>.</message>
                 <example correction="on the Channel Islands">He lived <marker>on Channel Islands</marker> from 1933 till 1945.</example>
@@ -24991,6 +25140,10 @@ USA
                         <token case_sensitive="yes">Czech</token>
                         <token case_sensitive="yes">Republic</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Czech Republic</suggestion>.</message>
                 <example correction="in the Czech Republic">He lived <marker>in Czech Republic</marker> from 1933 till 1945.</example>
@@ -25002,6 +25155,10 @@ USA
                         <token case_sensitive="yes">Dominican</token>
                         <token case_sensitive="yes">Republic</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Dominican Republic</suggestion>.</message>
                 <example correction="in the Dominican Republic">He lived <marker>in Dominican Republic</marker> from 1933 till 1945.</example>
@@ -25013,6 +25170,10 @@ USA
                         <token case_sensitive="yes">Falkland</token>
                         <token case_sensitive="yes">Islands</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Falkland Islands</suggestion>.</message>
                 <example correction="on the Falkland Islands">He lived <marker>on Falkland Islands</marker> from 1933 till 1945.</example>
@@ -25025,6 +25186,10 @@ USA
                         <token case_sensitive="yes">of</token>
                         <token case_sensitive="yes">Man</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Isle of Man</suggestion>.</message>
                 <example correction="in the Isle of Man">He lived <marker>in Isle of Man</marker> from 1933 till 1945.</example>
@@ -25036,6 +25201,10 @@ USA
                         <token case_sensitive="yes">Ivory</token>
                         <token case_sensitive="yes">Coast</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Ivory Coast</suggestion>.</message>
                 <example correction="in the Ivory Coast">He lived <marker>in Ivory Coast</marker> from 1933 till 1945.</example>
@@ -25047,6 +25216,10 @@ USA
                         <token case_sensitive="yes">Leeward</token>
                         <token case_sensitive="yes">Islands</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Leeward Islands</suggestion>.</message>
                 <example correction="on the Leeward Islands">He lived <marker>on Leeward Islands</marker> from 1933 till 1945.</example>
@@ -25058,6 +25231,10 @@ USA
                         <token case_sensitive="yes">Maldive</token>
                         <token case_sensitive="yes">Islands</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Maldive Islands</suggestion>.</message>
                 <example correction="on the Maldive Islands">He lived <marker>on Maldive Islands</marker> from 1933 till 1945.</example>
@@ -25069,6 +25246,10 @@ USA
                         <token case_sensitive="yes">Marshall</token>
                         <token case_sensitive="yes">Islands</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Marshall Islands</suggestion>.</message>
                 <example correction="on the Marshall Islands">He lived <marker>on Marshall Islands</marker> from 1933 till 1945.</example>
@@ -25080,6 +25261,10 @@ USA
                         <token case_sensitive="yes">Netherlands</token>
                         <token case_sensitive="yes">Antilles</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Netherlands Antilles</suggestion>.</message>
                 <example correction="in the Netherlands Antilles">He lived <marker>in Netherlands Antilles</marker> from 1933 till 1945.</example>
@@ -25091,6 +25276,10 @@ USA
                         <token case_sensitive="yes">Solomon</token>
                         <token case_sensitive="yes">Islands</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Solomon Islands</suggestion>.</message>
                 <example correction="on the Solomon Islands">He lived <marker>on Solomon Islands</marker> from 1933 till 1945.</example>
@@ -25104,6 +25293,10 @@ USA
                         <token case_sensitive="yes">Caicos</token>
                         <token case_sensitive="yes">Islands</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Turks and Caicos Islands</suggestion>.</message>
                 <example correction="on the Turks and Caicos Islands">He lived <marker>on Turks and Caicos Islands</marker> from 1933 till 1945.</example>
@@ -25127,6 +25320,10 @@ USA
                         <token case_sensitive="yes">United</token>
                         <token case_sensitive="yes">Kingdom</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the United Kingdom</suggestion>.</message>
                 <example correction="in the United Kingdom">He lived <marker>in United Kingdom</marker> from 1933 till 1945.</example>
@@ -25143,6 +25340,10 @@ USA
                         <token case_sensitive="yes">United</token>
                         <token case_sensitive="yes">States</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the United States</suggestion>.</message>
                 <example correction="in the United States">He lived <marker>in United States</marker> from 1933 till 1945.</example>
@@ -25155,6 +25356,10 @@ USA
                         <token case_sensitive="yes">Virgin</token>
                         <token case_sensitive="yes">Islands</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Virgin Islands</suggestion>.</message>
                 <example correction="on the Virgin Islands">He lived <marker>on Virgin Islands</marker> from 1933 till 1945.</example>
@@ -25171,23 +25376,14 @@ USA
                         <token case_sensitive="yes">Rio</token>
                         <token case_sensitive="yes">Grande</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Rio Grande</suggestion>.</message>
                 <example correction="in the Rio Grande">He lived <marker>in Rio Grande</marker> from 1933 till 1945.</example>
             </rule>
-            <!-- TODO: What is "St. Lawrence"? -->
-            <!-- <rule> 
-                <pattern case_sensitive="yes">
-                    <marker>
-                        <token postag="IN"><exception scope="previous">Made</exception></token>
-                        <token case_sensitive="yes">St</token>
-                        <token>.</token>
-                        <token case_sensitive="yes">Lawrence</token>
-                    </marker>
-                </pattern>
-                <message>A determiner is probably missing here: <suggestion>\1 the St. Lawrence</suggestion>.</message>
-                <example correction="in the St. Lawrence">He lived <marker>in St. Lawrence</marker> from 1933 till 1945.</example>
-            </rule> -->
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
@@ -25195,6 +25391,10 @@ USA
                         <token case_sensitive="yes">Adriatic</token>
                         <token case_sensitive="yes">Sea</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Adriatic Sea</suggestion>.</message>
                 <example correction="in the Adriatic Sea">He lived <marker>in Adriatic Sea</marker> from 1933 till 1945.</example>
@@ -25206,6 +25406,10 @@ USA
                         <token case_sensitive="yes">Aegean</token>
                         <token case_sensitive="yes">Sea</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Aegean Sea</suggestion>.</message>
                 <example correction="in the Aegean Sea">He lived <marker>in Aegean Sea</marker> from 1933 till 1945.</example>
@@ -25217,6 +25421,10 @@ USA
                         <token case_sensitive="yes">Arabian</token>
                         <token case_sensitive="yes">Sea</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Arabian Sea</suggestion>.</message>
                 <example correction="in the Arabian Sea">He lived <marker>in Arabian Sea</marker> from 1933 till 1945.</example>
@@ -25228,6 +25436,10 @@ USA
                         <token case_sensitive="yes">Arctic</token>
                         <token case_sensitive="yes">Ocean</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Arctic Ocean</suggestion>.</message>
                 <example correction="in the Arctic Ocean">He lived <marker>in Arctic Ocean</marker> from 1933 till 1945.</example>
@@ -25239,6 +25451,10 @@ USA
                         <token case_sensitive="yes">Black</token>
                         <token case_sensitive="yes">Sea</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Black Sea</suggestion>.</message>
                 <example correction="in the Black Sea">He lived <marker>in Black Sea</marker> from 1933 till 1945.</example>
@@ -25250,6 +25466,10 @@ USA
                         <token case_sensitive="yes">Coral</token>
                         <token case_sensitive="yes">Sea</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Coral Sea</suggestion>.</message>
                 <example correction="in the Coral Sea">He lived <marker>in Coral Sea</marker> from 1933 till 1945.</example>
@@ -25261,6 +25481,10 @@ USA
                         <token case_sensitive="yes">Atlantic</token>
                         <token case_sensitive="yes">Ocean</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Atlantic Ocean</suggestion>.</message>
                 <example correction="in the Atlantic Ocean">He lived <marker>in Atlantic Ocean</marker> from 1933 till 1945.</example>
@@ -25272,6 +25496,10 @@ USA
                         <token case_sensitive="yes">Baltic</token>
                         <token case_sensitive="yes">Sea</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Baltic Sea</suggestion>.</message>
                 <example correction="in the Baltic Sea">He lived <marker>in Baltic Sea</marker> from 1933 till 1945.</example>
@@ -25283,6 +25511,10 @@ USA
                         <token case_sensitive="yes">Caribbean</token>
                         <token case_sensitive="yes">Sea</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Caribbean Sea</suggestion>.</message>
                 <example correction="in the Caribbean Sea">He lived <marker>in Caribbean Sea</marker> from 1933 till 1945.</example>
@@ -25294,6 +25526,10 @@ USA
                         <token case_sensitive="yes">Caspian</token>
                         <token case_sensitive="yes">Sea</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Caspian Sea</suggestion>.</message>
                 <example correction="in the Caspian Sea">He lived <marker>in Caspian Sea</marker> from 1933 till 1945.</example>
@@ -25306,6 +25542,10 @@ USA
                         <token case_sensitive="yes">of</token>
                         <token case_sensitive="yes">Aden</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Gulf of Aden</suggestion>.</message>
                 <example correction="in the Gulf of Aden">He lived <marker>in Gulf of Aden</marker> from 1933 till 1945.</example>
@@ -25318,6 +25558,10 @@ USA
                         <token case_sensitive="yes">of</token>
                         <token case_sensitive="yes">Mexico</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Gulf of Mexico</suggestion>.</message>
                 <example correction="in the Gulf of Mexico">He lived <marker>in Gulf of Mexico</marker> from 1933 till 1945.</example>
@@ -25330,6 +25574,10 @@ USA
                         <token case_sensitive="yes">of</token>
                         <token case_sensitive="yes">Oman</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Gulf of Oman</suggestion>.</message>
                 <example correction="in the Gulf of Oman">He lived <marker>in Gulf of Oman</marker> from 1933 till 1945.</example>
@@ -25341,6 +25589,10 @@ USA
                         <token case_sensitive="yes">Far</token>
                         <token case_sensitive="yes">East</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Far East</suggestion>.</message>
                 <example correction="in the Far East">He lived <marker>in Far East</marker> from 1933 till 1945.</example>
@@ -25352,6 +25604,10 @@ USA
                         <token case_sensitive="yes">Gobi</token>
                         <token case_sensitive="yes">desert</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Gobi desert</suggestion>.</message>
                 <example correction="in the Gobi desert">He lived <marker>in Gobi desert</marker> from 1933 till 1945.</example>
@@ -25363,6 +25619,10 @@ USA
                         <token case_sensitive="yes">Kalahari</token>
                         <token case_sensitive="yes">desert</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Kalahari desert</suggestion>.</message>
                 <example correction="in the Kalahari desert">He lived <marker>in Kalahari desert</marker> from 1933 till 1945.</example>
@@ -25374,6 +25634,10 @@ USA
                         <token case_sensitive="yes">Middle</token>
                         <token case_sensitive="yes">East</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Middle East</suggestion>.</message>
                 <example correction="in the Middle East">He lived <marker>in Middle East</marker> from 1933 till 1945.</example>
@@ -25385,6 +25649,10 @@ USA
                         <token case_sensitive="yes">Near</token>
                         <token case_sensitive="yes">East</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Near East</suggestion>.</message>
                 <example correction="in the Near East">He lived <marker>in Near East</marker> from 1933 till 1945.</example>
@@ -25396,6 +25664,10 @@ USA
                         <token case_sensitive="yes">North</token>
                         <token case_sensitive="yes">Pole</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the North Pole</suggestion>.</message>
                 <example correction="in the North Pole">He lived <marker>in North Pole</marker> from 1933 till 1945.</example>
@@ -25406,6 +25678,10 @@ USA
                         <token postag="IN"><exception scope="previous">Made</exception></token>
                         <token case_sensitive="yes">Occident</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Occident</suggestion>.</message>
                 <example correction="in the Occident">He lived <marker>in Occident</marker> from 1933 till 1945.</example>
@@ -25416,6 +25692,10 @@ USA
                         <token postag="IN"><exception scope="previous">Made</exception></token>
                         <token case_sensitive="yes">Orient</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Orient</suggestion>.</message>
                 <example correction="in the Orient">He lived <marker>in Orient</marker> from 1933 till 1945.</example>
@@ -25427,6 +25707,10 @@ USA
                         <token case_sensitive="yes">Panama</token>
                         <token case_sensitive="yes">Canal</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Panama Canal</suggestion>.</message>
                 <example correction="in the Panama Canal">He lived <marker>in Panama Canal</marker> from 1933 till 1945.</example>
@@ -25438,6 +25722,10 @@ USA
                         <token case_sensitive="yes">Sahara</token>
                         <token case_sensitive="yes">desert</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Sahara desert</suggestion>.</message>
                 <example correction="in the Sahara desert">He lived <marker>in Sahara desert</marker> from 1933 till 1945.</example>
@@ -25449,6 +25737,10 @@ USA
                         <token case_sensitive="yes">South</token>
                         <token case_sensitive="yes">Pole</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the South Pole</suggestion>.</message>
                 <example correction="in the South Pole">He lived <marker>in South Pole</marker> from 1933 till 1945.</example>
@@ -25460,6 +25752,10 @@ USA
                         <token case_sensitive="yes">Suez</token>
                         <token case_sensitive="yes">Canal</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Suez Canal</suggestion>.</message>
                 <example correction="in the Suez Canal">He lived <marker>in Suez Canal</marker> from 1933 till 1945.</example>
@@ -25472,6 +25768,10 @@ USA
                         <token case_sensitive="yes">of</token>
                         <token case_sensitive="yes">Cancer</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Tropic of Cancer</suggestion>.</message>
                 <example correction="in the Tropic of Cancer">He lived <marker>in Tropic of Cancer</marker> from 1933 till 1945.</example>
@@ -25484,6 +25784,10 @@ USA
                         <token case_sensitive="yes">of</token>
                         <token case_sensitive="yes">Capricorn</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Tropic of Capricorn</suggestion>.</message>
                 <example correction="in the Tropic of Capricorn">He lived <marker>in Tropic of Capricorn</marker> from 1933 till 1945.</example>
@@ -25495,6 +25799,10 @@ USA
                         <token case_sensitive="yes">Rocky</token>
                         <token case_sensitive="yes">Mountains</token>
                     </marker>
+                    <token>
+                        <exception regexp="yes">&apostrophe;</exception>
+                        <exception postag="NNPS?|NNS|NN:UN?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the Rocky Mountains</suggestion>.</message>
                 <example correction="in the Rocky Mountains">He lived <marker>in Rocky Mountains</marker> from 1933 till 1945.</example>
@@ -26621,6 +26929,74 @@ USA
             <url>https://www.merriam-webster.com/dictionary/do</url>
             <example correction="does">He <marker>dos</marker> not want to go home.</example>
         </rule>
+        <rulegroup id="A_MD_VB" name="A would not do it" default="temp_off">
+            <antipattern><!-- adjective without hyphen "This book is a must-read" -->
+                <token>must</token>
+                <token regexp="yes">have|read|go|see|visit|be|do|offer|take</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" regexp="yes">[CBDENXY]|γ|α|functions?|variables?|abbrev(iation)?s?</token>
+                <token>A</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">A</token>
+                <token regexp="yes">[CBDENXY]|γ|α|functions?|variables?|abbrev(iation)?s?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[A-Z]</token>
+                <token regexp="yes">&amp;|and|n?or|\.</token>
+                <token>A</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[A-Z]</token>
+                <token regexp="yes">&amp;|and|n?or|\.|\-|–|\:|\*|\+|\/</token>
+                <token>A</token>
+            </antipattern>
+            <antipattern>
+                <token>for</token><!-- CC -->
+                <token>A</token>
+            </antipattern>
+            <rule><!-- "A would do it" -->
+                <pattern>
+                    <token postag="CC|PCT|SENT_START" postag_regexp="yes" />
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token postag="MD" />
+                    <token min="0" regexp="yes">&apostrophe;</token>
+                    <token postag="RB" min="0" />
+                    <token postag="VB.*" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>I</suggestion>?</message>
+                <example correction="I"><marker>A</marker> would not do it like that.</example>
+                <example>A can be regarded as a function of a real variable.</example>
+                <example>If N is 7, A would be 4 and B would be 3.</example>
+                <example>A must read for fans.</example>
+                <example>A will buy tables from C.</example>
+                <example>This Q &amp; A won’t replace our Tuesday stream.</example>
+                <example>The U.S.A would go to war for this.</example>
+            </rule>
+            <rule><!-- "A didn't do it" -->
+                <pattern>
+                    <token postag="CC|PCT|SENT_START" postag_regexp="yes" />
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                    <token inflected="yes">do</token>
+                    <token min="0" regexp="yes">&apostrophe;</token>
+                    <token postag="RB" min="0" />
+                    <token postag="VB.*" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>I</suggestion>?</message>
+                <example correction="I"><marker>A</marker> didn't do it.</example>
+                <example>A can be regarded as a function of a real variable.</example>
+                <example>If N is 7, A would be 4 and B would be 3.</example>
+                <example>A must read for fans.</example>
+                <example>A will buy tables from C.</example>
+                <example>This Q &amp; A won’t replace our Tuesday stream.</example>
+                <example>The U.S.A would go to war for this.</example>
+            </rule>
+        </rulegroup>
         <rule id="PRP_NOWS" name="he nows (knows)">
             <pattern>
                 <token regexp="yes">s?he|it</token>
@@ -28522,9 +28898,13 @@ USA
                 <example correction="I'm afraid"><marker>I afraid</marker> of the dark.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="VB.*|IN|UNKNOWN" postag_regexp="yes" />
+                    <token>you</token>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">you|we|they<exception scope="previous" regexp="yes">are|were|made</exception></token>
+                        <token regexp="yes">you|we|they</token>
                         <token>afraid</token>
                     </marker>
                     <token regexp="yes">of|to</token>
@@ -28532,11 +28912,16 @@ USA
                 <message>You miss the verb here. You should rather write: <suggestion>\1're \2</suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example correction="You're afraid"><marker>You afraid</marker> of the dark.</example>
+                <example>They make you afraid of the dark.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="VB.*|IN|UNKNOWN" postag_regexp="yes" />
+                    <token>it</token>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token regexp="yes">s?he|it<exception scope="previous" regexp="yes">is|was|made</exception></token>
+                        <token regexp="yes">s?he|it</token>
                         <token>afraid</token>
                     </marker>
                     <token regexp="yes">of|to</token>
@@ -28544,6 +28929,7 @@ USA
                 <message>You miss the verb here. You should rather write: <suggestion>\1's \2</suggestion>.</message>
                 <short>Grammatical problem</short>
                 <example correction="He's afraid"><marker>He afraid</marker> of the dark.</example>
+                <example>They do it afraid of the dark.</example>
             </rule>
             <rule>
                 <pattern>
