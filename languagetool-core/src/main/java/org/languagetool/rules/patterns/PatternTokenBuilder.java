@@ -35,6 +35,8 @@ public class PatternTokenBuilder {
   private boolean negation;
   private boolean isWhiteSpaceSet = false;
   private boolean isWhiteSpaceBefore;
+  private int minOccurrence = 1;
+  private int maxOccurrence = 1;
   private int skip;
 
   /**
@@ -74,6 +76,21 @@ public class PatternTokenBuilder {
 
   public PatternTokenBuilder posRegex(String posTag) {
     return pos(posTag, true);
+  }
+
+  /** @since 4.9 */
+  public PatternTokenBuilder min(int val) {
+    if (val < 0) {
+      throw new IllegalArgumentException("minOccurrence must be >= 0: " + minOccurrence);
+    }
+    minOccurrence = val;
+    return this;
+  }
+
+  /** @since 4.9 */
+  public PatternTokenBuilder max(int val) {
+    maxOccurrence = val;
+    return this;
   }
 
   /**
@@ -132,7 +149,11 @@ public class PatternTokenBuilder {
     if (isWhiteSpaceSet) {
       patternToken.setWhitespaceBefore(isWhiteSpaceBefore);
     }
-
+    if (maxOccurrence < minOccurrence) {
+      throw new IllegalArgumentException("minOccurrence must <= maxOccurrence: minOccurrence " + minOccurrence + ", maxOccurrence " + maxOccurrence);
+    }
+    patternToken.setMinOccurrence(minOccurrence);
+    patternToken.setMaxOccurrence(maxOccurrence);
     patternToken.setNegation(negation);
     patternToken.setSkipNext(skip);
     patternToken.setInsideMarker(marker);

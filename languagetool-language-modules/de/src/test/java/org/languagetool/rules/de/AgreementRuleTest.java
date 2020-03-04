@@ -136,6 +136,8 @@ public class AgreementRuleTest {
     assertGood("Die Tiroler Küche");
     assertGood("Was ist denn das für ein ungewöhnlicher Name?");
     assertGood("Besonders reizen mich Fahrräder.");
+    assertGood("Und nur, weil mich psychische Erkrankungen aus der Bahn werfen");
+    assertGood("Das kostet dich Zinsen.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
