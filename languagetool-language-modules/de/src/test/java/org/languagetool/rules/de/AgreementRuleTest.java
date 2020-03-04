@@ -134,6 +134,7 @@ public class AgreementRuleTest {
     assertGood("Das, plus ein eigener Firmenwagen.");
     assertGood("Dieses leise Summen stört nicht.");
     assertGood("Die Tiroler Küche");
+    assertGood("Was ist denn das für ein ungewöhnlicher Name?");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
