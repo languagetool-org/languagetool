@@ -160,6 +160,15 @@ USA
     <!-- Possible typo -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
+        <rule id="HING" name="hing (thing / hang)" default="temp_off">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[Hh]ings?</token>
+            </pattern>
+            <message>Did you really mean "\1" (= noun, another word for asafoetida)?</message>
+            <suggestion><match no="1" regexp_match="(?i)hing" regexp_replace="thing" /></suggestion>
+            <suggestion><match no="1" regexp_match="(?i)hing" regexp_replace="hang" /></suggestion>
+            <example correction="thing|hang">The <marker>hing</marker> is, I really don't understand what you want.</example>
+        </rule>
         <rule id="HEP" name="hep (help / hip)" default="temp_off">
             <pattern>
                 <token regexp="yes" case_sensitive="yes">[Hh]eps?</token>
