@@ -33,15 +33,15 @@ public class FalseFriendExporter {
           "/home/dnaber/lt/git/languagetool/languagetool-core/src/main/resources/org/languagetool/rules/false-friends.xml";
 
   public static void main(String[] args) throws IOException {
-    Language l1 = Languages.getLanguageForShortCode("en");
-    Language l2 = Languages.getLanguageForShortCode("de");
+    Language l1 = Languages.getLanguageForShortCode("de");
+    Language l2 = Languages.getLanguageForShortCode("en");
     listRuleMessages(l1, l2);
     //listRuleMessages(l2, l1);
   }
   
   private static void listRuleMessages(Language l1, Language l2) throws IOException {
-    FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader(null);
-    List<AbstractPatternRule> rules = ruleLoader.getRules(new File(filename), l1, l2);
+    FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader(l1);
+    List<AbstractPatternRule> rules = ruleLoader.getRules(new File(filename), l2, l1);
     int i = 1;
     for (AbstractPatternRule rule : rules) {
       System.out.println(i + ". " + rule.getMessage().
