@@ -1267,20 +1267,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="Надійний"><marker>Вірний</marker> спосіб</example>
         <example>Вірний джура</example>
       </rule>
+
       <rule>
         <pattern>
           <marker>
-            <token inflected="yes" regexp="yes">вірний|(най)?вірніший</token>
+            <token inflected="yes" regexp="yes">(не)?вірний|(най)?вірніший</token>
           </marker>
           <token inflected="yes" regexp="yes">відповідь|результат|рішення|формула|цифра|число</token>
         </pattern>
-        <message>Правильно: <suggestion>правильний</suggestion></message>
-        <suggestion>певний</suggestion>
-        <suggestion>правдивий</suggestion>
-        <example correction="Правильний|Певний|Правдивий"><marker>Вірна</marker> відповідь</example>
+        <message>Правильно: <suggestion>(не)правильний</suggestion></message>
+        <suggestion>(не)певний</suggestion>
+        <suggestion>(не)правдивий</suggestion>
+        <example correction="(не)правильний|(не)певний|(не)правдивий"><marker>вірна</marker> відповідь</example>
         <example>Вірна дружина</example>
       </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">(не)?вірний|(най)?вірніший</token>
+          </marker>
+          <token inflected="yes">думка</token>
+        </pattern>
+        <message>Правильно: <suggestion>(не)слушна</suggestion></message>
+        <example correction="(не)слушна"><marker>невірна</marker> думка</example>
+      </rule>
     </rulegroup>
+
+    <rule id="vid_usiyei_dushi" name="Від усієї душі">
+      <pattern>
+          <token>від</token>
+          <token inflected="yes" regexp="yes">увесь|весь</token>
+          <token regexp="yes">душі|серця</token>
+      </pattern>
+      <message>Правильно: <suggestion>з усього серця</suggestion></message>
+      <suggestion>з щирого серця</suggestion>
+      <example correction="з усього серця|з щирого серця"><marker>від усієї душі</marker></example>
+    </rule>
 
 
     <rulegroup id="VOYENNYI_VS_VIYSKOVY" name="Воєнний і військовий">
