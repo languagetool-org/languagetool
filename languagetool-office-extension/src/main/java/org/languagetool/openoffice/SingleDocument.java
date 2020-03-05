@@ -173,6 +173,7 @@ class SingleDocument {
       paraNum = getParaPos(paraText, paRes.nStartOfSentencePosition);
       // Don't use Cache for check in single paragraph mode
       if(numParasToCheck != 0 && paraNum >= 0) {
+        paraText = allParas.get(paraNum);
         sErrors = sentencesCache.getMatches(paraNum, paRes.nStartOfSentencePosition);
         // return Cache result if available
         if(sErrors != null) {
@@ -446,21 +447,29 @@ class SingleDocument {
       MessageHandler.printToLogFile("Number FlatParagraphs: " + nParas + "; docID: " + docID);
     }
 
-    if (nParas < allParas.size() || !flatPara.isCurrentFlatPara(chPara)) {   //  no automatic iteration
-      return getParaFromViewCursorOrDialog(chPara);   // try to get ViewCursor position
+    if (nParas < allParas.size()) {   //  Proof must initiated by right mouse click or dialog
+      return getParaFromViewCursorOrDialog(chPara);
     }
+
     divNum = nParas - allParas.size();
 
+    String flatParaText = flatPara.GetCurrentParaText();
     nParas = flatPara.getCurNumFlatParagraph();
+    nParas -= divNum;
 
     if (nParas < divNum || nParas >= divNum + allParas.size()) {
       return -1; //  nParas < divNum: Proof footnote etc.  /  nParas >= allParas.size():  document was changed while checking
     }
 
-    nParas -= divNum;
+    if(!isReset && flatParaText != null && !chPara.equals(flatParaText) && flatParaText.equals(allParas.get(nParas))) {
+      //  if isReset: Number of paragraphs has changed -> Proof must be initiated by iteration
+      //  if flatParaText != chPara && flatParaText == allParas.get(nParas): Iteration running in another thread
+      return getParaFromViewCursorOrDialog(chPara);
+    }
+
     numLastFlPara = nParas;
     
-    if (!chPara.equals(allParas.get(nParas))) {
+    if (!flatParaText.equals(allParas.get(nParas))) {
       if (isReset) {
         return -1;
       } else {
@@ -470,7 +479,7 @@ class SingleDocument {
                   + logLineBreak + "old: " + allParas.get(nParas) + logLineBreak 
                   + "new: " + chPara + logLineBreak);
         }
-        allParas.set(nParas, chPara);
+        allParas.set(nParas, flatParaText);
         for(ResultCache cache : paragraphsCache) {
           cache.remove(nParas);
         }

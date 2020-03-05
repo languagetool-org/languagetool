@@ -27,16 +27,13 @@ import org.jetbrains.annotations.Nullable;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.XStringKeyMap;
-import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.SingleProofreadingError;
-import com.sun.star.text.TextMarkupDescriptor;
 import com.sun.star.text.TextMarkupType;
 import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XFlatParagraphIterator;
 import com.sun.star.text.XFlatParagraphIteratorProvider;
 import com.sun.star.text.XMarkingAccess;
-import com.sun.star.text.XMultiTextMarkup;
 import com.sun.star.text.XParagraphCursor;
 import com.sun.star.uno.UnoRuntime;
 
@@ -48,8 +45,8 @@ import com.sun.star.uno.UnoRuntime;
  */
 public class FlatParagraphTools {
   
-  private static final int typeTolerance = 3;     //  Tolerance between checked text and FlatPraragrah text
-                                                  //  needed, because some changes in paragraph could be happened while checking
+//  private static final int typeTolerance = 3;     //  Tolerance between checked text and FlatPraragrah text
+//                                                  //  needed, because some changes in paragraph could be happened while checking
   
   private static final boolean debugMode = false; //  should be false except for testing
   
@@ -136,10 +133,26 @@ public class FlatParagraphTools {
   }
 
   /**
+   * return text of current paragraph
+   * return null if it fails
+   */
+  public String GetCurrentParaText() {
+    XFlatParagraph xFlatPara = getCurrentFlatParagraph();
+    if (xFlatPara == null) {
+      if (debugMode) {
+        MessageHandler.printToLogFile("isCurrentFlatPara: FlatParagraph == null");
+      }
+      return null;
+    }
+    return xFlatPara.getText();
+  }
+
+  /**
    * is true if FlatParagraph is from Automatic Iteration
    * a tolerance of some characters has to be assumed because of a possible delay between 
    * initializing of the proof within LO and the work off in LT
    */
+/*
   public boolean isCurrentFlatPara(String paraText) {
     XFlatParagraph xFlatPara = getCurrentFlatParagraph();
     if (xFlatPara == null) {
@@ -171,7 +184,7 @@ public class FlatParagraphTools {
     }
     return ret;
   }
-
+*/
   /**
    * Returns Current Paragraph Number from FlatParagaph
    * Returns -1 if it fails
