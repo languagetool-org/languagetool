@@ -459,6 +459,8 @@ public class CaseRule extends Rule {
     "Sa",   // Sa. 12 - 16 Uhr
     "Gr",   // "Gr. 12"
     "Mag",   // "Mag. Helke Müller"
+    "Dozierende",
+    "Dozierenden",
     "Studierende",
     "Suchbegriffen",
     "Plattdeutsch",
