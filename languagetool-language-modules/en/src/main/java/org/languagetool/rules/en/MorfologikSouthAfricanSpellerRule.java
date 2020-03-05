@@ -21,6 +21,7 @@ package org.languagetool.rules.en;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.languagetool.GlobalConfig;
@@ -32,6 +33,7 @@ public final class MorfologikSouthAfricanSpellerRule extends AbstractEnglishSpel
 
   private static final String RESOURCE_FILENAME = "/en/hunspell/en_ZA.dict";
   private static final String LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT = "en/hunspell/spelling_en-ZA.txt";
+  private static final Map<String,String> US_ENGLISH = loadWordlist("en/en-US-GB.txt", 0);
 
   public MorfologikSouthAfricanSpellerRule(ResourceBundle messages,
                                            Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
@@ -43,6 +45,15 @@ public final class MorfologikSouthAfricanSpellerRule extends AbstractEnglishSpel
    */
   public MorfologikSouthAfricanSpellerRule(ResourceBundle messages, Language language, GlobalConfig globalConfig, UserConfig userConfig, List<Language> altLanguages, LanguageModel languageModel, Language motherTongue) throws IOException {
     super(messages, language, globalConfig, userConfig, altLanguages, languageModel, motherTongue);
+  }
+
+  @Override
+  protected VariantInfo isValidInOtherVariant(String word) {
+    String otherVariant = US_ENGLISH.get(word.toLowerCase());
+    if (otherVariant != null) {
+      return new VariantInfo("American English", otherVariant);
+    }
+    return null;
   }
 
   @Override
