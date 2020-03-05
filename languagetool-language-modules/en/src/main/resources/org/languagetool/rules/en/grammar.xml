@@ -161,8 +161,24 @@ USA
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
         <rule id="HING" name="hing (thing / hang)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">shun|lew|donald|john</token>
+                <token regexp="yes">hings?</token>
+            </antipattern>
+            <antipattern>
+                <token>hing</token>
+                <token>tong</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">asafoetida</token>
+                <token>hing</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">hing</token>
+                <token>asafoetida</token>
+            </antipattern>
             <pattern>
-                <token regexp="yes" case_sensitive="yes">[Hh]ings?</token>
+                <token regexp="yes" case_sensitive="yes">hings?</token>
             </pattern>
             <message>Did you really mean "\1" (= noun, another word for asafoetida)?</message>
             <suggestion><match no="1" regexp_match="(?i)hing" regexp_replace="thing" /></suggestion>
