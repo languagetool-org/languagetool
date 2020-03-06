@@ -9294,6 +9294,14 @@ USA
                 <token regexp="yes" spacebefore="no">[a-z-]+</token>
                 <token regexp="yes" spacebefore="no">['‘"“]</token>
             </antipattern>
+            <antipattern>
+                <token skip="3"regexp="yes">=|\*|\/|\+|\-|%</token>
+                <token>_</token>
+            </antipattern>
+            <antipattern>
+                <token skip="3">_</token>
+                <token regexp="yes">=|\*|\/|\+|\-|%</token>
+            </antipattern>
             <antipattern><!-- https://www.computerhope.com/jargon/p/publicht.htm -->
                 <token>public</token>
                 <token>_</token>
@@ -9318,6 +9326,7 @@ USA
             <example>But <marker>these_</marker> unlike other tests...</example><!-- TODO -->
             <example>Refer to <marker>_TESTS</marker>' on page 33.</example><!-- TODO -->
             <example>Status "payment_failed"</example>
+            <example>my_variable = x</example>
             <example>Public_html is a directory on computers running Apache web servers that stores all HTML files.</example>
         </rule>
         <rulegroup id="FR" name="fr [franc), Fr (Father, francium)">
@@ -17281,6 +17290,14 @@ USA
             <message>Did you mean the fast food chain <suggestion>McDonald's</suggestion> (always spelled with a possessive apostrophe)?</message>
             <url>https://en.wikipedia.org/wiki/McDonald%27s</url>
             <example correction="McDonald's">I always eat lunch at <marker>Mcdonalds</marker>.</example>
+        </rule>
+        <rule id="KELLOGGS" name="Kellogg's" default="temp_off">
+            <pattern>
+                <token regexp="yes">Kell?ogg?s</token>
+            </pattern>
+            <message>The food company is spelled <suggestion>Kellogg's</suggestion> (with a possessive apostrophe).</message>
+            <url>https://en.wikipedia.org/wiki/Kellogg%27s</url>
+            <example correction="Kellogg's">He likes to eat <marker>Kellogs</marker> for breakfast.</example>
         </rule>
         <rule id="WENDYS" name="Wendy's">
             <pattern>
