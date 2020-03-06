@@ -4827,6 +4827,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="VBP?"/>
             <token postag="IN"/>
         </antipattern>
+        <antipattern><!-- #2552 i will ever pledge to -->
+            <token>I</token><!-- Seems to occur only with lower-case I, but the word after the adverb is always a verb. Thus, do not add case_sensitive -->
+            <token postag="MD"/>
+            <token postag="RB"/><!-- Seems to occur only with upper-case adverbs. -->
+            <token postag_regexp="yes" postag="VBP?"/>
+            <token postag="IN"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -4913,6 +4920,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar: He was talk to me.</example><!-- #2544 -->
         <example type="untouched">Incorrect grammar: If she sneakily is talk about my secrets...</example><!-- #2544 -->
         <example type="untouched">Incorrect grammar: ... and it was talk about in the media.</example><!-- #2544 -->
+        <example type="untouched">The person i will EVER pledge to is my friend.</example><!-- #2552 -->
+        <example type="untouched">The person i should ALWAYS pledge with is my friend.</example><!-- #2552 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
         <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
