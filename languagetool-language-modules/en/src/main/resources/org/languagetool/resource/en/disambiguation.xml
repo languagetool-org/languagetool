@@ -3470,6 +3470,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="VB[PD]"/>
             <token postag_regexp="yes" postag="PRP|TO"/>
         </antipattern>
+        <antipattern><!-- #2556 the first four form 'Greater Athens' -->
+            <token>the</token>
+            <token>first</token>
+            <token postag="CD"/>
+            <token postag="VBP"/>
+            <token regexp="yes">['‘"“]</token>
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception regexp="yes">being|one</exception></token>
@@ -3503,6 +3510,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">The angry know it all.</example><!-- #2526 -->
         <example type="untouched">The poor drink to drown their sorrows.</example><!-- #2526 drink/E-NP-singular -->
         <example type="untouched">... and usually, the sick hope to become well.</example><!-- #2526 hope/E-NP-singular -->
+        <example type="untouched">... regional units, out of which the first four <marker>form</marker> 'Greater Athens', while the Piraeus...</example><!-- #2556 -->
+        <example type="untouched">... since the first four <marker>form</marker> "a magnificent spectacle."</example>
         <example type="ambiguous" inputform="nose[nose/NN,nose/VB,nose/VBP]" outputform="nose[nose/NN]">The elephant swings its long <marker>nose</marker>.</example>
         <example type="ambiguous" inputform="stone[stone/JJ,stone/NN:UN,stone/NNS,stone/VB,stone/VBP]" outputform="stone[stone/NN:UN,stone/NNS]">A rolling <marker>stone</marker> gathers no moss.</example>
         <example type="ambiguous" inputform="make[make/NN:UN,make/VB,make/VBP]" outputform="make[make/NN:UN]">No, I mean like <marker>make</marker> or brand name, in which case no further actions are necessary.</example>
