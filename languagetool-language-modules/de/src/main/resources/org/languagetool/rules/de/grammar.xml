@@ -6687,7 +6687,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>,</token>
                     <token>das</token>
-                    <token>mit</token>
+                    <token regexp="yes">mit|was</token>
                     <token postag="PRO:PER:.*|EIG:.*|UNKNOWN" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -6754,6 +6754,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ich weigere mich, das von Tom abgegebene Geschmiere, das er seine Bearbeitung nennt, anzunehmen.</example>
                 <example correction="dass">Ich weiß, <marker>das</marker> sie dort festhängt.</example>
                 <example correction="dass">Ich wüsste nicht, <marker>das</marker> er was damit zu tun hat.</example>
+                <example>Wir werden, das was wir mit Google gemacht haben mal auf Bing übertragen.</example>
                 <example>Hier ist eins, das ähnliche Technologie einsetzt wie unseres.</example>
             </rule>
             <rule>
@@ -33083,6 +33084,44 @@ Andere Projekte</example>
                 <message>Meinten Sie <suggestion><match no="1" regexp_match="(?i)^co-?w" regexp_replace="Co-w" /></suggestion> bzw. <suggestion><match no="1" regexp_match="(?i)^co-?w" regexp_replace="Cow" /></suggestion> (= zusammenarbeiten)?</message>
                 <url>https://de.wikipedia.org/wiki/Coworking</url>
                 <example correction="Co-working|Coworking">Das <marker>CoWorking</marker> ist eine Art Zusammenarbeit.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="BREAK_EVEN" name="'Break-even'" default="temp_off">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Break-even</token>
+                </antipattern>
+                <pattern>
+                    <token>Break-Even</token>
+                </pattern>
+                <message>Meinten Sie das Wort <suggestion>Break-even</suggestion> (= Gewinnschwelle, Wirtschaftsjargon)?</message>
+                <url>https://www.duden.de/rechtschreibung/Break_even</url>
+                <example correction="Break-even">Das Unternehmen hat den <marker>Break-Even</marker> erreicht.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Break-even</token>
+                </antipattern>
+                <pattern>
+                    <token>Break</token>
+                    <token>Even</token>
+                </pattern>
+                <message>Meinten Sie das Wort <suggestion>Break-even</suggestion> (= Gewinnschwelle, Wirtschaftsjargon)?</message>
+                <url>https://www.duden.de/rechtschreibung/Break_even</url>
+                <example correction="Break-even">Das Unternehmen hat den <marker>Break Even</marker> erreicht.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">Break-even-Points?</token>
+                </antipattern>
+                <pattern>
+                    <token>Break</token>
+                    <token>Even</token>
+                    <token regexp="yes">Points?|Punkt</token>
+                </pattern>
+                <message>Meinten Sie das Wort <suggestion>Break-even-<match no="3" regexp_match="(?i)oint|unkt" regexp_replace="oint" case_conversion="startupper"  /></suggestion> (= Gewinnschwelle, Wirtschaftsjargon)?</message>
+                <url>https://www.duden.de/rechtschreibung/Break_even_Point</url>
+                <example correction="Break-even-Point">Das Unternehmen hat den <marker>Break Even Punkt</marker> erreicht.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MAKE_UP" name="'Make-up'">
