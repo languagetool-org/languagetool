@@ -452,14 +452,14 @@ class SingleDocument {
     }
 
     divNum = nParas - allParas.size();
-
-    String flatParaText = flatPara.GetCurrentParaText();
     nParas = flatPara.getCurNumFlatParagraph();
-    nParas -= divNum;
 
     if (nParas < divNum || nParas >= divNum + allParas.size()) {
       return -1; //  nParas < divNum: Proof footnote etc.  /  nParas >= allParas.size():  document was changed while checking
     }
+
+    nParas -= divNum;
+    String flatParaText = flatPara.getCurrentParaText();
 
     if(!isReset && flatParaText != null && !chPara.equals(flatParaText) && flatParaText.equals(allParas.get(nParas))) {
       //  if isReset: Number of paragraphs has changed -> Proof must be initiated by iteration
@@ -469,7 +469,11 @@ class SingleDocument {
 
     numLastFlPara = nParas;
     
-    if (!flatParaText.equals(allParas.get(nParas))) {
+    if(flatParaText != null) {
+      chPara = flatParaText;
+    }
+    
+    if (!chPara.equals(allParas.get(nParas))) {
       if (isReset) {
         return -1;
       } else {
@@ -479,7 +483,7 @@ class SingleDocument {
                   + logLineBreak + "old: " + allParas.get(nParas) + logLineBreak 
                   + "new: " + chPara + logLineBreak);
         }
-        allParas.set(nParas, flatParaText);
+        allParas.set(nParas, chPara);
         for(ResultCache cache : paragraphsCache) {
           cache.remove(nParas);
         }

@@ -136,7 +136,7 @@ public class FlatParagraphTools {
    * return text of current paragraph
    * return null if it fails
    */
-  public String GetCurrentParaText() {
+  public String getCurrentParaText() {
     XFlatParagraph xFlatPara = getCurrentFlatParagraph();
     if (xFlatPara == null) {
       if (debugMode) {
