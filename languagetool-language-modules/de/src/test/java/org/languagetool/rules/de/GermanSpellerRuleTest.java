@@ -417,6 +417,10 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("geblogt", "gebloggt", rule, lt);
     assertFirstSuggestion("ähliche", "ähnliche", rule, lt);
     assertFirstSuggestion("entfängt", "empfängt", rule, lt);
+    assertFirstSuggestion("verewiglichte", "verewigte", rule, lt);
+    assertFirstSuggestion("zeritifierte", "zertifizierte", rule, lt);
+    assertFirstSuggestion("gerähte", "Geräte", rule, lt);
+    assertFirstSuggestion("pirsing", "Piercing", rule, lt);
   }
 
   @Test

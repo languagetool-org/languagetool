@@ -120,6 +120,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("jeztz", "jetzt");
     put("[wW]ah?rscheindlichkeit", "Wahrscheinlichkeit");
     put("Hijab", "Hidschāb");
+    put("[lL]eerequiment", "Leerequipment");
+    put("unauslässlich", w -> Arrays.asList("unerlässlich", "unablässig", "unauslöschlich"));
+    putRepl("[uU]nauslässlich(e[mnrs]?)?", "aus", "er");
+    putRepl("[vV]erewiglicht(e[mnrs]?)?", "lich", "");
+    putRepl("[zZ]eritifiert(e[mnrs]?)?", "eritifiert", "ertifiziert");
+    putRepl("gerähten?", "geräht", "Gerät");
+    putRepl("leptops?", "lep", "Lap");
+    putRepl("[pP]ie?rsings?", "[pP]ie?rsing", "Piercing");
     putRepl("for?melar(en?)?", "for?me", "Formu");
     putRepl("näste[mnrs]?$", "^näs", "nächs");
     putRepl("Erdogans?$", "^Erdogan", "Erdoğan");
