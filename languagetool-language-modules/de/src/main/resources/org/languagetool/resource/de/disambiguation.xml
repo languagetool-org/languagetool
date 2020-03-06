@@ -3477,7 +3477,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <!-- https://de.wikipedia.org/wiki/Black -->
             <pattern case_sensitive="yes">
                 <token>Black</token>
-                <token regexp="yes">Fridays?|Mondays?|Rocks?|Angels?|Box(es)?|Panthers?|Power|Holes?|Tongues?|Mail|Metal|Jack|Sabbaths?|Lives|Site|Lakes?|Paintings?|Forests?|Mirrors?|Butlers?|Honeys?|Edition</token>
+                <token regexp="yes">Fridays?|Mondays?|Rocks?|Angels?|Box(es)?|Panthers?|Power|Holes?|Tongues?|Mail|Metal|Jack|Sabbaths?|Lives|Site|Lakes?|Paintings?|Forests?|Mirrors?|Butlers?|Honeys?|Edition|Barbies?</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
@@ -3516,7 +3516,7 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
     </rule>
     <rule name="CONNECT" id="CONNECT">
         <pattern case_sensitive="yes">
-            <token regexp="yes">Spotify|Staples</token>
+            <token regexp="yes">Spotify|Staples|Car</token>
             <token>Connect</token>
         </pattern>
         <disambig action="ignore_spelling"/>
@@ -3758,6 +3758,23 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <token>Click</token>
             <token>&amp;|and</token>
             <token>Collect</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="COVID_19" name="Covid-19">
+        <!-- doesn't work when listed in spelling.txt -->
+        <pattern>
+            <token regexp="yes">Covid-19s?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule id="SONN_UND_FEIERTAGEN" name="Sonn- und Feiertagen">
+        <pattern>
+            <marker>
+                <token case_sensitive="yes">Sonn-</token>
+            </marker>
+            <token regexp="yes">und|oder|bzw\.?|&amp;|\/</token>
+            <token regexp="yes">(Sams|Feier)tag.*</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
