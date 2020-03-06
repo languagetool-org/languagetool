@@ -897,20 +897,12 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     </rule>
 
 	<!-- flag personal names as such -->
-	<rule id="FLAG_NAMES_01" name="-">
-		<pattern case_sensitive="yes"><marker><token>Van</token><token>In</token></marker></pattern>
-		<disambig action="add"><wd pos="NAME_PART"/><wd pos="NAME_PART"/></disambig>
-	</rule>
-	<rule id="FLAG_NAMES_02" name="-">
-		<pattern case_sensitive="yes"><marker><token>De</token><token>Cock</token></marker></pattern>
-		<disambig action="add"><wd pos="NAME_PART"/><wd pos="NAME_PART"/></disambig>
-    </rule>
 	<rule id="FLAG_NAMES_00" name="-">
 		<pattern case_sensitive="yes"><marker><token postag_regexp="yes" postag="ENM:PER:.*"><exception postag="NAME_PART"/></token></marker></pattern>
 		<disambig action="add"><wd pos="NAME_PART"/></disambig>
     </rule>
 	<rule id="FLAG_NAMES_03" name="-">
-		<pattern case_sensitive="yes"><marker><token>De</token><token postag="ENM:PER:LST:DE_"/></marker></pattern>
+		<pattern><marker><token regexp="yes">de|den</token><token postag_regexp="yes" postag="ENM:PER:LST:(DE_|DEN)"/></marker></pattern>
 		<disambig action="add"><wd pos="NAME_PART"/><wd pos="NAME_PART"/></disambig>
     </rule>
 	<rule id="FLAG_NAMES_04" name="-">
@@ -918,11 +910,11 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="add"><wd pos="NAME_PART"/><wd pos="NAME_PART"/></disambig>
     </rule>
 	<rule id="FLAG_NAMES_05" name="-">
-		<pattern case_sensitive="yes"><marker><token>Van</token><token regexp="yes">De|Den|Der</token><token postag_regexp="yes" postag="ENM:PER:LST:(VDE|VDN|VDR)"/></marker></pattern>
+		<pattern><marker><token >van</token><token regexp="yes">de|den|der</token><token  case_sensitive="yes" postag_regexp="yes" postag="ENM:PER:LST:(VDE|VDN|VDR)"/></marker></pattern>
 		<disambig action="add"><wd pos="NAME_PART"/><wd pos="NAME_PART"/><wd pos="NAME_PART"/></disambig>
     </rule>
 	<rule id="FLAG_NAMES_06" name="-">
-		<pattern case_sensitive="yes"><marker><token regexp="yes">Ter?</token><token postag_regexp="yes" postag="ENM:PER:LST:T.*"/></marker></pattern>
+		<pattern><marker><token regexp="yes">te|ter|ten</token><token postag_regexp="yes" postag="ENM:PER:LST:T.*"/></marker></pattern>
 		<disambig action="add"><wd pos="NAME_PART"/><wd pos="NAME_PART"/></disambig>
     </rule>
 	
