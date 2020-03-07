@@ -8434,16 +8434,105 @@ though, and has since been slightly modified)-->
         <antipattern>
             <token regexp="yes">bonjour|bonsoir</token>
         </antipattern>
+        <!-- <antipattern>
+            <token regexp="yes">[a-zéèëöïîôêàç\.,]+\b</token>
+            <token regexp="yes">[A-Z]{2,5}</token>
+            <token regexp="yes">[a-zéèëöïîôêàç\.,]+\b</token>
+        </antipattern> -->
         <antipattern>
             <token>couleur</token>
             <token min="0" max="2"/>
-            <token regexp="yes">abricot|bistre|brique|bronze|carmin|crème|garance|grenat|indigo|kaki|lilas|marron|n[aâ]cre|noisette|olive|orange|paille|pastel|pervenche|sépia|turquoise|tilleul|vermillon</token>
+            <token regexp="yes">abricot|bistre|brique|bronze|carmin|crème|garance|grenat|indigo|kaki|lilas|marron|n[aâ]cre|noisette|olive|orange|paille|pastel|pervenche|sépia|turquoise|tilleul|vermillon|marine</token>
         </antipattern>
         <antipattern>
             <token>couleur</token>
             <token min="0" max="2"/>
             <token regexp="yes">Abricot|Absinthe|Acajou|Albâtre|Alezane?s?|Amande|Amarante|Ambre jaune|Ambre rouge|Améthyste|Anthracite|Aquilaine?s?|Ardoise|Argent|Argile|Asperge|Aubergine|Auburn|Aurore|Avocat|Azur|Banane|Basanée?s?|Beiges?|Bistre|Bitume|Blancs|Blanches?|Bleue?s?|Blonde?s?|Bourgogne|Bronze|Brune?s?|Caca d’oie|Café|Capucine|Caramel|Carotte|Cassis|Cerise|Chair|Châtaine?s?|Cramoisie?s?|Denim|écarlates?|émeraude|Fauves?|Glauques?|Grise?s?|Incarnate?s?|Indigo|Jaunes?|Lavande|Lilas|Magenta|Marine|Mauves?|Menthe|Noire?s?|Noisette|Or|Orange|Pistache|Pourpres?|Prune|Puce|Roses?|Rouges?|Roux|Rousses?|Turquoise|Vermeils?|Vermeilles?|Verte?s?|Violets?|Violettes?</token>
             <token regexp="yes">Abricot|Absinthe|Acajou|Albâtre|Alezane?s?|Amande|Amarante|Ambre jaune|Ambre rouge|Améthyste|Anthracite|Aquilaine?s?|Ardoise|Argent|Argile|Asperge|Aubergine|Auburn|Aurore|Avocat|Azur|Banane|Basanée?s?|Beiges?|Bistre|Bitume|Blancs|Blanches?|Bleue?s?|Blonde?s?|Bourgogne|Bronze|Brune?s?|Caca d’oie|Café|Capucine|Caramel|Carotte|Cassis|Cerise|Chair|Châtaine?s?|Cramoisie?s?|Denim|écarlates?|émeraude|Fauves?|Glauques?|Grise?s?|Incarnate?s?|Indigo|Jaunes?|Lavande|Lilas|Magenta|Marine|Mauves?|Menthe|Noire?s?|Noisette|Or|Orange|Pistache|Pourpres?|Prune|Puce|Roses?|Rouges?|Roux|Rousses?|Turquoise|Vermeils?|Vermeilles?|Verte?s?|Violets?|Violettes?|Pastel|sang|acier|plastique</token>
+        </antipattern>
+        <antipattern>
+            <token>bleu</token>
+            <token case_sensitive="yes">Klein</token>
+        </antipattern>
+        <antipattern>
+            <token>bleu</token>
+            <token regexp="yes">marine|azur|ciel</token>
+        </antipattern>
+        <antipattern>
+            <token>escape</token>
+            <token>game</token>
+        </antipattern>
+        <antipattern>
+            <token case_sensitive="yes">Direct</token>
+            <token case_sensitive="yes" regexp="yes">[ÉE]nergie</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">adhérente?s?|membres?|participante?s?</token>
+            <token postag="Z.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token/>
+            <token spacebefore="no">(</token>
+        </antipattern>
+        <antipattern>
+            <token>box</token>
+            <token>internet</token>
+        </antipattern>
+        <antipattern>
+            <token>royal</token>
+            <token case_sensitive="yes">Air</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">appelée?s?</token>
+            <token/>
+        </antipattern>
+        <antipattern>
+            <token>chapelle</token>
+            <token>saint</token>
+        </antipattern>
+        <antipattern>
+            <token>mot</token>
+            <token>clé</token>
+            <token postag="N m ." postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token>projet</token>
+            <token>entreprise</token>
+        </antipattern>
+        <antipattern>
+            <token>page</token>
+            <token regexp="yes">internet|facebook</token>
+        </antipattern>
+        <antipattern>
+            <token>nord</token>
+            <token>américaines</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">boites?</token>
+            <token>mail</token>
+            <token postag_regexp="yes" postag="N f .*"/>
+        </antipattern>
+        <antipattern>
+            <token>roman</token>
+            <token>jeunesse</token>
+        </antipattern>
+        <antipattern>
+            <token>option</token>
+            <token>anglais</token>
+            <token postag="M (non)?fin" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token>option</token>
+            <token>gestion</token>
+            <token postag="N.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token>la</token>
+            <token case_sensitive="yes">Grand</token>
+            <token case_sensitive="yes">Peur</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes" case_sensitive="yes">Claire|Ambre|Jade</token>
         </antipattern>
       <rule name="masculin suivi du féminin">
           <antipattern>
