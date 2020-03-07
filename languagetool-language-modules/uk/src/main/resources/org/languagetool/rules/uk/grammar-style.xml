@@ -1305,6 +1305,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="з усього серця|з щирого серця"><marker>від усієї душі</marker></example>
     </rule>
 
+    <rule id="visnosno_chogo" name="Відносно чого">
+      <pattern>
+        <token>відносно</token>
+        <token regexp="yes">чого(сь)?|того|цього</token>
+      </pattern>
+      <message>Правильно: <suggestion>стосовно <match no="2"/></suggestion></message>
+      <suggestion>щодо <match no="2"/></suggestion>
+      <suggestion>що стосується <match no="2"/></suggestion>
+      <example correction="стосовно чого|щодо чого|що стосується чого"><marker>відносно чого</marker></example>
+    </rule>
 
     <rulegroup id="VOYENNYI_VS_VIYSKOVY" name="Воєнний і військовий">
       <rule>
@@ -1583,6 +1593,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="розв'язання цієї проблеми">а <marker>вирішення цієї проблеми</marker> непросте...</example>
       </rule>
     </rulegroup>
+
+    <rule id="v_svoiu_chergu" name="В свою чергу">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token>свою</token>
+        <token>чергу</token>
+      </pattern>
+      <message>Правильно: <suggestion>своєю чергою</suggestion></message>
+      <suggestion>і собі</suggestion>
+      <example correction="своєю чергою|і собі"><marker>в свою чергу</marker></example>
+    </rule>
+
+    <rule id="v_poriadku_chergy" name="В порядку черги">
+      <pattern>
+        <token regexp="yes">[ву]</token>
+        <token>порядку</token>
+        <token>черги</token>
+      </pattern>
+      <message>Правильно: <suggestion>дотримуючись черги</suggestion></message>
+      <suggestion>по черзі</suggestion>
+      <example correction="дотримуючись черги|по черзі"><marker>в порядку черги</marker></example>
+    </rule>
 
     <rulegroup id="u_vidpovidnosti_do" name="У відповідності до">
       <rule>
@@ -1888,6 +1920,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion>минулого року</suggestion>
       <suggestion>того року</suggestion>
       <example correction="торік|минулого року|того року"><marker>в минулому році</marker></example>
+    </rule>
+
+    <rule id="vuhan" name="Вухань">
+      <pattern>
+        <token inflected="yes">Ухань</token>
+      </pattern>
+      <message>За системою транскрипції Кірносової-Цісар, має бути <suggestion>Вухань</suggestion></message>
+      <url>https://uk.wikipedia.org/wiki/%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D0%9A%D1%96%D1%80%D0%BD%D0%BE%D1%81%D0%BE%D0%B2%D0%BE%D1%97%E2%80%94%D0%A6%D1%96%D1%81%D0%B0%D1%80</url>
+      <example correction="Вухань"><marker>Ухань</marker></example>
     </rule>
 
 <!--

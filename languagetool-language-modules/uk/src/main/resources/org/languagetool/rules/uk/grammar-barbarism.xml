@@ -4422,6 +4422,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rule id="pokinchyty_z_soboyu" name="Покінчити з собою">
+      <pattern>
+        <token inflected="yes">покінчити</token>
+        <token regexp="yes">і?з</token>
+        <token>собою</token>
+      </pattern>
+      <message>Краще: <suggestion>заподіяти собі смерть</suggestion></message>
+      <suggestion>накласти на себе руки</suggestion>
+      <example correction="заподіяти собі смерть|накласти на себе руки"><marker>покінчив з собою</marker></example>
+    </rule>
+
     <rulegroup id="PO_VS_Z" name="По замість з">
       <rule>
         <pattern>
@@ -5954,11 +5965,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <exception postag_regexp="yes" postag="noun:anim.*?v_rod.*|noun.*pron.*"/>
           </token>
         </pattern>
-        <message>Правильно: <suggestion>належати <match no="3" postag_regexp="yes" postag="(noun.*)v_rod(.*)" postag_replace="$1v_dav$2"/></suggestion></message>
-        <suggestion>належати до <match no="3"/></suggestion>
+        <message>Правильно: <suggestion>належати до <match no="3"/></suggestion></message>
+        <suggestion>належати <match no="3" postag_regexp="yes" postag="(noun.*)v_rod(.*)" postag_replace="$1v_dav$2"/></suggestion>
         <suggestion>ставитися до <match no="3"/></suggestion>
-        <example correction="належати більшості|належати до більшості|ставитися до більшості"><marker>відносився до більшості</marker></example>
-        <example correction="належати роботі|належати до роботи|ставитися до роботи"><marker>відносився до роботи</marker> недбало</example>
+        <example correction="належати до більшості|належати більшості|ставитися до більшості"><marker>відносився до більшості</marker></example>
+        <example correction="належати до роботи|належати роботі|ставитися до роботи"><marker>відносився до роботи</marker> недбало</example>
         <example>відносився до Ксені</example>
         <example>відносилися до мене</example>
         <example>відносилися до них</example>
@@ -6011,28 +6022,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="близько п'яти відсотків"><marker>біля п'яти відсотків</marker></example>
       <example>біля одного воза він зупинився</example>
       <example>біля обох воріт</example>
-    </rule>
-
-    <rule id="v_svoiu_chergu" name="В свою чергу">
-      <pattern>
-        <token regexp="yes">[ву]</token>
-        <token>свою</token>
-        <token>чергу</token>
-      </pattern>
-      <message>Правильно: <suggestion>своєю чергою</suggestion></message>
-      <suggestion>і собі</suggestion>
-      <example correction="своєю чергою|і собі"><marker>в свою чергу</marker></example>
-    </rule>
-
-    <rule id="v_poriadku_chergy" name="В порядку черги">
-      <pattern>
-        <token regexp="yes">[ву]</token>
-        <token>порядку</token>
-        <token>черги</token>
-      </pattern>
-      <message>Правильно: <suggestion>дотримуючись черги</suggestion></message>
-      <suggestion>по черзі</suggestion>
-      <example correction="дотримуючись черги|по черзі"><marker>в порядку черги</marker></example>
     </rule>
 
     <rule id="v_poti_lycia" name="В поті лиця">
