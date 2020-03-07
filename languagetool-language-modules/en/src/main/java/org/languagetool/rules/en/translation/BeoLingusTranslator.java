@@ -64,8 +64,8 @@ public class BeoLingusTranslator implements Translator {
     }
     return instance;
   }
-  
-  private BeoLingusTranslator(File file) throws IOException {
+
+  public BeoLingusTranslator(File file) throws IOException {
     tagger = Languages.getLanguageForShortCode("de").getTagger();
     List<String> lines = Files.readAllLines(file.toPath());
     for (String line : lines) {
