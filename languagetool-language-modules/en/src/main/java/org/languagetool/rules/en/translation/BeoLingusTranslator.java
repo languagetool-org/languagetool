@@ -54,7 +54,13 @@ public class BeoLingusTranslator implements Translator {
   private final Map<String,List<TranslationEntry>> en2de = new HashMap<>();
   private final Inflector inflector = new Inflector();
 
-  static synchronized public BeoLingusTranslator getInstance(GlobalConfig globalConfig) throws IOException {
+  public static synchronized BeoLingusTranslator getInstance(File beolingusFile) throws IOException {
+    GlobalConfig config = new GlobalConfig();
+    config.setBeolingusFile(beolingusFile);
+    return getInstance(config);
+  }
+
+  public static synchronized BeoLingusTranslator getInstance(GlobalConfig globalConfig) throws IOException {
     if (instance == null && globalConfig != null && globalConfig.getBeolingusFile() != null) {
       long t1 = System.currentTimeMillis();
       logger.info("Init dict from " + globalConfig.getBeolingusFile() + "...");
