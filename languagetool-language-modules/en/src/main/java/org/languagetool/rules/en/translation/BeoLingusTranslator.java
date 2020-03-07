@@ -60,7 +60,7 @@ public class BeoLingusTranslator implements Translator {
       logger.info("Init dict from " + globalConfig.getBeolingusFile() + "...");
       instance = new BeoLingusTranslator(globalConfig.getBeolingusFile());
       long t2 = System.currentTimeMillis();
-      logger.info("Init dict done (" + (t2-t1) + "ms).");
+      logger.info("Init dict done (" + (t2-t1) + "ms) - loaded " + instance.getDeEnSize() + " de -> en items.");
     }
     return instance;
   }
@@ -122,6 +122,10 @@ public class BeoLingusTranslator implements Translator {
       }
     }
     return newParts;
+  }
+
+  int getDeEnSize() {
+    return de2en.size();
   }
 
   // split input like "family doctors; family physicians" at ";", unless it's in "{...}":
