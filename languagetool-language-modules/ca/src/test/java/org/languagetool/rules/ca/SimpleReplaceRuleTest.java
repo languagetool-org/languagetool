@@ -66,6 +66,10 @@ public class SimpleReplaceRuleTest {
     assertEquals(1, matches.length);
     assertEquals("Esdeveniments", matches[0].getSuggestedReplacements().get(0));
     
+    matches = rule.match(langTool.getAnalyzedSentence("Vila-Real"));
+    assertEquals(1, matches.length);
+    assertEquals("Vila-real", matches[0].getSuggestedReplacements().get(0));
+    
   }
 
 }

@@ -44,7 +44,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY exceptions_AL_FRONT "(?-i)clapa|picar|matar|pelat|pelada|arruga|cabellera|cabell|cop|suor|petó|bes|besada|visera|taca|ditada|cara|mirada|lepra|cendra|marca|marcar|batalla|besar|voluntari|corona|bony|militar|enviar|caos|disparar|mocador|lligar|incorpor.*|ferir|expressió|cicatriu|exèrcit|mobilitzar|aigua|clavar|mà|col?p|guerra|soldat|desaparèixer|afusell.*|empreson.*|reclut.*|morir|mort|vidu|orfe|viudo|traum.*">
     <!ENTITY exceptions_ALS_TRES_MESOS "per|fins|cap|arribada|arribar|corresponent|proper|pròxim|inferior|superior|referència|següent|posterior|anterior|acostar|aproximar|apropar|correspondre">
     <!ENTITY exceptions_A_MANS_DE "espoli|espoliació|anar|sotmetre|submissió|desapoderar|desapoderament|sofrir|vèncer|pallissa|apallissar|desgastar|parar|passar|arribar|retornar|tornar|perdre|morir|pèrdua|matança|mort1|patir|vexació|vexar|tortura|torturar|derrota|derrotar|fi2|assassinar|assassinat|homicidi|saqueig|saquejar">
-    <!ENTITY exceptions_ASSENTAR_ASSEURE "igualtat|idea|fenomen|suport|geològi.*|pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base1|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic|principi|conducta|establir|distribució|genital|estructura|recinte|esplanada|pla|superfície">
+    <!ENTITY exceptions_ASSENTAR_ASSEURE "criteri|igualtat|idea|fenomen|suport|geològi.*|pilar|bàvar|eslau|roca|ciutat|pedra|morter|tossal|muralla|castell|fonament|sòcol|plana|agricultor|poblat|sedentari.*|mite|història|sistema|producció|cultura|creença|judici|juí|teoria|illa|sobirania|fet|austral|base1|categoria|colon|colonitz.*|colònia|comarca|comunitat|errant|est|fermament|habitant|hàbitat|medi|meridional|natural|nord|nord-est|nord-oest|nucli|nòmada|occident|occidental|oest|organització|orient|oriental|península|població|poblador|poblament|poblar|poble|província|puig|recurs|regió|regne|residència|rural|septentrional|societat|sud|sud-est|sud-oest|terra|territori|tribu|turó|tècnica|vall|vida|zona|ètnia|ètnic|principi|conducta|establir|distribució|genital|estructura|recinte|esplanada|pla|superfície">
     <!ENTITY exceptions_BE "rostit|rostir|cabrit|pota|cuixa|costella|intestí|ovella|camell|caball|bou|pell|caldo|brou|carn|llop|xai|degollar|esquilar|tondre|crit|animal|porc|cabra|gallina|pastor|pastura|pasturar|bestiar|boví|vaca|gos|ramat|cleda|rabera|escorxar|escorxador|pasqual|llana">
     <!ENTITY exceptions_BORDAR "llebrer|pastor|alemany|ca1|gos|animal|gosset|amenaç.*|perill|lladr.*|ensum.*|olor.*|udol.*|gruny.*|bot|botar|saltar">
     <!ENTITY exceptions_CLOACA "embrionari|neonatal|cèl·lula|inflamació|estómac|vertebrat|oxigen|mamífer|dorsal|reproductiu|vestigial|fluid|coit|gònada|intestí|excretar|digestiu|urinari|excretor|reproductor|orifici|rèptil|ocell|amfibi|musell|obertura|ou|aparellar|cua|mascle|femella|protuberància|còpula">
@@ -1535,7 +1535,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ells dos i cinquanta persones més</example>
                 <example>són dos, les bengales i les rodes</example>
             </rule>
-
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>dues</token>
+                    </marker>
+                    <token regexp="yes">i|o|ni|,</token>
+                    <or>
+                        <token regexp="yes">més|altres</token>
+                        <token postag="DN.*" postag_regexp="yes"/>
+                    </or>
+                    <token postag="(N.|A..)M.*" postag_regexp="yes"><exception postag="(N.|A..)[FC].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Error de concordança</message>
+                <suggestion>dos</suggestion>
+                <example correction="dos">Si hi ha <marker>dues</marker> o tres treballadors.</example>
+                <example correction="dos">Si hi ha <marker>dues</marker> o més encarregats.</example>
+                <example correction="dos">Si hi ha <marker>dues</marker> o més valents.</example>
+                <example>Si hi ha dues o més entusiastes.</example>
+                <example>Si hi ha dues o més valentes.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_NUMERALS_DOS" name="Usa sempre 'dos', mai 'dues'" default="off">
             <rule>
@@ -12518,6 +12537,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="QUAN_QUAL" name="quan/qual">
+            <pattern>
+                <token postag="DA..S." postag_regexp="yes"/>
+                <marker>
+                    <token>quan</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>qual</suggestion></message>
+            <example correction="qual">La situació de la <marker>quan</marker> parlem.</example>
+            <example correction="qual">El sistema del <marker>quan</marker> parlem.</example>
+        </rule>
         <rule id="COM_VEUREM" name="com veure'm/veurem">
             <pattern>
                 <marker>
@@ -18324,6 +18354,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Demà l'enviarem</example>
             </rule>
         </rulegroup>
+        <rule id="ACCENTUACIO_SUBJUNTIU" name="consideres/considerés">
+            <pattern>
+                <token>es</token>
+                <token postag="VMIP2S.*" postag_regexp="yes"><exception postag="V...3.*" postag_regexp="yes"></exception></token>
+            </pattern>
+            <message>Combinació impossible de pronom i verb.</message>
+            <suggestion>\1 <match no="2" postag="VMIP2S.*" postag_regexp="yes" postag_replace="VMSI3S01"/></suggestion>
+            <suggestion>ens \2</suggestion>
+            <suggestion>et \2</suggestion>
+            <suggestion>el \2</suggestion>
+            <suggestion>em \2</suggestion>
+            <example correction="es considerés|ens consideres|et consideres|el consideres|em consideres">I si <marker>es consideres</marker> així?</example>
+            <example correction="es pensés|ens penses|et penses|el penses|em penses">I si <marker>es penses</marker> així?</example>
+        </rule>
         <rulegroup id="CONFUSIONS_ACCENT" name="Alguns errors d'accentuació: renúncia/renuncia, nomes/només">
             <rule>
                 <antipattern>
@@ -18907,6 +18951,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="rèdit">Han tret molt de <marker>redit</marker>.</example>
                 <example>Ho he dit i redit mil voltes.</example>
                 <example>Aquí és redit.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>critica</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="NCFS000|A..[FC]S." postag_regexp="yes"/>
+                    <marker>
+                        <token>critica</token>
+                    </marker>
+                </pattern>
+                <message>Si és un nom o un adjectiu, s'ha d'accentuar. Correcte si és del v. 'criticar'.</message>
+                <suggestion>crítica</suggestion>
+                <example correction="crítica">Una solució <marker>critica</marker>.</example>
+                <example>Aquella persona critica la situació.</example>
             </rule>
         </rulegroup>
         <rulegroup id="COMA_COM_A" name="coma / com a">
@@ -36153,6 +36213,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="MORTALDAT" name="mortaldat/mortalitat">
+            <pattern>
+                <token regexp="yes" inflected="yes">índex|taxa|ràtio|proporció|nivell</token>
+                <token>de</token>
+                <marker>
+                    <token>mortaldat</token>
+                </marker>
+            </pattern>
+            <message>Incorrecte en aquest context.</message>
+            <suggestion>mortalitat</suggestion>
+            <example correction="mortalitat">Té un índex de <marker>mortaldat</marker> elevat.</example>
+        </rule>
         <rulegroup id="SIQUIERA" name="siquiera">
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=cerca_generica&amp;input_cercar=siquiera&amp;tipusCerca=cerca.tot</url>
             <rule>
@@ -43659,7 +43731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="POSSESIU_CARREC_FAVOR_PARER" name="possessiu + càrrec/favor/parer">
             <antipattern>
                 <marker>
-                    <token skip="4" inflected="yes" regexp="yes">.*tornar|.*integrar|renunciar|romandre</token>
+                    <token skip="4" inflected="yes" regexp="yes">.*tornar|.*integrar|renunciar|romandre|correspondre</token>
                     <token>a</token>
                     <token spacebefore="no">l</token>
                     <token postag="PX.*" postag_regexp="yes"></token>
@@ -43681,6 +43753,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>i llavors tornà al seu càrrec</example>
             <example>gràcies al meu favor</example>
             <example>i que romanga impune al seu càrrec</example>
+            <example>Volia correspondre al vostre favor.</example>
         </rule>
         <rulegroup id="PER_COMPTES_DE" name="per comptes de" >
             <rule>
