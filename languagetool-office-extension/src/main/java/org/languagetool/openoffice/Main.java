@@ -130,8 +130,7 @@ public class Main extends WeakBase implements XJobExecutor,
     paRes.aText = paraText;
     paRes.aProperties = propertyValues;
     try {
-      int[] footnotePositions = getPropertyValues("FootnotePositions", propertyValues);  // since LO 4.3
-      paRes = documents.getCheckResults(paraText, locale, paRes, footnotePositions, docReset);
+      paRes = documents.getCheckResults(paraText, locale, paRes, propertyValues, docReset);
       docReset = false;
     } catch (Throwable t) {
       MessageHandler.showError(t);
@@ -139,19 +138,6 @@ public class Main extends WeakBase implements XJobExecutor,
     return paRes;
   }
 
-  private int[] getPropertyValues(String propName, PropertyValue[] propertyValues) {
-    for (PropertyValue propertyValue : propertyValues) {
-      if (propName.equals(propertyValue.Name)) {
-        if (propertyValue.Value instanceof int[]) {
-          return (int[]) propertyValue.Value;
-        } else {
-          MessageHandler.printToLogFile("Not of expected type int[]: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
-        }
-      }
-    }
-    return new int[]{};  // e.g. for LO/OO < 4.3 and the 'FootnotePositions' property
-  }
-  
   public SwJLanguageTool getJLanguageTool() {
     return documents.getLanguageTool();
   }

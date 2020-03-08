@@ -83,6 +83,11 @@ class SingleDocument {
    * singleParaCache: used for one paragraph check by default or for special paragraphs like headers, footers, footnotes, etc.
    *  
    */
+  
+  private static final int PROOFINFO_UNKNOWN = 0;
+  private static final int PROOFINFO_GET_PROOFRESULT = 1;
+  private static final int PROOFINFO_MARK_PARAGRAPH = 2;
+
   public static final String END_OF_PARAGRAPH = "\n\n";  //  Paragraph Separator like in standalone GUI
   public static final int NUMBER_PARAGRAPH_CHARS = END_OF_PARAGRAPH.length();  //  number of end of paragraph characters
 
@@ -133,6 +138,8 @@ class SingleDocument {
   private boolean useQueue = true;                        //  true: use queue to check text level rules (will be overridden by config
   private List<Integer> headings;                         //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
   private String lastSinglePara = null;                   //  stores the last paragraph which is checked as single paragraph
+  int[] footnotePositions = null;
+  int proofInfo = 0;
 
   @SuppressWarnings("unused") 
   private ContextMenuInterceptor contextMenuInterceptor = null;
@@ -162,8 +169,15 @@ class SingleDocument {
    * @return                  proof reading result
    */
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
-      int[] footnotePositions, boolean docReset, SwJLanguageTool langTool) {
+      PropertyValue[] propertyValues, boolean docReset, SwJLanguageTool langTool) {
+    
     isRemote = langTool.isRemote();
+    getPropertyValues(propertyValues);
+
+    if (contextMenuInterceptor == null) {
+      contextMenuInterceptor = new ContextMenuInterceptor(xContext);
+    }
+    
     try {
       if(docReset) {
         numLastVCPara = 0;
@@ -173,6 +187,7 @@ class SingleDocument {
       paraNum = getParaPos(paraText, paRes.nStartOfSentencePosition);
       // Don't use Cache for check in single paragraph mode
       if(numParasToCheck != 0 && paraNum >= 0) {
+        //  test real flat paragraph rather then the one given by Proofreader - it could be changed meanwhile
         paraText = allParas.get(paraNum);
         sErrors = sentencesCache.getMatches(paraNum, paRes.nStartOfSentencePosition);
         // return Cache result if available
@@ -188,7 +203,7 @@ class SingleDocument {
       }
       String text = null;
       if(sErrors == null) {
-        if(!langTool.isRemote()) {
+        if(!useQueue && !langTool.isRemote()) {
           SentenceFromPara sfp = new SentenceFromPara(paraText, paRes.nStartOfSentencePosition, langTool);
           text = sfp.getSentence();
           paRes.nStartOfSentencePosition = sfp.getPosition();
@@ -215,7 +230,7 @@ class SingleDocument {
         MessageHandler.printToLogFile("paRes.aErrors.length: " + paRes.aErrors.length + "; docID: " + docID + logLineBreak);
       }
       if(resetCheck) {
-        if(!useQueue && numParasToCheck != 0) {
+        if(numParasToCheck != 0 && paraNum >= 0 && !useQueue) {
           remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
         }
         resetCheck = false;
@@ -227,13 +242,41 @@ class SingleDocument {
   }
   
   /**
+   * Get property values for footnotes (since LO 4.3)
+   * and information for reason of proof (since LO 6.5)
+   */
+  private void getPropertyValues(PropertyValue[] propertyValues) {
+    footnotePositions = null;
+    proofInfo = PROOFINFO_UNKNOWN;  //  OO and LO < 6.5 do not support ProofInfo
+    for (PropertyValue propertyValue : propertyValues) {
+      if ("FootnotePositions".equals(propertyValue.Name)) {
+        if (propertyValue.Value instanceof int[]) {
+          footnotePositions = (int[]) propertyValue.Value;
+        } else {
+          MessageHandler.printToLogFile("Not of expected type int[]: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
+        }
+      }
+      if ("ProofInfo".equals(propertyValue.Name)) {
+        if (propertyValue.Value instanceof Integer) {
+          proofInfo = (int) propertyValue.Value;
+        } else {
+          MessageHandler.printToLogFile("Not of expected type int: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
+        }
+      }
+    }
+    if(footnotePositions == null) {
+      footnotePositions = new int[]{};  // e.g. for LO/OO < 4.3 and the 'FootnotePositions' property
+    }
+  }
+  
+  /**
    * set values set by configuration dialog
    */
   void setConfigValues(Configuration config) {
     this.config = config;
     numParasToCheck = config.getNumParasToCheck();
     defaultParaCheck = PARA_CHECK_DEFAULT;
-    useQueue = config.useTextLevelQueue();
+    useQueue = mDocHandler.isTestMode() ? false : config.useTextLevelQueue();
     if(useQueue || numParasToCheck == 0) {
       doFullCheckAtFirst = false;
     } else {
@@ -323,16 +366,13 @@ class SingleDocument {
       return -1;  //  check only the processed paragraph
     }
 
-    if (contextMenuInterceptor == null) {
-      contextMenuInterceptor = new ContextMenuInterceptor(xContext);
-    }
+    // Initialization 
     
     docCursor = null;
     if(flatPara != null) {
       flatPara.init();
     }
 
-    int nParas;
     boolean isReset = false;
     textIsChanged = false;
     isMouseOrDialog = false;
@@ -349,9 +389,27 @@ class SingleDocument {
       }
       isReset = true;
     }
+
+    if (debugMode > 1) {
+      MessageHandler.printToLogFile("proofInfo = " + proofInfo);
+    }
+
+    if(proofInfo == PROOFINFO_GET_PROOFRESULT) {
+      return getParaFromViewCursorOrDialog(chPara);
+    }
+    else {
+      return getParaFromFlatparagraph(chPara, startPos, isReset);
+    }
     
+  }
+  
+  /**
+   * Search for Position of Paragraph if reason for proof is mark paragraph or no proof info
+   * returns -1 if Paragraph can not be found
+   */
+  private int getParaFromFlatparagraph(String chPara, int startPos, boolean isReset) {
     // try to get next position from last FlatParagraph position (for performance reasons)
-    nParas = findNextParaPos(numLastFlPara, chPara, startPos);
+    int nParas = findNextParaPos(numLastFlPara, chPara, startPos);
     if (nParas >= 0) {
       numLastFlPara = nParas;
       if (debugMode > 0) {
@@ -359,99 +417,24 @@ class SingleDocument {
       }
       return nParas;
     }
-    // Test if Size of allParas is correct; Reset if not
-    if (docCursor == null) {
-      docCursor = new DocumentCursorTools(xComponent);
-    }
-    nParas = docCursor.getNumberOfAllTextParagraphs();
-    if (nParas < 2) {
-      return -1;
-    } else if (allParas.size() != nParas) {
+    
+    int numOldPara = allParas.size();
+    int ret = changesInNumberOfParagraph();
+    if(ret == -1 || (proofInfo == PROOFINFO_MARK_PARAGRAPH && ret < -1)) {
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("*** resetAllParas: allParas.size: " + allParas.size() + ", nParas: " + nParas
-                + ", docID: " + docID + logLineBreak);
+        MessageHandler.printToLogFile("changes In Number of Paragraph: ret: " + ret + logLineBreak);
       }
-      if(useQueue) {
-        mDocHandler.getTextLevelCheckQueue().setReset();
-      }
-      List<String> oldParas = allParas;
-      if (flatPara == null) {
-        flatPara = new FlatParagraphTools(xComponent);
-      }
-      if(useQueue) {
-        while(!mDocHandler.getTextLevelCheckQueue().isWaiting()) {
-          try {
-            Thread.sleep(1);
-          } catch (InterruptedException e) {
-            MessageHandler.printException(e);;
-          }
-        }
-      }
-      if (!resetAllParas(docCursor, flatPara)) {
-        return -1;
-      }
-      int from = 0;
-      while (from < allParas.size() && from < oldParas.size()
-          && allParas.get(from).equals(oldParas.get(from))) {
-        from++;
-      }
-      resetFrom = from - numParasReset;
-      int to = 1;
-      while (to <= allParas.size() && to <= oldParas.size()
-          && allParas.get(allParas.size() - to).equals(
-              oldParas.get(oldParas.size() - to))) {
-        to++;
-      }
-      to = allParas.size() - to;
-      resetTo = to + numParasReset;
-      if(!ignoredMatches.isEmpty()) {
-        Map<Integer, List<Integer>> tmpIgnoredMatches = new HashMap<>();
-        for (int i = 0; i < from; i++) {
-          if(ignoredMatches.containsKey(i)) {
-            tmpIgnoredMatches.put(i, ignoredMatches.get(i));
-          }
-        }
-        for (int i = to + 1; i < oldParas.size(); i++) {
-          int n = i + allParas.size() - oldParas.size();
-          if(ignoredMatches.containsKey(i)) {
-            tmpIgnoredMatches.put(n, ignoredMatches.get(i));
-          }
-        }
-        ignoredMatches = tmpIgnoredMatches;
-      }
-      for(ResultCache cache : paragraphsCache) {
-        cache.removeAndShift(resetFrom, resetTo, allParas.size() - oldParas.size());
-      }
-      resetTo++;
-      isReset = true;
-      sentencesCache.removeAndShift(from, to, allParas.size() - oldParas.size());
-      resetCheck = true;
-      textIsChanged = true;
-      if(useQueue) {
-        for (int i = 0; i < minToCheckPara.size(); i++) {
-          if(minToCheckPara.get(i) != 0) {
-            for (int n = from; n <= to; n++) {
-              addQueueEntry(n, i, minToCheckPara.get(i), docID);
-            }
-          }
-        }
-      }
+      return -1;
     }
-    //  try to get paragraph position from automatic iteration
-    if (flatPara == null) {
-      flatPara = new FlatParagraphTools(xComponent);
+    if(!isReset) {
+      isReset = numOldPara != allParas.size();
     }
-    nParas = flatPara.getNumberOfAllFlatPara();
-
-    if (debugMode > 0) {
-      MessageHandler.printToLogFile("Number FlatParagraphs: " + nParas + "; docID: " + docID);
-    }
-
-    if (nParas < allParas.size()) {   //  Proof must initiated by right mouse click or dialog
+    
+    if (proofInfo == PROOFINFO_UNKNOWN && ret < 0) {
+      //  no automatic iteration - get ViewCursor position
       return getParaFromViewCursorOrDialog(chPara);
     }
 
-    divNum = nParas - allParas.size();
     nParas = flatPara.getCurNumFlatParagraph();
 
     if (nParas < divNum || nParas >= divNum + allParas.size()) {
@@ -459,60 +442,25 @@ class SingleDocument {
     }
 
     nParas -= divNum;
-    String flatParaText = flatPara.getCurrentParaText();
+    String curFlatParaText = flatPara.getCurrentParaText();
 
-    if(!isReset && flatParaText != null && !chPara.equals(flatParaText) && flatParaText.equals(allParas.get(nParas))) {
-      //  if isReset: Number of paragraphs has changed -> Proof must be initiated by iteration
-      //  if flatParaText != chPara && flatParaText == allParas.get(nParas): Iteration running in another thread
+    if (proofInfo == PROOFINFO_UNKNOWN && (!curFlatParaText.equals(chPara) && curFlatParaText.equals(allParas.get(nParas)))) {
+      //  no automatic iteration - get ViewCursor position
       return getParaFromViewCursorOrDialog(chPara);
     }
 
-    numLastFlPara = nParas;
-    
-    if(flatParaText != null) {
-      chPara = flatParaText;
+    //  test real flat paragraph rather then the one given by Proofreader - it could be changed meanwhile
+    if(curFlatParaText != null) {
+      chPara = curFlatParaText;
     }
-    
-    if (!chPara.equals(allParas.get(nParas))) {
-      if (isReset) {
-        return -1;
-      } else {
-        if (debugMode > 0) {
-          MessageHandler.printToLogFile("!!! allParas set: NParas: " + nParas + "; divNum: " + divNum
-                  + "; docID: " + docID
-                  + logLineBreak + "old: " + allParas.get(nParas) + logLineBreak 
-                  + "new: " + chPara + logLineBreak);
-        }
-        allParas.set(nParas, chPara);
-        for(ResultCache cache : paragraphsCache) {
-          cache.remove(nParas);
-        }
-        sentencesCache.remove(nParas);
-        resetCheck = true;
-        if(useQueue) {
-          for (int i = 0; i < minToCheckPara.size(); i++) {
-            if(minToCheckPara.get(i) != 0) {
-              addQueueEntry(nParas, i, minToCheckPara.get(i), docID);
-            }
-          }
-        }
-        if(!textIsChanged) {
-          resetFrom = nParas - numParasReset;
-          resetTo = nParas + numParasReset + 1;
-          ignoredMatches.remove(nParas);
-          textIsChanged = true;
-        }
-        return nParas;
-      }
-    }
-    if (debugMode > 0) {
-      MessageHandler.printToLogFile("From FlatParagraph: Number of Paragraph: " + nParas + logLineBreak);
-    }
-    return nParas;
+
+    // find position from changed paragraph
+    return getPosFromChangedPara(chPara, nParas, isReset);
   }
 
-  /** Get the number of paragraph from position of ViewCursor or from the last position (dialog)
-   * @return number of paragraph or -1 if it fails
+  /** 
+   * Get the Position of Paragraph if result is ordered by right mouse click or spelling dialog
+   * returns -1 if it fails
    */
   private int getParaFromViewCursorOrDialog(String chPara) {
     // try to get ViewCursor position (proof initiated by mouse click)
@@ -583,6 +531,151 @@ class SingleDocument {
     return true;
   }
   
+  /**
+   * correct the changes in number of paragraph (added or removed paragraphs)
+   * returns -1 if the tested paragraph should be checked as single paragraph
+   * returns -2 if the tested paragraph should be tested for view cursor position
+   */
+  private int changesInNumberOfParagraph() {
+    // Test if Size of allParas is correct; Reset if not
+    if (docCursor == null) {
+      docCursor = new DocumentCursorTools(xComponent);
+    }
+    int nParas = docCursor.getNumberOfAllTextParagraphs();
+    if (nParas < 2) {
+      return -1;
+    } else if (allParas.size() != nParas) {
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("*** resetAllParas: allParas.size: " + allParas.size() + ", nParas: " + nParas
+                + ", docID: " + docID + logLineBreak);
+      }
+      if(useQueue) {
+        mDocHandler.getTextLevelCheckQueue().setReset();
+      }
+      List<String> oldParas = allParas;
+      if (flatPara == null) {
+        flatPara = new FlatParagraphTools(xComponent);
+      }
+      if(useQueue) {
+        while(!mDocHandler.getTextLevelCheckQueue().isWaiting()) {
+          try {
+            Thread.sleep(1);
+          } catch (InterruptedException e) {
+            MessageHandler.printException(e);;
+          }
+        }
+      }
+      if (!resetAllParas(docCursor, flatPara)) {
+        return -1;
+      }
+      int from = 0;
+      while (from < allParas.size() && from < oldParas.size()
+          && allParas.get(from).equals(oldParas.get(from))) {
+        from++;
+      }
+      resetFrom = from - numParasReset;
+      int to = 1;
+      while (to <= allParas.size() && to <= oldParas.size()
+          && allParas.get(allParas.size() - to).equals(
+              oldParas.get(oldParas.size() - to))) {
+        to++;
+      }
+      to = allParas.size() - to;
+      resetTo = to + numParasReset;
+      if(!ignoredMatches.isEmpty()) {
+        Map<Integer, List<Integer>> tmpIgnoredMatches = new HashMap<>();
+        for (int i = 0; i < from; i++) {
+          if(ignoredMatches.containsKey(i)) {
+            tmpIgnoredMatches.put(i, ignoredMatches.get(i));
+          }
+        }
+        for (int i = to + 1; i < oldParas.size(); i++) {
+          int n = i + allParas.size() - oldParas.size();
+          if(ignoredMatches.containsKey(i)) {
+            tmpIgnoredMatches.put(n, ignoredMatches.get(i));
+          }
+        }
+        ignoredMatches = tmpIgnoredMatches;
+      }
+      for(ResultCache cache : paragraphsCache) {
+        cache.removeAndShift(resetFrom, resetTo, allParas.size() - oldParas.size());
+      }
+      resetTo++;
+      sentencesCache.removeAndShift(from, to, allParas.size() - oldParas.size());
+      resetCheck = true;
+      textIsChanged = true;
+      if(useQueue) {
+        for (int i = 0; i < minToCheckPara.size(); i++) {
+          if(minToCheckPara.get(i) != 0) {
+            for (int n = from; n <= to; n++) {
+              addQueueEntry(n, i, minToCheckPara.get(i), docID);
+            }
+          }
+        }
+      }
+      //  try to set divNum (difference between doc cursor text and flat paragraphs (is number of footnotes etc.)
+      if (flatPara == null) {
+        flatPara = new FlatParagraphTools(xComponent);
+      }
+      nParas = flatPara.getNumberOfAllFlatPara();
+
+      if (debugMode > 0) {
+        MessageHandler.printToLogFile("Number FlatParagraphs: " + nParas + "; docID: " + docID);
+      }
+
+      if (nParas < allParas.size()) {
+        return -2;   // try to get ViewCursor position for proof info unknown
+      }
+      divNum = nParas - allParas.size();
+    }
+    return 0;
+  }
+  
+  /**
+   * find position from changed paragraph
+   */
+  private int getPosFromChangedPara(String chPara, int nParas, boolean isReset) {
+
+    numLastFlPara = nParas;
+    
+    if (!chPara.equals(allParas.get(nParas))) {
+      if (isReset) {
+        return -1;
+      } else {
+        if (debugMode > 0) {
+          MessageHandler.printToLogFile("!!! allParas set: NParas: " + nParas + "; divNum: " + divNum
+                  + "; docID: " + docID
+                  + logLineBreak + "old: " + allParas.get(nParas) + logLineBreak 
+                  + "new: " + chPara + logLineBreak);
+        }
+        allParas.set(nParas, chPara);
+        for(ResultCache cache : paragraphsCache) {
+          cache.remove(nParas);
+        }
+        sentencesCache.remove(nParas);
+        resetCheck = true;
+        if(useQueue) {
+          for (int i = 0; i < minToCheckPara.size(); i++) {
+            if(minToCheckPara.get(i) != 0) {
+              addQueueEntry(nParas, i, minToCheckPara.get(i), docID);
+            }
+          }
+        }
+        if(!textIsChanged) {
+          resetFrom = nParas - numParasReset;
+          resetTo = nParas + numParasReset + 1;
+          ignoredMatches.remove(nParas);
+          textIsChanged = true;
+        }
+        return nParas;
+      }
+    }
+    if (debugMode > 0) {
+      MessageHandler.printToLogFile("From FlatParagraph: Number of Paragraph: " + nParas + logLineBreak);
+    }
+    return nParas;
+
+  }
   /**
    * Heuristic try to find next position (automatic iteration)
    * Is paragraph same, next not empty after or before   
@@ -1177,7 +1270,7 @@ class SingleDocument {
             SingleProofreadingError[] errors = paragraphsCache.get(cacheNum).getMatches(n, 0);
             if(errors != null && errors.length != 0) {
               SingleProofreadingError[] filteredErrors = filterIgnoredMatches(errors, n);
-              if(filteredErrors != null && filteredErrors.length != 0) {
+              if(sentencesCache.getEntryByParagraph(n) != null && filteredErrors != null && filteredErrors.length != 0) {
                 changedParasMap.put(n, filteredErrors);
               }
             }

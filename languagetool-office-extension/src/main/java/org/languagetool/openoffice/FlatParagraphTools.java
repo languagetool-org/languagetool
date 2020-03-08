@@ -45,9 +45,6 @@ import com.sun.star.uno.UnoRuntime;
  */
 public class FlatParagraphTools {
   
-//  private static final int typeTolerance = 3;     //  Tolerance between checked text and FlatPraragrah text
-//                                                  //  needed, because some changes in paragraph could be happened while checking
-  
   private static final boolean debugMode = false; //  should be false except for testing
   
   private XFlatParagraphIterator xFlatParaIter;
@@ -147,44 +144,6 @@ public class FlatParagraphTools {
     return xFlatPara.getText();
   }
 
-  /**
-   * is true if FlatParagraph is from Automatic Iteration
-   * a tolerance of some characters has to be assumed because of a possible delay between 
-   * initializing of the proof within LO and the work off in LT
-   */
-/*
-  public boolean isCurrentFlatPara(String paraText) {
-    XFlatParagraph xFlatPara = getCurrentFlatParagraph();
-    if (xFlatPara == null) {
-      if (debugMode) {
-        MessageHandler.printToLogFile("isCurrentFlatPara: FlatParagraph == null");
-      }
-      return false;
-    }
-    boolean ret = true;
-    String flatText = xFlatPara.getText();
-    int nText = paraText.length();
-    int nFlat = flatText.length();
-    if(nText < nFlat) {
-      if(nFlat - nText > typeTolerance) {
-        ret = false;
-      } else {
-        ret = flatText.startsWith(paraText);
-      }
-    } else {
-      if(nText - nFlat > typeTolerance) {
-        ret = false;
-      } else {
-        ret = paraText.startsWith(flatText);
-      }
-    }
-    if(debugMode && !ret) {
-      MessageHandler.printToLogFile("isCurrentFlatPara: " + ret + ":\nparaText: " + paraText
-          + "\nflatText: " + flatText);
-    }
-    return ret;
-  }
-*/
   /**
    * Returns Current Paragraph Number from FlatParagaph
    * Returns -1 if it fails
@@ -472,6 +431,23 @@ public class FlatParagraphTools {
     }
   }
   
+  /**
+   * add marks to existing marks of current paragraph
+   */
+  public void markCurrentParagraph(SingleProofreadingError[] pErrors) {
+    if(pErrors == null || pErrors.length == 0) {
+      return;
+    }
+    XFlatParagraph xFlatPara = getCurrentFlatParagraph();
+    if (xFlatPara == null) {
+      if (debugMode) {
+        MessageHandler.printToLogFile("markParagraphs: FlatParagraph == null");
+      }
+      return;
+    }
+    addMarksToOneParagraph(xFlatPara, pErrors, null, false);
+  }
+    
   /**
    * add marks to existing marks of a paragraph
    * if override: existing marks will be overridden

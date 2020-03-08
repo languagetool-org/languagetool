@@ -43,6 +43,7 @@ import com.sun.star.awt.MenuItemStyle;
 import com.sun.star.awt.XMenuBar;
 import com.sun.star.awt.XMenuListener;
 import com.sun.star.awt.XPopupMenu;
+import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.EventObject;
@@ -127,7 +128,7 @@ public class MultiDocumentsHandler {
    * distribute the check request to the concerned document
    */
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
-      int[] footnotePositions, boolean docReset) {
+      PropertyValue[] propertyValues, boolean docReset) {
     
     if (!hasLocale(locale)) {
       return paRes;
@@ -151,7 +152,7 @@ public class MultiDocumentsHandler {
     if(switchOff) {
       return paRes;
     }
-    paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, footnotePositions, docReset, langTool);
+    paRes = documents.get(docNum).getCheckResults(paraText, locale, paRes, propertyValues, docReset, langTool);
     if(langTool.doReset()) {
       // langTool.doReset() == true: if server connection is broken ==> switch to internal check
       MessageHandler.showMessage(messages.getString("loRemoteSwitchToLocal"));
@@ -252,6 +253,13 @@ public class MultiDocumentsHandler {
   }
 
   /**
+   * proofs if test cases
+   */
+  boolean isTestMode() {
+    return testMode;
+  }
+
+  /**
    * Checks the language under the cursor. Used for opening the configuration dialog.
    * @return the language under the visible cursor
    */
@@ -345,7 +353,7 @@ public class MultiDocumentsHandler {
   private void setConfigValues(Configuration config, SwJLanguageTool langTool) {
     this.config = config;
     this.langTool = langTool;
-    this.useQueue = config.useTextLevelQueue();
+    this.useQueue = testMode ? false : config.useTextLevelQueue();
     for (SingleDocument document : documents) {
       document.setConfigValues(config);
     }
