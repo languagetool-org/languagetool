@@ -25,6 +25,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tagging.Tagger;
 
 import javax.swing.*;
 import javax.swing.text.BadLocationException;
@@ -41,27 +42,37 @@ import java.util.stream.Collectors;
 public class UnknownWordFinder {
 
   private final Map<String,Integer> unknownWords = new HashMap<>();
+  private final Set<String> unknownSpelling = new HashSet<>();
+  private final Set<String> unknownTag = new HashSet<>();
 
   private void run(File dir, JLanguageTool lt) throws IOException {
+    SpellingCheckRule spellerRule = getSpellingCheckRule(lt);
+    Tagger tagger = lt.getLanguage().getTagger();
+    List<Path> files = Files.walk(dir.toPath()).filter(Files::isRegularFile).collect(Collectors.toList());
+    for (Path file : files) {
+      handle(file, lt, spellerRule, tagger);
+    }
+    printResult(unknownWords);
+  }
+
+  @NotNull
+  private SpellingCheckRule getSpellingCheckRule(JLanguageTool lt) {
     SpellingCheckRule spellerRule = null;
     for (Rule rule : lt.getAllActiveRules()) {
       if (rule.isDictionaryBasedSpellingRule()) {
-        // TODO: no dupes
+        if (spellerRule != null) {
+          throw new RuntimeException("Found more than one spell rule: " + rule + ", " + spellerRule);
+        }
         spellerRule = (SpellingCheckRule) rule;
       }
     }
     if (spellerRule == null) {
       throw new RuntimeException("No speller rule found for " + lt.getLanguage());
     }
-    List<Path> files = Files.walk(dir.toPath())
-      .filter(Files::isRegularFile).collect(Collectors.toList());
-    for (Path file : files) {
-      handle(file, lt, spellerRule);
-    }
-    printResult(unknownWords);
+    return spellerRule;
   }
 
-  private void handle(Path f, JLanguageTool lt, SpellingCheckRule rule) throws IOException {
+  private void handle(Path f, JLanguageTool lt, SpellingCheckRule rule, Tagger tagger) throws IOException {
     String text = null;
     if (f.toString().toLowerCase().endsWith(".txt")) {
       List<String> lines = Files.readAllLines(f);
@@ -77,8 +88,17 @@ public class UnknownWordFinder {
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
         AnalyzedTokenReadings[] tokens = analyzedSentence.getTokensWithoutWhitespace();
         for (AnalyzedTokenReadings token : tokens) {
-          if (rule.isMisspelled(token.getToken())) {
-            String t = token.getToken();
+          String t = token.getToken();
+          boolean misspelled = rule.isMisspelled(t);
+          if (misspelled) {
+            unknownSpelling.add(t);
+          }
+          List<AnalyzedTokenReadings> tags = tagger.tag(Collections.singletonList(t));
+          boolean noTag = tags.size() == 1 && !tags.get(0).isTagged();
+          if (noTag) {
+            unknownTag.add(t);
+          }
+          if (misspelled || noTag) {
             if (unknownWords.containsKey(t)) {
               unknownWords.put(t, unknownWords.get(t) + 1);
             } else {
@@ -113,8 +133,10 @@ public class UnknownWordFinder {
     }
     Collections.sort(countedWords);
     System.out.println("== RESULT ==");
+    System.out.println("count\tterm\tunknownSpelling\tunknownTag");
     for (CountedWord countedWord : countedWords) {
-      System.out.println(countedWord.count + " " + countedWord.word);
+      String t = countedWord.word;
+      System.out.println(countedWord.count + "\t" + t + "\t" + unknownSpelling.contains(t) + "\t" + unknownTag.contains(t));
     }
   }
 
