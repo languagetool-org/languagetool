@@ -210,6 +210,17 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 
 	<!-- disabling error report for longer string of unknown words (foreign quotes) ;--> 
  	<rule name="FOREIGN" id="SOME_UNKNOWN_WORDS"><pattern><marker><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/><token postag="UNKNOWN|FOREIGN" postag_regexp="yes"/></marker></pattern><disambig action="ignore_spelling"/></rule>
+
+	<!-- INTERPUNCTIE -->
+	<rule name="punctuation" id="KOMMA">
+		<pattern><marker><token spacebefore="yes">,</token></marker></pattern>
+		<disambig action="add"><wd pos="KOMMA"/></disambig>
+	</rule>
+
+	<rule name="punctuation" id="PUNTKOMMA">
+		<pattern><marker><token spacebefore="yes">;</token></marker></pattern>
+		<disambig action="add"><wd pos="PUNTKOMMA"/></disambig>
+	</rule>
     
 	<!-- GETALLEN -->
 	<rule name="GUESS_number" id="NUMBERS">
@@ -724,6 +735,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	</rule>
 
 	<rule id="IN" name=" maak van in een voorzetsel; is erg gulzig; moet ooit nog als ik-vorm worden toegevoegd met regel">
+		<antipattern case_sensitive="yes"><token>Van</token><token>In</token></antipattern>
 		<pattern>
 			<token postag="VRZ">in</token>
 		</pattern>
@@ -2362,8 +2374,33 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 
 	<!-- defining noun phrases -->
 	<rule id="NOUN_PHRASE_PLURAL_01" name="">
-		<pattern><token postag_regexp="yes" postag="START|SENT_START|VRZ"/><marker><token postag_regexp="yes" postag=".*MRV.*"/></marker><token postag_regexp="yes" postag="VRZ|SENT_END"/></pattern>
-		<disambig action="add"><wd pos="NNP_PLURAL"/></disambig>
+		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
+			<marker>
+				<token postag_regexp="yes" postag=".*MRV.*"/>
+			</marker>
+			<token postag_regexp="yes" postag="VRZ|SENT_END"/></pattern>
+		<disambig action="add"><wd pos="NNP_PLU"/></disambig>
+	</rule>
+	<rule id="NOUN_PHRASE_PLURAL_02" name="">
+		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
+			<marker>
+				<token regexp="yes">de|die|deze|alle|onze|zijn|haar|hun|uw|mijn|jullie|je|jouw</token>
+				<token postag_regexp="yes" postag=".*MRV.*"/>
+			</marker>
+			<token postag_regexp="yes" postag="VRZ|SENT_END"/></pattern>
+		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
+	</rule>
+	<rule id="NOUN_PHRASE_PLURAL_03" name="">
+		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
+			<marker>
+				<token postag_regexp="yes" postag="BNW:(STL|VGR|OVR|ALR):VRB|WKW:(ODW|VTD):VRB|BNW:STF|GET:RNG"/>
+				<token postag_regexp="yes" postag=".*MRV.*"/>
+			</marker>
+			<token postag_regexp="yes" postag="VRZ|SENT_END"/></pattern>
+		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
 	</rule>
 
 </rules>
