@@ -9722,4 +9722,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rule name="the dos and don'ts" id="DOS_AND_DONTS">
+        <!-- https://www.merriam-webster.com/dictionary/dos%20and%20dont -->
+        <pattern>
+            <token>dos</token>
+            <token regexp="yes">and|&amp;</token>
+            <token>don</token>
+            <token regexp="yes" spacebefore="no">&apostrophe;</token>
+            <token spacebefore="no">ts</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
