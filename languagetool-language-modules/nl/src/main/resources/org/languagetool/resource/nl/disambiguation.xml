@@ -240,40 +240,6 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
     <!-- TODO GUESSING TAGS BY FORM ONLY ======================================== -->
 	<!-- replaced by extensive postag database, but may be added again later, when disambiguations is better -->
 
-    <!-- aanhalingstekens openen -->
-	<rule id="AANHAAL_OPN_1" name="">
-        <pattern><token>‘</token></pattern>
-        <disambig action="add"><wd lemma="‘" pos="AHL:OPN">‘</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_OPN_2" name="">
-        <pattern><token>“</token></pattern>
-        <disambig action="add"><wd lemma="“" pos="AHL:OPN">“</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_OPN_3" name="">
-        <pattern><token>'</token></pattern>
-        <disambig action="add"><wd lemma="'" pos="AHL:OPN">'</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_OPN_4" name="">
-        <pattern><token>"</token></pattern>
-        <disambig action="add"><wd lemma="&quot;" pos="AHL:OPN">"</wd></disambig>        
-	</rule>	
-    <!-- aanhalingstekens sluiten -->
-	<rule id="AANHAAL_SLT_1" name="">
-        <pattern><token>’</token></pattern>
-        <disambig action="add"><wd lemma="’" pos="AHL:SLT">’</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_SLT_2" name="">
-        <pattern><token>”</token></pattern>
-        <disambig action="add"><wd lemma="”" pos="AHL:SLT">”</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_SLT_3" name="">
-        <pattern><token>'</token></pattern>
-        <disambig action="add"><wd lemma="'" pos="AHL:SLT">'</wd></disambig>        
-	</rule>	
-	<rule id="AANHAAL_SLT_4" name="">
-        <pattern><token>"</token></pattern>
-        <disambig action="add"><wd lemma="&quot;" pos="AHL:SLT">"</wd></disambig>        
-	</rule>	
 
     <!-- add special signals -->
     <rule id="SEMICOLON" name=""> <!-- na ; begint eigenlijk een soort 2e zin, maar zonder hoofdletter -->
@@ -922,7 +888,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="add"><wd pos="NAME_PART"/><wd pos="NAME_PART"/></disambig>
     </rule>
 	<rule id="FLAG_NAMES_05" name="-">
-		<pattern><marker><token >van</token><token regexp="yes">de|den|der</token><token  case_sensitive="yes" postag_regexp="yes" postag="ENM:PER:LST:(VDE|VDN|VDR)"/></marker></pattern>
+		<pattern><marker><token>van</token><token regexp="yes">de|den|der</token><token case_sensitive="yes" postag_regexp="yes" postag="ENM:PER:LST:(VDE|VDN|VDR)"/></marker></pattern>
 		<disambig action="add"><wd pos="NAME_PART"/><wd pos="NAME_PART"/><wd pos="NAME_PART"/></disambig>
     </rule>
 	<rule id="FLAG_NAMES_06" name="-">
@@ -2372,6 +2338,54 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule name="zpl" id="zpl"><pattern><token>zpl</token></pattern><disambig action="ignore_spelling"/></rule>
 	<rule name="zsm" id="zsm"><pattern><token>zsm</token></pattern><disambig action="ignore_spelling"/></rule>
 
+	<!-- aanhalingstekens openen 
+	<rule id="AANHAAL_OPN_1" name="">
+        <pattern><token>‘</token></pattern>
+        <disambig action="add"><wd lemma="‘" pos="AHL:OPN">‘</wd></disambig>        
+	</rule>	
+	<rule id="AANHAAL_OPN_2" name="">
+        <pattern><token>“</token></pattern>
+        <disambig action="add"><wd lemma="“" pos="AHL:OPN">“</wd></disambig>        
+	</rule>	
+	<rule id="AANHAAL_OPN_3" name="">
+        <pattern><token>'</token></pattern>
+        <disambig action="add"><wd lemma="'" pos="AHL:OPN">'</wd></disambig>        
+	</rule>	
+	<rule id="AANHAAL_OPN_4" name="">
+        <pattern><token>"</token></pattern>
+        <disambig action="add"><wd lemma="&quot;" pos="AHL:OPN">"</wd></disambig>        
+	</rule>	
+	-->
+    <!-- aanhalingstekens sluiten 
+	<rule id="AANHAAL_SLT_1" name="">
+        <pattern><token>’</token></pattern>
+        <disambig action="add"><wd lemma="’" pos="AHL:SLT">’</wd></disambig>        
+	</rule>	
+	<rule id="AANHAAL_SLT_2" name="">
+        <pattern><token>”</token></pattern>
+        <disambig action="add"><wd lemma="”" pos="AHL:SLT">”</wd></disambig>        
+	</rule>	
+	<rule id="AANHAAL_SLT_3" name="">
+        <pattern><token>'</token></pattern>
+        <disambig action="add"><wd lemma="'" pos="AHL:SLT">'</wd></disambig>        
+	</rule>	
+	<rule id="AANHAAL_SLT_4" name="">
+        <pattern><token>"</token></pattern>
+        <disambig action="add"><wd lemma="&quot;" pos="AHL:SLT">"</wd></disambig>        
+	</rule>	
+	-->
+	
+	<!-- define start elements to ignore -->
+	<rule id="START_IGNORE_01" name="">
+		<pattern>
+		<token postag_regexp="yes" postag="SENT_START|START"/>
+		<marker>
+			<token regexp="yes">[‘“'"]</token>
+		</marker>
+		</pattern>
+		<disambig action="add"><wd pos="START"/></disambig>
+	</rule>
+
 	<!-- defining noun phrases -->
 	<rule id="NOUN_PHRASE_PLURAL_01" name="">
 		<pattern>
@@ -2386,7 +2400,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<pattern>
 			<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
 			<marker>
-				<token regexp="yes">de|die|deze|alle|onze|zijn|haar|hun|uw|mijn|jullie|je|jouw</token>
+				<token regexp="yes">de|die|deze|alle|onze|zijn|haar|hun|uw|mijn|jullie|je|jouw|beide|eigen|meer|minder</token>
 				<token postag_regexp="yes" postag=".*MRV.*"/>
 			</marker>
 			<token postag_regexp="yes" postag="VRZ|SENT_END"/></pattern>
