@@ -39,12 +39,15 @@ public class InflectorTest {
     assertThat(inflector.inflect("large", "ADJ:PRD:KOM").toString(), is("[larger]"));   // "größer"
     assertThat(inflector.inflect("large", "ADJ:AKK:SIN:FEM:SUP:DEF").toString(), is("[largest]"));   // "größte"
 
-    // no inflection needed for English, as inflected form == baseform:
-    assertThat(inflector.inflect("walk", "VER:1:SIN:PRÄ:NON").toString(), is("[]"));  // "ich gehe"
-    assertThat(inflector.inflect("walk", "VER:2:SIN:PRÄ:NON").toString(), is("[]"));  // "du gehst"
-    assertThat(inflector.inflect("walk", "VER:1:PLU:PRÄ:NON").toString(), is("[]"));  // "wir gehen"
-    assertThat(inflector.inflect("walk", "VER:2:PLU:PRÄ:NON").toString(), is("[]"));  // "ihr geht"
-    assertThat(inflector.inflect("walk", "VER:3:PLU:PRÄ:NON").toString(), is("[]"));  // "sie gehen"
+    assertThat(inflector.inflect("walk", "VER:1:SIN:PRÄ:NON").toString(), is("[walk]"));  // "ich gehe"
+    assertThat(inflector.inflect("walk", "VER:2:SIN:PRÄ:NON").toString(), is("[walk]"));  // "du gehst"
+    assertThat(inflector.inflect("walk", "VER:1:PLU:PRÄ:NON").toString(), is("[walk]"));  // "wir gehen"
+    assertThat(inflector.inflect("walk", "VER:2:PLU:PRÄ:NON").toString(), is("[walk]"));  // "ihr geht"
+    assertThat(inflector.inflect("walk", "VER:3:PLU:PRÄ:NON").toString(), is("[walk]"));  // "sie gehen"
+
+    assertThat(inflector.inflect("walk", null).toString(), is("[walk]"));
+    assertThat(inflector.inflect("walk", "").toString(), is("[walk]"));
+    assertThat(inflector.inflect("walk", "FAKE-TAG").toString(), is("[walk]"));
   }
 
   @Test

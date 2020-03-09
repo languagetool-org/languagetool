@@ -56,6 +56,7 @@ class Inflector {
   List<String> inflectSingleWord(String enToken, String dePosTag) {
     List<String> forms = new ArrayList<>();
     if (dePosTag == null) {
+      forms.add(enToken);
       return forms;
     }
     if (dePosTag.matches("SUB.*PLU.*")) {
@@ -68,10 +69,12 @@ class Inflector {
       forms.addAll(getForms(enToken, "VBG"));
     } else if (dePosTag.matches("PA2:PRD:GRU:VER")) {
       forms.addAll(getForms(enToken, "VBN"));
-    } else if (dePosTag.matches("ADJ:PRD:KOM")) {
+    } else if (dePosTag.matches("ADJ:PRD:KOM|ADJ:.*:KOM.*")) {
       forms.addAll(getForms(enToken, "JJR"));
     } else if (dePosTag.matches("ADJ:.*:SUP.*")) {
       forms.addAll(getForms(enToken, "JJS"));
+    } else {
+      forms.add(enToken);
     }
     return forms;
   }
