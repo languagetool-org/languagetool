@@ -66,6 +66,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private static final int MAX_EDIT_DISTANCE = 2;
 
+  // https://deutschegrammatik20.de/spezielle-verben/verben-mit-praefix-trennbare-und-nicht-trennbare-verben/uebersicht-trennbare-praefixe/
+  private static final List<String> prefixes = Arrays.asList("ab", "an", "auf", "aus", "auseinander", "bei", "ein", "empor", "entgegen", "entlang", "entzwei",
+        "fehl", "fern", "fest", "fort", "gegenüber", "heim", "hinterher", "hoch", "los", "mit", "nach", "neben", "nieder", "vor",
+        "weg", "weiter", "zu, zurecht", "zurück", "zusammen", "da", "hin", "her",
+        "herab", "heran", "herauf", "heraus", "herbei", "herein", "hernieder", "herüber", "herum", "herunter", "hervor", "herzu",
+        "hinab", "hinan", "hinauf", "hinaus", "hinein", "hinüber", "hinunter", "hinweg", "hinzu", "vorab", "voran", "vorauf", "voraus",
+        "vorbei", "vorweg", "vorher", "vorüber",
+        "dabei", "dafür", "dagegen", "daher", "dahin", "dahinter", "daneben", "daran", "darauf", "darein", "darüber", "darunter",
+        "hinter", "neben", "dran", "drauf", "drein", "drüber", "drunter",
+        "davon", "davor", "dazu", "dazwischen",
+        "durch", "über", "unter", "um", "wider", "wieder"
+  );
+
   // some exceptions for changes to the spelling in 2017 - just a workaround so we don't have to touch the binary dict:
   private static final Pattern PREVENT_SUGGESTION = Pattern.compile(
           ".*(Majonäse|Bravur|Anschovis|Belkanto|Campagne|Frotté|Grisli|Jockei|Joga|Kalvinismus|Kanossa|Kargo|Ketschup|" +
@@ -976,6 +989,19 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
    */
   @Override
   public List<String> getSuggestions(String word) throws IOException {
+    if (word.endsWith("en")   // we're looking for base forms of verbs
+        && word.length() < 20 && word.matches("[a-zA-Zöäüß-]+.?")) {
+      for (String prefix : prefixes) {
+        if (word.startsWith(prefix)) {
+          String lastPart = word.substring(prefix.length());
+          if (!isMisspelled(lastPart)) {
+            // as these are only single words and both the first part and the last part are spelled correctly
+            // (but the combination is not), it's okay to log the words from a privacy perspective:
+            System.out.println("UNKNOWN: " + word);
+          }
+        }
+      }
+    }
     List<String> suggestions = super.getSuggestions(word);
     suggestions = suggestions.stream().filter(k -> !PREVENT_SUGGESTION.matcher(k).matches() && !k.endsWith("roulett")).collect(Collectors.toList());
     if (word.endsWith(".")) {
