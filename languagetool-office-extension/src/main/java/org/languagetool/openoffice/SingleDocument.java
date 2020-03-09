@@ -429,13 +429,12 @@ class SingleDocument {
     if(!isReset) {
       isReset = numOldPara != allParas.size();
     }
-    
-    if (proofInfo == PROOFINFO_UNKNOWN && ret < 0) {
+    nParas = flatPara.getCurNumFlatParagraph();
+
+    if (proofInfo == PROOFINFO_UNKNOWN && (ret < 0 || nParas < 0)) {
       //  no automatic iteration - get ViewCursor position
       return getParaFromViewCursorOrDialog(chPara);
     }
-
-    nParas = flatPara.getCurNumFlatParagraph();
 
     if (nParas < divNum || nParas >= divNum + allParas.size()) {
       return -1; //  nParas < divNum: Proof footnote etc.  /  nParas >= allParas.size():  document was changed while checking
