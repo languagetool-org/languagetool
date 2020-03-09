@@ -315,6 +315,20 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Tell them");
     } else if ("afro-american".equalsIgnoreCase(word)) {
       return Arrays.asList("Afro-American");
+    } else if ("Oconnor".equalsIgnoreCase(word)) {
+      return Arrays.asList("O'Connor");
+    } else if ("Oconor".equalsIgnoreCase(word)) {
+      return Arrays.asList("O'Conor");
+    } else if ("Obrien".equalsIgnoreCase(word)) {
+      return Arrays.asList("O'Brien");
+    } else if ("Odonnell".equalsIgnoreCase(word)) {
+      return Arrays.asList("O'Donnell");
+    } else if ("Oneill".equalsIgnoreCase(word)) {
+      return Arrays.asList("O'Neill");
+    } else if ("Oneil".equalsIgnoreCase(word)) {
+      return Arrays.asList("O'Neil");
+    } else if ("Oconnell".equalsIgnoreCase(word)) {
+      return Arrays.asList("O'Connell");
     } else if ("Webex".equals(word)) {
       return Arrays.asList("WebEx");
     } else if ("didint".equals(word)) {
