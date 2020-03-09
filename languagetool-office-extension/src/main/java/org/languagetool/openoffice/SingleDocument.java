@@ -444,7 +444,8 @@ class SingleDocument {
     nParas -= divNum;
     String curFlatParaText = flatPara.getCurrentParaText();
 
-    if (proofInfo == PROOFINFO_UNKNOWN && (!curFlatParaText.equals(chPara) && curFlatParaText.equals(allParas.get(nParas)))) {
+    if (proofInfo == PROOFINFO_UNKNOWN 
+        && (curFlatParaText != null && !curFlatParaText.equals(chPara) && curFlatParaText.equals(allParas.get(nParas)))) {
       //  no automatic iteration - get ViewCursor position
       return getParaFromViewCursorOrDialog(chPara);
     }
