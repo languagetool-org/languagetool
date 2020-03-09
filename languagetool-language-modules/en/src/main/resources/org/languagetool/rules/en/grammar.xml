@@ -214,6 +214,22 @@ USA
             <example correction="help">I need <marker>helps</marker>.</example>
             <example correction="help">He wants your <marker>helps</marker>.</example>
         </rule>
+        <rule id="NEW_GUINEA" name="New Guinea" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>New</token>
+                <token>Guinea</token>
+            </antipattern>
+            <pattern>
+                <token>New</token>
+                <token>
+                    Guinea
+                    <exception scope="next" regexp="yes">pigs?|grass(es)?|fowls?|hens?|peppers?</exception>
+                </token>
+            </pattern>
+            <message>Did you mean the poper noun <suggestion>New Guinea</suggestion> (= large island)?</message>
+            <url>https://en.wikipedia.org/wiki/New_Guinea</url>
+            <example correction="New Guinea"><marker>New guinea</marker> is a large island separated by the shallow Torres Strait from the rest of the Australian continent.</example>
+        </rule>
         <rule id="PAPUA_NEW_GUINEA" name="Papua New Guinea">
             <antipattern case_sensitive="yes">
                 <token>Papua</token>
@@ -593,7 +609,23 @@ USA
             <example>New Haven's principal commerical corrdiors</example>
             <example>Have you seen Don's new car?</example>
           </rule>
-          <rule>
+          <rule><!-- The dos and don'ts -->
+            <antipattern>
+                <token>do</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>s</token>
+                <token regexp="yes">and|&amp;</token>
+                <token>don</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>ts</token>
+            </antipattern>
+            <antipattern>
+                <token>dos</token>
+                <token regexp="yes">and|&amp;</token>
+                <token>don</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>ts</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">doesn|isn|ain|aren|wasn|weren|don|won|didn|hasn|hadn|shouldn|wouldn|couldn|mustn</token>
@@ -603,6 +635,7 @@ USA
             </pattern>
             <message>Did you mean <suggestion>\1\2t</suggestion>?</message>
             <example correction="hasn't">This <marker>hasn'</marker> happened!</example>
+            <example>The dos and don'ts.</example>
           </rule>
           <rule>
             <pattern>
@@ -4868,6 +4901,49 @@ USA
                 <example correction="reasons">7 <marker>reason's</marker> why</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DOS_AND_DONTS" name="Do's and Don'ts" default="temp_off">
+            <url>https://www.lexico.com/definition/dos_and_don'ts</url>
+            <antipattern>
+                <token>dos</token>
+                <token regexp="yes">and|&amp;</token>
+                <token>don</token>
+                <token regexp="yes">['’]</token>
+                <token>ts</token>
+            </antipattern>
+            <rule><!-- catches "do's and dont's" -->
+                <pattern>
+                    <token>do</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token regexp="yes">and|&amp;</token>
+                    <token regexp="yes">dont?</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>ts</token>
+                </pattern>
+                <message>Did you mean the idiom <suggestion><match no="1" regexp_match="(?i)o" regexp_replace="os" /> \4 <match no="5" regexp_match="(?i)ont?" regexp_replace="on'ts" /></suggestion>?</message>
+                <example correction="Dos and Don'ts">Please advise me on the most suitable colour print film and some <marker>Do's and Don'ts</marker>.</example>
+            </rule>
+            <rule><!-- catches "dos and dont's" -->
+                <pattern>
+                    <token>dos</token>
+                    <token regexp="yes">and|&amp;</token>
+                    <token regexp="yes">dont?</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token regexp="yes">t?s</token>
+                </pattern>
+                <message>Did you mean the idiom <suggestion>\1 \2 <match no="3" regexp_match="(?i)ont?" regexp_replace="on'ts" /></suggestion>?</message>
+                <example correction="Dos and Don'ts">Please advise me on the most suitable colour print film and some <marker>Dos and Dont's</marker>.</example>
+            </rule>
+            <rule><!-- catches "dos and donts" -->
+                <pattern>
+                    <token>dos</token>
+                    <token regexp="yes">and|&amp;</token>
+                    <token>donts</token>
+                </pattern>
+                <message>Did you mean the idiom <suggestion>\1 \2 <match no="3" regexp_match="(?i)onts" regexp_replace="on'ts" /></suggestion>?</message>
+                <example correction="Dos &amp; Don'ts">Please advise me on the most suitable colour print film and some <marker>Dos &amp; Donts</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VERB_APOSTROPHE_S" name="Verb with 's">
             <short>Possible typo</short>
             <rule>
@@ -4917,8 +4993,7 @@ USA
                 <pattern>
                     <token postag_regexp="yes" postag="VBP?">
                         <exception postag_regexp="yes" postag="NN.*"/>
-                        <exception>let</exception>
-                        <exception>cc</exception><!-- cc's https://www.lexico.com/definition/cc -->
+                        <exception regexp="yes">cc|let|matt</exception>
                         <exception case_sensitive="yes" regexp="yes">[A-Z].+</exception><!-- Assume initial caps is NNP -->
                     </token>
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
@@ -10027,6 +10102,20 @@ USA
             <example correction="bit">He wants a little <marker>it</marker> more.</example>
             <example correction="bit">I think it would be rather neat to have a <marker>it</marker> less freedom.</example>
         </rule>
+        <rule id="IF_IT_OK_FOR" name="If it (it is) ok for you" default="temp_off">
+            <pattern>
+                <token regexp="yes">if|whether|when</token>
+                <marker>
+                    <token regexp="yes">its?|that|this</token>
+                </marker>
+                <token regexp="yes">ok(ay)?|possible|sorry|ready|normal</token>
+                <token regexp="yes">for|to|in|\.|\!|\?</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2" regexp_match="(?i)its" regexp_replace="it" /> is</suggestion>?</message>
+            <example correction="it is">I'm wondering if <marker>it</marker> ok for him.</example>
+            <example correction="it is">It does when <marker>it</marker> ready.</example>
+            <example>I recently started having the same exact delay issue when it used to be instantaneous.</example>
+        </rule>
         <rulegroup id="IT_IT" name="it it (it is)">
             <rule>
                 <pattern>
@@ -10302,7 +10391,7 @@ USA
                 <token postag="PRP" />
                 <token regexp="yes">more|less</token>
                 <token regexp="yes" skip="1">often|than</token>
-                <token postag="VB.*|UNKNOWN|MD" postag_regexp="yes" />
+                <token postag="VB.*|UNKNOWN|MD|JJ.*" postag_regexp="yes" />
             </antipattern>
             <antipattern>
                 <token postag="PRP" />
@@ -11423,7 +11512,7 @@ USA
             </antipattern>
             <antipattern><!-- nouns that are verbs when written as two words, needs different rule with suggestion (TODO!) -->
                 <token postag="MD" skip="2" />
-                <token regexp="yes">run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
+                <token regexp="yes">give\-?away|pay\-?out|run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
             </antipattern>
             <antipattern case_sensitive="yes"><!-- A.I -->
                 <token regexp="yes">[A-Z]</token>
@@ -11486,9 +11575,9 @@ USA
                     <token regexp="yes">it|we|they|you|he|she|I</token>
                     <token postag="MD" />
                     <token min="0" regexp="yes">&apostrophe;</token>
-                    <token min="0" regexp="yes">(no)?t</token>
+                    <token min="0" regexp="yes">(no)?t|really|very</token>
                     <marker>
-                        <token regexp="yes">nicer?|good|great|cool(er)?|handy|(im)?possible|sweet|safer?|better|ok|related|interesting|(in)?appropriate|important|glad|happy|horrible|terrible|sorry</token>
+                        <token regexp="yes">nicer?|good|great|cool(er)?|familiar|handy|(im)?possible|sweet|safer?|better|ok|related|interesting|(in)?appropriate|important|glad|happy|horrible|terrible|sorry</token>
                     </marker>
                     <token regexp="yes">to|about|for|if|when|as|\.|\!</token>
                 </pattern>
@@ -13312,7 +13401,7 @@ USA
                 <token min="0" />
                 <token inflected="yes">be</token>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token skip="5">if</token>
                     <token>this</token>
@@ -14345,6 +14434,15 @@ USA
             <example type="triggers_error">We <marker>ware</marker> totally amazed by the sight.</example>
         </rule>
         <rule id="A_INFINITIVE" name="a/the + infinitive">
+            <antipattern><!-- https://www.americansforthearts.org/by-program/reports-and-data/legislation-policy/legislative-issue-center/the-create-act -->
+                <token>create</token>
+                <token>act</token>
+            </antipattern>
+            <antipattern>
+                <token>Do</token>
+                <token>Not</token>
+                <token>Track</token>
+            </antipattern>
             <antipattern>
                 <token>lynch</token>
                 <token regexp="yes">mobs?</token>
@@ -15534,7 +15632,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/translation</url>
                 <example correction="translation">The <marker>translate</marker> to English was done correctly.</example>
             </rule>
-            <rule default="temp_off"><!-- the send off -->
+            <rule><!-- the send off -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -16473,6 +16571,10 @@ USA
                     <token skip="2">create</token>
                     <token regexp="yes">(button|link|form|account|page|screen|draft|view|parameter|permission|function|feature|request|command|procedure|call|api|section|query|dialog|option|menu|plugin|script|method|endpoint|event|operation|window)s?|process(es)?</token>
                 </antipattern>
+                <antipattern><!-- https://www.americansforthearts.org/by-program/reports-and-data/legislation-policy/legislative-issue-center/the-create-act -->
+                    <token>create</token>
+                    <token>act</token>
+                </antipattern>
                 <antipattern>
                     <token>create</token>
                     <token regexp="yes">and|or</token>
@@ -17291,7 +17393,7 @@ USA
             <url>https://en.wikipedia.org/wiki/McDonald%27s</url>
             <example correction="McDonald's">I always eat lunch at <marker>Mcdonalds</marker>.</example>
         </rule>
-        <rule id="KELLOGGS" name="Kellogg's" default="temp_off">
+        <rule id="KELLOGGS" name="Kellogg's">
             <pattern>
                 <token regexp="yes">Kell?ogg?s</token>
             </pattern>
@@ -30650,6 +30752,11 @@ USA
                 <token>Dollar</token>
                 <token>Man</token>
             </antipattern>
+            <antipattern><!-- https://en.wikipedia.org/wiki/Million_Dollar_Baby -->
+                <token>Million</token>
+                <token>Dollar</token>
+                <token>Baby</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">dozen|hundred|thousand|[bm]illion
                     <exception scope="previous" postag_regexp="yes" postag="UNKNOWN|CD|W?DT|PRP\$|JJ"/>
@@ -30658,7 +30765,7 @@ USA
             </pattern>
             <message>Use <suggestion>a <match no="1"/></suggestion> or use a number before '<match no="1"/>'.</message>
             <short>Grammatical problem: missing determiner</short>
-            <example correction="a hundred">You need almost <marker>hundred</marker> examples.</example>
+            <!-- <example correction="a hundred">You need almost <marker>hundred</marker> examples.</example> -->
             <example correction="a thousand">There are about <marker>thousand</marker> oaks in this park.</example>
             <example>You need almost <marker>a hundred</marker> examples.</example>
             <example>The U.S. government gave USD250 million to UNITA between 1986 to 1991.</example>
@@ -32923,7 +33030,7 @@ USA
                 <example correction="Thanksgiving">We see each other at <marker>Thanks giving</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PRP_CUSTOM_BUILD" name="custom build (custom-build)" default="temp_off">
+        <rulegroup id="PRP_CUSTOM_BUILD" name="custom build (custom-build)">
             <url>https://www.lexico.com/definition/custom-build</url>
             <antipattern>
                 <token postag="VB.*|IN|UNKNOWN" postag_regexp="yes" />
@@ -39760,7 +39867,7 @@ The accident victim died from her injuries.
                 <example correction="we">Can <marker>wen</marker> check it now?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MOST_MUST" name="must vs most" default="temp_off">
+        <rulegroup id="MOST_MUST" name="must vs most">
             <rule>
                 <pattern>
                     <token postag="SENT_START" />
@@ -39776,7 +39883,7 @@ The accident victim died from her injuries.
                     </marker>
                     <token min="0">not</token>
                     <token postag="VBP?" postag_regexp="yes">
-                        <exception regexp="yes">love|like|admire|appreciate|enjoy</exception>
+                        <exception regexp="yes">love|like|admire|appreciate|enjoy|complete</exception>
                     </token>
                 </pattern>
                 <message>Did you mean <suggestion>must</suggestion> ("have to", modal verb) or <suggestion>mostly</suggestion> ("mainly", adverb)?</message>
@@ -39786,6 +39893,18 @@ The accident victim died from her injuries.
                 <example>What I most love about that, is the new look.</example>
             </rule>
         </rulegroup>
+        <rule id="A_HASTILY_WAY" name="In a hastily way" default="temp_off">
+            <pattern>
+                <token postag="DT" />
+                <token postag="JJ" min="0" />
+                <marker>
+                    <token>hastily</token>
+                    <token regexp="yes">way|manner|decisions?|temperments?|pudding</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>hasty \4</suggestion>?</message>
+            <example correction="hasty manner">He did it in a <marker>hastily manner</marker>.</example>
+        </rule>
         <rulegroup id="ADJECTIVE_ADVERB" name="adjective vs. adverb"><!-- TODO add more pairs (general(ly), direct(ly), eventual(ly), certain(ly), extreme(ly), immediate(ly), slow(ly) ...) -->
             <antipattern>
                 <token regexp="yes">subject|responses?|addition|attention|due|alternatives?|exposure|similar|comparable|access|regards?|related</token>
@@ -41370,7 +41489,12 @@ The accident victim died from her injuries.
             </antipattern>
             <antipattern>
                 <token skip="1">by</token>
-                <token regexp="yes">now|far|nature|natural</token>
+                <token regexp="yes">now|far|nature|natural|force</token>
+            </antipattern>
+            <antipattern><!-- adverbial phrase https://www.merriam-webster.com/dictionary/by%20and%20by -->
+                <token>by</token>
+                <token regexp="yes">&amp;|and</token>
+                <token>by</token>
             </antipattern>
             <antipattern>
                 <token postag="VB.*" postag_regexp="yes">
@@ -41507,6 +41631,10 @@ The accident victim died from her injuries.
                 <token>it</token>
                 <token>by</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">garbage|trash</token>
+                <token>can</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token />
@@ -41603,6 +41731,7 @@ The accident victim died from her injuries.
                 <example>You don’t get any better coverage then you would by just putting a plug in pocket socket in the same location.</example>
                 <example>It did so by disrupting industrial programmable logic controllers.</example>
                 <example>Sometimes the city is informally referred to as by people from Alexandria.</example>
+                <example>Alex took the garbage can out by the driveway.</example>
                 <example>You did so by making sure the truth was on your side and that you could back up your claims.</example>
                 <example>TJ looking into the formulas, with Anna's assistance as best she can by telephone and IM.</example>
                 <example>This might be your day time running lights, I doubt you can by pass these.</example><!-- different error (bypass) -->
@@ -41638,7 +41767,7 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">Chaos|Enigma|Book|War|King</token>
+                    <token regexp="yes">Chaos|Enigma|Book|War|King|Article|Phase</token>
                     <token>I</token>
                 </antipattern>
                 <antipattern>
@@ -42297,8 +42426,8 @@ The accident victim died from her injuries.
                 <pattern>
                     <marker><token>to</token></marker>
                     <token postag="RB">
-                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|not|yes|no|multiply|tomorrow|today|tonight|yesterday|here|wheresoever</exception><!-- 'too X' is not standard English. -->
-                      <exception postag_regexp="yes" postag="JJR?|VBP"/>
+                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|nowhere|not|yes|no|multiply|tomorrow|today|tonight|yesterday|here|wheresoever</exception><!-- 'too X' is not standard English. -->
+                      <exception postag_regexp="yes" postag="JJR?|VBP|NNP"/>
                     </token>
                     <token postag="SENT_END" regexp="yes">\p{P}</token>
                 </pattern>
@@ -42322,6 +42451,7 @@ The accident victim died from her injuries.
                 <example>I wish I could re-schedule it to tomorrow.</example>
                 <example>I'm no one to bully.</example>
                 <example>From monthly to annually.</example>
+                <example>You should take the train to nowhere.</example>
             </rule>
             <rule>
                 <pattern>
