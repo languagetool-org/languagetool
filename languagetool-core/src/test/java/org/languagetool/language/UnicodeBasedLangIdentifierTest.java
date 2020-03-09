@@ -31,6 +31,7 @@ public class UnicodeBasedLangIdentifierTest {
   public void testGetAdditionalLangCodes() {
     String cyrillic = "[ru, uk, be]";
     String cjk = "[zh, ja]";
+    String devanagari = "[hi, mr]";
 
     assertThat(codes(""), is("[]"));
     assertThat(codes(" "), is("[]"));
@@ -73,6 +74,11 @@ public class UnicodeBasedLangIdentifierTest {
     assertThat(codes("Το Linux μπορεί να εγκατασταθεί και"), is("[el]"));
     assertThat(codes("Δημιουργός του πυρήνα Linux είναι ο"), is("[el]"));
     assertThat(codes("Ο Τόρβαλντς ξεκίνησε"), is("[el]"));
+
+    // Hindi:
+    assertThat(codes("दरलैंड में कोरोनोवायरस के दर्ज मामलों की संख्या 38 से बढ़कर 82 हो गई है।\n" +
+                     " मामलों में वृद्धि तब होती है जब देश उत्तरी इटली में स्कीइंग की छुट्टियों"), is(devanagari));  // Hindi
+    assertThat(codes("आम्हाला उशीर होणार नाही"), is(devanagari));  // Marathi
   }
 
   private String codes(String s) {

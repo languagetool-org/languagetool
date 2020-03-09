@@ -42,6 +42,7 @@ class UnicodeBasedLangIdentifier {
     int khmerChars = 0;
     int tamilChars = 0;
     int greekChars = 0;
+    int devanagariChars = 0;
     int significantChars = 0;
     for (int i = 0; i < Math.min(str.length(), maxCheckLength); i++) {
       int val = str.charAt(i);
@@ -67,6 +68,9 @@ class UnicodeBasedLangIdentifier {
       if (val >= 0x0370 && val <= 0x03FF || val >= 0x1F00 && val <= 0x1FFF) {
         greekChars++;
       }
+      if (val >= 0x0900 && val <= 0x097F) {
+        devanagariChars++;
+      }
     }
     List<String> langCodes = new ArrayList<>();
     if ((float)cyrillicChars / significantChars >= THRESHOLD) {
@@ -87,6 +91,10 @@ class UnicodeBasedLangIdentifier {
     }
     if ((float)greekChars / significantChars >= THRESHOLD) {
       langCodes.add("el");
+    }
+    if ((float)devanagariChars / significantChars >= THRESHOLD) {
+      langCodes.add("hi");
+      langCodes.add("mr");
     }
     return langCodes;
   }
