@@ -29487,16 +29487,23 @@ USA
                     <token>dot</token>
                     <token postag="NNS"/>
                 </antipattern>
+                <antipattern>
+                    <token>chief</token>
+                    <token>of</token>
+                    <token>staff</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">&collective_nouns;</token>
                         <token>of</token>
                         <token chunk="E-NP-singular" postag="NN">
-                            <exception postag="NN:U|NNP?S|JJ.*|PRP\$" postag_regexp="yes"/></token>
+                            <exception postag="NN:U|NNP?S|JJ.*|PRP\$" postag_regexp="yes"/>
+                        </token>
                     </marker>
-                        <token>
-                            <exception postag="NNP?S" postag_regexp="yes"/>
-                            <exception regexp="yes">&apostrophe;</exception></token>
+                    <token>
+                        <exception postag="NNP?S" postag_regexp="yes"/>
+                        <exception regexp="yes">&apostrophe;</exception>
+                    </token>
                 </pattern>
                 <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable; consider using: <suggestion><match no="1"/> of <match no="3" postag="NNS"/></suggestion>.</message>
                 <example correction="collection of books">The library has a <marker>collection of book</marker>.</example>
@@ -29511,6 +29518,7 @@ USA
                 <example>... was a stop-gap collection of Sketch magazine stories, for money when her husband left...</example>
                 <example>Here are a bunch of mine:</example><!-- Ambiguous. Can parse 'mine' as PRPS or NN. Found by A_LOT_OF_NN -->
                 <example>She bought two pairs of polka dot stockings.</example>
+                <example>He is chief of staff of army.</example>
                 <example type="triggers_error">The William Burges collection of armoury was bequeathed to the museum in 1881.</example><!-- I did not find 'armoury' as NN:U -->
             </rule>
             <rule><!-- Glossary of term and acronyms -->
