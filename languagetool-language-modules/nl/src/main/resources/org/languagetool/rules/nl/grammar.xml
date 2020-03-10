@@ -1,4 +1,4 @@
-<!-- <?xml version="1.0" encoding="utf-8"?> -->
+﻿<!-- <?xml version="1.0" encoding="utf-8"?> -->
 <?xml-stylesheet type="text/xsl" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print" ?>
 <?xml-stylesheet type="text/css" href="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet" ?>
 <!--
@@ -37437,17 +37437,24 @@ steenwijk;Steenwijk
 		<rulegroup id="SEKSE_VOLGORDE" name="wellicht volgorde omdraaien">
 			<rule>
 				<pattern>
-					<token inflected="yes" regexp="yes">man|jongen</token><token regexp="yes">en|of</token><token inflected="yes" regexp="yes">vrouw|meisje</token>
+					<token inflected="yes" regexp="yes">heer|man|jongen</token><token regexp="yes">en|of</token><token inflected="yes" regexp="yes">dame|vrouw|meisje</token>
 				</pattern>
-				<message>De man staat hier voorop, maar is die wel het belangrijkste? Wellicht is <suggestion>\3 \2 \1</suggestion> toepasselijker? Of kies een neutraler woord als <suggestion>personen</suggestion>, <suggestion>mensen</suggestion>, <suggestion>kinderen</suggestion>,</message>
-				<example correction="meisjes en jongens|personen|mensen|kinderen">We spreken de <marker>jongens en meisjes</marker> aan.</example>
+				<message>Is het wel nodig om onderscheid in gender te maken? Kies liever een neutraler woord als <suggestion>personen</suggestion>, <suggestion>mensen</suggestion>, <suggestion>kinderen</suggestion>,</message>
+				<example correction="personen|mensen|kinderen">We spreken de <marker>jongens en meisjes</marker> aan.</example>
 			</rule>
 			<rule>
 				<pattern>
-					<token inflected="yes" regexp="yes">bruid|dame</token><token regexp="yes">en|of</token><token inflected="yes" regexp="yes">bruidegom|heer</token>
+					<token inflected="yes" regexp="yes">dame|vrouw|meisje</token><token regexp="yes">en|of</token><token inflected="yes" regexp="yes">heer|man|jongen</token>
 				</pattern>
-				<message>De vrouw staat hier voorop, maar is die wel het belangrijkste? Wellicht is <suggestion>\3 \2 \1</suggestion> toepasselijker? Of kies een neutraler woord als <suggestion>personen</suggestion>, <suggestion>mensen</suggestion>, <suggestion>kinderen</suggestion></message>
-				<example correction="heren en dames|personen|mensen|kinderen">We spreken de <marker>dames en heren</marker> aan.</example>
+				<message>Is het wel nodig om onderscheid in gender te maken? Kies liever een neutraler woord als <suggestion>personen</suggestion>, <suggestion>mensen</suggestion>, <suggestion>kinderen</suggestion>,</message>
+				<example correction="personen|mensen|kinderen">We spreken de <marker>meisjes en jongens</marker> aan.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token inflected="yes" regexp="yes">bruid|bruidegom</token><token regexp="yes">en|of</token><token inflected="yes" regexp="yes">bruidegom|bruid</token>
+				</pattern>
+				<message>Is het wel nodig om onderscheid in gender te maken? Kies liever een neutraler woord als <suggestion>bruidspaar</suggestion>.</message>
+				<example correction="bruidspaar">We spreken <marker>bruid en bruidegom</marker> aan.</example>
 			</rule>
 		</rulegroup>
 
