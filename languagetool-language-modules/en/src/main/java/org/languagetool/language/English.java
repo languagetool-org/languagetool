@@ -243,6 +243,11 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    if (languageModel != null && motherTongue != null && "fr".equals(motherTongue.getShortCode())) {
+      return Arrays.asList(
+          new EnglishForFrenchFalseFriendRule(messages, languageModel, motherTongue, this)
+      );
+    }
     if (languageModel != null && motherTongue != null && "de".equals(motherTongue.getShortCode())) {
       return Arrays.asList(
           new EnglishForGermansFalseFriendRule(messages, languageModel, motherTongue, this)
@@ -258,7 +263,7 @@ public class English extends Language implements AutoCloseable {
 
   @Override
   public boolean hasNGramFalseFriendRule(Language motherTongue) {
-    return motherTongue != null && "de".equals(motherTongue.getShortCode());
+    return motherTongue != null && ("de".equals(motherTongue.getShortCode()) || "fr".equals(motherTongue.getShortCode()));
   }
 
   /**
