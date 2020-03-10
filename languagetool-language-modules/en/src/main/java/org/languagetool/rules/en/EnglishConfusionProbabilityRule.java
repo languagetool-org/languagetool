@@ -77,6 +77,10 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "haven’t known",
       "hasn’t known",
       "hadn’t known",
+      "wasn't known",
+      "wasn’t known",
+      "weren't known",
+      "weren’t known",
       "his fluffy butt",
       "it's now better", // vs. no
       "it’s now better", // vs. no
