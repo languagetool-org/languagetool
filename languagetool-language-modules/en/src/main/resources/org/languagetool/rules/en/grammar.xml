@@ -214,7 +214,7 @@ USA
             <example correction="help">I need <marker>helps</marker>.</example>
             <example correction="help">He wants your <marker>helps</marker>.</example>
         </rule>
-        <rule id="NEW_GUINEA" name="New Guinea" default="temp_off">
+        <rule id="NEW_GUINEA" name="New Guinea">
             <antipattern case_sensitive="yes">
                 <token>New</token>
                 <token>Guinea</token>
@@ -4901,7 +4901,7 @@ USA
                 <example correction="reasons">7 <marker>reason's</marker> why</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DOS_AND_DONTS" name="Do's and Don'ts" default="temp_off">
+        <rulegroup id="DOS_AND_DONTS" name="Do's and Don'ts">
             <url>https://www.lexico.com/definition/dos_and_don'ts</url>
             <antipattern>
                 <token>dos</token>
@@ -9840,6 +9840,30 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="BE_COME" name="be come (become)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="PRP|MD|TO" postag_regexp="yes" />
+                    <marker>
+                        <token>be</token>
+                        <token regexp="yes">comes?|came</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>be<match no="3" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="became">They <marker>be came</marker> very interested in that topic.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <marker>
+                        <token>be</token>
+                        <token>coming</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>be<match no="3" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="becoming">They are <marker>be coming</marker> very interested in that topic.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GOING_TO_JJ" name="going to (be / too) great">
             <rule>
                 <antipattern>
@@ -10102,7 +10126,7 @@ USA
             <example correction="bit">He wants a little <marker>it</marker> more.</example>
             <example correction="bit">I think it would be rather neat to have a <marker>it</marker> less freedom.</example>
         </rule>
-        <rule id="IF_IT_OK_FOR" name="If it (it is) ok for you" default="temp_off">
+        <rule id="IF_IT_OK_FOR" name="If it (it is) ok for you">
             <pattern>
                 <token regexp="yes">if|whether|when</token>
                 <marker>
@@ -10511,6 +10535,12 @@ USA
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
                 <token postag="NN.*" postag_regexp="yes" min="1" max="3" />
                 <token postag="VB.*|MD" postag_regexp="yes" />
+            </antipattern>
+            <antipattern><!-- "They say we dutch we don't have ..." (different error) -->
+                <token>we</token>
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <token postag="NN.*" postag_regexp="yes" min="1" max="3" />
+                <token>we</token>
             </antipattern>
             <antipattern>
                 <token>t</token>
@@ -11540,8 +11570,8 @@ USA
                 <token postag="MD" />
                 <token regexp="yes" min="0">&apostrophe;</token>
                 <token min="0">t</token>
-                <token regexp="yes">m[uo]m|m[ou]mmy|mama|dad(dy)?|papa</token>
-                <token regexp="yes">thanks?</token>
+                <token regexp="yes">m[uo]m|m[ou]mmy|mama|dad(dy)?|papa|dear</token>
+                <token regexp="yes">thanks?|\,</token>
             </antipattern>
             <antipattern><!-- Yes, you can Peter -->
                 <token regexp="yes">ye[sp]|no(pe)?|[ao]hh?</token>
@@ -11577,7 +11607,7 @@ USA
                     <token min="0" regexp="yes">&apostrophe;</token>
                     <token min="0" regexp="yes">(no)?t|really|very</token>
                     <marker>
-                        <token regexp="yes">nicer?|good|great|cool(er)?|familiar|handy|(im)?possible|sweet|safer?|better|ok|related|interesting|(in)?appropriate|important|glad|happy|horrible|terrible|sorry</token>
+                        <token regexp="yes">nicer?|good|great|cool(er)?|familiar|handy|(im)?possible|sweet|safer?|better|ok|related|interesting|(in)?appropriate|important|glad|happy|horrible|terrible|sorry|worth</token>
                     </marker>
                     <token regexp="yes">to|about|for|if|when|as|\.|\!</token>
                 </pattern>
@@ -14442,6 +14472,12 @@ USA
                 <token>Do</token>
                 <token>Not</token>
                 <token>Track</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">the|an?</token>
+                <token regexp="yes" postag="VBP?" postag_regexp="yes">[A-Z].+</token>
+                <token regexp="yes">and|or|&amp;</token>
+                <token regexp="yes" postag="VBP?" postag_regexp="yes">[A-Z].+</token>
             </antipattern>
             <antipattern>
                 <token>lynch</token>
@@ -33326,8 +33362,8 @@ USA
             <antipattern><!-- We firemen in Cleveland can do it -->
                 <token>we</token>
                 <token postag="NNP?S" postag_regexp="yes" />
-                <token regexp="yes">in|from</token>
-                <token postag="NNP" />
+                <token min="0">here</token>
+                <token regexp="yes" skip="2">in|from|at</token>
                 <token postag="VB[PD]?|MD" postag_regexp="yes" />
             </antipattern>
             <antipattern><!-- we humans all can live together -->
@@ -33415,6 +33451,7 @@ USA
             <example>Have we anything new to test?</example>
             <example>Haven't we anything new to test?</example>
             <example>All of you girls</example>
+            <example>We farmers here in South Carolina.</example>
             <example>Aren't you something else?</example>
             <example>... if I ask you anything else today.</example>
             <example>I wouldn’t read within it anything other than the half (of the Qur’an) that I had previously memorized.</example>
@@ -39979,7 +40016,7 @@ The accident victim died from her injuries.
                 <example>What I most love about that, is the new look.</example>
             </rule>
         </rulegroup>
-        <rule id="A_HASTILY_WAY" name="In a hastily way" default="temp_off">
+        <rule id="A_HASTILY_WAY" name="In a hastily way">
             <pattern>
                 <token postag="DT" />
                 <token postag="JJ" min="0" />
