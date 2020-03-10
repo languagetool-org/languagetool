@@ -2338,6 +2338,14 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule name="zpl" id="zpl"><pattern><token>zpl</token></pattern><disambig action="ignore_spelling"/></rule>
 	<rule name="zsm" id="zsm"><pattern><token>zsm</token></pattern><disambig action="ignore_spelling"/></rule>
 
+	<!-- voeg tags voor eigennamen toe -->
+	<rule id="VOETBAL_INTERNATIONAL" name="">
+		<pattern case_sensitive="yes">
+			<marker><token>Voetbal</token><token>International</token></marker>
+    </pattern>
+		<disambig action="add"><wd pos="NAME_PART"/><wd pos="NAME_PART"/></disambig>
+	</rule>
+	
 	<!-- aanhalingstekens openen 
 	<rule id="AANHAAL_OPN_1" name="">
         <pattern><token>‘</token></pattern>
@@ -2388,33 +2396,36 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 
 	<!-- defining noun phrases -->
 	<rule id="NOUN_PHRASE_PLURAL_01" name="">
+		<!-- van mannen van -->
 		<pattern>
-			<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
 			<marker>
+				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
 				<token postag_regexp="yes" postag=".*MRV.*"/>
 			</marker>
 			<token postag_regexp="yes" postag="VRZ|SENT_END"/></pattern>
-		<disambig action="add"><wd pos="NNP_PLU"/></disambig>
+			<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
 	</rule>
 	<rule id="NOUN_PHRASE_PLURAL_02" name="">
+		<!-- van de vrouwen van -->
 		<pattern>
-			<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
 			<marker>
+				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
 				<token regexp="yes">de|die|deze|alle|onze|zijn|haar|hun|uw|mijn|jullie|je|jouw|beide|eigen|meer|minder</token>
 				<token postag_regexp="yes" postag=".*MRV.*"/>
 			</marker>
 			<token postag_regexp="yes" postag="VRZ|SENT_END"/></pattern>
-		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
+		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
 	</rule>
 	<rule id="NOUN_PHRASE_PLURAL_03" name="">
+		<!-- van dikke vrouwen van -->
 		<pattern>
-			<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
 			<marker>
+				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
 				<token postag_regexp="yes" postag="BNW:(STL|VGR|OVR|ALR):VRB|WKW:(ODW|VTD):VRB|BNW:STF|GET:RNG"/>
 				<token postag_regexp="yes" postag=".*MRV.*"/>
 			</marker>
 			<token postag_regexp="yes" postag="VRZ|SENT_END"/></pattern>
-		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
+		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
 	</rule>
 
 </rules>
