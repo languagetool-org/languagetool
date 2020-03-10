@@ -30792,10 +30792,52 @@ USA
         </rule>
 
         <rule id="MUCH_COUNTABLE" name="'much' + countable noun, e.g. 'much (many) children'">
-            <antipattern>
+            <antipattern><!-- How much does it cost? [No chunk for 'does'] -->
                 <token>how</token>
                 <token>much</token>
-                <token postag="VB.*" postag_regexp="yes"/>
+                <token>does</token>
+                <token postag="PRP"/>
+            </antipattern>
+            <antipattern><!--  #2541 Drinking too much makes -->
+                <token regexp="yes">how|too|very</token>
+                <token>much</token>
+                <token chunk="B-VP" postag="VB.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern><!-- #2541 www.lexico.com/definition/pretty_much -->
+                <token>pretty</token>
+                <token regexp="yes">much|well</token>
+                <token chunk="B-VP" postag="VB.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern><!-- #2541 See how much muffins usually cost. -->
+                <token>how</token>
+                <token>much</token>
+                <token postag="NNS"/>
+                <token min="0" max="2" postag="RB"/>
+                <token>cost</token><!-- Seems to be some semantics. Refer to the 'break' example. -->
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern><!-- #2541 The supply of a good or service is how much -->
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="IN"/>
+                <token postag="DT"/>
+                <token chunk="I-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token regexp="yes">and|or</token>
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag_regexp="yes" postag="VB[ZD]"/>
+                <token>how</token>
+                <token>much</token>
+            </antipattern>
+            <antipattern><!-- #2541 understand how much humans love themselves -->
+                <token postag_regexp="yes" postag="VB.*"/>
+                <token>how</token>
+                <token>much</token>
+                <token chunk="E-NP-plural" postag="NNS">
+                    <exception>does</exception>
+                    </token>
+                <token skip="-1" postag_regexp="yes" postag="VB[PD]">
+                    <exception scope="next">?</exception>
+                    </token>
+                <token postag="SENT_END"/>
             </antipattern>
             <pattern>
                 <marker>
@@ -30809,10 +30851,24 @@ USA
             <message>Use <suggestion>many</suggestion> with countable nouns.</message>
             <short>Grammatical problem with countable noun</short>
             <example correction="many">There are <marker>much</marker> children.</example>
+            <example correction="many">How <marker>much</marker> muffins usually cost more than 10 euros each?</example><!-- #2541 -->
+            <example correction="many">See how <marker>much</marker> muffins actually cost less than 10 euros each.</example><!-- #2541 -->
+            <example correction="many">In this test, see how <marker>much</marker> muffins usually break.</example><!-- #2541 -->
+            <example correction="many">How <marker>much</marker> cats love milk?</example><!-- #2541 -->
+            <example correction="many">... although you know how <marker>much</marker> does are in grazing the forest.</example><!-- #2541 -->
             <example>How much does it cost?</example>
             <example>We kindly ask you to provide as much data as possible.</example><!-- #1822 -->
             <example>...about people receiving an income according to how much others subjectively value their labor or what...</example>
+            <example>Drinking too much makes us dizzy.</example><!-- #2541 -->
+            <example>See how much muffins usually cost.</example><!-- #2541 -->
+            <example>Then he pretty much escapes that prison.</example><!-- #2541 -->
+            <example>The supply of a good or service is how much producers are willing to make at a given price.</example><!-- #2541 -->
+            <example>Everyone can understand how much humans love themselves.</example><!-- #2541 -->
+            <example>Everyone can see how much cats love themselves.</example><!-- #2541 -->
+            <example>Everyone can understand how much humans love beer.</example><!-- #2541 Possibly an error. -->
+            <example type="triggers_error">Whether measured as how much citizens worry about climate change or whether climate change poses a threat to them or their way of life.</example><!-- #2541 Possibly correct. -->
         </rule>
+
         <rule id="MANY_NN" name="Possible agreement error: 'many/several/few' + singular countable noun">
             <antipattern case_sensitive="yes">
                 <token>Many</token>
