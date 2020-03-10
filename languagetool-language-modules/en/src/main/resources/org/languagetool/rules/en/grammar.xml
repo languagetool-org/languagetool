@@ -42071,6 +42071,7 @@ The accident victim died from her injuries.
                 <example>I tried also with AWLUnicode and Lucida Sans Unicode, but they too do not render correctly.</example><!-- #2198 -->
             </rule>
         </rulegroup>
+
         <rulegroup id="TO_TOO" name="to/two (too) late/soon/much">
             <url>https://en.wiktionary.org/wiki/too</url>
             <antipattern><!-- https://dictionary.cambridge.org/de/worterbuch/englisch/not-amount-to-much -->
@@ -42240,6 +42241,13 @@ The accident victim died from her injuries.
                     <token min="0" max="1" postag="JJR"/>
                     <token postag_regexp="yes" postag="NN:UN?|SENT_END"/>
                 </antipattern>
+                <antipattern><!-- #2460  He hasn't been up to much [www.ldoceonline.com/dictionary/not-be-up-to-much] -->
+                    <token regexp="yes">t|not</token>
+                    <token min="0" max="1">been</token>
+                    <token>up</token>
+                    <token>to</token>
+                    <token>much</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">tw?o</token>
@@ -42267,6 +42275,11 @@ The accident victim died from her injuries.
                 <example>... and this is also contributing to much poverty in this country.</example>
                 <example>We're  not going to go <marker>too much more</marker> into it.</example>
                 <example>I do not think that Chinese married women of respectability could be induced to emigrate to much extent.</example>
+                <example>He hasn't been up to much.</example><!-- #2460 -->
+                <example>The manager hasn't been up to much; he's quite boring.</example><!-- #2460 -->
+                <example>She's not up to much these days</example><!-- #2460 -->
+<!-- False negative --><example>The manager hasn't been up to much. He stays in his office downstairs and doesn't interfere.</example><!-- #2460 -->
+<!-- False negative --><example>The pressure hasn't been up to much recently; we can say that the adjustments to the valves are satisfactory.</example><!-- #2460 -->
                 <example correction="too">It broke because <marker>to</marker> much snow was on it.</example>
                 <example correction="too">I hate to replace them; they cost <marker>to</marker> much.</example>
                 <example correction="too">They cost <marker>two</marker> much money.</example>
@@ -42509,6 +42522,16 @@ The accident victim died from her injuries.
                     <token postag="RB" />
                     <token postag="VBP" />
                 </antipattern>
+                <antipattern><!-- #2460 want to either. -->
+                    <token postag_regexp="yes" postag="VB.*" regexp="yes" inflected="yes">want|need|hope</token>
+                    <token>to</token>
+                    <token regexp="yes">either|also</token>
+                </antipattern>
+                <antipattern><!-- #2460 the train to there -->
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                    <token>to</token>
+                    <token>there</token>
+                </antipattern>
                 <pattern>
                     <marker><token>to</token></marker>
                     <token postag="RB">
@@ -42538,6 +42561,8 @@ The accident victim died from her injuries.
                 <example>I'm no one to bully.</example>
                 <example>From monthly to annually.</example>
                 <example>You should take the train to nowhere.</example>
+                <example>I don't want to either.</example><!-- #2460 -->
+                <example>The train to there.</example><!-- #2460 -->
             </rule>
             <rule>
                 <pattern>
