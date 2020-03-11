@@ -723,6 +723,7 @@ public class ConfigurationDialog implements ActionListener {
     portPanel.add(useRemoteServerBox, cons);
     cons.insets = new Insets(0, 30, 0, 0);
     JPanel serverPanel = new JPanel();
+    
     serverPanel.setLayout(new GridBagLayout());
     GridBagConstraints cons1 = new GridBagConstraints();
     cons1.insets = new Insets(0, 0, 0, 0);
@@ -734,6 +735,11 @@ public class ConfigurationDialog implements ActionListener {
     serverPanel.add(useServerBox, cons1);
     cons1.gridx++;
     serverPanel.add(otherServerNameField, cons1);
+    JLabel serverExampleLabel = new JLabel(" " + Tools.getLabel(messages.getString("guiUseServerExample")));
+    serverExampleLabel.enable(false);
+    cons1.gridy++;
+    serverPanel.add(serverExampleLabel, cons1);
+
     cons.gridx = 0;
     cons.gridy++;
     portPanel.add(serverPanel, cons);
@@ -1188,6 +1194,24 @@ public class ConfigurationDialog implements ActionListener {
       for(JPanel extra : extraPanels) {
         if(extra instanceof SavablePanel) {
           ((SavablePanel) extra).save();
+        }
+      }
+      if(insideOffice && config.doRemoteCheck() && config.useOtherServer()) {
+        String serverName = config.getServerUrl();
+        if(serverName == null || (!serverName.startsWith("http://") && !serverName.startsWith("https://"))
+            || serverName.endsWith("/") || serverName.endsWith("/v2")) {
+          JOptionPane.showMessageDialog(dialog, Tools.getLabel(messages.getString("guiUseServerWarning1")) + "\n" + Tools.getLabel(messages.getString("guiUseServerWarning2")));
+          if(serverName.endsWith("/")) {
+            serverName = serverName.substring(0, serverName.length() - 1);
+            config.setOtherServerUrl(serverName);
+          }
+          if(serverName.endsWith("/v2")) {
+            serverName = serverName.substring(0, serverName.length() - 3);
+            config.setOtherServerUrl(serverName);
+          }
+          restartShow = true;
+          dialog.setVisible(false);
+          return;
         }
       }
       configChanged = true;
