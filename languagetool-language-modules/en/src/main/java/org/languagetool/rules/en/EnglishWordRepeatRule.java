@@ -74,6 +74,8 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;
     } else if (wordRepetitionOf("hi", tokens, position)) {
       return true;   // "hi hi"
+    } else if (wordRepetitionOf("ho", tokens, position)) {
+      return true;   // "ho ho"
     } else if (wordRepetitionOf("heh", tokens, position)) {
       return true;
     } else if (wordRepetitionOf("jay", tokens, position)) {
@@ -101,6 +103,15 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     } else if (wordRepetitionOf("meow", tokens, position)) {
       return true;
     } else if (wordRepetitionOf("squawk", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("chi", tokens, position)) {
+      // name
+      return true;
+    } else if (wordRepetitionOf("santorio", tokens, position)) {
+      // name
+      return true;
+    } else if (wordRepetitionOf("lapu", tokens, position)) {
+      // city
       return true;
     } else if (wordRepetitionOf("chow", tokens, position)) {
       // dog breed https://en.wikipedia.org/wiki/Chow_Chow
@@ -130,6 +141,10 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     } else if (wordRepetitionOf("tsk", tokens, position)) {
       return true;
     } else if (wordRepetitionOf("hush", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("ding", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("choo", tokens, position)) {
       return true;
     } else if (wordRepetitionOf("Phi", tokens, position)) {
       return true;   // "Phi Phi Islands"
