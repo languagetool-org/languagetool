@@ -33,6 +33,8 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
@@ -122,6 +124,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           replaceFormsOfFirstMatch(message, sentence, ruleMatches, suggestion);
         }
       }
+    }
+    // filter "re ..." (#2562):
+    for (RuleMatch ruleMatch : ruleMatches) {
+      List<SuggestedReplacement> cleaned = ruleMatch.getSuggestedReplacementObjects().stream().filter(k -> !k.getReplacement().startsWith("re ")).collect(Collectors.toList());
+      ruleMatch.setSuggestedReplacementObjects(cleaned);
     }
     return ruleMatches;
   }
