@@ -97,7 +97,16 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "big butt",
       "news debate",
       "verify you own",
-      "ensure you own"
+      "ensure you own",
+      "happy us!",
+      "your pick up",
+      "no but you",
+      "no but we",
+      "no but he",
+      "no but I",
+      "no but they",
+      "no but she",
+      "no but it"
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
