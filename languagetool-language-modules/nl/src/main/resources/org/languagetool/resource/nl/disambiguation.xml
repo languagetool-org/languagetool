@@ -2402,8 +2402,9 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
 				<token postag_regexp="yes" postag=".*MRV.*"/>
 			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/></pattern>
-			<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
+			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
+		</pattern>
+		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
 	</rule>
 	<rule id="NOUN_PHRASE_PLURAL_02" name="">
 		<!-- van de vrouwen van -->
@@ -2413,7 +2414,8 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 				<token regexp="yes">de|die|deze|alle|onze|zijn|haar|hun|uw|mijn|jullie|je|jouw|beide|eigen|meer|minder</token>
 				<token postag_regexp="yes" postag=".*MRV.*"/>
 			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/></pattern>
+			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
+		</pattern>
 		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
 	</rule>
 	<rule id="NOUN_PHRASE_PLURAL_03" name="">
@@ -2424,8 +2426,28 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 				<token postag_regexp="yes" postag="BNW:(STL|VGR|OVR|ALR):VRB|WKW:(ODW|VTD):VRB|BNW:STF|GET:RNG"/>
 				<token postag_regexp="yes" postag=".*MRV.*"/>
 			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/></pattern>
+			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
+		</pattern>
 		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
+	</rule>
+
+	<rule id="ERROR_DEMO_01" name="">
+		<pattern>
+			<marker>
+				<token>testing</token>
+			</marker>
+		</pattern>
+		<disambig action="add"><wd pos="TESTING"/></disambig>
+	</rule>
+	<rule id="ERROR_DEMO_02" name="">
+		<pattern>
+			<token/>
+			<marker>
+				<token>testing</token>
+			</marker>
+			<token/>
+		</pattern>
+		<disambig action="add"><wd pos="TESTING"/></disambig>
 	</rule>
 
 </rules>
