@@ -383,20 +383,18 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     boolean preventFurtherSuggestions = false;
     Translator translator = getTranslator(globalConfig);
     if (translator != null && ruleMatch == null && motherTongue != null) {
-      List<String> phrasesToTranslate = new ArrayList<>();
-      int translationEndPos = startPos + word.length();
+      List<PhraseToTranslate> phrasesToTranslate = new ArrayList<>();
       if (idx + 1 < tokens.length) {
         String nextWord = tokens[idx + 1].getToken();
         if (isMisspelled(nextWord)) {
-          phrasesToTranslate.add(word + " " + nextWord);
-          translationEndPos = tokens[idx + 1].getEndPos();
+          phrasesToTranslate.add(new PhraseToTranslate(word + " " + nextWord, tokens[idx + 1].getEndPos()));
         }
       }
-      phrasesToTranslate.add(word);
-      for (String phraseToTranslate : phrasesToTranslate) {
-        List<TranslationEntry> translations = translator.translate(phraseToTranslate, motherTongue.getShortCode(), language.getShortCode());
+      phrasesToTranslate.add(new PhraseToTranslate(word, startPos + word.length()));
+      for (PhraseToTranslate phraseToTranslate : phrasesToTranslate) {
+        List<TranslationEntry> translations = translator.translate(phraseToTranslate.phrase, motherTongue.getShortCode(), language.getShortCode());
         if (translations.size() > 0) {
-          ruleMatch = new RuleMatch(this, sentence, startPos, translationEndPos, translator.getMessage());
+          ruleMatch = new RuleMatch(this, sentence, startPos, phraseToTranslate.endPos, translator.getMessage());
           ruleMatch.setType(RuleMatch.Type.Hint);
           ruleMatch.setSuggestedReplacements(new ArrayList<>());
           List<SuggestedReplacement> l = new ArrayList<>();
@@ -410,7 +408,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
           if (l.size() > 0) {
             ruleMatch.setSuggestedReplacementObjects(l);
             translationSuggestionCount = l.size();
-            if (phraseToTranslate.contains(" ")) {
+            if (phraseToTranslate.phrase.contains(" ")) {
               preventFurtherSuggestions = true;  // mark gets extended, so suggestions for the original marker won't make sense
             }
             break;  // let's assume the first phrase is the best because it's longer
@@ -600,5 +598,14 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       newSuggestionsList.add(beforeSuggestionStr + str + afterSuggestionStr);
     }
     return newSuggestionsList;
+  }
+
+  static class PhraseToTranslate {
+    String phrase;
+    int endPos;
+    PhraseToTranslate(String phrase, int endPos) {
+      this.phrase = phrase;
+      this.endPos = endPos;
+    }
   }
 }
