@@ -76,9 +76,10 @@ public class BeoLingusTranslatorTest {
     assertTrue(result2.get(1).getL2().contains("home"));
     assertTrue(result2.get(2).getL2().contains("volta bracket (sheet music)"));
 
-    List<TranslationEntry> result3 = translator.translate("house", "en", "de");
-    assertThat(result3.size(), is(1));
-    assertTrue(result3.get(0).getL2().contains("Haus {n}"));
+    //direction not yet activated:
+    //List<TranslationEntry> result3 = translator.translate("house", "en", "de");
+    //assertThat(result3.size(), is(1));
+    //assertTrue(result3.get(0).getL2().contains("Haus {n}"));
 
     List<TranslationEntry> result4 = translator.translate("suchwort", "de", "en");
     //for (TranslationEntry s : result4) { System.out.println("  " + s.getL1() + " <> " + String.join(" -- " , s.getL2())); }
