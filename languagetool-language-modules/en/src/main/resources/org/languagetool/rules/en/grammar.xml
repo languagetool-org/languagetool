@@ -9841,7 +9841,7 @@ USA
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
 
-        <rule id="WELL_KNOWN" name="is well know" default="temp_off">
+        <rule id="WELL_KNOWN" name="is well know">
             <pattern>
                 <token inflected="yes" regexp="yes">be|the|a</token>
                 <token postag="JJ" min="0" />
@@ -10810,7 +10810,7 @@ USA
                 <example>Please forward this list so that we on the hourly power desk can be sure to enter deals correctly in Enpower.</example>
                 <example>Touches is where we 1st met.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">article|phase|class|grade|part|paragraph</token>
                     <token>I</token>
@@ -10828,7 +10828,7 @@ USA
                 <example correction="I am"><marker>I</marker> glad to see that you are active on the net.</example>
                 <example>Am I able to do it?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token postag="PRP">you</token>
@@ -13413,6 +13413,14 @@ USA
                 <token>?</token>
             </antipattern>
             <antipattern>
+                <token>not</token>
+                <token>only</token>
+                <token regexp="yes">does|did</token>
+                <token>this</token>
+                <token min='0' postag_regexp='yes' postag='NN(:U|P)?' />
+                <token postag="VBP?" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
                 <token postag="WP|WRB|SENT_START|PCT" postag_regexp="yes" />
                 <token regexp="yes">does|did|is|was|has|have</token>
                 <token regexp='yes'>th(?:is|at)</token>
@@ -13548,6 +13556,7 @@ USA
                 <example>Academy Awards not protected by this agreement have been sold in public auctions and private deals fo...</example>
                 <example>Why did this have to happen ...</example>
                 <example>Reading this how do you feel?</example>
+                <example>Not only does this create seperational cases, ..</example>
                 <example>Research has found that people are more altruistic to kin than to no-kin, to friends...</example>
                 <example>Research has found that people are most likely to help if they recognize that a pers...</example>
                 <example>...hical concepts to be presented in a concrete form that can be easily grasped, thereby fulfilling a need of huma...</example>
@@ -14521,6 +14530,33 @@ USA
             <example correction="were">They <marker>ware</marker> busy</example>
             <example type="triggers_error">We <marker>ware</marker> totally amazed by the sight.</example>
         </rule>
+        <rulegroup id="A_STOKE" name="having a stoke (stroke)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes">have</token>
+                    <marker>
+                        <token>a</token>
+                        <token>stoke</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>\2 <match no="3" regexp_match="(?i)toke" regexp_replace="troke" /></suggestion>?</message>
+                <url>https://www.nhs.uk/conditions/stroke/</url>
+                <example correction="a stroke">He is having <marker>a stoke</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the</token>
+                    <token postag="JJ" min="0" />
+                    <marker>
+                        <token>stoke</token>
+                    </marker>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="3" regexp_match="(?i)toke" regexp_replace="troke" /></suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/a%20stroke</url>
+                <example correction="stroke">That was a <marker>stoke</marker> of genius.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_INFINITIVE" name="a/the + infinitive">
             <antipattern><!-- https://www.americansforthearts.org/by-program/reports-and-data/legislation-policy/legislative-issue-center/the-create-act -->
                 <token>create</token>
@@ -14615,7 +14651,7 @@ USA
             </antipattern>
             <antipattern> <!-- "Please click the unsubscribe link at the end of the mail" (TODO: we should probably have a rule that suggests putting the verb in quotes) -->
                 <token postag="VBP?" postag_regexp="yes" />
-                <token regexp="yes">CTAs?|buttons?|macros?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?|modes?|screens?|errors?|tools?</token>
+                <token regexp="yes">CTAs?|buttons?|macros?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?|modes?|screens?|errors?|tools?|operations?</token>
             </antipattern>
             <antipattern> <!-- this is better covered by rule ALTER_BOY -->
                 <token regexp="yes">at|to|worship(s|ped)?|around</token>
@@ -15150,7 +15186,7 @@ USA
             <rule>
                 <antipattern><!-- adjective without hyphen "This book is a must-read" -->
                     <token>must</token>
-                    <token regexp="yes">have|read|go|see|visit|be|do|offer|take</token>
+                    <token regexp="yes">have|read|go|see|visit|be|do|offer|take|watch</token>
                 </antipattern>
                 <antipattern case_sensitive="yes"><!-- the Will.I.Am Song -->
                     <token>the</token>
@@ -15762,6 +15798,20 @@ USA
                 <message>The word "\3" is a verb. The noun is spelled <suggestion><match no="3" regexp_match="(?i)ranslate" regexp_replace="ranslation" /></suggestion>?</message>
                 <url>https://www.merriam-webster.com/dictionary/translation</url>
                 <example correction="translation">The <marker>translate</marker> to English was done correctly.</example>
+            </rule>
+            <rule default="temp_off"><!-- the restock -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>restock</token>
+                    </marker>
+                </pattern>
+                <message>The word "\3" is a verb. The noun is spelled <suggestion>restocking</suggestion> (= act of replenishing stock)?</message>
+                <url>https://en.wiktionary.org/wiki/restocking</url>
+                <example correction="restocking">Due to the high demand, we needed a <marker>restock</marker>.</example>
             </rule>
             <rule><!-- the send off -->
                 <pattern>
@@ -17488,7 +17538,7 @@ USA
             <example correction="vitamin C">Prolonged storage or cooking may reduce <marker>Vitamin C</marker> content in foods.</example>
             <example>Vitamin C</example>
         </rule>
-        <rule id="O_CONNOR" name="O Connor (O'Connor)" default="temp_off">
+        <rule id="O_CONNOR" name="O Connor (O'Connor)">
             <antipattern>
                 <token regexp="yes">\p{P}</token>
                 <token spacebefore="no">O</token>
@@ -17501,6 +17551,39 @@ USA
             <url>https://www.dochara.com/the-irish/surnames/irish-surnames-o/</url>
             <example correction="O'Conor|Oh, Conor">His name is <marker>O conor</marker>.</example>
         </rule>
+        <rulegroup id="COVID_19" name="COVID-19">
+            <url>https://en.wikipedia.org/wiki/Coronavirus_disease_2019</url>
+            <rule>
+                <pattern>
+                    <token>Covid</token>
+                    <token>19</token>
+                </pattern>
+                <message>Did you mean <suggestion>COVID-19</suggestion> (= coronavirus)?</message>
+                <example correction="COVID-19"><marker>Covid 19</marker> originated in China.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">[Cc]ovid\-?19</token>
+                </pattern>
+                <message>Did you mean <suggestion>COVID-19</suggestion> (= coronavirus)?</message>
+                <example correction="COVID-19"><marker>Covid19</marker> originated in China.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>corona</token>
+                    <token regexp="yes">virus(es)?</token>
+                </pattern>
+                <message>The term <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion> (= disease) is spelled as one word.</message>
+                <example correction="coronavirus">The <marker>corona virus</marker> pandemia.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">corona\-virus(es)?</token>
+                </pattern>
+                <message>The term <suggestion><match no="1" regexp_match="\-" regexp_replace="" /></suggestion> (= disease) is spelled as one word.</message>
+                <example correction="coronavirus">The <marker>corona-virus</marker> pandemia.</example>
+            </rule>
+        </rulegroup>
         <rule id="WHATS_APP" name="WhatsApp">
             <pattern>
                 <token>whats</token>
@@ -18727,13 +18810,14 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="TO_DO_HYPHEN" name="missing hyphen in 'to do'">
+            <url>https://www.lexico.com/definition/to-do</url>
             <rule>
                 <pattern>
                     <marker>
                         <token>to</token>
                         <token>do</token>
                     </marker>
-                    <token regexp="yes">lists?|items?</token>
+                    <token regexp="yes">lists?|items?|tasks?</token>
                 </pattern>
                 <message>It appears that a hyphen is missing.</message>
                 <suggestion>\1-\2</suggestion>
@@ -18760,6 +18844,17 @@ USA
                 <example>It was quite right of her to do that.</example>
                 <example>She obeys him no matter what he tells her to do.</example>
                 <example>You must be a fool to do such a thing.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>to</token>
+                    <token>do</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token>s</token>
+                </pattern>
+                <message>It seems that a hyphen is missing: <suggestion>\1-\2\3\4</suggestion>. Remove the possessive apostrophe if you mean the plural term: <suggestion>\1-\2s</suggestion>.</message>
+                <suggestion>\1-\2\3\4</suggestion>
+                <example correction="to-do's|to-dos">Many of the <marker>to do's</marker> comments were explaining the issue.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DO_IT_YOURSELF_HYPHEN" name="missing hyphen in 'do it yourself'">
@@ -20087,6 +20182,8 @@ USA
             <example>That was a really kind of weird conversation.</example>
             <example><marker>Once in a while</marker> everything goes wrong.</example>
             <example correction="">This is a <marker>philosophically question</marker>.</example>
+            <example correction="">It's a <marker>really solution</marker>.</example>
+            <example correction="">It's a <marker>simply solution</marker>.</example>
             <example type="triggers_error">Some Low Church Anglicans take a strictly memorialist view of the sacrament.</example>
             <example type="triggers_error">Some Low Church Anglicans take a strictly memorialist (Zwinglian) view of the sacrament.</example>
         </rule>
@@ -26314,7 +26411,7 @@ USA
                 <!-- 'did' is used for emphasis here: -->
                 <example>All I did was to go to the cinema.</example>
                 <example>They commonly produce much stronger odors than they would sitting under water in a western toilet.</example>
-                <example correction="go|wend">Peter did <marker>went</marker> to the cinema.</example>
+                <example correction="go">Peter did <marker>went</marker> to the cinema.</example>
                 <example correction="walk">He did <marker>walked</marker> to his house.</example>
                 <example correction="walk">He did <marker>walking</marker> to his house.</example>
                 <example correction="walk">He did <marker>walks</marker> to his house.</example>
@@ -27316,7 +27413,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/go</url>
             <example correction="goes">He <marker>gos</marker> home.</example>
         </rule>
-        <rule id="PRP_HAFT" name="They haft (have) to" default="temp_off">
+        <rule id="PRP_HAFT" name="They haft (have) to">
             <pattern>
                 <token postag="PRP|MD" postag_regexp="yes" />
                 <marker>
@@ -40148,7 +40245,7 @@ The accident victim died from her injuries.
         </rule>
         <rulegroup id="ADJECTIVE_ADVERB" name="adjective vs. adverb"><!-- TODO add more pairs (general(ly), direct(ly), eventual(ly), certain(ly), extreme(ly), immediate(ly), slow(ly) ...) -->
             <antipattern>
-                <token regexp="yes">subject|responses?|addition|attention|due|alternatives?|exposure|similar|comparable|access|regards?|related</token>
+                <token regexp="yes">subject|responses?|addition|attention|due|alternatives?|exposure|similar|comparable|access|regards?|related|key</token>
                 <token>to</token>
                 <token postag="JJ" />
             </antipattern>
@@ -41548,7 +41645,7 @@ The accident victim died from her injuries.
                  <example correction='quite'>There were <marker>quiet</marker> a few ways to reach your goal.</example>
                  <example>Sometimes when you see children who are quiet a lot of times they don't get pinpointed.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="DT|PRP\$|SENT_START" postag_regexp="yes" />
                     <token postag="JJ|RB" postag_regexp="yes" min="0" />
@@ -42692,7 +42789,7 @@ The accident victim died from her injuries.
                     <token postag="VBP" />
                 </antipattern>
                 <antipattern><!-- #2460 want to either. -->
-                    <token postag_regexp="yes" postag="VB.*" regexp="yes" inflected="yes">want|need|hope</token>
+                    <token regexp="yes" inflected="yes">want|need|hope|able|willing|ready</token>
                     <token>to</token>
                     <token regexp="yes">either|also</token>
                 </antipattern>
@@ -42704,7 +42801,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <marker><token>to</token></marker>
                     <token postag="RB">
-                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|nowhere|not|yes|no|multiply|tomorrow|today|tonight|yesterday|here|wheresoever</exception><!-- 'too X' is not standard English. -->
+                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|nowhere|not|yes|no|multiply|tomorrow|today|tonight|yesterday|here|wheresoever|always</exception><!-- 'too X' is not standard English. -->
                       <exception postag_regexp="yes" postag="JJR?|VBP|NNP"/>
                     </token>
                     <token postag="SENT_END" regexp="yes">\p{P}</token>
@@ -42730,6 +42827,7 @@ The accident victim died from her injuries.
                 <example>I'm no one to bully.</example>
                 <example>From monthly to annually.</example>
                 <example>You should take the train to nowhere.</example>
+                <example>Remember to always: </example>
                 <example>I don't want to either.</example><!-- #2460 -->
                 <example>The train to there.</example><!-- #2460 -->
             </rule>
