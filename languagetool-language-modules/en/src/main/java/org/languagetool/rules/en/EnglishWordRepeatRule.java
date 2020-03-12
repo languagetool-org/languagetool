@@ -62,6 +62,9 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;
     } else if (wordRepetitionOf("s", tokens, position) && position > 1 && tokens[position - 2].getToken().matches("['’`´‘]")) {
       return true; // It's S.T.E.A.M.
+    } else if (tokens[position].getToken().matches("(?i)^[a-z]$") && position > 1 && tokens[position - 2].getToken().matches("(?i)^[a-z]$") && (position + 1 < tokens.length) && tokens[position + 1].getToken().matches("(?i)^[a-z]$")) {
+      // spelling with spaces in between: "b a s i c a l l y"
+      return true;
     } else if (wordRepetitionOf("blah", tokens, position)) {
       return true;   // "blah blah"
     } else if (wordRepetitionOf("ha", tokens, position)) {
@@ -103,6 +106,14 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     } else if (wordRepetitionOf("meow", tokens, position)) {
       return true;
     } else if (wordRepetitionOf("squawk", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("whoa", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("si", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("honk", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("brum", tokens, position)) {
       return true;
     } else if (wordRepetitionOf("chi", tokens, position)) {
       // name

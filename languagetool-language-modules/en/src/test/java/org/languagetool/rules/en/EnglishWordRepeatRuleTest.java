@@ -64,6 +64,9 @@ public class EnglishWordRepeatRuleTest {
     assertBad("I will will hold the ladder.");
     assertBad("You can feel confident that that this administration will continue to support a free and open Internet.");
     assertBad("This is is a test.");
+    assertGood("b a s i c a l l y");
+    assertBad("But I i was not sure.");
+    assertBad("I I am the best.");
   }
 
   private void assertGood(String sentence) throws IOException {
