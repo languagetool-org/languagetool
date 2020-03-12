@@ -89,7 +89,7 @@ public class BeoLingusTranslator implements Translator {
       int i = 0;
       for (String germanPart : germanParts) {
         handleItem(de2en, germanParts, englishParts, i, germanPart);
-        handleItem(en2de, englishParts, germanParts, i, englishParts[i]);
+        //handleItem(en2de, englishParts, germanParts, i, englishParts[i]);  -- direction not supported yet
         i++;
       }
     }
