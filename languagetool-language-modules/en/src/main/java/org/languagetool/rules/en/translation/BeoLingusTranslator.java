@@ -178,7 +178,7 @@ public class BeoLingusTranslator implements Translator {
     }
     entriesSet.addAll(getTranslationsForBaseforms(term, map));
     List<TranslationEntry> sortedList = new ArrayList<>(entriesSet);
-    Collections.sort(sortedList);
+    Collections.sort(sortedList, (t1, t2) -> Integer.compare(t2.getItemCount(), t1.getItemCount()));
     return sortedList;
   }
 
