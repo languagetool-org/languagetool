@@ -57,12 +57,16 @@ import org.languagetool.tools.StringTools;
 
 import de.danielnaber.jwordsplitter.GermanWordSplitter;
 import de.danielnaber.jwordsplitter.InputTooLongException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static java.nio.charset.StandardCharsets.*;
 
 public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   public static final String RULE_ID = "GERMAN_SPELLER_RULE";
+
+  private static Logger logger = LoggerFactory.getLogger(GermanSpellerRule.class);
 
   private static final int MAX_EDIT_DISTANCE = 2;
 
@@ -997,7 +1001,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
           if (!isMisspelled(lastPart)) {
             // as these are only single words and both the first part and the last part are spelled correctly
             // (but the combination is not), it's okay to log the words from a privacy perspective:
-            System.out.println("UNKNOWN: " + word);
+            logger.info("UNKNOWN: " + word);
           }
         }
       }
