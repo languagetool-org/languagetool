@@ -9840,7 +9840,6 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-
         <rule id="WELL_KNOWN" name="is well know">
             <pattern>
                 <token inflected="yes" regexp="yes">be|the|a</token>
@@ -11598,7 +11597,7 @@ USA
             </antipattern>
             <antipattern><!-- nouns that are verbs when written as two words, needs different rule with suggestion (TODO!) -->
                 <token postag="MD" skip="2" />
-                <token regexp="yes">fill\-?in|give\-?away|pay\-?out|run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
+                <token regexp="yes">bail\-?out|fill\-?in|give\-?away|pay\-?out|run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
             </antipattern>
             <antipattern case_sensitive="yes"><!-- A.I -->
                 <token regexp="yes">[A-Z]</token>
@@ -15269,22 +15268,6 @@ USA
             <example correction="does|doses">She <marker>dose</marker> not know what she's talking about.</example>
             <example correction="does|doses">Google normally <marker>dose</marker> not care about privacy.</example>
             <example>Low Dose of Aspirin.</example>
-        </rule>
-        <rule id="AN_ALSO" name="an also (and also)">
-            <antipattern>
-                <token>Qur</token>
-                <token regexp="yes">&apostrophe;</token>
-                <token>an</token>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token regexp="yes" case_sensitive="yes">[Aa]n</token>
-                </marker>
-                <token regexp="yes">also|no|yes|th(at|en|is)|here|wasn?|weren?|hasn?|haven?|[cw]ouldn?|shouldn?|didn?|doesn?|maybe|perhaps|might|because|there(fore)?</token>
-            </pattern>
-            <message>Did you mean <suggestion>and</suggestion>?</message>
-            <example correction="and">He was going <marker>an</marker> also partying there.</example>
-            <example>After the victory of the PdL in the 2008 general election, AN was merged into the PdL in early 2009.</example>
         </rule>
         <rule id="A_HAVE_VBN" name="A have been (I have been)">
             <pattern>
@@ -32530,9 +32513,33 @@ USA
         </rule>
         <rulegroup id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
             <rule>
+                <antipattern><!-- most likely "and the" (caught by "AN_AND") -->
+                    <token>an</token>
+                    <token>the</token>
+                </antipattern>
                 <antipattern>
                     <token regexp="yes" case_sensitive="yes">an|the</token>
                     <token postag="DT" case_sensitive="yes">A</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">document|phase|grade|person|criterion|section</token>
+                    <token>A</token>
+                </antipattern>
+                <antipattern><!-- list of letters -->
+                    <token regexp="yes">[a-z]</token>
+                    <token>a</token>
+                    <token>a</token>
+                    <token regexp="yes">[a-z]</token>
+                </antipattern>
+                <antipattern>
+                    <token>A</token>
+                    <token>.</token>
+                    <token>I</token>
+                </antipattern>
+                <antipattern>
+                    <token>A</token>
+                    <token>to</token>
+                    <token regexp="yes">[B-Z]</token>
                 </antipattern>
                 <antipattern>
                     <token>the</token>
@@ -32556,6 +32563,18 @@ USA
                     <token regexp="yes">&apostrophe;</token>
                     <token>an</token>
                 </antipattern>
+                <antipattern><!-- "He got an A-"" -->
+                    <token regexp="yes">an?|the</token>
+                    <token>A</token>
+                    <token spacebefore="no">-</token>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token>.</token>
+                    <token>k</token>
+                    <token>.</token>
+                    <token>a</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">an?|the</token>
@@ -32573,7 +32592,9 @@ USA
                 <example>In this example, use <marker>an A</marker>, not a B or a C.</example>
                 <example>The a in carry is not the short sound of the a in care.</example>
                 <example>And the A stands for 'alteration'.</example>
-                <example>The A to Z.</example>
+                <example>Have you noticed the A to Z in the Amazon logo?</example>
+                <example>He got an A-</example>
+                <example>P A O L A  A N D R E A.</example>
                 <example>For I found within the memorization of new portions of the Qur’an a pleasure that could not be rivalled by all the pleasures of this world.</example>
                 <example type="triggers_error">... linearly in time (that is, in a word like cat the a sound comes after the c sound, and the t sound...</example>
             </rule>
@@ -32595,7 +32616,10 @@ USA
                     <marker>
                         <token regexp="yes">an?|the</token>
                         <token regexp="yes" spacebefore="yes">['"“]</token>
-                        <token postag="DT" regexp="yes" spacebefore="no">an?|the</token>
+                        <token postag="DT" regexp="yes" spacebefore="no">
+                            an?|the
+                            <exception regexp="yes" spacebefore="no" scope="next">['"“]</exception>
+                        </token>
                     </marker>
                     <token><exception regexp="yes">'|\.</exception></token>
                 </pattern>
@@ -32603,6 +32627,7 @@ USA
                 <short>Two consecutive articles</short>
                 <example correction="The|'An"><marker>The 'an</marker> international movie' is interesting.</example>
                 <example>The Thames was once a much broader river.</example>
+                <example>He received an "A".</example>
             </rule>
         </rulegroup>
         <rule id="DT_PRP" name="The you (you)">
@@ -39875,6 +39900,51 @@ The accident victim died from her injuries.
             <message>Did you mean <suggestion>or</suggestion>?</message>
             <example correction="or">He wants to do it once <marker>a</marker> twice a month.</example>
         </rule>
+        <rulegroup id="AN_AND" name="confusion of 'an' and 'and'">
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="NN.*" postag_regexp="yes" />
+                    <marker>
+                        <token case_sensitive="yes">an</token>
+                    </marker>
+                    <token postag="CD" />
+                    <token postag="NNP?S" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>and</suggestion>?</message>
+                <example correction="and">I was greeted with stormy rain <marker>an</marker> 5 degrees.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">to|in|on|of|for|at|be</token>
+                    <token>an</token>
+                    <token>also</token>
+                    <token postag="JJ.*|RB.*|NN.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern><!-- name -->
+                    <token>Gong</token>
+                    <token>An</token>
+                </antipattern>
+                <antipattern>
+                    <token>and</token>
+                    <token>an</token>
+                </antipattern>
+                <antipattern>
+                    <token>Qur</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>an</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[Aa]n</token>
+                    </marker>
+                    <token regexp="yes">also|so|no|yes|the|th(at|en|is)|t?here|wasn?|weren?|hasn?|haven?|[cw]ouldn?|shouldn?|didn?|doesn?|maybe|perhaps|might|must|because|there(fore)?|apart|besides</token>
+                </pattern>
+                <message>Did you mean <suggestion>and</suggestion> or <suggestion>any</suggestion>?</message>
+                <example correction="and|any">He was going <marker>an</marker> also partying there.</example>
+                <example>After the victory of the PdL in the 2008 general election, AN was merged into the PdL in early 2009.</example>
+                <example>When the receptor is inactive, the GEF domain may be bound to an also inactive α-subunit of a heterotrimeric G-protein.</example>
+            </rule>
+        </rulegroup>
         <rule id="LET_IS_VB" name="let is (us) know">
             <antipattern>
                 <token postag="DT" />
