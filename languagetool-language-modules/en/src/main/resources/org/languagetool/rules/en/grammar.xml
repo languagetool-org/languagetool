@@ -10347,7 +10347,7 @@ USA
                 <token postag="PRP" />
             </antipattern>
             <antipattern><!-- Where was he/she born? -->
-                <token inflected="yes" skip="2" regexp="yes">be|have</token>
+                <token postag="VB.*" postag_regexp="yes" />
                 <token regexp="yes">s?he</token>
                 <token regexp="yes">n?or|and|&amp;|/</token>
                 <token regexp="yes">s?he</token>
@@ -10757,9 +10757,9 @@ USA
                     </marker>
                     <token postag="RB" min="0" />
                     <token regexp="yes">
-                        sorry|thankful|happy|glad|(un)?able
+                        sorry|thankful|happy|glad|(un)?able|good
                     </token>
-                    <token regexp="yes">to|about|that|for|\.|\!</token>
+                    <token regexp="yes">to|about|that|for|\.|\!|\,</token>
                 </pattern>
                 <message>Did you mean <suggestion>\1 are</suggestion> or <suggestion>\1 were</suggestion>?</message>
                 <example correction="We are|We were"><marker>We</marker> unable to do it.</example>
@@ -10820,7 +10820,7 @@ USA
                         <token postag="PRP" case_sensitive="yes">I</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token regexp="yes">sorry|thankful|happy|glad|(un)?able</token>
+                    <token regexp="yes">sorry|thankful|happy|glad|(un)?able|good</token>
                 </pattern>
                 <message>Did you mean <suggestion>I am</suggestion>?</message>
                 <example correction="I am"><marker>I</marker> so sorry.</example>
@@ -10834,7 +10834,7 @@ USA
                         <token postag="PRP">you</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token regexp="yes">sorry|thankful|happy|glad|(un)?able</token>
+                    <token regexp="yes">sorry|thankful|happy|glad|(un)?able|good</token>
                 </pattern>
                 <message>Did you mean <suggestion>You are</suggestion>?</message>
                 <example correction="You are"><marker>You</marker> sorry.</example>
@@ -11399,6 +11399,10 @@ USA
             <antipattern><!-- https://www.lexico.com/definition/sweet_talk -->
                 <token>sweet</token>
                 <token>talk</token>
+            </antipattern>
+            <antipattern><!-- "They could trophy hunt ..." -->
+                <token>trophy</token>
+                <token>hunt</token>
             </antipattern>
             <antipattern><!-- "I would due to other circumstances" -->
                 <token>due</token>
@@ -14530,7 +14534,7 @@ USA
             <example correction="were">They <marker>ware</marker> busy</example>
             <example type="triggers_error">We <marker>ware</marker> totally amazed by the sight.</example>
         </rule>
-        <rulegroup id="A_STOKE" name="having a stoke (stroke)" default="temp_off">
+        <rulegroup id="A_STOKE" name="having a stoke (stroke)">
             <rule>
                 <pattern>
                     <token inflected="yes">have</token>
@@ -15066,7 +15070,7 @@ USA
                 <example>He conquered it and wanted to make it his wold.</example>
                 <example correction="She would"><marker>She wold</marker> like to attend the event.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="IN|VB.*|UNKNOWN" postag_regexp="yes" />
                     <token regexp="yes">you|it</token>
@@ -15799,7 +15803,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/translation</url>
                 <example correction="translation">The <marker>translate</marker> to English was done correctly.</example>
             </rule>
-            <rule default="temp_off"><!-- the restock -->
+            <rule><!-- the restock -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -16046,6 +16050,9 @@ USA
                 <example correction="home school">He learned all about life in his <marker>homeschool</marker>.</example>
             </rule>
             <rule><!-- the doubleclick -->
+                <antipattern>
+                    <token case_sensitive="yes" regexp="yes">Double[Cc]lick</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -17593,6 +17600,24 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rule id="APRIL_FOOLS" name="April Fools' Day" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>April</token>
+                <token>Fools</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>Day</token>
+            </antipattern>
+            <pattern>
+                <token>april</token>
+                <token>fools</token>
+                <token regexp="yes" min="0">&apostrophe;</token>
+                <token>day</token>
+            </pattern>
+            <message>The name of this day is normally capitalized and contains a possessive apostrophe.</message>
+            <suggestion>April Fools' Day</suggestion>
+            <url>https://www.merriam-webster.com/dictionary/april%20fools'</url>
+            <example correction="April Fools' Day">A lot of jokes are made on <marker>April Fools Day</marker>.</example>
+        </rule>
         <rulegroup id="COTE_D_AZUR" name="Côte d’Azur">
             <antipattern case_sensitive="yes">
                 <token>Côte</token>
@@ -18811,6 +18836,10 @@ USA
         </rulegroup>
         <rulegroup id="TO_DO_HYPHEN" name="missing hyphen in 'to do'">
             <url>https://www.lexico.com/definition/to-do</url>
+            <antipattern><!-- https://www.merriam-webster.com/dictionary/well-to-do -->
+                <token>well</token>
+                <token>to</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -18845,7 +18874,7 @@ USA
                 <example>She obeys him no matter what he tells her to do.</example>
                 <example>You must be a fool to do such a thing.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>to</token>
                     <token>do</token>
@@ -20168,7 +20197,10 @@ USA
                 <token inflected="yes">a</token>
                 <marker>
                     <token postag="RB"><exception postag="JJ[RS]?|NN.*" postag_regexp="yes"/><exception regexp="yes">not|after|before|approx</exception></token>
-                    <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag="JJ[RS]?|VB[NG]" postag_regexp="yes"/></token>
+                    <token postag="NN(:UN?)?" postag_regexp="yes">
+                        <exception postag="JJ[RS]?|VB[NG]" postag_regexp="yes" />
+                        <exception scope="next" regexp="yes">based|wide|specifc</exception><!-- compound adjectives where a hyphen is missing -->
+                    </token>
                 </marker>
             </pattern>
             <message>You used an adverb ('\2') instead an adjective, or a noun ('\3') instead of another adjective.</message>
@@ -20180,6 +20212,7 @@ USA
             <example>The picture is done in a <marker>masterly</marker> style.</example>
             <example>All of a sudden water came down from the roof.</example>
             <example>That was a really kind of weird conversation.</example>
+            <example>A completely oil based solution.</example>
             <example><marker>Once in a while</marker> everything goes wrong.</example>
             <example correction="">This is a <marker>philosophically question</marker>.</example>
             <example correction="">It's a <marker>really solution</marker>.</example>
@@ -42801,7 +42834,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <marker><token>to</token></marker>
                     <token postag="RB">
-                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|nowhere|not|yes|no|multiply|tomorrow|today|tonight|yesterday|here|wheresoever|always</exception><!-- 'too X' is not standard English. -->
+                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|nowhere|not|yes|no|multiply|tomorrow|today|tonight|yesterday|here|wheresoever|always|accordingly|never</exception><!-- 'too X' is not standard English. -->
                       <exception postag_regexp="yes" postag="JJR?|VBP|NNP"/>
                     </token>
                     <token postag="SENT_END" regexp="yes">\p{P}</token>
@@ -44380,6 +44413,25 @@ The accident victim died from her injuries.
             </rule>
         </rulegroup>
         <rulegroup id="WERE_WHERE" name="were (where)">
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="NN.*|VB.*" postag_regexp="yes" />
+                    <marker>
+                        <token>were</token>
+                    </marker>
+                    <token regexp="yes">an?|the|my|y?our|their|his|her|its|this|that|those|these|all</token>
+                    <token postag="NN.*" postag_regexp="yes" />
+                    <token inflected="yes">be</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token postag="RB" min="0" />
+                    <token postag="VBG|JJ.*" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>where</suggestion>?</message>
+                <example correction="where">Please name adjectives <marker>were</marker> a hyphen is missing.</example>
+                <example correction="where">This is <marker>were</marker> the future is going.</example>
+                <example correction="where">I really agree with this, what about a Dinosaur land <marker>were</marker> the giants are still walking around.</example>
+                <example correction="where">I still can't find <marker>were</marker> the issue is coming from.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes" inflected="yes">about|to|ask|question|wonder</token>
