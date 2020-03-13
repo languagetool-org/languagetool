@@ -4659,6 +4659,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="darzustellen">Ihm gelingt es, komplexe Sachverhalte einfach <marker>da zu stellen</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>genau</token>
+                    <token>da</token>
+                    <token inflected="yes">stellen</token>
+                    <token postag="PRO:PER.*|UNKNOWN|EIG:.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token>
                         <exception>,</exception>
@@ -4670,6 +4676,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Möglicher Tippfehler: Meinten Sie das Verb <suggestion>dar\3</suggestion>?</message>
                 <example correction="dargestellt">Er hat die Sache ganz anders <marker>da gestellt</marker>.</example>
+                <example>Und genau da stellen sie auch fest, dass der Standard vielen Gamern, Technikfans und PC-Bastlern zu langweilig ist.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7386,6 +7393,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
         </rule>
+        <rulegroup id="COVID_19" name="COVID-19">
+            <rule>
+                <pattern>
+                    <token>Covid</token>
+                    <token>19</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Covid-\2</suggestion> (= Coronavirus)?</message>
+                <url>https://de.wikipedia.org/wiki/COVID-19</url>
+                <example correction="Covid-19"><marker>Covid 19</marker> ist eine Viruserkrankung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">[Cc]ovid19s?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Covid-19</suggestion> (= Coronavirus)?</message>
+                <url>https://de.wikipedia.org/wiki/COVID-19</url>
+                <example correction="Covid-19"><marker>Covid19</marker> ist eine Viruserkrankung.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>corona</token>
+                    <token regexp="yes">vir(us|en)</token>
+                </pattern>
+                <message>Der Begriff <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion> (= Viruserkrankung) wird als ein Wort geschrieben.</message>
+                <url>https://www.duden.de/rechtschreibung/Coronavirus</url>
+                <example correction="Coronavirus">Das <marker>Corona Virus</marker> hat 2020 eine Pandemie ausgelöst.</example>
+            </rule>
+        </rulegroup>
         <rule id="FRANK_WALTER_STEINMEIER" name="Frank-Walter Steinmeier">
             <pattern>
                 <token>Frank</token>
@@ -36530,7 +36565,7 @@ Andere Projekte</example>
                         <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
-                            <exception regexp="yes">Eis|Tee|Kaffee|Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Fuss|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar|Promille|Barrel|Schilling|Sigma|Charisma|Komma</exception>
+                            <exception regexp="yes">Eis|Tee|Kaffee|Bier|Wasser|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Fuß|Fuss|Paar|Mark|Reichsmark|Rentenmark|Pfund|Dollar|US-Dollar|Euro|Pfennig|Stück|Grad|Gramm|Kilo.*|Milli.+|Mann|Schuss|Uhr|Zoll|Bar|Promille|Barrel|Schilling|Sigma|Charisma|Komma</exception>
                         </token>
                     </marker>
                     <token><exception postag="SUB:.+:PLU:.+|UNKNOWN" postag_regexp="yes"/></token>
@@ -36551,6 +36586,7 @@ Andere Projekte</example>
                 <example>Er hatte in zwei Aufsehen erregenden Nature-Veröffentlichungen drüber berichtet.</example>
                 <example>Die Biene Maja ist die Hauptfigur in zwei Anfang des 20. Jahrhunderts erschienenen Romanen.</example>
                 <example>In Zahlen: fünf Komma acht.</example>
+                <example>Das waren etwa zehn US-Dollar.</example>
                 <example>Sie haben null Bock und null Ahnung.</example>
                 <example>Seit mehr als zwei Jahren ist bekannt, dass nach Staffel acht Schluss ist.</example>
             </rule>
