@@ -42,10 +42,14 @@ import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.rules.translation.TranslationEntry;
 import org.languagetool.rules.translation.Translator;
 import org.languagetool.tools.Tools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.languagetool.JLanguageTool.*;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
+
+  private static Logger logger = LoggerFactory.getLogger(MorfologikSpellerRule.class);
 
   protected MorfologikMultiSpeller speller1;
   protected MorfologikMultiSpeller speller2;
@@ -392,6 +396,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       for (PhraseToTranslate phraseToTranslate : phrasesToTranslate) {
         List<TranslationEntry> translations = translator.translate(phraseToTranslate.phrase, motherTongue.getShortCode(), language.getShortCode());
         if (translations.size() > 0) {
+          logger.info("Translated: " + word);   // privacy: logging a single word without IP address etc. is okay
           ruleMatch = new RuleMatch(this, sentence, startPos, phraseToTranslate.endPos, translator.getMessage());
           ruleMatch.setType(RuleMatch.Type.Hint);
           ruleMatch.setSuggestedReplacements(new ArrayList<>());
