@@ -934,6 +934,16 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
     </rule>
+    <rule id="ERHALTENSWUERDIGEN" name="kein Verb: erhaltenswürdigen">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes" postag_regexp="yes" postag="VER:.+">[a-zäöü]{6,}würdigen
+                    <exception postag_regexp="yes" postag="VER:.+" negate_pos="yes"/>
+                </token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER:.+"/>
+    </rule>
     <rule id="SUBSTANTIVIERTES_VERB" name="kein Verb: substantiviertes Verb">
         <pattern case_sensitive="yes">
             <token postag="PRP:LOK:DAT|ART:DEF:.+:NEU" postag_regexp="yes"/>
