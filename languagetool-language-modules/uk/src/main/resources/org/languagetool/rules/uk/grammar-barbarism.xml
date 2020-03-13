@@ -4433,6 +4433,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="заподіяти собі смерть|накласти на себе руки"><marker>покінчив з собою</marker></example>
     </rule>
 
+    <rulegroup id="v_n_hvylynah" name="В ... хвилинах від">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[ву]</token>
+            <token postag="number" regexp="yes">.*([05-9]|11)</token>
+            <token regexp="yes">хвилинах|годинах|кілометрах|кроках</token>
+          </marker>
+          <token min="0" regexp="yes">їзди|ходьби</token>
+          <token>від</token>
+        </pattern>
+        <message>Правильно: <suggestion>за <match no="2"/> <match no="3" postag_regexp="yes" postag="(noun:inanim:.:)v_mis(.*)" postag_replace="$1v_rod$2"/></suggestion></message>
+        <example correction="за 50 хвилин"><marker>в 50 хвилинах</marker> від</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[ву]</token>
+            <token postag="number" regexp="yes">.*[2-4]|.*[2-9]?1</token>
+            <token regexp="yes">хвилинах|годинах|кілометрах|кроках</token>
+          </marker>
+          <token min="0" regexp="yes">їзди|ходьби</token>
+          <token>від</token>
+        </pattern>
+        <message>Правильно: <suggestion>за <match no="2"/> <match no="3" postag_regexp="yes" postag="(noun:inanim:.:)v_mis(.*)" postag_replace="$1v_naz$2"/></suggestion></message>
+        <example correction="за 2 хвилини"><marker>в 2 хвилинах</marker> від</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[ву]</token>
+            <token postag_regexp="yes" postag="numr.*v_mis.*"/>
+            <token regexp="yes">хвилинах|годинах|кілометрах|кроках</token>
+          </marker>
+          <token min="0" regexp="yes">їзди|ходьби</token>
+          <token>від</token>
+        </pattern>
+        <message>Замість конструкції в ... кілометрах/хвилинах тощо слід вживати конструкцію за ... кілометри/хвилини</message>
+        <suggestion>за <match no="2" postag_regexp="yes" postag="(numr.*)v_mis(.*)" postag_replace="$1v_naz$2"/> <match no="3" postag_regexp="yes" postag="(noun:inanim:.:)v_mis(.*)" postag_replace="$1v_(rod|naz)$2"/></suggestion>
+        <example correction="за п'ятнадцять хвилин|за п'ятнадцять хвилини"><marker>в п'ятнадцяти хвилинах</marker> від</example>
+        <example correction="за три кілометри|за три кілометрів|за троє кілометри|за троє кілометрів"><marker>в трьох кілометрах</marker> від</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="PO_VS_Z" name="По замість з">
       <rule>
         <pattern>
