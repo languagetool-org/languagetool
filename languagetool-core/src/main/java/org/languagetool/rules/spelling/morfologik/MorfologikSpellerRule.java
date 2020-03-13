@@ -21,14 +21,12 @@ package org.languagetool.rules.spelling.morfologik;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
@@ -405,9 +403,10 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
               l.add(new SuggestedReplacement(translator.cleanTranslationForReplace(s, prevWord), String.join(", ", translation.getL1()), suffix.isEmpty() ? null : suffix));
             }
           }
-          if (l.size() > 0) {
-            ruleMatch.setSuggestedReplacementObjects(l);
-            translationSuggestionCount = l.size();
+          List<SuggestedReplacement> mergedRepl = mergeSuggestionsWithSameTranslation(l);
+          if (mergedRepl.size() > 0) {
+            ruleMatch.setSuggestedReplacementObjects(mergedRepl);
+            translationSuggestionCount = mergedRepl.size();
             if (phraseToTranslate.phrase.contains(" ")) {
               preventFurtherSuggestions = true;  // mark gets extended, so suggestions for the original marker won't make sense
             }
@@ -492,6 +491,33 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
  
     ruleMatches.add(ruleMatch);
     return ruleMatches;
+  }
+
+  @NotNull
+  private List<SuggestedReplacement> mergeSuggestionsWithSameTranslation(List<SuggestedReplacement> l) {
+    List<SuggestedReplacement> mergedRepl = new ArrayList<>();
+    Set<String> handledReplacements = new HashSet<>();
+    for (SuggestedReplacement repl : l) {
+      List<SuggestedReplacement> sameRepl = l.stream()
+        .filter(k -> k.getReplacement().equals(repl.getReplacement()))
+        .filter(k -> k.getSuffix() == null || (k.getSuffix() != null && k.getSuffix().equals(repl.getSuffix())))
+        .collect(Collectors.toList());
+      if (sameRepl.size() > 1) {
+        if (handledReplacements.contains(repl.getReplacement())) {
+          // skip
+        } else {
+          List<String> joinedRepls = new ArrayList<>();
+          for (SuggestedReplacement r : sameRepl) {
+            joinedRepls.add("* " + r.getShortDescription());
+          }
+          mergedRepl.add(new SuggestedReplacement(repl.getReplacement(), String.join("\n", joinedRepls), repl.getSuffix()));
+          handledReplacements.add(repl.getReplacement());
+        }
+      } else {
+        mergedRepl.add(repl);
+      }
+    }
+    return mergedRepl;
   }
 
   /**
