@@ -77,7 +77,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   }
 
   @Override
-  protected boolean isException(String sentenceText) {
+  protected boolean isException(String sentenceText, int startPos, int endPos) {
     for (Pattern pattern : SENTENCE_EXCEPTION_PATTERNS) {
       Matcher m = pattern.matcher(sentenceText);
       if (m.find()) {

@@ -71,16 +71,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "have I known",// vs. "know"
       "had I known",
       "had you known",
-      "haven't known",
-      "hasn't known",
-      "hadn't known",
-      "haven’t known",
-      "hasn’t known",
-      "hadn’t known",
-      "wasn't known",
-      "wasn’t known",
-      "weren't known",
-      "weren’t known",
       "his fluffy butt",
       "it's now better", // vs. no
       "it’s now better", // vs. no
@@ -115,8 +105,22 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language, int grams) {
     super(messages, languageModel, language, grams, EXCEPTIONS);
-    addExamplePair(Example.wrong("I didn't <marker>now</marker> where it came from."),
-                   Example.fixed("I didn't <marker>know</marker> where it came from."));
+    addExamplePair(Example.wrong("I did not <marker>now</marker> where it came from."),
+                   Example.fixed("I did not <marker>know</marker> where it came from."));
+  }
+
+  @Override
+  protected boolean isException(String sentence, int startPos, int endPos) {
+    if (startPos > 3) {
+      String covered = sentence.substring(startPos-3, endPos);
+      // the Google ngram data expands negated contractions like this: "Negations (n't) are normalized so
+      // that >don't< becomes >do not<." (Source: https://books.google.com/ngrams/info)
+      // We don't deal with that yet (see GoogleStyleWordTokenizer), so ignore for now:
+      if (covered.matches("['’`´‘]t .*")) {
+        return true;
+      }
+    }
+    return false;
   }
 
 }
