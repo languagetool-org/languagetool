@@ -1379,27 +1379,39 @@ class SingleDocument {
     // LibreOffice since version 6.2 supports the change of underline style (key: "LineType", value: short (DASHED = 5))
     // older version will simply ignore the properties
     Color underlineColor = config.getUnderlineColor(ruleMatch.getRule().getCategory().getName());
+    short underlineType = config.getUnderlineType(ruleMatch.getRule().getCategory().getName());
     URL url = ruleMatch.getUrl();
     if (url == null) {                      // match URL overrides rule URL 
       url = ruleMatch.getRule().getUrl();
     }
+    int nDim = 0;
+    if(url != null) {
+      nDim++;
+    }
     if(underlineColor != Color.blue) {
-      int ucolor = underlineColor.getRGB() & 0xFFFFFF;
-      if (url != null) {
-        aError.aProperties = new PropertyValue[] { new PropertyValue(
-            "FullCommentURL", -1, url.toString(), PropertyState.DIRECT_VALUE),
-            new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE) };
-      } else {
-        aError.aProperties = new PropertyValue[] {
-            new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE) };
+      nDim++;
+    }
+    if(underlineType != Configuration.UNDERLINE_WAVE) {
+      nDim++;
+    }
+    if(nDim > 0) {
+      PropertyValue[] propertyValues = new PropertyValue[nDim];
+      int n = 0;
+      if(url != null) {
+        propertyValues[n] = new PropertyValue("FullCommentURL", -1, url.toString(), PropertyState.DIRECT_VALUE);
+        n++;
       }
+      if(underlineColor != Color.blue) {
+        int ucolor = underlineColor.getRGB() & 0xFFFFFF;
+        propertyValues[n] = new PropertyValue("LineColor", -1, ucolor, PropertyState.DIRECT_VALUE);
+        n++;
+      }
+      if(underlineType != Configuration.UNDERLINE_WAVE) {
+        propertyValues[n] = new PropertyValue("LineType", -1, underlineType, PropertyState.DIRECT_VALUE);
+      }
+      aError.aProperties = propertyValues;
     } else {
-      if (url != null) {
-        aError.aProperties = new PropertyValue[] { new PropertyValue(
-            "FullCommentURL", -1, url.toString(), PropertyState.DIRECT_VALUE) };
-      } else {
         aError.aProperties = new PropertyValue[0];
-      }
     }
     return aError;
   }

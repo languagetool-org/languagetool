@@ -1179,8 +1179,8 @@ public class ConfigurationDialog implements ActionListener {
       motherTongues.add(NO_MOTHER_TONGUE);
     }
     for (Language lang : Languages.get()) {
-     motherTongues.add(lang.getTranslatedName(messages));
-     motherTongues.sort(null);
+      motherTongues.add(lang.getTranslatedName(messages));
+      motherTongues.sort(null);
     }
     return motherTongues.toArray(new String[motherTongues.size()]);
   }
@@ -1345,11 +1345,48 @@ public class ConfigurationDialog implements ActionListener {
     }
     return panel;
   }
-
-/*  Panel to choose underline Colors  
- *  @since 4.2
- */
   
+  private String[] getUnderlineTypes() {
+    String[] types = {
+        new String(messages.getString("guiUTypeWave")),
+        new String(messages.getString("guiUTypeBoldWave")),
+        new String(messages.getString("guiUTypeBold")),
+        new String(messages.getString("guiUTypeDash")) };
+    return types;
+  }
+
+  private int getUnderlineType(String category) {
+    short nType = config.getUnderlineType(category);
+    if(nType == Configuration.UNDERLINE_BOLDWAVE) {
+      return 1;
+    } else if(nType == Configuration.UNDERLINE_BOLD) {
+      return 2;
+    } else if(nType == Configuration.UNDERLINE_DASH) {
+      return 3;
+    } else {
+      return 0;
+    }
+  }
+
+  private void setUnderlineType(int index, String category) {
+    if(index == 1) {
+//      JOptionPane.showMessageDialog(dialog, "Set Underline Type: " + Configuration.UNDERLINE_BOLDWAVE);
+      config.setUnderlineType(category, Configuration.UNDERLINE_BOLDWAVE);
+    } else if(index == 2) {
+//      JOptionPane.showMessageDialog(dialog, "Set Underline Type: " + Configuration.UNDERLINE_BOLD);
+      config.setUnderlineType(category, Configuration.UNDERLINE_BOLD);
+    } else if(index == 3) {
+//      JOptionPane.showMessageDialog(dialog, "Set Underline Type: " + Configuration.UNDERLINE_DASH);
+      config.setUnderlineType(category, Configuration.UNDERLINE_DASH);
+    } else {
+//      JOptionPane.showMessageDialog(dialog, "Set Underline Type: " + "Default");
+      config.setDefaultUnderlineType(category);
+    }
+  }
+
+/**  Panel to choose underline Colors  
+ *   @since 4.2
+ */
   JPanel getUnderlineColorPanel(List<Rule> rules) {
     JPanel panel = new JPanel();
 
@@ -1375,10 +1412,12 @@ public class ConfigurationDialog implements ActionListener {
         categories.add(category);
       }
     }
+    String[] ulTypes = { "Wave", "Bold Wave", "Bold", "Dashed" };
     List<JLabel> categorieLabel = new ArrayList<JLabel>();
     List<JLabel> underlineLabel = new ArrayList<JLabel>();
     List<JButton> changeButton = new ArrayList<JButton>();
     List<JButton> defaultButton = new ArrayList<JButton>();
+    List<JComboBox<String>> underlineType  = new ArrayList<JComboBox<String>>();
     for(int nCat = 0; nCat < categories.size(); nCat++) {
       categorieLabel.add(new JLabel(categories.get(nCat) + " "));
       underlineLabel.add(new JLabel(" \u2588\u2588\u2588 "));  // \u2587 is smaller
@@ -1387,6 +1426,18 @@ public class ConfigurationDialog implements ActionListener {
       JLabel uLabel = underlineLabel.get(nCat);
       String cLabel = categories.get(nCat);
       panel.add(categorieLabel.get(nCat), cons);
+      if(insideOffice) {
+        underlineType.add(new JComboBox<String>(ulTypes));
+        JComboBox<String> uLineType = underlineType.get(nCat);
+        uLineType.setSelectedIndex(getUnderlineType(cLabel));
+        uLineType.addItemListener(e -> {
+          if (e.getStateChange() == ItemEvent.SELECTED) {
+            setUnderlineType(uLineType.getSelectedIndex(), cLabel);
+          }
+        });
+        cons.gridx++;
+        panel.add(uLineType, cons);
+      }
       cons.gridx++;
       panel.add(underlineLabel.get(nCat), cons);
 

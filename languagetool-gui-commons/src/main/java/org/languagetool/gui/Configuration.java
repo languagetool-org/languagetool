@@ -53,6 +53,11 @@ import org.languagetool.rules.Rule;
  * @author Daniel Naber
  */
 public class Configuration {
+  
+  public final static short UNDERLINE_WAVE = 10;
+  public final static short UNDERLINE_BOLDWAVE = 18;
+  public final static short UNDERLINE_BOLD = 12;
+  public final static short UNDERLINE_DASH = 5;
 
   static final int DEFAULT_SERVER_PORT = 8081;  // should be HTTPServerConfig.DEFAULT_PORT but we don't have that dependency
   static final int DEFAULT_NUM_CHECK_PARAS = -1;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
@@ -99,6 +104,7 @@ public class Configuration {
   private static final String LF_NAME_KEY = "lookAndFeelName";
   private static final String ERROR_COLORS_KEY = "errorColors";
   private static final String UNDERLINE_COLORS_KEY = "underlineColors";
+  private static final String UNDERLINE_TYPES_KEY = "underlineTypes";
   private static final String CONFIGURABLE_RULE_VALUES_KEY = "configurableRuleValues";
   private static final String LT_SWITCHED_OFF_KEY = "ltSwitchedOff";
   private static final String IS_MULTI_THREAD_LO_KEY = "isMultiThread";
@@ -126,6 +132,7 @@ public class Configuration {
   private final Map<String, String> configForOtherLanguages = new HashMap<>();
   private final Map<ITSIssueType, Color> errorColors = new EnumMap<>(ITSIssueType.class);
   private final Map<String, Color> underlineColors = new HashMap<>();
+  private final Map<String, Short> underlineTypes = new HashMap<>();
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
   private final Set<String> styleLikeCategories = new HashSet<>();
   private final Map<String, String> specialTabCategories = new HashMap<>();
@@ -217,6 +224,7 @@ public class Configuration {
   public void initOptions() {
     configForOtherLanguages.clear();
     underlineColors.clear();
+    underlineTypes.clear();
     configurableRuleValues.clear();
 
     disabledRuleIds.clear();
@@ -309,6 +317,10 @@ public class Configuration {
     this.underlineColors.clear();
     for (Map.Entry<String, Color> entry : configuration.underlineColors.entrySet()) {
       this.underlineColors.put(entry.getKey(), entry.getValue());
+    }
+    this.underlineTypes.clear();
+    for (Map.Entry<String, Short> entry : configuration.underlineTypes.entrySet()) {
+      this.underlineTypes.put(entry.getKey(), entry.getValue());
     }
     this.configurableRuleValues.clear();
     for (Map.Entry<String, Integer> entry : configuration.configurableRuleValues.entrySet()) {
@@ -861,6 +873,40 @@ public class Configuration {
   }
 
   /**
+   * @since 4.9
+   */
+  public Map<String, Short> getUnderlineTypes() {
+    return underlineTypes;
+  }
+
+  /**
+   * @since 4.9
+   * Get the type to underline a rule match by the Name of its category
+   */
+  public Short getUnderlineType(String category) {
+    if (underlineTypes.containsKey(category)) {
+      return underlineTypes.get(category);
+    }
+    return UNDERLINE_WAVE;
+  }
+
+  /**
+   * @since 4.9
+   * Set the type to underline a rule match for its category
+   */
+  public void setUnderlineType(String category, short type) {
+    underlineTypes.put(category, type);
+  }
+
+  /**
+   * @since 4.9
+   * Set the type back to default (removes category from map)
+   */
+  public void setDefaultUnderlineType(String category) {
+    underlineTypes.remove(category);
+  }
+
+  /**
    * returns all configured values
    * @since 4.2
    */
@@ -1070,6 +1116,9 @@ public class Configuration {
       String underlineColorsString = (String) props.get(prefix + UNDERLINE_COLORS_KEY);
       parseUnderlineColors(underlineColorsString);
 
+      String underlineTypesString = (String) props.get(prefix + UNDERLINE_TYPES_KEY);
+      parseUnderlineTypes(underlineTypesString);
+
       //store config for other languages
       loadConfigForOtherLanguages(lang, props, prefix);
 
@@ -1103,6 +1152,19 @@ public class Configuration {
           throw new RuntimeException("Could not parse type and color, colon expected: '" + typeToColor + "'");
         }
         underlineColors.put(typeAndColor[0], Color.decode(typeAndColor[1]));
+      }
+    }
+  }
+
+  private void parseUnderlineTypes(String typessString) {
+    if (StringUtils.isNotEmpty(typessString)) {
+      String[] categoryToTypesList = typessString.split(CONFIGURABLE_RULE_SPLITTER_REGEXP);
+      for (String categoryToType : categoryToTypesList) {
+        String[] categoryAndType = categoryToType.split(":");
+        if (categoryAndType.length != 2) {
+          throw new RuntimeException("Could not parse category and type, colon expected: '" + categoryToType + "'");
+        }
+        underlineTypes.put(categoryAndType[0], Short.parseShort(categoryAndType[1]));
       }
     }
   }
@@ -1259,28 +1321,38 @@ public class Configuration {
         if (externalRuleDirectory != null) {
           props.setProperty(prefix + EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);
         }
-        StringBuilder sbRV = new StringBuilder();
-        for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
-          sbRV.append(entry.getKey()).append(":").append(Integer.toString(entry.getValue())).append(", ");
+        if(!configurableRuleValues.isEmpty()) {
+          StringBuilder sbRV = new StringBuilder();
+          for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
+            sbRV.append(entry.getKey()).append(":").append(Integer.toString(entry.getValue())).append(", ");
+          }
+          props.setProperty(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());
         }
-        props.setProperty(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());
-      
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
-          String rgb = Integer.toHexString(entry.getValue().getRGB());
-          rgb = rgb.substring(2, rgb.length());
-          sb.append(entry.getKey()).append(":#").append(rgb).append(", ");
+        if(!errorColors.isEmpty()) {
+          StringBuilder sb = new StringBuilder();
+          for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
+            String rgb = Integer.toHexString(entry.getValue().getRGB());
+            rgb = rgb.substring(2, rgb.length());
+            sb.append(entry.getKey()).append(":#").append(rgb).append(", ");
+          }
+          props.setProperty(prefix + ERROR_COLORS_KEY, sb.toString());
         }
-        props.setProperty(prefix + ERROR_COLORS_KEY, sb.toString());
-      
-        StringBuilder sbUC = new StringBuilder();
-        for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
-          String rgb = Integer.toHexString(entry.getValue().getRGB());
-          rgb = rgb.substring(2, rgb.length());
-          sbUC.append(entry.getKey()).append(":#").append(rgb).append(", ");
+        if(!underlineColors.isEmpty()) {
+          StringBuilder sbUC = new StringBuilder();
+          for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
+            String rgb = Integer.toHexString(entry.getValue().getRGB());
+            rgb = rgb.substring(2, rgb.length());
+            sbUC.append(entry.getKey()).append(":#").append(rgb).append(", ");
+          }
+          props.setProperty(prefix + UNDERLINE_COLORS_KEY, sbUC.toString());
         }
-        props.setProperty(prefix + UNDERLINE_COLORS_KEY, sbUC.toString());
-      
+        if(!underlineTypes.isEmpty()) {
+          StringBuilder sbUT = new StringBuilder();
+          for (Map.Entry<String, Short> entry : underlineTypes.entrySet()) {
+            sbUT.append(entry.getKey()).append(":").append(Short.toString(entry.getValue())).append(", ");
+          }
+          props.setProperty(prefix + UNDERLINE_TYPES_KEY, sbUT.toString());
+        }
         for (String key : configForOtherLanguages.keySet()) {
           props.setProperty(key, configForOtherLanguages.get(key));
         }
@@ -1328,6 +1400,7 @@ public class Configuration {
     allProfileKeys.add(LF_NAME_KEY);
     allProfileKeys.add(ERROR_COLORS_KEY);
     allProfileKeys.add(UNDERLINE_COLORS_KEY);
+    allProfileKeys.add(UNDERLINE_TYPES_KEY);
     allProfileKeys.add(LT_SWITCHED_OFF_KEY);
     allProfileKeys.add(IS_MULTI_THREAD_LO_KEY);
     allProfileKeys.add(EXTERNAL_RULE_DIRECTORY);
