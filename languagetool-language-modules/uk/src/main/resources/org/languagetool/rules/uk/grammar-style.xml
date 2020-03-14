@@ -1328,10 +1328,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token inflected="yes">воєнний</token>
           </marker>
-          <token inflected="yes" regexp="yes">звання|лікар|присяга|справа|трибунал|училище|форма|частина</token>
+          <token inflected="yes" regexp="yes">звання|лікар|присяга|справа|трибунал|училище|форма|частина|служба|квиток|обов'язок</token>
         </pattern>
-        <message>Правильно: <suggestion>військовий</suggestion></message>
-        <example correction="військовий">Пішов до <marker>воєнного</marker> училища.</example>
+        <message>Правильно: <suggestion><match no="1" postag="adj.*">військовий</match></suggestion></message>
+        <example correction="військового">Пішов до <marker>воєнного</marker> училища.</example>
       </rule>
 <!-- «воєнний стан» зафіксовано в багатьох законах та актах, запізно виправляти
       <rule>
@@ -1345,6 +1345,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="військовий">Наслідки <marker>воєнного</marker> стану.</example>
       </rule>
 -->
+
       <rule>
         <pattern>
           <unify>
@@ -1354,11 +1355,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <marker>
               <token inflected="yes">військовий</token>
             </marker>
-            <token inflected="yes" regexp="yes">репортаж|комунізм|час|перемога</token>
+            <token inflected="yes" regexp="yes">репортаж|комунізм|час|перемога|стан</token>
           </unify>
         </pattern>
-        <message>Правильно: <suggestion>воєнний</suggestion></message>
+        <message>Правильно: <suggestion><match no="1" postag="adj.*">воєнний</match></suggestion></message>
         <example correction="воєнний"><marker>військовий</marker> репортаж</example>
+        <example correction="воєнного">Наслідки <marker>військового</marker> стану.</example>
         <example>військовий аташе</example>
         <example>російські військові час від часу</example>
       </rule>
