@@ -403,6 +403,10 @@ public class ConfigurationDialog implements ActionListener {
       versionText.setForeground(Color.blue);
       jPane.add(versionText, cons);
       cons.gridy++;
+      JLabel versionText1 = new JLabel(messages.getString("guiUColorHint1"));
+      versionText1.setForeground(Color.blue);
+      jPane.add(versionText1, cons);
+      cons.gridy++;
     }
 
     cons.weightx = 2.0f;
@@ -1426,9 +1430,10 @@ public class ConfigurationDialog implements ActionListener {
       JLabel uLabel = underlineLabel.get(nCat);
       String cLabel = categories.get(nCat);
       panel.add(categorieLabel.get(nCat), cons);
+
+      underlineType.add(new JComboBox<String>(ulTypes));
+      JComboBox<String> uLineType = underlineType.get(nCat);
       if(insideOffice) {
-        underlineType.add(new JComboBox<String>(ulTypes));
-        JComboBox<String> uLineType = underlineType.get(nCat);
         uLineType.setSelectedIndex(getUnderlineType(cLabel));
         uLineType.addItemListener(e -> {
           if (e.getStateChange() == ItemEvent.SELECTED) {
@@ -1457,6 +1462,10 @@ public class ConfigurationDialog implements ActionListener {
       defaultButton.get(nCat).addActionListener(e -> {
         config.setDefaultUnderlineColor(cLabel);
         uLabel.setForeground(config.getUnderlineColor(cLabel));
+        if(insideOffice) {
+          config.setDefaultUnderlineType(cLabel);
+          uLineType.setSelectedIndex(getUnderlineType(cLabel));
+        }
       });
       cons.gridx++;
       panel.add(defaultButton.get(nCat), cons);
