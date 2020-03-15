@@ -58,6 +58,7 @@ regexp case-insensitive maken : (?i)
 <!ENTITY abbrevWeekdays "ma|di|wo|do|za|zo">
 <!ENTITY months "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december">
 <!ENTITY abbrevMonths "jan|feb|(maa|mar|mrt)|apr|jun|jul|aug|sep|oct|nov|dec">
+
 <!-- definieer macro voor gespelde afkortingen als cd -->
 <!ENTITY gespeld "abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp">
 <!ENTITY apostrof "[`'‘’]">
@@ -18444,8 +18445,7 @@ steenwijk;Steenwijk
 		<rulegroup id="DE_IPV_HET" name="De i.p.v. het">
 			<antipattern><token>de</token><token postag="BNW.*|WKW:(ODW|VTD):.*|GET:RNG" postag_regexp="yes"/></antipattern>
 			<antipattern><token>de</token><token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"/></antipattern>
-			<antipattern><token>de</token><token>weer</token></antipattern>
-			<antipattern><token>de</token><token>meer</token></antipattern>
+			<antipattern><token>de</token><token regexp="yes">weer|meer|weinig</token></antipattern>
 			<antipattern><token>op</token><token>de</token><token>been</token></antipattern>
 			<antipattern><token>de</token><token>nummer</token><token regexp="yes">[0-9]+</token></antipattern> <!-- de nummer 1 -->
 			<antipattern><token>de</token><token>nummer</token><token postag_regexp="yes" postag="GET:(EKV|MRV)"/></antipattern> <!-- de nummer 1 -->
