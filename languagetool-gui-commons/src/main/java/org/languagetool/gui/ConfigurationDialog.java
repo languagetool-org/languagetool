@@ -1374,16 +1374,12 @@ public class ConfigurationDialog implements ActionListener {
 
   private void setUnderlineType(int index, String category) {
     if(index == 1) {
-//      JOptionPane.showMessageDialog(dialog, "Set Underline Type: " + Configuration.UNDERLINE_BOLDWAVE);
       config.setUnderlineType(category, Configuration.UNDERLINE_BOLDWAVE);
     } else if(index == 2) {
-//      JOptionPane.showMessageDialog(dialog, "Set Underline Type: " + Configuration.UNDERLINE_BOLD);
       config.setUnderlineType(category, Configuration.UNDERLINE_BOLD);
     } else if(index == 3) {
-//      JOptionPane.showMessageDialog(dialog, "Set Underline Type: " + Configuration.UNDERLINE_DASH);
       config.setUnderlineType(category, Configuration.UNDERLINE_DASH);
     } else {
-//      JOptionPane.showMessageDialog(dialog, "Set Underline Type: " + "Default");
       config.setDefaultUnderlineType(category);
     }
   }
@@ -1416,7 +1412,6 @@ public class ConfigurationDialog implements ActionListener {
         categories.add(category);
       }
     }
-    String[] ulTypes = { "Wave", "Bold Wave", "Bold", "Dashed" };
     List<JLabel> categorieLabel = new ArrayList<JLabel>();
     List<JLabel> underlineLabel = new ArrayList<JLabel>();
     List<JButton> changeButton = new ArrayList<JButton>();
@@ -1431,7 +1426,7 @@ public class ConfigurationDialog implements ActionListener {
       String cLabel = categories.get(nCat);
       panel.add(categorieLabel.get(nCat), cons);
 
-      underlineType.add(new JComboBox<String>(ulTypes));
+      underlineType.add(new JComboBox<String>(getUnderlineTypes()));
       JComboBox<String> uLineType = underlineType.get(nCat);
       if(insideOffice) {
         uLineType.setSelectedIndex(getUnderlineType(cLabel));
@@ -1472,6 +1467,17 @@ public class ConfigurationDialog implements ActionListener {
       cons.gridx = 0;
       cons.gridy++;
     }
+    
+    if(insideOffice) {
+      JCheckBox markSingleCharBold = new JCheckBox(Tools.getLabel(messages.getString("guiMarkSingleCharBold")));
+      markSingleCharBold.setSelected(config.markSingleCharBold());
+      markSingleCharBold.addItemListener(e -> config.setMarkSingleCharBold(markSingleCharBold.isSelected()));
+      JLabel dummyLabel = new JLabel(" ");
+      panel.add(dummyLabel, cons);
+      cons.gridy++;
+      panel.add(markSingleCharBold, cons);
+    }
+
     return panel;
   }
 

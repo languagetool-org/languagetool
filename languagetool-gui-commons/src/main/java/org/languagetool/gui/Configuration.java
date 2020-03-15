@@ -70,6 +70,7 @@ public class Configuration {
   static final boolean DEFAULT_USE_DOC_LANGUAGE = true;
   static final boolean DEFAULT_DO_REMOTE_CHECK = false;
   static final boolean DEFAULT_USE_OTHER_SERVER = false;
+  static final boolean DEFAULT_MARK_SINGLE_CHAR_BOLD = false;
 
   static final Color STYLE_COLOR = new Color(0, 175, 0);
 
@@ -112,6 +113,7 @@ public class Configuration {
   private static final String DO_REMOTE_CHECK_KEY = "doRemoteCheck";
   private static final String OTHER_SERVER_URL_KEY = "otherServerUrl";
   private static final String USE_OTHER_SERVER_KEY = "useOtherServer";
+  private static final String MARK_SINGLE_CHAR_BOLD_KEY = "markSingleCharBold";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -171,6 +173,7 @@ public class Configuration {
   private boolean useDocLanguage = DEFAULT_USE_DOC_LANGUAGE;
   private boolean doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
   private boolean useOtherServer = DEFAULT_USE_OTHER_SERVER;
+  private boolean markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
   private String externalRuleDirectory;
   private String lookAndFeelName;
   private String currentProfile = null;
@@ -252,6 +255,7 @@ public class Configuration {
     useDocLanguage = DEFAULT_USE_DOC_LANGUAGE;
     doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
     useOtherServer = DEFAULT_USE_OTHER_SERVER;
+    markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
     externalRuleDirectory = null;
     lookAndFeelName = null;
     currentProfile = null;
@@ -300,6 +304,7 @@ public class Configuration {
     this.currentProfile = configuration.currentProfile;
     this.doRemoteCheck = configuration.doRemoteCheck;
     this.useOtherServer = configuration.useOtherServer;
+    this.markSingleCharBold = configuration.markSingleCharBold;
     this.otherServerUrl = configuration.otherServerUrl;
     
     this.disabledRuleIds.clear();
@@ -454,6 +459,13 @@ public class Configuration {
     return useOtherServer ? otherServerUrl : null;
   }
 
+  public void setMarkSingleCharBold(boolean markSingleCharBold) {
+    this.markSingleCharBold = markSingleCharBold;
+  }
+
+  public boolean markSingleCharBold() {
+    return markSingleCharBold;
+  }
   
   /**
    * Determines whether the tagger window will also print the disambiguation
@@ -1104,6 +1116,11 @@ public class Configuration {
       
       otherServerUrl = (String) props.get(prefix + OTHER_SERVER_URL_KEY);
       
+      String markSingleCharBoldString = (String) props.get(prefix + MARK_SINGLE_CHAR_BOLD_KEY);
+      if (markSingleCharBoldString != null) {
+        markSingleCharBold = Boolean.parseBoolean(markSingleCharBoldString);
+      }
+      
       String rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier);
       if(rulesValuesString == null) {
         rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY);
@@ -1300,6 +1317,9 @@ public class Configuration {
         if(useOtherServer != DEFAULT_USE_OTHER_SERVER) {
           props.setProperty(prefix + USE_OTHER_SERVER_KEY, Boolean.toString(useOtherServer));
         }
+        if(markSingleCharBold != DEFAULT_MARK_SINGLE_CHAR_BOLD) {
+          props.setProperty(prefix + MARK_SINGLE_CHAR_BOLD_KEY, Boolean.toString(markSingleCharBold));
+        }
         if(switchOff) {
           props.setProperty(prefix + LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));
         }
@@ -1407,6 +1427,7 @@ public class Configuration {
     allProfileKeys.add(DO_REMOTE_CHECK_KEY);
     allProfileKeys.add(OTHER_SERVER_URL_KEY);
     allProfileKeys.add(USE_OTHER_SERVER_KEY);
+    allProfileKeys.add(MARK_SINGLE_CHAR_BOLD_KEY);
 
     allProfileLangKeys.add(DISABLED_RULES_KEY);
     allProfileLangKeys.add(ENABLED_RULES_KEY);

@@ -1391,7 +1391,7 @@ class SingleDocument {
     if(underlineColor != Color.blue) {
       nDim++;
     }
-    if(underlineType != Configuration.UNDERLINE_WAVE) {
+    if(underlineType != Configuration.UNDERLINE_WAVE || (config.markSingleCharBold() && aError.nErrorLength == 1)) {
       nDim++;
     }
     if(nDim > 0) {
@@ -1408,6 +1408,8 @@ class SingleDocument {
       }
       if(underlineType != Configuration.UNDERLINE_WAVE) {
         propertyValues[n] = new PropertyValue("LineType", -1, underlineType, PropertyState.DIRECT_VALUE);
+      } else if(config.markSingleCharBold() && aError.nErrorLength == 1) {
+        propertyValues[n] = new PropertyValue("LineType", -1, Configuration.UNDERLINE_BOLDWAVE, PropertyState.DIRECT_VALUE);
       }
       aError.aProperties = propertyValues;
     } else {
