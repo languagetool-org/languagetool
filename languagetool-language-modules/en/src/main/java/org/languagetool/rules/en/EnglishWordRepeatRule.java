@@ -97,6 +97,10 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;
     } else if (wordRepetitionOf("ring", tokens, position)) {
       return true;
+    } else if (wordRepetitionOf("beep", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("bleep", tokens, position)) {
+      return true;
     } else if (wordRepetitionOf("yeah", tokens, position)) {
       return true;
     } else if (wordRepetitionOf("wait", tokens, position) && position == 2) {

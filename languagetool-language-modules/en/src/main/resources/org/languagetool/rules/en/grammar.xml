@@ -10371,6 +10371,10 @@ USA
                 <token regexp="yes">though|br?ough|overdue|fond|wont|dont|cold</token><!-- misspelled verbs (different error) -->
                 <token postag="PRP" />
             </antipattern>
+            <antipattern>
+                <token postag="PRP" />
+                <token regexp="yes">cold|dont|wont|wold|cant</token><!-- misspelled verbs -->
+            </antipattern>
             <antipattern><!-- "she on purpose did that"  -->
                 <token>on</token>
                 <token>purpose</token>
@@ -10756,7 +10760,7 @@ USA
                     </marker>
                     <token postag="RB" min="0" />
                     <token regexp="yes">
-                        sorry|thankful|happy|glad|(un)?able|good
+                        sorry|thankful|happy|glad|(un)?able|good|hungry
                     </token>
                     <token regexp="yes">to|about|that|for|\.|\!|\,</token>
                 </pattern>
@@ -10768,19 +10772,19 @@ USA
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[Ww]e</token>
+                        <token postag="JJ.*" postag_regexp="yes">
+                            <exception postag="VB[PZD]?|MD|RB.*|CC" postag_regexp="yes" />
+                            <exception>all</exception>
+                            <exception regexp="yes">(?!(&adjectives_with_ing;)).{2,}ing</exception>
+                        </token>
                     </marker>
-                    <token postag="JJ.*" postag_regexp="yes">
-                        <exception postag="VB[PZD]?|MD|RB.*|CC" postag_regexp="yes" />
-                        <exception>all</exception>
-                        <exception regexp="yes">(?!(&adjectives_with_ing;)).{2,}ing</exception>
-                    </token>
                 </pattern>
-                <message>It seems that a verb is missing or misspelled after "\1". Please verify.</message>
-                <example correction=""><marker>We</marker> afraid of them.</example>
-                <example correction=""><marker>We</marker> nifty workarounds.</example>
-                <example correction="">Can <marker>we</marker> sticky these?</example>
-                <example correction="">Now we are sleeping for 80 seconds, and I think <marker>we</marker> good, but it also means waiting 80 seconds before doing stuff.</example>
-                <example correction="">Please keep me posted as <marker>we</marker> additional counterparties.</example>
+                <message>It seems that a verb or adverb is missing or misspelledhere. Please verify.</message>
+                <example correction=""><marker>We afraid</marker> of them.</example>
+                <example correction=""><marker>We nifty</marker> workarounds.</example>
+                <example correction="">Can <marker>we sticky</marker> these?</example>
+                <example correction="">Now we are sleeping for 80 seconds, and I think <marker>we good</marker>, but it also means waiting 80 seconds before doing stuff.</example>
+                <example correction="">Please keep me posted as <marker>we additional</marker> counterparties.</example>
                 <example type="triggers_error">We intent to provide a new JS API.</example><!-- caught by INTENT_INTEND -->
                 <example>Are we able to do multiple capabilities for single input?</example>
                 <example>But we must all understand they are a fledgling business which is probably underfunded by Samsung, and must move along with a limited staff.</example>
@@ -10819,7 +10823,7 @@ USA
                         <token postag="PRP" case_sensitive="yes">I</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token regexp="yes">sorry|thankful|happy|glad|(un)?able|good</token>
+                    <token regexp="yes">sorry|thankful|happy|glad|(un)?able|good|hungry</token>
                 </pattern>
                 <message>Did you mean <suggestion>I am</suggestion>?</message>
                 <example correction="I am"><marker>I</marker> so sorry.</example>
@@ -10833,7 +10837,7 @@ USA
                         <token postag="PRP">you</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token regexp="yes">sorry|thankful|happy|glad|(un)?able|good</token>
+                    <token regexp="yes">sorry|thankful|happy|glad|(un)?able|good|hungry</token>
                 </pattern>
                 <message>Did you mean <suggestion>You are</suggestion>?</message>
                 <example correction="You are"><marker>You</marker> sorry.</example>
@@ -11597,7 +11601,7 @@ USA
             </antipattern>
             <antipattern><!-- nouns that are verbs when written as two words, needs different rule with suggestion (TODO!) -->
                 <token postag="MD" skip="2" />
-                <token regexp="yes">bail\-?out|fill\-?in|give\-?away|pay\-?out|run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
+                <token regexp="yes">walk\-?in|bail\-?out|fill\-?in|give\-?away|pay\-?out|run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
             </antipattern>
             <antipattern case_sensitive="yes"><!-- A.I -->
                 <token regexp="yes">[A-Z]</token>
@@ -11664,7 +11668,7 @@ USA
                     <marker>
                         <token regexp="yes">nicer?|good|great|cool(er)?|familiar|handy|(im)?possible|sweet|safer?|better|ok|related|interesting|(in)?appropriate|important|glad|happy|horrible|terrible|sorry|worth</token>
                     </marker>
-                    <token regexp="yes">to|about|for|if|when|as|\.|\!</token>
+                    <token regexp="yes">to|about|for|if|when|as|\.|\!|\?</token>
                 </pattern>
                 <message>Did you mean <suggestion><match no="5" regexp_match="^(.+)$" regexp_replace="be $1" case_conversion="startlower" /></suggestion>?</message>
                 <example correction="be cool">It would <marker>cool</marker> if you could do that.</example>
@@ -13496,6 +13500,12 @@ USA
                 <token min="0" />
                 <token inflected="yes">be</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">those|many</token>
+                <token>that</token>
+                <token postag="VB.*" postag_regexp="yes" />
+                <token inflected="yes">be</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token skip="5">if</token>
@@ -13559,6 +13569,7 @@ USA
                 <example>Academy Awards not protected by this agreement have been sold in public auctions and private deals fo...</example>
                 <example>Why did this have to happen ...</example>
                 <example>Reading this how do you feel?</example>
+                <example>Those that struggle are often ...</example>
                 <example>Not only does this create seperational cases, ..</example>
                 <example>Research has found that people are more altruistic to kin than to no-kin, to friends...</example>
                 <example>Research has found that people are most likely to help if they recognize that a pers...</example>
@@ -14585,7 +14596,7 @@ USA
             </antipattern>
             <antipattern>
                 <token>grow</token>
-                <token regexp="yes">rooms?|lights?|beds</token>
+                <token regexp="yes">rooms?|lights?|beds|models?</token>
             </antipattern>
             <antipattern><!-- "the develop branch" (tech speech) -->
                 <token>develop</token>
@@ -16894,7 +16905,7 @@ USA
                 </antipattern>
                 <antipattern>
                     <token>grow</token>
-                    <token regexp="yes">rooms?|lights?|beds?</token>
+                    <token regexp="yes">rooms?|lights?|beds?|models?</token>
                 </antipattern>
                 <antipattern>
                     <token>the</token>
@@ -27900,7 +27911,7 @@ USA
                 <pattern>
                     <token>
                         to
-                        <exception regexp="yes" scope="previous" inflected="yes">refer|related|restrict|lead|respond|regard</exception>
+                        <exception regexp="yes" scope="previous" inflected="yes">refer|related|restrict|return|lead|respond|regard</exception>
                     </token>
                     <token>apologies</token>
                 </pattern>
@@ -27971,7 +27982,7 @@ USA
                 <pattern>
                     <token>
                         to
-                        <exception regexp="yes" scope="previous" inflected="yes">refer|related|restrict|lead|respond|regard|compare</exception>
+                        <exception regexp="yes" scope="previous" inflected="yes">refer|related|restrict|return|lead|respond|regard|compare</exception>
                     </token>
                     <token regexp="yes">priorities|priories</token>
                 </pattern>
@@ -28058,7 +28069,7 @@ USA
                 <pattern>
                     <token>
                         to
-                        <exception regexp="yes" scope="previous" inflected="yes">refer|related|restrict|lead|respond|regard|compare</exception>
+                        <exception regexp="yes" scope="previous" inflected="yes">refer|related|restrict|return|lead|respond|regard|compare</exception>
                     </token>
                     <token>emphasis</token>
                 </pattern>
@@ -40363,7 +40374,7 @@ The accident victim died from her injuries.
                 <token postag="JJ" />
             </antipattern>
             <antipattern>
-                <token inflected="yes" skip="1" regexp="yes">compare|refer|relate|restrict|lead|respond|regard</token>
+                <token inflected="yes" skip="1" regexp="yes">compare|refer|relate|restrict|return|lead|respond|regard</token>
                 <token>to</token>
             </antipattern>
             <antipattern>
@@ -42091,6 +42102,11 @@ The accident victim died from her injuries.
                 <token postag="PRP$" />
                 <token>side</token>
             </antipattern>
+            <antipattern><!-- my will -->
+                <token postag="PRP$" />
+                <token skip="1">will</token>
+                <token>by</token>
+            </antipattern>
             <antipattern>
                 <token>worth</token>
                 <token>it</token>
@@ -42914,7 +42930,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <marker><token>to</token></marker>
                     <token postag="RB">
-                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|nowhere|not|yes|no|multiply|tomorrow|today|tonight|yesterday|here|wheresoever|always|accordingly|never</exception><!-- 'too X' is not standard English. -->
+                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|nowhere|not|yes|no|multiply|tomorrow|today|tonight|yesterday|here|wheresoever|always|accordingly|never|again</exception><!-- 'too X' is not standard English. -->
                       <exception postag_regexp="yes" postag="JJR?|VBP|NNP"/>
                     </token>
                     <token postag="SENT_END" regexp="yes">\p{P}</token>
