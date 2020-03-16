@@ -14906,6 +14906,39 @@ USA
                 <example>Don't eat my french fries.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="IN_CHINA" name="china (China)" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/china</url>
+            <antipattern>
+                <token regexp="yes">white|antique|impeccable|porcelain|glass|fine|breakfast</token>
+                <token>china</token>
+            </antipattern>
+            <antipattern>
+                <token skip="1">china</token>
+                <token regexp="yes">cups?|porcelain|plates?|(dish|table)ware|closets?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">in|from|to</token>
+                    <marker>
+                        <token case_sensitive="yes">china</token>
+                    </marker>
+                </pattern>
+                <message>Capitalize this word if you mean the country, not white porcelain.</message>
+                <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="China">I was born in <marker>china</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes" skip="2">visit|conquer|travel|holiday|vacation|fight|outside|fly|(re)?negotiate|war|country|asia|government|capital|peking|shanghai</token>
+                    <marker>
+                        <token case_sensitive="yes">china</token>
+                    </marker>
+                </pattern>
+                <message>Capitalize this word if you mean the country, not white porcelain.</message>
+                <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="China">I always wanted to visit <marker>china</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="THE_POLISH" name="the polish (polish)">
             <url>https://www.merriam-webster.com/dictionary/Polish</url>
             <rule>
@@ -26877,6 +26910,15 @@ USA
                 <token>use</token>
                 <token>to</token>
             </antipattern>
+            <antipattern><!-- What would you use to ... -->
+                <token postag="WP|WRB" postag_regexp="yes">
+                    <exception>that</exception>
+                </token>
+                <token postag="MD" />
+                <token postag="PRP" />
+                <token postag="RB.*" postag_regexp="yes" min="0" />
+                <token>use</token>
+            </antipattern>
             <pattern>
                 <token><exception postag="MD"/></token>
                 <marker>
@@ -26899,6 +26941,7 @@ USA
             <example>Did you use to drink a lot?</example>
             <example>What language do you two use to communicate?</example>
             <example>This is a process doctors use to educate their patients.</example>
+            <example>What would you use to explore this sort of thing?</example>
             <example>A massive rocket that the space agency wants to use to return humans to the moon.</example>
             <example type="triggers_error">This is the laptop that I <marker>use to</marker> code on.</example><!-- #1700 -->
             <example type="triggers_error">...by some methanogenic archaea in enzymes that they use to produce methane.</example>
