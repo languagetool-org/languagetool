@@ -4178,6 +4178,30 @@ USA
                     <token min="0" max="1">,</token>
                     <token postag="PRP(\$)?" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="SENT_START|PCT" postag_regexp="yes" />
+                    <token>it</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token postag="JJ" />
+                    <token postag="NN.*" postag_regexp="yes" />
+                    <token postag="PCT" />
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START|PCT" postag_regexp="yes" />
+                    <token>it</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token postag="JJ" />
+                    <and>
+                        <token postag="NN.*" postag_regexp="yes" />
+                        <token postag="SENT_END" />
+                    </and>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">good|bad|excellent</token>
+                    <token>news</token>
+                </antipattern>
                 <pattern>
                     <token>it</token>
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
@@ -4190,9 +4214,11 @@ USA
                 <example correction="its rich text">Note also that because <marker>it's rich text</marker> is illustrated with stunning graphics, the book is perfect for your coffee table.</example>
                 <example correction="its rich text">... and <marker>it's rich text</marker>, stunning graphics, and low price make the book the perfect present.</example>
                 <example>I appreciate its odorless handshake by the fifth time.</example>
+                <example>It's good news.</example>
                 <example>Since it's rich text, you can do things like turn a selection...</example><!-- #2234 -->
                 <example>... because it's rich text it shows the...</example><!-- #2234 -->
                 <example>... because it's rich text, your editor will show the...</example><!-- #2234 -->
+                <example>It's official punishment.</example>
             </rule>
             <rule>
                 <pattern>
@@ -9840,6 +9866,14 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="I_LL" name="missing apostrophe in 'I ll'" default="temp_off">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[Hh]e|[Ss]he|[Ww]e|[Yy]ou|[Tt]hey|I|[Ii]t</token>
+                <token case_sensitive="yes">ll</token>
+            </pattern>
+            <message>It seems that an apostrophe is missing. Did you mean <suggestion>\1'\2</suggestion>?</message>
+            <example correction="He'll"><marker>He ll</marker> take care of it tomorrow.</example>
+        </rule>
         <rule id="WELL_KNOWN" name="is well know">
             <pattern>
                 <token inflected="yes" regexp="yes">be|the|a</token>
@@ -17563,11 +17597,14 @@ USA
                 <example correction="COVID-19"><marker>Covid 19</marker> originated in China.</example>
             </rule>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">(Covid|COVID)-19</token>
+                </antipattern>
                 <pattern>
-                    <token case_sensitive="yes" regexp="yes">[Cc]ovid\-?19</token>
+                    <token regexp="yes">covid\-?19</token>
                 </pattern>
-                <message>Did you mean <suggestion>COVID-19</suggestion> (= coronavirus)?</message>
-                <example correction="COVID-19"><marker>Covid19</marker> originated in China.</example>
+                <message>Did you mean <suggestion>COVID-19</suggestion> or the alternative spelling <suggestion>Covid-19</suggestion> (= coronavirus)?</message>
+                <example correction="COVID-19|Covid-19"><marker>Covid19</marker> originated in China.</example>
             </rule>
             <rule>
                 <pattern>
@@ -36733,7 +36770,7 @@ The accident victim died from her injuries.
          <marker>
           <token regexp="yes">consequences?</token>
           <token postag="IN">
-            <exception regexp="yes">of|for|in|on</exception></token>
+            <exception regexp="yes">of|for|in|on|as</exception></token>
          </marker>
       </pattern>
       <message>The usual preposition to use after "\2" is not "\3". Did you mean <suggestion>\2 of</suggestion>, <suggestion>\2 for</suggestion>, or <suggestion>\2 on</suggestion>?</message>
@@ -36742,6 +36779,7 @@ The accident victim died from her injuries.
       <example>Mayr claimed that there was "nothing of any real consequence in biology after Lucretius and Galen until the Renaissance.</example>
       <example>... a gritty look at war and its consequences on human life. [Example from Oxford Collocations Dictionary for students of English, 2nd edition.]</example>
       <example>It is of little consequence to me.</example>
+      <example>Should the situation deteriorate further, it will also have economic consequences as companies hurry to reduce their debt burdens.</example>
     </rule>
     <rule id='ASK_TO' name='Collocation: ask (to)'>
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
@@ -37844,6 +37882,37 @@ The accident victim died from her injuries.
     <!-- Punctuation Errors -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Punctuation" type="typographical">
+        <rule id="COMMA_PERIOD" name="obsolete punctuation" default="temp_off">
+            <antipattern>
+                <token>,</token>
+                <token>,</token>
+            </antipattern>
+            <antipattern>
+                <token>,</token>
+                <token>.</token>
+                <token spacebefore="no" regexp="yes">.+</token>
+            </antipattern>
+            <antipattern>
+                <token>,</token>
+                <token>.</token>
+                <token>.</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[!?]</token>
+                <token regexp="yes">[\.,]</token>
+                <token regexp="yes">[!?]</token>
+            </antipattern>
+            <pattern>
+                <token>,</token>
+                <token regexp="yes" postag="SENT_END">[!?\.;:\)]+</token>
+            </pattern>
+            <message>Did you just mean <suggestion>\1</suggestion> or <suggestion>\2</suggestion>?</message>
+            <example correction=",|!">Hey<marker>,!</marker></example>
+            <example>You can try Java, .NET or Ruby.</example>
+            <example>(1, 2, 3, ...)</example>
+            <example correction=",|.">Thank you<marker>,.</marker></example>
+            <example>Internet top-level domains in Cyrillic: gTLDs, .мон, .бг, .қаз, .рф, .срб, .укр</example>
+        </rule>
         <rulegroup id="E_G" name="e.g."><!-- picky -->
             <url>https://www.merriam-webster.com/dictionary/e.g.</url>
             <rule>
@@ -43372,17 +43441,47 @@ The accident victim died from her injuries.
         </rule>
         <rulegroup id="HERE_HEAR" name="here (hear)">
             <url>https://en.wiktionary.org/wiki/here</url>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>here</token>
+                    <token min="0">,</token>
+                    <token>here</token>
+                    <token min="0">,</token>
+                    <token regexp="yes" min="0">and|&amp;</token>
+                    <token>here</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>
+                            <exception scope="previous" regexp="yes" inflected="yes">look|see|read</exception>
+                            here
+                        </token>
+                        <token min="0">,</token>
+                        <token>here</token>
+                    </marker>
+                    <token regexp="yes">\!|\.|\,</token>
+                </pattern>
+                <message>Did you mean the exclamation <suggestion><match no="1" regexp_match="(?i)ere" regexp_replace="ear" /><match no="2" /> <match no="3" regexp_match="(?i)ere" regexp_replace="ear" /></suggestion> (used to express wholehearted agreement)?</message>
+                <url>https://www.lexico.com/definition/hear!_hear!</url>
+                <example correction="hear hear">We say, <marker>here here</marker>, it couldn't have happened to a nicer film/bloke.</example>
+                <example>Look here, here and here.</example>
+            </rule>
             <rule>
                 <pattern>
-                    <token>can</token>
+                    <token postag="MD" />
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token postag="RB" min="0" />
                     <marker>
                         <token>here</token>
                     </marker>
-                    <token postag="PRP|DT" postag_regexp="yes"/>
+                    <token postag="PRP\$?|DT|NN:UN" postag_regexp="yes">
+                        <exception postag="VBP?" postag_regexp="yes" />
+                    </token>
                 </pattern>
                 <message>Did you mean <suggestion>hear</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="hear">I can <marker>here</marker> you!</example>
+                <example correction="hear">I can almost <marker>here</marker> you crying.</example>
             </rule>
             <rule>
                 <pattern>
@@ -43416,19 +43515,6 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <pattern>
-                    <token>can</token>
-                    <token postag="RB"/>
-                    <marker>
-                        <token>here</token>
-                    </marker>
-                    <token postag="PRP|DT" postag_regexp="yes"/>
-                </pattern>
-                <message>Did you mean <suggestion>hear</suggestion>?</message>
-                <short>Possible typo</short>
-                <example correction="hear">I can almost <marker>here</marker> you crying.</example>
-            </rule>
-            <rule>
-                <pattern>
                     <or>
                         <token>t</token>
                         <token>not</token>
@@ -43447,6 +43533,7 @@ The accident victim died from her injuries.
         <rule id="HEAR_HERE" name="hear (here)">
             <pattern case_sensitive="yes">
                 <token postag="SENT_START"/>
+                <token min="0" regexp="yes">but|and|oh|ah|yeah|yes|no</token>
                 <marker>
                     <token regexp="yes">Hea?r</token>
                 </marker>
@@ -45115,7 +45202,15 @@ The accident victim died from her injuries.
                 <token>you</token>
                 <token regexp="yes">&apostrophe;</token>
                 <token>re</token>
-                <token regexp="yes">something|nuts|fools|wimps|nothing|geniuses|on|under|already|just|now|available</token>
+                <token regexp="yes">something|nuts|fools|wimps|nothing|geniuses|on|under|already|just|now</token>
+            </antipattern>
+            <antipattern><!-- Maybe you're available next week -->
+                <token>you</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>re</token>
+                <token postag="JJ.*" postag_regexp="yes" />
+                <token regexp="yes">next|upcoming</token>
+                <token regexp="yes">day|week|month|year|&weekdays;|&months;</token>
             </antipattern>
             <antipattern>
                 <token>you</token>
@@ -45143,7 +45238,7 @@ The accident victim died from her injuries.
                 <token regexp="yes">&apostrophe;</token>
                 <token>re</token>
                 <token>home</token>
-                <token regexp="yes">early|late</token>
+                <token regexp="yes">early|late|soon</token>
             </antipattern>
             <antipattern>
                 <token>you</token>
@@ -45162,7 +45257,7 @@ The accident victim died from her injuries.
                 <token postag="JJ" min="0" max="2"/>
                 <token postag="NN(:UN?)?|NNP?S" postag_regexp="yes">
                     <exception postag="JJ"/>
-                    <exception regexp="yes">one|still|right|in|kind|well</exception>
+                    <exception regexp="yes">(some)?one|still|right|in|kind|well|given</exception>
                 </token>
                 <token>
                     <exception regexp="yes">enough|\p{P}</exception>
@@ -45186,6 +45281,7 @@ The accident victim died from her injuries.
             <example>You're in better shape than I am.</example>
             <example>Hope you're well.</example>
             <example>You're just making noise.</example>
+            <example>Maybe you're someone I know.</example>
             <example>You're home early.</example>
             <example>You're geniuses.</example>
             <example>You’re already hurt.</example>
