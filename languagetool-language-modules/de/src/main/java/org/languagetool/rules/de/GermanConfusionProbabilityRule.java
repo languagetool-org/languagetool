@@ -35,12 +35,18 @@ import java.util.regex.Pattern;
 public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   private static final List<Pattern> SENTENCE_EXCEPTION_PATTERNS = Arrays.asList(
+    Pattern.compile("Wie .*?en Sie"),  // "Wie heizen Sie das Haus?"
     Pattern.compile("fiel(e|en)? .* (aus|auf)")
   );
 
   private static final List<String> EXCEPTIONS = Arrays.asList(
     // Use all-lowercase, matches will be case-insensitive.
     // See https://github.com/languagetool-org/languagetool/issues/1516
+    "fiel hinaus",
+    "du hast dir",
+    "vielen als held",
+    "seht gut",  // "Ihr seht gut aus"
+    "so viel das",
     "wie erinnern sie sich",
     "dürfen wir nicht",
     "kann dich auch",
