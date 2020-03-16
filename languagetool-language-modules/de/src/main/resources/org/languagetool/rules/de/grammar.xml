@@ -4660,10 +4660,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token>genau</token>
                     <token>da</token>
                     <token inflected="yes">stellen</token>
-                    <token postag="PRO:PER.*|UNKNOWN|EIG:.*" postag_regexp="yes" />
+                    <token postag="PRO:PER.*|PRO:REF.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="4">Frage</token>
+                    <token>da</token>
+                    <token inflected="yes">stellen</token>
+                </antipattern>
+                <antipattern>
+                    <token>da</token>
+                    <token inflected="yes" skip="4">stellen</token>
+                    <token inflected="yes">Frage</token>
+                </antipattern>
+                <antipattern>
+                    <token>da</token>
+                    <token inflected="yes" skip="2">stellen</token>
+                    <token>fest</token>
                 </antipattern>
                 <pattern>
                     <token>
@@ -4677,6 +4691,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Möglicher Tippfehler: Meinten Sie das Verb <suggestion>dar\3</suggestion>?</message>
                 <example correction="dargestellt">Er hat die Sache ganz anders <marker>da gestellt</marker>.</example>
                 <example>Und genau da stellen sie auch fest, dass der Standard vielen Gamern, Technikfans und PC-Bastlern zu langweilig ist.</example>
+                <example>Die Frage die ich mir da stelle, als User, warum wird das überhaupt geändert?</example>
+                <example>Da stellt sich natürlich die Frage: Wie kommen die da automatisch rein?</example>
             </rule>
             <rule>
                 <pattern>
