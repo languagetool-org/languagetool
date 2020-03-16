@@ -122,8 +122,10 @@ public class BeoLingusTranslatorTest {
   @Test
   public void testCleanTranslationForReplace() {
     assertThat(translator.cleanTranslationForReplace("", null), CoreMatchers.is(""));
-    assertThat(translator.cleanTranslationForReplace("to go", null), CoreMatchers.is("to go"));
-    assertThat(translator.cleanTranslationForReplace("to go", "foo"), CoreMatchers.is("to go"));
+    assertThat(translator.cleanTranslationForReplace("to go", null), CoreMatchers.is("go"));
+    assertThat(translator.cleanTranslationForReplace("to go", "need"), CoreMatchers.is("to go"));
+    assertThat(translator.cleanTranslationForReplace("to go", "will"), CoreMatchers.is("go"));
+    assertThat(translator.cleanTranslationForReplace("to go", "foo"), CoreMatchers.is("go"));
     assertThat(translator.cleanTranslationForReplace("to go", "to"), CoreMatchers.is("go"));
     assertThat(translator.cleanTranslationForReplace("foo (bar) {mus}", null), CoreMatchers.is("foo"));
     assertThat(translator.cleanTranslationForReplace("some thing [Br.], something", null), CoreMatchers.is("some thing , something"));  // not quite clean yet...

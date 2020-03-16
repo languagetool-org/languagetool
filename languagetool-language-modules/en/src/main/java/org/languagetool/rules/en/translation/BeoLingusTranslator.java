@@ -49,6 +49,13 @@ public class BeoLingusTranslator implements Translator {
 
   private static BeoLingusTranslator instance;
 
+  // Source: https://www.cafe-lingua.de/englische-grammatik/verben-mit-to-infinitiv.php
+  private static final Set<String> verbsWithTo = new HashSet<>(Arrays.asList("afford", "agree", "aim", "appear", "arrange",
+    "attempt", "beg", "care", "choose", "claim", "condescend", "consent", "dare", "decide", "demand", "deserve",
+    "determine", "endeavour", "expect", "fail", "forget", "guarantee", "happen", "have", "help", "hesitate", "hope",
+    "learn", "long", "manage", "mean", "need", "neglect", "offer", "plan", "prepare", "pretend", "proceed", "promise",
+    "refuse", "resolve", "seem", "stop", "swear", "tend", "threaten", "trouble", "undertake", "volunteer", "vow", "want", "wish"));
+
   private final Tagger tagger;
   private final Map<String,List<TranslationEntry>> de2en = new HashMap<>();
   private final Map<String,List<TranslationEntry>> en2de = new HashMap<>();
@@ -270,6 +277,9 @@ public class BeoLingusTranslator implements Translator {
       .replaceAll("/[A-Z]+/", "")    // e.g. "heavy goods vehicle /HGV/"
       .trim();
     if ("to".equals(prevWord) && clean.startsWith("to ")) {
+      return clean.substring(3);
+    }
+    if (!"to".equals(prevWord) && clean.startsWith("to ") && !verbsWithTo.contains(prevWord)) {
       return clean.substring(3);
     }
     return clean;
