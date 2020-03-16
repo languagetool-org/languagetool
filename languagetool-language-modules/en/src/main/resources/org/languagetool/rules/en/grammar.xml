@@ -17583,7 +17583,7 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rule id="APRIL_FOOLS" name="April Fools' Day" default="temp_off">
+        <rule id="APRIL_FOOLS" name="April Fools' Day">
             <antipattern case_sensitive="yes">
                 <token>April</token>
                 <token>Fools</token>
@@ -22305,6 +22305,10 @@ USA
                     <token chunk="B-NP-plural" postag_regexp="yes" postag="NN:UN?|JJ"/>
                     <token chunk="E-NP-plural" postag="NNS"/>
                 </antipattern>
+                <antipattern>
+                    <token>rocket</token>
+                    <token>science</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be
                         <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
@@ -22313,9 +22317,13 @@ USA
                     </token>
                     <token postag="RB">
                         <exception regexp="yes">in|t?here</exception>
-                        <exception postag="VBN|JJ.*|CC" postag_regexp="yes"/></token>
+                        <exception postag="VBN|JJ.*|CC" postag_regexp="yes"/>
+                    </token>
                     <marker>
-                        <token postag="VB[DP]?" postag_regexp="yes"><exception postag="VBN|JJ.*|IN|RB" postag_regexp="yes"/></token>
+                        <token postag="VB[DP]?" postag_regexp="yes">
+                            <exception>people</exception>
+                            <exception postag="VBN|JJ.*|IN|RB" postag_regexp="yes"/>
+                        </token>
                     </marker>
                     <token><exception regexp="yes">&apostrophe;</exception><exception postag="VBN"/></token>
                 </pattern>
@@ -22326,10 +22334,12 @@ USA
                 <example correction="written">It must have been always <marker>wrote</marker> that.</example>
                 <example correction="hated">The president was always <marker>hate</marker> in Moscow.</example>
                 <example>It has always been liked.</example>
+                <example>They are miles away but they are still people you love and care about.</example>
                 <example>As they are differentially <marker>phase</marker> modulated...</example>
                 <example>Indirect consumption is usually <marker>oil</marker>.</example>
                 <example>Indirect consumption is mainly <marker>oil and natural gas</marker>.</example>
                 <example>“There is still hope,” said Fernando.</example>
+                <example>It's not rocket science.</example>
                 <example>That's not butter; it's margarine.</example>
                 <example>What he did next was Truly Mind Blowing.</example><!-- #1701 -->
                 <example>There's little water in the tank, if any.</example>
@@ -39901,7 +39911,7 @@ The accident victim died from her injuries.
             <example correction="or">He wants to do it once <marker>a</marker> twice a month.</example>
         </rule>
         <rulegroup id="AN_AND" name="confusion of 'an' and 'and'">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="NN.*" postag_regexp="yes" />
                     <marker>
@@ -44483,7 +44493,7 @@ The accident victim died from her injuries.
             </rule>
         </rulegroup>
         <rulegroup id="WERE_WHERE" name="were (where)">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="NN.*|VB.*" postag_regexp="yes" />
                     <marker>
@@ -45136,8 +45146,11 @@ The accident victim died from her injuries.
                 <token postag="JJ" min="0" max="2"/>
                 <token postag="NN(:UN?)?|NNP?S" postag_regexp="yes">
                     <exception postag="JJ"/>
-                    <exception regexp="yes">one|still|right|in|kind|well</exception></token>
-                <token><exception>enough</exception></token>
+                    <exception regexp="yes">one|still|right|in|kind|well</exception>
+                </token>
+                <token>
+                    <exception regexp="yes">enough|\p{P}</exception>
+                </token>
             </pattern>
             <message>Did you mean <suggestion>your</suggestion>?</message>
             <short>Possible typo</short>
