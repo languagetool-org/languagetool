@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.en.translation;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.GlobalConfig;
@@ -30,7 +31,6 @@ import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Nonnull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -201,7 +201,7 @@ public class BeoLingusTranslator implements Translator {
     return sortedList;
   }
 
-  @Nonnull
+  @NotNull
   private List<TranslationEntry> getTranslationsForBaseforms(String term, Map<String, List<TranslationEntry>> map) {
     List<TranslationEntry> result = new ArrayList<>();
     try {
