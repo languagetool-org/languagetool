@@ -4597,6 +4597,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB"/>
             <token postag="DT"/>
         </antipattern>
+        <antipattern><!-- Incorrect grammar: I wouldnt text you -->
+            <token postag="UNKNOWN" regexp="yes">[a-z]+</token>
+            <token postag="VB.*" postag_regexp="yes" />
+            <token postag="PRP" />
+        </antipattern>
         <antipattern><!-- Fix for chunker: steadily you wax ... -->
             <token regexp="yes">If?|you|we|they</token>
             <token postag_regexp="yes" postag="VBP?"/>
@@ -4929,6 +4934,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar: He was talk to me.</example><!-- #2544 -->
         <example type="untouched">Incorrect grammar: If she sneakily is talk about my secrets...</example><!-- #2544 -->
         <example type="untouched">Incorrect grammar: ... and it was talk about in the media.</example><!-- #2544 -->
+        <example type="untouched">Incorrect grammar: I wouldnt text you sorry</example>
         <example type="untouched">The person i will EVER pledge to is my friend.</example><!-- #2552 -->
         <example type="untouched">The person i should ALWAYS pledge with is my friend.</example><!-- #2552 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
