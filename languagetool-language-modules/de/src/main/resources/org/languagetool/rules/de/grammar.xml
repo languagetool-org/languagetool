@@ -41665,15 +41665,16 @@ Andere Projekte</example>
                         <exception regexp="yes">,|-|„|»|«|"</exception>
                         <exception postag="SENT_START"/>
                     </token>
-                    <token  regexp="yes">ja|nein|oder</token>
-                    </marker>
-                    <token>?</token>
-                </pattern>
-                <message>Ein Komma vor '\2' setzen?</message>
-                <suggestion>\1, \2</suggestion>
-                <example correction='morgen, oder'>Du kommst <marker>morgen oder</marker>?</example>
-                <example>Ja oder nein?</example>
-            </rule>
+                    <token  regexp="yes">ja|nein|oder|richtig</token>
+                </marker>
+                <token>?</token>
+            </pattern>
+            <message>Ein Komma vor '\2' setzen?</message>
+            <suggestion>\1, \2</suggestion>
+            <example correction='morgen, oder'>Du kommst <marker>morgen oder</marker>?</example>
+            <example correction='melden, richtig'>Eine Kündigung muss ich bis 31. Januar 2021 bei dir <marker>melden richtig</marker>?</example>
+            <example>Ja oder nein?</example>
+        </rule>
             <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
