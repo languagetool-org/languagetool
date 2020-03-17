@@ -38885,6 +38885,37 @@ The accident victim died from her injuries.
                 <example correction="54″">45,<marker>54 ″</marker></example>
             </rule>
         </rulegroup>
+        <rulegroup id="COMMA_AND_NUMBERS" name="Wrong space/comma in numbers">
+           <rule>
+                <pattern case_sensitive="yes">
+                    <token regexp="yes">\d{2}</token>
+                    <token spacebefore="no">,</token>
+                    <token regexp="yes" spacebefore="no">\d{4}</token>
+                </pattern>
+                <message>Please check whether a space is missing or whether the comma should be placed elsewhere.</message>
+                <suggestion>\1, \3</suggestion>
+                <url>https://www.grammar-monster.com/lessons/commas_with_numbers.htm</url>
+                <short>Punctuation error</short>
+                <example correction="16, 1963">On June <marker>16,1963</marker> Valentina Tereshkova was launched into space aboard Vostok 6.</example>
+                <example>A day has 86,400 seconds.</example>
+            </rule>
+           <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token regexp="yes" spacebefore="yes">\d+</token>
+                        <token spacebefore="no">,</token>
+                        <token regexp="yes" spacebefore="no">\d{2}</token>
+                    </marker>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>Please check whether a space is missing or whether the comma should be placed elsewhere.</message>
+                <suggestion><match no="1" regexp_match="(.$)" regexp_replace=""/>,<match no="1" regexp_match="^(\d)+(\d)$" regexp_replace="$2"/>\3</suggestion>
+                <url>https://www.grammar-monster.com/lessons/commas_with_numbers.htm</url>
+                <short>Punctuation error</short>
+                <example correction="86,400">A day has <marker>864,00</marker> seconds.</example>
+                <example>A day has 86,400 seconds.</example>
+            </rule>
+        </rulegroup>
         <rulegroup name="abbreviations with spaces in between (e. g.)" id="EG_SPACE">
             <rule>
                 <pattern case_sensitive="yes">
