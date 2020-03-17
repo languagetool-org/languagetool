@@ -949,7 +949,7 @@ public class CaseRule extends Rule {
       } else if (analyzedToken.hasPosTagStartingWith("SUB:") &&
                  i < tokens.length-1 &&
                  Character.isLowerCase(tokens[i+1].getToken().charAt(0)) &&
-                 tokens[i+1].matchesPosTagRegex("VER:[123]:.+")) {
+                 tokens[i+1].matchesPosTagRegex("(VER:[123]:|PA2).+")) {
         // "Viele Minderjährige sind" but not "Das wirklich Wichtige Verfahren ist"
         continue;  
       }
