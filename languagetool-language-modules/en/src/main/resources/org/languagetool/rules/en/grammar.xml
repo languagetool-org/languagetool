@@ -9866,14 +9866,6 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="I_LL" name="missing apostrophe in 'I ll'" default="temp_off">
-            <pattern>
-                <token regexp="yes" case_sensitive="yes">[Hh]e|[Ss]he|[Ww]e|[Yy]ou|[Tt]hey|I|[Ii]t</token>
-                <token case_sensitive="yes">ll</token>
-            </pattern>
-            <message>It seems that an apostrophe is missing. Did you mean <suggestion>\1'\2</suggestion>?</message>
-            <example correction="He'll"><marker>He ll</marker> take care of it tomorrow.</example>
-        </rule>
         <rule id="WELL_KNOWN" name="is well know">
             <pattern>
                 <token inflected="yes" regexp="yes">be|the|a</token>
@@ -16236,6 +16228,12 @@ USA
                 <example>Let's breathe the fresh air.</example>
             </rule>
             <rule><!-- the believe -->
+                <antipattern><!-- https://de.wikipedia.org/wiki/Ripley%E2%80%99s_Believe_It_or_Not! -->
+                    <token>believe</token>
+                    <token>it</token>
+                    <token>or</token>
+                    <token>not</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">the|an?|my|y?our|his|her|their|its|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -17609,19 +17607,6 @@ USA
             <url>https://www.merriam-webster.com/dictionary/vitamin%20C</url>
             <example correction="vitamin C">Prolonged storage or cooking may reduce <marker>Vitamin C</marker> content in foods.</example>
             <example>Vitamin C</example>
-        </rule>
-        <rule id="O_CONNOR" name="O Connor (O'Connor)">
-            <antipattern>
-                <token regexp="yes">\p{P}</token>
-                <token spacebefore="no">O</token>
-            </antipattern>
-            <pattern>
-                <token>O</token>
-                <token regexp="yes">Conor|Connor|Neill?|Brien|Brian|[DC]onnell|Casey|Carroll|Doherty|Donovan|Keeff?e|Kelly|Leary|Reilly|Shea|Kennedy|Rourke|Toole|Flaherty</token>
-            </pattern>
-            <message>Did you mean the surname <suggestion>O'<match no="2" case_conversion="startupper" /></suggestion> or the interjection <suggestion>\1h, <match no="2" case_conversion="startupper" /></suggestion>?</message>
-            <url>https://www.dochara.com/the-irish/surnames/irish-surnames-o/</url>
-            <example correction="O'Conor|Oh, Conor">His name is <marker>O conor</marker>.</example>
         </rule>
         <rulegroup id="COVID_19" name="COVID-19">
             <url>https://en.wikipedia.org/wiki/Coronavirus_disease_2019</url>
@@ -29054,7 +29039,7 @@ USA
                 </pattern>
                 <message>The singular proper name '<match no="2"/>' must be used with a third-person or a past tense verb: <suggestion><match no="3" postag="VBZ"/></suggestion>, <suggestion><match no="3" postag="VBD"/></suggestion>.</message>
                 <example correction="walks|walked">Ann <marker>walk</marker> to the building.</example>
-                <example correction="speaks|spake|spoke">Microsoft <marker>speak</marker> to the customers.</example>
+                <example correction="speaks|spoke">Microsoft <marker>speak</marker> to the customers.</example>
                 <example>Bill <marker>walks</marker> to the building.</example>
                 <example>Guinness <marker>walked</marker> to the building.</example>
                 <example>Roosevelt and Hoover speak each other's lines.</example>
@@ -37969,107 +37954,6 @@ The accident victim died from her injuries.
     <!-- Punctuation Errors -->
     <!-- ====================================================================== -->
     <category id="PUNCTUATION" name="Punctuation" type="typographical">
-        <rulegroup id="DOUBLE_APOSTROPHE" name="redundant apostrophe" default="temp_off">
-            <antipattern><!-- markdown formatting-->
-                <token regexp="yes">&apostrophe;</token>
-                <token regexp="yes">[a-z].+</token>
-                <token regexp="yes">&apostrophe;</token>
-                <token regexp="yes">&apostrophe;</token>
-                <token>s</token>
-            </antipattern>
-            <rule>
-                <pattern>
-                    <token regexp="yes">I|you|we|they|s?he|it</token>
-                    <token regexp="yes">&apostrophe;</token>
-                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
-                    <token regexp="yes">re|s|ll|ve|d</token>
-                </pattern>
-                <message>It seems that one apostrophe is unnecessary.</message>
-                <suggestion>\1'\4</suggestion>
-                <example correction="We'll"><marker>We''ll</marker> be ready next week.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">isn|wasn|weren|aren|ain|hadn|haven|hasn|don|didn|doesn</token>
-                    <token regexp="yes">&apostrophe;</token>
-                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
-                    <token>t</token>
-                </pattern>
-                <message>It seems that one apostrophe is unnecessary.</message>
-                <suggestion>\1'\4</suggestion>
-                <example correction="wasn't">He <marker>wasn''t</marker> ready yet.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="MD" />
-                    <token regexp="yes">&apostrophe;</token>
-                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
-                    <token>t</token>
-                </pattern>
-                <message>It seems that one apostrophe is unnecessary.</message>
-                <suggestion>\1'\4</suggestion>
-                <example correction="couldn't">He <marker>couldn''t</marker> do it.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="NN.*" postag_regexp="yes" />
-                    <token regexp="yes">&apostrophe;</token>
-                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
-                    <token>s</token>
-                </pattern>
-                <message>It seems that one apostrophe is unnecessary.</message>
-                <suggestion>\1'\4</suggestion>
-                <example correction="Tom's"><marker>Tom''s</marker> new girlfriend is very beautiful.</example>
-                <example>I’m getting `403`'s on both `POST`'s.</example><!-- markdown -->
-            </rule>
-        </rulegroup>
-        <rulegroup id="APOSTROPHE_VS_QUOTE" name="double quote instead of apostrophe" default="temp_off">
-            <antipattern><!-- markdown formatting-->
-                <token skip="2" regexp="yes">["“”]</token>
-                <token regexp="yes">["“”]</token>
-                <token>s</token>
-            </antipattern>
-            <rule>
-                <pattern>
-                    <token regexp="yes">I|you|we|they|s?he|it</token>
-                    <token regexp="yes">["“”]</token>
-                    <token regexp="yes" spacebefore="no">re|s|ll|ve|d</token>
-                </pattern>
-                <message>The double quotation mark seems incorrect here.</message>
-                <suggestion>\1'\3</suggestion>
-                <example correction="We'll"><marker>We"ll</marker> be ready next week.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">isn|wasn|weren|aren|ain|hadn|haven|hasn|don|didn|doesn</token>
-                    <token regexp="yes">["”]</token>
-                    <token spacebefore="no">t</token>
-                </pattern>
-                <message>The double quotation mark seems incorrect here.</message>
-                <suggestion>\1'\3</suggestion>
-                <example correction="wasn't">He <marker>wasn"t</marker> ready yet.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="MD" />
-                    <token regexp="yes">["”]</token>
-                    <token spacebefore="no">t</token>
-                </pattern>
-                <message>The double quotation mark seems incorrect here.</message>
-                <suggestion>\1'\3</suggestion>
-                <example correction="couldn't">He <marker>couldn"t</marker> do it.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="NN.*" postag_regexp="yes" />
-                    <token regexp="yes">["”]</token>
-                    <token spacebefore="no">s</token>
-                </pattern>
-                <message>The double quotation mark seems incorrect here.</message>
-                <suggestion>\1'\3</suggestion>
-                <example correction="Tom's"><marker>Tom"s</marker> new girlfriend is very beautiful.</example>
-            </rule>
-        </rulegroup>
         <rule id="COMMA_PERIOD" name="redundant punctuation" default="temp_off">
             <antipattern>
                 <token>,</token>
@@ -53215,6 +53099,186 @@ The accident victim died from her injuries.
     </category>
 
   <category id="TYPOGRAPHY" name="Typography" type="typographical">
+    <rule id="O_CONNOR" name="O Connor (O'Connor)">
+        <antipattern>
+            <token regexp="yes">\p{P}</token>
+            <token spacebefore="no">O</token>
+        </antipattern>
+        <pattern>
+            <token>O</token>
+            <token regexp="yes">Conor|Connor|Neill?|Brien|Brian|[DC]onnell|Casey|Carroll|Doherty|Donovan|Keeff?e|Kelly|Leary|Reilly|Shea|Kennedy|Rourke|Toole|Flaherty</token>
+        </pattern>
+        <message>Did you mean the surname <suggestion>O'<match no="2" case_conversion="startupper" /></suggestion> or the interjection <suggestion>\1h, <match no="2" case_conversion="startupper" /></suggestion>?</message>
+        <url>https://www.dochara.com/the-irish/surnames/irish-surnames-o/</url>
+        <example correction="O'Conor|Oh, Conor">His name is <marker>O conor</marker>.</example>
+    </rule>
+    <rulegroup id="DOUBLE_APOSTROPHE" name="redundant apostrophe" default="temp_off">
+        <antipattern><!-- markdown formatting-->
+            <token regexp="yes">&apostrophe;</token>
+            <token regexp="yes">[a-z].+</token>
+            <token regexp="yes">&apostrophe;</token>
+            <token regexp="yes">&apostrophe;</token>
+            <token>s</token>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token regexp="yes">I|you|we|they|s?he|it</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token regexp="yes">re|s|ll|ve|d</token>
+            </pattern>
+            <message>It seems that one apostrophe is unnecessary.</message>
+            <suggestion>\1'\4</suggestion>
+            <example correction="We'll"><marker>We''ll</marker> be ready next week.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">isn|wasn|weren|aren|ain|hadn|haven|hasn|don|didn|doesn</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <message>It seems that one apostrophe is unnecessary.</message>
+            <suggestion>\1'\4</suggestion>
+            <example correction="wasn't">He <marker>wasn''t</marker> ready yet.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="MD" />
+                <token regexp="yes">&apostrophe;</token>
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <message>It seems that one apostrophe is unnecessary.</message>
+            <suggestion>\1'\4</suggestion>
+            <example correction="couldn't">He <marker>couldn''t</marker> do it.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="NN.*" postag_regexp="yes" />
+                <token regexp="yes">&apostrophe;</token>
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token>s</token>
+            </pattern>
+            <message>It seems that one apostrophe is unnecessary.</message>
+            <suggestion>\1'\4</suggestion>
+            <example correction="Tom's"><marker>Tom''s</marker> new girlfriend is very beautiful.</example>
+            <example>I’m getting `403`'s on both `POST`'s.</example><!-- markdown -->
+        </rule>
+    </rulegroup>
+    <rulegroup id="APOSTROPHE_VS_QUOTE" name="double quote instead of apostrophe" default="temp_off">
+        <antipattern><!-- markdown formatting-->
+            <token skip="2" regexp="yes">["“”]</token>
+            <token regexp="yes">["“”]</token>
+            <token>s</token>
+        </antipattern>
+        <rule>
+            <pattern>
+                <token regexp="yes">I|you|we|they|s?he|it</token>
+                <token regexp="yes">["“”]</token>
+                <token regexp="yes" spacebefore="no">re|s|ll|ve|d</token>
+            </pattern>
+            <message>The double quotation mark seems incorrect here.</message>
+            <suggestion>\1'\3</suggestion>
+            <example correction="We'll"><marker>We"ll</marker> be ready next week.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">isn|wasn|weren|aren|ain|hadn|haven|hasn|don|didn|doesn</token>
+                <token regexp="yes">["”]</token>
+                <token spacebefore="no">t</token>
+            </pattern>
+            <message>The double quotation mark seems incorrect here.</message>
+            <suggestion>\1'\3</suggestion>
+            <example correction="wasn't">He <marker>wasn"t</marker> ready yet.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="MD" />
+                <token regexp="yes">["”]</token>
+                <token spacebefore="no">t</token>
+            </pattern>
+            <message>The double quotation mark seems incorrect here.</message>
+            <suggestion>\1'\3</suggestion>
+            <example correction="couldn't">He <marker>couldn"t</marker> do it.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="NN.*" postag_regexp="yes" />
+                <token regexp="yes">["”]</token>
+                <token spacebefore="no">s</token>
+            </pattern>
+            <message>The double quotation mark seems incorrect here.</message>
+            <suggestion>\1'\3</suggestion>
+            <example correction="Tom's"><marker>Tom"s</marker> new girlfriend is very beautiful.</example>
+        </rule>
+    </rulegroup>
+    <rulegroup id="MISSING_APOSTROPHE" name="missing apostrophe" default="temp_off">
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[Hh]e|[Ss]he|[Ww]e|[Yy]ou|[Tt]hey|I|[Ii]t</token>
+                <token case_sensitive="yes">ll</token>
+            </pattern>
+            <message>It seems that an apostrophe is missing. Did you mean <suggestion>\1'\2</suggestion>?</message>
+            <example correction="He'll"><marker>He ll</marker> take care of it tomorrow.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[Ww]e|[Yy]ou|[Tt]hey|I</token>
+                <token case_sensitive="yes">ve</token>
+            </pattern>
+            <message>It seems that an apostrophe is missing. Did you mean <suggestion>\1'\2</suggestion>?</message>
+            <example correction="I've"><marker>I ve</marker> no idea what you're talking about.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">[Hh]e|[Ss]he|[Ii]t</token>
+                    <token case_sensitive="yes">s</token>
+                </marker>
+                <token postag="RB" min="0" />
+                <token postag="VBG|JJ.*|DT" postag_regexp="yes" />
+            </pattern>
+            <message>It seems that an apostrophe is missing. Did you mean <suggestion>\1'\2</suggestion>?</message>
+            <example correction="He's"><marker>He s</marker> great.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">[Ww]e|[Yy]ou|[Tt]hey</token>
+                    <token case_sensitive="yes">re</token>
+                </marker>
+                <token postag="RB" min="0" />
+                <token postag="VBG|JJ.*|DT" postag_regexp="yes" />
+            </pattern>
+            <message>It seems that an apostrophe is missing. Did you mean <suggestion>\1'\2</suggestion>?</message>
+            <example correction="They're"><marker>They re</marker> the best.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">I</token>
+                    <token case_sensitive="yes">m</token>
+                </marker>
+                <token postag="RB" min="0" />
+                <token postag="VBG|JJ.*|DT" postag_regexp="yes" />
+            </pattern>
+            <message>It seems that an apostrophe is missing. Did you mean <suggestion>\1'\2</suggestion>?</message>
+            <example correction="I'm"><marker>I m</marker> the best.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">[Hh]e|[Ss]he|[Ww]e|[Yy]ou|[Tt]hey|I|[Ii]t</token>
+                    <token case_sensitive="yes">d</token>
+                </marker>
+                <token postag="RB" min="0" />
+                <token postag="VB" />
+            </pattern>
+            <message>It seems that an apostrophe is missing. Did you mean <suggestion>\1'\2</suggestion>?</message>
+            <example correction="He'd"><marker>He d</marker> do it.</example>
+        </rule>
+    </rulegroup>
     <rule id="CD_TH" name="number + (th, nd, st, rd)">
         <antipattern>
             <token>.</token>
