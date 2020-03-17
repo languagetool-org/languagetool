@@ -35,15 +35,8 @@ public class WordListValidatorTest {
           "___INSERT___" +
           "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłń" +
           "ŚśōżúïÎôêâû" +
-          "Ææ" +  // English
-          "ÍÚÑ" + // for Spanish
-          "õș" +   // for Portuguese
-          "ā" + // for Persian
-          "·" +   // for Catalan
-          "_" +   // for German (syntax: prefix_verb)
           "'’" +
-          "ýùźăŽČĆÅıøğåšĝÇİŞŠčžć±ą+-" +   // for Dutch (inhabitants) proper names mostly
-          "./-]+" + 
+          "./-]+" +
           "|[khmcdµ]?m[²³]|°[CFR]|CO₂-?.*|mc²";
 
   // Words that are valid but with special characters so that we don't want to
@@ -51,6 +44,23 @@ public class WordListValidatorTest {
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
           "Będzin",
           "Bhagavad-gītā",
+          "Božena/S",
+          "Brăila/S",
+          "Timișoara/S",
+          "Tromsø/S",
+          "Solidarność",
+          "Salihamidžić/S",
+          "veni, vidi, vici", // en
+          "Food+Tech Connect", // en
+          "comme ci, comme ça", // en
+          "Robinson + Yu",
+          "herõon", // en
+          "herõons", // en
+          "Võro",  // en
+          "Čakavian",
+          "Erdoğan",
+          "Štokavian",
+          "Veliko Tărnovo",
           "Brāhmaṇa",
           "Forlì-Cesena",
           "Hárbarðsljóð",

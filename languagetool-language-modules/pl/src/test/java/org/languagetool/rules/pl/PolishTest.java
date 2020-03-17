@@ -35,6 +35,6 @@ public class PolishTest extends LanguageSpecificTest {
     testDemoText(lang, s,
       Arrays.asList("BRAK_PRZECINKA_KTORY", "WORD_REPEAT_RULE", "MORFOLOGIK_RULE_PL_PL", "MORFOLOGIK_RULE_PL_PL", "MORFOLOGIK_RULE_PL_PL", "MORFOLOGIK_RULE_PL_PL", "MORFOLOGIK_RULE_PL_PL")
     );
-    runTests(lang);
+    runTests(lang, null, "ą");
   }
 }

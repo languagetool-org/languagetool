@@ -46,7 +46,7 @@ public class GermanTest extends LanguageSpecificTest {
     testDemoText(lang, s,
       Arrays.asList("UPPERCASE_SENTENCE_START", "EIN_PAAR", "COMMA_PARENTHESIS_WHITESPACE", "ANGST_UND_BANGE", "KOMP_WIE", "GERMAN_SPELLER_RULE", "SAGT_RUFT", "DATUM_WOCHENTAG", "DE_AGREEMENT")
     );
-    runTests(lang);
+    runTests(lang, null, "_");
   }
 
   @Test

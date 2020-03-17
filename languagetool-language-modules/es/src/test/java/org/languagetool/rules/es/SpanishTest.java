@@ -35,6 +35,6 @@ public class SpanishTest extends LanguageSpecificTest {
     testDemoText(lang, s,
       Arrays.asList("AFRENTAR_DIFICULTADES", "ES_WIKIPEDIA_COMMON_ERRORS", "MORFOLOGIK_RULE_ES", "Y_E", "GROSSO_MODO")
     );
-    runTests(lang);
+    runTests(lang, null, "ÍÚÑ");
   }
 }
