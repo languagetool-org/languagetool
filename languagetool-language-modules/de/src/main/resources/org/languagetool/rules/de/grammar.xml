@@ -10250,17 +10250,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token>da</token>
-                        <token regexp="yes">nach|neben|ran|rauf|runter</token>
+                        <token regexp="yes">bei|für|gegen|hin|vor|nach|neben|ran|rauf|runter</token>
                     </marker>
-                    <token postag="VER:(AUX:|MOD:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">sieben|gilt|äußerst|äusserst|einst|meinen?|tausenden?|!(hat)</exception></token>
+                    <token postag="VER:(AUX:|MOD:)?(1|2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">sein|sieben|gilt|äußerst|äusserst|einst|meinen?|tausenden?|!(hat)</exception></token>
                 </pattern>
                 <message>&getrennt;: Meinten Sie <suggestion>da\2</suggestion>?</message>
                 <short>&getrennt;.</short>
                 <example correction="danach">Was <marker>da nach</marker> kam, war Krieg.</example>
                 <example correction="Darauf"><marker>Da rauf</marker> kann ich verzichten.</example>
                 <example correction="Danach"><marker>Da nach</marker> hat sie mich verlassen.</example>
+                <example correction="dafür">Wenn Sie <marker>da für</marker> bezahlen, dann gerne.</example>
+                <example>Wir versuchen, um 7:45 da zu sein.</example>
             </rule>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <token postag="VER:IMP.+" postag_regexp="yes"></token>
+                    <token>da</token>
+                    <token></token>
+                    <token>!</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token postag="VER:.+" postag_regexp="yes"></token>
+                    <token>Sie</token>
+                    <token>da</token>
+                    <token></token>
+                    <token>!</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" negate_pos="yes"><exception regexp="yes">[,;]</exception></token>
                     <marker>
@@ -10273,15 +10288,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="danach">Ich konnte <marker>da nach</marker> nicht wieder einschlafen.</example>
                 <example correction="daran">Ich will <marker>da ran</marker> nicht denken.</example>
                 <example><marker>Danach</marker> hat sie mich verlassen.</example>
+                <example>Komm da runter!</example>
+                <example>Kommen Sie da runter!</example>
             </rule>
         </rulegroup>
         <rulegroup id="NACHDEM_NACH_DEM" name="'nachdem (nach dem) Essen etc.'">
             <antipattern>
                 <token>kann</token>
-                <token regexp="yes">außerdem|ausserdem</token>
+                <token regexp="yes">au(ß|ss)erdem</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">(trotz|seit)dem</token>
+                <token regexp="yes">trotzdem|seitdem</token>
                 <token/>
                 <token postag="SENT_END"/>
             </antipattern>
