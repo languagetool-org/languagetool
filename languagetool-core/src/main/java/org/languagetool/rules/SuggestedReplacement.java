@@ -35,7 +35,12 @@ public class SuggestedReplacement {
   private String suffix;
   private SortedMap<String, Float> features = Collections.emptySortedMap();
   private Float confidence = null;
-  
+  private SuggestionType type = SuggestionType.Default;
+
+  public enum SuggestionType {
+    Default, Translation
+  }
+
   public SuggestedReplacement(String replacement) {
     this(replacement, null, null);
   }
@@ -56,6 +61,7 @@ public class SuggestedReplacement {
     setShortDescription(repl.getShortDescription());
     setConfidence(repl.getConfidence());
     setFeatures(repl.getFeatures());
+    setType(repl.getType());
   }
 
   public String getReplacement() {
@@ -73,6 +79,17 @@ public class SuggestedReplacement {
 
   public void setShortDescription(String desc) {
     this.shortDescription = desc;
+  }
+
+  /** @since 4.9 */
+  public void setType(SuggestionType type) {
+    this.type = Objects.requireNonNull(type);
+  }
+
+  /** @since 4.9 */
+  @NotNull
+  public SuggestionType getType() {
+    return type;
   }
 
   /**
