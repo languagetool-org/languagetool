@@ -9083,6 +9083,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
                 <token postag="ADJ:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="ADJ:.*:.*:R" postag_regexp="yes"></exception>
+                    <exception regexp="yes">[.?!;;"'«»]</exception>
                     <exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception>
                     <exception postag="ADJ:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
@@ -9090,6 +9091,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Предлог «\1» предполагает употребление прилагательного  в родительном падеже:<suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:$2:R"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется родительный падеж.</short>
             <example>Заросший пруд у лесной опушки.</example>
+            <example>Я выступаю против.</example>
             <example correction="у лесной|лесную">Заросший пруд <marker>у лесную</marker> опушки.</example>
         </rule>
         <rule default="on" id="PREP_C_and_Noun" name="Предлог «с» и существительное">
