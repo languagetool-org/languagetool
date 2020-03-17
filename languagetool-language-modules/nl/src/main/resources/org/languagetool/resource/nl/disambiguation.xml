@@ -4,59 +4,57 @@ Disambiguation Rules for LanguageTool
 Copyright (C) 2008-2018 Ruud Baars, TaalTik
 -->
 <!DOCTYPE rules [
-<!ENTITY Start      '<token postag_regexp="yes" postag="SENT_START|START"/>'>
-<!ENTITY VrgTkn     '<token postag="SENT_END" spacebefore="no">?</token>'>
-<!ENTITY Punt       '<token postag="SENT_END" regexp="yes" spacebefore="no">[.!]</token>'>
-
-<!ENTITY Hij        '<token regexp="yes">hij|u|men|zij|ze|#|iedereen|menigeen|n?iemand|n?iets</token>'>
-<!ENTITY Ik         '<token >ik</token >'>
-<!ENTITY Wij        '<token regexp="yes">wij|we|zij|ze|allen|velen|jullie</token>'>
-<!ENTITY Jij        '<token regexp="yes">je|jij</token>'>
-<!ENTITY Gij        '<token regexp="yes">ge|gij</token>'>
-<!ENTITY WkwIk      '<token postag_regexp="yes" postag="WKW:(VLT|TGW):1EP.*"/>'>
-<!ENTITY WkwHij     '<token postag_regexp="yes" postag="WKW:VLT:1EP.*|WKW:TGW:3EP.*"/>'>
-<!ENTITY WkwWij     '<token postag_regexp="yes" postag="WKW:(TGW|VLT):INF.*"/>' >
-<!ENTITY WkwTgw     '<token postag_regexp="yes" postag="WKW:TGW:INF.*|WKW:INF:ZNW:HET"/>' >
-<!ENTITY WkwGij     '<token postag_regexp="yes" postag="WKW:VLT:GIJ|WKW:TGW:3EP"/>'>
-<!ENTITY WkwVtd     '<token postag="WKW:VTD:ONV"/>'>
-<!ENTITY ZnwEkv     '<token postag_regexp="yes" postag="ZNW:EKV.*"/>'>
-<!ENTITY ZnwEkvDe   '<token postag_regexp="yes" postag="ZNW:EKV:DE_|ZNW:EKV"/>'>
-<!ENTITY ZnwEkvHet  '<token postag_regexp="yes" postag="ZNW:.*:HET|ZNW:EKV"/>'>
-<!ENTITY ZnwMrv     '<token postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:MRV:VRK:DE_|(WKW|BNW):.*:MRV:DE_"/>'>
-<!-- names have a very bad overlap with other normal words, so it is better to only use words that are only names -->
-<!ENTITY AlleenNaam '<token postag_regexp="yes" postag="ENM:PER:LST:NIX|ENM:PER:FST" case_sensitive="yes" regexp="yes">[A-Z].*<exception negate_pos="yes" postag_regexp="yes" postag="ENM:PER:LST:NIX|ENM:PER:FST"/></token>'>
-<!ENTITY Naam       '<token postag_regexp="yes" postag="ENM.*" case_sensitive="yes" regexp="yes">[A-Z].*</token>'>
-<!ENTITY NaamPers   '<token min="1" max="5" postag="NAME_PART"/>'>
-<!ENTITY Bnw        '<token postag_regexp="yes" postag="BNW:(STL|VGR|OVR|ALR):(ONV|VRB)|WKW:(ODW|VTD):(ONV|VRB)|BNW:STF|GET:RNG"/>'>
-<!ENTITY BnwOnv     '<token postag_regexp="yes" postag="BNW:(STL|VGR|OVR|ALR):ONV|WKW:(ODW|VTD):ONV|BNW:STF|GET:RNG"/>'>
-<!ENTITY BnwVrb     '<token postag_regexp="yes" postag="BNW:(STL|VGR|OVR|ALR):VRB|WKW:(ODW|VTD):VRB|BNW:STF|GET:RNG"/>'>
-<!ENTITY BnwStf     '<token postag="BNW:STF"/>'>
-<!ENTITY BnwVgr     '<token postag="BNW:VGR:ONV"/>'>
-<!ENTITY BezOnv     '<token regexp="yes">ons|zijn|haar|hun|uw|mijn|jullie|je|jouw</token>'>
-<!ENTITY BezVrb     '<token regexp="yes">onze|zijn|haar|hun|uw|mijn|jullie|je|jouw</token>'>
-<!ENTITY Ieder      '<token regexp="yes">ieder|elk|menig</token>'>
-<!ENTITY Iedere     '<token regexp="yes">iedere|elke|sommige</token>'>
-<!ENTITY Hem        '<token regexp="yes">hem|haar|u|hen|ons|ze|mij|me|je|jou|jezelf|jullie|jijzelf|zich|zichzelf|mezelf|haarzelf|uzelf|henzelf|elkaar|n?iemand|iedereen|allen</token>'>
-<!ENTITY De         '<token regexp="yes">de|die|deze</token>'>
-<!ENTITY Het        '<token regexp="yes">het|dit|dat</token>'>
-<!ENTITY Dit        '<token regexp="yes">dit|dat</token>'>
-<!ENTITY Een        '<token >een</token>'>
-<!ENTITY Bijw       '<token min="1" max="5" postag_regexp="yes" postag="BYW|BYW:JES"/>'>
-<!ENTITY Vgw        '<token postag_regexp="yes" postag="VGW.*"/>'>
-<!ENTITY Vrz        '<token postag="VRZ"/>'>
-<!ENTITY HierEr     '<token regexp="yes">er|hier|daar</token>'>
-<!ENTITY Hier       '<token regexp="yes">hier|daar</token>'>
-<!ENTITY Er         '<token >er</token>'>
-<!ENTITY Als        '<token regexp="yes">als|indien|wanneer</token>'>
-<!ENTITY EnOf       '<token regexp="yes">en|of</token>'>
-<!ENTITY Niets      '<token regexp="yes">niets|iets|alles|wat|niks</token>'>
-<!ENTITY Get        '<token postag_regexp="yes" postag="GET:(EKV|MRV)"/>'>
-<!ENTITY GetRom     '<token regexp="yes">[1-9][0-9]*|(^(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$)</token>'>
-<!ENTITY VrgVnw     '<token regexp="yes">Wie|Wat|Wanneer|Waar(om|door|heen|naar|van|op|in){0,1}|Hoe(veel|lang){0,1}</token>'>
-<!ENTITY Groep      '<token regexp="yes">vlucht|aantal|paar|hoeveelheid|dozijn|heleboel</token>'>
-<!ENTITY Maar       '<token regexp="yes">maar|en|of|dus|want</token>'> 
-<!ENTITY Daarom     '<token regexp="yes">(daar|hier)(bij|in|om|op|door|voor|mee|na|van|tegen|onder|aan|naast|over|toe)</token>'> 
-<!ENTITY Unknown    '<token postag="UNKNOWN"/>'>
+<!ENTITY Start '<token postag_regexp="yes" postag="SENT_START|START"/>'>
+<!ENTITY VrgTkn '<token postag="SENT_END" spacebefore="no">?</token>'>
+<!ENTITY Punt '<token postag="SENT_END" regexp="yes" spacebefore="no">[.!]</token>'>
+<!ENTITY Hij '<token regexp="yes">hij|u|men|zij|ze|#|iedereen|menigeen|n?iemand|n?iets</token>'>
+<!ENTITY Ik "<token >ik</token >">
+<!ENTITY Wij '<token regexp="yes">wij|we|zij|ze|allen|velen|jullie</token>'>
+<!ENTITY Jij '<token regexp="yes">je|jij</token>'>
+<!ENTITY Gij '<token regexp="yes">ge|gij</token>'>
+<!ENTITY WkwIk '<token postag_regexp="yes" postag="WKW:(VLT|TGW):1EP.*"/>'>
+<!ENTITY WkwHij '<token postag_regexp="yes" postag="WKW:VLT:1EP.*|WKW:TGW:3EP.*"/>'>
+<!ENTITY WkwWij '<token postag_regexp="yes" postag="WKW:(TGW|VLT):INF.*"/>'>
+<!ENTITY WkwTgw '<token postag_regexp="yes" postag="WKW:TGW:INF.*|WKW:INF:ZNW:HET"/>'>
+<!ENTITY WkwGij '<token postag_regexp="yes" postag="WKW:VLT:GIJ|WKW:TGW:3EP"/>'>
+<!ENTITY WkwVtd '<token postag="WKW:VTD:ONV"/>'>
+<!ENTITY ZnwEkv '<token postag_regexp="yes" postag="ZNW:EKV.*"/>'>
+<!ENTITY ZnwEkvDe '<token postag_regexp="yes" postag="ZNW:EKV:DE_|ZNW:EKV"/>'>
+<!ENTITY ZnwEkvHet '<token postag_regexp="yes" postag="ZNW:.*:HET|ZNW:EKV"/>'>
+<!ENTITY ZnwMrv '<token postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:MRV:VRK:DE_|(WKW|BNW):.*:MRV:DE_"/>'>
+<!-- names have a very bad overlap with other normal words, so it is better to only use words that are only names --><!ENTITY AlleenNaam '<token postag_regexp="yes" postag="ENM:PER:LST:NIX|ENM:PER:FST" case_sensitive="yes" regexp="yes">[A-Z].*<exception negate_pos="yes" postag_regexp="yes" postag="ENM:PER:LST:NIX|ENM:PER:FST"/></token>'>
+<!ENTITY Naam '<token postag_regexp="yes" postag="ENM.*" case_sensitive="yes" regexp="yes">[A-Z].*</token>'>
+<!ENTITY NaamPers '<token min="1" max="5" postag="NAME_PART"/>'>
+<!ENTITY Bnw '<token postag_regexp="yes" postag="BNW:(STL|VGR|OVR|ALR):(ONV|VRB)|WKW:(ODW|VTD):(ONV|VRB)|BNW:STF|GET:RNG"/>'>
+<!ENTITY BnwOnv '<token postag_regexp="yes" postag="BNW:(STL|VGR|OVR|ALR):ONV|WKW:(ODW|VTD):ONV|BNW:STF|GET:RNG"/>'>
+<!ENTITY BnwVrb '<token postag_regexp="yes" postag="BNW:(STL|VGR|OVR|ALR):VRB|WKW:(ODW|VTD):VRB|BNW:STF|GET:RNG"/>'>
+<!ENTITY BnwStf '<token postag="BNW:STF"/>'>
+<!ENTITY BnwVgr '<token postag="BNW:VGR:ONV"/>'>
+<!ENTITY BezOnv '<token regexp="yes">ons|zijn|haar|hun|uw|mijn|jullie|je|jouw</token>'>
+<!ENTITY BezVrb '<token regexp="yes">onze|zijn|haar|hun|uw|mijn|jullie|je|jouw</token>'>
+<!ENTITY Ieder '<token regexp="yes">ieder|elk|menig</token>'>
+<!ENTITY Iedere '<token regexp="yes">iedere|elke|sommige</token>'>
+<!ENTITY Hem '<token regexp="yes">hem|haar|u|hen|ons|ze|mij|me|je|jou|jezelf|jullie|jijzelf|zich|zichzelf|mezelf|haarzelf|uzelf|henzelf|elkaar|n?iemand|iedereen|allen</token>'>
+<!ENTITY De '<token regexp="yes">de|die|deze</token>'>
+<!ENTITY Het '<token regexp="yes">het|dit|dat</token>'>
+<!ENTITY Dit '<token regexp="yes">dit|dat</token>'>
+<!ENTITY Een "<token >een</token>">
+<!ENTITY Bijw '<token min="1" max="5" postag_regexp="yes" postag="BYW|BYW:JES"/>'>
+<!ENTITY Vgw '<token postag_regexp="yes" postag="VGW.*"/>'>
+<!ENTITY Vrz '<token postag="VRZ"/>'>
+<!ENTITY HierEr '<token regexp="yes">er|hier|daar</token>'>
+<!ENTITY Hier '<token regexp="yes">hier|daar</token>'>
+<!ENTITY Er "<token >er</token>">
+<!ENTITY Als '<token regexp="yes">als|indien|wanneer</token>'>
+<!ENTITY EnOf '<token regexp="yes">en|of</token>'>
+<!ENTITY Niets '<token regexp="yes">niets|iets|alles|wat|niks</token>'>
+<!ENTITY Get '<token postag_regexp="yes" postag="GET:(EKV|MRV)"/>'>
+<!ENTITY GetRom '<token regexp="yes">[1-9][0-9]*|(^(?=[MDCLXVI])M*(C[MD]|D?C{0,3})(X[CL]|L?X{0,3})(I[XV]|V?I{0,3})$)</token>'>
+<!ENTITY VrgVnw '<token regexp="yes">Wie|Wat|Wanneer|Waar(om|door|heen|naar|van|op|in){0,1}|Hoe(veel|lang){0,1}</token>'>
+<!ENTITY Groep '<token regexp="yes">vlucht|aantal|paar|hoeveelheid|dozijn|heleboel</token>'>
+<!ENTITY Maar '<token regexp="yes">maar|en|of|dus|want</token>'>
+<!ENTITY Daarom '<token regexp="yes">(daar|hier)(bij|in|om|op|door|voor|mee|na|van|tegen|onder|aan|naast|over|toe)</token>'>
+<!ENTITY Unknown '<token postag="UNKNOWN"/>'>
 ]>
 <rules xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" lang="nl" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
 
@@ -875,6 +873,18 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="filterall"/>
     </rule>
 
+	<!-- guess unknown name -->
+	<rule id="FLAG_NAMES_21" name="-">
+		<pattern case_sensitive="yes">
+			<token postag="START"/>
+			<marker>
+				<token regexp="yes">[^A-Z]</token>
+			</marker>
+			&WkwHij;
+		</pattern>
+		<disambig action="add"><wd pos="NAME_PART"/></disambig>
+    </rule>
+
 	<!-- flag personal names as such -->
 	<rule id="FLAG_NAMES_00" name="-">
 		<!-- <pattern case_sensitive="yes"><marker><token postag_regexp="yes" postag="ENM:PER:.*"><exception postag="NAME_PART"/></token></marker></pattern> -->
@@ -903,6 +913,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<pattern case_sensitive="yes"><marker><token postag="ENM:PER:FST"/></marker><token postag="NAME_PART"/></pattern>
 		<disambig action="add"><wd pos="NAME_PART"/></disambig>
     </rule>
+	
 	
 	<!-- disambiguations -->
     <rule id="_0f335" name=""><pattern>&Start;&Het;&BnwVrb;&ZnwEkvHet;&Vrz;&Het;&ZnwEkvHet;&WkwHij;</pattern><disambig action="filterall"/></rule>
@@ -2476,11 +2487,53 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
 	</rule>
 
+	<!-- onderwerpconstructie aan begin zin -->
+	<rule id="OND_VOOR_01" name="">
+		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
+			<marker>
+				<token>ik</token>
+				<token postag_regexp="yes" postag="WKW:(VLT|TGW):1EP"/>
+			</marker>
+		</pattern>
+		<disambig action="add"><wd pos="OND_VOOR"/><wd pos="OND_VOOR"/></disambig>
+	</rule>
+	<rule id="OND_VOOR_02" name="">
+		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
+			<marker>
+				<token regexp="yes">hij|het|dit|dat|zij|ze|jij|je</token>
+				<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
+			</marker>
+		</pattern>
+		<disambig action="add"><wd pos="OND_VOOR"/><wd pos="OND_VOOR"/></disambig>
+	</rule>
+	<rule id="OND_VOOR_03" name="">
+		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
+			<marker>
+				<token regexp="yes">hij|men|zij|ze|jij|je|het|dit|dat</token>
+				<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
+			</marker>
+		</pattern>
+		<disambig action="add"><wd pos="OND_VOOR"/><wd pos="OND_VOOR"/></disambig>
+	</rule>
+	<rule id="OND_VOOR_04" name="">
+		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
+			<marker>
+				<token regexp="yes">we|wij|ze|zij|jullie</token>
+				<token postag_regexp="yes" postag="WKW:(VLT|TGW):INF.*"/>
+			</marker>
+		</pattern>
+		<disambig action="add"><wd pos="OND_VOOR"/><wd pos="OND_VOOR"/></disambig>
+	</rule>
+
 	
 	<rule id="NOUN_PHRASE_SINGULAR_DE_01" name="">
 		<pattern>
 			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
+				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
 				&ZnwEkvDe;
 			</marker>
 			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
@@ -2490,7 +2543,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule id="NOUN_PHRASE_SINGULAR_DE_02" name="">
 		<pattern>
 			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
+				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
 				&De;
 				&ZnwEkvDe;
 			</marker>
@@ -2501,7 +2554,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule id="NOUN_PHRASE_SINGULAR_DE_03" name="">
 		<pattern>
 			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
+				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
 				&BnwVrb;
 				&ZnwEkvDe;
 			</marker>
@@ -2512,7 +2565,7 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	<rule id="NOUN_PHRASE_SINGULAR_DE_04" name="">
 		<pattern>
 			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
+				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
 				<token regexp="yes">een|iedere|elke</token>
 				&ZnwEkvDe;
 			</marker>
@@ -2521,8 +2574,51 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		<disambig action="add"><wd pos="NNP_SIN_DE"/><wd pos="NNP_SIN_DE"/><wd pos="NNP_SIN_DE"/></disambig>
 	</rule>
 
-	
-	
+	<rule id="NOUN_PHRASE_SINGULAR_HET_01" name="">
+		<pattern>
+			<marker>
+				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
+				&ZnwEkvHet;
+			</marker>
+			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
+		</pattern>
+		<disambig action="add"><wd pos="NNP_SIN_HET"/><wd pos="NNP_SIN_HET"/></disambig>
+	</rule>
+	<rule id="NOUN_PHRASE_SINGULAR_HET_02" name="">
+		<pattern>
+			<marker>
+				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
+				&De;
+				&ZnwEkvHet;
+			</marker>
+			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
+		</pattern>
+		<disambig action="add"><wd pos="NNP_SIN_HET"/><wd pos="NNP_SIN_HET"/><wd pos="NNP_SIN_HET"/></disambig>
+	</rule>
+	<rule id="NOUN_PHRASE_SINGULAR_HET_03" name="">
+		<pattern>
+			<marker>
+				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
+				&BnwVrb;
+				&ZnwEkvHet;
+			</marker>
+			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
+		</pattern>
+		<disambig action="add"><wd pos="NNP_SIN_HET"/><wd pos="NNP_SIN_HET"/><wd pos="NNP_SIN_HET"/></disambig>
+	</rule>
+	<rule id="NOUN_PHRASE_SINGULAR_HET_04" name="">
+		<pattern>
+			<marker>
+				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
+				<token regexp="yes">geen|een|ieder|elk</token>
+				&ZnwEkvHet;
+			</marker>
+			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
+		</pattern>
+		<disambig action="add"><wd pos="NNP_SIN_HET"/><wd pos="NNP_SIN_HET"/><wd pos="NNP_SIN_HET"/></disambig>
+	</rule>
+
+
 	<rule id="REMOVE_NNP_FROM_START" name="">
 		<pattern>
 			<marker>
@@ -2531,5 +2627,6 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 		</pattern>
 		<disambig action="remove" postag="NNP_.*"/>
 	</rule>
-	
+
+
 </rules>
