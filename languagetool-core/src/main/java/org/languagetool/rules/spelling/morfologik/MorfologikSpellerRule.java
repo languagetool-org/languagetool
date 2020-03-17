@@ -21,14 +21,12 @@ package org.languagetool.rules.spelling.morfologik;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
@@ -44,10 +42,14 @@ import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.rules.translation.TranslationEntry;
 import org.languagetool.rules.translation.Translator;
 import org.languagetool.tools.Tools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import static org.languagetool.JLanguageTool.*;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
+
+  private static Logger logger = LoggerFactory.getLogger(MorfologikSpellerRule.class);
 
   protected MorfologikMultiSpeller speller1;
   protected MorfologikMultiSpeller speller2;
@@ -382,21 +384,21 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     int translationSuggestionCount = 0;
     boolean preventFurtherSuggestions = false;
     Translator translator = getTranslator(globalConfig);
-    if (translator != null && ruleMatch == null && motherTongue != null) {
-      List<String> phrasesToTranslate = new ArrayList<>();
-      int translationEndPos = startPos + word.length();
+    if (translator != null && ruleMatch == null && motherTongue != null &&
+        language.getShortCode().equals("en") && motherTongue.getShortCode().equals("de")) {
+      List<PhraseToTranslate> phrasesToTranslate = new ArrayList<>();
       if (idx + 1 < tokens.length) {
         String nextWord = tokens[idx + 1].getToken();
         if (isMisspelled(nextWord)) {
-          phrasesToTranslate.add(word + " " + nextWord);
-          translationEndPos = tokens[idx + 1].getEndPos();
+          phrasesToTranslate.add(new PhraseToTranslate(word + " " + nextWord, tokens[idx + 1].getEndPos()));
         }
       }
-      phrasesToTranslate.add(word);
-      for (String phraseToTranslate : phrasesToTranslate) {
-        List<TranslationEntry> translations = translator.translate(phraseToTranslate, motherTongue.getShortCode(), language.getShortCode());
+      phrasesToTranslate.add(new PhraseToTranslate(word, startPos + word.length()));
+      for (PhraseToTranslate phraseToTranslate : phrasesToTranslate) {
+        List<TranslationEntry> translations = translator.translate(phraseToTranslate.phrase, motherTongue.getShortCode(), language.getShortCode());
         if (translations.size() > 0) {
-          ruleMatch = new RuleMatch(this, sentence, startPos, translationEndPos, translator.getMessage());
+          logger.info("Translated: " + word);   // privacy: logging a single word without IP address etc. is okay
+          ruleMatch = new RuleMatch(this, sentence, startPos, phraseToTranslate.endPos, translator.getMessage());
           ruleMatch.setType(RuleMatch.Type.Hint);
           ruleMatch.setSuggestedReplacements(new ArrayList<>());
           List<SuggestedReplacement> l = new ArrayList<>();
@@ -407,10 +409,11 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
               l.add(new SuggestedReplacement(translator.cleanTranslationForReplace(s, prevWord), String.join(", ", translation.getL1()), suffix.isEmpty() ? null : suffix));
             }
           }
-          if (l.size() > 0) {
-            ruleMatch.setSuggestedReplacementObjects(l);
-            translationSuggestionCount = l.size();
-            if (phraseToTranslate.contains(" ")) {
+          List<SuggestedReplacement> mergedRepl = mergeSuggestionsWithSameTranslation(l);
+          if (mergedRepl.size() > 0) {
+            ruleMatch.setSuggestedReplacementObjects(mergedRepl);
+            translationSuggestionCount = mergedRepl.size();
+            if (phraseToTranslate.phrase.contains(" ")) {
               preventFurtherSuggestions = true;  // mark gets extended, so suggestions for the original marker won't make sense
             }
             break;  // let's assume the first phrase is the best because it's longer
@@ -494,6 +497,33 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
  
     ruleMatches.add(ruleMatch);
     return ruleMatches;
+  }
+
+  @NotNull
+  private List<SuggestedReplacement> mergeSuggestionsWithSameTranslation(List<SuggestedReplacement> l) {
+    List<SuggestedReplacement> mergedRepl = new ArrayList<>();
+    Set<String> handledReplacements = new HashSet<>();
+    for (SuggestedReplacement repl : l) {
+      List<SuggestedReplacement> sameRepl = l.stream()
+        .filter(k -> k.getReplacement().equals(repl.getReplacement()))
+        .filter(k -> k.getSuffix() == null || (k.getSuffix() != null && k.getSuffix().equals(repl.getSuffix())))
+        .collect(Collectors.toList());
+      if (sameRepl.size() > 1) {
+        if (handledReplacements.contains(repl.getReplacement())) {
+          // skip
+        } else {
+          List<String> joinedRepls = new ArrayList<>();
+          for (SuggestedReplacement r : sameRepl) {
+            joinedRepls.add("* " + r.getShortDescription());
+          }
+          mergedRepl.add(new SuggestedReplacement(repl.getReplacement(), String.join("\n", joinedRepls), repl.getSuffix()));
+          handledReplacements.add(repl.getReplacement());
+        }
+      } else {
+        mergedRepl.add(repl);
+      }
+    }
+    return mergedRepl;
   }
 
   /**
@@ -600,5 +630,14 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       newSuggestionsList.add(beforeSuggestionStr + str + afterSuggestionStr);
     }
     return newSuggestionsList;
+  }
+
+  static class PhraseToTranslate {
+    String phrase;
+    int endPos;
+    PhraseToTranslate(String phrase, int endPos) {
+      this.phrase = phrase;
+      this.endPos = endPos;
+    }
   }
 }

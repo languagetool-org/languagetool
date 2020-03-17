@@ -46,49 +46,144 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     if (position == 0) {
       return false;
     }
+
+    // TODO:
+    // What that is is a ...
+    // but you you're my best friend ...
+    // I'm so so happy
+
     if (wordRepetitionOf("had", tokens, position) && posIsIn(tokens, position - 2, "PRP", "NN")) {
       return true;   // "If I had had time, I would have gone to see him."
-    }
-    if (wordRepetitionOf("that", tokens, position) && posIsIn(tokens, position+1, "NN", "PRP$", "JJ", "VBZ", "VBD")) {
+    } else if (wordRepetitionOf("that", tokens, position) && posIsIn(tokens, position+1, "NN", "PRP$", "JJ", "VBZ", "VBD")) {
       return true;   // "I don't think that that is a problem."
-    }
-    if (wordRepetitionOf("can", tokens, position) && posIsIn(tokens, position-1, "NN")) {
+    } else if (wordRepetitionOf("can", tokens, position) && posIsIn(tokens, position-1, "NN")) {
       return true; // "The can can hold the water."
-    }
-    if (wordRepetitionOf("blah", tokens, position)) {
+    } else if (wordRepetitionOf("hip", tokens, position) && (position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase("hooray")) {
+      return true;
+    } else if (wordRepetitionOf("s", tokens, position) && position > 1 && tokens[position - 2].getToken().matches("['’`´‘]")) {
+      return true; // It's S.T.E.A.M.
+    } else if (tokens[position].getToken().matches("(?i)^[a-z]$") && position > 1 && tokens[position - 2].getToken().matches("(?i)^[a-z]$") && (position + 1 < tokens.length) && tokens[position + 1].getToken().matches("(?i)^[a-z]$")) {
+      // spelling with spaces in between: "b a s i c a l l y"
+      return true;
+    } else if (wordRepetitionOf("blah", tokens, position)) {
       return true;   // "blah blah"
-    }
-    if (wordRepetitionOf("ha", tokens, position)) {
+    } else if (wordRepetitionOf("ha", tokens, position)) {
       return true;   // "ha ha"
-    }
-    if (wordRepetitionOf("Phi", tokens, position)) {
+    } else if (wordRepetitionOf("ta", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("la", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("x", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("hi", tokens, position)) {
+      return true;   // "hi hi"
+    } else if (wordRepetitionOf("ho", tokens, position)) {
+      return true;   // "ho ho"
+    } else if (wordRepetitionOf("heh", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("jay", tokens, position)) {
+      return true; // Jay Jay (name)
+    } else if (wordRepetitionOf("hey", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("hah", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("heh", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("oh", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("ouh", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("chop", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("ring", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("beep", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("bleep", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("yeah", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("wait", tokens, position) && position == 2) {
+      return true;
+    } else if (wordRepetitionOf("quack", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("meow", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("squawk", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("whoa", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("si", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("honk", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("brum", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("chi", tokens, position)) {
+      // name
+      return true;
+    } else if (wordRepetitionOf("santorio", tokens, position)) {
+      // name
+      return true;
+    } else if (wordRepetitionOf("lapu", tokens, position)) {
+      // city
+      return true;
+    } else if (wordRepetitionOf("chow", tokens, position)) {
+      // dog breed https://en.wikipedia.org/wiki/Chow_Chow
+      return true;
+    } else if (wordRepetitionOf("beep", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("shh", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("yummy", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("boom", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("bye", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("ah", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("aah", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("bang", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("woof", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("wink", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("yes", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("tsk", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("hush", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("ding", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("choo", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("Phi", tokens, position)) {
       return true;   // "Phi Phi Islands"
-    }
-    if (wordRepetitionOf("Bora", tokens, position)) {
+    } else if (wordRepetitionOf("Bora", tokens, position)) {
       return true;   // "Bora Bora"
-    }
-    if (wordRepetitionOf("yadda", tokens, position)) {
+    } else if (wordRepetitionOf("tuk", tokens, position)) {
+      return true;
+    } else if (wordRepetitionOf("yadda", tokens, position)) {
       return true;   // "yadda yadda"
-    }
-    if (wordRepetitionOf("Pago", tokens, position)) {
+    } else if (wordRepetitionOf("Pago", tokens, position)) {
       return true;   // "Pago Pago"
-    }
-    if (wordRepetitionOf("Wagga", tokens, position)) {
+    } else if (wordRepetitionOf("Wagga", tokens, position)) {
       return true;   // "Wagga Wagga"
-    }
-    if (wordRepetitionOf("Duran", tokens, position)) {
+    } else if (wordRepetitionOf("Duran", tokens, position)) {
       return true;   // "Duran Duran"
-    }
-    if (wordRepetitionOf("sapiens", tokens, position)) {
+    } else if (wordRepetitionOf("sapiens", tokens, position)) {
       return true;   // "Homo sapiens sapiens"
-    }
-    if (wordRepetitionOf("tse", tokens, position)) {
+    } else if (wordRepetitionOf("tse", tokens, position)) {
       return true;   // "tse tse"
-    }
-    if (wordRepetitionOf("Li", tokens, position)) {
+    } else if (wordRepetitionOf("Li", tokens, position)) {
       return true;   // "Li Li", Chinese name
-    }
-    if (tokens[position].getToken().endsWith("ay")) {
+    } else if (wordRepetitionOf("no", tokens, position)) {
+      return true;   // "no no"
+    } else if (tokens[position].getToken().endsWith("ay")) {
       if (tokens[position - 1].getToken().equals("may") && tokens[position].getToken().equals("May")) {
         return true;   // "may May"
       }
@@ -98,8 +193,7 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       if (tokens[1].getToken().equals("May") && tokens[2].getToken().equals("May")) {
         return true;   // "May May" SENT_START
       }
-    }
-    if (tokens[position].getToken().endsWith("ill")) {
+    } else if (tokens[position].getToken().endsWith("ill")) {
       return (position > 0 && tokens[position - 1].getToken().equals("will") && tokens[position].getToken().equals("Will")) // will Wills
         || (tokens[position - 1].getToken().equals("Will") && tokens[position].getToken().equals("will")) // Will will ...
         || (tokens[1].getToken().equals("Will") && tokens[2].getToken().equals("Will")); // "Will Will" SENT_START
@@ -119,7 +213,7 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
   }
 
   private boolean wordRepetitionOf(String word, AnalyzedTokenReadings[] tokens, int position) {
-    return tokens[position - 1].getToken().equals(word) && tokens[position].getToken().equals(word);
+    return tokens[position - 1].getToken().equalsIgnoreCase(word) && tokens[position].getToken().equalsIgnoreCase(word);
   }
 
 }

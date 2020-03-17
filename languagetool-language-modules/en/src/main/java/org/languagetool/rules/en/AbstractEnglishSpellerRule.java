@@ -33,6 +33,8 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
@@ -122,6 +124,13 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           replaceFormsOfFirstMatch(message, sentence, ruleMatches, suggestion);
         }
       }
+    }
+    // filter "re ..." (#2562):
+    for (RuleMatch ruleMatch : ruleMatches) {
+      List<SuggestedReplacement> cleaned = ruleMatch.getSuggestedReplacementObjects().stream()
+        .filter(k -> !k.getReplacement().startsWith("re ") && !k.getReplacement().endsWith(" ed"))
+        .collect(Collectors.toList());
+      ruleMatch.setSuggestedReplacementObjects(cleaned);
     }
     return ruleMatches;
   }
@@ -381,27 +390,11 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("Priority");
     } else if ("prio".equals(word)) {
       return Arrays.asList("Priority");
-    } else if ("esport".equals(word)) {
-      return Arrays.asList("e-sport");
-    } else if ("Esport".equals(word)) {
-      return Arrays.asList("E-Sport");
-    } else if ("eSport".equals(word)) {
-      return Arrays.asList("e-sport");
-    } else if ("esports".equals(word)) {
-      return Arrays.asList("e-sports");
-    } else if ("Esports".equals(word)) {
-      return Arrays.asList("E-Sports");
-    } else if ("eSports".equals(word)) {
-      return Arrays.asList("e-sports");
-    } else if ("ecommerce".equals(word)) {
-      return Arrays.asList("e-commerce");
     } else if ("Ecommerce".equals(word)) {
       return Arrays.asList("E-Commerce");
-    } else if ("eCommerce".equals(word)) {
+    } else if ("ecommerce".equalsIgnoreCase(word)) {
       return Arrays.asList("e-commerce");
-    } else if ("elearning".equals(word)) {
-      return Arrays.asList("e-learning");
-    } else if ("eLearning".equals(word)) {
+    } else if ("elearning".equalsIgnoreCase(word)) {
       return Arrays.asList("e-learning");
     } else if ("ebook".equals(word)) {
       return Arrays.asList("e-book");
@@ -415,18 +408,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("E-Book");
     } else if ("Ebooks".equals(word)) {
       return Arrays.asList("E-Books");
-    } else if ("sport".equals(word)) {
-      return Arrays.asList("e-sport");
-    } else if ("esports".equals(word)) {
-      return Arrays.asList("e-sports");
-    } else if ("eSport".equals(word)) {
-      return Arrays.asList("e-sport");
-    } else if ("eSports".equals(word)) {
-      return Arrays.asList("e-sport");
     } else if ("Esport".equals(word)) {
       return Arrays.asList("E-Sport");
     } else if ("Esports".equals(word)) {
-      return Arrays.asList("E-Sport");
+      return Arrays.asList("E-Sports");
+    } else if ("esport".equalsIgnoreCase(word)) {
+      return Arrays.asList("e-sport");
+    } else if ("esports".equalsIgnoreCase(word)) {
+      return Arrays.asList("e-sports");
     } else if ("R&B".equals(word)) {
       return Arrays.asList("R & B", "R 'n' B");
     } else if ("ie".equals(word)) {
@@ -512,8 +501,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       return Arrays.asList("please");
     } else if ("Plz".equals(word)) {
       return Arrays.asList("Please");
-    } else if ("gmail".equals(word)) {
-      return Arrays.asList("Gmail");
       // AtD irregular plurals - START
     } else if ("addendums".equals(word)) {
       return Arrays.asList("addenda");

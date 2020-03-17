@@ -18,8 +18,6 @@
  */
 package org.languagetool.rules.translation;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -27,7 +25,7 @@ import java.util.Objects;
  * Entry of a translation dictionary.
  * @since 4.9
  */
-public class TranslationEntry implements Comparable<TranslationEntry> {
+public class TranslationEntry {
 
   private final List<String> l1;
   private final List<String> l2;
@@ -55,11 +53,6 @@ public class TranslationEntry implements Comparable<TranslationEntry> {
   public String toString() {
     //return l1 + " -> " + l2 + " (itemCount: "+ itemCount + ")";
     return l1 + " -> " + l2;
-  }
-
-  @Override
-  public int compareTo(@NotNull TranslationEntry o) {
-    return Integer.compare(o.itemCount, itemCount);
   }
 
   @Override

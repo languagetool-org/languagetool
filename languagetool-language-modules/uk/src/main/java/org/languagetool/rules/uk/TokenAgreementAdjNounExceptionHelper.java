@@ -62,6 +62,12 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    if( LemmaHelper.hasLemma(tokens[i-1], "північний")
+        && LemmaHelper.hasLemma(tokens[i], "Рейн-Вестфалія") ) {
+      logException();
+      return true;
+    }
+
     //  в день Хрещення Господнього священики
     if( LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("божий", "господній", "Христовий"))
         && Character.isUpperCase(tokens[i-1].getToken().charAt(0))) {

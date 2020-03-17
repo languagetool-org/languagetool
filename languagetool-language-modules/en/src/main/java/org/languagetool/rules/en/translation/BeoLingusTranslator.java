@@ -49,6 +49,13 @@ public class BeoLingusTranslator implements Translator {
 
   private static BeoLingusTranslator instance;
 
+  // Source: https://www.cafe-lingua.de/englische-grammatik/verben-mit-to-infinitiv.php
+  private static final Set<String> verbsWithTo = new HashSet<>(Arrays.asList("afford", "agree", "aim", "appear", "arrange",
+    "attempt", "beg", "care", "choose", "claim", "condescend", "consent", "dare", "decide", "demand", "deserve",
+    "determine", "endeavour", "expect", "fail", "forget", "guarantee", "happen", "have", "help", "hesitate", "hope",
+    "learn", "long", "manage", "mean", "need", "neglect", "offer", "plan", "prepare", "pretend", "proceed", "promise",
+    "refuse", "resolve", "seem", "stop", "swear", "tend", "threaten", "trouble", "undertake", "volunteer", "vow", "want", "wish"));
+
   private final Tagger tagger;
   private final Map<String,List<TranslationEntry>> de2en = new HashMap<>();
   private final Map<String,List<TranslationEntry>> en2de = new HashMap<>();
@@ -89,7 +96,7 @@ public class BeoLingusTranslator implements Translator {
       int i = 0;
       for (String germanPart : germanParts) {
         handleItem(de2en, germanParts, englishParts, i, germanPart);
-        handleItem(en2de, englishParts, germanParts, i, englishParts[i]);
+        //handleItem(en2de, englishParts, germanParts, i, englishParts[i]);  -- direction not supported yet
         i++;
       }
     }
@@ -176,9 +183,21 @@ public class BeoLingusTranslator implements Translator {
     if (entries != null) {
       entriesSet.addAll(entries);
     }
-    entriesSet.addAll(getTranslationsForBaseforms(term, map));
+    List<TranslationEntry> translationsForBaseforms = getTranslationsForBaseforms(term, map);
+    for (TranslationEntry trans : translationsForBaseforms) {
+      if (entries != null) {
+        Optional<TranslationEntry> first = entries.stream().filter(k -> k.getL1().equals(trans.getL1())).findFirst();
+        if (first.isPresent() && first.get().getL1().equals(trans.getL1())) {
+          // skip duplicates
+        } else {
+          entriesSet.add(trans);
+        }
+      } else {
+        entriesSet.add(trans);
+      }
+    }
     List<TranslationEntry> sortedList = new ArrayList<>(entriesSet);
-    Collections.sort(sortedList);
+    Collections.sort(sortedList, (t1, t2) -> Integer.compare(t2.getItemCount(), t1.getItemCount()));
     return sortedList;
   }
 
@@ -258,6 +277,9 @@ public class BeoLingusTranslator implements Translator {
       .replaceAll("/[A-Z]+/", "")    // e.g. "heavy goods vehicle /HGV/"
       .trim();
     if ("to".equals(prevWord) && clean.startsWith("to ")) {
+      return clean.substring(3);
+    }
+    if (!"to".equals(prevWord) && clean.startsWith("to ") && !verbsWithTo.contains(prevWord)) {
       return clean.substring(3);
     }
     return clean;

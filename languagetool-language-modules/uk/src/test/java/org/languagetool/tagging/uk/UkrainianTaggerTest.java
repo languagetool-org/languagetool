@@ -297,7 +297,7 @@ public class UkrainianTaggerTest {
   public void testHypenStretch() throws IOException {
 //    TestTools.myAssert("ду-у-у-же", "ду-у-у-же/[дуже]adv:compb:coll|ду-у-у-же/[дужий]adj:n:v_kly:compb:coll|ду-у-у-же/[дужий]adj:n:v_naz:compb:coll|ду-у-у-же/[дужий]adj:n:v_zna:compb:coll", tokenizer, tagger);
 //    TestTools.myAssert("ду-у-у-уже", "ду-у-у-уже/[дуже]adv:compb:coll|ду-у-у-уже/[дужий]adj:n:v_kly:compb:coll|ду-у-у-уже/[дужий]adj:n:v_naz:compb:coll|ду-у-у-уже/[дужий]adj:n:v_zna:compb:coll", tokenizer, tagger);
-    TestTools.myAssert("Та-а-ак", "Та-а-ак/[так]adv:&pron:dem:coll|Та-а-ак/[так]conj:coord:subord:coll|Та-а-ак/[так]part:coll", tokenizer, tagger);
+    TestTools.myAssert("Та-а-ак", "Та-а-ак/[так]adv:&pron:dem:coll|Та-а-ак/[так]conj:coord:coll|Та-а-ак/[так]conj:subord:coll|Та-а-ак/[так]part:coll", tokenizer, tagger);
     TestTools.myAssert("Му-у-у", "Му-у-у/[му]intj:coll", tokenizer, tagger);
     TestTools.myAssert("С-с-с-лава", "С-с-с-лава/[слава]noun:inanim:f:v_naz:coll", tokenizer, tagger);
     //TODO: should technically tag both lowercase and uppercase to get :fname as well
@@ -539,7 +539,8 @@ public class UkrainianTaggerTest {
 //    TestTools.myAssert("американо-блакитний", "американо-блакитний/[null]null", tokenizer, tagger);
 
     // don't allow dash when the words spelled together
-    assertNotTagged("зовнішньо-економічний");
+//    assertNotTagged("зовнішньо-економічний");
+    assertNotTagged("внутрішньо-економічний");
     assertNotTagged("високо-релевантною");
     assertNotTagged("всесвітньо-відомі");
 

@@ -61,7 +61,10 @@ public class LineExpander implements org.languagetool.rules.LineExpander {
       }
       Set<String> formSet = new HashSet<>(Arrays.asList(forms));
       for (String form : formSet) {
-        result.add(parts[0] + form);
+        if (!form.contains("ß")) {
+          // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
+          result.add(parts[0] + form);
+        }
       }
       result.add(parts[0] + "zu" + parts[1]);  //  "zu<verb>" is not part of forms from synthesizer
     } catch (IOException e) {

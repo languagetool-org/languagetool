@@ -473,17 +473,23 @@ public class FlatParagraphTools {
       props = flatPara.getMarkupInfoContainer();
       PropertyValue[] properties = pError.aProperties;
       int color = -1;
+      short type = -1;
       for(PropertyValue property : properties) {
         if("LineColor".equals(property.Name)) {
           color = (int) property.Value;
+        } else if("LineType".equals(property.Name)) {
+          type = (short) property.Value;
         }
       }
-      if(color >= 0) {
-        try {
+      try {
+        if(color >= 0) {
           props.insertValue("LineColor", color);
-        } catch (Throwable t) {
-          MessageHandler.printException(t);
         }
+        if(type > 0) {
+          props.insertValue("LineType", type);
+        }
+      } catch (Throwable t) {
+        MessageHandler.printException(t);
       }
       flatPara.commitStringMarkup(TextMarkupType.PROOFREADING, pError.aRuleIdentifier, 
           pError.nErrorStart, pError.nErrorLength, props);

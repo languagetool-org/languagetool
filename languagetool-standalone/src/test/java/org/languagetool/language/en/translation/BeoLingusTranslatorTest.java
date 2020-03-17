@@ -76,9 +76,10 @@ public class BeoLingusTranslatorTest {
     assertTrue(result2.get(1).getL2().contains("home"));
     assertTrue(result2.get(2).getL2().contains("volta bracket (sheet music)"));
 
-    List<TranslationEntry> result3 = translator.translate("house", "en", "de");
-    assertThat(result3.size(), is(1));
-    assertTrue(result3.get(0).getL2().contains("Haus {n}"));
+    //direction not yet activated:
+    //List<TranslationEntry> result3 = translator.translate("house", "en", "de");
+    //assertThat(result3.size(), is(1));
+    //assertTrue(result3.get(0).getL2().contains("Haus {n}"));
 
     List<TranslationEntry> result4 = translator.translate("suchwort", "de", "en");
     //for (TranslationEntry s : result4) { System.out.println("  " + s.getL1() + " <> " + String.join(" -- " , s.getL2())); }
@@ -121,8 +122,10 @@ public class BeoLingusTranslatorTest {
   @Test
   public void testCleanTranslationForReplace() {
     assertThat(translator.cleanTranslationForReplace("", null), CoreMatchers.is(""));
-    assertThat(translator.cleanTranslationForReplace("to go", null), CoreMatchers.is("to go"));
-    assertThat(translator.cleanTranslationForReplace("to go", "foo"), CoreMatchers.is("to go"));
+    assertThat(translator.cleanTranslationForReplace("to go", null), CoreMatchers.is("go"));
+    assertThat(translator.cleanTranslationForReplace("to go", "need"), CoreMatchers.is("to go"));
+    assertThat(translator.cleanTranslationForReplace("to go", "will"), CoreMatchers.is("go"));
+    assertThat(translator.cleanTranslationForReplace("to go", "foo"), CoreMatchers.is("go"));
     assertThat(translator.cleanTranslationForReplace("to go", "to"), CoreMatchers.is("go"));
     assertThat(translator.cleanTranslationForReplace("foo (bar) {mus}", null), CoreMatchers.is("foo"));
     assertThat(translator.cleanTranslationForReplace("some thing [Br.], something", null), CoreMatchers.is("some thing , something"));  // not quite clean yet...

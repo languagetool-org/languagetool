@@ -73,6 +73,7 @@ public class AbstractEnglishSpellerRuleTest {
     assertAllMatches(lt, rule, "campaignt", "campaign", "campaigns");
     assertAllMatches(lt, rule, "campaignd", "campaign", "campaigns", "campaigned");
     assertAllMatches(lt, rule, "campaignll");
+    assertAllMatches(lt, rule, "spreaded", "spread", "spreader");
     //assertFirstMatch("vehical", "medical", "vehicle"); // suggests vesical now, medical term
     //assertFirstMatch("calender", "calendar");  // handled by grammar.xml
     

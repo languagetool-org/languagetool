@@ -99,7 +99,7 @@ public class CommonWords {
     }
     // Proper per-language tokenizing might help, but then the common_words.txt
     // will also need to be tokenized the same way. Also, this is quite fast.
-    String[] words = text.split("[(),.:;!?„“\"¡¿\\s-]");
+    String[] words = text.split("[(),.:;!?„“\"¡¿\\s\\[\\]{}-]");
     for (String word : words) {
       if (numberPattern.matcher(word).matches()) {
         continue;

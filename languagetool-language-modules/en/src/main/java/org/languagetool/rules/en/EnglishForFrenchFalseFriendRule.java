@@ -28,26 +28,26 @@ import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * False friends for German native speakers who write English text, based on ngrams.
- * @since 4.6
+ * False friends for French native speakers who write English text, based on ngrams.
+ * @since 4.9
  */
-public class EnglishForGermansFalseFriendRule extends EnglishForL2SpeakersFalseFriendRule {
+public class EnglishForFrenchFalseFriendRule extends EnglishForL2SpeakersFalseFriendRule {
 
-  public EnglishForGermansFalseFriendRule(ResourceBundle messages, LanguageModel languageModel, Language motherTongue, Language language)  {
+  public EnglishForFrenchFalseFriendRule(ResourceBundle messages, LanguageModel languageModel, Language motherTongue, Language language)  {
     super(messages, languageModel, motherTongue, language);
-    addExamplePair(Example.wrong("My <marker>handy</marker> is broken."),
-                   Example.fixed("My <marker>phone</marker> is broken."));
+    addExamplePair(Example.wrong("She will <marker>achieve</marker> her task."),
+                   Example.fixed("She will <marker>complete</marker> her task."));
   }
 
   @Override
   public String getId() {
-    return "EN_FOR_DE_SPEAKERS_FALSE_FRIENDS";
+    return "EN_FOR_FR_SPEAKERS_FALSE_FRIENDS";
   }
 
   @NotNull
   @Override
   protected List<String> getFilenames() {
-    return Collections.singletonList("confusion_sets_l2_de.txt");
+    return Collections.singletonList("confusion_sets_l2_fr.txt");
   }
 
 }

@@ -50,7 +50,7 @@ public class ConfusionProbabilityRuleTest {
     assertGood("Is this there useful test?");  // error not found b/c no data
     ConfusionProbabilityRule ruleWithException = new FakeRule(new FakeLanguageModel(), new FakeLanguage()) {
       @Override
-      protected boolean isException(String sentenceText) {
+      protected boolean isException(String sentenceText, int startPos, int endPos) {
         return sentenceText.contains("Their are");
       }
     };
