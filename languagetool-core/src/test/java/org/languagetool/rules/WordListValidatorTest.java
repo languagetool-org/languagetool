@@ -30,8 +30,9 @@ import static junit.framework.TestCase.fail;
 
 public class WordListValidatorTest {
 
-  private static final Pattern VALID_CHARS = Pattern.compile(
+  private static final String VALID_CHARS =
           "[ 0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒãñíîş&" +
+          "___INSERT___" +
           "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłń" +
           "ŚśōżúïÎôêâû" +
           "Ææ" +  // English
@@ -43,8 +44,7 @@ public class WordListValidatorTest {
           "'’" +
           "ýùźăŽČĆÅıøğåšĝÇİŞŠčžć±ą+-" +   // for Dutch (inhabitants) proper names mostly
           "./-]+" + 
-          "|[khmcdµ]?m[²³]|°[CFR]|CO₂-?.*|mc²"
-  );
+          "|[khmcdµ]?m[²³]|°[CFR]|CO₂-?.*|mc²";
 
   // Words that are valid but with special characters so that we don't want to
   // allow them in general:
@@ -99,6 +99,16 @@ public class WordListValidatorTest {
           "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω"          
   ));
 
+  private final String additionalValidationChars;
+
+  public WordListValidatorTest() {
+    this("");
+  }
+
+  public WordListValidatorTest(String additionalValidationChars) {
+    this.additionalValidationChars = additionalValidationChars;
+  }
+
   public void testWordListValidity(Language lang) {
     if (lang.getShortCode().equals("ru")) {
       return;   // skipping, Cyrillic chars not part of the validation yet
@@ -123,11 +133,13 @@ public class WordListValidatorTest {
 
   private void validateWords(List<String> words, String spellingFileName) {
     List<String> failures = new ArrayList<>();
+    String validChars = VALID_CHARS.replace("___INSERT___", additionalValidationChars);
+    Pattern validPattern = Pattern.compile(validChars);
     for (String word : words) {
       if (VALID_WORDS.contains(word) || VALID_WORDS.contains(word.trim())) {
         // okay
-      } else if (!VALID_CHARS.matcher(word).matches()) {
-        failures.add("Word '" + word + "' from " + spellingFileName + " doesn't match regex: " + VALID_CHARS +
+      } else if (!validPattern.matcher(word).matches()) {
+        failures.add("Word '" + word + "' from " + spellingFileName + " doesn't match regex: " + validChars +
                 " - please fix the word or add the character to the language's " + WordListValidatorTest.class.getName() + " if it's valid");
       }
     }

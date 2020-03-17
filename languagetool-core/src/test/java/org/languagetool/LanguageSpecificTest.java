@@ -37,11 +37,15 @@ import static org.junit.Assert.assertEquals;
 public class LanguageSpecificTest {
 
   protected void runTests(Language lang) throws IOException {
-    runTests(lang, null);
+    runTests(lang, null, "");
   }
 
   protected void runTests(Language lang, String onlyRunCode) throws IOException {
-    new WordListValidatorTest().testWordListValidity(lang);
+    runTests(lang, onlyRunCode, "");
+  }
+
+  protected void runTests(Language lang, String onlyRunCode, String additionalValidationChars) throws IOException {
+    new WordListValidatorTest(additionalValidationChars).testWordListValidity(lang);
     testNoQuotesAroundSuggestion(lang);
     testJavaRules(onlyRunCode);
     //testExampleAvailable(onlyRunCode);
