@@ -27558,6 +27558,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="agost">Per l'<marker>Agost</marker> d'aquell any.</example>
                 <example>Pel juliol.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d{1,2}|des</token>
+                    <token regexp="yes">de|d'</token>
+                    <marker>
+                        <token regexp="yes">(?-i)&mesos_any_maj;</token>
+                    </marker>
+                    <token regexp="yes" min="1" max="3">a|fins|l</token>
+                    <token regexp="yes">\d{1,2}</token>
+                </pattern>
+                <message>En les dates els mesos de l'any s'escriuen en minúscula.</message>
+                <suggestion><match no="3" case_conversion="alllower" /></suggestion>
+                <short>Majúscula incorrecta</short>
+                <example correction="juliol">Del 3 de <marker>Juliol</marker> al 5 de Març.</example>
+                <example correction="juliol">Des del 3 de <marker>Juliol</marker> fins al 5 de Març.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&mesos_any;</token>
+                    <token regexp="yes" min="1" max="3">a|fins|l</token>
+                    <token regexp="yes">\d{1,2}</token>
+                    <token regexp="yes">de|d'</token>
+                    <marker>
+                        <token regexp="yes">(?-i)&mesos_any_maj;</token>
+                    </marker>
+                </pattern>
+                <message>En les dates els mesos de l'any s'escriuen en minúscula.</message>
+                <suggestion><match no="5" case_conversion="alllower" /></suggestion>
+                <short>Majúscula incorrecta</short>
+                <example correction="març">Del 3 de Juliol al 5 de <marker>Març</marker>.</example>
+                <example correction="març">Del 3 de Juliol fins al 5 de <marker>Març</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="MAJ_DESPRES_INTERROGANT" name="Majúscula després d'interrogant">
             <pattern>
@@ -30254,6 +30286,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="finançaments"><marker>finaçiacions</marker></example>
         </rule>
         <rulegroup id="ANGLICISMES" name="anglicismes innecessaris">
+            <rule id="HOME_CINEMA" name="home cinema">
+                <pattern>
+                    <token>home</token>
+                    <token min="0">-</token>
+                    <token>cinema</token>
+                </pattern>
+                <message>Anglicisme innecessari.</message>
+                <suggestion>cinema domèstic</suggestion>
+                <suggestion>cinema a casa</suggestion>
+                <example correction="cinema domèstic|cinema a casa">Les meravelles del <marker>home cinema</marker>.</example>
+            </rule>
             <rule id="DECISION_MAKER" name="decision maker">
                 <pattern>
                     <token>decision</token>
@@ -36393,6 +36436,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="ALESHORES" name="aleshores/a les hores">
+            <antipattern>
+                <token>hores</token>
+                <token postag="SPS00"/>
+            </antipattern>
+            <antipattern>
+                <token>hores</token>
+                <token min="0" postag="RG"/>
+                <token postag="A..[FC][PN].|V.P..PF." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>hores</token>
+                <token>que</token>
+            </antipattern>
+            <pattern>
+                <token>a<exception postag="LOC_PREP"/><exception scope="previous">per</exception></token>
+                <token>les</token>
+                <token>hores</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>aleshores</suggestion></message>
+            <example correction="Aleshores"><marker>A les hores</marker> quan vindrà?</example>
+            <example>A les hores convingudes</example>
+            <example>A les hores de menjar.</example>
+            <example>A les hores que diguin.</example>
+            <example>A les hores més convenients.</example>
+            <example>A les hores en què hi anaven.</example>
+            <example>A les hores convingudes.</example>
+            <example>A les hores lliures.</example>
+            <example>A les hores de màxima audiència.</example>
+            <example>Pel que fa a les hores, jo, de tu, no me'n refiaria.</example>
+            <example>Per a les hores de solitud.</example>
+        </rule>
+        <rule id="TALANT" name="talant/tarannà">
+            <antipattern>
+                <token skip="4">talant</token>
+                <token inflected="yes" regexp="yes">arbre|bosc|destral|serra</token>
+            </antipattern>
+            <pattern>
+                <token>talant<exception scope="previous" inflected="yes">estar</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>tarannà</suggestion>? Correcte si és el gerundi del v. 'talar'.</message>
+            <example correction="tarannà">És un nou <marker>talant</marker>.</example>
+            <example>Estaven talant tots els arbres del parc.</example>
+            <example>Talant tots els arbres.</example>
+            <example>Talant boscs.</example>
+        </rule>
         <rulegroup id="MORTALDAT" name="mortaldat/mortalitat">
             <rule>
                 <pattern>
@@ -48785,8 +48874,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception regexp="yes">major|menor|bemoll|sostingut|\d+|/</exception><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Hi falta algun element.</message>
-            <suggestion>a mi</suggestion><suggestion>de mi</suggestion><suggestion>en mi</suggestion><suggestion>per mi</suggestion><suggestion>amb mi</suggestion><suggestion>m'hi</suggestion>
-            <example correction="a mi|de mi|en mi|per mi|amb mi|m'hi">quan ho faig <marker>mi</marker> trobo bé.</example>
+            <suggestion>m'hi</suggestion><suggestion>a mi</suggestion><suggestion>de mi</suggestion><suggestion>en mi</suggestion><suggestion>per mi</suggestion><suggestion>amb mi</suggestion>
+            <example correction="m'hi|a mi|de mi|en mi|per mi|amb mi">quan ho faig <marker>mi</marker> trobo bé.</example>
             <example>a mi m'agrada</example>
             <example>toca un mi bemoll</example>
             <example>mi major</example>
@@ -48981,6 +49070,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Una altra pràctica corrent.</example>
                 <example>El factor temps és determinant.</example>
                 <example>fins a 200 km mar endins</example>
+                <example>Quan hi ha trobat problemes.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FALTA_ELEMENT_ENTRE_GN" name="Falta un element entre grups nominals" default="off">

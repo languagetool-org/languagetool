@@ -56,27 +56,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule>
             <pattern>
-                <token>l</token>
+                <token>Misiones</token>
             </pattern>
-            <disambig action="remove"><wd pos="Y" lemma="litre"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>g</token>
-            </pattern>
-            <disambig action="remove"><wd pos="Y" lemma="gram"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>Carles</token>
-            </pattern>
-            <disambig action="remove"><wd pos="NPCSG00" lemma="Carles"/></disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>Vila-Real</token>
-            </pattern>
-            <disambig action="remove"><wd pos="NPCSG00" lemma="Vila-Real"/></disambig>
+            <disambig action="remove"><wd pos="NPCSG00" lemma="Misiones"/></disambig>
         </rule>
     </rulegroup>
     <rulegroup id="FIX_SENTENCE_TOKENIZATION" name="fix problems with sentence tokenization">
@@ -4365,7 +4347,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">pres|dits?|ratllats?|escrits?|fets?|acabats?|col·locats?|duta|portada|dutes|portades|deixats?|deixad(a|es)|estat|posat</exception></token>
+                        <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">pres|dits?|ratllats?|escrits?|fets?|acabats?|col·locats?|duta|portada|dutes|portades|deixats?|deixad(a|es)|estat|posat|trobat</exception></token>
                     </and>
                 </marker>
             </pattern>
@@ -13252,6 +13234,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
              <token postag="N.*|A.*" postag_regexp="yes" spacebefore="no"/>
          </pattern>
          <disambig action="add"><wd pos="ignore_concordance"/></disambig>
+    </rule>
+    <rule id="seg" name="abreviatura: seg">
+        <pattern>
+            <token regexp="yes">\d+</token>
+            <token>i</token>
+            <marker>
+                <token>seg</token>
+            </marker>
+            <token>.</token>
+        </pattern>
+        <disambig action="replace"><wd lemma="següent" pos="Y"/></disambig>
     </rule>
     <rule id="OFERTA" name="oferta (ofertar)">
         <pattern>
