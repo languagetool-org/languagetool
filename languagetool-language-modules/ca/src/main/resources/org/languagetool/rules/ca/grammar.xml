@@ -1536,6 +1536,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>són dos, les bengales i les rodes</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>dues</token>
+                    <token>i</token>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token>quarts</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>dues</token>
@@ -1554,6 +1560,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dos">Si hi ha <marker>dues</marker> o més valents.</example>
                 <example>Si hi ha dues o més entusiastes.</example>
                 <example>Si hi ha dues o més valentes.</example>
+                <example>Són les dues i dos quarts.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_NUMERALS_DOS" name="Usa sempre 'dos', mai 'dues'" default="off">
@@ -5082,6 +5089,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>va autoritzar a travessar la frontera</example>
             </rule>
         </rulegroup>
+        <rulegroup id="OBLIGAR_A" name="obligar *(a)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">obligar</token>
+                        <token>a</token>
+                    </marker>
+                    <token min="1" max="4" postag="[DAN].*|PX.*" postag_regexp="yes" spacebefore="yes"/>
+                    <token>a</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>El v. 'obligar' és transitiu i sobra la preposició 'a'.</message>
+                <suggestion>\1</suggestion>
+                <example correction="obligava">Joan <marker>obligava a</marker> la seua filla a estudiar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">obligar</token>
+                        <token>a</token>
+                        <token postag="DA.*" postag_regexp="yes" spacebefore="no"/>
+                    </marker>
+                    <token min="1" max="4" postag="[DAN].*|PX.*" postag_regexp="yes"/>
+                    <token>a</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </pattern>
+                <message>El v. 'obligar' és transitiu i sobra la preposició 'a'.</message>
+                <suggestion>\1 e\3</suggestion>
+                <example correction="obligava el">Joan <marker>obligava al</marker> seu fill a estudiar.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CABRE" name="*cabre + infinitiu">
             <rule>
                 <pattern>
@@ -6525,7 +6563,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DEURE_DE_INFINITIU" name="deure de + infinitiu">
             <antipattern>
                 <marker>
-                    <token postag="SENT_START|_PUNCT" postag_regexp="yes"/>
+                    <token postag="SENT_START|_PUNCT|CC" postag_regexp="yes"/>
                     <token>deure</token>
                 </marker>
             </antipattern>
@@ -6544,6 +6582,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>té més deure de tenir cura</example>
                 <example>el més mínim deure de col·laborar</example>
                 <example>Deure d'informar.</example>
+                <example>Deure de negociar i deure de pactar.</example>
+                <example>Existeix deure de pactar.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12538,6 +12578,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
         <rule id="QUAN_QUAL" name="quan/qual">
+            <antipattern>
+                <token inflected="yes">el</token>
+                <token>quan</token>
+                <token postag="_PUNCT.*|CC" postag_regexp="yes"></token>
+            </antipattern>
+            <antipattern>
+                <token postag="_PUNCT.*|CC" postag_regexp="yes"></token>
+                <token inflected="yes">el</token>
+                <token>quan</token>
+            </antipattern>
             <pattern>
                 <token postag="DA..S." postag_regexp="yes"/>
                 <marker>
@@ -12547,6 +12597,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Volíeu dir <suggestion>qual</suggestion></message>
             <example correction="qual">La situació de la <marker>quan</marker> parlem.</example>
             <example correction="qual">El sistema del <marker>quan</marker> parlem.</example>
+            <example>ni l'on ni el quan ni el com</example>
+            <example>Volem saber el quan.</example>
+            <example>Volem saber el qui i el quan.</example>
+            <example>de decidir el quan, el moment</example>
         </rule>
         <rule id="COM_VEUREM" name="com veure'm/veurem">
             <pattern>
@@ -18978,6 +19032,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>l'angle</suggestion>
                 <example correction="l'anglès|l'anglés|l'angle"><marker>l'angles</marker></example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">prorroga|porrogues</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>en</token>
+                    <marker>
+                        <token regexp="yes">prorroga|prorrogues</token>
+                    </marker>
+                </pattern>
+                <message>Si és un nom, porta accent.</message>
+                <suggestion><match no="2" regexp_match="(?-i)pro(.*)" regexp_replace="prò$1"/></suggestion>
+                <example correction="pròrroga">Treball en <marker>prorroga</marker>.</example>
+                <example>La resolució en prorroga els resultats.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="COMA_COM_A" name="coma / com a">
             <!--alguna falsa alarma?-->
@@ -19086,6 +19156,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>molt més lligada al respecte del medi explotat</example>
                 <example>obeïu amb temor i respecte els vostres amos</example>
                 <example>Els infonia respecte la seva presència.</example>
+                <example>Que se'n respecte el contingut.</example>
             </rule>
             <rule>
                 <pattern>
@@ -28775,6 +28846,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="PAS_AL_DAVANT" name="pas *al davant/avant">
+            <pattern>
+                <token regexp="yes" inflected="yes">pas|passa</token>
+                <token>a</token>
+                <token>l</token>
+                <token>davant</token>
+            </pattern>
+            <message>Expressió probablement incorrecta</message>
+            <suggestion>\1 avant</suggestion>
+            <suggestion>\1 endavant</suggestion>
+            <example correction="pas avant|pas endavant">Cal fer un <marker>pas al davant</marker>.</example>
+        </rule>
+        <rule id="TREURE_PUNTA" name="treure punta">
+            <pattern>
+                <token inflected="yes">treure</token>
+                <token>punta</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">fer</match> punta</suggestion>
+            <suggestion>\1 suc</suggestion>
+            <suggestion>\1 profit</suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">deformar</match></suggestion>
+            <example correction="facis punta|treguis suc|treguis profit|deformis">No <marker>treguis punta</marker>.</example>
+        </rule>
         <rulegroup id="PESE_A" name="*pese a">
             <rule>
                 <pattern>
@@ -41348,24 +41443,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="medi">El <marker>mitjà</marker> de cultiu</example>
             </rule>
         </rulegroup>
-        <rule id="EN_EL_SEU_CAS" name="en el seu cas">
-            <pattern>
-                <token inflected="yes" regexp="yes" skip="-1">aprovar|votar|determinar|aprovació|lectura|votació|proclamar|proclamació|presentar|presentació|examen|estudi|estudiar|sol·licitar|sol·licitud</token>
-                <token>,</token>
-                <marker>
-                    <token>en</token>
-                    <token>el</token>
-                    <token>seu</token>
-                    <token>cas</token>
-                </marker>
-                <token>,</token>
-            </pattern>
-            <message>Probablement cal usar una altra expressió.</message>
-            <suggestion>si escau</suggestion>
-            <suggestion>si és procedent</suggestion>
-            <example correction="si escau|si és procedent">estudiar, <marker>en el seu cas</marker>, la declaració</example>
-            <example>aprovar, si escau, l'acta</example>
-        </rule>
+        <rulegroup id="EN_EL_SEU_CAS" name="en el seu cas">
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="-1">aprovar|votar|determinar|aprovació|lectura|votació|proclamar|proclamació|presentar|presentació|examen|estudi|estudiar|sol·licitar|sol·licitud</token>
+                    <token>,</token>
+                    <marker>
+                        <token>en</token>
+                        <token>el</token>
+                        <token>seu</token>
+                        <token>cas</token>
+                    </marker>
+                    <token>,</token>
+                </pattern>
+                <message>Probablement cal usar una altra expressió.</message>
+                <suggestion>si escau</suggestion>
+                <suggestion>si és procedent</suggestion>
+                <suggestion>si cal</suggestion>
+                <suggestion>si convé</suggestion>
+                <url>https://www.parlament.cat/document/intrade/28346</url>
+                <example correction="si escau|si és procedent|si cal|si convé">estudiar, <marker>en el seu cas</marker>, la declaració</example>
+                <example>aprovar, si escau, l'acta</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>,</token>
+                    <marker>
+                        <token>en</token>
+                        <token>el</token>
+                        <token>seu</token>
+                        <token>cas</token>
+                    </marker>
+                    <token>,</token>
+                </pattern>
+                <message>Probablement cal usar una altra expressió.</message>
+                <suggestion>si escau</suggestion>
+                <suggestion>si és procedent</suggestion>
+                <suggestion>si s'escau</suggestion>
+                <suggestion>si és el cas</suggestion>
+                <url>https://www.parlament.cat/document/intrade/28346</url>
+                <example correction="si escau|si és procedent|si s'escau|si és el cas">estudiar, <marker>en el seu cas</marker>, la declaració</example>
+                <example>aprovar, si escau, l'acta</example>
+            </rule>
+        </rulegroup>
         <rule id="SI_SESCAU" name="si s'escau/si escau">
             <pattern>
                 <token inflected="yes" regexp="yes" skip="-1">aprovar|votar|determinar|aprovació|lectura|votació|proclamar|proclamació|presentar|presentació|examen|estudi|estudiar|sol·licitar|sol·licitud</token>
@@ -41380,7 +41500,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Probablement 'escaure' no és pronominal en aquest context.</message>
             <suggestion>si escau</suggestion>
             <suggestion>si és procedent</suggestion>
-            <example correction="si escau|si és procedent">aprovar, <marker>si s'escau</marker>, la declaració</example>
+            <suggestion>si cal</suggestion>
+            <suggestion>si convé</suggestion>
+            <url>https://www.parlament.cat/document/intrade/28346</url>
+            <example correction="si escau|si és procedent|si cal|si convé">aprovar, <marker>si s'escau</marker>, la declaració</example>
             <example>aprovar, si escau, l'acta</example>
         </rule>
         <rule id="SI_PROCEDEIX" name="si procedeix">
@@ -42345,6 +42468,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="XOCOLATA_DESFETA" name="xocolata *a la tassa/desfeta">
+            <pattern>
+                <token regexp="yes" inflected="yes">xocolate|xocolata</token>
+                <token>a</token>
+                <token>la</token>
+                <token>tassa</token>
+            </pattern>
+            <message>Val més fer servir una altra expressió.</message>
+            <suggestion>\1 <match no="1" postag_regexp="yes" postag="NC(.)(.).*" postag_replace="VMP00$2$10">desfer</match></suggestion>
+            <example correction="xocolata desfeta"><marker>xocolata a la tassa</marker></example>
+            <example correction="xocolate desfet"><marker>xocolate a la tassa</marker></example>
+            <example correction="xocolates desfets">Uns <marker>xocolates a la tassa</marker></example>
+        </rule>
         <rulegroup id="CAIXA_CAPSA" name="capsa/caixa">
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=capsa+caixa&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=8470&amp;idHit=8470&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=caixa+o+capsa%3F&amp;tematica=&amp;tipusCerca=cerca.tot</url>
             <rule>

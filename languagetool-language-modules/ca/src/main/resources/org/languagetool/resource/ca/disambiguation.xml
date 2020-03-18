@@ -2641,7 +2641,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </rule>
         <rule> <!-- cal controlar les excepcions -->
             <pattern>
-                <token><exception regexp="yes">que|em|et|es|la|ens|us|els|les|en|ho|li|vos</exception></token> <!-- el? -->
+                <token><exception regexp="yes">que|em|et|es|la|ens|us|els|les|en|ho|li|vos|'[ntml]|'ls|hi|'ns</exception></token> <!-- el? -->
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes">respecte</token>
@@ -10115,6 +10115,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
                         <token postag="N.*" postag_regexp="yes"></token>
                     </and>
                 </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*|_GN_.*"></disambig>
+        </rule>
+        <rule><!-- excepcions a la regla següent -->
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes">deure</token>
+                </marker>
+                <token inflected="yes">de</token>
             </pattern>
             <disambig action="filter" postag="N.*|_GN_.*"></disambig>
         </rule>
