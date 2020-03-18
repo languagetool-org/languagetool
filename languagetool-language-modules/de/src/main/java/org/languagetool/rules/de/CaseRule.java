@@ -410,6 +410,14 @@ public class CaseRule extends Rule {
       csToken("Top"),
       csToken("Ten")
     ),
+    Arrays.asList( // Dutch name (e.g. "Bert van den Brink")
+      csToken("Van"),
+      csToken("Den")
+    ),
+    Arrays.asList(
+      csToken("Lasse"),
+      posRegex("EIG:.*|UNKNOWN")
+    ),
     Arrays.asList(
       csToken("Just"),
       token("in"),

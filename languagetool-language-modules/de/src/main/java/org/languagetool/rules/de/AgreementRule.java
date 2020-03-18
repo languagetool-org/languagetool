@@ -571,6 +571,10 @@ public class AgreementRule extends Rule {
       token("zum"),
       token("einen"),
       posRegex("SUB:.*")
+    ),
+    Arrays.asList( // https://www.duden.de/suchen/dudenonline/Fake%20News
+      csToken("Fake"),
+      posRegex("News")
     )
   );
 
@@ -639,6 +643,7 @@ public class AgreementRule extends Rule {
     "Prozent",   // Plural "Prozente", trotzdem ist "mehrere Prozent" korrekt
     "Gramm",
     "Kilogramm",
+    "Badlands",
     "Chief", // Chief Excutive Officer
     "Carina", // Name
     "Meter", // Das Meter (Objekt zum Messen)
