@@ -906,6 +906,16 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="N.*" />
         </rule>
     </rulegroup>
+    <rule id="ha_hectarees" name="ha (hectàrees)">
+        <pattern>
+            <token postag="DN.*" postag_regexp="yes"/>
+            <marker>
+                <token>ha</token>
+            </marker>
+            <token><exception postag="V.P..SM." postag_regexp="yes"/></token>
+        </pattern>
+        <disambig action="filter" postag="N.*"/>
+    </rule>
     <rule id="noNom" name="no nom">
         <!--  paraules comunes que no solen ser noms gairebé mai (es,...) -->
         <pattern>
