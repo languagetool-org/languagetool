@@ -25,6 +25,10 @@
   * German `spelling.txt` now supports `prefix_verb` syntax like `vorüber_eilen` so
     the speller will accept all forms of "eilen" prefixed by "vorüber" 
 
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+
 #### Russian
   * small improvements
 
