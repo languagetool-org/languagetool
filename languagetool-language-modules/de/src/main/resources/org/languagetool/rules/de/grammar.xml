@@ -1848,6 +1848,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie <suggestion><match no="2" regexp_match="e$" regexp_replace=""/></suggestion>?</message>
             <example correction="Spaß">Das Spiel macht mir viel <marker>Spaße</marker>.</example>
         </rule>
+        <rule id="LIEBE_GRUSS" name="Liebe Gruß (Grüße)" default="temp_off">
+            <pattern>
+                <token postag="SENT_START|PKT" postag_regexp="yes" />
+                <marker>
+                    <token regexp="yes">liebe|beste|viele|herzliche</token>
+                    <token regexp="yes">gru(ß|ss)e?</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>\2 <match no="3" regexp_match="(?i)gru(ß|ss)e?" regexp_replace="Grü$1e" /></suggestion>?</message>
+            <example correction="Liebe Grüße"><marker>Liebe Gruß</marker>, Karl.</example>
+        </rule>
         <rulegroup id="GEGEN_GEGEBEN" name="'gegen (gegeben)'">
             <short>Möglicher Tippfehler</short>
             <rule>
