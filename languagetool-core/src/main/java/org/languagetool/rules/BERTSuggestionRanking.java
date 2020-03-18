@@ -65,7 +65,8 @@ public class BERTSuggestionRanking extends RemoteRule {
     shutdownRoutines.add(() -> models.asMap().values().forEach(RemoteLanguageModel::shutdown));
   }
 
-  private final int suggestionLimit = 10;
+  // default behavior for prepareSuggestions: limit to top n candidates
+  protected int suggestionLimit = 10;
   private final RemoteLanguageModel model;
   private final Rule wrappedRule;
 
@@ -95,6 +96,20 @@ public class BERTSuggestionRanking extends RemoteRule {
     }
   }
 
+  /**
+   * transform suggestions before resorting, e.g. limit resorting to top-n candidates
+   * @return transformed suggestions
+   */
+  protected List<SuggestedReplacement> prepareSuggestions(List<SuggestedReplacement> suggestions) {
+    // include more suggestions for resorting if there are translations included as original order isn't that good
+    if (suggestions.stream().anyMatch(s -> s.getType() == SuggestedReplacement.SuggestionType.Translation)) {
+      suggestionLimit = 25;
+    } else {
+      suggestionLimit = 10;
+    }
+    return suggestions.subList(0, Math.min(suggestions.size(), suggestionLimit));
+  }
+
   @Override
   protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences) {
     List<RuleMatch> matches = new LinkedList<>();
@@ -104,11 +119,7 @@ public class BERTSuggestionRanking extends RemoteRule {
       for (AnalyzedSentence sentence : sentences) {
         RuleMatch[] sentenceMatches = wrappedRule.match(sentence);
         for (RuleMatch match : sentenceMatches) {
-          if (suggestionLimit > 0) {
-            List<SuggestedReplacement> suggestions =  match.getSuggestedReplacementObjects();
-            suggestions = suggestions.subList(0, Math.min(suggestions.size(), suggestionLimit));
-            match.setSuggestedReplacementObjects(suggestions);
-          }
+          match.setSuggestedReplacementObjects(prepareSuggestions(match.getSuggestedReplacementObjects()));
           // build request before correcting offset, as we send only sentence as text
           requests.add(buildRequest(match));
           match.setOffsetPosition(match.getFromPos() + offset, match.getToPos() + offset);
