@@ -2408,225 +2408,146 @@ Copyright (C) 2008-2018 Ruud Baars, TaalTik
 	</rule>
 
 	<!-- defining noun phrases -->
-	<rule id="NOUN_PHRASE_PLURAL_01" name="">
-		<pattern>
-			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
-				&ZnwMrv;
-			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
-		</pattern>
-		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
-	</rule>
-	<rule id="NOUN_PHRASE_PLURAL_02" name="">
-		<pattern>
-			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
-				&De;
-				&ZnwMrv;
-			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
-		</pattern>
-		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
-	</rule>
-	<rule id="NOUN_PHRASE_PLURAL_03" name="">
-		<pattern>
-			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
-				&BnwVrb;
-				&ZnwMrv;
-			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
-		</pattern>
-		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
-	</rule>
-	<rule id="NOUN_PHRASE_PLURAL_04" name="">
-		<pattern>
-			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
-				&De;
-				&BnwVrb;
-				&ZnwMrv;
-			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
-		</pattern>
-		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
-	</rule>
-	<rule id="NOUN_PHRASE_PLURAL_05" name="">
-		<pattern>
-			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
-				&BezVrb;
-				&ZnwMrv;
-			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
-		</pattern>
-		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
-	</rule>
-	<rule id="NOUN_PHRASE_PLURAL_06" name="">
-		<pattern>
-			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
-				&De;
-				&BezVrb;
-				&ZnwMrv;
-			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
-		</pattern>
-		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
-	</rule>
-	<rule id="NOUN_PHRASE_PLURAL_07" name="">
-		<pattern>
-			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ"/>
-				<token regexp="yes">alle|geen</token>
-				&ZnwMrv;
-			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
-		</pattern>
-		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
-	</rule>
-
-	<!-- onderwerpconstructie aan begin zin -->
-	<rule id="OND_VOOR_01" name="">
-		<pattern>
-			<token postag_regexp="yes" postag="START|SENT_START"/>
-			<marker>
-				<token>ik</token>
-				<token postag_regexp="yes" postag="WKW:(VLT|TGW):1EP"/>
-			</marker>
-		</pattern>
-		<disambig action="add"><wd pos="OND_VOOR"/><wd pos="OND_VOOR"/></disambig>
-	</rule>
-	<rule id="OND_VOOR_02" name="">
-		<pattern>
-			<token postag_regexp="yes" postag="START|SENT_START"/>
-			<marker>
-				<token regexp="yes">hij|het|dit|dat|zij|ze|jij|je</token>
-				<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
-			</marker>
-		</pattern>
-		<disambig action="add"><wd pos="OND_VOOR"/><wd pos="OND_VOOR"/></disambig>
-	</rule>
-	<rule id="OND_VOOR_03" name="">
-		<pattern>
-			<token postag_regexp="yes" postag="START|SENT_START"/>
-			<marker>
-				<token regexp="yes">hij|men|zij|ze|jij|je|het|dit|dat</token>
-				<token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/>
-			</marker>
-		</pattern>
-		<disambig action="add"><wd pos="OND_VOOR"/><wd pos="OND_VOOR"/></disambig>
-	</rule>
-	<rule id="OND_VOOR_04" name="">
-		<pattern>
-			<token postag_regexp="yes" postag="START|SENT_START"/>
-			<marker>
-				<token regexp="yes">we|wij|ze|zij|jullie</token>
-				<token postag_regexp="yes" postag="WKW:(VLT|TGW):INF.*"/>
-			</marker>
-		</pattern>
-		<disambig action="add"><wd pos="OND_VOOR"/><wd pos="OND_VOOR"/></disambig>
-	</rule>
-
 	
-	<rule id="NOUN_PHRASE_SINGULAR_DE_01" name="">
+	<!-- ATTEMPT TO DO SOME REAL PHRASING -->
+	<rule id="PHRASING01" name="">
 		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
 			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
+				&BezVrb;
 				&ZnwEkvDe;
 			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
+			&WkwHij;
 		</pattern>
 		<disambig action="add"><wd pos="NNP_SIN_DE"/><wd pos="NNP_SIN_DE"/></disambig>
 	</rule>
-	<rule id="NOUN_PHRASE_SINGULAR_DE_02" name="">
+	<rule id="PHRASING02" name="">
 		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
 			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
-				&De;
-				&ZnwEkvDe;
+				&BezVrb;
+				&ZnwMrv;
 			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
+			&WkwWij;
 		</pattern>
-		<disambig action="add"><wd pos="NNP_SIN_DE"/><wd pos="NNP_SIN_DE"/><wd pos="NNP_SIN_DE"/></disambig>
+		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
 	</rule>
-	<rule id="NOUN_PHRASE_SINGULAR_DE_03" name="">
+	<rule id="PHRASING03" name="">
 		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
 			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
+				&De;
 				&BnwVrb;
 				&ZnwEkvDe;
 			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
+			&WkwHij;
 		</pattern>
 		<disambig action="add"><wd pos="NNP_SIN_DE"/><wd pos="NNP_SIN_DE"/><wd pos="NNP_SIN_DE"/></disambig>
 	</rule>
-	<rule id="NOUN_PHRASE_SINGULAR_DE_04" name="">
+	<rule id="PHRASING04" name="">
 		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
 			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
-				<token regexp="yes">een|iedere|elke</token>
-				&ZnwEkvDe;
+				&De;
+				&BnwVrb;
+				&ZnwMrv;
 			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
+			&WkwWij;
 		</pattern>
-		<disambig action="add"><wd pos="NNP_SIN_DE"/><wd pos="NNP_SIN_DE"/><wd pos="NNP_SIN_DE"/></disambig>
+		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
 	</rule>
-
-	<rule id="NOUN_PHRASE_SINGULAR_HET_01" name="">
+	<rule id="PHRASING05" name="">
 		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
 			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
+				&De;
+				&ZnwMrv;
+			</marker>
+			&WkwWij;
+		</pattern>
+		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
+	</rule>
+	<rule id="PHRASING06" name="">
+		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
+			<marker>
+				&BezOnv;
 				&ZnwEkvHet;
 			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
+			&WkwHij;
 		</pattern>
 		<disambig action="add"><wd pos="NNP_SIN_HET"/><wd pos="NNP_SIN_HET"/></disambig>
 	</rule>
-	<rule id="NOUN_PHRASE_SINGULAR_HET_02" name="">
+	<rule id="PHRASING07" name="">
 		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
 			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
-				&De;
-				&ZnwEkvHet;
-			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
-		</pattern>
-		<disambig action="add"><wd pos="NNP_SIN_HET"/><wd pos="NNP_SIN_HET"/><wd pos="NNP_SIN_HET"/></disambig>
-	</rule>
-	<rule id="NOUN_PHRASE_SINGULAR_HET_03" name="">
-		<pattern>
-			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
+				&BezOnv;
 				&BnwVrb;
 				&ZnwEkvHet;
 			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
+			&WkwHij;
 		</pattern>
 		<disambig action="add"><wd pos="NNP_SIN_HET"/><wd pos="NNP_SIN_HET"/><wd pos="NNP_SIN_HET"/></disambig>
 	</rule>
-	<rule id="NOUN_PHRASE_SINGULAR_HET_04" name="">
+	<rule id="PHRASING08" name="">
 		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
 			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START|VRZ|OND_VOOR"/>
-				<token regexp="yes">geen|een|ieder|elk</token>
-				&ZnwEkvHet;
+				&BezVrb;
+				&BnwVrb;
+				&ZnwEkvDe;
 			</marker>
-			<token postag_regexp="yes" postag="VRZ|SENT_END"/>
+			&WkwHij;
 		</pattern>
-		<disambig action="add"><wd pos="NNP_SIN_HET"/><wd pos="NNP_SIN_HET"/><wd pos="NNP_SIN_HET"/></disambig>
+		<disambig action="add"><wd pos="NNP_SIN_DE"/><wd pos="NNP_SIN_DE"/><wd pos="NNP_SIN_DE"/></disambig>
 	</rule>
-
-
-	<rule id="REMOVE_NNP_FROM_START" name="">
+	<rule id="PHRASING09" name="">
 		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
 			<marker>
-				<token postag_regexp="yes" postag="START|SENT_START"/>
+				&De;
+				&Get;
 			</marker>
+			&WkwWij;
 		</pattern>
-		<disambig action="remove" postag="NNP_.*"/>
+		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
 	</rule>
-
+	<rule id="PHRASING10" name="">
+		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
+			<marker>
+				&De;
+				&Get;
+				&ZnwMrv;
+			</marker>
+			&WkwWij;
+		</pattern>
+		<disambig action="add"><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/><wd pos="NNP_PLU"/></disambig>
+	</rule>
+	<rule id="PHRASING11" name="">
+		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
+			<marker>
+				&BezVrb;
+				&ZnwEkvDe;
+			</marker>
+			&WkwHij;
+		</pattern>
+		<disambig action="add"><wd pos="NNP_SIN_DE"/><wd pos="NNP_SIN_DE"/></disambig>
+	</rule>
+	<rule id="PHRASING12" name="">
+		<pattern>
+			<token postag_regexp="yes" postag="START|SENT_START"/>
+			<marker>
+				&Een;
+				&BnwVrb;
+				&ZnwEkvDe;
+			</marker>
+			&WkwHij;
+		</pattern>
+		<disambig action="add"><wd pos="NNP_SIN_DE"/><wd pos="NNP_SIN_DE"/><wd pos="NNP_SIN_DE"/></disambig>
+	</rule>
+	
 
 </rules>
