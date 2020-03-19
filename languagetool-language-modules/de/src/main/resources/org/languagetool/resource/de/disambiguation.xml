@@ -1074,6 +1074,34 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
             <disambig action="add"><wd lemma="können" pos="VER:MOD:3:PLU:PRÄ">können</wd></disambig>
         </rule>
     </rulegroup>
+    <rulegroup id="MODALVERB_AGREEMENT" name="Modalverben">
+        <rule>
+            <pattern>
+                <token>ich</token>
+                <marker>
+                    <and>
+                        <token postag="VER:MOD:1:SIN:.+" postag_regexp="yes"></token>
+                        <token postag="VER:MOD:3:SIN:.+" postag_regexp="yes"></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*:(3|IMP).+"/>
+            <example type="ambiguous" inputform="darf[dürfen/VER:MOD:1:SIN:PRÄ,dürfen/VER:MOD:3:SIN:PRÄ]" outputform="darf[dürfen/VER:MOD:1:SIN:PRÄ]">Ich <marker>darf</marker> das nicht.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>er</token>
+                <marker>
+                    <and>
+                        <token postag="VER:MOD:1:SIN:.+" postag_regexp="yes"></token>
+                        <token postag="VER:MOD:3:SIN:.+" postag_regexp="yes"></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="VER.*:(1|IMP).+"/>
+            <example type="ambiguous" inputform="darf[dürfen/VER:MOD:1:SIN:PRÄ,dürfen/VER:MOD:3:SIN:PRÄ]" outputform="darf[dürfen/VER:MOD:3:SIN:PRÄ]">Er <marker>darf</marker> das nicht.</example>
+        </rule>
+    </rulegroup>
     <rulegroup id="KONJUNKTIV" name="Konjunktiv">
         <rule>
             <pattern>
