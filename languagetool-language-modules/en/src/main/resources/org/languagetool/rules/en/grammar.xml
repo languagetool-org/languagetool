@@ -910,7 +910,7 @@ USA
                 <message>Did you mean <suggestion>than</suggestion>?</message>
                 <example correction="than">She knows more <marker>then</marker> her colleagues.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="JJR" />
                     <token postag="RB" min="0" />
@@ -922,7 +922,7 @@ USA
                 <message>Did you mean <suggestion>than</suggestion>?</message>
                 <example correction="than">Everyone and everything moved much faster now <marker>then</marker> before.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="JJR" />
                     <token postag="RB" min="0" />
@@ -1703,7 +1703,7 @@ USA
                 <example>But there was a fire burning inside him ever since he saw those pictures on her camera.</example>
                 <example>Tom looked like he needed help.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="VB.*" postag_regexp="yes" />
                     <token>to</token>
@@ -9907,6 +9907,18 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="YOUR_LOVES_ONES" name="Your loves (loved) one">
+            <pattern>
+                <token regexp="yes">an?|the|my|y?our|their|her|his|th[eo]se</token>
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <marker>
+                    <token regexp="yes">loves?</token>
+                    <token regexp="yes">ones?</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>loved \4</suggestion>?</message>
+            <example correction="loved ones">Staying connected with your <marker>loves ones</marker> is so important right now.</example>
+        </rule>
         <rule id="WELL_KNOWN" name="is well know">
             <pattern>
                 <token inflected="yes" regexp="yes">be|the|a</token>
@@ -17772,7 +17784,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Wendy%27s</url>
             <example correction="Wendy's">I always eat lunch at <marker>Wendys</marker>.</example>
         </rule>
-        <rule id="SAINSBURYS" name="Sainsbury's" default="temp_off">
+        <rule id="SAINSBURYS" name="Sainsbury's">
             <pattern>
                 <token>sainsburys</token>
             </pattern>
@@ -41201,7 +41213,7 @@ The accident victim died from her injuries.
                 <example correction="write">He wanted to <marker>wright</marker> a letter.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="THING_THINK" name="thing vs. think" default="temp_off">
+        <rulegroup id="THING_THINK" name="thing vs. think">
             <rule>
                 <pattern>
                     <token postag="MD" />
@@ -41932,10 +41944,23 @@ The accident victim died from her injuries.
                 <token postag="RB"/>
                 <token>to</token>
             </antipattern>
+            <antipattern>
+                <token>due</token>
+                <token regexp="yes">next|last|previous|this</token>
+                <token regexp="yes">week(end)?|month|year|&weekdays;|&months;</token>
+            </antipattern>
+            <antipattern>
+                <token>due</token>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes">/|:</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START|TO" postag_regexp='yes'/>
-                <token>due
-                  <exception scope='next' regexp='yes'>course|date|diligence|for|on|process|regard|respect|to|the</exception></token>
+                <token>
+                    due
+                  <exception scope='next' regexp='yes'>course|today|tomorrow|yesterday|dates?|diligence|for|on|process|regard|respect|to|the|:|&weekdays;|&months;</exception>
+                </token>
             </pattern>
             <message>Did you mean to use the verb <suggestion>\1 do</suggestion>?</message>
             <url>https://en.wiktionary.org/wiki/due</url>
