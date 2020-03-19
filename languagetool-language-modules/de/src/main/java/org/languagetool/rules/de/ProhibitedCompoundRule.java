@@ -85,6 +85,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static GermanSpellerRule spellerRule;
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
+  private static final List<String> blacklistRegex = Arrays.asList("(B|b)iogra(ph|f)ie");
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
           "Gründertag",
           "Korrekturlösung",
@@ -168,7 +169,6 @@ public class ProhibitedCompoundRule extends Rule {
     prohibitedCompoundRuleSearcher = setupAhoCorasickSearch(pairs, pairMap);
     prohibitedCompoundRulePairMap = pairMap;
   }
-
 
   private static void addAllCaseVariants(List<Pair> candidatePairs, Pair lcPair) {
     candidatePairs.add(new Pair(lcPair.part1, lcPair.part1Desc, lcPair.part2, lcPair.part2Desc));
@@ -262,7 +262,6 @@ public class ProhibitedCompoundRule extends Rule {
     return "Markiert wahrscheinlich falsche Komposita wie 'Lehrzeile', wenn 'Leerzeile' häufiger vorkommt.";
   }
 
-
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -326,7 +325,7 @@ public class ProhibitedCompoundRule extends Rule {
       long variantCount = lm.getCount(variant);
       //float factor = variantCount / (float)Math.max(wordCount, 1);
       //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
-      if (variantCount > 0 && wordCount == 0 && !blacklist.contains(wordPart) && !isMisspelled(variant)) {
+      if (variantCount > 0 && wordCount == 0 && !blacklist.contains(wordPart) && !isMisspelled(variant) && blacklistRegex.stream().noneMatch(k -> wordPart.matches(".*" + k + ".*"))) {
         String msg;
         if (pair.part1Desc != null && pair.part2Desc != null) {
           msg = "Möglicher Tippfehler. " + uppercaseFirstChar(pair.part1) + ": " + pair.part1Desc + ", " + uppercaseFirstChar(pair.part2) + ": " + pair.part2Desc;
