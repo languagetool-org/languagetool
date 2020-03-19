@@ -85,7 +85,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static GermanSpellerRule spellerRule;
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
-  private static final List<String> blacklistRegex = Arrays.asList("(B|b)iogra(ph|f)ie");
+  private static final List<String> blacklistRegex = Arrays.asList("gra(ph|f)ie");
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
           "Gründertag",
           "Korrekturlösung",
