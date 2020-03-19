@@ -280,6 +280,7 @@ public class AgreementRuleTest {
     assertGood("Die meisten Coaches wissen nichts.");
     assertGood("Die Präsent AG.");
     assertGood("In New York war er der Titelheld in Richard III. und spielte den Mark Anton in Julius Cäsar.");
+    assertGood("Vielen Dank fürs Bescheid geben.");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");

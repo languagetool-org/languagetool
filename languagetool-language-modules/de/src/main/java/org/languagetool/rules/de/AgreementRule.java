@@ -575,6 +575,19 @@ public class AgreementRule extends Rule {
     Arrays.asList( // https://www.duden.de/suchen/dudenonline/Fake%20News
       csToken("Fake"),
       posRegex("News")
+    ),
+    Arrays.asList(
+      csToken("Steinberg"),
+      csToken("Apotheke")
+    ),
+    Arrays.asList( // Vielen Dank fürs Bescheid geben
+      token("fürs"),
+      token("Bescheid"),
+      tokenRegex("geben|sagen")
+    ),
+    Arrays.asList( // https://www.autozeitung.de/
+      csToken("Auto"),
+      csToken("Zeitung")
     )
   );
 
