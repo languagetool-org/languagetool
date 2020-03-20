@@ -1736,7 +1736,7 @@ RB => Règles Brutes
       <marker>
         <token regexp="yes">\d{1,2}\-</token>
       </marker>
-      <token regexp="yes">[^0-9].*</token>
+      <token regexp="yes" spacebefore="yes" />
     </pattern>
     <disambig action="ignore_spelling"/>
   </rule>
@@ -1744,7 +1744,16 @@ RB => Règles Brutes
   <rule name="Ignore spelling of ('5e')" id="IGNORE_SPELLING_OF_NUMBERS">
     <pattern>
       <marker>
-        <token regexp="yes">\d+e</token>
+        <token regexp="yes">\d+e\-?</token>
+      </marker>
+    </pattern>
+    <disambig action="ignore_spelling"/>
+  </rule>
+
+  <rule name="Ignore spelling of ('-15')" id="IGNORE_SPELLING_OF_NEGATIVE_NUMBERS">
+    <pattern>
+      <marker>
+        <token regexp="yes">\-\d+</token>
       </marker>
     </pattern>
     <disambig action="ignore_spelling"/>
