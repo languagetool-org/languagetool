@@ -84,6 +84,8 @@ public class GrammalecteRule extends Rule {
     "typo_points_suspension1",
     "typo_points_suspension2",
     "typo_points_suspension3",
+    "typo_tiret_incise", // picky
+    "esp_avant_après_tiret", // picky
     "tab_début_ligne",
     "esp_milieu_ligne" // we already have WHITESPACE_RULE
   ));
