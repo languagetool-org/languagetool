@@ -23,7 +23,6 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.LinguServices;
 import org.languagetool.UserConfig;
 import org.languagetool.databroker.ResourceDataBroker;
@@ -51,6 +50,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("obst", "Frucht", "ost", "Himmelsrichtung"),
           new Pair("beeren", "Früchte", "bären", "Raubtiere"),
           new Pair("laus", "Insekt", "lauf", "Bewegungsart"),
           new Pair("läuse", "Insekt", "läufe", "Bewegungsart"),
@@ -289,7 +289,7 @@ public class ProhibitedCompoundRule extends Rule {
      only nouns can be compounds
      all parts are at least 3 characters long -> words must have at least 6 characters
     */
-    if ((readings.isTagged() && !readings.hasPartialPosTag("SUB")) || wordPart.length() <= 6) {
+    if ((readings.isTagged() && !readings.hasPartialPosTag("SUB")) && !readings.hasPosTagStartingWith("EIG:") || wordPart.length() <= 6) {  // EIG: e.g. "Obstdeutschland" -> "Ostdeutschland"
       partsStartPos += wordPart.length() + 1;
       return partsStartPos;
     }
