@@ -6965,6 +6965,31 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="ignore_spelling"></disambig>
     </rule>
 
+    <rule id="IGNORE_SPELLING_OF_MR_DE" name="Ignore spelling of names containing 'de'">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Mrs?|Miss</token>
+            <token min="0">.</token>
+            <marker>
+                <token regexp="yes">[Dd]e</token>
+                <token regexp="yes" min="0">[Ll]as?|[Ll]os</token>
+            </marker>
+            <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes">[A-Z].+</token>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
+
+    <rule id="IGNORE_SPELLING_OF_MR_DEL" name="Ignore spelling of names containing 'del'">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">Mrs?|Miss</token>
+            <token min="0">.</token>
+            <marker>
+                <token regexp="yes">[Dd]el</token>
+            </marker>
+            <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes">[A-Z].+</token>
+        </pattern>
+        <disambig action="ignore_spelling"></disambig>
+    </rule>
+
     <rule id="MODUS" name="Ignore spelling of 'modus'">
         <pattern>
             <token regexp="yes">modus|modi</token>
