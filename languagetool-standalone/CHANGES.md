@@ -32,6 +32,11 @@
 #### Russian
   * small improvements
 
+#### Ukrainian
+  * dictionary update
+  * new rules
+  * tokenization and tagging improvements
+
 ## 4.8 (released 2019-12-27)
 
 #### Catalan
