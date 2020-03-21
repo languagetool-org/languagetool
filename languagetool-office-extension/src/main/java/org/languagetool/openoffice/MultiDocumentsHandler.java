@@ -104,9 +104,6 @@ public class MultiDocumentsHandler {
   private String menuDocId = null;          //  Id of document at which context menu was called 
   private TextLevelCheckQueue textLevelQueue = null; // Queue to check text level rules
   
-  @SuppressWarnings("unused")
-  private LanguagetoolMenu ltMenu = null;
-
   private boolean testMode = false;
 
 
@@ -418,9 +415,11 @@ public class MultiDocumentsHandler {
           xComponent = null;
         }
       }
-      ltMenu = new LanguagetoolMenu(xContext);
     }
     documents.add(new SingleDocument(xContext, config, docID, xComponent, this));
+    if (!testMode) {              //  xComponent == null for test cases 
+      documents.get(documents.size()-1).setLtMenu(new LanguagetoolMenu(xContext));
+    }
     if (debugMode) {
       MessageHandler.printToLogFile("Document " + docNum + " created; docID = " + docID);
     }
@@ -458,6 +457,24 @@ public class MultiDocumentsHandler {
       goneContext = null;
       if (debugMode) {
         MessageHandler.printToLogFile("Document " + rmNum + " deleted");
+      }
+    }
+  }
+  
+  /**
+   * Delete the menu listener of a document
+   */
+  public void removeMenuListener(XComponent xComponent) {
+    if(xComponent != null) {
+      for (int i = 0; i < documents.size(); i++) {
+        XComponent docComponent = documents.get(i).getXComponent();
+        if (docComponent != null && xComponent.equals(docComponent)) { //  disposed document found
+          documents.get(i).getLtMenu().removeListener();
+          if (debugMode) {
+            MessageHandler.printToLogFile("Menu listener of document " + documents.get(i).getDocID() + " removed");
+          }
+          break;
+        }
       }
     }
   }
@@ -811,12 +828,13 @@ public class MultiDocumentsHandler {
   }
   
   class LanguagetoolMenu implements XMenuListener {
-    
     XMenuBar menubar = null;
     XPopupMenu toolsMenu = null;
     XPopupMenu ltMenu = null;
     short toolsId = 0;
     short ltId = 0;
+    short switchOffId = 0;
+    short switchOffPos = 0;
     private XPopupMenu xProfileMenu = null;
     private List<String> definedProfiles = null;
     private String currentProfile = null;
@@ -852,43 +870,6 @@ public class MultiDocumentsHandler {
         return;
       }
 
-      toolsMenu.addMenuListener(new XMenuListener() {
-
-        @Override
-        public void disposing(EventObject arg0) {
-        }
-
-        @Override
-        public void itemActivated(MenuEvent arg0) {
-        }
-
-        @Override
-        public void itemDeactivated(MenuEvent arg0) {
-        }
-
-        @Override
-        public void itemHighlighted(MenuEvent event) {
-          if(event.MenuId == ltId) {
-            setLtMenu();
-          }
-        }
-
-        @Override
-        public void itemSelected(MenuEvent event) {
-          if(event.MenuId == ltId) {
-            setLtMenu();
-          }
-        }
-      });
-      if (debugMode) {
-        MessageHandler.printToLogFile("Menu listener set");
-      }
-
-    }
-    
-    private void setLtMenu() {
-      short switchOffId = 0;
-      short switchOffPos = 0;
       for (short i = 0; i < ltMenu.getItemCount(); i++) {
         String command = ltMenu.getCommand(ltMenu.getItemId(i));
         if(LT_SWITCH_OFF_COMMAND.equals(command)) {
@@ -902,8 +883,24 @@ public class MultiDocumentsHandler {
         return;
       }
       
-      ltMenu.setItemText(switchOffId, messages.getString("loMenuSwitchOff"));
-      
+      if(messages.getString("loMenuSwitchOff").equals(ltMenu.getItemText(switchOffId))) {
+        MessageHandler.printToLogFile("LT menu already installed");
+        return;
+      } else {
+        ltMenu.removeItem(switchOffPos, (short) 1);
+        ltMenu.insertItem(switchOffId, messages.getString("loMenuSwitchOff"), MenuItemStyle.CHECKABLE, switchOffPos);
+      }
+      toolsMenu.addMenuListener(this);
+      if (debugMode) {
+        MessageHandler.printToLogFile("Menu listener set");
+      }
+    }
+    
+    public void removeListener() {
+      toolsMenu.removeMenuListener(this);
+    }
+    
+    private void setLtMenu() {
       if(switchOff) {
         ltMenu.checkItem(switchOffId, true);
       } else {
@@ -911,58 +908,74 @@ public class MultiDocumentsHandler {
       }
       short profilesId = (short)(switchOffId + 10);
       short profilesPos = (short)(switchOffPos + 2);
-      setProfileMenu();
-      if(xProfileMenu != null) {
-        if(ltMenu.getItemId(profilesPos) != profilesId) {
-          ltMenu.insertItem(profilesId, messages.getString("loMenuChangeProfiles"), MenuItemStyle.AUTOCHECK, profilesPos);
-        }
-        ltMenu.setPopupMenu(profilesId, xProfileMenu);
-      } else if(ltMenu.getItemId(profilesPos) == profilesId) {
-        ltMenu.removeItem(profilesPos, (short)1);
+      if(ltMenu.getItemId(profilesPos) != profilesId) {
+        setProfileMenu(profilesId, profilesPos);
       }
-      toolsMenu.setPopupMenu(ltId, ltMenu);
+      setProfileItems();
     }
       
-    private void setProfileMenu() {
-      List<String> profiles = null;
-      if(config != null) {
-        profiles = config.getDefinedProfiles();
+    private void setProfileMenu(short profilesId, short profilesPos) {
+      ltMenu.insertItem(profilesId, messages.getString("loMenuChangeProfiles"), MenuItemStyle.AUTOCHECK, profilesPos);
+      xProfileMenu = OfficeTools.getPopupMenu(xContext);
+      if(xProfileMenu == null) {
+        MessageHandler.printToLogFile("Profile menu == null");
+        return;
       }
-      if(profiles != null && !profiles.isEmpty()) {
-        definedProfiles = profiles;
-      }
-      if(definedProfiles != null) {
-        XPopupMenu xPopupMenu = OfficeTools.getPopupMenu(xContext);
-        currentProfile = config.getCurrentProfile();
-        xProfileMenu = getProfileMenu(xPopupMenu);
-      }
-    }
-    
-    private XPopupMenu getProfileMenu(XPopupMenu xPopupMenu) {
-      if(xPopupMenu != null) {
-        short nId = 1;
-        short nPos = 0;
-        xPopupMenu.insertItem(nId, messages.getString("guiUserProfile"), (short) 0, nPos);
-        xPopupMenu.setCommand(nId, LT_PROFILE_COMMAND);
-        if(currentProfile == null || currentProfile.isEmpty()) {
-          xPopupMenu.enableItem(nId , false);
-        } else {
-          xPopupMenu.enableItem(nId , true);
+
+      xProfileMenu.addMenuListener(new XMenuListener() {
+        @Override
+        public void disposing(EventObject arg0) {
         }
-        for (int i = 0; i < definedProfiles.size(); i++) {
-          nId++;
-          nPos++;
-          xPopupMenu.insertItem(nId, definedProfiles.get(i), (short) 0, nPos);
-          xPopupMenu.setCommand(nId, LT_PROFILE_COMMAND + definedProfiles.get(i));
-          if(currentProfile != null && currentProfile.equals(definedProfiles.get(i))) {
-            xPopupMenu.enableItem(nId , false);
+        @Override
+        public void itemActivated(MenuEvent arg0) {
+        }
+        @Override
+        public void itemDeactivated(MenuEvent arg0) {
+        }
+        @Override
+        public void itemHighlighted(MenuEvent arg0) {
+        }
+        @Override
+        public void itemSelected(MenuEvent event) {
+          if(event.MenuId == 1) {
+            runProfileAction(null);
           } else {
-            xPopupMenu.enableItem(nId , true);
+            runProfileAction(definedProfiles.get(event.MenuId - 2));
           }
         }
-        xPopupMenu.addMenuListener(this);
+      });
+
+      ltMenu.setPopupMenu(profilesId, xProfileMenu);
+    }
+    
+    private void setProfileItems() {
+      currentProfile = config.getCurrentProfile();
+      definedProfiles = config.getDefinedProfiles();
+      if(xProfileMenu != null) {
+        xProfileMenu.removeItem((short)0, xProfileMenu.getItemCount());
+        short nId = 1;
+        short nPos = 0;
+        xProfileMenu.insertItem(nId, messages.getString("guiUserProfile"), (short) 0, nPos);
+        xProfileMenu.setCommand(nId, LT_PROFILE_COMMAND);
+        if(currentProfile == null || currentProfile.isEmpty()) {
+          xProfileMenu.enableItem(nId , false);
+        } else {
+          xProfileMenu.enableItem(nId , true);
+        }
+        if(definedProfiles != null) {
+          for (int i = 0; i < definedProfiles.size(); i++) {
+            nId++;
+            nPos++;
+            xProfileMenu.insertItem(nId, definedProfiles.get(i), (short) 0, nPos);
+            xProfileMenu.setCommand(nId, LT_PROFILE_COMMAND + definedProfiles.get(i));
+            if(currentProfile != null && currentProfile.equals(definedProfiles.get(i))) {
+              xProfileMenu.enableItem(nId , false);
+            } else {
+              xProfileMenu.enableItem(nId , true);
+            }
+          }
+        }
       }
-      return xPopupMenu;
     }
 
     private void runProfileAction(String profile) {
@@ -984,31 +997,26 @@ public class MultiDocumentsHandler {
         }
       }
     }
-    
+
     @Override
-    public void itemSelected(MenuEvent event) {
-      if(event.MenuId == 1) {
-        runProfileAction(null);
-      } else {
-        runProfileAction(definedProfiles.get(event.MenuId - 2));
+    public void disposing(EventObject event) {
+    }
+    @Override
+    public void itemActivated(MenuEvent event) {
+      if(event.MenuId == 0) {
+        setLtMenu();
       }
     }
-  
     @Override
-    public void disposing(EventObject arg0) {
+    public void itemDeactivated(MenuEvent event) {
+    }
+    @Override
+    public void itemHighlighted(MenuEvent event) {
+    }
+    @Override
+    public void itemSelected(MenuEvent event) {
     }
 
-    @Override
-    public void itemActivated(MenuEvent arg0) {
-    }
-
-    @Override
-    public void itemDeactivated(MenuEvent arg0) {
-    }
-
-    @Override
-    public void itemHighlighted(MenuEvent arg0) {
-    }
   }
   
 }

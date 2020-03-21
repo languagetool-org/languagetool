@@ -32,6 +32,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.gui.Configuration;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
+import org.languagetool.openoffice.MultiDocumentsHandler.LanguagetoolMenu;
 import org.languagetool.openoffice.TextLevelCheckQueue.QueueEntry;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
@@ -138,7 +139,9 @@ class SingleDocument {
   private boolean useQueue = true;                        //  true: use queue to check text level rules (will be overridden by config
   private List<Integer> headings;                         //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
   private String lastSinglePara = null;                   //  stores the last paragraph which is checked as single paragraph
+  private LanguagetoolMenu ltMenu = null;
   int[] footnotePositions = null;
+  
   int proofInfo = 0;
 
   @SuppressWarnings("unused") 
@@ -288,6 +291,18 @@ class SingleDocument {
     }
     changedParas = null;
     firstCheckIsDone = false;
+  }
+  
+  /** Set LanguageTool menu
+   */
+  void setLtMenu(LanguagetoolMenu ltMenu) {
+    this.ltMenu = ltMenu;
+  }
+  
+  /** Get LanguageTool menu
+   */
+  LanguagetoolMenu getLtMenu() {
+    return ltMenu;
   }
   
   /** Set XComponentContext and XComponent of the document
