@@ -43,7 +43,9 @@ class ResultCache {
 
   ResultCache(ResultCache cache) {
     this.entries = new HashMap<>();
-    this.entries.putAll(cache.entries);
+    if(cache != null) {
+      this.entries.putAll(cache.entries);
+    }
   }
 
   /**

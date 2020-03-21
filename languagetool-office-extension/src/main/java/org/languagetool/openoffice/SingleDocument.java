@@ -276,7 +276,11 @@ class SingleDocument {
     this.config = config;
     numParasToCheck = config.getNumParasToCheck();
     defaultParaCheck = PARA_CHECK_DEFAULT;
-    useQueue = mDocHandler.isTestMode() ? false : config.useTextLevelQueue();
+    if(numParasToCheck == 0) {
+      useQueue = false;
+    } else {
+      useQueue = mDocHandler.isTestMode() ? false : config.useTextLevelQueue();
+    }
     if(useQueue || numParasToCheck == 0) {
       doFullCheckAtFirst = false;
     } else {
