@@ -1285,11 +1285,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>etwas</token>
                 </marker>
-                <token regexp="yes">[0-9]+</token>
+                <or>
+                    <token regexp="yes">[0-9]+</token>
+                    <token postag="ZAL"/>
+                </or>
                 <token negate="yes">mal</token>
             </pattern>
             <message>Meinten Sie <suggestion>etwa</suggestion>?</message>
             <example correction="etwa">Es gibt <marker>etwas</marker> 24 bis 25 Millionen Wikipedia-Artikel</example>
+            <example correction="etwa">Pro Bürger sind es <marker>etwas</marker> zehn Kilo.</example>
             <example>Etwas 16 mal 10 nehmen.</example>
         </rule>
         <rulegroup id="AUFFUEHREN_AUSFUEHREN" name="'aufführen (ausführen)' etc.">
