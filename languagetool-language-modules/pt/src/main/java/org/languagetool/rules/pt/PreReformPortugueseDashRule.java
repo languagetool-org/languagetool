@@ -19,16 +19,9 @@
 
 package org.languagetool.rules.pt;
 
-import org.languagetool.Languages;
+import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.rules.AbstractDashRule;
-import org.languagetool.rules.patterns.PatternRule;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.ResourceBundle;
 
 /**
  * Check for compounds written with dashes instead of hyphens.
@@ -36,11 +29,10 @@ import java.util.ResourceBundle;
  */
 public class PreReformPortugueseDashRule extends AbstractDashRule {
 
-  private static final List<PatternRule> dashRules = loadCompoundFile("/pt/pre-reform-compounds.txt",
-                    "Um travessão foi utilizado em vez de um hífen. Pretende dizer: ", Languages.getLanguageForShortCode("pt-PT"));
+  private static final AhoCorasickDoubleArrayTrie<String> trie = loadCompoundFile("/pt/pre-reform-compounds.txt");
   
-  public PreReformPortugueseDashRule() throws IOException {
-    super(dashRules);
+  public PreReformPortugueseDashRule() {
+    super(trie);
     // super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Typographical);
     setDefaultOff(); // Slows down start up and checking time too much. See: http://forum.languagetool.org/t/checking-portuguese-slow/1669/10
@@ -54,6 +46,11 @@ public class PreReformPortugueseDashRule extends AbstractDashRule {
   @Override
   public String getDescription() {
     return "Travessões no lugar de hífens";
+  }
+
+  @Override
+  public String getMessage() {
+    return "Um travessão foi utilizado em vez de um hífen.";
   }
 
 }

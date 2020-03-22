@@ -19,12 +19,8 @@
 
 package org.languagetool.rules.ru;
 
-import org.languagetool.Languages;
+import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.rules.AbstractDashRule;
-import org.languagetool.rules.patterns.PatternRule;
-
-import java.io.IOException;
-import java.util.List;
 
 /**
  * Check for compounds written with dashes instead of hyphens.
@@ -32,12 +28,11 @@ import java.util.List;
  */
 public class RussianDashRule extends AbstractDashRule {
 
-  private static final List<PatternRule> dashRules = loadCompoundFile("/ru/compounds.txt",
-          "Использовано тире вместо дефиса. Предполагалось: ", Languages.getLanguageForShortCode("ru"));
+  private static final AhoCorasickDoubleArrayTrie<String> trie = loadCompoundFile("/ru/compounds.txt");
 
-  public RussianDashRule() throws IOException {
-    super(dashRules);
-     setDefaultOff(); // Slows down start up. See GitHub issue #1016.
+  public RussianDashRule() {
+    super(trie);
+    setDefaultOff(); // Slows down start up. See GitHub issue #1016.
   }
 
   @Override
@@ -48,6 +43,11 @@ public class RussianDashRule extends AbstractDashRule {
   @Override
   public String getDescription() {
     return "Проверка на использование тире вместо дефиса (то есть «из — за» вместо «из-за»).";
+  }
+
+  @Override
+  public String getMessage() {
+    return "Использовано тире вместо дефиса.";
   }
 
 }
