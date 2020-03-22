@@ -9912,7 +9912,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rulegroup id="WORK_AROUND_COMPOUND" name="the work around (workaround)" default="temp_off">
+        <rulegroup id="WORK_AROUND_COMPOUND" name="the work around (workaround)">
             <url>https://www.lexico.com/definition/workaround</url>
             <rule>
                 <antipattern>
@@ -15396,7 +15396,7 @@ USA
             <example>Among Non-Arab Muslims, translations of the <marker>Qur'an</marker> are most often accompanied by the original text.</example>
         </rule>
         <rulegroup id="THE_THEY" name="the (they)">
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>the</token>
                     <token postag="NN.*" postag_regexp="yes" />
@@ -40015,10 +40015,12 @@ The accident victim died from her injuries.
                 <example>Rudolph is two years old.</example>
                 <example>Rudolph is two years old actually</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
-                        <token postag="CD"/>
+                        <token postag="CD">
+                            <exception scope="previous" postag="CD" />
+                        </token>
                         <token>year-old</token>
                     </marker>
                     <token postag="JJ.*" postag_regexp="yes" min="0" />
@@ -40387,7 +40389,7 @@ The accident victim died from her injuries.
             <example correction="or">He wants to do it once <marker>a</marker> twice a month.</example>
         </rule>
         <rulegroup id="AN_AND" name="confusion of 'an' and 'and'">
-            <rule default="temp_off"><!-- Go ahead an create a new tool -->
+            <rule><!-- Go ahead an create a new tool -->
                 <antipattern>
                     <token skip="6">an</token>
                     <token regexp="yes">(action|cta|button|function|link)s?</token>
@@ -40589,7 +40591,7 @@ The accident victim died from her injuries.
             </rule>
         </rulegroup>
         <rulegroup id="WE_BE" name="we vs. be">
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="MD" />
                     <token postag="PRP" />
