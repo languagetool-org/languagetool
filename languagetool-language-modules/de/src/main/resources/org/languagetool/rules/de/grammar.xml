@@ -33219,6 +33219,28 @@ Andere Projekte</example>
                 <example correction="Break-even-Point">Das Unternehmen hat den <marker>Break Even Punkt</marker> erreicht.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="TRIAL_AND_ERROR" name="Try and Error (Trial-and-Error)" default="temp_off">
+            <url>https://www.duden.de/rechtschreibung/Trial_and_Error_Methode</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Try|Trial</token>
+                    <token regexp="yes">[au]nd|&amp;</token>
+                    <token>Error</token>
+                    <token regexp="yes">Methoden?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Trial-and-Error-<match no="4" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Trial-and-Error-Methode">Er probierte es mit der <marker>Try and Error Methode</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Try|Trial</token>
+                    <token regexp="yes">[au]nd|&amp;</token>
+                    <token>Error</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Trial-and-Error</suggestion>?</message>
+                <example correction="Trial-and-Error">Er probierte es mit <marker>Try and Error</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MAKE_UP" name="'Make-up'">
             <url>https://www.duden.de/rechtschreibung/Make_up</url>
             <rule>
@@ -33244,7 +33266,6 @@ Andere Projekte</example>
                 <example correction="Make-ups">Während des Auftragens ihres <marker>Make-Ups</marker> ging etwas schief.</example>
             </rule>
         </rulegroup>
-
         <rulegroup id="STAND_UP" name="'Stand-up'">
             <url>https://www.duden.de/rechtschreibung/Stand_up</url>
             <antipattern><!-- Englische Namen -->
