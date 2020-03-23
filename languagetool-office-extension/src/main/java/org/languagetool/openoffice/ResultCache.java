@@ -95,7 +95,7 @@ class ResultCache {
   }
 
   /**
-   * add / replace an cache entry
+   * add / replace a cache entry
    */
   void put(int numberOfParagraph, int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
     CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
@@ -107,7 +107,7 @@ class ResultCache {
   }
 
   /**
-   *add / replace an cache entry for paragraph
+   * add / replace a cache entry for paragraph
    */
   void put(int numberOfParagraph, SingleProofreadingError[] errorArray) {
     entries.put(numberOfParagraph, new CacheSentenceEntries(0, 0, errorArray));
@@ -219,7 +219,7 @@ class ResultCache {
   }
 
   /**
-   * Compares paragraph cache with an other
+   * Compares a paragraph cache with another cache.
    * Gives back a list of entries for every paragraph: true if the both entries are identically
    */
   List<Integer> differenceInCaches(ResultCache oldCache) {
@@ -227,7 +227,7 @@ class ResultCache {
     CacheSentenceEntries oEntry;
     CacheSentenceEntries nEntry;
     boolean isDifferent = true;
-    Set<Integer> entrySet = new HashSet<Integer>(entries.keySet());
+    Set<Integer> entrySet = new HashSet<>(entries.keySet());
     for (int nPara : entrySet) {
       if(oldCache != null) {
         nEntry = entries.get(nPara);
@@ -331,7 +331,7 @@ class ResultCache {
       return entry.nextSentencePosition;
     }
     
-    private class CacheEntry {
+    private static class CacheEntry {
       final int nextSentencePosition;
       final SingleProofreadingError[] errorArray;
 
