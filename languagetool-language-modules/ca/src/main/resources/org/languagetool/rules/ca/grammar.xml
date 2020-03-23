@@ -5265,6 +5265,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ha vingut cantant ben content.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="TENIR_QUE" name="*tenir que + infinitiu">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">tenir</token>
+                        <token>que</token>
+                    </marker>
+                    <token postag="V.N.*" postag_regexp="yes"><exception regexp="yes">h?[aeiou].+</exception></token>
+                </pattern>
+                <message>Incorrecte com a perífrasi d'obligació.</message>
+                <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> de</suggestion>
+                <!-- This doesn't keep several postags-->
+                <short>Castellanisme</short>
+                <example correction="hem de">No <marker>tenim que</marker> fer res</example>
+                <example correction="hagut de">No ha <marker>tingut que</marker> fer res</example>
+                <example>No hem de fer res</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">tenir</token>
+                    <token>que</token>
+                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">h?[aeiou].+</token>
+                </pattern>
+                <message>Incorrecte com a perífrasi d'obligació.</message>
+                <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> d'<match no="3"/></suggestion>
+                <short>Castellanisme</short>
+                <example correction="hem d'ensenyar">No <marker>tenim que ensenyar</marker> res</example>
+                <example>No hem de fer res</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">tenir</token>
+                        <token min="0" max="4" postag="_PUNCT_CONT|RG|LOC_ADV|LOC_CONJ" postag_regexp="yes"/>
+                        <token>que</token>
+                    </marker>
+                    <token min="0" max="4" postag="_PUNCT_CONT|RG|LOC_ADV|LOC_CONJ" postag_regexp="yes"/>
+                    <token postag="V.N.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Incorrecte com a perífrasi d'obligació.</message>
+                <suggestion>(haver de)</suggestion>
+                <suggestion>(caldre)</suggestion>
+                <!--<suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> \2 de</suggestion>-->
+                <short>Castellanisme</short>
+                <example correction="(haver de)|(caldre)">No <marker>tenim, per tant, que</marker> fer res.</example>
+                <example correction="(haver de)|(caldre)">No ha <marker>tingut, afortunadament, que</marker> fer res.</example>
+                <example>No hem de fer res</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PERIFRASIS" name="Perífrasis d'obligació i de dubte">
             <rule id="ACABAR_GERUNDI" name="*acabà fer/acabà fent">
                 <pattern>
@@ -5336,34 +5385,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>s'<match no="1" case_conversion="alllower"/> de</suggestion>
                 <example correction="caldrà|s'haurà de">Potser <marker>haurà que</marker> actualitzar</example>
                 <example correction="caldria|s'hauria de"><marker>Hauria que</marker> triar diputat.</example>
-            </rule>
-            <rule id="TENIR_QUE" name="Incorrecte: «tenir que»">
-                <pattern>
-                    <marker>
-                        <token inflected="yes">tenir</token>
-                        <token>que</token>
-                    </marker>
-                    <token postag="V.N.*" postag_regexp="yes"><exception regexp="yes">h?[aeiou].+</exception></token>
-                </pattern>
-                <message>Incorrecte com a perífrasi d'obligació.</message>
-                <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> de</suggestion>
-                <!-- This doesn't keep several postags-->
-                <short>Castellanisme</short>
-                <example correction="hem de">No <marker>tenim que</marker> fer res</example>
-                <example correction="hagut de">No ha <marker>tingut que</marker> fer res</example>
-                <example>No hem de fer res</example>
-            </rule>
-            <rule id="TENIR_QUE2" name="Incorrecte: «tenir que»">
-                <pattern>
-                    <token inflected="yes">tenir</token>
-                    <token>que</token>
-                    <token postag="V.N.*" postag_regexp="yes" regexp="yes">h?[aeiou].+</token>
-                </pattern>
-                <message>Incorrecte com a perífrasi d'obligació.</message>
-                <suggestion><match no="1" postag="V.([^M].*)" postag_regexp="yes" postag_replace="VA$1" setpos="yes">haver</match> d'<match no="3"/></suggestion>
-                <short>Castellanisme</short>
-                <example correction="hem d'ensenyar">No <marker>tenim que ensenyar</marker> res</example>
-                <example>No hem de fer res</example>
             </rule>
             <rule id="CALDRE" name="Comprova: «caldre» seguit de verb en infinitiu">
                 <pattern>
