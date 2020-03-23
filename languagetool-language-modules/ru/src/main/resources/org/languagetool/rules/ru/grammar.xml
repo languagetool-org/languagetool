@@ -9121,7 +9121,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Егерь пошёл в лес <marker>с пушистая</marker> рысью.</example>
         </rule>
         <rule default="on" id="PREP_O_and_Noun" name="Предлог «о» и существительное">
-            <antipattern case_sensitive="no">
+   <!--     <antipattern case_sensitive="no">
                 <token postag="SENT_START"></token>
                 <marker>
                     <token>о</token>
@@ -9133,12 +9133,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                 </marker>
                 <token>,</token>
-            </antipattern>
+            </antipattern>    -->
             
             <pattern case_sensitive="no">
                 <!--  PREP  о -> NN:.*:V or  NN:.*:P  (SENT_END|PARA_END)  NN:.*:.*:Z -->
                 <token>о</token>
-                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:V" postag_regexp="yes"></exception><exception postag="NN:.*:.*:P" postag_regexp="yes"></exception><exception postag="NN:.*:.*:Z" postag_regexp="yes"></exception><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes"></exception></token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" ><exception postag="NN:.*:.*:V" postag_regexp="yes" /><exception postag="NN:.*:.*:Nom" postag_regexp="yes" /><exception postag="NN:.*:.*:P" postag_regexp="yes"/><exception postag="NN:.*:.*:Z" postag_regexp="yes" /><exception postag="NN:.*:.*:.*" negate_pos="yes" postag_regexp="yes" /></token>
             </pattern>
             <message>Предлог «о» предполагает употребление существительного в винительном или предложном падеже.</message>
             <short>Требуется винительный или предложный падеж.</short>
