@@ -118,7 +118,7 @@ public class MultiDocumentsHandler {
     this.mainThread = mainThread;
     documents = new ArrayList<>();
     disabledRulesUI = new HashSet<>();
-    extraRemoteRules = new ArrayList<Rule>();
+    extraRemoteRules = new ArrayList<>();
   }
   
   /**
@@ -628,7 +628,7 @@ public class MultiDocumentsHandler {
    * Set docID used within menu
    */
   public void setMenuDocId(String docId) {
-    menuDocId = new String(docId);
+    menuDocId = docId;
   }
 
   /**
@@ -713,8 +713,8 @@ public class MultiDocumentsHandler {
     List<Integer> minToCheckParagraph;
     List<List<String>> textLevelRules;
     SortedTextRules () {
-      minToCheckParagraph = new ArrayList<Integer>();
-      textLevelRules = new ArrayList<List<String>>();
+      minToCheckParagraph = new ArrayList<>();
+      textLevelRules = new ArrayList<>();
       int numParasToCheck = config.getNumParasToCheck();
       List<Rule> rules = langTool.getAllActiveOfficeRules();
       for(Rule rule : rules) {
@@ -737,40 +737,40 @@ public class MultiDocumentsHandler {
       }
     }
 
-    private void insertRule (int minPara, String RuleId, int nToCheck) {
+    private void insertRule (int minPara, String ruleId, int nToCheck) {
       if(useQueue) {
         if(minPara == 0) {
           int n = minToCheckParagraph.indexOf(nToCheck);
           if( n == 0 || minToCheckParagraph.size() == 0) {
             minToCheckParagraph.add(0, minPara);
-            textLevelRules.add(0, new ArrayList<String>());
+            textLevelRules.add(0, new ArrayList<>());
           }
-          textLevelRules.get(0).add(new String(RuleId));
+          textLevelRules.get(0).add(ruleId);
         } else {
           int n = minToCheckParagraph.indexOf(nToCheck);
           if( n < 0) {
             minToCheckParagraph.add(nToCheck);
-            textLevelRules.add(new ArrayList<String>());
+            textLevelRules.add(new ArrayList<>());
           }
-          textLevelRules.get(textLevelRules.size() - 1).add(new String(RuleId));
+          textLevelRules.get(textLevelRules.size() - 1).add(ruleId);
         }
       } else {
         if(minPara < 0) {
           int n = minToCheckParagraph.indexOf(minPara);
           if( n < 0) {
             minToCheckParagraph.add(minPara);
-            textLevelRules.add(new ArrayList<String>());
+            textLevelRules.add(new ArrayList<>());
           }
-          textLevelRules.get(textLevelRules.size() - 1).add(new String(RuleId));
+          textLevelRules.get(textLevelRules.size() - 1).add(ruleId);
         } else {
           int n = minToCheckParagraph.indexOf(-1);
           if( n == 0 || minToCheckParagraph.size() == 0) {
             minToCheckParagraph.add(0, minPara);
-            textLevelRules.add(0, new ArrayList<String>());
+            textLevelRules.add(0, new ArrayList<>());
           } else if(minPara > minToCheckParagraph.get(0)) {
             minToCheckParagraph.set(0, minPara);
           }
-          textLevelRules.get(0).add(new String(RuleId));
+          textLevelRules.get(0).add(ruleId);
         }
       }
     }
@@ -984,7 +984,7 @@ public class MultiDocumentsHandler {
         MessageHandler.showMessage("profile '" + profile + "' not found");
       } else {
         try {
-          List<String> saveProfiles = new ArrayList<String>(); 
+          List<String> saveProfiles = new ArrayList<>();
           saveProfiles.addAll(config.getDefinedProfiles());
           config.initOptions();
           config.loadConfiguration(profile == null ? "" : profile);
