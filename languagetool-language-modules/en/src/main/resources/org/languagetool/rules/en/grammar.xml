@@ -4558,6 +4558,11 @@ USA
                 <example>There was evidently no thought of their being published.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>no</token>
+                    <token>no</token>
+                    <token>no</token>
+                </antipattern>
                 <!-- TODO: 'no the', 'no of' -->
                 <antipattern>
                     <token>no</token>
@@ -4583,6 +4588,7 @@ USA
                 <example>I had to say no to them.</example>
                 <example>I could turn no into yes.</example>
                 <example>The gateway has no open ports.</example>
+                <example>You don’t want to send cash directly to a stranger in advance, no no no.</example>
             </rule>
             <rule>
                 <pattern>
@@ -18408,6 +18414,19 @@ USA
             <url>https://www.lexico.com/definition/high-end</url>
             <example correction="high-end">The <marker>high end</marker> computer.</example>
         </rule>
+        <rule id="END_TO_END_HYPHEN" name="missing hyphen in 'end-to-end" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>end</token>
+                    <token>to</token>
+                    <token>end</token>
+                </marker>
+                <token regexp="yes">encryptions?|principles?|reinforcement|vectors?|delay|tests?|testings?|journeys?|architectures?|trips?|monitorings?|tracing|traces?|transactions?|process(es)?|solutions?|computing|platforms?|managements?|attacks?|compressions?</token>
+            </pattern>
+            <message>Did you mean the adjective <suggestion>\1-\2-\3</suggestion> (spelled with hyphens)?</message>
+            <url>https://en.wiktionary.org/wiki/end-to-end</url>
+            <example correction="end-to-end">The <marker>end to end</marker> trip takes about forty minutes.</example>
+        </rule>
         <rule id="SO_CALLED_HYPHEN" name="missing hyphen in 'so called'">
             <pattern>
                 <marker>
@@ -31259,7 +31278,7 @@ USA
                     <exception scope="previous" regexp="yes">×|x</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|RUB|percent|minute|megapixel|oz|bit|foot|[kcm]ms?|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm|ft|mg|kg|mpg|°C|(milli)?watt|ml</exception>
+                    <exception regexp="yes">Pound|Dollar|RUB|percent|minute|megapixel|oz|bit|foot|[kcm]ms?|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm|mi|ft|mg|kg|mpg|°C|(milli)?watt|ml</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()×]</exception>
                     <exception postag="MD|PRP\$|UNKNOWN" postag_regexp="yes" />
@@ -31270,7 +31289,7 @@ USA
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception regexp="yes">will|year|so|pst|well|still|have|had|wether|max</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|stat|[ck]c|hr|min|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|stat|[ck]c|hr|min?|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
                         <exception regexp="yes">trained|mentioned|assisting|voting|caused|died|said|embedded|squared|captured|combined|killed|used|possible|yearly</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
@@ -40467,7 +40486,25 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-
+        <rulegroup id="TRY_TRIAL" name="try (trial) and error" default="temp_off">
+            <url>https://www.lexico.com/definition/trial_and_error</url>
+            <rule>
+                <pattern>
+                    <token>try</token>
+                    <token regexp="yes">&amp;|and</token>
+                    <token>error</token>
+                </pattern>
+                <message>Did you mean the phrase <suggestion><match no="1" regexp_match="(?i)ry" regexp_replace="rial" /> \2 \3</suggestion>?</message>
+                <example correction="trial and error">Others find the process to be one of <marker>try and error</marker>, until they stumble upon one that fits.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>try-and-error</token>
+                </pattern>
+                <message>Did you mean the phrase <suggestion><match no="1" regexp_match="(?i)ry" regexp_replace="rial" /></suggestion>?</message>
+                <example correction="trial-and-error">Others find the process to be one of <marker>try-and-error</marker>, until they stumble upon one that fits.</example>
+            </rule>
+        </rulegroup>
         <rule id="A_OR" name="once a (or) twice">
             <pattern>
                 <token>once</token>
