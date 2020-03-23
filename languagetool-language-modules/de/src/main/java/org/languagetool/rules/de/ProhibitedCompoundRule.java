@@ -50,6 +50,7 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("kamp", "Flurname für ein Stück Land", "kampf", "Auseinandersetzung"),
           new Pair("obst", "Frucht", "ost", "Himmelsrichtung"),
           new Pair("beeren", "Früchte", "bären", "Raubtiere"),
           new Pair("laus", "Insekt", "lauf", "Bewegungsart"),
