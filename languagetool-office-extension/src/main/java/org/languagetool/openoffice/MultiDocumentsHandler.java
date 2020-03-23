@@ -690,6 +690,16 @@ public class MultiDocumentsHandler {
   }
 
   /**
+   * Test if sorted rules for index exist
+   */
+  public boolean isSortedRuleForIndex(int index) {
+    if(index < 0 || index > 1 || sortedTextRules.textLevelRules.get(index).isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
    * activate all rules stored under a given index related to the list of getNumMinToCheckParas
    * deactivate all other text level rules
    */
@@ -715,16 +725,20 @@ public class MultiDocumentsHandler {
     SortedTextRules () {
       minToCheckParagraph = new ArrayList<>();
       textLevelRules = new ArrayList<>();
-      int numParasToCheck = config.getNumParasToCheck();
+      minToCheckParagraph.add(0);
+      textLevelRules.add(new ArrayList<>());
+      if(useQueue && config.getNumParasToCheck() != 0) {
+        minToCheckParagraph.add(config.getNumParasToCheck());
+      } else {
+        minToCheckParagraph.add(-1);
+      }
+      textLevelRules.add(new ArrayList<>());
       List<Rule> rules = langTool.getAllActiveOfficeRules();
       for(Rule rule : rules) {
         if(rule instanceof TextLevelRule && !langTool.getDisabledRules().contains(rule.getId()) 
             && !disabledRulesUI.contains(rule.getId())) {
-          insertRule(((TextLevelRule) rule).minToCheckParagraph(), rule.getId(), numParasToCheck);
+          insertRule(((TextLevelRule) rule).minToCheckParagraph(), rule.getId());
         }
-      }
-      if(useQueue && config.getNumParasToCheck() != 0) {
-        minToCheckParagraph.set(1, config.getNumParasToCheck());
       }
       if(debugMode) {
         MessageHandler.printToLogFile("Number different minToCheckParagraph: " + minToCheckParagraph.size());
@@ -737,37 +751,18 @@ public class MultiDocumentsHandler {
       }
     }
 
-    private void insertRule (int minPara, String ruleId, int nToCheck) {
+    private void insertRule (int minPara, String ruleId) {
       if(useQueue) {
         if(minPara == 0) {
-          int n = minToCheckParagraph.indexOf(nToCheck);
-          if( n == 0 || minToCheckParagraph.size() == 0) {
-            minToCheckParagraph.add(0, minPara);
-            textLevelRules.add(0, new ArrayList<>());
-          }
           textLevelRules.get(0).add(ruleId);
         } else {
-          int n = minToCheckParagraph.indexOf(nToCheck);
-          if( n < 0) {
-            minToCheckParagraph.add(nToCheck);
-            textLevelRules.add(new ArrayList<>());
-          }
-          textLevelRules.get(textLevelRules.size() - 1).add(ruleId);
+          textLevelRules.get(1).add(ruleId);
         }
       } else {
         if(minPara < 0) {
-          int n = minToCheckParagraph.indexOf(minPara);
-          if( n < 0) {
-            minToCheckParagraph.add(minPara);
-            textLevelRules.add(new ArrayList<>());
-          }
-          textLevelRules.get(textLevelRules.size() - 1).add(ruleId);
+          textLevelRules.get(1).add(ruleId);
         } else {
-          int n = minToCheckParagraph.indexOf(-1);
-          if( n == 0 || minToCheckParagraph.size() == 0) {
-            minToCheckParagraph.add(0, minPara);
-            textLevelRules.add(0, new ArrayList<>());
-          } else if(minPara > minToCheckParagraph.get(0)) {
+          if(minPara > minToCheckParagraph.get(0)) {
             minToCheckParagraph.set(0, minPara);
           }
           textLevelRules.get(0).add(ruleId);
@@ -775,30 +770,6 @@ public class MultiDocumentsHandler {
       }
     }
 
-/*
- * This rule was commented out for performance reasons and replaced by the same named rule before 
- *
-    private void insertRule (int minPara, String RuleId) {
-      int n = minToCheckParagraph.indexOf(minPara); 
-      if( n >= 0) {
-        textLevelRules.get(n).add(new String(RuleId));
-        return;
-      } else {
-        if(minPara < 0) {
-          n = minToCheckParagraph.size();
-        } else {
-          for (n = 0; n < minToCheckParagraph.size(); n++) {
-            if(minPara < minToCheckParagraph.get(n) || minToCheckParagraph.get(n) < 0) {
-              break;
-            }
-          }
-        }
-        minToCheckParagraph.add(n, minPara);
-        textLevelRules.add(n, new ArrayList<String>());
-        textLevelRules.get(n).add(new String(RuleId));
-      }
-    }
-*/
     public List<Integer> getMinToCheckParas() {
       return minToCheckParagraph;
     }

@@ -1038,9 +1038,11 @@ class SingleDocument {
    * Add an new entry to text level queue
    */
   public void addQueueEntry(int nPara, int nCache, int nCheck, String docId) {
-    int nStart = getStartOfParaCheck(nPara, nCheck, allParas, headings, textIsChanged);
-    int nEnd = getEndOfParaCheck(nPara, nCheck, allParas, headings, textIsChanged);
-    mDocHandler.getTextLevelCheckQueue().addQueueEntry(nStart, nEnd, nCache, nCheck, docId, resetCheck);
+    if(mDocHandler.isSortedRuleForIndex(nCache)) {
+      int nStart = getStartOfParaCheck(nPara, nCheck, allParas, headings, textIsChanged);
+      int nEnd = getEndOfParaCheck(nPara, nCheck, allParas, headings, textIsChanged);
+      mDocHandler.getTextLevelCheckQueue().addQueueEntry(nStart, nEnd, nCache, nCheck, docId, resetCheck);
+    }
   }
   
   /**
@@ -1123,7 +1125,11 @@ class SingleDocument {
       //  One paragraph check (set by options or proof of footnote, etc.)
       if(paraNum < 0 || parasToCheck == 0) {
         textToCheck = fixLinebreak(paraText);
-        paragraphMatches = langTool.check(textToCheck, true, JLanguageTool.ParagraphHandling.ONLYPARA);
+        if(mDocHandler.isSortedRuleForIndex(cacheNum)) {
+          paragraphMatches = langTool.check(textToCheck, true, JLanguageTool.ParagraphHandling.ONLYPARA);
+        } else {
+          paragraphMatches = null;
+        }
         if(paragraphMatches == null || paragraphMatches.isEmpty()) {
           if (paraNum < 0) {
             singleParaCache.put(0, new SingleProofreadingError[0]);
@@ -1208,7 +1214,10 @@ class SingleDocument {
       }
 
       String textToCheck = getDocAsString(paraNum, parasToCheck, allParas, headings, textIsChanged);
-      List<RuleMatch> paragraphMatches = langTool.check(textToCheck, true, JLanguageTool.ParagraphHandling.ONLYPARA);
+      List<RuleMatch> paragraphMatches = null;
+      if(mDocHandler.isSortedRuleForIndex(cacheNum)) {
+        paragraphMatches = langTool.check(textToCheck, true, JLanguageTool.ParagraphHandling.ONLYPARA);
+      }
       
       int startPara = getStartOfParaCheck(paraNum, parasToCheck, allParas, headings, textIsChanged);
       int endPara = getEndOfParaCheck(paraNum, parasToCheck, allParas, headings, textIsChanged);
