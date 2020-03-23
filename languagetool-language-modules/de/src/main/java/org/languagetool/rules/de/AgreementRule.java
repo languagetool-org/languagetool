@@ -210,7 +210,7 @@ public class AgreementRule extends Rule {
       posRegex("PKT|KON:NEB|ZUS")// "Ist das Kunst?" / "Ist das Kunst oder Abfall?" / "Sind das Eier aus Bodenhaltung"
     ),
     Arrays.asList( // Die Präsent AG
-      tokenRegex("Präsent|Windhorst"),
+      tokenRegex("Präsent|Windhorst|Energiedienst"),
       token("AG")
     ),
     Arrays.asList(
@@ -308,7 +308,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(
       token("Private"),
-      tokenRegex("Equitys?")
+      tokenRegex("Equitys?|Clouds?")
     ),
     Arrays.asList(
       token("Personal"),
