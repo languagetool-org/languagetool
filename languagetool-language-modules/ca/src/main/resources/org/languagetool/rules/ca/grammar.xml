@@ -23988,7 +23988,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>mes<exception postag="_GN_MS"></exception></token>
+                        <token>mes<exception postag="_GN_MS"/></token>
                     </marker>
                     <token>que</token>
                 </pattern>
@@ -23997,6 +23997,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="més">ciutadanització, <marker>mes</marker> que no de modernització.</example>
                 <example>El mes que ve.</example>
                 <example>El mes que vulguis.</example>
+                <example>Un mes que ens ha deixat exhausts.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>un</token>
+                    <marker>
+                        <token>mes</token>
+                    </marker>
+                    <token>que</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </pattern>
+                <message>S'accentua quan és adjectiu.</message>
+                <suggestion>més</suggestion>
+                <example correction="més">Un <marker>mes</marker> que un altre.</example>
+                <example correction="més">Un <marker>mes</marker> que els altres.</example>
                 <example>Un mes que ens ha deixat exhausts.</example>
             </rule>
         </rulegroup>
