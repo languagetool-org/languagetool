@@ -163,6 +163,8 @@ public class CaseRuleTest {
     assertGood("Zur Versöhnung: Jüdische Gläubige sollen beten.");
     assertGood("Fast im Stundentakt wurden neue Infizierte gemeldet.");
     assertGood("Bert Van Den Brink");
+    assertGood("“In den meisten Bundesländern werden solche Studien per se nicht durchgeführt.”");
+    assertGood("Aber “in den meisten Bundesländern werden solche Studien per se nicht durchgeführt.”");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
