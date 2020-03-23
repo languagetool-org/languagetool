@@ -11770,6 +11770,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="AUTOMATIC_TRANSLATION" name="Z2) Errors de traductor automàtic">
+        <rule id="SOLO" name="solo/sol">
+            <pattern>
+                <token regexp="yes">un|el</token>
+                <marker>
+                    <token>solo</token>
+                </marker>
+                <token postag="AQ.[MC]S.|NC[MC]S.*|V.P..SM." postag_regexp="yes"><exception regexp="yes">fabulós|fantàstic|aclaparador|imaginatiu</exception></token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>sol</suggestion>? Correcte com a terme musical.</message>
+            <suggestion>únic</suggestion>
+            <example correction="sol|únic">Un <marker>solo</marker> delegat sindical</example>
+            <example correction="sol|únic">Un <marker>solo</marker> bisbe sindical</example>
+            <example correction="sol|únic">Un <marker>solo</marker> afortunat</example>
+        </rule>
         <rule id="BE_BEN" name="bé/ben">
             <pattern>
                 <marker>
