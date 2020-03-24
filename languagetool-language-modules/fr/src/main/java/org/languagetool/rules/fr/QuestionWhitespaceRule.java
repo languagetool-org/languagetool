@@ -62,13 +62,20 @@ public class QuestionWhitespaceRule extends Rule {
         new PatternTokenBuilder().tokenRegex("[\\(\\)D]").setIsWhiteSpaceBefore(false).build()
       ),
       Arrays.asList( // times like 23:20
-        new PatternTokenBuilder().tokenRegex("\\d{1,2}").build(),
+        new PatternTokenBuilder().tokenRegex(".*\\d{1,2}").build(),
         new PatternTokenBuilder().token(":").build(),
         new PatternTokenBuilder().tokenRegex("\\d{1,2}").build()
       ),
       Arrays.asList( // "??"
         new PatternTokenBuilder().tokenRegex("[?!]").build(),
         new PatternTokenBuilder().tokenRegex("[?!]").build()
+      ),
+      Arrays.asList( // mac address
+        new PatternTokenBuilder().tokenRegex("[a-z0-9]{2}").build(),
+        new PatternTokenBuilder().token(":").build(),
+        new PatternTokenBuilder().tokenRegex("[a-z0-9]{2}").build(),
+        new PatternTokenBuilder().token(":").build(),
+        new PatternTokenBuilder().tokenRegex("[a-z0-9]{2}").build()
       )
     );
 
