@@ -4,7 +4,7 @@
 Polish, Chinese, French, Russian, Italian, Dutch
 and [more languages](https://www.languagetool.org/languages/)**
 
-Version 4.9, 2020-03-24  
+Version 5.0-SNAPSHOT, 2020-xx-xx  
 Copyright (C) 2005-2020 the LanguageTool community and Daniel Naber (www.danielnaber.de)  
 https://www.languagetool.org
 

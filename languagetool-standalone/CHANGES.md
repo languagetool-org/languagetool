@@ -1,5 +1,11 @@
 # LanguageTool Change Log
 
+## 5.0-SNAPSHOT (release planned for 2020-06-26)
+
+...
+
+
+
 ## 4.9 (2020-03-24)
 
 #### Arabic
