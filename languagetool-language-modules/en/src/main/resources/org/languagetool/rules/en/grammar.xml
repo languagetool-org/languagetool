@@ -19764,6 +19764,7 @@ USA
             <example correction="replaced">This part must be <marker>replaces</marker> with caution.</example>
             <example>You must be kidding!</example>
         </rule>
+
         <rule id="DOES_NP_VBZ" name="'does' ... 3rd person verb (base verb)">
             <antipattern>
                 <token postag="WP"/>
@@ -19774,7 +19775,7 @@ USA
                 <token>does</token>
                 <token chunk="B-NP-singular" min="0"/>
                 <token chunk="I-NP-singular" min="0"/>
-                <token chunk="E-NP-singular"/>
+                <token chunk="E-NP-singular" regexp="yes">\p{L}+</token>
                 <marker>
                     <token postag="VBZ"/>
                 </marker>
@@ -19789,7 +19790,9 @@ USA
             <example>In this demonstration, the person who actually does this interesting work shows you how the...</example>
             <example>The device that does the signal processing samples the data at ...</example><!-- Chunker error (processing/B-VP), so the pattern cannot cause a false positive. -->
             <example>We know that whatever does each memory test slows the processing considerably.</example>
+            <example>But manufacturers know the wait — required because it takes additional studies of thousands of people to tell if a vaccine truly protects and does no harm — is hard for a frightened public.</example><!-- Premium #1076 -->
         </rule>
+
         <rule id="SENT_START_DOE" name="Doe (Does)">
             <pattern>
                 <token postag="SENT_START"/>
