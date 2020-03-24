@@ -15034,6 +15034,19 @@ USA
         </rule>
         <rulegroup id="THE_FRENCH" name="the french (French)">
             <url>https://www.merriam-webster.com/dictionary/French</url>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes" inflected="yes">pardon|excuse</token>
+                    <token>my</token>
+                    <token postag="JJ" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">french</token>
+                    </marker>
+                </pattern>
+                <message><suggestion>French</suggestion> needs to be capitalized in this context.</message>
+                <url>https://www.lexico.com/definition/pardon_my_french</url>
+                <example correction="French">Please excuse my <marker>french</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
@@ -31315,6 +31328,16 @@ USA
                 <token>mile</token>
                 <token>trip</token>
             </antipattern>
+            <antipattern><!-- dev speech: http error code -->
+                <token>502</token>
+                <token>bad</token>
+                <token>gateway</token>
+            </antipattern>
+            <antipattern><!-- dev speech: http error code -->
+                <token>504</token>
+                <token>Gateway</token>
+                <token regexp="yes">Time-?out</token>
+            </antipattern>
             <pattern>
                 <token postag="CD">
                     <exception scope="previous" spacebefore="no" regexp="yes">[^,]</exception>
@@ -31487,8 +31510,8 @@ USA
             <example>They discussed 3 newer <marker>pattern runs</marker> in the meeting.</example><!--  #2167 -->
             <example>Only 1 in 12 stay and are happy with our service.</example><!--  #2167 -->
             <example>When they came back with a £33 billion bid, CBS could not refuse.</example><!-- #2440 -->
+            <example>But then he got 502 bad gateway.</example>
             <example type="triggers_error">When Sony came back with a 2 billion bid, CBS could not refuse.</example><!-- #2440 -->
-            <example type="triggers_error">But then he got 502 bad gateway.</example><!-- 2019-10-09 MFU adds: This is only an FP if '502 bad gateway' is emphasised (italics/bold) in the original text. -->
             <example type="triggers_error">England eventually faced a massive 707 run target for victory and failed, Australia winning the ...</example>
         </rule>
 
