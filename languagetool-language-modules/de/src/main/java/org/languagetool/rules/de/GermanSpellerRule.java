@@ -187,6 +187,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[äÄ]hlich(e[mnrs]?)?", "lich", "nlich");
     putRepl("entf[ai]ngen?", "ent", "emp");
     putRepl("entf[äi]ngs?t", "ent", "emp");
+    putRepl("[Bb]ehilfreich(e[rnms]?)", "reich", "lich");
     put("check", "checke");
     put("Rückrad", "Rückgrat");
     put("ala", "à la");
