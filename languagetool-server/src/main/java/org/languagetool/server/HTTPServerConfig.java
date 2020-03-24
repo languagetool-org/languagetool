@@ -1003,7 +1003,7 @@ public class HTTPServerConfig {
   }
 
   /**
-   * Clients that a A/B test runs on; null -> disabled
+   * Clients that a A/B test runs on; null -&gt; disabled
    * @since 4.9
    */
   @Experimental
@@ -1013,7 +1013,7 @@ public class HTTPServerConfig {
   }
 
   /**
-   * Clients that a A/B test runs on; null -> disabled
+   * Clients that a A/B test runs on; null -&gt; disabled
    * @since 4.9
    */
   @Experimental

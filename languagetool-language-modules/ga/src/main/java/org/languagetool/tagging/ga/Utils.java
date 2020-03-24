@@ -141,8 +141,6 @@ public class Utils {
    * Attempts to unlenite a string (See {@link #lenite(String)})
    * Deliberately does not check if first character is one
    * that ought to be lenited (this can be checked in XML rules)
-   * @param in
-   * @return
    */
   public static String unLenite(String in) {
     if (in.length() < 2) {
@@ -210,7 +208,7 @@ public class Utils {
 
   /**
    * Helper to uneclipse single-letter consonant eclipsis (i.e., not bhfear or
-   *  n-éin), handling miscapitalised eclipsed words: Gcarr -> Carr, etc.
+   *  n-éin), handling miscapitalised eclipsed words: Gcarr -&gt; Carr, etc.
    * @param in string to uneclipse
    * @param first first (eclipsis) character
    * @param second second character; first character of the word proper
