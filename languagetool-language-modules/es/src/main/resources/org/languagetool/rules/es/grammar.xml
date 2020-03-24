@@ -1881,6 +1881,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la">En este caso concurre <marker>el atenuante</marker> del pronto pago.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ADJ_NOUN" name="concordancias adj + nombre">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/> <!--only at sentence start, cannot be general without a lot more of disambiguation -->
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token postag="A.*" postag_regexp="yes"/>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Posible error de concordancia</message>
+                <example correction=""><marker>Buena tardes</marker></example>
+                <example correction=""><marker>Buenos día</marker></example>
+                <example correction=""><marker>Buenas noche</marker></example>
+            </rule>
+        </rulegroup>
         <!--Concordancias con verbos-->
         <!--CONC_V_PERSONA Concordancia de persona-->
         <rulegroup id="CONC_V_PERSONA" name="Concordancia de persona">
