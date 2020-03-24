@@ -108,6 +108,80 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
+        <rulegroup id="HALLA_HAYA" name="halla/haya">
+            <rule>
+                <antipattern>
+                    <token>se</token>
+                    <token>halla</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>halla</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>halla</token>
+                    </marker>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                </pattern>
+                <message>Probablemente hay que escribir <suggestion>haya</suggestion> (=pueda haber). Correcto si es del v. 'hallar' (=encuentra).</message>
+                <example correction="haya">No parece que <marker>halla</marker> comprado nada.</example>
+                <example correction="haya">Espero que te <marker>halla</marker> servido de ayuda.</example>
+                <example>Se halla situado en una colina.</example>
+                <example>Halla muerto a su hermana.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>halla</token>
+                    </marker>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                    <token>o</token>
+                </pattern>
+                <message>Probablemente hay que escribir <suggestion>haya</suggestion> (=pueda haber). Correcto si es del v. 'hallar' (=encuentra).</message>
+                <example correction="Haya"><marker>Halla</marker> muerto o no, hay que ir a buscarlo.</example>
+            </rule>
+            <rule id="SE_HALLA_SE_HAYA" name="se halla / se haya" default="temp_off"> <!-- This will cause a lot of false alarms, but it could be a usefull warning -->
+                <antipattern>
+                    <token>halla</token>
+                    <token postag="RG"/>
+                    <token regexp="yes">cerca|lejos</token>
+                </antipattern>
+                <antipattern>
+                    <token>en</token>
+                    <token min="0" postag="DA.*" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">que|cual</token>
+                    <token>se</token>
+                    <token>halla</token>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>que</token>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>el</token>
+                    <token>cual</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">que|cuando|cual</token>
+                    <marker>
+                        <token>se</token>
+                        <token>halla</token>
+                    </marker>
+                    <token postag="V.P..SM" postag_regexp="yes"><exception inflected="yes" regexp="yes">desproteger|proteger|asentar|ancorar|anclar|localizar|afectar|unir|envolver|abandonar|agazapar|agrupado|agrupar|colgar|despoblar|dividir|documentar|edificar|emplazar|enclavar|enterrar|extinguir|formar|habitar|incluir|integrar|registrar|salpicar|sepultar|situar|sumergir|ubicar|zurcido</exception></token>
+                </pattern>
+                <message>Correcto si es del v. 'hallarse' (=se encuentra, está). Incorrecto si es del v. haber (=pueda haber).</message>
+                <suggestion>se haya</suggestion>
+                <example correction="se haya">No parece que <marker>se halla</marker> comprado nada.</example>
+                <example correction="se haya">Nadie dice que <marker>se halla</marker> casado con ella.</example>
+                <example correction="se haya">La causa de que <marker>se halla</marker> castellanizado.</example>
+                <example correction="se haya">una situación singular que <marker>se halla</marker> llevado a cabo.</example>
+                <example>El problema es que se halla demasiado lejos.</example>
+                <example>descubrirá que Rodríguez se halla implicado </example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ONOMATOPEYAS" name="onomatopeyas">
             <url>http://aplica.rae.es/orweb/cgi-bin/v.cgi?i=UnaffUPrFKKTCxw,</url>
             <rule>
