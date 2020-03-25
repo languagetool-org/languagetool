@@ -128,6 +128,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Qué">¿<marker>Que</marker> te has dejado en casa?</example>
                 <example type="triggers_error">¿Que te has dejado las llaves en casa?</example> <!--This can't be detected, but infrequent-->
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[¿¡]</token>
+                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">cual|cuales|cuan|cuant(o|a|os|as)|cuando</token>
+                    </marker>
+                </pattern>
+                <message>Si es interrogativo o exclamativo, se escribe con tilde.</message>
+                <suggestion><match no="3" regexp_match="(?i)(.*u)a(.*)" regexp_replace="$1á$2"/></suggestion>
+                <example correction="Cuándo">¿<marker>Cuando</marker> vendrás?</example>
+                <example correction="cuándo">¿Para <marker>cuando</marker> lo quieres?</example>
+                <example correction="cuáles">¿Y de <marker>cuales</marker> se trata?</example>
+                <example correction="cuánto">¿Por <marker>cuanto</marker> lo vendes?</example>
+                <example correction="Cuán">¡<marker>Cuan</marker> bello es este libro!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[¿¡]</token>
+                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">quien|quienes</token>
+                    </marker>
+                </pattern>
+                <message>Si es interrogativo o exclamativo, se escribe con tilde.</message>
+                <suggestion><match no="3" regexp_match="(?i)(.*i)e(.*)" regexp_replace="$1é$2"/></suggestion>
+                <example correction="Quiénes">¿<marker>Quienes</marker> son?</example>
+                <example correction="quién">¿Pero para <marker>quien</marker> es?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[¿¡]</token>
+                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">como|donde|adonde</token>
+                    </marker>
+                </pattern>
+                <message>Si es interrogativo o exclamativo, se escribe con tilde.</message>
+                <suggestion><match no="3" regexp_match="(?i)(.*[cd])o(.*)" regexp_replace="$1ó$2"/></suggestion>
+                <example correction="Cómo">¿<marker>Como</marker> son?</example>
+                <example correction="dónde">¿Y de <marker>donde</marker> vienen?</example>
+                <example correction="dónde">¿Y a <marker>donde</marker> van?</example>
+                <example correction="adónde">¿Y <marker>adonde</marker> van?</example>
+                <example correction="Cómo">¡<marker>Como</marker> me gustan!</example>
+            </rule>
         </rulegroup>
     </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
