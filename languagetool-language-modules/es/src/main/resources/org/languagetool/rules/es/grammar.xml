@@ -107,6 +107,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Ha sido el <marker>invierno</marker> más frío que recuerdo.</example>
         </rule>
     </category>
+    <category id="DIACRITICS" name="diacríticos (tilde)">
+        <rulegroup id="QUE" name="que/qué">
+            <url>https://www.rae.es/consultas/tilde-en-que-cuales-quienes-como-cuan-cuantoaosas-cuando-donde-y-adonde</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[¿¡]</token>
+                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>Si es interrogativo (=qué cosa) o exclamativo, se escribe con tilde. Correcto sin tilde si la respuesta es "sí" o "no".</message>
+                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
+                <suggestion>qué</suggestion>
+                <example correction="Qué">¿<marker>Que</marker> quieres que te diga?</example>
+                <example correction="qué">¿Para <marker>que</marker> sirve?</example>
+                <example correction="qué">¿Y de <marker>que</marker> servirá?</example>
+                <example correction="qué">¿Por <marker>que</marker> has venido?</example>
+                <example correction="Qué">¿<marker>Que</marker> te has dejado en casa?</example>
+                <example type="triggers_error">¿Que te has dejado las llaves en casa?</example> <!--This can't be detected, but infrequent-->
+            </rule>
+        </rulegroup>
+    </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
         <rulegroup id="HALLA_HAYA" name="halla/haya">
             <rule>
