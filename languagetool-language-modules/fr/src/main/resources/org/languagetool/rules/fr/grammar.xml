@@ -8444,6 +8444,16 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
         <antipattern>
+            <token regexp="yes">images?</token>
+            <token regexp="yes">virtuelles?</token>
+            <token postag=".*m.*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag=".*f.*" postag_regexp="yes"/>
+            <token>windows</token>
+            <token regexp="yes">19(98|96)|98|96|8|10|vista</token>
+        </antipattern>
+        <antipattern>
             <token>la</token>
             <token>st</token>
             <token>.</token>
@@ -10962,12 +10972,16 @@ though, and has since been slightly modified)-->
                 <token postag="V avoir .*" postag_regexp="yes"><exception postag="N m p">avions</exception></token><marker>
                 <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa m s" postag_regexp="yes"/><exception>hélas</exception></token></marker>
             </pattern>
-            <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé .</message>
+            <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quand à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
             <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
-            <example correction="signé">Il a <marker>signer</marker> le contrat</example>
-            <example correction="signé">Elle a <marker>signez</marker> le contrat</example>
-            <example correction="reçu">Il a <marker>reçut</marker> ta lettre</example>
-            <example correction="mangé">J’ai <marker>manger</marker> de la soupe.</example>
+            <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
+            <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
+            <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+            <url>http://grammaire.reverso.net/4_1_05_accord_du_participe_passe_avec_avoir.shtml</url>
+            <example correction="signé|signée|signés|signées">Il a <marker>signer</marker> le contrat</example>
+            <example correction="signé|signée|signés|signées">Elle a <marker>signez</marker> le contrat</example>
+            <example correction="reçu|reçue|reçus|reçues">Il a <marker>reçut</marker> ta lettre</example>
+            <example correction="mangé|mangée|mangés|mangées">J’ai <marker>manger</marker> de la soupe.</example>
         </rule>
       <rule name="Aux avoir + V">
         <antipattern>
@@ -10981,12 +10995,16 @@ though, and has since been slightly modified)-->
             <token postag="V avoir .*" postag_regexp="yes"><exception postag="N m p">avions</exception></token><marker>
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/><exception>hélas</exception></token></marker>
         </pattern>
-        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé</message>
-<!--          <suggestion><match no="1" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"</suggestion>   #try to add suggestion by quadrupling every rule for f/m s/p -->
-        <example correction="">Il a <marker>signer</marker> le contrat</example>
-        <example correction="">Il a <marker>signez</marker> le contrat</example>
+        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quand à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
+          <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+          <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
+          <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
+          <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+          <url>http://grammaire.reverso.net/4_1_05_accord_du_participe_passe_avec_avoir.shtml</url>
+        <example correction="signé|signée|signés|signées">Il a <marker>signer</marker> le contrat</example>
+        <example correction="signé|signée|signés|signées">Il a <marker>signez</marker> le contrat</example>
         <example>Il a signé le contrat</example>
-        <example correction="">Il a <marker>reçut</marker> ta lettre</example>
+        <example correction="reçu|reçue|reçus|reçues">Il a <marker>reçut</marker> ta lettre</example>
         <example>Il a reçu ta lettre.</example>
         <example>Il a dû manger.</example>
         <example>Tu as beau pleurer.</example>
@@ -10996,7 +11014,7 @@ though, and has since been slightly modified)-->
         <example>J’ai toutes ces pommes à porter.</example>
         <example>J’ai cela en tête.</example>
         <example>Nous avons compris ce qui se passe.</example>
-        <example correction="">J’ai <marker>manger</marker> de la soupe.</example>
+        <example correction="mangé|mangée|mangés|mangées">J’ai <marker>manger</marker> de la soupe.</example>
         <example>J’ai <marker>mangé</marker> de la soupe.</example>
         <example>L’exposition au bisphénol A entraine des malformations.</example>
         <example>Les gros avions causent une forte pollution sonore.</example>
@@ -11011,10 +11029,14 @@ though, and has since been slightly modified)-->
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé</message>
-        <example correction="">J’ai bien <marker>manger</marker>.</example>
+        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quand à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
+          <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+          <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
+          <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
+          <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+          <url>http://grammaire.reverso.net/4_1_05_accord_du_participe_passe_avec_avoir.shtml</url>
+        <example correction="mangé|mangée|mangés|mangées">J’ai bien <marker>manger</marker>.</example>
         <example>J’ai bien <marker>mangé</marker>.</example>
-        <example correction="">Il a aussi <marker>permit</marker>.</example>
         <example>Il a aussi permis.</example>
       </rule>
       <rule>
@@ -11026,8 +11048,13 @@ though, and has since been slightly modified)-->
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé</message>
-        <example correction="">Je n’ai pas encore <marker>manger</marker>.</example>
+        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quand à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
+          <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+          <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
+          <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
+          <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+          <url>http://grammaire.reverso.net/4_1_05_accord_du_participe_passe_avec_avoir.shtml</url>
+        <example correction="mangé|mangée|mangés|mangées">Je n’ai pas encore <marker>manger</marker>.</example>
         <example>Je n’ai pas encore <marker>mangé</marker>.</example>
       </rule>
       <rule>
@@ -11037,9 +11064,14 @@ though, and has since been slightly modified)-->
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé</message>
-        <example correction="">Avez-vous <marker>signez</marker> le contrat ?</example>
-        <example correction="">Avez-vous <marker>signer</marker> le contrat ?</example>
+        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quand à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
+          <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+          <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
+          <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
+          <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+          <url>http://grammaire.reverso.net/4_1_05_accord_du_participe_passe_avec_avoir.shtml</url>
+        <example correction="signé|signée|signés|signées">Avez-vous <marker>signez</marker> le contrat ?</example>
+        <example correction="signé|signée|signés|signées">Avez-vous <marker>signer</marker> le contrat ?</example>
         <example>Avez-vous <marker>signé</marker> le contrat ?</example>
       </rule>
       <rule>
@@ -11050,9 +11082,14 @@ though, and has since been slightly modified)-->
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé</message>
-        <example correction="">Avez-vous déjà <marker>signez</marker> le contrat ?</example>
-        <example correction="">Avez-vous déjà <marker>signer</marker> le contrat ?</example>
+        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quand à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
+          <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+          <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
+          <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
+          <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+          <url>http://grammaire.reverso.net/4_1_05_accord_du_participe_passe_avec_avoir.shtml</url>
+        <example correction="signé|signée|signés|signées">Avez-vous déjà <marker>signez</marker> le contrat ?</example>
+        <example correction="signé|signée|signés|signées">Avez-vous déjà <marker>signer</marker> le contrat ?</example>
         <example>Avez-vous déjà <marker>signé</marker> le contrat ?</example>
       </rule>
     </rulegroup>
@@ -11203,7 +11240,6 @@ though, and has since been slightly modified)-->
         <example correction="">Je ne l’y <marker>ait</marker> pas vu.</example>
         <example>Je ne l’y <marker>ai</marker> pas vu.</example>
       </rule>
-
       <rule name="tu token + verbe">
         <pattern>
           <token>tu</token>
@@ -11275,7 +11311,6 @@ though, and has since been slightly modified)-->
         <example correction="">Tu ne m’en <marker>parle</marker> pas</example>
         <example>Tu ne m’en <marker>parles</marker> pas</example>
       </rule>
-
       <rule name="il/elle/on + 0 tokens + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
@@ -11876,8 +11911,9 @@ though, and has since been slightly modified)-->
           <marker><token postag="V.* [12] .*" postag_regexp="yes"><exception postag="[NJ].*|V.* 3 .*|V.* inf" postag_regexp="yes"/></token></marker>
           <token><exception regexp="yes">tu|je|[nv]ous|donc</exception></token>
         </pattern>
-        <message>Le verbe « \2 » devrait être à la 3e personne.</message>
-        <example correction="">Que <marker>serai</marker> la terre sans l’homme ?</example>
+        <message>Le verbe « \2 » devrait être à la 3e personne. Cette suggestion respecte le mode et le temps que vous avez employés, vérifiez qu'elle soit bien correcte.</message>
+          <suggestion><match no="2" postag="(V.*) [12] (.*)" postag_regexp="yes" postag_replace="$1 3 $2"/></suggestion>
+        <example correction="sera">Que <marker>serai</marker> la terre sans l’homme ?</example>
         <example>Que serait la terre sans l’homme ?</example>
         <example>C’est là que volèrent la reine et son essaim.</example>
         <example>Je n’ai que mépris pour son comportement.</example>
@@ -11890,8 +11926,9 @@ though, and has since been slightly modified)-->
           <marker><token postag="V.* [12] .*" postag_regexp="yes"><exception postag="[NJ].*|V.* 3 .*|V.* inf" postag_regexp="yes"/></token></marker>
           <token><exception regexp="yes">tu|je|[nv]ous|donc</exception></token>
         </pattern>
-        <message>Le verbe « \3 » devrait être à la 3e personne.</message>
-        <example correction="">Jamais je ne pensais qu'<marker>arriverai</marker> le jour où je ne pourrais dire ça.</example>
+          <message>Le verbe « \2 » devrait être à la 3e personne. Cette suggestion respecte le mode et le temps que vous avez employés, vérifiez qu'elle soit bien correcte.</message>
+          <suggestion><match no="3" postag="(V.*) [12] (.*)" postag_regexp="yes" postag_replace="$1 3 $2"/></suggestion>
+        <example correction="arrivera">Jamais je ne pensais qu'<marker>arriverai</marker> le jour où je ne pourrais dire ça.</example>
         <example>Mieux vaut arriver tôt qu’arriver tard.</example>
         <example>Qu’as donc tu fait ?</example>
       </rule>
@@ -13699,8 +13736,9 @@ though, and has since been slightly modified)-->
         <token regexp="yes">très|trop</token>
         <token regexp="yes">assez|beaucoup|délicieux|meilleur|mieux|pire|terrible</token>
       </pattern>
-      <message>On n’emploie pas « \1 » avant un adjectif ou adverbe « \2 » exprimant un superlatif.</message>
-      <example correction="">J’ai <marker>trop beaucoup</marker> de travail.</example>
+      <message>Il est maladroit d'employer « \1 » avant un adjectif ou adverbe tel que « \2 » exprimant un superlatif.</message>
+        <suggestion><match no="2"/></suggestion>
+      <example correction="beaucoup">J’ai <marker>trop beaucoup</marker> de travail.</example>
       <example>J’ai trop de travail.</example>
     </rule>
     <rulegroup id="EST_CE_QUE" name="Est-ce que">
@@ -14082,8 +14120,9 @@ though, and has since been slightly modified)-->
           <token regexp="yes">.*[^ae][-‑‐]t[-‑‐](?:il|elle|on)<exception regexp="yes">(?:convainc|voilà)[-‑‐]t[-‑‐].*</exception></token>
         </pattern>
         <message>Le -t- euphonique n’est possible qu’avec les verbes se terminant en a ou e et avec le verbe convaincre.</message>
+          <suggestion><match no="1" regexp_match="([a-zàâéèêîôöùç]+)\-([a-zàâéèêîôöùç])\-([a-zàâéèêîôöùç]+)" regexp_replace="$1 $3"/></suggestion>
         <url>https://www.projet-voltaire.fr/regles-orthographe/mentend-il-ou-mentend-t-il/</url>
-        <example correction="">Quand <marker>arriveras-t-il</marker> ?</example>
+        <example correction="arriveras il">Quand <marker>arriveras-t-il</marker> ?</example>
         <example>Quand arrivera-t-il ?</example>
         <example>Quand arrive-t-il ?</example>
         <example>Vous convainc-t-il par ses arguments ?</example>
