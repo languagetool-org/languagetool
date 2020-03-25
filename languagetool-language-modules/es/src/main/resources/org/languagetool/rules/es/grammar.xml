@@ -233,7 +233,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="hayan">Cuando lo <marker>hallan</marker> acabado, me lo mandan.</example>
                 <example>Hallan muerto a un hombre de 50 años.</example>
             </rule>
-            <rule id="SE_HALLA_SE_HAYA" name="se halla / se haya" default="temp_off">
+            <rule id="SE_HALLA_SE_HAYA" name="se halla / se haya" default="off">
                 <!-- This will cause a lot of false alarms, but it could be a useful warning -->
                 <antipattern>
                     <token>halla</token>
@@ -275,7 +275,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El calor al que se halla sometido.</example>
             </rule>
             <!-- haya > halla -->
-            <rule>
+            <rule default="temp_off">
                 <pattern>
                     <marker>
                         <token>se</token>
@@ -288,7 +288,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Se halla"><marker>Se haya</marker> ubicado en el centro de la ciudad.</example>
                 <example correction="Se halla"><marker>Se haya</marker> situado al final de la avenida.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <antipattern>
                     <token regexp="yes">haya|hayan</token>
                     <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
@@ -307,7 +307,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Aunque se haya siempre pensado así.</example>
                 <example>Aunque se hayan hecho siempre así.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <antipattern>
                     <token postag="SENT_START"/>
                     <token>hayan</token>
@@ -2078,7 +2078,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la">En este caso concurre <marker>el atenuante</marker> del pronto pago.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ADJ_NOUN" name="concordancias adj + nombre" default="temp_off">
+        <rulegroup id="ADJ_NOUN" name="concordancias adj + nombre" default="off">
             <rule>
                 <pattern>
                     <token postag="SENT_START"/> <!--only at sentence start, cannot be general without a lot more of disambiguation -->
