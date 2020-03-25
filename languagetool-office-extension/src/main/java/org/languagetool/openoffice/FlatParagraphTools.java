@@ -208,7 +208,7 @@ public class FlatParagraphTools {
    */
   int getNumberOfAllFlatPara() {
     try {
-      XFlatParagraph xFlatPara = getCurrentFlatParagraph();
+      XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
           MessageHandler.printToLogFile("getNumberOfAllFlatPara: FlatParagraph == null");

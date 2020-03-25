@@ -19,6 +19,7 @@
 package org.languagetool.openoffice;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public class TextLevelCheckQueue {
   public static final int STOP_FLAG = 2;
   public static final int DISPOSE_FLAG = 3;
 
-  private List<QueueEntry> textRuleQueue = new ArrayList<QueueEntry>();  //  Queue to check text rules in a separate thread
+  private List<QueueEntry> textRuleQueue = Collections.synchronizedList(new ArrayList<QueueEntry>());  //  Queue to check text rules in a separate thread
   private Object queueWakeup = new Object();
   private MultiDocumentsHandler multiDocHandler;
   private SwJLanguageTool langTool;
@@ -76,18 +77,20 @@ public class TextLevelCheckQueue {
       if(!overrideRunning && nStart == lastStart && cacheNum == lastCache && docId.equals(lastDocId)) {
         return;
       }
-      for(int i = 0; i < textRuleQueue.size(); i++) {
-        QueueEntry entry = textRuleQueue.get(i);
-        if(entry.equals(queueEntry)) {
-          if(overrideRunning && !entry.overrideRunning) {
-            textRuleQueue.remove(i);
-            i--;
-            if(debugMode) {
-              MessageHandler.printToLogFile("remove queue entry: docId = " + entry.docId + ", nStart = " + entry.nStart + ", nEnd = " + entry.nEnd 
-                  + ", nCache = " + entry.nCache + ", nCheck = " + entry.nCheck + ", overrideRunning = " + entry.overrideRunning);
+      synchronized(textRuleQueue) {
+        for(int i = 0; i < textRuleQueue.size(); i++) {
+          QueueEntry entry = textRuleQueue.get(i);
+          if(entry.equals(queueEntry)) {
+            if(overrideRunning && !entry.overrideRunning) {
+              textRuleQueue.remove(i);
+              i--;
+              if(debugMode) {
+                MessageHandler.printToLogFile("remove queue entry: docId = " + entry.docId + ", nStart = " + entry.nStart + ", nEnd = " + entry.nEnd 
+                    + ", nCache = " + entry.nCache + ", nCheck = " + entry.nCheck + ", overrideRunning = " + entry.overrideRunning);
+              }
+            } else {
+              return;
             }
-          } else {
-            return;
           }
         }
       }
@@ -137,7 +140,9 @@ public class TextLevelCheckQueue {
    */
   public void setStop() {
     if(queueRuns) {
-      textRuleQueue.clear();
+      synchronized(textRuleQueue) {
+        textRuleQueue.clear();
+      }
       interruptCheck = true;
       QueueEntry queueEntry = new QueueEntry();
       queueEntry.setStop();
@@ -154,7 +159,9 @@ public class TextLevelCheckQueue {
    * all entries are removed; LanguageTool is new initialized
    */
   public void setReset() {
-    textRuleQueue.clear();
+    synchronized(textRuleQueue) {
+      textRuleQueue.clear();
+    }
     interruptCheck = true;
     if(debugMode) {
       MessageHandler.printToLogFile("reset queue");
@@ -171,15 +178,18 @@ public class TextLevelCheckQueue {
     if(debugMode) {
       MessageHandler.printToLogFile("dispose queue");
     }
-    if(!textRuleQueue.isEmpty()) {
-      for (QueueEntry queueEntry : textRuleQueue) {
-        if(docId.equals(queueEntry.docId)) {
-          textRuleQueue.remove(queueEntry);
-        }
-      }
-    }
     if(lastStart >= 0 && lastDocId.equals(docId)) {
       interruptCheck = true;
+    }
+    if(!textRuleQueue.isEmpty()) {
+      synchronized(textRuleQueue) {
+        for (int i = textRuleQueue.size() - 1; i >= 0; i--) {
+          QueueEntry queueEntry = textRuleQueue.get(i);
+          if(docId.equals(queueEntry.docId)) {
+            textRuleQueue.remove(queueEntry);
+          }
+        }
+      }
     }
   }
 
@@ -326,14 +336,16 @@ public class TextLevelCheckQueue {
       }
       for(;;) {
         queueWaits = false;
-        if(textRuleQueue.isEmpty()) {          
-          if(lastDocId != null) {
-            QueueEntry queueEntry = getNextQueueEntry(lastStart, lastCache, lastDocId);
-            if(queueEntry != null) {
-              interruptCheck = false;
-              textRuleQueue.add(queueEntry);
-              queueEntry = null;
-              continue;
+        if(textRuleQueue.isEmpty()) {
+          synchronized(textRuleQueue) {
+            if(lastDocId != null) {
+              QueueEntry queueEntry = getNextQueueEntry(lastStart, lastCache, lastDocId);
+              if(queueEntry != null) {
+                interruptCheck = false;
+                textRuleQueue.add(queueEntry);
+                queueEntry = null;
+                continue;
+              }
             }
           }
           synchronized(queueWakeup) {
@@ -350,8 +362,11 @@ public class TextLevelCheckQueue {
             }
           }
         } else {
-          QueueEntry queueEntry = textRuleQueue.get(textRuleQueue.size() - 1);
-          textRuleQueue.remove(textRuleQueue.size() - 1);
+          QueueEntry queueEntry;
+          synchronized(textRuleQueue) {
+            queueEntry = textRuleQueue.get(textRuleQueue.size() - 1);
+            textRuleQueue.remove(textRuleQueue.size() - 1);
+          }
           if(queueEntry.special == STOP_FLAG) {
             if(debugMode) {
               MessageHandler.printToLogFile("queue ended");
