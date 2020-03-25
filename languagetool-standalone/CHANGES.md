@@ -4,6 +4,9 @@
 
 ...
 
+#### English
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.83 - 2020-04-01)
+
 
 
 ## 4.9 (2020-03-24)
