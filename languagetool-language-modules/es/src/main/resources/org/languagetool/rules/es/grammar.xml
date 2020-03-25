@@ -170,7 +170,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>se</token>
                         <token>halla</token>
                     </marker>
-                    <token postag="V.P..SM" postag_regexp="yes"><exception inflected="yes" regexp="yes">desproteger|proteger|asentar|ancorar|anclar|localizar|afectar|unir|envolver|abandonar|agazapar|agrupado|agrupar|colgar|despoblar|dividir|documentar|edificar|emplazar|enclavar|enterrar|extinguir|formar|habitar|incluir|integrar|registrar|salpicar|sepultar|situar|sumergir|ubicar|zurcido</exception></token>
+                    <token postag="V.P..SM" postag_regexp="yes"><exception inflected="yes" regexp="yes">someter|desproteger|proteger|asentar|ancorar|anclar|localizar|afectar|unir|envolver|abandonar|agazapar|agrupado|agrupar|colgar|despoblar|dividir|documentar|edificar|emplazar|enclavar|enterrar|extinguir|formar|habitar|incluir|integrar|registrar|salpicar|sepultar|situar|sumergir|ubicar|zurcido</exception></token>
                 </pattern>
                 <message>Correcto si es del v. 'hallarse' (=se encuentra, está). Incorrecto si es del v. haber (=se pueda haber).</message>
                 <suggestion>se haya</suggestion>
@@ -180,6 +180,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="se haya">una situación singular que <marker>se halla</marker> llevado a cabo.</example>
                 <example>El problema es que se halla demasiado lejos.</example>
                 <example>descubrirá que Rodríguez se halla implicado </example>
+                <example>El calor al que se halla sometido.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ONOMATOPEYAS" name="onomatopeyas">
@@ -1885,12 +1886,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START"/> <!--only at sentence start, cannot be general without a lot more of disambiguation -->
+                    <marker>
                     <unify negate="yes">
                         <feature id="numero"/>
                         <feature id="genero"/>
                         <token postag="A.*" postag_regexp="yes"/>
                         <token postag="N.*" postag_regexp="yes"/>
                     </unify>
+                    </marker>
                 </pattern>
                 <message>Posible error de concordancia</message>
                 <example correction=""><marker>Buena tardes</marker></example>
