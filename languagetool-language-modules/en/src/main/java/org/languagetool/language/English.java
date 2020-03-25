@@ -297,6 +297,7 @@ public class English extends Language implements AutoCloseable {
       case "NON_STANDARD_COMMA":        return 1;   // prefer over spell checker
       case "NON_STANDARD_ALPHABETIC_CHARACTERS":        return 1;   // prefer over spell checker
       case "WONT_CONTRACTION":          return 1;   // prefer over WONT_WANT
+      case "THAN_THANK":                return 1;   // prefer over THAN_THEN
       case "PROFANITY":                 return 5;   // prefer over spell checker
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker

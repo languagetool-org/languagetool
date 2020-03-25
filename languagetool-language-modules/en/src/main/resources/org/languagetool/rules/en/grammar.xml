@@ -9683,6 +9683,7 @@ USA
                 <example>No, but thanks you douchebag.</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="THANK_THANKS" name="Thank (Thanks)">
             <url>https://www.merriam-webster.com/dictionary/thanks</url>
             <rule>
@@ -14802,7 +14803,10 @@ USA
         </rule>
         <rule id="WHO_NOUN" name="Noun following 'who'">
             <pattern>
-                <token>who</token>
+                <token>
+                    who
+                    <exception case_sensitive="yes">WHO</exception><!-- https://en.wikipedia.org/wiki/World_Health_Organization -->
+                </token>
                 <token postag='NN'>
                     <exception postag='VB'/>
                     <exception postag='VBD'/>
@@ -14814,6 +14818,7 @@ USA
             <message>A noun should not follow 'who'. Try changing to a verb or maybe to <suggestion>who is a \2</suggestion>.</message>
             <example correction="who is a participant">A student <marker>who participant</marker> in the program</example>
             <example>To all who haven't given up: ...</example>
+            <example>One of the earliest tests was developed in mainland China by the country's Center for Disease Control. By January 24, its protocol had been posted on the WHO website.</example>
         </rule>
         <rule id="THEY_WARE" name="'they ware' vs 'they were'">
             <pattern>
@@ -31506,7 +31511,7 @@ USA
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception regexp="yes">will|year|so|pst|well|still|have|had|wether|max</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
                         <exception regexp="yes">trained|mentioned|assisting|voting|caused|died|said|embedded|squared|captured|combined|killed|used|possible|yearly</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
@@ -31582,6 +31587,7 @@ USA
             <example>This is 3 H2O.</example>
             <example>25 mpg highway</example>
             <example>1521 and Master.</example>
+            <example>It has sold for at least 160 euro.</example>
             <example>3 more die in the Indian wars</example>
             <example>2 x wall mounted TV screens</example>
             <example>The primary 911 responder.</example>
@@ -40714,6 +40720,32 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rule id="THAN_THANK" name="Than (Thank) you" default="temp_off">
+            <antipattern>
+                <token>you</token>
+                <token postag="RB" min="0" />
+                <token postag="MD|VB.*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token>you</token>
+                <token regexp="yes">&apostrophe;</token>
+            </antipattern>
+            <pattern>
+                <or>
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+                    <token inflected="yes">say</token>
+                </or>
+                <marker>
+                    <token>than</token>
+                    <token>you</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2" regexp_match="(?i)han" regexp_replace="hank" /> <match no="3" /></suggestion>?</message>
+            <example correction="Thank you"><marker>Than you</marker></example>
+            <example correction="Thank you"><marker>Than you</marker> so much for your response.</example>
+            <example correction="thank you">But <marker>than you</marker> very much.</example>
+            <example correction="thank you">I have to say <marker>than you</marker> for your help.</example>
+        </rule>
         <rulegroup id="TRY_TRIAL" name="try (trial) and error">
             <url>https://www.lexico.com/definition/trial_and_error</url>
             <rule>
