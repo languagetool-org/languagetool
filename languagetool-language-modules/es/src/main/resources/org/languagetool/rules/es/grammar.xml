@@ -218,7 +218,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablemente hay que escribir <suggestion>haya</suggestion> (=pueda haber). Correcto si es del v. 'hallar' (=encuentra).</message>
                 <example correction="Haya"><marker>Halla</marker> muerto o no, hay que ir a buscarlo.</example>
             </rule>
-            <rule id="SE_HALLA_SE_HAYA" name="se halla / se haya" default="temp_off"> <!-- This will cause a lot of false alarms, but it could be a usefull warning -->
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>hallan</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>hallan</token>
+                    </marker>
+                    <token postag="V.P..SM" postag_regexp="yes"><exception postag="A.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Probablemente hay que escribir <suggestion>hayan</suggestion> (v. haber). Correcto si es del v. 'hallar' (=encuentran).</message>
+                <example correction="hayan">Cuando lo <marker>hallan</marker> acabado, me lo mandan.</example>
+                <example>Hallan muerto a un hombre de 50 años.</example>
+            </rule>
+            <rule id="SE_HALLA_SE_HAYA" name="se halla / se haya" default="temp_off">
+                <!-- This will cause a lot of false alarms, but it could be a useful warning -->
                 <antipattern>
                     <token>halla</token>
                     <token postag="RG"/>
@@ -248,7 +264,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="V.P..SM" postag_regexp="yes"><exception inflected="yes" regexp="yes">someter|desproteger|proteger|asentar|ancorar|anclar|localizar|afectar|unir|envolver|abandonar|agazapar|agrupado|agrupar|colgar|despoblar|dividir|documentar|edificar|emplazar|enclavar|enterrar|extinguir|formar|habitar|incluir|integrar|registrar|salpicar|sepultar|situar|sumergir|ubicar|zurcido</exception></token>
                 </pattern>
-                <message>Correcto si es del v. 'hallarse' (=se encuentra, está). Incorrecto si es del v. haber (=se pueda haber).</message>
+                <message>Correcto si es del v. 'hallarse' (=se encuentra, está). Incorrecto si es del v. 'haber'.</message>
                 <suggestion>se haya</suggestion>
                 <example correction="se haya">No parece que <marker>se halla</marker> comprado nada.</example>
                 <example correction="se haya">Nadie dice que <marker>se halla</marker> casado con ella.</example>
@@ -257,6 +273,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El problema es que se halla demasiado lejos.</example>
                 <example>descubrirá que Rodríguez se halla implicado </example>
                 <example>El calor al que se halla sometido.</example>
+            </rule>
+            <!-- haya > halla -->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>se</token>
+                        <token>haya</token>
+                    </marker>
+                    <token postag="V.P..SM" postag_regexp="yes" inflected="yes" regexp="yes">someter|desproteger|proteger|asentar|ancorar|anclar|localizar|afectar|unir|envolver|abandonar|agazapar|agrupado|agrupar|colgar|despoblar|dividir|documentar|edificar|emplazar|enclavar|enterrar|extinguir|formar|habitar|incluir|integrar|registrar|sepultar|situar|sumergir|ubicar</token>
+                </pattern>
+                <message>Incorrecto si es del v. 'hallarse' (=se encuentra, está). Correcto si es del v. 'haber'.</message>
+                <suggestion>se halla</suggestion>
+                <example correction="Se halla"><marker>Se haya</marker> ubicado en el centro de la ciudad.</example>
+                <example correction="Se halla"><marker>Se haya</marker> situado al final de la avenida.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">haya|hayan</token>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>se</token>
+                    <token regexp="yes">haya|hayan</token>
+                </pattern>
+                <message>Incorrecto si es del v. 'hallarse' (=se encuentra, está). Correcto si es del v. 'haber'.</message>
+                <suggestion>se <match no="2" regexp_match="(?i)(ha)y(an?)" regexp_replace="$1ll$2"/></suggestion>
+                <example correction="Se halla"><marker>Se haya</marker> en el centro de la ciudad.</example>
+                <example correction="se halla">No <marker>se haya</marker> en ninguna parte.</example>
+                <example correction="se hallan">No <marker>se hayan</marker> en ninguna parte.</example>
+                <example correction="se hallan">¿Dónde <marker>se hayan</marker> ubicados?</example>
+                <example>Aunque se haya siempre pensado así.</example>
+                <example>Aunque se hayan hecho siempre así.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>hayan</token>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                    <token>o</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token>hayan</token>
+                    <token postag="V.P..SM" postag_regexp="yes" skip="4"/>
+                    <token>hayan</token>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>hayan</token>
+                    </marker>
+                </pattern>
+                <message>Incorrecto si es del v. 'hallarse' (=encuentran). Correcto si es del v. 'haber'.</message>
+                <example correction="Hallan"><marker>Hayan</marker> muerto a un hombre.</example>
+                <example>Hayan muerto o no, no nos importa.</example>
+                <example>Hayan hecho lo que hayan hecho, no me importa.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ONOMATOPEYAS" name="onomatopeyas">
@@ -1515,7 +1589,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token regexp="yes">.+<exception postag="V.P.+|PP3.*|UNKNOWN" postag_regexp="yes"/></token>
             </pattern>
-            <message>Se conjuga el verbo Haber en plural para la tercera persona sólo si va seguido del participio de un verbo. <suggestion><match no="1" postag="V(.{3})3P(.)" postag_regexp="yes" postag_replace="V$13S$2"/></suggestion></message>
+            <message>El v. 'haber' se conjuga en plural para la tercera persona sólo si va seguido de un participio.</message>
+            <suggestion><match no="1" postag="V(.{3})3P(.)" postag_regexp="yes" postag_replace="V$13S$2"/></suggestion>
             <short>Verbo haber en plural sin participio.</short>
             <example correction="Hubo"><marker>Hubieron</marker> varios disparos</example>
             <example correction="Había"><marker>Habían</marker> como mínimo cinco.</example>
