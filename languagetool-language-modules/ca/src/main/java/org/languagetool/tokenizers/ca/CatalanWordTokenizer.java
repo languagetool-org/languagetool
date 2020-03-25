@@ -213,7 +213,7 @@ public class CatalanWordTokenizer extends WordTokenizer {
             l.add(s);
           }
           // some camel-case words containing hyphen (is there any better fix?)
-          if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill") 
+          else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill") 
               || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("ph-metre") 
               || s.equalsIgnoreCase("ph-metres")) {
             l.add(s);
