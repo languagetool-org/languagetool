@@ -11432,12 +11432,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="SPS.*"></disambig>
     </rule>
-    <rulegroup id="interjeccio_nom" name="interjecció i nom">
+    <rulegroup id="interjeccio" name="interjeccions">
         <rule>
             <pattern>
                 <token>,</token>
                 <marker>
-                    <token postag="I"><exception postag="_GN.*|DA.*" postag_regexp="yes" /></token>
+                    <token postag="I"><exception postag="_GN.*|DA.*|A.*" postag_regexp="yes" /></token>
                 </marker>
                 <token postag="N.*" postag_regexp="yes" />
             </pattern>
@@ -11447,14 +11447,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token postag="SENT_START" />
                 <marker>
-                    <token postag="I"><exception postag="_GN.*|DA.*" postag_regexp="yes" /></token>
+                    <token postag="I"><exception postag="_GN.*|DA.*|A.*" postag_regexp="yes" /></token>
                 </marker>
                 <token postag="N.*" postag_regexp="yes" />
             </pattern>
             <disambig action="filter" postag="I" />
         </rule>
-    </rulegroup>
-    <rulegroup id="interjeccio" name="interjeccions">
         <rule>
             <pattern>
                 <token postag="SENT_START|CC|_PUNCT.*" postag_regexp="yes"/>
@@ -11464,6 +11462,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="CC|_PUNCT.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="replace" postag="I" />
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">bo|bona</token>
+            </pattern>
+            <disambig action="remove" postag="I" />
         </rule>
     </rulegroup>
     <rule id="PI_N" name="pronom indefinit i nom">

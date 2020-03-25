@@ -2191,6 +2191,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="diferent cava|diferents caves">Es poden visitar <marker>diferents cava</marker>.</example>
                 <example>Es poden visitar diferents caves.</example>
             </rule>
+            <rule> <!-- quan el nom pot ser també verb -->
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                    <unify negate="yes">
+                        <feature id="nombre"/>
+                        <feature id="genere"/>
+                        <token postag="A.*" postag_regexp="yes"/>
+                        <token postag="N.*" postag_regexp="yes"/>
+                    </unify>
+                    </marker>
+                </pattern>
+                <message>Error de concordança.</message>
+                <example correction=""><marker>Bona tardes</marker></example>
+            </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_PARTICIPI_NOM" name="Concordances participi i nom">
             <antipattern>
@@ -10959,7 +10974,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </antipattern>
                 <pattern>
-                    <token inflected="yes" regexp="yes">traduir|èmfasi|consistir|basar|insistir|fonamentar|coincidir|raure|diferenciar|diferir|estar|fixar|centrar|trobar|resultar|assemblar|confiar|convenir|influir|recaure<exception postag="_GN_.*" postag_regexp="yes">estat</exception></token>
+                    <token inflected="yes" regexp="yes">traduir|èmfasi|consistir|basar|insistir|fonamentar|coincidir|radicar|raure|diferenciar|diferir|estar|fixar|centrar|trobar|resultar|assemblar|confiar|convenir|influir|recaure<exception postag="_GN_.*" postag_regexp="yes">estat</exception></token>
                     <token min="0" max="4" postag="RG|_PUNCT_CONT|.*LOC_ADV.*|&pronom_feble;" postag_regexp="yes"/>
                     <marker>
                         <token>en</token>
@@ -29056,6 +29071,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="PERMANEIXER" name="*permanèixer">
+            <pattern>
+                <token inflected="yes">permanèixer</token>
+            </pattern>
+            <message>Castellanisme.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">restar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">estar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">quedar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">romandre</match></suggestion>
+            <example correction="restava|estava|quedava|romania">Ell <marker>permaneixia</marker> quiet</example>
+            <example correction="restà|estigué|quedà|romangué">Ell <marker>permanegué</marker> quiet</example>
+            <example correction="restà|estigué|quedà|romangué">Ell <marker>permanesqué</marker> quiet</example>
+            <example correction="restar|estar|quedar|romandre">Has de <marker>permanéixer</marker> quiet</example>
+        </rule>
         <rule id="PAS_AL_DAVANT" name="pas *al davant/avant">
             <pattern>
                 <token regexp="yes" inflected="yes">pas|passa</token>
@@ -30384,24 +30413,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='Amb prou feines'><marker>Amb prou feines si</marker> poden fer-ho.</example>
             <example>Amb prou feines poden fer-ho.</example>
         </rule>
-        <rulegroup id="JAJAJA" name="jajaja">
+        <rulegroup id="JAJAJA" name="jajaja / ha, ha, ha">
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=ha+ha+ha&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=11603&amp;idHit=11603&amp;tipusFont=Fitxes+de+l%2527Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Onomatopeies+de+riure+%252F+%2527ja%252C+ja%252C+ja%2527+o+%2527ha%252C+ha%252C+ha%2527%253F&amp;tematica=&amp;tipusCerca=cerca.normes</url>
             <rule>
                 <pattern>
-                    <token>ja</token>
-                    <token min="1" max="10">ja</token>
+                    <token regexp="yes">j[aei]</token>
+                    <token min="1" max="10"><match no="0"/></token>
                 </pattern>
                 <message>Onomatopeia de la rialla.</message>
-                <suggestion>ha ha ha</suggestion>
-                <example correction="ha ha ha"><marker>ja ja ja ja</marker></example>
+                <suggestion><match no="1" regexp_match="(?i).(.)" regexp_replace="h$1"/>, <match no="1" regexp_match="(?i).(.)" regexp_replace="h$1"/>, <match no="1" regexp_match="(?i).(.)" regexp_replace="h$1"/></suggestion>
+                <example correction="ha, ha, ha"><marker>ja ja ja ja</marker></example>
+                <example correction="hi, hi, hi"><marker>ji ji ji ji</marker></example>
                 <example>Ja t'ho deia.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ja(ja)+</token>
+                    <token regexp="yes">[hj][aei]([hj][aei])+</token>
                 </pattern>
                 <message>Onomatopeia de la rialla.</message>
-                <suggestion>ha ha ha</suggestion>
-                <example correction="ha ha ha"><marker>jajajaja</marker></example>
+                <suggestion><match no="1" regexp_match="(?i).(.).*" regexp_replace="h$1"/>, <match no="1" regexp_match="(?i).(.).*" regexp_replace="h$1"/>, <match no="1" regexp_match="(?i).(.).*" regexp_replace="h$1"/></suggestion>
+                <example correction="ha, ha, ha"><marker>jajajaja</marker></example>
+                <example correction="ha, ha, ha"><marker>hahahaha</marker></example>
+                <example correction="he, he, he"><marker>jejejeje</marker></example>
+                <example correction="he, he, he"><marker>hehehehe</marker></example>
+                <example correction="hi, hi, hi"><marker>jijijiji</marker></example>
+                <example correction="hi, hi, hi"><marker>hihihihi</marker></example>
                 <example>Ja t'ho deia.</example>
             </rule>
         </rulegroup>
