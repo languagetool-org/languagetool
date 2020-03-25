@@ -31045,7 +31045,80 @@ TODO Write better examples
  </category>
 
  <category id='MISSPELLING' name="Erros Ortográficos" type="misspelling">
-
+    <rulegroup id="WHATSAPP" name="WhatsApp" default="temp_off">
+      <url>https://pt.wikipedia.org/wiki/WhatsApp</url>
+      <rule>
+        <pattern>
+          <token regexp="yes" case_sensitive="yes">whatsapp|WHATSAPP|Whatsapp</token>
+        </pattern>
+        <message>Você quis dizer <suggestion>WhatsApp</suggestion>?</message>
+        <example correction="WhatsApp"><marker>Whatsapp</marker> é um aplicativo multiplataforma de mensagens instantâneas.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>Whats</token>
+          <token>app</token>
+        </pattern>
+        <message>Você quis dizer <suggestion>WhatsApp</suggestion>?</message>
+        <example correction="WhatsApp"><marker>Whats app</marker> é um aplicativo multiplataforma de mensagens instantâneas.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="INSTAGRAM" name="Instagram" default="temp_off">
+      <url>https://pt.wikipedia.org/wiki/Instagram</url>
+      <rule>
+        <pattern>
+          <token case_sensitive="yes" regexp="yes">instagram|INSTAGRAM|InstaGram</token>
+        </pattern>
+        <message>Você quis dizer <suggestion>Instagram</suggestion>?</message>
+        <example correction="Instagram">O <marker>instagram</marker> foi criado por Kevin Systrom e Mike Krieger e lançado em outubro de 2010.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="GOOGLE" name="Google" default="temp_off">
+      <url>https://pt.wikipedia.org/wiki/Google</url>
+      <rule>
+        <pattern>
+          <token case_sensitive="yes" regexp="yes">google|GOOGLE</token>
+        </pattern>
+        <message>Você quis dizer <suggestion>Google</suggestion>?</message>
+        <example correction="Google">O <marker>google</marker> hospeda e desenvolve uma série de serviços e produtos baseados na internet e gera lucro principalmente através da publicidade pelo AdWords.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="YOUTUBE" name="YouTube" default="temp_off">
+      <url>https://pt.wikipedia.org/wiki/YouTube</url>
+      <rule>
+        <pattern>
+          <token case_sensitive="yes" regexp="yes">youtube|Youtube|YOUTUBE</token>
+        </pattern>
+        <message>Você quis dizer <suggestion>YouTube</suggestion>?</message>
+        <example correction="YouTube">O <marker>Youtube</marker> utiliza o codec de vídeo VP9 primariamente para disponibilizar o conteúdo, mas é utilizado também H.264.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>you</token>
+          <token>tube</token>
+        </pattern>
+        <message>Você quis dizer <suggestion>YouTube</suggestion>?</message>
+        <example correction="YouTube">O <marker>You tube</marker> utiliza o codec de vídeo VP9 primariamente para disponibilizar o conteúdo, mas é utilizado também H.264.</example>
+      </rule>
+    </rulegroup>
+    <rulegroup id="FACEBOOK" name="Facebook" default="temp_off">
+      <url>https://pt.wikipedia.org/wiki/Facebook</url>
+      <rule>
+        <pattern>
+          <token case_sensitive="yes" regexp="yes">facebook|FaceBook|FACEBOOK</token>
+        </pattern>
+        <message>Você quis dizer <suggestion>Facebook</suggestion>?</message>
+        <example correction="Facebook">O <marker>facebook</marker> foi fundado por Mark Zuckerberg e por seus colegas de quarto da faculdade Eduardo Saverin, Dustin Moskovitz e Chris Hughes.</example>
+      </rule>
+        <rule>
+        <pattern>
+          <token>face</token>
+          <token>book</token>
+        </pattern>
+        <message>Você quis dizer <suggestion>YouTube</suggestion>?</message>
+        <example correction="Facebook">O <marker>face book</marker> foi fundado por Mark Zuckerberg e por seus colegas de quarto da faculdade Eduardo Saverin, Dustin Moskovitz e Chris Hughes.</example>
+      </rule>
+    </rulegroup>
     <rule id='WRONG_REFLEXIVES' name="Contrações: Reflexivos '...mos-nos'">
     <!-- Created by Tiago F. Santos, Portuguese rule, 2017-09-22 -->
       <pattern>
