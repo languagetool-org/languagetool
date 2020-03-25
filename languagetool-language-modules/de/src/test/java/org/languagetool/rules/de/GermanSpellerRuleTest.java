@@ -422,6 +422,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("gerähte", "Geräte", rule, lt);
     assertFirstSuggestion("pirsing", "Piercing", rule, lt);
     assertFirstSuggestion("behilfreiches", "behilfliches", rule, lt);
+    assertFirstSuggestion("einsichtbar", "einsehbar", rule, lt);
   }
 
   @Test

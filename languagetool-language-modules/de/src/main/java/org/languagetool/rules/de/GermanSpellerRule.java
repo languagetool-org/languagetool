@@ -478,6 +478,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("[mM]edikamentation", "Medikation");
     put("[nN][ei]gliche", "Negligé");
     put("palletten?", w -> Arrays.asList(w.replaceFirst("pall", "Pal"), w.replaceFirst("pa", "Pai")));
+    put("[pP]allete", "Palette");
     put("Geräuch", w -> Arrays.asList("Geräusch", "Gesträuch"));
     put("[sS]chull?igung", "Entschuldigung");
     put("Geerte", "geehrte");
@@ -848,6 +849,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Dammbock", w -> Arrays.asList("Dambock", "Rammbock"));
     put("Dammhirsch", "Damhirsch");
     put("Fairnis", "Fairness");
+    put("auschluss", w -> Arrays.asList("Ausschluss", "Ausschuss"));
+    put("derikter", w -> Arrays.asList("direkter", "Direktor"));
+    put("[iI]dentifierung", "Identifikation");
+    put("[eE]mphatie", "Empathie");
+    put("[eE]iskrem", "Eiscreme");
+    put("[fF]lüchtung", "Flucht");
+    put("einamen", "Einnahmen");
+    put("[eE]inbu(ss|ß)ung", "Einbuße");
+    put("[eE]inbu(ss|ß)ungen", "Einbußen");
+    putRepl("[eE]insichtbar(e[mnrs]?)?", "sicht", "seh");
     putRepl("asymetrisch(ere|ste)[mnrs]?$", "ym", "ymm");
     putRepl("alterwürdig(ere|ste)[mnrs]?$", "lter", "ltehr");
     putRepl("aufständig(ere|ste)[mnrs]?$", "ig", "isch");
