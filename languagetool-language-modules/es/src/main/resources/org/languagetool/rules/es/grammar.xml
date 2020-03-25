@@ -328,6 +328,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Incorrecto si es del v. 'hallarse' (=encuentran). Correcto si es del v. 'haber'.</message>
+                <suggestion>hallan</suggestion>
                 <example correction="Hallan"><marker>Hayan</marker> muerto a un hombre.</example>
                 <example>Hayan muerto o no, no nos importa.</example>
                 <example>Hayan hecho lo que hayan hecho, no me importa.</example>
@@ -1396,13 +1397,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--INF_PP_QUE Queísmo: convenceros que -> convenceros de que -->
             <rule id="INF_PP_QUE" name="Infinitivo tipo convencer + pron.pers + que">
                 <pattern>
-                    <token regexp="yes">(alegrar|enterar|informar|dudar|convencer|hartar|quejar|protestar)(me|te|l[ea][s]?|se|nos|os)</token>
+                    <token regexp="yes">(alegrar|alegrándo|enterar|enterándo|informar|dudar|convencer|hartar|quejar|protestar)(me|te|l[ea][s]?|se|nos|os)</token>
                     <token>que</token>
                 </pattern>
                 <message>En este contexto, el verbo va seguido normalmente de la preposición 'de': <suggestion>\1 de \2</suggestion></message>
                 <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
                 <example correction="alegrarse de que">Está bien <marker>alegrarse que</marker> haya dinero para todos.</example>
                 <example>No pareces <marker>enterarte de que</marker> todo está resuelto.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(dar|dándo)(me|te|l[ea][s]?|se|nos|os)</token>
+                    <token>cuenta</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, el verbo va seguido normalmente de la preposición 'de'.</message>
+                <suggestion>de que</suggestion>
+                <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
+                <example correction="de que">Está bien darse cuenta <marker>que</marker> no había dinero para todos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="P.*" postag_regexp="yes"/> <!--pronombre reflexivo-->
+                    <token inflected="yes" min="0">haber</token>
+                    <token inflected="yes">dar</token>
+                    <token>cuenta</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                </pattern>
+                <message>En este contexto, el verbo va seguido normalmente de la preposición 'de'.</message>
+                <suggestion>de que</suggestion>
+                <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
+                <example correction="de que">Se dio cuenta <marker>que</marker> no había dinero para todos.</example>
+                <example correction="de que">No se daba cuenta <marker>que</marker> no había dinero para todos.</example>
+                <example correction="de que">Se ha dado cuenta <marker>que</marker> no había dinero para todos.</example>
             </rule>
             <!-- ESTAR_SEGURO_QUE Queísmo: Estoy seguro que -> Estoy seguro de que -->
             <rule id="ESTAR_SEGURO_QUE" name="Estar + seguro + que">
