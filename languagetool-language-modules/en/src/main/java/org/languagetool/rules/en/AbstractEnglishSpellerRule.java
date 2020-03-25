@@ -30,6 +30,8 @@ import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.rules.translation.Translator;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
 import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -38,6 +40,7 @@ import java.util.stream.Stream;
 
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
+  private static Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
   private static final EnglishSynthesizer synthesizer = new EnglishSynthesizer(new English());
 
   private final BeoLingusTranslator translator;
@@ -226,6 +229,21 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
    */
   @Override
   protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
+
+    if (word.length() < 20 && word.matches("[a-zA-Z-]+.?")) {
+      List<String> prefixes = Arrays.asList("inter", "pre");
+      for (String prefix : prefixes) {
+        if (word.startsWith(prefix)) {
+          String lastPart = word.substring(prefix.length());
+          if (!isMisspelled(lastPart)) {
+            // as these are only single words and both the first part and the last part are spelled correctly
+            // (but the combination is not), it's okay to log the words from a privacy perspective:
+            logger.info("UNKNOWN-EN: " + word);
+          }
+        }
+      }
+    }
+
     if ("Alot".equals(word)) {
       return Arrays.asList("A lot");
     } else if ("alot".equals(word)) {
