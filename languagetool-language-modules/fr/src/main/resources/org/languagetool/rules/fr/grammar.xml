@@ -10949,7 +10949,27 @@ though, and has since been slightly modified)-->
       <example>Il faut soit partir, soit attendre.</example>
     </rule>
     <rulegroup id="AUX_AVOIR_VCONJ" name="Auxiliaire suivi d’un verbe conjugué">
-      <rule>
+        <rule name="Suj + Aux avoir + V">
+            <antipattern>
+                <token case_sensitive="yes">A<exception postag="SENT_START" scope="previous"/></token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">bisphénols?</token>
+                <token regexp="yes">(?-i)A</token>
+            </antipattern>
+            <pattern>
+                <token postag="Z|R pers suj.*" postag_regexp="yes" skip="1"/>
+                <token postag="V avoir .*" postag_regexp="yes"><exception postag="N m p">avions</exception></token><marker>
+                <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa m s" postag_regexp="yes"/><exception>hélas</exception></token></marker>
+            </pattern>
+            <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé .</message>
+            <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+            <example correction="signé">Il a <marker>signer</marker> le contrat</example>
+            <example correction="signé">Elle a <marker>signez</marker> le contrat</example>
+            <example correction="reçu">Il a <marker>reçut</marker> ta lettre</example>
+            <example correction="mangé">J’ai <marker>manger</marker> de la soupe.</example>
+        </rule>
+      <rule name="Aux avoir + V">
         <antipattern>
             <token case_sensitive="yes">A<exception postag="SENT_START" scope="previous"/></token>
         </antipattern>
