@@ -1073,63 +1073,74 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="más">No hay <marker>mas</marker>.</example>
             <!-- archaic or formal <example>Me gusta, mas no lo quiero</example>-->
         </rule>
-        <rule id="PAGINA" name="pagina/página">
-            <antipattern>
-                <token regexp="yes">los?|se</token>
-                <token regexp="yes">paginas?</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">paginas?</token>
-            </pattern>
-            <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'paginar'.</message>
-            <suggestion><match no="1" regexp_match="(?iu)(.)a(.*)" regexp_replace="$1á$2"/></suggestion>
-            <example correction="páginas">Copia las <marker>paginas</marker> 3 y 4.</example>
-            <example correction="Página"><marker>Pagina</marker> 34.</example>
-            <example>Este libro lo pagina con el programa de edición.</example>
-            <example>Se pagina al final del diseño.</example>
-        </rule>
-        <rule id="NUMERO" name="numero/número">
-            <antipattern>
-                <token regexp="yes">me|te|lo|la|le|nos|os|los|las|les</token>
-                <token>numero</token>
-            </antipattern>
-            <pattern>
-                <token>numero</token>
-            </pattern>
-            <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'numerar'.</message>
-            <suggestion>número</suggestion>
-            <example correction="número">Tengo un <marker>numero</marker> de lotería.</example>
-            <example correction="número">El <marker>numero</marker> 4.</example>
-            <example>La lista la numero secuencialmente.</example>
-            <example>Os numero por fecha de nacimiento.</example>
-        </rule>
-        <rule id="ULTIMA" name="ultima/útlima">
-            <antipattern>
-                <token regexp="yes">me|te|lo|le|nos|os|los|las|les|si|cuando|mientras|él|ella</token>
-                <token>ultima</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">me|te|lo|la|le|nos|os|los|les|si|cuando|mientras|tú</token>
-                <token>ultimas</token>
-            </antipattern>
-            <antipattern>
-                <token postag="NP.*" postag_regexp="yes"/>
-                <token regexp="yes">ultimas?</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">\p{Lu}\p{L}+</token>
-                <token regexp="yes">ultimas?</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">ultimas?</token>
-            </pattern>
-            <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'ultimar'.</message>
-            <suggestion><match no="1" regexp_match="(?i)u(ltimas?)" regexp_replace="ú$1"/></suggestion>
-            <example correction="última">Es mi <marker>ultima</marker> oferta.</example>
-            <example correction="últimas">Son las <marker>ultimas</marker> estimaciones.</example>
-            <example>Juan ultima los preparativos.</example>
-            <example>¿Me ultimas este trabajo?</example>
-        </rule>
+        <rulegroup id="TILDE_CASOS_PARTICULARES" name="tilde (casos particulares)">
+            <rule id="PAGINA" name="pagina/página">
+                <antipattern>
+                    <token regexp="yes">los?|se</token>
+                    <token regexp="yes">paginas?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">paginas?</token>
+                </pattern>
+                <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'paginar'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.)a(.*)" regexp_replace="$1á$2"/></suggestion>
+                <example correction="páginas">Copia las <marker>paginas</marker> 3 y 4.</example>
+                <example correction="Página"><marker>Pagina</marker> 34.</example>
+                <example>Este libro lo pagina con el programa de edición.</example>
+                <example>Se pagina al final del diseño.</example>
+            </rule>
+            <rule id="NUMERO" name="numero/número">
+                <antipattern>
+                    <token regexp="yes">me|te|lo|la|le|nos|os|los|las|les</token>
+                    <token>numero</token>
+                </antipattern>
+                <pattern>
+                    <token>numero</token>
+                </pattern>
+                <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'numerar'.</message>
+                <suggestion>número</suggestion>
+                <example correction="número">Tengo un <marker>numero</marker> de lotería.</example>
+                <example correction="número">El <marker>numero</marker> 4.</example>
+                <example>La lista la numero secuencialmente.</example>
+                <example>Os numero por fecha de nacimiento.</example>
+            </rule>
+            <rule id="ULTIMA" name="ultima/útlima">
+                <antipattern>
+                    <token regexp="yes">me|te|lo|le|nos|os|los|las|les|si|cuando|mientras|él|ella</token>
+                    <token>ultima</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">me|te|lo|la|le|nos|os|los|les|si|cuando|mientras|tú</token>
+                    <token>ultimas</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="NP.*" postag_regexp="yes"/>
+                    <token regexp="yes">ultimas?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}\p{L}+</token>
+                    <token regexp="yes">ultimas?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">ultimas?</token>
+                </pattern>
+                <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'ultimar'.</message>
+                <suggestion><match no="1" regexp_match="(?i)u(ltimas?)" regexp_replace="ú$1"/></suggestion>
+                <example correction="última">Es mi <marker>ultima</marker> oferta.</example>
+                <example correction="últimas">Son las <marker>ultimas</marker> estimaciones.</example>
+                <example>Juan ultima los preparativos.</example>
+                <example>¿Me ultimas este trabajo?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">acido|acida|acidas</token>
+                </pattern>
+                <message>Si es sustantivo o adjetivo, lleva tilde. Correcto si es del verbo 'acidar'.</message>
+                <suggestion><match no="1" regexp_match="(?i).(.*)" regexp_replace="á$1"/></suggestion>
+                <example correction="ácido">El <marker>acido</marker>.</example>
+                <example correction="ácidas">Las naranjas son <marker>acidas</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AUN" name="aún/anun">
             <!-- AÚN > AUN -->
             <rule>
