@@ -57,6 +57,7 @@ public class WordListValidatorTest {
           "herõon", // en
           "herõons", // en
           "Võro",  // en
+          "Łukasz",
           "Čakavian",
           "Erdoğan",
           "Štokavian",
