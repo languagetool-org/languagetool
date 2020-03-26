@@ -7414,6 +7414,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
+        <rule id="JOHNS_HOPKINS_UNIVERSITY" name="Johns Hopkins University" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Johns</token>
+                <token>Hopkins</token>
+                <token regexp="yes">University|Hospital|School</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Johns?</token>
+                <token regexp="yes">Hopkins?</token>
+                <token regexp="yes">University|Hospitals?|School|Krankenhaus(es)?|Universität|Institute?s?</token>
+            </pattern>
+            <message>Meinten Sie den Namen <suggestion>Johns Hopkins <match no="3" case_conversion="startupper" /></suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Johns_Hopkins_Hospital</url>
+            <example correction="Johns Hopkins Hospital">Das <marker>John Hopkins Hospital</marker> gilt als eines der besten Krankenhäuser der Vereinigten Staaten.</example>
+        </rule>
         <rule id="WHATS_APP" name="Whats App (WhatsApp)">
             <pattern>
                 <token>Whats</token>
