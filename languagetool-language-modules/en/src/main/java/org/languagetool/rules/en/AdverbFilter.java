@@ -111,6 +111,9 @@ public class AdverbFilter extends RuleFilter {
     put("slightly", "slight");
     put("merely", "mere");
     put("exceedingly", "exceeding");
+    put("physically", "physical");
+    put("enthusiastically", "enthusiastic");
+    put("incredibly", "incredible");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
