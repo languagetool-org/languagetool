@@ -6960,16 +6960,32 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="guarda-chuvas">Abram os <marker>guardas-chuvas</marker>.</example>
     </rule>
 
-    <rule id='HOUVERAM_MUITOS' name="Houve muitos">
-    <!-- Created by Marco A.G.Pinto -->
-      <pattern>
-          <token>houveram</token>
-          <token>muitos</token>
-      </pattern>
-      <message>Substitua por <suggestion>houve muitos</suggestion>.</message>
-      <example correction="houve muitos">No passado <marker>houveram muitos</marker> muitos acidentes.</example>
-    </rule>
-
+	<rulegroup id='HAVER' name="Verbo haver">
+		<!-- Created by Marco A.G.Pinto 2020-03-26 -->
+		<rule>
+		<pattern>
+			<marker>
+				<token>houveram</token>
+			</marker>
+			<token postag_regexp='yes' postag='DI0MP0|NC[FM]P000'/>
+		</pattern>
+		<message>O verbo haver é impessoal no sentido de existir.</message>
+		<suggestion>houve</suggestion>
+		<example correction="houve">No passado <marker>houveram</marker> muitos acidentes.</example>
+		</rule>
+		<rule>
+		<pattern>
+			<marker>
+				<token>haverem</token>
+			</marker>
+			<token postag_regexp='yes' postag='DI0MP0|NC[FM]P000'/>
+		</pattern>
+		<message>O verbo haver é impessoal no sentido de existir.</message>
+		<suggestion>haver</suggestion>
+		<example correction="haver">Espero <marker>haverem</marker> respostas.</example>
+		</rule>
+	</rulegroup>
+  
     <rule id='JÁ_MAIS' name="Confusão: já mais - jamais">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
