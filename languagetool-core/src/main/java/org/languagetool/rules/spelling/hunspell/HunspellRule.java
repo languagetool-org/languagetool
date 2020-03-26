@@ -46,10 +46,6 @@ import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
-import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.tools.Tools;
 
 import com.google.common.io.Resources;
@@ -68,7 +64,6 @@ public class HunspellRule extends SpellingCheckRule {
 
   protected static final String FILE_EXTENSION = ".dic";
 
-  protected final SuggestionsOrderer suggestionsOrderer;
   protected boolean needsInit = true;
   protected Hunspell hunspell = null;
 
@@ -76,7 +71,6 @@ public class HunspellRule extends SpellingCheckRule {
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
 
   private final boolean monitorRules;
-  private final boolean runningExperiment;
 
   public static Queue<String> getActiveChecks() {
     return activeChecks;
@@ -109,13 +103,6 @@ public class HunspellRule extends SpellingCheckRule {
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.userConfig = userConfig;
     this.monitorRules = System.getProperty("monitorActiveRules") != null;
-    if (SuggestionsChanges.isRunningExperiment("NewSuggestionsOrderer")) {
-      suggestionsOrderer = new SuggestionsOrdererFeatureExtractor(language, this.languageModel);
-      runningExperiment = true;
-    } else {
-      suggestionsOrderer = new XGBoostSuggestionsOrderer(language, languageModel);
-      runningExperiment = false;
-    }
   }
 
   @Override
@@ -240,27 +227,8 @@ public class HunspellRule extends SpellingCheckRule {
             }
             suggestions = filterSuggestions(suggestions, sentence, i);
             filterDupes(suggestions);
-
             // TODO user suggestions
-            // use suggestionsOrderer only w/ A/B - Testing or manually enabled experiments
-            if (runningExperiment) {
-              addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
-                suggestionsOrderer, ruleMatch);
-            } else if (userConfig != null && userConfig.getAbTest() != null &&
-              userConfig.getAbTest().equals("SuggestionsRanker") &&
-              suggestionsOrderer.isMlAvailable() && userConfig.getTextSessionId() != null) {
-              boolean testingA = userConfig.getTextSessionId() % 2 == 0;
-              if (testingA) {
-                addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
-                  null, ruleMatch);
-              } else {
-                addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
-                  suggestionsOrderer, ruleMatch);
-              }
-            } else {
-              addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
-                null, ruleMatch);
-            }
+            addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions, null, ruleMatch);
           } else {
             // limited to save CPU
             ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));

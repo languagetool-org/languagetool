@@ -36,9 +36,6 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
-import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.rules.translation.TranslationEntry;
 import org.languagetool.rules.translation.Translator;
 import org.languagetool.tools.Tools;
@@ -57,9 +54,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   protected Locale conversionLocale;
   protected final Language motherTongue;
   protected final GlobalConfig globalConfig;
-
-  private final SuggestionsOrderer suggestionsOrderer;
-  private final boolean runningExperiment;
 
   private boolean ignoreTaggedWords = false;
   private boolean checkCompound = false;
@@ -99,14 +93,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
     init();
     setLocQualityIssueType(ITSIssueType.Misspelling);
-
-    if (SuggestionsChanges.isRunningExperiment("NewSuggestionsOrderer")) {
-      suggestionsOrderer = new SuggestionsOrdererFeatureExtractor(language, this.languageModel);
-      runningExperiment = true;
-    } else {
-      runningExperiment = false;
-      suggestionsOrderer = new XGBoostSuggestionsOrderer(language, languageModel);
-    }
   }
 
   @Override
@@ -470,21 +456,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
         defaultSuggestions = joinBeforeAfterSuggestions(defaultSuggestions, beforeSuggestionStr, afterSuggestionStr);
         userSuggestions = joinBeforeAfterSuggestions(userSuggestions, beforeSuggestionStr, afterSuggestionStr);
         // use suggestionsOrderer only w/ A/B - Testing or manually enabled experiments
-        if (runningExperiment) {
-          addSuggestionsToRuleMatch(word,
-            userSuggestions, defaultSuggestions, suggestionsOrderer, ruleMatch);
-        } else if (userConfig != null && userConfig.getAbTest() != null &&
-          userConfig.getAbTest().equals("SuggestionsRanker") &&
-          suggestionsOrderer.isMlAvailable() && userConfig.getTextSessionId() != null) {
-          boolean testingA = userConfig.getTextSessionId() % 2 == 0;
-          if (testingA) {
-            addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, null, ruleMatch);
-          } else {
-            addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, suggestionsOrderer, ruleMatch);
-          }
-        } else {
-          addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, null, ruleMatch);
-        }
+        addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, null, ruleMatch);
         if (translationSuggestionCount > 0 && ruleMatch.getSuggestedReplacements().size() > translationSuggestionCount) {
           RuleMatch newRuleMatch = new RuleMatch(ruleMatch.getRule(), ruleMatch.getSentence(), ruleMatch.getFromPos(), ruleMatch.getToPos(),
             messages.getString("spelling") + " Translations to English are also offered.");
@@ -542,35 +514,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
   protected List<String> orderSuggestions(List<String> suggestions, String word) {
     return suggestions;
-  }
-
-  private List<String> orderSuggestions(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
-    List<String> orderedSuggestions;
-    if (userConfig != null && userConfig.getAbTest() != null && userConfig.getAbTest().equals("SuggestionsOrderer") &&
-      suggestionsOrderer.isMlAvailable() && userConfig.getTextSessionId() != null) {
-      boolean logGroup = Math.random() < 0.01;
-      if (logGroup) {
-        System.out.print("Running A/B-Test for SuggestionsOrderer ->");
-      }
-      if (userConfig.getTextSessionId() % 2 == 0) {
-        if (logGroup) {
-          System.out.println("in group A (using new ordering)");
-        }
-        orderedSuggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word, sentence, startPos);
-      } else {
-        if (logGroup) {
-          System.out.println("in group B (using old ordering)");
-        }
-        orderedSuggestions = orderSuggestions(suggestions, word);
-      }
-    } else {
-      if (suggestionsOrderer.isMlAvailable()) {
-        orderedSuggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word, sentence, startPos);
-      } else {
-        orderedSuggestions = orderSuggestions(suggestions, word);
-      }
-    }
-    return orderedSuggestions;
   }
 
   /**
