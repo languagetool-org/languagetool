@@ -35,7 +35,7 @@ public class PostReformPortugueseDashRule extends AbstractDashRule {
     super(trie);
     // super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Typographical);
-    setDefaultOff(); //     Slows down start up and checking time too much. See 20170916: https://languagetool.org/regression-tests/performance-data.csv
+    setDefaultTempOff(); //     Slows down start up and checking time too much. See 20170916: https://languagetool.org/regression-tests/performance-data.csv
   }
 
   @Override
