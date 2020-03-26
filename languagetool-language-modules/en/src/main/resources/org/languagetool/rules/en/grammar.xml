@@ -44734,6 +44734,30 @@ The accident victim died from her injuries.
             </rule>
         </rulegroup>
         <rulegroup id="KNOW_NOW" name="know (now)">
+            <rule default="temp_off">
+                <antipattern>
+                    <token skip="-1">now</token>
+                    <token regexp="yes">n?ever</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1" regexp="yes">n?ever</token>
+                    <token>now</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">don|didn|doesn</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <marker>
+                        <token>now</token>
+                    </marker>
+                    <token postag="PCT|W.*|JJ.*|IN" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>know</suggestion>?</message>
+                <example correction="know">I don't <marker>now</marker> where it comes from.</example>
+                <example>The show doesn’t now (nor did it ever) present Roseane’s character as unblemished.</example>
+                <example>Oh and I have never had a check engine light before and still don’t now.</example>
+                <example>We don’t now — and never will — share your location data with 3rd party advertisers or data monetization companies.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">was|been|were</token>
