@@ -2599,6 +2599,18 @@ USA
         <rulegroup id="VARY_VERY" name="vary (very)">
             <rule>
                 <pattern>
+                    <token>the</token>
+                    <marker>
+                        <token>vary</token>
+                    </marker>
+                    <token>end</token>
+                </pattern>
+                <message>Did you mean <suggestion>very</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="very">He insisted to do it until the <marker>vary</marker> end.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token inflected="yes" regexp="yes">be|of|the|an?|my|his|her|their|our|your</token>
                     <marker><token>vary</token></marker>
                     <token postag="JJ"/>
@@ -7075,7 +7087,7 @@ USA
                 <token>you</token>
                 <token regexp="yes">&adverb_abbreviations;|&verb_abbreviations;|&not_really_verbs;</token>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
                     <token postag="RB" min="0" />
@@ -7083,7 +7095,9 @@ USA
                         <token>you</token>
                     </marker>
                     <token postag="JJ.*" postag_regexp="yes" min="0" />
-                    <token postag="NN.*" postag_regexp="yes" />
+                    <token postag="NN.*" postag_regexp="yes">
+                        <exception>go</exception><!-- common verbs that are rarely used as nouns -->
+                    </token>
                     <token postag="MD" />
                     <token postag="RB.*" postag_regexp="yes" min="0" />
                     <token postag="VBP?" postag_regexp="yes" />
@@ -7101,8 +7115,9 @@ USA
                 <example>I don't think as many people as you think will be there.</example>
                 <example>What you eat right after you surf will really affect your energy for the next day’s session (or another later in the day).</example>
                 <example>Our instincts as schizophrenics tell us to isolate and avoid people but having a support system as you age can work wonders.</example>
+                <example>Everywhere you go will find the same scenery.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
                     <token postag="RB" min="0" />
@@ -7132,7 +7147,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">have|has|do|did|are|will|would</token>
+                    <token>have</token>
                     <marker><token>your</token></marker>
                     <token min="0">ever</token>
                     <token postag="VBN"></token>
@@ -10021,6 +10036,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+
         <rulegroup id="WORK_AROUND_COMPOUND" name="the work around (workaround)">
             <url>https://www.lexico.com/definition/workaround</url>
             <rule>
@@ -14909,7 +14925,7 @@ USA
                 <token regexp="yes">pits?</token>
             </antipattern>
             <antipattern><!-- https://en.wikipedia.org/wiki/Serie_A -->
-                <token regexp="yes">series?|angle|choice|plan|exhibit</token>
+                <token regexp="yes">series?|angle|choice|plan|exhibit|part</token>
                 <token>a</token>
             </antipattern>
             <antipattern><!-- https://en.equipauto.com/ -->
@@ -16311,7 +16327,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/reshipment</url>
                 <example correction="reshipment">The <marker>reship</marker> order number.</example>
             </rule>
-            <rule default="temp_off"><!-- the protect -->
+            <rule><!-- the protect -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -16320,13 +16336,13 @@ USA
                     <marker>
                         <token>protect</token>
                     </marker>
-                    <token postag="IN" />
+                    <token postag="IN|PCT" postag_regexp="yes" />
                 </pattern>
                 <message>The word "\3" is a verb. Did you mean the noun <suggestion>protection</suggestion>?</message>
                 <url>https://www.merriam-webster.com/dictionary/protection</url>
                 <example correction="protection">The <marker>protect</marker> of stray dogs is his first priority.</example>
             </rule>
-            <rule default="temp_off"><!-- the refinance -->
+            <rule><!-- the refinance -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -18057,6 +18073,21 @@ USA
                 <example correction="COVID-19|Covid-19"><marker>Covid</marker> originated in China.</example>
             </rule>
         </rulegroup>
+        <rule id="JOHNS_HOPKINS_UNIVERSITY" name="Johns Hopkins University" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Johns</token>
+                <token>Hopkins</token>
+                <token regexp="yes">University|Hospital|School</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Johns?</token>
+                <token regexp="yes">Hopkins?</token>
+                <token regexp="yes">University|Hospital|School</token>
+            </pattern>
+            <message>Did you mean the name <suggestion>Johns Hopkins <match no="3" case_conversion="startupper" /></suggestion>?</message>
+            <url>https://en.wikipedia.org/wiki/Johns_Hopkins_Hospital</url>
+            <example correction="Johns Hopkins Hospital">The <marker>John Hopkins Hospital</marker> (JHH) is a teaching hospital and biomedical research facility.</example>
+        </rule>
         <rule id="WHATS_APP" name="WhatsApp">
             <pattern>
                 <token>whats</token>
@@ -18613,6 +18644,40 @@ USA
             <url>https://www.lexico.com/definition/high-end</url>
             <example correction="high-end">The <marker>high end</marker> computer.</example>
         </rule>
+        <rulegroup id="MILE_HYPHEN" name="missing hyphen in '2 mile race'" default="temp_off">
+            <antipattern><!-- https://en.wikipedia.org/wiki/Seven_Mile_Beach,_Grand_Cayman -->
+                <token regexp="yes">seven|7</token>
+                <token>mile</token>
+                <token>beach</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token postag="CD" />
+                        <token>mile</token>
+                        <token regexp="yes">radius|run|race|marathon|drive|journey|warranty|flight|interval|commute|range|trip|roundtrip|trail|highway|walk|limit|freeway|line|hike|extension|distance</token>
+                    </marker>
+                </pattern>
+                <message>It seems that a hyphen is missing.</message>
+                <suggestion>\1-\2 \3</suggestion>
+                <example correction="10-mile race">He was wining the <marker>10 mile race</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token postag="CD" />
+                        <token>mile</token>
+                        <token postag="NN.*" postag_regexp="yes" />
+                    </marker>
+                </pattern>
+                <message>It seems that a hyphen is missing.</message>
+                <suggestion>\3-\4 \5</suggestion>
+                <example correction="10-mile race">He was wining the <marker>10 mile race</marker>.</example>
+                <example>Escape to the Cayman Islands and head for the famous Seven Mile Beach, ideal for swimming, diving, and other water sports.</example>
+            </rule>
+        </rulegroup>
         <rule id="END_TO_END_HYPHEN" name="missing hyphen in 'end-to-end">
             <pattern>
                 <marker>
@@ -30708,7 +30773,7 @@ USA
                     <token>month</token>
                 </marker>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
-                <token regexp="yes">routine|periods?|intervals?|cycles?|diets?|notice|plan|project|warranty|median|vacation|holiday|trip|milestone|pandemi[ac]|lockdown|shutdown</token>
+                <token regexp="yes">routine|periods?|intervals?|cycles?|diets?|notice|plan|project|warranty|median|vacation|holiday|trip|milestone|pandemi[ac]|lockdown|shutdown|term|contract</token>
             </pattern>
             <message>It seems that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -31145,7 +31210,7 @@ USA
                 <token regexp="yes">bab[ey]|darling|honey|sweetie|m[ao]mm?[ay]|daddy|papa</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">season|chapter|unit|module</token>
+                <token regexp="yes">season|chapter|ch|unit|module|scene|sheet</token>
                 <token postag="CD" />
             </antipattern>
             <antipattern>
@@ -31486,6 +31551,14 @@ USA
                 <token>Gateway</token>
                 <token regexp="yes">Time-?out</token>
             </antipattern>
+            <antipattern><!-- a 1,000 limit per person ... -->
+                <token regexp="yes">an?|the</token>
+                <token postag="JJ" min="0" />
+                <token regexp="yes">\d+</token>
+                <token min="0">,</token>
+                <token min="0" regexp="yes">\d+</token>
+                <token>limit</token>
+            </antipattern>
             <pattern>
                 <token postag="CD">
                     <exception scope="previous" spacebefore="no" regexp="yes">[^,]</exception>
@@ -31511,7 +31584,7 @@ USA
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception regexp="yes">will|year|so|pst|well|still|have|had|wether|max</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
                         <exception regexp="yes">trained|mentioned|assisting|voting|caused|died|said|embedded|squared|captured|combined|killed|used|possible|yearly</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
@@ -31623,6 +31696,7 @@ USA
             <example>Where did you two <marker>first</marker> meet each other?</example>
             <example>I live in 22761 Hamburg</example>
             <example>He resides in 5 New Jersey Boulevard.</example>
+            <example>He was introducing a 3,000 limit per transaction.</example>
             <example>He turns 80 next month.</example>
             <example>He was switching from 32 to 64 bit.</example>
             <example>He has a 4 page summary.</example>
@@ -37143,6 +37217,10 @@ The accident victim died from her injuries.
       <example correction='steps to take'>There are some <marker>steps to do</marker>.</example>
     </rule>
     <rule id="GOING_TO_VACATION" name="going on vacation">
+        <antipattern><!-- company name -->
+            <token>holiday</token>
+            <token>inn</token>
+        </antipattern>
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
       <pattern>
           <token inflected="yes">go</token>
@@ -37151,6 +37229,7 @@ The accident victim died from her injuries.
       </pattern>
       <message>The usual collocation for "\3" is "on." Did you mean <suggestion>\1 on \3</suggestion>?</message>
       <example correction='going on vacation'>She is <marker>going to vacation</marker>.</example>
+      <example>I will go to Holiday Inn and complain about my vacation.</example>
     </rule>
     <rule id="IN_FACEBOOK" name="I came by plane">
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
@@ -40720,7 +40799,7 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rule id="THAN_THANK" name="Than (Thank) you" default="temp_off">
+        <rule id="THAN_THANK" name="Than (Thank) you">
             <antipattern>
                 <token>you</token>
                 <token postag="RB" min="0" />
