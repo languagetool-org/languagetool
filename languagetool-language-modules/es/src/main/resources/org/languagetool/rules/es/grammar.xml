@@ -1135,10 +1135,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">acido|acida|acidas</token>
                 </pattern>
-                <message>Si es sustantivo o adjetivo, lleva tilde. Correcto si es del verbo 'acidar'.</message>
+                <message>Si es sustantivo o adjetivo, lleva tilde. Correcto si es del v. 'acidar'.</message>
                 <suggestion><match no="1" regexp_match="(?i).(.*)" regexp_replace="á$1"/></suggestion>
                 <example correction="ácido">El <marker>acido</marker>.</example>
                 <example correction="ácidas">Las naranjas son <marker>acidas</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes">haber</token>
+                    <token>placido</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">placid(o|a)s?</token>
+                </pattern>
+                <message>Si es adjetivo, lleva tilde. Correcto si es del v. 'placer'.</message>
+                <suggestion><match no="1" regexp_match="(?i)(.*l)a(.*)" regexp_replace="$1á$2"/></suggestion>
+                <example correction="plácida">Una <marker>placida</marker> estancia.</example>
+                <example>Me ha placido el resultado.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AUN" name="aún/anun">
