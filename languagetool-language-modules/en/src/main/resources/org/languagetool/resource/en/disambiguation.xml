@@ -3542,6 +3542,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule name="JJ + JJ/NN > NN + VB/NN > VB + NOUNPHRASE" id="JJ_NN_VB_NOUNPHRASE"><!-- This is based on the antipattern #2433 in DT_JJ_NN_NN and DT_JJ_NN_JJ -->
+        <antipattern><!-- Premium #1121 future research will no doubt -->
+             <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+             <token chunk="B-VP" postag="MD"/>
+            <token>no</token>
+            <token>doubt</token>
+            <token chunk="B-VP" postag="VBP"/>
+        </antipattern>
         <pattern>
             <token chunk="B-NP-singular" postag="JJ"/>
             <marker>
@@ -3552,6 +3559,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="filterall"/>
         <example type="untouched">MD not JJ. But we <marker>must</marker> all understand they are a fledgling business...</example>
+        <example type="untouched">MD: It's just one study though, and future research <marker>will</marker> no doubt add nuance to the overall picture.</example>
         <example type="ambiguous" inputform="safety[safety/JJ,safety/NN:U,safety/VB,safety/VBP]" outputform="safety[safety/NN:U]">... together with its education services and level of social <marker>safety</marker> make it attractive for locals and visitors alike.</example><!-- #2433 -->
         <example type="ambiguous" inputform="make[make/NN:UN,make/VB,make/VBP]" outputform="make[make/VBP]">... together with its education services and level of social safety <marker>make</marker> it attractive for locals and visitors alike.</example><!-- #2433 -->
         <example type="ambiguous" inputform="saw[saw/NN,saw/VB,saw/VBP,see/VBD]" outputform="saw[saw/VBP,see/VBD]">This period of Greek art <marker>saw</marker> a veneration of the human physical form.</example>
