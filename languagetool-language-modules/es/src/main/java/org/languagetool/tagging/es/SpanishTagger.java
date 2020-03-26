@@ -104,10 +104,10 @@ public class SpanishTagger extends BaseTagger {
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
     final IStemmer dictLookup = new DictionaryLookup(getDictionary());
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
-    // Any well-formed adverb with suffix -ment is tagged as an adverb (RG)
-    // adjective o participle feminine singular + -ment
-    if (word.endsWith("mente")) {
-      final String lowerWord = word.toLowerCase(conversionLocale);
+    // Any well-formed adverb with suffix -mente is tagged as an adverb (RG)
+    // adjective o participle feminine singular + -mente
+    final String lowerWord = word.toLowerCase(conversionLocale);
+    if (lowerWord.endsWith("mente")) {
       final String possibleAdj = lowerWord.replaceAll("^(.+)mente$", "$1");
       List<AnalyzedToken> taggerTokens;
       taggerTokens = asAnalyzedTokenList(possibleAdj, dictLookup.lookup(possibleAdj));

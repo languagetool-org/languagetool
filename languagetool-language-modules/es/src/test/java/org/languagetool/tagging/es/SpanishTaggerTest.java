@@ -45,6 +45,7 @@ public class SpanishTaggerTest {
   @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("destacadamente", "destacadamente/[destacadamente]RG", tokenizer, tagger);
+    TestTools.myAssert("DESTACADAMENTE", "DESTACADAMENTE/[destacadamente]RG", tokenizer, tagger);
     TestTools.myAssert("alucinadamente", "alucinadamente/[alucinadamente]RG", tokenizer, tagger);
     TestTools.myAssert("disputadamente", "disputadamente/[disputadamente]RG", tokenizer, tagger);
 
