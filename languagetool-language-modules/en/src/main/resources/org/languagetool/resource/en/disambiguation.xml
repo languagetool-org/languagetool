@@ -3116,6 +3116,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule name="IN/NN + PRP$ -&gt; IN" id="IN_NN_PRP">
+        <antipattern><!--  carrying out their -->
+            <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+            <token postag="RP"/>
+            <token postag="PRP$"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -3127,6 +3132,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig postag="IN"/>
         <example type="untouched">CC: CDC officials have said that <marker>while</marker> it's clear asymptomatic spread does happen, it does not...</example><!-- Premium #1079 -->
+        <example type="untouched">RP: ...to catch the suicide bombers downtown, prior to them carrying <marker>out</marker> their evil plan.</example>
     </rule>
 
     <!-- the known good solution -->
