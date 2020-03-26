@@ -5137,13 +5137,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token inflected="yes">obligar</token>
                         <token>a</token>
                     </marker>
-                    <token min="1" max="4" postag="[DAN].*|PX.*" postag_regexp="yes" spacebefore="yes"/>
+                    <token min="1" max="4" postag="[DAN].*|PX.*" postag_regexp="yes" spacebefore="yes"><exception inflected="yes">tot</exception></token>
                     <token>a</token>
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
                 <message>El v. 'obligar' és transitiu i sobra la preposició 'a'.</message>
                 <suggestion>\1</suggestion>
                 <example correction="obligava">Joan <marker>obligava a</marker> la seua filla a estudiar.</example>
+                <example>Ha obligat a tots a fer-ho.</example>
+                <example>Va obligar a tots els alumnes a córrer.</example>
             </rule>
             <rule>
                 <pattern>
@@ -17540,6 +17542,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>També s'explica perquè feien festa dilluns.</example>
                 <example>També s'ha explicat perquè feien festa dilluns.</example>
                 <example>ens explicava perquè entenguéssim què volia dir</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">preguntar</token>
+                    <marker>
+                        <token>perquè</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal escriure <suggestion>per què</suggestion> (=per quin motiu).</message>
+                <example correction="per què">Es preguntava <marker>perquè</marker> havia passat.</example>
+                <example correction="per què">Ens pregunta <marker>perquè</marker> passava això.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PER_QUE_PERQUE" name="*per què/perquè">
@@ -42662,6 +42675,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>els</suggestion>
                 <example correction="els">Amb <marker>es</marker> moixos.</example>
                 <example>Es portaren bé.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <and>
+                            <token postag="DA.*" postag_regexp="yes">s'</token>
+                            <token postag="_GN_FS"/>
+                        </and>
+                        <token postag="_GN_FS"/>
+                    </marker>
+                </pattern>
+                <message>Eviteu l'article salat.</message>
+                <suggestion>la \2</suggestion>
+                <suggestion>l'\2</suggestion>
+                <example correction="la imatge|l'imatge">La cova de <marker>s'imatge</marker>.</example>
+                <example>S'ha portat bé.</example>
             </rule>
         </rulegroup>
         <rule id="SEGUT" name="segut/sigut">
