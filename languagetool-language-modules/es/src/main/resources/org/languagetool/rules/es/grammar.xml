@@ -2718,6 +2718,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="revestía">Esto <marker>revertía</marker> gravedad.</example>
         </rule>
     </category>
+    <category id="PUNCTUATION" name="puntuación">
+        <rule id="YA_QUE" name="ya que que (con coma)" default="temp_off">
+            <!-- a lot of true positives expected -->
+            <pattern>
+                <token><exception postag="SENT_START"/></token>
+                <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception></token>
+                <marker>
+                    <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception></token>
+                    <token>ya</token>
+                    <token>que</token>
+                </marker>
+            </pattern>
+            <message>Como locución causal, se escribe con coma.</message>
+            <suggestion>\3, \4 \5</suggestion>
+            <suggestion>\3 porque</suggestion>
+            <example correction="profesional, ya que|profesional porque">Busque atención <marker>profesional ya que</marker> pueden deberse a una infección.</example>
+        </rule>
+        <rule id="PUESTO_QUE" name="puesto que (con coma)" default="temp_off">
+            <!-- a lot of true positives expected -->
+            <antipattern>
+                <token postag="D..[MC][SN].|SP\+DA" postag_regexp="yes"/>
+                <token min="0" postag="A..[MC][SN]." postag_regexp="yes"/>
+                <token>puesto</token>
+            </antipattern>
+            <pattern>
+                <token><exception postag="SENT_START"/></token>
+                <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception></token>
+                <marker>
+                    <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception></token>
+                    <token>puesto</token>
+                    <token>que</token>
+                </marker>
+            </pattern>
+            <message>Como locución causal, se escribe con coma.</message>
+            <suggestion>\3, \4 \5</suggestion>
+            <example correction="profesional, puesto que">Busque atención <marker>profesional puesto que</marker> pueden deberse a una infección.</example>
+            <example>Es un puesto que interesa.</example>
+            <example>Es un buen puesto que le gusta.</example>
+            <example>Cita un buen puesto que hayas tenido.</example>
+            <example>su mismo puesto que el año anterior</example>
+            <example>Se enfrentó al cuarto puesto que era el Madrid.</example>
+        </rule>
+    </category>
  <category id='TYPOGRAPHY' name="Tipografía" type="typographical">
     <rulegroup id="AM_PM" name="AM/PM">
         <rule>
