@@ -416,19 +416,11 @@ Copyright (C) 2011 Juan Martorell
     <rule>
       <pattern> 
         <token>según</token>
+        <token postag="P.*" postag_regexp="yes" min="0" max="2"/>
         <token postag="V.[MSI].*" postag_regexp="yes"/>
       </pattern>
       <disambig action="remove" postag="SPS00"/>
     </rule>
-    <rule>
-      <pattern> 
-        <token>según</token>
-        <token postag="P.*" postag_regexp="yes"/>
-        <token postag="V.[MSI].*" postag_regexp="yes"/>
-      </pattern>
-      <disambig action="remove" postag="SPS00"/>
-    </rule>
-
     <rule>
       <pattern> <!-- TODO: exceptions?-->
         <token postag="SPS00"><exception postag="LOC_ADV"/><exception regexp="yes">bajo|para|hasta</exception></token>

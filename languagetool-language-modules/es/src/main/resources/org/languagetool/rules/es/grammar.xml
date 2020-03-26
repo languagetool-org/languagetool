@@ -237,10 +237,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
+        <rule id="ALREDEDOR" name="*(a) alrededor">
+            <pattern>
+                <token>a</token>
+                <token>alrededor</token>
+            </pattern>
+            <message>Expresión preferible sin la preposción 'a'</message>
+            <suggestion>alrededor</suggestion>
+            <suggestion>al rededor</suggestion>
+            <suggestion>en rededor</suggestion>
+            <example correction="alrededor|al rededor|en rededor">Vino <marker>a alrededor</marker> de las cinco.</example>
+        </rule>
+        <rule id="LLEVAR_ACABO" name="llevar *acabo/a cabo">
+            <pattern>
+                <token inflected="yes" regexp="yes">llevar|echar</token>
+                <marker>
+                    <token>acabo</token>
+                </marker>
+            </pattern>
+            <message>Se escribe separado.</message>
+            <suggestion>a cabo</suggestion>
+            <suggestion>al cabo</suggestion>
+            <example correction="a cabo|al cabo">Lo llevó <marker>acabo</marker> con solvencia.</example>
+            <example correction="a cabo|al cabo">Hay que llevarlo <marker>acabo</marker> con solvencia.</example>
+        </rule>
         <rule id="SOBRETODO" name="sobretodo/sobre todo" default="temp_off">
             <!-- A lot of true positives expected! But the rule is right. -->
             <pattern>
-                <token>sobretodo<exception scope="previous" regexp="yes">el|un|al</exception></token>
+                <token>sobretodo<exception scope="previous" regexp="yes">el|un|al|del</exception></token>
             </pattern>
             <message>Se escribe separado si es una loc. adverbial (=especialmente), junto si es un sustantivo (=prenda de vestir).</message>
             <suggestion>sobre todo</suggestion>
@@ -789,6 +813,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <!-- MI_FINAL mi al final de la oración simepre es pronombre personal. -->
             <rule id="MI_TILDE" name="mi/mí">
+                <antipattern>
+                    <token>mi</token>
+                    <token postag="RG"/>
+                    <token postag="A.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="SPS00"/>
                     <marker>
@@ -803,6 +832,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mí">Ella estaba cerca de <marker>mi</marker>.</example>
                 <example>Me voy a mi casa.</example>
                 <example>Mi gran amigo Pedro.</example>
+                <example>a mi mejor amiga</example>
             </rule>
         </rulegroup>
         <rulegroup id="ESTA_TILDE" name="*esta/está">
@@ -1481,6 +1511,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>ya hasta las ves venir</example>
             <example>Ella no volverá hasta las cinco.</example>
             <example>no estará aquí hasta la una</example>
+            <example>Según se me dijo.</example>
         </rule>
         <rule id="SURGIR_EFECTO" name="*surgir/surtir efecto">
             <pattern>
@@ -2041,7 +2072,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="NOM_ADJ_PLURAL" name="Concordancia plural Nombre + adjetivo">
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token postag="N.{2}P.*|P.{3}P.*" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"/><exception regexp="yes">\p{Lu}\p{L}*</exception><exception negate_pos="yes" postag="N.{2}P.*|P.{3}P.*" postag_regexp="yes"/><exception inflected="yes" postag="" regexp="yes">me|nos|mí|conmigo|ti|contigo|lo|le|les|se|consigo|la|do</exception><exception regexp="yes">botones|veces</exception><exception regexp="yes" scope="next">[^\p{L}].*|al|del</exception></token>
+                        <token postag="N.{2}P.*|P.{3}P.*" postag_regexp="yes"><exception postag="SP.*" postag_regexp="yes" scope="previous"/><exception regexp="yes">\p{Lu}\p{L}*</exception><exception negate_pos="yes" postag="N.{2}P.*|P.{3}P.*" postag_regexp="yes"/><exception inflected="yes" postag="" regexp="yes">me|nos|mí|conmigo|ti|contigo|lo|le|les|se|consigo|la|do</exception><exception regexp="yes">botones|veces</exception><exception regexp="yes" scope="next">[^\p{L}].*|al|del</exception></token>
                         <token postag="A.{3}S.*" postag_regexp="yes"><exception postag="[VRCD].*|SP.*" postag_regexp="yes" scope="previous"/><exception scope="previous">del</exception><exception postag="R.*|SP.*" postag_regexp="yes"/><exception regexp="yes">clave|guía|extra|\p{Lu}\p{L}+</exception></token>
                     </marker>
                     <token postag=".+" postag_regexp="yes"><exception postag="C.*" postag_regexp="yes" regexp="yes">[;,]</exception></token>
@@ -2050,6 +2081,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Pintaremos las <marker>sillas verde</marker> de otro color.</example>
                 <example>Pintaremos las sillas verdes de otro color.</example>
                 <example>Y nos queda lo mejor.</example>
+                <example>Aquellos capitalistas cuyo único fin es ganar dinero.</example>
             </rule>
             <!-- LAS_CASAS Concordancia (las casa) -->
             <rule id="Las_Casa" name="las casa">
