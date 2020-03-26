@@ -2188,23 +2188,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la">En este caso concurre <marker>el atenuante</marker> del pronto pago.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ADJ_NOUN" name="concordancias adj + nombre" default="off">
+        <rulegroup id="BUENAS_TARDES" name="concordancia: buenas tardes">
+            <!-- this rule is necessary because "tardes" can be noun/verb-->
             <rule>
                 <pattern>
-                    <token postag="SENT_START"/> <!--only at sentence start, cannot be general without a lot more of disambiguation -->
-                    <marker>
-                    <unify negate="yes">
-                        <feature id="numero"/>
-                        <feature id="genero"/>
-                        <token postag="A.*" postag_regexp="yes"/>
-                        <token postag="N.*" postag_regexp="yes"/>
-                    </unify>
-                    </marker>
+                    <token>buenas</token>
+                    <token regexp="yes">tarda|tarde|tardas</token>
                 </pattern>
-                <message>Posible error de concordancia</message>
-                <example correction=""><marker>Buena tardes</marker></example>
-                <example correction=""><marker>Buenos día</marker></example>
-                <example correction=""><marker>Buenas noche</marker></example>
+                <message>Error de concordancia.</message>
+                <suggestion>buenas tardes</suggestion>
+                <example correction="Buenas tardes"><marker>Buenas tarde</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>buena</token>
+                    <token regexp="yes">tardes|tardas</token>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <suggestion>buenas tardes</suggestion>
+                <example correction="Buenas tardes"><marker>Buena tardes</marker>!</example>
+                <example>He tenido una buena tarde.</example>
             </rule>
         </rulegroup>
         <!--Concordancias con verbos-->
