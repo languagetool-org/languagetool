@@ -237,6 +237,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
+        <rule id="SOBRETODO" name="sobretodo/sobre todo" default="temp_off">
+            <!-- A lot of true positives expected! But the rule is right. -->
+            <pattern>
+                <token>sobretodo<exception scope="previous" regexp="yes">el|un|al</exception></token>
+            </pattern>
+            <message>Se escribe separado si es una loc. adverbial (=especialmente), junto si es un sustantivo (=prenda de vestir).</message>
+            <suggestion>sobre todo</suggestion>
+            <url>http://lema.rae.es/dpd/?key=todo</url>
+            <example correction="sobre todo">Me gusta <marker>sobretodo</marker> el verd.</example>
+            <example>Se compró un sobretodo</example>
+            <example>El sobretodo de Céspedes.</example>
+            <example>En alusión al sobretodo del sargento.</example>
+        </rule>
         <rulegroup id="HALLA_HAYA" name="halla/haya">
             <rule>
                 <antipattern>
