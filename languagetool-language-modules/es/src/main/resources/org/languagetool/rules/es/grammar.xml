@@ -2682,13 +2682,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="ESTE" name="éste/este">
             <pattern>
-                <token regexp="yes">ést(e|a|os|as)</token>
+                <token regexp="yes">ést?(e|a|os|as)</token>
             </pattern>
             <message>La tilde es innecesaria según la norma actual. Se puede usar en caso de ambigüedad.</message>
             <suggestion><match no="1" regexp_match="(?iu)é(.*)" regexp_replace="e$1"/></suggestion>
             <url>http://www.rae.es/consultas/el-adverbio-solo-y-los-pronombres-demostrativos-sin-tilde</url>
             <example correction="Este"><marker>Éste</marker> es el camino.</example>
             <example correction="este">En relación con <marker>éste</marker>.</example>
+            <example correction="esa">En relación con <marker>ésa</marker>.</example>
+        </rule>
+        <rule id="AQUEL" name="aquel/aquél" default="temp_off">
+            <pattern>
+                <token regexp="yes">aquél|aquéll(as?|os)</token>
+            </pattern>
+            <message>La tilde es innecesaria según la norma actual. Se puede usar en caso de ambigüedad.</message>
+            <suggestion><match no="1" regexp_match="(?iu)aqué(.*)" regexp_replace="aque$1"/></suggestion>
+            <url>http://www.rae.es/consultas/el-adverbio-solo-y-los-pronombres-demostrativos-sin-tilde</url>
+            <example correction="Aquel"><marker>Aquél</marker> es el camino.</example>
+            <example correction="aquellos">En relación con <marker>aquéllos</marker>.</example>
+        </rule>
+    </category>
+    <category id="CONFUSION" name="confusiones">
+        <rule id="REVERTIR_REVESTIR" name="revertir/revestir" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected="yes">revertir</token>
+                </marker>
+                <token min="0" max="2" postag="AQ.*|DI.*" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes">importancia|gravedad|peligro|riesgo|relevancia</token>
+            </pattern>
+            <message>¿Quería decir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">revestir</match></suggestion> (=presentar un carácter)?</message>
+            <short>Posible confusión</short>
+            <example correction="reviste">Esto <marker>revierte</marker> mucha importancia.</example>
+            <example correction="reviste">Esto <marker>revierte</marker> una gran gravedad.</example>
+            <example correction="revestía">Esto <marker>revertía</marker> gravedad.</example>
         </rule>
     </category>
  <category id='TYPOGRAPHY' name="Tipografía" type="typographical">
