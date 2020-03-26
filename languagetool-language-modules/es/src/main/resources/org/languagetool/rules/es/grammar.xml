@@ -2213,13 +2213,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule id="DET_NOM_FEM" name="Concordancia femenino en Determinante + nombre">
                 <pattern case_sensitive="yes">
-                    <token postag="D.{2}F.*" postag_regexp="yes"><exception postag="L_.*" postag_regexp="yes"/></token>
+                    <token postag="D.{2}F.*" postag_regexp="yes"/>
                     <token postag="N.{1}M.*" postag_regexp="yes"><exception negate_pos="yes" postag="N.{1}M.*" postag_regexp="yes"/><exception regexp="yes">botones|\p{Lu}\p{L}*</exception><exception inflected="yes" regexp="yes">la|do|número</exception></token>
                 </pattern>
                 <message>Posible falta de concordancia de género entre «\1» y «\2».</message>
                 <example correction="">Me gusta <marker>esa teléfono</marker> para ti.</example>
                 <example>Me gusta ese coche para ti.</example>
-                <example type="triggers_error" reason="need to improve multiwords disamiguation">Pero a la postre se fue.</example>
+                <example type="triggers_error" reason="need to improve multiwords disambiguation">Pero a la postre se fue.</example>
             </rule>
             <!-- DET_FEM_NOM_FEM Palabras que empiezan por fonema A tónico. -->
             <rule id="DET_FEM_NOM_FEM" name="Palabras que empiezan por fonema A tónico">
