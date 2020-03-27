@@ -29098,6 +29098,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="CURRICULUM" name="currículum / curriculum vitae">
+            <pattern>
+                <token regexp="yes">currículums?</token>
+                <token>vitae</token>
+            </pattern>
+            <message>Cal utilitzar la forma llatina o la forma adaptada.</message>
+            <suggestion>curriculum vitae</suggestion>
+            <suggestion>\1</suggestion>
+            <example correction="curriculum vitae|currículums">Els <marker>currículums vitae</marker>.</example>
+        </rule>
         <rule id="BANGLADESH" name="Bangladesh">
             <pattern>
                 <token>bangla</token>

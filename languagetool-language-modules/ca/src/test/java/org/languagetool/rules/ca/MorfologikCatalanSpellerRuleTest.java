@@ -350,6 +350,8 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("veure-hi", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("veurels"));
         assertEquals("veure'ls", matches[0].getSuggestedReplacements().get(0));
+        //matches = rule.match(langTool.getAnalyzedSentence("veuret"));
+        //assertEquals("veure't", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("veureles"));
         assertEquals("veure-les", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("lilla"));
