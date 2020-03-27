@@ -8160,11 +8160,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="DE_GENEROSAMENT" name="preposició + adv. -ment">
             <antipattern>
-                <marker>
-                    <token regexp="yes">igual|així|com</token>
-                    <token inflected="yes" min="0">estar</token>
-                    <token inflected="yes">de</token>
-                </marker>
+                <token regexp="yes">igual|així|com</token>
+                <token inflected="yes" min="0">estar</token>
+                <token inflected="yes">de</token>
+            </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token regexp="yes">lloc|comptes?</token>
+                <token inflected="yes">de</token>
             </antipattern>
             <pattern>
                 <marker>
@@ -8192,6 +8195,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>fins a pràcticament el final de la seva vida</example>
             <example>Com de malament ho fem?</example>
             <example>I com estaven de malament els temps?</example>
+            <example>Cal fer-ho verticalment en lloc d'horitzontalment.</example>
         </rule>
     </category>
     <category id="CONJUNCTIONS" name="Z) Conjuncions" type="grammar">
@@ -24877,6 +24881,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Que se li suïcidi la nit abans.</example>
             </rule>
             <rule>
+                <antipattern> <!-- onomatopeia del riure -->
+                    <token>hi</token>
+                    <token>,</token>
+                    <token>hi</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="&pronom_feble;" postag_regexp="yes"><exception postag="_GV_|_possible_nompropi" postag_regexp="yes"/><exception postag="allow_saxon_genitive"/><exception regexp="yes">te|es|us</exception><exception regexp="yes">(?-i)SE</exception></token>
@@ -24904,6 +24913,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Un objecte n'"encén" un altre.</example>
                 <example>A mi em va bé qualsevol cosa.</example>
                 <example>no admet que li "llegeixin la cartilla"</example>
+                <example>Hi, hi, hi</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOMS_FEBLES_TEMPS_VERBAL" name="Comprova temps verbal (infinitiu, gerundi, imperatiu): *diguéssim-li-ho">
@@ -29088,6 +29098,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="BANGLADESH" name="Bangladesh">
+            <pattern>
+                <token>bangla</token>
+                <token min="0">-</token>
+                <token>desh</token>
+            </pattern>
+            <message>S'escriu junt.</message>
+            <suggestion>Bangladesh</suggestion>
+            <example correction="Bangladesh">Faré un viatge a <marker>Bangla desh</marker>.</example>
+        </rule>
+        <rule id="A_LO_MILLOR" name="*a lo millor">
+            <pattern>
+                <token>a</token>
+                <token>lo</token>
+                <token>millor</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>potser</suggestion>
+            <suggestion>segons com,</suggestion>
+            <suggestion>si molt convé,</suggestion>
+            <example correction="Potser|Segons com,|Si molt convé,"><marker>A lo millor</marker> portarà un amic.</example>
+        </rule>
+        <rule id="EN_SERIO" name="*en serio">
+            <pattern>
+                <token>en</token>
+                <token regexp="yes">sèrio|serio</token>
+            </pattern>
+            <message>Expressió incorrecta.</message>
+            <suggestion>de debò</suggestion>
+            <suggestion>seriosament</suggestion>
+            <example correction="de debò|seriosament">Ho va dir <marker>en sèrio</marker>.</example>
+        </rule>
         <rule id="PERMANEIXER" name="*permanèixer">
             <pattern>
                 <token inflected="yes">permanèixer</token>
