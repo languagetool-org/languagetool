@@ -20842,13 +20842,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ar?repent(e?i[sx].*|its?|ida|ides)</token>
+                    <token regexp="yes">ar?repent(eix|eixen|eixes|eixi|eixin|eixis|eixo|esc|esca|esquen|esques|esqui|esquin|esquis|ia|ida|ides|ien|ies|iguem|igueu|im|int|ir|ira|iran|irem|iren|ires|ireu|iria|irien|iries|irà|iràs|iré|iríem|iríeu|isc|isca|isquen|isques|issen|isses|issin|issis|it|its|iu|ix|ixen|ixes|í|íem|íeu|írem|íreu|ís|íssem|ísseu|íssim|íssiu)</token>
                 </pattern>
                 <message>Verb incorrecte.</message>
-                <suggestion><match no="1" regexp_match="ar?repent(e?i[sx].*|its?|ida|ides)" regexp_replace="pened$1"/></suggestion>
+                <suggestion><match no="1" regexp_match="ar?repent(.*)" regexp_replace="pened$1"/></suggestion>
                 <example correction="penedisc">No m'<marker>arrepentisc</marker>.</example>
                 <example correction="penedit">Estic <marker>arrepentit</marker>.</example>
-                <example>Penedir-se de tot.</example>
+                <example correction="penediràs">T'<marker>arrepentiràs</marker>.</example>
+                <example correction="penedeixi">T'<marker>arrepenteixi</marker>.</example>
             </rule>
             <rule id="REEMPRENDRE" name="reemprendre">
                 <pattern>
@@ -29098,6 +29099,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="PARAR_TAULA" name="parar taula">
+            <rule>
+                <pattern>
+                    <token inflected="yes">posar</token>
+                    <token>la</token>
+                    <token>taula</token>
+                </pattern>
+                <message>Expressió incorrecta en el sentit de "diposar les coses per a menjar". Pot ser correcta en altres sentits.</message>
+                <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">parar</match> taula</suggestion>
+                <example correction="pararem taula">Ara <marker>posarem la taula</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">parar|desparar|llevar|alçar</token>
+                    <token>la</token>
+                    <token>taula</token>
+                </pattern>
+                <message>Aquesta expressió s'escriu sense article.</message>
+                <suggestion>\1 \3</suggestion>
+                <example correction="despararem taula">Ara <marker>despararem la taula</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="CURRICULUM" name="currículum / curriculum vitae">
             <pattern>
                 <token regexp="yes">currículums?</token>
