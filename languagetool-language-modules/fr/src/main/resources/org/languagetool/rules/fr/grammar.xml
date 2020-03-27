@@ -9206,7 +9206,7 @@ though, and has since been slightly modified)-->
           </token>
         </marker>
       </pattern>
-      <message>Le mot « \2 » ne peut pas suivre le mot « \1 ».</message>
+      <message>Le mot « \2 » ne peut pas suivre le mot « \1 » qui devrait être un verbe. Vérifiez une éventuelle confusion.</message>
       <example correction="">Ça te <marker>gène</marker> si je fume ?</example>
       <example>Ça te gêne si je fume ?</example>
       <example>Il faut se bien connaître soi-même.</example>
@@ -9474,7 +9474,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>« \2 » n’est pas un verbe.</message>
+        <message>Après le pronom sujet « \1 » devrait se trouver un verbe, or « \2 » n’en est pas un. Vérifiez une éventuelle confusion ou faute d'orthographe.</message>
         <example correction="">Tu <marker>sorts</marker> ce soir.</example>
         <example>Tu <marker>sors</marker> ce soir.</example>
         <example>Je soussigné Pierre Dupont déclare avoir pris connaissance des conditions de ce contrat.</example>
@@ -10941,11 +10941,16 @@ though, and has since been slightly modified)-->
           </token>
         </marker>
       </pattern>
-      <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé.</message>
-      <example correction="">Il est <marker>partit</marker> tôt.</example>
+        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quand à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
+        <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
+        <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
+        <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
+        <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f p"/></suggestion>
+        <url>http://grammaire.reverso.net/4_1_05_accord_du_participe_passe_avec_avoir.shtml</url>
+      <example correction="parti|partie|partis|parties">Il est <marker>partit</marker> tôt.</example>
       <example>Il est arrivé</example>
       <example>Il est parti tôt.</example>
-      <example correction="">Il est <marker>arriver</marker></example>
+      <example correction="arrivé|arrivée|arrivés|arrivées">Il est <marker>arriver</marker></example>
       <example>L’<marker>été</marker> est chaud.</example>
       <example>L’objectif est de réussir</example>
       <example>Partir, c’est mourir un peu.</example>
@@ -10959,6 +10964,19 @@ though, and has since been slightly modified)-->
       <example>Il faut soit partir, soit attendre.</example>
     </rule>
     <rulegroup id="AUX_AVOIR_VCONJ" name="Auxiliaire suivi d’un verbe conjugué">
+        <rule id="RPERSSUJ_ETRE_V" name="Pronom personel + V être + verbe conjugué">
+            <pattern>
+                <token postag="R pers suj.*" postag_regexp="yes" skip="1"/>
+                <token postag="V etre.*" postag_regexp="yes"/>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes">
+                        fatigue
+                    </token>
+                </marker>
+            </pattern>
+            <message>Vouliez-vous dire <suggestion><match no="3" regexp_match="([a-zàâéèêîôöùç]+)e" regexp_replace="$1é"/></suggestion> ?</message>
+            <example correction="fatigué">Je suis <marker>fatigue</marker>.</example>
+        </rule>
         <rule name="Suj + Aux avoir + V">
             <antipattern>
                 <token case_sensitive="yes">A<exception postag="SENT_START" scope="previous"/></token>
@@ -11911,7 +11929,7 @@ though, and has since been slightly modified)-->
           <marker><token postag="V.* [12] .*" postag_regexp="yes"><exception postag="[NJ].*|V.* 3 .*|V.* inf" postag_regexp="yes"/></token></marker>
           <token><exception regexp="yes">tu|je|[nv]ous|donc</exception></token>
         </pattern>
-        <message>Le verbe « \2 » devrait être à la 3e personne. Cette suggestion respecte le mode et le temps que vous avez employés, vérifiez qu'elle soit bien correcte.</message>
+        <message>Le verbe « \2 » devrait être à la 3ᵉ personne. Cette suggestion respecte le mode et le temps que vous avez employés, vérifiez qu'elle soit bien correcte.</message>
           <suggestion><match no="2" postag="(V.*) [12] (.*)" postag_regexp="yes" postag_replace="$1 3 $2"/></suggestion>
         <example correction="sera">Que <marker>serai</marker> la terre sans l’homme ?</example>
         <example>Que serait la terre sans l’homme ?</example>
@@ -11926,7 +11944,7 @@ though, and has since been slightly modified)-->
           <marker><token postag="V.* [12] .*" postag_regexp="yes"><exception postag="[NJ].*|V.* 3 .*|V.* inf" postag_regexp="yes"/></token></marker>
           <token><exception regexp="yes">tu|je|[nv]ous|donc</exception></token>
         </pattern>
-          <message>Le verbe « \2 » devrait être à la 3e personne. Cette suggestion respecte le mode et le temps que vous avez employés, vérifiez qu'elle soit bien correcte.</message>
+          <message>Le verbe « \2 » devrait être à la 3ᵉ personne. Cette suggestion respecte le mode et le temps que vous avez employés, vérifiez qu'elle soit bien correcte.</message>
           <suggestion><match no="3" postag="(V.*) [12] (.*)" postag_regexp="yes" postag_replace="$1 3 $2"/></suggestion>
         <example correction="arrivera">Jamais je ne pensais qu'<marker>arriverai</marker> le jour où je ne pourrais dire ça.</example>
         <example>Mieux vaut arriver tôt qu’arriver tard.</example>
@@ -12025,7 +12043,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \3 » devrait être à la 1e personne du singulier.</message>
+        <message>Le verbe « \3 » devrait être à la 1ᵉ personne du singulier.</message>
         <suggestion><match no="3" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 1 s"/></suggestion>
         <example correction="disais">C’est moi qui <marker>disait</marker> ça.</example>
         <example>C’est moi qui dis ça.</example>
@@ -12053,7 +12071,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \3 » devrait être à la 2e personne du singulier.</message>
+        <message>Le verbe « \3 » devrait être à la 2ᵉ personne du singulier.</message>
           <suggestion><match no="3" postag="V (sub|ind|con) (.*) [123] [sp]" postag_regexp="yes" postag_replace="V $1 $2 2 s"/></suggestion>
         <example correction="penses">C’est toi qui <marker>pense</marker> à ça.</example>
         <example>C’est toi qui penses à ça.</example>
@@ -12078,7 +12096,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 p" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \5 » devrait être à la 3e personne du pluriel.</message>
+        <message>Le verbe « \5 » devrait être à la 3ᵉ personne du pluriel.</message>
           <suggestion><match no="5" postag="V (.*) [123] [sp]" postag_regexp="yes" postag_replace="V $1 3 p"/></suggestion>
         <example correction="travaillent">Celles qui <marker>travaille</marker> ici</example>
         <example correction="mangent">Les personnes qui ne <marker>mange</marker> pas.</example>
@@ -12106,7 +12124,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 p" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \5 » devrait être à la 3e personne du pluriel.</message>
+        <message>Le verbe « \5 » devrait être à la 3ᵉ personne du pluriel.</message>
           <suggestion><match no="5" postag="V (.*) [123] [sp]" postag_regexp="yes" postag_replace="V $1 3 p"/></suggestion>
         <example correction="dérangent">Celles qui me <marker>dérange</marker></example>
         <example>Celles qui me dérangent</example>
@@ -12128,7 +12146,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 s" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \5 » devrait être à la 3ᵉ personne du singulier.</message>
           <suggestion><match no="5" postag="V (.*) [123] [sp]" postag_regexp="yes" postag_replace="V $1 3 s"/></suggestion>
         <example correction="travaille">Celle qui <marker>travaillent</marker> ici</example>
         <example>Celle qui travaille ici</example>
@@ -12155,7 +12173,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 s" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \5 » devrait être à la 3ᵉ personne du singulier.</message>
           <suggestion><match no="5" postag="V (.*) [123] [sp]" postag_regexp="yes" postag_replace="V $1 3 s"/></suggestion>
         <example correction="dérange">Celle qui me <marker>dérangent</marker> ici</example>
         <example>Celle qui me dérange</example>
@@ -12169,7 +12187,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 1 p" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \4 » devrait être à la 1e personne du pluriel.</message>
+        <message>Le verbe « \4 » devrait être à la 1ᵉ personne du pluriel.</message>
           <suggestion><match no="4" postag="V (.*) [123] [sp]" postag_regexp="yes" postag_replace="V $1 1 p"/></suggestion>
         <example correction="travaillions|travaillons">Nous qui <marker>travaille</marker> ici</example>
         <example>Nous qui travaillons ici</example>
@@ -12185,7 +12203,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 1 p" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \4 » devrait être à la 1e personne du pluriel.</message>
+        <message>Le verbe « \4 » devrait être à la 1ᵉ personne du pluriel.</message>
           <suggestion><match no="4" postag="V (.*) [123] [sp]" postag_regexp="yes" postag_replace="V $1 1 p"/></suggestion>
         <example correction="aimions">Nous qui vous <marker>aimaient</marker>.</example>
         <example>Nous qui vous aimons</example>
@@ -12202,7 +12220,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 2 p" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \3 » devrait être à la 2e personne du pluriel.</message>
+        <message>Le verbe « \3 » devrait être à la 2ᵉ personne du pluriel.</message>
           <suggestion><match no="3" postag="V (.*) [123] [sp]" postag_regexp="yes" postag_replace="V $1 2 p"/></suggestion>
         <example correction="travaillez|travailliez">Vous qui <marker>travaille</marker> ici</example>
         <example>Vous qui travaillez ici</example>
@@ -12218,7 +12236,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 2 p" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \4 » devrait être à la 2e personne du pluriel.</message>
+        <message>Le verbe « \4 » devrait être à la 2ᵉ personne du pluriel.</message>
           <suggestion><match no="4" postag="V (.*) [123] [sp]" postag_regexp="yes" postag_replace="V $1 2 p"/></suggestion>
         <example correction="dérangez">Vous qui me <marker>dérangeons</marker> ici</example>
         <example>Vous qui me dérangez</example>
@@ -12939,7 +12957,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \6 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \6 » devrait être à la 3ᵉ personne du singulier.</message>
           <suggestion><match no="6" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="dit">L’enfant lui <marker>dis</marker> merci.</example>
         <example>L’enfant lui dit merci.</example>
@@ -12965,7 +12983,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \4 » devrait être à la 3ᵉ personne du singulier.</message>
           <suggestion><match no="4" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="peut">Dominique <marker>peux</marker> venir.</example>
         <example>Dominique peut venir.</example>
@@ -12989,7 +13007,7 @@ though, and has since been slightly modified)-->
             </token>
             </marker>
         </pattern>
-        <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \5 » devrait être à la 3ᵉ personne du singulier.</message>
           <suggestion><match no="5" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="peut">Dominique qui ne <marker>peux</marker> pas venir.</example>
         <example correction="est">Dominique lui qui <marker>sont</marker> si riche.</example>
@@ -13014,7 +13032,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \4 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \4 » devrait être à la 3ᵉ personne du singulier.</message>
           <suggestion><match no="4" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="étaie|était|étaye">Mon enfant <marker>étaient</marker> parti.</example>
         <example>Mon enfant joue en bas.</example>
@@ -13049,7 +13067,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \5 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \5 » devrait être à la 3ᵉ personne du singulier.</message>
           <suggestion><match no="5" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="peut">Mon enfant ne <marker>peux</marker> pas aller à l’école.</example>
         <example>Mon enfant ne peut pas aller à l’école.</example>
@@ -13074,7 +13092,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \6 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \6 » devrait être à la 3ᵉ personne du singulier.</message>
           <suggestion><match no="6" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="étudie">Mon enfant l’<marker>étudient</marker>.</example>
         <example>Mon enfant l’étudie.</example>
@@ -13103,7 +13121,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \7 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \7 » devrait être à la 3ᵉ personne du singulier.</message>
           <suggestion><match no="7" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="étudie">Mon enfant ne l’<marker>étudient</marker>.</example>
         <example>Mon enfant ne l’<marker>étudie</marker>.</example>
@@ -13128,7 +13146,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \8 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \8 » devrait être à la 3ᵉ personne du singulier.</message>
           <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="veut">Mon enfant ne m’en <marker>veux</marker> pas.</example>
         <example correction="veut">Mon enfant qui ne lui en <marker>veux</marker> pas.</example>
@@ -13154,7 +13172,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \9 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \9 » devrait être à la 3ᵉ personne du singulier.</message>
           <suggestion><match no="9" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="veut">Mon enfant qui ne m’en <marker>veux</marker> pas.</example>
         <example>Mon enfant qui ne m’en veut pas.</example>
@@ -13179,7 +13197,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \10 » devrait être à la 3e personne du singulier.</message>
+        <message>Le verbe « \10 » devrait être à la 3ᵉ personne du singulier.</message>
           <suggestion><match no="10" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="veut">Mon enfant qui lui ne m’en <marker>veux</marker> pas.</example>
         <example>Mon enfant qui lui ne m’en veut pas.</example>
@@ -13202,7 +13220,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \4 » devrait être à la 3e personne du pluriel.</message>
+        <message>Le verbe « \4 » devrait être à la 3ᵉ personne du pluriel.</message>
           <suggestion><match no="4" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example>Les enfants <marker>jouent</marker> en bas.</example>
         <example>Les régions <marker>situées</marker> au sud sont chaudes.</example>
@@ -13231,7 +13249,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \5 » devrait être à la 3e personne du pluriel.</message>
+        <message>Le verbe « \5 » devrait être à la 3ᵉ personne du pluriel.</message>
           <suggestion><match no="5" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="mangent">Les enfants en <marker>manges</marker>.</example>
         <example>Les enfants en mangent.</example>
@@ -13256,7 +13274,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \6 » devrait être à la 3e personne du pluriel.</message>
+        <message>Le verbe « \6 » devrait être à la 3ᵉ personne du pluriel.</message>
           <suggestion><match no="6" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="arrivent">Les camions n’<marker>arrive</marker> pas.</example>
         <example>Les camions n’arrivent pas.</example>
@@ -13280,7 +13298,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \7 » devrait être à la 3e personne du pluriel.</message>
+        <message>Le verbe « \7 » devrait être à la 3ᵉ personne du pluriel.</message>
           <suggestion><match no="7" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="attendent">Les enfants ne l’<marker>attend</marker> pas.</example>
         <example>Les enfants ne l’attendent pas.</example>
@@ -13303,7 +13321,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \8 » devrait être à la 3e personne du pluriel.</message>
+        <message>Le verbe « \8 » devrait être à la 3ᵉ personne du pluriel.</message>
           <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="veulent">Mes enfants ne m’en <marker>veux</marker> pas.</example>
         <example>Mes enfants ne m’en veulent pas.</example>
@@ -13330,7 +13348,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \9 » devrait être à la 3e personne du pluriel.</message>
+        <message>Le verbe « \9 » devrait être à la 3ᵉ personne du pluriel.</message>
           <suggestion><match no="9" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="veulent">Mes enfants qui ne m’en <marker>veux</marker> pas.</example>
         <example correction="veulent">Mes enfants qui ne t’en <marker>veux</marker> pas.</example>
@@ -13355,7 +13373,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \10 » devrait être à la 3e personne du pluriel.</message>
+        <message>Le verbe « \10 » devrait être à la 3ᵉ personne du pluriel.</message>
           <suggestion><match no="10" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="veulent">Mes enfants qui eux ne m’en <marker>veux</marker> pas.</example>
         <example correction="veulent">Mes enfants qui eux ne t’en <marker>veux</marker> pas.</example>
@@ -13372,7 +13390,7 @@ though, and has since been slightly modified)-->
           <token min="0" max="1">ne</token>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
         </pattern>
-        <message>Lorsque la plupart est employé seul, sans complément, le verbe devrait être à la 3e personne du pluriel.</message>
+        <message>Lorsque la plupart est employé seul, sans complément, le verbe devrait être à la 3ᵉ personne du pluriel.</message>
           <suggestion><match no="4" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="pensent">La plupart <marker>pense</marker> qu’il gagnera.</example>
         <example>La plupart <marker>pensent</marker> qu’il gagnera.</example>
@@ -13387,7 +13405,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">l[ae]|les|lui|leur|[nv]ous</token>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
         </pattern>
-        <message>Lorsque la plupart est employé seul, sans complément, le verbe devrait être à la 3e personne du pluriel.</message>
+        <message>Lorsque la plupart est employé seul, sans complément, le verbe devrait être à la 3ᵉ personne du pluriel.</message>
           <suggestion><match no="5" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="voient">La plupart ne nous <marker>voit</marker> pas.</example>
         <example>La plupart ne nous <marker>voient</marker> pas.</example>
@@ -13402,7 +13420,7 @@ though, and has since been slightly modified)-->
           <token min="0" max="1">en</token>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
         </pattern>
-        <message>Lorsque la plupart est employé seul, sans complément, le verbe devrait être à la 3e personne du pluriel.</message>
+        <message>Lorsque la plupart est employé seul, sans complément, le verbe devrait être à la 3ᵉ personne du pluriel.</message>
           <suggestion><match no="7" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="arrivent">La plupart n’<marker>arrive</marker> jamais à l’heure.</example>
         <example>La plupart n’<marker>arrivent</marker> jamais à l’heure.</example>
@@ -14133,8 +14151,9 @@ though, and has since been slightly modified)-->
           <token regexp="yes">.*[-‑‐]t[-‑‐](?:je|tu|[nv]ous|ils|elles)</token>
         </pattern>
         <message>Le -t- euphonique n’est possible qu’avec un pronom sujet de troisième personne (il, elle on).</message>
+          <suggestion><match no="1" regexp_match="([a-zàâéèêîôöùç]+)\-([a-zàâéèêîôöùç])\-([a-zàâéèêîôöùç]+)" regexp_replace="$1 $3"/></suggestion>
         <url>https://www.projet-voltaire.fr/regles-orthographe/mentend-il-ou-mentend-t-il/</url>
-        <example correction="">Quand <marker>arriveras-t-tu</marker> ?</example>
+        <example correction="arriveras tu">Quand <marker>arriveras-t-tu</marker> ?</example>
         <example>Quand <marker>arriveras-tu</marker> ?</example>
       </rule>
       <rule>
@@ -14223,12 +14242,15 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">.*[-‑‐]t[-‑‐].*<exception regexp="yes">.*-(ils?|elles?|on)|va-t-en-guerre</exception></token>
+          <token regexp="yes">.*[-‑‐]t[-‑‐].*
+              <exception regexp="yes">.*-(ils?|elles?|on)|va-t-en-guerre</exception>
+              <exception regexp="yes">.*[-‑‐]t[-‑‐]en</exception>
+        </token>
         </pattern>
         <message>Le t euphonique ne peut s’employer qu'avec il, ils, elle, elles ou on.</message>
+          <suggestion><match no="1" regexp_match="([a-zàâéèêîôöùç]+)\-([a-zàâéèêîôöùç])\-([a-zàâéèêîôöùç]+)" regexp_replace="$1 $3"/></suggestion>
         <url>http://www.academie-francaise.fr/quatre-z-assiettes-il-va-t-la-peche</url>
-        <example correction="">Il <marker>va-t-à</marker> la pêche.</example>
-        <example correction=""><marker>Va-t-en</marker> !</example>
+        <example correction="va à">Il <marker>va-t-à</marker> la pêche.</example>
         <example>Va-t-elle venir ?</example>
         <example>C’est un va-t-en-guerre.</example>
       </rule>
@@ -14481,7 +14503,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>« \2 » ne peut pas être suivi d’un verbe au futur ou conditionnel.</message>
+        <message>« \2 » ne peut pas être suivi d’un verbe au futur ou conditionnel. Vérifiez une éventuelle confusion ou faute d'orthographe.</message>
         <example correction="">Et si tu <marker>aurais</marker> gagné</example>
         <example>Et si tu <marker>avais</marker> gagné</example>
         <example correction="">Si tu <marker>mourrais</marker></example>
@@ -15080,7 +15102,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">[cdlmts]es|[nv]os|cette|ce[st]|[mts]a|mon|leurs?|aux?</token>
         <token regexp="yes">[cdlmst]es|[nv]os|cette|ce[st]|[mts]a|mon|je|tu|ils?|elle?|[vn]ous|on</token>
       </pattern>
-      <message>Les deux mots « \1 \2 » ne peuvent pas se suivre.</message>
+      <message>Les deux mots « \1 \2 » ne peuvent pas se suivre. Vérifiez une éventuelle confusion ou faute d'orthographe.</message>
       <example correction="">Plusieurs <marker>des ces</marker> langues vont disparaitre.</example>
       <example>Plusieurs de ces langues vont disparaitre.</example>
     </rule>
@@ -15446,7 +15468,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">un|une|des|les</token>
         <token regexp="yes">perdue?s?</token>
       </pattern>
-      <message>« Crier comme un perdu » est un régionalisme (Québec) et un archaïsme. Employez <suggestion>crier comme un putois</suggestion>, <suggestion>crier comme un damné</suggestion> (familier), <suggestion>crier à tue-tête</suggestion> (familier), <suggestion>crier comme un fou</suggestion> (familier). Note : « Crier comme un perdu » se trouve dans ce sens dans la 1re, 4e, 5e et 6e édition du dictionnaire de l’Académie.</message>
+      <message>« Crier comme un perdu » est un régionalisme (Québec) et un archaïsme. Employez <suggestion>crier comme un putois</suggestion>, <suggestion>crier comme un damné</suggestion> (familier), <suggestion>crier à tue-tête</suggestion> (familier), <suggestion>crier comme un fou</suggestion> (familier). Note : « Crier comme un perdu » se trouve dans ce sens dans la 1re, 4ᵉ, 5ᵉ et 6ᵉ édition du dictionnaire de l’Académie.</message>
       <example correction="crier comme un putois|crier comme un damné|crier à tue-tête|crier comme un fou"><marker>crier comme un perdu</marker></example>
       <example><marker>crier comme un putois</marker></example>
     </rule>
@@ -16917,8 +16939,9 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>call</token>
       </pattern>
-      <message>L'expression « call » est un anglicisme. Utilisez plutôt le verbe « appeler ».</message>
-      <example correction="">Je te <marker>call</marker> dans l'après-midi.</example>
+      <message>L'expression « call » est un anglicisme. Utilisez plutôt le verbe « appeler » au mode et temps appropriés.</message>
+        <suggestion>appeler</suggestion>
+      <example correction="appeler">Je te <marker>call</marker> dans l'après-midi.</example>
     </rule>
     <rule id="DASHBOARD" name="dashboard">
       <pattern>
@@ -28463,14 +28486,21 @@ though, and has since been slightly modified)-->
         <pattern case_sensitive="yes">
           <token regexp="yes">([IVXLCM]+|\d+)[-‑‐]?(i?[eèé]mes?|è)</token>
         </pattern>
-        <message>« \1 » est une faute de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)[-‑‐]?(i?[eèéê]me(s?)|è)" regexp_replace="$1e$3"/></suggestion>.</message>
-        <example correction="XIXe">Un écrivain du <marker>XIX-ième</marker> siècle</example>
-        <example correction="XIXe">Un écrivain du <marker>XIXè</marker> siècle</example>
+        <message>« \1 » est une faute de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)[-‑‐]?(i?[eèéê]mes?|è)" regexp_replace="$1ᵉ"/></suggestion>.</message>
+        <example correction="XIXᵉ">Un écrivain du <marker>XIX-ième</marker> siècle</example>
+        <example correction="XIXᵉ">Un écrivain du <marker>XIXè</marker> siècle</example>
         <example>Un écrivain du XIXe siècle</example>
-        <example correction="2e">La <marker>2eme</marker> à droite</example>
-        <example>La 2e à droite</example>
-        <example correction="2es">Les <marker>2ièmes</marker>.</example>
+        <example correction="2ᵉ">La <marker>2eme</marker> à droite</example>
+        <example>La 2ᵉ à droite</example>
       </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">([IVXLCM]+|\d+)[-‑‐]?(i?[eèé]mes?|è)</token>
+            </pattern>
+            <message>« \1 » est une faute de typographie. Employez <suggestion><match no="1" regexp_match="(.*?)[-‑‐]?(i?[eèéê]mes|è)" regexp_replace="$1ᵉˢ"/></suggestion>.</message>
+            <example>Les 2ᵉˢ du tournoi</example>
+            <example correction="2ᵉˢ">Les <marker>2ièmes</marker>.</example>
+        </rule>
       <rule>
         <pattern case_sensitive="yes">
           <token regexp="yes">[IVXLCM]+|\d+</token>
@@ -28480,7 +28510,7 @@ though, and has since been slightly modified)-->
         <example correction="XIXe">Un écrivain du <marker>XIX ième</marker> siècle</example>
         <example>Un écrivain du XIXe siècle</example>
         <example correction="2e">La <marker>2 eme</marker> à droite</example>
-        <example>La 2e à droite</example>
+        <example>La 2ᵉ à droite</example>
         <example correction="2es">Les <marker>2 èmes</marker>.</example>
         <example>Les 2es.</example>
       </rule>
