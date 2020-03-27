@@ -17613,20 +17613,37 @@ USA
             <url>https://en.wikipedia.org/wiki/Game_Boy</url>
             <example correction="Game Boy">The <marker>Gameboy</marker> is an 8-bit handheld game console developed and manufactured by Nintendo.</example>
         </rule>
-        <rule id="FOX_NEWS" name="Fox News">
-            <antipattern case_sensitive="yes">
-                <token regexp="yes">Fox|FOX</token>
-                <token regexp="yes">News|NFL|Sports</token>
-            </antipattern>
-            <pattern>
-                <token>fox</token>
-                <token regexp="yes">news|nfl|sports</token>
-            </pattern>
-            <message>A proper noun needs to be capitalized.</message>
-            <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>
-            <example correction="Fox News">I'm watching <marker>fox news</marker>.</example>
-            <example>FOX News</example>
-        </rule>
+        <rulegroup id="FOX_NEWS" name="Fox News">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">Fox|FOX</token>
+                    <token regexp="yes">News|NEWS|Sports|SPORTS</token>
+                </antipattern>
+                <pattern>
+                    <token>fox</token>
+                    <token regexp="yes">news|sports</token>
+                </pattern>
+                <message>A proper noun needs to be capitalized.</message>
+                <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>
+                <example correction="Fox News">I'm watching <marker>fox news</marker>.</example>
+                <example>FOX News</example>
+                <example>FOX NEWS</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">Fox|FOX</token>
+                    <token>NFL</token>
+                </antipattern>
+                <pattern>
+                    <token>fox</token>
+                    <token>nfl</token>
+                </pattern>
+                <message>A proper noun needs to be capitalized.</message>
+                <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="allupper" /></suggestion>
+                <example correction="Fox NFL">I'm watching <marker>fox nfl</marker>.</example>
+                <example>FOX NFL</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRESIDENT_TRUMP" name="president trump (Trump)">
             <url>https://en.wikipedia.org/wiki/Donald_Trump</url>
             <rule>
