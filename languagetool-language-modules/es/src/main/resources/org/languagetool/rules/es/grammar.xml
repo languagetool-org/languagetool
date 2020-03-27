@@ -189,7 +189,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>que</token>
                     </marker>
-                    <token postag="AQ.*|NC.*" postag_regexp="yes"/>
+                    <token postag="AQ.*|NC.*" postag_regexp="yes"><exception postag="V.[MSI].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si es una exclamación, se escribe con tilde.</message>
                 <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
@@ -199,6 +199,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="qué">¡Con <marker>que</marker> seriedad se comporta!</example>
                 <example>¡Que te diviertas!</example>
                 <example>¡Que venga pronto!</example>
+                <example>¡Que empieze ya!</example>
+                <example>¡Que viva la república!</example>
+                <example type="triggers_error">¡Que Dios afeite a la reina!</example>
             </rule>
             <rule>
                 <pattern>
@@ -226,18 +229,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>como</token>
                     </marker>
+                    <token min="0" max="3" postag="P.*|RN" postag_regexp="yes"/>
+                    <token postag="V.I.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Si es una exclamación, se escribe con tilde.</message>
                 <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
                 <suggestion>cómo</suggestion>
                 <example correction="Cómo">¡<marker>Como</marker> me gusta!</example>
                 <example correction="cómo">¡Pero <marker>como</marker> me gusta!</example>
+                <example correction="cómo">¡Pero <marker>como</marker> no le va a gustar!</example>
                 <example>¡Como si no la conocieras!</example>
+                <example>¡Como siempre, has oído mal!</example>
             </rule>
         </rulegroup>
     </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
-        <rule id="ALREDEDOR" name="*(a) alrededor" default="temp_off">
+        <rule id="ALREDEDOR" name="*(a) alrededor">
+            <antipattern>
+                <token inflected="yes" regexp="yes">ascender|emplear</token>
+                <token>a</token>
+            </antipattern>
             <pattern>
                 <token>a</token>
                 <token>alrededor</token>
@@ -247,8 +258,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>al rededor</suggestion>
             <suggestion>en rededor</suggestion>
             <example correction="alrededor|al rededor|en rededor">Vino <marker>a alrededor</marker> de las cinco.</example>
+            <example>Asciende a alrededor de 3000 €.</example>
         </rule>
-        <rule id="LLEVAR_ACABO" name="llevar *acabo/a cabo" default="temp_off">
+        <rule id="LLEVAR_ACABO" name="llevar *acabo/a cabo">
             <pattern>
                 <token inflected="yes" regexp="yes">llevar|echar</token>
                 <marker>
@@ -261,7 +273,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="a cabo|al cabo">Lo llevó <marker>acabo</marker> con solvencia.</example>
             <example correction="a cabo|al cabo">Hay que llevarlo <marker>acabo</marker> con solvencia.</example>
         </rule>
-        <rule id="SOBRETODO" name="sobretodo/sobre todo" default="temp_off">
+        <rule id="SOBRETODO" name="sobretodo/sobre todo">
             <!-- A lot of true positives expected! But the rule is right. -->
             <pattern>
                 <token>sobretodo<exception scope="previous" regexp="yes">el|un|al|del</exception></token>
@@ -308,7 +320,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablemente hay que escribir <suggestion>haya</suggestion> (=pueda haber). Correcto si es del v. 'hallar' (=encuentra).</message>
                 <example correction="Haya"><marker>Halla</marker> muerto o no, hay que ir a buscarlo.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
                     <token>hallan</token>
@@ -365,7 +377,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El calor al que se halla sometido.</example>
             </rule>
             <!-- haya > halla -->
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes" skip="15">que|cuando|cual</token>
                     <token min="0">no</token>
@@ -385,7 +397,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Se halla"><marker>Se haya</marker> situado al final de la avenida.</example>
                 <example>Es posible que no se haya habitado nunca.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token regexp="yes">haya|hayan</token>
                     <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
@@ -404,7 +416,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Aunque se haya siempre pensado así.</example>
                 <example>Aunque se hayan hecho siempre así.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
                     <token min="0">se</token>
@@ -434,7 +446,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hayan muerto o no, no nos importa.</example>
                 <example>Hayan hecho lo que hayan hecho, no me importa.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
                     <token>se</token>
@@ -1472,7 +1484,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
-        <rulegroup id="PORQUE" name="porque/por que/porqué" default="temp_off">
+        <rulegroup id="PORQUE" name="porque/por que/porqué">
             <url>https://www.rae.es/consultas/porque-porque-por-que-por-que</url>
             <rule>
                 <pattern>
@@ -1484,6 +1496,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Como sustantivo (=causa, motivo), se escribe <suggestion>porqué</suggestion>.</message>
                 <example correction="porqué">Quiero saber el <marker>porque</marker>.</example>
                 <example>Lo haré porque quiero.</example>
+                <example>Es nuestro porque lo compramos nosotros.</example>
             </rule>
             <rule>
                 <pattern>
@@ -1522,6 +1535,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="triggers_error" reason="unusual structure">¿Porque no lo hice vas a estar odiándome toda la vida?</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">lo|los|la|las</token>
+                    <token min="0" inflected="yes">haber</token>
+                    <token postag="V.*" postag_regexp="yes"/>
+                    <token>porque</token>
+                </antipattern>
+                <antipattern>
+                    <token>se</token>
+                    <token min="0" inflected="yes">haber</token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">preguntar|pedir|explicar|contar|decir</token>
+                    <token>porque</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" inflected="yes">saber|preguntar|pedir|explicar|contar|decir</token>
                     <marker>
@@ -1531,6 +1556,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablement hay que escribir <suggestion>por qué</suggestion> (=por qué motivo).</message>
                 <example correction="por qué">No se sabe <marker>porque</marker> no ha venido</example>
                 <example correction="por qué">Dime <marker>porque</marker> lo has hecho.</example>
+                <example>Lo sé porque lo he hecho muchas veces.</example>
+                <example>Se explicaría porque era inventado.</example>
+                <example>Lo dices porque tienes miedo.</example>
             </rule>
             <rule>
                 <pattern>
@@ -1632,6 +1660,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_039.htm</url>
             <example correction="basándonos en|basándose en|con base en|sobre la base de|en relación con|según|por">Se puede regresar a la zona <marker>en base a</marker> lo expuesto por las autoridades.</example>
             <example>Se ha reducido la cadencia de los trenes basándose en la estadistica elaborada.</example>
+        </rule>
+        <rule id="EN_BASE_AL" name="en base al">
+            <pattern>
+                <token>en</token>
+                <token>base</token>
+                <token>al</token>
+            </pattern>
+            <message>Es preferible usar otra expresión.</message>
+            <suggestion>basándonos en el</suggestion>
+            <suggestion>basándose en el</suggestion>
+            <suggestion>con base en el</suggestion>
+            <suggestion>sobre la base del</suggestion>
+            <suggestion>en relación con el</suggestion>
+            <suggestion>según el</suggestion>
+            <suggestion>por el</suggestion>
+            <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_039.htm</url>
+            <example correction="basándonos en el|basándose en el|con base en el|sobre la base del|en relación con el|según el|por el">Se puede regresar a la zona <marker>en base al</marker> documento.</example>
         </rule>
         <!-- DE_GRATIS (http://lema.rae.es/dpd/srv/search?key=gratis)-->
         <rule id="DE_GRATIS" name="«de gratis» (gratis)">
@@ -2143,7 +2188,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Ordenamos <marker>las silla</marker> por colores.</example>
                 <example>Ordenamos las sillas por colores.</example>
             </rule>
-            <!-- NOM_ADJ_SINGULAR Concordancia (pavo rojos) -->
+            <!-- THESE RULES HAVE TOO MANY ISSUES. THEY HAVE TO BE JAVA RULES
+             NOM_ADJ_SINGULAR Concordancia (pavo rojos) 
             <rule id="NOM_ADJ_SINGULAR" name="Concordancia singular Nombre + adjetivo">
                 <pattern case_sensitive="yes">
                     <marker>
@@ -2156,7 +2202,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Hay <marker>silla rojas</marker> en esa tienda.</example>
                 <example>Hay sillas verdes en esa tienda.</example>
             </rule>
-            <!-- NOM_ADJ_PLURAL Concordancia (pavos rojo) -->
+             NOM_ADJ_PLURAL Concordancia (pavos rojo) 
             <rule id="NOM_ADJ_PLURAL" name="Concordancia plural Nombre + adjetivo">
                 <pattern case_sensitive="yes">
                     <marker>
@@ -2170,7 +2216,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pintaremos las sillas verdes de otro color.</example>
                 <example>Y nos queda lo mejor.</example>
                 <example>Aquellos capitalistas cuyo único fin es ganar dinero.</example>
-            </rule>
+            </rule>-->
             <!-- LAS_CASAS Concordancia (las casa) -->
             <rule id="Las_Casa" name="las casa">
                 <pattern>
@@ -2335,7 +2381,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la">En este caso concurre <marker>el atenuante</marker> del pronto pago.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BUENAS_TARDES" name="concordancia: buenas tardes" default="temp_off">
+        <rulegroup id="BUENAS_TARDES" name="concordancia: buenas tardes">
             <!-- this rule is necessary because "tardes" can be noun/verb-->
             <rule>
                 <pattern>
@@ -2473,11 +2519,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CAT4" name="Estilo" type="style">
+        <rule id="ENMEDIO" name="enmedio">
+            <antipattern case_sensitive="yes">
+                <token><exception postag="SENT_START"/></token>
+                <token case_sensitive="yes">Enmedio</token>
+            </antipattern>
+            <pattern>
+                <token>enmedio</token>
+            </pattern>
+            <message>Normativamente se escribe separado.</message>
+            <suggestion>en medio</suggestion>
+            <example correction="en medio">Está <marker>enmedio</marker>.</example>
+            <example correction="En medio"><marker>Enmedio</marker> de la plaza.</example>
+            <example>Moraleja de Enmedio.</example>
+        </rule>
         <rule id="ABREVIATURA_NUMERO" name="abreviatura de número">
             <pattern>
                 <token regexp="yes">n\.?[º°]</token>
             </pattern>
-            <message>Considere el uso de la abreviatura correcta para número.</message>
+            <message>Abreviatura de 'número'.</message>
             <suggestion>n.º</suggestion>
             <example correction="n.º">Diário da República <marker>n°</marker> 18</example>
         </rule>
@@ -2593,38 +2653,55 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>en</token>
                     <token>relación</token>
-                    <token regexp="yes">a|al</token>
+                    <token>a</token>
                 </marker>
             </pattern>
-            <message>En español, la expresión «en relación a / al» no existe. Puede cambiarse por <suggestion>en relación con</suggestion>, <suggestion>con relación a</suggestion> o <suggestion>en lo que se refiere a</suggestion>.</message>
+            <message>Es preferible usar otra expresión.</message>
+            <suggestion>en relación con</suggestion>
+            <suggestion>con relación a</suggestion>
+            <suggestion>en lo que se refiere a</suggestion>
             <short>En español, la expresión «en relación a» no existe.</short>
             <example correction="en relación con|con relación a|en lo que se refiere a">Es muy austero <marker>en relación a</marker> su indumentaria</example>
             <example>Es muy austero en relación con su indumentaria</example>
+        </rule>
+        <rule id="EN_RELACION_AL" name="en relación al">
+            <pattern case_sensitive="no">
+                <marker>
+                    <token>en</token>
+                    <token>relación</token>
+                    <token>al</token>
+                </marker>
+            </pattern>
+            <message>Es preferible usar otra expresión.</message>
+            <suggestion>en relación con el</suggestion>
+            <suggestion>con relación al</suggestion>
+            <suggestion>en lo que se refiere al</suggestion>
+            <short>En español, la expresión «en relación a» no existe.</short>
+            <example correction="en relación con el|con relación al|en lo que se refiere al">Es muy austero <marker>en relación al</marker> vestir.</example>
         </rule>
         <!-- TODO: Following rules need simplification using Regex. Lots of falsee positives due to skip -1 attr.-->
         <!-- RELACIONADO_A: La forma preferida es: RELACIONADO CON-->
         <rule id="RELACIONADAOS_A" name="relacionada/o/s a">
             <pattern>
+                <token regexp="yes">relacionad[oa]s{0,1}</token>
                 <marker>
-                    <token regexp="yes">relacionad[oa]s{0,1}</token>
                     <token>a</token>
                 </marker>
             </pattern>
-            <message>En español, la expresión «\1 \2» no existe. Puede cambiarse por <suggestion>\1 con</suggestion>.</message>
-            <short>En español, la expresión «\1 \2» no existe.</short>
-            <example correction="relacionada con">Esa canción está <marker>relacionada a</marker> los Beatles.</example>
+            <message>La preposición adecuada es <suggestion>con</suggestion>.</message>
+            <example correction="con">Esa canción está relacionada <marker>a</marker> los Beatles.</example>
             <example>Esa canción está relacionada con los Beatles.</example>
         </rule>
         <rule id="RELACIONADAOS_AL" name="relacionada/o/s al">
             <pattern>
+                <token regexp="yes">relacionad[oa]s{0,1}</token>
                 <marker>
-                    <token regexp="yes">relacionad[oa]s{0,1}</token>
                     <token>al</token>
                 </marker>
             </pattern>
-            <message>En español, la expresión «\1 \2» no existe. Puede cambiarse por <suggestion>\1 con el</suggestion>.</message>
-            <short>En español, la expresión «\1 \2» no existe.</short>
-            <example correction="relacionada con el">Esa canción está <marker>relacionada al</marker> amor.</example>
+            <message>La preposición adecuada es 'con'.</message>
+            <suggestion>con el</suggestion>
+            <example correction="con el">Esa canción está relacionada <marker>al</marker> amor.</example>
             <example>Esa canción está relacionada con el amor.</example>
         </rule>
         <rulegroup id="CONTRACORRIENTE" name=" *contracorriente, *a contra corriente">
@@ -2692,7 +2769,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="este">En relación con <marker>éste</marker>.</example>
             <example correction="esa">En relación con <marker>ésa</marker>.</example>
         </rule>
-        <rule id="AQUEL" name="aquel/aquél" default="temp_off">
+        <rule id="AQUEL" name="aquel/aquél">
             <pattern>
                 <token regexp="yes">aquél|aquéll(as?|os)</token>
             </pattern>
@@ -2704,7 +2781,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSION" name="confusiones">
-        <rule id="REVERTIR_REVESTIR" name="revertir/revestir" default="temp_off">
+        <rule id="REVERTIR_REVESTIR" name="revertir/revestir">
             <pattern>
                 <marker>
                     <token inflected="yes">revertir</token>
