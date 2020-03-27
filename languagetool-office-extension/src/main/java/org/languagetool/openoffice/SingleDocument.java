@@ -234,6 +234,9 @@ class SingleDocument {
       }
       if(resetCheck) {
         if(numParasToCheck != 0 && paraNum >= 0 && !useQueue) {
+          if (docCursor == null) {
+            docCursor = new DocumentCursorTools(xComponent);
+          }
           remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
         }
         resetCheck = false;
