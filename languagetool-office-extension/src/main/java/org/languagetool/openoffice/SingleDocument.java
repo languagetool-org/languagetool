@@ -1204,6 +1204,8 @@ class SingleDocument {
     DocumentCursorTools docCursor = this.docCursor;
     List<String> allParas = this.allParas;
     List<Integer> headings = this.headings;
+    List<ResultCache> paragraphsCache = this.paragraphsCache;
+    ResultCache sentencesCache = this.sentencesCache;
     boolean textIsChanged = this.textIsChanged;
     int divNum = this.divNum;
     try {

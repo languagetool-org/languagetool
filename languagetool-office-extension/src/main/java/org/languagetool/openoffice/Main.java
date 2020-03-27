@@ -546,7 +546,7 @@ public class Main extends WeakBase implements XJobExecutor,
       MessageHandler.printToLogFile("xComponent of closed document is null");
     } else {
       documents.setContextOfClosedDoc(goneContext);
-      documents.removeMenuListener(goneContext);
+//      documents.removeMenuListener(goneContext);
     }
     goneContext.removeEventListener(this); 
   }
