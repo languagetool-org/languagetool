@@ -97,7 +97,10 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "no but they",
       "no but she",
       "no but it",
-      "he tracks"
+      "he tracks",
+      "which complains about", // vs complaints
+      "do your work", // vs "you"
+      "one many times" // vs "on"
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
