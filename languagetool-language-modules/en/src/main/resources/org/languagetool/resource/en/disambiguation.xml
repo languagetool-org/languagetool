@@ -4963,42 +4963,43 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
-      <antipattern><!-- Fix for chunker: staves off hunger -->
-        <token postag="VBZ"/>
-        <token postag="RP"/>
-        <token postag="NN(:UN)?" postag_regexp="yes"/>
-      </antipattern>
-      <antipattern><!-- Fix for chunker: the reasons stress damaged the -->
-        <token postag="DT|PRP\$" postag_regexp="yes"/>
-        <token postag="NNS"/>
-        <token postag="NN(:UN)?" postag_regexp="yes"/>
-        <token postag="VBD"/>
-        <token postag="DT|PRP\$" postag_regexp="yes"/>
-      </antipattern>
-      <pattern>
-        <and>
-          <token chunk="E-NP-plural"/>
-          <token postag="NNS"/><!-- Fix for 'My young son' -->
-        </and>
-        <token min="0" max="1" postag="RB"><exception>about</exception></token>
-        <marker>
-        <and>
-          <token postag="VBP"><exception postag="VBD"/><exception postag="IN"/></token>
-          <token postag="NN(:UN)?" postag_regexp="yes"><exception>people</exception></token>
-        </and>
-        </marker>
-      </pattern>
-      <disambig postag="VBP"/>
-      <example type="untouched">The application form</example>
-      <example type="ambiguous" inputform="form[form/NN:UN,form/VB,form/VBP]" outputform="form[form/VBP]">The leaves <marker>form</marker> a rosette.</example>
-      <example type="ambiguous" inputform="fly[fly/JJ,fly/NN,fly/VB,fly/VBP]" outputform="fly[fly/VBP]">Mummy, but will pigs always <marker>fly</marker> when I can't see them?</example>
-      <example type="untouched">So Rand fell into a severe depression.</example>
-      <example type="untouched">...was assigned to duty in northern Virginia while the Army of the Potomac conducted the Peninsula.</example>
-      <example type="untouched">My young son <marker>can</marker> neither read nor write yet. [Chunker gives E-NP-plural to 'son'. 'Can' is MD not VBP.]</example>
-      <example type="untouched">... has written songs about <marker>love</marker> and sex with women and men.</example>
-      <example type="untouched">... for bears and mainly staves off <marker>hunger</marker> and starvation until more nutritious food is... [Chunker gives E-NP-plural to 'staves'.]</example>
-      <example type="untouched">Noun. ... is thought to be one of the reasons <marker>stress</marker> damaged the stomach's mucous membrane. [Chunker gives B-VB to 'stress'.]</example>
+        <antipattern><!-- Fix for chunker: staves off hunger -->
+            <token postag="VBZ"/>
+            <token postag="RP"/>
+            <token postag="NN(:UN)?" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern><!-- Fix for chunker: the reasons stress damaged the -->
+            <token postag="DT|PRP\$" postag_regexp="yes"/>
+            <token postag="NNS"/>
+            <token postag="NN(:UN)?" postag_regexp="yes"/>
+            <token postag="VBD"/>
+            <token postag="DT|PRP\$" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+            <and>
+                <token chunk="E-NP-plural"/>
+                <token postag="NNS"/><!-- Fix for 'My young son' -->
+            </and>
+            <token min="0" max="1" postag="RB"><exception>about</exception></token>
+            <marker>
+            <and>
+                <token postag="VBP"><exception postag="VBD"/><exception postag="IN"/></token>
+                <token postag="NN(:UN)?" postag_regexp="yes"><exception>people</exception></token>
+            </and>
+            </marker>
+        </pattern>
+        <disambig postag="VBP"/>
+        <example type="untouched">The application form</example>
+        <example type="ambiguous" inputform="form[form/NN:UN,form/VB,form/VBP]" outputform="form[form/VBP]">The leaves <marker>form</marker> a rosette.</example>
+        <example type="ambiguous" inputform="fly[fly/JJ,fly/NN,fly/VB,fly/VBP]" outputform="fly[fly/VBP]">Mummy, but will pigs always <marker>fly</marker> when I can't see them?</example>
+        <example type="untouched">So Rand fell into a severe depression.</example>
+        <example type="untouched">...was assigned to duty in northern Virginia while the Army of the Potomac conducted the Peninsula.</example>
+        <example type="untouched">My young son <marker>can</marker> neither read nor write yet. [Chunker gives E-NP-plural to 'son'. 'Can' is MD not VBP.]</example>
+        <example type="untouched">... has written songs about <marker>love</marker> and sex with women and men.</example>
+        <example type="untouched">... for bears and mainly staves off <marker>hunger</marker> and starvation until more nutritious food is... [Chunker gives E-NP-plural to 'staves'.]</example>
+        <example type="untouched">Noun. ... is thought to be one of the reasons <marker>stress</marker> damaged the stomach's mucous membrane. [Chunker gives B-VB to 'stress'.]</example>
     </rule>
+
     <rulegroup id="VBP_VBZ_NNS" name="VBZ/NN->VBZ">
       <rule>
     	<pattern>
