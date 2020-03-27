@@ -43664,6 +43664,12 @@ The accident victim died from her injuries.
                 <example>So this too <marker>can</marker>'t be used to prove the theory.</example>
             </rule>
             <rule>
+                <antipattern><!-- #2461 Are you too shy? -->
+                    <token regexp="yes">you|we|they</token>
+                    <token>too</token>
+                    <token skip="-1" postag="JJ"/>
+                    <token>?</token>
+                </antipattern>
                 <pattern>
                     <token postag="PRP">
                         <exception regexp="yes">I|he|she|we|they|one</exception><!-- #2198 Subject pronouns except the object pronouns: you, it -->
@@ -43679,6 +43685,7 @@ The accident victim died from her injuries.
                 <example>... state would become a new elite had proved <marker>all too true</marker>.</example>
                 <example>I'm afraid I didn't explain it too well.</example>
                 <example>I tried also with AWLUnicode and Lucida Sans Unicode, but they too do not render correctly.</example><!-- #2198 -->
+                <example>Are you too shy?</example><!-- #2461 -->
             </rule>
         </rulegroup>
 
