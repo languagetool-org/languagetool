@@ -114,6 +114,7 @@ public class AdverbFilter extends RuleFilter {
     put("physically", "physical");
     put("enthusiastically", "enthusiastic");
     put("incredibly", "incredible");
+    put("permanently", "permanent");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
