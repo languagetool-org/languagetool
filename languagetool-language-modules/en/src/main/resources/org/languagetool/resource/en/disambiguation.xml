@@ -2436,9 +2436,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="VB[DZ]"/>
             <token postag="TO"/>
         </antipattern>
-        <antipattern><!-- #2435 some bound it -->
+        <antipattern><!-- #2435 some bound it / #2592 some call it [call/E-NP-singular, thus do not use chunks] -->
             <token regexp="yes">these|those|all|each|some</token>
-            <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
+            <token postag_regexp="yes" postag="VB[PD]"/>
             <token regexp="yes">&object_pronouns;</token>
         </antipattern>
         <antipattern><!-- #2521 A spreads it -->
@@ -2470,6 +2470,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">These may be to bring about political change.</example>
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">The <marker>dogs</marker> bark loudly.</example>
         <example type="ambiguous" inputform="couple[couple/NN,couple/VB,couple/VBP]" outputform="couple[couple/NN]">I can see a <marker>couple</marker> to the left of the tree.</example><!-- #2415 -->
+        <example type="ambiguous" inputform="calls[call/NNS,call/VBZ]" outputform="calls[call/NNS]">Although some <marker>calls</marker> occasionally take more than 30 minutes, most calls are much shorter.</example><!-- #2592 -->
         <example type="untouched">Anarcho-pacifism is a tendency that rejects violence.</example>
         <example type="untouched">... while some <marker>may</marker> not possess the earlier book.</example>
         <example type="untouched">... and some <marker>look</marker> not to earthly treasures, but to the riches of Heaven.</example>
@@ -2486,6 +2487,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar: ... but if he a <marker>tests</marker> them carelessly...</example><!-- #2521 -->
         <example type="untouched">Incorrect grammar: ... and she thought that a <marker>spreads</marker> was not so nice to eat as butter.</example><!-- #2521 -->
         <example type="untouched">Especially the <marker>Paint it Black</marker> suite.</example><!-- #2521 -->
+        <example type="untouched">But some <marker>call</marker> it surfing, while others ...</example><!-- #2592 -->
+        <example type="untouched">But you know some <marker>call</marker> it surfing, while others ...</example><!-- #2592 -->
+
     </rule>
 
     <rule name="each + verb/NN -&gt; NN" id="EACH_VB_NN">
