@@ -1282,6 +1282,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig><match no="2" postag="VBP" postag_regexp="yes"/></disambig>
     </rule>
+
     <rule name="NNS/VBZ + were/are" id="NNS_ARE_WERE">
         <antipattern><!-- Information about what this does would be nice. Refer to rule NNU_IN_WP_DT_VBZ -->
             <token postag_regexp="yes" postag="NN:UN?"/>
@@ -1293,6 +1294,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBZ"/><!-- Cannot use the chunker: does[doe/NNS,E-NP-plural] -->
             <token regexp="yes">couldn?|might|may|shouldn?|haven?|don?|wouldn?</token>
          </antipattern>
+        <antipattern><!-- #2598 He always notices were -->
+            <token regexp="yes">he|she|it</token>
+            <token postag="RB"/>
+            <token postag="VBZ"/>
+            <token regexp="yes">weren?|aren?|couldn?|might|may|shouldn?|haven?|don?|wouldn?</token>
+        </antipattern>
         <pattern>
             <token><exception regexp="yes">I|you|we|they|he|she|it</exception></token>
             <marker>
@@ -1313,9 +1320,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">She really does have no idea what I'm talking about.</example>
         <example type="untouched">Information about what this <marker>does</marker> would be nice.</example>
         <example type="untouched">... but data about whoever each <marker>tries</marker> should tell us whether these judges are corrupt.</example>
+        <example type="untouched">Incorrect grammar: He always <marker>notices</marker> were that animal is going.</example><!-- #2598 -->
         <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]"
                  outputform="forces[force/NNS]">The armed <marker>forces</marker> are here.</example>
     </rule>
+
     <rule name="NNS/VBZ + were/are -&gt; VBZ" id="NNU_IN_WP_DT_VBZ"><!-- This is the antipattern in NNS_ARE_WERE -->
         <pattern>
             <token postag_regexp="yes" postag="NN:UN?"/>
