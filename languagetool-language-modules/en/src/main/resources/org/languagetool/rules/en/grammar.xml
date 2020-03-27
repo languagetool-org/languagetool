@@ -3344,6 +3344,23 @@ USA
                 <message>Did you mean <suggestion>it's</suggestion>?</message>
                 <example correction="It's"><marker>Its</marker> gonna be great.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>its</token>
+                    <token>not</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="1" max="2" />
+                    <token postag="NN.*" postag_regexp="yes" />
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token>not</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion>?</message>
+                <example correction="It's"><marker>Its</marker> not working</example>
+                <example>Welcome to Google and its not working software.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>all<exception scope="previous">after</exception></token>
@@ -10036,7 +10053,6 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-
         <rulegroup id="WORK_AROUND_COMPOUND" name="the work around (workaround)">
             <url>https://www.lexico.com/definition/workaround</url>
             <rule>
@@ -18073,7 +18089,7 @@ USA
                 <example correction="COVID-19|Covid-19"><marker>Covid</marker> originated in China.</example>
             </rule>
         </rulegroup>
-        <rule id="JOHNS_HOPKINS_UNIVERSITY" name="Johns Hopkins University" default="temp_off">
+        <rule id="JOHNS_HOPKINS_UNIVERSITY" name="Johns Hopkins University">
             <antipattern case_sensitive="yes">
                 <token>Johns</token>
                 <token>Hopkins</token>
@@ -18644,7 +18660,7 @@ USA
             <url>https://www.lexico.com/definition/high-end</url>
             <example correction="high-end">The <marker>high end</marker> computer.</example>
         </rule>
-        <rulegroup id="MILE_HYPHEN" name="missing hyphen in '2 mile race'" default="temp_off">
+        <rulegroup id="MILE_HYPHEN" name="missing hyphen in '2 mile race'">
             <antipattern><!-- https://en.wikipedia.org/wiki/Seven_Mile_Beach,_Grand_Cayman -->
                 <token regexp="yes">seven|7</token>
                 <token>mile</token>
@@ -18654,8 +18670,8 @@ USA
                 <pattern>
                     <marker>
                         <token postag="CD" />
-                        <token>mile</token>
-                        <token regexp="yes">radius|run|race|marathon|drive|journey|warranty|flight|interval|commute|range|trip|roundtrip|trail|highway|walk|limit|freeway|line|hike|extension|distance</token>
+                        <token regexp="yes">mile|(kilo)?meter|(kilo)?metre</token>
+                        <token regexp="yes">radius|run|race|competition|marathon|drive|journey|warranty|flight|interval|commute|range|trip|roundtrip|trail|highway|walk|limit|freeway|line|hike|extension|distance|sprint|springboard</token>
                     </marker>
                 </pattern>
                 <message>It seems that a hyphen is missing.</message>
@@ -18667,8 +18683,10 @@ USA
                     <token regexp="yes">the|an?</token>
                     <token postag="JJ.*" postag_regexp="yes" min="0" />
                     <marker>
-                        <token postag="CD" />
-                        <token>mile</token>
+                        <token postag="CD">
+                            <exception regexp="yes">1|one</exception>
+                        </token>
+                        <token regexp="yes">mile|meter|metre</token>
                         <token postag="NN.*" postag_regexp="yes" />
                     </marker>
                 </pattern>
@@ -31096,7 +31114,11 @@ USA
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
             <antipattern case_sensitive="yes">
                 <token regexp="yes" skip="3">\d+<exception regexp="yes">[01]</exception></token>
-                <token regexp="yes">AVE|Ave(nue)?|Street|BLVD|Blvd|Boulevard|Terrace|Square|St|ST|Center|Cove|Highway|Hwy|HWY|Circle|Drive|Parkway|Pkwy|PKWY|Northeast|Crescent|Trail|Alley|Loop</token>
+                <token regexp="yes">AVE|Ave(nue)?|Street|BLVD|Blvd|Boulevard|Terrace|Square|St|ST|Center|Cove|Highway|Hwy|HWY|Circle|Drive|Parkway|Pkwy|PKWY|Northeast|Crescent|Trail|Alley|Loop|Lane</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="1">\d+</token>
+                <token>lane</token>
             </antipattern>
             <antipattern>
                 <token>magnitude</token>
@@ -31199,7 +31221,12 @@ USA
                 <token regexp="yes">ten|10</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">page?|pg|clause|stage</token>
+                <token regexp="yes">page?|clause|stage</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">pg|ex|ch</token>
+                <token spacebefore="no">.</token>
                 <token regexp="yes">\d+</token>
             </antipattern>
             <antipattern><!-- love you 2 babe -->
@@ -31229,7 +31256,7 @@ USA
             <antipattern> <!-- "As a year 10 student, ..." -->
                 <token regexp="yes">year|grade|gr|semester|lesson</token>
                 <token postag="CD" />
-                <token regexp="yes">student|curriculum|bully|season|birthday|syllabus|teacher|worksheet|tab</token>
+                <token regexp="yes">student|curriculum|bully|season|birthday|syllabus|teacher|worksheet|tab|intro</token>
             </antipattern>
             <antipattern> <!-- "A level 7 diploma ..." -->
                 <token regexp="yes">level|tier|unit|factor</token>
@@ -31554,10 +31581,22 @@ USA
             <antipattern><!-- a 1,000 limit per person ... -->
                 <token regexp="yes">an?|the</token>
                 <token postag="JJ" min="0" />
+                <token regexp="yes">v?\d+</token>
+                <token regexp="yes">[,\.]</token>
                 <token regexp="yes">\d+</token>
-                <token min="0">,</token>
-                <token min="0" regexp="yes">\d+</token>
-                <token>limit</token>
+                <token regexp="yes">limit|version|update|software</token>
+            </antipattern>
+            <antipattern><!-- the .7 update works ... -->
+                <token regexp="yes">an?|the</token>
+                <token postag="JJ" min="0" />
+                <token>.</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+                <token regexp="yes">limit|version|update|software</token>
+            </antipattern>
+            <antipattern><!-- only 2 get caught -->
+                <token postag="RB" />
+                <token postag="CD" />
+                <token>get</token>
             </antipattern>
             <pattern>
                 <token postag="CD">
@@ -31573,7 +31612,7 @@ USA
                     <exception scope="previous" regexp="yes">×|x</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|RUB|percent|min(ute)?|megapixel|mp|oz|bit|foot|[kcm]ms?|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm|mi|ft|mg|kg|mpg|°C|(milli)?watt|ml</exception>
+                    <exception regexp="yes">Pound|Dollar|RUB|percent|min(ute)?|megapixel|mp|oz|bit|foot|[kcm]ms?|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm|mi|ft|mg|kg|lb|mpg|°C|(milli)?watt|ml</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()×]</exception>
                     <exception postag="MD|PRP\$|UNKNOWN" postag_regexp="yes" />
@@ -31584,12 +31623,12 @@ USA
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception regexp="yes">will|year|so|pst|well|still|have|had|wether|max</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent|mil</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
-                        <exception regexp="yes">trained|mentioned|assisting|voting|caused|died|said|embedded|squared|captured|combined|killed|used|possible|yearly</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
+                        <exception regexp="yes">trained|mentioned|assisting|voting|caused|died|said|embedded|squared|captured|combined|yawned|killed|used|possible|yearly</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
                         <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza|Parkway|Broadway</exception><!-- probably an address, "333 Grant Avenue" -->
-                        <exception scope="next">getters</exception>
+                        <exception scope="next" regexp="yes">getters|soldiers</exception>
                         <exception regexp="yes">thousand|[mb]illion</exception>
                     </token>
                 </marker>
@@ -31703,6 +31742,7 @@ USA
             <example>A canal 4 treatment.</example>
             <example>The Windows 10 update failed.</example>
             <example>He has a 5 slide presentation.</example>
+            <example>You say the .711 update was working fine for a couple of months.</example>
             <example>Have you installed the iOS 10 version?</example>
             <example>He went to this 5 star restaurant.</example>
             <example>Let's meet on 08 sept.</example>
@@ -40552,7 +40592,7 @@ The accident victim died from her injuries.
                         </token>
                         <token>day</token>
                     </marker>
-                    <token regexp="yes">weeks?|shipping|pandemi[ac]|calendar|window|diary|turnarounds?|deliver(y|ies)|event|seminar|cookies?|trade|diet|cruise|festival|school|weather|forecast|challenges?|warrant(y|ies)|guarantees?|getaways?|weekends?|course|conference|tour|adventure|training|off-?site|workout|travel|experience|rule|ticket|timeframe|trip|diary|lockdown|shutdown|periods?|intervals?</token>
+                    <token regexp="yes">weeks?|shipping|pandemi[ac]|residency|calendar|window|diary|turnarounds?|deliver(y|ies)|event|seminar|cookies?|trade|diet|cruise|festival|school|weather|forecast|challenges?|warrant(y|ies)|guarantees?|getaways?|weekends?|course|conference|tour|adventure|training|off-?site|workout|travel|experience|rule|ticket|timeframe|trip|diary|lockdown|shutdown|periods?|intervals?</token>
                 </pattern>
                 <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\1-\2</suggestion></message>
                 <example correction="2-day">FedEx <marker>2 day</marker> delivery.</example>
@@ -44734,7 +44774,7 @@ The accident victim died from her injuries.
             </rule>
         </rulegroup>
         <rulegroup id="KNOW_NOW" name="know (now)">
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token skip="-1">now</token>
                     <token regexp="yes">n?ever</token>
@@ -44815,6 +44855,13 @@ The accident victim died from her injuries.
                 <example correction="From now on"><marker>From know on</marker>, he is the “Big Kahuna”.</example>
             </rule>
             <rule>
+                <antipattern><!-- You even know him? -->
+                    <token postag="PRP|NNP" postag_regexp="yes" />
+                    <token postag="MD" min="0" />
+                    <token>even</token>
+                    <token>know</token>
+                    <token postag="PRP" />
+                </antipattern>
                 <pattern>
                     <token regexp="yes"><exception scope="previous">t</exception>and|but|by|even|from|so</token>
                     <marker>
@@ -44826,6 +44873,7 @@ The accident victim died from her injuries.
                 <short>Possible typo</short>
                 <example correction="now">And <marker>know</marker> he is leaving.</example>
                 <example>I don't even know myself.</example>
+                <example>You even know him?</example>
             </rule>
             <rule>
                 <pattern>
@@ -46418,6 +46466,13 @@ The accident victim died from her injuries.
                 <token>most</token>
                 <token>welcome</token>
             </antipattern>
+            <antipattern>
+                <token>you</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>re</token>
+                <token>everything</token>
+                <token regexp="yes">to|for|I|s?he|you|we|they|it</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="no">you</token>
@@ -46474,6 +46529,8 @@ The accident victim died from her injuries.
             <example>... when you're most likely going to do it.</example>
             <example>Incorrect grammar: You're far better then that.</example>
             <example>Because you're german and that matters.</example>
+            <example>You're everything to me.</example>
+            <example>You're everything I need.</example>
         </rule>
         <rule id="IN_YOU_RE_NN" name="you're (your)">
             <pattern>
