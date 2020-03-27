@@ -4975,6 +4975,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VBD"/>
             <token postag="DT|PRP\$" postag_regexp="yes"/>
         </antipattern>
+        <antipattern><!-- #2540: - Police officer's active work: -->
+            <token chunk="E-NP-plural"/>
+            <token chunk="E-NP-singular"/>
+            <token regexp="yes">&apostrophe;</token>
+            <token>s</token>
+            <token chunk="I-NP-singular" postag_regexp="yes" postag="JJR?"/>
+        </antipattern>
         <pattern>
             <and>
                 <token chunk="E-NP-plural"/>
@@ -4998,6 +5005,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">... has written songs about <marker>love</marker> and sex with women and men.</example>
         <example type="untouched">... for bears and mainly staves off <marker>hunger</marker> and starvation until more nutritious food is... [Chunker gives E-NP-plural to 'staves'.]</example>
         <example type="untouched">Noun. ... is thought to be one of the reasons <marker>stress</marker> damaged the stomach's mucous membrane. [Chunker gives B-VB to 'stress'.]</example>
+        <example type="untouched">- Police officer's active work:</example><!-- #2540 -->
     </rule>
 
     <rulegroup id="VBP_VBZ_NNS" name="VBZ/NN->VBZ">
