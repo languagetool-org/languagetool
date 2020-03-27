@@ -37272,7 +37272,7 @@ The accident victim died from her injuries.
       <example>I will go to Holiday Inn and complain about my vacation.</example>
     </rule>
 
-    <rule id="IN_FACEBOOK" name="I came by plane">
+    <rule id="IN_FACEBOOK" name="in (on) Facebook">
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
         <antipattern>
             <token>in</token>
@@ -37280,17 +37280,15 @@ The accident victim died from her injuries.
             <token regexp="yes">&apostrophe;</token>
             <token>s</token>
         </antipattern>
-        <antipattern>
-            <token>in</token>
-            <token>Amazon</token>
-            <token regexp="yes">deforestation|forests?|jungle|regions?|rainforests?|river</token>
-        </antipattern>
         <pattern>
             <token>in</token>
-            <token regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger</token>
+            <token chunk="E-NP-singular" regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger</token>
         </pattern>
         <message>The usual collocation for "\2" is "on". Did you mean <suggestion>on \2</suggestion>?</message>
         <example correction='on Wikipedia'>Check it <marker>in Wikipedia</marker>.</example>
+        <example>Check it <marker>on Wikipedia</marker>.</example>
+        <example>He is very active in Facebook groups.</example><!-- #2622 -->
+        <example>It's not working in Yahoo mail.</example><!-- #2622 -->
     </rule>
 
     <rule id="WRITE_IN_MY_OWN_PAGE" name="Write on my page">
