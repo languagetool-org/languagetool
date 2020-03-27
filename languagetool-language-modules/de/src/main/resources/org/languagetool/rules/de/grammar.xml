@@ -13553,7 +13553,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule><!-- Waren am DD.MM.JJJJ  -->
                 <pattern>
-                    <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein</token>
+                    <token inflected="yes" postag="VER:AUX:.*" postag_regexp="yes" skip="-1">sein
+                        <exception scope="next">und</exception>
+                    </token>
                     &date_allnumbers_skip;
                     <token postag="VER:(INF|PA2):.*" postag_regexp="yes"/>
                 </pattern>
@@ -13568,6 +13570,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Gestern war ich Kuchen essen.</example>
                 <example>Wir werden am 7.8.2025 den Kunden informieren.</example>
                 <example>Wir werden am 7.8.2025 den Kunden informiert haben.</example>
+                <example>Ihr Abo ist jetzt gekündigt und wird nach dem 15.04.2020 nicht mehr automatisch verlängert.</example>
             </rule>
             <rule><!-- VER:PRT am DD.MM.JJJJ -->
                 <pattern>
