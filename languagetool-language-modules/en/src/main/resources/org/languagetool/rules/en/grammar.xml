@@ -41028,31 +41028,51 @@ The accident victim died from her injuries.
             <message>Did you mean <suggestion>is</suggestion>?</message>
             <example correction="is">What <marker>it</marker> the solution.</example>
         </rule>
-        <rule id="IT_IF" name="it vs. if">
-            <antipattern>
-                <token postag="JJR" />
-                <token>than</token>
-            </antipattern>
-            <pattern>
-                <token postag="SENT_START" />
-                <token regexp="yes" min="0">and|but</token>
-                <marker>
-                    <token>it</token>
-                </marker>
-                <token postag="DT|PRP|NNP" postag_regexp="yes" skip="8" />
-                <token>
-                    <exception scope="previous" postag="CC" />
-                    then
-                </token>
-                <token postag="DT|PRP|NNP" postag_regexp="yes" />
-                <token />
-                <token />
-            </pattern>
-            <message>Did you maybe mean <suggestion>if</suggestion>?</message>
-            <example correction="If"><marker>It</marker> the first one lights then it is working.</example>
-            <example correction="If"><marker>It</marker> it does, then the script will return "NOT_FOUND".</example>
-            <example>It all happened so fast and then it was over.</example>
-        </rule>
+        <rulegroup id="IT_IF" name="it vs. if">
+            <rule>
+                <antipattern>
+                    <token postag="JJR" />
+                    <token>than</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes" min="0">and|but</token>
+                    <marker>
+                        <token>it</token>
+                    </marker>
+                    <token postag="DT|PRP|NNP" postag_regexp="yes" skip="8" />
+                    <token>
+                        <exception scope="previous" postag="CC" />
+                        then
+                    </token>
+                    <token postag="DT|PRP|NNP" postag_regexp="yes" />
+                    <token />
+                    <token />
+                </pattern>
+                <message>Did you maybe mean <suggestion>if</suggestion>?</message>
+                <example correction="If"><marker>It</marker> the first one lights then it is working.</example>
+                <example correction="If"><marker>It</marker> it does, then the script will return "NOT_FOUND".</example>
+                <example>It all happened so fast and then it was over.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern><!-- that we go for if and only if -->
+                    <token>if</token>
+                    <token postag="CC" />
+                    <token postag="RB" />
+                    <token>if</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes">go</token>
+                    <token>for</token>
+                    <marker>
+                        <token>if</token>
+                    </marker>
+                    <token postag="PCT|CC" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>it</suggestion>?</message>
+                <example correction="it">Go for <marker>if</marker>!</example>
+            </rule>
+        </rulegroup>
         <rule id="HAD_HARD" name="had vs. hard">
             <pattern>
                 <token inflected="yes">be</token>
@@ -41123,7 +41143,16 @@ The accident victim died from her injuries.
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START|PCT" postag_regexp="yes" />
+                    <token regexp="yes" min="0">or|and|but</token>
                     <token postag="MD" />
+                </antipattern>
+                <antipattern>
+                    <token postag="MD" />
+                    <token postag="RB" min="0" />
+                    <token>we</token>
+                    <token postag="RB" min="0" />
+                    <token postag="VB.*" postag_regexp="yes" skip="5" />
+                    <token>?</token>
                 </antipattern>
                 <pattern>
                     <token postag="MD" />
