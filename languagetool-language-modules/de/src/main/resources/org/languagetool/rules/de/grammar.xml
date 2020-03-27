@@ -7414,7 +7414,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="PROPER_NOUNS" name="Prominente/geographische Eigennamen">
         <!-- geographische Namen u. ä. -->
-        <rule id="JOHNS_HOPKINS_UNIVERSITY" name="Johns Hopkins University" default="temp_off">
+        <rule id="JOHNS_HOPKINS_UNIVERSITY" name="Johns Hopkins University">
             <antipattern case_sensitive="yes">
                 <token>Johns</token>
                 <token>Hopkins</token>
@@ -33759,6 +33759,14 @@ Andere Projekte</example>
         </rule>
         -->
         <rulegroup id="ANS_ARTIKEL" name="ans/fürs/... + Artikel">
+            <rule default="temp_off">
+                <pattern>
+                    <token>zum</token>
+                    <token case_sensitive="yes" regexp="yes">einem|anderem</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>\1 <match no="2" regexp_match="m$" regexp_replace="n" /></suggestion> oder <suggestion><match no="1" regexp_match="m$" regexp_replace="" /> \2</suggestion>?</message>
+                <example correction="Zum einen|Zu einem"><marker>Zum einem</marker> hat er seine Prüfungen immer recht gut gemeistert, zum andere hat er auch Nachhilfeunterricht gegeben.</example>
+            </rule>
             <rule>
                 <pattern>
                     <marker>
