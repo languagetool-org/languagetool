@@ -37956,7 +37956,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="aterridora">Una descripció <marker>aterradora</marker>.</example>
             <example>una descripció aterridora</example>
         </rule>
-        <rulegroup id="CELEBRAR_CONTRACTE" name="*celebrar/signar/subscriure un contracte"> 
+        <rulegroup id="CELEBRAR_CONTRACTE" name="*celebrar/signar/subscriure un contracte">
             <!-- "acord" també, però és més ambigu -->
             <rule>
                 <pattern>
@@ -42806,6 +42806,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="WEBGRAFIA" name="*webgrafia/bibliografia web">
+            <pattern>
+                <marker>
+                    <token inflected="yes">webgrafia</token>
+                </marker>
+            </pattern>
+            <message>D'acord amb el Termcat, són preferibles altres expressions.</message>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">bibliografia</match> web</suggestion>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">bibliografia</match> <match no="1" postag="NCF(.).*" postag_regexp="yes" postag_replace="AQ0F$10">electrònic</match></suggestion>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">bibliografia</match> en línia</suggestion>
+            <example correction="Bibliografia web|Bibliografia electrònica|Bibliografia en línia"><marker>Webgrafia</marker>.</example>
+        </rule>
         <rule id="XOCOLATA_DESFETA" name="xocolata *a la tassa/desfeta">
             <pattern>
                 <token regexp="yes" inflected="yes">xocolate|xocolata</token>
