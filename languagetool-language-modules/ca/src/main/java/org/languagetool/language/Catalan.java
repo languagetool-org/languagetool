@@ -122,6 +122,7 @@ public class Catalan extends Language {
             new SimpleReplaceDiacriticsIEC(messages),
             new SimpleReplaceDiacriticsTraditional(messages),
             new SimpleReplaceAnglicism(messages)
+            //REMEMBER TO ADD RULES TO ValencianCatalan!!
     );
   }
 
