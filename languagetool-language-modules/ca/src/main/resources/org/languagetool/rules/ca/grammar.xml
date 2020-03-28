@@ -5137,23 +5137,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes">obligar</token>
+                        <token inflected="yes" regexp="yes">obligar|cridar</token>
                         <token>a</token>
                     </marker>
                     <token min="1" max="4" postag="[DAN].*|PX.*" postag_regexp="yes" spacebefore="yes"><exception inflected="yes">tot</exception></token>
                     <token>a</token>
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
-                <message>El v. 'obligar' és transitiu i sobra la preposició 'a'.</message>
+                <message>Aquest verb és és transitiu i cal eliminar la preposició 'a'.</message>
                 <suggestion>\1</suggestion>
                 <example correction="obligava">Joan <marker>obligava a</marker> la seua filla a estudiar.</example>
+                <example correction="Cridava"><marker>Cridava a</marker> les dones a exercir càrrecs de responsabilitat.</example>
                 <example>Ha obligat a tots a fer-ho.</example>
                 <example>Va obligar a tots els alumnes a córrer.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token inflected="yes">obligar</token>
+                        <token inflected="yes" regexp="yes">obligar|cridar</token>
                         <token>a</token>
                         <token postag="DA.*" postag_regexp="yes" spacebefore="no"/>
                     </marker>
@@ -5161,9 +5162,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>a</token>
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
-                <message>El v. 'obligar' és transitiu i sobra la preposició 'a'.</message>
+                <message>Aquest verb és és transitiu i cal eliminar la preposició 'a'.</message>
                 <suggestion>\1 e\3</suggestion>
                 <example correction="obligava el">Joan <marker>obligava al</marker> seu fill a estudiar.</example>
+                <example correction="cridà el">Joan <marker>cridà al</marker> seu fill a estudiar.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CABRE" name="*cabre + infinitiu">
@@ -5581,6 +5583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El que havia deixat amagat el 1944.</example>
                 <example>el disseny dels quals ha estat després utilitzat en la indústria</example>
                 <example>Si hagués jo plorat.</example>
+                <example>havia estat membre del clergat</example>
             </rule>
             <rule>
                 <antipattern>
@@ -17059,7 +17062,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>san<exception postag=".*NP.*" postag_regexp="yes"/></token>
                 </marker>
-                <token postag="NPMSSP0"><exception regexp="yes">Antonio|Pedro|José|Diego</exception></token>
+                <token postag="NPMSSP0"><exception regexp="yes">Antonio|Pedro|José|Diego|Fernando|Miguel|Francisco</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>sant</suggestion> en comptes de 'san' (= poble africà)?</message>
             <short>Possible confusió</short>
@@ -17068,6 +17071,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>San Dalmazzo</example>
             <example>a San Antonio</example>
             <example>San Rafael del Río</example>
+            <example>Acadèmia de Belles Arts de San Fernando</example>
         </rule>
         <rule id="ALLIOLI" name="allioli">
             <antipattern>
@@ -20688,6 +20692,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="SPELLING" name="Errors ortogràfics" type="misspelling">
+        <rule id="PAUL" name="Paul/Paül">
+            <pattern>
+                <token regexp="yes">Vicent|Vicenç</token>
+                <token>de</token>
+                <token>Paul</token>
+            </pattern>
+            <message>S'escriu amb dièresi.</message>
+            <suggestion>\1 de Paül</suggestion>
+            <example correction="Vicent de Paül"><marker>Vicent de Paul</marker></example>
+        </rule>
+        <rule id="ANA_ANNA" name="Ana/Anna">
+            <antipattern>
+                <token>Ana</token>
+                <token regexp="yes">\p{Lu}.+</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">Ana</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>Anna</suggestion>? 'Ana' és el nom en castellà.</message>
+            <example correction="Anna">En l'ermita de santa <marker>Ana</marker>.</example>
+            <example correction="Anna">A la població d'<marker>Ana</marker>.</example>
+            <example>Ana García.</example>
+        </rule>
+        <rule id="MIGUEL_MIQUEL" name="Miguel/Miquel">
+            <antipattern>
+                <token>Miguel</token>
+                <token postag="NP.*|_possible_nompropi" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>San</token>
+                <token>Miguel</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">Miguel</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>Miquel</suggestion>? 'Miguel' és el nom en castellà.</message>
+            <example correction="Miquel">En el terme de Sant <marker>Miguel</marker>.</example>
+            <example>Miguel Rodríguez.</example>
+        </rule>
         <rule id="SENS" name="se'ns / sens">
             <pattern>
                 <marker>
@@ -26534,6 +26577,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>l'ha duta</example>
         </rule>
         <rule id="PER_INFINITIU" name="Revisa 'per + infinitiu'" default="off">
+            <antipattern>
+                <token>gràcies</token>
+                <token>per</token>
+            </antipattern>
+            <antipattern>
+                <token>encara</token>
+                <token inflected="yes">estar</token>
+                <token>per</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">estar</token>
+                <token>encara</token>
+                <token>per</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>per</token>
@@ -26543,7 +26600,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Podria ser: <suggestion>per a \2</suggestion>.</message>
             <short>Reviseu 'per + infinitiu'</short>
             <example correction="per a treballar">Eines <marker>per treballar</marker> la fusta</example>
-            <example>Eines <marker>per a</marker> treballar la fusta</example>
+            <example>Gràcies per col·laborar.</example>
+            <example>Encara està per fer.</example>
+            <example>Estava encara per fer.</example>
         </rule>
         <rule id="PERA_INFINITIU" name="Revisa 'per a + infinitiu'" default="off">
             <pattern>
@@ -26920,7 +26979,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">\d[\d+\.,]*</token>
-                    <token postag="Y"/>
+                    <token postag="Y"><exception>aprox</exception></token>
                 </pattern>
                 <filter class="org.languagetool.rules.WhitespaceCheckFilter" args="whitespaceChar:&#x2006; position:2"/>
                 <message>Utilitzeu un espai fi entre nombres i unitats.</message>
