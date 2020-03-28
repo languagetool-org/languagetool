@@ -167,8 +167,6 @@ class SingleDocument {
    * 
    * @param paraText          paragraph text
    * @param paRes             proof reading result
-   * @param footnotePositions position of footnotes
-   * @param isParallelThread  true: check runs as parallel thread
    * @return                  proof reading result
    */
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
