@@ -50,9 +50,11 @@ import org.languagetool.rules.TextLevelRule;
  * @author Fred Kruse
  */
 class LORemoteLanguageTool {
+
   private static final String BLANK = " ";
   private static final String SERVER_URL = "https://languagetool.org/api";
   private static final int SERVER_LIMIT = 20000;
+
   private final String serverUrl;
   private final Set<String> enabledRules = new HashSet<>();
   private final Set<String> disabledRules = new HashSet<>();
@@ -60,6 +62,7 @@ class LORemoteLanguageTool {
   private final Set<CategoryId> enabledRuleCategories = new HashSet<>();
   private final List<Rule> allRules = new ArrayList<>();
   private final List<String> ruleValues = new ArrayList<>();
+
   private URL serverBaseUrl;
   private Language language;
   private Language motherTongue;
@@ -105,9 +108,11 @@ class LORemoteLanguageTool {
       configBuilder.setMotherTongueLangCode(motherTongue.getShortCodeWithCountryAndVariant());
     }
     if(paraMode == ParagraphHandling.ONLYPARA) {
-      configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
       configBuilder.ruleValues(ruleValues);
-      configBuilder.enabledOnly();
+      if (enabledRules.size() > 0) {
+        configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
+        configBuilder.enabledOnly();
+      }
       configBuilder.mode("textLevelOnly");
     } else {
       configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
