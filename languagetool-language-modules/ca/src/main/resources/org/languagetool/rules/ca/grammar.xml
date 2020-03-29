@@ -17534,7 +17534,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token regexp="yes">s'|ho</token>
-                    <token min="0" inflected="yes">haver</token>
+                    <token min="0" inflected="yes" regexp="yes">haver|anar</token>
                     <token inflected="yes">explicar</token>
                 </antipattern>
                 <antipattern>
@@ -17555,6 +17555,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>ens explicava perquè entenguéssim què volia dir</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>la</token>
+                    <token>pregunta</token>
+                </antipattern>
+                <antipattern>
+                    <token>perquè</token>
+                    <token min="0" max="4" postag="_PUNCT_CONT|RG|LOC_ADV" postag_regexp="yes"><exception>ja</exception></token>
+                    <token>ja</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">preguntar</token>
                     <marker>
@@ -17564,6 +17573,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablement cal escriure <suggestion>per què</suggestion> (=per quin motiu).</message>
                 <example correction="per què">Es preguntava <marker>perquè</marker> havia passat.</example>
                 <example correction="per què">Ens pregunta <marker>perquè</marker> passava això.</example>
+                <example>coses que no preguntem perquè teòricament ja les hauríem de saber</example>
+                <example>Em pareix ben plantejada la pregunta perquè no sumen 50.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PER_QUE_PERQUE" name="*per què/perquè">
@@ -42940,6 +42951,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="ATENA" name="Atena/Atenea">
+            <pattern>
+                <token>Atenea</token>
+            </pattern>
+            <message>Forma preferible.</message>
+            <suggestion>Atena</suggestion>
+            <example correction="Atena">Atenea</example>
+        </rule>
         <rule id="WEBGRAFIA" name="*webgrafia/bibliografia web">
             <pattern>
                 <marker>
