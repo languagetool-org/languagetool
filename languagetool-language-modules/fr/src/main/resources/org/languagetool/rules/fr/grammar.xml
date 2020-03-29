@@ -30518,7 +30518,9 @@ though, and has since been slightly modified)-->
       <pattern case_sensitive="yes">
         <token negate_pos="yes" postag="SENT_START"/>
         <marker>
-          <token regexp="yes">Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche</token>
+          <token regexp="yes">Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche
+            <exception scope="previous">«</exception>
+          </token>
         </marker>
       </pattern>
       <message>Les jours de la semaine n’ont pas de majuscule. Voulez-vous écrire <suggestion><match no="2" case_conversion="startlower"/></suggestion> ?</message>
@@ -30526,6 +30528,7 @@ though, and has since been slightly modified)-->
       <example correction="lundi">Je viendrai <marker>Lundi</marker>.</example>
       <example>Je viendrai lundi.</example>
       <example>Lundi est le premier jour de la semaine.</example>
+      <example>« Jeudi, je suis resté au lit. »</example>
     </rule>
     <rulegroup id="LANGUES" name="langues">
       <rule>
