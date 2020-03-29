@@ -7,7 +7,8 @@
 #### English
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.83 - 2020-04-01)
 
-
+#### French
+  * added and improved rules
 
 ## 4.9 (2020-03-24)
 
@@ -35,7 +36,7 @@
   * `compounds.txt` now automatically expands `ß` to `ss` when using German (Switzerland)
   * German `spelling.txt` now supports `prefix_verb` syntax like `vorüber_eilen` so
     the speller will accept all forms of "eilen" prefixed by "vorüber" 
-  
+
 #### Irish
   * Added initial support for Irish, contributed by Jim Regan
     (https://github.com/languagetool-org/languagetool/pull/2260)
