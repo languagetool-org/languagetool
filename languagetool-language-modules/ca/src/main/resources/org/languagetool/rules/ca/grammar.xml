@@ -5976,7 +5976,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="5">vam|vau|vàrem|vàreu|vàgim|vàgem|vàgeu|vàgiu<exception scope="next" postag="V.N.*|P[P0].*" postag_regexp="yes"/></token>
+                    <token regexp="yes">va|vaig|vam|van|varen|vares|vas|vau|vàgem|vàgeu|vàgim|vàgiu|vàrem|vàreu</token>
+                    <marker>
+                        <token postag="V.[^GN].*" postag_regexp="yes"/>
+                    </marker>
+                    <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
+                </pattern>
+                <message>Falta un infinitiu o un gerundi.</message>
+                <suggestion><match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="2" postag="V.G.*" postag_regexp="yes"/></suggestion>
+                <example correction="interpretar|interpretant">Va <marker>interpreta</marker>-la.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="5">vares|varen|vam|vau|vàrem|vàreu|vàgim|vàgem|vàgeu|vàgiu<exception scope="next" postag="V.N.*|P[P0].*" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="V.[^N].*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">de|d'</exception></token>
                     </marker>
