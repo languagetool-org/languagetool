@@ -246,7 +246,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
         <rule id="ALREDEDOR" name="*(a) alrededor">
             <antipattern>
-                <token inflected="yes" regexp="yes">ascender|emplear</token>
+                <token inflected="yes" regexp="yes">ascender|emplear|afectar</token> <!-- preposición 'a' en complento directo -->
                 <token>a</token>
             </antipattern>
             <pattern>
@@ -2681,29 +2681,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <!-- TODO: Following rules need simplification using Regex. Lots of falsee positives due to skip -1 attr.-->
         <!-- RELACIONADO_A: La forma preferida es: RELACIONADO CON-->
-        <rule id="RELACIONADAOS_A" name="relacionada/o/s a">
-            <pattern>
-                <token regexp="yes">relacionad[oa]s{0,1}</token>
-                <marker>
-                    <token>a</token>
-                </marker>
-            </pattern>
-            <message>La preposición adecuada es <suggestion>con</suggestion>.</message>
-            <example correction="con">Esa canción está relacionada <marker>a</marker> los Beatles.</example>
-            <example>Esa canción está relacionada con los Beatles.</example>
-        </rule>
-        <rule id="RELACIONADAOS_AL" name="relacionada/o/s al">
-            <pattern>
-                <token regexp="yes">relacionad[oa]s{0,1}</token>
-                <marker>
-                    <token>al</token>
-                </marker>
-            </pattern>
-            <message>La preposición adecuada es 'con'.</message>
-            <suggestion>con el</suggestion>
-            <example correction="con el">Esa canción está relacionada <marker>al</marker> amor.</example>
-            <example>Esa canción está relacionada con el amor.</example>
-        </rule>
+        <rulegroup id="RELACIONADAOS_A" name="relacionada/o/s a">
+            <antipattern>
+                <token regexp="yes" skip="8">relacionad[oa]s{0,1}</token>
+                <token>con</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">relacionad[oa]s{0,1}</token>
+                    <marker>
+                        <token>a</token>
+                    </marker>
+                </pattern>
+                <message>La preposición adecuada es <suggestion>con</suggestion>.</message>
+                <example correction="con">Esa canción está relacionada <marker>a</marker> los Beatles.</example>
+                <example>Esa canción está relacionada con los Beatles.</example>
+                <example>Es relacinado a menudo con el punto medio.</example>
+                <example>Han relacionado a los agujeros negros y su entropía con la teoría de la información.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">relacionad[oa]s{0,1}</token>
+                    <marker>
+                        <token>al</token>
+                    </marker>
+                </pattern>
+                <message>La preposición adecuada es 'con'.</message>
+                <suggestion>con el</suggestion>
+                <example correction="con el">Esa canción está relacionada <marker>al</marker> amor.</example>
+                <example>Esa canción está relacionada con el amor.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONTRACORRIENTE" name=" *contracorriente, *a contra corriente">
             <url>http://www.fundeu.es/recomendacion/a-contracorrienteo-contra-corriente/</url>
             <rule>
@@ -2797,7 +2805,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PUNCTUATION" name="puntuación">
-        <rule id="YA_QUE" name="ya que que (con coma)" default="temp_off">
+        <rule id="YA_QUE" name="ya que que (con coma)">
             <!-- a lot of true positives expected -->
             <pattern>
                 <token><exception postag="SENT_START"/></token>
@@ -2811,9 +2819,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Como locución causal, se escribe con coma.</message>
             <suggestion>\3, \4 \5</suggestion>
             <suggestion>\3 porque</suggestion>
+            <url>https://www.fundeu.es/recomendacion/coma-antes-de-ya-que-pues-o-puesto-que/</url>
             <example correction="profesional, ya que|profesional porque">Busque atención <marker>profesional ya que</marker> pueden deberse a una infección.</example>
         </rule>
-        <rule id="PUESTO_QUE" name="puesto que (con coma)" default="temp_off">
+        <rule id="PUESTO_QUE" name="puesto que (con coma)">
             <!-- a lot of true positives expected -->
             <antipattern>
                 <token postag="D..[MC][SN].|SP\+DA" postag_regexp="yes"/>
@@ -2831,6 +2840,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Como locución causal, se escribe con coma.</message>
             <suggestion>\3, \4 \5</suggestion>
+            <url>https://www.fundeu.es/recomendacion/coma-antes-de-ya-que-pues-o-puesto-que/</url>
             <example correction="profesional, puesto que">Busque atención <marker>profesional puesto que</marker> pueden deberse a una infección.</example>
             <example>Es un puesto que interesa.</example>
             <example>Es un buen puesto que le gusta.</example>
@@ -2838,6 +2848,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>su mismo puesto que el año anterior</example>
             <example>Se enfrentó al cuarto puesto que era el Madrid.</example>
         </rule>
+        <!--TODO: idem with ", pues"-->
     </category>
  <category id='TYPOGRAPHY' name="Tipografía" type="typographical">
     <rulegroup id="AM_PM" name="AM/PM">
