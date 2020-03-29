@@ -5366,7 +5366,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">assez|gens|homme|plus|très|trop|moins|personnage|si|tellement|vieux</token>
           <marker><token regexp="yes">avars?</token></marker>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match  no="2" regexp_match="r" regexp_replace="re"/></suggestion> ?</message>
+        <message>Voulez-vous écrire <suggestion><match no="2" regexp_match="r" regexp_replace="re"/></suggestion> ?</message>
         <example correction="avares">Ils sont très <marker>avars</marker>.</example>
         <example>L’avar est une langue caucasienne.</example>
       </rule>
@@ -7623,7 +7623,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <marker><token>veillez</token></marker>
           <token regexp="yes" min="0" max="5">la|les?|[lmnts]e?|lui|[nv]ous|leur|toujours|bien|rien|pas|plus|donc|en|y|SVP|['´‘’′]</token>
-          <token postag="V.* inf" postag_regexp="yes"></token>
+          <token postag="V.* inf" postag_regexp="yes"/>
         </pattern>
         <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^(..)" regexp_replace="$1u"/></suggestion>.</message>
         <example correction="Veuillez"><marker>Veillez</marker> excuser mon retard.</example>
@@ -7647,7 +7647,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">pla[îi]t</token>
           <token min="0" max="1">,</token>
           <token regexp="yes" min="0" max="5">la?|les?|[mnts]e?|lui|[nv]ous|toujours|bien|rien|pas|plus|donc|en|y|['´‘’′]</token>
-          <token postag="V.* inf" postag_regexp="yes"></token>
+          <token postag="V.* inf" postag_regexp="yes"/>
         </pattern>
         <message>Confusion probable entre « \1 » et <suggestion><match no="1" regexp_match="^(..)" regexp_replace="$1u"/></suggestion>.</message>
         <example correction="Veuillez"><marker>Veillez</marker>, s’il vous plait, excuser mon retard.</example>
@@ -8347,7 +8347,7 @@ though, and has since been slightly modified)-->
             <token regexp="yes" inflected="yes">considérer|imaginer|penser|dits|appeler</token>
             <token regexp="yes">selon|par|d\'après</token>
             <token regexp="yes">certains?</token>
-            <token></token>
+            <token/>
         </antipattern>
         <antipattern>
           <token regexp="yes">ondes|signaux|échos|émetteurs|interféromètres|récepteurs|réflecteurs|brouilleurs|stations</token>
@@ -9788,7 +9788,7 @@ though, and has since been slightly modified)-->
         <example>Dans la cuisine, elles sont bien entendu <marker>placées</marker> en hauteur.</example>
         <example>Produit avec un budget en effet très limité, Psychose est <marker>tourné</marker> avec l'équipe de télévision d'Alfred Hitchcock.</example>
         <example correction="entretenue">Cette psychose est <marker>entretenu</marker> par les théories du complot.</example>
-        <example >Cette psychose est <marker>entretenue</marker> par les théories du complot.</example>
+        <example>Cette psychose est <marker>entretenue</marker> par les théories du complot.</example>
       </rule>
       <rule>
         <pattern>
@@ -12672,7 +12672,7 @@ though, and has since been slightly modified)-->
         <antipattern>
           <token regexp="yes">voulu|souhaité</token>
           <token min="0" max="2" regexp="yes">[mts]e?|lui|[nv]ous|[’´'‛′‘]</token>
-          <token postag="V.* inf" postag_regexp="yes"></token>
+          <token postag="V.* inf" postag_regexp="yes"/>
         </antipattern>
         <pattern>
           <token negate="yes" regexp="yes">plus|moins|dans|de|au|à|appareil</token>
@@ -12706,7 +12706,7 @@ though, and has since been slightly modified)-->
             <antipattern>
                 <token regexp="yes">voulu|souhaité</token>
                 <token min="0" max="2" regexp="yes">[mts]e?|lui|[nv]ous|[’´'‛′‘]</token>
-                <token postag="V.* inf" postag_regexp="yes"></token>
+                <token postag="V.* inf" postag_regexp="yes"/>
             </antipattern>
             <pattern>
                 <token negate="yes" regexp="yes">plus|moins|dans|de|au|à|appareil</token>
@@ -14044,7 +14044,7 @@ though, and has since been slightly modified)-->
             </antipattern>
             <antipattern>
                 <token>nous</token>
-                <token min="0" max="1"></token>
+                <token min="0" max="1"/>
                 <token postag="V .* 1 p" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -14097,7 +14097,7 @@ though, and has since been slightly modified)-->
             <example>Sachez vous éloigner.</example>
             <example>Vous pouvez vous asseoir.</example>
         </rule>
-      <rule name="correction du tiret d'inversion ' -> -">
+      <rule name="correction du tiret d'inversion">
         <pattern>
           <token regexp="yes">.*[-‑‐]t</token>
           <token regexp="yes">[’´'‛′‘]</token>
@@ -14281,7 +14281,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">est|pas|car</exception>
             <exception postag="V.*" postag_regexp="yes"/>
           </token>
-          <token regexp="yes" >l[àa]</token>
+          <token regexp="yes">l[àa]</token>
           <token postag="M .*" postag_regexp="yes"/>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-là</suggestion> ?</message>
@@ -24374,7 +24374,7 @@ though, and has since been slightly modified)-->
     <antipattern>
         <token>bachelor</token>
         <token>of</token>
-        <token />
+        <token/>
     </antipattern>
       <pattern>
         <token regexp="yes">bachelors?</token>
@@ -27948,7 +27948,7 @@ though, and has since been slightly modified)-->
       </pattern>
       <message>« Par-là » est une faute de typographie (sauf dans « par-ci par-là »). Employez <suggestion>par là</suggestion>.</message>
       <example correction="par là">Il est passé <marker>par-là</marker>.</example>
-      <example>Par-ci par-là>.</example>
+      <example>Par-ci par-là.</example>
     </rule>
     <rule id="AU_DESSOUS" name="au dessous → au-dessous, par dessus → par-dessus, etc.">
       <pattern>
