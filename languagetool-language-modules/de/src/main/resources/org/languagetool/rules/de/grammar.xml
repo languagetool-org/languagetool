@@ -18962,6 +18962,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Die Zeitschrift wurde zum <marker>25-jährigen</marker> Bestehen veröffentlicht.</example>
                 <example>Dort erhielt er als <marker>13-Jähriger</marker> Privatunterricht.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp='yes'>\d+jährige[srnm]?</token>
+                </pattern>
+                <message>Die Kombination Zahl + "jährig" wird mit Bindestrich geschrieben.</message>
+                <suggestion><match no="1" regexp_match="(\d+)" regexp_replace="$1-"/></suggestion>
+                <url>https://www.duden.de/rechtschreibung/_jaehrig</url>
+                <example correction="13-jährige">Das <marker>13jährige</marker> Mädchen gewann den Vorlesewettbewerb.</example>
+            </rule>
         </rulegroup>
         <rule id="HALBMAST" name="auf Halbmast (halbmast)">
             <pattern>
