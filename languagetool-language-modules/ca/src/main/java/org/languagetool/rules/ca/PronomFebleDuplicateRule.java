@@ -43,7 +43,7 @@ public class PronomFebleDuplicateRule extends Rule {
   public PronomFebleDuplicateRule(ResourceBundle messages) throws IOException {
     super.setCategory(new Category(new CategoryId("PRONOMS_FEBLES"), "Pronoms febles"));
     setLocQualityIssueType(ITSIssueType.Grammar);
-    addExamplePair(Example.wrong("<marker>S'ha de fer-se</marker>.."), Example.fixed("<marker>S'ha de fer</marker>."));
+    addExamplePair(Example.wrong("<marker>S'ha de fer-se</marker>."), Example.fixed("<marker>S'ha de fer</marker>."));
   }
 
   @Override
@@ -95,7 +95,7 @@ public class PronomFebleDuplicateRule extends Rule {
           }
           ruleMatch.addSuggestedReplacement(suggestion.toString());
           ruleMatches.add(ruleMatch);
-        } else if (!tokens[i].isWhitespaceBefore() &&
+        } else if (!tokens[i].isWhitespaceBefore() && isPrevInfinitive &&
             (PFLemma.equals("en") && PFLemma2.equals("hi") 
             || PFLemma.equals("hi") && PFLemma2.equals("en"))) 
         {

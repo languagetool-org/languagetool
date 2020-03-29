@@ -24,6 +24,7 @@ public class PronomFebleDuplicateRuleTest {
   @Test
   public void testRule() throws IOException { 
     
+    assertCorrect("N'hi ha d'haver.");
     assertCorrect("Hi podria haver un error.");
     assertCorrect("Es divertien llançant-se pedres.");
     assertCorrect("Es recomana tapar-se la boca.");
