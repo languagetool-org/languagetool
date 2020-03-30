@@ -41,7 +41,7 @@ public class DashRuleTest {
   public void setUp() throws Exception {
     Language lang = new Polish();
     langTool = new JLanguageTool(lang);
-    rule = new DashRule();
+    rule = new DashRule(JLanguageTool.getMessageBundle(lang));
   }
 
   @Test

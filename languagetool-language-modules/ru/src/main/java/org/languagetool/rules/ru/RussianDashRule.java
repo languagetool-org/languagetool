@@ -22,6 +22,8 @@ package org.languagetool.rules.ru;
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.rules.AbstractDashRule;
 
+import java.util.ResourceBundle;
+
 /**
  * Check for compounds written with dashes instead of hyphens.
  * @since 4.2
@@ -30,8 +32,8 @@ public class RussianDashRule extends AbstractDashRule {
 
   private static final AhoCorasickDoubleArrayTrie<String> trie = loadCompoundFile("/ru/compounds.txt");
 
-  public RussianDashRule() {
-    super(trie);
+  public RussianDashRule(ResourceBundle messages) {
+    super(trie, messages);
   //  setDefaultTempOff(); // Slows down start up. See GitHub issue #1016.
   }
 

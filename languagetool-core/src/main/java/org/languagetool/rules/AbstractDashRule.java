@@ -35,7 +35,9 @@ public abstract class AbstractDashRule extends Rule {
 
   private final AhoCorasickDoubleArrayTrie<String> trie;
 
-  public AbstractDashRule(AhoCorasickDoubleArrayTrie<String> trie) {
+  public AbstractDashRule(AhoCorasickDoubleArrayTrie<String> trie, ResourceBundle messages) {
+    super(messages);
+    setCategory(Categories.TYPOGRAPHY.getCategory(messages));
     this.trie = trie;
   }
 
