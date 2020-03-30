@@ -6834,6 +6834,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
+    <rule name="Proper noun: S&amp;P 500" id="S_AND_P_500"><!-- The correct spelling uses a ligature: https://corporate.britannica.com/contact/; www.iranicaonline.org.-->
+      <pattern case_sensitive="yes">
+          <token>S</token>
+          <token regexp="yes">&amp;</token>
+          <token>P</token>
+          <token>500</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
     <rule name="Proper noun: U.S. Highway 101" id="US_HIGHWAY_101"><!-- #2077, https://en.wikipedia.org/wiki/U.S._Route_101 -->
       <pattern case_sensitive="yes">
           <token>U</token>
@@ -6854,6 +6864,17 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           </marker>
       </pattern>
       <disambig action="add"><wd pos="NN"/><wd pos="NN"/></disambig>
+    </rule>
+
+    <rule name="NN: ma'am" id="MA_AM">
+      <pattern>
+          <marker>
+            <token>ma</token>
+            <token regexp="yes" spacebefore="no">['’]</token>
+            <token spacebefore="no">am</token>
+          </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="NN"/><wd pos="NN"/><wd pos="NN"/></disambig>
     </rule>
 
     <rule name="NNS: Enter Keys" id="ENTER_KEYS">
