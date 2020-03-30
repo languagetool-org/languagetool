@@ -53,7 +53,10 @@ public class QuestionWhitespaceRuleTest {
       assertEquals(0, rule.match(lt.getAnalyzedSentence("C'est vrai ??")).length);
       assertEquals(0, rule.match(lt.getAnalyzedSentence("☀️9:00")).length);
       assertEquals(0, rule.match(lt.getAnalyzedSentence("00:80:41:ae:fd:7e")).length);
-      
+
+      TestTools.disableAllRulesExcept(lt, "FRENCH_WHITESPACE");
+      //assertEquals(0, lt.check("« Je suis Chris… »").size());
+
       // errors:
       assertThat(rule.match(lt.getAnalyzedSentence("C'est vrai!")).length, is(1));
       assertThat(rule.match(lt.getAnalyzedSentence("Qu'est ce que c'est?")).length, is(1));
