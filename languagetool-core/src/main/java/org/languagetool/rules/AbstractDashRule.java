@@ -73,7 +73,8 @@ public abstract class AbstractDashRule extends Rule {
         // prevent substring matches, e.g. "Foto" for "Photons"
         continue;
       }
-      RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end, getMessage(), null, false, "");
+      RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end, hit.begin, hit.end,
+              getMessage(), null, false, "");
       String covered = text.substring(hit.begin, hit.end);
       match.setSuggestedReplacement(covered.replaceAll(" ?[–—] ?", "-"));
       matches.add(match);
