@@ -42201,6 +42201,12 @@ Andere Projekte</example>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*" postag_regexp="yes"/>
                     <token regexp="yes">,|\.|:|;|-|–|\)|\(|„|“|»|«|"|und|oder</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" skip="-1" regexp="yes" case_sensitive="yes">[a-zäöüß]+
+                        <exception postag="VER:AUX:.+" postag_regexp="yes"/>
+                    </token>
+                    <token inflected="yes">werden</token>
+                </antipattern>
                 <pattern>
                     <token>,</token>
                     <marker>
@@ -42212,10 +42218,14 @@ Andere Projekte</example>
                       </token>
                     </marker>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes">
-                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
+                        <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*|PA2:.+" postag_regexp="yes"/>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen</exception>
+                        <exception scope="next" postag="PKT"/>
                     </token>
-                    <token/>
+                    <token skip="-1">
+                        <exception>/</exception>
+                    </token>
+                    <token postag="VER:.+" postag_regexp="yes"/>
                 </pattern>
                 <message>Hier ein Komma hinter '\3' einfügen?</message>
                 <suggestion><match no="2" include_skipped="all"/> \3,</suggestion>
@@ -42223,7 +42233,10 @@ Andere Projekte</example>
                 <example>Ich konnte den Rasen nicht mähen, <marker>weil der Rasenmäher kaputt gegangen ist,</marker> aber ich habe eine andere Aufgabe erledigt.</example>
                 <example>Bedeutender war jedoch, dass Gerhard Schröder zum siebten Bundeskanzler der Bundesrepublik gewählt wurde.</example>
                 <example>Sie sagte, das sei so, weil sie keine würdige Tochter ist.</example>
-                <example>So könnte man immer schauen, wo sich ein Fang gerade befindet beziehungsweise befand. </example>
+                <example>So könnte man immer schauen, wo sich ein Fang gerade befindet beziehungsweise befand.</example>
+                <example>Da diese Version stabiler ist, als die letzte kommt hier ein kleiner härte Test.</example>
+                <example>Das Verzeichnis muss mehrere Nummern haben, damit es überschrieben werden kann.</example>
+                <example>Ich hatte mich letztens damit beschäftigt, da gab es einen Bug, der dazu führte.</example>
             </rule>
 <!--    Komma zwischen zwei Satzteilen (recht allgemein)     -->
             <rule>
