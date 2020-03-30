@@ -5432,33 +5432,36 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="ambiguous" inputform="mine[mine/NN,mine/PRP$,mine/VB,mine/VBP]" outputform="mine[mine/PRP$]">It's <marker>mine</marker>.</example>
     </rule>
 
-		<rule id="VBP_NN_VBZ" name="company -> noun">
-			<antipattern>
-				<token regexp="yes">you|we|they</token>
-				<token>are</token>
-				<token postag="VB[ZP]?" postag_regexp="yes"/>
-				<token postag="IN"/>
-			</antipattern>
-			<pattern>
-				<token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
-				<marker>
-				<and>
-					<token postag="NN.*" postag_regexp="yes"><exception postag="NN|JJ.*" postag_regexp="yes"/><exception scope="next" postag="DT|RB" postag_regexp="yes"/></token>
-					<token postag="VB[ZP]?" postag_regexp="yes"/>
-				</and>
-				<token><exception postag_regexp="yes" postag="NNP|PRP"/></token>
-				</marker>
-			</pattern>
-			<disambig><match no="2" postag="NN.*" postag_regexp="yes"/></disambig>
-			<example type="untouched">It's still valid.</example>
-			<example type="untouched">Incorrect grammar. People have make many types of mistakes with verb agreement.</example>
-			<example type="untouched">Incorrect grammar. The technician has <marker>make</marker> about 20 errors this year.</example>
-			<example type="untouched">I have <marker>notice</marker> LanguageTool doesn't find all errors.</example><!-- Possibly a noun (=somebody has told me (that)), but possibly incorrect verb form (should be 'noticed') -->
-			<example type="untouched">Incorrect grammar. I have <marker>start</marker> he tomorrow.</example>
-			<example type="untouched">Incorrect grammar. They are build from wood.</example>
-			<example type="untouched">Incorrect grammar. We are drive to London.</example>
-			<example type="ambiguous" inputform="companies[company/NNS,company/VBZ]" outputform="companies[company/NNS]">They have <marker>companies</marker>.</example>
-		</rule>
+    <rule id="VBP_NN_VBZ" name="company -> noun">
+        <antipattern>
+            <token regexp="yes">you|we|they</token>
+            <token>are</token>
+            <token postag="VB[ZP]?" postag_regexp="yes"/>
+            <token postag="IN"/>
+        </antipattern>
+        <pattern>
+            <token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
+            <marker>
+                <and>
+                    <token postag="NN.*" postag_regexp="yes">
+                        <exception postag="NN|JJ.*" postag_regexp="yes"/>
+                        <exception scope="next" postag="DT|RB" postag_regexp="yes"/>
+                        </token>
+                    <token postag="VB[ZP]?" postag_regexp="yes"/>
+                </and>
+                <token><exception postag_regexp="yes" postag="NNP|PRP"/></token>
+            </marker>
+        </pattern>
+        <disambig><match no="2" postag="NN.*" postag_regexp="yes"/></disambig>
+        <example type="untouched">It's still valid.</example>
+        <example type="untouched">Incorrect grammar. People have make many types of mistakes with verb agreement.</example>
+        <example type="untouched">Incorrect grammar. The technician has <marker>make</marker> about 20 errors this year.</example>
+        <example type="untouched">I have <marker>notice</marker> LanguageTool doesn't find all errors.</example><!-- Possibly a noun (=somebody has told me (that)), but possibly incorrect verb form (should be 'noticed') -->
+        <example type="untouched">Incorrect grammar. I have <marker>start</marker> he tomorrow.</example>
+        <example type="untouched">Incorrect grammar. They are build from wood.</example>
+        <example type="untouched">Incorrect grammar. We are drive to London.</example>
+        <example type="ambiguous" inputform="companies[company/NNS,company/VBZ]" outputform="companies[company/NNS]">They have <marker>companies</marker>.</example>
+    </rule>
 
         <rule id="VBP_NN_VBZ_NN" name="have palm trees - palm is a noun">
             <pattern>
