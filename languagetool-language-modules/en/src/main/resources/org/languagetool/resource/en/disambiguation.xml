@@ -5439,6 +5439,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB[ZP]?" postag_regexp="yes"/>
             <token postag="IN"/>
         </antipattern>
+        <antipattern><!-- #2657 I will be search for -->
+            <token regexp="yes">&subject_pronouns;</token>
+            <token postag="MD"/>
+            <token>be</token>
+            <token postag="VB"/>
+            <token postag="IN"/>
+        </antipattern>
         <pattern>
             <token regexp="yes" postag="VB[ZPG]?" postag_regexp="yes" inflected="yes">be|have</token>
             <marker>
@@ -5460,6 +5467,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar. I have <marker>start</marker> he tomorrow.</example>
         <example type="untouched">Incorrect grammar. They are build from wood.</example>
         <example type="untouched">Incorrect grammar. We are drive to London.</example>
+        <example type="untouched">Incorrect grammar: I will be search for you.</example><!-- #2657 -->
         <example type="ambiguous" inputform="companies[company/NNS,company/VBZ]" outputform="companies[company/NNS]">They have <marker>companies</marker>.</example>
     </rule>
 
