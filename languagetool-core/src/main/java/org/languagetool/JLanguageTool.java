@@ -999,6 +999,11 @@ public class JLanguageTool {
     }
     RuleMatch thisMatch = new RuleMatch(match);
     thisMatch.setOffsetPosition(fromPos, toPos);
+
+    int startPos = match.getPatternFromPos() + charCount;
+    int endPos = match.getPatternToPos() + charCount;
+    thisMatch.setPatternPosition(startPos, endPos);
+
     List<SuggestedReplacement> replacements = match.getSuggestedReplacementObjects();
     thisMatch.setSuggestedReplacementObjects(extendSuggestions(replacements));
 
