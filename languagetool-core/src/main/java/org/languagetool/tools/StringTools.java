@@ -18,20 +18,15 @@
  */
 package org.languagetool.tools;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.regex.Pattern;
-
+import com.google.common.xml.XmlEscapers;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
-import com.google.common.xml.XmlEscapers;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Tools for working with strings.
@@ -229,6 +224,15 @@ public final class StringTools {
    */
   @Nullable
   public static String lowercaseFirstChar(String str) {
+    return changeFirstCharCase(str, false);
+  }
+
+  /**
+   * Return <code>str</code> if str is not abbreviation, otherwise return
+   * modified <code>str</code> so that its first character is now a lowercase character.
+   */
+  public static String lowercaseFirstCharIfNotAbbreviation(String str) {
+    if (str.length() > 1 && Character.isUpperCase(str.charAt(1))) return str;
     return changeFirstCharCase(str, false);
   }
 
