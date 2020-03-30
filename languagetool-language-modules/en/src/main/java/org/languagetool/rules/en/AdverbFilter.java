@@ -115,6 +115,11 @@ public class AdverbFilter extends RuleFilter {
     put("enthusiastically", "enthusiastic");
     put("incredibly", "incredible");
     put("permanently", "permanent");
+    put("entirely", "entire");
+    put("surely", "sure");
+    put("positively", "positive");
+    put("negatively", "negative");
+    put("outwards", "outward");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
