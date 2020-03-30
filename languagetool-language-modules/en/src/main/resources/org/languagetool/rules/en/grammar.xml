@@ -3344,7 +3344,7 @@ USA
                 <message>Did you mean <suggestion>it's</suggestion>?</message>
                 <example correction="It's"><marker>Its</marker> gonna be great.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>its</token>
                     <token>not</token>
@@ -5108,7 +5108,7 @@ USA
                 <pattern>
                     <token postag_regexp="yes" postag="VBP?">
                         <exception postag_regexp="yes" postag="NN.*"/>
-                        <exception regexp="yes">cc|let|matt</exception>
+                        <exception regexp="yes">cc|let|matt|harry</exception>
                         <exception case_sensitive="yes" regexp="yes">[A-Z].+</exception><!-- Assume initial caps is NNP -->
                     </token>
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
@@ -7168,10 +7168,12 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token>have</token>
+                    <token regexp="yes">have|had</token>
                     <marker><token>your</token></marker>
                     <token min="0">ever</token>
-                    <token postag="VBN"></token>
+                    <token postag="VBN">
+                        <exception postag="VBD" />
+                    </token>
                 </pattern>
                 <message>Did you mean <suggestion>you</suggestion>?</message>
                 <example correction="you">Have <marker>your</marker> seen my sister?</example>
@@ -10057,6 +10059,16 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="FREQUENT_ASKED_QUESTIONS" name="Frequently Asked Questions" default="temp_off">
+            <pattern>
+                <token>frequent</token>
+                <token>asked</token>
+                <token regexp="yes">questions?</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1ly \2 \3</suggestion> (= FAQ)?</message>
+            <url>https://www.lexico.com/definition/faq</url>
+            <example correction="Frequently Asked Questions">Have you checked their <marker>Frequent Asked Questions</marker> for an answer?</example>
+        </rule>
         <rulegroup id="WORK_AROUND_COMPOUND" name="the work around (workaround)">
             <url>https://www.lexico.com/definition/workaround</url>
             <rule>
@@ -10667,7 +10679,7 @@ USA
             </antipattern>
             <antipattern><!-- https://www.lexico.com/definition/high_five -->
                 <token>high</token>
-                <token inflected="yes">five</token>
+                <token regexp="yes">five[sd]?</token>
             </antipattern>
             <antipattern case_sensitive="yes"><!-- online shop company -->
                 <token>ABOUT</token>
@@ -11923,14 +11935,14 @@ USA
                 <token postag="MD" />
                 <token regexp="yes" min="0">&apostrophe;</token>
                 <token min="0">t</token>
-                <token>bye</token>
+                <token regexp="yes">bye|darling</token>
                 <token postag="PCT" />
             </antipattern>
             <antipattern><!-- "I won't bye" -->
                 <token postag="MD" />
                 <token regexp="yes" min="0">&apostrophe;</token>
                 <token min="0">t</token>
-                <token postag="SENT_END">bye</token>
+                <token regexp="yes">bye|darling</token>
             </antipattern>
             <antipattern>
                 <token postag="MD" />
@@ -13861,7 +13873,7 @@ USA
                         <exception postag='VB.*' postag_regexp='yes' scope='previous' regexp='yes' inflected='yes'>let|make|see|hear|need</exception>
                     </token>
                     <token min='0' postag_regexp='yes' postag='NN(:U|P)?'>
-                        <exception regexp='yes'>can|one|google|excel|then</exception>
+                        <exception regexp='yes'>can|one|google|excel|then|species</exception>
                         <exception postag="W.*" postag_regexp="yes" />
                     </token>
                     <token postag='VBP?' postag_regexp='yes'><exception negate_pos='yes' postag='VBP?' postag_regexp='yes'/><exception>be</exception></token>
@@ -13931,6 +13943,7 @@ USA
                 <example>How many subscribers does this magazine have?</example>
                 <example>Who does this suitcase belong to?</example>
                 <example>Is this fish still alive?</example>
+                <example>What could be done to help this species thrive?</example><!-- plural of "species" is "species" -->
                 <example>Will this dictionary do?</example>
                 <example>Might that test suffice for now?</example>
                 <example>You really hate this don't you?</example>
@@ -17644,6 +17657,46 @@ USA
                 <example>FOX NFL</example>
             </rule>
         </rulegroup>
+        <rulegroup id="WHITE_HOUSE" name="White House" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>White</token>
+                <token>House</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|to|daily</token>
+                    <marker>
+                        <token>white</token>
+                        <token>house</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>White House</suggestion> (= the official residence of the president)?</message>
+                <example correction="White House">The <marker>white house</marker> is the official residence and workplace of the president of the United States.</example>
+                <example>Did you see the wonderful big white house on the hills?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PCT|SENT_START" postag_regexp="yes" />
+                    <marker>
+                        <token>white</token>
+                        <token>house</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>White House</suggestion> (= the official residence of the president)?</message>
+                <example correction="White House"><marker>White house</marker> officials are warning Trump against social distancing deadlines.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>white</token>
+                        <token>house</token>
+                    </marker>
+                    <token skip="2" regexp="yes">press.*|news|briefing|offic.*|correspondent.*|meeting|washington|dinner|force|adviser|chief</token>
+                </pattern>
+                <message>Did you mean <suggestion>White House</suggestion> (= the official residence of the president)?</message>
+                <example correction="White House"><marker>white house</marker> officials are warning Trump against social distancing deadlines.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRESIDENT_TRUMP" name="president trump (Trump)">
             <url>https://en.wikipedia.org/wiki/Donald_Trump</url>
             <rule>
@@ -18692,7 +18745,7 @@ USA
                     <marker>
                         <token postag="CD" />
                         <token regexp="yes">mile|(kilo)?meter|(kilo)?metre</token>
-                        <token regexp="yes">radius|run|race|competition|marathon|drive|journey|warranty|flight|interval|commute|range|trip|roundtrip|trail|highway|walk|limit|freeway|line|hike|extension|distance|sprint|springboard</token>
+                        <token regexp="yes">radius|run|race|competition|marathon|drive|journey|warranty|flight|interval|commute|range|trip|roundtrip|trail|highway|walk|limit|freeway|line|hike|extension|distance|sprint|springboard|boulevard</token>
                     </marker>
                 </pattern>
                 <message>It seems that a hyphen is missing.</message>
@@ -20825,7 +20878,10 @@ USA
             <pattern>
                 <token inflected="yes">a</token>
                 <marker>
-                    <token postag="RB"><exception postag="JJ[RS]?|NN.*" postag_regexp="yes"/><exception regexp="yes">not|after|before|approx</exception></token>
+                    <token postag="RB">
+                        <exception postag="JJ[RS]?|NN.*" postag_regexp="yes"/>
+                        <exception regexp="yes">not|after|before|approx|while</exception>
+                    </token>
                     <token postag="NN(:UN?)?" postag_regexp="yes">
                         <exception postag="JJ[RS]?|VB[NG]" postag_regexp="yes" />
                         <exception scope="next" regexp="yes">based|wide|specifc</exception><!-- compound adjectives where a hyphen is missing -->
@@ -20843,6 +20899,7 @@ USA
             <example>All of a sudden water came down from the roof.</example>
             <example>That was a really kind of weird conversation.</example>
             <example>A completely oil based solution.</example>
+            <example>Such a person may once in a while see a good person.</example>
             <example><marker>Once in a while</marker> everything goes wrong.</example>
             <example correction="philosophical question">This is a <marker>philosophically question</marker>.</example>
             <example correction="real solution">It's a <marker>really solution</marker>.</example>
@@ -28796,10 +28853,12 @@ USA
                 <token postag="VB.*|UNKNOWN" postag_regexp="yes">
                     <exception regexp="yes" inflected="yes">hope|think</exception>
                 </token>
+                <token min="0" max="3">.</token>
                 <token regexp="yes">you|it</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">[\-\*]?(are|were|was|is|am)</token>
+                <token min="0" max="3">.</token>
                 <token regexp="yes">it|s?he|we|they|I</token>
             </antipattern>
             <antipattern><!-- Is it you -->
@@ -28838,7 +28897,7 @@ USA
                 <token spacebefore="no">com</token>
             </antipattern>
             <antipattern><!-- World War I -->
-                <token regexp="yes">current|Article|mustang|war|phase|grade</token>
+                <token regexp="yes">current|Article|mustang|war|phase|grade|part</token>
                 <token case_sensitive="yes">I</token>
             </antipattern>
             <antipattern><!-- my wife and I not being drinkers -->
@@ -28986,6 +29045,15 @@ USA
                 <token postag="PRP" />
                 <token>better</token>
                 <token>fucking</token>
+            </antipattern>
+            <antipattern><!-- I fuckin' will do ... -->
+                <token>fuckin</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token postag="MD" />
+            </antipattern>
+            <antipattern>
+                <token>friggin</token>
+                <token postag="VB.*|MD" postag_regexp="yes" />
             </antipattern>
             <rule><!-- "How he doing?" -->
                 <pattern>
@@ -29136,6 +29204,7 @@ USA
                 <example>How are Tom and I ever going to buy everything we need?</example>
                 <example>I before reading this post had to wait 15-20 minutes.</example><!-- missing comma -->
                 <example>In early February, Cindy talked to Joann and I about matching the burns to the best reading around noon of the gas day that just ended.</example>
+                <example>I frigging love you!</example>
             </rule>
             <rule>
                 <pattern>
@@ -31195,6 +31264,11 @@ USA
                 <token postag="CD"/>
                 <token regexp="yes">hit|all</token>
             </antipattern>
+            <antipattern><!-- A top 100 startup -->
+                <token>top</token>
+                <token regexp="yes">10|20|25|50|100|500|1000</token>
+                <token postag="NN.*" postag_regexp="yes" />
+            </antipattern>
             <antipattern><!-- two silver and black triangles -->
                 <token postag="CD"/>
                 <token postag="NN(:UN?)?" postag_regexp="yes"/>
@@ -31443,6 +31517,11 @@ USA
                 <token>#</token>
                 <token postag="CD" spacebefore="no" />
             </antipattern>
+            <antipattern><!-- number 2 deal -->
+                <token>number</token>
+                <token postag="CD" />
+                <token postag="NN.*" postag_regexp="yes" />
+            </antipattern>
             <antipattern>
                 <token regexp="yes">(US\$|\$|€|£)\d+</token>
                 <token spacebefore="no">,</token>
@@ -31522,7 +31601,7 @@ USA
             <antipattern><!-- a 5 caliber pistol -->
                 <token postag="CD" />
                 <token>caliber</token>
-                <token>pistol</token>
+                <token regexp="yes">pistol|rifle</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">windows|iphone|(mac)?os</token>
@@ -31633,7 +31712,7 @@ USA
                     <exception scope="previous" regexp="yes">×|x</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|RUB|percent|min(ute)?|megapixel|mp|oz|bit|foot|[kcm]ms?|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm|mi|ft|mg|kg|lb|mpg|°C|(milli)?watt|ml</exception>
+                    <exception regexp="yes">Pound|Dollar|RUB|percent|min(ute)?|megapixel|mp|oz|bit|foot|[kcm]ms?|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm|mi|ft|mg|kg|lb|mpg|°C|(milli)?watt|ml|sec|yo</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()×]</exception>
                     <exception postag="MD|PRP\$|UNKNOWN" postag_regexp="yes" />
@@ -31644,10 +31723,10 @@ USA
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception regexp="yes">will|year|so|pst|well|still|have|had|wether|max</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent|mil</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent|mil|all|has</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
-                        <exception regexp="yes">trained|mentioned|assisting|voting|caused|died|said|embedded|squared|captured|combined|yawned|killed|used|possible|yearly</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
+                        <exception regexp="yes">trained|mentioned|assisting|voting|caused|died|said|embedded|squared|captured|combined|yawned|killed|finished|used|possible|yearly</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
                         <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza|Parkway|Broadway</exception><!-- probably an address, "333 Grant Avenue" -->
                         <exception scope="next" regexp="yes">getters|soldiers</exception>
                         <exception regexp="yes">thousand|[mb]illion</exception>
@@ -33369,6 +33448,10 @@ USA
                     <token>the</token>
                 </antipattern>
                 <antipattern>
+                    <token case_sensitive="yes" skip="4">A</token>
+                    <token case_sensitive="yes">B</token>
+                </antipattern>
+                <antipattern>
                     <token>a</token>
                     <token>a</token>
                     <token>a</token>
@@ -33390,6 +33473,11 @@ USA
                     <token>a</token>
                     <token>a</token>
                     <token regexp="yes">[a-z]</token>
+                </antipattern>
+                <antipattern><!-- list of letters -->
+                    <token case_sensitive="yes" regexp="yes">[A-Z]</token>
+                    <token case_sensitive="yes" regexp="yes">[A-Z]</token>
+                    <token case_sensitive="yes">A</token>
                 </antipattern>
                 <antipattern>
                     <token>A</token>
@@ -40613,7 +40701,7 @@ The accident victim died from her injuries.
                         </token>
                         <token>day</token>
                     </marker>
-                    <token regexp="yes">weeks?|shipping|pandemi[ac]|residency|calendar|window|diary|turnarounds?|deliver(y|ies)|event|seminar|cookies?|trade|diet|cruise|festival|school|weather|forecast|challenges?|warrant(y|ies)|guarantees?|getaways?|weekends?|course|conference|tour|adventure|training|off-?site|workout|travel|experience|rule|ticket|timeframe|trip|diary|lockdown|shutdown|periods?|intervals?</token>
+                    <token regexp="yes">weeks?|shipping|penalty|pandemi[ac]|residency|calendar|window|diary|turnarounds?|deliver(y|ies)|event|seminar|cookies?|trade|diet|cruise|festival|school|weather|forecast|challenges?|warrant(y|ies)|guarantees?|getaways?|weekends?|course|conference|tour|adventure|training|off-?site|workout|travel|experience|rule|ticket|timeframe|trip|diary|lockdown|shutdown|periods?|intervals?</token>
                 </pattern>
                 <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\1-\2</suggestion></message>
                 <example correction="2-day">FedEx <marker>2 day</marker> delivery.</example>
@@ -41071,12 +41159,12 @@ The accident victim died from her injuries.
                 <example correction="If"><marker>It</marker> it does, then the script will return "NOT_FOUND".</example>
                 <example>It all happened so fast and then it was over.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern><!-- that we go for if and only if -->
                     <token>if</token>
                     <token postag="CC" />
-                    <token postag="RB" />
-                    <token>if</token>
+                    <token postag="RB" min="0" />
+                    <token regexp="yes">if|when|where|who|what|how</token>
                 </antipattern>
                 <pattern>
                     <token inflected="yes">go</token>
@@ -43035,7 +43123,7 @@ The accident victim died from her injuries.
                     <marker>
                         <token>quite</token>
                     </marker>
-                    <token regexp="yes">evenings?|noises?|sounds?|musics?|wedding|confidence|signals?|hummings?|tones?|places?|earth|life|woman|man|kids?|child</token>
+                    <token regexp="yes">evenings?|noises?|spaces?|sounds?|musics?|wedding|confidence|signals?|hummings?|tones?|places?|earth|life|woman|man|kids?|child</token>
                 </pattern>
                 <message>Did you mean the adjective <suggestion>quiet</suggestion>?</message>
                 <example correction="quiet">A very <marker>quite</marker> noise.</example>
@@ -43591,6 +43679,7 @@ The accident victim died from her injuries.
                 <example>I “force pushed” it by Ctrl-clicking it on the push arrow.</example>
                 <example>The plan itself was materially lower than that presented to John and I by the business and support groups.</example>
                 <example>After reading your work, I feel a kinship with the people and place and the misery that's been imposed on them and it by nature.</example>
+                <example type="triggers_error">So excited were they by showing the amateur Europeans how space stuff was done properly, that they forgot to run their routines quickly enough.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ABOUT_TO_VBD" name="He is about to (be) executed">
@@ -44209,7 +44298,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <marker><token>to</token></marker>
                     <token postag="RB">
-                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|nowhere|not|yes|no|multiply|tomorrow|today|tonight|yesterday|here|wheresoever|always|accordingly|never|nowadays|again|n?either|also|t?here</exception><!-- 'too X' is not standard English. -->
+                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|nowhere|not|yes|no|multiply|tomorrow|today|tonight|yesterday|here|wheresoever|always|accordingly|never|nowadays|again|n?either|also|t?here|annually|yearly</exception><!-- 'too X' is not standard English. -->
                       <exception postag_regexp="yes" postag="JJR?|VBP|NNP"/>
                     </token>
                     <token postag="SENT_END" regexp="yes">\p{P}</token>
@@ -44883,6 +44972,14 @@ The accident victim died from her injuries.
                 <example correction="now|no">My dream is <marker>know</marker> Roma, in Italy.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>let</token>
+                    <token postag="PRP" />
+                    <token>know</token>
+                    <token>and</token>
+                    <token>then</token>
+                    <token postag="VB.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token>know</token>
                     <token>and</token>
@@ -44891,6 +44988,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>now and then</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="now and then">My mom used to make a hell of a burrito every <marker>know and then</marker>.</example>
+                <example>I will let you know and then proceed with the other task.</example>
             </rule>
             <rule>
                 <pattern>
@@ -45141,7 +45239,7 @@ The accident victim died from her injuries.
             <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">could|can(not)?|(?-i)I|you|we|they|s?he|it</token>
+                    <token regexp="yes">[wc]ould|can(not)?|(?-i)I|you|we|they|s?he|it</token>
                     <token postag="RB" min="0" />
                     <marker>
                         <token>breath</token>
@@ -45158,7 +45256,7 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">couldn|can</token>
+                    <token regexp="yes">[wc]ouldn|can</token>
                     <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <marker>
@@ -45173,7 +45271,7 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">can|could</token>
+                    <token regexp="yes">can|[wc]ould</token>
                     <token>not</token>
                     <token>breath</token>
                 </pattern>
