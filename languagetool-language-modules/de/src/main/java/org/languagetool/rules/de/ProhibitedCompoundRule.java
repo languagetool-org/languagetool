@@ -155,6 +155,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Maskenhersteller", // vs Marken
           "Maskenherstellers",
           "Maskenherstellern",
+          "Firmenvokabular",
           "Maskenproduktion"
   ));
 
