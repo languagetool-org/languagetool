@@ -40,6 +40,17 @@ import com.sun.star.uno.XComponentContext;
  */
 class OfficeTools {
   
+  public static final int PROOFINFO_UNKNOWN = 0;
+  public static final int PROOFINFO_GET_PROOFRESULT = 1;
+  public static final int PROOFINFO_MARK_PARAGRAPH = 2;
+
+  public static final String END_OF_PARAGRAPH = "\n\n";  //  Paragraph Separator like in standalone GUI
+  public static final int NUMBER_PARAGRAPH_CHARS = END_OF_PARAGRAPH.length();  //  number of end of paragraph characters
+  public static final String SINGLE_END_OF_PARAGRAPH = "\n";
+  public static final String MANUAL_LINEBREAK = "\r";  //  to distinguish from paragraph separator
+  public static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
+  public static final String LOG_LINE_BREAK = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
+
   private static final String MENU_BAR = "private:resource/menubar/menubar";
 
   /**
