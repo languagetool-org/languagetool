@@ -18,18 +18,16 @@
  */
 package org.languagetool.synthesis.en;
 
+import org.languagetool.*;
+import org.languagetool.rules.en.AvsAnRule;
+import org.languagetool.synthesis.BaseSynthesizer;
+import org.languagetool.tools.StringTools;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.rules.en.AvsAnRule;
-import org.languagetool.synthesis.BaseSynthesizer;
 
 /**
  * English word form synthesizer.
@@ -75,7 +73,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
       throws IOException {
     String aOrAn = aVsAnRule.suggestAorAn(token.getToken());
     if (ADD_DETERMINER.equals(posTag)) {
-      return new String[] { aOrAn, "the " + token.getToken() };
+      return new String[] { aOrAn, "the " + StringTools.lowercaseFirstCharIfNotAbbreviation(token.getToken()) };
     } else if (ADD_IND_DETERMINER.equals(posTag)) {
       return new String[] { aOrAn };
     }
@@ -124,7 +122,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
     List<String> lookup = new ArrayList<>();
     super.lookup(lemma, posTag, lookup);
     for (String result : lookup) {
-      results.add(determiner + result);
+      results.add(determiner + StringTools.lowercaseFirstCharIfNotAbbreviation(result));
     }
   }
 
