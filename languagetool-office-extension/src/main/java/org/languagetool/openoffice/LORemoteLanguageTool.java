@@ -105,9 +105,11 @@ class LORemoteLanguageTool {
       configBuilder.setMotherTongueLangCode(motherTongue.getShortCodeWithCountryAndVariant());
     }
     if(paraMode == ParagraphHandling.ONLYPARA) {
-      configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
       configBuilder.ruleValues(ruleValues);
-      configBuilder.enabledOnly();
+      if (enabledRules.size() > 0) {
+        configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
+        configBuilder.enabledOnly();
+      }
       configBuilder.mode("textLevelOnly");
     } else {
       configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
