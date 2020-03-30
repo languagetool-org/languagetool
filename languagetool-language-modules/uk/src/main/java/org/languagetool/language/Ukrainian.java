@@ -18,35 +18,10 @@
  */
 package org.languagetool.language;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.regex.Pattern;
-
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.UserConfig;
-import org.languagetool.databroker.ResourceDataBroker;
-import org.languagetool.rules.CommaWhitespaceRule;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.MultipleWhitespaceRule;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.UppercaseSentenceStartRule;
-import org.languagetool.rules.uk.HiddenCharacterRule;
-import org.languagetool.rules.uk.MissingHyphenRule;
-import org.languagetool.rules.uk.MixedAlphabetsRule;
-import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
-import org.languagetool.rules.uk.SimpleReplaceRenamedRule;
-import org.languagetool.rules.uk.SimpleReplaceRule;
-import org.languagetool.rules.uk.SimpleReplaceSoftRule;
-import org.languagetool.rules.uk.SimpleReplaceSpelling1992Rule;
-import org.languagetool.rules.uk.TokenAgreementAdjNounRule;
-import org.languagetool.rules.uk.TokenAgreementNounVerbRule;
-import org.languagetool.rules.uk.TokenAgreementPrepNounRule;
-import org.languagetool.rules.uk.UkrainianWordRepeatRule;
+import org.languagetool.*;
+import org.languagetool.broker.ResourceDataBroker;
+import org.languagetool.rules.*;
+import org.languagetool.rules.uk.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.uk.UkrainianSynthesizer;
 import org.languagetool.tagging.Tagger;
@@ -56,6 +31,10 @@ import org.languagetool.tagging.uk.UkrainianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class Ukrainian extends Language {
   private static final List<String> RULE_FILES = Arrays.asList(

@@ -16,13 +16,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.databroker;
+package org.languagetool.broker;
+
+import org.languagetool.JLanguageTool;
 
 import java.io.InputStream;
 import java.net.URL;
-import java.util.List;
-
-import org.languagetool.JLanguageTool;
+import java.util.*;
 
 /**
  * Is responsible for getting the necessary resources for the LanguageTool
@@ -107,6 +107,22 @@ public interface ResourceDataBroker {
    List<String> getFromResourceDirAsLines(String path);
 
   /**
+   * Get from resource broker by a path file
+   * @param path Path to an item
+   * @return An {@link InputStream} object to the requested item
+   * @since 4.9
+   */
+  InputStream getAsStream(String path);
+
+  /**
+   * Get from resource broker by a path file
+   * @param path Path to an item
+   * @return An {@link URL} object to the requested item
+   * @since 4.9
+   */
+  URL getAsURL(String path);
+
+  /**
    * Gets any resource from LanguageTool's {@code /rules} directory.
    * @param path Path to an item from the {@code /rules} directory.
    * @return An {@link URL} object to the requested item
@@ -136,4 +152,13 @@ public interface ResourceDataBroker {
    */
   String getRulesDir();
 
+  /**
+   * Gets a resource bundle using the specified base name and locale, and the caller module.
+   *
+   * @param baseName the base name of the resource bundle, a fully qualified class name
+   * @param locale the locale for which a resource bundle is desired
+   * @return a resource bundle for the given base name and locale
+   * @since 4.9
+   */
+  ResourceBundle getResourceBundle(String baseName, Locale locale);
 }

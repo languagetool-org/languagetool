@@ -16,18 +16,16 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.databroker;
+package org.languagetool.broker;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.JLanguageTool;
+
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.languagetool.JLanguageTool;
+import java.util.*;
 
 /**
  * Responsible for getting any items from LanguageTool's resource
@@ -129,10 +127,11 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @return An {@link InputStream} object to the requested item
    * @throws RuntimeException if path cannot be found
    */
+  @NotNull
   @Override
   public InputStream getFromResourceDirAsStream(String path) {
     String completePath = getCompleteResourceUrl(path);
-    InputStream resourceAsStream = ResourceDataBroker.class.getResourceAsStream(completePath);
+    InputStream resourceAsStream = getAsStream(completePath);
     assertNotNull(resourceAsStream, path, completePath);
     return resourceAsStream;
   }
@@ -146,6 +145,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @throws RuntimeException if path cannot be found
    * @since 4.9
    */
+  @NotNull
   public List<String> getFromResourceDirAsLines(String path) {
     List<String> lines = new ArrayList<>();
     try (InputStream stream = getFromResourceDirAsStream(path);
@@ -163,6 +163,24 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   }
 
   /**
+   * {@inheritDoc}
+   */
+  @Nullable
+  @Override
+  public InputStream getAsStream(String path) {
+    return ResourceDataBroker.class.getResourceAsStream(path);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Nullable
+  @Override
+  public URL getAsURL(String path) {
+    return ResourceDataBroker.class.getResource(path);
+  }
+
+  /**
    * See:
    * {@link ResourceDataBroker#getFromResourceDirAsUrl(String)}
    * @param path The relative path to the item inside of the {@code /resource}
@@ -172,10 +190,11 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @return An {@link URL} object to the requested item
    * @throws RuntimeException if path cannot be found
    */
+  @NotNull
   @Override
   public URL getFromResourceDirAsUrl(String path) {
     String completePath = getCompleteResourceUrl(path);
-    URL resource = ResourceDataBroker.class.getResource(completePath);
+    URL resource = getAsURL(completePath);
     assertNotNull(resource, path, completePath);
     return resource;
   }
@@ -201,10 +220,11 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @return An {@link InputStream} object to the requested item
    * @throws RuntimeException if path cannot be found
    */
+  @NotNull
   @Override
   public InputStream getFromRulesDirAsStream(String path) {
     String completePath = getCompleteRulesUrl(path);
-    InputStream resourceAsStream = ResourceDataBroker.class.getResourceAsStream(completePath);
+    InputStream resourceAsStream = getAsStream(completePath);
     assertNotNull(resourceAsStream, path, completePath);
     return resourceAsStream;
   }
@@ -217,10 +237,11 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
    * @return An {@link URL} object to the requested item
    * @throws RuntimeException if path cannot be found
    */
+  @NotNull
   @Override
   public URL getFromRulesDirAsUrl(String path) {
     String completePath = getCompleteRulesUrl(path);
-    URL resource = ResourceDataBroker.class.getResource(completePath);
+    URL resource = getAsURL(completePath);
     assertNotNull(resource, path, completePath);
     return resource;
   }
@@ -264,7 +285,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   @Override
   public boolean resourceExists(String path) {
     String completePath = getCompleteResourceUrl(path);
-    return ResourceDataBroker.class.getResource(completePath) != null;
+    return getAsURL(completePath) != null;
   }
   
   /**
@@ -277,7 +298,7 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   @Override
   public boolean ruleFileExists(String path) {
     String completePath = getCompleteRulesUrl(path);
-    return ResourceDataBroker.class.getResource(completePath) != null;
+    return getAsURL(completePath) != null;
   }
 
   /**
@@ -298,4 +319,13 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
     return rulesDir;
   }
 
+  /**
+   * {@inheritDoc}
+   * @exception NullPointerException if <code>baseName</code> or <code>locale</code> is <code>null</code>
+   * @exception MissingResourceException if no resource bundle for the specified base name can be found
+   */
+  @Override
+  public ResourceBundle getResourceBundle(String baseName, Locale locale) {
+    return ResourceBundle.getBundle(baseName, locale);
+  }
 }

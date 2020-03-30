@@ -18,36 +18,22 @@
  */
 package org.languagetool;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.net.URL;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import org.languagetool.tools.StringTools;
+import org.languagetool.tools.Tools;
+import org.w3c.dom.*;
+import org.xml.sax.*;
+import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+import javax.xml.parsers.*;
 import javax.xml.transform.Source;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
-
-import org.languagetool.tools.Tools;
-import org.languagetool.tools.StringTools;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
+import javax.xml.validation.*;
+import java.io.*;
+import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Validate XML files with a given DTD or XML Schema (XSD).
@@ -91,7 +77,7 @@ public final class XMLValidator {
    * Validate XML file in classpath with the given DTD. Throws exception on error.
    */
   public void validateWithDtd(String filename, String dtdPath, String docType) throws IOException {
-    try (InputStream xmlStream = this.getClass().getResourceAsStream(filename)) {
+    try (InputStream xmlStream = JLanguageTool.getDataBroker().getAsStream(filename)) {
       if (xmlStream == null) {
         throw new IOException("Not found in classpath: " + filename);
       }
@@ -110,7 +96,7 @@ public final class XMLValidator {
    * @param xmlSchemaPath XML schema file in classpath
    */
   public void validateWithXmlSchema(String filename, String xmlSchemaPath) throws IOException {
-    try (InputStream xmlStream = this.getClass().getResourceAsStream(filename)) {
+    try (InputStream xmlStream = JLanguageTool.getDataBroker().getAsStream(filename)) {
       if (xmlStream == null) {
         throw new IOException("File not found in classpath: " + filename);
       }
@@ -131,8 +117,8 @@ public final class XMLValidator {
    * @param xmlSchemaPath XML schema file in classpath
    */
   public void validateWithXmlSchema(String baseFilename, String filename, String xmlSchemaPath) throws IOException {
-    try (InputStream xmlStream = this.getClass().getResourceAsStream(filename);
-         InputStream baseXmlStream = this.getClass().getResourceAsStream(baseFilename)) {
+    try (InputStream xmlStream = JLanguageTool.getDataBroker().getAsStream(filename);
+         InputStream baseXmlStream = JLanguageTool.getDataBroker().getAsStream(baseFilename)) {
       if (xmlStream == null || baseXmlStream == null ) {
         throw new IOException("Files not found in classpath: " + filename + ", " + baseFilename);
       }

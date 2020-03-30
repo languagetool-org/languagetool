@@ -23,17 +23,10 @@ import org.languagetool.Language;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.xml.parsers.*;
+import java.io.*;
 import java.text.MessageFormat;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -47,7 +40,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
   private final String falseFriendSugg;
 
   public FalseFriendRuleLoader(Language motherTongue) {
-    ResourceBundle messages = ResourceBundle.getBundle(JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
+    ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
     this.falseFriendHint =  messages.getString("false_friend_hint");
     this.falseFriendSugg =  messages.getString("false_friend_suggestion");
   }

@@ -23,9 +23,7 @@ import org.languagetool.noop.NoopLanguage;
 import org.languagetool.tools.MultiKeyProperties;
 import org.languagetool.tools.StringTools;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.lang.reflect.Constructor;
 import java.net.URL;
 import java.util.*;
@@ -134,7 +132,7 @@ public final class Languages {
 
   private static Language createLanguageObjects(URL url, String className) {
     try {
-      Class<?> aClass = Class.forName(className);
+      Class<?> aClass = JLanguageTool.getClassBroker().forName(className);
       Constructor<?> constructor = aClass.getConstructor();
       return (Language) constructor.newInstance();
     } catch (ClassNotFoundException e) {

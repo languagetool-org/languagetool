@@ -21,34 +21,24 @@ package org.languagetool;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.databroker.DefaultResourceDataBroker;
-import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.broker.*;
 import org.languagetool.language.CommonWords;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
-import org.languagetool.rules.patterns.AbstractPatternRule;
-import org.languagetool.rules.patterns.FalseFriendRuleLoader;
-import org.languagetool.rules.patterns.PatternRule;
-import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.rules.patterns.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintStream;
+import java.io.*;
 import java.net.JarURLConnection;
 import java.net.URL;
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 import java.util.function.Function;
 import java.util.jar.Manifest;
 import java.util.logging.Level;
@@ -114,7 +104,7 @@ public class JLanguageTool {
   @Nullable
   private static String getBuildDate() {
     try {
-      URL res = JLanguageTool.class.getResource(JLanguageTool.class.getSimpleName() + ".class");
+      URL res = getDataBroker().getAsURL(JLanguageTool.class.getSimpleName() + ".class");
       if (res == null) {
         // this will happen on Android, see http://stackoverflow.com/questions/15371274/
         return null;
@@ -138,7 +128,7 @@ public class JLanguageTool {
   @Nullable
   private static String getShortGitId() {
     try {
-      InputStream in = JLanguageTool.class.getClassLoader().getResourceAsStream("git.properties");
+      InputStream in = getDataBroker().getAsStream("git.properties");
       if (in != null) {
         Properties props = new Properties();
         props.load(in);
@@ -158,6 +148,7 @@ public class JLanguageTool {
   }
   
   private static ResourceDataBroker dataBroker = new DefaultResourceDataBroker();
+  private static ClassBroker classBroker = new DefaultClassBroker();
 
   private final List<Rule> builtinRules;
   private final List<Rule> userRules = new ArrayList<>(); // rules added via addRule() method
@@ -356,6 +347,27 @@ public class JLanguageTool {
   }
 
   /**
+   * @return The currently set class broker which allows to load classes.
+   * If no class broker was set, a new {@link DefaultClassBroker} will
+   * be instantiated and returned.
+   * @since 4.9
+   */
+  public static synchronized ClassBroker getClassBroker() {
+    if (JLanguageTool.classBroker == null) {
+      JLanguageTool.classBroker = new DefaultClassBroker();
+    }
+    return JLanguageTool.classBroker;
+  }
+
+  /**
+   * @param broker The new class broker to be used.
+   * @since 4.9
+   */
+  public static synchronized void setClassBrokerBroker(ClassBroker broker) {
+    JLanguageTool.classBroker = broker;
+  }
+
+  /**
    * Whether the {@link #check(String)} methods store unknown words. If set to
    * <code>true</code> (default: false), you can get the list of unknown words
    * using {@link #getUnknownWords()}.
@@ -427,7 +439,7 @@ public class JLanguageTool {
    */
   public List<AbstractPatternRule> loadPatternRules(String filename) throws IOException {
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    try (InputStream is = this.getClass().getResourceAsStream(filename)) {
+    try (InputStream is = getDataBroker().getAsStream(filename)) {
       if (is == null) {
         // happens for external rules plugged in as an XML file or testing files:
         if (filename.contains("-test-")) {
@@ -456,7 +468,7 @@ public class JLanguageTool {
       return Collections.emptyList();
     }
     FalseFriendRuleLoader ruleLoader = new FalseFriendRuleLoader(motherTongue);
-    try (InputStream is = this.getClass().getResourceAsStream(filename)) {
+    try (InputStream is = getDataBroker().getAsStream(filename)) {
       if (is == null) {
         return ruleLoader.getRules(new File(filename), language, motherTongue);
       } else {
