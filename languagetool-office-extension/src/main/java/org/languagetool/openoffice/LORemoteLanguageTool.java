@@ -53,19 +53,17 @@ class LORemoteLanguageTool {
   private static final String BLANK = " ";
   private static final String SERVER_URL = "https://languagetool.org/api";
   private static final int SERVER_LIMIT = 20000;
-  private final String serverUrl;
+
   private final Set<String> enabledRules = new HashSet<>();
   private final Set<String> disabledRules = new HashSet<>();
   private final Set<CategoryId> disabledRuleCategories = new HashSet<>();
   private final Set<CategoryId> enabledRuleCategories = new HashSet<>();
   private final List<Rule> allRules = new ArrayList<>();
   private final List<String> ruleValues = new ArrayList<>();
-  private URL serverBaseUrl;
+
   private Language language;
   private Language motherTongue;
   private RemoteLanguageTool remoteLanguageTool;
-  private CheckConfiguration remoteConfig;
-  private CheckConfigurationBuilder configBuilder;
   private int maxTextLength;
   private boolean remoteRun;
   
@@ -73,9 +71,9 @@ class LORemoteLanguageTool {
                        List<Rule> extraRemoteRules) throws MalformedURLException {
     this.language = language;
     this.motherTongue = motherTongue;
-    serverUrl = config.getServerUrl();
+    String serverUrl = config.getServerUrl();
     setRuleValues(config.getConfigurableValues());
-    serverBaseUrl = new URL(serverUrl == null ? SERVER_URL : serverUrl);
+    URL serverBaseUrl = new URL(serverUrl == null ? SERVER_URL : serverUrl);
     remoteLanguageTool = new RemoteLanguageTool(serverBaseUrl);
     try {
       String urlParameters = "language=" + language.getShortCodeWithCountryAndVariant();
@@ -93,18 +91,18 @@ class LORemoteLanguageTool {
   }
   
   List<RuleMatch> check(String text, ParagraphHandling paraMode) throws IOException {
-    if(!remoteRun) {
+    if (!remoteRun) {
       return null;
     }
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    if(text == null || text.trim().isEmpty()) {
+    if (text == null || text.trim().isEmpty()) {
       return ruleMatches;
     }
-    configBuilder = new CheckConfigurationBuilder(language.getShortCodeWithCountryAndVariant());
-    if(motherTongue != null) {
+    CheckConfigurationBuilder configBuilder = new CheckConfigurationBuilder(language.getShortCodeWithCountryAndVariant());
+    if (motherTongue != null) {
       configBuilder.setMotherTongueLangCode(motherTongue.getShortCodeWithCountryAndVariant());
     }
-    if(paraMode == ParagraphHandling.ONLYPARA) {
+    if (paraMode == ParagraphHandling.ONLYPARA) {
       configBuilder.ruleValues(ruleValues);
       if (enabledRules.size() > 0) {
         configBuilder.enabledRuleIds(enabledRules.toArray(new String[0]));
@@ -117,18 +115,18 @@ class LORemoteLanguageTool {
       configBuilder.ruleValues(ruleValues);
       configBuilder.mode("allButTextLevelOnly");
     }
-    remoteConfig = configBuilder.build();
+    CheckConfiguration remoteConfig = configBuilder.build();
     int limit;
     for (int nStart = 0; text.length() > nStart; nStart += limit) {
       String subText;
-      if(text.length() <= nStart + maxTextLength) {
+      if (text.length() <= nStart + maxTextLength) {
         subText = text.substring(nStart);
         limit = maxTextLength;
       } else {
         int nEnd = text.lastIndexOf(OfficeTools.END_OF_PARAGRAPH, nStart + SERVER_LIMIT) + OfficeTools.NUMBER_PARAGRAPH_CHARS;
-        if(nEnd <= nStart) {
+        if (nEnd <= nStart) {
           nEnd = text.lastIndexOf(BLANK, nStart + SERVER_LIMIT) + 1;
-          if(nEnd <= nStart) {
+          if (nEnd <= nStart) {
             nEnd = nStart + SERVER_LIMIT;
           }
         }
@@ -213,7 +211,7 @@ class LORemoteLanguageTool {
     ruleValues.clear();
     Set<String> rules = configurableValues.keySet();
     for (String rule : rules) {
-      String ruleValueString = new String(rule + ":" + configurableValues.get(rule));
+      String ruleValueString = rule + ":" + configurableValues.get(rule);
       ruleValues.add(ruleValueString);
     }
   }
@@ -221,17 +219,17 @@ class LORemoteLanguageTool {
   private RuleMatch toRuleMatch(RemoteRuleMatch remoteMatch, int nOffset) throws MalformedURLException {
     Rule matchRule = null;
     for (Rule rule : allRules) {
-      if(remoteMatch.getRuleId().equals(rule.getId())) {
+      if (remoteMatch.getRuleId().equals(rule.getId())) {
         matchRule = rule;
       }
     }
     RuleMatch ruleMatch = new RuleMatch(matchRule, null, remoteMatch.getErrorOffset() + nOffset, 
         remoteMatch.getErrorOffset() + remoteMatch.getErrorLength() + nOffset, remoteMatch.getMessage(), 
         remoteMatch.getShortMessage().isPresent() ? remoteMatch.getShortMessage().get() : null);
-    if(remoteMatch.getUrl().isPresent()) {
+    if (remoteMatch.getUrl().isPresent()) {
       ruleMatch.setUrl(new URL(remoteMatch.getUrl().get()));
     }
-    if(remoteMatch.getReplacements().isPresent()) {
+    if (remoteMatch.getReplacements().isPresent()) {
       ruleMatch.setSuggestedReplacements(remoteMatch.getReplacements().get());
     }
     return ruleMatch;
@@ -239,23 +237,21 @@ class LORemoteLanguageTool {
   
   private List<RuleMatch> toRuleMatches(List<RemoteRuleMatch> remoteRulematches, int nOffset) throws MalformedURLException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    if(remoteRulematches == null || remoteRulematches.isEmpty()) {
+    if (remoteRulematches == null || remoteRulematches.isEmpty()) {
       return ruleMatches;
     }
-    for(RemoteRuleMatch remoteMatch : remoteRulematches) {
+    for (RemoteRuleMatch remoteMatch : remoteRulematches) {
       RuleMatch ruleMatch = toRuleMatch(remoteMatch, nOffset);
-      if(ruleMatch != null) {
-        ruleMatches.add(ruleMatch);
-      }
+      ruleMatches.add(ruleMatch);
     }
     return ruleMatches;
   }
   
   private void storeAllRules(List<Map<String,String>> listRuleMaps) {
     allRules.clear();
-    for(Map<String,String> ruleMap : listRuleMaps) {
+    for (Map<String,String> ruleMap : listRuleMaps) {
       Rule rule;
-      if(ruleMap.containsKey("isTextLevelRule")) {
+      if (ruleMap.containsKey("isTextLevelRule")) {
         rule = new RemoteTextLevelRule(ruleMap);
       } else {
         rule = new RemoteRule(ruleMap);
@@ -264,7 +260,7 @@ class LORemoteLanguageTool {
     }
   }
 
-  class RemoteRule extends Rule {
+  static class RemoteRule extends Rule {
     
     private final String ruleId;
     private final String description;
@@ -278,21 +274,21 @@ class LORemoteLanguageTool {
     RemoteRule(Map<String,String> ruleMap) {
       ruleId = ruleMap.get("ruleId");
       description = ruleMap.get("description");
-      if(ruleMap.containsKey("isDefaultOff")) {
+      if (ruleMap.containsKey("isDefaultOff")) {
         setDefaultOff();
       }
-      if(ruleMap.containsKey("isOfficeDefaultOn")) {
+      if (ruleMap.containsKey("isOfficeDefaultOn")) {
         setOfficeDefaultOn();
       }
-      if(ruleMap.containsKey("isOfficeDefaultOff")) {
+      if (ruleMap.containsKey("isOfficeDefaultOff")) {
         setOfficeDefaultOff();
       }
-      if(ruleMap.containsKey("isDictionaryBasedSpellingRule")) {
+      if (ruleMap.containsKey("isDictionaryBasedSpellingRule")) {
         isDictionaryBasedSpellingRule = true;
       } else {
         isDictionaryBasedSpellingRule = false;
       }
-      if(ruleMap.containsKey("hasConfigurableValue")) {
+      if (ruleMap.containsKey("hasConfigurableValue")) {
         hasConfigurableValue = true;
         defaultValue = Integer.parseInt(ruleMap.get("defaultValue"));
         minConfigurableValue = Integer.parseInt(ruleMap.get("minConfigurableValue"));
@@ -356,7 +352,7 @@ class LORemoteLanguageTool {
     
   }
   
-  class RemoteTextLevelRule extends TextLevelRule {
+  static class RemoteTextLevelRule extends TextLevelRule {
     
     private final String ruleId;
     private final String description;
@@ -371,21 +367,21 @@ class LORemoteLanguageTool {
     RemoteTextLevelRule(Map<String,String> ruleMap) {
       ruleId = ruleMap.get("ruleId");
       description = ruleMap.get("description");
-      if(ruleMap.containsKey("isDefaultOff")) {
+      if (ruleMap.containsKey("isDefaultOff")) {
         setDefaultOff();
       }
-      if(ruleMap.containsKey("isOfficeDefaultOn")) {
+      if (ruleMap.containsKey("isOfficeDefaultOn")) {
         setOfficeDefaultOn();
       }
-      if(ruleMap.containsKey("isOfficeDefaultOff")) {
+      if (ruleMap.containsKey("isOfficeDefaultOff")) {
         setOfficeDefaultOff();
       }
-      if(ruleMap.containsKey("isDictionaryBasedSpellingRule")) {
+      if (ruleMap.containsKey("isDictionaryBasedSpellingRule")) {
         isDictionaryBasedSpellingRule = true;
       } else {
         isDictionaryBasedSpellingRule = false;
       }
-      if(ruleMap.containsKey("hasConfigurableValue")) {
+      if (ruleMap.containsKey("hasConfigurableValue")) {
         hasConfigurableValue = true;
         defaultValue = Integer.parseInt(ruleMap.get("defaultValue"));
         minConfigurableValue = Integer.parseInt(ruleMap.get("minConfigurableValue"));
