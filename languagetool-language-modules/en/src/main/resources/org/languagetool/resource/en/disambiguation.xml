@@ -2611,6 +2611,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="VB[PD]"/>
             <token postag_regexp="yes" postag="PRP|TO"/>
         </antipattern>
+        <antipattern><!-- #2651 The two hand out money -->
+            <token postag="DT"/>
+            <token postag="CD"/>
+            <token postag_regexp="yes" postag="VB[PD]"/>
+            <token postag="RP"/>
+            <token chunk="B-NP-singular"/>
+        </antipattern>
         <pattern>
             <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one</exception><exception scope="previous">of</exception></token>
             <token postag="JJ"><exception postag="RB|NNPS?|NN:U|PRP" postag_regexp="yes"/></token>
@@ -2648,6 +2655,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">The angry know it all behaved like an idiot.</example><!-- #2519 should be 'know-it-all' www.lexico.com/definition/know-it-all -->
         <example type="untouched">The poor drink to drown their sorrows.</example><!-- #2519 drink/E-NP-singular -->
         <example type="untouched">... and usually, the sick hope to become well.</example><!-- #2519 hope/E-NP-singular -->
+        <example type="untouched">The two hand out money for the poor.</example><!-- #2651 hand/E-NP-singular -->
         <example type="ambiguous" inputform="dogs[dog/NNS,dog/VBZ]" outputform="dogs[dog/NNS]">Today, the black <marker>dogs</marker> barks loudly.</example>
         <example type="ambiguous" inputform="will[will/MD,will/NN:UN,will/VB,will/VBP]" outputform="will[will/NN:UN]">Undoubtedly, the general <marker>will</marker> is an important notion in Rousseau.</example>
         <example type="ambiguous" inputform="course[course/NN:UN,course/VB,course/VBP]" outputform="course[course/NN:UN]">Panovsky's notion of the dialectic makes history follow a predetermined <marker>course</marker>.</example>
