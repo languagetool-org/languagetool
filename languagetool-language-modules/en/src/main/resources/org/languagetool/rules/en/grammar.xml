@@ -13877,6 +13877,13 @@ USA
                 <example>Is this were Carl comes into it?</example>
             </rule>
             <rule>
+                <antipattern><!--  #2653 hit that last submit button -->
+                    <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+                    <token regexp="yes">th(is|at)</token>
+                    <token chunk="B-NP-singular" postag_regexp="yes" postag="JJR?"/>
+                    <token chunk="I-NP-singular" postag="VBP"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                </antipattern>
                 <pattern>
                     <token regexp='yes'>
                         th(?:is|at)
@@ -13984,6 +13991,7 @@ USA
                 <example>I had this happen to me for one of the older on/off versions.</example><!-- #2258 -->
                 <example>... but having this occur three times now makes me angry.</example><!-- #2258 -->
                 <example>Now they remove this <marker>agree button</marker> on this website.</example><!-- #2411 -->
+                <example>It happens when you hit that last submit button.</example><!-- #2653 -->
            </rule>
         </rulegroup>
         <rulegroup id="THIS_NNS_VB" name="this + plural noun + verb (these)">
