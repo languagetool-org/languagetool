@@ -50,4 +50,9 @@ public class RussianDashRule extends AbstractDashRule {
     return "Использовано тире вместо дефиса.";
   }
 
+  @Override
+  protected boolean isBoundary(String s) {
+    return !s.matches("[\u0400-\u04FF]");
+  }
+
 }

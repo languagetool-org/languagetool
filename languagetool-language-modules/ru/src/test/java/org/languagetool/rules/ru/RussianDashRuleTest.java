@@ -46,6 +46,7 @@ public class RussianDashRuleTest {
     // correct sentences:
     check(0, "Он вышел из-за забора.");
     check(0, "Ростов-на-Дону.");
+    check(0, "ведром — работай");
     // incorrect sentences:
     check(1, "из—за", new String[]{"из-за"});
     check(1, "Ростов — на — Дону", new String[]{"Ростов-на-Дону"});

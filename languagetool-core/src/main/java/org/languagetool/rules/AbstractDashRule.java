@@ -57,20 +57,33 @@ public abstract class AbstractDashRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> matches = new ArrayList<>();
-    List<AhoCorasickDoubleArrayTrie.Hit<String>> hits = trie.parseText(sentence.getText());
+    String text = sentence.getText();
+    List<AhoCorasickDoubleArrayTrie.Hit<String>> hits = trie.parseText(text);
     Set<Integer> startPositions = new HashSet<>();
     Collections.reverse(hits);  // work on longest matches first
     for (AhoCorasickDoubleArrayTrie.Hit<String> hit : hits) {
       if (startPositions.contains(hit.begin)) {
         continue;   // avoid overlapping matches
       }
+      if (hit.begin > 0 && !isBoundary(text.substring(hit.begin-1, hit.begin))) {
+        // prevent substring matches
+        continue;
+      }
+      if (hit.end < text.length() && !isBoundary(text.substring(hit.end, hit.end+1))) {
+        // prevent substring matches, e.g. "Foto" for "Photons"
+        continue;
+      }
       RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end, getMessage(), null, false, "");
-      String covered = sentence.getText().substring(hit.begin, hit.end);
+      String covered = text.substring(hit.begin, hit.end);
       match.setSuggestedReplacement(covered.replaceAll(" ?[–—] ?", "-"));
       matches.add(match);
       startPositions.add(hit.begin);
     }
     return matches.toArray(new RuleMatch[0]);
+  }
+
+  protected boolean isBoundary(String s) {
+    return !s.matches("[a-zA-Z]");
   }
 
   protected static AhoCorasickDoubleArrayTrie<String> loadCompoundFile(String path) {
