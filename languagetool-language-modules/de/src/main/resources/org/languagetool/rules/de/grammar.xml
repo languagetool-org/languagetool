@@ -8930,6 +8930,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
+        <rule id="LETZT_ENDLICH" name="letzt endlich (letztendlich)" default="temp_off">
+            <pattern>
+                <token>
+                    letzt
+                    <exception scope="previous" regexp="yes">aller|guter</exception>
+                </token>
+                <token regexp="yes">(möglich|endlich|malig|genannt|geboren|händig|instanzlich|jährig|platziert|verbindlich|wöchig|willig)(es|er|en|em|e)?|hin|mals</token>
+            </pattern>
+            <message>Dieses Wort wird in der Regel zusammengeschrieben.</message>
+            <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="letztendlich">Das war <marker>letzt endlich</marker> seine beste Chance.</example>
+            <example>Zu guter Letzt endlich mal was Gutes.</example>
+        </rule>
         <rule id="VOLL_DROEHNEN" name="voll dröhnen (volldröhnen)">
             <pattern>
                 <token>voll</token>
