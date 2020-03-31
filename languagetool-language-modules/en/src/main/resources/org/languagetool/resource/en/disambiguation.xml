@@ -4943,6 +4943,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="VB[PD]"/>
             <token regexp="yes">&object_pronouns;</token>
         </antipattern>
+        <antipattern><!-- #2661 I do not much care -->
+            <token regexp="yes">I|you|we|they</token>
+            <token regexp="yes">do|did</token>
+            <token>not</token>
+            <token postag="RB"/>
+            <token postag_regexp="yes" postag="VBP?"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -5040,6 +5047,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Seriously, you better fucking call me.</example><!-- #2584 -->
         <example type="untouched">But some call it surfing, while others ...</example><!-- #2584 -->
         <example type="untouched">But you know some call it surfing, while others ...</example><!-- #2584 -->
+        <example type="untouched">I do not much care for this kind of drink.</example><!-- #2661 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
         <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
