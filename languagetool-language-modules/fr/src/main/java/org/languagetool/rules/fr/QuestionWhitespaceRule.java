@@ -110,7 +110,10 @@ public class QuestionWhitespaceRule extends Rule {
         continue;
       }
       String token = tokens[i].getToken();
-      boolean isWhiteBefore = tokens[i].isWhitespaceBefore();
+
+      // using isWhitespaceBefore() will not work (breaks test)
+      boolean isWhiteBefore = i > 0 ? tokens[i - 1].isWhitespace() : false;
+
       String msg = null;
       int fixFromPos = 0;
       int fixToPos = 0;
