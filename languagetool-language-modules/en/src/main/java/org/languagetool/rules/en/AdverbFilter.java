@@ -120,6 +120,10 @@ public class AdverbFilter extends RuleFilter {
     put("positively", "positive");
     put("negatively", "negative");
     put("outwards", "outward");
+    put("devastatingly", "devastating");
+    put("entirely", "entire");
+    put("relatively", "relative");
+    put("absolutely", "absolute");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
