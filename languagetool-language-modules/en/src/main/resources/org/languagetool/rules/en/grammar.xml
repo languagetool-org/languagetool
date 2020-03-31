@@ -29601,7 +29601,10 @@ USA
             <!--  subjunctive without 'that' -->
             <rule>
                 <pattern>
-                    <token postag="VB.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|help|prevent|stop|be|have</exception></token>
+                    <token postag="VB.*" postag_regexp="yes">
+                        <exception inflected="yes" regexp="yes">feel|hear|see|help|prevent|stop|be|have</exception>
+                        <exception postag="CC"/>
+                        </token>
                     <token regexp="yes">s?he|(?:any|no|some)(?:one|body)</token>
                     <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
                     <marker>
@@ -29619,6 +29622,7 @@ USA
                 <example>I don't want <marker>anyone touching my car</marker>.</example>
                 <example>Can you ask anyone regarding the new concept?</example><!-- 1825 -->
                 <example>(T)he conditioning of petty criminals with the whip, or some more...</example>
+                <example>...is an acoustician while someone working in the field of acoustics technology may be called an acoustical engineer.</example><!-- #2635 -->
                 <example type="triggers_error">You can ask anyone walking to the city about the bus drivers' strike!</example>
                 <example type="triggers_error">She recommended anyone walking to take the bus.</example>
                 <example type="triggers_error">The fearful noise astonished anyone coming for the first time.</example>
