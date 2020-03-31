@@ -5058,7 +5058,19 @@ USA
                 <example correction="Dos &amp; Don'ts">Please advise me on the most suitable colour print film and some <marker>Dos &amp; Donts</marker>.</example>
             </rule>
         </rulegroup>
-
+        <rule id="LOWERCASE_NAME_APOSTROPHE_S" name="harry's (Harry's)" default="temp_off">
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">
+                    <exception regexp="yes" scope="previous">the|an?|my|y?our|his|her|their</exception>
+                    harry|matt|mike|trump
+                </token><!-- lowercase names that are also verbs or adjectives -->
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token spacebefore="no">s</token>
+            </pattern>
+            <message>If you mean the name of a person you should capitalize the name.</message>
+            <suggestion><match no="1" case_conversion="startupper" />\2\3</suggestion>
+            <example correction="Harry's">It was <marker>harry's</marker> brother who did it.</example>
+        </rule>
         <rulegroup id="VERB_APOSTROPHE_S" name="Verb with 's">
             <short>Possible typo</short>
             <rule>
@@ -5108,7 +5120,7 @@ USA
                 <pattern>
                     <token postag_regexp="yes" postag="VBP?">
                         <exception postag_regexp="yes" postag="NN.*"/>
-                        <exception regexp="yes">cc|let|matt|harry</exception>
+                        <exception regexp="yes">cc|let|matt|harry|trump</exception>
                         <exception case_sensitive="yes" regexp="yes">[A-Z].+</exception><!-- Assume initial caps is NNP -->
                     </token>
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
@@ -10059,7 +10071,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="FREQUENT_ASKED_QUESTIONS" name="Frequently Asked Questions" default="temp_off">
+        <rule id="FREQUENT_ASKED_QUESTIONS" name="Frequently Asked Questions">
             <pattern>
                 <token>frequent</token>
                 <token>asked</token>
@@ -10847,6 +10859,7 @@ USA
                 <token>we</token>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
                 <token postag="NN.*" postag_regexp="yes" min="1" max="3" />
+                <token min="0">,</token>
                 <token>we</token>
             </antipattern>
             <antipattern>
@@ -16244,7 +16257,7 @@ USA
                         <token regexp="yes">translates?</token>
                     </marker>
                 </pattern>
-                <message>The word "\3" is a verb. The noun is spelled <suggestion><match no="3" regexp_match="(?i)ranslate" regexp_replace="ranslation" /></suggestion>?</message>
+                <message>The word "\3" is a verb. The noun is spelled <suggestion><match no="3" regexp_match="(?i)ranslate" regexp_replace="ranslation" /></suggestion>.</message>
                 <url>https://www.merriam-webster.com/dictionary/translation</url>
                 <example correction="translation">The <marker>translate</marker> to English was done correctly.</example>
             </rule>
@@ -16258,9 +16271,23 @@ USA
                         <token>restock</token>
                     </marker>
                 </pattern>
-                <message>The word "\3" is a verb. The noun is spelled <suggestion>restocking</suggestion> (= act of replenishing stock)?</message>
+                <message>The word "\3" is a verb. The noun is spelled <suggestion>restocking</suggestion> (= act of replenishing stock).</message>
                 <url>https://en.wiktionary.org/wiki/restocking</url>
                 <example correction="restocking">Due to the high demand, we needed a <marker>restock</marker>.</example>
+            </rule>
+            <rule default="temp_off"><!-- the japanise -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">japani[zs]e</token>
+                    </marker>
+                </pattern>
+                <message>The word "\3" is a verb. The noun/adjective is spelled <suggestion>Japanese</suggestion>.</message>
+                <url>https://www.merriam-webster.com/dictionary/Japanese</url>
+                <example correction="Japanese">The <marker>Japanise</marker> love sushi food.</example>
             </rule>
             <rule><!-- the send off -->
                 <pattern>
@@ -17657,7 +17684,7 @@ USA
                 <example>FOX NFL</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WHITE_HOUSE" name="White House" default="temp_off">
+        <rulegroup id="WHITE_HOUSE" name="White House">
             <antipattern case_sensitive="yes">
                 <token>White</token>
                 <token>House</token>
@@ -18733,6 +18760,18 @@ USA
             <message>Did you mean the adjective <suggestion>high-end</suggestion> (spelled with a hyphen)?</message>
             <url>https://www.lexico.com/definition/high-end</url>
             <example correction="high-end">The <marker>high end</marker> computer.</example>
+        </rule>
+        <rule id="OPEN_PLAN_HYPHEN" name="missing hyphen in 'open plan'">
+            <pattern>
+                <marker>
+                    <token>open</token>
+                    <token>plan</token>
+                </marker>
+                <token regexp="yes">offices?|rooms?|areas?|spaces?|restaurants?|caf[éeè]s?|kitchens?|houses?|layouts?|living</token>
+            </pattern>
+            <message>Did you mean the adjective <suggestion>open-plan</suggestion> (spelled with a hyphen)?</message>
+            <url>https://www.lexico.com/definition/open-plan</url>
+            <example correction="open-plan">In the 1960s, <marker>open plan</marker> offices were introduced, though not without some controversy.</example>
         </rule>
         <rulegroup id="MILE_HYPHEN" name="missing hyphen in '2 mile race'">
             <antipattern><!-- https://en.wikipedia.org/wiki/Seven_Mile_Beach,_Grand_Cayman -->
@@ -20419,6 +20458,11 @@ USA
                 <token>than</token>
                 <token>never</token>
             </antipattern>
+            <antipattern><!-- https://www.lexico.com/definition/never_say_die / https://www.merriam-webster.com/dictionary/never%20say%20never -->
+                <token>never</token>
+                <token>say</token>
+                <token regexp="yes">never|die</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/> <!-- or but -->
@@ -20439,6 +20483,7 @@ USA
                 <example><marker>Hardly a day</marker> passes when I don't think of you.</example>
                 <example><marker>Hardly anyone</marker> writes to me these days.</example>
                 <example type="triggers_error">Never too much of anything.</example>
+                <example>Never say never</example>
             </rule>
             <rule>
                 <pattern>
@@ -20458,6 +20503,11 @@ USA
                     <token>as</token>
                     <token>always</token>
                     <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern>
+                    <token>but</token>
+                    <token>not</token>
+                    <token>always</token>
                 </antipattern>
                 <pattern>
                     <token><exception postag="VB.?|MD" postag_regexp="yes"/></token>
@@ -40956,6 +41006,19 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rule id="PARE_PAIR" name="a pare (pair) of" default="temp_off">
+            <pattern>
+                <token regexp="yes">an?|the|my|his|her|y?our|their|its</token>
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <marker>
+                    <token>pare</token>
+                </marker>
+                <token>of</token>
+            </pattern>
+            <message>The word "\3" is a verb. Did you mean the noun <suggestion>pair</suggestion>?</message>
+            <url>https://www.merriam-webster.com/dictionary/pair</url>
+            <example correction="pair">He was wearing a <marker>pare</marker> of new shoes.</example>
+        </rule>
         <rule id="THAN_THANK" name="Than (Thank) you">
             <antipattern>
                 <token>you</token>
@@ -42884,41 +42947,82 @@ The accident victim died from her injuries.
             <url>https://en.wiktionary.org/wiki/await</url>
             <example correction="wait">I can hardly <marker>await</marker> until " Evidence " arrives at my home.</example>
         </rule>
-        <rule id="CONFUSION_DUE_DO" name="due (do)">
-    <!--      Created by Tiago F. Santos, Portuguese rule, 2019-03-13      -->
-            <antipattern><!-- Due partly to -->
-                <token postag="SENT_START"/>
-                <token>Due</token>
-                <token postag="RB"/>
-                <token>to</token>
-            </antipattern>
-            <antipattern>
-                <token>due</token>
-                <token regexp="yes">next|last|previous|this</token>
-                <token regexp="yes">week(end)?|month|year|&weekdays;|&months;</token>
-            </antipattern>
-            <antipattern>
-                <token>due</token>
-                <token regexp="yes">\d+</token>
-                <token regexp="yes">/|:</token>
-                <token regexp="yes">\d+</token>
-            </antipattern>
-            <pattern>
-                <token postag="SENT_START|TO" postag_regexp='yes'/>
-                <token>
-                    due
-                  <exception scope='next' regexp='yes'>course|today|tomorrow|yesterday|dates?|diligence|for|on|process|regard|respect|to|the|:|&weekdays;|&months;</exception>
-                </token>
-            </pattern>
-            <message>Did you mean to use the verb <suggestion>\1 do</suggestion>?</message>
-            <url>https://en.wiktionary.org/wiki/due</url>
-            <example correction="Do"><marker>Due</marker> you work this weekend?</example>
-            <example correction="to do">Unfortunately, I have work <marker>to due</marker>.</example>
-            <example>Due to its links to active workers' movements, the In...</example><!-- XXX All remaining FPs are in similar circumstances -->
-            <example>Due the unique climate in Azerbaijan, the flora is mu...</example>
-            <example>Due partly to the performance capabilities of modern ...</example>
-            <example>Due primarily to an excess of optimism in our original schedule...</example>
-        </rule>
+        <rulegroup id="CONFUSION_DUE_DO" name="due (do)">
+            <rule>
+        <!--      Created by Tiago F. Santos, Portuguese rule, 2019-03-13      -->
+                <antipattern><!-- Due partly to -->
+                    <token postag="SENT_START"/>
+                    <token>Due</token>
+                    <token postag="RB"/>
+                    <token>to</token>
+                </antipattern>
+                <antipattern>
+                    <token>due</token>
+                    <token regexp="yes">next|last|previous|this</token>
+                    <token regexp="yes">week(end)?|month|year|&weekdays;|&months;</token>
+                </antipattern>
+                <antipattern>
+                    <token>due</token>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">/|:</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START|TO" postag_regexp='yes'/>
+                    <token>
+                        due
+                    <exception scope='next' regexp='yes'>course|today|tomorrow|yesterday|dates?|diligence|for|on|process|regard|respect|to|the|:|&weekdays;|&months;</exception>
+                    </token>
+                </pattern>
+                <message>Did you mean to use the verb <suggestion>\1 do</suggestion>?</message>
+                <url>https://en.wiktionary.org/wiki/due</url>
+                <example correction="Do"><marker>Due</marker> you work this weekend?</example>
+                <example correction="to do">Unfortunately, I have work <marker>to due</marker>.</example>
+                <example>Due to its links to active workers' movements, the In...</example><!-- XXX All remaining FPs are in similar circumstances -->
+                <example>Due the unique climate in Azerbaijan, the flora is mu...</example>
+                <example>Due partly to the performance capabilities of modern ...</example>
+                <example>Due primarily to an excess of optimism in our original schedule...</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="MD" />
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token>due</token>
+                    </marker>
+                    <token inflected="yes">be</token>
+                </pattern>
+                <message>Did you mean <suggestion>do</suggestion>?</message>
+                <example correction="do">All I can <marker>due</marker> is help you as best as I can.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="MD" />
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token>due</token>
+                    </marker>
+                    <token>it</token>
+                </pattern>
+                <message>Did you mean <suggestion>do</suggestion>?</message>
+                <example correction="do">I can <marker>due</marker> it until tomorrow.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="MD" />
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token min="0" postag="RB" />
+                    <marker>
+                        <token>due</token>
+                    </marker>
+                    <token regexp="yes">its|my|mine|hi[sm]|hers?|y?ours?|theirs?</token>
+                </pattern>
+                <message>Did you mean <suggestion>do</suggestion> or <suggestion>due to</suggestion>?</message>
+                <example correction="do|due to">I can <marker>due</marker> his homework.</example>
+            </rule>
+        </rulegroup>
         <rule id="CONFUSION_AWL_ALL" name="awl (all)">
     <!--      Created by Tiago F. Santos, Portuguese rule, 2019-03-13      -->
             <pattern>
