@@ -16,7 +16,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.rules.pt;
 
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
@@ -50,6 +49,11 @@ public class PostReformPortugueseDashRule extends AbstractDashRule {
   @Override
   public String getMessage() {
     return "Um travessão foi utilizado em vez de um hífen.";
+  }
+
+  @Override
+  protected boolean isBoundary(String s) {
+    return !s.matches("[a-zA-ZÂâÃãÇçÊêÓóÔôÕõü]");  // chars from http://unicode.e-workers.de/portugiesisch.php
   }
 
 }
