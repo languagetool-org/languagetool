@@ -55184,6 +55184,23 @@ The accident victim died from her injuries.
                 <suggestion>New Year's \4</suggestion>
                 <example correction="New Year's resolutions">What are your <marker>New Years resolutions</marker>?</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern case_sensitive="yes">
+                    <token>All</token>
+                    <token regexp="yes">Saints|Hallows|Souls</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>Day</token>
+                </antipattern>
+                <pattern>
+                    <token>All</token>
+                    <token regexp="yes">Saints?|Hallows?|Souls?</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token>Day</token>
+                </pattern>
+                <message>Did you mean <suggestion>All <match no="2" regexp_match="[twl]$" regexp_replace="s" case_conversion="startupper" />' Day</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/All%20Saints%27%20Day</url>
+                <example correction="All Saints' Day"><marker>All Saints Day</marker> is a Christian festival celebrated in honour of all the saints.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="CAPITALIZATION_NNP_DERIVED" name="Capitalization of words derived from proper nouns"><!-- 1) AmE and BrE have different capitalization, but for simplicity, put all the terms in one general rule. If necessary, move the rule to the locale-specific directory and edit as necessary. 2) Cannot use <or> in the pattern; a rulegroup is necessary. -->
             <url>https://www.btb.termiumplus.gc.ca/tpv2guides/guides/wrtps/index-eng.html?lang=eng&amp;lettr=indx_catlog_c&amp;page=9Yk5QGXu4S3I.html</url>
