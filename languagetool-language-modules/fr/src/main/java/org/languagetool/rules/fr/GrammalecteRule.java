@@ -88,6 +88,8 @@ public class GrammalecteRule extends Rule {
     "esp_avant_après_tiret", // picky
     "nbsp_après_tiret1", // picky
     "nbsp_après_tiret2", // picky
+    "esp_mélangés1", // picky
+    "esp_mélangés2", // picky
     "tab_début_ligne",
     "esp_milieu_ligne" // we already have WHITESPACE_RULE
   ));
