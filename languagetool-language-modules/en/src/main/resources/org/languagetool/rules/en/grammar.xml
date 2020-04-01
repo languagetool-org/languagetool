@@ -5059,7 +5059,7 @@ USA
                 <example correction="Dos &amp; Don'ts">Please advise me on the most suitable colour print film and some <marker>Dos &amp; Donts</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="LOWERCASE_NAME_APOSTROPHE_S" name="harry's (Harry's)" default="temp_off">
+        <rule id="LOWERCASE_NAME_APOSTROPHE_S" name="harry's (Harry's)">
             <pattern>
                 <token case_sensitive="yes" regexp="yes">
                     <exception regexp="yes" scope="previous">the|an?|my|y?our|his|her|their</exception>
@@ -16303,7 +16303,7 @@ USA
                 <url>https://en.wiktionary.org/wiki/restocking</url>
                 <example correction="restocking">Due to the high demand, we needed a <marker>restock</marker>.</example>
             </rule>
-            <rule default="temp_off"><!-- the japanise -->
+            <rule><!-- the japanise -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJ.*" postag_regexp="yes" min="0">
@@ -41078,7 +41078,7 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rule id="PARE_PAIR" name="a pare (pair) of" default="temp_off">
+        <rule id="PARE_PAIR" name="a pare (pair) of">
             <pattern>
                 <token regexp="yes">an?|the|my|his|her|y?our|their|its</token>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
@@ -43055,7 +43055,7 @@ The accident victim died from her injuries.
                 <example>Due partly to the performance capabilities of modern ...</example>
                 <example>Due primarily to an excess of optimism in our original schedule...</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="MD" />
                     <token regexp="yes" min="0">&apostrophe;</token>
@@ -43068,7 +43068,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>do</suggestion>?</message>
                 <example correction="do">All I can <marker>due</marker> is help you as best as I can.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="MD" />
                     <token regexp="yes" min="0">&apostrophe;</token>
@@ -43081,7 +43081,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>do</suggestion>?</message>
                 <example correction="do">I can <marker>due</marker> it until tomorrow.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="MD" />
                     <token regexp="yes" min="0">&apostrophe;</token>
@@ -43089,10 +43089,12 @@ The accident victim died from her injuries.
                     <marker>
                         <token>due</token>
                     </marker>
-                    <token regexp="yes">its|my|mine|hi[sm]|hers?|y?ours?|theirs?</token>
+                    <token regexp="yes">its|my|mine|hi[sm]|hers?|y?ours?|theirs?|the|that|this|an?</token>
                 </pattern>
                 <message>Did you mean <suggestion>do</suggestion> or <suggestion>due to</suggestion>?</message>
                 <example correction="do|due to">I can <marker>due</marker> his homework.</example>
+                <example correction="do|due to">I will <marker>due</marker> my best on the Thursday deadline.</example>
+                <example correction="do|due to">I think I can get some big rocks and tires really easily though, so I may <marker>due</marker> that.</example>
             </rule>
         </rulegroup>
         <rule id="CONFUSION_AWL_ALL" name="awl (all)">
