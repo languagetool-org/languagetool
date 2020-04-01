@@ -124,6 +124,9 @@ public class AdverbFilter extends RuleFilter {
     put("entirely", "entire");
     put("relatively", "relative");
     put("absolutely", "absolute");
+    put("socially", "social");
+    put("consciously", "conscious");
+    put("industriously", "industrious");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
