@@ -32,8 +32,8 @@ public class DocumentCache {
   
   private static final boolean debugMode = false; //  should be false except for testing
 
-  List<String> paragraphs;            //  stores the flat paragraphs of document
-  List<Integer> headings;             //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
+  List<String> paragraphs = null;            //  stores the flat paragraphs of document
+  List<Integer> headings = null;             //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
   List<Integer> toTextMapping = new ArrayList<>();  //Mapping from FlatParagraph to DocumentCursor
   List<Integer> toParaMapping = new ArrayList<>();  //Mapping from DocumentCursor to FlatParagraph
   int defaultParaCheck;
@@ -45,8 +45,10 @@ public class DocumentCache {
   
   public void reset(DocumentCursorTools docCursor, FlatParagraphTools flatPara) {
     List<String> textParas = docCursor.getAllTextParagraphs();
-    headings = docCursor.getParagraphHeadings();
-    paragraphs = flatPara.getAllFlatParagraphs();
+    if(textParas != null) {
+      headings = docCursor.getParagraphHeadings();
+      paragraphs = flatPara.getAllFlatParagraphs();
+    }
     if(paragraphs == null) {
       MessageHandler.printToLogFile("paragraphs == null - ParagraphCache not initialised");
       return;
@@ -117,7 +119,7 @@ public class DocumentCache {
    * size of document cache (number of all flat paragraphs)
    */
   public int size() {
-    return paragraphs.size();
+    return paragraphs == null ? 0 : paragraphs.size();
   }
   
   /**

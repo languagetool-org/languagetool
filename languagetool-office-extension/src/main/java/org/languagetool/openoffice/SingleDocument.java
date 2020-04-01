@@ -414,6 +414,10 @@ class SingleDocument {
         MessageHandler.printToLogFile("+++ resetAllParas (docCache == null): docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
       }
+      if (docCache.size() == 0) {
+        docCache = null;
+        return -1;
+      }
     }
 
     if (debugMode > 1) {
