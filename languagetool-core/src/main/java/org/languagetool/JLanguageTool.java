@@ -33,6 +33,7 @@ import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.FalseFriendRuleLoader;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -1234,7 +1235,28 @@ public class JLanguageTool {
     }    
     return rulesActive;
   }
-  
+
+  /**
+   * Get all spelling check rules for the current language that are built-in or
+   * that have been added using {@link #addRule(Rule)}.
+   * @return a List of {@link SpellingCheckRule} objects
+   * @since 4.9
+   */
+  public List<SpellingCheckRule> getAllSpellingCheckRules() {
+    List<SpellingCheckRule> rules = new ArrayList<>();
+    for (Rule rule : builtinRules) {
+      if (rule instanceof SpellingCheckRule) {
+        rules.add((SpellingCheckRule) rule);
+      }
+    }
+    for (Rule rule : userRules) {
+      if (rule instanceof SpellingCheckRule) {
+        rules.add((SpellingCheckRule) rule);
+      }
+    }
+    return rules;
+  }
+
   /**
    * Works like getAllActiveRules but overrides defaults by office defaults
    * @return a List of {@link Rule} objects
