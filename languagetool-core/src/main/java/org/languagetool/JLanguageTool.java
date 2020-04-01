@@ -173,6 +173,8 @@ public class JLanguageTool {
 
   private final List<RuleMatchFilter> matchFilters = new LinkedList<>();
 
+  private CheckCancelledCallback checkCancelledCallback;
+
   private PrintStream printStream;
   private boolean listUnknownWords;
   private Set<String> unknownWords;
@@ -384,6 +386,13 @@ public class JLanguageTool {
   @Experimental
   public void setMaxErrorsPerWordRate(float maxErrorsPerWordRate) {
     this.maxErrorsPerWordRate = maxErrorsPerWordRate;
+  }
+
+  /**
+   * Callback to determine if result of executing {@link #check(String)} is still needed.
+   */
+  public void setCheckCancelledCallback(CheckCancelledCallback callback) {
+    this.checkCancelledCallback = callback;
   }
   
   /**
@@ -864,6 +873,7 @@ public class JLanguageTool {
     List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
     int j = 0;
     for (String sentence : sentences) {
+      if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) break;
       AnalyzedSentence analyzedSentence = getAnalyzedSentence(sentence);
       rememberUnknownWords(analyzedSentence);
       if (++j == sentences.size()) {
@@ -924,6 +934,8 @@ public class JLanguageTool {
     List<RuleMatch> sentenceMatches = new ArrayList<>();
     RuleLoggerManager logger = RuleLoggerManager.getInstance();
     for (Rule rule : rules) {
+      if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) break;
+
       if (rule instanceof TextLevelRule) {
         continue;
       }
@@ -1303,6 +1315,16 @@ public class JLanguageTool {
     return transformed;
   }
 
+  /**
+   * Callback for checking if result of {@link #check(String)} is still needed.
+   */
+  public interface CheckCancelledCallback {
+    /**
+     * @return true if request was cancelled else false
+     */
+    boolean checkCancelled();
+  }
+
   class TextCheckCallable implements Callable<List<RuleMatch>> {
 
     private final List<Rule> rules;
@@ -1360,6 +1382,7 @@ public class JLanguageTool {
       RuleLoggerManager logger = RuleLoggerManager.getInstance();
       String lang = language.getShortCodeWithCountryAndVariant();
       for (Rule rule : rules) {
+        if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) break;
         if (rule instanceof TextLevelRule && !ignoreRule(rule) && paraMode != ParagraphHandling.ONLYNONPARA) {
           long time = System.currentTimeMillis();
           RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences, annotatedText);
@@ -1399,6 +1422,7 @@ public class JLanguageTool {
       int i = 0;
       int wordCounter = 0;
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+        if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) break;
         String sentence = sentences.get(i++);
         wordCounter += analyzedSentence.getTokensWithoutWhitespace().length;
         try {
