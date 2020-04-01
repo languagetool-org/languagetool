@@ -4407,6 +4407,7 @@ USA
                 <example>We'd love to eat ice cream!</example>
             </rule>
         </rulegroup>
+
         <rule id="WRONG_GENITIVE_APOSTROPHE" name="wrong genitive (e.g., 'employees's' instead of 'employee's')">
             <pattern case_sensitive="yes">
                 <token postag="NNS" regexp="yes">[a-z]+s<exception postag="NNP"/></token>
@@ -5062,7 +5063,7 @@ USA
             <pattern>
                 <token case_sensitive="yes" regexp="yes">
                     <exception regexp="yes" scope="previous">the|an?|my|y?our|his|her|their</exception>
-                    harry|matt|mike|trump
+                    harry|matt|mike|trump|jack
                 </token><!-- lowercase names that are also verbs or adjectives -->
                 <token regexp="yes" spacebefore="no">&apostrophe;</token>
                 <token spacebefore="no">s</token>
@@ -15207,6 +15208,25 @@ USA
             <example>It has been awhile since we put the mail feedbag on and had a munch.</example><!-- Copied from Premium #845 -->
             <example>AI and AN are also in line for this constructive disruption.</example>
         </rule>
+        <rule id="A_SCISSOR" name="a scissor (scissors)" default="temp_off">
+            <antipattern>
+                <token>scissor</token>
+                <token>sisters</token>
+            </antipattern>
+            <antipattern><!-- singular form can be used as a modifier -->
+                <token>scissor</token>
+                <token postag="NN.*" postag_regexp="yes" />
+            </antipattern>
+            <pattern>
+                <token regexp="yes">an?|the</token>
+                <token>scissor</token>
+            </pattern>
+            <message>The noun "scissors" is mostly used in plural form.</message>
+            <suggestion>scissors</suggestion>
+            <suggestion>\1 pair of scissors</suggestion>
+            <url>https://www.lexico.com/definition/scissors</url>
+            <example correction="scissors|a pair of scissors">I needed <marker>a scissor</marker> to finally cut it.</example>
+        </rule>
         <rulegroup id="THE_FRENCH" name="the french (French)">
             <url>https://www.merriam-webster.com/dictionary/French</url>
             <rule>
@@ -16296,6 +16316,34 @@ USA
                 <message>The word "\3" is a verb. The noun/adjective is spelled <suggestion>Japanese</suggestion>.</message>
                 <url>https://www.merriam-webster.com/dictionary/Japanese</url>
                 <example correction="Japanese">The <marker>Japanise</marker> love sushi food.</example>
+            </rule>
+            <rule default="temp_off"><!-- the prophesy -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token regexp="yes">prophesy|prophesies</token>
+                    </marker>
+                </pattern>
+                <message>The word "\3" is a verb. The noun is spelled <suggestion><match no="3" regexp_match="(?i)phes" regexp_replace="phec" /></suggestion>.</message>
+                <url>https://www.merriam-webster.com/dictionary/prophecy</url>
+                <example correction="prophecy">He could make a <marker>prophesy</marker> and they would always come true.</example>
+            </rule>
+            <rule default="temp_off"><!-- the prise -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>prise</token>
+                    </marker>
+                </pattern>
+                <message>The word "\3" is a verb. The noun is spelled <suggestion>price</suggestion>.</message>
+                <url>https://www.merriam-webster.com/dictionary/price</url>
+                <example correction="price">The <marker>prise</marker> of milk dropped significantly and was now compared to butter very cheap.</example>
             </rule>
             <rule><!-- the send off -->
                 <pattern>
@@ -18110,7 +18158,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token>microsoft</token>
-                    <token regexp="yes">word|excel|outlook|office|edge|azure|inc|surface|windows|hotmail|lumia|bing|solitaire</token>
+                    <token regexp="yes">word|excel|outlook|office|edge|azure|inc|surface|windows|hotmail|lumia|bing|solitaire|editor</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion>Microsoft <match no="2" case_conversion="startupper" /></suggestion> (= Microsoft product)?</message>
                 <example correction="Microsoft Word"><marker>Microsoft word</marker> is a word processor.</example>
@@ -20939,6 +20987,7 @@ USA
                     <token postag="RB">
                         <exception postag="JJ[RS]?|NN.*" postag_regexp="yes"/>
                         <exception regexp="yes">not|after|before|approx|while</exception>
+                        <exception case_sensitive="yes">SO</exception>
                     </token>
                     <token postag="NN(:UN?)?" postag_regexp="yes">
                         <exception postag="JJ[RS]?|VB[NG]" postag_regexp="yes" />
@@ -20957,6 +21006,7 @@ USA
             <example>All of a sudden water came down from the roof.</example>
             <example>That was a really kind of weird conversation.</example>
             <example>A completely oil based solution.</example>
+            <example>It requires a SO number.</example>
             <example>Such a person may once in a while see a good person.</example>
             <example><marker>Once in a while</marker> everything goes wrong.</example>
             <example correction="philosophical question">This is a <marker>philosophically question</marker>.</example>
@@ -31767,6 +31817,16 @@ USA
                 <token postag="VBP"/>
                 <token chunk="B-NP-singular"/>
             </antipattern>
+            <antipattern><!-- '88 campaign -->
+                <token regexp="yes">&apostrophe;</token>
+                <token regexp="yes" spacebefore="no">\d{2}</token>
+                <token>campaign</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes">word|sentence|paragraph</token>
+                <token>essay</token>
+            </antipattern>
             <pattern>
                 <token postag="CD">
                     <exception scope="previous" spacebefore="no" regexp="yes">[^,]</exception>
@@ -31792,7 +31852,7 @@ USA
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception regexp="yes">will|year|so|pst|well|still|have|had|wether|max</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent|mil|all|has</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent|mil|all|has|if</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
                         <exception regexp="yes">trained|mentioned|assisting|voting|caused|died|said|embedded|squared|captured|combined|yawned|killed|finished|used|possible|yearly</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
@@ -54934,7 +54994,7 @@ The accident victim died from her injuries.
 
         <rulegroup id="CD_NN_APOSTROPHE_S" name="two tank's (tanks)">
             <antipattern>
-                <token postag="NN.*|UNKNOWN" postag_regexp="yes" />
+                <token postag="NN.*|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z0-9].*</token>
                 <token postag="CD" />
             </antipattern>
             <antipattern><!-- name of musician (https://en.wikipedia.org/wiki/50_Cent) -->
@@ -54962,7 +55022,7 @@ The accident victim died from her injuries.
                 <token regexp="yes" spacebefore="no">&apostrophe;</token>
                 <token spacebefore="no">s</token>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
-                <token postag="NN.*|UNKNOWN|CD" postag_regexp="yes" />
+                <token postag="NN.*|UNKNOWN|CD" postag_regexp="yes" regexp="yes">.*[a-z0-9].*</token>
             </antipattern>
             <antipattern>
                 <token postag="NNP?" postag_regexp="yes" />
@@ -55001,7 +55061,7 @@ The accident victim died from her injuries.
                     </token>
                     <marker>
                         <token postag="NNP?" postag_regexp="yes">
-                            <exception regexp="yes">pro|max|McDonald|Wendy</exception><!-- unsure about plural of McDonald and Wendy (fast food chains) -->
+                            <exception regexp="yes">pro|max|McDonald|Wendy|Lowe|Macy|Sainsbury|Kellogg</exception><!-- unsure about plural of McDonald and Wendy (fast food chains) -->
                             <exception postag="NNP?S" postag_regexp="yes" />
                         </token>
                         <token regexp="yes" spacebefore="no">&apostrophe;</token>
@@ -55024,6 +55084,7 @@ The accident victim died from her injuries.
                 <example correction="hours">Disagree on walmart not being far away where my daughter lived in Nevada it was 3 <marker>hour’s</marker> to a walmart.</example>
                 <example correction="manufacturers">... rather than splitting the purchases between all three <marker>manufacturer's</marker>.</example>
                 <example correction="SMEs">The 3 <marker>SME's</marker> that have already committed to being on film need to be keep in the lope regarding the timeline.</example>
+                <example correction="jacks">The song I got from is where a full house (three <marker>jack’s</marker> and a pair of nine’s) goes up against a royal flush and the singer loses it all.</example>
                 <example>With regards to Section 9.9 Seller's Representative.</example>
                 <example>Dragon 32 programmer's reference guide.</example>
                 <example>Intel 80286 and 80287 Programmer's Reference Manual at bitsavers.org.</example>
@@ -55063,6 +55124,7 @@ The accident victim died from her injuries.
                 <suggestion><match suppress_misspelled="yes" no="4" postag="NNP?S" postag_regexp="yes"/></suggestion>
                 <example correction="APIs">A lot of modern <marker>API's</marker> are based on JSON.</example>
                 <example correction="CDs">I burned you a couple of <marker>CD's</marker>, some old stuff, some new stuff.</example>
+                <example correction="nines">The song I got from is where a full house (three jack’s and a pair of <marker>nine’s</marker>) goes up against a royal flush and the singer loses it all.</example>
             </rule>
             <rule>
                 <pattern>
