@@ -67,13 +67,6 @@ public class MultiDocumentsHandler {
   // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
   private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
   
-  // If anything on the position of LT menu is changed the following has to be changed
-  private static final String TOOLS_COMMAND = ".uno:ToolsMenu";             //  Command to open tools menu
-  private static final String WORD_COUNT_COMMAND = ".uno:WordCountDialog";  //  Command to open words count menu (LT menu is installed before)
-                                                    //  Command to Switch Off/On LT
-  private static final String LT_SWITCH_OFF_COMMAND = "service:org.languagetool.openoffice.Main?switchOff";   
-  private static final String LT_PROFILE_COMMAND = "service:org.languagetool.openoffice.Main?profileChangeTo:";
-  
   private static final boolean debugMode = false;   //  should be false except for testing
   
   private SwJLanguageTool langTool = null;
@@ -164,6 +157,12 @@ public class MultiDocumentsHandler {
     return paRes;
   }
 
+  /**
+   * reset the Document
+   */
+  void resetDocument() {
+    mainThread.resetDocument();
+  }
   
   /**
    *  Set all documents to be checked again
@@ -416,10 +415,13 @@ public class MultiDocumentsHandler {
         }
       }
     }
-    documents.add(new SingleDocument(xContext, config, docID, xComponent, this));
+    SingleDocument newDocument = new SingleDocument(xContext, config, docID, xComponent, this);
+    documents.add(newDocument);
     if (!testMode) {              //  xComponent == null for test cases 
-      documents.get(documents.size()-1).setLtMenu(new LanguagetoolMenu(xContext));
+      newDocument.setLanguage(docLanguage);
+      newDocument.setLtMenus(new LanguageToolMenus(xContext, newDocument, config));
     }
+    
     if (debugMode) {
       MessageHandler.printToLogFile("Document " + docNum + " created; docID = " + docID);
     }
@@ -621,6 +623,9 @@ public class MultiDocumentsHandler {
     }
     recheck = true;
     config.setSwitchedOff(switchOff, docLanguage);
+    for (SingleDocument document : documents) {
+      document.setConfigValues(config);
+    }
     return true;
   }
 
@@ -798,196 +803,5 @@ public class MultiDocumentsHandler {
 
   }
   
-  class LanguagetoolMenu implements XMenuListener {
-    XMenuBar menubar = null;
-    XPopupMenu toolsMenu = null;
-    XPopupMenu ltMenu = null;
-    short toolsId = 0;
-    short ltId = 0;
-    short switchOffId = 0;
-    short switchOffPos = 0;
-    private XPopupMenu xProfileMenu = null;
-    private List<String> definedProfiles = null;
-    private String currentProfile = null;
-    
-    public LanguagetoolMenu(XComponentContext xContext) {
-      menubar = OfficeTools.getMenuBar(xContext);
-      if (menubar == null) {
-        MessageHandler.printToLogFile("Menubar is null");
-        return;
-      }
-      for (short i = 0; i < menubar.getItemCount(); i++) {
-        toolsId = menubar.getItemId(i);
-        String command = menubar.getCommand(toolsId);
-        if(TOOLS_COMMAND.equals(command)) {
-          toolsMenu = menubar.getPopupMenu(toolsId);
-          break;
-        }
-      }
-      if (toolsMenu == null) {
-        MessageHandler.printToLogFile("Tools Menu is null");
-        return;
-      }
-      for (short i = 0; i < toolsMenu.getItemCount(); i++) {
-        String command = toolsMenu.getCommand(toolsMenu.getItemId(i));
-        if(WORD_COUNT_COMMAND.equals(command)) {
-          ltId = toolsMenu.getItemId((short) (i - 1));
-          ltMenu = toolsMenu.getPopupMenu(ltId);
-          break;
-        }
-      }
-      if (ltMenu == null) {
-        MessageHandler.printToLogFile("LT Menu is null");
-        return;
-      }
-
-      for (short i = 0; i < ltMenu.getItemCount(); i++) {
-        String command = ltMenu.getCommand(ltMenu.getItemId(i));
-        if(LT_SWITCH_OFF_COMMAND.equals(command)) {
-          switchOffId = ltMenu.getItemId(i);
-          switchOffPos = i;
-          break;
-        }
-      }
-      if (switchOffId == 0) {
-        MessageHandler.printToLogFile("switchOffId not found");
-        return;
-      }
-      
-      if(messages.getString("loMenuSwitchOff").equals(ltMenu.getItemText(switchOffId))) {
-        MessageHandler.printToLogFile("LT menu already installed");
-        return;
-      } else {
-        ltMenu.removeItem(switchOffPos, (short) 1);
-        ltMenu.insertItem(switchOffId, messages.getString("loMenuSwitchOff"), MenuItemStyle.CHECKABLE, switchOffPos);
-      }
-      toolsMenu.addMenuListener(this);
-      if (debugMode) {
-        MessageHandler.printToLogFile("Menu listener set");
-      }
-    }
-    
-    public void removeListener() {
-      toolsMenu.removeMenuListener(this);
-    }
-    
-    private void setLtMenu() {
-      if(switchOff) {
-        ltMenu.checkItem(switchOffId, true);
-      } else {
-        ltMenu.checkItem(switchOffId, false);
-      }
-      short profilesId = (short)(switchOffId + 10);
-      short profilesPos = (short)(switchOffPos + 2);
-      if(ltMenu.getItemId(profilesPos) != profilesId) {
-        setProfileMenu(profilesId, profilesPos);
-      }
-      setProfileItems();
-    }
-      
-    private void setProfileMenu(short profilesId, short profilesPos) {
-      ltMenu.insertItem(profilesId, messages.getString("loMenuChangeProfiles"), MenuItemStyle.AUTOCHECK, profilesPos);
-      xProfileMenu = OfficeTools.getPopupMenu(xContext);
-      if(xProfileMenu == null) {
-        MessageHandler.printToLogFile("Profile menu == null");
-        return;
-      }
-
-      xProfileMenu.addMenuListener(new XMenuListener() {
-        @Override
-        public void disposing(EventObject arg0) {
-        }
-        @Override
-        public void itemActivated(MenuEvent arg0) {
-        }
-        @Override
-        public void itemDeactivated(MenuEvent arg0) {
-        }
-        @Override
-        public void itemHighlighted(MenuEvent arg0) {
-        }
-        @Override
-        public void itemSelected(MenuEvent event) {
-          if(event.MenuId == 1) {
-            runProfileAction(null);
-          } else {
-            runProfileAction(definedProfiles.get(event.MenuId - 2));
-          }
-        }
-      });
-
-      ltMenu.setPopupMenu(profilesId, xProfileMenu);
-    }
-    
-    private void setProfileItems() {
-      currentProfile = config.getCurrentProfile();
-      definedProfiles = config.getDefinedProfiles();
-      if(xProfileMenu != null) {
-        xProfileMenu.removeItem((short)0, xProfileMenu.getItemCount());
-        short nId = 1;
-        short nPos = 0;
-        xProfileMenu.insertItem(nId, messages.getString("guiUserProfile"), (short) 0, nPos);
-        xProfileMenu.setCommand(nId, LT_PROFILE_COMMAND);
-        if(currentProfile == null || currentProfile.isEmpty()) {
-          xProfileMenu.enableItem(nId , false);
-        } else {
-          xProfileMenu.enableItem(nId , true);
-        }
-        if(definedProfiles != null) {
-          for (int i = 0; i < definedProfiles.size(); i++) {
-            nId++;
-            nPos++;
-            xProfileMenu.insertItem(nId, definedProfiles.get(i), (short) 0, nPos);
-            xProfileMenu.setCommand(nId, LT_PROFILE_COMMAND + definedProfiles.get(i));
-            if(currentProfile != null && currentProfile.equals(definedProfiles.get(i))) {
-              xProfileMenu.enableItem(nId , false);
-            } else {
-              xProfileMenu.enableItem(nId , true);
-            }
-          }
-        }
-      }
-    }
-
-    private void runProfileAction(String profile) {
-      List<String> definedProfiles = config.getDefinedProfiles();
-      if(profile != null && (definedProfiles == null || !definedProfiles.contains(profile))) {
-        MessageHandler.showMessage("profile '" + profile + "' not found");
-      } else {
-        try {
-          List<String> saveProfiles = new ArrayList<>();
-          saveProfiles.addAll(config.getDefinedProfiles());
-          config.initOptions();
-          config.loadConfiguration(profile == null ? "" : profile);
-          config.setCurrentProfile(profile);
-          config.addProfiles(saveProfiles);
-          config.saveConfiguration(docLanguage);
-          mainThread.resetDocument();
-        } catch (IOException e) {
-          MessageHandler.showError(e);
-        }
-      }
-    }
-
-    @Override
-    public void disposing(EventObject event) {
-    }
-    @Override
-    public void itemActivated(MenuEvent event) {
-      if(event.MenuId == 0) {
-        setLtMenu();
-      }
-    }
-    @Override
-    public void itemDeactivated(MenuEvent event) {
-    }
-    @Override
-    public void itemHighlighted(MenuEvent event) {
-    }
-    @Override
-    public void itemSelected(MenuEvent event) {
-    }
-
-  }
   
 }

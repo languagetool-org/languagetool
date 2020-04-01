@@ -25,41 +25,25 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.ResourceBundle;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.gui.Configuration;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
-import org.languagetool.openoffice.MultiDocumentsHandler.LanguagetoolMenu;
 import org.languagetool.openoffice.TextLevelCheckQueue.QueueEntry;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.StringTools;
 
-import com.sun.star.beans.Property;
 import com.sun.star.beans.PropertyState;
 import com.sun.star.beans.PropertyValue;
-import com.sun.star.beans.UnknownPropertyException;
-import com.sun.star.beans.XPropertySet;
-import com.sun.star.container.XIndexContainer;
-import com.sun.star.frame.XController;
 import com.sun.star.lang.Locale;
-import com.sun.star.lang.WrappedTargetException;
 import com.sun.star.lang.XComponent;
-import com.sun.star.lang.XMultiServiceFactory;
 import com.sun.star.linguistic2.ProofreadingResult;
 import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.text.TextMarkupType;
 import com.sun.star.text.XParagraphCursor;
-import com.sun.star.text.XTextDocument;
-import com.sun.star.ui.ActionTriggerSeparatorType;
-import com.sun.star.ui.ContextMenuExecuteEvent;
-import com.sun.star.ui.ContextMenuInterceptorAction;
-import com.sun.star.ui.XContextMenuInterception;
-import com.sun.star.ui.XContextMenuInterceptor;
-import com.sun.star.uno.Any;
-import com.sun.star.uno.UnoRuntime;
 import com.sun.star.uno.XComponentContext;
 
 import static java.lang.System.arraycopy;
@@ -85,8 +69,6 @@ class SingleDocument {
    *  
    */
   
-  private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
-
   private static final int PARA_CHECK_DEFAULT = 50;  //  Factor for parameter checked at once at iteration (no text change)
   private static final int MAX_SUGGESTIONS = 15;
 
@@ -124,17 +106,15 @@ class SingleDocument {
   private int paraNum;                            //  Number of current checked paragraph
   private List<Integer> minToCheckPara;                   //  List of minimal to check paragraphs for different classes of text level rules
   private Map<Integer, List<Integer>> ignoredMatches;     //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
-  private boolean isRemote;                               //  true: Check is done by remote server
+//  private boolean isRemote;                               //  true: Check is done by remote server
   private boolean useQueue = true;                        //  true: use queue to check text level rules (will be overridden by config
   private String lastSinglePara = null;                   //  stores the last paragraph which is checked as single paragraph
-  private LanguagetoolMenu ltMenu = null;
+  private Language docLanguage = null;
+  private LanguageToolMenus ltMenus = null;
   int[] footnotePositions = null;
   
   int proofInfo = 0;
 
-  @SuppressWarnings("unused") 
-  private ContextMenuInterceptor contextMenuInterceptor = null;
-  
   SingleDocument(XComponentContext xContext, Configuration config, String docID, 
       XComponent xComponent, MultiDocumentsHandler mDH) {
     this.xContext = xContext;
@@ -162,11 +142,13 @@ class SingleDocument {
   ProofreadingResult getCheckResults(String paraText, Locale locale, ProofreadingResult paRes, 
       PropertyValue[] propertyValues, boolean docReset, SwJLanguageTool langTool) {
     
-    isRemote = langTool.isRemote();
     getPropertyValues(propertyValues);
 
-    if (contextMenuInterceptor == null) {
-      contextMenuInterceptor = new ContextMenuInterceptor(xContext);
+    if (docLanguage == null) {
+      docLanguage = langTool.getLanguage();
+    }
+    if (ltMenus == null) {
+      ltMenus = new LanguageToolMenus(xContext, this, config);
     }
     
     try {
@@ -282,18 +264,49 @@ class SingleDocument {
     }
     changedParas = null;
     firstCheckIsDone = false;
+    if(ltMenus != null) {
+      ltMenus.setConfigValues(config);
+    }
   }
   
   /** Set LanguageTool menu
    */
-  void setLtMenu(LanguagetoolMenu ltMenu) {
-    this.ltMenu = ltMenu;
+  void setLtMenus(LanguageToolMenus ltMenus) {
+    this.ltMenus = ltMenus;
   }
   
   /** Get LanguageTool menu
    */
-  LanguagetoolMenu getLtMenu() {
-    return ltMenu;
+  LanguageToolMenus getLtMenu() {
+    return ltMenus;
+  }
+  
+  /**
+   * set menu ID to MultiDocumentsHandler
+   */
+  void setMenuDocId() {
+    mDocHandler.setMenuDocId(getDocID());
+  }
+  
+  /**
+   * get number of current paragraph
+   */
+  int getCurrentNumberOfParagraph() {
+    return paraNum;
+  }
+  
+  /**
+   * get language of the document
+   */
+  Language getLanguage() {
+    return docLanguage;
+  }
+  
+  /**
+   * set language of the document
+   */
+  void setLanguage(Language language) {
+    docLanguage = language;
   }
   
   /** Set XComponentContext and XComponent of the document
@@ -315,7 +328,14 @@ class SingleDocument {
     return docID;
   }
   
-  /** Reset all caches of the document
+  /**
+   * reset the Document
+   */
+  void resetDocument() {
+    mDocHandler.resetDocument();
+  }
+  
+/** Reset all caches of the document
    */
   void resetCache() {
     sentencesCache.removeAll();
@@ -1369,162 +1389,4 @@ class SingleDocument {
     return getRuleIdFromCache(y, x);
   }
 
-  /** 
-   * Class to add a LanguageTool Options item to the context menu
-   * since 4.6
-   */
-  class ContextMenuInterceptor implements XContextMenuInterceptor{
-    
-    private final static String IGNORE_ONCE_URL = "slot:201";
-    private final static String ADD_TO_DICTIONARY_2 = "slot:2";
-    private final static String ADD_TO_DICTIONARY_3 = "slot:3";
-    private final static String LT_OPTIONS_URL = "service:org.languagetool.openoffice.Main?configure";
-    private final static String LT_IGNORE_ONCE = "service:org.languagetool.openoffice.Main?ignoreOnce";
-    private final static String LT_DEACTIVATE_RULE = "service:org.languagetool.openoffice.Main?deactivateRule";
-    private final static String LT_REMOTE_HINT = "service:org.languagetool.openoffice.Main?remoteHint";   
-
-    public ContextMenuInterceptor() {}
-    
-    public ContextMenuInterceptor(XComponentContext xContext) {
-      try {
-        XTextDocument xTextDocument = OfficeTools.getCurrentDocument(xContext);
-        if (xTextDocument == null) {
-          MessageHandler.printToLogFile("ContextMenuInterceptor: xTextDocument == null");
-          return;
-        }
-        xTextDocument.getCurrentController();
-        XController xController = xTextDocument.getCurrentController();
-        if (xController == null) {
-          MessageHandler.printToLogFile("ContextMenuInterceptor: xController == null");
-          return;
-        }
-        XContextMenuInterception xContextMenuInterception = UnoRuntime.queryInterface(XContextMenuInterception.class, xController);
-        if (xContextMenuInterception == null) {
-          MessageHandler.printToLogFile("ContextMenuInterceptor: xContextMenuInterception == null");
-          return;
-        }
-        ContextMenuInterceptor aContextMenuInterceptor = new ContextMenuInterceptor();
-        XContextMenuInterceptor xContextMenuInterceptor = 
-            UnoRuntime.queryInterface(XContextMenuInterceptor.class, aContextMenuInterceptor);
-        if (xContextMenuInterceptor == null) {
-          MessageHandler.printToLogFile("ContextMenuInterceptor: xContextMenuInterceptor == null");
-          return;
-        }
-        xContextMenuInterception.registerContextMenuInterceptor(xContextMenuInterceptor);
-      } catch (Throwable t) {
-        MessageHandler.printException(t);
-      }
-    }
-  
-    @Override
-    public ContextMenuInterceptorAction notifyContextMenuExecute(ContextMenuExecuteEvent aEvent) {
-      try {
-        XIndexContainer xContextMenu = aEvent.ActionTriggerContainer;
-        int count = xContextMenu.getCount();
-        
-        //  Add LT Options Item if a Grammar or Spell error was detected
-        for (int i = 0; i < count; i++) {
-          Any a = (Any) xContextMenu.getByIndex(i);
-          XPropertySet props = (XPropertySet) a.getObject();
-          if (debugMode > 0) {
-            printProperties(props);
-          }
-          String str = null;
-          if(props.getPropertySetInfo().hasPropertyByName("CommandURL")) {
-            str = props.getPropertyValue("CommandURL").toString();
-          }
-          if(str != null && IGNORE_ONCE_URL.equals(str)) {
-            int n;  
-            for(n = i + 1; n < count; n++) {
-              a = (Any) xContextMenu.getByIndex(n);
-              XPropertySet tmpProps = (XPropertySet) a.getObject();
-              if(tmpProps.getPropertySetInfo().hasPropertyByName("CommandURL")) {
-                str = tmpProps.getPropertyValue("CommandURL").toString();
-              }
-              if(ADD_TO_DICTIONARY_2.equals(str) || ADD_TO_DICTIONARY_3.equals(str)) {
-                break;
-              }
-            }
-            if(n >= count) {
-              mDocHandler.setMenuDocId(getDocID());
-              if(paraNum >= 0) {
-                props.setPropertyValue("CommandURL", LT_IGNORE_ONCE);
-              }
-              XMultiServiceFactory xMenuElementFactory = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContextMenu);
-
-              XPropertySet xNewMenuEntry1 = UnoRuntime.queryInterface(XPropertySet.class,
-                  xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-              xNewMenuEntry1.setPropertyValue("Text", MESSAGES.getString("loContextMenuDeactivateRule"));
-              xNewMenuEntry1.setPropertyValue("CommandURL", LT_DEACTIVATE_RULE);
-              xContextMenu.insertByIndex(i + 2, xNewMenuEntry1);
-              
-              int nId = i + 4;
-              if(isRemote) {
-                XPropertySet xNewMenuEntry2 = UnoRuntime.queryInterface(XPropertySet.class,
-                    xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-                xNewMenuEntry2.setPropertyValue("Text", MESSAGES.getString("loMenuRemoteInfo"));
-                xNewMenuEntry2.setPropertyValue("CommandURL", LT_REMOTE_HINT);
-                xContextMenu.insertByIndex(nId, xNewMenuEntry2);
-                nId++;
-              }
-              
-              XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
-                  xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-              xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));
-              xNewMenuEntry.setPropertyValue("CommandURL", LT_OPTIONS_URL);
-              xContextMenu.insertByIndex(nId, xNewMenuEntry);
-  
-              return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
-            }
-          }
-        }
-
-        //  Add LT Options Item for context menu without grammar error
-        XMultiServiceFactory xMenuElementFactory = UnoRuntime.queryInterface(XMultiServiceFactory.class, xContextMenu);
-        XPropertySet xSeparator = UnoRuntime.queryInterface(XPropertySet.class,
-            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTriggerSeparator"));
-        xSeparator.setPropertyValue("SeparatorType", ActionTriggerSeparatorType.LINE);
-        xContextMenu.insertByIndex(count, xSeparator);
-        
-        int nId = count + 1;
-        if(isRemote) {
-          XPropertySet xNewMenuEntry2 = UnoRuntime.queryInterface(XPropertySet.class,
-              xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-          xNewMenuEntry2.setPropertyValue("Text", MESSAGES.getString("loMenuRemoteInfo"));
-          xNewMenuEntry2.setPropertyValue("CommandURL", LT_REMOTE_HINT);
-          xContextMenu.insertByIndex(nId, xNewMenuEntry2);
-          nId++;
-        }
-
-        XPropertySet xNewMenuEntry = UnoRuntime.queryInterface(XPropertySet.class,
-            xMenuElementFactory.createInstance("com.sun.star.ui.ActionTrigger"));
-        xNewMenuEntry.setPropertyValue("Text", MESSAGES.getString("loContextMenuOptions"));
-        xNewMenuEntry.setPropertyValue("CommandURL", LT_OPTIONS_URL);
-        xContextMenu.insertByIndex(nId, xNewMenuEntry);
-
-        return ContextMenuInterceptorAction.EXECUTE_MODIFIED;
-
-      } catch (Throwable t) {
-        MessageHandler.printException(t);
-      }
-      
-      MessageHandler.printToLogFile("no change in Menu");
-      return ContextMenuInterceptorAction.IGNORED;
-    }
-    
-    private void printProperties(XPropertySet props) throws UnknownPropertyException, WrappedTargetException {
-      Property[] propInfo = props.getPropertySetInfo().getProperties();
-      for (Property property : propInfo) {
-        MessageHandler.printToLogFile("Property: Name: " + property.Name + ", Type: " + property.Type);
-      }
-      if(props.getPropertySetInfo().hasPropertyByName("Text")) {
-        MessageHandler.printToLogFile("Property: Name: " + props.getPropertyValue("Text").toString());
-      }
-      if(props.getPropertySetInfo().hasPropertyByName("CommandURL")) {
-        MessageHandler.printToLogFile("Property: CommandURL: " + props.getPropertyValue("CommandURL").toString());
-      }
-    }
-
-  }
-  
 }
