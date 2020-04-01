@@ -23,11 +23,12 @@ public class PronomFebleDuplicateRule extends Rule {
 
   // tots els pronoms febles
   private static final Pattern PRONOM_FEBLE = Pattern.compile("P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
-  private static final Pattern KEEP_CHECKING = Pattern
-      .compile("V.*|SPS00|P0.{6}|PP3CN000|PP3NN000|PP3..A00|PP3CP000|PP3CSD00");
+  private static final Pattern VERB_CONJUGAT = Pattern.compile("V.[IS].*");
   private static final Pattern INFINITIU = Pattern.compile("V.N.*");
+  private static final Pattern PARTICIPI = Pattern.compile("V.P..SM.");
   private static final Pattern GERUNDI = Pattern.compile("V.G.*");
-  private static final String[] VERBS_CONTINUAR = new String[] { "continuar", "seguir", "prosseguir" };
+  private static final String[] ABANS_DE_GERUNDI = new String[] { "continuar", "seguir", "prosseguir", "anar" };
+  private static final String[] ABANS_DE_INFINITIU = new String[] { "anar", "poder", "voler" };
   private static final String[] VERBS_IMPERSONAL = new String[] { "ordenar", "recomanar" };
 
   @Override
@@ -58,7 +59,12 @@ public class PronomFebleDuplicateRule extends Rule {
       if (PFLemma.isEmpty()) {
         PFLemma = getLemmaOfPronomFeble(tokens[i]);
         // exception: Es recomana, S'ordena
-        if (i + 1 < tokens.length && PFLemma.equalsIgnoreCase("es") && tokens[i + 1].hasAnyLemma(VERBS_IMPERSONAL)) {
+        /*if (i + 1 < tokens.length && PFLemma.equalsIgnoreCase("es") && tokens[i + 1].hasAnyLemma(VERBS_IMPERSONAL)) {
+          PFLemma = "";
+          initPos = -1;
+          continue;
+        }*/
+        if (i > 1 && !tokens[i].isWhitespaceBefore()) {
           PFLemma = "";
           initPos = -1;
           continue;
@@ -68,7 +74,7 @@ public class PronomFebleDuplicateRule extends Rule {
           continue;
         }
       } else {
-        String PFLemma2 = getLemmaOfPronomFeble(tokens[i]); 
+        String PFLemma2 = getLemmaOfPronomFeble(tokens[i]);
         if (!tokens[i].isWhitespaceBefore() && PFLemma2.equals(PFLemma) && isPrevInfinitive) {
           // Rule matches!
           final RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[initPos].getStartPos(),
@@ -80,9 +86,9 @@ public class PronomFebleDuplicateRule extends Rule {
               suggestion.append(" ");
             }
             String strToAdd = tokens[j].getToken();
-            if (j==initPos+1 && StringTools.isCapitalizedWord(tokens[initPos].getToken())) {
+            if (j == initPos + 1 && StringTools.isCapitalizedWord(tokens[initPos].getToken())) {
               strToAdd = StringTools.uppercaseFirstChar(strToAdd);
-            }  
+            }
             suggestion.append(strToAdd);
           }
           ruleMatch.addSuggestedReplacement(suggestion.toString());
@@ -96,19 +102,19 @@ public class PronomFebleDuplicateRule extends Rule {
           }
           ruleMatch.addSuggestedReplacement(suggestion.toString());
           ruleMatches.add(ruleMatch);
-        } else if (!tokens[i].isWhitespaceBefore() && isPrevInfinitive &&
-            (PFLemma.equals("en") && PFLemma2.equals("hi") 
-            || PFLemma.equals("hi") && PFLemma2.equals("en"))) 
-        {
+        } else if (!tokens[i].isWhitespaceBefore() && isPrevInfinitive
+            && (PFLemma.equals("en") && PFLemma2.equals("hi") || PFLemma.equals("hi") && PFLemma2.equals("en"))) {
           final RuleMatch ruleMatch = new RuleMatch(this, sentence, tokens[initPos].getStartPos(),
-              tokens[i].getEndPos(), "Combinació de pronoms febles probablement incorrecta", "Pronoms febles incorrectes");
+              tokens[i].getEndPos(), "Combinació de pronoms febles probablement incorrecta",
+              "Pronoms febles incorrectes");
           ruleMatches.add(ruleMatch);
-        }
-        else {
-          // check whether to keep checking
+        } else {
+
           isPrevInfinitive = matchPostagRegexp(tokens[i], INFINITIU)
-              || (matchPostagRegexp(tokens[i], GERUNDI) && tokens[i - 1].hasAnyLemma(VERBS_CONTINUAR));
-          if (!matchPostagRegexp(tokens[i], KEEP_CHECKING)) {
+              || (matchPostagRegexp(tokens[i], GERUNDI) && tokens[i - 1].hasAnyLemma(ABANS_DE_GERUNDI));
+
+          // check whether to keep checking
+          if (!keepChecking(tokens, i, initPos)) {
             PFLemma = "";
             initPos = -1;
 
@@ -118,6 +124,26 @@ public class PronomFebleDuplicateRule extends Rule {
 
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean keepChecking(AnalyzedTokenReadings[] tokens, int i, int initPos) {
+    if (tokens[i].hasLemma("de")) {
+      return tokens[i - 1].hasLemma("haver");
+    }
+    if (matchPostagRegexp(tokens[i], PARTICIPI)) {
+      return tokens[i - 1].hasLemma("haver");
+    }
+    if (matchPostagRegexp(tokens[i], GERUNDI)) {
+      return tokens[i - 1].hasAnyLemma(ABANS_DE_GERUNDI);
+    }
+    if (matchPostagRegexp(tokens[i], INFINITIU)) {
+      return tokens[i - 1].hasAnyLemma(ABANS_DE_INFINITIU) || tokens[i - 1].hasLemma("de");
+    }
+    if (i == initPos + 1) {
+      return matchPostagRegexp(tokens[i], VERB_CONJUGAT);
+    }
+    return false;
+
   }
 
   private String getLemmaOfPronomFeble(AnalyzedTokenReadings aToken) {

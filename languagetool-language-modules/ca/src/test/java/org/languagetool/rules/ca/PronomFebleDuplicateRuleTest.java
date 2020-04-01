@@ -31,6 +31,48 @@ public class PronomFebleDuplicateRuleTest {
     assertCorrect("S'ordena dutxar-se cada dia.");
     assertCorrect("Es va quedar barallant-se amb el seu amic.");
     assertCorrect("Es va quedar se");
+    
+    assertCorrect("M’encantava enfilar-me");
+    assertCorrect("t'obliguen a penjar-te");
+    assertCorrect("ens permeten endinsar-nos");
+    assertCorrect("els llepaven fins a donar-los");
+    assertCorrect("em fa doblegar fins a tocar-me");
+    assertCorrect("la batalla per defensar-la");
+    assertCorrect("ens convida a treure'ns-la");
+    assertCorrect("ens ve a buscar per ajudar-nos");
+    assertCorrect("et fan adonar-te");
+    assertCorrect("m'agrada enfonsar-me");
+    assertCorrect("em dedico a fer-me");
+    assertCorrect("la mira sense veure-la");
+    assertCorrect("l'havia podat fins a a deixar-lo");
+    assertCorrect("em costava deixar-me anar");
+    assertCorrect("m'obliga a allunyar-me");
+    assertCorrect("el papà havia de canviar-lo");
+    assertCorrect("ens congregava per assabentar-nos");
+    assertCorrect("es podia morir de taponar-se-li");
+    assertCorrect("l’hagin preservada sense tocar-la");
+    assertCorrect("li impedeixi aconseguir-la");
+    assertCorrect("us he fet venir per llevar-vos");
+    assertCorrect("ajuda'm a alçar-me");
+    assertCorrect("l'esperava per agrair-li");
+    assertCorrect("els va empènyer a adreçar-li");
+    assertCorrect("em vaig oblidar de rentar-me");
+    assertCorrect("ens ajudà a animar-nos");
+    assertCorrect("l'encalçava sense poder atrapar-la");
+    assertCorrect("em manava barrejar-me");
+    assertCorrect("el convidà a obrir-los");
+    assertCorrect("es disposava a despullar-se");
+    assertCorrect("es mudà per dirigir-se");
+    assertCorrect("li va costar d'aconseguir tenir-lo");
+    assertCorrect("es va poder estar d'atansar-s'hi");
+    assertCorrect("el dissuadeixi de matar-lo");
+    assertCorrect("la va festejar per engalipar-la");
+    assertCorrect("s'havia negat a casar-s'hi");
+    assertCorrect("es disposaven a envolar-se");
+    assertCorrect("li sabia d'haver-la repudiada");
+    assertCorrect("li sabia greu d'haver-la repudiada");
+    assertCorrect("el féu acostar per besar-li");
+    assertCorrect("En acostar-se va fer-se això.");
 
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("S'ha de fer-se"));
     assertEquals(1, matches.length);
@@ -57,6 +99,11 @@ public class PronomFebleDuplicateRuleTest {
     assertEquals(1, matches.length);
     assertEquals("puc arreglar-ho", matches[0].getSuggestedReplacements().get(0));
     assertEquals("ho puc arreglar", matches[0].getSuggestedReplacements().get(1));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("La volia veure-la."));
+    assertEquals(1, matches.length);
+    assertEquals("Volia veure-la", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("La volia veure", matches[0].getSuggestedReplacements().get(1));
     
     matches = rule.match(langTool.getAnalyzedSentence("En vaig portar-ne quatre."));
     assertEquals(1, matches.length);
