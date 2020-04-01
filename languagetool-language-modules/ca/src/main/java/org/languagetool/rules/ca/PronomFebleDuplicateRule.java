@@ -44,6 +44,7 @@ public class PronomFebleDuplicateRule extends Rule {
     super.setCategory(new Category(new CategoryId("PRONOMS_FEBLES"), "Pronoms febles"));
     setLocQualityIssueType(ITSIssueType.Grammar);
     addExamplePair(Example.wrong("<marker>S'ha de fer-se</marker>."), Example.fixed("<marker>S'ha de fer</marker>."));
+    this.setDefaultTempOff();
   }
 
   @Override
