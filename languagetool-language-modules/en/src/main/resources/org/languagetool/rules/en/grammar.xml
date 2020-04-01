@@ -7121,6 +7121,19 @@ USA
                 <token>you</token>
                 <token regexp="yes">&adverb_abbreviations;|&verb_abbreviations;|&not_really_verbs;</token>
             </antipattern>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">thanks?|congratulations</token>
+                    <token min="0">you</token>
+                    <token>for</token>
+                    <marker>
+                        <token>you</token>
+                    </marker>
+                    <token postag="NN.*|JJ.*" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>your</suggestion>?</message>
+                <example correction="your">Thanks for <marker>you</marker> help.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
@@ -28285,6 +28298,34 @@ USA
             <url>https://www.merriam-webster.com/dictionary/do</url>
             <example correction="does">He <marker>dos</marker> not want to go home.</example>
         </rule>
+        <rulegroup id="YOUR_RE" name="Your're (you're)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>your</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token spacebefore="no">re</token>
+                </pattern>
+                <message>Did you mean <suggestion>you\2re</suggestion> or <suggestion>your</suggestion>?</message>
+                <example correction="You're|Your"><marker>Your're</marker> right!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>your</token>
+                    <token case_sensitive="yes" regexp="yes">[Aa]re</token>
+                </pattern>
+                <message>Did you mean <suggestion>you are</suggestion>, <suggestion>yours are</suggestion> or <suggestion>your</suggestion>?</message>
+                <example correction="You are|Yours are|Your"><marker>Your are</marker> right!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>its</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                    <token spacebefore="no">s</token>
+                </pattern>
+                <message>Did you mean <suggestion>it\2s</suggestion> or <suggestion>its</suggestion>?</message>
+                <example correction="It's|Its"><marker>Its's</marker> very cool!</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="A_MD_VB" name="A would not do it">
             <antipattern><!-- adjective without hyphen "This book is a must-read" -->
                 <token>must</token>
@@ -29494,7 +29535,10 @@ USA
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be|notice</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
                     <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
-                    <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
+                    <token postag="RB" min='0' max='3'>
+                        <exception postag="VBD"/>
+                        <exception regexp="yes">before|after|needs|live</exception>
+                    </token>
                     <marker>
                         <token postag="VB[GP]?" postag_regexp="yes">
                             <exception postag="VB[NDZ]|JJ.*|RB|MD|IN" postag_regexp="yes"/>
@@ -29542,6 +29586,7 @@ USA
                 <example>When are Carl, Joseph and Laura back?</example>
                 <example>Anyone else having to deal with that problem?</example>
                 <example>Anyone going to the concert?</example>
+                <example>If anyone needs help or has any doubt you can talk to me.</example>
                 <example>He then summons them.</example><!-- #2222 -->
                 <example>I'm letting everyone know exactly what happened.</example>
                 <example>She wasn't letting anyone see the doctor.</example>
@@ -29561,7 +29606,10 @@ USA
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|without|into)</token>
                     <token regexp="yes">s?he|it|(any|every|no|some)(one|body)</token>
-                    <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
+                    <token postag="RB" min='0' max='3'>
+                        <exception postag="VBD"/>
+                        <exception regexp="yes">before|after|needs|live</exception>
+                    </token>
                     <marker>
                         <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
                         <token regexp="yes">&apostrophe;</token>
@@ -29587,7 +29635,10 @@ USA
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|prevent|help|stop|suggest</exception>(that|ha[sd]|will|must|could|can|should|would|does|did|is|may|might|t|was|dare|lest|without)</token>
                     <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
-                    <token postag="RB" min='1' max='3'><exception postag="VBD"/></token>
+                    <token postag="RB" min='1' max='3'>
+                        <exception postag="VBD"/>
+                        <exception regexp="yes">before|after|needs|live</exception>
+                    </token>
                     <marker>
                         <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[NDZ]|JJ.*|RB|MD" postag_regexp="yes"/>
                           <exception regexp='yes'>don|haven|aren</exception></token>
@@ -29612,7 +29663,10 @@ USA
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|h(ave|ear)|make|see|prevent|help|stop|suggest</exception>(that|ha[ds]|will|must|could|can|should|would|does|did|is|may|might|t|s|let|was|dare|lest|without)</token>
                     <token regexp="yes">(?:any|no|some)(?:one|body)</token>
                     <token>else</token>
-                    <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
+                    <token postag="RB" min='0' max='3'>
+                        <exception regexp="yes">before|after|needs|live</exception>
+                        <exception postag="VBD"/>
+                    </token>
                     <marker>
                         <token postag="VB[GP]?" postag_regexp="yes"><exception postag="VB[ND]|JJ.*|RB|MD" postag_regexp="yes"/></token>
                     </marker>
@@ -29638,7 +29692,10 @@ USA
                     <token postag="VB.*" postag_regexp="yes"/>
                     <token>that</token>
                     <token regexp="yes">s?he|(?:any|no|some)(?:one|body)</token>
-                    <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
+                    <token postag="RB" min='0' max='3'>
+                        <exception regexp="yes">before|after|needs|live</exception>
+                        <exception postag="VBD"/>
+                    </token>
                     <marker>
                         <token postag="VBG"/>
                     </marker>
@@ -29656,7 +29713,10 @@ USA
                         <exception postag="CC"/>
                         </token>
                     <token regexp="yes">s?he|(?:any|no|some)(?:one|body)</token>
-                    <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
+                    <token postag="RB" min='0' max='3'>
+                        <exception regexp="yes">before|after|needs|live</exception>
+                        <exception postag="VBD"/>
+                    </token>
                     <marker>
                         <token postag="VBG">
                             <exception postag="IN"/></token>
@@ -29669,6 +29729,7 @@ USA
                 <example>What is he doing here at this hour?</example>
                 <example>And why was she crying?</example>
                 <example>What's he going to do?</example>
+                <example>He loved someone before knowing Rose.</example>
                 <example>I don't want <marker>anyone touching my car</marker>.</example>
                 <example>Can you ask anyone regarding the new concept?</example><!-- 1825 -->
                 <example>(T)he conditioning of petty criminals with the whip, or some more...</example>
@@ -31826,6 +31887,11 @@ USA
                 <token regexp="yes">\d+</token>
                 <token regexp="yes">word|sentence|paragraph</token>
                 <token>essay</token>
+            </antipattern>
+            <antipattern><!-- A 5 year plan -->
+                <token postag="CD" />
+                <token regexp="yes">day|week|month|year</token>
+                <token regexp="yes">plan|concept|project(ion)?|roadmap</token>
             </antipattern>
             <pattern>
                 <token postag="CD">
