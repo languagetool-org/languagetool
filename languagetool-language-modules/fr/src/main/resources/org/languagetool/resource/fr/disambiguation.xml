@@ -26,7 +26,7 @@ RB => Règles Brutes
 
     <!ENTITY extensions_de_fichiers "aspx?|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|docx?|eps|exe|flv|gif|html?|ibooks|ico|ini|jar|jpe?g|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|o[dt][tspfg]|pdf|php|pl|png|pps|pptx?|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xlsx?|xsl|xml|zipx?|7z">
     <!ENTITY domaines_internet "(?:cat|ae|ar|asia|at|au|be|bid|biz|br|ca|cc|cf|ch|cl|club|cn|co|com|cz|de|dk|edu|es|eu|fi|fr|ga|gdn|gov|gq|gr|hk|hu|id|ie|il|in|info|int|io|ir|it|jp|kiwi|kr|kz|life|link|loan|lt|me|men|mil|ml|mobi|mx|my|name|net|nl|no|nu|nz|online|org|party|pl|pro|pt|pw|racing|ro|ru|se|sg|shop|site|sk|space|store|su|tech|tk|top|tr|trade|tv|tw|ua|uk|us|vip|vn|wang|website|win|ws|xin|xyz|za)"><!-- the 100 most used + cat -->
-
+    <!ENTITY apostrophe "[’´'‛′‘]">
 ]>
 <rules lang="fr" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../disambiguation.xsd">
@@ -50,7 +50,7 @@ RB => Règles Brutes
   <rule name="C" id="C_APOSTROPHE">
     <pattern>
       <token>C
-        <exception scope="next" regexp="yes" negate="yes">[’´'‛′‘]</exception>
+        <exception scope="next" regexp="yes" negate="yes">&apostrophe;</exception>
       </token>
     </pattern>
     <disambig postag="R dem m s"/>
@@ -59,7 +59,7 @@ RB => Règles Brutes
   <rule id="ROMAN_NUMBER" name="roman number">
     <pattern>
       <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)
-        <exception scope="next" regexp="yes">[’´'‛′‘]</exception>
+        <exception scope="next" regexp="yes">&apostrophe;</exception>
       </token>
     </pattern>
     <disambig postag=""/>
@@ -133,7 +133,7 @@ RB => Règles Brutes
     <rule>
       <pattern>
         <token regexp="yes">[dl]<exception scope="previous" regexp="yes">[ns]e|il|elle|on</exception><exception scope="previous" postag="[NZ].*" postag_regexp="yes"/></token>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">&apostrophe;</token>
         <marker><token>est</token></marker>
       </pattern>
       <disambig postag="N m s"/>
@@ -142,7 +142,7 @@ RB => Règles Brutes
       <pattern>
         <token regexp="yes">[ns]e|il|elle|on</token>
         <token>l</token>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">&apostrophe;</token>
         <marker><token>est</token></marker>
       </pattern>
       <disambig postag="V etre ind pres 3 s"/>
@@ -192,7 +192,7 @@ RB => Règles Brutes
     </rule>
     <rule>
       <pattern>
-        <token regexp="yes">aucunes?|certaines?|différentes?|diverses?|nombreuses|nulle|telles?|toute?s?|une<exception scope="previous" regexp="yes">[’´'‛′‘]</exception></token>
+        <token regexp="yes">aucunes?|certaines?|différentes?|diverses?|nombreuses|nulle|telles?|toute?s?|une<exception scope="previous" regexp="yes">&apostrophe;</exception></token>
         <marker>
           <token postag="N [fe] .*" postag_regexp="yes"><exception regexp="yes">est|multiples|si</exception></token>
         </marker>
@@ -201,7 +201,7 @@ RB => Règles Brutes
     </rule>
     <rule>
       <pattern>
-        <token regexp="yes">aucuns?|certains?|différents?|divers|nombreux|touts?|un<exception scope="previous" regexp="yes">[’´'‛′‘]</exception></token>
+        <token regexp="yes">aucuns?|certains?|différents?|divers|nombreux|touts?|un<exception scope="previous" regexp="yes">&apostrophe;</exception></token>
         <marker>
           <token postag="N [me] .*" postag_regexp="yes"><exception regexp="yes">est|multiples|si|ayant</exception></token>
         </marker>
@@ -210,7 +210,7 @@ RB => Règles Brutes
     </rule>
     <rule>
       <pattern>
-        <token regexp="yes">chaque|des?|maint|mêmes|moult|nul|plusieurs|quelques<exception scope="previous" regexp="yes">[’´'‛′‘]</exception></token>
+        <token regexp="yes">chaque|des?|maint|mêmes|moult|nul|plusieurs|quelques<exception scope="previous" regexp="yes">&apostrophe;</exception></token>
         <marker>
           <token postag="N.*" postag_regexp="yes"><exception regexp="yes">est|multiples|si|petite?s?|mauvais|pires?</exception></token>
         </marker>
@@ -231,7 +231,7 @@ RB => Règles Brutes
     <rule>
       <pattern>
         <token>l</token>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">&apostrophe;</token>
         <marker>
           <token>été</token>
         </marker>
@@ -319,7 +319,7 @@ RB => Règles Brutes
     <rule name="quelqu'un nous">
       <pattern>
         <token>quelqu</token>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">&apostrophe;</token>
         <token regexp="yes">une?s?</token>
         <marker>
           <token>nous</token>
@@ -439,7 +439,7 @@ RB => Règles Brutes
     <rule name="quelqu'un vous">
       <pattern>
         <token>quelqu</token>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">&apostrophe;</token>
         <token regexp="yes">une?s?</token>
         <marker>
           <token>vous</token>
@@ -526,7 +526,7 @@ RB => Règles Brutes
         <marker>
           <token>s</token>
         </marker>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">&apostrophe;</token>
         <token postag="V.*" postag_regexp="yes"/>
       </pattern>
       <disambig postag="R pers obj 3 sp"/>
@@ -536,7 +536,7 @@ RB => Règles Brutes
         <marker>
           <token>t</token>
         </marker>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">&apostrophe;</token>
         <token postag="V.*" postag_regexp="yes"/>
       </pattern>
       <disambig postag="R pers obj 2 s"/>
@@ -546,7 +546,7 @@ RB => Règles Brutes
         <marker>
           <token>m</token>
         </marker>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">&apostrophe;</token>
         <token postag="V.*" postag_regexp="yes"/>
       </pattern>
       <disambig postag="R pers obj 1 s"/>
@@ -722,7 +722,7 @@ RB => Règles Brutes
     <rule>
       <pattern>
         <token>n</token>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">&apostrophe;</token>
         <marker>
           <token postag="V.*" postag_regexp="yes"/>
         </marker>
@@ -757,7 +757,7 @@ RB => Règles Brutes
           <token>son</token>
         </marker>
         <token>d</token>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">&apostrophe;</token>
         <token regexp="yes">instruments?</token>
       </pattern>
       <disambig postag="N m s"/>
@@ -1063,7 +1063,7 @@ RB => Règles Brutes
     <rule name="j' + verbe">
       <pattern>
         <token>j</token>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">&apostrophe;</token>
         <marker>
           <token postag="V.* 1 s" postag_regexp="yes"/>
         </marker>
@@ -1084,7 +1084,7 @@ RB => Règles Brutes
         <token postag="SENT_START"/>
         <token>ne<exception scope="previous" postag_regexp="yes" postag="R pers suj.*"/></token>
         <token>t</token>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">&apostrophe;</token>
         <marker>
           <token postag="V.* 2 s" postag_regexp="yes"/>
         </marker>
@@ -1338,7 +1338,7 @@ RB => Règles Brutes
   <rulegroup name="en fait" id="EN_FAIT">
     <rule>
       <pattern>
-        <token><exception postag="Z.*" postag_regexp="yes"/><exception regexp="yes">il|elle|on|[’´'‛′‘]</exception></token>
+        <token><exception postag="Z.*" postag_regexp="yes"/><exception regexp="yes">il|elle|on|&apostrophe;</exception></token>
         <marker><token>en</token></marker>
         <token>fait</token>
       </pattern>
@@ -1346,7 +1346,7 @@ RB => Règles Brutes
     </rule>
     <rule>
       <pattern>
-        <token><exception postag="Z.*" postag_regexp="yes"/><exception regexp="yes">il|elle|on|[’´'‛′‘]</exception></token>
+        <token><exception postag="Z.*" postag_regexp="yes"/><exception regexp="yes">il|elle|on|&apostrophe;</exception></token>
         <token>en</token>
         <marker><token>fait</token></marker>
       </pattern>
@@ -1472,7 +1472,7 @@ RB => Règles Brutes
     <rule>
       <pattern>
         <token>l</token>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token regexp="yes">&apostrophe;</token>
         <marker><token>autour</token></marker>
       </pattern>
       <disambig postag="N m s"/>
@@ -1498,7 +1498,7 @@ RB => Règles Brutes
       <token regexp="yes">attestation|déclaration</token>
       <token>sur</token>
       <token>l</token>
-      <token regexp="yes">[’´'‛′‘]</token>
+      <token regexp="yes">&apostrophe;</token>
       <marker><token>honneur</token></marker>
     </pattern>
     <disambig postag="N f s"/>
@@ -1757,7 +1757,7 @@ RB => Règles Brutes
       <disambig action="ignore_spelling"/>
     </rule>
     <rule>
-      <!-- A4, B4, A380, BMW M4 ... -->
+      <!-- A4, B4, A380, BMW M4, F12 ... -->
       <pattern>
         <token regexp="yes">[A-Z]\d+</token>
       </pattern>
@@ -1767,7 +1767,7 @@ RB => Règles Brutes
       <!-- list items, 1-, 2-, -->
       <pattern>
         <marker>
-          <token regexp="yes">\d{1,3}\-</token>
+          <token regexp="yes">\d{1,3}\.?\-</token>
         </marker>
       </pattern>
       <disambig action="ignore_spelling"/>
@@ -1799,6 +1799,15 @@ RB => Règles Brutes
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+    <rule>
+      <!-- License keys, model numbers ("Philips AEA2700"), biology terms ("CD4") ... -->
+      <pattern>
+        <marker>
+          <token regexp="yes" case_sensitive="yes">[A-Z]+\d+</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
   </rulegroup>
 
   <rule name="Ignore spelling of domain names" id="IGNORE_DOMAIN_NAMES">
@@ -1806,6 +1815,16 @@ RB => Règles Brutes
         <token regexp="yes">[A-Za-z0-9\-]+</token>
         <token spacebefore="no">.</token>
         <token spacebefore="no" regexp="yes">&domaines_internet;</token>
+    </pattern>
+    <disambig action="ignore_spelling"/>
+  </rule>
+
+  <rule name="Ignore spelling of l'ONU" id="IGNORE_SPELLING_OF_L_ONU">
+    <!-- https://fr.wikipedia.org/wiki/Organisation_des_Nations_unies -->
+    <pattern case_sensitive="yes">
+        <token>l</token>
+        <token spacebefore="no" regexp="yes">&apostrophe;</token>
+        <token spacebefore="no" case_sensitive="yes" regexp="yes">ONU|AGV</token><!-- not sure if this the best way to fix this -->
     </pattern>
     <disambig action="ignore_spelling"/>
   </rule>
