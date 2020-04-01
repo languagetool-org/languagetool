@@ -125,6 +125,18 @@ public class PronomFebleDuplicateRuleTest {
     assertEquals("He de rentar-me", matches[0].getSuggestedReplacements().get(0));
     assertEquals("M'he de rentar", matches[0].getSuggestedReplacements().get(1));
     
+    matches = rule.match(langTool.getAnalyzedSentence("Et deu enganyar-te."));
+    assertEquals(1, matches.length);
+    
+    matches = rule.match(langTool.getAnalyzedSentence("Et deu voler enganyar-te."));
+    assertEquals(1, matches.length);
+    
+    matches = rule.match(langTool.getAnalyzedSentence("Et deu haver de dir-te."));
+    assertEquals(1, matches.length);
+    
+    matches = rule.match(langTool.getAnalyzedSentence("Ho deu continuar dient-ho."));
+    assertEquals(1, matches.length);
+    
   }
     
     private void assertCorrect(String sentence) throws IOException {

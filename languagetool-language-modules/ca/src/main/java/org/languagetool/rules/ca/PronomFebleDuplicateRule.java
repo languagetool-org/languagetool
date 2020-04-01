@@ -2,7 +2,6 @@ package org.languagetool.rules.ca;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Matcher;
@@ -28,8 +27,8 @@ public class PronomFebleDuplicateRule extends Rule {
   private static final Pattern PARTICIPI = Pattern.compile("V.P..SM.");
   private static final Pattern GERUNDI = Pattern.compile("V.G.*");
   private static final String[] ABANS_DE_GERUNDI = new String[] { "continuar", "seguir", "prosseguir", "anar" };
-  private static final String[] ABANS_DE_INFINITIU = new String[] { "anar", "poder", "voler" };
-  private static final String[] VERBS_IMPERSONAL = new String[] { "ordenar", "recomanar" };
+  private static final String[] ABANS_DE_INFINITIU = new String[] { "anar", "poder", "voler", "deure" };
+  //private static final String[] VERBS_IMPERSONAL = new String[] { "ordenar", "recomanar" };
 
   @Override
   public String getId() {
@@ -45,7 +44,6 @@ public class PronomFebleDuplicateRule extends Rule {
     super.setCategory(new Category(new CategoryId("PRONOMS_FEBLES"), "Pronoms febles"));
     setLocQualityIssueType(ITSIssueType.Grammar);
     addExamplePair(Example.wrong("<marker>S'ha de fer-se</marker>."), Example.fixed("<marker>S'ha de fer</marker>."));
-    this.setDefaultTempOff();
   }
 
   @Override
@@ -127,6 +125,9 @@ public class PronomFebleDuplicateRule extends Rule {
   }
 
   private boolean keepChecking(AnalyzedTokenReadings[] tokens, int i, int initPos) {
+    if (i == initPos + 1) {
+      return matchPostagRegexp(tokens[i], VERB_CONJUGAT);
+    }
     if (tokens[i].hasLemma("de")) {
       return tokens[i - 1].hasLemma("haver");
     }
@@ -139,11 +140,7 @@ public class PronomFebleDuplicateRule extends Rule {
     if (matchPostagRegexp(tokens[i], INFINITIU)) {
       return tokens[i - 1].hasAnyLemma(ABANS_DE_INFINITIU) || tokens[i - 1].hasLemma("de");
     }
-    if (i == initPos + 1) {
-      return matchPostagRegexp(tokens[i], VERB_CONJUGAT);
-    }
     return false;
-
   }
 
   private String getLemmaOfPronomFeble(AnalyzedTokenReadings aToken) {
