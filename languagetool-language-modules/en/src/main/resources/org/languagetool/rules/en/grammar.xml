@@ -32317,6 +32317,13 @@ USA
                 <token postag="JJ|NN(:UN?|P)?" postag_regexp="yes"/>
                 <token postag="NNS"/>
             </antipattern>
+            <antipattern><!--  #2673 several volunteer and semi-professional organizations -->
+                <token regexp="yes">many|several|few</token>
+                <token postag_regexp="yes" postag="JJR?|NN(:UN?)?"/>
+                <token regexp="yes">and|or|to</token>
+                <token postag_regexp="yes" postag="JJR?"/>
+                <token postag="NNS"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">many|several|few</token>
@@ -32351,7 +32358,9 @@ USA
             <example>Many Volkswagen XYZs.</example><!-- ignore unknown tokens (most likely proper nouns we don't have a POS for) -->
             <example>Adjective. ... sites may have housed up to 600 individuals in a few <marker>separate</marker> but closely spaced settlement clusters.</example>
             <example>Many Labour MPs remain adamantly opposed to an election in any circumstances.</example><!-- #2074 -->
+            <example>Though there are several volunteer and semi-professional organizations, ...</example><!-- #2673 -->
         </rule>
+
         <rulegroup id="DT_JJ_NO_NOUN" name="Missing noun after an adjective">
             <rule>
                 <pattern>
