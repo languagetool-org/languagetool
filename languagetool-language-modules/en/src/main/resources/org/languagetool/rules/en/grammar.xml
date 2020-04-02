@@ -34991,6 +34991,7 @@ USA
             <example correction=""><marker>We've don't</marker> made an error.</example>
             <example>The person <marker>who didn't</marker> do the work was sacked.</example>
         </rule>
+
         <rulegroup id="ADVERB_OR_HYPHENATED_ADJECTIVE" name="Use an adverb or a compound adjective, not an adjective"><!--  #1723 -->
         <!-- Refer to https://github.com/languagetooler-gmbh/languagetool-premium/issues/250 -->
             <url>https://www.grammar.cl/english/compound-adjectives.htm</url>
@@ -35021,6 +35022,12 @@ USA
                     <token regexp="yes">no|all</token>
                     <token>other</token>
                     <token postag="JJ" />
+                </antipattern>
+                <antipattern><!-- #2670 was a little upset due to ... www.ldoceonline.com/dictionary/a-little -->
+                    <token inflected="yes">be</token>
+                    <token>a</token>
+                    <token>little</token>
+                    <token postag="VBN"/>
                 </antipattern>
                 <pattern>
                     <token inflected="yes">be</token>
@@ -35092,6 +35099,7 @@ USA
                 <example>The assignment was described as not being a good fit in either direction.</example>
                 <example>The centrepiece of the exhibit is a suspended mounted Blue Whale skeleton, gleaned from the...</example>
                 <example>The foundation is an independent <marker>registered charity</marker> funded by the entire profits of ...</example>
+                <example>He was a little upset due to ...</example><!-- #2670 -->
                 <example type="triggers_error">... to finance the government, to be the sole <marker>authorised distributor</marker> of banknotes, and to function as...</example>
                 <example type="triggers_error">Cicero successfully made him appear to be a foreign <marker>freed man</marker> who was devious enough to take advantage...</example><!-- foreignly is an adverb: www.merriam-webster.com/dictionary/foreignly -->
                 <example type="triggers_error">...to see if there is a <marker>previous established</marker> consensus or compromise.</example><!-- Semantic ambiguity. 'previous [established consensus]' is correct. But, possibly, the writer means '[previously established] consensus, in which case the analysis is correct. -->
