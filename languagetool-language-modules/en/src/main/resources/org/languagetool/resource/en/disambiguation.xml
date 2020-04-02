@@ -4513,6 +4513,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="untouched">Would you like a drink?</example>
       <example type="ambiguous" inputform="like[like/IN,like/JJ,like/NN,like/VB,like/VBP]" outputform="like[like/IN]">It's <marker>like</marker> a dream.</example>
     </rule>
+
     <rule name="Goin'" id="VBG_IN">
         <antipattern>
             <token spacebefore="no" regexp="yes">['’]</token>
@@ -4538,6 +4539,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes" postag="UNKNOWN">[a-z]+in</token>
             </marker>
             <token spacebefore="no" regexp="yes">['’]</token><!-- Not &apostrophe; because only text with a correct apostrophe must be tagged. -->
+            <token>
+                <exception>s</exception><!-- #2680 -->
+                </token>
         </pattern><!-- Cannot use filter NoDisambiguationEnglishPartialPosTagFilter because not all text before 'in' is the base form of the verb, for example 'Puttin'. -->
         <disambig postag="VBG"/>
         <example type="untouched">I'm in N.Y.</example>
@@ -4553,11 +4557,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I am hopin` that this test works.</example>
         <example type="untouched">Adjective: That laughin' woman is my boss.</example>
         <example type="untouched">Adjective: ... and smilin' people are not always truly happy.</example>
+        <example type="untouched">He wanted to help organistaoin’s become more efficient.</example><!-- #2680 -->
         <example type="ambiguous" inputform="goin[goin]" outputform="goin[goin/VBG]">I'm <marker>goin</marker>’ to fix this rule.</example>
         <example type="ambiguous" inputform="TESTIN[TESTIN]" outputform="TESTIN[TESTIN/VBG]">WE ARE <marker>TESTIN</marker>' THE SOFTWARE.</example>
         <example type="ambiguous" inputform="Puttin[Puttin]" outputform="Puttin[Puttin/VBG]"><marker>Puttin</marker>' on the Ritz!</example>
         <example type="ambiguous" inputform="smilin[smilin]" outputform="smilin[smilin/VBG]">She was actually <marker>smilin</marker>’ all the way to the office.</example>
     </rule>
+
     <rulegroup name="All but" id="all_but_rb">
         <rule>
             <pattern>
