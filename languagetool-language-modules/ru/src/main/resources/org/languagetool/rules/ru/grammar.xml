@@ -6964,7 +6964,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="неплохо, но">Работа выполнена <marker>не плохо, но</marker> медленно.</example>
         </rule>
         </rulegroup>            
-        <rule default="off" id="Ne_narech2" name="«Не» с наречиями 2">
+        <rule default="temp_off" id="Ne_narech2" name="«Не» с наречиями 2">
             <!-- TODO set on after release -->
             <!-- слитное написание частицы не:
                отсутствует противопоставление, отсутствуют слова  «отнюдь, вовсе, далеко», отсутствует местоимение или наречие с «ни»
@@ -7085,6 +7085,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Как будто"><marker>Какбудто</marker> время остановилось.</example>
             </rule>
         </rulegroup>
+	<rule id="kak_ni_stranno" name="Опечатка «как ни странно/как не странно»">
+  	    <pattern>
+    		<token>как</token>
+    		<token>не</token>
+    		<token>странно</token>
+  	     </pattern>
+  	     <message>Опечатка: <suggestion>\1 ни \3</suggestion></message>
+  	     <short>Опечатка</short>
+  	     <example correction="как ни странно"><marker>как не странно</marker></example>
+	 </rule>
          <rulegroup default="on" id="Pravopisanie_s_odnoj" name="Словосочетание  «с одной»">    
             <rule>
                 <pattern>
