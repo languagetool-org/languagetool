@@ -157,7 +157,20 @@ public class BERTSuggestionRanking extends RemoteRule {
         return new RemoteRuleResult(false, matches);
       } else {
         List<List<Double>> results = model.batchScore(requests);
-        Comparator<Pair<SuggestedReplacement, Double>> suggestionOrdering = Comparator.comparing(Pair::getRight);
+        // put curated at the top, then compare probabilities
+        Comparator<Pair<SuggestedReplacement, Double>> suggestionOrdering = (a, b) -> {
+          if (a.getKey().getType() != b.getKey().getType()) {
+            if (a.getKey().getType() == SuggestedReplacement.SuggestionType.Curated) {
+              return 1;
+            } else if (b.getKey().getType() == SuggestedReplacement.SuggestionType.Curated){
+              return -1;
+            } else {
+              return a.getRight().compareTo(b.getRight());
+            }
+          } else {
+            return a.getRight().compareTo(b.getRight());
+          }
+        };
         suggestionOrdering = suggestionOrdering.reversed();
 
         for (int i = 0; i < indices.size(); i++) {

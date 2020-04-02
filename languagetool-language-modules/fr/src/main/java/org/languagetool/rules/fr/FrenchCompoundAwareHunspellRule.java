@@ -23,6 +23,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Example;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tokenizers.CompoundWordTokenizer;
@@ -82,11 +83,13 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
   }
 
   @Override
-  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
+  protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
+    List<String> s;
     switch (word) {
-      case "Jai": return Collections.singletonList("J'ai");
-      case "jai": return Collections.singletonList("j'ai");
-      default: return Collections.emptyList();
+      case "Jai": s = Collections.singletonList("J'ai"); break;
+      case "jai": s = Collections.singletonList("j'ai"); break;
+      default: s = Collections.emptyList();
     }
+    return SuggestedReplacement.convert(s);
   }
 }

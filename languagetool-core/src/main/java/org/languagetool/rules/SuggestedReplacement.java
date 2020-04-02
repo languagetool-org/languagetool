@@ -22,8 +22,10 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.SortedMap;
+import java.util.stream.Collectors;
 
 /**
  * @since 4.5
@@ -37,8 +39,17 @@ public class SuggestedReplacement {
   private Float confidence = null;
   private SuggestionType type = SuggestionType.Default;
 
+  /**
+    classify the type of the suggestion
+    so that downstream tasks (e.g. resorting, as in {@link BERTSuggestionRanking})
+    can treat them accordingly
+    Default - default, no special treatment
+    Translation - offers to translate words from native language into text language;
+      suggestion ranking extends size of list of candidates
+    Curated - a manually curated suggestion / special case / ...; don't resort
+   */
   public enum SuggestionType {
-    Default, Translation
+    Default, Translation, Curated
   }
 
   public SuggestedReplacement(String replacement) {
@@ -139,5 +150,9 @@ public class SuggestedReplacement {
 
   public void setFeatures(@NotNull SortedMap<String, Float> features) {
     this.features = features;
+  }
+
+  public static List<SuggestedReplacement> convert(List<String> suggestions) {
+    return suggestions.stream().map(SuggestedReplacement::new).collect(Collectors.toList());
   }
 }

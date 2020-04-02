@@ -19,22 +19,16 @@
 
 package org.languagetool.rules.ca;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.ca.CatalanTagger;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
@@ -84,13 +78,13 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   }
   
   @Override
-  protected List<String> orderSuggestions(List<String> suggestions, String word) {
+  protected List<SuggestedReplacement> orderSuggestions(List<SuggestedReplacement> suggestions, String word) {
     //move some run-on-words suggestions to the top
-    List<String> newSuggestions = new ArrayList<>();
-    for (String suggestion : suggestions) {
+    List<SuggestedReplacement> newSuggestions = new ArrayList<>();
+    for (SuggestedReplacement suggestion : suggestions) {
       //remove wrong split prefixes
-      if (!PREFIX_AMB_ESPAI.matcher(suggestion).matches()) {
-        if (PARTICULA_INICIAL.matcher(suggestion).matches()) {
+      if (!PREFIX_AMB_ESPAI.matcher(suggestion.getReplacement()).matches()) {
+        if (PARTICULA_INICIAL.matcher(suggestion.getReplacement()).matches()) {
           newSuggestions.add(0, suggestion);
         } else {
           newSuggestions.add(suggestion);
@@ -99,10 +93,14 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     }
     return newSuggestions;
   }
-  
   @Override
-  protected List<String> getAdditionalTopSuggestions(List<String> suggestions,
-      String word) throws IOException {
+  protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
+    List<String> suggestionsList = suggestions.stream()
+      .map(SuggestedReplacement::getReplacement).collect(Collectors.toList());
+    return SuggestedReplacement.convert(getAdditionalTopSuggestionsString(suggestionsList, word));
+  }
+
+  private List<String> getAdditionalTopSuggestionsString(List<String> suggestions, String word) throws IOException {
     //TODO Try other combinations. Ex. daconseguirlos, 
     //TODO Including errors (Hunspell can do it). Ex. sescontaminarla > descontaminar-la
     /*if (word.length() < 5) {

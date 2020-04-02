@@ -23,6 +23,7 @@ import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.SuggestedReplacement;
 
 import java.io.IOException;
 import java.util.*;
@@ -78,17 +79,22 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
   }
 
   @Override
-  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
+  protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
+    List<String> s = null;
     if ("automize".equals(word)) {
-      return Arrays.asList("automate");
+      s =  Arrays.asList("automate");
     } else if ("automized".equals(word)) {
-      return Arrays.asList("automated");
+      s =  Arrays.asList("automated");
     } else if ("automizing".equals(word)) {
-      return Arrays.asList("automating");
+      s =  Arrays.asList("automating");
     } else if ("automizes".equals(word)) {
-      return Arrays.asList("automates");
+      s =  Arrays.asList("automates");
     }
-    return super.getAdditionalTopSuggestions(suggestions, word);
+    if (s != null) {
+      return SuggestedReplacement.convert(s);
+    } else {
+      return super.getAdditionalTopSuggestions(suggestions, word);
+    }
   }
 
 }

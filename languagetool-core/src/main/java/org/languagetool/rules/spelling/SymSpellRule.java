@@ -30,6 +30,7 @@ import org.languagetool.*;
 import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
 import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
@@ -231,14 +232,14 @@ public class SymSpellRule extends SpellingCheckRule {
       if (ignoredWords.contains(word)) {
         continue;
       }
-      List<String> candidates = filterCandidates(getSpellerMatches(word, defaultDictSpeller));
-      List<String> userCandidates = getSpellerMatches(word, userDictSpeller);
+      List<SuggestedReplacement> candidates = SuggestedReplacement.convert(filterCandidates(getSpellerMatches(word, defaultDictSpeller)));
+      List<SuggestedReplacement> userCandidates = SuggestedReplacement.convert(getSpellerMatches(word, userDictSpeller));
       // TODO: messages
       RuleMatch match = null;
       if (candidates.isEmpty() && userCandidates.isEmpty()) {
         match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), "Misspelling or unknown word!");
-      } else if (!(candidates.size() > 0 && candidates.get(0).equals(word) ||
-        userCandidates.size() > 0 && userCandidates.get(0).equals(word))) {
+      } else if (!(candidates.size() > 0 && candidates.get(0).getReplacement().equals(word) ||
+        userCandidates.size() > 0 && userCandidates.get(0).getReplacement().equals(word))) {
         match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), "Misspelling!");
 
         addSuggestionsToRuleMatch(token.getToken(), userCandidates, candidates, orderer, match);

@@ -19,15 +19,16 @@
 
 package org.languagetool.rules.uk;
 
+import org.languagetool.*;
+import org.languagetool.rules.SuggestedReplacement;
+import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.tagging.uk.IPOSTag;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
-
-import org.languagetool.*;
-import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
-import org.languagetool.tagging.uk.IPOSTag;
 
 public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule {
 
@@ -121,10 +122,12 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   }
 
   @Override
-  protected List<String> filterSuggestions(List<String> suggestions, AnalyzedSentence sentence, int i) {
+  protected List<SuggestedReplacement> filterSuggestions(List<SuggestedReplacement> suggestions, AnalyzedSentence sentence, int i) {
     suggestions = super.filterSuggestions(suggestions, sentence, i);
     // do not suggest "кіно прокат, вело- прогулянка...":
-    suggestions.removeIf(item -> item.contains(" ") && DO_NOT_SUGGEST_SPACED_PATTERN.matcher(item).matches() || item.contains("- "));
+    suggestions.removeIf(item -> item.getReplacement().contains(" ") &&
+        DO_NOT_SUGGEST_SPACED_PATTERN.matcher(item.getReplacement()).matches() ||
+        item.getReplacement().contains("- "));
     return suggestions;
   }
 
