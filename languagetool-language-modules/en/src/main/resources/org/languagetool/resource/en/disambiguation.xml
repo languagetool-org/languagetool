@@ -4964,6 +4964,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token min="0" max="1" postag="RP"/>
             <token chunk="B-NP-singular"/>
         </antipattern>
+        <antipattern><!-- #2682 She does not much care for -->
+            <token regexp="yes">he|she|it</token>
+            <token regexp="yes">does|did</token>
+            <token>not</token>
+            <token postag="RB"/>
+            <token chunk="E-NP-singular" postag="VB"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -5064,12 +5071,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I do not much care for this kind of drink.</example><!-- #2661 -->
         <example type="untouched">Miss you winding me up.</example><!-- #2671 -->
         <example type="untouched">Miss her winding up the grandfather clock every morning.</example><!-- #2671 -->
+        <example type="untouched">She does not much care for this kind of drink.</example><!-- #2682 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
         <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
         <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">But will NOT <marker>work</marker> of any type help you to forget your troubles?</example><!--  #2326 Unusual capitalization of NOT. -->
         <example type="ambiguous" inputform="WORK[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="WORK[work/NN:UN]">BUT, WON'T <marker>WORK</marker> ON YOUR PART AFFECT THE COMPLETION TIME?</example>
         <example type="ambiguous" inputform="reference[reference/NN:UN,reference/VB,reference/VBP]" outputform="reference[reference/NN:UN]">The document does not show the can reference. Do you know the can <marker>reference</marker>?</example><!-- A 'can reference' is a possible technical term. -->
+        <example type="ambiguous" inputform="care[care/NN:UN,care/VB,care/VBP]" outputform="care[care/NN:UN]">Does not much <marker>care</marker> for the patient also cost much money?</example><!-- #2682 -->
     </rule>
 
     <rule id="E_NP_VBP" name="noun/verb after a plural NP -> verb">
