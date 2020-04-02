@@ -8395,17 +8395,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
                 args="no:2 regexp:(.*)ься postag_regexp:UNKNOWN   negate_pos:yes"/>     <!-- Test if word without "ь" exist -->
-            <message>Глагол не должен быть в неопределённой форме. Мягкий знак не нужен.</message>
+            <message>Глагол должен быть в личной форме, мягкий знак не нужен: <suggestion><match no="2" postag="VB:INF:.*" postag_regexp="yes" postag_replace="VB:.*:.*:Sin:P3"/></suggestion></message>
             <url>http://tsya.ru/</url>
             <short>Мягкий знак не нужен.</short>
             <example>Проблема может возникнуть при наличии собственных резонансов в модели, что относится и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
-           <example correction="">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
+           <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
-                
-        <rule>
+        </rulegroup>                
+        <rule id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола (тест)">
             <pattern>
                 <marker>
-                    <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/></token>
+                    <token postag="VB:INF:.*" postag_regexp="yes" regexp="yes" >[а-яё]*ться<exception negate_pos="yes" postag="VB:INF:.*" postag_regexp="yes"/><exception postag_regexp="yes" scope="next" postag="VB:.*"></exception><exception postag_regexp="yes" scope="previous" postag="VB:.*|NN:.*:Nom|PNN:.*:Nom:.*" /></token>
                 </marker>
                 <token postag="PREP" skip="-1"></token>    
                 <token regexp="yes">[.;,!?]</token>
@@ -8416,10 +8416,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </message>
             <url>http://tsya.ru/</url>
             <short>Глагол должен быть в личной форме.</short>
-            <example>Но вот мой друг очень положительно относится к спорту. </example>
+            <example>Но вот мой друг очень положительно относится к спорту.</example>
+            <example>Все хотят встретиться с вами, вы знаменитость!</example>
             <example correction="относится">Но вот мой друг очень положительно <marker>относиться</marker> к спорту. </example>
         </rule>
-        </rulegroup>
 
         <rule default="on" id="Verb_3P_and_inf" name="Правописание «-т» и «-ть» в глаголах – однородных членах предложения">
             <pattern>
