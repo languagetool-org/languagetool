@@ -4950,6 +4950,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RB"/>
             <token postag_regexp="yes" postag="VBP?"/>
         </antipattern>
+        <antipattern><!-- #2671 Miss you winding me up. The sentence is missing a pronoun. Thus, make this antipattern strict to prevent incorrect disambiguation. -->
+            <token postag="SENT_START"/>
+            <token postag="VBP"/>
+            <token regexp="yes">&object_pronouns;</token>
+            <token postag="VBG"/>
+            <token min="0" max="1" postag="RP"/>
+            <token chunk="B-NP-singular"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -5048,6 +5056,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">But some call it surfing, while others ...</example><!-- #2584 -->
         <example type="untouched">But you know some call it surfing, while others ...</example><!-- #2584 -->
         <example type="untouched">I do not much care for this kind of drink.</example><!-- #2661 -->
+        <example type="untouched">Miss you winding me up.</example><!-- #2671 -->
+        <example type="untouched">Miss her winding up the grandfather clock every morning.</example><!-- #2671 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
         <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
