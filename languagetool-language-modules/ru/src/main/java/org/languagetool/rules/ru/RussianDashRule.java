@@ -32,7 +32,7 @@ public class RussianDashRule extends AbstractDashRule {
 
   public RussianDashRule() {
     super(trie);
-    setDefaultTempOff(); // Slows down start up. See GitHub issue #1016.
+  //  setDefaultTempOff(); // Slows down start up. See GitHub issue #1016.
   }
 
   @Override
