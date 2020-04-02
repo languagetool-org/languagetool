@@ -18,6 +18,7 @@
  */
 package org.languagetool.tagging;
 
+import gnu.trove.THashMap;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -46,7 +47,7 @@ public class ManualTagger implements WordTagger {
   }
 
   private Map<String, List<TaggedWord>> loadMapping(InputStream inputStream, String encoding) throws IOException {
-    Map<String, List<TaggedWord>> map = new HashMap<>();
+    Map<String, List<TaggedWord>> map = new THashMap<>();
     try (
       InputStreamReader reader = new InputStreamReader(inputStream, encoding);
       BufferedReader br = new BufferedReader(reader)

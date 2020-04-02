@@ -18,9 +18,9 @@
  */
 package org.languagetool.rules.en;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
+import gnu.trove.THashMap;
+import gnu.trove.THashSet;
+import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.tools.StringTools;
 
@@ -32,7 +32,7 @@ import java.util.*;
  */
 public class SpecificCaseRule extends Rule {
   
-  private static final Set<String> phrases = new HashSet<>(loadPhrases("/en/specific_case.txt"));
+  private static final Set<String> phrases = new THashSet<>(loadPhrases("/en/specific_case.txt"));
   private static int maxLen;
 
   private static List<String> loadPhrases(String path) {
@@ -49,7 +49,7 @@ public class SpecificCaseRule extends Rule {
     return l;
   }
 
-  private static final Map<String,String> lcToProperSpelling = new HashMap<>();
+  private static final Map<String,String> lcToProperSpelling = new THashMap<>();
   static {
     for (String phrase : phrases) {
       lcToProperSpelling.put(phrase.toLowerCase(), phrase);
