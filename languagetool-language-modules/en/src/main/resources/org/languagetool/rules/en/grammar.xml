@@ -30607,6 +30607,19 @@ USA
                     <token postag="JJ|NN(:UN?|P)?" postag_regexp="yes"/>
                     <token postag="NNS"/>
                 </antipattern>
+                <antipattern><!-- #2597 many small to middle wounds -->
+                    <token regexp="yes">many|several|few</token>
+                    <token postag_regexp="yes" postag="JJR?|NN(:UN?)?"/>
+                    <token regexp="yes">and|or|to</token>
+                    <token postag_regexp="yes" postag="JJR?"/>
+                    <token postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- #2597 glow up lights -->
+                    <token>are</token>
+                    <token>glow</token>
+                    <token>up</token>
+                    <token>lights</token>
+                </antipattern>
                 <pattern>
                     <token>there</token>
                     <token>are</token>
@@ -30623,19 +30636,22 @@ USA
                 <short>Grammatical problem</short>
                 <example correction="problems">There are many <marker>problem</marker> in Iraq.</example>
                 <example correction="problems">There are a lot <marker>problem</marker> in Iraq but it is not a terrible situation.</example>
+                <example correction="glows">There are <marker>glow</marker> under lights; the reflections on the water are beautiful.</example><!-- #2597 Missing article before 'lights', but that is a different problem. -->
                 <example>There are many <marker>problems</marker> in Iraq.</example>
                 <example>Other than this, there are no known surviving texts.</example>
                 <example>There are many other deliberately insulting terms.</example>
                 <example>There are a variety of other types.</example><!-- common usage, see Google ngram -->
                 <example>There are ten known isoforms of adenylate cyclases in mammals.</example>
                 <example>Among them there are Rachid Boudjedra, Rachid Mimouni, Leila Sebbar, and Tahar Djaout.</example>
-                <example type="triggers_error">Though there are several volunteer and semi-professional organizations.</example>
+                <example>Though there are several volunteer and semi-professional organizations.</example><!-- Fixed with #2597 -->
                 <example>There is a whole lot of problems in Iraq.</example>
                 <example>There are never fewer than eight of them on stage.</example>
                 <example>There are some even now.</example>
                 <example>There are <marker>food</marker> and waterborne diseases, bacterial and protozoal diarrhea, ...</example>
                 <example>There are many Taxicab and Hackney carriage services on the Island.</example>
                 <example>There are a boatload of events to attend outside of the panel.</example>
+                <example>There are many small to middle wounds.</example><!-- #2597 -->
+                <example>There are glow up lights.</example><!-- #2597 -->
             </rule>
         </rulegroup>
         <rulegroup id="THERE_WAS_MANY" name="Possible agreement error 'there was' + plural noun"><!-- modified copy of THERE_S_MANY -->
