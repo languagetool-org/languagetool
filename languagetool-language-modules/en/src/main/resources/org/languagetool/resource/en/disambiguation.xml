@@ -9962,4 +9962,28 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
+
+    <rule name="^^" id="IGNORE_SPELLING_OF_MULTIPLE_CIRCUMFLEX">
+        <pattern>
+            <token regexp="yes">\^+</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    <rule name="blastic crisis" id="IGNORE_SPELLING_OF_BLASTIC_CRISIS">
+        <!-- https://www.merriam-webster.com/medical/blastic%20crisis -->
+        <pattern>
+            <token>blastic</token>
+            <token regexp="yes">cris[ei]s</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+    
+    <rule name="haversian canal" id="IGNORE_SPELLING_OF_HAVERSIAN">
+        <!-- https://www.merriam-webster.com/dictionary/haversian -->
+        <pattern>
+            <token>haversian</token>
+            <token regexp="yes">(canal|system)s?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 </rules>
