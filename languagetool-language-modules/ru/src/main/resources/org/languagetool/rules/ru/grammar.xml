@@ -3173,6 +3173,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example correction="не то босая, не то в">Дамочка <marker>не то босая не то в</marker> каких-то прозрачных... туфлях.</example>
             </rule>        
         </rulegroup>
+        <rule default="on" id="punkt_ne_kak" name="Словосочетание «не как»">
+            <pattern>                   
+                <token>не</token>
+                <token>,</token>
+                <token>как</token>       
+            </pattern>
+            <message>Запятая не нужна: <suggestion>\1 \3</suggestion>.</message>           
+            <short>Запятая не нужна.</short>
+            <example>У них все не как у людей.</example>
+            <example correction="не как">У них все <marker>не, как</marker> у людей.</example>
+        </rule>
+
         <rulegroup default="on" id="CHAS_PIK" name="Словосочетание «Час пик»">
             <rule>
                 <pattern case_sensitive="yes">
@@ -9112,7 +9124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
                 <token postag="ADJ:.*:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="ADJ:.*:.*:R" postag_regexp="yes"></exception>
-                    <exception regexp="yes">[.?!;;"'«»]</exception>
+                    <exception regexp="yes">[.?!:;"'«»]</exception>
                     <exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception>
                     <exception postag="ADJ:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
