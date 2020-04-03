@@ -73,7 +73,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
       throws IOException {
     String aOrAn = aVsAnRule.suggestAorAn(token.getToken());
     if (ADD_DETERMINER.equals(posTag)) {
-      return new String[] { aOrAn, "the " + StringTools.lowercaseFirstCharIfNotAbbreviation(token.getToken()) };
+      return new String[] { aOrAn, "the " + StringTools.lowercaseFirstCharIfCapitalized(token.getToken()) };
     } else if (ADD_IND_DETERMINER.equals(posTag)) {
       return new String[] { aOrAn };
     }
@@ -122,7 +122,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
     List<String> lookup = new ArrayList<>();
     super.lookup(lemma, posTag, lookup);
     for (String result : lookup) {
-      results.add(determiner + StringTools.lowercaseFirstCharIfNotAbbreviation(result));
+      results.add(determiner + StringTools.lowercaseFirstCharIfCapitalized(result));
     }
   }
 

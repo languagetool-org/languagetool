@@ -228,11 +228,12 @@ public final class StringTools {
   }
 
   /**
-   * Return <code>str</code> if str is not abbreviation, otherwise return
-   * modified <code>str</code> so that its first character is now a lowercase character.
+   * Return <code>str</code> if str is capitalized {@link #isCapitalizedWord(String)},
+   * otherwise return modified <code>str</code> so that its first character
+   * is now a lowercase character.
    */
-  public static String lowercaseFirstCharIfNotAbbreviation(String str) {
-    if (str.length() > 1 && Character.isUpperCase(str.charAt(1))) return str;
+  public static String lowercaseFirstCharIfCapitalized(String str) {
+    if (!isCapitalizedWord(str)) return str;
     return changeFirstCharCase(str, false);
   }
 
