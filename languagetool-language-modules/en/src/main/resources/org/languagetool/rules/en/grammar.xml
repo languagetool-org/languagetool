@@ -62,7 +62,8 @@ USA
     
     <!-- words that are informally used as verbs but aren't tagged and shouldn't be tagged as a verb -->
     <!ENTITY not_really_verbs "self\-?(support|control)s?|overdrafts?|nerds?|wrought|karates?|paths?|scapes?|videos?|fann(y|ies)?|bonus(es)?|back\-?ups?|pop\-?ups?|one\-?(shot|click)s?|idiot\-?proofs?|intakes?|rinds?|gaslits?|errors?|prox(y|ies)?|configs?|repros?|super\-?sets?|open\-?sources?|drag\-(and|n)\-drops?|hotfix(es)?|timeouts?|shutdowns?">
-
+    <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
+    <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
     <!ENTITY ambiguous_date '
         <token regexp="yes">0?[1-9]|1[0-2]</token>
         <token>/</token>
@@ -3053,9 +3054,27 @@ USA
             <short>Possible typo</short>
             <example correction="think|thinks">I <marker>thing</marker> that's a good idea.</example>
         </rule>
+
         <rulegroup id="WERE_VBB" name="were (where/we)">
             <!--FIXME: this is a very crude rule, should be refined.-->
             <rule>
+                <antipattern><!-- #2555 were people who -->
+                    <token chunk="B-VP">were</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- #2555 "Were I in -->
+                    <token>
+                        <exception postag_regexp="yes" postag="VB.*"/>
+                        </token>
+                    <token chunk="B-VP">were</token>
+                    <token regexp="yes">&subject_pronouns;</token>
+                    <token postag_regexp="yes" postag="IN|JJ"/>
+                </antipattern>
+                <antipattern><!-- #2555 were anger and rage -->
+                    <token chunk="B-NP-singular">were</token>
+                    <token chunk="I-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+                    <token regexp="yes">and|or</token>
+                </antipattern>
                 <pattern>
                     <token><exception postag="CC"/></token>
                     <token><exception postag="WP|NNS|WRB|CD" postag_regexp="yes"/><exception regexp="yes">there|the[ym]|we|you</exception></token>
@@ -3077,6 +3096,10 @@ USA
                 <example>Two of them were police radio cars.</example>
                 <example>... until March 1970, of which 6 were market towns.</example>
                 <example>... who at the time were well behind the West in jet technology.</example>
+                <example>Again, people who do this were people who found that the more general solutions.</example><!-- #2555 -->
+                <example>"Were I in England now, as once I was, and had but this fish painted, not a holiday fool there but would give a piece of silver"</example><!-- #2555 -->
+                <example>... but were he rich, he still would not be happy.</example><!-- #2555 -->
+                <example>Alternatively, for some women, the only feelings that could be shown were anger and rage.</example><!-- #2555 -->
             </rule>
             <rule>
                 <pattern>
@@ -3094,6 +3117,7 @@ USA
                 <example>There were stage productions...</example>
             </rule>
         </rulegroup>
+
         <rule id="VBZ_VBD" name="it (is)">
             <pattern>
                 <marker>
