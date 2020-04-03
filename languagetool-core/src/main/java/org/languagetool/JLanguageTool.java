@@ -1240,7 +1240,7 @@ public class JLanguageTool {
    * Get all spelling check rules for the current language that are built-in or
    * that have been added using {@link #addRule(Rule)}.
    * @return a List of {@link SpellingCheckRule} objects
-   * @since 4.9
+   * @since 5.0
    */
   public List<SpellingCheckRule> getAllSpellingCheckRules() {
     List<SpellingCheckRule> rules = new ArrayList<>();
