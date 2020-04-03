@@ -29,6 +29,7 @@ import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.*;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
+import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -163,6 +164,8 @@ public class JLanguageTool {
   private final Language motherTongue;
 
   private final List<RuleMatchFilter> matchFilters = new LinkedList<>();
+
+  private CheckCancelledCallback checkCancelledCallback;
 
   private PrintStream printStream;
   private boolean listUnknownWords;
@@ -396,6 +399,13 @@ public class JLanguageTool {
   @Experimental
   public void setMaxErrorsPerWordRate(float maxErrorsPerWordRate) {
     this.maxErrorsPerWordRate = maxErrorsPerWordRate;
+  }
+
+  /**
+   * Callback to determine if result of executing {@link #check(String)} is still needed.
+   */
+  public void setCheckCancelledCallback(CheckCancelledCallback callback) {
+    this.checkCancelledCallback = callback;
   }
   
   /**
@@ -876,6 +886,7 @@ public class JLanguageTool {
     List<AnalyzedSentence> analyzedSentences = new ArrayList<>();
     int j = 0;
     for (String sentence : sentences) {
+      if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) break;
       AnalyzedSentence analyzedSentence = getAnalyzedSentence(sentence);
       rememberUnknownWords(analyzedSentence);
       if (++j == sentences.size()) {
@@ -936,6 +947,8 @@ public class JLanguageTool {
     List<RuleMatch> sentenceMatches = new ArrayList<>();
     RuleLoggerManager logger = RuleLoggerManager.getInstance();
     for (Rule rule : rules) {
+      if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) break;
+
       if (rule instanceof TextLevelRule) {
         continue;
       }
@@ -1234,7 +1247,28 @@ public class JLanguageTool {
     }    
     return rulesActive;
   }
-  
+
+  /**
+   * Get all spelling check rules for the current language that are built-in or
+   * that have been added using {@link #addRule(Rule)}.
+   * @return a List of {@link SpellingCheckRule} objects
+   * @since 5.0
+   */
+  public List<SpellingCheckRule> getAllSpellingCheckRules() {
+    List<SpellingCheckRule> rules = new ArrayList<>();
+    for (Rule rule : builtinRules) {
+      if (rule instanceof SpellingCheckRule) {
+        rules.add((SpellingCheckRule) rule);
+      }
+    }
+    for (Rule rule : userRules) {
+      if (rule instanceof SpellingCheckRule) {
+        rules.add((SpellingCheckRule) rule);
+      }
+    }
+    return rules;
+  }
+
   /**
    * Works like getAllActiveRules but overrides defaults by office defaults
    * @return a List of {@link Rule} objects
@@ -1315,6 +1349,16 @@ public class JLanguageTool {
     return transformed;
   }
 
+  /**
+   * Callback for checking if result of {@link #check(String)} is still needed.
+   */
+  public interface CheckCancelledCallback {
+    /**
+     * @return true if request was cancelled else false
+     */
+    boolean checkCancelled();
+  }
+
   class TextCheckCallable implements Callable<List<RuleMatch>> {
 
     private final List<Rule> rules;
@@ -1372,6 +1416,7 @@ public class JLanguageTool {
       RuleLoggerManager logger = RuleLoggerManager.getInstance();
       String lang = language.getShortCodeWithCountryAndVariant();
       for (Rule rule : rules) {
+        if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) break;
         if (rule instanceof TextLevelRule && !ignoreRule(rule) && paraMode != ParagraphHandling.ONLYNONPARA) {
           long time = System.currentTimeMillis();
           RuleMatch[] matches = ((TextLevelRule) rule).match(analyzedSentences, annotatedText);
@@ -1411,6 +1456,7 @@ public class JLanguageTool {
       int i = 0;
       int wordCounter = 0;
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
+        if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) break;
         String sentence = sentences.get(i++);
         wordCounter += analyzedSentence.getTokensWithoutWhitespace().length;
         try {

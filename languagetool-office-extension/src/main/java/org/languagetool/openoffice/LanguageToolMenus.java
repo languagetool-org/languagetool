@@ -74,7 +74,7 @@ public class LanguageToolMenus {
     this.xContext = xContext;
     setConfigValues(config);
     ltHeadMenu = new LTHeadMenu();
-    ltContextMenu = new ContextMenuInterceptor();
+    ltContextMenu = new ContextMenuInterceptor(xContext);
   }
   
   void setConfigValues(Configuration config) {

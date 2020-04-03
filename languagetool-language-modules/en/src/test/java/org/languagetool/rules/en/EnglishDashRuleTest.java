@@ -20,8 +20,7 @@ package org.languagetool.rules.en;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
+import org.languagetool.*;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -37,8 +36,9 @@ public class EnglishDashRuleTest {
 
   @Before
   public void setUp() throws Exception {
-    lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
-    rule = new EnglishDashRule();
+    Language lang = Languages.getLanguageForShortCode("en-US");
+    lt = new JLanguageTool(lang);
+    rule = new EnglishDashRule(JLanguageTool.getMessageBundle(lang));
   }
 
   @Test

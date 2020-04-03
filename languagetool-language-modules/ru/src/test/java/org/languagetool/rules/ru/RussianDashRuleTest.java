@@ -20,8 +20,7 @@ package org.languagetool.rules.ru;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Languages;
+import org.languagetool.*;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -37,8 +36,9 @@ public class RussianDashRuleTest {
 
   @Before
   public void setUp() {
-    lt = new JLanguageTool(Languages.getLanguageForShortCode("ru"));
-    rule = new RussianDashRule();
+    Language lang = Languages.getLanguageForShortCode("ru");
+    lt = new JLanguageTool(lang);
+    rule = new RussianDashRule(JLanguageTool.getMessageBundle(lang));
   }
 
   @Test
