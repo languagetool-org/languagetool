@@ -120,6 +120,18 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "honey nut",
       "not now",
       "he proofs",
+      "he needs",
+      "1 thing",
+      "way easier",
+      "way more",
+      "I now don't",
+      "once your return is",
+      "can we text",
+      "believe in god",
+      "on premise",
+      "from poor to rich",
+      "my GPU",
+      "was your everything",
       "they mustnt" // different error
     );
     
