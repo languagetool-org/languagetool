@@ -3217,7 +3217,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="по-над">Кот крался <marker>по над</marker> стенкой.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="Po-bystromu" name="Наречие «по-быстрому»?">
+        <rulegroup default="on" id="Po-bystromu" name="Наречие «по-быстрому»">
             <rule> <!-- " -->
                 <pattern case_sensitive="yes">
                   <marker>
@@ -3823,7 +3823,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="достать что нужно"><marker>достать, что нужно</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="BUD_CHTO_BUDET" name="Словосочетания «будь что будет», ...»">
+        <rulegroup default="on" id="BUD_CHTO_BUDET" name="Словосочетания «будь что будет», ...">
             <!--"Будь что будет" перед "что" запятая не нужна.
             -->
             <rule>
@@ -4244,8 +4244,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="лишь когда">Сомневаться в существовании действительности мы можем, <marker>лишь, когда</marker> не спим.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="COMPLEX_SOUZ_NO_COMMA2" name="Сложные союзы не разделяются запятой 2">
-         <!-- Сложные союзы не разделяются «в то время как    »,  ...  ->> запятая не ставится. $ 108 Розенталь -->
+        <rulegroup default="on" id="COMPLEX_SOUZ_NO_COMMA2" name="Сложные союзы не разделяются запятой">
+         <!-- Сложные союзы не разделяются «в то время как»,  ...  ->> запятая не ставится. $ 108 Розенталь -->
           <!-- TODO: требуется доработка-->
             <!-- Если придаточная часть сложноподчиненного предложения стоит перед главной,
             запятая между частями союза «в то время как» обычно не ставится (постановка запятой допустима,
@@ -5222,7 +5222,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Когда я шёл по улице, у меня"><marker>Идя по улице, у меня</marker> развязался шнурок.</example>
             <example>Когда я шёл по улице, у меня развязался шнурок.</example>
         </rule>
-        <rule id="grammar_Duplication_by_the_pronoun_of_the_noun-subject" name="Грамматические ошибки. Дублирование местоимением существительного-подлежащего»">
+        <rule id="grammar_Duplication_by_the_pronoun_of_the_noun-subject" name="Грамматические ошибки. Дублирование местоимением существительного-подлежащего">
             <pattern>
                 <token postag="NN:.*" postag_regexp="yes"><exception  postag="NN:.*" postag_regexp="yes" negate_pos="yes" ></exception><exception  postag="NN:.*:.*:.*:Nom" postag_regexp="yes" negate_pos="yes" ></exception></token>
                 <token><exception  postag="VB:.*|UNKNOWN|DPT.*|PT:.*|PT_Short:.*|ADJ:Short:.*" postag_regexp="yes" /></token>
@@ -6068,7 +6068,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <example correction="">Они думали о <marker>родного доме</marker>.</example>
                 </rule>
         </rulegroup>
-        <rulegroup  id="EAdj_NN_number_2_4" name="Определение при существительном, зависящем от числительных два, три, четыре">
+        <rulegroup  id="EAdj_NN_number_2_4" name="Определение при существительном, зависящем от числительных «два, три, четыре»">
             <!-- Розенталь ЛИТЕРАТУРНОЕ РЕДАКТИРОВАНИЕ ТЕКСТА $193 -->
             <rule>
                     <pattern>
@@ -9536,11 +9536,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="с днём рождения">Поздравляю <marker>с днём рожденья</marker>!</example>
             <example>С днём рождения!</example>
         </rule>
-        <rule id="grammar_tut_zdes"  name="Просторечие «тут», «здесь»" default="temp_off">
+        <rule id="grammar_tut_zdes"  name="Просторечие «тут», «здесь»" default="off"> <!--  temp_off -->
             <pattern>
                 <token>,</token>
                 <marker>
-                    <token regexp="yes">тут|здесь</token>
+                    <token regexp="yes">тут|здесь</token> 
                 </marker>
             </pattern>
             <message>Просторечие. Лучше: <suggestion>в этом случае</suggestion>.</message>           
