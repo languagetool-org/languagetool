@@ -18237,6 +18237,19 @@ USA
             <url>https://en.wikipedia.org/wiki/SpaceX</url>
             <example correction="SpaceX"><marker>Space X</marker> is a private American aerospace manufacturer and space transportation services company.</example>
         </rule>
+        <rule id="BON_APPETITE" name="bon appétit" default="temp_off">
+            <antipattern>
+                <token>bon</token>
+                <token>appétit</token>
+            </antipattern>
+            <pattern>
+                <token>bon</token>
+                <token regexp="yes">app?.tite?s?</token>
+            </pattern>
+            <message>Did you mean the French phrase <suggestion>\1 <match no="2" regexp_match="(?i)pp.tite?" regexp_replace="ppétit" /></suggestion> (= enjoy your meal)?</message>
+            <url>https://www.merriam-webster.com/dictionary/bon%20app%C3%A9tit</url>
+            <example correction="Bon Appétit"><marker>Bon Appetite</marker>!</example>
+        </rule>
         <rulegroup id="APPLE_PRODUCTS" name="Apple product names">
             <rule>
                 <antipattern case_sensitive="yes">
@@ -18262,6 +18275,15 @@ USA
                 <message>Did you mean the proper noun <suggestion>Apple <match no="2" case_conversion="allupper" /></suggestion>?</message>
                 <example correction="Apple TV">He's using his <marker>apple tv</marker> for streaming Netflix.</example>
                 <example correction="Apple ID">My <marker>apple id</marker> is xxx@xxx.com.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>iPad</token>
+                    <token>OS</token>
+                </pattern>
+                <message>The operating system of the iPad is spelled as one word.</message>
+                <suggestion>iPadOS</suggestion>
+                <example correction="iPadOS">I was working on an <marker>ipad os</marker>.</example>
             </rule>
             <rule>
                 <pattern>
