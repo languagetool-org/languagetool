@@ -10090,7 +10090,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="WE_UNDER_APPRECIATE" name="under appreciate (underappreciate)" default="temp_off">
+        <rule id="WE_UNDER_APPRECIATE" name="under appreciate (underappreciate)">
             <antipattern>
                 <token>down</token>
                 <token>under</token>
@@ -14983,6 +14983,10 @@ USA
                 <token>IP</token>
                 <token>Act</token>
             </antipattern>
+            <antipattern><!-- https://en.wikipedia.org/wiki/Imagine_Dragons -->
+                <token>imagine</token>
+                <token>dragons</token>
+            </antipattern>
             <antipattern>
                 <token>Do</token>
                 <token>Not</token>
@@ -16361,7 +16365,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/Japanese</url>
                 <example correction="Japanese">The <marker>Japanise</marker> love sushi food.</example>
             </rule>
-            <rule default="temp_off"><!-- the exorcize -->
+            <rule><!-- the exorcize -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJ.*" postag_regexp="yes" min="0">
@@ -18130,6 +18134,40 @@ USA
                 </pattern>
                 <message>The proper noun <suggestion>Opera <match no="2" case_conversion="startupper" /></suggestion> (= web browser) needs to be capitalized.</message>
                 <example correction="Opera 61">I'm using <marker>opera 61</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="NORTH_POLE" name="north pole (North Pole)">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">North|South</token>
+                <token>Pole</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="-1">magnet.*</token>
+                <token>pole</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">pole</token>
+                <token regexp="yes">magnet.*</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>north</token>
+                    <token>pole</token>
+                </pattern>
+                <message>Consider capitalizing this term if you mean the northernmost point of the earth.</message>
+                <suggestion>North Pole</suggestion>
+                <url>https://www.merriam-webster.com/dictionary/north%20pole</url>
+                <example correction="North Pole">He was the first man who every walked to the <marker>north pole</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>south</token>
+                    <token>pole</token>
+                </pattern>
+                <message>Consider capitalizing this term if you mean the southernmost point of the earth.</message>
+                <suggestion>South Pole</suggestion>
+                <url>https://www.merriam-webster.com/dictionary/south%20pole</url>
+                <example correction="South Pole">He was the first man who every walked to the <marker>south pole</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="SPACEX" name="SpaceX">
@@ -21029,7 +21067,7 @@ USA
             <antipattern>
                 <token>an</token>
                 <token>about</token>
-                <token regexp="yes">section|page|website</token>
+                <token regexp="yes">section|page|website|tab|text|you</token>
             </antipattern>
             <antipattern><!-- https://www.lexico.com/definition/bit_part -->
                 <token>bit</token>
@@ -26324,11 +26362,20 @@ USA
                 <token>bound</token>
                 <token/>
             </antipattern>
-                <antipattern><!-- voted "hottest female athlete" -->
-                    <token regexp="yes">['‘"“]</token>
-                    <token skip="-1" postag="JJS"/>
-                    <token spacebefore="no" regexp="yes">['’"”]</token>
-                </antipattern>
+            <antipattern>
+                <token>best</token>
+                <token regexp="yes">friends?|practices?</token>
+            </antipattern>
+            <antipattern><!-- voted "hottest female athlete" -->
+                <token regexp="yes">['‘"“]</token>
+                <token skip="-1" postag="JJS"/>
+                <token spacebefore="no" regexp="yes">['’"”]</token>
+            </antipattern>
+            <antipattern><!-- "Americas tallest mountains" (different error) -->
+                <token>Americas</token>
+                <token postag="JJS" />
+                <token postag="NN.*" postag_regexp="yes" />
+            </antipattern>
             <rule>
                 <antipattern>
                     <token>best</token>
@@ -26347,12 +26394,15 @@ USA
                 <example>And Truly It Is <marker>a</marker> Most Glorious Thing</example>
                 <example>He made a fortune by writing a best selling novel.</example>
                 <example>...empty set of real numbers with an upper bound has a <marker>least upper bound</marker>.</example>
+                <example>I have a best friend. His name is Karl.</example>
+                <example>I want a best friend.</example>
             </rule>
             <rule>
                 <antipattern>
                     <token regexp="yes">kindest|warmest</token>
                     <token>regards</token>
                 </antipattern>
+
                 <antipattern>
                     <token>the</token>
                     <token regexp="yes">(twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety)-(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth)</token><!-- TODO: add to disambiguation. www.merriam-webster.com/dictionary/twenty-first -->
@@ -26361,7 +26411,10 @@ USA
                 <pattern>
                     <token><exception postag="PRP\$|WP\$|DT|JJ|C[CD]|:|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">['’…]</exception><exception>at</exception></token>
                     <marker>
-                        <token postag="JJS"><exception regexp="yes">most|least|best|dearest</exception></token>
+                        <token postag="JJS">
+                            <exception regexp="yes">most|least|best|dearest</exception>
+                            <exception scope="previous" regexp="yes">[\-*#]the</exception>
+                        </token>
                     </marker>
                     <token postag="NN.*|JJ" postag_regexp="yes"><exception>in</exception></token>
                 </pattern>
@@ -26380,6 +26433,7 @@ USA
                 <example>...50 Most Beautiful People in 1998 and was voted "hottest female athlete" on ESPN.com.</example>
                 <example>Kindest regards</example>
                 <example>... described him as being the seventy-third greatest Briton of all time.</example>
+                <example>-The easiest moments.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -28263,7 +28317,7 @@ USA
                 <message>The word "haves" is a plural noun, not a verb. Did you mean <suggestion>has</suggestion> or <suggestion>have</suggestion>?</message>
                 <example correction="has|have">He <marker>haves</marker> no idea.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="CC|PCT|SENT_START" postag_regexp="yes" />
                     <marker>
@@ -28275,7 +28329,7 @@ USA
                 <example correction="has|have">But <marker>haves</marker> he got time?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PRP_FOND" name="we fond (found)" default="temp_off">
+        <rulegroup id="PRP_FOND" name="we fond (found)">
             <rule>
                 <antipattern>
                     <token inflected="yes">be</token>
@@ -28344,7 +28398,7 @@ USA
                 <message>Did you mean <suggestion>want</suggestion>?</message>
                 <example correction="want">They <marker>wont</marker> to go there.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">they|I|you|we|s?he|it</token>
                     <token postag="RB" min="0" />
@@ -32080,14 +32134,13 @@ USA
                     <exception regexp="yes">per|then</exception><!-- per minute -->
                 </token>
                 <marker>
-                    <token chunk="E-NP-singular">
+                    <token chunk="E-NP-singular" postag="NNP?" postag_regexp="yes">
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception regexp="yes">will|year|so|pst|well|still|have|had|wether|max</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent|mil|all|has|if</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent|mil|all|has|if|possible|yearly</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
-                        <exception regexp="yes">trained|mentioned|assisting|voting|caused|died|said|embedded|squared|captured|combined|issued|yawned|killed|finished|gone|used|possible|yearly</exception><!-- "300 to 400 being trained each year" - mistagging by OpenNLP -->
                         <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza|Parkway|Broadway</exception><!-- probably an address, "333 Grant Avenue" -->
                         <exception scope="next" regexp="yes">getters|soldiers</exception>
                         <exception regexp="yes">thousand|[mb]illion</exception>
@@ -32114,6 +32167,7 @@ USA
             <example>A 2 House Legislature for New York City</example>
             <example>He suggested a $5,000,000 bond.</example>
             <example>Only six thousand.</example>
+            <example>300 to 400 being trained each year.</example>
             <example>And 10 cannot name the president's daughter.</example>
             <example>A 100,000 person lower bound has been cited for ASL users.</example>
             <example>A 5,000 year old earthen bowl found in Iran in Shahr-i Sokhta has five images</example>
@@ -37507,7 +37561,7 @@ The accident victim died from her injuries.
       <pattern>
           <token inflected="yes">insist</token>
           <token>to</token>
-          <token postag_regexp="yes" postag="VB"/>
+          <token postag="VB"/>
       </pattern>
       <message>The usual collocation for "\1" is "on" not "\2". Did you mean <suggestion>\1 on <match no="3" postag="VBG"/></suggestion>?</message>
       <example correction='insisted on attending'>She <marker>insisted to attend</marker> the conference.</example>
@@ -48593,6 +48647,23 @@ The accident victim died from her injuries.
     <!-- Redundant Phrases -->
     <!-- ====================================================================== -->
     <category id="REDUNDANCY" name="Redundant Phrases" type="style">
+        <rule id="IN_A_X_MANNER" name="Wordiness: in a ... manner">
+            <pattern>
+                <token>in</token>
+                <token regexp="yes">an?</token>
+                <token postag="JJ"><exception regexp="yes">big|certain|preparatory|good|modern|christian|agglutinative|unsterile|particular|humanlike|military|ordinary|roundabout|special|timely</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
+                <token regexp="yes">manner|style|way|fashion|mode</token>
+            </pattern>
+            <message>Consider replacing "\1 \2 \3 \4" with the adverb for "\3"; e.g., "in a hasty manner" with "hastily".</message>
+            <short>Possible wordiness</short>
+            <example correction="">He came <marker>in a hasty manner</marker>.</example>
+            <example>He came <marker>hastily</marker>.</example>
+            <example>This ethnic dish is arranged in a Japanese style.</example>
+            <example>I feel good in a special way.</example>
+            <example>Don't say it in a roundabout way.</example>
+            <example>You cannot solve this problem in an ordinary way.</example>
+            <example>You must perform all assignments in a timely manner.</example>
+        </rule>
     <rulegroup id="FORMER_ALUMNUS" name="former alumnus (alumnus)">
     <url>https://www.amherst.edu/news/communications/editorial-services-media/styleguide/node/84702</url>
     <rule>
@@ -48805,23 +48876,6 @@ The accident victim died from her injuries.
             <url>https://en.wikipedia.org/wiki/Wikipedia:Lists_of_common_misspellings/Grammar_and_Misc</url>
             <short>Redundant phrase</short>
             <example correction="because">Its crystals are usually hexagonal in shape, with flakiness and plating, usually <marker>because of the fact that</marker> it replaced a mineral.</example>
-        </rule>
-        <rule id="IN_A_X_MANNER" name="Wordiness: in a ... manner">
-            <pattern>
-                <token>in</token>
-                <token regexp="yes">an?</token>
-                <token postag="JJ"><exception regexp="yes">big|certain|preparatory|good|modern|christian|agglutinative|unsterile|particular|humanlike|military|ordinary|roundabout|special|timely</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
-                <token regexp="yes">manner|style|way|fashion|mode</token>
-            </pattern>
-            <message>Consider replacing "\1 \2 \3 \4" with the adverb for "\3"; e.g., "in a hasty manner" with "hastily".</message>
-            <short>Possible wordiness</short>
-            <example correction="">He came <marker>in a hasty manner</marker>.</example>
-            <example>He came <marker>hastily</marker>.</example>
-            <example>This ethnic dish is arranged in a Japanese style.</example>
-            <example>I feel good in a special way.</example>
-            <example>Don't say it in a roundabout way.</example>
-            <example>You cannot solve this problem in an ordinary way.</example>
-            <example>You must perform all assignments in a timely manner.</example>
         </rule>
         <rulegroup id="VERY_SMALL_TINY" name="Wordiness: very small" default="off">
             <rule>
