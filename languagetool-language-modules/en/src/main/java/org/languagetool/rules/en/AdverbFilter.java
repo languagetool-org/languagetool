@@ -127,6 +127,8 @@ public class AdverbFilter extends RuleFilter {
     put("socially", "social");
     put("consciously", "conscious");
     put("industriously", "industrious");
+    put("solely", "sole");
+    put("asynchronously", "asynchronous");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
