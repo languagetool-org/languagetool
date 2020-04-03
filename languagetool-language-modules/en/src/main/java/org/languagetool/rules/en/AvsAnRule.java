@@ -130,9 +130,9 @@ public class AvsAnRule extends Rule {
     AnalyzedTokenReadings token = new AnalyzedTokenReadings(new AnalyzedToken(origWord, null, null), 0);
     Determiner determiner = getCorrectDeterminerFor(token);
     if (determiner == Determiner.A || determiner == Determiner.A_OR_AN) {
-      return "a " + StringTools.lowercaseFirstCharIfNotAbbreviation(origWord);
+      return "a " + StringTools.lowercaseFirstCharIfCapitalized(origWord);
     } else if (determiner == Determiner.AN) {
-      return "an " + StringTools.lowercaseFirstCharIfNotAbbreviation(origWord);
+      return "an " + StringTools.lowercaseFirstCharIfCapitalized(origWord);
     } else {
       return origWord;
     }
