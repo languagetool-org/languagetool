@@ -15637,7 +15637,7 @@ USA
             <rule>
                 <antipattern>
                     <token regexp="yes">the|an?|my|your|s</token>
-                    <token>cold</token>
+                    <token regexp="yes">[cw]old</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -15646,7 +15646,7 @@ USA
                     <token>have</token>
                     <token postag="VBN" />
                 </pattern>
-                <message>Did you mean <suggestion>would</suggestion>?</message>
+                <message>Did you mean <suggestion><match no="1" regexp_match="(?i)old" regexp_replace="ould" /></suggestion>?</message>
                 <example correction="would">Tom <marker>wold</marker> have done it differently.</example>
             </rule>
             <rule>
@@ -15659,9 +15659,43 @@ USA
                         <exception>one</exception>
                     </token>
                 </pattern>
-                <message>Did you mean <suggestion>would</suggestion>?</message>
+                <message>Did you mean <suggestion><match no="2" regexp_match="(?i)old" regexp_replace="ould" /></suggestion>?</message>
                 <example correction="Would"><marker>Wold</marker> you do it again?</example>
                 <example>Cold one day warm the next.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
+                    <token regexp="yes">who|where|when|what|how|which</token>
+                    <marker>
+                        <token regexp="yes">[cw]old</token>
+                    </marker>
+                    <token postag="PRP">
+                        <exception>one</exception>
+                    </token>
+                    <token postag="VBP?" postag_regexp="yes">
+                        <exception>are</exception>
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="3" regexp_match="(?i)old" regexp_replace="ould" /></suggestion>?</message>
+                <example correction="would">When <marker>wold</marker> you do it again?</example>
+                <example correction="would">Where <marker>wold</marker> we be withot them.</example>
+                <example>How cold it is!</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">the|an?</token>
+                    <token>wold</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes">
+                        wold
+                        <exception scope="previous" postag="SENT_START|PCT" postag_regexp="yes" />
+                    </token>
+                </pattern>
+                <message>Did you mean the modal verb <suggestion>would</suggestion>?</message>
+                <example correction="would">I <marker>wold</marker> do it again.</example>
+                <example>Other terms used to mean "an area with a high density of trees" are wood, woodland, wold, weald, holt, frith and firth.</example>
             </rule>
         </rulegroup>
         <rule id="HE_SEAS" name="seas vs. sees">
