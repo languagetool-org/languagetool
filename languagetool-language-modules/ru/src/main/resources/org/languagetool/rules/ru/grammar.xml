@@ -2788,6 +2788,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
+        
+        <rulegroup default="off" id="PO_MERE_TOGO_KAK" name="Запятые в оборотах «по мере того как…», …">
+<!--   («с того времени как…», «с той поры как…», «по мере того как…»)     -->
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>По</token>
+                        <token>мере</token>
+                        <token>того</token>
+                        <token>,</token>
+                        <token>как</token>
+                    </marker>
+                </pattern>
+                <message>Возможно запятая не нужна: <suggestion>\2 \3 \4 \6</suggestion>.</message>
+                <url>http://gramota.ru/class/coach/punct/45_183</url>
+                <short>Возможно запятая не нужна.</short>
+                <example correction="По мере того как"><marker>По мере того, как</marker> цена товара снижается, а величина спроса растет при линейной функции спроса.</example>
+            </rule>
+        </rulegroup>
+        
          <rulegroup default="on" id="TAKIM_KAK" name="Запятые при сравнительных оборотах «таким как»">
  
             <rule>
@@ -3174,18 +3195,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example correction="не то босая, не то в">Дамочка <marker>не то босая не то в</marker> каких-то прозрачных... туфлях.</example>
             </rule>        
         </rulegroup>
-        <rule default="on" id="punkt_ne_kak" name="Словосочетание «не как»">
-            <pattern>                   
-                <token>не</token>
-                <token>,</token>
-                <token>как</token>       
-            </pattern>
-            <message>Запятая не нужна: <suggestion>\1 \3</suggestion>.</message>           
-            <short>Запятая не нужна.</short>
-            <example>У них все не как у людей.</example>
-            <example correction="не как">У них все <marker>не, как</marker> у людей.</example>
-        </rule>
-
+      
         <rulegroup default="on" id="CHAS_PIK" name="Словосочетание «Час пик»">
             <rule>
                 <pattern case_sensitive="yes">
@@ -4300,15 +4310,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
         <rulegroup default="on" id="NO_NE_KAK" name="«Почти как», «не как», ...">
-            <!--Перед сравнительным оборотом стоит "не" или слова: совсем, совершенно, почти, именно  ->> запятая не ставится.
-            -->
+            <!--Перед сравнительным оборотом стоит "не" или слова: совсем, совершенно, почти, именно, + вроде, точь-в-точь  ->> запятая не ставится.
+           -->
             <rule>
                 <pattern>
-                    <token regexp="yes">не|совсем|совершенно|почти|именно</token>
+                    <token regexp="yes">не|совсем|совершенно|почти|именно|вроде|точь-в-точь</token>
                     <token>,</token>
                     <token>как</token>
                 </pattern>
                 <message>Запятая не нужна:<suggestion>\1 \3</suggestion>.</message>
+                <url>http://gramota.ru/class/coach/punct/45_183</url>
                 <short>Запятая не нужна.</short>
                 <example>Работа была сделана совсем как попало.</example>
                 <example correction="совсем как">Работа была сделана <marker>совсем, как</marker> попало.</example>
