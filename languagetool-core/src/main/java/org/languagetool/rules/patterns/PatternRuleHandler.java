@@ -18,20 +18,17 @@
  */
 package org.languagetool.rules.patterns;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.languagetool.Languages;
 import org.languagetool.rules.*;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class PatternRuleHandler extends XMLRuleHandler {
 
@@ -646,9 +643,15 @@ public class PatternRuleHandler extends XMLRuleHandler {
     }
     startPos = -1;
     endPos = -1;
-    rule.setCorrectExamples(correctExamples);
-    rule.setIncorrectExamples(incorrectExamples);
-    rule.setErrorTriggeringExamples(errorTriggeringExamples);
+    if (!correctExamples.isEmpty()) {
+      rule.setCorrectExamples(correctExamples);
+    }
+    if (!incorrectExamples.isEmpty()) {
+      rule.setIncorrectExamples(incorrectExamples);
+    }
+    if (!errorTriggeringExamples.isEmpty()) {
+      rule.setErrorTriggeringExamples(errorTriggeringExamples);
+    }
     rule.setCategory(category);
     if (!rulegroupAntiPatterns.isEmpty()) {
       rule.setAntiPatterns(rulegroupAntiPatterns);

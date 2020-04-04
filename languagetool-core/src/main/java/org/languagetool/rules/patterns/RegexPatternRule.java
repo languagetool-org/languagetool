@@ -55,7 +55,7 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
     this.message = message;
     this.pattern = regex;
     this.shortMessage = shortMessage == null ? "" : shortMessage;
-    this.suggestionsOutMsg = suggestionsOutMsg;
+    this.suggestionsOutMsg = suggestionsOutMsg.isEmpty() ? "" : suggestionsOutMsg;;
     markGroup = regexpMark;
   }
 
@@ -81,9 +81,9 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
         int markStart = patternMatcher.start(markGroup);
         int markEnd = patternMatcher.end(markGroup);
 
-        String processedMessage = processMessage(patternMatcher, message, backReferencesInMessage, suggestionsInMessage, suggestionMatches);
+        String processedMessage = processMessage(patternMatcher, message, backReferencesInMessage, suggestionsInMessage, getSuggestionMatches());
         String processedSuggestionsOutMsg = processMessage(patternMatcher, suggestionsOutMsg, backReferencesInSuggestionsOutMsg,
-                suggestionsInSuggestionsOutMsg, suggestionMatchesOutMsg);
+                suggestionsInSuggestionsOutMsg, getSuggestionMatchesOutMsg());
 
         boolean startsWithUpperCase = patternMatcher.start() == 0 && Character.isUpperCase(sentenceObj.getText().charAt(patternMatcher.start()));
         RuleMatch ruleMatch = new RuleMatch(this, sentenceObj, markStart, markEnd, patternMatcher.start(), patternMatcher.end(),

@@ -18,14 +18,14 @@
  */
 package org.languagetool.rules;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
-
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
 
 /**
  * Abstract rule class. A Rule describes a language error and can test whether a
@@ -45,9 +45,9 @@ public abstract class Rule {
 
   protected final ResourceBundle messages;
 
-  private List<CorrectExample> correctExamples = new ArrayList<>();
-  private List<IncorrectExample> incorrectExamples = new ArrayList<>();
-  private List<ErrorTriggeringExample> errorTriggeringExamples = new ArrayList<>();
+  private List<CorrectExample> correctExamples;
+  private List<IncorrectExample> incorrectExamples;
+  private List<ErrorTriggeringExample> errorTriggeringExamples;
   private ITSIssueType locQualityIssueType = ITSIssueType.Uncategorized;
   private Category category;
   private URL url;
@@ -260,7 +260,7 @@ public abstract class Rule {
    * Get example sentences that are correct and thus will not match this rule.
    */
   public final List<CorrectExample> getCorrectExamples() {
-    return Collections.unmodifiableList(correctExamples);
+    return correctExamples == null ? Collections.emptyList() : Collections.unmodifiableList(correctExamples);
   }
 
   /**
@@ -274,7 +274,7 @@ public abstract class Rule {
    * Get example sentences that are incorrect and thus will match this rule.
    */
   public final List<IncorrectExample> getIncorrectExamples() {
-    return Collections.unmodifiableList(incorrectExamples);
+    return incorrectExamples == null ? Collections.emptyList() : Collections.unmodifiableList(incorrectExamples);
   }
 
   /**
@@ -290,7 +290,7 @@ public abstract class Rule {
    * @since 3.5
    */
   public final List<ErrorTriggeringExample> getErrorTriggeringExamples() {
-    return Collections.unmodifiableList(this.errorTriggeringExamples);
+    return errorTriggeringExamples == null ? Collections.emptyList() : Collections.unmodifiableList(this.errorTriggeringExamples);
   }
 
   /**
@@ -428,6 +428,12 @@ public abstract class Rule {
    * @since 2.5
    */
   protected void addExamplePair(IncorrectExample incorrectSentence, CorrectExample correctSentence) {
+    if (correctExamples == null) {
+      correctExamples = new ArrayList<>(0);
+    }
+    if (incorrectExamples == null) {
+      incorrectExamples = new ArrayList<>(0);
+    }
     String correctExample = correctSentence.getExample();
     int markerStart= correctExample.indexOf("<marker>");
     int markerEnd = correctExample.indexOf("</marker>");
@@ -446,8 +452,12 @@ public abstract class Rule {
    * @since 4.9
    */
   protected void setExamplePair(IncorrectExample incorrectSentence, CorrectExample correctSentence) {
-    incorrectExamples.clear();
-    correctExamples.clear();
+    if (incorrectExamples != null) {
+      incorrectExamples.clear();
+    }
+    if (correctSentence != null) {
+      correctExamples.clear();
+    }
     addExamplePair(incorrectSentence, correctSentence);
   }
 
