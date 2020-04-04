@@ -44,7 +44,7 @@ public class RussianDashRule extends AbstractDashRule {
 
   @Override
   public String getDescription() {
-    return "Проверка на использование тире вместо дефиса (то есть «из — за» вместо «из-за»).";
+    return "Тире вместо дефиса («из — за» вместо «из-за»).";
   }
 
   @Override
