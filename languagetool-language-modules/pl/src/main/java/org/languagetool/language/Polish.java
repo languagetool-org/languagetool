@@ -18,14 +18,7 @@
  */
 package org.languagetool.language;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pl.*;
 import org.languagetool.synthesis.Synthesizer;
@@ -34,10 +27,11 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.pl.PolishHybridDisambiguator;
 import org.languagetool.tagging.pl.PolishTagger;
-import org.languagetool.tokenizers.SRXSentenceTokenizer;
-import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.pl.PolishWordTokenizer;
+
+import java.io.IOException;
+import java.util.*;
 
 public class Polish extends Language {
 
@@ -123,7 +117,7 @@ public class Polish extends Language {
         new PolishWordRepeatRule(messages),
         new CompoundRule(messages),
         new SimpleReplaceRule(messages),
-        new DashRule()
+        new DashRule(messages)
         );
   }
 

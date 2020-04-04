@@ -23,6 +23,8 @@ import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.rules.AbstractDashRule;
 import org.languagetool.rules.Example;
 
+import java.util.ResourceBundle;
+
 /**
  * Check for compounds written with dashes instead of hyphens.
  * @since 3.8
@@ -31,8 +33,8 @@ public class EnglishDashRule extends AbstractDashRule {
 
   private static final AhoCorasickDoubleArrayTrie<String> trie = loadCompoundFile("/en/compounds.txt");
 
-  public EnglishDashRule() {
-    super(trie);
+  public EnglishDashRule(ResourceBundle messages) {
+    super(trie, messages);
     addExamplePair(Example.wrong("I'll buy a new <marker>T—shirt</marker>."),
                    Example.fixed("I'll buy a new <marker>T-shirt</marker>."));
   }

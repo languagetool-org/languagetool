@@ -22,6 +22,8 @@ package org.languagetool.rules.pl;
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.rules.AbstractDashRule;
 
+import java.util.ResourceBundle;
+
 /**
  * Check for compounds written with dashes instead of hyphens (for example, Rabka — Zdrój).
  * @since 3.6
@@ -30,8 +32,8 @@ public class DashRule extends AbstractDashRule {
 
   private static final AhoCorasickDoubleArrayTrie<String> trie = loadCompoundFile("/pl/compounds.txt");
 
-  public DashRule() {
-    super(trie);
+  public DashRule(ResourceBundle messages) {
+    super(trie, messages);
   }
 
   @Override

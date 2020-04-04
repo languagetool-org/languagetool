@@ -222,7 +222,7 @@ public class English extends Language implements AutoCloseable {
         new CompoundRule(messages),
         new ContractionSpellingRule(messages),
         new EnglishWrongWordInContextRule(messages),
-        new EnglishDashRule(),
+        new EnglishDashRule(messages),
         new WordCoherencyRule(messages),
         new EnglishDiacriticsRule(messages),
         new EnglishPlainEnglishRule(messages),

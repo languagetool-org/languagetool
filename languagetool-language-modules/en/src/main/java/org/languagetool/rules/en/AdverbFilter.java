@@ -129,6 +129,8 @@ public class AdverbFilter extends RuleFilter {
     put("industriously", "industrious");
     put("solely", "sole");
     put("asynchronously", "asynchronous");
+    put("fortunately", "fortunate");
+    put("unfortunately", "unfortunate");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
