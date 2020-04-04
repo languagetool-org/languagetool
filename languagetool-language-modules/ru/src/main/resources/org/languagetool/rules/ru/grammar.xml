@@ -9211,6 +9211,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>Под вода</marker>.</example>
             <example>Дайте мне бутылку из-под вина.</example>
         </rule>
+        <rule id="PREP_Pro_And_Noun" name="Предлог «про» и существительное">
+            <pattern>
+                <token>про</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes">
+                    <exception postag="NN:.*:.*:.*:V" postag_regexp="yes" />
+                    <exception postag="NN:.*:.*:.*:.*" postag_regexp="yes" negate_pos="yes" />
+                </token>
+            </pattern>
+            <message>Предлог «про» предполагает употребление существительного в винительном падеже.</message>
+            <url>https://ru.wiktionary.org/wiki/%D0%BF%D1%80%D0%BE</url>
+            <short>Требуется винительный падеж.</short>
+            <example correction=""><marker>Про паж</marker>.</example>
+            <example correction="">Он рассказывал <marker>про путешествию</marker>.</example>
+            <example>Он рассказывал про путешествие.</example>
+        </rule>
         <rule default="on" id="PREP_O_and_Noun" name="Предлог «о» и существительное">
             <!--     <antipattern case_sensitive="no">
                 <token postag="SENT_START"></token>
