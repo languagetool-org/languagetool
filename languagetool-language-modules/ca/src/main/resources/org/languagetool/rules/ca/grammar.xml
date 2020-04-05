@@ -1952,6 +1952,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="El metge|Els metges|La metge|Les metges"><marker>El metges</marker> ha vingut tard.</example>
                 <example correction="els avantatges|l'avantatge">Miren <marker>les avantatges</marker> de tot.</example>
                 <example correction="El nom|Els noms"><marker>Les noms</marker>.</example>
+                <example correction="el deliri|els deliris"><marker>el deliris</marker></example>
                 <example>Els pisos.</example>
                 <example>Els pins.</example>
                 <example>Porta els camions.</example>
@@ -1987,6 +1988,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="aquell camió|aquells camions">Porta <marker>aquell camions</marker>.</example>
                 <example correction="tant home|tants homes|tants hòmens">Per què hi ha <marker>tant homes</marker>?</example>
                 <example correction="poc any|pocs anys">Fins a <marker>poc anys</marker> després</example>
+                <example correction="un deliri|uns deliris"><marker>un deliris</marker></example>
                 <!-- <example correction="Aquell pi|Aquell pis|Aquells pins|Aquells pisos"><marker>Aquells pis</marker>.</example> -->
                 <example>Aquests pisos.</example>
                 <example>Aqueixos pins.</example>
@@ -3272,7 +3274,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>molt</token>
                         <token regexp="yes">de|d'</token>
                     </marker>
-                    <token postag="NCFS.*" postag_regexp="yes"><exception postag="N.[MC]S.*" postag_regexp="yes"/><exception regexp="yes">matinada|manera|voga</exception></token>
+                    <token postag="NCFS.*" postag_regexp="yes"><exception postag="N.[MC]S.*" postag_regexp="yes"/><exception regexp="yes">matinada|manera|voga|esquerra</exception></token>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>molta</suggestion>?</message>
                 <suggestion>molta <match no="3"/></suggestion>
@@ -3284,6 +3286,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Veig que saps molt d'història antiga.</example>
                 <example>Depenien molt de Sèrbia.</example>
                 <example>Llavors pujava molt de temperatura.</example>
+                <example>Semblava que era molt d'esquerra.</example>
             </rule>
             <rule id="CONCORDANCA_GRIS" name="errors freqüents: gris/grisa">
                 <antipattern>
@@ -5690,6 +5693,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>on hi ha, dominant el poble,</example>
                 <example>amb uns nens que hi havia jugant al carrer</example>
             </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">haguem|hagueu</token>
+                        <token postag="V.[NG].*" postag_regexp="yes"></token>
+                    </marker>
+                </pattern>
+                <message>Hi falta un participi o la preposició 'de'.</message>
+                <suggestion><match no="1" postag="VM(.+)." postag_regexp="yes" postag_replace="VA$1Y">haver</match> <match no="2" postag="V.P.*SM.?" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="1" postag="VM(.+)." postag_regexp="yes" postag_replace="VA$1V">haver</match> <match no="2" postag="V.P.*SM.?" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="1" postag="VM(.+)." postag_regexp="yes" postag_replace="VA$1Y">haver</match> de <match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="1" postag="VM(.+)." postag_regexp="yes" postag_replace="VA$1V">haver</match> de <match no="2" postag="V.N.*" postag_regexp="yes"/></suggestion>
+                <short>Hi falta un participi</short>
+                <example correction="hàgiu revisat|hàgeu revisat|hàgiu de revisar|hàgeu de revisar">Un cop <marker>hagueu revisar</marker> la traducció.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="HAVER_HI_IMPERSONAL_SINGULAR" name="Exigeix 'haver-hi' impersonal en singular">
             <rule>
@@ -7503,7 +7521,63 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>en un període recent units de manera contínua</example>
             </rule>
         </rulegroup>
+        <rulegroup id="TANT_TAN_A_DINS" name="tant/tan a dins">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tant<exception postag="allow_tant"/></token>
+                    </marker>
+                    <token min="0">a</token>
+                    <token regexp="yes">dins|dintre|fora|prop</token>
+                </pattern>
+                <message>Davant d'un adverbi cal escriure <suggestion>tan</suggestion>.</message>
+                <example correction="tan"><marker>tant</marker> a dins</example>
+                <example correction="tan"><marker>tant</marker> a fora</example>
+                <example correction="tan"><marker>tant</marker> fora</example>
+                <example correction="tan">Els veig <marker>tant</marker> prop.</example>
+                <example correction="tan">Els veig <marker>tant</marker> a prop.</example>
+                <example correction="tan">Era <marker>tant</marker> a prop d'ell.</example>
+                <example correction="tan">Cal anar <marker>tant</marker> a prop d'ell com sigui possible.</example>
+                <example correction="tan">Juga <marker>tant</marker> a prop de la cistella com vol.</example>
+                <example correction="tan">Juga <marker>tant</marker> prop de la cistella com vol.</example>
+                <example correction="tan">Jugaria <marker>tant</marker> a dins com fora possible.</example>
+                <example>I tant a dins com a fora.</example>
+                <example>I tant a dins de casa com a fora.</example>
+                <example>I tant dins de casa com a fora.</example>
+                <example>I tant a fora com a dins.</example>
+                <example>I tant fora com a dins.</example>
+                <example>I tant a dintre com a fora.</example>
+                <example>Neden tant a prop de la superfície com pel fons del mar.</example>
+                <example>És capaç de jugar tant a prop de la cistella com lluny.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tan</token>
+                    </marker>
+                    <token min="0">a</token>
+                    <token regexp="yes"  skip="15">dins|dintre|fora|prop</token>
+                    <token>com</token>
+                    <token min="0">a</token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes"><exception regexp="yes">sempre|abans|llavors|aleshores|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|actualment|posteriorment|prèviament</exception></token>
+                </pattern>
+                <message>Cal escriure <suggestion>tant</suggestion> en l'expressió 'tant... com...'.</message>
+                <short>Confusió</short>
+                <example correction="tant"><marker>tan</marker> dins com fora del Japó.</example>
+                <example correction="tant"><marker>tan</marker> a dins com fora del Japó.</example>
+                <example correction="tant"><marker>tan</marker> a dins de casa com fora.</example>
+                <example correction="tant"><marker>tan</marker> a dins de casa com a fora.</example>
+                <example correction="tant"><marker>tan</marker> a dins com a fora.</example>
+                <example correction="tant"><marker>tan</marker> a dins com fora.</example>
+                <example>Tan a dins com fora possible.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TANT_TAN" name="Comprova: «tan/tant»">
+            <antipattern> <!-- Es posa en una altra regla perquè té una certa compliació-->
+                <token regexp="yes">tant?</token>
+                <token min="0">a</token>
+                <token regexp="yes">dins|dintre|fora|prop</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -7725,8 +7799,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>M'agrada tant, que me l'enduc.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>per</token>
+                    <token>tant</token>
+                </antipattern>
                 <pattern>
-                    <token negate="yes">per</token>
                     <marker>
                         <token>tant<exception postag=".*LOC.*|allow_tant" postag_regexp="yes"/></token>
                     </marker>
@@ -7736,6 +7813,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Confusió</short>
                 <example correction="tan">Menja <marker>tant</marker> de pressa!</example>
                 <example correction="tan">Ara <marker>tant</marker> de moda.</example>
+                <example correction="tan">Es podia veure <marker>tant</marker> de prop la cavalcada.</example>
+                <example>Es podia veure tant de prop com de lluny.</example>
                 <example>Menja tan de pressa!</example>
                 <example>De tant en tant una mica.</example>
                 <example>Tant a la llarga com a la curta.</example>
@@ -7746,7 +7825,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>tan</token>
                     </marker>
                     <token regexp="yes">de|d'<exception postag=".*LOC_ADV.*|.*LOC_ADJ.*" postag_regexp="yes" /></token>
-                    <token><exception postag="NCFS000"/><exception regexp="yes">mal|cop</exception></token>
+                    <token><exception postag="NCFS000"/><exception regexp="yes">mal|col?p|prop</exception></token>
                 </pattern>
                 <message>Quan indica quantitat cal escriure <suggestion>tant</suggestion>. Correcte davant de locució adverbial: tan de moda, tan de pressa.</message>
                 <short>Confusió</short>
@@ -7781,6 +7860,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tan a la vora de la porta.</example>
                 <example>Tan a la vora.</example>
                 <example>Tan a final de curs.</example>
+                <example>Tan a dins.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7959,8 +8039,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>com</token>
                     <token regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</token>
                 </pattern>
-                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
-                <short>Confusió</short>
+                <message>Cal escriure <suggestion>tant</suggestion> en l'expressió 'tant... com...'.</message>
                 <example correction="tant"><marker>tan</marker> ell com nosaltres.</example>
                 <example>Tant ell com nosaltres.</example>
             </rule>
@@ -7975,8 +8054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>a</token>
                     <token regexp="yes">jo|mi|tu|ella?|nosaltres|vosaltres|elle?s|vost[èé]s?|vós</token>
                 </pattern>
-                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
-                <short>Confusió</short>
+                <message>Cal escriure <suggestion>tant</suggestion> en l'expressió 'tant... com...'.</message>
                 <example correction="tant"><marker>tan</marker> a mi com a ells.</example>
                 <example>Tant a mi com a ells.</example>
             </rule>
@@ -8006,18 +8084,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>aquell vent tan nostres.</example>
             </rule>
             <rule>
-                <!-- Tant fora com dins del Japó -->
+                <!-- Tant de prop com de lluny -->
                 <pattern>
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="RG" skip="10"><exception regexp="yes">prompte|aviat|bé|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|sovint|freqüentment|mal|bon|ben</exception></token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" skip="10"><exception regexp="yes">prompte|aviat|bé|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|sovint|freqüentment|mal|bon|ben</exception></token>
                     <token>com</token>
-                    <token postag="RG"><exception regexp="yes">sempre|abans|llavors|aleshores|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|actualment|posteriorment|prèviament</exception></token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes"><exception regexp="yes">sempre|abans|llavors|aleshores|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|actualment|posteriorment|prèviament</exception></token>
                 </pattern>
-                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
-                <short>Confusió</short>
-                <example correction="tant"><marker>tan</marker> dins com fora del Japó.</example>
+                <message>Cal escriure <suggestion>tant</suggestion> en l'expressió 'tant... com...'.</message>
+                <example correction="tant"><marker>tan</marker> de prop com de lluny.</example>
+                <example>on es podia veure tan de prop el papa</example>
                 <example>Tant dins com fora del Japó.</example>
                 <example>Elements tan poc comercials com clarament icònics.</example>
                 <example>És tan fort com sempre.</example>
@@ -8038,8 +8116,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">de</token>
                     <token postag="NC.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
-                <short>Confusió</short>
+                <message>Cal escriure <suggestion>tant</suggestion> en l'expressió 'tant... com...'.</message>
                 <example correction="tant">coneixements <marker>tan</marker> científics com de sentit comú</example>
                 <example>coneixements tant científics com de sentit comú</example>
             </rule>
@@ -8051,8 +8128,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="D.*" postag_regexp="yes"><exception inflected="yes">poc</exception></token>
                 </pattern>
-                <message>Hauria de ser: <suggestion>tant</suggestion>.</message>
-                <short>Confusió</short>
+                <message>Cal escriure: <suggestion>tant</suggestion>.</message>
                 <example correction="tant"><marker>tan</marker> l'un com l'altre</example>
                 <example correction="tant"><marker>tan</marker> aquest com aquell</example>
                 <example>tant aquest com aquell</example>
@@ -8065,8 +8141,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>bé</token>
                     <token>com</token>
                 </pattern>
-                <message>Hauria de ser: <suggestion>tan</suggestion>.</message>
-                <short>Confusió</short>
+                <message>Cal escriure: <suggestion>tan</suggestion>.</message>
                 <example correction="tan">Feu-ho <marker>tant</marker> bé com pugueu.</example>
                 <example>Feu-ho tan bé com sapigueu.</example>
             </rule>
@@ -8078,29 +8153,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_PUNCT.*" postag_regexp="yes"><exception postag="_trespunts|_PUNCT_OBRE" postag_regexp="yes"/><exception regexp="yes">[‘“«¡¿]</exception></token>
                 </pattern>
                 <message>Probablement cal escriure <suggestion>tant</suggestion>.</message>
-                <short>Confusió</short>
                 <example correction="tant">M'agrada <marker>tan</marker>!</example>
                 <example correction="tant">Va dir: «No m'agrada <marker>tan</marker>».</example>
                 <example correction="tant">Va dir: "No m'agrada <marker>tan</marker>".</example>
                 <example>M'agrada tant!</example>
                 <example>I aquesta calavera tan... tan guapa</example>
                 <example>És tan "real"</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>tant<exception postag="allow_tant"/></token>
-                    </marker>
-                    <token>a</token>
-                    <token>prop</token>
-                    <token regexp="yes">de|d'</token>
-                </pattern>
-                <message>Davant d'adjectiu o adverbi cal escriure <suggestion>tan</suggestion>.</message>
-                <example correction="tan">Era <marker>tant</marker> a prop d'ell.</example>
-                <example correction="tan">Cal anar <marker>tant</marker> a prop d'ell com sigui possible.</example>
-                <example correction="tan">Juga <marker>tant</marker> a prop de la cistella com vol.</example>
-                <example>Neden tant a prop de la superfície com pel fons del mar.</example>
-                <example>És capaç de jugar tant a prop de la cistella com lluny.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12715,6 +12773,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="CEL_ZEL" name="*cel/zel">
+            <antipattern>
+                <token>cel</token>
+                <token>i</token>
+                <token regexp="yes">terra|infern</token>
+            </antipattern>
+            <pattern>
+                <token>en</token>
+                <token>cel</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>en zel</suggestion> (= excitació sexual)?</message>
+            <example correction="en zel">Estava <marker>en cel</marker>.</example>
+        </rule>
+        <rule id="SONAR_DONAR" name="*sonar/donar">
+            <pattern>
+                <marker>
+                    <token inflected="yes">sonar</token>
+                </marker>
+                <token>suport</token>
+            </pattern>
+            <message>Possible confusió.</message>
+            <suggestion><match no="1" regexp_match="(?iu).(.*)" regexp_replace="d$1"/></suggestion>
+            <example correction="donem">Sempre hi <marker>sonem</marker> suport.</example>
+        </rule>
         <rule id="QUAN_QUAL" name="quan/qual">
             <antipattern>
                 <token inflected="yes">el</token>
@@ -17075,7 +17157,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>san<exception postag=".*NP.*" postag_regexp="yes"/></token>
                 </marker>
-                <token postag="NPMSSP0"><exception regexp="yes">Antonio|Pedro|José|Diego|Fernando|Miguel|Francisco</exception></token>
+                <token postag="NPMSSP0"><exception regexp="yes">Antonio|Pedro|José|Diego|Fernando|Miguel|Francisco|Giovanni</exception></token>
             </pattern>
             <message>¿Volíeu dir <suggestion>sant</suggestion> en comptes de 'san' (= poble africà)?</message>
             <short>Possible confusió</short>
@@ -17262,6 +17344,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>o la</example>
         </rule>
         <rule id="FINS_A_LES_HORES_ALESHORES" name="fins a les hores / aleshores">
+            <antipattern>
+                <token>hores</token>
+                <token>de</token>
+                <token min="0" regexp="yes">l|la</token>
+                <token regexp="yes">matinada|matí|migdia|tarda|vesprada|vespre|nit</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>fins</token>
@@ -17275,6 +17363,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Possible confusió</short>
             <example correction="fins aleshores"><marker>fins a les hores</marker>.</example>
             <example>fins a les hores petites</example>
+            <example>fins a les hores de la matinada</example>
         </rule>
         <rule id="MAL_GRAT_MALGRAT" name="mal grat / malgrat">
             <pattern>
@@ -17588,6 +17677,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="per què">Ens pregunta <marker>perquè</marker> passava això.</example>
                 <example>coses que no preguntem perquè teòricament ja les hauríem de saber</example>
                 <example>Em pareix ben plantejada la pregunta perquè no sumen 50.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">vet|heus</token>
+                    <token regexp="yes">ací|aquí</token>
+                    <marker>
+                        <token regexp="yes">perquè|perque</token>
+                    </marker>
+                </pattern>
+                <message>Probablement cal escriure <suggestion>per què</suggestion> (=per quin motiu).</message>
+                <example correction="per què">Vet ací <marker>perquè</marker> ho diu.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PER_QUE_PERQUE" name="*per què/perquè">
@@ -20967,12 +21067,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">sud|nord<exception postag="_possible_nompropi"/></token>
-                    <token inflected="yes" regexp="yes">americà|africà|atlàntid|pacífid|occidental|oriental|coreà|irlandès|català|mongòlic|vietnamita|europeu|asiàtic</token>
+                    <token regexp="yes">sud|nord<exception postag="_possible_nompropi"/><exception scope="previous" postag="DA0MS0"/></token>
+                    <token inflected="yes" regexp="yes">americà|africà|atlàntic|pacífic|occidental|oriental|coreà|irlandès|català|mongòlic|vietnamita|europeu|asiàtic</token>
                 </pattern>
                 <message>Potser hi falta un guionet.</message>
                 <suggestion>\1-\2</suggestion>
                 <example correction="nord-americanes">Les tropes <marker>nord americanes</marker>.</example>
+                <example>En el sud europeu.</example>
+                <example>En el Sud asiàtic.</example>
             </rule>
             <rule>
                 <pattern>
@@ -21827,7 +21929,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="A.*|V.P.*" postag_regexp="yes"><exception>poblat</exception></token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>fóra</suggestion>?</message>
+                <message>Si és un verb, s'accentua.</message>
+                <suggestion>fóra</suggestion>
                 <suggestion>fos</suggestion>
                 <example correction="fóra|fos">que el vaixell <marker>fora</marker> atacat</example>
                 <example>ordenà que fóra atacat</example>
@@ -21847,7 +21950,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">poc|molt|prou|massa</token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>fóra</suggestion>?</message>
+                <message>Si és un verb, s'accentua.</message>
+                <suggestion>fóra</suggestion>
                 <suggestion>fos</suggestion>
                 <example correction="fóra|fos">per si no <marker>fora</marker> prou</example>
                 <example>per si no fóra prou</example>
@@ -21861,7 +21965,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token><exception postag="&pronom_feble;|V.*" postag_regexp="yes"/></token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>fóra</suggestion>?</message>
+                <message>Si és un verb, s'accentua.</message>
+                <suggestion>fóra</suggestion>
                 <suggestion>fos</suggestion>
                 <example correction="fóra|fos">com si <marker>fora</marker> una exportació</example>
                 <example correction="fóra|fos">com si <marker>fora</marker> així</example>
@@ -23809,6 +23914,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Les més valentes són elles.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">&dies_setmana;</token>
+                    <token>de</token>
+                    <token min="0">l</token>
+                    <token>mes</token>
+                </antipattern>
                 <pattern>
                     <token><exception regexp="yes">cada|un|altre|algun|cert|mateix</exception></token>
                     <marker>
@@ -23827,6 +23938,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Aquell mateix mes fou despatxat.</example>
                 <example>834,26 euros al mes distribuïts en 14 pagues</example>
                 <example>Per cinquè mes consecutiu</example>
+                <example>Tots els primers divendres de mes consecutius.</example>
+                <example>Tots els divendres del mes consecutius.</example>
                 <!-- el tercer mes egipci -->
             </rule>
             <rule>
@@ -35627,6 +35740,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="de tant en tant">Ho feien <marker>de tant en tan</marker>.</example>
             <example correction="de tant en tant">Ho feien <marker>de tan en tant</marker>.</example>
             <example>Ho feien de tant en tant.</example>
+            <example>Abans de tant en tant ho feia.</example>
         </rule>
         <rulegroup id="QUANT_ABANS" name="*quant abans">
             <rule>
@@ -44042,6 +44156,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>va</token>
                 <token regexp="yes">portar|dur</token>
             </antipattern>
+            <antipattern>
+                <token inflected="yes">haver</token>
+                <token>de</token>
+                <token regexp="yes">portar|dur</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token><exception postag="&pronom_feble;|RN" postag_regexp="yes" /></token>
@@ -44062,6 +44181,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="fa moltíssims anys (que ...)">alguna d'elles <marker>porta moltíssims anys</marker> d'existència</example>
                 <example correction="fer moltíssims anys (que ...)">Deu <marker>portar moltíssims anys</marker> d'existència</example>
                 <example correction="feia tants anys (que ...)">I que <marker>portaven tants anys</marker> d'existència</example>
+                <example>ha de portar algun dia la humanitat sencera</example>
                 <example>Això ens portarà molts anys.</example>
                 <example>Aquella amistat durà vint anys.</example>
                 <example>només li portava un mes d'avantatge</example>
@@ -48774,7 +48894,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token><exception>d'</exception></token>
                     <marker>
                         <token>allò</token>
-                        <token postag="RG_anteposat"/>
+                        <token postag="RG_anteposat"><exception>tan</exception></token>
                         <token postag="A..[MC]S.*|VMP.*SM." postag_regexp="yes"/>
                     </marker>
                 </pattern>
@@ -48787,12 +48907,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Possible construcció incorrecta</short>
                 <example correction="el políticament incorrecte|el fet políticament incorrecte|la cosa políticament incorrecta|el punt políticament incorrecte|el que és políticament incorrecte"><marker>allò políticament incorrecte</marker></example>
                 <example>d'allò més bé</example>
+                <example>Va dir allò tan bonic.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>d'</token>
                     <token>allò</token>
-                    <token postag="RG_anteposat"><exception>més</exception></token>
+                    <token postag="RG_anteposat"><exception regexp="yes">més|tan</exception></token>
                     <token postag="A..[MC]S.*|VMP.*SM." postag_regexp="yes"/>
                 </pattern>
                 <message>Amb valor abstractiu val més usar una altra construcció. Correcte si equival a "aquella cosa <match no="3"/> <match no="4" postag="A.*" postag_regexp="yes" postag_replace="A..[FC]S.|VMP.*SF."/>".</message>
@@ -48804,6 +48925,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Possible construcció incorrecta</short>
                 <example correction="del políticament incorrecte|del fet políticament incorrecte|de la cosa políticament incorrecta|del punt políticament incorrecte|del que és políticament incorrecte"><marker>d'allò políticament incorrecte</marker></example>
                 <example>d'allò més bé</example>
+                <example>estava content d'allò tan extraordinari</example>
             </rule>
         </rulegroup>
         <rulegroup id="RELATIUS" name="Comprova les contruccions de relatiu: amb el que/amb el qual" default="on">
@@ -48986,6 +49108,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Reviseu la construcció de relatiu.</message>
                 <suggestion>qual</suggestion>
                 <example correction="qual">un conductor a través del <marker>que</marker> passa el corrent</example>
+                <example correction="qual">el dipòsit a dins del <marker>que</marker> es trobava</example>
                 <example>l'home amb el qual vaig parlar</example>
                 <example>estava de molt bon humor després del que li havia passat</example>
             </rule>

@@ -988,8 +988,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token regexp="yes">de|d'</token>
                 </marker>
             </pattern>
-            <disambig action="replace"><wd lemma="llevat de" pos="LOC_PREP"/><wd lemma="en va" pos="LOC_PREP"/></disambig>
+            <disambig action="replace"><wd lemma="llevat de" pos="LOC_PREP"/><wd lemma="llevat de" pos="LOC_PREP"/></disambig>
             <example type="untouched">Per fi, ens l'hem <marker>llevat de</marker> damunt.</example>
+        </rule>
+        <rule id="abans_de" name="abans de (locució preposicional)">
+            <pattern>
+                <marker>
+                    <token>abans</token>
+                    <token regexp="yes">de|d'<exception postag="LOC_.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="abans de" pos="LOC_PREP"/><wd lemma="abans de" pos="LOC_PREP"/></disambig>
+            <!-- Why doesn't it work? The full hybrid disambiguator is not applied?
+            <example type="untouched">Abans de tant en tant ho feia.</example>
+            <example type="untouched">Abans de vegades ho feia.</example>-->
         </rule>
         <rule id="a_fi_de" name="a fi de (locució conjuntiva)">
             <pattern>
@@ -2213,7 +2225,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">vés|aneu</token>
+                    <token regexp="yes">ves|vés|aneu</token>
                 </marker>
                 <token>a</token>
                 <token>saber</token>
@@ -4161,6 +4173,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="add"><wd pos="_GV_"/><wd pos="_GV_"/></disambig>
         </rule>
+        <rule> <!--fora possible-->
+            <pattern>
+                <marker>
+                    <token inflected="yes">ser</token>
+                </marker>
+                <token>possible</token>
+            </pattern>
+            <disambig action="filter" postag="VS.*"></disambig>
+        </rule>
     </rulegroup>
     <rulegroup id="dur_a_terme" name="dur a terme"> <!-- plantar cara, posar/tenir/estar/mantenir al corrent -->
         <rule>
@@ -5549,6 +5570,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="[^V].*"></disambig>
         </rule>
     </rulegroup>
+    <rule id="deliris" name="no verb, nom / verb intransitiu">
+        <!-- necessari per a detectar errors de concordança det + nom. N'hi ha altres casos? 
+             "eclipsi" és semblant, però és transitiu, per tant és possible "que l'eclipsis" --> 
+        <pattern>
+            <token postag="D.*" postag_regexp="yes"/>
+            <marker>
+                <token regexp="yes">deliris?</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N.*|_GN_.*"></disambig>
+    </rule>
     <rule id="nVerb" name="no verb">
         <pattern>
             <marker>
@@ -12128,8 +12160,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <token>tant</token>
                 </marker>
+                <token min="0">a</token>
                 <token postag="RG|.*LOC_ADV.*" postag_regexp="yes" skip="20"/>
                 <token>com</token>
+                <token min="0">a</token>
                 <token postag="RG|.*LOC_ADV.*" postag_regexp="yes" />
             </pattern>
             <disambig action="add"><wd pos="allow_tant"></wd></disambig>
@@ -13375,6 +13409,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="VS..3S.." postag_regexp="yes"/>
             </pattern>
             <disambig action="add"><wd pos="NPCN000"></wd></disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="onomatopeies" name="algunes onomatopeies">
+        <rule>
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">[Mm]mm+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
     <rule name="Ignore spelling of file names" id="IGNORE_SPELLING_OF_FILE_NAMES">
