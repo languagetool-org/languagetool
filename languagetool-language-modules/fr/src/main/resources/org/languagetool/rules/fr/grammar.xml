@@ -30855,45 +30855,53 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">ministres?|ministères?</token>
+          <token min="0" max="1" postag_regexp="yes" postag="J [me] .*"/>
           <token>des</token>
           <marker><token regexp="yes">(?-i)affaires|anciens|armées|droits|finances|postes|solidarités|sports</token></marker>
         </pattern>
         <message>L’usage veut que l’on mette une majuscule à la désignation du ou des domaines que gère le ministère.</message>
-        <suggestion><match no="3" case_conversion="startupper"/></suggestion>
+        <suggestion><match no="4" case_conversion="startupper"/></suggestion>
         <example correction="Armées">Le ministère des <marker>armées</marker>.</example>
+        <example correction="Armées">Le ministre italien des <marker>armées</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">ministres?|ministères?</token>
+          <token min="0" max="1" postag_regexp="yes" postag="J [me] .*"/>
           <token>du</token>
           <marker><token regexp="yes">(?-i)bien-être|budget|commerce|logement|redéploiement|revenu|travail</token></marker>
         </pattern>
         <message>L’usage veut que l’on mette une majuscule à la désignation du ou des domaines que gère le ministère.</message>
-        <suggestion><match no="3" case_conversion="startupper"/></suggestion>
+        <suggestion><match no="4" case_conversion="startupper"/></suggestion>
         <example correction="Budget">Le ministre du <marker>budget</marker>.</example>
+        <example correction="Budget">Le ministre italien du <marker>budget</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">ministres?|ministères?</token>
+          <token min="0" max="1" postag_regexp="yes" postag="J [me] .*"/>
           <token>de</token>
           <token>l</token>
           <token regexp="yes">[’´'‛′‘]</token>
           <marker><token regexp="yes">(?-i)action|agriculture|aménagement|écologie|économie|éducation|emploie|énergie|enseignement|environnement|équipement|industrie|intérieur|outre-mer|urbanisme</token></marker>
         </pattern>
         <message>L’usage veut que l’on mette une majuscule à la désignation du ou des domaines que gère le ministère.</message>
-        <suggestion><match no="5" case_conversion="startupper"/></suggestion>
+        <suggestion><match no="6" case_conversion="startupper"/></suggestion>
         <example correction="Éducation">Le ministères de l’<marker>éducation</marker>.</example>
+        <example correction="Éducation">Le ministères italien de l’<marker>éducation</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">ministres?|ministères?</token>
+          <token min="0" max="1" postag_regexp="yes" postag="J [me] .*"/>
           <token>de</token>
           <token>la</token>
           <marker><token regexp="yes">(?-i)culture|cohésion|coopération|défense|guerre|jeunesse|justice|mer|recherche|santé|solidarité|transition|ville</token></marker>
         </pattern>
         <message>L’usage veut que l’on mette une majuscule à la désignation du ou des domaines que gère le ministère.</message>
-        <suggestion><match no="4" case_conversion="startupper"/></suggestion>
+        <suggestion><match no="5" case_conversion="startupper"/></suggestion>
         <example correction="Justice">Le ministère de la <marker>justice</marker>.</example>
+        <example correction="Justice">Le ministre italien de la <marker>justice</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="NORD_SUD" name="Majuscules aux points cardinaux">
