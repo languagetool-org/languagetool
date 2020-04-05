@@ -30313,6 +30313,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction='amb tot i això'><marker>tot i amb això</marker></example>
             <example>Amb tot i amb això, se'n van sortir</example>
         </rule>
+        <rule id="TOT_I_AMB_TOT" name="tot i amb tot">
+            <pattern>
+                <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <marker>
+                   <token>tot</token>
+                   <token>i</token>
+                   <token>amb</token>
+                   <token>tot</token>
+                </marker>
+            </pattern>
+            <message>Com a locució adversativa s'escriu <suggestion>tot amb tot</suggestion>.</message>
+            <suggestion>amb tot</suggestion>
+            <suggestion>amb tot i això</suggestion>
+            <example correction='Tot amb tot|Amb tot|Amb tot i això'><marker>Tot i amb tot</marker></example>
+            <example>Ho volia tot i amb tot de facilitats.</example>
+        </rule>
         <rulegroup id="LO_NEUTRE" name="«lo» neutre" type="grammar">
             <!-- es podria fer una llista molt més completa de solucions-->
             <rule>
