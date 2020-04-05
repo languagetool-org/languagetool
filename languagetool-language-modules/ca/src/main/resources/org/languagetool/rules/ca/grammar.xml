@@ -81,7 +81,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY sigles_apostrofen "(?-i)MI5|MI6|FM|FP|FBI|FMI|IEC|IES|IEA|NBA|NBC|SPD|FTP|F1|IAE|LSD|FDP|FMLN|IPC|IRA|IRPF|NPD|SME|SMI|SPLA|Spartak?|XML|UNICEF">
     <!ENTITY sigles_no_apostrofen "(?-i)SGAE|FNAC|ITV|Scala">
     <!ENTITY apostrofen_ela "Sporting|statu|scherzos?|ftalats?|snacks?|Stradivarius">
-    <!ENTITY unitats "mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|[£€$]">
+    <!ENTITY unitats "mm|cm|dm|m|km|d|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|K|pts|ptes|[£€$]|(mm|cm|dm|m|km)[23²³]">
     <!ENTITY unitats_temps "segon|minut|hora|dia|setmana|mes|(tri|quadri|se)mestre|any|lustre|dècada|decenni|segle|mil·lenni|mil·lenari">
     <!ENTITY verbs_no_apostrofen "halar|ioditzar|iotitzar|iodurar|iodar|hackejar">
     <!ENTITY verbs_no_intrans_consonant "felicitar|perjudicar|concernir|cansar|sorprendre"> <!--|preocupar|molestar-->
@@ -28833,6 +28833,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" regexp_match="((\d[\d.,]+)?\d+)(&unitats;)" regexp_replace="$1&#8239;$3"/></suggestion>
             <example correction="33,4&#8239;km">Hi ha <marker>33,4km</marker>.</example>
             <example correction="100&#8239;€">Costa <marker>100€</marker>.</example>
+            <example correction="13.000&#8239;km2"><marker>13.000km2</marker></example>
             <example>De l'11M.</example>
             <example>És dels anys 50s.</example>
         </rule>
