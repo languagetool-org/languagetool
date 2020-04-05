@@ -47,6 +47,8 @@ public class AccentuationCheckRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertCorrect("L'article primer estipula que és així.");
+    assertCorrect("L'article 1 estipula que és així.");
     assertCorrect("L'informe estipula que ha de ser així.");
     assertCorrect("Si presencies males pràctiques en la botiga.");
     assertCorrect("—I continues mantenint que això va succeir");
