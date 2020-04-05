@@ -390,6 +390,8 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("a vegades", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("Encanvi"));
         assertEquals("En canvi", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("Nosé"));
+        assertEquals("No sé", matches[0].getSuggestedReplacements().get(0));
         
         //Ela geminada 
         matches = rule.match(langTool.getAnalyzedSentence("La sol•licitud"));
