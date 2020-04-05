@@ -1926,13 +1926,8 @@ though, and has since been slightly modified)-->
         <example correction="sont">Ils <marker>son</marker> ici.</example>
       </rule>
       <rule>
-        <antipattern>
-            <token>de</token>
-            <token>son</token>
-            <token>côté</token>
-        </antipattern>
         <pattern>
-          <token negate="yes" regexp="yes">au|le|du|un|bande|même</token>
+          <token negate="yes" regexp="yes">au|le|d[eu]|un|bande|même</token>
           <marker><token>son</token></marker>
           <token postag="[VR].*|P" postag_regexp="yes"><exception postag="[NJ] .*" postag_regexp="yes"/></token>
         </pattern>
@@ -1944,6 +1939,7 @@ though, and has since been slightly modified)-->
         <example>Son indigne frère</example>
         <example>Au son de la voix</example>
         <example>Même son de cloche</example>
+        <example>60 % de son plein potentiel.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ET_BIEN" name="ET BIEN au lieu de EH BIEN">
