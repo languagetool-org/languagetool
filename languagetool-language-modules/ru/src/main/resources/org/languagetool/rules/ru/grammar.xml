@@ -2480,13 +2480,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception negate_pos="yes" postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
                             <exception regexp="yes" inflected="yes">пойти|давать|идти|брать|воровать|быть|делать|сделать</exception>
-                            <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|«|--|чего|если</exception>
+                            <exception scope="next" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|не|и|или|«|--|чего|если|что</exception>
                             <exception scope="next" postag_regexp="yes" postag="INTERJECTION|VB:INF:.*"></exception>
                         </token>
                         <token postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes">
                             <exception negate_pos="yes" postag="VB:(Real|IMP|Fut):.*:.*" postag_regexp="yes" />
                             <exception regexp="yes">Бил|МОК</exception>
-                            <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|«|не|и|или|если</exception>
+                            <exception scope="previous" regexp="yes">;|:|[\p{Punct}]|-|[,]|–|—|«|не|и|или|если|что</exception>
                             <exception scope="previous" postag_regexp="yes" postag="PREP|INTERJECTION|VB:INF:.*"></exception>
                         </token>
                     </unify>
@@ -2500,6 +2500,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Покрась и побели забор.</example>
                 <example>Я, может, скоро сдамся и вместо этого пойду вздремну.</example>
                 <example>Я сделаю всё что могу.</example>
+                 <example>Он подробно описывает что происходит в данный момент.</example>
                 <example>Иди помоги мыть посуду.</example>
                 <example correction="смеётся, радуется|смеётся и радуется">Он <marker>смеётся радуется</marker> жизни.</example>
             </rule>                                                                                                      
@@ -4836,16 +4837,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="Comma_Chtobi_2VERB" name="Запятая в предложении со «чтобы»">
             <pattern> 
                 <token>Чтобы</token>
-                <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes" /><exception regexp="yes" scope="next">[,;-—]</exception><exception inflected="yes" >быть</exception></token>
+                <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes" /><exception regexp="yes" scope="next">[,;-—(]</exception><exception inflected="yes" >быть</exception></token>
                 <or>
-                    <token regexp="yes">нужен|нужно|необходимо|достаточно<exception regexp="yes" scope="previous">[,;:–-—]</exception></token>
-                    <token postag="VB:.*" postag_regexp="yes" ><exception  postag="VB:INF:.*" postag_regexp="yes" /><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes" /><exception regexp="yes" scope="previous">[,;:–-—]</exception></token>
+                    <token regexp="yes">нужен|нужно|необходимо|достаточно<exception regexp="yes" scope="previous">[,;:–-—(]</exception></token>
+                    <token postag="VB:.*" postag_regexp="yes" ><exception  postag="VB:INF:.*" postag_regexp="yes" /><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes" /><exception regexp="yes" scope="previous">[,;:–-—(]</exception></token>
                  </or>
             </pattern>
             <message>Требуется запятая до конца предложения.</message>
             <short>Требуется запятая</short>
             <example correction=""><marker>Чтобы полететь на луну нужен</marker> корабль.</example>
             <example>Чтобы полететь на луну, нужен корабль.</example>
+            <example>Чтобы закончить раньше (если вы не хотите).</example>
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Типографика">     
@@ -8440,7 +8442,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="temp_off" name="Инфинитив вместо личной формы глагола (тест)">
+        <rule id="Verb_INF_OR_3P_2" default="off" name="Инфинитив вместо личной формы глагола (тест)">
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
