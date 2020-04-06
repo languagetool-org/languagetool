@@ -149,6 +149,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Lagekosten",
           "hineinfeiern",
           "Maskenhersteller", // vs Marken
+          "Wabendesign",  // vs. Marken
           "Maskenherstellers",
           "Maskenherstellern",
           "Firmenvokabular",
