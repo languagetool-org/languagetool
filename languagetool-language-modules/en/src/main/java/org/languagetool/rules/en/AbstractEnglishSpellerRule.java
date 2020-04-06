@@ -370,6 +370,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("sinc", Arrays.asList("sync"));
     s.put("sweety", Arrays.asList("sweetie"));
     s.put("sweetys", Arrays.asList("sweeties"));
+    s.put("sowwy", Arrays.asList("sorry"));
+    s.put("Sowwy", Arrays.asList("Sorry"));
     s.put("Hongkong", Arrays.asList("Hong Kong"));
     // For non-US English
     s.put("center", Arrays.asList("centre"));
