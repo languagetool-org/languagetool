@@ -31,7 +31,7 @@ import org.languagetool.JLanguageTool;
  * load class do always use {@link JLanguageTool#getClassBroker()}
  * which provides proper method for loading classes.
  *
- * @since 4.9
+ * @since 5.0
  */
 public interface ClassBroker {
     /**

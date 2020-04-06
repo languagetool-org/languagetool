@@ -118,7 +118,7 @@ public interface ResourceDataBroker {
    * Get from resource broker by a path file
    * @param path Path to an item
    * @return An {@link URL} object to the requested item
-   * @since 4.9
+   * @since 5.0
    */
   URL getAsURL(String path);
 
@@ -158,7 +158,7 @@ public interface ResourceDataBroker {
    * @param baseName the base name of the resource bundle, a fully qualified class name
    * @param locale the locale for which a resource bundle is desired
    * @return a resource bundle for the given base name and locale
-   * @since 4.9
+   * @since 5.0
    */
   ResourceBundle getResourceBundle(String baseName, Locale locale);
 }
