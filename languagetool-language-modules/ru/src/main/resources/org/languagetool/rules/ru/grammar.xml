@@ -8865,6 +8865,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">к|ко</token>
                 <token postag="ADJ:.*:.*|SENT_END|PARA_END" postag_regexp="yes">
                     <exception postag="ADJ:.*:D" postag_regexp="yes"></exception>
+                    <exception inflected="yes">такой</exception>
                     <exception postag="ADJ:Short:.*|ADJ:Comp" postag_regexp="yes"></exception>
                     <exception postag="ADJ:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
@@ -8873,6 +8874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется дательный падеж.</short>
             <example>Он подошёл к зелёному дому.</example>
+            <example>Это относится к такого рода обещаниям.</example>
             <example correction="к зелёному|зелёный">Он подошёл <marker>к зелёный</marker> дому.</example>
         </rule>
         <rulegroup default="on" id="PREP_K_and_Num" name="Предлог «к» и числительное">
@@ -9229,8 +9231,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Он рассказывал про путешествие.</example>
         </rule>
         <rule id="PREP_Za_And_Noun" name="Предлог «за» и существительное">
+            <antipattern>
+                <token  regexp="yes" >что|из</token>
+                <marker>
+                    <token>за</token>
+                    <token postag="NN:.*:.*:.*" postag_regexp="yes"></token>    
+                </marker>
+            </antipattern>    
             <pattern>
-                <token>за<exception scope="previous" >что</exception></token>
+                <token>за<exception scope="previous" >что|из</exception></token>
                 <token postag="NN:.*:.*:.*" postag_regexp="yes">
                     <exception postag="NN:.*:.*:.*:T" postag_regexp="yes" />
                     <exception postag="NN:.*:.*:.*:V" postag_regexp="yes" />
@@ -9244,6 +9253,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Творительный или винительный падеж.</short>
             <example correction=""><marker>За весе</marker>.</example>
             <example>Он был за домом.</example>
+            <example>Однако из за уменьшения габаритов и веса комплектующих</example>  <!-- incorrect example, but for another rule -->
         </rule>
         <rule id="PREP_Na_And_Noun" name="Предлог «на» и существительное" default="temp_off">
             <pattern>
