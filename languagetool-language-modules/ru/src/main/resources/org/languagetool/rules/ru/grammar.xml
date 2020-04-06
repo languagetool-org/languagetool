@@ -9253,6 +9253,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Творительный или винительный падеж.</short>
             <example correction=""><marker>За весе</marker>.</example>
             <example>Он был за домом.</example>
+    <!--    <example>Я спросил, что это за вода.</example>  --> <!-- check disambig -->
             <example>Однако из за уменьшения габаритов и веса комплектующих</example>  <!-- incorrect example, but for another rule -->
         </rule>
         <rule id="PREP_Na_And_Noun" name="Предлог «на» и существительное" default="temp_off">
@@ -9261,6 +9262,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NN:.*:.*:.*" postag_regexp="yes">
                     <exception postag="NN:.*:.*:.*:V" postag_regexp="yes" />
                     <exception postag="NN:.*:.*:.*:P" postag_regexp="yes" />
+                    <exception regexp="yes" >дню|счету|счет|счёт</exception>
                     <exception postag="NN:.*:.*:.*:.*" postag_regexp="yes" negate_pos="yes" />
                 </token>
             </pattern>
@@ -9269,6 +9271,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Винительный или предложный падеж.</short>
             <example correction=""><marker>На резками</marker>.</example>
             <example>Кошка прыгнула на коврик.</example>
+            <example>Он молится несколько раз на дню.</example>
         <!--   <example>На Маврикия прилетают грачи.</example>  TODO  -->
         </rule>
         <rule id="PREP_Ob_And_Noun" name="Предлог «об» и существительное">
