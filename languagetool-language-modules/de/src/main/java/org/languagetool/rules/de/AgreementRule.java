@@ -18,13 +18,6 @@
  */
 package org.languagetool.rules.de;
 
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csToken;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +45,8 @@ import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
+
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 /**
  * Simple agreement checker for German noun phrases. Checks agreement in:
@@ -97,6 +92,26 @@ public class AgreementRule extends Rule {
     Arrays.asList(  // "jenes Weges, den die Tausenden Juden 1945 ..."
       token("die"),
       token("Tausenden"),
+      posRegex("SUB:.*PLU.*")
+    ),
+    Arrays.asList(  // "... andere erfreut Tennis."
+      regex("andere"),
+      posRegex("VER:PA2.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "... größeren Bekanntheitsgrad in der Bevölkerung als jeder andere Kandidat vor ihm"
+      regex("jede[mnrs]?"),
+      regex("anderen?"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "... ist des anderen Freiheitskämpfer"
+      token("des"),
+      token("anderen"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "... eine bessere Behandlung als andere Gefangene."
+      token("als"),
+      token("andere"),
       posRegex("SUB:.*PLU.*")
     ),
     Arrays.asList(  // "was sein Klient für ein Mensch sei"
@@ -175,7 +190,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(
       token("für"),
-      tokenRegex("(viele|alle|[dm]ich|ihn|sie|uns)"),
+      tokenRegex("(viele|alle|[dm]ich|ihn|sie|uns|andere)"),
       posRegex("ADJ:AKK:.*")  // "Ein für viele wichtiges Anliegen."
     ),
     Arrays.asList(
