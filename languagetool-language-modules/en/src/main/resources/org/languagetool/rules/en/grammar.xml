@@ -18497,12 +18497,12 @@ USA
             <antipattern case_sensitive="yes">
                 <token>Johns</token>
                 <token>Hopkins</token>
-                <token regexp="yes">University|Hospital|School</token>
+                <token regexp="yes">University|Hospital|School|Center|CSSE</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">Johns?</token>
                 <token regexp="yes">Hopkins?</token>
-                <token regexp="yes">University|Hospital|School</token>
+                <token regexp="yes">University|Hospital|School|Center|CSSE</token>
             </pattern>
             <message>Did you mean the name <suggestion>Johns Hopkins <match no="3" case_conversion="startupper" /></suggestion>?</message>
             <url>https://en.wikipedia.org/wiki/Johns_Hopkins_Hospital</url>
@@ -18638,15 +18638,6 @@ USA
                 <example correction="Super Tuesday">He participates in the <marker>super tuesday</marker> polls.</example>
             </rule>
         </rulegroup>
-        <rule id="MAC_OS_X" name="MacOS X (Mac OS X)">
-            <pattern>
-                <token>MacOS</token>
-                <token>X</token>
-            </pattern>
-            <message>Did you mean <suggestion>Mac OS X</suggestion>?</message>
-            <url>https://en.wikipedia.org/wiki/MacOS#Release_history</url>
-            <example correction="Mac OS X"><marker>MacOS X</marker> is an operating system.</example>
-        </rule>
         <rule id="EARL_GREY" name="Earl Grey">
             <antipattern case_sensitive="yes">
                 <token>Earl</token>
@@ -41535,6 +41526,17 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rule id="BEGONE_BEGUN" name="begone (begun)" default="temp_off">
+            <pattern>
+                <token inflected="yes">have</token>
+                <token postag="RB" min="0" />
+                <marker>
+                    <token>begone</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>begun</suggestion> (= past participle of 'begin')?</message>
+            <example correction="begun">I rushed to get to class on time, but the lesson had already <marker>begone</marker>.</example>
+        </rule>
         <rule id="PARE_PAIR" name="a pare (pair) of">
             <pattern>
                 <token regexp="yes">an?|the|my|his|her|y?our|their|its</token>
@@ -51441,28 +51443,25 @@ The accident victim died from her injuries.
             <example correction="days when">Do you remember the happy <marker>days where</marker> we were together</example>
         </rule>
         <rulegroup id="MAC_OS" name="Mac OS (macOS)">
-            <antipattern>
-                <token>Mac</token>
-                <token>OS</token>
-                <token>X</token>
-            </antipattern>
-            <antipattern>
-                <token>MacOS</token>
-                <token>X</token>
-            </antipattern>
-            <antipattern>
-                <token>Mac</token>
-                <token>OS</token>
-                <token regexp="yes">\d</token>
-            </antipattern>
-            <antipattern>
-                <token>Mac</token>
-                <token>OS</token>
-                <token>10</token>
-                <token>.</token>
-                <token regexp="yes">[0-9]|10|11</token>
-            </antipattern>
             <rule>
+                <antipattern>
+                    <token>Mac</token>
+                    <token>OS</token>
+                    <token>X</token>
+                </antipattern>
+
+                <antipattern>
+                    <token>Mac</token>
+                    <token>OS</token>
+                    <token regexp="yes">\d</token>
+                </antipattern>
+                <antipattern>
+                    <token>Mac</token>
+                    <token>OS</token>
+                    <token>10</token>
+                    <token>.</token>
+                    <token regexp="yes">[0-9]|10|11</token>
+                </antipattern>
                 <pattern>
                     <token>mac</token>
                     <token>
@@ -51478,8 +51477,12 @@ The accident victim died from her injuries.
                     <token postag="SENT_START" />
                     <token>MacOS</token>
                 </antipattern>
+                <antipattern>
+                    <token>MacOS</token>
+                    <token>X</token>
+                </antipattern>
                 <antipattern case_sensitive="yes">
-                    <token>macOS</token>
+                    <token regexp="yes">macOS|MACOS</token>
                 </antipattern>
                 <pattern>
                     <token>
@@ -51490,6 +51493,15 @@ The accident victim died from her injuries.
                 <url>https://en.wikipedia.org/wiki/MacOS</url>
                 <example correction="macOS">Do you prefer Windows or <marker>MacOS</marker>?</example>
                 <example>MacOS updates were failing.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>MacOS</token>
+                    <token>X</token>
+                </pattern>
+                <message>Did you mean <suggestion>Mac OS X</suggestion>?</message>
+                <url>https://en.wikipedia.org/wiki/MacOS#Release_history</url>
+                <example correction="Mac OS X"><marker>MacOS X</marker> is an operating system.</example>
             </rule>
         </rulegroup>
       <rulegroup id="PROFANITY" name="Profanity">
