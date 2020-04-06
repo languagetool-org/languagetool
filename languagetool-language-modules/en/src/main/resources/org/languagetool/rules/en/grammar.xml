@@ -10114,6 +10114,27 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="BATTER_BETTER" name="batter (better)" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/better</url>
+            <rule>
+                <pattern>
+                    <token>batter</token>
+                    <token>than</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="(?i)atter" regexp_replace="etter" /> \2</suggestion>?</message>
+                <example correction="better than">This season, Playing Football is <marker>batter than</marker> cricket.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">much|lot|i?s|a?m|a?re|was|were|been</token>
+                    <marker>
+                        <token>batter</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="2" regexp_match="(?i)atter" regexp_replace="etter" /></suggestion>?</message>
+                <example correction="better">He won all three games, so I think he is <marker>batter</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="WE_UNDER_APPRECIATE" name="under appreciate (underappreciate)">
             <antipattern>
                 <token>down</token>
@@ -10962,27 +10983,27 @@ USA
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[Ss]he|[Hh]e|[Ii]t</token>
+                        <token regexp="yes">not|very|really|totally|absolutely|also|so|an?|the</token>
+                        <token postag="JJ.*" postag_regexp="yes">
+                            <exception postag="VB[PZD]?|MD|RB.*|CC" postag_regexp="yes" />
+                            <exception regexp="yes">(?!(&adjectives_with_ing;)).{2,}ing</exception>
+                        </token>
                     </marker>
-                    <token regexp="yes">not|very|really|totally|absolutely|also|so|an?|the</token>
-                    <token postag="JJ.*" postag_regexp="yes">
-                        <exception postag="VB[PZD]?|MD|RB.*|CC" postag_regexp="yes" />
-                        <exception regexp="yes">(?!(&adjectives_with_ing;)).{2,}ing</exception>
-                    </token>
                 </pattern>
                 <message>It seems that a verb is missing after "\1". Please verify.</message>
-                <suggestion>\1 is</suggestion>
-                <suggestion>\1 was</suggestion>
-                <example correction="It is|It was"><marker>It</marker> very easy.</example>
-                <example correction="It is|It was"><marker>It</marker> also good source to farm snotstones.</example>
-                <example correction="It is|It was"><marker>It</marker> the variable scope.</example>
-                <example correction="She is|She was"><marker>She</marker> the perfect replacement for Kraken in those Justice and Mab teams!</example>
-                <example correction="he is|he was">He was not performing good, but <marker>he</marker> very active.</example>
-                <example correction="He is|He was"><marker>He</marker> a racist and a fascist as the article mentions.</example>
-                <example correction="It is|It was"><marker>It</marker> also worth pointing out that this is not new information.</example>
-                <example correction="it is|it was">A pipe bender would be best, not sure if <marker>it</marker> a free loan from a parts store.</example>
-                <example correction="it is|it was">Hey, <marker>it</marker> a good day to die for the cause!</example>
-                <example correction="It is|It was"><marker>It</marker> a little bit of a muddy area.</example>
-                <example correction="it is|it was">I don’t know if <marker>it</marker> a good idea.</example>
+                <suggestion>\1 is \2 \3</suggestion>
+                <suggestion>\1 was \2 \3</suggestion>
+                <example correction="It is very easy|It was very easy"><marker>It very easy</marker>.</example>
+                <example correction="It is also good|It was also good"><marker>It also good</marker> source to farm snotstones.</example>
+                <example correction="It is the variable|It was the variable"><marker>It the variable</marker> scope.</example>
+                <example correction="She is the perfect|She was the perfect"><marker>She the perfect</marker> replacement for Kraken in those Justice and Mab teams!</example>
+                <example correction="he is very active|he was very active">He was not performing good, but <marker>he very active</marker>.</example>
+                <example correction="He is a racist|He was a racist"><marker>He a racist</marker> and a fascist as the article mentions.</example>
+                <example correction="It is also worth|It was also worth"><marker>It also worth</marker> pointing out that this is not new information.</example>
+                <example correction="it is a free|it was a free">A pipe bender would be best, not sure if <marker>it a free</marker> loan from a parts store.</example>
+                <example correction="it is a good|it was a good">Hey, <marker>it a good</marker> day to die for the cause!</example>
+                <example correction="It is a little|It was a little"><marker>It a little</marker> bit of a muddy area.</example>
+                <example correction="it is a good|it was a good">I don’t know if <marker>it a good</marker> idea.</example>
                 <example type="triggers_error">She the attached images for the zen and the lamp in the iOS Alexa app.</example>
                 <example>“Call it the bedroom light.”</example><!-- #2518 -->
                 <example>This all makes it a more convenient number system.</example><!-- #2523 -->
@@ -11014,45 +11035,45 @@ USA
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[Ss]he|[Hh]e|[Ii]t</token>
+                        <token postag="JJ.*" postag_regexp="yes">
+                            <exception postag="VB[PZD]?|MD|RB.*|CC" postag_regexp="yes" />
+                            <exception regexp="yes">(?!(&adjectives_with_ing;)).{2,}ing</exception>
+                        </token>
                     </marker>
-                    <token postag="JJ.*" postag_regexp="yes">
-                        <exception postag="VB[PZD]?|MD|RB.*|CC" postag_regexp="yes" />
-                        <exception regexp="yes">(?!(&adjectives_with_ing;)).{2,}ing</exception>
-                    </token>
                 </pattern>
                 <message>It seems that a verb is missing after "\1". Please verify.</message>
-                <suggestion>\1 is</suggestion>
-                <suggestion>\1 was</suggestion>
-                <example correction="He is|He was"><marker>He</marker> afraid of them.</example>
-                <example correction="He is|He was"><marker>He</marker> good.</example>
-                <example correction="She is|She was"><marker>She</marker> amazing.</example>
-                <example correction="it is|it was">This may not be worth all the work it takes to get it right, but <marker>it</marker> worth knowing about: Of course you might not like the form factor, it's different than what you have.</example>
-                <example correction="It is|It was"><marker>It</marker> easy to tell the difference.</example>
-                <example correction="it is|it was">I just want a keypad for using as an entry and exit to turn on and off the alarm to do away with the presence sensors that <marker>it</marker> unreliable.</example>
-                <example correction="It is|It was"><marker>It</marker> normal to see activity once or twice and hour.</example>
-                <example correction="it is|it was">I don’t have any experience with React so I can’t really tell if <marker>it</marker> worse or better than Vue.js.</example>
-                <example correction="it is|it was">But indeed, it is not certain <marker>it</marker> worth the effort.</example>
-                <example correction="it is|it was">I dont know, <marker>it</marker> pathetic.</example>
-                <example correction="it is|it was">So people stop reporting because <marker>it</marker> useless and the annoyance grows.</example>
-                <example correction="It is|It was"><marker>It</marker> more flexible than celestial.</example>
-                <example correction="It is|It was"><marker>It</marker> mighty hard to please everyone.</example>
-                <example correction="it is|it was">How <marker>it</marker> possible?</example><!-- TODO: needs different rule -->
-                <example correction="It is|It was"><marker>It</marker> more on the passenger side.</example>
-                <example correction="it is|it was">Determine if <marker>it</marker> worth servicing further.</example>
-                <example correction="it is|it was">If <marker>it</marker> one of those cheep low profile electric fans it may not be moving enough air.</example>
-                <example correction="it is|it was">Even if <marker>it</marker> beyond the 36,000 warranty, this is an emissions item that may be covered.</example>
-                <example correction="it is|it was">If <marker>it</marker> customizable what is the best way to customize it.</example>
-                <example correction="it is|it was">Being free to be of any religion one chooses as long as <marker>it</marker> Christian.</example>
-                <example correction="it is|it was">Perhaps but frankly at its current rate <marker>it</marker> safe to say that 2019 will continue this trend.</example>
-                <example correction="it is|it was">Would be ideal <marker>it</marker> manual adjustment were locked down?</example><!-- TODO: needs different rule -->
-                <example correction="It is|It was"><marker>It</marker> difficult to see it because it’s on the top right corner.</example>
-                <example correction="it is|it was">I really don’t do anything with the LUX portion, so I rarely look at it but maybe I should as a example when front open if <marker>it</marker> dark then light comes on.</example>
-                <example correction="it is|it was">But it’s information that I know everyone exchanges, and <marker>it</marker> useful for us to know in case.</example>
-                <example correction="It is|It was"><marker>It</marker> possible the “mirror behavior” automation also has a “turn on as well” action.</example>
-                <example correction="it is|it was">In Portugal, so <marker>it</marker> easy to order anything from Europe and China.</example>
-                <example correction="it is|it was">You can use Alexa with the Iris GDOs, you have to setup virtual switches but <marker>it</marker> easy to do and works well.</example>
-                <example correction="it is|it was">So couple of things, do you want it when <marker>it</marker> sunny outside or just when it hits your window.</example>
-                <example correction="she is|she was">Before the game starts <marker>she</marker> unable to read all instructions and user agreements.</example>
+                <suggestion>\1 is \3</suggestion>
+                <suggestion>\1 was \3</suggestion>
+                <example correction="He is afraid|He was afraid"><marker>He afraid</marker> of them.</example>
+                <example correction="He is good|He was good"><marker>He good</marker>.</example>
+                <example correction="She is amazing|She was amazing"><marker>She amazing</marker>.</example>
+                <example correction="it is worth|it was worth">This may not be worth all the work it takes to get it right, but <marker>it worth</marker> knowing about: Of course you might not like the form factor, it's different than what you have.</example>
+                <example correction="It is easy|It was easy"><marker>It easy</marker> to tell the difference.</example>
+                <example correction="it is unreliable|it was unreliable">I just want a keypad for using as an entry and exit to turn on and off the alarm to do away with the presence sensors that <marker>it unreliable</marker>.</example>
+                <example correction="It is normal|It was normal"><marker>It normal</marker> to see activity once or twice and hour.</example>
+                <example correction="it is worse|it was worse">I don’t have any experience with React so I can’t really tell if <marker>it worse</marker> or better than Vue.js.</example>
+                <example correction="it is worth|it was worth">But indeed, it is not certain <marker>it worth</marker> the effort.</example>
+                <example correction="it is pathetic|it was pathetic">I dont know, <marker>it pathetic</marker>.</example>
+                <example correction="it is useless|it was useless">So people stop reporting because <marker>it useless</marker> and the annoyance grows.</example>
+                <example correction="It is more|It was more"><marker>It more</marker> flexible than celestial.</example>
+                <example correction="It is mighty|It was mighty"><marker>It mighty</marker> hard to please everyone.</example>
+                <example correction="it is possible|it was possible">How <marker>it possible</marker>?</example><!-- TODO: needs different rule -->
+                <example correction="It is more|It was more"><marker>It more</marker> on the passenger side.</example>
+                <example correction="it is worth|it was worth">Determine if <marker>it worth</marker> servicing further.</example>
+                <example correction="it is one|it was one">If <marker>it one</marker> of those cheep low profile electric fans it may not be moving enough air.</example>
+                <example correction="it is beyond|it was beyond">Even if <marker>it beyond</marker> the 36,000 warranty, this is an emissions item that may be covered.</example>
+                <example correction="it is customizable|it was customizable">If <marker>it customizable</marker> what is the best way to customize it.</example>
+                <example correction="it is Christian|it was Christian">Being free to be of any religion one chooses as long as <marker>it Christian</marker>.</example>
+                <example correction="it is safe|it was safe">Perhaps but frankly at its current rate <marker>it safe</marker> to say that 2019 will continue this trend.</example>
+                <example correction="it is manual|it was manual">Would be ideal <marker>it manual</marker> adjustment were locked down?</example><!-- TODO: needs different rule -->
+                <example correction="It is difficult|It was difficult"><marker>It difficult</marker> to see it because it’s on the top right corner.</example>
+                <example correction="it is dark|it was dark">I really don’t do anything with the LUX portion, so I rarely look at it but maybe I should as a example when front open if <marker>it dark</marker> then light comes on.</example>
+                <example correction="it is useful|it was useful">But it’s information that I know everyone exchanges, and <marker>it useful</marker> for us to know in case.</example>
+                <example correction="It is possible|It was possible"><marker>It possible</marker> the “mirror behavior” automation also has a “turn on as well” action.</example>
+                <example correction="it is easy|it was easy">In Portugal, so <marker>it easy</marker> to order anything from Europe and China.</example>
+                <example correction="it is easy|it was easy">You can use Alexa with the Iris GDOs, you have to setup virtual switches but <marker>it easy</marker> to do and works well.</example>
+                <example correction="it is sunny|it was sunny">So couple of things, do you want it when <marker>it sunny</marker> outside or just when it hits your window.</example>
+                <example correction="she is unable|she was unable">Before the game starts <marker>she unable</marker> to read all instructions and user agreements.</example>
                 <example>Wasn’t it arbitrary?</example>
                 <example>Ain't she cute?</example>
                 <example>Please send me it on Facebook.</example>
@@ -11112,15 +11133,15 @@ USA
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[Ww]e</token>
+                        <token postag="RB" min="0" />
+                        <token regexp="yes">
+                            sorry|thankful|happy|glad|(un)?able|good|hungry|certain
+                        </token>
                     </marker>
-                    <token postag="RB" min="0" />
-                    <token regexp="yes">
-                        sorry|thankful|happy|glad|(un)?able|good|hungry|certain
-                    </token>
                     <token regexp="yes">to|about|that|for|\.|\!|\,</token>
                 </pattern>
-                <message>Did you mean <suggestion>\1 are</suggestion> or <suggestion>\1 were</suggestion>?</message>
-                <example correction="We are|We were"><marker>We</marker> unable to do it.</example>
+                <message>Did you mean <suggestion>\1 are \2 \3</suggestion> or <suggestion>\1 were \2 \3</suggestion>?</message>
+                <example correction="We are unable|We were unable"><marker>We unable</marker> to do it.</example>
                 <example>Are we able to do this?</example>
             </rule>
             <rule><!-- "We afraid" -->
@@ -11973,7 +11994,7 @@ USA
             </antipattern>
             <antipattern><!-- nouns that are verbs when written as two words, needs different rule with suggestion (TODO!) -->
                 <token postag="MD" skip="2" />
-                <token regexp="yes">roll\-?over|take\-?away|take\-?up|write\-?off|mix\-?up|walk\-?in|bail\-?out|fill\-?in|give\-?away|pay\-?out|run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
+                <token regexp="yes">roll\-?over|take\-?away|take\-?up|write\-?off|mix\-?up|walk\-?in|bail\-?out|fill\-?in|give\-?away|pay\-?out|pay\-?off|pay\-?back|run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
             </antipattern>
             <antipattern case_sensitive="yes"><!-- A.I -->
                 <token regexp="yes">[A-Z]</token>
@@ -15052,7 +15073,7 @@ USA
                 <token regexp="yes">pits?</token>
             </antipattern>
             <antipattern><!-- https://en.wikipedia.org/wiki/Serie_A -->
-                <token regexp="yes">series?|angle|choice|plan|exhibit|part</token>
+                <token regexp="yes">series?|angle|choice|plan|exhibit|part|group</token>
                 <token>a</token>
             </antipattern>
             <antipattern><!-- https://en.equipauto.com/ -->
@@ -15241,6 +15262,7 @@ USA
                     <!-- Many of the excluded words are grammatically wrong but handled by different/better rules -->
                     <exception regexp="yes">cherry\-?pick|commit|remix|long-running|spend|merge|thank|add|create|re(map|store|place|quire|factor)|occupy|emotes?|Vex|am|humph</exception>
                     <exception>bach</exception><!-- informal noun in NZ: https://www.lexico.com/definition/bach -->
+                    <exception>GOOGLE</exception><!-- uppercase only tagged as VB, not sure why -->
                     <exception postag='VBP?|(SENT|PARA)_END' postag_regexp='yes' negate_pos='yes'/>
                 </token>
             </pattern>
@@ -15279,6 +15301,21 @@ USA
             <example>Python provides the bisect module.</example><!-- Copied from Premium #845 -->
             <example>It has been awhile since we put the mail feedbag on and had a munch.</example><!-- Copied from Premium #845 -->
             <example>AI and AN are also in line for this constructive disruption.</example>
+        </rule>
+        <rule id="THE_WELSH" name="the/a welsh (Welsh)" default="temp_off">
+            <pattern>
+                <token regexp="yes">the|an?|y?our|my|their|his|her|its|s</token>
+                <token postag="JJ.*" postag_regexp="yes" min="0">
+                    <exception>few</exception>
+                </token>
+                <marker>
+                    <token case_sensitive="yes">welsh</token>
+                </marker>
+            </pattern>
+            <message>Consider capitalizing this word if you want to describe something related to the country "Wales".</message>
+            <suggestion>Welsh</suggestion>
+            <url>https://www.lexico.com/definition/welsh</url>
+            <example correction="Welsh">The castle stands high above a crossing point of the river Wye, an area taken from the <marker>welsh</marker> by the Normans only in the late C11.</example>
         </rule>
         <rule id="A_SCISSOR" name="a scissor (scissors)">
             <antipattern>
@@ -15400,6 +15437,40 @@ USA
                 <example correction="China">I always wanted to visit <marker>china</marker></example>
             </rule>
         </rulegroup>
+
+        <rulegroup id="IN_LONG_BEACH" name="long beach (Long Beach)" default="temp_off">
+            <url>https://en.wikipedia.org/wiki/Long_Beach,_California</url>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Long|LONG</token>
+                <token regexp="yes">Beach|BEACH</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">in|from|to|of|at</token>
+                    <marker>
+                        <token>long</token>
+                        <token>beach</token>
+                    </marker>
+                </pattern>
+                <message>Capitalize this word if you mean the city in California.</message>
+                <suggestion>Long Beach</suggestion>
+                <example correction="Long Beach">I was born in <marker>long beach</marker></example>
+                <example>Wow, that's a long beach.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>long</token>
+                        <token>beach</token>
+                    </marker>
+                </pattern>
+                <message>Capitalize this word if you mean the city in California.</message>
+                <suggestion>Long Beach</suggestion>
+                <example correction="Long Beach"><marker>Long beach</marker> is a city in California.</example>
+            </rule>
+        </rulegroup>
+
         <rulegroup id="THE_POLISH" name="the polish (polish)">
             <url>https://www.merriam-webster.com/dictionary/Polish</url>
             <rule>
@@ -21188,7 +21259,7 @@ USA
                 <marker>
                     <token postag="RB">
                         <exception postag="JJ[RS]?|NN.*" postag_regexp="yes"/>
-                        <exception regexp="yes">not|after|before|approx|while</exception>
+                        <exception regexp="yes">not|after|before|approx|while|bit</exception>
                         <exception case_sensitive="yes">SO</exception>
                     </token>
                     <token postag="NN(:UN?)?" postag_regexp="yes">
@@ -34076,7 +34147,7 @@ USA
                         <token regexp="yes" spacebefore="yes">['"“]</token>
                         <token postag="DT" regexp="yes" spacebefore="no">
                             an?|the
-                            <exception regexp="yes" spacebefore="no" scope="next">['"“]</exception>
+                            <exception regexp="yes" spacebefore="no" scope="next">['"“”]</exception>
                         </token>
                     </marker>
                     <token><exception regexp="yes">'|\.</exception></token>
@@ -34086,6 +34157,7 @@ USA
                 <example correction="The|'An"><marker>The 'an</marker> international movie' is interesting.</example>
                 <example>The Thames was once a much broader river.</example>
                 <example>He received an "A".</example>
+                <example>It starts with an “A”.</example>
             </rule>
         </rulegroup>
         <rule id="DT_PRP" name="The you (you)">
@@ -35322,8 +35394,8 @@ USA
                         <token postag="JJ">
                            <exception postag="RB"/><!-- She is a very refined lady. -->
                            <exception regexp="yes">.*(st|nd|rd|th)</exception>
-                            <exception>only</exception>
-                            </token>
+                            <exception regexp="yes">only|very</exception>
+                        </token>
                         <token postag="VBN"/><!-- Including JJ in the token causes many FP. For now, keep the rule simple. -->
                     </marker>
                     <token postag_regexp="yes" postag="NN(S|:UN?)?">
@@ -35349,6 +35421,7 @@ USA
                 <example>Tom felt cold.</example>
                 <example>I waved good bye and then walked away.</example>
                 <example>Please come downstairs.</example>
+                <example>It was a very limited approach.</example>
                 <example>Lossless compressed audio format.</example><!-- compress/VBN,I-NP-singular] -->
                 <example>Lossy compressed audio format.</example><!-- compress/VBN,B-VP] -->
                 <example>... and a lossless compressed audio format.</example><!-- Compare: it's a common used tool. -->
@@ -43424,7 +43497,7 @@ The accident victim died from her injuries.
                 </antipattern>
                 <antipattern>
                     <token>due</token>
-                    <token regexp="yes">next|last|previous|this</token>
+                    <token regexp="yes">next|last|previous|this|every</token>
                     <token regexp="yes">week(end)?|month|year|&weekdays;|&months;</token>
                 </antipattern>
                 <antipattern>
@@ -43446,7 +43519,7 @@ The accident victim died from her injuries.
                     <token postag="SENT_START|TO" postag_regexp='yes'/>
                     <token>
                         due
-                    <exception scope='next' regexp='yes'>course|today|tomorrow|yesterday|dates?|diligence|for|on|process|regard|respect|to|the|:|&weekdays;|&months;</exception>
+                    <exception scope='next' regexp='yes'>course|today|tomorrow|tonight|yesterday|dates?|diligence|for|on|process|regard|respect|to|the|:|&weekdays;|&months;</exception>
                     </token>
                 </pattern>
                 <message>Did you mean to use the verb <suggestion>\1 do</suggestion>?</message>
@@ -47241,7 +47314,7 @@ The accident victim died from her injuries.
                     <exception postag="IN" /><!-- you're big on TV -->
                 </token>
                 <token postag="NN(:UN?)?|NNP?S" postag_regexp="yes">
-                    <exception postag="JJ"/>
+                    <exception postag="JJ.*" postag_regexp="yes" />
                     <exception regexp="yes">one|(some|every|any)(body|one)|still|right|in|kind|well|given|known|his</exception>
                     <exception case_sensitive="yes">german</exception>
                 </token>
@@ -47271,6 +47344,7 @@ The accident victim died from her injuries.
             <example>It depends whether you're known as ...</example>
             <example>You're home early.</example>
             <example>You're geniuses.</example>
+            <example>Because you're closer to him.</example>
             <example>You’re already hurt.</example>
             <example>You're on schedule.</example>
             <example>You're just idiots.</example>
@@ -50574,6 +50648,14 @@ The accident victim died from her injuries.
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rule id="BESTEST" name="bestest (best)">
+            <pattern>
+                <token>bestest</token>
+            </pattern>
+            <message>The word "\1" is informal. Consider using <suggestion>best</suggestion>.</message>
+            <url>https://www.merriam-webster.com/dictionary/bestest</url>
+            <example correction="best">He is my <marker>bestest</marker> friend.</example>
+        </rule>
         <rule id="BORED_OF" name="bored of (with)">
             <pattern>
                 <token>bored</token>
@@ -51637,14 +51719,6 @@ The accident victim died from her injuries.
         <example correction="Brother">He's my <marker>Bubba</marker>.</example>
     </rule>
     <rule>
-        <pattern>
-            <token>bestest</token>
-        </pattern>
-        <message>The word "\1" is informal. Consider using <suggestion>best</suggestion>.</message>
-        <url>https://www.merriam-webster.com/dictionary/bestest</url>
-        <example correction="best">He is my <marker>bestest</marker> friend.</example>
-    </rule>
-    <rule>
         <antipattern><!-- Popular name for a song, café, book, kindergarten -->
             <token regexp="yes">Mamas?</token>
             <token min="0" regexp="yes">&apostrophe;</token>
@@ -51712,14 +51786,6 @@ The accident victim died from her injuries.
         <suggestion>puppy</suggestion>
         <suggestion>pup</suggestion>
         <example correction="dog|puppy|pup">My <marker>doggy</marker> is barking.</example>
-    </rule>
-    <rule>
-        <pattern>
-            <token>sowwy</token>
-        </pattern>
-        <message>In some contexts, this is childish language. Consider using <suggestion>sorry</suggestion>.</message>
-        <suggestion>sorry</suggestion>
-        <example correction="Sorry"><marker>Sowwy</marker>, I made a mistake.</example>
     </rule>
   </rulegroup>
 
