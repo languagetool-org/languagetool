@@ -956,7 +956,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ESTAS_TILDE" name="estas/estás">
             <antipattern>
                 <token>estas</token>
-                <token min="1" max="4" postag="R.|A.*|V.P.*" postag_regexp="yes"/>
+                <token min="1" max="4" postag="R.|A.*|V.P.*|PP.*" postag_regexp="yes"/>
                 <token postag="V.[MSI].*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -979,6 +979,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Estas ahora no están.</example>
                 <example>Estas troncales son.</example>
                 <example>La acción de estas característica.</example>
+                <example>Estas siempre lo hacen.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -996,6 +997,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="estás">¿Cómo <marker>estas</marker>?</example>
                 <example>¿Como estas?</example>
                 <example>de cómo estas células se regulan</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>como</token>
+                    <token>estas</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>estas</token>
+                    </marker>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del verbo 'estar', lleva tilde.</message>
+                <suggestion>estás</suggestion>
+                <example correction="Estás">¿<marker>Estas</marker> haciéndolo?</example>
+                <example>Ejemplos de estas cantando.</example>
+                <example>Algunas como estas corriendo.</example>
             </rule>
         </rulegroup>
         <rulegroup id="VERBO_TILDE" name="Verbos con o sin tilde">
