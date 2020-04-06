@@ -1071,10 +1071,10 @@
         <pattern>
             <token><exception postag="PRP$"/><exception regexp="yes">the|a</exception></token>
             <marker>
-                <token>have</token>
+                <token regexp="yes" case_sensitive="yes">[Hh]ave|HAVE</token>
             </marker>
         </pattern>
-        <disambig><match no="1" postag_regexp="yes" postag="VB"/></disambig>
+        <disambig action="replace"><wd lemma="have" pos="VB"/></disambig>
     </rule>
     <rulegroup name="well + past participle -&gt; well + adjective" id="WELL_VBN">
         <rule>
