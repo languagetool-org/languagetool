@@ -19,7 +19,7 @@
 package org.languagetool;
 
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.broker.ResourceDataBroker;
 
 import java.util.*;
 

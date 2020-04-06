@@ -18,14 +18,12 @@
  */
 package org.languagetool.rules.spelling.morfologik;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.common.cache.*;
 import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
-import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 

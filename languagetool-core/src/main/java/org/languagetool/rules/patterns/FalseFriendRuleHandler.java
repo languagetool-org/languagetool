@@ -19,12 +19,8 @@
 package org.languagetool.rules.patterns;
 
 import org.apache.commons.lang3.StringUtils;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.CorrectExample;
-import org.languagetool.rules.IncorrectExample;
+import org.languagetool.*;
+import org.languagetool.rules.*;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -55,8 +51,8 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private String falseFriendHint;
 
   FalseFriendRuleHandler(Language textLanguage, Language motherTongue, String falseFriendHint) {
-    englishMessages = ResourceBundle.getBundle(JLanguageTool.MESSAGE_BUNDLE, Languages.getLanguageForShortCode("en").getLocale());
-    messages = ResourceBundle.getBundle(JLanguageTool.MESSAGE_BUNDLE, motherTongue.getLocale());
+    englishMessages = ResourceBundleTools.getMessageBundle(Languages.getLanguageForShortCode("en-US"));
+    messages = ResourceBundleTools.getMessageBundle(motherTongue);
     formatter = new MessageFormat("");
     formatter.setLocale(motherTongue.getLocale());
     this.textLanguage = textLanguage;

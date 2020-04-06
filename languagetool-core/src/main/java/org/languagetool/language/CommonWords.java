@@ -18,10 +18,8 @@
  */
 package org.languagetool.language;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.*;
+import org.languagetool.broker.ResourceDataBroker;
 
 import java.io.*;
 import java.util.*;
