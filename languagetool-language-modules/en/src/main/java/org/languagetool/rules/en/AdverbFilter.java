@@ -131,6 +131,10 @@ public class AdverbFilter extends RuleFilter {
     put("asynchronously", "asynchronous");
     put("fortunately", "fortunate");
     put("unfortunately", "unfortunate");
+    put("ideally", "ideal");
+    put("privately", "private");
+    put("reasonably", "reasonable");
+    put("forcibly", "forcible");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
