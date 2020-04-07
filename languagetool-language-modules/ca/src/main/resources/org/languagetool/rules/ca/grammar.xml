@@ -12771,17 +12771,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
-        <rule id="JA_INFINITIU" name="ja + infinitiu" default="temp_off">
+        <rule id="JA_INFINITIU" name="ja + infinitiu">
             <pattern>
                 <marker>
                     <token>ja<exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/><exception scope="previous" postag="V.[SI].*" postag_regexp="yes"/></token>
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </marker>
-                
             </pattern>
-            <message>Val més fer servir una altra expressió.</message>
+            <message>Possible confusió.</message>
+            <suggestion>va \2</suggestion>
             <suggestion>\1 va \2</suggestion>
-            <example correction="ja va advertir"><marker>ja advertir</marker> confirmar-ho.</example>
+            <example correction="va advertir|ja va advertir"><marker>ja advertir</marker> confirmar-ho.</example>
             <example>En el cas de ja existir.</example>
             <example>Poden ja estar presents.</example>
         </rule>
@@ -19980,14 +19980,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Només per vergonya, només per timidesa</example>
             </rule>
         </rulegroup>
-        <rule id="REPETICIO_INFINITIU" name="infinitiu repetit" default="temp_off">
+        <rule id="REPETICIO_INFINITIU" name="infinitiu repetit">
             <pattern>
                 <marker>
                     <token postag="V.N.*" postag_regexp="yes"/>
-                    <token postag="RG"><exception>com</exception></token>
-                    <token postag="V.N.*" postag_regexp="yes"/>
+                    <token postag="RG"><exception>com</exception><exception postag="SPS00"/></token>
+                    <token><match no="0"/></token>
                 </marker>
-                
             </pattern>
             <message>Possible repetició.</message>
             <suggestion>\1 \2</suggestion>
@@ -19995,6 +19994,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ser necessàriament|necessàriament ser">Ha de <marker>ser necessàriament ser</marker> així.</example>
             <example>Pensar com fer-ho.</example>
             <example>Poden ja estar presents.</example>
+            <example>Ha d'intentar llavors córrer.</example>
         </rule>
         <!-- <rule id="ELEMENTS_REPETITS" name="elements repetits: ja...ja, no...no">
             <pattern>
