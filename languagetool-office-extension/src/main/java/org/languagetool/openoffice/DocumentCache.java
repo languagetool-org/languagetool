@@ -19,9 +19,7 @@
 package org.languagetool.openoffice;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Class to store the Text of a LO document 

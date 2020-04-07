@@ -108,6 +108,7 @@ class SingleDocument {
   private Map<Integer, List<Integer>> ignoredMatches;     //  Map of matches (number of paragraph, number of character) that should be ignored after ignoreOnce was called
 //  private boolean isRemote;                               //  true: Check is done by remote server
   private boolean useQueue = true;                        //  true: use queue to check text level rules (will be overridden by config
+  private boolean disposed = false;                        //  true: document with this docId is disposed - SingleDocument shall be removed
   private String lastSinglePara = null;                   //  stores the last paragraph which is checked as single paragraph
   private Language docLanguage = null;
   private LanguageToolMenus ltMenus = null;
@@ -176,7 +177,7 @@ class SingleDocument {
       }
       String text = null;
       if(sErrors == null) {
-        if(!useQueue && !langTool.isRemote()) {
+        if(!langTool.isRemote()) {
           SentenceFromPara sfp = new SentenceFromPara(paraText, paRes.nStartOfSentencePosition, langTool);
           text = sfp.getSentence();
           paRes.nStartOfSentencePosition = sfp.getPosition();
@@ -279,6 +280,20 @@ class SingleDocument {
    */
   LanguageToolMenus getLtMenu() {
     return ltMenus;
+  }
+  
+  /**
+   * set menu ID to MultiDocumentsHandler
+   */
+  void dispose() {
+    disposed = true;
+  }
+  
+  /**
+   * get number of current paragraph
+   */
+  boolean isDisposed() {
+    return disposed;
   }
   
   /**
@@ -549,18 +564,9 @@ class SingleDocument {
       MessageHandler.printToLogFile("*** resetAllParas: docCache.size: " + docCache.size() + ", nParas: " + nParas
               + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
     }
-    if(useQueue) {
-      mDocHandler.getTextLevelCheckQueue().setReset();
-    }
     DocumentCache oldDocCache = docCache;
     if(useQueue) {
-      while(!mDocHandler.getTextLevelCheckQueue().isWaiting()) {
-        try {
-          Thread.sleep(1);
-        } catch (InterruptedException e) {
-          MessageHandler.printException(e);;
-        }
-      }
+      mDocHandler.getTextLevelCheckQueue().interruptCheck(docID);
     }
     docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck);
     int from = 0;
@@ -623,18 +629,19 @@ class SingleDocument {
   /**
    * find position from changed paragraph
    */
-  private int getPosFromChangedPara(String chPara, int nParas) {
+  private int getPosFromChangedPara(String chPara, int nFParas) {
 
-    numLastFlPara = nParas;  //  Note: This is the number of flat paragraph
+    numLastFlPara = nFParas;  //  Note: This is the number of flat paragraph
     
-    if (!chPara.equals(docCache.getFlatParagraph(nParas))) {
+    if (!chPara.equals(docCache.getFlatParagraph(nFParas))) {
       if (debugMode > 0) {
-        MessageHandler.printToLogFile("!!! flat praragraph changed: NParas: " + nParas
+        MessageHandler.printToLogFile("!!! flat praragraph changed: NParas: " + nFParas
                 + "; docID: " + docID
-                + OfficeTools.LOG_LINE_BREAK + "old: " + docCache.getFlatParagraph(nParas) + OfficeTools.LOG_LINE_BREAK 
+                + OfficeTools.LOG_LINE_BREAK + "old: " + docCache.getFlatParagraph(nFParas) + OfficeTools.LOG_LINE_BREAK 
                 + "new: " + chPara + OfficeTools.LOG_LINE_BREAK);
       }
-      docCache.setFlatParagraph(nParas, chPara);
+      docCache.setFlatParagraph(nFParas, chPara);
+      int nParas = docCache.getNumberOfTextParagraph(nFParas);
       resetCheck = true;
       sentencesCache.remove(nParas);
       if(useQueue) {
@@ -656,12 +663,12 @@ class SingleDocument {
         ignoredMatches.remove(nParas);
         textIsChanged = true;
       }
-      return docCache.getNumberOfTextParagraph(nParas);
+      return nParas;
     }
     if (debugMode > 0) {
-      MessageHandler.printToLogFile("From FlatParagraph: Number of Paragraph: " + nParas + OfficeTools.LOG_LINE_BREAK);
+      MessageHandler.printToLogFile("From FlatParagraph: Number of Paragraph: " + nFParas + OfficeTools.LOG_LINE_BREAK);
     }
-    return docCache.getNumberOfTextParagraph(nParas);
+    return docCache.getNumberOfTextParagraph(nFParas);
   }
   /**
    * Heuristic try to find next position (automatic iteration)
@@ -1136,21 +1143,26 @@ class SingleDocument {
             remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
           }
         } else {
-          Map<Integer, SingleProofreadingError[]> changedParasMap;
+//          Map<Integer, SingleProofreadingError[]> changedParasMap;
           if (debugMode > 1) {
             MessageHandler.printToLogFile("Mark paragraphs from " + startPara + " to " + endPara);
           }
-          changedParasMap = new HashMap<>();
+//          changedParasMap = new HashMap<>();
+          List<Integer> changedParas = new ArrayList<>();
           for(int n = startPara; n < endPara; n++) {
             SingleProofreadingError[] errors = paragraphsCache.get(cacheNum).getMatches(n, 0);
             if(errors != null && errors.length != 0) {
               SingleProofreadingError[] filteredErrors = filterIgnoredMatches(errors, n);
               if(sentencesCache.getEntryByParagraph(n) != null && filteredErrors != null && filteredErrors.length != 0) {
-                changedParasMap.put(n, filteredErrors);
+//                changedParasMap.put(n, filteredErrors);
+                changedParas.add(n);
               }
             }
           }
-          flatPara.markParagraphs(changedParasMap, docCache, false, docCursor.getParagraphCursor());
+          if(!changedParas.isEmpty()) {
+            remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
+          }
+//          flatPara.markParagraphs(changedParasMap, docCache, false, docCursor.getParagraphCursor());
         }
       }
     } catch (Throwable t) {
