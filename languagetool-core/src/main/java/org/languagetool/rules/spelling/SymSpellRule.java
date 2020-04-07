@@ -21,22 +21,16 @@
 
 package org.languagetool.rules.spelling;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.common.cache.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
-import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
-import org.languagetool.rules.spelling.symspell.implementation.SuggestItem;
-import org.languagetool.rules.spelling.symspell.implementation.SuggestionStage;
-import org.languagetool.rules.spelling.symspell.implementation.SymSpell;
+import org.languagetool.rules.spelling.suggestions.*;
+import org.languagetool.rules.spelling.symspell.implementation.*;
 
 import java.io.*;
 import java.util.*;

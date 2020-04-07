@@ -18,15 +18,10 @@
  */
 package org.languagetool.language;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.common.cache.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.GlobalConfig;
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.EnglishChunker;
 import org.languagetool.languagemodel.LanguageModel;
@@ -41,14 +36,10 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.en.EnglishHybridDisambiguator;
 import org.languagetool.tagging.en.EnglishTagger;
-import org.languagetool.tokenizers.SRXSentenceTokenizer;
-import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -68,7 +59,7 @@ public class English extends Language implements AutoCloseable {
         public List<Rule> load(@NotNull String path) throws IOException {
           List<Rule> rules = new ArrayList<>();
           PatternRuleLoader loader = new PatternRuleLoader();
-          try (InputStream is = this.getClass().getResourceAsStream(path)) {
+          try (InputStream is = JLanguageTool.getDataBroker().getAsStream(path)) {
             rules.addAll(loader.getRules(is, path));
           }
           return rules;
@@ -222,7 +213,7 @@ public class English extends Language implements AutoCloseable {
         new CompoundRule(messages),
         new ContractionSpellingRule(messages),
         new EnglishWrongWordInContextRule(messages),
-        new EnglishDashRule(),
+        new EnglishDashRule(messages),
         new WordCoherencyRule(messages),
         new EnglishDiacriticsRule(messages),
         new EnglishPlainEnglishRule(messages),
@@ -326,6 +317,7 @@ public class English extends Language implements AutoCloseable {
       case "DID_FOUND_AMBIGUOUS":       return -1;  // prefer other more specific rules (e.g. TWO_CONNECTED_MODAL_VERBS)
       case "BE_I_BE_GERUND":            return -1;  // prefer other more specific rules (with suggestions)
       case "VBZ_VBD":                   return -1;  // prefer other more specific rules (e.g. IS_WAS)
+      case "SUPERLATIVE_THAN":          return -1;  // prefer other more specific rules
       case "PRP_RB_NO_VB":              return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VBZ":                   return -2;  // prefer other more specific rules (with suggestions)

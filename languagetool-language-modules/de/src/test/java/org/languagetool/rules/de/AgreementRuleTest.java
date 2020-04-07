@@ -140,6 +140,8 @@ public class AgreementRuleTest {
     assertGood("Das kostet dich Zinsen.");
     assertGood("Sie hatten keine Chance gegen das kleinere Preußen.");
     assertGood("Den 2019er Wert hatten sie geschätzt.");
+    assertGood("Andere formale Systeme, deren Semantiken jeweils...");
+    assertGood("Gesetz zur Änderung des Kündigungsrechts und anderer arbeitsrechtlicher Vorschriften");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");

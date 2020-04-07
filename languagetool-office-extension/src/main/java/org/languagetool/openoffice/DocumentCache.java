@@ -19,9 +19,7 @@
 package org.languagetool.openoffice;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Class to store the Text of a LO document 
@@ -58,7 +56,7 @@ public class DocumentCache {
     if(textParas != null && !textParas.isEmpty()) {
       int n = 0; 
       for(int i = 0; i < paragraphs.size(); i++) {
-        if(footnotes.get(i).length > 0 || paragraphs.get(i).equals(textParas.get(n))) {
+        if(footnotes.get(i).length > 0 || (n < textParas.size() && paragraphs.get(i).equals(textParas.get(n)))) {
           toTextMapping.add(n);
           toParaMapping.add(i);
           n++;
@@ -71,7 +69,8 @@ public class DocumentCache {
     if(debugMode) {
       MessageHandler.printToLogFile("toParaMapping:");
       for(int i = 0; i < toParaMapping.size(); i++) {
-        MessageHandler.printToLogFile("Doc: " + i + " Flat: " + toParaMapping.get(i));
+        MessageHandler.printToLogFile("Doc: " + i + " Flat: " + toParaMapping.get(i)
+        + OfficeTools.LOG_LINE_BREAK + getTextParagraph(i));
       }
       MessageHandler.printToLogFile("toTextMapping:");
       for(int i = 0; i < toTextMapping.size(); i++) {

@@ -120,7 +120,24 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "honey nut",
       "not now",
       "he proofs",
-      "they mustnt" // different error
+      "he needs",
+      "1 thing",
+      "way easier",
+      "way more",
+      "I now don't",
+      "once your return is",
+      "can we text",
+      "believe in god",
+      "on premise",
+      "from poor to rich",
+      "my GPU",
+      "was your everything",
+      "they mustnt", // different error
+      "reply my email",
+      "things god said",
+      "let you text",
+      "doubt in god",
+      "in the news"
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {

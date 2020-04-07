@@ -18,21 +18,18 @@
  */
 package org.languagetool.rules.spelling;
 
+import gnu.trove.THashMap;
+import gnu.trove.THashSet;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.SuggestedReplacement;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
-import org.languagetool.rules.spelling.suggestions.SuggestionsRanker;
+import org.languagetool.rules.spelling.suggestions.*;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
@@ -81,11 +78,11 @@ public abstract class SpellingCheckRule extends Rule {
   private static final Comparator<String> STRING_LENGTH_COMPARATOR = Comparator.comparingInt(String::length);
 
   private final UserConfig userConfig;
-  private final Set<String> wordsToBeProhibited = new HashSet<>();
+  private final Set<String> wordsToBeProhibited = new THashSet<>();
   private final List<RuleWithLanguage> altRules;
 
-  private Map<String,Set<String>> wordsToBeIgnoredDictionary = new HashMap<>();
-  private Map<String,Set<String>> wordsToBeIgnoredDictionaryIgnoreCase = new HashMap<>();
+  private Map<String,Set<String>> wordsToBeIgnoredDictionary = new THashMap<>();
+  private Map<String,Set<String>> wordsToBeIgnoredDictionaryIgnoreCase = new THashMap<>();
   
   private List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
   private boolean considerIgnoreWords = true;
@@ -238,11 +235,11 @@ public abstract class SpellingCheckRule extends Rule {
   private void updateIgnoredWordDictionary() {
     wordsToBeIgnoredDictionary = wordsToBeIgnored
                                    .stream()
-                                   .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toSet()));
+                                   .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toCollection(THashSet::new)));
     wordsToBeIgnoredDictionaryIgnoreCase = wordsToBeIgnored
                                              .stream()
                                              .map(String::toLowerCase)
-                                             .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toSet()));
+                                             .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toCollection(THashSet::new)));
   }
 
   /**

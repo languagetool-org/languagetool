@@ -573,11 +573,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>des</token>
                 </marker>
-                <token postag="(ART|PRO):.+" postag_regexp="yes"/>
+                <token postag="(ART|PRO):.+" postag_regexp="yes"><exception>anderen</exception></token>
             </pattern>
             <message>Meinten Sie <suggestion>es</suggestion>?</message>
             <example correction="es">Dann gab <marker>des</marker> ein großes Fest.</example>
             <example correction="es">Jetzt obliegt <marker>des</marker> ihm zu entscheiden.</example>
+            <example>Jeder profitiert vom Erfolg des anderen.</example>
         </rule>
         <rule id="VEREINBAREN" name="zu Vereinbaren (vereinbaren)">
             <pattern case_sensitive="yes">
@@ -2036,7 +2037,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception inflected="yes" regexp="yes">ein(ig)?en</exception></token>
                     <marker>
-                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">[a-zäöüß]+er|andere|teilweise|lange|einigen?|solche|erste|Becker</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">[a-zäöüß]+er|andere|teilweise|lange|einigen?|solche|erste|Becker|anderen</exception></token>
                     </marker>
                     <token>als</token>
                 </pattern>
@@ -2050,7 +2051,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception inflected="yes">einen</exception></token>
                     <marker>
-                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">[a-zäöüß]+er|andere|teilweise|lange|einigen?|solche|erste|Becker</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">[a-zäöüß]+er|andere|teilweise|lange|einigen?|solche|erste|Becker|anderen</exception></token>
                     </marker>
                     <token>als</token>
                 </pattern>
@@ -2058,6 +2059,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="flinker">Die sind <marker>flinke</marker> als wir.</example>
                 <example correction="schneller">Er schießt <marker>schnelle</marker> als sein Schatten.</example>
                 <example>Die sind <marker>schneller</marker> als wir.</example>
+                <example>Die für die einen Terroristen sind, gelten anderen als Freiheitskämpfer.</example>
             </rule>
             <rule>
                 <pattern>
@@ -17856,7 +17858,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>das</token>
                     <marker>
-                        <token postag="ADJ:NOM:SIN:NEU:(GRU|SUP):DEF" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                        <token postag="ADJ:NOM:SIN:NEU:(GRU|SUP):DEF" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e
+                            <exception>andere</exception>
+                        </token>
                     </marker>
                     <token regexp="yes" case_sensitive="yes">[ai][mn]|daran</token>
                 </pattern>
@@ -18517,7 +18521,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token>ein</token>
-                <token postag_regexp="yes" postag="ADJ:.*" min="0"><exception regexp="yes">wenig|sieben</exception></token>
+                <token postag_regexp="yes" postag="ADJ:.*" min="0"><exception regexp="yes">wenig|sieben|anderer</exception></token>
                 <marker>
                     <token postag="VER:INF:SFT" case_sensitive="yes" regexp="yes">[a-zöäü]+<exception>einen</exception></token>
                 </marker>
@@ -18528,6 +18532,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ein sieben Jahre alter Junge.</example>
             <example>Lass mich dir ein neues kaufen!</example>
             <example>Sie sollten ein neues kaufen.</example>
+            <example>Was ein Mensch erfinden kann, kann ein anderer entdecken.</example>
         </rule>
         <rule id="EIN_FUENFTEL" name="ein fünftel (Fünftel) etc.">
             <pattern>
@@ -31064,7 +31069,7 @@ Andere Projekte</example>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token>Alles</token>
-                    <marker><token postag="(PA2|ADJ):.*" postag_regexp="yes" regexp="yes">.*e</token></marker>
+                    <marker><token postag="(PA2|ADJ):.*" postag_regexp="yes" regexp="yes">.*e<exception>andere</exception></token></marker>
                     <token postag="PRO:DEM:GEN:.*|VER:[123]:.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Das Wort '\3' scheint hier als Nomen verwendet zu werden und ist deshalb großzuschreiben.</message>
@@ -31334,7 +31339,7 @@ Andere Projekte</example>
                 </antipattern>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">[zZ]um|[bB]eim|im|ins</token>
-                    <token postag="(ADJ|PA2):DAT:SIN:NEU:GRU:.*" postag_regexp="yes" min="0"/>
+                    <token postag="(ADJ|PA2):DAT:SIN:NEU:GRU:.*" postag_regexp="yes" min="0"><exception>anderen</exception></token>
                     <marker>
                         <token postag="VER:INF.*" postag_regexp="yes" regexp="yes">[a-zäöü].+
                             <exception postag_regexp="yes" postag="ADJ:.*"/>
@@ -31351,6 +31356,7 @@ Andere Projekte</example>
                 <example correction="Suchen">Beim vorsichtigen <marker>suchen</marker> fiel mir etwas ein.</example>
                 <example correction="Wanken">Seine Pläne gerieten dadurch ins <marker>wanken</marker>.</example>
                 <example>Er steht im <marker>erhalten</marker> gebliebenen Seitenflügel.</example>
+                <example>Und zum anderen existieren zwischen Populationen unterschiedlicher Art Unterschiede.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -34193,7 +34199,10 @@ Andere Projekte</example>
                 <token>bei</token>
                 <token>anderen</token>
                 <marker>
-                    <token postag="SUB:.*:SIN:.*" postag_regexp="yes"><exception postag="SUB:DAT:PLU.*" postag_regexp="yes"/></token>
+                    <token postag="SUB:.*:SIN:.*" postag_regexp="yes">
+                        <exception postag="SUB:DAT:PLU.*" postag_regexp="yes"/>
+                        <exception>Achtung</exception>
+                    </token>
                 </marker>
             </pattern>
             <message>Muss hier möglicherweise der Plural Dativ benutzt werden?</message>
@@ -35085,7 +35094,7 @@ Andere Projekte</example>
                     <marker>
                         <token postag="ADJ:NOM:SIN:MAS:GRU:DEF">
                             <exception negate_pos="yes" postag="ADJ:NOM:SIN:MAS:GRU:DEF"/>
-                            <exception regexp="yes">gerade|.+weise|lange</exception>
+                            <exception regexp="yes">gerade|.+weise|lange|andere</exception>
                         </token>
                         <token postag="SUB:NOM:SIN:MAS">
                             <exception negate_pos="yes" postag="SUB:NOM:SIN:MAS"/>
@@ -35103,6 +35112,7 @@ Andere Projekte</example>
                 <example>Ich liebe Schnee.</example>
                 <example>Welcher klassische Komponist gefällt dir?</example>
                 <example>Das bayerische Fuß und das englische Fuß waren unterschiedlich.</example>
+                <example>Er erreichte einen größeren Bekanntheitsgrad in der Bevölkerung als jeder andere Kandidat vor ihm.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRP_ADJ_AGREEMENT" name="falscher Kasus/Numerus/Genus des Adjektivs">
@@ -35591,7 +35601,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token regexp="yes">bei|von|mit</token>
-                    <marker><token postag_regexp="yes" postag="ADJ:.+" regexp="yes">.+en</token></marker>
+                    <marker><token postag_regexp="yes" postag="ADJ:.+" regexp="yes">.+en<exception>anderen</exception></token></marker>
                     <token postag="SUB:DAT:SIN:FEM">
                         <exception postag_regexp="yes" postag="SUB:.*PLU.+"/>
                         <exception regexp="yes">\w*[gG]ramm</exception>
@@ -35604,7 +35614,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token regexp="yes">bei|von|mit</token>
-                    <marker><token postag_regexp="yes" postag="ADJ:.+" regexp="yes">.+en</token></marker>
+                    <marker><token postag_regexp="yes" postag="ADJ:.+" regexp="yes">.+en<exception>anderen</exception></token></marker>
                     <token postag_regexp="yes" postag="SUB:DAT:SIN:...">
                         <exception postag_regexp="yes" postag="SUB:.*PLU.+"/>
                         <exception regexp="yes">\w*[gG]ramm</exception>
@@ -36417,7 +36427,7 @@ Andere Projekte</example>
                 <pattern>
                     <token postag="PRP:.+CAU:DAT" postag_regexp="yes"/>
                     <marker><token regexp="yes">d(ies)?en|jenen|[dkms]?einen|ihren</token></marker>
-                    <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"/>
+                    <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"><exception>anderen</exception></token>
                     <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                         <exception postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"/></token>
                 </pattern>
@@ -36437,7 +36447,7 @@ Andere Projekte</example>
                 <pattern>
                     <token regexp="yes">bei|mitsamt|seit|von</token>
                     <marker><token regexp="yes">d(ies)?en|jenen|s?einen|ihren</token></marker>
-                    <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"/>
+                    <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"><exception>anderen</exception></token>
                     <token postag="SUB:.+:SIN:MAS.*" postag_regexp="yes">
                         <exception postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"/></token>
                 </pattern>
@@ -38791,6 +38801,7 @@ Andere Projekte</example>
                     <token skip="-1" postag="PRO:.*|SUB:.*|EIG:.*|ADJ:.*" postag_regexp="yes">
                         <exception scope="next" regexp="yes">\?|!|:|“|»|«|"</exception>
                         <exception>wohl</exception>
+                        <exception>andere</exception>
                     </token>
                     <token skip="-1" postag="SUB:.*|EIG:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception scope="next" regexp="yes">\?|!|:|“|»|«|"</exception>
@@ -38808,6 +38819,7 @@ Andere Projekte</example>
                 <example>Sollte das auch nicht klappen, werde ich Ihren Account manuell freischalten.</example>
                 <example>Sollte es damit Probleme geben, melden Sie sich bitte erneut per E-Mail bei uns.</example>
                 <example>Sollten einzelne Bestimmungen der AGB unwirksam oder undurchführbar sein oder unwirksam oder undurchführbar werden, bleibt davon die Wirksamkeit der AGB im Übrigen unberührt.</example>
+                <example>Mögen andere Kriege führen.</example>
             </rule>
             <rule>
                 <antipattern>

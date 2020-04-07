@@ -53,8 +53,8 @@ public class AccentuationCheckRule extends Rule {
   private static final Pattern ARTICLE_EL_MP = Pattern.compile("els|Els");
   private static final Pattern ARTICLE_EL_FP = Pattern.compile("les|Les");
   private static final Pattern DETERMINANT = Pattern.compile("D[^R].*");
-  private static final Pattern DETERMINANT_MS = Pattern.compile("D[^R].[MC][SN].*");
-  private static final Pattern DETERMINANT_FS = Pattern.compile("D[^R].[FC][SN].*");
+  private static final Pattern DETERMINANT_MS = Pattern.compile("D[^RN].[MC][SN].*");
+  private static final Pattern DETERMINANT_FS = Pattern.compile("D[^RN].[FC][SN].*");
   private static final Pattern DETERMINANT_MP = Pattern.compile("D[^R].[MC][PN].*");
   private static final Pattern DETERMINANT_FP = Pattern.compile("D[^R].[FC][PN].*");
   private static final Pattern NOM_MS = Pattern.compile("NC[MC][SN].*");

@@ -623,6 +623,7 @@ public class ReflexiveVerbsRule extends Rule {
     // en teniu prou amb queixar-vos, comenceu lentament a queixar-vos
     // 7) no es va poder emportar, va decidir suïcidar-se,
     // 8) Queixar-se, queixant-vos, podent abstenir-se
+    //TODO: simplify this code using code in PronomFebleDuplicate
     if (matchPostagRegexp(tokens[i], VERB_INFGER)) {
       int k = 1;
       boolean keepCounting = true;
@@ -644,17 +645,21 @@ public class ReflexiveVerbsRule extends Rule {
       if (foundVerb) {
         k--;
         // us animem a queixar-vos
-        if (i - 1 > 0 && tokens[i - 1].getToken().equals("a") && i + 1 < tokens.length && i - k - 1 > 0) {
-          if (haveSamePostag(tokens[i - k - 1], tokens[i + 1])) {
-            return true;
-          }
-          //l'animem a queixar-se
-          if (matchPostagRegexp(tokens[i - k - 1], POSTAG_PRONOM_CD_3P)
-              && matchPostag(tokens[i + 1], "P0300000")
-              && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT)) {
-            return true;
+        if (i + 1 < tokens.length && i - k - 1 > 0) {
+          if ((i - 1 > 0 && (tokens[i - 1].hasLemma("a") || tokens[i - 1].hasLemma("agradar") )
+              || (i - 2 > 0 && (tokens[i - 2].hasLemma("a") || tokens[i - 2].hasLemma("agradar") )))) {
+            if (haveSamePostag(tokens[i - k - 1], tokens[i + 1])) {
+              return true;
+            }
+            //l'animem a queixar-se
+            if (matchPostagRegexp(tokens[i - k - 1], POSTAG_PRONOM_CD_3P)
+                && matchPostag(tokens[i + 1], "P0300000")
+                && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT)) {
+              return true;
+            }
           }
         }
+        
         pPronomBuscat = pronomPattern(tokens[i - k]);
         if (pPronomBuscat != null) {
           if (i+1< tokens.length
@@ -677,7 +682,7 @@ public class ReflexiveVerbsRule extends Rule {
                 && tokens[i-j+1].getToken().equalsIgnoreCase("a")) {
               keepCounting=false;
             }
-            if (matchPostagRegexp(tokens[i - j], VERB_INFGER) //pertanyen a grups verbals diferents
+            if (matchPostagRegexp(tokens[i - j], VERB_INFGER) // pertanyen a grups verbals diferents
                 && matchPostagRegexp(tokens[i - j + 1], PRONOM_FEBLE)
                 && !matchRegexp(tokens[i - j + 1].getToken(), PRONOMFEBLE_POSPOSAT)) {
               keepCounting=false;
@@ -701,7 +706,7 @@ public class ReflexiveVerbsRule extends Rule {
               && tokens[i-j+1].getToken().equalsIgnoreCase("a")) {
             keepCounting=false;
           }
-          if (matchPostagRegexp(tokens[i - j], VERB_INFGER) //pertanyen a grups verbals diferents
+          if (matchPostagRegexp(tokens[i - j], VERB_INFGER) // pertanyen a grups verbals diferents
               && matchPostagRegexp(tokens[i - j + 1], PRONOM_FEBLE)
               && !matchRegexp(tokens[i - j + 1].getToken(), PRONOMFEBLE_POSPOSAT)) {
             keepCounting=false;

@@ -18,6 +18,7 @@
  */
 package org.languagetool.tagging;
 
+import gnu.trove.THashMap;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +27,9 @@ import java.util.*;
 
 import org.languagetool.synthesis.ManualSynthesizer;
 import org.languagetool.tools.StringTools;
+
+import java.io.*;
+import java.util.*;
 
 /**
  * A tagger that reads the POS information from a plain (UTF-8) text file. This
@@ -42,10 +46,14 @@ public class ManualTagger implements WordTagger {
   private final Map<String, List<TaggedWord>> mapping;
 
   public ManualTagger(InputStream inputStream) throws IOException {
-    mapping = loadMapping(inputStream, "utf8");
+    this(inputStream, false);
   }
 
-  private Map<String, List<TaggedWord>> loadMapping(InputStream inputStream, String encoding) throws IOException {
+  public ManualTagger(InputStream inputStream, boolean internTags) throws IOException {
+    mapping = loadMapping(inputStream, "utf8", internTags);
+  }
+
+  private Map<String, List<TaggedWord>> loadMapping(InputStream inputStream, String encoding, boolean internTags) throws IOException {
     Map<String, List<TaggedWord>> map = new HashMap<>();
     try (
       InputStreamReader reader = new InputStreamReader(inputStream, encoding);
@@ -64,7 +72,7 @@ public class ManualTagger implements WordTagger {
         if (terms == null) {
           terms = new ArrayList<>();
         }
-        terms.add(new TaggedWord(parts[1], parts[2].trim()));
+        terms.add(new TaggedWord(parts[1], internTags ? parts[2].trim().intern() : parts[2].trim()));
         map.put(parts[0], terms);
       }
     }

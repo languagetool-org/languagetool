@@ -38,15 +38,9 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.TextLevelRule;
 import org.languagetool.tools.Tools;
 
-import com.sun.star.awt.MenuEvent;
-import com.sun.star.awt.MenuItemStyle;
-import com.sun.star.awt.XMenuBar;
-import com.sun.star.awt.XMenuListener;
-import com.sun.star.awt.XPopupMenu;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XModel;
-import com.sun.star.lang.EventObject;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XEventListener;
@@ -184,6 +178,16 @@ public class MultiDocumentsHandler {
    */
   void setContextOfClosedDoc(XComponent context) {
     goneContext = context;
+    boolean found = false;
+    for (SingleDocument document : documents) {
+      if (context.equals(document.getXComponent())) {
+        found = true;
+        document.dispose();
+      }
+    }
+    if (!found) {
+      MessageHandler.printToLogFile("Error: Disposed Document not found - Cache not deleted");
+    }
   }
   
   /**
@@ -432,33 +436,23 @@ public class MultiDocumentsHandler {
    * Delete a document number and all internal space
    */
   private void removeDoc(String docID) {
-    int rmNum = -1;
-    int docNum = -1;
-    for (int i = 0; i < documents.size(); i++) {
-      XComponent xComponent = documents.get(i).getXComponent();
-      if (xComponent != null && xComponent.equals(goneContext)) { //  disposed document found
-        rmNum = i;
-        break;
-      }
-    }
-    if(rmNum < 0) {
-      MessageHandler.printToLogFile("Error: Disposed document not found");
-      goneContext = null;
-    }
-    for (int i = 0; i < documents.size(); i++) {
-      if (documents.get(i).getDocID().equals(docID)) {  //  document exist
-        docNum = i;
-        break;
-      }
-    }
-    if(rmNum >= 0 && docNum != rmNum ) {  // don't delete a closed document before the last check is done
-      if(useQueue && textLevelQueue != null) {
-        textLevelQueue.setDispose(docID);
-      }
-      documents.remove(rmNum);
-      goneContext = null;
-      if (debugMode) {
-        MessageHandler.printToLogFile("Document " + rmNum + " deleted");
+    for (int i = documents.size() - 1; i >= 0; i--) {
+      if(!docID.equals(documents.get(i).getDocID()) && documents.get(i).isDisposed()) {
+        if(useQueue && textLevelQueue != null) {
+          MessageHandler.printToLogFile("Interrupt text level queue for document " + documents.get(i).getDocID());
+          textLevelQueue.interruptCheck(documents.get(i).getDocID());
+          MessageHandler.printToLogFile("Interrupt done");
+        }
+        if (goneContext != null) {
+          XComponent xComponent = documents.get(i).getXComponent();
+          if (xComponent != null && !xComponent.equals(goneContext)) {
+            goneContext = null;
+          }
+        }
+//        if (debugMode) {
+          MessageHandler.printToLogFile("Disposed document " + documents.get(i).getDocID() + " removed");
+//        }
+        documents.remove(i);
       }
     }
   }
@@ -485,17 +479,24 @@ public class MultiDocumentsHandler {
    * Initialize LanguageTool
    */
   SwJLanguageTool initLanguageTool() {
+    return initLanguageTool(null);
+  }
+
+  SwJLanguageTool initLanguageTool(Language currentLanguage) {
     SwJLanguageTool langTool = null;
     try {
       linguServices = new LinguisticServices(xContext);
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage, linguServices);
-      fixedLanguage = config.getDefaultLanguage();
-      if(fixedLanguage != null) {
-        docLanguage = fixedLanguage;
+      if(currentLanguage == null) {
+        fixedLanguage = config.getDefaultLanguage();
+        if(fixedLanguage != null) {
+          docLanguage = fixedLanguage;
+        }
+        currentLanguage = docLanguage;
       }
       switchOff = config.isSwitchedOff();
       // not using MultiThreadedSwJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
-      langTool = new SwJLanguageTool(docLanguage, config.getMotherTongue(),
+      langTool = new SwJLanguageTool(currentLanguage, config.getMotherTongue(),
           new UserConfig(config.getConfigurableValues(), linguServices), config, extraRemoteRules, testMode);
       config.initStyleCategories(langTool.getAllRules());
       /* The next row is only for a single line break marks a paragraph
@@ -503,14 +504,14 @@ public class MultiDocumentsHandler {
        */
       File ngramDirectory = config.getNgramDirectory();
       if (ngramDirectory != null) {
-        File ngramLangDir = new File(config.getNgramDirectory(), docLanguage.getShortCode());
+        File ngramLangDir = new File(config.getNgramDirectory(), currentLanguage.getShortCode());
         if (ngramLangDir.exists()) {  // user might have ngram data only for some languages and that's okay
           langTool.activateLanguageModelRules(ngramDirectory);
         }
       }
       File word2VecDirectory = config.getWord2VecDirectory();
       if (word2VecDirectory != null) {
-        File word2VecLangDir = new File(config.getWord2VecDirectory(), docLanguage.getShortCode());
+        File word2VecLangDir = new File(config.getWord2VecDirectory(), currentLanguage.getShortCode());
         if (word2VecLangDir.exists()) {  // user might have ngram data only for some languages and that's okay
           langTool.activateWord2VecModelRules(word2VecDirectory);
         }

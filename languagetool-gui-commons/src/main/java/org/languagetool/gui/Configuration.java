@@ -66,7 +66,7 @@ public class Configuration {
   static final boolean DEFAULT_DO_RESET = false;
   static final boolean DEFAULT_MULTI_THREAD = false;
   static final boolean DEFAULT_FULL_CHECK_FIRST = true;
-  static final boolean DEFAULT_USE_QUEUE = false;
+  static final boolean DEFAULT_USE_QUEUE = true;
   static final boolean DEFAULT_USE_DOC_LANGUAGE = true;
   static final boolean DEFAULT_DO_REMOTE_CHECK = false;
   static final boolean DEFAULT_USE_OTHER_SERVER = false;

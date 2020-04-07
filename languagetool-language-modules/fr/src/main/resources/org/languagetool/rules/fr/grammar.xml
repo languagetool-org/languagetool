@@ -516,6 +516,15 @@ though, and has since been slightly modified)-->
       <message>« Réserver à l’avance » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
       <example correction="réserver"><marker>réserver à l’avance</marker></example>
     </rule>
+    <rule id="RISQUE_POTENTIEL" name="risque potentiel">
+      <pattern>
+        <token regexp="yes">risques?</token>
+        <token regexp="yes">potentiels?</token>
+      </pattern>
+      <message>« \1 \2 » est un pléonasme. Employez <suggestion>\1</suggestion>.</message>
+      <url>http://parler-francais.eklablog.com/un-risque-potentiel-a57602681</url>
+      <example correction="risque">Un <marker>risque potentiel</marker>.</example>
+    </rule>
   </category>
   <category id="CAT_HOMONYMES_PARONYMES" name="Confusion d’homonymes et paronymes">
     <rule id="GENTE_GENT" name="gente → gent">
@@ -706,7 +715,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion>sa</suggestion> ?</message>
         <example correction="sa">Il parle de <marker>ça</marker> maison.</example>
         <example>Je ne trouve pas ça drôle.</example>
-        <example>Tu imagine ça marron ?</example>
+        <example>Tu imagine ça marron ?</example>
         <example>Je ne savait pas ça chouette.</example>
         <example>Ça montre que tu n’as pas compris.</example>
         <example>Ça c’est un couteau.</example>
@@ -1917,13 +1926,8 @@ though, and has since been slightly modified)-->
         <example correction="sont">Ils <marker>son</marker> ici.</example>
       </rule>
       <rule>
-        <antipattern>
-            <token>de</token>
-            <token>son</token>
-            <token>côté</token>
-        </antipattern>
         <pattern>
-          <token negate="yes" regexp="yes">au|le|du|un|bande|même</token>
+          <token negate="yes" regexp="yes">au|le|d[eu]|un|bande|même</token>
           <marker><token>son</token></marker>
           <token postag="[VR].*|P" postag_regexp="yes"><exception postag="[NJ] .*" postag_regexp="yes"/></token>
         </pattern>
@@ -1935,6 +1939,7 @@ though, and has since been slightly modified)-->
         <example>Son indigne frère</example>
         <example>Au son de la voix</example>
         <example>Même son de cloche</example>
+        <example>60 % de son plein potentiel.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ET_BIEN" name="ET BIEN au lieu de EH BIEN">
@@ -1946,6 +1951,7 @@ though, and has since been slightly modified)-->
           <token><exception regexp="yes">sûr|souvent|que?</exception></token>
         </pattern>
         <message>Employez <suggestion>Eh</suggestion>.</message>
+        <url>http://www.academie-francaise.fr/et-bien-pour-eh-bien</url>
         <example correction="Eh"><marker>Et</marker> bien, soit !</example>
         <example>Eh bien, soit !</example>
         <example>Et bien sûr, il n’est pas venu.</example>
@@ -1978,14 +1984,14 @@ though, and has since been slightly modified)-->
           </token>
         </marker>
       </pattern>
-      <message>Un verbe est attendu après le pronom personnel « \1 », pas un nom.</message>
+      <message>Un verbe est attendu après le pronom personnel « \1 », pas un nom.</message>
       <example>Anime est le diminutif du mot, lui-même transcription de l'anglais Animation.</example>
       <example>Je <marker>travaille</marker> tard.</example>
       <example correction="">On <marker>désir</marker> rester ici.</example>
       <example>Nous n'affirmons rien.</example>
       <example>Je compte sur vous mercredi.</example>
       <example>Nous non plus</example>
-      <example>Où vous rendez-vous habituellement ?</example>
+      <example>Où vous rendez-vous habituellement ?</example>
       <example correction="">La zone géographique dans laquelle je <marker>vie</marker>.</example>
       <example>La zone géographique dans laquelle je vis</example>
     </rule>
@@ -4051,7 +4057,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">Stee?ven?</token>
           <token regexp="yes">Ball?mer</token>
         </pattern>
-        <message>Écrivez <suggestion>Steve Ballmer</suggestion> s’il s’agit de l’ex CEO de Microsoft.</message>
+        <message>Écrivez <suggestion>Steve Ballmer</suggestion> s’il s’agit de l’ex-CEO de Microsoft.</message>
         <example correction="Steve Ballmer"><marker>Steve Balmer</marker></example>
       </rule>
       <rule>
@@ -7581,7 +7587,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">p[eêè]ll?es?[-‑‐]m[eêè]ll?es?<exception>pêle-mêle</exception></token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>pêle-mêle</suggestion>?</message>
+        <message>Voulez-vous écrire <suggestion>pêle-mêle</suggestion> ?</message>
         <example correction="pêle-mêle">Transporter quelque-chose <marker>pelle-mêle</marker>.</example>
       </rule>
       <rule>
@@ -7589,7 +7595,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">p[eêè]ll?es?</token>
           <token regexp="yes">m[eêè]ll?es?</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>pêle-mêle</suggestion>?</message>
+        <message>Voulez-vous écrire <suggestion>pêle-mêle</suggestion> ?</message>
         <example correction="pêle-mêle">Transporter quelque-chose <marker>pêle mêle</marker>.</example>
       </rule>
     </rulegroup>
@@ -7933,7 +7939,7 @@ though, and has since been slightly modified)-->
         <token inflected="yes">pizza</token>
         <marker><token regexp="yes">margh?[ae]ritas?<exception>Margherita</exception></token></marker>
       </pattern>
-      <message>Voulez-vous écrire <suggestion>Margherita</suggestion>?</message>
+      <message>Voulez-vous écrire <suggestion>Margherita</suggestion> ?</message>
       <url>https://fr.wikipedia.org/wiki/Pizza_Margherita</url>
       <example correction="Margherita">Une pizza <marker>margarita</marker>.</example>
     </rule>
@@ -7959,11 +7965,16 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rule id="ELISION" name="Élision de le, la…">
+      <antipattern>
+        <token>hells</token>
+        <token>angels</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">[dljmnst]e|la|jusque|que</token>
         <token regexp="yes">h?[àâaéêèeiîou]\D.*|à
-        <exception inflected="yes" regexp="yes">onze|onzièmes?|une?|au?|oui|ouistiti|ouï[-‑‐]dire|énième|Iouri|ouate|Ouacif|Ouagadougou|Ouarzazate|Ouémo|Ouidah|one(-.*)?|o[ùu]|(?-i)[IVXLCM]+e?|Ier|Ire|habanera|hâblerie|hâbleur|hâbleuse|hachage|hache|hachée?|hache-.*|hachement|hacher|hachette|hacheur|hachereau|hachis|hasch|hachisch|hachoir|hachure|hachurer|hackle|hadale?|hadalaux|haddock|haflinger|hafnium|hagard|haggis|haie|haillon|haillonneux|haillonneuse|haine|haineusement|haineux|haineuse|haïr|haire|haïssable|Haïtien|Haïtienne|halage|hâlage|halal|halbi|halbran|halbrenée?|halde|hâle|hâlée?|hale-bas|hale-breu|hale-croc|halefis|hâle-haut|haler|hâler|haletant|halètement|haleter|haleur|haleuse|half-track|hall|halle|hallebarde|halo|hallux|halte|halte-garderie|hamac|hamada|hamburger|hameau|hamman|hampe|hamster|hanche|hanchement|hancher|hand-?ball|handballeur|handballeuse|handicap|handicapante?|handicapée?|handicaper|handicapeur|handisport|hangar|hanneton|hanon|hanse|hanter|hantise|happement|happening|happer|happy|nd|haque|haquenée|haquet|hara-kiri|harangue|haranguer|harangueur|harangueuse|haras|harassante?|harassée?|harassement|harasser|harcelante?|harcèlement|harceler|hard|hard-.*|harde|hardé|harder|hardes|round|hardie?|hardiesse|hardiment|hardware|harem|hareng|harengade|harengaison|harengère|harenguet|harengueux|harenguier|harenguière|haret|harfang|hargne|hargneusement|hargneux|hargneuse|haricot|haridelle|harissa|harka|harki|harnachement|harnacher|harnais|harnat|harnois|haro|harouelle|harpail|harpaye|harpe|harpe-cithare|harpette|harpie|harpiste|harpe-luth|harpocéras|harpodon|harpoise|harpon|harponnage|harponnement|harponner|harponneur|harpye|harrier|hart|bas-been|hasard|hasarder|hasardeusement|hasardeux|hasardeuse|has|een|hachich|hashich|haschisch|hase|hâte|hâter|hatha-yoga|hâtier|hâtif|hâtive|hattéria|hauban|haubanage|haubaner|haubert|haussehotdog|hausse-col|haussement|hausser|hausse-repère|haussier|haussière|autain|hautaine?|aut-bar|hautbois|hautboïste|haute?|haute?-.*|hautement|hauteur|haut-fond|hautin|hauturier|hauturière|havage|havane|hâve|havée|haveneau|havenet|haver|haveur|haveuse|havre|havresac|havrit|haylage|hayon|hé|heat-set|heaume|hein|héler|hem|henné|hennin|hennir|hennissante?|hennissement|hennuyer|hep|héraut|hère|hérissée?|érissement|hérisser|hérisson|hérissonne|herniaire|hernie|herniée?|ernieux|ernieuse|héron|héronneau|héronnier|héronnière|héros|héroïne|hersage|herse|herser|hersillon|hêtraie|hêtre|heu|heurt|heurter|heurtoir|hibou|hic|hickory|hideur|hideusement|hideux|hideuse|hiement|hiérarchie|hiérarchique|hiérarchiquement|hiérarchisation|hiérarchiser|hiérarque|hi-fi|high|ulk|high-tech|hilaire|hile|hindi|hip|hip-hop|hippie|hippy|hidjab|hissage|hit|hit-parade|ho|hobby|hobbyste|hobereau|hochement|hochepot|hochequeue|hocher|hochet|hockey|hockeyeur|hockeyeuse|ho!|isse!|holà|holding|hold-up|Hollande|Hollando-.*|hollandite|hollywoodien|hollywoodienne|homard|homarderie|homardier|home|home-trainer|hongre|hongrer|hongreur|hongreuse|hongroierie|hongroyage|hongroyer|hongroyeur|Hongrie|honning|honnir|honoris|honte|honteusement|honteux|honteuse|hooligan|hooliganisme|hop|hop-je|hoquet|hoqueter|hoqueton|horde|horion|hormis|hornblende|hors|horsain|horsin|hors-.*|horse|horse-.*|horst|hot|hotdog|hot-.*|hotinus|honey|hotte|hottée|hotu|hou|houache|houaiche|houage|houblon|houe|houer|houille|houiller|houillère|houle|houlette|houleux|houleuse|houligan|houliganisme|houlque|houp|houppe|houppelande|houppette|houppier|hourd|hourdage|hourder|hourdir|hourdis|houri|hourque|hourra|hourri|hourrite|hourvari|housche|houseau|house-boat|houspiller|houssage|housse|housser|housset|houssière|houst|houx|hovéa|hoyau|hoyée?|huard|huart|hublot|huche|hucher|huchier|hue|huée|huer|huerta|huguenot|huipil|huir|huis|los|huit|huitain|huitaine|huitante|huit-en-huit|huitième|huitièmement|huit-reflets|hulotte|hululation|hululement|hululer|hum|humantin|humer|hune|hunier|hunter|huppe|huppée?|uque|hurdler|hure|hurlant|hurlement|hurler|hurleur|hurleuse|huron|huronne|hurrah|hurricane|husky|hussard|hussarde|hutinet|hutte|hutteau</exception>
-        <exception regexp="yes">haye|avec|hausse|et|hayley|hotspot|henry|hoover|haute?-.+</exception><!-- https://fr.wikipedia.org/wiki/La_Haye -->
+          <exception inflected="yes" regexp="yes">onze|onzièmes?|une?|au?|oui|ouistiti|ouï[-‑‐]dire|énième|Iouri|ouate|Ouacif|Ouagadougou|Ouarzazate|Ouémo|Ouidah|one(-.*)?|o[ùu]|(?-i)[IVXLCM]+e?|Ier|Ire|habanera|hâblerie|hâbleur|hâbleuse|hachage|hache|hachée?|hache-.*|hachement|hacher|hachette|hacheur|hachereau|hachis|hasch|hachisch|hachoir|hachure|hachurer|hackle|hadale?|hadalaux|haddock|haflinger|hafnium|hagard|haggis|haie|haillon|haillonneux|haillonneuse|haine|haineusement|haineux|haineuse|haïr|haire|haïssable|Haïtien|Haïtienne|halage|hâlage|halal|halbi|halbran|halbrenée?|halde|hâle|hâlée?|hale-bas|hale-breu|hale-croc|halefis|hâle-haut|haler|hâler|haletant|halètement|haleter|haleur|haleuse|half-track|hall|halle|hallebarde|halo|hallux|halte|halte-garderie|hamac|hamada|hamburger|hameau|hamman|hampe|hamster|hanche|hanchement|hancher|hand-?ball|handballeur|handballeuse|handicap|handicapante?|handicapée?|handicaper|handicapeur|handisport|hangar|hanneton|hanon|hanse|hanter|hantise|happement|happening|happer|happy|nd|haque|haquenée|haquet|hara-kiri|harangue|haranguer|harangueur|harangueuse|haras|harassante?|harassée?|harassement|harasser|harcelante?|harcèlement|harceler|hard|hard-.*|harde|hardé|harder|hardes|round|hardie?|hardiesse|hardiment|hardware|harem|hareng|harengade|harengaison|harengère|harenguet|harengueux|harenguier|harenguière|haret|harfang|hargne|hargneusement|hargneux|hargneuse|haricot|haridelle|harissa|harka|harki|harnachement|harnacher|harnais|harnat|harnois|haro|harouelle|harpail|harpaye|harpe|harpe-cithare|harpette|harpie|harpiste|harpe-luth|harpocéras|harpodon|harpoise|harpon|harponnage|harponnement|harponner|harponneur|harpye|harrier|hart|bas-been|hasard|hasarder|hasardeusement|hasardeux|hasardeuse|has|een|hachich|hashich|haschisch|hase|hâte|hâter|hatha-yoga|hâtier|hâtif|hâtive|hattéria|hauban|haubanage|haubaner|haubert|haussehotdog|hausse-col|haussement|hausser|hausse-repère|haussier|haussière|autain|hautaine?|aut-bar|hautbois|hautboïste|haute?|haute?-.*|hautement|hauteur|haut-fond|hautin|hauturier|hauturière|havage|havane|hâve|havée|haveneau|havenet|haver|haveur|haveuse|havre|havresac|havrit|haylage|hayon|hé|heat-set|heaume|hein|héler|hem|henné|hennin|hennir|hennissante?|hennissement|hennuyer|hep|héraut|hère|hérissée?|érissement|hérisser|hérisson|hérissonne|herniaire|hernie|herniée?|ernieux|ernieuse|héron|héronneau|héronnier|héronnière|héros|héroïne|hersage|herse|herser|hersillon|hêtraie|hêtre|heu|heurt|heurter|heurtoir|hibou|hic|hickory|hideur|hideusement|hideux|hideuse|hiement|hiérarchie|hiérarchique|hiérarchiquement|hiérarchisation|hiérarchiser|hiérarque|hi-fi|high|ulk|high-tech|hilaire|hile|hindi|hip|hip-hop|hippie|hippy|hidjab|hissage|hit|hit-parade|ho|hobby|hobbyste|hobereau|hochement|hochepot|hochequeue|hocher|hochet|hockey|hockeyeur|hockeyeuse|ho!|isse!|holà|holding|hold-up|Hollande|Hollando-.*|hollandite|hollywoodien|hollywoodienne|homard|homarderie|homardier|home|home-trainer|hongre|hongrer|hongreur|hongreuse|hongroierie|hongroyage|hongroyer|hongroyeur|Hongrie|honning|honnir|honoris|honte|honteusement|honteux|honteuse|hooligan|hooliganisme|hop|hop-je|hoquet|hoqueter|hoqueton|horde|horion|hormis|hornblende|hors|horsain|horsin|hors-.*|horse|horse-.*|horst|hot|hotdog|hot-.*|hotinus|honey|hotte|hottée|hotu|hou|houache|houaiche|houage|houblon|houe|houer|houille|houiller|houillère|houle|houlette|houleux|houleuse|houligan|houliganisme|houlque|houp|houppe|houppelande|houppette|houppier|hourd|hourdage|hourder|hourdir|hourdis|houri|hourque|hourra|hourri|hourrite|hourvari|housche|houseau|house-boat|houspiller|houssage|housse|housser|housset|houssière|houst|houx|hovéa|hoyau|hoyée?|huard|huart|hublot|huche|hucher|huchier|hue|huée|huer|huerta|huguenot|huipil|huir|huis|los|huit|huitain|huitaine|huitante|huit-en-huit|huitième|huitièmement|huit-reflets|hulotte|hululation|hululement|hululer|hum|humantin|humer|hune|hunier|hunter|huppe|huppée?|uque|hurdler|hure|hurlant|hurlement|hurler|hurleur|hurleuse|huron|huronne|hurrah|hurricane|husky|hussard|hussarde|hutinet|hutte|hutteau</exception>
+          <exception regexp="yes">haye|avec|hausse|et|hayley|hotspot|henry|hoover|hallstatt|hambourg|hollywood|(haute?|hache|hard|Hollando|horse?|hot)-.+|one(-.*)?</exception><!-- https://fr.wikipedia.org/wiki/La_Haye -->
+          <exception postag="UNKNOWN|Z.*" postag_regexp="yes" regexp="yes">h.+</exception><!-- no error for unknown words or proper names -->
       </token>
     </pattern>
     <message>« \1 \2 » s’élide en <suggestion suppress_misspelled="yes"><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
@@ -7995,6 +8006,8 @@ though, and has since been slightly modified)-->
       <example>La Haute-Garonne est un département situé dans le Sud-Ouest de la France.</example>
       <example>La Haye est une commune et ville néerlandaise.</example>
       <example>Le béton du Hoover Dam n'est pas sujet à la réaction sulfatique interne liée à une réaction chimique entre ses différents composants qui a fragilisé le béton d'autres barrages.</example>
+      <example>Dans les environs d'Aix-la-Chapelle, dans le district de Heinsberg, il y avait déjà un grand nombre de cas de Covid en février.</example>
+      <example>De Harvard.</example>
     </rule>
     <rule id="EL_SI" name="Élision de si">
       <pattern>
@@ -8284,7 +8297,7 @@ though, and has since been slightly modified)-->
         <example>Il a battu le record avec un temps de 3 <marker>min</marker> 18 s.</example>
         <example>Une Peugeot 208 <marker>fabriquée</marker> en France.</example>
         <example>L’année 800 fut considérée comme une renaissance de l’Empire romain d’Occident.</example>
-        <example>Contactez-moi au 0101010101 merci beaucoup !</example>
+        <example>Contactez-moi au 0101010101 merci beaucoup !</example>
       </rule>
       <rule name="singulier suivi du pluriel">
           <antipattern>
@@ -8765,7 +8778,7 @@ though, and has since been slightly modified)-->
             <token postag="(J|V ppa) f .*" postag_regexp="yes"><exception postag="[JNZ] [me] .*|V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>« \1 » et « \3 » ne semblent pas bien accordés en genre.</message>
+        <message>« \1 » et « \3 » ne semblent pas bien accordés en genre.</message>
         <suggestion><match no="3" postag="(J|V ppa) f (.*)" postag_regexp="yes" postag_replace="$1 m $2"/></suggestion>
         <example correction="tropical">Un climat <marker>tropicale</marker>.</example>
         <example>Un <marker>climat tropical</marker>.</example>
@@ -8991,7 +9004,7 @@ though, and has since been slightly modified)-->
           <token postag="N . p" postag_regexp="yes"><exception regexp="yes">grosses|dernières|premières</exception></token><marker>
           <token regexp="yes">abricots|acajous|anthracites|argents|aubergines|azurs|bistres|briques|bronzes|cachous|caramels|carmins|cerises|chocolats|corails|crèmes|cuivres|ébènes|émeraudes|fraises|garances|grenats|indigos|isabelles|ivoires|lavandes|magentas|marrons|moutardes|nacres|noisettes|ocres|olives|ors|oranges|outremers|pailles|pastels|pervenches|pies|pistaches|pivoines|rouilles|sables|safrans|sépias|tabacs|taupes|tomates|turquoises|vermillons</token></marker>
         </pattern>
-        <message>Quand la couleur est exprimée par un nom de plante, de fruit, d’animal, de pierre ou de personne, l’invariabilité est alors de rigueur, car il s’agit de tours elliptique (de la couleur de). Voulez-vous écrire <suggestion><match no="3" regexp_match="s$" regexp_replace=""/></suggestion> ?</message>
+        <message>Quand la couleur est exprimée par un nom de plante, de fruit, d’animal, de pierre ou de personne, l’invariabilité est alors de rigueur, car il s’agit de tours elliptique (de la couleur de). Voulez-vous écrire <suggestion><match no="3" regexp_match="s$" regexp_replace=""/></suggestion> ?</message>
         <example correction="marron">Des yeux <marker>marrons</marker>.</example>
         <example>Des créatures <marker>marines</marker>.</example>
         <example>Un cageot des <marker>premières cerises</marker>.</example>
@@ -10958,7 +10971,7 @@ though, and has since been slightly modified)-->
           </token>
         </marker>
       </pattern>
-      <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
+      <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
       <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
       <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
       <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
@@ -10991,7 +11004,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Vouliez-vous dire <suggestion><match no="3" regexp_match="([a-zàâéèêîôöùç]+)e" regexp_replace="$1é"/></suggestion> ?</message>
+        <message>Vouliez-vous dire <suggestion><match no="3" regexp_match="([a-zàâéèêîôöùç]+)e" regexp_replace="$1é"/></suggestion> ?</message>
         <example correction="fatigué">Je suis <marker>fatigue</marker>.</example>
       </rule>
       <rule name="Suj + Aux avoir + V">
@@ -11007,7 +11020,7 @@ though, and has since been slightly modified)-->
           <token postag="V avoir .*" postag_regexp="yes"><exception postag="N m p">avions</exception></token><marker>
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa m s" postag_regexp="yes"/><exception>hélas</exception></token></marker>
         </pattern>
-        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
+        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
         <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
         <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
         <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
@@ -11030,7 +11043,7 @@ though, and has since been slightly modified)-->
           <token postag="V avoir .*" postag_regexp="yes"><exception postag="N m p">avions</exception></token><marker>
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/><exception>hélas</exception></token></marker>
         </pattern>
-        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
+        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
         <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
         <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
         <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
@@ -11054,7 +11067,7 @@ though, and has since been slightly modified)-->
         <example>L’exposition au bisphénol A entraine des malformations.</example>
         <example>Les gros avions causent une forte pollution sonore.</example>
         <example>Je n’ai hélas trouvé que ceci.</example>
-        <example>Tout espace vectoriel A possède un espace dual A* ; si A est de dimension finie.</example>
+        <example>Tout espace vectoriel A possède un espace dual A* ; si A est de dimension finie.</example>
       </rule>
       <rule>
         <pattern>
@@ -11064,7 +11077,7 @@ though, and has since been slightly modified)-->
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
+        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
         <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
         <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
         <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
@@ -11083,7 +11096,7 @@ though, and has since been slightly modified)-->
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
+        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
         <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
         <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
         <suggestion><match no="4" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
@@ -11099,7 +11112,7 @@ though, and has since been slightly modified)-->
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
+        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
         <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
         <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
         <suggestion><match no="2" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
@@ -11117,7 +11130,7 @@ though, and has since been slightly modified)-->
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa.*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
+        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
         <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
         <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
         <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
@@ -11355,8 +11368,8 @@ though, and has since been slightly modified)-->
           </token>
           <marker>
             <token postag="V .*" postag_regexp="yes">
-              <exception postag="V .* 3 s" postag_regexp="yes"/>
-              <exception postag="V.* ppa .* s" postag_regexp="yes"/>
+              <exception postag="V .* 3 sp?" postag_regexp="yes"/>
+              <exception postag="V.* ppa .* sp?" postag_regexp="yes"/>
             </token>
           </marker>
         </pattern>
@@ -11371,6 +11384,8 @@ though, and has since been slightly modified)-->
         <example>Je trouve cela passionnant.</example>
         <example>Je pensais que vous trouveriez ça intéressant.</example>
         <example>Pierre et elle étaient fiancés.</example>
+        <example>Il a lui-même été contaminé.</example>
+        <example>Elle a elle-même été contaminée.</example>
       </rule>
       <rule name="ça + 0 tokens + Verbe">
         <pattern>
@@ -11580,7 +11595,7 @@ though, and has since been slightly modified)-->
           <token min="0" max="1" regexp="yes">[lmnst]e|la|les|[nv]ous|leur|lui|en|y</token>
           <marker>
             <token postag="V .*" postag_regexp="yes">
-              <exception postag="V .* 3 p|V .* ppr|V.* ppa .* p" postag_regexp="yes"/>
+              <exception postag="V .* 3 s?p|V .* ppr|V.* ppa .* s?p" postag_regexp="yes"/>
             </token>
           </marker>
         </pattern>
@@ -11599,6 +11614,7 @@ though, and has since been slightly modified)-->
         <example correction="">Ils vous <marker>étonnerons</marker> par leur efficacité.</example>
         <example>Ils vous étonneront par leur efficacité.</example>
         <example>Ceux-ci ayant été approuvés.</example>
+        <example>Ils ont eux-mêmes été contaminés.</example>
       </rule>
       <rule name="ils/elles + 2 tokens + Verbe">
         <antipattern>
@@ -11814,7 +11830,7 @@ though, and has since been slightly modified)-->
           <token postag="V.* imp .*" postag_regexp="yes"/>
           <token regexp="yes">[mt]oi</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
+        <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
         <example correction="Laisse-moi"><marker>Laisse moi</marker> faire comme ça.</example>
       </rule>
       <rule>
@@ -12113,7 +12129,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*" postag_regexp="yes"><exception postag="V.* 3 p" postag_regexp="yes"/><exception postag="V (inf|ppa|ppr).*" postag_regexp="yes"/></token>
           </marker>
         </pattern>
-        <message>Le verbe « \5 » devrait être à la 3ᵉ personne du pluriel.</message>
+        <message>Le verbe « \5 » devrait être à la 3ᵉ personne du pluriel.</message>
         <suggestion><match no="5" postag="V (.*) [123] [sp]" postag_regexp="yes" postag_replace="V $1 3 p"/></suggestion>
         <example correction="travaillent">Celles qui <marker>travaille</marker> ici</example>
         <example correction="mangent">Les personnes qui ne <marker>mange</marker> pas.</example>
@@ -13024,7 +13040,7 @@ though, and has since been slightly modified)-->
             </token>
             </marker>
         </pattern>
-        <message>Le verbe « \5 » devrait être à la 3ᵉ personne du singulier.</message>
+        <message>Le verbe « \5 » devrait être à la 3ᵉ personne du singulier.</message>
         <suggestion><match no="5" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="peut">Dominique qui ne <marker>peux</marker> pas venir.</example>
         <example correction="est">Dominique lui qui <marker>sont</marker> si riche.</example>
@@ -13163,7 +13179,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \8 » devrait être à la 3ᵉ personne du singulier.</message>
+        <message>Le verbe « \8 » devrait être à la 3ᵉ personne du singulier.</message>
         <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="veut">Mon enfant ne m’en <marker>veux</marker> pas.</example>
         <example correction="veut">Mon enfant qui ne lui en <marker>veux</marker> pas.</example>
@@ -13189,7 +13205,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \9 » devrait être à la 3ᵉ personne du singulier.</message>
+        <message>Le verbe « \9 » devrait être à la 3ᵉ personne du singulier.</message>
         <suggestion><match no="9" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="veut">Mon enfant qui ne m’en <marker>veux</marker> pas.</example>
         <example>Mon enfant qui ne m’en veut pas.</example>
@@ -13214,7 +13230,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \10 » devrait être à la 3ᵉ personne du singulier.</message>
+        <message>Le verbe « \10 » devrait être à la 3ᵉ personne du singulier.</message>
         <suggestion><match no="10" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="veut">Mon enfant qui lui ne m’en <marker>veux</marker> pas.</example>
         <example>Mon enfant qui lui ne m’en veut pas.</example>
@@ -13365,7 +13381,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \9 » devrait être à la 3ᵉ personne du pluriel.</message>
+        <message>Le verbe « \9 » devrait être à la 3ᵉ personne du pluriel.</message>
         <suggestion><match no="9" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="veulent">Mes enfants qui ne m’en <marker>veux</marker> pas.</example>
         <example correction="veulent">Mes enfants qui ne t’en <marker>veux</marker> pas.</example>
@@ -13390,7 +13406,7 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \10 » devrait être à la 3ᵉ personne du pluriel.</message>
+        <message>Le verbe « \10 » devrait être à la 3ᵉ personne du pluriel.</message>
         <suggestion><match no="10" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="veulent">Mes enfants qui eux ne m’en <marker>veux</marker> pas.</example>
         <example correction="veulent">Mes enfants qui eux ne t’en <marker>veux</marker> pas.</example>
@@ -13866,9 +13882,9 @@ though, and has since been slightly modified)-->
                 </marker>
                 <token negate_pos="yes" postag="V .* 1 s" postag_regexp="yes"/>
             </pattern>
-            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-            <example correction="Puis-je"><marker>Puis je</marker> déposer mes affaires ?</example>
-            <example>Puis-je déposer mes affaires ?</example>
+            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+            <example correction="Puis-je"><marker>Puis je</marker> déposer mes affaires ?</example>
+            <example>Puis-je déposer mes affaires ?</example>
             <example>Sans doute je ne vais pas.</example>
             <example>Si d’aventure on en a.</example>
             <example>Tant que je vivrai je n’oublierai pas.</example>
@@ -13911,8 +13927,8 @@ though, and has since been slightly modified)-->
                 </token>
                 <token>je</token>
             </pattern>
-            <message>Voulez-vous dire <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1è"/>-\2</suggestion> ?</message>
-            <example correction="Aimè-je"><marker>Aime je</marker> ma femme ?</example>
+            <message>Voulez-vous dire <suggestion><match no="1" regexp_match="(.*)." regexp_replace="$1è"/>-\2</suggestion> ?</message>
+            <example correction="Aimè-je"><marker>Aime je</marker> ma femme ?</example>
             <example>Quel genre de musique j’écoute.</example>
             <example>Si j'en trouve je les corrigerai.</example>
         </rule>
@@ -13937,9 +13953,9 @@ though, and has since been slightly modified)-->
                 </token>
                 <token postag="R pers suj 2 s"/>
             </pattern>
-            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-            <example correction="manges-tu">Que <marker>manges tu</marker> ?</example>
-            <example>Que manges-tu ?</example>
+            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+            <example correction="manges-tu">Que <marker>manges tu</marker> ?</example>
+            <example>Que manges-tu ?</example>
             <example>Si tu en veux tu progresseras vite.</example>
         </rule>
         <rule name="troisième personne du singuler, verbe ne finissant pas par -d ou -t">
@@ -13992,9 +14008,9 @@ though, and has since been slightly modified)-->
                     <exception>aussi</exception>
                 </token>
             </pattern>
-            <message>Voulez-vous dire <suggestion>\1-t-\2</suggestion> ?</message>
-            <example correction="mange-t-il">Que <marker>mange il</marker> ?</example>
-            <example>Que prend-il ?</example>
+            <message>Voulez-vous dire <suggestion>\1-t-\2</suggestion> ?</message>
+            <example correction="mange-t-il">Que <marker>mange il</marker> ?</example>
+            <example>Que prend-il ?</example>
             <example>Notre point de <marker>départ on</marker> pouvait le voir d’ici.</example>
             <example>Ce prédateur réintroduit il y a 30 ans.</example>
             <example>L’auditoire était on ne peut plus ravi.</example>
@@ -14049,9 +14065,9 @@ though, and has since been slightly modified)-->
                     <exception>aussi</exception>
                 </token>
             </pattern>
-            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-            <example correction="prend-il">Que <marker>prend il</marker> ?</example>
-            <example correction="abandonnait-il">Qu'<marker>abandonnait il</marker> ?</example>
+            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+            <example correction="prend-il">Que <marker>prend il</marker> ?</example>
+            <example correction="abandonnait-il">Qu'<marker>abandonnait il</marker> ?</example>
             <example>En outre, c’est elle qui aux côtés de François Mitterrand signe le le traité de Maastricht prévoyant l’euro.</example>
         </rule>
         <rule name="première personne du pluriel">
@@ -14077,10 +14093,10 @@ though, and has since been slightly modified)-->
                 </marker>
                 <token><exception regexp="yes">(re)?(asse?oir|laver)</exception></token>
             </pattern>
-            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-            <example correction="mangeons-nous">Que <marker>mangeons nous</marker> ?</example>
-            <example correction="pouvons-nous">Ne <marker>pouvons nous</marker> pas nous en passer ?</example>
-            <example>Que mangeons-nous ?</example>
+            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+            <example correction="mangeons-nous">Que <marker>mangeons nous</marker> ?</example>
+            <example correction="pouvons-nous">Ne <marker>pouvons nous</marker> pas nous en passer ?</example>
+            <example>Que mangeons-nous ?</example>
             <example>Allons nous asseoir ici.</example>
             <example>Nous ne pouvons nous en passer.</example>
         </rule>
@@ -14107,9 +14123,9 @@ though, and has since been slightly modified)-->
                 </marker>
                 <token><exception regexp="yes">(re)?(asse?oir|laver)</exception></token>
             </pattern>
-            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
-            <example correction="mangez-vous">Que <marker>mangez vous</marker> ?</example>
-            <example>Que mangez-vous ?</example>
+            <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
+            <example correction="mangez-vous">Que <marker>mangez vous</marker> ?</example>
+            <example>Que mangez-vous ?</example>
             <example>Veuillez vous rendre à l’accueil.</example>
             <example>Sachez vous éloigner.</example>
             <example>Vous pouvez vous asseoir.</example>
@@ -14595,7 +14611,7 @@ though, and has since been slightly modified)-->
           <token skip="-1">que</token>
           <marker><token postag="V.*" postag_regexp="yes"><exception postag="V .*sub .*" postag_regexp="yes"/></token></marker>
         </pattern>
-        <message>Le verbe « \4 » doit être au subjonctif.</message>
+        <message>Le verbe « \4 » doit être au subjonctif.</message>
         <suggestion><match no="4" postag="V (etre )?(avoir )?(ind|con|sub|imp) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2sub $4 $5 $6"/></suggestion>
         <example correction="sois">Je veux que tu <marker>es</marker> prudent.</example>
         <example>Je veux que tu <marker>sois</marker> prudent.</example>
@@ -16919,15 +16935,15 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>lead</token>
       </pattern>
-      <message>L'expression « lead » est un anglicisme.</message>
+      <message>L'expression « lead » est un anglicisme.</message>
       <suggestion>commandement</suggestion>
-      <example correction="commandement">Et qui est-ce qui assumera le <marker>lead</marker> de leur équipe ?</example>
+      <example correction="commandement">Et qui est-ce qui assumera le <marker>lead</marker> de leur équipe ?</example>
     </rule>
     <rule id="FAKE" name="fake">
       <pattern>
         <token>fake</token>
       </pattern>
-      <message>L'expression « fake » est un anglicisme.</message>
+      <message>L'expression « fake » est un anglicisme.</message>
       <suggestion>faux</suggestion>
       <example correction="faux">C'est un <marker>fake</marker> évident.</example>
     </rule>
@@ -16935,15 +16951,15 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>shop</token>
       </pattern>
-      <message>L'expression « shop » est un anglicisme.</message>
+      <message>L'expression « shop » est un anglicisme.</message>
       <suggestion>magasin</suggestion>
-      <example correction="magasin">Dans quel <marker>shop</marker> ils l'ont acheté ?</example>
+      <example correction="magasin">Dans quel <marker>shop</marker> ils l'ont acheté ?</example>
     </rule>
     <rule id="COMMUNITY" name="community">
       <pattern>
         <token>community</token>
       </pattern>
-      <message>L'expression « community » est un anglicisme.</message>
+      <message>L'expression « community » est un anglicisme.</message>
       <suggestion>communauté</suggestion>
       <example correction="communauté">C'est super populaire dans la <marker>community</marker> gothic-lolita.</example>
     </rule>
@@ -16952,7 +16968,7 @@ though, and has since been slightly modified)-->
         <token>community</token>
         <token>manager</token>
       </pattern>
-      <message>L'expression « community manager » est un anglicisme.</message>
+      <message>L'expression « community manager » est un anglicisme.</message>
       <suggestion>animateur de communauté</suggestion>
       <example correction="animateur de communauté">Je suis <marker>community manager</marker> pour cette boîte.</example>
     </rule>
@@ -16960,7 +16976,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>call</token>
       </pattern>
-      <message>L'expression « call » est un anglicisme. Utilisez plutôt le verbe « appeler » au mode et temps appropriés.</message>
+      <message>L'expression « call » est un anglicisme. Utilisez plutôt le verbe « appeler » au mode et temps appropriés.</message>
         <suggestion>appeler</suggestion>
       <example correction="appeler">Je te <marker>call</marker> dans l'après-midi.</example>
     </rule>
@@ -16968,7 +16984,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>dashboard</token>
       </pattern>
-      <message>L'expression « dashboard » est un anglicisme. Utilisez plutôt l'expression <suggestion>tableau de bord</suggestion>.</message>
+      <message>L'expression « dashboard » est un anglicisme. Utilisez plutôt l'expression <suggestion>tableau de bord</suggestion>.</message>
       <example correction="tableau de bord">C'est marqué sur le <marker>dashboard</marker>, juste ici.</example>
     </rule>
     <rule id="FREE" name="free">
@@ -16980,7 +16996,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token case_sensitive="yes">free</token>
       </pattern>
-      <message>L'expression « free » est un anglicisme.</message>
+      <message>L'expression « free » est un anglicisme.</message>
       <suggestion>gratuit</suggestion>
       <example correction="gratuit">C'est <marker>free</marker> pour les abonnés.</example>
       <example correction="gratuit">C'est <marker>free</marker> pour les abonnés Free.</example>
@@ -16990,7 +17006,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>map</token>
       </pattern>
-      <message>L'expression « carte » est un anglicisme.</message>
+      <message>L'expression « carte » est un anglicisme.</message>
       <suggestion>carte</suggestion>
       <example correction="carte">Je t'envoie la <marker>map</marker> pour t'orienter.</example>
     </rule>
@@ -16998,7 +17014,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>group</token>
       </pattern>
-      <message>L'expression « group » est un anglicisme.</message>
+      <message>L'expression « group » est un anglicisme.</message>
       <suggestion>groupe</suggestion>
       <example correction="groupe">Je crée un <marker>group</marker> pour en dicuter.</example>
     </rule>
@@ -25782,11 +25798,12 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CASH" name="cash">
       <pattern>
-        <token>cash</token>
+        <token>cash<exception scope="previous">Johnny</exception></token>
       </pattern>
       <message>« Cash » est un anglicisme. Employez <suggestion>argent comptant</suggestion>, <suggestion>argent</suggestion>, <suggestion>caisse</suggestion>.</message>
       <example correction="argent comptant|argent|caisse"><marker>cash</marker></example>
       <example><marker>argent comptant</marker></example>
+      <example>Johnny Cash est né en 1932.</example>
     </rule>
     <rule id="COOLER" name="cooler">
       <pattern>
@@ -28095,6 +28112,86 @@ though, and has since been slightly modified)-->
         <message>« \1 » est une faute de typographie. Employez <suggestion>tout à fait</suggestion>.</message>
         <example correction="Tout à fait"><marker>Tout-à-fait</marker></example>
       </rule>
+      <rule>
+        <pattern><token regexp="yes">état[-‑‐]civil</token></pattern>
+        <message>« \1 » s’écrit sans trait d’union.</message>
+        <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion>
+        <url>https://fr.wiktionary.org/wiki/%C3%A9tat_civil</url>
+        <example correction="état civil">Une pièce d’<marker>état-civil</marker>.</example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">châteaux?[-‑‐]forts?</token></pattern>
+        <message>« \1 » s’écrit sans trait d’union.</message>
+        <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion>
+        <url>https://www.projet-voltaire.fr/culture-generale/differents-emplois-trait-union/</url>
+        <example correction="château fort">Un <marker>château-fort</marker>.</example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">compte?[-‑‐]rendus?</token></pattern>
+        <message>« \1 » s’écrit sans trait d’union.</message>
+        <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion>
+        <url>https://www.projet-voltaire.fr/culture-generale/differents-emplois-trait-union/</url>
+        <example correction="compte rendu">Un <marker>compte-rendu</marker>.</example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">directeurs?[-‑‐]adjoints?</token></pattern>
+        <message>« \1 » s’écrit sans trait d’union.</message>
+        <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion>
+        <url>https://www.projet-voltaire.fr/culture-generale/differents-emplois-trait-union/</url>
+        <example correction="directeur adjoint">Un <marker>directeur-adjoint</marker>.</example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">pommes?[-‑‐]de[-‑‐]terres?</token></pattern>
+        <message>« \1 » s’écrit sans trait d’union.</message>
+        <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion>
+        <url>https://www.projet-voltaire.fr/culture-generale/differents-emplois-trait-union/</url>
+        <example correction="pomme de terre">Une <marker>pomme-de-terre</marker>.</example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">lieux?[-‑‐]communs?</token></pattern>
+        <message>« \1 » s’écrit sans trait d’union.</message>
+        <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion>
+        <url>https://www.projet-voltaire.fr/culture-generale/differents-emplois-trait-union/</url>
+        <example correction="lieu commun">Un <marker>lieu-commun</marker>.</example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">opéras?[-‑‐]bouffes?</token></pattern>
+        <message>« \1 » s’écrit sans trait d’union.</message>
+        <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion>
+        <url>https://www.projet-voltaire.fr/culture-generale/differents-emplois-trait-union/</url>
+        <example correction="opéra bouffe">Un <marker>opéra-bouffe</marker>.</example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">maîtres?[-‑‐]chanteurs?</token></pattern>
+        <message>« \1 » s’écrit sans trait d’union.</message>
+        <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion>
+        <url>https://www.projet-voltaire.fr/culture-generale/differents-emplois-trait-union/</url>
+        <example correction="maître chanteur">Un <marker>maître-chanteur</marker>.</example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">raz[-‑‐]de[-‑‐]marées?</token></pattern>
+        <message>« \1 » s’écrit sans trait d’union.</message>
+        <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion>
+        <url>https://www.projet-voltaire.fr/culture-generale/differents-emplois-trait-union/</url>
+        <example correction="raz de marée">Un <marker>raz-de-marée</marker>.</example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">bandes?[-‑‐]dessinées?</token></pattern>
+        <message>« \1 » s’écrit sans trait d’union.</message>
+        <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion>
+        <url>https://www.projet-voltaire.fr/culture-generale/differents-emplois-trait-union/</url>
+        <example correction="bande dessinée">Une <marker>bande-dessinée</marker>.</example>
+        <example correction="bandes dessinées">Des <marker>bandes-dessinées</marker>.</example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">ex[-‑‐](cathedra|æquo|aequo|abrupto)</token></pattern>
+        <message>L’expression latine « \1 » s'écrit sans trait d’union.</message>
+        <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4025</url>
+        <example correction="ex cathedra">Certains professeurs parlent <marker>ex-cathedra</marker> : ils ont un ton doctoral.</example>
+        <example correction="ex æquo">Il y a beaucoup de candidats <marker>ex-æquo</marker>.</example>
+        <example correction="ex abrupto"> Il a abordé <marker>ex-abrupto</marker> cette question déliquate</example>
+      </rule>
     </rulegroup>
     <rule id="CEST_A_DIRE" name="c’est à dire">
       <pattern>
@@ -28177,13 +28274,13 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes">château</token>
+          <token regexp="yes">coffres?</token>
           <token regexp="yes">forts?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
-        <url>https://fr.wiktionary.org/wiki/ch%C3%A2teau-fort</url>
-        <example correction="château-fort">Un <marker>château fort</marker>.</example>
-        <example correction="châteaux-forts">Des <marker>châteaux forts</marker>.</example>
+        <url>https://fr.wiktionary.org/wiki/coffre-fort</url>
+        <example correction="coffre-fort">Un <marker>coffre fort</marker>.</example>
+        <example correction="coffres-forts">Des <marker>coffres forts</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -28353,8 +28450,17 @@ though, and has since been slightly modified)-->
           <token>dire</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>ouï-dire</suggestion> ?</message>
+        <url>https://fr.wiktionary.org/wiki/ou%C3%AF-dire</url>
         <example correction="ouï-dire">J’ai <marker>ouï dire</marker> qu’il ne viendra pas.</example>
         <example>J’ai ouï-dire qu’il ne viendra pas.</example>
+      </rule>
+      <rule>
+        <regexp>\b(porte)[-‑‐  ](feuilles?)\b</regexp>
+        <message>Écrivez <suggestion>\1\2</suggestion> sans trait d’union ni espace.</message>
+        <url>https://fr.wiktionary.org/wiki/portefeuille></url>
+        <example correction="portefeuille">Un <marker>porte-feuille</marker>.</example>
+        <example correction="portefeuille">Un <marker>porte feuille</marker>.</example>
+        <example correction="portefeuilles">Des <marker>porte-feuilles</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -28364,8 +28470,9 @@ though, and has since been slightly modified)-->
           <token regexp="yes">(oe|œ)uvres?</token>
         </pattern>
         <message>Voulez-vous dire <suggestion>\1-d\3œuvre</suggestion> ?</message>
+        <url>https://fr.wiktionary.org/wiki/chef-d%E2%80%99%C5%93uvre</url>
         <example correction="chef-d’œuvre">C’est un <marker>chef d’œuvre</marker>.</example>
-        <example>C’est un chef-d’œuvre.</example>
+        <example correction="chefs-d’œuvre">Des <marker>chefs d’oeuvre</marker>.</example>
       </rule>
       <rule>
         <pattern case_sensitive="yes">
@@ -28375,6 +28482,13 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous dire <suggestion>\1-Comté</suggestion> ?</message>
         <example correction="Franche-Comté">Il habite en <marker>Franche Comté</marker>.</example>
         <example>Il habite en Franche-Comté.</example>
+      </rule>
+      <rule>
+        <regexp>\b(?-i)(?![ÎI]le-de-France\b)(?i)[IÎ]ll?es?[-‑‐  ]de[-‑‐  ]France\b</regexp>
+        <message>Écrivez <suggestion>Île-de-France</suggestion>.</message>
+        <url>https://en.wikipedia.org/wiki/%C3%8Ele-de-France</url>
+        <example correction="Île-de-France">En <marker>Île de France</marker>.</example>
+        <example correction="Île-de-France">En <marker>Île-De-France</marker>.</example>
       </rule>
       <rule>
         <regexp>\b(?-i)(?!Clermont-Ferrand\b)(?i)Clermo[nm][dt]?s?[-‑‐  ]Ferr?[ae]n[dt]?s?\b</regexp>
@@ -28665,7 +28779,7 @@ though, and has since been slightly modified)-->
           <token>l<exception regexp="yes" scope="previous">lettre|consonne|symbole|dimension|fonction|variable|où|[\d-]+|.</exception></token>
           <token regexp="yes">[aâeéèêioôuh].*</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>l’\2</suggestion> ?</message>
+        <message>Voulez-vous écrire <suggestion>l’\2</suggestion> ?</message>
         <example correction="L’histoire"><marker>L histoire</marker>.</example>
         <example>L’histoire.</example>
         <example>On prend, dans l'ensemble L une constante au hasard.</example>
@@ -28796,8 +28910,8 @@ though, and has since been slightly modified)-->
       <example correction="×|·">a <marker>*</marker> b</example>
       <example>a = 2 · x² + 5</example>
       <example>4,5 × 2,5 = 11,25</example>
-      <example>UHCI : , la version 1.x d'USB</example>
-      <example>AGP 3.0 (le plus récent) : - 4 X, 8 X</example>
+      <example>UHCI : , la version 1.x d'USB</example>
+      <example>AGP 3.0 (le plus récent) : - 4 X, 8 X</example>
       <example>avond/evening — Abend (soir) pour résumer, *k / *p / *t ➜ ch / pf (ou f) / ts (ou s)</example>
     </rule>
     <rule>
@@ -30248,6 +30362,19 @@ though, and has since been slightly modified)-->
         <example correction="à">Il ne sait pas <marker>auprès de</marker> qui s'adresser.</example>
       </rule>
     </rulegroup>
+    <rule id="DE_SORTE_A_CE_QUE" name="de sort à ce que → de sorte que">
+      <pattern>
+        <token>de</token>
+        <token regexp="yes">sortes?</token>
+        <token regexp="yes">[àa]</token>
+        <token regexp="yes">[cs]e</token>
+        <token regexp="yes">que?</token>
+      </pattern>
+      <message>Employez <suggestion>de sorte \5</suggestion>.</message>
+      <url>http://www.academie-francaise.fr/de-sorte-ce-que</url>
+      <example correction="de sorte qu">Agissez <marker>de sorte à ce qu</marker>’on vous aime.</example>
+      <example correction="de sorte que">Asseyez-vous, <marker>de sorte à ce que</marker> tous puissent voir le spectacle.</example>
+    </rule>
   </category>
   <category id="CAT_MARQUES_DE_COMMERCE" name="Marques de commerce">
     <rule id="UBUNTU" name="Ubuntu-12.4 → Ubuntu-12.04">
@@ -30775,45 +30902,53 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">ministres?|ministères?</token>
+          <token min="0" max="1" postag_regexp="yes" postag="J [me] .*"/>
           <token>des</token>
           <marker><token regexp="yes">(?-i)affaires|anciens|armées|droits|finances|postes|solidarités|sports</token></marker>
         </pattern>
         <message>L’usage veut que l’on mette une majuscule à la désignation du ou des domaines que gère le ministère.</message>
-        <suggestion><match no="3" case_conversion="startupper"/></suggestion>
+        <suggestion><match no="4" case_conversion="startupper"/></suggestion>
         <example correction="Armées">Le ministère des <marker>armées</marker>.</example>
+        <example correction="Armées">Le ministre italien des <marker>armées</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">ministres?|ministères?</token>
+          <token min="0" max="1" postag_regexp="yes" postag="J [me] .*"/>
           <token>du</token>
           <marker><token regexp="yes">(?-i)bien-être|budget|commerce|logement|redéploiement|revenu|travail</token></marker>
         </pattern>
         <message>L’usage veut que l’on mette une majuscule à la désignation du ou des domaines que gère le ministère.</message>
-        <suggestion><match no="3" case_conversion="startupper"/></suggestion>
+        <suggestion><match no="4" case_conversion="startupper"/></suggestion>
         <example correction="Budget">Le ministre du <marker>budget</marker>.</example>
+        <example correction="Budget">Le ministre italien du <marker>budget</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">ministres?|ministères?</token>
+          <token min="0" max="1" postag_regexp="yes" postag="J [me] .*"/>
           <token>de</token>
           <token>l</token>
           <token regexp="yes">[’´'‛′‘]</token>
           <marker><token regexp="yes">(?-i)action|agriculture|aménagement|écologie|économie|éducation|emploie|énergie|enseignement|environnement|équipement|industrie|intérieur|outre-mer|urbanisme</token></marker>
         </pattern>
         <message>L’usage veut que l’on mette une majuscule à la désignation du ou des domaines que gère le ministère.</message>
-        <suggestion><match no="5" case_conversion="startupper"/></suggestion>
+        <suggestion><match no="6" case_conversion="startupper"/></suggestion>
         <example correction="Éducation">Le ministères de l’<marker>éducation</marker>.</example>
+        <example correction="Éducation">Le ministères italien de l’<marker>éducation</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">ministres?|ministères?</token>
+          <token min="0" max="1" postag_regexp="yes" postag="J [me] .*"/>
           <token>de</token>
           <token>la</token>
           <marker><token regexp="yes">(?-i)culture|cohésion|coopération|défense|guerre|jeunesse|justice|mer|recherche|santé|solidarité|transition|ville</token></marker>
         </pattern>
         <message>L’usage veut que l’on mette une majuscule à la désignation du ou des domaines que gère le ministère.</message>
-        <suggestion><match no="4" case_conversion="startupper"/></suggestion>
+        <suggestion><match no="5" case_conversion="startupper"/></suggestion>
         <example correction="Justice">Le ministère de la <marker>justice</marker>.</example>
+        <example correction="Justice">Le ministre italien de la <marker>justice</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="NORD_SUD" name="Majuscules aux points cardinaux">
@@ -30926,7 +31061,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>dispo</token>
       </pattern>
-      <message>« Dispo » est une abréviation familière, utilisez plutôt <suggestion>disponible</suggestion>.</message>
+      <message>« Dispo » est une abréviation familière, utilisez plutôt <suggestion>disponible</suggestion>.</message>
       <example correction="disponible">Je serais <marker>dispo</marker> après leur réunion.</example>
     </rule>
     <rule id="ORGE_PERLE" name="orge perlée → orge perlé">
@@ -31273,7 +31408,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <!-- When country is not specified, we can still guess that the address
-             is in France for some biggest well known cities.
+             is in France for some big well known cities.
              See http://www.toutes-les-villes.com/villes-departements/29-finistere.html
              for the biggest cities per departement -->
         <regexp>\b(?:(?:Bourg[-‑‐ ]en[-‑‐ ]Bresse|Oyonnax|Amb[ée]rieu[-‑‐ ]en[-‑‐ ]Bugey) 01\d\d\d|(?:Saint[-‑‐ ]Quentin|Soissons|Laon|Tergnier) 02\d\d\d|(?:Monlu[çc]on|Vischy|Moulins|Cusset|Yzeure|Dom[ée]rat) 03\d\d\d|(?:Manosque|Digne[-‑‐ ]les[-‑‐ ]Bains|Sisteron) 04\d\d\d|(?:Gap|Brian[çc]on|Embrun) 05\d\d\d|(?:Antibes|Cagnes[-‑‐ ]sur[-‑‐ ]Mer|Cannes|Grasse|Nice) 06\d\d\d|(?:Annonay|Aubennas) 07\d\d\d|(?:Charleville[-‑‐ ]M[ée]zi[èe]res|Givet|Rethel|Revin|Sedan) 08\d\d\d|(?:Foix|Pamiers) 09\d\d\d|(?:La[-‑‐ ]Chapelle[-‑‐ ]Saint[-‑‐ ]Luc|Romily[-‑‐ ]sur[-‑‐ ]Seine|Saint[-‑‐ ]Andr[ée][-‑‐ ]les[-‑‐ ]Vergers|Troyes) 10\d\d\d|(?:Carcassonne|Castelnaudary|Limoux|Narbonne) 11\d\d\d|(?:Onet[-‑‐ ]le[-‑‐ ]Ch[âa]teau|Milau|Rodez|Villefranche[-‑‐ ]de[-‑‐ ]Rouergue) 12\d\d\d|(?:Aix[-‑‐ ]en[-‑‐ ]Provence|Allauch|Arles|Aubagne|Fos[-‑‐ ]sur[-‑‐ ]Mer|Gardanne|Istres|La[-‑‐ ]Ciotat|Les[-‑‐ ]Pennes[-‑‐ ]Mirabeau|Marignane|Marseille|Martigues|Miramas|Port[-‑‐ ]de[-‑‐ ]Bouc|Salon[-‑‐ ]de[-‑‐ ]Provence|Tarascon|Vitrolles) 13\d\d\d|(?:Bayeux|Caen|Ifs|Lisieux|H[ée]rouville[-‑‐ ]Saint[-‑‐ ]Clair|Mondeville|Vire) 14\d\d\d|(?:Aurillac|Saint[-‑‐ ]Flour) 15\d\d\d|(?:Angoul[èêe]me|Cognac|Soyaux) 16\d\d\d|(?:La[-‑‐ ]Rochelle|Rochefort|Royan|Saintes) 17\d\d\d|(?:Bourges|Vierzon) 18\d\d\d|(?:Brive[-‑‐ ]la[-‑‐ ]Guaillarde|Tulle|Ussel) 19\d\d\d|(?:Ajaccio|Porto[-‑‐ ]Vecchio|Sart[èe]ne) 2[A0]\d\d\d|(?:Bastia|Calvi|Corte) 2[B0]\d\d\d|(?:Beaune|Chenôve|Chevigny[-‑‐ ]Saint[-‑‐ ]Sauveur|Dijon|Quetigny|Talant) 21\d\d\d|(?:Dinan|Lannion|Pl[ée]rin|Ploufragan|Saint[-‑‐ ]Brieuc) 22\d\d\d|(?:Aubusson|La[-‑‐ ]Souterraine|Gu[éé]ret) 23\d\d\d|(?:Bergerac|P[é]rigneux) 24\d\d\d|(?:Audincourt|Besan[çc]on|Bethoncourt|Montb[ée]liard|Pontarlier|Valentigney) 25\d\d\d|(?:Bourg[-‑‐ ]l[èe]s[-‑‐ ]Valence|Mont[ée]limar|Pierrelatte|Romans[-‑‐ ]sur[-‑‐ ]Is[èe]re|Valence) 26\d\d\d|(?:Bernay|[ÉE]vreux|Gisors|Louviers|Val[-‑‐ ]de[-‑‐ ]Reuil|Vernon) 27\d\d\d|(?:Chartres|Ch[âa]teaudun|Dreux|Lucé|Mainvilliers|Nogent[-‑‐ ]le[-‑‐ ]Rotrou|Vernouillet) 28\d\d\d|(?:Brest|Guipavas|Concarneau|Douarnenez|Fouesnant|Landerneau|Landivisau|Le[-‑‐ ]Relecq[-‑‐ ]Kerhuon|Morlaix|Plougastel[-‑‐ ]Daoulas|Plouzané|Quimper|Quimperlé) 29\d\d\d|(?:Alès|Beaucaire|Bagnol[-‑‐ ]sur[-‑‐ ]C[èe]ze|N[îi]mes|Saint[-‑‐ ]Gilles|Vauvert|Villeneuve[-‑‐ ]les[-‑‐ ]Avignon) 30\d\d\d|31\d\d\d|(?:Blagnac|Colomiers|Cugnaux|Muret|Plaisance[-‑‐ ]du[-‑‐ ]Touch|Toulouse|Tournefeuille) 31\d\d\d|(?:Auch|Condom) 32\d\d\d|(?:Ambar[èe]s[-‑‐ ]et[-‑‐ ]Lagrave|Arcachon|B[èe]gles|Bruges|Blanquefort|Bordeaux|Cenon|Cestas|Eysines|Floirac|Gradignan|Gujan[-‑‐ ]Mestras|Le[-‑‐ ]Bouscat|Lormont|Mérignac|Pessac|Talence|Villenave[-‑‐ ]d['´‘’′]Ornon|Saint[-‑‐ ]M[ée]dard[-‑‐ ]en[-‑‐ ]Jalles) 33\d\d\d|(?:Agde|B[ée]ziers|Castelnau[-‑‐ ]le[-‑‐ ]Lez|Frontignan|Lattes|Lunel|Mauguio|Montpellier|Sète) 34\d\d\d|(?:Betton|Bruz|Cesson[-‑‐ ]Sévigné|Dinard|Foug[èe]res|Pacé|Redon|Rennes|Saint[-‑‐ ]Malo|Vitré) 35\d\d\d|(?:Ch[âa]teauroux|Déols|Issoudun|Le[-‑‐ ]Blanc) 36\d\d\d|(?:Amboise|Joué[-‑‐ ]l[èe]s[-‑‐ ]Tours|Saint[-‑‐ ]Avertin|Saint[-‑‐ ]Cyr[-‑‐ ]sur[-‑‐ ]Loire|Saint[-‑‐ ]Pierre[-‑‐ ]des[-‑‐ ]Corps|Tours) 37\d\d\d|(?:Bourgoin[-‑‐ ]Jallieu|[ÉE]chirolles|Fontaine|Grenoble|Maylan|Saint[-‑‐ ][ÉE]gr[èe]ve|Saint[-‑‐ ]Martin[-‑‐ ]d['´‘’′]H[èe]res|Vienne|Villefontaine|Voiron) 38\d\d\d|(?:Champagnole|Dole|Lons[-‑‐ ]le[-‑‐ ]Saunier|Morez|Saint[-‑‐ ]Claude) 39\d\d\d|(?:Biscarrosse|Capbreton|Dax|Mont[-‑‐ ]de[-‑‐ ]Marsan|Saint[-‑‐ ]Paul[-‑‐ ]l[èe]s[-‑‐ ]Dax|Tarnos) 40\d\d\d|(?:Blois|Romorantin[-‑‐ ]Lanthenay|Vend[ôo]pme) 41\d\d\d|(?:Firminy|Montbrison|Rive[-‑‐ ]de[-‑‐ ]Gier|Saint[-‑‐ ]Chamond|Saint[-‑‐ ][ÉE]tienne|Roanne) 42\d\d\d|(?:Brioude|Le[-‑‐ ]Puy[-‑‐ ]en[-‑‐ ]Velay|Monistrol[-‑‐ ]sur[-‑‐ ]Loire) 43\d\d\d|(?:Bouguenais|Carquefou|Ch[âa]teaubriant|Co[ëe]ron|Gu[ée]rande|Nantes|Pornic|Pornichet|La[-‑‐ ]Baule[-‑‐ ]Escoublac|La[-‑‐ ]Chapelle[-‑‐ ]sur[-‑‐ ]Erdre|Orvault|Rezé|Saint[-‑‐ ]Herblain|Saint[-‑‐ ]Nazaire|Saint[-‑‐ ]S[ée]bastien[-‑‐ ]sur[-‑‐ ]Loire|Sainte[-‑‐ ]Luce[-‑‐ ]sur[-‑‐ ]Loire|Vertou) 44\d\d\d|(?:Fleury[-‑‐ ]les[-‑‐ ]Aubrais|Gien|Montargis|Olivet|Orléans|Saint[-‑‐ ]Jean[-‑‐ ]de[-‑‐ ]Braye|Saint[-‑‐ ]Jean[-‑‐ ]de[-‑‐ ]la[-‑‐ ]Ruelle|Saran) 45\d\d\d|(?:Cahors|Figeac|Gourdon) 46\d\d\d|(?:Agen|Marmande|N[ée]rac|Tonneins|Villeneuve[-‑‐ ]sur[-‑‐ ]Lot) 47\d\d\d|(?:Marvejols|Mende) 48\d\d\d|(?:Angers|Avrillé|Cholet|Saumur) 49\d\d\d|(?:Avranches|Cherbourg|Coutances|[ÉE]queurdreville[-‑‐ ]Hainneville|Granville|Octeville|Tourlaville|Saint[-‑‐ ]L[ôo]|Valognes) 50\d\d\d|(?:B[ée]theny|Ch[âa]lons[-‑‐ ]en[-‑‐ ]Champagne|Cormontreuil|[ÉE]pernay|Reims|Tinqueux|Vitry[-‑‐ ]le[-‑‐ ]Fran[çc]ois) 51\d\d\d|(?:Chaumont|Langres|Saint[-‑‐ ]Dizier) 52\d\d\d|(?:[ÉE]vron|Ch[âa]teau[-‑‐ ]Gontier|Laval|Mayenne) 53\d\d\d|(?:Nancy|Lunéville|Toul|Vandœuvre[-‑‐ ]l[èe]s[-‑‐ ]Nancy|Villiers[-‑‐ ]l[èe]s[-‑‐ ]Nancy) 54\d\d\d|(?:Commercy|Bar[-‑‐ ]le[-‑‐ ]Duc|Saint[-‑‐ ]Mihiel|Verdun) 55\d\d\d|(?:Auray|Carnac|Gourin|Guidel|Hennebont|Larmor[-‑‐ ]Plage|Lorient|Ploemeur|Pontivy|Vannes|Lanester) 56\d\d\d|(?:Creutzwald|Fameck|Florange|Forbach|Freyming[-‑‐ ]Merlebach|Hayange|Marly|Metz|Montigny[-‑‐ ]l[èe]s[-‑‐ ]Metz|Rombas|Saint[-‑‐ ]Avold|Sarrebourg|Sarreguemines|Stiring[-‑‐ ]Wendel|Thionville|Woippy|Yutz) 57\d\d\d|(?:Cosne[-‑‐ ]Cours[-‑‐ ]sur[-‑‐ ]Loire|Decize|Nevers|Varennes[-‑‐ ]Vauzelles) 58\d\d\d|(?:Armenti[èe]re|Coudekerque[-‑‐ ]Branche|Douai|Cambrai|Dunkerque|Grande[-‑‐ ]Synthe|Lambersart|Lille|Maubeuge|Roubaix|Saint[-‑‐ ]Paul[-‑‐ ]sur[-‑‐ ]Mer|Tourcoing|Villeneuve[-‑‐ ]d['´‘’′]Ascq|Valenciennes|Wattrelos) 59\d\d\d|(?:Beauvais|Compi[èe]gne|Creil|M[ée]ru|Nogent[-‑‐ ]sur[-‑‐ ]Oise|Noyon|Senlis) 60\d\d\d|(?:Alen[çc]on|Argentan|Flers) 61\d\d\d|(?:Arras|Avion|Berck|B[ée]thune|Boulogne[-‑‐ ]sur[-‑‐ ]Mer|Bruay[-‑‐ ]la[-‑‐ ]Buissi[èe]re|Calais|Carvin|Harnes|H[ée]nin[-‑‐ ]Beaumont|Lens|Lièvin|Longuenesse|Outreau|Saint[-‑‐ ]Omer) 62\d\d\d|(?:Aubi[èe]re|Beaumont|Chamali[èe]res|Clermont[-‑‐ ]Ferrand|Cournon[-‑‐ ]d['´‘’′]Auvergne|Gerzat|Issoire|Riom|Thiers) 63\d\d\d|(?:Anglet|Bayone|Biarritz|Bill[èe]re|Hendaye|Lons|Pau|Saint[-‑‐ ]Jean[-‑‐ ]de[-‑‐ ]Luz) 64\d\d\d|(?:Tarbes|Lourdes) 65\d\d\d|(?:Argel[èe]s[-‑‐ ]sur[-‑‐ ]Mer|Canet[-‑‐ ]en[-‑‐ ]Roussillon|Perpignan|Saint[-‑‐ ]Cyprien|Saint[-‑‐ ][ÈE]st[èe]ve) 66\d\d\d|(?:Bischheim|Bischwiller|Haguenau|Illkirch[-‑‐ ]Graffenstaden|Lingolsheim|Ostwald|Saverne|Schiltigheim|Sélestat|Strasbourg) 67\d\d\d|(?:Colmar|Illzach|Kingersheim|Mulhouse|Saint[-‑‐ ]Louis|Riedisheim|Rixheim|Wittenheim) 68\d\d\d|(?:Bron|Caluire[-‑‐ ]et[-‑‐ ]Cuire|[ÉE]cully|Givors|Lyon|Meyzieu|Mions|Oullins|Rillieux[-‑‐ ]la[-‑‐ ]Pape|Saint[-‑‐ ]Priest|Sainte[-‑‐ ]Foy[-‑‐ ]l[èe]s[-‑‐ ]Lyon|Vaulx[-‑‐ ]en[-‑‐ ]Velin|V[ée]nissieux|Villeurbanne|Villefranche[-‑‐ ]sur[-‑‐ ]Sa[ôo]ne) 69\d\d\d|(?:H[ée]ricourt|Lure|Vesoul) 70\d\d\d|(?:Autun|Chalon[-‑‐ ]sur[-‑‐ ]Sa[ôo]ne|Le[-‑‐ ]Creusot|M[âa]con|Montceau[-‑‐ ]les[-‑‐ ]Mines|Saint[-‑‐ ]Vallier) 71\d\d\d|(?:Allones|Coulaines|La[-‑‐ ]Ferté[-‑‐ ]Bernard|La[-‑‐ ]Fl[èe]che|Le[-‑‐ ]Mans|Sablé[-‑‐ ]sur[-‑‐ ]Sarthe) 72\d\d\d|(?:Aix[-‑‐ ]les[-‑‐ ]Bains|Albertville|Chambéry) 73\d\d\d|(?:Annecy|Annecy[-‑‐ ]le[-‑‐ ]Vieux|Annemasse|Bonneville|Cluses|Cran[-‑‐ ]Gevrier|Rumily|Sallanches|Seynod|Thonon[-‑‐ ]les[-‑‐ ]Bains) 74\d\d\d|Paris 75\d\d\d|(?:Barentin|Bois[-‑‐ ]Guillaume|Bolbec|Canteleu|Dieppe|F[ée]camp|Elbeuf|Le[-‑‐ ]Grand[-‑‐ ]Quevilly|Le[-‑‐ ]Havre|Marommes|Mont[-‑‐ ]Saint[-‑‐ ]Aignan|Montvilliers|Oissel|Rouen|Saint[-‑‐ ][ÉE]tienne[-‑‐ ]du[-‑‐ ]Rouvray|Sotteville[-‑‐ ]l[èe]s[-‑‐ ]Rouen|Yvetot) 76\d\d\d|(?:Champs[-‑‐ ]sur[-‑‐ ]Marnes|Chelles|Combs[-‑‐ ]la[-‑‐ ]Ville|Dammarie[-‑‐ ]les[-‑‐ ]lys|Lagny[-‑‐ ]sur[-‑‐ ]Marne|Le[-‑‐ ]Mée[-‑‐ ]sur[-‑‐ ]Seine|Meaux|Melun|Ozoir[-‑‐ ]la[-‑‐ ]Ferri[èe]re|Pontault[-‑‐ ]Combault|Roissy[-‑‐ ]en[-‑‐ ]Brie|Savigny[-‑‐ ]le[-‑‐ ]Temple|Torcy|Villeparisis) 77\d\d\d|(?:Anchères|Chatou|Conflas[-‑‐ ]Sainte[-‑‐ ]Honorine|[ÉE]lancourt|Guyancourt|Houilles|La[-‑‐ ]Celle[-‑‐ ]Saint[-‑‐ ]Cloud|Le[-‑‐ ]Chesnay|Le[-‑‐ ]Pecq|Le[-‑‐ ]V[ée]sinet|Les[-‑‐ ]Clayes[-‑‐ ]sous[-‑‐ ]Bois|Les[-‑‐ ]Mureaux|Maison[-‑‐ ]Laffitte|Limay|Mantes[-‑‐ ]la[-‑‐ ]Jolie|Mantes[-‑‐ ]la[-‑‐ ]Ville|Marly[-‑‐ ]le[-‑‐ ]Roi|Maurepas|Montigny[-‑‐ ]le[-‑‐ ]Bretonneux|Plaisir|Poissy|Rambouillet|Saint[-‑‐ ]Germain[-‑‐ ]en[-‑‐ ]Laye|Satrouville|Trappes|V[ée]lizy[-‑‐ ]Villacoublay|Versailles|Viroflay) 78\d\d\d|(?:Bresuire|Maul[ée]on|Partenay|Niort|Thouars) 79\d\d\d|(?:Abbeville|Amiens) 80\d\d\d|(?:Albi|Castres|Gaillac|Graulhet|Marzamet) 81\d\d\d|(?:Castelsarrasin|Caussade|Moissac|Montauban) 82\d\d\d|(?:Brignoles|Draguignan|Fr[ée]jus|Hy[èe]res|La[-‑‐ ]Crau|La[-‑‐ ]Garde|La[-‑‐ ]Seyne[-‑‐ ]sur[-‑‐ ]Mer|La[-‑‐ ]Vilette[-‑‐ ]du[-‑‐ ]Var|Saint[-‑‐ ]Rapha[ëe]l|Six[-‑‐ ]Fours[-‑‐ ]le[-‑‐ ]Plages|Toulon) 83\d\d\d|(?:Avignon|Carpentras|Cavaillon|Orange|Pertuis|Sorgues) 84\d\d\d|(?:Challans|Fontenay[-‑‐ ]le[-‑‐ ]Comte|La[-‑‐ ]Roche[-‑‐ ]sur[-‑‐ ]Yon|Les[-‑‐ ]Herbies|Les[-‑‐ ]Sables[-‑‐ ]d['´‘’′]Olonne) 85\d\d\d|(?:Bruxerolles|Ch[âa]tellerault|Chauvigny|Loudun|Poitiers) 86\d\d\d|(?:Limoges|Panazol|Saint[-‑‐ ]Julien) 87\d\d\d|(?:[ÉE]pinal|Saint[-‑‐ ]Di[ée]) 88\d\d\d|(?:Auxerre|Avallon|Joigny|Sens) 89\d\d\d|(?:Beaucourt|Belfort|Delle) 90\d\d\d|(?:Athis[-‑‐ ]Mons|Br[ée]tigny[-‑‐ ]sur[-‑‐ ]Orge|Brunoy|Bures[-‑‐ ]sur[-‑‐ ]Yvette|Chilly[-‑‐ ]Mazarin|Corbeil[-‑‐ ]Essonnes|Courcouronnes|Dourdan|Draveil|[ÉE]tames|[ÉE]vry|Gif[-‑‐ ]sur[-‑‐ ]Yvette|Grigny|Juvisy[-‑‐ ]sur[-‑‐ ]Orge|Igny|Les[-‑‐ ]Ulis|Longjumeau|Massy|Mennecy|Montgeron|Morangis|Morsang[-‑‐ ]sur[-‑‐ ]Orge|Orsay|Palaiseau|Ris[-‑‐ ]Orangis|Saint[-‑‐ ]Genevi[èe]ve[-‑‐ ]des[-‑‐ ]Bois|Saint[-‑‐ ]Michel[-‑‐ ]sur[-‑‐ ]Orge|Savigny[-‑‐ ]sur[-‑‐ ]Orge|Verri[èe]res[-‑‐ ]le[-‑‐ ]Buisson|Villebon[-‑‐ ]sur[-‑‐ ]Yvette|Vigneux[-‑‐ ]sur[-‑‐ ]Seine|Viry[-‑‐ ]Ch[âa]tillon|Yerres) 91\d\d\d|(?:Antony|Asnières[-‑‐ ]sur[-‑‐ ]Seine|Bagneux|Bois[-‑‐ ]Colombes|Boulogne[-‑‐ ]Billancourt|Bourg[-‑‐ ]la[-‑‐ ]Reine|Ch[âa]tenay[-‑‐ ]Malabry|Ch[âa]tillonClamart|Chaville|Clichy|Colombes|Courbevoie|Fontenay[-‑‐ ]aux[-‑‐ ]Roses|Garches|Gennevilliers|Issy[-‑‐ ]les[-‑‐ ]Moulineaux|La[-‑‐ ]Garenne[-‑‐ ]Colombes|Le[-‑‐ ]Plessis[-‑‐ ]Robinson|Levallois[-‑‐ ]Perret|Malakoff|Meudon|Monrouge|Nanterre|Neuilly[-‑‐ ]sur[-‑‐ ]Seine|Puteaux|Rueil[-‑‐ ]Malmaison|Sceaux|Sèvres|Suresnes|Villeneuve[-‑‐ ]la[-‑‐ ]Garenne) 92\d\d\d|(?:Aubervilliers|Aulnay[-‑‐ ]sous[-‑‐ ]Bois|Bagnolet|Bobigny|Bondy|Clichy[-‑‐ ]sous[-‑‐ ]Bois|Drancy|[ÉE]pinay[-‑‐ ]sur[-‑‐ ]Seine|La[-‑‐ ]Courneuve|Le[-‑‐ ]Blanc[-‑‐ ]Mesnil|Gagny|Les[-‑‐ ]Lilas|Livry[-‑‐ ]Gargan|Montfermeil|Montreuil|Neuilly[-‑‐ ]sur[-‑‐ ]Marne|Noisy[-‑‐ ]le[-‑‐ ]Grand|Noisy[-‑‐ ]le[-‑‐ ]Sec|Pantin|Pierrefitte[-‑‐ ]sur[-‑‐ ]Seine|Romainville|Rosny[-‑‐ ]sous[-‑‐ ]Bois|Saint[-‑‐ ]Denis|Saint[-‑‐ ]Ouen|Sevran|Stains|Tremblay[-‑‐ ]en[-‑‐ ]France|Villemomble|Villepinte) 93\d\d\d|(?:Alfortville|Champigny[-‑‐ ]sur[-‑‐ ]Marne|Choisy[-‑‐ ]le[-‑‐ ]Roi|Cr[ée]teil|Fontenay[-‑‐ ]sous[-‑‐ ]Bois|Ivry[-‑‐ ]sur[-‑‐ ]Seine|Maisons[-‑‐ ]Alfort|Saint[-‑‐ ]Maur[-‑‐ ]des[-‑‐ ]Foss[ée]s|Villejuif|Vincennes|Vitry[-‑‐ ]sur[-‑‐ ]Seine) 94\d\d\d|(?:Argenteuil|Bezons|Cergy|Ermont|Franconville|Garge[-‑‐ ]l[èe]s[-‑‐ ]Gonesse|Gonesse|Goussainville|Herblay|Pontoise|Sannois|Sarcelles|Taverny|Villier[-‑‐ ]le[-‑‐ ]Bel) 95\d\d\d|(?:Baie[-‑‐ ]Mahault|Capesterare[-‑‐ ]Belle[-‑‐ ]Eau|Lamentin|Le[-‑‐ ]Gosier|Le[-‑‐ ]Moule|Les[-‑‐ ]Abymes|Morne[-‑‐ ][àa][-‑‐ ]l['´‘’′]eau|Petit[-‑‐ ]Bourg|Point[-‑‐ ][àa][-‑‐ ]Pitre|Saint[-‑‐ ]Martin|Sainte[-‑‐ ]Anne|Sainte[-‑‐ ]Rose) 971\d\d|(?:Ducos|Fort[-‑‐ ]de[-‑‐ ]France|Le[-‑‐ ]Fran[çc]ois|Le[-‑‐ ]Lamentin|Le[-‑‐ ]Robert|Saint[-‑‐ ]Joseph|Rivi[èè]re[-‑‐ ]Pilote|Sainte[-‑‐ ]Marie|Schoelcher) 972\d\d|(?:Cayenne|Kourou|Mana|Matoury|Remire[-‑‐ ]Montjoly|Saint[-‑‐ ]Laurent[-‑‐ ]du[-‑‐ ]Maroni) 973\d\d|(?:La[-‑‐ ]Possession|Le[-‑‐ ]Port|Le[-‑‐ ]Tampon|Saint[-‑‐ ]Andr[ée]|Saint[-‑‐ ]Beno[iî]t|Saint[-‑‐ ]Denis|Saint[-‑‐ ]Joseph|Saint[-‑‐ ]Leu|Saint[-‑‐ ]Louis|Saint[-‑‐ ]Paul|Saint[-‑‐ ]Pierre|Sainte[-‑‐ ]Marie|Sainte[-‑‐ ]Suzanne) 974\d\d)\b</regexp>

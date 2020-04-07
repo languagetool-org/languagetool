@@ -43,6 +43,7 @@ public class EnglishSRXSentenceTokenizerTest {
     // incomplete sentences, need to work for on-thy-fly checking of texts:
     testSplit("Here's a");
     testSplit("Here's a sentence. ", "And here's one that's not comp");
+    testSplit("Or did you install it (i.e. MS Word) yourself?");
 
     testSplit("This is a sentence. ");
     testSplit("This is a sentence. ", "And this is another one.");
