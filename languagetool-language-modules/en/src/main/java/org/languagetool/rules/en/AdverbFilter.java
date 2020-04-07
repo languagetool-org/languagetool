@@ -134,6 +134,7 @@ public class AdverbFilter extends RuleFilter {
     put("ideally", "ideal");
     put("privately", "private");
     put("reasonably", "reasonable");
+    put("unreasonably", "unreasonable");
     put("forcibly", "forcible");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
