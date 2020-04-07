@@ -132,7 +132,12 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "from poor to rich",
       "my GPU",
       "was your everything",
-      "they mustnt" // different error
+      "they mustnt", // different error
+      "reply my email",
+      "things god said",
+      "let you text",
+      "doubt in god",
+      "in the news"
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {

@@ -3356,6 +3356,31 @@ USA
                 <example>It lets you quickly search for the product,</example>
             </rule>
         </rulegroup>
+        <rulegroup id="IT_SOMETHING" name="if it (is) something else" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">but|because|if|when|unless|while|whether</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[Ii]t</token>
+                        <token regexp="yes">(some|any)(thing|where|one|body)</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>\2 is \3</suggestion>?</message>
+                <example correction="it is something">But <marker>it something</marker> we need.</example>
+                <example correction="it is something">If <marker>it something</marker> else, change it to this one.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">but|because|if|when|unless|while|whether</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[Ii]t</token>
+                        <token regexp="yes">the|my|y?our|his|her|their|an?|many|this</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>\2 is \3</suggestion>, <suggestion>in \3</suggestion> or <suggestion>\3</suggestion>?</message>
+                <example correction="it is the|in the|the">Just wondering if <marker>it the</marker> same hiring supervisor</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IT_IS" name="its vs. it's">
             <url>https://www.dictionary.com/e/its-vs-its/</url>
             <rule>
@@ -10114,27 +10139,6 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rulegroup id="BATTER_BETTER" name="batter (better)" default="temp_off">
-            <url>https://www.merriam-webster.com/dictionary/better</url>
-            <rule>
-                <pattern>
-                    <token>batter</token>
-                    <token>than</token>
-                </pattern>
-                <message>Did you mean <suggestion><match no="1" regexp_match="(?i)atter" regexp_replace="etter" /> \2</suggestion>?</message>
-                <example correction="better than">This season, Playing Football is <marker>batter than</marker> cricket.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">much|lot|i?s|a?m|a?re|was|were|been</token>
-                    <marker>
-                        <token>batter</token>
-                    </marker>
-                </pattern>
-                <message>Did you mean <suggestion><match no="2" regexp_match="(?i)atter" regexp_replace="etter" /></suggestion>?</message>
-                <example correction="better">He won all three games, so I think he is <marker>batter</marker>.</example>
-            </rule>
-        </rulegroup>
         <rule id="WE_UNDER_APPRECIATE" name="under appreciate (underappreciate)">
             <antipattern>
                 <token>down</token>
@@ -10148,6 +10152,36 @@ USA
             <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion>
             <example correction="underappreciates">He <marker>under appreciates</marker> her skills.</example>
         </rule>
+        <rulegroup id="FEED_BACK" name="feed back (feedback)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>feed</token>
+                        <token>back</token>
+                    </marker>
+                </pattern>
+                <message>This is spelled as one word.</message>
+                <suggestion>\3<match no="4" case_conversion="alllower" /></suggestion>
+                <example correction="feedback">He told me his <marker>feed back</marker> and it helped me to improve.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
+                    <token postag="DT" min="0" />
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>feed</token>
+                        <token>back</token>
+                    </marker>
+                    <token regexp="yes">on|for|mechanism|loop</token>
+                </pattern>
+                <message>This is spelled as one word.</message>
+                <suggestion>\4<match no="5" case_conversion="alllower" /></suggestion>
+                <example correction="feedback">Any <marker>feed back</marker> on these yet?</example>
+            </rule>
+        </rulegroup>
         <rule id="FREQUENT_ASKED_QUESTIONS" name="Frequently Asked Questions">
             <pattern>
                 <token>frequent</token>
@@ -15302,7 +15336,7 @@ USA
             <example>It has been awhile since we put the mail feedbag on and had a munch.</example><!-- Copied from Premium #845 -->
             <example>AI and AN are also in line for this constructive disruption.</example>
         </rule>
-        <rule id="THE_WELSH" name="the/a welsh (Welsh)" default="temp_off">
+        <rule id="THE_WELSH" name="the/a welsh (Welsh)">
             <pattern>
                 <token regexp="yes">the|an?|y?our|my|their|his|her|its|s</token>
                 <token postag="JJ.*" postag_regexp="yes" min="0">
@@ -15438,7 +15472,7 @@ USA
             </rule>
         </rulegroup>
 
-        <rulegroup id="IN_LONG_BEACH" name="long beach (Long Beach)" default="temp_off">
+        <rulegroup id="IN_LONG_BEACH" name="long beach (Long Beach)">
             <url>https://en.wikipedia.org/wiki/Long_Beach,_California</url>
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Long|LONG</token>
@@ -41526,7 +41560,28 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rule id="BEGONE_BEGUN" name="begone (begun)" default="temp_off">
+        <rulegroup id="BATTER_BETTER" name="batter (better)">
+            <url>https://www.merriam-webster.com/dictionary/better</url>
+            <rule>
+                <pattern>
+                    <token>batter</token>
+                    <token>than</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1" regexp_match="(?i)atter" regexp_replace="etter" /> \2</suggestion>?</message>
+                <example correction="better than">This season, Playing Football is <marker>batter than</marker> cricket.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">much|lot|i?s|a?m|a?re|was|were|been</token>
+                    <marker>
+                        <token>batter</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion><match no="2" regexp_match="(?i)atter" regexp_replace="etter" /></suggestion>?</message>
+                <example correction="better">He won all three games, so I think he is <marker>batter</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="BEGONE_BEGUN" name="begone (begun)">
             <pattern>
                 <token inflected="yes">have</token>
                 <token postag="RB" min="0" />
@@ -41779,6 +41834,22 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>it</suggestion>?</message>
                 <example correction="it">Go for <marker>if</marker>!</example>
             </rule>
+            <rule default="temp_off"><!-- but this is just so good -->
+                <pattern>
+                    <token regexp="yes">if|but|when|while|unless|because</token>
+                    <token>this</token>
+                    <marker>
+                        <token>it</token>
+                    </marker>
+                    <token postag="RB" min="0" max="2" />
+                    <token postag="JJ">
+                        <exception postag="VBZ" />
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>is</suggestion>?</message>
+                <example correction="is">But this <marker>it</marker> just so good.</example>
+                <example correction="is">Not sure if this <marker>it</marker> intended or not?</example>
+            </rule>
         </rulegroup>
         <rule id="HAD_HARD" name="had vs. hard">
             <pattern>
@@ -42021,10 +42092,12 @@ The accident victim died from her injuries.
                     <marker>
                         <token>barley</token>
                     </marker>
+                    <token postag="RB" min="0" />
                     <token postag="VB.*" postag_regexp="yes" />
                 </pattern>
                 <message>Did you mean the adverb <suggestion>barely</suggestion> (= hardly, scarcely)?</message>
                 <example correction="barely">I could <marker>barley</marker> move.</example>
+                <example correction="barely">He could <marker>barley</marker> even drink.</example>
                 <example>Can barley be eaten?</example>
             </rule>
             <rule>
@@ -44124,7 +44197,7 @@ The accident victim died from her injuries.
                 <token>by</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">garbage|trash|the|a</token>
+                <token regexp="yes">garbage|trash|rubbish|the|a</token>
                 <token>can</token>
             </antipattern>
             <antipattern><!-- ... he shouldn't by not going ... -->
