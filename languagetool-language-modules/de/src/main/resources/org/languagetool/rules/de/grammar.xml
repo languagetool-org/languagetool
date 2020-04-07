@@ -2037,7 +2037,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception inflected="yes" regexp="yes">ein(ig)?en</exception></token>
                     <marker>
-                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">[a-zäöüß]+er|andere|teilweise|lange|einigen?|solche|erste|Becker</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">[a-zäöüß]+er|andere|teilweise|lange|einigen?|solche|erste|Becker|anderen</exception></token>
                     </marker>
                     <token>als</token>
                 </pattern>
@@ -2051,7 +2051,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="VER:(AUX:)?(1|2|3):.+" postag_regexp="yes"><exception inflected="yes">einen</exception></token>
                     <marker>
-                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">[a-zäöüß]+er|andere|teilweise|lange|einigen?|solche|erste|Becker</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:KOM"/><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">[a-zäöüß]+er|andere|teilweise|lange|einigen?|solche|erste|Becker|anderen</exception></token>
                     </marker>
                     <token>als</token>
                 </pattern>
@@ -2059,6 +2059,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="flinker">Die sind <marker>flinke</marker> als wir.</example>
                 <example correction="schneller">Er schießt <marker>schnelle</marker> als sein Schatten.</example>
                 <example>Die sind <marker>schneller</marker> als wir.</example>
+                <example>Die für die einen Terroristen sind, gelten anderen als Freiheitskämpfer.</example>
             </rule>
             <rule>
                 <pattern>
@@ -17857,7 +17858,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>das</token>
                     <marker>
-                        <token postag="ADJ:NOM:SIN:NEU:(GRU|SUP):DEF" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e</token>
+                        <token postag="ADJ:NOM:SIN:NEU:(GRU|SUP):DEF" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e
+                            <exception>andere</exception>
+                        </token>
                     </marker>
                     <token regexp="yes" case_sensitive="yes">[ai][mn]|daran</token>
                 </pattern>
@@ -18518,7 +18521,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token>ein</token>
-                <token postag_regexp="yes" postag="ADJ:.*" min="0"><exception regexp="yes">wenig|sieben</exception></token>
+                <token postag_regexp="yes" postag="ADJ:.*" min="0"><exception regexp="yes">wenig|sieben|anderer</exception></token>
                 <marker>
                     <token postag="VER:INF:SFT" case_sensitive="yes" regexp="yes">[a-zöäü]+<exception>einen</exception></token>
                 </marker>
@@ -18529,6 +18532,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ein sieben Jahre alter Junge.</example>
             <example>Lass mich dir ein neues kaufen!</example>
             <example>Sie sollten ein neues kaufen.</example>
+            <example>Was ein Mensch erfinden kann, kann ein anderer entdecken.</example>
         </rule>
         <rule id="EIN_FUENFTEL" name="ein fünftel (Fünftel) etc.">
             <pattern>
@@ -34195,7 +34199,10 @@ Andere Projekte</example>
                 <token>bei</token>
                 <token>anderen</token>
                 <marker>
-                    <token postag="SUB:.*:SIN:.*" postag_regexp="yes"><exception postag="SUB:DAT:PLU.*" postag_regexp="yes"/></token>
+                    <token postag="SUB:.*:SIN:.*" postag_regexp="yes">
+                        <exception postag="SUB:DAT:PLU.*" postag_regexp="yes"/>
+                        <exception>Achtung</exception>
+                    </token>
                 </marker>
             </pattern>
             <message>Muss hier möglicherweise der Plural Dativ benutzt werden?</message>
@@ -35594,7 +35601,7 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token regexp="yes">bei|von|mit</token>
-                    <marker><token postag_regexp="yes" postag="ADJ:.+" regexp="yes">.+en</token></marker>
+                    <marker><token postag_regexp="yes" postag="ADJ:.+" regexp="yes">.+en<exception>anderen</exception></token></marker>
                     <token postag="SUB:DAT:SIN:FEM">
                         <exception postag_regexp="yes" postag="SUB:.*PLU.+"/>
                         <exception regexp="yes">\w*[gG]ramm</exception>
@@ -36420,7 +36427,7 @@ Andere Projekte</example>
                 <pattern>
                     <token postag="PRP:.+CAU:DAT" postag_regexp="yes"/>
                     <marker><token regexp="yes">d(ies)?en|jenen|[dkms]?einen|ihren</token></marker>
-                    <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"/>
+                    <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"><exception>anderen</exception></token>
                     <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
                         <exception postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"/></token>
                 </pattern>
@@ -36440,7 +36447,7 @@ Andere Projekte</example>
                 <pattern>
                     <token regexp="yes">bei|mitsamt|seit|von</token>
                     <marker><token regexp="yes">d(ies)?en|jenen|s?einen|ihren</token></marker>
-                    <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"/>
+                    <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"><exception>anderen</exception></token>
                     <token postag="SUB:.+:SIN:MAS.*" postag_regexp="yes">
                         <exception postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"/></token>
                 </pattern>
@@ -38794,6 +38801,7 @@ Andere Projekte</example>
                     <token skip="-1" postag="PRO:.*|SUB:.*|EIG:.*|ADJ:.*" postag_regexp="yes">
                         <exception scope="next" regexp="yes">\?|!|:|“|»|«|"</exception>
                         <exception>wohl</exception>
+                        <exception>andere</exception>
                     </token>
                     <token skip="-1" postag="SUB:.*|EIG:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception scope="next" regexp="yes">\?|!|:|“|»|«|"</exception>
@@ -38811,6 +38819,7 @@ Andere Projekte</example>
                 <example>Sollte das auch nicht klappen, werde ich Ihren Account manuell freischalten.</example>
                 <example>Sollte es damit Probleme geben, melden Sie sich bitte erneut per E-Mail bei uns.</example>
                 <example>Sollten einzelne Bestimmungen der AGB unwirksam oder undurchführbar sein oder unwirksam oder undurchführbar werden, bleibt davon die Wirksamkeit der AGB im Übrigen unberührt.</example>
+                <example>Mögen andere Kriege führen.</example>
             </rule>
             <rule>
                 <antipattern>

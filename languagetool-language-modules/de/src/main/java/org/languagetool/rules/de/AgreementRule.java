@@ -99,14 +99,59 @@ public class AgreementRule extends Rule {
       posRegex("VER:PA2.*"),
       posRegex("SUB:.*")
     ),
+    Arrays.asList(  // "Das eine bedeutet Gefahr und das andere Gelegenheit."
+      regex("der|die|das"),
+      new PatternTokenBuilder().token("eine").setSkip(-1).build(),
+      regex("der|die|das"),
+      token("andere"),
+      posRegex("SUB:.*")
+    ),
     Arrays.asList(  // "... größeren Bekanntheitsgrad in der Bevölkerung als jeder andere Kandidat vor ihm"
       regex("jede[mnrs]?"),
       regex("anderen?"),
       posRegex("SUB:.*")
     ),
-    Arrays.asList(  // "... ist des anderen Freiheitskämpfer"
-      token("des"),
+    Arrays.asList(  // "... kein anderer Unrecht hat."
+      regex("keine?"),
+      regex("anderer?"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "Toleranz ist der Verdacht, dass der andere Recht hat."
+      regex("der|die|das"),
+      regex("anderen?"),
+      token("Recht"),
+      regex("hat|hatte|habe|haben|gehabt")
+    ),
+    Arrays.asList(  // "als einziger ein für die anderen unsichtbares Wunder zu sehen."
+      token("für"),
+      regex("den|die"),
+      token("anderen")
+    ),
+    Arrays.asList(  // "Wer auf eines anderen Schuhe wartet...", "...Auge darauf haben, dass keine der anderen Abbruch tue"
+      regex("der|eine[sr]"),
       token("anderen"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "wenn andere anderer Meinung sind"
+      token("andere"),
+      regex("anderer?"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "Hat ein Schutzgut gegenüber den anderen Priorität?"
+      token("gegenüber"),
+      token("den"),
+      token("anderen"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "... ist des anderen Freiheitskämpfer", "... die anderen Volleyball"
+      regex("des|die"),
+      token("anderen"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "Ein Esel schimpft den anderen Langohr."
+      posRegex("VER:2:.*"),
+      regex("den|die|das"),
+      regex("anderen?"),
       posRegex("SUB:.*")
     ),
     Arrays.asList(  // "... eine bessere Behandlung als andere Gefangene."
