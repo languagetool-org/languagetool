@@ -125,7 +125,7 @@ USA
         <token>/</token>
         <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
-
+    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant'>
 ]>
 
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -10139,6 +10139,67 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="MAKE_UP" name="make up (makeup)" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/makeup</url>
+            <antipattern>
+                <token postag="VB.*" postag_regexp="yes" />
+                <token skip="1">her</token>
+                <token>make</token>
+            </antipattern>
+            <antipattern>
+                <token skip="1">let</token>
+                <token skip="1">s</token>
+                <token>make</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&nouns_with_a;</token>
+                <token>A</token>
+            </antipattern>
+            <antipattern>
+                <token>no</token>
+                <token>longer</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|no|y?our|her|his|my|their|its|s</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0">
+                        <exception regexp="yes">few|plane</exception>
+                    </token>
+                    <marker>
+                        <token>make</token>
+                        <token regexp="yes">ups?</token>
+                    </marker>
+                </pattern>
+                <message>The noun <suggestion><match no="3" /><match no="4" case_conversion="alllower" /></suggestion> (= cosmetic, test or composition/constitution of sth.) is spelled as one word.</message>
+                <example correction="makeup">Her <marker>make up</marker> looked beautiful.</example>
+                <example>Did the plane make up for the lost time?</example>
+                <example>I saw a few make up.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>make</token>
+                        <token>up</token>
+                    </marker>
+                    <token regexp="yes">is|was|looks|looked|artists?|removers?|tips?</token>
+                </pattern>
+                <message>The noun <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion> (= cosmetic, test or composition/constitution of sth.) is spelled as one word.</message>
+                <example correction="makeup">Her <marker>make up</marker> looks beautiful.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token postag="JJ.*|DT" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>make</token>
+                        <token>up</token>
+                    </marker>
+                    <token>on</token>
+                </pattern>
+                <message>The noun <suggestion><match no="3" /><match no="4" case_conversion="alllower" /></suggestion> (= cosmetic, test or composition/constitution of sth.) is spelled as one word.</message>
+                <example correction="makeup">She put some <marker>make up</marker> on.</example>
+            </rule>
+        </rulegroup>
         <rule id="WE_UNDER_APPRECIATE" name="under appreciate (underappreciate)">
             <antipattern>
                 <token>down</token>
@@ -15107,7 +15168,7 @@ USA
                 <token regexp="yes">pits?</token>
             </antipattern>
             <antipattern><!-- https://en.wikipedia.org/wiki/Serie_A -->
-                <token regexp="yes">series?|angle|choice|plan|exhibit|part|group</token>
+                <token regexp="yes">&nouns_with_a;</token>
                 <token>a</token>
             </antipattern>
             <antipattern><!-- https://en.equipauto.com/ -->
@@ -16426,7 +16487,7 @@ USA
                 <token>her</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">team|person|participant|patient|probant|exhibit|plan</token>
+                <token regexp="yes">&nouns_with_a;</token>
                 <token>A</token>
                 <token postag="VB.*" postag_regexp="yes" />
             </antipattern>
@@ -16485,6 +16546,10 @@ USA
             </antipattern>
             <antipattern><!-- "While solution s begins to work" -->
                 <token spacebefore="yes">s</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&nouns_with_a;</token>
+                <token>A</token>
             </antipattern>
             <rule><!-- the translate -->
                 <pattern>
@@ -25999,7 +26064,7 @@ USA
                     <token postag="VBG"/>
                 </antipattern>
                 <antipattern>
-                    <token>cannot</token>
+                    <token regexp="yes">cannot|cant</token><!-- "cant" is a common misspelling of "can't" -->
                     <token>help</token>
                     <token postag="VBG"/>
                 </antipattern>
@@ -26012,6 +26077,15 @@ USA
                 <antipattern case_sensitive="yes">
                     <token>developing</token>
                     <token>countries</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">ask|beg</token>
+                    <token>for</token>
+                    <token>help</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">want|request|need</token>
+                    <token>help</token>
                 </antipattern>
                 <pattern>
                     <token inflected="yes">help</token>
@@ -26027,6 +26101,7 @@ USA
                 <example correction="to carry|carry">All he did was to help <marker>carrying</marker> the bags.</example>
                 <example correction="to carry|carry">He helped <marker>carrying</marker> the bags.</example>
                 <example>Do you need any help regarding the account?</example>
+                <example>Mr. Kushner’s team referred him to the White House task force and Mr. Mignone asked for help getting India to ease export restrictions.</example>
             </rule>
             <rule>
                 <!-- FIXME: 'cannot help but not like' is one negation too many -->
@@ -26343,8 +26418,8 @@ USA
         <rule id="SUPERLATIVE_THAN" name="SUPERLATIVE + THAN, e.g. worst (worse) than">
         <!-- Created by Tiago F. Santos, 2018-02-02 -->
             <antipattern>
-                <token skip='-1' regexp='yes'>more|less|rather|other|different</token>
-                <token skip='-1' postag='JJ|RB' postag_regexp='yes'/>
+                <token skip='-1' regexp='yes'>(any)?more|less|rather|further|other|different|prefer</token>
+                <token skip='-1' postag='JJ'/>
                <token>than</token>
             </antipattern>
             <antipattern>
@@ -26359,33 +26434,29 @@ USA
             </antipattern>
             <antipattern>
                 <token skip='-1' postag='JJR'/>
-                <token skip='-1' postag_regexp='yes' postag='JJ|RB'/>
-                <token>than</token>
-            </antipattern>
-            <antipattern><!-- #2077 and display them differently than grammar errors. -->
-                <token chunk="B-VP" postag_regexp='yes' postag='VB.*'/>
-                <token postag='PRP'/>
-                <token>differently</token><!-- Or use postag RB? -->
+                <token skip='-1' postag='JJ'/>
                 <token>than</token>
             </antipattern>
             <pattern>
                 <marker>
-                    <token postag='(?:JJ|RB)S?' postag_regexp='yes'>
-                      <exception regexp='yes'>more|less|rather|other(?:wise)?|different|inferior|superior</exception>
-                      <exception postag='JJR|RBR' postag_regexp='yes'/></token>
+                    <token postag='JJS?' postag_regexp='yes'>
+                      <exception regexp='yes'>more|less|rather|other(?:wise)?|different|inferior|superior|back</exception>
+                      <exception postag='JJR|IN' postag_regexp='yes'/>
+                    </token>
                 </marker>
                 <token>than</token>
             </pattern>
-            <message>Use <suggestion><match no='1' postag='(JJ|RB).?' postag_regexp='yes' postag_replace='$1R'/></suggestion> to make a comparison with this adjective.</message>
+            <message>Use <suggestion suppress_misspelled="yes"><match no='1' postag='JJ.?' postag_regexp='yes' postag_replace='JJR' suppress_misspelled="yes" /></suggestion> to make a comparison with this adjective.</message>
             <example correction="iller|worse">That's <marker>worst</marker> than before!</example>
-            <example correction="(differently)">This was <marker>differently</marker> than I had expected.</example><!-- #2077 -->
             <example>...rather than receiving goods being distributed "according...</example>
+            <example>This was <marker>differently</marker> than I had expected.</example><!-- #2077 -->
             <example>The two traditions may have had more in common than initially appears.</example>
             <example>...als with Asperger syndrome tend to perform better cognitively than those with autism, the extent of the overlap...</example>
             <example>... with autism are about 25 times more likely to be autistic than the general population.</example>
             <example>He is no more foolish than you are.</example>
             <example>All animals are equal, but some animals are more equal than others</example>
             <example>I would rather go out than stay at home.</example>
+            <example>I prefer to be crazy than sad.</example>
             <example>I may as well go out than stay at home.</example>
             <example>While no nation other than the Russian Federation (and previously the f...</example>
             <example>No sooner had I gone out than it began to rain.</example>
@@ -26393,7 +26464,8 @@ USA
             <example>...t his use of the term science carries a different meaning than that covered by the term "scientific method"...</example>
             <example>...don't think that there is any better way to learn English than by living in America.</example>
             <example>This will allow us to identify style issues and display them differently than grammar errors.</example><!-- #2077 -->
-            <example type="triggers_error">They seem to behave differently than some other other types of error.</example><!-- #2077 -->
+            <example>They seem to behave differently than some other other types of error.</example><!-- #2077 -->
+            <example>The blame goes way further back than the ‘Iraqi Government’.</example>
             <!--example>No sooner had I sat down and relaxed than the phone rang.</example> XXX this is missing a comma -->
             <!--example>...to no-kin, to friends than to strangers, to those <marker>attractive than</marker> to those unattractive, to non-competitors th...</example> XXX doesn't account for skipped words (rather) -->
         </rule>
@@ -41560,6 +41632,16 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rulegroup id="GRATE_GREAT" name="grate (great)" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker><token>grate</token></marker>
+                    <token regexp="yes">work|friends?|ideas?|plan|jokes?|success|white|famine|tv|show|uncle|news|music|movies?|books?|songs?|artists?|job|britain|wall|gatsby|depression|recession|pacific|barrier|awakening|barrington|british|canyon|escape|firewall|falls|lions?|lakes?|ocean</token>
+                </pattern>
+                <message>Did you mean the adjective <suggestion>great</suggestion>?</message>
+                <example correction="Great"><marker>Grate</marker> work!</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BATTER_BETTER" name="batter (better)">
             <url>https://www.merriam-webster.com/dictionary/better</url>
             <rule>
