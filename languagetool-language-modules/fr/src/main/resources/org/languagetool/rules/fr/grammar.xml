@@ -8197,17 +8197,40 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
     <antipattern>
+        <token regexp="yes">\d+</token>
+        <token regexp="yes">heures?</token>
+        <token regexp="yes">\d+</token>
+    </antipattern>
+    <antipattern>
+        <token regexp="yes">formule|saisons?|épisodes?|zones?</token>
+        <token regexp="yes">\d+</token>
+    </antipattern>
+    <antipattern>
+        <token regexp="yes">\d+</token>
+        <token regexp="yes">éditions</token>
+    </antipattern>
+    <antipattern>
+        <token regexp="yes">Windows|Apple|Galaxy</token>
+        <token regexp="yes">\d+</token>
+        <token postag=".*s"/>
+    </antipattern>
+    <antipattern>
         <token>couleur</token>
         <token min="0" max="2"/>
         <token regexp="yes">abricot|bistre|brique|bronze|carmin|crème|garance|grenat|indigo|kaki|lilas|marron|n[aâ]cre|noisette|olive|orange|paille|pastel|pervenche|sépia|turquoise|tilleul|vermillon</token>
     </antipattern>
-        <antipattern>
+    <antipattern>
             <token>couleur</token>
             <token min="0" max="2"/>
             <token regexp="yes">Abricot|Absinthe|Acajou|Albâtre|Alezane?s?|Amande|Amarante|Ambre jaune|Ambre rouge|Améthyste|Anthracite|Aquilaine?s?|Ardoise|Argent|Argile|Asperge|Aubergine|Auburn|Aurore|Avocat|Azur|Banane|Basanée?s?|Beiges?|Bistre|Bitume|Blancs|Blanches?|Bleue?s?|Blonde?s?|Bourgogne|Bronze|Brune?s?|Caca d’oie|Café|Capucine|Caramel|Carotte|Cassis|Cerise|Chair|Châtaine?s?|Cramoisie?s?|Denim|écarlates?|émeraude|Fauves?|Glauques?|Grise?s?|Incarnate?s?|Indigo|Jaunes?|Lavande|Lilas|Magenta|Marine|Mauves?|Menthe|Noire?s?|Noisette|Or|Orange|Pistache|Pourpres?|Prune|Puce|Roses?|Rouges?|Roux|Rousses?|Turquoise|Vermeils?|Vermeilles?|Verte?s?|Violets?|Violettes?</token>
             <token regexp="yes">Abricot|Absinthe|Acajou|Albâtre|Alezane?s?|Amande|Amarante|Ambre jaune|Ambre rouge|Améthyste|Anthracite|Aquilaine?s?|Ardoise|Argent|Argile|Asperge|Aubergine|Auburn|Aurore|Avocat|Azur|Banane|Basanée?s?|Beiges?|Bistre|Bitume|Blancs|Blanches?|Bleue?s?|Blonde?s?|Bourgogne|Bronze|Brune?s?|Caca d’oie|Café|Capucine|Caramel|Carotte|Cassis|Cerise|Chair|Châtaine?s?|Cramoisie?s?|Denim|écarlates?|émeraude|Fauves?|Glauques?|Grise?s?|Incarnate?s?|Indigo|Jaunes?|Lavande|Lilas|Magenta|Marine|Mauves?|Menthe|Noire?s?|Noisette|Or|Orange|Pistache|Pourpres?|Prune|Puce|Roses?|Rouges?|Roux|Rousses?|Turquoise|Vermeils?|Vermeilles?|Verte?s?|Violets?|Violettes?|Pastel|sang|acier|plastique</token>
         </antipattern>
       <rule name="nombre singulier suivi du pluriel">
+          <antipattern>
+              <token regexp="yes">[2-9](\d+)?</token>
+              <token regexp="yes">[.,+-≠=()x]</token>
+              <token regexp="yes">\d+</token>
+          </antipattern>
           <antipattern>
               <token>top</token>
               <token postag="K"/>
@@ -31067,6 +31090,26 @@ though, and has since been slightly modified)-->
         <example correction="mieux">C’est <marker>mieux mieux</marker> comme ça.</example>
         <example>Les chiens aboient à qui mieux mieux.</example>
       </rule>
+    </rulegroup>
+    <rulegroup id="TOUT_A_COMMENCE" name="Expression 'tout a commencé'">
+        <rule name="Expression 'tout a/à commencé'">
+            <pattern>
+                <token>tout</token>
+                <token regexp="yes">a|à</token>
+                <token regexp="yes">commenc(er|ée|ée?s)</token>
+            </pattern>
+            <message>Vouliez-vous dire <suggestion>tout a commencé</suggestion> ?</message>
+            <example correction="Tout a commencé"><marker>Tout à commencer</marker> ce matin.</example>
+        </rule>
+        <rule name="Expression 'tout a commencé' conjuguée">
+            <pattern>
+                <token>tout</token>
+                <token postag_regexp="yes" postag="V avoir.*"/>
+                <token regexp="yes">commenc(er|ée|ée?s)</token>
+            </pattern>
+            <message>Vouliez-vous dire <suggestion>tout \2 commencé</suggestion> ?</message>
+            <example correction="Tout avait commencé"><marker>Tout avait commencer</marker> ce matin.</example>
+        </rule>
     </rulegroup>
     <rule id="DISPO" name="Dispo">
       <pattern>
