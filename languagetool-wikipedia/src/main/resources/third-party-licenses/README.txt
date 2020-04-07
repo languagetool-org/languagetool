@@ -37,6 +37,7 @@ slf4j-nop.jar: MIT License, http://www.slf4j.org
 swc-engine.jar: Apache License 2.0, http://sweble.org
 swc-parser-lazy.jar: Apache License 2.0, http://sweble.org
 SymSpell, included in languagetool-core/src/main/java/org/languagetool/rules/spelling/symspell/implementation/: MIT License, https://github.com/Lundez/JavaSymSpell
+trove4j.jar: Lesser GNU Public License (LGPL) 2.1 or later, https://mvnrepository.com/artifact/org.jetbrains.intellij.deps/trove4j
 unit-api.jar: BSD License, http://unitsofmeasurement.github.io
 utils.jar: part of Sweble, Apache License 2.0, http://sweble.org
 
