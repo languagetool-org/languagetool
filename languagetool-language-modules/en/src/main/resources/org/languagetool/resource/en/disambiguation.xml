@@ -9970,10 +9970,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="ignore_spelling"/>
     </rule>
 
-    <rule name="ribonucleic acid" id="RIBONUCLEIC_ACID">
+    <rule name="ribonucleic acid" id="ACID">
         <pattern><!-- https://www.lexico.com/definition/ribonucleic_acid-->
-            <token>ribonucleic</token>
-            <token>acid</token>
+            <token regexp="yes">ribonucleic|glutamic</token>
+            <token regexp="yes">acids?</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
@@ -10002,6 +10002,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="fata morgana" id="FATA_MORGANA_IGNORE_SPELLING">
+        <!-- https://www.merriam-webster.com/dictionary/fata%20morgana -->
+        <pattern>
+            <token>fata</token>
+            <token regexp="yes">morganas?</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
 
     <rule name="Bon Voyage" id="IGNORE_SPELLING_OF_BON_VOYAGE">
         <!-- https://www.merriam-webster.com/dictionary/haversian -->
