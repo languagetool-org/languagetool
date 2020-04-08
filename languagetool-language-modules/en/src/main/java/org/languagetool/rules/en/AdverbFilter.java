@@ -136,6 +136,9 @@ public class AdverbFilter extends RuleFilter {
     put("reasonably", "reasonable");
     put("unreasonably", "unreasonable");
     put("forcibly", "forcible");
+    put("personally", "personal");
+    put("basically", "basical");
+    put("definitely", "definite");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
