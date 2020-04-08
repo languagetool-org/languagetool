@@ -6063,6 +6063,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes">and|or</token>
                 <token postag_regexp="yes" postag="VB(P|D)?"/>
             </antipattern>
+            <antipattern><!-- #2723 can't rest and something -->
+                <token postag="MD"/>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+                <token postag_regexp="yes" postag="VBP?"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="NN.*" postag_regexp="yes"><exception postag_regexp="yes" postag="RBR?|JJ"/></token>
@@ -6089,6 +6095,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">She might possibly go and hangout.</example><!-- #2386 -->
             <example type="untouched">I can't restart or logoff.</example><!-- #2501 -->
             <example type="untouched">Currently we email and share the stuff.</example><!-- #2539 -->
+            <example type="untouched">They always can't rest and something is waiting for them.</example><!-- #2723 -->
             <example type="ambiguous" inputform="man[man/NN:UN,man/VB,man/VBP]" outputform="man[man/NN:UN]">They are now <marker>man</marker> and wife duly married.</example>
             <example type="ambiguous" inputform="husband[husband/NN,husband/VB,husband/VBP]" outputform="husband[husband/NN]">They were <marker>husband</marker> and wife.</example>
             <example type="ambiguous" inputform="bosses[boss/NNS,boss/VBZ]" outputform="bosses[boss/NNS]">I know that <marker>bosses</marker> or workers can do these tasks.</example>
