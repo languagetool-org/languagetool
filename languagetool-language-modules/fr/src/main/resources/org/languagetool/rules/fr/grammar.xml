@@ -11317,6 +11317,7 @@ though, and has since been slightly modified)-->
         <example correction="">Je ne l’y <marker>ait</marker> pas vu.</example>
         <example>Je ne l’y <marker>ai</marker> pas vu.</example>
       </rule>
+
       <rule name="tu token + verbe">
         <pattern>
           <token>tu</token>
@@ -11388,6 +11389,7 @@ though, and has since been slightly modified)-->
         <example correction="">Tu ne m’en <marker>parle</marker> pas</example>
         <example>Tu ne m’en <marker>parles</marker> pas</example>
       </rule>
+
       <rule name="il/elle/on + 0 tokens + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
@@ -11433,11 +11435,21 @@ though, and has since been slightly modified)-->
         <example>Et ça fonctionne.</example>
         <example>Je ne trouve pas ça intéressant.</example>
       </rule>
+
       <rule name="il/elle/on + 1 token + Verbe">
         <antipattern>
           <token postag="[NZ].*" postag_regexp="yes"/>
           <token>et</token>
           <token>elle</token>
+        </antipattern>
+        <antipattern>
+            <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
+                <exception regexp="yes">ce|celle|cela</exception>
+                <exception scope="previous" postag="&lt;/DE&gt;"/>
+                <exception scope="previous" postag="P"/>
+            </token>
+            <token>en</token>
+            <token postag="V (etre |avoir )?ppr" postag_regexp="yes"/>
         </antipattern>
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
@@ -11458,6 +11470,7 @@ though, and has since been slightly modified)-->
         <example>Elle se demande.</example>
         <example>Il a converti cela en médailles.</example>
         <example>Dominique et elle les attendent.</example>
+        <example>Dit celui-ci en laissant retomber ses bras.</example>
       </rule>
       <rule name="ça + 1 tokens + Verbe">
         <pattern>
@@ -11475,6 +11488,7 @@ though, and has since been slightly modified)-->
         <example correction="">Personne ne <marker>peux</marker> me le dire.</example>
         <example>Personne ne <marker>peut</marker> me le dire.</example>
       </rule>
+
       <rule name="il/elle/on + 2 tokens + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
@@ -14637,6 +14651,15 @@ though, and has since been slightly modified)-->
           <token regexp="yes">les?|la</token>
           <token postag="V.*" postag_regexp="yes"><exception postag="V .*sub .*" postag_regexp="yes"/></token>
         </antipattern>
+        <antipattern>
+            <token postag="[ZR].*" postag_regexp="yes"/>
+            <and>
+                <token postag="V.*ind.*" postag_regexp="yes"/>
+                <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
+            </and>
+            <token skip="-1">que</token>
+            <token postag="V .*sub .*" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
           <token postag="[ZR].*" postag_regexp="yes"/>
           <and>
@@ -14654,6 +14677,7 @@ though, and has since been slightly modified)-->
         <example>Je souhaitais que tu <marker>fusses</marker> présent.</example>
         <example correction="soit">Il faut que la France <marker>est</marker> prête.</example>
         <example>Ce coup-ci, on ne se presse pas, on attend que la fumée se dissipe.</example>
+        <example>Je souhaite que ces quelques mots vous incitent à m’écrire.</example>
       </rule>
       <rule>
         <pattern>
