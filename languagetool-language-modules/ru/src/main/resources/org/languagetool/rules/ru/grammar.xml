@@ -2745,6 +2745,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Привет, друзья"><marker>Привет друзья</marker>!</example>
             </rule>
         </rulegroup>
+        <rulegroup id="Kak_bi_to_ni_bilo" name="Устойчивое выражение «как бы то ни было»,..">
+            <rule>
+                <pattern>              
+                    <token>как</token>
+                    <token>бы</token>
+                    <token>то</token>
+                    <token>не</token>
+                    <token>было</token>
+                </pattern>
+                <message>Устойчивое выражение: <suggestion>\1 \2 \3 ни \5</suggestion></message>
+
+                <short>Устойчивое выражение.</short>
+                <example correction="как бы то ни было"><marker>как бы то не было</marker></example>
+            </rule>
+            <rule>
+                <pattern>              
+                    <token>как</token>
+                    <token>бы-то</token>
+                    <token regexp="yes">н[еи]</token>
+                    <token>было</token>
+                </pattern>
+                <message>Устойчивое выражение: <suggestion>\1 бы то ни \4</suggestion></message>
+                <short>Устойчивое выражение.</short>
+                <example correction="как бы то ни было"><marker>как бы-то ни было</marker></example>
+            </rule>
+            <rule>
+                <pattern>              
+                    <token>как-бы</token>
+                    <token>то</token>
+                </pattern>
+                <message>Устойчивое выражение: <suggestion>как бы \2</suggestion></message>
+                <short>Устойчивое выражение.</short>
+                <example correction="как бы то"><marker>как-бы то</marker></example>
+            </rule>            
+        </rulegroup>
+        
         <rulegroup id="POZHALUJSTA" name="«Пожалуйста» выделяется запятыми">
             <rule>
                 <pattern>
