@@ -35535,6 +35535,12 @@ USA
                     <token>little</token>
                     <token postag="VBN"/>
                 </antipattern>
+                <antipattern><!-- #2722 were a group called Pariahs -->
+                    <token chunk="B-NP-singular" postag_regexp="yes" postag="DT|PRP\$"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                    <token chunk="B-VP" postag="VBN"/>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be</token>
                     <token postag_regexp="yes" postag="DT|PRP\$"/>
@@ -35543,7 +35549,7 @@ USA
                         <token postag="JJ">
                            <exception postag="RB"/><!-- She is a very refined lady. -->
                            <exception regexp="yes">.*(st|nd|rd|th)</exception>
-                            <exception regexp="yes">only|very</exception>
+                            <exception regexp="yes">only|very|so-called</exception>
                         </token>
                         <token postag="VBN"/><!-- Including JJ in the token causes many FP. For now, keep the rule simple. -->
                     </marker>
@@ -35557,6 +35563,7 @@ USA
                 <example correction="">... suitable for mounted action and there was a <marker>long established</marker> culture of horsemanship amongst the Arab and...</example><!-- Should be a hyphenated adjective -->
                 <example correction="">You're a <marker>natural born</marker> talker.</example><!-- Hyphenated adjective -->
                 <example correction="">Beauty is a <marker>short lived</marker> tyranny.</example><!-- Hyphenated adjective -->
+                <example correction="">It was the <marker>initial wound</marker> area.</example><!-- #2722 This sentence is ambiguous. If 'wound' is a verb, then the warning is correct. If 'wound' is a noun, it's a false positive. -->
                 <example>It is a <marker>commonly used</marker> tool for spammers.</example>
                 <example>It is the fourth known problem this week.</example>
                 <example>She is a very refined lady.</example>
@@ -35607,6 +35614,9 @@ USA
                 <example>The centrepiece of the exhibit is a suspended mounted Blue Whale skeleton, gleaned from the...</example>
                 <example>The foundation is an independent <marker>registered charity</marker> funded by the entire profits of ...</example>
                 <example>He was a little upset due to ...</example><!-- #2670 -->
+                <example>They were a group called Pariahs.</example><!-- #2722 -->
+                <example>He was last seen taken care of by his mother.</example><!-- #2722 -->
+                <example>It is the so-called personalized treatment</example><!-- #2722 -->
                 <example type="triggers_error">... to finance the government, to be the sole <marker>authorised distributor</marker> of banknotes, and to function as...</example>
                 <example type="triggers_error">Cicero successfully made him appear to be a foreign <marker>freed man</marker> who was devious enough to take advantage...</example><!-- foreignly is an adverb: www.merriam-webster.com/dictionary/foreignly -->
                 <example type="triggers_error">...to see if there is a <marker>previous established</marker> consensus or compromise.</example><!-- Semantic ambiguity. 'previous [established consensus]' is correct. But, possibly, the writer means '[previously established] consensus, in which case the analysis is correct. -->
@@ -35616,6 +35626,19 @@ USA
 <!-- False negative --><example>The initial installed software is working.</example>
             </rule>
             <rule><!-- BE + DT + JJ + JJ + VBN + NN -->
+                <antipattern><!-- #2722 the only one left standing -->
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
+                    <token>only</token>
+                    <token postag="CD"/>
+                    <token postag="VBN"/>
+                </antipattern>
+                <antipattern><!-- #2722 a coastal city situated close -->
+                    <token chunk="B-NP-singular" postag_regexp="yes" postag="DT|PRP\$"/>
+                    <token chunk="I-NP-singular" postag="JJ"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                    <token chunk="B-VP" postag="VBN"/>
+                    <token postag="RB"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be</token>
                     <token postag_regexp="yes" postag="DT|PRP\$"/>
@@ -35638,6 +35661,8 @@ USA
                 <example>One of the first actors is believed to be an ancient Greek called Thespis of Icaria.</example>
                 <example>There are a few known written works by Augustus that have survived.</example>
                 <example>... there won't be a single building left standing.</example>
+                <example>He was the only one left standing.</example><!-- #2722 -->
+                <example>It's a coastal city situated close to the island.</example><!-- #2722 -->
             </rule>
 <!-- Removed after discussion with Daniel
             <rule>DT + JJ + VBN + NN + BE: The initial installed software is working 
