@@ -19,21 +19,15 @@
 
 package org.languagetool.tagging.ml;
 
-import java.util.Locale;
-
 import org.languagetool.tagging.BaseTagger;
+
+import java.util.Locale;
 
 /** Malayalam Part-of-speech tagger.
  * 
  * @author Marcin Milkowski
  */
 public class MalayalamTagger extends BaseTagger {
-
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/ml/added.txt";
-  }
-
   public MalayalamTagger() {
     super("/ml/malayalam.dict", new Locale("ml"));
   }

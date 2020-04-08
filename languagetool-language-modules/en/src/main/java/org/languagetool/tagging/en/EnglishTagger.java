@@ -30,17 +30,6 @@ import java.util.Locale;
  * @author Marcin Milkowski
  */
 public class EnglishTagger extends BaseTagger {
-
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/en/added.txt";
-  }
-
-  @Override
-  public String getManualRemovalsFileName() {
-    return "/en/removed.txt";
-  }
-
   public EnglishTagger() {
     // intern tags because we only have 47 types and get megabytes of duplicated strings
     super("/en/english.dict", Locale.ENGLISH, false, true);

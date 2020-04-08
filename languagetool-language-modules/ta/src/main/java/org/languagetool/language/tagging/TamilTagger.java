@@ -20,6 +20,8 @@ package org.languagetool.language.tagging;
 
 import org.languagetool.tagging.BaseTagger;
 
+import java.util.Locale;
+
 /**
  * Tamil Part-of-speech tagger.
  * The POS tagset is described in
@@ -28,13 +30,8 @@ import org.languagetool.tagging.BaseTagger;
  */
 public class TamilTagger extends BaseTagger {
 
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/ta/added.txt";
-  }
-
   public TamilTagger() {
-    super("/ta/tamil.dict");
+    super("/ta/tamil.dict", new Locale("ta"));
   }
 
 }
