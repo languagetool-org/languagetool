@@ -4971,6 +4971,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="RB"/>
             <token chunk="E-NP-singular" postag="VB"/>
         </antipattern>
+        <antipattern><!-- #2704 You MAY use: -->
+            <token postag_regexp="yes" postag="SENT_START|PCT"/>
+            <token regexp="yes">&object_pronouns;</token>
+            <token postag="MD"/>
+            <token chunk="E-NP-singular" postag="VB"/>
+            <token>:</token><!-- The problem seems to occur only with a colon -->
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -5072,6 +5079,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Miss you winding me up.</example><!-- #2671 -->
         <example type="untouched">Miss her winding up the grandfather clock every morning.</example><!-- #2671 -->
         <example type="untouched">She does not much care for this kind of drink.</example><!-- #2682 -->
+        <example type="untouched">You MAY use:</example><!-- #2704 -->
+        <example type="untouched">If you prefer, you CAN use:</example><!-- #2704 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
         <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
