@@ -112,7 +112,7 @@ public class AgreementRule extends Rule {
       posRegex("SUB:.*")
     ),
     Arrays.asList(  // "... kein anderer Unrecht hat."
-      regex("keine?"),
+      regex("diese[rs]?|keine?"),
       regex("anderer?"),
       posRegex("SUB:.*")
     ),
