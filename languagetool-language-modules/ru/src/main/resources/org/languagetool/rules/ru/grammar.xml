@@ -2823,6 +2823,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Пропущена запятая.</short>
                 <example correction="Пожалуйста, закройте"><marker>Пожалуйста закройте</marker> дверь.</example>
             </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START"></token>
+                    <marker>
+                        <token>Привет</token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                    </marker>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\2, \3</suggestion>.</message>
+               
+                <short>Пропущена запятая.</short>
+                <example correction="Привет, я"><marker>Привет я</marker> новенький.</example>
+            </rule>
         </rulegroup>
         
         
