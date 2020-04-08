@@ -3356,7 +3356,7 @@ USA
                 <example>It lets you quickly search for the product,</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IT_SOMETHING" name="if it (is) something else" default="temp_off">
+        <rulegroup id="IT_SOMETHING" name="if it (is) something else">
             <rule>
                 <pattern>
                     <token regexp="yes">but|because|if|when|unless|while|whether</token>
@@ -10139,7 +10139,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rulegroup id="MAKE_UP" name="make up (makeup)" default="temp_off">
+        <rulegroup id="MAKE_UP" name="make up (makeup)">
             <url>https://www.merriam-webster.com/dictionary/makeup</url>
             <antipattern>
                 <token postag="VB.*" postag_regexp="yes" />
@@ -10213,11 +10213,18 @@ USA
             <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion>
             <example correction="underappreciates">He <marker>under appreciates</marker> her skills.</example>
         </rule>
-        <rulegroup id="FEED_BACK" name="feed back (feedback)" default="temp_off">
+        <rulegroup id="FEED_BACK" name="feed back (feedback)">
+            <antipattern>
+                <token>no</token>
+                <token>longer</token>
+                <token>feed</token>
+            </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">the|an?|my|y?our|his|her|their|its</token>
-                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|no</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0">
+                        <exception>few</exception>
+                    </token>
                     <marker>
                         <token>feed</token>
                         <token>back</token>
@@ -10236,7 +10243,7 @@ USA
                         <token>feed</token>
                         <token>back</token>
                     </marker>
-                    <token regexp="yes">on|for|mechanism|loop</token>
+                    <token regexp="yes">on|for|mechanism|form|e?\-?mail|loop</token>
                 </pattern>
                 <message>This is spelled as one word.</message>
                 <suggestion>\4<match no="5" case_conversion="alllower" /></suggestion>
@@ -11840,6 +11847,19 @@ USA
             <example correction="able to make">Tom is not <marker>able make</marker> this happening.</example>
             <example>They are unable even to exercise faith in Christ by their own will.</example>
             <example>A little man who was stumping along eastward at a good walk, and the other a girl of maybe eight or ten who was running as hard as she was able down a cross street.</example>
+        </rule>
+        <rule id="YOU_GOOD" name="You good? (Are you good?)" default="temp_off">
+            <pattern>
+                <token postag="SENT_START" />
+                <marker>
+                    <token>you</token>
+                    <token min="0">really</token>
+                    <token regexp="yes">good|ok|okay|mad</token>
+                    <token>?</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>Are you \3 \4\5</suggestion>?</message>
+            <example correction="Are you good?"><marker>You good?</marker></example>
         </rule>
         <rulegroup id="PRP_MD_NN" name="missing verb after after 'will/can/could/would'">
             <antipattern>
@@ -15122,6 +15142,10 @@ USA
                 <token>Protect</token>
                 <token>IP</token>
                 <token>Act</token>
+            </antipattern>
+            <antipattern><!-- Name of a Plan of Ring.com -->
+                <token>Protect</token>
+                <token>Plus</token>
             </antipattern>
             <antipattern><!-- https://en.wikipedia.org/wiki/Imagine_Dragons -->
                 <token>imagine</token>
@@ -21344,6 +21368,10 @@ USA
                 <token regexp="yes">kind|sort</token>
                 <token>of</token>
             </antipattern>
+            <antipattern>
+                <token>in</token>
+                <token>between</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes">a</token>
                 <marker>
@@ -26418,7 +26446,7 @@ USA
         <rule id="SUPERLATIVE_THAN" name="SUPERLATIVE + THAN, e.g. worst (worse) than">
         <!-- Created by Tiago F. Santos, 2018-02-02 -->
             <antipattern>
-                <token skip='-1' regexp='yes'>(any)?more|less|rather|further|other|different|prefer</token>
+                <token skip='-1' regexp='yes'>(any)?more|less|rather|f[au]rther|other|different|prefer</token>
                 <token skip='-1' postag='JJ'/>
                <token>than</token>
             </antipattern>
@@ -26433,21 +26461,34 @@ USA
                <token>than</token>
             </antipattern>
             <antipattern>
+                <token postag="CC|SENT_START" postag_regexp="yes" />
+                <token>even</token>
+                <token>than</token>
+            </antipattern>
+            <antipattern>
                 <token skip='-1' postag='JJR'/>
                 <token skip='-1' postag='JJ'/>
                 <token>than</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">two|2|three|3|four|4|five|5|six|6|seven|7|eight|8|nine|9|ten|10|many</token>
+                <token>times</token>
+                <token>as</token>
+                <token>much</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag='JJS?' postag_regexp='yes'>
-                      <exception regexp='yes'>more|less|rather|other(?:wise)?|different|inferior|superior|back</exception>
+                      <exception regexp='yes'>more|less|rather|other(?:wise)?|different|inferior|superior|back|meaning</exception>
                       <exception postag='JJR|IN' postag_regexp='yes'/>
                     </token>
+                    <token>than</token>
                 </marker>
-                <token>than</token>
             </pattern>
-            <message>Use <suggestion suppress_misspelled="yes"><match no='1' postag='JJ.?' postag_regexp='yes' postag_replace='JJR' suppress_misspelled="yes" /></suggestion> to make a comparison with this adjective.</message>
-            <example correction="iller|worse">That's <marker>worst</marker> than before!</example>
+            <message>Use <suggestion suppress_misspelled="yes"><match no='1' postag='JJ.?' postag_regexp='yes' postag_replace='JJR' suppress_misspelled="yes" /> \2</suggestion> to make a comparison with this adjective.</message>
+            <example correction="iller than|worse than">That's <marker>worst than</marker> before!</example>
+            <example correction="more than">Tom has been <marker>most than</marker> generous. </example>
+            <example correction="greater than"> I want to do a routine, if sensor <marker>great than</marker> x° do something.</example>
             <example>...rather than receiving goods being distributed "according...</example>
             <example>This was <marker>differently</marker> than I had expected.</example><!-- #2077 -->
             <example>The two traditions may have had more in common than initially appears.</example>
@@ -26466,6 +26507,7 @@ USA
             <example>This will allow us to identify style issues and display them differently than grammar errors.</example><!-- #2077 -->
             <example>They seem to behave differently than some other other types of error.</example><!-- #2077 -->
             <example>The blame goes way further back than the ‘Iraqi Government’.</example>
+            <example>The firm sold approximately three times as much than it bought.</example>
             <!--example>No sooner had I sat down and relaxed than the phone rang.</example> XXX this is missing a comma -->
             <!--example>...to no-kin, to friends than to strangers, to those <marker>attractive than</marker> to those unattractive, to non-competitors th...</example> XXX doesn't account for skipped words (rather) -->
         </rule>
@@ -29225,6 +29267,16 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>apologize</suggestion> (American English) or <suggestion>apologise</suggestion> (British English)?</message>
                 <example correction="apologize|apologise">I could <marker>apologies</marker> but it really wasn't me who did that.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">the|an?|my|his|her|y?our|their|no</token>
+                    <marker>
+                        <token regexp="yes">apologi[sz]e</token>
+                    </marker>
+                </pattern>
+                <message>The word "\2" is a noun. Did you mean <suggestion>apology</suggestion>?</message>
+                <example correction="apology">I owe you an <marker>apologize</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRIORITIES_PRIORITIZE" name="I priorities (prioritize)">
@@ -41632,7 +41684,7 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rulegroup id="GRATE_GREAT" name="grate (great)" default="temp_off">
+        <rulegroup id="GRATE_GREAT" name="grate (great)">
             <rule>
                 <pattern>
                     <marker><token>grate</token></marker>
@@ -41916,7 +41968,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>it</suggestion>?</message>
                 <example correction="it">Go for <marker>if</marker>!</example>
             </rule>
-            <rule default="temp_off"><!-- but this is just so good -->
+            <rule><!-- but this is just so good -->
                 <pattern>
                     <token regexp="yes">if|but|when|while|unless|because</token>
                     <token>this</token>
