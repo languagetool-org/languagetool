@@ -18,15 +18,13 @@
  */
 package org.languagetool.tagging.ga;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tools.StringTools;
-import java.util.Locale;
+
+import java.util.*;
 
 /**
  * Irish POS tagger.
@@ -39,12 +37,6 @@ public class IrishTagger extends BaseTagger {
   
   public IrishTagger() {
     super("/ga/irish.dict", new Locale("ga"));
-  }
-
-  // Not used
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/ga/added.txt";
   }
 
   @Override

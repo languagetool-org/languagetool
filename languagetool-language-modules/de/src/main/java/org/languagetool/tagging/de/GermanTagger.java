@@ -18,24 +18,20 @@
  */
 package org.languagetool.tagging.de;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.*;
-
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.spelling.CachingWordListLoader;
 import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.tagging.BaseTagger;
-import org.languagetool.tagging.ManualTagger;
-import org.languagetool.tagging.TaggedWord;
+import org.languagetool.tagging.*;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  * German part-of-speech tagger, requires data file in <code>de/german.dict</code> in the classpath.
@@ -88,12 +84,8 @@ public class GermanTagger extends BaseTagger {
   }
 
   public GermanTagger() {
-    super("/de/german.dict");
-    try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(getManualRemovalsFileName())) {
-      removalTagger = new ManualTagger(stream);
-    } catch (IOException e) {
-      throw new RuntimeException("Could not load manual tagger data from " + getManualAdditionsFileName(), e);
-    }
+    super("/de/german.dict", Locale.GERMAN);
+    removalTagger = (ManualTagger) ((CombiningTagger) getWordTagger()).getRemovalTagger();
     initVerbInfos();
   }
 
@@ -157,16 +149,6 @@ public class GermanTagger extends BaseTagger {
       }
     }
     return result;
-  }
-
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/de/added.txt";
-  }
-
-  @Override
-  public String getManualRemovalsFileName() {
-    return "/de/removed.txt";
   }
 
   /**

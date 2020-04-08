@@ -25,9 +25,7 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.BaseTagger;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * @since 4.9
@@ -36,11 +34,6 @@ public class ArabicTagger extends BaseTagger {
 
   public ArabicTagger() {
     super("/ar/arabic.dict", new Locale("ar"));
-  }
-
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/ar/added.txt";
   }
 
   /* Add the flag to an encoded tag */

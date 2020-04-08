@@ -18,20 +18,17 @@
  */
 package org.languagetool.tagging.es;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.IStemmer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.IStemmer;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Spanish Tagger.
@@ -42,18 +39,8 @@ public class SpanishTagger extends BaseTagger {
 
   private static final Pattern ADJ_PART_FS = Pattern.compile("VMP00SF|A[QO].[FC][SN].");
 
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/es/manual-tagger.txt";
-  }
-
   public SpanishTagger() {
     super("/es/es-ES.dict", new Locale("es"));
-  }
-  
-  @Override
-  public String getManualRemovalsFileName() {
-    return "/es/removed-tagger.txt";
   }
 
   @Override
@@ -65,7 +52,7 @@ public class SpanishTagger extends BaseTagger {
 
     for (String word : sentenceTokens) {
       final List<AnalyzedToken> l = new ArrayList<>();
-      final String lowerWord = word.toLowerCase(conversionLocale);
+      final String lowerWord = word.toLowerCase(locale);
       final boolean isLowercase = word.equals(lowerWord);
       final boolean isMixedCase = StringTools.isMixedCase(word);
       final boolean isAllUpper = StringTools.isAllUppercase(word);
@@ -111,7 +98,7 @@ public class SpanishTagger extends BaseTagger {
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
     // Any well-formed adverb with suffix -mente is tagged as an adverb (RG)
     // adjective o participle feminine singular + -mente
-    final String lowerWord = word.toLowerCase(conversionLocale);
+    final String lowerWord = word.toLowerCase(locale);
     if (lowerWord.endsWith("mente")) {
       final String possibleAdj = lowerWord.replaceAll("^(.+)mente$", "$1");
       List<AnalyzedToken> taggerTokens;

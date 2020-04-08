@@ -18,14 +18,12 @@
  */
 package org.languagetool.tagging.nl;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
+
+import java.util.*;
 
 /**
  * Dutch tagger.
@@ -33,16 +31,6 @@ import org.languagetool.tools.StringTools;
  * @author Marcin Milkowski
  */
 public class DutchTagger extends BaseTagger {
-
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/nl/added.txt";
-  }
-
-  @Override
-  public String getManualRemovalsFileName() {
-    return "/nl/removed.txt";
-  }
 
   public DutchTagger() {
     super("/nl/dutch.dict", new Locale("nl"));
@@ -57,7 +45,7 @@ public class DutchTagger extends BaseTagger {
     for (String word : sentenceTokens) {
       boolean ignoreSpelling = false;
       final List<AnalyzedToken> l = new ArrayList<>();
-      final String lowerWord = word.toLowerCase(conversionLocale);
+      final String lowerWord = word.toLowerCase(locale);
       final boolean isLowercase = word.equals(lowerWord);
       final boolean isMixedCase = StringTools.isMixedCase(word);
       final boolean isAllUpper = StringTools.isAllUppercase(word);
