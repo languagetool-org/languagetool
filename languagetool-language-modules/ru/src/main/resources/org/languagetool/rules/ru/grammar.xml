@@ -8135,6 +8135,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
+        <rule id="Verb_IMP_OR_REAL" name="Глагол должен быть в настоящем времени">
+            <pattern>
+                <token regexp="yes">если|когда</token>
+                <token postag="PNN:.*" postag_regexp="yes"></token>
+                <marker>
+                    <token postag="VB:IMP:.*:.*:.*:.*" postag_regexp="yes"></token>
+                </marker>
+            </pattern>
+            <message>Глагол в настоящем времени не может быть в повелительном наклонении: <suggestion><match no="3" postag="VB:IMP:(.*)" postag_regexp="yes" postag_replace="VB:Real:$1"></match></suggestion></message>
+            <example correction="ищете">Если вы <marker>ищите</marker></example>
+            <example>Если  вы ищете</example>
+        </rule>        
+        
         <rule default="on" id="Verb_and_Verb" name="Глагол и глагол">
 	        <antipattern>
                 <token postag="SENT_START" negate_pos="yes"/>
