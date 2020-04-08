@@ -50,8 +50,16 @@ class OfficeTools {
   public static final String MANUAL_LINEBREAK = "\r";  //  to distinguish from paragraph separator
   public static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
   public static final String LOG_LINE_BREAK = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
+  
+  public static int DEBUG_MODE_SD = 0;
+  public static boolean DEBUG_MODE_MD = false;
+  public static boolean DEBUG_MODE_DC = false;
+  public static boolean DEBUG_MODE_FP = false;
+  public static boolean DEBUG_MODE_LM = false;
+  public static boolean DEBUG_MODE_TQ = false;
 
   private static final String MENU_BAR = "private:resource/menubar/menubar";
+  private static final String LOG_DELIMITER = ",";
 
   /**
    * Returns the XDesktop
@@ -165,6 +173,57 @@ class OfficeTools {
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
+    }
+  }
+  
+  static void setLogLevel(String logLevel) {
+    if (logLevel != null) {
+      String[] levels = logLevel.split(LOG_DELIMITER);
+      for (String level : levels) {
+        if(level.equals("1") || level.equals("2") || level.equals("3") || level.startsWith("all:")) {
+          int numLevel;
+          if (level.startsWith("all:")) {
+            String[] levelAll = level.split(":");
+            if(levelAll.length != 2) {
+              continue;
+            }
+            numLevel = Integer.parseInt(levelAll[1]);
+          } else {
+            numLevel = Integer.parseInt(level);
+          }
+          if(numLevel > 0) {
+            DEBUG_MODE_MD = true;
+            DEBUG_MODE_TQ = true;
+            DEBUG_MODE_FP = true;
+            if (DEBUG_MODE_SD == 0) {
+              DEBUG_MODE_SD = numLevel;
+            }
+          }
+          if (numLevel > 1) {
+            DEBUG_MODE_DC = true;
+            DEBUG_MODE_LM = true;
+          }
+        } else if(level.startsWith("sd:")) {
+          String[] levelSD = level.split(":");
+          if(levelSD.length != 2) {
+            continue;
+          }
+          int numLevel = Integer.parseInt(levelSD[1]);
+          if (numLevel > 0) {
+            DEBUG_MODE_SD = numLevel;
+          }
+        } else if(level.equals("md")) {
+          DEBUG_MODE_MD = true;
+        } else if(level.equals("dc")) {
+          DEBUG_MODE_DC = true;
+        } else if(level.equals("fp")) {
+          DEBUG_MODE_FP = true;
+        } else if(level.equals("lm")) {
+          DEBUG_MODE_LM = true;
+        } else if(level.equals("tq")) {
+          DEBUG_MODE_TQ = true;
+        }
+      }
     }
   }
 

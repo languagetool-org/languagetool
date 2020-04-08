@@ -59,7 +59,7 @@ public class LanguageToolMenus {
   
   private static final ResourceBundle MESSAGES = JLanguageTool.getMessageBundle();
 
-  private static final boolean debugMode = false;   //  should be false except for testing
+  private static boolean debugMode;   //  should be false except for testing
   
   private XComponentContext xContext;
   private SingleDocument document;
@@ -70,6 +70,7 @@ public class LanguageToolMenus {
   private ContextMenuInterceptor ltContextMenu;
 
   LanguageToolMenus(XComponentContext xContext, SingleDocument document, Configuration config) {
+    debugMode = OfficeTools.DEBUG_MODE_LM;
     this.document = document;
     this.xContext = xContext;
     setConfigValues(config);

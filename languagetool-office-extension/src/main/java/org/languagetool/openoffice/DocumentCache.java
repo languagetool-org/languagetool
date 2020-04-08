@@ -28,7 +28,7 @@ import java.util.List;
  */
 public class DocumentCache {
   
-  private static final boolean debugMode = false; //  should be false except for testing
+  private static boolean debugMode;         //  should be false except for testing
 
   List<String> paragraphs = null;            //  stores the flat paragraphs of document
   List<Integer> headings = null;             //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
@@ -37,6 +37,7 @@ public class DocumentCache {
   int defaultParaCheck;
 
   DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck) {
+    debugMode = OfficeTools.DEBUG_MODE_DC;
     this.defaultParaCheck = defaultParaCheck;
     reset(docCursor, flatPara);
   }

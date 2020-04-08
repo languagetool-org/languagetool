@@ -45,13 +45,14 @@ import com.sun.star.uno.UnoRuntime;
  */
 public class FlatParagraphTools {
   
-  private static final boolean debugMode = false; //  should be false except for testing
+  private static boolean debugMode; //  should be false except for testing
   
   private XFlatParagraphIterator xFlatParaIter;
   private XFlatParagraph lastFlatPara;
   private XComponent xComponent;
   
   FlatParagraphTools(XComponent xComponent) {
+    debugMode = OfficeTools.DEBUG_MODE_FP;
     this.xComponent = xComponent;
     xFlatParaIter = getXFlatParagraphIterator(xComponent);
     lastFlatPara = getCurrentFlatParagraph();

@@ -61,7 +61,7 @@ public class MultiDocumentsHandler {
   // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
   private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
   
-  private static final boolean debugMode = false;   //  should be false except for testing
+  private static boolean debugMode = false;   //  should be false except for testing
   
   private SwJLanguageTool langTool = null;
   private Language docLanguage = null;
@@ -487,6 +487,10 @@ public class MultiDocumentsHandler {
     try {
       linguServices = new LinguisticServices(xContext);
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage, linguServices);
+      if (this.langTool == null) {
+        OfficeTools.setLogLevel(config.getlogLevel());
+        debugMode = OfficeTools.DEBUG_MODE_MD;
+      }
       if(currentLanguage == null) {
         fixedLanguage = config.getDefaultLanguage();
         if(fixedLanguage != null) {

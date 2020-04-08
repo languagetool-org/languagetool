@@ -72,7 +72,7 @@ class SingleDocument {
   private static final int PARA_CHECK_DEFAULT = 50;  //  Factor for parameter checked at once at iteration (no text change)
   private static final int MAX_SUGGESTIONS = 15;
 
-  private static int debugMode = 0;               //  should be 0 except for testing; 1 = low level; 2 = advanced level
+  private static int debugMode;               //  should be 0 except for testing; 1 = low level; 2 = advanced level
   
   private Configuration config;
 
@@ -118,6 +118,7 @@ class SingleDocument {
 
   SingleDocument(XComponentContext xContext, Configuration config, String docID, 
       XComponent xComponent, MultiDocumentsHandler mDH) {
+    debugMode = OfficeTools.DEBUG_MODE_SD;
     this.xContext = xContext;
     this.config = config;
     this.docID = docID;
