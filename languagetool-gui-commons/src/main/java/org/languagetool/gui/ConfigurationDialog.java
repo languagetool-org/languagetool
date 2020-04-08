@@ -415,6 +415,19 @@ public class ConfigurationDialog implements ActionListener {
     
     jPane.add(new JScrollPane(getUnderlineColorPanel(rules)), cons);
     
+    if(insideOffice) {
+      JCheckBox markSingleCharBold = new JCheckBox(Tools.getLabel(messages.getString("guiMarkSingleCharBold")));
+      markSingleCharBold.setSelected(config.markSingleCharBold());
+      markSingleCharBold.addItemListener(e -> config.setMarkSingleCharBold(markSingleCharBold.isSelected()));
+      JLabel dummyLabel = new JLabel(" ");
+      cons.weightx = 0.0f;
+      cons.weighty = 0.0f;
+      cons.gridx = 0;
+      cons.gridy++;
+      jPane.add(dummyLabel, cons);
+      jPane.add(markSingleCharBold, cons);
+    }
+    
     Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
     cons = new GridBagConstraints();
@@ -1468,16 +1481,6 @@ public class ConfigurationDialog implements ActionListener {
       cons.gridy++;
     }
     
-    if(insideOffice) {
-      JCheckBox markSingleCharBold = new JCheckBox(Tools.getLabel(messages.getString("guiMarkSingleCharBold")));
-      markSingleCharBold.setSelected(config.markSingleCharBold());
-      markSingleCharBold.addItemListener(e -> config.setMarkSingleCharBold(markSingleCharBold.isSelected()));
-      JLabel dummyLabel = new JLabel(" ");
-      panel.add(dummyLabel, cons);
-      cons.gridy++;
-      panel.add(markSingleCharBold, cons);
-    }
-
     return panel;
   }
 
