@@ -42064,6 +42064,30 @@ The accident victim died from her injuries.
                 <example correction="once">I <marker>one</marker> had a car.</example>
                 <example correction="once">I have built up my strength far from what it <marker>one</marker> was.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>once</token>
+                    </marker>
+                    <token regexp="yes">more|less</token>
+                    <token>time</token>
+                </pattern>
+                <message>Did you mean <suggestion>one</suggestion>?</message>
+                <example correction="one">If you like it, I can do it <marker>once</marker> more time.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>one</token>
+                    </marker>
+                    <token>upon</token>
+                    <token>a</token>
+                    <token>time</token>
+                </pattern>
+                <message>Did you mean <suggestion>once</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/once%20upon%20a%20time</url>
+                <example correction="Once"><marker>One</marker> upon a time a queen married a king.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="WE_BE" name="we vs. be">
             <rule>
