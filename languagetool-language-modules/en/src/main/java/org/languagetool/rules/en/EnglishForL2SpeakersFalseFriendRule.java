@@ -18,21 +18,15 @@
  */
 package org.languagetool.rules.en;
 
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.ConfusionString;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
-import org.languagetool.rules.patterns.AbstractPatternRule;
-import org.languagetool.rules.patterns.FalseFriendRuleLoader;
-import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.*;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * False friends for non-native speakers who write English text, based on ngrams.
@@ -50,8 +44,7 @@ public abstract class EnglishForL2SpeakersFalseFriendRule extends ConfusionProba
     synchronized (this) {
       if (rules == null) {
         FalseFriendRuleLoader loader = new FalseFriendRuleLoader("\"{0}\" ({1}) means {2} ({3}).", "Did you maybe mean {0}?");
-        String ffFilename = JLanguageTool.getDataBroker().getRulesDir() + "/" + JLanguageTool.FALSE_FRIEND_FILE;
-        try (InputStream is = this.getClass().getResourceAsStream(ffFilename)) {
+        try (InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(JLanguageTool.FALSE_FRIEND_FILE)) {
           rules = loader.getRules(is, lang, motherTongue);
         } catch (Exception e) {
           throw new RuntimeException(e);

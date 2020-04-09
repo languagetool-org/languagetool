@@ -52,6 +52,8 @@ public class EnglishWordRepeatRuleTest {
     assertGood("Hip Hip Hooray");
     assertBad("Hip Hip");
     assertGood("It's S.T.E.A.M.");
+    assertGood("Ok ok ok!");
+    assertGood("O O O");
     assertGood("Alice and Bob had had a long-standing relationship.");
     assertBad("I may may awake up.");
     assertBad("That is May May.");

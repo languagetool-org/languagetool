@@ -45,13 +45,14 @@ import com.sun.star.uno.UnoRuntime;
  */
 public class FlatParagraphTools {
   
-  private static final boolean debugMode = false; //  should be false except for testing
+  private static boolean debugMode; //  should be false except for testing
   
   private XFlatParagraphIterator xFlatParaIter;
   private XFlatParagraph lastFlatPara;
   private XComponent xComponent;
   
   FlatParagraphTools(XComponent xComponent) {
+    debugMode = OfficeTools.DEBUG_MODE_FP;
     this.xComponent = xComponent;
     xFlatParaIter = getXFlatParagraphIterator(xComponent);
     lastFlatPara = getCurrentFlatParagraph();
@@ -208,7 +209,7 @@ public class FlatParagraphTools {
    */
   int getNumberOfAllFlatPara() {
     try {
-      XFlatParagraph xFlatPara = getCurrentFlatParagraph();
+      XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
           MessageHandler.printToLogFile("getNumberOfAllFlatPara: FlatParagraph == null");
@@ -391,7 +392,7 @@ public class FlatParagraphTools {
    * else the marks are added to the existing marks
    */
 
-  public void markParagraphs(Map<Integer, SingleProofreadingError[]> changedParas, int nDiv, boolean override, XParagraphCursor cursor) {
+  public void markParagraphs(Map<Integer, SingleProofreadingError[]> changedParas, DocumentCache docCache, boolean override, XParagraphCursor cursor) {
     try {
       if(changedParas == null || changedParas.isEmpty()) {
         return;
@@ -416,12 +417,15 @@ public class FlatParagraphTools {
       int num = 0;
       int nMarked = 0;
       while (tmpFlatPara != null && nMarked < changedParas.size()) {
-        if(changedParas.containsKey(num - nDiv)) {
-          addMarksToOneParagraph(tmpFlatPara, changedParas.get(num - nDiv), cursor, override);
-          nMarked++;
-        }
-        if (override && cursor != null && num >= nDiv) {
-          cursor.gotoNextParagraph(false);
+        int nTextPara = docCache.getNumberOfTextParagraph(num);
+        if(nTextPara >= 0) {
+          if(changedParas.containsKey(nTextPara)) {
+            addMarksToOneParagraph(tmpFlatPara, changedParas.get(nTextPara), cursor, override);
+            nMarked++;
+          }
+          if (override && cursor != null) {
+            cursor.gotoNextParagraph(false);
+          }
         }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
         num++;

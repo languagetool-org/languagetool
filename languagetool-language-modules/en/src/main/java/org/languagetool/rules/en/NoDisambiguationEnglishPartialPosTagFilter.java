@@ -19,14 +19,12 @@
 package org.languagetool.rules.en;
 
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.English;
+import org.languagetool.Languages;
 import org.languagetool.rules.PartialPosTagFilter;
 import org.languagetool.tagging.Tagger;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * A {@link PartialPosTagFilter} for English that does not run the disambiguator.
@@ -35,7 +33,7 @@ import java.util.List;
  */
 public class NoDisambiguationEnglishPartialPosTagFilter extends PartialPosTagFilter {
 
-  private final Tagger tagger = new English().getTagger();
+  private final Tagger tagger = Languages.getLanguageForShortCode("en").getTagger();
 
   @Override
   protected List<AnalyzedTokenReadings> tag(String token) {

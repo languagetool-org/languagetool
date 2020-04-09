@@ -1,6 +1,16 @@
 # LanguageTool Change Log
 
-## 4.9-SNAPSHOT (release planned for 2020-03-24)
+## 5.0-SNAPSHOT (release planned for 2020-06-26)
+
+...
+
+#### English
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.83 - 2020-04-01)
+
+#### French
+  * added and improved rules
+
+## 4.9 (2020-03-24)
 
 #### Arabic
   * Added initial support for Arabic, contributed by Sohaib Afifi
@@ -10,14 +20,16 @@
   * added and improved rules
   * updated dictionary (catalan-pos-dict-2.7)
 
+#### Dutch
+  * added and improved rules
+
 #### English
   * added and improved rules
   * added new part-of-speech tag `ORD` for ordinal numbers (e.g., first, second, twenty-third etc.)
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.82 - 2020-03-01)
-  
-#### Irish
-  * Added initial support for Irish, contributed by Jim Regan
-    (https://github.com/languagetool-org/languagetool/pull/2260)
+
+#### French
+  * improved rules
 
 #### German
   * added and improved rules
@@ -25,12 +37,22 @@
   * German `spelling.txt` now supports `prefix_verb` syntax like `vorüber_eilen` so
     the speller will accept all forms of "eilen" prefixed by "vorüber" 
 
+#### Irish
+  * Added initial support for Irish, contributed by Jim Regan
+    (https://github.com/languagetool-org/languagetool/pull/2260)
+
 #### Portuguese
   * added and improved rules
   * added words and POS data
 
 #### Russian
   * small improvements
+
+#### Ukrainian
+  * dictionary update
+  * new rules
+  * tokenization and tagging improvements
+
 
 ## 4.8 (released 2019-12-27)
 

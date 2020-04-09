@@ -350,6 +350,8 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("veure-hi", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("veurels"));
         assertEquals("veure'ls", matches[0].getSuggestedReplacements().get(0));
+        //matches = rule.match(langTool.getAnalyzedSentence("veuret"));
+        //assertEquals("veure't", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("veureles"));
         assertEquals("veure-les", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("lilla"));
@@ -384,6 +386,14 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("S'ha", matches[0].getSuggestedReplacements().get(0));
         //assertEquals("Xe", matches[0].getSuggestedReplacements().get(1));
         //assertEquals("Xa", matches[0].getSuggestedReplacements().get(2));
+        matches = rule.match(langTool.getAnalyzedSentence("avegades"));
+        assertEquals("a vegades", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("Encanvi"));
+        assertEquals("En canvi", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("Nosé"));
+        assertEquals("No sé", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("air"));
+        assertEquals("Aïr", matches[0].getSuggestedReplacements().get(0));
         
         //Ela geminada 
         matches = rule.match(langTool.getAnalyzedSentence("La sol•licitud"));

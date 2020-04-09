@@ -102,8 +102,14 @@ USA
     <!-- ====================================================================== -->
     <!-- Possible typos -->
     <!-- ====================================================================== -->
-    <category id="US_SPECIFIC_TYPOS" name="Possible Typo" type="misspelling">
+    <category id="TYPOS" name="Possible Typo" type="misspelling">
+
           <rule id="ANY_MORE" name="any more (anymore)">
+              <antipattern><!-- any more likely than -->
+                 <token>more</token>
+                 <token postag="JJ"/>
+                 <token>than</token>
+              </antipattern>
               <pattern>
                   <marker>
                      <token>any</token>
@@ -122,7 +128,9 @@ USA
               <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker></example><!-- #2309. No full stop. -->
               <example>I couldn't find my way around it <marker>anymore</marker>.</example>
               <example>If we see that your plan isn't a good fit anymore in the long run, we'd contact you.</example><!-- #2368 -->
+              <example>But I don't think it's any more likely than a farmer harvesting guano...</example><!-- #2717 -->
           </rule>
+
     </category>
 
     <category id="AMERICAN_ENGLISH_STYLE" name="American English Style" type="style">

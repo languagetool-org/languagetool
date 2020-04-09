@@ -22,7 +22,7 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.LanguageMaintainedState;
 import org.languagetool.UserConfig;
-import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.rules.*;
 import org.languagetool.rules.sr.ekavian.MorfologikEkavianSpellerRule;
 import org.languagetool.rules.sr.ekavian.SimpleGrammarEkavianReplaceRule;

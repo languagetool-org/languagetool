@@ -20,13 +20,8 @@ package org.languagetool.rules.de;
 
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.LinguServices;
-import org.languagetool.UserConfig;
-import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.*;
+import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
@@ -51,6 +46,8 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("kamp", "Flurname für ein Stück Land", "kampf", "Auseinandersetzung"),
+          new Pair("obst", "Frucht", "ost", "Himmelsrichtung"),
           new Pair("beeren", "Früchte", "bären", "Raubtiere"),
           new Pair("laus", "Insekt", "lauf", "Bewegungsart"),
           new Pair("läuse", "Insekt", "läufe", "Bewegungsart"),
@@ -150,7 +147,13 @@ public class ProhibitedCompoundRule extends Rule {
           "Beiratsregelungen",
           "Kreiskongress",
           "Lagekosten",
-          "hineinfeiern"
+          "hineinfeiern",
+          "Maskenhersteller", // vs Marken
+          "Wabendesign",  // vs. Marken
+          "Maskenherstellers",
+          "Maskenherstellern",
+          "Firmenvokabular",
+          "Maskenproduktion"
   ));
 
   // have per-class static list of these and reference that in instance
@@ -289,7 +292,7 @@ public class ProhibitedCompoundRule extends Rule {
      only nouns can be compounds
      all parts are at least 3 characters long -> words must have at least 6 characters
     */
-    if ((readings.isTagged() && !readings.hasPartialPosTag("SUB")) || wordPart.length() <= 6) {
+    if ((readings.isTagged() && !readings.hasPartialPosTag("SUB")) && !readings.hasPosTagStartingWith("EIG:") || wordPart.length() <= 6) {  // EIG: e.g. "Obstdeutschland" -> "Ostdeutschland"
       partsStartPos += wordPart.length() + 1;
       return partsStartPos;
     }

@@ -18,15 +18,10 @@
  */
 package org.languagetool.language;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.common.cache.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.GlobalConfig;
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.EnglishChunker;
 import org.languagetool.languagemodel.LanguageModel;
@@ -41,14 +36,10 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.en.EnglishHybridDisambiguator;
 import org.languagetool.tagging.en.EnglishTagger;
-import org.languagetool.tokenizers.SRXSentenceTokenizer;
-import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.en.EnglishWordTokenizer;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
@@ -68,7 +59,7 @@ public class English extends Language implements AutoCloseable {
         public List<Rule> load(@NotNull String path) throws IOException {
           List<Rule> rules = new ArrayList<>();
           PatternRuleLoader loader = new PatternRuleLoader();
-          try (InputStream is = this.getClass().getResourceAsStream(path)) {
+          try (InputStream is = JLanguageTool.getDataBroker().getAsStream(path)) {
             rules.addAll(loader.getRules(is, path));
           }
           return rules;
@@ -222,7 +213,7 @@ public class English extends Language implements AutoCloseable {
         new CompoundRule(messages),
         new ContractionSpellingRule(messages),
         new EnglishWrongWordInContextRule(messages),
-        new EnglishDashRule(),
+        new EnglishDashRule(messages),
         new WordCoherencyRule(messages),
         new EnglishDiacriticsRule(messages),
         new EnglishPlainEnglishRule(messages),
@@ -285,6 +276,7 @@ public class English extends Language implements AutoCloseable {
       case "TRANSLATION_RULE":          return 5;   // Premium
       case "WRONG_APOSTROPHE":          return 5;
       case "DOS_AND_DONTS":             return 2;
+      case "EN_COMPOUNDS":              return 1;
       case "APOSTROPHE_VS_QUOTE":       return 1;   // higher prio than EN_QUOTES
       case "COMMA_PERIOD":              return 1;   // higher prio than COMMA_PARENTHESIS_WHITESPACE
       case "HERE_HEAR":                 return 1;   // higher prio than ENGLISH_WORD_REPEAT_RULE
@@ -296,10 +288,15 @@ public class English extends Language implements AutoCloseable {
       case "NON_STANDARD_COMMA":        return 1;   // prefer over spell checker
       case "NON_STANDARD_ALPHABETIC_CHARACTERS":        return 1;   // prefer over spell checker
       case "WONT_CONTRACTION":          return 1;   // prefer over WONT_WANT
+      case "THAN_THANK":                return 1;   // prefer over THAN_THEN
+      case "CD_NN_APOSTROPHE_S":        return 1;   // prefer over CD_NN and LOWERCASE_NAME_APOSTROPHE_S
       case "PROFANITY":                 return 5;   // prefer over spell checker
       case "RUDE_SARCASTIC":            return 6;   // prefer over spell checker
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
       case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker (like PHRASE_REPETITION)
+      case "WE_BE":                     return -1;
+      case "A_RB_NN":                   return -1;  // prefer other more specific rules (e.g. QUIET_QUITE)
+      case "PLURAL_VERB_AFTER_THIS":    return -1;  // prefer other more specific rules (e.g. COMMA_TAG_QUESTION)
       case "BE_RB_BE":                  return -1;  // prefer other more specific rules
       case "IT_ITS":                    return -1;  // prefer other more specific rules
       case "ENGLISH_WORD_REPEAT_RULE":  return -1;  // prefer other more specific rules (e.g. IT_IT)
@@ -320,6 +317,7 @@ public class English extends Language implements AutoCloseable {
       case "DID_FOUND_AMBIGUOUS":       return -1;  // prefer other more specific rules (e.g. TWO_CONNECTED_MODAL_VERBS)
       case "BE_I_BE_GERUND":            return -1;  // prefer other more specific rules (with suggestions)
       case "VBZ_VBD":                   return -1;  // prefer other more specific rules (e.g. IS_WAS)
+      case "SUPERLATIVE_THAN":          return -1;  // prefer other more specific rules
       case "PRP_RB_NO_VB":              return -2;  // prefer other more specific rules (with suggestions)
       case "PRP_VBG":                   return -2;  // prefer other more specific rules (with suggestions, prefer over HE_VERB_AGR)
       case "PRP_VBZ":                   return -2;  // prefer other more specific rules (with suggestions)

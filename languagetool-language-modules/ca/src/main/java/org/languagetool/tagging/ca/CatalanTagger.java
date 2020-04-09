@@ -148,8 +148,8 @@ public class CatalanTagger extends BaseTagger {
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
     //Any well-formed adverb with suffix -ment is tagged as an adverb (RG)
     //Adjectiu femení singular o participi femení singular + -ment
-    if (word.endsWith("ment")){
-      final String lowerWord = word.toLowerCase(conversionLocale);
+    final String lowerWord = word.toLowerCase(conversionLocale);
+    if (lowerWord.endsWith("ment")){  
       final String possibleAdj = lowerWord.replaceAll("^(.+)ment$", "$1");
       List<AnalyzedToken> taggerTokens;
       taggerTokens = asAnalyzedTokenList(possibleAdj, dictLookup.lookup(possibleAdj));
@@ -203,14 +203,12 @@ public class CatalanTagger extends BaseTagger {
     // U+013F LATIN CAPITAL LETTER L WITH MIDDLE DOT
     // U+0140 LATIN SMALL LETTER L WITH MIDDLE DOT
     if (word.contains("\u0140") || word.contains("\u013f")) {
-      final String lowerWord = word.toLowerCase(conversionLocale);
       final String possibleWord = lowerWord.replaceAll("\u0140", "l·");
       return asAnalyzedTokenList(word, dictLookup.lookup(possibleWord));
     }
     
     // adjectives -iste in Valencian variant
-    if (variant != null && word.endsWith("iste")) {
-      final String lowerWord = word.toLowerCase(conversionLocale);
+    if (variant != null && lowerWord.endsWith("iste")) {
       final String possibleAdjNoun = lowerWord.replaceAll("^(.+)iste$", "$1ista");
       List<AnalyzedToken> taggerTokens;
       taggerTokens = asAnalyzedTokenList(possibleAdjNoun, dictLookup.lookup(possibleAdjNoun));

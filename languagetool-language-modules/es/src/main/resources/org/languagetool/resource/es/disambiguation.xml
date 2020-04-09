@@ -47,6 +47,21 @@ Copyright (C) 2011 Juan Martorell
       <token postag="(N.|[ADP].{2}|V.{5})[CF].*" postag_regexp="yes"/>
     </equivalence>
   </unification>
+  
+  <rulegroup id="DICT_FIXES" name="dictionary fixes">
+    <rule>
+      <pattern>
+        <token>ratio</token>
+      </pattern>
+      <disambig action="replace"><wd lemma="ratio" pos="NCFS000"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token>ratios</token>
+      </pattern>
+      <disambig action="replace"><wd lemma="ratio" pos="NCFP000"/></disambig>
+    </rule>
+  </rulegroup>
 
   <!-- D_R_N : Det + Adverbio + Nombre-->
 
@@ -55,13 +70,14 @@ Copyright (C) 2011 Juan Martorell
       <token postag="D.*" postag_regexp="yes"/>
 
       <marker>
-        <token postag="R.*" postag_regexp="yes"/>
+        <token postag="R.*" postag_regexp="yes"><exception postag="A.*" postag_regexp="yes"/></token>
       </marker>
 
       <token postag="N.*" postag_regexp="yes"><exception>son</exception><exception postag="(C|SP).*" postag_regexp="yes"/></token>
     </pattern>
 
     <disambig action="filter" postag="R.*"/>
+    <example type="untouched">su mismo puesto</example>
   </rule>
 
   <!-- DDN : Determinante posesivo + Determinante indefinido + Nombre -->
@@ -233,6 +249,16 @@ Copyright (C) 2011 Juan Martorell
 
     <disambig action="filter" postag="D.*"/>
   </rule>
+  
+  <rulegroup id="DEMASIADO" name="demasiado">
+    <rule>
+      <pattern>
+        <token>demasiado<exception scope="previous" regexp="yes">ha|has</exception></token>  
+      </pattern>  
+      <disambig action="remove" postag="VMP.*"></disambig>
+    </rule>
+  </rulegroup>
+    
 
 
   <!--sobre (no preposición, nombre)-->
@@ -406,19 +432,11 @@ Copyright (C) 2011 Juan Martorell
     <rule>
       <pattern> 
         <token>según</token>
+        <token postag="P.*" postag_regexp="yes" min="0" max="2"/>
         <token postag="V.[MSI].*" postag_regexp="yes"/>
       </pattern>
       <disambig action="remove" postag="SPS00"/>
     </rule>
-    <rule>
-      <pattern> 
-        <token>según</token>
-        <token postag="P.*" postag_regexp="yes"/>
-        <token postag="V.[MSI].*" postag_regexp="yes"/>
-      </pattern>
-      <disambig action="remove" postag="SPS00"/>
-    </rule>
-
     <rule>
       <pattern> <!-- TODO: exceptions?-->
         <token postag="SPS00"><exception postag="LOC_ADV"/><exception regexp="yes">bajo|para|hasta</exception></token>
@@ -469,7 +487,7 @@ Copyright (C) 2011 Juan Martorell
     <pattern>
       <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
       <marker>
-        <token postag="RG" postag_regexp="yes">pronto</token>
+        <token postag="RG">pronto</token>
       </marker>
       <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
     </pattern>
@@ -543,4 +561,11 @@ Copyright (C) 2011 Juan Martorell
       <disambig action="ignore_spelling"/>
     </rule>
 
+    <rule name="Ignore spelling of punctuation characters" id="IGNORE_SPELLING_OF_PUNCTUATION">
+      <pattern>
+        <!-- ignore spelling of underscores etc. -->
+        <token regexp="yes">[_~°]+</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
 </rules>

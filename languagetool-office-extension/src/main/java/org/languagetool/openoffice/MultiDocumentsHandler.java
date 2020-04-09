@@ -38,15 +38,9 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.TextLevelRule;
 import org.languagetool.tools.Tools;
 
-import com.sun.star.awt.MenuEvent;
-import com.sun.star.awt.MenuItemStyle;
-import com.sun.star.awt.XMenuBar;
-import com.sun.star.awt.XMenuListener;
-import com.sun.star.awt.XPopupMenu;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.frame.XModel;
-import com.sun.star.lang.EventObject;
 import com.sun.star.lang.Locale;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XEventListener;
@@ -67,14 +61,7 @@ public class MultiDocumentsHandler {
   // e.g. language ="qlt" country="ES" variant="ca-ES-valencia":
   private static final String LIBREOFFICE_SPECIAL_LANGUAGE_TAG = "qlt";
   
-  // If anything on the position of LT menu is changed the following has to be changed
-  private static final String TOOLS_COMMAND = ".uno:ToolsMenu";             //  Command to open tools menu
-  private static final String WORD_COUNT_COMMAND = ".uno:WordCountDialog";  //  Command to open words count menu (LT menu is installed before)
-                                                    //  Command to Switch Off/On LT
-  private static final String LT_SWITCH_OFF_COMMAND = "service:org.languagetool.openoffice.Main?switchOff";   
-  private static final String LT_PROFILE_COMMAND = "service:org.languagetool.openoffice.Main?profileChangeTo:";
-  
-  private static final boolean debugMode = false;   //  should be false except for testing
+  private static boolean debugMode = false;   //  should be false except for testing
   
   private SwJLanguageTool langTool = null;
   private Language docLanguage = null;
@@ -104,9 +91,6 @@ public class MultiDocumentsHandler {
   private String menuDocId = null;          //  Id of document at which context menu was called 
   private TextLevelCheckQueue textLevelQueue = null; // Queue to check text level rules
   
-  @SuppressWarnings("unused")
-  private LanguagetoolMenu ltMenu = null;
-
   private boolean testMode = false;
 
 
@@ -121,7 +105,7 @@ public class MultiDocumentsHandler {
     this.mainThread = mainThread;
     documents = new ArrayList<>();
     disabledRulesUI = new HashSet<>();
-    extraRemoteRules = new ArrayList<Rule>();
+    extraRemoteRules = new ArrayList<>();
   }
   
   /**
@@ -167,6 +151,12 @@ public class MultiDocumentsHandler {
     return paRes;
   }
 
+  /**
+   * reset the Document
+   */
+  void resetDocument() {
+    mainThread.resetDocument();
+  }
   
   /**
    *  Set all documents to be checked again
@@ -188,6 +178,16 @@ public class MultiDocumentsHandler {
    */
   void setContextOfClosedDoc(XComponent context) {
     goneContext = context;
+    boolean found = false;
+    for (SingleDocument document : documents) {
+      if (context.equals(document.getXComponent())) {
+        found = true;
+        document.dispose();
+      }
+    }
+    if (!found) {
+      MessageHandler.printToLogFile("Error: Disposed Document not found - Cache not deleted");
+    }
   }
   
   /**
@@ -418,9 +418,14 @@ public class MultiDocumentsHandler {
           xComponent = null;
         }
       }
-      ltMenu = new LanguagetoolMenu(xContext);
     }
-    documents.add(new SingleDocument(xContext, config, docID, xComponent, this));
+    SingleDocument newDocument = new SingleDocument(xContext, config, docID, xComponent, this);
+    documents.add(newDocument);
+    if (!testMode) {              //  xComponent == null for test cases 
+      newDocument.setLanguage(docLanguage);
+      newDocument.setLtMenus(new LanguageToolMenus(xContext, newDocument, config));
+    }
+    
     if (debugMode) {
       MessageHandler.printToLogFile("Document " + docNum + " created; docID = " + docID);
     }
@@ -431,33 +436,41 @@ public class MultiDocumentsHandler {
    * Delete a document number and all internal space
    */
   private void removeDoc(String docID) {
-    int rmNum = -1;
-    int docNum = -1;
-    for (int i = 0; i < documents.size(); i++) {
-      XComponent xComponent = documents.get(i).getXComponent();
-      if (xComponent != null && xComponent.equals(goneContext)) { //  disposed document found
-        rmNum = i;
-        break;
+    for (int i = documents.size() - 1; i >= 0; i--) {
+      if(!docID.equals(documents.get(i).getDocID()) && documents.get(i).isDisposed()) {
+        if(useQueue && textLevelQueue != null) {
+          MessageHandler.printToLogFile("Interrupt text level queue for document " + documents.get(i).getDocID());
+          textLevelQueue.interruptCheck(documents.get(i).getDocID());
+          MessageHandler.printToLogFile("Interrupt done");
+        }
+        if (goneContext != null) {
+          XComponent xComponent = documents.get(i).getXComponent();
+          if (xComponent != null && !xComponent.equals(goneContext)) {
+            goneContext = null;
+          }
+        }
+//        if (debugMode) {
+          MessageHandler.printToLogFile("Disposed document " + documents.get(i).getDocID() + " removed");
+//        }
+        documents.remove(i);
       }
     }
-    if(rmNum < 0) {
-      MessageHandler.printToLogFile("Error: Disposed document not found");
-      goneContext = null;
-    }
-    for (int i = 0; i < documents.size(); i++) {
-      if (documents.get(i).getDocID().equals(docID)) {  //  document exist
-        docNum = i;
-        break;
-      }
-    }
-    if(rmNum >= 0 && docNum != rmNum ) {  // don't delete a closed document before the last check is done
-      if(useQueue && textLevelQueue != null) {
-        textLevelQueue.setDispose(docID);
-      }
-      documents.remove(rmNum);
-      goneContext = null;
-      if (debugMode) {
-        MessageHandler.printToLogFile("Document " + rmNum + " deleted");
+  }
+  
+  /**
+   * Delete the menu listener of a document
+   */
+  public void removeMenuListener(XComponent xComponent) {
+    if(xComponent != null) {
+      for (int i = 0; i < documents.size(); i++) {
+        XComponent docComponent = documents.get(i).getXComponent();
+        if (docComponent != null && xComponent.equals(docComponent)) { //  disposed document found
+          documents.get(i).getLtMenu().removeListener();
+          if (debugMode) {
+            MessageHandler.printToLogFile("Menu listener of document " + documents.get(i).getDocID() + " removed");
+          }
+          break;
+        }
       }
     }
   }
@@ -466,17 +479,28 @@ public class MultiDocumentsHandler {
    * Initialize LanguageTool
    */
   SwJLanguageTool initLanguageTool() {
+    return initLanguageTool(null);
+  }
+
+  SwJLanguageTool initLanguageTool(Language currentLanguage) {
     SwJLanguageTool langTool = null;
     try {
       linguServices = new LinguisticServices(xContext);
       config = new Configuration(configDir, configFile, oldConfigFile, docLanguage, linguServices);
-      fixedLanguage = config.getDefaultLanguage();
-      if(fixedLanguage != null) {
-        docLanguage = fixedLanguage;
+      if (this.langTool == null) {
+        OfficeTools.setLogLevel(config.getlogLevel());
+        debugMode = OfficeTools.DEBUG_MODE_MD;
+      }
+      if(currentLanguage == null) {
+        fixedLanguage = config.getDefaultLanguage();
+        if(fixedLanguage != null) {
+          docLanguage = fixedLanguage;
+        }
+        currentLanguage = docLanguage;
       }
       switchOff = config.isSwitchedOff();
       // not using MultiThreadedSwJLanguageTool here fixes "osl::Thread::Create failed", see https://bugs.documentfoundation.org/show_bug.cgi?id=90740:
-      langTool = new SwJLanguageTool(docLanguage, config.getMotherTongue(),
+      langTool = new SwJLanguageTool(currentLanguage, config.getMotherTongue(),
           new UserConfig(config.getConfigurableValues(), linguServices), config, extraRemoteRules, testMode);
       config.initStyleCategories(langTool.getAllRules());
       /* The next row is only for a single line break marks a paragraph
@@ -484,14 +508,14 @@ public class MultiDocumentsHandler {
        */
       File ngramDirectory = config.getNgramDirectory();
       if (ngramDirectory != null) {
-        File ngramLangDir = new File(config.getNgramDirectory(), docLanguage.getShortCode());
+        File ngramLangDir = new File(config.getNgramDirectory(), currentLanguage.getShortCode());
         if (ngramLangDir.exists()) {  // user might have ngram data only for some languages and that's okay
           langTool.activateLanguageModelRules(ngramDirectory);
         }
       }
       File word2VecDirectory = config.getWord2VecDirectory();
       if (word2VecDirectory != null) {
-        File word2VecLangDir = new File(config.getWord2VecDirectory(), docLanguage.getShortCode());
+        File word2VecLangDir = new File(config.getWord2VecDirectory(), currentLanguage.getShortCode());
         if (word2VecLangDir.exists()) {  // user might have ngram data only for some languages and that's okay
           langTool.activateWord2VecModelRules(word2VecDirectory);
         }
@@ -604,6 +628,9 @@ public class MultiDocumentsHandler {
     }
     recheck = true;
     config.setSwitchedOff(switchOff, docLanguage);
+    for (SingleDocument document : documents) {
+      document.setConfigValues(config);
+    }
     return true;
   }
 
@@ -611,7 +638,7 @@ public class MultiDocumentsHandler {
    * Set docID used within menu
    */
   public void setMenuDocId(String docId) {
-    menuDocId = new String(docId);
+    menuDocId = docId;
   }
 
   /**
@@ -673,6 +700,16 @@ public class MultiDocumentsHandler {
   }
 
   /**
+   * Test if sorted rules for index exist
+   */
+  public boolean isSortedRuleForIndex(int index) {
+    if(index < 0 || index > 1 || sortedTextRules.textLevelRules.get(index).isEmpty()) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
    * activate all rules stored under a given index related to the list of getNumMinToCheckParas
    * deactivate all other text level rules
    */
@@ -696,18 +733,22 @@ public class MultiDocumentsHandler {
     List<Integer> minToCheckParagraph;
     List<List<String>> textLevelRules;
     SortedTextRules () {
-      minToCheckParagraph = new ArrayList<Integer>();
-      textLevelRules = new ArrayList<List<String>>();
-      int numParasToCheck = config.getNumParasToCheck();
+      minToCheckParagraph = new ArrayList<>();
+      textLevelRules = new ArrayList<>();
+      minToCheckParagraph.add(0);
+      textLevelRules.add(new ArrayList<>());
+      if(useQueue && config.getNumParasToCheck() != 0) {
+        minToCheckParagraph.add(config.getNumParasToCheck());
+      } else {
+        minToCheckParagraph.add(-1);
+      }
+      textLevelRules.add(new ArrayList<>());
       List<Rule> rules = langTool.getAllActiveOfficeRules();
       for(Rule rule : rules) {
         if(rule instanceof TextLevelRule && !langTool.getDisabledRules().contains(rule.getId()) 
             && !disabledRulesUI.contains(rule.getId())) {
-          insertRule(((TextLevelRule) rule).minToCheckParagraph(), rule.getId(), numParasToCheck);
+          insertRule(((TextLevelRule) rule).minToCheckParagraph(), rule.getId());
         }
-      }
-      if(useQueue && config.getNumParasToCheck() != 0) {
-        minToCheckParagraph.set(1, config.getNumParasToCheck());
       }
       if(debugMode) {
         MessageHandler.printToLogFile("Number different minToCheckParagraph: " + minToCheckParagraph.size());
@@ -720,68 +761,25 @@ public class MultiDocumentsHandler {
       }
     }
 
-    private void insertRule (int minPara, String RuleId, int nToCheck) {
+    private void insertRule (int minPara, String ruleId) {
       if(useQueue) {
         if(minPara == 0) {
-          int n = minToCheckParagraph.indexOf(nToCheck);
-          if( n == 0 || minToCheckParagraph.size() == 0) {
-            minToCheckParagraph.add(0, minPara);
-            textLevelRules.add(0, new ArrayList<String>());
-          }
-          textLevelRules.get(0).add(new String(RuleId));
+          textLevelRules.get(0).add(ruleId);
         } else {
-          int n = minToCheckParagraph.indexOf(nToCheck);
-          if( n < 0) {
-            minToCheckParagraph.add(nToCheck);
-            textLevelRules.add(new ArrayList<String>());
-          }
-          textLevelRules.get(textLevelRules.size() - 1).add(new String(RuleId));
+          textLevelRules.get(1).add(ruleId);
         }
       } else {
         if(minPara < 0) {
-          int n = minToCheckParagraph.indexOf(minPara);
-          if( n < 0) {
-            minToCheckParagraph.add(minPara);
-            textLevelRules.add(new ArrayList<String>());
-          }
-          textLevelRules.get(textLevelRules.size() - 1).add(new String(RuleId));
+          textLevelRules.get(1).add(ruleId);
         } else {
-          int n = minToCheckParagraph.indexOf(-1);
-          if( n == 0 || minToCheckParagraph.size() == 0) {
-            minToCheckParagraph.add(0, minPara);
-            textLevelRules.add(0, new ArrayList<String>());
-          } else if(minPara > minToCheckParagraph.get(0)) {
+          if(minPara > minToCheckParagraph.get(0)) {
             minToCheckParagraph.set(0, minPara);
           }
-          textLevelRules.get(0).add(new String(RuleId));
+          textLevelRules.get(0).add(ruleId);
         }
       }
     }
 
-/*
- * This rule was commented out for performance reasons and replaced by the same named rule before 
- *
-    private void insertRule (int minPara, String RuleId) {
-      int n = minToCheckParagraph.indexOf(minPara); 
-      if( n >= 0) {
-        textLevelRules.get(n).add(new String(RuleId));
-        return;
-      } else {
-        if(minPara < 0) {
-          n = minToCheckParagraph.size();
-        } else {
-          for (n = 0; n < minToCheckParagraph.size(); n++) {
-            if(minPara < minToCheckParagraph.get(n) || minToCheckParagraph.get(n) < 0) {
-              break;
-            }
-          }
-        }
-        minToCheckParagraph.add(n, minPara);
-        textLevelRules.add(n, new ArrayList<String>());
-        textLevelRules.get(n).add(new String(RuleId));
-      }
-    }
-*/
     public List<Integer> getMinToCheckParas() {
       return minToCheckParagraph;
     }
@@ -810,205 +808,5 @@ public class MultiDocumentsHandler {
 
   }
   
-  class LanguagetoolMenu implements XMenuListener {
-    
-    XMenuBar menubar = null;
-    XPopupMenu toolsMenu = null;
-    XPopupMenu ltMenu = null;
-    short toolsId = 0;
-    short ltId = 0;
-    private XPopupMenu xProfileMenu = null;
-    private List<String> definedProfiles = null;
-    private String currentProfile = null;
-    
-    public LanguagetoolMenu(XComponentContext xContext) {
-      menubar = OfficeTools.getMenuBar(xContext);
-      if (menubar == null) {
-        MessageHandler.printToLogFile("Menubar is null");
-        return;
-      }
-      for (short i = 0; i < menubar.getItemCount(); i++) {
-        toolsId = menubar.getItemId(i);
-        String command = menubar.getCommand(toolsId);
-        if(TOOLS_COMMAND.equals(command)) {
-          toolsMenu = menubar.getPopupMenu(toolsId);
-          break;
-        }
-      }
-      if (toolsMenu == null) {
-        MessageHandler.printToLogFile("Tools Menu is null");
-        return;
-      }
-      for (short i = 0; i < toolsMenu.getItemCount(); i++) {
-        String command = toolsMenu.getCommand(toolsMenu.getItemId(i));
-        if(WORD_COUNT_COMMAND.equals(command)) {
-          ltId = toolsMenu.getItemId((short) (i - 1));
-          ltMenu = toolsMenu.getPopupMenu(ltId);
-          break;
-        }
-      }
-      if (ltMenu == null) {
-        MessageHandler.printToLogFile("LT Menu is null");
-        return;
-      }
-
-      toolsMenu.addMenuListener(new XMenuListener() {
-
-        @Override
-        public void disposing(EventObject arg0) {
-        }
-
-        @Override
-        public void itemActivated(MenuEvent arg0) {
-        }
-
-        @Override
-        public void itemDeactivated(MenuEvent arg0) {
-        }
-
-        @Override
-        public void itemHighlighted(MenuEvent event) {
-          if(event.MenuId == ltId) {
-            setLtMenu();
-          }
-        }
-
-        @Override
-        public void itemSelected(MenuEvent event) {
-          if(event.MenuId == ltId) {
-            setLtMenu();
-          }
-        }
-      });
-      if (debugMode) {
-        MessageHandler.printToLogFile("Menu listener set");
-      }
-
-    }
-    
-    private void setLtMenu() {
-      short switchOffId = 0;
-      short switchOffPos = 0;
-      for (short i = 0; i < ltMenu.getItemCount(); i++) {
-        String command = ltMenu.getCommand(ltMenu.getItemId(i));
-        if(LT_SWITCH_OFF_COMMAND.equals(command)) {
-          switchOffId = ltMenu.getItemId(i);
-          switchOffPos = i;
-          break;
-        }
-      }
-      if (switchOffId == 0) {
-        MessageHandler.printToLogFile("switchOffId not found");
-        return;
-      }
-      
-      ltMenu.setItemText(switchOffId, messages.getString("loMenuSwitchOff"));
-      
-      if(switchOff) {
-        ltMenu.checkItem(switchOffId, true);
-      } else {
-        ltMenu.checkItem(switchOffId, false);
-      }
-      short profilesId = (short)(switchOffId + 10);
-      short profilesPos = (short)(switchOffPos + 2);
-      setProfileMenu();
-      if(xProfileMenu != null) {
-        if(ltMenu.getItemId(profilesPos) != profilesId) {
-          ltMenu.insertItem(profilesId, messages.getString("loMenuChangeProfiles"), MenuItemStyle.AUTOCHECK, profilesPos);
-        }
-        ltMenu.setPopupMenu(profilesId, xProfileMenu);
-      } else if(ltMenu.getItemId(profilesPos) == profilesId) {
-        ltMenu.removeItem(profilesPos, (short)1);
-      }
-      toolsMenu.setPopupMenu(ltId, ltMenu);
-    }
-      
-    private void setProfileMenu() {
-      List<String> profiles = null;
-      if(config != null) {
-        profiles = config.getDefinedProfiles();
-      }
-      if(profiles != null && !profiles.isEmpty()) {
-        definedProfiles = profiles;
-      }
-      if(definedProfiles != null) {
-        XPopupMenu xPopupMenu = OfficeTools.getPopupMenu(xContext);
-        currentProfile = config.getCurrentProfile();
-        xProfileMenu = getProfileMenu(xPopupMenu);
-      }
-    }
-    
-    private XPopupMenu getProfileMenu(XPopupMenu xPopupMenu) {
-      if(xPopupMenu != null) {
-        short nId = 1;
-        short nPos = 0;
-        xPopupMenu.insertItem(nId, messages.getString("guiUserProfile"), (short) 0, nPos);
-        xPopupMenu.setCommand(nId, LT_PROFILE_COMMAND);
-        if(currentProfile == null || currentProfile.isEmpty()) {
-          xPopupMenu.enableItem(nId , false);
-        } else {
-          xPopupMenu.enableItem(nId , true);
-        }
-        for (int i = 0; i < definedProfiles.size(); i++) {
-          nId++;
-          nPos++;
-          xPopupMenu.insertItem(nId, definedProfiles.get(i), (short) 0, nPos);
-          xPopupMenu.setCommand(nId, LT_PROFILE_COMMAND + definedProfiles.get(i));
-          if(currentProfile != null && currentProfile.equals(definedProfiles.get(i))) {
-            xPopupMenu.enableItem(nId , false);
-          } else {
-            xPopupMenu.enableItem(nId , true);
-          }
-        }
-        xPopupMenu.addMenuListener(this);
-      }
-      return xPopupMenu;
-    }
-
-    private void runProfileAction(String profile) {
-      List<String> definedProfiles = config.getDefinedProfiles();
-      if(profile != null && (definedProfiles == null || !definedProfiles.contains(profile))) {
-        MessageHandler.showMessage("profile '" + profile + "' not found");
-      } else {
-        try {
-          List<String> saveProfiles = new ArrayList<String>(); 
-          saveProfiles.addAll(config.getDefinedProfiles());
-          config.initOptions();
-          config.loadConfiguration(profile == null ? "" : profile);
-          config.setCurrentProfile(profile);
-          config.addProfiles(saveProfiles);
-          config.saveConfiguration(docLanguage);
-          mainThread.resetDocument();
-        } catch (IOException e) {
-          MessageHandler.showError(e);
-        }
-      }
-    }
-    
-    @Override
-    public void itemSelected(MenuEvent event) {
-      if(event.MenuId == 1) {
-        runProfileAction(null);
-      } else {
-        runProfileAction(definedProfiles.get(event.MenuId - 2));
-      }
-    }
-  
-    @Override
-    public void disposing(EventObject arg0) {
-    }
-
-    @Override
-    public void itemActivated(MenuEvent arg0) {
-    }
-
-    @Override
-    public void itemDeactivated(MenuEvent arg0) {
-    }
-
-    @Override
-    public void itemHighlighted(MenuEvent arg0) {
-    }
-  }
   
 }

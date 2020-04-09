@@ -130,7 +130,8 @@ public class Spanish extends Language implements AutoCloseable{
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SpanishWikipediaRule(messages),
-            new SpanishDiacriticsCheckRule(messages)
+            new SpanishDiacriticsCheckRule(messages),
+            new SpanishWrongWordInContextRule(messages)
     );
   }
 
@@ -169,6 +170,7 @@ public class Spanish extends Language implements AutoCloseable{
   public int getPriorityForId(String id) {
     switch (id) {
       case "ACCENTUATION_CHECK_ES": return 10;
+      case "HALLA_HAYA": return 10;
     }
     return super.getPriorityForId(id);
   }

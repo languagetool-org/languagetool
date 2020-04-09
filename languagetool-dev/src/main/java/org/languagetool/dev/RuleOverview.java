@@ -19,11 +19,8 @@
 package org.languagetool.dev;
 
 import org.apache.commons.lang3.StringUtils;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.Languages;
-import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.*;
+import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.Contributor;
 import org.languagetool.rules.ConfusionSetLoader;
@@ -32,10 +29,7 @@ import org.languagetool.rules.spelling.hunspell.HunspellNoSuggestionRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.*;

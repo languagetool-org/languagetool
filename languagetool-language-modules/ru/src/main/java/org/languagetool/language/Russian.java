@@ -18,18 +18,8 @@
  */
 package org.languagetool.language;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.regex.Pattern;
-
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ru.*;
 import org.languagetool.synthesis.Synthesizer;
@@ -40,6 +30,11 @@ import org.languagetool.tagging.disambiguation.ru.RussianHybridDisambiguator;
 import org.languagetool.tagging.ru.RussianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Pattern;
 
 public class Russian extends Language implements AutoCloseable {
 
@@ -129,7 +124,7 @@ public class Russian extends Language implements AutoCloseable {
             new RussianWordCoherencyRule(messages),
             new RussianWordRepeatRule(messages),
             new RussianVerbConjugationRule(messages),
-            new RussianDashRule()
+            new RussianDashRule(messages)
     );
   }
 

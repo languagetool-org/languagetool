@@ -19,13 +19,6 @@
 
 package org.languagetool.rules.spelling.morfologik;
 
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
@@ -36,16 +29,20 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
-import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
 import org.languagetool.rules.translation.TranslationEntry;
 import org.languagetool.rules.translation.Translator;
 import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.languagetool.JLanguageTool.*;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import static org.languagetool.JLanguageTool.getDataBroker;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
@@ -57,9 +54,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
   protected Locale conversionLocale;
   protected final Language motherTongue;
   protected final GlobalConfig globalConfig;
-
-  private final SuggestionsOrderer suggestionsOrderer;
-  private final boolean runningExperiment;
 
   private boolean ignoreTaggedWords = false;
   private boolean checkCompound = false;
@@ -99,14 +93,6 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     this.conversionLocale = conversionLocale != null ? conversionLocale : Locale.getDefault();
     init();
     setLocQualityIssueType(ITSIssueType.Misspelling);
-
-    if (SuggestionsChanges.isRunningExperiment("NewSuggestionsOrderer")) {
-      suggestionsOrderer = new SuggestionsOrdererFeatureExtractor(language, this.languageModel);
-      runningExperiment = true;
-    } else {
-      runningExperiment = false;
-      suggestionsOrderer = new XGBoostSuggestionsOrderer(language, languageModel);
-    }
   }
 
   @Override
@@ -443,48 +429,36 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
     if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 
         || ruleMatchesSoFar.size() <= userConfig.getMaxSpellingSuggestions()) {
-      List<String> defaultSuggestions = speller1.getSuggestionsFromDefaultDicts(word);
-      List<String> userSuggestions = speller1.getSuggestionsFromUserDicts(word);
+      List<SuggestedReplacement> defaultSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromDefaultDicts(word));
+      List<SuggestedReplacement> userSuggestions = SuggestedReplacement.convert(speller1.getSuggestionsFromUserDicts(word));
       //System.out.println("speller1: " + suggestions);
       if (word.length() >= 3 && (fullResults || defaultSuggestions.isEmpty())) {
         // speller1 uses a maximum edit distance of 1, it won't find suggestion for "garentee", "greatful" etc.
         //System.out.println("speller2: " + speller2.getSuggestions(word));
-        defaultSuggestions.addAll(speller2.getSuggestionsFromDefaultDicts(word));
-        userSuggestions.addAll(speller2.getSuggestionsFromUserDicts(word));
+        defaultSuggestions.addAll(SuggestedReplacement.convert(speller2.getSuggestionsFromDefaultDicts(word)));
+        userSuggestions.addAll(SuggestedReplacement.convert(speller2.getSuggestionsFromUserDicts(word)));
         if (word.length() >= 5 && (fullResults || defaultSuggestions.isEmpty())) {
           //System.out.println("speller3: " + speller3.getSuggestions(word));
-          defaultSuggestions.addAll(speller3.getSuggestionsFromDefaultDicts(word));
-          userSuggestions.addAll(speller3.getSuggestionsFromUserDicts(word));
+          defaultSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromDefaultDicts(word)));
+          userSuggestions.addAll(SuggestedReplacement.convert(speller3.getSuggestionsFromUserDicts(word)));
         }
       }
       //System.out.println("getAdditionalTopSuggestions(suggestions, word): " + getAdditionalTopSuggestions(suggestions, word));
-      defaultSuggestions.addAll(0, getAdditionalTopSuggestions(defaultSuggestions, word));
+      List<SuggestedReplacement> topSuggestions = getAdditionalTopSuggestions(defaultSuggestions, word);
+      topSuggestions.forEach(s -> s.setType(SuggestedReplacement.SuggestionType.Curated));
+      defaultSuggestions.addAll(0, topSuggestions);
       //System.out.println("getAdditionalSuggestions(suggestions, word): " + getAdditionalSuggestions(suggestions, word));
       defaultSuggestions.addAll(getAdditionalSuggestions(defaultSuggestions, word));
 
       if (!(defaultSuggestions.isEmpty() && userSuggestions.isEmpty()) && !preventFurtherSuggestions) {
         defaultSuggestions = filterSuggestions(defaultSuggestions, sentence, idx);
-        filterDupes(userSuggestions);
+        userSuggestions = filterDupes(userSuggestions);
         defaultSuggestions = orderSuggestions(defaultSuggestions, word);
         
         defaultSuggestions = joinBeforeAfterSuggestions(defaultSuggestions, beforeSuggestionStr, afterSuggestionStr);
         userSuggestions = joinBeforeAfterSuggestions(userSuggestions, beforeSuggestionStr, afterSuggestionStr);
         // use suggestionsOrderer only w/ A/B - Testing or manually enabled experiments
-        if (runningExperiment) {
-          addSuggestionsToRuleMatch(word,
-            userSuggestions, defaultSuggestions, suggestionsOrderer, ruleMatch);
-        } else if (userConfig != null && userConfig.getAbTest() != null &&
-          userConfig.getAbTest().equals("SuggestionsRanker") &&
-          suggestionsOrderer.isMlAvailable() && userConfig.getTextSessionId() != null) {
-          boolean testingA = userConfig.getTextSessionId() % 2 == 0;
-          if (testingA) {
-            addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, null, ruleMatch);
-          } else {
-            addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, suggestionsOrderer, ruleMatch);
-          }
-        } else {
-          addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, null, ruleMatch);
-        }
+        addSuggestionsToRuleMatch(word, userSuggestions, defaultSuggestions, null, ruleMatch);
         if (translationSuggestionCount > 0 && ruleMatch.getSuggestedReplacements().size() > translationSuggestionCount) {
           RuleMatch newRuleMatch = new RuleMatch(ruleMatch.getRule(), ruleMatch.getSentence(), ruleMatch.getFromPos(), ruleMatch.getToPos(),
             messages.getString("spelling") + " Translations to English are also offered.");
@@ -540,37 +514,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     return null;
   }
 
-  protected List<String> orderSuggestions(List<String> suggestions, String word) {
+  protected List<SuggestedReplacement> orderSuggestions(List<SuggestedReplacement> suggestions, String word) {
     return suggestions;
-  }
-
-  private List<String> orderSuggestions(List<String> suggestions, String word, AnalyzedSentence sentence, int startPos) {
-    List<String> orderedSuggestions;
-    if (userConfig != null && userConfig.getAbTest() != null && userConfig.getAbTest().equals("SuggestionsOrderer") &&
-      suggestionsOrderer.isMlAvailable() && userConfig.getTextSessionId() != null) {
-      boolean logGroup = Math.random() < 0.01;
-      if (logGroup) {
-        System.out.print("Running A/B-Test for SuggestionsOrderer ->");
-      }
-      if (userConfig.getTextSessionId() % 2 == 0) {
-        if (logGroup) {
-          System.out.println("in group A (using new ordering)");
-        }
-        orderedSuggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word, sentence, startPos);
-      } else {
-        if (logGroup) {
-          System.out.println("in group B (using old ordering)");
-        }
-        orderedSuggestions = orderSuggestions(suggestions, word);
-      }
-    } else {
-      if (suggestionsOrderer.isMlAvailable()) {
-        orderedSuggestions = suggestionsOrderer.orderSuggestionsUsingModel(suggestions, word, sentence, startPos);
-      } else {
-        orderedSuggestions = orderSuggestions(suggestions, word);
-      }
-    }
-    return orderedSuggestions;
   }
 
   /**
@@ -625,11 +570,14 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
    * Ex. to thow > tot how | to throw
    * 
    */
-  private List<String> joinBeforeAfterSuggestions(List<String> suggestionsList, String beforeSuggestionStr,
+  private List<SuggestedReplacement> joinBeforeAfterSuggestions(List<SuggestedReplacement> suggestionsList, String beforeSuggestionStr,
       String afterSuggestionStr) {
-    List<String> newSuggestionsList = new ArrayList<>();
-    for (String str : suggestionsList) {
-      newSuggestionsList.add(beforeSuggestionStr + str + afterSuggestionStr);
+    List<SuggestedReplacement> newSuggestionsList = new ArrayList<>();
+    for (SuggestedReplacement suggestion : suggestionsList) {
+      String str = suggestion.getReplacement();
+      SuggestedReplacement newSuggestion = new SuggestedReplacement(suggestion);
+      newSuggestion.setReplacement(beforeSuggestionStr + str + afterSuggestionStr);
+      newSuggestionsList.add(newSuggestion);
     }
     return newSuggestionsList;
   }

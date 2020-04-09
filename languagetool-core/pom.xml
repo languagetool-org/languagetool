@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.languagetool</groupId>
         <artifactId>languagetool-parent</artifactId>
-        <version>4.9-SNAPSHOT</version>
+        <version>5.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
@@ -187,6 +187,11 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>com.hankcs</groupId>
+            <artifactId>aho-corasick-double-array-trie</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
             <groupId>com.optimaize.languagedetector</groupId>
             <artifactId>language-detector</artifactId>
             <version>0.6</version>
@@ -277,39 +282,16 @@
             <scope>test</scope>
         </dependency>
 
-        <!--xgboost-related pmml dependencies-->
-        <!--<dependency>-->
-            <!--<groupId>org.jpmml</groupId>-->
-            <!--<artifactId>pmml-evaluator</artifactId>-->
-            <!--<version>1.4.2</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.jpmml</groupId>-->
-            <!--<artifactId>pmml-evaluator-extension</artifactId>-->
-            <!--<version>1.4.2</version>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>ai.h2o</groupId>
-            <artifactId>xgboost-predictor</artifactId>
-            <version>0.3.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ml.dmlc</groupId>
-            <artifactId>xgboost4j</artifactId>
-            <version>0.90</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.scala-lang</groupId>
-                    <artifactId>scala-library</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
             <version>1.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
         </dependency>
 
         <!-- prometheus monitoring, further dependencies in languagetool-server -->
@@ -393,6 +375,12 @@
             <artifactId>mockito-core</artifactId>
             <version>2.28.2</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.intellij.deps</groupId>
+            <artifactId>trove4j</artifactId>
+            <version>1.0.20190514</version>
         </dependency>
 
     </dependencies>

@@ -18,13 +18,6 @@
  */
 package org.languagetool.rules.de;
 
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csToken;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +45,8 @@ import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
+
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 /**
  * Simple agreement checker for German noun phrases. Checks agreement in:
@@ -97,6 +92,71 @@ public class AgreementRule extends Rule {
     Arrays.asList(  // "jenes Weges, den die Tausenden Juden 1945 ..."
       token("die"),
       token("Tausenden"),
+      posRegex("SUB:.*PLU.*")
+    ),
+    Arrays.asList(  // "... andere erfreut Tennis."
+      regex("andere"),
+      posRegex("VER:PA2.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "Das eine bedeutet Gefahr und das andere Gelegenheit."
+      regex("der|die|das"),
+      new PatternTokenBuilder().token("eine").setSkip(-1).build(),
+      regex("der|die|das"),
+      token("andere"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "... größeren Bekanntheitsgrad in der Bevölkerung als jeder andere Kandidat vor ihm"
+      regex("jede[mnrs]?"),
+      regex("anderen?"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "... kein anderer Unrecht hat."
+      regex("diese[rs]?|keine?"),
+      regex("anderer?"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "Toleranz ist der Verdacht, dass der andere Recht hat."
+      regex("der|die|das"),
+      regex("anderen?"),
+      token("Recht"),
+      regex("hat|hatte|habe|haben|gehabt")
+    ),
+    Arrays.asList(  // "als einziger ein für die anderen unsichtbares Wunder zu sehen."
+      token("für"),
+      regex("den|die"),
+      token("anderen")
+    ),
+    Arrays.asList(  // "Wer auf eines anderen Schuhe wartet...", "...Auge darauf haben, dass keine der anderen Abbruch tue"
+      regex("der|eine[sr]"),
+      token("anderen"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "wenn andere anderer Meinung sind"
+      token("andere"),
+      regex("anderer?"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "Hat ein Schutzgut gegenüber den anderen Priorität?"
+      token("gegenüber"),
+      token("den"),
+      token("anderen"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "... ist des anderen Freiheitskämpfer", "... die anderen Volleyball"
+      regex("des|die"),
+      token("anderen"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "Ein Esel schimpft den anderen Langohr."
+      posRegex("VER:2:.*"),
+      regex("den|die|das"),
+      regex("anderen?"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "... eine bessere Behandlung als andere Gefangene."
+      token("als"),
+      token("andere"),
       posRegex("SUB:.*PLU.*")
     ),
     Arrays.asList(  // "was sein Klient für ein Mensch sei"
@@ -175,7 +235,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(
       token("für"),
-      tokenRegex("(viele|alle|[dm]ich|ihn|sie|uns)"),
+      tokenRegex("(viele|alle|[dm]ich|ihn|sie|uns|andere)"),
       posRegex("ADJ:AKK:.*")  // "Ein für viele wichtiges Anliegen."
     ),
     Arrays.asList(
@@ -210,7 +270,7 @@ public class AgreementRule extends Rule {
       posRegex("PKT|KON:NEB|ZUS")// "Ist das Kunst?" / "Ist das Kunst oder Abfall?" / "Sind das Eier aus Bodenhaltung"
     ),
     Arrays.asList( // Die Präsent AG
-      tokenRegex("Präsent|Windhorst"),
+      tokenRegex("Präsent|Windhorst|Energiedienst"),
       token("AG")
     ),
     Arrays.asList(
@@ -308,7 +368,7 @@ public class AgreementRule extends Rule {
     ),
     Arrays.asList(
       token("Private"),
-      tokenRegex("Equitys?")
+      tokenRegex("Equitys?|Clouds?")
     ),
     Arrays.asList(
       token("Personal"),
@@ -602,6 +662,9 @@ public class AgreementRule extends Rule {
     ));
 
   private static final Set<String> VIELE_WENIGE_LOWERCASE = new HashSet<>(Arrays.asList(
+    "andere",
+    "anderer",
+    "anderen",
     "sämtlicher",
     "etliche",
     "etlicher",

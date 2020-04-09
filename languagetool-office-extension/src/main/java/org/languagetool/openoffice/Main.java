@@ -542,7 +542,12 @@ public class Main extends WeakBase implements XJobExecutor,
     //  the data of document will be removed by next call of getNumDocID
     //  to finish checking thread without crashing
     XComponent goneContext = UnoRuntime.queryInterface(XComponent.class, source.Source);
-    documents.setContextOfClosedDoc(goneContext);
+    if(goneContext == null) {
+      MessageHandler.printToLogFile("xComponent of closed document is null");
+    } else {
+      documents.setContextOfClosedDoc(goneContext);
+//      documents.removeMenuListener(goneContext);
+    }
     goneContext.removeEventListener(this); 
   }
 

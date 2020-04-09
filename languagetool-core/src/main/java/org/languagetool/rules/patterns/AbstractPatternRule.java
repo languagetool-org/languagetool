@@ -19,13 +19,6 @@
 
 package org.languagetool.rules.patterns;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -34,6 +27,10 @@ import org.languagetool.Language;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * An Abstract Pattern Rule that describes a pattern of words or part-of-speech tags 
@@ -51,9 +48,9 @@ public abstract class AbstractPatternRule extends Rule {
   protected final int regexMark;
   protected final boolean testUnification;
   protected final boolean sentStart;
-  protected final List<Match> suggestionMatches = new ArrayList<>();
-  protected final List<Match> suggestionMatchesOutMsg = new ArrayList<>();
-  protected final List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
+  protected List<Match> suggestionMatches;
+  protected List<Match> suggestionMatchesOutMsg;
+  protected List<DisambiguationPatternRule> antiPatterns;
 
   protected String subId; // because there can be more than one rule in a rule group
   protected int startPositionCorrection;
@@ -264,20 +261,26 @@ public abstract class AbstractPatternRule extends Rule {
 
   /** Add formatted suggestion elements. */
   public final void addSuggestionMatch(Match m) {
+    if (suggestionMatches == null) {
+      suggestionMatches = new ArrayList<>(0);
+    }
     suggestionMatches.add(m);
   }
 
   /** Add formatted suggestion elements outside message. */
   public final void addSuggestionMatchOutMsg(Match m) {
+    if (suggestionMatchesOutMsg == null) {
+      suggestionMatchesOutMsg = new ArrayList<>(0);
+    }
     suggestionMatchesOutMsg.add(m);
   }
   
   List<Match> getSuggestionMatches() {
-    return suggestionMatches;
+    return suggestionMatches == null ? Collections.emptyList() : suggestionMatches;
   }
 
   List<Match> getSuggestionMatchesOutMsg() {
-    return suggestionMatchesOutMsg;
+    return suggestionMatchesOutMsg == null ? Collections.emptyList() : suggestionMatchesOutMsg;
   }
 
   @NotNull
@@ -329,6 +332,9 @@ public abstract class AbstractPatternRule extends Rule {
    * @since 2.5
    */
   public void setAntiPatterns(List<DisambiguationPatternRule> antiPatterns) {
+    if (this.antiPatterns == null) {
+      this.antiPatterns = new ArrayList<>(0);
+    }
     this.antiPatterns.addAll(antiPatterns);
   }
 
@@ -337,7 +343,7 @@ public abstract class AbstractPatternRule extends Rule {
    */
   @Override
   public final List<DisambiguationPatternRule> getAntiPatterns() {
-    return Collections.unmodifiableList(antiPatterns);
+    return antiPatterns == null ? Collections.emptyList() : Collections.unmodifiableList(antiPatterns);
   }
 
   /**

@@ -18,19 +18,14 @@
  */
 package org.languagetool.rules;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import gnu.trove.THashMap;
+import org.languagetool.JLanguageTool;
+
+import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-
-import org.languagetool.JLanguageTool;
 
 /**
  * Loads word variations words from a UTF-8 file. One entry per line,
@@ -41,7 +36,7 @@ public class WordCoherencyDataLoader {
 
   public Map<String, Set<String>> loadWords(String path) {
     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
-    Map<String, Set<String>> map = new HashMap<>();
+    Map<String, Set<String>> map = new THashMap<>();
     try (
       InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
       BufferedReader br = new BufferedReader(reader)

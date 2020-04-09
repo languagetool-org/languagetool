@@ -80,7 +80,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "your kind of",
       "sneak peek",
       "the 4 of you",
-      "confirm you own the",
       "your ride",
       "he most likely",
       "good cause",
@@ -97,7 +96,48 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "no but they",
       "no but she",
       "no but it",
-      "he tracks"
+      "he tracks",
+      "which complains about", // vs complaints
+      "do your work", // vs "you"
+      "one many times", // vs "on"
+      "let us know",
+      "let me know",
+      "this way the",
+      "save you money",
+      "way better",
+      "so your plan",
+      "the news man",
+      "created us equally",
+      ", their,",
+      ", your,",
+      ", its,",
+      "us, humans,",
+      "bring you happiness",
+      "doing way more",
+      "in a while",
+      "confirm you own",
+      "oh, god",
+      "honey nut",
+      "not now",
+      "he proofs",
+      "he needs",
+      "1 thing",
+      "way easier",
+      "way more",
+      "I now don't",
+      "once your return is",
+      "can we text",
+      "believe in god",
+      "on premise",
+      "from poor to rich",
+      "my GPU",
+      "was your everything",
+      "they mustnt", // different error
+      "reply my email",
+      "things god said",
+      "let you text",
+      "doubt in god",
+      "in the news"
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {

@@ -18,10 +18,11 @@
  */
 package org.languagetool.rules;
 
+import gnu.trove.THashSet;
+import org.languagetool.JLanguageTool;
+
 import java.io.IOException;
 import java.util.*;
-
-import org.languagetool.JLanguageTool;
 
 /**
  * Data about words that are compounds and should thus not be written
@@ -30,10 +31,10 @@ import org.languagetool.JLanguageTool;
  */
 public class CompoundRuleData {
 
-  private final Set<String> incorrectCompounds = new HashSet<>();
-  private final Set<String> noDashSuggestion = new HashSet<>();
-  private final Set<String> noDashLowerCaseSuggestion = new HashSet<>();
-  private final Set<String> onlyDashSuggestion = new HashSet<>();
+  private final Set<String> incorrectCompounds = new THashSet<>();
+  private final Set<String> noDashSuggestion = new THashSet<>();
+  private final Set<String> noDashLowerCaseSuggestion = new THashSet<>();
+  private final Set<String> onlyDashSuggestion = new THashSet<>();
   private final LineExpander expander;
 
   public CompoundRuleData(String path) {

@@ -114,6 +114,7 @@ public class Configuration {
   private static final String OTHER_SERVER_URL_KEY = "otherServerUrl";
   private static final String USE_OTHER_SERVER_KEY = "useOtherServer";
   private static final String MARK_SINGLE_CHAR_BOLD_KEY = "markSingleCharBold";
+  private static final String LOG_LEVEL_KEY = "logLevel";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -178,6 +179,7 @@ public class Configuration {
   private String lookAndFeelName;
   private String currentProfile = null;
   private String otherServerUrl = null;
+  private String logLevel = null;
   private boolean switchOff = false;
 
   /**
@@ -260,6 +262,7 @@ public class Configuration {
     lookAndFeelName = null;
     currentProfile = null;
     otherServerUrl = null;
+    logLevel = null;
     switchOff = false;
   }
   /**
@@ -306,6 +309,7 @@ public class Configuration {
     this.useOtherServer = configuration.useOtherServer;
     this.markSingleCharBold = configuration.markSingleCharBold;
     this.otherServerUrl = configuration.otherServerUrl;
+    this.logLevel = configuration.logLevel;
     
     this.disabledRuleIds.clear();
     this.disabledRuleIds.addAll(configuration.disabledRuleIds);
@@ -457,6 +461,10 @@ public class Configuration {
 
   public String getServerUrl() {
     return useOtherServer ? otherServerUrl : null;
+  }
+
+  public String getlogLevel() {
+    return logLevel;
   }
 
   public void setMarkSingleCharBold(boolean markSingleCharBold) {
@@ -996,6 +1004,8 @@ public class Configuration {
       }
       definedProfiles.addAll(getListFromProperties(props, DEFINED_PROFILES_KEY));
       
+      logLevel = (String) props.get(LOG_LEVEL_KEY);
+      
       storeConfigforAllProfiles(props);
       
       String prefix;
@@ -1246,6 +1256,10 @@ public class Configuration {
     
     if(!definedProfiles.isEmpty()) {
       props.setProperty(DEFINED_PROFILES_KEY, String.join(DELIMITER, definedProfiles));
+    }
+    
+    if(logLevel != null) {
+      props.setProperty(LOG_LEVEL_KEY, logLevel);
     }
     
     try (FileOutputStream fos = new FileOutputStream(configFile)) {

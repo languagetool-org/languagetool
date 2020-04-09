@@ -51,6 +51,8 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     // What that is is a ...
     // but you you're my best friend ...
     // I'm so so happy
+    // I'm very very happy
+    String word = tokens[position].getToken().toString();
 
     if (wordRepetitionOf("had", tokens, position) && posIsIn(tokens, position - 2, "PRP", "NN")) {
       return true;   // "If I had had time, I would have gone to see him."
@@ -62,13 +64,26 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;
     } else if (wordRepetitionOf("s", tokens, position) && position > 1 && tokens[position - 2].getToken().matches("['’`´‘]")) {
       return true; // It's S.T.E.A.M.
+    } else if (tokens[position - 1].getToken().equalsIgnoreCase(word) && (((position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase(word)) || (position > 1 && tokens[position - 2].getToken().equalsIgnoreCase(word)))) {
+      // three time word repetition
+      return true;
     } else if (tokens[position].getToken().matches("(?i)^[a-z]$") && position > 1 && tokens[position - 2].getToken().matches("(?i)^[a-z]$") && (position + 1 < tokens.length) && tokens[position + 1].getToken().matches("(?i)^[a-z]$")) {
       // spelling with spaces in between: "b a s i c a l l y"
       return true;
     } else if (wordRepetitionOf("blah", tokens, position)) {
       return true;   // "blah blah"
+    } else if (wordRepetitionOf("uh", tokens, position)) {
+      return true;   // "uh uh"
+    } else if (wordRepetitionOf("paw", tokens, position)) {
+      return true;   // "paw paw"
+    } else if (wordRepetitionOf("wop", tokens, position)) {
+      return true;   // "wop wop"
+    } else if (wordRepetitionOf("woop", tokens, position)) {
+      return true;   // "woop woop"
     } else if (wordRepetitionOf("ha", tokens, position)) {
       return true;   // "ha ha"
+    } else if (wordRepetitionOf("omg", tokens, position)) {
+      return true;   // "omg omg"
     } else if (wordRepetitionOf("ta", tokens, position)) {
       return true;
     } else if (wordRepetitionOf("la", tokens, position)) {

@@ -18,16 +18,11 @@
  */
 package org.languagetool.rules.de;
 
-import org.jetbrains.annotations.NotNull;
-import org.languagetool.AnalyzedTokenReadings;
+import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.patterns.PatternRule;
-import org.languagetool.rules.patterns.PatternToken;
-import org.languagetool.rules.patterns.PatternTokenBuilder;
-import org.languagetool.tagging.de.GermanTagger;
+import org.languagetool.synthesis.Synthesizer;
 
 import java.io.IOException;
 import java.util.*;
@@ -38,14 +33,10 @@ import java.util.*;
  */
 class SpellingData {
 
-  private final List<SpellingRuleWithSuggestions> spellingRules = new ArrayList<>();
-  
-  SpellingData(String ruleDesc, String filePath, String message, String shortMessage, String ruleId, ITSIssueType issueType) {
-    this(ruleDesc, filePath, message, shortMessage, ruleId, issueType, false);
-  }
-  
-  SpellingData(String ruleDesc, String filePath, String message, String shortMessage, String ruleId, ITSIssueType issueType, boolean ignoreAfterQuote) {
-    Language german = Languages.getLanguageForShortCode("de");
+  private final AhoCorasickDoubleArrayTrie<String> trie = new AhoCorasickDoubleArrayTrie<>();
+
+  SpellingData(String filePath) {
+    Synthesizer synthesizer = Languages.getLanguageForShortCode("de").getSynthesizer();
     List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(filePath);
     Map<String,String> coherencyMap = new HashMap<>();
     for (String line : lines) {
@@ -56,51 +47,38 @@ class SpellingData {
       if (parts.length < 2) {
         throw new RuntimeException("Unexpected format in file " + filePath + ": " + line);
       }
-      String alternative = parts[0];
-      String lookup = coherencyMap.get(parts[1]);
-      if (lookup != null && lookup.equals(alternative)) {
-        throw new RuntimeException("Contradictory entry in " + filePath + ": '" + alternative + "' suggests '" + lookup + "' and vice versa");
+      String oldSpelling = parts[0];
+      String newSpelling = parts[1];
+      String lookup = coherencyMap.get(newSpelling);
+      if (lookup != null && lookup.equals(oldSpelling)) {
+        throw new RuntimeException("Contradictory entry in " + filePath + ": '" + oldSpelling + "' suggests '" + lookup + "' and vice versa");
       }
-      coherencyMap.put(parts[0], parts[1]);
-      List<String> suggestions = new ArrayList<>(Arrays.asList(parts).subList(1, parts.length));
-      List<PatternToken> patternTokens = getTokens(alternative, german);
-      PatternRule rule = new PatternRule(ruleId, german, patternTokens, ruleDesc, message, shortMessage);
-      rule.setLocQualityIssueType(issueType);
-      spellingRules.add(new SpellingRuleWithSuggestions(rule, alternative, suggestions, ignoreAfterQuote));
-    }
-  }
-
-  @NotNull
-  private List<PatternToken> getTokens(String alternative, Language lang) {
-    PatternTokenBuilder builder = new PatternTokenBuilder();
-    String[] suggestionTokens = alternative.split(" ");
-    List<PatternToken> patternTokens = new ArrayList<>();
-    for (String part : suggestionTokens) {
-      PatternToken token;
-      if (isBaseform(alternative, lang)) {
-        token = builder.csToken(part).matchInflectedForms().build();
-      } else {
-        token = builder.csToken(part).build();
+      if (coherencyMap.containsKey(oldSpelling) && !coherencyMap.get(oldSpelling).equals(newSpelling)) {
+        throw new RuntimeException("Duplicate key in " + filePath + ": " + oldSpelling + ", val: " + coherencyMap.get(oldSpelling) + " vs. " + newSpelling);
       }
-      patternTokens.add(token);
-    }
-    return patternTokens;
-  }
+      coherencyMap.put(oldSpelling, newSpelling);
 
-  private boolean isBaseform(String term, Language lang) {
-    try {
-      AnalyzedTokenReadings lookup = ((GermanTagger) lang.getTagger()).lookup(term);
-      if (lookup != null) {
-        return lookup.hasLemma(term);
+      try {
+        String[] forms = synthesizer.synthesize(new AnalyzedToken(oldSpelling, "NONE", oldSpelling), ".*", true);
+        for (String form : forms) {
+          if (oldSpelling.replaceAll(" ", "").equals(newSpelling.replaceAll(" ", ""))) {
+            // no need to handle, covered by substring matching
+          } else if (oldSpelling.replaceAll("ß", "ss").equals(newSpelling)) {
+            if (!form.contains("ss")) {  // avoid e.g. "Schlüsse" as form of "Schluß", as that's the new spelling
+              coherencyMap.put(form, form.replaceAll("ß", "ss"));
+            }
+          } else {
+            // cannot be expanded - these have been added manually in alt_neu.csv
+          }
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
       }
-      return false;
-    } catch (IOException e) {
-      throw new RuntimeException(e);
     }
+    trie.build(coherencyMap);
   }
 
-  public List<SpellingRuleWithSuggestions> get() {
-    return spellingRules;
+  public AhoCorasickDoubleArrayTrie<String> getTrie() {
+    return trie;
   }
-
 }

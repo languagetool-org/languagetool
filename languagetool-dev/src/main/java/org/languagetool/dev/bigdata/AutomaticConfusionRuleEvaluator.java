@@ -62,6 +62,7 @@ class AutomaticConfusionRuleEvaluator {
   private AutomaticConfusionRuleEvaluator(File luceneIndexDir, String fieldName, boolean caseInsensitive, Language lang) throws IOException {
     this.fieldName = fieldName;
     this.caseInsensitive = caseInsensitive;
+    System.out.println("Using " + luceneIndexDir + " to search example sentences");
     DirectoryReader reader = DirectoryReader.open(FSDirectory.open(luceneIndexDir.toPath()));
     searcher = new IndexSearcher(reader);
     InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/" + lang.getShortCode() + "/confusion_sets.txt");

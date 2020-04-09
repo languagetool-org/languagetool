@@ -19,31 +19,25 @@
 
 package org.languagetool.rules.ca;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
+import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 import org.languagetool.tagging.ca.CatalanTagger;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
 
   private String dictFilename;
   private static final String SPELLING_FILE = "/ca/spelling.txt";
   
-  private static final Pattern PARTICULA_INICIAL = Pattern.compile("^(els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (..+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile("^(avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans) (..+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-  
+  private static final Pattern PARTICULA_INICIAL = Pattern.compile("^(no|en|a|els?|als?|pels?|dels?|de|per|uns?|una|unes|la|les|[tms]eus?) (..+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern PREFIX_AMB_ESPAI = Pattern.compile("^(des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans) (..+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+    
   private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnmts])(h?[aeiouàéèíòóú].*)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_SING = Pattern.compile("^([ld])(h?[aeiouàéèíòóú].+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_PLURAL = Pattern.compile("^(d)(h?[aeiouàéèíòóú].+)$",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
@@ -84,14 +78,22 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   }
   
   @Override
-  protected List<String> orderSuggestions(List<String> suggestions, String word) {
+  protected List<SuggestedReplacement> orderSuggestions(List<SuggestedReplacement> suggestions, String word) {
     //move some run-on-words suggestions to the top
-    List<String> newSuggestions = new ArrayList<>();
-    for (String suggestion : suggestions) {
-      //remove wrong split prefixes
-      if (!PREFIX_AMB_ESPAI.matcher(suggestion).matches()) {
-        if (PARTICULA_INICIAL.matcher(suggestion).matches()) {
-          newSuggestions.add(0, suggestion);
+    List<SuggestedReplacement> newSuggestions = new ArrayList<>();
+    for (SuggestedReplacement suggestion : suggestions) {
+      // remove wrong split prefixes
+      if (!PREFIX_AMB_ESPAI.matcher(suggestion.getReplacement()).matches()) {
+        Matcher matcher = PARTICULA_INICIAL.matcher(suggestion.getReplacement());
+        if (matcher.matches()) {
+          String newSuggestion = matcher.group(2);
+          List<AnalyzedTokenReadings> atkn = tagger.tag(Arrays.asList(newSuggestion));
+          boolean isBalear = atkn.get(0).hasPosTag("VMIP1S0B") && !atkn.get(0).hasPosTagStartingWith("N");
+          if (!isBalear) {
+            newSuggestions.add(0, suggestion);
+          } else {
+            newSuggestions.add(suggestion);
+          }
         } else {
           newSuggestions.add(suggestion);
         }
@@ -99,10 +101,14 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     }
     return newSuggestions;
   }
-  
   @Override
-  protected List<String> getAdditionalTopSuggestions(List<String> suggestions,
-      String word) throws IOException {
+  protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
+    List<String> suggestionsList = suggestions.stream()
+      .map(SuggestedReplacement::getReplacement).collect(Collectors.toList());
+    return SuggestedReplacement.convert(getAdditionalTopSuggestionsString(suggestionsList, word));
+  }
+
+  private List<String> getAdditionalTopSuggestionsString(List<String> suggestions, String word) throws IOException {
     //TODO Try other combinations. Ex. daconseguirlos, 
     //TODO Including errors (Hunspell can do it). Ex. sescontaminarla > descontaminar-la
     /*if (word.length() < 5) {

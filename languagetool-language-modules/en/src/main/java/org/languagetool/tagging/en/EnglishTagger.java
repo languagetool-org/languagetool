@@ -18,9 +18,9 @@
  */
 package org.languagetool.tagging.en;
 
-import java.util.Locale;
-
 import org.languagetool.tagging.BaseTagger;
+
+import java.util.Locale;
 
 /**
  * English Part-of-speech tagger.
@@ -42,6 +42,7 @@ public class EnglishTagger extends BaseTagger {
   }
 
   public EnglishTagger() {
-    super("/en/english.dict", Locale.ENGLISH, false);
+    // intern tags because we only have 47 types and get megabytes of duplicated strings
+    super("/en/english.dict", Locale.ENGLISH, false, true);
   }
 }
