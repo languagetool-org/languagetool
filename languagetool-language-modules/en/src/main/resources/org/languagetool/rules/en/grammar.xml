@@ -10139,6 +10139,14 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="AIRCRAFTS" name="AIRCRAFTS" default="temp_off">
+            <pattern>
+                <token>aircrafts</token>
+            </pattern>
+            <message>The plural of "aircraft" is not "aircrafts" but <suggestion>aircraft</suggestion>.</message>
+            <url>https://www.merriam-webster.com/dictionary/aircraft</url>
+            <example correction="aircraft">Freighter <marker>aircrafts</marker>, which are dedicated to the transport of goods, are being mobilized to make up the capacity shortfall.</example>
+        </rule>
         <rulegroup id="MAKE_UP" name="make up (makeup)">
             <url>https://www.merriam-webster.com/dictionary/makeup</url>
             <antipattern>
@@ -11848,7 +11856,7 @@ USA
             <example>They are unable even to exercise faith in Christ by their own will.</example>
             <example>A little man who was stumping along eastward at a good walk, and the other a girl of maybe eight or ten who was running as hard as she was able down a cross street.</example>
         </rule>
-        <rule id="YOU_GOOD" name="You good? (Are you good?)" default="temp_off">
+        <rule id="YOU_GOOD" name="You good? (Are you good?)">
             <pattern>
                 <token postag="SENT_START" />
                 <marker>
@@ -21372,6 +21380,10 @@ USA
                 <token>in</token>
                 <token>between</token>
             </antipattern>
+            <antipattern><!-- caught by AN_AND -->
+                <token>an</token>
+                <token>also</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes">a</token>
                 <marker>
@@ -29268,7 +29280,7 @@ USA
                 <message>Did you mean <suggestion>apologize</suggestion> (American English) or <suggestion>apologise</suggestion> (British English)?</message>
                 <example correction="apologize|apologise">I could <marker>apologies</marker> but it really wasn't me who did that.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">the|an?|my|his|her|y?our|their|no</token>
                     <marker>
@@ -41950,6 +41962,20 @@ The accident victim died from her injuries.
             <example correction="is">What <marker>it</marker> the solution.</example>
         </rule>
         <rulegroup id="IT_IF" name="it vs. if">
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token regexp="yes">me|you|it|him|her|them|us</token>
+                    <marker>
+                        <token>it</token>
+                    </marker>
+                    <token regexp="yes">you|s?he|we|they|I|it</token>
+                    <token postag="RB" min="0" />
+                    <token postag="VB.*|MD" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>if</suggestion>?</message>
+                <example correction="if">Catch me <marker>it</marker> you can.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token postag="JJR" />
@@ -42064,7 +42090,7 @@ The accident victim died from her injuries.
                 <example correction="once">I <marker>one</marker> had a car.</example>
                 <example correction="once">I have built up my strength far from what it <marker>one</marker> was.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>once</token>
@@ -42075,7 +42101,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>one</suggestion>?</message>
                 <example correction="one">If you like it, I can do it <marker>once</marker> more time.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>one</token>
@@ -43775,15 +43801,17 @@ The accident victim died from her injuries.
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START|TO" postag_regexp='yes'/>
-                    <token>
-                        due
-                    <exception scope='next' regexp='yes'>course|today|tomorrow|tonight|yesterday|dates?|diligence|for|on|process|regard|respect|to|the|:|&weekdays;|&months;</exception>
-                    </token>
+                    <marker>
+                        <token>
+                            due
+                            <exception scope='next' regexp='yes'>course|today|tomorrow|tonight|yesterday|dates?|diligence|for|on|process|regard|respect|to|the|:|&weekdays;|&months;</exception>
+                        </token>
+                    </marker>
                 </pattern>
-                <message>Did you mean to use the verb <suggestion>\1 do</suggestion>?</message>
+                <message>Did you mean to use the verb <suggestion>do</suggestion>?</message>
                 <url>https://en.wiktionary.org/wiki/due</url>
                 <example correction="Do"><marker>Due</marker> you work this weekend?</example>
-                <example correction="to do">Unfortunately, I have work <marker>to due</marker>.</example>
+                <example correction="do">Unfortunately, I have work to <marker>due</marker>.</example>
                 <example>Due to its links to active workers' movements, the In...</example><!-- XXX All remaining FPs are in similar circumstances -->
                 <example>Due the unique climate in Azerbaijan, the flora is mu...</example>
                 <example>Due partly to the performance capabilities of modern ...</example>
