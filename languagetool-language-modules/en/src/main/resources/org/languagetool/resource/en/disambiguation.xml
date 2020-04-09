@@ -5,6 +5,8 @@
 -->
 <!DOCTYPE rules [
     <!ENTITY apostrophe "['’`´‘]">
+    <!ENTITY months "January|February|March|April|May|Ju(ne|ly)|August|September|October|November|December">
+    <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Ju[ln]|Aug|Sept?|Oct|Nov|Dec">
     <!ENTITY file_name_extensions "asp|aspx|avi|bak|bat|bmp|cab|cfg|cgi|com|cs[sv]|dat|dbf?|dll|eps|exe|flv|gif|htm|html|ibooks|ico|ini|jar|jpg|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|pdf|php|pl|png|pps|ppt|pptx|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xls|xlsx|xsl|xml|yaml|yml|zip|zipx">
     <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
     <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
@@ -5377,16 +5379,20 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <!--  poor man's entity recognizer to recognize numbers contained in proper names -->
-
     <rule id="NNP_CD" name="Apollo 11">
         <pattern>
-            <token postag="NNP"/>
+            <token postag="NNP">
+                <exception regexp="yes">&months;|&abbrevMonths;</exception>
+                </token>
             <marker><token postag="CD"/></marker>
         </pattern>
         <disambig action="add"><wd pos="NNP"/></disambig>
         <example type="untouched">Apollo is beautiful.</example>
+        <example type="untouched">The problem occurred on November 33 of the year after.</example><!-- Premium #1187 -->
+        <example type="untouched">The problem started in January 4 years ago.</example>
         <example type="ambiguous" inputform="12[12/CD]" outputform="12[12/CD,12/NNP]">Apollo <marker>12</marker> was beautiful.</example>
     </rule>
+
     <rule id="VBN_VBD" name="Past Participle">
         <antipattern><!-- If an adverb is an intensifier, then the VBN word is probably an adjective. https://learnenglish.britishcouncil.org/english-grammar/intensifiers -->
             <token inflected="yes">be</token>
