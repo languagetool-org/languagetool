@@ -7654,17 +7654,6 @@ MARCOAGPINTO 2020-02-18 -->
       <example correction="remunerado">O Rui faz trabalho não <marker>pago</marker> de noite.</example>
     </rule>
 
-    <rule id='UM_CERTO_DIA' name="certo dia">
-    <!-- Created by Marco A.G. Pinto, Portuguese rule -->
-      <pattern>
-          <token>um</token>
-          <token>certo</token>
-          <token>dia</token>
-      </pattern>
-      <message>Substitua por <suggestion>certo dia</suggestion>.</message>
-      <example correction="certo dia">Tudo aconteceu <marker>um certo dia</marker> de manhã.</example>
-    </rule>
-
     <rule id='AMOSTRA_DE_ARTE' name="Mostra de arte">
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
       <pattern>
@@ -7756,17 +7745,63 @@ MARCOAGPINTO 2020-02-18 -->
       <message>Substitua por <suggestion>de</suggestion>.</message>
       <example correction="de">Eles vão voar <marker>a</marker> jato.</example>
     </rule>
-
-    <rule id='DE_ORA_AVANTE' name="Doravante">
-    <!-- Created by Marco A.G. Pinto, Portuguese rule -->
+	
+  <rulegroup id='VOSSA_VOSSAS_VOSSO_VOSSOS' name="vossa(s) vosso(s)">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule  - 2020-04-09    -->
+    <rule>
       <pattern>
-          <token>de</token>
-          <token>ora</token>
-          <token>avante</token>
+		  <token>a</token>
+		  <token postag='NCFS000|NCCS000' postag_regexp='yes'/>
+          <token>é</token>
+		  <marker>
+			<token>de</token>
+			<token>vocês</token>
+          </marker>
       </pattern>
-      <message>Substitua por <suggestion>doravante</suggestion>.</message>
-      <example correction="doravante">Isto deve ser feito <marker>de ora avante</marker>.</example>
+      <message>Substitua por <suggestion>vossa</suggestion>.</message>
+      <example correction="vossa">A sorte é <marker>de vocês</marker>.</example>
     </rule>
+    <rule>
+      <pattern>
+		  <token>as</token>
+		  <token postag='NCFP000|NCCP000' postag_regexp='yes'/>
+          <token>são</token>
+		  <marker>
+			<token>de</token>
+			<token>vocês</token>
+          </marker>
+      </pattern>
+      <message>Substitua por <suggestion>vossas</suggestion>.</message>
+      <example correction="vossas">As casas são <marker>de vocês</marker>.</example>
+    </rule>
+
+    <rule>
+      <pattern>
+		  <token>o</token>
+		  <token postag='NCMS000|NCCS000' postag_regexp='yes'/>
+          <token>é</token>
+		  <marker>
+			<token>de</token>
+			<token>vocês</token>
+          </marker>
+      </pattern>
+      <message>Substitua por <suggestion>vosso</suggestion>.</message>
+      <example correction="vosso">O cão é <marker>de vocês</marker>.</example>
+    </rule>
+    <rule>
+      <pattern>
+		  <token>os</token>
+		  <token postag='NCMP000|NCCP000' postag_regexp='yes'/>
+          <token>são</token>
+		  <marker>
+			<token>de</token>
+			<token>vocês</token>
+          </marker>
+      </pattern>
+      <message>Substitua por <suggestion>vossos</suggestion>.</message>
+      <example correction="vossos">Os cães são <marker>de vocês</marker>.</example>
+    </rule>
+  </rulegroup>	
 
     <!-- RULES TU/TI -> EU/MIM *START* -->
     <!-- ***************************** -->
