@@ -8197,6 +8197,10 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
     <antipattern>
+        <token>conseillers</token>
+        <token postag_regexp="yes" postag="N . sp?"/>
+    </antipattern>
+    <antipattern>
         <token regexp="yes">\d+</token>
         <token regexp="yes">heures?</token>
         <token regexp="yes">\d+</token>
@@ -8225,6 +8229,19 @@ though, and has since been slightly modified)-->
             <token regexp="yes">Abricot|Absinthe|Acajou|Albâtre|Alezane?s?|Amande|Amarante|Ambre jaune|Ambre rouge|Améthyste|Anthracite|Aquilaine?s?|Ardoise|Argent|Argile|Asperge|Aubergine|Auburn|Aurore|Avocat|Azur|Banane|Basanée?s?|Beiges?|Bistre|Bitume|Blancs|Blanches?|Bleue?s?|Blonde?s?|Bourgogne|Bronze|Brune?s?|Caca d’oie|Café|Capucine|Caramel|Carotte|Cassis|Cerise|Chair|Châtaine?s?|Cramoisie?s?|Denim|écarlates?|émeraude|Fauves?|Glauques?|Grise?s?|Incarnate?s?|Indigo|Jaunes?|Lavande|Lilas|Magenta|Marine|Mauves?|Menthe|Noire?s?|Noisette|Or|Orange|Pistache|Pourpres?|Prune|Puce|Roses?|Rouges?|Roux|Rousses?|Turquoise|Vermeils?|Vermeilles?|Verte?s?|Violets?|Violettes?</token>
             <token regexp="yes">Abricot|Absinthe|Acajou|Albâtre|Alezane?s?|Amande|Amarante|Ambre jaune|Ambre rouge|Améthyste|Anthracite|Aquilaine?s?|Ardoise|Argent|Argile|Asperge|Aubergine|Auburn|Aurore|Avocat|Azur|Banane|Basanée?s?|Beiges?|Bistre|Bitume|Blancs|Blanches?|Bleue?s?|Blonde?s?|Bourgogne|Bronze|Brune?s?|Caca d’oie|Café|Capucine|Caramel|Carotte|Cassis|Cerise|Chair|Châtaine?s?|Cramoisie?s?|Denim|écarlates?|émeraude|Fauves?|Glauques?|Grise?s?|Incarnate?s?|Indigo|Jaunes?|Lavande|Lilas|Magenta|Marine|Mauves?|Menthe|Noire?s?|Noisette|Or|Orange|Pistache|Pourpres?|Prune|Puce|Roses?|Rouges?|Roux|Rousses?|Turquoise|Vermeils?|Vermeilles?|Verte?s?|Violets?|Violettes?|Pastel|sang|acier|plastique</token>
         </antipattern>
+    <antipattern>
+        <token regexp="yes">langues?|masters?|licenses?</token>
+        <token postag_regexp="yes" postag="N . s"/>
+    </antipattern>
+    <antipattern>
+        <token>choux</token>
+        <token>de</token>
+        <token>Bruxelles</token>
+    </antipattern>
+    <antipattern>
+        <token>est</token>
+        <token>comme</token>
+    </antipattern>
       <rule name="nombre singulier suivi du pluriel">
           <antipattern>
               <token regexp="yes">[2-9](\d+)?</token>
@@ -8239,6 +8256,10 @@ though, and has since been slightly modified)-->
               <token>top</token>
               <token regexp="yes">[0-9]+</token>
           </antipattern>
+          <antipattern>
+              <token>séparation</token>
+              <token regexp="yes">filles?|garçons?|hommes?|femmes?|blancs?|noirs?</token>
+          </antipattern>
         <pattern>
           <token regexp="yes">[01]<exception regexp="yes" scope="previous">,|et|ou|que</exception></token>
           <marker>
@@ -8252,6 +8273,7 @@ though, and has since been slightly modified)-->
         <example>Cela coûte 2,1 Euros.</example>
         <example>Ils sont âgés de 4 et 1 ans.</example>
         <example>1 fois.</example>
+        <example>L'école acta une séparation filles garçons.</example>
       </rule>
       <rule>
         <antipattern>
@@ -8296,6 +8318,11 @@ though, and has since been slightly modified)-->
           <token regexp="yes">\d{5}</token>
           <token/>
         </antipattern>
+        <antipattern>
+            <token regexp="yes">n°</token>
+            <token regexp="yes">\d+</token>
+            <token postag=".*s" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
           <token regexp="yes">[2-9]|[1-9]\d+
             <exception regexp="yes">[12]\d\d\d</exception>
@@ -8325,6 +8352,7 @@ though, and has since been slightly modified)-->
         <example>Une Peugeot 208 <marker>fabriquée</marker> en France.</example>
         <example>L’année 800 fut considérée comme une renaissance de l’Empire romain d’Occident.</example>
         <example>Contactez-moi au 0101010101 merci beaucoup !</example>
+        <example>Le passeport n° 157208191 délivré le 01/12/2015.</example>
       </rule>
       <rule name="singulier suivi du pluriel">
           <antipattern>
@@ -8490,6 +8518,7 @@ though, and has since been slightly modified)-->
         <example>Tous les lundis matin.</example>
         <example>Tous les lundis soir.</example>
         <example>Les gens autour de nous.</example>
+        <example>les conseillers environnement</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
@@ -31116,7 +31145,7 @@ though, and has since been slightly modified)-->
         <example>Les chiens aboient à qui mieux mieux.</example>
       </rule>
     </rulegroup>
-    <rulegroup id="TOUT_A_COMMENCE" name="Expression 'tout a commencé'">
+    <rulegroup id="TOUT_A_COMMENCE" name="Expression 'tout a commencé'" default="temp_off">
         <rule name="Expression 'tout a/à commencé'">
             <pattern>
                 <token>tout</token>
