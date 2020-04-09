@@ -139,6 +139,7 @@ public class AdverbFilter extends RuleFilter {
     put("personally", "personal");
     put("basically", "basical");
     put("definitely", "definite");
+    put("potentially", "potential");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
