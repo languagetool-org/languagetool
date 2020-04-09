@@ -509,8 +509,8 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       } else {
         if (!expectedCorrections.equals(realSuggestions)) {
           ruleErrors.addError(new PatternRuleTestFailure(rule,
-            "Incorrect suggestions: " + expectedCorrections + " != "
-              + realSuggestions + " on input: " + sentence));
+            "Incorrect suggestions: " + String.join("|", expectedCorrections) + " != "
+              + String.join("|", realSuggestions) + " on input: " + sentence));
         }
       }
     }
