@@ -125,7 +125,8 @@ USA
         <token>/</token>
         <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
-    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant'>
+    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type'>
+    <!ENTITY nouns_with_i 'article|phase|class|grade|part|paragraph|section|chaos|enigma|book|war|king|current|mustang|type'>
 ]>
 
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -11146,7 +11147,7 @@ USA
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[Ss]he|[Hh]e|[Ii]t</token>
                         <token postag="JJ.*" postag_regexp="yes">
-                            <exception postag="VB[PZD]?|MD|RB.*|CC" postag_regexp="yes" />
+                            <exception postag="VB[PZD]?|MD|RB.*|CC" postag_regexp="yes" regexp="yes">(?!(worse)).*</exception>
                             <exception regexp="yes">(?!(&adjectives_with_ing;)).{2,}ing</exception>
                         </token>
                     </marker>
@@ -11161,6 +11162,7 @@ USA
                 <example correction="It is easy|It was easy"><marker>It easy</marker> to tell the difference.</example>
                 <example correction="it is unreliable|it was unreliable">I just want a keypad for using as an entry and exit to turn on and off the alarm to do away with the presence sensors that <marker>it unreliable</marker>.</example>
                 <example correction="It is normal|It was normal"><marker>It normal</marker> to see activity once or twice and hour.</example>
+                <example correction="it is worse|it was worse">I don’t have any experience with React so I can’t really tell if <marker>it worse</marker> or better than Vue.js.</example>
                 <example correction="it is worth|it was worth">But indeed, it is not certain <marker>it worth</marker> the effort.</example>
                 <example correction="it is pathetic|it was pathetic">I dont know, <marker>it pathetic</marker>.</example>
                 <example correction="it is useless|it was useless">So people stop reporting because <marker>it useless</marker> and the annoyance grows.</example>
@@ -11244,10 +11246,10 @@ USA
                         <token regexp="yes" case_sensitive="yes">[Ww]e</token>
                         <token postag="RB" min="0" />
                         <token regexp="yes">
-                            sorry|thankful|happy|glad|(un)?able|good|hungry|certain
+                            sorry|thankful|happy|glad|(un)?able|good|hungry|certain|mad|ok(ay)?
                         </token>
                     </marker>
-                    <token regexp="yes">to|about|that|for|\.|\!|\,</token>
+                    <token regexp="yes">to|about|that|with|for|\.|\!|\,</token>
                 </pattern>
                 <message>Did you mean <suggestion>\1 are \2 \3</suggestion> or <suggestion>\1 were \2 \3</suggestion>?</message>
                 <example correction="We are unable|We were unable"><marker>We unable</marker> to do it.</example>
@@ -11258,7 +11260,7 @@ USA
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[Ww]e</token>
                         <token postag="JJ.*" postag_regexp="yes">
-                            <exception postag="VB[PZD]?|MD|RB.*|CC" postag_regexp="yes" />
+                            <exception postag="VB[PZD]?|MD|RB.*|CC" postag_regexp="yes" regexp="yes">(?!(worse)).*</exception>
                             <exception>all</exception>
                             <exception regexp="yes">(?!(&adjectives_with_ing;)).{2,}ing</exception>
                         </token>
@@ -11300,7 +11302,7 @@ USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">article|phase|class|grade|part|paragraph</token>
+                    <token regexp="yes">&nouns_with_a;</token>
                     <token>I</token>
                 </antipattern>
                 <pattern>
@@ -11308,7 +11310,7 @@ USA
                         <token postag="PRP" case_sensitive="yes">I</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token regexp="yes">sorry|thankful|happy|glad|(un)?able|good|hungry</token>
+                    <token regexp="yes">sorry|thankful|happy|glad|(un)?able|good|hungry|mad|ok(ay)?</token>
                 </pattern>
                 <message>Did you mean <suggestion>I am</suggestion>?</message>
                 <example correction="I am"><marker>I</marker> so sorry.</example>
@@ -11322,7 +11324,7 @@ USA
                         <token postag="PRP">you</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token regexp="yes">sorry|thankful|happy|glad|(un)?able|good|hungry</token>
+                    <token regexp="yes">sorry|thankful|happy|glad|(un)?able|good|hungry|mad|ok(ay)?</token>
                 </pattern>
                 <message>Did you mean <suggestion>you are</suggestion>?</message>
                 <example correction="You are"><marker>You</marker> sorry.</example>
@@ -12181,23 +12183,41 @@ USA
                 </antipattern>
                 <pattern>
                     <token regexp="yes">it|we|they|you|he|she|I</token>
-                    <token postag="MD" />
-                    <token min="0" regexp="yes">&apostrophe;</token>
-                    <token min="0" regexp="yes">(no)?t|really|very</token>
                     <marker>
-                        <token regexp="yes">nicer?|good|great|cool(er)?|familiar|handy|(im)?possible|sweet|safer?|better|ok|related|interesting|(in)?appropriate|important|glad|happy|horrible|terrible|sorry|worth|responsible</token>
+                        <token postag="MD" />
+                        <token min="0" regexp="yes">not|really|very|totally|absolutely</token>
+                        <token regexp="yes">nicer?|good|great|cool(er)?|familiar|handy|(im)?possible|sweet|safer?|better|ok(ay)?|related|interesting|(in)?appropriate|important|glad|happy|horrible|terrible|sorry|worth|responsible</token>
                     </marker>
                     <token regexp="yes">to|about|for|if|when|as|because|with(in)?|\.|\!|\?</token>
                 </pattern>
-                <message>Did you mean <suggestion><match no="5" regexp_match="^(.+)$" regexp_replace="be $1" case_conversion="startlower" /></suggestion>?</message>
-                <example correction="be cool">It would <marker>cool</marker> if you could do that.</example>
-                <example correction="be safe">Do you really think it would <marker>safe</marker> to do that?</example>
-                <example correction="be nice">Maybe because I’m on a V1 hub but it would <marker>nice</marker> to have some indication on what is going on.</example>
-                <example correction="be OK">When that's done, I assume it will <marker>OK</marker> to distribute.</example>
-                <example correction="be OK">But if validly executed by a parent company that is unlikely to go into receivership or liquidation then it should <marker>OK</marker>.</example>
-                <example correction="be possible">I wonder if it might <marker>possible</marker> to do it without him.</example>
+                <message>Did you mean <suggestion>\2 \3 <match no="4" regexp_match="^(.+)$" regexp_replace="be $1" case_conversion="startlower" /></suggestion>?</message>
+                <example correction="would be cool">It <marker>would cool</marker> if you could do that.</example>
+                <example correction="would be safe">Do you really think it <marker>would safe</marker> to do that?</example>
+                <example correction="would be nice">Maybe because I’m on a V1 hub but it <marker>would nice</marker> to have some indication on what is going on.</example>
+                <example correction="will be OK">When that's done, I assume it <marker>will OK</marker> to distribute.</example>
+                <example correction="should be OK">But if validly executed by a parent company that is unlikely to go into receivership or liquidation then it <marker>should OK</marker>.</example>
+                <example correction="might be possible">I wonder if it <marker>might possible</marker> to do it without him.</example>
                 <example>Normally it will cool to 71 or so in the front and 65 in the rear.</example>
                 <example>Are you sure that it will work if a desired browser tab is not frontmost?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>cool</token>
+                    <token skip="2">to</token>
+                    <token postag="CD" />
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">it|we|they|you|he|she|I</token>
+                    <marker>
+                        <token postag="MD" />
+                        <token regexp="yes">&apostrophe;</token>
+                        <token>t</token>
+                        <token regexp="yes">nicer?|good|great|cool(er)?|familiar|handy|(im)?possible|sweet|safer?|better|ok(ay)?|related|interesting|(in)?appropriate|important|glad|happy|horrible|terrible|sorry|worth|responsible</token>
+                    </marker>
+                    <token regexp="yes">to|about|for|if|when|as|because|with(in)?|\.|\!|\?</token>
+                </pattern>
+                <message>Did you mean <suggestion>\2\3\4 <match no="5" regexp_match="^(.+)$" regexp_replace="be $1" case_conversion="startlower" /></suggestion>?</message>
+                <example correction="wouldn't be cool">It <marker>wouldn't cool</marker> if you could do that.</example>
             </rule>
             <rule>
                 <pattern>
@@ -19193,10 +19213,11 @@ USA
                 </marker>
                 <token regexp="yes">offices?|rooms?|areas?|spaces?|restaurants?|caf[éeè]s?|kitchens?|houses?|layouts?|living</token>
             </pattern>
-            <message>Did you mean the adjective <suggestion>open-plan</suggestion> (spelled with a hyphen)?</message>
+            <message>Did you mean the adjective <suggestion>\1-\2</suggestion> (spelled with a hyphen)?</message>
             <url>https://www.lexico.com/definition/open-plan</url>
             <example correction="open-plan">In the 1960s, <marker>open plan</marker> offices were introduced, though not without some controversy.</example>
         </rule>
+
         <rulegroup id="MILE_HYPHEN" name="missing hyphen in '2 mile race'">
             <antipattern><!-- https://en.wikipedia.org/wiki/Seven_Mile_Beach,_Grand_Cayman -->
                 <token regexp="yes">seven|7</token>
@@ -29573,7 +29594,7 @@ USA
                 <token spacebefore="no">com</token>
             </antipattern>
             <antipattern><!-- World War I -->
-                <token regexp="yes">current|Article|mustang|war|phase|grade|part</token>
+                <token regexp="yes">&nouns_with_i;</token>
                 <token case_sensitive="yes">I</token>
             </antipattern>
             <antipattern><!-- my wife and I not being drinkers -->
@@ -35360,7 +35381,7 @@ USA
                 <token postag="VB[PD]?|MD" postag_regexp="yes" />
             </antipattern>
             <antipattern><!-- World War I -->
-                <token regexp="yes">current|article|mustang|war|phase|grade|type|class</token>
+                <token regexp="yes">&nouns_with_i;</token>
                 <token case_sensitive="yes">I</token>
             </antipattern>
             <antipattern><!-- has he permission -->
@@ -42266,7 +42287,7 @@ The accident victim died from her injuries.
                 <token>it</token>
             </antipattern>
             <antipattern><!-- World War I -->
-                <token regexp="yes">current|Article|mustang|war|phase|grade</token>
+                <token regexp="yes">&nouns_with_i;</token>
                 <token case_sensitive="yes">I</token>
             </antipattern>
             <pattern>
@@ -44569,7 +44590,7 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">Chaos|Enigma|Book|War|King|Article|Phase</token>
+                    <token regexp="yes">&nouns_with_i;</token>
                     <token>I</token>
                 </antipattern>
                 <antipattern>
