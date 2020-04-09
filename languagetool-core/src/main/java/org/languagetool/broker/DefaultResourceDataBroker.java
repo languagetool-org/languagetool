@@ -181,6 +181,19 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
   }
 
   /**
+   * {@inheritDoc}
+   */
+  @Nullable
+  @Override
+  public List<URL> getAsURLs(String path) {
+    try {
+      return Collections.list(ResourceDataBroker.class.getClassLoader().getResources(path));
+    } catch (IOException e) {
+      return null;
+    }
+  }
+
+  /**
    * See:
    * {@link ResourceDataBroker#getFromResourceDirAsUrl(String)}
    * @param path The relative path to the item inside of the {@code /resource}
@@ -197,6 +210,19 @@ public class DefaultResourceDataBroker implements ResourceDataBroker {
     URL resource = getAsURL(completePath);
     assertNotNull(resource, path, completePath);
     return resource;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @NotNull
+  @Override
+  public List<URL> getFromResourceDirAsUrls(String path) {
+    String completePath = getCompleteResourceUrl(path);
+    // remove leading slash character for successful result because we are searching resource from classloader
+    List<URL> resources = getAsURLs(completePath.substring(1));
+    assertNotNull(resources, path, completePath);
+    return resources;
   }
 
   /**
