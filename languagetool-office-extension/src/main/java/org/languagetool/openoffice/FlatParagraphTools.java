@@ -101,7 +101,7 @@ public class FlatParagraphTools {
         }
         return null;
       }
-      XFlatParagraph tmpFlatPara = xFlatParaIter.getLastPara();
+      XFlatParagraph tmpFlatPara = xFlatParaIter.getNextPara();
       if (tmpFlatPara != null) {
         lastFlatPara = tmpFlatPara;
       }

@@ -166,7 +166,9 @@ public class TextLevelCheckQueue {
     synchronized(textRuleQueue) {
       textRuleQueue.clear();
     }
-    waitForInterrupt();
+    if(!queueWaits && lastStart >= 0) {
+      waitForInterrupt();
+    }
     if(debugMode) {
       MessageHandler.printToLogFile("reset queue");
     }
