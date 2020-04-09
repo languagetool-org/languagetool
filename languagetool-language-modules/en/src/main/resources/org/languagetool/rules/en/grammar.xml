@@ -26720,6 +26720,11 @@ USA
                     <token chunk="B-VP">worst</token><!-- RBR? -->
                     <token postag="VBN"/>
                 </antipattern>
+                <antipattern><!-- #2684 www.lexico.com/definition/each_other -->
+                    <token>each</token>
+                    <token>others</token><!-- Missing apostrophe, but that is a different problem -->
+                    <token postag="JJS"/>
+                </antipattern>
                 <pattern>
                     <token><exception postag="PRP\$|WP\$|DT|JJ|C[CD]|:|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">['’…]</exception><exception>at</exception></token>
                     <marker>
@@ -26749,6 +26754,7 @@ USA
                 <example>-The easiest moments.</example>
                 <example>... way to help countries worst hit by the virus.</example><!-- #2731 -->
                 <example>... the northern region worst hit by the outbreak...</example><!-- #2731 -->
+                <example>Students were often each others worst enemies when discussing their experiences</example><!-- #2684. Incorrect grammar, should be "each other's worst" -->
             </rule>
             <rule>
                 <antipattern>
@@ -26791,6 +26797,7 @@ USA
                 <example correction="is the best">The guy <marker>is best</marker> driver.</example>
                 <example>The guy <marker>is the best</marker> driver.</example>
                 <example>He is my best friend.</example>
+                <example>Learn how to best approach the crisis.</example><!-- #2684 -->
             </rule>
         </rulegroup>
 
