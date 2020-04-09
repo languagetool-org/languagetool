@@ -2312,75 +2312,76 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rulegroup>
 
     <rulegroup name="was/is + verb/NN -> NN" id="was_is_not_VB_NN">
-    <rule>
-      <antipattern><!-- #2344 Education it is not limit Steve Jobs -->
-        <token postag_regexp="yes" postag="NN.*"/>
-        <token postag="PRP"/>
-        <token regexp="yes">is|was</token>
-        <token>not</token>
-        <token postag_regexp="yes" postag="NN.*"/>
-        <token postag="NNP"/>
-      </antipattern>
-      <antipattern><!-- #2344 He was not find his -->
-        <token regexp="yes">s?he|it</token>
-        <token regexp="yes">is|was</token>
-        <token>not</token>
-        <token postag_regexp="yes" postag="NN.*"/>
-        <token postag="PRP$"/>
-      </antipattern>
-      <antipattern><!-- #2344 results is not limit by -->
-        <token postag_regexp="yes" postag="NN.*"/>
-        <token regexp="yes">is|was</token>
-        <token>not</token>
-        <token postag_regexp="yes" postag="NN.*"/>
-        <token postag="IN"/>
-      </antipattern>
-      <pattern>
-        <token regexp="yes">are|is|was|been</token>
-        <token>not</token>
-            <marker>
-                <and>
-                    <token postag_regexp="yes" postag="VBP?"/>
-                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"/></token>
-                </and>
-            </marker>
-      </pattern>
-      <disambig action="filter" postag="NN.*"/>
-      <example type="untouched">He was not fine.</example>
-      <example type="untouched">Incorrect grammar: Education it is not limit Steve Jobs thinking.</example><!-- #2344 -->
-      <example type="untouched">Incorrect grammar: He was not find his glasses anywhere.</example>
-      <example type="untouched">Incorrect grammar: He was not founder his club, although he was one of its first members.</example>
-      <example type="untouched">Incorrect grammar: Results is not limit by these tests.</example>
-      <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was not <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
-      <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">The king (I think) was not <marker>founder</marker> because he...</example>
-      <example type="ambiguous" inputform="oil[oil/NN,oil/NN:U,oil/VB,oil/VBP]" outputform="oil[oil/NN,oil/NN:U]">It is not <marker>oil</marker>, but rather water, that causes the problem.</example>
-    </rule>
-    <rule>
-      <antipattern><!-- #2344 He was not easily find his -->
-        <token regexp="yes">s?he|it</token>
-        <token regexp="yes">is|was</token>
-        <token>not</token>
-        <token postag="RB"/>
-        <token postag_regexp="yes" postag="NN.*"/>
-        <token postag="PRP$"/>
-      </antipattern>
-      <pattern>
-        <token regexp="yes">are|is|was|been</token>
-        <token>not</token>
-        <token postag="RB"><exception regexp="yes">in|t?here</exception><exception postag="VBN|JJ.*|CC" postag_regexp="yes"/></token>
-            <marker>
-                <and>
-                    <token postag_regexp="yes" postag="VBP?"/>
-                    <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"/></token>
-                </and>
-            </marker>
-      </pattern>
-      <disambig action="filter" postag="NN.*"/>
-      <example type="untouched">He was not fine.</example>
-      <example type="untouched">Incorrect grammar: He was not easily find his glasses.</example><!-- #2344 -->
-      <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was not really <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
-    </rule>
+        <rule>
+            <antipattern><!-- #2344 Education it is not limit Steve Jobs -->
+                <token postag_regexp="yes" postag="NN.*"/>
+                <token postag="PRP"/>
+                <token regexp="yes">is|was</token>
+                <token>not</token>
+                <token postag_regexp="yes" postag="NN.*"/>
+                <token postag="NNP"/>
+            </antipattern>
+            <antipattern><!-- #2344 He was not find his -->
+                <token regexp="yes">s?he|it</token>
+                <token regexp="yes">is|was</token>
+                <token>not</token>
+                <token postag_regexp="yes" postag="NN.*"/>
+                <token postag="PRP$"/>
+            </antipattern>
+            <antipattern><!-- #2344 results is not limit by -->
+                <token postag_regexp="yes" postag="NN.*"/>
+                <token regexp="yes">is|was</token>
+                <token>not</token>
+                <token postag_regexp="yes" postag="NN.*"/>
+                <token postag="IN"/>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">are|is|was|been</token>
+                <token>not</token>
+                <marker>
+                    <and>
+                        <token postag_regexp="yes" postag="VBP?"/>
+                        <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"/></token>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="NN.*"/>
+            <example type="untouched">He was not fine.</example>
+            <example type="untouched">Incorrect grammar: Education it is not limit Steve Jobs thinking.</example><!-- #2344 -->
+            <example type="untouched">Incorrect grammar: He was not find his glasses anywhere.</example>
+            <example type="untouched">Incorrect grammar: He was not founder his club, although he was one of its first members.</example>
+            <example type="untouched">Incorrect grammar: Results is not limit by these tests.</example>
+            <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was not <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
+            <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">The king (I think) was not <marker>founder</marker> because he...</example>
+            <example type="ambiguous" inputform="oil[oil/NN,oil/NN:U,oil/VB,oil/VBP]" outputform="oil[oil/NN,oil/NN:U]">It is not <marker>oil</marker>, but rather water, that causes the problem.</example>
+        </rule>
+        <rule>
+            <antipattern><!-- #2344 He was not easily find his -->
+                <token regexp="yes">s?he|it</token>
+                <token regexp="yes">is|was</token>
+                <token>not</token>
+                <token postag="RB"/>
+                <token postag_regexp="yes" postag="NN.*"/>
+                <token postag="PRP$"/>
+          </antipattern>
+          <pattern>
+              <token regexp="yes">are|is|was|been</token>
+              <token>not</token>
+              <token postag="RB"><exception regexp="yes">in|t?here</exception><exception postag="VBN|JJ.*|CC" postag_regexp="yes"/></token>
+              <marker>
+                  <and>
+                      <token postag_regexp="yes" postag="VBP?"/>
+                      <token postag_regexp="yes" postag="NN.*"><exception negate_pos="yes" postag="VBP?|NN|NN:UN|NN:U" postag_regexp="yes"/></token>
+                  </and>
+              </marker>
+          </pattern>
+          <disambig action="filter" postag="NN.*"/>
+          <example type="untouched">He was not fine.</example>
+          <example type="untouched">Incorrect grammar: He was not easily find his glasses.</example><!-- #2344 -->
+          <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was not really <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
+        </rule>
     </rulegroup>
+
     <rule name="be + verb progressive/jj + noun countable => verb progressive" id="BE_VBGJJ_NN_VBG">
       <pattern>
         <token inflected="yes">be</token>
