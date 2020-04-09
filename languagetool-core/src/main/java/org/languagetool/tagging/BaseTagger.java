@@ -120,10 +120,12 @@ public abstract class BaseTagger implements Tagger {
       InputStream stream = null;
       try {
         for (String file : getManualRemovalsFileNames()) {
-          if (stream == null) {
-            stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(file);
-          } else {
-            stream = new SequenceInputStream(stream, JLanguageTool.getDataBroker().getFromResourceDirAsStream(file));
+          for (URL url : JLanguageTool.getDataBroker().getFromResourceDirAsUrls(file)) {
+            if (stream == null) {
+              stream = url.openStream();
+            } else {
+              stream = new SequenceInputStream(stream, url.openStream());
+            }
           }
         }
         if (stream != null) {
@@ -138,10 +140,12 @@ public abstract class BaseTagger implements Tagger {
       stream = null;
       try {
         for (String file : getManualAdditionsFileNames()) {
-          if (stream == null) {
-            stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(file);
-          } else {
-            stream = new SequenceInputStream(stream, JLanguageTool.getDataBroker().getFromResourceDirAsStream(file));
+          for (URL url : JLanguageTool.getDataBroker().getFromResourceDirAsUrls(file)) {
+            if (stream == null) {
+              stream = url.openStream();
+            } else {
+              stream = new SequenceInputStream(stream, url.openStream());
+            }
           }
         }
         if (stream != null) {
