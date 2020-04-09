@@ -9684,6 +9684,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Иван <marker>Иваныч</marker>.</example>
             </rule>
         </rulegroup>
+       <rulegroup default="temp_off" id="Word_root_repeat" name="Повтор однокоренных слов">
+            <rule>
+                <pattern>
+                    <token inflected="yes"  skip="-1">исследование</token>
+                    <token inflected="yes" regexp="yes">исследовать|исследоваться</token>                        
+                </pattern>
+                <message>Повтор однокоренных слов.</message>
+                 <short>Повтор слова.</short>
+                <example>При исследовании поглощения света наночастицами рассматривались трёхслойные частицы из заранее выбранных материалов.</example>
+                <example correction="">При <marker>исследовании поглощения света наночастицами исследовались</marker> трёхслойные частицы из заранее выбранных материалов.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="-1">исследовать|исследоваться</token> 
+                    <token inflected="yes">исследование</token>      
+                </pattern>
+                <message>Повтор однокоренных слов.</message>
+                 <short>Повтор слова.</short>
+                <example>При исследовании поглощения света наночастицами рассматривались трёхслойные частицы из заранее выбранных материалов.</example>
+                <example correction=""><marker>Исследовались трёхслойные частицы из заранее выбранных материалов при исследовании</marker> поглощения света наночастицами.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="-1" >рассмотрение</token>
+                    <token inflected="yes" regexp="yes" >рассматривать|рассматриваться</token>                            
+                </pattern>
+                <message>Повтор однокоренных слов.</message>
+                 <short>Повтор слова.</short>
+                <example>При исследовании поглощения света наночастицами рассматривались трёхслойные частицы из заранее выбранных материалов.</example>
+                <example correction="">При <marker>рассмотрении поглощения света наночастицами рассматривались</marker> трёхслойные частицы из заранее выбранных материалов.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="-1">рассматривать|рассматриваться</token>   
+                    <token inflected="yes"  >рассмотрение</token>
+                                         
+                </pattern>
+                <message>Повтор однокоренных слов.</message>
+                 <short>Повтор слова.</short>
+                <example>При исследовании поглощения света наночастицами рассматривались трёхслойные частицы из заранее выбранных материалов.</example>
+                <example correction=""><marker>Рассматривались трёхслойные частицы из заранее выбранных материалов при рассмотрении</marker> поглощения света наночастицами.</example>
+            </rule>
+        </rulegroup>
         <rule id="PARTICLE_JE" name="Избыточная частица «же»" default="off">
             <antipattern>
                 <token regexp="yes" skip="-1">«|что</token>
