@@ -27,7 +27,7 @@ import org.languagetool.tools.StringTools;
 import java.util.*;
 
 /**
- * A rule that matches words which are complex and suggests easier to understand alternatives. 
+ * A rule that matches words which need a specific upper/lowercase spelling.
  * @since 4.8
  */
 public class SpecificCaseRule extends Rule {
