@@ -3578,6 +3578,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>bona tarda</suggestion>
                 <example correction="Bona tarda"><marker>Bona tardes</marker>!</example>
             </rule>
+            <rule id="FRACTAL" name="la fractal">
+                <pattern>
+                    <token postag="D..M.." postag_regexp="yes"/>
+                    <token inflected="yes">fractal</token>
+                </pattern>
+                <message>'Fractal', com a nom, és femení.</message>
+                <suggestion><match no="1" postag="(D..)M(..)" postag_regexp="yes" postag_replace="$1F$2"/> \2</suggestion>
+                <url>https://dlc.iec.cat/Results?DecEntradaText=fractal</url>
+                <example correction="Aquestes fractals"><marker>Aquests fractals</marker> són molt bonics.</example>
+                <example correction="una fractal">Analitzarem <marker>un fractal</marker>.</example>
+                <example>Els objectes fractals.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PENDENT_CORRENT" name="pendent, corrent (nom masculí)">
             <antipattern>
