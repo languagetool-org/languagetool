@@ -8319,7 +8319,7 @@ though, and has since been slightly modified)-->
           <token/>
         </antipattern>
         <antipattern>
-            <token regexp="yes">n°</token>
+            <token>n°</token>
             <token regexp="yes">\d+</token>
             <token postag=".*s" postag_regexp="yes"/>
         </antipattern>
@@ -14414,7 +14414,6 @@ though, and has since been slightly modified)-->
         <example>Il sera là l’année prochaine.</example>
       </rule>
     </rulegroup>
-
     <rule id="MA_VOYELLE" name="ma + voyelle">
       <pattern>
         <token regexp="yes">[mst]a</token>
@@ -15584,6 +15583,37 @@ though, and has since been slightly modified)-->
       <example correction="points de vue">Des <marker>points de vues</marker>.</example>
       <example>Des points de vue.</example>
     </rule>
+      <rule id="BIOS" name="Confusion bios/BIOS" default="temp_off">
+          <pattern>
+              <token postag="D m s"/>
+              <marker>
+                  <token case_sensitive="yes">bios</token>
+              </marker>
+          </pattern>
+          <message>L'élément informatique BIOS (Basic Input Output System) est un acronyme et s'écrit donc tout en majusucles. Ignorez cette règle si vous vouliez parler du « bios » selon Foucault.</message>
+          <suggestion>BIOS</suggestion>
+          <example correction="BIOS">Il faut le règler directement dans le <marker>bios</marker>.</example>
+      </rule>
+      <rulegroup id="TOUT_A_COMMENCE" name="Expression 'tout a commencé'" default="temp_off">
+          <rule name="Expression 'tout a/à commencé'">
+              <pattern>
+                  <token>tout</token>
+                  <token regexp="yes">a|à</token>
+                  <token regexp="yes">commenc(er|ée|ée?s)</token>
+              </pattern>
+              <message>Vouliez-vous dire <suggestion>tout a commencé</suggestion> ?</message>
+              <example correction="Tout a commencé"><marker>Tout à commencer</marker> ce matin.</example>
+          </rule>
+          <rule name="Expression 'tout a commencé' conjuguée">
+              <pattern>
+                  <token>tout</token>
+                  <token postag_regexp="yes" postag="V avoir.*"/>
+                  <token regexp="yes">commenc(er|ée|ée?s)</token>
+              </pattern>
+              <message>Vouliez-vous dire <suggestion>tout \2 commencé</suggestion> ?</message>
+              <example correction="Tout avait commencé"><marker>Tout avait commencer</marker> ce matin.</example>
+          </rule>
+      </rulegroup>
   </category>
   <category id="CAT_REGIONALISMES" name="Régionalismes" type="style">
     <!--The following rules were created by Hugo Voisard-->
@@ -30334,6 +30364,12 @@ though, and has since been slightly modified)-->
       <example>Ils ont fait exploser le pont.</example>
     </rule>
     <rule id="AUTANT_POUR_MOI" name="autant pour moi → au temps pour moi">
+      <antipattern>
+          <token>autant</token>
+          <token>pour</token>
+          <token>moi</token>
+          <token>que</token>
+      </antipattern>
       <pattern>
         <token>autant</token>
         <token>pour</token>
@@ -30495,6 +30531,86 @@ though, and has since been slightly modified)-->
       <example correction="de sorte qu">Agissez <marker>de sorte à ce qu</marker>’on vous aime.</example>
       <example correction="de sorte que">Asseyez-vous, <marker>de sorte à ce que</marker> tous puissent voir le spectacle.</example>
     </rule>
+      <rulegroup id="Y_A" default="temp_off" name="Expression familière y'a">
+          <antipattern>
+              <token>y</token>
+              <token>'</token>
+              <token>a</token>
+              <token>pas</token>
+              <token regexp="yes">de?</token>
+              <token min="0" max="1">'</token>
+              <token>lézard</token>
+          </antipattern>
+          <antipattern>
+              <token>y</token>
+              <token>'</token>
+              <token>a</token>
+              <token>pas</token>
+              <token>photo</token>
+          </antipattern>
+          <rule name="Expression familière y'a (affirmatif)">
+              <antipattern>
+                  <token>y</token>
+                  <token>'</token>
+                  <token>a</token>
+                  <token>pas</token>
+                  <token><exception>mal</exception></token>
+              </antipattern>
+              <antipattern>
+                  <token>y</token>
+                  <token>'</token>
+                  <token>a</token>
+                  <token>bon</token>
+                  <token case_sensitive="yes">Awards</token>
+              </antipattern>
+              <pattern>
+                  <token>y</token>
+                  <token>'</token>
+                  <token>a</token>
+              </pattern>
+              <message>La formulation « y'a » est très familière. Vouliez-vous dire <suggestion>il y a</suggestion> ?</message>
+              <example correction="Il y a"><marker>Y'a</marker> pas mal de gens dehors.</example>
+              <example correction="Il y a"><marker>Y'a</marker> beaucoup de gens dehors.</example>
+              <example>Y'a pas de quoi.</example>
+          </rule>
+          <rule name="Expression familière y'a (négatif)">
+              <antipattern>
+                  <token>y</token>
+                  <token>'</token>
+                  <token>a</token>
+                  <token>pas</token>
+                  <token>mal</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>y</token>
+                      <token>'</token>
+                      <token>a</token>
+                  </marker>
+                  <token min="0" max="1" postag="A"/>
+                  <token>pas</token>
+              </pattern>
+              <message>La formulation « y'a » est très familière. Vouliez-vous dire <suggestion>il n'y a</suggestion> ?</message>
+              <example correction="Il n'y a"><marker>Y'a</marker> pas de quoi.</example>
+              <example correction="Il n'y a"><marker>Y'a</marker> franchement pas de quoi.</example>
+              <example>Y'a pas mal de gens.</example>
+          </rule>
+      </rulegroup>
+      <rule id="CHIFFRE_SIECLE" name="Chiffre suivi du mot siècle" default="temp_off">
+          <antipattern>
+              <token regexp="yes">en|durant|pendant</token>
+              <token regexp="yes">\d+</token>
+              <token>siècle</token>
+          </antipattern>
+          <pattern>
+              <token regexp="yes">\d+
+                  <exception>1</exception>
+              </token>
+              <token>siècle</token>
+          </pattern>
+          <message>Vouliez-vous dire <suggestion>\1ᵉ \2</suggestion> ?</message>
+          <example correction="21ᵉ siècle">Il aurait vécu durant le <marker>21 siècle</marker>.</example>
+      </rule>
   </category>
   <category id="CAT_MARQUES_DE_COMMERCE" name="Marques de commerce">
     <rule id="UBUNTU" name="Ubuntu-12.4 → Ubuntu-12.04">
@@ -31186,26 +31302,6 @@ though, and has since been slightly modified)-->
         <example correction="mieux">C’est <marker>mieux mieux</marker> comme ça.</example>
         <example>Les chiens aboient à qui mieux mieux.</example>
       </rule>
-    </rulegroup>
-    <rulegroup id="TOUT_A_COMMENCE" name="Expression 'tout a commencé'" default="temp_off">
-        <rule name="Expression 'tout a/à commencé'">
-            <pattern>
-                <token>tout</token>
-                <token regexp="yes">a|à</token>
-                <token regexp="yes">commenc(er|ée|ée?s)</token>
-            </pattern>
-            <message>Vouliez-vous dire <suggestion>tout a commencé</suggestion> ?</message>
-            <example correction="Tout a commencé"><marker>Tout à commencer</marker> ce matin.</example>
-        </rule>
-        <rule name="Expression 'tout a commencé' conjuguée">
-            <pattern>
-                <token>tout</token>
-                <token postag_regexp="yes" postag="V avoir.*"/>
-                <token regexp="yes">commenc(er|ée|ée?s)</token>
-            </pattern>
-            <message>Vouliez-vous dire <suggestion>tout \2 commencé</suggestion> ?</message>
-            <example correction="Tout avait commencé"><marker>Tout avait commencer</marker> ce matin.</example>
-        </rule>
     </rulegroup>
     <rule id="DISPO" name="Dispo">
       <pattern>
