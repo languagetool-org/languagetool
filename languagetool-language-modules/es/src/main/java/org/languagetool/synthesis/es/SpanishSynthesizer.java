@@ -30,8 +30,8 @@ import org.languagetool.synthesis.BaseSynthesizer;
  */
 public class SpanishSynthesizer extends BaseSynthesizer {
 
-  private static final String RESOURCE_FILENAME = "/es/spanish_synth.dict";
-  private static final String TAGS_FILE_NAME = "/es/spanish_tags.txt";
+  private static final String RESOURCE_FILENAME = "/es/es-ES_synth.dict";
+  private static final String TAGS_FILE_NAME = "/es/es-ES_tags.txt";
 
   public SpanishSynthesizer(Language lang) {
     super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);

@@ -48,6 +48,8 @@ public class SpanishTaggerTest {
     TestTools.myAssert("DESTACADAMENTE", "DESTACADAMENTE/[destacadamente]RG", tokenizer, tagger);
     TestTools.myAssert("alucinadamente", "alucinadamente/[alucinadamente]RG", tokenizer, tagger);
     TestTools.myAssert("disputadamente", "disputadamente/[disputadamente]RG", tokenizer, tagger);
+    
+    TestTools.myAssert("dímelo", "dímelo/[decir]VMM02S0+PP1CS000+PP3MSA00", tokenizer, tagger);
 
     TestTools.myAssert("Soy un hombre muy honrado.",
         "Soy/[ser]VSIP1S0 -- un/[uno]DI0MS0 -- hombre/[hombre]I|hombre/[hombre]NCMS000 -- muy/[muy]RG -- honrado/[honrar]VMP00SM",
