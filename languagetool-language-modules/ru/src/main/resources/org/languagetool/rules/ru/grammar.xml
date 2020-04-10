@@ -2828,13 +2828,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"></token>
                     <marker>
                         <token>Привет</token>
-                        <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                        <token negate="yes" regexp="yes">[\p{Punct}]<exception>и</exception></token>
                     </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2, \3</suggestion>.</message>
                
                 <short>Пропущена запятая.</short>
                 <example correction="Привет, я"><marker>Привет я</marker> новенький.</example>
+                <example>Привет и пока!</example>
             </rule>
         </rulegroup>
         
@@ -8184,7 +8185,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rule id="Verb_IMP_OR_REAL" name="Глагол должен быть в настоящем времени" default="temp_off">
+        <rule id="Verb_IMP_OR_REAL" name="Глагол должен быть в настоящем времени" default="on">
             <pattern>
                 <token regexp="yes">если|когда</token>
                 <token postag="PNN:.*" postag_regexp="yes"></token>
@@ -9684,7 +9685,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Иван <marker>Иваныч</marker>.</example>
             </rule>
         </rulegroup>
-       <rulegroup default="temp_off" id="Word_root_repeat" name="Повтор однокоренных слов">
+       <rulegroup  id="Word_root_repeat" name="Повтор однокоренных слов">
             <rule>
                 <pattern>
                     <token inflected="yes"  skip="-1">исследование</token>
