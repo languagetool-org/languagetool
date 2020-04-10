@@ -17750,6 +17750,7 @@ steenwijk;Steenwijk
 		<example>900 <marker>is</marker> een goed begin.</example>
 		</rule>
 		-->
+		
 		<rulegroup id="SPATIES_OM" name="Geen spaties voor nadruk">
 			<rule>
 				<pattern>
@@ -17788,7 +17789,17 @@ steenwijk;Steenwijk
 				<example>De code voor een spatie is niet <marker>&amp;nbsp;</marker>.</example>
 			</rule>
 		</rulegroup>
-		
+		<rulegroup id="SPATIE_VOOR" name="spatie na ; of :">
+			<rule>
+				<pattern>
+					<token/>
+					<token spacebefore="no">…</token>
+				</pattern>
+				<message>Voor '\2' hoort een spatie: <suggestion>\1 \2</suggestion></message>
+				<url>https://taaladvies.net/taal/advies/tekst/90/beletselteken_algemeen/</url>
+				<example correction="verder …">Zo gaat het <marker>verder…</marker></example>
+			</rule>
+		</rulegroup>
 		<rulegroup id="KOMMA_HOEWEL" name=", hoewel">
 			<rule>
 				<antipattern><token>(</token><token regexp="yes">hoewel|omdat|zodat|opdat|indien|aangezien|terwijl</token></antipattern>
