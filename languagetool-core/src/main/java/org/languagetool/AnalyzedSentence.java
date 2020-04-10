@@ -20,7 +20,6 @@ package org.languagetool;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.tools.StringTools;
 
 import java.util.*;
 
@@ -135,7 +134,6 @@ public final class AnalyzedSentence {
   /**
    * @since 4.5
    */
-  @Experimental
   public AnalyzedTokenReadings[] getPreDisambigTokens() {
     // It would be better to return a clone here to make this object immutable,
     // but this would be bad for performance:
@@ -154,7 +152,6 @@ public final class AnalyzedSentence {
   /**
    * @since 4.5
    */
-  @Experimental
   public AnalyzedTokenReadings[] getPreDisambigTokensWithoutWhitespace() {
     return nonBlankPreDisambigTokens.clone();
   }

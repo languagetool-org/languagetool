@@ -64,7 +64,6 @@ public abstract class SpellingCheckRule extends Rule {
    * Optional, allows e.g. better suggestions when set
    */
   @Nullable
-  @Experimental
   protected LanguageModel languageModel;
   protected final CachingWordListLoader wordListLoader = new CachingWordListLoader();
 
@@ -104,7 +103,6 @@ public abstract class SpellingCheckRule extends Rule {
   /**
    * @since 4.5
    */
-  @Experimental
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages, @Nullable LanguageModel languageModel) {
     super(messages);
     this.language = language;

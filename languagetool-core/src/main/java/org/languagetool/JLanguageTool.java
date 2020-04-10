@@ -250,7 +250,6 @@ public class JLanguageTool {
    *              {@code null} to deactivate the cache.
    * @since 4.2
    */
-  @Experimental
   public JLanguageTool(Language language, ResultCache cache, UserConfig userConfig) {
     this(language, null, cache, userConfig);
   }
@@ -270,7 +269,6 @@ public class JLanguageTool {
    *              e.g. when LT is running as a server and texts are re-checked due to changes
    * @since 4.3
    */
-  @Experimental
   public JLanguageTool(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache,
                        GlobalConfig globalConfig, UserConfig userConfig) {
     this.language = Objects.requireNonNull(language, "language cannot be null");
@@ -310,7 +308,6 @@ public class JLanguageTool {
    *              e.g. when LT is running as a server and texts are re-checked due to changes
    * @since 4.2
    */
-  @Experimental
   public JLanguageTool(Language language, Language motherTongue, ResultCache cache, UserConfig userConfig) {
     this(language, Collections.emptyList(), motherTongue, cache, null, userConfig);
   }
@@ -396,7 +393,6 @@ public class JLanguageTool {
    * Note that this may not apply for very short texts.
    * @since 4.0
    */
-  @Experimental
   public void setMaxErrorsPerWordRate(float maxErrorsPerWordRate) {
     this.maxErrorsPerWordRate = maxErrorsPerWordRate;
   }

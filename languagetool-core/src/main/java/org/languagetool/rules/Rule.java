@@ -116,7 +116,6 @@ public abstract class Rule {
    * Returns {@code -1} when the sentence needs to end to be sure there's a match.
    * @since 4.5
    */
-  @Experimental
   public int estimateContextForSureMatch() {
     return 0;
   }

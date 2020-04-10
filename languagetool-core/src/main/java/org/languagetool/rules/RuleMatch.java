@@ -420,7 +420,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * @since 4.3
    */
-  @Experimental
   public Type getType() {
     return this.type;
   }
@@ -428,7 +427,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * @since 4.3
    */
-  @Experimental
   public void setType(Type type) {
     this.type = Objects.requireNonNull(type);
   }
@@ -479,7 +477,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * without deprecating them first)
    * @since 4.3
    */
-  @Experimental
   public enum Type {
     /** Spelling errors, typically red. */
     UnknownWord,

@@ -203,6 +203,7 @@ public abstract class Language {
   /**
    * For rules whose results are extended using some remote service, e.g. {@link org.languagetool.rules.BERTSuggestionRanking}
    * @return function that transforms old rule into remote-enhanced rule
+   * @since 4.8
    */
   @Experimental
   public Function<Rule, Rule> getRemoteEnhancedRules(

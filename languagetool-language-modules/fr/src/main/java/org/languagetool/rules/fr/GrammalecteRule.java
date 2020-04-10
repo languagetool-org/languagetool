@@ -21,7 +21,6 @@ package org.languagetool.rules.fr;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.Experimental;
 import org.languagetool.GlobalConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -44,7 +43,6 @@ import java.util.*;
  * Queries a local Grammalecte server.
  * @since 4.6
  */
-@Experimental
 public class GrammalecteRule extends Rule {
 
   private static Logger logger = LoggerFactory.getLogger(GrammalecteRule.class);

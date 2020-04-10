@@ -120,7 +120,6 @@ public class PatternRule extends AbstractPatternRule {
   /**
    * @since 4.5
    */
-  @Experimental
   public PatternRule(String id, Language language,
       List<PatternToken> patternTokens, String description,
       String message, String shortMessage, String suggestionsOutMsg,
@@ -130,7 +129,6 @@ public class PatternRule extends AbstractPatternRule {
     this.interpretPosTagsPreDisambiguation = interpretPosTagsPreDisambiguation;
   }
 
-  @Experimental
   @Override
   public int estimateContextForSureMatch() {
     int extendAfterMarker = 0;
@@ -180,7 +178,6 @@ public class PatternRule extends AbstractPatternRule {
    * sentence *before* disambiguation.
    * @since 4.5
    */
-  @Experimental
   boolean isInterpretPosTagsPreDisambiguation() {
     return interpretPosTagsPreDisambiguation;
   }
