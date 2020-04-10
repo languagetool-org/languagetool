@@ -30667,6 +30667,14 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rule id="JOURS" name="jours de la semaine">
+      <antipattern>
+        <token>Mardi</token>
+        <token>gras</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">Lundi|Mardi|Mercredi|Jeudi|Vendredi|Samedi|Dimanche</token>
+        <token>saint</token>
+      </antipattern>
       <pattern case_sensitive="yes">
         <token negate_pos="yes" postag="SENT_START"/>
         <marker>
@@ -30676,11 +30684,13 @@ though, and has since been slightly modified)-->
         </marker>
       </pattern>
       <message>Les jours de la semaine n’ont pas de majuscule. Voulez-vous écrire <suggestion><match no="2" case_conversion="startlower"/></suggestion> ?</message>
-        <url>http://www.academie-francaise.fr/questions-de-langue#42_strong-em-jours-de-la-semaine-pluriel-et-majuscules-em-strong</url>
+      <url>http://www.academie-francaise.fr/questions-de-langue#42_strong-em-jours-de-la-semaine-pluriel-et-majuscules-em-strong</url>
       <example correction="lundi">Je viendrai <marker>Lundi</marker>.</example>
       <example>Je viendrai lundi.</example>
       <example>Lundi est le premier jour de la semaine.</example>
       <example>« Jeudi, je suis resté au lit. »</example>
+      <example>Le Mardi gras.</example>
+      <example>Le Vendredi saint est la commémoration religieuse.</example>
     </rule>
     <rulegroup id="LANGUES" name="langues">
       <rule>
