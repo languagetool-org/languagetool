@@ -76,8 +76,8 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals("distopía", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(langTool.getAnalyzedSentence("Aministraciones"));
     assertEquals("Administraciones", matches[0].getSuggestedReplacements().get(0));
-    //matches = rule.match(langTool.getAnalyzedSentence("respostas"));
-    //assertEquals("respuestas", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(langTool.getAnalyzedSentence("respostas"));
+    assertEquals("respuestas", matches[0].getSuggestedReplacements().get(0));
     
   }
 
