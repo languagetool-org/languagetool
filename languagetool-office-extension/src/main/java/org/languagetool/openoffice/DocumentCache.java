@@ -196,7 +196,7 @@ public class DocumentCache {
     if(headingAfter == numCurPara) {
       return headingAfter + 1;
     }
-    if(headingAfter < numCurPara) {
+    if(headingAfter < numCurPara || headingAfter > toParaMapping.size()) {
       headingAfter = toParaMapping.size();
     }
     if(parasToCheck < 0) {
