@@ -2407,6 +2407,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>Конференція відбудеться у вівторок, 7 жов 2014 р.</example>
       </rule>
     </rulegroup>
+
+    <rulegroup id="nemaye_v_rod" name="Немає з р.в.">
+      <rule>
+        <pattern>
+          <token regexp="yes">немає?</token>
+          <token postag_regexp="yes" postag="adj:m:v_rod.*" min="0"/>
+          <marker>
+            <token postag_regexp="yes" postag="noun:inanim:m:v_dav.*" regexp="yes">.+[ую]
+              <exception postag_regexp="yes" postag="noun:.*?(v_rod|pron|numr|prop).*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="noun.*"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Слово, пов'язане з «немає», має стояти в родовому відмінку</message>
+        <suggestion><match no="3" postag_regexp="yes" postag="(noun:inanim:m:)v_...(.*)" postag_replace="$1v_rod$2.*"/></suggestion>
+        <example correction="гаража">Там немає <marker>гаражу</marker>.</example>
+        <example correction="графіка">Там немає жодного <marker>графіку</marker>.</example>
+        <example>немає чим відвернути увагу</example>
+        <example>значить білка немає та імунна система</example>
+        <example>його немає другу добу</example>
+        <example>немає перед ким</example>
+        <example>немає Сергію виходу</example>
+      </rule>
+
+      <rule>
+        <antipattern>
+          <token regexp="yes">немає?</token>
+          <token postag_regexp="yes" postag="(noun:inanim|adj):.:v_rod.*"/>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token postag_regexp="yes" postag="noun:inanim:m:v_dav.*" regexp="yes">.+[ую]
+              <exception postag_regexp="yes" postag="noun:.*?(v_rod|pron|numr|prop).*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="noun.*"/>
+              <exception scope="previous" postag_regexp="yes" postag="prep.*"/>
+            </token>
+          </marker>
+          <token regexp="yes">немає?
+            <!-- exception via next/postag_regexp does not work :( - need antipattern
+            <exception scope="next" postag_regexp="yes" postag="noun:inanim:.:v_rod.*"/>
+             -->
+          </token>
+        </pattern>
+        <message>Слово, пов'язане з «немає», має стояти в родовому відмінку</message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:m:)v_...(.*)" postag_replace="$1v_rod$2.*"/></suggestion>
+        <example correction="предмета">Такого <marker>предмету</marker> немає.</example>
+        <example>рейсів на кубу немає</example>
+        <example>комітету немає резону сподіватися</example>
+        <example>що комітету немає кому довірити</example>
+        <example>У найповнішому медичному довіднику немає такої хвороби</example> 
+        <!-- TODO:
+        <example>загрози паводку немає</example>
+         -->
+      </rule>
+    </rulegroup>
   </category>
 
 </rules>
