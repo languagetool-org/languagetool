@@ -294,9 +294,9 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("mil·lisegons", matches[0].getSuggestedReplacements().get(0));
         
         
-        /*  change in Speller necessary: words of length = 4
+        /*  change in Speller necessary: words of length = 4*/
         matches = rule.match(langTool.getAnalyzedSentence("nula"));
-        assertEquals("nul·la", matches[0].getSuggestedReplacements().get(0));*/
+        assertEquals("nul·la", matches[0].getSuggestedReplacements().get(0));
         
         //capitalized wrong words
         matches = rule.match(langTool.getAnalyzedSentence("En la Pecra"));
@@ -325,8 +325,6 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("M'agradaria", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("tenvio"));
         assertEquals("t'envio", matches[0].getSuggestedReplacements().get(0));
-        matches = rule.match(langTool.getAnalyzedSentence("portan"));
-        assertEquals("porta'n", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("consultins"));
         assertEquals("consulti'ns", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("portarvos"));
@@ -348,10 +346,6 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("acomplexats", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(langTool.getAnalyzedSentence("veurehi"));
         assertEquals("veure-hi", matches[0].getSuggestedReplacements().get(0));
-        matches = rule.match(langTool.getAnalyzedSentence("veurels"));
-        assertEquals("veure'ls", matches[0].getSuggestedReplacements().get(0));
-        //matches = rule.match(langTool.getAnalyzedSentence("veuret"));
-        //assertEquals("veure't", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("veureles"));
         assertEquals("veure-les", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("lilla"));
@@ -394,6 +388,38 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("No sé", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("air"));
         assertEquals("Aïr", matches[0].getSuggestedReplacements().get(0));
+        
+        matches = rule.match(langTool.getAnalyzedSentence("quedan"));
+        assertEquals("queden", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("portan"));
+        assertEquals("porten", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("porta'n", matches[0].getSuggestedReplacements().get(1));
+        matches = rule.match(langTool.getAnalyzedSentence("portans"));
+        assertEquals("porta'ns", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("porta'nshi"));
+        assertEquals("porta'ns-hi", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("porto'nz"));
+        assertEquals("porta'ns", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("portalhi"));
+        assertEquals("porta-hi", matches[0].getSuggestedReplacements().get(0));
+        
+        matches = rule.match(langTool.getAnalyzedSentence("veurels"));
+        assertEquals("veure'ls", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("veuret"));
+        assertEquals("veure", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("veure't", matches[0].getSuggestedReplacements().get(1));
+        
+        matches = rule.match(langTool.getAnalyzedSentence("relajarme"));
+        assertEquals("relaxar-me", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("aborrirnos"));
+        assertEquals("avorrir-nos", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("aborirnos"));
+        assertEquals("abolir-nos", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("sescontaminarla"));
+        assertEquals("descontamina-la", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("daconseguirlos"));
+        assertEquals("aconseguir-los", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("d'aconseguir-los", matches[0].getSuggestedReplacements().get(1));
         
         //Ela geminada 
         matches = rule.match(langTool.getAnalyzedSentence("La sol•licitud"));
