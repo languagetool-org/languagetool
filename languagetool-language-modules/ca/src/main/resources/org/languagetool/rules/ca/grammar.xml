@@ -8099,7 +8099,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>tan</token>
                     </marker>
-                    <token postag="RG|LOC_ADV" postag_regexp="yes" skip="10"><exception regexp="yes">prompte|aviat|bé|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|sovint|freqüentment|mal|bon|ben</exception></token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" skip="10"><exception regexp="yes">prompte|aviat|bé|abans|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|sovint|freqüentment|mal|bon|ben</exception><exception scope="next">tan</exception></token>
                     <token>com</token>
                     <token postag="RG|LOC_ADV" postag_regexp="yes"><exception regexp="yes">sempre|abans|llavors|aleshores|ja|on|quan|que|com|menys|doncs|però|ara|emperò|ans|poc|actualment|posteriorment|prèviament</exception></token>
                 </pattern>
@@ -8114,6 +8114,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No estava tan mal defensada com inicialment crèiem.</example>
                 <example>Tan clarament diferenciats com actualment.</example>
                 <example>Tan vívidament com aleshores</example>
+                <example>No era tan clar ni l'atmosfera tan diàfana com avui.</example>
             </rule>
             <rule>
                 <!--  coneixements tant científics com de les més variades disciplines-->
@@ -8123,12 +8124,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token postag="A.*|V.P.*" postag_regexp="yes" skip="3"/>
                     <token>com</token>
-                    <token inflected="yes">de</token>
-                    <token postag="NC.*" postag_regexp="yes"/>
+                    <token inflected="yes">de<exception postag="LOC_.*" postag_regexp="yes"/></token>
+                    <token postag="NC.*" postag_regexp="yes"><exception regexp="yes">nit|dia|matinada|matí</exception></token>
                 </pattern>
                 <message>Cal escriure <suggestion>tant</suggestion> en l'expressió 'tant... com...'.</message>
                 <example correction="tant">coneixements <marker>tan</marker> científics com de sentit comú</example>
                 <example>coneixements tant científics com de sentit comú</example>
+                <example>No és tan sec com de dia.</example>
             </rule>
             <!--  'tan' davant d'article/adj  -->
             <rule>
