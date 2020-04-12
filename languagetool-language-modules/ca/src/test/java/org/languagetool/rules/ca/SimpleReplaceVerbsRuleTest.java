@@ -133,6 +133,14 @@ public class SimpleReplaceVerbsRuleTest {
     assertEquals("(estar) molt a sobre", matches[0].getSuggestedReplacements().get(4));
     assertEquals("(cansar) molt", matches[0].getSuggestedReplacements().get(5));
     assertEquals("(ser) molt pesat", matches[0].getSuggestedReplacements().get(6));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("desabasteix"));
+    assertEquals("desproveeix", matches[0].getSuggestedReplacements().get(0));
+    matches = rule.match(langTool.getAnalyzedSentence("desabastíssim"));
+    assertEquals("desproveíssim", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("desabasta"));
+    assertEquals("desproveeix", matches[0].getSuggestedReplacements().get(0));
   }
 
 }
