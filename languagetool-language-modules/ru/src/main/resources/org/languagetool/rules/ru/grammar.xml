@@ -2740,6 +2740,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Я ворочался с боку на бок до тех пор, пока меня не осенила мысль.</example>
             <example correction="до тех пор, пока">Я ворочался с боку на бок <marker>до тех пор пока</marker> меня не осенила мысль.</example>
           </rule>
+          <rule>
+              <pattern>
+                  <token regexp="yes">лучше|хуже</token>
+                  <token>чем</token>
+              </pattern>           
+              <message>Нужна запятая : <suggestion>\1, \2</suggestion></message>
+              <url>https://obrazovaka.ru/zapyataya/luchshe-chem.html</url>
+              <short>Нужна запятая</short>
+            <example correction="лучше, чем">Они <marker>лучше чем</marker> у тебя.</example>
+          </rule>
         </rulegroup>                                         
         <rule default="on" id="ABREV_DOT" name="Точка после сокращений">
             <pattern case_sensitive="yes">
