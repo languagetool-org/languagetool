@@ -288,6 +288,13 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("qualificaren", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("Excelentissim"));
         assertEquals("Excel·lentíssim", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("IlustRISIM"));
+        assertEquals("Il·lustríssim", matches[0].getSuggestedReplacements().get(0));
+        //matches = rule.match(langTool.getAnalyzedSentence("Xicago"));
+        //assertEquals("Chicago", matches[0].getSuggestedReplacements().get(1));
+        matches = rule.match(langTool.getAnalyzedSentence("Chile"));
+        assertEquals("Xile", matches[0].getSuggestedReplacements().get(0));
+        
         
         // Needs Morfologik Speller 2.1.0
         matches = rule.match(langTool.getAnalyzedSentence("milisegons"));
@@ -420,6 +427,12 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("daconseguirlos"));
         assertEquals("aconseguir-los", matches[0].getSuggestedReplacements().get(0));
         assertEquals("d'aconseguir-los", matches[0].getSuggestedReplacements().get(1));
+        matches = rule.match(langTool.getAnalyzedSentence("laconseguirlos"));
+        assertEquals("aconseguir-los", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("l'aconseguir-los", matches[0].getSuggestedReplacements().get(1));
+        matches = rule.match(langTool.getAnalyzedSentence("portarinhi"));
+        assertEquals("portar-hi", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("portar-n'hi", matches[0].getSuggestedReplacements().get(1));
         
         //Ela geminada 
         matches = rule.match(langTool.getAnalyzedSentence("La sol•licitud"));

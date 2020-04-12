@@ -4,6 +4,10 @@
 
 ...
 
+#### Catalan
+  * added and improved rules
+  * updated dictionary (catalan-pos-dict-2.8), now with a specific dictionary file for spelling suggestions
+
 #### English
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.83 - 2020-04-01)
 
