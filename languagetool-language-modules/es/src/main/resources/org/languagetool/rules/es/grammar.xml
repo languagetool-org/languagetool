@@ -244,6 +244,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
+        <rulegroup id="ABBREVIATION" name="abreviaturas">
+            <url>https://www.rae.es/dpd/ayuda/abreviaturas</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">EEUU|USA|EUA</token>
+                </pattern>
+                <message>Abreviatura de Estados Unidos.</message>
+                <suggestion>EE.&#160;UU.</suggestion>
+                <suggestion>Estados Unidos</suggestion>
+                <example correction="EE.&#160;UU.|Estados Unidos">En <marker>EEUU</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>EE</token>
+                    <token>.</token>
+                    <token spacebefore="no">UU</token>
+                    <token>.</token>
+                </pattern>
+                <message>Abreviatura de Estados Unidos.</message>
+                <suggestion>EE.&#160;UU.</suggestion>
+                <suggestion>Estados Unidos</suggestion>
+                <example correction="EE.&#160;UU.|Estados Unidos">En <marker>EE.UU.</marker></example>
+                <example>En EE. UU.</example>
+                <example>En EE.&#160;UU.</example>
+            </rule>
+        </rulegroup>
         <rule id="CURRICULUM" name="currículum / curriculum vitae">
             <pattern>
                 <token regexp="yes">currículums?</token>
@@ -2213,11 +2239,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="DET_NOM_SING" name="Concordancia singular en Determinante + nombre">
                 <pattern case_sensitive="yes">
                     <token postag="D.{3}S.*" postag_regexp="yes"><exception postag="DI0CS0"/></token>
-                    <token postag="N.{2}P.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}P.*|AQ.{2}P. --><exception negate_pos="yes" postag="N.{2}P.*" postag_regexp="yes"/><exception regexp="yes">[Bb]otones|\p{Lu}\p{L}*</exception></token>
+                    <token postag="N.{2}P.*" postag_regexp="yes"><!--TODO: Include adjectives: N.{2}P.*|AQ.{2}P. --><exception negate_pos="yes" postag="N.{2}P.*|SENT.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}\p{L}*</exception><exception postag="NCMN000"/></token>
                 </pattern>
                 <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
                 <example correction="">Acércame <marker>la sillas</marker>, por favor.</example>
                 <example>Acércame las sillas, por favor.</example>
+                <example>El botones</example>
             </rule>
             <!-- DEL_NOM_SING Concordancia (del pavos) -->
             <rule id="DEL_NOM_SING" name="Concordancia singular en «del» + nombre">
