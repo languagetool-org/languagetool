@@ -15938,17 +15938,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="tan sols"><marker>tants sols</marker></example>
             <example>tan sols</example>
         </rule>
-        <rule id="I_MAJ_L_MIN" name="confusió i majúscula / l minúsucla">
-            <pattern>
-                <token regexp="yes">(?-i).+lI.+|[Ll]I.+|I'.+<exception regexp="yes">I'm|I'll|I'd|I've|\p{Lu}+</exception></token>
-            </pattern>
-            <message>Possible confusió de lletres.</message>
-            <suggestion><match no="1" regexp_match="(.*)I(.+)" regexp_replace="$1l$2" case_conversion="alllower"/></suggestion>
-            <example correction="lloretencs"><marker>lIoretencs</marker></example>
-            <example correction="l'home"><marker>I'home</marker></example>
-            <example>lloretencs</example>
-            <example>les llistes oficials de LIC</example>
-        </rule>
+        <rulegroup id="I_MAJ_L_MIN" name="confusió i majúscula / l minúsucla">
+            <rule>
+                <pattern>
+                    <token regexp="yes">(?-i).+lI.+|[Ll]I.+|I'.+<exception regexp="yes">I'm|I'll|I'd|I've|\p{Lu}+</exception></token>
+                </pattern>
+                <message>Possible confusió de lletres (i majúscula/ela minúscula).</message>
+                <suggestion><match no="1" regexp_match="(.*)I(.+)" regexp_replace="$1l$2" case_conversion="alllower"/></suggestion>
+                <example correction="lloretencs"><marker>lIoretencs</marker></example>
+                <example correction="l'home"><marker>I'home</marker></example>
+                <example>lloretencs</example>
+                <example>les llistes oficials de LIC</example>    
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(?-i)Ios</token>    
+                </pattern>
+                <message>Possible confusió de lletres (i majúscula/ela minúscula).</message>
+                <suggestion><match no="1" regexp_match="(.+)" regexp_replace="iOS" case_conversion="startlower"></match></suggestion>
+                <suggestion><match no="1" regexp_match="(.+)" regexp_replace="los" case_conversion="startlower"></match></suggestion>
+                <suggestion><match no="1" regexp_match="(.+)" regexp_replace="els" case_conversion="startlower"></match></suggestion>
+                <example correction="iOS|los|els"><marker>Ios</marker></example>
+            </rule>
+        </rulegroup>
         <!-- <rule id="VENGUT_VENUT" name="vengut / venut">
             <pattern>
             <token regexp='yes'>venguts?|venguda|vengudes</token>
@@ -30451,7 +30463,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>los<exception postag="(&lt;)?NP.*|&lt;_GN_MP&gt;" postag_regexp="yes"/></token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>els</suggestion>?</message>
+                <message>Forma antiga o col·loquial de <suggestion>els</suggestion></message>
                 <example correction="els">Són <marker>los</marker> millors.</example>
                 <example>Són els millors.</example>
                 <example>Vinc de Los Angeles.</example>
@@ -30929,6 +30941,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Anglicisme innecessari.</message>
                 <suggestion>saber fer</suggestion>
                 <example correction="saber fer">El <marker>know-how</marker> de l'empresa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>cookie</token>
+                </pattern>
+                <message>Anglicisme innecessari en l'àmbit informàtic.</message>
+                <suggestion>galeta</suggestion>
+                <example correction="galeta"><marker>cookie</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>cookies</token>
+                </pattern>
+                <message>Anglicisme innecessari en l'àmbit informàtic.</message>
+                <suggestion>galetes</suggestion>
+                <example correction="galetes"><marker>cookies</marker></example>
             </rule>
         </rulegroup>
         <rule id="ENTRE_PITOS_I_FLAUTES" name="entre pitos i flautes">
@@ -36982,6 +37010,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="CALERS" name="*calers/calés">
+            <pattern>
+                <token regexp="yes">calers?</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion><match no="1" regexp_match="(?iu)caler(s?)" regexp_replace="calé$1"/></suggestion> (=diners)? 'Calers' són els habitants d'Ametlla de Mar.</message>
+            <short>Incorrecte en el sentit de 'diners'</short>
+            <example correction="calés"> Ara tinc pocs <marker>calers</marker>.</example>
+            <example correction="calé"> Ara hi ha molt de <marker>caler</marker>.</example>
+        </rule>
         <rule id="VERGONYANT" name="vergonyant/vergonyós">
             <pattern>
                 <marker>
@@ -45696,6 +45733,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="NOT_FORMAL" name="C1) Evita formes impròpies d'un registre formal" type="style">
+        <rule id="NOSALTRES" name="formes col·loquials de 'nosaltres'">
+            <pattern>
+                <token regexp="yes">matros|moatros|mosaltros|mosatres|mosatros|naltres|naltri|naltris|naltros|nantres|nantri|nantris|nantros|natri|natris|natros|noatros|noltres|noltros|nosaltros|nosatres|nosatris|nosatros|nosautris</token>
+            </pattern>
+            <message>Forma col·loquial de <suggestion>nosaltres</suggestion>.</message>
+            <example correction="Nosaltres"><marker>Noltros</marker> venim.</example>
+        </rule>
         <rule id="ENCONSTIPAT" name="enconstipat">
             <pattern>
                 <token postag="[AVN].*" postag_regexp="yes" regexp="yes">(en)?costip.*</token>
@@ -45746,7 +45790,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">xarrar</match></suggestion>
             <suggestion><match no="1" postag="(V.+)" postag_regexp="yes" postag_replace="$1">cantar</match></suggestion>
             <url>http://esadir.cat/entrades/fitxa/node/xivar</url>
-            <short>Llenguatge col·loquial</short>
             <example correction="delatar|xerrar|xarrar|cantar">Ho van <marker>xivar</marker> tot.</example>
             <example>Fou nomenat per Lluís XIV.</example>
             <example>Jo sóc de Xiva.</example>

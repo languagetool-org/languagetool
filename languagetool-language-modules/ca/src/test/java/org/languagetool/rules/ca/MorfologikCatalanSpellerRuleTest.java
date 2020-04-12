@@ -263,6 +263,11 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("desconte"));
         assertEquals(1, matches.length);
         assertEquals("descompte", matches[0].getSuggestedReplacements().get(0));
+        matches = rule.match(langTool.getAnalyzedSentence("transtors"));
+        //assertEquals("trastorns", matches[0].getSuggestedReplacements().get(0)); TODO: update info file
+        matches = rule.match(langTool.getAnalyzedSentence("pissara"));
+        //assertEquals("pissarra", matches[0].getSuggestedReplacements().get(0)); TODO: update info file
+        
         
         matches = rule.match(langTool.getAnalyzedSentence("atentats"));
         assertEquals("atemptats", matches[0].getSuggestedReplacements().get(0));
