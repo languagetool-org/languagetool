@@ -14,6 +14,10 @@
 #### French
   * added and improved rules
 
+#### Russian
+  * added and improved rules
+
+
 ## 4.9 (2020-03-24)
 
 #### Arabic
