@@ -2661,19 +2661,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule  id="Kak_Tak_i" name="Знаки препинания в сложном предложении «Как ... ,так и  ...»">  
             <pattern>             
-                <token skip="-1">как</token>           
                 <marker>
+                    <token skip="-1">как</token>           
                     <token >так<exception regexp="yes" scope="previous">[,;-]|то</exception></token>
                     <token regexp="yes" skip="-1">и|как|когда<exception regexp="yes" scope="next">[,;-]</exception></token>
                 </marker>
                 <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
             </pattern>
-            <message>Пропущена запятая в сложном предложении.</message>
+            <message>Пропущена запятая в сложном предложении.<suggestion><match no="1" include_skipped="all"/>, <match no="2" /> <match no="3" /></suggestion></message>
             <short>Пропущена запятая</short>
-            <example>Года пролетели, и время настало.</example>
             <example>Как мышка бегает, так и кошка прыгает.</example>
             <example>Как мышка бегает, то так и кошка прыгает.</example>
-            <example correction="">Как мышка бегает <marker>так и</marker> кошка прыгает.</example>
+            <example correction="Как мышка бегает, так и"><marker>Как мышка бегает так и</marker> кошка прыгает.</example>
         </rule>             
         <rulegroup  id="Kogda_to1" name="Знаки препинания в сложном предложении «Когда ... , то ему ...»">
             <rule>  <!-- Когда человек хочет что-то получить, то ему надо чем-то пожертвовать. -->
@@ -7368,7 +7367,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>в</token>
                         <token>место</token>
                     </marker>
-                    <token><exception postag_regexp="yes" postag="ADJ:MPR:.*:R "></exception></token>
+                    <token><exception postag_regexp="yes" postag="ADJ:MPR:.*:R "></exception><exception regexp="yes" >назначения|поиска|сбора|сосредоточения</exception></token>
                 </pattern>
                 <message>Слово пишется слитно: <suggestion>\1\2</suggestion>.</message>
                 <short>Пишется слитно.</short>
@@ -10096,7 +10095,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="PNN_ON_END" name="Местоимение в конце предложения">
             <!--      Заканчивать предложение местоимением – дурной стиль, не для этого оно.  -->
             <pattern case_sensitive="yes">
-                <token regexp="yes">он|она|оно<exception postag='VB:.*' postag_regexp='yes' scope='previous'></exception></token>
+                <token regexp="yes">он|она|оно<exception postag='VB:.*' postag_regexp='yes' scope='previous'></exception><exception scope='previous'>как</exception></token>
                 <token postag="SENT_END" spacebefore="no">.</token>
             </pattern>
             <message>Местоимение в конце предложения не употребляется.</message>
@@ -10104,6 +10103,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=''>Не для этого <marker>оно.</marker></example>
             <example>Оно не для этого.</example>
             <example>Ты ужасный человек, - сказала она.</example>
+            <example>Сделать меня таким, как он.</example>
         </rule>
         <rulegroup default="on" id="missing_noun_at_end" name="Опущено существительное">
             <rule>
