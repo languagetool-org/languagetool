@@ -244,8 +244,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
+        <rule id="CURRICULUM" name="currículum / curriculum vitae">
+            <pattern>
+                <token regexp="yes">currículums?</token>
+                <token>vitae</token>
+            </pattern>
+            <message>Utilice la forma latina o la forma adaptada.</message>
+            <suggestion>curriculum vitae</suggestion>
+            <suggestion>\1</suggestion>
+            <suggestion><match no="1" regexp_match="(?iu)currículum(s?)" regexp_replace="currículo$1"/></suggestion>
+            <url>https://www.fundeu.es/recomendacion/curriculo-o-curriculum-con-tilde-pero-curriculum-vitae/</url>
+            <example correction="curriculum vitae|currículums|currículos">Los <marker>currículums vitae</marker>.</example>
+        </rule>
         <rulegroup id="NO_SEPARADO" name="palabras no separadas">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>corona</token>
                     <token>virus</token>
@@ -253,6 +265,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Se escribe junto.</message>
                 <suggestion>coronavirus</suggestion>
                 <example correction="coronavirus"><marker>corona virus</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>con</token>
+                    <token regexp="yes" case_sensitive="yes">migo|tigo|sigo</token>
+                </pattern>
+                <message>Como pronombre se escribe junto.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="contigo">Estoy <marker>con tigo</marker></example>
             </rule>
         </rulegroup>
         <rule id="ALREDEDOR" name="*(a) alrededor">
@@ -2567,11 +2588,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="ABREVIATURA_NUMERO" name="abreviatura de número">
             <pattern>
-                <token regexp="yes">n\.?[º°]</token>
+                <token regexp="yes">n.?°|nº</token>
             </pattern>
             <message>Abreviatura de 'número'.</message>
             <suggestion>n.º</suggestion>
-            <example correction="n.º">Diário da República <marker>n°</marker> 18</example>
+            <example correction="n.º">Diario de la República <marker>n°</marker> 18</example>
+            <example correction="n.º">Diario de la República <marker>nº</marker> 18</example>
+            <example>n.º</example>
         </rule>
         <rule id="A_NIVEL_DE" name="a nivel de">
             <antipattern>

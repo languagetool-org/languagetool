@@ -62,6 +62,48 @@ Copyright (C) 2011 Juan Martorell
       <disambig action="replace"><wd lemma="ratio" pos="NCFP000"/></disambig>
     </rule>
   </rulegroup>
+  
+  <rulegroup id="VAN_GOGH" name="van Gogh">
+    <rule>
+      <pattern>
+        <marker>
+          <token>van</token>
+          <token regexp="yes">(?-i)Aartsen|Agt|Allen|Asperen|Baaren|Basten|Beethoven|Beinum|Belin|Bommel|Bree|Buren|Campen|Dam|Delden|der|Dijk|Dine|Dong|Dyck|Egmond|Eyck|Gaal|Goethem|Gogh|Halen|Hauwe|Hemel|Immersel|Kempen|Lier|Maldere|Marwijk|Mill|Morrison|Nieuwkerk|Nistelrooy|Otterloo|Persie|Petegem|Ragin|Rensburg|Rompuy|Schalkwyk|Someren|Vaart|Val|Valen|Van|Vliet|Vlijmen|Wassenaer</token>
+        </marker>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCNSP0"/><wd pos="NPCNSP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">\p{Lu}.+</token>
+        <marker>
+          <token>van</token>
+        </marker>
+        <token regexp="yes">\p{Lu}.+</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">\p{Lu}.+</token>
+        <marker>
+          <token>van</token>
+        </marker>
+        <token regexp="yes">den|der</token>
+        <token regexp="yes">\p{Lu}.+</token>
+      </pattern>
+      <disambig action="replace"><wd pos="NPCNSP0"/></disambig>
+    </rule>
+  </rulegroup>
+  <rule id="DA_VINCI" name="da Vinci">
+    <pattern>
+      <marker>
+        <token>da</token>
+        <token regexp="yes">(?-i)Messina|Cividale|Morte|Costa|Lingua|Língua|Gagliano|Palestrina|Perugia|Silva|Cunha|Gama|Viadana|Vinci|Ponte</token>
+      </marker>
+    </pattern>
+    <disambig action="replace"><wd pos="NPCNSP0"/><wd pos="NPCNSP0"/></disambig>
+  </rule>
 
   <!-- D_R_N : Det + Adverbio + Nombre-->
 
@@ -324,15 +366,18 @@ Copyright (C) 2011 Juan Martorell
     <disambig action="ignore_spelling"/>
   </rule>
 
-  <rule id="NUMERO_SIGN" name="números romanos">
-    <!-- other variant of "Nº", see https://en.wikipedia.org/wiki/Numero_sign#Typing_the_symbol -->
-    <pattern case_sensitive="yes">
-      <marker>
-        <token>N°</token>
-      </marker>
-    </pattern>
-    <disambig action="ignore_spelling"/>
-  </rule>
+  <rulegroup id="ABREVIATURAS" name="abreviaturas">
+    <rule>
+      <pattern>
+        <marker>
+          <token>n</token>
+          <token>.</token>
+          <token>º</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+  </rulegroup>
 
   <rulegroup id="LOC_ADV" name="locuciones adverbiales">
     <rule id="de_nuevo" name="de nuevo">
