@@ -543,7 +543,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token>à</token>
           <token>peu</token>
-          <marker><token>prêt</token></marker>
+          <marker><token regexp="yes">prête?s?</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>près</suggestion> ?</message>
         <example correction="près">C’est à peu <marker>prêt</marker> la même chose.</example>
@@ -561,17 +561,18 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">être|situer|tenir|tout|assez|bien</token>
-          <marker><token regexp="yes">prêts?</token></marker>
+          <marker><token regexp="yes">prête?s?</token></marker>
           <token regexp="yes">d[eu]?|des</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>près</suggestion> ?</message>
         <example correction="près">Nous sommes <marker>prêts</marker> d’arriver.</example>
+        <example correction="près">Elle est <marker>prête</marker> de partir.</example>
       </rule>
       <rule>
         <pattern>
           <token inflected="yes" regexp="yes">être|situer|tenir</token>
           <token regexp="yes">pas|plus|moins|très|peu|toujours</token>
-          <marker><token regexp="yes">prêts?</token></marker>
+          <marker><token regexp="yes">prête?s?</token></marker>
           <token regexp="yes">de?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>près</suggestion> ?</message>
@@ -8954,6 +8955,7 @@ though, and has since been slightly modified)-->
         <example>Je suis allé à l’école lundi passé.</example>
         <example>Une documentation utilisateur.</example>
         <example>Code promo offert pour tous les entrants.</example>
+        <example>Elle s’habitue à la <marker>situation petit</marker> à petit.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_CENTAINE_DE" name="centaine de">
