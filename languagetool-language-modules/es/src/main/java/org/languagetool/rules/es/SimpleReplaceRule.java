@@ -1,3 +1,5 @@
+package org.languagetool.rules.es;
+
 /* LanguageTool, a natural language style checker 
  * Copyright (C) 2005 Daniel Naber (http://www.danielnaber.de)
  * 
@@ -16,7 +18,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-package org.languagetool.rules.ca;
 
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
@@ -24,53 +25,64 @@ import org.languagetool.rules.ITSIssueType;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 /**
- * A rule that matches lemmas found only in DNV (AVL dictionary) and suggests
- * alternative words. 
+ * A rule that matches words which should not be used and suggests
+ * correct ones instead. 
  * 
- * Catalan implementations. Loads the
- * relevant lemmas from <code>rules/ca/replace_dnv_secondary.txt</code>.
+ * Loads the relevant words from <code>rules/es/replace.txt</code>.
  * 
  * @author Jaume Ortolà
  */
-public class SimpleReplaceAnglicism extends AbstractSimpleReplaceRule {
+public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = loadFromPath("/ca/replace_anglicism.txt");
-  
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/es/replace.txt");
+  private static final Locale ES_LOCALE = new Locale("ES");
+
   @Override
   protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
   
-  public SimpleReplaceAnglicism(final ResourceBundle messages) throws IOException {
+  public SimpleReplaceRule(final ResourceBundle messages) throws IOException {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
-    //this.setIgnoreTaggedWords(); Some anglicisms can be in the dictionary
+    this.setIgnoreTaggedWords();
     this.setCheckLemmas(false);
   }  
 
   @Override
   public final String getId() {
-    return "CA_SIMPLE_REPLACE_ANGLICIMS";
+    return "ES_SIMPLE_REPLACE";
   }
 
  @Override
   public String getDescription() {
-    return "Recomana alternatives a anglicismes.";
+    return "Detecta palabras incorrectas y propone sugerencias.";
   }
 
   @Override
   public String getShort() {
-    return "Anglicisme innecessari";
+    return "Palabra incorrecta";
   }
   
   @Override
   public String getMessage(String tokenStr,List<String> replacements) {
-    return "Anglicisme innecessari.";
+    return "Palabra incorrecta.";
   }
   
+  @Override
+  public boolean isCaseSensitive() {
+    return false;
+  }
+  
+  @Override
+  public Locale getLocale() {
+    return ES_LOCALE;
+  }
+
 }
