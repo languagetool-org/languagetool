@@ -2705,7 +2705,42 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Нужна запятая или тире</short>
             <example>Если постучится кто то дверь не открывай, а зови на помощь.</example> <!-- incorrect example, but it must detect with another rule -->
             <example correction=", то| – то">Если ты позвонил<marker> то</marker> говори.</example>
-        </rule>                             
+        </rule>
+        <rulegroup id="Nesmotrja_na_to_chto" name="Выражение «несмотря на то, что ...»" default="temp_off">
+       <!-- До тех пор, пока, "лучше, чем", "хуже, чем", "несмотря на то, что" -->    
+          <rule>
+            <pattern>
+                <token negate="yes" regexp="yes">[.(–-—,;:]</token>
+                <marker>
+                    <token>несмотря</token>
+                    <token>на</token>
+                    <token>то</token>
+                    <token>что</token>
+                </marker>
+            </pattern>           
+            <message>Нужна запятая : <suggestion>\2 \3 \4, \5</suggestion></message>
+            <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_483</url>
+            <short>Нужна запятая</short>
+            <example>Мы принялись бегать по закрайку самого берега, и всё выходило отлично, несмотря на то что кое-где лед ломался и выступала вода.</example>
+            <example correction="Несмотря на то, что"><marker>Несмотря на то что</marker> Ягозин был кровным детищем Петербурга.</example>
+          </rule>
+          <rule>
+            <pattern>
+                <token negate="yes" regexp="yes">[.(–-—,;:]</token>
+                <marker>
+                    <token>до</token>
+                    <token>тех</token>
+                    <token>пор</token>
+                    <token>пока</token>
+                </marker>
+            </pattern>           
+            <message>Нужна запятая : <suggestion>\2 \3 \4, \5</suggestion></message>
+
+            <short>Нужна запятая</short>
+            <example>Я ворочался с боку на бок до тех пор, пока меня не осенила мысль.</example>
+            <example correction="до тех пор, пока">Я ворочался с боку на бок <marker>до тех пор пока</marker> меня не осенила мысль.</example>
+          </rule>
+        </rulegroup>                                         
         <rule default="on" id="ABREV_DOT" name="Точка после сокращений">
             <pattern case_sensitive="yes">
                 <marker>
