@@ -39,6 +39,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY start_vvodnoe "по-видимому|по-моему|по-твоему|впрочем|итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых|к|видишь|понимаешь|конечно|несомненно|вероятно|может|кажется|однако|одним|несмотря|наверное|прежде"> <!-- First words for exceptions in other rules!!! -->
 <!ENTITY missing_yo "жилье|белье|битье|щеткой|стерней|сырье|ружье|фоторужье|копье|чутье|офицерье|рытье|цевье|острие|вранье|дутье|нытье|звезды">
 <!ENTITY double_num "два|две|три|четыре|2|3|4">
+<!ENTITY pril_end "ый|ого|ому|ым|ом|ая|ой|ую|ое|ые|ых|ыми">
 <!ENTITY verb "должен|должна|должно|должны|обязана|обязано|обязаны|обязан|необходимо"> <!-- TODO:check in dict -->
 <!ENTITY rost "количество|количественный|качество|качественный|показатель|показательный|экономика|экономический|преступность|преступный|смертность|безработица|безработный|численность|рождаемость|стоимость|долг|доход|ВВП">
 <!ENTITY defis_libo "какая|какие|какое|какой|какому|кому|кто|такому|такая|такое|такой|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|туда|чего|что">
@@ -6978,7 +6979,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>  
-                        <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.*[аеёиоуэюя][н]([а-мо-я]{1,3})<exception  postag="ADJ:Comp" /><exception  negate_pos="yes" postag="ADJ:.*" postag_regexp="yes"></exception><exception>женат</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.*[аеёиоуэюя][н](&pril_end;)<exception  postag="ADJ:Comp" /><exception  negate_pos="yes" postag="ADJ:.*" postag_regexp="yes"></exception><exception>женат</exception></token>
                     </marker>
                     <token  postag="PREP" skip="1" ></token>  
                     <token postag="NN:.*:.*:.*:P" postag_regexp="yes"></token>
@@ -6991,6 +6992,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Пётр I приказал заменить их чулки с зелёных на красные.</example>
                 <example>Он женат на стюардессе.</example>
                 <example>Раньше в этом регионе.</example>
+                <example>Вы больше не одиноки в комнате.</example>
                 <example>Ещё один остановочный пункт существовал на острове Змеиный близ дельты Дуная.</example>
                 <example>Объекты реализации единых по замыслу архитектурных проектов.</example>
                 <example correction="жаренная">Сегодня на ужин <marker>жареная</marker> на масле картошка.</example>
