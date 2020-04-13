@@ -285,6 +285,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="NO_SEPARADO" name="palabras no separadas">
             <rule>
                 <pattern>
+                    <token>geo</token>
+                    <token min="0">-</token>
+                    <token inflected="yes">localización</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="geolocalizaciones"><marker>geo localizaciones</marker></example>
+                <example correction="geolocalizaciones"><marker>geo-localizaciones</marker></example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>corona</token>
                     <token>virus</token>
                 </pattern>
@@ -2702,6 +2713,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CAT4" name="Estilo" type="style">
+        <rule id="ASI" name="así/asín/asina">
+            <pattern>
+                <token regexp="yes">asín|asina</token>
+            </pattern>
+            <message>Forma coloquial del adverbio <suggestion>así</suggestion>.</message>
+            <example correction="así">Hazlo <marker>asín</marker>.</example>
+        </rule>
         <rule id="ENMEDIO" name="enmedio">
             <antipattern case_sensitive="yes">
                 <token><exception postag="SENT_START"/></token>
