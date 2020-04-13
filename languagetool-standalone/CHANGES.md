@@ -11,6 +11,9 @@
 #### English
   * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.83 - 2020-04-01)
 
+#### Esperanto
+  * added and improved rules
+
 #### French
   * added and improved rules
 
