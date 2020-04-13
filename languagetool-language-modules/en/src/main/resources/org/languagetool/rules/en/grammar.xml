@@ -10140,7 +10140,25 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="AIRCRAFTS" name="AIRCRAFTS">
+        <rulegroup id="SPIDERMAN" name="Spiderman">
+            <url>https://en.wikipedia.org/wiki/Spider-Man</url>
+            <rule>
+                <pattern>
+                    <token>Spiderman</token>
+                </pattern>
+                <message>The name of the fictional superhero is <suggestion>Spider-Man</suggestion>.</message>
+                <example correction="Spider-Man"><marker>Spiderman</marker> is a fictional superhero created by writer-editor Stan Lee.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>Spider</token>
+                    <token>Man</token>
+                </pattern>
+                <message>The name of the fictional superhero is <suggestion>Spider-Man</suggestion>.</message>
+                <example correction="Spider-Man"><marker>Spider Man</marker> is a fictional superhero created by writer-editor Stan Lee.</example>
+            </rule>
+        </rulegroup>
+        <rule id="AIRCRAFTS" name="Aircrafts">
             <pattern>
                 <token>aircrafts</token>
             </pattern>
@@ -52482,7 +52500,7 @@ The accident victim died from her injuries.
                 <example correction="United States">The <marker>united states</marker> elected a new president.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="HAPPY_EASTER" name="Happy Easter" default="temp_off">
+        <rulegroup id="HAPPY_EASTER" name="Happy Easter">
             <url>https://www.merriam-webster.com/dictionary/Easter</url>
             <antipattern>
                 <token case_sensitive="yes" regexp="yes">Easter|EASTER</token>
@@ -52490,7 +52508,8 @@ The accident victim died from her injuries.
             <rule>
                 <antipattern>
                     <token regexp="yes">on|at|after|before|during</token>
-                    <token postag="NN.*" postag_regexp="yes" />
+                    <token>eastern</token>
+                    <token postag_regexp="yes" postag="NN.*|JJ.*" />
                 </antipattern>
                 <pattern>
                     <token regexp="yes">happy|on|at|after|before|during</token>
@@ -52501,6 +52520,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>Easter</suggestion> (= Christ's resurrection day)?</message>
                 <example correction="Easter">Happy <marker>Eastern</marker>!</example>
                 <example>Happy Easter to everyone!</example>
+                <example>Similarly, the west has had huge impacts on Eastern art in the 19th and 20th centuries</example>
             </rule>
             <rule>
                 <pattern>
