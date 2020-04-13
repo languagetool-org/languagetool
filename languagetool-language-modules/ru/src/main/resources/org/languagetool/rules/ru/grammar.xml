@@ -2351,7 +2351,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>В результате трудоёмкость (а значит, и стоимость) разработки растёт от объёма реализованной функциональности по вогнутому закону
                     (в языках с полиморфной семантикой системы типов этот рост характеризуется выпуклой кривой за счёт существенно более высокого показателя повторного использования кода).</example>
             </rule>                                        
-        </rulegroup>                                                                   
+        </rulegroup>                                                
     </category>
     
     <category id="PUNCTUATION" name="Пунктуация">     
@@ -7108,7 +7108,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="неплохо, но">Работа выполнена <marker>не плохо, но</marker> медленно.</example>
         </rule>
         </rulegroup>            
-        <rule  id="Ne_narech2" name="«Не» с наречиями 2">
+        <rule  id="Ne_narech2" name="«Не» с наречиями 2" default="off">
             <!-- TODO set on after release default="temp_off"-->
             <!-- слитное написание частицы не:
                отсутствует противопоставление, отсутствуют слова  «отнюдь, вовсе, далеко», отсутствует местоимение или наречие с «ни»
@@ -9980,6 +9980,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="что «в">Как сказал А.П. Чехов, <marker>что «В</marker> человеке должно быть все прекрасно».</example>
             </rule>
         </rulegroup>
+       
+        <rule  id="Tak_kak_to" name="Устойчивое выражение «Так как ..., то»" default="temp_off" >  
+             <pattern>             
+                 <marker>
+                     <token>так</token>
+                     <token skip="-1"><exception regexp="yes" >как|если|[,;:«]|же|и|или|называем.*|просто|например</exception><exception postag="PREP|VB:.*" postag_regexp="yes" /></token>
+                 </marker>
+                     <token>,</token>
+                     <token>то</token>
+             </pattern>
+             <message>Устойчивое выражение: <suggestion>\1 как \2</suggestion>.</message>
+             <short>Устойчивое выражение</short>
+             <example>Так как отражение от такой границы практически отсутствует, то распределение поля перед ней с хорошей степенью точности совпадает со случаем "открытых" граничных условий, который тождественен бесконечной среде.</example>
+             <example correction="Так как отражение"><marker>Так отражение</marker> от такой границы практически отсутствует, то  распределение поля перед ней с хорошей степенью точности совпадает со случаем "открытых" граничных условий, который тождественен бесконечной среде.</example>
+        </rule>          
         
         <rulegroup default="on" id="bolee_ili_menee_k" name="Словосочетание «более или менее конкретны»">
             <rule>
