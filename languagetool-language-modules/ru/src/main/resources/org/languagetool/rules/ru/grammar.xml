@@ -2665,7 +2665,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern>             
                 <marker>
                     <token skip="-1">как</token>           
-                    <token >так<exception regexp="yes" scope="previous">[,;-]|то</exception></token>
+                    <token >так<exception regexp="yes" scope="previous">[,;-—–(«]|то|вот</exception></token>
                     <token regexp="yes" skip="-1">и|как|когда<exception regexp="yes" scope="next">[,;-]</exception></token>
                 </marker>
                 <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
@@ -2674,6 +2674,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Пропущена запятая</short>
             <example>Как мышка бегает, так и кошка прыгает.</example>
             <example>Как мышка бегает, то так и кошка прыгает.</example>
+            <example>Те варяги назывались русью, как другие называются шведы, а иные норманны и англы, а ещё иные готландцы, — вот так и эти.</example>
             <example correction="Как мышка бегает, так и"><marker>Как мышка бегает так и</marker> кошка прыгает.</example>
         </rule>             
         <rulegroup  id="Kogda_to1" name="Знаки препинания в сложном предложении «Когда ... , то ему ...»">
@@ -6979,7 +6980,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>  
-                        <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.*[аеёиоуэюя][н](&pril_end;)<exception  postag="ADJ:Comp" /><exception  negate_pos="yes" postag="ADJ:.*" postag_regexp="yes"></exception><exception>женат</exception></token>
+                        <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.*[аеёиоуэюя][н](&pril_end;)<exception  postag="ADJ:Comp" /><exception  negate_pos="yes" postag="ADJ:.*" postag_regexp="yes"></exception></token>  <!-- <exception>женат</exception> --> 
                     </marker>
                     <token  postag="PREP" skip="1" ></token>  
                     <token postag="NN:.*:.*:.*:P" postag_regexp="yes"></token>
