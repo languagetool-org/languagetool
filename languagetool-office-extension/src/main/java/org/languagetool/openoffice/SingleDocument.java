@@ -537,6 +537,9 @@ class SingleDocument {
       }
     }
     isMouseOrDialog = false;
+    if (debugMode > 0) {
+      MessageHandler.printToLogFile("From Dialog: Paragraph not found: return -1" + OfficeTools.LOG_LINE_BREAK);
+    }
     return -1;
   }
   

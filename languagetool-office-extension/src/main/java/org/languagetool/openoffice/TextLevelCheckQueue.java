@@ -48,12 +48,13 @@ public class TextLevelCheckQueue {
   private boolean queueRuns = false;
   private boolean queueWaits = false;
 
-  private static final boolean debugMode = false;   //  should be false except for testing
+  private static boolean debugMode = false;   //  should be false except for testing
   
   TextLevelCheckQueue(MultiDocumentsHandler multiDocumentsHandler) {
     multiDocHandler = multiDocumentsHandler;
     queueIterator = new QueueIterator();
     queueIterator.start();
+    debugMode = OfficeTools.DEBUG_MODE_TQ;
   }
  
  /**
@@ -204,6 +205,7 @@ public class TextLevelCheckQueue {
    */
   private void waitForInterrupt() {
     interruptCheck = true;
+    wakeupQueue();
     while(interruptCheck) {
       try {
         Thread.sleep(1);

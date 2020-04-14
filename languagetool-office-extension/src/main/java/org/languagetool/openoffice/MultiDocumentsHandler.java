@@ -118,10 +118,11 @@ public class MultiDocumentsHandler {
       return paRes;
     }
     if(!switchOff) {
+      boolean isSameLanguage = true;
       if(fixedLanguage == null || langForShortName == null) {
         langForShortName = getLanguage(locale);
+        isSameLanguage = langForShortName.equals(docLanguage);
       }
-      boolean isSameLanguage = langForShortName.equals(docLanguage);
       if (!isSameLanguage || langTool == null || recheck) {
         if (!isSameLanguage) {
           docLanguage = langForShortName;
