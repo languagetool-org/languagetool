@@ -10145,6 +10145,39 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="HAPPY_EASTER" name="Happy Easter">
+            <url>https://www.merriam-webster.com/dictionary/Easter</url>
+            <antipattern>
+                <token case_sensitive="yes" regexp="yes">Easter|EASTER</token>
+            </antipattern>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">on|at|after|before|during</token>
+                    <token>eastern</token>
+                    <token postag_regexp="yes" postag="NN.*|JJ.*" />
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">happy|on|at|after|before|during</token>
+                    <marker>
+                        <token regexp="yes">eastern?</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>Easter</suggestion> (= Christ's resurrection day)?</message>
+                <example correction="Easter">Happy <marker>Eastern</marker>!</example>
+                <example>Happy Easter to everyone!</example>
+                <example>Similarly, the west has had huge impacts on Eastern art in the 19th and 20th centuries</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>easter</token>
+                    </marker>
+                    <token regexp="yes">sunday|monday|holidays?|weeks?|eggs?|bunn(y|ies)|days?|communion|cactus|\d{4}|greetings?|cards?|cake|wish(es)?</token>
+                </pattern>
+                <message><suggestion>Easter</suggestion> is normally capitalized.</message>
+                <example correction="Easter">Enjoy your <marker>easter</marker> holidays.</example>
+            </rule> 
+        </rulegroup>
         <rulegroup id="SPIDERMAN" name="Spiderman">
             <url>https://en.wikipedia.org/wiki/Spider-Man</url>
             <rule>
@@ -52555,39 +52588,6 @@ The accident victim died from her injuries.
                 <message>The proper noun <suggestion>United <match no="2" case_conversion="startupper" /></suggestion> needs to be capitalized.</message>
                 <example correction="United States">The <marker>united states</marker> elected a new president.</example>
             </rule>
-        </rulegroup>
-        <rulegroup id="HAPPY_EASTER" name="Happy Easter">
-            <url>https://www.merriam-webster.com/dictionary/Easter</url>
-            <antipattern>
-                <token case_sensitive="yes" regexp="yes">Easter|EASTER</token>
-            </antipattern>
-            <rule>
-                <antipattern>
-                    <token regexp="yes">on|at|after|before|during</token>
-                    <token>eastern</token>
-                    <token postag_regexp="yes" postag="NN.*|JJ.*" />
-                </antipattern>
-                <pattern>
-                    <token regexp="yes">happy|on|at|after|before|during</token>
-                    <marker>
-                        <token regexp="yes">eastern?</token>
-                    </marker>
-                </pattern>
-                <message>Did you mean <suggestion>Easter</suggestion> (= Christ's resurrection day)?</message>
-                <example correction="Easter">Happy <marker>Eastern</marker>!</example>
-                <example>Happy Easter to everyone!</example>
-                <example>Similarly, the west has had huge impacts on Eastern art in the 19th and 20th centuries</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>easter</token>
-                    </marker>
-                    <token regexp="yes">sunday|monday|holidays?|weeks?|eggs?|bunn(y|ies)|days?|communion|cactus|\d{4}|greetings?|cards?|cake|wish(es)?</token>
-                </pattern>
-                <message><suggestion>Easter</suggestion> is normally capitalized.</message>
-                <example correction="Easter">Enjoy your <marker>easter</marker> holidays.</example>
-            </rule> 
         </rulegroup>
         <rule id="ALSO_SENT_END" name="'also' at the end of the sentence" default="off"><!-- https://forum.languagetool.org/t/en-delete-also-sent-end/4918 -->
             <pattern>
