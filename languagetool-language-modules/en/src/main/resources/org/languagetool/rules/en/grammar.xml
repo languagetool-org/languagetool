@@ -1112,6 +1112,7 @@ USA
                 <example>There is no substitute for real hard work.</example>
             </rule>
         </rulegroup -->
+
         <rule id="CONFUSION_OF_OUR_OUT" name="out (our)">
             <pattern>
                 <token>we</token>
@@ -1119,7 +1120,9 @@ USA
                 <marker>
                     <token>out</token>
                 </marker>
-                <token><exception postag="IN|RP|DT|SENT_END" postag_regexp="yes"/><exception>our</exception><exception>what</exception></token>
+                <token>
+                    <exception postag="IN|RP|DT|SENT_END|CC|W?RB|PRP\$|WDT" postag_regexp="yes"/>
+                    </token>
             </pattern>
             <message>Did you mean <suggestion>our</suggestion>?</message>
             <short>Possible typo</short>
@@ -1133,7 +1136,14 @@ USA
             <example>We <marker>dine out</marker> once a week.</example>
             <example>We <marker>spread out</marker> and began to search through the woods.</example>
             <example>When we <marker>spread out</marker> cards on the table...</example>
+            <example>We figure out how to solve it.</example><!-- #2664 -->
+            <example>We got out fine but our teacher didn't.</example><!-- #2664 -->
+            <example>We logged out and back in but it didn't help.</example><!-- #2664 -->
+            <example>We checked out its historical castle.</example><!-- #2664 -->
+            <example>We moved out here long ago.</example><!-- #2664 -->
+            <example>We were out today.</example><!-- #2664 -->
         </rule>
+
         <rule id="YOUR_SHOULD" name="your (you) should">
             <pattern case_sensitive="yes">
                 <marker>
