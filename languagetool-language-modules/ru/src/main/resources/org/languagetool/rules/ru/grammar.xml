@@ -3989,7 +3989,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>,</token>
                         <token regexp="yes">авось|буквально|будто|вдобавок|вдруг|ведь|вот|всё-таки|даже|исключительно|именно|небось|приблизительно|примерно|притом|почти|поэтому|просто|решительно|словно|якобы</token>
-                        <token skip="-1"><exception scope="next">как</exception>,</token>
+                        <token skip="-1"><exception scope="next" regexp="yes">как|что|чтобы</exception>,</token>
                     </marker>
                     <token>.</token>
                 </pattern>
@@ -3997,6 +3997,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
                 <short>Запятые не нужны.</short>
                 <example>Вокалисты неритмично поют,и вдобавок не те ноты.</example>
+                <example>Он практикуется со своим клинком, ведь, чтобы отбиваться от убийц, он должен держать себя в форме.</example>
                 <example correction=" вдобавок">Вокалисты неритмично поют,и<marker>, вдобавок,</marker>не те ноты.</example>
             </rule>
             <rule>
@@ -5982,7 +5983,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <token postag="ADJ:.*" postag_regexp="yes">
                                     <exception scope="previous"  regexp="yes">,|и|или|–|-|—|&double_num;</exception>
                                     <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp='yes'/>
-                                    <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное</exception>
+                                    <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|зернов.*|животных|основн.*|легких|лёгких|позднее|поминальное|серый</exception>
                                 </token>
                                 <token postag="NN:.*" postag_regexp="yes">
                                     <exception postag="CONJ|PREP|ADV|Ord:.*" postag_regexp="yes" />
@@ -6000,6 +6001,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <message>Прилагательное не согласуется с существительным по числу.</message>
                     <short>Грамматическая ошибка в согласовании числа.</short>
                     <example>Крепкие столы.</example>
+                    <example>Серый зол.</example>
                     <example>Эти добрые полчаса.</example>
                     <example>Суеверие — это религия слабых духом.</example>
                     <example>Счастливые часов не наблюдают.</example>
@@ -6043,6 +6045,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                     <exception postag="ADV|ADJ:Comp|PT:.*|ADJ:MPR:.*|ADJ:Short:.*|NN:.*" postag_regexp="yes"/>
              <!--                       <exception regexp="yes">полн.*|выходн(ых|ые)|средн.*|арифметическ(ое|ие)|подобн.*|отличн.*|книжном|продуктовом|праздную|вещей|мобильного</exception>  -->
                                     <exception case_sensitive="yes">Божию</exception>
+                                    <exception case_sensitive="yes">Серый</exception>
                                 </token>
                                 <token postag="NN:.*" postag_regexp="yes">
                                     <exception postag="CONJ|PREP|ADV|ADJ:.*|Ord:.*" postag_regexp="yes" />
@@ -6060,6 +6063,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </pattern>
                     <message>Прилагательное не согласуется с существительным по роду.</message>
                     <example>Крепкие столы.</example>
+                    <example>Серый дарит.</example>
                     <example>Эти добрые полчаса.</example>
                     <example>Суеверие — это религия слабых духом.</example>
                     <example>Счастливые часов не наблюдают.</example>
