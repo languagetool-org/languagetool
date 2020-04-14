@@ -30623,6 +30623,11 @@ USA
                     <token regexp="yes">and|or</token>
                     <token postag="NNP"/>
                 </antipattern>
+                <antipattern case_sensitive="no"><!-- #2663 What are TCS competitors? -->
+                    <token regexp="yes">have|are</token>
+                    <token chunk="B-NP-plural" postag="NNP"/>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
                 <pattern case_sensitive="no">
                     <token postag="SENT_START"/>
                     <token postag="W(RB|P)" postag_regexp="yes"/>
@@ -30637,6 +30642,8 @@ USA
                 <example>Which are Taro's?</example>
                 <example>How are Victor and Carl related?</example><!-- #2225 -->
                 <example>Why have Janet and John gone to Hull?</example><!-- #2225 -->
+                <example>What are TCS competitors?</example><!-- #2663 -->
+                <example>How are Theodore and Jimbo related?</example><!-- #2663 -->
             </rule>
         </rulegroup>
         <rulegroup id="PRP_PAST_PART" name="Agreement error: past participle without 'have'">
