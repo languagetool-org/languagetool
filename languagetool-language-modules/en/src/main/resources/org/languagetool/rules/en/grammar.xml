@@ -35682,15 +35682,17 @@ USA
 <!-- this does not work with: It is a popular common used tool for spammers.  <token min="0" max="1" postag="JJ"/> -->
                     <marker>
                         <token postag="JJ">
-                           <exception postag="RB"/><!-- She is a very refined lady. -->
-                           <exception regexp="yes">.*(st|nd|rd|th)</exception>
-                            <exception regexp="yes">only|very|so-called</exception>
+                            <exception postag="RB"/><!-- She is a very refined lady. -->
+                            <exception regexp="yes">.*(st|nd|rd|th)</exception>
+                            <exception regexp="yes">only|very</exception>
+                            <exception postag="CD"/><!-- #2741 AmE treats cardinal numbers as adjectives. Refer to www.merriam-webster.com/dictionary/one and others -->
+                            <exception regexp="yes">\p{L}+-\p{L}+</exception><!-- #2741 snow-white padded walling -->
                         </token>
                         <token postag="VBN"/><!-- Including JJ in the token causes many FP. For now, keep the rule simple. -->
                     </marker>
                     <token postag_regexp="yes" postag="NN(S|:UN?)?">
                         <exception postag="IN"/>
-                    </token>
+                        </token>
                 </pattern>
                 <message>Make sure that the adjective '\3' is correct. Possibly, it should be an adverb (typically ~ly) that modifies '\4'. Possibly, it should be the first word in a compound adjective (hyphenated adjective). Possibly, it is correct.</message><!-- I did not use a suggestion for the compound adjectives, because I think that that is misleading because we don't give a suggestion for the adverb. -->
                 <example correction="">It's a <marker>common used</marker> tool for spammers.</example>
@@ -35753,6 +35755,8 @@ USA
                 <example>They were a group called Pariahs.</example><!-- #2722 -->
                 <example>He was last seen taken care of by his mother.</example><!-- #2722 -->
                 <example>It is the so-called personalized treatment</example><!-- #2722 -->
+                <example>It was this one entitled kid.</example><!-- #2741 -->
+                <example>It was a snow-white padded walling.</example><!-- #2741 -->
                 <example type="triggers_error">... to finance the government, to be the sole <marker>authorised distributor</marker> of banknotes, and to function as...</example>
                 <example type="triggers_error">Cicero successfully made him appear to be a foreign <marker>freed man</marker> who was devious enough to take advantage...</example><!-- foreignly is an adverb: www.merriam-webster.com/dictionary/foreignly -->
                 <example type="triggers_error">...to see if there is a <marker>previous established</marker> consensus or compromise.</example><!-- Semantic ambiguity. 'previous [established consensus]' is correct. But, possibly, the writer means '[previously established] consensus, in which case the analysis is correct. -->
