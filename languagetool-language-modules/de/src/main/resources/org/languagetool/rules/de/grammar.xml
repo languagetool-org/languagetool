@@ -33325,6 +33325,25 @@ Andere Projekte</example>
                 <example correction="on air">Er war <marker>On Air</marker>.</example>
             </rule>
         </rulegroup>
+        <rule id="PLUG_AND_PLAY" name="Plug-and-play" default="temp_off">
+            <antipattern>
+                <token>Play</token>
+                <token regexp="yes">ACPI|Accelerator</token>
+            </antipattern>
+            <antipattern><!-- http://www.axelspringerplugandplay.com/ -->
+                <token>Springer</token>
+                <token>Plug</token>
+            </antipattern>
+            <pattern case_sensitive="no">
+                <token>plug</token>
+                <token regexp="yes">and|und|&amp;</token>
+                <token>play</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Plug-and-play</suggestion>?</message>
+            <url>https://www.duden.de/rechtschreibung/Plug_and_play</url>
+            <example correction="Plug-and-play">Das Feature funktioniert dank <marker>Plug und Play</marker>.</example>
+            <example>Plug and Play ACPI device</example>
+        </rule>
         <rulegroup id="MAKE_UP" name="'Make-up'">
             <url>https://www.duden.de/rechtschreibung/Make_up</url>
             <rule>
