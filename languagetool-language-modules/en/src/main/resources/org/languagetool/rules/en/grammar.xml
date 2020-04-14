@@ -61,7 +61,7 @@ USA
     <!ENTITY verb_abbreviations "fwds?|rsvps?|dms?|pms?|execs?|reps?|mods?|noms?|intros?|intercoms?|bbqs?|chgs?|fts?|recs?|exps?|collab">
     
     <!-- words that are informally used as verbs but aren't tagged and shouldn't be tagged as a verb -->
-    <!ENTITY not_really_verbs "self\-?(support|control)s?|overdrafts?|nerds?|wrought|karates?|paths?|scapes?|videos?|fann(y|ies)?|bonus(es)?|back\-?ups?|pop\-?ups?|one\-?(shot|click)s?|idiot\-?proofs?|intakes?|rinds?|gaslits?|errors?|prox(y|ies)?|configs?|repros?|super\-?sets?|open\-?sources?|drag\-(and|n)\-drops?|hotfix(es)?|timeouts?|shutdowns?">
+    <!ENTITY not_really_verbs "self\-?(support|control)s?|overdrafts?|remotes?|nerds?|wrought|karates?|paths?|scapes?|videos?|fann(y|ies)?|bonus(es)?|back\-?ups?|pop\-?ups?|one\-?(shot|click)s?|idiot\-?proofs?|intakes?|rinds?|gaslits?|errors?|prox(y|ies)?|configs?|repros?|super\-?sets?|open\-?sources?|drag\-(and|n)\-drops?|hotfix(es)?|timeouts?|shutdowns?">
     <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
     <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
     <!ENTITY ambiguous_date '
@@ -1704,7 +1704,7 @@ USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="IN"><exception regexp="yes">as|while|before|until|ago|than|after|since|like</exception></token>
+                    <token postag="IN"><exception regexp="yes">as|while|before|until|till|ago|than|after|since|like</exception></token>
                     <marker><token>he</token></marker>
                     <token min="0" postag="JJ"/>
                     <token postag="NN.*" postag_regexp="yes" />
@@ -1716,6 +1716,7 @@ USA
                 <example>But there was a fire burning inside him ever since he saw those pictures on her camera.</example>
                 <example>Tom looked like he needed help.</example>
                 <example>When they gave up he lost nothing.</example>
+                <example>They did it till he lost his energy.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7346,11 +7347,15 @@ USA
                         <token regexp="yes">your|ur|ya</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token postag="SENT_END" regexp="yes">everyday|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|possible|dangerous|different|enough|t?here|sexy|&short_adjectives;|&optional_short_adjectives;</token>
+                    <token postag="SENT_END" regexp="yes">
+                        everyday|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|possible|dangerous|different|enough|t?here|sexy|&short_adjectives;|&optional_short_adjectives;
+                        <exception>grave</exception>
+                    </token>
                 </pattern>
                 <message>Did you mean <suggestion>you're</suggestion>?</message>
                 <example correction="you're">But <marker>your</marker> so beautiful</example>
                 <example>Not mine, but your own</example>
+                <example>Your Grave.</example>
             </rule>
 
             <rule><!-- needed because of wrong tagging: "cool" is tagged NN in "Your cool." -->
@@ -12136,7 +12141,7 @@ USA
             </antipattern>
             <antipattern><!-- nouns that are verbs when written as two words, needs different rule with suggestion (TODO!) -->
                 <token postag="MD" skip="2" />
-                <token regexp="yes">roll\-?over|take\-?away|take\-?up|write\-?off|mix\-?up|walk\-?in|bail\-?out|fill\-?in|give\-?away|pay\-?out|pay\-?off|pay\-?back|run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
+                <token regexp="yes">tie\-?up|stand\-?still|back\-?down|roll\-?over|take\-?away|take\-?up|write\-?off|mix\-?up|walk\-?in|bail\-?out|fill\-?in|give\-?away|pay\-?out|pay\-?off|pay\-?back|run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
             </antipattern>
             <antipattern case_sensitive="yes"><!-- A.I -->
                 <token regexp="yes">[A-Z]</token>
@@ -12193,6 +12198,10 @@ USA
                 <token postag="MD" />
                 <token regexp="yes">[aou]h</token>
             </antipattern>
+            <antipattern><!-- Thanks may god bless you -->
+                <token>may</token>
+                <token>god</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token>cool</token>
@@ -12204,7 +12213,7 @@ USA
                     <marker>
                         <token postag="MD" />
                         <token min="0" regexp="yes">not|really|very|totally|absolutely</token>
-                        <token regexp="yes">nicer?|good|great|cool(er)?|familiar|handy|(im)?possible|sweet|safer?|better|ok(ay)?|related|interesting|(in)?appropriate|important|glad|happy|horrible|terrible|sorry|worth|responsible</token>
+                        <token regexp="yes">nicer?|good|great|cool(er)?|eligible|familiar|handy|(im)?possible|sweet|safer?|better|ok(ay)?|related|interesting|(in)?appropriate|important|glad|happy|horrible|terrible|sorry|worth|responsible</token>
                     </marker>
                     <token regexp="yes">to|about|for|if|when|as|because|with(in)?|\.|\!|\?</token>
                 </pattern>
@@ -12230,7 +12239,7 @@ USA
                         <token postag="MD" />
                         <token regexp="yes">&apostrophe;</token>
                         <token>t</token>
-                        <token regexp="yes">nicer?|good|great|cool(er)?|familiar|handy|(im)?possible|sweet|safer?|better|ok(ay)?|related|interesting|(in)?appropriate|important|glad|happy|horrible|terrible|sorry|worth|responsible</token>
+                        <token regexp="yes">nicer?|good|great|cool(er)?|eligible|familiar|handy|(im)?possible|sweet|safer?|better|ok(ay)?|related|interesting|(in)?appropriate|important|glad|happy|horrible|terrible|sorry|worth|responsible</token>
                     </marker>
                     <token regexp="yes">to|about|for|if|when|as|because|with(in)?|\.|\!|\?</token>
                 </pattern>
@@ -12549,6 +12558,7 @@ USA
                 <example>Nor would others I speak to.</example>
                 <example>Or might something else be wrong?</example>
                 <example>Or should cables be replaced yearly?</example>
+                <example>Thanks may god bless you.</example>
             </rule>
         </rulegroup>
         <rulegroup id="THAT_S_YOU_RE" name="that's you're (that you're)">
@@ -29772,7 +29782,10 @@ USA
             </antipattern>
             <rule><!-- "How he doing?" -->
                 <pattern>
-                    <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
+                    <or>
+                        <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
+                        <token regexp="yes">["’“]</token>
+                    </or>
                     <marker>
                         <token regexp="yes">how|(what|where|why|when|who)(ever)?</token>
                         <token regexp="yes" postag="PRP">s?he|it</token>
@@ -29882,7 +29895,10 @@ USA
             </rule>
             <rule><!-- "How I doing?" -->
                 <pattern>
-                    <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
+                    <or>
+                        <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
+                        <token regexp="yes">["’“]</token>
+                    </or>
                     <marker>
                         <token regexp="yes">how|(what|where|why|when|who)(ever)?</token>
                         <token postag="PRP">I</token>
@@ -29933,7 +29949,10 @@ USA
             </rule>
             <rule><!-- "How you doing?" -->
                 <pattern>
-                    <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
+                    <or>
+                        <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
+                        <token regexp="yes">["’“]</token>
+                    </or>
                     <marker>
                         <token regexp="yes">how|(what|where|why|when|who)(ever)?</token>
                         <token regexp="yes">they|we|you</token>
@@ -34321,6 +34340,13 @@ USA
                     <token>a</token>
                 </antipattern>
                 <antipattern>
+                    <token>U</token>
+                    <token>.</token>
+                    <token>S</token>
+                    <token>.</token>
+                    <token>A</token>
+                </antipattern>
+                <antipattern>
                     <token regexp="yes">Vit(amin)?</token>
                     <token>A</token>
                 </antipattern>
@@ -35612,6 +35638,11 @@ USA
                     <token chunk="B-VP" postag="VBN"/>
                     <token chunk="E-NP-plural" postag="NNS"/>
                 </antipattern>
+                <antipattern><!-- I'm a good fit due to ... -->
+                    <token postag="VBN"/>
+                    <token>due</token>
+                    <token>to</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be</token>
                     <token postag_regexp="yes" postag="DT|PRP\$"/>
@@ -35626,7 +35657,7 @@ USA
                     </marker>
                     <token postag_regexp="yes" postag="NN(S|:UN?)?">
                         <exception postag="IN"/>
-                        </token>
+                    </token>
                 </pattern>
                 <message>Make sure that the adjective '\3' is correct. Possibly, it should be an adverb (typically ~ly) that modifies '\4'. Possibly, it should be the first word in a compound adjective (hyphenated adjective). Possibly, it is correct.</message><!-- I did not use a suggestion for the compound adjectives, because I think that that is misleading because we don't give a suggestion for the adverb. -->
                 <example correction="">It's a <marker>common used</marker> tool for spammers.</example>
@@ -35646,6 +35677,7 @@ USA
                 <example>The frequent ordered dish.</example><!-- Sentence fragment has no verb. Out of scope. -->
                 <example>Special terminology used by selected individuals.</example>
                 <example>Tom felt cold.</example>
+                <example>I'm a good fit due to...</example>
                 <example>I waved good bye and then walked away.</example>
                 <example>Please come downstairs.</example>
                 <example>It was a very limited approach.</example>
@@ -42650,7 +42682,7 @@ The accident victim died from her injuries.
                     <token regexp="yes" min="0">&apostrophe;</token>
                     <token regexp="yes" min="0">(no)?t</token>
                     <marker>
-                        <token regexp="yes">quick|immediate|potential|regular|occasional|actual|(un)?usual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive|absolute|constant|kind|remote</token>
+                        <token regexp="yes">quick|immediate|potential|regular|occasional|eventual|actual|(un)?usual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive|absolute|constant|kind|remote</token>
                     </marker>
                     <token postag="VBP?" postag_regexp="yes" />
                 </pattern>
@@ -42667,7 +42699,7 @@ The accident victim died from her injuries.
                         I|you|they|we|s?he|it
                     </token>
                     <marker>
-                        <token regexp="yes">quick|immediate|potential|regular|occasional|actual|(un)?usual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive|absolute|constant|kind|remote</token>
+                        <token regexp="yes">quick|immediate|potential|regular|occasional|eventual|actual|(un)?usual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive|absolute|constant|kind|remote</token>
                     </marker>
                     <token postag="VB[GDZP]?|MD" postag_regexp="yes" />
                 </pattern>
@@ -42682,7 +42714,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <token>to</token>
                     <marker>
-                        <token regexp="yes" postag="JJ">quick|immediate|potential|regular|occasional|actual|(un)?usual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive|absolute|constant|kind|remote</token>
+                        <token regexp="yes" postag="JJ">quick|immediate|potential|regular|occasional|eventual|actual|(un)?usual|sexual|final|ultimate|obvious|personal|rightful|previous|severe|physical|(un)?successful|normal|current|(un)?intentional|proactive|absolute|constant|kind|remote</token>
                     </marker>
                     <token postag="VB[GP]?" postag_regexp="yes">
                         <exception postag="JJ.*|NN.*|DT|PRP\$?" postag_regexp="yes" />
@@ -43858,12 +43890,18 @@ The accident victim died from her injuries.
                     <token regexp="yes">/|:</token>
                     <token regexp="yes">\d+</token>
                 </antipattern>
+                <antipattern><!-- confusion of to/too already caught by TOO_DETERMINER -->
+                    <token postag="SENT_START" />
+                    <token>due</token>
+                    <token>too</token>
+                    <token postag="DT" />
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START|TO" postag_regexp='yes'/>
                     <marker>
                         <token>
                             due
-                            <exception scope='next' regexp='yes'>course|today|tomorrow|tonight|yesterday|dates?|diligence|for|on|process|regard|respect|to|the|:|&weekdays;|&months;</exception>
+                            <exception scope='next' regexp='yes'>course|today|tomorrow|tonight|yesterday|dates?|diligence|for|on|process|regard|respect|to|the|:|(&weekdays;)s?|&months;|&abbrevWeekdays;</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -43875,6 +43913,9 @@ The accident victim died from her injuries.
                 <example>Due the unique climate in Azerbaijan, the flora is mu...</example>
                 <example>Due partly to the performance capabilities of modern ...</example>
                 <example>Due primarily to an excess of optimism in our original schedule...</example>
+                <example>Due Friday.</example>
+                <example>Due Fridays.</example>
+                <example>Due Wed. 4/15.</example>
             </rule>
             <rule>
                 <pattern>
@@ -46030,6 +46071,12 @@ The accident victim died from her injuries.
                     <token>know</token>
                     <token postag="PRP" />
                 </antipattern>
+                <antipattern>
+                    <token>even</token>
+                    <token>know</token>
+                    <token regexp="yes">it|you</token>
+                    <token postag="PCT" />
+                </antipattern>
                 <pattern>
                     <token regexp="yes"><exception scope="previous">t</exception>and|but|by|even|from|so</token>
                     <marker>
@@ -46042,6 +46089,7 @@ The accident victim died from her injuries.
                 <example correction="now">And <marker>know</marker> he is leaving.</example>
                 <example>I don't even know myself.</example>
                 <example>You even know him?</example>
+                <example>You're voting for a loser and you're too dumb to even know it.</example>
             </rule>
             <rule>
                 <pattern>
@@ -47559,7 +47607,7 @@ The accident victim died from her injuries.
                 <token>you</token>
                 <token regexp="yes">&apostrophe;</token>
                 <token>re</token>
-                <token regexp="yes">something|nuts|fools|wimps|nothing|geniuses|on|under|already|just|now</token>
+                <token regexp="yes">something|nuts|fools|wimps|nothing|geniuses|on|under|already|just|now|welcome</token>
             </antipattern>
             <antipattern><!-- Maybe you're available next week -->
                 <token>you</token>
@@ -47567,7 +47615,7 @@ The accident victim died from her injuries.
                 <token>re</token>
                 <token postag="JJ.*" postag_regexp="yes" />
                 <token regexp="yes">next|upcoming</token>
-                <token regexp="yes">day|week|month|year|&weekdays;|&months;</token>
+                <token regexp="yes">hour|day|week|month|year|&weekdays;|&months;|easter|christmas|weekend</token>
             </antipattern>
             <antipattern><!-- Let me know when you're unavailable tomorrow. -->
                 <token>you</token>
@@ -47588,7 +47636,7 @@ The accident victim died from her injuries.
                 <token regexp="yes">&apostrophe;</token>
                 <token>re</token>
                 <token>way</token>
-                <token>too</token>
+                <token regexp="yes">off|behind|too</token>
             </antipattern>
             <antipattern>
                 <token>you</token>
@@ -47649,6 +47697,13 @@ The accident victim died from her injuries.
                 <token>like</token>
                 <token postag="PRP\$?|NN.*|DT" postag_regexp="yes" /> 
             </antipattern>
+            <antipattern>
+                <token>you</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>re</token>
+                <token>friends</token>
+                <token>with</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token inflected="no">you</token>
@@ -47686,6 +47741,7 @@ The accident victim died from her injuries.
             <example>Hope you're well.</example>
             <example>You're just making noise.</example>
             <example>Maybe you're someone I know.</example>
+            <example>The people you're friends with.</example>
             <example>It depends whether you're known as ...</example>
             <example>You're home early.</example>
             <example>You're geniuses.</example>
