@@ -165,6 +165,7 @@ public class CaseRuleTest {
     assertGood("Bert Van Den Brink");
     assertGood("“In den meisten Bundesländern werden solche Studien per se nicht durchgeführt.”");
     assertGood("Aber “in den meisten Bundesländern werden solche Studien per se nicht durchgeführt.”");
+    assertGood("A) Das Haus");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");

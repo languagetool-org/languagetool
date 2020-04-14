@@ -101,9 +101,22 @@ public class CaseRule extends Rule {
       regex(".*")
     ),
     Arrays.asList(
+      SENT_START,
+      regex("[A-Z]"),
+      token(")"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // Commas used as lower quotes
+      SENT_START,
+      token(","),
+      token(","),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
       // https://github.com/languagetool-org/languagetool/issues/1515
       SENT_START,
-      regex("▶︎|▶|\\*|•|-|★"),
+      regex("▶︎|▶|\\*|•|-|★|⧪|⮞"),
       regex(".*")
     ),
     Arrays.asList(
@@ -462,6 +475,9 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
+    "Mo",
+    "Di",
+    "Mi",
     "Do",   // "Di. und Do. um 18 Uhr"
     "Fr",   // "Fr. Dr. Müller"
     "Sa",   // Sa. 12 - 16 Uhr
@@ -609,8 +625,9 @@ public class CaseRule extends Rule {
     "Landwirtschaft",
     "Langem",
     "Längerem",
+    "Lausitz",
     "Le",    // "Le Monde" etc
-    "Lehrlingsunter­weisung",
+    "Lehrlingsunterweisung",
     // "Leichter", // Leichter = ein Schiff in oben offener Bauweise ohne Eigenantrieb
     "Letzt",
     "Letzt",      // "zu guter Letzt"
@@ -621,6 +638,7 @@ public class CaseRule extends Rule {
     "Links",
     "Löhne",
     "Luden",
+    "Milk", // Englisches Wort und eine Form von "melken"
     "Mitfahrt",
     "Mr",
     "Mrd",
@@ -797,6 +815,7 @@ public class CaseRule extends Rule {
     languages.add("Slowakisch");
     languages.add("Slowenisch");
     languages.add("Spanisch");
+    languages.add("Syrisch");
     languages.add("Tamilisch");
     languages.add("Tibetisch");
     languages.add("Tschechisch");
