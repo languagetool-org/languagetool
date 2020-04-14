@@ -9731,6 +9731,10 @@ USA
                 <token spacebefore="no">:</token>
                 <token spacebefore="no"/>
             </antipattern>
+            <antipattern><!-- domains with .fr -->
+                <token>.</token>
+                <token spacebefore="no">fr</token>
+            </antipattern>
             <rule><!-- fr -->
                 <pattern>
                     <token case_sensitive="yes">fr<exception scope="previous" postag="CD"/></token>
@@ -9748,6 +9752,7 @@ USA
                 <example>[[fr:Ludwig von Mises#Le calcul économique et l'...</example>
                 <example>... [[:wikisource:fr:De Buonaparte et des Bourbons|&quot;De...</example>
                 <example>Refer to www.example.fr for more information.</example>
+                <example>I couldn't find a reference at larousse.fr</example>
                 <example>bg:Население на Ангола es:Demografía de Angola <marker>fr</marker>:Démographie de l'Angola lt:Angolos demografija...</example>
                 <example type="triggers_error">...website = banque.sonore.breton.free.fr|access-date = 2016-01-14}}&lt;/ref&gt; It...</example>
             </rule>
@@ -10282,7 +10287,7 @@ USA
             </antipattern>
             <pattern>
                 <token>under</token>
-                <token inflected="yes" regexp="yes">appreciate|estimate|achieve</token>
+                <token inflected="yes" regexp="yes">appreciate|estimate|achieve|whelm</token>
             </pattern>
             <message>This is spelled as one word.</message>
             <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion>
@@ -13908,6 +13913,10 @@ USA
                 <token>of</token>
                 <token chunk="B-NP-plural" postag="NNS"/>
                 <token chunk="E-NP-plural" postag_regexp="yes" postag="NN:UN?"/>
+            </antipattern>
+            <antipattern><!-- https://en.wikipedia.org/wiki/Pikes_Peak -->
+                <token>Pikes</token>
+                <token>Peak</token>
             </antipattern>
             <pattern>
                 <token postag="NN">
@@ -30629,9 +30638,9 @@ USA
                 </antipattern>
                 <antipattern case_sensitive="no"><!-- #2225 How are Victor and Carl related? -->
                     <token regexp="yes">have|are</token>
-                    <token postag="NNP"/>
+                    <token postag="NNP" />
                     <token regexp="yes">and|or</token>
-                    <token postag="NNP"/>
+                    <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
                 </antipattern>
                 <antipattern case_sensitive="no"><!-- #2663 What are TCS competitors? -->
                     <token regexp="yes">have|are</token>
