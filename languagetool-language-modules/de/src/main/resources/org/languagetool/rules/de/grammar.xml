@@ -33288,6 +33288,43 @@ Andere Projekte</example>
                 <example correction="Trial-and-Error">Er probierte es mit <marker>Try and Error</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ON_AIR" name="on air" default="temp_off">
+            <url>https://www.duden.de/rechtschreibung/on_air</url>
+            <antipattern>
+                <token>Air</token>
+                <token>Force</token>
+            </antipattern>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>On</token>
+                    <token>air</token>
+                </antipattern>
+                <pattern case_sensitive="yes">
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token regexp="yes">[Oo]n</token>
+                        <token regexp="yes">[Aa]ir</token>
+                    </marker>
+                </pattern>
+                <message>Das Adverb <suggestion><match no="2" case_conversion="startupper" /> <match no="3" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
+                <example correction="On air"><marker>On Air</marker> erlaubte er sich keine Aussetzer.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>on</token>
+                    <token>air</token>
+                </antipattern>
+                <pattern>
+                    <token><exception postag="SENT_START" /></token>
+                    <marker>
+                        <token regexp="yes">[Oo]n</token>
+                        <token regexp="yes">[Aa]ir</token>
+                    </marker>
+                </pattern>
+                <message>Das Adverb <suggestion><match no="2" case_conversion="alllower" /> <match no="3" case_conversion="alllower" /></suggestion> wird kleingeschrieben.</message>
+                <example correction="on air">Er war <marker>On Air</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MAKE_UP" name="'Make-up'">
             <url>https://www.duden.de/rechtschreibung/Make_up</url>
             <rule>
