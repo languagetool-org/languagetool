@@ -14883,12 +14883,15 @@ USA
                 <example correction='to change'>They don't need <marker>change</marker> them.</example>
             </rule>
         </rulegroup>
+
         <rule id="IT_IS_JJ_TO_VBG" name="it is ... to doing (do)">
             <pattern>
                 <token>it</token>
                 <token inflected='yes'>be</token>
                 <token min='0' max='1'>not</token>
-                <token postag='JJ'/>
+                <token postag='JJ'>
+                    <exception regexp="yes">close|similar</exception><!-- #2742 -->
+                    </token>
                 <token>to</token>
                 <marker>
                     <token postag='VBG'/>
@@ -14896,7 +14899,11 @@ USA
             </pattern>
             <message>Did you mean <suggestion><match no="6" postag="VB"/></suggestion>?</message>
             <example correction='grasp'>They think that it is not easy to <marker>grasping</marker> skills.</example>
+            <example>They think that it is not easy to <marker>grasp</marker> skills.</example>
+            <example>It is close to reducing income.</example><!-- #2742 -->
+            <example>It is similar to building a marketing campaign.</example><!-- #2742 -->
         </rule>
+
         <rule id="BE_USE_TO_DO" name="be use (used) to">
             <pattern case_sensitive='yes'>
                 <token inflected='yes'>be</token>
