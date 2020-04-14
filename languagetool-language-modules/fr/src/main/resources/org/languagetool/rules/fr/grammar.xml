@@ -8244,6 +8244,12 @@ though, and has since been slightly modified)-->
     </antipattern>
       <rule name="nombre singulier suivi du pluriel">
           <antipattern>
+              <token postag="N [fem] s" postag_regexp="yes"/>
+              <token regexp="yes">aux|à|de|du</token>
+              <token postag="N .*" postag_regexp="yes"/>
+              <token postag="J [fem] p" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
               <token regexp="yes">[2-9](\d+)?</token>
               <token regexp="yes">[.,+-≠=()x]</token>
               <token regexp="yes">\d+</token>
@@ -8275,41 +8281,13 @@ though, and has since been slightly modified)-->
         <example>1 fois.</example>
         <example>L'école acta une séparation filles garçons.</example>
       </rule>
-      <rule>
-        <antipattern>
-          <token>top</token>
-          <token postag="K"/>
-        </antipattern>
-        <antipattern>
-          <token>top</token>
-          <token regexp="yes">[0-9]+</token>
-        </antipattern>
-        <pattern>
-          <token postag="K">
-            <exception scope="previous">numéro</exception>
-          </token>
-          <marker>
-          <token postag="[JN] . s" postag_regexp="yes">
-            <exception regexp="yes">neuf|été|janvier|février|avril|mai|juin|juillet|ao[ûu]t|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|cent|mille|divisé|multiplié</exception>
-            <exception postag="N . s?p" postag_regexp="yes"/>
-          </token>
-        </marker>
-        </pattern>
-        <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
-        <suggestion><match no="2" postag="(J|N) (.) s" postag_regexp="yes" postag_replace="$1 $2 p"/></suggestion>
-        <example correction="enfants">J’ai quatre <marker>enfant</marker>.</example>
-        <example>J’ai quatre enfants.</example>
-        <example>Il est né le quatre <marker>janvier</marker>.</example>
-        <example>On estimait à seize mille les fusils de son armée.</example>
-        <example>Le patron du numéro deux allemand a démissionné.</example>
-        <example>Ils ont tous les trois <marker>été</marker> tués par balle.</example>
-        <example>Mille <marker>neuf</marker> cent quatre-vingt.</example>
-        <example>Les trois <marker>kanji</marker>.</example>
-        <example>L’intensité des rayons X ayant frappé la pellicule.</example>
-        <example>Henri VIII rencontre François Ier.</example>
-        <example>Mon téléphone Samsung Galaxy 9 fonctionne très bien.</example>
-      </rule>
       <rule name="nombre pluriel suivi du singulier">
+        <antipattern>
+            <token postag="N [fem] p" postag_regexp="yes"/>
+            <token regexp="yes">aux|à|de|du</token>
+            <token postag="N .*" postag_regexp="yes"/>
+            <token postag="J [fem] s" postag_regexp="yes"/>
+        </antipattern>
         <antipattern>
           <token>master</token>
           <token>2</token>
@@ -8355,6 +8333,12 @@ though, and has since been slightly modified)-->
         <example>Le passeport n° 157208191 délivré le 01/12/2015.</example>
       </rule>
       <rule name="singulier suivi du pluriel">
+          <antipattern>
+              <token postag="N [fem] s" postag_regexp="yes"/>
+              <token regexp="yes">aux|à|de|du</token>
+              <token postag="N .*" postag_regexp="yes"/>
+              <token postag="J [fem] p" postag_regexp="yes"/>
+          </antipattern>
           <antipattern>
               <token>top</token>
               <token postag="K"/>
@@ -8420,6 +8404,12 @@ though, and has since been slightly modified)-->
         <example>La couronne périphérique alterne falaises abruptes et plages.</example>
       </rule>
       <rule name="pluriel suivi du singulier">
+        <antipattern>
+            <token postag="N [fem] p" postag_regexp="yes"/>
+            <token regexp="yes">aux|à|de|du</token>
+            <token postag="N .*" postag_regexp="yes"/>
+            <token postag="J [fem] s" postag_regexp="yes"/>
+        </antipattern>
         <antipattern>
             <token regexp="yes" inflected="yes">considérer|imaginer|penser|dits|appeler</token>
             <token regexp="yes">selon|par|d\'après</token>
@@ -8519,6 +8509,40 @@ though, and has since been slightly modified)-->
         <example>Tous les lundis soir.</example>
         <example>Les gens autour de nous.</example>
         <example>les conseillers environnement</example>
+      </rule>
+      <rule>
+          <antipattern>
+              <token>top</token>
+              <token postag="K"/>
+          </antipattern>
+          <antipattern>
+              <token>top</token>
+              <token regexp="yes">[0-9]+</token>
+          </antipattern>
+          <pattern>
+              <token postag="K">
+                  <exception scope="previous">numéro</exception>
+              </token>
+              <marker>
+                  <token postag="[JN] . s" postag_regexp="yes">
+                      <exception regexp="yes">neuf|été|janvier|février|avril|mai|juin|juillet|ao[ûu]t|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|cent|mille|divisé|multiplié</exception>
+                      <exception postag="N . s?p" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
+          <suggestion><match no="2" postag="(J|N) (.) s" postag_regexp="yes" postag_replace="$1 $2 p"/></suggestion>
+          <example correction="enfants">J’ai quatre <marker>enfant</marker>.</example>
+          <example>J’ai quatre enfants.</example>
+          <example>Il est né le quatre <marker>janvier</marker>.</example>
+          <example>On estimait à seize mille les fusils de son armée.</example>
+          <example>Le patron du numéro deux allemand a démissionné.</example>
+          <example>Ils ont tous les trois <marker>été</marker> tués par balle.</example>
+          <example>Mille <marker>neuf</marker> cent quatre-vingt.</example>
+          <example>Les trois <marker>kanji</marker>.</example>
+          <example>L’intensité des rayons X ayant frappé la pellicule.</example>
+          <example>Henri VIII rencontre François Ier.</example>
+          <example>Mon téléphone Samsung Galaxy 9 fonctionne très bien.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
@@ -8726,6 +8750,12 @@ though, and has since been slightly modified)-->
         </antipattern>
       <rule name="masculin suivi du féminin">
           <antipattern>
+              <token postag="N [me] [sp]" postag_regexp="yes"/>
+              <token regexp="yes">aux|à|de|du</token>
+              <token postag="N .*" postag_regexp="yes"/>
+              <token postag="J [me] [sp]" postag_regexp="yes"/>
+          </antipattern>
+          <antipattern>
               <token>moteur</token>
               <token>essence</token>
           </antipattern>
@@ -8799,6 +8829,12 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="nom masculin suivi du féminin">
         <antipattern>
+            <token postag="N [fe] [sp]" postag_regexp="yes"/>
+            <token regexp="yes">aux|à|de|du</token>
+            <token postag="N .*" postag_regexp="yes"/>
+            <token postag="J [fe] [sp]" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
           <token>n</token>
           <token>composantes</token>
         </antipattern>
@@ -8871,6 +8907,12 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="féminin suivi du masculin">
         <antipattern>
+            <token postag="N [fe] [sp]" postag_regexp="yes"/>
+            <token regexp="yes">aux|à|de|du</token>
+            <token postag="N .*" postag_regexp="yes"/>
+            <token postag="J [fe] [sp]" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
           <token>avenue</token>
           <token regexp="yes" postag="Z [em] .*" postag_regexp="yes">(?-i)\p{Lu}.*</token>
         </antipattern>
@@ -8941,6 +8983,12 @@ though, and has since been slightly modified)-->
         <example>L’imprimante laser.</example>
       </rule>
       <rule name="nom féminin suivi du masculin">
+        <antipattern>
+            <token postag="N [fe] [sp]" postag_regexp="yes"/>
+            <token regexp="yes">aux|à|de|du</token>
+            <token postag="N .*" postag_regexp="yes"/>
+            <token postag="J [fe] [sp]" postag_regexp="yes"/>
+        </antipattern>
         <antipattern>
           <token>orge</token>
           <token regexp="yes">perlé|mondé</token>
