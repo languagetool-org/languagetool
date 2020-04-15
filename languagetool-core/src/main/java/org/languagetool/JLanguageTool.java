@@ -105,7 +105,7 @@ public class JLanguageTool {
   @Nullable
   private static String getBuildDate() {
     try {
-      URL res = JLanguageTool.class.getResource(JLanguageTool.class.getSimpleName() + ".class");
+      URL res = getDataBroker().getAsURL("/" + JLanguageTool.class.getName().replace('.', '/') + ".class");
       if (res == null) {
         // this will happen on Android, see http://stackoverflow.com/questions/15371274/
         return null;
@@ -129,7 +129,7 @@ public class JLanguageTool {
   @Nullable
   private static String getShortGitId() {
     try {
-      InputStream in = getDataBroker().getAsStream("git.properties");
+      InputStream in = getDataBroker().getAsStream("/git.properties");
       if (in != null) {
         Properties props = new Properties();
         props.load(in);
