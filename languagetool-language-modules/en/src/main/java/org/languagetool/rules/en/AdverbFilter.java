@@ -143,6 +143,10 @@ public class AdverbFilter extends RuleFilter {
     put("manually", "manual");
     put("continuously", "continuous");
     put("sadly", "sad");
+    put("eventually", "eventual");
+    put("steadily", "steady");
+    put("possibly", "possible");
+    put("deliciously", "delicious");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
