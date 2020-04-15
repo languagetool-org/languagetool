@@ -272,7 +272,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     String afterSuggestionStr = "";  //to be added after
     
     // Check for split word with previous word
-    if (idx > 0) {
+    if (idx > 0 && tokens[idx].isWhitespaceBefore()) {
       String prevWord = tokens[idx - 1].getToken();
       if (prevWord.length() > 0 && !prevWord.matches(".*\\d.*")
           && getFrequency(speller1, prevWord) < MAX_FREQUENCY_FOR_SPLITTING) {
@@ -323,7 +323,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     }
         
     // Check for split word with next word
-    if (ruleMatch == null && idx < tokens.length - 1) {
+    if (ruleMatch == null && idx < tokens.length - 1 && tokens[idx + 1].isWhitespaceBefore()) {
       String nextWord = tokens[idx + 1].getToken();
       if (nextWord.length() > 0 && !nextWord.matches(".*\\d.*")
           && getFrequency(speller1, nextWord) < MAX_FREQUENCY_FOR_SPLITTING) {

@@ -504,6 +504,10 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("ingeniaria")); 
         assertEquals(1, matches.length);
         
+        matches = rule.match(langTool.getAnalyzedSentence("l'unic")); 
+        assertEquals(1, matches.length);
+        assertEquals("únic", matches[0].getSuggestedReplacements().get(0));
+        
         matches = rule.match(langTool.getAnalyzedSentence("rà dio")); 
         assertEquals("ràdio", matches[0].getSuggestedReplacements().get(0));
         assertEquals(0, matches[0].getFromPos());
