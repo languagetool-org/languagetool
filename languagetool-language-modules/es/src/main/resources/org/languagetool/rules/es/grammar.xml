@@ -245,6 +245,90 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Como siempre, has oído mal!</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SE_CREO" name="confusión: se creo/creó" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>se</token>
+                    <marker>
+                        <token postag="VMIP1S0" regexp="yes">.+o<exception>como</exception></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión. Si el verbo es en pasado, falta un acento.</message>
+                <suggestion><match no="2" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
+                <example correction="vengó|vino">Se <marker>vengo</marker></example>
+                <example correction="creyó|creó">Se <marker>creo</marker></example>
+                <example correction="determinó">Se <marker>determino</marker></example>
+                <example>Con ella hablo todos los días.</example>
+                <example>Él viene</example>
+                <example type="correct" reason="triggers other rule">No se como lo hizo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">él|ella<exception postag="SP.*" postag_regexp="yes" scope="previous"/></token>
+                    <marker>
+                        <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V.{3}3.*|C.*|SP.*" postag_regexp="yes"/><exception postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión. Si el verbo es en pasado, falta un acento.</message>
+                <suggestion><match no="2" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
+                <example correction="vengó|vino">Él <marker>vengo</marker></example>
+                <example correction="habló">Ella <marker>hablo</marker></example>
+                <example>Con ella hablo todos los días.</example>
+                <example>Él viene</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SE" name="se/sé" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>se</token>
+                    <token min="0" regexp="yes">me|te|le|les|la|las|lo|los|nos|os</token>
+                    <token postag="V...3.." postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>se</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'saber' se escribe con tilde.</message>
+                <suggestion>sé</suggestion>
+                <example correction="sé">Yo lo <marker>se</marker> desde hace tiempo</example>
+                <example correction="Sé"><marker>Se</marker> de qué hablo</example>
+                <example correction="sé">Hay quien programa, pero yo no <marker>se</marker>.</example>
+                <example correction="sé">No <marker>se</marker> cómo lo hizo.</example>
+                <example>Se me apareció.</example>
+                <example>Se les hizo de noche.</example>
+                <example>Se fue.</example>
+                <example>Se acabó.</example>
+                <example>Se acabaron.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">lo|los|la|las</token>
+                    <marker>
+                        <token>se</token>
+                    </marker>
+                    <token>como</token>
+                </pattern>
+                <message>Si es del v. 'saber' se escribe con tilde.</message>
+                <suggestion>sé</suggestion>
+                <example correction="sé">Lo <marker>se</marker> como la palma de mi mano.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">lo|los|la|las</token>
+                    <token>se</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>se</token>
+                        <token>como</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'saber' se escribe con tilde.</message>
+                <suggestion>sé cómo</suggestion>
+                <example correction="sé cómo">No <marker>se como</marker> hacerlo.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
         <rulegroup id="ABBREVIATION" name="abreviaturas">
@@ -1125,29 +1209,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="VERBO_TILDE" name="Verbos con o sin tilde">
             <short>El verbo lleva tilde.</short>
             <!-- LO_SE lo sé-->
-            <rule id="LO_SE" name="lo se (sé)">
-                <pattern>
-                    <token regexp="yes">l[oae]</token>
-                    <marker>
-                        <token>se</token>
-                    </marker>
-                </pattern>
-                <message>El presente de indicativo primera persona del verbo saber es <suggestion>sé</suggestion>.</message>
-                <example correction="sé">Yo lo <marker>se</marker> desde hace tiempo</example>
-                <example>Si lo sé, no vengo.</example>
-            </rule>
-            <!-- SE_FINAL se al final de la oración simepre es verbo. -->
-            <rule id="SE_FINAL" name="se al final de la oración. (sé)">
-                <pattern>
-                    <marker>
-                        <token><!--Included «lo» to avoid overlap with LO_SE rule--><exception regexp="yes" scope="previous">per|lo</exception>se</token>
-                    </marker>
-                    <token postag="SENT_END" regexp="yes">[.?!]</token>
-                </pattern>
-                <message>El presente de indicativo primera persona del verbo saber es <suggestion>sé</suggestion>.</message>
-                <example correction="sé">Hay quien programa, pero yo no <marker>se</marker>.</example>
-                <example>Hay que saber tocar y yo sé.</example>
-            </rule>
             <!-- DE_FINAL Dé al final de la oración-->
             <rule id="DE_FINAL" name="Verbo dé sin tilde al final de la oración">
                 <pattern>
@@ -2010,7 +2071,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1 de ello</suggestion>
                 <suggestion>\1 de ellos</suggestion>
                 <suggestion>\1 de ellas</suggestion>
-                <suggestion>\1 de usted</suggestion> 
+                <suggestion>\1 de usted</suggestion>
                 <suggestion>\1 de ustedes</suggestion>
                 <example correction="detrás de él|detrás de ella|detrás de ello|detrás de ellos|detrás de ellas|detrás de usted|detrás de ustedes">Venían <marker>detrás suya</marker>.</example>
                 <example>Tienen a los niños encima de ellos.</example>
@@ -2679,13 +2740,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tú vienes</example>
             </rule>
             <!-- PP_V_3 Concordancia (él entrego)-->
-            <rule id="PP_V_3" name="Concordancia 3ª persona">
-                <pattern case_sensitive="no">
+            <rule>
+                <pattern>
                     <token postag="PP3(.*000|CN0|MP0).*" postag_regexp="yes"><exception postag="SP.*" postag_regexp="yes" scope="previous"/></token>
-                    <token postag="V.{3}[12].*" postag_regexp="yes"><exception postag="V.{3}3.*|C.*|SP.*" postag_regexp="yes"/><exception postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"/></token>
+                    <token postag="V.{3}[12].*" postag_regexp="yes"><exception postag="V.{3}3.*|C.*|SP.*" postag_regexp="yes"/><exception postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"/><exception postag="VMIP1S0" regexp="yes">.+o</exception></token>
                 </pattern>
                 <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
-                <example correction=""><marker>Él vengo</marker></example>
+                <example correction=""><marker>Él vengas</marker></example>
+                <example type="correct" reason="triggers other rule">Se creo</example>
                 <example>Él viene</example>
             </rule>
             <!-- PP_V_SINGULAR Concordancia singular (él vienen)-->
