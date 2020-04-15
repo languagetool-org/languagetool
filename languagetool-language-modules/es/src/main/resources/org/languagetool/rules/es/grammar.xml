@@ -330,6 +330,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1\2</suggestion>
                 <example correction="contigo">Estoy <marker>con tigo</marker></example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">cero|sero</token>
+                    <token min="0">-</token>
+                    <token inflected="yes" regexp="yes">positividad|diagnosis|logía|vacunación|tonina|albúmina|aglutinación|prevalencia|tipo|fobia|diagnóstico|positivo|negativo|terapia</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>sero\3</suggestion>
+                <url>https://www.fundeu.es/recomendacion/seroprevalencia-y-serotipo-con-ese-y-sin-espacio/</url>
+                <example correction="serotipo"><marker>cero tipo</marker></example>
+                <example correction="seroprevalencias"><marker>sero-prevalencias</marker></example>
+            </rule>
         </rulegroup>
         <rule id="ALREDEDOR" name="*(a) alrededor">
             <antipattern>
