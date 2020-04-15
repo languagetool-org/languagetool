@@ -51,7 +51,7 @@ public class SimpleReplaceAnglicismRule extends AbstractSimpleReplaceRule {
     super(messages);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     super.setLocQualityIssueType(ITSIssueType.Misspelling);
-    this.setIgnoreTaggedWords();
+    //this.setIgnoreTaggedWords();
     this.setCheckLemmas(false);
   }  
 
