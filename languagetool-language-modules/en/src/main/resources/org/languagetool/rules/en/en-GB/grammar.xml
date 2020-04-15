@@ -380,6 +380,7 @@ USA
         Created by Tiago F. Santos, based on the coherency list created by Mike Unwalla, 2018-11-15
         MFU removed 2019-05-02. Refer to https://forum.languagetool.org/t/remove-oxford-spelling-ize/3805
         -->
+
         <rulegroup id="OXFORD_SPELLING_Z_NOT_S" name="Oxford spelling is/iz">
         <!-- For general notes and design decisions, refer to OXFORD_SPELLING_ISE_VERBS. Rules developed by Mike Unwalla. -->
         <!-- Not uppercase: https://github.com/languagetool-org/languagetool/issues/1292 -->
@@ -400,7 +401,8 @@ USA
                     <exception regexp="yes" inflected="yes">improvisation|xxxx</exception><!-- This exception is for nouns that are always spelled with ~isation. -->
                     <exception>passivisations</exception><!-- This exception prevents the incorrect suggestion: ". TODO: correct the problem. -->
                     <exception regexp="yes" inflected="yes">(advert|adv|appra|bru|chast|circumc|comprom|(battle)?cru|curtain-ra|desp|dev|disfranch|disgu|dispra|enfranch|exerc|franch|fundra|hell-?ra|improv|ka|merchand|mort|po|pract|pra|prom|ra|reappra|repr|rev|r|surm|surpr|upra|upr)iser</exception><!-- These nouns are always ~iser. -->
-                    <exception regexp="yes" inflected="yes">(adv|d|)isability</exception></token><!-- These nouns are always ~isability. -->
+                    <exception regexp="yes" inflected="yes">(in)?advisability|disability</exception><!-- These nouns are always ~isability. -->
+                    </token>
                 </pattern>
                 <message>In British English, for some nouns, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for nouns and thus suggests <suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ations?|ers?|ability|abilities)" regexp_replace="$1iz$2"/></suggestion>.</message>
                 <short>Oxford spelling: nouns</short>
@@ -438,7 +440,7 @@ USA
                 <example correction="polarizability">This effect (<marker>polarisability</marker>) is shown to be...</example>
                 <example>The word '<marker>magnetizability</marker>' is the Oxford spelling.</example>
                 <example>Refer to <marker>www.example.com/polarisability.html</marker>.</example>
-                <example>Make sure that the regexp is correct. These are all ~isability nouns: advisability, disability, disabilities</example>
+                <example>Make sure that the regexp is correct. These are all ~isability nouns: advisability, disability, disabilities, inadvisability</example>
                 <example>'<marker>MAGNETISABILITY</marker>. All capitalised nouns are out of scope because the suggestion is ~ise.</example>
             </rule>
             <rule id="OXFORD_SPELLING_ISE_VERBS" name="Oxford spelling of verbs (~ize not ~ise), **but not CAPITALISED verbs**"><!-- ~yse verbs are not ~yze in BrE: https://www.lexico.com/grammar/ize-ise-or-yse -->
@@ -469,7 +471,7 @@ USA
                 <pattern>
                     <token postag="JJ" regexp="yes">([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)<exception regexp="yes">(?-i)[A-Z-]+</exception>
                     <exception regexp="yes">(un)?(advisable|exercisable|improvisational|inadvisable|memorisable|raisable)</exception><!-- These adjectives are always ~is. Some adjectives are ~isible (divisible, indivisible, invisible), but I did not find ~isible adjectives that are also spelled ~izible.-->
-                    <exception regexp="yes">hair-raising|ill-advised|self-(advertising|raising)</exception>
+                    <exception regexp="yes">hair-raising|ill-advised|self-(advertising|raising)|well-advertised</exception>
                     <exception regexp="yes">despisable|self-rising</exception><!-- These adjectives are AmE (and always ~is). -->
                     <exception regexp="yes">(un)?(advis|bruis|circumcis|compromis|devis|(dis)?enfranchis|disguis|enterpris|excis|exercis|franchis|immunocompromis|improvis|incis|noncompromis|pois|practis|promis|rais|recognis|revis|supervis|surpris|televis)(ed|ing)</exception></token><!-- These words (adjectives/past participle adjectives/verbs are always ~is. Some words such as 'excised' do not have the postag JJ, but in some contexts, disambiguation DT_VBN_JJ gives the postag JJ to the VBN word (also, other rules do similarly). Possibly, some un* words do not exist, but that is not a problem. -->
                 </pattern>
@@ -483,7 +485,7 @@ USA
                 <example>The word '<marker>magnetizable</marker>' is the Oxford spelling.</example>
                 <example>'<marker>MAGNETISABLE</marker>. All capitalised adjectives are out of scope because the suggestion is ~is.</example>
                 <example>...as a parody of modern DJs' own soundbites and <marker>self-advertising</marker> pieces.</example>
-                <example>These words are always spelled with ~s: advisable, advised, bruised, circumcised, compromised, disenfranchised, divisible, excised, exercisable, franchised, immunocompromised, improvised, inadvisable, incised, indivisible, invisible, memorisable, noncompromised, poised, practised, promised, raised, revised, self-raising, surprised, televised, unadvisable, uncircumcised, unenfranchised, unrevised, unsupervised, unsurprised. Enterprising, excising, incising, noncompromising, promising, surprising, uncompromising, unsurprising</example>
+                <example>These words are always spelled with ~s: advisable, advised, bruised, circumcised, compromised, disenfranchised, divisible, excised, exercisable, franchised, immunocompromised, improvised, inadvisable, incised, indivisible, invisible, memorisable, noncompromised, poised, practised, promised, raised, revised, self-raising, surprised, televised, unadvisable, uncircumcised, unenfranchised, unrevised, unsupervised, unsurprised. Enterprising, excising, incising, noncompromising, promising, surprising, uncompromising, unsurprising, well-advertised</example>
                 <example>For information about the <marker>Conference of Specialised Ministers</marker> refer to www.coe.int/en/web/cm/iguide-chapter6</example><!-- Refer to disambiguation.xml CONFERENCE_OF_SPECIALISED_MINISTERS -->
             </rule>
             <rule id="OXFORD_SPELLING_ADVERBS" name="Oxford spelling of adverbs (~iz not ~is), **but not adverbs in CAPITALS**"><!-- ~isably, ~isationally) -->
@@ -500,6 +502,7 @@ USA
                 <example>'<marker>ORGANISATIONALLY</marker>. All capitalised adjectives are out of scope because the suggestion is ~is.</example>
             </rule>
          </rulegroup>
+
     </category>
 
     <category id="SEMANTICS" name="Semantics" type="inconsistency">
