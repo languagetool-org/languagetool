@@ -39871,16 +39871,18 @@ The accident victim died from her injuries.
                 <example correction="i.e.">A walking boot which is synthetic, <marker>i.e</marker> not leather.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="QUESTION_MARK" name="Missing question mark" default="temp_off">
+        <rulegroup id="QUESTION_MARK" name="Missing question mark">
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START" skip="1"/>
                     <token regexp="yes">Wh(ere|at|om?|y)</token>
-                    <token inflected="yes" regexp="yes" skip="-1">do|have<exception scope="next"></exception></token>
+                    <token inflected="yes" regexp="yes" skip="-1">do|have<exception scope="next" regexp="yes">[;?]</exception></token>
                     <marker><token postag="SENT_END" spacebefore="no">.<exception scope="next">.</exception></token></marker>
                 </pattern>
                 <message>Did you mean <suggestion>?</suggestion>?</message>
                 <example correction="?">Where did she go<marker>.</marker></example>
+                <example>Who does not love wine, women and song; remains a fool his whole life long.</example>
+                <example>"What did the professor talk about?" the student asked.</example>
             </rule>
         </rulegroup>
         <rule id="NN_CD_NN_CD_COMMA" name="Comma in 'act 2 scene 5'">
