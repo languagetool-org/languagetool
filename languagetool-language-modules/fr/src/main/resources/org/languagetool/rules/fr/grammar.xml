@@ -8078,6 +8078,306 @@ though, and has since been slightly modified)-->
     </rulegroup>
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
+      <!-- Additions from the premium version -->
+      <rulegroup id="A_ACCENT" name="Usage de a/à">
+          <rule>
+              <antipattern>
+                  <token>a</token>
+                  <token>priori</token>
+              </antipattern>
+              <antipattern>
+                  <token>type</token>
+                  <token>a</token>
+              </antipattern>
+              <pattern>
+                  <token postag="V.*" postag_regexp="yes" skip="-1"><exception postag="M fin|M nonfin|SENT_END|C sub" postag_regexp="yes"/></token>
+                  <marker>
+                      <token postag="N [mfe] .*" postag_regexp="yes">
+                          <exception>y</exception>
+                      </token>
+                      <token>a</token>
+                      <token postag="N [mfe].*" postag_regexp="yes">
+                          <exception regexp="yes">une?|des?|pour</exception>
+                          <exception postag_regexp="yes" postag="K|Y"/>
+                      </token>
+                  </marker>
+              </pattern>
+              <message>« A » est la conjuguaison du verbe avoir. Vouliez-vous dire <suggestion>\2 à \4</suggestion> ?</message>
+              <example correction="râpe à fromage">C'est une <marker>râpe a fromage</marker>.</example>
+              <example correction="couteau à beurre">Je me saisis de mon <marker>couteau a beurre</marker>, et m'apprête à tartiner.</example>
+              <example type="correct">Je me dis que la <marker>France a mal</marker>.</example>
+              <example type="correct">l'Allier a une majorité de droite de deux voix.</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>a</token>
+                  <token>priori</token>
+              </antipattern>
+              <antipattern>
+                  <token>type</token>
+                  <token>a</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token postag="N [mfe] .*" postag_regexp="yes"/>
+                      <token>a</token>
+                      <token postag="N [mfe] .*" postag_regexp="yes"/>
+                  </marker>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag_regexp="yes" postag="V.* pp.*"/>
+                  </token>
+              </pattern>
+              <message>Vouliez-vous dire <suggestion>\1 à \3</suggestion>.</message>
+              <example correction="râpe à fromage">La <marker>râpe a fromage</marker> est un instrument très utile.</example>
+              <example correction="couteau à beurre">Mon <marker>couteau a beurre</marker> brille comme s'il était neuf !</example>
+          </rule>
+          <rule>
+              <antipattern>
+                  <token>a</token>
+                  <token>a</token>
+                  <token>pour</token>
+              </antipattern>
+              <antipattern>
+                  <token>type</token>
+                  <token>a</token>
+              </antipattern>
+              <antipattern>
+                  <token>a</token>
+                  <token>priori</token>
+              </antipattern>
+              <pattern>
+                  <token postag="V.*" postag_regexp="yes">
+                      <exception postag="V.*pp.*" postag_regexp="yes"/>
+                  </token>
+                  <token min="0" max="2" postag="A"/>
+                  <marker>
+                      <token>a</token>
+                  </marker>
+                  <token>
+                      <exception postag="M fin"/>
+                      <exception postag_regexp="yes" postag="V.*pp.*"/>
+                      <exception postag="V etre inf"/>
+                  </token>
+              </pattern>
+              <message>Confusion possible : "a" est une conjuguaison du verbe avoir. Vouliez-vous dire <suggestion>à</suggestion>.</message>
+              <example correction="à">Il répond déjà beaucoup <marker>a</marker> mon besoin.</example>
+              <example correction="à">Il répond déjà <marker>a</marker> mon besoin.</example>
+              <example correction="à">Il répond <marker>a</marker> mon besoin.</example>
+              <example>Ce petit pays démographiquement parlant a aussi donné naissance.</example>
+              <example>En 1970, le marché a évolué remplaçant la quantité par la qualité.</example>
+              <example>Il a mon besoin</example>
+              <example>A a pour valeur 12.</example>
+              <example>Éditions A.-M. Métailié, 1992</example>
+              <example>Puis a été occupé à son tour par l’Empire perse</example>
+              <example>Je ne pouvais pas le croire a priori.</example>
+              <example>Elle continue a être gérée conjointement</example>
+          </rule>
+      </rulegroup>
+      <rulegroup id="AN_ANNEE" name="Confusion an/année">
+          <rule>
+              <antipattern>
+                  <token>an</token>
+                  <token>tamm</token>
+              </antipattern>
+              <antipattern>
+                  <token>kan</token>
+                  <token>an</token>
+              </antipattern>
+              <pattern>
+                  <token>
+                      <exception>par</exception>
+                      <exception>un</exception>
+                      <exception>'</exception>
+                      <exception>sept</exception>
+                      <exception>cent</exception>
+                      <exception>cents</exception>
+                      <exception>/</exception>
+                      <exception regexp="yes">Vendémiaire|Brumaire|Frimaire|Nivôse|Pluviôse|Ventôse|Germinal|Floréal|Prairial|Messidor|Thermidor|Fructidor</exception>
+                      <exception regexp="yes">\d+\-\d+</exception>
+                      <exception regexp="yes">\w+\-\w+</exception>
+                      <exception postag="D e p"/>
+                      <exception postag="K|Y" postag_regexp="yes"/>
+                      <exception postag="SENT_START"/>
+                  </token>
+                  <marker>
+                      <token regexp="yes">an|ans</token>
+                  </marker>
+              </pattern>
+              <message>On ne peut utiliser "an" qu'après des nombres cardinaux. Utilisez plutôt <suggestion>année</suggestion>."</message>
+              <example correction="année">Bon <marker>an</marker> !</example>
+              <example correction="année">Chaque <marker>an</marker>, nous allons célébrer dans un grand restaurant.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <or>
+                      <token>un</token>
+                      <token>'<exception scope="previous" regexp="yes">d|l</exception></token>
+                      <token>sept</token>
+                      <token>cent</token>
+                      <token>cents</token>
+                      <token regexp="yes">\d*\-\d*</token>
+                      <token regexp="yes">\w*\-\w*</token>
+                      <token regexp="yes">\d+</token>
+                      <token postag="K|Y" postag_regexp="yes"/>
+                      <token postag="D e p"><exception regexp="yes">des|les|quelques|plusieurs|nouvel|ses|ces|aux|par</exception></token>
+                  </or>
+                  <marker><token regexp="yes">année|années</token></marker>
+              </pattern>
+              <message>Il convient d'utiliser « an » après un nombre cardinal.</message>
+              <suggestion>an</suggestion>
+              <suggestion>ans</suggestion>
+              <url>https://www.dictionnaire-academie.fr/article/QDL010</url>
+              <example correction="an|ans">Quatre <marker>années</marker> après, il était toujours motivé !</example>
+              <example correction="an|ans">Il l'a racheté douze <marker>années</marker> plus tard.</example>
+              <example correction="an|ans">Un <marker>année</marker> après, il était toujours motivé !</example>
+              <example>Il est né en l'an trente.</example>
+              <example>provisional est d'ailleurs abandonné vers la fin des années 1970.</example>
+              <example>Les tensions présentes depuis plusieurs années au sein du Front national aboutissent à une scission à la fin des années 1990.</example>
+              <example>Années de jeunesse : un départ brillant</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <or>
+                      <token>par</token>
+                      <token>/</token>
+                  </or>
+                  <token regexp="yes">année|années</token>
+              </pattern>
+              <message>Il convient d'utiliser « an » pour l'expression d'une durée, comme dans l'expression « par an. »</message>
+              <suggestion>\1 an</suggestion>
+              <url>https://www.dictionnaire-academie.fr/article/QDL010</url>
+              <example correction="par an">Il gagne quatorze mille euros <marker>par année</marker>.</example>
+          </rule>
+      </rulegroup>
+      <rule id="SE_SUCCEDER" name="Accord de 'se succéder'">
+          <pattern>
+              <token regexp="yes">succédée|succédés|succédées</token>
+          </pattern>
+          <message>Le verbe pronominal "se succéder" ne peut avoir de COD ; et ne s'accorde donc jamais.</message>
+          <suggestion>succédé</suggestion>
+          <example correction="succédé">Les catastrophes se sont <marker>succédées</marker>.</example>
+      </rule>
+      <rule id="CONFUSION_OU" name="Confusion entre ou/où">
+          <pattern>
+              <marker>
+                  <token>ou</token>
+              </marker>
+              <token>qu</token>
+              <token>'</token>
+              <token regexp="yes">ils?|elles?</token>
+              <token min="0">se</token>
+              <token regexp="yes" inflected="yes">trouver|aller|venir</token>
+          </pattern>
+          <message>Pour l'expression d'un lieu, employez <suggestion>où</suggestion>.</message>
+          <example correction="où">D'<marker>ou</marker> qu'ils viennent.</example>
+          <example correction="Où"><marker>Ou</marker> qu'elles se trouvent.</example>
+      </rule>
+      <rule id="DONNER_LA_MOI" name="Donner-la moi">
+          <pattern>
+              <token inflected="yes">donner</token>
+              <token regexp="yes">moi|lui|leur|nous|toi|vous|leurs</token>
+              <token regexp="yes">la|le|les</token>
+          </pattern>
+          <message>Inversion incorrecte, dites plutôt <suggestion>Donne-\3 \2</suggestion></message>
+          <example correction="Donne-la moi"><marker>Donne moi la</marker>.</example>
+      </rule>
+      <rule id="MOTS_MAUX" name="Confusion mots/maux">
+          <pattern>
+              <token skip="-1" inflected="yes" regexp="yes"><exception scope="next" postag="M fin|M nonfin" postag_regexp="yes"/>solution|remède|guérir|soigner|remédier|renaître|adoucir|échapper|remettre|calmer|débarasser|délivrer|pallier|cicatriser|réchapper|sauver|soulager|apaiser|estomper</token>
+              <marker>
+                  <token><exception scope="next" postag="M fin|M nonfin" postag_regexp="yes"/>mots</token>
+              </marker>
+          </pattern>
+          <message>Vouliez-vous dire <suggestion>maux</suggestion> ?</message>
+          <example correction="maux">Antidote, le remède à tous vos <marker>mots</marker>.</example>
+          <example correction="maux">Docteur délivrez moi de mes <marker>mots</marker>.</example>
+          <example>Cette potion est un remède forbidable. Et je pèse mes mots.</example>
+      </rule>
+      <rule id="HAUVENT" name="hauvent">
+          <pattern>
+              <token>hauvent</token>
+          </pattern>
+          <message>Le mot « Hauvent » n'existe pas. Souhaitiez-vous écrire <suggestion>auvent</suggestion> ?</message>
+          <example correction="auvent">Réfugions-nous sous cet <marker>hauvent</marker> !</example>
+      </rule>
+      <rule id="ALLER_A" name="Aller à">
+          <pattern>
+              <token inflected="yes">aller</token>
+              <token min="0" max="2"/>
+              <marker>
+                  <token>en</token>
+              </marker>
+              <token regexp="yes" inflected="yes">Bicyclette|Brouette|Canot|Catamaran|Chameau|Cheval|Cyclomoteur|Ski|Snowboard|Tandem|Tricycle|Vélo</token>
+          </pattern>
+          <message>La préposition pour un moyen de transport sur lequel on se tient doit être <suggestion>à</suggestion>.</message>
+          <example correction="à">Il va au travail <marker>en</marker> vélo.</example>
+      </rule>
+      <rule id="ALLER_EN" name="Aller en">
+          <pattern>
+              <token inflected="yes">aller</token>
+              <token min="0" max="2"/>
+              <marker>
+                  <token>à</token>
+              </marker>
+              <token regexp="yes" inflected="yes">Aérobus|Aérodyne|Aéroglisseur|Aéronef|Aéroplane|Aérostat|Aérotrain|Ascenseur|Autobus|Autocar|Automobile|Avion|Barque|Bateau|Bus|Calèche|Camion|Camionnette|Canot|Car|Carrosse|Charrette|Deltaplane|Diligence|Escalator|Fiacre|Funiculaire|Fusée|Galère|Goélette|Gondole|Hélicoptère|Hoverboard|Hydravion|Jet|Jonque|Kayak|Landau|Langoustier|Ligneur|Limonièr|eLimousine|Locomobile|Locomotrice|Locotracteur|Ludospace|Luge|Métro|Montgolfièr|eMoto|Motoneige|Navette|Navire|Omnibus|Papamobile|Paquebot|Parachute|Pédalo|Péniche|Pétrolier|Pirogue|Planche-à-voile|Planeur|Quad|Quadricycle|Quadrimoteur|Quadriréacteur|Roller|Scooter|Segway|Side-car|Skate|Skateboard|Sous-marin|Sulky|Tank|Tapis|Taxi|Téléphérique|Télésiège|Tracteu|rTrain|Tramway|Triporteur|Trottinette|Tyrolienne|ULM|Voilier|Voiture|Wagon|Yacht|Yole|Zeppelin</token>
+          </pattern>
+          <message>La préposition allant avec « \4 » est <suggestion>en</suggestion>.</message>
+          <example correction="en">Il va au travail <marker>à</marker> voiture.</example>
+      </rule>
+      <rulegroup name="Là où" id="LA_OU">
+          <rule name="Là ou">
+              <antipattern>
+                  <token regexp="yes">ici|là</token>
+                  <token>ou</token>
+                  <token regexp="yes">là|ailleurs</token>
+              </antipattern>
+              <pattern>
+                  <token>là</token>
+                  <marker>
+                      <token>ou</token>
+                  </marker>
+              </pattern>
+              <message>Pour indiquer un lieu, il convient d'utiliser <suggestion>où</suggestion>.</message>
+              <suggestion>où</suggestion>
+              <example correction="où">Là <marker>ou</marker> nous allons.</example>
+          </rule>
+          <rule name="La où">
+              <antipattern>
+                  <token regexp="yes">ici|là</token>
+                  <token>ou</token>
+                  <token regexp="yes">là|ailleurs</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>La</token>
+                  </marker>
+                  <token>où</token>
+              </pattern>
+              <message>Pour indiquer un lieu, il convient d'utiliser <suggestion>là</suggestion>.</message>
+              <example correction="Là"><marker>La</marker> où nous allons.</example>
+          </rule>
+      </rulegroup>
+      <rule id="CEST_UNE" name="C'est une">
+          <pattern>
+              <marker>
+                  <token>cette</token>
+              </marker>
+              <token regexp="yes">un|une</token>
+          </pattern>
+          <message>Vouliez-vous dire <suggestion>c'est</suggestion> ?</message>
+          <example correction="c'est">Tia Duesa, <marker>cette</marker> une jardinier.</example>
+      </rule>
+      <rule id="FOIS_AU_SEMAINE" name="X fois au semaine">
+          <pattern>
+              <token postag="K|Y|D e .*" postag_regexp="yes"/>
+              <token>fois</token>
+              <token regexp="yes">au|la</token>
+              <token regexp="yes">semaines?</token>
+          </pattern>
+          <message>Vouliez-vous dire <suggestion>\1 fois par semaine</suggestion>.</message>
+          <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
+      </rule>
+      <!-- End of additions -->
     <!-- http://www.leconjugueur.com/frlesnombres.php -->
     <rulegroup id="TRAIT_UNION_NOMBRE" name="Nombre avec trait d’union">
       <rule>
@@ -17098,7 +17398,27 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_ANGLICISMES" name="Anglicismes (calques, emprunts directs, etc.)" type="style">
-    <rule id="LEAD" name="lead">
+      <rulegroup id="BYTES" name="Anglicisme byte/octet">
+          <rule name="poil">
+              <pattern>
+                  <token regexp="yes">\d+[TGMKtgmk]B</token>
+              </pattern>
+              <message>Les bytes anglais se traduisent pas des octets en français.</message>
+              <suggestion><match no="1" regexp_match="(\d+)([TGMKtgmk])B" regexp_replace="$1 $2o" case_conversion="startupper"/></suggestion>
+              <example correction="41 Mo">Ce fichier pèse <marker>41MB</marker>.</example>
+          </rule>
+          <rule name="bite">
+              <pattern>
+                  <token regexp="yes">\d+</token>
+                  <token regexp="yes">[TGMKtgmk]B</token>
+              </pattern>
+              <message>Les bytes anglais se traduisent pas des octets en français.</message>
+              <suggestion><match no="1"/> <match no="2" regexp_match="([TGMKtgmk])B" regexp_replace="$1o" case_conversion="startupper"/></suggestion>
+              <example correction="41 Mo">Ce fichier pèse <marker>41 MB</marker>.</example>
+              <example correction="41 Mo">Ce fichier pèse <marker>41 MB</marker>.</example>
+          </rule>
+      </rulegroup>
+      <rule id="LEAD" name="lead">
       <pattern>
         <token>lead</token>
       </pattern>
@@ -28103,7 +28423,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">\d+.+</token>
       </antipattern>
       <pattern>
-        <token regexp="yes">\d+([kcmµn]?m|k?g|°C|m?l|(kilo|méga|giga|téra|péta)?watt|[TGMK]o|ohms?|kW|[MGTP]W|mph|fps|m²|m³|m?s|[GMkhdcm]N|V|min|px|Mpx|[GM]Hz)</token>
+        <token regexp="yes">\d+([kcmµn]?m|k?g|°C|m?l|(kilo|méga|giga|téra|péta)?watt|[TGMK]o|ohms?|kW|[MGTP]W|mph|fps|m²|m³|m?s|[GMkhdcm]N|V|min|px|Mpx|[GM]Hz|[TGMKtgmk]o)</token>
       </pattern>
       <message>Il faut utiliser une espace insécable avant l’unité. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)(.*)" regexp_replace="$1 $2"/></suggestion> ?</message>
       <example correction="80 kg">Je pèse <marker>80kg</marker>.</example>
