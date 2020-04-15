@@ -558,6 +558,28 @@ Copyright (C) 2011 Juan Martorell
     </pattern>
     <disambig action="filter" postag="NP.*"/>
   </rule>
+    
+    <rulegroup id="possible_np" name="posible nombre propio">
+        <rule>
+            <pattern>
+                <token><exception postag="SENT_START"/><exception regexp="yes">[—–\-]</exception><exception regexp="yes">[¿¡"'«»‘“:]</exception></token>
+                <marker>
+                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_possible_NP"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="SENT_START"/></token>
+                <token spacebefore="no">-</token>
+                <marker>
+                    <token spacebefore="no" postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSI].*|N.*|RG|DP.*|SPS00" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="_possible_NP"/></disambig>
+        </rule>
+    </rulegroup>
 
     <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
         <pattern><!-- chrome://, ftp://, file:// -->

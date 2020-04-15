@@ -2753,10 +2753,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CAT4" name="Estilo" type="style">
         <rule id="ASI" name="así/asín/asina">
             <pattern>
-                <token regexp="yes">asín|asina</token>
+                <token regexp="yes">asín|asina<exception postag="_possible_NP"/></token>
             </pattern>
             <message>Forma coloquial del adverbio <suggestion>así</suggestion>.</message>
             <example correction="así">Hazlo <marker>asín</marker>.</example>
+            <example correction="Así"><marker>Asín</marker> no puede ser.</example>
+            <example>Fernando Asín.</example>
         </rule>
         <rule id="ENMEDIO" name="enmedio">
             <antipattern case_sensitive="yes">
