@@ -3059,6 +3059,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="revestía">Esto <marker>revertía</marker> gravedad.</example>
         </rule>
     </category>
+    <category name="PREPOSITIONS" id="preposiciones">
+        <rule id="ENFRENTARSE_ANTE" name="enfrentarse *ante/con" default="temp_off">
+            <pattern>
+                <token inflected="yes">enfrentar</token>
+                <token min="0" max="4" postag="RG|LOC_ADV|_PUNCT_CONT" postag_regexp="yes"/>
+                <marker>
+                    <token>ante</token>
+                </marker>
+            </pattern>
+            <message>Preposición no adecuada.</message>
+            <suggestion>a</suggestion>
+            <suggestion>con</suggestion>
+            <url>https://www.fundeu.es/recomendacion/enfrentarse-a-o-enfrentarse-con-no-enfrentarse-ante/</url>
+            <example correction="a|con">Se enfrentó <marker>ante</marker> las autoridades.</example>
+            <example correction="a|con">Se enfrentó siempre <marker>ante</marker> las autoridades.</example>
+            <example correction="a|con">Tuvo que enfrentarse <marker>ante</marker> las autoridades.</example>
+            <!--<example correction="a|con"> Tuvo que enfrentarse a veces <marker>ante</marker> las autoridades.</example>-->
+        </rule>
+    </category>
     <category id="PUNCTUATION" name="puntuación">
         <rule id="YA_QUE" name="ya que que (con coma)">
             <!-- a lot of true positives expected -->
