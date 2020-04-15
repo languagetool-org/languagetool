@@ -28888,6 +28888,22 @@ though, and has since been slightly modified)-->
         <example correction="18 h 30 - 21 h 30|18:30 - 21:30"><marker>18h30-21h30</marker></example>
       </rule>
       <rule>
+        <pattern><token regexp="yes">(\d+)h-(\d+)h(\d{2})</token></pattern>
+        <message>La lettre h doit être espacée dans les heures abrégées.</message>
+        <suggestion><match no="1" regexp_match="(\d+)[hH]\-(\d+)[hH](\d{2})" regexp_replace="$1 h - $2 h $3"/></suggestion>
+        <suggestion><match no="1" regexp_match="(\d+)[hH]\-(\d+)[hH](\d{2})" regexp_replace="$1:00 - $2:$3"/></suggestion>
+        <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
+        <example correction="18 h - 21 h 30|18:00 - 21:30"><marker>18h-21h30</marker></example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">(\d+)h(\d{2})-(\d+)h</token></pattern>
+        <message>La lettre h doit être espacée dans les heures abrégées.</message>
+        <suggestion><match no="1" regexp_match="(\d+)[hH](\d{2})\-(\d+)[hH]" regexp_replace="$1 h $2 - $3 h"/></suggestion>
+        <suggestion><match no="1" regexp_match="(\d+)[hH](\d{2})\-(\d+)[hH]" regexp_replace="$1:$2 - $3:00"/></suggestion>
+        <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
+        <example correction="18 h 30 - 21 h|18:30 - 21:00"><marker>18h30-21h</marker></example>
+      </rule>
+      <rule>
         <!-- <pattern><token regexp="yes">(?:1?\d|2[0-4])h</token></pattern> -->
         <pattern><token regexp="yes">(\d+)h</token></pattern>
         <message>La lettre h doit être espacée dans les heures abrégées.</message>
