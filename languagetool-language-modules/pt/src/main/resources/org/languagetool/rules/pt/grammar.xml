@@ -875,6 +875,19 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
+    <rule id='DEMASIADA_TARDE_CEDO' name="Demasiado tarde/cedo">
+    <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-04-15     -->
+      <pattern>
+        <marker>
+			<token postag_regexp='no' postag="VMP00SF"/>	
+        </marker>
+		<token postag_regexp='no' postag="RG"/>
+      </pattern>
+      <message>&MSG_ECG;</message>
+      <suggestion><match no='1' postag="VMP00SF" postag_replace='VMP00SM' postag_regexp="yes"/></suggestion>
+      <example correction='demasiado'>É <marker>demasiada</marker> tarde para isso.</example>      
+    </rule>	
+
   <rulegroup id='ELE_ELA_PROPRIO_PROPRIA' name="Ele(s)/Ela(s) próprio(s)/própria(s)">
 		<!--      Created by Marco A.G.Pinto, Portuguese rule - 2020-03-03   -->
 		<rule>
