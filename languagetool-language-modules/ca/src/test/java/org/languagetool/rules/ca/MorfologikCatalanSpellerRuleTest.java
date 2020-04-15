@@ -300,11 +300,12 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("Chile"));
         assertEquals("Xile", matches[0].getSuggestedReplacements().get(0));
         
+        //matches = rule.match(langTool.getAnalyzedSentence("transtors"));
+        //assertEquals("trastorns", matches[0].getSuggestedReplacements().get(0));
         
         // Needs Morfologik Speller 2.1.0
         matches = rule.match(langTool.getAnalyzedSentence("milisegons"));
         assertEquals("mil·lisegons", matches[0].getSuggestedReplacements().get(0));
-        
         
         /*  change in Speller necessary: words of length = 4*/
         matches = rule.match(langTool.getAnalyzedSentence("nula"));
@@ -498,6 +499,10 @@ public class MorfologikCatalanSpellerRuleTest {
         assertEquals("estimat", matches[0].getSuggestedReplacements().get(1));
         matches = rule.match(langTool.getAnalyzedSentence("co nstel·lació")); 
         assertEquals("constel·lació", matches[0].getSuggestedReplacements().get(0));
+        
+        // different speller dictionaries Cat/Val
+        matches = rule.match(langTool.getAnalyzedSentence("ingeniaria")); 
+        assertEquals(1, matches.length);
         
         matches = rule.match(langTool.getAnalyzedSentence("rà dio")); 
         assertEquals("ràdio", matches[0].getSuggestedReplacements().get(0));

@@ -64,8 +64,8 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
     tagger = new CatalanTagger(language);
-    // dictFilename = "/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
-    dictFilename = "/ca/spelling/ca_spelling.dict";
+    dictFilename = "/ca/spelling/spelling-" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+    //dictFilename = "/ca/spelling/ca_spelling.dict";
   }
 
   @Override
