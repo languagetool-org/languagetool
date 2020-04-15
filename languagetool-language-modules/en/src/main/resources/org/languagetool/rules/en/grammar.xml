@@ -32102,6 +32102,12 @@ USA
                 <token regexp="yes">\d+</token>
                 <token>earthquake</token>
             </antipattern>
+            <antipattern>
+                <token postag="CD" skip="2" />
+                <token>machine</token>
+                <token>learning</token>
+                <token postag="NNP?S" postag_regexp="yes" />
+            </antipattern>
             <antipattern><!-- the law 101 workshop -->
                 <token postag="NN.*" postag_regexp="yes" />
                 <token>101</token>
@@ -32717,6 +32723,7 @@ USA
             <example>This is 3 H2O.</example>
             <example>25 mpg highway</example>
             <example>1521 and Master.</example>
+            <example>With two Machine Learning Accelerators on the CPU and a new Machine Learning Controller to balance performance and efficiency.</example>
             <example>It has sold for at least 160 euro.</example>
             <example>3 more die in the Indian wars</example>
             <example>2 x wall mounted TV screens</example>
@@ -38371,7 +38378,7 @@ The accident victim died from her injuries.
             <token>s</token>
         </antipattern>
         <antipattern>
-            <token regexp="yes" inflected="yes" skip="3">stake|interest|invest</token>
+            <token regexp="yes" inflected="yes" skip="5">stake|interest|invest|investor</token>
             <token>in</token>
             <token regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger|YouTube|Instagram|Wordpress</token>
         </antipattern>
