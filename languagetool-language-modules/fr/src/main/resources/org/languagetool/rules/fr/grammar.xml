@@ -9500,7 +9500,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">je|tu|ils?|on</token>
           <marker>
-            <token postag="[ACKNJZP].*" postag_regexp="yes">
+            <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
               <exception postag="V.*" postag_regexp="yes"/>
               <exception regexp="yes">[lmnsty]|en|ou|ne?|soussignée?</exception>
             </token>
@@ -9519,7 +9519,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">je|tu|ils?|on</token>
           <token regexp="yes">[mnst]e|la|les?|[nv]ous|lui|leur|y|en</token>
           <marker>
-            <token postag="[ACKNJZP].*" postag_regexp="yes">
+            <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
               <exception postag="V.*" postag_regexp="yes"/>
               <exception regexp="yes">y|en|[lmnst]</exception>
             </token>
@@ -9540,7 +9540,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[lmnst]|[mnts]e|la|les?|[nv]ous|lui|leur</token>
           <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|lui|leur</token>
           <marker>
-            <token postag="[ACKNJZP].*" postag_regexp="yes">
+            <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
               <exception postag="V.*" postag_regexp="yes"/>
               <exception regexp="yes">y|en</exception>
             </token>
@@ -9558,7 +9558,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">[lmst]|lui|leur|[nv]ous</token>
           <token regexp="yes">[’´'‛′‘]|y|en</token>
           <marker>
-            <token postag="[ACKNJZP].*" postag_regexp="yes">
+            <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
               <exception postag="V.*" postag_regexp="yes"/>
               <exception regexp="yes">y|en</exception>
             </token>
@@ -28855,20 +28855,46 @@ though, and has since been slightly modified)-->
       <example correction=", etc.">J’ai un chien, un chat, un lapin<marker> etc</marker>.</example>
       <example>J’ai un chien, un chat, un lapin, etc.</example>
     </rule>
-    <rulegroup id="HEURES" name="heures 20h30 → 20 h 30">
+    <rulegroup id="HEURES" name="heures 20h30 → 20 h 30 / 20:30">
+      <antipattern>
+        <token regexp="yes">([3-9]\d+|25|26|27|28|29)h.+</token><!-- invalid hour (already marked as misspelling) -->
+      </antipattern>
+      <antipattern>
+        <token regexp="yes" case_sensitive="yes">1H01|1H02|2H01|3H2|2H2|6H3|4H2</token><!-- chemical terms -->
+      </antipattern>
       <rule>
        <!-- <pattern><token regexp="yes">(?:1?\d|2[0-4])h(?:[0-5]?\d)</token></pattern> -->
         <pattern><token regexp="yes">(\d+)h(\d+)</token></pattern>
-        <message>La lettre h doit être espacée dans les heures abrégées. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)[hH](\d+)" regexp_replace="$1 h $2"/></suggestion> ?</message>
+        <message>La lettre h doit être espacée dans les heures abrégées.</message>
+        <suggestion><match no="1" regexp_match="(\d+)[hH](\d+)" regexp_replace="$1 h $2"/></suggestion>
+        <suggestion><match no="1" regexp_match="(\d+)[hH](\d+)" regexp_replace="$1:$2"/></suggestion>
         <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
-        <example correction="20 h 30">Il est <marker>20h30</marker>.</example>
+        <example correction="20 h 30|20:30">Il est <marker>20h30</marker>.</example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">(\d+)h-(\d+)h</token></pattern>
+        <message>La lettre h doit être espacée dans les heures abrégées.</message>
+        <suggestion><match no="1" regexp_match="(\d+)[hH]\-(\d+)[hH]" regexp_replace="$1 h - $2 h"/></suggestion>
+        <suggestion><match no="1" regexp_match="(\d+)[hH]\-(\d+)[hH]" regexp_replace="$1:00 - $2:00"/></suggestion>
+        <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
+        <example correction="20 h - 22 h|20:00 - 22:00"><marker>20h-22h</marker></example>
+      </rule>
+      <rule>
+        <pattern><token regexp="yes">(\d+)h(\d{2})-(\d+)h(\d{2})</token></pattern>
+        <message>La lettre h doit être espacée dans les heures abrégées.</message>
+        <suggestion><match no="1" regexp_match="(\d+)[hH](\d{2})\-(\d+)[hH](\d{2})" regexp_replace="$1 h $2 - $3 h $4"/></suggestion>
+        <suggestion><match no="1" regexp_match="(\d+)[hH](\d{2})\-(\d+)[hH](\d{2})" regexp_replace="$1:$2 - $3:$4"/></suggestion>
+        <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
+        <example correction="18 h 30 - 21 h 30|18:30 - 21:30"><marker>18h30-21h30</marker></example>
       </rule>
       <rule>
         <!-- <pattern><token regexp="yes">(?:1?\d|2[0-4])h</token></pattern> -->
         <pattern><token regexp="yes">(\d+)h</token></pattern>
-        <message>La lettre h doit être espacée dans les heures abrégées. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)[hH]" regexp_replace="$1 h"/></suggestion> ?</message>
+        <message>La lettre h doit être espacée dans les heures abrégées.</message>
+        <suggestion><match no="1" regexp_match="(\d+)[hH]" regexp_replace="$1 h"/></suggestion>
+        <suggestion><match no="1" regexp_match="(\d+)[hH]" regexp_replace="$1:00"/></suggestion>
         <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
-        <example correction="20 h">Il est <marker>20h</marker>.</example>
+        <example correction="20 h|20:00">Il est <marker>20h</marker>.</example>
       </rule>
     </rulegroup>
   <rulegroup id='MULTIPLICATION_SIGN' name="Mathématiques: Multiplication: x - × ">
