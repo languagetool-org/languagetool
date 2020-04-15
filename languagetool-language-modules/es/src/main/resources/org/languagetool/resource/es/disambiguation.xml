@@ -32,22 +32,18 @@ Copyright (C) 2011 Juan Martorell
         <equivalence type="S">
             <token postag="(N.{2}|[ADP].{3}|V.{4})[SN].*" postag_regexp="yes"/>
         </equivalence>
-
         <equivalence type="P">
             <token postag="(N.{2}|[ADP].{3}|V.{4})[PN].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
-
     <unification feature="gender">
         <equivalence type="M">
             <token postag="(N.|[ADP].{2}|V.{5})[CM].*" postag_regexp="yes"/>
         </equivalence>
-
         <equivalence type="F">
             <token postag="(N.|[ADP].{2}|V.{5})[CF].*" postag_regexp="yes"/>
         </equivalence>
     </unification>
-
     <rulegroup id="DICT_FIXES" name="dictionary fixes">
         <rule>
             <pattern>
@@ -66,7 +62,6 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
-
     <rule id="habemos" name="habemos">
         <pattern>
             <token>nos</token>
@@ -81,7 +76,6 @@ Copyright (C) 2011 Juan Martorell
             <wd lemma="haber" pos="VMIP1P0"/>
         </disambig>
     </rule>
-
     <rulegroup id="VAN_GOGH" name="van Gogh">
         <rule>
             <pattern>
@@ -134,199 +128,139 @@ Copyright (C) 2011 Juan Martorell
             <wd pos="NPCNSP0"/>
         </disambig>
     </rule>
-
     <!-- D_R_N : Det + Adverbio + Nombre-->
-
     <rule id="D_R_N" name="Det + Adv +Nom">
         <pattern>
             <token postag="D.*" postag_regexp="yes"/>
-
             <marker>
                 <token postag="R.*" postag_regexp="yes"><exception postag="A.*" postag_regexp="yes"/></token>
             </marker>
-
             <token postag="N.*" postag_regexp="yes"><exception>son</exception><exception postag="(C|SP).*" postag_regexp="yes"/></token>
         </pattern>
-
         <disambig action="filter" postag="R.*"/>
         <example type="untouched">su mismo puesto</example>
     </rule>
-
     <!-- DDN : Determinante posesivo + Determinante indefinido + Nombre -->
-
     <rule id="DDN_u" name="Det + Nom + Adj">
         <pattern>
             <marker>
                 <unify>
                     <feature id="gender"/>
-
                     <feature id="number"/>
-
                     <token postag="D.*" postag_regexp="yes"/>
-
                     <token postag="D.*" postag_regexp="yes"/>
-
                     <token postag="N.*" postag_regexp="yes"/>
                 </unify>
             </marker>
         </pattern>
-
         <disambig action="unify"/>
     </rule>
-
     <!-- DNA : Det + Nombre + adjetivo-->
-
     <rule id="DNA" name="Det + Nom + Adj">
         <pattern>
             <marker>
                 <unify>
                     <feature id="gender"/>
-
                     <feature id="number"/>
-
                     <token postag="D.*" postag_regexp="yes"/>
-
                     <token postag="N.*" postag_regexp="yes"/>
-
                     <token postag="A.*" postag_regexp="yes"/>
                 </unify>
             </marker>
         </pattern>
-
         <disambig action="unify"/>
-
         <example inputform="una[unir/VMM03S0,unir/VMSP1S0,unir/VMSP3S0,uno/DI0FS0,uno/PI0FS000]" outputform="una[uno/DI0FS0]" type="ambiguous">Es <marker>una</marker> ocasión romántica.</example>
-
         <example type="untouched">Es una romántica ocasión.</example>
     </rule>
-
     <!-- DAN : Determinante + Adjetivo + Nombre-->
-
     <rule id="DAN" name="Det + Adj + Nom">
         <pattern>
             <marker>
                 <unify>
                     <feature id="gender"/>
-
                     <feature id="number"/>
-
                     <token postag="D.*" postag_regexp="yes"/>
-
                     <token postag="A.*" postag_regexp="yes"/>
-
                     <token postag="N.*" postag_regexp="yes"><exception postag="[DC].*" postag_regexp="yes"/><exception regexp="yes">de|son</exception></token>
                 </unify>
             </marker>
         </pattern>
-
         <disambig action="unify"/>
-
         <example inputform="una[unir/VMM03S0,unir/VMSP1S0,unir/VMSP3S0,uno/DI0FS0,uno/PI0FS000]" outputform="una[uno/DI0FS0]" type="ambiguous">Es <marker>una</marker> romántica ocasión.</example>
-
         <example type="untouched">Es una ocasión romántica.</example>
     </rule>
-
     <!-- NSN : Nom + Nom/Prep + Nom/Adj = prep -->
-
     <rule id="NSN" name="Nom + Nom/Prep + Nom/Adj">
         <pattern>
             <token postag="N.*" postag_regexp="yes"><exception postag="RN|CS" postag_regexp="yes"/></token>
-
             <marker>
                 <token postag="S.*" postag_regexp="yes"/>
             </marker>
-
             <token postag="[NA].*" postag_regexp="yes"/>
         </pattern>
-
         <disambig action="filter" postag="S.*"/>
     </rule>
-
     <!-- ANA : Adj + Nom/Adj + Adj = Nom -->
-
     <rule id="ANA" name="Adj + Nom/Adj + Adj">
         <pattern>
             <token postag="A.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
-
             <marker>
                 <and>
                     <token postag="N.*" postag_regexp="yes"/>
-
                     <token postag="A.*" postag_regexp="yes"/>
                 </and>
             </marker>
-
             <token postag="A.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
         </pattern>
-
         <disambig action="filter" postag="N.*"/>
     </rule>
-
     <!--P_V Cuando está delante de un verbo, se trata de un pronombre-->
-
     <rule id="P_V" name="Pronombre + Verbo">
         <pattern>
             <marker>
                 <and>
                     <token postag="D.*" postag_regexp="yes"/>
-
                     <token postag="[PN].*" postag_regexp="yes"/>
                 </and>
             </marker>
-
             <token postag="V.*" postag_regexp="yes"><exception postag="N.*|V.N.*|A.*|PI.*|Z" postag_regexp="yes"/></token>
         </pattern>
-
         <disambig action="filter" postag="P.*|N.*"/>
         <example type="untouched">De lo uno y lo otro</example>
     </rule>
-
     <!--D_AN Detrás de un determinante, va el nombre y no el adjetivo-->
-
     <rule id="D_AN" name="Art + Nom/Adj = Nom">
         <pattern>
             <unify>
                 <feature id="number"/>
                 <feature id="gender"/>
-            
-            <token postag="D.*" postag_regexp="yes"><exception postag="R.*" postag_regexp="yes"/><exception>lo</exception></token>
-
-            <marker>
-                <and>
-                    <token postag="N.*" postag_regexp="yes"/>
-
-                    <token postag="A.*" postag_regexp="yes"><exception inflected="yes">nuevo</exception></token>
-
-                    <token negate_pos="yes" postag="V.*" postag_regexp="yes"/>
-                </and>
-            </marker>
+                <token postag="D.*" postag_regexp="yes"><exception postag="R.*" postag_regexp="yes"/><exception>lo</exception></token>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="A.*" postag_regexp="yes"><exception inflected="yes">nuevo</exception></token>
+                        <token negate_pos="yes" postag="V.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
             </unify>
             <token negate_pos="yes" postag="N.*" postag_regexp="yes"/>
         </pattern>
-
         <disambig action="filter" postag="N.*"/>
-
         <example inputform="blanca[blanco/AQ0FS0,blanco/NCFS000]" outputform="blanca[blanco/NCFS000]" type="ambiguous">Me gusta la <marker>blanca</marker>.</example>
-
         <example type="untouched">Eran demasiado siniestros.</example>
         <example type="untouched">Una nueva formula.</example>
         <example type="untouched">Ya los estraño a todos.</example>
     </rule>
-
     <!-- D_N Cuando está delante de un nombre, se trata de un determinante.-->
-
     <rule id="D_N" name="Artículo + Nombre">
         <pattern>
             <marker>
                 <token postag="D.*" postag_regexp="yes"><exception inflected="yes">todo</exception><exception postag="R.*" postag_regexp="yes"/></token>
             </marker>
-
             <token postag="[PNA].*" postag_regexp="yes"><exception postag="V.*|PI.*" postag_regexp="yes"/></token>
         </pattern>
-
         <disambig action="filter" postag="D.*"/>
     </rule>
-
     <rulegroup id="DEMASIADO" name="demasiado">
         <rule>
             <pattern>
@@ -335,9 +269,6 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="VMP.*"/>
         </rule>
     </rulegroup>
-
-
-
     <!--sobre (no preposición, nombre)-->
     <rule id="SOBRE" name="sobre (nombre)">
         <pattern>
@@ -347,12 +278,9 @@ Copyright (C) 2011 Juan Martorell
             </marker>
             <token><exception postag="D.*" postag_regexp="yes"/></token>
         </pattern>
-
         <disambig action="filter" postag="N.*"/>
         <example type="untouched">Este sobre el otro.</example>
     </rule>
-
-
     <!-- P_N Posesivo + nombre -->
     <rule id="PN" name="Pos + Nom ">
         <pattern>
@@ -365,11 +293,9 @@ Copyright (C) 2011 Juan Martorell
                 </unify>
             </marker>
         </pattern>
-
         <disambig action="unify"/>
         <!--example: su hermano-->
     </rule>
-
     <rule id="dicho" name="dicho + Nom ">
         <pattern>
             <marker>
@@ -383,7 +309,6 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filterall"/>
     </rule>
-
     <rule id="PUNCT" name="puntuación">
         <pattern>
             <token regexp="yes">[.;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</token>
@@ -392,7 +317,6 @@ Copyright (C) 2011 Juan Martorell
             <wd pos="_PUNCT"/>
         </disambig>
     </rule>
-
     <!-- ROMAN NUMERALS : Detección de números romanos (adaptado de la versión catalana) -->
     <rule id="ROMAN_NUMERALS" name="números romanos">
         <pattern case_sensitive="yes">
@@ -402,7 +326,6 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
     <rulegroup id="ABREVIATURAS" name="abreviaturas">
         <rule>
             <pattern>
@@ -415,7 +338,6 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
-
     <rulegroup id="LOC_ADV" name="locuciones adverbiales">
         <rule id="de_nuevo" name="de nuevo">
             <pattern>
@@ -456,16 +378,12 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
-
     <rule id="filtra_loc" name="filtra locuciones">
         <pattern>
             <token postag="LOC_ADV"/>
         </pattern>
         <disambig action="filter" postag=".*LOC_ADV.*"/>
     </rule>
-
-
-
     <rule id="PREP_VERB" name="no verbo conjugado detrás de preposición">
         <pattern>
             <token postag="SP.*|.*L_SPS00.*" postag_regexp="yes"><exception postag="PP.*|P0.*|RG.*|CS" postag_regexp="yes"/></token>
@@ -491,7 +409,6 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="V.[MSIG].*"/>
     </rule>
-
     <rulegroup id="PP_VERB" name="pronombre personal seguido de verbo">
         <rule>
             <pattern>
@@ -520,7 +437,6 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filter" postag="V.[^MNPG].*"/>
         </rule>
     </rulegroup>
-
     <rulegroup id="PREPOSICIONES" name="preposiciones">
         <rule>
             <pattern>
@@ -538,14 +454,12 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filter" postag="SPS00"/>
         </rule>
     </rulegroup>
-
     <rule id="PERO" name="pero">
         <pattern>
             <token>pero</token>
         </pattern>
         <disambig action="filter" postag="CC"/>
     </rule>
-
     <rule id="SENOR" name="señor">
         <pattern>
             <marker>
@@ -555,7 +469,6 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filter" postag="NC.*"/>
     </rule>
-
     <rulegroup id="no_nombre" name="no nombre: todo, no">
         <rule>
             <pattern>
@@ -576,7 +489,6 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="NC.*"/>
         </rule>
     </rulegroup>
-
     <rule id="no_adj" name="no adjetivo">
         <pattern>
             <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
@@ -587,14 +499,12 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filter" postag="RG"/>
     </rule>
-
     <rule id="NOMBRE_PROPIOS" name="nombres propios">
         <pattern>
             <token postag="NP.*" postag_regexp="yes"><exception postag="SENT_START" scope="previous"/></token>
         </pattern>
         <disambig action="filter" postag="NP.*"/>
     </rule>
-
     <rulegroup id="possible_np" name="posible nombre propio">
         <rule>
             <pattern>
@@ -620,7 +530,6 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
-
     <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
         <pattern>
             <!-- chrome://, ftp://, file:// -->
@@ -683,7 +592,6 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-
     <rule name="Ignore spelling of punctuation characters" id="IGNORE_SPELLING_OF_PUNCTUATION">
         <pattern>
             <!-- ignore spelling of underscores etc. -->
