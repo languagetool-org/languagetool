@@ -2851,62 +2851,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="olor de multitudes">Entraron en <marker>loor de multitudes</marker></example>
             <example>Entraron en olor de multiitudes</example>
         </rule>
-        <!--ELLOS_ELLAS: El neutro en español se forma igual que el masculino (http://lema.rae.es/dpd/srv/search?id=Tr5x8MFOuD6DVTlDBg#21)-->
-        <rulegroup id="ELLOS_ELLAS" name="Redundancias no sexistas incorrectas">
-            <short>Redundancia. El neutro es suficiente.</short>
-            <!-- TODAS_Y_TODOS : Primero ellas y luego ellos, sin partículas-->
-            <rule id="TODAS_Y_TODOS" name="Redundancia neutro - femenino + masculino">
-                <pattern>
-                    <token postag="(P.|N).FP.+" postag_regexp="yes"/>
-                    <token postag="CC"><exception>sino</exception></token>
-                    <token><match no="0" postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
-                </pattern>
-                <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion>\3</suggestion>.</message>
-                <url>http://lema.rae.es/dpd/srv/search?id=Tr5x8MFOuD6DVTlDBg#21</url>
-                <example correction="todos">Hemos llegado <marker>todas y todos</marker></example>
-                <example>Defenderemos a nuestros compañeros.</example>
-            </rule>
-            <!-- TODOS_Y_TODAS : Primero ellos y luego ellas, sin partículas-->
-            <rule id="TODOS_Y_TODAS" name="Redundancia neutro - masculino + femenino">
-                <pattern>
-                    <token postag="(P.|N).MP.+" postag_regexp="yes"/>
-                    <token postag="CC"><exception>sino</exception></token>
-                    <token><match no="0" postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
-                </pattern>
-                <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion>\1</suggestion>.</message>
-                <url>http://lema.rae.es/dpd/srv/search?id=Tr5x8MFOuD6DVTlDBg#21</url>
-                <example correction="todos">Hemos llegado <marker>todos y todas</marker></example>
-                <example>Defenderemos a nuestros compañeros.</example>
-            </rule>
-            <!--LAS_TIAS_Y_LOS_TIOS : Primero ellas y luego ellos, con preposiciones y artículos-->
-            <rule id="LAS_TIAS_Y_LOS_TIOS" name="Redundancia neutro - femenino + masculino con partículas">
-                <pattern>
-                    <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"/></token>
-                    <token postag="(P.|N).FP.+" postag_regexp="yes"/>
-                    <token postag="CC"><exception>sino</exception></token>
-                    <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"/></token>
-                    <token><match no="1" postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
-                </pattern>
-                <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion><match include_skipped="following" no="4"/> <match no="5"/></suggestion>.</message>
-                <url>http://lema.rae.es/dpd/srv/search?id=Tr5x8MFOuD6DVTlDBg#21</url>
-                <example correction="los mozos">Mira cómo se divierten <marker>las mozas y los mozos</marker></example>
-                <example>Queda sopa para todos los alumnos y para todas las jugadoras.</example>
-            </rule>
-            <!--LOS_TIOS_Y_LAS_TIAS : Primero ellos y luego ellas, con preposiciones y artículos-->
-            <rule id="LOS_TIOS_Y_LAS_TIAS" name="Redundancia neutro - masculino + femenino con partículas">
-                <pattern>
-                    <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"/></token>
-                    <token postag="(P.|N).[MC]P.+" postag_regexp="yes"/>
-                    <token postag="CC"><exception>sino</exception></token>
-                    <token postag="[DS].+" postag_regexp="yes" skip="1"><exception postag="P.*" postag_regexp="yes"/></token>
-                    <token><match no="1" postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
-                </pattern>
-                <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion><match include_skipped="following" no="1"/> <match no="2"/></suggestion>.</message>
-                <url>http://lema.rae.es/dpd/srv/search?id=Tr5x8MFOuD6DVTlDBg#21</url>
-                <example correction="los mozos">Debemos ayudar a <marker>los mozos y las mozas</marker></example>
-                <example>Debemos ayudar a los alumnos.</example>
-            </rule>
-        </rulegroup>
         <!-- EN_RELACION_A: La forma preferida es: en relación con o con relación a-->
         <rule id="EN_RELACION_A" name="en relación a">
             <pattern case_sensitive="no">
@@ -3082,6 +3026,64 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="a|con">Tuvo que enfrentarse <marker>ante</marker> las autoridades.</example>
             <!--<example correction="a|con"> Tuvo que enfrentarse a veces <marker>ante</marker> las autoridades.</example>-->
         </rule>
+    </category>
+    <category name="REDUNDANCIES" id="redundancias">
+        <!--ELLOS_ELLAS: El neutro en español se forma igual que el masculino (http://lema.rae.es/dpd/srv/search?id=Tr5x8MFOuD6DVTlDBg#21)-->
+        <rulegroup id="ELLOS_ELLAS" name="Redundancias no sexistas incorrectas" default="off">
+            <short>Redundancia. El neutro es suficiente.</short>
+            <!-- TODAS_Y_TODOS : Primero ellas y luego ellos, sin partículas-->
+            <rule id="TODAS_Y_TODOS" name="Redundancia neutro - femenino + masculino">
+                <pattern>
+                    <token postag="(P.|N).FP.+" postag_regexp="yes"/>
+                    <token postag="CC"><exception>sino</exception></token>
+                    <token><match no="0" postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
+                </pattern>
+                <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion>\3</suggestion>.</message>
+                <url>http://lema.rae.es/dpd/srv/search?id=Tr5x8MFOuD6DVTlDBg#21</url>
+                <example correction="todos">Hemos llegado <marker>todas y todos</marker></example>
+                <example>Defenderemos a nuestros compañeros.</example>
+            </rule>
+            <!-- TODOS_Y_TODAS : Primero ellos y luego ellas, sin partículas-->
+            <rule id="TODOS_Y_TODAS" name="Redundancia neutro - masculino + femenino">
+                <pattern>
+                    <token postag="(P.|N).MP.+" postag_regexp="yes"/>
+                    <token postag="CC"><exception>sino</exception></token>
+                    <token><match no="0" postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
+                </pattern>
+                <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion>\1</suggestion>.</message>
+                <url>http://lema.rae.es/dpd/srv/search?id=Tr5x8MFOuD6DVTlDBg#21</url>
+                <example correction="todos">Hemos llegado <marker>todos y todas</marker></example>
+                <example>Defenderemos a nuestros compañeros.</example>
+            </rule>
+            <!--LAS_TIAS_Y_LOS_TIOS : Primero ellas y luego ellos, con preposiciones y artículos-->
+            <rule id="LAS_TIAS_Y_LOS_TIOS" name="Redundancia neutro - femenino + masculino con partículas">
+                <pattern>
+                    <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"/></token>
+                    <token postag="(P.|N).FP.+" postag_regexp="yes"/>
+                    <token postag="CC"><exception>sino</exception></token>
+                    <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"/></token>
+                    <token><match no="1" postag="(P.|N)(.)F(.+)" postag_regexp="yes" postag_replace="$1$2M$3"/></token>
+                </pattern>
+                <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion><match include_skipped="following" no="4"/> <match no="5"/></suggestion>.</message>
+                <url>http://lema.rae.es/dpd/srv/search?id=Tr5x8MFOuD6DVTlDBg#21</url>
+                <example correction="los mozos">Mira cómo se divierten <marker>las mozas y los mozos</marker></example>
+                <example>Queda sopa para todos los alumnos y para todas las jugadoras.</example>
+            </rule>
+            <!--LOS_TIOS_Y_LAS_TIAS : Primero ellos y luego ellas, con preposiciones y artículos-->
+            <rule id="LOS_TIOS_Y_LAS_TIAS" name="Redundancia neutro - masculino + femenino con partículas">
+                <pattern>
+                    <token postag="[DS].+" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"/></token>
+                    <token postag="(P.|N).[MC]P.+" postag_regexp="yes"/>
+                    <token postag="CC"><exception>sino</exception></token>
+                    <token postag="[DS].+" postag_regexp="yes" skip="1"><exception postag="P.*" postag_regexp="yes"/></token>
+                    <token><match no="1" postag="(P.|N)(.)[MC](.+)" postag_regexp="yes" postag_replace="$1$2F$3"/></token>
+                </pattern>
+                <message>Posible redundancia. Si no se quiere remarcar la diferencia de género, es suficiente con <suggestion><match include_skipped="following" no="1"/> <match no="2"/></suggestion>.</message>
+                <url>http://lema.rae.es/dpd/srv/search?id=Tr5x8MFOuD6DVTlDBg#21</url>
+                <example correction="los mozos">Debemos ayudar a <marker>los mozos y las mozas</marker></example>
+                <example>Debemos ayudar a los alumnos.</example>
+            </rule>
+        </rulegroup>
     </category>
     <category id="PUNCTUATION" name="puntuación">
         <rule id="YA_QUE" name="ya que que (con coma)">
