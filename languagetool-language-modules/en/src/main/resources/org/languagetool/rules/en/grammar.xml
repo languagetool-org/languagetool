@@ -18696,6 +18696,21 @@ USA
                 <url>https://en.wikipedia.org/wiki/Office_365</url>
                 <example correction="Office 365">My <marker>office365</marker> license expired.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">Windows|WINDOWS</token>
+                    <token regexp="yes">\d+</token>
+                    <token regexp="yes">[A-Z].*</token>
+                </antipattern>
+                <pattern>
+                    <token>Windows</token>
+                    <token regexp="yes">7|8|10</token>
+                    <token regexp="yes">S|Home|Pro|Professional|Ultimate|Enterprise</token>
+                </pattern>
+                <message>This name of a Microsoft operating system needs to be capitalized.</message>
+                <suggestion>Windows \2 <match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="Windows 8 Home">I was using <marker>windows 8 home</marker> edition.</example>
+            </rule>
         </rulegroup>
         <rule id="VITAMIN_C" name="vitamin C">
             <antipattern case_sensitive="yes">
@@ -38351,19 +38366,26 @@ The accident victim died from her injuries.
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
         <antipattern>
             <token>in</token>
-            <token regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger</token>
+            <token regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger|YouTube|Instagram|Wordpress</token>
             <token regexp="yes">&apostrophe;</token>
             <token>s</token>
         </antipattern>
+        <antipattern>
+            <token regexp="yes" inflected="yes" skip="3">stake|interest|invest</token>
+            <token>in</token>
+            <token regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger|YouTube|Instagram|Wordpress</token>
+        </antipattern>
         <pattern>
             <token>in</token>
-            <token chunk="E-NP-singular" regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger</token>
+            <token chunk="E-NP-singular" regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger|YouTube|Instagram|Wordpress</token>
         </pattern>
         <message>The usual collocation for "\2" is "on". Did you mean <suggestion>on \2</suggestion>?</message>
         <example correction='on Wikipedia'>Check it <marker>in Wikipedia</marker>.</example>
         <example>Check it <marker>on Wikipedia</marker>.</example>
         <example>He is very active in Facebook groups.</example><!-- #2622 -->
         <example>It's not working in Yahoo mail.</example><!-- #2622 -->
+        <example>Mr Bezos owns an 11% stake in Amazon and on Tuesday, the firm's shares rose by 5.3%.</example>
+        <example>I invested in Facebook.</example>
     </rule>
 
     <rule id="WRITE_IN_MY_OWN_PAGE" name="Write on my page">
