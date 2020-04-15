@@ -285,6 +285,10 @@ Copyright (C) 2011 Juan Martorell
 
     <rule id="D_AN" name="Art + Nom/Adj = Nom">
         <pattern>
+            <unify>
+                <feature id="number"/>
+                <feature id="gender"/>
+            
             <token postag="D.*" postag_regexp="yes"><exception postag="R.*" postag_regexp="yes"/><exception>lo</exception></token>
 
             <marker>
@@ -296,7 +300,7 @@ Copyright (C) 2011 Juan Martorell
                     <token negate_pos="yes" postag="V.*" postag_regexp="yes"/>
                 </and>
             </marker>
-
+            </unify>
             <token negate_pos="yes" postag="N.*" postag_regexp="yes"/>
         </pattern>
 
@@ -306,6 +310,7 @@ Copyright (C) 2011 Juan Martorell
 
         <example type="untouched">Eran demasiado siniestros.</example>
         <example type="untouched">Una nueva formula.</example>
+        <example type="untouched">Ya los estraño a todos.</example>
     </rule>
 
     <!-- D_N Cuando está delante de un nombre, se trata de un determinante.-->
