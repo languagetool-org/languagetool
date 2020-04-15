@@ -2963,6 +2963,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="VB.*" regexp="yes">\p{Lu}\p{Ll}+</token>
             <token postag="PRP"/>
         </antipattern>
+        <antipattern><!-- #2752 * Wait for -->
+            <token postag="SENT_START"/>
+            <token regexp="yes">[*\-'‘"“]</token>
+            <token postag="VB"/>
+            <token postag="IN"/>
+        </antipattern>
+        <antipattern><!-- #2752 3) Wait in / ... after which 2) Wait for a minute -->
+            <token postag="CD"/>
+            <token>)</token>
+            <token postag="VB"/>
+            <token postag="IN"/>
+        </antipattern>
         <pattern case_sensitive="yes">
             <and>
                 <token regexp="yes">\p{Lu}\p{Ll}+
@@ -2988,6 +3000,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">The Canadian Badlands is important.</example><!-- Canadian/JJ -->
         <example type="untouched">“Call it the bedroom light.”</example><!-- #2518 -->
         <example type="untouched">But as he said, if you “Call it the bedroom light,” you might be wrong.</example><!-- #2518 -->
+        <example type="untouched">* Wait for a little (magic)</example><!-- #2752 -->
+        <example type="untouched">- Hope for a long time.</example><!-- #2752 -->
+        <example type="untouched">3) Wait in a line.</example><!-- #2752 -->
+        <example type="untouched">"Wait with me, please."</example><!-- #2752 -->
+        <example type="untouched">... after which 2) Wait for a minute and 3) Stop the test.</example><!-- #2752 -->
         <example type="ambiguous" inputform="Bobby[Bobby/NNP,bobby/NN]" outputform="Bobby[Bobby/NNP]">His name was <marker>Bobby</marker> Brown and he acted as a clerk.</example>
         <example type="ambiguous" inputform="Brown[Brown/NNP,brown/JJ,brown/NN,brown/NN:U,brown/VB,brown/VBP]" outputform="Brown[Brown/NNP]">His name was Bobby <marker>Brown</marker> and he was tall.</example>
         <example type="ambiguous" inputform="Bond[Bond/NNP,bond/NN,bond/VB,bond/VBP]" outputform="Bond[Bond/NNP]">My name is <marker>Bond</marker>, but my friends call me...</example>
