@@ -5182,7 +5182,7 @@ USA
                 <pattern>
                     <token postag_regexp="yes" postag="VBP?">
                         <exception postag_regexp="yes" postag="NN.*"/>
-                        <exception regexp="yes">cc|let|matt|harry|trump</exception>
+                        <exception regexp="yes">cc|let|matt|harry|trump|prim</exception>
                         <exception case_sensitive="yes" regexp="yes">[A-Z].+</exception><!-- Assume initial caps is NNP -->
                     </token>
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
@@ -7562,10 +7562,14 @@ USA
             <pattern>
                 <token regexp="yes">need(s|ed)?|going|ha(ve|[sd])|ought</token>
                 <token>to</token>
-                <token postag="VBG"><exception postag="VBG" negate_pos="yes"/></token>
+                <token postag="VBG">
+                    <exception postag="VBG" negate_pos="yes"/>
+                    <exception regexp="yes">.+in</exception>
+                </token>
             </pattern>
             <message>Did you mean <suggestion><match no="1"/> <match no="2"/> <match no="3" postag="VB"/></suggestion>?</message>
             <example correction="going to hypothesize">We're <marker>going to hypothesizing</marker> about the origins of man.</example>
+            <example>I'm going to fuckin' die</example>
         </rule>
         <rule id="ILL_I_LL" name="Ill (I'll)">
             <pattern case_sensitive="yes">
@@ -10160,6 +10164,19 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="AFTERMARKET" name="Aftermarket" default="temp_off">
+            <pattern>
+                <token regexp="yes">the|an?|no|my|y?our|his|her|their|its|s</token>
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <marker>
+                    <token>after</token>
+                    <token regexp="yes">markets?|life|math|parts?|pieces?|shaves?|shocks?|taste|thoughts?|shows?|glows?</token>
+                </marker>
+            </pattern>
+            <message>This is normally spelled as one word.</message>
+            <suggestion>\3<match no="4" case_conversion="alllower" /></suggestion>
+            <example correction="afterlife">The <marker>after life</marker> is something that many religions believe in.</example>
+        </rule>
         <rulegroup id="HAPPY_EASTER" name="Happy Easter">
             <url>https://www.merriam-webster.com/dictionary/Easter</url>
             <antipattern>
@@ -16063,6 +16080,21 @@ USA
             <example>Among Non-Arab Muslims, translations of the <marker>Qur'an</marker> are most often accompanied by the original text.</example>
         </rule>
         <rulegroup id="THE_THEY" name="the (they)">
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">when|if|and|because|since|unless|but|as</token>
+                    <marker>
+                        <token>the</token>
+                    </marker>
+                    <token postag="VB[DP]?" postag_regexp="yes">
+                        <exception postag="JJ.*" postag_regexp="yes" />
+                    </token>
+                    <token regexp="yes">the|an?|my|y?our|their|his|her|its</token>
+                </pattern>
+                <message>Did you mean <suggestion>they</suggestion>?</message>
+                <example correction="they">We can do it if <marker>the</marker> create the concept.</example>
+                <example>The older tires get, the harder the rubber becomes and the lower the traction becomes.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token>the</token>
@@ -21496,7 +21528,7 @@ USA
                 <marker>
                     <token postag="RB">
                         <exception postag="JJ[RS]?|NN.*" postag_regexp="yes"/>
-                        <exception regexp="yes">not|after|before|approx|while|bit</exception>
+                        <exception regexp="yes">not|after|before|approx|while|bit|otherwise</exception>
                         <exception case_sensitive="yes">SO</exception>
                     </token>
                     <token postag="NN(:UN?)?" postag_regexp="yes">
@@ -42031,6 +42063,25 @@ The accident victim died from her injuries.
                 <example>Use an Execute a Macro action.</example>
                 <example>For example, if a guitarist played an open A Major chord.</example>
                 <example>Is there a way to internally rewire an off the shelf multi-speed portable fan.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="NN.*|PRP" postag_regexp="yes" />
+                    <token postag="RB" min="0" />
+                    <token postag="VB[ZPD]?" postag_regexp="yes" />
+                    <marker>
+                        <token>an</token>
+                    </marker>
+                    <token postag="RB">
+                        <exception regexp="yes">after|before|live|needs</exception>
+                    </token>
+                    <token postag="VB[ZP]?" postag_regexp="yes">
+                        <exception postag="JJ.*" postag_regexp="yes" />
+                    </token>
+                    <token postag="JJ.*" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>and</suggestion>?</message>
+                <example correction="and">They decline <marker>an</marker> eventually go extinct.</example>
             </rule>
             <rule>
                 <pattern>
