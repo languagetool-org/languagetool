@@ -430,7 +430,7 @@ class SingleDocument {
         MessageHandler.printToLogFile("+++ resetAllParas (docCache == null): docCache.size: " + docCache.size()
                 + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
       }
-      if (docCache.size() == 0) {
+      if (docCache.isEmpty()) {
         docCache = null;
         return -1;
       }
@@ -454,6 +454,9 @@ class SingleDocument {
    * returns -1 if Paragraph can not be found
    */
   private int getParaFromFlatparagraph(String chPara, int startPos) {
+    if (docCache == null) {
+      return -1;
+    }
     // try to get next position from last FlatParagraph position (for performance reasons)
     int nParas = findNextParaPos(numLastFlPara, chPara, startPos);
     if (nParas >= 0) {
@@ -502,6 +505,9 @@ class SingleDocument {
    */
   private int getParaFromViewCursorOrDialog(String chPara) {
     // try to get ViewCursor position (proof initiated by mouse click)
+    if (docCache == null) {
+      return -1;
+    }
     if (viewCursor == null) {
       viewCursor = new ViewCursorTools(xContext);
     }
@@ -550,6 +556,9 @@ class SingleDocument {
    */
   private int changesInNumberOfParagraph() {
     // Test if Size of allParas is correct; Reset if not
+    if (docCache == null) {
+      return -1;
+    }
     if (flatPara == null) {
       flatPara = new FlatParagraphTools(xComponent);
     }
@@ -573,6 +582,10 @@ class SingleDocument {
       mDocHandler.getTextLevelCheckQueue().interruptCheck(docID);
     }
     docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck);
+    if (docCache.isEmpty()) {
+      docCache = null;
+      return -1;
+    }
     int from = 0;
     while (from < docCache.textSize() && from < oldDocCache.textSize()
         && docCache.getTextParagraph(from).equals(oldDocCache.getTextParagraph(from))) {
@@ -634,7 +647,10 @@ class SingleDocument {
    * find position from changed paragraph
    */
   private int getPosFromChangedPara(String chPara, int nFParas) {
-
+    if (docCache == null) {
+      return -1;
+    }
+    
     numLastFlPara = nFParas;  //  Note: This is the number of flat paragraph
     
     if (!chPara.equals(docCache.getFlatParagraph(nFParas))) {
@@ -1052,6 +1068,9 @@ class SingleDocument {
     FlatParagraphTools flatPara = this.flatPara;
     DocumentCursorTools docCursor = this.docCursor;
     DocumentCache docCache = this.docCache;
+    if (docCache == null) {
+      return;
+    }
     List<ResultCache> paragraphsCache = this.paragraphsCache;
     ResultCache sentencesCache = this.sentencesCache;
     boolean textIsChanged = this.textIsChanged;
