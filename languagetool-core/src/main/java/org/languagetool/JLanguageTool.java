@@ -105,7 +105,7 @@ public class JLanguageTool {
   @Nullable
   private static String getBuildDate() {
     try {
-      URL res = getDataBroker().getAsURL(JLanguageTool.class.getSimpleName() + ".class");
+      URL res = JLanguageTool.class.getResource(JLanguageTool.class.getSimpleName() + ".class");
       if (res == null) {
         // this will happen on Android, see http://stackoverflow.com/questions/15371274/
         return null;
