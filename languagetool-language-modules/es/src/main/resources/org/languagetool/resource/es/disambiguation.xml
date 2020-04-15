@@ -491,7 +491,7 @@ Copyright (C) 2011 Juan Martorell
             <marker>
                 <token postag="S.*" postag_regexp="yes"/>
             </marker>
-            <token postag="[NA].*" postag_regexp="yes"/>
+            <token postag="[NA].*" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"/></token>
         </pattern>
         <disambig action="filter" postag="S.*"/>
     </rule>
@@ -514,7 +514,7 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="D.*" postag_regexp="yes"><exception scope="previous" postag="SPS00"/></token>
                     <token postag="[PN].*" postag_regexp="yes"/>
                 </and>
             </marker>
@@ -670,6 +670,16 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filter" postag=".*LOC_ADV.*"/>
     </rule>
+    <rule id="apenas" name="apenas (adv)">
+        <pattern>
+            <marker>
+                <token>apenas</token>
+            </marker>
+            <token postag="PP.*" postag_regexp="yes" min="0" max="2"/>
+            <token postag="V.[^MNPG].*" postag_regexp="yes"></token>
+        </pattern>
+        <disambig action="filter" postag="RG"></disambig>
+    </rule>
     <rule id="PREP_VERB" name="no verbo conjugado detrás de preposición">
         <pattern>
             <token postag="SP.*|.*L_SPS00.*" postag_regexp="yes"><exception postag="PP.*|P0.*|RG.*|CS" postag_regexp="yes"/></token>
@@ -721,6 +731,7 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
             </pattern>
             <disambig action="filter" postag="V.[^MNPG].*"/>
+            <example type="untouched">Él apenas leyó 10.</example>
         </rule>
     </rulegroup>
     <rulegroup id="PREPOSICIONES" name="preposiciones">

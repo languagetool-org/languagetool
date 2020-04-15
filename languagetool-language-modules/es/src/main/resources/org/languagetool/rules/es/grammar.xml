@@ -80,19 +80,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">de(l)*</token>
                 <token regexp="yes">[A-ZÁÉÍÓÚÑ].+</token>
             </antipattern>
+            <antipattern>
+                <token>Domingo</token>
+                <token postag="_possible_NP"></token>
+            </antipattern>
+            <antipattern>
+                <token postag="_possible_NP"></token>
+                <token>Domingo</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo</token>
+                <token negate="yes">Santo</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token negate_pos="yes" postag="SENT_START"/>
                 <marker>
                     <token regexp="yes">Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo</token>
                 </marker>
-                <token negate="yes">Santo</token>
             </pattern>
-            <message>Los días de la semana se escriben en minúsculas: <suggestion><match case_conversion="alllower" no="2"/></suggestion>.</message>
+            <message>Los días de la semana se escriben en minúsculas.</message>
+            <suggestion><match case_conversion="alllower" no="2"/></suggestion>
             <url>http://www.rae.es/consultas/mayuscula-o-minuscula-en-los-meses-los-dias-de-la-semana-y-las-estaciones-del-ano</url>
             <example correction="lunes" type="incorrect">Todos los <marker>Lunes</marker> son tristes.</example>
             <example type="correct">Los <marker>martes</marker> juego un partido de tenis.</example>
             <example type="correct">Este <marker>Viernes</marker> de Dolores estaremos fuera.</example>
             <example type="correct">El <marker>Jueves</marker> Santo habrá procesión.</example>
+            <example>Juan Domingo Perón.</example>
+            <example>García Domingo.</example>
         </rule>
         <rule id="MIN_ESTACIONES" name="Estaciones del año en minúscula">
             <pattern case_sensitive="yes">
@@ -425,6 +439,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://www.fundeu.es/recomendacion/seroprevalencia-y-serotipo-con-ese-y-sin-espacio/</url>
                 <example correction="serotipo"><marker>cero tipo</marker></example>
                 <example correction="seroprevalencias"><marker>sero-prevalencias</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>auto</token>
+                    <token min="0">-</token>
+                    <token>ayuda</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>autoayuda</suggestion>
+                <example correction="autoayuda"><marker>auto-ayuda</marker></example>
             </rule>
         </rulegroup>
         <rule id="ALREDEDOR" name="*(a) alrededor">
@@ -1658,7 +1682,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>al</token>
                 </marker>
-                <token postag="NCF.*" postag_regexp="yes"><exception postag="NCM.*|SPS00|C." postag_regexp="yes"/><exception regexp="yes">habla|agua|águila|arma|alba|haya</exception></token>
+                <token postag="NCF.*" postag_regexp="yes"><exception postag="NCM.*|SPS00|C.|AQ.C[SN]." postag_regexp="yes"/><exception regexp="yes">habla|agua|águila|arma|alba|haya</exception></token>
             </pattern>
             <message>Posible error de concordancia.</message>
             <suggestion>la</suggestion>
@@ -1666,6 +1690,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Al final</example>
             <example>Estamos al habla.</example>
             <example>Cayó al agua.</example>
+            <example>Estaba al corriente de todo.</example>
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
@@ -1814,6 +1839,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ella no volverá hasta las cinco.</example>
             <example>no estará aquí hasta la una</example>
             <example>Según se me dijo.</example>
+            <example>A veces hasta nos lanzamos almohadas.</example>
+            <example>Sí, por lo visto.</example>
         </rule>
         <rule id="SURGIR_EFECTO" name="*surgir/surtir efecto">
             <pattern>
@@ -2166,7 +2193,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>más</token>
                     <token inflected="yes" postag="AQ.*" postag_regexp="yes">bueno</token>
                 </pattern>
-                <message>Se utiliza el término <suggestion><match no="2" postag="AQ.{2}(.)." postag_replace="AQ0C$10">mejor</match></suggestion></message>
+                <message>Es preferible usar <suggestion><match no="2" postag="AQ.{2}(.)." postag_replace="AQ0C$10">mejor</match></suggestion>, excepto cuando se alude a la bondad de una persona o a un sabor.</message>
+                <url>https://www.rae.es/dpd/buena</url>
                 <example correction="mejor">Este pan está <marker>más bueno</marker> que el otro</example>
                 <example>Cuando una solución es la más simple es mejor que cualquier otra.</example>
             </rule>
@@ -2176,7 +2204,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>más</token>
                     <token inflected="yes" postag="AQ.*" postag_regexp="yes">malo</token>
                 </pattern>
-                <message>Se utiliza el término <suggestion><match no="2" postag="AQ.{2}(.)." postag_replace="AQ0C$10">peor</match></suggestion></message>
+                <message>Es preferible usar <suggestion><match no="2" postag="AQ.{2}(.)." postag_replace="AQ0C$10">peor</match></suggestion>, excepto cuando se alude a la maldad de una persona o a un sabor.</message>
+                <url>https://www.rae.es/dpd/mala</url>
                 <example correction="peor">Este pan está <marker>más malo</marker> que el otro</example>
                 <example>Cuando una solución es la más complicada es peor que cualquier otra.</example>
             </rule>
@@ -2749,6 +2778,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Él vengas</marker></example>
                 <example type="correct" reason="triggers other rule">Se creo</example>
                 <example>Él viene</example>
+                <example>Él apenas tenía dientes.</example>
             </rule>
             <!-- PP_V_SINGULAR Concordancia singular (él vienen)-->
             <rule id="PP_V_SINGULAR" name="Concordancia singular Nombre + verbo">
