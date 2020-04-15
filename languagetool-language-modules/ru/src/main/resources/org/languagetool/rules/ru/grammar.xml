@@ -3201,6 +3201,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
 
         </rulegroup>
+        
+        <rule id="Comma_before_kak" name="Оборот обстоятельства, присоединённый союзом «как»">
+            <pattern>
+                <token>,</token>
+                <token>как</token>
+                <token postag_regexp="yes"    postag="NN:Inanim:.*:.*:Nom"></token>
+                <token regexp="yes">[.:;!?]</token>
+            </pattern>
+            <message>Запятая перед как не нужна: <suggestion> \2 \3\4</suggestion></message>
+            <short>Запятая не нужна</short>
+            <example correction=" как верёвка.">Извивалась<marker>, как верёвка.</marker></example>
+            <example>Извивалась как верёвка.</example>
+        </rule>
+        
         <rule id="GDE_COMMA" name="Запятая перед союзом «где»">
             <pattern>
                 <marker>
