@@ -3897,27 +3897,28 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rulegroup>
 
     <rule name="plural noun + that/which etc. + plural verb/nn => verb" id="NNS_WDT_VBNNS_VBP">
-      <antipattern><!-- #2358 that league's 1948 title -->
-        <token postag="WDT"/>
-        <token postag="NN"/>
-        <token regexp="yes">&apostrophe;</token>
-        <token>s</token>
-      </antipattern>
-      <pattern>
-        <token postag="NNS"/>
-        <token postag="WDT"/>
-        <marker>
-        <and>
-        <token postag='VB[PD]' postag_regexp="yes"/>
-        <token postag="NN"/>
-        </and>
-        </marker>
-      </pattern>
-      <disambig action="filter" postag="VB[PD]"/>
-      <example type="untouched">I didn't know that they were happy.</example>
-      <example type="untouched">moved to the BAA and won that league's 1948 title.</example>
-      <example type="ambiguous" inputform="lay[lay/JJ,lay/NN,lay/VB,lay/VBP,lie/VBD]" outputform="lay[lay/VBP,lie/VBD]">Certain frogs that <marker>lay</marker> eggs underground have unpigmented eggs.</example>
+        <antipattern><!-- #2358 that league's 1948 title -->
+            <token postag="WDT"/>
+            <token postag="NN"/>
+            <token regexp="yes">&apostrophe;</token>
+            <token>s</token>
+        </antipattern>
+        <pattern>
+            <token postag="NNS"/>
+            <token postag="WDT"/>
+            <marker>
+                <and>
+                    <token postag='VB[PD]' postag_regexp="yes"/>
+                    <token postag="NN"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="VB[PD]"/>
+        <example type="untouched">I didn't know that they were happy.</example>
+        <example type="untouched">moved to the BAA and won that league's 1948 title.</example>
+        <example type="ambiguous" inputform="lay[lay/JJ,lay/NN,lay/VB,lay/VBP,lie/VBD]" outputform="lay[lay/VBP,lie/VBD]">Certain frogs that <marker>lay</marker> eggs underground have unpigmented eggs.</example>
     </rule>
+
     <rule name="till (verb) -&gt; till/IN" id="TILL_IN">
         <pattern>
             <marker>
