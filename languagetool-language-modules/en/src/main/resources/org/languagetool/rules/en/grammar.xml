@@ -40385,11 +40385,17 @@ The accident victim died from her injuries.
       <antipattern><!-- smileys -->
           <token postag='SENT_START'></token>
           <token regexp="yes">[\:;]</token>
+          <token min="0">'</token>
           <token min="0">-</token>
-        <token regexp="yes">[()\/DPS\]\[]</token>
+        <token regexp="yes">[()\/DPS\]\[|lIoO0]</token>
+      </antipattern>
+      <antipattern><!-- typographic highlighting -->
+        <token>:</token>
+        <token>:</token>
+        <token>:</token>
       </antipattern>
       <pattern>
-          <token postag='SENT_START'/>
+        <token postag='SENT_START'/>
         <marker>
           <token regexp='yes'>[,;\:\)\]\}]</token>
         </marker>
@@ -40398,6 +40404,9 @@ The accident victim died from her injuries.
         <suggestion></suggestion>
       <example correction=""><marker>;</marker> How's it goin'?</example>
       <example>:-)</example>
+      <example>:'(</example>
+      <example>;]</example>
+      <example>:::: Headline :::::</example>
     </rule>
         <rule id="FOR_NOUN_SAKE" name="for heaven's sake">
             <pattern>
