@@ -2827,12 +2827,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <!--Concordancias con verbos-->
         <!--CONC_V_PERSONA Concordancia de persona-->
-        <rulegroup id="CONC_V_PERSONA" name="Concordancia de persona">
+        <rulegroup id="AGREEMENT_PP_VERB" name="Concordancias: pronombre personal + verbo">
             <!--Concordancica de persona (pronombre personal nominativo + verbo)
          TODO: Simplificar con desambiguación
          TODO: Ofrecer sugerencias múltiples-->
             <short>Concordancia de persona dudosa.</short>
             <!-- PP_V_1 Concordancia (yo entregas)-->
+            <antipattern> <!-- These pronouns need speficic rules -->
+                <token regexp="yes">usted|ustedes|vos</token>
+            </antipattern>
             <rule id="PP_V_1" name="Concordancia 1ª persona">
                 <pattern>
                     <token postag="PP1(.{2}N|CN0|MP0).*" postag_regexp="yes"><exception postag="SP.*" postag_regexp="yes" scope="previous"/><exception postag="V.{3}1.*|C.*|SP.*" postag_regexp="yes"/></token>
@@ -2874,7 +2877,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
                 <example correction=""><marker>Yo venimos</marker></example>
-                <example correction=""><marker>Usted vienen</marker> conmigo.</example>
+                <!--<example correction=""><marker>Usted vienen</marker> conmigo.</example>-->
                 <example>Yo vengo</example>
                 <example>No la hemos visto últimamente.</example>
                 <example>Todavía la efectúan.</example>
