@@ -42,6 +42,7 @@ import java.util.*;
  * @author Daniel Naber
  */
 public abstract class Rule {
+  private static final Category MISC = new Category(CategoryIds.MISC, "Miscellaneous");
 
   protected final ResourceBundle messages;
 
@@ -68,7 +69,7 @@ public abstract class Rule {
     if (messages != null) {
       setCategory(Categories.MISC.getCategory(messages));  // the default, sub classes may overwrite this
     } else {
-      setCategory(new Category(CategoryIds.MISC, "Miscellaneous"));
+      setCategory(MISC);
     }
   }
 
