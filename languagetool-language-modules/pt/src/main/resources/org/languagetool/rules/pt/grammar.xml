@@ -875,13 +875,13 @@ title="Easy editing stylesheet" ?>
     </rule>
   </rulegroup>
 
-    <rule id='DEMASIADA_TARDE_CEDO' name="Demasiado tarde/cedo">
+    <rule id='DEMASIADA_TARDE_CEDO_BOM' name="Demasiado tarde/cedo/bom">
     <!--      Created by Marco A.G.Pinto, Portuguese rule 2020-04-15     -->
       <pattern>
         <marker>
 			<token postag_regexp='no' postag="VMP00SF"/>	
         </marker>
-		<token postag_regexp='no' postag="RG"/>
+		<token postag_regexp='yes' postag="RG|AQ0MS0"/>
       </pattern>
       <message>&MSG_ECG;</message>
       <suggestion><match no='1' postag="VMP00SF" postag_replace='VMP00SM' postag_regexp="yes"/></suggestion>
@@ -2741,9 +2741,9 @@ MARCOAGPINTO 2020-02-18 -->
 <!-- MARCOAGPINTO 2020-04-01 *END* -->
 <!-- MARCOAGPINTO 2020-04-16 *START* -->
 	<!-- "Para a semana vou telefonar à Ana." -->
-	<!-- "Para o mês vou telefonar para a Ana." -->
+	<!-- "Para o mês vou telefonar à Ana." -->
 	<!-- "Para a semana vamos telefonar à Ana." -->
-	<!-- "Para o mês vamos telefonar para a Ana." -->	
+	<!-- "Para o mês vamos telefonar à Ana." -->		
       <antipattern>
 		<token postag_regexp='yes' postag='DA0[FM]S0'></token>
 	    <token postag_regexp='yes' postag='NC[FMC]S000'></token>	  		
