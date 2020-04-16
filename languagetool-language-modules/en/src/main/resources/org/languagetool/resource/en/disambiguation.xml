@@ -2909,7 +2909,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <rule name="NNP/VB + NNP -&gt; NNP" id="NNP_VB_NNP">
         <antipattern><!-- #2748 -->
             <token postag="SENT_START"/>
-            <token postag="VB"/>
+            <token postag="VB">
+                <exception postag="JJS"/><!-- Regression error for #2748: Best Art Direction -->
+                </token>
             <token postag="NNP"/>
         </antipattern>
         <pattern case_sensitive="yes">
@@ -2925,6 +2927,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">It is in many Caribbean and Latin American countries...</example>
         <example type="untouched">Be Guest Wordsmith for a week at A.Word.</example><!-- #2748 -->
         <example type="untouched">See Wikipedia for a list of TCP/UDP ports that are already used.</example><!-- #2748 -->
+        <example type="ambiguous" inputform="Best[Best/NNP,best/NN:U,best/VB,best/VBP,good/JJS,well/RBS]" outputform="Best[Best/NNP]"><marker>Best</marker> Art Direction – Set Decoration</example>
     </rule>
 
     <rule name="Uppercase word/NNP|NN -&gt; NNP" id="UPPER_NNP">
