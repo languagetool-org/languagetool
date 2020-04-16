@@ -553,10 +553,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>auto</token>
                     <token min="0">-</token>
-                    <token>ayuda</token>
+                    <token regexp="yes" inflected="yes">ayuda|ayudar|denominar|marginar</token>
                 </pattern>
                 <message>Se escribe junto.</message>
-                <suggestion>autoayuda</suggestion>
+                <suggestion>\1\3</suggestion>
                 <example correction="autoayuda"><marker>auto-ayuda</marker></example>
             </rule>
             <rule>
@@ -2485,6 +2485,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="demasiada niña|demasiadas niñas">Son <marker>demasiados niñas</marker>.</example>
                 <example correction="esta agua|estas aguas">De <marker>este agua</marker>.</example>
                 <example correction="esta área|estas áreas">En <marker>este área</marker>.</example>
+                <example correction="la sucursal|las sucursales">En <marker>el sucursal</marker> del banco.</example>
                 <example>sus hermanos</example>
                 <example>Los polis y las polis.</example>
                 <example>El agua.</example>
@@ -2559,9 +2560,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>alta</token>
                     <token postag="NC[FC][SN].*" postag_regexp="yes"><exception>médica</exception></token>
                 </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token>la</token>
+                    <token>alta</token>
+                </antipattern>
                 <pattern>
                     <token>la</token>
-                    <token regexp="yes">&nombre_fem_el;</token>
+                    <token regexp="yes">&nombre_fem_el;<exception postag="V.[IS].*" postag_regexp="yes">ama</exception></token>
                 </pattern>
                 <message>En este caso se usa el artículo determinado masculino.</message>
                 <suggestion>el \2</suggestion>
@@ -2569,12 +2575,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el agua">Me gusta <marker>la agua</marker> que hay ahí.</example>
                 <example correction="el alta">Le dieron <marker>la alta</marker> en el hospital.</example>
                 <example correction="el alta">Le dieron <marker>la alta</marker> médica en el hospital.</example>
+                <example correction="El ama"><marker>La ama</marker> se fue.</example>
+                <example>Él todavía la ama.</example>
                 <example>Me dan el alta en el hospital.</example>
                 <example>La alta tensión.</example>
                 <example>La alta fiebre.</example>
                 <example>Me gusta el agua que hay ahí.</example>
                 <example>Me dan el alta en el hospital.</example>
                 <example>La alta tensión</example>
+                <example>La gente baja necesita dormir más que la alta.</example>
             </rule>
         </rulegroup>
         <rule id="LAS_NUMBER_MALE" name="'las tres preceptos' etcétera">
@@ -3064,17 +3073,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="En el ámbito de|En cuanto a|A escala de|En|Entre|En la esfera de|En el terreno de|En lo relativo a|En términos de"><marker>A nivel de</marker> actores.</example>
             <example>A nivel de mar.</example>
         </rule>
-        <rule id="OROGRAFIA_DEL_TERRENO" name="redundancia: orografía del terreno">
-            <pattern>
-                <token>orografía</token>
-                <token>del</token>
-                <token>terreno</token>
-            </pattern>
-            <message>Redundancia.</message>
-            <suggestion>orografía</suggestion>
-            <url>http://www.fundeu.es/recomendacion/orografia-del-terreno-expresion-redundante-60/</url>
-            <example correction="orografía">La <marker>orografía del terreno</marker> complica las tareas de extinción.</example>
-        </rule>
         <!-- LOOR : La forma preferida es OLOR (http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_014.htm)-->
         <rule id="LOOR" name="Loor de multitudes">
             <pattern>
@@ -3263,10 +3261,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="REDUNDANCIES" name="redundancias">
+        <rule id="OROGRAFIA_DEL_TERRENO" name="redundancia: orografía del terreno">
+            <pattern>
+                <token>orografía</token>
+                <token>del</token>
+                <token>terreno</token>
+            </pattern>
+            <message>Redundancia.</message>
+            <suggestion>orografía</suggestion>
+            <url>http://www.fundeu.es/recomendacion/orografia-del-terreno-expresion-redundante-60/</url>
+            <example correction="orografía">La <marker>orografía del terreno</marker> complica las tareas de extinción.</example>
+        </rule>
         <!--ELLOS_ELLAS: El neutro en español se forma igual que el masculino (http://lema.rae.es/dpd/srv/search?id=Tr5x8MFOuD6DVTlDBg#21)-->
         <rulegroup id="ELLOS_ELLAS" name="Redundancias no sexistas incorrectas" default="off">
             <short>Redundancia. El neutro es suficiente.</short>
-            <!-- TODAS_Y_TODOS : Primero ellas y luego ellos, sin partículas-->
+            <!-- TODAS_Y_TODOS : Primero ellasa y luego ellos, sin partículas-->
             <rule id="TODAS_Y_TODOS" name="Redundancia neutro - femenino + masculino">
                 <pattern>
                     <token postag="(P.|N).FP.+" postag_regexp="yes"/>

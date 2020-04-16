@@ -791,6 +791,16 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="filterall"/>
     </rule>
     
+    <rule id="noun" name="not adjective if no agreement">
+        <pattern>
+            <token><exception postag="NC.*" postag_regexp="yes"/></token>
+            <marker>
+                <token postag="N.*" postag_regexp="yes" inflected="yes">sucursal<exception postag="_GN_.*" postag_regexp="yes"/></token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="N.*"></disambig>
+    </rule>
+    
     
     <rulegroup id="Det_Noun" name="det + nombre">
         <rule>
@@ -915,6 +925,66 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="V.[MSIG].*"/>
     </rule>
+    
+    <rulegroup id="verbnoun_verb" name="verb/noun + verb">
+        <rule>
+            <pattern>
+                <token postag="D[DAI].*" postag_regexp="yes" />
+                <marker>
+                    <and>
+                        <token postag="V.[IS].*" postag_regexp="yes" />
+                        <token postag="N.*" postag_regexp="yes" />
+                    </and>
+                </marker>
+                <token postag="V.[IS].*" postag_regexp="yes"><exception postag="V.[MIS].*" postag_regexp="yes" negate_pos="yes" /></token>
+            </pattern>
+            <disambig action="filter" postag="[^V].*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D[DAI].*" postag_regexp="yes" />
+                <marker>
+                    <and>
+                        <token postag="V.[IS].*" postag_regexp="yes" />
+                        <token postag="N.*" postag_regexp="yes" />
+                    </and>
+                </marker>
+                <token postag="(PP|P0).*" postag_regexp="yes"></token>
+                <token postag="V.[IS].*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="filter" postag="[^V].*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D[DAI].*" postag_regexp="yes" />
+                <marker>
+                    <and>
+                        <token postag="V.[IS].*" postag_regexp="yes" />
+                        <token postag="N.*" postag_regexp="yes" />
+                    </and>
+                </marker>
+                <token postag="(PP|P0).*" postag_regexp="yes"></token>
+                <token postag="(PP|P0).*" postag_regexp="yes"></token>
+                <token postag="V.[IS].*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="filter" postag="[^V].*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="D[DAI].*" postag_regexp="yes" />
+                <marker>
+                    <and>
+                        <token postag="V.[IS].*" postag_regexp="yes" />
+                        <token postag="N.*" postag_regexp="yes" />
+                    </and>
+                </marker>
+                <token regexp="yes">no|ya</token>
+                <token postag="(PP|P0).*|V.[IS].*" postag_regexp="yes"></token>
+            </pattern>
+            <disambig action="filter" postag="[^V].*"></disambig>
+        </rule>
+    </rulegroup>
+    
     <rulegroup id="PP_VERB" name="pronombre personal seguido de verbo">
         <rule>
             <pattern>
