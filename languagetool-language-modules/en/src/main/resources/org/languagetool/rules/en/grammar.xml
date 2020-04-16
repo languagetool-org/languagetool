@@ -29307,6 +29307,24 @@ USA
                 <message>Did you mean <suggestion><match no="1" regexp_match="n$" regexp_replace="" /> \2</suggestion>?</message>
                 <example correction="do not">I <marker>don not</marker> know.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern><!-- "don" is also a rarely used verb -->
+                    <token regexp="yes">s?he|it</token>
+                    <token postag="RB" min="0" />
+                    <token>dons</token>
+                    <token regexp="yes">an?|that|this|my|y?our|his|her|their</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">I|we|they|s?he|you</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token regexp="yes">dons</token>
+                    </marker>
+                    <token postag="VB.*" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>don't</suggestion> or <suggestion>doesn't</suggestion>?</message>
+                <example correction="don't|doesn't">I <marker>dons</marker> have an idea.</example>
+            </rule>
             <rule>
                 <antipattern><!-- "don" is also a rarely used verb -->
                     <token regexp="yes">I|you|we|they</token>
@@ -29324,7 +29342,7 @@ USA
                     <token postag="RB" min="0" />
                     <marker>
                         <token regexp="yes">
-                            dons?|doesn|hasn|haven|[cw]ouldn|shouldn|wasn|weren|ain|mustn|aren|isn
+                            don|doesn|hasn|haven|[cw]ouldn|shouldn|wasn|weren|ain|mustn|aren|isn
                             <exception case_sensitive="yes" regexp="yes">D.+</exception><!-- Name ("Don") -->
                         </token>
                     </marker>
@@ -29337,7 +29355,6 @@ USA
                 <example>I like Don for his attitude.</example>
                 <example>I like ain for his attitude.</example>
                 <example>Thank you Don.</example>
-                <example correction="don't">I <marker>dons</marker> have this.</example>
                 <example>Thank you Don for your help.</example>
                 <example>In the dressing room you don your football shirts.</example>
             </rule>
@@ -40365,11 +40382,11 @@ The accident victim died from her injuries.
         </rule>
     <rule id='UNLIKELY_OPENING_PUNCTUATION' name="Loose punctuation mark">
     <!-- Created by Tiago F. Santos, 2018-07-14 -->
-      <antipattern>
+      <antipattern><!-- smileys -->
           <token postag='SENT_START'></token>
           <token regexp="yes">[\:;]</token>
           <token min="0">-</token>
-          <token regexp="yes" >[()]</token>
+        <token regexp="yes">[()\/DPS\]\[]</token>
       </antipattern>
       <pattern>
           <token postag='SENT_START'/>
