@@ -24,6 +24,7 @@ Copyright (C) 2011 Juan Martorell
 
     <!ENTITY extensiones_de_archivo "aspx?|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|docx?|eps|exe|flv|gif|html?|ibooks|ico|ini|jar|jpe?g|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|o[dt][tspfg]|pdf|php|pl|png|pps|pptx?|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xlsx?|xsl|xml|zipx?|7z">
     <!ENTITY dominios_internet "(?:cat|ae|ar|asia|at|au|be|bid|biz|br|ca|cc|cf|ch|cl|club|cn|co|com|cz|de|dk|edu|es|eu|fi|fr|ga|gdn|gov|gq|gr|hk|hu|id|ie|il|in|info|int|io|ir|it|jp|kiwi|kr|kz|life|link|loan|lt|me|men|mil|ml|mobi|mx|my|name|net|nl|no|nu|nz|online|org|party|pl|pro|pt|pw|racing|ro|ru|se|sg|shop|site|sk|space|store|su|tech|tk|top|tr|trade|tv|tw|ua|uk|us|vip|vn|wang|website|win|ws|xin|xyz|za)"><!-- the 100 most used + cat -->
+    <!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las"> 
 
 ]>
 
@@ -329,6 +330,15 @@ Copyright (C) 2011 Juan Martorell
         <rule id="numero_graus" name="grados">
             <pattern>
                 <token regexp="yes">[\d,. ]+[°′″‴][CFKNSEW]?</token>
+            </pattern>
+            <disambig action="replace"><wd pos="NCMP000"/></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">latitud|longitud</token>
+                <marker>
+                    <token regexp="yes">[\d,. ]+[º°′″‴]</token>
+                </marker>
             </pattern>
             <disambig action="replace"><wd pos="NCMP000"/></disambig>
         </rule>
@@ -680,6 +690,24 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filter" postag="RG"></disambig>
     </rule>
+    <rulegroup id="PP_NOUN" name="pronombre personal / nombre">
+        <rule>
+            <pattern>
+                <token>el</token>
+                <marker>
+                    <token>yo</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="P.*" postag_regexp="yes">yo<exception scope="previous">el</exception></token>        
+            </pattern>
+            <disambig action="filter" postag="P.*"></disambig>
+            <example type="untouched">El yo que me define.</example>
+        </rule>
+    </rulegroup>
     <rule id="PREP_VERB" name="no verbo conjugado detrás de preposición">
         <pattern>
             <token postag="SP.*|.*L_SPS00.*" postag_regexp="yes"><exception postag="PP.*|P0.*|RG.*|CS" postag_regexp="yes"/></token>
@@ -709,7 +737,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <token regexp="yes">me|te|se|nos|os</token>
-                <token postag="P[0P].*" postag_regexp="yes"/>
+                <token regexp="yes" postag="P.*" postag_regexp="yes">&pronombre_personal_atono;</token>
                 <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+</exception></token>
             </pattern>
             <disambig action="filterall"/>
@@ -717,7 +745,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token postag="P[0P].*" postag_regexp="yes"><exception postag="D.*" postag_regexp="yes"/></token>
+                    <token regexp="yes" postag="P.*" postag_regexp="yes">&pronombre_personal_atono;<exception postag="D.*" postag_regexp="yes"/></token>
                 </marker>
                 <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+</exception></token>
             </pattern>
@@ -725,7 +753,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token postag="PP.*" postag_regexp="yes"><exception postag="D.*" postag_regexp="yes"/></token>
+                <token regexp="yes" postag="P.*" postag_regexp="yes">&pronombre_personal_atono;<exception postag="D.*" postag_regexp="yes"/></token>
                 <marker>
                     <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+</exception></token>
                 </marker>
