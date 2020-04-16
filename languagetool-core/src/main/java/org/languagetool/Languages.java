@@ -143,6 +143,33 @@ public final class Languages {
   }
 
   /**
+   * Get the Language object for the given language class name or try to create it and add to dynamic languages.
+   *
+   * @param className e.g. <code>org.languagetool.language.English</code>
+   * @return a Language object
+   * @throws RuntimeException if language not found in classpath
+   */
+  public static Language getOrAddLanguageByClassName(String className) {
+    for (Language element : getStaticAndDynamicLanguages()) {
+      if (className.equals(element.getClass().getName())) {
+        return element;
+      }
+    }
+
+    try {
+      Class<?> aClass = JLanguageTool.getClassBroker().forName(className);
+      Constructor<?> constructor = aClass.getConstructor();
+      Language language = (Language) constructor.newInstance();
+      dynLanguages.add(language);
+      return language;
+    } catch (ClassNotFoundException e) {
+      throw new RuntimeException("Class '" + className + " could not be found in classpath", e);
+    } catch (Exception e) {
+      throw new RuntimeException("Object for class '" + className + " could not be created", e);
+    }
+  }
+
+  /**
    * Get the Language object for the given language name.
    *
    * @param languageName e.g. <code>English</code> or <code>German</code> (case is significant)
