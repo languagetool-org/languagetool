@@ -18,6 +18,8 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.rules.*;
@@ -39,10 +41,6 @@ public class Slovak extends Language {
     "grammar-typography.xml"
   );
 
-  private Tagger tagger;
-  private SentenceTokenizer sentenceTokenizer;
-  private Synthesizer synthesizer;
-
   @Override
   public String getName() {
     return "Slovak";
@@ -58,28 +56,21 @@ public class Slovak extends Language {
     return new String[]{"SK"};
   }
 
+  @NotNull
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new SlovakTagger();
-    }
-    return tagger;
+  public Tagger createDefaultTagger() {
+    return new SlovakTagger();
+  }
+
+  @Nullable
+  @Override
+  public Synthesizer createDefaultSynthesizer() {
+    return new SlovakSynthesizer(this);
   }
 
   @Override
-  public Synthesizer getSynthesizer() {
-    if (synthesizer == null) {
-      synthesizer = new SlovakSynthesizer(this);
-    }
-    return synthesizer;
-  }
-  
-  @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
   
   @Override

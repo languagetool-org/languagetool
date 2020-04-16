@@ -19,15 +19,14 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.UserConfig;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.*;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.*;
 import org.languagetool.rules.de.LongSentenceRule;
 import org.languagetool.rules.de.SentenceWhitespaceRule;
-import org.languagetool.rules.*;
 import org.languagetool.rules.de.*;
 import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
@@ -37,17 +36,12 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.de.GermanTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.de.GermanRuleDisambiguator;
-import org.languagetool.tokenizers.CompoundWordTokenizer;
-import org.languagetool.tokenizers.SRXSentenceTokenizer;
-import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Support for German - use the sub classes {@link GermanyGerman}, {@link SwissGerman}, or {@link AustrianGerman}
@@ -56,12 +50,7 @@ import java.util.ResourceBundle;
 public class German extends Language implements AutoCloseable {
 
   private static final Language GERMANY_GERMAN = new GermanyGerman();
-  
-  protected Tagger tagger;
-  private Synthesizer synthesizer;
-  private SentenceTokenizer sentenceTokenizer;
-  private Disambiguator disambiguator;
-  private GermanChunker chunker;
+
   private CompoundWordTokenizer compoundTokenizer;
   private GermanCompoundTokenizer strictCompoundTokenizer;
   private LanguageModel languageModel;
@@ -80,24 +69,16 @@ public class German extends Language implements AutoCloseable {
   public Language getDefaultLanguageVariant() {
     return GERMANY_GERMAN;
   }
-  
+
   @Override
-  public Disambiguator getDisambiguator() {
-    if (disambiguator == null) {
-      disambiguator = new GermanRuleDisambiguator();
-    }
-    return disambiguator;
+  public Disambiguator createDefaultDisambiguator() {
+    return new GermanRuleDisambiguator();
   }
 
-  /**
-   * @since 2.9
-   */
+  @Nullable
   @Override
-  public Chunker getPostDisambiguationChunker() {
-    if (chunker == null) {
-      chunker = new GermanChunker();
-    }
-    return chunker;
+  public Chunker createDefaultPostDisambiguationChunker() {
+    return new GermanChunker();
   }
 
   @Override
@@ -115,35 +96,21 @@ public class German extends Language implements AutoCloseable {
     return new String[]{"LU", "LI", "BE"};
   }
 
-  @Override
-  public Tagger getTagger() {
-    Tagger t = tagger;
-    if (t == null) {
-      synchronized (this) {
-        t = tagger;
-        if (t == null) {
-          tagger = t = new GermanTagger();
-        }
-      }
-    }
-    return t;
-  }
-
-  @Override
   @NotNull
-  public Synthesizer getSynthesizer() {
-    if (synthesizer == null) {
-      synthesizer = new GermanSynthesizer(this);
-    }
-    return synthesizer;
+  @Override
+  public Tagger createDefaultTagger() {
+    return new GermanTagger();
+  }
+
+  @Nullable
+  @Override
+  public Synthesizer createDefaultSynthesizer() {
+    return new GermanSynthesizer(this);
   }
 
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
 
   @Override

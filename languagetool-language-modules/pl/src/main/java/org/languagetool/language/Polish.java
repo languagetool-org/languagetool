@@ -18,6 +18,8 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.pl.*;
@@ -35,12 +37,6 @@ import java.util.*;
 
 public class Polish extends Language {
 
-  private Tagger tagger;
-  private SentenceTokenizer sentenceTokenizer;
-  private PolishWordTokenizer wordTokenizer;
-  private Disambiguator disambiguator;
-  private Synthesizer synthesizer;
-
   @Override
   public String getName() {
     return "Polish";
@@ -56,46 +52,33 @@ public class Polish extends Language {
     return new String[]{"PL"};
   }
 
+  @NotNull
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new PolishTagger();
-    }
-    return tagger;
+  public Tagger createDefaultTagger() {
+    return new PolishTagger();
   }
 
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
 
   @Override
-  public WordTokenizer getWordTokenizer() {
-    if (wordTokenizer == null) {
-      wordTokenizer = new PolishWordTokenizer();
-      wordTokenizer.setTagger(getTagger());
-    }
+  public Tokenizer createDefaultWordTokenizer() {
+    PolishWordTokenizer wordTokenizer = new PolishWordTokenizer();
+    wordTokenizer.setTagger(getTagger());
     return wordTokenizer;
   }
 
-
   @Override
-  public Disambiguator getDisambiguator() {
-    if (disambiguator == null) {
-      disambiguator = new PolishHybridDisambiguator();
-    }
-    return disambiguator;
+  public Disambiguator createDefaultDisambiguator() {
+    return new PolishHybridDisambiguator();
   }
 
+  @Nullable
   @Override
-  public Synthesizer getSynthesizer() {
-    if (synthesizer == null) {
-      synthesizer = new PolishSynthesizer(this);
-    }
-    return synthesizer;
+  public Synthesizer createDefaultSynthesizer() {
+    return new PolishSynthesizer(this);
   }
 
   @Override

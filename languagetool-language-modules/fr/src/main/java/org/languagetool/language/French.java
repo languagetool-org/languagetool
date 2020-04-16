@@ -18,22 +18,14 @@
  */
 package org.languagetool.language;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-import java.io.IOException;
-
-import org.languagetool.GlobalConfig;
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.UserConfig;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.fr.*;
-import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.FrenchSynthesizer;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.fr.FrenchHybridDisambiguator;
@@ -41,20 +33,17 @@ import org.languagetool.tagging.fr.FrenchTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
 public class French extends Language implements AutoCloseable {
 
-  private SentenceTokenizer sentenceTokenizer;
-  private Synthesizer synthesizer;
-  private Tagger tagger;
-  private Disambiguator disambiguator;
   private LanguageModel languageModel;
-  
+
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
 
   @Override
@@ -73,28 +62,21 @@ public class French extends Language implements AutoCloseable {
             "CI", "HT", "ML", "SN", "CD", "MA", "RE"};
   }
 
+  @NotNull
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new FrenchTagger();
-    }
-    return tagger;
+  public Tagger createDefaultTagger() {
+    return new FrenchTagger();
+  }
+
+  @Nullable
+  @Override
+  public Synthesizer createDefaultSynthesizer() {
+    return new FrenchSynthesizer(this);
   }
 
   @Override
-  public Synthesizer getSynthesizer() {
-    if (synthesizer == null) {
-      synthesizer = new FrenchSynthesizer(this);
-    }
-    return synthesizer;
-  }
-
-  @Override
-  public Disambiguator getDisambiguator() {
-    if (disambiguator == null) {
-      disambiguator = new FrenchHybridDisambiguator();
-    }
-    return disambiguator;
+  public Disambiguator createDefaultDisambiguator() {
+    return new FrenchHybridDisambiguator();
   }
 
   @Override

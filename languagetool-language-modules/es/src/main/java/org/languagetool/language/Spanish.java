@@ -18,9 +18,9 @@
  */
 package org.languagetool.language;
 
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.UserConfig;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.es.*;
@@ -30,24 +30,15 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.es.SpanishHybridDisambiguator;
 import org.languagetool.tagging.es.SpanishTagger;
-import org.languagetool.tokenizers.SRXSentenceTokenizer;
-import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.es.SpanishWordTokenizer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Spanish extends Language implements AutoCloseable{
 
-  private SentenceTokenizer sentenceTokenizer;
-  private Tokenizer wordTokenizer;
-  private Synthesizer synthesizer;
-  private Tagger tagger;
-  private Disambiguator disambiguator;
   private LanguageModel languageModel;
 
   @Override
@@ -68,45 +59,32 @@ public class Spanish extends Language implements AutoCloseable{
             "BO", "SV", "HN", "NI", "PR", "US", "CU"
     };
   }
-  
+
+  @NotNull
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new SpanishTagger();
-    }
-    return tagger;
-  }
-  
-  @Override
-  public Disambiguator getDisambiguator() {
-    if (disambiguator == null) {
-      disambiguator = new SpanishHybridDisambiguator();
-    }
-    return disambiguator;
-  }
-  
-  @Override
-  public Tokenizer getWordTokenizer() {
-    if (wordTokenizer == null) {
-      wordTokenizer = new SpanishWordTokenizer();
-    }
-    return wordTokenizer;
-  }
-  
-  @Override
-  public Synthesizer getSynthesizer() {
-    if (synthesizer == null) {
-      synthesizer = new SpanishSynthesizer(this);
-    }
-    return synthesizer;
+  public Tagger createDefaultTagger() {
+    return new SpanishTagger();
   }
 
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public Disambiguator createDefaultDisambiguator() {
+    return new SpanishHybridDisambiguator();
+  }
+
+  @Override
+  public Tokenizer createDefaultWordTokenizer() {
+    return new SpanishWordTokenizer();
+  }
+
+  @Nullable
+  @Override
+  public Synthesizer createDefaultSynthesizer() {
+    return new SpanishSynthesizer(this);
+  }
+
+  @Override
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
   
   @Override

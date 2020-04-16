@@ -18,11 +18,7 @@
  */
 package org.languagetool.language;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
@@ -33,14 +29,14 @@ import org.languagetool.tagging.sv.SwedishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
+import java.io.IOException;
+import java.util.*;
+
 /**
  * @deprecated this language is unmaintained in LT and might be removed in a future release if we cannot find contributors for it (deprecated since 3.6)
  */
 @Deprecated
 public class Swedish extends Language {
-
-  private SentenceTokenizer sentenceTokenizer;
-  private Tagger tagger;
 
   @Override
   public String getName() {
@@ -56,21 +52,16 @@ public class Swedish extends Language {
   public String[] getCountries() {
     return new String[]{"SE", "FI"};
   }
-  
+
+  @NotNull
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new SwedishTagger();
-    }
-    return tagger;
+  public Tagger createDefaultTagger() {
+    return new SwedishTagger();
   }
 
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
 
   @Override

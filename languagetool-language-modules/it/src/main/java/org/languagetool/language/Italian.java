@@ -18,35 +18,25 @@
  */
 package org.languagetool.language;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.UserConfig;
+import org.jetbrains.annotations.NotNull;
+import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
-import org.languagetool.rules.it.ItalianConfusionProbabilityRule;
-import org.languagetool.rules.it.ItalianWordRepeatRule;
-import org.languagetool.rules.it.MorfologikItalianSpellerRule;
-
+import org.languagetool.rules.it.*;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.disambiguation.Disambiguator;
+import org.languagetool.tagging.disambiguation.rules.it.ItalianRuleDisambiguator;
 import org.languagetool.tagging.it.ItalianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tagging.disambiguation.rules.it.ItalianRuleDisambiguator;
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 public class Italian extends Language implements AutoCloseable {
 
-  private Tagger tagger;
-  private SentenceTokenizer sentenceTokenizer;
   private LanguageModel languageModel;
-  private Disambiguator disambiguator;
   
   @Override
   public String getName() {
@@ -63,20 +53,15 @@ public class Italian extends Language implements AutoCloseable {
     return new String[]{"IT", "CH"};
   }
 
+  @NotNull
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new ItalianTagger();
-    }
-    return tagger;
+  public Tagger createDefaultTagger() {
+    return new ItalianTagger();
   }
 
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
 
   @Override
@@ -128,11 +113,8 @@ public class Italian extends Language implements AutoCloseable {
   }
 
   @Override
-  public final Disambiguator getDisambiguator() {
-    if (disambiguator == null) {
-      disambiguator = new ItalianRuleDisambiguator();
-    }
-    return disambiguator;
+  public Disambiguator createDefaultDisambiguator() {
+    return new ItalianRuleDisambiguator();
   }
 
   @Override

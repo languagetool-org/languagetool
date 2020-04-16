@@ -18,6 +18,8 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.rules.*;
@@ -28,8 +30,7 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.uk.UkrainianHybridDisambiguator;
 import org.languagetool.tagging.uk.UkrainianTagger;
-import org.languagetool.tokenizers.SRXSentenceTokenizer;
-import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
 
 import java.io.IOException;
@@ -46,12 +47,6 @@ public class Ukrainian extends Language {
       );
 
   public static final Ukrainian DEFAULT_VARIANT = new Ukrainian();
-  private Tagger tagger;
-  private SRXSentenceTokenizer sentenceTokenizer;
-  private Tokenizer wordTokenizer;
-  private Synthesizer synthesizer;
-  private Disambiguator disambiguator;
-
 
   public Ukrainian() {
   }
@@ -91,44 +86,32 @@ public class Ukrainian extends Language {
 //    return DEFAULT_VARIANT;
 //  }
 
+
+  @NotNull
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new UkrainianTagger();
-    }
-    return tagger;
+  public Tagger createDefaultTagger() {
+    return new UkrainianTagger();
+  }
+
+  @Nullable
+  @Override
+  public Synthesizer createDefaultSynthesizer() {
+    return new UkrainianSynthesizer(this);
   }
 
   @Override
-  public Synthesizer getSynthesizer() {
-    if (synthesizer == null) {
-      synthesizer = new UkrainianSynthesizer(this);
-    }
-    return synthesizer;
+  public Disambiguator createDefaultDisambiguator() {
+    return new UkrainianHybridDisambiguator();
   }
 
   @Override
-  public Disambiguator getDisambiguator() {
-    if (disambiguator == null) {
-      disambiguator = new UkrainianHybridDisambiguator();
-    }
-    return disambiguator;
+  public Tokenizer createDefaultWordTokenizer() {
+    return new UkrainianWordTokenizer();
   }
 
   @Override
-  public Tokenizer getWordTokenizer() {
-    if (wordTokenizer == null) {
-      wordTokenizer = new UkrainianWordTokenizer();
-    }
-    return wordTokenizer;
-  }
-
-  @Override
-  public SRXSentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
 
   @Override

@@ -19,10 +19,8 @@
 package org.languagetool.dev.bigdata;
 
 import org.apache.commons.lang3.StringUtils;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
+import org.jetbrains.annotations.NotNull;
+import org.languagetool.*;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.dev.dumpcheck.*;
 import org.languagetool.dev.eval.FMeasure;
@@ -35,9 +33,7 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tools.StringTools;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -305,17 +301,15 @@ class ConfusionRuleEvaluator {
     public String getName() {
       return "English Light";
     }
-    
+
+    @NotNull
     @Override
-    public Tagger getTagger() {
-      if (tagger == null) {
-        tagger = new DemoTagger();
-      }
-      return tagger;
+    public Tagger createDefaultTagger() {
+      return new DemoTagger();
     }
 
     @Override
-    public Chunker getChunker() {
+    public Chunker createDefaultChunker() {
       return null;
     }
   }

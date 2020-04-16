@@ -18,14 +18,9 @@
  */
 package org.languagetool.language;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.UserConfig;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.el.MorfologikGreekSpellerRule;
 import org.languagetool.rules.el.NumeralStressRule;
@@ -35,21 +30,17 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.el.GreekTagger;
-import org.languagetool.tokenizers.SRXSentenceTokenizer;
-import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.el.GreekWordTokenizer;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  *
  * @author Panagiotis Minos (pminos@gmail.com)
  */
 public class Greek extends Language {
-
-  private Disambiguator disambiguator;
-  private SentenceTokenizer sentenceTokenizer;
-  private Synthesizer synthesizer;
-  private Tagger tagger;
 
   @Override
   public String getShortCode() {
@@ -95,41 +86,31 @@ public class Greek extends Language {
     );
   }
 
+  @NotNull
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new GreekTagger();
-    }
-    return tagger;
+  public Tagger createDefaultTagger() {
+    return new GreekTagger();
   }
 
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
 
   @Override
-  public Tokenizer getWordTokenizer() {
+  public Tokenizer createDefaultWordTokenizer() {
     return new GreekWordTokenizer();
   }
 
+  @Nullable
   @Override
-  public Synthesizer getSynthesizer() {
-    if (synthesizer == null) {
-      synthesizer = new GreekSynthesizer(this);
-    }
-    return synthesizer;
+  public Synthesizer createDefaultSynthesizer() {
+    return new GreekSynthesizer(this);
   }
 
   @Override
-  public Disambiguator getDisambiguator() {
-    if (disambiguator == null) {
-      disambiguator = new XmlRuleDisambiguator(new Greek());
-    }
-    return disambiguator;
+  public Disambiguator createDefaultDisambiguator() {
+    return new XmlRuleDisambiguator(this);
   }
 
   @Override

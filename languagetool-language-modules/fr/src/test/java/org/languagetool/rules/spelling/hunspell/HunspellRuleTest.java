@@ -29,7 +29,8 @@ import org.languagetool.tagging.disambiguation.Disambiguator;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class HunspellRuleTest {
 
@@ -74,7 +75,7 @@ public class HunspellRuleTest {
 
     final French frenchWithDisambiguator = new French(){
       @Override
-      public Disambiguator getDisambiguator() {
+      public Disambiguator createDefaultDisambiguator() {
         return new TestFrenchDisambiguator();
       }
     };
