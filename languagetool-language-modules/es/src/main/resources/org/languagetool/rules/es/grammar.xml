@@ -282,7 +282,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VMIP1S0" regexp="yes">.+o<exception>como</exception></token>
                     </marker>
                 </pattern>
-                <message>Posible confusión. Si el verbo es en pasado, falta un acento.</message>
+                <message>Si el verbo es en pasado, falta un acento.</message>
                 <suggestion><match no="3" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
                 <example correction="vengó|vino">Se <marker>vengo</marker></example>
                 <example correction="creyó|creó">Se <marker>creo</marker></example>
@@ -300,7 +300,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V.{3}3.*|C.*|SP.*" postag_regexp="yes"/><exception postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"/><exception>como</exception></token>
                     </marker>
                 </pattern>
-                <message>Posible confusión. Si el verbo es en pasado, falta un acento.</message>
+                <message>Si el verbo es en pasado, falta un acento.</message>
                 <suggestion><match no="2" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
                 <example correction="vengó|vino">Él <marker>vengo</marker></example>
                 <example correction="habló">Ella <marker>hablo</marker></example>
@@ -1664,7 +1664,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token><exception regexp="yes">manera|forma</exception></token>
             </pattern>
-            <message>Esta locución es escribe: <suggestion>a punto de</suggestion>.</message>
+            <message>Esta locución es escribe separada.</message>
+            <suggestion>a punto de</suggestion>
             <url>http://www.fundeu.es/recomendacion/a-punto-de-no-apunto-de-1427</url>
             <example correction="a punto de">Estaba <marker>apunto de</marker> llegar.</example>
             <example>Apunto de manera inmediata</example>
@@ -1750,14 +1751,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!-- DESTORNILLAR_RISA http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_015.htm-->
         <rule id="DESTORNILLAR_RISA" name="destornillarse de risa (desternillarse)">
             <pattern>
-                <token inflected="yes" skip="1">destornillar</token>
+                <marker>
+                    <token inflected="yes" skip="1">destornillar</token>
+                </marker>
                 <token>de</token>
                 <token>risa</token>
             </pattern>
-            <message>La forma correcta es usando el verbo «desternillar»: <suggestion><match no="1" postag="(.*)" postag_replace="$1">desternillar</match> <match include_skipped="all" no="2"/> <match no="3"/></suggestion>"</message>
+            <message>El verbo adecuado es «desternillar».</message>
+            <suggestion><match no="1" postag="(.*)" postag_replace="$1">desternillar</match></suggestion>
             <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_015.htm</url>
-            <short>Confusión entre «desternillar» y «destornillar»</short>
-            <example correction="desternilló de risa">Con ese chiste, se <marker>destornilló de risa</marker>.</example>
+            <example correction="desternilló">Con ese chiste, se <marker>destornilló</marker> de risa.</example>
             <example>Casi te desternillas de risa el otro día.</example>
         </rule>
         <!-- CONTRA_MAS http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_034.htm-->
@@ -1779,7 +1782,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>sin</token>
                 <token>ecuánime</token>
             </pattern>
-            <message>La forma correcta es <suggestion>\1 sine qua non</suggestion>.</message>
+            <message>Expresión incorrecta.</message>
+            <suggestion>\1 sine qua non</suggestion>
             <short>Confusión entre «sine qua non» y «sin ecuánime»</short>
             <example correction="condición sine qua non">Para aprobar, la <marker>condición sin ecuánime</marker> es obtener un 5.</example>
             <example>Es condición sine qua non tener permiso para entrar en el local.</example>
@@ -1789,7 +1793,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>al</token>
                 </marker>
-                <token postag="NCF.*" postag_regexp="yes"><exception postag="NCM.*|SPS00|C.|AQ.C[SN]." postag_regexp="yes"/><exception regexp="yes">habla|agua|águila|arma|alba|haya</exception></token>
+                <token postag="NCF.*" postag_regexp="yes"><exception postag="NCM.*|SPS00|C.|AQ.C[SN]." postag_regexp="yes"/><exception regexp="yes">&nombre_fem_el;</exception></token>
             </pattern>
             <message>Posible error de concordancia.</message>
             <suggestion>la</suggestion>
@@ -2004,10 +2008,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>de</token>
                 <token>gratis</token>
             </pattern>
-            <message>La forma correcta es decir <suggestion>gratis</suggestion> o <suggestion>de balde</suggestion>.</message>
+            <message>Expresión incorrecta.</message>
+            <suggestion>gratis</suggestion>
+            <suggestion>de balde</suggestion>
             <url>http://lema.rae.es/dpd/srv/search?key=gratis</url>
-            <short>Confusión entre dos formas equivalentes</short>
-            <example>El agua es gratis.</example>
             <example correction="gratis|de balde">El agua es <marker>de gratis</marker>.</example>
         </rule>
         <!-- DEQUEISMO_QUEISMO Dequeísmo y queísmo: utilización incorrecta de DE + QUE
@@ -2293,7 +2297,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <!--MAS_BUENO_MALO más + bueno/malo = mejor/peor-->
         <rulegroup id="MAS_BUENO_MALO" name="más + bueno/malo (mejor/peor)">
-            <short>Confusión con el comparativo.</short>
+            <antipattern>
+                <token>más</token>
+                <token inflected="yes" regexp="yes">bueno|malo</token>
+                <token>!</token>
+            </antipattern>
             <!--MAS_BUENA más buena = mejor-->
             <rule id="MAS_BUENA">
                 <pattern>
@@ -2304,6 +2312,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://www.rae.es/dpd/buena</url>
                 <example correction="mejor">Este pan está <marker>más bueno</marker> que el otro</example>
                 <example>Cuando una solución es la más simple es mejor que cualquier otra.</example>
+                <example>¡Qué cosa más buena!</example>
             </rule>
             <!--MAS_MALA más mala = peor-->
             <rule id="MAS_MALA">
@@ -2315,6 +2324,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://www.rae.es/dpd/mala</url>
                 <example correction="peor">Este pan está <marker>más malo</marker> que el otro</example>
                 <example>Cuando una solución es la más complicada es peor que cualquier otra.</example>
+                <example>¡Qué cosa más mala!</example>
             </rule>
         </rulegroup>
         <!--GROSSO_MODO
@@ -2325,9 +2335,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">gross?o</token>
                 <token>modo</token>
             </pattern>
-            <message>La expresión latina <suggestion>grosso modo</suggestion> se usa sin preposición.</message>
+            <message>Esta expresión latina se usa sin preposición.</message>
+            <suggestion>grosso modo</suggestion>
             <url>http://lema.rae.es/dpd/srv/search?key=grosso</url>
-            <short>La expresión latina se usa sin preposición.</short>
             <example correction="grosso modo">Las cifras indican <marker>a grosso modo</marker> que la gestión es correcta.</example>
             <example>La Tierra se encuentra, dicho grosso modo, a ocho minutos-luz del Sol.</example>
         </rule>
@@ -2338,8 +2348,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>en</token>
                 <token>cambio</token>
             </pattern>
-            <message>Se utiliza <suggestion>en cambio</suggestion> o <suggestion>sin embargo</suggestion></message>
-            <short>fusión errónea de dos expresiones distintas.</short>
+            <message>Expresión incorrecta.</message>
+            <suggestion>en cambio</suggestion>
+            <suggestion>sin embargo</suggestion>
             <example correction="en cambio|sin embargo">Imagino que <marker>sin en cambio</marker> está de acuerdo.</example>
             <example>La Tierra se encuentra, en cambio, a ocho minutos-luz del Sol.</example>
         </rule>
