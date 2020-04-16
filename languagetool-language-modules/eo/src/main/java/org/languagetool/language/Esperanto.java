@@ -18,44 +18,29 @@
  */
 package org.languagetool.language;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.UserConfig;
+import org.jetbrains.annotations.NotNull;
+import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.eo.EsperantoTagger;
-import org.languagetool.tokenizers.SRXSentenceTokenizer;
-import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.*;
 import org.languagetool.tokenizers.eo.EsperantoWordTokenizer;
+
+import java.util.*;
 
 public class Esperanto extends Language {
 
-  private SentenceTokenizer sentenceTokenizer;
-  private Tokenizer wordTokenizer;
-  private Disambiguator disambiguator;
-
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
 
   @Override
-  public Tokenizer getWordTokenizer() {
-    if (wordTokenizer == null) {
-      wordTokenizer = new EsperantoWordTokenizer();
-    }
-    return wordTokenizer;
+  public Tokenizer createDefaultWordTokenizer() {
+    return new EsperantoWordTokenizer();
   }
 
   @Override
@@ -72,18 +57,16 @@ public class Esperanto extends Language {
   public String[] getCountries() {
     return new String[]{};
   }
-  
+
+  @NotNull
   @Override
-  public Tagger getTagger() {
+  public Tagger createDefaultTagger() {
     return new EsperantoTagger();
   }
 
   @Override
-  public Disambiguator getDisambiguator() {
-    if (disambiguator == null) {
-      disambiguator = new XmlRuleDisambiguator(new Esperanto());
-    }
-    return disambiguator;
+  public Disambiguator createDefaultDisambiguator() {
+    return new XmlRuleDisambiguator(new Esperanto());
   }
 
   @Override

@@ -18,28 +18,23 @@
  */
 package org.languagetool.language;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.UserConfig;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ga.*;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ga.IrishSynthesizer;
 import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.ga.IrishTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.ga.IrishHybridDisambiguator;
-import org.languagetool.tokenizers.SRXSentenceTokenizer;
-import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.tokenizers.Tokenizer;
-import org.languagetool.tokenizers.WordTokenizer;
+import org.languagetool.tagging.ga.IrishTagger;
+import org.languagetool.tokenizers.*;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * @since 4.9
@@ -47,12 +42,7 @@ import org.languagetool.tokenizers.WordTokenizer;
 public class Irish extends Language implements AutoCloseable {
 
   private static final Language DEFAULT_IRISH = new Irish();
-  
-  private Tagger tagger;
-  private SentenceTokenizer sentenceTokenizer;
-  private Tokenizer wordTokenizer;
-  private Synthesizer synthesizer;
-  private Disambiguator disambiguator;
+
   private LanguageModel languageModel;
 
   @Override
@@ -118,44 +108,31 @@ public class Irish extends Language implements AutoCloseable {
     );
   }
 
+  @NotNull
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new IrishTagger();
-    }
-    return tagger;
+  public Tagger createDefaultTagger() {
+    return new IrishTagger();
+  }
+
+  @Nullable
+  @Override
+  public Synthesizer createDefaultSynthesizer() {
+    return new IrishSynthesizer(this);
   }
 
   @Override
-  public Synthesizer getSynthesizer() {
-    if (synthesizer == null) {
-      synthesizer = new IrishSynthesizer(this);
-    }
-    return synthesizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
 
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public Disambiguator createDefaultDisambiguator() {
+    return new IrishHybridDisambiguator();
   }
-  
+
   @Override
-  public Disambiguator getDisambiguator() {
-    if (disambiguator == null) {
-      disambiguator = new IrishHybridDisambiguator();
-    }
-    return disambiguator;
-  }  
-  
-  @Override
-  public Tokenizer getWordTokenizer() {
-    if (wordTokenizer == null) {
-      wordTokenizer = new WordTokenizer();
-    }
-    return wordTokenizer;
+  public Tokenizer createDefaultWordTokenizer() {
+    return new WordTokenizer();
   }
 
   @Override

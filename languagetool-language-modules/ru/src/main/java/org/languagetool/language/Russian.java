@@ -18,6 +18,8 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
@@ -38,10 +40,6 @@ import java.util.regex.Pattern;
 
 public class Russian extends Language implements AutoCloseable {
 
-  private Tagger tagger;
-  private Disambiguator disambiguator;
-  private Synthesizer synthesizer;
-  private SentenceTokenizer sentenceTokenizer;
   private LanguageModel languageModel;
 
   @Override
@@ -63,37 +61,27 @@ public class Russian extends Language implements AutoCloseable {
   public String[] getCountries() {
     return new String[] {"RU"};
   }
-  
+
+  @NotNull
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new RussianTagger();
-    }
-    return tagger;
+  public Tagger createDefaultTagger() {
+    return new RussianTagger();
   }
 
   @Override
-  public Disambiguator getDisambiguator() {
-    if (disambiguator == null) {
-      disambiguator = new RussianHybridDisambiguator();
-    }
-    return disambiguator;
+  public Disambiguator createDefaultDisambiguator() {
+    return new RussianHybridDisambiguator();
   }
-  
+
+  @Nullable
   @Override
-  public Synthesizer getSynthesizer() {
-    if (synthesizer == null) {
-      synthesizer = new RussianSynthesizer(this);
-    }
-    return synthesizer;
+  public Synthesizer createDefaultSynthesizer() {
+    return new RussianSynthesizer(this);
   }
 
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
 
   @Override

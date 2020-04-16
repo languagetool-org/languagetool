@@ -18,10 +18,9 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
@@ -226,38 +225,42 @@ public final class LanguageBuilder {
     }
 
     @Override
-    public Disambiguator getDisambiguator() {
-      return baseLanguage.getDisambiguator();
+    public Disambiguator createDefaultDisambiguator() {
+      return baseLanguage.createDefaultDisambiguator();
+    }
+
+    @NotNull
+    @Override
+    public Tagger createDefaultTagger() {
+      return baseLanguage.createDefaultTagger();
     }
 
     @Override
-    public Tagger getTagger() {
-      return baseLanguage.getTagger();
+    public SentenceTokenizer createDefaultSentenceTokenizer() {
+      return baseLanguage.createDefaultSentenceTokenizer();
     }
 
     @Override
-    public SentenceTokenizer getSentenceTokenizer() {
-      return baseLanguage.getSentenceTokenizer();
+    public Tokenizer createDefaultWordTokenizer() {
+      return baseLanguage.createDefaultWordTokenizer();
     }
 
+    @Nullable
     @Override
-    public Tokenizer getWordTokenizer() {
-      return baseLanguage.getWordTokenizer();
+    public Chunker createDefaultChunker() {
+      return baseLanguage.createDefaultChunker();
     }
 
-    @Nullable @Override
-    public Chunker getChunker() {
-      return baseLanguage.getChunker();
+    @Nullable
+    @Override
+    public Chunker createDefaultPostDisambiguationChunker() {
+      return baseLanguage.createDefaultPostDisambiguationChunker();
     }
 
-    @Nullable @Override
-    public Chunker getPostDisambiguationChunker() {
-      return baseLanguage.getPostDisambiguationChunker();
-    }
-
-    @Nullable @Override
-    public Synthesizer getSynthesizer() {
-      return baseLanguage.getSynthesizer();
+    @Nullable
+    @Override
+    public Synthesizer createDefaultSynthesizer() {
+      return baseLanguage.createDefaultSynthesizer();
     }
 
   }

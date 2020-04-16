@@ -18,9 +18,8 @@
  */
 package org.languagetool.language;
 
-import org.languagetool.Language;
-import org.languagetool.LanguageMaintainedState;
-import org.languagetool.UserConfig;
+import org.jetbrains.annotations.NotNull;
+import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ar.*;
@@ -34,9 +33,7 @@ import org.languagetool.tokenizers.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * Support for Arabic.
@@ -45,13 +42,8 @@ import java.util.ResourceBundle;
 public class Arabic extends Language implements AutoCloseable {
 
   private static final Language DEFAULT_ARABIC = new AlgerianArabic();
-  
-  private SentenceTokenizer sentenceTokenizer;
-  private WordTokenizer wordTokenizer;
-  private Tagger tagger;
-  private Synthesizer synthesizer;
+
   private LanguageModel languageModel;
-  private Disambiguator disambiguator;
 
   @Override
   public String getName() {
@@ -74,43 +66,29 @@ public class Arabic extends Language implements AutoCloseable {
   }
 
   @Override
-  public Disambiguator getDisambiguator() {
-    if (disambiguator == null) {
-      disambiguator = new ArabicHybridDisambiguator();
-    }
-    return disambiguator;
+  public Disambiguator createDefaultDisambiguator() {
+    return new ArabicHybridDisambiguator();
   }
 
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
 
   @Override
-  public WordTokenizer getWordTokenizer() {
-    if (wordTokenizer == null) {
-      wordTokenizer = new ArabicWordTokenizer();
-    }
-    return wordTokenizer;
+  public Tokenizer createDefaultWordTokenizer() {
+    return new ArabicWordTokenizer();
+  }
+
+  @NotNull
+  @Override
+  public Tagger createDefaultTagger() {
+    return new ArabicTagger();
   }
 
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new ArabicTagger();
-    }
-    return tagger;
-  }
-
-  @Override
-  public Synthesizer getSynthesizer() {
-    if (synthesizer == null) {
-      synthesizer = new ArabicSynthesizer(this);
-    }
-    return synthesizer;
+  public Synthesizer createDefaultSynthesizer() {
+    return new ArabicSynthesizer(this);
   }
 
   @Override
