@@ -147,6 +147,9 @@ public class AdverbFilter extends RuleFilter {
     put("steadily", "steady");
     put("possibly", "possible");
     put("deliciously", "delicious");
+    put("visually", "visual");
+    put("predominantly", "predominant");
+    put("quietly", "quiet");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
