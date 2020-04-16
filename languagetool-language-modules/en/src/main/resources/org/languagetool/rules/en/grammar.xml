@@ -41981,6 +41981,10 @@ The accident victim died from her injuries.
                 </antipattern>
                 <antipattern>
                     <token>ans</token>
+                    <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                </antipattern>
+                <antipattern>
+                    <token>ans</token>
                     <token postag="UNKNOWN" />
                 </antipattern>
                 <antipattern><!-- Names: Ans van Kemenade-->
@@ -41996,11 +42000,15 @@ The accident victim died from her injuries.
                     <token spacebefore="no">ans</token>
                 </antipattern>
                 <antipattern><!-- "ans" is an abbrev for "answer" ("the ans is correct") -->
-                    <token regexp="yes">the|an?|or|but|because</token>
+                    <token regexp="yes">the|an?|or|and|but|because</token>
                     <token>ans</token>
                 </antipattern>
+                <antipattern>
+                    <token>ans</token>
+                    <token>and</token>
+                </antipattern>
                 <antipattern><!-- "Ans" is a Dutch name -->
-                    <token regexp="yes">Hi|Heya?|Hello|Thanks|(Good\-?)Bye|Sorry|Dear(est)?</token>
+                    <token regexp="yes">Hi|Heya?|Hello|Thanks|(Good\-?)Bye|Howdy|Sorry|Dear(est)?|Welcome</token>
                     <token case_sensitive="yes">Ans</token>
                 </antipattern>
                 <antipattern>
@@ -42025,6 +42033,7 @@ The accident victim died from her injuries.
                 <example type="triggers_error">Ans may refer to:</example>
                 <example>The ANS Group of Companies is a news and broadcasting company in Azerbaijan.</example>
                 <example>The ans is correct.</example>
+                <example>Ans' new car is nice.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GRATE_GREAT" name="grate (great)">
