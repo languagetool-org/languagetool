@@ -63,6 +63,27 @@ public class GermanTagger extends BaseTagger {
     }
   }
 
+  private static final List<String> tagsForWeise = new ArrayList<>();
+  static {
+    // "kofferweise", "idealerweise" etc.
+    tagsForWeise.add("ADJ:AKK:PLU:FEM:GRU:SOL");
+    tagsForWeise.add("ADJ:AKK:PLU:MAS:GRU:SOL");
+    tagsForWeise.add("ADJ:AKK:PLU:NEU:GRU:SOL");
+    tagsForWeise.add("ADJ:AKK:SIN:FEM:GRU:DEF");
+    tagsForWeise.add("ADJ:AKK:SIN:FEM:GRU:IND");
+    tagsForWeise.add("ADJ:AKK:SIN:FEM:GRU:SOL");
+    tagsForWeise.add("ADJ:AKK:SIN:NEU:GRU:DEF");
+    tagsForWeise.add("ADJ:NOM:PLU:FEM:GRU:SOL");
+    tagsForWeise.add("ADJ:NOM:PLU:MAS:GRU:SOL");
+    tagsForWeise.add("ADJ:NOM:PLU:NEU:GRU:SOL");
+    tagsForWeise.add("ADJ:NOM:SIN:FEM:GRU:DEF");
+    tagsForWeise.add("ADJ:NOM:SIN:FEM:GRU:IND");
+    tagsForWeise.add("ADJ:NOM:SIN:FEM:GRU:SOL");
+    tagsForWeise.add("ADJ:NOM:SIN:MAS:GRU:DEF");
+    tagsForWeise.add("ADJ:NOM:SIN:NEU:GRU:DEF");
+    tagsForWeise.add("ADJ:PRD:GRU");
+  }
+
   public GermanTagger() {
     super("/de/german.dict");
     try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(getManualRemovalsFileName())) {
@@ -190,7 +211,11 @@ public class GermanTagger extends BaseTagger {
       if (taggerTokens.size() > 0) { //Word known, just add analyzed token to readings
         readings.addAll(getAnalyzedTokens(taggerTokens, word));
       } else { // Word not known, try to decompose it and use the last part for POS tagging:
-        if (!StringUtils.isAllBlank(word)) {
+        if (isWeiseException(word)) {   // "idealerweise" etc. but not "überweise", "eimerweise"
+          for (String tag : tagsForWeise) {
+            readings.add(new AnalyzedToken(word, tag, word));
+          }
+        } else if (!StringUtils.isAllBlank(word)) {
           List<String> compoundParts = compoundTokenizer.tokenize(word);
           if (compoundParts.size() <= 1) {//Could not find simple compound parts
             // Recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
@@ -274,6 +299,14 @@ public class GermanTagger extends BaseTagger {
       idxPos++;
     }
     return tokenReadings;
+  }
+
+  boolean isWeiseException(String word) {
+    if (word.endsWith("erweise")) {  // "idealerweise" etc.
+      List<TaggedWord> tags = tag(word.replaceFirst("erweise$", ""));
+      return tags.stream().anyMatch(k -> k.getPosTag() != null && k.getPosTag().startsWith("ADJ:"));
+    }
+    return false;
   }
 
   /*

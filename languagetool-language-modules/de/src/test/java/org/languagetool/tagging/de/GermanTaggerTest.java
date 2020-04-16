@@ -229,6 +229,21 @@ public class GermanTaggerTest {
     }
   }
 
+  @Test
+  public void testIsWeiseException() {
+    GermanTagger tagger = new GermanTagger();
+    assertFalse(tagger.isWeiseException("überweise"));
+    assertFalse(tagger.isWeiseException("verweise"));
+    assertFalse(tagger.isWeiseException("eimerweise"));
+    assertFalse(tagger.isWeiseException("meterweise"));
+    assertFalse(tagger.isWeiseException("literweise"));
+    assertFalse(tagger.isWeiseException("blätterweise"));
+    assertFalse(tagger.isWeiseException("erweise"));
+
+    assertTrue(tagger.isWeiseException("lustigerweise"));
+    assertTrue(tagger.isWeiseException("idealerweise"));
+  }
+
   /**
    * Returns a string representation like {@code toString()}, but sorts
    * the elements alphabetically.
