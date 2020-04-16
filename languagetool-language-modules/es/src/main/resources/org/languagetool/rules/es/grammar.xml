@@ -2349,12 +2349,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>si</token>
                 <token>quiera</token>
             </pattern>
-            <message>Se utiliza <suggestion>siquiera</suggestion></message>
-            <short>Separación incorrecta del adverbio o conjunción.</short>
+            <message>Como adverbio o conjunión se escribre junto</message>
+            <suggestion>siquiera</suggestion>
             <example correction="siquiera">Imagino que ni <marker>si quiera</marker> está de acuerdo.</example>
             <example>La que sí quiera, puede venir.</example>
         </rule>
-        <rulegroup id="SINO_SI_NO" name="sino/si no">
+        <rulegroup id="SINO_SI_NO" name="sino/siLO_LOS no">
             <antipattern>
                 <token regexp="yes">o|y</token>
                 <token min="0">,</token>
@@ -2455,7 +2455,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>También lo contrario.</example>
                 <example>Todas las otras.</example>
                 <example>Las microondas penetran en el interior.</example>
-                <example type="triggers_error" reason="pending dict update">En la maratón o en el maratón.</example>
+                <example>En la maratón o en el maratón.</example>
                 <example>El defensor de la no-violencia</example>
                 <example>El defensor de la no violencia</example>
                 <example>Todos igual.</example>
@@ -2486,7 +2486,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="esta agua|estas aguas">De <marker>este agua</marker>.</example>
                 <example correction="esta área|estas áreas">En <marker>este área</marker>.</example>
                 <example>sus hermanos</example>
-                <example type="triggers_error" correction="La polis|Las polis" reason="dict update pending"><marker>Los polis</marker> y las polis.</example>
+                <example>Los polis y las polis.</example>
                 <example>El agua.</example>
                 <example>El alta del hospital.</example>
                 <example>Es demasiado pequeña.</example>
@@ -2554,6 +2554,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de los médicos|de las médicos"><marker>del médicos</marker></example>
                 <example>del médico</example>
             </rule>
+            <rule id="DET_FEM_NOM_FEM" name="la agua>el agua">
+                <antipattern>
+                    <token>alta</token>
+                    <token postag="NC[FC][SN].*" postag_regexp="yes"><exception>médica</exception></token>
+                </antipattern>
+                <pattern>
+                    <token>la</token>
+                    <token regexp="yes">&nombre_fem_el;</token>
+                </pattern>
+                <message>En este caso se usa el artículo determinado masculino.</message>
+                <suggestion>el \2</suggestion>
+                <url>https://www.fundeu.es/recomendacion/la-y-el-en-nombres-femeninos-agua-aguila/</url>
+                <example correction="el agua">Me gusta <marker>la agua</marker> que hay ahí.</example>
+                <example correction="el alta">Le dieron <marker>la alta</marker> en el hospital.</example>
+                <example correction="el alta">Le dieron <marker>la alta</marker> médica en el hospital.</example>
+                <example>Me dan el alta en el hospital.</example>
+                <example>La alta tensión.</example>
+                <example>La alta fiebre.</example>
+                <example>Me gusta el agua que hay ahí.</example>
+                <example>Me dan el alta en el hospital.</example>
+                <example>La alta tensión</example>
+            </rule>
         </rulegroup>
         <rule id="LAS_NUMBER_MALE" name="'las tres preceptos' etcétera">
             <pattern>
@@ -2599,7 +2621,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           No se sintetiza porque es muy difícil saber la intención del autor y más que ayudar puede despistar.
           TODO: Simplificar con desambiguación.
           TODO: sugerencias múltiples-->
-            <short>Concordancia de número dudosa.</short>
             <antipattern>
                 <token>lo</token>
                 <token postag="AQ.*" postag_regexp="yes"/>
@@ -2731,19 +2752,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La ratio es de 50.</example>
                 <example>Pero a la postre se fue.</example>
             </rule>
-            <!-- DET_FEM_NOM_FEM Palabras que empiezan por fonema A tónico. -->
-            <rule id="DET_FEM_NOM_FEM" name="Palabras que empiezan por fonema A tónico">
-                <pattern case_sensitive="no">
-                    <token>la</token>
-                    <!--Eliminado "alta" por tener valor femenino y masculino.-->
-                    <token regexp="yes"
-                        >aura|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya</token>
-                </pattern>
-                <message>Antes de una palabra que empieza por "a" o "ha" tónicas, se emplea el determinante masculino: <suggestion>el \2</suggestion>.</message>
-                <short>Determinante incorrecto.</short>
-                <example correction="el agua">Me gusta <marker>la agua</marker> que hay ahí.</example>
-                <example>Me gusta el agua que hay ahí.</example>
-            </rule>
             <!-- DET_NOM_MASC Concordancia (ese pava) -->
             <rule id="DET_NOM_MASC" name="Concordancia masculino en Determinante + nombre">
                 <pattern case_sensitive="yes">
@@ -2821,8 +2829,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>los</token>
                     </marker>
                 </pattern>
-                <message>Posible falta de concordancia de género entre «\3» y «\5».</message>
-                <short>Concordancia de género dudosa en la forma distributiva cada... de...</short>
+                <message>Posible falta de concordancia.</message>
                 <example correction=""><marker>Cada una de los</marker> caballeros está ocupado.</example>
                 <example>Cada uno de los caballeros está ocupado.</example>
             </rule>
@@ -2837,8 +2844,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>las</token>
                     </marker>
                 </pattern>
-                <message>Posible falta de concordancia de género entre «\3» y «\5».</message>
-                <short>Concordancia de género dudosa en la forma distributiva cada... de...</short>
+                <message>Posible falta de concordancia.</message>
                 <example correction=""><marker>Cada uno de las</marker> damas está ocupada.</example>
                 <example>Cada una de las damas está ocupada.</example>
             </rule>
@@ -3095,7 +3101,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>en relación con</suggestion>
             <suggestion>con relación a</suggestion>
             <suggestion>en lo que se refiere a</suggestion>
-            <short>En español, la expresión «en relación a» no existe.</short>
             <example correction="en relación con|con relación a|en lo que se refiere a">Es muy austero <marker>en relación a</marker> su indumentaria</example>
             <example>Es muy austero en relación con su indumentaria</example>
         </rule>
@@ -3111,7 +3116,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>en relación con el</suggestion>
             <suggestion>con relación al</suggestion>
             <suggestion>en lo que se refiere al</suggestion>
-            <short>En español, la expresión «en relación a» no existe.</short>
             <example correction="en relación con el|con relación al|en lo que se refiere al">Es muy austero <marker>en relación al</marker> vestir.</example>
         </rule>
         <!-- TODO: Following rules need simplification using Regex. Lots of falsee positives due to skip -1 attr.-->
