@@ -18675,7 +18675,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token>microsoft</token>
-                    <token regexp="yes">word|excel|outlook|office|edge|azure|inc|surface|windows|hotmail|lumia|bing|solitaire|editor</token>
+                    <token regexp="yes">word|excel|outlook|office|edge|azure|inc|surface|windows|hotmail|lumia|bing|solitaire|editor|teams</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion>Microsoft <match no="2" case_conversion="startupper" /></suggestion> (= Microsoft product)?</message>
                 <example correction="Microsoft Word"><marker>Microsoft word</marker> is a word processor.</example>
@@ -29318,7 +29318,7 @@ USA
                     <token regexp="yes">I|we|they|s?he|you</token>
                     <token postag="RB" min="0" />
                     <marker>
-                        <token regexp="yes">dons</token>
+                        <token>dons</token>
                     </marker>
                     <token postag="VB.*" postag_regexp="yes" />
                 </pattern>
@@ -38404,18 +38404,18 @@ The accident victim died from her injuries.
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
         <antipattern>
             <token>in</token>
-            <token regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger|YouTube|Instagram|Wordpress</token>
+            <token regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger|YouTube|Instagram|Wordpress|Reddit</token>
             <token regexp="yes">&apostrophe;</token>
             <token>s</token>
         </antipattern>
         <antipattern>
             <token regexp="yes" inflected="yes" skip="5">stake|interest|invest|investor</token>
             <token>in</token>
-            <token regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger|YouTube|Instagram|Wordpress</token>
+            <token regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger|YouTube|Instagram|Wordpress|Reddit</token>
         </antipattern>
         <pattern>
             <token>in</token>
-            <token chunk="E-NP-singular" regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger|YouTube|Instagram|Wordpress</token>
+            <token chunk="E-NP-singular" regexp="yes">Facebook|Twitter|Pinterest|Wikipedia|Amazon|LinkedIn|Yahoo|Blogger|YouTube|Instagram|Wordpress|Reddit</token>
         </pattern>
         <message>The usual collocation for "\2" is "on". Did you mean <suggestion>on \2</suggestion>?</message>
         <example correction='on Wikipedia'>Check it <marker>in Wikipedia</marker>.</example>
@@ -40380,34 +40380,58 @@ The accident victim died from her injuries.
             <example correction="Monday,">I will be back by <marker>Monday</marker> April 1st.</example>
             <example>He was born on Friday, August 12, 2016.</example>
         </rule>
-    <rule id='UNLIKELY_OPENING_PUNCTUATION' name="Loose punctuation mark">
-    <!-- Created by Tiago F. Santos, 2018-07-14 -->
-      <antipattern><!-- smileys -->
-          <token postag='SENT_START'></token>
-          <token regexp="yes">[\:;]</token>
-          <token min="0">'</token>
-          <token min="0">-</token>
-        <token regexp="yes">[()\/DPS\]\[|lIoO0]</token>
-      </antipattern>
-      <antipattern><!-- typographic highlighting -->
-        <token>:</token>
-        <token>:</token>
-        <token>:</token>
-      </antipattern>
-      <pattern>
-        <token postag='SENT_START'/>
-        <marker>
-          <token regexp='yes'>[,;\:\)\]\}]</token>
-        </marker>
-      </pattern>
-      <message>Loose punctuation mark.</message>
-        <suggestion></suggestion>
-      <example correction=""><marker>;</marker> How's it goin'?</example>
-      <example>:-)</example>
-      <example>:'(</example>
-      <example>;]</example>
-      <example>:::: Headline :::::</example>
-    </rule>
+        <rule id='UNLIKELY_OPENING_PUNCTUATION' name="Loose punctuation mark">
+            <antipattern><!-- smileys -->
+                <token postag='SENT_START'></token>
+                <token regexp="yes">[\:\;]</token>
+                <token min="0">'</token>
+                <token min="0">-</token>
+                <token regexp="yes">[()\|\/\\\]]|\-?[Oo0PSI]</token>
+            </antipattern>
+            <antipattern><!-- smileys -->
+                <token postag='SENT_START'></token>
+                <token regexp="yes">[\:\;]</token>
+                <token regexp="yes">[()\|\/\\\]]|\-?[Oo0PSI]</token>
+            </antipattern>
+            <antipattern><!-- typographic emphasis (see examples) -->
+                <token>:</token>
+                <token>:</token>
+                <token>:</token>
+            </antipattern>
+            <antipattern><!-- typographic emphasis (see examples) -->
+                <token>;</token>
+                <token>;</token>
+                <token>;</token>
+            </antipattern>
+            <antipattern>
+                <token>:</token>
+                <token regexp="yes" spacebefore="no">[a-z].*</token>
+                <token spacebefore="no">:</token>
+            </antipattern>
+            <pattern>
+                <token postag='SENT_START'/>
+                <marker>
+                    <token regexp='yes'>[,;\:\)\]\}]</token>
+                </marker>
+            </pattern>
+            <message>Loose punctuation mark.</message>
+            <suggestion></suggestion>
+            <example correction=""><marker>;</marker> How's it goin'?</example>
+            <example>:-)</example>
+            <example>;)</example>
+            <example>:]</example>
+            <example>:-]</example>
+            <example>:'(</example>
+            <example>:'-(</example>
+            <example>;-)</example>
+            <example>:-|</example>
+            <example>:/</example>
+            <example>:o</example>
+            <example>:P</example>
+            <example>:-P</example>
+            <example>:placeholder:</example>
+            <example>:::: Headline :::::</example>
+        </rule>
         <rule id="FOR_NOUN_SAKE" name="for heaven's sake">
             <pattern>
                 <token>for</token>
