@@ -30,10 +30,10 @@ import java.util.ResourceBundle;
  */
 public class RussianDashRule extends AbstractDashRule {
 
-  private static final AhoCorasickDoubleArrayTrie<String> trie = loadCompoundFile("/ru/compounds.txt");
+  private static volatile AhoCorasickDoubleArrayTrie<String> trie;
 
   public RussianDashRule(ResourceBundle messages) {
-    super(trie, messages);
+    super(messages);
   //  setDefaultTempOff(); // Slows down start up. See GitHub issue #1016.
   }
 
@@ -55,6 +55,21 @@ public class RussianDashRule extends AbstractDashRule {
   @Override
   protected boolean isBoundary(String s) {
     return !s.matches("[\u0400-\u04FF]");
+  }
+
+  @Override
+  protected AhoCorasickDoubleArrayTrie<String> getCompoundsData() {
+    AhoCorasickDoubleArrayTrie<String> data = trie;
+    if (data == null) {
+      synchronized (RussianDashRule.class) {
+        data = trie;
+        if (data == null) {
+          trie = data = loadCompoundFile("/ru/compounds.txt");
+        }
+      }
+    }
+
+    return data;
   }
 
 }

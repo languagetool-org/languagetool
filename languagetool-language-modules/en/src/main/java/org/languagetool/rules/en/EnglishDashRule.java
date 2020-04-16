@@ -31,10 +31,10 @@ import java.util.ResourceBundle;
  */
 public class EnglishDashRule extends AbstractDashRule {
 
-  private static final AhoCorasickDoubleArrayTrie<String> trie = loadCompoundFile("/en/compounds.txt");
+  private static volatile AhoCorasickDoubleArrayTrie<String> trie;
 
   public EnglishDashRule(ResourceBundle messages) {
-    super(trie, messages);
+    super(messages);
     addExamplePair(Example.wrong("I'll buy a new <marker>T—shirt</marker>."),
                    Example.fixed("I'll buy a new <marker>T-shirt</marker>."));
   }
@@ -54,4 +54,18 @@ public class EnglishDashRule extends AbstractDashRule {
     return "A dash was used instead of a hyphen.";
   }
 
+  @Override
+  protected AhoCorasickDoubleArrayTrie<String> getCompoundsData() {
+    AhoCorasickDoubleArrayTrie<String> data = trie;
+    if (data == null) {
+      synchronized (EnglishDashRule.class) {
+        data = trie;
+        if (data == null) {
+          trie = data = loadCompoundFile("/en/compounds.txt");
+        }
+      }
+    }
+
+    return data;
+  }
 }

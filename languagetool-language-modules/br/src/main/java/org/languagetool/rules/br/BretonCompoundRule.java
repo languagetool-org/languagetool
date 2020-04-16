@@ -26,17 +26,10 @@
 
 package org.languagetool.rules.br;
 
-import org.languagetool.rules.AbstractCompoundRule;
-import org.languagetool.rules.CompoundRuleData;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.tools.Tools;
+import org.languagetool.rules.*;
 
 import java.io.IOException;
 import java.util.ResourceBundle;
-
-import java.net.URL;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -44,7 +37,7 @@ import java.net.URL;
  */
 public class BretonCompoundRule extends AbstractCompoundRule {
 
-  private static final CompoundRuleData compoundData = new CompoundRuleData("/br/compounds.txt");
+  private static volatile CompoundRuleData compoundData;
 
   public BretonCompoundRule(ResourceBundle messages) throws IOException {    
     super(messages,
@@ -77,6 +70,16 @@ public class BretonCompoundRule extends AbstractCompoundRule {
 
   @Override
   protected CompoundRuleData getCompoundRuleData() {
-    return compoundData;
+    CompoundRuleData data = compoundData;
+    if (data == null) {
+      synchronized (BretonCompoundRule.class) {
+        data = compoundData;
+        if (data == null) {
+          compoundData = data = new CompoundRuleData("/br/compounds.txt");
+        }
+      }
+    }
+
+    return data;
   }
 }

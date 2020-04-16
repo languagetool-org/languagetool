@@ -18,13 +18,10 @@
  */
 package org.languagetool.rules.de;
 
+import org.languagetool.rules.*;
+
 import java.io.IOException;
 import java.util.ResourceBundle;
-
-import org.languagetool.rules.AbstractCompoundRule;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.CompoundRuleData;
-import org.languagetool.rules.Example;
 
 /**
  * Checks that compounds are not written as separate words. The supported compounds are loaded
@@ -34,7 +31,7 @@ import org.languagetool.rules.Example;
  */
 public class GermanCompoundRule extends AbstractCompoundRule {
 
-  private static final CompoundRuleData compoundData = new CompoundRuleData("/de/compounds.txt", "/de/compound-cities.txt");
+  private static volatile CompoundRuleData compoundData;
  
   public GermanCompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
@@ -59,6 +56,16 @@ public class GermanCompoundRule extends AbstractCompoundRule {
 
   @Override
   protected CompoundRuleData getCompoundRuleData() {
-    return compoundData;
+    CompoundRuleData data = compoundData;
+    if (data == null) {
+      synchronized (GermanCompoundRule.class) {
+        data = compoundData;
+        if (data == null) {
+          compoundData = data = new CompoundRuleData("/de/compounds.txt", "/de/compound-cities.txt");
+        }
+      }
+    }
+
+    return data;
   }
 }

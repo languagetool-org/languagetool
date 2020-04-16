@@ -30,10 +30,10 @@ import java.util.ResourceBundle;
  */
 public class DashRule extends AbstractDashRule {
 
-  private static final AhoCorasickDoubleArrayTrie<String> trie = loadCompoundFile("/pl/compounds.txt");
+  private static volatile AhoCorasickDoubleArrayTrie<String> trie;
 
   public DashRule(ResourceBundle messages) {
-    super(trie, messages);
+    super(messages);
   }
 
   @Override
@@ -44,6 +44,21 @@ public class DashRule extends AbstractDashRule {
   @Override
   public String getMessage() {
     return "Błędne użycie myślnika zamiast łącznika.";
+  }
+
+  @Override
+  protected AhoCorasickDoubleArrayTrie<String> getCompoundsData() {
+    AhoCorasickDoubleArrayTrie<String> data = trie;
+    if (data == null) {
+      synchronized (DashRule.class) {
+        data = trie;
+        if (data == null) {
+          trie = data = loadCompoundFile("/pl/compounds.txt");
+        }
+      }
+    }
+
+    return data;
   }
 
 }
