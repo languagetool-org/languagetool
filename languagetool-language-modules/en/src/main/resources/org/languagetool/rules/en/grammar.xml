@@ -15479,7 +15479,7 @@ USA
                 <token>don</token>
             </antipattern>
             <antipattern><!-- Qur'an -->
-                <token>Qur</token>
+                <token regexp="yes">Qur|Ma</token>
                 <token regexp="yes">&apostrophe;</token>
                 <token>an</token>
             </antipattern>
@@ -16070,7 +16070,7 @@ USA
                 <marker>
                     <token>an
                         <exception postag="NNP"/>
-                        </token>
+                    </token>
                     <token regexp="yes">aren?</token>
                 </marker>
             </pattern>
@@ -29324,7 +29324,7 @@ USA
                     <token postag="RB" min="0" />
                     <marker>
                         <token regexp="yes">
-                            don|doesn|hasn|haven|[cw]ouldn|shouldn|wasn|weren|ain|mustn|aren|isn
+                            dons?|doesn|hasn|haven|[cw]ouldn|shouldn|wasn|weren|ain|mustn|aren|isn
                             <exception case_sensitive="yes" regexp="yes">D.+</exception><!-- Name ("Don") -->
                         </token>
                     </marker>
@@ -29337,6 +29337,7 @@ USA
                 <example>I like Don for his attitude.</example>
                 <example>I like ain for his attitude.</example>
                 <example>Thank you Don.</example>
+                <example correction="don't">I <marker>dons</marker> have this.</example>
                 <example>Thank you Don for your help.</example>
                 <example>In the dressing room you don your football shirts.</example>
             </rule>
@@ -34456,7 +34457,7 @@ USA
                     <token>for</token>
                 </antipattern>
                 <antipattern>
-                    <token>Qur</token>
+                    <token regexp="yes">Qur|Ma</token>
                     <token regexp="yes">&apostrophe;</token>
                     <token>an</token>
                 </antipattern>
@@ -42174,7 +42175,7 @@ The accident victim died from her injuries.
                 <example>For example, if a guitarist played an open A Major chord.</example>
                 <example>Is there a way to internally rewire an off the shelf multi-speed portable fan.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="NN.*|PRP" postag_regexp="yes" />
                     <token postag="RB" min="0" />
@@ -42231,7 +42232,7 @@ The accident victim died from her injuries.
                     <token spacebefore="no">an</token>
                 </antipattern>
                 <antipattern>
-                    <token>Qur</token>
+                    <token regexp="yes">Ma|Qur</token>
                     <token regexp="yes">&apostrophe;</token>
                     <token>an</token>
                 </antipattern>
