@@ -10164,7 +10164,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="AFTERMARKET" name="Aftermarket" default="temp_off">
+        <rule id="AFTERMARKET" name="Aftermarket">
             <pattern>
                 <token regexp="yes">the|an?|no|my|y?our|his|her|their|its|s</token>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
@@ -16080,7 +16080,7 @@ USA
             <example>Among Non-Arab Muslims, translations of the <marker>Qur'an</marker> are most often accompanied by the original text.</example>
         </rule>
         <rulegroup id="THE_THEY" name="the (they)">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">when|if|and|because|since|unless|but|as</token>
                     <marker>
@@ -16094,6 +16094,7 @@ USA
                 <message>Did you mean <suggestion>they</suggestion>?</message>
                 <example correction="they">We can do it if <marker>the</marker> create the concept.</example>
                 <example>The older tires get, the harder the rubber becomes and the lower the traction becomes.</example>
+                <example type="triggers_error">The Tour Down Under is the largest cycling event outside Europe and the was the first event outside Europe to be granted UCI ProTour status.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -18696,11 +18697,23 @@ USA
                 <url>https://en.wikipedia.org/wiki/Office_365</url>
                 <example correction="Office 365">My <marker>office365</marker> license expired.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
+                <pattern>
+                    <token>microsoft365</token>
+                </pattern>
+                <message>Did you mean <suggestion>Microsoft 365</suggestion>?</message>
+                <url>https://en.wikipedia.org/wiki/Office_365</url>
+                <example correction="Microsoft 365">My <marker>microsoft365</marker> license expired.</example>
+            </rule>
+            <rule>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">Windows|WINDOWS</token>
                     <token regexp="yes">\d+</token>
                     <token regexp="yes">[A-Z].*</token>
+                </antipattern>
+                <antipattern><!-- doesn't exist -->
+                    <token>10</token>
+                    <token>ultimate</token>
                 </antipattern>
                 <pattern>
                     <token>Windows</token>
@@ -41957,6 +41970,63 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rulegroup id="ANS_AND" name="ans (and)" default="temp_off">
+            <rule>
+                <antipattern><!-- last word of sentence cannot be "and" -->
+                    <token postag="SENT_END">ans</token>
+                </antipattern>
+                <antipattern>
+                    <token>ans</token>
+                    <token regexp="yes">[,\.!?]</token>
+                </antipattern>
+                <antipattern>
+                    <token>ans</token>
+                    <token postag="UNKNOWN" />
+                </antipattern>
+                <antipattern><!-- Names: Ans van Kemenade-->
+                    <token>ans</token>
+                    <token regexp="yes">v[ao]n|del?</token>
+                </antipattern>
+                <antipattern><!-- Belgium and Danish city named "Ans" (https://en.wikipedia.org/wiki/Ans) -->
+                    <token regexp="yes">from|in|of|to|by</token>
+                    <token case_sensitive="yes">Ans</token>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token spacebefore="no">ans</token>
+                </antipattern>
+                <antipattern><!-- "ans" is an abbrev for "answer" ("the ans is correct") -->
+                    <token regexp="yes">the|an?|or|but|because</token>
+                    <token>ans</token>
+                </antipattern>
+                <antipattern><!-- "Ans" is a Dutch name -->
+                    <token regexp="yes">Hi|Heya?|Hello|Thanks|(Good\-?)Bye|Sorry|Dear(est)?</token>
+                    <token case_sensitive="yes">Ans</token>
+                </antipattern>
+                <antipattern>
+                    <token>Good</token>
+                    <token regexp="yes">Morning|Day|Evening|Night|Afternoon|Bye</token>
+                    <token case_sensitive="yes">Ans</token>
+                </antipattern>
+                <antipattern><!-- dutch person names (taken from Wikipedia) -->
+                    <token>ans</token>
+                    <token regexp="yes">gravest.*|hofmeester.*|dekker|bakker|janssen|smit|meijer|dresden.*|smulder.*|visser|meyer|koning|kremer|luttmer.*|markus|polak|niesing|niesink|schut|salomon.*|schut.*|timmerman.*|westra|wortel|woud|beentjes|verdijk.*|willemse.*|zwerver|boersma|fc|station</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">
+                        [Aa]ns
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>and</suggestion>?</message>
+                <example correction="and">Me <marker>ans</marker> my best friend.</example>
+                <example correction="And"><marker>Ans</marker> now?</example>
+                <example>The Ma'ans chose for their abode the Chouf District in south-western Lebanon</example>
+                <example>The survey of the Germanic branch languages includes chapters by Winfred P. Lehmann, Ans van Kemenade, John Ole Askedal, Erik Andersson, Neil Jacobs, Silke Van Ness, and Suzanne Romaine.</example>
+                <example type="triggers_error">Ans may refer to:</example>
+                <example>The ANS Group of Companies is a news and broadcasting company in Azerbaijan.</example>
+                <example>The ans is correct.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GRATE_GREAT" name="grate (great)">
             <rule>
                 <pattern>
