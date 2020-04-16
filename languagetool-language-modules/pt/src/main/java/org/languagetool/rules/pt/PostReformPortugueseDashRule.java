@@ -30,10 +30,10 @@ import java.util.ResourceBundle;
  */
 public class PostReformPortugueseDashRule extends AbstractDashRule {
 
-  private static final AhoCorasickDoubleArrayTrie<String> trie = loadCompoundFile("/pt/post-reform-compounds.txt");
+  private static volatile AhoCorasickDoubleArrayTrie<String> trie;
   
   public PostReformPortugueseDashRule(ResourceBundle messages) {
-    super(trie, messages);
+    super(messages);
     setLocQualityIssueType(ITSIssueType.Typographical);
   }
 
@@ -55,6 +55,21 @@ public class PostReformPortugueseDashRule extends AbstractDashRule {
   @Override
   protected boolean isBoundary(String s) {
     return !s.matches("[a-zA-ZÂâÃãÇçÊêÓóÔôÕõü]");  // chars from http://unicode.e-workers.de/portugiesisch.php
+  }
+
+  @Override
+  protected AhoCorasickDoubleArrayTrie<String> getCompoundsData() {
+    AhoCorasickDoubleArrayTrie<String> data = trie;
+    if (data == null) {
+      synchronized (PostReformPortugueseDashRule.class) {
+        data = trie;
+        if (data == null) {
+          trie = data = loadCompoundFile("/pt/post-reform-compounds.txt");
+        }
+      }
+    }
+
+    return data;
   }
 
 }

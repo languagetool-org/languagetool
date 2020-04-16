@@ -29,7 +29,7 @@ import java.util.ResourceBundle;
  */
 public class CompoundRule extends AbstractCompoundRule {
 
-  private static final CompoundRuleData compoundData = new CompoundRuleData("/nl/compounds.txt");
+  private static volatile CompoundRuleData compoundData;
 
   public CompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
@@ -52,7 +52,17 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   protected CompoundRuleData getCompoundRuleData() {
-    return compoundData;
+    CompoundRuleData data = compoundData;
+    if (data == null) {
+      synchronized (CompoundRule.class) {
+        data = compoundData;
+        if (data == null) {
+          compoundData = data = new CompoundRuleData("/nl/compounds.txt");
+        }
+      }
+    }
+
+    return data;
   }
 
 }

@@ -33,12 +33,9 @@ import java.util.*;
  */
 public abstract class AbstractDashRule extends Rule {
 
-  private final AhoCorasickDoubleArrayTrie<String> trie;
-
-  public AbstractDashRule(AhoCorasickDoubleArrayTrie<String> trie, ResourceBundle messages) {
+  public AbstractDashRule(ResourceBundle messages) {
     super(messages);
     setCategory(Categories.TYPOGRAPHY.getCategory(messages));
-    this.trie = trie;
   }
 
   @Override
@@ -51,6 +48,8 @@ public abstract class AbstractDashRule extends Rule {
 
   public abstract String getMessage();
 
+  protected abstract AhoCorasickDoubleArrayTrie<String> getCompoundsData();
+
   @Override
   public int estimateContextForSureMatch() {
     return 2;
@@ -60,7 +59,7 @@ public abstract class AbstractDashRule extends Rule {
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> matches = new ArrayList<>();
     String text = sentence.getText();
-    List<AhoCorasickDoubleArrayTrie.Hit<String>> hits = trie.parseText(text);
+    List<AhoCorasickDoubleArrayTrie.Hit<String>> hits = getCompoundsData().parseText(text);
     Set<Integer> startPositions = new HashSet<>();
     Collections.reverse(hits);  // work on longest matches first
     for (AhoCorasickDoubleArrayTrie.Hit<String> hit : hits) {
