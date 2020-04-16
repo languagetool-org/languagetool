@@ -3241,6 +3241,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
            <token postag="VBN"/>
            <token postag="VBN"/>
        </antipattern>
+       <antipattern><!-- #2754 The boy who cried spilt milk on the table -->
+           <token postag="WP"/>
+           <token chunk="B-VP" postag="VBN"/>
+           <token postag="VBD"/>
+           <token chunk="B-NP-singular"/>
+       </antipattern>
         <pattern>
             <marker>
                 <token postag="VBN">
@@ -3264,6 +3270,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Objects must orbit the Earth within this radius, or they can become unbound by the gravitational perturbation of the Sun.</example>
         <example type="untouched">Presently you can only set named tags via AppleScript.</example>
         <example type="untouched">He was last seen taken care of by his mother.</example><!-- #2722 -->
+        <example type="untouched">The boy who cried spilt milk on the table.</example><!-- #2754 -->
+        <example type="ambiguous" inputform="known[know/VBN,known/NN]" outputform="known[known/JJ]">... and his <marker>known</marker> written works are discussed in Chapter 3.</example>
     </rule>
 
     <rule name="of + VBN + JJ -&gt; JJ" id="OF_VBN_JJ">
