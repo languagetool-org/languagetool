@@ -3903,6 +3903,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">&apostrophe;</token>
             <token>s</token>
         </antipattern>
+        <antipattern><!-- #2760 He states that spot sales in -->
+            <token chunk="B-VP" postag="VBZ"/>
+            <token postag="WDT"/>
+            <token chunk="B-NP-plural" postag="NN"/>
+            <token chunk="E-NP-plural" postag="NNS"/>
+        </antipattern>
         <pattern>
             <token postag="NNS"/>
             <token postag="WDT"/>
@@ -3916,6 +3922,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="filter" postag="VB[PD]"/>
         <example type="untouched">I didn't know that they were happy.</example>
         <example type="untouched">moved to the BAA and won that league's 1948 title.</example>
+        <example type="untouched">He states that spot sales in the Pacific Northwest...</example><!--- #2760 -->
         <example type="ambiguous" inputform="lay[lay/JJ,lay/NN,lay/VB,lay/VBP,lie/VBD]" outputform="lay[lay/VBP,lie/VBD]">Certain frogs that <marker>lay</marker> eggs underground have unpigmented eggs.</example>
     </rule>
 
