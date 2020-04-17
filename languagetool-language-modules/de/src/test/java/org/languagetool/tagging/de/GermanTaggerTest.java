@@ -29,6 +29,7 @@ import org.languagetool.JLanguageTool;
 import java.io.IOException;
 import java.util.*;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 @SuppressWarnings("ConstantConditions")
@@ -236,28 +237,43 @@ public class GermanTaggerTest {
 
   @Test
   public void testPrefixVerbsFromSpellingTxt() throws IOException {
-    String result1 = tagger.tag(Collections.singletonList("herumgeben")).toString();
-    assertTrue(result1.contains("herumgeben/VER:1:PLU:KJ1:NON*"));
-    assertTrue(result1.contains("herumgeben/VER:1:PLU:PRÄ:NON*"));
-    assertTrue(result1.contains("herumgeben/VER:3:PLU:KJ1:NON*"));
-    assertTrue(result1.contains("herumgeben/VER:3:PLU:PRÄ:NON*"));
-    assertTrue(result1.contains("herumgeben/VER:INF:NON*"));
-    assertFalse(result1.contains("ADJ:"));
-    assertFalse(result1.contains("PA1:"));
-    assertFalse(result1.contains("PA2:"));
+    List<AnalyzedTokenReadings> result1 = tagger.tag(Collections.singletonList("herumgeben"));
+    assertThat(result1.size(), is(1));
+    assertThat(result1.get(0).getReadings().size(), is(5));
+    String res1 = result1.toString();
+    assertTrue(res1.contains("herumgeben/VER:1:PLU:KJ1:NON*"));
+    assertTrue(res1.contains("herumgeben/VER:1:PLU:PRÄ:NON*"));
+    assertTrue(res1.contains("herumgeben/VER:3:PLU:KJ1:NON*"));
+    assertTrue(res1.contains("herumgeben/VER:3:PLU:PRÄ:NON*"));
+    assertTrue(res1.contains("herumgeben/VER:INF:NON*"));
+    assertFalse(res1.contains("ADJ:"));
+    assertFalse(res1.contains("PA1:"));
+    assertFalse(res1.contains("PA2:"));
 
-    String result2 = tagger.tag(Collections.singletonList("herumgab")).toString();
-    assertTrue(result2.contains("herumgeben/VER:1:SIN:PRT:NON*"));
-    assertTrue(result2.contains("herumgeben/VER:3:SIN:PRT:NON*"));
-    assertFalse(result2.contains("ADJ:"));
+    List<AnalyzedTokenReadings> result2 = tagger.tag(Collections.singletonList("herumgab"));
+    assertThat(result2.size(), is(1));
+    assertThat(result2.get(0).getReadings().size(), is(2));
+    String res2 = result2.toString();
+    assertTrue(res2.contains("herumgeben/VER:1:SIN:PRT:NON*"));
+    assertTrue(res2.contains("herumgeben/VER:3:SIN:PRT:NON*"));
+    assertFalse(res2.contains("ADJ:"));
 
-    String result3 = tagger.tag(Collections.singletonList("zurückgeschickt")).toString();
-    assertTrue(result3.contains("zurückschicken/VER:PA2:SFT*"));
-    assertFalse(result3.contains("ADJ:"));
+    List<AnalyzedTokenReadings> result3 = tagger.tag(Collections.singletonList("zurückgeschickt"));
+    assertThat(result3.size(), is(1));
+    assertThat(result3.get(0).getReadings().size(), is(1));
+    String res3 = result3.toString();
+    assertTrue(res3.contains("zurückschicken/VER:PA2:SFT*"));
+    assertFalse(res3.contains("ADJ:"));
 
-    String result4 = tagger.tag(Collections.singletonList("abzuschicken")).toString();
-    assertTrue(result4.contains("abschicken/VER:1:PLU:KJ1:SFT"));
-    assertFalse(result4.contains("ADJ:"));
+    List<AnalyzedTokenReadings> result4 = tagger.tag(Collections.singletonList("abzuschicken"));
+    assertThat(result4.size(), is(1));
+    assertThat(result4.get(0).getReadings().size(), is(5));
+    String res4 = result4.toString();
+    assertTrue(res4.contains("abschicken/VER:1:PLU:KJ1:SFT*"));
+    assertTrue(res4.contains("abschicken/VER:1:PLU:PRÄ:SFT*"));
+    assertTrue(res4.contains("abschicken/VER:3:PLU:KJ1:SFT*"));
+    assertTrue(res4.contains("abschicken/VER:3:PLU:PRÄ:SFT*"));
+    assertFalse(res4.contains("ADJ:"));
   }
 
   /**
