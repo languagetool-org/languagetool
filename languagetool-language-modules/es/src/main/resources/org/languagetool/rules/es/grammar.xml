@@ -22,7 +22,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 -->
 <!DOCTYPE rules [
 <!ENTITY adverbio_lugar "detr&#225;s|delante|debajo|encima|cerca">
-<!ENTITY pronombres_personales "PP3..A.*|PP[123]C[SP]000|P0[123].*">
+<!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP]000|P0[123].*">
 <!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las">
 <!ENTITY nombre_fem_el "acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
 ]>
@@ -455,6 +455,51 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
+        <rulegroup id="ARTICULO_EN_TOPONIMOS" name="del Cario > de El Cairo" default="temp_off">
+            <url>https://www.fundeu.es/recomendacion/el-cairo-no-cairo-830/</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">al|del</token>
+                    <token regexp="yes" case_sensitive="yes">Cairo|Salvador|Escorial|Ejido</token>
+                </pattern>
+                <message>Si se trata de un nombre de lugar, se escribe separado y con mayúscula.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(a|de)l" regexp_replace="$1"/> El \2</suggestion>
+                <example correction="de El Cairo">Viene <marker>del Cairo</marker></example>
+                <example correction="de El Escorial">San Lonrenzo <marker>del Escorial</marker></example>
+                <example>Se dirige al salvador.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">al|del</token>
+                    <token case_sensitive="yes">Corte</token>
+                    <token>Inglés</token>
+                </pattern>
+                <message>Si se trata de un nombre propio, se escribe separado y con mayúscula.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(a|de)l" regexp_replace="$1"/> El Corte Inglés</suggestion>
+                <example correction="de El Corte Inglés">Viene <marker>del Corte inglés</marker></example>
+            </rule>
+        </rulegroup>
+        <rulegroup name="SIGLAS" id="siglas" default="temp_off">
+            <url>https://www.fundeu.es/recomendacion/siglas-y-acronimos-claves-de-redaccion/</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z]+</token>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no">s</token>
+                </pattern>
+                <message>El plural de las siglas no se marca gráficamente.</message>
+                <suggestion>\1</suggestion>
+                <example correction="ONG">las <marker>ONG's</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" case_sensitive="yes">[A-Z][A-Z]+s<exception postag="N,*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>El plural de las siglas no se marca gráficamente.</message>
+                <suggestion><match no="1" regexp_match="(.+)s" regexp_replace="$1"/></suggestion>
+                <example correction="ONG">las <marker>ONGs</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ABBREVIATION" name="abreviaturas">
             <url>https://www.rae.es/dpd/ayuda/abreviaturas</url>
             <rule>
@@ -599,6 +644,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>al cabo</suggestion>
             <example correction="a cabo|al cabo">Lo llevó <marker>acabo</marker> con solvencia.</example>
             <example correction="a cabo|al cabo">Hay que llevarlo <marker>acabo</marker> con solvencia.</example>
+        </rule>
+        <rule id="DAR_A_LUGAR" name="dar *(a) lugar" default="temp_off">
+            <pattern>
+                <token inflected="yes">dar</token>
+                <marker>
+                    <token>a</token>
+                    <token>lugar</token>
+                </marker>
+            </pattern>
+            <message>Expresión incorrecta.</message>
+            <suggestion>lugar</suggestion>
+            <example correction="lugar">Lo cual daría <marker>a lugar</marker> a varios cambios.</example>
         </rule>
         <rule id="SOBRETODO" name="sobretodo/sobre todo">
             <!-- A lot of true positives expected! But the rule is right. -->
@@ -911,8 +968,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">[a-z].*</token>
                 </pattern>
-                <message>Asegúrese de que el carácter '\2' es correcto y no es un error de escritura.</message>
-                <suggestion>y</suggestion>
+                <message>Si es una conjunció, se escribe <suggestion>y</suggestion>.</message>
                 <example correction="y">Entre Madrid <marker>i</marker> Sevilla.</example>
                 <example correction="y">Ortega <marker>i</marker> Gasset.</example>
                 <example>Carlos I de España.</example>
@@ -1103,6 +1159,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
                 <example correction="él">Esto queda entre <marker>el</marker> y yo.</example>
+                <example>Me gusta el que tienes.</example>
+            </rule>
+            <rule id="EL_TILDE" name="el / él" default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>el<exception postag="_GN_MS"></exception></token>
+                    </marker>
+                    <token postag="&pronombre_personal_atono_POS;|R.*|LOC_ADV" postag_regexp="yes" min="0" max="5"/>
+                    <token postag="V...3S." postag_regexp="yes"><exception postag="[NA].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
+                <example correction="Él"><marker>El</marker> fue.</example>
+                <example correction="Él"><marker>El</marker> se fue.</example>
+                <example correction="Él"><marker>El</marker> a veces se va.</example>
+                <example correction="Él"><marker>El</marker> no siempre viene.</example>
                 <example>Me gusta el que tienes.</example>
             </rule>
             <!-- TU_PARTICULA_VERBO_P2 tu no te lo pierdas
@@ -1687,6 +1758,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="CAT1" name="Ortografía (concepto)" type="grammar">
         <!-- HABER_AVER Uso incorrecto de «haber» por «a ver»-->
+        <rule id="HECHO_ECHO" name="*hecho/echo" default="temp_off">
+            <pattern>
+                <token postag_regexp="yes" postag="&pronombre_personal_atono_POS;"/>
+                <marker>
+                    <token regexp="yes">hecho|hecha|hechas<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <message>Si es del v. 'echar' (=tirar, lanzar, sacar), se escribe sin hache.</message>
+            <suggestion><match no="2" regexp_match="(?iu)h(.*)" regexp_replace="$1"></match></suggestion>
+            <example correction="echa">Os <marker>hecha</marker></example>
+            <example correction="echa">Las <marker>hecha</marker> a la calle.</example>
+            <example>Las crudas no, las hechas.</example>
+            <example>Las hechas por el fabricante.</example>
+        </rule>
         <rulegroup id="HABER_AVER" name="Uso incorrecto de «haber» por «a ver»">
             <short>Posible confusión del verbo «ver» con el verbo «haber»</short>
             <!--HABER_QUE-->
@@ -1721,10 +1806,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>y<exception scope="previous">¿</exception></token>
                     <token regexp="yes">^h?[ií].* <exception regexp="yes">^h?ih?[aeouáéóú].*</exception><!--Números romanos--><exception regexp="yes">[ivxlcdm]+</exception></token>
                 </pattern>
-                <message>Cuando precede a palabras que comienzan por «i-» (o «hi-»), la conjunción «y» se transforma en «e»: <suggestion>e <match no="2"/></suggestion></message>
-                <short>Cuando precede a palabras que comienzan por «i-» (o «hi-»), la conjunción «y» se transforma en «e»</short>
+                <message>Cuando precede a palabras que comienzan por «i-» (o «hi-»), la conjunción «y» se transforma en «e».</message>
+                <suggestion>e <match no="2"/></suggestion>
                 <example correction="e Italia">Alemania <marker>y Italia</marker> disputarán el torneo.</example>
                 <example>¿<marker>Y Irene</marker>?</example>
+            </rule>
+            <rule id="E_Y" name="y ante palabras empezando por (h)ia" default="temp_off">
+                <pattern>
+                    <token>e</token>
+                    <token regexp="yes">^h?ih?[aeoáéó].*</token>
+                </pattern>
+                <message>Cuando precede a palabras que comienzan con diptongo, se usa la conjunción «y», no «e».</message>
+                <suggestion>y <match no="2"/></suggestion>
+                <example correction="y hielo">Agua <marker>e hielo</marker>.</example>
+                <example correction="y hierro">Agua <marker>e hierro</marker>.</example>
+                <example correction="y iones">Agua <marker>e iones</marker>.</example>
             </rule>
             <!-- O_U Cambio u por o-->
             <rule id="O_U" name="cambio de o ante palabras empezando por o">
@@ -2558,6 +2654,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de las aguas"><marker>del aguas</marker></example>
                 <example correction="de los parques">Ha vuelto <marker>del parques</marker> pronto.</example>
                 <example correction="De la silla"><marker>Del silla</marker></example>
+                <example correction="De la interfaz"><marker>Del interfaz</marker></example>
                 <example>Debes estar al corriente.</example>
             </rule>
             <rule>
@@ -3102,6 +3199,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="REDUNDANCIES" name="redundancias">
+        <rulegroup id="ETCETERA" name="etc..." default="temp_off">
+            <rule>
+                <pattern>
+                    <token>etc</token>
+                    <token>…</token>
+                </pattern>
+                <message>Redundancia.</message>
+                <suggestion>etc.</suggestion>
+                <suggestion>…</suggestion>
+                <example correction="etc.|…">Tres, cuatro, cinco, <marker>etc…</marker></example>
+                <example>Un, dos, etc.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>etc</token>
+                    <token>.</token>
+                    <token>.</token>
+                    <token>.</token>
+                </pattern>
+                <message>Redundància.</message>
+                <suggestion>etc.</suggestion>
+                <suggestion>…</suggestion>
+                <example correction="etc.|…">Tres, cuatro, cinco, <marker>etc...</marker></example>
+                <example>Un, dos, etc.</example>
+            </rule>
+        </rulegroup>
         <rule id="OROGRAFIA_DEL_TERRENO" name="redundancia: orografía del terreno">
             <pattern>
                 <token>orografía</token>

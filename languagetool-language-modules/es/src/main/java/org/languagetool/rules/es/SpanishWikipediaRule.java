@@ -56,6 +56,7 @@ public class SpanishWikipediaRule extends AbstractSimpleReplaceRule2 {
     setLocQualityIssueType(ITSIssueType.Grammar);
     addExamplePair(Example.wrong("<marker>a basto</marker>"),
                    Example.fixed("<marker>abasto</marker>"));
+    this.setDefaultOff();
   }
 
   @Override
