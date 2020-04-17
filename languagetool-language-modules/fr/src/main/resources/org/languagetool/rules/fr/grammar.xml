@@ -8378,7 +8378,22 @@ though, and has since been slightly modified)-->
           <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
       </rule>
       <!-- End of additions -->
-    <!-- http://www.leconjugueur.com/frlesnombres.php -->
+      <rule id="SONT_AUTANT_SING" name="Sont autant suivi d'un mot singulier">
+          <pattern>
+              <token>sont</token>
+              <token>autant</token>
+              <token regexp="yes">de?</token>
+              <token min="0">'</token>
+              <marker>
+                  <token postag="N [mfe] s" postag_regexp="yes"/>
+              </marker>
+          </pattern>
+          <message>Dans cette expression, « \5 » devrait être au pluriel.</message>
+          <suggestion><match no="5" postag="N ([mfe]) s" postag_regexp="yes" postag_replace="N $1 p"/></suggestion>
+          <example correction="implémentations">Ce sont autant d'<marker>implémentation</marker>.</example>
+          <example>Telles sont autant de questions soulevées dans cet ouvrage.</example>
+      </rule>
+      <!-- http://www.leconjugueur.com/frlesnombres.php -->
     <rulegroup id="TRAIT_UNION_NOMBRE" name="Nombre avec trait d’union">
       <rule>
         <pattern>
@@ -9079,7 +9094,8 @@ though, and has since been slightly modified)-->
           <token postag="A" min="0" max="1"><exception>moins</exception></token>
           <marker>
             <token postag="[JNZ] f .*" postag_regexp="yes">
-              <exception postag="[JNZ] [me] .*|V.* (ppa [em]|inf|ppr|ind|con|sub|imp).*|[NJZ] [em].*" postag_regexp="yes"/>
+              <exception postag="[JN] [me] .*|V.* (ppa [em]|inf|ppr|ind|con|sub|imp).*|[NJZ] [em].*" postag_regexp="yes"/>
+              <exception postag="Z.*" postag_regexp="yes"/>
               <exception scope="previous">peu</exception>
               <exception regexp="yes">face|grâce|élection|putain</exception>
               <exception case_sensitive="yes">CAPES</exception>
@@ -9168,7 +9184,10 @@ though, and has since been slightly modified)-->
             <exception regexp="yes">non|air|car|pas</exception></token>
           <token max="1" min="0" postag="A"/>
           <marker>
-            <token postag="(J|V ppa) f .*" postag_regexp="yes"><exception postag="[JNZ] [me] .*|V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/></token>
+            <token postag="(J|V ppa) f .*" postag_regexp="yes">
+                <exception postag="[JN] [me] .*|V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/>
+                <exception postag="Z.*" postag_regexp="yes"/>
+            </token>
           </marker>
         </pattern>
         <message>« \1 » et « \3 » ne semblent pas bien accordés en genre.</message>
@@ -9238,7 +9257,8 @@ though, and has since been slightly modified)-->
           </token>
           <marker>
           <token postag="[JNZ] m .*" postag_regexp="yes">
-            <exception postag="[JNZ] [fe] .*|V .*(ppa [ef]|inf|ppr|ind|con|sub).*|C coor|[NJZ] [ef] .*" postag_regexp="yes"/>
+            <exception postag="[JN] [fe] .*|V .*(ppa [ef]|inf|ppr|ind|con|sub).*|C coor" postag_regexp="yes"/>
+            <exception postag="Z.*" postag_regexp="yes"/>
             <exception regexp="yes">.|fait|non|pas|(sud|nord)(-(est|ouest))?|est|ouest|sept|neuf</exception>
           </token>
         </marker>
@@ -9281,6 +9301,7 @@ though, and has since been slightly modified)-->
         <example>L’une des pires.</example>
         <example>Les tortues luth.</example>
         <example>L’imprimante laser.</example>
+        <example>Via la holding Christian Dior.</example>
       </rule>
       <rule name="nom féminin suivi du masculin">
         <antipattern>
@@ -9320,7 +9341,8 @@ though, and has since been slightly modified)-->
           </token>
           <marker>
           <token postag="(J|V ppa) m .*" postag_regexp="yes">
-            <exception postag="[JNZ] [fe] .*|V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/>
+            <exception postag="[JN] [fe] .*|V .*(inf|ppr|ind|con|sub).*" postag_regexp="yes"/>
+            <exception postag="Z.*" postag_regexp="yes"/>
             <exception>amateur</exception>
           </token>
         </marker>
@@ -15931,7 +15953,7 @@ though, and has since been slightly modified)-->
       <example correction="points de vue">Des <marker>points de vues</marker>.</example>
       <example>Des points de vue.</example>
     </rule>
-      <rule id="BIOS" name="Confusion bios/BIOS" default="temp_off">
+      <rule id="BIOS" name="Confusion bios/BIOS">
           <pattern>
               <token postag="D m s"/>
               <marker>
@@ -15942,7 +15964,7 @@ though, and has since been slightly modified)-->
           <suggestion>BIOS</suggestion>
           <example correction="BIOS">Il faut le règler directement dans le <marker>bios</marker>.</example>
       </rule>
-      <rulegroup id="TOUT_A_COMMENCE" name="Expression 'tout a commencé'" default="temp_off">
+      <rulegroup id="TOUT_A_COMMENCE" name="Expression 'tout a commencé'">
           <rule name="Expression 'tout a/à commencé'">
               <pattern>
                   <token>tout</token>
@@ -18152,10 +18174,11 @@ though, and has since been slightly modified)-->
     <rule id="CIMETIERE_MILITAIRE" name="cimetière militaire">
       <pattern>
         <token inflected="yes" regexp="yes" skip="1">cimetières?</token>
-        <token regexp="yes">militaires?</token>
+        <token>de</token>
+        <token regexp="yes">guerres?</token>
       </pattern>
-      <message>« Cimetière militaire » est un anglicisme (war cemetery). Employez <suggestion>cimetière de guerre</suggestion>.</message>
-      <example correction="cimetière de guerre"><marker>cimetière militaire</marker></example>
+      <message>« Cimetière de guerre » est un anglicisme (war cemetery). Employez <suggestion>cimetière militaire</suggestion>.</message>
+      <example correction="cimetière militaire">Il est enterré au <marker>cimetière de guerre</marker>.</example>
     </rule>
     <rule id="PAVER_LA_VOIE" name="paver la voie">
       <pattern>
@@ -19404,13 +19427,14 @@ though, and has since been slightly modified)-->
       <example correction="câble de batterie|câble de démarrage"><marker>câble à booster</marker></example>
       <example><marker>câble de démarrage</marker></example>
     </rule>
-    <rule id="COMMENCER_AVEC" name="commencer avec">
+    <rule id="COMMENCER_AVEC" name="commencer avec" default="off">
+        <!-- Disabled because of false positives (vkyfox) TODO: Adjust pattern and suggestions, add antipatterns -->
       <pattern>
         <token inflected="yes" skip="1"><exception>par</exception>commencer</token>
         <token>avec</token>
       </pattern>
       <message>« Commencer avec » est un anglicisme (to begin with). Employez <suggestion>\1 par</suggestion>.</message>
-      <example correction="commencer par"><marker>commencer avec</marker></example>
+      <example correction="commencer par">Il avait tort pour <marker>commencer avec</marker>.</example>
       <example><marker>Il commença à discuter avec moi.</marker></example>
     </rule>
     <rule id="DEVELOPPER_UN_GOUT_POUR" name="développer un goût pour">
@@ -30899,7 +30923,7 @@ though, and has since been slightly modified)-->
       <example correction="de sorte qu">Agissez <marker>de sorte à ce qu</marker>’on vous aime.</example>
       <example correction="de sorte que">Asseyez-vous, <marker>de sorte à ce que</marker> tous puissent voir le spectacle.</example>
     </rule>
-      <rulegroup id="Y_A" default="temp_off" name="Expression familière y'a">
+      <rulegroup id="Y_A" name="Expression familière y'a">
           <antipattern>
               <token>y</token>
               <token>'</token>
@@ -30964,7 +30988,7 @@ though, and has since been slightly modified)-->
               <example>Y'a pas mal de gens.</example>
           </rule>
       </rulegroup>
-      <rule id="CHIFFRE_SIECLE" name="Chiffre suivi du mot siècle" default="temp_off">
+      <rule id="CHIFFRE_SIECLE" name="Chiffre suivi du mot siècle">
           <antipattern>
               <token regexp="yes">en|durant|pendant</token>
               <token regexp="yes">\d+</token>
