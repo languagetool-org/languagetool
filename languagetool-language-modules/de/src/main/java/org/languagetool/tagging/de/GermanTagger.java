@@ -20,10 +20,7 @@ package org.languagetool.tagging.de;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -31,6 +28,9 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.spelling.CachingWordListLoader;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tagging.TaggedWord;
@@ -47,8 +47,11 @@ import org.languagetool.tools.StringTools;
 public class GermanTagger extends BaseTagger {
 
   private final ManualTagger removalTagger;
+  private final Map<String, PrefixInfixVerb> verbInfos = new HashMap<>();
 
   private GermanCompoundTokenizer compoundTokenizer;
+
+  private final static Synthesizer synthesizer = new GermanyGerman().getSynthesizer();
 
   private static final List<String> allAdjGruTags = new ArrayList<>();
   static {
@@ -90,6 +93,30 @@ public class GermanTagger extends BaseTagger {
       removalTagger = new ManualTagger(stream);
     } catch (IOException e) {
       throw new RuntimeException("Could not load manual tagger data from " + getManualAdditionsFileName(), e);
+    }
+    initVerbInfos();
+  }
+
+  private void initVerbInfos() {
+    List<String> spellingWords = new CachingWordListLoader().loadWords("de/hunspell/spelling.txt");
+    for (String line : spellingWords) {
+      if (!line.contains("_")) {
+        continue;
+      }
+      String[] parts = line.replace("#.*", "").trim().split("_");
+      String prefix = parts[0];
+      String verbBaseform = parts[1];
+      try {
+        String[] forms = synthesizer.synthesize(new AnalyzedToken(verbBaseform, "FAKE", verbBaseform), "VER:.*", true);
+        for (String form : forms) {
+          if (!form.contains("ß")) {  // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
+            verbInfos.put(prefix + form, new PrefixInfixVerb(prefix, "", verbBaseform));
+          }
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      verbInfos.put(prefix + "zu" + verbBaseform, new PrefixInfixVerb(prefix, "zu", verbBaseform));  //  "zu<verb>" is not part of forms from synthesizer
     }
   }
 
@@ -211,7 +238,16 @@ public class GermanTagger extends BaseTagger {
       if (taggerTokens.size() > 0) { //Word known, just add analyzed token to readings
         readings.addAll(getAnalyzedTokens(taggerTokens, word));
       } else { // Word not known, try to decompose it and use the last part for POS tagging:
-        if (isWeiseException(word)) {   // "idealerweise" etc. but not "überweise", "eimerweise"
+        PrefixInfixVerb verbInfo = verbInfos.get(word);
+        if (verbInfo != null) {   // e.g. "herumgeben" with "herum_geben" in spelling.txt
+          String noPrefixForm = word.substring(verbInfo.prefix.length() + verbInfo.infix.length());   // infix can be "zu"
+          List<TaggedWord> tags = tag(noPrefixForm);
+          for (TaggedWord tag : tags) {
+            if (tag.getPosTag() != null && tag.getPosTag().startsWith("VER:")) {  // e.g. "schicke" is verb and adjective
+              readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
+            }
+          }
+        } else if (isWeiseException(word)) {   // "idealerweise" etc. but not "überweise", "eimerweise"
           for (String tag : tagsForWeise) {
             readings.add(new AnalyzedToken(word, tag, word));
           }
@@ -423,4 +459,14 @@ public class GermanTagger extends BaseTagger {
     return result;
   }
 
+  static class PrefixInfixVerb {
+    String prefix;
+    String infix;
+    String verbBaseform;
+    PrefixInfixVerb(String prefix, String infix, String verbBaseform) {
+      this.prefix = prefix;
+      this.infix = infix;
+      this.verbBaseform = verbBaseform;
+    }
+  }
 }

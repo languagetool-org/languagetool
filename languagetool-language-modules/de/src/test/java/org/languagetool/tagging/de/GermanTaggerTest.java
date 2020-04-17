@@ -244,6 +244,33 @@ public class GermanTaggerTest {
     assertTrue(tagger.isWeiseException("idealerweise"));
   }
 
+  @Test
+  public void testPrefixVerbsFromSpellingTxt() throws IOException {
+    GermanTagger tagger = new GermanTagger();
+    String result1 = tagger.tag(Collections.singletonList("herumgeben")).toString();
+    assertTrue(result1.contains("herumgeben/VER:1:PLU:KJ1:NON*"));
+    assertTrue(result1.contains("herumgeben/VER:1:PLU:PRÄ:NON*"));
+    assertTrue(result1.contains("herumgeben/VER:3:PLU:KJ1:NON*"));
+    assertTrue(result1.contains("herumgeben/VER:3:PLU:PRÄ:NON*"));
+    assertTrue(result1.contains("herumgeben/VER:INF:NON*"));
+    assertFalse(result1.contains("ADJ:"));
+    assertFalse(result1.contains("PA1:"));
+    assertFalse(result1.contains("PA2:"));
+
+    String result2 = tagger.tag(Collections.singletonList("herumgab")).toString();
+    assertTrue(result2.contains("herumgeben/VER:1:SIN:PRT:NON*"));
+    assertTrue(result2.contains("herumgeben/VER:3:SIN:PRT:NON*"));
+    assertFalse(result2.contains("ADJ:"));
+
+    String result3 = tagger.tag(Collections.singletonList("zurückgeschickt")).toString();
+    assertTrue(result3.contains("zurückschicken/VER:PA2:SFT*"));
+    assertFalse(result3.contains("ADJ:"));
+
+    String result4 = tagger.tag(Collections.singletonList("abzuschicken")).toString();
+    assertTrue(result4.contains("abschicken/VER:1:PLU:KJ1:SFT"));
+    assertFalse(result4.contains("ADJ:"));
+  }
+
   /**
    * Returns a string representation like {@code toString()}, but sorts
    * the elements alphabetically.
