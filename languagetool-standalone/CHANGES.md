@@ -20,6 +20,9 @@
 #### Russian
   * added and improved rules
 
+#### Spanish
+  * added and improved rules
+  * new tagger dictionary by Jaume Ortolà, LGPL, source: https://github.com/jaumeortola/spanish-dict-tools
 
 ## 4.9 (2020-03-24)
 
