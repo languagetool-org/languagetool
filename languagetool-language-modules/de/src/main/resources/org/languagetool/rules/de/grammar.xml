@@ -42270,13 +42270,18 @@ Andere Projekte</example>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes">
                         <exception postag="VER:INF:.+|PA[12]:.+|SUB:.+|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.+|ZUS|ZAL" postag_regexp="yes"/>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen</exception>
-                       </token>
+                    </token>
                     <token>als</token>
                     <token>auch</token>
                 </antipattern>
                 <antipattern>
                     <token postag="VER:AUX:.+" postag_regexp="yes"/>
                     <token postag="PRO:PER:NOM:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">da|weil|ob(wohl|gleich)?|da(mit|ss)|indem|wenn|falls|sofern|während|bevor|nachdem|seitdem|so(bald|dass|lange)|was|als|wie|bis|wer|wo(hin)?</token>
+                    <token postag="VER:.+" postag_regexp="yes"></token>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -42286,12 +42291,12 @@ Andere Projekte</example>
                         <exception postag="VER:INF:.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen|gelingen</exception>
                         <exception regexp="yes" scope="next">,|\.|:|\?|!|;|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
-                       </token>
+                    </token>
                     </marker>
                     <token postag="VER.*:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes">
                         <exception postag="VER:INF:.*|PA[12]:.*|SUB:.*|EIG:.*|PR[OP]:.*|AD[JV]:.*|ART:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
                         <exception  inflected="yes" regexp="yes">bleiben|lassen|gelingen</exception>
-                       </token>
+                    </token>
                     <token/>
                 </pattern>
                 <message>Hier sollte ein Komma eingefügt werden, wenn es sich um einen Haupt- und Nebensatz oder zwei Hauptsätze handelt.</message>
@@ -42304,6 +42309,7 @@ Andere Projekte</example>
                 <example>Wie erfolgreich waren apologetische Bestrebungen, wenn sie doch verloren haben?</example>
                 <example>Wie konnten die Bakterien in die Milch gelangen?</example>
                 <example>Jetzt bin ich offen für viele Dinge, allerdings interessiere ich mich nun schon seit geraumer Zeit für die Ergreifung eines Sozialberufs.</example>
+                <example>Da, finde ich, kann auch noch was passieren.</example>
             </rule>
             <rule>
                 <antipattern>
