@@ -4655,6 +4655,17 @@ USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">from|to</token>
+                    <marker>
+                        <token>no</token>
+                        <token regexp="yes">wh?ere</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>nowhere</suggestion>?</message>
+                <example correction="nowhere">It just comes from <marker>no where</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token inflected="yes" regexp="yes">be|have</token>
                     <marker>
                         <token regexp="yes">now?</token>
@@ -4691,7 +4702,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="2" regexp="yes">travel|drive|get|fly|walk|hike|way|wander|live</token>
+                    <token inflected="yes" skip="2" regexp="yes">travel|drive|get|fly|walk|hike|way|wander|live|go</token>
                     <marker>
                         <token>no</token>
                         <token>where</token>
@@ -4699,7 +4710,7 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>nowhere</suggestion>?</message>
                 <example correction="nowhere">I'm travelling to <marker>no where</marker>.</example>
-                <example>I just get numbers now where I used to get names</example>
+                <example>I just get numbers now where I used to get names.</example>
             </rule>
             <rule>
                 <pattern>
@@ -14560,7 +14571,7 @@ USA
                     <token>This</token>
                     </marker>
                     <token postag='NNS'><exception postag='NN:UN'/><exception postag='NN'/><exception regexp="yes">does|helps|fish</exception></token>
-                    <token postag='VB.*' postag_regexp='yes'><exception>like</exception></token>
+                    <token postag='VB.*' postag_regexp='yes'><exception regexp="yes">like|people</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>these</suggestion>?</message>
                 <example correction='These'><marker>This</marker> images are beautiful.</example>
@@ -26946,11 +26957,16 @@ USA
                 <token skip='-1'>of</token>
                 <token>two</token>
             </antipattern>
+            <antipattern>
+                <token>of</token>
+                <token>course</token>
+            </antipattern>
             <pattern>
                 <token>the</token>
                 <marker>
                     <token postag='(?:JJ|RB)R' postag_regexp='yes' regexp='yes'>\p{Ll}+
-                      <exception regexp='yes'>layer|latter<!--needs|best.*|\d+(st|nd|rd|th)--></exception>
+                      <exception regexp='yes'>latter|number|trigger|buffer|dimmer<!--needs|best.*|\d+(st|nd|rd|th)--></exception>
+                      <exception>more</exception><!-- "more" can also be a noun -->
                       <exception postag='JJS|RBS' postag_regexp='yes'/></token>
                 </marker>
                 <token>of</token>
@@ -26964,7 +26980,10 @@ USA
             <example>The meeting will be postponed till the 20th of this month.</example>
             <example>After many years of conflict that lead to the weakening of all the insurgent parties,...</example>
             <example>Mary is the cuter of the two.</example>
+            <example>The hostage-taker activated the timer of the bomb.</example>
             <example>The exact composition of the layer of wax is not only species-dependent.</example>
+            <example>The more of that a poet keeps, the more genuine his nature.</example>
+            <example correction="cheapest">Buy the <marker>cheaper</marker> of the 2.</example>
             <example>I’ve seen things you people wouldn’t believe. Attack ships on fire off the shoulder of Orion...</example><!-- https://forum.languagetool.org/t/en-possible-false-positive-2020-02-06/5353/2 -->
         </rule>
         <rule id="MOST_SUPERLATIVE" name="No 'more' or 'most' before superlatives">
@@ -44259,6 +44278,13 @@ The accident victim died from her injuries.
             <example correction="intents and purposes">For all <marker>intensive purposes</marker>.</example>
         </rule>
         <rule id="LESS_MORE_THEN" name="less/more ... then (than)">
+            <antipattern>
+                <token>then</token>
+                <token regexp="yes">\p{P}</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_END">then</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">(less|more)</token>
                 <token postag="(JJ|NNS?|NN:.*)" postag_regexp="yes"/>
@@ -44271,6 +44297,7 @@ The accident victim died from her injuries.
             <short>Possible typo</short>
             <example correction="than">It's less controversial <marker>then</marker> one would think.</example>
             <example correction="than">It's a less controversial decision <marker>then</marker> one would think.</example>
+            <example>He was more scared back then.</example>
             <!-- known false alarm: If the structure is one or more thin layers then it will reflect some wavelengths and transmit others. -->
         </rule>
         <rule id="COMMA_THAN" name="..., than (then)">
@@ -53414,20 +53441,30 @@ The accident victim died from her injuries.
                 <example>On <marker>7 October 2010</marker>, I had already informed the customer.</example>
                 <example>On 7 October 2010, we will inform the client.</example>
             </rule>
-        <rule> <!-- We visited the client on 7 October 2020 -->
+            <rule> <!-- We visited the client on 7 October 2020 -->
+                <antipattern><!-- the featured presentation -->
+                    <token postag="PRP\$|DT" postag_regexp="yes" />
+                    <and>
+                        <token postag="JJ" />
+                        <token postag="VBD" />
+                    </and>
+                    <token postag="NN.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token postag="VBD" skip="-1">
+                      <exception>scheduled</exception>
                       <exception scope='next' regexp='yes'>before|until|will</exception></token>
                     <marker> &date_dmy; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\4 month:\3 day:\2"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
-                <example correction="">We visited the client on <marker>7 October 2020</marker>.</example>
+                <example correction="">We visited the client on <marker>7 October 2025</marker>.</example>
                 <example correction="">I already informed the customer on <marker>7 October 2025</marker>.</example>
                 <example>We visited the client on <marker>7 October 2010</marker>.</example>
                 <example>I already informed the customer on <marker>7 October 2010</marker>.</example>
                 <example>We will inform the client on 7 October 2010.</example>
                 <example>He wanted to do until August 31, 2020.</example>
+                <example>Join our featured presentation on 15th April 2025 at 2 PM GMT to learn how our cloud-based, mobile first project time tracking suite can empower your business with.</example>
             </rule>
             <rule> <!-- On 7 October 2020, we visited the client -->
                 <pattern>
@@ -53478,6 +53515,14 @@ The accident victim died from her injuries.
                 <example>On October 7, 2010, we will inform the client.</example>
             </rule>
             <rule> <!-- We visited the client on October 7, 2020 -->
+                <antipattern><!-- the featured presentation -->
+                    <token postag="PRP\$|DT" postag_regexp="yes" />
+                    <and>
+                        <token postag="JJ" />
+                        <token postag="VBD" />
+                    </and>
+                    <token postag="NN.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token postag="VBD" skip="-1">
                       <exception scope='next' regexp='yes'>before|until|will</exception></token>
@@ -53549,6 +53594,14 @@ The accident victim died from her injuries.
             <rule> <!-- We visited the client on 27/10/2040  -->
                 <antipattern>
                      &ambiguous_date;
+                </antipattern>
+                <antipattern><!-- the featured presentation -->
+                    <token postag="PRP\$|DT" postag_regexp="yes" />
+                    <and>
+                        <token postag="JJ" />
+                        <token postag="VBD" />
+                    </and>
+                    <token postag="NN.*" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
                     <token postag="VBD" skip="-1">
@@ -53625,6 +53678,14 @@ The accident victim died from her injuries.
             <rule> <!-- We visited the client on 27/10/2040  -->
                 <antipattern>
                      &ambiguous_date;
+                </antipattern>
+                <antipattern><!-- the featured presentation -->
+                    <token postag="PRP\$|DT" postag_regexp="yes" />
+                    <and>
+                        <token postag="JJ" />
+                        <token postag="VBD" />
+                    </and>
+                    <token postag="NN.*" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
                     <token postag="VBD" skip="-1">
