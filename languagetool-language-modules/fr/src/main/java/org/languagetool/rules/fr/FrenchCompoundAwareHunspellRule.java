@@ -97,7 +97,7 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
     return SuggestedReplacement.convert(s);
   }
 
-  /*@Override
+  @Override
   protected boolean ignoreWord(String word) throws IOException {
     boolean ignore = super.ignoreWord(word);
     if (ignore) {
@@ -112,6 +112,6 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
       }
     }
     return false;
-  }*/
+  }
 
 }

@@ -50,6 +50,7 @@ public class FrenchCompoundAwareHunspellRuleTest {
     assertSuggestion(lt, "skype", "Skype");
     assertSuggestion(lt, "Wordpress", "WordPress");
     assertSuggestion(lt, "wordpress", "WordPress");
+    assertThat(lt.check("Et d'Harvard").size(), is(0));
   }
 
   private void assertSuggestion(JLanguageTool lt, String input, String... expected) throws IOException {
