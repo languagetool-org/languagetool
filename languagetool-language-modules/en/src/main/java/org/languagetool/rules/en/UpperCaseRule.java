@@ -72,7 +72,7 @@ public class UpperCaseRule extends Rule {
     }
   }
 
-  private void initTrie() {
+  synchronized private void initTrie() {
     List<String> words = new CachingWordListLoader().loadWords("en/specific_case.txt");
     words.addAll(new CachingWordListLoader().loadWords("spelling_global.txt"));
     Map<String,String> map = new HashMap<>();
