@@ -4639,6 +4639,82 @@ USA
                 <example correction="Who's"><marker>Whose</marker> on first base?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="NO_WHERE" name="no where (nowhere)" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/nowhere</url>
+            <rule>
+                <pattern>
+                    <token>out</token>
+                    <token>of</token>
+                    <marker>
+                        <token regexp="yes">now?</token>
+                        <token regexp="yes">wh?ere</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>nowhere</suggestion>?</message>
+                <example correction="nowhere">He came out of <marker>no where</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">be|have</token>
+                    <marker>
+                        <token regexp="yes">now?</token>
+                        <token>where</token>
+                    </marker>
+                    <token postag="PCT|TO|IN|CC|JJR" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>nowhere</suggestion>?</message>
+                <example correction="nowhere">The book is <marker>no where</marker> to be found.</example>
+                <example correction="nowhere">He has <marker>no where</marker> to go.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>no</token>
+                        <token>where</token>
+                    </marker>
+                    <token>near</token>
+                </pattern>
+                <message>Did you mean <suggestion>nowhere</suggestion>?</message>
+                <example correction="Nowhere"><marker>No where</marker> near as serious.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token regexp="yes">now?</token>
+                        <token>where</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>nowhere</suggestion>?</message>
+                <example correction="nowhere">He came from a <marker>no where</marker> town.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" skip="2" regexp="yes">travel|drive|get|fly|walk|hike|way|wander|live</token>
+                    <marker>
+                        <token>no</token>
+                        <token>where</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>nowhere</suggestion>?</message>
+                <example correction="nowhere">I'm travelling to <marker>no where</marker>.</example>
+                <example>I just get numbers now where I used to get names</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <marker>
+                        <token regexp="yes">now?</token>
+                        <token regexp="yes">wh?ere</token>
+                    </marker>
+                    <token>else</token>
+                </pattern>
+                <message>Did you mean <suggestion>nowhere</suggestion>?</message>
+                <example correction="nowhere">It has plants and animals found <marker>no where</marker> else in the world.</example>
+                <example correction="nowhere">I do feel sorry for the residents but there's <marker>no where</marker> else to park.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="NOW" name="no/now">
             <rule>
                 <pattern>
@@ -4659,13 +4735,76 @@ USA
                 <antipattern>
                     <token>no</token>
                     <token>no</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="2" regexp="yes">answer|say|shout|scream|yell|vote|tell|reply</token>
                     <token>no</token>
                 </antipattern>
-                <!-- TODO: 'no the', 'no of' -->
                 <antipattern>
                     <token>no</token>
                     <token postag="CC|DT|IN|MD|NP|RP|WDT|WP|WRB" postag_regexp="yes"></token>
                     <token>yes</token>
+                </antipattern>
+                <antipattern>
+                    <token>yes</token>
+                    <token postag="CC|DT|IN|MD|NP|RP|WDT|WP|WRB" postag_regexp="yes"></token>
+                    <token>no</token>
+                </antipattern>
+                <antipattern>
+                    <token>no</token>
+                    <token>and</token>
+                    <token>no</token>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no">no</token>
+                </antipattern>
+                <antipattern><!-- https://www.merriam-webster.com/dictionary/no%20can%20do -->
+                    <token>no</token>
+                    <token>can</token>
+                    <token>do</token>
+                </antipattern>
+                <antipattern>
+                    <token>sorry</token>
+                    <token min="0" regexp="yes">but|,</token>
+                    <token>no</token>
+                </antipattern>
+                <antipattern><!-- different error (TODO!) -->
+                    <token>no</token>
+                    <token>where</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">the|an?</token>
+                    <token>no</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="4">no</token>
+                    <token inflected="yes" regexp="yes">answer|question|response</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes" skip="4">answer|question|response</token>
+                    <token>no</token>
+                </antipattern>
+                <antipattern>
+                    <token>no</token>
+                    <token>to</token>
+                    <token>both</token>
+                </antipattern>
+                <antipattern>
+                    <token>big</token>
+                    <token>no</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">oh|ah|uh</token>
+                    <token>no</token>
+                </antipattern>
+                <antipattern>
+                    <token>now</token>
+                    <token>no</token>
+                </antipattern>
+                <antipattern>
+                    <token>no</token>
+                    <token>now</token>
                 </antipattern>
                 <antipattern><!-- has no open ports -->
                     <token inflected="yes">have</token>
@@ -4673,9 +4812,34 @@ USA
                     <token postag_regexp="yes" postag="JJR?"/>
                     <token postag_regexp="yes" postag="NN.*"/>
                 </antipattern>
+                <antipattern>
+                    <token postag="SENT_START" />
+                    <token>no</token>
+                    <token regexp="yes">but|because</token>
+                </antipattern>
+                <antipattern>
+                    <token>no</token>
+                    <token>of</token>
+                </antipattern>
+                <antipattern>
+                    <token>at</token>
+                    <token>no</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="4">no</token>
+                    <token regexp="yes">not|yet</token>
+                </antipattern>
+                <antipattern>
+                    <token>no</token>
+                    <token regexp="yes">that|it</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token postag="RB" min="0" />
+                    <token>not</token>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token>no<exception scope="previous" inflected="yes">say</exception></token>
+                        <token case_sensitive="yes" regexp="yes">[Nn]o<exception scope="previous" inflected="yes">say</exception></token>
                     </marker>
                     <token postag="CC|DT|IN|MD|NP|RP|WDT|WP|WRB" postag_regexp="yes"><exception regexp="yes">such|for</exception><exception postag="JJR|NN.*" postag_regexp="yes"/></token>
                 </pattern>
@@ -4686,6 +4850,11 @@ USA
                 <example>I had to say no to them.</example>
                 <example>I could turn no into yes.</example>
                 <example>The gateway has no open ports.</example>
+                <example>No because it already happened.</example>
+                <example>He answered no to her.</example>
+                <example>No of course not</example>
+                <example>No this is not your house.</example>
+                <example>No of employees: 10</example>
                 <example>You don’t want to send cash directly to a stranger in advance, no no no.</example>
             </rule>
             <rule>
@@ -5738,30 +5907,66 @@ USA
             <example correction="Nowadays"><marker>Now a days</marker>, there isn't much hope.</example>
         </rule>
         <!-- on going::word=ongoing -->
-        <rule id="ON_GOING" name="on going (ongoing)">
-            <pattern>
-                <marker>
+        <rulegroup id="ON_GOING" name="on going (ongoing)">
+            <url>https://www.merriam-webster.com/dictionary/ongoing</url>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="PRP" />
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">no|the|an?|any|some|that|this|th[eo]se|many|my|y?our|his|her|their|its|s|in|on|at|for|of</token>
+                    <marker>
+                        <token>on</token>
+                        <token>going</token>
+                    </marker>
+                </pattern>
+                <message>The adjective <suggestion>ongoing</suggestion> is spelled as one word.</message>
+                <example correction="ongoing">It is a widely held belief that continues to be a factor in their <marker>on going</marker> support of the war.</example>
+                <example correction="ongoing">This is an <marker>on going</marker> problem.</example>
+                <example>I’m pulling the trigger on going to FOSDEM 2019.</example>
+            </rule>
+            <rule>
+                <antipattern><!-- different error (compound) -->
+                    <token>add</token>
+                    <token>on</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">plan|insist|focus|stand</token>
                     <token>on</token>
                     <token>going</token>
-                </marker>
-                <token postag_regexp="yes" postag="(NNS?)|(NN:.*)"><exception postag="RP"/><exception regexp="yes">today|tonight|tomorrow|yesterday</exception></token>
-            </pattern>
-            <message>Did you mean <suggestion>ongoing</suggestion>?</message>
-            <example correction="ongoing">There is an <marker>on going</marker> investigation.</example>
-            <example correction="ongoing">The usual <marker>on going</marker> problems must be corrected as soon as possible.</example>
-            <example correction="ongoing">... and keep <marker>on going</marker> correspondence in the file for future reference.</example>
-            <example correction="ongoing">They insisted <marker>on going</marker> correspondence was kept in the file for future reference.</example>
-            <example correction="Ongoing"><marker>On going</marker> maintenance is an important part of the work.</example>
-            <example correction="ongoing">I don't like these <marker>on going</marker> shopping trips.</example>
-            <example>She insisted <marker>on going</marker> for a drive.</example>
-            <example>He depends <marker>on going</marker> in and out of Malaysia for his visa.</example>
-            <example>... and keep <marker>on going</marker> down the road to the junction.</example>
-            <example>She knew why Abigail was so insistent <marker>on going</marker> tonight.</example>
-            <example>I plan <marker>on going</marker> tomorrow morning.</example>
-            <example>My brother is banking <marker>on going</marker> to university next year.</example>
-            <example>We had a good time in London, but <marker>on going</marker> Sheffield, our holiday got even better.</example><!-- Not correct English, but out of scope of this rule. -->
-            <example type="triggers_error">The girl <marker>insisted on</marker> going shopping with her mother.</example>
-        </rule>
+                </antipattern>
+                <antipattern>
+                    <token>and</token>
+                    <token>so</token>
+                    <token>on</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>on</token>
+                        <token>going</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="(NNS?)|(NN:.*)"><exception postag="RP"/><exception regexp="yes">today|tonight|tomorrow|yesterday|shopping|crazy|forward</exception></token>
+                </pattern>
+                <message>The adjective <suggestion>ongoing</suggestion> is spelled as one word.</message>
+                <example correction="ongoing">There is an <marker>on going</marker> investigation.</example>
+                <example correction="ongoing">The usual <marker>on going</marker> problems must be corrected as soon as possible.</example>
+                <example correction="ongoing">... and keep <marker>on going</marker> correspondence in the file for future reference.</example>
+                <example correction="Ongoing"><marker>On going</marker> maintenance is an important part of the work.</example>
+                <!-- <example correction="ongoing">They insisted <marker>on going</marker> correspondence was kept in the file for future reference.</example> -->
+                <!-- <example correction="ongoing">I don't like these <marker>on going</marker> shopping trips.</example> -->
+                <example>She insisted <marker>on going</marker> for a drive.</example>
+                <example>He depends <marker>on going</marker> in and out of Malaysia for his visa.</example>
+                <example>... and keep <marker>on going</marker> down the road to the junction.</example>
+                <example>She knew why Abigail was so insistent <marker>on going</marker> tonight.</example>
+                <example>I plan <marker>on going</marker> tomorrow morning.</example>
+                <example>My brother is banking <marker>on going</marker> to university next year.</example>
+                <example>We had a good time in London, but <marker>on going</marker> Sheffield, our holiday got even better.</example><!-- Not correct English, but out of scope of this rule. -->
+                <example>The girl <marker>insisted on</marker> going shopping with her mother.</example>
+                <example>Tom said that he wasn't planning on going camping this weekend.</example>
+            </rule>
+        </rulegroup>
         <!-- out grow::word=outgrow -->
         <rule id="OUT_GROW" name="out grow (outgrow)">
             <pattern>
@@ -10164,6 +10369,25 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="IN_THIS_REGARDS" name="In this regards (regard)" default="temp_off">
+            <pattern>
+                <token>in</token>
+                <token regexp="yes">that|this</token>
+                <token>regards</token>
+            </pattern>
+            <message>Did you mean the common idiom <suggestion>\1 \2 <match no="3" regexp_match="(?i)s" regexp_replace="" /></suggestion>?</message>
+            <url>https://www.merriam-webster.com/dictionary/in%20this%20regard</url>
+            <example correction="in that regard">He is studying law and <marker>in that regards</marker> he is doing very well.</example>
+        </rule>
+        <rule id="BUENOS_DIAS" name="buenos días" default="temp_off">
+            <pattern>
+                <token>buenos</token>
+                <token regexp="yes">dias?</token>
+            </pattern>
+            <message>Did you mean the Spanish greeting <suggestion>\1 <match no="2" regexp_match="(?i)ias?$" regexp_replace="ías" /></suggestion>?</message>
+            <url>https://www.merriam-webster.com/dictionary/buenos%20d%C3%ADas</url>
+            <example correction="Buenos días"><marker>Buenos dias</marker>, my friend!</example>
+        </rule>
         <rule id="AFTERMARKET" name="Aftermarket">
             <pattern>
                 <token regexp="yes">the|an?|no|my|y?our|his|her|their|its|s</token>
@@ -26557,13 +26781,19 @@ USA
                     <token spacebefore="no" regexp="yes">['’"”]</token>
                     <token postag="VB[DZ]" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern><!-- These life changing events -->
+                    <token regexp="yes">th[eo]se</token>
+                    <token postag="NN.*" postag_regexp="yes" />
+                    <token postag="VBG" />
+                    <token postag="NNP?S" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">th[eo]se</token>
                         <token postag="NN(:.+)?" postag_regexp="yes">
                             <exception postag="VB[ZGN]|NNP?S|JJ.*|VBP|MD|CD|RP|DT" postag_regexp="yes"/>
-                            <exception>are</exception>
-                            </token>
+                            <exception regexp="yes">are|can</exception>
+                        </token>
                     </marker>
                     <token><exception postag="NNP?S" postag_regexp="yes"/></token>
                 </pattern>
@@ -26581,6 +26811,8 @@ USA
                 <example>Decorative motifs for <marker>these sandstone/mortar constructions</marker>, both cliff dwellings and...</example>
                 <example>Explaining the behavior of these electron "orbits" was one of the...</example>
                 <example>Of the venues used for these Olympics, the Kallimarmaro Stadium...</example>
+                <example>Those all can do it.</example>
+                <example>These life changing moments.</example>
             </rule>
             <rule>
                 <pattern>
@@ -29307,7 +29539,7 @@ USA
                 <message>Did you mean <suggestion><match no="1" regexp_match="n$" regexp_replace="" /> \2</suggestion>?</message>
                 <example correction="do not">I <marker>don not</marker> know.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern><!-- "don" is also a rarely used verb -->
                     <token regexp="yes">s?he|it</token>
                     <token postag="RB" min="0" />
@@ -29320,6 +29552,7 @@ USA
                     <marker>
                         <token>dons</token>
                     </marker>
+                    <token postag="RB" min="0" />
                     <token postag="VB.*" postag_regexp="yes" />
                 </pattern>
                 <message>Did you mean <suggestion>don't</suggestion> or <suggestion>doesn't</suggestion>?</message>
@@ -31653,6 +31886,18 @@ USA
             <suggestion>\1-\2</suggestion>
             <url>https://en.wikipedia.org/wiki/Multi-factor_authentication</url>
             <example correction="2-factor">He enabled <marker>2 factor</marker> auth to protect his Facebook account.</example>
+        </rule>
+        <rule id="LIFE_CHANGING_HYPHEN" name="missing hyphen in 'life changing moments'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>life</token>
+                    <token>changing</token>
+                </marker>
+                <token regexp="yes">decisions?|experiences?|moments?|events?|lessons?|moves?|conversations?|therap(y|ies)|journeys?|opportunit(y|ies)|books?|stor(y|ies)|magic|powers?|steps?|medicines?</token>
+            </pattern>
+            <message>Did you mean the adjective <suggestion>\1-\2</suggestion> (spelled with a hyphen)?</message>
+            <url>https://www.lexico.com/definition/life-changing</url>
+            <example correction="life-changing">He really taught me a <marker>life changing</marker> lesson.</example>
         </rule>
         <rulegroup id="POST_IT_NOTE_HYPHEN" name="The post it (post-it) note">
             <url>https://www.merriam-webster.com/dictionary/Post-it</url>
@@ -42021,7 +42266,7 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rulegroup id="ANS_AND" name="ans (and)" default="temp_off">
+        <rulegroup id="ANS_AND" name="ans (and)">
             <rule>
                 <antipattern><!-- last word of sentence cannot be "and" -->
                     <token postag="SENT_END">ans</token>
