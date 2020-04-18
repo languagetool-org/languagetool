@@ -125,7 +125,7 @@ USA
         <token>/</token>
         <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
-    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type'>
+    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region'>
     <!ENTITY nouns_with_i 'article|phase|class|grade|part|paragraph|section|chaos|enigma|book|war|king|current|mustang|type'>
 ]>
 
@@ -15621,7 +15621,7 @@ USA
             </antipattern>
             <antipattern> <!-- "Please click the unsubscribe link at the end of the mail" (TODO: we should probably have a rule that suggests putting the verb in quotes) -->
                 <token postag="VBP?" postag_regexp="yes" />
-                <token regexp="yes">CTAs?|buttons?|macros?|links?|teasers?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?|modes?|screens?|errors?|tools?|operations?</token>
+                <token regexp="yes">CTAs?|buttons?|macros?|links?|teasers?|attributes?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?|modes?|screens?|errors?|tools?|operations?</token>
             </antipattern>
             <antipattern> <!-- this is better covered by rule ALTER_BOY -->
                 <token regexp="yes">at|to|worship(s|ped)?|around</token>
@@ -15741,6 +15741,11 @@ USA
                 <token>AN</token>
                 <token regexp="yes">.*[a-z].*</token>
             </antipattern>
+            <antipattern>
+                <token regexp='yes'>an?|the</token>
+                <token postag='VB|VBP' postag_regexp='yes' />
+                <token spacebefore="no">_</token>
+            </antipattern>
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
@@ -15760,6 +15765,7 @@ USA
             <example>Let's have a listen to what he wants to say</example>
             <example>He had a listen.</example>
             <example>a show</example>
+            <example>The adapt_image.png</example>
             <example>We don't have time for a refactor: we're shipping in two weeks.</example><!-- https://en.wiktionary.org/wiki/refactor#Noun -->
             <example>Sections 4.a and 5.<marker>a are</marker> not correct.</example>
             <example>For the <marker>merge processes</marker> to be faster, we must...</example>
@@ -16984,6 +16990,20 @@ USA
                 <message>The word "\3" is a verb. The noun is spelled <suggestion>restocking</suggestion> (= act of replenishing stock).</message>
                 <url>https://en.wiktionary.org/wiki/restocking</url>
                 <example correction="restocking">Due to the high demand, we needed a <marker>restock</marker>.</example>
+            </rule>
+            <rule default="temp_off"><!-- the wive -->
+                <pattern>
+                    <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
+                    <token postag="JJS?" postag_regexp="yes" min="0">
+                        <exception postag="NN.*" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>wive</token>
+                    </marker>
+                </pattern>
+                <message>The word "\3" is an archaic verb. The noun is spelled <suggestion><match no="3" regexp_match="(?i)ive" regexp_replace="ife" /></suggestion> (= married woman).</message>
+                <url>https://www.merriam-webster.com/dictionary/wife</url>
+                <example correction="wife">My <marker>wive</marker> is such a beautiful woman.</example>
             </rule>
             <rule><!-- the japanise -->
                 <pattern>
@@ -21785,6 +21805,10 @@ USA
             <antipattern><!-- caught by AN_AND -->
                 <token>an</token>
                 <token>also</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&nouns_with_a;</token>
+                <token>a</token>
             </antipattern>
             <pattern>
                 <token inflected="yes">a</token>
@@ -51615,6 +51639,30 @@ The accident victim died from her injuries.
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rulegroup id="ALINE" name="aline vs. align" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/aline</url>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">aline</token>
+                </pattern>
+                <message>This word is a less commonly used variant of the verb 'align'. Did you mean <suggestion><match no="1" regexp_match="(?i)line" regexp_replace="lign" /></suggestion>, <suggestion><match no="1" regexp_match="(?i)line" regexp_replace="irline" /></suggestion>, <suggestion>a line</suggestion> or the name <suggestion>Aline</suggestion>?</message>
+                <example correction="align|airline|a line|Aline">They <marker>aline</marker> to the recently announced changes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token case_sensitive="yes">alines</token>
+                </pattern>
+                <message>This word is a less commonly used variant of the verb 'align'. Did you mean <suggestion><match no="1" regexp_match="(?i)line" regexp_replace="lign" /></suggestion>, <suggestion><match no="1" regexp_match="(?i)line" regexp_replace="irline" /></suggestion> or the name <suggestion>Aline's</suggestion>?</message>
+                <example correction="aligns|airlines|Aline's">He <marker>alines</marker> to the recently announced changes.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">alin(ed|ing)</token>
+                </pattern>
+                <message>This word is a less commonly used variant of the verb 'align'. Did you mean <suggestion><match no="1" regexp_match="(?i)lin" regexp_replace="lign" /></suggestion>?</message>
+                <example correction="aligning">He is <marker>alining</marker> to the recently announced changes.</example>
+            </rule>
+        </rulegroup>
         <rule id="BESTEST" name="bestest (best)">
             <pattern>
                 <token>bestest</token>
