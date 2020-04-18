@@ -9423,7 +9423,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Я спросил, что это за вода.</example>   <!-- check disambig -->
             <example>Однако из за уменьшения габаритов и веса комплектующих</example>  <!-- incorrect example, but for another rule -->
         </rule>
-        <rule id="PREP_Na_And_Noun" name="Предлог «на» и существительное" default="off">
+        <rule id="PREP_Na_And_Noun" name="Предлог «на» и существительное" >
             <pattern>
                 <token>на</token>
                 <token postag="NN:.*:.*:.*" postag_regexp="yes">
@@ -9431,7 +9431,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="NN:.*:.*:.*:P" postag_regexp="yes" />
                     <exception regexp="yes" >дню|счету|счет|счёт</exception>
                     <exception postag="NN:.*:.*:.*:.*" postag_regexp="yes" negate_pos="yes" />
-                </token>
+                    <exception case_sensitive="yes" postag="NN:.*:.*:.*:R" postag_regexp="yes" regexp="yes" >[А-ЯЁ][а-я]*</exception></token>
             </pattern>
             <message>Предлог «на» предполагает употребление существительного в винительном или предложном падежах.</message>
             <url>https://ru.wiktionary.org/wiki/%D0%BF%D1%80%D0%BE</url>
@@ -9439,7 +9439,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>На резками</marker>.</example>
             <example>Кошка прыгнула на коврик.</example>
             <example>Он молится несколько раз на дню.</example>
-        <!--   <example>На Маврикия прилетают грачи.</example>  TODO  -->
+            <example>На Маврикия прилетают грачи.</example>
         </rule>
         <rule id="PREP_Ob_And_Noun" name="Предлог «об» и существительное">
             <pattern>
