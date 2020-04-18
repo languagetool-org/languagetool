@@ -150,6 +150,7 @@ public class AdverbFilter extends RuleFilter {
     put("visually", "visual");
     put("predominantly", "predominant");
     put("quietly", "quiet");
+    put("slightly", "slight");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
