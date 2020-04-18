@@ -7471,6 +7471,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
         </rule>
+        <rule id="MERCEDES_BENZ" name="Mercedes Benz (Mercedes-Benz)">
+            <pattern case_sensitive="no">
+                <token regexp="yes">Mercedes|Daimler</token>
+                <token>Benz</token>
+            </pattern>
+            <message>Die Automarke wird mit einem Bindestrich geschrieben<suggestion><match no="1" case_conversion="startupper" />-Benz</suggestion>.</message>
+            <url>https://de.wikipedia.org/wiki/Mercedes-Benz</url>
+            <short>&getrennt;.</short>
+            <example correction="Mercedes-Benz"><marker>Mercedes Benz</marker> ist ein deutscher Autohersteller.</example>
+        </rule>
+        <rule id="HIGH_SCHOOL" name="High School (High School)">
+            <antipattern case_sensitive="no">
+                <token postag="UNKNOWN|SUB:.*|EIG:.*" postag_regexp="yes" />
+                <token>High</token>
+            </antipattern>
+            <antipattern>
+                <token>High</token>
+                <token>School</token>
+                <token regexp="yes">Musicals?</token>
+            </antipattern>
+            <pattern case_sensitive="no">
+                <token>High</token>
+                <token regexp="yes">Schools?</token>
+            </pattern>
+            <message>Dieses Nomen wird im Deutschen als ein Wort geschrieben.</message>
+            <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="alllower" /></suggestion>
+            <url>https://www.duden.de/suchen/dudenonline/Highschool</url>
+            <example correction="Highschool">Er ist in den USA auf eine <marker>High School</marker> gegangen.</example>
+            <example>Er ging auf die Parkland High School.</example>
+        </rule>
         <rulegroup id="HEDGEFONDS" name="Hedge Fonds (Hedgefonds)" default="temp_off">
             <url>https://www.duden.de/rechtschreibung/Hedgefonds</url>
             <rule>
