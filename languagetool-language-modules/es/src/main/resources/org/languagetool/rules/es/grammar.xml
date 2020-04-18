@@ -1162,20 +1162,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me gusta el que tienes.</example>
             </rule>
             <rule id="EL_TILDE" name="el / él" default="temp_off">
+                <antipattern>
+                    <token>el</token>
+                    <token postag="P[TR].*|CS" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV|_PUNCT_CONT"/>
+                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>el<exception postag="_GN_MS"></exception></token>
                     </marker>
-                    <token postag="&pronombre_personal_atono_POS;|R.*|LOC_ADV" postag_regexp="yes" min="0" max="5"/>
-                    <token postag="V...3S." postag_regexp="yes"><exception postag="[NA].*" postag_regexp="yes"/></token>
+                    <!-- <token postag="&pronombre_personal_atono_POS;|R.*|LOC_ADV" postag_regexp="yes" min="0" max="5"/>
+                    <token postag="V...3S." postag_regexp="yes"><exception postag="[NA].*" postag_regexp="yes"/></token>-->
                 </pattern>
                 <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
                 <example correction="Él"><marker>El</marker> fue.</example>
                 <example correction="Él"><marker>El</marker> se fue.</example>
                 <example correction="Él"><marker>El</marker> a veces se va.</example>
                 <example correction="Él"><marker>El</marker> no siempre viene.</example>
+                <example correction="él">Cuando <marker>el</marker> llegó, yo me fui.</example>
+                <example correction="él">Se encargará <marker>el</marker>.</example>
+                <example correction="él">Esta caja es para <marker>el</marker>.</example>
+                <example correction="él">Esto queda entre <marker>el</marker> y yo.</example>
+                <example correction="él">Fue <marker>el</marker>, porque después no vino.</example>
                 <example>Me gusta el que tienes.</example>
+                <example>ni siquiera el anime era lo suficientemente expresivo</example>
+                <example>Quiero saber el porqué.</example>
+                <example>El siempre certero abogado.</example>
+                <example>Quiero saber el cómo, el porqué, el quién y el qué.</example>
+                <example>Sobre el cual me movía.</example>
             </rule>
+            
             <!-- TU_PARTICULA_VERBO_P2 tu no te lo pierdas
      Anulamos si entremedias hay al menos un nombre-->
             <rule id="TU_PARTICULA_VERBO_P2" name="Tu + partícula + verbo en 2a">
@@ -1190,18 +1210,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tú">Cuando <marker>tu</marker> no vuelves, yo voy.</example>
                 <example>Me alegra tu feliz vuelta al trabajo.</example>
             </rule>
-            <!-- EL_VERBO_P3 El + verbo 3a persona lleva tilde-->
-            <rule id="EL_VERBO_P3" name="el + verbo en 3a">
-                <pattern case_sensitive="yes">
-                    <marker>
-                        <token regexp="yes">[Ee]l</token>
-                    </marker>
-                    <token postag="V.{3}3.*" postag_regexp="yes"><exception postag="N.*|P.*|AQ.*" postag_regexp="yes"/><exception regexp="yes">\p{Lu}.*</exception></token>
-                </pattern>
-                <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
-                <example correction="él">Cuando <marker>el</marker> llegó, yo me fui.</example>
-                <example>Me alegra tu vuelta al trabajo.</example>
-            </rule>
+            
             <!-- TU_FINAL Tu al final de la oración. Siempre será nominativo.-->
             <rule id="TU_FINAL" name="Pronombre tú al final de la oración.">
                 <pattern>
@@ -1213,18 +1222,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
                 <example correction="tú">Tu hermana es como <marker>tu</marker>.</example>
                 <example>¿Te puedes ocupar tú?</example>
-            </rule>
-            <!-- EL_FINAL Él al final de la oración-->
-            <rule id="EL_FINAL" name="Pronombre sin tilde al final de la oración">
-                <pattern>
-                    <marker>
-                        <token>el</token>
-                    </marker>
-                    <token postag="SENT_END" regexp="yes">[.?!]</token>
-                </pattern>
-                <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
-                <example correction="él">Se encargará <marker>el</marker>.</example>
-                <example>Esa caja es para él.</example>
             </rule>
             <!-- MI_FINAL mi al final de la oración simepre es pronombre personal. -->
             <rule id="MI_TILDE" name="mi/mí">
@@ -1759,6 +1756,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CAT1" name="Ortografía (concepto)" type="grammar">
         <!-- HABER_AVER Uso incorrecto de «haber» por «a ver»-->
         <rule id="HECHO_ECHO" name="*hecho/echo" default="temp_off">
+            <antipattern>
+                <token>lo</token>
+                <token>hecho</token>
+                <token><exception regexp="yes">a|al</exception></token>
+            </antipattern>
             <pattern>
                 <token postag_regexp="yes" postag="&pronombre_personal_atono_POS;"/>
                 <marker>
@@ -1768,9 +1770,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Si es del v. 'echar' (=tirar, lanzar, sacar), se escribe sin hache.</message>
             <suggestion><match no="2" regexp_match="(?iu)h(.*)" regexp_replace="$1"></match></suggestion>
             <example correction="echa">Os <marker>hecha</marker></example>
+            <example correction="echas">Lo <marker>hechas</marker> a la calle.</example>
+            <example correction="echo">Lo <marker>hecho</marker> a la calle.</example>
             <example correction="echa">Las <marker>hecha</marker> a la calle.</example>
             <example>Las crudas no, las hechas.</example>
             <example>Las hechas por el fabricante.</example>
+            <example>Lo hecho, hecho está.</example>
         </rule>
         <rulegroup id="HABER_AVER" name="Uso incorrecto de «haber» por «a ver»">
             <short>Posible confusión del verbo «ver» con el verbo «haber»</short>
@@ -2574,6 +2579,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Éramos bastante ricos.</example>
                 <example>Las microondas.</example>
                 <example>Las mil personas que acudieron.</example>
+                <example>Estas son las reglas.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2604,6 +2610,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la silla|las sillas">Me gusta <marker>el silla</marker> que hay ahí.</example>
                 <example correction="La ratio|Las ratios"><marker>El ratio</marker> es de 50.</example>
                 <example correction="La casa|Las casas"><marker>Las casa</marker> de la colina.</example>
+                <example correction="una baguette|unas baguettes">Compré <marker>un baguette</marker>.</example>
                 <example>sus hermanos</example>
                 <example>Los polis y las polis.</example>
                 <example>El agua.</example>
@@ -2709,7 +2716,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="LO_LOS" name="confusión lo/los">
                 <antipattern>
                     <token>lo</token>
-                    <token postag="AQ.*" postag_regexp="yes"/>
+                    <token postag="AQ.*|V.P.*" postag_regexp="yes"/>
                     <token>que</token>
                 </antipattern>
                 <pattern>
@@ -2722,9 +2729,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>los</suggestion>
                 <example correction="los">a favor de <marker>lo</marker> acreedores.</example>
                 <example correction="los">a favor de <marker>lo</marker> azulados.</example>
+                <example correction="Los"><marker>Lo</marker> pequeños roedores.</example>
+                <example correction="Los"><marker>Lo</marker> aburridos roedores.</example>
                 <example>¿Por qué lo preguntas?</example>
                 <example>Lo eres tú.</example>
                 <example>Lo pequeños que son.</example>
+                <example>Lo aburridos que son.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_PARTICULAR_CASES" name="otros casos de concordancia">
@@ -2751,6 +2761,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>concordancia gramatical</message>
                 <suggestion>las</suggestion>
                 <example correction="las">Cumplir dos de <marker>los</marker> tres preguntas.</example>
+                <example>¿Cuál de los dos eres?</example>
             </rule>
             <rule id="ALGUNA_OTRO" name="'alguna otro' -&gt; 'alguna otra'">
                 <pattern>
