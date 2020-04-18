@@ -10164,22 +10164,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="MALGRAT" name="Usos incorrectes de 'malgrat'">
             <rule id="MALGRAT_QUE" name="malgrat (que)">
                 <antipattern>
-                    <marker>
-                        <token>malgrat</token>
-                        <token postag="V.N.*" postag_regexp="yes"/>
-                    </marker>
+                    <token>malgrat</token>
+                    <token postag="V.N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>malgrat</token>
+                    <token regexp="yes">tot|això|que|com</token>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token>malgrat<exception postag="_possible_nompropi"/></token>
+                        <token skip="9">malgrat<exception postag="_possible_nompropi"/><exception scope="next" regexp="yes">[;,–—\(\)\-]|que|quals?|què|com|perquè|qui</exception></token>
                     </marker>
-                    <token skip="9"><exception regexp="yes">tot|això|que|com</exception><exception scope="next" regexp="yes">[;,–—\(\)\-]|que|quals?|què|com|perquè|qui</exception></token>
                     <token postag="V.[IS].*" postag_regexp="yes"><exception postag="_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token> <!-- <exception postag="_GN.*|V.N.*" postag_regexp="yes"/>-->
                 </pattern>
                 <message>Potser és <suggestion>malgrat que</suggestion> o falta una coma abans del verb.</message>
                 <short>Expressió incorrecta</short>
                 <example correction="malgrat que">No vidrà, <marker>malgrat</marker> li interessi molt.</example>
                 <example correction="Malgrat que"><marker>Malgrat</marker> li interessi molt, no vindrà</example>
+                <example correction="malgrat que">I, <marker>malgrat</marker> hi ha alguana excepció.</example>
                 <example>No vindrà, malgrat que li interessi.</example>
                 <example>Malgrat això que dius, m'alegro.</example>
                 <example>Malgrat reconèixer on anava, hi va anar.</example>
@@ -50072,7 +50074,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="PREP_VERB_CONJUGAT" name="combinació impossible: preposició + verb conjugat">
             <antipattern> <!-- té regla específica -->
-                <token>retràs</token>
+                <token regexp="yes">retràs|malgrat</token>
             </antipattern>
             <antipattern>
                 <token>en</token>
