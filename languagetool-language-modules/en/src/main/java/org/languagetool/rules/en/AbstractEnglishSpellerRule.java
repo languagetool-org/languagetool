@@ -228,6 +228,17 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected Map<String, List<String>> getTopSuggestionsIgnoreCase() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("gif", Arrays.asList("GIF"));
+    s.put("png", Arrays.asList("PNG"));
+    s.put("csv", Arrays.asList("CSV"));
+    s.put("pdf", Arrays.asList("PDF"));
+    s.put("jpeg", Arrays.asList("JPEG"));
+    s.put("jpg", Arrays.asList("JPG"));
+    s.put("docx", Arrays.asList("DOCX"));
+    s.put("xlsx", Arrays.asList("XLSX"));
+    s.put("btw", Arrays.asList("BTW"));
+    s.put("idk", Arrays.asList("IDK"));
+
     s.put("afro-american", Arrays.asList("Afro-American"));
     s.put("oconnor", Arrays.asList("O'Connor"));
     s.put("oconor", Arrays.asList("O'Conor"));
