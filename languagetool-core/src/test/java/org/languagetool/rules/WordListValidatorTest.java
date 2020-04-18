@@ -44,6 +44,7 @@ public class WordListValidatorTest {
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
           "Będzin",
           "Bhagavad-gītā",
+          "Sønderjylland/S",
           "Božena/S",
           "Brăila/S",
           "Timișoara/S",
