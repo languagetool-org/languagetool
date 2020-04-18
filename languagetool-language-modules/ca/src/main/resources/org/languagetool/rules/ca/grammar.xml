@@ -37010,9 +37010,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="CASER_CASOLA" name="caser / casolà">
+            <antipattern>
+                <token inflected="yes" skip="7" >casera</token>
+                <token inflected="yes" regexp="yes">abella|apiari</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes" skip="7">abella|apiari</token>
+                <token inflected="yes" >casera</token>
+            </antipattern>
+            <antipattern>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token inflected="yes">caser</token>
+                <token inflected="yes">de</token>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token inflected="yes">caser<exception postag="_possible_nompropi"/></token>
+                </marker>
+            </pattern>
+            <message>Com a adjectiu, cal dir <suggestion><match no="2" postag="NC(..).*" postag_regexp="yes" postag_replace="AQ.$1.">casolà</match></suggestion>. Pot ser correcte en altres sentits.</message>
+            <example correction="casolana">He fet una coca <marker>casera</marker>.</example>
+            <example correction="casolans">He fet uns bunyols <marker>casers</marker>.</example>
+            <example>La Borda del Caser.</example>
+            <example>La Casera.</example>
+            <example>L'apiari el formaven 7 caseres.</example>
+        </rule>
         <rule id="PANXETA" name="panxeta">
             <pattern>
-                <token>panxeta</token>
+                <token regexp="yes">panxeta|panxetes</token>
             </pattern>
             <message>Incorrecte si vol dir <suggestion>cansalada viada</suggestion>. Correcte com a diminutiu de 'panxa'.</message>
             <suggestion>cansalada virada</suggestion>
