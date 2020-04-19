@@ -98,7 +98,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">mil|treinta|cuarenta|cinquenta|sesenta|setenta|ochenta|noventa</token>
+                    <token regexp="yes">mil|treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa</token>
                     <token>y</token>
                     <token>un</token>
                 </marker>
@@ -112,7 +112,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token regexp="yes">mil|treinta|cuarenta|cinquenta|sesenta|setenta|ochenta|noventa</token>
+                    <token regexp="yes">mil|treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa</token>
                     <token>y</token>
                     <token>una</token>
                 </marker>
@@ -590,7 +590,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token postag="RG" regexp="yes">demasiado|bastante|poco|tanto</token>
+                    <token postag="RG" regexp="yes">demasiado|bastante|poco|tanto|mal|bien</token>
                     <token postag="A.*|V.P.*" postag_regexp="yes"/>
                 </marker>
             </pattern>
@@ -887,7 +887,7 @@ Copyright (C) 2011 Juan Martorell
     <rulegroup id="verbnoun_verb" name="verb/noun + verb">
         <rule>
             <pattern>
-                <token postag="D[DAI].*" postag_regexp="yes"/>
+                <token postag="D[DAIP].[MF].*" postag_regexp="yes"></token>
                 <marker>
                     <and>
                         <token postag="V.[IS].*" postag_regexp="yes"/>
@@ -900,7 +900,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token postag="D[DAI].*" postag_regexp="yes"/>
+                <token postag="D[DAIP].[MF].*" postag_regexp="yes"/>
                 <marker>
                     <and>
                         <token postag="V.[IS].*" postag_regexp="yes"/>
@@ -914,7 +914,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token postag="D[DAI].*" postag_regexp="yes"/>
+                <token postag="D[DAIP].[MF].*" postag_regexp="yes"/>
                 <marker>
                     <and>
                         <token postag="V.[IS].*" postag_regexp="yes"/>
@@ -929,7 +929,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token postag="D[DAI].*" postag_regexp="yes"/>
+                <token postag="D[DAIP].[MF].*" postag_regexp="yes"/>
                 <marker>
                     <and>
                         <token postag="V.[IS].*" postag_regexp="yes"/>
@@ -1386,7 +1386,7 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <!-- These words would require specific rules for agreement-->
             <marker>
-                <token postag="D.*" postag_regexp="yes" inflected="yes">todo<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">todo|ambos<exception postag="_GN_.*" postag_regexp="yes"/></token>
             </marker>
         </pattern>
         <disambig action="remove" postag="D.*"/>

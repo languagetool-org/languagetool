@@ -459,6 +459,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
+        <rule id="CONTRACCIONES" name="contracciones: del, al" default="temp_off">
+            <antipattern>
+                <token>el</token>
+                <token regexp="yes" case_sensitive="yes">Cairo|Salvador|Escorial|Ejido|Corte</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">de|a</token>
+                <token case_sensitive="yes">el</token>
+            </pattern>
+            <message>Contracción</message>
+            <suggestion>\1l</suggestion>
+            <example correction="del">La casa <marker>de el</marker> lago</example>
+            <example>De El Mundo o de El País.</example>
+        </rule>
         <rulegroup id="ARTICULO_EN_TOPONIMOS" name="del Cario > de El Cairo" default="on">
             <url>https://www.fundeu.es/recomendacion/el-cairo-no-cairo-830/</url>
             <rule>
@@ -567,7 +581,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>radio</token>
                     <token min="0">-</token>
-                    <token regexp="yes" inflected="yes">activamente|actividad|activo|acústica|aficionado|alineación|altímetro|astronomía|astronómico|astrónomo|autografía|baliza|biología|búsqueda|carbono|carpiano|casete|casetera|climático|compás|comunicación|concéntrico|conductor|control|cronología|croísmo|cubital|despertador|diagnóstico|difundido|difundir|difusión|difusor|dinámico|electricidad|elemento|eléctrico|emanación|emisor|emisora|enlace|espectrógrafo|faro|fonismo|fonista|fonía|fotografía|fotograma|frecuencia|fuente|fónicamente|fónico|fórmula|galaxia|goniometría|goniómetrico|goniómetro|grabador|grabadora|grafiar|grafía|grama|gramola|gráficamente|gráfico|guiado|guía|génico|inmunodifusión|inmunoelectroforesis|inmunoensayo|inmunovaloración|interferómetro|isótopo|larita|localización|logía|luminiscencia|luminiscente|lógicamente|lógico|lúcido|mando|marcación|mensaje|metalografía|meteorología|metría|micrómetro|métricamente|métrico|móvil|navegación|navegante|necrosis|noniómetro|novela|nucleido|núclido|onda|opacidad|opaco|patología|patrulla|perador|química|químico|sonda|sondeo|sónico|taxi|teatro|tecnia|telecomunicación|telefonista|telefonía|telefónico|telegrafiar|telegrafista|telegrafía|telegrama|telegráfico|telemetría|telescopio|televisión|teléfono|telégrafo|telémetro|terapeuta|terapia|terapista|terapéutico|terápico|torio|toxicidad|transmisión|transmisor|transparencia|transparente|técnico|tóxico</token>
+                    <token regexp="yes" inflected="yes"
+                        >activamente|actividad|activo|acústica|aficionado|alineación|altímetro|astronomía|astronómico|astrónomo|autografía|baliza|biología|búsqueda|carbono|carpiano|casete|casetera|climático|compás|comunicación|concéntrico|conductor|control|cronología|croísmo|cubital|despertador|diagnóstico|difundido|difundir|difusión|difusor|dinámico|electricidad|elemento|eléctrico|emanación|emisor|emisora|enlace|espectrógrafo|faro|fonismo|fonista|fonía|fotografía|fotograma|frecuencia|fuente|fónicamente|fónico|fórmula|galaxia|goniometría|goniómetrico|goniómetro|grabador|grabadora|grafiar|grafía|grama|gramola|gráficamente|gráfico|guiado|guía|génico|inmunodifusión|inmunoelectroforesis|inmunoensayo|inmunovaloración|interferómetro|isótopo|larita|localización|logía|luminiscencia|luminiscente|lógicamente|lógico|lúcido|mando|marcación|mensaje|metalografía|meteorología|metría|micrómetro|métricamente|métrico|móvil|navegación|navegante|necrosis|noniómetro|novela|nucleido|núclido|onda|opacidad|opaco|patología|patrulla|perador|química|químico|sonda|sondeo|sónico|taxi|teatro|tecnia|telecomunicación|telefonista|telefonía|telefónico|telegrafiar|telegrafista|telegrafía|telegrama|telegráfico|telemetría|telescopio|televisión|teléfono|telégrafo|telémetro|terapeuta|terapia|terapista|terapéutico|terápico|torio|toxicidad|transmisión|transmisor|transparencia|transparente|técnico|tóxico</token>
                     <!--escucha-->
                 </pattern>
                 <message>Se escribe junto.</message>
@@ -1221,11 +1236,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>el</token>
-                    <token postag="P[TR].*|CS|Y|PI.*|V.N.*|NCFS000" postag_regexp="yes"/>
+                    <token postag="P[TR].*|CS|Y|PI.*|V.N.*|NCFS000|_QM_OPEN" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>el</token>
-                    <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV|_QM_OPEN"/> <!-- _PUNCT_CONT-->
+                    <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV|_QM_OPEN"/>
+                    <!-- _PUNCT_CONT-->
                     <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -1237,9 +1253,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">por|para</token>
                     <token regexp="yes">qué|que</token>
                 </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token>más</token>
+                    <token>que</token>
+                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token>el<exception postag="_GN_MS|LOC_.*" postag_regexp="yes"></exception></token>
+                        <token>el<exception postag="_GN_MS|LOC_.*" postag_regexp="yes"/></token>
                     </marker>
                     <!-- <token postag="&pronombre_personal_atono_POS;|R.*|LOC_ADV" postag_regexp="yes" min="0" max="5"/>
                     <token postag="V...3S." postag_regexp="yes"><exception postag="[NA].*" postag_regexp="yes"/></token>-->
@@ -1255,6 +1277,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="él">Esto queda entre <marker>el</marker> y yo.</example>
                 <example correction="él">Fue <marker>el</marker>, porque después no vino.</example>
                 <example correction="él">en <marker>el</marker> (también deporte ecuestre)</example>
+                <example>Vive en el ahora.</example>
                 <example>Me gusta el que tienes.</example>
                 <example>ni siquiera el anime era lo suficientemente expresivo</example>
                 <example>Quiero saber el porqué.</example>
@@ -1281,8 +1304,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Inventó el "coloní".</example>
                 <example>El la de diapasón</example>
                 <example>El más allá.</example>
+                <example>Con el más que sorprendido oficinista.</example>
+                <example>¿Qué es el "a veces"?</example>
             </rule>
-            
+
             <!-- TU_PARTICULA_VERBO_P2 tu no te lo pierdas
      Anulamos si entremedias hay al menos un nombre-->
             <rule id="TU_PARTICULA_VERBO_P2" name="Tu + partícula + verbo en 2a">
@@ -1297,7 +1322,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tú">Cuando <marker>tu</marker> no vuelves, yo voy.</example>
                 <example>Me alegra tu feliz vuelta al trabajo.</example>
             </rule>
-            
+
             <!-- TU_FINAL Tu al final de la oración. Siempre será nominativo.-->
             <rule id="TU_FINAL" name="Pronombre tú al final de la oración.">
                 <pattern>
@@ -1862,7 +1887,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>Si es del v. 'echar' (=tirar, lanzar, sacar), se escribe sin hache.</message>
-            <suggestion><match no="2" regexp_match="(?iu)h(.*)" regexp_replace="$1"></match></suggestion>
+            <suggestion><match no="2" regexp_match="(?iu)h(.*)" regexp_replace="$1"/></suggestion>
             <example correction="echa">Os <marker>hecha</marker></example>
             <example correction="echas">Lo <marker>hechas</marker> a la calle.</example>
             <example correction="echo">Lo <marker>hecho</marker> a la calle.</example>
@@ -2633,7 +2658,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CAT2" name="Concordancia" type="inconsistency">
-        <rulegroup id="AGREEMENT_DET_NOUN" name="Concordancias determinante y sustantivo" default="temp_off">
+        <rulegroup id="AGREEMENT_DET_NOUN" name="Concordancias determinante y sustantivo" default="on">
             <antipattern>
                 <token regexp="yes">el|al|del|un|algún|ningún</token>
                 <token regexp="yes">&nombre_fem_el;</token>
@@ -2642,12 +2667,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="D.*" postag_regexp="yes"/>
                 <token postag_regexp="yes">.</token>
             </antipattern>
+            <antipattern>
+                <token>todo</token>
+                <token postag="NPFSG00" regexp="yes">.*a</token>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token>cada</token>
                     <token regexp="yes">\d+°</token>
                 </antipattern>
-                <antipattern> <!-- triggers another rule -->
+                <antipattern>
+                    <!-- triggers another rule -->
                     <token>esta</token>
                     <token postag="V.P..SM" postag_regexp="yes"><exception postag="NCFS000"/></token>
                 </antipattern>
@@ -2662,8 +2692,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Error de concordancia.</message>
-                <suggestion><match no="1" postag="D..[MC][SN][^P]" postag_regexp="yes"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[MC][PN][^P]" postag_regexp="yes"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="1" postag="D..[MC][SN]." postag_regexp="yes"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="1" postag="D..[MC][PN]." postag_regexp="yes"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
                 <example correction="aquel camión|aquellos camiones">Trae <marker>aquel camiones</marker>.</example>
                 <example correction="tanto hombre|tantos hombres">Hay <marker>tanto hombres</marker>?</example>
                 <example correction="poco año|pocos años">Hasta <marker>poco años</marker> después</example>
@@ -2700,6 +2730,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Te mandaré otra hoy.</example>
                 <example>Esos solo existen en tu imaginación.</example>
                 <example>Usted es nuestra huésped de la semana.</example>
+                <!-- <example>no esta claro</example> better: other rule-->
+
             </rule>
             <rule>
                 <pattern>
@@ -2713,8 +2745,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Error de concordancia.</message>
-                <suggestion><match no="1" postag="D..[FC][SN][^P]" postag_regexp="yes"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[FC][PN][^P]" postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="1" postag="D..[FC][SN]." postag_regexp="yes"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="1" postag="D..[FC][PN]." postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
                 <example correction="aquella enfermera|aquellas enfermeras"><marker>aquella enfermeras</marker></example>
                 <example correction="Aquella médica|Aquella médico|Aquellas médicas"><marker>Aquellos médicas</marker>.</example>
                 <example correction="una tesis|unas tesis">Con <marker>un tesis</marker> sobre Platón.</example>
@@ -2732,6 +2764,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="La casa|Las casas"><marker>Las casa</marker> de la colina.</example>
                 <example correction="una baguette|unas baguettes">Compré <marker>un baguette</marker>.</example>
                 <example correction="otra oportunidad|otras oportunidades" type="triggers_error" reason="ambiguous, missimg comma">Algunos los llaman problemas y <marker>otros oportunidades</marker> de crecimiento.</example>
+                <!--y para otros dolor.-->
+                <example correction="nuestra revista|nuestras revistas">Suscribiendote a <marker>nuestras revista</marker> te regalamos un secador</example>
                 <example>sus hermanos</example>
                 <example>Los polis y las polis.</example>
                 <example>El agua.</example>
@@ -2747,10 +2781,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tanta acción|tantas acciones">Con <marker>tanto acción</marker>, se cansó.</example>
                 <example>Tanto acción como quietud.</example>
                 <example>El premier, la premier, los premiers, las premiers.</example>
-                <example type="triggers_error" reason="ambigous">expresando <marker>ambas positividad</marker></example>
+                <example>expresando ambas positividad</example>
                 <example>Tanto mayores serán los beneficios.</example>
                 <example>el buen comportamiento de unos recompensa el mal comportamiento de otros</example>
                 <example type="triggers_error" reason="amibgious">no he estudiado <marker>mucho física</marker></example>
+                <example>Por todo América.</example>
+                <example>Mil quinientas cincuenta y una bombillas.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2875,6 +2911,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lo eres tú.</example>
                 <example>Lo pequeños que son.</example>
                 <example>Lo aburridos que son.</example>
+                <example>Cuando menos te lo esperas te deja.</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGREEMENT_PARTICULAR_CASES" name="otros casos de concordancia">
@@ -3340,6 +3377,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ciudad">En la <marker>cuidad</marker>.</example>
             <example correction="ciudad">En nuestra <marker>cuidad</marker>.</example>
         </rule>
+        <rulegroup id="MORTANDAD" name="mortandad/mortalidad" default="temp_off">
+            <url>https://www.fundeu.es/recomendacion/mortandad-y-mortalidad-no-son-sinonimos-727/</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">índice|tasa|dato|tabla|ratio|proporción|nivel</token>
+                    <token>de</token>
+                    <marker>
+                        <token regexp="yes">mortandad|mortaldad</token>
+                    </marker>
+                </pattern>
+                <message>Palabra inadecuada en este contexto.</message>
+                <suggestion>mortalidad</suggestion>
+                <example correction="mortalidad">Oculta los datos de <marker>mortandad</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">mortandad|mortaldad</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">infantil|juvenil</token>
+                </pattern>
+                <message>Palabra inadecuada en este contexto.</message>
+                <suggestion>mortalidad</suggestion>
+                <example correction="mortalidad">Oculta la <marker>mortandad</marker> infantil.</example>
+            </rule>
+        </rulegroup>
         <rule id="REVERTIR_REVESTIR" name="revertir/revestir">
             <pattern>
                 <marker>
