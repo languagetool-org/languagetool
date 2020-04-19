@@ -1178,16 +1178,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="EL_TILDE" name="el / él" default="temp_off">
                 <antipattern>
                     <token>el</token>
-                    <token postag="P[TR].*|CS" postag_regexp="yes"/>
+                    <token>/</token>
+                    <token regexp="yes">la|los</token>
                 </antipattern>
                 <antipattern>
                     <token>el</token>
-                    <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV|_PUNCT_CONT"/>
-                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*" postag_regexp="yes"/>
+                    <token postag="P[TR].*|CS|Y|PI.*|V.N.*|NCFS000" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV"/> <!-- _PUNCT_CONT-->
+                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token regexp="yes">de|&nombre_fem_el;</token>
+                </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token regexp="yes">por|para</token>
+                    <token regexp="yes">qué|que</token>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token>el<exception postag="_GN_MS"></exception></token>
+                        <token>el<exception postag="_GN_MS|LOC_.*" postag_regexp="yes"></exception></token>
                     </marker>
                     <!-- <token postag="&pronombre_personal_atono_POS;|R.*|LOC_ADV" postag_regexp="yes" min="0" max="5"/>
                     <token postag="V...3S." postag_regexp="yes"><exception postag="[NA].*" postag_regexp="yes"/></token>-->
@@ -1202,12 +1216,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="él">Esta caja es para <marker>el</marker>.</example>
                 <example correction="él">Esto queda entre <marker>el</marker> y yo.</example>
                 <example correction="él">Fue <marker>el</marker>, porque después no vino.</example>
+                <example correction="él">en <marker>el</marker> (también deporte ecuestre)</example>
                 <example>Me gusta el que tienes.</example>
                 <example>ni siquiera el anime era lo suficientemente expresivo</example>
                 <example>Quiero saber el porqué.</example>
                 <example>El siempre certero abogado.</example>
                 <example>Quiero saber el cómo, el porqué, el quién y el qué.</example>
                 <example>Sobre el cual me movía.</example>
+                <example>El título de consejero y el de presidente.</example>
+                <example>se retocó en una sesión secreta el acta aprobada</example>
+                <example>el Dr. Juan García</example>
+                <example>el área del norte</example>
+                <example>Y el más largo el Paraná.</example>
+                <example reason="triggers another rule">Y el más larrgo.</example>
+                <example>Por el contrario, el Paraná no.</example>
+                <example>El otro de Inglaterra.</example>
+                <example>Con el correr de los años.</example>
+                <example>El habla culta.</example>
+                <example>La lucha contra el hambre</example>
+                <example>Según el Britannica Book of Year</example>
+                <example>Uno es negro y el otro es blanco.</example>
+                <example>El excavar un túnel.</example>
+                <example>Es el más aplicado de la clase.</example>
+                <example>con el técnicamente más avanzado</example>
             </rule>
             
             <!-- TU_PARTICULA_VERBO_P2 tu no te lo pierdas
@@ -2644,6 +2675,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la silla|las sillas">Me gusta <marker>el silla</marker> que hay ahí.</example>
                 <example correction="La ratio|Las ratios"><marker>El ratio</marker> es de 50.</example>
                 <example correction="La casa|Las casas"><marker>Las casa</marker> de la colina.</example>
+                <example correction="una baguette|unas baguettes">Compré <marker>un baguette</marker>.</example>
                 <example correction="una baguette|unas baguettes">Compré <marker>un baguette</marker>.</example>
                 <example>sus hermanos</example>
                 <example>Los polis y las polis.</example>
