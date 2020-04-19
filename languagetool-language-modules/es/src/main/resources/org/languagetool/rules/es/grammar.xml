@@ -402,7 +402,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sé cómo">No <marker>se como</marker> hacerlo.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CONTINUA" name="continua/continúa" default="temp_off">
+        <rulegroup id="CONTINUA" name="continua/continúa" default="on">
             <rule>
                 <pattern>
                     <marker>
@@ -489,7 +489,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de El Corte Inglés">Viene <marker>del Corte inglés</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup name="SIGLAS" id="siglas" default="temp_off">
+        <rulegroup name="SIGLAS" id="siglas" default="on">
             <url>https://www.fundeu.es/recomendacion/siglas-y-acronimos-claves-de-redaccion/</url>
             <rule>
                 <pattern>
@@ -666,7 +666,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="a cabo|al cabo">Lo llevó <marker>acabo</marker> con solvencia.</example>
             <example correction="a cabo|al cabo">Hay que llevarlo <marker>acabo</marker> con solvencia.</example>
         </rule>
-        <rule id="DAR_A_LUGAR" name="dar *(a) lugar" default="temp_off">
+        <rule id="DAR_A_LUGAR" name="dar *(a) lugar" default="on">
             <pattern>
                 <token inflected="yes">dar</token>
                 <marker>
@@ -1814,7 +1814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="CAT1" name="Ortografía (concepto)" type="grammar">
         <!-- HABER_AVER Uso incorrecto de «haber» por «a ver»-->
-        <rule id="HECHO_ECHO" name="*hecho/echo" default="temp_off">
+        <rule id="HECHO_ECHO" name="*hecho/echo" default="on">
             <antipattern>
                 <token>lo</token>
                 <token>hecho</token>
@@ -1876,10 +1876,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="e Italia">Alemania <marker>y Italia</marker> disputarán el torneo.</example>
                 <example>¿<marker>Y Irene</marker>?</example>
             </rule>
-            <rule id="E_Y" name="y ante palabras empezando por (h)ia" default="temp_off">
+            <rule id="E_Y" name="y ante palabras empezando por (h)ia" default="on">
                 <pattern>
                     <token>e</token>
-                    <token regexp="yes">^h?ih?[aeoáéó].*</token>
+                    <token regexp="yes">^h?ih?[aeoáéó].*<exception>ia</exception></token>
                 </pattern>
                 <message>Cuando precede a palabras que comienzan con diptongo, se usa la conjunción «y», no «e».</message>
                 <suggestion>y <match no="2"/></suggestion>
