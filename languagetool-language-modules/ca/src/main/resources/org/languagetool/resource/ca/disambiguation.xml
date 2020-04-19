@@ -6258,6 +6258,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="filter" postag="V.*|_GV_|_obligacio|_perfet"></disambig>
         </rule>
     </rulegroup>
+    <rule id="molt" name="molt adv">
+        <pattern>
+            <token>qui</token>
+            <marker>
+                <token>molt</token>
+            </marker>
+            <token min="0" max="1" postag="&pronom_feble;" postag_regexp="yes"/>
+            <token postag="V.[SI].*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="RG"/>
+    </rule>
     <!-- <rule id="el_troba" name="el troba"> Es pot generalitzar...
         <pattern>
         <token postag="P.*" postag_regexp="yes">el</token>
@@ -11650,9 +11661,9 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <marker>
                 <token postag="DI0MS0">tant<exception postag="_GN_MS"/></token>
             </marker>
-            <token><exception postag="[NA].*" postag_regexp="yes"/><exception inflected="yes">de</exception></token>
+            <token><exception postag="NC.*|A.*" postag_regexp="yes"/><exception inflected="yes">de</exception></token>
         </pattern>
-        <disambig action="filter" postag="[^D].*"></disambig>
+        <disambig action="remove" postag="D.*"></disambig>
     </rule>
     <rulegroup id="CASOS_CONCRETS" name="alguns casos concrets">
         <rule id="mostres" name="mostra/mostres de">   <!-- és generalitzable? -->

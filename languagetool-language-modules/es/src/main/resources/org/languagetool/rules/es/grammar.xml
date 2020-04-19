@@ -635,6 +635,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>Mastercard</suggestion>
                 <example correction="Mastercard">He perdido la <marker>master card</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>pilla</token>
+                    <token min="0">-</token>
+                    <token>pilla</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>pillapilla</suggestion>
+                <example correction="pillapilla">Jugamos al <marker>pilla-pilla</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>taca</token>
+                    <token min="0">-</token>
+                    <token>taca</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>tacataca</suggestion>
+                <suggestion>tacatá</suggestion>
+                <example correction="tacataca|tacatá">Un <marker>taca-taca</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>euro</token>
+                    <token min="0">-</token>
+                    <token>zona</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>eurozona</suggestion>
+                <example correction="eurozona">La <marker>euro-zona</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="ALREDEDOR" name="*(a) alrededor">
             <antipattern>
@@ -1194,12 +1225,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <antipattern>
                     <token>el</token>
-                    <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV"/> <!-- _PUNCT_CONT-->
+                    <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV|_QM_OPEN"/> <!-- _PUNCT_CONT-->
                     <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token>el</token>
-                    <token regexp="yes">de|&nombre_fem_el;</token>
+                    <token regexp="yes">cien|ciento|aquí|ahora|de|del|&nombre_fem_el;</token>
                 </antipattern>
                 <antipattern>
                     <token>el</token>
@@ -1246,6 +1277,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El excavar un túnel.</example>
                 <example>Es el más aplicado de la clase.</example>
                 <example>con el técnicamente más avanzado</example>
+                <example>El del tanque.</example>
+                <example>Inventó el "coloní".</example>
+                <example>El la de diapasón</example>
+                <example>El más allá.</example>
             </rule>
             
             <!-- TU_PARTICULA_VERBO_P2 tu no te lo pierdas
@@ -2638,6 +2673,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el mil|los miles">Con <marker>las miles</marker> de personas que estaban allí.</example>
                 <example correction="el ciento|los cientos">Con <marker>las cientos</marker> de personas que estaban allí.</example>
                 <example correction="el mil|los miles">Con <marker>las mil</marker> persona que estaban allí.</example>
+                <!--<example correction="algún coche|algunos coches">Con <marker>algunos coche</marker>.</example> pending dict update-->
                 <example>También lo contrario.</example>
                 <example>Todas las otras.</example>
                 <example>Las microondas penetran en el interior.</example>
@@ -2660,6 +2696,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El que la saque se queda con ella.</example>
                 <example>Y demás información.</example>
                 <example>Ellos no están del todo interesados.</example>
+                <example>Están estudiando todos inglés.</example>
+                <example>Te mandaré otra hoy.</example>
+                <example>Esos solo existen en tu imaginación.</example>
+                <example>Usted es nuestra huésped de la semana.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2691,7 +2731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="La ratio|Las ratios"><marker>El ratio</marker> es de 50.</example>
                 <example correction="La casa|Las casas"><marker>Las casa</marker> de la colina.</example>
                 <example correction="una baguette|unas baguettes">Compré <marker>un baguette</marker>.</example>
-                <example correction="una baguette|unas baguettes">Compré <marker>un baguette</marker>.</example>
+                <example correction="otra oportunidad|otras oportunidades" type="triggers_error" reason="ambiguous, missimg comma">Algunos los llaman problemas y <marker>otros oportunidades</marker> de crecimiento.</example>
                 <example>sus hermanos</example>
                 <example>Los polis y las polis.</example>
                 <example>El agua.</example>
@@ -2708,6 +2748,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tanto acción como quietud.</example>
                 <example>El premier, la premier, los premiers, las premiers.</example>
                 <example type="triggers_error" reason="ambigous">expresando <marker>ambas positividad</marker></example>
+                <example>Tanto mayores serán los beneficios.</example>
+                <example>el buen comportamiento de unos recompensa el mal comportamiento de otros</example>
+                <example type="triggers_error" reason="amibgious">no he estudiado <marker>mucho física</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -2781,7 +2824,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="DET_FEM_NOM_FEM" name="la agua>el agua">
                 <antipattern>
                     <token>alta</token>
-                    <token postag="NC[FC][SN].*" postag_regexp="yes"><exception>médica</exception></token>
+                    <token postag="N[CP][FC][SN].*" postag_regexp="yes"><exception>médica</exception></token>
                 </antipattern>
                 <antipattern>
                     <token>que</token>
@@ -2790,7 +2833,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>la</token>
-                    <token regexp="yes">&nombre_fem_el;<exception postag="V.[IS].*" postag_regexp="yes">ama</exception></token>
+                    <token regexp="yes">&nombre_fem_el;<exception postag="V.[IS].*" postag_regexp="yes" regexp="yes">ama|haya</exception></token>
                 </pattern>
                 <message>En este caso se usa el artículo determinado masculino.</message>
                 <suggestion>el \2</suggestion>
@@ -2807,6 +2850,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me dan el alta en el hospital.</example>
                 <example>La alta tensión</example>
                 <example>La gente baja necesita dormir más que la alta.</example>
+                <example>En la Alta Andalucía.</example>
+                <example>Que la haya vendido.</example>
             </rule>
             <rule id="LO_LOS" name="confusión lo/los">
                 <antipattern>
@@ -3270,7 +3315,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSION" name="confusiones">
-        <rule id="CUIDAD_CIUDAD" name="*cuidad/ciudad" default="temp_off">
+        <rule id="EL_LA_EN_LA" name="*el/en la" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>el</token>
+                </marker>
+                <token postag="_GN_F." postag_regexp="yes" regexp="yes">la|las</token>
+            </pattern>
+            <message>Posible confusión.</message>
+            <suggestion>en</suggestion>
+            <example correction="en">Fue <marker>el</marker> la plaza.</example>
+            <example correction="en">Viven <marker>el</marker> las calles.</example>
+        </rule>
+        <rule id="CUIDAD_CIUDAD" name="*cuidad/ciudad" default="on">
             <pattern>
                 <token postag="D..[CF]S." postag_regexp="yes"/>
                 <marker>
