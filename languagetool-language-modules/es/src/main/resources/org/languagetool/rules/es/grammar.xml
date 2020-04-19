@@ -459,9 +459,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
-        <rulegroup id="ARTICULO_EN_TOPONIMOS" name="del Cario > de El Cairo" default="temp_off">
+        <rulegroup id="ARTICULO_EN_TOPONIMOS" name="del Cario > de El Cairo" default="on">
             <url>https://www.fundeu.es/recomendacion/el-cairo-no-cairo-830/</url>
             <rule>
+                <antipattern>
+                    <token regexp="yes">iglesia|catedral</token>
+                    <token>del</token>
+                    <token>Salvador</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">al|del</token>
                     <token regexp="yes" case_sensitive="yes">Cairo|Salvador|Escorial|Ejido</token>
@@ -471,6 +476,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de El Cairo">Viene <marker>del Cairo</marker></example>
                 <example correction="de El Escorial">San Lonrenzo <marker>del Escorial</marker></example>
                 <example>Se dirige al salvador.</example>
+                <example>Santa Iglesia Catedral del Salvador de Orihuela</example>
             </rule>
             <rule>
                 <pattern>
@@ -3312,7 +3318,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="REDUNDANCIES" name="redundancias">
-        <rulegroup id="ETCETERA" name="etc..." default="temp_off">
+        <rulegroup id="ETCETERA" name="etc..." default="on">
             <rule>
                 <pattern>
                     <token>etc</token>
