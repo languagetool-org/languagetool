@@ -52,7 +52,7 @@ Copyright (C) 2011 Juan Martorell
     <rule id="not_noun" name="not noun">
         <pattern>
             <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">no|eres|lo|los</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">no|eres|lo|los|de</token>
                 <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
             </and>
         </pattern>
@@ -912,23 +912,6 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="V.[^N].*"/>
     </rule>
 
-    <rulegroup id="PREPOSICIONES" name="preposiciones">
-        <rule>
-            <pattern>
-                <token>según</token>
-                <token postag="P.*" postag_regexp="yes" min="0" max="2"/>
-                <token postag="V.[MSI].*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="remove" postag="SPS00"/>
-        </rule>
-        <rule>
-            <pattern>
-                <!-- TODO: exceptions?-->
-                <token postag="SPS00"><exception postag="LOC_ADV"/><exception regexp="yes">bajo|para|hasta</exception></token>
-            </pattern>
-            <disambig action="filter" postag="SPS00"/>
-        </rule>
-    </rulegroup>
     <rule id="PERO" name="pero">
         <pattern>
             <token>pero</token>
@@ -1173,8 +1156,44 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filter" postag="D.*|_GN_.*"/>
     </rule>
+    
+    <rule id="POS_N" name="possessive + noun"> <!-- mi contra -->
+        <pattern>
+            <marker>
+                <unify>
+                    <feature id="gender"/>
+                    <feature id="number"/>
+                    <token postag="DP.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"><exception postag="[DC].*" postag_regexp="yes"/><exception regexp="yes">de</exception></token>
+                </unify>
+            </marker>
+        </pattern>
+        <disambig action="unify"/>
+    </rule>
+    
 
     <!-- END: nominal groups -->
+    
+    <rulegroup id="PREPOSICIONES" name="preposiciones">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>según</token>
+                </marker>
+                <token postag="P.*" postag_regexp="yes" min="0" max="2"/>
+                <token postag="V.[MSI].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="SPS00"/>
+        </rule>
+        <rule>
+            <pattern>
+                <!-- TODO: exceptions?-->
+                <token postag="SPS00"><exception postag="LOC_ADV"/><exception regexp="yes">bajo|para|hasta</exception></token>
+            </pattern>
+            <disambig action="filter" postag="SPS00"/>
+            <example type="untouched">en mi contra.</example>
+        </rule>
+    </rulegroup>
 
 
     <rule id="NOMBRE_PROPIOS" name="nombres propios">
@@ -1279,6 +1298,16 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    
+    <rule id="not_verb_if_agreement" name="not verb if agreement">
+        <pattern>
+            <and>
+                <token inflected="yes">uno</token>
+                <token postag="_GN_.*" postag_regexp="yes"/>
+            </and>
+        </pattern>
+        <disambig action="remove" postag="V.[MSI].*"></disambig>
+    </rule>
 
     <rulegroup id="tanto_como" name="tanto + __ + como + __">
         <rule>
