@@ -126,7 +126,7 @@ USA
         <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
     <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region'>
-    <!ENTITY nouns_with_i 'article|phase|class|grade|part|paragraph|section|chaos|enigma|book|war|king|current|mustang|type'>
+    <!ENTITY nouns_with_i 'article|phase|class|grade|part|paragraph|section|chaos|enigma|book|war|king|current|mustang|type|division'>
 ]>
 
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -1885,16 +1885,30 @@ USA
             <example>Trendy T-shirts lacking in tact</example>
             <example correction="Intact">Outdoor Activities in Louisiana Remain <marker>In Tact</marker></example>
         </rule>
-        <rule id="IT_SELF" name="it self (itself)">
-            <pattern>
-                <token>it</token>
-                <token>self</token>
-            </pattern>
-            <message>Did you mean <suggestion>itself</suggestion>?</message>
-            <short>Possible typo</short>
-            <example correction="itself">I believe that such advertisements indicate a clear statement about the issue <marker>it self</marker> and they clarify the main cause of the problem.</example>
-            <example>Was it self-defense?</example>
-        </rule>
+        <rulegroup id="IT_SELF" name="it self (itself)">
+            <rule>
+                <pattern>
+                    <token>it</token>
+                    <token>self</token>
+                    <token postag="VB[DZG]" postag_regexp="yes">
+                        <exception inflected="yes" regexp="yes">be|do|have</exception>
+                        <exception postag="CC|IN" postag_regexp="yes" />
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>itself \3</suggestion> or <suggestion>\1 \2-\3</suggestion>?</message>
+                <example correction="Itself isolates|It self-isolates"><marker>It self isolates</marker> it from others.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>it</token>
+                    <token>self</token>
+                </pattern>
+                <message>Did you mean <suggestion>itself</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="itself">I believe that such advertisements indicate a clear statement about the issue <marker>it self</marker> and they clarify the main cause of the problem.</example>
+                <example>Was it self-defense?</example>
+            </rule>
+        </rulegroup>
         <rule id="VE_GO_TO" name="I've go to (I've got to)">
             <pattern>
                 <token>ve</token>
@@ -4639,7 +4653,7 @@ USA
                 <example correction="Who's"><marker>Whose</marker> on first base?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="NO_WHERE" name="no where (nowhere)" default="temp_off">
+        <rulegroup id="NO_WHERE" name="no where (nowhere)">
             <url>https://www.merriam-webster.com/dictionary/nowhere</url>
             <rule>
                 <pattern>
@@ -5924,7 +5938,7 @@ USA
         <!-- on going::word=ongoing -->
         <rulegroup id="ON_GOING" name="on going (ongoing)">
             <url>https://www.merriam-webster.com/dictionary/ongoing</url>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token postag="PRP" />
                     <token regexp="yes">&apostrophe;</token>
@@ -7402,6 +7416,24 @@ USA
                 <token>you</token>
                 <token regexp="yes">&adverb_abbreviations;|&verb_abbreviations;|&not_really_verbs;</token>
             </antipattern>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="IN|VB.*" postag_regexp="yes" />
+                    <token>you</token>
+                    <token regexp="yes">and|or|&amp;</token>
+                    <marker>
+                        <token>you</token>
+                    </marker>
+                    <token postag="JJ.*" postag_regexp="yes" min="0">
+                        <exception postag="VB.*" postag_regexp="yes" />
+                    </token>
+                    <token postag="NN.*" postag_regexp="yes">
+                        <exception postag="VB.*" postag_regexp="yes" />
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>your</suggestion>?</message>
+                <example correction="your">This is for you and <marker>you</marker> family!</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">thanks?|congratulations</token>
@@ -10384,7 +10416,21 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="IN_THIS_REGARDS" name="In this regards (regard)" default="temp_off">
+        <rule>
+            <pattern>
+                <token postag="SENT_START|CC|PCT|RB" postag_regexp="yes" />
+                <token>now</token>
+                <marker>
+                    <token>are</token>
+                </marker>
+                <token postag="DT" min="0" />
+                <token postag="JJ" min="0" />
+                <token regexp="yes" chunk="E-NP-singular" postag="NN.*" postag_regexp="yes" />
+            </pattern>
+            <message>Did you mean <suggestion>is</suggestion>?</message>
+            <example correction="is">Now <marker>are</marker> the time.</example>
+        </rule>
+        <rule id="IN_THIS_REGARDS" name="In this regards (regard)">
             <pattern>
                 <token>in</token>
                 <token regexp="yes">that|this</token>
@@ -10394,7 +10440,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/in%20this%20regard</url>
             <example correction="in that regard">He is studying law and <marker>in that regards</marker> he is doing very well.</example>
         </rule>
-        <rule id="BUENOS_DIAS" name="buenos días" default="temp_off">
+        <rule id="BUENOS_DIAS" name="buenos días">
             <pattern>
                 <token>buenos</token>
                 <token regexp="yes">dias?</token>
@@ -16995,7 +17041,7 @@ USA
                 <url>https://en.wiktionary.org/wiki/restocking</url>
                 <example correction="restocking">Due to the high demand, we needed a <marker>restock</marker>.</example>
             </rule>
-            <rule default="temp_off"><!-- the wive -->
+            <rule><!-- the wive -->
                 <pattern>
                     <token regexp="yes">your|their|his|her|my|the|our|an?|s</token>
                     <token postag="JJS?" postag_regexp="yes" min="0">
@@ -21148,6 +21194,12 @@ USA
                 <token chunk="B-NP-plural" postag_regexp="yes" postag="JJ|NN(:UN?)?"/>
                 <token chunk="E-NP-plural" postag="NNS"/>
             </antipattern>
+            <antipattern><!-- different error -->
+                <token>it</token>
+                <token postag="RB" min="0" />
+                <token>inter</token>
+                <token postag="VBZ" />
+            </antipattern>
             <pattern>
                 <!-- 't': from "doesn't" etc -->
                 <token><exception regexp="yes">can|could|must|might|shall|does|will|ll|would|should|may|t|did|be|is|were|was|that|about|of|lest|whether|surrounding|had</exception><exception regexp="yes" inflected="yes">hear|feel|see|insist|call|claim|make|let</exception><exception postag="IN"/></token>
@@ -24807,6 +24859,14 @@ USA
             <token>beta</token>
             <token>test</token>
           </antipattern>
+          <antipattern><!-- We video chat -->
+            <token>video</token>
+            <token>chat</token>
+          </antipattern>
+          <antipattern><!-- We social distanced -->
+            <token>social</token>
+            <token inflected="yes">distance</token>
+          </antipattern>
           <antipattern>
             <token regexp='yes'>block|level|century</token>
             <token>I</token>
@@ -24835,7 +24895,7 @@ USA
           </antipattern>
           <antipattern><!-- MFU 2019-09-02: in it -->
             <token postag="IN"/>
-            <token>it</token>
+            <token regexp="yes">it|you</token>
           </antipattern>
           <antipattern case_sensitive="yes"><!-- MFU 2019-09-02: Shall I Say... Disambiguation UPPER_NNP gives postag NNP to 'Say'. In the context of a title, 'Say' is NNP as part of the title. Thus, I did not change the disambiguation. -->
             <token postag="MD" regexp="yes">\p{Lu}\p{Ll}+</token>
@@ -24855,6 +24915,12 @@ USA
             <token postag="VB.*" postag_regexp="yes" />
             <token regexp="yes">you|it</token>
           </antipattern>
+          <antipattern>
+            <token inflected="yes">be</token>
+            <token regexp="yes">&apostrophe;</token>
+            <token>t</token>
+            <token regexp="yes">It?|you|s?he|we|they</token>
+          </antipattern>
           <antipattern><!-- t(he) -->
             <token>(</token>
             <token spacebefore="no">t</token>
@@ -24870,8 +24936,21 @@ USA
             <token postag_regexp="yes" postag="N.+"/>
           </antipattern>
           <antipattern>
+            <token regexp="yes">&nouns_with_i;</token>
+            <token>I</token>
+          </antipattern>
+          <antipattern>
             <token>if</token>
             <token regexp="yes" inflected="yes">needed|required|desired</token>
+          </antipattern>
+          <antipattern>
+            <token>you</token>
+            <token>sir</token>
+          </antipattern>
+          <antipattern>
+            <token>all</token>
+            <token min="0">of</token>
+            <token>you</token>
           </antipattern>
           <pattern>
             <marker>
@@ -24879,9 +24958,11 @@ USA
                 <exception case_sensitive='yes'>IT</exception>
                 <exception case_sensitive='yes'>i</exception></token>
               <token postag="N.+" postag_regexp='yes'>
-                <exception postag='V.+|RB|IN' postag_regexp='yes'/>
+                <exception postag='V.+|RB|IN|UH' postag_regexp='yes'/>
                 <exception>wont</exception><!-- already caught by WONT_CONTRACTION -->
                 <exception>can</exception><!-- 'can' is only tagged as 'NN' in 'The best I can is ...'-->
+                <exception regexp="yes">auto|self|inter|re|un</exception><!-- compound error (has different rules) -->
+                <exception regexp="yes">&not_really_verbs;|&adverb_abbreviations;</exception>
               </token>
             </marker>
             <token postag="V.+" postag_regexp='yes'/>
@@ -24895,8 +24976,10 @@ USA
           <example>More than half of US children diagnosed with ASD are prescribed psychoactive dr...</example>
           <example>She's got a fair complexion while her brother is very dark.</example>
           <example>Her garden is a work of art.</example>
+          <example>This is for all you Star Wars lovers.</example>
           <example>Part of what motivates me to cope with ME/CFS the best I can is to make things easier for the people I love.</example>
           <example>We men are used to waiting for the women.</example>
+          <example>Isn't it something like that?</example>
           <example>UAB Hospital is the only Level I trauma center in Alabama.</example>
           <example>Her eyes were shining with joy.</example>
           <example>They competed for it by giving speeches on why they were the bravest afte...</example>
@@ -24906,6 +24989,8 @@ USA
           <example>...y 12, was never a national holiday, but it was at one time observed by as many as 30 states.</example>
           <example>One kinship cue is facial resemblance.</example>
           <example>You two are the nucleus of the team.</example>
+          <example>I sent to you other bank documents.</example>
+          <example>World War I veterans.</example>
           <example>You students are supposed to be diligent.</example>
           <example>Did any of you gentlemen wait on this man?</example>
           <example>...about the Polish actress Pola Negri, which became her first published work.</example>
@@ -31941,7 +32026,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Multi-factor_authentication</url>
             <example correction="2-factor">He enabled <marker>2 factor</marker> auth to protect his Facebook account.</example>
         </rule>
-        <rule id="LIFE_CHANGING_HYPHEN" name="missing hyphen in 'life changing moments'" default="temp_off">
+        <rule id="LIFE_CHANGING_HYPHEN" name="missing hyphen in 'life changing moments'">
             <pattern>
                 <marker>
                     <token>life</token>
@@ -51650,7 +51735,7 @@ The accident victim died from her injuries.
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
-        <rulegroup id="ALINE" name="aline vs. align" default="temp_off">
+        <rulegroup id="ALINE" name="aline vs. align">
             <url>https://www.merriam-webster.com/dictionary/aline</url>
             <rule>
                 <pattern>
