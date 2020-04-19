@@ -7682,17 +7682,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          </rule>
         </rulegroup>
  
-        <rule id="TAK_JE" name="Правописание «также/так же»" >  <!-- default="temp_off" -->
-            <pattern>
-                <token>также<exception postag="NN:.*:.*:.*:.*" postag_regexp="yes" scope="previous"></exception></token>
-                <token>,</token>
-                <token>как</token>
-            </pattern>
-            <message>Пишется раздельно: <suggestion>так же\2 \3</suggestion>.</message>
-            <url>http://lik-bez.com/board/orfografija/slitno_razdelno_cherez_defis/to_zhe_tak_zhe/64-1-0-303</url>
-            <short>Пишется раздельно.</short>
-            <example correction="так же, как">Сегодня <marker>также, как</marker> и вчера.</example>           
-        </rule>
+        <rulegroup id="TAK_JE" name="Правописание «также/так же»" >  <!-- default="temp_off" -->
+            <rule>
+                <pattern>
+                    <token>также<exception postag="NN:.*:.*:.*:.*" postag_regexp="yes" scope="previous"></exception></token>
+                    <token>,</token>
+                    <token>как</token>
+                </pattern>
+                <message>Пишется раздельно: <suggestion>так же\2 \3</suggestion>.</message>
+                <url>http://lik-bez.com/board/orfografija/slitno_razdelno_cherez_defis/to_zhe_tak_zhe/64-1-0-303</url>
+                <short>Пишется раздельно.</short>
+                <example correction="так же, как">Сегодня <marker>также, как</marker> и вчера.</example>           
+            </rule>
+            <rule>
+                <pattern>
+                    <token>также</token>                    
+                    <token>как</token>
+                </pattern>
+                <message>Пишется раздельно: <suggestion>так же \2</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_738</url>
+                <short>Пишется раздельно.</short>
+                <example correction="так же как">Всё <marker>также как</marker> и было.</example>           
+            </rule>
+        </rulegroup>
         <rulegroup default="on" id="i_tak_dalee" name="Словосочетание «и так далее»">
             <rule>
                 <pattern case_sensitive="no">
