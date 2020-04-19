@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP]000|P0[123].*">
 <!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las">
 <!ENTITY nombre_fem_el "África|aguadulce|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
+<!ENTITY dias_semana_may "Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -78,26 +79,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="MIN_DIAS_SEMANA" name="Días de las semana en minúscula">
             <antipattern>
-                <token regexp="yes">Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo</token>
+                <token regexp="yes">&dias_semana_may;</token>
                 <token regexp="yes">de(l)*</token>
                 <token regexp="yes">[A-ZÁÉÍÓÚÑ].+</token>
             </antipattern>
-            <antipattern>
+            <antipattern case_sensitive="yes">
                 <token>Domingo</token>
-                <token postag="_possible_NP|NP.*" postag_regexp="yes"/>
+                <token regexp="yes">\p{Lu}.*</token>
             </antipattern>
-            <antipattern>
-                <token postag="_possible_NP|NP.*" postag_regexp="yes"/>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">\p{Lu}.*</token>
                 <token>Domingo</token>
             </antipattern>
             <antipattern case_sensitive="yes">
-                <token regexp="yes">Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo</token>
-                <token>Santo</token>
+                <token regexp="yes">&dias_semana_may;</token>
+                <token regexp="yes">Santo|Negro</token>
             </antipattern>
             <pattern case_sensitive="yes">
                 <token negate_pos="yes" postag="SENT_START"/>
                 <marker>
-                    <token regexp="yes">Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo</token>
+                    <token regexp="yes">&dias_semana_may;</token>
                 </marker>
             </pattern>
             <message>Los días de la semana se escriben en minúsculas.</message>
@@ -981,7 +982,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">[a-z].*</token>
                 </pattern>
-                <message>Si es una conjunció, se escribe <suggestion>y</suggestion>.</message>
+                <message>Si es una conjunción, se escribe <suggestion>y</suggestion>.</message>
                 <example correction="y">Entre Madrid <marker>i</marker> Sevilla.</example>
                 <example correction="y">Ortega <marker>i</marker> Gasset.</example>
                 <example>Carlos I de España.</example>
