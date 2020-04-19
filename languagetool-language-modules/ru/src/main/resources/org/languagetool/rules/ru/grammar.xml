@@ -4501,14 +4501,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             -->
             <rule>
                 <pattern>
+                  <marker>
                     <token>не</token>
                     <token regexp="yes">то|иначе</token>
                     <token>,</token>
                     <token regexp="yes">что|как|чтобы</token>
+                  </marker>
+                  <token postag="ADV|PT_Short:.*|ADJ:Short:.*" postag_regexp="yes"></token>
                 </pattern>
                 <message>Запятая не нужна: <suggestion>\1 \2 \4</suggestion>.</message>
                 <short>Запятая не нужна.</short>
                 <example>Работа была сделана не иначе как полностью.</example>
+                <example>Это не то, что ты думаешь.</example>
                 <example correction="не иначе как">Работа была сделана <marker>не иначе, как</marker> полностью.</example>
             </rule>
             <rule>
