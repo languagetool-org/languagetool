@@ -309,7 +309,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Tanto él como yo.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SE" name="se/sé" default="temp_off">
+        <rulegroup id="SE" name="se/sé" default="on">
             <rule>
                 <antipattern>
                     <token>se</token>
@@ -322,12 +322,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VMIP1S0" regexp="yes">.+o</token>
                 </antipattern>
                 <antipattern>
-                    <token>se<exception postag="_possible_NP"/></token>
+                    <token>se</token>
                     <token regexp="yes" min="0">["«“‘']</token>
                     <token postag="V...3..|UNKNOWN" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <token>se<exception postag="_possible_NP"/></token>
+                    <token>se</token>
                     <token regexp="yes">me|te|le|les|la|las|lo|los|nos|os</token>
                     <token regexp="yes" min="0">["«“‘']</token>
                     <token postag="V...[123]..|UNKNOWN" postag_regexp="yes"/>
@@ -336,11 +336,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- error in the next word -->
                     <token>se</token>
                     <token regexp="yes" min="0">me|te|le|les|la|las|lo|los|nos|os</token>
-                    <token regexp="yes">rió|frió|dió|continua|este|esta|estan|esten</token>
+                    <token regexp="yes">rió|frió|dió|continua|este|esta|estan|esten|a</token>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token>se</token>
+                        <token>se<exception postag="_possible_NP"/></token>
                     </marker>
                 </pattern>
                 <message>Si es del v. 'saber' o 'ser' se escribe con tilde.</message>
@@ -363,12 +363,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="correct" reason="triggers another rule">Él se rió.</example>
                 <example type="correct" reason="triggers another rule">Se contituyó.</example>
                 <example type="correct" reason="triggers another rule">Se continua.</example>
+                <example type="correct" reason="triggers another rule">Se a hecho.</example>
                 <example type="correct" reason="triggers another rule">Se lo debeis.</example>
                 <example>Se lo debo a la educación.</example>
                 <example>Se la debemos a Einstein.</example>
                 <example>Se la tenéis que dar.</example>
                 <example>Si se cuantiza.</example>
                 <example>Se "automargina".</example>
+                <example>¡Oh! Se me ha quemado la tostada.</example>
+                <example>En el extremo SE del país.</example>
             </rule>
             <rule>
                 <pattern>
