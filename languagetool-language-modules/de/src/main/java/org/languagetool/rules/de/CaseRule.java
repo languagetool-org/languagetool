@@ -139,6 +139,19 @@ public class CaseRule extends Rule {
       regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern"),
       pos("UNKNOWN")
     ),
+    Arrays.asList(
+      token("International"),
+      regex("Managements?")
+    ),
+    Arrays.asList(
+      regex("[kK]nock"),
+      regex("[oO]ut")
+    ),
+    Arrays.asList( // "was sie über das denken"
+      token("über"),
+      token("das"),
+      token("denken")
+    ),
     // names with english adjectives
     Arrays.asList(
       pos("UNKNOWN"),
