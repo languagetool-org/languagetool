@@ -8079,7 +8079,58 @@ though, and has since been slightly modified)-->
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
       <!-- Additions from the premium version -->
+      <rulegroup id="LIVRER_A_SOI_MEME" name="Livré à soi-même">
+          <rule name="Livré à lui-même">
+              <pattern>
+                  <marker>
+                      <token>livrer</token>
+                  </marker>
+                  <token>à</token>
+                  <token>lui-même</token>
+              </pattern>
+              <message>Vouliez-vous dire <suggestion>livré</suggestion> ?</message>
+              <example correction="livré">Ils l'ont laissé <marker>livrer</marker> à lui-même.</example>
+          </rule>
+          <rule name="Livré à elle-même">
+              <pattern>
+                  <marker>
+                      <token>livrer</token>
+                  </marker>
+                  <token>à</token>
+                  <token>elle-même</token>
+              </pattern>
+              <message>Vouliez-vous dire <suggestion>livrée</suggestion> ?</message>
+              <example correction="livrée">Ils l'ont laissée <marker>livrer</marker> à elle-même.</example>
+          </rule>
+          <rule name="Livrés à eux-même">
+              <antipattern>
+                  <token>à</token>
+                  <token>livrer</token>
+              </antipattern>
+              <pattern>
+                  <marker>
+                      <token>livrer</token>
+                  </marker>
+                  <token>à</token>
+                  <token>eux-mêmes</token>
+              </pattern>
+              <message>Vouliez-vous dire <suggestion>livrés</suggestion> ?</message>
+              <example correction="livrés">Ils les ont laissés <marker>livrer</marker> à eux-mêmes.</example>
+          </rule>
+          <rule name="Livré à elles-même">
+              <pattern>
+                  <marker>
+                      <token>livrer</token>
+                  </marker>
+                  <token>à</token>
+                  <token>elles-mêmes</token>
+              </pattern>
+              <message>Vouliez-vous dire <suggestion>livrées</suggestion> ?</message>
+              <example correction="livrées">Ils les ont laissées <marker>livrer</marker> à elles-mêmes.</example>
+          </rule>
+      </rulegroup>
       <rulegroup id="A_ACCENT" name="Usage de a/à">
+          <!-- Commented out until I know for certain there isn't more false positives.
           <rule>
               <antipattern>
                   <token>a</token>
@@ -8090,12 +8141,18 @@ though, and has since been slightly modified)-->
                   <token>a</token>
               </antipattern>
               <pattern>
-                  <token postag="V.*" postag_regexp="yes" skip="-1"><exception postag="M fin|M nonfin|SENT_END|C sub" postag_regexp="yes"/></token>
+                  <token postag="V.*" postag_regexp="yes" skip="-1">
+                      <exception scope="next" postag="M fin|M nonfin|SENT_END|C sub" postag_regexp="yes"/>
+                      <exception scope="next" regexp="yes">[«"']</exception>
+                      <exception postag="V.* ppa.*" postag_regexp="yes"/>
+                      <exception postag="V.* ppr.*" postag_regexp="yes"/>
+                      <exception postag="V.* inf" postag_regexp="yes"/>
+                  </token>
                   <marker>
                       <token postag="N [mfe] .*" postag_regexp="yes">
                           <exception>y</exception>
                       </token>
-                      <token>a</token>
+                      <token case_sensitive="yes">a</token>
                       <token postag="N [mfe].*" postag_regexp="yes">
                           <exception regexp="yes">une?|des?|pour</exception>
                           <exception postag_regexp="yes" postag="K|Y"/>
@@ -8107,7 +8164,10 @@ though, and has since been slightly modified)-->
               <example correction="couteau à beurre">Je me saisis de mon <marker>couteau a beurre</marker>, et m'apprête à tartiner.</example>
               <example type="correct">Je me dis que la <marker>France a mal</marker>.</example>
               <example type="correct">l'Allier a une majorité de droite de deux voix.</example>
+              <example>Pour ce faire, l' humanité a besoin d'un Guide spirituel (imam) pour transmettre l'exégèse spirituelle du Coran et actualiser le message</example>
+              <example>Clovis retrouve son écuyer et s'exécute : la guérison a lieu.</example>
           </rule>
+          -->
           <rule>
               <antipattern>
                   <token>a</token>
@@ -8131,7 +8191,8 @@ though, and has since been slightly modified)-->
               <example correction="râpe à fromage">La <marker>râpe a fromage</marker> est un instrument très utile.</example>
               <example correction="couteau à beurre">Mon <marker>couteau a beurre</marker> brille comme s'il était neuf !</example>
           </rule>
-          <rule>
+          <!-- Same as above
+          <rule default="off">
               <antipattern>
                   <token>a</token>
                   <token>a</token>
@@ -8172,9 +8233,10 @@ though, and has since been slightly modified)-->
               <example>Je ne pouvais pas le croire a priori.</example>
               <example>Elle continue a être gérée conjointement</example>
           </rule>
+          -->
       </rulegroup>
       <rulegroup id="AN_ANNEE" name="Confusion an/année">
-          <rule>
+          <rule >
               <antipattern>
                   <token>an</token>
                   <token>tamm</token>
@@ -8183,18 +8245,34 @@ though, and has since been slightly modified)-->
                   <token>kan</token>
                   <token>an</token>
               </antipattern>
+              <antipattern>
+                  <token regexp="yes">ans?</token>
+                  <token regexp="yes" case_sensitive="yes">(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)
+                      <exception scope="next" regexp="yes">'</exception>
+                  </token>
+              </antipattern>
+              <antipattern>
+                  <token>an</token>
+                  <token postag="K|Y" postag_regexp="yes"/>
+              </antipattern>
+              <antipattern>
+                  <token>an</token>
+                  <token regexp="yes">\d+[-–—]\d+</token>
+              </antipattern>
+              <antipattern>
+                  <token>nouvel</token>
+                  <token>an</token>
+              </antipattern>
               <pattern>
                   <token>
                       <exception>par</exception>
                       <exception>un</exception>
                       <exception>'</exception>
-                      <exception>sept</exception>
-                      <exception>cent</exception>
-                      <exception>cents</exception>
                       <exception>/</exception>
                       <exception regexp="yes">Vendémiaire|Brumaire|Frimaire|Nivôse|Pluviôse|Ventôse|Germinal|Floréal|Prairial|Messidor|Thermidor|Fructidor</exception>
-                      <exception regexp="yes">\d+\-\d+</exception>
-                      <exception regexp="yes">\w+\-\w+</exception>
+                      <exception regexp="yes">\d+[-–—]\d+</exception>
+                      <exception regexp="yes">\d+O</exception>
+                      <exception regexp="yes">\w+[-–—]\w+</exception>
                       <exception postag="D e p"/>
                       <exception postag="K|Y" postag_regexp="yes"/>
                       <exception postag="SENT_START"/>
@@ -8206,6 +8284,10 @@ though, and has since been slightly modified)-->
               <message>On ne peut utiliser "an" qu'après des nombres cardinaux. Utilisez plutôt <suggestion>année</suggestion>."</message>
               <example correction="année">Bon <marker>an</marker> !</example>
               <example correction="année">Chaque <marker>an</marker>, nous allons célébrer dans un grand restaurant.</example>
+              <example>Régiments de hussards (an IV).</example>
+              <example>Cinq ans après le diagnostic, 70 % des 15–45 ans survivent.</example>
+              <example>Il est venu chez nous fêter le nouvel an.</example>
+              <example>Je suis devenu membre du club il y a 1O ans.</example>
           </rule>
           <rule>
               <pattern>
@@ -17425,7 +17507,7 @@ though, and has since been slightly modified)-->
               <pattern>
                   <token regexp="yes">\d+[TGMKtgmk]B</token>
               </pattern>
-              <message>Les bytes anglais se traduisent pas des octets en français.</message>
+              <message>Les bytes anglais se traduisent par des octets en français.</message>
               <suggestion><match no="1" regexp_match="(\d+)([TGMKtgmk])B" regexp_replace="$1 $2o" case_conversion="startupper"/></suggestion>
               <example correction="41 Mo">Ce fichier pèse <marker>41MB</marker>.</example>
           </rule>
@@ -17434,7 +17516,7 @@ though, and has since been slightly modified)-->
                   <token regexp="yes">\d+</token>
                   <token regexp="yes">[TGMKtgmk]B</token>
               </pattern>
-              <message>Les bytes anglais se traduisent pas des octets en français.</message>
+              <message>Les bytes anglais se traduisent par des octets en français.</message>
               <suggestion><match no="1"/> <match no="2" regexp_match="([TGMKtgmk])B" regexp_replace="$1o" case_conversion="startupper"/></suggestion>
               <example correction="41 Mo">Ce fichier pèse <marker>41 MB</marker>.</example>
               <example correction="41 Mo">Ce fichier pèse <marker>41 MB</marker>.</example>
