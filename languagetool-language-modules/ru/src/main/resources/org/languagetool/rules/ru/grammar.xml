@@ -4008,12 +4008,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag_regexp="yes" postag="VB:.*"></token>
                     <token>,</token>
                     <token regexp="yes">что|как|кто|какой|где|куда|откуда</token>
-                    <token>нужно</token>
+                    <token>нужно<exception  scope="next" postag="VB:INF:.*"  postag_regexp="yes"/></token>
                 </pattern>
                 <message>Запятая не нужна: <suggestion>\1 \3 \4</suggestion>.</message>
                 <short>Запятая не нужна.</short>
                 <example>Они воспринимают это как сигнал к тому, что нужно начать говорить.</example>
-                <example correction="достать что нужно"><marker>достать, что нужно</marker></example>
+                <example>Я не знаю, что нужно сделать.</example>
+                <example correction="достать что нужно">Как мне <marker>достать, что нужно</marker>?</example>
             </rule>
         </rulegroup>
         <rulegroup default="on" id="BUD_CHTO_BUDET" name="Словосочетания «будь что будет», ...">
@@ -10190,8 +10191,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">[.!?:;]</token>
                 </pattern>
-                <message>Не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
-                <short>Не ставьте два «не» подряд.</short>
+                <message>Стиль: не ставьте два «не» подряд, если это не оправдано смыслом предложения.</message>
+                <short>Стиль: два «не» подряд.</short>
                 <example>Рекомендуется избегать двойных отрицаний.</example>
                 <example>Не только не видно нигде следов роскоши, но и те самые комнаты были пусты.</example>
                 <example>Если вы не знали меня с этой стороны, то вы вообще меня не знали.</example>
@@ -10246,8 +10247,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="SENT_END" spacebefore="no">.</token>
                     </marker>
                 </pattern>
-                <message>Опущено существительное в конце предложения.</message>
-                <short>Опущено существительное</short>
+                <message>Плохой стиль: опущено существительное в конце предложения.</message>
+                <short>Стиль: опущено существительное</short>
                 <example>Так он и запил горькую судьбу.</example>
                 <example>Он богат.</example>
                 <example>Это кольцо является волшебным.</example>
