@@ -43,10 +43,14 @@ public class CompoundRule extends AbstractCompoundRule {
   private static List<DisambiguationPatternRule> antiDisambiguationPatterns = null;
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
       Arrays.asList(
-          new PatternTokenBuilder().tokenRegex("['’`´‘]").build(),
-          new PatternTokenBuilder().token("re").build()
-        )
-      );
+        new PatternTokenBuilder().tokenRegex("['’`´‘]").build(),
+        new PatternTokenBuilder().token("re").build()
+      ),
+      Arrays.asList(
+        new PatternTokenBuilder().tokenRegex("and|&").build(),
+        new PatternTokenBuilder().token("co").build()
+      )
+  );
 
   public CompoundRule(ResourceBundle messages) throws IOException {    
     super(messages,
