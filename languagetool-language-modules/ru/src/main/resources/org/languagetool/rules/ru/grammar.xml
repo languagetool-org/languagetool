@@ -8490,10 +8490,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
             <pattern>
                 <!--     VB:.*  VB:.* (VB:INF:)            -->
-                <token postag="VB:.*" postag_regexp="yes">
+                <or>
+                    <token postag="VB:.*" postag_regexp="yes">
 	                <exception postag_regexp="yes" postag="VB:INF:.*"/>
 	                <exception postag_regexp="yes" negate_pos="yes" postag="(VB|PT|DPT):.*"/>
-                </token>
+                    </token>
+                    <token regexp="yes">&verb;</token>
+                </or>
                 <token postag="VB:.*" postag_regexp="yes">
                     <exception postag_regexp="yes" postag="VB:INF:.*"/>
 	                <exception postag_regexp="yes" negate_pos="yes" postag="(VB|PT|DPT):.*"/>
@@ -8508,8 +8511,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>В этой области мы не знаем ничего, давайте создадим модель и поэкспериментируем.</example>
             <example>Думал собраться пойти купить выпить.</example>
             <example>Он как следует попарился.</example>
+            <example>Толику необходимо перепрыгнуть через преграду.</example>
             <example>Он смеялся радовался.</example> <!-- Incorrect example, but this error must detected with another rule. -->
             <example correction="будет строиться">Здесь <marker>будет строится</marker> всё больше жилья.</example>
+            <example correction="необходимо перепрыгнуть">Толику <marker>необходимо перепрыгнул</marker> через барьер.</example>
         </rule>
        
         <rule id="missing_2_verb" name="Пропущен второй глагол" default="on">
@@ -8587,7 +8592,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
              <rule>        
             <pattern>
                 <!--     VB:.*         -->
-                <token skip="-1" regexp="yes">нужно|надо<exception  scope="next" regexp="yes">[,:;]</exception><exception postag="PNN:.*" postag_regexp="yes" scope="next" /></token>
+                <token skip="-1" regexp="yes">нужно|надо|необходимо<exception  scope="next" regexp="yes">[,:;]</exception><exception postag="PNN:.*" postag_regexp="yes" scope="next" /></token>
                 <marker>
                   <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception postag_regexp="yes"  postag="VB:INF:.*"></exception><exception postag_regexp="yes" negate_pos="yes" postag="VB:.*"></exception><exception>трём</exception><exception postag_regexp="yes" scope="next" postag="VB:.*"></exception></token>
                 </marker>
@@ -8664,7 +8669,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <example correction="относится">Проблема может возникнуть при наличии собственных резонансов в модели, что <marker>относиться</marker> и к нашему случаю, где частота падающей волны приходится на максимум дипольного отклика частицы.</example>
         </rule>        
         </rulegroup>                
-        <rule id="Verb_INF_OR_3P_2" default="off" name="Инфинитив вместо личной формы глагола (тест)">
+        <rule id="Verb_INF_OR_3P_2" default="off" name="Инфинитив вместо личной формы глагола">
             <antipattern>
                  <token postag="SENT_START" skip="-1" />
                  <token postag="VB:.*" skip="-1" postag_regexp="yes" ><exception   postag="VB:.*"  postag_regexp="yes"  negate_pos="yes"    /></token>
