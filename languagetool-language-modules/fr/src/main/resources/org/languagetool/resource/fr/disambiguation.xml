@@ -65,6 +65,36 @@ RB => Règles Brutes
     <disambig postag=""/>
   </rule>
 
+  <rule id="ARSENE_LUPIN" name="Arsène Lupin">
+    <pattern>
+      <token>Arsène</token>
+      <marker><token>Lupin</token></marker>
+    </pattern>
+    <disambig postag="Z m s"/>
+  </rule>
+
+  <rule id="L_AN" name="l'an X">
+    <pattern>
+      <token>l</token>
+      <token>'</token>
+      <token>an</token>
+      <marker>
+        <token postag="K"/>
+      </marker>
+    </pattern>
+    <disambig postag="K"/>
+  </rule>
+
+  <rule id="X_AN" name="Nombre suivi de 'an'">
+    <pattern>
+      <marker>
+        <token postag="K"/>
+      </marker>
+      <token>an</token>
+    </pattern>
+    <disambig postag="K"/>
+  </rule>
+
   <rulegroup id="DANS" name="dans">
     <rule>
       <pattern>
