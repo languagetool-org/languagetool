@@ -238,6 +238,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("xlsx", Arrays.asList("XLSX"));
     s.put("btw", Arrays.asList("BTW"));
     s.put("idk", Arrays.asList("IDK"));
+    s.put("ai", Arrays.asList("AI"));
+    s.put("ip", Arrays.asList("IP"));
 
     s.put("afro-american", Arrays.asList("Afro-American"));
     s.put("oconnor", Arrays.asList("O'Connor"));
