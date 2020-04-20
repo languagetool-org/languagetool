@@ -4946,12 +4946,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">неизвестно|непонятно</token>
                     <token>,</token>
-                    <token regexp="yes">кто|что|какой|где|куда|откуда|чей</token>
+                    <token regexp="yes">кто|что|какой|где|куда|откуда|чей<exception scope="next" postag="VB:.*"  postag_regexp="yes"  /></token>
                 </pattern>
                 <message>Запятая не нужна: <suggestion>\1 \3</suggestion>.</message>
                 <short>Запятая не нужна.</short>
-                <example>Ещё неизвестно кто победил.</example>
-                <example correction="неизвестно кто">Ещё <marker>неизвестно, кто</marker> победил.</example>
+                <example>Ещё неизвестно, кто победил, совсем неивестно.</example>
+                <example>Неизвестно кто победил на соревнованиях, неизвестный спортсмен.</example>
+                <example>До сих пор неизвестно, кто организовал нападение.</example>
+                <example correction="неизвестно кто">На соревнованиях победил <marker>неизвестно, кто</marker>.</example>
             </rule>
             <!-- Запятая не ставится в цельных выражениях:
             всё равно кто,
@@ -4963,12 +4965,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">все|всё</token>
                     <token>равно</token>
                     <token>,</token>
-                    <token regexp="yes">кто|что|какой|где|куда|откуда|чей</token>
+                    <token regexp="yes">кто|что|какой|где|куда|откуда|чей<exception scope="next" postag="VB:.*"  postag_regexp="yes"  /></token>
                 </pattern>
                 <message>Запятая не нужна: <suggestion>\1 \2 \4</suggestion>.</message>
                 <short>Запятая не нужна.</short>
                 <example>Всё равно кто выполнит задание.</example>
-                <example correction="Всё равно кто"><marker>Всё равно, кто</marker> выполнит задание.</example>
+                <example>Выполнит задание всё равно кто.</example>
+                <example correction="всё равно кто">Выполнит задание <marker>всё равно, кто</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup default="on" id="EST_CHEM_ZANJATSA" name="Цельные выражения: «есть чем заняться», ...">
