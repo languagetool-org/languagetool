@@ -603,6 +603,11 @@ public class AgreementRule extends Rule {
       csToken("League")
     ),
     Arrays.asList(
+      // Common job title
+      csToken("Software"),
+      tokenRegex("Engineers?|Developer[sn]?|(Back|Front)end")
+    ),
+    Arrays.asList(
       csToken("Mark"),
       posRegex("EIG:.*")
     ),
@@ -719,9 +724,11 @@ public class AgreementRule extends Rule {
     "Prozent",   // Plural "Prozente", trotzdem ist "mehrere Prozent" korrekt
     "Gramm",
     "Kilogramm",
+    "Piepen", // Die Piepen
     "Badlands",
     "Chief", // Chief Excutive Officer
     "Carina", // Name
+    "Wüstenrot", // Name
     "Meter", // Das Meter (Objekt zum Messen)
     "Boots", // "Die neuen Boots" (englisch Stiefel)
     "Taxameter", // Beides erlaubt "Das" und "Die"
