@@ -35780,12 +35780,16 @@ Andere Projekte</example>
             <rule>
                 <pattern>
                     <token postag="PRP:TMP+MOD+CAU:DAT"/>
-                    <token postag="ADJ:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß].+<exception regexp="yes">.+weise</exception></token> 
+                    <token postag="ADJ:.+" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöüß].+
+                        <exception regexp="yes">.+weise</exception>
+                        <exception postag="ADJ:NOM:SIN:MAS:GRU:SOL"/>
+                    </token> 
                     <token postag="SUB:.+" postag_regexp="yes"><exception postag="SUB:(GEN|DAT):.+" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Die Präposition '\1' erfordert in der Regel den Dativ.</message>
                 <example correction="">Sie sprach <marker>mit wichtige Kunden</marker>.</example>
                 <example>Sie feierten mit kistenweise Champagner.</example>
+                <example>Wir machen Backversuche mit weniger Zuckeranteil.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRAEP_AKK" name="Präposition mit Akkusativ (ohne, für etc.)">
