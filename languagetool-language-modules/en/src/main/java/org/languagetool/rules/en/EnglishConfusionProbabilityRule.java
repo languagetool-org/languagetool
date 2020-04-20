@@ -137,7 +137,11 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "things god said",
       "let you text",
       "doubt in god",
-      "in the news"
+      "in the news",
+      "(news)",
+      "fresh prince of",
+      "good day bye",
+      "it's us"
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
