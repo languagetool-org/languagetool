@@ -126,7 +126,7 @@ USA
         <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
     <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region'>
-    <!ENTITY nouns_with_i 'article|phase|class|grade|part|paragraph|section|chaos|enigma|book|war|king|current|mustang|type|division'>
+    <!ENTITY nouns_with_i 'article|block|phase|class|grade|part|paragraph|section|chaos|enigma|book|war|king|current|mustang|type|division|level|bi\-?polar|century|tier'>
 ]>
 
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -7416,7 +7416,7 @@ USA
                 <token>you</token>
                 <token regexp="yes">&adverb_abbreviations;|&verb_abbreviations;|&not_really_verbs;</token>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="IN|VB.*" postag_regexp="yes" />
                     <token>you</token>
@@ -10416,7 +10416,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="NOW_ARE_THE_TIME" name="Now are (is) the time" default="temp_off">
+        <rule id="NOW_ARE_THE_TIME" name="Now are (is) the time">
             <pattern>
                 <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
                 <token>now</token>
@@ -10443,10 +10443,10 @@ USA
         </rule>
         <rule id="BUENOS_DIAS" name="buenos días">
             <pattern>
-                <token>buenos</token>
+                <token regexp="yes">bue?n[ao]s</token>
                 <token regexp="yes">dias?</token>
             </pattern>
-            <message>Did you mean the Spanish greeting <suggestion>\1 <match no="2" regexp_match="(?i)ias?$" regexp_replace="ías" /></suggestion>?</message>
+            <message>Did you mean the Spanish greeting <suggestion>buenos <match no="2" regexp_match="(?i)ias?$" regexp_replace="ías" /></suggestion>?</message>
             <url>https://www.merriam-webster.com/dictionary/buenos%20d%C3%ADas</url>
             <example correction="Buenos días"><marker>Buenos dias</marker>, my friend!</example>
         </rule>
@@ -11216,6 +11216,10 @@ USA
                 <token postag="VB.*" postag_regexp="yes" />
                 <token postag="PRP" />
                 <token postag="IN" />
+            </antipattern>
+            <antipattern>
+                <token>all</token>
+                <token>you</token>
             </antipattern>
             <antipattern><!-- "Is she ...?" -->
                 <token inflected="yes">be</token>
@@ -12231,19 +12235,35 @@ USA
             <example>They are unable even to exercise faith in Christ by their own will.</example>
             <example>A little man who was stumping along eastward at a good walk, and the other a girl of maybe eight or ten who was running as hard as she was able down a cross street.</example>
         </rule>
-        <rule id="YOU_GOOD" name="You good? (Are you good?)">
-            <pattern>
-                <token postag="SENT_START" />
-                <marker>
-                    <token>you</token>
-                    <token min="0">really</token>
-                    <token regexp="yes">good|ok|okay|mad</token>
-                    <token>?</token>
-                </marker>
-            </pattern>
-            <message>Did you mean <suggestion>Are you \3 \4\5</suggestion>?</message>
-            <example correction="Are you good?"><marker>You good?</marker></example>
-        </rule>
+        <rulegroup id="YOU_GOOD" name="You good? (Are you good?)">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>you</token>
+                        <token min="0">really</token>
+                        <token regexp="yes">good|ok|okay|mad</token>
+                        <token>?</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>Are you \3 \4\5</suggestion>?</message>
+                <example correction="Are you good?"><marker>You good?</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">["'‘„“]</token>
+                    <marker>
+                        <token>you</token>
+                        <token min="0">really</token>
+                        <token regexp="yes">good|ok|okay|mad</token>
+                        <token>?</token>
+                    </marker>
+                    <token regexp="yes" spacebefore="no">["”'’]</token>
+                </pattern>
+                <message>Did you mean <suggestion>are you \3 \4\5</suggestion>?</message>
+                <example correction="Are you okay?">He asked: "<marker>You okay?</marker>"</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PRP_MD_NN" name="missing verb after after 'will/can/could/would'">
             <antipattern>
                 <token skip="3" regexp="yes">how|like|otherwise|as|way|extent|than</token>
@@ -24868,18 +24888,9 @@ USA
             <token>social</token>
             <token inflected="yes">distance</token>
           </antipattern>
-          <antipattern>
-            <token regexp='yes'>block|level|century</token>
-            <token>I</token>
-          </antipattern>
         <antipattern><!-- We Americans / We Germans -->
             <token>we</token>
             <token postag="NNPS?" postag_regexp="yes" />
-          </antipattern>
-          <antipattern><!-- MFU 2019-03-29 I did not find definitive information about the correct capitalization. Thus, the term is here as an AP and not in disambiguation -->
-            <token>bipolar</token>
-            <token>I</token>
-            <token>disorder</token>
           </antipattern>
           <antipattern>
             <token regexp='yes'>we|you</token>
@@ -24903,14 +24914,9 @@ USA
             <token/>
             <token>Say</token>
           </antipattern>
-          <antipattern case_sensitive="yes"><!-- MFU 2019-09-02: Tier I Family Circle -->
-            <token>Tier</token><!--token postag_regexp="yes" postag="NN(:UN?)?" regexp="yes">\p{Lu}\p{Ll}+</token-->
-            <token>I</token>
-            <!--token postag_regexp="yes" postag="NN(:UN?)?" regexp="yes">\p{Lu}\p{Ll}+</token-->
-          </antipattern>
-          <antipattern case_sensitive="yes">
-            <token>It</token>
-            <token>May</token>
+          <antipattern>
+            <token regexp="yes">It?|you|s?he|we|they</token>
+            <token chunk="B-VP" />
           </antipattern>
           <antipattern>
             <token postag="VB.*" postag_regexp="yes" />
@@ -25127,6 +25133,7 @@ USA
           <example>Is it worth adding the extra money?</example>
           <example>And name it something like ...</example>
           <example>I can offer you Lifetime Warranty.</example>
+          <example>As I Lay Dying.</example><!-- #2770 -->
         </rule>
 
         <rulegroup id="TO_NON_BASE" name="'to' + non-base form">
@@ -42408,6 +42415,15 @@ The accident victim died from her injuries.
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
         <rulegroup id="ANS_AND" name="ans (and)">
             <rule>
+                <antipattern><!-- "Q/Ans:" -->
+                    <token regexp="yes" skip="1">q(uest)?|questions?</token>
+                    <token>ans</token>
+                </antipattern>
+                <antipattern><!-- "Ans:" -->
+                    <token postag="SENT_START" />
+                    <token>Ans</token>
+                    <token>:</token>
+                </antipattern>
                 <antipattern><!-- last word of sentence cannot be "and" -->
                     <token postag="SENT_END">ans</token>
                 </antipattern>
