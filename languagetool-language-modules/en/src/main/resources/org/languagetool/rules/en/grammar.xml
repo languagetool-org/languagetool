@@ -21610,6 +21610,17 @@ USA
                 <example>He knows <marker>hardly anything</marker> about it.</example>
             </rule>
             <rule>
+                <antipattern><!-- #2769 always had water -->
+                    <token inflected="yes">have</token>
+                    <token chunk="E-NP-singular" postag="NN:UN?" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern><!-- #2769 "always had trouble" -->
+                    <token regexp="yes">['‘"“]</token>
+                    <token/>
+                    <token inflected="yes">have</token>
+                    <token>trouble</token>
+                    <token spacebefore="no" regexp="yes">['’"”]</token>
+                </antipattern>
                 <pattern>
                     <token><exception inflected="yes" regexp="yes">have|be|will</exception></token>
                     <marker>
@@ -21622,9 +21633,14 @@ USA
                 <suggestion>\3 \2 \4</suggestion>
                 <example>They <marker>usually have</marker> long hind limbs.</example>
                 <example>... Patricia <marker>always had treats</marker> available at the back door...</example>
+                <example>When I was a child, I always had water with my meals.</example><!-- #2769 -->
+                <example>She always had trouble with adverbs.</example><!-- #2769 -->
+                <example>The phrase “always had trouble”, is perfect English, and I always have trouble with LT...</example><!-- #2769 -->
                 <example correction="will always love">I <marker>always will love</marker> you.</example>
+                <example correction="will never trouble">I <marker>never will trouble</marker> you again.</example>
             </rule>
         </rulegroup>
+
         <rule id="ADVERB_VERB_ADVERB_REPETITION" name="Adverb repetition: e.g. 'also see also'">
     <!-- Created by Tiago F. Santos, 2018-11-10    -->
             <antipattern>
