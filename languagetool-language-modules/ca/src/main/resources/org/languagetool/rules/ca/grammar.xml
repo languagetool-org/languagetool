@@ -37012,6 +37012,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="Apollo" name="Apollo/Apel·lo">
+            <antipattern>
+                <token regexp="yes" inflected="yes">programa|projecte|missió</token>
+                <token>Apollo</token>
+            </antipattern>
+            <antipattern>
+                <token>Apollo</token>
+                <token min="0">-</token>
+                <token regexp="yes">\d+|Soiuz|Soyuz</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">Apollo</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>Apol·lo</suggestion>?. Correcte si és en anglès.</message>
+            <example correction="Apol·lo">El déu <marker>Apollo</marker>.</example>
+            <example>El programa Apollo.</example>
+            <example>Les missions Apollo.</example>
+            <example>L'Apollo 11</example>
+        </rule>
         <rule id="CASER_CASOLA" name="caser / casolà">
             <antipattern>
                 <token inflected="yes" skip="7" >casera</token>
