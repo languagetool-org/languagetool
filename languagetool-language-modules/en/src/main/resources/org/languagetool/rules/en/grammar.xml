@@ -53409,13 +53409,13 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
-                    <token regexp="yes">Valentine|President|Mother|Father|Patrick|Veteran</token>
+                    <token regexp="yes">Valentine|President|Mother|Father|Patrick</token>
                     <token regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token>Day</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">Valentine|President|Mother|Father|Patrick|Veteran</token>
+                    <token regexp="yes">Valentine|President|Mother|Father|Patrick</token>
                     <token regexp="yes">&apostrophe;</token>
                     <token>s</token>
                     <token>day</token>
@@ -57179,6 +57179,37 @@ The accident victim died from her injuries.
                 <message>It seems that a possessive apostrophe is missing.</message>
                 <suggestion>New Year's \4</suggestion>
                 <example correction="New Year's resolutions">What are your <marker>New Years resolutions</marker>?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>Veteran</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token>Day</token>
+                </pattern>
+                <message>This US public holiday is spelled <suggestion>Veterans Day</suggestion>.</message>
+                <url>https://www.lexico.com/definition/veterans_day</url>
+                <example correction="Veterans Day">He hosted a party on <marker>Veteran's Day</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>Patriot</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token>Day</token>
+                </pattern>
+                <message>This US public holiday is spelled <suggestion>Patriots' Day</suggestion>.</message>
+                <url>https://www.lexico.com/definition/patriots'_day</url>
+                <example correction="Patriots' Day">He hosted a party on <marker>Patriot's Day</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>Patriots</token>
+                    <token>Day</token>
+                </pattern>
+                <message>This US public holiday is spelled <suggestion>Patriots' Day</suggestion>.</message>
+                <url>https://www.lexico.com/definition/patriots'_day</url>
+                <example correction="Patriots' Day">He hosted a party on <marker>Patriots Day</marker>.</example>
             </rule>
             <rule>
                 <antipattern case_sensitive="yes">
