@@ -7311,16 +7311,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="не сказал ни слова">За весь вечер он <marker>не сказал и слова</marker>.</example>
             </rule>
         </rulegroup>   
-        <rulegroup default="on" id="Kak_budto" name="Сложный союз (частица) «как будто»">
-            <rule>
-                <pattern case_sensitive="no">
-                    <token>какбудто</token>
-                </pattern>
-                <message>Сложный союз (частица) &quot;как будто&quot; пишется раздельно: <suggestion>как будто</suggestion>.</message>
-                <short>&quot;Как будто&quot; пишется раздельно.</short>
-                <example correction="Как будто"><marker>Какбудто</marker> время остановилось.</example>
-            </rule>
-        </rulegroup>
 	<rule id="kak_ni_stranno" name="Опечатка «как ни странно/как не странно»">
   	    <pattern>
     		<token>как</token>
@@ -10840,7 +10830,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     
-    <category id="SPELL" name="Проверка орфографии">
+    <category id="TYPOS" name="Проверка орфографии">
         
         <rulegroup default="off" id="Unknown_words" name="Поиск неизвестных слов (без вариантов замены)">
             <rule>
@@ -10868,6 +10858,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>ул. Ленина</example>
                 <example>Проверка текста и т.п.</example>
                 <example correction="">Это только <marker>теест</marker> проверка.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="Kak_budto" name="Сложный союз (частица) «как будто»">
+            <rule>
+                <pattern case_sensitive="no">
+                    <token regexp="yes">какбудто|как-будто</token>
+                </pattern>
+                <message>Сложный союз (частица) &quot;как будто&quot; пишется раздельно: <suggestion>как будто</suggestion>.</message>
+                <short>&quot;Как будто&quot; пишется раздельно.</short>
+                <example correction="Как будто"><marker>Какбудто</marker> время остановилось.</example>
             </rule>
         </rulegroup>
         <rulegroup id="Defis_to" name="Дефисное правописание «-то», «-либо»">  
