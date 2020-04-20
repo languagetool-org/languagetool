@@ -19140,6 +19140,20 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rule id="BOEING_737_MAX" name="737 max (Max)" default="temp_off">
+            <antipattern>
+                <token>max</token>
+                <token>capacity</token>
+            </antipattern>
+            <pattern>
+                <token>737</token>
+                <token case_sensitive="yes">max</token>
+            </pattern>
+            <message>Capitalize the word if you mean Boeing's airliner.</message>
+            <suggestion>737 Max</suggestion> 
+            <suggestion>737 MAX</suggestion>
+            <example correction="737 Max|737 MAX">He was flying one of the new <marker>737 max</marker> planes.</example>
+        </rule>
         <rule id="APRIL_FOOLS" name="April Fools' Day">
             <antipattern case_sensitive="yes">
                 <token>April</token>
