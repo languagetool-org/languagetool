@@ -2978,6 +2978,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag="VB"/>
             <token postag="IN"/>
         </antipattern>
+        <antipattern><!-- #2770 I May try -->
+            <token regexp="yes">&subject_pronouns;</token>
+            <token min="0" max="2" postag="RB"/>
+            <token postag_regexp="yes" postag="MD|VB[PZD]"/>
+        </antipattern>
         <pattern case_sensitive="yes">
             <and>
                 <token regexp="yes">\p{Lu}\p{Ll}+
@@ -3008,6 +3013,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">3) Wait in a line.</example><!-- #2752 -->
         <example type="untouched">"Wait with me, please."</example><!-- #2752 -->
         <example type="untouched">... after which 2) Wait for a minute and 3) Stop the test.</example><!-- #2752 -->
+        <example type="untouched">I May try out</example><!-- #2770 -->
+        <example type="untouched">She's not sure, but she May try it out on Monday.</example><!-- #2770 -->
+        <example type="untouched">True or False: I Love Watching TV</example><!-- #2770 -->
+        <example type="untouched">A popular song by I See Stars</example><!-- #2770 -->
+        <example type="untouched">As I Lay Dying</example><!-- #2770 -->
+        <example type="untouched">He Love Watching TV</example><!-- #2770 -->
         <example type="ambiguous" inputform="Bobby[Bobby/NNP,bobby/NN]" outputform="Bobby[Bobby/NNP]">His name was <marker>Bobby</marker> Brown and he acted as a clerk.</example>
         <example type="ambiguous" inputform="Brown[Brown/NNP,brown/JJ,brown/NN,brown/NN:U,brown/VB,brown/VBP]" outputform="Brown[Brown/NNP]">His name was Bobby <marker>Brown</marker> and he was tall.</example>
         <example type="ambiguous" inputform="Bond[Bond/NNP,bond/NN,bond/VB,bond/VBP]" outputform="Bond[Bond/NNP]">My name is <marker>Bond</marker>, but my friends call me...</example>
