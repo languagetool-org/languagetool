@@ -10681,6 +10681,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Мы ответим на <marker>интересующие вопросы</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes" skip="-1">этот|тот|это|то|эта|та|эти|те</token>
+                    <token inflected="yes">нарушать</token>
+                    <token>
+                        <exception postag=".*:V" postag_regexp="yes"></exception>
+                        <exception postag=".*:R" postag_regexp="yes"></exception>
+                        <exception postag="PNN:.*" postag_regexp="yes"></exception>
+                    </token>  
+                </antipattern>
+                <antipattern>
+                    <token  postag="NN:.*:V" postag_regexp="yes"></token>
+                    <token  postag="PNN:.*|NN:.*:Nom" postag_regexp="yes" skip="-1"></token>
+                    <token inflected="yes">нарушать</token>
+                    <token>
+                        <exception postag=".*:V" postag_regexp="yes"></exception>
+                        <exception postag=".*:R" postag_regexp="yes"></exception>
+                        <exception postag="PNN:.*" postag_regexp="yes"></exception>
+                    </token>  
+                </antipattern>
+                
                 <pattern>
                     <token inflected="yes">нарушать</token>
                     <token>
@@ -10692,6 +10712,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Не найдены обязательные зависимые слова: нарушать что (чего)? </message>
                 <short>нарушать что?</short>
                 <example>Вы нарушаете правила.</example>
+                <example>Это правило я никогда не нарушал.</example>
+                <example>Правило я никогда не нарушал.</example>
                 <example correction="">Вы <marker>нарушаете!</marker></example>
             </rule>
             
