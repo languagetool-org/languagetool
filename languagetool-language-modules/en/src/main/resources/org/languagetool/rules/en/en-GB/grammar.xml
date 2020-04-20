@@ -384,6 +384,7 @@ USA
         <rulegroup id="OXFORD_SPELLING_Z_NOT_S" name="Oxford spelling is/iz">
         <!-- For general notes and design decisions, refer to OXFORD_SPELLING_ISE_VERBS. Rules developed by Mike Unwalla. -->
         <!-- Not uppercase: https://github.com/languagetool-org/languagetool/issues/1292 -->
+        <!-- No suggestions: https://github.com/languagetool-org/languagetool/issues/2764 -->
             <url>https://www.lexico.com/grammar/ize-ise-or-yse</url>
             <antipattern><!-- Dans l'organisation de ces autonomies... -->
                 <token>l</token>
@@ -397,14 +398,12 @@ USA
             <rule id="OXFORD_SPELLING_NOUNS" name="Oxford spelling of nouns (~iz not ~is), **but not CAPITALISATIONS of nouns**"><!-- Always ~isement not ~izement. Always ~ision, not ~izion. -->
             <!-- For the suggestion, regexp_match and regexp_replace are sufficient. The token finds an ~is noun that has a singular or plural postag. If the ~is noun has a postag, then the ~iz noun should have that postag. (Possibly, the pairs of words are used differently in different locales, and thus they have different postags.) -->
                 <pattern>
-                    <token postag_regexp="yes" postag="NN(:UN?)?|NNS" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)is(ation|er|ability)<exception regexp="yes">(?-i)[A-Z-]+</exception>
-                    <exception regexp="yes" inflected="yes">improvisation|xxxx</exception><!-- This exception is for nouns that are always spelled with ~isation. -->
-                    <exception>passivisations</exception><!-- This exception prevents the incorrect suggestion: ". TODO: correct the problem. -->
-                    <exception regexp="yes" inflected="yes">(advert|adv|appra|bru|chast|circumc|comprom|(battle)?cru|curtain-ra|desp|dev|disfranch|disgu|dispra|enfranch|exerc|franch|fundra|hell-?ra|improv|ka|merchand|mort|po|pract|pra|prom|ra|reappra|repr|rev|r|surm|surpr|upra|upr)iser</exception><!-- These nouns are always ~iser. -->
-                    <exception regexp="yes" inflected="yes">(in)?advisability|disability</exception><!-- These nouns are always ~isability. -->
-                    </token>
+                    <token postag_regexp="yes" postag="NN(:UN?)?|NNS" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)is(ation|er|ability)
+                        <exception regexp="yes">(?-i)[A-Z-]+</exception>
+                        <exception regexp="yes">advertiser|merchandisers?</exception><!-- LT gives a spelling error for ~z, but without this exception, the rule finds the ~s word -->
+                        </token>
                 </pattern>
-                <message>In British English, for some nouns, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for nouns and thus suggests <suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ations?|ers?|ability|abilities)" regexp_replace="$1iz$2"/></suggestion>.</message>
+                <message>In British English, for some nouns, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for nouns and thus suggests <suggestion suppress_misspelled="yes"><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ations?|ers?|ability|abilities)" regexp_replace="$1iz$2"/></suggestion>.</message>
                 <short>Oxford spelling: nouns</short>
 <!-- ~isation--><example correction="organization">The word '<marker>organisation</marker>' is not the Oxford spelling.</example>
                 <example correction="Organizations">The word '<marker>Organisations</marker>' is not the Oxford spelling.</example>
@@ -420,8 +419,7 @@ USA
                 <example>Dans <marker>l'organisation</marker> de ces autonomies, la Belgique a réalisé...</example>
                 <example>year=2009 |publisher=<marker>L'Organisation</marker> internationale de la Francophonie</example>
                 <example><marker>de-energisations</marker> has no postag.</example>
-                <example>catheterisations, componentisations, demonisations, depoliticisations, depressurisations, immortalisations, incentivisations, intellectualisations, legitimisations, lionisations, memorialisations, militarisations, neutralisations, nominalisations, parameterisations, particularisations, photosensitisations, plagiarisations, productisations, professionalisations, proselytisations, repressurisations, satirisations, scandalisations, schematisations, sensualisations, sodomisations, spiritualisations, tenderisations, universalisations, vandalisations</example><!-- TODO: Add plural POS for these words. Are all the plurals standard BrE? -->
-                <example>The suggestion for the noun plural <marker>passivisations</marker> is: ". Thus, </example><!-- TODO. If we cannot prevent a suggestion of "", then this word and similar must be in an exception.-->
+                <example>Make sure that the regexp is correct. Always ~isation: catheterisations, componentisations, demonisations, depoliticisations, depressurisations, immortalisations, incentivisations, intellectualisations, legitimisations, lionisations, memorialisations, militarisations, neutralisations, nominalisations, parameterisations, particularisations, passivisations, photosensitisations, plagiarisations, productisations, professionalisations, proselytisations, repressurisations, satirisations, scandalisations, schematisations, sensualisations, sodomisations, spiritualisations, tenderisations, universalisations, vandalisations</example><!-- TODO: Add plural POS for these words. Are all the plurals standard BrE? -->
                 <example>'World Health Organization' uses ~z, but the '<marker>Organisation of Islamic Cooperation</marker>' uses ~s.</example>
                 <example type="triggers_error">For information about the <marker>Shanghai Cooperation Organisation</marker>, refer to http://eng.sectsco.org/about_sco/.</example>
                 <example type="triggers_error">File:<marker>Panneau de signalisation multilingue à Issers (Algérie).jpg</marker></example>
@@ -430,7 +428,7 @@ USA
                 <example correction="Americanizer">The word '<marker>Americaniser</marker>' has the postag NNP (and NN). Thus, do not use an NNP exception.</example>
                 <example>The word '<marker>modernizer</marker>' is the Oxford spelling.</example>
                 <example>The word '<marker>Modernizers</marker>' is the Oxford spelling.</example>
-                <example>Make sure that the regexp is correct. These are all ~iser nouns: advertisers, advisers, appraisers, bruisers, chastisers, circumcisers, compromisers, battlecruisers, curtain-raisers, despisers, devisers, disfranchisers, disguisers, dispraisers, enfranchisers, exercisers, franchisers, fundraisers, hell-raisers, hellraisers, improvisers, kaisers, merchandisers, mortisers, paralysers, poisers, practisers, praisers, promisers, raisers, reappraisers, reprisers, revisers, risers, surmisers, surprisers, upraisers, uprisers.</example>
+                <example>Make sure that the regexp is correct. These are all ~iser nouns: advertiser, advertisers, adviser, advisers, appraiser, appraisers, battlecruiser, battlecruisers, bruiser, bruisers, chastiser, chastisers, circumciser, circumcisers, compromiser, compromisers, curtain-raiser, curtain-raisers, despiser, despisers, deviser, devisers, disfranchiser, disfranchisers, disguiser, disguisers, dispraiser, dispraisers, enfranchiser, enfranchisers, exerciser, exercisers, franchiser, franchisers, fundraiser, fundraisers, hellraiser, hell-raiser, hellraisers, hell-raisers, improviser, improvisers, kaiser, kaisers, merchandiser, merchandisers, mortiser, mortisers, paralyser, paralysers, poiser, poisers, practiser, practisers, praiser, praisers, promiser, promisers, raiser, raisers, reappraiser, reappraisers, repriser, reprisers, reviser, revisers, riser, risers, surmiser, surmisers, surpriser, surprisers, upraiser, upraisers, upriser, uprisers</example>
                 <example>'<marker>MODERNISER</marker>. All capitalised nouns are out of scope because the suggestion is ~ise.</example>
                 <example>The <marker>Stratocruiser</marker> set a new standard for luxurious air travel (www.boeing.com/history/products/model-377-stratocruiser.page).</example>
                 <example type="triggers_error">The first Liquid only events were <marker>Liquidiser</marker> at Bristol Academy.</example>
@@ -445,7 +443,10 @@ USA
             </rule>
             <rule id="OXFORD_SPELLING_ISE_VERBS" name="Oxford spelling of verbs (~ize not ~ise), **but not CAPITALISED verbs**"><!-- ~yse verbs are not ~yze in BrE: https://www.lexico.com/grammar/ize-ise-or-yse -->
                 <pattern>
-                    <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)ise<exception regexp="yes">(?-i)[A-Z-]+</exception><exception regexp="yes" inflected="yes">abscise|advertise|advise|affranchise|alias|appraise|arise|braise|bruise|chastise|circumcise|comprise|compromise|counterpoise|cruise|demise|despise|devise|disenfranchise|disfranchise|disguise|dispraise|enfranchise|equipoise|excise|exercise|franchise|fundraise|improvise|incise|liaise|merchandise|misadvise|miscategorise|misraise|mortise|noise|outraise|overexercise|overpraise|overpromise|paralyse|poise|porpoise|practise|praise|premise|previse|prise|promise|raise|readvertise|readvise|rearise|reappraise|reprise|repromise|re-raise|reraise|revise|rise|supervise|surmise|surprise|televise|trellis|underpraise|upraise|uprise|wise</exception></token><!-- suppress_misspelled does not work with some verbs. The fail-safe solution is to put ~ise-only verbs in the exception. AmE prize = BrE prise (move or lift). BrE prize = to value. Aside: some z spellings are not verbs but are correct spellings: example 'braize' is a fish. --><!-- TODO: merchandize is a verb, but rare -->
+                    <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)ise
+                        <exception regexp="yes">(?-i)[A-Z-]+</exception>
+                        <exception regexp="yes">advertise|advertised|advertises|advertising|arose|braise|braises|chastise|merchandise|merchandised|merchandises|merchandising|misadvise|prise|prised|prises|prising|uprose</exception><!-- suppress_misspelled does not work with these verbs. Aside: some z spellings are not verbs but are correct spellings: example 'braize' is a fish. -->
+                        </token>
                     <!-- Remove uppercase from the rule: case_sensitive="yes" in the token does not work; (?-i)([a-zA-Z][a-z]+... in the regexp does not work. Use an exception. -->
                 </pattern>
                 <message>In British English, for some verbs, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for verbs and thus suggests <suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="1" regexp_match="([a-z]+?-?[a-z]+?)is(e|es|ed|ing)" regexp_replace="$1iz$2" /></suggestion>.</message><!-- Cannot use postag_regexp="yes" postag="(VB.*)" postag_replace="$1" because it causes the suggestion to be the same as the target token. -->
@@ -466,6 +467,8 @@ USA
                 <example>All ~ise-only verbs are in an exception. As a fail-safe test, keep this list of inflections that previously caused incorrect warnings: alias [aliased], arise [arose], porpoise [aviation slang], trellis [VBZ = trellises]</example>
                 <example>These rare/obsolete ~ise-only verbs have no postag: annalise, bepraise, debruise, disseise, grandise, grise, hoise, marmalise, misprise, remise, re-rise, rerise, seise, sensibilise, unpromise, </example>
                 <example><marker>recentralise</marker> is not found because suppress_misspelled="yes". 'Recentralize' has no pos.</example><!-- TODO: get a more obscure example as a test. -->
+
+                <example>These verbs are always ~ise: abscise, abscised, abscises, abscising, advertise, advertised, advertises, advertising, advise, advised, advises, advising, affranchise, affranchised, affranchises, affranchising, alias, aliased, aliases, aliasing, appraise, appraised, appraises, appraising, arise, arose, arises, arising, braise, braised, braises, braising, bruise, bruised, bruises, bruising, chastise, chastised, chastises, chastising, circumcise, circumcised, circumcises, circumcising, comprise, comprised, comprises, comprising, compromise, compromised, compromises, compromising, counterpoise, counterpoised, counterpoises, counterpoising, cruise, cruised, cruises, cruising, demise, demised, demises, demising, despise, despised, despises, despising, devise, devised, devises, devising, disenfranchise, disenfranchised, disenfranchises, disenfranchising, disfranchise, disfranchised, disfranchises, disfranchising, disguise, disguised, disguises, disguising, dispraise, dispraised, dispraises, dispraising, enfranchise, enfranchised, enfranchises, enfranchising, equipoise, equipoised, equipoises, equipoising, excise, excised, excises, excising, exercise, exercised, exercises, exercising, franchise, franchised, franchises, franchising, fundraise, fundraised, fundraises, fundraising, improvise, improvised, improvises, improvising, incise, incised, incises, incising, liaise, liaised, liaises, liaising, merchandise, merchandised, merchandises, merchandising, misadvise, misadvised, misadvises, misadvising, misraise, misraised, misraises, misraising, mortise, mortised, mortises, mortising, noise, noised, noises, noising, outraise, outraised, outraises, outraising, overexercise, overexercised, overexercises, overexercising, overpraise, overpraised, overpraises, overpraising, overpromise, overpromised, overpromises, overpromising, paralyse, paralysed, paralyses, paralysing, poise, poised, poises, poising, porpoise, porpoised, porpoises, porpoising, practise, practised, practises, practising, praise, praised, praises, praising, premise, premised, premises, premising, previse, prevised, previses, prevising, prise, prised, prises, prising, promise, promised, promises, promising, raise, raised, raises, raising, readvertise, readvertised, readvertises, readvertising, readvise, readvised, readvises, readvising, reappraise, reappraised, reappraises, reappraising, rearise, rearised, rearises, rearising, reprise, reprised, reprises, reprising, repromise, repromised, repromises, repromising, reraise, reraised, reraises, reraising, re-raise, re-raised, re-raises, re-raising, revise, revised, revises, revising, rise, rose, rises, rising, supervise, supervised, supervises, supervising, surmise, surmised, surmises, surmising, surprise, surprised, surprises, surprising, televise, televised, televises, televising, trellis, trellised, trellises, trellising, underpraise, underpraised, underpraises, underpraising, upraise, upraised, upraises, upraising, uprise, uprose, uprises, uprising, wise, wised, wises, wising</example>
             </rule>
             <rule id="OXFORD_SPELLING_ADJECTIVES" name="Oxford spelling of adjectives (~iz not ~is), **but not adjectives in CAPITALS**"><!-- ~isable, ~isational, ~ised, ~ising -->
                 <pattern>
@@ -488,16 +491,18 @@ USA
             </rule>
             <rule id="OXFORD_SPELLING_ADVERBS" name="Oxford spelling of adverbs (~iz not ~is), **but not adverbs in CAPITALS**"><!-- ~isably, ~isationally) -->
                 <pattern>
-                    <token postag="RB" regexp="yes">([a-z]+?-?[a-z]+?)is(ably|ationally)<exception regexp="yes">(?-i)[A-Z-]+</exception>
-                    <exception regexp="yes">(in)?advisably</exception></token><!-- These adverbs are always ~is.-->
+                    <token postag="RB" regexp="yes">([a-z]+?-?[a-z]+?)is(ably|ationally)
+                        <exception regexp="yes">(?-i)[A-Z-]+</exception>
+                        </token>
                 </pattern>
-                <message>In British English, for some adverbs, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for adverbs and thus suggests <suggestion><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ably|ationally)" regexp_replace="$1iz$2"/></suggestion>.</message>
+                <message>In British English, for some adverbs, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for adverbs and thus suggests <suggestion suppress_misspelled="yes"><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ably|ationally)" regexp_replace="$1iz$2"/></suggestion>.</message>
                 <short>Oxford spelling: adverbs</short>
                 <example correction="organizationally">The adverb '<marker>organisationally</marker>' is not the Oxford spelling.</example>
                 <example correction="Organizationally">The adverb '<marker>Organisationally</marker>' is not the Oxford spelling.</example>
                 <example>The word '<marker>organizationally</marker>' is the Oxford spelling.</example>
                 <example>Not an adverb in standard English: ...he came to an opening, choked with timbers and bars of iron; <marker>surmisably</marker> the front portal at present in disuse.</example>
                 <example>'<marker>ORGANISATIONALLY</marker>. All capitalised adjectives are out of scope because the suggestion is ~is.</example>
+                <example>These adverbs are always ~isably: advisably, inadvisably.</example>
             </rule>
          </rulegroup>
 
