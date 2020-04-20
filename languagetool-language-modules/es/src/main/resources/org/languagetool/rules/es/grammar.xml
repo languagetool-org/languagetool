@@ -1473,7 +1473,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token>esta<exception postag="_GN_FS"/></token>
+                        <token>esta</token>
                     </marker>
                     <token min="0" postag="RG"/>
                     <token postag="A...S." postag_regexp="yes"><exception postag="NCFS000|AO0FS0" postag_regexp="yes"/></token>
@@ -2712,8 +2712,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Error de concordancia.</message>
-                <suggestion><match no="1" postag="D..[MC][SN]." postag_regexp="yes"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[MC][PN]." postag_regexp="yes"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC][SN]." postag_regexp="yes"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC][PN]." postag_regexp="yes"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
                 <example correction="aquel camión|aquellos camiones">Trae <marker>aquel camiones</marker>.</example>
                 <example correction="tanto hombre|tantos hombres">Hay <marker>tanto hombres</marker>?</example>
                 <example correction="poco año|pocos años">Hasta <marker>poco años</marker> después</example>
@@ -2765,8 +2765,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Error de concordancia.</message>
-                <suggestion><match no="1" postag="D..[FC][SN]." postag_regexp="yes"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[FC][PN]." postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][SN]." postag_regexp="yes"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN]." postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
                 <example correction="aquella enfermera|aquellas enfermeras"><marker>aquella enfermeras</marker></example>
                 <example correction="Aquella médica|Aquella médico|Aquellas médicas"><marker>Aquellos médicas</marker>.</example>
                 <example correction="una tesis|unas tesis">Con <marker>un tesis</marker> sobre Platón.</example>
@@ -2819,10 +2819,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Error de concordancia.</message>
-                <suggestion><match no="1" postag="D..[MC][SN].*" postag_regexp="yes"/> <match no="2" postag="N.C[SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[MC][PN].*" postag_regexp="yes"/> <match no="2" postag="N.C[PN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[FC][SN].*" postag_regexp="yes"/> <match no="2" postag="N.C[SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[FC][PN].*" postag_regexp="yes"/> <match no="2" postag="N.C[PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC][SN].*" postag_regexp="yes"/> <match no="2" postag="N.C[SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[MC][PN].*" postag_regexp="yes"/> <match no="2" postag="N.C[PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][SN].*" postag_regexp="yes"/> <match no="2" postag="N.C[SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN].*" postag_regexp="yes"/> <match no="2" postag="N.C[PN].*" postag_regexp="yes"/></suggestion>
                 <example correction="Un ajedrecista|Unos ajedrecistas|Una ajedrecista|Unas ajedrecistas"><marker>Un ajedrecistas</marker></example>
                 <example correction="Un recepcionista|Unos recepcionistas|Una recepcionista|Unas recepcionistas"><marker>Unos recepcionista</marker>.</example>
                 <example correction="Otro recepcionista|Otros recepcionistas|Otra recepcionista|Otras recepcionistas"><marker>Otras recepcionista</marker>.</example>
@@ -2844,7 +2844,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Error de concordancia.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> <match no="2" postag="N.(..).*" postag_regexp="yes" postag_replace="DA0$10">el</match> \3</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> <match no="2" postag="N.(..).*" postag_regexp="yes" postag_replace="DA0$10">el</match> \3</suggestion>
                 <example correction="de los camiones"><marker>del camiones</marker></example>
                 <example correction="A los pisos"><marker>Al pisos</marker></example>
                 <example correction="de las médicas"><marker>del médicas</marker></example>
@@ -2870,8 +2870,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Error de concordancia.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> <match no="2" postag="N.C(.).*" postag_regexp="yes" postag_replace="DA0M$10">el</match> \3</suggestion>
-                <suggestion><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> <match no="2" postag="N.C(.).*" postag_regexp="yes" postag_replace="DA0F$10">el</match> \3</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> <match no="2" postag="N.C(.).*" postag_regexp="yes" postag_replace="DA0M$10">el</match> \3</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)(de|a)l" regexp_replace="$1"/> <match no="2" postag="N.C(.).*" postag_regexp="yes" postag_replace="DA0F$10">el</match> \3</suggestion>
                 <example correction="de los recepcionistas|de las recepcionistas"><marker>del recepcionistas</marker></example>
                 <example correction="a los ajedrecistas|a las ajedrecistas"><marker>al ajedrecistas</marker></example>
                 <example correction="de los médicos|de las médicos"><marker>del médicos</marker></example>
