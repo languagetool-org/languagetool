@@ -278,6 +278,7 @@ public class English extends Language implements AutoCloseable {
       case "WRONG_APOSTROPHE":          return 5;
       case "DOS_AND_DONTS":             return 2;
       case "EN_COMPOUNDS":              return 1;
+      case "DO_TO":                     return 1;   // higher prio than HAVE_PART_AGREEMENT
       case "IN_THIS_REGARDS":           return 1;   // higher prio than THIS_NNS
       case "NO_WHERE":                  return 1;   // higher prio than NOW
       case "APOSTROPHE_VS_QUOTE":       return 1;   // higher prio than EN_QUOTES

@@ -15228,16 +15228,55 @@ USA
                 <token>had</token>
                 <token chunk="B-NP-singular"/>
             </antipattern>
+            <antipattern>
+                <token>had</token>
+                <token chunk="E-NP-singular"/>
+            </antipattern>
+            <antipattern>
+                <token>had</token>
+                <token chunk="I-NP-singular"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">have</token>
+                <token>had</token>
+            </antipattern>
+            <antipattern>
+                <token postag="DT" />
+                <token postag="JJ" min="0" />
+                <token chunk="E-NP-plural" />
+                <token regexp="yes">s?he|I|we|they|you|it</token>
+                <token>had</token>
+                <token inflected="yes">be</token>
+            </antipattern>
+            <antipattern>
+                <token>had</token>
+                <token postag="NN.*" postag_regexp="yes" />
+                <token regexp="yes">been|done|gone</token>
+            </antipattern>
+            <antipattern>
+                <token>had</token>
+                <token postag="VBP" />
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">[a-z\-0-9]+</token>
+            </antipattern>
             <pattern>
                 <token>had</token>
                 <marker>
                     <token postag='VBP'>
-                        <exception postag='JJ[RS]?|VBN' postag_regexp='yes'/><exception regexp="yes">become|lunch|dinner|breakfast|brunch|contact</exception>
+                        <exception postag='JJ[RS]?|VBN' postag_regexp='yes'/><exception regexp="yes">become|sex|fish|lamb|lunch|school|dinner|breakfast|brunch|contact|while|well</exception>
                     </token>
                 </marker>
             </pattern>
             <message>Possible agreement error -- use past participle here: <suggestion><match no="2" postag="VBN"/></suggestion>.</message>
             <example correction="played">They had <marker>play</marker> the game</example>
+            <example correction="spent">If I’d known the context, I would never had <marker>spend</marker> a second on searching or doing them.</example>
+            <example correction="done">That was the only thing Tom had <marker>do</marker>.</example>
+            <example>The jobs I have had are now not essential to my career anymore.</example>
+            <example>Any traits it had are removed from any lists of trigger conditions.</example>
+            <example>I felt tortured every second and now those horrid symptoms I had are gone.</example>
+            <example>All other exceptions you had are the same as what GlobalCounterparty came up with.</example>
+            <example>We are resisting Bridgeline's claim to an additional month of storage due to the fact that had gas been released in January 2002.</example>
+            <example>I was a bit afraid to share because it had web.archive copyright notices all over the HTML.</example>
         </rule>
         <rule id="AM_I" name="missing 'I' in 'am I'">
             <antipattern>
@@ -42763,6 +42802,41 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rulegroup id="DO_TO" name="do vs to" default="temp_off">
+            <antipattern><!-- smartphone mode -->
+                <token>do</token>
+                <token>not</token>
+                <token>disturb</token>
+            </antipattern>
+            <antipattern>
+                <token chunk="E-NP-singular" />
+                <token postag="PRP|NNP" postag_regexp="yes" />
+                <token inflected="yes" regexp="yes">have|want|need</token>
+            </antipattern>
+            <antipattern>
+                <token chunk="E-NP-plural" />
+                <token postag="PRP|NNP" postag_regexp="yes" />
+                <token inflected="yes" regexp="yes">have|want|need</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">have|want|need</token>
+                    <marker>
+                        <token case_sensitive="yes">do</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="VBP?" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>to</suggestion>?</message>
+                <example correction="to">I had <marker>do</marker> go there</example>
+                <example correction="to">Sami wants <marker>do</marker> dye his hair.</example>
+                <example correction="to">This has <marker>do</marker> be done only while running the macro.</example>
+                <example>The younger voters Bernie needs do not watch cable TV news.</example>
+                <example>The other 2 I have do not show this command.</example>
+                <example>The other switches I have do not have the lighting feature for pairing.</example>
+                <example>I'd like to have Do Not Disturb enabled.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ANS_AND" name="ans (and)">
             <rule>
                 <antipattern><!-- "Q/Ans:" -->
