@@ -37344,13 +37344,13 @@ Andere Projekte</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SUB.+|EIG.+" postag_regexp="yes" />
                     <marker>
                         <token regexp="yes">a|á</token>
                         <token>la</token>
                     </marker>
+                    <token case_sensitive="yes" regexp="yes">[A-Z0-9].*</token>
                 </pattern>
-                <message>Meinten Sie die aus dem Französischen stammende Wendung <suggestion>à la</suggestion>?</message>
+                <message>Meinten Sie die aus dem Französischen stammende Wendung <suggestion>à la</suggestion> (= im Stile von)?</message>
                 <example correction="à la">Das ist ein Gesetz <marker>a la</marker> Merkel.</example>
                 <example correction="à la">Wir essen Schnitzel <marker>a la</marker> Holstein.</example>
             </rule>
