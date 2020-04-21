@@ -125,6 +125,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="expresiones incorrectas" type="grammar">
+        <rule id="PLASMA_CONVALECIENTE" name="plasma (de) convaleciente">
+            <pattern>
+                <marker>
+                    <token inflected="yes" regexp="yes">plasma|suero</token>
+                    <token regexp="yes">convalecientes?</token>
+                </marker>
+            </pattern>
+            <message>No es correcto eliminar la preposición 'de'.</message>
+            <suggestion>\1 de \2</suggestion>
+            <url>https://www.fundeu.es/recomendacion/plasma-de-convaleciente-no-plasma-convaleciente/</url>
+            <example correction="plasma de convaleciente">El <marker>plasma convaleciente</marker>.</example>
+        </rule>
         <rule id="TIRA_AFLOJA" name="tira y afloja">
             <pattern>
                 <token>los</token>
@@ -3019,8 +3031,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <unify negate="yes">
                             <feature id="numero"/>
                             <feature id="genero"/>
-                            <token postag="DD.*" postag_regexp="yes"></token>
-                            <token postag="N.*" postag_regexp="yes"></token>
+                            <token postag="DD.*" postag_regexp="yes"/>
+                            <token postag="N.*" postag_regexp="yes"/>
                         </unify>
                     </marker>
                 </pattern>
@@ -3522,7 +3534,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="aquellos">En relación con <marker>aquéllos</marker>.</example>
         </rule>
     </category>
-    <category id="CONFUSION" name="confusiones">
+    <category id="CONFUSIONS" name="confusiones">
+        <rulegroup id="ERAR" name="erar/errar" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>erase</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>érase</suggestion>? 'Erar' es un verbo poco usual.</message>
+                <suggestion>errase</suggestion>
+                <example correction="Érase|Errase"><marker>Erase</marker> una vez.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">erar<exception inflected="yes" negate="yes">erar</exception></token>
+                </pattern>
+                <message>¿Quería decir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">errar</match></suggestion>? 'Erar' es un verbo poco usual.</message>
+                <example correction="Erró"><marker>Eró</marker> completamente.</example>
+                <example correction="errara|errase">Cuando <marker>erase</marker>.</example>
+                <example>Era muy bonito.</example>
+                <example>Érase una vez.</example>
+            </rule>
+        </rulegroup>
         <rule id="EL_LA_EN_LA" name="*el/en la" default="on">
             <pattern>
                 <marker>
@@ -3542,7 +3574,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>cuidad</token>
                 </marker>
             </pattern>
-            <message>Posible confusions.</message>
+            <message>Posible confusión.</message>
             <suggestion>ciudad</suggestion>
             <example correction="ciudad">En mi <marker>cuidad</marker>.</example>
             <example correction="ciudad">En la <marker>cuidad</marker>.</example>
