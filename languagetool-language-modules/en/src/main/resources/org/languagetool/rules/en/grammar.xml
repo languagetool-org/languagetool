@@ -43583,7 +43583,7 @@ The accident victim died from her injuries.
                 <token postag="JJ" />
             </antipattern>
             <antipattern>
-                <token inflected="yes" skip="1" regexp="yes">compare|refer|relate|restrict|return|lead|respond|regard</token>
+                <token inflected="yes" skip="1" regexp="yes">compare|refer|relate|restrict|return|lead|respond|regard|transfer</token>
                 <token>to</token>
             </antipattern>
             <antipattern>
@@ -43608,7 +43608,16 @@ The accident victim died from her injuries.
                 <token postag="VB.*|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
                 <token regexp="yes">it|you|s?he|we|they|I</token>
                 <token postag="JJ" />
-                <token postag="VB.*" postag_regexp="yes" />
+                <token postag="VB.*|MD" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">be</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+                <token postag="PRP" />
+                <token postag="JJ" />
+                <token>even</token>
+                <token>though</token>
             </antipattern>
             <antipattern>
                 <token postag="IN" />
@@ -43628,7 +43637,7 @@ The accident victim died from her injuries.
                     <token regexp="yes" min="0">&apostrophe;</token>
                     <token regexp="yes" min="0">(no)?t</token>
                     <marker>
-                        <token regexp="yes">(im)?possible|probable|simple|(un)?comfortable|(un)?acceptable|(un)?sustainable|understandable|(un)?reliable|terrible|horrible|unbelievable|invisible|profitable|(un)?recognizable|gentle|inevitable</token>
+                        <token regexp="yes">(im)?possible|probable|(un)?reasonable|simple|(un)?comfortable|(un)?acceptable|(un)?sustainable|understandable|(un)?reliable|terrible|horrible|unbelievable|invisible|profitable|(un)?recognizable|gentle|inevitable</token>
                     </marker>
                     <token postag="VBP?" postag_regexp="yes" />
                 </pattern>
@@ -43644,7 +43653,7 @@ The accident victim died from her injuries.
                         I|you|they|we|s?he|it
                     </token>
                     <marker>
-                        <token regexp="yes">(im)?possible|probable|simple|(un)?comfortable|(un)?acceptable|(un)?sustainable|understandable|(un)?reliable|terrible|horrible|unbelievable|invisible|profitable|(un)?recognizable|gentle|inevitable</token>
+                        <token regexp="yes">(im)?possible|probable|(un)?reasonable|simple|(un)?comfortable|(un)?acceptable|(un)?sustainable|understandable|(un)?reliable|terrible|horrible|unbelievable|invisible|profitable|(un)?recognizable|gentle|inevitable</token>
                     </marker>
                     <token postag="VB[GDZP]?|MD" postag_regexp="yes" />
                 </pattern>
@@ -43661,7 +43670,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <token>to</token>
                     <marker>
-                        <token regexp="yes" postag="JJ">(im)?possible|probable|simple|(un)?comfortable|(un)?acceptable|(un)?sustainable|understandable|(un)?reliable|terrible|horrible|unbelievable|invisible|profitable|(un)?recognizable|gentle|inevitable</token>
+                        <token regexp="yes" postag="JJ">(im)?possible|probable|(un)?reasonable|simple|(un)?comfortable|(un)?acceptable|(un)?sustainable|understandable|(un)?reliable|terrible|horrible|unbelievable|invisible|profitable|(un)?recognizable|gentle|inevitable</token>
                     </marker>
                     <token postag="VB[GP]?" postag_regexp="yes">
                         <exception postag="JJ.*|NN.*|DT|PRP\$?" postag_regexp="yes" />
@@ -43681,7 +43690,7 @@ The accident victim died from her injuries.
                     <token regexp="yes" min="0">&apostrophe;</token>
                     <token regexp="yes" min="0">(no)?t</token>
                     <marker>
-                        <token regexp="yes">easy|literary|temporary|necessary</token>
+                        <token regexp="yes">easy|literary|temporary|necessary|hasty|happy|funny</token>
                     </marker>
                     <token postag="VBP?" postag_regexp="yes" />
                 </pattern>
@@ -43695,20 +43704,21 @@ The accident victim died from her injuries.
                         I|you|they|we|s?he|it
                     </token>
                     <marker>
-                        <token regexp="yes">easy|literary|temporary|necessary</token>
+                        <token regexp="yes">easy|literary|temporary|necessary|hasty|happy|funny</token>
                     </marker>
                     <token postag="VB[GDZP]?|MD" postag_regexp="yes" />
                 </pattern>
                 <message>The word "\2" is an adjective and doesn't fit in this context. Did you mean the adverb <suggestion><match no="2" regexp_match="(?i)y$" regexp_replace="ily" /></suggestion>?</message>
                 <example correction="easily">It <marker>easy</marker> has something to do with his new car.</example>
                 <example correction="temporarily">It is critical that we <marker>temporary</marker> stay our course.</example>
+                <example>Isn’t it funny even though I’m a female I can hear a man’s voice from inside me.</example>
                 <example>Take it easy home.</example>
             </rule>
             <rule><!-- to + (easy|literary|temporary|necessary) + VB -->
                 <pattern>
                     <token>to</token>
                     <marker>
-                        <token regexp="yes" postag="JJ">easy|literary|temporary|necessary</token>
+                        <token regexp="yes" postag="JJ">easy|literary|temporary|necessary|hasty|happy|funny</token>
                     </marker>
                     <token postag="VB[GP]?" postag_regexp="yes">
                         <exception postag="JJ.*|NN.*|DT|PRP\$?" postag_regexp="yes" />
@@ -43737,6 +43747,7 @@ The accident victim died from her injuries.
                 <example correction="sexually">He could <marker>sexual</marker> assault her.</example>
                 <example correction="potentially">This could <marker>potential</marker> increase our dues substantially if a large number of new members do not join.</example>
                 <example>As always, if you need immediate help and your assistant is not available, please see me or another member of our administrative team for assistance.</example>
+                <example>Keeping it constant will help.</example>
             </rule>
             <rule><!-- PRP + adjective + VB -->
                 <pattern>
@@ -50255,12 +50266,87 @@ The accident victim died from her injuries.
     <!-- Redundant Phrases -->
     <!-- ====================================================================== -->
     <category id="REDUNDANCY" name="Redundant Phrases" type="style">
-        <rule id="IN_A_X_MANNER" name="Wordiness: in a ... manner">
+    <rulegroup id="IN_A_X_MANNER" name="Wordiness: in a ... manner">
+        <antipattern><!-- noun, sex position -->
+            <token>doggy</token>
+            <token>style</token>
+        </antipattern>
+        <antipattern>
+            <token>one</token>
+            <token>way</token>
+        </antipattern>
+        <antipattern><!-- She's dumb but in a goofy way  -->
+            <token>but</token>
+            <token min="0">more</token>
+            <token>in</token>
+            <token regexp="yes">an?</token>
+        </antipattern>
+        <antipattern><!-- in a nice fashion dress -->
+            <token>in</token>
+            <token>a</token>
+            <token postag="JJ" />
+            <token>fashion</token>
+            <token postag="NN.*" postag_regexp="yes" />
+        </antipattern>
+        <antipattern><!-- He has done it clearly in a unusual way. -->
+            <token postag="RB" regexp="yes">.+ly</token>
+            <token>in</token>
+            <token regexp="yes">an?</token>
+        </antipattern>
+        <rule>
             <pattern>
                 <token>in</token>
                 <token regexp="yes">an?</token>
-                <token postag="JJ"><exception regexp="yes">big|certain|preparatory|good|modern|christian|agglutinative|unsterile|particular|humanlike|military|ordinary|roundabout|special|timely</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception></token>
-                <token regexp="yes">manner|style|way|fashion|mode</token>
+                <token regexp="yes">hasty|easy|happy|speedy|funny|temporary</token>
+                <token regexp="yes">manner|style|way|fashion</token>
+            </pattern>
+            <message>Consider replacing this phrase with the adverb <suggestion><match no="3" regexp_match="(?i)y$" regexp_replace="ily" /></suggestion> to avoid wordiness.</message>
+            <example correction="hastily">He did it <marker>in a hasty manner</marker>.</example>
+            <example>Preferably in an easy way.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>in</token>
+                <token regexp="yes">an?</token>
+                <token regexp="yes">(in)correct?|consistent|positive|negative|(in)?effective|(in)?efficient|different|(in)?secure|safe|(un)?natural|purposeful|respectful|fitting|random|circular|elegant|(in)?appropriate|concise|fair|persuasive|dramatical|romantical|peaceful|casual|great|transparent|contrasting|gorgeous|proper|impactful|extreme|(un)?successful|swift|(un)?threatening|practical|(un)?professional|nice|satisfying|captivating|pleasant|productive|exciting|mindful|unique|aggressive|logical|(un)?attractive|smooth|calm|playful|linear|surprising|beneficial|regular|violent|careful|slow</token>
+                <token regexp="yes">manner|style|way|fashion</token>
+            </pattern>
+            <message>Consider replacing this phrase with the adverb <suggestion><match no="3" regexp_match="$" regexp_replace="ly" /></suggestion> to avoid wordiness..</message>
+            <example correction="effectively">He did it <marker>in an effective way</marker>.</example>
+            <example>It is dreary here today, but in a nice way.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>in</token>
+                <token regexp="yes">an?</token>
+                <token regexp="yes">iconic|romantic|ecstatic|symmetric|realistic|apoplectic|systematic|optimistic|automatic</token>
+                <token regexp="yes">manner|style|way|fashion</token>
+            </pattern>
+            <message>Consider replacing this phrase with the adverb <suggestion><match no="3" regexp_match="$" regexp_replace="ally" /></suggestion> to avoid wordiness.</message>
+            <example correction="systematically">He did it <marker>in a systematic way</marker>.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>in</token>
+                <token regexp="yes">an?</token>
+                <token regexp="yes">horrible|terrible|(un)?predictable|(un)?reasonable|(un)?favorable|responsible|(un)?sustainable</token>
+                <token regexp="yes">manner|style|way|fashion</token>
+            </pattern>
+            <message>Consider replacing this phrase with the adverb <suggestion><match no="3" regexp_match="(?i)le$" regexp_replace="ly" /></suggestion> to avoid wordiness.</message>
+            <example correction="terribly">He did it <marker>in a terrible way</marker>.</example>
+        </rule>
+        <rule default="off"><!-- picky and creates many false alarms where the suggestion just doesn't make any sense -->
+            <pattern>
+                <token>in</token>
+                <token regexp="yes">an?</token>
+                <token postag="JJ">
+                    <exception regexp="yes">big|certain|preparatory|good|modern|christian|agglutinative|unsterile|particular|humanlike|military|ordinary|roundabout|special|interesting|new</exception><exception case_sensitive="yes" regexp="yes">[A-Z].*</exception>
+                    <!-- words that don't really have an adverb form, or where the adverb has a different meaning ("I need you in a bad way" => "I need you badly") -->
+                    <exception regexp="yes">timely|friendly|princely|small|catholic|emotionless|stepwise|slick|bad|clear|specific|right|overall|hard|convergent|hands-on|holy|safety|common|cost-efficient|same|first|second|all|straightforward|simple</exception>
+                    <!-- adjectived ending with 'ed' usually don't have an adverb form ("certified", "automated", "limited", ...) -->
+                    <exception regexp="yes">.+ed</exception>
+                </token>
+                <token regexp="yes">manner|style|way|fashion</token>
             </pattern>
             <message>Consider replacing "\1 \2 \3 \4" with the adverb for "\3"; e.g., "in a hasty manner" with "hastily".</message>
             <short>Possible wordiness</short>
@@ -50271,7 +50357,9 @@ The accident victim died from her injuries.
             <example>Don't say it in a roundabout way.</example>
             <example>You cannot solve this problem in an ordinary way.</example>
             <example>You must perform all assignments in a timely manner.</example>
+            <example>He accessed the computer in a remote mode.</example>
         </rule>
+    </rulegroup>
     <rulegroup id="FORMER_ALUMNUS" name="former alumnus (alumnus)">
     <url>https://www.amherst.edu/news/communications/editorial-services-media/styleguide/node/84702</url>
     <rule>
