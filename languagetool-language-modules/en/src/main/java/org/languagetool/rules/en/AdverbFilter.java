@@ -93,7 +93,7 @@ public class AdverbFilter extends RuleFilter {
     put("accurately", "accurate");
     put("necessarily", "necessary");
     put("temporarily", "temporary");
-    put("significant", "significantly");
+    put("significantly", "significant");
     put("hastily", "hasty");
     put("immediately", "immediate");
     put("rarely", "rare");
@@ -152,6 +152,12 @@ public class AdverbFilter extends RuleFilter {
     put("quietly", "quiet");
     put("slightly", "slight");
     put("cleverly", "clever");
+    put("roughly", "rough");
+    put("environmentally", "environmental");
+    put("geographically", "geographical");
+    put("usually", "usual");
+    put("normally", "normal");
+    put("deliciously", "delicious");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
