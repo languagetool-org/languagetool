@@ -70,7 +70,7 @@ public class SpanishDiacriticsCheckRule extends Rule {
   private static final Pattern PARTICIPI_MS = Pattern.compile("V.P.*SM.?");
   private static final Pattern GRUP_VERBAL = Pattern.compile("_GV_");
   private static final Pattern VERB_3S = Pattern.compile("V...3S..?");
-  private static final Pattern VERB_13S = Pattern.compile("V...[13]S..?");
+  //private static final Pattern VERB_13S = Pattern.compile("V...[13]S..?");
   private static final Pattern NOT_IN_PREV_TOKEN = Pattern.compile("VA.*|PP.*|P0.*|VSP.*");
   private static final Pattern BEFORE_ADJECTIVE_MS = Pattern.compile("SPS00|D[^R].[MC][SN].*|V.[^NGP].*|PX.*");
   private static final Pattern BEFORE_ADJECTIVE_FS = Pattern.compile("SPS00|D[^R].[FC][SN].*|V.[^NGP].*|PX.*");
@@ -81,6 +81,9 @@ public class SpanishDiacriticsCheckRule extends Rule {
   private static final Pattern LOCUCIONS = Pattern.compile(".*LOC.*");
   private static final Pattern PRONOM_FEBLE = Pattern.compile("P0.{6}|PP3CN000|PP3NN000|PP3CP000|PP3CSD00"); // Exclosos: PP3..A00 (coincideixe amb articles determinats)
 
+  private static final String message = "Si es un nombre o un adjetivo, debe llevar tilde.";
+  private static final String shortMsg = "Falta una tilde";
+  
   private static final Map<String, AnalyzedTokenReadings> relevantWords = 
           new AccentuationDataLoader().loadWords("/es/verb_noaccent_noun_accent.txt");
   private static final Map<String, AnalyzedTokenReadings> relevantWords2 =
@@ -194,12 +197,9 @@ public class SpanishDiacriticsCheckRule extends Rule {
         }
         
         // aquestes renuncies
-        else if (((matchPostagRegexp(tokens[i - 1], DETERMINANT_MS) && matchPostagRegexp(relevantWords.get(token), NOM_MS) 
-              && !token.equals("cantar"))
+        else if (((matchPostagRegexp(tokens[i - 1], DETERMINANT_MS) && matchPostagRegexp(relevantWords.get(token), NOM_MS))
             || (matchPostagRegexp(tokens[i - 1], DETERMINANT_MP) && matchPostagRegexp(relevantWords.get(token), NOM_MP))
-            || (matchPostagRegexp(tokens[i - 1], DETERMINANT_FS) && matchPostagRegexp(relevantWords.get(token), NOM_FS)
-                && !token.equals("venia") && !token.equals("tenia") && !token.equals("continua") && !token.equals("genera") 
-                && !token.equals("faria")) 
+            || (matchPostagRegexp(tokens[i - 1], DETERMINANT_FS) && matchPostagRegexp(relevantWords.get(token), NOM_FS)) 
             || (matchPostagRegexp(tokens[i - 1], DETERMINANT_FP) && matchPostagRegexp(relevantWords.get(token), NOM_FP)))) {
           replacement = relevantWords.get(token).getToken();
         }
@@ -357,11 +357,17 @@ public class SpanishDiacriticsCheckRule extends Rule {
 
       }
       if (replacement != null) {
-        final String msg = "Si es un nombre o un adjetivo, debe llevar tilde.";
-        final RuleMatch ruleMatch = new RuleMatch(this, sentence,
-            tokens[i].getStartPos(), tokens[i].getEndPos(),
-            msg, "Falta una tilde");
-        ruleMatch.setSuggestedReplacement(replacement);
+        RuleMatch ruleMatch;
+        //
+        if (tokens[i-1].getToken().equalsIgnoreCase("el")) {
+          ruleMatch = new RuleMatch(this, sentence,
+              tokens[i-1].getStartPos(), tokens[i].getEndPos(), message, shortMsg);
+          ruleMatch.setSuggestedReplacement(tokens[i-1].getToken() + ' '+replacement);
+        } else {
+          ruleMatch = new RuleMatch(this, sentence,
+              tokens[i].getStartPos(), tokens[i].getEndPos(), message, shortMsg);
+          ruleMatch.setSuggestedReplacement(replacement);
+        }  
         ruleMatches.add(ruleMatch);
       }
     }

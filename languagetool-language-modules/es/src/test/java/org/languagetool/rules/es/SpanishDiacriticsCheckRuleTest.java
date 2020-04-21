@@ -123,10 +123,13 @@ public class SpanishDiacriticsCheckRuleTest {
     assertIncorrect("La magnifica conservación del palacio.");
     assertIncorrect("Hace falta una nueva formula que la sustituya.");
     
-    //TODO assertIncorrect("El termino."); 
-    // por el ejercito; en el dialogo; El arbitro
-    // para el petroleo; el limite
-    // this sentences shouldn't be errors in rule EL_TILDE, PREPOSICION_VERBO
+    // this sentences shouldn't be shown in rules EL_TILDE, PREPOSICION_VERBO   
+    assertIncorrect("El termino.");
+    assertIncorrect("El ejercito.");
+    assertIncorrect("En el dialogo");
+    assertIncorrect("El arbitro");
+    assertIncorrect("El petroleo");
+    assertIncorrect("El limite");
     
     assertIncorrect("en mi ultima intervención");
     //assertIncorrect("hubiera hecho más explicito lo que acaba de decir");
@@ -174,13 +177,20 @@ public class SpanishDiacriticsCheckRuleTest {
   @Test
   public void testPositions() throws IOException {
     final SpanishDiacriticsCheckRule rule = new SpanishDiacriticsCheckRule(TestTools.getEnglishMessages());
-    final RuleMatch[] matches;
+    RuleMatch[] matches;
     final JLanguageTool langTool = new JLanguageTool(new Spanish());
 
     matches = rule.match(langTool
         .getAnalyzedSentence("de cascaras vacías."));
     assertEquals(3, matches[0].getFromPos());
     assertEquals(11, matches[0].getToPos());
+    assertEquals("cáscaras", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool
+        .getAnalyzedSentence("El termino."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(10, matches[0].getToPos());
+    assertEquals("El término", matches[0].getSuggestedReplacements().get(0));
   }
 
 }
