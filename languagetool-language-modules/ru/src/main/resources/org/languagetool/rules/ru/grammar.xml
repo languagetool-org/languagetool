@@ -8506,13 +8506,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
             <pattern>
                 <!--     VB:.*  VB:.* (VB:INF:)            -->
-                <or>
                     <token postag="VB:.*" postag_regexp="yes">
 	                <exception postag_regexp="yes" postag="VB:INF:.*"/>
 	                <exception postag_regexp="yes" negate_pos="yes" postag="(VB|PT|DPT):.*"/>
                     </token>
-                    <token regexp="yes">&verb;</token>
-                </or>
                 <token postag="VB:.*" postag_regexp="yes">
                     <exception postag_regexp="yes" postag="VB:INF:.*"/>
 	                <exception postag_regexp="yes" negate_pos="yes" postag="(VB|PT|DPT):.*"/>
@@ -8530,7 +8527,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Толику необходимо перепрыгнуть через преграду.</example>
             <example>Он смеялся радовался.</example> <!-- Incorrect example, but this error must detected with another rule. -->
             <example correction="будет строиться">Здесь <marker>будет строится</marker> всё больше жилья.</example>
-            <example correction="необходимо перепрыгнуть">Толику <marker>необходимо перепрыгнул</marker> через барьер.</example>
         </rule>
        
         <rule id="missing_2_verb" name="Пропущен второй глагол" default="on">
@@ -8621,6 +8617,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Не надо суетиться!</example>
             <example>Вчера все надо мной смеялись.</example>
             <example correction="суетиться">Не надо <marker>суетится</marker>!</example>
+            <example correction="перепрыгнуть">Толику необходимо <marker>перепрыгнул</marker> через барьер.</example>
             <example correction="строиться">Нужно <marker>строится</marker> на этом месте.</example>
         </rule>    
         </rulegroup>
