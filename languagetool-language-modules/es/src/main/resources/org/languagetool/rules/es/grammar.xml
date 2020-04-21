@@ -2384,24 +2384,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://lema.rae.es/dpd/srv/search?key=gratis</url>
             <example correction="gratis|de balde">El agua es <marker>de gratis</marker>.</example>
         </rule>
-        <!-- DEQUEISMO_QUEISMO Dequeísmo y queísmo: utilización incorrecta de DE + QUE
-      Fuentes: http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm -->
-        <rulegroup id="DEQUEISMO_QUEISMO" name="Queísmos y dequeismos" type="grammar">
-            <short>Posible dequeísmo.</short>
-            <!--INF_PP_QUE Queísmo: convenceros que -> convenceros de que -->
+        <rulegroup id="QUEISMO" name="queismo" type="grammar" default="temp_off">
+            <url>https://www.rae.es/dpd/que%C3%ADsmo</url>
             <rule id="INF_PP_QUE" name="Infinitivo tipo convencer + pron.pers + que">
                 <pattern>
-                    <token regexp="yes">(alegrar|alegrándo|enterar|enterándo|informar|dudar|convencer|hartar|quejar|protestar)(me|te|l[ea][s]?|se|nos|os)</token>
-                    <token>que</token>
+                    <token regexp="yes" inflected="yes" postag=".*\+P.*" postag_regexp="yes">alegrar|enterar|informar|dudar|convencer|hartar|quejar|protestar</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
                 </pattern>
-                <message>En este contexto, el verbo va seguido normalmente de la preposición 'de': <suggestion>\1 de \2</suggestion></message>
-                <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
-                <example correction="alegrarse de que">Está bien <marker>alegrarse que</marker> haya dinero para todos.</example>
+                <message>En este contexto, el verbo va seguido normalmente de la preposición 'de'.</message>
+                <suggestion>de que</suggestion>
+                <example correction="de que">Está bien alegrarse <marker>que</marker> haya dinero para todos.</example>
                 <example>No pareces <marker>enterarte de que</marker> todo está resuelto.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(dar|dándo)(me|te|l[ea][s]?|se|nos|os)</token>
+                    <token inflected="yes">dar</token>
                     <token>cuenta</token>
                     <marker>
                         <token>que</token>
@@ -2409,12 +2408,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>En este contexto, el verbo va seguido normalmente de la preposición 'de'.</message>
                 <suggestion>de que</suggestion>
-                <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
                 <example correction="de que">Está bien darse cuenta <marker>que</marker> no había dinero para todos.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="P.*" postag_regexp="yes"/>
+                    <token regexp="yes">se|te|me|nos|os</token>
                     <!--pronombre reflexivo-->
                     <token inflected="yes" min="0">haber</token>
                     <token inflected="yes">dar</token>
@@ -2425,86 +2423,87 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>En este contexto, el verbo va seguido normalmente de la preposición 'de'.</message>
                 <suggestion>de que</suggestion>
-                <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
                 <example correction="de que">Se dio cuenta <marker>que</marker> no había dinero para todos.</example>
                 <example correction="de que">No se daba cuenta <marker>que</marker> no había dinero para todos.</example>
                 <example correction="de que">Se ha dado cuenta <marker>que</marker> no había dinero para todos.</example>
             </rule>
-            <!-- ESTAR_SEGURO_QUE Queísmo: Estoy seguro que -> Estoy seguro de que -->
-            <rule id="ESTAR_SEGURO_QUE" name="Estar + seguro + que">
+            <rule>
                 <pattern>
                     <token inflected="yes"><exception postag="VAIP3S0"/>estar</token>
                     <token inflected="yes" regexp="yes">seguro|alegre|triste|entristecer|sorprender|convencer|agobiar|preocupar|harto|cansar|aburrir</token>
-                    <token>que</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
                 </pattern>
-                <message>En este contexto, el verbo va seguido normalmente de la preposición 'de': <suggestion>\1 \2 de \3</suggestion></message>
-                <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
-                <short>Posible queísmo.</short>
-                <example correction="Estamos seguros de que"><marker>Estamos seguros que</marker> falta poco para acabar.</example>
+                <message>En este contexto, el verbo va seguido normalmente de la preposición 'de'.</message>
+                <suggestion>de que</suggestion>
+                <example correction="de que">Estamos seguros <marker>que</marker> falta poco para acabar.</example>
                 <example><marker>Está segura de que</marker> lo que decís es cierto.</example>
             </rule>
-            <!-- PP_V_QUE Queísmo: me alegro que -> me alegro de que -->
-            <rule id="PP_V_QUE" name="PP + verbo tipo alegrar + que">
+            <rule>
                 <pattern>
-                    <token postag="PP[12]C[SP]000" postag_regexp="yes"/>
+                    <token regexp="yes">se|te|me|nos|os</token>
+                    <token min="0" postag="VA.*" postag_regexp="yes"/>
                     <token inflected="yes" regexp="yes">alegrar|sorprender|entristecer|agobiar|emocionar|aburrir|preocupar<exception postag="VM..3.." postag_regexp="yes"/></token>
-                    <token>que</token>
+                    <marker>
+                        <token>que</token>
+                    </marker>
                 </pattern>
-                <message>En este contexto, el verbo va seguido normalmente de la preposición 'de': <suggestion>\1 \2 de que</suggestion></message>
-                <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
-                <short>Posible queísmo.</short>
-                <example correction="Nos alegramos de que"><marker>Nos alegramos que</marker> haya comida para todos</example>
+                <message>En este contexto, el verbo va seguido normalmente de la preposición 'de'.</message>
+                <suggestion>de que</suggestion>
+                <example correction="de que">Nos alegramos <marker>que</marker> haya comida para todos</example>
+                <example correction="de que">Nos hemos alegrado <marker>que</marker> haya comida para todos</example>
                 <example>Fue cuando <marker>os enterasteis de que</marker> se acabó la temporada.</example>
             </rule>
-            <!-- VERBO_DE_QUE Queísmo: Pienso de que -> Pienso que -->
-            <rule id="VERBO_DE_QUE" name="verbo tipo pensar + de que">
+        </rulegroup>
+        <rulegroup id="DEQUEISMO" name="dequeísmo" type="grammar" default="temp_off">
+            <url>https://www.rae.es/dpd/que%C3%ADsmo</url>
+            <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">pensar|opinar|creer|comentar|expresar|decir|deducir|inferir|colegir|razonar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconsejar|ver|observar<exception>razones</exception></token>
-                    <token>de</token>
-                    <token>que</token>
+                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">pensar|opinar|creer|comentar|expresar|decir|deducir|inferir|colegir|razonar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconsejar|ver|observar<exception postag="_GN_.*" postag_regexp="yes"
+                        /></token>
+                    <marker>
+                        <token>de</token>
+                        <token>que</token>
+                    </marker>
                 </pattern>
-                <message>Posible dequeísmo: <suggestion>\1 \3</suggestion>.</message>
-                <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
-                <example correction="Pienso que"><marker>Pienso de que</marker> estamos mejorando mucho.</example>
+                <message>Posible dequeísmo.</message>
+                <suggestion>que</suggestion>
+                <example correction="que">Pienso <marker>de que</marker> estamos mejorando mucho.</example>
                 <example>Creemos <marker>que</marker> podemos mejorar más.</example>
             </rule>
-            <!-- ESTAR_CLARO_DE_QUE Queísmo: Está claro de que -> Está claro que -->
-            <rule id="ESTAR_CLARO_DE_QUE" name="Verbo tipo estar + AQ + de que">
+            <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">ser|estar|encontrar|ver|entender</token>
                     <token postag="RG|AQ.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">seguro|libre|consciente|harto</exception></token>
-                    <token>de</token>
-                    <token>que</token>
+                    <marker>
+                        <token>de</token>
+                        <token>que</token>
+                    </marker>
                 </pattern>
-                <message>Posible dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
-                <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
-                <example correction="Es fácil que"><marker>Es fácil de que</marker> volvamos a encontrarnos</example>
+                <message>Posible dequeísmo.</message>
+                <suggestion>que</suggestion>
+                <example correction="que">Es fácil <marker>de que</marker> volvamos a encontrarnos</example>
                 <example><marker>Encontrarás útil que</marker> hayan cambiado el cartel</example>
             </rule>
-            <!-- V3_DE_QUE Dequeísmo: Me alegra de que -> Me alegra que -->
-            <rule id="V3_DE_QUE" name="Verbo en 3a + de que">
+            <rule>
                 <pattern>
                     <token postag="PP[123]C[SP][0D]00" postag_regexp="yes"/>
-                    <token regexp="yes">alegra|entristece|agobia|importa|resbala|harta|emociona|altera|aburre|falta|preocupa</token>
-                    <token>de</token>
-                    <token>que</token>
+                    <token regexp="yes" postag="V...3S." postag_regexp="yes" inflected="yes">gustar|alegrar|entristecer|agobiar|importar|resbalar|hartar|emocionar|alterar|aburrir|faltar|preocupar</token>
+                    <marker>
+                        <token>de</token>
+                        <token>que</token>
+                    </marker>
                 </pattern>
-                <message>Posible dequeísmo: <suggestion>\1 \2 \4</suggestion>.</message>
-                <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
-                <example correction="Me alegra que"><marker>Me alegra de que</marker> volvamos a encontrarnos</example>
-                <example><marker>Me entristece que</marker> hayan cambiado el cartel</example>
-            </rule>
-            <!-- INSISTIR_DE_QUE Dequeísmo: Insisto de que -> Insisto en que -->
-            <rule id="INSISTIR_DE_QUE" name="Verbo tipo insistir + de que">
-                <pattern>
-                    <token inflected="yes">insistir</token>
-                    <token>de</token>
-                    <token>que</token>
-                </pattern>
-                <message>Posible dequeísmo: <suggestion>\1 en \3</suggestion>.</message>
-                <url>http://cvc.cervantes.es/ALHABLA/MUSEO_HORRORES/museo_010.htm</url>
-                <example correction="insistas en que">No <marker>insistas de que</marker> vayamos al cine</example>
-                <example><marker>Inisitieron en que</marker> les faltaba un documento.</example>
+                <message>Posible dequeísmo.</message>
+                <suggestion>que</suggestion>
+                <example correction="que">Me alegra <marker>de que</marker> volvamos a encontrarnos</example>
+                <example correction="que">Me alegró <marker>de que</marker> volvamos a encontrarnos</example>
+                <example correction="que">Nos alegró <marker>de que</marker> volvamos a encontrarnos</example>
+                <example>Me entristece que hayan cambiado el cartel</example>
+                <example>Se alegró de que vinieran.</example>
+                <example>Se alegraron de que vinieran.</example>
+                <example>Nos alegramos de que vinieran.</example>
             </rule>
         </rulegroup>
         <rule id="DADO_A_QUE" name="*dado a que/dado que">
@@ -2633,27 +2632,48 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ellos habían nacido para jugar.</example>
             <example>De la dinastía Han.</example>
         </rule>
-        <rule id="HABER_GERUNDIO" name="han *realizando/realizado">
-            <pattern>
-                <token inflected="yes" postag="VA.*" postag_regexp="yes">haber<exception>hay</exception></token>
-                <marker>
-                    <token postag="V.*" postag_regexp="yes"><exception postag="V.P..SM|[^V].*|VMP0000" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <message>Falta un participio o la preposición 'de'.</message>
-            <suggestion><match no="2" postag="V.P..SM" postag_regexp="yes"/></suggestion>
-            <suggestion>de <match no="2" postag="V.N...." postag_regexp="yes"/></suggestion>
-            <example correction="realizado|de realizar">No se han <marker>realizando</marker>.</example>
-            <example correction="realizado|de realizar">No se han <marker>realizar</marker>.</example>
-            <example correction="defendido|de defender">Habían <marker>defendiendo</marker> el resultado.</example>
-            <example correction="encontrado|de encontrar">Se han <marker>encontraron</marker> indicios.</example>
-            <example correction="considerado|de considerar">Se han <marker>consideran</marker> indicios.</example>
-            <example>Entre lo que hay consideramos que sí.</example>
-            <example>Habían considerado la cuestión.</example>
-            <example>Que haya malentendidos.</example>
-            <example>Había como mínimo cinco.</example>
-            <example>Allí no ha llovido.</example>
-        </rule>
+        <rulegroup id="HABER_GERUNDIO" name="han *realizando/realizado">
+            <rule>
+                <pattern>
+                    <token inflected="yes" postag="VA.*" postag_regexp="yes">haber<exception>hay</exception></token>
+                    <marker>
+                        <token postag="V.[GN].*" postag_regexp="yes"><exception postag="V.P..SM|[^V].*|VMP0000" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Falta un participio o la preposición 'de'.</message>
+                <suggestion><match no="2" postag="V.P..SM" postag_regexp="yes"/></suggestion>
+                <suggestion>de <match no="2" postag="V.N...." postag_regexp="yes"/></suggestion>
+                <example correction="realizado|de realizar">No se han <marker>realizando</marker>.</example>
+                <example correction="realizado|de realizar">No se han <marker>realizar</marker>.</example>
+                <example correction="defendido|de defender">Habían <marker>defendiendo</marker> el resultado.</example>
+                <example>Entre lo que hay consideramos que sí.</example>
+                <example>Habían considerado la cuestión.</example>
+                <example>Que haya malentendidos.</example>
+                <example>Había como mínimo cinco.</example>
+                <example>Allí no ha llovido.</example>
+                <example>Lo que había era una falta de respeto.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token inflected="yes" postag="VA.*" postag_regexp="yes">haber<exception>hay</exception></token>
+                    <marker>
+                        <token postag="V.*" postag_regexp="yes"><exception postag="V.P..SM|[^V].*|VMP0000" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Falta un participio o la preposición 'de'.</message>
+                <suggestion><match no="3" postag="V.P..SM" postag_regexp="yes"/></suggestion>
+                <suggestion>de <match no="3" postag="V.N...." postag_regexp="yes"/></suggestion>
+                <example correction="encontrado|de encontrar">Se han <marker>encontraron</marker> indicios.</example>
+                <example correction="considerado|de considerar">Se han <marker>consideran</marker> indicios.</example>
+                <example>Entre lo que hay consideramos que sí.</example>
+                <example>Habían considerado la cuestión.</example>
+                <example>Que haya malentendidos.</example>
+                <example>Había como mínimo cinco.</example>
+                <example>Allí no ha llovido.</example>
+                <example>Lo que había era una falta de respeto.</example>
+            </rule>
+        </rulegroup>
         <!--PP_SE: te se -> se te-->
         <rule id="PP_SE" name="te se, me se">
             <pattern>
@@ -2899,6 +2919,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Esos solo existen en tu imaginación.</example>
                 <example>Usted es nuestra huésped de la semana.</example>
                 <example>Salir de esta vivos.</example>
+                <example>Me gustan mucho ambos.</example>
                 <!-- <example>no esta claro</example> better: other rule-->
             </rule>
             <rule>
@@ -2955,6 +2976,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="triggers_error" reason="amibgious">no he estudiado <marker>mucho física</marker></example>
                 <example>Por todo América.</example>
                 <example>Mil quinientas cincuenta y una bombillas.</example>
+                <example>Me gusta mucho Mary.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3052,7 +3074,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token>la</token>
-                    <token regexp="yes">&nombre_fem_el;<exception postag="V.[IS].*" postag_regexp="yes" regexp="yes">ama|haya|abra</exception></token>
+                    <token regexp="yes">&nombre_fem_el;<exception postag="V.[IS].*" postag_regexp="yes" regexp="yes">ama|haya|abra</exception><exception postag="_possible_NP">Haya</exception></token>
                 </pattern>
                 <message>En este caso se usa el artículo determinado masculino.</message>
                 <suggestion>el \2</suggestion>
@@ -3071,6 +3093,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La gente baja necesita dormir más que la alta.</example>
                 <example>En la Alta Andalucía.</example>
                 <example>Que la haya vendido.</example>
+                <example>Llegó a La Haya.</example>
             </rule>
             <rule id="LO_LOS" name="confusión lo/los">
                 <antipattern>
@@ -3535,6 +3558,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="confusiones">
+        <rule id="HE_HA" name="*he ha" default="temp_off">
+            <antipattern>
+                <token>he</token>
+                <token>habido</token>
+                <token>de</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>he</token>
+                </marker>
+                <token inflected="yes">haber</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>me</suggestion>?</message>
+            <suggestion>le</suggestion>
+            <example correction="Me|Le"><marker>He</marker> ha dicho que sí</example>
+            <example>He habido de hacerlo.</example>
+        </rule>
         <rulegroup id="ERAR" name="erar/errar" default="temp_off">
             <rule>
                 <pattern>
@@ -3622,6 +3663,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREPOSITIONS" name="preposiciones">
+        <rule id="INSISTIR_DE" name="insistir *de/en">
+            <pattern>
+                <token inflected="yes">insistir</token>
+                <token min="0" postag="RG"/>
+                <marker>
+                    <token>de</token>
+                    <token>que</token>
+                </marker>
+            </pattern>
+            <message>Preposición no adecuada para este verbo.</message>
+            <suggestion>en que</suggestion>
+            <example correction="en que">No insistas <marker>de que</marker> vayamos al cine</example>
+            <example correction="en que">No insistas más <marker>de que</marker> vayamos al cine</example>
+            <example><marker>Inisitieron en que</marker> les faltaba un documento.</example>
+        </rule>
         <rule id="ENFRENTARSE_ANTE" name="enfrentarse *ante/con" default="on">
             <pattern>
                 <token inflected="yes">enfrentar</token>
