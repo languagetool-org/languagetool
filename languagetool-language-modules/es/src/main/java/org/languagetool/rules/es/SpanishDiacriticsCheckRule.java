@@ -52,11 +52,11 @@ public class SpanishDiacriticsCheckRule extends Rule {
   private static final Pattern ARTICLE_EL_FS = Pattern.compile("la|La|una|Una");
   private static final Pattern ARTICLE_EL_MP = Pattern.compile("los|Los|unos|Unos");
   private static final Pattern ARTICLE_EL_FP = Pattern.compile("las|Las|unas|Unas");
-  private static final Pattern DETERMINANT = Pattern.compile("D[^R].*");
-  private static final Pattern DETERMINANT_MS = Pattern.compile("D[^R].[MC][SN].*");
-  private static final Pattern DETERMINANT_FS = Pattern.compile("D[^R].[FC][SN].*");
-  private static final Pattern DETERMINANT_MP = Pattern.compile("D[^R].[MC][PN].*");
-  private static final Pattern DETERMINANT_FP = Pattern.compile("D[^R].[FC][PN].*");
+  private static final Pattern DETERMINANT = Pattern.compile("D[^RTEN].*");
+  private static final Pattern DETERMINANT_MS = Pattern.compile("D[^R].MS.*");
+  private static final Pattern DETERMINANT_FS = Pattern.compile("D[^R].FS.*");
+  private static final Pattern DETERMINANT_MP = Pattern.compile("D[^R].MP.*");
+  private static final Pattern DETERMINANT_FP = Pattern.compile("D[^R].FP.*");
   private static final Pattern NOM_MS = Pattern.compile("NC[MC][SN].*");
   private static final Pattern NOM_FS = Pattern.compile("NC[FC][SN].*");
   private static final Pattern NOM_MP = Pattern.compile("NC[MC][PN].*");
@@ -177,7 +177,7 @@ public class SpanishDiacriticsCheckRule extends Rule {
           !matchPostagRegexp(tokens[i], GN) && !matchPostagRegexp(tokens[i], LOCUCIONS)) {
         // amb renuncies
         if ((tokens[i - 1].hasPosTag("SPS00") || tokens[i - 1].hasPosTag("SP+DA")) 
-            && !tokens[i - 1].hasPosTag("RG")
+            && !tokens[i - 1].hasPosTag("RG") && !tokens[i - 1].hasPosTag("_possible_NP")
             && !matchPostagRegexp(tokens[i - 1], DETERMINANT)
             && !matchPostagRegexp(tokens[i], INFINITIU)) {
           replacement = relevantWords.get(token).getToken();
@@ -191,7 +191,7 @@ public class SpanishDiacriticsCheckRule extends Rule {
             && !matchPostagRegexp(tokens[i], INFINITIU)) {
           replacement = relevantWords.get(token).getToken();
         }
-        /*
+        
         // aquestes renuncies
         else if (((matchPostagRegexp(tokens[i - 1], DETERMINANT_MS) && matchPostagRegexp(relevantWords.get(token), NOM_MS) 
               && !token.equals("cantar"))
@@ -221,14 +221,17 @@ public class SpanishDiacriticsCheckRule extends Rule {
           replacement = relevantWords.get(token).getToken();
         }
         // circumstancies d'una altra classe
-        else if (!matchPostagRegexp(tokens[i], PARTICIPI_MS) 
+        else if (!token.equals("borren") && !token.equals("participe") &&
+            !matchPostagRegexp(tokens[i], PARTICIPI_MS) 
             && !prevToken.equalsIgnoreCase("que") && !prevToken.equalsIgnoreCase("cuando")
             && !prevToken.equalsIgnoreCase("donde") && mPreposicioDE.matches()
             && !matchPostagRegexp(tokens[i - 1], NOT_IN_PREV_TOKEN)
             && !matchPostagRegexp(tokens[i + 1], LOCUCIONS)
+            && tokens[i + 1].hasPartialPosTag("PT")
             && (i < tokens.length - 2)
             && !matchPostagRegexp(tokens[i + 2], INFINITIU)
-            && !exceptionsDEMANERA && !tokens[i - 1].hasPosTag("RG")) {
+            && !exceptionsDEMANERA && !tokens[i - 1].hasPosTag("RG")
+            && !tokens[i - 1].hasPosTag("RN")) {
           replacement = relevantWords.get(token).getToken();
         }
         // la renuncia del president.
@@ -240,18 +243,17 @@ public class SpanishDiacriticsCheckRule extends Rule {
           replacement = relevantWords.get(token).getToken();
         }
         // circumstancies extraordinàries
-        else if (!token.equals("pronuncia") && !token.equals("espero") && !token.equals("pronuncies")
-            && !token.equals("venia") && !token.equals("venies") && !token.equals("tenia")
-            && !token.equals("tenies") && !token.equals("continua") && !token.equals("continues")
-            && !token.equals("faria") && !token.equals("faries") && !token.equals("genera")
-            && !token.equals("figuri")
-            && (i < tokens.length - 1)
+        /*else if (!token.equals("anima") && !token.equals("estipula") && !token.equals("participe")
+            && !token.equals("practica")
+            && (i < tokens.length - 1) && !tokens[i + 1].hasLemma("dicho")
+            && !prevToken.equalsIgnoreCase("que") && !prevToken.equalsIgnoreCase("cuando")
+            && !prevToken.equalsIgnoreCase("donde") 
             && ((matchPostagRegexp(relevantWords.get(token), NOM_MS) && matchPostagRegexp(tokens[i + 1], ADJECTIU_MS))
                 || (matchPostagRegexp(relevantWords.get(token), NOM_FS) && matchPostagRegexp(tokens[i + 1], ADJECTIU_FS))
                 || (matchPostagRegexp(relevantWords.get(token), NOM_MP) && matchPostagRegexp(tokens[i + 1], ADJECTIU_MP)) 
                 || (matchPostagRegexp(relevantWords.get(token), NOM_FP) && matchPostagRegexp(tokens[i + 1], ADJECTIU_FP)))) {
           replacement = relevantWords.get(token).getToken();
-        }
+        }*/
         // les seves contraries
         else if ((matchPostagRegexp(relevantWords.get(token), NOM_MS) && matchPostagRegexp(tokens[i - 1], ADJECTIU_MS)
               && !matchPostagRegexp(tokens[i], VERB_3S) && !matchPostagRegexp(tokens[i], GRUP_VERBAL))
@@ -262,7 +264,7 @@ public class SpanishDiacriticsCheckRule extends Rule {
           replacement = relevantWords.get(token).getToken();
         }
         //una nova formula que (fórmula)
-        else if (nextToken.equals("que") && i>2
+        else if (nextToken.equals("que") && i>2 && !token.equals("estipula")
             && ((matchPostagRegexp(relevantWords.get(token), NOM_MS) && matchPostagRegexp(tokens[i - 1], ADJECTIU_MS)
                 && matchPostagRegexp(tokens[i - 2], DETERMINANT_MS))
             || (matchPostagRegexp(relevantWords.get(token), NOM_FS) && matchPostagRegexp(tokens[i - 1], ADJECTIU_FS)
@@ -282,11 +284,7 @@ public class SpanishDiacriticsCheckRule extends Rule {
           replacement = relevantWords.get(token).getToken();
         }
         // de positiva influencia
-        if (!token.equals("pronuncia") && !token.equals("espero") && !token.equals("pronuncies")
-                && !token.equals("venia") && !token.equals("venies") && !token.equals("tenia")
-                && !token.equals("tenies") && !token.equals("continua") && !token.equals("continues")
-                && !token.equals("faria") && !token.equals("faries") && !token.equals("genera")
-                && !token.equals("figuri")
+        if (!token.equals("anima") 
             && i>2 
             && tokens[i - 2].hasPosTag("SPS00") && !tokens[i - 2].hasPosTag("RG")           
             && ((matchPostagRegexp(relevantWords.get(token), NOM_MS) && matchPostagRegexp(tokens[i - 1], ADJECTIU_MS))
@@ -294,7 +292,7 @@ public class SpanishDiacriticsCheckRule extends Rule {
                 || (matchPostagRegexp(relevantWords.get(token), NOM_MP) && matchPostagRegexp(tokens[i - 1], ADJECTIU_MP)) 
                 || (matchPostagRegexp(relevantWords.get(token), NOM_FP) && matchPostagRegexp(tokens[i - 1], ADJECTIU_FP)))) {
           replacement = relevantWords.get(token).getToken();
-        }*/
+        }
       }
 
       // VERB WITHOUT ACCENT -> ADJECTIVE WITH ACCENT
@@ -302,7 +300,7 @@ public class SpanishDiacriticsCheckRule extends Rule {
           !matchPostagRegexp(tokens[i], GN) && !matchPostagRegexp(tokens[i], LOCUCIONS)) {
         // por *ultimo
         if ((tokens[i - 1].hasPosTag("SPS00") || tokens[i - 1].hasPosTag("SP+DA")) 
-            && !tokens[i - 1].hasPosTag("RG")
+            && !tokens[i - 1].hasPosTag("RG") && !tokens[i - 1].hasPosTag("_possible_NP")
             && !matchPostagRegexp(tokens[i - 1], DETERMINANT)
             && !matchPostagRegexp(tokens[i], INFINITIU)) {
           replacement = relevantWords2.get(token).getToken();
@@ -317,7 +315,7 @@ public class SpanishDiacriticsCheckRule extends Rule {
           replacement = relevantWords2.get(token).getToken();
         }
       }
-      /*if (isRelevantWord2 && !matchPostagRegexp(tokens[i], GN) && !matchPostagRegexp(tokens[i], LOCUCIONS)) {
+      if (isRelevantWord2 && !matchPostagRegexp(tokens[i], GN) && !matchPostagRegexp(tokens[i], LOCUCIONS)) {
         // de manera obvia, circumstàncies extraordinaries.
         if (!token.equals("solicito") && !token.equals("indico")
             && (matchPostagRegexp(relevantWords2.get(token), ADJECTIU_MS) && matchPostagRegexp(tokens[i - 1], NOM_MS) 
@@ -356,7 +354,7 @@ public class SpanishDiacriticsCheckRule extends Rule {
           replacement = relevantWords2.get(token).getToken();
         }
 
-      }*/
+      }
       if (replacement != null) {
         final String msg = "Si es un nombre o un adjetivo, debe llevar tilde.";
         final RuleMatch ruleMatch = new RuleMatch(this, sentence,

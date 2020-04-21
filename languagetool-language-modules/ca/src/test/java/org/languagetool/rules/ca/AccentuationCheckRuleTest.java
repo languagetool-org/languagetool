@@ -47,6 +47,13 @@ public class AccentuationCheckRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertCorrect("Quan anunciïs una votació, especifica de quina es tracta");
+    //assertCorrect("Quina classe de política practica la UE.");
+    assertCorrect("Tu practiques tècniques de ioga");
+    assertCorrect("Ella practica política de fets consumats.");
+    assertCorrect("la UE que opera aïllada");
+    assertCorrect("Una nova estipula que no es pot fer.");
+    assertCorrect("El projecte d'informe anima la Comissió a actuar.");
     assertCorrect("L'article primer estipula que és així.");
     assertCorrect("L'article 1 estipula que és així.");
     assertCorrect("L'informe estipula que ha de ser així.");
@@ -102,6 +109,8 @@ public class AccentuationCheckRuleTest {
     assertCorrect("La magnífica conservació del palau.");
 
     // errors:
+    //TODO assertIncorrect("una votació especifica de diputats.");
+    assertIncorrect("una especifica votació de diputats.");
     assertIncorrect("El millor de la historia.");
     assertIncorrect("El millor d'aquesta historia.");
     assertIncorrect("L'ultima consideració.");
@@ -122,7 +131,7 @@ public class AccentuationCheckRuleTest {
     assertIncorrect("Amb renuncies i esforç.");
     assertIncorrect("La renuncia del president.");
     assertIncorrect("Són circumstancies d'un altre caire.");
-    assertIncorrect("Circumstancies extraordinàries.");
+    //assertIncorrect("Circumstancies extraordinàries.");
     assertIncorrect("Les circumstancies que ens envolten.");
     assertIncorrect("De manera obvia.");
     assertIncorrect("Ell fa tasques especifiques.");
@@ -134,7 +143,7 @@ public class AccentuationCheckRuleTest {
 
     final RuleMatch[] matches = rule
         .match(langTool
-            .getAnalyzedSentence("Les circumstancies que ens envolten són circumstancies extraordinàries."));
+            .getAnalyzedSentence("Les circumstancies que ens envolten són unes circumstancies extraordinàries."));
     assertEquals(2, matches.length);
   }
 
@@ -157,9 +166,9 @@ public class AccentuationCheckRuleTest {
     final JLanguageTool langTool = new JLanguageTool(new Catalan());
 
     matches = rule.match(langTool
-        .getAnalyzedSentence("Són circumstancies extraordinàries."));
-    assertEquals(4, matches[0].getFromPos());
-    assertEquals(18, matches[0].getToPos());
+        .getAnalyzedSentence("El millor de la historia."));
+    assertEquals(16, matches[0].getFromPos());
+    assertEquals(24, matches[0].getToPos());
   }
 
 }

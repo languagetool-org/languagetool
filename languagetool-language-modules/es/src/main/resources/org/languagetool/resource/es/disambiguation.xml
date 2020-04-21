@@ -74,6 +74,19 @@ Copyright (C) 2011 Juan Martorell
     </rule>
 
     <rulegroup id="LOC_ADV" name="locuciones adverbiales">
+        <rule id="por_tanto" name="por tanto">
+            <pattern>
+                <marker>
+                    <token>por</token>
+                    <token>tanto</token>
+                </marker>
+                <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="LOC_ADV"/>
+                <wd pos="LOC_ADV"/>
+            </disambig>
+        </rule>
         <rule id="de_nuevo" name="de nuevo">
             <pattern>
                 <marker>
@@ -708,14 +721,13 @@ Copyright (C) 2011 Juan Martorell
                 <unify>
                     <feature id="genero"/>
                     <feature id="numero"/>
-                    <token postag="VMP.*" postag_regexp="yes" inflected="yes">decir</token>
+                    <token postag="VMP.*|AQ.*" postag_regexp="yes" inflected="yes">decir</token>
                     <token postag="NC.*" postag_regexp="yes"><exception postag="C.|SP.*|R.*" postag_regexp="yes"/></token>
                 </unify>
             </marker>
         </pattern>
         <disambig action="filterall"/>
     </rule>
-
 
 
     <rulegroup id="PUNCT" name="puntuación">
@@ -1239,7 +1251,7 @@ Copyright (C) 2011 Juan Martorell
     <rule id="D_N" name="Artículo + Nombre">
         <pattern>
             <marker>
-                <token postag="D.*" postag_regexp="yes"><exception inflected="yes">todo</exception><exception postag="R.*|PI.*" postag_regexp="yes"/></token>
+                <token postag="D[^T].*" postag_regexp="yes"><exception inflected="yes">todo</exception><exception postag="R.*|PI.*" postag_regexp="yes"/></token>
             </marker>
             <token postag="[PNA].*" postag_regexp="yes"><exception postag="V.*|PI.*" postag_regexp="yes"/></token>
         </pattern>
@@ -1317,15 +1329,36 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    
+    <rule id="de_not_adj" name="de + no adj">
+        <pattern>
+            <token>de</token>
+            <marker>
+                <token inflected="yes" regexp="yes">político|directivo</token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="AQ.*"></disambig>
+    </rule>
 
     <rule id="not_adj_no_agreement" name="not adjective if no agreement">
         <pattern>
             <token><exception postag="NC.*" postag_regexp="yes"/></token>
             <marker>
-                <token postag="A.*" postag_regexp="yes" inflected="yes">sucursal<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="A.*" postag_regexp="yes" regexp="yes">mal|mejor|sucursal(es)?<exception postag="_GN_.*" postag_regexp="yes"/></token>
             </marker>
         </pattern>
         <disambig action="remove" postag="A.*"/>
+    </rule>
+    
+    <rule id="not_participle" name="not participle">
+        <antipattern>
+            <token inflected="yes">haber</token>
+            <token postag="V.P.*" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+            <token inflected="yes">diputado</token>
+        </pattern>
+        <disambig action="remove" postag="V.P.*"></disambig>
     </rule>
 
 
