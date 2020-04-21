@@ -844,23 +844,23 @@ Copyright (C) 2011 Juan Martorell
             <token postag="DI.*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes" negate_pos="yes"/></token>
             <marker>
                 <and>
-                    <token postag="V.[SIM].*" postag_regexp="yes" negate_pos="yes"/>
+                    <token postag="V.[SIM].*" postag_regexp="yes"/>
                     <token postag="[AN].*" postag_regexp="yes"/>
                 </and>
             </marker>
         </pattern>
-        <disambig action="filter" postag="[AN].*"/>
+        <disambig action="remove" postag="V.[SIM].*"/>
     </rule>
 
 
-    <rule id="not_verb" name="not verb">
+    <rule id="el_not_verb" name="not verb">
         <!--el uno-->
         <pattern>
             <token postag="DA.*" postag_regexp="yes"><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
             <marker>
                 <and>
-                    <token postag="V.[SIM].*" postag_regexp="yes" negate_pos="yes"/>
                     <token postag="V.[SIM].*" postag_regexp="yes"/>
+                    <token postag="[AN].*" postag_regexp="yes"/>
                 </and>
             </marker>
         </pattern>
