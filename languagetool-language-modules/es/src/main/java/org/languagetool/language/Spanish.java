@@ -112,7 +112,8 @@ public class Spanish extends Language implements AutoCloseable{
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {
-            new Contributor("Juan Martorell", "http://languagetool-es.blogspot.com/")
+            new Contributor("Juan Martorell", "http://languagetool-es.blogspot.com/"),
+            new Contributor("Jaume Ortolà")
     };
   }
 
