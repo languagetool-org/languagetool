@@ -7956,7 +7956,7 @@ onwaarschijnlijk
 			</rule>
 			<rule>
 				<pattern>
-					<token regexp='yes'>.{5,}kost<exception>winterkost</exception></token>
+					<token regexp='yes'>.{5,}kost<exception regexp="yes">(lievelings|winter)kost</exception></token>
 				</pattern>
 				<message>Standaardtaal is <suggestion>\1en</suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/474/</url>
@@ -8343,6 +8343,7 @@ onwaarschijnlijk
 				<example type="incorrect">Dus geen vreemde spullen in de <marker>kliko</marker> verstoppen.</example>
 			</rule>
 			<rule>
+				<antipattern><token regexp="yes">de|een|geen</token><token>pint</token></antipattern>
 				<pattern>
 					<token inflected="yes" >pinnen<exception postag_regexp="yes" postag="ZNW:MRV:DE_|ZNW:MRV:1EP"/></token>
 				</pattern>
@@ -17815,6 +17816,8 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="KOMMA_MAAR" name=", maar">
 			<rule>
+				<antipattern><token>als</token><token regexp="yes">ik|jij|je|hij|zij|ze|men|wij|we|iemand</token><token>maar</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="WKW.*"/><token>maar</token></antipattern>
 				<antipattern><token skip="2">,</token><token>maar</token></antipattern>
 				<antipattern><token>maar</token><token>al</token><token>te</token><token postag="BNW:STL:ONV"/></antipattern>
 				<antipattern><token>maar</token><token>heel</token><token>weinig</token></antipattern>
