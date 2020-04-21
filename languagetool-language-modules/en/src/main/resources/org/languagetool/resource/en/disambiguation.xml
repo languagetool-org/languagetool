@@ -1837,8 +1837,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="filter" postag="NN"/>
     </rule>
 
-    <rule id="AIN_T_VBZ" name="ain't => VBZ">
+    <rule id="AIN_T_VBZ" name="It ain't => VBZ">
         <pattern>
+            <token regexp="yes">it|s?he</token>
+            <token postag="RB.*" postag_regexp="yes" min="0" />
             <marker>
                 <token>ain</token>
             </marker>
@@ -1848,8 +1850,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="add"><wd lemma="be" pos="VBZ" /></disambig>
     </rule>
 
-    <rule id="AIN_T_VBP" name="ain't => VBP">
+    <rule id="AIN_T_VBP" name="I ain't => VBP">
         <pattern>
+            <token regexp="yes">I|you|we|they</token>
+            <token postag="RB.*" postag_regexp="yes" min="0" />
             <marker>
                 <token>ain</token>
             </marker>
@@ -2732,7 +2736,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <example type="ambiguous" inputform="monarch[monarch/JJ,monarch/NN]" outputform="monarch[monarch/NN]">... and a <marker>monarch</marker> as an impartial element able to practise justice.</example>
       <example type="ambiguous" inputform="model[model/JJ,model/NN,model/VB,model/VBP]" outputform="model[model/NN]">She is as beautiful a <marker>model</marker> as I have ever photographed.</example>
       <example type="ambiguous" inputform="delinquent[delinquent/JJ,delinquent/NN]" outputform="delinquent[delinquent/NN]">... contemplates the likelihood of his future son being a <marker>delinquent</marker> as he was, a prospect Alex views fatalistically.</example>
-      <example type="ambiguous" inputform="community[community/JJ,community/NN:UN]" outputform="community[community/NN:UN]">If the <marker>community</marker> at the village fête are...</example><!-- test for #2405 -->
+      <example type="untouched">If the <marker>community</marker> at the village fête are...</example><!-- test for #2405 -->
       <example type="untouched">A short while later, Anders also went to sleep.</example>
       <example type="untouched">Incorrect grammar. The new method is much <marker>fast</marker> than the old method.</example>
       <example type="untouched">Incorrect grammar. The solution is not <marker>a simple as</marker> we had hoped.</example>

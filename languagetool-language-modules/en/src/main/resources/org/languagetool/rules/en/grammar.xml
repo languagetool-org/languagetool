@@ -10545,6 +10545,16 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="SHELL_COMPOUNDS" name="bomb shell (bombshell)" default="temp_off">
+            <pattern>
+                <token regexp="yes">bomb|nut|sea|egg|cockle|lamp|sub</token>
+                <token regexp="yes">shells?</token>
+            </pattern>
+            <message>This word is spelled as one.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <url>https://www.merriam-webster.com/dictionary/nutshell</url>
+            <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
+        </rule>
         <rule id="NOW_ARE_THE_TIME" name="Now are (is) the time">
             <pattern>
                 <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
@@ -11257,19 +11267,26 @@ USA
                     <token>of</token>
                     <token>it</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="IN" />
+                    <token>it</token>
+                    <token postag="JJ" />
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START|CC|PCT" postag_regexp="yes" />
                     <marker>
                         <token case_sensitive="yes" regexp="yes" postag="PRP">[Ii]t</token>
                     </marker>
                     <token postag_regexp="yes" postag="JJ.*" min="0">
+                        <exception>by</exception><!-- if it by default ... -->
                         <exception postag="RB.*|VB.*|CC|UH" postag_regexp="yes" />
                         <exception regexp="yes">wont|self</exception>
                     </token>
                     <token postag="NN.*" postag_regexp="yes">
-                        <exception postag="RB.*|VB.*|CC|IN|JJ.*|NNP|UH" postag_regexp="yes" />
-                        <exception regexp="yes">auto|min|self|(some|any)(thing|body|one)|nothing|no|yes</exception>
-                        <exception regexp="yes">wont|aint?|beings|wort|sill|firsts|ads|concords</exception><!-- misspelled verbs -->
+                        <exception postag="RB.*|VB.*|CC|IN|NNP|UH" postag_regexp="yes" />
+                        <exception regexp="yes">auto|min|self|re|inter|un|(some|any)(thing|body|one)|nothing|no|yes</exception>
+                        <exception regexp="yes">cold|cant|wont|aint?|beings|wort|sill|firsts|ads|concords|losses|drys</exception><!-- misspelled verbs -->
                     </token>
                     <token postag="VB.*|MD|PCT" postag_regexp="yes">
                         <exception>wise</exception>
@@ -11292,10 +11309,13 @@ USA
                 <example correction="its">Is it implemented as a method with closure as <marker>it</marker> input?</example>
                 <example correction="Its"><marker>It</marker> alpha decays to the extremely long-lived (in practice, stable) bismuth-209.</example>
                 <example correction="its">The airport is served by the metro, the suburban rail, buses to Piraeus port, Athens' city centre and <marker>it</marker> suburbs, and also taxis.</example>
+                <example correction="its">They were asking if <marker>it</marker> item was black.</example>
                 <example>The legislation specifies that no contract may be entered into later than February 15, 2001 and <marker>it</marker> sunsets on that date.</example>
                 <example>Maybe they’ll have a fix for it by then.</example>
                 <example>The largest region of Alaska, much of it uninhabited wilderness.</example>
                 <example>Abano.it Touristic informations web site.</example>
+                <example> I can’t set a specific alert for it by default.</example>
+                <example>The data is named in a way that makes the search for it impossible.</example>
                 <example>I think I’ll go back to the Samsung sensor but I don’t like the one and done concept for it if water gets too deep.</example>
                 <example>If it something else, change it to this one.</example><!-- different error -->
                 <example>It auto plays.</example><!-- different error -->
@@ -11309,6 +11329,7 @@ USA
                 <example>That respect will equate to more waves for you in the future because of your go for it attitude.</example>
                 <example>I really don’t have a need for it atm…</example>
                 <example>Tom will pay for it one day.</example>
+                <example>He is trying to get that moisture before it drys out.</example><!-- different error -->
                 <example>I do realize it’s probably more technical than that but that’s what I got out of it haha!</example>
                 <example>Zookeeper Application Agent Monitoring - Not sure if it success.</example><!-- different error -->
                 <example>It similar question with cpu.</example><!-- different error -->
@@ -11317,7 +11338,31 @@ USA
                 <example>It makes an LED flash and I’ve messed with it ad nauseum, but still haven’t figured out if that means it is trying to pair as a zigbee device, or trying to connect over wifi/WPS, or what.</example>
                 <example>I had to unpair it and re-pair it and it work…</example><!-- different error -->
                 <example>It uses a Z-UNO, a DS18B20 Sensor and that’s about it hardware wise.</example>
-                <example>TODO: He has concerns on <marker>it</marker> movement.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="IN" />
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes" postag="PRP">[Ii]t</token>
+                    </marker>
+                    <token postag="NNS?|NN:.*" postag_regexp="yes">
+                        <exception postag="RB.*|VB.*|CC|IN|NNP|UH|JJ.*" postag_regexp="yes" />
+                        <exception regexp="yes">cold|cant|wont|aint?|wort|sill|self</exception><!-- different error -->
+                        <exception regexp="yes">everyone|tonight|no</exception>
+                        <exception regexp="yes">&adverb_abbreviations;</exception>
+                    </token>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
+                </pattern>
+                <message>It seems that the possessive pronoun <suggestion>its</suggestion> fits better in this context. Please verify.</message>
+                <example correction="its">He has concerns on <marker>it</marker> movement.</example>
+                <example correction="its">How about <marker>it</marker> community?</example>
+                <example correction="its">It will be able to accomodate ANY type of organization for each of <marker>it</marker> quadrants.</example>
+                <example>I intend to listen to it tonight.</example>
+                <example>I understand that how soon we start working on it depends on the list of IT priorities.</example>
+                <example>This would seem like a waste without it no?</example>
+                <example>This would seem like a waste without it right?</example>
+                <example>I really don’t have a need for it atm…</example>
+                <example>The data is named in a way that makes the search for it impossible.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRP_JJ" name="He scary (He is scary)">
@@ -14296,6 +14341,7 @@ USA
             <example>We parents sometimes become blind.</example>
             <example>You kids must be hungry.</example>
             <example>You guys wait here.</example>
+            <example>I ain't got any help.</example>
         </rule>
 
         <rule id="TWO_CONNECTED_MODAL_VERBS" name="Two modal verbs in a row (could should)">
@@ -25205,6 +25251,10 @@ USA
             <token>t</token>
             <token regexp="yes">It?|you|s?he|we|they</token>
           </antipattern>
+          <antipattern>
+            <token inflected="yes">be</token>
+            <token regexp="yes">It?|you|s?he|we|they</token>
+          </antipattern>
           <antipattern><!-- t(he) -->
             <token>(</token>
             <token spacebefore="no">t</token>
@@ -25411,6 +25461,7 @@ USA
           <example>And name it something like ...</example>
           <example>I can offer you Lifetime Warranty.</example>
           <example>As I Lay Dying.</example><!-- #2770 -->
+          <example>Are we army officers?</example>
         </rule>
 
         <rulegroup id="TO_NON_BASE" name="'to' + non-base form">
@@ -29219,6 +29270,7 @@ USA
                 </pattern>
                 <message>The pronoun '<match no="1"/>' must be used with a non-third-person form of a verb: <suggestion><match no="2" postag="VB"/>n<match no="3"/><match no="4"/></suggestion></message>
                 <example correction="don't">You <marker>doesn't</marker> work hard enough.</example>
+                <example>You can't do that because you ain't me.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
@@ -29647,6 +29699,17 @@ USA
             <message>Did you mean <suggestion>does</suggestion> (= verb)?</message>
             <url>https://www.merriam-webster.com/dictionary/do</url>
             <example correction="does">He <marker>dos</marker> not want to go home.</example>
+        </rule>
+        <rule id="PRP_DRYS" name="it drys (dries)" default="temp_off">
+            <pattern>
+                <token regexp="yes">it|s?he|this|that</token>
+                <token postag="RB" min="0" />
+                <marker>
+                    <token>drys</token>
+                </marker>
+            </pattern>
+            <message>The word "\3" is a plural noun. Did you mean the singular simple present verb <suggestion>dries</suggestion>?</message>
+            <example correction="dries">We need to do it before it <marker>drys</marker> out.</example>
         </rule>
         <rulegroup id="YOUR_RE" name="Your're (you're)">
             <rule>
