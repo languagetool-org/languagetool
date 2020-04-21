@@ -473,20 +473,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
-        <rule id="CONTRACCIONES" name="contracciones: del, al" default="temp_off">
+        <rulegroup id="CONTRACCIONES" name="contracciones: del, al" default="on">
+            <!-- It must be coherent with rule EL_TILDE-->
             <antipattern>
                 <token>el</token>
                 <token regexp="yes" case_sensitive="yes">Cairo|Salvador|Escorial|Ejido|Corte</token>
             </antipattern>
-            <pattern>
-                <token regexp="yes">de|a</token>
-                <token case_sensitive="yes">el</token>
-            </pattern>
-            <message>Contracción</message>
-            <suggestion>\1l</suggestion>
-            <example correction="del">La casa <marker>de el</marker> lago</example>
-            <example>De El Mundo o de El País.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">de|a<exception postag="_possible_NP"/></token>
+                        <token case_sensitive="yes">el</token>
+                    </marker>
+                    <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV|_QM_OPEN"/>
+                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
+                </pattern>
+                <message>Contracción</message>
+                <suggestion>\1l</suggestion>
+                <example correction="del">La casa <marker>de el</marker> lago</example>
+                <example>De El Mundo o de El País.</example>
+                <example>G es la constante y A el área.</example>
+                <example reason="triggers another rule">Nada más de el.</example>
+                <example reason="triggers another rule">Pues de el se hicieron dos copias.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">de|a<exception postag="_possible_NP"/></token>
+                        <token case_sensitive="yes">el</token>
+                    </marker>
+                    <token postag="P[TR].*|CS|Y|PI.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Contracción</message>
+                <suggestion>\1l</suggestion>
+                <example correction="al">Ve <marker>a el</marker> que más te guste</example>
+                <example correction="del">autor <marker>de el</marker> cual no se sabe nada</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ARTICULO_EN_TOPONIMOS" name="del Cario > de El Cairo" default="on">
             <url>https://www.fundeu.es/recomendacion/el-cairo-no-cairo-830/</url>
             <rule>
@@ -607,6 +630,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1\3</suggestion>
                 <example correction="radiotelegrafía"><marker>radio-telegrafía</marker></example>
                 <example>Radio Televisión de Castilla.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">salva|salvo</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">conductos?</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>salvo\3</suggestion>
+                <example correction="salvoconducto">El <marker>salva conducto</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -1439,7 +1472,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>esta</token>
                     </marker>
-                    <token regexp="yes">en|con|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno</token>
+                    <token regexp="yes">bien|mal|en|con|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno</token>
                 </pattern>
                 <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
                 <example correction="está">El niño <marker>esta</marker> en la guardería.</example>
@@ -1555,6 +1588,88 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Estás">¿<marker>Estas</marker> haciéndolo?</example>
                 <example>Ejemplos de estas cantando.</example>
                 <example>Algunas como estas corriendo.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ESTE_TILDE" name="*este/esté" default="temp_off">
+            <antipattern>
+                <token postag="SPS00"/>
+                <token>este</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.[SIGN].*|V.P..SF" postag_regexp="yes"/>
+                <token>esta</token>
+            </antipattern>
+            <rule>
+                <!-- esté + participio-->
+                <pattern>
+                    <token postag="PR.*" postag_regexp="yes" skip="3"/>
+                    <marker>
+                        <token>este</token>
+                    </marker>
+                    <token min="0" postag="RG"/>
+                    <token postag="V.P..S[FM]" postag_regexp="yes"><exception postag="NCMS000"/></token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
+                <example correction="esté">Que <marker>este</marker> cansado.</example>
+                <example correction="esté">Cuando <marker>este</marker> muy cansado.</example>
+                <example correction="esté">Cuando <marker>este</marker> agotado.</example>
+                <example>Este diario es antiguo.</example>
+            </rule>
+            <rule>
+                <!--esté + gerundio-->
+                <pattern>
+                    <token postag="PR.*" postag_regexp="yes" skip="3"/>
+                    <marker>
+                        <token>este</token>
+                    </marker>
+                    <token min="0" postag="RG"/>
+                    <token postag="V.G.*" postag_regexp="yes"><exception postag="NCFS000"/></token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
+                <example correction="esté">cuando <marker>este</marker> cantando.</example>
+            </rule>
+            <rule>
+                <!--esté + preposición, adverbio-->
+                <antipattern>
+                    <token>en</token>
+                    <token>realidad</token>
+                </antipattern>
+                <pattern>
+                    <token postag="PR.*" postag_regexp="yes" skip="3"/>
+                    <marker>
+                        <token>este</token>
+                    </marker>
+                    <token regexp="yes">bien|mal|en|con|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno</token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
+                <example correction="esté">Cuando el niño <marker>este</marker> en la guardería.</example>
+                <example correction="esté">Que <marker>este</marker> en la guardería.</example>
+            </rule>
+            <rule>
+                <!-- esté + adjetivo-->
+                <antipattern>
+                    <token>este</token>
+                    <token postag="A...S.|V.P..SM" postag_regexp="yes"/>
+                    <token postag="NCMS000"/>
+                </antipattern>
+                <antipattern>
+                    <token>este</token>
+                    <token max="3" min="1" postag="A..[MC][SN].|V.P..SM|NCMS.*|CC" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="PR.*" postag_regexp="yes" skip="3"/>
+                    <marker>
+                        <token>este</token>
+                    </marker>
+                    <token min="0" postag="RG"/>
+                    <token postag="A...S." postag_regexp="yes"><exception postag="NCMS000|AO0MS0" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
+                <example correction="esté">Cuando <marker>este</marker> disponible.</example>
+                <example correction="esté">Que <marker>este</marker> muy bonito.</example>
+                <example correction="esté">que <marker>este</marker> preciosa.</example>
+                <example correction="esté">Cuando tu cuenta <marker>este</marker> vacía.</example>
             </rule>
         </rulegroup>
         <rulegroup id="VERBO_TILDE" name="Verbos con o sin tilde">
@@ -2691,6 +2806,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>todo</token>
                 <token postag="NPFSG00" regexp="yes">.*a</token>
             </antipattern>
+            <antipattern>
+                <token>esta</token>
+                <!-- está-->
+                <token>bien</token>
+            </antipattern>
+            <antipattern>
+                <token>mas</token>
+            </antipattern>
+            <!--exceptions with other suggestions-->
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">el|al|del|río</token>
+                        <token case_sensitive="yes">amazonas</token>
+                    </marker>
+                </pattern>
+                <message>Si es nombre propio, se escribe con mayúscula inicial.</message>
+                <suggestion>\1 Amazonas</suggestion>
+                <example correction="el Amazonas">En <marker>el amazonas</marker></example>
+            </rule>
+            <!-- end of exceptions -->
             <rule>
                 <antipattern>
                     <token>cada</token>
@@ -2750,8 +2886,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Te mandaré otra hoy.</example>
                 <example>Esos solo existen en tu imaginación.</example>
                 <example>Usted es nuestra huésped de la semana.</example>
+                <example>Salir de esta vivos.</example>
                 <!-- <example>no esta claro</example> better: other rule-->
-
+                <!--TODO: la muela esa cariño-->
             </rule>
             <rule>
                 <pattern>
