@@ -76,6 +76,8 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;   // "uh uh"
     } else if (wordRepetitionOf("paw", tokens, position)) {
       return true;   // "paw paw"
+    } else if (wordRepetitionOf("yum", tokens, position)) {
+      return true;   // "yum yum"
     } else if (wordRepetitionOf("wop", tokens, position)) {
       return true;   // "wop wop"
     } else if (wordRepetitionOf("woop", tokens, position)) {
