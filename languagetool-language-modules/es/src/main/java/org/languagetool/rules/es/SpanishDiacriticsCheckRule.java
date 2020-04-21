@@ -89,6 +89,7 @@ public class SpanishDiacriticsCheckRule extends Rule {
   public SpanishDiacriticsCheckRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
+    this.setDefaultTempOff();
   }
 
   @Override
@@ -98,7 +99,7 @@ public class SpanishDiacriticsCheckRule extends Rule {
 
   @Override
   public String getDescription() {
-    return "Comprueba si la palabra debe llevar acento gráfico.";
+    return "Comprueba si la palabra debe llevar tilde.";
   }
 
   @Override

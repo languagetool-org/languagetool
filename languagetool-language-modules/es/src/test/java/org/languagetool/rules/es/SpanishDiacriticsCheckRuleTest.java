@@ -57,7 +57,8 @@ public class SpanishDiacriticsCheckRuleTest {
     assertCorrect("Ya no decimos post-Lomé");
     assertCorrect("que nadie interprete mal los votos");
     assertCorrect("Cuando anuncio una votación especifico de cuál se trata");
-    //assertCorrect("qué clase de política practica la Unión Europea");
+    assertCorrect("qué clase de política practica la Unión Europea");
+    assertCorrect("El proyecto de informe critica el hecho");
     assertCorrect("Ella practica política de consumidores.");
     assertCorrect("y participe activa y directamente");
     assertCorrect("que nadie participe de ellos");
