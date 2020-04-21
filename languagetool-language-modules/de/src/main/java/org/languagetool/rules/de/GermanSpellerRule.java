@@ -122,6 +122,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("überhaut", "überhaupt");
     put("nacher", "nachher");
     put("jeztz", "jetzt");
+    put("les", "lese");
     put("[wW]ah?rscheindlichkeit", "Wahrscheinlichkeit");
     put("Hijab", "Hidschāb");
     put("[lL]eerequiment", "Leerequipment");
