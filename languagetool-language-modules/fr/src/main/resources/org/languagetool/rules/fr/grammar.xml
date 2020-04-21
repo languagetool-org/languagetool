@@ -8079,8 +8079,16 @@ though, and has since been slightly modified)-->
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
       <!-- Additions from the premium version -->
+      <rule id="TES_MA" name="Tes ma" default="temp_off">
+          <pattern>
+              <token>tes</token>
+              <token>ma</token>
+          </pattern>
+          <message>Les mots « \1 \2 » ne peuvent pas se suivre. Vouliez-vous dire <suggestion>t'es ma</suggestion> ?</message>
+          <example correction="T'es ma"><marker>Tes ma</marker> meilleure amie.</example>
+      </rule>
       <rulegroup id="LIVRER_A_SOI_MEME" name="Livré à soi-même">
-          <rule name="Livré à lui-même">
+          <rule name="Livré à lui-même" default="temp_off">
               <pattern>
                   <marker>
                       <token>livrer</token>
@@ -8091,7 +8099,7 @@ though, and has since been slightly modified)-->
               <message>Vouliez-vous dire <suggestion>livré</suggestion> ?</message>
               <example correction="livré">Ils l'ont laissé <marker>livrer</marker> à lui-même.</example>
           </rule>
-          <rule name="Livré à elle-même">
+          <rule name="Livré à elle-même" default="temp_off">
               <pattern>
                   <marker>
                       <token>livrer</token>
@@ -8102,7 +8110,7 @@ though, and has since been slightly modified)-->
               <message>Vouliez-vous dire <suggestion>livrée</suggestion> ?</message>
               <example correction="livrée">Ils l'ont laissée <marker>livrer</marker> à elle-même.</example>
           </rule>
-          <rule name="Livrés à eux-même">
+          <rule name="Livrés à eux-même" default="temp_off">
               <antipattern>
                   <token>à</token>
                   <token>livrer</token>
@@ -8117,7 +8125,7 @@ though, and has since been slightly modified)-->
               <message>Vouliez-vous dire <suggestion>livrés</suggestion> ?</message>
               <example correction="livrés">Ils les ont laissés <marker>livrer</marker> à eux-mêmes.</example>
           </rule>
-          <rule name="Livré à elles-même">
+          <rule name="Livré à elles-même" default="temp_off">
               <pattern>
                   <marker>
                       <token>livrer</token>
@@ -9392,6 +9400,13 @@ though, and has since been slightly modified)-->
             <token postag="N .*" postag_regexp="yes"/>
             <token postag="J [fe] [sp]" postag_regexp="yes"/>
         </antipattern>
+          <antipattern>
+              <token postag="N m [sp]" postag_regexp="yes"/>
+              <token>et</token>
+              <token postag="D f [sp]" postag_regexp="yes"/>
+              <token postag="N f [sp]" postag_regexp="yes"/>
+              <token postag="(J|V ppa) m .*" postag_regexp="yes"/>
+          </antipattern>
         <antipattern>
           <token>orge</token>
           <token regexp="yes">perlé|mondé</token>
@@ -9463,6 +9478,7 @@ though, and has since been slightly modified)-->
         <example>Une documentation utilisateur.</example>
         <example>Code promo offert pour tous les entrants.</example>
         <example>Elle s’habitue à la <marker>situation petit</marker> à petit.</example>
+        <example>Je trouve le rythme et la mélodie combinés avec des rimes très beaux dans cette chanson.</example>
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_CENTAINE_DE" name="centaine de">
@@ -17502,8 +17518,52 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_ANGLICISMES" name="Anglicismes (calques, emprunts directs, etc.)" type="style">
+      <rule id="TEMPLATE_ANGLICISME" name="Anglicisme : template" default="temp_off">
+          <pattern>
+              <token regexp="yes">templates?</token>
+          </pattern>
+          <message>« \1 » est un anglicisme. Vouliez-vous dire <suggestion><match no="1" regexp_match="template(s)?" regexp_replace="modèle$1"/></suggestion> (informatique, documents), <suggestion><match no="1" regexp_match="template(s)?" regexp_replace="patron$1"/></suggestion> (artisanat, art décoratif) ?</message>
+          <example correction="modèles|patrons">Ici, utilisez plutôt ces <marker>templates</marker>.</example>
+      </rule>
+      <rule id="ONLINE_ANGLICISME" name="Anglicisme : online" default="temp_off">
+          <pattern>
+              <token>online</token>
+          </pattern>
+          <message>« \1 » est un anglicisme. Vouliez-vous dire <suggestion>en ligne</suggestion> ?</message>
+          <example correction="en ligne">Je l'ai pourtant vu <marker>online</marker> pas plus tard qu'hier.</example>
+      </rule>
+      <rule id="WEBINAR_ANGLICISME" name="Anglicisme : webinar" default="temp_off">
+          <pattern>
+              <token regexp="yes">webinars?</token>
+          </pattern>
+          <message>« \1 » est un anglicisme. Vouliez-vous dire <suggestion><match no="1" regexp_match="webinar(s)?" regexp_replace="webinaire$1"/></suggestion>, ou <suggestion><match no="1" regexp_match="webinar(s)?" regexp_replace="séminaire$1"/> web</suggestion> ?</message>
+          <example correction="webinaire|séminaire web">Nous avons essayé de passer au format de <marker>webinar</marker> pour notre companie.</example>
+      </rule>
+      <rule id="SLIDER_ANGLICISME" name="Anglicisme : slider" default="temp_off">
+          <pattern>
+              <token regexp="yes" case_sensitive="yes">sliders?</token>
+          </pattern>
+          <message>« \1 » est un anglicisme. Vouliez-vous dire <suggestion><match no="1" regexp_match="slider(s)?" regexp_replace="curseur$1"/></suggestion> ?</message>
+          <example correction="curseur">Déplacez le <marker>slider</marker> tout à gauche.</example>
+      </rule>
+      <rule id="SLIDE_ANGLICISME" name="Anglicisme : slide" default="temp_off">
+          <antipattern>
+              <token>Charleston</token>
+              <token>slide</token>
+          </antipattern>
+          <antipattern>
+              <token>guitar</token>
+              <token>slide</token>
+          </antipattern>
+          <pattern>
+              <token regexp="yes" case_sensitive="yes">slides?</token>
+          </pattern>
+          <message>« \1 » est un anglicisme. Vouliez-vous dire <suggestion><match no="1" regexp_match="slide(s)?" regexp_replace="diapositive$1"/></suggestion> (informatique) ou <suggestion><match no="1" regexp_match="slide(s)?" regexp_replace="glisser"/></suggestion> (général) ?</message>
+          <example correction="diapositive|glisser">Passez à la <marker>slide</marker> suivante s'il vous plaît.</example>
+          <example correction="diapositive|glisser">On pose le PDG et PGF en arrière en fait glisser (<marker>slide</marker>) l'autre pied</example>
+      </rule>
       <rulegroup id="BYTES" name="Anglicisme byte/octet">
-          <rule name="poil">
+          <rule name="byte sans espace">
               <pattern>
                   <token regexp="yes">\d+[TGMKtgmk]B</token>
               </pattern>
@@ -17511,7 +17571,7 @@ though, and has since been slightly modified)-->
               <suggestion><match no="1" regexp_match="(\d+)([TGMKtgmk])B" regexp_replace="$1 $2o" case_conversion="startupper"/></suggestion>
               <example correction="41 Mo">Ce fichier pèse <marker>41MB</marker>.</example>
           </rule>
-          <rule name="bite">
+          <rule name="byte avec espace">
               <pattern>
                   <token regexp="yes">\d+</token>
                   <token regexp="yes">[TGMKtgmk]B</token>
