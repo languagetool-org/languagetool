@@ -2127,7 +2127,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>risa</token>
             </pattern>
             <message>El verbo adecuado es «desternillar».</message>
-            <suggestion><match no="1" postag="(.*)" postag_replace="$1">desternillar</match></suggestion>
+            <suggestion><match no="1" postag="(V.*)" postag_replace="$1">desternillar</match></suggestion>
             <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_015.htm</url>
             <example correction="desternilló">Con ese chiste, se <marker>destornilló</marker> de risa.</example>
             <example>Casi te desternillas de risa el otro día.</example>
@@ -2396,11 +2396,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>En este contexto, el verbo va seguido normalmente de la preposición 'de'.</message>
                 <suggestion>de que</suggestion>
                 <example correction="de que">Está bien alegrarse <marker>que</marker> haya dinero para todos.</example>
-                <example>No pareces <marker>enterarte de que</marker> todo está resuelto.</example>
+                <example>No pareces enterarte de que todo está resuelto.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes">dar</token>
+                    <token inflected="yes" postag=".*\+P.*" postag_regexp="yes">dar</token>
                     <token>cuenta</token>
                     <marker>
                         <token>que</token>
@@ -2412,10 +2412,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">se|te|me|nos|os</token>
-                    <!--pronombre reflexivo-->
-                    <token inflected="yes" min="0">haber</token>
-                    <token inflected="yes">dar</token>
+                    <and>
+                        <token inflected="yes">dar</token>
+                        <token postag="_reflexive"/>
+                    </and>
                     <token>cuenta</token>
                     <marker>
                         <token>que</token>
@@ -2425,6 +2425,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>de que</suggestion>
                 <example correction="de que">Se dio cuenta <marker>que</marker> no había dinero para todos.</example>
                 <example correction="de que">No se daba cuenta <marker>que</marker> no había dinero para todos.</example>
+                <example correction="de que">No se va a dar cuenta <marker>que</marker> no había dinero para todos.</example>
+                <example correction="de que">No te vas a dar cuenta <marker>que</marker> no había dinero para todos.</example>
                 <example correction="de que">Se ha dado cuenta <marker>que</marker> no había dinero para todos.</example>
             </rule>
             <rule>
@@ -2442,9 +2444,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">se|te|me|nos|os</token>
-                    <token min="0" postag="VA.*" postag_regexp="yes"/>
-                    <token inflected="yes" regexp="yes">alegrar|sorprender|entristecer|agobiar|emocionar|aburrir|preocupar<exception postag="VM..3.." postag_regexp="yes"/></token>
+                    <and>
+                        <token inflected="yes" regexp="yes">alegrar|sorprender|entristecer|agobiar|emocionar|aburrir|preocupar|enterar<exception postag="VM..3.." postag_regexp="yes"/></token>
+                        <token postag="_reflexive"/>
+                    </and>
                     <marker>
                         <token>que</token>
                     </marker>
@@ -2453,7 +2456,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>de que</suggestion>
                 <example correction="de que">Nos alegramos <marker>que</marker> haya comida para todos</example>
                 <example correction="de que">Nos hemos alegrado <marker>que</marker> haya comida para todos</example>
-                <example>Fue cuando <marker>os enterasteis de que</marker> se acabó la temporada.</example>
+                <example correction="de que">Fue cuando os enterasteis <marker>que</marker> se acabó la temporada.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DEQUEISMO" name="dequeísmo" type="grammar" default="temp_off">
@@ -2470,7 +2473,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible dequeísmo.</message>
                 <suggestion>que</suggestion>
                 <example correction="que">Pienso <marker>de que</marker> estamos mejorando mucho.</example>
-                <example>Creemos <marker>que</marker> podemos mejorar más.</example>
+                <example>Creemos que podemos mejorar más.</example>
+                <example>Son las razones de que nos guste.</example>
             </rule>
             <rule>
                 <pattern>
