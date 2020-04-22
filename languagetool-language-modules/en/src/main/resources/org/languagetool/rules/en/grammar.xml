@@ -4601,7 +4601,7 @@ USA
             <rule default="temp_off">
                 <antipattern>
                     <token>its</token>
-                    <token regexp="yes">right|welcome</token>
+                    <token regexp="yes" skip="1">right|welcome</token>
                     <token postag="IN" />
                 </antipattern>
                 <antipattern>
@@ -4618,13 +4618,14 @@ USA
                     </marker>
                     <token regexp="yes" min="0">all|both|being|feeling|doing|going|keeping|managing|recovering</token>
                     <token regexp="yes" min="0" max="2">just|not|very|really|even|totally|absolutely|too|more</token>
-                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|alone|amazing|beautiful|pretty|attractive|handsome|awesome|nice|(im)?possible|(un)?able|clear|helpful|important|time|nicer|best|similar|difficult|small|big|large|little|active|bad|wonderful|simple|easy|early|available|dangerous|enough|alright|sure|sexy|alone</token>
+                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|alone|amazing|beautiful|pretty|attractive|handsome|awesome|nice|(im)?possible|(un)?able|clear|helpful|important|time|nicer|best|similar|difficult|small|big|large|little|active|bad|wonderful|simple|easy|early|available|dangerous|enough|alright|sure|sexy|alone|nothing|free|cheap|expensive|annoying</token>
                     <token min="0" regexp="yes">now|soon|together|tonight|today|yesterday|tomorrow</token>
                     <token regexp="yes">\p{P}|of|at|for|in|to|because|with|about</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (= it is)?</message>
                 <example correction="it's">I hope <marker>its</marker> great.</example>
                 <example correction="it's">This is my first post so I hope <marker>it</marker> helpful.</example>
+                <example correction="it's">I think <marker>its</marker> nothing to worry about.</example>
             </rule>
         </rulegroup>
         <rule id="CC_IT_VBG" name="'it' vs. 'its' after 'and'">
@@ -7644,8 +7645,8 @@ USA
             </rule>
             <rule default="temp_off">
                 <antipattern>
-                    <token regexp="yes">your?</token>
-                    <token>right</token>
+                    <token>your</token>
+                    <token regexp="yes" skip="1">right|welcome</token>
                     <token postag="IN" />
                 </antipattern>
                 <antipattern>
@@ -7662,7 +7663,7 @@ USA
                     </marker>
                     <token regexp="yes" min="0">all|both|being|feeling|doing|keeping|managing|recovering</token>
                     <token regexp="yes" min="0" max="2">just|not|very|really|even|totally|absolutely|too|more</token>
-                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|amazing|beautiful|pretty|attractive|handsome|awesome|nice|bad|wonderful|active|available|dangerous|enough|alright|sure|sexy|alone</token>
+                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|amazing|beautiful|pretty|attractive|handsome|awesome|nice|bad|wonderful|active|available|dangerous|enough|alright|sure|sexy|alone|nothing|free|cheap|expensive|annoying</token>
                     <token min="0" regexp="yes">now|soon|together|tonight|today|yesterday|tomorrow</token>
                     <token regexp="yes">\p{P}|of|at|for|in|to|because|with|about</token>
                 </pattern>
@@ -7670,6 +7671,7 @@ USA
                 <example correction="you're">I hope <marker>your</marker> happy.</example>
                 <example correction="you're">I hope <marker>your</marker> doing better now.</example>
                 <example correction="you're">And I think <marker>your</marker> right!</example>
+                <example>I think your right now to go anywhere is very valuable.</example>
             </rule>
             <rule>
                 <pattern>
@@ -44486,7 +44488,7 @@ The accident victim died from her injuries.
             <rule default="temp_off">
                 <antipattern>
                     <token>their</token>
-                    <token regexp="yes">right|welcome</token>
+                    <token regexp="yes" skip="1">right|welcome</token>
                     <token postag="IN" />
                 </antipattern>
                 <antipattern>
@@ -44503,7 +44505,7 @@ The accident victim died from her injuries.
                     </marker>
                     <token regexp="yes" min="0">all|both|being|feeling|doing|going|keeping|managing|recovering</token>
                     <token regexp="yes" min="0" max="2">just|not|very|really|even|totally|absolutely|too|more</token>
-                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|alone|amazing|beautiful|pretty|attractive|handsome|awesome|nice|(im)?possible|(un)?able|clear|helpful|important|time|nicer|best|similar|difficult|small|big|large|little|active|bad|wonderful|simple|easy|early|available|dangerous|enough|alright|sure|sexy|alone</token>
+                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|alone|amazing|beautiful|pretty|attractive|handsome|awesome|nice|(im)?possible|(un)?able|clear|helpful|important|time|nicer|best|similar|difficult|small|big|large|little|active|bad|wonderful|simple|easy|early|available|dangerous|enough|alright|sure|sexy|alone|nothing|free|cheap|expensive|annoying</token>
                     <token min="0" regexp="yes">now|soon|together|tonight|today|yesterday|tomorrow</token>
                     <token regexp="yes">\p{P}|of|at|for|in|to|because|with|about</token>
                 </pattern>
