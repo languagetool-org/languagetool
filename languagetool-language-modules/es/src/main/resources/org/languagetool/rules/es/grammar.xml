@@ -3877,7 +3877,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!--TODO: idem with ", pues"-->
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
-        <rulegroup id="PUNTO_EN_ABREVIATURAS" name="Punto en abreviaturas: pág., núm., etc." default="on">
+        <rulegroup id="PUNTO_EN_ABREVIATURAS" name="Punto en abreviaturas: pág., núm., etc." default="temp_off">
             <antipattern>
                 <token/>
                 <token spacebefore="no" regexp="yes">\.|…</token>
@@ -3911,6 +3911,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Delantero del Valencia.</example>
             </rule>
         </rulegroup>
+        <rule id="P_EJ" name="Puntuación en: p. ej." default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[Pp]</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="yes">ej</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
+            <pattern>
+                <token>p</token>
+                <token min="0">.</token>
+                <token regexp="yes">ej?</token>
+                <token>.</token>
+            </pattern>
+            <message>Abreviatura de 'por ejemplo'</message>
+            <suggestion>p. ej.</suggestion>
+            <example correction="P. ej."><marker>P .ej.</marker> el campo.</example>
+            <example correction="P. ej."><marker>P.ej.</marker> el campo.</example>
+            <example correction="P. ej."><marker>P .ej .</marker> el campo.</example>
+            <example correction="P. ej."><marker>P ej .</marker> el campo.</example>
+            <example correction="p. ej.">(<marker>p .ej.</marker> el campo).</example>
+            <example correction="p. ej.">(<marker>p .e.</marker> el campo).</example>
+            <example>P. ej. el campo.</example>
+        </rule>
         <rule id="SPACE_UNITIES" name="espacio en unidadess">
             <antipattern>
                 <marker>
