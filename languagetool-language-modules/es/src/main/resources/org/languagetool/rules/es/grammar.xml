@@ -3876,6 +3876,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!--TODO: idem with ", pues"-->
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
+        <rule id="PUNTO_EN_ABREVIATURAS" name="Punto en abreviaturas: pág., núm., etc." default="temp_off">
+            <antipattern>
+                <token/>
+                <token spacebefore="no" regexp="yes">\.|…</token>
+            </antipattern>
+            <pattern case_sensitive="no">
+                <marker>
+                    <token regexp="yes" postag="UNKNOWN">(Abg|acept|adm|admón|afma|afmo|Alfz|Almte|ap|apdo|aprox|Arq|art|Arz|atta|atte|atto|av|avd|avda|Barna|Bco|Bibl|Bma|Bmo|Bo|Brig|Bta|Bto|caj|cap|Cdad|cent|cf|cfr|cgo|cje|cl|Cmdt|Cmte|Cnel|col|Comod|Comp|Comte|Contralmte|coord|cp|crec|cta|Cte|cts|ctv|ctvo|cént|Cía|cód|cónf|cónfr|dcha|dcho|depto|diag|dicc|doc|dpto|dto|dupdo|ed|edit|edo|ef|ej|Emmo|entlo|etc|excl|Excma|Excmo|fasc|fca|Fdo|fig|fol|Fr|fra|féc|Gdor|Gdora|Gob|Gral|Hna|Hno|ib|ibíd|Il|Ilma|Ilmo|Iltre|imp|impr|impto|incl|Ing|Inst|izda|izdo|izq|izqda|izqdo|Jhs|Lcda|Lcdo|Lda|Ldo|Lic|Ltd|Ltda|Ltdo|Magfca|Magfco|Mons|mr|ms|máx|mín|nro|núm|Ob|Pat|Pbro|pdo|Pdta|Pdte|pg|pl|plza|Pnt|ppal|pral|Presb|Prof|prov|pról|pza|pág|párr|Rda|Rdo|reg|Rep|Rev|Rte|Rvd|Rvda|Rvdma|Rvdmo|Rvdo|Sdad|Sgto|sig|Soc|Sr|Sra|Srta|Sta|Sto|tel|teléf|tfno|trad|Tte|tít|Ud|Uds|Univ|Valmte|Vd|Vda|Vdo|Vds|vid|vol|vs|vta|vto|Xto|íd)<exception regexp="yes">(?-i)dC|DJ|CF|AP|CT|AG|GR|CPT|DG|DOC</exception></token>
+                </marker>
+            </pattern>
+            <message>Probablemente falta un punto después de la abreviatura.</message>
+            <suggestion><match no="1"/>.</suggestion>
+            <example correction="núm.">Vive en el <marker>núm</marker> 25 de la calle.</example>
+            <example>La vid del campo.</example>
+            <example>Fue en el año 453 dC, ¿verdad?</example>
+            <example>En la AP-7.</example>
+            <example>El DJ pinchó toda la noche.</example>
+            <example>Jugava en el Valencia CF el año pasado.</example>
+            <example>DG de Servicios Sociales.</example>
+            <example>Delantero del Valencia.</example>
+        </rule>
         <rule id="SPACE_UNITIES" name="espacio en unidadess">
             <antipattern>
                 <marker>
