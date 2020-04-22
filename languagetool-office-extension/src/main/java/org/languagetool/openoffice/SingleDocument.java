@@ -862,6 +862,9 @@ class SingleDocument {
                 changedParas.add(chPara);
               }
             }
+            if(!changedParas.contains(paraNum)) {
+              changedParas.add(paraNum);
+            }
           } else {
             addChangedParas();
           }
@@ -1394,6 +1397,9 @@ class SingleDocument {
     if(numParasToCheck != 0) {
       List<Integer> changedParas = new ArrayList<>();
       changedParas.add(y);
+      if (docCursor == null) {
+        docCursor = new DocumentCursorTools(xComponent);
+      }
       remarkChangedParagraphs(changedParas, docCursor.getParagraphCursor(), flatPara);
     }
     if (debugMode > 0) {
