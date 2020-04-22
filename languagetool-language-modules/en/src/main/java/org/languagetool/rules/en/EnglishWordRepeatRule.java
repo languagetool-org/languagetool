@@ -64,6 +64,8 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;
     } else if (wordRepetitionOf("s", tokens, position) && position > 1 && tokens[position - 2].getToken().matches("['’`´‘]")) {
       return true; // It's S.T.E.A.M.
+    } else if (wordRepetitionOf("a", tokens, position) && position > 1 && tokens[position - 2].getToken().matches(".")) {
+      return true; // "a.k.a a"
     } else if (tokens[position - 1].getToken().equalsIgnoreCase(word) && (((position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase(word)) || (position > 1 && tokens[position - 2].getToken().equalsIgnoreCase(word)))) {
       // three time word repetition
       return true;
