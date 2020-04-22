@@ -1752,12 +1752,4 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
   }
 
-  /* (non-Javadoc)
-   * @see org.languagetool.rules.spelling.hunspell.HunspellRule#isAcceptedWordFromLanguage(org.languagetool.Language, java.lang.String)
-   */
-  @Override
-  protected boolean isAcceptedWordFromLanguage(Language language, String word) {
-    // probably an abbreviation, e.g. "DOE" -> "Department of Energy"
-    return "en".equals(language.getShortCode()) && StringUtils.isAllUpperCase(word);
-  }
 }

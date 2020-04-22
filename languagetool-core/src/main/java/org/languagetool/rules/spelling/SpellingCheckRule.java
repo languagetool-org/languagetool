@@ -522,31 +522,6 @@ public abstract class SpellingCheckRule extends Rule {
     return spellingRules;
   }
 
-  protected Language acceptedInAlternativeLanguage(String word) throws IOException {
-    if (word.length() <= 2) {
-      // it's strange if single characters are suddenly considered English
-      return null;
-    }
-    for (RuleWithLanguage altRule : altRules) {
-      AnalyzedToken token = new AnalyzedToken(word, null, null);
-      AnalyzedToken sentenceStartToken = new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null);
-      AnalyzedTokenReadings startTokenReadings = new AnalyzedTokenReadings(sentenceStartToken, 0);
-      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(token, 0);
-      RuleMatch[] matches = altRule.getRule().match(new AnalyzedSentence(new AnalyzedTokenReadings[]{startTokenReadings, atr}));
-      if (matches.length == 0) {
-        return altRule.getLanguage();
-      } else {
-        if (word.endsWith(".")) {
-          Language altLanguage = acceptedInAlternativeLanguage(word.substring(0, word.length() - 1));
-          if (altLanguage != null) {
-            return altLanguage;
-          }
-        }
-      }
-    }
-    return null;
-  }
-
   /**
    * Accept (case-sensitively, unless at the start of a sentence) the given phrases even though they
    * are not in the built-in dictionary.

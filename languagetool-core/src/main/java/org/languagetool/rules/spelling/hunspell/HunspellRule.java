@@ -219,18 +219,6 @@ public class HunspellRule extends SpellingCheckRule {
                 suggestions.addAll(additionalSuggestions);
               }
             }
-            Language acceptingLanguage = acceptedInAlternativeLanguage(cleanWord);
-            boolean isSpecialCase = cleanWord.matches(".+-[A-ZÖÄÜ].*");
-            if (acceptingLanguage != null && !isSpecialCase) {
-              if (isAcceptedWordFromLanguage(acceptingLanguage, cleanWord)) {
-                continue;
-              }
-              // e.g. "Der Typ ist in UK echt famous" -> could be German 'famos'
-              ruleMatch = new RuleMatch(this, sentence,
-                len, len + cleanWord.length(),
-                Tools.i18n(messages, "accepted_in_alt_language", cleanWord, messages.getString(acceptingLanguage.getShortCode())));
-              ruleMatch.setType(RuleMatch.Type.Hint);
-            }
             suggestions = filterDupes(filterSuggestions(suggestions, sentence, i));
             // TODO user suggestions
             addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions, null, ruleMatch);
@@ -436,15 +424,4 @@ public class HunspellRule extends SpellingCheckRule {
     }
   }
 
-  /**
-   * Used in combination with <code>acceptedInAlternativeLanguage</code> to surpress spelling
-   * errors for words from a foreign language
-   * @param language
-   * @param word
-   * @return true if the {@code word} from {@code language} can be considered as correctly spelled
-   * @since 4.6
-   */
-  protected boolean isAcceptedWordFromLanguage(Language language, String word) {
-    return false;
-  }
 }

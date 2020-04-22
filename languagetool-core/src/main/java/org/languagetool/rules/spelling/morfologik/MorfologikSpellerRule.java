@@ -411,16 +411,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     }
 
     if (ruleMatch == null) {
-      Language acceptingLanguage = acceptedInAlternativeLanguage(word);
-      if (acceptingLanguage != null) {
-        // e.g. "Der Typ ist in UK echt famous" -> could be German 'famos'
-        ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(),
-                Tools.i18n(messages, "accepted_in_alt_language", word, messages.getString(acceptingLanguage.getShortCode())));
-        ruleMatch.setType(RuleMatch.Type.Hint);
-      } else {
-        ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(), messages.getString("spelling"),
-                messages.getString("desc_spelling_short"));
-      }
+      ruleMatch = new RuleMatch(this, sentence, startPos, startPos + word.length(), messages.getString("spelling"),
+              messages.getString("desc_spelling_short"));
     }
     boolean fullResults = SuggestionsChanges.getInstance() != null &&
       SuggestionsChanges.getInstance().getCurrentExperiment() != null &&
