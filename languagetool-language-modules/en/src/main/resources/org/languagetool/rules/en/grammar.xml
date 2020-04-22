@@ -4366,6 +4366,16 @@ USA
                     <token>bad</token>
                     <token>manners</token>
                 </antipattern>
+                <antipattern><!-- #2234 because it's rich text that ... -->
+                    <token postag="CC"/>
+                    <token>it</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token postag="JJ"/>
+                    <token postag="NN:UN?" postag_regexp="yes"/>
+                    <token min="0">,</token>
+                    <token regexp="yes">that|which|what|who|where</token>
+                </antipattern>
                 <antipattern><!-- #2234 because it's rich text, you -->
                     <token postag="CC"/>
                     <token>it</token>
@@ -4373,8 +4383,8 @@ USA
                     <token>s</token>
                     <token postag="JJ"/>
                     <token postag="NN:UN?" postag_regexp="yes"/>
-                    <token min="0" max="1">,</token>
-                    <token postag="PRP(\$)?" postag_regexp="yes"/>
+                    <token min="0">,</token>
+                    <token postag="PRP(\$)?" postag_regexp="yes" />
                 </antipattern>
                 <antipattern>
                     <token postag="SENT_START|PCT" postag_regexp="yes" />
@@ -4417,6 +4427,7 @@ USA
                 <example>... because it's rich text it shows the...</example><!-- #2234 -->
                 <example>... because it's rich text, your editor will show the...</example><!-- #2234 -->
                 <example>It's official punishment.</example>
+                <example>But only because it's expensive medication that I'm waiting for.</example>
             </rule>
             <rule>
                 <pattern>
@@ -43118,6 +43129,29 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rule id="OFF_OF" name="off vs of" default="temp_off">
+            <antipattern>
+                <token>better</token>
+                <token>of</token>
+                <token>course</token>
+            </antipattern>
+            <antipattern>
+                <token>better</token>
+                <token>of</token>
+                <token regexp="yes">the|an?</token>
+            </antipattern>
+            <pattern>
+                <token inflected="yes">be</token>
+                <token postag="RB" min="0" />
+                <marker>
+                    <token>better</token>
+                    <token>of</token>
+                </marker>
+            </pattern>
+            <message>Did you mean the phrase <suggestion>\3 <match no="4" regexp_match="(?i)f" regexp_replace="ff" /></suggestion> (= in a more advantageous position)?</message>
+            <url>https://www.lexico.com/definition/better_off</url>
+            <example correction="better off">I am quite content and just wish that people who are <marker>better of</marker> than me would realise how lucky they are.</example>
+        </rule>
         <rulegroup id="DO_TO" name="do vs to" default="temp_off">
             <antipattern><!-- smartphone mode -->
                 <token>do</token>
