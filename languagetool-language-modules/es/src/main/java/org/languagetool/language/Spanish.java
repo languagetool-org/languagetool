@@ -177,6 +177,7 @@ public class Spanish extends Language implements AutoCloseable{
       case "ESTA_TILDE": return 30;
       case "ACCENTUATION_CHECK_ES": return 30;
       case "AGREEMENT_DET_NOUN": return 20;
+      case "PUNTO_EN_ABREVIATURAS": return 20;
       case "HALLA_HAYA": return 10;
       case "EL_TILDE": return -10;
     }
