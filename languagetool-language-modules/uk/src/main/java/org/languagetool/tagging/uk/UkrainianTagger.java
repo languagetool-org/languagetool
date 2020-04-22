@@ -57,7 +57,9 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ0-9a-z]\u2013[а-яіїєґ]|[а-яіїєґ]\u2013[0-9]", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern NAPIV_ALLOWED_TAGS_REGEX = Pattern.compile("(noun|ad(j|v(?!p))(?!.*?:comp[cs])).*");
   private static final Pattern NAPIV_REMOVE_TAGS_REGEX = Pattern.compile(":comp.|:&adjp(:(actv|pasv|perf|imperf))*");
+  private static final Pattern COMPOUND_WITH_QUOTES_REGEX = Pattern.compile("-[«\"„]");
 
+  
   private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, conversionLocale);
 //  private BufferedWriter taggedDebugWriter;
 
@@ -103,6 +105,13 @@ public class UkrainianTagger extends BaseTagger {
     }
 
     if ( word.indexOf('-') > 0 ) {
+      
+      // екс-«депутат»
+      if( COMPOUND_WITH_QUOTES_REGEX.matcher(word).find() ) {
+        String adjustedWord = word.replaceAll("[«»\"„“]", "");
+        return getAdjustedAnalyzedTokens(word, adjustedWord, null, null, null);
+      }
+      
       try {
         List<AnalyzedToken> guessedCompoundTags = compoundTagger.guessCompoundTag(word);
         return guessedCompoundTags;

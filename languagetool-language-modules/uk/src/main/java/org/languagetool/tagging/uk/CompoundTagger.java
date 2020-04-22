@@ -145,7 +145,7 @@ class CompoundTagger {
     int firstDashIdx = word.indexOf('-');
     if( firstDashIdx == 0 )
       return null;
-    
+
     boolean startsWithDigit = Character.isDigit(word.charAt(0));
 
     if( ! startsWithDigit && dashIdx != firstDashIdx ) {
@@ -483,30 +483,36 @@ class CompoundTagger {
       if( PosTagHelper.hasPosTag2(rightWdList, INTJ_PATTERN) ) {
         return Arrays.asList(new AnalyzedToken(word, rightWdList.get(0).getPosTag(), lowerWord));
       }
-    } 
-//      Pattern stretch = Pattern.compile("[а-яіїєґ]+([а-яіїєґ])(-$1)+-[а-яіїєґ]+");
-//      Matcher matcher = stretch.matcher(word);
-    // ду-у-у-же
-    if( parts.length >= 3 
-        && (set.size() == 3 || set.size() == 2) 
-        && parts[1].length() == 1 ) {
+    }
 
-      String rightWd = parts[parts.length-1];
-      List<TaggedWord> wdList = tagEitherCase(leftWd+rightWd);
-
-      if( wdList.isEmpty() 
-          && leftWd.charAt(leftWd.length()-1) == rightWd.charAt(0)
-          && rightWd.charAt(0) == parts[1].charAt(0) ) {
-        // ду-у-у-уже
-        wdList = tagEitherCase(leftWd+rightWd.substring(1));
+    // filter out г-г-г
+    if( parts.length >= 3 && set.size() > 1 ) {
+      // ва-ре-ни-ки
+      String merged = word.replace("-", "");
+      List<TaggedWord> tagged = tagEitherCase(merged);
+      if( ! tagged.isEmpty() ) {
+        return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, PosTagHelper.addIfNotContains(tagged, ":coll"));
       }
-      if( ! wdList.isEmpty() ) {
-        return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, PosTagHelper.addIfNotContains(wdList, ":coll"));
+
+      // ду-у-у-же
+      merged = collapseStretch(word);
+      tagged = tagEitherCase(merged);
+      if( ! tagged.isEmpty() ) {
+        return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, PosTagHelper.addIfNotContains(tagged, ":coll"));
       }
     }
 
+    
     return null;
   }
+
+  private static String collapseStretch(String word) {
+    return word.toLowerCase()
+        .replaceAll("([а-іяїєґ])\\1*-\\1+", "$1")
+        .replaceAll("([а-іяїєґ])\\1*-\\1+", "$1")
+        .replace("-", "");
+  }
+
 
   private List<AnalyzedToken> doGuessTwoHyphens(String word, int firstDashIdx, int dashIdx) {
     String[] parts = word.split("-");

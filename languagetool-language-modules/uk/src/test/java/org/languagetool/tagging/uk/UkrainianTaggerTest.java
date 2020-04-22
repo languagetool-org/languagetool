@@ -294,12 +294,19 @@ public class UkrainianTaggerTest {
   }
 
   @Test
+  public void testHypenAndQuote() throws IOException {
+    TestTools.myAssert("екс-«депутат»", "екс-«депутат»/[екс-депутат]noun:anim:m:v_naz:ua_1992", tokenizer, tagger);      
+  }
+  
+  @Test
   public void testHypenStretch() throws IOException {
 //    TestTools.myAssert("ду-у-у-же", "ду-у-у-же/[дуже]adv:compb:coll|ду-у-у-же/[дужий]adj:n:v_kly:compb:coll|ду-у-у-же/[дужий]adj:n:v_naz:compb:coll|ду-у-у-же/[дужий]adj:n:v_zna:compb:coll", tokenizer, tagger);
 //    TestTools.myAssert("ду-у-у-уже", "ду-у-у-уже/[дуже]adv:compb:coll|ду-у-у-уже/[дужий]adj:n:v_kly:compb:coll|ду-у-у-уже/[дужий]adj:n:v_naz:compb:coll|ду-у-у-уже/[дужий]adj:n:v_zna:compb:coll", tokenizer, tagger);
     TestTools.myAssert("Та-а-ак", "Та-а-ак/[так]adv:&pron:dem:coll|Та-а-ак/[так]conj:coord:coll|Та-а-ак/[так]conj:subord:coll|Та-а-ак/[так]part:coll", tokenizer, tagger);
     TestTools.myAssert("Му-у-у", "Му-у-у/[му]intj:coll", tokenizer, tagger);
     TestTools.myAssert("С-с-с-лава", "С-с-с-лава/[слава]noun:inanim:f:v_naz:coll", tokenizer, tagger);
+    TestTools.myAssert("ва-ре-ни-ки", "ва-ре-ни-ки/[вареник]noun:inanim:p:v_kly:coll|ва-ре-ни-ки/[вареник]noun:inanim:p:v_naz:coll|ва-ре-ни-ки/[вареник]noun:inanim:p:v_zna:coll", tokenizer, tagger);
+    TestTools.myAssert("ч-чо-л-ло-в-вік", "ч-чо-л-ло-в-вік/[чоловік]noun:anim:m:v_naz:coll|ч-чо-л-ло-в-вік/[чоловік]noun:anim:p:v_rod:bad:coll|ч-чо-л-ло-в-вік/[чоловік]noun:anim:p:v_zna:bad:coll", tokenizer, tagger);
     //TODO: should technically tag both lowercase and uppercase to get :fname as well
 //    TestTools.myAssert("Да-а-ри", "", tokenizer, tagger);
     TestTools.myAssert("т-то", "т-то/[null]null", tokenizer, tagger);

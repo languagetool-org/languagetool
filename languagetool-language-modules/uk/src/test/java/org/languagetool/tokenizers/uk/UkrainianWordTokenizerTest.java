@@ -412,6 +412,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("«краб»-переросток");
     assertEquals(Arrays.asList("«", "краб", "»", "-", "переросток"), testList);
 
+    testList = w.tokenize("екс-«депутат»");
+    assertEquals(Arrays.asList("екс-«депутат»"), testList);
+
     testList = w.tokenize("вересні--жовтні");
     assertEquals(Arrays.asList("вересні","--","жовтні"), testList);
   }
