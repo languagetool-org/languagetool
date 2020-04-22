@@ -254,10 +254,10 @@ public abstract class SpellingCheckRule extends Rule {
    */
   protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
     List<String> moreSuggestions = new ArrayList<>();
-    if (("Languagetool".equals(word) || "languagetool".equals(word)) && !suggestions.contains(LANGUAGETOOL)) {
+    if (("Languagetool".equals(word) || "languagetool".equals(word)) && suggestions.stream().noneMatch(k -> k.getReplacement().equals(LANGUAGETOOL))) {
       moreSuggestions.add(LANGUAGETOOL);
     }
-    if (("Languagetooler".equals(word) || "languagetooler".equals(word)) && !suggestions.contains(LANGUAGETOOLER)) {
+    if (("Languagetooler".equals(word) || "languagetooler".equals(word)) && suggestions.stream().noneMatch(k -> k.getReplacement().equals(LANGUAGETOOLER))) {
       moreSuggestions.add(LANGUAGETOOLER);
     }
     return SuggestedReplacement.convert(moreSuggestions);
