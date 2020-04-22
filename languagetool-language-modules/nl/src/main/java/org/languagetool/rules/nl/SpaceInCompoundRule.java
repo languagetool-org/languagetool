@@ -87,11 +87,12 @@ public class SpaceInCompoundRule extends Rule {
   @Override
   public String getId() {
     return "NL_MISSING_SPACE";
+    // better name NL_ADDED_SPACES
   }
 
   @Override
   public String getDescription() {
-    return "Detects missing space in some nouns";
+    return "Detecteert spatiefouten";
   }
 
   @Override

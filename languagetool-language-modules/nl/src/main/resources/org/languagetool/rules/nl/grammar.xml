@@ -31517,6 +31517,18 @@ steenwijk;Steenwijk
 			
 		</rulegroup>
 
+		<rulegroup id="ANTI_DINGES_DINGES" name="anti abortus verhaal / antiabortusverhaal">
+			<rule>
+				<pattern>
+					<token>anti</token>
+					<token postag_regexp="yes" postag="ZNW.*|ENM.*"/>
+					<token postag_regexp="yes" postag="ZNW.*"/>
+				</pattern>
+				<message>Bedoelt u wellicht: <suggestion>\1\2\3</suggestion> (\3 tegen \1)?</message>
+				<example correction="antiabortusverhaal">Ik houd een <marker>anti abortus verhaal</marker>.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="GFT" name="Groente-, fruit- en tuinafval">
 			<rule>
 				<antipattern>
