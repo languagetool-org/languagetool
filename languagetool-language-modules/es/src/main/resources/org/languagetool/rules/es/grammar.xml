@@ -457,6 +457,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La continua tensión.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="TENIA" name="tenia/tenía" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tenia</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'tener', lleva tilde. Correcto si es el nombre de un gusano.</message>
+                <suggestion>tenía</suggestion>
+                <example correction="tenía">Se <marker>tenia</marker> que hacer.</example>
+                <example correction="tenía">Él lo <marker>tenia</marker>.</example>
+                <example correction="tenía" type="triggers_error" reason="rare">La <marker>tenia</marker> es un gusano plateminto.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tenias</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'tener', lleva tilde. Correcto si es el nombre de un gusano.</message>
+                <suggestion>tenías</suggestion>
+                <example correction="tenías">Lo <marker>tenias</marker> que hacer.</example>
+                <example correction="tenías" type="triggers_error" reason="rare">Las <marker>tenias</marker> son un gusano plateminto.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="COMO" name="como/cómo" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">tal|tales</token>
+                    <token min="0">y</token>
+                    <marker>
+                        <token>cómo</token>
+                    </marker>
+                </pattern>
+                <message>En este caso se escribe sin tilde.</message>
+                <suggestion>como</suggestion>
+                <example correction="como">Tales <marker>cómo</marker> estos.</example>
+            </rule>
+            <rule> <!-- Common sentence -->
+                <pattern>
+                    <token>¿</token>
+                    <marker>
+                        <token>como</token>
+                        <token>estas</token>
+                    </marker>
+                    <token postag="NP.*|N.*|A.*" postag_regexp="yes"><exception postag="NCFP000"/></token>
+                    <token>?</token>
+                </pattern>
+                <message>Probablemente faltan tildes y una coma.</message>
+                <suggestion>Cómo estás,</suggestion>
+                <example correction="Cómo estás,">¿<marker>como estas</marker> Luis?</example>
+                <example correction="Cómo estás,">¿<marker>como estas</marker> guapo?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DIACRITICS_OTHERS" name="otros casos de falta de tilde" default="on">
             <rule>
                 <pattern>
@@ -495,6 +549,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>límite</suggestion>
                 <example correction="límite">Son condiciones <marker>limite</marker>.</example>
                 <example>Que limite las condiciones.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="D..MS.|SP\+DA" postag_regexp="yes"/>
+                    <marker>
+                        <token>ingles</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>inglés</suggestion>?</message>
+                <example correction="inglés">Me gusto mucho el <marker>ingles</marker>.</example>
             </rule>
         </rulegroup>
     </category>
@@ -666,6 +730,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Se escribe junto.</message>
                 <suggestion>salvo\3</suggestion>
                 <example correction="salvoconducto">El <marker>salva conducto</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tele</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">trabajos?</token>
+                </pattern>
+                <message>Se escribe junto</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="teletrabajo">El <marker>tele trabajo</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>buco</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes">nasal|faríngeo|laríngeo|dental</token>
+                </pattern>
+                <message>Se escribe junto</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="buconasales">Los <marker>buco nasales</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -2305,13 +2389,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="PREPOSICION_VERBO" name="Combinación imposible: preposición + verbo conjugado">
             <antipattern>
+                <token>/</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token postag="SENT_START"/>
+                <token case_sensitive="yes">A</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">desde|hasta|de</token>
                 <token regexp="yes">hace|hacía</token>
             </antipattern>
             <pattern>
                 <token postag="SPS00|SP\+DA" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
                 <token min="0" max="3" postag="DA.*|PP3..A.*|PP[123]C[SP]000|P0[123].*" postag_regexp="yes"/>
-                <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*" postag_regexp="yes"/><exception>verse</exception></token>
+                <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/><exception>verse</exception></token>
             </pattern>
             <message>Combinación imposible: preposición + verbo conjugado.</message>
             <example correction=""><marker>en informa</marker>.</example>
@@ -2347,6 +2439,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Sí, por lo visto.</example>
             <example>En son de paz.</example>
             <example>La alternativa A es la mejor.</example>
+            <example>A convence a B.</example>
         </rule>
         <rule id="SURGIR_EFECTO" name="*surgir/surtir efecto">
             <pattern>
@@ -2856,6 +2949,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CAT2" name="Concordancia" type="inconsistency">
         <rulegroup id="AGREEMENT_DET_NOUN" name="Concordancias determinante y sustantivo" default="on">
             <antipattern>
+                <token regexp="yes">el|un|los|unos</token>
+                <token>/</token>
+                <token regexp="yes">la|una|las|unas</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">el|al|del|un|algún|ningún</token>
                 <token regexp="yes">&nombre_fem_el;</token>
             </antipattern>
@@ -2866,6 +2964,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>todo</token>
                 <token postag="NPFSG00" regexp="yes">.*a</token>
+            </antipattern>
+            <antipattern>
+                <token>tanto</token>
+                <token postag="NP.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token>esta</token>
@@ -2949,6 +3051,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Usted es nuestra huésped de la semana.</example>
                 <example>Salir de esta vivos.</example>
                 <example>Me gustan mucho ambos.</example>
+                <example>Me gusta mucho veros.</example>
                 <!-- <example>no esta claro</example> better: other rule-->
             </rule>
             <rule>
@@ -2962,9 +3065,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </unify>
                     </marker>
                 </pattern>
-                <message>Error de concordancia.</message>
-                <suggestion><match no="1" postag="D..[FC][SN]." postag_regexp="yes"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[FC][PN]." postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
+                <message>Error de concordancia.
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][SN]." postag_regexp="yes"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="1" postag="D..[FC][PN]." postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
+                </message>
                 <example correction="aquella enfermera|aquellas enfermeras"><marker>aquella enfermeras</marker></example>
                 <example correction="Aquella médica|Aquella médico|Aquellas médicas"><marker>Aquellos médicas</marker>.</example>
                 <example correction="una tesis|unas tesis">Con <marker>un tesis</marker> sobre Platón.</example>
@@ -3002,7 +3106,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>expresando ambas positividad</example>
                 <example>Tanto mayores serán los beneficios.</example>
                 <example>el buen comportamiento de unos recompensa el mal comportamiento de otros</example>
-                <example type="triggers_error" reason="amibgious">no he estudiado <marker>mucho física</marker></example>
+                <example correction="mucha física|muchas físicas" type="triggers_error" reason="ambiguous">no he estudiado <marker>mucho física</marker></example>
                 <example>Por todo América.</example>
                 <example>Mil quinientas cincuenta y una bombillas.</example>
                 <example>Me gusta mucho Mary.</example>
@@ -3030,6 +3134,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El microondas y los microondas.</example>
                 <example>Está compuesta por treinta y un representantes.</example>
                 <example>Existen unos u otros dulces.</example>
+                <example>Son mucho mayores.</example>
             </rule>
             <rule>
                 <pattern>

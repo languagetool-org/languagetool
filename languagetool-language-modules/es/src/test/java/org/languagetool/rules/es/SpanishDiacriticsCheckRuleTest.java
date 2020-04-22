@@ -191,6 +191,10 @@ public class SpanishDiacriticsCheckRuleTest {
     assertEquals(0, matches[0].getFromPos());
     assertEquals(10, matches[0].getToPos());
     assertEquals("El término", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool
+        .getAnalyzedSentence("El frio."));
+    assertEquals("El frío", matches[0].getSuggestedReplacements().get(0));
   }
 
 }

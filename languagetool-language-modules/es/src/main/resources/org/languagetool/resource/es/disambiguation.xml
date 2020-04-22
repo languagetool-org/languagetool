@@ -632,6 +632,15 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="filterall"/>
         </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="RG">mucho</token>
+                    <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">mayor|menor</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
     </rulegroup>
 
     <rulegroup id="no" name="no">
@@ -1459,7 +1468,7 @@ Copyright (C) 2011 Juan Martorell
             <marker>
                 <token regexp="yes">tanto|mucho</token>
             </marker>
-            <token postag="NP.*" postag_regexp="yes"/>
+            <token postag="NP.*|V.N.*" postag_regexp="yes"/>
         </pattern>
         <disambig action="remove" postag="D.*"/>
     </rule>
