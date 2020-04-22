@@ -26,12 +26,12 @@ import org.languagetool.rules.RuleMatch;
 
 import java.util.*;
 
-public class MissingSpaceRule extends Rule {
+public class SpaceInCompoundRule extends Rule {
 
   private static final Map<String, String> normalizedCompound2message = new HashMap<>();
   private static final AhoCorasickDoubleArrayTrie<String> trie = getTrie();
 
-  public MissingSpaceRule(ResourceBundle messages) {
+  public SpaceInCompoundRule(ResourceBundle messages) {
     setDefaultTempOff();  // TODO
   }
 

@@ -31,13 +31,13 @@ import java.util.Set;
 import static junit.framework.Assert.assertTrue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.CoreMatchers.is;
-import static org.languagetool.rules.nl.MissingSpaceRule.generateVariants;
+import static org.languagetool.rules.nl.SpaceInCompoundRule.generateVariants;
 
-public class MissingSpaceRuleTest {
+public class SpaceInCompoundRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    MissingSpaceRule rule = new MissingSpaceRule(TestTools.getEnglishMessages());
+    SpaceInCompoundRule rule = new SpaceInCompoundRule(TestTools.getEnglishMessages());
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("nl"));
     assertGood("langeafstandloper", rule, lt);
     assertMatch("lange afstand loper", rule, lt);
@@ -45,11 +45,11 @@ public class MissingSpaceRuleTest {
     assertMatch("lange afstandloper", rule, lt);
   }
 
-  private void assertGood(String input, MissingSpaceRule rule, JLanguageTool lt) throws IOException {
+  private void assertGood(String input, SpaceInCompoundRule rule, JLanguageTool lt) throws IOException {
     assertThat(rule.match(lt.getAnalyzedSentence(input)).length, is(0));
   }
 
-  private void assertMatch(String input, MissingSpaceRule rule, JLanguageTool lt) throws IOException {
+  private void assertMatch(String input, SpaceInCompoundRule rule, JLanguageTool lt) throws IOException {
     assertThat(rule.match(lt.getAnalyzedSentence(input)).length, is(1));
   }
 
