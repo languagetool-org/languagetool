@@ -87,7 +87,8 @@ public class SentenceSourceChecker {
       new File(commandLine.getOptionValue("remoterules")) : null;
     Pattern filter = commandLine.hasOption("filter") ? Pattern.compile(commandLine.getOptionValue("filter")) : null;
     prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles,
-      maxErrors, contextSize, languageModelDir, word2vecModelDir, neuralNetworkModelDir, remoteRules, filter);
+      maxErrors, contextSize, languageModelDir, word2vecModelDir, neuralNetworkModelDir, remoteRules, filter,
+      commandLine);
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
@@ -143,6 +144,9 @@ public class SentenceSourceChecker {
     options.addOption(Option.builder().longOpt("filter").argName("regex").hasArg()
             .desc("Consider only sentences that contain this regular expression (for speed up)")
             .build());
+    options.addOption(Option.builder().longOpt("spelling")
+            .desc("Don't skip spell checking rules")
+            .build());
     try {
       CommandLineParser parser = new DefaultParser();
       return parser.parse(options, args);
@@ -159,7 +163,7 @@ public class SentenceSourceChecker {
 
   private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
                    String[] additionalCategoryIds, int maxSentences, int maxErrors, int contextSize,
-                   File languageModelDir, File word2vecModelDir, File neuralNetworkModelDir, File remoteRules, Pattern filter) throws IOException {
+                   File languageModelDir, File word2vecModelDir, File neuralNetworkModelDir, File remoteRules, Pattern filter, CommandLine commandLine) throws IOException {
     long startTime = System.currentTimeMillis();
     Language lang = Languages.getLanguageForShortCode(langCode);
     MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang);
@@ -193,7 +197,12 @@ public class SentenceSourceChecker {
       System.out.println("*** NOTE: only sentences that match regular expression '" + filter + "' will be checked");
     }
     activateAdditionalCategories(additionalCategoryIds, lt);
-    disableSpellingRules(lt);
+    if (commandLine.hasOption("spelling")) {
+      System.out.println("Spelling rules active: yes (only if you're using a language code like en-US which comes with spelling)");
+    } else if (ruleIds == null) {
+      disableSpellingRules(lt);
+      System.out.println("Spelling rules active: no");
+    }
     System.out.println("Working on: " + StringUtils.join(fileNames, ", "));
     System.out.println("Sentence limit: " + (maxSentences > 0 ? maxSentences : "no limit"));
     System.out.println("Context size: " + contextSize);
@@ -300,7 +309,6 @@ public class SentenceSourceChecker {
         lt.disableRule(rule.getId());
       }
     }
-    System.out.println("All spelling rules are disabled");
   }
 
 }
