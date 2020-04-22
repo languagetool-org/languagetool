@@ -10965,9 +10965,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	    <example>имеют температуру менее минус 0,8 ºC на севере</example>
 	    <example correction=""> <marker>Bне</marker> леса шумно.</example>
 	    <example correction=""> Буду <marker>cо</marker> своими шутками.</example>
-    </rule>
+        </rule>
+        <rule id="DotOrCase" name="Точка или заглавная буква" default="temp_off" >
+            <pattern>
+                <token></token>
+                <token><exception regexp="yes">[.?,!:;»)(«-—–"']</exception></token>
+                <marker>
+                    <token case_sensitive='yes' postag='VB:.*' postag_regexp='yes' regexp="yes">[А-ЯЁ][а-яё]*<exception postag='NN:.*|PNN:.*|ADJ:.*' postag_regexp='yes'></exception></token>
+                </marker>
+                <token><exception regexp="yes">[.?,!:;»)(«-—–"']</exception></token>
+            </pattern>
+            <message>Пропущена точка или слово ошибочно написано с прописной буквы.</message>
+            <short>Прописная буква или пропущен знак</short>
+            <example correction=''>В лесу <marker>Родилась</marker> ёлочка.</example>
+            <example>В лесу родилась ёлочка.</example>
+        </rule>
 
-    <rule id="Latin_single_letter" name="Использование аналогичных по написанию латинских букв">
+        <rule id="Latin_single_letter" name="Использование аналогичных по написанию латинских букв">
 	    <antipattern>
 		    <token  regexp="yes">a|o|b|c|k</token>
 		    <token regexp="yes">’|\+|=|-|#</token>
