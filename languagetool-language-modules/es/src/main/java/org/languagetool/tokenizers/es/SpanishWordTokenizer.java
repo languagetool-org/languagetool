@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
@@ -37,6 +39,11 @@ public class SpanishWordTokenizer extends WordTokenizer {
 
   private static final String DICT_FILENAME = "/es/es-ES.dict";
   protected MorfologikSpeller speller;
+  
+//decimal point between digits
+ private static final Pattern DECIMAL_POINT= Pattern.compile("([\\d])\\.([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+ // decimal comma between digits
+ private static final Pattern DECIMAL_COMMA= Pattern.compile("([\\d]),([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   public SpanishWordTokenizer() {
     // lazy init
@@ -51,20 +58,35 @@ public class SpanishWordTokenizer extends WordTokenizer {
     }
   }
 
+  
   @Override
-  public List<String> tokenize(String text) {
-    List<String> tokenList = new ArrayList<>();
-    StringTokenizer st = new StringTokenizer(text, "\u0020\u00A0\u115f\u1160\u1680"
+  public List<String> tokenize(final String text) {
+    final List<String> l = new ArrayList<>();
+    String auxText=text;
+
+    Matcher matcher=DECIMAL_POINT.matcher(auxText);
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_DECIMALPOINT\u0001\u0001$2");
+    matcher=DECIMAL_COMMA.matcher(auxText);
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_DECIMALCOMMA\u0001\u0001$2");
+       
+    
+    StringTokenizer st = new StringTokenizer(auxText, "\u0020\u00A0\u115f\u1160\u1680"
         + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007" + "\u2008\u2009\u200A\u200B\u200c\u200d\u200e\u200f"
         + "\u2013\u2014\u2015" + "\u2028\u2029\u202a\u202b\u202c\u202d\u202e\u202f"
         + "\u205F\u2060\u2061\u2062\u2063\u206A\u206b\u206c\u206d"
         + "\u206E\u206F\u3000\u3164\ufeff\uffa0\ufff9\ufffa\ufffb" + ",.;()[]{}<>!?:=*#∗×·+÷/\\\"'«»„”“‘`’…¿¡\t\n\r",
         true);
     // removed from the list: -
+    String s;
+
     while (st.hasMoreElements()) {
-      tokenList.addAll(wordsToAdd(st.nextToken()));
+      s = st.nextToken()
+              .replace("\u0001\u0001CA_DECIMALPOINT\u0001\u0001", ".")
+              .replace("\u0001\u0001CA_DECIMALCOMMA\u0001\u0001", ",");
+      l.addAll(wordsToAdd(s));   
+      
     }
-    return joinEMailsAndUrls(tokenList);
+    return joinEMailsAndUrls(l);
   }
 
   /* Splits a word containing hyphen(-) if it doesn't exist in the dictionary. */

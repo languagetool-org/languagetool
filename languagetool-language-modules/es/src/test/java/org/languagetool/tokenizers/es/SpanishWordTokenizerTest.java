@@ -40,5 +40,21 @@ public class SpanishWordTokenizerTest {
     tokens = wordTokenizer.tokenize("e-mails");
     assertEquals(tokens.size(), 1);
     assertEquals("[e-mails]", tokens.toString());
+    
+    tokens = wordTokenizer.tokenize("$100");
+    assertEquals(tokens.size(), 1);
+    assertEquals("[$100]", tokens.toString());
+    
+    tokens = wordTokenizer.tokenize("$1.000");
+    assertEquals(tokens.size(), 1);
+    assertEquals("[$1.000]", tokens.toString());
+    
+    tokens = wordTokenizer.tokenize("$1,400.50");
+    assertEquals(tokens.size(), 1);
+    assertEquals("[$1,400.50]", tokens.toString());
+    
+    tokens = wordTokenizer.tokenize("1,400.50$");
+    assertEquals(tokens.size(), 1);
+    assertEquals("[1,400.50$]", tokens.toString());
   }
 }
