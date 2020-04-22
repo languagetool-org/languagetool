@@ -1837,7 +1837,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="filter" postag="NN"/>
     </rule>
 
-    <rule id="AIN_T_VBZ" name="It ain't => VBZ">
+    <rule id="IT_AIN_T_VBZ" name="It ain't => VBZ">
         <pattern>
             <token regexp="yes">it|s?he</token>
             <token postag="RB.*" postag_regexp="yes" min="0" />
@@ -1850,9 +1850,37 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="add"><wd lemma="be" pos="VBZ" /></disambig>
     </rule>
 
-    <rule id="AIN_T_VBP" name="I ain't => VBP">
+    <rule id="THIS_AIN_T_VBZ" name="This ain't => VBZ">
+        <pattern>
+            <token postag="SENT_START" />
+            <token regexp="yes">this|that</token>
+            <token postag="RB.*" postag_regexp="yes" min="0" />
+            <marker>
+                <token>ain</token>
+            </marker>
+            <token regexp="yes">&apostrophe;</token>
+            <token>t</token>
+        </pattern>
+        <disambig action="add"><wd lemma="be" pos="VBZ" /></disambig>
+    </rule>
+
+    <rule id="I_AIN_T_VBP" name="I ain't => VBP">
         <pattern>
             <token regexp="yes">I|you|we|they</token>
+            <token postag="RB.*" postag_regexp="yes" min="0" />
+            <marker>
+                <token>ain</token>
+            </marker>
+            <token regexp="yes">&apostrophe;</token>
+            <token>t</token>
+        </pattern>
+        <disambig action="add"><wd lemma="be" pos="VBP" /></disambig>
+    </rule>
+
+    <rule id="THESE_AIN_T_VBP" name="This ain't => VBP">
+        <pattern>
+            <token postag="SENT_START" />
+            <token regexp="yes">th[eo]se</token>
             <token postag="RB.*" postag_regexp="yes" min="0" />
             <marker>
                 <token>ain</token>
