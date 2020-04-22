@@ -37,7 +37,7 @@ public class WordListValidatorTest {
           "ŚśōżúïÎôêâû" +
           "'’" +
           "./-]+" +
-          "|[khmcdµ]?m[²³]|°[CFR]|CO₂-?.*|mc²";
+          "|[khmcdµ]?m[²³]|°[CFR]|C?O₂-?.*|mc²";
 
   // Words that are valid but with special characters so that we don't want to
   // allow them in general:
