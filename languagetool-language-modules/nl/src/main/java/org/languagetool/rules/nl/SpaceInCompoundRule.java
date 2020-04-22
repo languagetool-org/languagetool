@@ -48,7 +48,7 @@ public class SpaceInCompoundRule extends Rule {
         throw new RuntimeException("Unexpected format in " + filename + ", expected 2 columns separated by '|': " + line);
       }
       String wordParts = lineParts[0];
-      String message = lineParts[1];
+      String message = "Bedoelt u misschien: "+lineParts[1];
       String[] words = wordParts.split(" ");
       generateVariants("", Arrays.asList(words), result);
       if (normalizedCompound2message.containsKey(removeSpaces(wordParts))) {
