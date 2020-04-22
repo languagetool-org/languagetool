@@ -73,21 +73,8 @@ public class SentenceSourceChecker {
     int maxArticles = Integer.parseInt(commandLine.getOptionValue("max-sentences", "0"));
     int maxErrors = Integer.parseInt(commandLine.getOptionValue("max-errors", "0"));
     int contextSize = Integer.parseInt(commandLine.getOptionValue("context-size", "50"));
-    String[] ruleIds = commandLine.hasOption('r') ? commandLine.getOptionValue('r').split(",") : null;
-    String[] categoryIds = commandLine.hasOption("also-enable-categories") ?
-                           commandLine.getOptionValue("also-enable-categories").split(",") : null;
-    String[] fileNames = commandLine.getOptionValues('f');
-    File languageModelDir = commandLine.hasOption("languagemodel") ?
-                            new File(commandLine.getOptionValue("languagemodel")) : null;
-    File word2vecModelDir = commandLine.hasOption("word2vecmodel") ?
-            new File(commandLine.getOptionValue("word2vecmodel")) : null;
-    File neuralNetworkModelDir = commandLine.hasOption("neuralnetworkmodel") ?
-      new File(commandLine.getOptionValue("neuralnetworkmodel")) : null;
-    File remoteRules = commandLine.hasOption("remoterules") ?
-      new File(commandLine.getOptionValue("remoterules")) : null;
-    Pattern filter = commandLine.hasOption("filter") ? Pattern.compile(commandLine.getOptionValue("filter")) : null;
-    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles,
-      maxErrors, contextSize, languageModelDir, word2vecModelDir, neuralNetworkModelDir, remoteRules, filter,
+    prg.run(propFile, disabledRuleIds, languageCode, maxArticles,
+      maxErrors, contextSize,
       commandLine);
   }
 
@@ -161,10 +148,18 @@ public class SentenceSourceChecker {
     throw new IllegalStateException();
   }
 
-  private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
-                   String[] additionalCategoryIds, int maxSentences, int maxErrors, int contextSize,
-                   File languageModelDir, File word2vecModelDir, File neuralNetworkModelDir, File remoteRules, Pattern filter, CommandLine commandLine) throws IOException {
+  private void run(File propFile, Set<String> disabledRules, String langCode,
+                   int maxSentences, int maxErrors, int contextSize,
+                   CommandLine options) throws IOException {
     long startTime = System.currentTimeMillis();
+    String[] ruleIds = options.hasOption('r') ? options.getOptionValue('r').split(",") : null;
+    String[] additionalCategoryIds = options.hasOption("also-enable-categories") ? options.getOptionValue("also-enable-categories").split(",") : null;
+    String[] fileNames = options.getOptionValues('f');
+    File languageModelDir = options.hasOption("languagemodel") ? new File(options.getOptionValue("languagemodel")) : null;
+    File word2vecModelDir = options.hasOption("word2vecmodel") ? new File(options.getOptionValue("word2vecmodel")) : null;
+    File neuralNetworkModelDir = options.hasOption("neuralnetworkmodel") ? new File(options.getOptionValue("neuralnetworkmodel")) : null;
+    File remoteRules = options.hasOption("remoterules") ? new File(options.getOptionValue("remoterules")) : null;
+    Pattern filter = options.hasOption("filter") ? Pattern.compile(options.getOptionValue("filter")) : null;
     Language lang = Languages.getLanguageForShortCode(langCode);
     MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang);
     lt.setCleanOverlappingMatches(false);
@@ -197,7 +192,7 @@ public class SentenceSourceChecker {
       System.out.println("*** NOTE: only sentences that match regular expression '" + filter + "' will be checked");
     }
     activateAdditionalCategories(additionalCategoryIds, lt);
-    if (commandLine.hasOption("spelling")) {
+    if (options.hasOption("spelling")) {
       System.out.println("Spelling rules active: yes (only if you're using a language code like en-US which comes with spelling)");
     } else if (ruleIds == null) {
       disableSpellingRules(lt);
@@ -218,7 +213,7 @@ public class SentenceSourceChecker {
       } else {
         resultHandler = new StdoutHandler(maxSentences, maxErrors, contextSize);
       }
-      MixingSentenceSource mixingSource = MixingSentenceSource.create(fileNames, lang, filter);
+      MixingSentenceSource mixingSource = MixingSentenceSource.create(Arrays.asList(fileNames), lang, filter);
       while (mixingSource.hasNext()) {
         Sentence sentence = mixingSource.next();
         try {
