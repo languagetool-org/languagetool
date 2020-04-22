@@ -72,14 +72,18 @@ public class UpperCaseRule extends Rule {
     }
   }
 
-  synchronized private void initTrie() {
-    List<String> words = new CachingWordListLoader().loadWords("en/specific_case.txt");
-    words.addAll(new CachingWordListLoader().loadWords("spelling_global.txt"));
+  private void initTrie() {
+    CachingWordListLoader cachingWordListLoader = new CachingWordListLoader();
+    List<String> words = new ArrayList<>();
+    words.addAll(cachingWordListLoader.loadWords("en/specific_case.txt"));
+    words.addAll(cachingWordListLoader.loadWords("spelling_global.txt"));
     Map<String,String> map = new HashMap<>();
     for (String word : words) {
       map.put(word, word);
     }
-    exceptionTrie.build(map);
+    synchronized (exceptionTrie) {
+      exceptionTrie.build(map);
+    }
   }
 
   @Override
