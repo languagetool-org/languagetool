@@ -117,8 +117,8 @@ public abstract class SpellingCheckRule extends Rule {
 
   /**
    *  @param word misspelled word that suggestions should be generated for
-   * @param userCandidates candidates from personal dictionary
-   * @param candidates candidates from default dictionary
+   * @param userCandidatesList candidates from personal dictionary
+   * @param candidatesList candidates from default dictionary
    * @param orderer model to rank suggestions / extract features, or null
    * @param match rule match to add suggestions to
    */
