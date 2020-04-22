@@ -138,8 +138,8 @@ public class SentenceSourceChecker {
             .desc("base directory for saved neural network models")
             .build());
     options.addOption(Option.builder().longOpt("remoterules").argName("configFile").hasArg()
-      .desc("JSON file with configuration of remote rules")
-      .build());
+            .desc("JSON file with configuration of remote rules")
+            .build());
     options.addOption(Option.builder().longOpt("filter").argName("regex").hasArg()
             .desc("Consider only sentences that contain this regular expression (for speed up)")
             .build());
@@ -176,7 +176,7 @@ public class SentenceSourceChecker {
     for (Rule rule : lt.getAllRules()) {
       if (rule.isDefaultTempOff()) {
         if (rule instanceof AbstractPatternRule) {
-          System.out.println("Activating " + ((AbstractPatternRule) rule).getFullId() + ", which is default='temp_off'");
+          System.out.println("Activating " + rule.getFullId() + ", which is default='temp_off'");
         } else {
           System.out.println("Activating " + rule.getId() + ", which is default='temp_off'");
         }
@@ -234,7 +234,7 @@ public class SentenceSourceChecker {
         float matchesPerSentence = (float)ruleMatchCount / sentenceCount;
         System.out.printf(lang + ": %d total matches\n", ruleMatchCount);
         System.out.printf(Locale.ENGLISH, lang + ": ø%.2f rule matches per sentence\n", matchesPerSentence);
-        long runTimeMillis = System.currentTimeMillis() - startTime;
+        //long runTimeMillis = System.currentTimeMillis() - startTime;
         //System.out.printf(Locale.ENGLISH, lang + ": Time: %.2f minutes\n", runTimeMillis/1000.0/60.0);
         try {
           resultHandler.close();
