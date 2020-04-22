@@ -19359,6 +19359,28 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rulegroup id="SEVEN_ELEVEN" name="7-Eleven" default="temp_off">
+            <!-- needed to prevent a false positive of CD_NN or CD_NNU -->
+            <url>https://en.wikipedia.org/wiki/7-Eleven</url>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">7-(Eleven|ELEVEN)</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">7|seven</token>
+                    <token>eleven</token>
+                </pattern>
+                <message>Did you mean the convenience store <suggestion>7-Eleven</suggestion>?</message>
+                <example correction="7-Eleven"><marker>Seven Eleven</marker> is a Japanese-American international chain of convenience stores.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">seven-(eleven|11)</token>
+                </pattern>
+                <message>Did you mean the convenience store <suggestion>7-Eleven</suggestion>?</message>
+                <example correction="7-Eleven"><marker>Seven-Eleven</marker> is a Japanese-American international chain of convenience stores.</example>
+            </rule>
+        </rulegroup>
         <rule id="BOEING_737_MAX" name="737 max (Max)">
             <antipattern>
                 <token>max</token>
