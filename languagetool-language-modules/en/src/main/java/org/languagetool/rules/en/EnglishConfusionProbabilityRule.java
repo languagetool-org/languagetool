@@ -141,7 +141,48 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "(news)",
       "fresh prince of",
       "good day bye",
-      "it's us"
+      "it's us",
+      "could be us being", // vs is
+      "on twitter", // vs in
+      "enjoy us being", // vs is
+      "If your use of", // vs you
+      "way too much", // vs was
+      "then,", // vs than
+      "then?", // vs than
+      "also no it doesn", // vs know
+      "also no it isn",
+      "also no it wasn",
+      "also no it hasn",
+      "also no it can't",
+      "also no it won't",
+      "also no it wouldn",
+      "also no it couldn",
+      "also no it shouldn",
+      "no that's not", // vs know
+      "provided my country",
+      "so no i don't",
+      "so no i can't",
+      "so no i won't",
+      "so no i wasn",
+      "so no i haven",
+      "so no i wouldn",
+      "so no i couldn",
+      "so no i shouldn",
+      "so no you don't",
+      "so no you can't",
+      "so no you won't",
+      "so no you weren",
+      "so no you haven",
+      "so no you wouldn",
+      "so no you couldn",
+      "so no you shouldn",
+      "for your recharge", // vs you
+      "all you kids", // vs your
+      "thanks for the patience", // vs patients
+      "what to text", // vs do
+      "is he famous for", // vs the
+      "was he famous for", // the
+      "really quiet at" // vs quit/quite
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
