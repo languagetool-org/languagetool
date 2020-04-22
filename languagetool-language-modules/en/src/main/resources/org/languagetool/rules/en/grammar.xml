@@ -3408,6 +3408,7 @@ USA
                 <example correction="it is the|in the|the">Just wondering if <marker>it the</marker> same hiring supervisor</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="IT_IS" name="its vs. it's">
             <url>https://www.dictionary.com/e/its-vs-its/</url>
             <rule>
@@ -4159,6 +4160,40 @@ USA
                 <example>I'm assuming it's a suicide.</example>
             </rule>
             <rule>
+                <antipattern><!-- #2788 shows it's very similar. -->
+                    <token chunk="E-NP-singular"/>
+                    <token postag="VBZ"/>
+                    <token>it</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token postag="RB"/>
+                    <token postag="JJ"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern><!-- #2788 shows it's very similar. [min/max on the RB token does not work.] -->
+                    <token chunk="E-NP-singular"/>
+                    <token postag="VBZ"/>
+                    <token>it</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token postag="JJ"/>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern><!-- #2662 it's important to have / also: it's possible to be -->
+                    <token>s</token>
+                    <token postag="JJ"/>
+                    <token postag="TO"/>
+                    <token postag="VB"/>
+                </antipattern>
+                <antipattern><!-- #2788 it turns out it's free -->
+                    <token>it</token><!-- Not: Constant company wears out it's welcome. -->
+                    <token postag="VBZ"/>
+                    <token postag="RP"/>
+                    <token>it</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token postag="JJ"/>
+                </antipattern>
                 <pattern>
                     <token postag="VBZ"><exception regexp="yes">.+days|cases|notices|thinks|says|means|knows|claims|signals|swears|feels|assumes|seems|decides|talks|expires|finds</exception></token>
                     <token postag="IN" min="0"><exception postag="VB.*" postag_regexp="yes"/><exception>like</exception></token>
@@ -4167,14 +4202,14 @@ USA
                         <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
-                    <token postag_regexp="yes" postag="NN.*|JJ.?"><exception regexp="yes">ok(ay)?</exception></token>
+                    <token postag_regexp="yes" postag="NN.*|JJ.?"><exception regexp="yes">ok(ay)?|nothing</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (short form of 'it is')?</message>
                 <example correction="its">This is an opportunity to see how SAP addresses <marker>it's</marker> internal developers.</example>
                 <example correction="its">Constant company wears out <marker>it's</marker> welcome.</example>
                 <example>Who says <marker>it's</marker> going to be published?</example>
                 <example>For the first fifteen or twenty minutes, it's possible to be more or less interested.</example>
-                <example type="triggers_error">For the first fifteen or twenty minutes it's possible to be more or less interested.</example>
+                <example>For the first fifteen or twenty minutes it's possible to be more or less interested.</example>
                 <example>He thinks it's funny too.</example>
                 <example>After work it is just too hard, and during weekends it's just too far away.</example>
                 <example>I've been waved off so many times it's hard to overcome my conditioning.</example>
@@ -4188,6 +4223,11 @@ USA
                 <example>In such cases it's often a good idea to think twice.</example>
                 <example>The admission costs six euros but on Sundays it's free.</example>
                 <example>Melatonin, the hormone that signals it’s time to sleep.</example>
+                <example>Comparison to the engine in Office 365 shows it's very similar.</example><!-- #2788 -->
+                <example>Comparison to the engine in Office 365 shows it's similar.</example><!-- #2788 -->
+                <example>See why Neil believes it's important to have a personal trainer.</example><!-- #2662 -->
+                <example>Yes, well, that just proves it's nothing but the firing of neurons.</example><!-- #2662 -->
+                <example>But it turns out it's free.</example><!-- #2662 -->
             </rule>
             <rule>
                 <pattern>
@@ -4432,6 +4472,7 @@ USA
                 <example>The government has taken <marker>its</marker> time to catch up with the digital economy.</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="IT_IS_2" name="its vs it is">
             <rule>
                 <antipattern>
