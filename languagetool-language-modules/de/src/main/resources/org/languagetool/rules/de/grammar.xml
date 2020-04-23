@@ -7466,10 +7466,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>Whats</token>
                 <token>App</token>
             </pattern>
-            <message><suggestion>WhatsApp</suggestion> wird zusammengeschrieben.</message>
+            <message><suggestion>WhatsApp</suggestion> (= Chat-App) wird zusammengeschrieben.</message>
             <url>https://de.wikipedia.org/wiki/WhatsApp</url>
             <short>&getrennt;.</short>
             <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
+        </rule>
+        <rule id="CHECK_24" name="Check 24 (Check24)">
+            <pattern>
+                <token>Check</token>
+                <token regexp="yes">24s?</token>
+            </pattern>
+            <message>Der Eigenname <suggestion>Check\2</suggestion> (= Versicherungsdienstleister) wird zusammengeschrieben.</message>
+            <url>https://de.wikipedia.org/wiki/Check24</url>
+            <short>&getrennt;.</short>
+            <example correction="Check24">Er hat seine Versicherung über <marker>Check 24</marker> abgeschlossen.</example>
         </rule>
         <rule id="MERCEDES_BENZ" name="Mercedes Benz (Mercedes-Benz)">
             <pattern case_sensitive="no">
@@ -7481,37 +7491,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>&getrennt;.</short>
             <example correction="Mercedes-Benz"><marker>Mercedes Benz</marker> ist ein deutscher Autohersteller.</example>
         </rule>
-        <rule id="HIGH_SCHOOL" name="High School (High School)">
-            <antipattern case_sensitive="no">
-                <token postag="UNKNOWN|SUB:.*|EIG:.*" postag_regexp="yes" />
-                <token>High</token>
-            </antipattern>
-            <antipattern>
-                <token>High</token>
-                <token>School</token>
-                <token regexp="yes">Musicals?</token>
-            </antipattern>
-            <pattern case_sensitive="no">
-                <token>High</token>
-                <token regexp="yes">Schools?</token>
-            </pattern>
-            <message>Dieses Nomen wird im Deutschen als ein Wort geschrieben.</message>
-            <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="alllower" /></suggestion>
-            <url>https://www.duden.de/suchen/dudenonline/Highschool</url>
-            <example correction="Highschool">Er ist in den USA auf eine <marker>High School</marker> gegangen.</example>
-            <example>Er ging auf die Parkland High School.</example>
-        </rule>
-        <rulegroup id="HEDGEFONDS" name="Hedge Fonds (Hedgefonds)">
-            <url>https://www.duden.de/rechtschreibung/Hedgefonds</url>
-            <rule>
-                <pattern>
-                    <token regexp="yes">[Hh]e(dg|gd)e</token>
-                    <token regexp="yes">[Ff][ou]nds?</token>
-                </pattern>
-                <message>Meinten Sie <suggestion>Hedgefonds</suggestion> (= Investmentfonds)?</message>
-                <example correction="Hedgefonds">Er war der Chef eines der größten <marker>Hedge Fonds</marker>.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="COVID_19" name="COVID-19">
             <rule>
                 <pattern>
@@ -33646,6 +33625,37 @@ Andere Projekte</example>
                 <example correction="Drive-ins">Während des <marker>Drive-Ins</marker> suchte er panisch sein Geld.</example>
             </rule>
         </rulegroup>
+        <rule id="HIGH_SCHOOL" name="High School (High School)">
+            <antipattern case_sensitive="no">
+                <token postag="UNKNOWN|SUB:.*|EIG:.*" postag_regexp="yes" />
+                <token>High</token>
+            </antipattern>
+            <antipattern>
+                <token>High</token>
+                <token>School</token>
+                <token regexp="yes">Musicals?</token>
+            </antipattern>
+            <pattern case_sensitive="no">
+                <token>High</token>
+                <token regexp="yes">Schools?</token>
+            </pattern>
+            <message>Dieses Nomen wird im Deutschen als ein Wort geschrieben.</message>
+            <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="alllower" /></suggestion>
+            <url>https://www.duden.de/suchen/dudenonline/Highschool</url>
+            <example correction="Highschool">Er ist in den USA auf eine <marker>High School</marker> gegangen.</example>
+            <example>Er ging auf die Parkland High School.</example>
+        </rule>
+        <rulegroup id="HEDGEFONDS" name="Hedge Fonds (Hedgefonds)">
+            <url>https://www.duden.de/rechtschreibung/Hedgefonds</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[Hh]e(dg|gd)e</token>
+                    <token regexp="yes">[Ff][ou]nds?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Hedgefonds</suggestion> (= Investmentfonds)?</message>
+                <example correction="Hedgefonds">Er war der Chef eines der größten <marker>Hedge Fonds</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BEST_OF" name="'Best-of'">
             <rule>
                 <pattern>
@@ -37343,6 +37353,16 @@ Andere Projekte</example>
                 <example correction="à la carte">Wir essen heute <marker>a la carte</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="UNKNOWN" regexp="yes">.*[a-zA-Z].*</token>
+                    <token regexp="yes">a|á</token>
+                    <token>la</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">a|á</token>
+                    <token>la</token>
+                    <token postag="UNKNOWN" regexp="yes">.*[a-zA-Z].*</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">a|á</token>
@@ -37353,6 +37373,7 @@ Andere Projekte</example>
                 <message>Meinten Sie die aus dem Französischen stammende Wendung <suggestion>à la</suggestion> (= im Stile von)?</message>
                 <example correction="à la">Das ist ein Gesetz <marker>a la</marker> Merkel.</example>
                 <example correction="à la">Wir essen Schnitzel <marker>a la</marker> Holstein.</example>
+                <example>20. Juni: Tag der Nationalflagge (Día de la Bandera, offiziell: Paso a la Inmortalidad del General Manuel Belgrano).</example>
             </rule>
         </rulegroup>
         <rule id="CREME_FRAICHE" name="Creme Fraiche (Crème fraîche)">
