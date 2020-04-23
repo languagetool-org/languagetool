@@ -1714,19 +1714,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Algunas como estas corriendo.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ESTE_TILDE" name="*este/esté" default="temp_off">
+        <rulegroup id="ESTE_TILDE" name="*este/esté" default="on">
             <antipattern>
                 <token postag="SPS00"/>
                 <token>este</token>
             </antipattern>
             <antipattern>
-                <token postag="V.[SIGN].*|V.P..SF" postag_regexp="yes"/>
-                <token>esta</token>
+                <token postag="V.[MSI].*" postag_regexp="yes"/>
+                <token min="0" postag="V.P..SM" postag_regexp="yes"/>
+                <token>este</token>
+            </antipattern>
+            <antipattern>
+                <token>este</token>
+                <token min="0" max="3" postag="N.*|A.*" postag_regexp="yes"/>
+                <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="V.[MSI].*|SENT_END" postag_regexp="yes" negate_pos="yes"></exception></token>
             </antipattern>
             <rule>
                 <!-- esté + participio-->
                 <pattern>
-                    <token postag="PR.*" postag_regexp="yes" skip="3"/>
+                    <token postag="PR.*" postag_regexp="yes" skip="4"/>
                     <marker>
                         <token>este</token>
                     </marker>
@@ -1742,7 +1748,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!--esté + gerundio-->
                 <pattern>
-                    <token postag="PR.*" postag_regexp="yes" skip="3"/>
+                    <token postag="PR.*" postag_regexp="yes" skip="6"/>
                     <marker>
                         <token>este</token>
                     </marker>
@@ -1751,6 +1757,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
                 <example correction="esté">cuando <marker>este</marker> cantando.</example>
+                <example correction="esté">En donde se <marker>este</marker> realizando el contrato</example>
+            </rule>
+            <rule>
+                <!--se esté -->
+                <pattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <marker>
+                        <token>este</token>
+                    </marker>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
+                <example correction="esté">Donde se <marker>este</marker>.</example>
             </rule>
             <rule>
                 <!--esté + preposición, adverbio-->
@@ -1759,15 +1777,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>realidad</token>
                 </antipattern>
                 <pattern>
-                    <token postag="PR.*" postag_regexp="yes" skip="3"/>
+                    <token postag="PR.*" postag_regexp="yes" skip="3"><exception scope="next" postag="CC|_PUNT.*" postag_regexp="yes"></exception></token>
                     <marker>
                         <token>este</token>
                     </marker>
-                    <token regexp="yes">bien|mal|en|con|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno</token>
+                    <token regexp="yes">cerca|lejos|bien|mal|en|con|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno</token>
                 </pattern>
                 <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
                 <example correction="esté">Cuando el niño <marker>este</marker> en la guardería.</example>
                 <example correction="esté">Que <marker>este</marker> en la guardería.</example>
+                <example correction="esté">Que <marker>este</marker> cerca de la guardería.</example>
+                <example>Señalando que este mal sería contrario</example>
+                <example>lo que querían, y este lo buscaba</example>
             </rule>
             <rule>
                 <!-- esté + adjetivo-->
@@ -1794,6 +1815,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="esté">Que <marker>este</marker> muy bonito.</example>
                 <example correction="esté">que <marker>este</marker> preciosa.</example>
                 <example correction="esté">Cuando tu cuenta <marker>este</marker> vacía.</example>
+                <example>se cree que este mismo papa estuvo interesado</example>
             </rule>
         </rulegroup>
         <rulegroup id="VERBO_TILDE" name="Verbos con o sin tilde">
