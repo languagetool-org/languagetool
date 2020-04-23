@@ -32,7 +32,7 @@ public class SpaceInCompoundRule extends Rule {
   private static final AhoCorasickDoubleArrayTrie<String> trie = getTrie();
 
   public SpaceInCompoundRule(ResourceBundle messages) {
-    setDefaultTempOff();  // TODO
+    //setDefaultTempOff();  // TODO
   }
 
   private static AhoCorasickDoubleArrayTrie<String> getTrie() {
