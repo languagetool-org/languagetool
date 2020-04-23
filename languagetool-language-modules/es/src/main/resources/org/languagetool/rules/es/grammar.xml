@@ -524,6 +524,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Cómo estás,">¿<marker>como estas</marker> guapo?</example>
             </rule>
         </rulegroup>
+        <rulegroup id="CUAL"  name="cual/cuál" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">el|la|los|las|del|al</token>
+                    <marker>
+                        <token regexp="yes">cuál(es)?</token>
+                    </marker>
+                </pattern>
+                <message>Como relativo se escribe sin tilde.</message>
+                <suggestion><match no="2" regexp_match="(?iu)cuá(l.*)" regexp_replace="cua$1"/></suggestion>
+                <example correction="cual">hecho por el <marker>cuál</marker> se ha llegado a consolidar.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DIACRITICS_OTHERS" name="otros casos de falta de tilde" default="on">
             <rule>
                 <pattern>
