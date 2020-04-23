@@ -22486,6 +22486,7 @@ USA
                         <exception postag="JJ[RS]?|NN.*" postag_regexp="yes"/>
                         <exception regexp="yes">not|after|before|approx|while|bit|otherwise</exception>
                         <exception case_sensitive="yes">SO</exception>
+                        <exception>somewhat</exception><!-- can be a preposition according to https://www.merriam-webster.com/dictionary/somewhat -->
                     </token>
                     <token postag="NN(:UN?)?" postag_regexp="yes">
                         <exception postag="JJ[RS]?|VB[NG]" postag_regexp="yes" />
@@ -49343,7 +49344,7 @@ The accident victim died from her injuries.
                 </token>
                 <token postag="NN(:UN?)?|NNP?S" postag_regexp="yes">
                     <exception postag="JJ.*" postag_regexp="yes" />
-                    <exception regexp="yes">one|(some|every|any)(body|one)|still|right|in|kind|well|given|known|his</exception>
+                    <exception regexp="yes">one|(some|every|any)(body|one)|still|right|in|kind|well|given|known|his|then</exception>
                     <exception case_sensitive="yes">german</exception>
                 </token>
                 <token>
@@ -49371,6 +49372,7 @@ The accident victim died from her injuries.
             <example>Maybe you're someone I know.</example>
             <example>The people you're friends with.</example>
             <example>It depends whether you're known as ...</example>
+            <example>Also, if you're sick then please stay at home.</example>
             <example>You're home early.</example>
             <example>You're geniuses.</example>
             <example>Because you're closer to him.</example>
@@ -50841,19 +50843,34 @@ The accident victim died from her injuries.
         </antipattern>
         <antipattern><!-- She's dumb but in a goofy way  -->
             <token>but</token>
-            <token min="0">more</token>
+            <token min="0" regexp="yes">more|less</token>
             <token>in</token>
             <token regexp="yes">an?</token>
         </antipattern>
         <antipattern><!-- in a nice fashion dress -->
             <token>in</token>
             <token>a</token>
-            <token postag="JJ" />
+            <token postag="JJ.*" postag_regexp="yes" />
             <token>fashion</token>
             <token postag="NN.*" postag_regexp="yes" />
         </antipattern>
         <antipattern><!-- He has done it clearly in a unusual way. -->
             <token postag="RB" regexp="yes">.+ly</token>
+            <token>in</token>
+            <token regexp="yes">an?</token>
+        </antipattern>
+        <antipattern><!-- He is scary in a funny way -->
+            <token inflected="yes" regexp="yes">be|look|behave|seem|sound|act</token>
+            <token postag="JJ.*" postag_regexp="yes" />
+            <token min="0" regexp="yes">more|less</token>
+            <token>in</token>
+            <token regexp="yes">an?</token>
+        </antipattern>
+        <antipattern><!-- He is very scary in a funny way -->
+            <token inflected="yes" regexp="yes">be|look|behave|seem|sound|act</token>
+            <token postag="RB" />
+            <token postag="JJ.*" postag_regexp="yes" />
+            <token min="0" regexp="yes">more|less</token>
             <token>in</token>
             <token regexp="yes">an?</token>
         </antipattern>
@@ -50867,6 +50884,7 @@ The accident victim died from her injuries.
             <message>Consider replacing this phrase with the adverb <suggestion><match no="3" regexp_match="(?i)y$" regexp_replace="ily" /></suggestion> to avoid wordiness.</message>
             <example correction="hastily">He did it <marker>in a hasty manner</marker>.</example>
             <example>Preferably in an easy way.</example>
+            <example>He is very scary in a funny way.</example>
         </rule>
         <rule>
             <pattern>
