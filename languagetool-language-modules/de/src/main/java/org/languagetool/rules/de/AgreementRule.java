@@ -94,6 +94,10 @@ public class AgreementRule extends Rule {
       token("Tausenden"),
       posRegex("SUB:.*PLU.*")
     ),
+    Arrays.asList(  // misspelling "Format"
+      tokenRegex("das|ein"),
+      token("Formart")
+    ),
     Arrays.asList(  // "... andere erfreut Tennis."
       regex("andere"),
       posRegex("VER:PA2.*"),
