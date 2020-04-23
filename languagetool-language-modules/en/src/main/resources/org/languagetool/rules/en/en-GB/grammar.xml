@@ -403,7 +403,7 @@ USA
                         <exception regexp="yes">advertiser|merchandisers?</exception><!-- LT gives a spelling error for ~z, but without this exception, the rule finds the ~s word -->
                         </token>
                 </pattern>
-                <message>In British English, for some nouns, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for nouns and thus suggests <suggestion suppress_misspelled="yes"><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ations?|ers?|ability|abilities)" regexp_replace="$1iz$2"/></suggestion>.</message>
+                <message  suppress_misspelled="yes">In British English, for some nouns, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for nouns and thus suggests <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(ations?|ers?|ability|abilities)" regexp_replace="$1iz$2"/></suggestion>.</message>
                 <short>Oxford spelling: nouns</short>
 <!-- ~isation--><example correction="organization">The word '<marker>organisation</marker>' is not the Oxford spelling.</example>
                 <example correction="Organizations">The word '<marker>Organisations</marker>' is not the Oxford spelling.</example>
@@ -449,7 +449,7 @@ USA
                         </token>
                     <!-- Remove uppercase from the rule: case_sensitive="yes" in the token does not work; (?-i)([a-zA-Z][a-z]+... in the regexp does not work. Use an exception. -->
                 </pattern>
-                <message>In British English, for some verbs, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for verbs and thus suggests <suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="1" regexp_match="([a-z]+?-?[a-z]+?)is(e|es|ed|ing)" regexp_replace="$1iz$2" /></suggestion>.</message><!-- Cannot use postag_regexp="yes" postag="(VB.*)" postag_replace="$1" because it causes the suggestion to be the same as the target token. -->
+                <message suppress_misspelled="yes">In British English, for some verbs, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for verbs and thus suggests <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(e|es|ed|ing)" regexp_replace="$1iz$2" /></suggestion>.</message><!-- Cannot use postag_regexp="yes" postag="(VB.*)" postag_replace="$1" because it causes the suggestion to be the same as the target token. -->
                 <short>Oxford spelling: ~ise verbs</short>
                 <example correction="organize">The verb '<marker>organise</marker>' is not the Oxford spelling.</example>
                 <example>The word '<marker>organize</marker>' is the Oxford spelling.</example>
@@ -476,7 +476,7 @@ USA
                         <exception regexp="yes">(?-i)[A-Z-]+</exception>
                         </token>
                 </pattern>
-                <message>In British English, for some adjectives, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for adjectives and thus suggests <suggestion suppress_misspelled="yes"><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)" regexp_replace="$1iz$2"/></suggestion>.</message>
+                <message suppress_misspelled="yes">In British English, for some adjectives, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for adjectives and thus suggests <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)" regexp_replace="$1iz$2"/></suggestion>.</message>
                 <short>Oxford spelling: adjectives</short>
                 <example correction="magnetizable">The adjective '<marker>magnetisable</marker>' is not the Oxford spelling.</example>
                 <example correction="Magnetizable">The adjective '<marker>Magnetisable</marker>' is not the Oxford spelling.</example>
@@ -495,7 +495,7 @@ USA
                         <exception regexp="yes">(?-i)[A-Z-]+</exception>
                         </token>
                 </pattern>
-                <message>In British English, for some adverbs, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for adverbs and thus suggests <suggestion suppress_misspelled="yes"><match no="1" suppress_misspelled="yes" regexp_match="([a-z]+?-?[a-z]+?)is(ably|ationally)" regexp_replace="$1iz$2"/></suggestion>.</message>
+                <message suppress_misspelled="yes">In British English, for some adverbs, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for adverbs and thus suggests <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(ably|ationally)" regexp_replace="$1iz$2"/></suggestion>.</message>
                 <short>Oxford spelling: adverbs</short>
                 <example correction="organizationally">The adverb '<marker>organisationally</marker>' is not the Oxford spelling.</example>
                 <example correction="Organizationally">The adverb '<marker>Organisationally</marker>' is not the Oxford spelling.</example>

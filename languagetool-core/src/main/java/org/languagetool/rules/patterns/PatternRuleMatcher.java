@@ -26,6 +26,8 @@ import org.languagetool.tools.StringTools;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //import org.slf4j.Logger;
 //import org.slf4j.LoggerFactory;
@@ -42,6 +44,9 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
   //private static final Logger logger = LoggerFactory.getLogger(PatternRuleMatcher.class);
   private static final String SUGGESTION_START_TAG = "<suggestion>";
   private static final String SUGGESTION_END_TAG = "</suggestion>";
+
+  private static final Pattern SUGGESTION_PATTERN_SUPPRESS = Pattern
+      .compile(SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME + "(.*?\\(.*?\\).*?|[^<]*"+MISTAKE+"[^<]*)" + SUGGESTION_END_TAG);
 
   private final boolean useList;
   private final List<PatternTokenMatcher> patternTokenMatchers;
@@ -226,8 +231,10 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
     AnalyzedTokenReadings token = tokens[Math.min(lastMarkerMatchToken, tokens.length-1)];
     int toPos = token.getEndPos();
     if (fromPos < toPos) { // this can happen with some skip="-1" when the last token is not matched
-      //now do some spell-checking:
-      if (!(errMessage.contains(PatternRuleHandler.PLEASE_SPELL_ME) && errMessage.contains(MISTAKE))) {
+      // if the message is "suppress_misspelled" and there are no suggestions,
+      // then do not create the rule match
+      if (!(errMessage.contains(PatternRuleHandler.PLEASE_SPELL_ME) && !errMessage.contains(SUGGESTION_START_TAG)
+          && !suggestionsOutMsg.contains(SUGGESTION_START_TAG))) {
         String clearMsg = errMessage.replaceAll(PatternRuleHandler.PLEASE_SPELL_ME, "").replaceAll(MISTAKE, "");
         RuleMatch ruleMatch = new RuleMatch(rule, sentence, fromPos, toPos, tokens[firstMatchToken].getStartPos(), tokens[lastMatchToken].getEndPos(),
                 clearMsg, shortErrMessage, startsWithUppercase, suggestionsOutMsg);
@@ -299,6 +306,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       List<Match> suggestionMatches) throws IOException {
     String errorMessage = errorMsg;
     int matchCounter = 0;
+    //int prevMatchesLength = 0;
     int[] numbersToMatches = new int[errorMsg.length()];
     boolean newWay = false;
     int errLen = errorMessage.length();
@@ -359,6 +367,8 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
               // TODO compute/return errorMessageProcessed here as well
               errorMessage = formatMultipleSynthesis(matches, leftSide, rightSide);
             }
+            //TODO keep the previous matches length and handle it appropriately
+            //prevMatchesLength =  matches.length;
             matchCounter++;
             newWay = true;
           } else {
@@ -383,7 +393,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
         numberFollows = StringTools.isPositiveNumber(errorMessage.charAt(errMarker + 1));
       }
     }
-    return errorMessage;
+    return removeSupressMisspelled(errorMessage);
   }
 
   private static String concatWithoutExtraSpace(String leftSide, String rightSide) {
@@ -395,6 +405,17 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       return leftSide + rightSide.substring(1);
     }
     return leftSide + rightSide;
+  }
+
+  static String removeSupressMisspelled(String s) {
+    String result = s;
+    // remove suggestions not synthesized if marked wit <suggestion><pleasespellme/>...</suggestion>
+    //remove misspelled words: <suggestion><pleasespellme/>...<mistake/>...</suggestion>
+    Matcher matcher = SUGGESTION_PATTERN_SUPPRESS.matcher(result);
+    result = matcher.replaceAll("");
+    //remove the remaining tags <pleasespellme/> in suggestions but not in the message
+    result = result.replaceAll(SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME, SUGGESTION_START_TAG);
+    return result;
   }
 
   // non-private for tests

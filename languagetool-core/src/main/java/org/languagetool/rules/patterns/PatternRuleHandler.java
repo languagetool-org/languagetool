@@ -72,6 +72,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
   private boolean relaxedMode = false;
   private boolean inAntiPattern;
+  
+  private boolean isRuleSuppressMisspelled;
+  private boolean isSuggestionSupressMisspelled;
 
   private String idPrefix;
 
@@ -169,6 +172,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (attrs.getValue(TYPE) != null) {
           ruleIssueType = attrs.getValue(TYPE);
         }
+        isRuleSuppressMisspelled = false;
         break;
       case PATTERN:
         startPattern(attrs);
@@ -239,15 +243,21 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inMessage = true;
         inSuggestion = false;
         message = new StringBuilder();
+        isRuleSuppressMisspelled = YES.equals(attrs.getValue("suppress_misspelled"));
+        if (isRuleSuppressMisspelled) {
+          message.append(PLEASE_SPELL_ME);
+        } 
         break;
       case SUGGESTION:
-        if (YES.equals(attrs.getValue("suppress_misspelled"))) {
-          message.append(PLEASE_SPELL_ME);
+        String strToAppend = "<suggestion>";
+        isSuggestionSupressMisspelled = YES.equals(attrs.getValue("suppress_misspelled"));
+        if (isSuggestionSupressMisspelled || isRuleSuppressMisspelled) {
+          strToAppend = strToAppend + PLEASE_SPELL_ME;
         }
         if (inMessage) {
-          message.append("<suggestion>");
-        } else {  //suggestions outside message
-          suggestionsOutMsg.append("<suggestion>");
+          message.append(strToAppend);
+        } else { // suggestions outside message
+          suggestionsOutMsg.append(strToAppend);
         }
         inSuggestion = true;
         break;
@@ -283,7 +293,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         break;
       case MATCH:
-        setMatchElement(attrs);
+        setMatchElement(attrs, isSuggestionSupressMisspelled || isRuleSuppressMisspelled);
         break;
       case MARKER:
         if (inIncorrectExample) {
