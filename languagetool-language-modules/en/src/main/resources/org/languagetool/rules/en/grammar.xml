@@ -3952,6 +3952,11 @@ USA
                 <example correction="its">The country's crisis was of <marker>it's</marker> own making.</example>
             </rule>
             <rule>
+                <antipattern><!-- www.lexico.com/definition/brand_new -->
+                    <token>s</token>
+                    <token>brand</token>
+                    <token>new</token>
+                </antipattern>
                 <pattern>
                     <token postag="VB.*" postag_regexp="yes"><exception postag="VB[GZ]" postag_regexp="yes"/><exception inflected="yes" regexp="yes">know|say|think|ok|believe|guess|see</exception></token>
                     <marker>
@@ -3977,6 +3982,7 @@ USA
                 <example correction="its">What are <marker>it's</marker> benefits?</example>
                 <example>I hope it's nothing serious.</example>
                 <example>I reckon it's time to wake up.</example>
+                <example>We can sell it like it's brand new.</example><!-- #2662 -->
             </rule>
             <rule>
                 <pattern>
@@ -4144,6 +4150,17 @@ USA
                 <example correction="It's|It is"><marker>Its</marker> too good to be true.</example>
             </rule>
             <rule>
+                <antipattern><!-- #2662 once running it's difficult to stop-->
+                    <token postag="CC"/>
+                    <token postag="VBG"/>
+                    <marker>
+                        <token>it</token>
+                        <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                        <token>s</token>
+                    </marker>
+                    <token postag_regexp="yes" postag="JJR?"/>
+                    <token chunk="B-VP">to</token>
+                </antipattern>
                 <pattern>
                     <token postag="VBG"><exception regexp="yes">saying|hoping|assuming|feeling|realizing|considering|guessing|pretending|thinking|knowing|denying|claiming|ranting|reali[sz]ing|praying|suggesting|meaning|wondering</exception></token>
                     <marker>
@@ -4158,6 +4175,8 @@ USA
                 <example>Well, you know, kinda strange though, considering it's not Christmas.</example>
                 <example>I've been hearing it's supposed to snow tonight.</example>
                 <example>I'm assuming it's a suicide.</example>
+                <example>It starts slowly - once running it's difficult to stop.</example><!-- #2662 -->
+                <example>I am really emotional; when crying it's difficult to stop.</example><!-- #2662 -->
             </rule>
             <rule>
                 <antipattern><!-- #2788 shows it's very similar. -->
@@ -4252,6 +4271,15 @@ USA
                     <token postag="NN.*" postag_regexp="yes"/>
                     <token regexp="yes">to|who|which|that|&apostrophe;</token>
                 </antipattern>
+                <antipattern><!-- #2662 I'm glad to hear it's going better -->
+                    <token>to</token>
+                    <token postag="VB"/>
+                    <token>it</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token postag="VBG"/>
+                    <token postag="JJR"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">can|couldn|didn?|do(es)?n|mustn?|needn?|oughtn?|shan|shouldn?|won|wouldn?|to</token>
                     <token regexp="yes" min="0">&apostrophe;</token>
@@ -4275,6 +4303,7 @@ USA
                 <example>I don't think <marker>it's</marker> Tom's problem.</example>
                 <example>I don't think <marker>it's</marker> anything we need to worry about.</example>
                 <example>I don't think <marker>it's</marker> Tom.</example>
+                <example>I'm glad to hear it's going better.</example><!-- #2662 -->
             </rule>
             <rule>
                 <pattern>
@@ -4445,11 +4474,15 @@ USA
                         <token regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
-                    <token/>
+                    <token>
+                        <exception>what</exception>
+                        </token>
                     <token>is</token>
                 </pattern>
                 <message>Did you mean <suggestion>\2s</suggestion>?</message>
                 <example correction="Its"><marker>It's</marker> door is too small.</example>
+                <example><marker>Its</marker> door is too small.</example>
+                <example>It's what is keeping us busy.</example><!-- #2662 -->
             </rule>
             <rule>
                 <pattern>
