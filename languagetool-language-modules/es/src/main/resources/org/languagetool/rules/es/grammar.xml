@@ -2606,7 +2606,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.rae.es/dpd/que%C3%ADsmo</url>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">pensar|opinar|creer|comentar|expresar|decir|deducir|inferir|colegir|razonar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconsejar|ver|observar<exception postag="_GN_.*" postag_regexp="yes"
+                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">oír|temer|pensar|opinar|creer|comentar|expresar|decir|deducir|inferir|colegir|razonar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconsejar|ver|observar<exception postag="_GN_.*" postag_regexp="yes"
+                    /></token>
+                    <marker>
+                        <token>de</token>
+                        <token skip="-1">que</token>
+                    </marker>
+                    <token>?</token>
+                </pattern>
+                <message>Posible dequeísmo o falta una tilde.</message>
+                <suggestion>de qué</suggestion>
+                <suggestion>que</suggestion>
+                <example correction="de qué|que">¿Puede decirme <marker>de que</marker> talla es esto?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">oír|temer|pensar|opinar|creer|comentar|expresar|decir|deducir|inferir|colegir|razonar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconsejar|ver|observar<exception postag="_GN_.*" postag_regexp="yes"
                         /></token>
                     <marker>
                         <token>de</token>
@@ -2615,9 +2630,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Posible dequeísmo.</message>
                 <suggestion>que</suggestion>
-                <suggestion>de qué</suggestion>
-                <example correction="que|de qué">Pienso <marker>de que</marker> estamos mejorando mucho.</example>
-                <example correction="que|de qué">¿Puede decirme <marker>de que</marker> talla es esto?</example>
+                <example correction="que">Pienso <marker>de que</marker> estamos mejorando mucho.</example>
                 <example>Creemos que podemos mejorar más.</example>
                 <example>Son las razones de que nos guste.</example>
             </rule>
@@ -2657,6 +2670,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Se alegró de que vinieran.</example>
                 <example>Se alegraron de que vinieran.</example>
                 <example>Nos alegramos de que vinieran.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>no</token>
+                    <token>ser</token>
+                    <token>de</token>
+                    <token>que</token>
+                </pattern>
+                <message>Expresión incorrecta. Dequeísmo.</message>
+                <suggestion>a no ser que</suggestion>
+                <example correction="a no ser que">Y <marker>a no ser de que</marker> vengas</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <token>medida</token>
+                    <token>de</token>
+                    <token>que</token>
+                </pattern>
+                <message>Expresión incorrecta. Dequeísmo.</message>
+                <suggestion>a medida que</suggestion>
+                <example correction="A medida que"><marker>A medida de que</marker> lleguen.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>una</token>
+                    <token>vez</token>
+                    <token>de</token>
+                    <token>que</token>
+                </pattern>
+                <message>Expresión incorrecta. Dequeísmo.</message>
+                <suggestion>una vez que</suggestion>
+                <example correction="Una vez que"><marker>Una vez de que</marker> lleguen.</example>
             </rule>
         </rulegroup>
         <rule id="DADO_A_QUE" name="*dado a que/dado que">
@@ -3853,7 +3900,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="PREPOSITIONS" name="preposiciones">
         <rule id="INSISTIR_DE" name="insistir *de/en">
             <pattern>
-                <token inflected="yes">insistir</token>
+                <token inflected="yes" regexp="yes">insistir|fijar</token>
                 <token min="0" postag="RG"/>
                 <marker>
                     <token>de</token>
