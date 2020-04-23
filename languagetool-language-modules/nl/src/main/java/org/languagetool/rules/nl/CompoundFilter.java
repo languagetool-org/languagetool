@@ -1,3 +1,4 @@
+
 /* LanguageTool, a natural language style checker
  * Copyright (C) 2019 Daniel Naber (http://www.danielnaber.de)
  *
@@ -96,7 +97,6 @@ public class CompoundFilter extends RuleFilter {
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, shortMessage);
     newMatch.setSuggestedReplacement(compound);
     return newMatch;
-  }
-  */
-  
+  }*/
+
 }
