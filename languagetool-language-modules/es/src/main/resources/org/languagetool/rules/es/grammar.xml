@@ -3596,6 +3596,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CAT4" name="Estilo" type="style">
+        <rule id="MEXICO" name="México/Méjico" default="temp_off">
+            <pattern>
+                <token regexp="yes">.*mejic.*|Méjico|Tejas<exception postag="NCFP000">tejas</exception></token>
+            </pattern> <!--tejano-->
+            <message>Grafía recomendada.</message>
+            <suggestion><match no="1" regexp_match="(?iu)(.*)j(.*)" regexp_replace="$1x$2"/></suggestion>
+            <example correction="México">Soy de <marker>Méjico</marker>.</example>
+            <example correction="mexicanas">Son <marker>mejicanas</marker>.</example>
+            <example>No me quedan tejas.</example>
+        </rule>
         <rule id="ASI" name="así/asín/asina">
             <pattern>
                 <token regexp="yes">asín|asina<exception postag="_possible_NP"/></token>
