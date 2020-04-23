@@ -38,6 +38,7 @@ public class CompoundFilter extends RuleFilter {
   @Nullable
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
+
     String word1 = arguments.get("word1");
     String word2 = arguments.get("word2");
     char lastChar = word1.charAt(word1.length()-1);
@@ -62,6 +63,36 @@ public class CompoundFilter extends RuleFilter {
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, shortMessage);
     newMatch.setSuggestedReplacement(repl);
     return newMatch;
+/*
+    String words = arguments.get("words");
+    String[] parts=words.split('|');
+    String compound=parts[0];
+    for (int i = 1; i < parts.length-1; i++)
+      String word1 = compound;
+      String word2 = parts[i+1];
+      char lastChar = compound.charAt(compound.length()-1);
+      char firstChar = word2.charAt(0);
+      String connection = lastChar + String.valueOf(firstChar);
+      String repl;
+      if (StringUtils.containsAny(connection, "aa", "ae", "ai", "ao", "au", "ee", "ei", "eu", "ie", "ii", "oe", "oi", "oo", "ou", "ui", "uu", "ij")) {
+        compound = compound + '-' + word2;
+      } else if (isUpperCase(firstChar) && isLowerCase(lastChar)) {
+        compound = compound + '-' + word2;
+      } else if (isUpperCase(lastChar) && isLowerCase(firstChar)) {
+        compound = compound + '-' + word2;
+      } else if (compound.matches("(^|.+-)?"+spelledWords) || word2.matches(spelledWords+"(-.+|$)?")) {
+        compound = compound + '-' + word2;
+      } else if (compound.matches(".+-[a-z]$") || word2.matches("^[a-z]-.+")) {
+        compound = compound + '-' + word2;
+      } else {
+        compound = compound + word2;
+      }
+    String message = match.getMessage().replaceAll("<suggestion>.*?</suggestion>", "<suggestion>" + compound + "</suggestion>");
+    String shortMessage = match.getShortMessage().replaceAll("<suggestion>.*?</suggestion>", "<suggestion>" + compound + "</suggestion>");
+    RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, shortMessage);
+    newMatch.setSuggestedReplacement(repl);
+    return newMatch;
+    */
   }
   
 }
