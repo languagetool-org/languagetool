@@ -133,7 +133,6 @@ public class PatternRule extends AbstractPatternRule {
   public int estimateContextForSureMatch() {
     int extendAfterMarker = 0;
     boolean markerSeen = false;
-    boolean infinity = false;
     for (PatternToken pToken : this.patternTokens) {
       if (markerSeen && !pToken.isInsideMarker()) {
         extendAfterMarker++;
@@ -146,8 +145,7 @@ public class PatternRule extends AbstractPatternRule {
         markerSeen = true;
       }
       if (pToken.getSkipNext() == -1) {
-        infinity = true;
-        break;
+        return -1;
       } else {
         extendAfterMarker += pToken.getSkipNext();
       }
@@ -158,19 +156,14 @@ public class PatternRule extends AbstractPatternRule {
     for (DisambiguationPatternRule antiPattern : getAntiPatterns()) {
       for (PatternToken token : antiPattern.getPatternTokens()) {
         if (token.getSkipNext() == -1) {
-          infinity = true;
-          break;
+          return -1;
         } else if (token.getSkipNext() > longestSkip) {
           longestSkip = token.getSkipNext();
         }
       }
     }
     //System.out.println("extendAfterMarker: " + extendAfterMarker + ", antiPatternLengths: " + antiPatternLengths + ", longestSkip: " + longestSkip);
-    if (infinity) {
-      return -1;
-    } else {
-      return extendAfterMarker + Math.max(longestAntiPattern, longestAntiPattern + longestSkip);
-    }
+    return extendAfterMarker + Math.max(longestAntiPattern, longestAntiPattern + longestSkip);
   }
 
   /**
