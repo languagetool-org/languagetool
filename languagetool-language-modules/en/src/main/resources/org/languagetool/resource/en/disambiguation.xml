@@ -5720,6 +5720,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag_regexp="yes" postag="NN(:UN?)?"/>
                 <token regexp="yes">is|was</token>
             </antipattern>
+            <antipattern><!-- #2662 once running it -->
+                <token postag="CC"/>
+                <token postag="VBG"/>
+                <token regexp="yes">&subject_pronouns;</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <and>
@@ -5739,6 +5744,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">It's not good, <marker>so</marker> don't buy it.</example><!-- #2223 -->
             <example type="untouched">Adjective: The national team plays its <marker>home</marker> games at the Ghazi Stadium in Kabul.</example>
             <example type="untouched">Noun: ... the only state in which possession of one ounce or less of marijuana in one's <marker>home</marker> is completely legal under state law.</example><!-- Premium #1006 -->
+            <example type="untouched">Conjunction: It starts slowly - <marker>once</marker> running it's difficult to stop. </example><!-- #2662 -->
             <example type="ambiguous" inputform="forever[forever/NN:U,forever/RB]" outputform="forever[forever/RB]">You're <marker>forever</marker> making mistakes.</example>
         </rule>
 
