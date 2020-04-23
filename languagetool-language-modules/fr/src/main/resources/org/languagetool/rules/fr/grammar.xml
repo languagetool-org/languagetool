@@ -8289,7 +8289,7 @@ though, and has since been slightly modified)-->
                       <token regexp="yes">an|ans</token>
                   </marker>
               </pattern>
-              <message>On ne peut utiliser "an" qu'après des nombres cardinaux. Utilisez plutôt <suggestion>année</suggestion>."</message>
+              <message>On ne peut utiliser "an" qu'en concordance des nombres cardinaux. Utilisez plutôt <suggestion>année</suggestion>."</message>
               <example correction="année">Bon <marker>an</marker> !</example>
               <example correction="année">Chaque <marker>an</marker>, nous allons célébrer dans un grand restaurant.</example>
               <example>Régiments de hussards (an IV).</example>
@@ -9481,11 +9481,77 @@ though, and has since been slightly modified)-->
         <example>Je trouve le rythme et la mélodie combinés avec des rimes très beaux dans cette chanson.</example>
       </rule>
     </rulegroup>
-    <rule id="NOM_DE_PAYS" name="Nom de pays sans majuscule" default="temp_off">
-        <regexp case_sensitive="yes">afrique du sud|afghanistan|albanie|algérie|allemagne|andorre|angola|antigua-et-barbuda|arabie saoudite|argentine|arménie|australie|autriche|azerbaïdjan|bahamas|bahreïn|bangladesh|barbade|belgique|belize|bénin|bhoutan|biélorussie|birmanie|bolivie|bosnie-herzégovine|botswana|brésil|brunei|bulgarie|burkina faso|burundi|cambodge|cameroun|canada|cap-vert|chili|chine|chypre|colombie|comores|corée du nord|corée du sud|costa rica|côte d’ivoire|croatie|cuba|danemark|djibouti|dominique|Égypte|Émirats arabes unis|Équateur|Érythrée|espagne|eswatini|estonie|États-unis|Éthiopie|fidji|finlande|france|gabon|gambie|géorgie|ghana|grèce|grenade|guatemala|guinée|guinée équatoriale|guinée-bissau|guyana|haïti|honduras|hongrie|Îles cook|Îles marshall|inde|indonésie|irak|iran|irlande|islande|israël|italie|Jamaïque|Japon|Jordanie|kazakhstan|kenya|kirghizistan|kiribati|koweït|laos|lesotho|lettonie|liban|liberia|libye|liechtenstein|lituanie|luxembourg|macédoine|madagascar|malaisie|malawi|maldives|mali|malte|maroc|maurice|mauritanie|mexique|micronésie|moldavie|monaco|mongolie|monténégro|mozambique|namibie|nauru|népal|nicaragua|niger|nigeria|niue|norvège|nouvelle-zélande|oman|ouganda|ouzbékistan|pakistan|palaos|palestine|panama|papouasie-nouvelle-guinée|paraguay|pays-bas|pérou|philippines|pologne|portugal|qatar|république centrafricaine|république démocratique du congo|république dominicaine|république du congo|république tchèque|roumanie|royaume-uni|russie|rwanda|saint-kitts-et-nevis|saint-vincent-et-les-grenadines|sainte-lucie|saint-marin|salomon|salvador|samoa|são tomé-et-principe|sénégal|serbie|seychelles|sierra leone|singapour|slovaquie|slovénie|somalie|soudan|soudan du sud|sri lanka|suède|suisse|suriname|syrie|tadjikistan|tanzanie|tchad|thaïlande|timor oriental|togo|tonga|trinité-et-tobago|tunisie|turkménistan|turquie|tuvalu|ukraine|uruguay|vanuatu|vatican|venezuela|viêt nam|yémen|zambie|zimbabwe</regexp>
-        <message>En français, les noms de pays prennent une majuscule.</message>
-        <example correction="">Aujourd'hui San Diego, demain, le <marker>canada</marker>.</example>
-    </rule>
+    <rulegroup id="NOM_DE_PAYS" name="Nom de pays sans majuscule" default="off">
+        <!-- TODO: Improve, capitalization is not consistent in french -->
+        <rule name="Noms de pays composés d'un token">
+            <antipattern>
+                <token regexp="yes">cochons?</token>
+                <token>d</token>
+                <token>'</token>
+                <token>inde</token>
+            </antipattern>
+            <antipattern>
+                <token>Gaule</token>
+                <token>belgique</token>
+            </antipattern>
+            <antipattern>
+                <token>bois</token>
+                <token>brésil</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Helleborus|Lathyrus|Lasius|Pteropus</token>
+                <token>niger</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">chilis?</token>
+                <token>con</token>
+                <token>carne</token>
+            </antipattern>
+            <antipattern>
+                <token>papier</token>
+                <token>japon</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">
+                    afghanistan|albanie|algérie|allemagne|andorre|angola|antigua-et-barbuda|arménie|australie|autriche|azerbaïdjan|bahamas|bahreïn|bangladesh|barbade|belgique|belize|bhoutan|biélorussie|birmanie|bolivie|bosnie-herzégovine|botswana|brésil|brunei|bulgarie|burundi|cambodge|cameroun|canada|cap-vert|chili|chine|chypre|colombie|comores|croatie|cuba|danemark|djibouti|dominique|égypte|érythrée|espagne|eswatini|estonie|états-unis|éthiopie|fidji|finlande|france|gabon|gambie|géorgie|ghana|grèce|guatemala|guinée|guinée-bissau|guyana|haïti|honduras|hongrie|inde|indonésie|irak|iran|irlande|islande|israël|italie|jamaïque|japon|jordanie|kazakhstan|kenya|kirghizistan|kiribati|koweït|laos|lesotho|lettonie|liban|liberia|libye|liechtenstein|lituanie|luxembourg|macédoine|madagascar|malaisie|malawi|maldives|mali|malte|maroc|maurice|mauritanie|mexique|micronésie|moldavie|monaco|mongolie|monténégro|mozambique|namibie|nauru|népal|nicaragua|niger|nigeria|niue|norvège|nouvelle-zélande|oman|ouganda|ouzbékistan|pakistan|palaos|palestine|panama|papouasie-nouvelle-guinée|paraguay|pays-bas|pérou|philippines|pologne|portugal|qatar|roumanie|royaume-uni|russie|rwanda|saint-kitts-et-nevis|saint-vincent-et-les-grenadines|sainte-lucie|saint-marin|salomon|salvador|samoa|sénégal|serbie|seychelles|singapour|slovaquie|slovénie|somalie|soudan|suède|suriname|syrie|tadjikistan|tanzanie|tchad|thaïlande|togo|tonga|trinité-et-tobago|tunisie|turkménistan|turquie|tuvalu|ukraine|uruguay|vanuatu|vatican|venezuela|yémen|zambie|zimbabwe
+                </token>
+            </pattern>
+            <message>S'il s'agit bien du nom du pays, il convient d'y mettre une majuscule.</message>
+            <suggestion><match no="1" case_conversion="startupper"/></suggestion>
+            <example correction="France">Aujourd'hui, la <marker>france</marker>, demain le Canada.</example>
+            <example correction="Canada">Aujourd'hui, la France, demain le <marker>canada</marker>.</example>
+        </rule>
+        <rule name="Noms de pays composés de deux tokens">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">arabie|burkina|costa|guinée|viêt|timor|îles|république|sri|são|sierra</token>
+                <token regexp="yes" case_sensitive="yes">saoudite|faso|rica|équatoriale|nam|oriental|cook|marshall|centrafricaine|tchèque|lanka|dominicaine|tomé-et-principe|leone</token>
+            </pattern>
+            <message>S'il s'agit bien du nom du pays, il convient d'y mettre une majuscule.</message>
+            <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/></suggestion>
+            <example correction="République Tchèque">Aujourd'hui, la <marker>république tchèque</marker>, demain le Canada.</example>
+        </rule>
+        <rule name="Noms de pays composés de trois tokens">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">afrique|émirats|corée|soudan|république</token>
+                <token regexp="yes" case_sensitive="yes">du|arabes</token>
+                <token regexp="yes" case_sensitive="yes">sud|nord|unis|congo</token>
+            </pattern>
+            <message>S'il s'agit bien du nom du pays, il convient d'y mettre une majuscule.</message>
+            <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/></suggestion>
+            <example correction="Corée Du Sud">Aujourd'hui, la <marker>corée du sud</marker>, demain le Canada.</example>
+        </rule>
+        <rule name="Noms de pays composés de quatre tokens">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">république|côte</token>
+                <token regexp="yes" case_sensitive="yes">démocratique|d</token>
+                <token regexp="yes" case_sensitive="yes">du|'</token>
+                <token regexp="yes" case_sensitive="yes">congo|ivoire</token>
+            </pattern>
+            <message>S'il s'agit bien du nom du pays, il convient d'y mettre une majuscule.</message>
+            <suggestion><match no="1" case_conversion="startupper"/> <match no="2" case_conversion="startupper"/> <match no="3" case_conversion="startupper"/> <match no="4" case_conversion="startupper"/></suggestion>
+            <example correction="République Démocratique Du Congo">Aujourd'hui, la <marker>république démocratique du congo</marker>, demain le Canada.</example>
+        </rule>
+    </rulegroup>
       <rulegroup id="ACCORD_CENTAINE_DE" name="centaine de">
       <rule>
         <antipattern>
