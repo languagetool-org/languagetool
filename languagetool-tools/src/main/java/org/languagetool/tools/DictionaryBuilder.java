@@ -150,8 +150,10 @@ class DictionaryBuilder {
       throw new IOException("A separator character (fsa.dict.separator) must be defined in the dictionary info file.");
     }
     File tempFile = File.createTempFile(DictionaryBuilder.class.getSimpleName(), "WithFrequencies.txt");
+    tempFile.deleteOnExit();
     String encoding = getOption("fsa.dict.encoding");
     int freqValuesApplied = 0;
+
     try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tempFile.getAbsoluteFile()), encoding));
          BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(dictFile.getAbsoluteFile()), encoding))) {
       String line;
@@ -188,13 +190,14 @@ class DictionaryBuilder {
     } catch (IOException e) {
       throw new RuntimeException("Cannot read file: " + dictFile.getAbsolutePath());
     }
-    tempFile.deleteOnExit();
     return tempFile;
   }
   
   protected File convertTabToSeparator(File inputFile) throws RuntimeException, IOException {
     File outputFile = File.createTempFile(
         DictionaryBuilder.class.getSimpleName() + "_separator", ".txt");
+    outputFile.deleteOnExit();
+
     String separator = getOption("fsa.dict.separator");
     if (separator == null || separator.trim().isEmpty()) {
       throw new IOException(

@@ -110,10 +110,13 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
 
   private File reverseLineContent(File plainTextDictFile, Set<String> itemsToBeIgnored, Pattern ignorePosRegex) throws IOException {
     File reversedFile = File.createTempFile(SynthDictionaryBuilder.class.getSimpleName() + "_reversed", ".txt");
+    reversedFile.deleteOnExit();
+
     String separator = getOption("fsa.dict.separator");
     if (separator == null || separator.trim().isEmpty()) {
       throw new IOException("A separator character (fsa.dict.separator) must be defined in the dictionary info file.");
     }
+    
     String encoding = getOption("fsa.dict.encoding");
     int posIgnoreCount = 0;
     Scanner scanner = new Scanner(plainTextDictFile, encoding);
@@ -145,7 +148,9 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
 
   private File getTagFile(File tempFile) {
     String name = tempFile.getAbsolutePath() + "_tags.txt";
-    return new File(name);
+    File file = new File(name);
+    file.deleteOnExit();
+    return file;
   }
 
   private void writePosTagsToFile(File plainTextDictFile, File tagFile) throws IOException {
