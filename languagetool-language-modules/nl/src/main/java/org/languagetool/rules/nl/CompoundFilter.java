@@ -64,10 +64,11 @@ public class CompoundFilter extends RuleFilter {
     return newMatch;
   }
 
-  /*@Nullable
-  @Override
+  /*
+  @Nullable
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
     String words = arguments.get("words");
+    //System.out.println("****"+words+"******");
     String[] parts = words.split("\\|");
     String compound = parts[0];
     for (int i = 1; i < parts.length-1; i++) {
@@ -76,7 +77,6 @@ public class CompoundFilter extends RuleFilter {
       char lastChar = compound.charAt(compound.length() - 1);
       char firstChar = word2.charAt(0);
       String connection = lastChar + String.valueOf(firstChar);
-      String repl;
       if (StringUtils.containsAny(connection, "aa", "ae", "ai", "ao", "au", "ee", "ei", "eu", "ie", "ii", "oe", "oi", "oo", "ou", "ui", "uu", "ij")) {
         compound = compound + '-' + word2;
       } else if (isUpperCase(firstChar) && isLowerCase(lastChar)) {
@@ -94,8 +94,9 @@ public class CompoundFilter extends RuleFilter {
     String message = match.getMessage().replaceAll("<suggestion>.*?</suggestion>", "<suggestion>" + compound + "</suggestion>");
     String shortMessage = match.getShortMessage().replaceAll("<suggestion>.*?</suggestion>", "<suggestion>" + compound + "</suggestion>");
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, shortMessage);
-    newMatch.setSuggestedReplacement(repl);
+    newMatch.setSuggestedReplacement(compound);
     return newMatch;
-  }*/
+  }
+  */
   
 }

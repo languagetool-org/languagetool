@@ -61,4 +61,32 @@ public class CompoundFilterTest {
     return map;
   }
 
+/*
+  public void testFilter() {
+    assertSuggestion("tv|meubel", "tv-meubel");
+    assertSuggestion("test-tv|meubel", "test-tv-meubel");
+    assertSuggestion("onzin|tv", "onzin-tv");
+    assertSuggestion("auto|onderdeel", "auto-onderdeel");
+    assertSuggestion("test|e-mail", "test-e-mail");
+    assertSuggestion("taxi|jongen", "taxi-jongen");
+    assertSuggestion("rij|instructeur", "rijinstructeur");
+    assertSuggestion("test|e-mail", "test-e-mail");
+    assertSuggestion("ANWB|wagen", "ANWB-wagen");
+    assertSuggestion("pro-deo|advocaat", "pro-deoadvocaat");
+    assertSuggestion("ANWB|tv|wagen", "ANWB-tv-wagen");
+  }
+
+  private void assertSuggestion(String words, String expectedSuggestion) {
+    RuleMatch ruleMatch = filter.acceptRuleMatch(match, makeMap(words), -1, null);
+    assertThat(ruleMatch.getSuggestedReplacements().size(), is(1));
+    assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedSuggestion));
+  }
+
+  private Map<String, String> makeMap(String words) {
+    Map<String,String> map = new HashMap<>();
+    map.put("words", word1);
+    return map;
+  }
+
+*/
 }
