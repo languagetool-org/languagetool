@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -29,6 +30,13 @@ public class ExtraDictionaryLoader {
     return result;
   }
 
+  public static Map<String, String> loadMap(String path) {
+    Set<String> set = loadSet(path);
+    return set.stream()
+        .map(str -> str.trim().split(" "))
+        .collect(Collectors.toMap(x -> x[0], x -> x.length > 1 ? x[1] : ""));
+  }
+  
   public static Map<String, List<String>> loadSpacedLists(String path) {
     Map<String, List<String>> result = new HashMap<>();
     List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);

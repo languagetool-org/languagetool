@@ -168,6 +168,18 @@ public final class PosTagHelper {
     return false;
   }
 
+  public static boolean hasPosTagStart(AnalyzedTokenReadings analyzedTokenReadings, String posTagPart) {
+    return hasPosTagStart(analyzedTokenReadings.getReadings(), posTagPart);
+  }
+
+  public static boolean hasPosTagStart(List<AnalyzedToken> analyzedTokenReadings, String posTagPart) {
+    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
+      if( analyzedToken.getPOSTag() != null && analyzedToken.getPOSTag().startsWith(posTagPart) )
+        return true;
+    }
+    return false;
+  }
+
   public static boolean hasPosTagPart2(List<TaggedWord> taggedWords, String posTagPart) {
     for(TaggedWord analyzedToken: taggedWords) {
       if( analyzedToken.getPosTag() != null && analyzedToken.getPosTag().contains(posTagPart) )
