@@ -1436,7 +1436,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig postag="NNP"/>
     </rule>
+
     <rule name="kind (adj) + of -&gt; kind (n)" id="KIND_JJ">
+        <antipattern><!-- #2662 it's kind of her -->
+            <token regexp="yes">i?s|was</token>
+            <token>kind</token>
+            <token>of</token>
+            <token regexp="yes">&object_pronouns;</token>
+        </antipattern>
         <pattern>
             <marker>
                 <token postag="JJ">kind</token>
@@ -1444,7 +1451,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>of</token>
         </pattern>
         <disambig postag="NN"/>
+        <example type="untouched">Nevertheless, I'm emphasizing it's kind of her to do that.</example>
+        <example type="untouched">No, it's kind of them, in my opinion.</example>
+        <example type="untouched">Really, it was kind of you and your family.</example>
+        <example type="ambiguous" inputform="kind[kind/JJ,kind/NN:UN]" outputform="kind[kind/NN]">Nevertheless, I'm emphasizing it's <marker>kind</marker> of problem is not the same as the problems of other disambiguators.</example><!--  #2662 -->
     </rule>
+
     <rule name="the/a + mine = mine (noun)" id="MINE_NN">
         <pattern>
             <token postag_regexp="yes" postag="DT|PRP\$"/>
