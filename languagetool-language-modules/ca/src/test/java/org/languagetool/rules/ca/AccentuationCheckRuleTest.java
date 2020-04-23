@@ -110,6 +110,7 @@ public class AccentuationCheckRuleTest {
 
     // errors:
     //TODO assertIncorrect("una votació especifica de diputats.");
+    //TODO assertIncorrect("Opera nova de l'estil.");
     
     assertIncorrect("que les vertebres properes al crani");
     assertIncorrect("Unes circumstancies");
@@ -122,8 +123,8 @@ public class AccentuationCheckRuleTest {
     assertIncorrect("Les continues al·lusions a la victòria.");
     assertIncorrect("De positiva influencia en ell.");
     assertIncorrect("tren de llarga distancia");
-//    assertIncorrect("com la nostra pròpia desgracia");
-//    assertIncorrect("la seva influencia");
+    //assertIncorrect("com la nostra pròpia desgracia");
+    //assertIncorrect("la seva influencia");
     assertIncorrect("Cal una nova formula que substitueixi el caduc Estat del benestar.");
     assertIncorrect("Porta-la i nosaltres fem la copia i la compulsem.");
     assertIncorrect("Carrega d'arxius.");

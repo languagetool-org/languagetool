@@ -457,14 +457,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La continua tensión.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TENIA" name="tenia/tenía" default="temp_off">
+        <rulegroup id="TENIA" name="tenia/tenía" default="on">
             <rule>
                 <pattern>
                     <marker>
                         <token>tenia</token>
                     </marker>
                 </pattern>
-                <message>Si es del v. 'tener', lleva tilde. Correcto si es el nombre de un gusano.</message>
+                <message>Si es del v. 'tener', lleva tilde. Puede ser, más raramente, un sustantivo sin tilde.</message>
                 <suggestion>tenía</suggestion>
                 <example correction="tenía">Se <marker>tenia</marker> que hacer.</example>
                 <example correction="tenía">Él lo <marker>tenia</marker>.</example>
@@ -476,7 +476,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>tenias</token>
                     </marker>
                 </pattern>
-                <message>Si es del v. 'tener', lleva tilde. Correcto si es el nombre de un gusano.</message>
+                <message>Si es del v. 'tener', lleva tilde. Puede ser, más raramente, un sustantivo sin tilde.</message>
                 <suggestion>tenías</suggestion>
                 <example correction="tenías">Lo <marker>tenias</marker> que hacer.</example>
                 <example correction="tenías" type="triggers_error" reason="rare">Las <marker>tenias</marker> son un gusano plateminto.</example>
@@ -2502,7 +2502,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://lema.rae.es/dpd/srv/search?key=gratis</url>
             <example correction="gratis|de balde">El agua es <marker>de gratis</marker>.</example>
         </rule>
-        <rulegroup id="QUEISMO" name="queismo" type="grammar" default="temp_off">
+        <rulegroup id="QUEISMO" name="queismo" type="grammar" default="on">
             <url>https://www.rae.es/dpd/que%C3%ADsmo</url>
             <rule id="INF_PP_QUE" name="Infinitivo tipo convencer + pron.pers + que">
                 <pattern>
@@ -2549,7 +2549,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes"><exception postag="VAIP3S0"/>estar</token>
+                    <token inflected="yes">estar<exception postag="VAIP3S0"/></token>
                     <token inflected="yes" regexp="yes">seguro|alegre|triste|entristecer|sorprender|convencer|agobiar|preocupar|harto|cansar|aburrir</token>
                     <marker>
                         <token>que</token>
@@ -2577,7 +2577,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de que">Fue cuando os enterasteis <marker>que</marker> se acabó la temporada.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DEQUEISMO" name="dequeísmo" type="grammar" default="temp_off">
+        <rulegroup id="DEQUEISMO" name="dequeísmo" type="grammar" default="on">
             <url>https://www.rae.es/dpd/que%C3%ADsmo</url>
             <rule>
                 <pattern>
@@ -2590,14 +2590,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Posible dequeísmo.</message>
                 <suggestion>que</suggestion>
-                <example correction="que">Pienso <marker>de que</marker> estamos mejorando mucho.</example>
+                <suggestion>de qué</suggestion>
+                <example correction="que|de qué">Pienso <marker>de que</marker> estamos mejorando mucho.</example>
+                <example correction="que|de qué">¿Puede decirme <marker>de que</marker> talla es esto?</example>
                 <example>Creemos que podemos mejorar más.</example>
                 <example>Son las razones de que nos guste.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes">ser|estar|encontrar|ver|entender</token>
-                    <token postag="RG|AQ.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">seguro|libre|consciente|harto</exception></token>
+                    <token inflected="yes" regexp="yes">ser|encontrar|ver|entender</token>
+                    <token regexp="yes">fácil|difícil|posible|imposible|seguro|probable|improbable</token>
                     <marker>
                         <token>de</token>
                         <token>que</token>
@@ -2606,7 +2608,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible dequeísmo.</message>
                 <suggestion>que</suggestion>
                 <example correction="que">Es fácil <marker>de que</marker> volvamos a encontrarnos</example>
+                <example correction="que">Estaba pensando si es posible <marker>de que</marker> entregues eso hoy.</example>
                 <example><marker>Encontrarás útil que</marker> hayan cambiado el cartel</example>
+                <example>formaron parte de ese Estado antes de que existiera</example>
+                <example>Estoy orgulloso de que mi padre sea un buen cocinero.</example>
+                <example>Estoy seguro de que vendrá.</example>
             </rule>
             <rule>
                 <pattern>
