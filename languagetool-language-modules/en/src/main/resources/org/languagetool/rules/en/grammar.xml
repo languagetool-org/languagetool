@@ -4161,6 +4161,21 @@ USA
                     <token postag_regexp="yes" postag="JJR?"/>
                     <token chunk="B-VP">to</token>
                 </antipattern>
+                <antipattern><!-- #2662 it's kind of hard to listen -->
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token><!-- Without this token, the AP fails -->
+                    <token>s</token>
+                    <token>kind</token>
+                    <token>of</token>
+                    <token chunk="B-VP" postag="JJ"/>
+                    <token chunk="I-VP">to</token>
+                </antipattern>
+                <antipattern><!-- #2662 it's kind of her -->
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token><!-- Without this token, the AP fails -->
+                    <token>s</token>
+                    <token>kind</token>
+                    <token>of</token>
+                    <token regexp="yes">&object_pronouns;</token>
+                </antipattern>
                 <pattern>
                     <token postag="VBG"><exception regexp="yes">saying|hoping|assuming|feeling|realizing|considering|guessing|pretending|thinking|knowing|denying|claiming|ranting|reali[sz]ing|praying|suggesting|meaning|wondering</exception></token>
                     <marker>
@@ -4172,11 +4187,14 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (short form of 'it is')?</message>
                 <example correction="its">It does this by providing <marker>it's</marker> own open source based products.</example>
+                <example correction="its">Nevertheless, I'm emphasizing <marker>it's</marker> kind of problem is not the same as the problems of other disambiguators.</example><!-- #2662 -->
                 <example>Well, you know, kinda strange though, considering it's not Christmas.</example>
                 <example>I've been hearing it's supposed to snow tonight.</example>
                 <example>I'm assuming it's a suicide.</example>
                 <example>It starts slowly - once running it's difficult to stop.</example><!-- #2662 -->
                 <example>I am really emotional; when crying it's difficult to stop.</example><!-- #2662 -->
+                <example>And while I'm reading it's kind of hard to listen to you.</example><!-- #2662 -->
+                <example>Nevertheless, I'm emphasizing it's kind of her to do that.</example><!-- #2662 -->
             </rule>
             <rule>
                 <antipattern><!-- #2788 shows it's very similar. -->
