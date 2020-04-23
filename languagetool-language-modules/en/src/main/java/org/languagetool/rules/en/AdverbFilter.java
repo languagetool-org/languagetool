@@ -166,6 +166,7 @@ public class AdverbFilter extends RuleFilter {
     put("culturally", "cultural");
     put("vicariously", "vicarious");
     put("vividly", "vivid");
+    put("partially", "partial");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
