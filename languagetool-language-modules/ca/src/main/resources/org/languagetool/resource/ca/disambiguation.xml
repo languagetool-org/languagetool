@@ -9339,6 +9339,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="SPS00"></disambig>
     </rule>
+    <rule id="forma_verb" name="forma (verb) excepció a la regla següent">
+        <pattern>
+            <marker>
+                <token postag="V.*" postag_regexp="yes">forma<exception postag="_GN_FS"></exception></token>
+            </marker>
+            <token postag="N.*|D.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="V.*|_GV_"></disambig>
+    </rule>
     <rulegroup id="AdjNom" name="adj + nom">
         <rule>
             <pattern>

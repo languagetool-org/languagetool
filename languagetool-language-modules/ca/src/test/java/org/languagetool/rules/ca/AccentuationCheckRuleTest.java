@@ -110,6 +110,9 @@ public class AccentuationCheckRuleTest {
 
     // errors:
     //TODO assertIncorrect("una votació especifica de diputats.");
+    
+    assertIncorrect("que les vertebres properes al crani");
+    assertIncorrect("Unes circumstancies");
     assertIncorrect("una especifica votació de diputats.");
     assertIncorrect("El millor de la historia.");
     assertIncorrect("El millor d'aquesta historia.");

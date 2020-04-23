@@ -193,6 +193,14 @@ public class AccentuationCheckRule extends Rule {
                 || (matchPostagRegexp(tokens[i - 1], DETERMINANT_FP) && matchPostagRegexp(relevantWords.get(token), NOM_FP)))) {
           replacement = relevantWords.get(token).getToken();
         }
+     // les vertebres properes
+        else if (i < tokens.length - 1 &&
+            ((mArticleELMS.matches() && matchPostagRegexp(relevantWords.get(token), NOM_MS) && matchPostagRegexp(tokens[i + 1], ADJECTIU_MS))
+            || (mArticleELMP.matches() && matchPostagRegexp(relevantWords.get(token), NOM_MP) && matchPostagRegexp(tokens[i + 1], ADJECTIU_MP))
+            || (mArticleELFS.matches() && matchPostagRegexp(relevantWords.get(token), NOM_FS) && matchPostagRegexp(tokens[i + 1], ADJECTIU_FS)) 
+            || (mArticleELFP.matches() && matchPostagRegexp(relevantWords.get(token), NOM_FP) && matchPostagRegexp(tokens[i + 1], ADJECTIU_FP)))) {
+          replacement = relevantWords.get(token).getToken();
+        }
         // fem la copia (correct: còpia)
         else if (i > 2
             && matchPostagRegexp(tokens[i - 2], VERB_CONJUGAT)
