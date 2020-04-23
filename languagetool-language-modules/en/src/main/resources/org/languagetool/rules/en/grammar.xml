@@ -10740,10 +10740,20 @@ USA
                 <token regexp="yes">bomb|nut|sea|egg|cockle|lamp|sub</token>
                 <token regexp="yes">shells?</token>
             </pattern>
-            <message>This word is spelled as one.</message>
+            <message>This word is normally spelled as one.</message>
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
+        </rule>
+        <rule id="SMART_COMPOUNDS" name="smart phone (smartphone)" default="temp_off">
+            <pattern>
+                <token>smart</token>
+                <token regexp="yes">phones?|watch(es)?|grass(es)?|weeds?</token>
+            </pattern>
+            <message>This word is normally spelled as one.</message>
+            <suggestion>smart<match no="2" case_conversion="alllower" /></suggestion>
+            <url>https://www.lexico.com/definition/smartphone</url>
+            <example correction="smartphone">He got a new <marker>smart phone</marker> for Christmas.</example>
         </rule>
         <rule id="NOW_ARE_THE_TIME" name="Now are (is) the time">
             <pattern>
@@ -20182,6 +20192,37 @@ USA
             <url>https://www.lexico.com/definition/high-end</url>
             <example correction="high-end">The <marker>high end</marker> computer.</example>
         </rule>
+        <rulegroup id="LOW_COST_HYPHEN" name="missing hyphen in 'low cost'" default="temp_off">
+            <url>https://www.lexico.com/definition/low-cost</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">(low|high)</token>
+                        <token>cost</token>
+                    </marker>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">air(fare|line)s?|carriers?|operators?|operations?|apartments?|manufacturing|loans?|ads?|flights?|hos?tels?|holidays?|vacations?|cars?|housing|strategy|provider|laptops?|stocks?|smartphones?|events?|devices?|alternatives?|solutions?|ways?|producers?|systems?|options?|structures?|brands?|mortgages?|credits?|benefits?|problems?|materials?|services?|insurances?|industr(y|ies)|areas?|funds?|competitors?|tablets?|computers?|pcs?</token>
+                </pattern>
+                <message>It seems that a hyphen is missing in the adjective <suggestion>\1-\2</suggestion>.</message>
+                <example correction="low-cost">I will be flying with a <marker>low cost</marker> airline to save some money.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DT|PRP\$|IN" postag_regexp="yes" />
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token regexp="yes">(low|high)</token>
+                        <token>cost</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes">
+                        <exception postag="VB.*|IN|RB" postag_regexp="yes" />
+                    </token>
+                </pattern>
+                <message>It seems that a hyphen is missing in the adjective <suggestion>\3-\4</suggestion>.</message>
+                <example correction="low-cost">I will be flying with a <marker>low cost</marker> airline to save some money.</example>
+                <example>We had had to pay a high cost in men and material.</example>
+            </rule>
+        </rulegroup>
         <rule id="OPEN_PLAN_HYPHEN" name="missing hyphen in 'open plan'">
             <pattern>
                 <marker>
@@ -20196,13 +20237,17 @@ USA
         </rule>
         <rule id="MUCH_NEEDED_HYPHEN" name="missing hyphen in 'much needed'">
             <pattern>
-                <token postag="DT|PRP\$" postag_regexp="yes" />
+                <token postag="DT|PRP\$|IN" postag_regexp="yes" />
+                <token postag="JJ.*" postag_regexp="yes" min="0">
+                    <exception>very</exception>
+                </token>
                 <marker>
                     <token>much</token>
                     <token>needed</token>
                 </marker>
+                <token postag="NN.*|JJ.*" postag_regexp="yes" />
             </pattern>
-            <message>It seems that a hyphen is missing if you mean the adjective <suggestion>\2-\3</suggestion>.</message>
+            <message>It seems that a hyphen is missing if you mean the adjective <suggestion>\3-\4</suggestion>.</message>
             <url>https://www.lexico.com/definition/much-needed</url>
             <example correction="much-needed">The film gave a <marker>much needed</marker> boost to the country's tourist industry.</example>
             <example>Your help is very much needed.</example>
@@ -31952,20 +31997,6 @@ USA
             <example type="triggers_error">It became <marker>kind of</marker> a last minute decision.</example><!-- https://www.lexico.com/definition/kind_of  -->
             <example type="triggers_error">I was <marker>sort of</marker> a mascot; I would get them coffee or tea ...</example><!-- https://www.lexico.com/definition/sort_of -->
         </rule>
-        <rule id="REASON_IS_BECAUSE" name="'the reason... is because'">
-            <pattern>
-                <token>the</token>
-                <token skip="6">reason</token>
-                <marker>
-                    <token>is</token>
-                    <token>because</token>
-                </marker>
-            </pattern>
-            <!--  or &lt;suggestion&gt;because&lt;/suggestion&gt; -->
-            <message>Probably an incorrect phrase. Use 'the reason <suggestion>is that</suggestion>'.</message>
-            <short>Grammatical problem</short>
-            <example correction="is that">The reason we were late <marker>is because</marker> there was an accident.</example>
-        </rule>
         <rule id="BECAUSE_OF_I" name="because of we (because we)">
             <pattern>
                 <token>because</token>
@@ -31977,9 +32008,30 @@ USA
             <example correction="Because we"><marker>Because of we</marker> didn't want a big train, but we want a fast train.</example>
         </rule>
         <rulegroup id="CAUSE_BECAUSE" name="confusion of cause vs. because">
+            <url>https://dictionary.cambridge.org/grammar/british-grammar/because-because-of-and-cos-cos-of</url>
             <antipattern><!-- informal 'cause -->
                 <token regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">cause</token>
+            </antipattern>
+            <antipattern>
+                <token postag="MD|TO" postag_regexp="yes" />
+                <token postag="RB" min="0" />
+                <token>cause</token>
+                <token postag="PRP" />
+            </antipattern>
+            <antipattern>
+                <token postag="MD" />
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+                <token>cause</token>
+            </antipattern>
+            <antipattern>
+                <token>cause</token>
+                <token case_sensitive="yes" regexp="yes">Will|May</token>
+            </antipattern>
+            <antipattern>
+                <token>cause</token>
+                <token regexp="yes">cans|wills</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -31994,19 +32046,29 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token>
-                        <exception postag="MD|TO" postag_regexp="yes" />
-                    </token>
                     <marker>
                         <token>cause</token>
                     </marker>
                     <token regexp="yes">it|you</token>
                     <token min="0" regexp="yes">&apostrophe;</token>
+                    <token postag="RB" min="0" />
                     <token inflected="yes">be</token>
                 </pattern>
                 <message>Did you mean <suggestion>because</suggestion>?</message>
                 <example correction="because">I think it's great <marker>cause</marker> you're doing it.</example>
                 <example>This is currently hard to see because the only way to cause it is via troops that cause random effects.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>cause</token>
+                    </marker>
+                    <token regexp="yes">it|you|I|we|they|s?he</token>
+                    <token postag="RB" min="0" />
+                    <token inflected="yes" regexp="yes">do|will|can|have|shall|need|want|must|may</token>
+                </pattern>
+                <message>Did you mean <suggestion>because</suggestion>?</message>
+                <example correction="because">Please don’t just ignore it <marker>cause</marker> it can cause bigger problems.</example>
             </rule>
         </rulegroup>
         <rule id="PAYED" name="payed (paid)">
@@ -32849,7 +32911,7 @@ USA
                     <token>week</token>
                 </marker>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
-                <token regexp="yes">semester|pandemi[ac]|vacation|holiday|notice|diets?|periods?|moving|streak|cycles?|arrangements?|routine|gym|plan|work\-?out|project|pregnancy|fetus|trip|training|program|courses?|highs?|lows?|trial|rotation|intervals?|warranty|delivery|median|lockdown|shutdown</token>
+                <token regexp="yes">semester|pandemi[ac]|vacation|holiday|notice|diets?|periods?|moving|streak|cycles?|arrangements?|routine|gym|plan|work\-?out|project|pregnancy|fetus|trip|training|program|courses?|highs?|lows?|trial|rotation|intervals?|warranty|delivery|median|lockdown|shutdown|decline</token>
             </pattern>
             <message>It seems that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -32862,7 +32924,7 @@ USA
                     <token>month</token>
                 </marker>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
-                <token regexp="yes">routine|periods?|intervals?|cycles?|diets?|notice|plan|project|warranty|median|vacation|holiday|trip|milestone|pandemi[ac]|lockdown|shutdown|term|contract</token>
+                <token regexp="yes">routine|periods?|intervals?|cycles?|diets?|notice|plan|project|warranty|median|vacation|holiday|trip|milestone|pandemi[ac]|lockdown|shutdown|term|contract|decline</token>
             </pattern>
             <message>It seems that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -52709,6 +52771,30 @@ The accident victim died from her injuries.
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rule id="REASON_IS_BECAUSE" name="'the reason... is because'">
+            <antipattern>
+                <token>that</token>
+                <token>is</token>
+                <token>because</token>
+            </antipattern>
+            <antipattern>
+                <token>because</token>
+                <token regexp="yes">of|that</token>
+            </antipattern>
+            <pattern>
+                <token>the</token>
+                <token skip="6">reason</token>
+                <marker>
+                    <token>is</token>
+                    <token>because</token>
+                </marker>
+            </pattern>
+            <!--  or &lt;suggestion&gt;because&lt;/suggestion&gt; -->
+            <message>The word "because" means "for the reason that" and thus introduces redundancy. Consider using 'the reason <suggestion>is that</suggestion>'.</message>
+            <url>https://onlinewritingtraining.com.au/the-reason-is-that-or-the-reason-is-because/</url>
+            <example correction="is that">The reason we were late <marker>is because</marker> there was an accident.</example>
+            <example>The root reason of his failure is because of his arrogance.</example>
+        </rule>
         <rulegroup id="ALINE" name="aline vs. align">
             <url>https://www.merriam-webster.com/dictionary/aline</url>
             <rule>
