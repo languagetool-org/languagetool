@@ -4561,7 +4561,7 @@ USA
                 <example>However, its <marker>copying</marker> in subsequent generations indicates that it was used as a model of legal and judicial reasoning.</example>
                 <example>...in the ending -at- that typically marks feminine nouns), but pronounced as -ā in other nouns (hence <marker>its</marker> writing in this fashion in the Arabic script).</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|CC" postag_regexp="yes">
                         <exception>for</exception>
@@ -4577,7 +4577,7 @@ USA
                 <example correction="It's"><marker>Its</marker> worth more than that.</example>
                 <example correction="It's"><marker>Its</marker> still more than what another F2P would give you.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|CC" postag_regexp="yes">
                         <exception>for</exception>
@@ -4592,7 +4592,7 @@ USA
                 <message>Did you maybe mean <suggestion>it's</suggestion> (it is)? Please verify.</message>
                 <example correction="It's"><marker>Its</marker> worth a lot more than that.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|CC" postag_regexp="yes">
                         <exception>for</exception>
@@ -4609,7 +4609,7 @@ USA
                 <example correction="It's"><marker>Its</marker> really better than before.</example>
                 <example>Its more than 4,000 employees are located in 60 offices around the world.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>its</token>
                     <token regexp="yes" skip="1">right|welcome</token>
@@ -4924,7 +4924,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="2" regexp="yes">travel|drive|get|fly|walk|hike|way|wander|live|go</token>
+                    <token inflected="yes" skip="2" regexp="yes">travel|drive|get|fly|walk|hike|way|wander|live|go|find</token>
                     <marker>
                         <token>no</token>
                         <token>where</token>
@@ -4936,7 +4936,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="VB.*" postag_regexp="yes" />
+                    <token postag="VB.*|SENT_START|CC|PCT" postag_regexp="yes" />
                     <marker>
                         <token regexp="yes">now?</token>
                         <token regexp="yes">wh?ere</token>
@@ -7626,7 +7626,7 @@ USA
                 <token>you</token>
                 <token regexp="yes">&adverb_abbreviations;|&verb_abbreviations;|&not_really_verbs;</token>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>your</token>
                     <token min="0">very</token>
@@ -7654,7 +7654,7 @@ USA
                 <example correction="You're"><marker>Your</marker> very welcome...</example>
                 <example>Your very own Donald Trump-styled teddy bear</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>your</token>
                     <token regexp="yes" skip="1">right|welcome</token>
@@ -10684,7 +10684,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="SHELL_COMPOUNDS" name="bomb shell (bombshell)" default="temp_off">
+        <rule id="SHELL_COMPOUNDS" name="bomb shell (bombshell)">
             <pattern>
                 <token regexp="yes">bomb|nut|sea|egg|cockle|lamp|sub</token>
                 <token regexp="yes">shells?</token>
@@ -11491,7 +11491,7 @@ USA
                 <example>I had to unpair it and re-pair it and it work…</example><!-- different error -->
                 <example>It uses a Z-UNO, a DS18B20 Sensor and that’s about it hardware wise.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="IN" />
                     <marker>
@@ -19547,7 +19547,7 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rule id="BIT_COIN" name="Bitcoin" default="temp_off">
+        <rule id="BIT_COIN" name="Bitcoin">
             <pattern>
                 <token regexp="yes">bit|lite</token>
                 <token regexp="yes">coins?</token>
@@ -19556,7 +19556,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/Bitcoin</url>
             <example correction="Bitcoin">He invested in <marker>Bit Coin</marker>.</example>
         </rule>
-        <rulegroup id="SEVEN_ELEVEN" name="7-Eleven" default="temp_off">
+        <rulegroup id="SEVEN_ELEVEN" name="7-Eleven">
             <!-- needed to prevent a false positive of CD_NN or CD_NNU -->
             <url>https://en.wikipedia.org/wiki/7-Eleven</url>
             <antipattern case_sensitive="yes">
@@ -29944,7 +29944,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/do</url>
             <example correction="does">He <marker>dos</marker> not want to go home.</example>
         </rule>
-        <rule id="PRP_DRYS" name="it drys (dries)" default="temp_off">
+        <rule id="PRP_DRYS" name="it drys (dries)">
             <pattern>
                 <token regexp="yes">it|s?he|this|that</token>
                 <token postag="RB" min="0" />
@@ -31941,7 +31941,7 @@ USA
                 <example>The bug cause it to fail.</example>
                 <example>I'm sorry to cause you all this trouble.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>
                         <exception postag="MD|TO" postag_regexp="yes" />
@@ -43129,7 +43129,7 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rule id="OFF_OF" name="off vs of" default="temp_off">
+        <rule id="OFF_OF" name="off vs of">
             <antipattern>
                 <token>better</token>
                 <token>of</token>
@@ -43152,7 +43152,7 @@ The accident victim died from her injuries.
             <url>https://www.lexico.com/definition/better_off</url>
             <example correction="better off">I am quite content and just wish that people who are <marker>better of</marker> than me would realise how lucky they are.</example>
         </rule>
-        <rulegroup id="DO_TO" name="do vs to" default="temp_off">
+        <rulegroup id="DO_TO" name="do vs to">
             <antipattern><!-- smartphone mode -->
                 <token>do</token>
                 <token>not</token>
@@ -44519,7 +44519,7 @@ The accident victim died from her injuries.
                 <example correction="their">These are <marker>they're</marker> best clothes.</example>
                 <example>These are their best clothes.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>their</token>
                     <token regexp="yes" skip="1">right|welcome</token>
@@ -50759,7 +50759,7 @@ The accident victim died from her injuries.
             <pattern>
                 <token>in</token>
                 <token regexp="yes">an?</token>
-                <token regexp="yes">(in)correct?|consistent|positive|negative|(in)?effective|(in)?efficient|different|(in)?secure|safe|(un)?natural|purposeful|respectful|fitting|random|circular|elegant|(in)?appropriate|concise|fair|persuasive|dramatical|romantical|peaceful|casual|great|transparent|contrasting|gorgeous|proper|impactful|extreme|(un)?successful|swift|(un)?threatening|practical|(un)?professional|nice|satisfying|captivating|pleasant|productive|exciting|mindful|unique|aggressive|logical|(un)?attractive|smooth|calm|playful|linear|surprising|beneficial|regular|violent|careful|slow</token>
+                <token regexp="yes">(in)correct?|consistent|positive|negative|(in)?effective|(in)?efficient|different|(in)?secure|safe|(un)?natural|purposeful|respectful|fitting|random|circular|elegant|(in)?appropriate|concise|fair|persuasive|dramatical|romantical|peaceful|casual|great|transparent|contrasting|gorgeous|proper|impactful|extreme|(un)?successful|swift|(un)?threatening|practical|(un)?professional|nice|satisfying|captivating|pleasant|productive|exciting|mindful|unique|aggressive|logical|(un)?attractive|smooth|calm|playful|linear|surprising|beneficial|regular|violent|careful|slow|traditional|(un)?lawful|significant|sequential|similar</token>
                 <token regexp="yes">manner|style|way|fashion</token>
             </pattern>
             <message>Consider replacing this phrase with the adverb <suggestion><match no="3" regexp_match="$" regexp_replace="ly" /></suggestion> to avoid wordiness..</message>
@@ -50780,7 +50780,7 @@ The accident victim died from her injuries.
             <pattern>
                 <token>in</token>
                 <token regexp="yes">an?</token>
-                <token regexp="yes">horrible|terrible|(un)?predictable|(un)?reasonable|(un)?favorable|responsible|(un)?sustainable</token>
+                <token regexp="yes">horrible|terrible|(un)?predictable|(un)?reasonable|(un)?favorable|responsible|(un)?sustainable|repeatable</token>
                 <token regexp="yes">manner|style|way|fashion</token>
             </pattern>
             <message>Consider replacing this phrase with the adverb <suggestion><match no="3" regexp_match="(?i)le$" regexp_replace="ly" /></suggestion> to avoid wordiness.</message>
