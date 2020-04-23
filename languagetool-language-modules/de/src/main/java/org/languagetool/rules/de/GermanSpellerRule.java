@@ -60,14 +60,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   // https://deutschegrammatik20.de/spezielle-verben/verben-mit-praefix-trennbare-und-nicht-trennbare-verben/uebersicht-trennbare-praefixe/
   private static final List<String> prefixes = Arrays.asList("ab", "an", "auf", "aus", "auseinander", "bei", "ein", "empor", "entgegen", "entlang", "entzwei",
         "fehl", "fern", "fest", "fort", "gegenüber", "heim", "hinterher", "hoch", "los", "mit", "nach", "neben", "nieder", "vor",
-        "weg", "weiter", "zu, zurecht", "zurück", "zusammen", "da", "hin", "her",
+        "weg", "weiter", "zu", "zurecht", "zurück", "zusammen", "da", "hin", "her",
         "herab", "heran", "herauf", "heraus", "herbei", "herein", "hernieder", "herüber", "herum", "herunter", "hervor", "herzu",
         "hinab", "hinan", "hinauf", "hinaus", "hinein", "hinüber", "hinunter", "hinweg", "hinzu", "vorab", "voran", "vorauf", "voraus",
         "vorbei", "vorweg", "vorher", "vorüber",
         "dabei", "dafür", "dagegen", "daher", "dahin", "dahinter", "daneben", "daran", "darauf", "darein", "darüber", "darunter",
-        "hinter", "neben", "dran", "drauf", "drein", "drüber", "drunter",
+        "hinter", "dran", "drauf", "drein", "drüber", "drunter",
         "davon", "davor", "dazu", "dazwischen",
-        "durch", "über", "unter", "um", "wider", "wieder"
+        "durch", "über", "unter", "um", "wider", "wieder",
+        // not listed in source above (deutschegrammatik20.de):
+        "umher", "ent", "frei", "ver", "zer", "gegen"
   );
 
   // some exceptions for changes to the spelling in 2017 - just a workaround so we don't have to touch the binary dict:
@@ -77,7 +79,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
 
   private final Set<String> wordsToBeIgnoredInCompounds = new HashSet<>();
   private final Set<String> wordStartsToBeProhibited    = new HashSet<>();
-  private final Set<String> wordEndingsToBeProhibited    = new HashSet<>();
+  private final Set<String> wordEndingsToBeProhibited   = new HashSet<>();
   private static final Map<Pattern, Function<String,List<String>>> ADDITIONAL_SUGGESTIONS = new HashMap<>();
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
