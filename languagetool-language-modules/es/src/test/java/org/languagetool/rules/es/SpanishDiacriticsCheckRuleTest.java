@@ -45,11 +45,10 @@ public class SpanishDiacriticsCheckRuleTest {
 
   @Test
   public void testRule() throws IOException {
-
-    
     
     // correct sentences:
     
+    assertCorrect("¿Cómo vienes a la escuela?");
     assertCorrect("a cuyos integrantes no catalogo de santos precisamente");
     assertCorrect("esta propuesta de directiva prorroga por un año");
     assertCorrect("El informe d'Ancona formula gran número de recomendaciones");

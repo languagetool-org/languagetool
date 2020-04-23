@@ -1458,6 +1458,14 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
+    <rule id="PT_not_noun" name="PT not noun if no agreement">
+        <pattern>
+            <marker>
+                <token postag="PT.*" postag_regexp="yes"><exception scope="previous">el</exception></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N.*"/>
+    </rule>
     <rule id="not_det_no_agreement" name="not determinant if no agreement">
         <pattern>
             <!-- These words would require specific rules for agreement-->

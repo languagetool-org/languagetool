@@ -92,7 +92,6 @@ public class SpanishDiacriticsCheckRule extends Rule {
   public SpanishDiacriticsCheckRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.MISC.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Misspelling);
-    this.setDefaultTempOff();
   }
 
   @Override
