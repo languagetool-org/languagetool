@@ -3988,14 +3988,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
         <rulegroup id="PUNTO_EN_ABREVIATURAS" name="Punto en abreviaturas: pág., núm., etc." default="temp_off">
+            <url>https://www.rae.es/dpd/ayuda/abreviaturas</url>
             <antipattern>
                 <token/>
                 <token spacebefore="no" regexp="yes">\.|…</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">['’]|of|the|theater|theatre|museum|dance|project|google|and</token>
+                <token>art</token>
+            </antipattern>
+            <antipattern>
+                <token>art</token>
+                <token regexp="yes">of|the|theater|theatre|museum|dance|project|google|and</token>
+            </antipattern>
+            <antipattern> <!-- minimize errors on wiki pages-->
+                <token postag="UNKNOWN"/>
+                <token regexp="yes">&abreviaturas;</token>
+                <token>:</token>
+            </antipattern>
+            <antipattern> 
+                <token>-</token>
+                <token regexp="yes" spacebefore="no">&abreviaturas;</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&abreviaturas;</token>
+                <token spacebefore="no">-</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="no">
                     <marker>
-                        <token regexp="yes" postag="UNKNOWN">&abreviaturas;<exception regexp="yes">(?-i)dC|DJ|CF|AP|CT|AG|GR|CPT|DG|DOC</exception></token>
+                        <token regexp="yes" postag="UNKNOWN">&abreviaturas;<exception regexp="yes">(?-i)dC|[A-Z][A-Z]+</exception></token>
                         <token spacebefore="yes">.</token>
                     </marker>
                 </pattern>
@@ -4019,6 +4041,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Jugava en el Valencia CF el año pasado.</example>
                 <example>DG de Servicios Sociales.</example>
                 <example>Delantero del Valencia.</example>
+                <example>Artikkelitoiveet fr:</example>
+                <example>The Art of Computer Science.</example>
+                <example>Roquebrune-Cap-Martin</example>
+                <example>Metropolitan Museum of Art</example>
             </rule>
         </rulegroup>
         <rule id="P_EJ" name="Puntuación en: p. ej." default="temp_off">
@@ -4036,6 +4062,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Abreviatura de 'por ejemplo'.</message>
             <suggestion>p. ej.</suggestion>
+            <url>https://www.rae.es/dpd/ayuda/abreviaturas</url>
             <example correction="P. ej."><marker>P .ej.</marker> el campo.</example>
             <example correction="P. ej."><marker>P.ej.</marker> el campo.</example>
             <example correction="P. ej."><marker>P .ej .</marker> el campo.</example>
