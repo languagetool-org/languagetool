@@ -262,11 +262,7 @@ public class MatchState {
             }
           }
           if (wordForms.isEmpty()) {
-            if (match.checksSpelling()) {
-              formattedString[0] = "";
-            } else {
-              formattedString[0] = "(" + formattedToken.getToken() + ")";
-            }
+            formattedString[0] = "(" + formattedToken.getToken() + ")";
           } else {
             formattedString = wordForms.toArray(new String[0]);
           }

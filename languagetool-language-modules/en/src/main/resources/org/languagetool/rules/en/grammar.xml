@@ -5402,7 +5402,7 @@ USA
                     <token postag="NN(:.+)?" postag_regexp="yes" regexp="yes">\p{Ll}{2,}<exception regexp="yes">equipment|department|sector|exam|faculty|given|can|today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VB[DN]|RB|MD|IN|JJ.*|CC|PRP|NNP.*" postag_regexp="yes"/></token>
                     <token><exception regexp="yes">\p{Punct}|and|or</exception></token>
                 </pattern>
-                <message>Apostrophe might be missing. Did you mean <suggestion><match no="3"/>'</suggestion> or <suggestion><match suppress_misspelled="yes" no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"/>'s</suggestion>?</message>
+                <message suppress_misspelled="yes">Apostrophe might be missing. Did you mean <suggestion><match no="3"/>'</suggestion> or <suggestion><match no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"/>'s</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="presidents'|president's">This is a transcript of the <marker>presidents</marker> speech from March.</example>
                 <example correction="Presidents'|President's">This is a transcript of the <marker>Presidents</marker> speech from March.</example>
@@ -15360,7 +15360,7 @@ USA
                 <token><exception postag="NNS?:.*" postag_regexp="yes"/></token>
             </pattern>
             <message>Probably incorrect use of superlative '\3'. Consider using the comparative form instead.</message>
-            <suggestion><match suppress_misspelled="yes" no="3" postag="JJR"/></suggestion>
+            <suggestion suppress_misspelled="yes"><match no="3" postag="JJR"/></suggestion>
             <example correction="nicer">He was even <marker>nicest</marker> after a year.</example>
             <example correction="iller|worse">He was even <marker>worst</marker>.</example>
             <example>He was even worse after a year.</example>
@@ -27769,7 +27769,7 @@ USA
                     <token>than</token>
                 </marker>
             </pattern>
-            <message>Use <suggestion suppress_misspelled="yes"><match no='1' postag='JJ.?' postag_regexp='yes' postag_replace='JJR' suppress_misspelled="yes" /> \2</suggestion> to make a comparison with this adjective.</message>
+            <message suppress_misspelled="yes">Use <suggestion><match no='1' postag='JJ.?' postag_regexp='yes' postag_replace='JJR'/> \2</suggestion> to make a comparison with this adjective.</message>
             <example correction="iller than|worse than">That's <marker>worst than</marker> before!</example>
             <example correction="more than">Tom has been <marker>most than</marker> generous. </example>
             <example correction="greater than"> I want to do a routine, if sensor <marker>great than</marker> x° do something.</example>
@@ -32583,7 +32583,7 @@ USA
                         </token>
                     </marker>
                 </pattern>
-                <message>Possible agreement error. Did you mean <suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="5" postag="NNP?S" postag_regexp="yes"/></suggestion>?</message>
+                <message suppress_misspelled="yes">Possible agreement error. Did you mean <suggestion><match no="5" postag="NNP?S" postag_regexp="yes"/></suggestion>?</message>
                 <short>Grammatical problem</short>
                 <example correction="problems">There are many <marker>problem</marker> in Iraq.</example>
                 <example correction="problems">There are a lot <marker>problem</marker> in Iraq but it is not a terrible situation.</example>
@@ -32819,7 +32819,7 @@ USA
                 </pattern>
                 <message>The expression '\3 \4' seems incorrect in this context.</message>
                 <suggestion>to \4</suggestion>
-                <suggestion suppress_misspelled="yes">two <match no="4" postag_regexp="yes" postag="NN(P?).*" postag_replace="NN$1S" suppress_misspelled="yes" /></suggestion>
+                <suggestion suppress_misspelled="yes">two <match no="4" postag_regexp="yes" postag="NN(P?).*" postag_replace="NN$1S" /></suggestion>
                 <example correction="to reason|two reasons">Now I have <marker>two reason</marker> to do this</example>
                 <example correction="to question|two questions">I have <marker>two question</marker>.</example>
                 <example>I have two Garage doors</example>
@@ -33929,7 +33929,7 @@ USA
                     </token>
                 </marker>
             </pattern>
-            <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable, so consider using: <suggestion suppress_misspelled="yes"><match no="3" suppress_misspelled="yes" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
+            <message suppress_misspelled="yes">Possible agreement error. The noun '<match no="3"/>' seems to be countable, so consider using: <suggestion><match no="3" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="books">I have five <marker>book</marker>.</example>
             <example>I have five <marker>books</marker>.</example>
@@ -58015,7 +58015,7 @@ The accident victim died from her injuries.
                     </marker>
                 </pattern>
                 <message>The possessive apostrophe seems to be incorrect. Please remove the apostrophe if you want to use the plural form of '\3'.</message>
-                <suggestion><match suppress_misspelled="yes" no="3" postag="NNP?S" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="NNP?S" postag_regexp="yes"/></suggestion>
                 <example correction="tanks">He has two <marker>tank's</marker></example>
                 <example correction="glasses">He drank four <marker>glass's</marker> of wine.</example>
                 <example correction="macros">It consist of two <marker>macro’s</marker> actually.</example>
@@ -58067,7 +58067,7 @@ The accident victim died from her injuries.
                     </marker>
                 </pattern>
                 <message>The possessive apostrophe seems to be incorrect. Please remove the apostrophe if you want to use the plural form of '\4'.</message>
-                <suggestion><match suppress_misspelled="yes" no="4" postag="NNP?S" postag_regexp="yes"/></suggestion>
+                <suggestion suppress_misspelled="yes"><match no="4" postag="NNP?S" postag_regexp="yes"/></suggestion>
                 <example correction="APIs">A lot of modern <marker>API's</marker> are based on JSON.</example>
                 <example correction="CDs">I burned you a couple of <marker>CD's</marker>, some old stuff, some new stuff.</example>
                 <example correction="nines">The song I got from is where a full house (three jack’s and a pair of <marker>nine’s</marker>) goes up against a royal flush and the singer loses it all.</example>
