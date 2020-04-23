@@ -98,7 +98,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY bota_recipient "sardina|congreny.*|bodega|doga|cèrcol|diàmetre|barril|vaixell|vi|racó|celler|nas|oli|ferment.*|envell.+">
     <!ENTITY bota_calçat "peu|calça.*|calce.*|muntar|enllustr.*|roba|pantaló|mitjó">
 ]>
-
 <rules lang="ca" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
     <unification feature="nombre">
         <equivalence type="S">
@@ -15351,7 +15350,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
                 </marker>
             </antipattern>
-
             <pattern>
                 <token inflected="yes" regexp="yes">estar|continuar|seguir<exception>estat</exception></token>
                 <marker>
@@ -15950,11 +15948,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="lloretencs"><marker>lIoretencs</marker></example>
                 <example correction="l'home"><marker>I'home</marker></example>
                 <example>lloretencs</example>
-                <example>les llistes oficials de LIC</example>    
+                <example>les llistes oficials de LIC</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(?-i)Ios</token>    
+                    <token regexp="yes">(?-i)Ios</token>
                 </pattern>
                 <message>Possible confusió de lletres (i majúscula/ela minúscula).</message>
                 <suggestion><match no="1" regexp_match="(.+)" regexp_replace="iOS" case_conversion="startlower"></match></suggestion>
@@ -27565,7 +27563,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>– Primer punt de l'ordre del dia.</example>
             </rule>
         </rulegroup>
-
         <rule id="GUIO_ESPAI" name="Guió i espai en enumeracions" default="off">
             <pattern>
                 <token postag="SENT_START"/>
@@ -28686,7 +28683,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>En el segle XVIII.</example>
             <example>Va tardar 50,4 s a arribar-hi.</example>
             <example>El Samsung Galaxy S III</example>
-
         </rule>
         <rulegroup id="CARACTERS_INCORRECTES" name="caràcters incorrectes">
             <rule id="COMETES_INCORRECTES" name="Detecta cometes en posició incorrecta">
@@ -37012,6 +37008,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rulegroup id="TIRETES" name="*tiretes/fiblades">
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=agulletes&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=8566&amp;idHit=8566&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Com+es+diu+agujetas+en+catal%E0%3F+%2F+%C9s+correcte+agulletes+en+catal%E0%3F+%2F+%C9s+correcte+tiretes+en+catal%E0%3F&amp;tematica=Ci%E8ncies+de+la+salut&amp;tipusCerca=cerca.tot</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="10">tiretes</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">cos|cama|braç</token>
+                </pattern>
+                <message>Incorrecte en el sentit de 'dolor muscular'.</message>
+                <suggestion>cruiximent</suggestion>
+                <suggestion>adoloriment</suggestion>
+                <suggestion>fiblades</suggestion>
+                <suggestion>punxades</suggestion>
+                <suggestion>estar baldat</suggestion>
+                <suggestion>estar cruixit</suggestion>
+                <suggestion>estar esbraonat</suggestion>
+                <suggestion>estar esllomat</suggestion>
+                <example correction="cruiximent|adoloriment|fiblades|punxades|estar baldat|estar cruixit|estar esbraonat|estar esllomat">Tinc <marker>tiretes</marker> per tot el cos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="10" regexp="yes" inflected="yes">cos|cama|braç</token>
+                    <marker>
+                        <token>tiretes</token>
+                    </marker>
+                </pattern>
+                <message>Incorrecte en el sentit de 'dolor muscular'.</message>
+                <suggestion>cruiximent</suggestion>
+                <suggestion>adoloriment</suggestion>
+                <suggestion>fiblades</suggestion>
+                <suggestion>punxades</suggestion>
+                <suggestion>estar baldat</suggestion>
+                <suggestion>estar cruixit</suggestion>
+                <suggestion>estar esbraonat</suggestion>
+                <suggestion>estar esllomat</suggestion>
+                <example correction="cruiximent|adoloriment|fiblades|punxades|estar baldat|estar cruixit|estar esbraonat|estar esllomat">A les cames avui tinc <marker>tiretes</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="Apollo" name="Apollo/Apel·lo">
             <antipattern>
                 <token regexp="yes" inflected="yes" skip="2">programa|projecte|missió|nau|aterratge|enlairament</token>
@@ -48131,12 +48166,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="aragonesos">Són <marker>manyos</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="AGULLETES" name="*tenir agulletes">
+        <rule id="TENIR_AGULLETES" name="*tenir agulletes">
             <pattern>
                 <token inflected="yes" skip="1">tenir</token>
                 <token>agulletes</token>
             </pattern>
-            <message>Incorrecte si vol dir <suggestion><match no="1"/> fiblades</suggestion>.</message>
+            <message>En el sentit de 'dolor muscular' val més utilitzar una altra expressió.</message>
+            <suggestion><match no="1"/> fiblades</suggestion>
             <suggestion><match no="1"/> punxades</suggestion>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">estar</match> cruixit</suggestion>
             <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">estar</match> cruixida</suggestion>
@@ -48145,6 +48181,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="tenia fiblades|tenia punxades|estava cruixit|estava cruixida|estava baldat|estava baldada"><marker>tenia agulletes</marker></example>
             <example>estava cruixit</example>
         </rule>
+        <rulegroup id="AGULLETES" name="*agulletes/fiblades">
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=agulletes&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=8566&amp;idHit=8566&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Com+es+diu+agujetas+en+catal%E0%3F+%2F+%C9s+correcte+agulletes+en+catal%E0%3F+%2F+%C9s+correcte+tiretes+en+catal%E0%3F&amp;tematica=Ci%E8ncies+de+la+salut&amp;tipusCerca=cerca.tot</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="10">agulletes</token>
+                    </marker>
+                    <token regexp="yes" inflected="yes">cos|cama|braç</token>
+                </pattern>
+                <message>En el sentit de 'dolor muscular' val més utilitzar una altra expressió.</message>
+                <suggestion>cruiximent</suggestion>
+                <suggestion>adoloriment</suggestion>
+                <suggestion>fiblades</suggestion>
+                <suggestion>punxades</suggestion>
+                <suggestion>estar baldat</suggestion>
+                <suggestion>estar cruixit</suggestion>
+                <suggestion>estar esbraonat</suggestion>
+                <suggestion>estar esllomat</suggestion>
+                <example correction="cruiximent|adoloriment|fiblades|punxades|estar baldat|estar cruixit|estar esbraonat|estar esllomat">Tinc <marker>agulletes</marker> per tot el cos.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="10" regexp="yes" inflected="yes">cos|cama|braç</token>
+                    <marker>
+                        <token>agulletes</token>
+                    </marker>
+                </pattern>
+                <message>En el sentit de 'dolor muscular' val més utilitzar una altra expressió.</message>
+                <suggestion>cruiximent</suggestion>
+                <suggestion>adoloriment</suggestion>
+                <suggestion>fiblades</suggestion>
+                <suggestion>punxades</suggestion>
+                <suggestion>estar baldat</suggestion>
+                <suggestion>estar cruixit</suggestion>
+                <suggestion>estar esbraonat</suggestion>
+                <suggestion>estar esllomat</suggestion>
+                <example correction="cruiximent|adoloriment|fiblades|punxades|estar baldat|estar cruixit|estar esbraonat|estar esllomat">Als braços avui tinc <marker>agulletes</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="ANDAMI" name="*andami/bastida">
             <pattern>
                 <token>andami</token>
