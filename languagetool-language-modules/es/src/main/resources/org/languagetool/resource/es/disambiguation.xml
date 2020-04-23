@@ -1432,6 +1432,13 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
+    
+    <rule id="la_not_noun" name="la not noun">
+        <pattern>
+            <token>la<exception postag="_GN_MS"/></token>
+        </pattern>
+        <disambig action="remove" postag="N.*"></disambig>
+    </rule>
 
     <rule id="not_verb_if_agreement" name="not verb if agreement">
         <pattern>
@@ -1577,9 +1584,10 @@ Copyright (C) 2011 Juan Martorell
             <unify>
                 <feature id="numero"/>
                 <feature id="genero"/>
-                <token postag="N.*" postag_regexp="yes"><exception postag="R.*" postag_regexp="yes"/><exception>lo</exception></token>
+                <token postag="D.*" postag_regexp="yes"/>
+                <token postag="N.*" postag_regexp="yes"><exception postag="R.*" postag_regexp="yes"/></token>
                 <marker>
-                    <token postag="D.*" postag_regexp="yes"/>
+                    <token postag="DD.*" postag_regexp="yes"/>
                 </marker>
             </unify>
         </pattern>

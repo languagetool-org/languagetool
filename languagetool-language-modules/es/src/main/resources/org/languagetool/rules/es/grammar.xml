@@ -3009,6 +3009,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>esta</token>
                     <token postag="V.P..SM" postag_regexp="yes"><exception postag="NCFS000"/></token>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes">otro</token>
+                    <token regexp="yes">.*%</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <unify negate="yes">
@@ -3032,6 +3036,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el ciento|los cientos">Con <marker>las cientos</marker> de personas que estaban allí.</example>
                 <example correction="el mil|los miles">Con <marker>las mil</marker> persona que estaban allí.</example>
                 <!--<example correction="algún coche|algunos coches">Con <marker>algunos coche</marker>.</example> pending dict update-->
+                <!-- TODO: De alguna forma terminaré esta trabajo.
+                Tengo tiempo libre este tarde. -->
                 <example>También lo contrario.</example>
                 <example>Todas las otras.</example>
                 <example>Las microondas penetran en el interior.</example>
@@ -3061,6 +3067,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Salir de esta vivos.</example>
                 <example>Me gustan mucho ambos.</example>
                 <example>Me gusta mucho veros.</example>
+                <example>y otros 66,27%.</example>
+                <example>y otros 66,27 %.</example>
                 <!-- <example>no esta claro</example> better: other rule-->
             </rule>
             <rule>
@@ -3118,6 +3126,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Por todo América.</example>
                 <example>Mil quinientas cincuenta y una bombillas.</example>
                 <example>Me gusta mucho Mary.</example>
+                <example>Este cuenta con 149 empresas.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3189,13 +3198,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de los médicos|de las médicos"><marker>del médicos</marker></example>
                 <example>del médico</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <unify negate="yes">
                             <feature id="numero"/>
                             <feature id="genero"/>
-                            <token postag="DD.*" postag_regexp="yes"/>
+                            <and>
+                                <token postag="DD.*" postag_regexp="yes"/>
+                                <token postag="_DD_after_noun"/>
+                            </and>
                             <token postag="N.*" postag_regexp="yes"/>
                         </unify>
                     </marker>
@@ -3203,6 +3215,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Probablemente falta una coma.</message>
                 <suggestion>\1, \2</suggestion>
                 <example correction="esa, cariño">¿Qué hago con la muela <marker>esa cariño</marker>?</example>
+                <example reason="triggers another rule">Tengo tiempo libre este tarde.</example>
+                <example reason="triggers another rule">En la ciudad esta la sede del Fútbol Club Barcelona.</example>
             </rule>
             <rule id="DET_FEM_NOM_FEM" name="la agua>el agua">
                 <antipattern>
