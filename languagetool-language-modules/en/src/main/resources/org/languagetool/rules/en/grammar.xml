@@ -4679,7 +4679,7 @@ USA
                         <token regexp="yes">its?</token>
                     </marker>
                     <token regexp="yes" min="0">all|both|being|feeling|doing|going|keeping|managing|recovering</token>
-                    <token regexp="yes" min="0" max="2">just|not|very|really|even|totally|absolutely|too|more|less</token>
+                    <token regexp="yes" min="0" max="2">just|not|very|really|even|totally|absolutely|too|more|less|always|never</token>
                     <!-- long list of adjectives is currently necessary due to wrong tagging -->
                     <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|alone|amazing|beautiful|pretty|attractive|handsome|awesome|nice|(im)?possible|(un)?able|clear|helpful|important|time|nicer|best|similar|difficult|small|big|large|little|active|bad|wonderful|simple|easy|early|available|dangerous|enough|alright|sure|sexy|alone|nothing|free|cheap|expensive|annoying|worth|different|popular|famous|useful|old|young|hot|sweet|cute|strong|interesting|intelligent|poor|huge|rare|aware|efficient|capable|powerful|sufficient|afraid|obvious|careful|(un)?acceptable|boring</token>
                     <token min="0" regexp="yes">now|soon|together|tonight|today|yesterday|tomorrow|(any|some)more</token>
@@ -19632,7 +19632,7 @@ USA
         <rule id="DELTA_AIRLINES" name="Delta Air Lines" default="temp_off">
             <pattern>
                 <token>Delta</token>
-                <token>Airlines</token>
+                <token regexp="yes">Airlines?</token>
             </pattern>
             <message>The name of this airline is <suggestion>Delta Air Lines</suggestion> ("air" and "lines" spelled as separate words).</message>
             <url>https://en.wikipedia.org/wiki/Delta_Air_Lines</url>
@@ -21074,6 +21074,11 @@ USA
                 <token>well</token>
                 <token>to</token>
             </antipattern>
+            <antipattern>
+                <token>to</token>
+                <token>do</token>
+                <token regexp="yes">it|this</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -21091,6 +21096,7 @@ USA
                 <pattern>
                     <token regexp="yes">the|an?|my|your|our|their</token>
                     <token postag="JJ.*" postag_regexp="yes" min="0">
+                        <exception regexp="yes">best|worst</exception>
                         <exception postag="NN.*" postag_regexp="yes" />
                     </token>
                     <marker>
@@ -21107,6 +21113,7 @@ USA
                 <example>It was quite right of her to do that.</example>
                 <example>She obeys him no matter what he tells her to do.</example>
                 <example>You must be a fool to do such a thing.</example>
+                <example>I'm giving my best to do that.</example>
             </rule>
             <rule>
                 <pattern>
@@ -21735,8 +21742,11 @@ USA
                 <token>it</token>
             </antipattern>
             <antipattern>
-                <token postag="VB.*" postag_regexp="yes" />
+                <token postag="VB.*" postag_regexp="yes">
+                    <exception regexp="yes" inflected="yes">hope|think</exception>
+                </token>
                 <token>it</token>
+                <token postag="RB" min="0" />
                 <token postag="VB.*" postag_regexp="yes" />
             </antipattern>
             <antipattern>
@@ -21847,6 +21857,7 @@ USA
             <example correction="keeps">I think it's a good thing because it <marker>keep</marker> us on our toes.</example>
             <example correction="becomes">The lights suddenly went out and it <marker>become</marker> dark.</example><!-- The suggestion is not correct; it should be 'became'. -->
             <example correction="works">I had to unpair it and re-pair it and it <marker>work</marker>…</example>
+            <example correction="runs">I really hope it <marker>run</marker>.</example>
             <example>Does it <marker>support</marker> transparency?</example>
             <example>Doesn't it <marker>support</marker> transparency?</example>
             <example>The American publisher let it go out of print.</example>
@@ -21863,6 +21874,7 @@ USA
             <example>But he insisted that it be housed in a special museum.</example>
             <example>Many other components beside it determine how much cooling you'll get.</example>
             <example>How had it come to this?</example>
+            <example>They find it really cool.</example>
             <example>He could do it even better.</example>
             <example>The details of how to do it have been explained.</example>
             <example>I can have it ready in thirty minutes.</example>
@@ -32918,6 +32930,10 @@ USA
                 <token>response</token>
                 <token>time</token>
             </antipattern>
+            <antipattern><!-- 5:33 minute -->
+                <token>:</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="CD" />
@@ -43279,6 +43295,47 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rule id="PLANE_PLAIN" name="plain vs plane" default="temp_off">
+            <antipattern>
+                <token>plain</token>
+                <token regexp="yes">and|&amp;</token>
+                <token>simple</token>
+            </antipattern>
+            <antipattern>
+                <token>simply</token>
+                <token>the</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">pla(ne|in)</token>
+                <token regexp="yes">and|&amp;</token>
+                <token regexp="yes">simpl[ey]</token>
+            </pattern>
+            <message>Did you mean the phrase <suggestion>plain \2 simple</suggestion>?</message>
+            <url>https://www.lexico.com/definition/plain_and_simple</url>
+            <example correction="plain and simple">It works just like that, <marker>plane and simple</marker>.</example>
+            <example>Plain and simply the best SEO plugin.</example>
+        </rule>
+        <rule id="CONFUSION_IT_IS" name="She it (is) happy" default="temp_off">
+            <antipattern>
+                <token inflected="yes">be</token>
+                <token regexp="yes">s?he</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">be</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+                <token regexp="yes">s?he</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">s?he</token>
+                <marker>
+                    <token case_sensitive="yes">it</token>
+                </marker>
+            </pattern>
+            <message>Do not use the pronoun "it" after "\1". Did you mean <suggestion>is</suggestion>?</message>
+            <example correction="is">She <marker>it</marker> so clever.</example>
+            <example>Isn't he it?</example>
+        </rule>
         <rule id="OFF_OF" name="off vs of">
             <antipattern>
                 <token>better</token>
@@ -45122,6 +45179,27 @@ The accident victim died from her injuries.
                 <example correction="their">The parents loved <marker>there</marker> son.</example>
                 <example correction="their">They were <marker>there</marker> angels.</example>
                 <example>Since when are there fireworks?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">heya?|hi|hello</token>
+                    <marker>
+                        <token>their</token>
+                    </marker>
+                    <token regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Did you mean <suggestion>there</suggestion>?</message>
+                <example correction="there">Hi <marker>their</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">heya?|hi|hello</token>
+                    <marker>
+                        <token postag="SENT_END">their</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>there</suggestion>?</message>
+                <example correction="there">Hey <marker>their</marker></example>
             </rule>
         </rulegroup>
         <rule id="RATIO_RATION" name="ration or ratio">
