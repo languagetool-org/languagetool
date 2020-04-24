@@ -524,7 +524,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Cómo estás,">¿<marker>como estas</marker> guapo?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CUAL"  name="cual/cuál" default="temp_off">
+        <rulegroup id="CUAL" name="cual/cuál" default="temp_off">
             <rule>
                 <pattern>
                     <token regexp="yes">el|la|los|las|del|al</token>
@@ -1752,7 +1752,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>este</token>
                 <token min="0" max="3" postag="N.*|A.*" postag_regexp="yes"/>
-                <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="V.[MSI].*|SENT_END" postag_regexp="yes" negate_pos="yes"></exception></token>
+                <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="V.[MSI].*|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
             </antipattern>
             <rule>
                 <!-- esté + participio-->
@@ -1802,7 +1802,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>realidad</token>
                 </antipattern>
                 <pattern>
-                    <token postag="PR.*" postag_regexp="yes" skip="3"><exception scope="next" postag="CC|_PUNT.*" postag_regexp="yes"></exception></token>
+                    <token postag="PR.*" postag_regexp="yes" skip="3"><exception scope="next" postag="CC|_PUNT.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>este</token>
                     </marker>
@@ -2631,8 +2631,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.rae.es/dpd/que%C3%ADsmo</url>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">oír|temer|pensar|opinar|creer|comentar|expresar|decir|deducir|inferir|colegir|razonar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconsejar|ver|observar<exception postag="_GN_.*" postag_regexp="yes"
-                    /></token>
+                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">oír|temer|pensar|opinar|creer|comentar|expresar|decir|deducir|inferir|colegir|razonar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconsejar|ver|observar<exception postag="_GN_.*"
+                        postag_regexp="yes"/></token>
                     <marker>
                         <token>de</token>
                         <token skip="-1">que</token>
@@ -2646,8 +2646,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">oír|temer|pensar|opinar|creer|comentar|expresar|decir|deducir|inferir|colegir|razonar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconsejar|ver|observar<exception postag="_GN_.*" postag_regexp="yes"
-                        /></token>
+                    <token inflected="yes" regexp="yes" postag="V.*" postag_regexp="yes">oír|temer|pensar|opinar|creer|comentar|expresar|decir|deducir|inferir|colegir|razonar|comunicar|confirmar|corroborar|desmentir|constar|resultar|aconsejar|ver|observar<exception postag="_GN_.*"
+                        postag_regexp="yes"/></token>
                     <marker>
                         <token>de</token>
                         <token>que</token>
@@ -3599,7 +3599,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="MEXICO" name="México/Méjico" default="temp_off">
             <pattern>
                 <token regexp="yes">.*mejic.*|Méjico|Tejas<exception postag="NCFP000">tejas</exception></token>
-            </pattern> <!--tejano-->
+            </pattern>
+            <!--tejano-->
             <message>Grafía recomendada.</message>
             <suggestion><match no="1" regexp_match="(?iu)(.*)j(.*)" regexp_replace="$1x$2"/></suggestion>
             <example correction="México">Soy de <marker>Méjico</marker>.</example>
@@ -3784,6 +3785,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CAMBIOS_NORMA" name="cambios en las normas lingüísticas">
+        <rulegroup id="MONOSILABOS" name="los monosílabos no llevan tilde">
+            <!-- the speller gives already good suggestions, but we provide +info -->
+            <url>http://aplica.rae.es/orweb/cgi-bin/v.cgi?i=fGOCbZgElkdRTUPr</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">dió|guió|lió|fió|frió|pió|rió|guión|ión|muón|vió|pión|prión</token>
+                </pattern>
+                <message>Según las normas ortográficas actuales, los monosílabos no llevan tilde.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.*)ó(.*)" regexp_replace="$1o$2"/></suggestion>
+                <example correction="dio">Me lo <marker>dió</marker> él.</example>
+                <example correction="guion">El <marker>guión</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="SOLO" name="sólo/solo">
             <pattern>
                 <token>sólo</token>
