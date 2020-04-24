@@ -34,6 +34,7 @@ import org.languagetool.rules.spelling.hunspell.CompoundAwareHunspellRule;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.Tagger;
+import org.languagetool.tagging.de.VerbPrefixes;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
@@ -56,21 +57,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private static Logger logger = LoggerFactory.getLogger(GermanSpellerRule.class);
 
   private static final int MAX_EDIT_DISTANCE = 2;
-
-  // https://deutschegrammatik20.de/spezielle-verben/verben-mit-praefix-trennbare-und-nicht-trennbare-verben/uebersicht-trennbare-praefixe/
-  private static final List<String> prefixes = Arrays.asList("ab", "an", "auf", "aus", "auseinander", "bei", "ein", "empor", "entgegen", "entlang", "entzwei",
-        "fehl", "fern", "fest", "fort", "gegenüber", "heim", "hinterher", "hoch", "los", "mit", "nach", "neben", "nieder", "vor",
-        "weg", "weiter", "zu", "zurecht", "zurück", "zusammen", "da", "hin", "her",
-        "herab", "heran", "herauf", "heraus", "herbei", "herein", "hernieder", "herüber", "herum", "herunter", "hervor", "herzu",
-        "hinab", "hinan", "hinauf", "hinaus", "hinein", "hinüber", "hinunter", "hinweg", "hinzu", "vorab", "voran", "vorauf", "voraus",
-        "vorbei", "vorweg", "vorher", "vorüber",
-        "dabei", "dafür", "dagegen", "daher", "dahin", "dahinter", "daneben", "daran", "darauf", "darein", "darüber", "darunter",
-        "hinter", "dran", "drauf", "drein", "drüber", "drunter",
-        "davon", "davor", "dazu", "dazwischen",
-        "durch", "über", "unter", "um", "wider", "wieder",
-        // not listed in source above (deutschegrammatik20.de):
-        "umher", "ent", "frei", "ver", "zer", "gegen"
-  );
 
   // some exceptions for changes to the spelling in 2017 - just a workaround so we don't have to touch the binary dict:
   private static final Pattern PREVENT_SUGGESTION = Pattern.compile(
@@ -1019,7 +1005,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   public List<String> getSuggestions(String word) throws IOException {
     if (word.endsWith("en")   // we're looking for base forms of verbs
         && word.length() < 20 && word.matches("[a-zA-Zöäüß-]+.?")) {
-      for (String prefix : prefixes) {
+      for (String prefix : VerbPrefixes.get()) {
         if (word.startsWith(prefix)) {
           String lastPart = word.substring(prefix.length());
           if (!isMisspelled(lastPart)) {

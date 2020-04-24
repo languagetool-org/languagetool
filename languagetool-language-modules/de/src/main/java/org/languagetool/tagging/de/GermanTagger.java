@@ -239,6 +239,7 @@ public class GermanTagger extends BaseTagger {
         readings.addAll(getAnalyzedTokens(taggerTokens, word));
       } else { // Word not known, try to decompose it and use the last part for POS tagging:
         PrefixInfixVerb verbInfo = verbInfos.get(word);
+        //String prefixVerbLastPart = prefixedVerbLastPart(word);   // see https://github.com/languagetool-org/languagetool/issues/2740
         if (verbInfo != null) {   // e.g. "herumgeben" with "herum_geben" in spelling.txt
           String noPrefixForm = word.substring(verbInfo.prefix.length() + verbInfo.infix.length());   // infix can be "zu"
           List<TaggedWord> tags = tag(noPrefixForm);
@@ -247,6 +248,12 @@ public class GermanTagger extends BaseTagger {
               readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
             }
           }
+        /*} else if (prefixVerbLastPart != null) {   // "aufstöhnen" etc.
+          List<TaggedWord> taggedWords = getWordTagger().tag(prefixVerbLastPart);
+          String firstPart = word.replaceFirst(prefixVerbLastPart + "$", "");
+          for (TaggedWord taggedWord : taggedWords) {
+            readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart+taggedWord.getLemma()));
+          }*/
         } else if (isWeiseException(word)) {   // "idealerweise" etc. but not "überweise", "eimerweise"
           for (String tag : tagsForWeise) {
             readings.add(new AnalyzedToken(word, tag, word));
@@ -335,6 +342,20 @@ public class GermanTagger extends BaseTagger {
       idxPos++;
     }
     return tokenReadings;
+  }
+
+  @Nullable
+  String prefixedVerbLastPart(String word) {
+    // "aufstöhnen" (auf+stöhnen) etc.
+    for (String prefix : VerbPrefixes.get()) {
+      if (word.startsWith(prefix)) {
+        List<TaggedWord> tags = tag(word.replaceFirst("^" + prefix, ""));
+        if (tags.stream().anyMatch(k -> k.getPosTag() != null && k.getPosTag().startsWith("VER:"))) {
+          return word.substring(prefix.length());
+        }
+      }
+    }
+    return null;
   }
 
   boolean isWeiseException(String word) {
