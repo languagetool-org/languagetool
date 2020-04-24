@@ -36,6 +36,8 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
    */
   private static final String POLISH_IGNORE_REGEX = ":neg|qub|depr";
 
+  private static String tagsFilename; 
+  
   SynthDictionaryBuilder(File infoFile) throws IOException {
     super(infoFile);
   }
@@ -53,6 +55,8 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
     
     SynthDictionaryBuilder builder = new SynthDictionaryBuilder(infoFile);
     builder.setOutputFilename(cmdLine.getOptionValue(BuilderOptions.OUTPUT_OPTION));
+	
+    tagsFilename = cmdLine.getOptionValue(BuilderOptions.OUTPUT_OPTION) + "_tags.txt";
 
     builder.build(plainTextDictFile, infoFile);
   }
@@ -66,7 +70,7 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
       Set<String> itemsToBeIgnored = getIgnoreItems(new File(infoFile.getParent(), "filter-archaic.txt"));
       Pattern ignorePosRegex = getPosTagIgnoreRegex(infoFile);
       reversedFile = reverseLineContent(plainTextDictFile, itemsToBeIgnored, ignorePosRegex);
-      writePosTagsToFile(plainTextDictFile, getTagFile(tempFile));
+      writePosTagsToFile(plainTextDictFile, new File(tagsFilename));
       return buildDict(reversedFile);
     } finally {
       tempFile.delete();
@@ -144,13 +148,6 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
     }
     System.out.println("Number of lines ignored due to POS tag filter ('" + ignorePosRegex + "'): " + posIgnoreCount);
     return reversedFile;
-  }
-
-  private File getTagFile(File tempFile) {
-    String name = tempFile.getAbsolutePath() + "_tags.txt";
-    File file = new File(name);
-    file.deleteOnExit();
-    return file;
   }
 
   private void writePosTagsToFile(File plainTextDictFile, File tagFile) throws IOException {
