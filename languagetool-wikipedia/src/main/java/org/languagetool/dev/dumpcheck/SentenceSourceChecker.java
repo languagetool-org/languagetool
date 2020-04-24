@@ -134,6 +134,9 @@ public class SentenceSourceChecker {
     options.addOption(Option.builder().longOpt("spelling")
             .desc("Don't skip spell checking rules")
             .build());
+    options.addOption(Option.builder().longOpt("rulesource").hasArg()
+            .desc("Activate only rules from this XML file (e.g. 'grammar.xml')")
+            .build());
     try {
       CommandLineParser parser = new DefaultParser();
       return parser.parse(options, args);
@@ -160,6 +163,7 @@ public class SentenceSourceChecker {
     File neuralNetworkModelDir = options.hasOption("neuralnetworkmodel") ? new File(options.getOptionValue("neuralnetworkmodel")) : null;
     File remoteRules = options.hasOption("remoterules") ? new File(options.getOptionValue("remoterules")) : null;
     Pattern filter = options.hasOption("filter") ? Pattern.compile(options.getOptionValue("filter")) : null;
+    String ruleSource = options.hasOption("rulesource") ? options.getOptionValue("rulesource") : null;
     Language lang = Languages.getLanguageForShortCode(langCode);
     MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang);
     lt.setCleanOverlappingMatches(false);
@@ -172,6 +176,7 @@ public class SentenceSourceChecker {
     if (neuralNetworkModelDir != null) {
       lt.activateNeuralNetworkRules(neuralNetworkModelDir);
     }
+    int activatedBySource = 0;
     for (Rule rule : lt.getAllRules()) {
       if (rule.isDefaultTempOff()) {
         if (rule instanceof AbstractPatternRule) {
@@ -181,12 +186,31 @@ public class SentenceSourceChecker {
         }
         lt.enableRule(rule.getId());
       }
+      if (ruleSource != null) {
+        boolean enable = false;
+        if (rule instanceof AbstractPatternRule) {
+          String sourceFile = ((AbstractPatternRule) rule).getSourceFile();
+          if (sourceFile != null && sourceFile.endsWith("/" + ruleSource)) {
+            enable = true;
+            activatedBySource++;
+          }
+        }
+        if (enable) {
+          lt.enableRule(rule.getId());
+        } else {
+          lt.disableRule(rule.getId());
+        }
+      }
     }
     lt.activateRemoteRules(remoteRules);
-    if (ruleIds != null) {
-      enableOnlySpecifiedRules(ruleIds, lt);
+    if (ruleSource == null) {
+      if (ruleIds != null) {
+        enableOnlySpecifiedRules(ruleIds, lt);
+      } else {
+        applyRuleDeactivation(lt, disabledRules);
+      }
     } else {
-      applyRuleDeactivation(lt, disabledRules);
+      System.out.println("Activated " + activatedBySource + " rules from " + ruleSource);
     }
     if (filter != null) {
       System.out.println("*** NOTE: only sentences that match regular expression '" + filter + "' will be checked");
