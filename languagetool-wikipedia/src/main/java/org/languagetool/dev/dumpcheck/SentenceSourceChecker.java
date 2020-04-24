@@ -89,54 +89,39 @@ public class SentenceSourceChecker {
   private static CommandLine ensureCorrectUsageOrExit(String[] args) {
     Options options = new Options();
     options.addOption(Option.builder("l").longOpt("language").argName("code").hasArg()
-            .desc("language code like 'en' or 'de'")
-            .required().build());
+            .desc("language code like 'en' or 'de'").required().build());
     options.addOption(Option.builder("d").longOpt("db-properties").argName("file").hasArg()
             .desc("A file to set database access properties. If not set, the output will be written to STDOUT. " +
-                    "The file needs to set the properties dbUrl ('jdbc:...'), dbUser, and dbPassword. " +
-                    "It can optionally define the batchSize for insert statements, which defaults to 1.")
-            .build());
+                  "The file needs to set the properties dbUrl ('jdbc:...'), dbUser, and dbPassword. " +
+                  "It can optionally define the batchSize for insert statements, which defaults to 1.").build());
     options.addOption(Option.builder().longOpt("rule-properties").argName("file").hasArg()
-            .desc("A file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4)")
-            .build());
+            .desc("A file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4)").build());
     options.addOption(Option.builder("r").longOpt("rule-ids").argName("id").hasArg()
-            .desc("comma-separated list of rule-ids to activate")
-            .build());
+            .desc("comma-separated list of rule-ids to activate").build());
     options.addOption(Option.builder().longOpt("also-enable-categories").argName("categories").hasArg()
-            .desc("comma-separated list of categories to activate, additionally to rules activated anyway")
-            .build());
+            .desc("comma-separated list of categories to activate, additionally to rules activated anyway").build());
     options.addOption(Option.builder("f").longOpt("file").argName("file").hasArg()
             .desc("an unpacked Wikipedia XML dump; (must be named *.xml, dumps are available from http://dumps.wikimedia.org/backup-index.html) " +
-                    "or a Tatoeba CSV file filtered to contain only one language (must be named tatoeba-*). You can specify this option more than once.")
-            .required()
-            .build());
+                  "or a Tatoeba CSV file filtered to contain only one language (must be named tatoeba-*). You can specify this option more than once.")
+            .required().build());
     options.addOption(Option.builder().longOpt("max-sentences").argName("number").hasArg()
-            .desc("maximum number of sentences to check")
-            .build());
+            .desc("maximum number of sentences to check").build());
     options.addOption(Option.builder().longOpt("max-errors").argName("number").hasArg()
-            .desc("maximum number of errors, stop when finding more")
-            .build());
+            .desc("maximum number of errors, stop when finding more").build());
     options.addOption(Option.builder().longOpt("context-size").argName("number").hasArg()
-            .desc("context size per error, in characters")
-            .build());
+            .desc("context size per error, in characters").build());
     options.addOption(Option.builder().longOpt("languagemodel").argName("indexDir").hasArg()
-            .desc("directory with a '3grams' sub directory that contains an ngram index")
-            .build());
+            .desc("directory with a '3grams' sub directory that contains an ngram index").build());
     options.addOption(Option.builder().longOpt("neuralnetworkmodel").argName("baseDir").hasArg()
-            .desc("base directory for saved neural network models")
-            .build());
+            .desc("base directory for saved neural network models").build());
     options.addOption(Option.builder().longOpt("remoterules").argName("configFile").hasArg()
-            .desc("JSON file with configuration of remote rules")
-            .build());
+            .desc("JSON file with configuration of remote rules").build());
     options.addOption(Option.builder().longOpt("filter").argName("regex").hasArg()
-            .desc("Consider only sentences that contain this regular expression (for speed up)")
-            .build());
+            .desc("Consider only sentences that contain this regular expression (for speed up)").build());
     options.addOption(Option.builder().longOpt("spelling")
-            .desc("Don't skip spell checking rules")
-            .build());
+            .desc("Don't skip spell checking rules").build());
     options.addOption(Option.builder().longOpt("rulesource").hasArg()
-            .desc("Activate only rules from this XML file (e.g. 'grammar.xml')")
-            .build());
+            .desc("Activate only rules from this XML file (e.g. 'grammar.xml')").build());
     try {
       CommandLineParser parser = new DefaultParser();
       return parser.parse(options, args);
