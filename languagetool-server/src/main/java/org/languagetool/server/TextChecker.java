@@ -31,8 +31,8 @@ import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CategoryId;
-import org.languagetool.rules.RemoteRule;
 import org.languagetool.rules.DictionaryMatchFilter;
+import org.languagetool.rules.RemoteRule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
@@ -119,6 +119,7 @@ abstract class TextChecker {
     if (cache != null) {
       ServerMetricsCollector.getInstance().monitorCache("languagetool_matches_cache", cache.getMatchesCache());
       ServerMetricsCollector.getInstance().monitorCache("languagetool_sentences_cache", cache.getSentenceCache());
+      ServerMetricsCollector.getInstance().monitorCache("languagetool_remote_matches_cache", cache.getRemoteMatchesCache());
     }
 
     pipelinePool = new PipelinePool(config, cache, internalServer);
