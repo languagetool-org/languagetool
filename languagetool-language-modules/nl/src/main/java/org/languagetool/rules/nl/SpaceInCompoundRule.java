@@ -23,8 +23,11 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
-
 import java.util.*;
+
+import org.apache.commons.lang3.StringUtils;
+import static java.lang.Character.isLowerCase;
+import static java.lang.Character.isUpperCase;
 
 public class SpaceInCompoundRule extends Rule {
 
@@ -50,11 +53,11 @@ public class SpaceInCompoundRule extends Rule {
       String wordParts = lineParts[0];
       String[] words = wordParts.split(" ");
       generateVariants("", Arrays.asList(words), result);
-      if (normalizedCompound2message.containsKey(removeSpaces(wordParts))) {
+      if (normalizedCompound2message.containsKey(glueParts(wordParts))) {
         throw new RuntimeException("Duplicate item '" + wordParts + "' in file " + filename);
       }
-      String message = "Bedoelt u misschien: "+lineParts[1]+ " ("+removeSpaces(wordParts)+").";
-      normalizedCompound2message.put(removeSpaces(wordParts), message);
+      String message = "U bedoelt misschien: "+glueParts(wordParts)+ " ("+lineParts[1]+").";
+      normalizedCompound2message.put(glueParts(wordParts), message);
     }
     Map<String, String> map = new HashMap<>();
     for (String variant : result) {
@@ -65,8 +68,34 @@ public class SpaceInCompoundRule extends Rule {
     return trie;
   }
 
-  private static String removeSpaces(String s) {
-    return s.replaceAll(" ", "");
+  private static String glueParts(String s) {
+    String spelledWords = "(abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|" +
+            "hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|" +
+            "pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp)";
+    //System.out.print("******"+s+"****** => ");
+    String[] parts = s.split(" ");
+    String compound = parts[0];
+    for (int i = 1; i < parts.length; i++) {
+      String word2 = parts[i];
+      char lastChar = compound.charAt(compound.length() - 1);
+      char firstChar = word2.charAt(0);
+      String connection = lastChar + String.valueOf(firstChar);
+      if (StringUtils.containsAny(connection, "aa", "ae", "ai", "ao", "au", "ee", "ei", "eu", "ie", "ii", "oe", "oi", "oo", "ou", "ui", "uu", "ij")) {
+        compound = compound + '-' + word2;
+      } else if (isUpperCase(firstChar) && isLowerCase(lastChar)) {
+        compound = compound + '-' + word2;
+      } else if (isUpperCase(lastChar) && isLowerCase(firstChar)) {
+        compound = compound + '-' + word2;
+      } else if (compound.matches("(^|.+-)?" + spelledWords) || word2.matches(spelledWords + "(-.+|$)?")) {
+        compound = compound + '-' + word2;
+      } else if (compound.matches(".+-[a-z]$") || word2.matches("^[a-z]-.+")) {
+        compound = compound + '-' + word2;
+      } else {
+        compound = compound + word2;
+      }
+    }
+    //System.out.println("******"+compound+"******");
+    return compound;
   }
 
   static void generateVariants(String soFar, List<String> l, Set<String> result) {
@@ -101,7 +130,7 @@ public class SpaceInCompoundRule extends Rule {
     List<AhoCorasickDoubleArrayTrie.Hit<String>> hits = trie.parseText(text);
     for (AhoCorasickDoubleArrayTrie.Hit<String> hit : hits) {
       String covered = text.substring(hit.begin, hit.end);
-      String coveredNoSpaces = removeSpaces(covered);
+      String coveredNoSpaces = glueParts(covered);
       String message = normalizedCompound2message.get(coveredNoSpaces);
       RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end, hit.begin, hit.end, message, null, false, "");
       match.setSuggestedReplacement(coveredNoSpaces);

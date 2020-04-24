@@ -43,6 +43,7 @@ public class SpaceInCompoundRuleTest {
     assertMatch("lange afstand loper", rule, lt);
     assertMatch("langeafstand loper", rule, lt);
     assertMatch("lange afstandloper", rule, lt);
+    //assertSuggestion("tv meubel", "tv-meubel");
   }
 
   private void assertGood(String input, SpaceInCompoundRule rule, JLanguageTool lt) throws IOException {

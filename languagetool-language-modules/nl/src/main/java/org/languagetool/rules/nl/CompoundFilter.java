@@ -70,11 +70,10 @@ public class CompoundFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
     String words = arguments.get("words");
     //System.out.println("****"+words+"******");
-    String[] parts = words.split("\\|");
+    String[] parts = s.split(" ");
     String compound = parts[0];
-    for (int i = 1; i < parts.length-1; i++) {
-      String word1 = compound;
-      String word2 = parts[i + 1];
+    for (int i = 1; i < parts.length; i++) {
+      String word2 = parts[i];
       char lastChar = compound.charAt(compound.length() - 1);
       char firstChar = word2.charAt(0);
       String connection = lastChar + String.valueOf(firstChar);
@@ -92,6 +91,7 @@ public class CompoundFilter extends RuleFilter {
         compound = compound + word2;
       }
     }
+    //System.out.println("******"+compound+"******");
     String message = match.getMessage().replaceAll("<suggestion>.*?</suggestion>", "<suggestion>" + compound + "</suggestion>");
     String shortMessage = match.getShortMessage().replaceAll("<suggestion>.*?</suggestion>", "<suggestion>" + compound + "</suggestion>");
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, shortMessage);
