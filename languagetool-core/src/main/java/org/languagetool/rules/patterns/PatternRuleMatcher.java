@@ -46,7 +46,7 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
   private static final String SUGGESTION_END_TAG = "</suggestion>";
 
   private static final Pattern SUGGESTION_PATTERN_SUPPRESS = Pattern
-      .compile(SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME + "(.*?\\(.*?\\).*?|[^<]*"+MISTAKE+"[^<]*)" + SUGGESTION_END_TAG);
+      .compile(SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME + ".*?(\\(.*?\\)|"+MISTAKE+").*?" + SUGGESTION_END_TAG);
 
   private final boolean useList;
   private final List<PatternTokenMatcher> patternTokenMatchers;
@@ -479,12 +479,6 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
       int skippedTokens = nextTokenPos - tokenIndex;
       MatchState matchState = suggestionMatches.get(start).createState(language.getSynthesizer(), tokens, tokenIndex - 1, skippedTokens);
       finalMatch = matchState.toFinalString(language);
-      if (suggestionMatches.get(start).checksSpelling()
-          && finalMatch.length == 1
-          && "".equals(finalMatch[0])) {
-        finalMatch = new String[1];
-        finalMatch[0] = MISTAKE;
-      }
     } else {
       List<String[]> matchList = new ArrayList<>();
       for (int i = 0; i < len; i++) {
