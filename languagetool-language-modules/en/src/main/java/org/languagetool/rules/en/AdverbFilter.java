@@ -167,6 +167,7 @@ public class AdverbFilter extends RuleFilter {
     put("vicariously", "vicarious");
     put("vividly", "vivid");
     put("partially", "partial");
+    put("unduly", "undue");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
