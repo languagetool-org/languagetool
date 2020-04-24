@@ -308,7 +308,7 @@ public class MatchState {
       for (int i = 0; i < formattedString.length; i++) {
         AnalyzedToken analyzedToken = analyzed.get(i).getAnalyzedToken(0);
         if (analyzedToken.getLemma() == null && analyzedToken.hasNoTag()) {
-          formattedString[i] = "";
+          formattedString[i] = PatternRuleMatcher.MISTAKE;
         }
       }
     }
