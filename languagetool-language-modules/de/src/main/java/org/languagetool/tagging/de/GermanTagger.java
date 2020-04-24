@@ -228,11 +228,11 @@ public class GermanTagger extends BaseTagger {
       } else if (pos == 0 && ignoreCase) {   // "Haben", "Sollen", "Können", "Gerade" etc. at start of sentence
         taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));
       } else if (pos > 1 && taggerTokens.isEmpty() && ignoreCase) {
-          int idx = sentenceTokens.indexOf(word);
-          // add lowercase token readings to words at start of direct speech
-          if (idx > 2 && sentenceTokens.get(idx-1).contentEquals("„") && sentenceTokens.get(idx-3).contentEquals(":")) {
-            taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));
-          }
+        int idx = sentenceTokens.indexOf(word);
+        // add lowercase token readings to words at start of direct speech
+        if (idx > 2 && sentenceTokens.get(idx-1).contentEquals("„") && sentenceTokens.get(idx-3).contentEquals(":")) {
+          taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));
+        }
       }
 
       if (taggerTokens.size() > 0) { //Word known, just add analyzed token to readings
@@ -263,7 +263,7 @@ public class GermanTagger extends BaseTagger {
           if (compoundParts.size() <= 1) {//Could not find simple compound parts
             // Recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
             List<AnalyzedToken> imperativeFormList = getImperativeForm(word, sentenceTokens, pos);
-            List<AnalyzedToken> substantivatedFormsList = getSubstantivatedForms(word, sentenceTokens, pos);
+            List<AnalyzedToken> substantivatedFormsList = getSubstantivatedForms(word, sentenceTokens);
             if (imperativeFormList.size() > 0) {
               readings.addAll(imperativeFormList);
             } else if (substantivatedFormsList.size() > 0) {
@@ -336,7 +336,7 @@ public class GermanTagger extends BaseTagger {
           readings.add(getNoInfoToken(word));
         }
       }
-      tokenReadings.add(new AnalyzedTokenReadings(readings.toArray(new AnalyzedToken[readings.size()]), pos));
+      tokenReadings.add(new AnalyzedTokenReadings(readings.toArray(new AnalyzedToken[0]), pos));
       pos += word.length();
       prevWord = word;
       idxPos++;
@@ -406,7 +406,7 @@ public class GermanTagger extends BaseTagger {
    * (e.g., "Verletzter" in "Ein Verletzter kam ins Krankenhaus" needs to be tagged as "SUB:NOM:SIN:MAS")
    * @param word to be checked
    */
-  private List<AnalyzedToken> getSubstantivatedForms(String word, List<String> sentenceTokens, int pos) {
+  private List<AnalyzedToken> getSubstantivatedForms(String word, List<String> sentenceTokens) {
     if (word.endsWith("er")) {
       if (word.matches("\\d{4}+er")) {
         // e.g. "Den 2019er Wert hatten sie geschätzt"
