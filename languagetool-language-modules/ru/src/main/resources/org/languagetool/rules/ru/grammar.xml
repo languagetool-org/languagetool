@@ -10968,12 +10968,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="DotOrCase" name="Точка или заглавная буква" default="temp_off" >
             <pattern>
-                <token></token>
-                <token><exception regexp="yes">[.?,!:;»)(«-—–"']</exception></token>
+                <token regexp="yes">[а-яё][а-яё]*</token>
+                <token><exception regexp="yes">[.?,!:;»)(«-—–"'„]</exception></token>
                 <marker>
                     <token case_sensitive='yes' postag='VB:.*' postag_regexp='yes' regexp="yes">[А-ЯЁ][а-яё]*<exception postag='NN:.*|PNN:.*|ADJ:.*' postag_regexp='yes'></exception></token>
                 </marker>
-                <token><exception regexp="yes">[.?,!:;»)(«-—–"']</exception></token>
+                <token><exception regexp="yes">[.?,!:;»)(«-—–"'„“]</exception></token>
             </pattern>
             <message>Пропущена точка или слово ошибочно написано с прописной буквы.</message>
             <short>Прописная буква или пропущен знак</short>
