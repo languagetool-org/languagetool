@@ -127,7 +127,7 @@ USA
     '>
 
     <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region|zone|band|source|influenza|hepatitis|grade|formula|document|division|class|category|dock'>
-    <!ENTITY nouns_with_i 'article|block|phase|class|grade|part|paragraph|section|chaos|enigma|book|war|king|current|mustang|type|division|level|bi\-?polar|century|tier|numeral|algorithm'>
+    <!ENTITY nouns_with_i 'article|block|phase|class|grade|part|paragraph|section|chaos|enigma|book|war|king|current|mustang|type|division|level|bi\-?polar|century|tier|numeral|algorithm|auschwitz'>
 ]>
 
 <rules lang="en" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -6686,187 +6686,190 @@ USA
             <message>Did you mean <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>?</message>
             <example correction="outcome">What was the <marker>out come</marker>?</example>
         </rule>
-        <!-- album comprised of::word=album composed of::pivots=comprised,composed::options=comprised,composed -->
-        <rule id="ALBUM_COMPRISED_OF" name="album comprised of">
-            <pattern>
-                <token regexp="yes">album|army</token>
-                <token>comprised</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion><match no="1"/> composed of</suggestion>?</message>
-            <example correction="album composed of">This is an <marker>album comprised of</marker> of great songs.</example>
-            <example>This is an album composed of great songs.</example>
-        </rule>
-        <!-- area comprised of::word=area consisting of::pivots=comprised,consisting::options=comprised,consisting -->
-        <rule id="AREA_COMPRISED_OF" name="area comprised of">
-            <pattern>
-                <token>area</token>
-                <token>comprised</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>area consisting of</suggestion>?</message>
-            <example correction="area consisting of">The Tenderloin is an <marker>area comprised of</marker> the seedy sort.</example>
-        </rule>
-        <!-- band comprised of::word=band composed of, band comprising::pivots=comprised,composed,comprising::options=comprised,composed,comprising -->
-        <rule id="BAND_COMPRISED_OF" name="band comprised of">
-            <pattern>
-                <token>band</token>
-                <token>comprised</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>band composed of</suggestion> or <suggestion>band comprising</suggestion>?</message>
-            <example correction="band composed of|band comprising">The Beatles were a <marker>band comprised of</marker> great musicians.</example>
-        </rule>
-        <!-- comprised principally of::word=composed principally of::pivots=comprised,composed::options=comprised,composed -->
-        <rule id="COMPRISED_PRINCIPALLY_OF" name="comprised principally of">
-            <pattern>
-                <token>comprised</token>
-                <token regexp="yes">principally|primarily</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>composed <match no="2"/> of</suggestion>?</message>
-            <example correction="composed primarily of">The lawsuit was <marker>comprised primarily of</marker> false accusations.</example>
-        </rule>
-        <!-- entirely comprised of::word=entirely composed of::pivots=comprised,composed::options=comprised,composed -->
-        <rule id="ENTIRELY_COMPRISED_OF" name="entirely comprised of">
-            <pattern>
-                <token regexp="yes">entirely|group|mainly|mostly</token>
-                <token>comprised</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion><match no="1"/> composed of</suggestion>?</message>
-            <example correction="entirely composed of">It was <marker>entirely comprised of</marker> people.</example>
-        </rule>
-        <!-- comprised chiefly of::word=composed chiefly of, comprised chiefly, consisted chiefly of::options=comprised,composed,consisted -->
-        <rule id="COMPRISED_CHIEFLY_OF" name="comprised chiefly of">
-            <pattern>
-                <token>comprised</token>
-                <token regexp="yes">chiefly|entirely|exclusively|generally|largely|mainly|mostly|only|primarily|principally|wholly</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>composed \2 \3</suggestion> or <suggestion>comprised \2</suggestion> or <suggestion>consisted \2 \3</suggestion>?</message>
-            <example correction="composed chiefly of|comprised chiefly|consisted chiefly of">The song was <marker>comprised chiefly of</marker> B chords.</example>
-        </rule>
-        <!-- comprises of::word=comprises, consists of::options=comprises,consists -->
-        <rule id="COMPRISES_OF" name="comprises of">
-            <pattern>
-                <token>comprises</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>comprises</suggestion> or <suggestion>consists of</suggestion>?</message>
-            <example correction="comprises|consists of">The part <marker>comprises of</marker> the whole.</example>
-        </rule>
-        <!-- comprising of::word=comprising, consisting of::options=comprising,consisting -->
-        <rule id="COMPRISING_OF" name="comprising of">
-            <pattern>
-                <token>comprising</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>comprising</suggestion> or <suggestion>consisting of</suggestion>?</message>
-            <example correction="comprising|consisting of">This is a country <marker>comprising of</marker> independent people.</example>
-        </rule>
-        <!-- comprise of::word=comprise, consist of::options=comprise,consist -->
-        <rule id="COMPRISE_OF" name="comprise of">
-            <pattern>
-                <token>comprise</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>comprise</suggestion> or <suggestion>consist of</suggestion>?</message>
-            <example correction="comprise|consist of">It's tough to think you <marker>comprise of</marker> mostly water.</example>
-        </rule>
-        <!-- was comprised of::word=comprised, consisted of, was composed of::options=comprised,consisted,composed -->
-        <rule id="WAS_COMPRISED_OF" name="was comprised of">
-            <pattern>
-                <token>was</token>
-                <token>comprised</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>comprised</suggestion> or <suggestion>consisted of</suggestion> or <suggestion>was composed of</suggestion>?</message>
-            <example correction="comprised|consisted of|was composed of">The proposal <marker>was comprised of</marker> faulty assumptions.</example>
-        </rule>
-        <!-- were comprised of::word=comprised, were composed of::options=comprised,composed -->
-        <rule id="WERE_COMPRISED_OF" name="were comprised of">
-            <pattern>
-                <token>were</token>
-                <token>comprised</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>comprised</suggestion> or <suggestion>were composed of</suggestion>?</message>
-            <example correction="comprised|were composed of">The missiles <marker>were comprised of</marker> nuclear warheads.</example>
-        </rule>
-        <!-- which comprised of::word=which comprised, which consisted of, which was composed of::options=comprised,consisted,composed -->
-        <rule id="WHICH_COMPRISED_OF" name="which comprised of">
-            <pattern>
-                <token>which</token>
-                <token>comprised</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>which comprised</suggestion> or <suggestion>which consisted of</suggestion> or <suggestion>which was composed of</suggestion>?</message>
-            <example correction="which comprised|which consisted of|which was composed of">The ants, <marker>which comprised of</marker> the colony, were asleep.</example>
-        </rule>
-        <!-- will be comprised of::word=will be composed of, will comprise, will consist of::options=comprised,composed,comprise -->
-        <rule id="WILL_BE_COMPRISED_OF" name="will be comprised of">
-            <pattern>
-                <token>will</token>
-                <token>be</token>
-                <token>comprised</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>will be composed of</suggestion> or <suggestion>will comprise</suggestion> or <suggestion>will consist of</suggestion>?</message>
-            <example correction="will be composed of|will comprise|will consist of">The album <marker>will be comprised of</marker> synthetic sounds.</example>
-        </rule>
-        <!-- will comprise of::word=will be composed of, will comprise, will consist of::options=comprise,composed,comprise,consist -->
-        <rule id="WILL_COMPRISE_OF" name="will comprise of">
-            <pattern>
-                <token>will</token>
-                <token>comprise</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>will be composed of</suggestion> or <suggestion>will comprise</suggestion> or <suggestion>will consist of</suggestion>?</message>
-            <example correction="will be composed of|will comprise|will consist of">The ants <marker>will comprise of</marker> the colony.</example>
-        </rule>
-        <!-- would comprise of::word=would comprise, would consist of::options=comprise,consist -->
-        <rule id="WOULD_COMPRISE_OF" name="would comprise of">
-            <pattern>
-                <token>would</token>
-                <token>comprise</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>would comprise</suggestion> or <suggestion>would consist of</suggestion>?</message>
-            <example correction="would comprise|would consist of">The ants <marker>would comprise of</marker> the colony.</example>
-        </rule>
-        <!-- government comprised of::word=government composed of, government consisting of::options=comprised,composed,consisting -->
-        <rule id="GOVERNMENT_COMPRISED_OF" name="government comprised of">
-            <pattern>
-                <token>government</token>
-                <token>comprised</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>government composed of</suggestion> or <suggestion>government consisting of</suggestion>?</message>
-            <example correction="government composed of|government consisting of">Theirs was a <marker>government comprised of</marker> warring factions.</example>
-        </rule>
-        <!-- is comprised mostly of::word=comprises mostly, consists mostly of, is composed mostly of::options=comprised,comprises,consists,composed::pivots=comprised mostly of,comprises mostly,consists mostly of,composed mostly of -->
-        <rule id="IS_COMPRISED_MOSTLY_OF" name="is comprised mostly of">
-            <pattern>
-                <token>is</token>
-                <token>comprised</token>
-                <token>mostly</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>comprises mostly</suggestion> or <suggestion>consists mostly of</suggestion> or <suggestion>is composed mostly of</suggestion>?</message>
-            <example correction="comprises mostly|consists mostly of|is composed mostly of">The government <marker>is comprised mostly of</marker> idiots.</example>
-        </rule>
-        <!-- is comprised of::word=comprises, consists of, is composed of::options=comprised,comprises,consists,composed::pivots=comprised of,comprises,consists of,composed of -->
-        <rule id="IS_COMPRISED_OF" name="is comprised of">
-            <pattern>
-                <token>is</token>
-                <token>comprised</token>
-                <token>of</token>
-            </pattern>
-            <message>Did you mean <suggestion>comprises</suggestion> or <suggestion>consists of</suggestion> or <suggestion>is composed of</suggestion>?</message>
-            <example correction="comprises|consists of|is composed of">The government <marker>is comprised of</marker> idiots.</example>
-            <example>The government consists of great guys.</example>
-        </rule>
+        <rulegroup id="COMPRISED_OF" name="comprised of">
+            <url>https://www.businesswritingblog.com/business_writing/2015/01/comprised-of-vs-composed-of-a-test.html</url>
+            <!-- album comprised of::word=album composed of::pivots=comprised,composed::options=comprised,composed -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">album|army</token>
+                    <token>comprised</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1"/> composed of</suggestion>?</message>
+                <example correction="album composed of">This is an <marker>album comprised of</marker> of great songs.</example>
+                <example>This is an album composed of great songs.</example>
+            </rule>
+            <!-- area comprised of::word=area consisting of::pivots=comprised,consisting::options=comprised,consisting -->
+            <rule>
+                <pattern>
+                    <token>area</token>
+                    <token>comprised</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>area consisting of</suggestion>?</message>
+                <example correction="area consisting of">The Tenderloin is an <marker>area comprised of</marker> the seedy sort.</example>
+            </rule>
+            <!-- band comprised of::word=band composed of, band comprising::pivots=comprised,composed,comprising::options=comprised,composed,comprising -->
+            <rule>
+                <pattern>
+                    <token>band</token>
+                    <token>comprised</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>band composed of</suggestion> or <suggestion>band comprising</suggestion>?</message>
+                <example correction="band composed of|band comprising">The Beatles were a <marker>band comprised of</marker> great musicians.</example>
+            </rule>
+            <!-- comprised principally of::word=composed principally of::pivots=comprised,composed::options=comprised,composed -->
+            <rule>
+                <pattern>
+                    <token>comprised</token>
+                    <token regexp="yes">principally|primarily</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>composed <match no="2"/> of</suggestion>?</message>
+                <example correction="composed primarily of">The lawsuit was <marker>comprised primarily of</marker> false accusations.</example>
+            </rule>
+            <!-- entirely comprised of::word=entirely composed of::pivots=comprised,composed::options=comprised,composed -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">entirely|group|mainly|mostly</token>
+                    <token>comprised</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion><match no="1"/> composed of</suggestion>?</message>
+                <example correction="entirely composed of">It was <marker>entirely comprised of</marker> people.</example>
+            </rule>
+            <!-- comprised chiefly of::word=composed chiefly of, comprised chiefly, consisted chiefly of::options=comprised,composed,consisted -->
+            <rule>
+                <pattern>
+                    <token>comprised</token>
+                    <token regexp="yes">chiefly|entirely|exclusively|generally|largely|mainly|mostly|only|primarily|principally|wholly</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>composed \2 \3</suggestion> or <suggestion>comprised \2</suggestion> or <suggestion>consisted \2 \3</suggestion>?</message>
+                <example correction="composed chiefly of|comprised chiefly|consisted chiefly of">The song was <marker>comprised chiefly of</marker> B chords.</example>
+            </rule>
+            <!-- comprises of::word=comprises, consists of::options=comprises,consists -->
+            <rule>
+                <pattern>
+                    <token>comprises</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>comprises</suggestion> or <suggestion>consists of</suggestion>?</message>
+                <example correction="comprises|consists of">The part <marker>comprises of</marker> the whole.</example>
+            </rule>
+            <!-- comprising of::word=comprising, consisting of::options=comprising,consisting -->
+            <rule>
+                <pattern>
+                    <token>comprising</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>comprising</suggestion> or <suggestion>consisting of</suggestion>?</message>
+                <example correction="comprising|consisting of">This is a country <marker>comprising of</marker> independent people.</example>
+            </rule>
+            <!-- comprise of::word=comprise, consist of::options=comprise,consist -->
+            <rule>
+                <pattern>
+                    <token>comprise</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>comprise</suggestion> or <suggestion>consist of</suggestion>?</message>
+                <example correction="comprise|consist of">It's tough to think you <marker>comprise of</marker> mostly water.</example>
+            </rule>
+            <!-- was comprised of::word=comprised, consisted of, was composed of::options=comprised,consisted,composed -->
+            <rule>
+                <pattern>
+                    <token>was</token>
+                    <token>comprised</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>comprised</suggestion> or <suggestion>consisted of</suggestion> or <suggestion>was composed of</suggestion>?</message>
+                <example correction="comprised|consisted of|was composed of">The proposal <marker>was comprised of</marker> faulty assumptions.</example>
+            </rule>
+            <!-- were comprised of::word=comprised, were composed of::options=comprised,composed -->
+            <rule>
+                <pattern>
+                    <token>were</token>
+                    <token>comprised</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>comprised</suggestion> or <suggestion>were composed of</suggestion>?</message>
+                <example correction="comprised|were composed of">The missiles <marker>were comprised of</marker> nuclear warheads.</example>
+            </rule>
+            <!-- which comprised of::word=which comprised, which consisted of, which was composed of::options=comprised,consisted,composed -->
+            <rule>
+                <pattern>
+                    <token>which</token>
+                    <token>comprised</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>which comprised</suggestion> or <suggestion>which consisted of</suggestion> or <suggestion>which was composed of</suggestion>?</message>
+                <example correction="which comprised|which consisted of|which was composed of">The ants, <marker>which comprised of</marker> the colony, were asleep.</example>
+            </rule>
+            <!-- will be comprised of::word=will be composed of, will comprise, will consist of::options=comprised,composed,comprise -->
+            <rule>
+                <pattern>
+                    <token>will</token>
+                    <token>be</token>
+                    <token>comprised</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>will be composed of</suggestion> or <suggestion>will comprise</suggestion> or <suggestion>will consist of</suggestion>?</message>
+                <example correction="will be composed of|will comprise|will consist of">The album <marker>will be comprised of</marker> synthetic sounds.</example>
+            </rule>
+            <!-- will comprise of::word=will be composed of, will comprise, will consist of::options=comprise,composed,comprise,consist -->
+            <rule>
+                <pattern>
+                    <token>will</token>
+                    <token>comprise</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>will be composed of</suggestion> or <suggestion>will comprise</suggestion> or <suggestion>will consist of</suggestion>?</message>
+                <example correction="will be composed of|will comprise|will consist of">The ants <marker>will comprise of</marker> the colony.</example>
+            </rule>
+            <!-- would comprise of::word=would comprise, would consist of::options=comprise,consist -->
+            <rule>
+                <pattern>
+                    <token>would</token>
+                    <token>comprise</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>would comprise</suggestion> or <suggestion>would consist of</suggestion>?</message>
+                <example correction="would comprise|would consist of">The ants <marker>would comprise of</marker> the colony.</example>
+            </rule>
+            <!-- government comprised of::word=government composed of, government consisting of::options=comprised,composed,consisting -->
+            <rule>
+                <pattern>
+                    <token>government</token>
+                    <token>comprised</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>government composed of</suggestion> or <suggestion>government consisting of</suggestion>?</message>
+                <example correction="government composed of|government consisting of">Theirs was a <marker>government comprised of</marker> warring factions.</example>
+            </rule>
+            <!-- is comprised mostly of::word=comprises mostly, consists mostly of, is composed mostly of::options=comprised,comprises,consists,composed::pivots=comprised mostly of,comprises mostly,consists mostly of,composed mostly of -->
+            <rule>
+                <pattern>
+                    <token>is</token>
+                    <token>comprised</token>
+                    <token>mostly</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>comprises mostly</suggestion> or <suggestion>consists mostly of</suggestion> or <suggestion>is composed mostly of</suggestion>?</message>
+                <example correction="comprises mostly|consists mostly of|is composed mostly of">The government <marker>is comprised mostly of</marker> idiots.</example>
+            </rule>
+            <!-- is comprised of::word=comprises, consists of, is composed of::options=comprised,comprises,consists,composed::pivots=comprised of,comprises,consists of,composed of -->
+            <rule>
+                <pattern>
+                    <token>is</token>
+                    <token>comprised</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>comprises</suggestion> or <suggestion>consists of</suggestion> or <suggestion>is composed of</suggestion>?</message>
+                <example correction="comprises|consists of|is composed of">The government <marker>is comprised of</marker> idiots.</example>
+                <example>The government consists of great guys.</example>
+            </rule>
+        </rulegroup>
         <!-- writing|political|science|cultural|grammatical gaffs::word=\0 gaffes::pivots=gaffs,gaffes -->
         <rule id="WRITINGPOLITICALSCIENCE_GAFFS" name="political gaffs (gaffes)">
             <pattern>
@@ -7868,7 +7871,7 @@ USA
             <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
-                        <exception postag="IN|VB.*" postag_regexp="yes" /><!-- "check" is UH, "for" is CC -->
+                        <exception postag="IN|VB.*|RP" postag_regexp="yes" /><!-- "check" is UH, "for" is CC -->
                     </token>
                     <marker>
                         <token regexp="yes">your|ur|ya</token>
@@ -7889,6 +7892,7 @@ USA
                 <example correction="you're">If you think you’re normal, <marker>your</marker> probably crazy.</example>
                 <example>Consider this for your content.</example>
                 <example>Please check your content</example>
+                <example>Don't throw away your chance.</example>
                 <example>Your nice and beautiful brother contacted me.</example>
                 <example>Your nice, beautiful and handsome brother contacted me.</example>
                 <example>You are the center of the Universe, not mine, but your own.</example>
@@ -8001,28 +8005,33 @@ USA
                     <marker><token>your</token></marker>
                     <token postag="JJ">
                         <exception>own</exception>
-                        <exception postag_regexp="yes" postag="VBG|NN(:UN?)?"/>
+                        <exception postag_regexp="yes" postag="VBG|NN.*"/>
                     </token>
-                    <token postag="SENT_END" regexp="yes">[\.\?!]</token>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
                 </pattern>
                 <message>Did you mean <suggestion><match no="1" regexp_match="r" regexp_replace=""/>'re</suggestion>?</message>
                 <example correction="You're"><marker>Your</marker> beautiful.</example>
                 <example correction="you're">Did you know that <marker>your</marker> beautiful?</example>
                 <example>Did you do this on <marker>your</marker> own?</example>
                 <example>I'm tired of <marker>your</marker> nagging.</example>
+                <example>Try to speak English as often as possible if you want to improve your English.</example>
                 <example>I have written the testimonial using the link you provided in <marker>your</marker> e-mail.</example>
                 <example>Unfortunately, we don't sell it in <marker>your</marker> colour.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
+                    <token min="0" regexp="yes">and|but|oh|yes|no|yeah|well</token>
+                    <token min="0">,</token>
                     <marker><token>Your</token></marker>
-                    <token regexp="yes">welcome|pretty|right|wrong</token>
-                    <token regexp="yes">[\.,:;!]</token>
+                    <token regexp="yes" min="0">very|so|really|not|totally|absolutely|even|completely</token>
+                    <token regexp="yes">welcome|pretty|right|wrong|correct|cool|nice|next|alone|fired|wanted|hot|better|not</token>
+                    <token regexp="yes">[\.,:;!…]</token>
                 </pattern>
                 <message>Did you mean <suggestion>You're</suggestion>?</message>
                 <example correction="You're"><marker>Your</marker> welcome.</example>
                 <example correction="You're"><marker>Your</marker> right, but for the wrong reason.</example>
+                <example correction="You're"><marker>Your</marker> very welcome!</example>
             </rule>
             <rule>
                 <pattern>
@@ -9562,15 +9571,6 @@ USA
             <example correction="down payment">The couple made their first <marker>downpayment</marker> on their new house.</example>
             <example>The couple made the first down payment on their new house.</example>
         </rule>
-        <!-- smartphone::word=smart phone -->
-        <rule default="off" id="SMARTPHONE" name="smartphone (smart phone)">
-            <pattern>
-                <token>smartphone</token>
-            </pattern>
-            <message>Did you mean <suggestion>smart phone</suggestion>?</message>
-            <example correction="smart phone">Susie wanted to get a <marker>smartphone</marker> to impress her boyfriend.</example>
-            <example>She couldn't type very well on her new smart phone.</example>
-        </rule>
         <!-- ala mode::word=à la mode::filter=none -->
         <rule id="ALA_MODE" name="ala mode (a la mode)">
             <pattern>
@@ -10746,7 +10746,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
-        <rule id="SMART_COMPOUNDS" name="smart phone (smartphone)" default="temp_off">
+        <rule id="SMART_COMPOUNDS" name="smart phone (smartphone)">
             <pattern>
                 <token>smart</token>
                 <token regexp="yes">phones?|watch(es)?|grass(es)?|weeds?</token>
@@ -10755,6 +10755,26 @@ USA
             <suggestion>smart<match no="2" case_conversion="alllower" /></suggestion>
             <url>https://www.lexico.com/definition/smartphone</url>
             <example correction="smartphone">He got a new <marker>smart phone</marker> for Christmas.</example>
+        </rule>
+        <rulegroup id="AIR_COMPOUND" name="air line (air line)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>air</token>
+                    <token regexp="yes">crafts?|borne|ports?|bags?</token>
+                </pattern>
+                <message>This word is normally spelled as one.</message>
+                <suggestion>air<match no="2" case_conversion="alllower" /></suggestion>
+                <example correction="airport">Which <marker>air port</marker> are you arriving at?</example>
+            </rule>
+        </rulegroup>
+        <rule id="RAIN_COMPOUND" name="rain bow (rainbow)" default="temp_off">
+            <pattern>
+                <token>rain</token>
+                <token regexp="yes">bows?</token>
+            </pattern>
+            <message>This word is normally spelled as one.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="rainbow">Look there is a <marker>rain bow</marker> in the sky!</example>
         </rule>
         <rule id="NOW_ARE_THE_TIME" name="Now are (is) the time">
             <pattern>
@@ -11500,7 +11520,7 @@ USA
                     <token postag="NN.*" postag_regexp="yes">
                         <exception postag="RB.*|VB.*|CC|IN|NNP|UH" postag_regexp="yes" />
                         <exception regexp="yes">auto|min|self|re|inter|un|(some|any)(thing|body|one)|nothing|no|yes</exception>
-                        <exception regexp="yes">cold|cant|wont|aint?|beings|wort|sill|firsts|ads|concords|losses|drys</exception><!-- misspelled verbs -->
+                        <exception regexp="yes">cold|cant|wont|aint?|beings|wort|sill|firsts|ads|concords|losses|drys|breaths</exception><!-- misspelled verbs -->
                     </token>
                     <token postag="VB.*|MD|PCT" postag_regexp="yes">
                         <exception>wise</exception>
@@ -16902,7 +16922,7 @@ USA
             <rule>
                 <antipattern><!-- adjective without hyphen "This book is a must-read" -->
                     <token>must</token>
-                    <token regexp="yes">have|read|go|see|visit|be|do|offer|take|watch</token>
+                    <token regexp="yes">have|read|go|see|visit|be|do|offer|take|watch|trip</token>
                 </antipattern>
                 <antipattern case_sensitive="yes"><!-- the Will.I.Am Song -->
                     <token>the</token>
@@ -19609,6 +19629,15 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rule id="DELTA_AIRLINES" name="Delta Air Lines" default="temp_off">
+            <pattern>
+                <token>Delta</token>
+                <token>Airlines</token>
+            </pattern>
+            <message>The name of this airline is <suggestion>Delta Air Lines</suggestion> ("air" and "lines" spelled as separate words).</message>
+            <url>https://en.wikipedia.org/wiki/Delta_Air_Lines</url>
+            <example correction="Delta Air Lines"><marker>Delta Airlines</marker> is one of the major airlines of the United States and a legacy carrier.</example>
+        </rule>
         <rule id="BIT_COIN" name="Bitcoin">
             <pattern>
                 <token regexp="yes">bit|lite</token>
@@ -20193,7 +20222,7 @@ USA
             <url>https://www.lexico.com/definition/high-end</url>
             <example correction="high-end">The <marker>high end</marker> computer.</example>
         </rule>
-        <rulegroup id="LOW_COST_HYPHEN" name="missing hyphen in 'low cost'" default="temp_off">
+        <rulegroup id="LOW_COST_HYPHEN" name="missing hyphen in 'low cost'">
             <url>https://www.lexico.com/definition/low-cost</url>
             <rule>
                 <pattern>
@@ -22430,7 +22459,7 @@ USA
         </rulegroup>
         <rule id="A_RB_NN" name="Adverb instead of an adjective">
             <antipattern>
-                <token>an</token>
+                <token regexp="yes">an?</token>
                 <token>about</token>
                 <token regexp="yes">section|page|website|tab|text|you</token>
             </antipattern>
@@ -32035,6 +32064,11 @@ USA
                 <token>cause</token>
                 <token regexp="yes">cans|wills</token>
             </antipattern>
+            <antipattern><!-- the root cause-->
+                <token regexp="yes">the|an?</token>
+                <token regexp="yes" min="0">root|main</token>
+                <token>cause</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>cause</token>
@@ -32045,6 +32079,7 @@ USA
                 <example correction="because I">I'm happy, <marker>cause I</marker>'m learning some Dutch.</example>
                 <example>The bug cause it to fail.</example>
                 <example>I'm sorry to cause you all this trouble.</example>
+                <example>It's the root cause I will find.</example>
             </rule>
             <rule>
                 <pattern>
@@ -32060,7 +32095,7 @@ USA
                 <example correction="because">I think it's great <marker>cause</marker> you're doing it.</example>
                 <example>This is currently hard to see because the only way to cause it is via troops that cause random effects.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>cause</token>
