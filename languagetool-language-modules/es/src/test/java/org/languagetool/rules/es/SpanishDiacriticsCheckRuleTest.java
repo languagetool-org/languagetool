@@ -48,6 +48,10 @@ public class SpanishDiacriticsCheckRuleTest {
     
     // correct sentences:
     
+    assertCorrect("los niños solo aman lo desconocido");
+    assertCorrect("y al final supero en altura a su padre");
+    assertCorrect("¿De qué país vienes?");
+    assertCorrect("¡Pero si tú solo vienes aquí durante el verano!");
     assertCorrect("¿Cómo vienes a la escuela?");
     assertCorrect("a cuyos integrantes no catalogo de santos precisamente");
     assertCorrect("esta propuesta de directiva prorroga por un año");

@@ -68,8 +68,18 @@ public class MorfologikSpanishSpellerRuleTest {
     
     matches = rule.match(langTool.getAnalyzedSentence("vilbaino."));
     assertEquals("bilbaíno", matches[0].getSuggestedReplacements().get(0));
+    
+    //This needs to be handled with rules for different variants.
+    //In Spain is a spelling error, but not in other countries. 
+    //matches = rule.match(langTool.getAnalyzedSentence("confirmame."));
+    //assertEquals("confírmame", matches[0].getSuggestedReplacements().get(0));
+    
     matches = rule.match(langTool.getAnalyzedSentence("confirmame."));
-    assertEquals("confírmame", matches[0].getSuggestedReplacements().get(0));
+    assertEquals(0, matches.length);
+    
+    matches = rule.match(langTool.getAnalyzedSentence("confírmame."));
+    assertEquals(0, matches.length);
+    
     matches = rule.match(langTool.getAnalyzedSentence("DECANTACION."));
     assertEquals("Decantación", matches[0].getSuggestedReplacements().get(0));
     matches = rule.match(langTool.getAnalyzedSentence("distopia"));

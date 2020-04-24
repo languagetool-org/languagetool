@@ -1365,7 +1365,16 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <token><exception postag="NC.*" postag_regexp="yes"/></token>
             <marker>
-                <token postag="A.*" postag_regexp="yes" regexp="yes">mal|sucursal(es)?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="A.*" postag_regexp="yes" regexp="yes">sucursal(es)?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="A.*"/>
+    </rule>
+
+    <rule id="not_adj_no_agreement2" name="not adjective if no agreement">
+        <pattern>
+            <marker>
+                <token postag="A.*" postag_regexp="yes" regexp="yes">mal|solo<exception postag="_GN_.*" postag_regexp="yes"/></token>
             </marker>
         </pattern>
         <disambig action="remove" postag="A.*"/>

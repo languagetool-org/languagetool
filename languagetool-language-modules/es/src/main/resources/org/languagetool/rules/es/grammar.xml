@@ -2819,12 +2819,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="NO_IMPERATIVO" name="no + imperativo">
             <pattern>
                 <token regexp="yes">no|nunca|jamás</token>
-                <token postag="VMM.*" postag_regexp="yes"><exception negate_pos="yes" postag="VMM.*" postag_regexp="yes"/></token>
+                <marker>
+                    <token postag="VMM.*" postag_regexp="yes"><exception negate_pos="yes" postag="VMM.*" postag_regexp="yes"/></token>
+                </marker>
             </pattern>
-            <message>Con la partícula negativa \1, en lugar del imperativo \2 debe usarse el subjuntivo <suggestion>\1 <match no="2" postag="VMM.(.{3})" postag_regexp="yes" postag_replace="VMSP$1"/></suggestion>.</message>
+            <message>Con la partícula negativa \1, en lugar del imperativo \2 debe usarse el subjuntivo.</message> 
+            <suggestion><match no="2" postag="VMM.(.{3})" postag_regexp="yes" postag_replace="VMSP$1"/></suggestion>
             <url>http://roble.pntic.mec.es/acid0002/index_archivos/Gramatica/imperativo.htm</url>
             <short>Con sentido negado, en lugar del imperativo debe emplearse el subjuntivo.</short>
-            <example correction="No contéis"><marker>No contad</marker> con nosotros.</example>
+            <example correction="contéis">No <marker>contad</marker> con nosotros.</example>
+            <!--no sabé-->
             <example>Nunca contéis conmigo.</example>
         </rule>
         <rule id="ID_HUBO_HUBIERON" name="Uso incorrecto del plural del verbo haber">

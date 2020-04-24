@@ -317,7 +317,7 @@ public class SpanishDiacriticsCheckRule extends Rule {
       }
       if (isRelevantWord2 && !matchPostagRegexp(tokens[i], GN) && !matchPostagRegexp(tokens[i], LOCUCIONS)) {
         // de manera obvia, circumstàncies extraordinaries.
-        if (!token.equals("solicito") && !token.equals("indico")
+        if (!token.equals("solicito") && !token.equals("indico") && !token.equals("vienes")
             && (matchPostagRegexp(relevantWords2.get(token), ADJECTIU_MS) && matchPostagRegexp(tokens[i - 1], NOM_MS) 
                 && !tokens[i - 1].hasPosTag("_GN_FS") && matchPostagRegexp(tokens[i], VERB_CONJUGAT) 
                 && !matchPostagRegexp(tokens[i], VERB_3S))
