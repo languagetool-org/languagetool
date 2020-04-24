@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.nl;
 
-import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
@@ -27,8 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static java.lang.Character.isLowerCase;
-import static java.lang.Character.isUpperCase;
+import static org.languagetool.rules.nl.Tools.glueParts;
 
 public class CompoundFilter extends RuleFilter {
 
@@ -48,34 +46,6 @@ public class CompoundFilter extends RuleFilter {
     RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, shortMessage);
     newMatch.setSuggestedReplacement(repl);
     return newMatch;
-  }
-
-  @SuppressWarnings("StringConcatenationInLoop")
-  private static String glueParts(List<String> s) {
-    String spelledWords = "(abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|" +
-      "hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|" +
-      "pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp)";
-    String compound = s.get(0);
-    for (int i = 1; i < s.size(); i++) {
-      String word2 = s.get(i);
-      char lastChar = compound.charAt(compound.length() - 1);
-      char firstChar = word2.charAt(0);
-      String connection = lastChar + String.valueOf(firstChar);
-      if (StringUtils.containsAny(connection, "aa", "ae", "ai", "ao", "au", "ee", "ei", "eu", "ie", "ii", "oe", "oi", "oo", "ou", "ui", "uu", "ij")) {
-        compound = compound + '-' + word2;
-      } else if (isUpperCase(firstChar) && isLowerCase(lastChar)) {
-        compound = compound + '-' + word2;
-      } else if (isUpperCase(lastChar) && isLowerCase(firstChar)) {
-        compound = compound + '-' + word2;
-      } else if (compound.matches("(^|.+-)?" + spelledWords) || word2.matches(spelledWords + "(-.+|$)?")) {
-        compound = compound + '-' + word2;
-      } else if (compound.matches(".+-[a-z]$") || word2.matches("^[a-z]-.+")) {
-        compound = compound + '-' + word2;
-      } else {
-        compound = compound + word2;
-      }
-    }
-    return compound;
   }
 
 }
