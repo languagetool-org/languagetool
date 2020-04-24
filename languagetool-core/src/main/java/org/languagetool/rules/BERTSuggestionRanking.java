@@ -118,27 +118,13 @@ public class BERTSuggestionRanking extends RemoteRule {
     List<RuleMatch> matches = new LinkedList<>();
     List<RemoteLanguageModel.Request> requests = new LinkedList<>();
     try {
-      int offset = 0;
       for (AnalyzedSentence sentence : sentences) {
         RuleMatch[] sentenceMatches = wrappedRule.match(sentence);
         for (RuleMatch match : sentenceMatches) {
           match.setSuggestedReplacementObjects(prepareSuggestions(match.getSuggestedReplacementObjects()));
-          // build request before correcting offset, as we send only sentence as text
           requests.add(buildRequest(match));
-          int fromPos;
-          int toPos;
-          if (annotatedText != null) {
-            fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + offset, false);
-            toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + offset - 1, true) + 1;
-          } else {
-            // TODO: when can annotatedText be null?
-            fromPos = match.getFromPos() + offset;
-            toPos = match.getToPos() + offset;
-          }
-          match.setOffsetPosition(fromPos, toPos);
         }
         Collections.addAll(matches, sentenceMatches);
-        offset += sentence.getText().length();
       }
       return new MatchesForReordering(matches, requests);
     } catch (IOException e) {
@@ -149,7 +135,7 @@ public class BERTSuggestionRanking extends RemoteRule {
 
   @Override
   protected RemoteRuleResult fallbackResults(RemoteRequest request) {
-    return new RemoteRuleResult(false, ((MatchesForReordering) request).matches);
+    return new RemoteRuleResult(false, false, ((MatchesForReordering) request).matches);
   }
 
   @Override
@@ -167,7 +153,7 @@ public class BERTSuggestionRanking extends RemoteRule {
       requests = requests.stream().filter(Objects::nonNull).collect(Collectors.toList());
 
       if (requests.isEmpty()) {
-        return new RemoteRuleResult(false, matches);
+        return new RemoteRuleResult(false, true, matches);
       } else {
         List<List<Double>> results = model.batchScore(requests);
         // put curated at the top, then compare probabilities
@@ -204,7 +190,7 @@ public class BERTSuggestionRanking extends RemoteRule {
           //logger.info("Reordered correction for '{}' from {} to {}", error, req.candidates, ranked);
           match.setSuggestedReplacementObjects(ranked);
         }
-        return new RemoteRuleResult(true, matches);
+        return new RemoteRuleResult(true, true, matches);
       }
     };
   }

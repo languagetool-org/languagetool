@@ -75,8 +75,7 @@ public abstract class RemoteRule extends Rule {
   protected abstract Callable<RemoteRuleResult> executeRequest(RemoteRequest request);
   protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
 
-  public FutureTask<List<RuleMatch>> run(List<AnalyzedSentence> sentences, AnnotatedText annotatedText) {
-    this.annotatedText = annotatedText;
+  public FutureTask<RemoteRuleResult> run(List<AnalyzedSentence> sentences) {
     return new FutureTask<>(() -> {
       long startTime = System.nanoTime();
       long characters = sentences.stream().mapToInt(sentence -> sentence.getText().length()).sum();
@@ -89,7 +88,7 @@ public abstract class RemoteRule extends Rule {
         if (failureInterval < serviceConfiguration.getDownMilliseconds()) {
           RemoteRuleMetrics.request(ruleId, 0, 0, characters, RemoteRuleMetrics.RequestResult.DOWN);
           result = fallbackResults(req);
-          return result.getMatches();
+          return result;
         }
       }
       RemoteRuleMetrics.up(ruleId, true);
@@ -115,7 +114,8 @@ public abstract class RemoteRule extends Rule {
           RemoteRuleMetrics.RequestResult requestResult = result.isRemote() ?
             RemoteRuleMetrics.RequestResult.SUCCESS : RemoteRuleMetrics.RequestResult.SKIPPED;
           RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, requestResult);
-          return result.getMatches();
+
+          return result;
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
           logger.warn("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
 
@@ -138,7 +138,7 @@ public abstract class RemoteRule extends Rule {
         RemoteRuleMetrics.up(ruleId, false);
       }
       result = fallbackResults(req);
-      return result.getMatches();
+      return result;
     });
   }
 
@@ -149,10 +149,10 @@ public abstract class RemoteRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    FutureTask<List<RuleMatch>> task = run(Collections.singletonList(sentence), annotatedText);
+    FutureTask<RemoteRuleResult> task = run(Collections.singletonList(sentence));
     task.run();
     try {
-      return task.get().toArray(new RuleMatch[0]);
+      return task.get().getMatches().toArray(new RuleMatch[0]);
     } catch (InterruptedException | ExecutionException e) {
       logger.warn("Fetching results for remote rule " + getId() + " failed.", e);
       return new RuleMatch[0];
