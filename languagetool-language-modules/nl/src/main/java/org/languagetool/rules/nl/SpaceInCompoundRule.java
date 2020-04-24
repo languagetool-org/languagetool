@@ -48,12 +48,12 @@ public class SpaceInCompoundRule extends Rule {
         throw new RuntimeException("Unexpected format in " + filename + ", expected 2 columns separated by '|': " + line);
       }
       String wordParts = lineParts[0];
-      String message = "Bedoelt u misschien: "+lineParts[1];
       String[] words = wordParts.split(" ");
       generateVariants("", Arrays.asList(words), result);
       if (normalizedCompound2message.containsKey(removeSpaces(wordParts))) {
         throw new RuntimeException("Duplicate item '" + wordParts + "' in file " + filename);
       }
+      String message = "Bedoelt u misschien: "+lineParts[1]+ " ("+removeSpaces(wordParts)+").";
       normalizedCompound2message.put(removeSpaces(wordParts), message);
     }
     Map<String, String> map = new HashMap<>();
@@ -86,7 +86,7 @@ public class SpaceInCompoundRule extends Rule {
 
   @Override
   public String getId() {
-    return "NL_ADDED_SPACES";
+    return "NL_SPACE_IN_COMPOUND";
   }
 
   @Override
