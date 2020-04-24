@@ -944,7 +944,7 @@ public class JLanguageTool {
                 enabledRules, enabledRuleCategories, userConfig, altLanguages, mode);
               Map<String, List<RuleMatch>> cacheEntry = cache.getRemoteMatchesCache().get(cacheKey, HashMap::new);
               // TODO check if result is from fallback, don't cache?
-              logger.info("Caching: Remote rule '{}' - '{}' -> {}", ruleKey, sentence.getText(), matches);
+              logger.info("Caching: Remote rule '{}'", ruleKey);
               // clone so that we don't adjust match position for cache
               cacheEntry.put(ruleKey, matches.stream().map(RuleMatch::new).collect(Collectors.toList()));
               // adjust rule match position
@@ -953,8 +953,8 @@ public class JLanguageTool {
               for (RuleMatch match : matches) {
                 match.setOffsetPosition(match.getFromPos() + sentenceOffset, match.getToPos() + sentenceOffset);
               }
-            } else if (cache  != null) {
-              logger.info("Not caching, fallback results: Remote rule '{}' - '{}' -> {}", ruleKey, sentence.getText(), matches);
+            } else if (cache != null) {
+              logger.info("Not caching, fallback results: Remote rule '{}'", ruleKey);
             }
             remoteMatches.addAll(matches);
           }
@@ -1019,10 +1019,10 @@ public class JLanguageTool {
             List<RuleMatch> cachedMatches = cacheEntry.get(ruleKey);
             // mark for check or retrieve from cache
             if (cachedMatches == null) {
-              logger.info("Checking: Remote rule '{}' - '{}'", ruleKey, sentence.getText());
+              logger.info("Checking: Remote rule '{}'", ruleKey);
               nonCachedSentences.add(sentence);
             } else {
-              logger.info("Cached: Remote rule '{}' - '{}' -> {}", ruleKey, sentence.getText(), cachedMatches);
+              logger.info("Cached: Remote rule '{}'", ruleKey);
               cachedResults.putIfAbsent(sentence, new LinkedList<>());
               cachedResults.get(sentence).addAll(cachedMatches);
             }
