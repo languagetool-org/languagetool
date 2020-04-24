@@ -23,6 +23,8 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import static java.lang.Character.isLowerCase;
@@ -32,14 +34,14 @@ public class CompoundFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
-    String words = "";
+    List<String> words = new ArrayList<>();
     for (int i = 1; i < 6; i++) {
       String arg = arguments.get("word" + i);
-      if (arg != null) {
-        words = words + " " + arguments.get("word" + i);
+      if (arg == null) {
+        break;
       }
+      words.add(arguments.get("word" + i));
     }
-    words = words.substring(1);
     String repl = glueParts(words);
     String message = match.getMessage().replaceAll("<suggestion>.*?</suggestion>", "<suggestion>" + repl + "</suggestion>");
     String shortMessage = match.getShortMessage().replaceAll("<suggestion>.*?</suggestion>", "<suggestion>" + repl + "</suggestion>");
@@ -48,14 +50,14 @@ public class CompoundFilter extends RuleFilter {
     return newMatch;
   }
 
-  private static String glueParts(String s) {
+  @SuppressWarnings("StringConcatenationInLoop")
+  private static String glueParts(List<String> s) {
     String spelledWords = "(abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|" +
       "hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|" +
       "pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp)";
-    String[] parts = s.split(" ");
-    String compound = parts[0];
-    for (int i = 1; i < parts.length; i++) {
-      String word2 = parts[i];
+    String compound = s.get(0);
+    for (int i = 1; i < s.size(); i++) {
+      String word2 = s.get(i);
       char lastChar = compound.charAt(compound.length() - 1);
       char firstChar = word2.charAt(0);
       String connection = lastChar + String.valueOf(firstChar);

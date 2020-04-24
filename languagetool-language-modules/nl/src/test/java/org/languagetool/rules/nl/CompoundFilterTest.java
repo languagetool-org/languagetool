@@ -28,6 +28,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -38,17 +39,17 @@ public class CompoundFilterTest {
 
   @Test
   public void testFilter() {
-    assertSuggestion(Arrays.asList("tv", "meubel"), "tv-meubel");
-    assertSuggestion(Arrays.asList("test-tv", "meubel"), "test-tv-meubel");
-    assertSuggestion(Arrays.asList("onzin", "tv"), "onzin-tv");
-    assertSuggestion(Arrays.asList("auto", "onderdeel"), "auto-onderdeel");
-    assertSuggestion(Arrays.asList("test", "e-mail"), "test-e-mail");
-    assertSuggestion(Arrays.asList("taxi", "jongen"), "taxi-jongen");
-    assertSuggestion(Arrays.asList("rij", "instructeur"), "rijinstructeur");
-    assertSuggestion(Arrays.asList("test", "e-mail"), "test-e-mail");
-    assertSuggestion(Arrays.asList("ANWB", "wagen"), "ANWB-wagen");
-    assertSuggestion(Arrays.asList("pro-deo", "advocaat"), "pro-deoadvocaat");
-    assertSuggestion(Arrays.asList("ANWB", "tv", "wagen"), "ANWB-tv-wagen");
+    assertSuggestion(asList("tv", "meubel"), "tv-meubel");
+    assertSuggestion(asList("test-tv", "meubel"), "test-tv-meubel");
+    assertSuggestion(asList("onzin", "tv"), "onzin-tv");
+    assertSuggestion(asList("auto", "onderdeel"), "auto-onderdeel");
+    assertSuggestion(asList("test", "e-mail"), "test-e-mail");
+    assertSuggestion(asList("taxi", "jongen"), "taxi-jongen");
+    assertSuggestion(asList("rij", "instructeur"), "rijinstructeur");
+    assertSuggestion(asList("test", "e-mail"), "test-e-mail");
+    assertSuggestion(asList("ANWB", "wagen"), "ANWB-wagen");
+    assertSuggestion(asList("pro-deo", "advocaat"), "pro-deoadvocaat");
+    assertSuggestion(asList("ANWB", "tv", "wagen"), "ANWB-tv-wagen");
   }
 
   private void assertSuggestion(List<String> words, String expectedSuggestion) {
