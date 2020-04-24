@@ -8981,6 +8981,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
+        <rule id="TASK_FORCE" name="Task Force (Taskforce)">
+            <antipattern>
+                <token postag="UNKNOWN" />
+                <token>Task</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Forces?</token>
+                <token postag="UNKNOWN" />
+            </antipattern>
+            <pattern>
+                <token>Task</token>
+                <token regexp="yes">Forces?</token>
+            </pattern>
+            <message>Dieses Wort wird zusammengeschrieben.</message>
+            <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion>
+            <url>https://www.duden.de/rechtschreibung/Taskforce</url>
+            <example correction="Taskforce">Die extra dafür eingerichtete <marker>Task Force</marker> präsentiert heute ihre Untersuchungsergebnisse.</example>
+            <example>Am 23. Juli 1948 wurde Generalleutnant William H. Tunner Befehlshaber der Combined Airlift Task Force.</example>
+        </rule>
         <rule id="LETZT_ENDLICH" name="letzt endlich (letztendlich)">
             <pattern>
                 <token>
