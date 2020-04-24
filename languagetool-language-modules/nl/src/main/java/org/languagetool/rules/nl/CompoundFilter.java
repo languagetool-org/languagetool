@@ -36,7 +36,6 @@ public class CompoundFilter extends RuleFilter {
     String spelledWords = "(abc|adv|aed|apk|b2b|bh|bhv|bso|btw|bv|cao|cd|cfk|ckv|cv|dc|dj|dtp|dvd|fte|gft|ggo|ggz|gm|gmo|gps|gsm|hbo|" +
             "hd|hiv|hr|hrm|hst|ic|ivf|kmo|lcd|lp|lpg|lsd|mbo|mdf|mkb|mms|msn|mt|ngo|nv|ob|ov|ozb|p2p|pc|pcb|pdf|pk|pps|" +
             "pr|pvc|roc|rvs|sms|tbc|tbs|tl|tv|uv|vbo|vj|vmbo|vsbo|vwo|wc|wo|xtc|zzp)";
-    //System.out.print("******"+s+"****** => ");
     String[] parts = s.split(" ");
     String compound = parts[0];
     for (int i = 1; i < parts.length; i++) {
@@ -58,7 +57,6 @@ public class CompoundFilter extends RuleFilter {
         compound = compound + word2;
       }
     }
-    //System.out.println("******"+compound+"******");
     return compound;
   }
 
@@ -80,39 +78,5 @@ public class CompoundFilter extends RuleFilter {
     newMatch.setSuggestedReplacement(repl);
     return newMatch;
   }
-
-  /*
-  @Nullable
-  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
-    String words = arguments.get("words");
-    //System.out.println("****"+words+"******");
-    String[] parts = s.split(" ");
-    String compound = parts[0];
-    for (int i = 1; i < parts.length; i++) {
-      String word2 = parts[i];
-      char lastChar = compound.charAt(compound.length() - 1);
-      char firstChar = word2.charAt(0);
-      String connection = lastChar + String.valueOf(firstChar);
-      if (StringUtils.containsAny(connection, "aa", "ae", "ai", "ao", "au", "ee", "ei", "eu", "ie", "ii", "oe", "oi", "oo", "ou", "ui", "uu", "ij")) {
-        compound = compound + '-' + word2;
-      } else if (isUpperCase(firstChar) && isLowerCase(lastChar)) {
-        compound = compound + '-' + word2;
-      } else if (isUpperCase(lastChar) && isLowerCase(firstChar)) {
-        compound = compound + '-' + word2;
-      } else if (compound.matches("(^|.+-)?" + spelledWords) || word2.matches(spelledWords + "(-.+|$)?")) {
-        compound = compound + '-' + word2;
-      } else if (compound.matches(".+-[a-z]$") || word2.matches("^[a-z]-.+")) {
-        compound = compound + '-' + word2;
-      } else {
-        compound = compound + word2;
-      }
-    }
-    //System.out.println("******"+compound+"******");
-    String message = match.getMessage().replaceAll("<suggestion>.*?</suggestion>", "<suggestion>" + compound + "</suggestion>");
-    String shortMessage = match.getShortMessage().replaceAll("<suggestion>.*?</suggestion>", "<suggestion>" + compound + "</suggestion>");
-    RuleMatch newMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, shortMessage);
-    newMatch.setSuggestedReplacement(compound);
-    return newMatch;
-  }*/
 
 }
