@@ -5402,8 +5402,12 @@ USA
                     <token postag="NN(:.+)?" postag_regexp="yes" regexp="yes">\p{Ll}{2,}<exception regexp="yes">equipment|department|sector|exam|faculty|given|can|today|yesterday|tomorrow|now|in|are</exception><exception postag="VBG|VB|VBP|VB[DN]|RB|MD|IN|JJ.*|CC|PRP|NNP.*" postag_regexp="yes"/></token>
                     <token><exception regexp="yes">\p{Punct}|and|or</exception></token>
                 </pattern>
-                <message suppress_misspelled="yes">Apostrophe might be missing. Did you mean <suggestion><match no="3"/>'</suggestion> or <suggestion><match no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"/>'s</suggestion>?</message>
+                <message>Apostrophe might be missing.</message>
+                <suggestion><match no="3"/>'</suggestion>
+                <suggestion suppress_misspelled="yes"><match no="3" postag="NN(P)?S" postag_regexp="yes" postag_replace="NN$1(:U.?)?" setpos="no"/>'s</suggestion>
                 <short>Possible typo</short>
+                <example correction="clothes'">Blank noise doing a <marker>clothes</marker> installation to say</example>
+                <example correction="Reuters'">including a <marker>Reuters</marker> photographer Gleb Garanich</example>
                 <example correction="presidents'|president's">This is a transcript of the <marker>presidents</marker> speech from March.</example>
                 <example correction="Presidents'|President's">This is a transcript of the <marker>Presidents</marker> speech from March.</example>
                 <example correction="darts'|dart's">The <marker>darts</marker> trajectory is calculated thus:</example>
