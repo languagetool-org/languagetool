@@ -31532,6 +31532,18 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="ANTI_DINGES" name="anti abortus / antiabortus">
+			<rule>
+				<pattern>
+					<token>anti</token>
+					<token/>
+				</pattern>
+				<filter class="org.languagetool.rules.nl.CompoundFilter" args="word1:\1 word2:\2"/>
+				<message>Bedoelt u wellicht: <suggestion>\1\2</suggestion> (tegen \1)?</message>
+				<example correction="antiabortusverhaal">Ik houd een <marker>anti abortusverhaal</marker>.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="GFT" name="Groente-, fruit- en tuinafval">
 			<rule>
 				<antipattern>
