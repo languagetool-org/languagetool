@@ -23,7 +23,9 @@ import org.languagetool.rules.FakeRule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
@@ -36,57 +38,33 @@ public class CompoundFilterTest {
 
   @Test
   public void testFilter() {
-    assertSuggestion("tv", "meubel", "tv-meubel");
-    assertSuggestion("test-tv", "meubel", "test-tv-meubel");
-    assertSuggestion("onzin", "tv", "onzin-tv");
-    assertSuggestion("auto", "onderdeel", "auto-onderdeel");
-    assertSuggestion("test", "e-mail", "test-e-mail");
-    assertSuggestion("taxi", "jongen", "taxi-jongen");
-    assertSuggestion("rij", "instructeur", "rijinstructeur");
-    assertSuggestion("test", "e-mail", "test-e-mail");
-    assertSuggestion("ANWB", "wagen", "ANWB-wagen");
-    assertSuggestion("pro-deo", "advocaat", "pro-deoadvocaat");
+    assertSuggestion(Arrays.asList("tv", "meubel"), "tv-meubel");
+    assertSuggestion(Arrays.asList("test-tv", "meubel"), "test-tv-meubel");
+    assertSuggestion(Arrays.asList("onzin", "tv"), "onzin-tv");
+    assertSuggestion(Arrays.asList("auto", "onderdeel"), "auto-onderdeel");
+    assertSuggestion(Arrays.asList("test", "e-mail"), "test-e-mail");
+    assertSuggestion(Arrays.asList("taxi", "jongen"), "taxi-jongen");
+    assertSuggestion(Arrays.asList("rij", "instructeur"), "rijinstructeur");
+    assertSuggestion(Arrays.asList("test", "e-mail"), "test-e-mail");
+    assertSuggestion(Arrays.asList("ANWB", "wagen"), "ANWB-wagen");
+    assertSuggestion(Arrays.asList("pro-deo", "advocaat"), "pro-deoadvocaat");
+    assertSuggestion(Arrays.asList("ANWB", "tv", "wagen"), "ANWB-tv-wagen");
   }
 
-  private void assertSuggestion(String word1, String word2, String expectedSuggestion) {
-    RuleMatch ruleMatch = filter.acceptRuleMatch(match, makeMap(word1, word2), -1, null);
-    assertThat(ruleMatch.getSuggestedReplacements().size(), is(1));
-    assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedSuggestion));
-  }
-
-  private Map<String, String> makeMap(String word1, String word2) {
-    Map<String,String> map = new HashMap<>();
-    map.put("word1", word1);
-    map.put("word2", word2);
-    return map;
-  }
-
-/*
-  public void testFilter() {
-    assertSuggestion("tv|meubel", "tv-meubel");
-    assertSuggestion("test-tv|meubel", "test-tv-meubel");
-    assertSuggestion("onzin|tv", "onzin-tv");
-    assertSuggestion("auto|onderdeel", "auto-onderdeel");
-    assertSuggestion("test|e-mail", "test-e-mail");
-    assertSuggestion("taxi|jongen", "taxi-jongen");
-    assertSuggestion("rij|instructeur", "rijinstructeur");
-    assertSuggestion("test|e-mail", "test-e-mail");
-    assertSuggestion("ANWB|wagen", "ANWB-wagen");
-    assertSuggestion("pro-deo|advocaat", "pro-deoadvocaat");
-    assertSuggestion("ANWB|tv|wagen", "ANWB-tv-wagen");
-  }
-
-  private void assertSuggestion(String words, String expectedSuggestion) {
+  private void assertSuggestion(List<String> words, String expectedSuggestion) {
     RuleMatch ruleMatch = filter.acceptRuleMatch(match, makeMap(words), -1, null);
     assertThat(ruleMatch.getSuggestedReplacements().size(), is(1));
     assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedSuggestion));
   }
 
-  private Map<String, String> makeMap(String words) {
+  private Map<String, String> makeMap(List<String> words) {
     Map<String,String> map = new HashMap<>();
-    map.put("words", word1);
+    int i = 1;
+    for (String word : words) {
+      map.put("word" + i, word);
+      i++;
+    }
     return map;
   }
 
-*/
 }

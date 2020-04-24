@@ -34,7 +34,7 @@ public class CompoundFilter extends RuleFilter {
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) {
     String words = "";
     for (int i = 1; i < 6; i++) {
-      String arg = arguments.get("word"+i);
+      String arg = arguments.get("word" + i);
       if (arg != null) {
         words = words + " " + arguments.get("word" + i);
       }
