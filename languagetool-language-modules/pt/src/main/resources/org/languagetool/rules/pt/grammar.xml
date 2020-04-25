@@ -22601,13 +22601,13 @@ TODO Write better examples
               <token min="0" postag="A.*|V.P.*" postag_regexp="yes"/>
               <token postag="NC.*" postag_regexp="yes"/>
           </antipattern>
-          <antipattern> <!-- Italiano -->
-              <token regexp="yes">in|di|della|nella</token>
+          <antipattern> <!-- Italiano --> <!-- Português em 2020-04-25 -->
+              <token regexp="yes">em|de|dela|nela</token>
               <token>musica</token>
           </antipattern>
-          <antipattern> <!-- Italiano -->
-              <token regexp="yes">dramma|commedia</token>
-              <token>per</token>
+          <antipattern> <!-- Italiano --> <!-- Português em 2020-04-25 -->
+              <token regexp="yes">drama|comédia</token>
+              <token>por</token>
               <token>musica</token>
           </antipattern>
           <pattern>
@@ -22619,7 +22619,7 @@ TODO Write better examples
           <example correction='música'>Vídeo, <marker>musica</marker>.</example>
           <example>Sérgio musica a tradução literal do texto bíblico.</example>
           <example>Sérgio musica um belo poema.</example>
-          <example>Dramma per musica</example>
+          <example>Drama por musica</example>
       </rule>
     <rule id='PARONYM_MUSICO_499' name='Parónimo: musico'>
       <pattern>
@@ -23132,7 +23132,8 @@ TODO Write better examples
     </rule>
     <rule id='PARONYM_REGIA_541' name='Parónimo: regia'>
       <pattern>
-          <token regexp='yes'>&art_detecao_paronimos;</token>
+          <token regexp='yes'>&art_detecao_paronimos;
+			<exception regexp='yes'>as?</exception></token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
           <token regexp='yes'>regi[ao]s?</token>
       </pattern>
@@ -23322,7 +23323,7 @@ TODO Write better examples
     <rule id='PARONYM_SERVIA_562' name='Parónimo: servia'>
       <pattern>
           <token regexp='yes'>&art_detecao_paronimos;
-            <exception regexp='yes'>os?</exception></token>
+            <exception regexp='yes'>os?|nos?</exception></token>
           <token min='0' postag='A.+' postag_regexp='yes'/>
           <token regexp='yes'>servias?</token>
       </pattern>
