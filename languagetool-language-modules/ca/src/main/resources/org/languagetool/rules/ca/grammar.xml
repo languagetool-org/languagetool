@@ -25616,6 +25616,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Porta-l'hi.</example>
                 <example>Porta-m'ho.</example>
             </rule>
+            <rule> <!-- suggeriments més bons -->
+                <pattern>
+                    <token postag="V.[MNG].*" postag_regexp="yes" regexp="yes">.+[aei]</token>
+                    <marker>
+                        <token postag="P0.*|PP.*" postag_regexp="yes" regexp="yes">-(nos|los|els|ens)</token>
+                    </marker>
+                    <token regexp="yes">-(hi|ho|en|el|la|los|les)</token>
+                </pattern>
+                <message>Forma de pronom feble incorrecta.</message>
+                <suggestion><match no="2" regexp_match="-e?([mntsl])[eo]?(s?)" regexp_replace="'$1$2"/></suggestion>
+                <example correction="'ls">Veure<marker>-los</marker>-hi.</example>
+                <example correction="'ls">Porta<marker>-els</marker>-en.</example>
+                <example correction="'ns">Veure<marker>-nos</marker>-hi.</example>
+                <example correction="'ns">Porta<marker>-ens</marker>-ho.</example>
+                <example>Envia-me-la ara mateix.</example>
+                <example>Envia-me'ls ara mateix.</example>
+                <example>Porta-l'hi.</example>
+                <example>Porta-m'ho.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="V.[MNG].*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes" regexp="yes">.+e</exception></token>
