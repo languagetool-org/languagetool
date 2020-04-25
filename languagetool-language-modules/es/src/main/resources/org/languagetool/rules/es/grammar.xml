@@ -129,7 +129,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="expresiones incorrectas" type="grammar">
-        <rule id="ALTO_CARGO" name="*alta cargo/alto cargo" default="temp_off">
+        <rule id="ALTO_CARGO" name="*alta cargo/alto cargo" default="on">
             <pattern>
                 <token>alta</token>
                 <token>cargo</token>
@@ -494,7 +494,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tenías" type="triggers_error" reason="rare">Las <marker>tenias</marker> son un gusano plateminto.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="COMO" name="como/cómo" default="temp_off">
+        <rulegroup id="COMO" name="como/cómo" default="on">
             <rule>
                 <pattern>
                     <token regexp="yes">tal|tales</token>
@@ -524,7 +524,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Cómo estás,">¿<marker>como estas</marker> guapo?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CUAL" name="cual/cuál" default="temp_off">
+        <rulegroup id="CUAL" name="cual/cuál" default="on">
             <rule>
                 <pattern>
                     <token regexp="yes">el|la|los|las|del|al</token>
@@ -564,7 +564,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="esté">Cuando se <marker>este</marker> bien aquí.</example>
                 <example correction="estén">Cuando se le <marker>esten</marker> cayendo.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="on">
                 <pattern>
                     <token regexp="yes" inflected="yes">condición|valor</token>
                     <marker>
@@ -576,7 +576,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="límite">Son condiciones <marker>limite</marker>.</example>
                 <example>Que limite las condiciones.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="on">
                 <pattern>
                     <token postag="D..MS.|SP\+DA" postag_regexp="yes"/>
                     <marker>
@@ -3600,7 +3600,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CAT4" name="Estilo" type="style">
-        <rule id="MEXICO" name="México/Méjico" default="temp_off">
+        <rule id="MEXICO" name="México/Méjico" default="on">
             <pattern>
                 <token regexp="yes">.*mejic.*|Méjico|Tejas<exception postag="NCFP000">tejas</exception></token>
             </pattern>
@@ -3846,7 +3846,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1 de mama</suggestion>
             <example correction="cáncer de mama">De <marker>cáncer de mana</marker>.</example>
         </rule>
-        <rule id="HE_HA" name="*he ha" default="temp_off">
+        <rule id="HE_HA" name="*he ha" default="on">
             <antipattern>
                 <token>he</token>
                 <token>habido</token>
@@ -3864,7 +3864,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Me|Le"><marker>He</marker> ha dicho que sí</example>
             <example>He habido de hacerlo.</example>
         </rule>
-        <rulegroup id="ERAR" name="erar/errar" default="temp_off">
+        <rulegroup id="ERAR" name="erar/errar" default="on">
             <rule>
                 <pattern>
                     <token>erase</token>
@@ -4126,7 +4126,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!--TODO: idem with ", pues"-->
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
-        <rulegroup id="PUNTO_EN_ABREVIATURAS" name="Punto en abreviaturas: pág., núm., etc." default="temp_off">
+        <rulegroup id="PUNTO_EN_ABREVIATURAS" name="Punto en abreviaturas: pág., núm., etc." default="on">
             <url>https://www.rae.es/dpd/ayuda/abreviaturas</url>
             <antipattern>
                 <token/>
@@ -4187,7 +4187,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Metropolitan Museum of Art</example>
             </rule>
         </rulegroup>
-        <rule id="P_EJ" name="Puntuación en: p. ej." default="temp_off">
+        <rule id="P_EJ" name="Puntuación en: p. ej." default="on">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">[Pp]</token>
                 <token spacebefore="no">.</token>
@@ -4233,7 +4233,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es de los 1950s.</example>
             <example>En los años 30s, 40s y 50s.</example>
         </rule>
-        <rulegroup id="DECADAS_1920" name="años *20's/*20s/20" default="temp_off">
+        <rulegroup id="DECADAS_1920" name="años *20's/*20s/20" default="on">
             <url>https://www.fundeu.es/recomendacion/decadas-ochenta-no-ochentas/</url>
             <rule>
                 <pattern>
@@ -4245,6 +4245,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Las décadas se escriben sin 's'.</message>
                 <suggestion><match no="2" regexp_match="(.*)s" regexp_replace="$1"/></suggestion>
                 <example correction="1930">En los años <marker>1930s</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+0s</token>
+                    <token regexp="yes">y|ni|,</token>
+                    <marker>
+                        <token regexp="yes">\d+0s</token>
+                    </marker>
+                </pattern>
+                <message>Las décadas se escriben sin 's'.</message>
+                <suggestion><match no="3" regexp_match="(.*)s" regexp_replace="$1"/></suggestion>
+                <example correction="30">En los años 20s y <marker>30s</marker>.</example>
             </rule>
             <rule>
                 <pattern>
