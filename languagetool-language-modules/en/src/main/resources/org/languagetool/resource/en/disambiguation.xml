@@ -3051,7 +3051,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                     <exception scope="previous" postag="SENT_START"/>
                     <exception postag="JJ" inflected="yes" regexp="yes">\p{Lu}\p{Ll}+</exception>
                     </token>
-                <token inflected="yes" regexp="yes" postag_regexp="yes" postag="NNP?|NN:.*">\p{Lu}\p{Ll}+</token>
+                <token inflected="yes" regexp="yes" postag_regexp="yes" postag="NNP?|NN:.*">\p{Lu}\p{Ll}+
+                    <exception postag="NNPS"/><!-- #2787 -->
+                    </token>
                 <token inflected="yes" regexp="yes" postag_regexp="yes" postag="NNP?|NN:.*">\p{Ll}+</token><!-- Refer to the discussion in #2437 -->
             </and>
         </pattern>
@@ -3081,6 +3083,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">A popular song by I See Stars</example><!-- #2770 -->
         <example type="untouched">As I Lay Dying</example><!-- #2770 -->
         <example type="untouched">He Love Watching TV</example><!-- #2770 -->
+        <example type="untouched">NNPS: ... perpetrators of the cold-blooded murders of several Roma in Hungary.</example><!-- #2787 -->
         <example type="ambiguous" inputform="Bobby[Bobby/NNP,bobby/NN]" outputform="Bobby[Bobby/NNP]">His name was <marker>Bobby</marker> Brown and he acted as a clerk.</example>
         <example type="ambiguous" inputform="Brown[Brown/NNP,brown/JJ,brown/NN,brown/NN:U,brown/VB,brown/VBP]" outputform="Brown[Brown/NNP]">His name was Bobby <marker>Brown</marker> and he was tall.</example>
         <example type="ambiguous" inputform="Bond[Bond/NNP,bond/NN,bond/VB,bond/VBP]" outputform="Bond[Bond/NNP]">My name is <marker>Bond</marker>, but my friends call me...</example>
