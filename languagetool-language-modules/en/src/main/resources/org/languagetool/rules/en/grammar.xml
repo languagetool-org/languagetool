@@ -34248,6 +34248,17 @@ USA
                 <token postag_regexp="yes" postag="JJR?"/>
                 <token postag="NNS"/>
             </antipattern>
+            <antipattern><!-- #2787 several Twitter and Facebook accounts -->
+                <token regexp="yes">many|several|few</token>
+                <token postag="NNP"/>
+                <token regexp="yes">and|or</token>
+                <token postag="NNP"/>
+                <token postag="NNS"/>
+            </antipattern>
+            <antipattern><!-- #2787 many think-->
+                <token regexp="yes">many|several|few</token>
+                <token chunk="B-VP" postag_regexp="yes" postag="VBD?"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">many|several|few</token>
@@ -34263,7 +34274,7 @@ USA
             <example>I have <marker>many books</marker>.</example>
             <example>I have <marker>much wine</marker>.</example>
             <example correction="many ways">... which is right in <marker>many way</marker>.</example>
-<!-- #            <example correction="many ">How <marker>many 18-year-old</marker> are coming?</example>1877. Why can't I use correction="many 18-year-olds" ? Refer to #2787 -->
+            <example correction="many (18-year-old)">How <marker>many 18-year-old</marker> are coming?</example><!-- 1877. Why can't I use correction="many 18-year-olds" ? Refer to #2787 -->
             <example>The state legislature gerrymandered the few Birmingham legislative seats.</example>
             <example>A few work as technical writers, others don't.</example>
 <!-- False negative --><example><marker>Many cares</marker> for her.</example><!-- Refer to http://forum.languagetool.org/t/en-false-positive-aggreement-error/1210 -->
@@ -34283,6 +34294,11 @@ USA
             <example>Adjective. ... sites may have housed up to 600 individuals in a few <marker>separate</marker> but closely spaced settlement clusters.</example>
             <example>Many Labour MPs remain adamantly opposed to an election in any circumstances.</example><!-- #2074 -->
             <example>Though there are several volunteer and semi-professional organizations, ...</example><!-- #2673 -->
+            <example>The expectations of Africans were great, but many think that the second term of President Obama will...</example><!-- #2787 -->
+            <example>... news immediately triggered online outrage; many think the university has violated student privacy ...</example><!-- #2787 -->
+            <example>Today he has several Twitter and Facebook accounts managed by three Cabin...</example><!-- #2787 -->
+            <example>... perpetrators of the cold-blooded murders of several Roma in Hungary.</example><!-- #2787 -->
+            <example>Many Tuscarora and Oneida sided with the colonists.</example><!-- regression 2020-04-24-->
         </rule>
 
         <rulegroup id="DT_JJ_NO_NOUN" name="Missing noun after an adjective">
