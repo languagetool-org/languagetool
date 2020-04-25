@@ -293,7 +293,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         break;
       case MATCH:
-        setMatchElement(attrs, isSuggestionSupressMisspelled || isRuleSuppressMisspelled);
+        setMatchElement(attrs, inSuggestion && (isSuggestionSupressMisspelled || isRuleSuppressMisspelled));
         break;
       case MARKER:
         if (inIncorrectExample) {

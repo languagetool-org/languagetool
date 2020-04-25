@@ -409,11 +409,11 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
 
   static String removeSupressMisspelled(String s) {
     String result = s;
-    // remove suggestions not synthesized if marked wit <suggestion><pleasespellme/>...</suggestion>
-    //remove misspelled words: <suggestion><pleasespellme/>...<mistake/>...</suggestion>
+    // remove suggestions not synthesized: <suggestion><pleasespellme/>...(...)...</suggestion>
+    // remove misspelled words: <suggestion><pleasespellme/>...<mistake/>...</suggestion>
     Matcher matcher = SUGGESTION_PATTERN_SUPPRESS.matcher(result);
     result = matcher.replaceAll("");
-    //remove the remaining tags <pleasespellme/> in suggestions but not in the message
+    // remove the remaining tags <pleasespellme/> in suggestions but not in the message
     result = result.replaceAll(SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME, SUGGESTION_START_TAG);
     return result;
   }
