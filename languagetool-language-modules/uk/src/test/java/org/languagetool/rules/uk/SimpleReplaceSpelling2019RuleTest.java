@@ -55,5 +55,13 @@ public class SimpleReplaceSpelling2019RuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("Топ-менеджер."));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("Топменеджер"), matches[0].getSuggestedReplacements());
+
+    // dynamic tagging
+    matches = rule.match(langTool.getAnalyzedSentence("веб-додаток"));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("вебдодаток"), matches[0].getSuggestedReplacements());
+    
+    matches = rule.match(langTool.getAnalyzedSentence("веб- "));
+    assertEquals(0, matches.length);
   }
 }
