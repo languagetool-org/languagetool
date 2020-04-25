@@ -12786,6 +12786,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rulegroup id="EL_LA_EN_LA" name="*el/en la">
+            <rule>
+                 <pattern>
+                     <marker>
+                        <token>el</token>
+                        <token>la</token>
+                     </marker>
+                     <token postag="_GN_FS"/>
+                 </pattern>
+                 <message>¿Volíeu dir <suggestion>en la</suggestion>?</message>
+                 <example correction="En la"><marker>El la</marker> línia del que diu ell.</example>
+                <example>El la del diapasó.</example>
+                <example>El la sobreagut.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                        <token regexp="yes">les|els|el</token>
+                    </marker>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>en \2</suggestion>?</message>
+                <example correction="En les"><marker>El les</marker> línies indicades.</example>
+            </rule>
+        </rulegroup>
         <rule id="JA_INFINITIU" name="ja + infinitiu">
             <pattern>
                 <marker>
