@@ -593,11 +593,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" postag="A.*|V.P.*" postag_regexp="yes"/>
                     <token postag="NC.*" postag_regexp="yes"/>
                 </antipattern>
-                <antipattern> <!-- Italiano -->
+                <antipattern>
+                    <!-- Italiano -->
                     <token regexp="yes">in|di|della|nella</token>
                     <token>musica</token>
                 </antipattern>
-                <antipattern> <!-- Italiano -->
+                <antipattern>
+                    <!-- Italiano -->
                     <token regexp="yes">dramma|commedia</token>
                     <token>per</token>
                     <token>musica</token>
@@ -607,14 +609,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si es sustantivo o adjetivo, se escribe con tilde.</message>
                 <suggestion>música</suggestion>
-                <example correction='música'>Vídeo, <marker>musica</marker>.</example>
+                <example correction="música">Vídeo, <marker>musica</marker>.</example>
                 <example>Sergio musica una traducción de la Biblioa.</example>
                 <example>Sergio musica un bello poema.</example>
                 <example>Dramma per musica</example>
             </rule>
             <rule>
                 <antipattern>
-                    <token>musico</token> <!-- infrequent -->
+                    <token>musico</token>
+                    <!-- infrequent -->
                     <token postag="D.*" postag_regexp="yes"/>
                     <token min="0" postag="A.*|V.P.*" postag_regexp="yes"/>
                     <token postag="NC.*" postag_regexp="yes"/>
@@ -624,7 +627,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Si es sustantivo o adjetivo, se escribe con tilde.</message>
                 <suggestion>músico</suggestion>
-                <example correction='músico'>Soy <marker>musico</marker>.</example>
+                <example correction="músico">Soy <marker>musico</marker>.</example>
                 <example>Musico una traducción.</example>
                 <example>Musico un bonito poema.</example>
             </rule>
@@ -2865,7 +2868,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VMM.*" postag_regexp="yes"><exception negate_pos="yes" postag="VMM.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <message>Con la partícula negativa \1, en lugar del imperativo \2 debe usarse el subjuntivo.</message> 
+            <message>Con la partícula negativa \1, en lugar del imperativo \2 debe usarse el subjuntivo.</message>
             <suggestion><match no="2" postag="VMM.(.{3})" postag_regexp="yes" postag_replace="VMSP$1"/></suggestion>
             <url>http://roble.pntic.mec.es/acid0002/index_archivos/Gramatica/imperativo.htm</url>
             <short>Con sentido negado, en lugar del imperativo debe emplearse el subjuntivo.</short>
@@ -4419,8 +4422,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="LANGUAGE_VARIANTS" name="variedades de lengua" type="locale-violation">
         <rulegroup id="VOSEO" name="Evitar formas de voseo" default="temp_off">
-            <!-- This is rule is necessary for speakers in Spain. Otherwise many typos will go undetected
-                It can be annoying in some Latin American countries, where users would rather disable it. --> 
+            <!-- This is rule is necessary for speakers in Spain. Otherwise many typos will go undetected.
+                It can be annoying in some Latin American countries, where users will prefer to turn it off. -->
             <rule>
                 <pattern>
                     <token postag="V.M02V0\+PP.*" postag_regexp="yes"><exception postag="V.M02V0\+PP.*|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
