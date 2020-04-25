@@ -161,6 +161,19 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals(sent.length(), match[0].getToPos());
   }
 
+  
+  @Test
+  public void testDashedSuggestions() throws IOException {
+    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), 
+            null, Collections.emptyList());
+    JLanguageTool langTool = new JLanguageTool(new Ukrainian());
+    
+    RuleMatch[] match = rule.match(langTool.getAnalyzedSentence("блоксистема"));
+    assertEquals(1, match.length);
+    assertEquals(Arrays.asList("блок система", "блок-система"), match[0].getSuggestedReplacements());
+  }
+  
+  
   @Test
   public void testProhibitedSuggestions() throws IOException {
     MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), 

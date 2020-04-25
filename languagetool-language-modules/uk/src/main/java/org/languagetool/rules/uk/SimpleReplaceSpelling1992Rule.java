@@ -19,13 +19,18 @@
 package org.languagetool.rules.uk;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.apache.commons.lang3.StringUtils;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.tagging.uk.PosTagHelper;
 
 /**
  * A rule that matches words that are written by 1992 spelling rules and suggests 2019 spelling instead.
@@ -36,7 +41,13 @@ import org.languagetool.rules.ITSIssueType;
 public class SimpleReplaceSpelling1992Rule extends AbstractSimpleReplaceRule {
 
   private static final Map<String, List<String>> WRONG_WORDS = loadFromPath("/uk/replace_spelling_2019.txt");
+  private static final Map<String, String> dashPrefixes1992;
 
+  static {
+    dashPrefixes1992 = ExtraDictionaryLoader.loadMap("/uk/dash_prefixes.txt");
+    dashPrefixes1992.entrySet().removeIf(entry -> ! entry.getValue().equals(":ua_1992") );
+  }
+  
   @Override
   protected Map<String, List<String>> getWrongWords() {
     return WRONG_WORDS;
@@ -60,6 +71,40 @@ public class SimpleReplaceSpelling1992Rule extends AbstractSimpleReplaceRule {
   @Override
   public String getShort() {
     return "Слово, написане за правописом 1992";
+  }
+
+  @Override
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    RuleMatch[] match = super.match(sentence);
+    if( match.length == 0 ) {
+      match = findTagged1922(sentence);
+    }
+    return match;
+  }
+  
+  private RuleMatch[] findTagged1922(AnalyzedSentence sentence) {
+    List<RuleMatch> ruleMatches = new ArrayList<>();
+    AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
+
+    for (int i = 1; i < tokens.length; i++) {
+      AnalyzedTokenReadings tokenReadings = tokens[i];
+
+      if( PosTagHelper.hasPosTagPart(tokenReadings, "ua_1992") ) {
+        RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getEndPos(), 
+            getShort(), getShort());
+        
+        String token = tokenReadings.getToken();
+        if( token.contains("-") ) {
+          String[] parts = token.split("-", 2);
+          if( parts.length > 1 && dashPrefixes1992.containsKey(parts[0]) ) {
+            potentialRuleMatch.addSuggestedReplacement(token.substring(0, parts[0].length()) + token.substring(parts[0].length()+1));
+          }
+        }
+        ruleMatches.add(potentialRuleMatch);
+      }
+    }
+    
+    return toRuleMatchArray(ruleMatches);
   }
 
   @Override
