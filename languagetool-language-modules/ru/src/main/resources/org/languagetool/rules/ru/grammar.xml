@@ -10846,8 +10846,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token></token>
                 </pattern>
-                <message>Слова нет в словаре LanguageTool. Предложить слово в словарь можно на сайте https://github.com/languagetool-org/languagetool/issues/new
-                </message>
+                <message>Слова нет в словаре LanguageTool. Предложить слово в словарь можно на сайте http://myooo.ru/component/option,com_addtodictsuggest/Itemid,135/</message>
                 <url>http://www.languagetool.org/ru</url>
                 <short>Нет в словаре.</short>
                 <example>Проверка текста.</example>
@@ -10966,21 +10965,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 	    <example correction=""> <marker>Bне</marker> леса шумно.</example>
 	    <example correction=""> Буду <marker>cо</marker> своими шутками.</example>
         </rule>
-        <rule id="DotOrCase" name="Точка или заглавная буква" default="temp_off" >
-            <pattern>
-                <token regexp="yes">[а-яё][а-яё]*</token>
-                <token><exception regexp="yes">[.?,!:;»)(«-—–"'„]</exception></token>
-                <marker>
-                    <token case_sensitive='yes' postag='VB:.*' postag_regexp='yes' regexp="yes">[А-ЯЁ][а-яё]*<exception postag='NN:.*|PNN:.*|ADJ:.*' postag_regexp='yes'></exception></token>
-                </marker>
-                <token><exception regexp="yes">[.?,!:;»)(«-—–"'„“]</exception></token>
-            </pattern>
-            <message>Пропущена точка или слово ошибочно написано с прописной буквы.</message>
-            <short>Прописная буква или пропущен знак</short>
-            <example correction=''>В лесу <marker>Родилась</marker> ёлочка.</example>
-            <example>В лесу родилась ёлочка.</example>
-        </rule>
-
+        
         <rule id="Latin_single_letter" name="Использование аналогичных по написанию латинских букв">
 	    <antipattern>
 		    <token  regexp="yes">a|o|b|c|k</token>
@@ -11021,7 +11006,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token chunk="MayMissingYO"></token>
                 </marker>
             </pattern>
-        <message>Пропущена буква «Ё»</message>
+        <message>Возможно пропущена буква «Ё», в словаре найдено слово с буквой «Ё».</message>
         <short>Пропущена «Ё»</short>
         <example>ёжик</example>
         <example correction=""><marker>ежик</marker></example>
@@ -11110,6 +11095,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Заглавными"><marker>ЗАГЛАВНЫМИ</marker> буквами не выделяйте текст.</example>
             </rule>  -->
         </rulegroup>
+        <rule id="DotOrCase" name="Точка или заглавная буква" >  <!-- default="temp_off" -->
+            <pattern>
+                <token regexp="yes">[а-яё][а-яё-]*</token>
+                <token><exception regexp="yes">[.?,!:;»)(«-—–"'„]</exception></token>
+                <marker>
+                    <token case_sensitive="yes" postag='VB:.*' postag_regexp="yes" regexp="yes">[А-ЯЁ][а-яё]*<exception postag="NN:.*|PNN:.*|ADJ:.*" postag_regexp="yes"></exception><exception>Три</exception></token>
+                </marker>
+                <token><exception regexp="yes">[.?,!:;»)(«-—–"'„“]</exception></token>
+            </pattern>
+            <message>Пропущена точка или слово ошибочно написано с прописной буквы.</message>
+            <short>Прописная буква или пропущен знак</short>
+            <example correction="">В лесу <marker>Родилась</marker> ёлочка.</example>
+            <example>В лесу родилась ёлочка.</example>
+        </rule>
+
     </category>
    
     <category id="EXTEND" name="Дополнительные правила">
