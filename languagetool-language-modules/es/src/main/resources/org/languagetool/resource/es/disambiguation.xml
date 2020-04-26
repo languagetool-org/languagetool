@@ -127,8 +127,8 @@ Copyright (C) 2011 Juan Martorell
             </marker>
         </pattern>
         <disambig action="replace">
-            <wd lemma="manos libres" pos="NCMN000"></wd>
-            <wd lemma="manos libres" pos="AQ0MN0"></wd>
+            <wd lemma="manos libres" pos="NCMN000"/>
+            <wd lemma="manos libres" pos="AQ0MN0"/>
         </disambig>
     </rule>
     <rulegroup id="NUMERALS" name="numerales">
@@ -521,6 +521,20 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="replace" postag="AO0MS0"/>
         </rule>
     </rulegroup>
+    <rule id="alrededor_de" name="alrededor de">
+        <pattern>
+            <token regexp="yes">unos|unas|los|las</token>
+            <marker>
+                <token>alrededor</token>
+                <token>de</token>
+            </marker>
+            <token postag="DN.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="replace">
+            <wd pos="LOC_ADV" lemma="alrededor de"/>
+            <wd pos="LOC_ADV" lemma="alrededor de"/>
+        </disambig>
+    </rule>
     <rulegroup id="CURRENCIES" name="monedas">
         <rule>
             <pattern>
@@ -870,7 +884,6 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="V.[MSIG].*"/>
     </rule>
     <rule id="un_not_verb" name="un + not verb">
-        <!--el uno-->
         <pattern>
             <token postag="DI.*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes" negate_pos="yes"/></token>
             <marker>
@@ -887,13 +900,15 @@ Copyright (C) 2011 Juan Martorell
     <rule id="el_not_verb" name="not verb">
         <!--el uno-->
         <pattern>
-            <token postag="DA.*" postag_regexp="yes"><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
-            <marker>
-                <and>
-                    <token postag="V.[SIM].*" postag_regexp="yes"/>
+            <unify>
+                <feature id="numero"/>
+                <feature id="genero"/>
+                <token postag="DA.*" postag_regexp="yes"><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+                <marker>
                     <token postag="[AN].*" postag_regexp="yes"/>
-                </and>
-            </marker>
+
+                </marker>
+            </unify>
         </pattern>
         <disambig action="remove" postag="V.[SIM].*"/>
     </rule>
