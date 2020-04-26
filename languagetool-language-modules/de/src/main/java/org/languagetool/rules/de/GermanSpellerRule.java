@@ -865,6 +865,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("voluptös(e|ere|este)?[mnrs]?$", "tös", "tuös");
     putRepl("[pP]flanzig(e[mnrs]?)?", "ig", "lich");
     putRepl("geblogt(e[mnrs]?)?$", "gt", "ggt");
+    put("hinweißen", "hinweisen");
+    put("wiederfahren", "widerfahren");
+    put("wiederspiegelten", "widerspiegelten");
+    putRepl("herraus.*", "herraus", "heraus");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
