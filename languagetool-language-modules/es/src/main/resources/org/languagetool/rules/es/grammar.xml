@@ -1461,7 +1461,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category id="TYPOS" name="Ortografía (tipográficos)" type="misspelling">
+    <category id="MISSPELLING" name="Ortografía" type="misspelling">
         <rulegroup id="CONTRACCIONES" name="contracciones: del, al" default="on">
             <!-- It must be coherent with rule EL_TILDE-->
             <antipattern>
@@ -2251,21 +2251,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="hecho">Está <marker>echo</marker> de madera.</example>
             <example correction="hecha">Esta <marker>echa</marker> de madera.</example>
         </rule>
-        <!-- ROMAN NUMERALS CHECKER : Comprobación de números romanos (adaptado de la versión catalana) -->
-        <rule id="ROMAN_NUMERALS_CHECK" name="comprueba números romanos">
-            <pattern case_sensitive="yes">
-                <marker>
-                    <token regexp="yes" spacebefore="yes">[MCDXLVI]+ <exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception> <exception postag="[RYANDV].*|.*LOC.*" postag_regexp="yes"/> <exception regexp="yes">XML|DLL</exception></token>
-                </marker>
-            </pattern>
-            <message>Número romano incorrecto.</message>
-            <example correction="">El siglo <marker>XVIIII</marker> se conoce como el "Siglo de la Industrialización".</example>
-            <example>El rey Felipe II fue hijo del emperador Carlos V.</example>
-            <example>Bienvenido al XV Congreso de Matemáticas.</example>
-        </rule>
-    </category>
-    <category id="MISSPELLING" name="Ortografía (concepto)" type="misspelling">
-        <!-- HABER_AVER Uso incorrecto de «haber» por «a ver»-->
         <rule id="HECHO_ECHO" name="*hecho/echo" default="on">
             <antipattern>
                 <token>lo</token>
@@ -2291,7 +2276,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="HABER_AVER" name="Uso incorrecto de «haber» por «a ver»">
             <short>Posible confusión del verbo «ver» con el verbo «haber»</short>
-            <!--HABER_QUE-->
             <rule>
                 <pattern>
                     <token>haber</token>
@@ -2301,7 +2285,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="a ver qué">Mirad esto, <marker>haber que</marker> opináis.</example>
                 <example>Tiene en su haber el Campeonato del Mundo.</example>
             </rule>
-            <!--HABER_SI-->
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
@@ -2315,9 +2298,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No va a haber si se ha acabado.</example>
             </rule>
         </rulegroup>
-        <!-- Y_E_O_U confusión en el nexo -->
+        <rule id="ROMAN_NUMERALS_CHECK" name="comprueba números romanos">
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token regexp="yes" spacebefore="yes">[MCDXLVI]+ <exception regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</exception> <exception postag="[RYANDV].*|.*LOC.*" postag_regexp="yes"/> <exception regexp="yes">XML|DLL</exception></token>
+                </marker>
+            </pattern>
+            <message>Número romano incorrecto.</message>
+            <example correction="">El siglo <marker>XVIIII</marker> se conoce como el "Siglo de la Industrialización".</example>
+            <example>El rey Felipe II fue hijo del emperador Carlos V.</example>
+            <example>Bienvenido al XV Congreso de Matemáticas.</example>
+        </rule>
+    </category>
+    <category id="GRAMMAR" name="Gramática" type="grammar">
         <rulegroup id="Y_E_O_U" name="y Italia, o Honduras">
-            <!-- Y_E Cambio e por y-->
             <rule id="Y_E" name="e ante palabras empezando por i">
                 <pattern>
                     <token>y<exception scope="previous">¿</exception></token>
@@ -2328,7 +2322,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="e Italia">Alemania <marker>y Italia</marker> disputarán el torneo.</example>
                 <example>¿<marker>Y Irene</marker>?</example>
             </rule>
-            <rule id="E_Y" name="y ante palabras empezando por (h)ia" default="on">
+            <rule id="E_Y" name="'y' ante palabras empezando por (h)ia" default="on">
                 <pattern>
                     <token>e</token>
                     <token regexp="yes">^h?ih?[aeoáéó].*<exception>ia</exception></token>
@@ -2339,7 +2333,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="y hierro">Agua <marker>e hierro</marker>.</example>
                 <example correction="y iones">Agua <marker>e iones</marker>.</example>
             </rule>
-            <!-- O_U Cambio u por o-->
             <rule id="O_U" name="cambio de o ante palabras empezando por o">
                 <pattern>
                     <token>o</token>
@@ -2350,10 +2343,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="u Honduras">El torneo lo disputarán Alemania <marker>o Honduras</marker>.</example>
             </rule>
         </rulegroup>
-
-
-    </category>
-    <category id="GRAMMAR" name="Gramática" type="grammar">
         <rulegroup id="PORQUE" name="porque/por que/porqué">
             <url>https://www.rae.es/consultas/porque-porque-por-que-por-que</url>
             <rule>
