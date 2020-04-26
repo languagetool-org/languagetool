@@ -129,6 +129,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="expresiones incorrectas" type="grammar">
+        <rule id="TAL_ES_ASI" name="*tal es así/tanto es así">
+            <pattern>
+                <token>tal</token>
+                <token>es</token>
+                <token>así</token>
+                <token min="0">,</token>
+                <token>que</token>
+            </pattern>
+            <message>Expresión incorrecta</message>
+            <suggestion>tanto es así que</suggestion>
+            <suggestion>tan es así que</suggestion>
+            <url>http://www.fundeu.es/recomendacion/tan-es-asi-y-no-tal-es-asi/</url>
+            <example correction="Tanto es así que|Tan es así que"><marker>Tal es así que</marker> los resultados fueron positivos.</example>
+        </rule>
         <rule id="ALTO_CARGO" name="*alta cargo/alto cargo" default="on">
             <pattern>
                 <token>alta</token>
@@ -163,8 +177,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.fundeu.es/recomendacion/los-tira-y-afloja-los-tiras-y-aflojas/</url>
             <example correction="los tira y afloja"><marker>los tiras y aflojas</marker></example>
         </rule>
+        <!-- AFRENTAR_DIFICULTADES http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_050.htm-->
+        <rule id="AFRENTAR_DIFICULTADES" name="afrentar dificultades o problemas (afrontar)">
+            <pattern>
+                <token inflected="yes" skip="1">afrentar</token>
+                <token inflected="yes" regexp="yes">dificultad|problema|vicisitud</token>
+            </pattern>
+            <message>La forma correcta es usando el verbo «afrontar»: <suggestion><match no="1" postag="(.*)" postag_replace="$1">afrontar</match> <match include_skipped="following" no="1"/> <match no="2"/></suggestion>"</message>
+            <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_050.htm</url>
+            <short>Confusión entre «afrontar» y «afrentar»</short>
+            <example correction="afrontar muchos problemas">Tuvo que <marker>afrentar muchos problemas</marker> con la mudanza.</example>
+            <example>Afrontaron muchas dificultades en la travesía.</example>
+        </rule>
+        <rule id="DESTORNILLAR_RISA" name="destornillarse de risa (desternillarse)">
+            <pattern>
+                <marker>
+                    <token inflected="yes" skip="1">destornillar</token>
+                </marker>
+                <token>de</token>
+                <token>risa</token>
+            </pattern>
+            <message>El verbo adecuado es «desternillar».</message>
+            <suggestion><match no="1" postag="(V.*)" postag_replace="$1">desternillar</match></suggestion>
+            <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_015.htm</url>
+            <example correction="desternilló">Con ese chiste, se <marker>destornilló</marker> de risa.</example>
+            <example>Casi te desternillas de risa el otro día.</example>
+        </rule>
+        <rule id="CONTRA_MAS" name="Contra más (cuanto más)">
+            <pattern>
+                <token>contra</token>
+                <token>más</token>
+            </pattern>
+            <message>La forma correcta es <suggestion>cuanto más</suggestion> excepto en el contexto de litigar o luchar y no en el contexto de sumar.</message>
+            <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_034.htm</url>
+            <short>Expresión incorrecta excepto en el contexto de luchar o litigar.</short>
+            <example correction="cuanto más">Seguro que <marker>contra más</marker> estudias, más aprendes</example>
+            <example>Cuanto más insistas, menos caso te haré.</example>
+        </rule>
+        <rule id="SIN_ECUANIME" name="sin ecuánime (sine qua non)">
+            <pattern>
+                <token inflected="yes" regexp="yes">condición|requisito</token>
+                <token>sin</token>
+                <token>ecuánime</token>
+            </pattern>
+            <message>Confusión entre «sine qua non» y «sin ecuánime».</message>
+            <suggestion>\1 sine qua non</suggestion>
+            <example correction="condición sine qua non">Para aprobar, la <marker>condición sin ecuánime</marker> es obtener un 5.</example>
+            <example>Es condición sine qua non tener permiso para entrar en el local.</example>
+        </rule>
     </category>
-    <category id="DIACRITICS" name="diacríticos (tilde)">
+    <category id="DIACRITICS" name="diacríticos (tilde)" type="misspelling">
         <rulegroup id="QUE" name="que/qué">
             <url>https://www.rae.es/consultas/tilde-en-que-cuales-quienes-como-cuan-cuantoaosas-cuando-donde-y-adonde</url>
             <rule>
@@ -2223,7 +2285,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Bienvenido al XV Congreso de Matemáticas.</example>
         </rule>
     </category>
-    <category id="CAT1" name="Ortografía (concepto)" type="grammar">
+    <category id="MISSPELLING" name="Ortografía (concepto)" type="misspelling">
         <!-- HABER_AVER Uso incorrecto de «haber» por «a ver»-->
         <rule id="HECHO_ECHO" name="*hecho/echo" default="on">
             <antipattern>
@@ -2309,72 +2371,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="u Honduras">El torneo lo disputarán Alemania <marker>o Honduras</marker>.</example>
             </rule>
         </rulegroup>
-        <!-- AFRENTAR_DIFICULTADES http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_050.htm-->
-        <rule id="AFRENTAR_DIFICULTADES" name="afrentar dificultades o problemas (afrontar)">
-            <pattern>
-                <token inflected="yes" skip="1">afrentar</token>
-                <token inflected="yes" regexp="yes">dificultad|problema|vicisitud</token>
-            </pattern>
-            <message>La forma correcta es usando el verbo «afrontar»: <suggestion><match no="1" postag="(.*)" postag_replace="$1">afrontar</match> <match include_skipped="following" no="1"/> <match no="2"/></suggestion>"</message>
-            <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_050.htm</url>
-            <short>Confusión entre «afrontar» y «afrentar»</short>
-            <example correction="afrontar muchos problemas">Tuvo que <marker>afrentar muchos problemas</marker> con la mudanza.</example>
-            <example>Afrontaron muchas dificultades en la travesía.</example>
-        </rule>
-        <!-- DESTORNILLAR_RISA http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_015.htm-->
-        <rule id="DESTORNILLAR_RISA" name="destornillarse de risa (desternillarse)">
-            <pattern>
-                <marker>
-                    <token inflected="yes" skip="1">destornillar</token>
-                </marker>
-                <token>de</token>
-                <token>risa</token>
-            </pattern>
-            <message>El verbo adecuado es «desternillar».</message>
-            <suggestion><match no="1" postag="(V.*)" postag_replace="$1">desternillar</match></suggestion>
-            <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_015.htm</url>
-            <example correction="desternilló">Con ese chiste, se <marker>destornilló</marker> de risa.</example>
-            <example>Casi te desternillas de risa el otro día.</example>
-        </rule>
-        <!-- CONTRA_MAS http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_034.htm-->
-        <rule id="CONTRA_MAS" name="Contra más (cuanto más)">
-            <pattern>
-                <token>contra</token>
-                <token>más</token>
-            </pattern>
-            <message>La forma correcta es <suggestion>cuanto más</suggestion> excepto en el contexto de litigar o luchar y no en el contexto de sumar.</message>
-            <url>http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_034.htm</url>
-            <short>Expresión incorrecta excepto en el contexto de luchar o litigar.</short>
-            <example correction="cuanto más">Seguro que <marker>contra más</marker> estudias, más aprendes</example>
-            <example>Cuanto más insistas, menos caso te haré.</example>
-        </rule>
-        <!-- SIN_ECUANIME confusión «sin ecuánime» «sine qua non» -->
-        <rule id="SIN_ECUANIME" name="sin ecuánime (sine qua non)">
-            <pattern>
-                <token inflected="yes" regexp="yes">condición|requisito</token>
-                <token>sin</token>
-                <token>ecuánime</token>
-            </pattern>
-            <message>Confusión entre «sine qua non» y «sin ecuánime».</message>
-            <suggestion>\1 sine qua non</suggestion>
-            <example correction="condición sine qua non">Para aprobar, la <marker>condición sin ecuánime</marker> es obtener un 5.</example>
-            <example>Es condición sine qua non tener permiso para entrar en el local.</example>
-        </rule>
-        <rule id="CONFUSION_AL_LA" name="confusión al/la">
-            <pattern>
-                <marker>
-                    <token>al</token>
-                </marker>
-                <token postag="NCF.*" postag_regexp="yes"><exception postag="NCM.*|SPS00|C.|AQ.C[SN]." postag_regexp="yes"/><exception regexp="yes">&nombre_fem_el;</exception></token>
-            </pattern>
-            <message>Posible error de concordancia.</message>
-            <suggestion>la</suggestion>
-            <example correction="la">El presidente de <marker>al</marker> República italiana.</example>
-            <example>Al final</example>
-            <example>Estamos al habla.</example>
-            <example>Cayó al agua.</example>
-            <example>Estaba al corriente de todo.</example>
-        </rule>
+        
+        
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
         <rulegroup id="PORQUE" name="porque/por que/porqué">
@@ -3098,7 +3096,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category id="CAT2" name="Concordancia" type="inconsistency">
+    <category id="AGREEMENT_NOUNS" name="Concordancia en grupos nominales" type="inconsistency">
         <rulegroup id="AGREEMENT_DET_NOUN" name="Concordancias determinante y sustantivo" default="on">
             <antipattern>
                 <token regexp="yes">el|un|los|unos</token>
@@ -3521,14 +3519,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>He tenido una buena tarde.</example>
             </rule>
         </rulegroup>
-        <!--Concordancias con verbos-->
-        <!--CONC_V_PERSONA Concordancia de persona-->
+    </category>
+    <category id="AGREEMENT_VERBS" name="Concordancia sujeto/predicado" type="inconsistency" default="on">
         <rulegroup id="AGREEMENT_PP_VERB" name="Concordancias: pronombre personal + verbo">
-            <!--Concordancica de persona (pronombre personal nominativo + verbo)
-         TODO: Simplificar con desambiguación
-         TODO: Ofrecer sugerencias múltiples-->
             <short>Concordancia de persona dudosa.</short>
-            <!-- PP_V_1 Concordancia (yo entregas)-->
             <antipattern>
                 <!-- These pronouns need speficic rules -->
                 <token regexp="yes">usted|ustedes|vos</token>
@@ -3542,7 +3536,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Yo vienes</marker></example>
                 <example>Yo vengo</example>
             </rule>
-            <!-- PP_V_2 Concordancia (tú entrego)-->
             <rule id="PP_V_2" name="Concordancia 2ª persona">
                 <pattern case_sensitive="no">
                     <token postag="PP2(.{2}N|CN0|MP0).*" postag_regexp="yes"><exception postag="SP*" postag_regexp="yes" scope="previous"/></token>
@@ -3552,8 +3545,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Tú vengo</marker></example>
                 <example>Tú vienes</example>
             </rule>
-            <!-- PP_V_3 Concordancia (él entrego)-->
-            <rule>
+            <rule id="PP_V_3">
                 <pattern>
                     <token postag="PP3(.*000|CN0|MP0).*" postag_regexp="yes"><exception postag="SP.*" postag_regexp="yes" scope="previous"/></token>
                     <token postag="V.{3}[12].*" postag_regexp="yes"><exception postag="V.{3}3.*|C.*|SP.*" postag_regexp="yes"/><exception postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"/><exception postag="VMIP1S0" regexp="yes">.+o</exception></token>
@@ -3565,9 +3557,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Él apenas tenía dientes.</example>
                 <example>Todas ellas juntas estudian.</example>
             </rule>
-            <!-- PP_V_SINGULAR Concordancia singular (él vienen)-->
             <rule id="PP_V_SINGULAR" name="Concordancia singular Nombre + verbo">
-                <!-- Eliminados sustantivos y otros pronombres por elevado número de falsos positivos. -->
                 <pattern>
                     <token postag="PP.{2}S[^A].*" postag_regexp="yes"><exception postag="SP.*|C.*|PT.*" postag_regexp="yes" scope="previous"/><exception negate_pos="yes" postag="PP.{2}S.*" postag_regexp="yes"/><exception postag="PP.C.[0D]00" postag_regexp="yes"/></token>
                     <token postag="V.{4}P.*" postag_regexp="yes"/>
@@ -3579,7 +3569,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No la hemos visto últimamente.</example>
                 <example>Todavía la efectúan.</example>
             </rule>
-            <!-- PP_V_PLURAL Concordancia (ellos viene)-->
             <rule id="PP_V_PLURAL" name="Concordancia plural Nombre + verbo">
                 <!-- Eliminados los sustantivos y otros pronombres por exceso de falsos positivos.-->
                 <pattern>
@@ -3591,60 +3580,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>aviones vuelan</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AGRREMENT_SUBJECT_PREDICATE" name="Concordancia de sujeto y predicado" default="off">
+            <rule id="SUJ_PRED_ATRIB_SINGULAR" name="Concordancia de sujeto y predicado en singular en oraciones atributivas">
+                <pattern case_sensitive="yes">
+                    <token postag="N.{2}S.*|P.{3}S.*" postag_regexp="yes" skip="1"><exception scope="previous">del|al</exception><exception postag="SP.*|C.*" postag_regexp="yes" scope="previous"/><exception postag="PP.C.[DO0]00|R.*|C.*|SP.*" postag_regexp="yes"/><exception regexp="yes"
+                        >mayoría|minoría|parte|número</exception><exception postag="[NC].*" postag_regexp="yes" scope="next"/></token>
+                    <token inflected="yes" regexp="yes" skip="1"><exception regexp="yes" scope="previous">[^\w].*|se</exception><exception postag="C.*|SP.*" postag_regexp="yes" scope="previous"/><exception postag="C.*|SP.*" postag_regexp="yes" scope="next"/>ser|parecer</token>
+                    <token postag="N.{2}P.*|A.{3}P.*" postag_regexp="yes"><exception postag="V.*" scope="previous"/><exception postag="SP.*|[CDRV].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Posible falta de concordancia de número entre «\1» y «\3».</message>
+                <short>Concordancia de número dudosa.</short>
+                <example correction="">Esa <marker>cortina parece suaves</marker></example>
+                <example>Los aviones son azules</example>
+            </rule>
+            <rule id="SUJ_PRED_ATRIB_PLURAL" name="Concordancia de sujeto y predicado en número en oraciones atributivas">
+                <pattern>
+                    <token postag="N.{2}P.*|P.{3}P" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"/><exception>botones</exception><exception postag="PP.C.[DO0]00" postag_regexp="yes"/><exception postag="[NC].*" postag_regexp="yes" scope="next"/></token>
+                    <token inflected="yes" regexp="yes" skip="1"><exception regexp="yes" scope="previous">[^\w].*|se</exception><exception postag="VM[NG]0000" postag_regexp="yes" scope="next"/>ser|estar|parecer</token>
+                    <token postag="N.{2}S.*|A.{3}S.*" postag_regexp="yes"><exception postag="SP.*|[CD].*" postag_regexp="yes" scope="previous"/><exception postag="SP.*|[CDRV].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Posible falta de concordancia de número entre «\1» y «\3».</message>
+                <short>Concordancia de número dudosa.</short>
+                <example correction="">Las <marker>cortinas parecen suave</marker></example>
+                <example>Los aviones son azules</example>
+            </rule>
+            <rule id="SUJ_PRED_ATRIB_FEM" name="Concordancia de sujeto y predicado en femenino en oraciones atributivas">
+                <!--*Quitados los pronombres: Eso es cal-->
+                <pattern>
+                    <token postag="N.{1}F.*" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"/><exception postag="[RC].*" postag_regexp="yes"/><exception postag="[NC].*" postag_regexp="yes" scope="next"/></token>
+                    <token inflected="yes" regexp="yes" skip="2"><exception regexp="yes" scope="previous">[^\w].*|se</exception>ser|parecer</token>
+                    <token postag="A.{2}M.*" postag_regexp="yes"><exception postag="SP.*|[CDRV].*" postag_regexp="yes"/><exception regexp="yes">la|do</exception></token>
+                </pattern>
+                <message>Posible falta de concordancia de género entre «\1» y «\3».</message>
+                <short>Concordancia de género dudosa.</short>
+                <example correction="">La <marker>cortina es amarillo</marker></example>
+                <example>Los aviones son amarillos</example>
+            </rule>
+            <rule id="SUJ_PRED_ATRIB_MASC" name="Concordancia de sujeto y predicado en masculino en oraciones atributivas">
+                <pattern>
+                    <token postag="N.{1}M.*" postag_regexp="yes" skip="1"><exception postag="RN"/><exception regexp="yes">botones|la|do</exception><exception postag="N.*|CS" postag_regexp="yes" scope="next"/></token>
+                    <token inflected="yes" regexp="yes" skip="2"><exception regexp="yes" scope="previous">[^\w].*|se</exception>ser|estar|parecer</token>
+                    <token postag="A.{2}F.*" postag_regexp="yes"><exception postag="SP.*|[CDRV].*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Posible falta de concordancia de género entre «\1» y «\3».</message>
+                <short>Concordancia de género dudosa.</short>
+                <example correction=""><marker>Este es amarilla</marker></example>
+                <example>La avioneta será costosa</example>
+            </rule>
+        </rulegroup>
     </category>
-    <category default="off" id="CAT3" name="Concordancia predicativa" type="inconsistency">
-        <!-- SUJ_PRED_ATRIB_SINGULAR Concordancia (pavo es rojos) -->
-        <rule id="SUJ_PRED_ATRIB_SINGULAR" name="Concordancia de sujeto y predicado en singular en oraciones atributivas">
-            <pattern case_sensitive="yes">
-                <token postag="N.{2}S.*|P.{3}S.*" postag_regexp="yes" skip="1"><exception scope="previous">del|al</exception><exception postag="SP.*|C.*" postag_regexp="yes" scope="previous"/><exception postag="PP.C.[DO0]00|R.*|C.*|SP.*" postag_regexp="yes"/><exception regexp="yes"
-                    >mayoría|minoría|parte|número</exception><exception postag="[NC].*" postag_regexp="yes" scope="next"/></token>
-                <token inflected="yes" regexp="yes" skip="1"><exception regexp="yes" scope="previous">[^\w].*|se</exception><exception postag="C.*|SP.*" postag_regexp="yes" scope="previous"/><exception postag="C.*|SP.*" postag_regexp="yes" scope="next"/>ser|parecer</token>
-                <token postag="N.{2}P.*|A.{3}P.*" postag_regexp="yes"><exception postag="V.*" scope="previous"/><exception postag="SP.*|[CDRV].*" postag_regexp="yes"/></token>
-            </pattern>
-            <message>Posible falta de concordancia de número entre «\1» y «\3».</message>
-            <short>Concordancia de número dudosa.</short>
-            <example correction="">Esa <marker>cortina parece suaves</marker></example>
-            <example>Los aviones son azules</example>
-        </rule>
-        <!-- SUJ_PRED_ATRIB_PLURAL Concordancia (pavos es rojo) -->
-        <rule id="SUJ_PRED_ATRIB_PLURAL" name="Concordancia de sujeto y predicado en número en oraciones atributivas">
-            <pattern>
-                <token postag="N.{2}P.*|P.{3}P" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"/><exception>botones</exception><exception postag="PP.C.[DO0]00" postag_regexp="yes"/><exception postag="[NC].*" postag_regexp="yes" scope="next"/></token>
-                <token inflected="yes" regexp="yes" skip="1"><exception regexp="yes" scope="previous">[^\w].*|se</exception><exception postag="VM[NG]0000" postag_regexp="yes" scope="next"/>ser|estar|parecer</token>
-                <token postag="N.{2}S.*|A.{3}S.*" postag_regexp="yes"><exception postag="SP.*|[CD].*" postag_regexp="yes" scope="previous"/><exception postag="SP.*|[CDRV].*" postag_regexp="yes"/></token>
-            </pattern>
-            <message>Posible falta de concordancia de número entre «\1» y «\3».</message>
-            <short>Concordancia de número dudosa.</short>
-            <example correction="">Las <marker>cortinas parecen suave</marker></example>
-            <example>Los aviones son azules</example>
-        </rule>
-        <!-- SUJ_PRED_ATRIB_FEM Concordancia (pava es rojo)-->
-        <rule id="SUJ_PRED_ATRIB_FEM" name="Concordancia de sujeto y predicado en femenino en oraciones atributivas">
-            <!--*Quitados los pronombres: Eso es cal-->
-            <pattern>
-                <token postag="N.{1}F.*" postag_regexp="yes" skip="1"><exception postag="SP.*" postag_regexp="yes" scope="previous"/><exception postag="[RC].*" postag_regexp="yes"/><exception postag="[NC].*" postag_regexp="yes" scope="next"/></token>
-                <token inflected="yes" regexp="yes" skip="2"><exception regexp="yes" scope="previous">[^\w].*|se</exception>ser|parecer</token>
-                <token postag="A.{2}M.*" postag_regexp="yes"><exception postag="SP.*|[CDRV].*" postag_regexp="yes"/><exception regexp="yes">la|do</exception></token>
-            </pattern>
-            <message>Posible falta de concordancia de género entre «\1» y «\3».</message>
-            <short>Concordancia de género dudosa.</short>
-            <example correction="">La <marker>cortina es amarillo</marker></example>
-            <example>Los aviones son amarillos</example>
-        </rule>
-        <!-- SUJ_PRED_ATRIB_MASC Concordancia (pavo es roja) -->
-        <rule id="SUJ_PRED_ATRIB_MASC" name="Concordancia de sujeto y predicado en masculino en oraciones atributivas">
-            <pattern>
-                <token postag="N.{1}M.*" postag_regexp="yes" skip="1"><exception postag="RN"/><exception regexp="yes">botones|la|do</exception><exception postag="N.*|CS" postag_regexp="yes" scope="next"/></token>
-                <token inflected="yes" regexp="yes" skip="2"><exception regexp="yes" scope="previous">[^\w].*|se</exception>ser|estar|parecer</token>
-                <token postag="A.{2}F.*" postag_regexp="yes"><exception postag="SP.*|[CDRV].*" postag_regexp="yes"/></token>
-            </pattern>
-            <message>Posible falta de concordancia de género entre «\1» y «\3».</message>
-            <short>Concordancia de género dudosa.</short>
-            <example correction=""><marker>Este es amarilla</marker></example>
-            <example>La avioneta será costosa</example>
-        </rule>
-    </category>
-    <category id="CAT4" name="Estilo" type="style">
+    <category id="STYLE" name="Estilo" type="style">
         <rule id="MEXICO" name="México/Méjico" default="on">
             <pattern>
                 <token regexp="yes">.*mejic.*|Méjico|Tejas<exception postag="NCFP000">tejas</exception></token>
@@ -3818,20 +3803,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="contra corriente|a contracorriente">Ir <marker>a contra corriente</marker></example>
             </rule>
         </rulegroup>
-        <rule id="TAL_ES_ASI" name="*tal es así/tanto es así">
-            <pattern>
-                <token>tal</token>
-                <token>es</token>
-                <token>así</token>
-                <token min="0">,</token>
-                <token>que</token>
-            </pattern>
-            <message>Expresión incorrecta</message>
-            <suggestion>tanto es así que</suggestion>
-            <suggestion>tan es así que</suggestion>
-            <url>http://www.fundeu.es/recomendacion/tan-es-asi-y-no-tal-es-asi/</url>
-            <example correction="Tanto es así que|Tan es así que"><marker>Tal es así que</marker> los resultados fueron positivos.</example>
-        </rule>
     </category>
     <category id="CAMBIOS_NORMA" name="cambios en las normas lingüísticas">
         <rulegroup id="MONOSILABOS" name="los monosílabos no llevan tilde">
@@ -3881,6 +3852,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="confusiones">
+        <rule id="CONFUSION_AL_LA" name="confusión al/la">
+            <pattern>
+                <marker>
+                    <token>al</token>
+                </marker>
+                <token postag="NCF.*" postag_regexp="yes"><exception postag="NCM.*|SPS00|C.|AQ.C[SN]." postag_regexp="yes"/><exception regexp="yes">&nombre_fem_el;</exception></token>
+            </pattern>
+            <message>Posible error de concordancia.</message>
+            <suggestion>la</suggestion>
+            <example correction="la">El presidente de <marker>al</marker> República italiana.</example>
+            <example>Al final</example>
+            <example>Estamos al habla.</example>
+            <example>Cayó al agua.</example>
+            <example>Estaba al corriente de todo.</example>
+        </rule>
         <rule id="MANA_MAMA" name="cáncer de *mana/mama">
             <pattern>
                 <token inflected="yes">cáncer</token>
