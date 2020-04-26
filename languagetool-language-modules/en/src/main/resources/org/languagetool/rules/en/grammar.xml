@@ -64,6 +64,8 @@ USA
     <!ENTITY not_really_verbs "self\-?(support|control)s?|overdrafts?|remotes?|nerds?|wrought|karates?|paths?|scapes?|videos?|fann(y|ies)?|bonus(es)?|back\-?ups?|pop\-?ups?|one\-?(shot|click)s?|idiot\-?proofs?|intakes?|rinds?|gaslits?|errors?|prox(y|ies)?|configs?|repros?|super\-?sets?|open\-?sources?|drag\-(and|n)\-drops?|hotfix(es)?|timeouts?|shutdowns?">
     <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
     <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
+    <!ENTITY uom_abbreviations_SI "(Y|Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|mol|cd|rad|sr|Hz|N|Pa|J|W|C|V|F|Ω|S|Wb|T|H|lm|lx|Bq|Gy|Sv|kat|min|h|d|L|t|Np|B|eV|u|ua)"><!-- https://physics.nist.gov/cuu/Units/units.html -->
+    <!ENTITY uom_abbreviations_other "bpm|ft|hr|km|kph|lm|mi|ml|mph|ppb|ppm|rpm"><!-- Not a full list. Why is km necessary? It is in uom_abbreviations_SI -->
     <!ENTITY ambiguous_date '
         <token regexp="yes">0?[1-9]|1[0-2]</token>
         <token>/</token>
@@ -33831,6 +33833,10 @@ USA
                 <token>sit</token>
                 <token>ups</token>
             </antipattern>
+            <antipattern><!-- #2787 The speedometer was indicating 95 mph. -->
+                <token postag="CD"/>
+                <token case_sensitive="yes" regexp="yes">&uom_abbreviations_SI;|&uom_abbreviations_other;</token><!-- Units of measurement are usually singular. MFU 2020-04-26: some of the exceptions in the pattern are probably not necessary with this antipattern. -->
+            </antipattern>
             <pattern>
                 <token postag="CD">
                     <exception scope="previous" spacebefore="no" regexp="yes">[^,]</exception>
@@ -34010,6 +34016,7 @@ USA
             <example>When they came back with a £33 billion bid, CBS could not refuse.</example><!-- #2440 -->
             <example>But then he got 502 bad gateway.</example>
             <example>Verb: ... and the other two <marker>chase</marker> her.</example><!-- #2652 chase/E-NP-singular -->
+            <example>The speedometer was indicating 95 mph.</example><!-- #2787 -->
             <example type="triggers_error">When Sony came back with a 2 billion bid, CBS could not refuse.</example><!-- #2440 -->
             <example type="triggers_error">England eventually faced a massive 707 run target for victory and failed, Australia winning the ...</example>
         </rule>
