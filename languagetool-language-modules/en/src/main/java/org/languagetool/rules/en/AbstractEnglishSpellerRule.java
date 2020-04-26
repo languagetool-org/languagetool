@@ -255,6 +255,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("omg", Arrays.asList("OMG"));
     s.put("lol", Arrays.asList("LOL"));
     s.put("lmao", Arrays.asList("LMAO"));
+    s.put("wtf", Arrays.asList("WTF"));
 
     s.put("italia", Arrays.asList("Italy"));
     s.put("paypal", Arrays.asList("PayPal"));
@@ -518,6 +519,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Ji", Arrays.asList("Hi"));
     s.put("Dontcha", Arrays.asList("don't you"));
     s.put("greatfruit", Arrays.asList("grapefruit", "great fruit"));
+    s.put("ur", Arrays.asList("your", "you are"));
 
     return s;
   }
