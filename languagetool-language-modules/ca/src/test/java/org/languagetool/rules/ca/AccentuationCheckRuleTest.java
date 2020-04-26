@@ -47,6 +47,9 @@ public class AccentuationCheckRuleTest {
   public void testRule() throws IOException {
 
     // correct sentences:
+    assertCorrect("I la faria desgraciada");
+    assertCorrect("jo ja la tenia incorporada abans");
+    assertCorrect("tu ja les tenies incorporades abans");
     assertCorrect("Quan anunciïs una votació, especifica de quina es tracta");
     //assertCorrect("Quina classe de política practica la UE.");
     assertCorrect("Tu practiques tècniques de ioga");
