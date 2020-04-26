@@ -178,11 +178,7 @@ public class LanguageIdentifier {
   @Nullable
   @Experimental
   DetectedLanguage detectLanguageWithDetails(String text) {
-    DetectedLanguage detectedLanguage = detectLanguage(text, Collections.emptyList(), Collections.emptyList());
-    if (detectedLanguage == null) {
-      return null;
-    }
-    return detectedLanguage;
+    return detectLanguage(text, Collections.emptyList(), Collections.emptyList());
   }
   
   /**
@@ -354,14 +350,14 @@ public class LanguageIdentifier {
     }
   }
 
-  class RemoveEMailSignatureFilter implements TextFilter {
+  static class RemoveEMailSignatureFilter implements TextFilter {
     @Override
     public String filter(CharSequence text) {
       return SIGNATURE.matcher(text.toString()).replaceFirst("");
     }
   }
 
-  class RemoveNonBreakingSpaces implements TextFilter {
+  static class RemoveNonBreakingSpaces implements TextFilter {
     @Override
     public String filter(CharSequence text) {
       return text.toString().replace('\u00A0', ' ');
