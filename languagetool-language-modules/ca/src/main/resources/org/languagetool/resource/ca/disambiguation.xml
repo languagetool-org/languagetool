@@ -912,6 +912,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="N.*"/>
     </rule>
+    <rule id="mans_lliures" name="mans lliures">
+        <pattern>
+            <token postag="D..M[SP]." postag_regexp="yes"/>
+            <marker>
+                <token>mans</token>
+                <token>lliures</token>
+            </marker>
+        </pattern>
+        <disambig action="replace">
+            <wd lemma="mans lliures" pos="NCMN000"></wd>
+            <wd lemma="mans lliures" pos="AQ0MN0"></wd>
+        </disambig>
+    </rule>
     <rulegroup id="LOCUCIONS" name="locucions adverbials, preposicionals, conjuntives">
         <!-- locucions concretes-->
         <rule id="duna_banda" name="d'una banda (locució conj.)">

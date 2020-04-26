@@ -169,6 +169,80 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rule id="DHONDT" name="D'Hondt">
+            <antipattern case_sensitive="yes">
+                <token>D</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>Hondt</token>
+            </antipattern>
+            <pattern>
+                <token>d</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token regexp="yes">Hond?t?</token>
+            </pattern>
+            <message>Error ortográfico.</message>
+            <suggestion>D'Hondt</suggestion>
+            <example correction="D'Hondt">La regla <marker>d'Hondt</marker>.</example>
+            <example correction="D'Hondt">La regla <marker>d'Hont</marker>.</example>
+            <example>La fórmula D'Hondt.</example>
+        </rule>
+        <rule id="PRET_A_PORTER" name="prêt-à-porter">
+            <antipattern>
+                <token>prêt</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no">à</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no">porter</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">pr[éèêe]t</token>
+                <token min="0">-</token>
+                <token regexp="yes">[áàâa]</token>
+                <token min="0">-</token>
+                <token regexp="yes">p[oòóô]rt[eèéê]r?</token>
+            </pattern>
+            <message>Error ortográfico.</message>
+            <suggestion>prêt-à-porter</suggestion>
+            <example correction="prêt-à-porter"><marker>pret-a porter</marker>.</example>
+            <example correction="prêt-à-porter"><marker>prèt a porté</marker>.</example>
+            <example correction="prêt-à-porter"><marker>prêt- à-porter</marker>.</example>
+            <example>prêt-à-porter</example>
+        </rule>
+        <rule id="MENAGE_A_TROIS" name="ménage à trois">
+            <antipattern>
+                <token>ménage</token>
+                <token>à</token>
+                <token>trois</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">m[éèêe]nag[éèêe]</token>
+                <token min="0">-</token>
+                <token regexp="yes">[áàâa]</token>
+                <token min="0">-</token>
+                <token regexp="yes">tr[oóòô]is</token>
+            </pattern>
+            <message>Error ortográfico.</message>
+            <suggestion>ménage à trois</suggestion>
+            <example correction="ménage à trois"><marker>menage a trois</marker>.</example>
+            <example correction="ménage à trois"><marker>ménage a tróis</marker>.</example>
+            <example correction="ménage à trois"><marker>ménagé-â-trois</marker>.</example>
+            <example>ménage à trois</example>
+        </rule>
+        <rule id="DEJA_VU" name="déjà-vu">
+            <antipattern>
+                <token>déjà</token>
+                <token>vu</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">d[eèé]j[aàá]</token>
+                <token min="0">-</token>
+                <token regexp="yes">v[uú]</token>
+            </pattern>
+            <message>Error ortogràfic.</message>
+            <suggestion>déjà vu</suggestion>
+            <example correction="déjà vu"><marker>dejà-vu</marker>.</example>
+            <example>Un déjà vu.</example>
+        </rule>
         <rule id="A_PUNTO_DE" name="*apunto de/a punto de">
             <pattern>
                 <marker>
@@ -627,7 +701,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Common sentence -->
                 <pattern>
-                    <token>¿</token>
+                    <or>
+                        <token postag="SENT_START"/>
+                        <token regexp="yes">¿|hola</token>
+                    </or>
+                    <token min="0">,</token>
                     <marker>
                         <token>como</token>
                         <token>estas</token>
@@ -636,9 +714,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>?</token>
                 </pattern>
                 <message>Probablemente faltan tildes y una coma.</message>
-                <suggestion>Cómo estás,</suggestion>
-                <example correction="Cómo estás,">¿<marker>como estas</marker> Luis?</example>
-                <example correction="Cómo estás,">¿<marker>como estas</marker> guapo?</example>
+                <suggestion>cómo estás,</suggestion>
+                <example correction="cómo estás,">¿<marker>como estas</marker> Luis?</example>
+                <example correction="Cómo estás,"><marker>Como estas</marker> Luis?</example>
+                <example correction="cómo estás,">¿<marker>como estas</marker> guapo?</example>
+                <example correction="cómo estás,">Hola <marker>como estas</marker> Constanza?</example>
             </rule>
         </rulegroup>
         <rulegroup id="CUAL" name="cual/cuál" default="on">
@@ -830,7 +910,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
             <short>El pronombre personal lleva tilde.</short>
-            <!-- TU_VERBO_P2 tu + verbo en 2a persona-->
             <rule id="TU_VERBO_P2" name="Tu + verbo en 2a">
                 <pattern>
                     <marker>
@@ -899,8 +978,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>el<exception postag="_GN_MS|LOC_.*" postag_regexp="yes"/></token>
                     </marker>
-                    <!-- <token postag="&pronombre_personal_atono_POS;|R.*|LOC_ADV" postag_regexp="yes" min="0" max="5"/>
-                    <token postag="V...3S." postag_regexp="yes"><exception postag="[NA].*" postag_regexp="yes"/></token>-->
                 </pattern>
                 <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
                 <example correction="Él"><marker>El</marker> fue.</example>
@@ -945,23 +1022,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En el mejor de los casos.</example>
                 <example>Nuestro restaurant es el mejor.</example>
             </rule>
-
-            <!-- TU_PARTICULA_VERBO_P2 tu no te lo pierdas
-     Anulamos si entremedias hay al menos un nombre-->
             <rule id="TU_PARTICULA_VERBO_P2" name="Tu + partícula + verbo en 2a">
                 <pattern>
                     <marker>
                         <token>tu</token>
                     </marker>
-                    <token postag="[RPC].*|UNKNOWN" postag_regexp="yes" skip="3"><exception postag="A.*|DI0.S0" postag_regexp="yes"/><exception postag="A.*|DI0.S0" postag_regexp="yes" scope="next"/><exception regexp="yes" scope="next">[,;-_—]</exception></token>
+                    <token postag="&pronombre_personal_atono_POS;|RN" postag_regexp="yes" min="0" max="3"/>
                     <token postag="V.{3}2.*" postag_regexp="yes"><exception regexp="yes" scope="previous">[,;-_—]</exception><exception postag="A.*|DI0.S0" postag_regexp="yes" scope="previous"/><exception negate_pos="yes" postag="V.{3}2.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
                 <example correction="tú">Cuando <marker>tu</marker> no vuelves, yo voy.</example>
+                <example correction="tú">Cuando <marker>tu</marker> no nos lo indicas.</example>
                 <example>Me alegra tu feliz vuelta al trabajo.</example>
             </rule>
-
-            <!-- TU_FINAL Tu al final de la oración. Siempre será nominativo.-->
             <rule id="TU_FINAL" name="Pronombre tú al final de la oración.">
                 <pattern>
                     <marker>
@@ -973,7 +1046,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tú">Tu hermana es como <marker>tu</marker>.</example>
                 <example>¿Te puedes ocupar tú?</example>
             </rule>
-            <!-- MI_FINAL mi al final de la oración simepre es pronombre personal. -->
             <rule id="MI_TILDE" name="mi/mí">
                 <antipattern>
                     <token>mi</token>
@@ -1792,6 +1864,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Se escribe junto.</message>
                 <suggestion>eurozona</suggestion>
                 <example correction="eurozona">La <marker>euro-zona</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>video</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes">llamada|conferencia</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>video\3</suggestion>
+                <example correction="videoconferencias">Las <marker>video conferencias</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>porta</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes">ocular|objeto|pluma|original|papel|objetivo</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="portaoculares">El <marker>porta oculares</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="ALREDEDOR" name="*(a) alrededor">
@@ -3162,6 +3254,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">otro</token>
                     <token regexp="yes">.*%</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">\d+°</token>
+                    <!-- confusion º / °, to be fixed in another rule -->
+                </antipattern>
+                <antipattern>
+                    <token postag="D..FS.*" postag_regexp="yes"/>
+                    <token regexp="yes">.</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <unify negate="yes">
@@ -3173,8 +3273,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Error de concordancia.</message>
-                <suggestion><match no="1" postag="D..[MC][SN]." postag_regexp="yes"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[MC][PN]." postag_regexp="yes"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="1" postag="D..[MC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[MC][SN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="1" postag="D..[MC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[MC][PN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
                 <example correction="aquel camión|aquellos camiones">Trae <marker>aquel camiones</marker>.</example>
                 <example correction="tanto hombre|tantos hombres">Hay <marker>tanto hombres</marker>?</example>
                 <example correction="poco año|pocos años">Hasta <marker>poco años</marker> después</example>
@@ -3184,6 +3284,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="el mil|los miles">Con <marker>las miles</marker> de personas que estaban allí.</example>
                 <example correction="el ciento|los cientos">Con <marker>las cientos</marker> de personas que estaban allí.</example>
                 <example correction="el mil|los miles">Con <marker>las mil</marker> persona que estaban allí.</example>
+                <example correction="el Estado|los Estados">Voy a <marker>los Estado</marker> Unidos.</example>
                 <!--<example correction="algún coche|algunos coches">Con <marker>algunos coche</marker>.</example> pending dict update-->
                 <!-- TODO: De alguna forma terminaré esta trabajo.
                 Tengo tiempo libre este tarde. -->
@@ -3218,6 +3319,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me gusta mucho veros.</example>
                 <example>y otros 66,27%.</example>
                 <example>y otros 66,27 %.</example>
+                <example>Una S.</example>
+                <example>no es otra sino la excelente</example>
                 <!-- <example>no esta claro</example> better: other rule-->
             </rule>
             <rule>
@@ -3232,8 +3335,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Error de concordancia.</message>
-                <suggestion><match no="1" postag="D..[FC][SN]." postag_regexp="yes"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[FC][PN]." postag_regexp="yes"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="1" postag="D..[FC][SN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[FC][SN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="1" postag="D..[FC][PN]." postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.[FC][PN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
                 <example correction="aquella enfermera|aquellas enfermeras"><marker>aquella enfermeras</marker></example>
                 <example correction="Aquella médica|Aquella médico|Aquellas médicas"><marker>Aquellos médicas</marker>.</example>
                 <example correction="una tesis|unas tesis">Con <marker>un tesis</marker> sobre Platón.</example>
@@ -3276,6 +3379,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Mil quinientas cincuenta y una bombillas.</example>
                 <example>Me gusta mucho Mary.</example>
                 <example>Este cuenta con 149 empresas.</example>
+                <example>Una S.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3288,10 +3392,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Error de concordancia.</message>
-                <suggestion><match no="1" postag="D..[MC][SN].*" postag_regexp="yes"/> <match no="2" postag="N.C[SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[MC][PN].*" postag_regexp="yes"/> <match no="2" postag="N.C[PN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[FC][SN].*" postag_regexp="yes"/> <match no="2" postag="N.C[SN].*" postag_regexp="yes"/></suggestion>
-                <suggestion><match no="1" postag="D..[FC][PN].*" postag_regexp="yes"/> <match no="2" postag="N.C[PN].*" postag_regexp="yes"/></suggestion>
+                <suggestion><match no="1" postag="D..[MC][SN].*" postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.C[SN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="1" postag="D..[MC][PN].*" postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.C[PN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="1" postag="D..[FC][SN].*" postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.C[SN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
+                <suggestion><match no="1" postag="D..[FC][PN].*" postag_regexp="yes" case_conversion="preserve"/> <match no="2" postag="N.C[PN].*" postag_regexp="yes" case_conversion="preserve"/></suggestion>
                 <example correction="Un ajedrecista|Unos ajedrecistas|Una ajedrecista|Unas ajedrecistas"><marker>Un ajedrecistas</marker></example>
                 <example correction="Un recepcionista|Unos recepcionistas|Una recepcionista|Unas recepcionistas"><marker>Unos recepcionista</marker>.</example>
                 <example correction="Otro recepcionista|Otros recepcionistas|Otra recepcionista|Otras recepcionistas"><marker>Otras recepcionista</marker>.</example>
