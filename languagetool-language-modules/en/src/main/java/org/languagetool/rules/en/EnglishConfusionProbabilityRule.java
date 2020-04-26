@@ -182,7 +182,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "what to text", // vs do
       "is he famous for", // vs the
       "was he famous for", // the
-      "really quiet at" // vs quit/quite
+      "really quiet at", // vs quit/quite
+      "he programs" // vs the
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
