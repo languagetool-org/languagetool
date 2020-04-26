@@ -245,7 +245,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="не проронила ни слова">За весь вечер она <marker>не проронила и слово</marker>.</example>
           </rule>
         </rulegroup>
-        <rule id="zakonchit_школу" name="Опечатка «закончить/окончить»">
+        <rule id="zakonchit_shkolu" name="Опечатка «закончить/окончить»">
             <pattern>
 		<token inflected="yes">закончить</token>
                 <token regexp="yes">школу|институт|университет|вуз|курсы|техникум|пту|училище|академию</token>
@@ -254,6 +254,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="окончил университет">В этом году он <marker>закончил университет</marker>.</example>
         </rule>
+        <rulegroup id="dlitelnij_dlinnij" name="Опечатка «длительный/длинный»">
+           <rule>
+            <pattern>
+		<token inflected="yes">длительный</token>
+                <token regexp="yes" inflected="yes">разговор|фраза|зима</token>
+            </pattern>
+            <message>Опечатка: <suggestion><match no="1"  regexp_match="длительн(.*)"  regexp_replace="длинн$1" /> <match no="2" /></suggestion></message>
+            <short>Опечатка</short>
+            <example correction="длинный разговор"><marker>длительный разговор</marker></example>
+           </rule>
+           <rule>
+            <pattern>
+		<token inflected="yes">длинный</token>
+                <token inflected="yes">полёт</token>
+            </pattern>
+            <message>Опечатка: <suggestion><match no="1"  regexp_match="длинн(.*)"  regexp_replace="длительн$1" /> <match no="2" /></suggestion></message>
+            <short>Опечатка</short>
+            <example correction="длительный полёт"><marker>длинный полёт</marker></example>
+          </rule>
+        </rulegroup>
         
         <rulegroup id="Vazhno_chto_etogo" name="Опечатка «что этого/что это»">
           <rule>
