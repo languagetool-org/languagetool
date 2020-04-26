@@ -194,7 +194,8 @@ public class AccentuationCheckRule extends Rule {
           replacement = relevantWords.get(token).getToken();
         }
      // les vertebres properes
-        else if (i < tokens.length - 1 &&
+        else if (i < tokens.length - 1 && !token.equals("tenia") && !token.equals("tenies") 
+            && !token.equals("faria") && !token.equals("faries") && 
             ((mArticleELMS.matches() && matchPostagRegexp(relevantWords.get(token), NOM_MS) && matchPostagRegexp(tokens[i + 1], ADJECTIU_MS))
             || (mArticleELMP.matches() && matchPostagRegexp(relevantWords.get(token), NOM_MP) && matchPostagRegexp(tokens[i + 1], ADJECTIU_MP))
             || (mArticleELFS.matches() && matchPostagRegexp(relevantWords.get(token), NOM_FS) && matchPostagRegexp(tokens[i + 1], ADJECTIU_FS)) 
