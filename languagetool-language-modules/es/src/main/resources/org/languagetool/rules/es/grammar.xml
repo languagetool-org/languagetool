@@ -3930,6 +3930,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rule id="EL_LA_EN_LA" name="*el/en la" default="on">
+            <antipattern>
+                <token skip="2">la</token>
+                <token regexp="yes">44[0-9](Hz)?</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>el</token>
@@ -3940,6 +3944,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>en</suggestion>
             <example correction="en">Fue <marker>el</marker> la plaza.</example>
             <example correction="en">Viven <marker>el</marker> las calles.</example>
+            <example>El la del diapasón.</example>
+            <example>El la sobreagudo.</example>
+            <example>En el La a 440Hz.</example>
+            <example>En el La a 440 Hz.</example>
+            <example>En el La 440 Hz.</example>
         </rule>
         <rule id="CUIDAD_CIUDAD" name="*cuidad/ciudad" default="on">
             <pattern>
