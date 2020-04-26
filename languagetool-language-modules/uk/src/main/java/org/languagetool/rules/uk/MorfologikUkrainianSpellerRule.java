@@ -99,7 +99,9 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
       word = word.toLowerCase();
     }
     for(String key: dashPrefixes2019.keySet()) {
-      if( word.startsWith(key) ) {
+      if( word.startsWith(key) 
+          && word.length() > key.length() + 2 
+          && word.charAt(key.length()) != '-' ) {
         String second = word.substring(key.length());
         suggestions.add(new SuggestedReplacement(key + "-" + second));
       }
