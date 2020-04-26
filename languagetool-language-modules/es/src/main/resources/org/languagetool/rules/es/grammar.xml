@@ -3598,16 +3598,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="STYLE" name="Estilo" type="style">
+        <rule id="COMPLEJIZAR" name="complejizar/complicar">
+            <pattern>
+                <token inflected="yes">complejizar</token>
+            </pattern>
+            <message>Excepto en usos especializados, es preferible utilizar otro verbo.</message>
+            <suggestion><match no="1" postag_regexp="yes" postag="(V.*)" postag_replace="$1">complicar</match></suggestion>
+            <url>https://www.fundeu.es/recomendacion/complicar-complejizar/</url>
+            <example correction="complicó">Se <marker>complejizó</marker>.</example>
+        </rule>
         <rule id="MEXICO" name="México/Méjico" default="on">
             <pattern>
                 <token regexp="yes">.*mejic.*|Méjico|Tejas<exception postag="NCFP000">tejas</exception></token>
             </pattern>
-            <!--tejano-->
             <message>Grafía recomendada.</message>
             <suggestion><match no="1" regexp_match="(?iu)(.*)j(.*)" regexp_replace="$1x$2"/></suggestion>
             <example correction="México">Soy de <marker>Méjico</marker>.</example>
             <example correction="mexicanas">Son <marker>mejicanas</marker>.</example>
             <example>No me quedan tejas.</example>
+            <example>Me compré unos tejanos.</example>
         </rule>
         <rule id="ASI" name="así/asín/asina">
             <pattern>
