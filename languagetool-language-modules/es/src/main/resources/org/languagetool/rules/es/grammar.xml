@@ -128,7 +128,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="correct">Ha sido el <marker>invierno</marker> más frío que recuerdo.</example>
         </rule>
     </category>
-    <category id="INCORRECT_EXPRESSIONS" name="expresiones incorrectas" type="grammar">
+    <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rule id="A_PUNTO_DE" name="*apunto de/a punto de">
+            <pattern>
+                <marker>
+                    <token>apunto<exception scope="previous" regexp="yes">me|te|lo|la|le|nos|os|los|las|les</exception></token>
+                    <token>de</token>
+                </marker>
+                <token><exception regexp="yes">manera|forma</exception></token>
+            </pattern>
+            <message>Esta locución es escribe separada.</message>
+            <suggestion>a punto de</suggestion>
+            <url>http://www.fundeu.es/recomendacion/a-punto-de-no-apunto-de-1427</url>
+            <example correction="a punto de">Estaba <marker>apunto de</marker> llegar.</example>
+            <example>Apunto de manera inmediata</example>
+            <example>Me apunto de voluntario.</example>
+        </rule>
         <rule id="TAL_ES_ASI" name="*tal es así/tanto es así">
             <pattern>
                 <token>tal</token>
@@ -226,7 +241,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es condición sine qua non tener permiso para entrar en el local.</example>
         </rule>
     </category>
-    <category id="DIACRITICS" name="diacríticos (tilde)" type="misspelling">
+    <category id="DIACRITICS" name="Diacríticos (tilde)" type="misspelling">
         <rulegroup id="QUE" name="que/qué">
             <url>https://www.rae.es/consultas/tilde-en-que-cuales-quienes-como-cuan-cuantoaosas-cuando-donde-y-adonde</url>
             <rule>
@@ -692,6 +707,757 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="músico">Soy <marker>musico</marker>.</example>
                 <example>Musico una traducción.</example>
                 <example>Musico un bonito poema.</example>
+            </rule>
+            <rule id="PAGINA" name="pagina/página">
+                <antipattern>
+                    <token regexp="yes">los?|se</token>
+                    <token regexp="yes">paginas?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">paginas?</token>
+                </pattern>
+                <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'paginar'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(.)a(.*)" regexp_replace="$1á$2"/></suggestion>
+                <example correction="páginas">Copia las <marker>paginas</marker> 3 y 4.</example>
+                <example correction="Página"><marker>Pagina</marker> 34.</example>
+                <example>Este libro lo pagina con el programa de edición.</example>
+                <example>Se pagina al final del diseño.</example>
+            </rule>
+            <rule id="NUMERO" name="numero/número">
+                <antipattern>
+                    <token regexp="yes">me|te|lo|la|le|nos|os|los|las|les</token>
+                    <token>numero</token>
+                </antipattern>
+                <pattern>
+                    <token>numero</token>
+                </pattern>
+                <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'numerar'.</message>
+                <suggestion>número</suggestion>
+                <example correction="número">Tengo un <marker>numero</marker> de lotería.</example>
+                <example correction="número">El <marker>numero</marker> 4.</example>
+                <example>La lista la numero secuencialmente.</example>
+                <example>Os numero por fecha de nacimiento.</example>
+            </rule>
+            <rule id="ULTIMA" name="ultima/útlima">
+                <antipattern>
+                    <token regexp="yes">me|te|lo|le|nos|os|los|las|les|si|cuando|mientras|él|ella</token>
+                    <token>ultima</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">me|te|lo|la|le|nos|os|los|les|si|cuando|mientras|tú</token>
+                    <token>ultimas</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="NP.*" postag_regexp="yes"/>
+                    <token regexp="yes">ultimas?</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\p{Lu}\p{L}+</token>
+                    <token regexp="yes">ultimas?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">ultimas?</token>
+                </pattern>
+                <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'ultimar'.</message>
+                <suggestion><match no="1" regexp_match="(?i)u(ltimas?)" regexp_replace="ú$1"/></suggestion>
+                <example correction="última">Es mi <marker>ultima</marker> oferta.</example>
+                <example correction="últimas">Son las <marker>ultimas</marker> estimaciones.</example>
+                <example>Juan ultima los preparativos.</example>
+                <example>¿Me ultimas este trabajo?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">acido|acida|acidas</token>
+                </pattern>
+                <message>Si es sustantivo o adjetivo, lleva tilde. Correcto si es del v. 'acidar'.</message>
+                <suggestion><match no="1" regexp_match="(?i).(.*)" regexp_replace="á$1"/></suggestion>
+                <example correction="ácido">El <marker>acido</marker>.</example>
+                <example correction="ácidas">Las naranjas son <marker>acidas</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes">haber</token>
+                    <token>placido</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">placid(o|a)s?</token>
+                </pattern>
+                <message>Si es adjetivo, lleva tilde. Correcto si es del v. 'placer'.</message>
+                <suggestion><match no="1" regexp_match="(?i)(.*l)a(.*)" regexp_replace="$1á$2"/></suggestion>
+                <example correction="plácida">Una <marker>placida</marker> estancia.</example>
+                <example>Me ha placido el resultado.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
+            <short>El pronombre personal lleva tilde.</short>
+            <!-- TU_VERBO_P2 tu + verbo en 2a persona-->
+            <rule id="TU_VERBO_P2" name="Tu + verbo en 2a">
+                <pattern>
+                    <marker>
+                        <token>tu</token>
+                    </marker>
+                    <token postag="V.{3}2.*" postag_regexp="yes"><exception negate_pos="yes" postag="V.{3}2.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
+                <example correction="tú">Cuando <marker>tu</marker> vuelves, yo voy.</example>
+                <example>Me alegra tu vuelta al trabajo.</example>
+            </rule>
+            <rule id="TU_C" name="Tu + conjunción">
+                <pattern>
+                    <marker>
+                        <token>tu</token>
+                    </marker>
+                    <token postag="C." postag_regexp="yes"><exception>bien</exception></token>
+                </pattern>
+                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
+                <example correction="tú">Esto queda entre <marker>tu</marker> y yo.</example>
+                <example>Me alegra tu a la sazón victoria.</example>
+            </rule>
+            <rule id="EL_C" name="El + conjunción">
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                    </marker>
+                    <token postag="CC"><exception regexp="yes">bien|tanto</exception></token>
+                </pattern>
+                <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
+                <example correction="él">Esto queda entre <marker>el</marker> y yo.</example>
+                <example>Me gusta el que tienes.</example>
+            </rule>
+            <rule id="EL_TILDE" name="el / él" default="on">
+                <antipattern>
+                    <token>el</token>
+                    <token>/</token>
+                    <token regexp="yes">la|los</token>
+                </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token postag="P[TR].*|CS|Y|PI.*|V.N.*|NCFS000|_QM_OPEN" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV|_QM_OPEN"/>
+                    <!-- _PUNCT_CONT-->
+                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token regexp="yes">cien|ciento|aquí|ahora|de|del|&nombre_fem_el;</token>
+                </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token regexp="yes">por|para</token>
+                    <token regexp="yes">qué|que</token>
+                </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token>más</token>
+                    <token>que</token>
+                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>el<exception postag="_GN_MS|LOC_.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <!-- <token postag="&pronombre_personal_atono_POS;|R.*|LOC_ADV" postag_regexp="yes" min="0" max="5"/>
+                    <token postag="V...3S." postag_regexp="yes"><exception postag="[NA].*" postag_regexp="yes"/></token>-->
+                </pattern>
+                <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
+                <example correction="Él"><marker>El</marker> fue.</example>
+                <example correction="Él"><marker>El</marker> se fue.</example>
+                <example correction="Él"><marker>El</marker> a veces se va.</example>
+                <example correction="Él"><marker>El</marker> no siempre viene.</example>
+                <example correction="él">Cuando <marker>el</marker> llegó, yo me fui.</example>
+                <example correction="él">Se encargará <marker>el</marker>.</example>
+                <example correction="él">Esta caja es para <marker>el</marker>.</example>
+                <example correction="él">Esto queda entre <marker>el</marker> y yo.</example>
+                <example correction="él">Fue <marker>el</marker>, porque después no vino.</example>
+                <example correction="él">en <marker>el</marker> (también deporte ecuestre)</example>
+                <example>Vive en el ahora.</example>
+                <example>Me gusta el que tienes.</example>
+                <example>ni siquiera el anime era lo suficientemente expresivo</example>
+                <example>Quiero saber el porqué.</example>
+                <example>El siempre certero abogado.</example>
+                <example>Quiero saber el cómo, el porqué, el quién y el qué.</example>
+                <example>Sobre el cual me movía.</example>
+                <example>El título de consejero y el de presidente.</example>
+                <example>se retocó en una sesión secreta el acta aprobada</example>
+                <example>el Dr. Juan García</example>
+                <example>el área del norte</example>
+                <example>Y el más largo el Paraná.</example>
+                <example reason="triggers another rule">Y el más larrgo.</example>
+                <example>Por el contrario, el Paraná no.</example>
+                <example>El otro de Inglaterra.</example>
+                <example>Con el correr de los años.</example>
+                <example>El habla culta.</example>
+                <example>La lucha contra el hambre</example>
+                <example>Según el Britannica Book of Year</example>
+                <example>Uno es negro y el otro es blanco.</example>
+                <example>El excavar un túnel.</example>
+                <example>Es el más aplicado de la clase.</example>
+                <example>con el técnicamente más avanzado</example>
+                <example>El del tanque.</example>
+                <example>Inventó el "coloní".</example>
+                <example>El la de diapasón</example>
+                <example>El más allá.</example>
+                <example>Con el más que sorprendido oficinista.</example>
+                <example>¿Qué es el "a veces"?</example>
+                <example>En el mejor de los casos.</example>
+                <example>Nuestro restaurant es el mejor.</example>
+            </rule>
+
+            <!-- TU_PARTICULA_VERBO_P2 tu no te lo pierdas
+     Anulamos si entremedias hay al menos un nombre-->
+            <rule id="TU_PARTICULA_VERBO_P2" name="Tu + partícula + verbo en 2a">
+                <pattern>
+                    <marker>
+                        <token>tu</token>
+                    </marker>
+                    <token postag="[RPC].*|UNKNOWN" postag_regexp="yes" skip="3"><exception postag="A.*|DI0.S0" postag_regexp="yes"/><exception postag="A.*|DI0.S0" postag_regexp="yes" scope="next"/><exception regexp="yes" scope="next">[,;-_—]</exception></token>
+                    <token postag="V.{3}2.*" postag_regexp="yes"><exception regexp="yes" scope="previous">[,;-_—]</exception><exception postag="A.*|DI0.S0" postag_regexp="yes" scope="previous"/><exception negate_pos="yes" postag="V.{3}2.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
+                <example correction="tú">Cuando <marker>tu</marker> no vuelves, yo voy.</example>
+                <example>Me alegra tu feliz vuelta al trabajo.</example>
+            </rule>
+
+            <!-- TU_FINAL Tu al final de la oración. Siempre será nominativo.-->
+            <rule id="TU_FINAL" name="Pronombre tú al final de la oración.">
+                <pattern>
+                    <marker>
+                        <token>tu</token>
+                    </marker>
+                    <token postag="SENT_END" regexp="yes">[.?!;]</token>
+                </pattern>
+                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
+                <example correction="tú">Tu hermana es como <marker>tu</marker>.</example>
+                <example>¿Te puedes ocupar tú?</example>
+            </rule>
+            <!-- MI_FINAL mi al final de la oración simepre es pronombre personal. -->
+            <rule id="MI_TILDE" name="mi/mí">
+                <antipattern>
+                    <token>mi</token>
+                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
+                    <token postag="A.*|V.P.*|N.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <marker>
+                        <token>mi</token>
+                    </marker>
+                    <token><exception postag="N.*|A.*|V.P.*|UNKNOWN" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si es pronombre, se escribe con tilde.</message>
+                <suggestion>mí</suggestion>
+                <example correction="mí">A <marker>mi</marker> me gusta.</example>
+                <example correction="mí">Confía en <marker>mi</marker>.</example>
+                <example correction="mí">Ella estaba cerca de <marker>mi</marker>.</example>
+                <example correction="mí">Se rio a pesar de <marker>mi</marker>.</example>
+                <example correction="mí">En lo que a <marker>mi</marker> respecta.</example>
+                <example>Me voy a mi casa.</example>
+                <example>Mi gran amigo Pedro.</example>
+                <example>a mi mejor amiga</example>
+                <example>Lo utilizó en mi contra.</example>
+                <example>de mi aburrido trabajo</example>
+                <example>de mi Firefox.</example>
+                <example>en mi apretado horario</example>
+                <example>A pesar de mi poco conocimiento</example>
+                <example>el abrazo de mi nietito</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ESTA_TILDE" name="*esta/está">
+            <antipattern>
+                <token postag="SPS00"/>
+                <token>esta</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.[SIGN].*|V.P..SF" postag_regexp="yes"/>
+                <token>esta</token>
+            </antipattern>
+            <rule>
+                <!-- está + participio-->
+                <pattern>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token min="0" postag="RG"/>
+                    <token postag="V.P..S[FM]" postag_regexp="yes"><exception postag="NCFS000"/></token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
+                <example correction="Está"><marker>Esta</marker> cansado.</example>
+                <example correction="Está"><marker>Esta</marker> muy cansado.</example>
+                <example correction="Está"><marker>Esta</marker> agotado.</example>
+                <example>Esta revista es antigua.</example>
+                <example>Esta comida es buena.</example>
+                <example>Al ser esta superada.</example>
+                <example>Siendo esta formada por varios miembros</example>
+                <example>cuando sea esta formada por varios miembros</example>
+                <!-- <example>Al verse esta superada.</example> better disambiguation needed-->
+            </rule>
+            <rule>
+                <!--está + gerundio-->
+                <pattern>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token min="0" postag="RG"/>
+                    <token postag="V.G.*" postag_regexp="yes"><exception postag="NCFS000"/></token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
+                <example correction="Está"><marker>Esta</marker> cantando.</example>
+                <example correction="Está"><marker>Esta</marker> siempre corriendo.</example>
+                <example correction="Está"><marker>Esta</marker> esperando.</example>
+            </rule>
+            <rule>
+                <!--está + preposición, adverbio-->
+                <antipattern>
+                    <token>en</token>
+                    <token>realidad</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token regexp="yes">bien|mal|en|con|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno</token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
+                <example correction="está">El niño <marker>esta</marker> en la guardería.</example>
+                <example correction="Está"><marker>Esta</marker> en la guardería.</example>
+                <example correction="Está"><marker>Esta</marker> en aquella.</example>
+                <example correction="está">Lo que <marker>esta</marker> aquí.</example>
+                <example>Sustituye a esta en la jerarquía.</example>
+                <example>aunque esta en realidad no lo sea</example>
+                <example>Tras esta en 1954</example>
+                <example>Ante esta en mayo</example>
+                <example>Finalizada esta en 1445</example>
+                <example>Se une con esta en sus puntos extremos</example>
+                <example>Al contraponer esta con aquella.</example>
+                <example>Se divide esta entre la suma de los pesos.</example>
+                <!--<example>para evitar que esta entre.</example> difficult-->
+                <example>siendo esta uno de los mejores ejemplos</example>
+                <example>es esta una de las mejores</example>
+                <example>por ser esta la casa matriz</example>
+            </rule>
+            <rule>
+                <!-- está + adjetivo-->
+                <antipattern>
+                    <token>esta</token>
+                    <token postag="A...S.|V.P..SF" postag_regexp="yes"/>
+                    <token postag="NCFS000"/>
+                </antipattern>
+                <antipattern>
+                    <token>esta</token>
+                    <token max="3" min="1" postag="A..[FC][SN].|V.P..SF|NCFS.*|CC" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>esta</token>
+                    </marker>
+                    <token min="0" postag="RG"/>
+                    <token postag="A...S." postag_regexp="yes"><exception postag="NCFS000|AO0FS0" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
+                <example correction="Está"><marker>Esta</marker> disponible.</example>
+                <example correction="Está"><marker>Esta</marker> muy bonito.</example>
+                <example correction="Está"><marker>Esta</marker> preciosa.</example>
+                <example correction="está">Tu cuenta <marker>esta</marker> vacía.</example>
+                <example>Esta preciosa y antigua casa</example>
+                <!-- "y" needs disambiguation -->
+                <example>Esta preciosa casa es muy antiga.</example>
+                <example>En esta tercera ocasión.</example>
+                <example>Esta tercera decisión fue la definitiva.</example>
+                <example>Esta última es la mejor</example>
+                <example>Esta es preciosa.</example>
+                <example>Esta música era interpretada por la banda.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ESTAS_TILDE" name="estas/estás">
+            <antipattern>
+                <token>estas</token>
+                <token min="1" max="4" postag="R.|A.*|V.P.*|PP.*" postag_regexp="yes"/>
+                <token postag="V.[MSI].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SPS00"/>
+                <token>estas</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>estas</token>
+                    </marker>
+                    <token postag="RG|A.*|V.P.*" postag_regexp="yes"><exception postag="A..[FC][PN].*|V.P..PF" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si es del verbo 'estar', lleva tilde.</message>
+                <suggestion>estás</suggestion>
+                <example correction="Estás">¿<marker>Estas</marker> bien?</example>
+                <example correction="estás">Ahora <marker>estas</marker> cansado.</example>
+                <example>Alguien desordena estas rosas.</example>
+                <example>Estas características añadidas son:</example>
+                <example>Estas ahora no están.</example>
+                <example>Estas troncales son.</example>
+                <example>La acción de estas característica.</example>
+                <example>Estas siempre lo hacen.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>estas</token>
+                    <token postag=".+[FC][PN].+|V.P..[PN][FC]" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token>cómo<exception scope="previous" postag="SPS00"/></token>
+                    <marker>
+                        <token>estas</token>
+                    </marker>
+                </pattern>
+                <message>Si es del verbo 'estar', lleva tilde.</message>
+                <suggestion>estás</suggestion>
+                <example correction="estás">¿Cómo <marker>estas</marker>?</example>
+                <example>¿Como estas?</example>
+                <example>de cómo estas células se regulan</example>
+            </rule>
+            <rule default="on">
+                <antipattern>
+                    <token>como</token>
+                    <token>estas</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>estas</token>
+                    </marker>
+                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del verbo 'estar', lleva tilde.</message>
+                <suggestion>estás</suggestion>
+                <example correction="Estás">¿<marker>Estas</marker> haciéndolo?</example>
+                <example>Ejemplos de estas cantando.</example>
+                <example>Algunas como estas corriendo.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ESTE_TILDE" name="*este/esté" default="on">
+            <antipattern>
+                <token postag="SPS00"/>
+                <token>este</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.[MSI].*" postag_regexp="yes"/>
+                <token min="0" postag="V.P..SM" postag_regexp="yes"/>
+                <token>este</token>
+            </antipattern>
+            <antipattern>
+                <token>este</token>
+                <token min="0" max="3" postag="N.*|A.*" postag_regexp="yes"/>
+                <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="V.[MSI].*|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
+            </antipattern>
+            <rule>
+                <!-- esté + participio-->
+                <pattern>
+                    <token postag="PR.*" postag_regexp="yes" skip="4"/>
+                    <marker>
+                        <token>este</token>
+                    </marker>
+                    <token min="0" postag="RG"/>
+                    <token postag="V.P..S[FM]" postag_regexp="yes"><exception postag="NCMS000"/></token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
+                <example correction="esté">Que <marker>este</marker> cansado.</example>
+                <example correction="esté">Cuando <marker>este</marker> muy cansado.</example>
+                <example correction="esté">Cuando <marker>este</marker> agotado.</example>
+                <example>Este diario es antiguo.</example>
+            </rule>
+            <rule>
+                <!--esté + gerundio-->
+                <pattern>
+                    <token postag="PR.*" postag_regexp="yes" skip="6"/>
+                    <marker>
+                        <token>este</token>
+                    </marker>
+                    <token min="0" postag="RG"/>
+                    <token postag="V.G.*" postag_regexp="yes"><exception postag="NCFS000"/></token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
+                <example correction="esté">cuando <marker>este</marker> cantando.</example>
+                <example correction="esté">En donde se <marker>este</marker> realizando el contrato</example>
+            </rule>
+            <rule>
+                <!--se esté -->
+                <pattern>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <marker>
+                        <token>este</token>
+                    </marker>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
+                <example correction="esté">Donde se <marker>este</marker>.</example>
+            </rule>
+            <rule>
+                <!--esté + preposición, adverbio-->
+                <antipattern>
+                    <token>en</token>
+                    <token>realidad</token>
+                </antipattern>
+                <pattern>
+                    <token postag="PR.*" postag_regexp="yes" skip="3"><exception scope="next" postag="CC|_PUNT.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>este</token>
+                    </marker>
+                    <token regexp="yes">cerca|lejos|bien|mal|en|con|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno</token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
+                <example correction="esté">Cuando el niño <marker>este</marker> en la guardería.</example>
+                <example correction="esté">Que <marker>este</marker> en la guardería.</example>
+                <example correction="esté">Que <marker>este</marker> cerca de la guardería.</example>
+                <example>Señalando que este mal sería contrario</example>
+                <example>lo que querían, y este lo buscaba</example>
+            </rule>
+            <rule>
+                <!-- esté + adjetivo-->
+                <antipattern>
+                    <token>este</token>
+                    <token postag="A...S.|V.P..SM" postag_regexp="yes"/>
+                    <token postag="NCMS000"/>
+                </antipattern>
+                <antipattern>
+                    <token>este</token>
+                    <token max="3" min="1" postag="A..[MC][SN].|V.P..SM|NCMS.*|CC" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="PR.*" postag_regexp="yes" skip="3"/>
+                    <marker>
+                        <token>este</token>
+                    </marker>
+                    <token min="0" postag="RG"/>
+                    <token postag="A...S." postag_regexp="yes"><exception postag="NCMS000|AO0MS0" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
+                <example correction="esté">Cuando <marker>este</marker> disponible.</example>
+                <example correction="esté">Que <marker>este</marker> muy bonito.</example>
+                <example correction="esté">que <marker>este</marker> preciosa.</example>
+                <example correction="esté">Cuando tu cuenta <marker>este</marker> vacía.</example>
+                <example>se cree que este mismo papa estuvo interesado</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VERBO_TILDE" name="Verbos con o sin tilde">
+            <short>El verbo lleva tilde.</short>
+            <rule id="DE_FINAL" name="Verbo dé sin tilde al final de la oración">
+                <pattern>
+                    <marker>
+                        <token>de</token>
+                    </marker>
+                    <token postag="SENT_END" regexp="yes">[.?!]</token>
+                </pattern>
+                <message>El verbo <suggestion>dé</suggestion> (forma del verbo dar) lleva tilde.</message>
+                <example correction="dé">No es justo que sólo yo <marker>de</marker>.</example>
+                <example>No es justo que sólo yo dé.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SUSTANTIVO_TILDE" name="Verbos con o sin tilde">
+            <short>El sustantivo lleva tilde.</short>
+            <rule id="TE_N" name="té sustantivo">
+                <pattern>
+                    <marker>
+                        <token>te</token>
+                    </marker>
+                    <token regexp="yes">de|verde|perla|negro</token>
+                </pattern>
+                <message>El sustantivo <suggestion>té</suggestion> (bebida) lleva tilde.</message>
+                <short>El sustantivo «té» lleva tilde.</short>
+                <example correction="té">El <marker>te</marker> verde japonés es muy sabroso.</example>
+                <example>El té verde japonés es muy sabroso.</example>
+            </rule>
+            <rule id="TE_FINAL" name="Sustantivo té sin tilde al final de la oración">
+                <pattern>
+                    <marker>
+                        <token>te</token>
+                    </marker>
+                    <token postag="SENT_END" regexp="yes">[.?!]</token>
+                </pattern>
+                <message>El sustantivo <suggestion>té</suggestion> (bebida) lleva tilde.</message>
+                <example correction="té">Ella bebía <marker>te</marker>.</example>
+                <example>Ella bebía té.</example>
+            </rule>
+        </rulegroup>
+        <rule id="SE_SABER_SER" name="Se delante de ciertas palabas" type="misspelling" default="off">
+            <antipattern>
+                <token>se</token>
+                <token postag="(PP...0|V.[^NP]).+" postag_regexp="yes"/>
+            </antipattern>
+            <pattern>
+                <marker>
+                    <token>se</token>
+                </marker>
+                <token postag="(P....[^AD]|[DRS]|V.[NP]).+" postag_regexp="yes"><exception postag="SENT_END"/><exception>hacia</exception></token>
+            </pattern>
+            <message>Si es del verbo "saber", lleva tilde.</message>
+            <suggestion>sé</suggestion>
+            <example correction="sé">Qué <marker>se</marker> yo.</example>
+            <example correction="sé">Pero <marker>se</marker> quién fue.</example>
+            <example>Ella se fue.</example>
+            <example>Ella se lo dijo.</example>
+            <example>A las decisiones se las llama también posicionales.</example>
+            <example>Que a los menos importantes se los nombre primero.</example>
+            <example>Está mal que no se lo perdones.</example>
+            <example>Dime si se lo vas a dar o no.</example>
+        </rule>
+        <rule id="SE_HACIA" name="Se + hacia / hacía" type="misspelling">
+            <antipattern>
+                <token>lo</token>
+                <token>hacia</token>
+                <token regexp="yes">arriba|abajo|adentro|afuera</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">[stm]e|l[aeo]s?|nos|os</token>
+                <marker>
+                    <token>hacia</token>
+                </marker>
+            </pattern>
+            <message>Si es del verbo "hacer", lleva tilde.</message>
+            <suggestion>hacía</suggestion>
+            <example correction="hacía">Eso se <marker>hacia</marker> mal.</example>
+            <example correction="hacía">Eso le <marker>hacia</marker> mal.</example>
+            <example correction="hacía">Esa bota la <marker>hacia</marker> otra compañía.</example>
+            <example>Depende de lo hacia abajo que apuntes.</example>
+        </rule>
+        <rule id="MAS" name="mas/más">
+            <pattern>
+                <token>mas</token>
+            </pattern>
+            <message>Si no es conjunción (= pero, sino), lleva tilde.</message>
+            <suggestion>más</suggestion>
+            <example correction="más">No hay <marker>mas</marker>.</example>
+            <!-- archaic or formal <example>Me gusta, mas no lo quiero</example>-->
+        </rule>
+        <rulegroup id="AUN" name="aún/anun">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token>así</token>
+                </pattern>
+                <message>Solo se acentúan cuando equivale a "todavía".</message>
+                <suggestion>aun</suggestion>
+                <url>http://www.fundeu.es/recomendacion/aun-asi-y-aun-asi-no-son-lo-mismo-1130/</url>
+                <example correction="Aun"><marker>Aún</marker> así, lo consiguieron.</example>
+                <!--<example>Siguen aún así.</example>-->
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">más|menos|mejor|peor</token>
+                    <token min="0" postag="A.*|RG" postag_regexp="yes"/>
+                    <token>aún</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">más|menos|mejor|peor</token>
+                    <token regexp="yes">.+mente</token>
+                    <!-- falta añadir adverbios acabaods en -mente en el tagger-->
+                    <token>aún</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                    <token regexp="yes">si|cuando</token>
+                </pattern>
+                <message>Solo se acentúan cuando equivale a "todavía".</message>
+                <suggestion>aun</suggestion>
+                <example correction="Aun"><marker>Aún</marker> si estas no tienen efecto.</example>
+                <example>Mejor aún si es así.</example>
+                <example>Más aún si es así.</example>
+                <example>Decae más rápidamente aún si nos salimos del disco.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>ni</token>
+                    <marker>
+                        <token>aún</token>
+                    </marker>
+                </pattern>
+                <message>Solo se acentúan cuando equivale a "todavía".</message>
+                <suggestion>aun</suggestion>
+                <example correction="aun">ni <marker>aún</marker> la mitad</example>
+            </rule>
+            <!-- AUN > AÚN -->
+            <rule>
+                <pattern>
+                    <token regexp="yes">más|menos|mejor|peor</token>
+                    <marker>
+                        <token>aun</token>
+                    </marker>
+                </pattern>
+                <message>Se acentúan si equivale a "todavía".</message>
+                <suggestion>aún</suggestion>
+                <example correction="aún">Más <marker>aun</marker> si estas no tienen efecto.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>aun</token>
+                    </marker>
+                    <token>no</token>
+                    <token><exception postag="V.G.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Se acentúan si equivale a "todavía".</message>
+                <suggestion>aún</suggestion>
+                <example correction="Aún"><marker>Aun</marker> no está claro.</example>
+                <example>Aun no siendo así, es fantástico.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>aun</token>
+                    </marker>
+                    <token regexp="yes">más|menos|mejor|peor</token>
+                    <token><exception postag="V.G.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Se acentúan si equivale a "todavía".</message>
+                <suggestion>aún</suggestion>
+                <example correction="aún">Es <marker>aun</marker> más grande de lo que pensaba.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>aun</token>
+                    </marker>
+                    <token min="0" postag="PP.*" postag_regexp="yes"/>
+                    <token postag="V.I.*" postag_regexp="yes"><exception postag="RG|N.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Se acentúan si equivale a "todavía".</message>
+                <suggestion>aún</suggestion>
+                <example correction="Aún"><marker>Aun</marker> pensaba que sí.</example>
+                <example correction="Aún"><marker>Aun</marker> se desconoce.</example>
+                <example>Aun enfermo, fue a la escuela.</example>
+                <example>Aun así, me lo pasé bien.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="RG|N.*" postag_regexp="yes"/></token>
+                    <marker>
+                        <token>aun</token>
+                    </marker>
+                    <token><exception>si</exception></token>
+                </pattern>
+                <message>Se acentúan si equivale a "todavía".</message>
+                <suggestion>aún</suggestion>
+                <example correction="aún">Pensaba <marker>aun</marker> lo mismo.</example>
+                <example>No me importaría aun si ella no viene.</example>
+            </rule>
+            <rule id="CUAL_SIN_ACENTO" name="el *cuál/el cual">
+                <pattern>
+                    <token postag="DA.*|SP.DA" postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">cuál|cuáles</token>
+                    </marker>
+                </pattern>
+                <message>No se acentúa.</message>
+                <suggestion><match no="2" regexp_match="cuál(.*)" regexp_replace="cual$1"/></suggestion>
+                <example correction="cual">El país del <marker>cuál</marker> vengo.</example>
+                <example correction="cuales">Documentos a los <marker>cuáles</marker> ha tenido acceso.</example>
+                <example correction="cual">Lo <marker>cuál</marker> es muy importante.</example>
+                <example>¿Cuál es la respuesta correcta?</example>
             </rule>
         </rulegroup>
     </category>
@@ -1373,9 +2139,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="huso">En el <marker>uso</marker> horario de las Canarias.</example>
             <example correction="husos">En otros <marker>usos</marker> horarios.</example>
         </rule>
-        <!--AE_COMIDO Tiempos compuestos por «a» o «e» + participio-->
         <rulegroup id="AE_COMIDO" name="Tiempos compuestos 'a' o 'e' + participio">
-            <!--A_PARTICIPIO a comido-->
             <rule id="A_PARTICIPIO" name="a + participio">
                 <pattern>
                     <token><exception inflected="yes" regexp="yes">meter|ol[oe]r|sab[oe]r|gust(o|ar)|arom.+|pest.+</exception></token>
@@ -1389,7 +2153,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ha">El atleta <marker>a</marker> corrido de forma espectacular.</example>
                 <example>Este bacalao huele <marker>a</marker> pescado fresco.</example>
             </rule>
-            <!--E_PARTICIPIO e comido-->
             <rule id="E_PARTICIPIO" name="e+ participio">
                 <pattern>
                     <marker>
@@ -1402,9 +2165,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="he">Siempre <marker>e</marker> comido bien.</example>
                 <example>Nos llevamos como anfitrión <marker>e</marker> invitado.</example>
             </rule>
-            <!--PRON_E_PARTICIPIO me e comido-->
             <rule id="PRON_E_PARTICIPIO" name="pronombre + e + participio">
-                <!--Con pronombre al principio, «e» es siempre incorrecto antes de participio.-->
                 <pattern>
                     <token postag="PP.*" postag_regexp="yes"/>
                     <marker>
@@ -1432,7 +2193,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Lo ha claramente dicho.</example>
             <example>Ha de regarse sin falta.</example>
         </rule>
-        <!--AH_INF  ah acabar-->
         <rule id="AH_INF" name="ah + infinitivo (a)">
             <pattern case_sensitive="no">
                 <token>ah</token>
@@ -1442,9 +2202,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>La preposición «a» se escribe sin «h»</short>
             <example correction="a hablar">Voy <marker>ah hablar</marker> con ella.</example>
         </rule>
-        <!-- HAZ_HAS Confusiones con el verbo hacer, ser y el sustantivo haz -->
         <rulegroup id="HAZ_HAS" name="Hacer/ser, haz">
-            <!-- HAZ_PARTICIPIO Antes de un participio «Has» se escribe con «S». -->
             <rule id="HAZ_PARTICIPIO">
                 <antipattern>
                     <token postag="D.*" postag_regexp="yes"/>
@@ -1462,7 +2220,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El haz dividido se proyecta en varios sitios.</example>
             </rule>
         </rulegroup>
-        <!--VOY_HA_INF ir + ha + INF-->
         <rule id="VOY_HA_INF" name="ir ha + infinitivo (a)">
             <pattern>
                 <token inflected="yes">ir</token>
@@ -1473,7 +2230,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>La preposición «a» se escribe sin «h»</short>
             <example correction="Voy a hablar"><marker>Voy ha hablar</marker> con ella.</example>
         </rule>
-        <!--VOY_INF ir + infinitivo (a)-->
         <rule id="VOY_INF" name="ir + infinitivo (a)">
             <pattern>
                 <token inflected="yes">ir<exception inflected="yes" regexp="yes">ver|ser</exception></token>
@@ -1494,783 +2250,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="hecho">Parece <marker>echo</marker> de madera.</example>
             <example correction="hecho">Está <marker>echo</marker> de madera.</example>
             <example correction="hecha">Esta <marker>echa</marker> de madera.</example>
-        </rule>
-        <!-- PRONOM_TILDE Pronombres personales con o sin tilde -->
-        <!-- Pronombres personales cuyo tilde se olvida o se pone impropiamente.
- Atención: estas reglas pueden generar muchos falsos positivos.-->
-        <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
-            <short>El pronombre personal lleva tilde.</short>
-            <!-- TU_VERBO_P2 tu + verbo en 2a persona-->
-            <rule id="TU_VERBO_P2" name="Tu + verbo en 2a">
-                <pattern>
-                    <marker>
-                        <token>tu</token>
-                    </marker>
-                    <token postag="V.{3}2.*" postag_regexp="yes"><exception negate_pos="yes" postag="V.{3}2.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
-                <example correction="tú">Cuando <marker>tu</marker> vuelves, yo voy.</example>
-                <example>Me alegra tu vuelta al trabajo.</example>
-            </rule>
-            <rule id="TU_C" name="Tu + conjunción">
-                <pattern>
-                    <marker>
-                        <token>tu</token>
-                    </marker>
-                    <token postag="C." postag_regexp="yes"><exception>bien</exception></token>
-                </pattern>
-                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
-                <example correction="tú">Esto queda entre <marker>tu</marker> y yo.</example>
-                <example>Me alegra tu a la sazón victoria.</example>
-            </rule>
-            <rule id="EL_C" name="El + conjunción">
-                <pattern>
-                    <marker>
-                        <token>el</token>
-                    </marker>
-                    <token postag="CC"><exception regexp="yes">bien|tanto</exception></token>
-                </pattern>
-                <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
-                <example correction="él">Esto queda entre <marker>el</marker> y yo.</example>
-                <example>Me gusta el que tienes.</example>
-            </rule>
-            <rule id="EL_TILDE" name="el / él" default="on">
-                <antipattern>
-                    <token>el</token>
-                    <token>/</token>
-                    <token regexp="yes">la|los</token>
-                </antipattern>
-                <antipattern>
-                    <token>el</token>
-                    <token postag="P[TR].*|CS|Y|PI.*|V.N.*|NCFS000|_QM_OPEN" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token>el</token>
-                    <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV|_QM_OPEN"/>
-                    <!-- _PUNCT_CONT-->
-                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
-                </antipattern>
-                <antipattern>
-                    <token>el</token>
-                    <token regexp="yes">cien|ciento|aquí|ahora|de|del|&nombre_fem_el;</token>
-                </antipattern>
-                <antipattern>
-                    <token>el</token>
-                    <token regexp="yes">por|para</token>
-                    <token regexp="yes">qué|que</token>
-                </antipattern>
-                <antipattern>
-                    <token>el</token>
-                    <token>más</token>
-                    <token>que</token>
-                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token>el<exception postag="_GN_MS|LOC_.*" postag_regexp="yes"/></token>
-                    </marker>
-                    <!-- <token postag="&pronombre_personal_atono_POS;|R.*|LOC_ADV" postag_regexp="yes" min="0" max="5"/>
-                    <token postag="V...3S." postag_regexp="yes"><exception postag="[NA].*" postag_regexp="yes"/></token>-->
-                </pattern>
-                <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
-                <example correction="Él"><marker>El</marker> fue.</example>
-                <example correction="Él"><marker>El</marker> se fue.</example>
-                <example correction="Él"><marker>El</marker> a veces se va.</example>
-                <example correction="Él"><marker>El</marker> no siempre viene.</example>
-                <example correction="él">Cuando <marker>el</marker> llegó, yo me fui.</example>
-                <example correction="él">Se encargará <marker>el</marker>.</example>
-                <example correction="él">Esta caja es para <marker>el</marker>.</example>
-                <example correction="él">Esto queda entre <marker>el</marker> y yo.</example>
-                <example correction="él">Fue <marker>el</marker>, porque después no vino.</example>
-                <example correction="él">en <marker>el</marker> (también deporte ecuestre)</example>
-                <example>Vive en el ahora.</example>
-                <example>Me gusta el que tienes.</example>
-                <example>ni siquiera el anime era lo suficientemente expresivo</example>
-                <example>Quiero saber el porqué.</example>
-                <example>El siempre certero abogado.</example>
-                <example>Quiero saber el cómo, el porqué, el quién y el qué.</example>
-                <example>Sobre el cual me movía.</example>
-                <example>El título de consejero y el de presidente.</example>
-                <example>se retocó en una sesión secreta el acta aprobada</example>
-                <example>el Dr. Juan García</example>
-                <example>el área del norte</example>
-                <example>Y el más largo el Paraná.</example>
-                <example reason="triggers another rule">Y el más larrgo.</example>
-                <example>Por el contrario, el Paraná no.</example>
-                <example>El otro de Inglaterra.</example>
-                <example>Con el correr de los años.</example>
-                <example>El habla culta.</example>
-                <example>La lucha contra el hambre</example>
-                <example>Según el Britannica Book of Year</example>
-                <example>Uno es negro y el otro es blanco.</example>
-                <example>El excavar un túnel.</example>
-                <example>Es el más aplicado de la clase.</example>
-                <example>con el técnicamente más avanzado</example>
-                <example>El del tanque.</example>
-                <example>Inventó el "coloní".</example>
-                <example>El la de diapasón</example>
-                <example>El más allá.</example>
-                <example>Con el más que sorprendido oficinista.</example>
-                <example>¿Qué es el "a veces"?</example>
-                <example>En el mejor de los casos.</example>
-                <example>Nuestro restaurant es el mejor.</example>
-            </rule>
-
-            <!-- TU_PARTICULA_VERBO_P2 tu no te lo pierdas
-     Anulamos si entremedias hay al menos un nombre-->
-            <rule id="TU_PARTICULA_VERBO_P2" name="Tu + partícula + verbo en 2a">
-                <pattern>
-                    <marker>
-                        <token>tu</token>
-                    </marker>
-                    <token postag="[RPC].*|UNKNOWN" postag_regexp="yes" skip="3"><exception postag="A.*|DI0.S0" postag_regexp="yes"/><exception postag="A.*|DI0.S0" postag_regexp="yes" scope="next"/><exception regexp="yes" scope="next">[,;-_—]</exception></token>
-                    <token postag="V.{3}2.*" postag_regexp="yes"><exception regexp="yes" scope="previous">[,;-_—]</exception><exception postag="A.*|DI0.S0" postag_regexp="yes" scope="previous"/><exception negate_pos="yes" postag="V.{3}2.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
-                <example correction="tú">Cuando <marker>tu</marker> no vuelves, yo voy.</example>
-                <example>Me alegra tu feliz vuelta al trabajo.</example>
-            </rule>
-
-            <!-- TU_FINAL Tu al final de la oración. Siempre será nominativo.-->
-            <rule id="TU_FINAL" name="Pronombre tú al final de la oración.">
-                <pattern>
-                    <marker>
-                        <token>tu</token>
-                    </marker>
-                    <token postag="SENT_END" regexp="yes">[.?!;]</token>
-                </pattern>
-                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
-                <example correction="tú">Tu hermana es como <marker>tu</marker>.</example>
-                <example>¿Te puedes ocupar tú?</example>
-            </rule>
-            <!-- MI_FINAL mi al final de la oración simepre es pronombre personal. -->
-            <rule id="MI_TILDE" name="mi/mí">
-                <antipattern>
-                    <token>mi</token>
-                    <token postag="RG|LOC_ADV" postag_regexp="yes" min="0" max="4"/>
-                    <token postag="A.*|V.P.*|N.*" postag_regexp="yes"/>
-                </antipattern>
-                <pattern>
-                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
-                    <marker>
-                        <token>mi</token>
-                    </marker>
-                    <token><exception postag="N.*|A.*|V.P.*|UNKNOWN" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Si es pronombre, se escribe con tilde.</message>
-                <suggestion>mí</suggestion>
-                <example correction="mí">A <marker>mi</marker> me gusta.</example>
-                <example correction="mí">Confía en <marker>mi</marker>.</example>
-                <example correction="mí">Ella estaba cerca de <marker>mi</marker>.</example>
-                <example correction="mí">Se rio a pesar de <marker>mi</marker>.</example>
-                <example correction="mí">En lo que a <marker>mi</marker> respecta.</example>
-                <example>Me voy a mi casa.</example>
-                <example>Mi gran amigo Pedro.</example>
-                <example>a mi mejor amiga</example>
-                <example>Lo utilizó en mi contra.</example>
-                <example>de mi aburrido trabajo</example>
-                <example>de mi Firefox.</example>
-                <example>en mi apretado horario</example>
-                <example>A pesar de mi poco conocimiento</example>
-                <example>el abrazo de mi nietito</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="ESTA_TILDE" name="*esta/está">
-            <antipattern>
-                <token postag="SPS00"/>
-                <token>esta</token>
-            </antipattern>
-            <antipattern>
-                <token postag="V.[SIGN].*|V.P..SF" postag_regexp="yes"/>
-                <token>esta</token>
-            </antipattern>
-            <rule>
-                <!-- está + participio-->
-                <pattern>
-                    <marker>
-                        <token>esta</token>
-                    </marker>
-                    <token min="0" postag="RG"/>
-                    <token postag="V.P..S[FM]" postag_regexp="yes"><exception postag="NCFS000"/></token>
-                </pattern>
-                <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
-                <example correction="Está"><marker>Esta</marker> cansado.</example>
-                <example correction="Está"><marker>Esta</marker> muy cansado.</example>
-                <example correction="Está"><marker>Esta</marker> agotado.</example>
-                <example>Esta revista es antigua.</example>
-                <example>Esta comida es buena.</example>
-                <example>Al ser esta superada.</example>
-                <example>Siendo esta formada por varios miembros</example>
-                <example>cuando sea esta formada por varios miembros</example>
-                <!-- <example>Al verse esta superada.</example> better disambiguation needed-->
-            </rule>
-            <rule>
-                <!--está + gerundio-->
-                <pattern>
-                    <marker>
-                        <token>esta</token>
-                    </marker>
-                    <token min="0" postag="RG"/>
-                    <token postag="V.G.*" postag_regexp="yes"><exception postag="NCFS000"/></token>
-                </pattern>
-                <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
-                <example correction="Está"><marker>Esta</marker> cantando.</example>
-                <example correction="Está"><marker>Esta</marker> siempre corriendo.</example>
-                <example correction="Está"><marker>Esta</marker> esperando.</example>
-            </rule>
-            <rule>
-                <!--está + preposición, adverbio-->
-                <antipattern>
-                    <token>en</token>
-                    <token>realidad</token>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token>esta</token>
-                    </marker>
-                    <token regexp="yes">bien|mal|en|con|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno</token>
-                </pattern>
-                <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
-                <example correction="está">El niño <marker>esta</marker> en la guardería.</example>
-                <example correction="Está"><marker>Esta</marker> en la guardería.</example>
-                <example correction="Está"><marker>Esta</marker> en aquella.</example>
-                <example correction="está">Lo que <marker>esta</marker> aquí.</example>
-                <example>Sustituye a esta en la jerarquía.</example>
-                <example>aunque esta en realidad no lo sea</example>
-                <example>Tras esta en 1954</example>
-                <example>Ante esta en mayo</example>
-                <example>Finalizada esta en 1445</example>
-                <example>Se une con esta en sus puntos extremos</example>
-                <example>Al contraponer esta con aquella.</example>
-                <example>Se divide esta entre la suma de los pesos.</example>
-                <!--<example>para evitar que esta entre.</example> difficult-->
-                <example>siendo esta uno de los mejores ejemplos</example>
-                <example>es esta una de las mejores</example>
-                <example>por ser esta la casa matriz</example>
-            </rule>
-            <rule>
-                <!-- está + adjetivo-->
-                <antipattern>
-                    <token>esta</token>
-                    <token postag="A...S.|V.P..SF" postag_regexp="yes"/>
-                    <token postag="NCFS000"/>
-                </antipattern>
-                <antipattern>
-                    <token>esta</token>
-                    <token max="3" min="1" postag="A..[FC][SN].|V.P..SF|NCFS.*|CC" postag_regexp="yes"/>
-                    <token postag="V.[SI].*" postag_regexp="yes"/>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token>esta</token>
-                    </marker>
-                    <token min="0" postag="RG"/>
-                    <token postag="A...S." postag_regexp="yes"><exception postag="NCFS000|AO0FS0" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Si es del verbo estar, se escribe <suggestion>está</suggestion>.</message>
-                <example correction="Está"><marker>Esta</marker> disponible.</example>
-                <example correction="Está"><marker>Esta</marker> muy bonito.</example>
-                <example correction="Está"><marker>Esta</marker> preciosa.</example>
-                <example correction="está">Tu cuenta <marker>esta</marker> vacía.</example>
-                <example>Esta preciosa y antigua casa</example>
-                <!-- "y" needs disambiguation -->
-                <example>Esta preciosa casa es muy antiga.</example>
-                <example>En esta tercera ocasión.</example>
-                <example>Esta tercera decisión fue la definitiva.</example>
-                <example>Esta última es la mejor</example>
-                <example>Esta es preciosa.</example>
-                <example>Esta música era interpretada por la banda.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="ESTAS_TILDE" name="estas/estás">
-            <antipattern>
-                <token>estas</token>
-                <token min="1" max="4" postag="R.|A.*|V.P.*|PP.*" postag_regexp="yes"/>
-                <token postag="V.[MSI].*" postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token postag="SPS00"/>
-                <token>estas</token>
-            </antipattern>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>estas</token>
-                    </marker>
-                    <token postag="RG|A.*|V.P.*" postag_regexp="yes"><exception postag="A..[FC][PN].*|V.P..PF" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Si es del verbo 'estar', lleva tilde.</message>
-                <suggestion>estás</suggestion>
-                <example correction="Estás">¿<marker>Estas</marker> bien?</example>
-                <example correction="estás">Ahora <marker>estas</marker> cansado.</example>
-                <example>Alguien desordena estas rosas.</example>
-                <example>Estas características añadidas son:</example>
-                <example>Estas ahora no están.</example>
-                <example>Estas troncales son.</example>
-                <example>La acción de estas característica.</example>
-                <example>Estas siempre lo hacen.</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <token>estas</token>
-                    <token postag=".+[FC][PN].+|V.P..[PN][FC]" postag_regexp="yes"/>
-                </antipattern>
-                <pattern>
-                    <token>cómo<exception scope="previous" postag="SPS00"/></token>
-                    <marker>
-                        <token>estas</token>
-                    </marker>
-                </pattern>
-                <message>Si es del verbo 'estar', lleva tilde.</message>
-                <suggestion>estás</suggestion>
-                <example correction="estás">¿Cómo <marker>estas</marker>?</example>
-                <example>¿Como estas?</example>
-                <example>de cómo estas células se regulan</example>
-            </rule>
-            <rule default="on">
-                <antipattern>
-                    <token>como</token>
-                    <token>estas</token>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token>estas</token>
-                    </marker>
-                    <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                    <token postag="V.G.*" postag_regexp="yes"/>
-                </pattern>
-                <message>Si es del verbo 'estar', lleva tilde.</message>
-                <suggestion>estás</suggestion>
-                <example correction="Estás">¿<marker>Estas</marker> haciéndolo?</example>
-                <example>Ejemplos de estas cantando.</example>
-                <example>Algunas como estas corriendo.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="ESTE_TILDE" name="*este/esté" default="on">
-            <antipattern>
-                <token postag="SPS00"/>
-                <token>este</token>
-            </antipattern>
-            <antipattern>
-                <token postag="V.[MSI].*" postag_regexp="yes"/>
-                <token min="0" postag="V.P..SM" postag_regexp="yes"/>
-                <token>este</token>
-            </antipattern>
-            <antipattern>
-                <token>este</token>
-                <token min="0" max="3" postag="N.*|A.*" postag_regexp="yes"/>
-                <token postag="V.[MSI].*" postag_regexp="yes"><exception postag="V.[MSI].*|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
-            </antipattern>
-            <rule>
-                <!-- esté + participio-->
-                <pattern>
-                    <token postag="PR.*" postag_regexp="yes" skip="4"/>
-                    <marker>
-                        <token>este</token>
-                    </marker>
-                    <token min="0" postag="RG"/>
-                    <token postag="V.P..S[FM]" postag_regexp="yes"><exception postag="NCMS000"/></token>
-                </pattern>
-                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
-                <example correction="esté">Que <marker>este</marker> cansado.</example>
-                <example correction="esté">Cuando <marker>este</marker> muy cansado.</example>
-                <example correction="esté">Cuando <marker>este</marker> agotado.</example>
-                <example>Este diario es antiguo.</example>
-            </rule>
-            <rule>
-                <!--esté + gerundio-->
-                <pattern>
-                    <token postag="PR.*" postag_regexp="yes" skip="6"/>
-                    <marker>
-                        <token>este</token>
-                    </marker>
-                    <token min="0" postag="RG"/>
-                    <token postag="V.G.*" postag_regexp="yes"><exception postag="NCFS000"/></token>
-                </pattern>
-                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
-                <example correction="esté">cuando <marker>este</marker> cantando.</example>
-                <example correction="esté">En donde se <marker>este</marker> realizando el contrato</example>
-            </rule>
-            <rule>
-                <!--se esté -->
-                <pattern>
-                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <marker>
-                        <token>este</token>
-                    </marker>
-                </pattern>
-                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
-                <example correction="esté">Donde se <marker>este</marker>.</example>
-            </rule>
-            <rule>
-                <!--esté + preposición, adverbio-->
-                <antipattern>
-                    <token>en</token>
-                    <token>realidad</token>
-                </antipattern>
-                <pattern>
-                    <token postag="PR.*" postag_regexp="yes" skip="3"><exception scope="next" postag="CC|_PUNT.*" postag_regexp="yes"/></token>
-                    <marker>
-                        <token>este</token>
-                    </marker>
-                    <token regexp="yes">cerca|lejos|bien|mal|en|con|entre|aquí|ahí|allí|allá|el|la|lo|un|una|uno</token>
-                </pattern>
-                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
-                <example correction="esté">Cuando el niño <marker>este</marker> en la guardería.</example>
-                <example correction="esté">Que <marker>este</marker> en la guardería.</example>
-                <example correction="esté">Que <marker>este</marker> cerca de la guardería.</example>
-                <example>Señalando que este mal sería contrario</example>
-                <example>lo que querían, y este lo buscaba</example>
-            </rule>
-            <rule>
-                <!-- esté + adjetivo-->
-                <antipattern>
-                    <token>este</token>
-                    <token postag="A...S.|V.P..SM" postag_regexp="yes"/>
-                    <token postag="NCMS000"/>
-                </antipattern>
-                <antipattern>
-                    <token>este</token>
-                    <token max="3" min="1" postag="A..[MC][SN].|V.P..SM|NCMS.*|CC" postag_regexp="yes"/>
-                    <token postag="V.[SI].*" postag_regexp="yes"/>
-                </antipattern>
-                <pattern>
-                    <token postag="PR.*" postag_regexp="yes" skip="3"/>
-                    <marker>
-                        <token>este</token>
-                    </marker>
-                    <token min="0" postag="RG"/>
-                    <token postag="A...S." postag_regexp="yes"><exception postag="NCMS000|AO0MS0" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Si es del verbo estar, se escribe <suggestion>esté</suggestion>.</message>
-                <example correction="esté">Cuando <marker>este</marker> disponible.</example>
-                <example correction="esté">Que <marker>este</marker> muy bonito.</example>
-                <example correction="esté">que <marker>este</marker> preciosa.</example>
-                <example correction="esté">Cuando tu cuenta <marker>este</marker> vacía.</example>
-                <example>se cree que este mismo papa estuvo interesado</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="VERBO_TILDE" name="Verbos con o sin tilde">
-            <short>El verbo lleva tilde.</short>
-            <!-- LO_SE lo sé-->
-            <!-- DE_FINAL Dé al final de la oración-->
-            <rule id="DE_FINAL" name="Verbo dé sin tilde al final de la oración">
-                <pattern>
-                    <marker>
-                        <token>de</token>
-                    </marker>
-                    <token postag="SENT_END" regexp="yes">[.?!]</token>
-                </pattern>
-                <message>El verbo <suggestion>dé</suggestion> (forma del verbo dar) lleva tilde.</message>
-                <example correction="dé">No es justo que sólo yo <marker>de</marker>.</example>
-                <example>No es justo que sólo yo dé.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="SUSTANTIVO_TILDE" name="Verbos con o sin tilde">
-            <short>El sustantivo lleva tilde.</short>
-            <!-- TE_N: sustantivo masculino-->
-            <rule id="TE_N" name="té sustantivo">
-                <pattern>
-                    <marker>
-                        <token>te</token>
-                    </marker>
-                    <token regexp="yes">de|verde|perla|negro</token>
-                </pattern>
-                <message>El sustantivo <suggestion>té</suggestion> (bebida) lleva tilde.</message>
-                <short>El sustantivo «té» lleva tilde.</short>
-                <example correction="té">El <marker>te</marker> verde japonés es muy sabroso.</example>
-                <example>El té verde japonés es muy sabroso.</example>
-            </rule>
-            <!-- TE_FINAL Té al final de la oración-->
-            <rule id="TE_FINAL" name="Sustantivo té sin tilde al final de la oración">
-                <pattern>
-                    <marker>
-                        <token>te</token>
-                    </marker>
-                    <token postag="SENT_END" regexp="yes">[.?!]</token>
-                </pattern>
-                <message>El sustantivo <suggestion>té</suggestion> (bebida) lleva tilde.</message>
-                <example correction="té">Ella bebía <marker>te</marker>.</example>
-                <example>Ella bebía té.</example>
-            </rule>
-        </rulegroup>
-        <!-- SE_SABER_SER En la oración, se delante de ciertas palabras lleva tilde -->
-        <rule id="SE_SABER_SER" name="Se delante de ciertas palabas" type="misspelling" default="off">
-            <antipattern>
-                <token>se</token>
-                <token postag="(PP...0|V.[^NP]).+" postag_regexp="yes"/>
-            </antipattern>
-            <pattern>
-                <marker>
-                    <token>se</token>
-                </marker>
-                <token postag="(P....[^AD]|[DRS]|V.[NP]).+" postag_regexp="yes"><exception postag="SENT_END"/><exception>hacia</exception></token>
-            </pattern>
-            <message>Si es del verbo "saber", lleva tilde.</message>
-            <suggestion>sé</suggestion>
-            <example correction="sé">Qué <marker>se</marker> yo.</example>
-            <example correction="sé">Pero <marker>se</marker> quién fue.</example>
-            <example>Ella se fue.</example>
-            <example>Ella se lo dijo.</example>
-            <example>A las decisiones se las llama también posicionales.</example>
-            <example>Que a los menos importantes se los nombre primero.</example>
-            <example>Está mal que no se lo perdones.</example>
-            <example>Dime si se lo vas a dar o no.</example>
-        </rule>
-        <rule id="SE_HACIA" name="Se + hacia / hacía" type="misspelling">
-            <antipattern>
-                <token>lo</token>
-                <token>hacia</token>
-                <token regexp="yes">arriba|abajo|adentro|afuera</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">[stm]e|l[aeo]s?|nos|os</token>
-                <marker>
-                    <token>hacia</token>
-                </marker>
-            </pattern>
-            <message>Si es del verbo "hacer", lleva tilde.</message>
-            <suggestion>hacía</suggestion>
-            <example correction="hacía">Eso se <marker>hacia</marker> mal.</example>
-            <example correction="hacía">Eso le <marker>hacia</marker> mal.</example>
-            <example correction="hacía">Esa bota la <marker>hacia</marker> otra compañía.</example>
-            <example>Depende de lo hacia abajo que apuntes.</example>
-        </rule>
-        <rule id="MAS" name="mas/más">
-            <pattern>
-                <token>mas</token>
-            </pattern>
-            <message>Si no es conjunción (= pero, sino), lleva tilde.</message>
-            <suggestion>más</suggestion>
-            <example correction="más">No hay <marker>mas</marker>.</example>
-            <!-- archaic or formal <example>Me gusta, mas no lo quiero</example>-->
-        </rule>
-        <rulegroup id="TILDE_CASOS_PARTICULARES" name="tilde (casos particulares)">
-            <rule id="PAGINA" name="pagina/página">
-                <antipattern>
-                    <token regexp="yes">los?|se</token>
-                    <token regexp="yes">paginas?</token>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes">paginas?</token>
-                </pattern>
-                <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'paginar'.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(.)a(.*)" regexp_replace="$1á$2"/></suggestion>
-                <example correction="páginas">Copia las <marker>paginas</marker> 3 y 4.</example>
-                <example correction="Página"><marker>Pagina</marker> 34.</example>
-                <example>Este libro lo pagina con el programa de edición.</example>
-                <example>Se pagina al final del diseño.</example>
-            </rule>
-            <rule id="NUMERO" name="numero/número">
-                <antipattern>
-                    <token regexp="yes">me|te|lo|la|le|nos|os|los|las|les</token>
-                    <token>numero</token>
-                </antipattern>
-                <pattern>
-                    <token>numero</token>
-                </pattern>
-                <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'numerar'.</message>
-                <suggestion>número</suggestion>
-                <example correction="número">Tengo un <marker>numero</marker> de lotería.</example>
-                <example correction="número">El <marker>numero</marker> 4.</example>
-                <example>La lista la numero secuencialmente.</example>
-                <example>Os numero por fecha de nacimiento.</example>
-            </rule>
-            <rule id="ULTIMA" name="ultima/útlima">
-                <antipattern>
-                    <token regexp="yes">me|te|lo|le|nos|os|los|las|les|si|cuando|mientras|él|ella</token>
-                    <token>ultima</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">me|te|lo|la|le|nos|os|los|les|si|cuando|mientras|tú</token>
-                    <token>ultimas</token>
-                </antipattern>
-                <antipattern>
-                    <token postag="NP.*" postag_regexp="yes"/>
-                    <token regexp="yes">ultimas?</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">\p{Lu}\p{L}+</token>
-                    <token regexp="yes">ultimas?</token>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes">ultimas?</token>
-                </pattern>
-                <message>Si es sustantivo, lleva tilde. Correcto si es del verbo 'ultimar'.</message>
-                <suggestion><match no="1" regexp_match="(?i)u(ltimas?)" regexp_replace="ú$1"/></suggestion>
-                <example correction="última">Es mi <marker>ultima</marker> oferta.</example>
-                <example correction="últimas">Son las <marker>ultimas</marker> estimaciones.</example>
-                <example>Juan ultima los preparativos.</example>
-                <example>¿Me ultimas este trabajo?</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">acido|acida|acidas</token>
-                </pattern>
-                <message>Si es sustantivo o adjetivo, lleva tilde. Correcto si es del v. 'acidar'.</message>
-                <suggestion><match no="1" regexp_match="(?i).(.*)" regexp_replace="á$1"/></suggestion>
-                <example correction="ácido">El <marker>acido</marker>.</example>
-                <example correction="ácidas">Las naranjas son <marker>acidas</marker>.</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <token inflected="yes">haber</token>
-                    <token>placido</token>
-                </antipattern>
-                <pattern>
-                    <token regexp="yes">placid(o|a)s?</token>
-                </pattern>
-                <message>Si es adjetivo, lleva tilde. Correcto si es del v. 'placer'.</message>
-                <suggestion><match no="1" regexp_match="(?i)(.*l)a(.*)" regexp_replace="$1á$2"/></suggestion>
-                <example correction="plácida">Una <marker>placida</marker> estancia.</example>
-                <example>Me ha placido el resultado.</example>
-            </rule>
-        </rulegroup>
-        <rulegroup id="AUN" name="aún/anun">
-            <!-- AÚN > AUN -->
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>aún</token>
-                    </marker>
-                    <token>así</token>
-                </pattern>
-                <message>Solo se acentúan cuando equivale a "todavía".</message>
-                <suggestion>aun</suggestion>
-                <url>http://www.fundeu.es/recomendacion/aun-asi-y-aun-asi-no-son-lo-mismo-1130/</url>
-                <example correction="Aun"><marker>Aún</marker> así, lo consiguieron.</example>
-                <!--<example>Siguen aún así.</example>-->
-            </rule>
-            <rule>
-                <antipattern>
-                    <token regexp="yes">más|menos|mejor|peor</token>
-                    <token min="0" postag="A.*|RG" postag_regexp="yes"/>
-                    <token>aún</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">más|menos|mejor|peor</token>
-                    <token regexp="yes">.+mente</token>
-                    <!-- falta añadir adverbios acabaods en -mente en el tagger-->
-                    <token>aún</token>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token>aún</token>
-                    </marker>
-                    <token regexp="yes">si|cuando</token>
-                </pattern>
-                <message>Solo se acentúan cuando equivale a "todavía".</message>
-                <suggestion>aun</suggestion>
-                <example correction="Aun"><marker>Aún</marker> si estas no tienen efecto.</example>
-                <example>Mejor aún si es así.</example>
-                <example>Más aún si es así.</example>
-                <example>Decae más rápidamente aún si nos salimos del disco.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>ni</token>
-                    <marker>
-                        <token>aún</token>
-                    </marker>
-                </pattern>
-                <message>Solo se acentúan cuando equivale a "todavía".</message>
-                <suggestion>aun</suggestion>
-                <example correction="aun">ni <marker>aún</marker> la mitad</example>
-            </rule>
-            <!-- AUN > AÚN -->
-            <rule>
-                <pattern>
-                    <token regexp="yes">más|menos|mejor|peor</token>
-                    <marker>
-                        <token>aun</token>
-                    </marker>
-                </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
-                <suggestion>aún</suggestion>
-                <example correction="aún">Más <marker>aun</marker> si estas no tienen efecto.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>aun</token>
-                    </marker>
-                    <token>no</token>
-                    <token><exception postag="V.G.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
-                <suggestion>aún</suggestion>
-                <example correction="Aún"><marker>Aun</marker> no está claro.</example>
-                <example>Aun no siendo así, es fantástico.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>aun</token>
-                    </marker>
-                    <token regexp="yes">más|menos|mejor|peor</token>
-                    <token><exception postag="V.G.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
-                <suggestion>aún</suggestion>
-                <example correction="aún">Es <marker>aun</marker> más grande de lo que pensaba.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <token>aun</token>
-                    </marker>
-                    <token min="0" postag="PP.*" postag_regexp="yes"/>
-                    <token postag="V.I.*" postag_regexp="yes"><exception postag="RG|N.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
-                <suggestion>aún</suggestion>
-                <example correction="Aún"><marker>Aun</marker> pensaba que sí.</example>
-                <example correction="Aún"><marker>Aun</marker> se desconoce.</example>
-                <example>Aun enfermo, fue a la escuela.</example>
-                <example>Aun así, me lo pasé bien.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="RG|N.*" postag_regexp="yes"/></token>
-                    <marker>
-                        <token>aun</token>
-                    </marker>
-                    <token><exception>si</exception></token>
-                </pattern>
-                <message>Se acentúan si equivale a "todavía".</message>
-                <suggestion>aún</suggestion>
-                <example correction="aún">Pensaba <marker>aun</marker> lo mismo.</example>
-                <example>No me importaría aun si ella no viene.</example>
-            </rule>
-            <rule id="CUAL_SIN_ACENTO" name="el *cuál/el cual">
-                <pattern>
-                    <token postag="DA.*|SP.DA" postag_regexp="yes"/>
-                    <marker>
-                        <token regexp="yes">cuál|cuáles</token>
-                    </marker>
-                </pattern>
-                <message>No se acentúa.</message>
-                <suggestion><match no="2" regexp_match="cuál(.*)" regexp_replace="cual$1"/></suggestion>
-                <example correction="cual">El país del <marker>cuál</marker> vengo.</example>
-                <example correction="cuales">Documentos a los <marker>cuáles</marker> ha tenido acceso.</example>
-                <example correction="cual">Lo <marker>cuál</marker> es muy importante.</example>
-                <example>¿Cuál es la respuesta correcta?</example>
-            </rule>
-        </rulegroup>
-        <rule id="A_PUNTO_DE" name="*apunto de/a punto de">
-            <pattern>
-                <marker>
-                    <token>apunto<exception scope="previous" regexp="yes">me|te|lo|la|le|nos|os|los|las|les</exception></token>
-                    <token>de</token>
-                </marker>
-                <token><exception regexp="yes">manera|forma</exception></token>
-            </pattern>
-            <message>Esta locución es escribe separada.</message>
-            <suggestion>a punto de</suggestion>
-            <url>http://www.fundeu.es/recomendacion/a-punto-de-no-apunto-de-1427</url>
-            <example correction="a punto de">Estaba <marker>apunto de</marker> llegar.</example>
-            <example>Apunto de manera inmediata</example>
-            <example>Me apunto de voluntario.</example>
         </rule>
         <!-- ROMAN NUMERALS CHECKER : Comprobación de números romanos (adaptado de la versión catalana) -->
         <rule id="ROMAN_NUMERALS_CHECK" name="comprueba números romanos">
@@ -2371,8 +2350,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="u Honduras">El torneo lo disputarán Alemania <marker>o Honduras</marker>.</example>
             </rule>
         </rulegroup>
-        
-        
+
+
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
         <rulegroup id="PORQUE" name="porque/por que/porqué">
@@ -3804,7 +3783,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category id="CAMBIOS_NORMA" name="cambios en las normas lingüísticas">
+    <category id="CAMBIOS_NORMA" name="Cambios en las normas lingüísticas">
         <rulegroup id="MONOSILABOS" name="los monosílabos no llevan tilde">
             <!-- the speller gives already good suggestions, but we provide +info -->
             <url>http://aplica.rae.es/orweb/cgi-bin/v.cgi?i=fGOCbZgElkdRTUPr</url>
@@ -3851,7 +3830,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="aquellos">En relación con <marker>aquéllos</marker>.</example>
         </rule>
     </category>
-    <category id="CONFUSIONS" name="confusiones">
+    <category id="CONFUSIONS" name="Confusiones">
         <rule id="CONFUSION_AL_LA" name="confusión al/la">
             <pattern>
                 <marker>
@@ -3990,7 +3969,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="revestía">Esto <marker>revertía</marker> gravedad.</example>
         </rule>
     </category>
-    <category id="PREPOSITIONS" name="preposiciones">
+    <category id="PREPOSITIONS" name="Preposiciones">
         <rule id="INSISTIR_DE" name="insistir *de/en">
             <pattern>
                 <token inflected="yes" regexp="yes">insistir|fijar</token>
@@ -4024,7 +4003,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--<example correction="a|con"> Tuvo que enfrentarse a veces <marker>ante</marker> las autoridades.</example>-->
         </rule>
     </category>
-    <category id="REDUNDANCIES" name="redundancias">
+    <category id="REDUNDANCIES" name="Redundancias">
         <rulegroup id="ETCETERA" name="etc..." default="on">
             <rule>
                 <pattern>
@@ -4119,7 +4098,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category id="PUNCTUATION" name="puntuación">
+    <category id="PUNCTUATION" name="Puntuación">
         <rule id="YA_QUE" name="ya que que (con coma)">
             <!-- a lot of true positives expected -->
             <pattern>
@@ -4412,7 +4391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category id="LANGUAGE_VARIANTS" name="variedades de lengua" type="locale-violation">
+    <category id="LANGUAGE_VARIANTS" name="Variedades de lengua" type="locale-violation">
         <rulegroup id="VOSEO" name="Evitar formas de voseo" default="on">
             <url>https://www.rae.es/dpd/voseo</url>
             <!-- This rule is necessary for users in Spain, Mexico... Otherwise many typos will go undetected.
