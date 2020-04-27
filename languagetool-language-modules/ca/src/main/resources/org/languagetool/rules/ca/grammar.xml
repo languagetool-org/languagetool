@@ -1777,6 +1777,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_DET_ADJ" name="Concordances determinant i adjectiu">
+            <antipattern>
+                <token postag="DA.[MC]S." postag_regexp="yes"/>
+                <token min="1" max="4" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">Club|TM|UD|UE|SD|Team</exception></token>
+                <token case_sensitive="yes" regexp="yes">Club|TM|UD|UE|SD|Team</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>a</token>
@@ -1879,6 +1884,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>des</token>
                 <token postag="_possible_nompropi"/>
             </antipattern>
+            <antipattern>
+                <token postag="DA.[MC]S." postag_regexp="yes"/>
+                <token min="1" max="4" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">Club|TM|UD|UE|SD|Team</exception></token>
+                <token case_sensitive="yes" regexp="yes">Club|TM|UD|UE|SD|Team</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>a</token>
@@ -1897,6 +1907,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>als camions</example>
                 <example>a can Garcia</example>
                 <example>A la des Mercadal.</example>
+                <example>Al Santa Monica Track Club.</example>
             </rule>
             <rule>
                 <pattern>

@@ -3353,6 +3353,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="D..FS.*" postag_regexp="yes"/>
                     <token regexp="yes">.</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">al|del|el</token>
+                    <token min="1" max="4" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">Club|TM|UD|UE|SD|Team</exception></token>
+                    <token case_sensitive="yes" regexp="yes">Club|TM|UD|UE|SD|Team</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <unify negate="yes">
@@ -3412,6 +3417,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>y otros 66,27 %.</example>
                 <example>Una S.</example>
                 <example>no es otra sino la excelente</example>
+                <example>El Caja Granada TM</example>
+                <example>El Santa Monica Track Club</example>
                 <!-- <example>no esta claro</example> better: other rule-->
             </rule>
             <rule>
