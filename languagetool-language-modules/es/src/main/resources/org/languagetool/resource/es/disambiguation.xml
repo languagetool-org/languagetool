@@ -26,7 +26,7 @@ Copyright (C) 2011 Juan Martorell
     <!ENTITY dominios_internet "(?:cat|ae|ar|asia|at|au|be|bid|biz|br|ca|cc|cf|ch|cl|club|cn|co|com|cz|de|dk|edu|es|eu|fi|fr|ga|gdn|gov|gq|gr|hk|hu|id|ie|il|in|info|int|io|ir|it|jp|kiwi|kr|kz|life|link|loan|lt|me|men|mil|ml|mobi|mx|my|name|net|nl|no|nu|nz|online|org|party|pl|pro|pt|pw|racing|ro|ru|se|sg|shop|site|sk|space|store|su|tech|tk|top|tr|trade|tv|tw|ua|uk|us|vip|vn|wang|website|win|ws|xin|xyz|za)"><!-- the 100 most used + cat -->
     <!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las">
     <!ENTITY nombre_fem_el "África|aguadulce|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
-    <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP]000|P0[123].*">
+    <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
 
 ]>
 
@@ -960,6 +960,11 @@ Copyright (C) 2011 Juan Martorell
     </rule>
 
     <rulegroup id="verbnoun_verb" name="verb/noun + verb">
+        <antipattern>
+            <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+            <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+            <token postag="V.[IS].*" postag_regexp="yes"/>
+        </antipattern>
         <rule>
             <pattern>
                 <token postag="D[DAIP].[MF].*" postag_regexp="yes"/>
