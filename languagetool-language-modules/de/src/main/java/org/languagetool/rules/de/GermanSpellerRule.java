@@ -1028,6 +1028,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     suggestions = suggestions.stream().filter(k ->
       !k.equals(word) &&
+      (!k.endsWith("-") || word.endsWith("-")) &&  // no "-" at end (#2450)
       !k.matches("\\p{L} \\p{L}+")  // single chars like in "ü berstenden" (#2610)
     ).collect(Collectors.toList());
     return suggestions;
