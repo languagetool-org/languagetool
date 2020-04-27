@@ -4670,41 +4670,4 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-    <category id="LANGUAGE_VARIANTS" name="variedades de lengua" type="locale-violation">
-        <rulegroup id="VOSEO" name="Evitar formas de voseo" default="on">
-            <url>https://www.rae.es/dpd/voseo</url>
-            <!-- This rule is necessary for users in Spain, Mexico... Otherwise many typos will go undetected.
-                It can be annoying in some other countries (Argentina, Paraguay, Uruguay, Costa Rica...),
-                where users will prefer to turn it off.
-                The least bad solution (without language variants) is to leave it on.-->
-            <rule>
-                <pattern>
-                    <token postag="V.M02V0\+PP.*" postag_regexp="yes"><exception postag="V.M02V0\+PP.*|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
-                </pattern>
-                <message>Forma correcta si se usa voseo. Si no, utilice una forma alternativa.</message>
-                <suggestion><match no="1" postag_regexp="yes" postag="(V.M02)V0.(PP.*)" postag_replace="$1S0.$2"/></suggestion>
-                <suggestion><match no="1" postag_regexp="yes" postag="(V.M02)V0.(PP.*)" postag_replace="$1P0.$2"/></suggestion>
-                <example correction="Permíteme|Permitidme"><marker>Permitime</marker> que lo diga.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="V.M02V0" postag_regexp="yes"><exception postag="V.M02V0|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
-                </pattern>
-                <message>Forma correcta si se usa voseo. Si no, utilice una forma alternativa.</message>
-                <suggestion><match no="1" postag_regexp="yes" postag="(V.M02)V0" postag_replace="$1S0"/></suggestion>
-                <suggestion><match no="1" postag_regexp="yes" postag="(V.M02)V0" postag_replace="$1P0"/></suggestion>
-                <example correction="Piensa|Pensad"><marker>Pensá</marker> en ello.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="V.IP2V0" postag_regexp="yes"><exception postag="V.IP2V0|SENT_END" postag_regexp="yes" negate_pos="yes"/></token>
-                </pattern>
-                <message>Forma correcta si se usa voseo. Si no, utilice una forma alternativa.</message>
-                <suggestion><match no="1" postag_regexp="yes" postag="(V.IP2)V0" postag_replace="$1S0"/></suggestion>
-                <suggestion><match no="1" postag_regexp="yes" postag="(V.IP2)V0" postag_replace="$1P0"/></suggestion>
-                <example correction="Eres|Sois"><marker>Sos</marker> el mejor.</example>
-                <example correction="piensas|pensáis">¿Qué <marker>pensás</marker>?</example>
-            </rule>
-        </rulegroup>
-    </category>
 </rules>
