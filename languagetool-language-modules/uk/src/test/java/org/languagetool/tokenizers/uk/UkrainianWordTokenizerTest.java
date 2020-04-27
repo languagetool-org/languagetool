@@ -400,6 +400,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("ЗДОРОВ’Я.");
     assertEquals(Arrays.asList("ЗДОРОВ'Я", "."), testList);
 
+    testList = w.tokenize("''український''");
+    assertEquals(Arrays.asList("''", "український", "''"), testList);
+
     // 'тсе, 'ддати  'го
   }
 

@@ -135,7 +135,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   private static final Pattern ABBR_AT_THE_END = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301])(тис|[А-ЯІЇЄҐ])\\.\\s*$");
 
-  private static final Pattern APOSTROPHE_BEGIN_PATTERN = Pattern.compile("(^|[\\s(„«\"])'(?!дно)(\\p{L})");
+  private static final Pattern APOSTROPHE_BEGIN_PATTERN = Pattern.compile("(^|[\\s(„«\"'])'(?!дно)(\\p{L})");
   private static final Pattern APOSTROPHE_END_PATTER = Pattern.compile("(\\p{L})(?<!\\b(?:мо|тре|тра|чо|нічо|бо|зара|пра))'([^\\p{L}-]|$)", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   private static final Pattern YEAR_WITH_R = Pattern.compile("((?:[12][0-9]{3}[—–-])?[12][0-9]{3})(рр?\\.)");
