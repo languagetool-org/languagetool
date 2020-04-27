@@ -24236,6 +24236,7 @@ USA
             <example correction="woman">A <marker>women</marker> walked in to the room.</example>
             <example>A <marker>woman</marker> walked into the room.</example>
         </rule>
+
         <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: 'have' + past/present tense">
             <rule>
                 <antipattern>
@@ -24289,6 +24290,11 @@ USA
                     <token postag="VB.?" postag_regexp="yes" inflected="yes">have</token>
                     <token chunk="E-NP-singular" postag="NN"/>
                 </antipattern>
+                <antipattern><!-- 2810 www.tutorialspoint.com/unix/unix-file-permission.htm -->
+                    <token postag="VB.?" postag_regexp="yes" inflected="yes">have</token>
+                    <token regexp="yes">execute|read|write</token>
+                    <token chunk="E-NP-singular">access</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <marker>
@@ -24308,6 +24314,7 @@ USA
                 <example correction="written">I must have <marker>write</marker> to you.</example>
                 <example correction="modified">I've <marker>modify</marker> this.</example>
                 <example correction="written">I could have <marker>wrote</marker> this letter.</example>
+                <example correction="written">... and you should have <marker>write</marker> access code, not accessy code.</example><!-- #2810 -->
                 <example>I must have <marker>written</marker> that.</example>
                 <example>I must have done that.</example>
                 <example>I have liked her.</example>
@@ -24333,6 +24340,7 @@ USA
                 <example>Do you have pen and paper?</example><!-- #2089 -->
                 <example>Make sure that the candidate has pen and paper for the written test.</example><!-- #2089 -->
                 <example>Do you have bicycle in your garage?</example><!-- #2089. Missing article before a count noun, but that problem is not applicable to this rule. -->
+                <example>... and you should have write access there.</example><!-- #2810 -->
             </rule>
             <rule>
                 <antipattern><!-- www.ldoceonline.com/dictionary/far -->
@@ -24558,6 +24566,7 @@ USA
 <!-- False negative cause by non-standard drank/VBN --><example>He has <marker>drank</marker> that too quickly.</example>
         </rule>
         </rulegroup>
+
         <rulegroup id="CONFUSION_RIDE_RIGHT" name="confusion of ride/right">
             <antipattern>
                 <token>ride</token>
