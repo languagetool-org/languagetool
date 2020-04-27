@@ -128,7 +128,7 @@ USA
         <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
 
-    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region|zone|band|source|influenza|hepatitis|grade|formula|document|division|class|category|dock'>
+    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region|zone|band|source|influenza|hepatitis|grade|formula|document|division|class|category|dock|column'>
     <!ENTITY nouns_with_i 'article|block|phase|class|grade|part|paragraph|section|chaos|enigma|book|war|king|current|mustang|type|division|level|bi\-?polar|century|tier|numeral|algorithm|auschwitz'>
 ]>
 
@@ -1982,6 +1982,12 @@ USA
         </rule>
         <rulegroup id="HUMANS_BEINGS" name="humans beings (human beings)">
             <rule>
+                <antipattern>
+                    <token>a</token>
+                    <token>human</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                </antipattern>
                 <pattern>
                     <token>human</token>
                     <token regexp="yes">&apostrophe;</token>
@@ -1991,6 +1997,7 @@ USA
                 <message>Possible typo. Did you mean: <suggestion>\1 \4</suggestion>?</message>
                 <short>Possible typo</short>
                 <example correction="human beings">We are all <marker>human's beings</marker>.</example>
+                <example>It talks about how a human's morals can help people make the right decisions in life.</example>
             </rule>
             <rule>
                 <pattern>
@@ -16062,6 +16069,17 @@ USA
                 <token>create</token>
                 <token>act</token>
             </antipattern>
+            <antipattern>
+                <token>the</token>
+                <token>bring</token>
+                <token skip="6">your</token>
+                <token regexp="yes">days?</token>
+            </antipattern>
+            <antipattern>
+                <token>Q</token>
+                <token regexp="yes">and|&amp;</token>
+                <token>A</token>
+            </antipattern>
             <antipattern><!-- https://en.wikipedia.org/wiki/PROTECT_IP_Act -->
                 <token>Protect</token>
                 <token>IP</token>
@@ -16355,6 +16373,18 @@ USA
             <example>Python provides the bisect module.</example><!-- Copied from Premium #845 -->
             <example>It has been awhile since we put the mail feedbag on and had a munch.</example><!-- Copied from Premium #845 -->
             <example>AI and AN are also in line for this constructive disruption.</example>
+        </rule>
+        <rule id="THE_HOT_DOG" name="the hot-dog (hot dog)" default="temp_off">
+            <!-- nouns that are verbs when spelled with a hyphen in between -->
+            <pattern>
+                <token regexp="yes">the|an?|my|y?our|his|their</token>
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <marker>
+                    <token regexp="yes">lip-syncs?|hot-dogs?</token>
+                </marker>
+            </pattern>
+            <message>The word "\2" spelled with a hyphen is a verb. Did you mean the noun <suggestion><match no="3" regexp_match="-" regexp_replace=" " /></suggestion>?</message>
+            <example correction="hot dog">He was eating a delicious <marker>hot-dog</marker>.</example>
         </rule>
         <rule id="THE_WELSH" name="the/a welsh (Welsh)">
             <pattern>
@@ -25651,6 +25681,11 @@ USA
             <token min="0">of</token>
             <token>you</token>
           </antipattern>
+          <antipattern><!-- HE WHO BELIEVES -->
+            <token regexp="yes">s?he</token>
+            <token>who</token>
+            <token postag="VB.*" postag_regexp="yes" />
+          </antipattern>
           <pattern>
             <marker>
               <token regexp='yes'>It?|you|s?he|we|they
@@ -25675,6 +25710,7 @@ USA
           <example>More than half of US children diagnosed with ASD are prescribed psychoactive dr...</example>
           <example>She's got a fair complexion while her brother is very dark.</example>
           <example>Her garden is a work of art.</example>
+          <example>Most assuredly, I say to you, he who believes in Me has everlasting life.</example>
           <example>This is for all you Star Wars lovers.</example>
           <example>Part of what motivates me to cope with ME/CFS the best I can is to make things easier for the people I love.</example>
           <example>We men are used to waiting for the women.</example>
@@ -27961,7 +27997,7 @@ USA
             <rule>
                 <antipattern>
                     <token regexp="yes">kindest|warmest</token>
-                    <token>regards</token>
+                    <token regexp="yes">regards|wishes</token>
                 </antipattern>
                 <antipattern>
                     <token>the</token>
@@ -35633,6 +35669,11 @@ USA
         </rule>
         <rulegroup id="DT_DT" name="Two consecutive articles, e.g. 'the a'">
             <rule>
+                <antipattern>
+                    <token>Q</token>
+                    <token regexp="yes">and|&amp;</token>
+                    <token>A</token>
+                </antipattern>
                 <antipattern><!-- most likely "and the" (caught by "AN_AND") -->
                     <token>an</token>
                     <token>the</token>
@@ -45959,11 +46000,24 @@ The accident victim died from her injuries.
                     <marker>
                         <token>quite</token>
                     </marker>
-                    <token regexp="yes">evenings?|noises?|spaces?|sounds?|musics?|wedding|confidence|signals?|hummings?|tones?|places?|earth|life|woman|man|kids?|child</token>
+                    <token regexp="yes">evenings?|noises?|spaces?|sounds?|musics?|wedding|confidence|signals?|hummings?|tones?|places?|earth|life|woman|man|kids?|child|areas?</token>
                 </pattern>
-                <message>Did you mean the adjective <suggestion>quiet</suggestion>?</message>
+                <message>Did you mean the adjective <suggestion>quiet</suggestion>? 'quiet' means 'silent', 'quite' mean 'very' or 'to a moderate extent'</message>
                 <example correction="quiet">A very <marker>quite</marker> noise.</example>
                 <example>He's a quite humble man in spite of all he's achieved.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">have</token>
+                    <token skip="1" regexp="yes">an?</token>
+                    <marker>
+                        <token>quite</token>
+                    </marker>
+                    <token regexp="yes">words?</token>
+                </pattern>
+                <message>Did you mean the adjective <suggestion>quiet</suggestion>? 'quiet' means 'silent', 'quite' mean 'very' or 'to a moderate extent'</message>
+                <url>https://en.wiktionary.org/wiki/have_a_quiet_word</url>
+                <example correction="quiet">Let's have a <marker>quite</marker> word.</example> 
             </rule>
         </rulegroup>
         <rule id="OF_CAUSE" name="of cause (course)">
@@ -49475,7 +49529,7 @@ The accident victim died from her injuries.
                 <token regexp="yes">&apostrophe;</token>
                 <token>re</token>
                 <token regexp="yes">(every|any)thing</token>
-                <token regexp="yes">to|for|I|s?he|you|we|they|it</token>
+                <token regexp="yes">to|for|I|s?he|you|we|they|it|that|what|which</token>
             </antipattern>
             <antipattern>
                 <token>you</token>
