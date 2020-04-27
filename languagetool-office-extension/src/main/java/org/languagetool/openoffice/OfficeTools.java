@@ -22,12 +22,15 @@ import org.jetbrains.annotations.Nullable;
 
 import com.sun.star.awt.XMenuBar;
 import com.sun.star.awt.XPopupMenu;
+import com.sun.star.beans.Property;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.beans.XPropertySetInfo;
 import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XFrame;
 import com.sun.star.frame.XLayoutManager;
 import com.sun.star.lang.XComponent;
 import com.sun.star.lang.XMultiComponentFactory;
+import com.sun.star.linguistic2.XSearchableDictionaryList;
 import com.sun.star.text.XTextDocument;
 import com.sun.star.ui.XUIElement;
 import com.sun.star.uno.UnoRuntime;
@@ -122,6 +125,46 @@ class OfficeTools {
       return null;           // Return null as method failed
     }
   }
+  
+  static void printPropertySet (Object o) {
+    XPropertySet propSet = UnoRuntime.queryInterface(XPropertySet.class, o);
+    if (propSet == null) {
+      MessageHandler.printToLogFile("XPropertySet == null");
+      return;
+    }
+    XPropertySetInfo propertySetInfo = propSet.getPropertySetInfo();
+    MessageHandler.printToLogFile("PropertySet:");
+    for (Property property : propertySetInfo.getProperties()) {
+      MessageHandler.printToLogFile("Name: " + property.Name + ", Type: " + property.Type.getTypeName());
+    }
+  }
+  
+  /**
+   * Returns the searchable dictionary list
+   * Returns null if it fails
+   */
+  @Nullable
+  static XSearchableDictionaryList getSearchableDictionaryList(XComponentContext xContext) {
+    try {
+      if (xContext == null) {
+        return null;
+      }
+      XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
+              xContext.getServiceManager());
+      if (xMCF == null) {
+        return null;
+      }
+      Object dictionaryList = xMCF.createInstanceWithContext("com.sun.star.linguistic2.DictionaryList", xContext);
+      if (dictionaryList == null) {
+        return null;
+      }
+      return UnoRuntime.queryInterface(XSearchableDictionaryList.class, dictionaryList);
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+      return null;           // Return null as method failed
+    }
+  }
+
 
   static XMenuBar getMenuBar(XComponentContext xContext) {
     try {
