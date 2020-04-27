@@ -148,6 +148,7 @@ public final class Languages {
    * @param className e.g. <code>org.languagetool.language.English</code>
    * @return a Language object
    * @throws RuntimeException if language not found in classpath
+   * @since 5.0
    */
   public static Language getOrAddLanguageByClassName(String className) {
     for (Language element : getStaticAndDynamicLanguages()) {
@@ -155,7 +156,6 @@ public final class Languages {
         return element;
       }
     }
-
     try {
       Class<?> aClass = JLanguageTool.getClassBroker().forName(className);
       Constructor<?> constructor = aClass.getConstructor();
