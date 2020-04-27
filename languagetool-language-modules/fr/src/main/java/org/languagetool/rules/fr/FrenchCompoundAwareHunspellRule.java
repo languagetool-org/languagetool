@@ -92,6 +92,28 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
     switch (word) {
       case "Jai": s = Collections.singletonList("J'ai"); break;
       case "jai": s = Collections.singletonList("j'ai"); break;
+      case "Etais-tu": s = Collections.singletonList("Étais-tu"); break;
+      case "etais-tu": s = Collections.singletonList("étais-tu"); break;
+      case "Etes-vous": s = Collections.singletonList("Êtes-vous"); break;
+      case "etes-vous": s = Collections.singletonList("êtes-vous"); break;
+      case "Etiez-vous": s = Collections.singletonList("Êtiez-vous"); break;
+      case "etiez-vous": s = Collections.singletonList("êtiez-vous"); break;
+      case "Etait-ce": s = Collections.singletonList("Était-ce"); break;
+      case "etait-ce": s = Collections.singletonList("était-ce"); break;
+      case "Etait-il": s = Collections.singletonList("Était-il"); break;
+      case "etait-il": s = Collections.singletonList("était-il"); break;
+      case "Depeche-toi": s = Collections.singletonList("Dépêche-toi"); break;
+      case "depeche-toi": s = Collections.singletonList("dépêche-toi"); break;
+      case "preferes-tu": s = Collections.singletonList("préfères-tu"); break;
+      case "Preferes-tu": s = Collections.singletonList("Préfères-tu"); break;
+      /* a more generic solution could be like this, but which of the suggestions for the first part can be re-prepended?
+      Pattern p = Pattern.compile("([a-zA-Z]+)-(tu|vous|ce|il|toi)");
+      Matcher matcher = p.matcher(word);
+      if (matcher.matches()) {
+        System.out.println("-->" + matcher.group(1));
+        System.out.println("-->" + getSuggestions(matcher.group(1)));
+      }
+      */
       default: s = Collections.emptyList();
     }
     return SuggestedReplacement.convert(s);
