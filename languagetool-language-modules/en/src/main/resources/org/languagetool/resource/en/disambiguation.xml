@@ -1846,73 +1846,145 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">&apostrophe;</token>
             <token>t</token>
         </pattern>
-        <disambig action="filter" postag="NN"/>
+        <disambig action="remove" postag="NN.*"/>
+        <example type="ambiguous" inputform="ain[ain/NN]" outputform="ain[ain]">I <marker>ain</marker>'t stupid.</example>
     </rule>
 
-    <rule id="IT_AIN_T_VBZ" name="It ain't => VBZ">
-        <pattern>
-            <token regexp="yes">it|s?he</token>
-            <token postag="RB.*" postag_regexp="yes" min="0" />
-            <marker>
-                <token>ain</token>
-            </marker>
-            <token regexp="yes">&apostrophe;</token>
-            <token>t</token>
-        </pattern>
-        <disambig action="add"><wd lemma="be" pos="VBZ" /></disambig>
-    </rule>
+    <rulegroup id="IT_AIN_T_VBZ" name="It ain't => VBZ">
+        <rule>
+            <pattern>
+                <token regexp="yes">it|s?he</token>
+                <token postag="RB.*" postag_regexp="yes" />
+                <marker>
+                    <token>ain</token>
+                </marker>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="be" pos="VBZ">ain</wd></disambig>
+            <example type="ambiguous" inputform="ain[ain]" outputform="ain[be/VBZ]">She really <marker>ain</marker>'t stupid.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">it|s?he</token>
+                <marker>
+                    <token>ain</token>
+                </marker>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="be" pos="VBZ">ain</wd></disambig>
+            <example type="ambiguous" inputform="ain[ain]" outputform="ain[be/VBZ]">She <marker>ain</marker>'t stupid.</example>
+        </rule>
+    </rulegroup>
 
-    <rule id="THIS_AIN_T_VBZ" name="This ain't => VBZ">
-        <pattern>
-            <token postag="SENT_START" />
-            <token regexp="yes">this|that</token>
-            <token postag="RB.*" postag_regexp="yes" min="0" />
-            <marker>
-                <token>ain</token>
-            </marker>
-            <token regexp="yes">&apostrophe;</token>
-            <token>t</token>
-        </pattern>
-        <disambig action="add"><wd lemma="be" pos="VBZ" /></disambig>
-    </rule>
+    <rulegroup id="THIS_AIN_T_VBZ" name="This ain't => VBZ">
+        <rule>
+            <pattern>
+                <token postag="SENT_START" />
+                <token regexp="yes">this|that</token>
+                <token postag="RB.*" postag_regexp="yes" />
+                <marker>
+                    <token>ain</token>
+                </marker>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="be" pos="VBZ">ain</wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START" />
+                <token regexp="yes">this|that</token>
+                <marker>
+                    <token>ain</token>
+                </marker>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="be" pos="VBZ">ain</wd></disambig>
+        </rule>
+    </rulegroup>
 
-    <rule id="I_AIN_T_VBP" name="I ain't => VBP">
-        <pattern>
-            <token regexp="yes">I|you|we|they</token>
-            <token postag="RB.*" postag_regexp="yes" min="0" />
-            <marker>
-                <token>ain</token>
-            </marker>
-            <token regexp="yes">&apostrophe;</token>
-            <token>t</token>
-        </pattern>
-        <disambig action="add"><wd lemma="be" pos="VBP" /></disambig>
-    </rule>
+    <rulegroup id="I_AIN_T_VBP" name="I ain't => VBP">
+        <rule>
+            <pattern>
+                <token regexp="yes">I|you|we|they</token>
+                <token postag="RB.*" postag_regexp="yes" />
+                <marker>
+                    <token>ain</token>
+                </marker>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="be" pos="VBP">ain</wd></disambig>
+            <example type="ambiguous" inputform="ain[ain]" outputform="ain[be/VBP]">I really <marker>ain</marker>'t stupid.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">I|you|we|they</token>
+                <marker>
+                    <token>ain</token>
+                </marker>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="be" pos="VBP">ain</wd></disambig>
+            <example type="ambiguous" inputform="ain[ain]" outputform="ain[be/VBP]">I <marker>ain</marker>'t stupid.</example>
+        </rule>
+    </rulegroup>
 
-    <rule id="THESE_AIN_T_VBP" name="This ain't => VBP">
-        <pattern>
-            <token postag="SENT_START" />
-            <token regexp="yes">th[eo]se</token>
-            <token postag="RB.*" postag_regexp="yes" min="0" />
-            <marker>
-                <token>ain</token>
-            </marker>
-            <token regexp="yes">&apostrophe;</token>
-            <token>t</token>
-        </pattern>
-        <disambig action="add"><wd lemma="be" pos="VBP" /></disambig>
-    </rule>
+    <rulegroup id="THESE_AIN_T_VBP" name="This ain't => VBP">
+        <rule>
+            <pattern>
+                <token postag="SENT_START" />
+                <token regexp="yes">th[eo]se</token>
+                <token postag="RB.*" postag_regexp="yes" />
+                <marker>
+                    <token>ain</token>
+                </marker>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="be" pos="VBP">ain</wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="SENT_START" />
+                <token regexp="yes">th[eo]se</token>
+                <marker>
+                    <token>ain</token>
+                </marker>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <disambig action="replace"><wd lemma="be" pos="VBP">ain</wd></disambig>
+        </rule>
+    </rulegroup>
 
-    <rule name="haven't => verb only" id="HAVENT">
-        <pattern>
-            <marker>
-                <token>haven</token>
-            </marker>
-            <token regexp="yes">&apostrophe;</token>
-            <token>t</token>
-        </pattern>
-        <disambig action="filter" postag="MD"/>
-    </rule>
+    <rulegroup name="haven't => verb only" id="HAVENT">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">haven|hasn</token>
+                </marker>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <disambig action="remove" postag="MD"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>haven</token>
+                </marker>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </pattern>
+            <disambig action="remove" postag="NN"/>
+        </rule>
+    </rulegroup>
+
     <rule name="re -> be" id="RE_VBP">
         <pattern>
             <token regexp="yes">they|we|what|who|you|how</token>
@@ -7339,7 +7411,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
     <rule id="IGNORE_SPELLING_OF_MR_DE" name="Ignore spelling of names containing 'de'">
         <pattern case_sensitive="yes">
-            <token regexp="yes">Mrs?|Miss</token>
+            <token regexp="yes">Mrs?|Miss|Dr</token>
             <token min="0">.</token>
             <marker>
                 <token regexp="yes">[Dd]e</token>
