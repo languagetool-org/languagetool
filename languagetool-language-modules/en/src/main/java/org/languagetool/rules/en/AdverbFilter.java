@@ -168,6 +168,10 @@ public class AdverbFilter extends RuleFilter {
     put("vividly", "vivid");
     put("partially", "partial");
     put("unduly", "undue");
+    put("seriously", "serious");
+    put("non-verbally", "non-verbal");
+    put("nonverbally", "nonverbal");
+    put("verbally", "verbal");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
