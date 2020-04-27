@@ -427,6 +427,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("vollrichtest", "verrichtest", rule, lt);
     assertFirstSuggestion("Vollrichtet", "Verrichtet", rule, lt);
     assertFirstSuggestion("bedingslosem", "bedingungslosem", rule, lt);
+    assertFirstSuggestion("überstenden", "berstenden", rule, lt);
   }
 
   @Test
