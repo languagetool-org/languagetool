@@ -50,6 +50,8 @@ public class FrenchCompoundAwareHunspellRuleTest {
     assertSuggestion(lt, "skype", "Skype");
     assertSuggestion(lt, "Wordpress", "WordPress");
     assertSuggestion(lt, "wordpress", "WordPress");
+    assertSuggestion(lt, "Etais-tu", "Étais-tu");
+    assertSuggestion(lt, "etais-tu", "étais-tu");
     assertThat(lt.check("Et d'Harvard").size(), is(0));
   }
 
