@@ -164,11 +164,7 @@ public class SentenceSourceChecker {
     int activatedBySource = 0;
     for (Rule rule : lt.getAllRules()) {
       if (rule.isDefaultTempOff()) {
-        if (rule instanceof AbstractPatternRule) {
-          System.out.println("Activating " + rule.getFullId() + ", which is default='temp_off'");
-        } else {
-          System.out.println("Activating " + rule.getId() + ", which is default='temp_off'");
-        }
+        System.out.println("Activating " + rule.getFullId() + ", which is default='temp_off'");
         lt.enableRule(rule.getId());
       }
       if (ruleSource != null) {

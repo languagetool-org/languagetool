@@ -21,7 +21,6 @@ package org.languagetool.tools;
 import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
-import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PasswordAuthenticator;
 import org.languagetool.rules.patterns.bitext.*;
 import org.xml.sax.SAXException;
@@ -290,11 +289,7 @@ public final class Tools {
     if (enableTempOff) {
       for (Rule rule : lt.getAllRules()) {
         if (rule.isDefaultTempOff()) {
-          if (rule instanceof AbstractPatternRule) {
-            System.out.println("Activating " + rule.getFullId() + ", which is default='temp_off'");
-          } else {
-            System.out.println("Activating " + rule.getId() + ", which is default='temp_off'");
-          }
+          System.out.println("Activating " + rule.getFullId() + ", which is default='temp_off'");
           lt.enableRule(rule.getId());
         }
       }
