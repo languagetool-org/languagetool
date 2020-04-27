@@ -3197,6 +3197,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule name="street names" id="Street">
+        <antipattern><!-- #2805 You Never Walk Alone -->
+            <token regexp="yes">&subject_pronouns;</token>
+            <token postag="RB"/>
+        </antipattern>
         <pattern case_sensitive="yes">
             <marker>
                 <token regexp="yes">\p{Lu}\p{Ll}+</token>
@@ -3204,6 +3208,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">Street|Avenue|Boulevard|Crescent|Drive|Lane|Road|Walk</token>
         </pattern>
         <disambig postag="NNP"/>
+        <example type="untouched">You Never Walk Alone</example>
+        <example type="ambiguous" inputform="Never[never/RB,never/UH]" outputform="Never[never/NNP]">I live on <marker>Never</marker> Walk, near the city centre.</example>
     </rule>
 
     <rule name="candidate|nomination for NN -&gt; NNP" id="candidate_NNP">
