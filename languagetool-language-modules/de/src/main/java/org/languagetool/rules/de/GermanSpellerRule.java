@@ -869,6 +869,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("wiederfahren", "widerfahren");
     put("wiederspiegelten", "widerspiegelten");
     putRepl("herraus.*", "herraus", "heraus");
+    put("aufgehangen", "aufgehängt");
   }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
