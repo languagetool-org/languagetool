@@ -3716,7 +3716,7 @@ USA
                         <token>its</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token postag="SENT_END" regexp="yes">everyday|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|possible|dangerous|different|enough|t?here|sexy|&short_adjectives;|&optional_short_adjectives;</token>
+                    <token postag="SENT_END" regexp="yes">everyday|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|&short_adjectives;|&optional_short_adjectives;</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
                 <short>Possible typo</short>
@@ -3739,7 +3739,7 @@ USA
                         <token>its</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token regexp="yes" postag="SENT_END">everyday|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|possible|dangerous|different|enough|t?here|sexy|&short_adjectives;|&optional_short_adjectives;</token>
+                    <token regexp="yes" postag="SENT_END">everyday|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|&short_adjectives;|&optional_short_adjectives;</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
                 <short>Possible typo</short>
@@ -3756,7 +3756,7 @@ USA
                         <token>its</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token regexp="yes">everyday|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|possible|dangerous|different|enough|t?here|sexy|&short_adjectives;|&optional_short_adjectives;</token>
+                    <token regexp="yes">everyday|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|(im)?possible|ready|possible|dangerous|different|enough|t?here|sexy|&short_adjectives;|&optional_short_adjectives;</token>
                     <token postag="SENT_END" regexp="yes">\p{P}</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
@@ -10781,7 +10781,36 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-
+        <rule id="THAT_SOUND_GREAT" name="That sound (sounds) cool" default="temp_off">
+            <antipattern>
+                <token regexp="yes">that|this</token>
+                <token postag="RB" min="1" max="2" />
+                <token postag="JJ" />
+            </antipattern>
+            <pattern>
+                <token postag="SENT_START" />
+                <token postag="UH|RB" postag_regexp="yes" min="0" />
+                <token min="0">,</token>
+                <token regexp="yes">that|this</token>
+                <token postag="RB" min="0" />
+                <marker>
+                    <token postag="VBP">
+                        <exception>time</exception>
+                        <exception postag="VBD|MD" postag_regexp="yes" />
+                    </token>
+                </marker>
+                <token min="0" regexp="yes">so|very|really|not|totally|even|pretty|absolutely|not|still</token>
+                <token regexp="yes">&short_adjectives;|&optional_short_adjectives;|awesome|beautiful|ready|(im)?possible|different|wrong|fine|ok(ay)?|(al)?right|available|ready|dangerous|enough|sexy</token>
+                <token postag="CC|PCT|IN|SENT_END" postag_regexp="yes" />
+            </pattern>
+            <message>Did you mean <suggestion><match no="6" postag="VBZ" /></suggestion>?</message>
+            <example correction="sounds">That <marker>sound</marker> great.</example>
+            <example correction="seems">Well, that hardly <marker>seem</marker> fair at all.</example>
+            <example>These are the ones I think that are good but you guys might think a lot of them are useless.</example>
+            <example correction="holds">This probably <marker>hold</marker> true for all doctors.</example>
+            <example>That man left before I could get his name.</example>
+            <example>THIS TIME OFF.</example>
+        </rule>
         <rule id="SHELL_COMPOUNDS" name="bomb shell (bombshell)">
             <pattern>
                 <token regexp="yes">bomb|nut|sea|egg|cockle|lamp|sub</token>
@@ -12701,12 +12730,27 @@ USA
                     <marker>
                         <token>you</token>
                         <token min="0">really</token>
-                        <token regexp="yes">good|ok|okay|mad|happy|cool|coming|ready</token>
+                        <token regexp="yes">good|ok|okay|mad|happy|cool|coming|ready|fine</token>
                         <token>?</token>
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>are you \3 \4\5</suggestion>?</message>
                 <example correction="Are you good?"><marker>You good?</marker></example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|PCT" postag_regexp="yes" />
+                    <marker>
+                        <token>you</token>
+                        <token min="0">really</token>
+                        <token regexp="yes">good|ok|okay|mad|happy|cool|coming|ready|fine</token>
+                        <token>with</token>
+                        <token regexp="yes">that|this</token>
+                        <token>?</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>are you \3 \4 \5 \6\7</suggestion>?</message>
+                <example correction="Are you fine with that?"><marker>You fine with that?</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -12714,7 +12758,7 @@ USA
                     <marker>
                         <token>you</token>
                         <token min="0">really</token>
-                        <token regexp="yes">good|ok|okay|mad|happy|cool|coming|ready</token>
+                        <token regexp="yes">good|ok|okay|mad|happy|cool|coming|ready|fine</token>
                         <token>?</token>
                     </marker>
                     <token regexp="yes" spacebefore="no">["”'’]</token>
@@ -19484,7 +19528,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token>apple</token>
-                    <token regexp="yes">MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|ARKit|Care|Carplay|EarPods|AirPods|Health|Maps|Siri|Lightning|iMovie</token>
+                    <token regexp="yes">MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|ARKit|Care|Carplay|EarPods|AirPods|Health|Maps|Siri|Lightning|iMovie|Arcade</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Apple Inc">He's working for <marker>apple inc</marker>.</example>
@@ -19698,6 +19742,15 @@ USA
             <message>Did you mean <suggestion>WhatsApp</suggestion> (= Messenger) or <suggestion>what's up</suggestion> (= question)?</message>
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
+        </rule>
+        <rule id="OBJECTIVE_C" name="Objective-C" default="temp_off">
+            <pattern>
+                <token>Objective</token>
+                <token>C</token>
+            </pattern>
+            <message>Did you mean the programming language <suggestion>Objective-C</suggestion>?</message>
+            <url>https://en.wikipedia.org/wiki/Objective-C</url>
+            <example correction="Objective-C">This app is programmed in <marker>objective c</marker>.</example>
         </rule>
         <rule id="DELTA_AIRLINES" name="Delta Air Lines">
             <pattern>
@@ -20335,6 +20388,36 @@ USA
             <url>https://www.lexico.com/definition/open-plan</url>
             <example correction="open-plan">In the 1960s, <marker>open plan</marker> offices were introduced, though not without some controversy.</example>
         </rule>
+        <rulegroup id="ENGINE_HYPHEN" name="missing hyphen in 'twin-engined" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">twin|four|4|2|single|piston|gas|mid|rear|big|small|diesel</token>
+                        <token>engined</token>
+                    </marker>
+                    <token postag="JJ" min="0" />
+                    <token regexp="yes">mustangs?|cars?|trucks?|fighters?|dragsters?|lockheed|airplanes?|airlines?|cessnas?|aircrafts?|coupes?|models?|bus(es)?|boeing|airbus|porsche|911|mitsubishi|gm|chevrolet|f1|ferraris?|mclaren|[bf]-\d+|pick-?ups?</token>
+                </pattern>
+                <message>Did you mean the adjective <suggestion>\1-\2</suggestion> (spelled with a hyphen)?</message>
+                <example correction="twin-engined">He drives a <marker>twin engined</marker> Mustang.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="PRP\$|DT" postag_regexp="yes" />
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token regexp="yes">twin|four|4|2|single|piston|gas|mid|rear|big|small|diesel</token>
+                        <token>engined</token>
+                    </marker>
+                    <token postag="NN.*" postag_regexp="yes">
+                        <exception postag="PRP.*|RB.*|IN|MD" postag_regexp="yes" />
+                    </token>
+                </pattern>
+                <message>Did you mean the adjective <suggestion>\3-\4</suggestion> (spelled with a hyphen)?</message>
+                <example correction="twin-engined">He drives a <marker>twin engined</marker> Mustang.</example>
+            </rule>
+        </rulegroup>
+
         <rule id="MUCH_NEEDED_HYPHEN" name="missing hyphen in 'much needed'">
             <pattern>
                 <token postag="DT|PRP\$|IN" postag_regexp="yes" />
@@ -46112,7 +46195,7 @@ The accident victim died from her injuries.
                     <marker>
                         <token>quite</token>
                     </marker>
-                    <token regexp="yes">evenings?|noises?|spaces?|sounds?|musics?|wedding|confidence|signals?|hummings?|tones?|places?|earth|life|woman|man|kids?|child|areas?</token>
+                    <token regexp="yes">evenings?|noises?|spaces?|sounds?|musics?|wedding|confidence|signals?|hummings?|tones?|places?|earth|life|woman|man|kids?|child|areas?|days?</token>
                 </pattern>
                 <message>Did you mean the adjective <suggestion>quiet</suggestion>? 'quiet' means 'silent', 'quite' mean 'very' or 'to a moderate extent'</message>
                 <example correction="quiet">A very <marker>quite</marker> noise.</example>
