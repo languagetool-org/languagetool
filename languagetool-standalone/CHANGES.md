@@ -1,5 +1,10 @@
 # LanguageTool Change Log
 
+## 4.9.1 (2020-04-27)
+  * Reverted a change to the English confusion rule (#2803)
+
+
+
 ## 4.9 (2020-03-24)
 
 #### Arabic
