@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.TaggedWord;
 
 /**
@@ -166,6 +167,26 @@ public final class PosTagHelper {
         return true;
     }
     return false;
+  }
+
+  public static boolean hasPosTagPartAll(AnalyzedTokenReadings analyzedTokenReadings, String posTagPart) {
+    return hasPosTagPartAll(analyzedTokenReadings.getReadings(), posTagPart);
+  }
+  
+  public static boolean hasPosTagPartAll(List<AnalyzedToken> analyzedTokenReadings, String posTagPart) {
+    boolean foundTag = false;
+    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
+      if( analyzedToken.getPOSTag() != null
+          && ! analyzedToken.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME)
+          && ! analyzedToken.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
+        if (!analyzedToken.getPOSTag().contains(posTagPart))
+          return false;
+        if( ! foundTag ) {
+          foundTag = analyzedToken.getPOSTag().contains(posTagPart);
+        }
+      }
+    }
+    return foundTag;
   }
 
   public static boolean hasPosTagStart(AnalyzedTokenReadings analyzedTokenReadings, String posTagPart) {

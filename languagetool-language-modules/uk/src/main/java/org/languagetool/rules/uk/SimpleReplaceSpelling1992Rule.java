@@ -89,7 +89,7 @@ public class SimpleReplaceSpelling1992Rule extends AbstractSimpleReplaceRule {
     for (int i = 1; i < tokens.length; i++) {
       AnalyzedTokenReadings tokenReadings = tokens[i];
 
-      if( PosTagHelper.hasPosTagPart(tokenReadings, "ua_1992") ) {
+      if( PosTagHelper.hasPosTagPartAll(tokenReadings, "ua_1992") ) {
         RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getEndPos(), 
             getShort(), getShort());
         
