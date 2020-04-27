@@ -3871,6 +3871,12 @@ USA
                     <token chunk="B-NP-singular">its</token>
                     <token chunk="I-NP-singular" postag="RB"/>
                 </antipattern>
+                <antipattern>
+                    <token>Its</token>
+                    <token>vs</token>
+                    <token min="0">.</token>
+                    <token>It</token>
+                </antipattern>
                 <pattern>
                     <token><exception postag="IN|CC|PCT" postag_regexp="yes"/><exception regexp="yes">[tw]hat</exception></token>
                     <marker>
@@ -3883,6 +3889,7 @@ USA
                 <short>Possible typo</short>
                 <example correction="It's|It is"><marker>Its</marker> where people walk around.</example>
                 <example>It has not yet found its way either into the pharmacopoeia.</example>
+                <example>Its vs. It's</example>
                 <example>London is counting iconic landmarks such as the Houses of Parliament, Tower Bridge and Buckingham Palace amongst its many attractions.</example>
                 <example>The Service has not said what its next step will be.</example>
                 <example>But mostly, I feel it because I see its poison working its way out of me and on to those around me as repercussions of my actions.</example>
@@ -4678,19 +4685,25 @@ USA
                 <antipattern>
                     <token postag="VB.*" postag_regexp="yes" />
                     <token regexp="yes">you|it</token>
-                    <token inflected="yes" regexp="yes">hope|think</token>
+                    <token inflected="yes" regexp="yes">hope|think|guess</token>
+                </antipattern>
+                <antipattern>
+                    <token>its</token>
+                    <token postag="JJ.*" postag_regexp="yes" />
+                    <token>,</token>
+                    <token regexp="yes">if|maybe|or|and</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">I|you|we|they|s?he|it</token>
                     <token postag="RB" min="0" />
-                    <token inflected="yes" regexp="yes">hope|think</token>
+                    <token inflected="yes" regexp="yes">hope|think|guess</token>
                     <marker>
                         <token regexp="yes">its?</token>
                     </marker>
                     <token regexp="yes" min="0">all|both|being|feeling|doing|going|keeping|managing|recovering</token>
-                    <token regexp="yes" min="0" max="2">just|not|very|really|even|totally|absolutely|too|more|less|always|never</token>
+                    <token regexp="yes" min="0" max="2">just|not|very|really|even|totally|absolutely|too|more|less|always|never|pretty|perfectly</token>
                     <!-- long list of adjectives is currently necessary due to wrong tagging -->
-                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|alone|amazing|beautiful|pretty|attractive|handsome|awesome|nice|(im)?possible|(un)?able|clear|helpful|important|time|nicer|best|similar|difficult|small|big|large|little|active|bad|wonderful|simple|easy|early|available|dangerous|enough|alright|sure|sexy|alone|nothing|free|cheap|expensive|annoying|worth|different|popular|famous|useful|old|young|hot|sweet|cute|strong|interesting|intelligent|poor|huge|rare|aware|efficient|capable|powerful|sufficient|afraid|obvious|careful|(un)?acceptable|boring</token>
+                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|alone|amazing|beautiful|pretty|attractive|handsome|awesome|nice|(im)?possible|(un)?able|clear|helpful|important|time|nicer|best|similar|difficult|small|big|large|little|active|bad|wonderful|simple|easy|early|available|dangerous|enough|alright|sure|sexy|alone|nothing|free|cheap|expensive|annoying|worth|different|popular|famous|useful|old|young|hot|sweet|cute|strong|interesting|intelligent|poor|huge|rare|aware|efficient|capable|powerful|sufficient|afraid|obvious|careful|(un)?acceptable|boring|weird|valid|late|early|soon|smart</token>
                     <token min="0" regexp="yes">now|soon|together|tonight|today|yesterday|tomorrow|(any|some)more</token>
                     <token regexp="yes">\p{P}|of|at|for|in|on|to|because|with|about|than</token>
                 </pattern>
@@ -4698,6 +4711,7 @@ USA
                 <example correction="it's">I hope <marker>its</marker> great.</example>
                 <example correction="it's">This is my first post so I hope <marker>it</marker> helpful.</example>
                 <example correction="it's">I think <marker>its</marker> nothing to worry about.</example>
+                <example correction="it's">I guess <marker>its</marker> here.</example>
             </rule>
         </rulegroup>
         <rule id="CC_IT_VBG" name="'it' vs. 'its' after 'and'">
@@ -7731,19 +7745,26 @@ USA
                 <antipattern>
                     <token postag="VB.*" postag_regexp="yes" />
                     <token regexp="yes">you|it</token>
-                    <token inflected="yes" regexp="yes">hope|think</token>
+                    <token inflected="yes" regexp="yes">hope|think|guess</token>
+                </antipattern>
+                <antipattern>
+                    <token>your</token>
+                    <token postag="JJ.*" postag_regexp="yes" />
+                    <token>,</token>
+                    <token regexp="yes">if|maybe|or|and</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">I|you|we|they|s?he|it</token>
                     <token postag="RB" min="0" />
-                    <token inflected="yes" regexp="yes">hope|think</token>
+                    <token inflected="yes" regexp="yes">hope|think|guess</token>
                     <marker>
                         <token regexp="yes">your?</token>
                     </marker>
                     <token regexp="yes" min="0">all|both|being|feeling|doing|keeping|managing|recovering</token>
-                    <token regexp="yes" min="0" max="2">just|not|very|really|even|totally|absolutely|too|more|less</token>
-                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|amazing|beautiful|pretty|attractive|handsome|awesome|nice|bad|wonderful|active|available|dangerous|enough|alright|sure|sexy|alone|nothing|free|cheap|expensive|annoying|worth|different|popular|famous|useful|old|young|hot|sweet|cute|strong|interesting|intelligent|poor|huge|rare|aware|efficient|capable|powerful|sufficient|afraid|obvious|careful|(un)?acceptable|boring</token>
-                    <token min="0" regexp="yes">now|soon|together|tonight|today|yesterday|tomorrow|anymore|(any|some)where</token>
+                    <token regexp="yes" min="0" max="2">just|not|very|really|even|totally|absolutely|too|more|less|always|never|pretty|perfectly</token>
+                    <!-- long list of adjectives is currently necessary due to wrong tagging -->
+                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|alone|amazing|beautiful|pretty|attractive|handsome|awesome|nice|(im)?possible|(un)?able|clear|helpful|important|time|nicer|best|similar|difficult|small|big|large|little|active|bad|wonderful|simple|easy|early|available|dangerous|enough|alright|sure|sexy|alone|nothing|free|cheap|expensive|annoying|worth|different|popular|famous|useful|old|young|hot|sweet|cute|strong|interesting|intelligent|poor|huge|rare|aware|efficient|capable|powerful|sufficient|afraid|obvious|careful|(un)?acceptable|boring|weird|valid|late|early|soon|smart</token>
+                    <token min="0" regexp="yes">now|soon|together|tonight|today|yesterday|tomorrow|(any|some)more</token>
                     <token regexp="yes">\p{P}|of|at|for|in|on|to|because|with|about|than</token>
                 </pattern>
                 <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
@@ -7751,6 +7772,7 @@ USA
                 <example correction="you're">I hope <marker>your</marker> doing better now.</example>
                 <example correction="you're">And I think <marker>your</marker> right!</example>
                 <example>I think your right now to go anywhere is very valuable.</example>
+                <example>I think your best, if not only, bet is an AppleScript applet that accomplishes the same thing.</example>
             </rule>
             <rule>
                 <pattern>
@@ -7771,6 +7793,14 @@ USA
                 <example correction="your">This is for you and <marker>you</marker> family!</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>thanks</token>
+                    <token>for</token>
+                    <token>you</token>
+                    <token postag="VBG" />
+                    <token />
+                    <token />
+                </antipattern>
                 <pattern>
                     <token regexp="yes">thanks?|congratulations</token>
                     <token min="0">you</token>
@@ -7782,6 +7812,8 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>your</suggestion>?</message>
                 <example correction="your">Thanks for <marker>you</marker> help.</example>
+                <example>Thanks for you letting me be who I am.</example>
+                <example>You guys are seriously awesome, thanks for you going out of your way to show me some builds that haven't been shown to me yet.</example>
             </rule>
             <rule>
                 <pattern>
@@ -11861,6 +11893,11 @@ USA
                 <token regexp="yes">it|you</token>
                 <token postag="IN" />
             </antipattern>
+            <antipattern>
+                <token>we</token>
+                <token>human</token>
+                <token>beings</token>
+            </antipattern>
             <rule><!-- "Everything else it not working" -->
                 <pattern>
                     <or>
@@ -12664,7 +12701,7 @@ USA
                     <marker>
                         <token>you</token>
                         <token min="0">really</token>
-                        <token regexp="yes">good|ok|okay|mad|happy|cool</token>
+                        <token regexp="yes">good|ok|okay|mad|happy|cool|coming|ready</token>
                         <token>?</token>
                     </marker>
                 </pattern>
@@ -12677,7 +12714,7 @@ USA
                     <marker>
                         <token>you</token>
                         <token min="0">really</token>
-                        <token regexp="yes">good|ok|okay|mad|happy|cool</token>
+                        <token regexp="yes">good|ok|okay|mad|happy|cool|coming|ready</token>
                         <token>?</token>
                     </marker>
                     <token regexp="yes" spacebefore="no">["”'’]</token>
@@ -12946,7 +12983,7 @@ USA
             </antipattern>
             <antipattern><!-- nouns that are verbs when written as two words, needs different rule with suggestion (TODO!) -->
                 <token postag="MD" skip="2" />
-                <token regexp="yes">sign\-?off|tie\-?up|stand\-?still|back\-?down|roll\-?over|take\-?away|take\-?up|write\-?off|mix\-?up|walk\-?in|bail\-?out|fill\-?in|give\-?away|pay\-?out|pay\-?off|pay\-?back|run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
+                <token regexp="yes">hide\-?out|charge\-?back|sign\-?off|tie\-?up|stand\-?still|back\-?down|roll\-?over|take\-?away|take\-?up|write\-?off|mix\-?up|walk\-?in|bail\-?out|fill\-?in|give\-?away|pay\-?out|pay\-?off|pay\-?back|run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back</token>
             </antipattern>
             <antipattern case_sensitive="yes"><!-- A.I -->
                 <token regexp="yes">[A-Z]</token>
@@ -12974,7 +13011,7 @@ USA
                 <token postag="MD" />
                 <token regexp="yes" min="0">&apostrophe;</token>
                 <token min="0">t</token>
-                <token regexp="yes">m[uo]m|m[ou]mmy|mama|dad(dy)?|papa|dear</token>
+                <token regexp="yes">m[uo]m|m[ou]mmy|mama|dad(dy)?|papa|dear|sweetheart|sweetie</token>
                 <token regexp="yes">thanks?|\,</token>
             </antipattern>
             <antipattern><!-- Yes, you can Peter -->
@@ -12997,7 +13034,7 @@ USA
                 <token postag="MD" />
                 <token regexp="yes" min="0">&apostrophe;</token>
                 <token min="0">t</token>
-                <token regexp="yes">bye|darling</token>
+                <token regexp="yes">bye|darling|sweetheart</token>
             </antipattern>
             <antipattern>
                 <token postag="MD" />
@@ -13060,7 +13097,6 @@ USA
                     <token min="0" spacebefore="no" regexp="yes">&apostrophe;</token>
                     <marker>
                         <token postag="MD">
-                            <exception regexp="yes">haven?</exception><!-- tagged as MD in "It's a pity when you haven't anything but a pittance." -->
                             <exception postag="VB.*|NNP" postag_regexp="yes" />
                         </token>
                         <token regexp="yes" min="0">&apostrophe;</token>
@@ -13142,7 +13178,6 @@ USA
                     <token min="0" spacebefore="no" regexp="yes">&apostrophe;</token>
                     <marker>
                         <token postag="MD">
-                            <exception regexp="yes">haven?</exception><!-- tagged as MD in "It's a pity when you haven't anything but a pittance." -->
                             <exception postag="VB.*|NNP" postag_regexp="yes" />
                         </token>
                         <token postag="RB" />
@@ -13283,7 +13318,6 @@ USA
                     <token postag="RB" min="0" />
                     <marker>
                         <token postag="MD">
-                            <exception regexp="yes">haven?</exception><!-- tagged as MD in "It's a pity when you haven't anything but a pittance." -->
                             <exception postag="VB.*" postag_regexp="yes" />
                         </token>
                         <token regexp="yes" min="0" spacebefore="no">&apostrophe;</token>
@@ -13341,7 +13375,6 @@ USA
                     </token>
                     <marker>
                         <token postag="MD">
-                            <exception regexp="yes">haven?</exception><!-- tagged as MD in "It's a pity when you haven't anything but a pittance." -->
                             <exception postag="VB.*|NNP|CC" postag_regexp="yes" />
                         </token>
                         <token postag="NNS?|NN:UN?|JJS?" postag_regexp="yes">
@@ -19952,7 +19985,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Kim_Jong-un</url>
             <rule>
                 <pattern>
-                    <token>jong</token>
+                    <token regexp="yes">[yj]ong</token>
                     <token>un</token>
                 </pattern>
                 <message>Did you mean <suggestion>Jong-un</suggestion> (= person from North Korea)?</message>
@@ -27522,6 +27555,11 @@ USA
                     <token postag="RB" min="0" />
                     <token postag="JJ" />
                 </antipattern>
+                <antipattern>
+                    <token>one</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token><!-- "s" is not necessarily a form of "be" here -->
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be</token>
                     <token min="0" max="1" postag="RB"><exception>always</exception></token><!-- https://www.phrasemix.com/phrases/someone-is-always-doing-something -->
@@ -31436,6 +31474,13 @@ USA
                     <token regexp="yes">\]|\)</token>
                     <token>he</token>
                 </antipattern>
+                <antipattern><!-- "Someone help me please" -->
+                    <token postag="SENT_START" />
+                    <token regexp="yes">some(body|one)</token>
+                    <token regexp="yes">support|help|rescue</token>
+                    <token skip="1" regexp="yes">me|him|her|them</token>
+                    <token>please</token>
+                </antipattern>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be|notice</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
                     <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
@@ -31488,6 +31533,7 @@ USA
                 <example>... and anyone possessing information is asked to contact the police.</example>
                 <example>Where are Carl and Laura?</example>
                 <example>When are Carl, Joseph and Laura back?</example>
+                <example>Somebody help me please!</example>
                 <example>Anyone else having to deal with that problem?</example>
                 <example>Anyone going to the concert?</example>
                 <example>If anyone needs help or has any doubt you can talk to me.</example>
@@ -31926,6 +31972,34 @@ USA
                 <example>How are Theodore and Jimbo related?</example><!-- #2663 -->
             </rule>
         </rulegroup>
+        <rule id="BORN_IN" name="I (was) born in the USA" default="temp_off">
+            <antipattern>
+                <token inflected="yes">be</token>
+                <token postag="PRP" />
+                <token>born</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">be</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+                <token postag="PRP" />
+                <token>born</token>
+            </antipattern>
+            <antipattern>
+                <token postag="VB.*|IN" postag_regexp="yes" />
+                <token regexp="yes">you|it</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">you|it|s?he|they|we|I</token>
+                <marker>
+                    <token>born</token>
+                </marker>
+                <token regexp="yes">in|at|on</token>
+            </pattern>
+            <message>Did you mean <suggestion>was born</suggestion> or <suggestion>were born</suggestion>?</message>
+            <example correction="was born|were born">I <marker>born</marker> in the United States.</example>
+            <example>Was he born in Australia?</example>
+        </rule>
         <rulegroup id="PRP_PAST_PART" name="Agreement error: past participle without 'have'">
             <rule>
                 <antipattern>
@@ -31933,8 +32007,16 @@ USA
                     <token>it</token>
                     <token postag="VBN"/>
                 </antipattern>
+                <antipattern>
+                    <token>call</token>
+                    <token>it</token>
+                    <token>done</token>
+                </antipattern>
                 <pattern>
-                    <token postag="SENT_START" skip="-1"><exception inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes" scope="next">have|be</exception><exception postag="MD" scope="next">haven</exception></token>
+                    <token postag="SENT_START" skip="-1">
+                        <exception inflected="yes" postag="V.*" postag_regexp="yes" regexp="yes" scope="next">have|be</exception>
+                        <exception scope="next" regexp="yes">-(haven?|hasn?|isn?|aren?|wasn?|weren?)</exception><!-- hyphen with no space in front -->
+                    </token>
                     <token regexp="yes">I|you|s?he|it|we|they</token>
                     <marker>
                         <token postag="VBN"><exception postag="VB[DP]" postag_regexp="yes"/></token>
@@ -31943,9 +32025,14 @@ USA
                 <message>Possible grammatical error. You used a past participle without using any required verb ('be' or 'have'). Did you mean <suggestion><match no="3" postag="VBD" postag_regexp="yes"/></suggestion>?</message>
                 <example correction="did">He <marker>done</marker> it.</example>
                 <example correction="began">... and then it <marker>begun</marker> to rain.</example>
+                <example correction="saw">When I <marker>seen</marker> your note ...</example>
                 <example>It was done by him.</example>
                 <example>"Haven't you seen it?"</example>
                 <example>“Haven't you seen it?”</example>
+                <example>Haven't you seen it?</example>
+                <example>Hasn't he seen it?</example>
+                <example>“Hasn't he seen it?”</example>
+                <example>Call it done.</example>
                 <example>Push the job and get it done this week.</example>
                 <example>The prince made it known all over the land that he would ...</example>
             </rule>
@@ -36824,6 +36911,10 @@ USA
                 <token postag="NNS"/>
                 <token postag_regexp="yes" postag="VB.*|MD"/>
             </antipattern>
+            <antipattern><!-- we humans -->
+                <token>we</token>
+                <token regexp="yes">primates|humans</token>
+            </antipattern>
             <antipattern><!-- you bastards! -->
                 <token>you</token>
                 <token />
@@ -36840,6 +36931,13 @@ USA
                 <token />
                 <token regexp="yes">it|you</token>
                 <token postag="SENT_END" regexp="yes">folks|guys</token>
+            </antipattern>
+            <antipattern>
+                <token>all</token>
+                <token min="0">of</token>
+                <token>you</token>
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <token postag="NNS" />
             </antipattern>
             <antipattern>
                 <token />
@@ -37020,6 +37118,7 @@ USA
             <example>Type I diabetes.</example>
             <example>The Class I shareholder report.</example>
             <example>I pray to you oh lord.</example>
+            <example>I ain't stupid.</example>
             <example>Have we anything new to test?</example>
             <example>Haven't we anything new to test?</example>
             <example>All of you girls</example>
@@ -49111,7 +49210,7 @@ The accident victim died from her injuries.
                         <token regexp="yes">pri[sc]es?</token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion><match no="3" regexp_match="pri[sc]" regexp_replace="priz"/></suggestion> (reward)?</message>
+                <message>Did you mean <suggestion><match no="3" regexp_match="pri[sc]" regexp_replace="priz"/></suggestion> (= reward)?</message>
                 <short>Possible typo</short>
                 <example correction="prize">She won a <marker>price</marker>.</example>
             </rule>
@@ -49122,19 +49221,54 @@ The accident victim died from her injuries.
                         <token regexp="yes">pri[sc]es?</token>
                     </marker>
                 </pattern>
-                <message>Did you mean <suggestion><match no="2" regexp_match="pri[sc]" regexp_replace="priz"/></suggestion> (reward)?</message>
+                <message>Did you mean <suggestion><match no="2" regexp_match="pri[sc]" regexp_replace="priz"/></suggestion> (= reward)?</message>
                 <short>Possible typo</short>
                 <example correction="prize">That is the consolation <marker>price</marker>.</example>
                 <example correction="prizes">These are the consolation <marker>prices</marker>.</example>
             </rule>
             <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Nobel</token>
+                    <token regexp="yes">Prizes?</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">Nobel|Noble</token>
-                    <token regexp="yes">pri[sc]e</token>
+                    <token regexp="yes">pri[scz]es?</token>
                 </pattern>
-                <message>Did you mean <suggestion>Nobel Prize</suggestion> (reward)?</message>
+                <message>Did you mean <suggestion>Nobel <match no="2" regexp_match="(?i)pri[scz]e" regexp_replace="Prize" case_conversion="startupper" /></suggestion> (= reward)?</message>
+                <url>https://en.wikipedia.org/wiki/Nobel_Prize</url>
                 <short>Possible typo</short>
                 <example correction="Nobel Prize">That is the <marker>Nobel Price</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Nobel</token>
+                    <token>Peace</token>
+                    <token regexp="yes">Prizes?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">Nobel|Noble</token>
+                    <token regexp="yes">Peace|Piece</token>
+                    <token regexp="yes">pri[scz]es?</token>
+                </pattern>
+                <message>Did you mean <suggestion>Nobel Peace <match no="3" regexp_match="(?i)pri[scz]e" regexp_replace="Prize" case_conversion="startupper" /></suggestion> (= reward)?</message>
+                <url>https://en.wikipedia.org/wiki/Nobel_Peace_Prize</url>
+                <short>Possible typo</short>
+                <example correction="Nobel Peace Prize">He won the <marker>Noble Peace Price</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Nobel</token>
+                    <token regexp="yes">Committees?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">Noble|Nobel</token>
+                    <token regexp="yes">Comm?itt?ee?s?</token>
+                </pattern>
+                <message>Did you mean <suggestion>Nobel <match no="2" regexp_match="(?i)Comm?itt?ee?" regexp_replace="Committee" /></suggestion> (= group that selects the Nobel Prize laureates)?</message>
+                <url>https://en.wikipedia.org/wiki/Nobel_Committee</url>
+                <short>Possible typo</short>
+                <example correction="Nobel Committee">A <marker>Noble committee</marker> is a working body responsible for most of the work involved in selecting Nobel Prize laureates.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRIZE_PRICE" name="prize (price)">

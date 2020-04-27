@@ -276,8 +276,9 @@ public class English extends Language implements AutoCloseable {
       case "MISSING_HYPHEN":            return 5;
       case "TRANSLATION_RULE":          return 5;   // Premium
       case "WRONG_APOSTROPHE":          return 5;
-      case "DOS_AND_DONTS":             return 2;
-      case "EN_COMPOUNDS":              return 1;
+      case "DOS_AND_DONTS":             return 3;
+      case "EN_COMPOUNDS":              return 2;
+      case "BORN_IN":                   return 1;   // higher prio than PRP_PAST_PART
       case "DO_TO":                     return 1;   // higher prio than HAVE_PART_AGREEMENT
       case "IN_THIS_REGARDS":           return 1;   // higher prio than THIS_NNS
       case "NO_WHERE":                  return 1;   // higher prio than NOW
