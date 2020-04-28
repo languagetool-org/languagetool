@@ -73,7 +73,7 @@ public class AgreementRule2 extends Rule {
     asList(token("Russisch"), token("Roulette")),
     asList(token("Clever"), tokenRegex("Shuttles?")), // name
     asList(token("Personal"), tokenRegex("(Computer|Coach|Trainer).*")),
-    asList(tokenRegex("Digital|Regional|Global|Bilingual|International"), tokenRegex("(Initiative|Connection|Bootcamp|Leadership|Sales|Community|Service|Management).*")),
+    asList(tokenRegex("Digital|Regional|Global|Bilingual|International|National"), tokenRegex("(Initiative|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board).*")),
     asList(token("Smart"), tokenRegex("(Service|Home|Meter|City).*")),
     asList(token("GmbH"))
   );

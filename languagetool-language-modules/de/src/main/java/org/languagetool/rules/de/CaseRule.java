@@ -144,6 +144,10 @@ public class CaseRule extends Rule {
       regex("Managements?")
     ),
     Arrays.asList(
+      token("National"),
+      regex("Boards?")
+    ),
+    Arrays.asList(
       regex("[kK]nock"),
       regex("[oO]ut")
     ),
