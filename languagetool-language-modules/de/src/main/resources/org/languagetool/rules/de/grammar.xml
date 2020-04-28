@@ -1867,8 +1867,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="GEGEN_GEGEBEN" name="'gegen (gegeben)'">
             <short>Möglicher Tippfehler</short>
             <rule>
+                <antipattern>
+                    <token postag="PRO:IND:.+|ADV:MOD|UNKNOWN" postag_regexp="yes"/>
+                    <token regexp="yes">ge[bg]en</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER:AUX:.+" postag_regexp="yes"/>
+                    <token skip="-1"/>
+                    <token>,</token>
+                    <token regexp="yes">der|die|das</token>
+                    <token skip="-1"/>
+                    <token inflected="yes">haben</token>
+                </antipattern>
                 <pattern>
-                    <token inflected="yes" skip="-1">haben</token>
+                    <token inflected="yes">haben</token>
+                    <token skip="-1">
+                        <exception scope="next" postag="PKT|KON:.+" postag_regexp="yes"/>
+                        <exception postag="PKT|KON:.+" postag_regexp="yes"/>
+                        <exception scope="next" regexp="yes">“|–|"|„|‚|‘|´|`|»|«|›|‹|-|\(|\)|'</exception>
+                    </token>
                     <marker>
                         <token regexp="yes">ge[bg]en</token>
                     </marker>
@@ -1877,6 +1894,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>gegeben</suggestion>?</message>
                 <example correction="gegeben">Hast du ihm das Buch <marker>gegen</marker>?</example>
                 <example correction="gegeben">Wieso hast du ihm das Buch <marker>gegen</marker>?</example>
+                <example>Die Richterin hatte sich entschieden, der Schülerin Sozialstunden zu geben.</example>
+                <example>Ich habe nichts zu geben.</example>
+                <example>Tom hat nicht viel zu geben.</example>
             </rule>
             <rule>
                 <pattern>
