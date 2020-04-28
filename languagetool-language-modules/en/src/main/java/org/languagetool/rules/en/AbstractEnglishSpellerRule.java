@@ -258,6 +258,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("wtf", Arrays.asList("WTF"));
     s.put("fyi", Arrays.asList("FYI"));
     s.put("url", Arrays.asList("URL"));
+    s.put("usb", Arrays.asList("USB"));
 
     s.put("italia", Arrays.asList("Italy"));
     s.put("macboook", Arrays.asList("MacBook"));
