@@ -32933,7 +32933,7 @@ Andere Projekte</example>
         </rulegroup>
         -->
         <rulegroup id="PRP_DAT_AKK" name="Präposition mit Dativ oder Akkusativ">
-          <rule>
+        <rule>
             <antipattern>
                 <token skip="3">in</token>
                 <token regexp="yes">genannt|bezeichnet</token>
@@ -32964,6 +32964,15 @@ Andere Projekte</example>
                 <token><exception postag="SUB:.+" postag_regexp="yes"/></token>
                 <token postag="VER:[123].+" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>in</token>
+                <token postag="PRO:DEM:GEN:.+" postag_regexp="yes"/>
+                <token postag="SUB:.+" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>in</token>
+                <token>der</token>
+            </antipattern>
             <pattern>
               <marker>
                   <token postag="PRP:LOK+TMP+MOD:DAT+AKK" skip="3">
@@ -32981,6 +32990,8 @@ Andere Projekte</example>
             <example>...die in ihrer eigenen Sprache Kelten und in unserer Gallier genannt werden.</example>
             <example>Ich frage mich, was ein von Geburt an Blinder denkt.</example>
             <example>In deren Tradition entstanden unter anderem die Buddenbrocks.</example>
+            <example>Ich stelle sicher, dass unser Add-on in deren Store kommt.</example>
+            <example>Ich bin froh, in einer Gegend zu leben, in der Frieden herrscht.</example>
           </rule>
         </rulegroup>
         <!-- TODO: testen!!
