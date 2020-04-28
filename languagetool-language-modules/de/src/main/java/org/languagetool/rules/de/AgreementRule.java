@@ -646,13 +646,17 @@ public class AgreementRule extends Rule {
       posRegex("News")
     ),
     Arrays.asList(
-      csToken("Steinberg"),
+      tokenRegex("Steinberg|Park"),
       csToken("Apotheke")
     ),
     Arrays.asList( // Vielen Dank fürs Bescheid geben
       token("fürs"),
       token("Bescheid"),
       tokenRegex("geben|sagen")
+    ),
+    Arrays.asList( // "Los" ist ein deutsches Substantiv
+      token("Los"),
+      tokenRegex("Angeles|Zetas")
     ),
     Arrays.asList( // https://www.autozeitung.de/
       csToken("Auto"),
@@ -730,6 +734,7 @@ public class AgreementRule extends Rule {
     "Kilogramm",
     "Piepen", // Die Piepen
     "Badlands",
+    "Visual", // englisch
     "Chief", // Chief Excutive Officer
     "Carina", // Name
     "Wüstenrot", // Name
