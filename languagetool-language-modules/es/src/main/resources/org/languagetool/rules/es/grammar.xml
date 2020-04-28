@@ -1359,7 +1359,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>se cree que este mismo papa estuvo interesado</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DE_TILDE" name="de/dé (dar)" default="temp_off">
+        <rulegroup id="DE_TILDE" name="de/dé (dar)" default="on">
+            <antipattern>
+                <token case_sensitive="yes">DE</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -1432,11 +1435,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La de es la tercera letra del abecedario.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TE_TILDE" name="té/te" default="temp_off">
+        <rulegroup id="TE_TILDE" name="té/te" default="on">
             <antipattern>
                 <token>te</token>
                 <token min="0" regexp="yes">lo|la|los|las|nos|os|me|se</token>
                 <token postag="V.[SI].*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">TE</token>
             </antipattern>
             <rule>
                 <pattern>
