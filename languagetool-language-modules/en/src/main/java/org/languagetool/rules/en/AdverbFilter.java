@@ -172,6 +172,9 @@ public class AdverbFilter extends RuleFilter {
     put("non-verbally", "non-verbal");
     put("nonverbally", "nonverbal");
     put("verbally", "verbal");
+    put("shortly", "short");
+    put("mildly", "mild");
+    put("secretly", "secret");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
