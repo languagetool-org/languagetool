@@ -45,8 +45,11 @@ final public class PatternRuleMatcher extends AbstractPatternRulePerformer imple
   private static final String SUGGESTION_START_TAG = "<suggestion>";
   private static final String SUGGESTION_END_TAG = "</suggestion>";
 
+  private static final String allowedChars = "[^<>\\(\\)]*?";
   private static final Pattern SUGGESTION_PATTERN_SUPPRESS = Pattern
-      .compile(SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME + ".*?(\\(.*?\\)|"+MISTAKE+").*?" + SUGGESTION_END_TAG);
+      .compile(SUGGESTION_START_TAG + PatternRuleHandler.PLEASE_SPELL_ME 
+          + allowedChars + "(\\(" + allowedChars + "\\)|" + MISTAKE + ")" + allowedChars  
+          + SUGGESTION_END_TAG);
 
   private final boolean useList;
   private final List<PatternTokenMatcher> patternTokenMatchers;
