@@ -4688,7 +4688,7 @@ USA
                 <antipattern>
                     <token postag="VB.*" postag_regexp="yes" />
                     <token regexp="yes">you|it</token>
-                    <token inflected="yes" regexp="yes">hope|think|guess</token>
+                    <token inflected="yes" regexp="yes">hope|think|guess|suppose|believe|assume|doubt</token>
                 </antipattern>
                 <antipattern>
                     <token>its</token>
@@ -4705,16 +4705,19 @@ USA
                 <pattern>
                     <token regexp="yes">I|you|we|they|s?he|it</token>
                     <token postag="RB" min="0" />
-                    <token inflected="yes" regexp="yes">hope|think|guess</token>
+                    <token inflected="yes" regexp="yes">hope|think|guess|suppose|believe|assume|doubt</token>
                     <marker>
                         <token regexp="yes">its?</token>
                     </marker>
                     <token regexp="yes" min="0">all|both|being|feeling|doing|going|keeping|managing|recovering</token>
                     <token regexp="yes" min="0" max="2">just|not|very|really|even|totally|absolutely|too|more|less|always|never|pretty|perfectly</token>
                     <!-- long list of adjectives is currently necessary due to wrong tagging -->
-                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|alone|amazing|beautiful|pretty|attractive|handsome|awesome|nice|(im)?possible|(un)?able|clear|helpful|important|time|nicer|best|similar|difficult|small|big|large|little|active|bad|wonderful|simple|easy|early|available|dangerous|enough|alright|sure|sexy|alone|nothing|free|cheap|expensive|annoying|worth|different|popular|famous|useful|old|young|hot|sweet|cute|strong|interesting|intelligent|poor|huge|rare|aware|efficient|capable|powerful|sufficient|afraid|obvious|careful|(un)?acceptable|boring|weird|valid|late|early|soon|smart|easier|useless|fantastic|hard|handy|related|relevant|normal|restricted|harm(ful|less)|one|up|clever|fair|just|only|meaningless|(un)?necessary|essential|foolish|natural|true|splendid|unlikely|(in)?appropriate</token>
-                    <token min="0" regexp="yes">now|soon|together|tonight|today|yesterday|tomorrow|(any|some)more</token>
-                    <token regexp="yes">\p{P}|of|at|for|in|on|to|because|with|about|than</token>
+                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|alone|amazing|beautiful|pretty|attractive|handsome|awesome|nice|(im)?possible|(un)?able|(un)?clear|helpful|important|time|nicer|best|similar|difficult|small|big|large|little|active|bad|wonderful|simple|easy|early|available|dangerous|enough|alright|sure|sexy|alone|nothing|free|cheap|expensive|annoying|worth|different|popular|famous|useful|old|young|hot|sweet|cute|strong|interesting|intelligent|poor|huge|rare|aware|efficient|capable|powerful|sufficient|afraid|obvious|careful|(un)?acceptable|boring|weird|valid|late|early|soon|smart|easier|useless|fantastic|hard|handy|related|relevant|normal|restricted|harm(ful|less)|one|up|clever|fair|just|only|meaningless|(un)?necessary|essential|foolish|natural|true|splendid|unlikely|(in)?appropriate|significant|special|confused|(un)?real|fake|perfect</token>
+                    <token min="0" regexp="yes">now|soon|together|tonight|today|yesterday|tomorrow|(any|some)more|t?here</token>
+                    <token regexp="yes">
+                        \p{P}|of|at|for|in|on|to|because|with|about|than
+                        <exception regexp="yes">&apostrophe;</exception>
+                    </token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (= it is)?</message>
                 <example correction="it's">I hope <marker>its</marker> great.</example>
@@ -4722,6 +4725,7 @@ USA
                 <example correction="it's">I think <marker>its</marker> nothing to worry about.</example>
                 <example correction="it's">I guess <marker>its</marker> here.</example>
                 <example>I think its natural, black hair looks best.</example>
+                <example>Hopefully not, but given the fact that you believe it there’s a chance the stress could overcome your body.</example>
             </rule>
         </rulegroup>
         <rule id="CC_IT_VBG" name="'it' vs. 'its' after 'and'">
@@ -7755,7 +7759,7 @@ USA
                 <antipattern>
                     <token postag="VB.*" postag_regexp="yes" />
                     <token regexp="yes">you|it</token>
-                    <token inflected="yes" regexp="yes">hope|think|guess</token>
+                    <token inflected="yes" regexp="yes">hope|think|guess|suppose|believe|assume|doubt</token>
                 </antipattern>
                 <antipattern>
                     <token>your</token>
@@ -7769,19 +7773,28 @@ USA
                     <token>,</token>
                     <token postag="JJ.*" postag_regexp="yes" />
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">hope|think|guess|suppose|believe|assume|doubt</token>
+                    <token>you</token>
+                    <token postag="RB" min="1" max="2" />
+                    <token postag="VB.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token regexp="yes">I|you|we|they|s?he|it</token>
                     <token postag="RB" min="0" />
-                    <token inflected="yes" regexp="yes">hope|think|guess</token>
+                    <token inflected="yes" regexp="yes">hope|think|guess|suppose|believe|assume|doubt</token>
                     <marker>
-                        <token regexp="yes">your?</token>
+                        <token regexp="yes">your?|ur</token>
                     </marker>
                     <token regexp="yes" min="0">all|both|being|feeling|doing|keeping|managing|recovering</token>
-                    <token regexp="yes" min="0" max="2">just|not|very|really|even|totally|absolutely|too|more|less|always|never|pretty|perfectly</token>
+                    <token regexp="yes" min="0" max="2">just|not|very|really|even|totally|absolutely|too|more|less|always|never|pretty|perfectly|much</token>
                     <!-- long list of adjectives is currently necessary due to wrong tagging -->
-                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|alone|amazing|beautiful|pretty|attractive|handsome|awesome|nice|(im)?possible|(un)?able|clear|helpful|important|time|nicer|best|similar|difficult|small|big|large|little|active|bad|wonderful|simple|easy|early|available|dangerous|enough|alright|sure|sexy|alone|nothing|free|cheap|expensive|annoying|worth|different|popular|famous|useful|old|young|hot|sweet|cute|strong|interesting|intelligent|poor|huge|rare|aware|efficient|capable|powerful|sufficient|afraid|obvious|careful|(un)?acceptable|boring|weird|valid|late|early|soon|smart|easier|useless|fantastic|hard|handy|related|relevant|normal|restricted|harm(ful|less)|one|up|clever|fair|just|only|meaningless|(un)?necessary|essential|foolish|natural|true|splendid|unlikely|(in)?appropriate</token>
-                    <token min="0" regexp="yes">now|soon|together|tonight|today|yesterday|tomorrow|(any|some)more</token>
-                    <token regexp="yes">\p{P}|of|at|for|in|on|to|because|with|about|than</token>
+                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|alone|amazing|beautiful|pretty|attractive|handsome|awesome|nice|(im)?possible|(un)?able|(un)?clear|helpful|important|time|nicer|best|similar|difficult|small|big|large|little|active|bad|wonderful|simple|easy|early|available|dangerous|enough|alright|sure|sexy|alone|nothing|free|cheap|expensive|annoying|worth|different|popular|famous|useful|old|young|hot|sweet|cute|strong|interesting|intelligent|poor|huge|rare|aware|efficient|capable|powerful|sufficient|afraid|obvious|careful|(un)?acceptable|boring|weird|valid|late|early|soon|smart|easier|useless|fantastic|hard|handy|related|relevant|normal|restricted|harm(ful|less)|one|up|clever|fair|just|only|meaningless|(un)?necessary|essential|foolish|natural|true|splendid|unlikely|(in)?appropriate|significant|special|confused|(un)?real|fake|perfect</token>
+                    <token min="0" regexp="yes">now|soon|together|tonight|today|yesterday|tomorrow|(any|some)more|t?here</token>
+                    <token regexp="yes">
+                        \p{P}|of|at|for|in|on|to|because|with|about|than
+                        <exception regexp="yes">&apostrophe;</exception>
+                    </token>
                 </pattern>
                 <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
                 <example correction="you're">I hope <marker>your</marker> happy.</example>
@@ -7789,6 +7802,7 @@ USA
                 <example correction="you're">And I think <marker>your</marker> right!</example>
                 <example>I think your right now to go anywhere is very valuable.</example>
                 <example>I think your natural, black hair looks best on you.</example>
+                <example>I think you mean:</example>
                 <example>I think your best, if not only, bet is an AppleScript applet that accomplishes the same thing.</example>
             </rule>
             <rule>
@@ -19823,6 +19837,15 @@ USA
             <message>Did you mean <suggestion>WhatsApp</suggestion> (= Messenger) or <suggestion>what's up</suggestion> (= question)?</message>
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
+        </rule>
+        <rule id="MERCEDES_BENZ" name="Mercedes Benz (Mercedes-Benz)">
+            <pattern case_sensitive="no">
+                <token>Mercedes</token>
+                <token>Benz</token>
+            </pattern>
+            <message>This car brand is normally spelled with a hyphen <suggestion><match no="1" case_conversion="startupper" />-Benz</suggestion>.</message>
+            <url>https://en.wikipedia.org/wiki/Mercedes-Benz</url>
+            <example correction="Mercedes-Benz"><marker>Mercedes Benz</marker> is a German car brand.</example>
         </rule>
         <rule id="OBJECTIVE_C" name="Objective-C">
             <pattern>
@@ -34229,7 +34252,7 @@ USA
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception regexp="yes">will|year|so|pst|well|still|have|had|wether|max</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m[23]|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent|mil|all|has|if|possible|yearly</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|mk|gram|stat|[ck]c|hr|min?|m[23]|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent|mil|all|has|if|possible|yearly</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
                         <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza|Parkway|Broadway</exception><!-- probably an address, "333 Grant Avenue" -->
@@ -45177,7 +45200,7 @@ The accident victim died from her injuries.
                 <antipattern>
                     <token postag="VB.*" postag_regexp="yes" />
                     <token regexp="yes">you|it</token>
-                    <token inflected="yes" regexp="yes">hope|think|guess</token>
+                    <token inflected="yes" regexp="yes">hope|think|guess|suppose|believe|assume</token>
                 </antipattern>
                 <antipattern>
                     <token>their</token>
@@ -45194,19 +45217,20 @@ The accident victim died from her injuries.
                 <pattern>
                     <token regexp="yes">I|you|we|they|s?he|it</token>
                     <token postag="RB" min="0" />
-                    <token inflected="yes" regexp="yes">hope|think|guess</token>
+                    <token inflected="yes" regexp="yes">hope|think|guess|suppose|believe|assume</token>
                     <marker>
-                        <token>their</token>
+                        <token regexp="yes">their|they</token>
                     </marker>
                     <token regexp="yes" min="0">all|both|being|feeling|doing|going|keeping|managing|recovering</token>
                     <token regexp="yes" min="0" max="2">just|not|very|really|even|totally|absolutely|too|more|less|always|never|pretty|perfectly</token>
                     <!-- long list of adjectives is currently necessary due to wrong tagging -->
-                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|alone|amazing|beautiful|pretty|attractive|handsome|awesome|nice|(im)?possible|(un)?able|clear|helpful|important|time|nicer|best|similar|difficult|small|big|large|little|active|bad|wonderful|simple|easy|early|available|dangerous|enough|alright|sure|sexy|alone|nothing|free|cheap|expensive|annoying|worth|different|popular|famous|useful|old|young|hot|sweet|cute|strong|interesting|intelligent|poor|huge|rare|aware|efficient|capable|powerful|sufficient|afraid|obvious|careful|(un)?acceptable|boring|weird|valid|late|early|soon|smart|easier|useless|fantastic|hard|handy|related|relevant|normal|restricted|harm(ful|less)|one|up|clever|fair|just|only|meaningless|(un)?necessary|essential|foolish|natural|true|splendid|unlikely|(in)?appropriate</token>
+                    <token regexp="yes">ok(ay)?|fine|good|well|healthy|happy|successful|better|lucky|t?here|ready|sorry|glad|(un)?able|hungry|mad|busy|safe|welcome|angry|sick|proud|right|correct|wrong|crazy|great|cool|alone|amazing|beautiful|pretty|attractive|handsome|awesome|nice|(im)?possible|(un)?able|(un)?clear|helpful|important|time|nicer|best|similar|difficult|small|big|large|little|active|bad|wonderful|simple|easy|early|available|dangerous|enough|alright|sure|sexy|alone|nothing|free|cheap|expensive|annoying|worth|different|popular|famous|useful|old|young|hot|sweet|cute|strong|interesting|intelligent|poor|huge|rare|aware|efficient|capable|powerful|sufficient|afraid|obvious|careful|(un)?acceptable|boring|weird|valid|late|early|soon|smart|easier|useless|fantastic|hard|handy|related|relevant|normal|restricted|harm(ful|less)|one|up|clever|fair|just|only|meaningless|(un)?necessary|essential|foolish|natural|true|splendid|unlikely|(in)?appropriate|significant|special|confused</token>
                     <token min="0" regexp="yes">now|soon|together|tonight|today|yesterday|tomorrow|(any|some)more</token>
                     <token regexp="yes">\p{P}|of|at|for|in|on|to|because|with|about|than</token>
                 </pattern>
                 <message>Did you mean <suggestion>they're</suggestion> (= they are)?</message>
                 <example correction="they're">I hope <marker>their</marker> ok.</example>
+                <example correction="they're">I hope <marker>they</marker> ok.</example>
                 <example>I think their natural, black hair looks nice.</example>
             </rule>
         </rulegroup>
