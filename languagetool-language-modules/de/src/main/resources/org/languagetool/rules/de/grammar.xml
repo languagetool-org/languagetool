@@ -18863,6 +18863,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&inwend;<suggestion>Gleicher unter Gleichen</suggestion> werden 'Gleicher' und 'Gleichen' großgeschrieben.</message>
                 <example correction="Gleicher unter Gleichen">Er war <marker>gleicher unter gleichen</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <antipattern case_sensitive="yes">
+                    <token>Fug</token>
+                    <token>und</token>
+                    <token>Recht</token>
+                </antipattern>
+                <pattern case_sensitive="no">
+                    <token>fug</token>
+                    <token>und</token>
+                    <token>recht</token>
+                </pattern>
+                <message>In der Redewendung "mit Fug und Recht" werden "Fug" und "Recht" großgeschrieben.</message>
+                <suggestion>Fug und Recht</suggestion>
+                <example correction="Fug und Recht">Ich kann mit <marker>fug und recht</marker> behaupten, dass ich hochintelligent bin.</example>
+            </rule>
         </rulegroup>
         <rule id="ALS_ERSTES" name="'als erstes (Erstes)' etc.">
             <antipattern>
