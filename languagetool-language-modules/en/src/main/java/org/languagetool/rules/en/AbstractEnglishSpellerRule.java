@@ -260,6 +260,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("url", Arrays.asList("URL"));
 
     s.put("italia", Arrays.asList("Italy"));
+    s.put("macboook", Arrays.asList("MacBook"));
+    s.put("macboooks", Arrays.asList("MacBooks"));
     s.put("paypal", Arrays.asList("PayPal"));
     s.put("webex", Arrays.asList("WebEx"));
     s.put("&&", Arrays.asList("&"));
