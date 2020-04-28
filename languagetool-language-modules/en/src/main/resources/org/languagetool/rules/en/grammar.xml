@@ -34086,6 +34086,23 @@ USA
                 <token postag="CD"/>
                 <token case_sensitive="yes" regexp="yes">&uom_abbreviations_SI;|&uom_abbreviations_other;</token><!-- Units of measurement are usually singular. MFU 2020-04-26: some of the exceptions in the pattern are probably not necessary with this antipattern. -->
             </antipattern>
+            <antipattern><!-- #2787 fictional Hundred Acre Wood of -->
+                <token postag="CD" regexp="yes">\p{Lu}.*</token>
+                <token postag="NNP"/>
+            </antipattern>
+            <antipattern><!-- #2787 the first four form Greater Athens -->
+                <token>the</token>
+                <token postag="JJ"/>
+                <token postag="CD"/>
+                <token chunk="I-NP-singular" postag="VBP"/>
+                <token chunk="I-NP-singular" regexp="yes">\p{Lu}.*</token>
+                <token chunk="E-NP-singular" postag="NNP"/>
+            </antipattern>
+            <antipattern case_sensitive="yes"><!-- #2787 two AM and 16 FM -->
+                <token postag="CD"/>
+                <token skip="-1">AM</token>
+                <token>FM</token>
+            </antipattern>
             <pattern>
                 <token postag="CD">
                     <exception scope="previous" spacebefore="no" regexp="yes">[^,]</exception>
@@ -34104,14 +34121,14 @@ USA
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()×]</exception>
                     <exception postag="MD|PRP\$|UNKNOWN" postag_regexp="yes" />
-                    <exception regexp="yes">per|then</exception><!-- per minute -->
+                    <exception regexp="yes">per|then|versus</exception><!-- per minute -->
                 </token>
                 <marker>
                     <token chunk="E-NP-singular" postag="NNP?" postag_regexp="yes">
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception regexp="yes">will|year|so|pst|well|still|have|had|wether|max</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m3|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent|mil|all|has|if|possible|yearly</exception>
+                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|gram|stat|[ck]c|hr|min?|m[23]|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent|mil|all|has|if|possible|yearly</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
                         <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza|Parkway|Broadway</exception><!-- probably an address, "333 Grant Avenue" -->
@@ -34266,6 +34283,12 @@ USA
             <example>But then he got 502 bad gateway.</example>
             <example>Verb: ... and the other two <marker>chase</marker> her.</example><!-- #2652 chase/E-NP-singular -->
             <example>The speedometer was indicating 95 mph.</example><!-- #2787 -->
+            <example>Saltini Antonio, Storia delle scienze agrarie, 4 vols, Bologna 1984-89.</example><!-- #2787 -->
+            <example>The fictional Hundred Acre Wood of the Pooh stories derives from...</example><!-- #2787 -->
+            <example>+1 =16 versus Mikhail Tal, +10 −2 =13 versus Ljubojević.</example><!-- #2787 -->
+            <example>... out of which the first four form Greater Athens, while the regional unit...</example><!-- #2787 -->
+            <example>Aruba also has 18 radio stations (two AM and 16 FM) and three...</example><!-- #2787 -->
+            <example>... which is 72 m2 per head.</example><!-- #2787 -->
             <example type="triggers_error">When Sony came back with a 2 billion bid, CBS could not refuse.</example><!-- #2440 -->
             <example type="triggers_error">England eventually faced a massive 707 run target for victory and failed, Australia winning the ...</example>
         </rule>
