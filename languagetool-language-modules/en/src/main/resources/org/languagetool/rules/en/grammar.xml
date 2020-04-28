@@ -131,7 +131,7 @@ USA
         <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
 
-    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region|zone|band|source|influenza|hepatitis|grade|formula|document|division|class|category|dock|column'>
+    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region|zone|band|source|influenza|hepatitis|grade|formula|document|division|class|category|dock|column|appendix'>
     <!ENTITY nouns_with_i 'article|block|phase|class|grade|part|paragraph|section|chaos|enigma|book|war|king|current|mustang|type|division|level|bi\-?polar|century|tier|numeral|algorithm|auschwitz|algebra'>
 ]>
 
@@ -10412,6 +10412,13 @@ USA
                 <token>_</token>
                 <token>html</token>
             </antipattern>
+            <antipattern><!-- markdown backticks, used for code -->
+                <token>`</token>
+                <token />
+                <token>_</token>
+                <token />
+                <token>`</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">[a-z-]+</token>
                 <token spacebefore="no" min="1" max="-1">_<exception postag="NNP"/></token>
@@ -10432,6 +10439,7 @@ USA
             <example>Refer to <marker>_TESTS</marker>' on page 33.</example><!-- TODO -->
             <example>Status "payment_failed"</example>
             <example>my_variable = x</example>
+            <example>Does it make sense to add `suppress_misspelled`?</example>
             <example>Public_html is a directory on computers running Apache web servers that stores all HTML files.</example>
         </rule>
         <rulegroup id="FR" name="fr [franc), Fr (Father, francium)">
@@ -10894,7 +10902,7 @@ USA
                         <exception postag="VBD|MD" postag_regexp="yes" />
                     </token>
                 </marker>
-                <token min="0" regexp="yes">so|very|really|not|totally|even|pretty|absolutely|not|still</token>
+                <token min="0" regexp="yes">so|very|really|not|totally|even|pretty|absolutely|still</token>
                 <token regexp="yes">&short_adjectives;|&optional_short_adjectives;|awesome|beautiful|ready|(im)?possible|different|wrong|fine|ok(ay)?|(al)?right|available|ready|dangerous|enough|sexy</token>
                 <token postag="CC|PCT|IN|SENT_END" postag_regexp="yes" />
             </pattern>
@@ -55308,7 +55316,9 @@ The accident victim died from her injuries.
                       <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy_skip; </marker>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
-                    <token postag="VBN" skip="-1"/>
+                    <token postag="VBN" skip="-1">
+                        <exception>scheduled</exception>
+                    </token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\4 month:\3 day:\2"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
@@ -55348,7 +55358,9 @@ The accident victim died from her injuries.
                     <token>
                       <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy_skip; </marker>
-                    <token postag="VBD" skip="-1"/>
+                    <token postag="VBD" skip="-1">
+                        <exception>scheduled</exception>
+                    </token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\4 month:\3 day:\2"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
@@ -55363,7 +55375,8 @@ The accident victim died from her injuries.
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
                     <token postag="VBN" skip="-1">
                       <exception>scheduled</exception>
-                      <exception scope='next' regexp='yes'>before|until|will</exception></token>
+                      <exception scope='next' regexp='yes'>before|until|will</exception>
+                    </token>
                     <marker> &date_mdy; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\3 day:\4"/>
@@ -55381,7 +55394,9 @@ The accident victim died from her injuries.
                       <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_mdy_skip; </marker>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
-                    <token postag="VBN" skip="-1"/>
+                    <token postag="VBN" skip="-1">
+                        <exception>scheduled</exception>
+                    </token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:2 day:\3"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
@@ -55402,7 +55417,9 @@ The accident victim died from her injuries.
                 </antipattern>
                 <pattern>
                     <token postag="VBD" skip="-1">
-                      <exception scope='next' regexp='yes'>before|until|will</exception></token>
+                      <exception scope='next' regexp='yes'>before|until|will</exception>
+                      <exception>scheduled</exception>
+                    </token>
                     <marker> &date_mdy; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:\2 day:\3"/>
@@ -55413,13 +55430,16 @@ The accident victim died from her injuries.
                 <example>I already informed the customer on <marker>October 7, 2010</marker>.</example>
                 <example>We will inform the client on October 7, 2010.</example>
                 <example>He wanted to do until August 31, 2020.</example>
+                <example>As such, during the Annual General Meeting scheduled for May 20, 2020, the Board of Directors will not put up for vote the approval to pay a €0.31 dividend per share for the fiscal year 2019.</example>
             </rule>
             <rule> <!-- On October 7, 2020, we visited the client -->
                 <pattern>
                     <token>
                       <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_mdy_skip; </marker>
-                    <token postag="VBD" skip="-1"/>
+                    <token postag="VBD" skip="-1">
+                        <exception>scheduled</exception>
+                    </token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\5 month:\2 day:\3"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
@@ -55436,7 +55456,9 @@ The accident victim died from her injuries.
                 <pattern>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
                     <token postag="VBN" skip="-1">
-                      <exception scope='next' regexp='yes'>before|until|will</exception></token>
+                      <exception scope='next' regexp='yes'>before|until|will</exception>
+                      <exception>scheduled</exception>
+                    </token>
                     <marker> &date_dmy_numbers; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\7 month:\5 day:\3"/>
@@ -55457,7 +55479,9 @@ The accident victim died from her injuries.
                       <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_dmy_numbers_skip; </marker>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
-                    <token postag="VBN" skip="-1"/>
+                    <token postag="VBN" skip="-1">
+                        <exception>scheduled</exception>
+                    </token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
@@ -55482,7 +55506,9 @@ The accident victim died from her injuries.
                 </antipattern>
                 <pattern>
                     <token postag="VBD" skip="-1">
-                      <exception scope='next' regexp='yes'>before|until|will</exception></token>
+                      <exception scope='next' regexp='yes'>before|until|will</exception>
+                      <exception>scheduled</exception>
+                    </token>
                     <marker> &date_dmy_numbers; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
@@ -55500,9 +55526,12 @@ The accident victim died from her injuries.
                 </antipattern>
                 <pattern>
                     <token>
-                      <exception regexp='yes'>before|until</exception></token>
+                      <exception regexp='yes'>before|until</exception>
+                    </token>
                     <marker> &date_dmy_numbers_skip; </marker>
-                    <token postag="VBD" skip="-1"/>
+                    <token postag="VBD" skip="-1">
+                        <exception>scheduled</exception>
+                    </token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\4 day:\2"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
@@ -55520,7 +55549,9 @@ The accident victim died from her injuries.
                 <pattern>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
                     <token postag="VBN" skip="-1">
-                      <exception scope='next' regexp='yes'>before|until|will</exception></token>
+                      <exception scope='next' regexp='yes'>before|until|will</exception>
+                      <exception>scheduled</exception>
+                    </token>
                     <marker> &date_mdy_numbers; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\7 month:\3 day:\5"/>
@@ -55538,10 +55569,13 @@ The accident victim died from her injuries.
                 </antipattern>
                 <pattern>
                     <token>
-                      <exception regexp='yes'>before|until</exception></token>
+                      <exception regexp='yes'>before|until</exception>
+                    </token>
                     <marker> &date_mdy_numbers_skip; </marker>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
-                    <token postag="VBN" skip="-1"/>
+                    <token postag="VBN" skip="-1">
+                        <exception>scheduled</exception>
+                    </token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\2 day:\4"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
@@ -55566,7 +55600,9 @@ The accident victim died from her injuries.
                 </antipattern>
                 <pattern>
                     <token postag="VBD" skip="-1">
-                      <exception scope='next' regexp='yes'>before|until|will</exception></token>
+                      <exception scope='next' regexp='yes'>before|until|will</exception>
+                      <exception>scheduled</exception>
+                    </token>
                     <marker> &date_mdy_numbers; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\2 day:\4"/>
@@ -55586,7 +55622,9 @@ The accident victim died from her injuries.
                     <token>
                       <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_mdy_numbers_skip; </marker>
-                    <token postag="VBD" skip="-1"/>
+                    <token postag="VBD" skip="-1">
+                        <exception>scheduled</exception>
+                    </token>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\2 day:\4"/>
                 <message>The given date is in the future, but the verb is in past tense.</message>
