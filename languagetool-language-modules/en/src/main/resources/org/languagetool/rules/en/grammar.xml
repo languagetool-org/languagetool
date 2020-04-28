@@ -32691,11 +32691,16 @@ USA
                 <example>The house closest to here is two miles away.</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="THERE_RE_MANY" name="Possible agreement error 'there're' + singular noun">
             <antipattern>
                 <token>a</token>
                 <token regexp="yes">variety|number|couple|pair|boatload|litany|lot|plenty|ton|bunch|total</token>
                 <token>of</token>
+            </antipattern>
+            <antipattern><!-- #2787 proper nouns -->
+                <token chunk="B-NP-singular" postag="NNP"/>
+                <token chunk="E-NP-singular" postag="NNP"/>
             </antipattern>
             <rule>
                 <pattern>
@@ -32711,6 +32716,7 @@ USA
                 <short>Possible agreement error</short>
                 <example correction="problems">There're <marker>problem</marker> in Iraq but it is not a terrible situation.</example>
                 <example>There're problems in Iraq.</example>
+                <example>... there are Bahdja Rahal, Cheikh El Hadj Mohamed El Ghafour...</example><!-- #2787 -->
             </rule>
             <rule>
                 <pattern>
@@ -32786,8 +32792,10 @@ USA
                 <example>There are a boatload of events to attend outside of the panel.</example>
                 <example>There are many small to middle wounds.</example><!-- #2597 -->
                 <example>There are glow up lights.</example><!-- #2597 -->
+                <example>Among the most noted interpreters, there are Bahdja Rahal, Cheikh El Hadj Mohamed El Ghafour...</example><!-- #2787 -->
             </rule>
         </rulegroup>
+
         <rulegroup id="THERE_WAS_MANY" name="Possible agreement error 'there was' + plural noun"><!-- modified copy of THERE_S_MANY -->
             <rule>
                 <pattern>
