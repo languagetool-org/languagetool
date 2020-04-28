@@ -64,7 +64,7 @@ class StdoutHandler extends ResultHandler {
         System.out.println("Message: " + msg);
         List<String> replacements = match.getSuggestedReplacements();
         if (!replacements.isEmpty()) {
-          System.out.println("Suggestion: " + String.join("; ", replacements));
+          System.out.println("Suggestion: " + String.join("; ", replacements.subList(0, Math.min(replacements.size(), 5))));
         }
         if (match.getRule() instanceof AbstractPatternRule) {
           AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();
