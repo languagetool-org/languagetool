@@ -41899,9 +41899,19 @@ Andere Projekte</example>
                     <token>da</token>
                     <token>nämlich</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="ADV:MOD"/>
+                    <token postag="ADJ:PRD:GRU|ADV:.+|PRO:DEM:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="ADV:MOD"/>
+                    <token skip="-1"/>
+                    <token postag="ZUS"/>
+                    <token postag="SENT_END|PKT" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <marker>
-                        <token><exception regexp="yes">,|;|:|\.|-|–|—|\(|„|"|bis|und|oder|sondern</exception><exception postag="SENT_START"/><exception postag="VER:([1-3]|AUX|MOD):.*" postag_regexp="yes"/></token>
+                        <token><exception regexp="yes">,|;|:|\.|-|–|—|\(|„|"|bis|und|oder|sondern|\)</exception><exception postag="SENT_START"/><exception postag="VER:([1-3]|AUX|MOD):.*" postag_regexp="yes"/></token>
                         <token skip="-1" regexp="yes">nämlich|insbesondere|einschließlich|einschliesslich<exception scope="next" postag="VER.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SENT_END">
@@ -41921,6 +41931,8 @@ Andere Projekte</example>
                 <example>Er schrie, denn witzig fand er es nämlich nicht.</example>
                 <example>Dann steht da nämlich etwas anderes vermerkt.</example>
                 <example>Diagnostisch wichtig ist hier insbesondere die Entwicklung.</example>
+                <example>Ein Haus verbraucht laut einer US-Studie nämlich rund 519 Kilogramm CO2.</example>
+                <example>Ich finde Eve nämlich auch super.</example>
             </rule> 
             <rule id="KOMMA_NACH_DIREKTER_REDE" name="Fehlendes Komma nach direkter Rede">
                 <pattern>
