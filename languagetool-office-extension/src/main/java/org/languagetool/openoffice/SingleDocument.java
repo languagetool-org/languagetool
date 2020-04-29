@@ -576,9 +576,6 @@ class SingleDocument {
     if(nFParas == docCache.size()) {
       return nParas;
     }
-    if (docCursor == null) {
-      docCursor = new DocumentCursorTools(xComponent);
-    }
     if (debugMode > 0) {
       MessageHandler.printToLogFile("*** resetAllParas: docCache.size: " + docCache.size() + ", nParas: " + nParas
               + ", docID: " + docID + OfficeTools.LOG_LINE_BREAK);
@@ -586,6 +583,9 @@ class SingleDocument {
     DocumentCache oldDocCache = docCache;
     if(useQueue) {
       mDocHandler.getTextLevelCheckQueue().interruptCheck(docID);
+    }
+    if (docCursor == null) {
+      docCursor = new DocumentCursorTools(xComponent);
     }
     docCache = new DocumentCache(docCursor, flatPara, defaultParaCheck);
     if (docCache.isEmpty()) {
