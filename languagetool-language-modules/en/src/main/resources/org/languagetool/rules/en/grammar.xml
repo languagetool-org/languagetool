@@ -10878,6 +10878,83 @@ USA
             <example type="triggers_error">Please change the desk on deal 680472 from IM ME TCO to IM NE GULF3.</example>
             <example type="triggers_error">returnMessage = (returnMessage + " IM Used");</example>
         </rule>
+
+        <rule id="ER" name="er (her, err, Er)" default="temp_off"><!-- #2822 -->
+            <antipattern><!-- quoted text -->
+                <token skip="-1" regexp="yes">["“]</token>
+                <token skip="-1">er</token>
+                <token regexp="yes">["”]</token>
+            </antipattern>
+            <antipattern><!-- Find an error in standard text only -->
+                <token postag="UNKNOWN"/>
+                <token>er</token>
+                <token postag="UNKNOWN"/>
+            </antipattern>
+            <antipattern><!-- throw err; // -->
+                <token>throw</token>
+                <token>er</token>
+                <token>;</token>
+                <token>/</token>
+            </antipattern>
+            <antipattern><!-- er/.rvm/ -->
+                <token>er</token>
+                <token spacebefore="no">/</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
+            <antipattern><!-- more er's -->
+                <token postag_regexp="yes" postag="JJR?"/>
+                <token>er</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>s</token>
+            </antipattern>
+            <antipattern><!-- Incomplete sentences (three dots: ...) -->
+                 <token>er</token>
+                 <token>.</token>
+                 <token>.</token>
+                <token postag="SENT_END">.</token>
+            </antipattern>
+            <pattern>
+                <token spacebefore="yes" case_sensitive="yes">er
+                    <exception scope="next">…</exception>
+                    </token>
+            </pattern>
+            <message>Do not use '\1' in formal text. Use it only in quoted text to represent a hesitation. Did you mean <suggestion>her</suggestion>, <suggestion>err</suggestion> or <suggestion>Er</suggestion> (erbium)? Or possibly, there is an unnecessary space before or after '\1'.</message>
+            <url>https://www.lexico.com/definition/er</url>
+            <short>Possible typo</short>
+            <example correction="her|err|Er">I worship <marker>er</marker>.</example>
+            <example correction="her|err|Er">Is <marker>er</marker> the chemical symbol for erbium?</example>
+            <example correction="her|err|Er">If you <marker>er</marker> on the side of caution, you will be safe.</example>
+            <example correction="her|err|Er">She is a worship <marker>er</marker> in our local church.</example><!-- Do not give a suggestion, because 'worshiper' is not correct. Do not suppress misspelled, because then the rule will not find the problem. -->
+            <example correction="her|err|Er">This was, <marker>er</marker>, the point of rotating events.</example>
+            <example correction="her|err|Er">She was the only beneficiary of the will, <marker>er</marker> go, the prime suspect.</example>
+            <example>I worship <marker>her</marker>.</example>
+            <example>"I'm like, <marker>er</marker>, quite pleased with this rule," he said.</example>
+            <example><marker>er</marker>… Great minds think alike</example><!-- The rule is to find spelling errors, not informal text. -->
+            <example>So…<marker>er</marker>…what happened?</example>
+            <example>Back 'er up.</example>
+            <example>Heavenly ire / ne'er sent a pest more loathsome;</example>
+            <example>Orange Spike Energy (the 16oz’er)</example>
+            <example>MF’er is a polite salutation.</example>
+            <example>Whoe'er yields properly to Fate is deemed...</example>
+            <example>Suggest to do a basic battery alternator diy’er check too.</example>
+            <example>The only one I would change by adding more er’s.</example>
+            <example>Its driving me crazy(er).</example>
+            <example>Most unusually, in some conditions with long sentences er…</example>
+            <example>The issue: The er...</example>
+            <example>er.operationComplete()</example>
+            <example>er.png886×761 284 KB</example>
+            <example>Top level domain: .er</example>
+            <example>... spørgsmål om CVR er åben.</example>
+            <example>She's an uppity n***er, I think</example>
+            <example>throw er; // Unhandled ‘error’ event</example>
+            <example>While not as Agile, this Thundercat is **Fast**er, and more Stealthy in his performance.</example>
+            <example>... from /home/deploy er/.rvm/rubies/ruby-2.3.0/lib/ruby/2.3.0/tsort.rb:421</example>
+            <example>When I try to actually use the CD player, it just says (er -2) error 2.</example>
+            <example type="triggers_error">Det er et spørgsmål om CV.</example>
+            <example type="triggers_error">The er in err?</example>
+<!-- Not found --><example>er name is Mary.</example>
+        </rule>
+
     </category>
 
     <!-- ====================================================================== -->
