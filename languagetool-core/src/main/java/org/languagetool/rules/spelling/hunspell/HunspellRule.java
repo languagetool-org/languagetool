@@ -19,11 +19,18 @@
 
 package org.languagetool.rules.spelling.hunspell;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import com.google.common.io.Resources;
+import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.languagetool.*;
+import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.Categories;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.SuggestedReplacement;
+import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.Tools;
+
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -33,26 +40,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Experimental;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
-import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
-import org.languagetool.rules.spelling.suggestions.XGBoostSuggestionsOrderer;
-import org.languagetool.tools.Tools;
-
-import com.google.common.io.Resources;
 
 /**
  * A hunspell-based spellchecking-rule.
@@ -68,7 +55,6 @@ public class HunspellRule extends SpellingCheckRule {
 
   protected static final String FILE_EXTENSION = ".dic";
 
-  protected final SuggestionsOrderer suggestionsOrderer;
   protected boolean needsInit = true;
   protected Hunspell hunspell = null;
 
@@ -76,7 +62,6 @@ public class HunspellRule extends SpellingCheckRule {
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
 
   private final boolean monitorRules;
-  private final boolean runningExperiment;
 
   public static Queue<String> getActiveChecks() {
     return activeChecks;
@@ -99,22 +84,16 @@ public class HunspellRule extends SpellingCheckRule {
   /**
    * @since 4.3
    */
-   public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
-     this(messages, language, userConfig, altLanguages, null);
-   }
-   public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages,
-                       LanguageModel languageModel) {
-     super(messages, language, userConfig, altLanguages, languageModel);
-     super.setCategory(Categories.TYPOS.getCategory(messages));
-     this.userConfig = userConfig;
-     this.monitorRules = System.getProperty("monitorActiveRules") != null;
-     if (SuggestionsChanges.isRunningExperiment("NewSuggestionsOrderer")) {
-       suggestionsOrderer = new SuggestionsOrdererFeatureExtractor(language, this.languageModel);
-       runningExperiment = true;
-     } else {
-       suggestionsOrderer = new XGBoostSuggestionsOrderer(language, languageModel);
-       runningExperiment = false;
-     }
+  public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
+    this(messages, language, userConfig, altLanguages, null);
+  }
+
+  public HunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages,
+                      LanguageModel languageModel) {
+    super(messages, language, userConfig, altLanguages, languageModel);
+    super.setCategory(Categories.TYPOS.getCategory(messages));
+    this.userConfig = userConfig;
+    this.monitorRules = System.getProperty("monitorActiveRules") != null;
   }
 
   @Override
@@ -181,13 +160,19 @@ public class HunspellRule extends SpellingCheckRule {
               String sugg1a = prevWord.substring(0, prevWord.length()-1);
               String sugg1b = cutOffDot(prevWord.substring(prevWord.length()-1) + word);
               if (!isMisspelled(sugg1a) && !isMisspelled(sugg1b)) {
-                ruleMatches.add(createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg1a, sugg1b, prevStartPos));
+                RuleMatch rm = createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg1a, sugg1b, prevStartPos);
+                if (rm != null) {
+                  ruleMatches.add(rm);
+                }
               }
               // "than kyou" -> "thank you"
               String sugg2a = prevWord + word.substring(0, 1);
               String sugg2b = cutOffDot(word.substring(1));
               if (!isMisspelled(sugg2a) && !isMisspelled(sugg2b)) {
-                ruleMatches.add(createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg2a, sugg2b, prevStartPos));
+                RuleMatch rm = createWrongSplitMatch(sentence, ruleMatches, len, cleanWord, sugg2a, sugg2b, prevStartPos);
+                if (rm != null) {
+                  ruleMatches.add(rm);
+                }
               }
             }
           }
@@ -198,68 +183,45 @@ public class HunspellRule extends SpellingCheckRule {
             messages.getString("desc_spelling_short"));
           ruleMatch.setType(RuleMatch.Type.UnknownWord);
           if (userConfig == null || userConfig.getMaxSpellingSuggestions() == 0 || ruleMatches.size() <= userConfig.getMaxSpellingSuggestions()) {
-            List<String> suggestions = getSuggestions(cleanWord);
+            List<SuggestedReplacement> suggestions = SuggestedReplacement.convert(getSuggestions(cleanWord));
             if (word.endsWith(".")) {
               int pos = 1;
               for (String suggestion : getSuggestions(word)) {
                 if (!suggestions.contains(suggestion)) {
-                  suggestions.add(Math.min(pos, suggestions.size()), suggestion.substring(0, suggestion.length()-1));
+                  suggestions.add(Math.min(pos, suggestions.size()), new SuggestedReplacement(suggestion.substring(0, suggestion.length()-1)));
                   pos += 2;  // we mix the lists, as we don't know which one is the better one
                 }
               }
             }
-            List<String> additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, cleanWord);
+            List<SuggestedReplacement> additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, cleanWord);
             if (additionalTopSuggestions.isEmpty() && word.endsWith(".")) {
               additionalTopSuggestions = getAdditionalTopSuggestions(suggestions, word).
-                stream().map(k -> k.endsWith(".") ? k : k + ".").collect(Collectors.toList());
+                stream()
+                .map(sugg -> {
+                  if (sugg.getReplacement().endsWith(".")) {
+                    return sugg;
+                  } else {
+                    SuggestedReplacement newSugg = new SuggestedReplacement(sugg);
+                    newSugg.setReplacement(sugg.getReplacement() + ".");
+                    return newSugg;
+                  }
+                }).collect(Collectors.toList());
             }
             Collections.reverse(additionalTopSuggestions);
-            for (String additionalTopSuggestion : additionalTopSuggestions) {
-              if (!cleanWord.equals(additionalTopSuggestion)) {
+            for (SuggestedReplacement additionalTopSuggestion : additionalTopSuggestions) {
+              if (!cleanWord.equals(additionalTopSuggestion.getReplacement())) {
                 suggestions.add(0, additionalTopSuggestion);
               }
             }
-            List<String> additionalSuggestions = getAdditionalSuggestions(suggestions, cleanWord);
-            for (String additionalSuggestion : additionalSuggestions) {
-              if (!cleanWord.equals(additionalSuggestion)) {
+            List<SuggestedReplacement> additionalSuggestions = getAdditionalSuggestions(suggestions, cleanWord);
+            for (SuggestedReplacement additionalSuggestion : additionalSuggestions) {
+              if (!cleanWord.equals(additionalSuggestion.getReplacement())) {
                 suggestions.addAll(additionalSuggestions);
               }
             }
-            Language acceptingLanguage = acceptedInAlternativeLanguage(cleanWord);
-            boolean isSpecialCase = cleanWord.matches(".+-[A-ZÖÄÜ].*");
-            if (acceptingLanguage != null && !isSpecialCase) {
-              if (isAcceptedWordFromLanguage(acceptingLanguage, cleanWord)) {
-                break;
-              }
-              // e.g. "Der Typ ist in UK echt famous" -> could be German 'famos'
-              ruleMatch = new RuleMatch(this, sentence,
-                len, len + cleanWord.length(),
-                Tools.i18n(messages, "accepted_in_alt_language", cleanWord, messages.getString(acceptingLanguage.getShortCode())));
-              ruleMatch.setType(RuleMatch.Type.Hint);
-            }
-            suggestions = filterSuggestions(suggestions, sentence, i);
-            filterDupes(suggestions);
-
+            suggestions = filterDupes(filterSuggestions(suggestions, sentence, i));
             // TODO user suggestions
-            // use suggestionsOrderer only w/ A/B - Testing or manually enabled experiments
-            if (runningExperiment) {
-              addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
-                suggestionsOrderer, ruleMatch);
-            } else if (userConfig != null && userConfig.getAbTest() != null &&
-              userConfig.getAbTest().equals("SuggestionsRanker") &&
-              suggestionsOrderer.isMlAvailable() && userConfig.getTextSessionId() != null) {
-              boolean testingA = userConfig.getTextSessionId() % 2 == 0;
-              if (testingA) {
-                addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
-                  null, ruleMatch);
-              } else {
-                addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
-                  suggestionsOrderer, ruleMatch);
-              }
-            } else {
-              addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions,
-                null, ruleMatch);
-            }
+            addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions, null, ruleMatch);
           } else {
             // limited to save CPU
             ruleMatch.setSuggestedReplacement(messages.getString("too_many_errors"));
@@ -284,7 +246,6 @@ public class HunspellRule extends SpellingCheckRule {
   /**
    * @since public since 4.1
    */
-  @Experimental
   @Override
   public boolean isMisspelled(String word) {
     try {
@@ -359,7 +320,7 @@ public class HunspellRule extends SpellingCheckRule {
   }
 
   @Override
-  protected void init() throws IOException {
+  protected synchronized void init() throws IOException {
     super.init();
     String langCountry = language.getShortCode();
     if (language.getCountries().length > 0) {
@@ -463,15 +424,4 @@ public class HunspellRule extends SpellingCheckRule {
     }
   }
 
-  /**
-   * Used in combination with <code>acceptedInAlternativeLanguage</code> to surpress spelling
-   * errors for words from a foreign language
-   * @param language
-   * @param word
-   * @return true if the {@code word} from {@code language} can be considered as correctly spelled
-   * @since 4.6
-   */
-  protected boolean isAcceptedWordFromLanguage(Language language, String word) {
-    return false;
-  }
 }

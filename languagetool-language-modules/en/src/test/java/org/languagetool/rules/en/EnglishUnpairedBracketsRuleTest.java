@@ -63,6 +63,8 @@ public class EnglishUnpairedBracketsRuleTest {
     assertCorrect("The plight of Tamil refugees caused a surge of support from most of the Tamil political parties.[90]");
     assertCorrect("This is what he said: \"We believe in freedom. This is what we do.\"");
     assertCorrect("(([20] [20] [20]))");
+    assertCorrect("I'm not goin'");
+    assertCorrect("He's an 'admin'.");
     // test for a case that created a false alarm after disambiguation
     assertCorrect("This is a \"special test\", right?");
     // numerical bullets
@@ -101,10 +103,10 @@ public class EnglishUnpairedBracketsRuleTest {
 
     // incorrect sentences:
     assertIncorrect("(This is a test sentence.");
-    assertIncorrect("This is a test with an apostrophe &'.");
-    assertIncorrect("&'");
-    assertIncorrect("!'");
-    assertIncorrect("What?'");
+    //assertIncorrect("This is a test with an apostrophe &'.");   -- commented out now that >'< is not checked anymore
+    //assertIncorrect("&'");
+    //assertIncorrect("!'");
+    //assertIncorrect("What?'");
     assertIncorrect("This is not so (neither a nor b");
     assertIncorrect("This is not so neither a nor b)");
     assertIncorrect("This is not so neither foo nor bar)");
@@ -114,7 +116,7 @@ public class EnglishUnpairedBracketsRuleTest {
 
     RuleMatch[] matches;
     matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("(This is a test” sentence.")));
-    assertEquals(2, matches.length);
+    assertEquals(1, matches.length);
     matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("This [is (a test} sentence.")));
     assertEquals(3, matches.length);
   }

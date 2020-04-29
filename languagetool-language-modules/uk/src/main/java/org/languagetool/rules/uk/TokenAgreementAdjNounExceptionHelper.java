@@ -25,7 +25,7 @@ final class TokenAgreementAdjNounExceptionHelper {
 
   private static final Pattern NUMBER_V_NAZ = Pattern.compile("number|numr:p:v_naz|noun.*?:p:v_naz:&numr.*");
   // including latin 'a' and 'i' so the rules don't trip on them in Ukrainian sentences
-  static final List<String> CONJ_FOR_PLURAL_WITH_COMMA = Arrays.asList("і", "й", "та", "чи", "або", "ані", "також", "то", "a", "i", ",");
+  static final List<String> CONJ_FOR_PLURAL_WITH_COMMA = Arrays.asList("і", "й", "та", "чи", "або", "ані", "також", "плюс", "то", "a", "i", ",");
   static final List<String> CONJ_FOR_PLURAL = Arrays.asList("і", "й", "та", "чи", "або", "ані", "також", "то", "a", "i");
   static final Pattern CONJ_FOR_PLULAR_PATTERN = Pattern.compile(StringUtils.join(CONJ_FOR_PLURAL, "|"));
   private static final Pattern DOVYE_TROYE = Pattern.compile(".*[2-4]|.*[2-4][\u2013\u2014-].*[2-4]|два|обидва|двоє|три|троє|чотири|один[\u2013\u2014-]два|два[\u2013\u2014-]три|три[\u2013\u2014-]чотири|двоє[\u2013\u2014-]троє|троє[\u2013\u2014-]четверо");
@@ -58,6 +58,12 @@ final class TokenAgreementAdjNounExceptionHelper {
         && LemmaHelper.hasLemma(tokens[i-2], "перший")
         && Character.isUpperCase(tokens[i-1].getToken().charAt(0))
         && Character.isUpperCase(tokens[i-2].getToken().charAt(0))) {
+      logException();
+      return true;
+    }
+
+    if( LemmaHelper.hasLemma(tokens[i-1], "північний")
+        && LemmaHelper.hasLemma(tokens[i], "Рейн-Вестфалія") ) {
       logException();
       return true;
     }

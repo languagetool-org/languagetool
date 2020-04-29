@@ -1,25 +1,21 @@
 package org.languagetool.tagging.disambiguation;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
+import org.languagetool.*;
+import org.languagetool.tagging.xx.DemoTagger;
 
 import java.io.IOException;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.FakeLanguage;
-import org.languagetool.JLanguageTool;
-import org.languagetool.tagging.xx.DemoTagger;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
 public class MultiWordChunkerTest {
 
   private final JLanguageTool lt = new JLanguageTool(new FakeLanguage() {
-    public org.languagetool.tagging.Tagger getTagger() {
+    public org.languagetool.tagging.Tagger createDefaultTagger() {
       return new DemoTagger() {
         public java.util.List<AnalyzedTokenReadings> tag(java.util.List<String> sentenceTokens) {
           List<AnalyzedTokenReadings> tokenReadings = super.tag(sentenceTokens);

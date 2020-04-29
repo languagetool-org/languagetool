@@ -49,7 +49,7 @@ public class ReflexiveVerbsRule extends Rule {
   // (afegits: delir, desomplir, encaramallar, rojar)
   // autofinançar??
   // Eliminats: témer
-  private static final List<String> verbsPronominals = Arrays.asList("arranxar", "empitimar", "enfillar", "enseriar", "enseriosir", "esgroguissar", "esmaperdre", "ufanar", "apoltronar", "marfondir", "rojar", "personar", "encaramallar", "desomplir", "delir", "fugar", "abacallanar", "abalançar", "ablenar", "aborrallonar", "abotifarrar", "abrinar", "abromar", "abstenir", "acagallonar", "acanyar", "acarcanyar", "acarnissar", "acatarrar", "aciutadanar", "aclocar", "acopar", "acorrufar", "acorriolar", "adir", "adonar", "adormissar", "afal·lerar", "afarrossar", "afeccionar", "aferrallar", "aferrissar", "aferrussar", "agallinar", "agarbir", "agarrofar", "agemolir", "agenollar", "agotzonar", "aiguabarrejar", "allocar", "alçurar", "amatinar", "amelar", "amigar", "amoixir", "amoltonar", "amotar", "amullerar", "amunionar", "antullar", "aparroquianar", "aparroquiar", "aperduar", "apergaminar", "apiadar", "aponentar", "apropinquar", "apugonar", "arguellar", "arrapinyar", "arrasir", "arravatar", "arraïmar", "arrepapar", "arrepenjar", "arrepetellar", "arrigolar", "arrodir", "arrogar", "arrossar", "arruar", "assemblar", "assocarrar", "atendar", "atenir", "atorrentar", "atrafegar", "atrevir", "avencar", "avidolar", "avinençar", "balbar", "balcar", "balir", "balmar", "bescomptar", "boirar", "boixar", "botinflar", "bromar", "cagaferrar", "candir", "capbaixar", "capmassar", "captenir", "cariar", "carnificar", "carpir", "coalitzar", "colltrencar", "collvinclar", "compenetrar", "condoldre", "condolir", "congraciar", "contorçar", "contrapuntar", "contòrcer", "corcorcar", "coresforçar", "cornuar", "corruixar", "acorruixar", "crisalidar", "desafeccionar", "desalenar", "desamorar", "desaparroquiar", "desapassionar", "desaplegar", "desavenir", "desbocar", "descantar", "descarar", "descontrolar", "descovar", "desdubtar", "desempallegar", "desenrojolar", "desentossudir", "desfeinar", "desmemoriar", "desnodrir", "despondre", "despreocupar", "dessolidaritzar", "desteixinar", "desvagar", "desvergonyir", "desviure", "dignar", "embarbussar", "embascar", "embessonar", "embordeir", "embordir", "emborrascar", "emborrossar", "embotifarrar", "embotzegar", "embromallar", "embromar", "embroquerar", "emmainadar", "emmalurar", "emmalurir", "emmarar", "emmarranar", "emmatar", "emmigranyar", "emmorronar", "emmurriar", "empassar", "empassolar", "empegueir", "empenyalar", "empescar", "empillocar", "empinyar", "empiocar", "empitarrar", "emplomissar", "emplujar", "emportar", "encabotar", "encabritar", "encalmar", "encalostrar", "encelar", "encinglar", "encirar", "encistar", "enclaperar", "encolerir", "encordar", "encruar", "endoblir", "endur", "enfarfollar", "enfaristolar", "enfavar", "enfereir", "enferotgir", "enferritjar", "enfugir", "enfurrunyar", "enfutimar", "enfutismar", "engelabrir", "engolfar", "engorgar", "engripar", "enguerxinar", "enllagrimar", "enlleganyar", "enlleir", "ennavegar", "enneguitar", "enquistar", "enrinxar", "enseriosir", "ensobecar", "entonyinar", "entossudir", "entotsolar", "entreabaltir", "entrebadar", "entrebatre", "entrebesar", "entrecavalcar", "entredevorar", "entreferir", "entreforcar", "entrematar", "entremetre", "entremirar", "entrenyorar", "entresaludar", "entreseguir", "entresoldar", "entretocar", "entretzenar", "entrigar", "envidreir", "envidriar", "envolar", "enxautar", "esbafar", "esbafegar", "esbatussar", "esblamar", "esbojarrar", "esborneiar", "esbromar", "escabridar", "escamotar", "escanyellar", "escanyolir", "escanyussar", "escapolar", "escapolir", "escarcanyar", "escarramicar", "escarrassar", "escarxofar", "escatifenyar", "esconillar", "escorporar", "escullar", "escunçar", "esfarinar", "esfetgegar", "esforçar", "esgargamellar", "esgatinyar", "esgolar", "esguimbar", "esllanguir", "esllavissar", "esperitar", "espitellar", "espitxar", "espollinar", "espoltrar", "esporcellar", "espotonar", "esprimatxar", "esquifir", "esquitllar", "estilar", "estritllar", "esvedellar", "esventegar", "esvomegar", "etiolar", "extralimitar", "extravasar", "extravenar", "gamar", "gaspar", "gatinyar", "gaubar", "gloriar", "grifar", "immiscir", "indigestar", "industriar", "innivar", "insolentar", "insurgir", "inveterar", "irèixer", "jactar", "juramentar", "lateritzar", "llufar", "malfiar", "malfixar", "migrolar", "mofar", "mullerar", "neulir", "obstinar", "octubrar", "olivar", "pellobrir", "pellpartir", "pelltrencar", "penedir", "penjolar", "pollar", "prosternar", "queixar", "querar", "querellar", "quillar", "ramificar", "rancurar", "realegrar", "rebel·lar", "rebordeir", "refiar", "repanxolar", "repapar", "repetellar", "reressagar", "resclosir", "ressagar", "ressentir", "revenjar", "salinar", "suïcidar", "tinyar", "tolir", "transvestir", "traspostar", "vanagloriar", "vanagloriejar", "vanar", "vantar", "vergonyar", "xautar");
+  private static final List<String> verbsPronominals = Arrays.asList("arranxar", "empitimar", "enfillar", "enseriar", "enseriosir", "esgroguissar", "esmaperdre", "ufanar", "apoltronar", "marfondir", "rojar", "personar", "encaramallar", "desomplir", "delir", "fugar", "abacallanar", "abalançar", "ablenar", "aborrallonar", "abotifarrar", "abrinar", "abromar", "abstenir", "acagallonar", "acanyar", "acarcanyar", "acarnissar", "acatarrar", "aciutadanar", "aclocar", "acopar", "acorrufar", "acorriolar", "adir", "adonar", "adormissar", "afal·lerar", "afarrossar", "afeccionar", "aferrallar", "aferrissar", "aferrussar", "agallinar", "agarbir", "agarrofar", "agemolir", "agenollar", "agotzonar", "aiguabarrejar", "allocar", "alçurar", "amatinar", "amelar", "amigar", "amoixir", "amoltonar", "amotar", "amullerar", "amunionar", "antullar", "aparroquianar", "aparroquiar", "aperduar", "apergaminar", "apiadar", "aponentar", "apropinquar", "apugonar", "arguellar", "arrapinyar", "arrasir", "arravatar", "arraïmar", "arrepapar", "arrepenjar", "arrepetellar", "arrigolar", "arrodir", "arrogar", "arrossar", "arruar", "assemblar", "assocarrar", "atendar", "atenir", "atorrentar", "atrafegar", "atrevir", "avencar", "avidolar", "avinençar", "balbar", "balcar", "balir", "balmar", "bescomptar", "boirar", "boixar", "botinflar", "bromar", "cagaferrar", "candir", "capbaixar", "capmassar", "captenir", "cariar", "carnificar", "carpir", "coalitzar", "colltrencar", "collvinclar", "compenetrar", "condoldre", "condolir", "congraciar", "contorçar", "contòrcer", "corcorcar", "coresforçar", "cornuar", "corruixar", "acorruixar", "crisalidar", "desafeccionar", "desalenar", "desamorar", "desaparroquiar", "desapassionar", "desaplegar", "desavenir", "desbocar", "descantar", "descarar", "descontrolar", "descovar", "desdubtar", "desempallegar", "desenrojolar", "desentossudir", "desfeinar", "desmemoriar", "desnodrir", "despondre", "despreocupar", "dessolidaritzar", "desteixinar", "desvagar", "desvergonyir", "desviure", "dignar", "embarbussar", "embascar", "embessonar", "embordeir", "embordir", "emborrascar", "emborrossar", "embotifarrar", "embotzegar", "embromallar", "embromar", "embroquerar", "emmainadar", "emmalurar", "emmalurir", "emmarar", "emmarranar", "emmatar", "emmigranyar", "emmorronar", "emmurriar", "empassar", "empassolar", "empegueir", "empenyalar", "empescar", "empillocar", "empinyar", "empiocar", "empitarrar", "emplomissar", "emplujar", "emportar", "encabotar", "encabritar", "encalmar", "encalostrar", "encelar", "encinglar", "encirar", "encistar", "enclaperar", "encolerir", "encordar", "encruar", "endoblir", "endur", "enfarfollar", "enfaristolar", "enfavar", "enfereir", "enferotgir", "enferritjar", "enfugir", "enfurrunyar", "enfutimar", "enfutismar", "engelabrir", "engolfar", "engorgar", "engripar", "enguerxinar", "enllagrimar", "enlleganyar", "enlleir", "ennavegar", "enneguitar", "enquistar", "enrinxar", "enseriosir", "ensobecar", "entonyinar", "entossudir", "entotsolar", "entreabaltir", "entrebadar", "entrebatre", "entrebesar", "entrecavalcar", "entredevorar", "entreferir", "entreforcar", "entrematar", "entremetre", "entremirar", "entrenyorar", "entresaludar", "entreseguir", "entresoldar", "entretocar", "entretzenar", "entrigar", "envidreir", "envidriar", "envolar", "enxautar", "esbafar", "esbafegar", "esbatussar", "esblamar", "esbojarrar", "esborneiar", "esbromar", "escabridar", "escamotar", "escanyellar", "escanyolir", "escanyussar", "escapolar", "escapolir", "escarcanyar", "escarramicar", "escarrassar", "escarxofar", "escatifenyar", "esconillar", "escorporar", "escullar", "escunçar", "esfarinar", "esfetgegar", "esforçar", "esgargamellar", "esgatinyar", "esgolar", "esguimbar", "esllanguir", "esllavissar", "esperitar", "espitellar", "espitxar", "espollinar", "espoltrar", "esporcellar", "espotonar", "esprimatxar", "esquifir", "esquitllar", "estilar", "estritllar", "esvedellar", "esventegar", "esvomegar", "etiolar", "extralimitar", "extravasar", "extravenar", "gamar", "gaspar", "gatinyar", "gaubar", "gloriar", "grifar", "immiscir", "indigestar", "industriar", "innivar", "insolentar", "insurgir", "inveterar", "irèixer", "jactar", "juramentar", "lateritzar", "llufar", "malfiar", "malfixar", "migrolar", "mofar", "mullerar", "neulir", "obstinar", "octubrar", "olivar", "pellobrir", "pellpartir", "pelltrencar", "penedir", "penjolar", "pollar", "prosternar", "queixar", "querar", "querellar", "quillar", "ramificar", "rancurar", "realegrar", "rebel·lar", "rebordeir", "refiar", "repanxolar", "repapar", "repetellar", "reressagar", "resclosir", "ressagar", "ressentir", "revenjar", "salinar", "suïcidar", "tinyar", "tolir", "transvestir", "traspostar", "vanagloriar", "vanagloriejar", "vanar", "vantar", "vergonyar", "xautar");
   private static final Pattern VERB_AUTO = Pattern.compile("auto.+");
   private static final List<String> excepVerbsPronominals = Arrays.asList("amoixar", "delirar", "atendre", "escollir", "assolir","autografiar","automatitzar","autoritzar");  
   
@@ -623,6 +623,7 @@ public class ReflexiveVerbsRule extends Rule {
     // en teniu prou amb queixar-vos, comenceu lentament a queixar-vos
     // 7) no es va poder emportar, va decidir suïcidar-se,
     // 8) Queixar-se, queixant-vos, podent abstenir-se
+    //TODO: simplify this code using code in PronomFebleDuplicate
     if (matchPostagRegexp(tokens[i], VERB_INFGER)) {
       int k = 1;
       boolean keepCounting = true;
@@ -644,17 +645,21 @@ public class ReflexiveVerbsRule extends Rule {
       if (foundVerb) {
         k--;
         // us animem a queixar-vos
-        if (i - 1 > 0 && tokens[i - 1].getToken().equals("a") && i + 1 < tokens.length && i - k - 1 > 0) {
-          if (haveSamePostag(tokens[i - k - 1], tokens[i + 1])) {
-            return true;
-          }
-          //l'animem a queixar-se
-          if (matchPostagRegexp(tokens[i - k - 1], POSTAG_PRONOM_CD_3P)
-              && matchPostag(tokens[i + 1], "P0300000")
-              && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT)) {
-            return true;
+        if (i + 1 < tokens.length && i - k - 1 > 0) {
+          if ((i - 1 > 0 && (tokens[i - 1].hasLemma("a") || tokens[i - 1].hasLemma("agradar") )
+              || (i - 2 > 0 && (tokens[i - 2].hasLemma("a") || tokens[i - 2].hasLemma("agradar") )))) {
+            if (haveSamePostag(tokens[i - k - 1], tokens[i + 1])) {
+              return true;
+            }
+            //l'animem a queixar-se
+            if (matchPostagRegexp(tokens[i - k - 1], POSTAG_PRONOM_CD_3P)
+                && matchPostag(tokens[i + 1], "P0300000")
+                && matchRegexp(tokens[i + 1].getToken(), REFLEXIU_POSPOSAT)) {
+              return true;
+            }
           }
         }
+        
         pPronomBuscat = pronomPattern(tokens[i - k]);
         if (pPronomBuscat != null) {
           if (i+1< tokens.length
@@ -677,7 +682,7 @@ public class ReflexiveVerbsRule extends Rule {
                 && tokens[i-j+1].getToken().equalsIgnoreCase("a")) {
               keepCounting=false;
             }
-            if (matchPostagRegexp(tokens[i - j], VERB_INFGER) //pertanyen a grups verbals diferents
+            if (matchPostagRegexp(tokens[i - j], VERB_INFGER) // pertanyen a grups verbals diferents
                 && matchPostagRegexp(tokens[i - j + 1], PRONOM_FEBLE)
                 && !matchRegexp(tokens[i - j + 1].getToken(), PRONOMFEBLE_POSPOSAT)) {
               keepCounting=false;
@@ -701,7 +706,7 @@ public class ReflexiveVerbsRule extends Rule {
               && tokens[i-j+1].getToken().equalsIgnoreCase("a")) {
             keepCounting=false;
           }
-          if (matchPostagRegexp(tokens[i - j], VERB_INFGER) //pertanyen a grups verbals diferents
+          if (matchPostagRegexp(tokens[i - j], VERB_INFGER) // pertanyen a grups verbals diferents
               && matchPostagRegexp(tokens[i - j + 1], PRONOM_FEBLE)
               && !matchRegexp(tokens[i - j + 1].getToken(), PRONOMFEBLE_POSPOSAT)) {
             keepCounting=false;

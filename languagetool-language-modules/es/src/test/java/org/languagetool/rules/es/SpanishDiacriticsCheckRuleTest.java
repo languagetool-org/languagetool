@@ -45,10 +45,42 @@ public class SpanishDiacriticsCheckRuleTest {
 
   @Test
   public void testRule() throws IOException {
-
-    
     
     // correct sentences:
+    
+    assertCorrect("los niños solo aman lo desconocido");
+    assertCorrect("y al final supero en altura a su padre");
+    assertCorrect("¿De qué país vienes?");
+    assertCorrect("¡Pero si tú solo vienes aquí durante el verano!");
+    assertCorrect("¿Cómo vienes a la escuela?");
+    assertCorrect("a cuyos integrantes no catalogo de santos precisamente");
+    assertCorrect("esta propuesta de directiva prorroga por un año");
+    assertCorrect("El informe d'Ancona formula gran número de recomendaciones");
+    assertCorrect("la enmienda n.º 4 duplica gran parte");
+    assertCorrect("Ya no decimos post-Lomé");
+    assertCorrect("que nadie interprete mal los votos");
+    assertCorrect("Cuando anuncio una votación especifico de cuál se trata");
+    assertCorrect("qué clase de política practica la Unión Europea");
+    assertCorrect("El proyecto de informe critica el hecho");
+    assertCorrect("Ella practica política de consumidores.");
+    assertCorrect("y participe activa y directamente");
+    assertCorrect("que nadie participe de ellos");
+    assertCorrect("la UE que opera aislada");
+    assertCorrect("que los diputados borren del mapa");
+    assertCorrect("Por tanto solicito a la comisión.");
+    assertCorrect("por parte de quien critica dicha responsabilidad");
+    assertCorrect("el terreno que domino mejor");
+    assertCorrect("las naciones, participe derecho en este proceso");
+    assertCorrect("la protección de los consumidores limite la libre prestación");
+    assertCorrect("el artículo 30 de la propuesta estipula que los Estados miembros");
+    assertCorrect("el proyecto de informe anima a la Comisión");
+    assertCorrect("Y por supuesto que no libero de responsabilidad");
+    assertCorrect("Critico del mismo modo las restricciones");
+    assertCorrect("y por tanto termino aquí");
+    assertCorrect("Los talibán violan los derechos humanos.");
+    assertCorrect("la transición de 1999 indica también que Macao");
+    assertCorrect("¿Por qué decimos esto de una manera tan clara");
+    assertCorrect("El grupo PPE-DE solicita que se retire");
     assertCorrect("y termino señor Presidente");
     assertCorrect("Cuando participe de la manera que sea");
     assertCorrect("el Parlamento solicita a la Comisión");
@@ -74,13 +106,14 @@ public class SpanishDiacriticsCheckRuleTest {
     assertCorrect("a que Libia participe de hecho y derecho");
     assertCorrect("espero que Suecia participe pronto en la cooperación");
     assertCorrect("más joven y dinámica participe de un modo muy significativo");
-    
-    
+       
 
     // incorrect sentences:
-    /*assertIncorrect("de entrada el medico diagnosticó");
+    assertIncorrect("debe valer la celebre máxima de Voltaire");
+    assertIncorrect("el magnifico trabajo realizado");
+    assertIncorrect("de entrada el medico diagnosticó");
     assertIncorrect("El publico deberá tener");
-    assertIncorrect("Fue participe de la operación");
+    //assertIncorrect("Fue participe de la operación");
     assertIncorrect("la formula de inspiración americana");
     assertIncorrect("La maquina del tiempo.");
     assertIncorrect("Una maquina del tiempo.");
@@ -91,8 +124,28 @@ public class SpanishDiacriticsCheckRuleTest {
     assertIncorrect("Un hombre adultero.");
     assertIncorrect("Hizo una magnifica interpretación.");
     assertIncorrect("La magnifica conservación del palacio.");
-    assertIncorrect("Hace falta una nueva formula que la sustituya.");*/
+    assertIncorrect("Hace falta una nueva formula que la sustituya.");
     
+    // this sentences shouldn't be shown in rules EL_TILDE, PREPOSICION_VERBO   
+    assertIncorrect("El termino.");
+    assertIncorrect("El ejercito.");
+    assertIncorrect("En el dialogo");
+    assertIncorrect("El arbitro");
+    assertIncorrect("El petroleo");
+    assertIncorrect("El limite");
+    
+    assertIncorrect("en mi ultima intervención");
+    //assertIncorrect("hubiera hecho más explicito lo que acaba de decir");
+    assertIncorrect("salía de esas fabricas a un precio mucho más bajo");
+    assertIncorrect("y de forma simultanea");
+    assertIncorrect("pretende organizar un modulo sobre la capacitación");
+    assertIncorrect("A su precio integro.");
+    assertIncorrect("las disposiciones explicitas de la directiva");
+    assertIncorrect("Una nueva formula que fue descubierta");
+    assertIncorrect("las placas de matricula que han sido robadas");
+    assertIncorrect("el critico más conocido de las industrias");
+    assertIncorrect("y de entrada el medico diagnosticó que");
+    assertIncorrect(" y adoptar el termino «compartir la responsabilidad»");
     assertIncorrect("Formación del vehiculo en");
     assertIncorrect("Formación de vehiculo en");
     assertIncorrect("del diagnostico o grado");
@@ -127,13 +180,24 @@ public class SpanishDiacriticsCheckRuleTest {
   @Test
   public void testPositions() throws IOException {
     final SpanishDiacriticsCheckRule rule = new SpanishDiacriticsCheckRule(TestTools.getEnglishMessages());
-    final RuleMatch[] matches;
+    RuleMatch[] matches;
     final JLanguageTool langTool = new JLanguageTool(new Spanish());
 
     matches = rule.match(langTool
         .getAnalyzedSentence("de cascaras vacías."));
     assertEquals(3, matches[0].getFromPos());
     assertEquals(11, matches[0].getToPos());
+    assertEquals("cáscaras", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool
+        .getAnalyzedSentence("El termino."));
+    assertEquals(0, matches[0].getFromPos());
+    assertEquals(10, matches[0].getToPos());
+    assertEquals("El término", matches[0].getSuggestedReplacements().get(0));
+    
+    matches = rule.match(langTool
+        .getAnalyzedSentence("El frio."));
+    assertEquals("El frío", matches[0].getSuggestedReplacements().get(0));
   }
 
 }

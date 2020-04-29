@@ -102,20 +102,36 @@ USA
     <!-- ====================================================================== -->
     <!-- Possible typos -->
     <!-- ====================================================================== -->
-    <category id="US_SPECIFIC_TYPOS" name="Possible Typo" type="misspelling">
+    <category id="TYPOS" name="Possible Typo" type="misspelling">
+
           <rule id="ANY_MORE" name="any more (anymore)">
+              <antipattern><!-- any more likely than -->
+                 <token>more</token>
+                 <token postag="JJ"/>
+                 <token>than</token>
+              </antipattern>
               <pattern>
                   <marker>
                      <token>any</token>
-                     <token>more</token>
+                     <token>more
+                         <exception scope="next" regexp="yes">of|than</exception>
+                         <exception scope="next" postag="NN.*" postag_regexp="yes"/>
+                         </token>
                   </marker>
-                  <token><exception regexp="yes">of|than</exception><exception postag="NN.*" postag_regexp="yes"/></token>
               </pattern>
-              <message>Did you mean <suggestion>\1\2</suggestion>?</message>
-              <url>http://www.whichenglish.com/Better-English-Grammar/Online-Usage-Letter-A.html</url>
-              <short>Possible typo</short>
-              <example correction="anymore">I couldn't find my way around in it <marker>any more</marker>.</example>
+              <message>Did you mean the adverb <suggestion>\1\2</suggestion>?</message>
+              <url>https://www.merriam-webster.com/dictionary/anymore</url>
+              <short>American English, possible typo</short>
+              <example correction="anymore">I couldn't find my way around it <marker>any more</marker>.</example>
+              <example correction="anymore">You're not sure <marker>any more</marker>, are you?</example>
+              <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker>.</example><!-- #2309. -->
+              <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker></example><!-- #2309. No full stop. -->
+              <example correction="anymore">You don't have to take care of them <marker>any more</marker>   </example><!-- #2779. Extra spaces -->
+              <example>I couldn't find my way around it <marker>anymore</marker>.</example>
+              <example>If we see that your plan isn't a good fit anymore in the long run, we'd contact you.</example><!-- #2368 -->
+              <example>But I don't think it's any more likely than a farmer harvesting guano...</example><!-- #2717 -->
           </rule>
+
     </category>
 
     <category id="AMERICAN_ENGLISH_STYLE" name="American English Style" type="style">
@@ -172,7 +188,7 @@ USA
             </rule>
         </rulegroup>
     </category>
-    
+
     <category id="BRITISH_ENGLISH" name="British English phrases" type="locale-violation">
         <rule id="GROUND_FIRST_FLOOR" name="ground floor/first floor">
             <pattern>
@@ -212,6 +228,23 @@ USA
             <example correction="">The 4.<marker>6-centigramme</marker> difference is not a problem.</example>
             <example correction="">Also find typgoraphic errors: a 5.7.<marker>8-femtogramme</marker> difference is not important.</example>
        </rule>
+
+    <rule id="AT_THE_WEEKEND" name="Collocation: at the weekend"><!-- Premium #983 -->
+    <!-- Modified. Originally created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <marker>
+              <token>at</token>
+              <token>the</token>
+              <token>weekend</token>
+          </marker>
+          <token postag="SENT_END"/>
+      </pattern>
+      <message>The phrase '\1 \2 \3' is a British English expression, which is used the same way as <suggestion>on \2 \3</suggestion> in American English.</message>
+      <url>http://learnersdictionary.com/qa/Over-the-weekend-on-the-weekend-at-the-weekend</url>
+      <short>Collocation error</short>
+      <example correction="on the weekend">I like to play soccer <marker>at the weekend</marker>.</example>
+    </rule>
+
     </category>
 
     <category id="SEMANTICS" name="Semantics" type="inconsistency">
@@ -220,8 +253,8 @@ USA
                 <pattern>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
                     <token postag="VBN" skip="-1">
-                      <exception>scheduled</exception>
-                      <exception scope='next' regexp='yes'>before|until|will</exception></token>
+                        <exception>scheduled</exception>
+                        <exception scope='next' regexp='yes'>before|until|will</exception></token>
                     <marker> &date_mdy_numbers; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\7 month:\3 day:\5"/>
@@ -236,7 +269,7 @@ USA
             <rule> <!-- On 10/27/2040, we have visited the client -->
                 <pattern>
                     <token>
-                      <exception regexp='yes'>before|until</exception></token>
+                        <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_mdy_numbers_skip; </marker>
                     <token inflected="yes" postag="VBD?" postag_regexp="yes" skip="-1">have</token>
                     <token postag="VBN" skip="-1"/>
@@ -253,7 +286,7 @@ USA
             <rule> <!-- We visited the client on 27/10/2040  -->
                 <pattern>
                     <token postag="VBD" skip="-1">
-                      <exception scope='next' regexp='yes'>before|until|will</exception></token>
+                        <exception scope='next' regexp='yes'>before|until|will</exception></token>
                     <marker> &date_mdy_numbers; </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.en.FutureDateFilter" args="year:\6 month:\2 day:\4"/>
@@ -268,7 +301,7 @@ USA
             <rule> <!-- On 27/10/2040, we visited the client -->
                 <pattern>
                     <token>
-                      <exception regexp='yes'>before|until</exception></token>
+                        <exception regexp='yes'>before|until</exception></token>
                     <marker> &date_mdy_numbers_skip; </marker>
                     <token postag="VBD" skip="-1"/>
                 </pattern>
@@ -282,17 +315,17 @@ USA
                 <example>He promised to do it before 30/08/2020.</example>
             </rule>
         </rulegroup>
-  </category>
+    </category>
 
-  <category id="STYLE" name="Style" type="style">
-    <rule id="THRU" name="thru / through">
-        <pattern>
-            <token>thru</token>
-        </pattern>
-        <message>The word 'thru' is informal. Consider replacing it with <suggestion>through</suggestion>.</message>
-        <url>https://www.merriam-webster.com/dictionary/thru</url>
-        <example correction="through">I'm going <marker>thru</marker> hell.</example>
-    </rule>
-  </category>
+    <category id="STYLE" name="Style" type="style">
+        <rule id="THRU" name="thru / through">
+            <pattern>
+                <token>thru</token>
+            </pattern>
+            <message>The word 'thru' is informal. Consider replacing it with <suggestion>through</suggestion>.</message>
+            <url>https://www.merriam-webster.com/dictionary/thru</url>
+           <example correction="through">I'm going <marker>thru</marker> hell.</example>
+        </rule>
+    </category>
 
 </rules>

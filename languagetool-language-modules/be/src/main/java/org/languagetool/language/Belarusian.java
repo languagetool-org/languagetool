@@ -18,11 +18,7 @@
  */
 package org.languagetool.language;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
@@ -32,6 +28,9 @@ import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
+import java.io.IOException;
+import java.util.*;
+
 /**
  * Belarusian language declarations.
  *
@@ -40,9 +39,6 @@ import org.languagetool.tokenizers.SentenceTokenizer;
  */
 @Deprecated
 public class Belarusian extends Language {
-
-  private Tagger tagger;
-  private SentenceTokenizer sentenceTokenizer;
 
   @Override
   public String getName() {
@@ -59,20 +55,15 @@ public class Belarusian extends Language {
     return new String[]{"BY"};
   }
 
+  @NotNull
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new DemoTagger();
-    }
-    return tagger;
+  public Tagger createDefaultTagger() {
+    return new DemoTagger();
   }
 
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
 
   @Override

@@ -33,8 +33,9 @@ public class SpanishTest extends LanguageSpecificTest {
     String s = "Escriba un texto aquí. LanguageTool le ayudará a afrentar algunas dificultades propias de la escritura. Se a hecho un esfuerzo para detectar errores tipográficos, ortograficos y incluso gramaticales. También algunos errores de estilo, a grosso modo.";
     Spanish lang = new Spanish();
     testDemoText(lang, s,
-      Arrays.asList("AFRENTAR_DIFICULTADES", "ES_WIKIPEDIA_COMMON_ERRORS", "MORFOLOGIK_RULE_ES", "Y_E", "GROSSO_MODO")
+      Arrays.asList("AFRENTAR_DIFICULTADES", "A_PARTICIPIO", "MORFOLOGIK_RULE_ES", "Y_E", "GROSSO_MODO")
     );
-    runTests(lang);
+    // , "ES_WIKIPEDIA_COMMON_ERRORS"
+    runTests(lang, null, "ÍÚÑ");
   }
 }

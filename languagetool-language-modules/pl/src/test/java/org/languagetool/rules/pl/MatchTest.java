@@ -54,8 +54,8 @@ public class MatchTest {
     final Polish polish = new Polish();
     MatchState matchState = new MatchState(match, polish.getSynthesizer());
     matchState.setToken(getAnalyzedTokenReadings("inflectedform11", "POS1", "Lemma1"));
-    //getting empty strings, which is what we want
-    assertEquals("[]", Arrays.toString(matchState.toFinalString(polish)));
+    //getting "<mistake/>" string, which is what we want. It will be removed later.
+    assertEquals("[<mistake/>]", Arrays.toString(matchState.toFinalString(polish)));
 
     // contrast with a speller = false!
     match = getMatch("POS1", "POS2", false);
@@ -75,9 +75,9 @@ public class MatchTest {
     matchState = new MatchState(match, polish.getSynthesizer());
     assertEquals("[AON-u]", Arrays.toString(matchState.toFinalString(polish)));
     match.setLemmaString("batalion");
-    //should be empty
+    //getting "<mistake/>" string, which is what we want. It will be removed later.
     matchState = new MatchState(match, polish.getSynthesizer());
-    assertEquals("[]", Arrays.toString(matchState.toFinalString(polish)));
+    assertEquals("[<mistake/>]", Arrays.toString(matchState.toFinalString(polish)));
     match.setLemmaString("ASEAN");
     //and this one not
     matchState = new MatchState(match, polish.getSynthesizer());

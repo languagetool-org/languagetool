@@ -22,9 +22,8 @@ import com.google.common.cache.Cache;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.Histogram;
-import io.prometheus.client.Summary;
-import io.prometheus.client.guava.cache.CacheMetricsCollector;
 import io.prometheus.client.exporter.HTTPServer;
+import io.prometheus.client.guava.cache.CacheMetricsCollector;
 import io.prometheus.client.hotspot.DefaultExports;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +31,10 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class ServerMetricsCollector {
 

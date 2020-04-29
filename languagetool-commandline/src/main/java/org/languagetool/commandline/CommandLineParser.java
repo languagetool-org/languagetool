@@ -48,6 +48,8 @@ class CommandLineParser {
         options.setVerbose(true);
       } else if (args[i].equals("--line-by-line")) {
         options.setLineByLine(true);
+      } else if (args[i].equals("--enable-temp-off")) {
+        options.setEnableTempOff(true);
       } else if (args[i].equals("-t") || args[i].equals("--taggeronly")) {
         options.setTaggerOnly(true);
         if (options.isListUnknown()) {
@@ -108,6 +110,9 @@ class CommandLineParser {
       } else if (args[i].equals("--rulefile")) {
         checkArguments("--rulefile", i, args);
         options.setRuleFile(args[++i]);
+      } else if (args[i].equals("--remoterules")) {
+        checkArguments("--remoterules", i, args);
+        options.setRemoteRulesFile(args[++i]);
       } else if (args[i].equals("--falsefriends")) {
         checkArguments("--falsefriends", i, args);
         options.setFalseFriendFile(args[++i]);
@@ -218,6 +223,7 @@ class CommandLineParser {
             + "                           NOTE: only use with very robust rules, as this will otherwise introduce new errors\n"
             + "  --rulefile FILE          use an additional grammar file; if the filename contains a known language code,\n"
             + "                           it is used in addition of standard rules\n"
+            + "  --remoterules FILE       configure rules depending on external services via a JSON file (optional)\n"
             + "  --falsefriends FILE      use external false friend file to be used along with the built-in rules\n"
             + "  --bitextrules  FILE      use external bitext XML rule file (useful only in bitext mode)\n"
             + "  --languagemodel DIR      a directory with e.g. 'en' sub directory (i.e. a language code) that contains\n"
@@ -230,6 +236,7 @@ class CommandLineParser {
             + "  --fasttextbinary FILE    fasttext executable (optional), see https://fasttext.cc/docs/en/support.html\n"
             + "  --xmlfilter              remove XML/HTML elements from input before checking (deprecated)\n"
             + "  --line-by-line           work on file line by line (for development, e.g. inside an IDE)"
+            + "  --enable-temp-off        enable all temp_off rules (for testing and development)"
     );
   }
 

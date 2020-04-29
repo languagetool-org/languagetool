@@ -262,11 +262,7 @@ public class MatchState {
             }
           }
           if (wordForms.isEmpty()) {
-            if (match.checksSpelling()) {
-              formattedString[0] = "";
-            } else {
-              formattedString[0] = "(" + formattedToken.getToken() + ")";
-            }
+            formattedString[0] = "(" + formattedToken.getToken() + ")";
           } else {
             formattedString = wordForms.toArray(new String[0]);
           }
@@ -312,7 +308,7 @@ public class MatchState {
       for (int i = 0; i < formattedString.length; i++) {
         AnalyzedToken analyzedToken = analyzed.get(i).getAnalyzedToken(0);
         if (analyzedToken.getLemma() == null && analyzedToken.hasNoTag()) {
-          formattedString[i] = "";
+          formattedString[i] = PatternRuleMatcher.MISTAKE;
         }
       }
     }

@@ -20,8 +20,6 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpServer;
 import org.languagetool.JLanguageTool;
-import org.languagetool.RuleLoggerManager;
-import org.languagetool.SlowRuleLogger;
 import org.languagetool.tools.Tools;
 
 import javax.management.ObjectName;
@@ -29,7 +27,8 @@ import java.lang.management.ManagementFactory;
 import java.net.InetSocketAddress;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import static org.languagetool.server.HTTPServerConfig.DEFAULT_HOST;
 
@@ -142,7 +141,7 @@ public class HTTPServer extends Server {
     try {
       checkForNonRootUser();
       HTTPServer server;
-      ServerTools.print("WARNING: running in HTTP mode, consider using " + HTTPSServer.class.getName() + " for encrypted connections");
+      ServerTools.print("WARNING: running in HTTP mode, consider running LanguageTool behind a reverse proxy that takes care of encryption (HTTPS)");
       if (config.isPublicAccess()) {
         ServerTools.print("WARNING: running in public mode, LanguageTool API can be accessed without restrictions!");
         server = new HTTPServer(config, false, null, null);

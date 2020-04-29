@@ -18,42 +18,38 @@
  */
 package org.languagetool.rules.en;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
+import gnu.trove.THashMap;
+import gnu.trove.THashSet;
+import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.tools.StringTools;
 
-import java.io.InputStream;
 import java.util.*;
 
 /**
- * A rule that matches words which are complex and suggests easier to understand alternatives. 
+ * A rule that matches words which need a specific upper/lowercase spelling.
  * @since 4.8
  */
 public class SpecificCaseRule extends Rule {
   
-  private static final Set<String> phrases = new HashSet<>(loadPhrases("/en/specific_case.txt"));
+  private static final Set<String> phrases = new THashSet<>(loadPhrases("/en/specific_case.txt"));
   private static int maxLen;
 
   private static List<String> loadPhrases(String path) {
     List<String> l = new ArrayList<>();
-    InputStream file = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-    try (Scanner scanner = new Scanner(file, "UTF-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine().trim();
-        if (line.isEmpty() || line.startsWith("#")) {
-          continue;
-        }
-        int parts = line.split(" ").length;
-        maxLen = Math.max(parts, maxLen);
-        l.add(line.trim());
+    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
+    for (String line : lines) {
+      if (line.isEmpty() || line.startsWith("#")) {
+        continue;
       }
+      int parts = line.split(" ").length;
+      maxLen = Math.max(parts, maxLen);
+      l.add(line.trim());
     }
     return l;
   }
 
-  private static final Map<String,String> lcToProperSpelling = new HashMap<>();
+  private static final Map<String,String> lcToProperSpelling = new THashMap<>();
   static {
     for (String phrase : phrases) {
       lcToProperSpelling.put(phrase.toLowerCase(), phrase);
@@ -102,7 +98,7 @@ public class SpecificCaseRule extends Rule {
           } else {
             msg = "If the term is a proper noun, use the suggested capitalization.";
           }
-          RuleMatch match = new RuleMatch(this, sentence, tokens[i].getStartPos(), tokens[i].getStartPos() + phrase.length(), msg);
+          RuleMatch match = new RuleMatch(this, sentence, tokens[i].getStartPos(), tokens[i+j-1].getEndPos(), msg);
           match.setSuggestedReplacement(properSpelling);
           matches.add(match);
         }

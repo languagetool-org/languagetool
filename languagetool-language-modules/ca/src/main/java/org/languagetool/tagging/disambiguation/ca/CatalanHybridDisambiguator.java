@@ -36,7 +36,7 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 /**
  * Hybrid chunker-disambiguator for Catalan
  * 
- * @author Marcin Miłkowski
+ * @author Jaume Ortolà
  */
 public class CatalanHybridDisambiguator extends AbstractDisambiguator {
 

@@ -4297,6 +4297,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                                 <example>To jest przykład—błędny—ale jest.</example>
 						</rule>
 				</rulegroup>
+            <!-- does not work due to sentence splitting
 				<rule id="BRAK_SPACJI_PO_INICJALE_IMIENIA" name="Brak spacji po inicjale imienia">
          <pattern>
           <token regexp='yes'>\p{Lu}</token>
@@ -4309,6 +4310,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          <example>Wcześniej istnienie mapy poznawczej postulował E. Tolman.</example>
          <example>Taką tezę głosił J.A. Fodor.</example>
         </rule>
+        -->
 				<rule id="ZBEDNA_SPACJA" type="whitespace" name="Zbędna spacja po znaku interpunkcyjnym (cudzysłów, nawias)">
 						<pattern>
 								<token regexp="yes">[„\[]</token>
@@ -4549,7 +4551,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" spacebefore="no">[—–]</token>
                 <token regexp="yes" spacebefore="no">\p{L}+<exception regexp="yes">(ok|po|przed|te|tych|tymi?)</exception></token>
                 </pattern>
-                <message>Myślnika nie używa się wewnątrz wyrazu: <suggestion>\1-\3</suggestion>. Jeśli ten znak jest między osobnymi wyrazami, należy napisać ze spacjami: <suggestion suppress_misspelled="yes"><match no="1"/> <match no="2"/> <match no="3"/></suggestion>.</message>
+                <message>Myślnika nie używa się wewnątrz wyrazu: <suggestion>\1-\3</suggestion>. Jeśli ten znak jest między osobnymi wyrazami, należy napisać ze spacjami: <suggestion><match no="1"/> <match no="2"/> <match no="3"/></suggestion>.</message>
                 <short>Błąd typograficzny</short>
                 <example correction="5-letni|5 — letni">Okres <marker>5—letni</marker>.</example>
                 <example>Okres 5-letni</example>
@@ -5075,6 +5077,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <example>Spółka z o.o.</example>
                       <example correction="z o.o.">Spółka <marker>z o. o.</marker> Jurek.</example>
                     </rule>
+                    <!-- does not work due to sentence splitting
                     <rule>
                       <pattern>
                         <token>p</token>                        
@@ -5088,6 +5091,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                       <short>Zbędna spacja</short>                                            
                       <example correction="p.n.e">To było w roku 241 <marker>p. n.e</marker>.</example>
                     </rule>
+                    -->
                     <rule>
                       <pattern>
                         <token>p</token>                        
@@ -17298,7 +17302,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<pattern>
 										<token regexp="yes">5-t?(?:k[aąoęi]|ce|kach|kami|kom|ek)</token>
 								</pattern>
-								<message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion><match no="1" regexp_match="5-t?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)" regexp_replace="piąt$1" suppress_misspelled="yes"></match></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>5</suggestion>.</message>
+						    <message>Niepoprawny zapis skrótowy liczby. Rzeczowniki odliczebnikowe zawsze zapisuje się słownie: <suggestion suppress_misspelled="yes"><match no="1" regexp_match="5-t?(ka|ce|ką|ko|kę|ki|kach|kami|kom|ek)" regexp_replace="piąt$1"></match></suggestion>; w niektórych kontekstach można też po prostu użyć zapisu liczbowego: <suggestion>5</suggestion>.</message>
 								<short>Błąd ortograficzny</short>
 								<example correction="piątka|5">Właśnie uciekła mi <marker>5-ka</marker>.</example>
 								<example>Jechałem piątką.</example>
@@ -18513,6 +18517,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<example>Wczoraj wygrałem 10 mld.</example>
 								<example correction="mln">Brakuje nam 3 <marker>mln.</marker> złotych.</example>
 						</rule>
+                        <!-- does not work due to sentence splitting
                         <rule>
                         <pattern>
                             <token regexp="yes">npl|[tpw]g|cos|cosec|sec|sin|rkm</token>
@@ -18523,6 +18528,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <example>Świat wg Garpa</example>
                         <example correction="wg">Świat <marker>wg.</marker> Garpa</example>
                         </rule>
+                        -->
                         <rule>
                         <pattern>
                             <marker>
@@ -18836,7 +18842,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 										<token postag="UNKNOWN" regexp="yes">hypo.*<exception>hypocaustum</exception></token>
 								</pattern>
 								<message>Przedrostek „hipo” piszemy przez „i”. Wyjątkiem są wyrazy zupełnie niespolszczone.</message>
-                                <suggestion><match suppress_misspelled="yes" no="1" regexp_match="(?iu)hypo(.*)" regexp_replace="hipo$1"></match></suggestion>
+						    <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(?iu)hypo(.*)" regexp_replace="hipo$1"></match></suggestion>
 								<short>Błąd ortograficzny</short>
 								<example correction="hipochondrykiem">On jest <marker>hypochondrykiem</marker>.</example>
 								<example>Jakie przemyślne hypokaustum!</example>
@@ -20657,7 +20663,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token inflected="yes">stryktura</token>
                 </pattern>
-                <message>To rzadki wyraz (oznaczający zwężenie kanału lub przetoki w organizmie z powodu bliznowacenia lub nowotworu). Czy chodziło o <suggestion><match suppress_misspelled="yes" no="1" regexp_match="tryk" regexp_replace="truk"/></suggestion>?</message>
+                <message>To rzadki wyraz (oznaczający zwężenie kanału lub przetoki w organizmie z powodu bliznowacenia lub nowotworu). Czy chodziło o <suggestion suppress_misspelled="yes"><match no="1" regexp_match="tryk" regexp_replace="truk"/></suggestion>?</message>
                 <short>Prawdopodobna literówka</short>
                 <example>Reorganizacja struktury Komendy Powiatowej Policji w Staszowie.</example>
                 <example correction="struktury">Reorganizacja <marker>stryktury</marker> Komendy Powiatowej Policji w Staszowie.</example>
@@ -22032,7 +22038,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 								<token postag="depr:pl:nom:m2" regexp="yes"><exception postag="subst:sg:loc:f"/><exception postag="subst:pl:nom:[mp]1" postag_regexp="yes"/>
 								.*ce<exception>gońce</exception></token>
 						</pattern>
-						<message>Prawdopodobna literówka. Czy chodziło o <suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="1" regexp_match="(.*)ce" regexp_replace="$1cę"></match></suggestion>?</message>
+				        <message suppress_misspelled="yes">Prawdopodobna literówka. Czy chodziło o <suggestion><match no="1" regexp_match="(.*)ce" regexp_replace="$1cę"></match></suggestion>?</message>
 						<short>Prawdopodobna literówka</short>
 						<example correction="twórcę">Uwielbiam tego gruzińskiego <marker>twórce</marker> ludowego.</example>
 						<example>Mam okulary w ładnej oprawce.</example>
@@ -23138,7 +23144,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 												<token postag="subst.*[:\.]m.*" postag_regexp="yes" regexp="yes">\p{Ll}.*y<exception postag=".*[\.:]gen[\.:].*|verb.*" postag_regexp="yes"></exception><exception postag="UNKNOWN"/><exception>prosty</exception></token>
 										</marker>
 								</pattern>
-								<message>Prawdopodobna literówka. Czy chodziło o <suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="2" regexp_match="(.*)y" regexp_replace="$1u"></match></suggestion>?</message>
+						        <message>Prawdopodobna literówka. Czy chodziło o <suggestion suppress_misspelled="yes"><match no="2" regexp_match="(.*)y" regexp_replace="$1u"></match></suggestion>?</message>
 								<short>Prawdopodobna literówka</short>
 								<example>Prasa donosi z Agany, że już nie ma niebezpieczeństwa.</example>
 								<example>Nie ma go z powodu grypy.</example>
@@ -23157,7 +23163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 												<token postag="subst.*[:\.]m.*" postag_regexp="yes" regexp="yes">\p{Ll}.*y<exception postag=".*[\.:]gen[\.:].*" postag_regexp="yes"></exception><exception postag="UNKNOWN"></exception></token>
 										</marker>
 								</pattern>
-								<message>Prawdopodobna literówka. Czy chodziło o <suggestion suppress_misspelled="yes"><match suppress_misspelled="yes" no="3" regexp_match="(.*)y" regexp_replace="$1u"></match></suggestion>?</message>
+								<message>Prawdopodobna literówka. Czy chodziło o <suggestion suppress_misspelled="yes"><match no="3" regexp_match="(.*)y" regexp_replace="$1u"></match></suggestion>?</message>
 								<short>Prawdopodobna literówka</short>
 								<example>Nie ma go z tego powodu, że ma grypę.</example>
 								<example correction="powodu">Nie ma go z tego <marker>powody</marker>, że ma grypę.</example>

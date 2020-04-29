@@ -42,7 +42,7 @@ public class AgreementRuleTest {
   private JLanguageTool lt;
 
   @Before
-  public void setUp() throws IOException {
+  public void setUp() {
     rule = new AgreementRule(TestTools.getMessages("de"), (GermanyGerman)Languages.getLanguageForShortCode("de-DE"));
     lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
   }
@@ -56,8 +56,13 @@ public class AgreementRuleTest {
     assertBad("Ein neuer LanguageTool Account", "Ein neuer LanguageTool-Account");
     assertBad("Danke für deine Account Daten", "deine Accountdaten", "deine Account-Daten");
     assertBad("Mit seinem Konkurrent Alistair Müller", "sein Konkurrent", "seinem Konkurrenten");
+    assertBad("Wir gehen ins Fitness Studio", "ins Fitnessstudio", "ins Fitness-Studio");
+    assertBad("Wir gehen durchs Fitness Studio", "durchs Fitnessstudio", "durchs Fitness-Studio");
     //assertBad("Die Bad Taste Party von Susi", "Die Bad-Taste-Party");   // not supported yet
     //assertBad("Die Update Liste.", "Die Updateliste");  // not accepted by speller
+    List<RuleMatch> matches = lt.check("Er folgt damit dem Tipp des Autoren Michael Müller.");
+    assertThat(matches.size(), is(1));
+    assertFalse(matches.get(0).getMessage().contains("zusammengesetztes Nomen"));
   }
   
   @Test
@@ -121,6 +126,22 @@ public class AgreementRuleTest {
     assertGood("Er hat einen Post veröffentlicht.");
     assertGood("Eine lückenlose Aufklärung sämtlicher physiologischer Gehirnprozesse");
     assertGood("Sie fragte verwirrt: „Ist das Zucker?“");
+    assertGood("Er versuchte sich vorzustellen, was sein Klient für ein Mensch sei.");
+    assertGood("Sie legen ein Teilstück jenes Weges zurück, den die Tausenden Juden 1945 auf sich nehmen mussten.");
+    assertGood("Aber das ignorierte Herr Grey bewusst.");
+    assertGood("Aber das ignorierte Herr Müller bewusst.");
+    assertGood("Ich werde mich zurücknehmen und mich frischen Ideen zuwenden.");
+    assertGood("Das, plus ein eigener Firmenwagen.");
+    assertGood("Dieses leise Summen stört nicht.");
+    assertGood("Die Tiroler Küche");
+    assertGood("Was ist denn das für ein ungewöhnlicher Name?");
+    assertGood("Besonders reizen mich Fahrräder.");
+    assertGood("Und nur, weil mich psychische Erkrankungen aus der Bahn werfen");
+    assertGood("Das kostet dich Zinsen.");
+    assertGood("Sie hatten keine Chance gegen das kleinere Preußen.");
+    assertGood("Den 2019er Wert hatten sie geschätzt.");
+    assertGood("Andere formale Systeme, deren Semantiken jeweils...");
+    assertGood("Gesetz zur Änderung des Kündigungsrechts und anderer arbeitsrechtlicher Vorschriften");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
@@ -183,6 +204,17 @@ public class AgreementRuleTest {
     assertGood("Die Zeitdauer, während der Wissen nützlich bleibt, wird kürzer.");
     assertGood("Es sollte nicht viele solcher Bilder geben");
     assertGood("In den 80er Jahren.");
+    assertGood("Hast du etwas das Carina machen kann?");
+    assertGood("Ein Artikel in den Ruhr Nachrichten.");
+    assertGood("Ich wollte nur allen Hallo sagen.");
+    assertGood("Ich habe deshalb allen Freund*innen Bescheid gegeben.");   // Gendersternchen, https://github.com/languagetool-org/languagetool/issues/2417
+    assertGood("Ich habe deshalb allen Freund_innen Bescheid gegeben.");
+    assertGood("Ich habe deshalb allen Freund:innen Bescheid gegeben.");
+    assertGood("Sein*e Mitarbeiter*in ist davon auch betroffen.");
+    assertGood("Jede*r Mitarbeiter*in ist davon betroffen.");
+    assertGood("Alle Professor*innen");
+    assertGood("Gleichzeitig wünscht sich Ihr frostresistenter Mitbewohner einige Grad weniger im eigenen Zimmer?");
+    assertGood("Ein Trainer, der zum einen Fußballspiele sehr gut lesen und analysieren kann");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
@@ -246,6 +278,11 @@ public class AgreementRuleTest {
     assertGood("Unser Hund vergräbt seine Knochen im Garten.");
     assertGood("Ob das Mehrwert bringt?");
     assertGood("Warum das Sinn macht?");
+    assertGood("Das hängt davon ab, ob die Deutsch sprechen");
+    assertGood("Die meisten Coaches wissen nichts.");
+    assertGood("Die Präsent AG.");
+    assertGood("In New York war er der Titelheld in Richard III. und spielte den Mark Anton in Julius Cäsar.");
+    assertGood("Vielen Dank fürs Bescheid geben.");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
@@ -365,22 +402,22 @@ public class AgreementRuleTest {
   @Test
   public void testDetNounRuleErrorMessages() throws IOException {
     // check detailed error messages:
-    assertBadWithMessage("Das Fahrrads.", "bezüglich Kasus");
-    assertBadWithMessage("Der Fahrrad.", "bezüglich Genus");
-    assertBadWithMessage("Das Fahrräder.", "bezüglich Numerus");
-    assertBadWithMessage("Die Tischen sind ecking.", "bezüglich Kasus");
+    assertBadWithMessage("Das Fahrrads.", "des Kasus");
+    assertBadWithMessage("Der Fahrrad.", "des Genus");
+    assertBadWithMessage("Das Fahrräder.", "des Numerus");
+    assertBadWithMessage("Die Tischen sind ecking.", "des Kasus");
     assertBadWithMessage("Die Tischen sind ecking.", "und Genus");
     //TODO: input is actually correct
-    assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellt werden.", "bezüglich Kasus, Genus oder Numerus.");
+    assertBadWithMessage("Bei dem Papierabzüge von Digitalbildern bestellt werden.", "des Kasus, Genus oder Numerus.");
   }
 
   @Test
   public void testRegression() throws IOException {
-      JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-      // used to be not detected > 1.0.1:
-      String str = "Und so.\r\nDie Bier.";
-      List<RuleMatch> matches = lt.check(str);
-      assertEquals(1, matches.size());
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    // used to be not detected > 1.0.1:
+    String str = "Und so.\r\nDie Bier.";
+    List<RuleMatch> matches = lt.check(str);
+    assertEquals(1, matches.size());
   }
 
   @Test

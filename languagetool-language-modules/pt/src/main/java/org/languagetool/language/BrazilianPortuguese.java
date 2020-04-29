@@ -18,17 +18,13 @@
  */
 package org.languagetool.language;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
-import org.languagetool.rules.*;
-import org.languagetool.rules.pt.BrazilianPortugueseReplaceRule;
-import org.languagetool.rules.pt.PostReformPortugueseCompoundRule;
-import org.languagetool.rules.pt.PostReformPortugueseDashRule;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.pt.*;
+
+import java.io.IOException;
+import java.util.*;
 
 public class BrazilianPortuguese extends Portuguese {
 
@@ -43,7 +39,7 @@ public class BrazilianPortuguese extends Portuguese {
     rules.addAll(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
     rules.add(new PostReformPortugueseCompoundRule(messages));
     rules.add(new BrazilianPortugueseReplaceRule(messages));
-    rules.add(new PostReformPortugueseDashRule());
+    rules.add(new PostReformPortugueseDashRule(messages));
     return rules;
   }
 
