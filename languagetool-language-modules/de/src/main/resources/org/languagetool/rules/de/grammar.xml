@@ -9010,6 +9010,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
+        <rule id="MUTMASSLICH" name="mut maßlich (mutmaßlich)" default="temp_off">
+            <pattern>
+                <token case_sensitive="no">mut</token>
+                <token regexp="yes">ma(ss|ß)(lich(e|er|es|en|em)?|los|end?)</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>mut\2</suggestion>?</message>
+            <example correction="mutmaßlich">Der Mann war <marker>mut maßlich</marker> an der Tat beteiligt.</example>
+        </rule>
         <rule id="TASK_FORCE" name="Task Force (Taskforce)">
             <antipattern>
                 <token postag="UNKNOWN" />
@@ -18871,7 +18879,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>&inwend;<suggestion>Gleicher unter Gleichen</suggestion> werden 'Gleicher' und 'Gleichen' großgeschrieben.</message>
                 <example correction="Gleicher unter Gleichen">Er war <marker>gleicher unter gleichen</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern case_sensitive="yes">
                     <token>Fug</token>
                     <token>und</token>
