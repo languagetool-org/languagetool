@@ -18617,9 +18617,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>ein</token>
                 <token>sieben</token>
             </antipattern>
+            <antipattern>
+                <token postag="PRP:.+" postag_regexp="yes"/>
+                <token>ein</token>
+                <token postag="ADJ:.+" postag_regexp="yes"/>
+                <token postag="VER:INF:SFT"/>
+            </antipattern>
             <pattern>
                 <token>ein</token>
-                <token postag_regexp="yes" postag="ADJ:.*" min="0"><exception regexp="yes">wenig|sieben|anderer</exception></token>
+                <token postag_regexp="yes" postag="ADJ:.*" min="0"><exception regexp="yes">wenig|sieben|anderer|weit</exception></token>
                 <marker>
                     <token postag="VER:INF:SFT" case_sensitive="yes" regexp="yes">[a-zöäü]+<exception>einen</exception></token>
                 </marker>
@@ -18631,6 +18637,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Lass mich dir ein neues kaufen!</example>
             <example>Sie sollten ein neues kaufen.</example>
             <example>Was ein Mensch erfinden kann, kann ein anderer entdecken.</example>
+            <example>Der Notdienst kann das Schloss durch ein neues austauschen und auch den Schlüssel nachmachen.</example>
         </rule>
         <rule id="EIN_FUENFTEL" name="ein fünftel (Fünftel) etc.">
             <pattern>
