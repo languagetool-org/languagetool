@@ -175,6 +175,9 @@ public class AdverbFilter extends RuleFilter {
     put("shortly", "short");
     put("mildly", "mild");
     put("secretly", "secret");
+    put("especially", "especial");
+    put("previously", "previous");
+    put("whitely", "white");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
