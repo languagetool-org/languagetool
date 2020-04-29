@@ -25,6 +25,7 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.tools.Tools;
 
 /**
  * A rule that checks for empty lines. Useful especially for office extension
@@ -68,7 +69,7 @@ public class EmptyLineRule extends TextLevelRule {
     int pos = 0;
     for (int n = 0; n < sentences.size() - 1; n++) {
       AnalyzedSentence sentence = sentences.get(n);
-      if(sentence.hasParagraphEndMark(lang)) {
+      if(Tools.isParagraphEnd(sentences, n, lang)) {
         if(isSecondParagraphEndMark(sentence.getText())) {
           AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
           if(tokens.length > 1) {

@@ -18,15 +18,11 @@
  */
 package org.languagetool.rules.en;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.*;
 import org.languagetool.rules.*;
 import org.languagetool.tools.StringTools;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.regex.Pattern;
 
 import static org.languagetool.rules.en.AvsAnData.getWordsRequiringA;
@@ -109,7 +105,8 @@ public class AvsAnRule extends Rule {
         }
         if (msg != null) {
           RuleMatch match = new RuleMatch(
-              this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[prevTokenIndex].getEndPos(), msg, "Wrong article");
+              this, sentence, tokens[prevTokenIndex].getStartPos(), tokens[prevTokenIndex].getEndPos(),
+                  tokens[prevTokenIndex].getStartPos(), token.getEndPos(), msg, "Wrong article");
           ruleMatches.add(match);
         }
       }
@@ -134,9 +131,9 @@ public class AvsAnRule extends Rule {
     AnalyzedTokenReadings token = new AnalyzedTokenReadings(new AnalyzedToken(origWord, null, null), 0);
     Determiner determiner = getCorrectDeterminerFor(token);
     if (determiner == Determiner.A || determiner == Determiner.A_OR_AN) {
-      return "a " + origWord;
+      return "a " + StringTools.lowercaseFirstCharIfCapitalized(origWord);
     } else if (determiner == Determiner.AN) {
-      return "an " + origWord;
+      return "an " + StringTools.lowercaseFirstCharIfCapitalized(origWord);
     } else {
       return origWord;
     }

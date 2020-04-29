@@ -18,16 +18,13 @@
  */
 package org.languagetool.tagging.ru;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Locale;
-import java.util.List;
-
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
+
+import java.io.IOException;
+import java.util.*;
 
 
 
@@ -36,16 +33,6 @@ import org.languagetool.tagging.BaseTagger;
  * See readme.txt for details, the POS tagset is described in tagset.txt
  */
 public class RussianTagger extends BaseTagger {
-
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/ru/added.txt";
-  }
-
-  @Override
-  public String getManualRemovalsFileName() {
-    return "/ru/removed.txt";
-  }
 
   public RussianTagger() {
     super("/ru/russian.dict", new Locale("ru"));

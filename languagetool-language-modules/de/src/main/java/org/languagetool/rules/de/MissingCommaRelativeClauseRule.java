@@ -19,8 +19,8 @@
 package org.languagetool.rules.de;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csToken;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.regex;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.regex;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -37,7 +37,6 @@ import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.Category.Location;
 import org.languagetool.rules.CategoryId;
-import org.languagetool.rules.Example;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternToken;
@@ -72,7 +71,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
   public MissingCommaRelativeClauseRule(ResourceBundle messages, boolean behind) {
     super(messages);
     super.setCategory(new Category(new CategoryId("HILFESTELLUNG_KOMMASETZUNG"),
-        "Hilfestellung für Kommasetzung", Location.INTERNAL, true));
+        "Kommasetzung", Location.INTERNAL, true));
     super.makeAntiPatterns(ANTI_PATTERNS, GERMAN);
     this.behind = behind;
   }
@@ -148,7 +147,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
     List<Integer>verbs = new ArrayList<>();
     for(int i = start; i < end; i++) {
       if(isVerb(tokens, i)) {
-        if(tokens[i].matchesPosTagRegex("PA[12]:.*")) {
+        if(tokens[i].hasPosTagStartingWith("PA")) {
           String gender = getGender(tokens[i]);
           String sStr = "(ADJ|PA[12]):.*" + gender +".*";
           int j;

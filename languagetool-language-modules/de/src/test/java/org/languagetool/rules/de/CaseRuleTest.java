@@ -160,6 +160,12 @@ public class CaseRuleTest {
     assertGood("Ist das eine Frage ? Müsste das nicht anders sein?");
     assertGood("Das ist ein Satz !!! Das auch.");
     assertGood("Der russische Erdölmagnat Emanuel Nobel, der Erbauer des ersten Dieselmotorschiffes.");
+    assertGood("Zur Versöhnung: Jüdische Gläubige sollen beten.");
+    assertGood("Fast im Stundentakt wurden neue Infizierte gemeldet.");
+    assertGood("Bert Van Den Brink");
+    assertGood("“In den meisten Bundesländern werden solche Studien per se nicht durchgeführt.”");
+    assertGood("Aber “in den meisten Bundesländern werden solche Studien per se nicht durchgeführt.”");
+    assertGood("A) Das Haus");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
@@ -171,6 +177,8 @@ public class CaseRuleTest {
     assertGood(";-) Dies ist ein Test");
     assertGood(":) Dies ist ein Test");
     assertGood(";) Dies ist ein Test");
+    assertGood("..., die ins Nichts griff.");
+    assertGood("Er fragte, was sie über das denken und zwinkerte ihnen zu.");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Das machen der Töne ist schwierig.");

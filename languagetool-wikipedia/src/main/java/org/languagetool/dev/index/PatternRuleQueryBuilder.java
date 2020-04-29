@@ -50,16 +50,12 @@ import static org.languagetool.dev.index.LanguageToolFilter.POS_PREFIX;
  */
 public class PatternRuleQueryBuilder {
 
-  public static final String FIELD_NAME = "field";
-  public static final String SOURCE_FIELD_NAME = "source";
-  public static final String FIELD_NAME_LOWERCASE = "fieldLowercase";
-  
   private final Language language;
   private final IndexSearcher indexSearcher;
   private final String searchFieldName;
 
   public PatternRuleQueryBuilder(Language language, IndexSearcher indexSearcher) {
-    this(language, indexSearcher, FIELD_NAME_LOWERCASE);
+    this(language, indexSearcher, Lucene.FIELD_NAME_LOWERCASE);
   }
   
   public PatternRuleQueryBuilder(Language language, IndexSearcher indexSearcher, String searchFieldName) {

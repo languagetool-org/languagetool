@@ -82,6 +82,13 @@ public class RuleMatchDiffFinder {
       fw.write("  <td>" + diff.getStatus().name().substring(0, 3) + " </td>\n");
       LightRuleMatch oldMatch = diff.getOldMatch();
       LightRuleMatch newMatch = diff.getNewMatch();
+      if (diff.getOldMatch() != null) {
+        fw.write("<td>" + cleanSource(diff.getOldMatch().getRuleSource()) + "</td>");
+      } else if (diff.getNewMatch() != null) {
+        fw.write("<td>" + cleanSource(diff.getNewMatch().getRuleSource()) + "</td>");
+      } else {
+        fw.write("<td></td>");
+      }
       if (oldMatch != null && newMatch != null) {
         printRuleIdCol(fw, oldMatch, newMatch);
         printMessage(fw, oldMatch, newMatch);
@@ -105,6 +112,13 @@ public class RuleMatchDiffFinder {
     printTableEnd(fw);
   }
 
+  private String cleanSource(String ruleSource) {
+    if (ruleSource == null) {
+      return "java";
+    }
+    return ruleSource.replaceFirst("^.*/grammar", "gram.").replaceFirst("gram.-premium", "prem").replaceFirst(".xml", "");
+  }
+
   private void printRuleIdCol(FileWriter fw, LightRuleMatch oldMatch, LightRuleMatch newMatch) throws IOException {
     fw.write("  <td>");
     if (oldMatch != null && !Objects.equals(oldMatch.getSubId(), newMatch.getSubId())) {
@@ -118,10 +132,6 @@ public class RuleMatchDiffFinder {
     }
     if (oldMatch != null && newMatch.getStatus() != oldMatch.getStatus()) {
       fw.write("  <br><span class='status'>[" + oldMatch.getStatus() + " => " + newMatch.getStatus() + "]</span>");
-    }
-    if (newMatch.getRuleSource() != null) {
-      String source = newMatch.getRuleSource().replaceFirst("^.*/", "").replaceFirst(".xml", "");
-      fw.write("  <br><span class='source'>" + source + "</span>");
     }
     fw.write(" </td>\n");
   }
@@ -154,6 +164,7 @@ public class RuleMatchDiffFinder {
     fw.write("<thead>\n");
     fw.write("<tr>\n");
     fw.write("  <th>Change</th>\n");
+    fw.write("  <th>File</th>\n");
     fw.write("  <th>Rule ID</th>\n");
     fw.write("  <th>Message and Text</th>\n");
     fw.write("  <th>Suggestion</th>\n");

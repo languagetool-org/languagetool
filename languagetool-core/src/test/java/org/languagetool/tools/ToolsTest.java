@@ -72,14 +72,14 @@ public class ToolsTest {
   private void expectDemoRuleId(Set<CategoryId> disabledCategories, Set<CategoryId> enabledCategories,
                                 Set<String> disabledRules, Set<String> enabledRules, boolean useEnabledOnly, Demo demo) {
     JLanguageTool lt = new JLanguageTool(demo);
-    Tools.selectRules(lt, disabledCategories, enabledCategories, disabledRules, enabledRules, useEnabledOnly);
+    Tools.selectRules(lt, disabledCategories, enabledCategories, disabledRules, enabledRules, useEnabledOnly, false);
     assertTrue(getRuleIds(lt).contains("DEMO_RULE"));
   }
 
   private void expectNotDemoRuleId(Set<CategoryId> disabledCategories, Set<CategoryId> enabledCategories,
                                    Set<String> disabledRules, Set<String> enabledRules, boolean useEnabledOnly, Demo demo) {
     JLanguageTool lt = new JLanguageTool(demo);
-    Tools.selectRules(lt, disabledCategories, enabledCategories, disabledRules, enabledRules, useEnabledOnly);
+    Tools.selectRules(lt, disabledCategories, enabledCategories, disabledRules, enabledRules, useEnabledOnly, false);
     assertFalse(getRuleIds(lt).contains("DEMO_RULE"));
   }
 

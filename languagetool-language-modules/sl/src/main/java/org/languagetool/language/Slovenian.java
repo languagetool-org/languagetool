@@ -18,11 +18,6 @@
  */
 package org.languagetool.language;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
@@ -30,13 +25,14 @@ import org.languagetool.rules.sl.MorfologikSlovenianSpellerRule;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
+import java.io.IOException;
+import java.util.*;
+
 /**
  * @deprecated this language is unmaintained in LT and might be removed in a future release if we cannot find contributors for it (deprecated since 3.6)
  */
 @Deprecated
 public class Slovenian extends Language {
-  
-  private SentenceTokenizer sentenceTokenizer;
 
   @Override
   public String getName() {
@@ -54,11 +50,8 @@ public class Slovenian extends Language {
   }
 
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
   
   @Override

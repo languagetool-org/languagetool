@@ -19,6 +19,7 @@
 package org.languagetool.dev.bigdata;
 
 import org.languagetool.JLanguageTool;
+import org.languagetool.language.AmericanEnglish;
 import org.languagetool.rules.ConfusionPair;
 import org.languagetool.rules.ConfusionSetLoader;
 
@@ -53,7 +54,7 @@ final class NGramUrlGenerator {
   }
 
   public static void mainDownloadSome(String[] args) throws IOException {
-    ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader();
+    ConfusionSetLoader confusionSetLoader =  new ConfusionSetLoader(new AmericanEnglish());
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/en/homophones.txt");
     Map<String,List<ConfusionPair>> map = confusionSetLoader.loadConfusionPairs(inputStream);
     String url = "http://storage.googleapis.com/books/ngrams/books/googlebooks-eng-all-2gram-20120701-<XX>.gz";

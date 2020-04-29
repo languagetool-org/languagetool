@@ -18,14 +18,13 @@
  */
 package org.languagetool.tagging.el;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 import org.ioperm.morphology.el.GreekAnalyzer;
 import org.ioperm.morphology.el.Lemma;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.WordTagger;
+
+import java.util.*;
 
 /**
  *
@@ -34,11 +33,6 @@ import org.languagetool.tagging.WordTagger;
 public class GreekTagger extends BaseTagger {
 
   private final GreekAnalyzer tagger;
-
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/el/added.txt";
-  }
 
   public GreekTagger() {
     super("/el/greek.dict",  new Locale("el"));

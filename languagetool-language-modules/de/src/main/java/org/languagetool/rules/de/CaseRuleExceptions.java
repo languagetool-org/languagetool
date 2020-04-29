@@ -20,10 +20,9 @@ package org.languagetool.rules.de;
 
 import org.languagetool.JLanguageTool;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -59,23 +58,15 @@ final class CaseRuleExceptions {
   private static Set<String> loadExceptions(String... paths) {
     Set<String> result = new HashSet<>();
     for (String path : paths) {
-      try (
-        InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-        InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
-        BufferedReader br = new BufferedReader(reader)
-      ) {
-        String line;
-        while ((line = br.readLine()) != null) {
-          if (line.isEmpty() || line.startsWith("#")) {
-            continue;
-          }
-          if (line.matches("^\\s.*") || line.matches(".*\\s$")) {
-            throw new IllegalArgumentException("Invalid line in " + path + ", starts or ends with whitespace: '" + line + "'");
-          }
-          result.add(line);
+      List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
+      for (String line : lines) {
+        if (line.isEmpty() || line.startsWith("#")) {
+          continue;
         }
-      } catch (Exception e) {
-        throw new RuntimeException("Could not load case rule exceptions from " + path, e);
+        if (line.matches("^\\s.*") || line.matches(".*\\s$")) {
+          throw new IllegalArgumentException("Invalid line in " + path + ", starts or ends with whitespace: '" + line + "'");
+        }
+        result.add(line);
       }
     }
     return Collections.unmodifiableSet(result);

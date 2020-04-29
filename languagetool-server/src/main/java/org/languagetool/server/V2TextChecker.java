@@ -119,7 +119,7 @@ class V2TextChecker extends TextChecker {
     List<String> preferredVariants;
     if (parameters.get("preferredVariants") != null) {
       preferredVariants = Arrays.asList(parameters.get("preferredVariants").split(",\\s*"));
-      if (!"auto".equals(parameters.get("language"))) {
+      if (!"auto".equals(parameters.get("language")) && (parameters.get("multilingual") == null || parameters.get("multilingual").equals("false"))) {
         throw new IllegalArgumentException("You specified 'preferredVariants' but you didn't specify 'language=auto'");
       }
     } else {

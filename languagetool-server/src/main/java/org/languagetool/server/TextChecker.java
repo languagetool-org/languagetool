@@ -29,7 +29,9 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.language.LanguageIdentifier;
 import org.languagetool.markup.AnnotatedText;
+import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.CategoryId;
+import org.languagetool.rules.RemoteRule;
 import org.languagetool.rules.DictionaryMatchFilter;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
@@ -52,6 +54,9 @@ import java.util.stream.Stream;
  * @since 3.4
  */
 abstract class TextChecker {
+
+  private static final int PINGS_CLEAN_MILLIS = 60 * 1000;  // internal pings database will be cleaned this often
+  private static final int PINGS_MAX_SIZE = 5000;
 
   protected abstract void setHeaders(HttpExchange httpExchange);
   protected abstract String getResponse(AnnotatedText text, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
@@ -86,6 +91,9 @@ abstract class TextChecker {
   private final ResultCache cache;
   private final DatabaseLogger databaseLogger;
   private final Long logServerId;
+  private final Random random = new Random();
+  private final Set<DatabasePingLogEntry> pings = new HashSet<>();
+  private long pingsCleanDateMillis = System.currentTimeMillis();
   PipelinePool pipelinePool; // mocked in test -> package-private / not final
 
   TextChecker(HTTPServerConfig config, boolean internalServer, Queue<Runnable> workQueue, RequestCounter reqCounter) {
@@ -108,6 +116,7 @@ abstract class TextChecker {
 
     if (cache != null) {
       ServerMetricsCollector.getInstance().monitorCache("languagetool_matches_cache", cache.getMatchesCache());
+      ServerMetricsCollector.getInstance().monitorCache("languagetool_remote_matches_cache", cache.getRemoteMatchesCache());
       ServerMetricsCollector.getInstance().monitorCache("languagetool_sentences_cache", cache.getSentenceCache());
     }
 
@@ -118,6 +127,7 @@ abstract class TextChecker {
       logger.info("Prewarming finished.");
     }
     if (config.getAbTest() != null) {
+      UserConfig.enableABTests();
       logger.info("A/B-Test enabled: " + config.getAbTest());
       if (config.getAbTest().equals("SuggestionsOrderer")) {
         SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
@@ -179,6 +189,7 @@ abstract class TextChecker {
 
   void shutdownNow() {
     executorService.shutdownNow();
+    RemoteRule.shutdown();
   }
   
   void checkText(AnnotatedText aText, HttpExchange httpExchange, Map<String, String> parameters, ErrorRequestLimiter errorRequestLimiter,
@@ -208,14 +219,51 @@ abstract class TextChecker {
 
     boolean filterDictionaryMatches = "true".equals(parameters.get("filterDictionaryMatches"));
 
+    Long textSessionId = null;
+    try {
+      if (parameters.containsKey("textSessionId")) {
+        String textSessionIdStr = parameters.get("textSessionId");
+        if (textSessionIdStr.contains(":")) { // transitioning to new format used in chrome addon
+          // format: "{random number in 0..99999}:{unix time}"
+          long random, timestamp;
+          int sepPos = textSessionIdStr.indexOf(':');
+          random = Long.valueOf(textSessionIdStr.substring(0, sepPos));
+          timestamp = Long.valueOf(textSessionIdStr.substring(sepPos + 1));
+          // use random number to choose a slice in possible range of values
+          // then choose position in slice by timestamp
+          long maxRandom = 100000;
+          long randomSegmentSize = (Long.MAX_VALUE - maxRandom) / maxRandom;
+          long segmentOffset = random * randomSegmentSize;
+          if (timestamp > randomSegmentSize) {
+            logger.warn(String.format("Could not transform textSessionId '%s'", textSessionIdStr));
+          }
+          textSessionId = segmentOffset + timestamp;
+        } else {
+          textSessionId = Long.valueOf(textSessionIdStr);
+        }
+      }
+    } catch (NumberFormatException ex) {
+      logger.warn("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
+    }
+
+    String abTest = null;
+    if (agent != null && config.getAbTestClients() != null && config.getAbTestClients().matcher(agent).matches()) {
+      boolean testRolledOut;
+      // partial rollout; deterministic if textSessionId given to make testing easier
+      if (textSessionId != null) {
+        testRolledOut = textSessionId % 100 < config.getAbTestRollout();
+      } else {
+        testRolledOut = random.nextInt(100) < config.getAbTestRollout();
+      }
+      if (testRolledOut) {
+        abTest = config.getAbTest();
+      }
+    }
+
     UserConfig userConfig = new UserConfig(
             limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList(),
-            getRuleValues(parameters), config.getMaxSpellingSuggestions(), null, null, filterDictionaryMatches);
-
-    // NOTE: at the moment, feedback for A/B-Tests is only delivered from this client, so only run tests there
-    if (agent != null && agent.equals("ltorg")) {
-      userConfig.setAbTest(config.getAbTest());
-    }
+            getRuleValues(parameters), config.getMaxSpellingSuggestions(), null, null, filterDictionaryMatches,
+      abTest, textSessionId);
 
     //print("Check start: " + text.length() + " chars, " + langParam);
     boolean autoDetectLanguage = getLanguageAutoDetect(parameters);
@@ -277,34 +325,6 @@ abstract class TextChecker {
       enabledCategories, disabledCategories, useEnabledOnly,
       useQuerySettings, allowIncompleteResults, enableHiddenRules, mode, callback);
 
-    Long textSessionId = null;
-    try {
-      if (parameters.containsKey("textSessionId")) {
-        String textSessionIdStr = parameters.get("textSessionId");
-        if (textSessionIdStr.contains(":")) { // transitioning to new format used in chrome addon
-          // format: "{random number in 0..99999}:{unix time}"
-          long random, timestamp;
-          int sepPos = textSessionIdStr.indexOf(':');
-          random = Long.valueOf(textSessionIdStr.substring(0, sepPos));
-          timestamp = Long.valueOf(textSessionIdStr.substring(sepPos + 1));
-          // use random number to choose a slice in possible range of values
-          // then choose position in slice by timestamp
-          long maxRandom = 100000;
-          long randomSegmentSize = (Long.MAX_VALUE - maxRandom) / maxRandom;
-          long segmentOffset = random * randomSegmentSize;
-          if (timestamp > randomSegmentSize) {
-            logger.warn(String.format("Could not transform textSessionId '%s'", textSessionIdStr));
-          }
-          textSessionId = segmentOffset + timestamp;
-        } else {
-          textSessionId = Long.valueOf(textSessionIdStr);
-        }
-
-        userConfig.setTextSessionId(textSessionId);
-      }
-    } catch (NumberFormatException ex) {
-      logger.warn("Could not parse textSessionId '" + parameters.get("textSessionId") + "' as long: " + ex.getMessage());
-    }
     int textSize = aText.getPlainText().length();
 
     List<RuleMatch> ruleMatchesSoFar = Collections.synchronizedList(new ArrayList<>());
@@ -316,7 +336,7 @@ abstract class TextChecker {
         /*if (Math.random() < 0.1) {
           throw new OutOfMemoryError();
         }*/
-        return getRuleMatches(aText, lang, motherTongue, parameters, params, userConfig, f -> ruleMatchesSoFar.add(f));
+        return getRuleMatches(aText, lang, motherTongue, parameters, params, userConfig, detLang, preferredLangs, preferredVariants, f -> ruleMatchesSoFar.add(f));
       }
     });
     String incompleteResultReason = null;
@@ -449,6 +469,27 @@ abstract class TextChecker {
         config.isSkipLoggingRuleMatches() ? Collections.emptyMap() : ruleMatchCount));
       databaseLogger.log(logEntry);
     }
+
+    if (databaseLogger.isLogging()) {
+      if (System.currentTimeMillis() - pingsCleanDateMillis > PINGS_CLEAN_MILLIS && pings.size() < PINGS_MAX_SIZE) {
+        logger.info("Cleaning pings DB (" + pings.size() + " items)");
+        pings.clear();
+        pingsCleanDateMillis = System.currentTimeMillis();
+      }
+      if (agentId != null && userId != null) {
+        DatabasePingLogEntry ping = new DatabasePingLogEntry(agentId, userId);
+        if (!pings.contains(ping)) {
+          databaseLogger.log(ping);
+          if (pings.size() >= PINGS_MAX_SIZE) {
+            // prevent pings taking up unlimited amounts of memory
+            logger.warn("Pings DB has reached max size: " + pings.size());
+          } else {
+            pings.add(ping);
+          }
+        }
+      }
+    }
+
   }
   
   private Map<String, Integer> getRuleValues(Map<String, String> parameters) {
@@ -478,7 +519,10 @@ abstract class TextChecker {
 
   private List<RuleMatch> getRuleMatches(AnnotatedText aText, Language lang,
                                          Language motherTongue, Map<String, String> parameters, 
-                                         QueryParams params, UserConfig userConfig, RuleMatchListener listener) throws Exception {
+                                         QueryParams params, UserConfig userConfig,
+                                         DetectedLanguage detLang,
+                                         List<String> preferredLangs, List<String> preferredVariants,
+                                         RuleMatchListener listener) throws Exception {
     if (cache != null && cache.requestCount() > 0 && cache.requestCount() % CACHE_STATS_PRINT == 0) {
       double hitRate = cache.hitRate();
       String hitPercentage = String.format(Locale.ENGLISH, "%.2f", hitRate * 100.0f);
@@ -488,7 +532,6 @@ abstract class TextChecker {
       //print("Size       : " + cache.getMatchesCache().size() + " (matches cache), " + cache.getSentenceCache().size() + " (sentence cache)");
       //logger.log(new DatabaseCacheStatsLogEntry(logServerId, (float) hitRate));
     }
-    PipelinePool.PipelineSettings settings = null;
 
     if (parameters.get("sourceText") != null) {
       if (parameters.get("sourceLanguage") == null) {
@@ -503,17 +546,82 @@ abstract class TextChecker {
       List<BitextRule> bitextRules = Tools.getBitextRules(sourceLanguage, lang);
       return Tools.checkBitext(parameters.get("sourceText"), aText.getPlainText(), sourceLt, targetLt, bitextRules);
     } else {
-      Pipeline lt = null;
-      try {
-        settings = new PipelinePool.PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);
-        lt = pipelinePool.getPipeline(settings);
-        return lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener, params.mode);
-      } finally {
-        if (lt != null) {
-          pipelinePool.returnPipeline(settings, lt);
+      List<RuleMatch> matches = new ArrayList<>();
+
+      if (preferredLangs.size() < 2 || parameters.get("multilingual") == null || parameters.get("multilingual").equals("false")) {
+        matches.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
+      } else {
+        // support for multilingual texts:
+        try {
+          Language mainLang = getLanguageVariantForCode(detLang.getDetectedLanguage().getShortCode(), preferredVariants);
+          List<Language> secondLangs = new ArrayList<>();
+          for (String preferredLangCode : preferredLangs) {
+            if (!preferredLangCode.equals(mainLang.getShortCode())) {
+              secondLangs.add(getLanguageVariantForCode(preferredLangCode, preferredVariants));
+              break;
+            }
+          }
+          LanguageAnnotator annotator = new LanguageAnnotator();
+          List<FragmentWithLanguage> fragments = annotator.detectLanguages(aText.getPlainText(), mainLang, secondLangs);
+          List<Language> langs = new ArrayList<>();
+          langs.add(mainLang);
+          langs.addAll(secondLangs);
+          Map<Language, AnnotatedTextBuilder> lang2builder = getBuilderMap(fragments, new HashSet<>(langs));
+          for (Map.Entry<Language, AnnotatedTextBuilder> entry : lang2builder.entrySet()) {
+            matches.addAll(getPipelineResults(entry.getValue().build(), entry.getKey(), motherTongue, params, userConfig, listener));
+          }
+        } catch (Exception e) {
+          logger.error("Problem with multilingual mode (preferredLangs=" + preferredLangs+ ", preferredVariants=" + preferredVariants + "), " +
+            "falling back to single language.", e);
+          matches.addAll(getPipelineResults(aText, lang, motherTongue, params, userConfig, listener));
+        }
+      }
+      return matches;
+    }
+  }
+
+  private Language getLanguageVariantForCode(String langCode, List<String> preferredVariants) {
+    for (String preferredVariant : preferredVariants) {
+      if (preferredVariant.startsWith(langCode + "-")) {
+        return Languages.getLanguageForShortCode(preferredVariant);
+      }
+    }
+    return Languages.getLanguageForShortCode(langCode);
+  }
+
+  private List<RuleMatch> getPipelineResults(AnnotatedText aText, Language lang, Language motherTongue, QueryParams params, UserConfig userConfig, RuleMatchListener listener) throws Exception {
+    PipelinePool.PipelineSettings settings = null;
+    Pipeline lt = null;
+    List<RuleMatch> matches = new ArrayList<>();
+    try {
+      settings = new PipelinePool.PipelineSettings(lang, motherTongue, params, config.globalConfig, userConfig);
+      lt = pipelinePool.getPipeline(settings);
+      matches.addAll(lt.check(aText, true, JLanguageTool.ParagraphHandling.NORMAL, listener, params.mode, executorService));
+    } finally {
+      if (lt != null) {
+        pipelinePool.returnPipeline(settings, lt);
+      }
+    }
+    return matches;
+  }
+
+  @NotNull
+  private Map<Language, AnnotatedTextBuilder> getBuilderMap(List<FragmentWithLanguage> fragments, Set<Language> maybeUsedLangs) {
+    Map<Language, AnnotatedTextBuilder> lang2builder = new HashMap<>();
+    for (Language usedLang : maybeUsedLangs) {
+      if (!lang2builder.containsKey(usedLang)) {
+        lang2builder.put(usedLang, new AnnotatedTextBuilder());
+      }
+      AnnotatedTextBuilder atb = lang2builder.get(usedLang);
+      for (FragmentWithLanguage fragment : fragments) {
+        if (usedLang.getShortCodeWithCountryAndVariant().equals(fragment.getLangCode())) {
+          atb.addText(fragment.getFragment());
+        } else {
+          atb.addMarkup(fragment.getFragment());  // markup = ignore this text
         }
       }
     }
+    return lang2builder;
   }
 
   @NotNull

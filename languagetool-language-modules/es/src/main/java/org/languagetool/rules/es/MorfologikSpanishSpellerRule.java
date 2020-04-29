@@ -31,6 +31,8 @@ import java.util.ResourceBundle;
  */
 public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
 
+  private static final String SPELLING_FILE = "/es/spelling.txt";
+  
   public MorfologikSpanishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
@@ -38,11 +40,16 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
 
   @Override
   public String getFileName() {
-    return "/es/hunspell/es_ES.dict";
+    return "/es/es-ES.dict";
   }
 
   @Override
   public final String getId() {
     return "MORFOLOGIK_RULE_ES";
+  }
+  
+  @Override
+  public String getSpellingFileName() {
+    return SPELLING_FILE;
   }
 }

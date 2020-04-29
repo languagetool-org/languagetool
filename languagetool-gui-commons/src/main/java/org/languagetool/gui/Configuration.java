@@ -53,11 +53,25 @@ import org.languagetool.rules.Rule;
  * @author Daniel Naber
  */
 public class Configuration {
+  
+  public final static short UNDERLINE_WAVE = 10;
+  public final static short UNDERLINE_BOLDWAVE = 18;
+  public final static short UNDERLINE_BOLD = 12;
+  public final static short UNDERLINE_DASH = 5;
 
   static final int DEFAULT_SERVER_PORT = 8081;  // should be HTTPServerConfig.DEFAULT_PORT but we don't have that dependency
   static final int DEFAULT_NUM_CHECK_PARAS = -1;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
   static final int FONT_STYLE_INVALID = -1;
   static final int FONT_SIZE_INVALID = -1;
+  static final boolean DEFAULT_DO_RESET = false;
+  static final boolean DEFAULT_MULTI_THREAD = false;
+  static final boolean DEFAULT_FULL_CHECK_FIRST = true;
+  static final boolean DEFAULT_USE_QUEUE = true;
+  static final boolean DEFAULT_USE_DOC_LANGUAGE = true;
+  static final boolean DEFAULT_DO_REMOTE_CHECK = false;
+  static final boolean DEFAULT_USE_OTHER_SERVER = false;
+  static final boolean DEFAULT_MARK_SINGLE_CHAR_BOLD = false;
+
   static final Color STYLE_COLOR = new Color(0, 175, 0);
 
   private static final String CONFIG_FILE = ".languagetool.cfg";
@@ -78,9 +92,10 @@ public class Configuration {
   private static final String TAGGER_SHOWS_DISAMBIG_LOG_KEY = "taggerShowsDisambigLog";
   private static final String SERVER_RUN_KEY = "serverMode";
   private static final String SERVER_PORT_KEY = "serverPort";
+  private static final String NO_DEFAULT_CHECK_KEY = "noDefaultCheck";
   private static final String PARA_CHECK_KEY = "numberParagraphs";
   private static final String RESET_CHECK_KEY = "doResetCheck";
-  private static final String NO_MULTI_RESET_KEY = "noMultiReset";
+  private static final String USE_QUEUE_KEY = "useTextLevelQueue";
   private static final String DO_FULL_CHECK_AT_FIRST_KEY = "doFullCheckAtFirst";
   private static final String USE_DOC_LANG_KEY = "useDocumentLanguage";
   private static final String USE_GUI_KEY = "useGUIConfig";
@@ -90,6 +105,7 @@ public class Configuration {
   private static final String LF_NAME_KEY = "lookAndFeelName";
   private static final String ERROR_COLORS_KEY = "errorColors";
   private static final String UNDERLINE_COLORS_KEY = "underlineColors";
+  private static final String UNDERLINE_TYPES_KEY = "underlineTypes";
   private static final String CONFIGURABLE_RULE_VALUES_KEY = "configurableRuleValues";
   private static final String LT_SWITCHED_OFF_KEY = "ltSwitchedOff";
   private static final String IS_MULTI_THREAD_LO_KEY = "isMultiThread";
@@ -97,6 +113,8 @@ public class Configuration {
   private static final String DO_REMOTE_CHECK_KEY = "doRemoteCheck";
   private static final String OTHER_SERVER_URL_KEY = "otherServerUrl";
   private static final String USE_OTHER_SERVER_KEY = "useOtherServer";
+  private static final String MARK_SINGLE_CHAR_BOLD_KEY = "markSingleCharBold";
+  private static final String LOG_LEVEL_KEY = "logLevel";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -117,6 +135,7 @@ public class Configuration {
   private final Map<String, String> configForOtherLanguages = new HashMap<>();
   private final Map<ITSIssueType, Color> errorColors = new EnumMap<>(ITSIssueType.class);
   private final Map<String, Color> underlineColors = new HashMap<>();
+  private final Map<String, Short> underlineTypes = new HashMap<>();
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
   private final Set<String> styleLikeCategories = new HashSet<>();
   private final Map<String, String> specialTabCategories = new HashMap<>();
@@ -148,18 +167,20 @@ public class Configuration {
   private int fontSize = FONT_SIZE_INVALID;
   private int serverPort = DEFAULT_SERVER_PORT;
   private int numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
-  private boolean doResetCheck = false;
-  private boolean noMultiReset = true;
-  private boolean doFullCheckAtFirst = true;
+  private boolean doResetCheck = DEFAULT_DO_RESET;
+  private boolean isMultiThreadLO = DEFAULT_MULTI_THREAD;
+  private boolean doFullCheckAtFirst = DEFAULT_FULL_CHECK_FIRST;
+  private boolean useTextLevelQueue = DEFAULT_USE_QUEUE;
+  private boolean useDocLanguage = DEFAULT_USE_DOC_LANGUAGE;
+  private boolean doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
+  private boolean useOtherServer = DEFAULT_USE_OTHER_SERVER;
+  private boolean markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
   private String externalRuleDirectory;
   private String lookAndFeelName;
-  private boolean switchOff = false;
-  private boolean useDocLanguage = true;
-  private boolean isMultiThreadLO = false;
   private String currentProfile = null;
-  private boolean doRemoteCheck = false;
-  private boolean useOtherServer = false;
   private String otherServerUrl = null;
+  private String logLevel = null;
+  private boolean switchOff = false;
 
   /**
    * Uses the configuration file from the default location.
@@ -184,9 +205,11 @@ public class Configuration {
   }
 
   public Configuration(File baseDir, String filename, File oldConfigFile, Language lang, LinguServices linguServices) throws IOException {
-    if (baseDir == null || !baseDir.isDirectory()) {
-      throw new IllegalArgumentException("Cannot open file " + filename + " in directory " + baseDir);
-    }
+    // already fails silently if file doesn't exist in loadConfiguration, don't fail here either
+    // can cause problem when starting LanguageTool server as a user without a home directory because of default arguments
+    //if (baseDir == null || !baseDir.isDirectory()) {
+    //  throw new IllegalArgumentException("Cannot open file " + filename + " in directory " + baseDir);
+    //}
     initOptions();
     this.lang = lang;
     configFile = new File(baseDir, filename);
@@ -206,6 +229,7 @@ public class Configuration {
   public void initOptions() {
     configForOtherLanguages.clear();
     underlineColors.clear();
+    underlineTypes.clear();
     configurableRuleValues.clear();
 
     disabledRuleIds.clear();
@@ -226,18 +250,20 @@ public class Configuration {
     fontSize = FONT_SIZE_INVALID;
     serverPort = DEFAULT_SERVER_PORT;
     numParasToCheck = DEFAULT_NUM_CHECK_PARAS;
-    doResetCheck = false;
-    noMultiReset = true;
-    doFullCheckAtFirst = true;
+    doResetCheck = DEFAULT_DO_RESET;
+    isMultiThreadLO = DEFAULT_MULTI_THREAD;
+    doFullCheckAtFirst = DEFAULT_FULL_CHECK_FIRST;
+    useTextLevelQueue = DEFAULT_USE_QUEUE;
+    useDocLanguage = DEFAULT_USE_DOC_LANGUAGE;
+    doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
+    useOtherServer = DEFAULT_USE_OTHER_SERVER;
+    markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
     externalRuleDirectory = null;
     lookAndFeelName = null;
-    switchOff = false;
-    useDocLanguage = true;
-    isMultiThreadLO = false;
     currentProfile = null;
-    doRemoteCheck = false;
-    useOtherServer = false;
     otherServerUrl = null;
+    logLevel = null;
+    switchOff = false;
   }
   /**
    * Returns a copy of the given configuration.
@@ -272,7 +298,7 @@ public class Configuration {
     this.serverPort = configuration.serverPort;
     this.numParasToCheck = configuration.numParasToCheck;
     this.doResetCheck = configuration.doResetCheck;
-    this.noMultiReset = configuration.noMultiReset;
+    this.useTextLevelQueue = configuration.useTextLevelQueue;
     this.doFullCheckAtFirst = configuration.doFullCheckAtFirst;
     this.isMultiThreadLO = configuration.isMultiThreadLO;
     this.useDocLanguage = configuration.useDocLanguage;
@@ -281,7 +307,9 @@ public class Configuration {
     this.currentProfile = configuration.currentProfile;
     this.doRemoteCheck = configuration.doRemoteCheck;
     this.useOtherServer = configuration.useOtherServer;
+    this.markSingleCharBold = configuration.markSingleCharBold;
     this.otherServerUrl = configuration.otherServerUrl;
+    this.logLevel = configuration.logLevel;
     
     this.disabledRuleIds.clear();
     this.disabledRuleIds.addAll(configuration.disabledRuleIds);
@@ -298,6 +326,10 @@ public class Configuration {
     this.underlineColors.clear();
     for (Map.Entry<String, Color> entry : configuration.underlineColors.entrySet()) {
       this.underlineColors.put(entry.getKey(), entry.getValue());
+    }
+    this.underlineTypes.clear();
+    for (Map.Entry<String, Short> entry : configuration.underlineTypes.entrySet()) {
+      this.underlineTypes.put(entry.getKey(), entry.getValue());
     }
     this.configurableRuleValues.clear();
     for (Map.Entry<String, Integer> entry : configuration.configurableRuleValues.entrySet()) {
@@ -431,6 +463,17 @@ public class Configuration {
     return useOtherServer ? otherServerUrl : null;
   }
 
+  public String getlogLevel() {
+    return logLevel;
+  }
+
+  public void setMarkSingleCharBold(boolean markSingleCharBold) {
+    this.markSingleCharBold = markSingleCharBold;
+  }
+
+  public boolean markSingleCharBold() {
+    return markSingleCharBold;
+  }
   
   /**
    * Determines whether the tagger window will also print the disambiguation
@@ -522,8 +565,8 @@ public class Configuration {
    * if more than one document loaded?
    * @since 4.5
    */
-  public boolean isNoMultiReset() {
-    return noMultiReset;
+  public boolean useTextLevelQueue() {
+    return useTextLevelQueue;
   }
 
   /**
@@ -531,8 +574,8 @@ public class Configuration {
    * if more than one document loaded?
    * @since 4.5
    */
-  public void setNoMultiReset(boolean noMultiReset) {
-    this.noMultiReset = noMultiReset;
+  public void setUseTextLevelQueue(boolean useTextLevelQueue) {
+    this.useTextLevelQueue = useTextLevelQueue;
   }
 
   /**
@@ -850,6 +893,40 @@ public class Configuration {
   }
 
   /**
+   * @since 4.9
+   */
+  public Map<String, Short> getUnderlineTypes() {
+    return underlineTypes;
+  }
+
+  /**
+   * @since 4.9
+   * Get the type to underline a rule match by the Name of its category
+   */
+  public Short getUnderlineType(String category) {
+    if (underlineTypes.containsKey(category)) {
+      return underlineTypes.get(category);
+    }
+    return UNDERLINE_WAVE;
+  }
+
+  /**
+   * @since 4.9
+   * Set the type to underline a rule match for its category
+   */
+  public void setUnderlineType(String category, short type) {
+    underlineTypes.put(category, type);
+  }
+
+  /**
+   * @since 4.9
+   * Set the type back to default (removes category from map)
+   */
+  public void setDefaultUnderlineType(String category) {
+    underlineTypes.remove(category);
+  }
+
+  /**
    * returns all configured values
    * @since 4.2
    */
@@ -927,6 +1004,8 @@ public class Configuration {
       }
       definedProfiles.addAll(getListFromProperties(props, DEFINED_PROFILES_KEY));
       
+      logLevel = (String) props.get(LOG_LEVEL_KEY);
+      
       storeConfigforAllProfiles(props);
       
       String prefix;
@@ -1002,9 +1081,12 @@ public class Configuration {
         externalRuleDirectory = extRules;
       }
 
-      String paraCheckString = (String) props.get(prefix + PARA_CHECK_KEY);
-      if (paraCheckString != null) {
-        numParasToCheck = Integer.parseInt(paraCheckString);
+      String paraCheckString = (String) props.get(prefix + NO_DEFAULT_CHECK_KEY);
+      if(paraCheckString != null && Boolean.parseBoolean(paraCheckString)) {
+        paraCheckString = (String) props.get(prefix + PARA_CHECK_KEY);
+        if (paraCheckString != null) {
+          numParasToCheck = Integer.parseInt(paraCheckString);
+        }
       }
 
       String resetCheckString = (String) props.get(prefix + RESET_CHECK_KEY);
@@ -1012,9 +1094,9 @@ public class Configuration {
         doResetCheck = Boolean.parseBoolean(resetCheckString);
       }
 
-      String noMultiResetString = (String) props.get(prefix + NO_MULTI_RESET_KEY);
-      if (noMultiResetString != null) {
-        noMultiReset = Boolean.parseBoolean(noMultiResetString);
+      String useTextLevelQueueString = (String) props.get(prefix + USE_QUEUE_KEY);
+      if (useTextLevelQueueString != null) {
+        useTextLevelQueue = Boolean.parseBoolean(useTextLevelQueueString);
       }
 
       String doFullCheckAtFirstString = (String) props.get(prefix + DO_FULL_CHECK_AT_FIRST_KEY);
@@ -1044,6 +1126,11 @@ public class Configuration {
       
       otherServerUrl = (String) props.get(prefix + OTHER_SERVER_URL_KEY);
       
+      String markSingleCharBoldString = (String) props.get(prefix + MARK_SINGLE_CHAR_BOLD_KEY);
+      if (markSingleCharBoldString != null) {
+        markSingleCharBold = Boolean.parseBoolean(markSingleCharBoldString);
+      }
+      
       String rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier);
       if(rulesValuesString == null) {
         rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY);
@@ -1055,6 +1142,9 @@ public class Configuration {
 
       String underlineColorsString = (String) props.get(prefix + UNDERLINE_COLORS_KEY);
       parseUnderlineColors(underlineColorsString);
+
+      String underlineTypesString = (String) props.get(prefix + UNDERLINE_TYPES_KEY);
+      parseUnderlineTypes(underlineTypesString);
 
       //store config for other languages
       loadConfigForOtherLanguages(lang, props, prefix);
@@ -1089,6 +1179,19 @@ public class Configuration {
           throw new RuntimeException("Could not parse type and color, colon expected: '" + typeToColor + "'");
         }
         underlineColors.put(typeAndColor[0], Color.decode(typeAndColor[1]));
+      }
+    }
+  }
+
+  private void parseUnderlineTypes(String typessString) {
+    if (StringUtils.isNotEmpty(typessString)) {
+      String[] categoryToTypesList = typessString.split(CONFIGURABLE_RULE_SPLITTER_REGEXP);
+      for (String categoryToType : categoryToTypesList) {
+        String[] categoryAndType = categoryToType.split(":");
+        if (categoryAndType.length != 2) {
+          throw new RuntimeException("Could not parse category and type, colon expected: '" + categoryToType + "'");
+        }
+        underlineTypes.put(categoryAndType[0], Short.parseShort(categoryAndType[1]));
       }
     }
   }
@@ -1155,6 +1258,10 @@ public class Configuration {
       props.setProperty(DEFINED_PROFILES_KEY, String.join(DELIMITER, definedProfiles));
     }
     
+    if(logLevel != null) {
+      props.setProperty(LOG_LEVEL_KEY, logLevel);
+    }
+    
     try (FileOutputStream fos = new FileOutputStream(configFile)) {
       props.store(fos, "LanguageTool configuration (" + JLanguageTool.VERSION + "/" + JLanguageTool.BUILD_DATE + ")");
     }
@@ -1199,26 +1306,36 @@ public class Configuration {
         props.setProperty(prefix + USE_GUI_KEY, Boolean.toString(guiConfig));
         props.setProperty(prefix + SERVER_RUN_KEY, Boolean.toString(runServer));
         props.setProperty(prefix + SERVER_PORT_KEY, Integer.toString(serverPort));
-        props.setProperty(prefix + PARA_CHECK_KEY, Integer.toString(numParasToCheck));
-        props.setProperty(prefix + RESET_CHECK_KEY, Boolean.toString(doResetCheck));
-        props.setProperty(prefix + NO_MULTI_RESET_KEY, Boolean.toString(noMultiReset));
-        if(!doFullCheckAtFirst) {
+        if(numParasToCheck != DEFAULT_NUM_CHECK_PARAS) {
+          props.setProperty(prefix + NO_DEFAULT_CHECK_KEY, Boolean.toString(true));
+          props.setProperty(prefix + PARA_CHECK_KEY, Integer.toString(numParasToCheck));
+        }
+        if(doResetCheck != DEFAULT_DO_RESET) {
+          props.setProperty(prefix + RESET_CHECK_KEY, Boolean.toString(doResetCheck));
+        }
+        if(useTextLevelQueue != DEFAULT_USE_QUEUE) {
+          props.setProperty(prefix + USE_QUEUE_KEY, Boolean.toString(useTextLevelQueue));
+        }
+        if(doFullCheckAtFirst != DEFAULT_FULL_CHECK_FIRST) {
           props.setProperty(prefix + DO_FULL_CHECK_AT_FIRST_KEY, Boolean.toString(doFullCheckAtFirst));
         }
-        if(!useDocLanguage) {
+        if(useDocLanguage != DEFAULT_USE_DOC_LANGUAGE) {
           props.setProperty(prefix + USE_DOC_LANG_KEY, Boolean.toString(useDocLanguage));
+        }
+        if(isMultiThreadLO != DEFAULT_MULTI_THREAD) {
+          props.setProperty(prefix + IS_MULTI_THREAD_LO_KEY, Boolean.toString(isMultiThreadLO));
+        }
+        if(doRemoteCheck != DEFAULT_DO_REMOTE_CHECK) {
+          props.setProperty(prefix + DO_REMOTE_CHECK_KEY, Boolean.toString(doRemoteCheck));
+        }
+        if(useOtherServer != DEFAULT_USE_OTHER_SERVER) {
+          props.setProperty(prefix + USE_OTHER_SERVER_KEY, Boolean.toString(useOtherServer));
+        }
+        if(markSingleCharBold != DEFAULT_MARK_SINGLE_CHAR_BOLD) {
+          props.setProperty(prefix + MARK_SINGLE_CHAR_BOLD_KEY, Boolean.toString(markSingleCharBold));
         }
         if(switchOff) {
           props.setProperty(prefix + LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));
-        }
-        if(isMultiThreadLO) {
-          props.setProperty(prefix + IS_MULTI_THREAD_LO_KEY, Boolean.toString(isMultiThreadLO));
-        }
-        if(doRemoteCheck) {
-          props.setProperty(prefix + DO_REMOTE_CHECK_KEY, Boolean.toString(doRemoteCheck));
-        }
-        if(useOtherServer) {
-          props.setProperty(prefix + USE_OTHER_SERVER_KEY, Boolean.toString(useOtherServer));
         }
         if (otherServerUrl != null) {
           props.setProperty(prefix + OTHER_SERVER_URL_KEY, otherServerUrl);
@@ -1238,28 +1355,38 @@ public class Configuration {
         if (externalRuleDirectory != null) {
           props.setProperty(prefix + EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);
         }
-        StringBuilder sbRV = new StringBuilder();
-        for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
-          sbRV.append(entry.getKey()).append(":").append(Integer.toString(entry.getValue())).append(", ");
+        if(!configurableRuleValues.isEmpty()) {
+          StringBuilder sbRV = new StringBuilder();
+          for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
+            sbRV.append(entry.getKey()).append(":").append(Integer.toString(entry.getValue())).append(", ");
+          }
+          props.setProperty(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());
         }
-        props.setProperty(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());
-      
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
-          String rgb = Integer.toHexString(entry.getValue().getRGB());
-          rgb = rgb.substring(2, rgb.length());
-          sb.append(entry.getKey()).append(":#").append(rgb).append(", ");
+        if(!errorColors.isEmpty()) {
+          StringBuilder sb = new StringBuilder();
+          for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
+            String rgb = Integer.toHexString(entry.getValue().getRGB());
+            rgb = rgb.substring(2, rgb.length());
+            sb.append(entry.getKey()).append(":#").append(rgb).append(", ");
+          }
+          props.setProperty(prefix + ERROR_COLORS_KEY, sb.toString());
         }
-        props.setProperty(prefix + ERROR_COLORS_KEY, sb.toString());
-      
-        StringBuilder sbUC = new StringBuilder();
-        for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
-          String rgb = Integer.toHexString(entry.getValue().getRGB());
-          rgb = rgb.substring(2, rgb.length());
-          sbUC.append(entry.getKey()).append(":#").append(rgb).append(", ");
+        if(!underlineColors.isEmpty()) {
+          StringBuilder sbUC = new StringBuilder();
+          for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
+            String rgb = Integer.toHexString(entry.getValue().getRGB());
+            rgb = rgb.substring(2, rgb.length());
+            sbUC.append(entry.getKey()).append(":#").append(rgb).append(", ");
+          }
+          props.setProperty(prefix + UNDERLINE_COLORS_KEY, sbUC.toString());
         }
-        props.setProperty(prefix + UNDERLINE_COLORS_KEY, sbUC.toString());
-      
+        if(!underlineTypes.isEmpty()) {
+          StringBuilder sbUT = new StringBuilder();
+          for (Map.Entry<String, Short> entry : underlineTypes.entrySet()) {
+            sbUT.append(entry.getKey()).append(":").append(Short.toString(entry.getValue())).append(", ");
+          }
+          props.setProperty(prefix + UNDERLINE_TYPES_KEY, sbUT.toString());
+        }
         for (String key : configForOtherLanguages.keySet()) {
           props.setProperty(key, configForOtherLanguages.get(key));
         }
@@ -1294,9 +1421,10 @@ public class Configuration {
     allProfileKeys.add(TAGGER_SHOWS_DISAMBIG_LOG_KEY);
     allProfileKeys.add(SERVER_RUN_KEY);
     allProfileKeys.add(SERVER_PORT_KEY);
+    allProfileKeys.add(NO_DEFAULT_CHECK_KEY);
     allProfileKeys.add(PARA_CHECK_KEY);
     allProfileKeys.add(RESET_CHECK_KEY);
-    allProfileKeys.add(NO_MULTI_RESET_KEY);
+    allProfileKeys.add(USE_QUEUE_KEY);
     allProfileKeys.add(DO_FULL_CHECK_AT_FIRST_KEY);
     allProfileKeys.add(USE_DOC_LANG_KEY);
     allProfileKeys.add(USE_GUI_KEY);
@@ -1306,12 +1434,14 @@ public class Configuration {
     allProfileKeys.add(LF_NAME_KEY);
     allProfileKeys.add(ERROR_COLORS_KEY);
     allProfileKeys.add(UNDERLINE_COLORS_KEY);
+    allProfileKeys.add(UNDERLINE_TYPES_KEY);
     allProfileKeys.add(LT_SWITCHED_OFF_KEY);
     allProfileKeys.add(IS_MULTI_THREAD_LO_KEY);
     allProfileKeys.add(EXTERNAL_RULE_DIRECTORY);
     allProfileKeys.add(DO_REMOTE_CHECK_KEY);
     allProfileKeys.add(OTHER_SERVER_URL_KEY);
     allProfileKeys.add(USE_OTHER_SERVER_KEY);
+    allProfileKeys.add(MARK_SINGLE_CHAR_BOLD_KEY);
 
     allProfileLangKeys.add(DISABLED_RULES_KEY);
     allProfileLangKeys.add(ENABLED_RULES_KEY);

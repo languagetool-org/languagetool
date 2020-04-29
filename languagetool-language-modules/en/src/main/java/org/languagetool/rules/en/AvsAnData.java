@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.en;
 
+import gnu.trove.THashSet;
 import org.languagetool.JLanguageTool;
 
 import java.io.InputStream;
@@ -50,7 +51,7 @@ final class AvsAnData {
    * Load words, normalized to lowercase unless starting with '*'.
    */
   private static Set<String> loadWords(String path) {
-    Set<String> set = new HashSet<>();
+    Set<String> set = new THashSet<>();
     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
     try (Scanner scanner = new Scanner(stream, "utf-8")) {
       while (scanner.hasNextLine()) {
