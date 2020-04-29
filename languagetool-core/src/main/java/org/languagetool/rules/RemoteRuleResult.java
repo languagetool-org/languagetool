@@ -21,51 +21,22 @@
 
 package org.languagetool.rules;
 
-import org.languagetool.AnalyzedSentence;
-
-import java.util.*;
+import java.util.List;
 
 public class RemoteRuleResult {
-  private final boolean remote; // was remote needed/involved? rules may filter input sentences and only call remote on some; for metrics
-  private final boolean success; // successful -> for caching, so that we can cache: remote not needed for this sentence
+  private final boolean remote; // was remote needed/involved? rules may filter input sentences and only call remote on some
   private final List<RuleMatch> matches;
 
-  private final Map<AnalyzedSentence, List<RuleMatch>> sentenceMatches = new HashMap<>();
-
-  public RemoteRuleResult(boolean remote, boolean success, List<RuleMatch> matches) {
+  public RemoteRuleResult(boolean remote, List<RuleMatch> matches) {
     this.remote = remote;
-    this.success = success;
     this.matches = matches;
-
-    for (RuleMatch match : matches) {
-      sentenceMatches.compute(match.getSentence(), (sentence, ruleMatches) -> {
-        if (ruleMatches == null) {
-          return new ArrayList<>(Collections.singletonList(match));
-        } else {
-          ruleMatches.add(match);
-          return ruleMatches;
-        }
-      });
-    }
   }
 
   public boolean isRemote() {
     return remote;
   }
 
-  public boolean isSuccess() {
-    return success;
-  }
-
   public List<RuleMatch> getMatches() {
     return matches;
-  }
-
-  public Set<AnalyzedSentence> matchedSentences() {
-    return sentenceMatches.keySet();
-  }
-
-  public List<RuleMatch> matchesForSentence(AnalyzedSentence sentence) {
-    return sentenceMatches.get(sentence);
   }
 }
