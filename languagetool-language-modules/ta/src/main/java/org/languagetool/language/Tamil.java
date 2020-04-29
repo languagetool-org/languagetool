@@ -18,6 +18,7 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.language.tagging.TamilTagger;
@@ -26,14 +27,9 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class Tamil extends Language {
-
-  private SentenceTokenizer sentenceTokenizer;
-  private Tagger tagger;
 
   @Override
   public String getName() {
@@ -49,21 +45,16 @@ public class Tamil extends Language {
   public String[] getCountries() {
     return new String[]{"IN"};
   }
-  
-  @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
-  }
 
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new TamilTagger();
-    }
-    return tagger;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
+  }
+
+  @NotNull
+  @Override
+  public Tagger createDefaultTagger() {
+    return new TamilTagger();
   }
 
   @Override

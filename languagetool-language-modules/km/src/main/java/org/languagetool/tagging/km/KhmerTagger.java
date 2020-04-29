@@ -18,9 +18,9 @@
  */
 package org.languagetool.tagging.km;
 
-import java.util.Locale;
-
 import org.languagetool.tagging.BaseTagger;
+
+import java.util.Locale;
 
 /** Khmer Part-of-speech tagger.
  * Based on part-of-speech lists in Public Domain.
@@ -29,12 +29,6 @@ import org.languagetool.tagging.BaseTagger;
  * @author Marcin Milkowski
  */
 public class KhmerTagger extends BaseTagger {
-
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/km/added.txt";
-  }
-
   public KhmerTagger() {
     super("/km/khmer.dict",  new Locale("km"));
   }

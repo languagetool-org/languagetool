@@ -19,33 +19,23 @@
 
 package org.languagetool.rules;
 
+import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.rules.patterns.PatternRule;
-import org.languagetool.rules.patterns.PatternToken;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Another use of the compounds file -- check for compounds written with
  * dashes instead of hyphens (for example, Rabka — Zdrój).
- * NOTE: this slows down checking a lot when used with large compound lists
  * @since 3.8
  */
 public abstract class AbstractDashRule extends Rule {
 
-  private final List<PatternRule> dashRules;
-
-  public AbstractDashRule(List<PatternRule> dashRules) throws IOException {
-    this.dashRules = Objects.requireNonNull(dashRules);
+  public AbstractDashRule(ResourceBundle messages) {
+    super(messages);
+    setCategory(Categories.TYPOGRAPHY.getCategory(messages));
   }
 
   @Override
@@ -56,6 +46,10 @@ public abstract class AbstractDashRule extends Rule {
   @Override
   public abstract String getDescription();
 
+  public abstract String getMessage();
+
+  protected abstract AhoCorasickDoubleArrayTrie<String> getCompoundsData();
+
   @Override
   public int estimateContextForSureMatch() {
     return 2;
@@ -64,57 +58,64 @@ public abstract class AbstractDashRule extends Rule {
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> matches = new ArrayList<>();
-    for (PatternRule dashRule : dashRules) {
-      for (RuleMatch match : dashRule.match(sentence)) {
-        RuleMatch rm = new RuleMatch
-            (this, match.getSentence(), match.getFromPos(), match.getToPos(), match.getMessage(),
-                match.getShortMessage(), false, "");
-        matches.add(rm);
+    String text = sentence.getText();
+    List<AhoCorasickDoubleArrayTrie.Hit<String>> hits = getCompoundsData().parseText(text);
+    Set<Integer> startPositions = new HashSet<>();
+    Collections.reverse(hits);  // work on longest matches first
+    for (AhoCorasickDoubleArrayTrie.Hit<String> hit : hits) {
+      if (startPositions.contains(hit.begin)) {
+        continue;   // avoid overlapping matches
       }
+      if (hit.begin > 0 && !isBoundary(text.substring(hit.begin-1, hit.begin))) {
+        // prevent substring matches
+        continue;
+      }
+      if (hit.end < text.length() && !isBoundary(text.substring(hit.end, hit.end+1))) {
+        // prevent substring matches, e.g. "Foto" for "Photons"
+        continue;
+      }
+      RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end, hit.begin, hit.end,
+              getMessage(), null, false, "");
+      String covered = text.substring(hit.begin, hit.end);
+      match.setSuggestedReplacement(covered.replaceAll(" ?[–—] ?", "-"));
+      matches.add(match);
+      startPositions.add(hit.begin);
     }
     return matches.toArray(new RuleMatch[0]);
   }
 
-  protected static List<PatternRule> loadCompoundFile(String path, String msg, Language lang) {
-    List<PatternRule> rules = new ArrayList<>();
-    try (
-        InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-        InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
-        BufferedReader br = new BufferedReader(reader)
-    ) {
-      String line;
-      int counter = 0;
-      while ((line = br.readLine()) != null) {
-        counter++;
-        if (line.isEmpty() || line.charAt(0) == '#') {
-          continue;     // ignore comments
-        }
-        if (line.endsWith("+")) {
-          continue; // skip non-hyphenated suggestions
-        } else if (line.endsWith("*")) {
-          line = removeLastCharacter(line);
-        }
-        List<PatternToken> tokList = new ArrayList<>();
-        String[] tokens = line.split("-");
-        int tokenCounter = 0;
-        for (String token : tokens) {
-          tokenCounter++;
-            // token
-          tokList.add(new PatternToken(token, true, false, false));
-          if (tokenCounter < tokens.length) {
-            // add dash
-            tokList.add(new PatternToken("[—–]", false, true, false));
-          }
-        }
-        PatternRule dashRule = new PatternRule
-            ("DASH_RULE" + counter, lang, tokList,
-                "", msg + "<suggestion>"+line.replaceAll("[–—]", "-")+"</suggestion>.", line.replaceAll("[–—]", "-"));
-        rules.add(dashRule);
+  protected boolean isBoundary(String s) {
+    return !s.matches("[a-zA-Z]");
+  }
+
+  protected static AhoCorasickDoubleArrayTrie<String> loadCompoundFile(String path) {
+    List<String> words = new ArrayList<>();
+    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
+    for (String line : lines) {
+      if (line.isEmpty() || line.charAt(0) == '#') {
+        continue;     // ignore comments
       }
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+      if (line.endsWith("+") || line.endsWith("?")) {
+        continue; // skip non-hyphenated suggestions
+      } else if (line.endsWith("*") || line.endsWith("$")) {
+        line = removeLastCharacter(line);
+      }
+      words.add(line);
     }
-    return rules;
+    Map<String,String> map = new HashMap<>();
+    for (String word : words) {
+      String variant1 = word.replace("-", "–");
+      map.put(variant1, variant1);
+      String variant2 = word.replace("-", "—");
+      map.put(variant2, variant2);
+      String variant3 = word.replace("-", " – ");
+      map.put(variant3, variant3);
+      String variant4 = word.replace("-", " — ");
+      map.put(variant4, variant4);
+    }
+    AhoCorasickDoubleArrayTrie<String> trie = new AhoCorasickDoubleArrayTrie<>();
+    trie.build(map);
+    return trie;
   }
 
   private static String removeLastCharacter(String str) {

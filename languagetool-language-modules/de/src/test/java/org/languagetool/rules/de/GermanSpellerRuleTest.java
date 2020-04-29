@@ -116,7 +116,9 @@ public class GermanSpellerRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Ventrolateral")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Kleindung")).length, is(1));  // ignored due to ignoreCompoundWithIgnoredWord(), but still in ignore.txt -> ignore.txt must override this
     assertThat(rule.match(lt.getAnalyzedSentence("Majonäse."))[0].getSuggestedReplacements().toString(), is("[Mayonnaise]"));
+    assertFirstSuggestion("Schöler-", "Schüler-", rule, lt);
     assertFirstSuggestion("wars.", "war's", rule, lt);
+    assertFirstSuggestion("haben -sehr", "sehr", rule, lt);
     assertFirstSuggestion("konservierungsstoffe", "Konservierungsstoffe", rule, lt);
 //    assertFirstSuggestion("Ist Ventrolateral", "ventrolateral", rule, lt);
     assertFirstSuggestion("denkte", "dachte", rule, lt);
@@ -410,6 +412,23 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("unfährer", "unfairer", rule, lt);
     assertFirstSuggestion("unfäre", "unfaire", rule, lt);
     assertFirstSuggestion("medikatöses", "medikamentöses", rule, lt);
+    assertFirstSuggestion("versendliches", "versehentliches", rule, lt);
+    assertFirstSuggestion("Nootbooks", "Notebooks", rule, lt);
+    assertFirstSuggestion("Eigtl", "Eigtl.", rule, lt);
+    assertFirstSuggestion("pflanzige", "pflanzliche", rule, lt);
+    assertFirstSuggestion("geblogt", "gebloggt", rule, lt);
+    assertFirstSuggestion("ähliche", "ähnliche", rule, lt);
+    assertFirstSuggestion("entfängt", "empfängt", rule, lt);
+    assertFirstSuggestion("verewiglichte", "verewigte", rule, lt);
+    assertFirstSuggestion("zeritifierte", "zertifizierte", rule, lt);
+    assertFirstSuggestion("gerähte", "Geräte", rule, lt);
+    assertFirstSuggestion("pirsing", "Piercing", rule, lt);
+    assertFirstSuggestion("behilfreiches", "behilfliches", rule, lt);
+    assertFirstSuggestion("einsichtbar", "einsehbar", rule, lt);
+    assertFirstSuggestion("vollrichtest", "verrichtest", rule, lt);
+    assertFirstSuggestion("Vollrichtet", "Verrichtet", rule, lt);
+    assertFirstSuggestion("bedingslosem", "bedingungslosem", rule, lt);
+    assertFirstSuggestion("überstenden", "berstenden", rule, lt);
   }
 
   @Test

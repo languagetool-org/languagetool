@@ -20,23 +20,27 @@ package org.languagetool.rules.en;
 
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.SuggestedReplacement;
+import org.languagetool.rules.*;
+import org.languagetool.rules.en.translation.BeoLingusTranslator;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.rules.translation.Translator;
 import org.languagetool.synthesis.en.EnglishSynthesizer;
+import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.stream.Collectors;
 
+@SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
-  private static final EnglishSynthesizer synthesizer = new EnglishSynthesizer(new English());
+  private static Logger logger = LoggerFactory.getLogger(AbstractEnglishSpellerRule.class);
+  private static final EnglishSynthesizer synthesizer = (EnglishSynthesizer) Languages.getLanguageForShortCode("en").getSynthesizer();
+
+  private final BeoLingusTranslator translator;
 
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language) throws IOException {
     this(messages, language, null, Collections.emptyList());
@@ -46,7 +50,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
    * @since 4.4
    */
   public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
-    this(messages, language, userConfig, altLanguages, null);
+    this(messages, language, null, userConfig, altLanguages, null, null);
   }
 
   protected static Map<String,String> loadWordlist(String path, int column) {
@@ -54,24 +58,17 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       throw new IllegalArgumentException("Only column 0 and 1 are supported: " + column);
     }
     Map<String,String> words = new HashMap<>();
-    try (
-      InputStreamReader isr = new InputStreamReader(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path), StandardCharsets.UTF_8);
-      BufferedReader br = new BufferedReader(isr);
-    ) {
-      String line;
-      while ((line = br.readLine()) != null) {
-        line = line.trim();
-        if (line.isEmpty() ||  line.startsWith("#")) {
-          continue;
-        }
-        String[] parts = line.split(";");
-        if (parts.length != 2) {
-          throw new IOException("Unexpected format in " + path + ": " + line + " - expected two parts delimited by ';'");
-        }
-        words.put(parts[column], parts[column == 1 ? 0 : 1]);
+    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
+    for (String line : lines) {
+      line = line.trim();
+      if (line.isEmpty() ||  line.startsWith("#")) {
+        continue;
       }
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+      String[] parts = line.split(";");
+      if (parts.length != 2) {
+        throw new RuntimeException("Unexpected format in " + path + ": " + line + " - expected two parts delimited by ';'");
+      }
+      words.put(parts[column].toLowerCase(), parts[column == 1 ? 0 : 1]);
     }
     return words;
   }
@@ -81,10 +78,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
    * @since 4.5
    * optional: language model for better suggestions
    */
-  @Experimental
-  public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
-                                    List<Language> altLanguages, LanguageModel languageModel) throws IOException {
-    super(messages, language, userConfig, altLanguages, languageModel);
+  public AbstractEnglishSpellerRule(ResourceBundle messages, Language language, GlobalConfig globalConfig, UserConfig userConfig,
+                                    List<Language> altLanguages, LanguageModel languageModel, Language motherTongue) throws IOException {
+    super(messages, language, globalConfig, userConfig, altLanguages, languageModel, motherTongue);
     super.ignoreWordsWithLength = 1;
     setCheckCompound(true);
     addExamplePair(Example.wrong("This <marker>sentenc</marker> contains a spelling mistake."),
@@ -93,8 +89,23 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     for (String ignoreWord : wordListLoader.loadWords(languageSpecificIgnoreFile)) {
       addIgnoreWords(ignoreWord);
     }
+    translator = BeoLingusTranslator.getInstance(globalConfig);
+    topSuggestions = getTopSuggestions();
+    topSuggestionsIgnoreCase = getTopSuggestionsIgnoreCase();
   }
 
+  @Override
+  protected List<SuggestedReplacement> filterSuggestions(List<SuggestedReplacement> suggestions, AnalyzedSentence sentence, int i) {
+    List<SuggestedReplacement> result = super.filterSuggestions(suggestions, sentence, i);
+    List<SuggestedReplacement> clean = new ArrayList<>();
+    for (SuggestedReplacement suggestion : result) {
+      if (!suggestion.getReplacement().matches(".* (s|t|d|ll|ve)")) {  // e.g. 'timezones' suggests 'timezone s'
+        clean.add(suggestion);
+      }
+    }
+    return clean;
+  }
+  
   @Override
   protected List<RuleMatch> getRuleMatches(String word, int startPos, AnalyzedSentence sentence, List<RuleMatch> ruleMatchesSoFar, int idx, AnalyzedTokenReadings[] tokens) throws IOException {
     List<RuleMatch> ruleMatches = super.getRuleMatches(word, startPos, sentence, ruleMatchesSoFar, idx, tokens);
@@ -110,9 +121,22 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
         VariantInfo variantInfo = isValidInOtherVariant(word);
         if (variantInfo != null) {
           String message = "Possible spelling mistake. '" + word + "' is " + variantInfo.getVariantName() + ".";
-          replaceFormsOfFirstMatch(message, sentence, ruleMatches, variantInfo.otherVariant());
+          String suggestion = StringTools.startsWithUppercase(word) ?
+              StringTools.uppercaseFirstChar(variantInfo.otherVariant()) : variantInfo.otherVariant();
+          replaceFormsOfFirstMatch(message, sentence, ruleMatches, suggestion);
         }
       }
+    }
+    // filter "re ..." (#2562):
+    for (RuleMatch ruleMatch : ruleMatches) {
+      List<SuggestedReplacement> cleaned = ruleMatch.getSuggestedReplacementObjects().stream()
+        .filter(k -> !k.getReplacement().startsWith("re ") &&
+                     !k.getReplacement().startsWith("en ") &&
+                     !k.getReplacement().startsWith("inter ") &&
+                     !k.getReplacement().endsWith(" able") &&
+                     !k.getReplacement().endsWith(" ed"))
+        .collect(Collectors.toList());
+      ruleMatch.setSuggestedReplacementObjects(cleaned);
     }
     return ruleMatches;
   }
@@ -174,7 +198,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       for (String suffix : suffixes) {
         if (word.endsWith(wordSuffix)) {
           String baseForm = word.substring(0, word.length() - suffix.length());
-          String[] forms = synthesizer.synthesize(new AnalyzedToken(word, null, baseForm), posTag);
+          String[] forms = Objects.requireNonNull(language.getSynthesizer()).synthesize(new AnalyzedToken(word, null, baseForm), posTag);
           List<String> result = new ArrayList<>();
           for (String form : forms) {
             if (!speller1.isMisspelled(form)) {
@@ -199,373 +223,350 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     }
   }
 
+  protected final Map<String, List<String>> topSuggestions;
+  protected final Map<String, List<String>> topSuggestionsIgnoreCase;
+
+  protected Map<String, List<String>> getTopSuggestionsIgnoreCase() {
+    Map<String, List<String>> s = new HashMap<>();
+    s.put("gif", Arrays.asList("GIF"));
+    s.put("png", Arrays.asList("PNG"));
+    s.put("csv", Arrays.asList("CSV"));
+    s.put("pdf", Arrays.asList("PDF"));
+    s.put("jpeg", Arrays.asList("JPEG"));
+    s.put("jpg", Arrays.asList("JPG"));
+    s.put("bmp", Arrays.asList("BMP"));
+    s.put("docx", Arrays.asList("DOCX"));
+    s.put("xlsx", Arrays.asList("XLSX"));
+    s.put("btw", Arrays.asList("BTW"));
+    s.put("idk", Arrays.asList("IDK"));
+    s.put("ai", Arrays.asList("AI"));
+    s.put("ip", Arrays.asList("IP"));
+    s.put("rfc", Arrays.asList("RFC"));
+    s.put("ppt", Arrays.asList("PPT"));
+    s.put("pptx", Arrays.asList("PPTX"));
+    s.put("vpn", Arrays.asList("VPN"));
+    s.put("psn", Arrays.asList("PSN"));
+    s.put("usd", Arrays.asList("USD"));
+    s.put("tv", Arrays.asList("TV"));
+    s.put("eur", Arrays.asList("EUR"));
+    s.put("tbh", Arrays.asList("TBH"));
+    s.put("tbd", Arrays.asList("TBD"));
+    s.put("tba", Arrays.asList("TBA"));
+    s.put("omg", Arrays.asList("OMG"));
+    s.put("lol", Arrays.asList("LOL"));
+    s.put("lmao", Arrays.asList("LMAO"));
+    s.put("wtf", Arrays.asList("WTF"));
+    s.put("fyi", Arrays.asList("FYI"));
+    s.put("url", Arrays.asList("URL"));
+    s.put("usb", Arrays.asList("USB"));
+
+    s.put("italia", Arrays.asList("Italy"));
+    s.put("macboook", Arrays.asList("MacBook"));
+    s.put("macboooks", Arrays.asList("MacBooks"));
+    s.put("paypal", Arrays.asList("PayPal"));
+    s.put("webex", Arrays.asList("WebEx"));
+    s.put("&&", Arrays.asList("&"));
+
+    s.put("afro-american", Arrays.asList("Afro-American"));
+    s.put("oconnor", Arrays.asList("O'Connor"));
+    s.put("oconor", Arrays.asList("O'Conor"));
+    s.put("obrien", Arrays.asList("O'Brien"));
+    s.put("odonnell", Arrays.asList("O'Donnell"));
+    s.put("oneill", Arrays.asList("O'Neill"));
+    s.put("oneil", Arrays.asList("O'Neil"));
+    s.put("oconnell", Arrays.asList("O'Connell"));
+    s.put("todo", Arrays.asList("To-do", "To do"));
+    s.put("todos", Arrays.asList("To-dos"));
+    s.put("ecommerce", Arrays.asList("e-commerce"));
+    s.put("elearning", Arrays.asList("e-learning"));
+    s.put("esport", Arrays.asList("e-sport"));
+    s.put("esports", Arrays.asList("e-sports"));
+    s.put("g-mail", Arrays.asList("Gmail"));
+    s.put("playstation", Arrays.asList("PlayStation"));
+    return s;
+  }
+
+  protected Map<String, List<String>> getTopSuggestions() {
+    Map<String, List<String>> s = new HashMap<>();
+
+    s.put("sin-off", Arrays.asList("sign-off"));
+    s.put("sin-offs", Arrays.asList("sign-offs"));
+    s.put("Sin-off", Arrays.asList("Sign-off"));
+    s.put("Sin-offs", Arrays.asList("Sign-offs"));
+    s.put("Alot", Arrays.asList("A lot"));
+    s.put("alot", Arrays.asList("a lot"));
+    s.put("css", Arrays.asList("CSS"));
+    s.put("DDOS", Arrays.asList("DDoS"));
+    s.put("async", Arrays.asList("asynchronous", "asynchronously"));
+    s.put("Async", Arrays.asList("Asynchronous", "Asynchronously"));
+    s.put("endevours", Arrays.asList("endeavours"));
+    s.put("endevors", Arrays.asList("endeavors"));
+    s.put("endevour", Arrays.asList("endeavour"));
+    s.put("endevor", Arrays.asList("endeavor"));
+    s.put("ad-hoc", Arrays.asList("ad hoc"));
+    s.put("adhoc", Arrays.asList("ad hoc"));
+    s.put("Ad-hoc", Arrays.asList("Ad hoc"));
+    s.put("Adhoc", Arrays.asList("Ad hoc"));
+    s.put("ad-on", Arrays.asList("add-on"));
+    s.put("add-o", Arrays.asList("add-on"));
+    s.put("acc", Arrays.asList("account", "accusative"));
+    s.put("Acc", Arrays.asList("Account", "Accusative"));
+    s.put("ºC", Arrays.asList("°C"));
+    s.put("jus", Arrays.asList("just", "juice"));
+    s.put("Jus", Arrays.asList("Just", "Juice"));
+    s.put("sayed", Arrays.asList("said"));
+    s.put("sess", Arrays.asList("says", "session", "cess"));
+    s.put("Addon", Arrays.asList("Add-on"));
+    s.put("Addons", Arrays.asList("Add-ons"));
+    s.put("ios", Arrays.asList("iOS"));
+    s.put("yrs", Arrays.asList("years"));
+    s.put("standup", Arrays.asList("stand-up"));
+    s.put("standups", Arrays.asList("stand-ups"));
+    s.put("Standup", Arrays.asList("Stand-up"));
+    s.put("Standups", Arrays.asList("Stand-ups"));
+    s.put("Playdough", Arrays.asList("Play-Doh"));
+    s.put("playdough", Arrays.asList("Play-Doh"));
+    s.put("biggy", Arrays.asList("biggie"));
+    s.put("lieing", Arrays.asList("lying"));
+    s.put("preffered", Arrays.asList("preferred"));
+    s.put("preffering", Arrays.asList("preferring"));
+    s.put("reffered", Arrays.asList("referred"));
+    s.put("reffering", Arrays.asList("referring"));
+    s.put("passthrough", Arrays.asList("pass-through"));
+    s.put("&&", Arrays.asList("&"));
+    s.put("cmon", Arrays.asList("c'mon"));
+    s.put("Cmon", Arrays.asList("C'mon"));
+    s.put("da", Arrays.asList("the"));
+    s.put("Da", Arrays.asList("The"));
+    s.put("Vue", Arrays.asList("Vue.JS"));
+    s.put("errornous", Arrays.asList("erroneous"));
+    s.put("brang", Arrays.asList("brought"));
+    s.put("brung", Arrays.asList("brought"));
+    s.put("thru", Arrays.asList("through"));
+    s.put("pitty", Arrays.asList("pity"));
+    // the replacement pairs would prefer "speak"
+    s.put("speach", Arrays.asList("speech"));
+    s.put("icecreem", Arrays.asList("ice cream"));
+    // in en-gb it's 'maths'
+    s.put("math", Arrays.asList("maths"));
+    s.put("fora", Arrays.asList("for a"));
+    s.put("lotsa", Arrays.asList("lots of"));
+    s.put("tryna", Arrays.asList("trying to"));
+    s.put("coulda", Arrays.asList("could have"));
+    s.put("shoulda", Arrays.asList("should have"));
+    s.put("woulda", Arrays.asList("would have"));
+    s.put("tellem", Arrays.asList("tell them"));
+    s.put("Tellem", Arrays.asList("Tell them"));
+    s.put("Webex", Arrays.asList("WebEx"));
+    s.put("didint", Arrays.asList("didn't"));
+    s.put("Didint", Arrays.asList("Didn't"));
+    s.put("wasint", Arrays.asList("wasn't"));
+    s.put("hasint", Arrays.asList("hasn't"));
+    s.put("doesint", Arrays.asList("doesn't"));
+    s.put("ist", Arrays.asList("is"));
+    s.put("Boing", Arrays.asList("Boeing"));
+    s.put("te", Arrays.asList("the"));
+    s.put("todays", Arrays.asList("today's"));
+    s.put("Todays", Arrays.asList("Today's"));
+    s.put("todo", Arrays.asList("to-do", "to do"));
+    s.put("todos", Arrays.asList("to-dos", "to do"));
+    s.put("heres", Arrays.asList("here's"));
+    s.put("Heres", Arrays.asList("Here's"));
+    s.put("aways", Arrays.asList("always"));
+    s.put("McDonalds", Arrays.asList("McDonald's"));
+    s.put("ux", Arrays.asList("UX"));
+    s.put("ive", Arrays.asList("I've"));
+    s.put("infos", Arrays.asList("informations"));
+    s.put("Infos", Arrays.asList("Informations"));
+    s.put("prios", Arrays.asList("priorities"));
+    s.put("Prio", Arrays.asList("Priority"));
+    s.put("prio", Arrays.asList("priority"));
+    s.put("Ecommerce", Arrays.asList("E-Commerce"));
+    s.put("ebook", Arrays.asList("e-book"));
+    s.put("ebooks", Arrays.asList("e-books"));
+    s.put("eBook", Arrays.asList("e-book"));
+    s.put("eBooks", Arrays.asList("e-books"));
+    s.put("Ebook", Arrays.asList("E-Book"));
+    s.put("Ebooks", Arrays.asList("E-Books"));
+    s.put("Esport", Arrays.asList("E-Sport"));
+    s.put("Esports", Arrays.asList("E-Sports"));
+    s.put("R&B", Arrays.asList("R & B", "R 'n' B"));
+    s.put("ie", Arrays.asList("i.e."));
+    s.put("eg", Arrays.asList("e.g."));
+    s.put("ppl", Arrays.asList("people"));
+    s.put("kiddin", Arrays.asList("kidding"));
+    s.put("doin", Arrays.asList("doing"));
+    s.put("nothin", Arrays.asList("nothing"));
+    s.put("SPOC", Arrays.asList("SpOC"));
+    s.put("Thx", Arrays.asList("Thanks"));
+    s.put("thx", Arrays.asList("thanks"));
+    s.put("ty", Arrays.asList("thank you", "thanks"));
+    s.put("Sry", Arrays.asList("Sorry"));
+    s.put("sry", Arrays.asList("sorry"));
+    s.put("im", Arrays.asList("I'm"));
+    s.put("spoilt", Arrays.asList("spoiled"));
+    s.put("Lil", Arrays.asList("Little"));
+    s.put("lil", Arrays.asList("little"));
+    s.put("gmail", Arrays.asList("Gmail"));
+    s.put("Sucka", Arrays.asList("Sucker"));
+    s.put("sucka", Arrays.asList("sucker"));
+    s.put("whaddya", Arrays.asList("what are you", "what do you"));
+    s.put("Whaddya", Arrays.asList("What are you", "What do you"));
+    s.put("sinc", Arrays.asList("sync"));
+    s.put("sweety", Arrays.asList("sweetie"));
+    s.put("sweetys", Arrays.asList("sweeties"));
+    s.put("sowwy", Arrays.asList("sorry"));
+    s.put("Sowwy", Arrays.asList("Sorry"));
+    s.put("grandmum", Arrays.asList("grandma", "grandmother"));
+    s.put("Grandmum", Arrays.asList("Grandma", "Grandmother"));
+    s.put("Hongkong", Arrays.asList("Hong Kong"));
+    // For non-US English
+    s.put("center", Arrays.asList("centre"));
+    s.put("ur", Arrays.asList("your", "you are"));
+    s.put("Ur", Arrays.asList("Your", "You are"));
+    s.put("ure", Arrays.asList("your", "you are"));
+    s.put("Ure", Arrays.asList("Your", "You are"));
+    s.put("mins", Arrays.asList("minutes", "min"));
+    s.put("addon", Arrays.asList("add-on"));
+    s.put("addons", Arrays.asList("add-ons"));
+    s.put("afterparty", Arrays.asList("after-party"));
+    s.put("Afterparty", Arrays.asList("After-party"));
+    s.put("wellbeing", Arrays.asList("well-being"));
+    s.put("cuz", Arrays.asList("because"));
+    s.put("coz", Arrays.asList("because"));
+    s.put("pls", Arrays.asList("please"));
+    s.put("Pls", Arrays.asList("Please"));
+    s.put("plz", Arrays.asList("please"));
+    s.put("Plz", Arrays.asList("Please"));
+    // AtD irregular plurals - START
+    s.put("addendums", Arrays.asList("addenda"));
+    s.put("algas", Arrays.asList("algae"));
+    s.put("alumnas", Arrays.asList("alumnae"));
+    s.put("alumnuses", Arrays.asList("alumni"));
+    s.put("analysises", Arrays.asList("analyses"));
+    s.put("appendixs", Arrays.asList("appendices"));
+    s.put("axises", Arrays.asList("axes"));
+    s.put("bacilluses", Arrays.asList("bacilli"));
+    s.put("bacteriums", Arrays.asList("bacteria"));
+    s.put("basises", Arrays.asList("bases"));
+    s.put("beaus", Arrays.asList("beaux"));
+    s.put("bisons", Arrays.asList("bison"));
+    s.put("buffalos", Arrays.asList("buffaloes"));
+    s.put("calfs", Arrays.asList("calves"));
+    s.put("Childs", Arrays.asList("Children"));
+    s.put("childs", Arrays.asList("children"));
+    s.put("crisises", Arrays.asList("crises"));
+    s.put("criterions", Arrays.asList("criteria"));
+    s.put("curriculums", Arrays.asList("curricula"));
+    s.put("datums", Arrays.asList("data"));
+    s.put("deers", Arrays.asList("deer"));
+    s.put("diagnosises", Arrays.asList("diagnoses"));
+    s.put("echos", Arrays.asList("echoes"));
+    s.put("elfs", Arrays.asList("elves"));
+    s.put("ellipsises", Arrays.asList("ellipses"));
+    s.put("embargos", Arrays.asList("embargoes"));
+    s.put("erratums", Arrays.asList("errata"));
+    s.put("firemans", Arrays.asList("firemen"));
+    s.put("fishs", Arrays.asList("fishes", "fish"));
+    s.put("genuses", Arrays.asList("genera"));
+    s.put("gooses", Arrays.asList("geese"));
+    s.put("halfs", Arrays.asList("halves"));
+    s.put("heros", Arrays.asList("heroes"));
+    s.put("indexs", Arrays.asList("indices", "indexes"));
+    s.put("lifes", Arrays.asList("lives"));
+    s.put("mans", Arrays.asList("men"));
+    s.put("matrixs", Arrays.asList("matrices"));
+    s.put("meanses", Arrays.asList("means"));
+    s.put("mediums", Arrays.asList("media"));
+    s.put("memorandums", Arrays.asList("memoranda"));
+    s.put("mooses", Arrays.asList("moose"));
+    s.put("mosquitos", Arrays.asList("mosquitoes"));
+    s.put("neurosises", Arrays.asList("neuroses"));
+    s.put("nucleuses", Arrays.asList("nuclei"));
+    s.put("oasises", Arrays.asList("oases"));
+    s.put("ovums", Arrays.asList("ova"));
+    s.put("oxs", Arrays.asList("oxen"));
+    s.put("oxes", Arrays.asList("oxen"));
+    s.put("paralysises", Arrays.asList("paralyses"));
+    s.put("potatos", Arrays.asList("potatoes"));
+    s.put("radiuses", Arrays.asList("radii"));
+    s.put("selfs", Arrays.asList("selves"));
+    s.put("serieses", Arrays.asList("series"));
+    s.put("sheeps", Arrays.asList("sheep"));
+    s.put("shelfs", Arrays.asList("shelves"));
+    s.put("scissorses", Arrays.asList("scissors"));
+    s.put("specieses", Arrays.asList("species"));
+    s.put("stimuluses", Arrays.asList("stimuli"));
+    s.put("stratums", Arrays.asList("strata"));
+    s.put("tableaus", Arrays.asList("tableaux"));
+    s.put("thats", Arrays.asList("those"));
+    s.put("thesises", Arrays.asList("theses"));
+    s.put("thiefs", Arrays.asList("thieves"));
+    s.put("thises", Arrays.asList("these"));
+    s.put("tomatos", Arrays.asList("tomatoes"));
+    s.put("tooths", Arrays.asList("teeth"));
+    s.put("torpedos", Arrays.asList("torpedoes"));
+    s.put("vertebras", Arrays.asList("vertebrae"));
+    s.put("vetos", Arrays.asList("vetoes"));
+    s.put("vitas", Arrays.asList("vitae"));
+    s.put("watchs", Arrays.asList("watches"));
+    s.put("wifes", Arrays.asList("wives"));
+    s.put("womans", Arrays.asList("women"));
+    // AtD irregular plurals - END
+    // "tippy-top" is an often used word by Donald Trump
+    s.put("tippy-top", Arrays.asList("tip-top", "top most"));
+    s.put("tippytop", Arrays.asList("tip-top", "top most"));
+    s.put("imma", Arrays.asList("I'm going to", "I'm a"));
+    s.put("Imma", Arrays.asList("I'm going to", "I'm a"));
+    s.put("dontcha", Arrays.asList("don't you"));
+    s.put("tobe", Arrays.asList("to be"));
+    s.put("Gi", Arrays.asList("Hi"));
+    s.put("Ji", Arrays.asList("Hi"));
+    s.put("Dontcha", Arrays.asList("don't you"));
+    s.put("greatfruit", Arrays.asList("grapefruit", "great fruit"));
+    s.put("ur", Arrays.asList("your", "you are"));
+
+    return s;
+  }
+
   /**
    * @since 2.7
    */
   @Override
-  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
-    if ("Alot".equals(word)) {
-      return Arrays.asList("A lot");
-    } else if ("acc".equals(word)) {
-      return Arrays.asList("account", "accusative");
-    } else if ("Acc".equals(word)) {
-      return Arrays.asList("Account", "Accusative");
-    } else if ("cmon".equals(word)) {
-      return Arrays.asList("c'mon");
-    } else if ("Cmon".equals(word)) {
-      return Arrays.asList("C'mon");
-    } else if ("alot".equals(word)) {
-      return Arrays.asList("a lot");
-    } else if ("da".equals(word)) {
-      return Arrays.asList("the");
-    } else if ("Da".equals(word)) {
-      return Arrays.asList("The");
-    } else if ("errornous".equals(word)) {
-      return Arrays.asList("erroneous");
-    } else if ("brang".equals(word) || "brung".equals(word)) {
-      return Arrays.asList("brought");
-    } else if ("thru".equals(word)) {
-      return Arrays.asList("through");
-    } else if ("speach".equals(word)) {  // the replacement pairs would prefer "speak"
-      return Arrays.asList("speech");
-    } else if ("icecreem".equals(word)) {
-      return Arrays.asList("ice cream");
-    } else if ("math".equals(word)) { // in en-gb it's 'maths'
-      return Arrays.asList("maths");
-    } else if ("fora".equals(word)) {
-      return Arrays.asList("for a");
-    } else if ("lotsa".equals(word)) {
-      return Arrays.asList("lots of");
-    } else if ("coulda".equals(word)) {
-      return Arrays.asList("could have");
-    } else if ("shoulda".equals(word)) {
-      return Arrays.asList("should have");
-    } else if ("woulda".equals(word)) {
-      return Arrays.asList("would have");
-    } else if ("tellem".equals(word)) {
-      return Arrays.asList("tell them");
-    } else if ("Tellem".equals(word)) {
-      return Arrays.asList("Tell them");
-    } else if ("afro-american".equalsIgnoreCase(word)) {
-      return Arrays.asList("Afro-American");
-    } else if ("Webex".equals(word)) {
-      return Arrays.asList("WebEx");
-    } else if ("didint".equals(word)) {
-      return Arrays.asList("didn't");
-    } else if ("Didint".equals(word)) {
-      return Arrays.asList("Didn't");
-    } else if ("wasint".equals(word)) {
-      return Arrays.asList("wasn't");
-    } else if ("hasint".equals(word)) {
-      return Arrays.asList("hasn't");
-    } else if ("doesint".equals(word)) {
-      return Arrays.asList("doesn't");
-    } else if ("ist".equals(word)) {
-      return Arrays.asList("is");
-    } else if ("Boing".equals(word)) {
-      return Arrays.asList("Boeing");
-    } else if ("te".equals(word)) {
-      return Arrays.asList("the");
-    } else if ("todays".equals(word)) {
-      return Arrays.asList("today's");
-    } else if ("Todays".equals(word)) {
-      return Arrays.asList("Today's");
-    } else if ("todo".equals(word)) {
-      return Arrays.asList("to-do", "to do");
-    } else if ("Todo".equals(word)) {
-      return Arrays.asList("To-do", "To do");
-    } else if ("heres".equals(word)) {
-      return Arrays.asList("here's");
-    } else if ("Heres".equals(word)) {
-      return Arrays.asList("Here's");
-    } else if ("McDonalds".equals(word)) {
-      return Arrays.asList("McDonald's");
-    } else if ("ux".equals(word)) {
-      return Arrays.asList("UX");
-    } else if ("ive".equals(word)) {
-      return Arrays.asList("I've");
-    } else if ("infos".equals(word)) {
-      return Arrays.asList("informations");
-    } else if ("Infos".equals(word)) {
-      return Arrays.asList("Informations");
-    } else if ("prios".equals(word)) {
-      return Arrays.asList("priorities");
-    } else if ("Prio".equals(word)) {
-      return Arrays.asList("Priority");
-    } else if ("prio".equals(word)) {
-      return Arrays.asList("Priority");
-    } else if ("esport".equals(word)) {
-      return Arrays.asList("e-sport");
-    } else if ("Esport".equals(word)) {
-      return Arrays.asList("E-Sport");
-    } else if ("eSport".equals(word)) {
-      return Arrays.asList("e-sport");
-    } else if ("esports".equals(word)) {
-      return Arrays.asList("e-sports");
-    } else if ("Esports".equals(word)) {
-      return Arrays.asList("E-Sports");
-    } else if ("eSports".equals(word)) {
-      return Arrays.asList("e-sports");
-    } else if ("ecommerce".equals(word)) {
-      return Arrays.asList("e-commerce");
-    } else if ("Ecommerce".equals(word)) {
-      return Arrays.asList("E-Commerce");
-    } else if ("eCommerce".equals(word)) {
-      return Arrays.asList("e-commerce");
-    } else if ("elearning".equals(word)) {
-      return Arrays.asList("e-learning");
-    } else if ("eLearning".equals(word)) {
-      return Arrays.asList("e-learning");
-    } else if ("ebook".equals(word)) {
-      return Arrays.asList("e-book");
-    } else if ("ebooks".equals(word)) {
-      return Arrays.asList("e-books");
-    } else if ("eBook".equals(word)) {
-      return Arrays.asList("e-book");
-    } else if ("eBooks".equals(word)) {
-      return Arrays.asList("e-books");
-    } else if ("Ebook".equals(word)) {
-      return Arrays.asList("E-Book");
-    } else if ("Ebooks".equals(word)) {
-      return Arrays.asList("E-Books");
-    } else if ("R&B".equals(word)) {
-      return Arrays.asList("R & B", "R 'n' B");
-    } else if ("ie".equals(word)) {
-      return Arrays.asList("i.e.");
-    } else if ("eg".equals(word)) {
-      return Arrays.asList("e.g.");
-    } else if ("Thx".equals(word)) {
-      return Arrays.asList("Thanks");
-    } else if ("thx".equals(word)) {
-      return Arrays.asList("thanks");
-    } else if ("ty".equals(word)) {
-      return Arrays.asList("thank you", "thanks");
-    } else if ("Sry".equals(word)) {
-      return Arrays.asList("Sorry");
-    } else if ("sry".equals(word)) {
-      return Arrays.asList("sorry");
-    } else if ("im".equals(word)) {
-      return Arrays.asList("I'm");
-    } else if ("spoilt".equals(word)) {
-      return Arrays.asList("spoiled");
-    } else if ("Lil".equals(word)) {
-      return Arrays.asList("Little");
-    } else if ("lil".equals(word)) {
-      return Arrays.asList("little");
-    } else if ("Sucka".equals(word)) {
-      return Arrays.asList("Sucker");
-    } else if ("sucka".equals(word)) {
-      return Arrays.asList("sucker");
-    } else if ("whaddya".equals(word)) {
-      return Arrays.asList("what are you", "what do you");
-    } else if ("Whaddya".equals(word)) {
-      return Arrays.asList("What are you", "What do you");
-    } else if ("sinc".equals(word)) {
-      return Arrays.asList("sync");
-    } else if ("Hongkong".equals(word)) {
-      return Arrays.asList("Hong Kong");
-    } else if ("center".equals(word)) {
-      // For non-US English
-      return Arrays.asList("centre");
-    } else if ("ur".equals(word)) {
-      return Arrays.asList("your", "you are");
-    } else if ("Ur".equals(word)) {
-      return Arrays.asList("Your", "You are");
-    } else if ("ure".equals(word)) {
-      return Arrays.asList("your", "you are");
-    } else if ("Ure".equals(word)) {
-      return Arrays.asList("Your", "You are");
-    } else if ("mins".equals(word)) {
-      return Arrays.asList("minutes", "min");
-    } else if ("addon".equals(word)) {
-      return Arrays.asList("add-on");
-    } else if ("addons".equals(word)) {
-      return Arrays.asList("add-ons");
-    } else if ("afterparty".equals(word)) {
-      return Arrays.asList("after-party");
-    } else if ("Afterparty".equals(word)) {
-      return Arrays.asList("After-party");
-    } else if ("wellbeing".equals(word)) {
-      return Arrays.asList("well-being");
-    } else if ("cuz".equals(word) || "coz".equals(word) ) {
-      return Arrays.asList("because");
-    } else if ("pls".equals(word)) {
-      return Arrays.asList("please");
-    } else if ("Pls".equals(word)) {
-      return Arrays.asList("Please");
-    } else if ("prio".equals(word)) {
-      return Arrays.asList("priority");
-    } else if ("prios".equals(word)) {
-      return Arrays.asList("priorities");
-    } else if ("gmail".equals(word)) {
-      return Arrays.asList("Gmail");
-      // AtD irregular plurals - START
-    } else if ("addendums".equals(word)) {
-      return Arrays.asList("addenda");
-    } else if ("algas".equals(word)) {
-      return Arrays.asList("algae");
-    } else if ("alumnas".equals(word)) {
-      return Arrays.asList("alumnae");
-    } else if ("alumnuses".equals(word)) {
-      return Arrays.asList("alumni");
-    } else if ("analysises".equals(word)) {
-      return Arrays.asList("analyses");
-    } else if ("appendixs".equals(word)) {
-      return Arrays.asList("appendices");
-    } else if ("axises".equals(word)) {
-      return Arrays.asList("axes");
-    } else if ("bacilluses".equals(word)) {
-      return Arrays.asList("bacilli");
-    } else if ("bacteriums".equals(word)) {
-      return Arrays.asList("bacteria");
-    } else if ("basises".equals(word)) {
-      return Arrays.asList("bases");
-    } else if ("beaus".equals(word)) {
-      return Arrays.asList("beaux");
-    } else if ("bisons".equals(word)) {
-      return Arrays.asList("bison");
-    } else if ("buffalos".equals(word)) {
-      return Arrays.asList("buffaloes");
-    } else if ("calfs".equals(word)) {
-      return Arrays.asList("calves");
-    } else if ("childs".equals(word)) {
-      return Arrays.asList("children");
-    } else if ("crisises".equals(word)) {
-      return Arrays.asList("crises");
-    } else if ("criterions".equals(word)) {
-      return Arrays.asList("criteria");
-    } else if ("curriculums".equals(word)) {
-      return Arrays.asList("curricula");
-    } else if ("datums".equals(word)) {
-      return Arrays.asList("data");
-    } else if ("deers".equals(word)) {
-      return Arrays.asList("deer");
-    } else if ("diagnosises".equals(word)) {
-      return Arrays.asList("diagnoses");
-    } else if ("echos".equals(word)) {
-      return Arrays.asList("echoes");
-    } else if ("elfs".equals(word)) {
-      return Arrays.asList("elves");
-    } else if ("ellipsises".equals(word)) {
-      return Arrays.asList("ellipses");
-    } else if ("embargos".equals(word)) {
-      return Arrays.asList("embargoes");
-    } else if ("erratums".equals(word)) {
-      return Arrays.asList("errata");
-    } else if ("firemans".equals(word)) {
-      return Arrays.asList("firemen");
-    } else if ("fishs".equals(word)) {
-      return Arrays.asList("fishes", "fish");
-    } else if ("genuses".equals(word)) {
-      return Arrays.asList("genera");
-    } else if ("gooses".equals(word)) {
-      return Arrays.asList("geese");
-    } else if ("halfs".equals(word)) {
-      return Arrays.asList("halves");
-    } else if ("heros".equals(word)) {
-      return Arrays.asList("heroes");
-    } else if ("indexs".equals(word)) {
-      return Arrays.asList("indices", "indexes");
-    } else if ("lifes".equals(word)) {
-      return Arrays.asList("lives");
-    } else if ("mans".equals(word)) {
-      return Arrays.asList("men");
-    } else if ("matrixs".equals(word)) {
-      return Arrays.asList("matrices");
-    } else if ("meanses".equals(word)) {
-      return Arrays.asList("means");
-    } else if ("mediums".equals(word)) {
-      return Arrays.asList("media");
-    } else if ("memorandums".equals(word)) {
-      return Arrays.asList("memoranda");
-    } else if ("mooses".equals(word)) {
-      return Arrays.asList("moose");
-    } else if ("mosquitos".equals(word)) {
-      return Arrays.asList("mosquitoes");
-    } else if ("neurosises".equals(word)) {
-      return Arrays.asList("neuroses");
-    } else if ("nucleuses".equals(word)) {
-      return Arrays.asList("nuclei");
-    } else if ("oasises".equals(word)) {
-      return Arrays.asList("oases");
-    } else if ("ovums".equals(word)) {
-      return Arrays.asList("ova");
-    } else if ("oxs".equals(word)) {
-      return Arrays.asList("oxen");
-    } else if ("oxes".equals(word)) {
-      return Arrays.asList("oxen");
-    } else if ("paralysises".equals(word)) {
-      return Arrays.asList("paralyses");
-    } else if ("potatos".equals(word)) {
-      return Arrays.asList("potatoes");
-    } else if ("radiuses".equals(word)) {
-      return Arrays.asList("radii");
-    } else if ("selfs".equals(word)) {
-      return Arrays.asList("selves");
-    } else if ("serieses".equals(word)) {
-      return Arrays.asList("series");
-    } else if ("sheeps".equals(word)) {
-      return Arrays.asList("sheep");
-    } else if ("shelfs".equals(word)) {
-      return Arrays.asList("shelves");
-    } else if ("scissorses".equals(word)) {
-      return Arrays.asList("scissors");
-    } else if ("specieses".equals(word)) {
-      return Arrays.asList("species");
-    } else if ("stimuluses".equals(word)) {
-      return Arrays.asList("stimuli");
-    } else if ("stratums".equals(word)) {
-      return Arrays.asList("strata");
-    } else if ("tableaus".equals(word)) {
-      return Arrays.asList("tableaux");
-    } else if ("thats".equals(word)) {
-      return Arrays.asList("those");
-    } else if ("thesises".equals(word)) {
-      return Arrays.asList("theses");
-    } else if ("thiefs".equals(word)) {
-      return Arrays.asList("thieves");
-    } else if ("thises".equals(word)) {
-      return Arrays.asList("these");
-    } else if ("tomatos".equals(word)) {
-      return Arrays.asList("tomatoes");
-    } else if ("tooths".equals(word)) {
-      return Arrays.asList("teeth");
-    } else if ("torpedos".equals(word)) {
-      return Arrays.asList("torpedoes");
-    } else if ("vertebras".equals(word)) {
-      return Arrays.asList("vertebrae");
-    } else if ("vetos".equals(word)) {
-      return Arrays.asList("vetoes");
-    } else if ("vitas".equals(word)) {
-      return Arrays.asList("vitae");
-    } else if ("watchs".equals(word)) {
-      return Arrays.asList("watches");
-    } else if ("wifes".equals(word)) {
-      return Arrays.asList("wives");
-    } else if ("womans".equals(word)) {
-      return Arrays.asList("women");
-      // AtD irregular plurals - END
-    } else if ("tippy-top".equals(word) || "tippytop".equals(word)) {
-      // "tippy-top" is an often used word by Donald Trump
-      return Arrays.asList("tip-top", "top most");
-    } else if ("imma".equals(word)) {
-      return Arrays.asList("I'm going to", "I'm a");
-    } else if ("Imma".equals(word)) {
-      return Arrays.asList("I'm going to", "I'm a");
-    } else if ("dontcha".equals(word)) {
-      return Arrays.asList("don't you");
-    } else if ("Dontcha".equals(word)) {
-      return Arrays.asList("don't you");
-    } else if ("greatfruit".equals(word)) {
-      return Arrays.asList("grapefruit", "great fruit");
+  protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
+
+    if (word.length() < 20 && word.matches("[a-zA-Z-]+.?")) {
+      List<String> prefixes = Arrays.asList("inter", "pre");
+      for (String prefix : prefixes) {
+        if (word.startsWith(prefix)) {
+          String lastPart = word.substring(prefix.length());
+          if (!isMisspelled(lastPart)) {
+            // as these are only single words and both the first part and the last part are spelled correctly
+            // (but the combination is not), it's okay to log the words from a privacy perspective:
+            logger.info("UNKNOWN-EN: " + word);
+          }
+        }
+      }
+    }
+
+    List<String> curatedSuggestions = new ArrayList<>();
+    curatedSuggestions.addAll(topSuggestions.getOrDefault(word, Collections.emptyList()));
+    curatedSuggestions.addAll(topSuggestionsIgnoreCase.getOrDefault(word.toLowerCase(), Collections.emptyList()));
+    if (!curatedSuggestions.isEmpty()) {
+      return SuggestedReplacement.convert(curatedSuggestions);
     } else if (word.endsWith("ys")) {
       String suggestion = word.replaceFirst("ys$", "ies");
       if (!speller1.isMisspelled(suggestion)) {
-        return Arrays.asList(suggestion);
+        return SuggestedReplacement.convert(Arrays.asList(suggestion));
       }
     }
 
     return super.getAdditionalTopSuggestions(suggestions, word);
+  }
+
+  @Override
+  protected Translator getTranslator(GlobalConfig globalConfig) {
+    return translator;
   }
 
   private static class IrregularForms {

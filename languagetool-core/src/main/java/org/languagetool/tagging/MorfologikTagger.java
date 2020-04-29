@@ -19,16 +19,12 @@
 package org.languagetool.tagging;
 
 import morfologik.stemming.Dictionary;
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
+import morfologik.stemming.*;
 import org.languagetool.JLanguageTool;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Tags a word using a Morfologik binary dictionary.
@@ -40,8 +36,10 @@ public class MorfologikTagger implements WordTagger {
 
   private Dictionary dictionary;
 
+  private boolean internTags;
+
   public MorfologikTagger(String dictPath) {
-    dictUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(Objects.requireNonNull(dictPath));
+    this(JLanguageTool.getDataBroker().getFromResourceDirAsUrl(Objects.requireNonNull(dictPath)));
   }
 
   MorfologikTagger(URL dictUrl) {
@@ -53,8 +51,13 @@ public class MorfologikTagger implements WordTagger {
    * @since 3.4
    */
   public MorfologikTagger(Dictionary dictionary) {
+    this(dictionary, false);
+  }
+
+  public MorfologikTagger(Dictionary dictionary, boolean internTags) {
     this.dictUrl = null;
     this.dictionary = dictionary;
+    this.internTags = internTags;
   }
 
   private synchronized Dictionary getDictionary() throws IOException {
@@ -62,6 +65,14 @@ public class MorfologikTagger implements WordTagger {
       dictionary = Dictionary.read(dictUrl);
     }
     return dictionary;
+  }
+
+  public boolean getInternTags() {
+    return internTags;
+  }
+
+  public void setInternTags(boolean enabled) {
+    internTags = enabled;
   }
 
   @Override
@@ -78,7 +89,7 @@ public class MorfologikTagger implements WordTagger {
           tag = tag.substring(0, tag.length() - 1);
         }
         String stem = wordData.getStem() == null ? null : wordData.getStem().toString();
-        TaggedWord taggedWord = new TaggedWord(stem, tag);
+        TaggedWord taggedWord = new TaggedWord(stem, (internTags && tag != null) ? tag.intern() : tag);
         result.add(taggedWord);
       }
     } catch (IOException e) {

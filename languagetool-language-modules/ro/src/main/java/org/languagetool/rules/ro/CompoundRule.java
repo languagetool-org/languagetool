@@ -18,11 +18,11 @@
  */
 package org.languagetool.rules.ro;
 
-import java.io.IOException;
-import java.util.ResourceBundle;
-
 import org.languagetool.rules.AbstractCompoundRule;
 import org.languagetool.rules.CompoundRuleData;
+
+import java.io.IOException;
+import java.util.ResourceBundle;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -31,7 +31,7 @@ import org.languagetool.rules.CompoundRuleData;
  */
 public class CompoundRule extends AbstractCompoundRule {
 
-  private static final CompoundRuleData compoundData = new CompoundRuleData("/ro/compounds.txt");
+  private static volatile CompoundRuleData compoundData;
 
   public CompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
@@ -58,7 +58,17 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   protected CompoundRuleData getCompoundRuleData() {
-    return compoundData;
+    CompoundRuleData data = compoundData;
+    if (data == null) {
+      synchronized (CompoundRule.class) {
+        data = compoundData;
+        if (data == null) {
+          compoundData = data = new CompoundRuleData("/ro/compounds.txt");
+        }
+      }
+    }
+
+    return data;
   }
 
 }

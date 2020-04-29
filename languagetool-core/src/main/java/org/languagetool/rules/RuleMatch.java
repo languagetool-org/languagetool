@@ -20,9 +20,7 @@ package org.languagetool.rules;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.ApiCleanupNeeded;
-import org.languagetool.Experimental;
+import org.languagetool.*;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleMatcher;
 import org.languagetool.tools.StringTools;
@@ -45,6 +43,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   private final String message;
   private final String shortMessage;   // used e.g. for OOo/LO context menu
   private final AnalyzedSentence sentence;
+  private PatternPosition patternPosition;
   private OffsetPosition offsetPosition;
   private LinePosition linePosition = new LinePosition(-1, -1);
   private ColumnPosition columnPosition = new ColumnPosition(-1, -1);
@@ -73,7 +72,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * @since 4.0
    */
   public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, String message) {
-    this(rule, sentence, fromPos, toPos, message, null, false, null);
+    this(rule, sentence, fromPos, toPos, fromPos, toPos, message, null, false, null);
   }
   
   /**
@@ -86,15 +85,36 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * @since 4.0
    */
   public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, String message, String shortMessage) {
-    this(rule, sentence, fromPos, toPos, message, shortMessage, false, null);
+    this(rule, sentence, fromPos, toPos, fromPos, toPos, message, shortMessage, false, null);
   }
 
+  /**
+   * Creates a RuleMatch object, taking the rule that triggered
+   * this match, position of the match and an explanation message.
+   * This message is scanned for &lt;suggestion&gt;...&lt;/suggestion&gt;
+   * to get suggested fixes for the problem detected by this rule.
+   *
+   * @param shortMessage used for example in OpenOffice/LibreOffice's context menu
+   * @since 4.9
+   */
+  public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, int patternStartPos, int patternEndPos, String message, String shortMessage) {
+    this(rule, sentence, fromPos, toPos, patternStartPos, patternEndPos, message, shortMessage, false, null);
+  }
+
+  /**
+   * Create a rule match with any suggestions in the message overridden by the given suggestions
+   * @since 4.7
+   */
+  public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, String message, String shortMessage, List<String> suggestions) {
+    this(rule, sentence, fromPos, toPos, fromPos, toPos, message, shortMessage, false, null);
+    setSuggestedReplacements(suggestions);
+  }
   /**
    * @deprecated use a constructor that also takes an {@code AnalyzedSentence} parameter (deprecated since 4.0)
    */
   public RuleMatch(Rule rule, int fromPos, int toPos, String message, String shortMessage,
                    boolean startWithUppercase, String suggestionsOutMsg) {
-    this(rule, null, fromPos, toPos, message, shortMessage, startWithUppercase, suggestionsOutMsg);
+    this(rule, null, fromPos, toPos, fromPos, toPos, message, shortMessage, startWithUppercase, suggestionsOutMsg);
   }
   
   /**
@@ -110,12 +130,13 @@ public class RuleMatch implements Comparable<RuleMatch> {
    *    of the match starts with an uppercase character
    * @since 4.0
    */
-  public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, String message, String shortMessage,
-      boolean startWithUppercase, String suggestionsOutMsg) {
+  public RuleMatch(Rule rule, AnalyzedSentence sentence, int fromPos, int toPos, int patternFromPos, int patternToPos,
+                   String message, String shortMessage, boolean startWithUppercase, String suggestionsOutMsg) {
     this.rule = Objects.requireNonNull(rule);
     if (toPos <= fromPos) {
       throw new IllegalArgumentException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ")");
     }
+    this.patternPosition = new PatternPosition(patternFromPos, patternToPos);
     this.offsetPosition = new OffsetPosition(fromPos, toPos);
     this.message = Objects.requireNonNull(message);
     this.shortMessage = shortMessage;
@@ -141,6 +162,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   public RuleMatch(RuleMatch clone) {
     this(clone.getRule(), clone.getSentence(), clone.getFromPos(), clone.getToPos(), clone.getMessage(), clone.getShortMessage());
+    this.setPatternPosition(clone.getPatternFromPos(), clone.getPatternToPos());
     this.setSuggestedReplacementObjects(clone.getSuggestedReplacementObjects());
     this.setAutoCorrect(clone.isAutoCorrect());
     this.setFeatures(clone.getFeatures());
@@ -155,6 +177,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
   //clone with new replacements
   public RuleMatch(RuleMatch clone, List<String> replacements) {
     this(clone.getRule(), clone.getSentence(), clone.getFromPos(), clone.getToPos(), clone.getMessage(), clone.getShortMessage());
+    this.setPatternPosition(clone.getPatternFromPos(), clone.getPatternToPos());
     this.setSuggestedReplacements(replacements);
     this.setAutoCorrect(clone.isAutoCorrect());
     this.setFeatures(clone.getFeatures());
@@ -250,6 +273,23 @@ public class RuleMatch implements Comparable<RuleMatch> {
   }
 
   /**
+   * Position of the start of the pattern (in characters, zero-based, relative to the original input text).
+   */
+  public int getPatternFromPos() { return patternPosition.getStart(); }
+
+  /**
+   * Position of the end of the mistake pattern (in characters, zero-based, relative to the original input text).
+   */
+  public int getPatternToPos() { return patternPosition.getEnd(); }
+
+  public void setPatternPosition(int fromPos, int toPos) {
+    if (toPos <= fromPos) {
+      throw new RuntimeException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ")");
+    }
+    patternPosition = new PatternPosition(fromPos, toPos);
+  }
+
+  /**
    * Position of the start of the error (in characters, zero-based, relative to the original input text).
    */
   public int getFromPos() {
@@ -263,9 +303,9 @@ public class RuleMatch implements Comparable<RuleMatch> {
     return offsetPosition.getEnd();
   }
 
-  public void setOffsetPosition(int fromPos, int toPos, RuleMatch ruleMatch) {
+  public void setOffsetPosition(int fromPos, int toPos) {
     if (toPos <= fromPos) {
-      throw new RuntimeException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ") for match: " + ruleMatch);
+      throw new RuntimeException("fromPos (" + fromPos + ") must be less than toPos (" + toPos + ") for match: " + this);
     }
     offsetPosition = new OffsetPosition(fromPos, toPos);
   }
@@ -380,7 +420,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * @since 4.3
    */
-  @Experimental
   public Type getType() {
     return this.type;
   }
@@ -388,7 +427,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
   /**
    * @since 4.3
    */
-  @Experimental
   public void setType(Type type) {
     this.type = Objects.requireNonNull(type);
   }
@@ -419,6 +457,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     if (o == null || getClass() != o.getClass()) return false;
     RuleMatch other = (RuleMatch) o;
     return Objects.equals(rule.getId(), other.rule.getId())
+        && Objects.equals(patternPosition, other.patternPosition)
         && Objects.equals(offsetPosition, other.offsetPosition)
         && Objects.equals(message, other.message)
         && Objects.equals(suggestedReplacements, other.suggestedReplacements)
@@ -428,7 +467,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
 
   @Override
   public int hashCode() {
-    return Objects.hash(rule.getId(), offsetPosition, message, suggestedReplacements, sentence, type);
+    return Objects.hash(rule.getId(), offsetPosition, patternPosition, message, suggestedReplacements, sentence, type);
   }
 
   /**
@@ -438,7 +477,6 @@ public class RuleMatch implements Comparable<RuleMatch> {
    * without deprecating them first)
    * @since 4.3
    */
-  @Experimental
   public enum Type {
     /** Spelling errors, typically red. */
     UnknownWord,
@@ -446,6 +484,12 @@ public class RuleMatch implements Comparable<RuleMatch> {
     Hint,
     /** Other errors (including grammar), typically yellow/orange. */
     Other
+  }
+
+  static class PatternPosition extends MatchPosition {
+    PatternPosition(int start, int end) {
+      super(start, end);
+    }
   }
 
   static class OffsetPosition extends MatchPosition {

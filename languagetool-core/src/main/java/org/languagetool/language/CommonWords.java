@@ -18,10 +18,8 @@
  */
 package org.languagetool.language;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.*;
+import org.languagetool.broker.ResourceDataBroker;
 
 import java.io.*;
 import java.util.*;
@@ -40,7 +38,8 @@ public class CommonWords {
     synchronized (word2langs) {
       if (word2langs.isEmpty()) {
         for (Language lang : Languages.get()) {
-          if (lang.isVariant()) {
+          if (lang.isVariant() &&
+              !lang.getShortCode().equals("no")) {  // ugly hack to quick fix https://github.com/languagetooler-gmbh/languagetool-premium/issues/822 
             continue;
           }
           ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
@@ -98,7 +97,7 @@ public class CommonWords {
     }
     // Proper per-language tokenizing might help, but then the common_words.txt
     // will also need to be tokenized the same way. Also, this is quite fast.
-    String[] words = text.split("[(),.:;!?„“\"¡¿\\s-]");
+    String[] words = text.split("[(),.:;!?„“\"¡¿\\s\\[\\]{}-]");
     for (String word : words) {
       if (numberPattern.matcher(word).matches()) {
         continue;

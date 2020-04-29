@@ -38,7 +38,7 @@ public final class Category {
   private final CategoryId id;
   private final Location location;
   private final boolean defaultOff;
-  private final String tabname;
+  private final String tabName;
   
   /**
    * @since 3.3
@@ -58,12 +58,12 @@ public final class Category {
   }
 
   /** @since 4.3 */
-  public Category(CategoryId id, String name, Location location, boolean onByDefault, String tabname) {
+  public Category(CategoryId id, String name, Location location, boolean onByDefault, String tabName) {
     this.id = id;
     this.name = name;
     this.location = location;
     this.defaultOff = !onByDefault;
-    this.tabname = tabname;
+    this.tabName = tabName;
   }
 
   /** @since 3.3 */
@@ -84,7 +84,7 @@ public final class Category {
   /** @since 4.3 */
   @Nullable
   public String getTabName() {
-    return tabname;
+    return tabName;
   }
 
   /**

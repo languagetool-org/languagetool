@@ -682,6 +682,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Utilizzare la sigla corretta: <suggestion>S.p.A.</suggestion>.</message>
                 <example correction="S.p.A.">La Nomedifantasia <marker>spa</marker> offre nuovi servizi.</example>
             </rule>
+            <!-- does not work due to sentence splitting
             <rule>
                 <pattern case_sensitive="yes">
                     <token>S</token>
@@ -695,6 +696,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="S.p.A.">La Nomedifantasia <marker>S.P.A.</marker> offre nuovi servizi.</example>
                 <example>La Nomedifantasia <marker>S.p.A.</marker> offre nuovi servizi.</example>
             </rule>
+            -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token>S</token>
@@ -715,6 +717,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Utilizzare la sigla corretta: <suggestion>S.R.L.</suggestion>.</message>
                 <example correction="S.R.L.">La Nomedifantasia <marker>srl</marker> offre nuovi servizi.</example>
             </rule>
+            <!-- does not work due to sentence splitting
             <rule>
                 <pattern case_sensitive="yes">
                     <token>S</token>
@@ -728,6 +731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="S.R.L.">La Nomedifantasia <marker>S.R.l.</marker> offre nuovi servizi.</example>
                 <example>La Nomedifantasia <marker>S.R.L.</marker> offre nuovi servizi.</example>
             </rule>
+            -->
             <rule>
                 <pattern case_sensitive="yes">
                     <token>S</token>
@@ -741,6 +745,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="S.R.L.">La Nomedifantasia <marker>S.r.l.</marker> offre nuovi servizi.</example>
             </rule>
             <!-- S.N.C. -->
+            <!-- does not work due to sentence splitting
             <rule>
                 <pattern>
                     <token>snc</token>
@@ -749,6 +754,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="S.N.C.">La Nomedifantasia <marker>snc</marker> offre nuovi servizi.</example>
                 <example>La Nomedifantasia <marker>S.R.L.</marker> offre nuovi servizi.</example>
             </rule>
+            -->
+            <!--does not work due to sentence splitting
             <rule>
                 <pattern case_sensitive="yes">
                     <token>S</token>
@@ -774,6 +781,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Utilizzare la sigla corretta: <suggestion>S.N.C.</suggestion>.</message>
                 <example correction="S.N.C.">La Nomedifantasia <marker>S.n.c.</marker> offre nuovi servizi.</example>
             </rule>
+            -->
             <!-- S.A.S. -->
             <rule>
                 <pattern>
@@ -782,6 +790,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Utilizzare la sigla corretta: <suggestion>S.A.S.</suggestion>.</message>
                 <example correction="S.A.S.">La Nomedifantasia <marker>sas</marker> offre nuovi servizi.</example>
             </rule>
+            <!-- does not work due to sentence splitting
             <rule>
                 <pattern case_sensitive="yes">
                     <token>S</token>
@@ -807,6 +816,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Utilizzare la sigla corretta: <suggestion>S.A.S.</suggestion>.</message>
                 <example correction="S.A.S.">La Nomedifantasia <marker>S.a.s.</marker> offre nuovi servizi.</example>
             </rule>
+            -->
         </rulegroup>
     </category>
 
@@ -1476,6 +1486,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- STILE NUMERI - ST_04 -->
     <category id="CAT11" name="Stile - Numeri">
         <rulegroup name="in cifre se minori di 10" id="ST_04_001">
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes">[:\.]</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
             <rule>
                 <pattern>
 					<marker><token>0</token></marker>
@@ -1553,6 +1568,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message><suggestion>sette</suggestion></message>
                 <example correction="sette"><marker>7</marker> volte</example>
+                <example>7:30</example>
             </rule>
             <rule>
                 <pattern>
@@ -1575,7 +1591,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="nove"><marker>9</marker> volte</example>
             </rule>
         </rulegroup>
-        <rulegroup name="in cifre se minori di 100" id="ST_04_002">
+        <rulegroup name="in cifre se minori di 100" id="ST_04_002" default="off"><!-- too picky -->
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes">[:\.]</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
             <rule>
                 <pattern>
 <!-- 3610360 + -->
@@ -1586,6 +1607,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Cambiare con il corrispondente in cifre</message>
                 <example correction=""><marker>99</marker> volte</example>
                 <example><marker>novantanove</marker> volte</example>
+                <example>7:30</example>
             </rule>
         </rulegroup>
     </category>

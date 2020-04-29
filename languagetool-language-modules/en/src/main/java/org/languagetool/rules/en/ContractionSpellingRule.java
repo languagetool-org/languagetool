@@ -27,7 +27,7 @@ import org.languagetool.rules.*;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
- * correct ones instead.
+ * correct ones instead, e.g. {@code Hasnt} instead of {@code Hasn't}.
  *
  * @author Marcin Miłkowski
  * @since 2.5

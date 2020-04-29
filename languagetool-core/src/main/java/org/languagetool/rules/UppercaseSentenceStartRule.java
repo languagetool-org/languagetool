@@ -45,6 +45,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           "iPhone",
           "iPhones",
           "iOS",
+          "iMovie",
           "iLife",
           "iWork",
           "iMac",
@@ -61,6 +62,7 @@ public class UppercaseSentenceStartRule extends TextLevelRule {
           "iTunes",
           "macOS",
           "mRNA",
+          "iHeartRadio",
           "iFood"
   ));
 

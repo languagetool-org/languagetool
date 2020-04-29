@@ -18,30 +18,40 @@
  */
 package org.languagetool;
 
+import org.languagetool.language.Demo;
 import org.languagetool.rules.*;
+import org.languagetool.rules.ngrams.FakeLanguageModel;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRuleLoader;
+import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
+import static junit.framework.Assert.fail;
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 
 public class LanguageSpecificTest {
 
   protected void runTests(Language lang) throws IOException {
-    runTests(lang, null);
+    runTests(lang, null, "");
   }
 
   protected void runTests(Language lang, String onlyRunCode) throws IOException {
-    new WordListValidatorTest().testWordListValidity(lang);
+    runTests(lang, onlyRunCode, "");
+  }
+
+  protected void runTests(Language lang, String onlyRunCode, String additionalValidationChars) throws IOException {
+    new WordListValidatorTest(additionalValidationChars).testWordListValidity(lang);
     testNoQuotesAroundSuggestion(lang);
     testJavaRules(onlyRunCode);
     //testExampleAvailable(onlyRunCode);
+    testConfusionSetLoading();
     countTempOffRules(lang);
+    testCoherencyBaseformIsOtherForm(lang);
     try {
       new DisambiguationRuleTest().testDisambiguationRulesFromXML();
     } catch (Exception e) {
@@ -49,6 +59,40 @@ public class LanguageSpecificTest {
     }
   }
 
+  protected void testCoherencyBaseformIsOtherForm(Language lang) throws IOException {
+    if (lang.getShortCode().equals("km")) {
+      // "coherency.txt" is for a different rule for Khmer
+      return;
+    }
+    JLanguageTool lt = new JLanguageTool(lang);
+    TestTools.disableAllRulesExcept(lt, "EN_WORD_COHERENCY");
+    WordCoherencyDataLoader loader = new WordCoherencyDataLoader();
+    String path = "/" + lang.getShortCode() + "/coherency.txt";
+    if (!JLanguageTool.getDataBroker().ruleFileExists(path)) {
+      System.out.println("File not found (okay for many languages): "+ path);
+      return;
+    }
+    System.out.println("Checking " + path + "...");
+    Map<String, Set<String>> map = loader.loadWords(path);
+    Set<String> invalid = new HashSet<>();
+    Synthesizer synthesizer = lang.getSynthesizer();
+    for (String key : map.keySet()) {
+      if (synthesizer != null) {
+        String[] forms = synthesizer.synthesize(new AnalyzedToken(key, "fake", key), ".*", true);
+        for (String form : forms) {
+          List<RuleMatch> matches = lt.check(form);
+          if (matches.size() > 0) {
+            invalid.add(form + " (a form of " + key + ")");
+          }
+        }
+      }
+    }
+    if (invalid.size() > 0) {
+      fail(lang + ": These words trigger the rule because their base form is one of the forms in coherency.txt, " +
+        "giving false alarms:\n  " + String.join("\n  ", invalid));
+    }
+  }
+  
   private final static Map<String, Integer> idToExpectedMatches = new HashMap<>();
   static {
     idToExpectedMatches.put("STYLE_REPEATED_WORD_RULE_DE", 2);
@@ -70,6 +114,23 @@ public class LanguageSpecificTest {
           assertTrue(rule.supportsLanguage(language));
           testExamples(rule, lt);
         }
+      }
+    }
+  }
+
+  private void testConfusionSetLoading() {
+    for (Language language : Languages.get()) {
+      try {
+        List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), new FakeLanguageModel(), null);
+        if (rules.size() > 0) {
+          String path = "/" + language.getShortCode() + "/confusion_sets.txt";
+          try (InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path)) {
+            ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(new Demo());
+            confusionSetLoader.loadConfusionPairs(confusionSetStream);  // would throw Exception if there's a problem
+          }
+        }
+      } catch (Exception e) {
+        throw new RuntimeException("Could not load confusion pairs for " + language.getName(), e);
       }
     }
   }

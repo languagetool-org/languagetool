@@ -18,11 +18,7 @@
  */
 package org.languagetool.language;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.language.rules.ast.MorfologikAsturianSpellerRule;
@@ -32,14 +28,14 @@ import org.languagetool.tagging.ast.AsturianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
+import java.io.IOException;
+import java.util.*;
+
 /**
  * @deprecated this language is unmaintained in LT and might be removed in a future release if we cannot find contributors for it (deprecated since 3.6)
  */
 @Deprecated
 public class Asturian extends Language {
-
-  private Tagger tagger;
-  private SentenceTokenizer sentenceTokenizer;
 
   @Override
   public String getName() {
@@ -74,19 +70,14 @@ public class Asturian extends Language {
   }
 
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
 
+  @NotNull
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new AsturianTagger();
-    }
-    return tagger;
+  public Tagger createDefaultTagger() {
+    return new AsturianTagger();
   }
 
 }

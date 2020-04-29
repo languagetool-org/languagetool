@@ -22,10 +22,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpServer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -145,6 +142,12 @@ abstract class Server {
     System.out.println("                 'warmUp' - set to 'true' to warm up server at start, i.e. run a short check with all languages (optional)");
     System.out.println("                 'blockedReferrers' - a comma-separated list of HTTP referrers (and 'Origin' headers) that are blocked and will not be served (optional)");
     System.out.println("                 'disabledRuleIds' - a comma-separated list of rule ids that are turned off for this server (optional)");
+    System.out.println("                 Spellcheck-only languages: You can add simple spellcheck-only support for languages that LT doesn't");
+    System.out.println("                 support by defining two optional properties:");
+    System.out.println("                   'lang-xx' - set name of the language, use language code instead of 'xx', e.g. lang-tr=Turkish");
+    System.out.println("                   'lang-xx-dictPath' - absolute path to the hunspell .dic file, use language code instead of 'xx', e.g.");
+    System.out.println("                                        lang-tr-dictPath=/path/to/tr.dic. Note that the same directory also needs to");
+    System.out.println("                                        contain a common_words.txt file with the most common 10,000 words (used for better language detection)");
   }
 
   protected static void printCommonOptions() {

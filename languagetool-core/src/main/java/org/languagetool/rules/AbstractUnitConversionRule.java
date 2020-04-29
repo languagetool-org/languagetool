@@ -204,9 +204,10 @@ public abstract class AbstractUnitConversionRule extends Rule {
 
     addUnit("mi", MILE, "mi", 1, false);
     addUnit("yd", YARD, "yd", 1, false);
-    addUnit("(?:ft|′|')", FEET, "ft", 1, false);
+    // negative lookahead here to avoid matching "'s" and so on
+    addUnit("(?:ft|′|')(?!(\\w|\\d))", FEET, "ft", 1, false);
     // removed 'in', " because of many false positives
-    addUnit("(?:inch|″)", INCH, "inch", 1, false);
+    addUnit("(?:inch|″)(?!(\\w|\\d))", INCH, "inch", 1, false);
 
     addUnit("(?:km/h|kmh)", KILOMETRE_PER_HOUR, "km/h", 1, true);
     addUnit("(?:mph)", MILE.divide(HOUR), "mph", 1, false);
@@ -457,7 +458,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
       matches.add(match);
     } else { // check given conversion for accuracy
       Map.Entry<Integer, Integer> convertedRange = new AbstractMap.SimpleImmutableEntry<>(
-        convertedMatcher.start(1) + convertedOffset, convertedMatcher.end(2) + convertedOffset);
+        convertedMatcher.start(0) + convertedOffset, convertedMatcher.end(0) + convertedOffset);
       ignoreRanges.add(convertedRange);
 
       // already using one of our conversions?
@@ -513,11 +514,14 @@ public abstract class AbstractUnitConversionRule extends Rule {
           Map.Entry<Unit, Double> metricEquivalent = metricEquivalents.get(0);
           Unit metricUnit = metricEquivalent.getKey();
           Double convertedValueComputed = metricEquivalent.getValue();
+          String original = unitMatcher.group(0);
+          List<String> corrected = converted.stream()
+            .map(suggestion -> getSuggestion(original, suggestion)).collect(Collectors.toList());
           if (!(convertedUnit.equals(metricUnit) && Math.abs(convertedValueInText - convertedValueComputed) < DELTA)) {
             RuleMatch match = new RuleMatch(this, sentence,
-              convertedMatcher.start(1) + convertedOffset, convertedMatcher.end(2) + convertedOffset,
+              unitMatcher.start(), convertedMatcher.end(0) + convertedOffset,
               getMessage(Message.CHECK), getShortMessage(Message.CHECK));
-            match.setSuggestedReplacements(converted);
+            match.setSuggestedReplacements(corrected);
             match.setUrl(buildURLForExplanation(unitMatcher.group(0)));
             matches.add(match);
           }

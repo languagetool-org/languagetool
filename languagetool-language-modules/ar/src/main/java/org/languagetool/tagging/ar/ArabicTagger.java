@@ -23,12 +23,9 @@ import morfologik.stemming.IStemmer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.language.Arabic;
 import org.languagetool.tagging.BaseTagger;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 /**
  * @since 4.9
@@ -37,11 +34,6 @@ public class ArabicTagger extends BaseTagger {
 
   public ArabicTagger() {
     super("/ar/arabic.dict", new Locale("ar"));
-  }
-
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/ar/added.txt";
   }
 
   /* Add the flag to an encoded tag */
@@ -64,7 +56,7 @@ public class ArabicTagger extends BaseTagger {
     int pos = 0;
     for (String word : sentenceTokens) {
       List<AnalyzedToken> l = new ArrayList<>();
-      String striped = word.replaceAll("[" + Arabic.TASHKEEL_CHARS + "]", "");
+      String striped = word.replaceAll("[\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0653\u0654\u0655\u0656\u0640]", "");
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(striped));
       addTokens(taggerTokens, l);
       // additional tagging with prefixes

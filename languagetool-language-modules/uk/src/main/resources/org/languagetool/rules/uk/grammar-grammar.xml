@@ -56,11 +56,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <exception negate_pos="yes" postag_regexp="yes" postag="prep.*" />
         </token>
         <token postag_regexp="yes" postag="verb.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END" />
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END|PARA_END" />
         </token>
       </pattern>
       <message>Прийменник \1 перед дієсловом <suggestion>\2</suggestion></message>
       <example correction="їхати">Їм треба <marker>в їхати</marker>.</example>
+      <example correction="їхати">Їм треба <marker>в їхати</marker></example>
       <example correction="будь"><marker>для будь</marker> кого</example>
       <example correction="дер">програмою <marker>з дер</marker> жавного управління</example>
       <!-- ловимо іншим правилом
@@ -101,7 +102,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <token postag_regexp="yes" postag="verb.*">
               <exception postag_regexp="yes" postag="verb.*:inf.*"/>
               <exception regexp="yes">було|буде</exception>
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END|PARA_END"/>
             </token>
           </marker>
         </pattern>
@@ -156,7 +157,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token postag_regexp="yes" postag="verb.*">
               <exception postag_regexp="yes" postag="verb.*:inf.*"/>
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END|PARA_END"/>
               <!--
               <exception inflected="yes">бути</exception>
               -->
@@ -197,7 +198,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token postag_regexp="yes" postag="verb.*">
               <exception postag_regexp="yes" postag="verb.*:(inf|past:n|futr:s:3).*"/>
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END|PARA_END"/>
               <exception inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*">бути</exception>
             </token>
           </marker>
@@ -221,7 +222,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <marker>
             <token postag_regexp="yes" postag="verb.*">
               <exception postag_regexp="yes" postag="verb.*:inf.*"/>
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*|SENT_END|PARA_END"/>
               <exception inflected="yes" postag_regexp="yes" postag="verb:imperf:(past|futr).*">бути</exception>
             </token>
           </marker>
@@ -1081,6 +1082,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="о">аж <marker>у</marker> 10-й годині ночі</example>
         <example correction="о">аж <marker>у</marker> 10-й ранку</example>
         <example>аж о 5-ій годині ночі</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[ву]
+              <exception scope="previous" inflected="yes" regexp="yes">влитися|втиснути|інтервал</exception>
+            </token>
+            <token regexp="yes">дві|три|чотири|п'ять|шість|сім|вісім|дев'ять|десять|одинадцять|дванадцять</token>
+            <token regexp="yes">години?</token>
+          </marker>
+          <token regexp="yes">годині|ранку|вечора|ночі</token>
+        </pattern>
+        <message>Правильно: <suggestion>о ... годині</suggestion></message>
+        <example correction="о ... годині">аж <marker>у вісім годин</marker> ночі</example>
+        <example>процедура вилилася в шість годин</example>
+        <example>матимемо різницю з Європою аж у дві години</example>
+        <example>хронометраж стрічки в чотири години</example>
+        <example>не можна у дві години фільму втиснути</example>
       </rule>
 
       <rule>
@@ -1982,7 +2002,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
           <token postag_regexp="yes" postag="part.*" min="0"/>
           <token postag_regexp="yes" postag="verb.*:impr.*">
-            <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*|SENT_END"/>
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*|SENT_END|PARA_END"/>
           </token>
         </pattern>
         <message>Можливо, пропущена кома після кличного?</message>
@@ -2035,7 +2055,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
             <token>,</token>
             <token postag_regexp="yes" postag="verb.*:impr(:s:2|:p:1).*">
-              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*|SENT_END"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="verb.*impr.*|SENT_END|PARA_END"/>
               <exception postag_regexp="yes" postag="verb.*insert.*"/>
               <!--TODO: якщо знай, бач.., не виділені комою, вони не отримують тегу insert після зняття омонімії -->
               <exception case_sensitive="yes" regexp="yes">.*\.|[А-ЯІЇЄҐ].*|знай|бач|бачте|скажімо|дякуй|дякуйте</exception>
@@ -2077,7 +2097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>воно</token>
           <token postag_regexp="yes" postag="verb:.*:impers.*">
-            <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:impers.*|SENT_END"/>
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:impers.*|SENT_END|PARA_END"/>
           </token>
         </pattern>
         <message>Неправильна конструкція</message>
@@ -2094,7 +2114,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token>решта</token>
           <token postag_regexp="yes" postag="verb:.*:impers.*">
-            <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:impers.*|SENT_END"/>
+            <exception negate_pos="yes" postag_regexp="yes" postag="verb:.*:impers.*|SENT_END|PARA_END"/>
           </token>
         </pattern>
         <message>Неправильна конструкція</message>
@@ -2385,6 +2405,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="">Конференція відбудеться в <marker>понеділок, 7 жов 2014</marker> р.</example>
         <example>Конференція відбудеться у вівторок, 7 жовтня 2014 р.</example>
         <example>Конференція відбудеться у вівторок, 7 жов 2014 р.</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="nemaye_v_rod" name="Немає з р.в.">
+      <rule>
+        <pattern>
+          <token regexp="yes">немає?</token>
+          <token postag_regexp="yes" postag="adj:m:v_rod.*" min="0"/>
+          <marker>
+            <token postag_regexp="yes" postag="noun:inanim:m:v_dav.*" regexp="yes">.+[ую]
+              <exception postag_regexp="yes" postag="noun:.*?(v_rod|pron|numr|prop).*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="noun.*"/>
+            </token>
+          </marker>
+        </pattern>
+        <message>Слово, пов'язане з «немає», має стояти в родовому відмінку</message>
+        <suggestion><match no="3" postag_regexp="yes" postag="(noun:inanim:m:)v_...(.*)" postag_replace="$1v_rod$2.*"/></suggestion>
+        <example correction="гаража">Там немає <marker>гаражу</marker>.</example>
+        <example correction="графіка">Там немає жодного <marker>графіку</marker>.</example>
+        <example>немає чим відвернути увагу</example>
+        <example>значить білка немає та імунна система</example>
+        <example>його немає другу добу</example>
+        <example>немає перед ким</example>
+        <example>немає Сергію виходу</example>
+      </rule>
+
+      <rule>
+        <antipattern>
+          <token regexp="yes">немає?</token>
+          <token postag_regexp="yes" postag="(noun:inanim|adj):.:v_rod.*"/>
+        </antipattern>
+        <pattern>
+          <marker>
+            <token postag_regexp="yes" postag="noun:inanim:m:v_dav.*" regexp="yes">.+[ую]
+              <exception postag_regexp="yes" postag="noun:.*?(v_rod|pron|numr|prop).*"/>
+              <exception negate_pos="yes" postag_regexp="yes" postag="noun.*"/>
+              <exception scope="previous" postag_regexp="yes" postag="prep.*"/>
+            </token>
+          </marker>
+          <token regexp="yes">немає?
+            <!-- exception via next/postag_regexp does not work :( - need antipattern
+            <exception scope="next" postag_regexp="yes" postag="noun:inanim:.:v_rod.*"/>
+             -->
+          </token>
+        </pattern>
+        <message>Слово, пов'язане з «немає», має стояти в родовому відмінку</message>
+        <suggestion><match no="1" postag_regexp="yes" postag="(noun:inanim:m:)v_...(.*)" postag_replace="$1v_rod$2.*"/></suggestion>
+        <example correction="предмета">Такого <marker>предмету</marker> немає.</example>
+        <example>рейсів на кубу немає</example>
+        <example>комітету немає резону сподіватися</example>
+        <example>що комітету немає кому довірити</example>
+        <example>У найповнішому медичному довіднику немає такої хвороби</example> 
+        <!-- TODO:
+        <example>загрози паводку немає</example>
+         -->
       </rule>
     </rulegroup>
   </category>

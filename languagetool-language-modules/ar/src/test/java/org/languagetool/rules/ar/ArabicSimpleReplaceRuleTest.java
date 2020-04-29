@@ -24,38 +24,37 @@ import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
-import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.language.Arabic;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-
 import static org.junit.Assert.assertEquals;
 
 public class ArabicSimpleReplaceRuleTest {
 
   private ArabicSimpleReplaceRule rule;
-  private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
+  private JLanguageTool langTool;
 
   @Before
   public void setUp() throws Exception {
     Language arabic = new Arabic();
-    rule = new ArabicSimpleReplaceRule(TestTools.getMessages("ar"));
+    rule = new ArabicSimpleReplaceRule(TestTools.getMessages("ar"), arabic);
+    langTool = new JLanguageTool(arabic);
   }
 
   @Test
   public void testRule() throws IOException {
 
     // correct sentences:
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("إن شاء")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("إن شاء")).length);
 
     // incorrect sentences:
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("إنشاء"));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("إنشاء"));
     assertEquals(1, matches.length);
     assertEquals("إن شاء", matches[0].getSuggestedReplacements().get(0));
 
-    assertEquals(1, rule.match(lt.getAnalyzedSentence("يدردشون")).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("يدردشون")).length);
 
 
   }

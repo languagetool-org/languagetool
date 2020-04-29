@@ -20,14 +20,17 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.rules.BERTSuggestionRanking;
+import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 import org.languagetool.rules.en.UnitConversionRuleUS;
-import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.spelling.SymSpellRule;
+import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -54,14 +57,13 @@ public class AmericanEnglish extends English {
   }
 
   @Override
-  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, userConfig, motherTongue, altLanguages));
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, globalConfig, userConfig, motherTongue, altLanguages));
     if (SuggestionsChanges.isRunningExperiment("SymSpell") || SuggestionsChanges.isRunningExperiment("SymSpell+NewSuggestionsOrderer")) {
       rules.add(new SymSpellRule(messages, this, userConfig, altLanguages, languageModel));
     } else {
-      rules.add(new MorfologikAmericanSpellerRule(messages, this, userConfig, altLanguages, languageModel));
+      rules.add(new MorfologikAmericanSpellerRule(messages, this, globalConfig, userConfig, altLanguages, languageModel, motherTongue));
     }
     return rules;
   }
-
 }

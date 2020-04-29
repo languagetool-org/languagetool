@@ -34,22 +34,36 @@ import java.sql.ResultSet;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
-@Ignore("Requires local MySQL/MariaDB")
+@Ignore("Slightly unstable because of multithreading/sleeps")
 public class DatabaseLoggerTest {
 
   @Test
   public void testHTTPServer() throws Exception {
     HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
-    config.setDatabaseDriver("org.mariadb.jdbc.Driver");
-    config.setDatabaseUrl("jdbc:mysql://localhost:3306/lt_test");
-    config.setDatabaseUsername("lt");
-    config.setDatabasePassword("languagetool");
+    //config.setDatabaseDriver("org.mariadb.jdbc.Driver");
+    //config.setDatabaseUrl("jdbc:mysql://localhost:3306/lt_test");
+    //config.setDatabaseUsername("lt");
+    //config.setDatabasePassword("languagetool");
+    config.setDatabaseDriver("org.hsqldb.jdbcDriver");
+    config.setDatabaseUrl("jdbc:hsqldb:mem:testdb");
+    config.setDatabaseUsername("");
+    config.setDatabasePassword("");
+    config.setSecretTokenKey("myfoo");
+    config.setCacheSize(100);
+    config.setDatabaseLogging(true);
+    // smaller numbers so that tests run faster
+    DatabaseLogger.SQL_BATCH_SIZE = 10;
+    DatabaseLogger.SQL_BATCH_WAITING_TIME = 1500; // milliseconds to wait until batch gets committed anyway
+    // rule matches only work with mysql because of use of LAST_INSERT_ID()
+    config.skipLoggingRuleMatches = true;
     DatabaseAccess.init(config);
     DatabaseAccess db = DatabaseAccess.getInstance();
     DatabaseLogger logger = DatabaseLogger.getInstance();
     try {
-      logger.createTestTables(true);
-      DatabaseAccess.createAndFillTestTables(true);
+      //logger.createTestTables(true);
+      //DatabaseAccess.createAndFillTestTables(true);
+      logger.createTestTables();
+      DatabaseAccess.createAndFillTestTables();
 
       HTTPServer server = new HTTPServer(config);
       Language en = Languages.getLanguageForShortCode("en-US");
@@ -124,6 +138,8 @@ public class DatabaseLoggerTest {
           assertEquals(Long.valueOf(results.getLong(5)), serverId);
         }
 
+        // rule matches only work with mysql because of use of LAST_INSERT_ID()
+/*
         SQL ruleMatchQuery1 = new SQL(){{
           SELECT("match_id", "check_id", "rule_id", "match_count");
           FROM("rule_matches");
@@ -159,6 +175,7 @@ public class DatabaseLoggerTest {
           assertEquals(results.getString(3), "MORFOLOGIK_RULE_EN_US");
           assertEquals(results.getInt(4), 1);
         }
+*/
 
         int check_count;
         // test committing after batch size is reached

@@ -25,6 +25,7 @@ import java.io.IOException;
 import org.junit.Test;
 import org.languagetool.AnalyzedTokenReadings;
 
+@SuppressWarnings("ConstantConditions")
 public class SwissGermanTaggerTest {
 
 	@Test
