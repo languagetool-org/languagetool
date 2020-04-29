@@ -5503,7 +5503,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes">[A-Z].+</token>
             </marker>
         </pattern>
-        <disambig postag="NNP"/>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
     <rule id="NNP_CIUDAD_DEL" name="NNP for Spanish geo names containing 'del'">
@@ -5514,7 +5514,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes">[A-Z].+</token>
             </marker>
         </pattern>
-        <disambig postag="NNP"/>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
     <rule id="NNP_DE_LA" name="NNP for Hispanic city names containing 'de la'">
@@ -5526,7 +5526,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="NNP|UNKNOWN" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].+</token>
             </marker>
         </pattern>
-        <disambig postag="NNP"/>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
     <rule id="NNP_OCCUPY_MOVEMENT" name="NNP for 'Occupy movement'">
@@ -5534,15 +5534,39 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>occupy</token>
             <token>movement</token>
         </pattern>
-        <disambig postag="NNP"/>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
     <rule id="NNP_S_AND_P_500" name="NNP for 'S&amp;P 500'">
         <pattern>
-            <token>S&amp;P</token>
+            <token regexp="yes">S&amp;P|Fortune</token>
             <token>500</token>
         </pattern>
-        <disambig postag="NNP"/>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
+    <rule id="BLINK_182" name="NNP for 'Blink 182'">
+        <pattern>
+            <token>Blink</token>
+            <token>182</token>
+        </pattern>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
+    <rule id="FORMULA_ONE" name="NNP for 'Formula One'">
+        <pattern>
+            <token>Formula</token>
+            <token regexp="yes">One|1</token>
+        </pattern>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
+    <rule id="DISNEY_PLUS" name="NNP for 'Disney+'">
+        <pattern>
+            <token>Disney</token>
+            <token regexp="yes">Plus|\+</token>
+        </pattern>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
     <rule id="NNP_LEARN_D_ASTRONOMER" name="NNP for 'Learn’d Astronomer'">
@@ -5552,7 +5576,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>d</token>
             <token>Astronomer</token>
         </pattern>
-        <disambig postag="NNP"/>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
     <rule id="NNP_HAGIA_SOPHIA" name="NNP for 'Hagia Sophia'">
@@ -5560,7 +5584,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>Hagia</token>
             <token>Sophia</token>
         </pattern>
-        <disambig postag="NNP"/>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
     <rule id="NNP_SOX" name="NNP for 'White/Red Sox'">
@@ -5569,7 +5593,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">White|Red</token>
             <token>Sox</token>
         </pattern>
-        <disambig postag="NNP"/>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
     <rule id="CAME_FROM" name="came -> vbd">
@@ -6061,6 +6085,21 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token skip="-1" postag="VB"/>
             <token>?</token>
           </antipattern>
+          <antipattern><!-- We have cards the other wants NN-->
+            <token inflected="yes">have</token>
+            <token postag="NNS" />
+            <token>the</token>
+            <token postag="NN.*" postag_regexp="yes" />
+            <token postag="VB.*" postag_regexp="yes" />
+          </antipattern>
+          <antipattern><!-- We have cards the other wants NN-->
+            <token inflected="yes">have</token>
+            <token postag="JJR?" postag_regexp="yes" />
+            <token postag="NNS" />
+            <token>the</token>
+            <token postag="NN.*" postag_regexp="yes" />
+            <token postag="VB.*" postag_regexp="yes" />
+          </antipattern>
           <pattern>
             <marker>
             <and>
@@ -6084,6 +6123,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <example type="untouched">... and rising <marker>costs</marker> caused problems for many people.</example>
           <example type="untouched">... and the increasing <marker>costs</marker> each month are likely to cause more problems.</example>
           <example type="untouched">... and do <marker>dreams</marker> last forever?</example>
+          <example type="untouched">We have <marker>cards</marker> the other wants</example>
+          <example type="untouched">Just do what you need to do with your vehicle and if you have <marker>questions</marker> the dealer is the best place to start.</example>
+          <example type="untouched">Let me know if you have nice <marker>flavors</marker> the script is smart enough to detect.</example>
           <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> an event.</example>
         </rule>
 
@@ -6912,10 +6954,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                         </token>
                     <token postag="NN.*" postag_regexp="yes">
                         <exception regexp="yes">(?iu)\p{Lu}\p{Ll}+</exception>
-                        </token>
+                    </token>
                 </and>
             </marker>
-            <token postag="NN.*" postag_regexp="yes"><exception postag="RB"/></token>
+            <token postag="NN.*" postag_regexp="yes">
+                <exception postag="RB"/>
+            </token>
             <token><exception postag="NN.*" postag_regexp="yes"/><exception>for</exception></token>
         </pattern>
         <disambig action="filter" postag="JJ.?"/>
@@ -6931,6 +6975,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Noun: Also, this <marker>group</marker> sees them on many occasions.</example><!-- #2405 -->
         <example type="untouched">Noun: Before the <marker>game</marker> starts she is unable to read all instructions.</example><!-- #2427 -->
         <example type="untouched">Noun: The <marker>work</marker> makes it possible.</example><!-- #2427 -->
+        <!-- TODO: many rules break because of this <example type="untouched">Noun: We have cards the other wants.</example> -->
     </rule>
 
         <rule id="BENEATH_NOTICE" name="beneath notice">
