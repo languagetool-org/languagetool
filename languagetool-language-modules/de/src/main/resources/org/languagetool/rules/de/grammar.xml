@@ -32476,6 +32476,11 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rule id="DAS_FARBE_GENITIV" name="das + 'Farbe' + Genitiv ('das Weiß ihres Kleides')">
+            <antipattern>
+                <token>weiß</token>
+                <token postag="(ART:DEF|PRO:POS):GEN:[^ ]*" postag_regexp="yes"/>
+                <token postag="ADJ:.+|SUB:.+" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
                 <token>das</token>
                 <marker><token case_sensitive="yes" regexp="yes">&farbadj;</token></marker>
@@ -32487,6 +32492,8 @@ Andere Projekte</example>
             <example correction="Rot">Das <marker>rot</marker> ihrer Haare werde ich nie vergessen.</example>
             <example correction="Blau">Ich werde nie das <marker>blau</marker> des Meeres vergessen.</example>
             <example>Das <marker>lila</marker> Kleid gefällt.</example>
+            <example>Das weiß der stolze Citoyen mehr als der bequeme Bourgeois.</example>
+            <example>Das weiß er ganz genau.</example>
         </rule>
         <rulegroup id="FARBE_IN_WENDUNG" name="Karpfen Blau (blau)">
             <rule>
