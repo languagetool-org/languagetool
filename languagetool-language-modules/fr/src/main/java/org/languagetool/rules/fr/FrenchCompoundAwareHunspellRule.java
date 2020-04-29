@@ -106,6 +106,9 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
       case "depeche-toi": s = "dépêche-toi"; break;
       case "preferes-tu": s = "préfères-tu"; break;
       case "Preferes-tu": s = "Préfères-tu"; break;
+      case "la-bas": s = "là-bas"; break;
+      case "la-dedans": s = "là-dedans"; break;
+      case "la-dessus": s = "là-dessus"; break;
       /* a more generic solution could be like this, but which of the suggestions for the first part can be re-prepended?
       Pattern p = Pattern.compile("([a-zA-Z]+)-(tu|vous|ce|il|toi)");
       Matcher matcher = p.matcher(word);
