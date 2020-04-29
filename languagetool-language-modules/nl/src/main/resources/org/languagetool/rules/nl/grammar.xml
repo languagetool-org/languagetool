@@ -18561,6 +18561,18 @@ steenwijk;Steenwijk
 				<example correction="dat">In het midden hangt het printje <marker>die</marker> tussen de booster en de ringleiding is geplaatst.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="HET_ZNW_DE" name="het man">
+			<rule>
+				<pattern>
+					<marker>
+						<token>het</token>
+					</marker>
+					<token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag="ZNW:EKV|ZNW.*DE|WKW.*|VRZ"/><exception>mijn</exception></token>
+				</pattern>
+				<message>\2 is een 'het'-woord: <suggestion>de</suggestion> moet staan.</message>
+				<example correction="de">Ik zie <marker>het</marker> hond.</example>
+			</rule>
+		</rulegroup>
 		<!-- te veel false postives
 		<rulegroup id="MIJN_FAVORIET_PRODUCT" name="mijn favoriet product">
 			<rule>
