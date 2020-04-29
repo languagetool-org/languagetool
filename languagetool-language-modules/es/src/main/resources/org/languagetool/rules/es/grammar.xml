@@ -1842,11 +1842,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>tele</token>
                     <token min="0">-</token>
-                    <token regexp="yes">trabajos?</token>
+                    <token regexp="yes" inflected="yes">trabajo|trabajar|presencial</token>
                 </pattern>
                 <message>Se escribe junto</message>
                 <suggestion>\1\3</suggestion>
                 <example correction="teletrabajo">El <marker>tele trabajo</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>tele</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes">radar|radiografía|radioscopia|realidad|reunión|ruta</token>
+                </pattern>
+                <message>Se escribe junto</message>
+                <suggestion>\1r\3</suggestion>
+                <example correction="telerrealidad">La <marker>tele realidad</marker></example>
             </rule>
             <rule>
                 <pattern>
@@ -1965,7 +1975,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>video</token>
                     <token min="0">-</token>
-                    <token regexp="yes" inflected="yes">llamada|conferencia</token>
+                    <token regexp="yes" inflected="yes">llamada|conferencia|tutorial</token>
                 </pattern>
                 <message>Se escribe junto.</message>
                 <suggestion>video\3</suggestion>
