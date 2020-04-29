@@ -8468,6 +8468,60 @@ though, and has since been slightly modified)-->
           <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
       </rule>
       <!-- End of additions -->
+      <rulegroup id="ETRE_D_N_V_inf" name="V être suivi de déterminant, nom et verbe à l'infinitif" default="temp_off">
+          <rule name="féminin singulier">
+              <pattern>
+                  <token postag_regexp="yes" postag="V etre.*"/>
+                  <token postag_regexp="yes" postag="D.*"/>
+                  <token postag="N f s"/>
+                  <marker>
+                      <token postag_regexp="yes" postag="V inf.*"/>
+                  </marker>
+              </pattern>
+              <message>Dans ce cas, le verbe devrait être au participe passé.</message>
+              <suggestion><match no="4" postag_regexp="yes" postag="(V) (inf).*" postag_replace="V ppa f s"/></suggestion>
+              <example correction="développée">L'écoute active est une manière <marker>développer</marker> à partir des travaux du psychologue américain Carl Rogers..</example>
+          </rule>
+          <rule name="féminin pluriel">
+              <pattern>
+                  <token postag_regexp="yes" postag="V etre.*"/>
+                  <token postag_regexp="yes" postag="D.*"/>
+                  <token postag="N f p"/>
+                  <marker>
+                      <token postag_regexp="yes" postag="V inf.*"/>
+                  </marker>
+              </pattern>
+              <message>Dans ce cas, le verbe devrait être au participe passé.</message>
+              <suggestion><match no="4" postag_regexp="yes" postag="(V) (inf).*" postag_replace="V ppa f p"/></suggestion>
+              <example correction="développées">Les écoutes actives sont des manières <marker>développer</marker> à partir des travaux du psychologue américain Carl Rogers..</example>
+          </rule>
+          <rule name="masculin singulier">
+              <pattern>
+                  <token postag_regexp="yes" postag="V etre.*"/>
+                  <token postag_regexp="yes" postag="D.*"/>
+                  <token postag="N m s"/>
+                  <marker>
+                      <token postag_regexp="yes" postag="V inf.*"/>
+                  </marker>
+              </pattern>
+              <message>Dans ce cas, le verbe devrait être au participe passé.</message>
+              <suggestion><match no="4" postag_regexp="yes" postag="(V) (inf).*" postag_replace="V ppa m s"/></suggestion>
+              <example correction="développé">L'écoute active est un concept <marker>développer</marker> à partir des travaux du psychologue américain Carl Rogers..</example>
+          </rule>
+          <rule name="masculin pluriel">
+              <pattern>
+                  <token postag_regexp="yes" postag="V etre.*"/>
+                  <token postag_regexp="yes" postag="D.*"/>
+                  <token postag="N m p"/>
+                  <marker>
+                      <token postag_regexp="yes" postag="V inf.*"/>
+                  </marker>
+              </pattern>
+              <message>Dans ce cas, le verbe devrait être au participe passé.</message>
+              <suggestion><match no="4" postag_regexp="yes" postag="(V) (inf).*" postag_replace="V ppa m p"/></suggestion>
+              <example correction="développés">Les écoutes actives sont des concepts <marker>développer</marker> à partir des travaux du psychologue américain Carl Rogers..</example>
+          </rule>
+      </rulegroup>
       <rule id="SONT_AUTANT_SING" name="Sont autant suivi d'un mot singulier">
           <pattern>
               <token>sont</token>
@@ -17639,8 +17693,8 @@ though, and has since been slightly modified)-->
                   <token regexp="yes">\d+[TGMKtgmk]B</token>
               </pattern>
               <message>Les bytes anglais se traduisent par des octets en français.</message>
-              <suggestion><match no="1" regexp_match="(\d+)([TGMKtgmk])B" regexp_replace="$1 $2o" case_conversion="startupper"/></suggestion>
-              <example correction="41 Mo">Ce fichier pèse <marker>41MB</marker>.</example>
+              <suggestion><match no="1" regexp_match="(\d+)([TGMKtgmk])B" regexp_replace="$1 $2o" case_conversion="startupper"/></suggestion>
+              <example correction="41 Mo">Ce fichier pèse <marker>41MB</marker>.</example>
           </rule>
           <rule name="byte avec espace">
               <pattern>
@@ -17648,9 +17702,9 @@ though, and has since been slightly modified)-->
                   <token regexp="yes">[TGMKtgmk]B</token>
               </pattern>
               <message>Les bytes anglais se traduisent par des octets en français.</message>
-              <suggestion><match no="1"/> <match no="2" regexp_match="([TGMKtgmk])B" regexp_replace="$1o" case_conversion="startupper"/></suggestion>
-              <example correction="41 Mo">Ce fichier pèse <marker>41 MB</marker>.</example>
-              <example correction="41 Mo">Ce fichier pèse <marker>41 MB</marker>.</example>
+              <suggestion><match no="1"/> <match no="2" regexp_match="([TGMKtgmk])B" regexp_replace="$1o" case_conversion="startupper"/></suggestion>
+              <example correction="41 Mo">Ce fichier pèse <marker>41 MB</marker>.</example>
+              <example correction="41 Mo">Ce fichier pèse <marker>41 MB</marker>.</example>
           </rule>
       </rulegroup>
       <rule id="LEAD" name="lead">
@@ -28662,8 +28716,8 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">(\d+)?\-?\d+([kcmµn]?m|[km]?g|°C|m?l|(kilo|méga|giga|téra|péta)?watt|[TGMK]o|ohms?|kW|[MGTP]W|mph|fps|m²|m³|m?s|[GMkhdcm]N|V|min|px|Mpx|[GM]Hz|[TGMKtgmk]o|mA|Ω|mcg)</token>
       </pattern>
-      <message>Il faut utiliser une espace insécable avant l’unité. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)(.*)" regexp_replace="$1 $2"/></suggestion> ?</message>
-      <example correction="80 kg">Je pèse <marker>80kg</marker>.</example>
+      <message>Il faut utiliser une espace insécable avant l’unité. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)(.*)" regexp_replace="$1 $2"/></suggestion> ?</message>
+      <example correction="80 kg">Je pèse <marker>80kg</marker>.</example>
       <example>iPhone 4S</example>
       <example>Le réseau 3G, 3G+ et 4G permettent le désenclavement numérique de la ville de Rodez.</example>
       <example>3M Company, auparavant Minnesota Mining and Manufacturing Company (jusqu'en 2002), est un conglomérat américain basé à Saint Paul (Minnesota).</example>
@@ -28672,9 +28726,9 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">\d+%</token>
       </pattern>
-      <message>Il faut utiliser une espace insécable avant le symbole des pourcentages. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)%" regexp_replace="$1 %"/></suggestion> ?</message>
+      <message>Il faut utiliser une espace insécable avant le symbole des pourcentages. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)%" regexp_replace="$1 %"/></suggestion> ?</message>
       <url>https://fr.wikipedia.org/wiki/%25</url>
-      <example correction="8 %">Une croissance de <marker>8%</marker>.</example>
+      <example correction="8 %">Une croissance de <marker>8%</marker>.</example>
     </rule>
     <rule default="off" id="ALORS" name="alors (sans virgule après)">
       <pattern>
