@@ -4250,6 +4250,14 @@ USA
                     <token>s</token>
                     <token postag="JJ"/>
                 </antipattern>
+                <antipattern><!-- #2813 he recognizes it's Bob -->
+                    <token regexp="yes">he|she|it</token>
+                    <token postag="VBZ"/>
+                    <token>it</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token postag_regexp="yes" postag="JJ|NNP"/>
+                </antipattern>
                 <pattern>
                     <token postag="VBZ"><exception regexp="yes">.+days|cases|notices|thinks|says|means|knows|claims|signals|swears|feels|assumes|seems|decides|talks|expires|finds</exception></token>
                     <token postag="IN" min="0"><exception postag="VB.*" postag_regexp="yes"/><exception>like</exception></token>
@@ -4284,6 +4292,8 @@ USA
                 <example>See why Neil believes it's important to have a personal trainer.</example><!-- #2662 -->
                 <example>Yes, well, that just proves it's nothing but the firing of neurons.</example><!-- #2662 -->
                 <example>But it turns out it's free.</example><!-- #2662 -->
+                <example>And then he recognizes it's Bob.</example><!-- #2813 -->
+                <example>He ensures it's ideal for them.</example><!-- #2813 -->
             </rule>
             <rule>
                 <pattern>
