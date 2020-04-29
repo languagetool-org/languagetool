@@ -18,10 +18,18 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.regex.Pattern;
+
+import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ru.*;
 import org.languagetool.synthesis.Synthesizer;
@@ -33,13 +41,12 @@ import org.languagetool.tagging.ru.RussianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Pattern;
-
 public class Russian extends Language implements AutoCloseable {
 
+  private Tagger tagger;
+  private Disambiguator disambiguator;
+  private Synthesizer synthesizer;
+  private SentenceTokenizer sentenceTokenizer;
   private LanguageModel languageModel;
 
   @Override
@@ -61,27 +68,37 @@ public class Russian extends Language implements AutoCloseable {
   public String[] getCountries() {
     return new String[] {"RU"};
   }
-
-  @NotNull
+  
   @Override
-  public Tagger createDefaultTagger() {
-    return new RussianTagger();
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new RussianTagger();
+    }
+    return tagger;
   }
 
   @Override
-  public Disambiguator createDefaultDisambiguator() {
-    return new RussianHybridDisambiguator();
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new RussianHybridDisambiguator();
+    }
+    return disambiguator;
+  }
+  
+  @Override
+  public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new RussianSynthesizer(this);
+    }
+    return synthesizer;
   }
 
-  @Nullable
   @Override
-  public Synthesizer createDefaultSynthesizer() {
-    return new RussianSynthesizer(this);
-  }
-
-  @Override
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return new SRXSentenceTokenizer(this);
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 
   @Override
@@ -112,7 +129,7 @@ public class Russian extends Language implements AutoCloseable {
             new RussianWordCoherencyRule(messages),
             new RussianWordRepeatRule(messages),
             new RussianVerbConjugationRule(messages),
-            new RussianDashRule(messages)
+            new RussianDashRule()
     );
   }
 
@@ -125,7 +142,7 @@ public class Russian extends Language implements AutoCloseable {
 
   /** @since 3.1 */
   @Override
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.<Rule>asList(
             new RussianConfusionProbabilityRule(messages, languageModel, this)
     );

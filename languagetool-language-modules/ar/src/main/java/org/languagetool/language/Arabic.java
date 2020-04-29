@@ -18,8 +18,9 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
-import org.languagetool.*;
+import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ar.*;
@@ -29,11 +30,16 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ar.ArabicHybridDisambiguator;
 import org.languagetool.tagging.ar.ArabicTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.ArabicWordTokenizer;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Support for Arabic.
@@ -42,8 +48,27 @@ import java.util.*;
 public class Arabic extends Language implements AutoCloseable {
 
   private static final Language DEFAULT_ARABIC = new AlgerianArabic();
+  public static final String TASHKEEL_CHARS =
+    "\u064B"    // Fathatan
+    + "\u064C"  // Dammatan
+    + "\u064D"  // Kasratan
+    + "\u064E"  // Fatha
+    + "\u064F"  // Damma
+    + "\u0650"  // Kasra
+    + "\u0651"  // Shadda
+    + "\u0652"  // Sukun
+    + "\u0653"  // Maddah Above
+    + "\u0654"  // Hamza Above
+    + "\u0655"  // Hamza Below
+    + "\u0656"  // Subscript Alef
+    + "\u0640"; // Tatweel
 
+  private SentenceTokenizer sentenceTokenizer;
+  private WordTokenizer wordTokenizer;
+  private Tagger tagger;
+  private Synthesizer synthesizer;
   private LanguageModel languageModel;
+  private Disambiguator disambiguator;
 
   @Override
   public String getName() {
@@ -66,38 +91,50 @@ public class Arabic extends Language implements AutoCloseable {
   }
 
   @Override
-  public Disambiguator createDefaultDisambiguator() {
-    return new ArabicHybridDisambiguator();
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new ArabicHybridDisambiguator();
+    }
+    return disambiguator;
   }
 
   @Override
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return new SRXSentenceTokenizer(this);
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 
   @Override
-  public Tokenizer createDefaultWordTokenizer() {
-    return new ArabicWordTokenizer();
-  }
-
-  @NotNull
-  @Override
-  public Tagger createDefaultTagger() {
-    return new ArabicTagger();
+  public WordTokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new ArabicWordTokenizer();
+    }
+    return wordTokenizer;
   }
 
   @Override
-  public Synthesizer createDefaultSynthesizer() {
-    return new ArabicSynthesizer(this);
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new ArabicTagger();
+    }
+    return tagger;
+  }
+
+  @Override
+  public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new ArabicSynthesizer(this);
+    }
+    return synthesizer;
   }
 
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[]{
       new Contributor("Taha Zerrouki"),
-      new Contributor("Sohaib Afifi"),
-      new Contributor("Imen Kali"),
-      new Contributor("Karima Tchoketch"),
+      new Contributor("Sohaib Afifi")
     };
   }
 
@@ -111,18 +148,23 @@ public class Arabic extends Language implements AutoCloseable {
         Arrays.asList("]", ")", "}", "»", "﴿", "\"", "'")),
 
       // specific to Arabic :
-      new ArabicHunspellSpellerRule(messages, this, userConfig, altLanguages),
+      new ArabicHunspellSpellerRule(messages, userConfig),
       //new MorfologikArabicSpellerRule(messages, this),
       new ArabicCommaWhitespaceRule(messages),
       new ArabicDoublePunctuationRule(messages),
       new LongSentenceRule(messages, userConfig, -1, false),
-      new ArabicWordRepeatRule(messages, this),
-      new ArabicSimpleReplaceRule(messages, this)
+      new ArabicWordRepeatRule(messages),
+      new ArabicSimpleReplaceRule(messages),
+      new ArabicDiacriticsRule(messages),
+      new ArabicRedundancyRule(messages),
+      new ArabicWordCoherencyRule(messages),
+      new ArabicWordinessRule(messages),
+      new ArabicWrongWordInContextRule(messages)
     );
   }
 
   @Override
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.asList(
       new ArabicConfusionProbabilityRule(messages, languageModel, this)
     );

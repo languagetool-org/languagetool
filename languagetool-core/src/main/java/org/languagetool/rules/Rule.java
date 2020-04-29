@@ -18,14 +18,14 @@
  */
 package org.languagetool.rules;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
+
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
-
-import java.io.IOException;
-import java.net.URL;
-import java.util.*;
 
 /**
  * Abstract rule class. A Rule describes a language error and can test whether a
@@ -42,13 +42,12 @@ import java.util.*;
  * @author Daniel Naber
  */
 public abstract class Rule {
-  private static final Category MISC = new Category(CategoryIds.MISC, "Miscellaneous");
 
   protected final ResourceBundle messages;
 
-  private List<CorrectExample> correctExamples;
-  private List<IncorrectExample> incorrectExamples;
-  private List<ErrorTriggeringExample> errorTriggeringExamples;
+  private List<CorrectExample> correctExamples = new ArrayList<>();
+  private List<IncorrectExample> incorrectExamples = new ArrayList<>();
+  private List<ErrorTriggeringExample> errorTriggeringExamples = new ArrayList<>();
   private ITSIssueType locQualityIssueType = ITSIssueType.Uncategorized;
   private Category category;
   private URL url;
@@ -69,7 +68,7 @@ public abstract class Rule {
     if (messages != null) {
       setCategory(Categories.MISC.getCategory(messages));  // the default, sub classes may overwrite this
     } else {
-      setCategory(MISC);
+      setCategory(new Category(CategoryIds.MISC, "Miscellaneous"));
     }
   }
 
@@ -81,15 +80,6 @@ public abstract class Rule {
    */
   public abstract String getId();
 
-  /**
-   * Same as {@link #getId()} for Java rules. For XML rules, this can contain a numbers
-   * that identifies the subrule of a rule group.
-   * @since 4.9
-   */
-  public String getFullId() {
-    return getId();
-  }
-  
   /**
    * A short description of the error this rule can detect, usually in the language of the text
    * that is checked.
@@ -117,6 +107,7 @@ public abstract class Rule {
    * Returns {@code -1} when the sentence needs to end to be sure there's a match.
    * @since 4.5
    */
+  @Experimental
   public int estimateContextForSureMatch() {
     return 0;
   }
@@ -218,7 +209,7 @@ public abstract class Rule {
       List<Rule> relevantRules = new ArrayList<>(language.getRelevantRules(JLanguageTool.getMessageBundle(),
           config, null, Collections.emptyList()));  //  empty UserConfig has to be added to prevent null pointer exception
       relevantRules.addAll(language.getRelevantLanguageModelCapableRules(JLanguageTool.getMessageBundle(), null,
-        null, config, null, Collections.emptyList()));
+        config, null, Collections.emptyList()));
       for (Rule relevantRule : relevantRules) {
         relevantRuleClasses.add(relevantRule.getClass());
       }
@@ -260,7 +251,7 @@ public abstract class Rule {
    * Get example sentences that are correct and thus will not match this rule.
    */
   public final List<CorrectExample> getCorrectExamples() {
-    return correctExamples == null ? Collections.emptyList() : Collections.unmodifiableList(correctExamples);
+    return Collections.unmodifiableList(correctExamples);
   }
 
   /**
@@ -274,7 +265,7 @@ public abstract class Rule {
    * Get example sentences that are incorrect and thus will match this rule.
    */
   public final List<IncorrectExample> getIncorrectExamples() {
-    return incorrectExamples == null ? Collections.emptyList() : Collections.unmodifiableList(incorrectExamples);
+    return Collections.unmodifiableList(incorrectExamples);
   }
 
   /**
@@ -290,7 +281,7 @@ public abstract class Rule {
    * @since 3.5
    */
   public final List<ErrorTriggeringExample> getErrorTriggeringExamples() {
-    return errorTriggeringExamples == null ? Collections.emptyList() : Collections.unmodifiableList(this.errorTriggeringExamples);
+    return Collections.unmodifiableList(this.errorTriggeringExamples);
   }
 
   /**
@@ -428,12 +419,6 @@ public abstract class Rule {
    * @since 2.5
    */
   protected void addExamplePair(IncorrectExample incorrectSentence, CorrectExample correctSentence) {
-    if (correctExamples == null) {
-      correctExamples = new ArrayList<>(0);
-    }
-    if (incorrectExamples == null) {
-      incorrectExamples = new ArrayList<>(0);
-    }
     String correctExample = correctSentence.getExample();
     int markerStart= correctExample.indexOf("<marker>");
     int markerEnd = correctExample.indexOf("</marker>");
@@ -444,21 +429,6 @@ public abstract class Rule {
       incorrectExamples.add(incorrectSentence);
     }
     correctExamples.add(correctSentence);
-  }
-
-  /**
-   * Convenience method to set a pair of sentences: an incorrect sentence and the same sentence
-   * with the error corrected.
-   * @since 4.9
-   */
-  protected void setExamplePair(IncorrectExample incorrectSentence, CorrectExample correctSentence) {
-    if (incorrectExamples != null) {
-      incorrectExamples.clear();
-    }
-    if (correctSentence != null) {
-      correctExamples.clear();
-    }
-    addExamplePair(incorrectSentence, correctSentence);
   }
 
 }

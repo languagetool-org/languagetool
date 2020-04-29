@@ -59,7 +59,7 @@ public class ReflexiveVerbsRuleTest {
     assertCorrect("i ens l'acabem empassant.");
     assertCorrect("se’l va acabar enduent");
     assertCorrect("Ella se sol endur les garrotades.");
-    assertCorrect("No t’acabes d’atrevir.");
+    assertCorrect(" No t’acabes d’atrevir.");
     assertCorrect("Es va intentar suïcidar.");
     assertCorrect("L'ha a baixar desde."); //nonsense sentence with spelling error!
     assertCorrect("El tauler es pot construir baixant amb cartes.");
@@ -69,15 +69,7 @@ public class ReflexiveVerbsRuleTest {
     //assertCorrect("es van agenollar i prosternar");
     //assertCorrect("Una equivocació tan gran no es pot callar.");
     //assertCorrect(" és del tot necessari si no es vol caure en una religió alienant");
-    assertCorrect("Li agrada queixar-se.");
-    assertCorrect("Els agrada queixar-se.");
-    assertCorrect("Ens agrada queixar-se.");
     assertCorrect("Els animem a queixar-se.");
-    assertCorrect("L'animo a continuar esforçant-se.");
-    assertCorrect("Ens agrada queixar-nos.");
-    assertCorrect("Us agrada queixar-vos.");
-    assertIncorrect("Ens agrada queixar-vos.");
-    
     assertCorrect("Lorella va a venir"); // used to cause NPE - see #1787
     assertCorrect("Ens animava a queixar-nos.");
     assertCorrect("L'animem a queixar-se.");

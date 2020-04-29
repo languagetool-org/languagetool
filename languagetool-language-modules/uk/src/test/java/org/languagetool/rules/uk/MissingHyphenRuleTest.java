@@ -46,33 +46,18 @@ public class MissingHyphenRuleTest {
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("штаб-квартиру"), matches[0].getSuggestedReplacements());
 
+    matches = rule.match(langTool.getAnalyzedSentence("Такий міні автомобіль."));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("міні-автомобіль"), matches[0].getSuggestedReplacements());
+
+    matches = rule.match(langTool.getAnalyzedSentence("Арт проект вийшов провальним."));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("Арт-проект"), matches[0].getSuggestedReplacements());
+
     matches = rule.match(langTool.getAnalyzedSentence("Роблю «тайм аут»"));
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("тайм-аут"), matches[0].getSuggestedReplacements());
 
-    matches = rule.match(langTool.getAnalyzedSentence("Такий компакт диск."));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("компакт-диск"), matches[0].getSuggestedReplacements());
-
-    // spelling 2019 
-
-    matches = rule.match(langTool.getAnalyzedSentence("Такий міні автомобіль."));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("мініавтомобіль"), matches[0].getSuggestedReplacements());
-
-    matches = rule.match(langTool.getAnalyzedSentence("Арт проект вийшов провальним."));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("Артпроект"), matches[0].getSuggestedReplacements());
-
-    // TODO: hard - two errors, should be "ексвіцепрезидент"
-    matches = rule.match(langTool.getAnalyzedSentence("екс віце-президент"));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("ексвіце-президент"), matches[0].getSuggestedReplacements());
-
-    matches = rule.match(langTool.getAnalyzedSentence("всі медіа півострова."));
-    assertEquals(0, matches.length);
-
-    
     // correct sentences:
     matches = rule.match(langTool.getAnalyzedSentence("Тут все гаразд."));
     assertEquals(0, matches.length);

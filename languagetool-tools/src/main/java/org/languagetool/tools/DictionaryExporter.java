@@ -63,8 +63,6 @@ final class DictionaryExporter extends DictionaryBuilder {
     String inputPath = binaryDictFile.toString();
     File tmpOutputFile = File.createTempFile(
         DictionaryExporter.class.getSimpleName() + "_separator", ".txt");
-    tmpOutputFile.deleteOnExit();
-    
     if (inputPath.contains("hunspell") || inputPath.contains("spelling")) {
       String[] buildOptions = {
           "--exit", "false",

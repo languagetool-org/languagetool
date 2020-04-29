@@ -21,39 +21,19 @@ package org.languagetool.rules.en;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
-import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
-import org.languagetool.languagemodel.LanguageModel;
 
 public final class MorfologikCanadianSpellerRule extends AbstractEnglishSpellerRule {
 
   private static final String RESOURCE_FILENAME = "/en/hunspell/en_CA.dict";
   private static final String LANGUAGE_SPECIFIC_PLAIN_TEXT_DICT = "en/hunspell/spelling_en-CA.txt";
-  private static final Map<String,String> US_ENGLISH = loadWordlist("en/en-US-GB.txt", 0);
 
   public MorfologikCanadianSpellerRule(ResourceBundle messages,
                                        Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
-  }
-
-  /**
-   * @since 4.9
-   */
-  public MorfologikCanadianSpellerRule(ResourceBundle messages, Language language, GlobalConfig globalConfig, UserConfig userConfig, List<Language> altLanguages, LanguageModel languageModel, Language motherTongue) throws IOException {
-    super(messages, language, globalConfig, userConfig, altLanguages, languageModel, motherTongue);
-  }
-
-  @Override
-  protected VariantInfo isValidInOtherVariant(String word) {
-    String otherVariant = US_ENGLISH.get(word.toLowerCase());
-    if (otherVariant != null) {
-      return new VariantInfo("American English", otherVariant);
-    }
-    return null;
   }
 
   @Override

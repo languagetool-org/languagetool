@@ -25,7 +25,6 @@ import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.util.*;
@@ -54,15 +53,15 @@ public class ExportGermanNouns {
   }
 
   private Set<String> getBinaryDictWords() throws IOException {
-    FSA fsa = FSA.read(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
-    Set<String> set = new HashSet<>();
+    final FSA fsa = FSA.read(JLanguageTool.getDataBroker().getFromResourceDirAsStream(DICT_FILENAME));
+    final Set<String> set = new HashSet<>();
     for (ByteBuffer buffer : fsa) {
-      byte [] sequence = new byte [buffer.remaining()];
+      final byte [] sequence = new byte [buffer.remaining()];
       buffer.get(sequence);
-      String output = new String(sequence, StandardCharsets.UTF_8/*"iso-8859-1"*/);
+      final String output = new String(sequence, "utf-8"/*"iso-8859-1"*/);
       if (isRelevantNoun(output)) {
-        String[] parts = output.split("\\+");
-        String term = parts[0].toLowerCase();
+        final String[] parts = output.split("\\+");
+        final String term = parts[0].toLowerCase();
         set.add(term);
       }
     }
@@ -70,7 +69,7 @@ public class ExportGermanNouns {
   }
 
   private Set<String> getAddedDictWords() throws IOException {
-    Set<String> set = new HashSet<>();
+    final Set<String> set = new HashSet<>();
     List<String> lines = Files.readAllLines(FileSystems.getDefault().getPath(ADDED_DICT_FILENAME), Charsets.UTF_8);
     for (String line : lines) {
       if (isRelevantNoun(line)) {

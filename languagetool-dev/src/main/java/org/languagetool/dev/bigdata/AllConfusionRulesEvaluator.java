@@ -65,7 +65,7 @@ final class AllConfusionRulesEvaluator {
     }
     ConfusionRuleEvaluator eval = new ConfusionRuleEvaluator(lang, languageModel, false, true); // TODO: consider bidirectional
     eval.setVerboseMode(false);
-    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(lang);
+    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/" + lang.getShortCode() +"/confusion_sets.txt");
     Map<String,List<ConfusionPair>> confusionSetMap = confusionSetLoader.loadConfusionPairs(inputStream);
     Set<String> done = new HashSet<>();

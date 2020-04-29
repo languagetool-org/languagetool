@@ -19,8 +19,10 @@
 package org.languagetool.dev.bigdata;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.Languages;
 import org.languagetool.chunking.Chunker;
 import org.languagetool.dev.dumpcheck.*;
 import org.languagetool.dev.eval.FMeasure;
@@ -33,7 +35,9 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tools.StringTools;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -69,7 +73,7 @@ class ConfusionRuleEvaluator {
     this.caseSensitive = caseSensitive;
     this.bothDirections = bothDirections;
     try {
-      List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel, null);
+      List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel);
       if (rules == null) {
         throw new RuntimeException("Language " + language + " doesn't seem to support a language model");
       }
@@ -301,15 +305,17 @@ class ConfusionRuleEvaluator {
     public String getName() {
       return "English Light";
     }
-
-    @NotNull
+    
     @Override
-    public Tagger createDefaultTagger() {
-      return new DemoTagger();
+    public Tagger getTagger() {
+      if (tagger == null) {
+        tagger = new DemoTagger();
+      }
+      return tagger;
     }
 
     @Override
-    public Chunker createDefaultChunker() {
+    public Chunker getChunker() {
       return null;
     }
   }

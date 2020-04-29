@@ -18,12 +18,14 @@
  */
 package org.languagetool.rules.en;
 
+import java.util.HashSet;
+import java.util.ResourceBundle;
+import java.util.Set;
+
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.WordRepeatBeginningRule;
-
-import java.util.*;
 
 /**
  * Adds a list English adverbs to {@link WordRepeatBeginningRule}.
@@ -50,12 +52,7 @@ public class EnglishWordRepeatBeginningRule extends WordRepeatBeginningRule {
     ADVERBS.add("Furthermore");
     ADVERBS.add("Moreover");
   }
-
-  @Override
-  public boolean isException(String token) {
-    return super.isException(token) || token.equals("The") || token.equals("A") || token.equals("An");
-  }
-
+  
   @Override
   protected boolean isAdverb(AnalyzedTokenReadings token) {
     return ADVERBS.contains(token.getToken());

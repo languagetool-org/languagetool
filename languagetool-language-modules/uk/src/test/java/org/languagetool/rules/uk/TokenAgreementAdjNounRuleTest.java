@@ -27,7 +27,6 @@ import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
@@ -271,9 +270,6 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("Суд визнав неконституційними низку положень");
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("від наступних пари")).length);
-
-    assertEmptyMatch("Північний Рейн-Вестфалія");
-
   }
   
   @Test
@@ -753,8 +749,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("Пляжі 3, 4 і 5-ї категорій.");
 
     assertHasError("У львівській та київський Книгарнях");
-//    assertHasError("повоєнні Австрія з Фінляндію");
-    assertHasError("налякані Австрія з Фінляндію");
+    assertHasError("повоєнні Австрія з Фінляндію");
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("«Старий паразите...» І кокетлива інтонації ведучої не замасковує зовсім невиправдану")).length);
 
     assertHasError("Судячи з січневих продаж, 2009-й може стати");
@@ -871,8 +866,7 @@ public class TokenAgreementAdjNounRuleTest {
 
   private void assertHasError(String text) {
     try {
-      AnalyzedSentence sent = langTool.getAnalyzedSentence(text);
-      assertEquals(1, rule.match(sent).length);
+      assertEquals(1, rule.match(langTool.getAnalyzedSentence(text)).length);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

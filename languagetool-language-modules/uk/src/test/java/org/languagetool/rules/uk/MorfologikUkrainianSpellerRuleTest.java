@@ -57,8 +57,6 @@ public class MorfologikUkrainianSpellerRuleTest {
     // frequent infix notation
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("-ськ-")).length);
 
-    assertEquals(2, rule.match(langTool.getAnalyzedSentence("Халгін-Гол, Шри-Ланка")).length);
-
     // accent
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("Іва́н Петро́вич Котляре́вський"));
     assertEquals(0, matches.length);
@@ -161,24 +159,6 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals(sent.length(), match[0].getToPos());
   }
 
-  
-  @Test
-  public void testDashedSuggestions() throws IOException {
-    MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), 
-            null, Collections.emptyList());
-    JLanguageTool langTool = new JLanguageTool(new Ukrainian());
-    
-    RuleMatch[] match = rule.match(langTool.getAnalyzedSentence("блоксистема"));
-    assertEquals(1, match.length);
-    assertEquals(Arrays.asList("блок система", "блок-система"), match[0].getSuggestedReplacements());
-
-    match = rule.match(langTool.getAnalyzedSentence("шоу-мен"));
-    // TODO: commented out because it fails
-    //assertEquals(1, match.length);
-    //assertEquals(Arrays.asList("шоумен"), match[0].getSuggestedReplacements());
-  }
-  
-  
   @Test
   public void testProhibitedSuggestions() throws IOException {
     MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), 

@@ -35,6 +35,6 @@ public class PersianTest extends LanguageSpecificTest {
     testDemoText(lang, s,
       Arrays.asList("PERSIAN_COMMA_PARENTHESIS_WHITESPACE", "Bad_ZWNJ", "PERSIAN_WORD_REPEAT_RULE", "PluralFix", "PluralFix", "Complex_Present_Verbs", "Complex_Present_Verbs")
     );
-    runTests(lang, null, "ā");
+    runTests(lang);
   }
 }

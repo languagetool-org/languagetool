@@ -58,7 +58,6 @@ public class CommandLineOptions {
   private boolean autoDetect = false;
   private boolean xmlFiltering = false;
   private boolean lineByLine = false;
-  private boolean enableTempOff = false;
   @Nullable
   private Language language = null;
   @Nullable
@@ -83,9 +82,6 @@ public class CommandLineOptions {
   private boolean useEnabledOnly = false;
   @Nullable
   private String ruleFile = null;
-  @Nullable
-  private String remoteRulesFile;
-
   @Nullable
   private String falseFriendFile = null;
   @Nullable
@@ -121,14 +117,6 @@ public class CommandLineOptions {
 
   public void setLineByLine (boolean lineByLine) {
     this.lineByLine = lineByLine;
-  }
-
-  public boolean isEnableTempOff() {
-    return enableTempOff;
-  }
-
-  public void setEnableTempOff(boolean enableTempOff) {
-    this.enableTempOff = enableTempOff;
   }
 
   public boolean isRecursive() {
@@ -273,6 +261,7 @@ public class CommandLineOptions {
     this.word2vecModel = neuralNetworkLanguageModel;
   }
 
+
   /**
    * @since 4.4
    */
@@ -334,21 +323,6 @@ public class CommandLineOptions {
    */
   public void setRuleFile(String ruleFile) {
     this.ruleFile = ruleFile;
-  }
-
-  /**
-   * @since 4.9
-   */
-  @Nullable
-  public String getRemoteRulesFile() {
-    return remoteRulesFile;
-  }
-
-  /**
-   * @since 4.9
-   */
-  public void setRemoteRulesFile(String remoteRulesFile) {
-    this.remoteRulesFile = remoteRulesFile;
   }
 
   @Nullable

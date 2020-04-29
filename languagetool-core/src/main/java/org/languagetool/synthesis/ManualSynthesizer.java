@@ -18,14 +18,12 @@
  */
 package org.languagetool.synthesis;
 
-import gnu.trove.THashMap;
-import gnu.trove.THashSet;
-import org.languagetool.tagging.ManualTagger;
-import org.languagetool.tools.StringTools;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+
+import org.languagetool.tagging.ManualTagger;
+import org.languagetool.tools.StringTools;
 
 /**
  * A synthesizer that reads the inflected form and POS information from a plain (UTF-8) text file.
@@ -93,8 +91,8 @@ public final class ManualSynthesizer {
   }
 
   static class MappingAndTags {
-    Map<String, List<String>> mapping = new THashMap<>();
-    Set<String> tags = new THashSet<>();
+    Map<String, List<String>> mapping = new HashMap<>();
+    Set<String> tags = new HashSet<>();
   }
 
 }

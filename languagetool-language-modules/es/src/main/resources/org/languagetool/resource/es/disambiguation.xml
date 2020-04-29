@@ -24,1772 +24,512 @@ Copyright (C) 2011 Juan Martorell
 
     <!ENTITY extensiones_de_archivo "aspx?|avi|bak|bat|bmp|cab|cfg|cgi|com|css|csv|dat|db|dbf|dll|docx?|eps|exe|flv|gif|html?|ibooks|ico|ini|jar|jpe?g|js|jsp|lnk|md|mdb|mid|mov|mp3|mp4|mpa|mpg|o[dt][tspfg]|pdf|php|pl|png|pps|pptx?|ps|psd|py|rss|sh|sql|svg|sys|tar|tif|tiff|tmp|txt|wav|wma|xhtml|xlsx?|xsl|xml|zipx?|7z">
     <!ENTITY dominios_internet "(?:cat|ae|ar|asia|at|au|be|bid|biz|br|ca|cc|cf|ch|cl|club|cn|co|com|cz|de|dk|edu|es|eu|fi|fr|ga|gdn|gov|gq|gr|hk|hu|id|ie|il|in|info|int|io|ir|it|jp|kiwi|kr|kz|life|link|loan|lt|me|men|mil|ml|mobi|mx|my|name|net|nl|no|nu|nz|online|org|party|pl|pro|pt|pw|racing|ro|ru|se|sg|shop|site|sk|space|store|su|tech|tk|top|tr|trade|tv|tw|ua|uk|us|vip|vn|wang|website|win|ws|xin|xyz|za)"><!-- the 100 most used + cat -->
-    <!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las">
-    <!ENTITY nombre_fem_el "África|aguadulce|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
-    <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
 
 ]>
 
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <unification feature="numero">
-        <equivalence type="S">
-            <token postag="(N.{2}|[ADP].{3}|V.{4})[SN].*|_GN_.S" postag_regexp="yes"/>
-        </equivalence>
-        <equivalence type="P">
-            <token postag="(N.{2}|[ADP].{3}|V.{4})[PN].*|_GN_.P" postag_regexp="yes"/>
-        </equivalence>
-    </unification>
-    <unification feature="genero">
-        <equivalence type="M">
-            <token postag="(N.|[ADP].{2}|V.{5})[CM].*|_GN_M." postag_regexp="yes"/>
-        </equivalence>
-        <equivalence type="F">
-            <token postag="(N.|[ADP].{2}|V.{5})[CF].*|_GN_F." postag_regexp="yes"/>
-        </equivalence>
-    </unification>
-    <unification feature="persona">
-        <equivalence type="primera">
-            <token postag="(P.|V.{3})[10].*" postag_regexp="yes"/>
-        </equivalence>
-        <equivalence type="segona">
-            <token postag="(P.|V.{3})[20].*" postag_regexp="yes"/>
-        </equivalence>
-        <equivalence type="tercera">
-            <token postag="(P.|V.{3})[30].*" postag_regexp="yes"/>
-        </equivalence>
-    </unification>
-    <!--<rulegroup id="DICT_FIXES" name="dictionary fixes">
-    </rulegroup>-->
+  <unification feature="number">
+    <equivalence type="S">
+      <token postag="(N.{2}|[ADP].{3}|V.{4})[SN].*" postag_regexp="yes"/> 
+    </equivalence>
+
+    <equivalence type="P">
+      <token postag="(N.{2}|[ADP].{3}|V.{4})[PN].*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+
+  <unification feature="gender">
+    <equivalence type="M">
+      <token postag="(N.|[ADP].{2}|V.{5})[CM].*" postag_regexp="yes"/>
+    </equivalence>
+
+    <equivalence type="F">
+      <token postag="(N.|[ADP].{2}|V.{5})[CF].*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+
+  <!-- D_R_N : Det + Adverbio + Nombre-->
+
+  <rule id="D_R_N" name="Det + Adv +Nom">
+    <pattern>
+      <token postag="D.*" postag_regexp="yes"/>
+
+      <marker>
+        <token postag="R.*" postag_regexp="yes"/>
+      </marker>
+
+      <token postag="N.*" postag_regexp="yes"><exception>son</exception><exception postag="(C|SP).*" postag_regexp="yes"/></token>
+    </pattern>
+
+    <disambig action="filter" postag="R.*"/>
+  </rule>
+
+  <!-- DDN : Determinante posesivo + Determinante indefinido + Nombre -->
+
+  <rule id="DDN_u" name="Det + Nom + Adj">
+    <pattern>
+      <marker>
+        <unify>
+          <feature id="gender"/>
+
+          <feature id="number"/>
+
+          <token postag="D.*" postag_regexp="yes"/>
+
+          <token postag="D.*" postag_regexp="yes"/>
+
+          <token postag="N.*" postag_regexp="yes"/>
+        </unify>
+      </marker>
+    </pattern>
+
+    <disambig action="unify"/>
+  </rule>
+
+  <!-- DNA : Det + Nombre + adjetivo-->
+
+  <rule id="DNA" name="Det + Nom + Adj">
+    <pattern>
+      <marker>
+        <unify>
+          <feature id="gender"/>
+
+          <feature id="number"/>
+
+          <token postag="D.*" postag_regexp="yes"/>
+
+          <token postag="N.*" postag_regexp="yes"/>
+
+          <token postag="A.*" postag_regexp="yes"/>
+        </unify>
+      </marker>
+    </pattern>
+
+    <disambig action="unify"/>
+
+    <example inputform="una[unir/VMM03S0,unir/VMSP1S0,unir/VMSP3S0,uno/DI0FS0,uno/PI0FS000]" outputform="una[uno/DI0FS0]" type="ambiguous">Es <marker>una</marker> ocasión romántica.</example>
+
+    <example type="untouched">Es una romántica ocasión.</example>
+  </rule>
+
+  <!-- DAN : Determinante + Adjetivo + Nombre-->
+
+  <rule id="DAN" name="Det + Adj + Nom">
+    <pattern>
+      <marker>
+        <unify>
+          <feature id="gender"/>
+
+          <feature id="number"/>
+
+          <token postag="D.*" postag_regexp="yes"/>
+
+          <token postag="A.*" postag_regexp="yes"/>
+
+          <token postag="N.*" postag_regexp="yes"><exception postag="[DC].*" postag_regexp="yes"/><exception regexp="yes">de|son</exception></token>
+        </unify>
+      </marker>
+    </pattern>
+
+    <disambig action="unify"/>
+
+    <example inputform="una[unir/VMM03S0,unir/VMSP1S0,unir/VMSP3S0,uno/DI0FS0,uno/PI0FS000]" outputform="una[uno/DI0FS0]" type="ambiguous">Es <marker>una</marker> romántica ocasión.</example>
+
+    <example type="untouched">Es una ocasión romántica.</example>
+  </rule>
+
+  <!-- NSN : Nom + Nom/Prep + Nom/Adj = prep -->
+
+  <rule id="NSN" name="Nom + Nom/Prep + Nom/Adj">
+    <pattern>
+      <token postag="N.*" postag_regexp="yes"><exception postag="RN|CS" postag_regexp="yes"/></token>
+
+      <marker>
+        <token postag="S.*" postag_regexp="yes"/>
+      </marker>
+
+      <token postag="[NA].*" postag_regexp="yes"/>
+    </pattern>
+
+    <disambig action="filter" postag="S.*"/>
+  </rule>
+
+  <!-- ANA : Adj + Nom/Adj + Adj = Nom -->
+
+  <rule id="ANA" name="Adj + Nom/Adj + Adj">
+    <pattern>
+      <token postag="A.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+
+      <marker>
+        <and>
+          <token postag="N.*" postag_regexp="yes"/>
+
+          <token postag="A.*" postag_regexp="yes"/>
+        </and>
+      </marker>
+
+      <token postag="A.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
+    </pattern>
+
+    <disambig action="filter" postag="N.*"/>
+  </rule>
+
+  <!--P_V Cuando está delante de un verbo, se trata de un pronombre-->
+
+  <rule id="P_V" name="Pronombre + Verbo">
+    <pattern>
+      <marker>
+        <and>
+          <token postag="D.*" postag_regexp="yes"/>
+
+          <token postag="[PN].*" postag_regexp="yes"/>
+        </and>
+      </marker>
+
+      <token postag="V.*" postag_regexp="yes"><exception postag="N.*|V.N.*|A.*|PI.*|Z" postag_regexp="yes"/></token>
+    </pattern>
+
+    <disambig action="filter" postag="P.*|N.*"/>
+    <example type="untouched">De lo uno y lo otro</example>
+  </rule>
+
+  <!--D_AN Detrás de un determinante, va el nombre y no el adjetivo-->
+
+  <rule id="D_AN" name="Art + Nom/Adj = Nom">
+    <pattern>
+      <token postag="D.*" postag_regexp="yes"><exception postag="R.*" postag_regexp="yes"/><exception>lo</exception></token>
+
+      <marker>
+        <and>
+          <token postag="N.*" postag_regexp="yes"/>
+
+          <token postag="A.*" postag_regexp="yes"><exception inflected="yes">nuevo</exception></token>
+
+          <token negate_pos="yes" postag="V.*" postag_regexp="yes"/>
+        </and>
+      </marker>
+
+      <token negate_pos="yes" postag="N.*" postag_regexp="yes"/>
+    </pattern>
+
+    <disambig action="filter" postag="N.*"/>
+
+    <example inputform="blanca[blanco/AQ0FS0,blanco/NCFS000]" outputform="blanca[blanco/NCFS000]" type="ambiguous">Me gusta la <marker>blanca</marker>.</example>
+
+    <example type="untouched">Eran demasiado siniestros.</example>
+    <example type="untouched">Una nueva formula.</example>
+  </rule>
+
+  <!-- D_N Cuando está delante de un nombre, se trata de un determinante.-->
+
+  <rule id="D_N" name="Artículo + Nombre">
+    <pattern>
+      <marker>
+        <token postag="D.*" postag_regexp="yes"><exception inflected="yes">todo</exception><exception postag="R.*" postag_regexp="yes"/></token>
+      </marker>
+
+      <token postag="[PNA].*" postag_regexp="yes"><exception postag="V.*|PI.*" postag_regexp="yes"/></token>
+    </pattern>
+
+    <disambig action="filter" postag="D.*"/>
+  </rule>
 
 
+  <!--sobre (no preposición, nombre)-->
+  <rule id="SOBRE" name="sobre (nombre)">
+    <pattern>
+      <token postag="D..MS." postag_regexp="yes"><exception inflected="yes">todo</exception><exception postag="R.*" postag_regexp="yes"/></token>
+      <marker>  
+         <token postag="NCMS000">sobre</token>
+      </marker>
+      <token><exception postag="D.*" postag_regexp="yes"/></token>
+    </pattern>
 
-    <rule id="not_noun" name="not noun">
+    <disambig action="filter" postag="N.*"/>
+    <example type="untouched">Este sobre el otro.</example>
+  </rule>
+
+  
+  <!-- P_N Posesivo + nombre -->
+  <rule id="PN" name="Pos + Nom ">
+    <pattern>
+      <marker>
+        <unify>
+          <feature id="gender"/>
+          <feature id="number"/>
+          <token postag="DP.*" postag_regexp="yes"/>
+          <token postag="N.*" postag_regexp="yes"><exception postag="C.|SP.*|R.*" postag_regexp="yes"/></token>
+        </unify>
+      </marker>
+    </pattern>
+    
+    <disambig action="unify"/>
+    <!--example: su hermano-->
+  </rule>
+
+  <rule id="dicho" name="dicho + Nom ">
+    <pattern>
+      <marker>
+        <unify>
+          <feature id="gender"/>
+          <feature id="number"/>        
+            <token postag="VMP.*" postag_regexp="yes" inflected="yes">decir</token>
+          <token postag="NC.*" postag_regexp="yes"><exception postag="C.|SP.*|R.*" postag_regexp="yes"/></token>
+        </unify>
+      </marker>
+    </pattern>
+    <disambig action="filterall"/>
+  </rule>
+  
+  <rule id="PUNCT" name="puntuación">
+    <pattern>
+      <token regexp="yes">[.;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</token>
+    </pattern>
+    <disambig action="add"><wd pos="_PUNCT"></wd></disambig>
+  </rule>
+  
+  <!-- ROMAN NUMERALS : Detección de números romanos (adaptado de la versión catalana) -->
+  <rule id="ROMAN_NUMERALS" name="números romanos">
+    <pattern case_sensitive="yes">
+      <marker>
+        <token regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})</token>
+      </marker>
+    </pattern>
+    <disambig action="ignore_spelling"/>
+  </rule>
+
+  <rule id="NUMERO_SIGN" name="números romanos">
+    <!-- other variant of "Nº", see https://en.wikipedia.org/wiki/Numero_sign#Typing_the_symbol -->
+    <pattern case_sensitive="yes">
+      <marker>
+        <token>N°</token>
+      </marker>
+    </pattern>
+    <disambig action="ignore_spelling"/>
+  </rule>
+
+  <rulegroup id="LOC_ADV" name="locuciones adverbiales">
+    <rule id="de_nuevo" name="de nuevo">
         <pattern>
-            <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">no|eres|lo|los|de</token>
-                <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
-            </and>
-        </pattern>
-        <disambig action="remove" postag="N.*"/>
-    </rule>
-
-    <rulegroup id="LOC_ADV" name="locuciones adverbiales">
-        <rule id="por_tanto" name="por tanto">
-            <pattern>
-                <marker>
-                    <token>por</token>
-                    <token>tanto</token>
-                </marker>
-                <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="LOC_ADV"/>
-                <wd pos="LOC_ADV"/>
-            </disambig>
-        </rule>
-        <rule id="de_nuevo" name="de nuevo">
-            <pattern>
-                <marker>
-                    <token>de</token>
-                    <token>nuevo</token>
-                </marker>
-                <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="LOC_ADV"/>
-                <wd pos="LOC_ADV"/>
-            </disambig>
-            <example type="untouched">Con la propuesta <marker>de nuevo</marker> servidor</example>
-        </rule>
-        <rule id="sobre_todo" name="sobre todo">
-            <pattern>
-                <marker>
-                    <token>sobre</token>
-                    <token>todo</token>
-                </marker>
-                <token><exception postag="NC[MC][SN].*|D..MS.|DA0NS0" postag_regexp="yes"/></token>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="LOC_ADV"/>
-                <wd pos="LOC_ADV"/>
-            </disambig>
-            <example type="untouched"><marker>Sobre todo</marker> lo demás.</example>
-            <example type="untouched">Sobre todo hombre.</example>
-            <example type="untouched">Sobre todo lo demás.</example>
-        </rule>
-    </rulegroup>
-    <rule id="manos_libres" name="manos libres">
-        <pattern>
-            <token postag="D..M[SP]." postag_regexp="yes"/>
             <marker>
-                <token>manos</token>
-                <token>libres</token>
-            </marker>
-        </pattern>
-        <disambig action="replace">
-            <wd lemma="manos libres" pos="NCMN000"/>
-            <wd lemma="manos libres" pos="AQ0MN0"/>
-        </disambig>
-    </rule>
-    <rulegroup id="NUMERALS" name="numerales">
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">mil|treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa</token>
-                    <token>y</token>
-                    <token>un</token>
-                </marker>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="DN0MP0"/>
-                <wd pos="DN0MP0"/>
-                <wd pos="DN0MP0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">mil|treinta|cuarenta|cincuenta|sesenta|setenta|ochenta|noventa</token>
-                    <token>y</token>
-                    <token>una</token>
-                </marker>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="DN0FP0"/>
-                <wd pos="DN0FP0"/>
-                <wd pos="DN0FP0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">mil|ciento</token>
-                </marker>
-                <token postag="DN0CP0"/>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="DN0CP0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890][1234567890., ]+[1234567890]</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd lemma="numeral" pos="NCCN000"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890][1234567890., ]+[1234567890]</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd lemma="numeral" pos="DN0CP0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890]{1,2}</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd lemma="numeral" pos="NCCN000"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890]{1,2}</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd lemma="numeral" pos="DN0CP0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token spacebefore="yes">1</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd lemma="numeral" pos="DN0CS0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token spacebefore="yes">1</token>
-                </marker>
-            </pattern>
-            <disambig action="remove">
-                <wd lemma="numeral" pos="DN0CP0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">[^.,]*</token>
-                <marker>
-                    <token spacebefore="no">1</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd lemma="numeral" pos="DN0CS0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">[^.,]*</token>
-                <marker>
-                    <token spacebefore="no">1</token>
-                </marker>
-            </pattern>
-            <disambig action="remove">
-                <wd lemma="numeral" pos="DN0CP0"/>
-            </disambig>
-        </rule>
-        <!-- ordinals -->
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890]+º<exception postag="AO.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="AO0MS0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>el</token>
-                <marker>
-                    <token regexp="yes">[1234567890]+</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="AO0MS0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890]+[aª]<exception postag="AO.*" postag_regexp="yes"/><exception>0a</exception></token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="AO0FS0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token>la<exception scope="previous" postag="D..MS." postag_regexp="yes"/></token>
-                <marker>
-                    <token regexp="yes">[1234567890]+</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="AO0FS0"/>
-            </disambig>
-        </rule>
-        <!--<rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890]+ns<exception postag="AO.*" postag_regexp="yes"/><exception regexp="yes">[01234]ns</exception></token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="AO0MP0"/></disambig>
-        </rule>-->
-        <!--<rule>
-            <pattern>
-                <token>los</token>
-                <marker>
-                    <token regexp="yes">[1234567890]+</token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="AO0MP0"/></disambig>
-        </rule>-->
-        <!--<rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes">[1234567890]+es<exception postag="AO.*" postag_regexp="yes"/><exception>0es</exception></token>
-                </marker>
-            </pattern>
-            <disambig action="add"><wd pos="AO0FP0"/></disambig>
-        </rule>-->
-        <rule>
-            <pattern>
-                <token>las</token>
-                <marker>
-                    <token regexp="yes">[1234567890]+</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="AO0FP0"/>
-            </disambig>
-        </rule>
-        <!-- romans-->
-        <rule>
-            <pattern case_sensitive="yes">
-                <marker>
-                    <token regexp="yes">(?=.)M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})<exception postag="_enumeracio"/></token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="AO0CN0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern case_sensitive="yes">
-                <marker>
-                    <token regexp="yes" spacebefore="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})<exception regexp="yes">cm|mm</exception><exception postag="_enumeracio"/></token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="AO0CN0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern case_sensitive="yes">
-                <token postag="SENT_START"/>
-                <marker>
-                    <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="AO0CN0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern case_sensitive="yes">
-                <token>-</token>
-                <marker>
-                    <token regexp="yes">(?=.)m{0,4}(cm|cd|d?c{0,3})(xc|xl|l?x{0,3})(ix|iv|v?i{0,3})</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="AO0CN0"/>
-            </disambig>
-        </rule>
-        <!-- excepcions als numerals romans -->
-        <rule>
-            <pattern case_sensitive="yes">
-                <token postag="SENT_START"/>
-                <token min="0" max="3" postag="_PUNCT.*" postag_regexp="yes"/>
-                <marker>
-                    <token>I</token>
-                </marker>
-            </pattern>
-            <disambig action="remove">
-                <wd pos="AO0CN0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern case_sensitive="yes">
-                <marker>
-                    <token regexp="yes">i|li|mi|vi|di</token>
-                </marker>
-            </pattern>
-            <disambig action="remove">
-                <wd pos="AO0CN0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">[1234567890., ]+</token>
-                <marker>
-                    <token>m</token>
-                </marker>
-            </pattern>
-            <disambig action="replace" postag="NCMP000"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">1|/|por</token>
-                <marker>
-                    <token>m</token>
-                </marker>
-            </pattern>
-            <disambig action="replace" postag="NCMS000"/>
-        </rule>
-        <rule id="la_numero_dos" name="la número dos">
-            <pattern>
-                <marker>
-                    <token>la</token>
-                    <token>número</token>
-                    <token postag="AO0C[NS]0|DN0[^F]P0" postag_regexp="yes"><exception regexp="yes">.*un</exception></token>
-                </marker>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="_GN_FS"/>
-                <wd pos="_GN_FS"/>
-                <wd pos="_GN_FS"/>
-            </disambig>
-        </rule>
-        <rule id="la_numero_uno" name="la número uno">
-            <pattern>
-                <marker>
-                    <token>la</token>
-                    <token>número</token>
-                    <token regexp="yes">uno|1</token>
-                </marker>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="_GN_FS"/>
-                <wd pos="_GN_FS"/>
-                <wd pos="_GN_FS"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="DN.*" postag_regexp="yes"/>
-                <marker>
-                    <token regexp="yes" case_sensitive="yes">aC|dC</token>
-                </marker>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="RG"/>
-            </disambig>
-        </rule>
-        <rule id="en_base" name="en base + numeral">
-            <pattern>
-                <token regexp="yes">en|de</token>
-                <token>base</token>
-                <marker>
-                    <token postag="DN.*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="N.*"/>
-        </rule>
-        <rule id="percentage" name="porcentaje">
-            <pattern>
-                <token regexp="yes">[\d,. ]+[&#37;&#8240;&#8241;]</token>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="NCMS000"/>
-            </disambig>
-        </rule>
-        <rule id="numero_graus" name="grados">
-            <pattern>
-                <token regexp="yes">[\d,. ]+[°′″‴][CFKNSEW]?</token>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="NCMP000"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">latitud|longitud</token>
-                <marker>
-                    <token regexp="yes">[\d,. ]+[º°′″‴]</token>
-                </marker>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="NCMP000"/>
-            </disambig>
-        </rule>
-        <rule id="graus" name="graus">
-            <pattern>
-                <token regexp="yes">°[CFKNSEW]</token>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="NCMN000"/>
-            </disambig>
-        </rule>
-        <rule id="un_grau" name="1 grau">
-            <pattern>
-                <token regexp="yes">1°[CFNSEW]?</token>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="NCMS000"/>
-            </disambig>
-        </rule>
-        <rule id="veinte_aniversario" name="veinte aniversario">
-            <pattern>
-                <marker>
-                    <and>
-                        <token postag="NCCN000"/>
-                        <token postag="DN0CP0"/>
-                    </and>
-                </marker>
-                <token>aniversario</token>
-            </pattern>
-            <disambig action="replace" postag="AO0MS0"/>
-        </rule>
-    </rulegroup>
-    <rule id="alrededor_de" name="alrededor de">
-        <pattern>
-            <token regexp="yes">unos|unas|los|las</token>
-            <marker>
-                <token>alrededor</token>
                 <token>de</token>
-            </marker>
-            <token postag="DN.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="replace">
-            <wd pos="LOC_ADV" lemma="alrededor de"/>
-            <wd pos="LOC_ADV" lemma="alrededor de"/>
-        </disambig>
-    </rule>
-    <rulegroup id="CURRENCIES" name="monedas">
-        <rule>
-            <pattern>
-                <token regexp="yes">\$\d+</token>
-            </pattern>
-            <disambig action="add">
-                <wd pos="Z"/>
-            </disambig>
-        </rule>
-    </rulegroup>
-
-    <rule id="habemos" name="habemos">
-        <pattern>
-            <token>nos</token>
-            <token>las</token>
-            <marker>
-                <token>habemos</token>
-            </marker>
-            <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
-            <token>con</token>
-        </pattern>
-        <disambig action="add">
-            <wd lemma="haber" pos="VMIP1P0"/>
-        </disambig>
-    </rule>
-    <rulegroup id="VAN_GOGH" name="van Gogh">
-        <rule>
-            <pattern>
-                <marker>
-                    <token>van</token>
-                    <token regexp="yes"
-                        >(?-i)Aartsen|Agt|Allen|Asperen|Baaren|Basten|Beethoven|Beinum|Belin|Bommel|Bree|Buren|Campen|Dam|Delden|der|Dijk|Dine|Dong|Dyck|Egmond|Eyck|Gaal|Goethem|Gogh|Halen|Hauwe|Hemel|Immersel|Kempen|Lier|Maldere|Marwijk|Mill|Morrison|Nieuwkerk|Nistelrooy|Otterloo|Persie|Petegem|Ragin|Rensburg|Rompuy|Schalkwyk|Someren|Vaart|Val|Valen|Van|Vliet|Vlijmen|Wassenaer</token>
-                </marker>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="NPCNSP0"/>
-                <wd pos="NPCNSP0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">\p{Lu}.+</token>
-                <marker>
-                    <token>van</token>
-                </marker>
-                <token regexp="yes">\p{Lu}.+</token>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="NPCNSP0"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">\p{Lu}.+</token>
-                <marker>
-                    <token>van</token>
-                </marker>
-                <token regexp="yes">den|der</token>
-                <token regexp="yes">\p{Lu}.+</token>
-            </pattern>
-            <disambig action="replace">
-                <wd pos="NPCNSP0"/>
-            </disambig>
-        </rule>
-    </rulegroup>
-    <rule id="DA_VINCI" name="da Vinci">
-        <pattern>
-            <marker>
-                <token>da</token>
-                <token regexp="yes">(?-i)Messina|Cividale|Morte|Costa|Lingua|Língua|Gagliano|Palestrina|Perugia|Silva|Cunha|Gama|Viadana|Vinci|Ponte</token>
-            </marker>
-        </pattern>
-        <disambig action="replace">
-            <wd pos="NPCNSP0"/>
-            <wd pos="NPCNSP0"/>
-        </disambig>
-    </rule>
-
-    <!-- SPECIAL CASES -->
-    <rule id="agua" name="agua">
-        <pattern>
-            <token postag="D.*" postag_regexp="yes"/>
-            <marker>
-                <token postag="N.*" postag_regexp="yes" inflected="yes">agua</token>
-            </marker>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
-
-    <!-- Determiners -->
-
-    <rule id="EL" name="el (det)">
-        <antipattern>
-            <token>el</token>
-            <token>la</token>
-            <!-- musical note -->
-        </antipattern>
-        <pattern>
-            <marker>
-                <token postag="DA.*" postag_regexp="yes"/>
-            </marker>
-            <token regexp="yes">de|del|que</token>
-        </pattern>
-        <disambig action="filter" postag="DA.*"/>
-    </rule>
-
-    <!-- ADVERBS -->
-
-    <rulegroup id="DEMASIADO" name="demasiado">
-        <rule>
-            <pattern>
-                <token>demasiado<exception scope="previous" regexp="yes">ha|has</exception></token>
-            </pattern>
-            <disambig action="remove" postag="VMP.*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="RG" regexp="yes">demasiado|bastante|poco|tanto|mal|bien|muy</token>
-                    <token postag="A.*|V.P.*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="RG">mucho</token>
-                    <token postag="A.*" postag_regexp="yes" inflected="yes" regexp="yes">mayor|menor</token>
-                </marker>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-    </rulegroup>
-
-    <rulegroup id="no" name="no">
-        <rule>
-            <pattern>
-                <token><exception postag="D..MS." postag_regexp="yes"/></token>
-                <marker>
-                    <token>no</token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="RG"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="D..FS." postag_regexp="yes"/>
-                <marker>
-                    <token>no</token>
-                </marker>
-                <token min="0">-</token>
-                <token postag="(A..|NC)[FC][SN].*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filter" postag="RN"/>
-        </rule>
-    </rulegroup>
-    <rule id="igual" name="todos igual">
-        <pattern>
-            <unify negate="yes">
-                <feature id="numero"/>
-                <feature id="genero"/>
-                <token postag="DI.*" postag_regexp="yes" inflected="yes">todo</token>
-                <marker>
-                    <token regexp="yes">igual|bien</token>
-                </marker>
-            </unify>
-        </pattern>
-        <disambig action="filter" postag="RG"/>
-    </rule>
-    <rule id="mas_adj" name="más + adj no adv">
-        <pattern>
-            <token regexp="yes">más|menos</token>
-            <marker>
-                <token regexp="yes">bajo|largo</token>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="AQ.*"/>
-    </rule>
-
-    <rule id="HABER_PARTICIPO" name=" haver + participio">
-        <pattern>
-            <token inflected="yes" postag="VA.*" postag_regexp="yes">haber</token>
-            <token postag="V.P..SM" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
-    <rule id="el_haya" name="el haya">
-        <pattern>
-            <token regexp="yes">el|al|del|un|algún|ningún</token>
-            <token regexp="yes">&nombre_fem_el;</token>
-        </pattern>
-        <disambig action="add">
-            <wd pos="_GN_FS"/>
-            <wd pos="_GN_FS"/>
-        </disambig>
-    </rule>
-
-    <!--sobre (no preposición, nombre)-->
-    <rule id="SOBRE" name="sobre (nombre)">
-        <pattern>
-            <token postag="D..MS." postag_regexp="yes"><exception inflected="yes">todo</exception><exception postag="R.*" postag_regexp="yes"/></token>
-            <marker>
-                <token postag="NCMS000">sobre</token>
-            </marker>
-            <token><exception postag="D.*" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="filter" postag="N.*"/>
-        <example type="untouched">Este sobre el otro.</example>
-    </rule>
-    <!-- P_N Posesivo + nombre -->
-    <rule id="PN" name="Pos + Nom ">
-        <pattern>
-            <marker>
-                <unify>
-                    <feature id="genero"/>
-                    <feature id="numero"/>
-                    <token postag="DP.*" postag_regexp="yes"/>
-                    <token postag="N.*" postag_regexp="yes"><exception postag="C.|SP.*|R.*" postag_regexp="yes"/></token>
-                </unify>
-            </marker>
-        </pattern>
-        <disambig action="unify"/>
-        <!--example: su hermano-->
-    </rule>
-    <rule id="dicho" name="dicho + Nom ">
-        <pattern>
-            <marker>
-                <unify>
-                    <feature id="genero"/>
-                    <feature id="numero"/>
-                    <token postag="VMP.*|AQ.*" postag_regexp="yes" inflected="yes">decir</token>
-                    <token postag="NC.*" postag_regexp="yes"><exception postag="C.|SP.*|R.*" postag_regexp="yes"/></token>
-                </unify>
-            </marker>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
-
-
-    <rulegroup id="PUNCT" name="puntuación">
-        <rule>
-            <pattern>
-                <token regexp="yes">[.;:!?…()\[\]&#8210;&#8211;&#8212;&#8213;\-]</token>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_PUNCT"/>
-            </disambig>
-        </rule>
-        <rule id="PUNCT1" name="signos que no interrumpen el sintagma">
-            <pattern>
-                <token regexp="yes">[,'"‘’“”«»¡¿]</token>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_PUNCT_CONT"/>
-            </disambig>
-        </rule>
-        <rule id="PUNCT_OPEN" name="comillas apertura">
-            <pattern>
-                <marker>
-                    <token regexp="yes" spacebefore="yes">['"]</token>
-                </marker>
-                <token spacebefore="no"><exception postag="_PUNCT.*" postag_regexp="yes"/></token>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_QM_OPEN"/>
-            </disambig>
-        </rule>
-        <rule id="QM_OPEN" name="comillas apertura">
-            <pattern>
-                <marker>
-                    <token regexp="yes" spacebefore="yes">[“‘«'"]</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_QM_OPEN"/>
-            </disambig>
-        </rule>
-        <rule id="QM_CLOSE" name="comillas de cierre">
-            <pattern>
-                <marker>
-                    <token regexp="yes" spacebefore="yes">['"]</token>
-                </marker>
-                <token spacebefore="no" postag="_PUNCT.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_QM_CLOSE"/>
-            </disambig>
-        </rule>
-    </rulegroup>
-
-    <rule id="apenas" name="apenas (adv)">
-        <pattern>
-            <marker>
-                <token>apenas</token>
-            </marker>
-            <token postag="PP.*" postag_regexp="yes" min="0" max="2"/>
-            <token postag="V.[^MNPG].*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="RG"/>
-    </rule>
-    <rulegroup id="PP_NOUN" name="pronombre personal / nombre">
-        <rule>
-            <pattern>
-                <token>el</token>
-                <marker>
-                    <token>yo</token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="N.*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="P.*" postag_regexp="yes">yo<exception scope="previous">el</exception></token>
-            </pattern>
-            <disambig action="filter" postag="P.*"/>
-            <example type="untouched">El yo que me define.</example>
-        </rule>
-    </rulegroup>
-    <rule id="PREP_VERB" name="no verbo conjugado detrás de preposición">
-        <pattern>
-            <token postag="SP.*|LOC_PREP" postag_regexp="yes"><exception postag="PP.*|P0.*|RG.*|CS" postag_regexp="yes"/></token>
-            <marker>
-                <and>
-                    <token postag="N.*|A.*|RG|Z" postag_regexp="yes"/>
-                    <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes"/></token>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="filter" postag="[^V].*"/>
-    </rule>
-    <rule id="prep_art_nomverb" name="preposición + artículo + nombre/verbo">
-        <pattern>
-            <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="RG"/></token>
-            <unify>
-                <feature id="genero"/>
-                <feature id="numero"/>
-                <token postag="D[AIP].*" postag_regexp="yes"/>
-                <marker>
-                    <and>
-                        <token postag="NC.*|V.P.*|A.*|PI.*|Z" postag_regexp="yes"/>
-                        <token postag="V.[MSIG].*" postag_regexp="yes"/>
-                    </and>
-                </marker>
-            </unify>
-        </pattern>
-        <disambig action="remove" postag="V.[MSIG].*"/>
-    </rule>
-    <rule id="un_not_verb" name="un + not verb">
-        <pattern>
-            <token postag="DI.*" postag_regexp="yes"><exception postag="DI.*" postag_regexp="yes" negate_pos="yes"/></token>
-            <marker>
-                <and>
-                    <token postag="V.[SIM].*" postag_regexp="yes"/>
-                    <token postag="[AN].*" postag_regexp="yes"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="V.[SIM].*"/>
-    </rule>
-
-
-    <rule id="el_not_verb" name="not verb">
-        <!--el uno-->
-        <pattern>
-            <unify>
-                <feature id="numero"/>
-                <feature id="genero"/>
-                <token postag="DA.*" postag_regexp="yes"><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
-                <marker>
-                    <token postag="[AN].*" postag_regexp="yes"/>
-
-                </marker>
-            </unify>
-        </pattern>
-        <disambig action="remove" postag="V.[SIM].*"/>
-    </rule>
-
-    <rule id="probably_noun" name="probably_noun">
-        <pattern>
-            <marker>
-                <token inflected="yes">casa</token>
-            </marker>
-            <token regexp="yes">del?</token>
-        </pattern>
-        <disambig action="filter" postag="NC.*"/>
-    </rule>
-
-    <rulegroup id="que_la_saque" name="que + pronombre verbo 3a persona sing">
-        <rule>
-            <pattern>
-                <token><exception postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">hacer|conseguir</exception></token>
-                <token regexp="yes">quien|que<exception postag="LOC_CS"/></token>
-                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                <marker>
-                    <token postag="VM..3S." postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="V.*|_GV_"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">que|quien</token>
-                <token>un</token>
-                <marker>
-                    <token postag="VM..3S." postag_regexp="yes"><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="V.*|_GV_"/>
-        </rule>
-    </rulegroup>
-
-    <rule id="mucho" name="mucho adv">
-        <pattern>
-            <token>quien</token>
-            <marker>
-                <token>mucho</token>
-            </marker>
-            <token min="0" max="1" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-            <token postag="V.[SI].*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="RG"/>
-    </rule>
-
-    <rulegroup id="verbnoun_verb" name="verb/noun + verb">
-        <antipattern>
-            <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-            <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-            <token postag="V.[IS].*" postag_regexp="yes"/>
-        </antipattern>
-        <rule>
-            <pattern>
-                <token postag="D[DAIP].[MF].*" postag_regexp="yes"/>
-                <marker>
-                    <and>
-                        <token postag="V.[IS].*" postag_regexp="yes"/>
-                        <token postag="N.*" postag_regexp="yes"/>
-                    </and>
-                </marker>
-                <token postag="V.[IS].*" postag_regexp="yes"><exception postag="V.[MIS].*" postag_regexp="yes" negate_pos="yes"/></token>
-            </pattern>
-            <disambig action="filter" postag="[^V].*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="D[DAIP].[MF].*" postag_regexp="yes"/>
-                <marker>
-                    <and>
-                        <token postag="V.[IS].*" postag_regexp="yes"/>
-                        <token postag="N.*" postag_regexp="yes"/>
-                    </and>
-                </marker>
-                <token postag="(PP|P0).*" postag_regexp="yes"/>
-                <token postag="V.[IS].*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filter" postag="[^V].*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="D[DAIP].[MF].*" postag_regexp="yes"/>
-                <marker>
-                    <and>
-                        <token postag="V.[IS].*" postag_regexp="yes"/>
-                        <token postag="N.*" postag_regexp="yes"/>
-                    </and>
-                </marker>
-                <token postag="(PP|P0).*" postag_regexp="yes"/>
-                <token postag="(PP|P0).*" postag_regexp="yes"/>
-                <token postag="V.[IS].*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filter" postag="[^V].*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="D[DAIP].[MF].*" postag_regexp="yes"/>
-                <marker>
-                    <and>
-                        <token postag="V.[IS].*" postag_regexp="yes"/>
-                        <token postag="N.*" postag_regexp="yes"/>
-                    </and>
-                </marker>
-                <token regexp="yes">no|ya</token>
-                <token postag="(PP|P0).*|V.[IS].*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="filter" postag="[^V].*"/>
-        </rule>
-    </rulegroup>
-
-    <rulegroup id="PP_VERB" name="pronombre personal seguido de verbo">
-        <rule>
-            <pattern>
-                <token regexp="yes">me|te|se|nos|os</token>
-                <token regexp="yes" postag="P.*" postag_regexp="yes">&pronombre_personal_atono;</token>
-                <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+</exception></token>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token regexp="yes" postag="P.*" postag_regexp="yes">&pronombre_personal_atono;<exception postag="D.*" postag_regexp="yes"/></token>
-                </marker>
-                <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+</exception></token>
-            </pattern>
-            <disambig action="filter" postag="P[0P].*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes" postag="P.*" postag_regexp="yes">&pronombre_personal_atono;<exception postag="D.*" postag_regexp="yes"/></token>
-                <marker>
-                    <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+</exception></token>
-                </marker>
-            </pattern>
-            <disambig action="filter" postag="V.[^MNPG].*"/>
-            <example type="untouched">Él apenas leyó 10.</example>
-        </rule>
-    </rulegroup>
-
-    <rule id="el_infinitivo" name="el + infinitivo">
-        <pattern>
-            <token regexp="yes">el|al|del</token>
-            <marker>
-                <token postag="V.N.*" postag_regexp="yes"/>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="V.[^N].*"/>
-    </rule>
-
-    <rule id="PERO" name="pero">
-        <pattern>
-            <token>pero</token>
-        </pattern>
-        <disambig action="filter" postag="CC"/>
-    </rule>
-    <rule id="SENOR" name="señor">
-        <pattern>
-            <marker>
-                <token inflected="yes">señor</token>
-            </marker>
-            <token regexp="yes" case_sensitive="yes">[A-ZÀÈÌÒÙÁÉÍÓÚ].*</token>
-        </pattern>
-        <disambig action="filter" postag="NC.*"/>
-    </rule>
-    <rulegroup id="no_nombre" name="no nombre: todo, no">
-        <rule>
-            <pattern>
-                <token inflected="yes" regexp="yes">todo|no|pronto<exception postag="D.*" postag_regexp="yes" scope="previous"/></token>
-            </pattern>
-            <disambig action="remove" postag="NC.*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token inflected="yes" regexp="yes">y|o</token>
-            </pattern>
-            <disambig action="remove" postag="NC.*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token>hemos</token>
-            </pattern>
-            <disambig action="remove" postag="NC.*"/>
-        </rule>
-    </rulegroup>
-    <rule id="no_adj" name="no adjetivo">
-        <pattern>
-            <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
-            <marker>
-                <token postag="RG">pronto</token>
+                <token>nuevo</token>
             </marker>
             <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
         </pattern>
-        <disambig action="filter" postag="RG"/>
+        <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
+        <example type="untouched">Con la propuesta <marker>de nuevo</marker> servidor</example>
+    </rule>
+    <rule>
+      <pattern>
+        <token>por</token>
+        <token>lo</token>
+        <token>tanto</token>
+      </pattern>
+      <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token>del</token>
+        <token>mismo</token>
+        <token>modo</token>
+      </pattern>
+      <disambig action="add"><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/><wd pos="LOC_ADV"/></disambig>
+    </rule>
+  </rulegroup>
+  
+    <rule id="filtra_loc" name="filtra locuciones">
+      <pattern>
+        <token postag="LOC_ADV"/>
+      </pattern>
+      <disambig action="filter" postag=".*LOC_ADV.*"></disambig>
     </rule>
 
 
-    <!-- NOMINAL GROUPS -->
 
-
-    <rulegroup id="DNumN" name="Det + Numeral + Nom/Adj">
-        <rule>
-            <pattern>
-                <unify>
-                    <feature id="numero"/>
-                    <feature id="genero"/>
-                    <marker>
-                        <token postag="D[AID].*" postag_regexp="yes"/>
-                        <token postag="DN0CP0"/>
-                        <token postag="A.*|V.P.*|N.*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
-                    </marker>
-                </unify>
-            </pattern>
-            <disambig action="filterall"/>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="D[AID].[MC][PN0].*" postag_regexp="yes"/>
-                    <token postag="DN0[CM]P0" postag_regexp="yes"/>
-                    <token postag="A..[MC][PN0].*|V.P..PM.?|N.[MC][PN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_GN_MP"/>
-                <wd pos="_GN_MP"/>
-                <wd pos="_GN_MP"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="D[AID].[FC][PN0].*" postag_regexp="yes"/>
-                    <token postag="DN0[CF]P0" postag_regexp="yes"/>
-                    <token postag="A..[FC][PN0].*|V.P..PF.?|N.[FC][PN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_GN_FP"/>
-                <wd pos="_GN_FP"/>
-                <wd pos="_GN_FP"/>
-            </disambig>
-        </rule>
-    </rulegroup>
-
-    <rule id="DDN" name=" Det + Det + Noun/Pronoun">
-        <pattern>
-            <unify>
-                <feature id="numero"/>
-                <feature id="genero"/>
-                <marker>
-                    <token postag="DI.*" postag_regexp="yes" inflected="yes">todo</token>
-                    <token postag="DA.*" postag_regexp="yes"/>
-                    <token postag="N.*|PI.*" postag_regexp="yes"/>
-                </marker>
-            </unify>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
-
-
-    <!-- D_R_N : Det + Adverbio + Nombre-->
-    <!--<rule id="D_R_N" name="Det + Adv +Nom">
-        <pattern>
-            <token postag="D.*" postag_regexp="yes"/>
-            <marker>
-                <token postag="R.*" postag_regexp="yes"><exception postag="A.*" postag_regexp="yes"/></token>
-            </marker>
-            <token postag="N.*" postag_regexp="yes"><exception>son</exception><exception postag="(C|SP).*" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="filter" postag="R.*"/>
-        <example type="untouched">su mismo puesto</example>
-    </rule>-->
-    <!-- DDN : Determinante posesivo + Determinante indefinido + Nombre -->
-    <rule id="DDN_u" name="Det + Nom + Adj">
-        <pattern>
-            <marker>
-                <unify>
-                    <feature id="genero"/>
-                    <feature id="numero"/>
-                    <token postag="DP.*" postag_regexp="yes"/>
-                    <token postag="DI.*" postag_regexp="yes"><exception inflected="yes" regexp="yes">otro|poco</exception></token>
-                    <token postag="N.*" postag_regexp="yes"/>
-                </unify>
-            </marker>
-        </pattern>
-        <disambig action="unify"/>
-    </rule>
-    <!-- DNA : Det + Nombre + adjetivo-->
-    <rule id="DNA" name="Det + Nom + Adj">
-        <pattern>
-            <marker>
-                <unify>
-                    <feature id="genero"/>
-                    <feature id="numero"/>
-                    <token postag="D.*" postag_regexp="yes"/>
-                    <token postag="N.*" postag_regexp="yes"/>
-                    <token postag="A.*" postag_regexp="yes"/>
-                </unify>
-            </marker>
-        </pattern>
-        <disambig action="unify"/>
-        <example inputform="una[unir/VMM03S0,unir/VMSP1S0,unir/VMSP3S0,uno/DI0FS0,uno/PI0FS000]" outputform="una[uno/DI0FS0]" type="ambiguous">Es <marker>una</marker> ocasión romántica.</example>
-        <example type="untouched">Es una romántica ocasión.</example>
-    </rule>
-    <!-- DAN : Determinante + Adjetivo + Nombre-->
-    <rule id="DAN" name="Det + Adj + Nom">
-        <pattern>
-            <marker>
-                <unify>
-                    <feature id="genero"/>
-                    <feature id="numero"/>
-                    <token postag="D.*" postag_regexp="yes"/>
-                    <token postag="A.*" postag_regexp="yes"/>
-                    <token postag="N.*" postag_regexp="yes"><exception postag="[DC].*" postag_regexp="yes"/><exception regexp="yes">de|son|era</exception></token>
-                </unify>
-            </marker>
-        </pattern>
-        <disambig action="unify"/>
-        <example inputform="una[unir/VMM03S0,unir/VMSP1S0,unir/VMSP3S0,uno/DI0FS0,uno/PI0FS000]" outputform="una[uno/DI0FS0]" type="ambiguous">Es <marker>una</marker> romántica ocasión.</example>
-        <example type="untouched">Es una ocasión romántica.</example>
-    </rule>
-    <!-- NSN : Nom + Nom/Prep + Nom/Adj = prep -->
-    <rule id="NSN" name="Nom + Nom/Prep + Nom/Adj">
-        <pattern>
-            <token postag="N.*" postag_regexp="yes"><exception postag="RN|CS" postag_regexp="yes"/></token>
-            <marker>
-                <token postag="S.*" postag_regexp="yes"/>
-            </marker>
-            <token postag="[NA].*" postag_regexp="yes"><exception postag="P.*" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="filter" postag="S.*"/>
-    </rule>
-    <!-- ANA : Adj + Nom/Adj + Adj = Nom -->
-    <rule id="ANA" name="Adj + Nom/Adj + Adj">
-        <pattern>
-            <token postag="A.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
-            <marker>
-                <and>
-                    <token postag="N.*" postag_regexp="yes"/>
-                    <token postag="A.*" postag_regexp="yes"/>
-                </and>
-            </marker>
-            <token postag="A.*" postag_regexp="yes"><exception postag="N.*" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="filter" postag="N.*"/>
-    </rule>
-    <!--P_V Cuando está delante de un verbo, se trata de un pronombre-->
-    <rule id="P_V" name="Pronombre + Verbo">
-        <pattern>
-            <marker>
-                <and>
-                    <token postag="D.*" postag_regexp="yes"><exception scope="previous" postag="SPS00"/></token>
-                    <token postag="[PN].*" postag_regexp="yes"/>
-                </and>
-            </marker>
-            <token postag="V.*" postag_regexp="yes"><exception postag="N.*|V.N.*|A.*|PI.*|Z|V.P.*" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="filter" postag="P.*|N.*"/>
-        <example type="untouched">De lo uno y lo otro</example>
-        <example type="untouched">Las hechas</example>
-    </rule>
-    <!--D_AN Detrás de un determinante, va el nombre y no el adjetivo-->
-    <rule id="D_AN" name="Art + Nom/Adj = Nom">
-        <pattern>
-            <unify>
-                <feature id="numero"/>
-                <feature id="genero"/>
-                <token postag="D.*" postag_regexp="yes"><exception postag="R.*" postag_regexp="yes"/><exception>lo</exception></token>
-                <marker>
-                    <and>
-                        <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="A.*" postag_regexp="yes"><exception inflected="yes">nuevo</exception></token>
-                        <token negate_pos="yes" postag="V.*" postag_regexp="yes"/>
-                    </and>
-                </marker>
-            </unify>
-            <token negate_pos="yes" postag="N.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filter" postag="N.*"/>
-        <example inputform="blanca[blanco/AQ0FS0,blanco/NCFS000]" outputform="blanca[blanco/NCFS000]" type="ambiguous">Me gusta la <marker>blanca</marker>.</example>
-        <example type="untouched">Eran demasiado siniestros.</example>
-        <example type="untouched">Una nueva formula.</example>
-        <example type="untouched">Ya los estraño a todos.</example>
-    </rule>
-    <!-- D_N Cuando está delante de un nombre, se trata de un determinante.-->
-    <rule id="D_N" name="Artículo + Nombre">
-        <pattern>
-            <marker>
-                <token postag="D[^T].*" postag_regexp="yes"><exception inflected="yes">todo</exception><exception postag="R.*|PI.*" postag_regexp="yes"/></token>
-            </marker>
-            <token postag="[PNA].*" postag_regexp="yes"><exception postag="V.*|PI.*" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="filter" postag="D.*|_GN_.*"/>
-    </rule>
-
-    <rule id="POS_N" name="possessive + noun">
-        <!-- mi contra -->
-        <pattern>
-            <marker>
-                <unify>
-                    <feature id="genero"/>
-                    <feature id="numero"/>
-                    <token postag="DP.*" postag_regexp="yes"/>
-                    <token postag="N.*" postag_regexp="yes"><exception postag="[DC].*" postag_regexp="yes"/><exception>de</exception></token>
-                </unify>
-            </marker>
-        </pattern>
-        <disambig action="unify"/>
-    </rule>
-
-
-    <!-- END: nominal groups -->
-
-    <rulegroup id="PREPOSICIONES" name="preposiciones">
-        <rule>
-            <pattern>
-                <marker>
-                    <token>según</token>
-                </marker>
-                <token postag="P.*" postag_regexp="yes" min="0" max="2"/>
-                <token postag="V.[MSI].*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="remove" postag="SPS00"/>
-        </rule>
-        <rule>
-            <pattern>
-                <!-- TODO: exceptions?-->
-                <token postag="SPS00"><exception postag="LOC_ADV"/><exception regexp="yes">bajo|para|hasta</exception></token>
-            </pattern>
-            <disambig action="filter" postag="SPS00"/>
-            <example type="untouched">en mi contra.</example>
-        </rule>
-    </rulegroup>
-
-
-    <rule id="NOMBRE_PROPIOS" name="nombres propios">
-        <pattern>
-            <token postag="NP.*" postag_regexp="yes"><exception postag="SENT_START" scope="previous"/></token>
-        </pattern>
-        <disambig action="filter" postag="NP.*"/>
-    </rule>
-    <rulegroup id="possible_np" name="posible nombre propio">
-        <rule>
-            <pattern>
-                <token><exception postag="SENT_START"/><exception regexp="yes">[—–\-]</exception><exception regexp="yes">[¿¡"'«»‘“:]</exception></token>
-                <marker>
-                    <token postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSIP].*|N.*|RG|DP.*|SPS00|SP\+DA" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_possible_NP"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token><exception postag="SENT_START"/></token>
-                <token spacebefore="no">-</token>
-                <marker>
-                    <token spacebefore="no" postag="AQ.*|DA.*|PP.*|P0.*|V.[GMSI].*|N.*|RG|DP.*|SPS00" postag_regexp="yes" regexp="yes">\p{Lu}.*</token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_possible_NP"/>
-            </disambig>
-        </rule>
-    </rulegroup>
-
-    <rule id="de_not_adj" name="de + no adj">
-        <pattern>
-            <token>de</token>
-            <marker>
-                <token inflected="yes" regexp="yes">político|directivo|informe</token>
-            </marker>
-            <token><exception postag="NC.*" postag_regexp="yes"/></token>
-        </pattern>
-        <disambig action="remove" postag="AQ.*"/>
-    </rule>
-
-    <rule id="not_adj_no_agreement" name="not adjective if no agreement">
-        <pattern>
-            <token><exception postag="NC.*" postag_regexp="yes"/></token>
-            <marker>
-                <token postag="A.*" postag_regexp="yes" regexp="yes">sucursal(es)?<exception postag="_GN_.*" postag_regexp="yes"/></token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="A.*"/>
-    </rule>
-
-    <rule id="not_adj_no_agreement2" name="not adjective if no agreement">
-        <pattern>
-            <marker>
-                <token postag="A.*" postag_regexp="yes" regexp="yes">mal|solo<exception postag="_GN_.*" postag_regexp="yes"/></token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="A.*"/>
-    </rule>
-
-    <rule id="not_participle" name="not participle">
-        <antipattern>
-            <token inflected="yes">haber</token>
-            <token postag="V.P.*" postag_regexp="yes"/>
-        </antipattern>
-        <pattern>
-            <token inflected="yes">diputado</token>
-        </pattern>
-        <disambig action="remove" postag="V.P.*"/>
-    </rule>
-
-
-    <rulegroup id="Det_Noun" name="det + nombre">
-        <rule>
-            <!-- He canviat (N|A.|PX) per (N). Per què no hi ha V.P.* ? No cal? -->
-            <pattern>
-                <marker>
-                    <token postag="D[^R].[MC][SN0].*" postag_regexp="yes"><exception postag="RG"/></token>
-                    <token postag="(N|A.|PX).[MC][SN0].*|V.P..SM" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_GN_MS"/>
-                <wd pos="_GN_MS"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="D[^R].[FC][SN0].*" postag_regexp="yes"/>
-                    <token postag="(N|A.|PX).[FC][SN0].*|V.P..SF" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_GN_FS"/>
-                <wd pos="_GN_FS"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="D[^R].[MC][PN0].*" postag_regexp="yes"/>
-                    <token postag="(N|A.|PX).[MC][PN0].*|V.P..PM" postag_regexp="yes"><exception postag="DN.*|_GN_MS" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_GN_MP"/>
-                <wd pos="_GN_MP"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token postag="D[^R].[FC][PN0].*" postag_regexp="yes"/>
-                    <token postag="(N|A.|PX).[FC][PN0].*|V.P..PF" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_GN_FP"/>
-                <wd pos="_GN_FP"/>
-            </disambig>
-        </rule>
-    </rulegroup>
-
-    <rule id="la_not_noun" name="la not noun">
-        <pattern>
-            <token>la<exception postag="_GN_MS"/></token>
-        </pattern>
-        <disambig action="remove" postag="N.*"/>
-    </rule>
-
-    <rule id="not_verb_if_agreement" name="not verb if agreement">
-        <pattern>
+  <rule id="PREP_VERB" name="no verbo conjugado detrás de preposición">
+    <pattern>
+        <token postag="SP.*|.*L_SPS00.*" postag_regexp="yes"><exception postag="PP.*|P0.*|RG.*|CS" postag_regexp="yes" /></token>
+        <marker>
             <and>
-                <token inflected="yes">uno</token>
-                <token postag="_GN_.*" postag_regexp="yes"/>
+                <token postag="N.*|A.*|RG|Z" postag_regexp="yes"></token>
+                <token postag="V.[^NGP].*" postag_regexp="yes"><exception postag="V.N.*" postag_regexp="yes"/></token>
             </and>
-        </pattern>
-        <disambig action="remove" postag="V.[MSI].*"/>
-    </rule>
+        </marker>
+    </pattern>
+    <disambig action="filter" postag="[^V].*"></disambig>
+  </rule>
+  <rule id="prep_art_nomverb" name="preposición + artículo + nombre/verbo">
+    <pattern>
+        <token postag="SPS00|.*L_SPS00.*" postag_regexp="yes"><exception postag="RG"/></token>
+        <token postag="D[AIP].*" postag_regexp="yes"/>
+        <marker>
+            <and>
+                <token postag="NC.*|V.P.*|A.*|PI.*|Z" postag_regexp="yes"/>
+                <token postag="V.[MSIG].*" postag_regexp="yes"/>
+            </and>
+        </marker>
+    </pattern>
+    <disambig action="remove" postag="V.[MSIG].*"></disambig>
+  </rule>
 
-    <rule id="not_noun_no_agreement" name="not noun if no agreement">
+  <rulegroup id="PP_VERB" name="pronombre personal seguido de verbo">
+    <rule>
+        <pattern>
+            <token regexp="yes">me|te|se|nos|os</token>
+            <token postag="P[0P].*" postag_regexp="yes"></token>
+            <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+</exception></token>
+        </pattern>
+        <disambig action="filterall"/>
+    </rule>
+    <rule>
         <pattern>
             <marker>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                <token postag="P[0P].*" postag_regexp="yes"><exception postag="D.*" postag_regexp="yes"></exception></token>
             </marker>
+            <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+</exception></token>
         </pattern>
-        <disambig action="remove" postag="N.*"/>
+        <disambig action="filter" postag="P[0P].*"/>
     </rule>
-    <rule id="PT_not_noun" name="PT not noun if no agreement">
+    <rule>
         <pattern>
+            <token postag="PP.*" postag_regexp="yes"><exception postag="D.*" postag_regexp="yes"></exception></token>
             <marker>
-                <token postag="PT.*" postag_regexp="yes"><exception scope="previous">el</exception></token>
+                <token postag="V.[^MNPG].*" postag_regexp="yes"><exception regexp="yes">\p{Lu}[\p{Ll}\-'·]+</exception></token>
             </marker>
         </pattern>
-        <disambig action="remove" postag="N.*"/>
+        <disambig action="filter" postag="V.[^MNPG].*"/>
     </rule>
-    <rule id="not_det_no_agreement" name="not determinant if no agreement">
-        <pattern>
-            <!-- These words would require specific rules for agreement-->
-            <marker>
-                <token postag="D.*" postag_regexp="yes" inflected="yes" regexp="yes">todo|ambos<exception postag="_GN_.*" postag_regexp="yes"/></token>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="D.*"/>
+  </rulegroup>
+
+  <rulegroup id="PREPOSICIONES" name="preposiciones">
+    <rule>
+      <pattern> 
+        <token>según</token>
+        <token postag="V.[MSI].*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="remove" postag="SPS00"/>
     </rule>
-
-
-    <rule id="tanto_no_det" name="tanto: no determinant">
-        <pattern>
-            <token postag="V.*" postag_regexp="yes"/>
-            <marker>
-                <token regexp="yes">tanto|mucho</token>
-            </marker>
-            <token postag="NP.*|V.N.*" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="remove" postag="D.*"/>
+    <rule>
+      <pattern> 
+        <token>según</token>
+        <token postag="P.*" postag_regexp="yes"/>
+        <token postag="V.[MSI].*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="remove" postag="SPS00"/>
     </rule>
 
-    <!-- EXCEPTIONS FOR SOME GRAMMAR RULES -->
-
-    <rulegroup id="tanto_como" name="tanto + __ + como + __">
-        <rule>
-            <pattern>
-                <marker>
-                    <token>tanto</token>
-                </marker>
-                <token postag="A.*|V.P.*|PX.*" postag_regexp="yes" skip="20"/>
-                <token>como</token>
-                <token postag="A.*|V.P.*|PX.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_allow_tanto"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>tanto</token>
-                </marker>
-                <token postag="A.*|V.P.*|PX.*" postag_regexp="yes" skip="20"/>
-                <token>como</token>
-                <token>no</token>
-                <token postag="A.*|V.P.*|PX.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_allow_tanto"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>tanto</token>
-                </marker>
-                <token postag="N.*" postag_regexp="yes" skip="20"/>
-                <token>como</token>
-                <token postag="N.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_allow_tanto"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>tanto</token>
-                </marker>
-                <token postag="N.*" postag_regexp="yes"/>
-                <token postag="A.*" postag_regexp="yes" skip="20"/>
-                <token>como</token>
-                <token postag="A.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_allow_tanto"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>tanto</token>
-                </marker>
-                <token regexp="yes" skip="20">\p{Lu}.*</token>
-                <token>como</token>
-                <token regexp="yes">\p{Lu}.*</token>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_allow_tanto"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes" skip="1">tanto|tantas</token>
-                <token postag="N.*" postag_regexp="yes" skip="20"/>
-                <marker>
-                    <token>como</token>
-                </marker>
-                <token postag="N.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_allow_como"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <marker>
-                    <token>tanto</token>
-                </marker>
-                <token postag="N.*" postag_regexp="yes" skip="20"/>
-                <token>como</token>
-                <token>no</token>
-                <token postag="N.*" postag_regexp="yes"/>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_allow_tanto"/>
-            </disambig>
-        </rule>
-    </rulegroup>
-
-    <rule id="DD_after_noun" name="DD after noun">
-        <pattern>
-            <unify>
-                <feature id="numero"/>
-                <feature id="genero"/>
-                <token postag="D.*" postag_regexp="yes"/>
-                <token postag="N.*" postag_regexp="yes"><exception postag="R.*" postag_regexp="yes"/></token>
-                <marker>
-                    <token postag="DD.*" postag_regexp="yes"/>
-                </marker>
-            </unify>
-        </pattern>
-        <disambig action="add">
-            <wd pos="_DD_after_noun"/>
-        </disambig>
+    <rule>
+      <pattern> <!-- TODO: exceptions?-->
+        <token postag="SPS00"><exception postag="LOC_ADV"/><exception regexp="yes">bajo|para|hasta</exception></token>
+      </pattern>
+      <disambig action="filter" postag="SPS00"/>
     </rule>
+  </rulegroup>
 
-    <!-- SOME EXTRA TAGGING -->
-    <rulegroup id="reflexive_verb" name="reflexive verb">
-        <rule>
-            <pattern>
-                <unify>
-                    <feature id="numero"/>
-                    <feature id="persona"/>
-                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <marker>
-                        <token postag="V.[SI].*" postag_regexp="yes"/>
-                    </marker>
-                </unify>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_reflexive"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <unify>
-                    <feature id="numero"/>
-                    <feature id="persona"/>
-                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <token postag="VA[SI].*" postag_regexp="yes" inflected="yes">haber</token>
-                </unify>
-                <marker>
-                    <token postag="V.P..SM" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_reflexive"/>
-            </disambig>
-        </rule>
-        <rule>
-            <pattern>
-                <unify>
-                    <feature id="numero"/>
-                    <feature id="persona"/>
-                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                    <token postag="V.[SI].*" postag_regexp="yes" inflected="yes">ir</token>
-                </unify>
-                <token>a</token>
-                <marker>
-                    <token postag="V.N.*" postag_regexp="yes"/>
-                </marker>
-            </pattern>
-            <disambig action="add">
-                <wd pos="_reflexive"/>
-            </disambig>
-        </rule>
-    </rulegroup>
+  <rule id="PERO" name="pero">
+    <pattern>
+      <token>pero</token>
+    </pattern>
+    <disambig action="filter" postag="CC"/>
+  </rule>
 
-    <!-- IGNORE SPELLING -->
-    <rule name="Ignore spelling pm/am" id="pm_am">
-        <!-- style rules can be suggested for these abbreviations -->
-        <pattern>
-            <token regexp="yes">([012][0-9][\.,])?[0-6]?[0-9]</token>
-            <token regexp="yes" case_sensitive="yes">pm|am|PM|AM|GMT|CEST|UTC|EST</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
+  <rule id="SENOR" name="señor">
+    <pattern>
+      <marker>
+        <token inflected="yes">señor</token>
+      </marker>
+      <token regexp="yes" case_sensitive="yes">[A-ZÀÈÌÒÙÁÉÍÓÚ].*</token>
+    </pattern>
+    <disambig action="filter" postag="NC.*"/>
+  </rule>
+
+  <rulegroup id="no_nombre" name="no nombre: todo, no">
+    <rule>
+      <pattern>
+        <token inflected="yes" regexp="yes">todo|no|pronto<exception postag="D.*" postag_regexp="yes" scope="previous"/></token>
+      </pattern>
+      <disambig action="remove" postag="NC.*"/>
     </rule>
-    <rulegroup name="Ignore spelling: A380" id="letters_words">
-        <rule>
-            <pattern>
-                <token regexp="yes" case_sensitive="yes">[A-Z]+\d+</token>
-            </pattern>
-            <disambig action="ignore_spelling"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes" case_sensitive="yes">[A-Z0-9]+</token>
-                <token spacebefore="no">-</token>
-                <token spacebefore="no" regexp="yes" case_sensitive="yes">[A-Z0-9]+</token>
-            </pattern>
-            <disambig action="ignore_spelling"/>
-        </rule>
-    </rulegroup>
-    <rule name="Ignore spelling of url protocols" id="URI_PROTOCOL">
-        <pattern>
-            <!-- chrome://, ftp://, file:// -->
-            <token regexp="yes">[a-z\-]+</token>
-            <token spacebefore="no">:</token>
-            <token spacebefore="no">/</token>
-            <token spacebefore="no">/</token>
-            <token spacebefore="no" min="0">/</token>
-            <token spacebefore="no" regexp="yes">[a-z0-9\-]+</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
+    <rule>
+      <pattern>
+        <token inflected="yes" regexp="yes">y|o</token>
+      </pattern>
+      <disambig action="remove" postag="NC.*"/>
     </rule>
+    <rule>
+      <pattern>
+        <token>hemos</token>
+      </pattern>
+      <disambig action="remove" postag="NC.*"/>
+    </rule>
+  </rulegroup>
+
+  <rule id="no_adj" name="no adjetivo">
+    <pattern>
+      <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
+      <marker>
+        <token postag="RG" postag_regexp="yes">pronto</token>
+      </marker>
+      <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
+    </pattern>
+    <disambig action="filter" postag="RG"/>
+  </rule>
+
+  <rule id="NOMBRE_PROPIOS" name="nombres propios">
+    <pattern>
+      <token postag="NP.*" postag_regexp="yes"><exception postag="SENT_START" scope="previous"/></token>
+    </pattern>
+    <disambig action="filter" postag="NP.*"/>
+  </rule>
+
     <rule name="Ignore spelling of file names" id="IGNORE_SPELLING_OF_FILE_NAMES">
-        <!-- Localized from English by Tiago F. Santos, 2019-08-30  -->
-        <pattern>
-            <token/>
-            <token spacebefore="no">.</token>
-            <token spacebefore="no" regexp="yes">&extensiones_de_archivo;</token>
-            <!-- For more extensions, refer to https://fileinfo.com -->
-        </pattern>
-        <disambig action="ignore_spelling"/>
+    <!-- Localized from English by Tiago F. Santos, 2019-08-30  -->
+      <pattern>
+          <token/>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no" regexp="yes">&extensiones_de_archivo;</token><!-- For more extensions, refer to https://fileinfo.com -->
+      </pattern>
+      <disambig action="ignore_spelling"/>
     </rule>
     <rule name="Ignore spelling of @user mentions" id="IGNORE_USER_MENTION">
-        <pattern>
-            <token regexp="yes">@.+</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
+      <pattern>
+          <token regexp="yes">@.+</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
     </rule>
-    <rulegroup name="Ignore spelling of #hashtags" id="IGNORE_HASHTAG">
-        <rule>
-            <pattern>
-                <token spacebefore="yes">#</token>
-                <token spacebefore="no"/>
-            </pattern>
-            <disambig action="ignore_spelling"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token postag="SENT_START"/>
-                <token>#</token>
-                <token spacebefore="no"/>
-            </pattern>
-            <disambig action="ignore_spelling"/>
-        </rule>
-    </rulegroup>
+  <rulegroup name="Ignore spelling of #hashtags" id="IGNORE_HASHTAG">
+    <rule>
+      <pattern>
+          <token spacebefore="yes">#</token>
+          <token spacebefore="no"/>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+          <token postag="SENT_START"/>
+          <token>#</token>
+          <token spacebefore="no"/>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+  </rulegroup>
     <rule name="Ignore spelling of domain names" id="IGNORE_DOMAIN_NAMES">
-        <pattern case_sensitive="yes">
-            <token regexp="yes">[A-Za-z0-9\-]+</token>
-            <token spacebefore="no">.</token>
-            <token spacebefore="no" regexp="yes">&dominios_internet;</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
+      <pattern case_sensitive="yes">
+          <token regexp="yes">[A-Za-z0-9\-]+</token>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no" regexp="yes">&dominios_internet;</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
     </rule>
     <rule name="Ignore common chemical formulas" id="IGNORE_COMMON_CHEMICAL_FORMULAS">
-        <!-- Created by Tiago F. Santos, 2019-08-29  -->
-        <!-- List retreived and triaged from https://en.wikipedia.org/wiki/Glossary_of_chemical_formulas -->
-        <pattern case_sensitive="yes">
-            <token regexp="yes" case_sensitive="yes"
-                >Ac₂O₃|Ag₂C₂|Ag₂C₂O₄|Ag₂Cl₂|Ag₂CO₃|Ag₂Cr₂O₇|Ag₂CrO₄|Ag₂F|Ag₂MoO₄|Ag₂O|Ag₂S|Ag₂Se|Ag₂SeO₃|Ag₂SeO₄|Ag₂SO₄|Ag₂Te|Ag₃Br₂|Ag₃Br₃|Ag₃Cl₃|Ag₃I₃|Ag₃PO₄|AgBF₄|AgBrO₂|AgBrO₃|AgBrO₄|AgCl₃Cu₂|AgClO₃|AgClO₄|AgF₂|AgIO₂|AgIO₃|AgIO₄|AgMnO₄|AgN₃|AgNO₃|AgPF₆|Al₂BeO₄|Al₂Br₆|Al₂Cl₉K₃|Al₂CoO₄|Al₂F₆|Al₂I₆|Al₂MgO₄|Al₂O|Al₂O₂|Al₂O₃|Al₂O₅Si|Al₂O₇Si₂|Al₂S|Al₂S₃|Al₂Se|Al₂Te|Al₃F₁₄Na₅|Al₄C₃|Al₆BeO₁₀|Al₆O₁₃Si₂|AlBO₃|AlBr₃|AlCl₂F|AlCl₂H|AlCl₃|AlCl₄Cs|AlCl₄K|AlCl₄Na|AlCl₄Rb|AlCl₆K₃|AlCl₆Na₃|AlF₂|AlF₂O|AlF₃|AlF₄K|AlF₄Li|AlF₆K₃|AlF₆Li₃|AlF₆Na₃|AlI₃|AlLiO₂|AlNaO₂|AlO₂|AlPO₄|AlTe₂|As₂I₄|As₂Mg₃|As₂O₃|As₂O₅|As₂P₂|As₂S₄|As₂S₅|As₂Se|As₂Se₃|As₂Se₅|As₃O₄|As₃P|As₄O₃|As₄O₅|As₄S₃|As₄S₄|AsBr₃|AsCl₃|AsCl₃O|AsCl₄F|AsF₃|AsF₅|AsH₃|AsI₃|AsO₂|AsP₃|Au₂O₃|Au₂S|Au₂S₃|Au₂Se₃|AuBr₃|AuCl₃|AuF₃|AuI₃|B₂Cl₄|B₂F₄|B₂H₆|B₂O₃|B₂S₃|B₂Se₃|B₃N₃H₆|B₄C|Ba₂P₂O₇|Ba₂V₂O₇|Ba₂XeO₆|Ba₃N₂|BaB₆|BaBr₂|BaC₂|BaC₂O₄|BaCl₂|BaCO₃|BaCrO₄|BaF₂|BaFeSi₄O₁₀|BaHfO₃|BaHgI₄|BaI₂|BaMnO₄|BaMoO₄|BaN₆|BaNb₂O₆|BaO₂|BaS₂O₃|BaSeO₃|BaSeO₄|BaSi₂|BaSi₂O₅|BaSiF₆|BaSiO₃|BaSnO₃|BaSO₃|BaSO₄|BAsO₄|BaTeO₃|BaTiO₃|BaU₂O₇|BaWO₄|BaZrO₃|BBr₃|BCl₃|Be₂C|Be₃N₂|BeB₂|BeBr₂|BeCl₂|BeCO₃|BeF₂|BeI₂|BeSO₃|BeSO₄|BF₃|Bi₂O₃|Bi₂S₃|Bi₂Se₃|BI₃|BiBO₃|BiBr₃|BiC₆H₅O₇|BiCl₃|BiF₃|BiI₃|BiPO₄|BPO₄|Br₂|Br₂O₅|BrCl₃|BrCl₅|BrF₃|BrF₅|C₁₀H₁₀N₂O|C₁₀H₁₀O₂|C₁₀H₁₀O₄|C₁₀H₁₁N₃O₃S|C₁₀H₁₂N₂|C₁₀H₁₂O|C₁₀H₁₂O₂|C₁₀H₁₂O₃|C₁₀H₁₃N₅O₄|C₁₀H₁₄O|C₁₀H₁₅ON|C₁₀H₁₆|C₁₀H₁₆O|C₁₀H₁₇NO₃|C₁₀H₁₉NO₃|C₁₀H₂₀N₂O₂|C₁₀H₂₂|C₁₀H₇N₃S|C₁₀H₇NO₂|C₁₀H₈|C₁₀H₈O₃|C₁₀H₉N₅O|C₁₀H₉NO₂|C₁₁H₁₁NO₂|C₁₁H₁₂N₂O₂|C₁₁H₁₂O₃|C₁₁H₁₄N₂O|C₁₁H₁₄O₂|C₁₁H₁₉NO₄|C₁₁H₂₄|C₁₁H₈O₂|C₁₂H₁₀|C₁₂H₁₀ClN₂O₅S|C₁₂H₁₁N₅|C₁₂H₁₁N₇|C₁₂H₁₃NO₂|C₁₂H₁₄O₄|C₁₂H₁₅NO|C₁₂H₁₆N₂|C₁₂H₁₆O₃|C₁₂H₁₆O₄|C₁₂H₁₆O₇|C₁₂H₁₈O|C₁₂H₂₂O₁₁|C₁₂H₂₆|C₁₂H₄N₄|C₁₂H₈O₄|C₁₃₁H₂₀₀N₃₀O₄₃S₂|C₁₃H₁₀O|C₁₃H₁₂F₂N₆O|C₁₃H₁₂O|C₁₃H₁₂O₂|C₁₃H₁₄N₂O|C₁₃H₁₆N₂O₂|C₁₃H₁₈O₂|C₁₃H₂₈|C₁₄H₁₀|C₁₄H₁₀O₁₄|C₁₄H₁₂O₃|C₁₄H₁₄Cl₂N₂O|C₁₄H₁₈N₂O₅|C₁₄H₁₈N₄O₃|C₁₄H₃₀|C₁₅₈H₂₅₁N₃₉O₄₆S|C₁₅H₁₀O₄|C₁₅H₁₀O₅|C₁₅H₁₀O₆|C₁₅H₁₀O₇|C₁₅H₁₂N₂O|C₁₅H₁₂N₂O₂|C₁₅H₃₂|C₁₆₁H₂₃₆N₄₂O₄₈|C₁₆₄H₂₅₆Na₂O₆₈S₂|C₁₆H₁₄O₃|C₁₆H₂₈N₂O₆Zn|C₁₆H₃₄|C₁₇H₁₃ClN₄|C₁₇H₁₄F₃N₃O₂S|C₁₇H₁₈N₂O₆|C₁₇H₁₉N₃O₃S|C₁₇H₂₂O₂|C₁₇H₂₄O|C₁₇H₂₄O₉|C₁₇H₃₆|C₁₈H₂₂O₂|C₁₈H₂₄O₂|C₁₈H₂₄O₃|C₁₈H₂₄O₄|C₁₈H₂₇NO₃|C₁₈H₃₂O₂|C₁₈H₃₆O₂|C₁₈H₃₈|C₁₉H₁₆ClNO₄|C₁₉H₂₆O₂|C₁₉H₂₈O₂|C₁₉H₃₀O₂|C₁₉H₄₀|C₂₀H₂₄O₂N₂|C₂₀H₂₇NO₁₁|C₂₀H₂₈O₂|C₂₀H₃₂O₅|C₂₀H₃₄O₅|C₂₀H₄₂|C₂₁H₂₀O₆|C₂₁H₃₀O₂|C₂₁H₃₆N₇O₁₆P₃S|C₂₂H₂₃ClN₂O₂|C₂₃H₁₉ClF₃NO₃|C₂F₄|C₂H₂|C₂H₂O₂|C₂H₃Cl|C₂H₃NO|C₂H₄|C₂H₄Cl₂|C₂H₄N₄|C₂H₄O|C₂H₄O₂|C₂H₅Br|C₂H₅NH₂|C₂H₅NO₂|C₂H₅OCs|C₂H₅OH|C₂H₅OK|C₂H₅ONa|C₂H₅ORb|C₂H₆|C₂H₆OS|C₂H₇NO|C₂H₇NO₂|C₂H₇NO₃S|C₃₀H₁₉NO₉|C₃₄H₄₆O₁₈|C₃₅H₆₀O₆|C₃H₃N|C₃H₄N₂|C₃H₄N₂S|C₃H₄O₃|C₃H₄O₄|C₃H₅N₃|C₃H₅N₃O₉|C₃H₅NO|C₃H₆|C₃H₆O₂|C₃H₆O₂S|C₃H₇N|C₃H₇NO₂|C₃H₇NO₂S|C₃H₇NO₃|C₃H₈|C₃H₈NO₅P|C₃H₈O|C₃H₈O₂|C₃H₈O₃|C₃H₉N₃|C₃HN|C₃N₁₂|C₄₀H₅₆|C₄₄H₆₉N₁₅O₉S|C₄H₁₀|C₄H₁₀O|C₄H₁₀O₂|C₄H₁₀O₃|C₄H₁₁NO₂|C₄H₂|C₄H₂BrClN₂|C₄H₂Cl₂N₂|C₄H₃Cl₂N₃|C₄H₃FN₂O₂|C₄H₄|C₄H₄FN₃O|C₄H₄N₂O₂|C₄H₄N₄|C₄H₄O|C₄H₅N₃O|C₄H₆N₂|C₄H₆N₂S|C₄H₆N₄O|C₄H₆O₂|C₄H₆O₄|C₄H₇BrO₂|C₄H₇KO₃|C₄H₇NaO₃|C₄H₇NO₂|C₄H₇NO₃|C₄H₇NO₄|C₄H₈|C₄H₈N₂O₃|C₄H₈O|C₄H₈O₂|C₄H₈O₃|C₄H₉Li|C₄H₉NO₂|C₄H₉NO₃|C₄H₉OH|C₄HCl₂FN₂|C₄I₂|C₅₅H₇₄IN₃O₂₁S₄|C₅₉H₈₀N₄O₂₂S₄|C₅H₁₀|C₅H₁₀N₂O₃|C₅H₁₀O₂|C₅H₁₀O₄|C₅H₁₁NO₂|C₅H₁₁NO₂S|C₅H₁₂|C₅H₁₂O₂|C₅H₁₂O₄|C₅H₁₂O₅|C₅H₃Br₂N|C₅H₃BrN₂O₂|C₅H₃ClN₂O₂|C₅H₃ClN₄|C₅H₄N₂O₂|C₅H₄N₂O₄|C₅H₄N₄O|C₅H₄N₄O₂|C₅H₄N₄S|C₅H₄NCOOH|C₅H₄O|C₅H₄O₂|C₅H₄O₂S|C₅H₅BrN₂|C₅H₅ClN₂|C₅H₅IN₂|C₅H₅N|C₅H₅N₃O|C₅H₅N₃O₂|C₅H₅N₅|C₅H₅N₅O|C₅H₅NO|C₅H₆BNO₂|C₅H₆N₂|C₅H₆N₂O₂|C₅H₆N₂OS|C₅H₆O|C₅H₆O₅|C₅H₇N₃|C₅H₈O₂|C₅H₉NO₂|C₅H₉NO₄|C₆₂H₈₉CoN₁₃O₁₅P|C₆₃H₈₈CoN₁₄O₁₄P|C₆₃H₉₁CoN₁₃O₁₄P|C₆F₅COOH|C₆H₁₀O₃|C₆H₁₀O₄|C₆H₁₁NO₂|C₆H₁₂|C₆H₁₂O₃|C₆H₁₂O₆|C₆H₁₃NO|C₆H₁₃NO₂|C₆H₁₄|C₆H₁₄N₂O₂|C₆H₁₄N₄O₂|C₆H₁₄O₂|C₆H₁₄O₃|C₆H₁₄O₄|C₆H₁₅NO₃|C₆H₃Br₃O|C₆H₃Cl₃O|C₆H₄BrNO₂|C₆H₄ClN₃|C₆H₄ClNO₂|C₆H₄N₄|C₆H₄O₂|C₆H₅Br|C₆H₅CH₂OH|C₆H₅CHO|C₆H₅Cl|C₆H₅COCl|C₆H₅COOH|C₆H₅F|C₆H₅I|C₆H₅NO₂|C₆H₅NO₃|C₆H₅OH|C₆H₆|C₆H₆BClO₂|C₆H₆BFO₂|C₆H₆IN|C₆H₆N₂O|C₆H₆N₂O₂|C₆H₆O|C₆H₆O₂|C₆H₆O₃|C₆H₇BO₂|C₆H₇CsO₆|C₆H₇KO₆|C₆H₇LiO₆|C₆H₇N₃O|C₆H₇NaO₆|C₆H₇RbO₆|C₆H₈N₂|C₆H₈N₂O₂S|C₆H₈O₇|C₆H₉N₃O₂|C₆H₉N₃O₃|C₆N₄|C₇₂H₁₀₀CoN₁₈O₁₇P|C₇₇H₁₂₀N₁₈O₂₆S|C₇H₁₀N₂|C₇H₁₁NO₅|C₇H₁₂N₂O₄|C₇H₁₂O₄|C₇H₁₄O₆|C₇H₁₆|C₇H₅Br₃O|C₇H₅Cl₃O|C₇H₅F₃O|C₇H₅FO₂|C₇H₅N₃O₂|C₇H₅NO₄|C₇H₅NS₂|C₇H₆N₂|C₇H₆O|C₇H₆O₂|C₇H₆O₃|C₇H₆O₄|C₇H₆O₅|C₇H₇BO₄|C₇H₇N₃|C₇H₇NO₂|C₇H₇NO₃|C₇H₈|C₇H₈ClN₃O₄S₂|C₇H₈N₄O₂|C₇H₉BO₂|C₇H₉BO₃|C₈₃H₁₃₁N₁₉O₂₇S|C₈H₁₀N₄O₂|C₈H₁₁N₅O₃|C₈H₁₁NO|C₈H₁₆O₂|C₈H₁₆O₆|C₈H₁₈|C₈H₅F₃N₂OS|C₈H₅NO₂|C₈H₆BrN|C₈H₆Cl₂O₃|C₈H₆ClN|C₈H₆N₂O|C₈H₆N₂O₂|C₈H₇N|C₈H₇NO|C₈H₈|C₈H₈N₂OS|C₈H₈O₃|C₈H₈O₄|C₈H₉NO₂|C₉H₁₀O|C₉H₁₀O₃|C₉H₁₁NO₂|C₉H₁₁NO₃|C₉H₁₁NO₄|C₉H₁₇NO₂|C₉H₁₈N₂O₂|C₉H₂₀|C₉H₆BrN|C₉H₆N₂|C₉H₆O₃|C₉H₆OS|C₉H₇NO|C₉H₇NO₂|C₉H₈N₂|C₉H₈O₂|C₉H₈O₃|C₉H₈O₄|C₉H₉N|C₉H₉NO|C₉H₉NO₃|Ca₃N₂|Ca₃P₂|CaAl₂O₄|CaB₆|CaBr₂|CaC₂|CaC₂O₄|CaCl₂|CaCN₂|CaCO₃|CaF₂|CaH₂|CaHPO₄|CaI₂|CaMoO₄|CaO₂|CaSeO₃|CaSeO₄|CaSiO₃|CaSO₃|CaSO₄|CaTeO₃|CaTeO₄|CaTiO₃|CaWO₄|CCl₂F₂|CCl₄|Cd₂Nb₂O₇|Cd₃As₂|Cd₃P₂|CdBr₂|CdC₂O₄|CdCl₂|CdCO₃|CdCrO₄|CdF₂|CdI₂|CdMoO₄|CdSeO₃|CdSiO₃|CdSO₃|CdSO₄|CdTeO₄|CdTiO₃|CdWO₄|CdZrO₃|Ce₂C₃|Ce₂O₃|Ce₂S₃|CeB₆|CeBr₃|CeCl₃|CeF₃|CeF₄|CeI₂|CeI₃|CeO₂|CeSi₂|CF₃Cl|CF₄|CFCl₂CF₂Cl|CFCl₃|CH₂CHCHCH₂|CH₂CHOH|CH₂Cl₂|CH₂ClCOOH|CH₂ClF|CH₂CO|CH₂O|CH₂OHCH₂OH|CH₃CCH|CH₃CdCH₃|CH₃CH₂Br|CH₃CH₂CH₂CH₂OH|CH₃CH₂CH₂OH|CH₃CH₂CONH₂|CH₃CH₂COOH|CH₃CH₂OCH₂CH₃|CH₃CH₂OH|CH₃CHCH₂|CH₃CHCHCH₃|CH₃CHO|CH₃Cl|CH₃CN|CH₃COCH₃|CH₃COCl|CH₃CONH₂|CH₃COOCH₂C₆H₅|CH₃COOCH₃|CH₃COOCHCH₂|CH₃COOCs|CH₃COOH|CH₃COOK|CH₃COONa|CH₃COORb|CH₃HgCH₃|CH₃I|CH₃NH₂|CH₃NO|CH₃OCH₃|CH₃OCs|CH₃OH|CH₃OK|CH₃OLi|CH₃ONa|CH₃ORb|CH₃SCH₃|CH₃SH|CH₄|CH₄N₂O₂|CH₅N₃|CHCl₃|CHClF₂|Cl₂|Cl₂O₃|Cl₂O₆|Cl₂O₇|Cl₂O₈|ClF₃|ClF₅|ClO₂|ClO₃F|ClOClO₃|CO₂|Co₂B|Co₂S₃|Co₂SiO₄|Co₂SnO₄|Co₂SO₄|Co₂TiO₄|CO₃|CoAl₂O₄|CoAs₂|CoBr₂|CoC₂O₄|CoCl₂|COCl₂|CoCr₂O₄|CoCrO₄|CoF₂|CoF₃|CoI₂|CoMoO₄|CoS₂|CoSeO₃|CoTiO₃|CoWO₄|Cr₂O₃|Cr₂S₃|Cr₂Se₃|Cr₂Te₃|Cr₃As₂|Cr₃C₂|Cr₃Sb₂|CrBr₂|CrBr₃|CrCl₂|CrCl₃|CrCl₄|CrF₂|CrF₃|CrF₄|CrF₅|CrF₆|CrI₂|CrI₃|CrO₂|CrO₂Cl₂|CrO₃|CrPO₄|CrSi₂|CrVO₄|CS₂|Cs₂C₂O₄|Cs₂CO₃|Cs₂Cr₂O₇|Cs₂CrO₄|Cs₂HPO₃|Cs₂HPO₄|Cs₂MoO₄|Cs₂NbO₃|Cs₂O|Cs₂O₂|Cs₂S|Cs₂SiO₃|Cs₂SO₃|Cs₂SO₄|Cs₂TeO₄|Cs₂TiO₃|Cs₂WO₄|Cs₃PO₃|Cs₃PO₄|Cs₃VO₄|CsBO₂|CsBr₃|CsBrO₂|CsBrO₃|CsBrO₄|CsC₂H₃O₂|CsClO₂|CsClO₃|CsClO₄|CsH₂PO₃|CsH₂PO₄|CsHCO₃|CsHSO₃|CsHSO₄|CsI₃|CsIO₂|CsIO₃|CsIO₄|CsN₃|CsNbO₃|CsNH₂|CsNO₂|CsNO₃|CsO₂|CsSeO₄|CsTaO₃|Cu₂O|Cu₂S|Cu₂Se|Cu₂Te|Cu₃As|Cu₃P|Cu₃Sb|Cu₉S₅|CuBr₂|CuC₂O₄|CuCl₂|CuF₂|CuFe₂O₄|CuFe₂S₃|CuFeS₂|CuIO₃|CuMoO₄|CuSiO₃|CuSO₄|CuTeO₃|CuTiO₃|CuWO₄|D₂O|Dy₂O₃|Dy₂S₃|DyBr₃|DyCl₂|DyCl₃|DySi₂|ErCl₃|ErF₂|ErF₃|ErI₃|ErI₄Na|Eu₂O|Eu₂O₂|Eu₂O₃|Eu₂S|Eu₂S₂|EuCl₂|EuCl₃|EuF₃|EuI₂|EuNb₂O₆|EuNbO₂|EuO₂V|EuO₃Ti|EuO₃V|EuO₄W|EuS₂|EuSO₄|F₁₀Mo₂|F₁₀S₂|F₁₅Mo₃|F₂|F₂Fe|F₂Ga|F₂Gd|F₂Ge|F₂GeO|F₂Hg|F₂Hg₂|F₂Ho|F₂IP|F₂K₂|F₂Kr|F₂La|F₂Li₂|F₂Mg|F₂Mn|F₂Mo|F₂MoO₂|F₂N|F₂N₂O|F₂Na₂|F₂Nd|F₂Ni|F₂O|F₂O₂|F₂O₂S|F₂O₂W|F₂O₅S₃|F₂OS|F₂OSi|F₂OTi|F₂P|F₂Pb|F₂Pt|F₂Pu|F₂S|F₂S₂|F₂S₂W|F₂Sc|F₂Se|F₂Si|F₂Sn|F₂Sr|F₂SW|F₂Th|F₂Ti|F₂Tl₂|F₂W|F₂Xe|F₂Y|F₂Zn|F₂Zr|F₃Fe|F₃Ga|F₃Gd|F₃Ho|F₃La|F₃Li₃|F₃Lu|F₃Mn|F₃Mo|F₃MoO|F₃MoS|F₃N|F₃NaSn|F₃Nd|F₃NO|F₃NO₂S|F₃NO₃S|F₃NS|F₃OP|F₃OTa|F₃OV|F₃P|F₃Pr|F₃PS|F₃Pu|F₃Rh|F₃S|F₃Sb|F₃Sc|F₃Si|F₃Sm|F₃SW|F₃Tb|F₃Th|F₃Ti|F₃Tl|F₃Tm|F₃W|F₃Y|F₃Yb|F₃Zr|F₄Ge|F₄Ge₂|F₄Hf|F₄Mg₂|F₄Mo|F₄MoO|F₄MoS|F₄N₂|F₄Na₂Sn|F₄OOs|F₄OP₂|F₄ORe|F₄OS|F₄OW|F₄OXe|F₄P₂|F₄Pb|F₄Pt|F₄Pu|F₄S|F₄Se|F₄Si|F₄Sn₂|F₄SW|F₄Ti|F₄U|F₄W|F₄Xe|F₄Zr|F₅I|F₅Mo|F₅ORe|F₅P|F₅Pu|F₅S|F₅Sb|F₅Ta|F₅U|F₅W|F₆Fe₂|F₆La₂|F₆Mo|F₆NP₃|F₆Os|F₆Pu|F₆Re|F₆S|F₆Se|F₆Si₂|F₆Sn₃|F₆Te|F₆U|F₆W|F₆Xe|F₇I|F₇NS|F₇Re|F₈Si₃|Fe₂I₂|Fe₂I₄|Fe₂O₁₂S₃|Fe₂O₁₂W₃|Fe₂O₃|Fe₂P|Fe₂SiO₄|Fe₃H₂Na₂O₄₅Si|Fe₃O₄|Fe₃P|Fe₇Si₈O₂₄H₂|FeBr₂|FeBr₃|FeC₁₀H₁₀|FeC₂O₄|FeC₅O₅|FeCl₂|FeCl₃|FeCO₃|FeCr₂O₄|FeF₂|FeI₂|FeI₃|FeMoO₄|FeO₂|FeO₂H|FeO₄S|FeO₄Se|FeO₈H₄P₂|FePO₄|FeS₂|FeTiO₃|FeVO₄|FeWO₄|FeZrO₃|FI₂|FLi₂|FMnO₃|FNa₂|FNO₂|FNO₃|FO₂|FO₃S|FPS₂|Ga₂O₃|Ga₂S₃|Ga₂Te₃|GaAsO₄|GaBr₃|GaCl₂|GaI₂|GaI₃|GaPO₄|GeBr₄|GeH₃COOH|GeI₂|GeI₄|H₂|H₂C₂O₄|H₂C₄H₄O₆|H₂C₈H₄O₄|H₂CO|H₂CO₃|H₂CrO₄|H₂CSO|H₂N₂O₂|H₂NCH₂COOH|H₂NNH₂|H₂O|H₂O₂|H₂S|H₂S₂O₂|H₂S₂O₃|H₂S₂O₄|H₂S₂O₅|H₂S₂O₆|H₂S₂O₇|H₂S₂O₈|H₂SeO₃|H₂SeO₄|H₂SiO₃|H₂SO₃|H₂SO₄|H₂TeO₃|H₂TiO₃|H₃AsO₄|H₃CCH₂CH₃|H₃PO₂|H₃PO₃|H₃PO₄|H₄XeO₆|H₆TeO₆|HBrO₂|HBrO₃|HBrO₄|HC₁₂H₁₇ON₄SCl₂|HC₃H₅O₃|HC₆H₇O₆|HC₉H₇O₄|HClO₂|HClO₃|HClO₄|HCONH₂|HCOONH₄|HfBr₄|HfF₄|Hg₂Br₂|Hg₂Cl₂|Hg₂I₂|HgBr₂|HgCl₂|HgI₂|HgSeO₃|HgTeO₃|HgWO₄|HIO₂|HIO₃|HIO₄|HN₃|HNO₂|HNO₃|I₂|I₂O₅|IBr₃|ICl₃|In₂O₃|In₂S₃|In₂Se₃|In₂Te₃|InBr₂I|InBr₃|InBrI₂|InCl₂|InCl₃|InI₂|InI₃|InPO₄|IrBr₃|K₂CO₃|K₂Cr₂O₇|K₂CrO₄|K₂HAsO₄|K₂HPO₃|K₂HPO₄|K₂MnO₄|K₂N₂O₂|K₂O|K₂O₂|K₂S|K₂S₂O₃|K₂S₂O₅|K₂S₂O₈|K₂SO₃|K₂SO₄|K₃AsO₄|K₃C₆H₅O₇|K₃PO₃|K₃PO₄|KAsO₂|KBrO₂|KBrO₃|KBrO₄|KClO₂|KClO₃|KClO₄|KH₂AsO₄|KH₂PO₃|KH₂PO₄|KHCO₃|KHSO₃|KHSO₄|KIO₂|KIO₃|KIO₄|KMnO₄|KNbO₃|KNO₂|KNO₃|La₂O₃|LaBr₃|LaCl₃|LaI₃|LaPO₄|Li₂CO₃|Li₂Cr₂O₇|Li₂CrO₄|Li₂HAsO₄|Li₂HPO₃|Li₂HPO₄|Li₂MoO₄|Li₂N₂O₂|Li₂NbO₃|Li₂O|Li₂O₂|Li₂S|Li₂SeO₃|Li₂SeO₄|Li₂SiO₃|Li₂SO₃|Li₂SO₄|Li₂TeO₃|Li₂TeO₄|Li₂TiO₃|Li₂WO₄|Li₂ZrO₃|Li₃AsO₄|Li₃PO₃|Li₃PO₄|LiAlH₄|LiBH₄|LiBrO₂|LiBrO₃|LiBrO₄|LiC₂H₅O|LiClO₂|LiClO₃|LiClO₄|LiH₂AsO₄|LiH₂PO₃|LiH₂PO₄|LiHCO₃|LiHSO₃|LiHSO₄|LiIO₂|LiIO₃|LiIO₄|LiNbO₃|LiNO₂|LiNO₃|LiTaO₃|Mg₂P₂O₇|Mg₂SiO₄|Mg₃As₂|Mg₃Bi₂|Mg₃P₂|MgBr₂|MgC₂O₄|MgCl₂|MgCO₃|MgCrO₄|MgF₂|MgHPO₄|MgI₂|MgMoO₄|MgSeO₃|MgSeO₄|MgSiO₃|MgSO₃|MgSO₄|MgTiO₃|MgWO₄|Mn₂O₃|Mn₃As₂|Mn₃O₄|Mn₃P₂|Mn₃Sb₂|MnBr₂|MnCl₂|MnCO₃|MnF₂|MnI₂|MnMoO₄|MnO₂|MnZrO₃|MoBr₂|MoBr₃|MoCl₂|MoCl₃|MoCl₅|MoO₂|MoO₃|MoS₂|MoSe₂|N₂|N₂H₂|N₂H₄|N₂O|N₂O₃|N₂O₄|N₂O₅|N₄H₄|Na₂C₂O₄|Na₂C₆H₆O₇|Na₂CO₃|Na₂HAsO₄|Na₂HPO₃|Na₂HPO₄|Na₂MoS₄|Na₂N₂O₂|Na₂O|Na₂O₂|Na₂S|Na₂S₂O₃|Na₂S₂O₅|Na₂S₂O₈|Na₂S₄|Na₂SeO₃|Na₂SeO₄|Na₂SO₃|Na₂SO₄|Na₂TeO₃|Na₂TeO₄|Na₂TiO₃|Na₂ZnO₂|Na₂ZrO₃|Na₃AlF₆|Na₃AsO₄|Na₃C₆H₅O₇|Na₃PO₃|Na₃PO₄|Na₃VO₄|Na₄V₂O₇|NaAlSi₃O₃|NaAsO₂|NaBrO₂|NaBrO₃|NaBrO₄|NaC₆F₅COO|NaC₆H₅COO|NaC₆H₇O₇|NaCl|NaClO₂|NaClO₃|NaClO₄|NaH₂AsO₄|NaH₂PO₃|NaH₂PO₄|NaHCO₃|NaHSO₃|NaHSO₄|NaIO₂|NaIO₃|NaIO₄|NaNbO₃|NaNH₂C₆H₄SO₃|NaNO₂|NaNO₃|NaSeO₃|NaTaO₃|NaVO₃|Nb₂O₃|NbBr₅|NbCl₃|NbCl₅|NbI₅|NCl₃|Nd₂O₃|NdCl₂|NdI₂|NH₂C₆H₄SO₃H|NH₂CH₂CH₂NH₂|NH₂CH₂CN|NH₂Cl|NH₂CONH₂|NH₂COOH|NH₂OH|NH₃|NH₄Br|NH₄Cl|NH₄ClO₄|NH₄CO₂NH₂|NH₄HS|NH₄NO₃|NH₄OCONH₂|NH₄OH|NHCl₂|Ni₂SiO₄|NI₃|Ni₃Sb₂|NiBr₂|NiCl₂|NiFe₂O₄|NiI₂|NiMoO₄|NiS₂|NiSO₄|NiTiO₃|NiWO₄|NO₂|NO₂Cl|O₂|O₂F₂|O₃|OF₂|P₂I₄|P₂O₅|P₂S₃|P₂Se₃|P₃N₅|PbC₂O₄|PbCl₂|PbCl₄|PbCO₃|PbCrO₄|PbF₂|PbHAsO₄|PbI₂|PbO₂|PbSO₄|PCl₃|PCl₅|PH₃|PoBr₂|PoCl₂|POCl₃|PoCl₄|PoF₆|PoH₂|PoO₂|PoO₃|RaCl₂|Rb₂CO₃|Rb₂HPO₃|Rb₂HPO₄|Rb₂O|Rb₂O₂|Rb₂S|Rb₂SO₃|Rb₂SO₄|Rb₃PO₃|Rb₃PO₄|RbBrO₂|RbBrO₃|RbBrO₄|RbClO₂|RbClO₃|RbClO₄|RbH₂PO₃|RbH₂PO₄|RbHCO₃|RbHSO₃|RbHSO₄|RbIO₂|RbIO₃|RbIO₄|RbNbO₃|RbNO₂|RbNO₃|RnF₂|RuCl₃|RuF₆|RuO₄|S₂Br₂|Sb₂O₃|Sb₂O₅|Sb₂OS₂|Sb₂S₃|Sb₂Se₃|Sb₂Se₅|Sb₂Te₃|SbBr₃|SbCl₃|SbCl₅|SbI₃|SbPO₄|Sc₂O₃|SeBr₄|SeCl₄|SeO₂|SeOCl₂|SeOF₂|SF₄|SF₆|Si₃N₄|SiBr₄|SiCl₄|SiH₄|SiI₄|SiO₂|Sn₃Sb₄|SnBr₂|SnBr₂Cl₂|SnBr₃Cl|SnBr₄|SnBrCl₃|SnCl₂|SnCl₂I₂|SnCl₄|SnI₄|SnO₂|SnS₂|SnSe₂|SnTe₄|SO₂|SO₂Cl₂|SO₂F₂|SO₃|SOF₂|Sr₂RuO₄|SrBr₂|SrC₂O₄|SrCl₂|SrCO₃|SrF₂|SrHfO₃|SrI₂|SrMoO₄|SrSeO₃|SrSeO₄|SrTeO₃|SrTeO₄|SrTiO₃|T₂O|TaBr₃|TaBr₅|TaCl₅|TaI₅|TeBr₂|TeBr₄|TeCl₂|TeCl₄|TeI₂|TeI₄|TeO₂|ThO₂|TiBr₄|TiCl₂I₂|TiCl₃I|TiCl₄|TiH₂|TiI₄|TiO₂|Tl₂MoO₄|Tl₂SeO₃|Tl₂TeO₃|Tl₂WO₄|Tl₃As|TlBr₃|TlC₂H₃O₂|TlCl₃|TlI₃|TlIO₃|TlNO₃|TlPF₆|TmCl₃|U₃O₈|UBr₂|UBr₃|UBr₅|UC₂|UCl₃|UCl₄|UF₄|UF₆|UI₃|UO₂|UO₂Cl₂|UO₂SO₄|UO₃|US₂|USe₂|UTe₂|V₂O₃|V₂O₅|VBr₂|VBr₃|VCl₂|VCl₃|VI₃|VOC₂O₄|VOSO₄|WBr₂|WBr₃|WBr₄|WBr₅|WBr₆|WCl₂|WCl₃|WCl₄|WCl₅|WCl₆|WF₄|WF₅|WF₆|WI₂|WI₄|WO₂|WO₂Br₂|WO₂Cl₂|WO₂I₂|WO₃|WOBr₃|WOBr₄|WOCl₃|WOCl₄|WOF₄|WS₂|WS₃|WSe₂|WTe₂|Y₂O₃|Y₂S₃|Yb₂O₃|Yb₂S₃|Yb₂Se₃|YB₆|YbBr₂|YbBr₃|YbCl₂|YbCl₃|YbF₂|YbF₃|YbI₂|YbI₃|YbPO₄|YBr₃|YbSi₂|YC₂|YCl₃|YF₃|YVO₄|Zn₂P₂O₇|Zn₂SiO₄|Zn₃As₂|Zn₃N₂|Zn₃P₂|Zn₃Sb₂|ZnBr₂|ZnCl₂|ZnCO₃|ZnCr₂O₄|ZnF₂|ZnI₂|ZnMoO₄|ZnO₂|ZnS₂O₃|ZnSeO₃|ZnSeO₄|ZnSnO₃|ZnSO₃|ZnSO₄|ZnTeO₃|ZnTeO₄|ZnTiO₃|ZnWO₄|ZnZrO₃|ZrB₂|ZrBr₄|ZrCl₄|ZrF₄|ZrI₄|ZrO₂|ZrP₂|ZrS₂|ZrSi₂|ZrSiO₄</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
+    <!-- Created by Tiago F. Santos, 2019-08-29  -->
+    <!-- List retreived and triaged from https://en.wikipedia.org/wiki/Glossary_of_chemical_formulas -->
+      <pattern case_sensitive="yes">
+          <token regexp="yes" case_sensitive='yes'>Ac₂O₃|Ag₂C₂|Ag₂C₂O₄|Ag₂Cl₂|Ag₂CO₃|Ag₂Cr₂O₇|Ag₂CrO₄|Ag₂F|Ag₂MoO₄|Ag₂O|Ag₂S|Ag₂Se|Ag₂SeO₃|Ag₂SeO₄|Ag₂SO₄|Ag₂Te|Ag₃Br₂|Ag₃Br₃|Ag₃Cl₃|Ag₃I₃|Ag₃PO₄|AgBF₄|AgBrO₂|AgBrO₃|AgBrO₄|AgCl₃Cu₂|AgClO₃|AgClO₄|AgF₂|AgIO₂|AgIO₃|AgIO₄|AgMnO₄|AgN₃|AgNO₃|AgPF₆|Al₂BeO₄|Al₂Br₆|Al₂Cl₉K₃|Al₂CoO₄|Al₂F₆|Al₂I₆|Al₂MgO₄|Al₂O|Al₂O₂|Al₂O₃|Al₂O₅Si|Al₂O₇Si₂|Al₂S|Al₂S₃|Al₂Se|Al₂Te|Al₃F₁₄Na₅|Al₄C₃|Al₆BeO₁₀|Al₆O₁₃Si₂|AlBO₃|AlBr₃|AlCl₂F|AlCl₂H|AlCl₃|AlCl₄Cs|AlCl₄K|AlCl₄Na|AlCl₄Rb|AlCl₆K₃|AlCl₆Na₃|AlF₂|AlF₂O|AlF₃|AlF₄K|AlF₄Li|AlF₆K₃|AlF₆Li₃|AlF₆Na₃|AlI₃|AlLiO₂|AlNaO₂|AlO₂|AlPO₄|AlTe₂|As₂I₄|As₂Mg₃|As₂O₃|As₂O₅|As₂P₂|As₂S₄|As₂S₅|As₂Se|As₂Se₃|As₂Se₅|As₃O₄|As₃P|As₄O₃|As₄O₅|As₄S₃|As₄S₄|AsBr₃|AsCl₃|AsCl₃O|AsCl₄F|AsF₃|AsF₅|AsH₃|AsI₃|AsO₂|AsP₃|Au₂O₃|Au₂S|Au₂S₃|Au₂Se₃|AuBr₃|AuCl₃|AuF₃|AuI₃|B₂Cl₄|B₂F₄|B₂H₆|B₂O₃|B₂S₃|B₂Se₃|B₃N₃H₆|B₄C|Ba₂P₂O₇|Ba₂V₂O₇|Ba₂XeO₆|Ba₃N₂|BaB₆|BaBr₂|BaC₂|BaC₂O₄|BaCl₂|BaCO₃|BaCrO₄|BaF₂|BaFeSi₄O₁₀|BaHfO₃|BaHgI₄|BaI₂|BaMnO₄|BaMoO₄|BaN₆|BaNb₂O₆|BaO₂|BaS₂O₃|BaSeO₃|BaSeO₄|BaSi₂|BaSi₂O₅|BaSiF₆|BaSiO₃|BaSnO₃|BaSO₃|BaSO₄|BAsO₄|BaTeO₃|BaTiO₃|BaU₂O₇|BaWO₄|BaZrO₃|BBr₃|BCl₃|Be₂C|Be₃N₂|BeB₂|BeBr₂|BeCl₂|BeCO₃|BeF₂|BeI₂|BeSO₃|BeSO₄|BF₃|Bi₂O₃|Bi₂S₃|Bi₂Se₃|BI₃|BiBO₃|BiBr₃|BiC₆H₅O₇|BiCl₃|BiF₃|BiI₃|BiPO₄|BPO₄|Br₂|Br₂O₅|BrCl₃|BrCl₅|BrF₃|BrF₅|C₁₀H₁₀N₂O|C₁₀H₁₀O₂|C₁₀H₁₀O₄|C₁₀H₁₁N₃O₃S|C₁₀H₁₂N₂|C₁₀H₁₂O|C₁₀H₁₂O₂|C₁₀H₁₂O₃|C₁₀H₁₃N₅O₄|C₁₀H₁₄O|C₁₀H₁₅ON|C₁₀H₁₆|C₁₀H₁₆O|C₁₀H₁₇NO₃|C₁₀H₁₉NO₃|C₁₀H₂₀N₂O₂|C₁₀H₂₂|C₁₀H₇N₃S|C₁₀H₇NO₂|C₁₀H₈|C₁₀H₈O₃|C₁₀H₉N₅O|C₁₀H₉NO₂|C₁₁H₁₁NO₂|C₁₁H₁₂N₂O₂|C₁₁H₁₂O₃|C₁₁H₁₄N₂O|C₁₁H₁₄O₂|C₁₁H₁₉NO₄|C₁₁H₂₄|C₁₁H₈O₂|C₁₂H₁₀|C₁₂H₁₀ClN₂O₅S|C₁₂H₁₁N₅|C₁₂H₁₁N₇|C₁₂H₁₃NO₂|C₁₂H₁₄O₄|C₁₂H₁₅NO|C₁₂H₁₆N₂|C₁₂H₁₆O₃|C₁₂H₁₆O₄|C₁₂H₁₆O₇|C₁₂H₁₈O|C₁₂H₂₂O₁₁|C₁₂H₂₆|C₁₂H₄N₄|C₁₂H₈O₄|C₁₃₁H₂₀₀N₃₀O₄₃S₂|C₁₃H₁₀O|C₁₃H₁₂F₂N₆O|C₁₃H₁₂O|C₁₃H₁₂O₂|C₁₃H₁₄N₂O|C₁₃H₁₆N₂O₂|C₁₃H₁₈O₂|C₁₃H₂₈|C₁₄H₁₀|C₁₄H₁₀O₁₄|C₁₄H₁₂O₃|C₁₄H₁₄Cl₂N₂O|C₁₄H₁₈N₂O₅|C₁₄H₁₈N₄O₃|C₁₄H₃₀|C₁₅₈H₂₅₁N₃₉O₄₆S|C₁₅H₁₀O₄|C₁₅H₁₀O₅|C₁₅H₁₀O₆|C₁₅H₁₀O₇|C₁₅H₁₂N₂O|C₁₅H₁₂N₂O₂|C₁₅H₃₂|C₁₆₁H₂₃₆N₄₂O₄₈|C₁₆₄H₂₅₆Na₂O₆₈S₂|C₁₆H₁₄O₃|C₁₆H₂₈N₂O₆Zn|C₁₆H₃₄|C₁₇H₁₃ClN₄|C₁₇H₁₄F₃N₃O₂S|C₁₇H₁₈N₂O₆|C₁₇H₁₉N₃O₃S|C₁₇H₂₂O₂|C₁₇H₂₄O|C₁₇H₂₄O₉|C₁₇H₃₆|C₁₈H₂₂O₂|C₁₈H₂₄O₂|C₁₈H₂₄O₃|C₁₈H₂₄O₄|C₁₈H₂₇NO₃|C₁₈H₃₂O₂|C₁₈H₃₆O₂|C₁₈H₃₈|C₁₉H₁₆ClNO₄|C₁₉H₂₆O₂|C₁₉H₂₈O₂|C₁₉H₃₀O₂|C₁₉H₄₀|C₂₀H₂₄O₂N₂|C₂₀H₂₇NO₁₁|C₂₀H₂₈O₂|C₂₀H₃₂O₅|C₂₀H₃₄O₅|C₂₀H₄₂|C₂₁H₂₀O₆|C₂₁H₃₀O₂|C₂₁H₃₆N₇O₁₆P₃S|C₂₂H₂₃ClN₂O₂|C₂₃H₁₉ClF₃NO₃|C₂F₄|C₂H₂|C₂H₂O₂|C₂H₃Cl|C₂H₃NO|C₂H₄|C₂H₄Cl₂|C₂H₄N₄|C₂H₄O|C₂H₄O₂|C₂H₅Br|C₂H₅NH₂|C₂H₅NO₂|C₂H₅OCs|C₂H₅OH|C₂H₅OK|C₂H₅ONa|C₂H₅ORb|C₂H₆|C₂H₆OS|C₂H₇NO|C₂H₇NO₂|C₂H₇NO₃S|C₃₀H₁₉NO₉|C₃₄H₄₆O₁₈|C₃₅H₆₀O₆|C₃H₃N|C₃H₄N₂|C₃H₄N₂S|C₃H₄O₃|C₃H₄O₄|C₃H₅N₃|C₃H₅N₃O₉|C₃H₅NO|C₃H₆|C₃H₆O₂|C₃H₆O₂S|C₃H₇N|C₃H₇NO₂|C₃H₇NO₂S|C₃H₇NO₃|C₃H₈|C₃H₈NO₅P|C₃H₈O|C₃H₈O₂|C₃H₈O₃|C₃H₉N₃|C₃HN|C₃N₁₂|C₄₀H₅₆|C₄₄H₆₉N₁₅O₉S|C₄H₁₀|C₄H₁₀O|C₄H₁₀O₂|C₄H₁₀O₃|C₄H₁₁NO₂|C₄H₂|C₄H₂BrClN₂|C₄H₂Cl₂N₂|C₄H₃Cl₂N₃|C₄H₃FN₂O₂|C₄H₄|C₄H₄FN₃O|C₄H₄N₂O₂|C₄H₄N₄|C₄H₄O|C₄H₅N₃O|C₄H₆N₂|C₄H₆N₂S|C₄H₆N₄O|C₄H₆O₂|C₄H₆O₄|C₄H₇BrO₂|C₄H₇KO₃|C₄H₇NaO₃|C₄H₇NO₂|C₄H₇NO₃|C₄H₇NO₄|C₄H₈|C₄H₈N₂O₃|C₄H₈O|C₄H₈O₂|C₄H₈O₃|C₄H₉Li|C₄H₉NO₂|C₄H₉NO₃|C₄H₉OH|C₄HCl₂FN₂|C₄I₂|C₅₅H₇₄IN₃O₂₁S₄|C₅₉H₈₀N₄O₂₂S₄|C₅H₁₀|C₅H₁₀N₂O₃|C₅H₁₀O₂|C₅H₁₀O₄|C₅H₁₁NO₂|C₅H₁₁NO₂S|C₅H₁₂|C₅H₁₂O₂|C₅H₁₂O₄|C₅H₁₂O₅|C₅H₃Br₂N|C₅H₃BrN₂O₂|C₅H₃ClN₂O₂|C₅H₃ClN₄|C₅H₄N₂O₂|C₅H₄N₂O₄|C₅H₄N₄O|C₅H₄N₄O₂|C₅H₄N₄S|C₅H₄NCOOH|C₅H₄O|C₅H₄O₂|C₅H₄O₂S|C₅H₅BrN₂|C₅H₅ClN₂|C₅H₅IN₂|C₅H₅N|C₅H₅N₃O|C₅H₅N₃O₂|C₅H₅N₅|C₅H₅N₅O|C₅H₅NO|C₅H₆BNO₂|C₅H₆N₂|C₅H₆N₂O₂|C₅H₆N₂OS|C₅H₆O|C₅H₆O₅|C₅H₇N₃|C₅H₈O₂|C₅H₉NO₂|C₅H₉NO₄|C₆₂H₈₉CoN₁₃O₁₅P|C₆₃H₈₈CoN₁₄O₁₄P|C₆₃H₉₁CoN₁₃O₁₄P|C₆F₅COOH|C₆H₁₀O₃|C₆H₁₀O₄|C₆H₁₁NO₂|C₆H₁₂|C₆H₁₂O₃|C₆H₁₂O₆|C₆H₁₃NO|C₆H₁₃NO₂|C₆H₁₄|C₆H₁₄N₂O₂|C₆H₁₄N₄O₂|C₆H₁₄O₂|C₆H₁₄O₃|C₆H₁₄O₄|C₆H₁₅NO₃|C₆H₃Br₃O|C₆H₃Cl₃O|C₆H₄BrNO₂|C₆H₄ClN₃|C₆H₄ClNO₂|C₆H₄N₄|C₆H₄O₂|C₆H₅Br|C₆H₅CH₂OH|C₆H₅CHO|C₆H₅Cl|C₆H₅COCl|C₆H₅COOH|C₆H₅F|C₆H₅I|C₆H₅NO₂|C₆H₅NO₃|C₆H₅OH|C₆H₆|C₆H₆BClO₂|C₆H₆BFO₂|C₆H₆IN|C₆H₆N₂O|C₆H₆N₂O₂|C₆H₆O|C₆H₆O₂|C₆H₆O₃|C₆H₇BO₂|C₆H₇CsO₆|C₆H₇KO₆|C₆H₇LiO₆|C₆H₇N₃O|C₆H₇NaO₆|C₆H₇RbO₆|C₆H₈N₂|C₆H₈N₂O₂S|C₆H₈O₇|C₆H₉N₃O₂|C₆H₉N₃O₃|C₆N₄|C₇₂H₁₀₀CoN₁₈O₁₇P|C₇₇H₁₂₀N₁₈O₂₆S|C₇H₁₀N₂|C₇H₁₁NO₅|C₇H₁₂N₂O₄|C₇H₁₂O₄|C₇H₁₄O₆|C₇H₁₆|C₇H₅Br₃O|C₇H₅Cl₃O|C₇H₅F₃O|C₇H₅FO₂|C₇H₅N₃O₂|C₇H₅NO₄|C₇H₅NS₂|C₇H₆N₂|C₇H₆O|C₇H₆O₂|C₇H₆O₃|C₇H₆O₄|C₇H₆O₅|C₇H₇BO₄|C₇H₇N₃|C₇H₇NO₂|C₇H₇NO₃|C₇H₈|C₇H₈ClN₃O₄S₂|C₇H₈N₄O₂|C₇H₉BO₂|C₇H₉BO₃|C₈₃H₁₃₁N₁₉O₂₇S|C₈H₁₀N₄O₂|C₈H₁₁N₅O₃|C₈H₁₁NO|C₈H₁₆O₂|C₈H₁₆O₆|C₈H₁₈|C₈H₅F₃N₂OS|C₈H₅NO₂|C₈H₆BrN|C₈H₆Cl₂O₃|C₈H₆ClN|C₈H₆N₂O|C₈H₆N₂O₂|C₈H₇N|C₈H₇NO|C₈H₈|C₈H₈N₂OS|C₈H₈O₃|C₈H₈O₄|C₈H₉NO₂|C₉H₁₀O|C₉H₁₀O₃|C₉H₁₁NO₂|C₉H₁₁NO₃|C₉H₁₁NO₄|C₉H₁₇NO₂|C₉H₁₈N₂O₂|C₉H₂₀|C₉H₆BrN|C₉H₆N₂|C₉H₆O₃|C₉H₆OS|C₉H₇NO|C₉H₇NO₂|C₉H₈N₂|C₉H₈O₂|C₉H₈O₃|C₉H₈O₄|C₉H₉N|C₉H₉NO|C₉H₉NO₃|Ca₃N₂|Ca₃P₂|CaAl₂O₄|CaB₆|CaBr₂|CaC₂|CaC₂O₄|CaCl₂|CaCN₂|CaCO₃|CaF₂|CaH₂|CaHPO₄|CaI₂|CaMoO₄|CaO₂|CaSeO₃|CaSeO₄|CaSiO₃|CaSO₃|CaSO₄|CaTeO₃|CaTeO₄|CaTiO₃|CaWO₄|CCl₂F₂|CCl₄|Cd₂Nb₂O₇|Cd₃As₂|Cd₃P₂|CdBr₂|CdC₂O₄|CdCl₂|CdCO₃|CdCrO₄|CdF₂|CdI₂|CdMoO₄|CdSeO₃|CdSiO₃|CdSO₃|CdSO₄|CdTeO₄|CdTiO₃|CdWO₄|CdZrO₃|Ce₂C₃|Ce₂O₃|Ce₂S₃|CeB₆|CeBr₃|CeCl₃|CeF₃|CeF₄|CeI₂|CeI₃|CeO₂|CeSi₂|CF₃Cl|CF₄|CFCl₂CF₂Cl|CFCl₃|CH₂CHCHCH₂|CH₂CHOH|CH₂Cl₂|CH₂ClCOOH|CH₂ClF|CH₂CO|CH₂O|CH₂OHCH₂OH|CH₃CCH|CH₃CdCH₃|CH₃CH₂Br|CH₃CH₂CH₂CH₂OH|CH₃CH₂CH₂OH|CH₃CH₂CONH₂|CH₃CH₂COOH|CH₃CH₂OCH₂CH₃|CH₃CH₂OH|CH₃CHCH₂|CH₃CHCHCH₃|CH₃CHO|CH₃Cl|CH₃CN|CH₃COCH₃|CH₃COCl|CH₃CONH₂|CH₃COOCH₂C₆H₅|CH₃COOCH₃|CH₃COOCHCH₂|CH₃COOCs|CH₃COOH|CH₃COOK|CH₃COONa|CH₃COORb|CH₃HgCH₃|CH₃I|CH₃NH₂|CH₃NO|CH₃OCH₃|CH₃OCs|CH₃OH|CH₃OK|CH₃OLi|CH₃ONa|CH₃ORb|CH₃SCH₃|CH₃SH|CH₄|CH₄N₂O₂|CH₅N₃|CHCl₃|CHClF₂|Cl₂|Cl₂O₃|Cl₂O₆|Cl₂O₇|Cl₂O₈|ClF₃|ClF₅|ClO₂|ClO₃F|ClOClO₃|CO₂|Co₂B|Co₂S₃|Co₂SiO₄|Co₂SnO₄|Co₂SO₄|Co₂TiO₄|CO₃|CoAl₂O₄|CoAs₂|CoBr₂|CoC₂O₄|CoCl₂|COCl₂|CoCr₂O₄|CoCrO₄|CoF₂|CoF₃|CoI₂|CoMoO₄|CoS₂|CoSeO₃|CoTiO₃|CoWO₄|Cr₂O₃|Cr₂S₃|Cr₂Se₃|Cr₂Te₃|Cr₃As₂|Cr₃C₂|Cr₃Sb₂|CrBr₂|CrBr₃|CrCl₂|CrCl₃|CrCl₄|CrF₂|CrF₃|CrF₄|CrF₅|CrF₆|CrI₂|CrI₃|CrO₂|CrO₂Cl₂|CrO₃|CrPO₄|CrSi₂|CrVO₄|CS₂|Cs₂C₂O₄|Cs₂CO₃|Cs₂Cr₂O₇|Cs₂CrO₄|Cs₂HPO₃|Cs₂HPO₄|Cs₂MoO₄|Cs₂NbO₃|Cs₂O|Cs₂O₂|Cs₂S|Cs₂SiO₃|Cs₂SO₃|Cs₂SO₄|Cs₂TeO₄|Cs₂TiO₃|Cs₂WO₄|Cs₃PO₃|Cs₃PO₄|Cs₃VO₄|CsBO₂|CsBr₃|CsBrO₂|CsBrO₃|CsBrO₄|CsC₂H₃O₂|CsClO₂|CsClO₃|CsClO₄|CsH₂PO₃|CsH₂PO₄|CsHCO₃|CsHSO₃|CsHSO₄|CsI₃|CsIO₂|CsIO₃|CsIO₄|CsN₃|CsNbO₃|CsNH₂|CsNO₂|CsNO₃|CsO₂|CsSeO₄|CsTaO₃|Cu₂O|Cu₂S|Cu₂Se|Cu₂Te|Cu₃As|Cu₃P|Cu₃Sb|Cu₉S₅|CuBr₂|CuC₂O₄|CuCl₂|CuF₂|CuFe₂O₄|CuFe₂S₃|CuFeS₂|CuIO₃|CuMoO₄|CuSiO₃|CuSO₄|CuTeO₃|CuTiO₃|CuWO₄|D₂O|Dy₂O₃|Dy₂S₃|DyBr₃|DyCl₂|DyCl₃|DySi₂|ErCl₃|ErF₂|ErF₃|ErI₃|ErI₄Na|Eu₂O|Eu₂O₂|Eu₂O₃|Eu₂S|Eu₂S₂|EuCl₂|EuCl₃|EuF₃|EuI₂|EuNb₂O₆|EuNbO₂|EuO₂V|EuO₃Ti|EuO₃V|EuO₄W|EuS₂|EuSO₄|F₁₀Mo₂|F₁₀S₂|F₁₅Mo₃|F₂|F₂Fe|F₂Ga|F₂Gd|F₂Ge|F₂GeO|F₂Hg|F₂Hg₂|F₂Ho|F₂IP|F₂K₂|F₂Kr|F₂La|F₂Li₂|F₂Mg|F₂Mn|F₂Mo|F₂MoO₂|F₂N|F₂N₂O|F₂Na₂|F₂Nd|F₂Ni|F₂O|F₂O₂|F₂O₂S|F₂O₂W|F₂O₅S₃|F₂OS|F₂OSi|F₂OTi|F₂P|F₂Pb|F₂Pt|F₂Pu|F₂S|F₂S₂|F₂S₂W|F₂Sc|F₂Se|F₂Si|F₂Sn|F₂Sr|F₂SW|F₂Th|F₂Ti|F₂Tl₂|F₂W|F₂Xe|F₂Y|F₂Zn|F₂Zr|F₃Fe|F₃Ga|F₃Gd|F₃Ho|F₃La|F₃Li₃|F₃Lu|F₃Mn|F₃Mo|F₃MoO|F₃MoS|F₃N|F₃NaSn|F₃Nd|F₃NO|F₃NO₂S|F₃NO₃S|F₃NS|F₃OP|F₃OTa|F₃OV|F₃P|F₃Pr|F₃PS|F₃Pu|F₃Rh|F₃S|F₃Sb|F₃Sc|F₃Si|F₃Sm|F₃SW|F₃Tb|F₃Th|F₃Ti|F₃Tl|F₃Tm|F₃W|F₃Y|F₃Yb|F₃Zr|F₄Ge|F₄Ge₂|F₄Hf|F₄Mg₂|F₄Mo|F₄MoO|F₄MoS|F₄N₂|F₄Na₂Sn|F₄OOs|F₄OP₂|F₄ORe|F₄OS|F₄OW|F₄OXe|F₄P₂|F₄Pb|F₄Pt|F₄Pu|F₄S|F₄Se|F₄Si|F₄Sn₂|F₄SW|F₄Ti|F₄U|F₄W|F₄Xe|F₄Zr|F₅I|F₅Mo|F₅ORe|F₅P|F₅Pu|F₅S|F₅Sb|F₅Ta|F₅U|F₅W|F₆Fe₂|F₆La₂|F₆Mo|F₆NP₃|F₆Os|F₆Pu|F₆Re|F₆S|F₆Se|F₆Si₂|F₆Sn₃|F₆Te|F₆U|F₆W|F₆Xe|F₇I|F₇NS|F₇Re|F₈Si₃|Fe₂I₂|Fe₂I₄|Fe₂O₁₂S₃|Fe₂O₁₂W₃|Fe₂O₃|Fe₂P|Fe₂SiO₄|Fe₃H₂Na₂O₄₅Si|Fe₃O₄|Fe₃P|Fe₇Si₈O₂₄H₂|FeBr₂|FeBr₃|FeC₁₀H₁₀|FeC₂O₄|FeC₅O₅|FeCl₂|FeCl₃|FeCO₃|FeCr₂O₄|FeF₂|FeI₂|FeI₃|FeMoO₄|FeO₂|FeO₂H|FeO₄S|FeO₄Se|FeO₈H₄P₂|FePO₄|FeS₂|FeTiO₃|FeVO₄|FeWO₄|FeZrO₃|FI₂|FLi₂|FMnO₃|FNa₂|FNO₂|FNO₃|FO₂|FO₃S|FPS₂|Ga₂O₃|Ga₂S₃|Ga₂Te₃|GaAsO₄|GaBr₃|GaCl₂|GaI₂|GaI₃|GaPO₄|GeBr₄|GeH₃COOH|GeI₂|GeI₄|H₂|H₂C₂O₄|H₂C₄H₄O₆|H₂C₈H₄O₄|H₂CO|H₂CO₃|H₂CrO₄|H₂CSO|H₂N₂O₂|H₂NCH₂COOH|H₂NNH₂|H₂O|H₂O₂|H₂S|H₂S₂O₂|H₂S₂O₃|H₂S₂O₄|H₂S₂O₅|H₂S₂O₆|H₂S₂O₇|H₂S₂O₈|H₂SeO₃|H₂SeO₄|H₂SiO₃|H₂SO₃|H₂SO₄|H₂TeO₃|H₂TiO₃|H₃AsO₄|H₃CCH₂CH₃|H₃PO₂|H₃PO₃|H₃PO₄|H₄XeO₆|H₆TeO₆|HBrO₂|HBrO₃|HBrO₄|HC₁₂H₁₇ON₄SCl₂|HC₃H₅O₃|HC₆H₇O₆|HC₉H₇O₄|HClO₂|HClO₃|HClO₄|HCONH₂|HCOONH₄|HfBr₄|HfF₄|Hg₂Br₂|Hg₂Cl₂|Hg₂I₂|HgBr₂|HgCl₂|HgI₂|HgSeO₃|HgTeO₃|HgWO₄|HIO₂|HIO₃|HIO₄|HN₃|HNO₂|HNO₃|I₂|I₂O₅|IBr₃|ICl₃|In₂O₃|In₂S₃|In₂Se₃|In₂Te₃|InBr₂I|InBr₃|InBrI₂|InCl₂|InCl₃|InI₂|InI₃|InPO₄|IrBr₃|K₂CO₃|K₂Cr₂O₇|K₂CrO₄|K₂HAsO₄|K₂HPO₃|K₂HPO₄|K₂MnO₄|K₂N₂O₂|K₂O|K₂O₂|K₂S|K₂S₂O₃|K₂S₂O₅|K₂S₂O₈|K₂SO₃|K₂SO₄|K₃AsO₄|K₃C₆H₅O₇|K₃PO₃|K₃PO₄|KAsO₂|KBrO₂|KBrO₃|KBrO₄|KClO₂|KClO₃|KClO₄|KH₂AsO₄|KH₂PO₃|KH₂PO₄|KHCO₃|KHSO₃|KHSO₄|KIO₂|KIO₃|KIO₄|KMnO₄|KNbO₃|KNO₂|KNO₃|La₂O₃|LaBr₃|LaCl₃|LaI₃|LaPO₄|Li₂CO₃|Li₂Cr₂O₇|Li₂CrO₄|Li₂HAsO₄|Li₂HPO₃|Li₂HPO₄|Li₂MoO₄|Li₂N₂O₂|Li₂NbO₃|Li₂O|Li₂O₂|Li₂S|Li₂SeO₃|Li₂SeO₄|Li₂SiO₃|Li₂SO₃|Li₂SO₄|Li₂TeO₃|Li₂TeO₄|Li₂TiO₃|Li₂WO₄|Li₂ZrO₃|Li₃AsO₄|Li₃PO₃|Li₃PO₄|LiAlH₄|LiBH₄|LiBrO₂|LiBrO₃|LiBrO₄|LiC₂H₅O|LiClO₂|LiClO₃|LiClO₄|LiH₂AsO₄|LiH₂PO₃|LiH₂PO₄|LiHCO₃|LiHSO₃|LiHSO₄|LiIO₂|LiIO₃|LiIO₄|LiNbO₃|LiNO₂|LiNO₃|LiTaO₃|Mg₂P₂O₇|Mg₂SiO₄|Mg₃As₂|Mg₃Bi₂|Mg₃P₂|MgBr₂|MgC₂O₄|MgCl₂|MgCO₃|MgCrO₄|MgF₂|MgHPO₄|MgI₂|MgMoO₄|MgSeO₃|MgSeO₄|MgSiO₃|MgSO₃|MgSO₄|MgTiO₃|MgWO₄|Mn₂O₃|Mn₃As₂|Mn₃O₄|Mn₃P₂|Mn₃Sb₂|MnBr₂|MnCl₂|MnCO₃|MnF₂|MnI₂|MnMoO₄|MnO₂|MnZrO₃|MoBr₂|MoBr₃|MoCl₂|MoCl₃|MoCl₅|MoO₂|MoO₃|MoS₂|MoSe₂|N₂|N₂H₂|N₂H₄|N₂O|N₂O₃|N₂O₄|N₂O₅|N₄H₄|Na₂C₂O₄|Na₂C₆H₆O₇|Na₂CO₃|Na₂HAsO₄|Na₂HPO₃|Na₂HPO₄|Na₂MoS₄|Na₂N₂O₂|Na₂O|Na₂O₂|Na₂S|Na₂S₂O₃|Na₂S₂O₅|Na₂S₂O₈|Na₂S₄|Na₂SeO₃|Na₂SeO₄|Na₂SO₃|Na₂SO₄|Na₂TeO₃|Na₂TeO₄|Na₂TiO₃|Na₂ZnO₂|Na₂ZrO₃|Na₃AlF₆|Na₃AsO₄|Na₃C₆H₅O₇|Na₃PO₃|Na₃PO₄|Na₃VO₄|Na₄V₂O₇|NaAlSi₃O₃|NaAsO₂|NaBrO₂|NaBrO₃|NaBrO₄|NaC₆F₅COO|NaC₆H₅COO|NaC₆H₇O₇|NaCl|NaClO₂|NaClO₃|NaClO₄|NaH₂AsO₄|NaH₂PO₃|NaH₂PO₄|NaHCO₃|NaHSO₃|NaHSO₄|NaIO₂|NaIO₃|NaIO₄|NaNbO₃|NaNH₂C₆H₄SO₃|NaNO₂|NaNO₃|NaSeO₃|NaTaO₃|NaVO₃|Nb₂O₃|NbBr₅|NbCl₃|NbCl₅|NbI₅|NCl₃|Nd₂O₃|NdCl₂|NdI₂|NH₂C₆H₄SO₃H|NH₂CH₂CH₂NH₂|NH₂CH₂CN|NH₂Cl|NH₂CONH₂|NH₂COOH|NH₂OH|NH₃|NH₄Br|NH₄Cl|NH₄ClO₄|NH₄CO₂NH₂|NH₄HS|NH₄NO₃|NH₄OCONH₂|NH₄OH|NHCl₂|Ni₂SiO₄|NI₃|Ni₃Sb₂|NiBr₂|NiCl₂|NiFe₂O₄|NiI₂|NiMoO₄|NiS₂|NiSO₄|NiTiO₃|NiWO₄|NO₂|NO₂Cl|O₂|O₂F₂|O₃|OF₂|P₂I₄|P₂O₅|P₂S₃|P₂Se₃|P₃N₅|PbC₂O₄|PbCl₂|PbCl₄|PbCO₃|PbCrO₄|PbF₂|PbHAsO₄|PbI₂|PbO₂|PbSO₄|PCl₃|PCl₅|PH₃|PoBr₂|PoCl₂|POCl₃|PoCl₄|PoF₆|PoH₂|PoO₂|PoO₃|RaCl₂|Rb₂CO₃|Rb₂HPO₃|Rb₂HPO₄|Rb₂O|Rb₂O₂|Rb₂S|Rb₂SO₃|Rb₂SO₄|Rb₃PO₃|Rb₃PO₄|RbBrO₂|RbBrO₃|RbBrO₄|RbClO₂|RbClO₃|RbClO₄|RbH₂PO₃|RbH₂PO₄|RbHCO₃|RbHSO₃|RbHSO₄|RbIO₂|RbIO₃|RbIO₄|RbNbO₃|RbNO₂|RbNO₃|RnF₂|RuCl₃|RuF₆|RuO₄|S₂Br₂|Sb₂O₃|Sb₂O₅|Sb₂OS₂|Sb₂S₃|Sb₂Se₃|Sb₂Se₅|Sb₂Te₃|SbBr₃|SbCl₃|SbCl₅|SbI₃|SbPO₄|Sc₂O₃|SeBr₄|SeCl₄|SeO₂|SeOCl₂|SeOF₂|SF₄|SF₆|Si₃N₄|SiBr₄|SiCl₄|SiH₄|SiI₄|SiO₂|Sn₃Sb₄|SnBr₂|SnBr₂Cl₂|SnBr₃Cl|SnBr₄|SnBrCl₃|SnCl₂|SnCl₂I₂|SnCl₄|SnI₄|SnO₂|SnS₂|SnSe₂|SnTe₄|SO₂|SO₂Cl₂|SO₂F₂|SO₃|SOF₂|Sr₂RuO₄|SrBr₂|SrC₂O₄|SrCl₂|SrCO₃|SrF₂|SrHfO₃|SrI₂|SrMoO₄|SrSeO₃|SrSeO₄|SrTeO₃|SrTeO₄|SrTiO₃|T₂O|TaBr₃|TaBr₅|TaCl₅|TaI₅|TeBr₂|TeBr₄|TeCl₂|TeCl₄|TeI₂|TeI₄|TeO₂|ThO₂|TiBr₄|TiCl₂I₂|TiCl₃I|TiCl₄|TiH₂|TiI₄|TiO₂|Tl₂MoO₄|Tl₂SeO₃|Tl₂TeO₃|Tl₂WO₄|Tl₃As|TlBr₃|TlC₂H₃O₂|TlCl₃|TlI₃|TlIO₃|TlNO₃|TlPF₆|TmCl₃|U₃O₈|UBr₂|UBr₃|UBr₅|UC₂|UCl₃|UCl₄|UF₄|UF₆|UI₃|UO₂|UO₂Cl₂|UO₂SO₄|UO₃|US₂|USe₂|UTe₂|V₂O₃|V₂O₅|VBr₂|VBr₃|VCl₂|VCl₃|VI₃|VOC₂O₄|VOSO₄|WBr₂|WBr₃|WBr₄|WBr₅|WBr₆|WCl₂|WCl₃|WCl₄|WCl₅|WCl₆|WF₄|WF₅|WF₆|WI₂|WI₄|WO₂|WO₂Br₂|WO₂Cl₂|WO₂I₂|WO₃|WOBr₃|WOBr₄|WOCl₃|WOCl₄|WOF₄|WS₂|WS₃|WSe₂|WTe₂|Y₂O₃|Y₂S₃|Yb₂O₃|Yb₂S₃|Yb₂Se₃|YB₆|YbBr₂|YbBr₃|YbCl₂|YbCl₃|YbF₂|YbF₃|YbI₂|YbI₃|YbPO₄|YBr₃|YbSi₂|YC₂|YCl₃|YF₃|YVO₄|Zn₂P₂O₇|Zn₂SiO₄|Zn₃As₂|Zn₃N₂|Zn₃P₂|Zn₃Sb₂|ZnBr₂|ZnCl₂|ZnCO₃|ZnCr₂O₄|ZnF₂|ZnI₂|ZnMoO₄|ZnO₂|ZnS₂O₃|ZnSeO₃|ZnSeO₄|ZnSnO₃|ZnSO₃|ZnSO₄|ZnTeO₃|ZnTeO₄|ZnTiO₃|ZnWO₄|ZnZrO₃|ZrB₂|ZrBr₄|ZrCl₄|ZrF₄|ZrI₄|ZrO₂|ZrP₂|ZrS₂|ZrSi₂|ZrSiO₄</token>
+      </pattern>
+      <disambig action="ignore_spelling"/>
     </rule>
-    <rule name="Ignore spelling of punctuation characters" id="IGNORE_SPELLING_OF_PUNCTUATION">
-        <pattern>
-            <!-- ignore spelling of underscores etc. -->
-            <token regexp="yes">[_~°]+</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
-    </rule>
+
 </rules>

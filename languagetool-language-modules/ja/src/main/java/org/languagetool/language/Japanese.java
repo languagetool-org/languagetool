@@ -18,18 +18,26 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
-import org.languagetool.rules.*;
+import org.languagetool.rules.DoublePunctuationRule;
+import org.languagetool.rules.MultipleWhitespaceRule;
+import org.languagetool.rules.Rule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ja.JapaneseTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.ja.JapaneseWordTokenizer;
 
-import java.util.*;
-
 public class Japanese extends Language {
+
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
 
   @Override
   public String getShortCode() {
@@ -65,20 +73,25 @@ public class Japanese extends Language {
     );
   }
 
-  @NotNull
   @Override
-  public Tagger createDefaultTagger() {
-    return new JapaneseTagger();
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new JapaneseTagger();
+    }
+    return tagger;
   }
 
   @Override
-  public Tokenizer createDefaultWordTokenizer() {
+  public Tokenizer getWordTokenizer() {
     return new JapaneseWordTokenizer();
   }
 
   @Override
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return new SRXSentenceTokenizer(this);
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 
 }

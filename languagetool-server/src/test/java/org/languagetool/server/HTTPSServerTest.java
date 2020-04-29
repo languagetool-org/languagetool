@@ -142,7 +142,7 @@ public class HTTPSServerTest {
 
     StringBuilder longText = new StringBuilder();
     while (longText.length() < 490) {
-      longText.append("Run ");
+      longText.append("B ");
     }
     String result2 = HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=" + encode(longText.toString()) + "&language=en"));
     assertTrue("Got " + result2, !result2.contains("UPPERCASE_SENTENCE_START"));

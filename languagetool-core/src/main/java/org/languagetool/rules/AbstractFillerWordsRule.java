@@ -29,7 +29,6 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Category.Location;
-import org.languagetool.tools.Tools;
 
 /**
  * A rule that gives hints about the use of filler words.
@@ -137,8 +136,7 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
     int pos = 0;
     int wordCount = 0;
     boolean isDirectSpeech = false;
-    for (int nSentence = 0; nSentence < sentences.size(); nSentence++) {
-      AnalyzedSentence sentence = sentences.get(nSentence);
+    for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
       for (int n = 1; n < tokens.length; n++) {
         AnalyzedTokenReadings token = tokens[n];
@@ -158,7 +156,7 @@ public abstract class AbstractFillerWordsRule extends TextLevelRule {
           }
         }
       }
-      if (Tools.isParagraphEnd(sentences, nSentence, lang)) {
+      if (sentence.hasParagraphEndMark(lang)) {
         if(wordCount > 0) {
           percent = startPos.size() * 100.0 / wordCount;
         } else {

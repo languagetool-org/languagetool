@@ -197,7 +197,7 @@ public class HTTPServerTest {
     String res2 = dataTextCheck(english, null, "{\"annotation\": [" +
             "{\"text\": \"This is a test.\"}, {\"markup\": \"<p>\", \"interpretAs\": \"\\n\\n\"}," +
             "{\"text\": \"Another text.\"}]}\"", "");
-    //System.out.println("RES3: " + res2);
+    System.out.println("RES3: " + res2);
     assertFalse(res2.contains("SENTENCE_WHITESPACE"));
 
     // Text:
@@ -206,11 +206,11 @@ public class HTTPServerTest {
     //   A test.\n\nAnother text text.
     String res3 = dataTextCheck(english, null, "{\"annotation\": [" +
             "{\"text\": \"A test.\"}, {\"markup\": \"<p attrib>\", \"interpretAs\": \"\\n\\n\"}," +
-            "{\"text\": \"Here comes text text.\"}]}\"", "");
-    //System.out.println("RES4: " + res3);
+            "{\"text\": \"Another text text.\"}]}\"", "");
+    System.out.println("RES4: " + res3);
     assertFalse(res3.contains("SENTENCE_WHITESPACE"));
     assertTrue(res3.contains("ENGLISH_WORD_REPEAT_RULE"));
-    assertTrue(res3.contains("\"offset\":28"));
+    assertTrue(res3.contains("\"offset\":25"));
 
     // Text:
     //   A test.<p>Another text text.</p><p>A hour ago.
@@ -218,15 +218,15 @@ public class HTTPServerTest {
     //   A test.\n\nAnother text text.\n\nA hour ago.
     String res4 = dataTextCheck(english, null, "{\"annotation\": [" +
             "{\"text\": \"A test.\"}, {\"markup\": \"<p>\", \"interpretAs\": \"\\n\\n\"}," +
-            "{\"text\": \"Here comes text text.\"}," +
+            "{\"text\": \"Another text text.\"}," +
             "{\"markup\": \"</p><p>\", \"interpretAs\": \"\\n\\n\"}, {\"text\": \"A hour ago.\"}" +
             "]}\"", "");
-    //System.out.println("RES5: " + res4);
+    System.out.println("RES5: " + res4);
     assertFalse(res4.contains("SENTENCE_WHITESPACE"));
     assertTrue(res4.contains("ENGLISH_WORD_REPEAT_RULE"));
-    assertTrue(res4.contains("\"offset\":21"));
+    assertTrue(res4.contains("\"offset\":18"));
     assertTrue(res4.contains("EN_A_VS_AN"));
-    assertTrue(res4.contains("\"offset\":38"));
+    assertTrue(res4.contains("\"offset\":35"));
     
     try {
       dataTextCheck(english, null, "{\"annotation\": [{\"text\": \"An\", \"markup\": \"foo\"}]}", "");

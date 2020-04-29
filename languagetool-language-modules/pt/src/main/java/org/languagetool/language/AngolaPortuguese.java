@@ -18,14 +18,16 @@
  */
 package org.languagetool.language;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
-import org.languagetool.rules.Rule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.pt.PreReformPortugueseCompoundRule;
 import org.languagetool.rules.pt.PreReformPortugueseDashRule;
-
-import java.io.IOException;
-import java.util.*;
 
 /**
  * @since 3.6
@@ -47,7 +49,7 @@ public class AngolaPortuguese extends Portuguese {
     List<Rule> rules = new ArrayList<>();
     rules.addAll(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
     rules.add(new PreReformPortugueseCompoundRule(messages));
-    rules.add(new PreReformPortugueseDashRule(messages));
+    rules.add(new PreReformPortugueseDashRule());
     return rules;
   }
 

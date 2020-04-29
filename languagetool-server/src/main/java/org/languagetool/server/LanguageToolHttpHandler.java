@@ -44,7 +44,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeoutException;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
-import static org.languagetool.server.ServerTools.getHttpReferrer;
 import static org.languagetool.server.ServerTools.print;
 
 class LanguageToolHttpHandler implements HttpHandler {
@@ -76,7 +75,6 @@ class LanguageToolHttpHandler implements HttpHandler {
 
   /** @since 2.6 */
   void shutdown() {
-    textCheckerV2.shutdownNow();
   }
 
   @Override
@@ -152,7 +150,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
           int code = HttpURLConnection.HTTP_FORBIDDEN;
           sendError(httpExchange, code, errorMessage);
-          // already logged via DatabaseAccessLimitLogEntry
+          // already logged vai DatabaseAccessLimitLogEntry
           logError(errorMessage, code, parameters, httpExchange, false);
           return;
         }
@@ -209,7 +207,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         logStacktrace = false;
       } else if (hasCause(e, AuthException.class)) {
         errorCode = HttpURLConnection.HTTP_FORBIDDEN;
-        response = AuthException.class.getName() + ": " + e.getMessage();
+        response = e.getMessage();
         logStacktrace = false;
       } else if (e instanceof IllegalArgumentException || rootCause instanceof IllegalArgumentException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
@@ -284,6 +282,10 @@ class LanguageToolHttpHandler implements HttpHandler {
   private void logError(String errorMessage, int code, Map<String, String> params, HttpExchange httpExchange, boolean logToDb) {
     String message = errorMessage + ", sending code " + code + " - useragent: " + params.get("useragent") +
             " - HTTP UserAgent: " + ServerTools.getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount();
+    // TODO: might need more than 512 chars:
+    //message += ", referrer: " + getHttpReferrer(httpExchange);
+    //message += ", language: " + params.get("language");
+    //message += ", " + getTextOrDataSizeMessage(params);
     if (params.get("username") != null) {
       message += ", user: " + params.get("username");
     }
@@ -293,10 +295,6 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (logToDb) {
       logToDatabase(params, message);
     }
-    // TODO: might need more than 512 chars, thus not logged to DB:
-    message += ", referrer: " + getHttpReferrer(httpExchange);
-    message += ", language: " + params.get("language");
-    message += ", " + getTextOrDataSizeMessage(params);
     logger.error(message);
   }
 

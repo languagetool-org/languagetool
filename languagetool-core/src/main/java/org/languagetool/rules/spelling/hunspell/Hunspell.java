@@ -2,12 +2,14 @@ package org.languagetool.rules.spelling.hunspell;
 
 import dumonts.hunspell.bindings.HunspellLibrary;
 import org.bridj.Pointer;
-import org.languagetool.JLanguageTool;
-import org.languagetool.broker.ResourceDataBroker;
 
-import java.io.*;
+import java.io.Closeable;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -61,9 +63,9 @@ public class Hunspell implements Closeable {
 
   public static Hunspell forDictionaryInResources(String language, String resourcePath) {
     try {
-      ResourceDataBroker broker = JLanguageTool.getDataBroker();
-      InputStream dictionaryStream = broker.getAsStream(resourcePath + language + ".dic");
-      InputStream affixStream = broker.getAsStream(resourcePath + language + ".aff");
+      ClassLoader loader = Hunspell.class.getClassLoader();
+      InputStream dictionaryStream = loader.getResourceAsStream(resourcePath + language + ".dic");
+      InputStream affixStream = loader.getResourceAsStream(resourcePath + language + ".aff");
       if (dictionaryStream == null || affixStream == null) {
         throw new RuntimeException("Could not find dictionary for language \"" + language + "\" in classpath");
       }

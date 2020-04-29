@@ -40,7 +40,7 @@ abstract class DynamicLanguage extends Language {
 
   @Override
   public String getShortCode() {
-    return code.replaceFirst("-.*", "");
+    return code;
   }
 
   @Override

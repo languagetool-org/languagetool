@@ -18,8 +18,6 @@
  */
 package org.languagetool.tagging;
 
-import org.jetbrains.annotations.Nullable;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -65,15 +63,6 @@ public class CombiningTagger implements WordTagger {
       result.removeAll(removalTags);
     }
     return result;
-  }
-
-  /**
-   * @return removal tagger
-   * @since 5.0
-   */
-  @Nullable
-  public WordTagger getRemovalTagger() {
-    return removalTagger;
   }
   
 }

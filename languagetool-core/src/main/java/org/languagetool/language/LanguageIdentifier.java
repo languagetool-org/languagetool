@@ -71,7 +71,6 @@ public class LanguageIdentifier {
   private final LanguageDetector languageDetector;
   private final TextObjectFactory textObjectFactory;
   private final int maxLength;
-  private final UnicodeBasedLangIdentifier unicodeIdentifier = new UnicodeBasedLangIdentifier();
 
   private boolean fasttextEnabled = false;
   private Process fasttextProcess;
@@ -107,7 +106,6 @@ public class LanguageIdentifier {
         .withTextFilter(UrlTextFilter.getInstance())
         .withTextFilter(RemoveMinorityScriptsTextFilter.forThreshold(0.3))
         .withTextFilter(new RemoveEMailSignatureFilter())
-        .withTextFilter(new RemoveNonBreakingSpaces())
         .build();
     } catch (IOException e) {
       throw new RuntimeException("Could not set up language identifier", e);
@@ -178,7 +176,11 @@ public class LanguageIdentifier {
   @Nullable
   @Experimental
   DetectedLanguage detectLanguageWithDetails(String text) {
-    return detectLanguage(text, Collections.emptyList(), Collections.emptyList());
+    DetectedLanguage detectedLanguage = detectLanguage(text, Collections.emptyList(), Collections.emptyList());
+    if (detectedLanguage == null) {
+      return null;
+    }
+    return detectedLanguage;
   }
   
   /**
@@ -192,20 +194,14 @@ public class LanguageIdentifier {
     Objects.requireNonNull(preferredLangsTmp);
     // Chrome sends 'nn' (Nynorsk) or 'nb' (Bokmal), but fasttext detects 'no', so we have to map, and 
     // Bokmal seems to be the standard variant:
-    List<String> additionalLangs = noopLangsTmp.stream().map(k -> k.equals("nb") ? "no" : k).collect(Collectors.toList());
-    List<String> preferredLangs = preferredLangsTmp.stream().map(k -> k.equals("nb") ? "no" : k).collect(Collectors.toCollection(ArrayList::new));
+    List<String> noopLangs = noopLangsTmp.stream().map(k -> k.equals("nb") ? "no" : k).collect(Collectors.toList());
+    List<String> preferredLangs = preferredLangsTmp.stream().map(k -> k.equals("nb") ? "no" : k).collect(Collectors.toList());
     if (preferredLangs.stream().anyMatch(k -> k.contains("-"))) {
       throw new IllegalArgumentException("preferredLanguages may only contain language codes without variants (e.g. 'en', but not 'en-US'): " +
-        preferredLangs + ". Use 'preferredVariants' to specify variants.");
+        preferredLangs + ". Use 'preferredVariants' to specify variants");
     }
     String shortText = text.length() > maxLength ? text.substring(0, maxLength) : text;
     shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
-    if (!preferredLangs.contains("ru") && !preferredLangs.contains("uk") && !preferredLangs.contains("be") && !preferredLangs.contains("zh") &&
-        !preferredLangs.contains("hi") && !preferredLangs.contains("mr")) {
-      // Cyrillic and Chinese are so different from Latin characters that we try to detect it even with preferredLangs not properly set:
-      preferredLangs.addAll(unicodeIdentifier.getAdditionalLangCodes(text));
-      additionalLangs.addAll(unicodeIdentifier.getAdditionalLangCodes(text));
-    }
     Map.Entry<String,Double> result = null;
     if (fasttextEnabled) {
       try {
@@ -213,9 +209,8 @@ public class LanguageIdentifier {
         // (using it for optimaize is okay, assuming the same strong normalization was applied during training):
         shortText = UrlTextFilter.getInstance().filter(shortText);
         shortText = new RemoveEMailSignatureFilter().filter(shortText);
-        shortText = new RemoveNonBreakingSpaces().filter(shortText);
         shortText = shortText.replaceAll("\uFEFF+", " ");  // used by the browser add-on to filter HTML etc. (_ignoreText() in validator.js)
-        Map<String, Double> scores = runFasttext(shortText, additionalLangs);
+        Map<String, Double> scores = runFasttext(shortText, noopLangs);
         result = getHighestScoringResult(scores);
         if (result.getValue().floatValue() < THRESHOLD) {
           //System.out.println(text + " ->" + result.getValue().floatValue() + " " + result.getKey());
@@ -258,13 +253,13 @@ public class LanguageIdentifier {
     if (!fasttextEnabled) { // no else, value can change in if clause
       shortText = textObjectFactory.forText(shortText).toString();
       result = detectLanguageCode(shortText);
-      if (additionalLangs.size() > 0) {
-        logger.warn("Cannot consider noopLanguages because not in fastText mode: " + additionalLangs);
+      if (noopLangs.size() > 0) {
+        logger.warn("Cannot consider noopLanguages because not in fastText mode: " + noopLangs);
       }
     }
-    if (result != null && result.getKey() != null && canLanguageBeDetected(result.getKey(), additionalLangs)) {
+    if (result != null && result.getKey() != null && canLanguageBeDetected(result.getKey(), noopLangs)) {
       return new DetectedLanguage(null,
-        Languages.getLanguageForShortCode(result.getKey(), additionalLangs),
+        Languages.getLanguageForShortCode(result.getKey(), noopLangs),
         result.getValue().floatValue());
     } else {
       return null;
@@ -350,17 +345,10 @@ public class LanguageIdentifier {
     }
   }
 
-  static class RemoveEMailSignatureFilter implements TextFilter {
+  class RemoveEMailSignatureFilter implements TextFilter {
     @Override
     public String filter(CharSequence text) {
       return SIGNATURE.matcher(text.toString()).replaceFirst("");
-    }
-  }
-
-  static class RemoveNonBreakingSpaces implements TextFilter {
-    @Override
-    public String filter(CharSequence text) {
-      return text.toString().replace('\u00A0', ' ');
     }
   }
 }

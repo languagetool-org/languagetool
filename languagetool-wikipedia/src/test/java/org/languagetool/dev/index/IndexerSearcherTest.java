@@ -18,8 +18,8 @@
  */
 package org.languagetool.dev.index;
 
-import static org.languagetool.dev.index.Lucene.FIELD_NAME;
-import static org.languagetool.dev.index.Lucene.FIELD_NAME_LOWERCASE;
+import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME;
+import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWERCASE;
 
 import java.io.File;
 import java.io.IOException;

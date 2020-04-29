@@ -33,12 +33,8 @@ import org.languagetool.rules.UnsyncStack;
 
 public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
 
-  private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{", "\"");
-  private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}", "\"");
-  // This is more strict, but also leads to confusing messages for users who mix up the many
-  // characters that are be used as a quote character (https://github.com/languagetool-org/languagetool/issues/2356): 
-  //private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{", "“", "\"", "'");
-  //private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "\"", "'");
+  private static final List<String> EN_START_SYMBOLS = Arrays.asList("[", "(", "{", "“", "\"", "'");
+  private static final List<String> EN_END_SYMBOLS   = Arrays.asList("]", ")", "}", "”", "\"", "'");
 
   private static final Pattern NUMBER = Pattern.compile("\\d+(?:-\\d+)?");
   private static final Pattern YEAR_NUMBER = Pattern.compile("\\d\\ds?");
@@ -93,16 +89,16 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
         }
       }
       // Exception for English plural Saxon genitive
-      if ((isQuote(tokenStr)) && tokens[i].hasPosTag("POS")) {
+      if (("'".equals(tokenStr) || "’".equals(tokenStr)) && tokens[i].hasPosTag("POS")) {
         return false;
       }
       // puttin' on the Ritz
-      if (isQuote(tokenStr) && prevToken.hasPosTag("VBG")
+      if ("'".equals(tokenStr) && prevToken.hasPosTag("VBG")
           && prevToken.getToken().endsWith("in")) {
         return false;
       }
       // Dunkin' Donuts
-      if (isQuote(tokenStr) && prevToken.getToken().equals("Dunkin")) {
+      if (("'".equals(tokenStr) || "’".equals(tokenStr)) && prevToken.getToken().equals("Dunkin")) {
         return false;
       }
     }
@@ -119,10 +115,6 @@ public class EnglishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
       }
     }
     return true;
-  }
-
-  private boolean isQuote(String tokenStr) {
-    return "'".equals(tokenStr) || "’".equals(tokenStr);
   }
 
 }

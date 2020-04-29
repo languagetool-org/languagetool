@@ -40,8 +40,6 @@ public class ConfusionProbabilityRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    assertGood("Their");
-    assertGood("There");
     assertMatch("Their are new ideas to explore.");
     assertGood("There are new ideas to explore.");
     assertMatch("Why is there car broken again?");
@@ -50,14 +48,12 @@ public class ConfusionProbabilityRuleTest {
     assertGood("Is this there useful test?");  // error not found b/c no data
     ConfusionProbabilityRule ruleWithException = new FakeRule(new FakeLanguageModel(), new FakeLanguage()) {
       @Override
-      protected boolean isException(String sentenceText, int startPos, int endPos) {
+      protected boolean isException(String sentenceText) {
         return sentenceText.contains("Their are");
       }
     };
     assertGood("Their are new ideas to explore.", ruleWithException);
-    assertGood("\"Their are new ideas to explore.\"", ruleWithException);
     assertMatch("İm dabei gut auszusehen.");  // bug with the special char 'İ' which, when lowercased becomes  a regular 'i'
-    assertGood("But İm dabei gut auszusehen.");
   }
 
   @Test
@@ -68,6 +64,62 @@ public class ConfusionProbabilityRuleTest {
     assertGood("Their are new ideas to explore.", rule2);
     assertGood("And their are new ideas to explore.", rule2);
     assertGood("Their are new ideas to explore and their are new plans.", rule2);
+  }
+
+  @Test
+  public void testGetContext() {
+    List<GoogleToken> tokens = Arrays.asList(
+            new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
+            new GoogleToken("This", 0, 0),
+            new GoogleToken("is", 0, 0),
+            new GoogleToken("a", 0, 0),
+            new GoogleToken("test", 0, 0)
+    );
+    GoogleToken token = tokens.get(3);
+    assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[is, XX, test]"));
+    assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, test, .]"));
+    assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[This, is, XX]"));
+    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[_START_, This, is, XX]"));
+  }
+
+  @Test
+  public void testGetContext2() {
+    List<GoogleToken> tokens = Arrays.asList(
+            new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
+            new GoogleToken("This", 0, 0),
+            new GoogleToken("is", 0, 0)
+    );
+    GoogleToken token = tokens.get(2);
+    assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[This, XX, .]"));
+    assertThat(rule.getContext(token, tokens, "XX", 2, 1).toString(), is("[_START_, This, XX, .]"));
+    assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, ., .]"));
+    assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[_START_, This, XX]"));
+    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[_START_, This, XX]"));
+  }
+
+  @Test
+  public void testGetContext3() {
+    List<GoogleToken> tokens = Arrays.asList(
+            new GoogleToken("This", 0, 0)
+    );
+    GoogleToken token = tokens.get(0);
+    assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[XX]"));
+    assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, ., .]"));
+    assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[XX]"));
+    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[XX]"));
+  }
+
+  @Test
+  public void testGetContext4() {
+    List<GoogleToken> tokens = Arrays.asList(
+            new GoogleToken(LanguageModel.GOOGLE_SENTENCE_START, 0, 0),
+            new GoogleToken("This", 0, 0)
+    );
+    GoogleToken token = tokens.get(1);
+    assertThat(rule.getContext(token, tokens, "XX", 1, 1).toString(), is("[_START_, XX, .]"));
+    assertThat(rule.getContext(token, tokens, "XX", 0, 2).toString(), is("[XX, ., .]"));
+    assertThat(rule.getContext(token, tokens, "XX", 2, 0).toString(), is("[_START_, XX]"));
+    assertThat(rule.getContext(token, tokens, "XX", 3, 0).toString(), is("[_START_, XX]"));
   }
 
   private void assertMatch(String input, Rule rule) throws IOException {

@@ -58,29 +58,11 @@ public class OldSpellingRuleTest {
     assertThat(rule.match(sentence5).length, is(1));
     assertThat(rule.match(sentence5)[0].getSuggestedReplacements().toString(), is("[muss]"));
 
-    AnalyzedSentence sentence6 = lt.getAnalyzedSentence("schwarzweißmalen");
-    assertThat(rule.match(sentence6).length, is(1));
-    assertThat(rule.match(sentence6)[0].getSuggestedReplacements().toString(), is("[schwarzweiß malen, schwarz-weiß malen]"));
-
-    assertThat(rule.match(lt.getAnalyzedSentence("geschneuzt"))[0].getSuggestedReplacements().toString(), is("[geschnäuzt]"));
-    assertThat(rule.match(lt.getAnalyzedSentence("naß machen"))[0].getSuggestedReplacements().toString(), is("[nassmachen]"));
-    assertThat(rule.match(lt.getAnalyzedSentence("Midlife-crisis"))[0].getSuggestedReplacements().toString(), is("[Midlife-Crisis, Midlifecrisis]"));
-    assertThat(rule.match(lt.getAnalyzedSentence("Schluß"))[0].getSuggestedReplacements().toString(), is("[Schluss]"));
-    assertThat(rule.match(lt.getAnalyzedSentence("Schloß"))[0].getSuggestedReplacements().toString(), is("[Schloss]"));
-    assertThat(rule.match(lt.getAnalyzedSentence("radfahren"))[0].getSuggestedReplacements().toString(), is("[Rad fahren]"));
-    assertThat(rule.match(lt.getAnalyzedSentence("Photo"))[0].getSuggestedReplacements().toString(), is("[Foto]"));
-
     assertThat(rule.match(lt.getAnalyzedSentence("In Russland")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("In Russlands Weiten")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Schlüsse")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Schloß Holte")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("in Schloß Holte")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Schloß Holte ist")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Asse")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Photons")).length, is(0));  // not "Photo" substring match
-    assertThat(rule.match(lt.getAnalyzedSentence("Photon")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Des Photons")).length, is(0));
-    assertThat(rule.match(lt.getAnalyzedSentence("Photons ")).length, is(0));
   }
 
 }

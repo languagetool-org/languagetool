@@ -18,12 +18,16 @@
  */
 package org.languagetool.rules.pt;
 
-import org.languagetool.rules.*;
+import org.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.CompoundRuleData;
+import org.languagetool.rules.Categories;
+import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ResourceBundle;
+
+import java.net.URL;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -31,7 +35,7 @@ import java.util.ResourceBundle;
  */
 public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
 
-  private static volatile CompoundRuleData compoundData;
+  private static final CompoundRuleData compoundData = new CompoundRuleData("/pt/post-reform-compounds.txt");
 
   public PostReformPortugueseCompoundRule(ResourceBundle messages) throws IOException {    
     super(messages,
@@ -60,16 +64,6 @@ public class PostReformPortugueseCompoundRule extends AbstractCompoundRule {
 
   @Override
   protected CompoundRuleData getCompoundRuleData() {
-    CompoundRuleData data = compoundData;
-    if (data == null) {
-      synchronized (PostReformPortugueseCompoundRule.class) {
-        data = compoundData;
-        if (data == null) {
-          compoundData = data = new CompoundRuleData("/pt/post-reform-compounds.txt");
-        }
-      }
-    }
-
-    return data;
+    return compoundData;
   }
 }

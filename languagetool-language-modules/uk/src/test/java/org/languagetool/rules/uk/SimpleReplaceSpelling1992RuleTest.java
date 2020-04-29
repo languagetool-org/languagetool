@@ -22,12 +22,11 @@ package org.languagetool.rules.uk;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
-import org.languagetool.language.Ukrainian;
+import org.languagetool.language.Ukrainian1992;
 import org.languagetool.rules.RuleMatch;
 
 
@@ -35,37 +34,18 @@ public class SimpleReplaceSpelling1992RuleTest {
 
   @Test
   public void testRule() throws IOException {
-    SimpleReplaceSpelling1992Rule rule = new SimpleReplaceSpelling1992Rule(TestTools.getEnglishMessages());
+    SimpleReplaceSpelling2019Rule rule = new SimpleReplaceSpelling2019Rule(TestTools.getEnglishMessages());
 
     RuleMatch[] matches;
-    JLanguageTool langTool = new JLanguageTool(Ukrainian.DEFAULT_VARIANT);
+    JLanguageTool langTool = new JLanguageTool(new Ukrainian1992());
 
     // correct sentences:
-    matches = rule.match(langTool.getAnalyzedSentence("Це — новий проєкт для фоє."));
-    assertEquals(0, matches.length);
-
-    matches = rule.match(langTool.getAnalyzedSentence("на півночі"));
-    assertEquals(0, matches.length);
-
-    
     matches = rule.match(langTool.getAnalyzedSentence("Це — новий проект для фойє."));
+    assertEquals(0, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("Це — новий проєкт для фоє."));
     assertEquals(2, matches.length);
 //    assertEquals(Arrays.asList("проєкт"), matches[0].getSuggestedReplacements());
 //    assertEquals(Arrays.asList("фоє"), matches[1].getSuggestedReplacements());
-
-    matches = rule.match(langTool.getAnalyzedSentence("Топменеджер."));
-    assertEquals(0, matches.length);
-
-    matches = rule.match(langTool.getAnalyzedSentence("Топ-менеджер."));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("Топменеджер"), matches[0].getSuggestedReplacements());
-
-    // dynamic tagging
-    matches = rule.match(langTool.getAnalyzedSentence("веб-додаток"));
-    assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("вебдодаток"), matches[0].getSuggestedReplacements());
-    
-    matches = rule.match(langTool.getAnalyzedSentence("веб- "));
-    assertEquals(0, matches.length);
   }
 }

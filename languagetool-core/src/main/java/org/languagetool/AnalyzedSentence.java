@@ -20,6 +20,7 @@ package org.languagetool;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
+import org.languagetool.tools.StringTools;
 
 import java.util.*;
 
@@ -134,6 +135,7 @@ public final class AnalyzedSentence {
   /**
    * @since 4.5
    */
+  @Experimental
   public AnalyzedTokenReadings[] getPreDisambigTokens() {
     // It would be better to return a clone here to make this object immutable,
     // but this would be bad for performance:
@@ -152,6 +154,7 @@ public final class AnalyzedSentence {
   /**
    * @since 4.5
    */
+  @Experimental
   public AnalyzedTokenReadings[] getPreDisambigTokensWithoutWhitespace() {
     return nonBlankPreDisambigTokens.clone();
   }
@@ -306,6 +309,14 @@ public final class AnalyzedSentence {
   public int hashCode() {
     // tokenSet and lemmaSet are a subset of tokens and don't need to be included
     return Objects.hash(nonBlankTokens, tokens, whPositions);
+  }
+
+  /**
+   * Returns true if sentences ends with a paragraph break.
+   * @since 4.3
+   */
+  public boolean hasParagraphEndMark(Language lang) {
+    return StringTools.isParagraphEnd(getText(), lang.getSentenceTokenizer().singleLineBreaksMarksPara());
   }
 
 }

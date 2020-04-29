@@ -18,24 +18,31 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ml.MorfologikMalayalamSpellerRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ml.MalayalamTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.ml.MalayalamWordTokenizer;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * @deprecated this language hasn't been maintained for years, it will be removed from LanguageTool after release 3.6
  */
 @Deprecated
 public class Malayalam extends Language {
+
+  private SentenceTokenizer sentenceTokenizer;
+  private Tagger tagger;
+  private Tokenizer wordTokenizer;
 
   @Override
   public String getName() {
@@ -48,8 +55,11 @@ public class Malayalam extends Language {
   }
 
   @Override
-  public Tokenizer createDefaultWordTokenizer() {
-    return new MalayalamWordTokenizer();
+  public Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new MalayalamWordTokenizer();
+    }
+    return wordTokenizer;
   }
   
   @Override
@@ -58,14 +68,19 @@ public class Malayalam extends Language {
   }
 
   @Override
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return new SRXSentenceTokenizer(this);
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
-
-  @NotNull
+  
   @Override
-  public Tagger createDefaultTagger() {
-    return new MalayalamTagger();
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new MalayalamTagger();
+    }
+    return tagger;
   }
     
   @Override

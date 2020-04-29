@@ -18,8 +18,6 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.languagetool.JLanguageTool;
-
 import java.lang.reflect.Constructor;
 
 /**
@@ -33,7 +31,7 @@ public class RuleFilterCreator {
    */
   public RuleFilter getFilter(String className) {
     try {
-      Class<?> aClass = JLanguageTool.getClassBroker().forName(className);
+      Class<?> aClass = Class.forName(className);
       Constructor<?>[] constructors = aClass.getConstructors();
       if (constructors.length != 1) {
         throw new RuntimeException("Constructor of filter class '"

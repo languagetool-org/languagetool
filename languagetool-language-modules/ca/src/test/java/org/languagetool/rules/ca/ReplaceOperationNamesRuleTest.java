@@ -111,5 +111,16 @@ public class ReplaceOperationNamesRuleTest {
     assertEquals(1, matches.length);
   }
 
+  @Test
+  public void testPositions() throws IOException {
+    final AccentuationCheckRule rule = new AccentuationCheckRule(TestTools.getEnglishMessages());
+    final RuleMatch[] matches;
+    final JLanguageTool langTool = new JLanguageTool(new Catalan());
+
+    matches = rule.match(langTool
+        .getAnalyzedSentence("Són circumstancies extraordinàries."));
+    assertEquals(4, matches[0].getFromPos());
+    assertEquals(18, matches[0].getToPos());
+  }
 
 }

@@ -18,15 +18,19 @@
  */
 package org.languagetool.rules.en;
 
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.rules.*;
+import org.languagetool.language.AmericanEnglish;
+import org.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.CompoundRuleData;
+import org.languagetool.rules.Example;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
-
-import java.io.IOException;
-import java.util.*;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -34,19 +38,15 @@ import java.util.*;
 public class CompoundRule extends AbstractCompoundRule {
 
   // static to make sure this gets loaded only once:
-  private static volatile CompoundRuleData compoundData;
-  private static final Language AMERICAN_ENGLISH = Languages.getLanguageForShortCode("en-US");
+  private static final CompoundRuleData compoundData = new CompoundRuleData("/en/compounds.txt");
+  private static final Language AMERICAN_ENGLISH = new AmericanEnglish();
   private static List<DisambiguationPatternRule> antiDisambiguationPatterns = null;
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
       Arrays.asList(
-        new PatternTokenBuilder().tokenRegex("['’`´‘]").build(),
-        new PatternTokenBuilder().token("re").build()
-      ),
-      Arrays.asList(
-        new PatternTokenBuilder().tokenRegex("and|&").build(),
-        new PatternTokenBuilder().token("co").build()
-      )
-  );
+          new PatternTokenBuilder().tokenRegex("['´]").build(),
+          new PatternTokenBuilder().token("re").build()
+        )
+      );
 
   public CompoundRule(ResourceBundle messages) throws IOException {    
     super(messages,
@@ -70,17 +70,7 @@ public class CompoundRule extends AbstractCompoundRule {
 
   @Override
   protected CompoundRuleData getCompoundRuleData() {
-    CompoundRuleData data = compoundData;
-    if (data == null) {
-      synchronized (CompoundRule.class) {
-        data = compoundData;
-        if (data == null) {
-          compoundData = data = new CompoundRuleData("/en/compounds.txt");
-        }
-      }
-    }
-
-    return data;
+    return compoundData;
   }
 
   @Override

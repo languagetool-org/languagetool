@@ -20,6 +20,7 @@ package org.languagetool.remote;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.xml.stream.XMLStreamException;
 import java.io.*;
 import java.util.List;
 import java.util.Map;
@@ -30,14 +31,14 @@ import java.util.Map;
  * <a href="http://wiki.languagetool.org/public-http-api">in our wiki</a>.
  * @since 4.8
  */
-public class RemoteConfigurationInfo {
 
-  private final int maxTextLength;
-  private final Map<String,Object> softwareInfo;
-  private final List<Map<String,String>> rules;
+public class RemoteConfigurationInfo {
+  private Map<String,Object> softwareInfo;
+  private int maxTextLength = 0;
+  private List<Map<String,String>> rules;
   
   @SuppressWarnings("unchecked")
-  RemoteConfigurationInfo(ObjectMapper mapper, InputStream inputStream) throws IOException {
+  RemoteConfigurationInfo(ObjectMapper mapper, InputStream inputStream) throws XMLStreamException, IOException {
     Map<String, Object> map = mapper.readValue(inputStream, Map.class);
     softwareInfo = (Map<String,Object>) map.get("software");
     Map<String, Object> parameter = (Map<String, Object>) map.get("parameter");
@@ -45,7 +46,7 @@ public class RemoteConfigurationInfo {
     rules = (List<Map<String, String>>) map.get("rules");
   }
 
-  public Map<String,Object> getSoftwareInfo() {
+  public Map<String,Object> getSoftwareInfo(){
     return softwareInfo;
   }
   

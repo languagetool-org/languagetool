@@ -152,7 +152,7 @@ public class LinguisticServices extends LinguServices {
     MessageHandler.printException(t);
   }
   
-  public static Locale getLocale(Language lang) {
+  private static Locale getLocale(Language lang) {
     Locale locale = new Locale();
     locale.Language = lang.getShortCode();
     locale.Country = lang.getCountries()[0];

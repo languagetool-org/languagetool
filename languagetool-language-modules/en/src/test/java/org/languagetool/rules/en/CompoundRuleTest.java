@@ -41,7 +41,6 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
     check(0, "The software supports case-sensitive search.");
     check(0, "He is one-year-old.");
     check(0, "If they're educated people, they will know.");
-    check(0, "Tiffany & Co chairman has to say something important");
     check(0, "Another one bites the dust");
     // incorrect sentences:
     check(1, "case sensitive", "case-sensitive");

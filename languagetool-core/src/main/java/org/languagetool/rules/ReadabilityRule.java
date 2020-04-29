@@ -34,7 +34,6 @@ import org.languagetool.rules.CategoryId;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.TextLevelRule;
-import org.languagetool.tools.Tools;
 import org.languagetool.rules.Category.Location;
 
 /**
@@ -291,7 +290,7 @@ public class ReadabilityRule extends TextLevelRule {
           }
         }
       }
-      if(Tools.isParagraphEnd(sentences, n, lang)) {
+      if(sentence.hasParagraphEndMark(lang) || n == sentences.size() - 1) {
         if (nWords >= MIN_WORDS) {
           /* Equation for readability
            * FRE = Flesch-Reading-Ease

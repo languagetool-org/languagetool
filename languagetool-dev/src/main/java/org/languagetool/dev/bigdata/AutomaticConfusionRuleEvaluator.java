@@ -33,8 +33,6 @@ import org.languagetool.rules.ConfusionSetLoader;
 
 import java.io.*;
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -62,11 +60,10 @@ class AutomaticConfusionRuleEvaluator {
   private AutomaticConfusionRuleEvaluator(File luceneIndexDir, String fieldName, boolean caseInsensitive, Language lang) throws IOException {
     this.fieldName = fieldName;
     this.caseInsensitive = caseInsensitive;
-    System.out.println("Using " + luceneIndexDir + " to search example sentences");
     DirectoryReader reader = DirectoryReader.open(FSDirectory.open(luceneIndexDir.toPath()));
     searcher = new IndexSearcher(reader);
     InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/" + lang.getShortCode() + "/confusion_sets.txt");
-    knownSets = new ConfusionSetLoader(lang).loadConfusionPairs(confusionSetStream);
+    knownSets = new ConfusionSetLoader().loadConfusionPairs(confusionSetStream);
     this.lang = lang; 
   }
 
@@ -84,22 +81,19 @@ class AutomaticConfusionRuleEvaluator {
       }
       System.out.printf(Locale.ENGLISH, "Line " + lineCount + " of " + lines.size() + " (%.2f%%)\n", ((float)lineCount/lines.size())*100.f);
       String[] parts = line.split("\\s*(;|->)\\s*");
-      //boolean bothDirections = !removeComment(line).contains("->");
-      boolean bothDirections = false;
+      if (parts.length != 2) {
+        throw new IOException("Expected input to be separated by '->' or ';': " + line);
+      }
+      boolean bothDirections = !removeComment(line).contains("->");
       ConfusionRuleEvaluator evaluator = new ConfusionRuleEvaluator(lang, lm, caseInsensitive, bothDirections);
       try {
-        for (String part1 : parts) {
-          // compare every item with every other item:
-          for (String part2 : parts) {
-            if (!part1.equals(part2)) {
-              if (bothDirections) {
-                runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part1), removeComment(part2), bothDirections);
-              } else {
-                runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part1), removeComment(part2), false);
-                runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part2), removeComment(part1), false);
-              }
-            }
+        int i = 1;
+        for (String part : parts) {
+          // compare pair-wise - maybe we should compare every item with every other item?
+          if (i < parts.length) {
+            runOnPair(evaluator, line, lineCount, lines.size(), removeComment(part), removeComment(parts[i]), bothDirections);
           }
+          i++;
         }
       } catch (RuntimeException e) {
         e.printStackTrace();
@@ -145,7 +139,7 @@ class AutomaticConfusionRuleEvaluator {
       System.out.println("Skipping, evalNewsSets=false and pair not known yet");
       return;
     }
-    System.out.println("Working on: " + part1 + " / " + part2 + " from line: " + line + " (" + lineCount + " of " + totalLines + ")");
+    System.out.println("Working on: " + line + " (" + lineCount + " of " + totalLines + ")");
     try {
       File sentencesFile = writeExampleSentencesToTempFile(new String[]{part1, part2});
       List<String> input = Arrays.asList(sentencesFile.getAbsolutePath());
@@ -202,11 +196,6 @@ class AutomaticConfusionRuleEvaluator {
     Set<String> foundSentences = new HashSet<>();
     for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
       String sentence = searcher.doc(scoreDoc.doc).get(fieldName);
-      int occCount = countRegexMatches(sentence, word);
-      if (occCount > 1) {
-        //System.out.println("Skipping, word '" + word + "' appears more than once: " + sentence);
-        continue;
-      }
       if (caseInsensitive) {
         if (!foundSentences.contains(sentence)) {
           fw.write(sentence + "\n");
@@ -229,14 +218,6 @@ class AutomaticConfusionRuleEvaluator {
     long iterateTime = t3 - t2;
     System.out.println("Found " + count + " examples for " + word +
             " (" + searchTime + "ms, " + iterateTime + "ms), case insensitive=" + caseInsensitive + ", totalHits: " + topDocs.totalHits);
-    return count;
-  }
-
-  private int countRegexMatches(String sentence, String word) {
-    int count = 0;
-    Matcher matcher = Pattern.compile("\\b" + word + "\\b").matcher(sentence);
-    while (matcher.find())
-      count++;
     return count;
   }
 

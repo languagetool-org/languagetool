@@ -18,26 +18,52 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
-import org.languagetool.rules.ca.*;
+import org.languagetool.rules.ca.AccentuationCheckRule;
+import org.languagetool.rules.ca.CatalanUnpairedBracketsRule;
+import org.languagetool.rules.ca.CatalanUnpairedExclamationMarksRule;
+import org.languagetool.rules.ca.CatalanUnpairedQuestionMarksRule;
+import org.languagetool.rules.ca.CatalanWordRepeatRule;
+import org.languagetool.rules.ca.CatalanWrongWordInContextDiacriticsRule;
+import org.languagetool.rules.ca.CatalanWrongWordInContextRule;
+import org.languagetool.rules.ca.ComplexAdjectiveConcordanceRule;
+import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
+import org.languagetool.rules.ca.ReflexiveVerbsRule;
+import org.languagetool.rules.ca.ReplaceOperationNamesRule;
+import org.languagetool.rules.ca.SimpleReplaceRule;
+import org.languagetool.rules.ca.SimpleReplaceBalearicRule;
+import org.languagetool.rules.ca.SimpleReplaceDNVRule;
+import org.languagetool.rules.ca.SimpleReplaceDiacriticsIEC;
+import org.languagetool.rules.ca.SimpleReplaceDiacriticsTraditional;
+import org.languagetool.rules.ca.SimpleReplaceVerbsRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ca.CatalanSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ca.CatalanTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.ca.CatalanHybridDisambiguator;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.ca.CatalanWordTokenizer;
-
-import java.io.IOException;
-import java.util.*;
 
 public class Catalan extends Language {
 
   private static final Language DEFAULT_CATALAN = new Catalan();
+  
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
+  private Tokenizer wordTokenizer;
+  private Synthesizer synthesizer;
+  private Disambiguator disambiguator;
 
   @Override
   public String getName() {
@@ -93,38 +119,48 @@ public class Catalan extends Language {
             new ReplaceOperationNamesRule(messages, this),
             new SimpleReplaceDNVRule(messages, this), // can be removed here after updating dictionaries
             new SimpleReplaceDiacriticsIEC(messages),
-            new SimpleReplaceDiacriticsTraditional(messages),
-            new SimpleReplaceAnglicism(messages), 
-            new PronomFebleDuplicateRule(messages)
-            //REMEMBER TO ADD RULES TO ValencianCatalan!!
+            new SimpleReplaceDiacriticsTraditional(messages)
     );
   }
 
-  @NotNull
   @Override
-  public Tagger createDefaultTagger() {
-    return new CatalanTagger(this);
-  }
-
-  @Nullable
-  @Override
-  public Synthesizer createDefaultSynthesizer() {
-    return new CatalanSynthesizer(this);
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new CatalanTagger(this);
+    }
+    return tagger;
   }
 
   @Override
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return new SRXSentenceTokenizer(this);
+  public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new CatalanSynthesizer(this);
+    }
+    return synthesizer;
   }
 
   @Override
-  public Disambiguator createDefaultDisambiguator() {
-    return new CatalanHybridDisambiguator();
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
-
+  
   @Override
-  public Tokenizer createDefaultWordTokenizer() {
-    return new CatalanWordTokenizer();
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new CatalanHybridDisambiguator();
+    }
+    return disambiguator;
+  }  
+  
+  @Override
+  public Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new CatalanWordTokenizer();
+    }
+    return wordTokenizer;
   }
 
   @Override
@@ -136,7 +172,6 @@ public class Catalan extends Language {
   public int getPriorityForId(String id) {
     switch (id) {
       case "CA_SIMPLE_REPLACE_BALEARIC": return 100;
-      case "INCORRECT_EXPRESSIONS": return 50;
       case "CONCORDANCES_CASOS_PARTICULARS": return 30;
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;

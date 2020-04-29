@@ -26,7 +26,6 @@ import java.util.ResourceBundle;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
-import org.languagetool.tools.Tools;
 
 /**
  * A rule that checks for a whitespace at the end of a paragraph
@@ -67,7 +66,7 @@ public class WhiteSpaceBeforeParagraphEnd extends TextLevelRule {
     int pos = 0; 
     for (int n = 0; n < sentences.size(); n++) {
       AnalyzedSentence sentence = sentences.get(n);
-      if(Tools.isParagraphEnd(sentences, n, lang)) {
+      if(n == sentences.size() - 1 || sentence.hasParagraphEndMark(lang)) {
         AnalyzedTokenReadings[] tokens = sentence.getTokens();
         int lb;
         int lw;

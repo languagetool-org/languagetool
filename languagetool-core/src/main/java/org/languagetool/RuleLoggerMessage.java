@@ -30,19 +30,15 @@ import java.util.TimeZone;
 
 @Experimental
 public class RuleLoggerMessage {
-
-  private final static TimeZone timeZone = TimeZone.getTimeZone("UTC");
-
   private final String ruleId;
   private final String language;
   private final Date timestamp;
-
   private String message;
 
   public RuleLoggerMessage(@NotNull String ruleId, @NotNull String language, @NotNull String message) {
     this.ruleId = Objects.requireNonNull(ruleId);
     this.language = Objects.requireNonNull(language);
-    this.timestamp = Calendar.getInstance(timeZone).getTime();
+    this.timestamp = Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime();
     this.message = Objects.requireNonNull(message);
   }
 

@@ -42,10 +42,8 @@ import org.languagetool.rules.ca.CatalanWrongWordInContextDiacriticsRule;
 import org.languagetool.rules.ca.CatalanWrongWordInContextRule;
 import org.languagetool.rules.ca.ComplexAdjectiveConcordanceRule;
 import org.languagetool.rules.ca.MorfologikCatalanSpellerRule;
-import org.languagetool.rules.ca.PronomFebleDuplicateRule;
 import org.languagetool.rules.ca.ReflexiveVerbsRule;
 import org.languagetool.rules.ca.ReplaceOperationNamesRule;
-import org.languagetool.rules.ca.SimpleReplaceAnglicism;
 import org.languagetool.rules.ca.SimpleReplaceBalearicRule;
 import org.languagetool.rules.ca.SimpleReplaceDNVColloquialRule;
 import org.languagetool.rules.ca.SimpleReplaceDNVRule;
@@ -104,9 +102,7 @@ public class ValencianCatalan extends Catalan {
             new SimpleReplaceDNVColloquialRule(messages, this),
             new SimpleReplaceDNVSecondaryRule(messages, this),
             new SimpleReplaceDiacriticsIEC(messages),
-            new SimpleReplaceDiacriticsTraditional(messages),
-            new SimpleReplaceAnglicism(messages),
-            new PronomFebleDuplicateRule(messages)
+            new SimpleReplaceDiacriticsTraditional(messages)
     );
   }
 

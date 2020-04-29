@@ -18,19 +18,24 @@
  */
 package org.languagetool.tagging.uk;
 
-import org.apache.commons.lang3.StringUtils;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.tagging.*;
-import org.languagetool.tools.StringTools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.apache.commons.lang3.StringUtils;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.tagging.BaseTagger;
+import org.languagetool.tagging.TaggedWord;
+import org.languagetool.tagging.WordTagger;
+import org.languagetool.tools.StringTools;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /** 
@@ -52,11 +57,14 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ0-9a-z]\u2013[а-яіїєґ]|[а-яіїєґ]\u2013[0-9]", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern NAPIV_ALLOWED_TAGS_REGEX = Pattern.compile("(noun|ad(j|v(?!p))(?!.*?:comp[cs])).*");
   private static final Pattern NAPIV_REMOVE_TAGS_REGEX = Pattern.compile(":comp.|:&adjp(:(actv|pasv|perf|imperf))*");
-  private static final Pattern COMPOUND_WITH_QUOTES_REGEX = Pattern.compile("-[«\"„]");
 
-
-  private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, locale);
+  private final CompoundTagger compoundTagger = new CompoundTagger(this, wordTagger, conversionLocale);
 //  private BufferedWriter taggedDebugWriter;
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/uk/added.txt";
+  }
 
   public UkrainianTagger() {
     super("/uk/ukrainian.dict", new Locale("uk", "UA"), false);
@@ -95,13 +103,6 @@ public class UkrainianTagger extends BaseTagger {
     }
 
     if ( word.indexOf('-') > 0 ) {
-
-      // екс-«депутат»
-      if( COMPOUND_WITH_QUOTES_REGEX.matcher(word).find() ) {
-        String adjustedWord = word.replaceAll("[«»\"„“]", "");
-        return getAdjustedAnalyzedTokens(word, adjustedWord, null, null, null);
-      }
-
       try {
         List<AnalyzedToken> guessedCompoundTags = compoundTagger.guessCompoundTag(word);
         return guessedCompoundTags;

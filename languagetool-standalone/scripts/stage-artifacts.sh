@@ -6,7 +6,7 @@
 # set to 1 to list what will be signed and uploaded, set to 0 to actually sign and upload:
 DRY_RUN=0
 # set this to the version you want to release:
-VERSION=4.9
+VERSION=4.5
 
 CURRENT_DIR=`pwd`
 CURRENT_BASE=`basename $CURRENT_DIR`
@@ -28,7 +28,7 @@ fi
 
 # The list of projects was copied from the top-level pom.xml:
 # Note that we don't stage: languagetool-office-extension, languagetool-standalone, languagetool-commandline
-for PROJECT in languagetool-core en fr de pl ca it br nl pt ru ast be zh da eo gl el ja km ro sk sl es sv tl uk fa ta ga ar de-DE-x-simple-language all languagetool-gui-commons languagetool-wikipedia languagetool-server languagetool-http-client
+for PROJECT in languagetool-core en fr de pl ca it br nl pt ru ast be zh da eo gl el ja km ro sk sl es sv tl uk fa ta de-DE-x-simple-language all languagetool-gui-commons languagetool-wikipedia languagetool-server languagetool-http-client
 do
 
     if [ -d "../../languagetool-language-modules/$PROJECT" ]

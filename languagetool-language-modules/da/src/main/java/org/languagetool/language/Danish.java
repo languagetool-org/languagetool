@@ -18,25 +18,30 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
-import org.languagetool.tagging.da.DanishTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
+import org.languagetool.tagging.da.DanishTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
-
-import java.util.*;
 
 /**
  * @deprecated this language is unmaintained in LT and might be removed in a future release if we cannot find contributors for it (deprecated since 3.6)
  */
 @Deprecated
 public class Danish extends Language {
+
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
+  private Disambiguator disambiguator;
 
   @Override
   public String getName() {
@@ -52,21 +57,29 @@ public class Danish extends Language {
   public String[] getCountries() {
     return new String[]{"DK"};
   }
-
-  @NotNull
+  
   @Override
-  public Tagger createDefaultTagger() {
-    return new DanishTagger();
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new DanishTagger();
+    }
+    return tagger;
   }
 
   @Override
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return new SRXSentenceTokenizer(this);
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
-
+  
   @Override
-  public Disambiguator createDefaultDisambiguator() {
-    return new XmlRuleDisambiguator(this);
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new XmlRuleDisambiguator(new Danish());
+    }
+    return disambiguator;
   }
 
   @Override

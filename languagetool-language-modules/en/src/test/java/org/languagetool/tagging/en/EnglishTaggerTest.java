@@ -67,18 +67,18 @@ public class EnglishTaggerTest {
   public void testLemma() throws IOException {
     EnglishTagger tagger = new EnglishTagger();
     List<String> words = new ArrayList<>();
-    words.add("Trump");
+    words.add("Oliver");
     words.add("works");
     List<AnalyzedTokenReadings> aToken = tagger.tag(words);
     
     assertEquals(2, aToken.size());
-    assertEquals(4, aToken.get(0).getReadings().size());
+    assertEquals(3, aToken.get(0).getReadings().size());
     assertEquals(2, aToken.get(1).getReadings().size());
 
-    assertEquals("Trump", aToken.get(0).getReadings().get(0).getLemma());
-    assertEquals("trump", aToken.get(0).getReadings().get(1).getLemma());
-    assertEquals("trump", aToken.get(0).getReadings().get(2).getLemma());
-    assertEquals("trump", aToken.get(0).getReadings().get(3).getLemma());
+    assertEquals("Oliver", aToken.get(0).getReadings().get(0).getLemma());
+    // TODO: are the following two correct?
+    assertEquals("oliver", aToken.get(0).getReadings().get(1).getLemma());
+    assertEquals("olive", aToken.get(0).getReadings().get(2).getLemma());
 
     assertEquals("work", aToken.get(1).getReadings().get(0).getLemma());
     assertEquals("work", aToken.get(1).getReadings().get(1).getLemma());

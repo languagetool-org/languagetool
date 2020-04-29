@@ -22,7 +22,13 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.languagetool.JLanguageTool.*;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -91,6 +97,7 @@ public class MorfologikMultiSpeller {
    * @param maxEditDistance maximum edit distance for accepting suggestions
    * @since 4.2
    */
+  @Experimental
   public MorfologikMultiSpeller(String binaryDictPath, List<String> plainTextPaths, String languageVariantPlainTextPath,
     UserConfig userConfig, int maxEditDistance) throws IOException {
     this(binaryDictPath,
@@ -242,23 +249,25 @@ public class MorfologikMultiSpeller {
 
   @NotNull
   private List<String> getSuggestionsFromSpellers(String word, List<MorfologikSpeller> spellerList) {
-    List<WeightedSuggestion> result = new ArrayList<>();
-    Set<String> seenWords = new HashSet<>();
+    List<String> result = new ArrayList<>();
     for (MorfologikSpeller speller : spellerList) {
-      List<WeightedSuggestion> suggestions = speller.getSuggestions(word);
-      for (WeightedSuggestion suggestion : suggestions) {
-        if (!seenWords.contains(suggestion.getWord()) && !suggestion.getWord().equals(word)) {
-          result.add(suggestion);
+      List<String> suggestions = speller.getSuggestions(word);
+      for (String suggestion : suggestions) {
+        // this is how we could normalize special chars:
+        //String noSpecialCharSuggestion = Normalizer.normalize(suggestion, Normalizer.Form.NFD).replaceAll("\\p{M}", "");  // https://stackoverflow.com/questions/3322152
+        if (!result.contains(suggestion) && !suggestion.equals(word)) {
+          if (word.equals(StringTools.uppercaseFirstChar(suggestion)) || suggestion.equals(StringTools.uppercaseFirstChar(word))) {
+            // We're appending the results of both lists, even though the second list isn't necessarily 
+            // worse than the first. So at least try to move the best matches to the beginning. 
+            // See https://github.com/languagetool-org/languagetool/issues/2010
+            result.add(0, suggestion);
+          } else {
+            result.add(suggestion);
+          }
         }
-        seenWords.add(suggestion.getWord());
       }
     }
-    Collections.sort(result);
-    List<String> wordResults = new ArrayList<>();
-    for (WeightedSuggestion weightedSuggestion : result) {
-      wordResults.add(weightedSuggestion.getWord());
-    }
-    return wordResults;
+    return result;
   }
 
   /**
@@ -269,19 +278,21 @@ public class MorfologikMultiSpeller {
   }
 
   /**
+   * @since 4.5
    * @param word misspelled word
    * @return suggestions from users personal dictionary
-   * @since 4.5
    */
+  @Experimental
   public List<String> getSuggestionsFromUserDicts(String word) {
     return getSuggestionsFromSpellers(word, userDictSpellers);
   }
 
   /**
+   * @since 4.5
    * @param word misspelled word
    * @return suggestions from built-in dictionaries
-   * @since 4.5
    */
+  @Experimental
   public List<String> getSuggestionsFromDefaultDicts(String word) {
     return getSuggestionsFromSpellers(word, defaultDictSpellers);
   }

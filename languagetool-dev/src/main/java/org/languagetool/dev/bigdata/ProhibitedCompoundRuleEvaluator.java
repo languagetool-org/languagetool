@@ -65,7 +65,7 @@ class ProhibitedCompoundRuleEvaluator {
   ProhibitedCompoundRuleEvaluator(Language language, LanguageModel languageModel) {
     this.language = language;
     try {
-      List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel, null);
+      List<Rule> rules = language.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel);
       if (rules == null) {
         throw new RuntimeException("Language " + language + " doesn't seem to support a language model");
       }
@@ -267,10 +267,10 @@ class ProhibitedCompoundRuleEvaluator {
     }
     long startTime = System.currentTimeMillis();
     String confusionSetFile = args[0];
+    ConfusionSetLoader loader = new ConfusionSetLoader();
+    Map<String, List<ConfusionPair>> confusionSet = loader.loadConfusionPairs(new FileInputStream(confusionSetFile));
     String langCode = args[1];
     Language lang = Languages.getLanguageForShortCode(langCode);
-    ConfusionSetLoader loader = new ConfusionSetLoader(lang);
-    Map<String, List<ConfusionPair>> confusionSet = loader.loadConfusionPairs(new FileInputStream(confusionSetFile));
     LanguageModel languageModel = new LuceneLanguageModel(new File(args[2], lang.getShortCode()));
     //LanguageModel languageModel = new BerkeleyRawLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
     //LanguageModel languageModel = new BerkeleyLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));

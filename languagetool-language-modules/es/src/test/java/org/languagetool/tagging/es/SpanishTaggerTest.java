@@ -44,20 +44,10 @@ public class SpanishTaggerTest {
 
   @Test
   public void testTagger() throws IOException {
-    TestTools.myAssert("destacadamente", "destacadamente/[destacadamente]RG", tokenizer, tagger);
-    TestTools.myAssert("DESTACADAMENTE", "DESTACADAMENTE/[destacadamente]RG", tokenizer, tagger);
-    TestTools.myAssert("alucinadamente", "alucinadamente/[alucinadamente]RG", tokenizer, tagger);
-    TestTools.myAssert("disputadamente", "disputadamente/[disputadamente]RG", tokenizer, tagger);
-    
-    TestTools.myAssert("dímelo", "dímelo/[decir]VMM02S0+PP1CS000+PP3MSA00", tokenizer, tagger);
-
     TestTools.myAssert("Soy un hombre muy honrado.",
-        "Soy/[ser]VSIP1S0 -- un/[uno]DI0MS0 -- hombre/[hombre]I|hombre/[hombre]NCMS000 -- muy/[muy]RG -- honrado/[honrar]VMP00SM",
-        tokenizer, tagger);
+        "Soy/[ser]VSIP1S0 -- un/[uno]DI0MS0 -- hombre/[hombre]I|hombre/[hombre]NCMS000 -- muy/[muy]RG -- honrado/[honrar]VMP00SM", tokenizer, tagger);
     TestTools.myAssert("Tengo que ir a mi casa.",
-        "Tengo/[tener]VMIP1S0 -- que/[que]CS|que/[que]PR0CN000 -- ir/[ir]VMN0000 -- a/[a]NCFS000|a/[a]SPS00 -- mi/[mi]DP1CSS|mi/[mi]NCMS000 -- casa/[casa]NCFS000|casa/[casar]VMIP3S0|casa/[casar]VMM02S0",
-        tokenizer, tagger);
-    TestTools.myAssert("blablabla", "blablabla/[null]null", tokenizer, tagger);
-
+        "Tengo/[tener]VMIP1S0 -- que/[que]CS|que/[que]PR0CN000 -- ir/[ir]VMN0000 -- a/[a]NCFS000|a/[a]SPS00 -- mi/[mi]DP1CSS|mi/[mi]NCMS000 -- casa/[casa]NCFS000|casa/[casar]VMIP3S0|casa/[casar]VMM02S0", tokenizer, tagger);
+    TestTools.myAssert("blablabla","blablabla/[null]null", tokenizer, tagger);        
   }
 }

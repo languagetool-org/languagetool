@@ -18,8 +18,20 @@
  */
 package org.languagetool;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.Set;
+
 import morfologik.stemming.Dictionary;
-import morfologik.stemming.*;
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.WordData;
+
 import org.languagetool.language.Demo;
 import org.languagetool.rules.Rule;
 import org.languagetool.tagging.BaseTagger;
@@ -27,9 +39,6 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
-
-import java.io.IOException;
-import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -69,7 +78,7 @@ public final class TestTools {
     if (languageCode.length() > 3) {
       throw new RuntimeException("Use a character code (ISO-639 code), not a full language name: " + languageCode);
     }
-    ResourceBundle messages = JLanguageTool.getDataBroker().getResourceBundle(
+    ResourceBundle messages = ResourceBundle.getBundle(
             JLanguageTool.MESSAGE_BUNDLE, new Locale(languageCode));
     return messages;
   }

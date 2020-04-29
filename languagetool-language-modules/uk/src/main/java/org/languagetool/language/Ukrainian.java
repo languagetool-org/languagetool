@@ -18,24 +18,44 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
-import org.languagetool.broker.ResourceDataBroker;
-import org.languagetool.rules.*;
-import org.languagetool.rules.uk.*;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.regex.Pattern;
+
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
+import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.rules.CommaWhitespaceRule;
+import org.languagetool.rules.Example;
+import org.languagetool.rules.MultipleWhitespaceRule;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.UppercaseSentenceStartRule;
+import org.languagetool.rules.uk.HiddenCharacterRule;
+import org.languagetool.rules.uk.MissingHyphenRule;
+import org.languagetool.rules.uk.MixedAlphabetsRule;
+import org.languagetool.rules.uk.MorfologikUkrainianSpellerRule;
+import org.languagetool.rules.uk.SimpleReplaceRenamedRule;
+import org.languagetool.rules.uk.SimpleReplaceRule;
+import org.languagetool.rules.uk.SimpleReplaceSoftRule;
+import org.languagetool.rules.uk.SimpleReplaceSpelling1992Rule;
+import org.languagetool.rules.uk.TokenAgreementAdjNounRule;
+import org.languagetool.rules.uk.TokenAgreementNounVerbRule;
+import org.languagetool.rules.uk.TokenAgreementPrepNounRule;
+import org.languagetool.rules.uk.UkrainianWordRepeatRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.uk.UkrainianSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.uk.UkrainianHybridDisambiguator;
 import org.languagetool.tagging.uk.UkrainianTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.uk.UkrainianWordTokenizer;
-
-import java.io.IOException;
-import java.util.*;
-import java.util.regex.Pattern;
 
 public class Ukrainian extends Language {
   private static final List<String> RULE_FILES = Arrays.asList(
@@ -47,6 +67,12 @@ public class Ukrainian extends Language {
       );
 
   public static final Ukrainian DEFAULT_VARIANT = new Ukrainian();
+  private Tagger tagger;
+  private SRXSentenceTokenizer sentenceTokenizer;
+  private Tokenizer wordTokenizer;
+  private Synthesizer synthesizer;
+  private Disambiguator disambiguator;
+
 
   public Ukrainian() {
   }
@@ -86,32 +112,44 @@ public class Ukrainian extends Language {
 //    return DEFAULT_VARIANT;
 //  }
 
-
-  @NotNull
   @Override
-  public Tagger createDefaultTagger() {
-    return new UkrainianTagger();
-  }
-
-  @Nullable
-  @Override
-  public Synthesizer createDefaultSynthesizer() {
-    return new UkrainianSynthesizer(this);
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new UkrainianTagger();
+    }
+    return tagger;
   }
 
   @Override
-  public Disambiguator createDefaultDisambiguator() {
-    return new UkrainianHybridDisambiguator();
+  public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new UkrainianSynthesizer(this);
+    }
+    return synthesizer;
   }
 
   @Override
-  public Tokenizer createDefaultWordTokenizer() {
-    return new UkrainianWordTokenizer();
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new UkrainianHybridDisambiguator();
+    }
+    return disambiguator;
   }
 
   @Override
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return new SRXSentenceTokenizer(this);
+  public Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new UkrainianWordTokenizer();
+    }
+    return wordTokenizer;
+  }
+
+  @Override
+  public SRXSentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 
   @Override

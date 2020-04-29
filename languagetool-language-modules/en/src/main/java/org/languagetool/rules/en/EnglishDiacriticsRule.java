@@ -32,7 +32,7 @@ import java.util.ResourceBundle;
 import java.net.URL;
 
 /**
- * A rule that matches words which require specific diacritics (e.g, {@code a la} instead of {@code à la}).
+ * A rule that matches words which are complex and suggests easier to understand alternatives. 
  *
  * @author Tiago F. Santos 
  * @since 4.8

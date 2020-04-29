@@ -56,7 +56,6 @@ class AutomaticProhibitedCompoundRuleEvaluator {
   private final IndexSearcher searcher;
   private final Map<String, List<ConfusionPair>> knownSets;
   private final Set<String> finishedPairs = new HashSet<>();
-  private final Language language = Languages.getLanguageForShortCode(LANGUAGE);
 
   private int ignored = 0;
 
@@ -64,10 +63,11 @@ class AutomaticProhibitedCompoundRuleEvaluator {
     DirectoryReader reader = DirectoryReader.open(FSDirectory.open(luceneIndexDir.toPath()));
     searcher = new IndexSearcher(reader);
     InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/" + LANGUAGE + "/confusion_sets.txt");
-    knownSets = new ConfusionSetLoader(language).loadConfusionPairs(confusionSetStream);
+    knownSets = new ConfusionSetLoader().loadConfusionPairs(confusionSetStream);
   }
 
   private void run(List<String> lines, File indexDir) throws IOException {
+    Language language = Languages.getLanguageForShortCode(LANGUAGE);
     LanguageModel lm = new LuceneLanguageModel(indexDir);
     ProhibitedCompoundRuleEvaluator evaluator = new ProhibitedCompoundRuleEvaluator(language, lm);
     int lineCount = 0;

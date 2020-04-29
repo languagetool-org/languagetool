@@ -77,14 +77,6 @@ public final class TokenAgreementNounVerbExceptionHelper {
       return true;
     }
 
-    // Колесніков/Ахметов не посилили
-    if( i > 3
-        && tokens[i-1].getToken().equals("не")
-        && tokens[i-3].getToken().equals("/") ) {
-      logException();
-      return true;
-    }
-
     // Збережені Я позбудуться необхідності
     if( i > 2
         && tokens[i-1].getToken().equals("Я") ) {
@@ -101,61 +93,13 @@ public final class TokenAgreementNounVerbExceptionHelper {
     }
 
     // — це були невільники
-    // — це передбачено
-    if( i > 2 && i < tokens.length - 1
+    if( i > 2
         && tokens[i-1].getToken().equals("це") 
         && tokens[i-2].getToken().matches("[—–-]") ) {
-//        && ! Collections.disjoint(verbInflections, TokenAgreementNounVerbRule.getNounInflections(tokens[i+1].getReadings())) ) {
       logException();
       return true;
     }
 
-    // — це не були невільники
-    if( i > 2 && i < tokens.length - 1
-        && tokens[i-1].getToken().equals("не")
-        && tokens[i-2].getToken().equals("це")
-        && ! Collections.disjoint(verbInflections, TokenAgreementNounVerbRule.getNounInflections(tokens[i+1].getReadings())) ) {
-      logException();
-      return true;
-    }
-    // — це не передбачено
-    if( i > 2
-        && tokens[i-1].getToken().equals("не")
-        && tokens[i-2].getToken().equals("це")
-        && PosTagHelper.hasPosTag(verbTokenReadings, Pattern.compile("verb.*?impers.*")) ) {
-      logException();
-      return true;
-    }
-
-    // Чи ж могла я не повернутися назад?
-    if( i > 4
-        && tokens[i-1].getToken().equals("не")
-        && LemmaHelper.hasLemma(tokens[i-3], "могти")
-        && PosTagHelper.hasPosTag(tokens[i], Pattern.compile("verb.*?:inf.*")) ) {
-      logException();
-      return true;
-    }
-    
-    // кефаль, барабуля, хамса не затримуються
-    if( i > 4
-        && tokens[i-1].getToken().equals("не")
-        && TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i-3].getToken())
-        && PosTagHelper.hasPosTag(tokens[i-4], Pattern.compile("noun.*?:v_naz.*")) ) {
-      logException();
-      return true;
-    }
-    
-    // його побут, життєва поведінка не можуть
-    if( i > 4
-        && tokens[i-1].getToken().equals("не")
-        && TokenAgreementAdjNounExceptionHelper.CONJ_FOR_PLURAL_WITH_COMMA.contains(tokens[i-4].getToken())
-        && PosTagHelper.hasPosTag(tokens[i-5], Pattern.compile("noun.*?:v_naz.*")) 
-        && ! Collections.disjoint(
-            InflectionHelper.getAdjInflections(tokens[i-3].getReadings()),
-            InflectionHelper.getNounInflections(tokens[i-2].getReadings())) ) {
-      logException();
-      return true;
-    }
 
     // handled by xml rule
     if( LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("воно", "решта")) ) {
@@ -172,7 +116,7 @@ public final class TokenAgreementNounVerbExceptionHelper {
     }
 
     
-    if( PosTagHelper.hasPosTag(verbTokenReadings, "verb.*:p(:.*|$)") ) {
+    if( PosTagHelper.hasPosTag(verbTokenReadings, ".*:p(:.*|$)") ) {
 
         // моя мама й сестра мешкали
         // каналізація і навіть охорона пропонувалися
@@ -318,39 +262,7 @@ public final class TokenAgreementNounVerbExceptionHelper {
           logException();
           return true;
         }
-        
-        // Решта 121 депутат висловилися проти
-        if( i > 3
-            && LemmaHelper.hasLemma(tokens[i-3], "решта") 
-            && tokens[i-2].getToken() != null && tokens[i-2].getToken().matches(".+1") ) {
-          logException();
-          return true;
-        }
-
-        if( i > 4
-            && tokens[i-1].getToken().equals("не")
-            && tokens[i-3].getToken().matches("а?ні|навіть|жодн.*") ) {
-          logException();
-          return true;
-        }
-
-        if( i > 4
-            && tokens[i-1].getToken().equals("не")
-            && LemmaHelper.reverseSearch(tokens, i-3, 5, Pattern.compile("а?ні"), null) ) {
-          logException();
-          return true;
-        }
-
-        if( i > 5
-            && tokens[i-1].getToken().equals("не")
-            && tokens[i-4].getToken().matches("а?ні")
-            && ! Collections.disjoint(
-                  InflectionHelper.getAdjInflections(tokens[i-3].getReadings()),
-                  InflectionHelper.getNounInflections(tokens[i-2].getReadings())) ) {
-          logException();
-          return true;
-        }
-    } // verb.*:p
+    }
 
 
     // Сейм Республіки Польща проігнорував
@@ -455,13 +367,17 @@ public final class TokenAgreementNounVerbExceptionHelper {
     }
 
     // решта забороняються
-    List<String> pseudoPluralNouns = Arrays.asList("решта", "частина", "частка", "половина", "третина", "чверть");
-    if( pseudoPluralNouns.contains(tokens[i-1].getToken().toLowerCase())
-        || (i >=3 
-            && tokens[i-1].getToken().equals("не")
-            && pseudoPluralNouns.contains(tokens[i-2].getToken().toLowerCase()) )
-        
+    if( Arrays.asList("решта", "частина", "частка", "половина", "третина", "чверть").contains(tokens[i-1].getToken().toLowerCase()) 
         && PosTagHelper.hasPosTag(verbTokenReadings, ".*:[pn](:.*|$)") ) {
+      logException();
+      return true;
+    }
+    
+    // Решта 121 депутат висловилися проти
+    if( i > 3
+        && LemmaHelper.hasLemma(tokens[i-3], "решта") 
+        && tokens[i-2].getToken() != null && tokens[i-2].getToken().matches(".+1") 
+        && PosTagHelper.hasPosTag(verbTokenReadings, ".*:p(:.*|$)") ) {
       logException();
       return true;
     }

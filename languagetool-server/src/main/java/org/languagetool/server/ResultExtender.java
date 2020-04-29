@@ -46,6 +46,7 @@ import java.util.*;
  * Extend results by adding rules matches from a different API server.
  * @since 4.0
  */
+@Experimental
 class ResultExtender {
 
   private static final Logger logger = LoggerFactory.getLogger(ResultExtender.class);

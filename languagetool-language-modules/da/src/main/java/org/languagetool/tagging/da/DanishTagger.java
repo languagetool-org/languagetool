@@ -18,9 +18,9 @@
  */
 package org.languagetool.tagging.da;
 
-import org.languagetool.tagging.BaseTagger;
-
 import java.util.Locale;
+
+import org.languagetool.tagging.BaseTagger;
 
 /**
  * Danish Part-of-speech tagger.
@@ -28,6 +28,12 @@ import java.util.Locale;
  * @author Esben Aaberg
  */
 public class DanishTagger extends BaseTagger {
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/da/added.txt";
+  }
+
   public DanishTagger() {
     super("/da/danish.dict", new Locale("da"));
   }

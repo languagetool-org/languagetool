@@ -18,12 +18,14 @@
  */
 package org.languagetool.rules.spelling.morfologik;
 
-import com.google.common.cache.*;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.JLanguageTool;
-import org.languagetool.broker.ResourceDataBroker;
+import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.tools.StringTools;
 
@@ -93,38 +95,23 @@ public class MorfologikSpeller {
             && speller.isMisspelled(word);
   }
 
-  public Speller getSpeller() {
-    return speller;
-  }
-
-  public List<WeightedSuggestion> getSuggestions(String word) {
-    List<WeightedSuggestion> suggestions = new ArrayList<>();
+  public List<String> getSuggestions(String word) {
+    List<String> suggestions = new ArrayList<>();
     // needs to be reset every time, possible bug: HMatrix for distance computation is not reset;
     // output changes when reused
     Speller speller = new Speller(dictionary, maxEditDistance);
-    List<Speller.CandidateData> replacementCandidates;
-    if (word.length() < 50) {   // slow for long words (the limit is arbitrary)
-      replacementCandidates = speller.findReplacementCandidates(word);
-      for (Speller.CandidateData candidate : replacementCandidates) {
-        suggestions.add(new WeightedSuggestion(candidate.getWord(), candidate.getDistance()));
-      }
-    }
-    List<Speller.CandidateData> runOnCandidates = speller.replaceRunOnWordCandidates(word);
-    for (Speller.CandidateData runOnCandidate : runOnCandidates) {
-      suggestions.add(new WeightedSuggestion(runOnCandidate.getWord(), runOnCandidate.getDistance()));
-    }
-    
+    suggestions.addAll(speller.findReplacements(word));
+    suggestions.addAll(speller.replaceRunOnWords(word));
     // capitalize suggestions if necessary
     if (dictionary.metadata.isConvertingCase() && StringTools.startsWithUppercase(word)) {
       for (int i = 0; i < suggestions.size(); i++) {
-        WeightedSuggestion sugg = suggestions.get(i);
-        String uppercaseFirst = StringTools.uppercaseFirstChar(sugg.getWord());
+        String uppercaseFirst = StringTools.uppercaseFirstChar(suggestions.get(i));
         // do not use capitalized word if it matches the original word or it's mixed case
-        if (uppercaseFirst.equals(word) || StringTools.isMixedCase(suggestions.get(i).getWord())) {
-          uppercaseFirst = sugg.getWord();
+        if (uppercaseFirst.equals(word) || StringTools.isMixedCase(suggestions.get(i))) {
+          uppercaseFirst = suggestions.get(i);
         }
         // remove capitalized duplicates
-        int auxIndex = getSuggestionIndex(suggestions, uppercaseFirst);
+        int auxIndex = suggestions.indexOf(uppercaseFirst);
         if (auxIndex > i) {
           suggestions.remove(auxIndex);
         }
@@ -132,22 +119,11 @@ public class MorfologikSpeller {
           suggestions.remove(i);
           i--;
         } else {
-          suggestions.set(i, new WeightedSuggestion(uppercaseFirst, sugg.getWeight()));
+          suggestions.set(i, uppercaseFirst);
         }
       }
     }
     return suggestions;
-  }
-
-  private int getSuggestionIndex(List<WeightedSuggestion> suggestions, String uppercaseFirst) {
-    int i = 0;
-    for (WeightedSuggestion suggestion : suggestions) {
-      if (suggestion.getWord().equals(uppercaseFirst)) {
-        return i;
-      }
-      i++;
-    }
-    return -1;
   }
 
   /**
@@ -165,9 +141,11 @@ public class MorfologikSpeller {
   }
 
   public int getFrequency(String word) {
-    int freq = speller.getFrequency(word);
-    if (freq == 0 && !word.equals(word.toLowerCase())) {
-      freq = speller.getFrequency(word.toLowerCase());
+    CharSequence w = word;
+    int freq = speller.getFrequency(w);
+    if (freq == 0 && word != word.toLowerCase()) {
+      w = word.toLowerCase();
+      freq = speller.getFrequency(w);
     }
     return freq;
   }

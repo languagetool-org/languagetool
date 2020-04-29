@@ -18,11 +18,15 @@
  */
 package org.languagetool.rules;
 
-import gnu.trove.THashSet;
-import org.languagetool.JLanguageTool;
-
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.*;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.languagetool.JLanguageTool;
 
 /**
  * Data about words that are compounds and should thus not be written
@@ -31,22 +35,16 @@ import java.util.*;
  */
 public class CompoundRuleData {
 
-  private final Set<String> incorrectCompounds = new THashSet<>();
-  private final Set<String> noDashSuggestion = new THashSet<>();
-  private final Set<String> noDashLowerCaseSuggestion = new THashSet<>();
-  private final Set<String> onlyDashSuggestion = new THashSet<>();
-  private final LineExpander expander;
+  private final Set<String> incorrectCompounds = new HashSet<>();
+  private final Set<String> noDashSuggestion = new HashSet<>();
+  private final Set<String> noDashLowerCaseSuggestion = new HashSet<>();
+  private final Set<String> onlyDashSuggestion = new HashSet<>();
 
   public CompoundRuleData(String path) {
     this(new String[] {path});
   }
 
   public CompoundRuleData(String... paths) {
-    this(null, paths);
-  }
-
-  public CompoundRuleData(LineExpander expander, String... paths) {
-    this.expander = expander;
     for (String path : paths) {
       try {
         loadCompoundFile(path);
@@ -73,35 +71,33 @@ public class CompoundRuleData {
   }
 
   private void loadCompoundFile(String path) throws IOException {
-    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
-    for (String line : lines) {
-      if (line.isEmpty() || line.startsWith("#")) {
-        continue;     // ignore comments
-      }
-      List<String> expandedLines = new ArrayList<>();
-      if (expander != null) {
-        expandedLines = expander.expandLine(line);
-      } else {
-        expandedLines.add(line);
-      }
-      for (String expLine : expandedLines) {
-        expLine = expLine.replace('-', ' ');  // the set contains the incorrect spellings, i.e. the ones without hyphen
-        validateLine(path, expLine);
-        if (expLine.endsWith("+")) {
-          expLine = removeLastCharacter(expLine);
-          noDashSuggestion.add(expLine);
-        } else if (expLine.endsWith("*")) {
-          expLine = removeLastCharacter(expLine);
-          onlyDashSuggestion.add(expLine);
-        } else if (expLine.endsWith("?")) { // github issue #779
-          expLine = removeLastCharacter(expLine);
-          noDashSuggestion.add(expLine);
-          noDashLowerCaseSuggestion.add(expLine);
-        } else if (expLine.endsWith("$")) { // github issue #779
-          expLine = removeLastCharacter(expLine);
-          noDashLowerCaseSuggestion.add(expLine);
+    try (
+      InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
+      InputStreamReader reader = new InputStreamReader(stream, "utf-8");
+      BufferedReader br = new BufferedReader(reader)
+    ) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        if (line.isEmpty() || line.charAt(0) == '#') {
+          continue;     // ignore comments
         }
-        incorrectCompounds.add(expLine);
+        line = line.replace('-', ' ');  // the set contains the incorrect spellings, i.e. the ones without hyphen
+        validateLine(path, line);
+        if (line.endsWith("+")) {
+          line = removeLastCharacter(line);
+          noDashSuggestion.add(line);
+        } else if (line.endsWith("*")) {
+          line = removeLastCharacter(line);
+          onlyDashSuggestion.add(line);
+        } else if (line.endsWith("?")) { // github issue #779
+          line = removeLastCharacter(line);
+          noDashSuggestion.add(line);
+          noDashLowerCaseSuggestion.add(line);
+        } else if (line.endsWith("$")) { // github issue #779
+          line = removeLastCharacter(line);
+          noDashLowerCaseSuggestion.add(line);
+        }
+        incorrectCompounds.add(line);
       }
     }
   }

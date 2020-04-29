@@ -18,12 +18,19 @@
  */
 package org.languagetool.tagging.disambiguation.rules;
 
-import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
-import org.languagetool.rules.patterns.*;
-
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.Language;
+import org.languagetool.rules.patterns.AbstractPatternRule;
+import org.languagetool.rules.patterns.PatternToken;
+import org.languagetool.rules.patterns.Match;
 
 /**
  * A Rule that describes a pattern of words or part-of-speech tags used for
@@ -43,8 +50,8 @@ public class DisambiguationPatternRule extends AbstractPatternRule {
   private final DisambiguatorAction disAction;
 
   private AnalyzedToken[] newTokenReadings;
-  private List<DisambiguatedExample> examples = Collections.emptyList();
-  private List<String> untouchedExamples = Collections.emptyList();
+  private List<DisambiguatedExample> examples = new ArrayList<>();
+  private List<String> untouchedExamples = new ArrayList<>();
 
   /**
    * @param id Id of the Rule

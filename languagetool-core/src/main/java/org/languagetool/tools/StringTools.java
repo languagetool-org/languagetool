@@ -18,15 +18,20 @@
  */
 package org.languagetool.tools;
 
-import com.google.common.xml.XmlEscapers;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+import java.util.regex.Pattern;
+
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
-import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.regex.Pattern;
+import com.google.common.xml.XmlEscapers;
 
 /**
  * Tools for working with strings.
@@ -179,17 +184,6 @@ public final class StringTools {
   }
 
   /**
-   * Whether the first character of <code>str</code> is an uppercase character.
-   * @since 4.9
-   */
-  public static boolean startsWithLowercase(String str) {
-    if (isEmpty(str)) {
-      return false;
-    }
-    return Character.isLowerCase(str.charAt(0));
-  }
-
-  /**
    * Return <code>str</code> modified so that its first character is now an
    * uppercase character. If <code>str</code> starts with non-alphabetic
    * characters, such as quotes or parentheses, the first character is 
@@ -224,16 +218,6 @@ public final class StringTools {
    */
   @Nullable
   public static String lowercaseFirstChar(String str) {
-    return changeFirstCharCase(str, false);
-  }
-
-  /**
-   * Return <code>str</code> if str is capitalized {@link #isCapitalizedWord(String)},
-   * otherwise return modified <code>str</code> so that its first character
-   * is now a lowercase character.
-   */
-  public static String lowercaseFirstCharIfCapitalized(String str) {
-    if (!isCapitalizedWord(str)) return str;
     return changeFirstCharCase(str, false);
   }
 
@@ -502,7 +486,6 @@ public final class StringTools {
    * Loads file, ignoring comments (lines starting with {@code #}).
    * @param path path in resource dir
    * @since 4.6
-   * @deprecated use DataBroker#getFromResourceDirAsLines(java.lang.String) instead
    */
   public static List<String> loadLines(String path) {
     InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
@@ -519,7 +502,7 @@ public final class StringTools {
         l.add(line);
       }
     } catch (IOException e) {
-      throw new RuntimeException("Could not load data from " + path, e);
+      throw new RuntimeException("Could not load coherency data from " + path, e);
     }
     return Collections.unmodifiableList(l);
   }

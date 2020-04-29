@@ -18,9 +18,9 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.neuralnetwork.NeuralNetworkRuleCreator;
@@ -33,12 +33,16 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.pt.PortugueseHybridDisambiguator;
 import org.languagetool.tagging.pt.PortugueseTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.pt.PortugueseWordTokenizer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Post-spelling-reform Portuguese.
@@ -46,7 +50,12 @@ import java.util.*;
 public class Portuguese extends Language implements AutoCloseable {
 
   private static final Language PORTUGAL_PORTUGUESE = new PortugalPortuguese();
-
+  
+  private Tagger tagger;
+  private Disambiguator disambiguator;
+  private Tokenizer wordTokenizer;
+  private Synthesizer synthesizer;
+  private SentenceTokenizer sentenceTokenizer;
   private LanguageModel languageModel;
 
   @Override
@@ -78,31 +87,50 @@ public class Portuguese extends Language implements AutoCloseable {
     };
   }
 
-  @NotNull
   @Override
-  public Tagger createDefaultTagger() {
-    return new PortugueseTagger();
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new PortugueseTagger();
+    }
+    return tagger;
+  }
+
+  /**
+   * @since 3.6
+   */
+  @Override
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new PortugueseHybridDisambiguator();
+    }
+    return disambiguator;
+  }
+
+  /**
+   * @since 3.6
+   */
+  @Override
+  public Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new PortugueseWordTokenizer();
+    }
+    return wordTokenizer;
   }
 
   @Override
-  public Disambiguator createDefaultDisambiguator() {
-    return new PortugueseHybridDisambiguator();
+  public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new PortugueseSynthesizer(this);
+    }
+    return synthesizer;
   }
 
   @Override
-  public Tokenizer createDefaultWordTokenizer() {
-    return new PortugueseWordTokenizer();
-  }
-
-  @Nullable
-  @Override
-  public Synthesizer createDefaultSynthesizer() {
-    return new PortugueseSynthesizer(this);
-  }
-
-  @Override
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return new SRXSentenceTokenizer(this);
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 
   @Override
@@ -163,7 +191,7 @@ public class Portuguese extends Language implements AutoCloseable {
 
   /** @since 3.6 */
   @Override
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.<Rule>asList(
             new PortugueseConfusionProbabilityRule(messages, languageModel, this)
     );
@@ -199,7 +227,6 @@ public class Portuguese extends Language implements AutoCloseable {
       case "HOMOPHONE_AS_CARD":         return  5;
       case "TODOS_FOLLOWED_BY_NOUN_PLURAL":    return  3;
       case "TODOS_FOLLOWED_BY_NOUN_SINGULAR":  return  2;
-      case "EMAIL":                     return  1;
       case "UNPAIRED_BRACKETS":         return -5;
       case "PROFANITY":                 return -6;
       case "PT_BARBARISMS_REPLACE":     return -10;

@@ -18,17 +18,23 @@
  */
 package org.languagetool.tagging.ca;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.IStemmer;
+
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
-
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Catalan Tagger
@@ -44,9 +50,19 @@ public class CatalanTagger extends BaseTagger {
 
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto)(.*[aeiouàéèíòóïü].+[aeiouàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/ca/manual-tagger.txt";
+  }
+
   public CatalanTagger(Language language) {
     super("/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION,  new Locale("ca"), false);
     variant = language.getVariant();
+  }
+  
+  @Override
+  public String getManualRemovalsFileName() {
+    return "/ca/removed-tagger.txt";
   }
   
   @Override
@@ -76,7 +92,7 @@ public class CatalanTagger extends BaseTagger {
         }
       }
       final List<AnalyzedToken> l = new ArrayList<>();
-      final String lowerWord = word.toLowerCase(locale);
+      final String lowerWord = word.toLowerCase(conversionLocale);
       final boolean isLowercase = word.equals(lowerWord);
       final boolean isMixedCase = StringTools.isMixedCase(word);
       final boolean isAllUpper = StringTools.isAllUppercase(word);
@@ -132,8 +148,8 @@ public class CatalanTagger extends BaseTagger {
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
     //Any well-formed adverb with suffix -ment is tagged as an adverb (RG)
     //Adjectiu femení singular o participi femení singular + -ment
-    final String lowerWord = word.toLowerCase(locale);
-    if (lowerWord.endsWith("ment")){  
+    if (word.endsWith("ment")){
+      final String lowerWord = word.toLowerCase(conversionLocale);
       final String possibleAdj = lowerWord.replaceAll("^(.+)ment$", "$1");
       List<AnalyzedToken> taggerTokens;
       taggerTokens = asAnalyzedTokenList(possibleAdj, dictLookup.lookup(possibleAdj));
@@ -187,12 +203,14 @@ public class CatalanTagger extends BaseTagger {
     // U+013F LATIN CAPITAL LETTER L WITH MIDDLE DOT
     // U+0140 LATIN SMALL LETTER L WITH MIDDLE DOT
     if (word.contains("\u0140") || word.contains("\u013f")) {
+      final String lowerWord = word.toLowerCase(conversionLocale);
       final String possibleWord = lowerWord.replaceAll("\u0140", "l·");
       return asAnalyzedTokenList(word, dictLookup.lookup(possibleWord));
     }
     
     // adjectives -iste in Valencian variant
-    if (variant != null && lowerWord.endsWith("iste")) {
+    if (variant != null && word.endsWith("iste")) {
+      final String lowerWord = word.toLowerCase(conversionLocale);
       final String possibleAdjNoun = lowerWord.replaceAll("^(.+)iste$", "$1ista");
       List<AnalyzedToken> taggerTokens;
       taggerTokens = asAnalyzedTokenList(possibleAdjNoun, dictLookup.lookup(possibleAdjNoun));

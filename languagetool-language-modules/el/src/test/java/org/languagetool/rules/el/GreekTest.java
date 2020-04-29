@@ -35,6 +35,6 @@ public class GreekTest extends LanguageSpecificTest {
     testDemoText(lang, s,
       Arrays.asList("GREEK_PUNC_2", "GREEK_ART_FEM_MISSING_N", "WORD_REPEAT_RULE", "MORFOLOGIK_RULE_EL_GR", "DOUBLE_PUNCTUATION")
     );
-    runTests(lang, null, "ισότπς");
+    runTests(lang);
   }
 }

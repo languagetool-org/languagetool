@@ -18,17 +18,19 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
-import org.languagetool.chunking.ChunkTag;
-import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.tools.InterruptibleCharSequence;
-import org.languagetool.tools.StringTools;
-
 import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.chunking.ChunkTag;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tools.InterruptibleCharSequence;
+import org.languagetool.tools.StringTools;
 
 /**
  * A part of a pattern, represents the 'token' element of the {@code grammar.xml}.
@@ -43,8 +45,8 @@ public class PatternToken implements Cloneable {
 
   private final boolean caseSensitive;
   private final boolean stringRegExp;
-  private List<PatternToken> andGroupList;
-  private List<PatternToken> orGroupList;
+  private final List<PatternToken> andGroupList = new ArrayList<>();
+  private final List<PatternToken> orGroupList = new ArrayList<>();
   private final boolean inflected;
 
   private String stringToken;
@@ -159,7 +161,6 @@ public class PatternToken implements Cloneable {
    * @return true if all conditions are met, false otherwise.
    */
   public boolean isAndExceptionGroupMatched(AnalyzedToken token) {
-    if (andGroupList == null) return false;
     for (PatternToken testAndGroup : andGroupList) {
       if (testAndGroup.isExceptionMatched(token)) {
         return true;
@@ -179,9 +180,6 @@ public class PatternToken implements Cloneable {
   }
 
   public void setAndGroupElement(PatternToken andToken) {
-    if (andGroupList == null) {
-      andGroupList = new ArrayList<>(0);
-    }
     andGroupList.add(Objects.requireNonNull(andToken));
   }
 
@@ -190,21 +188,18 @@ public class PatternToken implements Cloneable {
    * @return true if the element has a group of elements that all should match.
    */
   public boolean hasAndGroup() {
-    return andGroupList != null && andGroupList.size() > 0;
+    return andGroupList.size() > 0;
   }
 
   /**
    * Returns the group of elements linked with AND operator.
    */
   public List<PatternToken> getAndGroup() {
-    return andGroupList == null ? Collections.emptyList() : Collections.unmodifiableList(andGroupList);
+    return Collections.unmodifiableList(andGroupList);
   }
 
   /** @since 2.3 */
   public void setOrGroupElement(PatternToken orToken) {
-    if (orGroupList == null) {
-      orGroupList = new ArrayList<>(0);
-    }
     orGroupList.add(Objects.requireNonNull(orToken));
   }
 
@@ -214,7 +209,7 @@ public class PatternToken implements Cloneable {
    * @since 2.3
    */
   public boolean hasOrGroup() {
-    return orGroupList != null && orGroupList.size() > 0;
+    return orGroupList.size() > 0;
   }
 
   /**
@@ -222,7 +217,7 @@ public class PatternToken implements Cloneable {
    * @since 2.3
    */
   public List<PatternToken> getOrGroup() {
-    return orGroupList == null ? Collections.emptyList() : Collections.unmodifiableList(orGroupList);
+    return Collections.unmodifiableList(orGroupList);
   }
 
   /**
@@ -298,12 +293,7 @@ public class PatternToken implements Cloneable {
 
   public void setStringElement(String token) {
     if (token != null) {
-      String tok = StringTools.trimWhitespace(token);
-      if (tok.isEmpty()) {
-        stringToken = "";
-      } else {
-        stringToken = tok;
-      }
+      stringToken = StringTools.trimWhitespace(token);
     } else {
       stringToken = null;
     }

@@ -21,8 +21,8 @@ package org.languagetool.rules.uk;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -33,7 +33,6 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.WordTagger;
 import org.languagetool.tagging.uk.PosTagHelper;
-import org.languagetool.tools.StringTools;
 
 /**
  *
@@ -41,8 +40,7 @@ import org.languagetool.tools.StringTools;
  */
 public class MissingHyphenRule extends Rule {
 
-  private static final String UA_1992_TAG_PART = ":ua_1992";
-  private static final Map<String, String> dashPrefixes = ExtraDictionaryLoader.loadMap("/uk/dash_prefixes.txt");
+  private static final Set<String> dashPrefixes = ExtraDictionaryLoader.loadSet("/uk/dash_prefixes.txt");
   private static final Pattern ALL_LOWER = Pattern.compile("[а-яіїєґ'-]+");
   private WordTagger wordTagger;
 
@@ -50,7 +48,7 @@ public class MissingHyphenRule extends Rule {
     // these two generate too many false positives
     dashPrefixes.remove("блок");
     dashPrefixes.remove("рейтинг");
-    dashPrefixes.entrySet().removeIf(entry -> !ALL_LOWER.matcher(entry.getKey()).matches() || entry.getValue().contains(":bad") );
+    dashPrefixes.removeIf(s -> !ALL_LOWER.matcher(s).matches());
   }
 
   public MissingHyphenRule(ResourceBundle messages, WordTagger wordTagger) throws IOException {
@@ -78,60 +76,36 @@ public class MissingHyphenRule extends Rule {
       AnalyzedTokenReadings tokenReadings = tokens[i];
       AnalyzedTokenReadings nextTokenReadings = tokens[i + 1];
       
-//      boolean isCapitalized = Character.isUpperCase(tokenReadings.getToken().charAt(0));
-      boolean isCapitalized = StringTools.isCapitalizedWord(tokenReadings.getToken());
-
-      if( PosTagHelper.hasPosTagStart(nextTokenReadings, "noun")
-          && ! PosTagHelper.hasPosTagPart(nextTokenReadings, "&pron")
-          //    && ! PosTagHelper.hasPosTag(nextTokenReadings, Pattern.compile("^(?!noun).*"))
+      boolean isCapitalized = Character.isUpperCase(tokenReadings.getToken().charAt(0));
+      
+      if ((isInPrefixes(tokenReadings, isCapitalized)
+            || (tokenReadings.getToken().toLowerCase().equals("тайм") && LemmaHelper.hasLemma(tokens[i+1], "аут")))
+          && PosTagHelper.hasPosTagPart(nextTokenReadings, "noun")
+//          && ! PosTagHelper.hasPosTag(nextTokenReadings, Pattern.compile("^(?!noun).*"))
           && ALL_LOWER.matcher(nextTokenReadings.getToken()).matches() ) {
+    
+        String hyphenedWord = tokenReadings.getToken() + "-" + nextTokenReadings.getToken();
+        String tokenToCheck = isCapitalized ? StringUtils.uncapitalize(hyphenedWord) : hyphenedWord;
+        
+        if ( wordTagger.tag(tokenToCheck).size() > 0 ) {
+          RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(), nextTokenReadings.getEndPos(), "Можливо, пропущено дефіс?", getDescription());
+          potentialRuleMatch.setSuggestedReplacement(hyphenedWord);
 
-        String extraTag = getPrefixExtraTag(tokenReadings, isCapitalized);
-        if ( extraTag != null
-            || (tokenReadings.getToken().toLowerCase().equals("тайм")
-                && LemmaHelper.hasLemma(nextTokenReadings, "аут")) ) {
-
-          // всі медіа країни
-          if( "медіа".equalsIgnoreCase(tokenReadings.getToken()) 
-              && nextTokenReadings.getToken().matches("країни|півострова"))
-            continue;
-          
-          String suggested;
-          String message;
-          
-          if( UA_1992_TAG_PART.equals(extraTag) ) {
-            suggested = String.format("%s%s", tokenReadings.getToken(), nextTokenReadings.getToken());
-            message = "Можливо, зайвий пробіл?";
-          }
-          else {
-            suggested = String.format("%s-%s", tokenReadings.getToken(), nextTokenReadings.getToken());
-            message = "Можливо, пропущено дефіс?";
-          }
-          
-          String tokenToCheck = isCapitalized ? StringUtils.uncapitalize(suggested) : suggested;
-
-          if (wordTagger.tag(tokenToCheck).size() > 0
-              || (UA_1992_TAG_PART.equals(extraTag) && PosTagHelper.hasPosTagPart(nextTokenReadings, UA_1992_TAG_PART)) ) {
-            RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(),
-                nextTokenReadings.getEndPos(), message, getDescription());
-            potentialRuleMatch.setSuggestedReplacement(suggested);
-
-            ruleMatches.add(potentialRuleMatch);
-          }
-
+          ruleMatches.add(potentialRuleMatch);
         }
-      }      
+      }
+      
     }
     
     return ruleMatches.toArray(new RuleMatch[0]);
   }
 
-  private String getPrefixExtraTag(AnalyzedTokenReadings tokenReadings, boolean isCapitalized) {
+  private boolean isInPrefixes(AnalyzedTokenReadings tokenReadings, boolean isCapitalized) {
     String token = tokenReadings.getToken();
     if( isCapitalized ) {
       token = StringUtils.uncapitalize(token);
     }
-    return dashPrefixes.get(token);
+    return dashPrefixes.contains(token);
   }
 
   

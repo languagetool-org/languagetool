@@ -66,8 +66,8 @@ public class DecadeSpellingFilter extends RuleFilter {
       String message = match.getMessage()
           .replace("{dekada}", decade)
           .replace("{wiek}", getRomanNumber(cent + 1));
-      RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), match.getPatternFromPos(), match.getPatternToPos(),
-              message, match.getShortMessage(), match.getFromPos() == 0, null);
+      RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(), message, match.getShortMessage(),
+              match.getFromPos() == 0, null);
       ruleMatch.setType(match.getType());
       return ruleMatch;
     } catch (IllegalArgumentException ignore) {

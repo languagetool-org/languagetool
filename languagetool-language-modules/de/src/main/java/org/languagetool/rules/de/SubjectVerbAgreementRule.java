@@ -211,9 +211,7 @@ public class SubjectVerbAgreementRule extends Rule {
     if (plural.contains(tokenStr)) {
       AnalyzedTokenReadings prevToken = tokens[i - 1];
       List<ChunkTag> prevChunkTags = prevToken.getChunkTags();
-      AnalyzedTokenReadings nextToken = i + 1 < tokens.length ? tokens[i + 1] : null;
       boolean match = prevChunkTags.contains(NPS)
-                      && !(nextToken != null && nextToken.getToken().equals("Sie"))   // 'Eine Persönlichkeit sind Sie selbst.'
                       && !prevChunkTags.contains(NPP)
                       && !prevChunkTags.contains(PP)
                       && !isCurrency(prevToken)

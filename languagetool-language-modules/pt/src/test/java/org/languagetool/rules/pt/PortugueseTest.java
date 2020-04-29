@@ -38,6 +38,6 @@ public class PortugueseTest extends LanguageSpecificTest {
               "HUNSPELL_RULE", "UNPAIRED_BRACKETS", "DOUBLE_PUNCTUATION", "PHRASE_REPETITION", "REPEATED_WORDS", "ARTICLES_PRECEDING_LOCATIONS",
               "PARONYM_ANALISE_363", "DOUBLE_PUNCTUATION", "POSSESSIVE_WITHOUT_ARTICLE", "EQUIPES", "T-V_DISTINCTION", "DATE_WEEKDAY")
     );
-    runTests(lang, null, "õș");
+    runTests(lang);
   }
 }

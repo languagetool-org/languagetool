@@ -20,14 +20,12 @@ package org.languagetool.dev.bigdata;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.TextField;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.store.FSDirectory;
-import org.languagetool.dev.index.Lucene;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,8 +40,10 @@ import java.util.Scanner;
  */
 class TextIndexCreator {
 
+  static final String FIELD = "sentence";
+
   private void index(File outputDir, String[] inputFiles) throws IOException {
-    Analyzer analyzer = new StandardAnalyzer(CharArraySet.EMPTY_SET);
+    Analyzer analyzer = new StandardAnalyzer();
     IndexWriterConfig config = new IndexWriterConfig(analyzer);
     try (FSDirectory directory = FSDirectory.open(outputDir.toPath());
          IndexWriter indexWriter = new IndexWriter(directory, config)) {
@@ -60,8 +60,7 @@ class TextIndexCreator {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
         Document doc = new Document();
-        doc.add(new TextField(Lucene.FIELD_NAME, line, Field.Store.YES));
-        doc.add(new TextField(Lucene.FIELD_NAME_LOWERCASE, line.toLowerCase(), Field.Store.YES));
+        doc.add(new TextField(FIELD, line, Field.Store.YES));
         indexWriter.addDocument(doc);
         if (++lineCount % 10_000 == 0) {
           System.out.println(lineCount + "...");

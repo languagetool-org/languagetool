@@ -34,12 +34,8 @@ class StdoutHandler extends ResultHandler {
   private final ContextTools contextTools = new ContextTools();
 
   StdoutHandler(int maxSentences, int maxErrors) {
-    this(maxSentences, maxErrors, CONTEXT_SIZE);
-  }
-
-  StdoutHandler(int maxSentences, int maxErrors, int contextSize) {
     super(maxSentences, maxErrors);
-    contextTools.setContextSize(contextSize);
+    contextTools.setContextSize(CONTEXT_SIZE);
   }
 
   @Override
@@ -64,7 +60,7 @@ class StdoutHandler extends ResultHandler {
         System.out.println("Message: " + msg);
         List<String> replacements = match.getSuggestedReplacements();
         if (!replacements.isEmpty()) {
-          System.out.println("Suggestion: " + String.join("; ", replacements.subList(0, Math.min(replacements.size(), 5))));
+          System.out.println("Suggestion: " + String.join("; ", replacements));
         }
         if (match.getRule() instanceof AbstractPatternRule) {
           AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();

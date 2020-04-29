@@ -43,7 +43,7 @@ public class BaseLanguageModelTest {
       assertEquals(0.0081, prob2.getProb(), delta);  // artificially not zero
       assertThat(prob2.getCoverage(), is(0.0f));
       Probability prob3 = lm.getPseudoProbability(Arrays.asList("There", "are"));
-      assertEquals(0.082, prob3.getProb(), delta);
+      assertEquals(0.089, prob3.getProb(), delta);
       assertThat(prob3.getCoverage(), is(0.5f));
     }
   }

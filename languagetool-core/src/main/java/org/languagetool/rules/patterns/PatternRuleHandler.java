@@ -18,17 +18,20 @@
  */
 package org.languagetool.rules.patterns;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.ObjectUtils;
 import org.languagetool.Languages;
 import org.languagetool.rules.*;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.*;
-import java.util.regex.Pattern;
 
 public class PatternRuleHandler extends XMLRuleHandler {
 
@@ -72,9 +75,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
 
   private boolean relaxedMode = false;
   private boolean inAntiPattern;
-  
-  private boolean isRuleSuppressMisspelled;
-  private boolean isSuggestionSupressMisspelled;
 
   private String idPrefix;
 
@@ -172,7 +172,6 @@ public class PatternRuleHandler extends XMLRuleHandler {
         if (attrs.getValue(TYPE) != null) {
           ruleIssueType = attrs.getValue(TYPE);
         }
-        isRuleSuppressMisspelled = false;
         break;
       case PATTERN:
         startPattern(attrs);
@@ -243,21 +242,15 @@ public class PatternRuleHandler extends XMLRuleHandler {
         inMessage = true;
         inSuggestion = false;
         message = new StringBuilder();
-        isRuleSuppressMisspelled = YES.equals(attrs.getValue("suppress_misspelled"));
-        if (isRuleSuppressMisspelled) {
-          message.append(PLEASE_SPELL_ME);
-        } 
         break;
       case SUGGESTION:
-        String strToAppend = "<suggestion>";
-        isSuggestionSupressMisspelled = YES.equals(attrs.getValue("suppress_misspelled"));
-        if (isSuggestionSupressMisspelled || isRuleSuppressMisspelled) {
-          strToAppend = strToAppend + PLEASE_SPELL_ME;
+        if (YES.equals(attrs.getValue("suppress_misspelled"))) {
+          message.append(PLEASE_SPELL_ME);
         }
         if (inMessage) {
-          message.append(strToAppend);
-        } else { // suggestions outside message
-          suggestionsOutMsg.append(strToAppend);
+          message.append("<suggestion>");
+        } else {  //suggestions outside message
+          suggestionsOutMsg.append("<suggestion>");
         }
         inSuggestion = true;
         break;
@@ -293,7 +286,7 @@ public class PatternRuleHandler extends XMLRuleHandler {
         }
         break;
       case MATCH:
-        setMatchElement(attrs, inSuggestion && (isSuggestionSupressMisspelled || isRuleSuppressMisspelled));
+        setMatchElement(attrs);
         break;
       case MARKER:
         if (inIncorrectExample) {
@@ -653,15 +646,9 @@ public class PatternRuleHandler extends XMLRuleHandler {
     }
     startPos = -1;
     endPos = -1;
-    if (!correctExamples.isEmpty()) {
-      rule.setCorrectExamples(correctExamples);
-    }
-    if (!incorrectExamples.isEmpty()) {
-      rule.setIncorrectExamples(incorrectExamples);
-    }
-    if (!errorTriggeringExamples.isEmpty()) {
-      rule.setErrorTriggeringExamples(errorTriggeringExamples);
-    }
+    rule.setCorrectExamples(correctExamples);
+    rule.setIncorrectExamples(incorrectExamples);
+    rule.setErrorTriggeringExamples(errorTriggeringExamples);
     rule.setCategory(category);
     if (!rulegroupAntiPatterns.isEmpty()) {
       rule.setAntiPatterns(rulegroupAntiPatterns);

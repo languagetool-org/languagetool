@@ -67,14 +67,14 @@ public class AdaptSuggestionFilterTest {
     runAcceptRuleMatch("Hier steht unsere Roadmap.", "Roadmap", "Idee", "[unsere Idee]");
     runAcceptRuleMatch("Hier steht eure Roadmap.", "Roadmap",   "Idee", "[eure Idee]");
     // NEU (das Verfahren):
-    runAcceptRuleMatch("Hier steht die Roadmap.", "Roadmap",    "Verfahren", "[das Verfahren]");
+    runAcceptRuleMatch("Hier steht die Roadmap.", "Roadmap",    "Verfahren", "[die Verfahren, das Verfahren]");
     runAcceptRuleMatch("Hier steht eine Roadmap.", "Roadmap",   "Verfahren", "[ein Verfahren]");
-    runAcceptRuleMatch("Hier steht meine Roadmap.", "Roadmap",  "Verfahren", "[mein Verfahren]");
-    runAcceptRuleMatch("Hier steht deine Roadmap.", "Roadmap",  "Verfahren", "[dein Verfahren]");
-    runAcceptRuleMatch("Hier steht seine Roadmap.", "Roadmap",  "Verfahren", "[sein Verfahren]");
-    runAcceptRuleMatch("Hier steht ihre Roadmap.", "Roadmap",   "Verfahren", "[ihr Verfahren]");
-    runAcceptRuleMatch("Hier steht unsere Roadmap.", "Roadmap", "Verfahren", "[unser Verfahren]");
-    runAcceptRuleMatch("Hier steht eure Roadmap.", "Roadmap",   "Verfahren", "[euer Verfahren]");
+    runAcceptRuleMatch("Hier steht meine Roadmap.", "Roadmap",  "Verfahren", "[meine Verfahren, mein Verfahren]");
+    runAcceptRuleMatch("Hier steht deine Roadmap.", "Roadmap",  "Verfahren", "[deine Verfahren, dein Verfahren]");
+    runAcceptRuleMatch("Hier steht seine Roadmap.", "Roadmap",  "Verfahren", "[seine Verfahren, sein Verfahren]");
+    runAcceptRuleMatch("Hier steht ihre Roadmap.", "Roadmap",   "Verfahren", "[ihre Verfahren, ihr Verfahren]");
+    runAcceptRuleMatch("Hier steht unsere Roadmap.", "Roadmap", "Verfahren", "[unsere Verfahren, unser Verfahren]");
+    runAcceptRuleMatch("Hier steht eure Roadmap.", "Roadmap",   "Verfahren", "[eure Verfahren, euer Verfahren]");
   }
 
   @Ignore("WIP")

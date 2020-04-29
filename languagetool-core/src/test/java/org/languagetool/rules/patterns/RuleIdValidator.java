@@ -48,7 +48,7 @@ class RuleIdValidator {
       }
     }
     for (String fileName : fileNames) {
-      try (InputStream is = JLanguageTool.getDataBroker().getAsStream(fileName)) {
+      try (InputStream is = this.getClass().getResourceAsStream(fileName)) {
         if (is == null) {
           System.out.println("Skipping " + fileName + " - not found");  // e.g. nl/grammar-test-1.xml
           continue;

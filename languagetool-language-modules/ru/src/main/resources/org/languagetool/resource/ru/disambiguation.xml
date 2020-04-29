@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
 Russian Disambiguation Rules for LanguageTool (www.languagetool.org)
-Copyright (C) 2009-2020 Yakov Reztsov
+Copyright (C) 2009-2019 Yakov Reztsov
 -->
 <rules lang="ru"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -135,13 +135,6 @@ Copyright (C) 2009-2020 Yakov Reztsov
     </rule>
 
     <rule name="NOUN_NOT_NOM" id="NOUN_NOT_NOM">
-        <antipattern>
-            <token>что</token>
-            <token>это</token>
-            <token>за</token>
-            <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token> 
-        </antipattern>
-
         <pattern>	 
             <!-- Что за головная боль!    "Что за" - междометие -->
             <!-- Add exception for : "Что за + NN:.*:.*:Nom" -->
@@ -158,14 +151,6 @@ Copyright (C) 2009-2020 Yakov Reztsov
         <disambig action="remove" postag="NN:.*:.*:.*:Nom"></disambig>
     </rule>    
     <rule name="NOUN_NOT_NOM1" id="NOUN_NOT_NOM1">
-        <antipattern>
-            <token>что</token>
-            <token>это</token>
-            <token>за</token>
-            <token postag="ADJ:.*" postag_regexp="yes"></token>
-            <token postag="NN:.*:.*:.*:Nom" postag_regexp="yes"></token>
-        </antipattern>
-                
         <pattern>	 
             <!-- Что за головная боль!    "Что за" - междометие -->
             <!-- Add exception for : "Что за + NN:.*:.*:Nom" -->

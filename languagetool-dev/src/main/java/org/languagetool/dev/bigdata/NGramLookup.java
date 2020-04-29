@@ -22,10 +22,7 @@ import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.ngrams.Probability;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Simple ngram count lookup.
@@ -35,33 +32,23 @@ final class NGramLookup {
   private NGramLookup() {
   }
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) {
     if (args.length < 2) {
-      System.out.println("Usage: " + NGramLookup.class.getName() + " <ngram...|file> <ngramDataIndex>");
+      System.out.println("Usage: " + NGramLookup.class.getName() + " <ngram...> <ngramDataIndex>");
       System.out.println("  Example: " + NGramLookup.class.getName() + " \"my house\" /data/ngram-index");
-      System.out.println("  Example: " + NGramLookup.class.getName() + " /tmp/words.txt /data/ngram-index");
       System.exit(1);
     }
     String indexTopDir = args[args.length-1];
     try (LuceneLanguageModel lm = new LuceneLanguageModel(new File(indexTopDir))) {
       double totalP = 1;
-      File maybeFile = new File(args[0]);
-      if (args.length == 2 && maybeFile.isFile()) {
-        List<String> lines = Files.readAllLines(maybeFile.toPath());
-        for (String line : lines) {
-          long count = lm.getCount(line);
-          System.out.println(count + "\t" + line);
-        }
-      } else {
-        for (int i = 0; i < args.length -1; i++) {
-          String[] lookup = args[i].split(" ");
-          long count = lm.getCount(Arrays.asList(lookup));
-          Probability p = lm.getPseudoProbability(Arrays.asList(lookup));
-          System.out.println(Arrays.toString(lookup) + " -> count:" + count + ", " + p + ", log:" + Math.log(p.getProb()));
-          totalP *= p.getProb();
-        }
-        System.out.printf("totalP=" + totalP);
+      for (int i = 0; i < args.length -1; i++) {
+        String[] lookup = args[i].split(" ");
+        long count = lm.getCount(Arrays.asList(lookup));
+        Probability p = lm.getPseudoProbability(Arrays.asList(lookup));
+        System.out.println(Arrays.toString(lookup) + " -> count:" + count + ", " + p + ", log:" + Math.log(p.getProb()));
+        totalP *= p.getProb();
       }
+      System.out.printf("totalP=" + totalP);
     }
   }
 }

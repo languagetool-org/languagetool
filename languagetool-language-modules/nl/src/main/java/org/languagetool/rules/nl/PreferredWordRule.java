@@ -38,8 +38,8 @@ import org.languagetool.rules.RuleMatch;
 public class PreferredWordRule extends Rule {
 
   private static final String DESC = "Suggereert een gebruikelijker woord.";
-  private static final String RULE_ID = "NL_PREFERRED_WORD_RULE";
-  private static final PreferredWordData data = new PreferredWordData(DESC, "/nl/preferredwords.csv", RULE_ID);
+
+  private static final PreferredWordData data = new PreferredWordData(DESC);
 
   public PreferredWordRule(ResourceBundle messages) throws IOException {
     super.setCategory(Categories.STYLE.getCategory(messages));
@@ -50,7 +50,7 @@ public class PreferredWordRule extends Rule {
 
   @Override
   public String getId() {
-    return RULE_ID;
+    return "NL_PREFERRED_WORD_RULE";
   }
 
   @Override
@@ -63,14 +63,10 @@ public class PreferredWordRule extends Rule {
     return 1;
   }
 
-  protected PreferredWordData getData() {
-    return data;
-  }
-
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    for (PreferredWordRuleWithSuggestion ruleWithSuggestion : getData().get()) {
+    for (PreferredWordRuleWithSuggestion ruleWithSuggestion : data.get()) {
       Rule rule = ruleWithSuggestion.rule;
       RuleMatch[] matches = rule.match(sentence);
       if (matches.length > 0) {

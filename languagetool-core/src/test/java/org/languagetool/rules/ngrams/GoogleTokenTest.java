@@ -19,13 +19,18 @@
 package org.languagetool.rules.ngrams;
 
 import org.junit.Test;
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.language.Demo;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -64,7 +69,7 @@ public class GoogleTokenTest {
 
   class PosTaggingDemo extends Demo {
     @Override
-    public Tagger createDefaultTagger() {
+    public Tagger getTagger() {
       return new Tagger() {
         @Override
         public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {

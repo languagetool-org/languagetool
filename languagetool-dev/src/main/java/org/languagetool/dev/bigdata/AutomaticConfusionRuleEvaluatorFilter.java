@@ -21,7 +21,7 @@ package org.languagetool.dev.bigdata;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
@@ -47,7 +47,7 @@ final class AutomaticConfusionRuleEvaluatorFilter {
     int spaceEnd = s.indexOf('#');
     if (spaceStart > 0 && spaceEnd > 0) {
       String spaces = StringUtils.repeat(" ", 52-spaceStart);
-      return s.substring(0, spaceStart+2) + spaces + s.substring(spaceEnd);
+      return s.substring(0, spaceStart) + spaces + s.substring(spaceEnd);
     }
     return s;
   }
@@ -58,7 +58,7 @@ final class AutomaticConfusionRuleEvaluatorFilter {
       System.out.println("       <file> is the output of " + AutomaticConfusionRuleEvaluator.class.getName());
       System.exit(0);
     }
-    List<String> lines = Files.readAllLines(Paths.get(args[0]), StandardCharsets.UTF_8);
+    List<String> lines = Files.readAllLines(Paths.get(args[0]), Charset.forName("utf-8"));
     String prevKey = null;
     int skippedCount = 0;
     int lowPrecisionCount = 0;
@@ -69,31 +69,21 @@ final class AutomaticConfusionRuleEvaluatorFilter {
       if (!line.startsWith("=>")) {
         continue;
       }
-      String cleanLine = line.replaceFirst("=> ", "").replaceFirst("; \\d.*", "");
-      String[] parts;
-      boolean bothDirections;
-      if (cleanLine.contains("->")) {
-        parts = cleanLine.split("\\s*->\\s*");
-        bothDirections = false;
-      } else {
-        parts = cleanLine.split(";\\s*");
-        bothDirections = true;
-      }
+      String[] parts = line.replaceFirst("=> ", "").replaceFirst("; \\d.*", "").split("; ");
       String key = parts[0] + ";" + parts[1];
-      Pattern data = Pattern.compile("^(.+?)(?:;| ->) (.+?);.*p=(\\d\\.\\d+), r=(\\d\\.\\d+), f0.5=\\d\\.\\d+, (\\d+)\\+(\\d+),.*");
+      Pattern data = Pattern.compile("^(.+?); (.+?);.*p=(\\d\\.\\d+), r=(\\d\\.\\d+), f0.5=\\d\\.\\d+, (\\d+)\\+(\\d+),.*");
       Matcher m = data.matcher(line.replaceFirst("=> ", ""));
       m.find();
       String word1 = m.group(1);
       String word2 = m.group(2);
-      String delim = bothDirections ? "; " : " -> ";
-      String wordGroup = word1 + delim + word2;
-      if (word1.compareTo(word2) > 0 && bothDirections) {
-        wordGroup = word2 + delim + word1;
+      String wordGroup = word1 + "; " + word2;
+      if (word1.compareTo(word2) > 0) {
+        wordGroup = word2 + "; " + word1;
       }
       float precision = Float.parseFloat(m.group(3));
       int occ1 = Integer.parseInt(m.group(5));
       int occ2 = Integer.parseInt(m.group(6));
-      if (key.equals(prevKey)) {
+      if (prevKey != null && key.equals(prevKey)) {
         if (skipping) {
           //System.out.println("SKIP: " + reformat(line));
         }
@@ -110,7 +100,7 @@ final class AutomaticConfusionRuleEvaluatorFilter {
           skipping = true;
           continue;
         }
-        System.out.println(reformat(line.replaceFirst("=> .+?(;| ->) .+?; ", wordGroup + "; ")));
+        System.out.println(reformat(line.replaceFirst("=> .+?; .+?; ", wordGroup + "; ")));
         skipping = false;
         usedCount++;
       }

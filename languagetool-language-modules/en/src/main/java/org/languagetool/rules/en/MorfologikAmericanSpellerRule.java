@@ -19,11 +19,10 @@
 
 package org.languagetool.rules.en;
 
-import org.languagetool.GlobalConfig;
+import org.languagetool.Experimental;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.SuggestedReplacement;
 
 import java.io.IOException;
 import java.util.*;
@@ -37,30 +36,31 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
   private static final Map<String,String> BRITISH_ENGLISH = loadWordlist("en/en-US-GB.txt", 1);
 
   public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language) throws IOException {
-    this(messages, language, null, null, Collections.emptyList(), null, null);
+    super(messages, language, null, Collections.emptyList());
+  }
+
+  @Override
+  protected VariantInfo isValidInOtherVariant(String word) {
+    String otherVariant = BRITISH_ENGLISH.get(word);
+    if (otherVariant != null) {
+      return new VariantInfo("British English", otherVariant);
+    }
+    return null;
   }
 
   /**
    * @since 4.2
    */
   public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
-    this(messages, language, null, userConfig, altLanguages, null, null);
+    super(messages, language, userConfig, altLanguages);
   }
 
   /**
-   * @since 4.9
+   * @since 4.5
    */
-  public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language, GlobalConfig globalConfig, UserConfig userConfig, List<Language> altLanguages, LanguageModel languageModel, Language motherTongue) throws IOException {
-    super(messages, language, globalConfig, userConfig, altLanguages, languageModel, motherTongue);
-  }
-
-  @Override
-  protected VariantInfo isValidInOtherVariant(String word) {
-    String otherVariant = BRITISH_ENGLISH.get(word.toLowerCase());
-    if (otherVariant != null) {
-      return new VariantInfo("British English", otherVariant);
-    }
-    return null;
+  @Experimental
+  public MorfologikAmericanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages, LanguageModel languageModel) throws IOException {
+    super(messages, language, userConfig, altLanguages, languageModel);
   }
 
   @Override
@@ -79,22 +79,17 @@ public final class MorfologikAmericanSpellerRule extends AbstractEnglishSpellerR
   }
 
   @Override
-  protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
-    List<String> s = null;
+  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
     if ("automize".equals(word)) {
-      s =  Arrays.asList("automate");
+      return Arrays.asList("automate");
     } else if ("automized".equals(word)) {
-      s =  Arrays.asList("automated");
+      return Arrays.asList("automated");
     } else if ("automizing".equals(word)) {
-      s =  Arrays.asList("automating");
+      return Arrays.asList("automating");
     } else if ("automizes".equals(word)) {
-      s =  Arrays.asList("automates");
+      return Arrays.asList("automates");
     }
-    if (s != null) {
-      return SuggestedReplacement.convert(s);
-    } else {
-      return super.getAdditionalTopSuggestions(suggestions, word);
-    }
+    return super.getAdditionalTopSuggestions(suggestions, word);
   }
 
 }

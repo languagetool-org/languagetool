@@ -56,9 +56,6 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("This is a nice color."));
     assertEquals(1, matches.length);
     assertTrue(matches[0].getMessage().contains("is American English"));
-    RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("Color is the American English word."));
-    assertEquals(1, matches2.length);
-    assertTrue(matches2[0].getMessage().contains("is American English"));
   }
 
   @Test

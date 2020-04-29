@@ -19,10 +19,12 @@
 
 package org.languagetool.rules.pl;
 
-import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
+import org.languagetool.Languages;
 import org.languagetool.rules.AbstractDashRule;
+import org.languagetool.rules.patterns.PatternRule;
 
-import java.util.ResourceBundle;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Check for compounds written with dashes instead of hyphens (for example, Rabka — Zdrój).
@@ -30,35 +32,16 @@ import java.util.ResourceBundle;
  */
 public class DashRule extends AbstractDashRule {
 
-  private static volatile AhoCorasickDoubleArrayTrie<String> trie;
+  private static final List<PatternRule> dashRules = loadCompoundFile("/pl/compounds.txt",
+          "Błędne użycie myślnika zamiast łącznika. Poprawnie: ", Languages.getLanguageForShortCode("pl"));
 
-  public DashRule(ResourceBundle messages) {
-    super(messages);
+  public DashRule() throws IOException {
+    super(dashRules);
   }
 
   @Override
   public String getDescription() {
     return "Sprawdza, czy wyrazy pisane z łącznikiem zapisano z myślnikami (np. „Lądek — Zdrój” zamiast „Lądek-Zdrój”).";
-  }
-
-  @Override
-  public String getMessage() {
-    return "Błędne użycie myślnika zamiast łącznika.";
-  }
-
-  @Override
-  protected AhoCorasickDoubleArrayTrie<String> getCompoundsData() {
-    AhoCorasickDoubleArrayTrie<String> data = trie;
-    if (data == null) {
-      synchronized (DashRule.class) {
-        data = trie;
-        if (data == null) {
-          trie = data = loadCompoundFile("/pl/compounds.txt");
-        }
-      }
-    }
-
-    return data;
   }
 
 }

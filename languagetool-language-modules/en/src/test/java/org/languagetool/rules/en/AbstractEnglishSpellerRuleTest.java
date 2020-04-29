@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 import java.io.IOException;
 import java.util.List;
 
+import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.rules.Rule;
@@ -70,10 +71,6 @@ public class AbstractEnglishSpellerRuleTest {
     assertFirstMatch("mischevious", "mischievous");
     assertFirstMatch("hygeine", "hygiene");
     assertFirstMatch("ur", "your");
-    assertAllMatches(lt, rule, "campaignt", "campaign", "campaigns");
-    assertAllMatches(lt, rule, "campaignd", "campaign", "campaigns", "campaigned");
-    assertAllMatches(lt, rule, "campaignll");
-    assertAllMatches(lt, rule, "spreaded", "spread", "spreader");
     //assertFirstMatch("vehical", "medical", "vehicle"); // suggests vesical now, medical term
     //assertFirstMatch("calender", "calendar");  // handled by grammar.xml
     
@@ -100,20 +97,6 @@ public class AbstractEnglishSpellerRuleTest {
     assertTrue("Expected 1 match for '" + text + "', got " + matches.length, matches.length == 1);
     List<String> suggestions = matches[0].getSuggestedReplacements();
     assertTrue("Expected at least one suggestion for '" + text + "'", suggestions.size() > 0);
-    int i = 0;
-    for (String expectedSuggestion : expectedSuggestions) {
-      assertThat("Expected suggestion '" + expectedSuggestion + "' not found at position " + i + " in suggestions: "
-              + suggestions, suggestions.get(i), is(expectedSuggestion));
-      i++;
-    }
-  }
-
-  protected void assertAllMatches(JLanguageTool lt, Rule rule, String text, String... expectedSuggestions) throws IOException {
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(text));
-    assertEquals("Expected 1 match for '" + text + "', got " + matches.length, 1, matches.length);
-    List<String> suggestions = matches[0].getSuggestedReplacements();
-    assertEquals("Expected " + expectedSuggestions.length + " suggestions for '" + text + "', got: " + suggestions,
-      suggestions.size(), expectedSuggestions.length);
     int i = 0;
     for (String expectedSuggestion : expectedSuggestions) {
       assertThat("Expected suggestion '" + expectedSuggestion + "' not found at position " + i + " in suggestions: "

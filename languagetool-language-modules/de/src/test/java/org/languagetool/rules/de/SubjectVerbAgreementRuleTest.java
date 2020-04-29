@@ -330,7 +330,6 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectPluralVerb() throws IOException {
     List<String> sentences = Arrays.asList(
-        "Eine Persönlichkeit sind Sie selbst.",
         "Die Katzen sind schön.",
         "Frau Meier und Herr Müller sind alt.",
         "Frau Julia Meier und Herr Karsten Müller sind alt.",

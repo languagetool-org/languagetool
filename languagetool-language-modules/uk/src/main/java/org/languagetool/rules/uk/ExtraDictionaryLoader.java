@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.stream.Collectors;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
@@ -21,34 +20,38 @@ public class ExtraDictionaryLoader {
 
   public static Set<String> loadSet(String path) {
     Set<String> result = new HashSet<>();
-    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
-    for (String line : lines) {
-      if (!line.startsWith("#")) {
-        result.add(line);
+    try (InputStream is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
+         Scanner scanner = new Scanner(is, "UTF-8")) {
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        if( ! line.startsWith("#") ) {
+          result.add(line);
+        }
       }
+      return result;
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
-    return result;
   }
 
-  public static Map<String, String> loadMap(String path) {
-    Set<String> set = loadSet(path);
-    return set.stream()
-        .map(str -> str.trim().split(" "))
-        .collect(Collectors.toMap(x -> x[0], x -> x.length > 1 ? x[1] : ""));
-  }
-  
   public static Map<String, List<String>> loadSpacedLists(String path) {
     Map<String, List<String>> result = new HashMap<>();
-    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
-    for (String line : lines) {
-      if(!line.startsWith("#") && !line.trim().isEmpty()) {
-        line = line.replaceFirst("#.*", "").trim();
-        String[] split = line.split(" |\\|");
-        List<String> list = Arrays.asList(split).subList(1, split.length);
-        result.put(split[0], list);
+    try (InputStream is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
+         Scanner scanner = new Scanner(is, "UTF-8")) {
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        if( ! line.startsWith("#") && ! line.trim().isEmpty() ) {
+          line = line.replaceFirst("#.*", "").trim();
+          String[] split = line.split(" |\\|");
+          List<String> list = Arrays.asList(split).subList(1, split.length);
+          result.put(split[0], list);
+        }
       }
+      return result;
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new RuntimeException(e);
     }
-    return result;
   }
 
   public static Map<String, List<String>> loadLists(String path) {

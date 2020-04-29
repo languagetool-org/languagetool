@@ -41,6 +41,8 @@ public class TokenAgreementNounVerbRuleTest {
   public void setUp() throws IOException {
     rule = new TokenAgreementNounVerbRule(TestTools.getMessages("uk"));
     langTool = new JLanguageTool(new Ukrainian());
+
+//    TokenVerbAgreementRule.DEBUG = true;
   }
 
   @Test
@@ -114,29 +116,6 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch(GOOD_TEXT);
 
     assertEmptyMatch("— це були невільники");
-  }
-
-  @Test
-  public void testRuleNe() throws IOException {
-    assertMatches(1, "Тарас не прибігла");
-    assertMatches(1, "вони не прибіг");
-    assertMatches(1, "я не прибіжиш");
-
-    assertEmptyMatch("ні він, ні вона не хотіли");
-    assertEmptyMatch("уряд та поліція не контролюють події");
-    assertEmptyMatch("— це не була хвороба");
-    assertEmptyMatch("— це не передбачено");
-    assertEmptyMatch("Решта не мають жодних дозволів");
-    assertEmptyMatch("ні лауреат, ні його жінка не розмовляють жодними мовами");
-    assertEmptyMatch("Чи ж могла я не повернутися назад?");
-    assertEmptyMatch("кефаль, хамса не затримуються");
-    assertEmptyMatch("душ, одеколони, навіть хлорка не допомогли");
-    assertEmptyMatch("і Виговський, ні навіть Мазепа не розглядали");
-    assertEmptyMatch("уряд та поліція не контролюють");
-    assertEmptyMatch("кадрове забезпечення, матеріальна база не дісталися");
-    
-    assertEmptyMatch("Волосожар/Морозов не припинили");
-    assertEmptyMatch("ні Європа, ні тим більше Україна не мають");
   }
 
   @Test

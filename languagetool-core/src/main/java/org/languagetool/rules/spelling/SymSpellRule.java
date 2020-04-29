@@ -21,16 +21,21 @@
 
 package org.languagetool.rules.spelling;
 
-import com.google.common.cache.*;
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.broker.ResourceDataBroker;
+import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.SuggestedReplacement;
-import org.languagetool.rules.spelling.suggestions.*;
-import org.languagetool.rules.spelling.symspell.implementation.*;
+import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
+import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
+import org.languagetool.rules.spelling.symspell.implementation.SuggestItem;
+import org.languagetool.rules.spelling.symspell.implementation.SuggestionStage;
+import org.languagetool.rules.spelling.symspell.implementation.SymSpell;
 
 import java.io.*;
 import java.util.*;
@@ -109,9 +114,12 @@ public class SymSpellRule extends SpellingCheckRule {
         }
       }
     }
+
   }
 
   /**
+   *
+   * @param config
    * @return Spell checker using users personal dictionary, or null if no custom speller is needed
    */
   @Nullable
@@ -132,7 +140,7 @@ public class SymSpellRule extends SpellingCheckRule {
 
   protected static SymSpell initDefaultDictSpeller(Language lang) {
     SymSpell speller = new SymSpell(INITIAL_CAPACITY, 3, -1, 0);
-    System.out.println("Initializing symspell");
+    System.out.println("Initalizing symspell");
     Set<String> prohibitedWords = prohibitedWordsCache.getUnchecked(lang);
     long startTime = System.currentTimeMillis();
 
@@ -141,6 +149,7 @@ public class SymSpellRule extends SpellingCheckRule {
       base + "spelling_" + lang.getShortCodeWithCountryAndVariant() + ".txt");
     List<String> dict = Collections.singletonList(
       base + lang.getShortCodeWithCountryAndVariant().replaceFirst("-", "_") + ".dic");
+
 
     SuggestionStage stage = new SuggestionStage(100000);
     forEachLineInResources(additional, word -> {
@@ -226,14 +235,14 @@ public class SymSpellRule extends SpellingCheckRule {
       if (ignoredWords.contains(word)) {
         continue;
       }
-      List<SuggestedReplacement> candidates = SuggestedReplacement.convert(filterCandidates(getSpellerMatches(word, defaultDictSpeller)));
-      List<SuggestedReplacement> userCandidates = SuggestedReplacement.convert(getSpellerMatches(word, userDictSpeller));
+      List<String> candidates = filterCandidates(getSpellerMatches(word, defaultDictSpeller));
+      List<String> userCandidates = getSpellerMatches(word, userDictSpeller);
       // TODO: messages
       RuleMatch match = null;
       if (candidates.isEmpty() && userCandidates.isEmpty()) {
         match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), "Misspelling or unknown word!");
-      } else if (!(candidates.size() > 0 && candidates.get(0).getReplacement().equals(word) ||
-        userCandidates.size() > 0 && userCandidates.get(0).getReplacement().equals(word))) {
+      } else if (!(candidates.size() > 0 && candidates.get(0).equals(word) ||
+        userCandidates.size() > 0 && userCandidates.get(0).equals(word))) {
         match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), "Misspelling!");
 
         addSuggestionsToRuleMatch(token.getToken(), userCandidates, candidates, orderer, match);

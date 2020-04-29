@@ -18,23 +18,28 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
-import org.languagetool.rules.ro.*;
+import org.languagetool.rules.ro.CompoundRule;
+import org.languagetool.rules.ro.MorfologikRomanianSpellerRule;
+import org.languagetool.rules.ro.RomanianWordRepeatBeginningRule;
+import org.languagetool.rules.ro.SimpleReplaceRule;
 import org.languagetool.synthesis.Synthesizer;
 import org.languagetool.synthesis.ro.RomanianSynthesizer;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.ro.RomanianTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.ro.RomanianWordTokenizer;
-
-import java.io.IOException;
-import java.util.*;
 
 /**
  *
@@ -42,6 +47,12 @@ import java.util.*;
  * @since 24.02.2009 22:18:21
  */
 public class Romanian extends Language {
+
+  private Tagger tagger;
+  private Synthesizer synthesizer;
+  private Disambiguator disambiguator;
+  private Tokenizer wordTokenizer;
+  private SentenceTokenizer sentenceTokenizer;
 
   @Override
   public String getName() {
@@ -58,10 +69,12 @@ public class Romanian extends Language {
     return new String[]{"RO"};
   }
 
-  @NotNull
   @Override
-  public Tagger createDefaultTagger() {
-    return new RomanianTagger();
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new RomanianTagger();
+    }
+    return tagger;
   }
 
   @Override
@@ -90,24 +103,35 @@ public class Romanian extends Language {
     );
   }
 
-  @Nullable
   @Override
-  public Synthesizer createDefaultSynthesizer() {
-    return new RomanianSynthesizer(this);
+  public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new RomanianSynthesizer(this);
+    }
+    return synthesizer;
   }
 
   @Override
-  public Disambiguator createDefaultDisambiguator() {
-    return new XmlRuleDisambiguator(this);
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new XmlRuleDisambiguator(new Romanian());
+    }
+    return disambiguator;
   }
 
   @Override
-  public Tokenizer createDefaultWordTokenizer() {
-    return new RomanianWordTokenizer();
+  public Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new RomanianWordTokenizer();
+    }
+    return wordTokenizer;
   }
 
   @Override
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return new SRXSentenceTokenizer(this);
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 }

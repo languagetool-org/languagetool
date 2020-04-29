@@ -19,7 +19,7 @@
 package org.languagetool.openoffice;
 
 /**
- * Helps to detect Khmer strings by their Unicode range.
+ * Helps detecting Khmer strings by their Unicode range.
  */
 @SuppressWarnings("MagicNumber")
 class KhmerDetector extends UnicodeLanguageDetector {

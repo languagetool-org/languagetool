@@ -43,7 +43,6 @@ public class LightRuleMatchParserTest {
     LightRuleMatch match = matches.get(0);
     assertThat(match.getLine(), is(1));
     assertThat(match.getColumn(), is(9));
-    assertThat(match.getFullRuleId(), is("EN_A_VS_AN"));
     assertThat(match.getRuleId(), is("EN_A_VS_AN"));
     assertThat(match.getSuggestions(), is("a"));
     assertThat(match.getMessage(), is("Use 'a' instead of 'an'"));
@@ -74,7 +73,6 @@ public class LightRuleMatchParserTest {
     LightRuleMatch match1 = matches.get(0);
     assertThat(match1.getLine(), is(1));
     assertThat(match1.getColumn(), is(9));
-    assertThat(match1.getFullRuleId(), is("EN_A_VS_AN"));
     assertThat(match1.getRuleId(), is("EN_A_VS_AN"));
     assertThat(match1.getSuggestions(), is("a"));
     assertThat(match1.getMessage(), is("Use 'a' instead of 'an'"));
@@ -107,7 +105,6 @@ public class LightRuleMatchParserTest {
     LightRuleMatch match = matches.get(0);
     assertThat(match.getLine(), is(1));
     assertThat(match.getColumn(), is(35));
-    assertThat(match.getFullRuleId(), is("EN_QUOTES[1]"));
     assertThat(match.getRuleId(), is("EN_QUOTES"));
     assertThat(match.getSubId(), is("1"));
     assertThat(match.getSuggestions(), is("“"));
@@ -133,7 +130,6 @@ public class LightRuleMatchParserTest {
     LightRuleMatch match = matches.get(0);
     assertThat(match.getLine(), is(1));
     assertThat(match.getColumn(), is(35));
-    assertThat(match.getFullRuleId(), is("EN_QUOTES[1]"));
     assertThat(match.getRuleId(), is("EN_QUOTES"));
     assertThat(match.getSubId(), is("1"));
     assertThat(match.getSuggestions(), is(""));

@@ -45,17 +45,17 @@ public class MorfologikSpellerTest {
   }
 
   @Test
-  public void testGetSuggestions() {
+  public void testGetSuggestions() throws IOException {
     MorfologikSpeller spellerDist1 = new MorfologikSpeller("/xx/spelling/test.dict", 1);
     MorfologikSpeller spellerDist2 = new MorfologikSpeller("/xx/spelling/test.dict", 2);
 
     assertThat(spellerDist1.getSuggestions("wordone").toString(), is("[]"));
-    assertThat(spellerDist1.getSuggestions("wordonex").toString(), is("[wordone/51]"));
+    assertThat(spellerDist1.getSuggestions("wordonex").toString(), is("[wordone]"));
     assertThat(spellerDist2.getSuggestions("wordone").toString(), is("[]"));
-    assertThat(spellerDist2.getSuggestions("wordonex").toString(), is("[wordone/51]"));
+    assertThat(spellerDist2.getSuggestions("wordonex").toString(), is("[wordone]"));
 
     assertThat(spellerDist1.getSuggestions("wordonix").toString(), is("[]"));
-    assertThat(spellerDist2.getSuggestions("wordonix").toString(), is("[wordone/77]"));
+    assertThat(spellerDist2.getSuggestions("wordonix").toString(), is("[wordone]"));
 
     assertThat(spellerDist2.getSuggestions("wordoxix").toString(), is("[]"));
   }

@@ -28,7 +28,6 @@ import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.tokenizers.WordTokenizer;
-import org.languagetool.tools.Tools;
 
 /**
  * A rule that checks for a punctuation mark at the end of a paragraph.
@@ -49,14 +48,17 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
     super(messages);
     this.lang = Objects.requireNonNull(lang);
     super.setCategory(Categories.PUNCTUATION.getCategory(messages));
-    setLocQualityIssueType(ITSIssueType.Grammar);
     if (!defaultActive) {
       setDefaultOff();
     }
+    setLocQualityIssueType(ITSIssueType.Grammar);
   }
 
   public PunctuationMarkAtParagraphEnd(ResourceBundle messages, Language lang) {
-    this(messages, lang, true);
+    super(messages);
+    this.lang = Objects.requireNonNull(lang);
+    super.setCategory(Categories.PUNCTUATION.getCategory(messages));
+    setLocQualityIssueType(ITSIssueType.Grammar);
   }
 
   @Override
@@ -98,7 +100,7 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
     boolean isFirstWord;
     for (int n = 0; n < sentences.size(); n++) {
       AnalyzedSentence sentence = sentences.get(n);
-      if (Tools.isParagraphEnd(sentences, n, lang)) {
+      if (sentence.hasParagraphEndMark(lang) || n == sentences.size() - 1) {
         AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
         if (tokens.length > 2) {
           isFirstWord = (isWord(tokens[1]) && !isPunctuationMark(tokens[2]))
@@ -112,7 +114,6 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
             if (tokens[tokens.length-2].getToken().equalsIgnoreCase(":") &&
                 WordTokenizer.isUrl(tokens[tokens.length-1].getToken())) {
               // e.g. "find it at: http://example.com" should not be an error
-              lastPara = n;
               pos += sentence.getText().length();
               continue;
             }
@@ -130,8 +131,8 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
               ruleMatches.add(ruleMatch);
             }
           }
+          lastPara = n;
         }
-        lastPara = n;
       }
       pos += sentence.getText().length();
     }

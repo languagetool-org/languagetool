@@ -68,7 +68,7 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Поиск просторечий и ошибочных фраз";
+    return "Поиск ошибочных слов/фраз";
   }
 
   @Override
@@ -78,7 +78,7 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getSuggestion() {
-    return "«$match» — просторечие, исправление: $suggestions";
+    return "«$match» — ошибочное слово/фраза, исправление: $suggestions";
   }
 
   @Override

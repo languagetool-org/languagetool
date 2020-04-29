@@ -18,14 +18,12 @@
  */
 package org.languagetool;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.chunking.Chunker;
+import org.languagetool.databroker.ResourceDataBroker;
 import org.languagetool.language.Contributor;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.neuralnetwork.Word2VecModel;
 import org.languagetool.rules.patterns.*;
@@ -34,11 +32,13 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.languagetool.tagging.xx.DemoTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.SimpleSentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.*;
 import java.util.*;
-import java.util.function.Function;
 import java.util.regex.Pattern;
 
 /**
@@ -66,14 +66,6 @@ public abstract class Language {
   
   private List<AbstractPatternRule> patternRules;
   private boolean noLmWarningPrinted;
-
-  private Disambiguator disambiguator;
-  private Tagger tagger;
-  private SentenceTokenizer sentenceTokenizer;
-  private Tokenizer wordTokenizer;
-  private Chunker chunker;
-  private Chunker postDisambiguationChunker;
-  private Synthesizer synthesizer;
 
   /**
    * Get this language's character code, e.g. <code>en</code> for English.
@@ -181,7 +173,7 @@ public abstract class Language {
    * languages that don't have such rules.
    * @since 2.7
    */
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Collections.emptyList();
   }
 
@@ -193,32 +185,8 @@ public abstract class Language {
    * @param languageModel null if no language model is available
    */
   public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel,
-                                                         GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+                                                         UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     return Collections.emptyList();
-  }
-
-
-  /**
-   * For rules that depend on a remote server; based on {@link org.languagetool.rules.RemoteRule}
-   * will be executed asynchronously, with timeout, retries, etc.  as configured
-   * Can return non-remote rules (e.g. if configuration missing, or for A/B tests), will be executed normally
-   */
-  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs,
-                                           GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages)
-    throws IOException {
-    return Collections.emptyList();
-  }
-
-  /**
-   * For rules whose results are extended using some remote service, e.g. {@link org.languagetool.rules.BERTSuggestionRanking}
-   * @return function that transforms old rule into remote-enhanced rule
-   * @since 4.8
-   */
-  @Experimental
-  public Function<Rule, Rule> getRemoteEnhancedRules(
-    ResourceBundle messageBundle, List<RemoteRuleConfig> configs, UserConfig userConfig,
-    Language motherTongue, List<Language> altLanguages) throws IOException {
-    return Function.identity();
   }
 
   /**
@@ -312,119 +280,32 @@ public abstract class Language {
   }
 
   /**
-   * Creates language specific disambiguator. This function will be called each time in
-   * {@link #getDisambiguator()} if disambiguator is not set.
+   * Get this language's part-of-speech disambiguator implementation.
    */
-  public Disambiguator createDefaultDisambiguator() {
+  public Disambiguator getDisambiguator() {
     return DEMO_DISAMBIGUATOR;
   }
 
   /**
-   * Get this language's part-of-speech disambiguator implementation.
+   * Get this language's part-of-speech tagger implementation. The tagger must not 
+   * be {@code null}, but it can be a trivial pseudo-tagger that only assigns {@code null} tags.
    */
-  public Disambiguator getDisambiguator() {
-    if (disambiguator == null) {
-      disambiguator = createDefaultDisambiguator();
-    }
-
-    return disambiguator;
-  }
-
-  /**
-   * Set this language's part-of-speech disambiguator implementation.
-   */
-  public void setDisambiguator(Disambiguator disambiguator) {
-    this.disambiguator = disambiguator;
-  }
-
-  /**
-   * Creates language specific part-of-speech tagger. The tagger must not be {@code null},
-   * but it can be a trivial pseudo-tagger that only assigns {@code null} tags.
-   * This function will be called each time in {@link #getTagger()} ()} if tagger is not set.
-   */
-  @NotNull
-  public Tagger createDefaultTagger() {
-    return DEMO_TAGGER;
-  }
-
-  /**
-   * Get this language's part-of-speech tagger implementation.
-   */
-  @NotNull
   public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = createDefaultTagger();
-    }
-
-    return tagger;
-  }
-
-  /**
-   * Set this language's part-of-speech tagger implementation.
-   */
-  public void setTagger(Tagger tagger) {
-    this.tagger = tagger;
-  }
-
-  /**
-   * Creates language specific sentence tokenizer. This function will be called each time in
-   * {@link #getSentenceTokenizer()} if sentence tokenizer is not set.
-   */
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return SENTENCE_TOKENIZER;
+    return DEMO_TAGGER;
   }
 
   /**
    * Get this language's sentence tokenizer implementation.
    */
   public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = createDefaultSentenceTokenizer();
-    }
-
-    return sentenceTokenizer;
-  }
-
-  /**
-   * Set this language's sentence tokenizer implementation.
-   */
-  public void setSentenceTokenizer(SentenceTokenizer tokenizer) {
-    sentenceTokenizer = tokenizer;
-  }
-
-  /**
-   * Creates language specific word tokenizer. This function will be called each time in
-   * {@link #getWordTokenizer()} if word tokenizer is not set.
-   */
-  public Tokenizer createDefaultWordTokenizer() {
-    return WORD_TOKENIZER;
+    return SENTENCE_TOKENIZER;
   }
 
   /**
    * Get this language's word tokenizer implementation.
    */
   public Tokenizer getWordTokenizer() {
-    if (wordTokenizer == null) {
-      wordTokenizer = createDefaultWordTokenizer();
-    }
-
-    return wordTokenizer;
-  }
-
-  /**
-   * Set this language's word tokenizer implementation.
-   */
-  public void setWordTokenizer(Tokenizer tokenizer) {
-    wordTokenizer = tokenizer;
-  }
-
-  /**
-   * Creates language specific chunker. This function will be called each time in
-   * {@link #getChunker()} if chunker is not set.
-   */
-  @Nullable
-  public Chunker createDefaultChunker() {
-    return null;
+    return WORD_TOKENIZER;
   }
 
   /**
@@ -433,55 +314,15 @@ public abstract class Language {
    */
   @Nullable
   public Chunker getChunker() {
-    if (chunker == null) {
-      chunker = createDefaultChunker();
-    }
-
-    return chunker;
-  }
-
-  /**
-   * Set this language's chunker implementation or {@code null}.
-   */
-  public void setChunker(Chunker chunker) {
-    this.chunker = chunker;
-  }
-
-  /**
-   * Creates language specific post disambiguation chunker. This function will be called
-   * each time in {@link #getPostDisambiguationChunker()} if chunker is not set.
-   */
-  @Nullable
-  public Chunker createDefaultPostDisambiguationChunker() {
     return null;
   }
 
   /**
-   * Get this language's post disambiguation chunker implementation or {@code null}.
+   * Get this language's chunker implementation or {@code null}.
    * @since 2.9
    */
   @Nullable
   public Chunker getPostDisambiguationChunker() {
-    if (postDisambiguationChunker == null) {
-      postDisambiguationChunker = createDefaultPostDisambiguationChunker();
-    }
-
-    return postDisambiguationChunker;
-  }
-
-  /**
-   * Set this language's post disambiguation chunker implementation or {@code null}.
-   */
-  public void setPostDisambiguationChunker(Chunker chunker) {
-    postDisambiguationChunker = chunker;
-  }
-
-  /**
-   * Creates language specific part-of-speech synthesizer. This function will be called
-   * each time in {@link #getSynthesizer()} if synthesizer is not set.
-   */
-  @Nullable
-  public Synthesizer createDefaultSynthesizer() {
     return null;
   }
 
@@ -490,18 +331,7 @@ public abstract class Language {
    */
   @Nullable
   public Synthesizer getSynthesizer() {
-    if (synthesizer == null) {
-      synthesizer = createDefaultSynthesizer();
-    }
-
-    return synthesizer;
-  }
-
-  /**
-   * Set this language's part-of-speech synthesizer implementation or {@code null}.
-   */
-  public void setSynthesizer(Synthesizer synthesizer) {
-    this.synthesizer = synthesizer;
+    return null;
   }
 
   /**
@@ -581,7 +411,7 @@ public abstract class Language {
       for (String fileName : getRuleFileNames()) {
         InputStream is = null;
         try {
-          is = JLanguageTool.getDataBroker().getAsStream(fileName);
+          is = this.getClass().getResourceAsStream(fileName);
           boolean ignore = false;
           if (is == null) {                     // files loaded via the dialog
             try {

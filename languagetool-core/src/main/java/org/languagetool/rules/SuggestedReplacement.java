@@ -22,10 +22,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 import java.util.SortedMap;
-import java.util.stream.Collectors;
 
 /**
  * @since 4.5
@@ -34,45 +32,17 @@ public class SuggestedReplacement {
 
   private String replacement;
   private String shortDescription;
-  private String suffix;
   private SortedMap<String, Float> features = Collections.emptySortedMap();
   private Float confidence = null;
-  private SuggestionType type = SuggestionType.Default;
-
-  /**
-    classify the type of the suggestion
-    so that downstream tasks (e.g. resorting, as in {@link BERTSuggestionRanking})
-    can treat them accordingly
-    Default - default, no special treatment
-    Translation - offers to translate words from native language into text language;
-      suggestion ranking extends size of list of candidates
-    Curated - a manually curated suggestion / special case / ...; don't resort
-   */
-  public enum SuggestionType {
-    Default, Translation, Curated
-  }
-
   public SuggestedReplacement(String replacement) {
-    this(replacement, null, null);
-  }
-
-  public SuggestedReplacement(String replacement, String shortDescription) {
-    this(replacement, shortDescription, null);
-  }
-
-  public SuggestedReplacement(String replacement, String shortDescription, String suffix) {
     this.replacement = Objects.requireNonNull(replacement);
-    this.shortDescription = shortDescription;
-    this.suffix = suffix;
   }
 
-  public SuggestedReplacement(SuggestedReplacement repl) {
-    this.replacement = repl.replacement;
-    this.suffix = repl.suffix;
-    setShortDescription(repl.getShortDescription());
-    setConfidence(repl.getConfidence());
-    setFeatures(repl.getFeatures());
-    setType(repl.getType());
+  public SuggestedReplacement(SuggestedReplacement clone) {
+    this.replacement = clone.replacement;
+    setShortDescription(clone.getShortDescription());
+    setConfidence(clone.getConfidence());
+    setFeatures(clone.getFeatures());
   }
 
   public String getReplacement() {
@@ -83,36 +53,12 @@ public class SuggestedReplacement {
     this.replacement = Objects.requireNonNull(replacement);
   }
 
-  @Nullable
   public String getShortDescription() {
     return shortDescription;
   }
 
   public void setShortDescription(String desc) {
     this.shortDescription = desc;
-  }
-
-  /** @since 4.9 */
-  public void setType(SuggestionType type) {
-    this.type = Objects.requireNonNull(type);
-  }
-
-  /** @since 4.9 */
-  @NotNull
-  public SuggestionType getType() {
-    return type;
-  }
-
-  /**
-   * Value shown in the UI after the replacement (but not part of it).
-   */
-  @Nullable
-  public String getSuffix() {
-    return suffix;
-  }
-
-  public void setSuffix(String val) {
-    this.suffix = val;
   }
 
   @Override
@@ -150,9 +96,5 @@ public class SuggestedReplacement {
 
   public void setFeatures(@NotNull SortedMap<String, Float> features) {
     this.features = features;
-  }
-
-  public static List<SuggestedReplacement> convert(List<String> suggestions) {
-    return suggestions.stream().map(SuggestedReplacement::new).collect(Collectors.toList());
   }
 }

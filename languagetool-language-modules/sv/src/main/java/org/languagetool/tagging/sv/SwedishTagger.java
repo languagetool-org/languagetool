@@ -18,14 +18,20 @@
  */
 package org.languagetool.tagging.sv;
 
-import org.languagetool.tagging.BaseTagger;
-
 import java.util.Locale;
+
+import org.languagetool.tagging.BaseTagger;
 
 /** Swedish Part-of-speech tagger.
  * Based on DSSO.
  */
 public class SwedishTagger extends BaseTagger {
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/sv/added.txt";
+  }
+
   public SwedishTagger() {
     super("/sv/swedish.dict", new Locale("sv"));
   }

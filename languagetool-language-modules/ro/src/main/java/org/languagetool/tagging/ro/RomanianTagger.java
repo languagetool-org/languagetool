@@ -37,4 +37,9 @@ public class RomanianTagger extends BaseTagger {
     super(dictPath, new Locale("ro"));
   }
 
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/ro/added.txt";
+  }
+
 }

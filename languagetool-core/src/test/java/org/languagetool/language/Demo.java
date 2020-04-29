@@ -18,8 +18,11 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.chunking.Chunker;
@@ -30,8 +33,6 @@ import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.xx.DemoDisambiguator2;
 import org.languagetool.tagging.xx.DemoTagger;
 
-import java.util.*;
-
 /**
  * A demo language that is part of languagetool-core and thus always available.
  */
@@ -39,14 +40,21 @@ public class Demo extends Language {
 
   public static final String SHORT_CODE = "xx";
 
+  private Tagger tagger;
+  private Chunker chunker;
+  private Disambiguator disambiguator;
+
   @Override
   public Locale getLocale() {
     return new Locale("en");
   }
 
   @Override
-  public Disambiguator createDefaultDisambiguator() {
-    return new DemoDisambiguator2();
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new DemoDisambiguator2();
+    }
+    return disambiguator;
   }
 
   @Override
@@ -63,17 +71,24 @@ public class Demo extends Language {
   public String[] getCountries() {
     return new String[] {"XX"};
   }
-
-  @NotNull
+  
   @Override
-  public Tagger createDefaultTagger() {
-    return new DemoTagger();
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new DemoTagger();
+    }
+    return tagger;
   }
 
-  @Nullable
+  /**
+   * @since 2.3
+   */
   @Override
-  public Chunker createDefaultChunker() {
-    return new DemoChunker();
+  public Chunker getChunker() {
+    if (chunker == null) {
+      chunker = new DemoChunker();
+    }
+    return chunker;
   }
 
   @Override

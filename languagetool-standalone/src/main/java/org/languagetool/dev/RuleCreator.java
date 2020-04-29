@@ -20,9 +20,10 @@ package org.languagetool.dev;
 
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
-import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.English;
-import org.languagetool.rules.*;
+import org.languagetool.rules.ConfusionPair;
+import org.languagetool.rules.ConfusionSetLoader;
+import org.languagetool.rules.ConfusionString;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
 
@@ -41,7 +42,7 @@ public class RuleCreator {
   
   private final Map<String, List<OccurrenceInfo>> occurrenceInfos = new HashMap<>();
   private final Map<String, Long> ngramToOccurrence = new HashMap<>();
-  private final WordTokenizer wordTokenizer = (WordTokenizer) new English().getWordTokenizer();
+  private final WordTokenizer wordTokenizer = new English().getWordTokenizer();
   private final float minErrorProb;
 
   private int ruleCount = 0;
@@ -53,7 +54,7 @@ public class RuleCreator {
   }
 
   private void run(File homophoneOccurrences, String homophonePath) throws IOException {
-    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader(new AmericanEnglish());
+    ConfusionSetLoader confusionSetLoader = new ConfusionSetLoader();
     InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(homophonePath);
     Map<String,List<ConfusionPair>> confusionPairsMap = confusionSetLoader.loadConfusionPairs(inputStream);
     initMaps(homophoneOccurrences);

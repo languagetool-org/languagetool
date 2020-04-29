@@ -18,19 +18,28 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.w3c.dom.*;
-import org.w3c.dom.bootstrap.DOMImplementationRegistry;
-import org.w3c.dom.ls.*;
-
-import javax.xml.transform.*;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.*;
 import java.io.InputStream;
 import java.io.StringWriter;
 import java.util.List;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
+
+import org.languagetool.Language;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.bootstrap.DOMImplementationRegistry;
+import org.w3c.dom.ls.DOMImplementationLS;
+import org.w3c.dom.ls.LSInput;
+import org.w3c.dom.ls.LSParser;
 
 /**
  * Makes XML definition of rules accessible as strings.
@@ -47,7 +56,7 @@ public class PatternRuleXmlCreator {
     List<String> filenames = language.getRuleFileNames();
     XPath xpath = XPathFactory.newInstance().newXPath();
     for (String filename : filenames) {
-      try (InputStream is = JLanguageTool.getDataBroker().getAsStream(filename)) {
+      try (InputStream is = this.getClass().getResourceAsStream(filename)) {
         Document doc = getDocument(is);
         Node ruleNode = (Node) xpath.evaluate("/rules/category/rule[@id='" + ruleId.getId() + "']", doc, XPathConstants.NODE);
         if (ruleNode != null) {

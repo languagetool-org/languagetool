@@ -83,12 +83,6 @@ final class ServerTools {
     return dateFormat.format(date.getTime());
   }
 
-  static String getSQLDateString(Calendar date) {
-    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
-    return dateFormat.format(date.getTime());
-  }
-
   static void print(String s) {
     print(s, System.out);
   }

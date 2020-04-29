@@ -49,8 +49,10 @@ public class PunctuationMarkAtParagraphEndTest {
         lt.check("This is a test sentence.\nAnd this is a second test sentence. Here is a quotation mark missing").size());
     assertEquals(0, 
         lt.check("This is a test sentence.\nAnd this is a second test sentence. Here is a quotation mark missing.").size());
-    assertEquals(0, 
-        lt.check("This is a sentence. Another one: https://languagetool.org/foo\n\nAnother sentence\n").size());
+    List<RuleMatch> matches = lt.check("This is a sentence. Another one: https://languagetool.org/foo\n\nAnother sentence\n");
+    assertEquals(1, matches.size());
+    assertEquals(71, matches.get(0).getFromPos());
+    assertEquals(79, matches.get(0).getToPos());
   }
 
   private void setUpRule(JLanguageTool lt) {

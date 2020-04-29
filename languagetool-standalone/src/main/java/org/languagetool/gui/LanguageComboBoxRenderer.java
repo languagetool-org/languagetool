@@ -18,15 +18,17 @@
  */
 package org.languagetool.gui;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.broker.ResourceDataBroker;
-
-import javax.swing.*;
+import java.awt.Component;
+import java.util.ResourceBundle;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.ListCellRenderer;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import java.awt.*;
-import java.util.ResourceBundle;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.databroker.ResourceDataBroker;
 
 /**
  * A ComboBox Renderer that can display a flag icon along with the language

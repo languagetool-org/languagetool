@@ -37,7 +37,7 @@ public class SpanishSynthesizerTest {
             "blablabla").length, 0);
 
     assertEquals("[temiera, temiese]", Arrays.toString(synth.synthesize(dummyToken("temer"), "VMSI3S0")));
-    assertEquals("[presidentes]", Arrays.toString(synth.synthesize(dummyToken("presidente"), "NCCP000")));
+    assertEquals("[presidentes]", Arrays.toString(synth.synthesize(dummyToken("presidente"), "NCMP000")));
     assertEquals("[contéis]", Arrays.toString(synth.synthesize(dummyToken("contar"), "VMSP2P0")));
     assertEquals("[probado]", Arrays.toString(synth.synthesize(dummyToken("probar"), "VMP00SM")));
     assertEquals("[probado]", Arrays.toString(synth.synthesize(dummyToken("probar"), "VMP00SM", false)));

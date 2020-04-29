@@ -18,9 +18,9 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.es.*;
@@ -30,15 +30,24 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.es.SpanishHybridDisambiguator;
 import org.languagetool.tagging.es.SpanishTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.es.SpanishWordTokenizer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class Spanish extends Language implements AutoCloseable{
 
+  private SentenceTokenizer sentenceTokenizer;
+  private Tokenizer wordTokenizer;
+  private Synthesizer synthesizer;
+  private Tagger tagger;
+  private Disambiguator disambiguator;
   private LanguageModel languageModel;
 
   @Override
@@ -59,39 +68,51 @@ public class Spanish extends Language implements AutoCloseable{
             "BO", "SV", "HN", "NI", "PR", "US", "CU"
     };
   }
-
-  @NotNull
+  
   @Override
-  public Tagger createDefaultTagger() {
-    return new SpanishTagger();
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new SpanishTagger();
+    }
+    return tagger;
+  }
+  
+  @Override
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new SpanishHybridDisambiguator();
+    }
+    return disambiguator;
+  }
+  
+  @Override
+  public Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new SpanishWordTokenizer();
+    }
+    return wordTokenizer;
+  }
+  
+  @Override
+  public Synthesizer getSynthesizer() {
+    if (synthesizer == null) {
+      synthesizer = new SpanishSynthesizer(this);
+    }
+    return synthesizer;
   }
 
   @Override
-  public Disambiguator createDefaultDisambiguator() {
-    return new SpanishHybridDisambiguator();
-  }
-
-  @Override
-  public Tokenizer createDefaultWordTokenizer() {
-    return new SpanishWordTokenizer();
-  }
-
-  @Nullable
-  @Override
-  public Synthesizer createDefaultSynthesizer() {
-    return new SpanishSynthesizer(this);
-  }
-
-  @Override
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return new SRXSentenceTokenizer(this);
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
   
   @Override
   public Contributor[] getMaintainers() {
     return new Contributor[] {
-            new Contributor("Juan Martorell", "http://languagetool-es.blogspot.com/"),
-            new Contributor("Jaume Ortolà")
+            new Contributor("Juan Martorell", "http://languagetool-es.blogspot.com/")
     };
   }
 
@@ -109,11 +130,7 @@ public class Spanish extends Language implements AutoCloseable{
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SpanishWikipediaRule(messages),
-            new SpanishDiacriticsCheckRule(messages),
-            new SpanishWrongWordInContextRule(messages),
-            new SimpleReplaceRule(messages),
-            new SimpleReplaceVerbsRule(messages, this),
-            new SimpleReplaceAnglicismRule(messages)
+            new SpanishDiacriticsCheckRule(messages)
     );
   }
 
@@ -126,7 +143,7 @@ public class Spanish extends Language implements AutoCloseable{
 
   /** @since 3.1 */
   @Override
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.asList(
             new SpanishConfusionProbabilityRule(messages, languageModel, this)
     );
@@ -151,16 +168,7 @@ public class Spanish extends Language implements AutoCloseable{
   @Override
   public int getPriorityForId(String id) {
     switch (id) {
-      case "INCORRECT_EXPRESSIONS": return 40;
-      case "MISSPELLING": return 40;  
-      case "CONFUSIONS": return 40;
-      case "DIACRITICS": return 30;
-      case "ACCENTUATION_CHECK_ES": return 30;
-      case "AGREEMENT_DET_NOUN": return 20;
-      case "PUNTO_EN_ABREVIATURAS": return 10;
-      case "HALLA_HAYA": return 10;
-      case "EL_TILDE": return -10;
-      case "PREPOSICION_VERBO": return -20;
+      case "ACCENTUATION_CHECK_ES": return 10;
     }
     return super.getPriorityForId(id);
   }

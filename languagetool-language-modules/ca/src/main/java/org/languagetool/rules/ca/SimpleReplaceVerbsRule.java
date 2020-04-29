@@ -57,11 +57,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
   private static final String endings = "a|à|ada|ades|am|ant|ar|ara|arà|aran|aràs|aré|arem|àrem|"
       + "aren|ares|areu|àreu|aria|aríem|arien|aries|aríeu|às|àssem|assen|asses|àsseu|àssim|assin|"
       + "assis|àssiu|at|ats|au|ava|àvem|aven|aves|àveu|e|em|en|es|és|éssem|essen|esses|ésseu|éssim|"
-      + "essin|essis|éssiu|eu|i|í|in|is|o|ïs"
-      + "|eix|eixen|eixes|eixi|eixin|eixis|eixo|esc|esca|esquen|esques|esqui|esquin|esquis|ia|ida|" 
-      + "ides|ien|ies|iguem|igueu|im|int|ir|ira|iran|irem|iren|ires|ireu|iria|irien|iries|irà|iràs|"
-      + "iré|iríem|iríeu|isc|isca|isquen|isques|issen|isses|issin|issis|it|its|iu|ix|ixen|ixes|í|íem|"
-      + "íeu|írem|íreu|ís|íssem|ísseu|íssim|íssiu";
+      + "essin|essis|éssiu|eu|i|í|in|is|o|ïs";
   private static final Pattern desinencies_1conj_0 = Pattern.compile("(.+?)(" + endings + ")");
   private static final Pattern desinencies_1conj_1 = Pattern.compile("(.+)("  + endings + ")");
   private CatalanTagger tagger;
@@ -146,18 +142,8 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
           if (wrongWords.containsKey(infinitive)) {
             List<String> wordAsArray = Arrays.asList("cant".concat(desinence));
             List<AnalyzedTokenReadings> analyzedTokenReadingsList = tagger.tag(wordAsArray);
-            if (analyzedTokenReadingsList.get(0).getAnalyzedToken(0).getPOSTag() != null) {
+            if (analyzedTokenReadingsList != null) {
               analyzedTokenReadings = analyzedTokenReadingsList.get(0);
-            }
-          }
-          if (analyzedTokenReadings == null) {
-            infinitive = lexeme.concat("ir");
-            if (wrongWords.containsKey(infinitive)) {
-              List<String> wordAsArray = Arrays.asList("serv".concat(desinence));
-              List<AnalyzedTokenReadings> analyzedTokenReadingsList = tagger.tag(wordAsArray);
-              if (analyzedTokenReadingsList.get(0).getAnalyzedToken(0).getPOSTag() != null) {
-                analyzedTokenReadings = analyzedTokenReadingsList.get(0);
-              }
             }
           }
         }

@@ -24,7 +24,6 @@ import com.google.common.cache.Weigher;
 import org.languagetool.rules.RuleMatch;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -40,11 +39,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class ResultCache {
 
-  /**
-   * rules can fail individually, results can be partial ->
-   * store list if success (can be empty), null -> failure/not checked
-   */
-  private final Cache<InputSentence, Map<String, List<RuleMatch>>> remoteMatchesCache;
   private final Cache<InputSentence, List<RuleMatch>> matchesCache;
   private final Cache<SimpleInputSentence, AnalyzedSentence> sentenceCache;
 
@@ -69,11 +63,6 @@ public class ResultCache {
             recordStats().
             expireAfterAccess(expireAfter, timeUnit).
             build();
-    remoteMatchesCache = CacheBuilder.newBuilder().
-            maximumWeight(maxSize/2).weigher(new RemoteMatchesWeigher()).
-            recordStats().
-            expireAfterAccess(expireAfter, timeUnit).
-            build();
     sentenceCache = CacheBuilder.newBuilder().
             maximumWeight(maxSize/2).weigher(new SentenceWeigher()).
             recordStats().
@@ -89,16 +78,7 @@ public class ResultCache {
       return sentence.getText().length() / 75 + matches.size();
     }
   }
-
-  class RemoteMatchesWeigher implements Weigher<InputSentence, Map<String, List<RuleMatch>>> {
-    @Override
-    public int weigh(InputSentence sentence, Map<String, List<RuleMatch>> matches) {
-      // this is just a rough guesstimate so that the cacheSize given by the user
-      // is very roughly the number of average sentences the cache can keep:
-      return sentence.getText().length() / 75;
-    }
-  }
-
+  
   class SentenceWeigher implements Weigher<SimpleInputSentence, AnalyzedSentence> {
     @Override
     public int weigh(SimpleInputSentence sentence, AnalyzedSentence analyzedSentence) {
@@ -137,12 +117,6 @@ public class ResultCache {
   /** @since 4.1 */
   public Cache<InputSentence, List<RuleMatch>> getMatchesCache() {
     return matchesCache;
-  }
-
-  /** @since 5.0
-   */
-  public Cache<InputSentence, Map<String, List<RuleMatch>>> getRemoteMatchesCache() {
-    return remoteMatchesCache;
   }
 
   /** @since 4.1 */

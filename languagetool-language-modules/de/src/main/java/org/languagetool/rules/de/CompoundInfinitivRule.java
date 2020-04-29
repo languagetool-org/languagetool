@@ -69,29 +69,8 @@ public class CompoundInfinitivRule extends Rule {
       token("Nummer"),
       token("sicher"),
       token("zu")
-    ),
-    Arrays.asList(
-      // "ohne die Erlaubnis dazu zu haben"
-      token("dazu"),
-      token("zu"),
-      token("haben")
     )
   );
-  
-  private static final String ADJ_EXCEPTION[] = {
-    "schwer",
-    "klar",
-    "verloren",
-    "bekannt",
-    "rot",
-    "blau",
-    "gelb",
-    "grün",
-    "schwarz",
-    "weiß",
-    "fertig",
-    "neu"
-  };
 
   private static PatternToken token(String s) {
     return new PatternTokenBuilder().token(s).build();
@@ -163,11 +142,6 @@ public class CompoundInfinitivRule extends Rule {
   private boolean isException(AnalyzedTokenReadings[] tokens, int n) {
     if (tokens[n - 2].hasPosTagStartingWith("VER")) {
       return true;
-    }
-    for (String word : ADJ_EXCEPTION) {
-      if(tokens[n - 1].getToken().equals(word)) {
-        return true;
-      }
     }
     if ("sagen".equals(tokens[n + 1].getToken()) &&
             ("weiter".equals(tokens[n - 1].getToken()) || "dazu".equals(tokens[n - 1].getToken()))) {

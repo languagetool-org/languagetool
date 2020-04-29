@@ -26,7 +26,6 @@ import net.loomchild.segment.srx.io.Srx2SaxParser;
 import org.languagetool.JLanguageTool;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +44,7 @@ final class SrxTools {
     try {
       try (
         InputStream inputStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-        BufferedReader srxReader = new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8))
+        BufferedReader srxReader = new BufferedReader(new InputStreamReader(inputStream, "utf-8"))
       ) {
         Map<String, Object> parserParameters = new HashMap<>();
         parserParameters.put(Srx2SaxParser.VALIDATE_PARAMETER, true);

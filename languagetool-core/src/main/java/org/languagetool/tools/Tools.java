@@ -18,17 +18,27 @@
  */
 package org.languagetool.tools;
 
-import org.languagetool.*;
-import org.languagetool.rules.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.CategoryId;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.PasswordAuthenticator;
-import org.languagetool.rules.patterns.bitext.*;
+import org.languagetool.rules.patterns.bitext.BitextPatternRule;
+import org.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
+import org.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.lang.reflect.Constructor;
-import java.net.*;
+import java.net.Authenticator;
+import java.net.MalformedURLException;
+import java.net.NetPermission;
+import java.net.URL;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -65,7 +75,7 @@ public final class Tools {
     AnalyzedSentence srcText = srcLt.getAnalyzedSentence(src);
     AnalyzedSentence trgText = trgLt.getAnalyzedSentence(trg);
     List<Rule> nonBitextRules = trgLt.getAllRules();
-    List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence(JLanguageTool.ParagraphHandling.NORMAL, nonBitextRules, trgText, true);
+    List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence(JLanguageTool.ParagraphHandling.NORMAL, nonBitextRules, trgText);
     for (BitextRule bRule : bRules) {
       RuleMatch[] curMatch = bRule.match(srcText, trgText);
       if (curMatch != null && curMatch.length > 0) {
@@ -253,13 +263,13 @@ public final class Tools {
   /**
    * Load a file from the classpath using {@link Class#getResourceAsStream(String)}.
    * Please load files in the {@code rules} and {@code resource} directories with
-   * {@link org.languagetool.broker.ResourceDataBroker} instead.
+   * {@link org.languagetool.databroker.ResourceDataBroker} instead.
    */
   public static InputStream getStream(String path) throws IOException {
     // the other ways to load the stream like
     // "Tools.class.getClass().getResourceAsStream(filename)"
     // don't work in a web context (using Grails):
-    InputStream is = JLanguageTool.getDataBroker().getAsStream(path);
+    InputStream is = Tools.class.getResourceAsStream(path);
     if (is == null) {
       throw new IOException("Could not load file from classpath: '" + path + "'");
     }
@@ -278,22 +288,14 @@ public final class Tools {
     disabledRuleIdsSet.addAll(disabledRuleIds);
     Set<String> enabledRuleIdsSet = new HashSet<>();
     enabledRuleIdsSet.addAll(enabledRuleIds);
-    selectRules(lt, Collections.emptySet(), Collections.emptySet(), disabledRuleIdsSet, enabledRuleIdsSet, useEnabledOnly, false);
+    selectRules(lt, Collections.emptySet(), Collections.emptySet(), disabledRuleIdsSet, enabledRuleIdsSet, useEnabledOnly);
   }
 
   /**
    * @since 3.3
    */
   public static void selectRules(JLanguageTool lt, Set<CategoryId> disabledCategories, Set<CategoryId> enabledCategories,
-                                 Set<String> disabledRules, Set<String> enabledRules, boolean useEnabledOnly, boolean enableTempOff) {
-    if (enableTempOff) {
-      for (Rule rule : lt.getAllRules()) {
-        if (rule.isDefaultTempOff()) {
-          System.out.println("Activating " + rule.getFullId() + ", which is default='temp_off'");
-          lt.enableRule(rule.getId());
-        }
-      }
-    }
+                                 Set<String> disabledRules, Set<String> enabledRules, boolean useEnabledOnly) {
     for (CategoryId id : disabledCategories) {
       lt.disableCategory(id);
     }
@@ -400,28 +402,6 @@ public final class Tools {
     } catch (MalformedURLException e) {
       throw new RuntimeException(e);
     }
-  }
-
-  /**
-   * @since 4.9
-   */
-  public static boolean isParagraphEnd(List<AnalyzedSentence> sentences, int nTest, Language lang) {
-    if (nTest >= sentences.size() - 1) {
-      return true;
-    }
-    if (lang.getSentenceTokenizer().singleLineBreaksMarksPara()) {
-      if (sentences.get(nTest).getText().endsWith("\n") || sentences.get(nTest).getText().endsWith("\n\r")) {
-        return true;
-      }
-    } else {
-      if (sentences.get(nTest).getText().endsWith("\n\n") || sentences.get(nTest).getText().endsWith("\n\r\n\r") || sentences.get(nTest).getText().endsWith("\r\n\r\n")) {
-        return true;
-      }
-    }
-    if (sentences.get(nTest + 1).getText().startsWith("\n") || sentences.get(nTest + 1).getText().startsWith("\r\n")) {
-      return true;
-    }
-    return false;
   }
 
 }

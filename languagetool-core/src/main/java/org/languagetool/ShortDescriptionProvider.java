@@ -18,96 +18,76 @@
  */
 package org.languagetool;
 
+import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.CacheLoader;
+import com.google.common.cache.LoadingCache;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.broker.ResourceDataBroker;
+import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.rules.ConfusionPair;
+import org.languagetool.rules.ConfusionSetLoader;
+import org.languagetool.rules.ConfusionString;
 
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
- * Provide short (up to ~ 40 characters) descriptions for words.
+ * Provide short (~ up to 30 characters) descriptions for words.
  * Used to display as an additional hint when there are several suggestions.
  * @since 4.5
  */
 public class ShortDescriptionProvider {
 
-  private final static Map<Key,String> wordToDef = new HashMap<>();
-  private final static Set<Language> initializedLangs = new HashSet<>();
-  private final static List<String> filenames = Arrays.asList(
-    "word_definitions.txt"
-  );
+  private final Map<String, String> wordToDesc;
 
-  public ShortDescriptionProvider() {
+  private static final LoadingCache<String, Map<String, String>> cache = CacheBuilder.newBuilder()
+      //.maximumSize(0)
+      .expireAfterAccess(30, TimeUnit.MINUTES)
+      .build(new CacheLoader<String, Map<String, String>>() {
+        @Override
+        public Map<String, String> load(@NotNull String langCode) {
+          Map<String, String> map = new HashMap<>();
+          String path = "/" + langCode + "/confusion_sets.txt";
+          ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
+          if (dataBroker.resourceExists(path)) {
+            loadConfusionSet(map, path, dataBroker);
+          }
+          return map;
+        }
+      });
+
+  private static void loadConfusionSet(Map<String, String> map, String path, ResourceDataBroker dataBroker) {
+    ConfusionSetLoader loader = new ConfusionSetLoader();
+    try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(path)) {
+      Map<String, List<ConfusionPair>> confusionSet = loader.loadConfusionPairs(confusionSetStream);
+      for (List<ConfusionPair> confPairs : confusionSet.values()) {
+        for (ConfusionPair confPair : confPairs) {
+          List<ConfusionString> set = confPair.getTerms();
+          for (ConfusionString confString : set) {
+            if (confString.getDescription() != null) {
+              map.put(confString.getString(), confString.getDescription());
+              //System.out.println("#" + confString.getString() + " -> " + confString.getDescription());
+            }
+          }
+        }
+      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
+
+  public ShortDescriptionProvider(Language lang) {
+    wordToDesc = cache.getUnchecked(lang.getShortCode());
   }
 
   @Nullable
-  public String getShortDescription(String word, Language lang) {
-    if (!initializedLangs.contains(lang)) {
-      init(lang);
-    }
-    return wordToDef.get(new Key(word, lang));
+  public String getShortDescription(String word) {
+    return wordToDesc.get(word);
   }
-
-  /**
-   * For testing only.
-   */
-  public Map<String, String> getAllDescriptions(Language lang) {
-    if (!initializedLangs.contains(lang)) {
-      init(lang);
-    }
-    Map<String,String> result = new HashMap<>();
-    for (Map.Entry<Key, String> entry : wordToDef.entrySet()) {
-      if (entry.getKey().lang.equals(lang)) {
-        result.put(entry.getKey().word, entry.getValue());
-      }
-    }
-    return result;
-  }
-
-  private void init(Language lang) {
-    ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
-    for (String filename : filenames) {
-      String path = "/" + lang.getShortCode() + "/" + filename;
-      if (!dataBroker.resourceExists(path)) {
-        continue;
-      }
-      List<String> lines = dataBroker.getFromResourceDirAsLines(path);
-      for (String line : lines) {
-        if (line.startsWith("#") || line.trim().isEmpty()) {
-          continue;
-        }
-        String[] parts = line.split("\t");
-        if (parts.length != 2) {
-          throw new RuntimeException("Format in " + path + " not expected, expected 2 tab-separated columns: '" + line + "'");
-        }
-        wordToDef.put(new Key(parts[0], lang), parts[1]);
-      }
-    }
-    initializedLangs.add(lang);
-  }
-
-  private static class Key {
-    String word;
-    Language lang;
-    Key(String word, Language lang) {
-      this.word = Objects.requireNonNull(word);
-      this.lang = Objects.requireNonNull(lang);
-    }
-    @Override
-    public boolean equals(Object o) {
-      if (this == o) return true;
-      if (o == null || getClass() != o.getClass()) return false;
-      Key key = (Key) o;
-      return word.equals(key.word) &&
-        lang.equals(key.lang);
-    }
-    @Override
-    public int hashCode() {
-      return Objects.hash(word, lang);
-    }
-
-    @Override
-    public String toString() {
-      return word + "@" + lang.getShortCodeWithCountryAndVariant();
-    }
-  }
+  
 }

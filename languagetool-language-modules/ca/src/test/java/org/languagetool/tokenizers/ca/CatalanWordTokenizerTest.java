@@ -125,8 +125,5 @@ public class CatalanWordTokenizerTest {
     tokens = wordTokenizer.tokenize("2005 454");
     assertEquals(tokens.size(), 3);
     assertEquals("[2005,  , 454]", tokens.toString());
-    tokens = wordTokenizer.tokenize("$1");
-    assertEquals(tokens.size(), 1);
-    assertEquals("[$1]", tokens.toString());
   }
 }

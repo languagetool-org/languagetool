@@ -19,7 +19,7 @@
 package org.languagetool.openoffice;
 
 /**
- * Helps to detect Tamil strings by their Unicode range.
+ * Helps detecting Tamil strings by their Unicode range.
  * @since 2.7
  */
 @SuppressWarnings("MagicNumber")

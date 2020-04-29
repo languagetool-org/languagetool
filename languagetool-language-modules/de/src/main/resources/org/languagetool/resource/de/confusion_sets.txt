@@ -1,244 +1,133 @@
 # German confusion sets
 # Line format: see en/confusion_sets.txt
-# Run ConfusionSetLoaderTest.testConfusionSetSpelling after adding words to spell check all entries.
-# f0.1: f-measure with a beta of 0.1 (see https://en.wikipedia.org/wiki/F1_score)
-# FA/10k: estimated false alarms per 10k tokens of real text (based on Google ngram data, i.e. books)
 
-Hafen -> Harfen; 100;                                                                                 # p=1.000, r=0.198, f0.5=0.552, 862+506, 3grams, 2020-03-22
-#Harfen -> Hafen; 10000000;                                                                            # p=0.953, r=0.329, f0.5=0.691, 506+862, 3grams, 2020-03-22
-Gbit -> Gibt; 100;                                   # p=1.000, r=1.000, f0.5=1.000, 36+137, 3grams, 2020-02-01
-Gibt -> Gbit; 100;                                   # p=1.000, r=0.861, f0.5=0.969, 137+36, 3grams, 2020-02-01
-ach -> auch; 10000000                                                              # p=0.998 r=0.746 f0.5=0.935 25+889 2020-03-16 f0.1=0.99 FA/10k=0.040 (commented due to sample size < 30)
-#als -> also; 10                                                                   # p=0.989 r=0.438 f0.5=0.791 833+858 2020-03-16 f0.1=0.98 FA/10k=0.292 (commented due to precision < 0.99)
-#also -> als; 10000000                                                             # p=0.980 r=0.288 f0.5=0.662 858+833 2020-03-16 f0.1=0.96 FA/10k=0.532 (commented due to precision < 0.99)
-#De -> Die; 10000000                                                               # p=0.998 r=0.692 f0.5=0.917 114+734 2020-03-16 f0.1=0.99 FA/10k=0.047 (commented due to estimated false alarms rate > 0.025)
-Die -> De; 100                                                                     # p=1.000 r=0.491 f0.5=0.828 734+114 2020-03-16 f0.1=0.99 FA/10k=0.000
-#dich -> doch; 1000;                                                               # p=0.963, r=0.830, f0.5=0.933, 918+827, 3grams, 2020-03-16
-#dich -> doch; 10000;                                                              # p=0.976, r=0.750, f0.5=0.921, 918+827, 3grams, 2020-03-16
-#dich -> doch; 100000;                                                             # p=0.983, r=0.681, f0.5=0.903, 918+827, 3grams, 2020-03-16
-#dich -> doch; 1000000;                                                            # p=0.992, r=0.571, f0.5=0.864, 918+827, 3grams, 2020-03-16
-#dich -> doch; 10000000;                                                           # p=0.995, r=0.486, f0.5=0.823, 918+827, 3grams, 2020-03-16
-dich -> doch; 100000000;                                                           # p=0.994, r=0.386, f0.5=0.756, 918+827, 3grams, 2020-03-16
-doch -> dich; 1000                                                                 # p=1.000 r=0.558 f0.5=0.863 827+918 2020-03-16 f0.1=0.99 FA/10k=0.000
-dich -> dir; 10000                                                                 # p=0.997 r=0.621 f0.5=0.889 888+932 2020-03-16 f0.1=0.99 FA/10k=0.001
-dir -> dich; 1000                                                                  # p=0.998 r=0.590 f0.5=0.877 932+888 2020-03-16 f0.1=0.99 FA/10k=0.001
-drei -> frei; 100000                                                               # p=1.000 r=0.449 f0.5=0.803 750+855 2020-03-16 f0.1=0.99 FA/10k=0.000
-frei -> drei; 100000                                                               # p=1.000 r=0.741 f0.5=0.935 855+750 2020-03-16 f0.1=1.00 FA/10k=0.000
-#ehelich -> ehrlich; 10                                                            # p=1.000 r=0.942 f0.5=0.988 8+191 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#ehrlich -> ehelich; 100                                                           # p=1.000 r=0.250 f0.5=0.625 191+8 2020-03-16 f0.1=0.97 FA/10k=0.000 (commented due to sample size < 30)
-fielen -> vielen; 1000000                                                          # p=0.997 r=0.819 f0.5=0.956 896+891 2020-03-16 f0.1=0.99 FA/10k=0.002
-vielen -> fielen; 10                                                               # p=0.996 r=0.916 f0.5=0.979 891+896 2020-03-16 f0.1=1.00 FA/10k=0.003
-#fiele -> viele; 100                                                               # p=0.999 r=0.941 f0.5=0.986 13+710 2020-03-16 f0.1=1.00 FA/10k=0.001 (commented due to sample size < 30)
-#viele -> fiele; 1000                                                              # p=1.000 r=0.154 f0.5=0.476 710+13 2020-03-16 f0.1=0.95 FA/10k=0.000 (commented due to sample size < 30)
-fiel -> viel; 10000                                                                # p=0.996 r=0.888 f0.5=0.973 986+947 2020-03-16 f0.1=0.99 FA/10k=0.006
-viel -> fiel; 10                                                                   # p=0.999 r=0.743 f0.5=0.934 947+986 2020-03-16 f0.1=1.00 FA/10k=0.002
-Gebäck -> Gepäck; 100000                                                           # p=1.000 r=0.414 f0.5=0.779 52+133 2020-03-16 f0.1=0.99 FA/10k=0.000
-Gepäck -> Gebäck; 100                                                              # p=1.000 r=0.250 f0.5=0.625 133+52 2020-03-16 f0.1=0.97 FA/10k=0.000
-#Gerten -> Gärten; 10                                                              # p=1.000 r=0.903 f0.5=0.979 2+536 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#gesellt -> gestellt; 10                                                           # p=1.000 r=0.883 f0.5=0.974 11+990 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#gestellt -> gesellt; 100                                                          # p=1.000 r=1.000 f0.5=1.000 990+11 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-Hefe -> Hefte; 1000                                                                # p=1.000 r=0.495 f0.5=0.830 89+190 2020-03-16 f0.1=0.99 FA/10k=0.000
-Hefte -> Hefe; 100                                                                 # p=1.000 r=0.348 f0.5=0.728 190+89 2020-03-16 f0.1=0.98 FA/10k=0.000
-#häute -> heute; 10                                                                # p=1.000 r=0.820 f0.5=0.958 0+721 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#ihm -> im; 10;                                                                    # p=0.996, r=0.960, f0.5=0.989, 903+825, 3grams, 2020-03-16#
-#ihm -> im; 100;                                                                   # p=1.000, r=0.949, f0.5=0.989, 903+825, 3grams, 2020-03-16
-#ihm -> im; 1000;                                                                  # p=1.000, r=0.933, f0.5=0.986, 903+825, 3grams, 2020-03-16
-#ihm -> im; 10000;                                                                 # p=1.000, r=0.898, f0.5=0.978, 903+825, 3grams, 2020-03-16
-ihm -> im; 100000;                                                                 # p=1.000, r=0.863, f0.5=0.969, 903+825, 3grams, 2020-03-16
-#ihm -> im; 1000000;                                                               # p=1.000, r=0.833, f0.5=0.961, 903+825, 3grams, 2020-03-16
-#ihm -> im; 10000000;                                                              # p=1.000, r=0.772, f0.5=0.944, 903+825, 3grams, 2020-03-16
-#im -> ihm; 100                                                                    # p=0.999 r=0.956 f0.5=0.990 825+903 2020-03-16 f0.1=1.00 FA/10k=0.028 (commented due to estimated false alarms rate > 0.025)
-#im -> um; 10;                                                                     # p=0.991, r=0.816, f0.5=0.950, 821+669, 3grams, 2020-03-16
-#im -> um; 100;                                                                    # p=1.000, r=0.753, f0.5=0.939, 821+669, 3grams, 2020-03-16
-#im -> um; 1000;                                                                   # p=1.000, r=0.682, f0.5=0.915, 821+669, 3grams, 2020-03-16
-#im -> um; 10000;                                                                  # p=1.000, r=0.596, f0.5=0.881, 821+669, 3grams, 2020-03-16
-im -> um; 100000;                                                                  # p=1.000, r=0.487, f0.5=0.826, 821+669, 3grams, 2020-03-16
-#im -> um; 1000000;                                                                # p=1.000, r=0.419, f0.5=0.783, 821+669, 3grams, 2020-03-16
-#im -> um; 10000000;                                                               # p=1.000, r=0.353, f0.5=0.732, 821+669, 3grams, 2020-03-16
-#um -> im; 1000                                                                    # p=0.997 r=0.864 f0.5=0.967 669+821 2020-03-16 f0.1=1.00 FA/10k=0.100 (commented due to estimated false alarms rate > 0.025)
-#klingt -> klinkt; 1000                                                            # p=1.000 r=1.000 f0.5=1.000 294+1 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#klinkt -> klingt; 10                                                              # p=1.000 r=0.908 f0.5=0.980 1+294 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#Laib -> Leib; 100000                                                              # p=0.985 r=0.744 f0.5=0.925 20+258 2020-03-16 f0.1=0.98 FA/10k=0.002 (commented due to precision < 0.99)
-#Leib -> Laib; 10                                                                  # p=1.000 r=0.500 f0.5=0.833 258+20 2020-03-16 f0.1=0.99 FA/10k=0.000 (commented due to sample size < 30)
-#Laie -> Leihe; 10                                                                 # p=1.000 r=0.429 f0.5=0.789 36+7 2020-03-16 f0.1=0.99 FA/10k=0.000 (commented due to sample size < 30)
-#Leihe -> Laie; 100                                                                # p=1.000 r=0.694 f0.5=0.919 7+36 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#least -> liest; 10                                                                # p=1.000 r=0.812 f0.5=0.956 25+356 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#liest -> least; 10                                                                # p=1.000 r=0.240 f0.5=0.612 356+25 2020-03-16 f0.1=0.97 FA/10k=0.000 (commented due to sample size < 30)
-Leere -> Lehre; 100000                                                             # p=0.998 r=0.662 f0.5=0.906 85+942 2020-03-16 f0.1=0.99 FA/10k=0.001
-Lehre -> Leere; 10000                                                              # p=1.000 r=0.329 f0.5=0.711 942+85 2020-03-16 f0.1=0.98 FA/10k=0.000
-#legen -> lägen; 100                                                               # p=1.000 r=0.292 f0.5=0.673 716+24 2020-03-16 f0.1=0.98 FA/10k=0.000 (commented due to sample size < 30)
-#lägen -> legen; 10000                                                             # p=0.998 r=0.585 f0.5=0.874 24+716 2020-03-16 f0.1=0.99 FA/10k=0.000 (commented due to sample size < 30)
-#Lid -> Lied; 10                                                                   # p=0.999 r=0.825 f0.5=0.958 5+960 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#Maar -> Mahr; 100                                                                 # p=1.000 r=0.125 f0.5=0.417 75+16 2020-03-16 f0.1=0.94 FA/10k=0.000 (commented due to sample size < 30)
-#Mahr -> Maar; 10                                                                  # p=1.000 r=0.573 f0.5=0.870 16+75 2020-03-16 f0.1=0.99 FA/10k=0.000 (commented due to sample size < 30)
-#Mahl -> Mal; 100000                                                               # p=0.976 r=0.610 f0.5=0.871 41+264 2020-03-16 f0.1=0.97 FA/10k=0.006 (commented due to precision < 0.99)
-Mal -> Mahl; 1000                                                                  # p=1.000 r=0.366 f0.5=0.743 264+41 2020-03-16 f0.1=0.98 FA/10k=0.000
-Mark -> Markt; 1000                                                                # p=0.993 r=0.715 f0.5=0.921 866+954 2020-03-16 f0.1=0.99 FA/10k=0.004
-Markt -> Mark; 10000                                                               # p=1.000 r=0.305 f0.5=0.687 954+866 2020-03-16 f0.1=0.98 FA/10k=0.000
-#Mathe -> Matte; 10000                                                             # p=1.000 r=0.370 f0.5=0.746 52+27 2020-03-16 f0.1=0.98 FA/10k=0.000 (commented due to sample size < 30)
-#Matte -> Mathe; 10                                                                # p=1.000 r=0.365 f0.5=0.742 27+52 2020-03-16 f0.1=0.98 FA/10k=0.000 (commented due to sample size < 30)
-Mediation -> Meditation; 10000                                                     # p=1.000 r=0.211 f0.5=0.573 71+175 2020-03-16 f0.1=0.96 FA/10k=0.000
-#mich -> mir; 10;                                                                  # p=0.981, r=0.945, f0.5=0.973, 908+811, 3grams, 2020-03-16
-#mich -> mir; 100;                                                                 # p=0.990, r=0.896, f0.5=0.970, 908+811, 3grams, 2020-03-16
-#mich -> mir; 1000;                                                                # p=0.994, r=0.815, f0.5=0.952, 908+811, 3grams, 2020-03-16
-#mich -> mir; 10000;                                                               # p=0.998, r=0.725, f0.5=0.928, 908+811, 3grams, 2020-03-16
-#mich -> mir; 100000;                                                              # p=0.998, r=0.644, f0.5=0.899, 908+811, 3grams, 2020-03-16
-#mich -> mir; 1000000;                                                              # p=0.998, r=0.539, f0.5=0.853, 908+811, 3grams, 2020-03-16
-#mich -> mir; 10000000;                                                            # p=0.997, r=0.440, f0.5=0.796, 908+811, 3grams, 2020-03-16
-#mir -> mich; 10;                                                                  # p=0.991, r=0.858, f0.5=0.961, 811+908, 3grams, 2020-03-16
-#mir -> mich; 100;                                                                 # p=1.000, r=0.780, f0.5=0.947, 811+908, 3grams, 2020-03-16
-#mir -> mich; 1000;                                                                # p=1.000, r=0.671, f0.5=0.911, 811+908, 3grams, 2020-03-16
-#mir -> mich; 10000;                                                               # p=1.000, r=0.566, f0.5=0.867, 811+908, 3grams, 2020-03-16
-mir -> mich; 100000;                                                               # p=1.000, r=0.430, f0.5=0.790, 811+908, 3grams, 2020-03-16
-#mir -> mich; 1000000;                                                             # p=1.000, r=0.298, f0.5=0.680, 811+908, 3grams, 2020-03-16
-#mir -> mich; 10000000;                                                            # p=1.000, r=0.193, f0.5=0.544, 811+908, 3grams, 2020-03-16
-Miene -> Mine; 10                                                                  # p=1.000 r=0.183 f0.5=0.528 35+126 2020-03-16 f0.1=0.96 FA/10k=0.000
-Mine -> Miene; 1000                                                                # p=1.000 r=0.829 f0.5=0.960 126+35 2020-03-16 f0.1=1.00 FA/10k=0.000
-#mir -> mit; 1000                                                                  # p=0.996 r=0.807 f0.5=0.951 839+830 2020-03-16 f0.1=0.99 FA/10k=0.117 (commented due to estimated false alarms rate > 0.025)
-mir -> mit; 1000000;                                                                             # p=0.998, r=0.647, f0.5=0.900, 839+830, 3grams, 2020-03-26
-#mit -> mir; 10;                                                                   # p=0.996, r=0.917, f0.5=0.979, 830+839, 3grams, 2020-03-16
-#mit -> mir; 100;                                                                  # p=1.000, r=0.877, f0.5=0.973, 830+839, 3grams, 2020-03-16
-#mit -> mir; 1000;                                                                 # p=1.000, r=0.836, f0.5=0.962, 830+839, 3grams, 2020-03-16
-#mit -> mir; 10000;                                                                # p=1.000, r=0.756, f0.5=0.939, 830+839, 3grams, 2020-03-16
-#mit -> mir; 100000;                                                                # p=1.000, r=0.682, f0.5=0.915, 830+839, 3grams, 2020-03-16
-#mit -> mir; 1000000;                                                              # p=1.000, r=0.615, f0.5=0.889, 830+839, 3grams, 2020-03-16
-mit -> mir; 10000000;                                                             # p=1.000, r=0.521, f0.5=0.845, 830+839, 3grams, 2020-03-16
-Motte -> Motto; 1000                                                               # p=0.997 r=0.896 f0.5=0.975 70+365 2020-03-16 f0.1=1.00 FA/10k=0.000
-Motto -> Motte; 10                                                                 # p=1.000 r=0.629 f0.5=0.894 365+70 2020-03-16 f0.1=0.99 FA/10k=0.000
-#Nachnahme -> Nachname; 100                                                        # p=0.981 r=0.449 f0.5=0.793 5+118 2020-03-16 f0.1=0.97 FA/10k=0.000 (commented due to precision < 0.99)
-#Nachname -> Nachnahme; 100                                                        # p=1.000 r=0.400 f0.5=0.769 118+5 2020-03-16 f0.1=0.99 FA/10k=0.000 (commented due to sample size < 30)
-#oll -> soll; 10                                                                   # p=0.999 r=0.937 f0.5=0.986 5+858 2020-03-16 f0.1=1.00 FA/10k=0.002 (commented due to sample size < 30)
-Patenten -> Patienten; 100000                                                      # p=0.993 r=0.754 f0.5=0.934 36+974 2020-03-16 f0.1=0.99 FA/10k=0.002
-Rede -> Reede; 10                                                                  # p=1.000 r=0.194 f0.5=0.545 913+31 2020-03-16 f0.1=0.96 FA/10k=0.000
-Reede -> Rede; 100000                                                              # p=0.993 r=0.804 f0.5=0.949 31+913 2020-03-16 f0.1=0.99 FA/10k=0.004
-#Reinfall -> Rheinfall; 10                                                         # p=1.000 r=0.839 f0.5=0.963 10+31 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#Rheinfall -> Reinfall; 10                                                         # p=1.000 r=1.000 f0.5=1.000 31+10 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-Rezension -> Rezession; 1000                                                       # p=1.000 r=0.312 f0.5=0.694 379+77 2020-03-16 f0.1=0.98 FA/10k=0.000
-Rezession -> Rezension; 1000                                                       # p=1.000 r=0.612 f0.5=0.888 77+379 2020-03-16 f0.1=0.99 FA/10k=0.000
-Route -> Rute; 10                                                                  # p=1.000 r=0.406 f0.5=0.774 488+32 2020-03-16 f0.1=0.99 FA/10k=0.000
-Rute -> Route; 100                                                                 # p=1.000 r=0.398 f0.5=0.767 32+488 2020-03-16 f0.1=0.99 FA/10k=0.000
-Rum -> Ruhm; 10000000                                                              # p=0.990 r=0.338 f0.5=0.714 179+296 2020-03-16 f0.1=0.97 FA/10k=0.001
-scherzhaft -> schmerzhaft; 10000                                                   # p=1.000 r=0.564 f0.5=0.866 77+39 2020-03-16 f0.1=0.99 FA/10k=0.000
-schmerzhaft -> scherzhaft; 10                                                      # p=1.000 r=0.273 f0.5=0.652 39+77 2020-03-16 f0.1=0.97 FA/10k=0.000
-Sand -> Stand; 1000000                                                             # p=0.993 r=0.605 f0.5=0.880 684+473 2020-03-16 f0.1=0.99 FA/10k=0.003
-Stand -> Sand; 1000                                                                # p=1.000 r=0.370 f0.5=0.746 473+684 2020-03-16 f0.1=0.98 FA/10k=0.000
-sehr -> seht; 100                                                                  # p=1.000 r=0.314 f0.5=0.696 950+35 2020-03-16 f0.1=0.98 FA/10k=0.000
-seht -> sehr; 100000                                                               # p=0.999 r=0.913 f0.5=0.980 35+950 2020-03-16 f0.1=1.00 FA/10k=0.003
-seht -> sieht; 1000                                                                # p=0.994 r=0.877 f0.5=0.968 34+964 2020-03-16 f0.1=0.99 FA/10k=0.004
-sieht -> seht; 100                                                                 # p=1.000 r=0.382 f0.5=0.756 964+34 2020-03-16 f0.1=0.98 FA/10k=0.000
-#Sigel -> Siegel; 10000                                                            # p=1.000 r=0.455 f0.5=0.807 11+442 2020-03-16 f0.1=0.99 FA/10k=0.000 (commented due to sample size < 30)
-Sohle -> Sole; 10                                                                  # p=1.000 r=0.160 f0.5=0.488 60+75 2020-03-16 f0.1=0.95 FA/10k=0.000
-Sole -> Sohle; 1000                                                                # p=1.000 r=0.483 f0.5=0.824 75+60 2020-03-16 f0.1=0.99 FA/10k=0.000
-#späht -> spät; 10                                                                 # p=0.999 r=0.981 f0.5=0.995 2+969 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#staatlichen -> stattlichen; 100                                                   # p=1.000 r=0.235 f0.5=0.606 798+17 2020-03-16 f0.1=0.97 FA/10k=0.000 (commented due to sample size < 30)
-#stattlichen -> staatlichen; 100                                                   # p=0.996 r=0.896 f0.5=0.974 17+798 2020-03-16 f0.1=0.99 FA/10k=0.002 (commented due to sample size < 30)
-#staatlicher -> stattlicher; 100                                                   # p=1.000 r=0.600 f0.5=0.882 242+5 2020-03-16 f0.1=0.99 FA/10k=0.000 (commented due to sample size < 30)
-#stattlicher -> staatlicher; 10                                                    # p=1.000 r=0.876 f0.5=0.972 5+242 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#staatliches -> stattliches; 100                                                   # p=1.000 r=0.571 f0.5=0.870 62+7 2020-03-16 f0.1=0.99 FA/10k=0.000 (commented due to sample size < 30)
-#stattliches -> staatliches; 10                                                    # p=1.000 r=0.758 f0.5=0.940 7+62 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-staatliche -> stattliche; 10000000                                                 # p=1.000 r=0.100 f0.5=0.357 555+30 2020-03-16 f0.1=0.92 FA/10k=0.000
-stattliche -> staatliche; 10000                                                    # p=0.997 r=0.613 f0.5=0.886 30+555 2020-03-16 f0.1=0.99 FA/10k=0.001
-#staatlich -> stattlich; 100                                                       # p=1.000 r=0.667 f0.5=0.909 394+3 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#stattlich -> staatlich; 1000                                                      # p=1.000 r=0.805 f0.5=0.954 3+394 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-Stand -> Strand; 1000                                                              # p=1.000 r=0.355 f0.5=0.733 473+558 2020-03-16 f0.1=0.98 FA/10k=0.000
-Strand -> Stand; 10000000                                                          # p=0.990 r=0.611 f0.5=0.881 558+473 2020-03-16 f0.1=0.98 FA/10k=0.003
-#Stelle -> Ställe; 10                                                              # p=1.000 r=0.261 f0.5=0.638 886+23 2020-03-16 f0.1=0.97 FA/10k=0.000 (commented due to sample size < 30)
-#Ställe -> Stelle; 100000                                                          # p=0.994 r=0.898 f0.5=0.973 23+886 2020-03-16 f0.1=0.99 FA/10k=0.006 (commented due to sample size < 30)
-#Stele -> Stelle; 10000000                                                         # p=0.966 r=0.800 f0.5=0.928 93+887 2020-03-16 f0.1=0.96 FA/10k=0.034 (commented due to precision < 0.99)
-Stich -> Strich; 100000                                                            # p=1.000 r=0.301 f0.5=0.683 260+206 2020-03-16 f0.1=0.98 FA/10k=0.000
-Strich -> Stich; 1000                                                              # p=1.000 r=0.358 f0.5=0.736 206+260 2020-03-16 f0.1=0.98 FA/10k=0.000
-Stiel -> Stil; 10000                                                               # p=0.992 r=0.622 f0.5=0.886 101+961 2020-03-16 f0.1=0.99 FA/10k=0.001
-Stil -> Stiel; 100                                                                 # p=1.000 r=0.149 f0.5=0.466 961+101 2020-03-16 f0.1=0.95 FA/10k=0.000
-#strickt -> strikt; 10                                                             # p=1.000 r=0.887 f0.5=0.975 8+203 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#strikt -> strickt; 1000                                                           # p=1.000 r=0.500 f0.5=0.833 203+8 2020-03-16 f0.1=0.99 FA/10k=0.000 (commented due to sample size < 30)
-Uhrzeit -> Urzeit; 10000                                                           # p=1.000 r=0.515 f0.5=0.842 116+33 2020-03-16 f0.1=0.99 FA/10k=0.000
-Urzeit -> Uhrzeit; 100                                                             # p=1.000 r=0.422 f0.5=0.785 33+116 2020-03-16 f0.1=0.99 FA/10k=0.000
-#und -> uns; 100                                                                   # p=0.998 r=0.693 f0.5=0.918 590+903 2020-03-16 f0.1=0.99 FA/10k=0.224 (commented due to estimated false alarms rate > 0.025)
-#uns -> und; 10000000                                                              # p=0.991 r=0.759 f0.5=0.934 903+590 2020-03-16 f0.1=0.99 FA/10k=1.007 (commented due to estimated false alarms rate > 0.025)
-#vage -> wage; 10                                                                  # p=1.000 r=0.905 f0.5=0.979 76+21 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#wage -> vage; 10                                                                  # p=1.000 r=0.908 f0.5=0.980 21+76 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#Vasen -> Wasen; 100                                                               # p=1.000 r=0.708 f0.5=0.924 39+24 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
-#Wasen -> Vasen; 1000                                                              # p=1.000 r=0.538 f0.5=0.854 24+39 2020-03-16 f0.1=0.99 FA/10k=0.000 (commented due to sample size < 30)
-verwaist -> verweist; 10000000                                                     # p=0.993 r=0.458 f0.5=0.805 180+297 2020-03-16 f0.1=0.98 FA/10k=0.001
-Villen -> Willen; 1000000                                                          # p=0.997 r=0.843 f0.5=0.961 142+699 2020-03-16 f0.1=1.00 FA/10k=0.001
-Willen -> Villen; 100                                                              # p=1.000 r=0.232 f0.5=0.602 699+142 2020-03-16 f0.1=0.97 FA/10k=0.000
-#Waagen -> Wagen; 10000                                                            # p=0.998 r=0.588 f0.5=0.876 19+857 2020-03-16 f0.1=0.99 FA/10k=0.000 (commented due to sample size < 30)
-#Waise -> Weise; 1000000                                                           # p=0.999 r=0.792 f0.5=0.949 21+864 2020-03-16 f0.1=1.00 FA/10k=0.002 (commented due to sample size < 30)
-ward -> wart; 100                                                                  # p=1.000 r=0.357 f0.5=0.735 52+42 2020-03-16 f0.1=0.98 FA/10k=0.000
-wart -> ward; 1000                                                                 # p=1.000 r=0.654 f0.5=0.904 42+52 2020-03-16 f0.1=0.99 FA/10k=0.000
-waren -> warnen; 1000                                                              # p=1.000 r=0.518 f0.5=0.843 905+114 2020-03-16 f0.1=0.99 FA/10k=0.000
-#warnen -> waren; 10000000                                                         # p=0.991 r=0.701 f0.5=0.915 114+905 2020-03-16 f0.1=0.99 FA/10k=0.030 (commented due to estimated false alarms rate > 0.025)
-weiht -> weit; 10000                                                               # p=1.000 r=0.945 f0.5=0.989 42+928 2020-03-16 f0.1=1.00 FA/10k=0.000
-weit -> weiht; 10                                                                  # p=1.000 r=0.214 f0.5=0.577 928+42 2020-03-16 f0.1=0.96 FA/10k=0.000
-weist -> weißt; 100                                                                # p=0.996 r=0.929 f0.5=0.982 986+283 2020-03-16 f0.1=1.00 FA/10k=0.001
-weißt -> weist; 10                                                                 # p=0.994 r=0.909 f0.5=0.976 283+986 2020-03-16 f0.1=0.99 FA/10k=0.002
-Welle -> Wälle; 100                                                                # p=1.000 r=0.302 f0.5=0.684 764+43 2020-03-16 f0.1=0.98 FA/10k=0.000
-Wälle -> Welle; 100000                                                             # p=0.998 r=0.571 f0.5=0.868 43+764 2020-03-16 f0.1=0.99 FA/10k=0.000
-wer -> wär; 100                                                                    # p=1.000 r=0.615 f0.5=0.889 171+52 2020-03-16 f0.1=0.99 FA/10k=0.000
-wär -> wer; 1000                                                                   # p=0.994 r=0.965 f0.5=0.988 52+171 2020-03-16 f0.1=0.99 FA/10k=0.002
-wie -> wir; 10000                                                                  # p=1.000 r=0.810 f0.5=0.955 237+252 2020-03-16 f0.1=1.00 FA/10k=0.000
-wir -> wie; 100                                                                    # p=1.000 r=0.823 f0.5=0.959 252+237 2020-03-16 f0.1=1.00 FA/10k=0.000
-wir -> wird; 10000                                                                 # p=1.000 r=0.776 f0.5=0.945 243+884 2020-03-16 f0.1=1.00 FA/10k=0.000
-#wird -> wir; 1000                                                                 # p=0.995 r=0.852 f0.5=0.963 884+243 2020-03-16 f0.1=0.99 FA/10k=0.095 (commented due to estimated false alarms rate > 0.025)
-#Würste -> Wüste; 10000                                                            # p=0.996 r=0.571 f0.5=0.867 25+466 2020-03-16 f0.1=0.99 FA/10k=0.000 (commented due to sample size < 30)
-Zeilen -> Zielen; 100000                                                           # p=0.990 r=0.375 f0.5=0.746 407+253 2020-03-16 f0.1=0.97 FA/10k=0.002
-Zielen -> Zeilen; 100000                                                           # p=1.000 r=0.381 f0.5=0.755 253+407 2020-03-16 f0.1=0.98 FA/10k=0.000
-Zeile -> Ziele; 1000000                                                            # p=0.998 r=0.540 f0.5=0.853 372+976 2020-03-16 f0.1=0.99 FA/10k=0.001
-Ziele -> Zeile; 1000                                                               # p=1.000 r=0.565 f0.5=0.866 976+372 2020-03-16 f0.1=0.99 FA/10k=0.000
-#zischen -> zwischen; 1000                                                         # p=0.999 r=0.884 f0.5=0.973 3+766 2020-03-16 f0.1=1.00 FA/10k=0.005 (commented due to sample size < 30)
-#Zunahme -> Zuname; 10                                                             # p=1.000 r=0.200 f0.5=0.556 284+5 2020-03-16 f0.1=0.96 FA/10k=0.000 (commented due to sample size < 30)
-#Zuname -> Zunahme; 10                                                             # p=1.000 r=0.979 f0.5=0.996 5+284 2020-03-16 f0.1=1.00 FA/10k=0.000 (commented due to sample size < 30)
+ach; auch; 100000000;                                                             # p=0.996, r=0.584, 249+1000, 3grams, 2016-09-27
+als; also; 10000000                                                               # p=1.000, r=0.145, 993+1000, 3grams, 2016-01-18
+auch; such; 1000000000;                                                           # p=0.999, r=0.679, 998+65, 3grams, 2016-09-27
+De; Die; 100000;                                                                  # p=0.997, r=0.390, 831+1000, 3grams, 2016-10-31
+dich; doch; 100000000;                                                            # p=0.997, r=0.306, 1000+1000, 3grams, 2016-10-13
+dich|Akkusativ; dir|Dativ; 10000000;                                              # p=0.997, r=0.271, 530+559, 3grams, 2019-01-14 TODO: mehr Hilfe für nicht-Muttersprachler
+drei; frei; 100000;                                                               # p=1.000, r=0.579, 905+989, 3grams, 2016-09-23
+ehelich|auf die Ehe bezogen; ehrlich; 100000;                                     # p=1.000, r=0.548, 8+384, 3grams, 2016-11-03
+fielen|zu 'fallen'; vielen; 1000000                                               # p=0.997, r=0.578, 1894, 3grams, 2015-08-19 FAs: "vielen ... zu/aus"
+fiele|zu 'fallen'; viele; 10000                                                   # p=0.999, r=0.877, 1011, 3grams, 2015-08-19 FAs: "er fiele sich selbst zur Last"
+fiel|zu 'fallen'; viel; 1000000                                                   # p=0.998, r=0.556, 1999, 3grams, 2015-08-19 FAs: "fiel zu seinem Nachteil aus"
+Gebäck; Gepäck; 100000                                                            # p=1.000, r=0.293, 56+135, 3grams, 2015-12-29
+Gerten|Plural von 'Gerte'; Gärten|Plural von 'Garten'; 10000;                     # p=1.000, r=0.676, 2+554, 3grams, 2016-10-29
+gesellt|zu 'gesellen', sich jemandem anschließen; gestellt|zu 'stellen'; 100000000; # p=0.986, r=0.519, 397+947, 3grams, 2018-12-31
+gewichtet; gewuchtet; 100;                                                        # p=1.000, r=0.767, 0+43, 3grams, 2016-11-03
+Hefe; Hefte; 1000;                                                                # p=1.000, r=0.412, 97+199, 3grams, 2016-09-23
+heute; häute; 1000000;                                                            # p=1.000, r=0.809, 998+30, 3grams, 2016-10-28
+ihm; im; 1000000000;                                                              # p=1.000, r=0.544, 1000+1000, 3grams, 2016-10-26
+im; um; 1000000                                                                   # p=0.999, r=0.686, 2000, 3grams, 2015-08-19
+klingt|zu 'klingen' (Geräusch); klinkt|zu 'ein/ausklinken'; 10000;                # p=1.000, r=0.735, 1+308, 3grams, 2016-11-03
+Laib|Laib Brot oder Käse; Leib|Körper; 10000000;                                  # p=0.983, r=0.609, 20+261, 3grams, 2016-10-28
+Laie; Leihe; 1000;                                                                # p=1.000, r=0.438, 37+27, 3grams, 2016-10-28
+least; liest; 10;                                                                 # p=1.000, r=0.748, 51+378, 3grams, 2016-10-28
+Leere|Nichts; Lehre|Ausbildung; 10000000                                          # p=1.000, r=0.354, 319+999, 3grams, 2016-03-30
+legen; lägen|Konjunktiv von 'liegen'; 100000;                                     # p=1.000, r=0.512, 24+779, 3grams, 2016-09-23
+Lid|Augenlid; Lied|Musikstück; 1000000                                            # p=1.000, r=0.458, 1000+15, 3grams, 2016-03-30
+Maar|Mulde vulkanischen Ursprungs; Mahr; 1000;                                    # p=1.000, r=0.404, 78+16, 3grams, 2016-10-28
+Mahl|Speise; Mal|Hautfleck; 10000000;                                             # p=0.995, r=0.382, 993+41, 3grams, 2016-10-28
+Mark; Markt; 1000000;                                                             # p=1.000, r=0.450, 1000+986, 3grams, 2016-08-19
+Mathe; Matte; 100000;                                                             # p=1.000, r=0.111, 35+55, 3grams, 2016-10-28
+Mediation|Verfahren zur Konfliktlösung; Meditation|spirituelle Übung; 10000       # p=1.000, r=0.171, 258, 3grams, 2015-08-19 - note the low recall
+mich|Akkusativ; mir|Dativ; 10000000;                                              # p=0.998, r=0.316, 640+660, 3grams, 2019-01-14  TODO: mehr Hilfe für nicht-Muttersprachler
+Miene|Gesichtsausdruck; Mine|Bergwerk/Schreibgerät; 10000                         # p=1.000, r=0.161, 35+164, 3grams, 2016-03-30
+mir; mit; 100000                                                                  # p=0.999, r=0.736, 2000, 3grams, 2015-08-19
+Motte; Motto; 100000                                                              # p=1.000, r=0.518, 375+73, 3grams, 2016-01-22
+Nachnahme|Versandart; Nachname|Familienname; 100000;                              # p=1.000, r=0.094, 122+5, 3grams, 2016-10-28
+oll; soll; 10000000;                                                              # p=0.999, r=0.732, 6+1000, 3grams, 2016-11-21
+Patenten; Patienten; 10000000                                                     # p=0.995, r=0.610, 1038, 3grams, 2015-11-28
+Rede|Ansprache; Reede|Ankerplatz; 10000000;                                       # p=0.994, r=0.638, 999+32, 3grams, 2016-10-28
+Reinfall|Flop; Rheinfall|Wasserfall; 1000;                                        # p=1.000, r=0.511, 35+10, 3grams, 2016-10-28
+Rezension|Buch-/Film-/Produktkritik; Rezession|Konjunkturrückgang; 10000;         # p=0.984, r=0.411, 798+894, 3grams, 2018-01-17
+Route|Strecke; Rute|dünner Zweig; 100;                                            # p=1.000, r=0.381, 34+538, 3grams, 2016-10-28
+Ruhm|hohe Anerkennung; Rum|alkoholisches Getränk; 10000000;                       # p=0.990, r=0.211, 189+299, 3grams, 2016-11-26
+scherzhaft; schmerzhaft; 100000;                                                  # p=1.000, r=0.156, 89+39, 3grams, 2016-11-03
+Sand; Stand; 10000000;                                                            # p=0.996, r=0.444, 698+995, 3grams, 2016-12-13
+sehr; seht; 100000                                                                # p=0.999, r=0.893, 1058, 3grams, 2015-08-27
+seht; sieht; 10000000;                                                            # p=0.998, r=0.570, 60+1000, 3grams, 2016-11-21
+sich; such; 100000                                                                # p=0.999, r=0.927, 1065, 3grams, 2015-08-28
+Siegel|Stempel; Sigel|Zeichen (Fachsprache); 10000;                               # p=1.000, r=0.442, 465+12, 3grams, 2016-10-29
+Sohle|Schuhe/Bergbau; Sole|wässrige Salzlösung; 10000                             # p=1.000, r=0.223, 93+64, 3grams, 2016-03-30
+späht|Form von 'spähen'; spät; 10000;                                             # p=0.999, r=0.921, 998+2, 3grams, 2016-10-29
+#staatlichem; stattlichem; 10000                                                  # no eval data yet
+staatlichen; stattlichen; 10000                                                   # p=0.999, r=0.712, 17+1000, 3grams, 2016-02-26
+staatlicher; stattlicher; 10000                                                   # p=1.000, r=0.665, 5+255, 3grams, 2016-02-26
+staatliches; stattliches; 10000                                                   # p=1.000, r=0.571, 7+140, 3grams, 2016-02-26
+staatliche; stattliche; 10000                                                     # p=0.996, r=0.532, 30+1000, 3grams, 2016-02-26
+staatlich; stattlich; 10000                                                       # p=1.000, r=0.727, 3+441, 3grams, 2016-02-26
+Stand; Strand; 10000000;                                                          # p=0.995, r=0.492, 995+573, 3grams, 2016-12-16
+Stelle|Ort; Ställe|Plural von 'Stall'; 1000000000;                                # p=0.998, r=0.636, 998+23, 3grams, 2016-10-29
+Stele|hoher, freistehender Pfeiler; Stelle|Ort; 100000000000;                     # p=0.989, r=0.409, 97+1000, 3grams, 2018-03-22
+Stich; Strich; 100000;                                                            # p=1.000, r=0.256, 273+262, 3grams, 2018-04-07
+Stiel|Stängel; Stil|Art und Weise; 1000000;                                       # p=0.998, r=0.395, 996+103, 3grams, 2016-10-29
+strickt|Form von 'stricken'; strikt|streng; 1000                                  # p=1.000, r=0.756, 217, 3grams, 2015-09-01 wenige Beispielsätze zu "strickt"
+Uhrzeit|Zeit auf der Uhr; Urzeit|Vorzeit; 100000;                                 # p=1.000, r=0.260, 33+121, 3grams, 2016-10-29
+und; uns; 10000000000                                                             # p=1.000, r=0.222, 1000+993, 3grams, 2016-03-02
+vage|ungenau; wage|Form von 'wagen'; 1000;                                        # p=1.000, r=0.684, 40+77, 3grams, 2016-10-29
+Vasen|Plural von 'Vase'; Wasen|Name; 1000;                                        # p=1.000, r=0.571, 24+39, 3grams, 2016-10-29
+verwaist|verlassen; verweist|hinweisen; 1000000000;                               # p=1.000, r=0.227, 302+192, 3grams, 2016-10-29
+Villen|Plural von 'Villa''; Willen|Wollen; 1000000000;                            # p=0.998, r=0.458, 145+811, 3grams, 2016-10-29
+Waagen|Plural von 'Waage'; Wagen|Auto; 100000000;                                 # p=1.000, r=0.240, 19+996, 3grams, 2016-10-29
+Waise|elternloses Kind; Weise|Art und Weise; 100000000;                           # p=1.000, r=0.622, 21+991, 3grams, 2016-10-29
+war; was; 1000000                                                                 # p=1.000, r=0.591, 1000+1000, 3grams, 2016-01-23 FAs: "War außer Euch...", "Noch was:"
+ward|literarisch für 'wurde'; wart|Vergangenheit von 'sein'; 100000;              # p=1.000, r=0.119, 254+66, 3grams, 2016-11-03
+waren; warnen; 10000000000;                                                       # p=0.993, r=0.378, 124+997, 3grams, 2016-11-08
+weiht|Form von 'weihen'; weit|breit, lang; 100000;                                # p=1.000, r=0.902, 42+994, 3grams, 2016-10-29
+weist|Form von '(hin)weisen'; weißt|Form von 'weißen' (weiß streichen); 10000000; # p=0.998, r=0.387, 1000+533, 3grams, 2016-10-29
+Welle|Wasserwoge; Wälle|Plural von 'Wall'; 1000000000;                            # p=0.996, r=0.281, 43+804, 3grams, 2016-10-29
+wer; wär; 100000000                                                               # p=1.000, r=0.740, 1083, 3grams, 2015-09-10
+wie; wir; 10000                                                                   # p=1.000, r=0.819, 2000, 3grams, 2015-08-19
+wir; wird; 1000                                                                   # p=1.000, r=0.852, 1999, 3grams, 2015-08-19
+Würste; Wüste; 10000                                                              # p=0.996, r=0.528, 502+25, 3grams, 2016-01-05
+Zeilen; Zielen; 100000                                                            # p=0.996, r=0.336, 761, 3grams, 2015-12-02
+Zeile; Ziele; 1000000                                                             # p=0.999, r=0.484, 1408, 3grams, 2015-12-02
+zischen|ein Geräusch machen; zwischen; 1000000000;                                # p=0.995, r=0.568, f0.5=0.865, 27+302, 3grams, 2019-04-10
+Zunahme|das Zunehmen; Zuname|Nachname; 1000;                                      # p=1.000, r=0.939, 288+5, 3grams, 2016-10-29
 
-#aus -> auf; 1000                                                                  # p=0.997 r=0.433 f0.5=0.791 802+804 2020-03-16 f0.1=0.98 FA/10k=0.118 (commented due to estimated false alarms rate > 0.025)
-#auf -> aus; 1000                                                                  # p=0.984 r=0.459 f0.5=0.801 804+802 2020-03-16 f0.1=0.97 FA/10k=0.630 (commented due to precision < 0.99)
-#biss -> bis; 10000000                                                             # p=0.994 r=0.801 f0.5=0.948 37+799 2020-03-16 f0.1=0.99 FA/10k=0.030 (commented due to estimated false alarms rate > 0.025)
-#braten -> beraten; 10000000                                                       # p=0.981 r=0.278 f0.5=0.652 17+187 2020-03-16 f0.1=0.96 FA/10k=0.001 (commented due to precision < 0.99)
-#das -> dass; 10                                                                   # p=0.998 r=0.879 f0.5=0.971 538+975 2020-03-16 f0.1=1.00 FA/10k=0.073 (commented due to estimated false alarms rate > 0.025)
-#dass -> das; 1000000                                                              # p=0.991 r=0.810 f0.5=0.949 975+538 2020-03-16 f0.1=0.99 FA/10k=0.329 (commented due to estimated false alarms rate > 0.025)
-#den -> denn; 10                                                                   # p=0.995 r=0.785 f0.5=0.945 910+834 2020-03-16 f0.1=0.99 FA/10k=0.238 (commented due to estimated false alarms rate > 0.025)
-#denn -> den; 1000000                                                              # p=0.993 r=0.882 f0.5=0.968 834+910 2020-03-16 f0.1=0.99 FA/10k=0.333 (commented due to estimated false alarms rate > 0.025)
-#de -> die; 1000                                                                   # p=0.982 r=0.797 f0.5=0.938 565+547 2020-03-16 f0.1=0.98 FA/10k=2.323 (commented due to precision < 0.99)
-#die -> de; 10                                                                      # p=1.000 r=0.873 f0.5=0.972 547+565 2020-03-16 f0.1=1.00 FA/10k=0.000
-#die -> sie; 10                                                                    # p=0.996 r=0.759 f0.5=0.938 559+336 2020-03-16 f0.1=0.99 FA/10k=0.564 (commented due to estimated false alarms rate > 0.025)
-#sie -> die; 100000                                                                 # p=1.000 r=0.606 f0.5=0.885 336+559 2020-03-16 f0.1=0.99 FA/10k=0.000
-fasst -> fast; 10000000                                                            # p=0.990 r=0.754 f0.5=0.932 311+813 2020-03-16 f0.1=0.99 FA/10k=0.011
-fast -> fasst; 100                                                                 # p=1.000 r=0.341 f0.5=0.721 813+311 2020-03-16 f0.1=0.98 FA/10k=0.000
-furchtbar -> fruchtbar; 10000                                                      # p=1.000 r=0.431 f0.5=0.791 56+109 2020-03-16 f0.1=0.99 FA/10k=0.000
-fruchtbar -> furchtbar; 10                                                         # p=1.000 r=0.696 f0.5=0.920 109+56 2020-03-16 f0.1=1.00 FA/10k=0.000
-Gesten -> Gestern; 10000                                                           # p=0.996 r=0.909 f0.5=0.977 77+252 2020-03-16 f0.1=1.00 FA/10k=0.000
-Gestern -> Gesten; 10                                                              # p=1.000 r=0.701 f0.5=0.922 252+77 2020-03-16 f0.1=1.00 FA/10k=0.000
-gewaschen -> gewachsen; 1000000                                                    # p=0.994 r=0.534 f0.5=0.848 102+311 2020-03-16 f0.1=0.99 FA/10k=0.001
-gewachsen -> gewaschen; 10                                                         # p=1.000 r=0.647 f0.5=0.902 311+102 2020-03-16 f0.1=0.99 FA/10k=0.000
-Grat -> Grad; 1000000                                                              # p=0.993 r=0.685 f0.5=0.911 51+855 2020-03-16 f0.1=0.99 FA/10k=0.001
-Graf -> Graph; 100                                                                 # p=1.000 r=0.303 f0.5=0.685 927+178 2020-03-16 f0.1=0.98 FA/10k=0.000
-#Graph -> Graf; 1000000                                                             # p=0.999 r=0.728 f0.5=0.929 178+927 2020-03-16 f0.1=1.00 FA/10k=0.000
-gründlich -> grünlich; 100                                                         # p=1.000 r=0.264 f0.5=0.642 137+53 2020-03-16 f0.1=0.97 FA/10k=0.000
-grünlich -> gründlich; 1000000                                                     # p=1.000 r=0.387 f0.5=0.759 53+137 2020-03-16 f0.1=0.98 FA/10k=0.000
-#hast -> hasst; 10                                                                  # p=1.000 r=0.396 f0.5=0.766 509+101 2020-03-16 f0.1=0.99 FA/10k=0.000
-#hasst -> hast; 1000000                                                            # p=0.985 r=0.880 f0.5=0.962 101+509 2020-03-16 f0.1=0.98 FA/10k=0.002 (commented due to precision < 0.99)
-leeren -> lehren; 100000                                                           # p=1.000 r=0.388 f0.5=0.760 210+152 2020-03-16 f0.1=0.98 FA/10k=0.000
-lehren -> leeren; 10                                                               # p=1.000 r=0.900 f0.5=0.978 152+210 2020-03-16 f0.1=1.00 FA/10k=0.000
-#ließ -> lies; 100                                                                 # p=1.000 r=0.381 f0.5=0.755 979+21 2020-03-16 f0.1=0.98 FA/10k=0.000 (commented due to sample size < 30)
-#lies -> ließ; 10                                                                  # p=0.991 r=0.906 f0.5=0.973 21+979 2020-03-16 f0.1=0.99 FA/10k=0.005 (commented due to sample size < 30)
-Moor -> Mohr; 1000                                                                 # p=1.000 r=0.487 f0.5=0.826 203+413 2020-03-16 f0.1=0.99 FA/10k=0.000
-#Mohr -> Moor; 100                                                                 # p=0.963 r=0.384 f0.5=0.740 413+203 2020-03-16 f0.1=0.95 FA/10k=0.001 (commented due to precision < 0.99)
-reist -> reißt; 10000                                                              # p=1.000 r=0.256 f0.5=0.632 141+90 2020-03-16 f0.1=0.97 FA/10k=0.000
-#reißt -> reist; 10                                                                # p=0.986 r=0.496 f0.5=0.824 90+141 2020-03-16 f0.1=0.98 FA/10k=0.000 (commented due to precision < 0.99)
-#Saite -> Seite; 10000000                                                          # p=0.975 r=0.413 f0.5=0.766 130+927 2020-03-16 f0.1=0.96 FA/10k=0.033 (commented due to precision < 0.99)
-#Seite -> Saite; 10                                                                 # p=1.000 r=0.131 f0.5=0.429 927+130 2020-03-16 f0.1=0.94 FA/10k=0.000
-#seid -> seit; 10000000                                                             # p=0.998 r=0.868 f0.5=0.969 336+947 2020-03-16 f0.1=1.00 FA/10k=0.003
-#seit -> seid; 100                                                                  # p=1.000 r=0.932 f0.5=0.986 947+336 2020-03-16 f0.1=1.00 FA/10k=0.000
-Städte -> Stätte; 100                                                              # p=1.000 r=0.289 f0.5=0.670 859+97 2020-03-16 f0.1=0.98 FA/10k=0.000
-Stätte -> Städte; 100000                                                           # p=0.990 r=0.672 f0.5=0.904 97+859 2020-03-16 f0.1=0.99 FA/10k=0.003
-unternehmen -> Unternehmen; 10                                                     # p=1.000 r=0.879 f0.5=0.973 74+1000 2020-03-16 f0.1=1.00 FA/10k=0.000
-Unternehmen -> unternehmen; 10000                                                  # p=1.000 r=0.703 f0.5=0.922 1000+74 2020-03-16 f0.1=1.00 FA/10k=0.000
-#wahr -> war; 10000000                                                             # p=0.978 r=0.865 f0.5=0.953 964+961 2020-03-16 f0.1=0.98 FA/10k=0.209 (commented due to precision < 0.99)
-#war -> wahr; 10                                                                    # p=0.998 r=0.669 f0.5=0.909 961+964 2020-03-16 f0.1=0.99 FA/10k=0.019
-#wenn -> wen; 1000                                                                  # p=1.000 r=0.424 f0.5=0.786 541+125 2020-03-16 f0.1=0.99 FA/10k=0.000
-#ei -> ein; 1000000                                                                # p=0.992 r=0.772 f0.5=0.938 45+950 2020-03-16 f0.1=0.99 FA/10k=0.151 (commented due to estimated false alarms rate > 0.025)
-#ein -> ei; 10                                                                      # p=1.000 r=0.133 f0.5=0.435 950+45 2020-03-16 f0.1=0.94 FA/10k=0.000
-#werden -> werfen; 10                                                               # p=1.000 r=0.233 f0.5=0.603 910+339 2020-03-16 f0.1=0.97 FA/10k=0.000
-#werfen -> werden; 10000000                                                        # p=0.955 r=0.659 f0.5=0.877 339+910 2020-03-16 f0.1=0.95 FA/10k=0.740 (commented due to precision < 0.99)
-Rat -> Rad; 100                                                                    # p=1.000 r=0.304 f0.5=0.685 944+481 2020-03-16 f0.1=0.98 FA/10k=0.000
-Rad -> Rat; 100000                                                                 # p=0.996 r=0.713 f0.5=0.922 481+944 2020-03-16 f0.1=0.99 FA/10k=0.001
-Wal -> Wahl; 10000000                                                              # p=0.996 r=0.760 f0.5=0.938 143+926 2020-03-16 f0.1=0.99 FA/10k=0.002
+#aus; auf; 100000;                                 # p=0.992, r=0.255, 997+971, 3grams, 2016-12-01
+#angeschlossen; angeschossen; 100                  # p=0.988, r=0.577, 968, 3grams, 2015-08-17
+#biss|beißen; bis|von ... bis ...; 1000000000;     # p=0.995, r=0.688, 102+998, 3grams, 2016-04-05
+#braten; beraten; 10000000;                        # p=0.981, r=0.197, 72+192, 3grams, 2016-12-13
+#das; dass; 1000000                                # p=1.000, r=0.420, 2000, 3grams, 2015-08-28  --> try 4 grams
+#den; denn; 100000                                 # p=0.996, r=0.574, 1979, 3grams, 2015-08-17 
+#denen; dehnen; 10000000;                          # p=0.999, r=0.911, 999+40, 3grams, 2016-10-28
+#de; die; 10000000;                                # p=0.992, r=0.664, 831+1000, 3grams, 2016-10-31 -- many false alarms because of "domainname.de"
+#die; sie; 1000000                                 # p=0.993, r=0.368, 2000, 3grams, 2015-08-19
+#fasst; fast; 10000000;                            # p=0.992, r=0.560, 323+994, 3grams, 2016-10-28
+#feiern; feuern; 10000                             # p=0.968, r=0.231, 523, 3grams, 2015-08-19
+#Ferse;Verse; 10000000                             # p=0.976, r=0.151, 29+236, 3grams, 2016-03-30
+#Finder; Finger; 1000000                           # p=0.983, r=0.496, 472, 3grams, 2015-08-29
+#Finte; Flinte; 10                                 # p=0.938, r=0.556, 27, 3grams, 2015-08-19
+#furchtbar; fruchtbar; 1000                        # p=0.989, r=0.550, 169, 3grams, 2015-08-19
+#gefeiert; gefeuert; 10000                         # p=0.975, r=0.294, 790, 3grams, 2015-08-19
+#Gesten; Gestern; 100                              # p=0.996, r=0.448, 1077, 3grams, 2015-08-17
+#gewaschen; gewachsen; 1000000                     # p=0.995, r=0.461, 414, 3grams, 2015-08-29
+#Grad; Grat; 10000000;                             # p=0.992, r=0.575, 994+56, 3grams, 2016-10-28
+#Graf|Adelstitel; Graph; 100000000;                # p=1.000, r=0.481, 1000+213, 3grams, 2016-10-29
+#gründlich; grünlich; 100                          # p=0.958, r=0.553, 206, 3grams, 2015-08-19
+#hast; hasst; 10000000;                            # p=0.991, r=0.774, 998+102, 3grams, 2016-10-28
+#isst; ist; 10000000;                              # p=0.791, r=0.615, 376+1000, 3grams, 2016-10-28
+#leeren; lehren; 10000000;                         # p=0.993, r=0.127, 517+657, 3grams, 2016-10-28
+#ließ; lies; 10;                                   # p=0.791, r=0.315, 1+107, 3grams, 2016-10-28
+#manieriert; mariniert; 10000                      # p=1.000, r=0.026, 39, 3grams, 2015-12-07
+#Moor; Mohr; 10000000;                             # p=0.988, r=0.259, 212+421, 3grams, 2016-10-28
+#reist; reißt; 10000000;                           # p=0.929, r=0.053, 150+93, 3grams, 2016-10-28
+#Saite; Seite; 10000000;                           # p=0.981, r=0.531, 147+994, 3grams, 2016-10-29
+#schwul; schwül; 1000;                             # p=0.923, r=0.360, 75+25, 3grams, 2016-12-03
+#seid; seit; 10000000;                             # p=0.996, r=0.714, 479+997, 3grams, 2016-10-29
+#Steak; Steg; 1000;                                # p=0.968, r=0.377, 31+131, 3grams, 2016-10-29
+#Städte|Plural von 'Stadt'; Stätte; 10000000       # p=0.991, r=0.417, 955+99, 3grams, 2016-03-30
+#Ställe; Stelle; 10000000                          # p=0.995, r=0.747, 23+998, 3grams, 2016-03-30
+#unternehmen; Unternehmen; 1000                    # p=0.993, r=0.821, 1181, 3grams, 2015-08-18
+#wahr; war; 10000                                  # p=0.956, r=0.723, 1998, 3grams, 2015-08-19; sehr viele FAs: "nahm|nimmt|nehmen|nähmen ... wahr"
+#wen; wenn; 10000000000;                           # p=0.978, r=0.545, 235+999, 3grams, 2016-08-13
+#ei; ein; 10000000000;                             # p=0.995, r=0.394, 389+1000, 3grams, 2016-08-13
+#werden; werfen; 100000000000;                     # p=0.983, r=0.251, 1000+393, 3grams, 2016-09-23
+#Rat; Rad; 10000000;                               # p=0.995, r=0.419, 998+526, 3grams, 2016-10-28
+#Wahl; Wal; 1000000000;                            # p=0.995, r=0.565, 992+167, 3grams, 2016-10-29
+#wahr; war; 1000000000;                            # p=0.991, r=0.368, 998+1000, 3grams, 2016-10-29
+#weiß, weis
+#wider, wieder

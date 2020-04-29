@@ -18,7 +18,6 @@
  */
 package org.languagetool.rules.de;
 
-import static junit.framework.Assert.assertNull;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
@@ -41,64 +40,27 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.ngrams.FakeLanguageModel;
 
 public class ProhibitedCompoundRuleTest {
-
-  private final static Map<String, Integer> map = new HashMap<>();
-  static {
-    map.put("Mietauto",100);
-    map.put("Leerzeile",100);
-    map.put("Urberliner",100);
-    map.put("Ureinwohner",100);
-    map.put("Wohnungsleerstand",50);
-    map.put("Xliseihflehrstand",50);
-  }
-  private final ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map), null);
-  private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-
+  
   @Test
   public void testRule() throws IOException {
-    assertMatches("Er ist Uhrberliner.", "Uhrberliner");
-    assertMatches("Er ist Uhr-Berliner.", "Uhr-Berliner");
-    assertMatches("Das ist ein Mitauto.", "Mitauto");
-    assertMatches("Das ist ein Mit-Auto.", "Mit-Auto");
-    assertMatches("Hier leben die Uhreinwohner.", "Uhreinwohner");
-    assertMatches("Hier leben die Uhr-Einwohner.", "Uhr-Einwohner");
-    assertMatches("Eine Leerzeile einfügen.", 0);
-    assertMatches("Eine Leer-Zeile einfügen.", 0);
-    assertMatches("Eine Lehrzeile einfügen.", "Lehrzeile");
-    assertMatches("Eine Lehr-Zeile einfügen.", "Lehr-Zeile");
-    
-    assertMatches("Viel Wohnungsleerstand.", 0);
-    assertMatches("Viel Wohnungs-Leerstand.", 0);
-    assertMatches("Viel Wohnungslehrstand.", "Wohnungslehrstand");
-    assertMatches("Viel Wohnungs-Lehrstand.", "Wohnungs-Lehrstand");
-    assertMatches("Viel Xliseihfleerstand.", 0);
-    assertMatches("Viel Xliseihflehrstand.", 0);  // no correct spelling, so not suggested
-
-    assertMatches("Den Lehrzeile-Test einfügen.", "Lehrzeile");
-    assertMatches("Die Test-Lehrzeile einfügen.", "Lehrzeile");
-    assertMatches("Die Versuchs-Test-Lehrzeile einfügen.", "Lehrzeile");
-    assertMatches("Den Versuchs-Lehrzeile-Test einfügen.", "Lehrzeile");
-  }
-
-  @Test
-  public void testRemoveHyphensAndAdaptCase() {
-    assertNull(rule.removeHyphensAndAdaptCase("Marathonläuse"));
-    assertThat(rule.removeHyphensAndAdaptCase("Marathon-Läuse"), is("Marathonläuse"));
-    assertThat(rule.removeHyphensAndAdaptCase("Marathon-Läuse-Test"), is("Marathonläusetest"));
-    assertThat(rule.removeHyphensAndAdaptCase("Marathon-läuse-test"), is("Marathonläusetest"));
-    assertThat(rule.removeHyphensAndAdaptCase("viele-Läuse-Test"), is("vieleläusetest"));
-  }
-
-  void assertMatches(String input, int expectedMatches) throws IOException {
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat("Got matches: " + Arrays.toString(matches), matches.length, is(expectedMatches));
-  }
-
-  void assertMatches(String input, String expectedMarkedText) throws IOException {
-    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
-    assertThat("Got matches: " + Arrays.toString(matches), matches.length, is(1));
-    String markedText = input.substring(matches[0].getFromPos(), matches[0].getToPos());
-    assertThat(markedText, is(expectedMarkedText));
+    Map<String,Integer> map = new HashMap<>();
+    map.put("Mietauto", 100);
+    map.put("Leerzeile", 100);
+    map.put("Urberliner", 100);
+    map.put("Ureinwohner", 100);
+    map.put("Wohnungsleerstand", 50);
+    map.put("Xliseihflehrstand", 50);
+    ProhibitedCompoundRule rule = new ProhibitedCompoundRule(TestTools.getEnglishMessages(), new FakeLanguageModel(map));
+    JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
+    assertMatches("Er ist Uhrberliner.", 1, rule, lt);
+    assertMatches("Das ist ein Mitauto.", 1, rule, lt);
+    assertMatches("Hier leben die Uhreinwohner.", 1, rule, lt);
+    assertMatches("Eine Leerzeile einfügen.", 0, rule, lt);
+    assertMatches("Eine Lehrzeile einfügen.", 1, rule, lt);
+    assertMatches("Viel Wohnungsleerstand.", 0, rule, lt);
+    assertMatches("Viel Wohnungslehrstand.", 1, rule, lt);
+    assertMatches("Viel Xliseihfleerstand.", 0, rule, lt);
+    assertMatches("Viel Xliseihflehrstand.", 0, rule, lt);  // no correct spelling, so not suggested
   }
 
   ProhibitedCompoundRule getRule(String languageModelPath) throws IOException {
@@ -108,7 +70,7 @@ public class ProhibitedCompoundRuleTest {
   ProhibitedCompoundRule getRule(String languageModelPath, String ruleId) throws IOException {
     Language lang = Languages.getLanguageForShortCode("de");
     LanguageModel languageModel = new LuceneLanguageModel(new File(languageModelPath, lang.getShortCode()));
-    List<Rule> rules = lang.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel, null);
+    List<Rule> rules = lang.getRelevantLanguageModelRules(JLanguageTool.getMessageBundle(), languageModel);
     if (rules == null) {
       throw new RuntimeException("Language " + lang + " doesn't seem to support a language model");
     }
@@ -120,6 +82,11 @@ public class ProhibitedCompoundRuleTest {
       }
     }
     return foundRule;
+  }
+
+  void assertMatches(String input, int expecteMatches, ProhibitedCompoundRule rule, JLanguageTool lt) throws IOException {
+    RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
+    assertThat("Got matches: " + Arrays.toString(matches), matches.length, is(expecteMatches));
   }
 
 }

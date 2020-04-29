@@ -23,7 +23,9 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * Polish POS tagger based on FSA morphological dictionaries.
@@ -31,8 +33,16 @@ import java.util.*;
  * @author Marcin Milkowski
  */
 public class PolishTagger extends BaseTagger {
+
+  private final Locale plLocale = new Locale("pl");
+
   public PolishTagger() {
-    super("/pl/polish.dict", new Locale("pl"));
+    super("/pl/polish.dict");
+  }
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/pl/added.txt";
   }
 
   @Override
@@ -45,7 +55,7 @@ public class PolishTagger extends BaseTagger {
 
     for (String word : sentenceTokens) {
       List<AnalyzedToken> l = new ArrayList<>();
-      String lowerWord = word.toLowerCase(locale);
+      String lowerWord = word.toLowerCase(plLocale);
       taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
       lowerTaggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(lowerWord));
       boolean isLowercase = word.equals(lowerWord);

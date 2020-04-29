@@ -43,7 +43,6 @@ public class EnglishSRXSentenceTokenizerTest {
     // incomplete sentences, need to work for on-thy-fly checking of texts:
     testSplit("Here's a");
     testSplit("Here's a sentence. ", "And here's one that's not comp");
-    testSplit("Or did you install it (i.e. MS Word) yourself?");
 
     testSplit("This is a sentence. ");
     testSplit("This is a sentence. ", "And this is another one.");
@@ -63,7 +62,6 @@ public class EnglishSRXSentenceTokenizerTest {
     testSplit("James comes from the U.K. where he worked as a programmer.");
     testSplit("Don't split strings like U.S.A. please.");
     testSplit("Don't split strings like U. S. A. either.");
-    testSplit("Don't split strings like U.S.A either.");
     testSplit("Don't split... ", "Well you know. ", "Here comes more text.");
     testSplit("Don't split... well you know. ", "Here comes more text.");
     testSplit("The \".\" should not be a delimiter in quotes.");

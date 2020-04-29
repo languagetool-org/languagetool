@@ -18,14 +18,20 @@
  */
 package org.languagetool.tagging.ast;
 
-import org.languagetool.tagging.BaseTagger;
-
 import java.util.Locale;
+
+import org.languagetool.tagging.BaseTagger;
 
 /** Asturian part-of-speech tagger.
  * @author Xesús González Rato
  */
 public class AsturianTagger extends BaseTagger {
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/ast/added.txt";
+  }
+
   public AsturianTagger() {
     super("/ast/asturian.dict", new Locale("ast"));
   }

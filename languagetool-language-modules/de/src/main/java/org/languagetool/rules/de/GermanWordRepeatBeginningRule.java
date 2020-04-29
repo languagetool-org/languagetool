@@ -29,7 +29,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.WordRepeatBeginningRule;
 
 /**
- * Extends {@link WordRepeatBeginningRule} by a list of German adverbs ("Konjunktionaladverbien")
+ * Extends {@link WordRepeatBeginningRule} by a list of German adverbs ("Konjunktionaladverben")
  * for a more precise error message.
  * 
  * @author Markus Brenneis

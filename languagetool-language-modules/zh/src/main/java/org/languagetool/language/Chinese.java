@@ -18,12 +18,19 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
-import org.languagetool.rules.*;
+import org.languagetool.rules.DoublePunctuationRule;
+import org.languagetool.rules.MultipleWhitespaceRule;
+import org.languagetool.rules.Rule;
 import org.languagetool.rules.zh.ChineseConfusionProbabilityRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.zh.ChineseTagger;
@@ -32,12 +39,11 @@ import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.zh.ChineseSentenceTokenizer;
 import org.languagetool.tokenizers.zh.ChineseWordTokenizer;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
 public class Chinese extends Language implements AutoCloseable {
 
+  private Tagger tagger;
+  private Tokenizer wordTokenizer;
+  private SentenceTokenizer sentenceTokenizer;
   private LuceneLanguageModel languageModel;
 
   @Override
@@ -68,20 +74,28 @@ public class Chinese extends Language implements AutoCloseable {
     );
   }
 
-  @NotNull
   @Override
-  public Tagger createDefaultTagger() {
-    return new ChineseTagger();
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new ChineseTagger();
+    }
+    return tagger;
   }
 
   @Override
-  public Tokenizer createDefaultWordTokenizer() {
-    return new ChineseWordTokenizer();
+  public Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new ChineseWordTokenizer();
+    }
+    return wordTokenizer;
   }
 
   @Override
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return new ChineseSentenceTokenizer();
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new ChineseSentenceTokenizer();
+    }
+    return sentenceTokenizer;
   }
 
   /** @since 3.1 */
@@ -92,7 +106,7 @@ public class Chinese extends Language implements AutoCloseable {
 
   /** @since 3.1 */
   @Override
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel) throws IOException {
     return Arrays.<Rule>asList(
             new ChineseConfusionProbabilityRule(messages, languageModel, this)
     );

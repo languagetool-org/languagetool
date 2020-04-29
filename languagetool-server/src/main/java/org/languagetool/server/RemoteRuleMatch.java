@@ -30,6 +30,7 @@ import java.util.Optional;
  * A potential error as returned by the HTTP API of LanguageTool.
  * @since 4.0
  */
+@Experimental
 class RemoteRuleMatch {
 
   private final String ruleId;
@@ -171,6 +172,7 @@ class RemoteRuleMatch {
     this.locQualityIssueType = locQualityIssueType;
   }
 
+  @Experimental
   int estimatedContextForSureMatch() {
     return estimatedContextForSureMatch;
   }

@@ -18,9 +18,9 @@
  */
 package org.languagetool.tagging.it;
 
-import org.languagetool.tagging.BaseTagger;
-
 import java.util.Locale;
+
+import org.languagetool.tagging.BaseTagger;
 
 /**
  * Italian tagger. Uses morph-it! lexicon compiled by Marco Baroni and Eros Zanchetta.
@@ -28,7 +28,14 @@ import java.util.Locale;
  * @author Marcin Milkowski
  */
 public class ItalianTagger extends BaseTagger {
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/it/added.txt";
+  }
+
   public ItalianTagger() {
     super("/it/italian.dict", Locale.ITALIAN);
   }
+  
 }

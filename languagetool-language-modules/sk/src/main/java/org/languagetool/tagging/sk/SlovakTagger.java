@@ -18,14 +18,20 @@
  */
 package org.languagetool.tagging.sk;
 
-import org.languagetool.tagging.BaseTagger;
-
 import java.util.Locale;
+
+import org.languagetool.tagging.BaseTagger;
 
 /** Slovak Part-of-speech tagger based on Russian Part-of-speech tagger.
  * @author Zdenko Podobný 
  */
 public class SlovakTagger extends BaseTagger {
+
+  @Override
+  public String getManualAdditionsFileName() {
+    return "/sk/added.txt";
+  }
+
   public SlovakTagger() {
     super("/sk/slovak.dict", new Locale("sk"));
   }

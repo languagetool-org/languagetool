@@ -44,6 +44,6 @@ public class EnglishTest extends LanguageSpecificTest {
                     "PM_IN_THE_EVENING",
                     "DATE_WEEKDAY")
     );
-    runTests(lang, null, "ÆæāýÅåøšùçıčćö");
+    runTests(lang);
   }
 }

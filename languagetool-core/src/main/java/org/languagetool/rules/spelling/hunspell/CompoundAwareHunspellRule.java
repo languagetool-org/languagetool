@@ -109,7 +109,7 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
     }
     //System.out.println("suggestions (mixed from simpleSuggestions, noSplitSuggestions, noSplitLowerCaseSuggestions): " + suggestions);
 
-    suggestions = filterDupes(suggestions);
+    filterDupes(suggestions);
     filterForLanguage(suggestions);
 
     List<String> sortedSuggestions = sortSuggestionByQuality(word, suggestions);

@@ -19,34 +19,50 @@
 
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
-import org.languagetool.*;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+
+import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
-import org.languagetool.rules.br.MorfologikBretonSpellerRule;
 import org.languagetool.rules.br.TopoReplaceRule;
+import org.languagetool.rules.br.MorfologikBretonSpellerRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.br.BretonTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.br.BretonWordTokenizer;
-
-import java.io.IOException;
-import java.util.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
 
 /** 
  * @author Dominique Pelle
  */
 public class Breton extends Language {
 
+  private SentenceTokenizer sentenceTokenizer;
+  private Tagger tagger;
+  private Tokenizer wordTokenizer;
+  private Disambiguator disambiguator;
+
   @Override
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return new SRXSentenceTokenizer(this);
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 
   @Override
-  public Tokenizer createDefaultWordTokenizer() {
-    return new BretonWordTokenizer();
+  public Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new BretonWordTokenizer();
+    }
+    return wordTokenizer;
   }
 
   @Override
@@ -63,16 +79,21 @@ public class Breton extends Language {
   public String[] getCountries() {
     return new String[] {"FR"};
   }
-
-  @NotNull
+  
   @Override
-  public Tagger createDefaultTagger() {
-    return new BretonTagger();
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new BretonTagger();
+    }
+    return tagger;
   }
 
   @Override
-  public Disambiguator createDefaultDisambiguator() {
-    return new XmlRuleDisambiguator(this);
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new XmlRuleDisambiguator(new Breton());
+    }
+    return disambiguator;
   }
 
   @Override

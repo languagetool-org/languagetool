@@ -18,23 +18,34 @@
  */
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.Rule;
-import org.languagetool.rules.km.*;
+import org.languagetool.rules.km.KhmerSimpleReplaceRule;
+import org.languagetool.rules.km.KhmerUnpairedBracketsRule;
+import org.languagetool.rules.km.KhmerWordRepeatRule;
+import org.languagetool.rules.km.KhmerSpaceBeforeRule;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.km.KhmerTagger;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 import org.languagetool.tokenizers.km.KhmerWordTokenizer;
 
-import java.io.IOException;
-import java.util.*;
-
 public class Khmer extends Language {
+
+  private Tagger tagger;
+  private Tokenizer wordTokenizer;
+  private SentenceTokenizer sentenceTokenizer;
+  private Disambiguator disambiguator;
 
   @Override
   public String getName() {
@@ -57,25 +68,36 @@ public class Khmer extends Language {
     return null;
   }
 
-  @NotNull
   @Override
-  public Tagger createDefaultTagger() {
-    return new KhmerTagger();
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new KhmerTagger();
+    }
+    return tagger;
+  }
+  
+  @Override
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 
   @Override
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return new SRXSentenceTokenizer(this);
+  public Tokenizer getWordTokenizer() {
+    if (wordTokenizer == null) {
+      wordTokenizer = new KhmerWordTokenizer();
+    }
+    return wordTokenizer;
   }
-
+  
   @Override
-  public Tokenizer createDefaultWordTokenizer() {
-    return new KhmerWordTokenizer();
-  }
-
-  @Override
-  public Disambiguator createDefaultDisambiguator() {
-    return new XmlRuleDisambiguator(this);
+  public Disambiguator getDisambiguator() {
+    if (disambiguator == null) {
+      disambiguator = new XmlRuleDisambiguator(new Khmer());
+    }
+    return disambiguator;
   }
   
   @Override

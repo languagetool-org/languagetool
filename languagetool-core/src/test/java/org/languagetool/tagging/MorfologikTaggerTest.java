@@ -25,12 +25,15 @@ import static org.junit.Assert.assertThat;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Demo;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
 
 public class MorfologikTaggerTest {
 

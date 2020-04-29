@@ -18,10 +18,12 @@
  */
 package org.languagetool.rules.ru;
 
-import org.languagetool.rules.*;
-
 import java.io.IOException;
 import java.util.ResourceBundle;
+
+import org.languagetool.rules.AbstractCompoundRule;
+import org.languagetool.rules.CompoundRuleData;
+import org.languagetool.rules.Example;
 
 
 /**
@@ -35,7 +37,7 @@ import java.util.ResourceBundle;
  */
 public class RussianCompoundRule extends AbstractCompoundRule {
 
-  private static volatile CompoundRuleData compoundData;
+  private static final CompoundRuleData compoundData = new CompoundRuleData("/ru/compounds.txt");
 
   public RussianCompoundRule(ResourceBundle messages) throws IOException {
     super(messages,
@@ -60,17 +62,7 @@ public class RussianCompoundRule extends AbstractCompoundRule {
 
   @Override
   protected CompoundRuleData getCompoundRuleData() {
-    CompoundRuleData data = compoundData;
-    if (data == null) {
-      synchronized (RussianCompoundRule.class) {
-        data = compoundData;
-        if (data == null) {
-          compoundData = data = new CompoundRuleData("/ru/compounds.txt");
-        }
-      }
-    }
-
-    return data;
+    return compoundData;
   }
 
 }

@@ -23,12 +23,9 @@ import org.languagetool.rules.FakeRule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
@@ -39,32 +36,28 @@ public class CompoundFilterTest {
 
   @Test
   public void testFilter() {
-    assertSuggestion(asList("tv", "meubel"), "tv-meubel");
-    assertSuggestion(asList("test-tv", "meubel"), "test-tv-meubel");
-    assertSuggestion(asList("onzin", "tv"), "onzin-tv");
-    assertSuggestion(asList("auto", "onderdeel"), "auto-onderdeel");
-    assertSuggestion(asList("test", "e-mail"), "test-e-mail");
-    assertSuggestion(asList("taxi", "jongen"), "taxi-jongen");
-    assertSuggestion(asList("rij", "instructeur"), "rijinstructeur");
-    assertSuggestion(asList("test", "e-mail"), "test-e-mail");
-    assertSuggestion(asList("ANWB", "wagen"), "ANWB-wagen");
-    assertSuggestion(asList("pro-deo", "advocaat"), "pro-deoadvocaat");
-    assertSuggestion(asList("ANWB", "tv", "wagen"), "ANWB-tv-wagen");
+    assertSuggestion("tv", "meubel", "tv-meubel");
+    assertSuggestion("test-tv", "meubel", "test-tv-meubel");
+    assertSuggestion("onzin", "tv", "onzin-tv");
+    assertSuggestion("auto", "onderdeel", "auto-onderdeel");
+    assertSuggestion("test", "e-mail", "test-e-mail");
+    assertSuggestion("taxi", "jongen", "taxi-jongen");
+    assertSuggestion("rij", "instructeur", "rijinstructeur");
+    assertSuggestion("test", "e-mail", "test-e-mail");
+    assertSuggestion("ANWB", "wagen", "ANWB-wagen");
+    assertSuggestion("pro-deo", "advocaat", "pro-deoadvocaat");
   }
 
-  private void assertSuggestion(List<String> words, String expectedSuggestion) {
-    RuleMatch ruleMatch = filter.acceptRuleMatch(match, makeMap(words), -1, null);
+  private void assertSuggestion(String word1, String word2, String expectedSuggestion) {
+    RuleMatch ruleMatch = filter.acceptRuleMatch(match, makeMap(word1, word2), -1, null);
     assertThat(ruleMatch.getSuggestedReplacements().size(), is(1));
     assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedSuggestion));
   }
 
-  private Map<String, String> makeMap(List<String> words) {
+  private Map<String, String> makeMap(String word1, String word2) {
     Map<String,String> map = new HashMap<>();
-    int i = 1;
-    for (String word : words) {
-      map.put("word" + i, word);
-      i++;
-    }
+    map.put("word1", word1);
+    map.put("word2", word2);
     return map;
   }
 

@@ -139,9 +139,6 @@ public class TokenAgreementNounVerbRule extends Rule {
         continue;
       }
 
-//      if( Arrays.asList("не", "б", "би").contains(tokenReadings.getToken()) )
-      if( "не".equals(tokenReadings.getToken()) )
-        continue;
 
       // see if we get a following verb
 //       System.err.println("Check for verb: " + tokenReadings);

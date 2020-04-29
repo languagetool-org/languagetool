@@ -19,7 +19,10 @@
 
 package org.languagetool.language;
 
-import org.jetbrains.annotations.NotNull;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
+
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
@@ -29,14 +32,15 @@ import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-import java.util.*;
-
 /**
  * @author Anton Karl Ingason
  * @deprecated this language is unmaintained in LT and might be removed in a future release if we cannot find contributors for it (deprecated since 3.6)
  */
 @Deprecated
 public class Icelandic extends Language {
+
+  private Tagger tagger;
+  private SentenceTokenizer sentenceTokenizer;
 
   @Override
   public String getName() {
@@ -58,15 +62,20 @@ public class Icelandic extends Language {
     return new Contributor[] {new Contributor("Anton Karl Ingason")};
   }
 
-  @NotNull
   @Override
-  public Tagger createDefaultTagger() {
-    return new DemoTagger();
+  public Tagger getTagger() {
+    if (tagger == null) {
+      tagger = new DemoTagger();
+    }
+    return tagger;
   }
 
   @Override
-  public SentenceTokenizer createDefaultSentenceTokenizer() {
-    return new SRXSentenceTokenizer(this);
+  public SentenceTokenizer getSentenceTokenizer() {
+    if (sentenceTokenizer == null) {
+      sentenceTokenizer = new SRXSentenceTokenizer(this);
+    }
+    return sentenceTokenizer;
   }
 
   @Override

@@ -19,14 +19,14 @@
 
 package org.languagetool;
 
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tools.StringTools;
-
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Pattern;
 
 import static org.languagetool.JLanguageTool.*;
 
@@ -47,7 +47,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private AnalyzedToken[] anTokReadings;
   private int startPos;
   private String token;
-  private List<ChunkTag> chunkTags = Collections.emptyList();
+  private List<ChunkTag> chunkTags = new ArrayList<>();
   private boolean isSentEnd;
   private boolean isParaEnd;
   private boolean isWhitespaceBefore;

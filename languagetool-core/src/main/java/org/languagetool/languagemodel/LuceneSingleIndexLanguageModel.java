@@ -100,6 +100,7 @@ public class LuceneSingleIndexLanguageModel extends BaseLanguageModel {
     maxNgram = Collections.<Integer>max(luceneSearcherMap.keySet());
   }
 
+  @Experimental
   public LuceneSingleIndexLanguageModel(int maxNgram) {
     this.maxNgram = maxNgram;
     this.topIndexDir = null;

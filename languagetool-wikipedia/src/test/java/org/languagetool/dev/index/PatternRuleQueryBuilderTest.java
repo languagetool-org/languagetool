@@ -41,8 +41,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import static org.languagetool.dev.index.Lucene.FIELD_NAME;
-import static org.languagetool.dev.index.Lucene.FIELD_NAME_LOWERCASE;
+import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME;
+import static org.languagetool.dev.index.PatternRuleQueryBuilder.FIELD_NAME_LOWERCASE;
 
 public class PatternRuleQueryBuilderTest extends LuceneTestCase {
 

@@ -20,7 +20,6 @@ package org.languagetool;
 
 import org.jetbrains.annotations.Nullable;
 
-import java.io.File;
 import java.util.Objects;
 
 /**
@@ -31,7 +30,6 @@ public class GlobalConfig {
   private String grammalecteServer;
   private String grammalecteUser;
   private String grammalectePassword;
-  private File beolingusFile;
 
   public void setGrammalecteServer(String serverUrl) {
     grammalecteServer = serverUrl;
@@ -58,14 +56,6 @@ public class GlobalConfig {
   @Nullable
   public String getGrammalectePassword() {
     return grammalectePassword;
-  }
-
-  public void setBeolingusFile(File beolingusFile) {
-    this.beolingusFile = beolingusFile;
-  }
-
-  public File getBeolingusFile() {
-    return beolingusFile;
   }
 
   @Override

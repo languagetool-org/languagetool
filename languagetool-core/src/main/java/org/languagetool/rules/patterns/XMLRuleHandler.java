@@ -342,7 +342,7 @@ public class XMLRuleHandler extends DefaultHandler {
     }
   }
 
-  protected void setMatchElement(Attributes attrs, boolean isSuppressMisspelled) throws SAXException {
+  protected void setMatchElement(Attributes attrs) throws SAXException {
     inMatch = true;
     match = new StringBuilder();
     Match.CaseConversion caseConversion = Match.CaseConversion.NONE;
@@ -359,7 +359,7 @@ public class XMLRuleHandler extends DefaultHandler {
         YES.equals(attrs.getValue(POSTAG_REGEXP)),
         attrs.getValue("regexp_match"), attrs.getValue("regexp_replace"),
         caseConversion, YES.equals(attrs.getValue("setpos")),
-        isSuppressMisspelled,
+        YES.equals(attrs.getValue("suppress_misspelled")),
         includeRange);
     mWorker.setInMessageOnly(!inSuggestion);
     if (inMessage) {

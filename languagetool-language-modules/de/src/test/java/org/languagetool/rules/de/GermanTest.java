@@ -46,7 +46,7 @@ public class GermanTest extends LanguageSpecificTest {
     testDemoText(lang, s,
       Arrays.asList("UPPERCASE_SENTENCE_START", "EIN_PAAR", "COMMA_PARENTHESIS_WHITESPACE", "ANGST_UND_BANGE", "KOMP_WIE", "GERMAN_SPELLER_RULE", "SAGT_RUFT", "DATUM_WOCHENTAG", "DE_AGREEMENT")
     );
-    runTests(lang, null, "_");
+    runTests(lang);
   }
 
   @Test
@@ -78,26 +78,6 @@ public class GermanTest extends LanguageSpecificTest {
         if (message.contains("Genetiv")) {
           origWord = "Genetiv";
           suggWord = "Genitiv";
-        }
-        if (message.contains("Partizip 1")) {
-          origWord = "Partizip 1";
-          suggWord = "Partizip I";
-        }
-        if (message.contains("Partizip 2")) {
-          origWord = "Partizip 2";
-          suggWord = "Partizip II";
-        }
-        if (message.contains(" fordert ")) {
-          origWord = "fordert";
-          suggWord = "erfordert";
-        }
-        if (message.contains("auseinandergeschrieben")) {
-          origWord = "auseinandergeschrieben";
-          suggWord = "getrennt geschrieben";
-        }
-        if (message.contains("getrenntgeschrieben")) {
-          origWord = "getrenntgeschrieben";
-          suggWord = "getrennt geschrieben";
         }
         if (origWord != null) {
           System.err.println("WARNING: Aus Gründen der Einheitlichkeit bitte '" + suggWord + "' nutzen statt '" + origWord + "' in der Regel " + patternRule.getFullId() + ", message: '" + message + "'");

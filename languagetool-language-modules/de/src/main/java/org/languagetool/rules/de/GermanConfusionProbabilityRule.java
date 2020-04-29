@@ -35,19 +35,12 @@ import java.util.regex.Pattern;
 public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   private static final List<Pattern> SENTENCE_EXCEPTION_PATTERNS = Arrays.asList(
-    Pattern.compile("Wie .*?en Sie"),  // "Wie heizen Sie das Haus?"
     Pattern.compile("fiel(e|en)? .* (aus|auf)")
   );
 
   private static final List<String> EXCEPTIONS = Arrays.asList(
     // Use all-lowercase, matches will be case-insensitive.
     // See https://github.com/languagetool-org/languagetool/issues/1516
-    ", dir bei",  // "froh, dir bei deiner Arbeit zu helfen"
-    "fiel hinaus",
-    "du hast dir",
-    "vielen als held",
-    "seht gut",  // "Ihr seht gut aus"
-    "so viel das",
     "wie erinnern sie sich",
     "dürfen wir nicht",
     "kann dich auch",
@@ -65,12 +58,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "das wir uns",
     "so wir können",
     "wie zahlen sie",
-    "war sich für nichts", // war sich für nichts zu schade
-    "ich drei bin", // seit ich drei bin.
-    "was wird unser",
-    "die wird wieder",
-    "damit wir für",
-    "wie finden sie"
+    "ich drei bin" // seit ich drei bin.
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
@@ -84,7 +72,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   }
 
   @Override
-  protected boolean isException(String sentenceText, int startPos, int endPos) {
+  protected boolean isException(String sentenceText) {
     for (Pattern pattern : SENTENCE_EXCEPTION_PATTERNS) {
       Matcher m = pattern.matcher(sentenceText);
       if (m.find()) {
