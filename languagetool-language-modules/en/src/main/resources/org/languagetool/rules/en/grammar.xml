@@ -43925,18 +43925,20 @@ The accident victim died from her injuries.
             <rule>
                 <pattern>
                     <token regexp="yes">an?|the|my|his|her|its|their|our|your|s</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
                     <marker>
                         <token postag="CD"/>
                         <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y</token>
                         <token regexp="yes">high|old|long</token>
                     </marker>
                     <token postag="JJ.*" postag_regexp="yes" min="0" />
-                    <token postag="NN.*|PCT" postag_regexp="yes"/>
+                    <token postag="NN.*|PCT|CC" postag_regexp="yes"/>
                 </pattern>
                 <message>When a number forms part of an adjectival compound, use hyphens: <suggestion>\2-\3-\4</suggestion></message>
                 <url>https://dictionary.cambridge.org/us/grammar/british-grammar/word-formation/compounds</url>
                 <short>Missing hyphens</short>
                 <example correction="two-year-old">Rudolph is a <marker>two year old</marker> reindeer.</example>
+                <example correction="29-year-old">She is an adorable <marker>29 year old</marker> cat.</example>
                 <example>Rudolph is two years old.</example>
                 <example>Rudolph is two years old actually</example>
             </rule>
@@ -43994,7 +43996,7 @@ The accident victim died from her injuries.
                         <token postag="CD"></token>
                         <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y</token>
                     </marker>
-                    <token postag="NN.*|JJ" postag_regexp="yes"/>
+                    <token postag="NN.*|JJ" postag_regexp="yes" />
                 </pattern>
                 <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\3-\4</suggestion></message>
                 <url>https://dictionary.cambridge.org/us/grammar/british-grammar/word-formation/compounds</url>
