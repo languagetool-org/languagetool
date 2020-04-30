@@ -521,6 +521,32 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="replace" postag="AO0MS0"/>
         </rule>
     </rulegroup>
+    <rulegroup id="UNIDADES_SI" name="Sistema Internacional de Unidades">
+        <rule>
+            <antipattern>
+                <token regexp="yes">[\d\., &#160;]*\d</token>
+                <token regexp="yes">aC|dC|a|aC|dC|el|es</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">[\d\., &#160;]*\d</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">[%‰‱]|(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?<exception postag="NP.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="Y"></wd></disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[\d\., &#160;]*\d</token>
+                <token regexp="yes" case_sensitive="yes">[%‰‱]|(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?<exception postag="NP.*" postag_regexp="yes"/></token>
+                <token>/</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">[%‰‱]|(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?<exception postag="NP.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="add"><wd pos="Y"></wd></disambig>
+        </rule>
+    </rulegroup>
     <rule id="alrededor_de" name="alrededor de">
         <pattern>
             <token regexp="yes">unos|unas|los|las</token>

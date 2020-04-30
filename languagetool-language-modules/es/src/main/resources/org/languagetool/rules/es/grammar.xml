@@ -4463,6 +4463,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!--TODO: idem with ", pues"-->
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
+        <rulegroup id="SUPERINDEX" name="superíndices en unidades: m2/m²" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes" postag="Y">.*2</token>
+                </pattern>
+                <message>Si es una unidad de medida, se escribe como superíndice.</message>
+                <suggestion><match no="1" regexp_match="(.*)2" regexp_replace="$1²"/></suggestion>
+                <example correction="km²">30 <marker>km2</marker></example>
+                <example correction="m²">es superior a los 1000 W/<marker>m2</marker></example>
+                <example>KM2</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" postag="Y">.*m3</token>
+                </pattern>
+                <message>Si es una unidad de medida, se escribe como superíndice.</message>
+                <suggestion><match no="1" regexp_match="(.*)3" regexp_replace="$1³"/></suggestion>
+                <example correction="m³">10 <marker>m3</marker></example>
+                <example>colaborador de TV3 y RAC1</example>
+                <example>En 1950 TV3 no existía.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PUNTO_EN_ABREVIATURAS" name="Punto en abreviaturas: pág., núm., etc." default="on">
             <url>https://www.rae.es/dpd/ayuda/abreviaturas</url>
             <antipattern>
