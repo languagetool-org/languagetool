@@ -18561,13 +18561,14 @@ steenwijk;Steenwijk
 				<example correction="dat">In het midden hangt het printje <marker>die</marker> tussen de booster en de ringleiding is geplaatst.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="HET_ZNW_DE" name="het man / de man">
+		<rulegroup id="HET_ZNW_DE" name="het man / de man" default="temp_off">
 			<rule>
+				<antipattern><token postag_regexp="yes" postag="WKW:(TGW|VLT):3EP"/><token>het</token></antipattern>
 				<pattern>
 					<marker>
 						<token>het</token>
 					</marker>
-					<token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag="ZNW:EKV|ZNW.*DE|WKW.*|VRZ"/><exception>mijn</exception></token>
+					<token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|WKW.*|VRZ|BNW.*"/><exception>mijn</exception></token>
 					<token><exception postag_regexp="yes" postag="ENM.*|WKW.*"/></token>
 				</pattern>
 				<message>\2 is een 'het'-woord: <suggestion>de</suggestion> moet staan.</message>
