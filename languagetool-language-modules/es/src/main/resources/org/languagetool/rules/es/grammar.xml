@@ -1812,6 +1812,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="NO_SEPARADO" name="palabras no separadas">
             <rule>
+                <pattern>
+                    <token>agro</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes">turismo|exportación|importación|meteorología|industria|geología|ecología|ciudad|biología|alimentación|alimentario|ambiental|climático|ecológico|forestal|industrial|lógico|nómico|pecuario|químico</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="agroecológico">Es <marker>agro ecológico</marker>.</example>
+            </rule>
+            <rule>
                 <antipattern case_sensitive="yes">
                     <token>Radio</token>
                     <token>Televisión</token>
@@ -1854,9 +1864,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0">-</token>
                     <token regexp="yes" inflected="yes">radar|radiografía|radioscopia|realidad|reunión|ruta</token>
                 </pattern>
-                <message>Se escribe junto</message>
+                <message>Se escribe junto.</message>
                 <suggestion>\1r\3</suggestion>
                 <example correction="telerrealidad">La <marker>tele realidad</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>foto</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes">reportaje|reactivación|receptor|reportero|resina|resistencia|resistente</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>\1r\3</suggestion>
+                <example correction="fotorreportaje">Un <marker>foto reportaje</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>foto</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes"
+                        >copiar|grabar|grafiar|litografiar|sintetizar|activo|alérgico|cinético|conductivo|conductor|conductriz|copiador|cromático|degradable|elástico|eléctrico|emisivo|emisor|estático|gramétrico|gráfico|génico|litográfico|mecánico|multiplicador|métrico|negativo|periódico|positivo|químico|sensible|sférico|sintetizador|sintético|terápico|tipográfico|típico|tóxico|voltaico|alergia|biología|catálisis|cinesis|coagulación|componedora|composición|conductibilidad|conductividad|control|copia|copiadora|cromo|croísmo|cátodo|célula|dermatosis|desintegración|detector|diodo|disociación|elasticidad|electricidad|electrón|emisión|envejecimiento|fobia|foresis|genia|geología|grabación|grabado|grabador|grafía|grama|grametría|grámetro|génesis|interpretación|lisis|lito|litografista|litografía|litógrafo|luminiscencia|mapa|matón|meteoro|metría|montaje|mosaico|nitrosación|novela|periodicidad|periodismo|periodista|período|pila|plano|polímero|psia|química|sensor|sfera|stato|síntesis|tactismo|taxia|taxis|teca|telegrafía|telégrafo|terapia|tipia|tipografía|tiristor|topografía|toxicidad|transistor|triangulación|tropismo|tubo</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="fotoperiodismo">El <marker>foto periodismo</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>socio</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes">biología|biólogo|diversidad|drama|grafía|grama|lingüista|lingüística|logismo|logía|metría|biológico|cultural|económico|laboral|lingüístico|lógico|métrico|político|profesional|pático|sanitario</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion>\1\3</suggestion>
+                <example correction="sociodiversidad">La <marker>socio diversidad</marker>.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3334,6 +3375,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>mas</token>
             </antipattern>
+            <antipattern>
+                <!-- with prefixes it is imposible to know the word-->
+                <token postag="N.*" postag_regexp="yes"/>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no"/>
+            </antipattern>
             <!--exceptions with other suggestions-->
             <rule>
                 <pattern>
@@ -3345,6 +3392,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es nombre propio, se escribe con mayúscula inicial.</message>
                 <suggestion>\1 Amazonas</suggestion>
                 <example correction="el Amazonas">En <marker>el amazonas</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">el|al|del|río</token>
+                        <token case_sensitive="yes">sena</token>
+                    </marker>
+                </pattern>
+                <message>Si es nombre propio, se escribe con mayúscula inicial.</message>
+                <suggestion>\1 Sena</suggestion>
+                <suggestion>\1 SENA</suggestion>
+                <example correction="el Sena|el SENA">Estudio en <marker>el sena</marker></example>
             </rule>
             <!-- end of exceptions -->
             <rule>
