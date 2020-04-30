@@ -23890,7 +23890,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sí">Cal respondre "<marker>si</marker>" o "no"</example>
             </rule>
         </rulegroup>
-        <rulegroup id="MES" name="mes/més">
+        <rulegroup id="MES1" name="*mes>més">
             <antipattern>
                 <token regexp="yes">/|mateix|mitjan</token>
                 <marker>
@@ -23901,7 +23901,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>mes</token>
                     <token>de</token>
-                    <token>naixement</token>
+                    <token regexp="yes">naixement|&mesos_any;</token>
                 </marker>
             </antipattern>
             <antipattern>
@@ -24263,129 +24263,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="més">en aquell període, <marker>mes</marker> un 20 % d’entitats</example>
                 <example>Cada mes un xec.</example>
             </rule>
-            <!-- Situació inversa: accentuar "més" quan no toca-->
             <rule>
                 <pattern>
-                    <token><exception regexp="yes">l'|cada|per</exception></token>
-                    <token>un</token>
+                    <token regexp="yes">o|i</token>
                     <marker>
-                        <token>més</token>
-                    </marker>
-                    <token postag="A..MS.*" postag_regexp="yes"><exception regexp="yes">antic|nou|proper|llunyà|alt|baix|fi|petit|gran|modern|notori|prosaic|senzill|vell|tou</exception></token>
-                    <token><exception>que</exception><exception postag="N.MS.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <example correction="mes">Ha estat un <marker>més</marker> fantàstic.</example>
-                <example correction="mes">Ha estat un <marker>més</marker> intens.</example>
-                <example>un més intens pessimisme</example>
-                <example>Ha estat un mes fantàstic</example>
-                <example>N'hi ha un més bonic que l'altre</example>
-                <example>Cada un més bonic</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="D[AD]0MS0" postag_regexp="yes"/>
-                    <marker>
-                        <token>més</token>
-                    </marker>
-                    <token regexp="yes">de|d'<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
-                    <token><exception regexp="yes">mig|acord|un|dreta|esquerra</exception><exception>1</exception></token>
-                    <!-- <token regexp="yes">&mesos_any;</token> -->
-                </pattern>
-                <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <example correction="mes">Aquest <marker>més</marker> de novembre.</example>
-                <example correction="mes">El <marker>més</marker> de Maria.</example>
-                <example>el més de mig segle que havia passat</example>
-                <example>pel més d'1 milió d'immigrants nord-americans</example>
-                <example>pel més d'un milió d'immigrants nord-americans</example>
-                <example>el més de pressa possible</example>
-                <!-- <example>el més de tres vegades campió del món</example>  dubtós -->
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">vegada|volta|cop|pic<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
-                    <token>el</token>
-                    <marker>
-                        <token>més</token>
+                        <token>mes</token>
                     </marker>
                 </pattern>
-                <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <example correction="mes">Ho fan un cop el <marker>més</marker>.</example>
-                <example correction="mes">Una volta el <marker>més</marker> fan vacances.</example>
-                <example>Tal vegada el més bonic</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">vegada|volta|cop|pic<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
-                    <token>a</token>
-                    <token>l</token>
-                    <marker>
-                        <token>més</token>
-                    </marker>
-                </pattern>
-                <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <example correction="mes">Ho fan un cop al <marker>més</marker>.</example>
-                <example correction="mes">Una volta al <marker>més</marker> fan vacances.</example>
-                <example>és el més bonic</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="D[AD]0MS0" postag_regexp="yes"/>
-                    <marker>
-                        <token>més</token>
-                    </marker>
-                    <token regexp="yes">dedicat|vinent|propvinent|passat|proppassat|intercalar|anterior|següent</token>
-                </pattern>
-                <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <example correction="mes">El <marker>més</marker> propvinent.</example>
-                <example>El més gran dedicat a sant Llorenç</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="D[AD]0MS0" postag_regexp="yes"/>
-                    <marker>
-                        <token>més</token>
-                    </marker>
-                    <token>que</token>
-                    <token>ve</token>
-                </pattern>
-                <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <example correction="mes">El <marker>més</marker> que ve.</example>
-                <example>El més gran dedicat a sant Llorenç</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>un</token>
-                    <marker>
-                        <token>més</token>
-                    </marker>
-                    <token regexp="yes">abans|després</token>
-                </pattern>
-                <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <example correction="mes">Un <marker>més</marker> abans.</example>
-                <example>Un mes abans</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token>cada</token>
-                    <marker>
-                        <token>més</token>
-                    </marker>
-                </pattern>
-                <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <example correction="mes">Ho fan cada <marker>més</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes">més|menys|manco</token>
-                    <token>d'</token>
-                    <token>un</token>
-                    <marker>
-                        <token>més</token>
-                    </marker>
-                </pattern>
-                <message>No s'accentua si és un nom (<suggestion>mes</suggestion> de l'any).</message>
-                <example correction="mes">En menys d'un <marker>més</marker>.</example>
+                <message>S'accentua quan és adjectiu o adverbi.</message>
+                <suggestion>més</suggestion>
+                <example correction="més">Tres anys o <marker>mes</marker>.</example>
+                <example>Mes d'abril o mes de novembre.</example>
             </rule>
             <rule>
                 <pattern>
@@ -24415,6 +24303,151 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="més">Un <marker>mes</marker> que un altre.</example>
                 <example correction="més">Un <marker>mes</marker> que els altres.</example>
                 <example>Un mes que ens ha deixat exhausts.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="MES2" name="*més>mes">
+            <rule>
+                <pattern>
+                    <token><exception regexp="yes">l'|cada|per</exception></token>
+                    <token>un</token>
+                    <marker>
+                        <token>més</token>
+                    </marker>
+                    <token postag="A..MS.*" postag_regexp="yes"><exception regexp="yes">antic|nou|proper|llunyà|alt|baix|fi|petit|gran|modern|notori|prosaic|senzill|vell|tou</exception></token>
+                    <token><exception>que</exception><exception postag="N.MS.*" postag_regexp="yes"/></token>
+                </pattern>
+                <message>No s'accentua si és un nom (període de 28-31 dies).</message>
+                <suggestion>mes</suggestion>
+                <example correction="mes">Ha estat un <marker>més</marker> fantàstic.</example>
+                <example correction="mes">Ha estat un <marker>més</marker> intens.</example>
+                <example>un més intens pessimisme</example>
+                <example>Ha estat un mes fantàstic</example>
+                <example>N'hi ha un més bonic que l'altre</example>
+                <example>Cada un més bonic</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D[AD]0MS0" postag_regexp="yes"/>
+                    <marker>
+                        <token>més</token>
+                    </marker>
+                    <token regexp="yes">de|d'<exception postag=".*LOC_.*" postag_regexp="yes"/></token>
+                    <token><exception regexp="yes">mig|acord|un|dreta|esquerra</exception><exception>1</exception></token>
+                </pattern>
+                <message>No s'accentua si és un nom (període de 28-31 dies).</message>
+                <suggestion>mes</suggestion>
+                <example correction="mes">Aquest <marker>més</marker> de novembre.</example>
+                <example correction="mes">El <marker>més</marker> de Maria.</example>
+                <example>el més de mig segle que havia passat</example>
+                <example>pel més d'1 milió d'immigrants nord-americans</example>
+                <example>pel més d'un milió d'immigrants nord-americans</example>
+                <example>el més de pressa possible</example>
+                <!-- <example>el més de tres vegades campió del món</example>  dubtós -->
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>més</token>
+                    </marker>
+                    <token regexp="yes">de|d'</token>
+                    <token regexp="yes">&mesos_any;</token>
+                </pattern>
+                <message>No s'accentua si és un nom (període de 28-31 dies).</message>
+                <suggestion>mes</suggestion>
+                <example correction="mes"><marker>més</marker> de novembre</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">vegada|volta|cop|pic<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <token>el</token>
+                    <marker>
+                        <token>més</token>
+                    </marker>
+                </pattern>
+                <message>No s'accentua si és un nom (període de 28-31 dies).</message>
+                <suggestion>mes</suggestion>
+                <example correction="mes">Ho fan un cop el <marker>més</marker>.</example>
+                <example correction="mes">Una volta el <marker>més</marker> fan vacances.</example>
+                <example>Tal vegada el més bonic</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">vegada|volta|cop|pic<exception postag=".*LOC_ADV.*" postag_regexp="yes"/></token>
+                    <token>a</token>
+                    <token>l</token>
+                    <marker>
+                        <token>més</token>
+                    </marker>
+                </pattern>
+                <message>No s'accentua si és un nom (període de 28-31 dies).</message>
+                <suggestion>mes</suggestion>
+                <example correction="mes">Ho fan un cop al <marker>més</marker>.</example>
+                <example correction="mes">Una volta al <marker>més</marker> fan vacances.</example>
+                <example>és el més bonic</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D[AD]0MS0" postag_regexp="yes"/>
+                    <marker>
+                        <token>més</token>
+                    </marker>
+                    <token regexp="yes">dedicat|vinent|propvinent|passat|proppassat|intercalar|anterior|següent</token>
+                </pattern>
+                <message>No s'accentua si és un nom (període de 28-31 dies).</message>
+                <suggestion>mes</suggestion>
+                <example correction="mes">El <marker>més</marker> propvinent.</example>
+                <example>El més gran dedicat a sant Llorenç</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="D[AD]0MS0" postag_regexp="yes"/>
+                    <marker>
+                        <token>més</token>
+                    </marker>
+                    <token>que</token>
+                    <token>ve</token>
+                </pattern>
+                <message>No s'accentua si és un nom (període de 28-31 dies).</message>
+                <suggestion>mes</suggestion>
+                <example correction="mes">El <marker>més</marker> que ve.</example>
+                <example>El més gran dedicat a sant Llorenç</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>un</token>
+                    <marker>
+                        <token>més</token>
+                    </marker>
+                    <token regexp="yes">abans|després</token>
+                </pattern>
+                <message>No s'accentua si és un nom (període de 28-31 dies).</message>
+                <suggestion>mes</suggestion>
+                <example correction="mes">Un <marker>més</marker> abans.</example>
+                <example>Un mes abans</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>cada</token>
+                    <marker>
+                        <token>més</token>
+                    </marker>
+                </pattern>
+                <message>No s'accentua si és un nom (període de 28-31 dies).</message>
+                <suggestion>mes</suggestion>
+                <example correction="mes">Ho fan cada <marker>més</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">més|menys|manco</token>
+                    <token>d'</token>
+                    <token>un</token>
+                    <marker>
+                        <token>més</token>
+                    </marker>
+                </pattern>
+                <message>No s'accentua si és un nom (període de 28-31 dies).</message>
+                <suggestion>mes</suggestion>
+                <example correction="mes">En menys d'un <marker>més</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="BE" name="be/bé">
