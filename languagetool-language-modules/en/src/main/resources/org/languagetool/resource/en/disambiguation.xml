@@ -4762,12 +4762,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <pattern>
             <marker>
-                <token regexp="yes" postag="UNKNOWN">[a-z]+in</token>
+                <token regexp="yes" postag="UNKNOWN">
+                    [a-z]+in
+                    <exception>nothin</exception>
+                </token>
             </marker>
             <token spacebefore="no" regexp="yes">['’]</token><!-- Not &apostrophe; because only text with a correct apostrophe must be tagged. -->
             <token>
                 <exception>s</exception><!-- #2680 -->
-                </token>
+            </token>
         </pattern><!-- Cannot use filter NoDisambiguationEnglishPartialPosTagFilter because not all text before 'in' is the base form of the verb, for example 'Puttin'. -->
         <disambig postag="VBG"/>
         <example type="untouched">I'm in N.Y.</example>
