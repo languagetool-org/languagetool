@@ -6217,6 +6217,68 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>a \2</suggestion>
             <example correction="deslligant|deslligat|a deslligar">Va anar <marker>deslligar</marker>.</example>
         </rule>
+        <rulegroup id="ANAR_GERUNDI" name="anar + gerundi" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token inflected="yes">en</token>
+                    <token inflected="yes">anar</token>
+                </antipattern>
+                <pattern>
+                    <and>
+                        <token postag="VA[IS].*" postag_regexp="yes" inflected="yes">anar</token>
+                        <token postag="_reflexiu"/>
+                    </and>
+                    <token>anar</token>
+                    <marker>
+                        <token postag="V.P..SM." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Possible confusió.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(V.P.*)" postag_replace="V.G.*"/></suggestion>
+                <example correction="desenvolupant">Es van anar <marker>desenvolupat</marker></example>
+                <example>Se'n va anar deprimit.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes">en</token>
+                    <token inflected="yes">anar</token>
+                </antipattern>
+                <pattern>
+                    <and>
+                        <token postag="V.[IS].*" postag_regexp="yes" inflected="yes">anar</token>
+                        <token postag="_reflexiu"/>
+                    </and>
+                    <marker>
+                        <token postag="V.P..SM." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Possible confusió.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(V.P.*)" postag_replace="V.G.*"/></suggestion>
+                <example correction="desenvolupant">s'anà <marker>desenvolupat</marker></example>
+                <example>Se n'anà deprimit.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes">en</token>
+                    <token inflected="yes">haver</token>
+                </antipattern>
+                <pattern>
+                    <and>
+                        <token postag="VA[IS].*" postag_regexp="yes" inflected="yes">haver</token>
+                        <token postag="_reflexiu"/>
+                    </and>
+                    <token>anat</token>
+                    <marker>
+                        <token postag="V.P..SM." postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Possible confusió.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(V.P.*)" postag_replace="V.G.*"/></suggestion>
+                <example correction="desenvolupant">S'ha anat <marker>desenvolupat</marker></example>
+                <example correction="desenvolupant">Si s'hagués anat <marker>desenvolupat</marker></example>
+                <example>Se n'ha anat deprimit.</example>
+            </rule>
+        </rulegroup>
         <rule id="HAVER_DE_PARTICIPI" name="haver de *participat/participar">
             <pattern>
                 <token><exception>hi</exception></token>
