@@ -161,7 +161,8 @@ public class GermanTest extends LanguageSpecificTest {
   private boolean lacksSwitzerlandSpelling(String pattern) {
     return pattern != null && pattern.contains("ß") 
       && !pattern.contains("(ß|ss)") 
-      && !containsSwitzerlandSpelling(pattern) 
+      && !pattern.contains("(ss|ß)")
+      && !containsSwitzerlandSpelling(pattern)
       && !allInBrackets('ß', pattern);
   }
 
