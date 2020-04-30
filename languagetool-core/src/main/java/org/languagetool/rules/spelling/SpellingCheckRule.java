@@ -442,8 +442,12 @@ public abstract class SpellingCheckRule extends Rule {
       if (replacement.endsWith(" s") && isProperNoun(suggestionWithoutS)) {
         // "Michael s" -> "Michael's"
         //System.out.println("### " + suggestion + " => " + sentence.getText().replaceAll(suggestionWithoutS + "s", "**" + suggestionWithoutS + "s**"));
-        newSuggestions.add(0, new SuggestedReplacement(suggestionWithoutS));
-        newSuggestions.add(0, new SuggestedReplacement(suggestionWithoutS + "'s"));
+        SuggestedReplacement sugg1 = new SuggestedReplacement(suggestionWithoutS);
+        sugg1.setType(SuggestedReplacement.SuggestionType.Curated);
+        newSuggestions.add(0, sugg1);
+        SuggestedReplacement sugg2 = new SuggestedReplacement(suggestionWithoutS + "'s");
+        sugg2.setType(SuggestedReplacement.SuggestionType.Curated);
+        newSuggestions.add(0, sugg2);
       } else {
         newSuggestions.add(suggestion);
       }
