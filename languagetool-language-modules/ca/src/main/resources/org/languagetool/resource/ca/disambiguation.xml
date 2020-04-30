@@ -1960,6 +1960,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="remove"><wd pos="NPCSG0V"></wd></disambig>
         </rule>
+        <rule> <!-- adjectiu a principi de frase -->
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token postag="A.*" postag_regexp="yes" inflected="yes">antic</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"></disambig>
+        </rule>
     </rulegroup>
     <rulegroup id="Nom_propi" name="noms propis">
         <rule>
