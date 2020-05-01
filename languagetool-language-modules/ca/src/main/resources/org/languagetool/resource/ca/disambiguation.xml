@@ -13342,6 +13342,19 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="remove" postag="VM[^P].*"/>
     </rule>
+    <rule id="PR_PT" name="PR/PT (què)">
+        <antipattern>
+            <token postag="PR.*" postag_regexp="yes" skip="-1">què</token>
+            <token>?</token>
+        </antipattern>
+        <pattern>
+            <token postag="SPS00"/>
+            <marker>
+                <token postag="PR.*" postag_regexp="yes">què</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="PR.*"></disambig>
+    </rule>
     <rulegroup id="data_concreta" name="data concreta">
         <rule>
             <pattern>
