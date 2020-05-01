@@ -7956,6 +7956,18 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </pattern>
         <disambig action="filter" postag="N.*|_GN_.*"></disambig>
     </rule>
+    <rule id="gaire_no_adv" name="gaire no adverbi">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="RG.*" postag_regexp="yes">gaire</token>
+                    <token postag="DI.CS.*" postag_regexp="yes"/>
+                </and>
+            </marker>
+            <token postag="N.[FMC][SN].*" postag_regexp="yes"><exception postag="AQ.[FMC][SN].|V.N.*" postag_regexp="yes"/><exception regexp="yes">fons|si</exception></token>
+        </pattern>
+        <disambig action="filter" postag="[^R].*"></disambig>
+    </rule>
     <rulegroup id="nom_adv_adj" name="nom + adverbi + adjectiu que concorden">
         <!-- antipattern: tens que -->
         <rule id="aa2" name="aa1: Era la feina més dura ">
