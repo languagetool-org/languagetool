@@ -21500,12 +21500,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>re</token>
                     <token min="0">-</token>
-                    <token regexp="yes" inflected="yes">edició|exposició</token>
+                    <token regexp="yes">..+</token>
                 </pattern>
-                <message>S'escriu junt sense guionet.</message>
-                <suggestion>re<match no="3"/></suggestion>
-                <example correction="reedició">La <marker>re-edició</marker> de les obres completes.</example>
-                <example>reedició</example>
+                <message suppress_misspelled="yes">Probablement s'escriu junt.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="re$1"/></suggestion>
+                <!--<suggestion><match no="3" regexp_match="i(.+)" regexp_replace="reï$1"/></suggestion>-->
+                <example correction="reavaluació">La <marker>re avaluació</marker> de les obres completes.</example>
+                <example correction="reintroducció">La <marker>re-introducció</marker> de l'espècie.</example>
+                <example correction="regeneressin">Que <marker>re generessin</marker> el resultat.</example>
+                <example>No tinc re d'això</example>
+                <example>Una sonata en re menor.</example>
+                <example>Un concert en re major menor.</example>
             </rule>
             <rule>
                 <pattern>
@@ -21862,14 +21867,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">pluri|multi</token>
+                    <token>multi</token>
                     <token min="0">-</token>
-                    <token inflected="yes">disciplinari</token>
+                    <token regexp="yes">..+</token>
                 </pattern>
-                <message>S'escriu junt sense guionet.</message>
-                <suggestion>\1\3</suggestion>
+                <message suppress_misspelled="yes">S'escriu junt.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="multi$1"/></suggestion>
                 <example correction="multidisciplinàries"><marker>multi-disciplinàries</marker></example>
                 <example correction="multidisciplinàries"><marker>multi disciplinàries</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>pluri</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">..+</token>
+                </pattern>
+                <message suppress_misspelled="yes">S'escriu junt.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="pluri$1"/></suggestion>
+                <example correction="pluridisciplinàries"><marker>pluri-disciplinàries</marker></example>
+                <example correction="pluridisciplinàries"><marker>pluri disciplinàries</marker></example>
             </rule>
             <rule>
                 <pattern>
