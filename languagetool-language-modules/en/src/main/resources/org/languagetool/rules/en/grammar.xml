@@ -5635,6 +5635,25 @@ USA
                 <example correction="God's name">In <marker>Gods name</marker>, please move!</example>
                 <example correction="goodness's sake">For <marker>goodness sake</marker>, don't scare me like that!</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(some|any|every)(thing)s</token>
+                </pattern>
+                <message>It seems that a possessive apostrophe is missing or the word is misspelled.</message>
+                <suggestion><match no="1" regexp_match="(?i)things" regexp_replace="" />thing's</suggestion>
+                <suggestion><match no="1" regexp_match="(?i)things" regexp_replace="" /> things</suggestion>
+                <suggestion><match no="1" regexp_match="(?i)things" regexp_replace="" />thing</suggestion>
+                <example correction="something's|some things|something">He's eating someones or <marker>somethings</marker> lunch.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(some|any|every)(where|one|body)s</token>
+                </pattern>
+                <message>It seems that a possessive apostrophe is missing or the word is misspelled.</message>
+                <suggestion><match no="1" regexp_match="(?i)(some|any|every)(where|one|body)s" regexp_replace="$1" /><match no="1" regexp_match="(?i)(some|any|every)(where|one|body)s" regexp_replace="$2" />'s</suggestion>
+                <suggestion><match no="1" regexp_match="(?i)(some|any|every)(where|one|body)s" regexp_replace="$1" /><match no="1" regexp_match="(?i)(some|any|every)(where|one|body)s" regexp_replace="$2" /></suggestion>
+                <example correction="someone's|someone">I think this goes against <marker>someones</marker> principles.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="APOSTROPHE_PLURAL" name="Possessive form instead of plural">
