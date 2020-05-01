@@ -18561,21 +18561,24 @@ steenwijk;Steenwijk
 				<example correction="dat">In het midden hangt het printje <marker>die</marker> tussen de booster en de ringleiding is geplaatst.</example>
 			</rule>
 		</rulegroup>
+<!-- TODO TODO
 		<rulegroup id="HET_ZNW_DE" name="het man / de man" default="temp_off">
 			<rule>
-				<antipattern><token postag_regexp="yes" postag="WKW:(TGW|VLT):3EP"/><token>het</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token>het</token></antipattern>
+				<antipattern><token>het</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token><token case_sensitive="yes" postag_regexp="yes" postag="ZNW.*HET|ZNW:EKV">[A-Z].*</token></antipattern>
 				<pattern>
 					<marker>
 						<token>het</token>
 					</marker>
-					<token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|WKW.*|VRZ|BNW.*"/><exception>mijn</exception></token>
+					<token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|WKW.*|VRZ|BNW.*|BYW"/><exception>mijn</exception></token>
 					<token><exception postag_regexp="yes" postag="ENM.*|WKW.*"/></token>
 				</pattern>
-				<message>\2 is een 'het'-woord: <suggestion>de</suggestion> moet staan.</message>
+				<message>\2 is een 'het'-woord: hier moet <suggestion>de</suggestion> staan.</message>
 				<example correction="de">Ik zie <marker>het</marker> hond.</example>
 				<example>Niet als <marker>het</marker> firma Janssen betreft.</example>
 			</rule>
 		</rulegroup>
+-->
 		<!-- te veel false postives
 		<rulegroup id="MIJN_FAVORIET_PRODUCT" name="mijn favoriet product">
 			<rule>
