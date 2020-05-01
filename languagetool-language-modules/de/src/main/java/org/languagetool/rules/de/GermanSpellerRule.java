@@ -70,6 +70,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   static {
     put("lieder", w -> Arrays.asList("leider", "Lieder"));
     put("inbetracht", "in Betracht");
+    put("einlogen", "einloggen");
+    putRepl("wiedersteh(en|st|t)", "wieder", "wider");
+    putRepl("wiederstan(d|den|dest)", "wieder", "wider");
     put("zuviel", "zu viel");
     put("abgekatertes", "abgekartetes");
     put("wiederspiegelt", "widerspiegelt");
