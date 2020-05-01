@@ -943,13 +943,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>el</token>
                     </marker>
-                    <token postag="CC"><exception regexp="yes">bien|tanto</exception></token>
+                    <token postag="CC"><exception regexp="yes">bien|tanto</exception><exception case_sensitive="yes" regexp="yes">[EY]</exception></token>
                 </pattern>
                 <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
                 <example correction="él">Esto queda entre <marker>el</marker> y yo.</example>
                 <example>Me gusta el que tienes.</example>
+                <example>El E y el Y.</example>
             </rule>
             <rule id="EL_TILDE" name="el / él" default="on">
+                <antipattern>
+                    <token>el</token>
+                    <token regexp="yes">\d+°</token>
+                    <!-- confusion º / °, to be fixed in another rule -->
+                </antipattern>
                 <antipattern>
                     <token>el</token>
                     <token>/</token>
@@ -1811,7 +1817,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="curriculum vitae|currículums|currículos">Los <marker>currículums vitae</marker>.</example>
         </rule>
         <rulegroup id="NO_SEPARADO" name="palabras no separadas">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>re</token>
                     <token min="0">-</token>
@@ -1822,7 +1828,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion suppress_misspelled="yes">\1\3</suggestion>
                 <example correction="reactiva">Se <marker>re activa</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>anti</token>
                     <token min="0">-</token>
@@ -1986,7 +1992,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="serotipo"><marker>cero tipo</marker></example>
                 <example correction="seroprevalencias"><marker>sero-prevalencias</marker></example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>auto</token>
                     <token min="0">-</token>
@@ -4488,7 +4494,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!--TODO: idem with ", pues"-->
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
-        <rulegroup id="SUPERINDEX" name="superíndices en unidades: m2/m²" default="temp_off">
+        <rule id="ORDINAL_CHAR" name="carácter equivocado en ordinales">
+            <pattern>
+                <token postag="D..MS." postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes">\d+\.?°</token>
+                </marker>
+            </pattern>
+            <message>Carácter incorrecto para indicar un número ordinal. Correcto si son grados.</message>
+            <suggestion><match no="2" regexp_match="(\d+)°" regexp_replace="$1.º"/></suggestion>
+            <example correction="9.º">El <marker>9°</marker> clasificado</example>
+        </rule>
+        <rulegroup id="SUPERINDEX" name="superíndices en unidades: m2/m²" default="on">
             <rule>
                 <pattern>
                     <token regexp="yes" postag="Y">.*2</token>
@@ -4578,6 +4595,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="yes">ej</token>
                 <token spacebefore="no">.</token>
             </antipattern>
+            <antipattern case_sensitive="yes"> <!-- a person's initials -->
+                <token>P</token>
+                <token spacebefore="no">.</token>
+                <token>E</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
             <pattern>
                 <token>p</token>
                 <token min="0">.</token>
@@ -4594,6 +4617,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="p. ej.">(<marker>p .ej.</marker> el campo).</example>
             <example correction="p. ej.">(<marker>p .e.</marker> el campo).</example>
             <example>P. ej. el campo.</example>
+            <example>P. E. Berry</example>
         </rule>
         <rule id="SPACE_UNITIES" name="espacio en unidadess" default="on">
             <antipattern>
