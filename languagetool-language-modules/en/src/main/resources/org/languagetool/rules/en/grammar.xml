@@ -51806,6 +51806,73 @@ The accident victim died from her injuries.
             <example type="triggers_error">What do you think about the <marker>state of art</marker> in Britain today?</example>
         </rule>
 
+        <rule id="TAT" name="tat (that)" default="temp_off"><!-- #2837 -->
+            <antipattern><!-- www.lexico.com/definition/tit_for_tat -->
+                <token>tit</token>
+                <token>for</token>
+                <token>tat</token>
+            </antipattern>
+            <antipattern><!-- nhac.tat.nguyen -->
+                <token postag="PCT"/>
+                <token spacebefore="no">tat</token>
+                <token spacebefore="no" postag="PCT"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">cheap|old|souvenir</token>
+                <token>tat</token>
+            </antipattern>
+            <antipattern><!-- two tat proteins -->
+                <token postag="CD"/>
+                <token>tat</token>
+                <token postag_regexp="yes" postag="NN.*" regexp="yes" inflected="yes">gene|protein</token>
+            </antipattern>
+            <antipattern><!-- genes, tat, rev -->
+                <token>,</token>
+                <token>tat</token>
+                <token>,</token>
+                <token>rev</token>
+            </antipattern>
+            <antipattern><!-- Tat, spoken ... Azerbaijan -->
+                <token postag="SENT_START"/>
+                <token skip="-1" case_sensitive="yes">Tat</token>
+                <token skip="-1" regexp="yes" inflected="yes">speak|language</token>
+                <token postag_regexp="yes" postag="NN.*" regexp="yes" inflected="yes">Azerbaijan|Russia|Transcaucasia</token>
+            </antipattern>
+            <pattern>
+                <token postag="NN:U" case_sensitive="yes" regexp="yes">[Tt]at</token>
+            </pattern>
+            <message>In British English, the noun '\1' means tasteless or shoddy items. Did you mean <suggestion>that</suggestion>?</message>
+            <url>https://www.lexico.com/definition/tat</url>
+            <example correction="that">I think <marker>tat</marker> is correct.</example>
+            <example correction="That"><marker>Tat</marker> is not correct.</example>
+            <example correction="That"><marker>Tat</marker>, spoken in a hurry, sounds weird.</example>
+            <example correction="that">Although I think <marker>tat</marker> that is sometimes a...</example>
+            <example correction="that">The manager thinks that <marker>tat</marker> must be decided later.</example>
+            <example correction="that">The mechanism involved in <marker>tat</marker> activation is not known.</example>
+            <example correction="that">3. `&lt;client-resource>` <marker>tat</marker> loads a js script that waits for a button to appear...</example>
+            <example correction="that">... it damages your camshafts (been there, seen <marker>tat</marker>) and can lead to catastrophic damage.</example>
+            <example correction="that">I told her <marker>tat</marker> she must not do it.</example>
+            <example correction="that">Unfortunately, <marker>tat</marker> gene is defective.</example>
+            <example correction="that">Biology courses teach us <marker>tat</marker> proteins are essential for the organism.</example>
+            <example correction="that">Although I think that <marker>tat</marker> can be used effectively in some furnishing contexts...</example><!-- Ambiguous, but probably an error. -->
+            <example>I think <marker>that</marker> is correct.</example>
+            <example>Finally, she got rid of that old tat.</example>
+            <example>She can also tat and crochet lace.</example>
+            <example>The general mechanism involved in Tat activation of RNA Polymerase II (RNAP II) elongation... [www.ncbi.nlm.nih.gov/pmc/articles/PMC5700838/]</example>
+            <example>nhac.tat.nguyen:</example>
+            <example>@shao.tat, use the REST API GET /wiki/rest/api/user/current.</example>
+            <example>Lamma Island(Sok Kwu Wan and Mo Tat) to Aberdeen HKR International Limited:</example>
+            <example>... of the Chandogya Upanishad, whose Mahāvākya, Tat Tvam Asi, is mentioned throughout...</example>
+            <example>... Lezgian, Rutul, Talysh, Tat, Tsakhur, and Udi are all spoken by small minorities.</example>
+            <example>The main contractor was a joint venture, comprising the contracting firms Sanfield and Tat Lee, called Manloze Ltd.</example>
+            <example>When Baku was occupied by the Russian troops during the war of 1804–13, nearly the entire population of some 8,000 people was ethnic Tat.</example>
+            <example>The TAT gene provides instructions for making a liver enzyme called tyrosine aminotransferase (https://ghr.nlm.nih.gov/gene/TAT]).</example>
+            <example>The two tat proteins (p16 and p14) are transcriptional transactivators for the...</example>
+            <example>I crochet and tat left-handed, but I knit right-handed because...</example>
+            <example>The six remaining genes, tat, rev, nef, vif, vpr, and vpu (or vpx in the case of HIV-2), are regulatory genes...</example>
+            <example>Tat, spoken in parts of Azerbaijan, Russia, and Transcaucasia...</example>
+        </rule>
+
     </category>
 
     <!-- ====================================================================== -->

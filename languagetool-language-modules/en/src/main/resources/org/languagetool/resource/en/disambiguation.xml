@@ -4849,6 +4849,19 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     <example type="untouched">Have you thought of any good plans?</example>
     </rule>
 
+    <rule id="PRP_VBP_AND_VBP" name="verb/noun and verb/noun -> verb and verb">
+        <pattern>
+            <token regexp="yes">I|you|we|they</token>
+            <marker>
+                <token chunk="B-VP" postag="VBP"/>
+                <token chunk="I-VP" postag="CC" regexp="yes">and|or</token>
+                <token chunk="I-VP" postag="VBP"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
+        <example type="ambiguous" inputform="tat[tat/NN:U,tat/VB,tat/VBP]" outputform="tat[tat/VBP]">I crochet and <marker>tat</marker> left-handed.</example>
+    </rule>
+
     <rule id="PRP_VB_VBP" name="vb->vbp">
         <pattern>
             <token postag="PRP"><exception regexp="yes">me|her|its|him|us|them</exception></token>
