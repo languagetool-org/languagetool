@@ -137,6 +137,7 @@ public class Catalan extends Language {
     switch (id) {
       case "CA_SIMPLE_REPLACE_BALEARIC": return 100;
       case "INCORRECT_EXPRESSIONS": return 50;
+      case "MOTS_NO_SEPARATS": return 40;
       case "CONCORDANCES_CASOS_PARTICULARS": return 30;
       case "CONFUSIONS_ACCENT": return 20;
       case "DIACRITICS": return 20;
