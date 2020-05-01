@@ -11186,6 +11186,76 @@ USA
 <!-- Not found --><example>er name is Mary.</example>
         </rule>
 
+        <rulegroup id="NON_STANDARD_WORD" name="Non-standard word"><!-- #2833 -->
+            <rule><!-- For 's -->
+                <antipattern>
+                    <token spacebefore="no">(</token>
+                    <token spacebefore="no">s</token> 
+                    <token spacebefore="no">)</token>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="no">[</token>
+                    <token spacebefore="no">s</token> 
+                    <token spacebefore="no">]</token>
+                </antipattern>
+                <antipattern>
+                    <token>[</token>
+                    <token spacebefore="no"/>
+                    <token spacebefore="no">]</token>
+                    <token spacebefore="no">s</token> 
+                </antipattern>
+                <antipattern>
+                    <token>"</token>
+                    <token spacebefore="no"/>
+                    <token spacebefore="no">"</token>
+                    <token spacebefore="no">s</token> 
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">(non-)?\p{Lu}</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" case_sensitive="yes">S</token>
+                </antipattern>
+                <antipattern case_sensitive="yes"><!-- do not create false alarm for programming language constants: "FOO_S" -->
+                    <token regexp="yes">[A-Z0-9]+</token>
+                    <token regexp="yes">_|-</token>
+                    <token>S</token>
+                </antipattern>
+                <antipattern><!-- Premium #845 compare(S,T) -->
+                    <token/>
+                    <token>(</token>
+                    <token regexp="yes">[a-z]</token>
+                    <token>,</token>
+                    <token regexp="yes">[a-z]</token>
+                    <token>)</token>
+                </antipattern>
+                <pattern>
+                    <token><exception postag_regexp="yes" postag="UNKNOWN|SYM"/></token>
+                    <token spacebefore="no" regexp="yes">.<exception regexp="yes">['’/]</exception></token>
+                    <token spacebefore="no">s</token>
+                </pattern>
+                <message>The word '\1\2\3' is not standard English. Did you mean <suggestion>\1’\3</suggestion> (curly apostrophe) or <suggestion>\1'\3</suggestion> (straight apostrophe)?</message>
+                <short>Possible typo</short>
+                <example correction="it’s|it's">… and <marker>it#s</marker> part of the test.</example>
+                <example correction="book’s|book's">My <marker>book;s</marker> on the shelf.</example>
+                <example correction="text’s|text's">Read your <marker>text(s</marker> very carefully.</example>
+                <example correction="what’s|what's">The 'apostrophe' in "<marker>what´s</marker>" has the ANSI value 180. It is an acute accent: www.alanwood.net/demos/ansi.html.</example>
+                <example>… and <marker>it's</marker> part of the test.</example>
+                <example>Read the <marker>document(s)</marker> carefully.</example>
+                <example>The <marker>U.S. Government</marker> will...</example>
+                <example>The acronym <marker>A.B.S.</marker> can mean...</example>
+                <example>... when he wrote, "<marker>[I]s</marker> this correct?"</example>
+                <example>... against the dishes as she "… <marker>think[s]</marker> it an odd jumble of trash."</example>
+                <example>... at approximately 10 cm/s on average.</example>
+                <example>... distinguishes between dotted and dotless "I"s.</example>
+                <example>... cardinal number system, e.g., ḫamsat ʾayyām →<marker>ḫam(a)s</marker> tiyyām, where certain words have a special plural...</example>
+                <example>... including the first non-U.S. team (the Montreal Expos)</example><!-- Premium #815 -->
+                <example>... with an operation compare(S,T) that checks whether the stacks S and T...</example>
+<!-- False negative, because of the exception for /s --><example>...or complete connection loss of the Bluetooth <marker>device/s</marker> connected to a computer.</example>
+<!-- False negative, out of scope --><example>If the <marker>result #s</marker> are incorrect, do the test again.</example>
+                <example type="triggers_error">{{cite web |last=Simmons |<marker>first=S</marker> |title=Philosophical Dimension of Drawing In...</example>
+            </rule>
+      </rulegroup>
+
     </category>
 
     <!-- ====================================================================== -->
@@ -59035,7 +59105,7 @@ The accident victim died from her injuries.
                 </pattern>
                 <message>The character between '\1' and '\3' is an accent character, not a standard apostrophe character. Use <suggestion>\1’\3</suggestion> (curly apostrophe) or <suggestion>\1'\3</suggestion> (straight apostrophe).</message>
                 <short>Accent character misused as apostrophe</short>
-                <example correction="What’s|What's"><marker>What´s</marker> the problem?</example><!-- ANSI value 180. Also found by grammar-premium4 NON_STANDARD_WORD. This rule gives a more specific message. -->
+                <example correction="What’s|What's"><marker>What´s</marker> the problem?</example><!-- ANSI value 180. Also found by NON_STANDARD_WORD. This rule gives a more specific message. -->
                 <example correction="what’ll|what'll">... and <marker>what`ll</marker> you do?</example><!-- ANSI value 96. -->
                 <example correction="who’d|who'd">... but <marker>who´d</marker> do it?</example>
                 <example correction="that’d|that'd">... and <marker>that`d</marker> be a problem for us.</example>
