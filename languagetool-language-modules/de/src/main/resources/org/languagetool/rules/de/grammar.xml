@@ -2785,13 +2785,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="BESCHRANKT_BESCHRAENKT" name="'beschränkt (beschrankt)'">
             <pattern case_sensitive="yes">
-                <marker><token inflected="yes">beschränkt</token></marker>
+                <marker><token regexp="yes">(un)?beschränkt(e?[nmr])?</token></marker>
                 <token regexp="yes" inflected="yes">Bahnübergang|Übergang</token>
             </pattern>
             <message>Meinten Sie <suggestion><match no="1" regexp_match="ä" regexp_replace="a"/></suggestion>?</message>
 
             <short>Möglicher Tippfehler</short>
             <example correction="beschrankten">Sie überquerten einen <marker>beschränkten</marker> Bahnübergang.</example>
+            <example correction="unbeschrankten">Sie überquerten einen <marker>unbeschränkten</marker> Bahnübergang.</example>
         </rule>
         <rulegroup id="LEERE_DROHUNG" name="'lehre (leere) Drohungen' etc.">
             <rule>
