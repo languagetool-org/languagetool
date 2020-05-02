@@ -48,6 +48,7 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("Комендант преподобний С.\u00A0С.\u00A0Мокітімі 1.");
     testSplit("Комендант преподобний С.\u00A0С. Мокітімі 2.");
     testSplit("Склад: акад. Вернадський, проф. Харченко, доц. Семеняк.");
+    testSplit("Ів. Франко.");
 
     testSplit("Опергрупа приїхала в с. Лісове.");
     testSplit("300 р. до н. е.");
