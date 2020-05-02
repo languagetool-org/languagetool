@@ -4181,6 +4181,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rule id="IR_GERUNDIO" name="confusión ir + *participio/gerundio" default="temp_off">
+            <antipattern>
+                <token postag="VM..[12]S." postag_regexp="yes"/>
+                <token postag="V.P..SM" postag_regexp="yes" regexp="yes">.*ado</token>
+            </antipattern>
+            <pattern>
+                <and>
+                    <token inflected="yes">ir</token>
+                    <token postag="_reflexive"/>
+                </and>
+                <marker>
+                    <token postag="V.P..SM" postag_regexp="yes" regexp="yes">.*ado</token>
+                </marker>
+            </pattern>
+            <message>Posible confusión.</message>
+            <suggestion><match no="2" postag_regexp="yes" postag="(V.P.*)" postag_replace="V.G...."/></suggestion>
+            <example correction="desarrollando">Se fue <marker>desarrollado</marker></example>
+            <example correction="desarrollando">Se va <marker>desarrollado</marker></example>
+            <example correction="cansando">Se va <marker>cansado</marker></example> <!-- ambigous-->
+            <example correction="desarrollando">Se ha ido <marker>desarrollado</marker></example>
+            <example correction="desarrollando">Nos hemos ido <marker>desarrollado</marker></example>
+            <example correction="cansando">Nos hemos ido <marker>cansado</marker></example>
+            <example>Se va deprimido.</example>
+            <example>Nos hemos ido cansados</example>
+            <example>Me voy cansado.</example>
+        </rule>
         <rule id="CONFUSION_AL_LA" name="confusión al/la">
             <pattern>
                 <marker>
@@ -4596,7 +4622,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token spacebefore="yes">ej</token>
                 <token spacebefore="no">.</token>
             </antipattern>
-            <antipattern case_sensitive="yes"> <!-- a person's initials -->
+            <antipattern case_sensitive="yes">
+                <!-- a person's initials -->
                 <token>P</token>
                 <token spacebefore="no">.</token>
                 <token>E</token>
