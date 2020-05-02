@@ -110,6 +110,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("nichtmals", w -> Arrays.asList("nicht mal", "nicht einmal"));
     put("eingepeilt", "angepeilt");
     put("gekukt", "geguckt");
+    put("geb", "gebe");
     put("überhaut", "überhaupt");
     put("nacher", "nachher");
     put("jeztz", "jetzt");
