@@ -244,6 +244,14 @@
         <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
+    <rule id="NNP_AREA_51" name="Area 51">
+        <pattern case_sensitive="yes">
+            <token>Area</token>
+            <token>51</token>
+        </pattern>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
     <rule id="SERIE_A" name="Serie A">
         <!-- https://en.wikipedia.org/wiki/Serie_A -->
         <pattern case_sensitive="yes">
@@ -1837,6 +1845,20 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I work'<marker>t</marker> carefully.</example>
         <example type="ambiguous" inputform="t[t]" outputform="t[not/RB]">I can'<marker>t</marker> do it.</example>
     </rule>
+
+    <rulegroup id="COULD_VE" name="Could've => VBP">
+        <rule>
+            <pattern>
+                <token regexp="yes">(c|w|sh)ould</token>
+                <token regexp="yes">&apostrophe;</token>
+                <marker>
+                    <token spacebefore="no">ve</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="have" pos="VBP">ve</wd></disambig>
+            <example type="ambiguous" inputform="ve[ve]" outputform="ve[have/VBP]">I could'<marker>ve</marker> done it.</example>
+        </rule>
+    </rulegroup>
 
     <rule id="AIN_T_FILTER_NN" name="ain't">
         <pattern>
@@ -10381,6 +10403,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <pattern>
             <token>buenos</token>
             <token>días</token>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule id="URBI_ET_ORBI" name="urbi et orbi">
+        <!-- https://www.merriam-webster.com/dictionary/urbi%20et%20orbi -->
+        <pattern>
+            <token>urbi</token>
+            <token>et</token>
+            <token>orbi</token>
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
