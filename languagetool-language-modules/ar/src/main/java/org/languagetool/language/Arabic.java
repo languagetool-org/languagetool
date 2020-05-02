@@ -41,7 +41,6 @@ import java.util.*;
  */
 public class Arabic extends Language implements AutoCloseable {
 
-  private static final Language DEFAULT_ARABIC = new AlgerianArabic();
 
   public static final String TASHKEEL_CHARS =
     "\u064B"    // Fathatan
@@ -73,11 +72,6 @@ public class Arabic extends Language implements AutoCloseable {
   @Override
   public String[] getCountries() {
     return new String[]{"", "SA", "DZ", "BH", "EG", "IQ", "JO", "KW", "LB", "LY", "MA", "OM", "QA", "SD", "SY", "TN", "AE", "YE"};
-  }
-
-  @Override
-  public Language getDefaultLanguageVariant() {
-    return DEFAULT_ARABIC;
   }
 
   @Override
