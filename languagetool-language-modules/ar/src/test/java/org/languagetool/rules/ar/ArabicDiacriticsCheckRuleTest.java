@@ -47,7 +47,7 @@ public class ArabicDiacriticsCheckRuleTest {
   @Test
   public void testRule() throws IOException {
     // incorrect sentences:
-    assertIncorrect("تجرُبة");
+    assertIncorrect("تجربة");
   }
 
   private void assertCorrect(String sentence) throws IOException {

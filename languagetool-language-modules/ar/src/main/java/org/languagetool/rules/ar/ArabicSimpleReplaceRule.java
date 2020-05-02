@@ -36,8 +36,8 @@ public class ArabicSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   public ArabicSimpleReplaceRule(ResourceBundle messages) {
     super(messages, new Arabic());
     super.setCategory(Categories.CONFUSED_WORDS.getCategory(messages));
-    addExamplePair(Example.wrong("<marker>إنشاء</marker>"),
-      Example.fixed("<marker>إن شاء</marker>"));
+    addExamplePair(Example.wrong("<marker>الى</marker>"),
+      Example.fixed("<marker>إلى</marker>"));
   }
 
   @Override
