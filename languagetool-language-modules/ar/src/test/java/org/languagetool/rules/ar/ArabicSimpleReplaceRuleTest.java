@@ -46,27 +46,19 @@ public class ArabicSimpleReplaceRuleTest {
 
   @Test
   public void testRule() throws IOException {
-
-
+    
     assertEquals(0, rule.match(lt.getAnalyzedSentence("عبد الله")).length);
 
     // incorrect sentences:
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("عبدالله"));
-    assertEquals(0, rule.match(lt.getAnalyzedSentence("إن شاء")).length);
-
-    // incorrect sentences:
-//     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("إنشاء"));
     assertEquals(1, matches.length);
     assertEquals("عبد الله", matches[0].getSuggestedReplacements().get(0));
 
     assertEquals(1, rule.match(lt.getAnalyzedSentence("يافطة")).length);
+
     assertEquals(1, rule.match(lt.getAnalyzedSentence("المائة")).length);
 
-   assertEquals(1, rule.match(lt.getAnalyzedSentence("الذى")).length);
-
-//     assertEquals(1, rule.match(lt.getAnalyzedSentence("يدردشون")).length);
-
-
+    assertEquals(1, rule.match(lt.getAnalyzedSentence("الذى")).length);
 
   }
 }
