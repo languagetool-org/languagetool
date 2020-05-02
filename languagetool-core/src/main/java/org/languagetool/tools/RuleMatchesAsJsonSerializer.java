@@ -226,27 +226,34 @@ public class RuleMatchesAsJsonSerializer {
 
   private void writeRule(JsonGenerator g, RuleMatch match) throws IOException {
     g.writeObjectFieldStart("rule");
-    g.writeStringField("id", match.getRule().getId());
-    if (match.getRule() instanceof AbstractPatternRule) {
-      AbstractPatternRule pRule = (AbstractPatternRule) match.getRule();
+    Rule rule = match.getRule();
+    g.writeStringField("id", rule.getId());
+    if (rule instanceof AbstractPatternRule) {
+      AbstractPatternRule pRule = (AbstractPatternRule) rule;
       if (pRule.getSubId() != null) {
         g.writeStringField("subId", pRule.getSubId());
       }
+      if (pRule.getSourceFile() != null && !pRule.getSourceFile().endsWith("/grammar.xml")) {
+        g.writeStringField("sourceFile", pRule.getSourceFile().replaceFirst(".*/", ""));
+      }
     }
-    g.writeStringField("description", match.getRule().getDescription());
-    g.writeStringField("issueType", match.getRule().getLocQualityIssueType().toString());
-    if (match.getUrl() != null || match.getRule().getUrl() != null) {
+    g.writeStringField("description", rule.getDescription());
+    g.writeStringField("issueType", rule.getLocQualityIssueType().toString());
+    if (rule.isDefaultTempOff()) {
+      g.writeBooleanField("tempOff", true);
+    }
+    if (match.getUrl() != null || rule.getUrl() != null) {
       g.writeArrayFieldStart("urls");  // currently only one, but keep it extensible
       g.writeStartObject();
       if (match.getUrl() != null) {
         g.writeStringField("value", match.getUrl().toString());
       } else {
-        g.writeStringField("value", match.getRule().getUrl().toString());
+        g.writeStringField("value", rule.getUrl().toString());
       }
       g.writeEndObject();
       g.writeEndArray();
     }
-    writeCategory(g, match.getRule().getCategory());
+    writeCategory(g, rule.getCategory());
     g.writeEndObject();
   }
 
