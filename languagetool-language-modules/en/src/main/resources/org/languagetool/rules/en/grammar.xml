@@ -42303,6 +42303,25 @@ The accident victim died from her injuries.
                 <example>Who does not love wine, women and song; remains a fool his whole life long.</example>
                 <example>"What did the professor talk about?" the student asked.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token inflected="yes" regexp="yes">Can|(Wi|Sha)ll|Should|Do|Be|Have</token>
+                    <token spacebefore="no" regexp="yes" min="0">&apostrophe;</token>
+                    <token spacebefore="no" min="0">t</token>
+                    <token regexp="yes" skip="-1">I|you|we|they|he|she</token>
+                    <marker><token postag="SENT_END" spacebefore="no">.<exception scope="next">.</exception></token></marker>
+                </pattern>
+                <message>This looks like a question. Did you mean <suggestion>?</suggestion>?</message>
+                <example correction="?">Can you help me<marker>.</marker></example>
+                <example type="correct">Can you help me make dinner?</example>
+                <example type="correct">Won't you help me fix this sentence?</example>
+                <example type="correct">Shall she help with the horses?</example>
+                <example type="correct">Should we help them find the location?</example>
+                <example type="correct">Does she need our help at the store today?</example>
+                <example type="correct">Are they going to need our help with the research report?</example>
+                <example type="correct">Haven't I helped you already this week?</example>
+            </rule>
         </rulegroup>
         <rule id="NN_CD_NN_CD_COMMA" name="Comma in 'act 2 scene 5'">
             <pattern>
