@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.languagetool.AnalyzedToken;
 
@@ -19,6 +20,7 @@ class CompoundDebugLogger {
   private BufferedWriter compoundUnknownDebugWriter;
   private BufferedWriter compoundTaggedDebugWriter;
   private BufferedWriter compoundGenderMixDebugWriter;
+  private BufferedWriter compoundTaggedLemmaDebugWriter;
 
   public CompoundDebugLogger() {
     if( Boolean.valueOf( System.getProperty(DEBUG_COMPOUNDS_PROPERTY) ) ) {
@@ -26,31 +28,24 @@ class CompoundDebugLogger {
     }
   }
   
-  private void initDebugCompounds() {
-    try {
-      Path unknownFile = Paths.get("compounds-unknown.txt");
-      Files.deleteIfExists(unknownFile);
-      unknownFile = Files.createFile(unknownFile);
-      compoundUnknownDebugWriter = Files.newBufferedWriter(unknownFile, Charset.defaultCharset());
-
-      Path taggedFile = Paths.get("compounds-tagged.txt");
-      Files.deleteIfExists(taggedFile);
-      taggedFile = Files.createFile(taggedFile);
-      compoundTaggedDebugWriter = Files.newBufferedWriter(taggedFile, Charset.defaultCharset());
-
-      Path genderMixFile = Paths.get("gender-mix.txt");
-      Files.deleteIfExists(genderMixFile);
-      genderMixFile = Files.createFile(genderMixFile);
-      compoundGenderMixDebugWriter = Files.newBufferedWriter(genderMixFile, Charset.defaultCharset());
-
-//      Path tagged2File = Paths.get("tagged.txt");
-//      Files.deleteIfExists(tagged2File);
-//      taggedFile = Files.createFile(tagged2File);
-//      taggedDebugWriter = Files.newBufferedWriter(tagged2File, Charset.defaultCharset());
-    } catch (IOException ex) {
-//      throw new RuntimeException(ex);
-      System.err.println("Failed to open debug compounds file");
+  private synchronized void initDebugCompounds() {
+    if( compoundUnknownDebugWriter == null ) {
+      try {
+        compoundUnknownDebugWriter = createDebugOutFile("compounds-unknown.txt");
+        compoundTaggedDebugWriter = createDebugOutFile("compounds-tagged.txt");
+        compoundTaggedLemmaDebugWriter = createDebugOutFile("compounds-lemma-tagged.txt");
+        compoundGenderMixDebugWriter = createDebugOutFile("gender-mix.txt");
+      } catch (IOException ex) {
+        System.err.println("Failed to open debug compounds file");
+      }
     }
+  }
+
+  private BufferedWriter createDebugOutFile(String filename) throws IOException {
+    Path unknownFile = Paths.get(filename);
+    Files.deleteIfExists(unknownFile);
+    unknownFile = Files.createFile(unknownFile);
+    return Files.newBufferedWriter(unknownFile, Charset.defaultCharset());
   }
 
   public void logTaggedCompound(List<AnalyzedToken> guessedCompoundTags) {
@@ -58,19 +53,25 @@ class CompoundDebugLogger {
       return;
 
     debug_tagged_write(guessedCompoundTags, compoundTaggedDebugWriter);
+
+    guessedCompoundTags.stream().map(t -> t.getLemma()).collect(Collectors.toSet()).forEach( w ->
+        logLine(compoundTaggedLemmaDebugWriter, w)
+    );
   }
 
-  public void logUnknownCompound(String word) {
-    if( compoundUnknownDebugWriter == null )
+  public void logLine(BufferedWriter writer, String word) {
+    if( writer == null )
       return;
     
     try {
-      compoundUnknownDebugWriter.append(word);
-      compoundUnknownDebugWriter.newLine();
-      compoundUnknownDebugWriter.flush();
+      writer.append(word).append('\n').flush();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  void logUnknownCompound(String word) {
+    logLine(compoundUnknownDebugWriter, word);
   }
   
   private void debug_tagged_write(List<AnalyzedToken> analyzedTokens, BufferedWriter writer) {

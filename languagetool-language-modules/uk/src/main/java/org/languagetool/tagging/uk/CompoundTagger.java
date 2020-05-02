@@ -58,12 +58,13 @@ class CompoundTagger {
   private static final Pattern YEAR_NUMBER = Pattern.compile("[12][0-9]{3}");
   private static final Pattern NOUN_PREFIX_NUMBER = Pattern.compile("[0-9]+");
   private static final Pattern NOUN_SUFFIX_NUMBER_LETTER = Pattern.compile("[0-9][0-9А-ЯІЇЄҐ-]*");
-  private static final Pattern ADJ_PREFIX_NUMBER = Pattern.compile("[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?%?|(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})");
+  private static final Pattern ADJ_PREFIX_NUMBER = Pattern.compile("[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?%?|(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})|І{2,3}");
   private static final Pattern REQ_NUM_DVA_PATTERN = Pattern.compile("(місн|томник|поверхів).{0,4}");
   private static final Pattern REQ_NUM_DESYAT_PATTERN = Pattern.compile("(класни[кц]|раундов|томн|томов|хвилин|десятиріч|кілометрів|річ).{0,4}");
   private static final Pattern REQ_NUM_STO_PATTERN = Pattern.compile("(річч|літт|метрів|грамов|тисячник).{0,3}");
   private static final Pattern INTJ_PATTERN = Pattern.compile("intj.*");
   private static final Pattern ONOMAT_PATTERN = Pattern.compile("onomat.*");
+  private static final Pattern UKR_LETTERS_PATTERN = Pattern.compile("[А-ЯІЇЄҐа-яіїєґ'-]+");
 
   private static final Pattern MNP_NAZ_REGEX = Pattern.compile(".*?:[mnp]:v_naz.*");
   private static final Pattern MNP_ZNA_REGEX = Pattern.compile(".*?:[mnp]:v_zna.*");
@@ -78,6 +79,7 @@ class CompoundTagger {
   private static final Set<String> dashPrefixesInvalid;
   private static final String ADJ_TAG_FOR_PO_ADV_MIS = "adj:m:v_mis";
   private static final String ADJ_TAG_FOR_PO_ADV_NAZ = "adj:m:v_naz";
+  private static final Pattern PREFIX_NO_DASH_POSTAG_PATTERN = Pattern.compile("(noun|adj|adv)(?!.*&pron).*");
 
   // додаткові вкорочені прикметникові ліві частини, що не мають відповідного прикметника
   private static final List<String> LEFT_O_ADJ = Arrays.asList(
@@ -125,9 +127,9 @@ class CompoundTagger {
 
   @Nullable
   public List<AnalyzedToken> guessCompoundTag(String word) {
-    List<AnalyzedToken> guessedCompoundTags = doGuessCompoundTag(word);
-    compoundDebugLogger.logTaggedCompound(guessedCompoundTags);
-    return guessedCompoundTags;
+    List<AnalyzedToken> guessedTokens = doGuessCompoundTag(word);
+    compoundDebugLogger.logTaggedCompound(guessedTokens);
+    return guessedTokens;
   }
 
   @Nullable
@@ -188,9 +190,9 @@ class CompoundTagger {
       if( rightWdList.isEmpty() )
         return null;
 
-      String lemma = leftWord + "-" + rightWdList.get(0).getLemma();
+//      String lemma = leftWord + "-" + rightWdList.get(0).getLemma();
       String extraTag = StringTools.isCapitalizedWord(rightWord) ? "" : ":bad";
-      rightWdList = PosTagHelper.addIfNotContains(rightWdList, extraTag, lemma);
+      rightWdList = PosTagHelper.adjust(rightWdList, extraTag, leftWord + "-");
       return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, rightWdList);
     }
 
@@ -257,25 +259,28 @@ class CompoundTagger {
 
     List<TaggedWord> rightWdList = tagEitherCase(rightWord);
       
-    if( rightWdList.isEmpty() ) {
      
-      if( word.startsWith("напів") ) {
-        // напівпольської-напіванглійської
-        Matcher napivMatcher = Pattern.compile("напів(.+?)-напів(.+)").matcher(word);
-        if( napivMatcher.matches() ) {
-          List<TaggedWord> napivLeftWdList = tagAsIsAndWithLowerCase(napivMatcher.group(1));
-          List<TaggedWord> napivRightWdList = tagAsIsAndWithLowerCase(napivMatcher.group(2));
+    if( word.startsWith("напів") ) {
+      // напівпольської-напіванглійської
+      Matcher napivMatcher = Pattern.compile("напів(.+?)-напів(.+)").matcher(word);
+      if( napivMatcher.matches() ) {
+        List<TaggedWord> napivLeftWdList = PosTagHelper.adjust(tagAsIsAndWithLowerCase(napivMatcher.group(1)), null, "напів");
+        List<TaggedWord> napivRightWdList = rightWdList.size() > 0 ? rightWdList : PosTagHelper.adjust(tagAsIsAndWithLowerCase(napivMatcher.group(2)), null, "напів");
 
-          List<AnalyzedToken> napivLeftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(napivMatcher.group(1), napivLeftWdList);
-          List<AnalyzedToken> napivRightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(napivMatcher.group(2), napivRightWdList);
+        if( napivLeftWdList.isEmpty() || napivRightWdList.isEmpty() )
+          return null;
+        
+        List<AnalyzedToken> napivLeftAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(napivMatcher.group(1), napivLeftWdList);
+        List<AnalyzedToken> napivRightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(napivMatcher.group(2), napivRightWdList);
 
-          List<AnalyzedToken> tagMatch = tagMatch(word, napivLeftAnalyzedTokens, napivRightAnalyzedTokens);
-          if( tagMatch != null ) {
-            return tagMatch;
-          }
+        List<AnalyzedToken> tagMatch = tagMatch(word, napivLeftAnalyzedTokens, napivRightAnalyzedTokens);
+        if( tagMatch != null ) {
+          return tagMatch;
         }
       }
+    }
       
+    if( rightWdList.isEmpty() ) {
       return null;
     }
 
@@ -511,12 +516,13 @@ class CompoundTagger {
     return null;
   }
 
+  private final static Pattern STRETCH_PATTERN = Pattern.compile("([а-іяїєґА-ЯІЇЄҐ])\\1*-\\1+");
+  
   private static String collapseStretch(String word) {
     boolean capitalized = StringTools.isCapitalizedWord(word);
-    String merged = word.toLowerCase()
-        .replaceAll("([а-іяїєґА-ЯІЇЄҐ])\\1*-\\1+", "$1")
-        .replaceAll("([а-іяїєґА-ЯІЇЄҐ])\\1*-\\1+", "$1")
-        .replace("-", "");
+    String merged = STRETCH_PATTERN.matcher(word.toLowerCase()).replaceAll("$1");
+    merged = STRETCH_PATTERN.matcher(merged).replaceAll("$1");
+    merged = merged.replace("-", "");
     if( capitalized ) {
       merged = StringUtils.capitalize(merged);
     }
@@ -1330,6 +1336,76 @@ class CompoundTagger {
     }
 
     return leftWdList;
+  }
+
+  
+  @Nullable
+  List<AnalyzedToken> guessOtherTags(String word) {
+    List<AnalyzedToken> guessedTokens = guessOtherTagsInternal(word);
+    compoundDebugLogger.logTaggedCompound(guessedTokens);
+    return guessedTokens;
+  }
+  
+  @Nullable
+  private List<AnalyzedToken> guessOtherTagsInternal(String word) {
+    if( word.length() <= 7 
+        || ! UKR_LETTERS_PATTERN.matcher(word).matches() )
+      return null;
+
+    if( StringTools.isCapitalizedWord(word) ) {
+
+      if (word.endsWith("штрассе")
+          || word.endsWith("штрасе")) {
+        return PosTagHelper.generateTokensForNv(word, "f", ":prop");
+      }
+
+      if (word.endsWith("дзе")
+          || word.endsWith("швілі")) {
+        return PosTagHelper.generateTokensForNv(word, "mf", ":prop:lname");
+      }
+      
+    }
+    
+    String lowerCase = word.toLowerCase();
+    for(String prefix: dashPrefixesInvalid) {
+      // mostly false compounds
+      if( prefix.equals("мілі") )
+        continue;
+
+      if( lowerCase.startsWith(prefix) ) {
+        String right = word.substring(prefix.length(), word.length());
+
+        String apo = "";
+        String addTag = null;
+
+        if( right.startsWith("'") ) { 
+          right = right.substring(1);
+          apo = "'";
+        }
+
+        boolean apoNeeded = false;
+        if( "єїюя".indexOf(right.charAt(0)) != -1
+            && "аеєиіїоуюя".indexOf(prefix.charAt(prefix.length()-1)) == -1) {
+          apoNeeded = true;
+        }
+        if( apoNeeded == apo.isEmpty() ){
+          addTag = ":bad";
+        }
+
+        if( right.length() >= 4 && ! StringTools.isCapitalizedWord(right) ) {
+          List<TaggedWord> rightWdList = wordTagger.tag(right);
+          rightWdList = PosTagHelper.filter2(rightWdList, PREFIX_NO_DASH_POSTAG_PATTERN);
+          if( rightWdList.size() > 0 ) {
+            rightWdList = PosTagHelper.adjust(rightWdList, addTag, prefix+apo);
+
+            List<AnalyzedToken> compoundTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, rightWdList);
+            return compoundTokens;
+          }
+        }
+      }
+    }
+  
+    return null;
   }
 
 }

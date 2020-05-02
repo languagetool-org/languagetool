@@ -18,19 +18,22 @@
  */
 package org.languagetool.tagging.uk;
 
-import org.apache.commons.lang3.StringUtils;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.tagging.*;
-import org.languagetool.tools.StringTools;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.function.UnaryOperator;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import org.apache.commons.lang3.StringUtils;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.tagging.BaseTagger;
+import org.languagetool.tagging.TaggedWord;
+import org.languagetool.tagging.WordTagger;
+import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 /** 
@@ -50,8 +53,6 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern DATE = Pattern.compile("[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}");
   private static final Pattern TIME = Pattern.compile("([01]?[0-9]|2[0-3])[.:][0-5][0-9]");
   private static final Pattern ALT_DASHES_IN_WORD = Pattern.compile("[а-яіїєґ0-9a-z]\u2013[а-яіїєґ]|[а-яіїєґ]\u2013[0-9]", Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern NAPIV_ALLOWED_TAGS_REGEX = Pattern.compile("(noun|ad(j|v(?!p))(?!.*?:comp[cs])).*");
-  private static final Pattern NAPIV_REMOVE_TAGS_REGEX = Pattern.compile(":comp.|:&adjp(:(actv|pasv|perf|imperf))*");
   private static final Pattern COMPOUND_WITH_QUOTES_REGEX = Pattern.compile("-[«\"„]");
 
 
@@ -112,20 +113,8 @@ public class UkrainianTagger extends BaseTagger {
       }
     }
 
-    return guessOtherTags(word);
+    return compoundTagger.guessOtherTags(word);
   }
-
-  private List<AnalyzedToken> guessOtherTags(String word) {
-    if( word.length() > 7
-        && StringTools.isCapitalizedWord(word)
-        && (word.endsWith("штрассе")
-        || word.endsWith("штрасе")) ) {
-      return PosTagHelper.generateTokensForNv(word, "f", ":prop");
-    }
-
-    return null;
-  }
-
 
   @Override
   protected List<AnalyzedToken> getAnalyzedTokens(String word) {
@@ -153,45 +142,6 @@ public class UkrainianTagger extends BaseTagger {
         }
       }
       
-      if( word.length() > 7 && word.startsWith("напів") ) {
-        String addPosTag = "";
-
-        Matcher matcher = Pattern.compile("(напів['-]?)(.*)").matcher(word);
-        matcher.matches();
-
-        String prefix = matcher.group(1);
-        String adjustedWord = matcher.group(2);
-
-        List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(origWord, adjustedWord, NAPIV_ALLOWED_TAGS_REGEX, null, null);
-
-        if( newTokens.size() > 0 ) {
-          if( ! addPosTag.contains(":bad:") ) {
-            if( word.charAt(5) == '-'
-                && ! adjustedWord.matches("[А-ЯІЇЄҐ].*") ) {
-              addPosTag += ":bad";
-            }
-            else if( word.charAt(5) != '\''
-                && adjustedWord.matches("[єїюя].*") ) {
-              addPosTag += ":bad";
-            }
-          }
-
-          for (int i = 0; i < newTokens.size(); i++) {
-            AnalyzedToken analyzedToken = newTokens.get(i);
-
-            String lemma = analyzedToken.getLemma();
-            String posTag = analyzedToken.getPOSTag();
-
-            posTag = NAPIV_REMOVE_TAGS_REGEX.matcher(posTag).replaceAll("");
-
-            posTag = PosTagHelper.addIfNotContains(posTag, addPosTag);
-
-            AnalyzedToken newToken = new AnalyzedToken(origWord, posTag, prefix+lemma);
-            newTokens.set(i, newToken);
-          }
-          tokens = newTokens;
-        }
-      }
       // try г instead of ґ
       else if( word.contains("ґ") ) {
         tokens = convertTokens(tokens, word, "ґ", "г", ":alt");
@@ -201,6 +151,9 @@ public class UkrainianTagger extends BaseTagger {
       }
       else if( word.endsWith("тер") ) {
         tokens = convertTokens(tokens, word, "тер", "тр", ":alt");
+      }
+      else if( word.contains("льо") ) {
+        tokens = convertTokens(tokens, word, "льо", "ло", ":alt");
       }
     }
 
