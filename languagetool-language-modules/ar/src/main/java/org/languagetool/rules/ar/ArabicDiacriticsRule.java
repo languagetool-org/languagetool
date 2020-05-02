@@ -48,8 +48,8 @@ public class ArabicDiacriticsRule extends AbstractSimpleReplaceRule2 {
     // setDefaultOff();
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
-    addExamplePair(Example.wrong("<marker>تجرُبة</marker>"),
-      Example.fixed("<marker>تجرِبة</marker>"));
+    addExamplePair(Example.wrong("<marker>تجربة</marker>"),
+      Example.fixed("<marker>تجرِِبة</marker>"));
   }
 
   @Override
@@ -74,7 +74,7 @@ public class ArabicDiacriticsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getSuggestion() {
-    return "'$match' كلمة يشيع نطقها نطقا خائطا لذا نقترح تشكيلها كالآتي: $suggestions";
+    return "'$match' كلمة يشيع نطقها نطقا خاطئا لذا نقترح تشكيلها كالآتي: $suggestions";
   }
 
   @Override
