@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.languagetool</groupId>
         <artifactId>languagetool-parent</artifactId>
-        <version>4.8-SNAPSHOT</version>
+        <version>5.0-SNAPSHOT</version>
         <relativePath>../../pom.xml</relativePath>
     </parent>
     
@@ -55,7 +55,21 @@
             <artifactId>languagetool-core</artifactId>
             <version>${languagetool.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.softcatala</groupId>
+            <artifactId>spanish-pos-dict</artifactId>
+            <version>0.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.carrot2</groupId>
+                    <artifactId>morfologik-stemming</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.carrot2</groupId>
+                    <artifactId>morfologik-fsa</artifactId>
+                </exclusion>
+            </exclusions>
+	    </dependency>
         <dependency>
             <!-- see http://stackoverflow.com/questions/174560/sharing-test-code-in-maven#174670 -->
             <groupId>org.languagetool</groupId>

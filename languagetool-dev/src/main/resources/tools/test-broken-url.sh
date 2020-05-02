@@ -23,7 +23,7 @@ for grammar_xml in $(find languagetool-language-modules/*/src -name grammar.xml)
                egrep '<url>.*</url>' |
                sed -e 's:<url>::' \
                    -e 's:</url>::' \
-                   -e 's:&amp;:\&:' \
+                   -e 's:&amp;:\&:g' \
                    -e 's:\\n::'); do
 
     # Have we checked this URL already?

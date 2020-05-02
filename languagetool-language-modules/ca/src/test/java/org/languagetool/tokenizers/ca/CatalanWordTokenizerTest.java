@@ -106,11 +106,27 @@ public class CatalanWordTokenizerTest {
     assertEquals(tokens.size(), 1);
     tokens = wordTokenizer.tokenize("col·Laboració");
     assertEquals(tokens.size(), 1);
+    tokens = wordTokenizer.tokenize("abans-d’ahir");
+    assertEquals(tokens.size(), 1);
+    tokens = wordTokenizer.tokenize("abans-d'ahir");
+    assertEquals(tokens.size(), 1);
     tokens = wordTokenizer.tokenize("Sud-Est");
     assertEquals(tokens.size(), 3);
     assertEquals("[Sud, -, Est]", tokens.toString());
     tokens = wordTokenizer.tokenize("Sud-est");
     assertEquals(tokens.size(), 1);
-    
+    tokens = wordTokenizer.tokenize("10 000");
+    assertEquals(tokens.size(), 1);
+    tokens = wordTokenizer.tokenize("1 000 000");
+    assertEquals(tokens.size(), 1);
+    tokens = wordTokenizer.tokenize("2005 57 114");
+    assertEquals(tokens.size(), 3);
+    assertEquals("[2005,  , 57 114]", tokens.toString());   
+    tokens = wordTokenizer.tokenize("2005 454");
+    assertEquals(tokens.size(), 3);
+    assertEquals("[2005,  , 454]", tokens.toString());
+    tokens = wordTokenizer.tokenize("$1");
+    assertEquals(tokens.size(), 1);
+    assertEquals("[$1]", tokens.toString());
   }
 }

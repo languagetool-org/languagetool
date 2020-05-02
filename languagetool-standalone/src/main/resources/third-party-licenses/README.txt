@@ -12,7 +12,6 @@ commons-*: Apache License 2.0, http://commons.apache.org/lang/
 german-pos-dict.jar: Creative Commons Attribution-ShareAlike 4.0 International, https://creativecommons.org/licenses/by-sa/4.0/legalcode
 guava.jar: Apache License 2.0, https://code.google.com/p/guava-libraries/
 hamcrest-core.jar: BSD License, https://github.com/hamcrest
-hunspell-native-libs.jar: GPL/LGPL/MPL triple license, http://hunspell.sourceforge.net/
 hppc.jar: Apache License 2.0, http://labs.carrotsearch.com/hppc.html
 HanLP: Apache License 2.0, https://github.com/hankcs/HanLP
 hunspell.jar: Apache License 2.0, https://gitlab.com/dumonts/hunspell-java
@@ -38,10 +37,9 @@ slf4j-nop.jar: MIT License, http://www.slf4j.org
 swc-engine.jar: Apache License 2.0, http://sweble.org
 swc-parser-lazy.jar: Apache License 2.0, http://sweble.org
 SymSpell, included in languagetool-core/src/main/java/org/languagetool/rules/spelling/symspell/implementation/: MIT License, https://github.com/Lundez/JavaSymSpell
+trove4j.jar: Lesser GNU Public License (LGPL) 2.1 or later, https://mvnrepository.com/artifact/org.jetbrains.intellij.deps/trove4j
 unit-api.jar: BSD License, http://unitsofmeasurement.github.io
 utils.jar: part of Sweble, Apache License 2.0, http://sweble.org
-xgboost-predictor.jar: Apache License 2.0, https://github.com/h2oai/xgboost-predictor
-xgboost4j.jar: Apache License 2.0, https://github.com/dmlc/xgboost
 
 Other resources like dictionaries are not technically libraries, they may have 
 different licenses (including GPL) without affecting LanguageTool's licensing. 

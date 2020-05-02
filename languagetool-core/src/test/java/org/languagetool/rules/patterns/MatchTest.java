@@ -20,15 +20,11 @@ package org.languagetool.rules.patterns;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
+import org.languagetool.*;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.patterns.Match.CaseConversion;
 import org.languagetool.rules.patterns.Match.IncludeRange;
-import org.languagetool.synthesis.ManualSynthesizer;
-import org.languagetool.synthesis.ManualSynthesizerAdapter;
-import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.synthesis.*;
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tagging.Tagger;
 import org.languagetool.tokenizers.ManualTaggerAdapter;
@@ -86,11 +82,11 @@ public class MatchTest {
         return "TEST";
       }
       @Override
-      public Synthesizer getSynthesizer() {
+      public Synthesizer createDefaultSynthesizer() {
         return MatchTest.this.synthesizer;
       }
       @Override
-      public Tagger getTagger() {
+      public Tagger createDefaultTagger() {
         return MatchTest.this.tagger;
       }
     };

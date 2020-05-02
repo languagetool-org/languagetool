@@ -70,6 +70,10 @@ public class EnglishWrongWordInContextRuleTest {
     // neutron/neuron
     assertGood("Protons and neutrons");
     assertBad("Protons and neurons");
+    // hangar / hanger
+    // neutron/neuron
+    assertBad("The plane taxied to the hanger.");
+    assertGood("The plane taxied to the hangar.");
   }
 
   private void assertGood(String sentence) throws IOException {

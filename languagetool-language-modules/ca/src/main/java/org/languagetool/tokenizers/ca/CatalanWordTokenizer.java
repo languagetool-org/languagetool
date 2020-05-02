@@ -66,8 +66,10 @@ public class CatalanWordTokenizer extends WordTokenizer {
   // decimal comma between digits
   private static final Pattern DECIMAL_COMMA= Pattern.compile("([\\d]),([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   // space between digits
-  private static final Pattern SPACE_DIGITS= Pattern.compile("([\\d]) ([\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
-
+  // the first is an exception to the two next patterns
+  private static final Pattern SPACE_DIGITS0= Pattern.compile("([\\d]{4}) ",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern SPACE_DIGITS= Pattern.compile("([\\d]) ([\\d][\\d][\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern SPACE_DIGITS2= Pattern.compile("([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   public CatalanWordTokenizer() {
 
@@ -149,9 +151,14 @@ public class CatalanWordTokenizer extends WordTokenizer {
     auxText = matcher.replaceAll("$1\u0001\u0001CA_DECIMALPOINT\u0001\u0001$2");
     matcher=DECIMAL_COMMA.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001CA_DECIMALCOMMA\u0001\u0001$2");
+    matcher=SPACE_DIGITS0.matcher(auxText);
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_SPACE0\u0001\u0001");
+    matcher=SPACE_DIGITS2.matcher(auxText);
+    auxText = matcher.replaceAll("$1\u0001\u0001CA_SPACE\u0001\u0001$2\u0001\u0001CA_SPACE\u0001\u0001$3");
     matcher=SPACE_DIGITS.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001CA_SPACE\u0001\u0001$2");
-
+    auxText = auxText.replaceAll("\\u0001\\u0001CA_SPACE0\\u0001\\u0001", " ");
+    
     final StringTokenizer st = new StringTokenizer(auxText,
             "\u0020\u00A0\u115f\u1160\u1680"
                     + "\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007"
@@ -202,7 +209,13 @@ public class CatalanWordTokenizer extends WordTokenizer {
           l.add(s);
         } else {
           // words containing hyphen (-) are looked up in the dictionary
-          if (!speller.isMisspelled(s)) {
+          if (!speller.isMisspelled(s.replace("’", "'"))) {
+            l.add(s);
+          }
+          // some camel-case words containing hyphen (is there any better fix?)
+          else if (s.equalsIgnoreCase("mers-cov") || s.equalsIgnoreCase("mcgraw-hill") 
+              || s.equalsIgnoreCase("sars-cov-2") || s.equalsIgnoreCase("sars-cov") 
+              || s.equalsIgnoreCase("ph-metre") || s.equalsIgnoreCase("ph-metres")) {
             l.add(s);
           }
           // words with "ela geminada" with typo: col-legi (col·legi)

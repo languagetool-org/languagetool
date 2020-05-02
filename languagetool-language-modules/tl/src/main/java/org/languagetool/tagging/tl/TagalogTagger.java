@@ -18,9 +18,9 @@
  */
 package org.languagetool.tagging.tl;
 
-import java.util.Locale;
-
 import org.languagetool.tagging.BaseTagger;
+
+import java.util.Locale;
 
 /** 
  * Filipino Part-of-speech tagger.
@@ -28,13 +28,7 @@ import org.languagetool.tagging.BaseTagger;
  * @author Nathaniel Oco
  */
 public class TagalogTagger extends BaseTagger {
-
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/tl/added.txt";
-  }
-
   public TagalogTagger() {
-    super("/tl/tagalog.dict", Locale.ENGLISH);
+    super("/tl/tagalog.dict", new Locale("tl"));
   }
 }

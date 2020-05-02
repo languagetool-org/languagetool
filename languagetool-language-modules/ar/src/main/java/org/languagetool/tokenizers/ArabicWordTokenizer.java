@@ -18,38 +18,13 @@
  */
 package org.languagetool.tokenizers;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.StringTokenizer;
-
+/**
+ * @since 4.9
+ */
 public class ArabicWordTokenizer extends WordTokenizer {
 
   @Override
   public String getTokenizingCharacters() {
     return super.getTokenizingCharacters() + "،؟؛";
-  }
-
-  /**
-   * Tokenizes text.
-   * The Arabic tokenizer differs from the standard one
-   * in some respects:
-   * <ol>
-   * <li> strip Tashkeel and tatweel;</li>
-   * </ol>
-   *
-   * @param text String of words to tokenize.
-   */
-  @Override
-  public List<String> tokenize(String text) {
-    List<String> l = new ArrayList<>();
-    StringTokenizer st = new StringTokenizer(text, getTokenizingCharacters(), true);
-    while (st.hasMoreElements()) {
-      String token = st.nextToken();
-      // Strip Tashkeel and tatweel
-      //String striped = token.replaceAll("[ًٌٍَُِْـ]","");
-      String striped = token.replaceAll("[\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0653\u0654\u0655\u0656\u0640]", "");
-      l.add(striped);
-    }
-    return joinEMailsAndUrls(l);
   }
 }

@@ -190,6 +190,12 @@ public class RuleMatchesAsJsonSerializer {
       if (replacement.getShortDescription() != null) {
         g.writeStringField("shortDescription", replacement.getShortDescription());
       }
+      if (replacement.getSuffix() != null) {
+        g.writeStringField("suffix", replacement.getSuffix());
+      }
+      if (replacement.getType() != SuggestedReplacement.SuggestionType.Default) {
+        g.writeStringField("type", replacement.getType().name());
+      }
       if (autoCorrect) {
         g.writeBooleanField("autoCorrect", true);
         autoCorrect = false; // only for first replacement

@@ -155,7 +155,11 @@ public class WikipediaSentenceSource extends SentenceSource {
       String textToCheck = textFilter.filter(sb.toString()).getPlainText();
       for (String sentence : sentenceTokenizer.tokenize(textToCheck)) {
         if (acceptSentence(sentence)) {
-          sentences.add(new WikipediaSentence(sentence, title, articleCount));
+          // Create an artificial ID - as we treat each sentence as a single document
+          // in e.g. the nightly checks, this helps with detection of whether a match
+          // is new or a duplicate:
+          String titleWithId = title + "/" + sentence.hashCode();
+          sentences.add(new WikipediaSentence(sentence, titleWithId, articleCount));
         }
       }
     } catch (Exception e) {

@@ -48,17 +48,45 @@ public class GermanCompoundTokenizer implements Tokenizer {
     static Set<String> extendedList() {
       Set<String> words = new HashSet<>(EmbeddedGermanDictionary.getWords());
       // add compound parts here so we don't need to update JWordSplitter for every missing word we find:
+      words.add("online");
+      words.add("affin");
+      words.add("affine");
+      words.add("affiner");
+      words.add("affines");
+      words.add("affinen");
+      words.add("affinem");
+      words.add("trockner");
       words.add("thermostat");
+      words.add("thermostats");
       words.add("fehl");
       words.add("circus");
       words.add("schi");
       words.add("codex");
       words.add("crème");
+      words.add("crèmes");
       words.add("sauce");
       words.add("account");
+      words.add("accounts");
       words.add("photograph");
       words.add("oxyd");
       words.add("playback");
+      words.add("playbacks");
+      words.add("blog");
+      words.add("durchsuchung");
+      words.add("durchsuchungen");
+      words.add("kritisch");
+      words.add("kritische");
+      words.add("kritisches");
+      words.add("kritischer");
+      words.add("kritischen");
+      words.add("kritischem");
+      words.add("fortbewegung");
+      words.add("freundlich");
+      words.add("freundliche");
+      words.add("freundliches");
+      words.add("freundlicher");
+      words.add("freundlichen");
+      words.add("freundlichem");
       return words;
     }
   }

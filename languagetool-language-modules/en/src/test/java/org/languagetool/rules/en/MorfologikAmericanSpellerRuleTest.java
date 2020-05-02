@@ -21,7 +21,6 @@ package org.languagetool.rules.en;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.languagetool.*;
-import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.CanadianEnglish;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -33,8 +32,7 @@ import java.util.List;
 import static java.util.Collections.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRuleTest {
 
@@ -68,6 +66,9 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence("This is a nice colour."));
     assertEquals(1, matches.length);
     assertTrue(matches[0].getMessage().contains("is British English"));
+    RuleMatch[] matches2 = rule.match(lt.getAnalyzedSentence("Colour is the British words."));
+    assertEquals(1, matches2.length);
+    assertTrue(matches2[0].getMessage().contains("is British English"));
   }
 
   @Test
@@ -99,6 +100,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertEquals(0, rule.match(lt.getAnalyzedSentence("123454")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("I like my emoji 😾")).length);
     assertEquals(0, rule.match(lt.getAnalyzedSentence("μ")).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence("I like my emoji ❤️")).length);
 
     // test words in language-specific spelling_en-US.txt
     assertEquals(0, rule.match(lt.getAnalyzedSentence("USTestWordToBeIgnored")).length);
@@ -132,6 +134,8 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     // yes, we also accept fantasy words:
     assertEquals(0, rule.match(lt.getAnalyzedSentence("A web-feature-driven-car software.")).length);
     assertEquals(1, rule.match(lt.getAnalyzedSentence("A web-feature-drivenx-car software.")).length);
+
+    assertAllMatches(lt, rule, "timezones", "timezone", "time zones");
   }
 
   @Test
@@ -287,6 +291,18 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertSuggestion("CATestWordToBeIgnore", "USTestWordToBeIgnored");  // test again because of caching
   }
 
+  @Test
+  public void testIsMisspelled() throws IOException {
+    assertTrue(rule.isMisspelled("sdadsadas"));
+    assertTrue(rule.isMisspelled("bicylce"));
+    assertTrue(rule.isMisspelled("tabble"));
+    assertTrue(rule.isMisspelled("tabbles"));
+
+    assertFalse(rule.isMisspelled("bicycle"));
+    assertFalse(rule.isMisspelled("table"));
+    assertFalse(rule.isMisspelled("tables"));
+  }
+  
   private void assertSuggestion(String input, String... expectedSuggestions) throws IOException {
     assertSuggestion(input, rule, lt, expectedSuggestions);
   }

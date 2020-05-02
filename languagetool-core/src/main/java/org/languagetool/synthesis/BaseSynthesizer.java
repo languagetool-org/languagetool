@@ -26,8 +26,10 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +45,10 @@ public class BaseSynthesizer implements Synthesizer {
   private final IStemmer stemmer;
   private final ManualSynthesizer manualSynthesizer;
   private final ManualSynthesizer removalSynthesizer;
+  private final String sorosFileName;
+  private final Soros numberSpeller;
+  
+  public final String SPELLNUMBER_TAG = "_spell_number_";
   
   private volatile Dictionary dictionary;
 
@@ -50,10 +56,12 @@ public class BaseSynthesizer implements Synthesizer {
    * @param resourceFileName The dictionary file name.
    * @param tagFileName The name of a file containing all possible tags.
    */
-  public BaseSynthesizer(String resourceFileName, String tagFileName, Language lang) {
+  public BaseSynthesizer(String sorosFileName, String resourceFileName, String tagFileName, Language lang) {
     this.resourceFileName = resourceFileName;
     this.tagFileName = tagFileName;
     this.stemmer = createStemmer();
+    this.sorosFileName = sorosFileName;
+    this.numberSpeller = createNumberSpeller(lang.getShortCode());
     try {
       String path = "/" + lang.getShortCode() + "/added.txt";
       if (JLanguageTool.getDataBroker().resourceExists(path)) {
@@ -71,9 +79,15 @@ public class BaseSynthesizer implements Synthesizer {
       } else {
         this.removalSynthesizer = null;
       }
+      
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+  }
+  
+  public BaseSynthesizer(String resourceFileName, String tagFileName, Language lang) {
+    this(null, resourceFileName, tagFileName, lang);
+    
   }
 
   /**
@@ -106,6 +120,24 @@ public class BaseSynthesizer implements Synthesizer {
     } catch (IOException e) {
       throw new RuntimeException("Could not load dictionary", e);
     }
+  }
+  
+  private Soros createNumberSpeller(String langcode) {
+    Soros s = null;
+    try {
+      URL url = JLanguageTool.getDataBroker().getFromResourceDirAsUrl(sorosFileName);
+      BufferedReader f = new BufferedReader(new InputStreamReader(url.openStream(), "UTF-8"));
+      StringBuffer st = new StringBuffer();
+      String line = null;
+      while ((line = f.readLine()) != null) {
+        st.append(line);
+        st.append("\n");
+      }
+      s = new Soros(new String(st), langcode);
+    } catch (Exception e) {
+      return null;
+    }
+    return s;
   }
 
   /**
@@ -144,6 +176,10 @@ public class BaseSynthesizer implements Synthesizer {
    */
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
+    if (posTag.equals(SPELLNUMBER_TAG)) {
+      String[] strArray = new String[] {getSpelledNumber(token.getToken())};
+      return strArray;
+    }
     List<String> wordForms = new ArrayList<>();
     lookup(token.getLemma(), posTag, wordForms);
     return wordForms.toArray(new String[0]);
@@ -199,6 +235,14 @@ public class BaseSynthesizer implements Synthesizer {
         }
       }
     }
+  }
+
+  @Override
+  public String getSpelledNumber(String arabicNumeral) {
+    if (numberSpeller != null) {
+      return numberSpeller.run(arabicNumeral);
+    }
+    return arabicNumeral;
   }
 
 }

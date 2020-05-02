@@ -18,18 +18,17 @@
  */
 package org.languagetool.rules.patterns;
 
+import org.junit.Test;
+import org.languagetool.*;
+import org.languagetool.broker.ResourceDataBroker;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.databroker.ResourceDataBroker;
-
 public class AbstractPatternRuleTest {
+
   @Test
   public void shortMessageIsLongerThanErrorMessage() throws IOException {
     for (Language lang : Languages.get()) {
@@ -94,7 +93,8 @@ public class AbstractPatternRuleTest {
       if (shortNameWithVariant.contains("-x-")) {
         fileName = lang.getShortCode() + "/" + nameOnly;
       } else if (shortNameWithVariant.contains("-") && !shortNameWithVariant.equals("xx-XX")
-              && !shortNameWithVariant.endsWith("-ANY") && Languages.get().size() > 1) {
+          && !shortNameWithVariant.endsWith("-ANY") && Languages.get().size() > 1
+          && !shortNameWithVariant.equals("ca-ES")) { // TODO: change Catalan language definitions?
         fileName = lang.getShortCode() + "/" + shortNameWithVariant + "/" + nameOnly;
       } else {
         fileName = lang.getShortCode() + "/" + nameOnly;

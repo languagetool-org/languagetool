@@ -67,6 +67,20 @@ public class VerbAgreementRule extends TextLevelRule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // "Für Sie mache ich eine Ausnahme."
+      token("für"),
+      token("Sie"),
+      pos("VER:3:SIN:KJ1:SFT"),
+      token("ich")
+      ),
+    Arrays.asList(
+      // "Einer wie du kennt ..."
+      token("einer"),
+      token("wie"),
+      token("du"),
+      pos("VER:3:SIN:PRÄ:NON")
+    ),
+    Arrays.asList(
       // "Kannst mich gerne anrufen" (ugs.)
       pos("VER:MOD:2:SIN:PRÄ"),
       posRegex("PRO:PER:.*")
@@ -84,7 +98,7 @@ public class VerbAgreementRule extends TextLevelRule {
       token("anstelle")
     ),
     Arrays.asList( // "Ok bin ab morgen bei euch." (umgangssprachlich, benötigt eigene Regel)
-      tokenRegex("ok|okay|ja|nein|vielleiecht|oh"),
+      tokenRegex("ok(ay)?|ja|nein|vielleicht|oh"),
       tokenRegex("bin|sind")
     ),
     Arrays.asList(
@@ -177,6 +191,12 @@ public class VerbAgreementRule extends TextLevelRule {
      posRegex("VER:MOD:1:PLU:.+"),
      csToken("wir"),
      csToken("bitte")
+    ),
+    Arrays.asList( // Ohne sie hätte ich das nie geschafft.
+     token("ohne"),
+     token("sie"),
+     token("hätte"),
+     token("ich")
     )
   );
 

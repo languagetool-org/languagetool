@@ -27,6 +27,8 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tools.Tools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLHandshakeException;
 import java.io.DataOutputStream;
@@ -40,14 +42,13 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
-import static org.languagetool.server.ServerTools.print;
-
 /**
  * Extend results by adding rules matches from a different API server.
  * @since 4.0
  */
-@Experimental
 class ResultExtender {
+
+  private static final Logger logger = LoggerFactory.getLogger(ResultExtender.class);
 
   private final URL url;
   private final int connectTimeoutMillis;
@@ -113,11 +114,12 @@ class ResultExtender {
       return parseJson(input);
     } catch (SSLHandshakeException | SocketTimeoutException e) {
       // "hard" errors that will probably not resolve themselves easily:
+      logger.error("Error while querying hidden matches server", e);
       throw e;
     } catch (Exception e) {
       // These are issue that can be request-specific, like wrong parameters. We don't throw an
       // exception, as the calling code would otherwise assume this is a persistent error:
-      print("Warn: Failed to query hidden matches server at " + url + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + plainText.length() + " characters");
+      logger.warn("Warn: Failed to query hidden matches server at " + url + ": " + e.getClass() + ": " + e.getMessage() + ", input was " + plainText.length() + " characters");
       return Collections.emptyList();
     } finally {
       huc.disconnect();

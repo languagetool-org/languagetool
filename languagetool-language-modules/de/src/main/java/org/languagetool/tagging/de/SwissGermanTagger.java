@@ -35,16 +35,15 @@ public class SwissGermanTagger extends GermanTagger {
   @Override
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens, boolean ignoreCase) throws IOException { 
     List<AnalyzedTokenReadings> tokens = super.tag(sentenceTokens, ignoreCase);
-    for (int i = 0; i < tokens.size(); i++) {
-      AnalyzedTokenReadings reading = tokens.get(i);
-      if (reading != null && 
-          reading.getToken() != null &&
-          reading.getToken().contains("ss") && 
-          !reading.isTagged()) {
+    for (AnalyzedTokenReadings reading : tokens) {
+      if (reading != null &&
+        reading.getToken() != null &&
+        reading.getToken().contains("ss") &&
+        !reading.isTagged()) {
         AnalyzedTokenReadings replacementReading = lookup(reading.getToken().replace("ss", "ß"));
-        if(replacementReading != null) {
-          for(AnalyzedToken at : replacementReading.getReadings()) {
-            reading.addReading(new AnalyzedToken(reading.getToken(), at.getPOSTag(), at.getLemma()));
+        if (replacementReading != null) {
+          for (AnalyzedToken at : replacementReading.getReadings()) {
+            reading.addReading(new AnalyzedToken(reading.getToken(), at.getPOSTag(), at.getLemma()), "SwissGermanTagger");
           }
         }
       }

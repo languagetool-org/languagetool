@@ -54,4 +54,12 @@ public interface Synthesizer {
    * @return converted POS tag
    */
   String getPosTagCorrection(String posTag);
+  
+  /**
+   * Spells out a number
+   * @param arabicNumeral in arabic numerals 
+   * @return String of the spelled out number
+   */
+  
+  String getSpelledNumber(String arabicNumeral);
 }

@@ -19,10 +19,9 @@
 package org.languagetool.rules.de;
 
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.databroker.ResourceDataBroker;
+import org.jetbrains.annotations.Nullable;
+import org.languagetool.*;
+import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
@@ -47,6 +46,17 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("gel", "dickflüssige Masse", "geld", "Zahlungsmittel"),
+          new Pair("flucht", "Entkommen, Fliehen", "frucht", "Ummantelung des Samens einer Pflanze"),
+          new Pair("kamp", "Flurname für ein Stück Land", "kampf", "Auseinandersetzung"),
+          new Pair("obst", "Frucht", "ost", "Himmelsrichtung"),
+          new Pair("beeren", "Früchte", "bären", "Raubtiere"),
+          new Pair("laus", "Insekt", "lauf", "Bewegungsart"),
+          new Pair("läuse", "Insekt", "läufe", "Bewegungsart"),
+          new Pair("läusen", "Insekt", "läufen", "Bewegungsart"),
+          new Pair("ruck", "plötzliche Bewegung", "druck", "Belastung"),
+          new Pair("brüste", "Plural von Brust", "bürste", "Gerät mit Borsten, z.B. zum Reinigen"),
+          new Pair("attraktion", "Sehenswürdigkeit", "akttaktion", "vermutlicher Tippfehler"),
           new Pair("nah", "zu 'nah' (wenig entfernt)", "näh", "zu 'nähen' (mit einem Faden verbinden)"),
           new Pair("turn", "zu 'turnen'", "turm", "hohes Bauwerk"),
           new Pair("mit", "Präposition", "miet", "zu 'Miete' (Überlassung gegen Bezahlung)"),
@@ -70,16 +80,82 @@ public class ProhibitedCompoundRule extends Rule {
           new Pair("balkan", "Region in Südosteuropa", "balkon", "Plattform, die aus einem Gebäude herausragt"),
           new Pair("haft", "Freiheitsentzug", "schaft", "-schaft (Element zur Wortbildung)")
   );
-  private static final GermanSpellerRule spellerRule = new GermanSpellerRule(JLanguageTool.getMessageBundle(), new GermanyGerman(), null, null);
+  public static final GermanyGerman german = new GermanyGerman();
+  private static GermanSpellerRule spellerRule;
+  private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
+  private static final List<String> blacklistRegex = Arrays.asList("gra(ph|f)ie");
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
           "Gründertag",
           "Korrekturlösung",
           "Regelschreiber",
           "Glasreinigern",
           "Holzstele",
+          "Brandschutz",
           "Testbahn",
-          "Reiszwecke"
+          "Testbahnen",
+          "Reiszwecke",
+          "Reiszwecken",
+          "Startglocke",
+          "Startglocken",
+          "Ladepunkte",
+          "Kinderpreise",
+          "Kinderpreisen",
+          "Belegungsoptionen",
+          "Brandgebiete",
+          "Brandgebieten",
+          "Innenfell",
+          "Innenfelle",
+          "Batteriepreis",
+          "Alltagsschuhe",
+          "Alltagsschuhen",
+          "Arbeiterschuhe",
+          "Arbeiterschuhen",
+          "Bartvogel",
+          "Abschiedsmail",
+          "Abschiedsmails",
+          "Wohnindex",
+          "Entwicklungsstudio",
+          "Ermittlungsgesetz",
+          "Lindeverfahren",
+          "Stromspender",
+          "Turmvverlag",  // eigtl. Turm-Verlag, muss hier als Ausnahme aber so stehen
+          "Bäckerlunge",
+          "Reisbeutel",
+          "Reisbeuteln",
+          "Reisbeutels",
+          "Fellnase",
+          "Fellnasen",
+          "Kletterwald",
+          "Kletterwalds",
+          "Lusthöhle",
+          "Lusthöhlen",
+          "Abschlagswert",
+          "Schuhfach",
+          "Schuhfächer",
+          "Spülkanüle",
+          "Spülkanülen",
+          "Tankkosten",
+          "Hangout",
+          "Hangouts",
+          "Kassenloser",
+          "kassenloser",
+          "Reisnadel",
+          "Reisnadeln",
+          "stielloses",
+          "stielloser",
+          "stiellosen",
+          "Beiratsregelung",
+          "Beiratsregelungen",
+          "Kreiskongress",
+          "Lagekosten",
+          "hineinfeiern",
+          "Maskenhersteller", // vs Marken
+          "Wabendesign",  // vs. Marken
+          "Maskenherstellers",
+          "Maskenherstellern",
+          "Firmenvokabular",
+          "Maskenproduktion"
   ));
 
   // have per-class static list of these and reference that in instance
@@ -98,7 +174,6 @@ public class ProhibitedCompoundRule extends Rule {
     prohibitedCompoundRuleSearcher = setupAhoCorasickSearch(pairs, pairMap);
     prohibitedCompoundRulePairMap = pairMap;
   }
-
 
   private static void addAllCaseVariants(List<Pair> candidatePairs, Pair lcPair) {
     candidatePairs.add(new Pair(lcPair.part1, lcPair.part1Desc, lcPair.part2, lcPair.part2Desc));
@@ -125,7 +200,7 @@ public class ProhibitedCompoundRule extends Rule {
     try {
       ResourceDataBroker dataBroker = JLanguageTool.getDataBroker();
       try (InputStream confusionSetStream = dataBroker.getFromResourceDirAsStream(confusionSetsFile)) {
-        ConfusionSetLoader loader = new ConfusionSetLoader();
+        ConfusionSetLoader loader = new ConfusionSetLoader(german);
         Map<String, List<ConfusionPair>> confusionPairs = loader.loadConfusionPairs(confusionSetStream);
         for (Map.Entry<String, List<ConfusionPair>> entry : confusionPairs.entrySet()) {
           for (ConfusionPair pair : entry.getValue()) {
@@ -173,11 +248,13 @@ public class ProhibitedCompoundRule extends Rule {
   private final BaseLanguageModel lm;
   private Pair confusionPair = null; // specify single pair for evaluation
 
-  public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm) {
+  public ProhibitedCompoundRule(ResourceBundle messages, LanguageModel lm, UserConfig userConfig) {
     this.lm = (BaseLanguageModel) Objects.requireNonNull(lm);
     super.setCategory(Categories.TYPOS.getCategory(messages));
     this.ahoCorasickDoubleArrayTrie = prohibitedCompoundRuleSearcher;
     this.pairMap = prohibitedCompoundRulePairMap;
+    linguServices = userConfig != null ? userConfig.getLinguServices() : null;
+    spellerRule = linguServices == null ? new GermanSpellerRule(JLanguageTool.getMessageBundle(), german, null, null) : null;
   }
 
   @Override
@@ -190,65 +267,86 @@ public class ProhibitedCompoundRule extends Rule {
     return "Markiert wahrscheinlich falsche Komposita wie 'Lehrzeile', wenn 'Leerzeile' häufiger vorkommt.";
   }
 
-
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     for (AnalyzedTokenReadings readings : sentence.getTokensWithoutWhitespace()) {
-      String word = readings.getToken();
-      /* optimizations:
-         only nouns can be compounds
-         all parts are at least 3 characters long -> words must have at least 6 characters
-       */
-      if ((readings.isTagged() && !readings.hasPartialPosTag("SUB")) || word.length() <= 6) {
-        continue;
+      String tmpWord = readings.getToken();
+      List<String> wordsParts = new ArrayList<>(Arrays.asList(tmpWord.split("-")));
+      int partsStartPos = 0;
+      for (String wordPart : wordsParts) {
+        partsStartPos = getMatches(sentence, ruleMatches, readings, partsStartPos, wordPart, 0);
       }
-      List<Pair> candidatePairs = new ArrayList<>();
-      // ignore other pair when confusionPair is set (-> running for evaluation)
-
-      if (confusionPair == null) {
-        List<AhoCorasickDoubleArrayTrie.Hit<String>> wordList = ahoCorasickDoubleArrayTrie.parseText(word);
-        // might get duplicates, but since we only ever allow one match per word it doesn't matter
-        for (AhoCorasickDoubleArrayTrie.Hit<String> hit : wordList) {
-          List<Pair> pair = pairMap.get(hit.value);
-          if (pair != null) {
-            candidatePairs.addAll(pair);
-          }
-        }
-      } else {
-        addAllCaseVariants(candidatePairs, confusionPair);
-      }
-
-      for (Pair pair : candidatePairs) {
-        String variant = null;
-        if (word.contains(pair.part1)) {
-          variant = word.replaceFirst(pair.part1, pair.part2);
-        } else if (word.contains(pair.part2)) {
-          variant = word.replaceFirst(pair.part2, pair.part1);
-        }
-        //System.out.println(word + " <> " + variant);
-        if (variant == null) {
-          continue;
-        }
-        long wordCount = lm.getCount(word);
-        long variantCount = lm.getCount(variant);
-        //float factor = variantCount / (float)Math.max(wordCount, 1);
-        //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
-        if (variantCount > 0 && wordCount == 0 && !blacklist.contains(word) && !spellerRule.isMisspelled(variant)) {
-          String msg;
-          if (pair.part1Desc != null && pair.part2Desc != null) {
-            msg = "Möglicher Tippfehler. " + uppercaseFirstChar(pair.part1) + ": " + pair.part1Desc + ", " + uppercaseFirstChar(pair.part2) + ": " + pair.part2Desc;
-          } else {
-            msg = "Möglicher Tippfehler: " + pair.part1 + "/" + pair.part2;
-          }
-          RuleMatch match = new RuleMatch(this, sentence, readings.getStartPos(), readings.getEndPos(), msg);
-          match.setSuggestedReplacement(variant);
-          ruleMatches.add(match);
-          break;
-        }
+      String noHyphens = removeHyphensAndAdaptCase(tmpWord);
+      if (noHyphens != null) {
+        getMatches(sentence, ruleMatches, readings, 0, noHyphens, tmpWord.length()-noHyphens.length());
       }
     }
     return toRuleMatchArray(ruleMatches);
+  }
+
+  private boolean isMisspelled (String word) {
+    return (linguServices == null ? spellerRule.isMisspelled(word) : !linguServices.isCorrectSpell(word, german));
+  }
+  
+  private int getMatches(AnalyzedSentence sentence, List<RuleMatch> ruleMatches, AnalyzedTokenReadings readings, int partsStartPos, String wordPart, int toPosCorrection) {
+    /* optimizations:
+     only nouns can be compounds
+     all parts are at least 3 characters long -> words must have at least 6 characters
+    */
+    if ((readings.isTagged() && !readings.hasPartialPosTag("SUB")) && !readings.hasPosTagStartingWith("EIG:") || wordPart.length() <= 6) {  // EIG: e.g. "Obstdeutschland" -> "Ostdeutschland"
+      partsStartPos += wordPart.length() + 1;
+      return partsStartPos;
+    }
+    List<Pair> candidatePairs = new ArrayList<>();
+    // ignore other pair when confusionPair is set (-> running for evaluation)
+
+    if (confusionPair == null) {
+      List<AhoCorasickDoubleArrayTrie.Hit<String>> wordList = ahoCorasickDoubleArrayTrie.parseText(wordPart);
+      // might get duplicates, but since we only ever allow one match per word it doesn't matter
+      for (AhoCorasickDoubleArrayTrie.Hit<String> hit : wordList) {
+        List<Pair> pair = pairMap.get(hit.value);
+        if (pair != null) {
+          candidatePairs.addAll(pair);
+        }
+      }
+    } else {
+      addAllCaseVariants(candidatePairs, confusionPair);
+    }
+
+    for (Pair pair : candidatePairs) {
+      String variant = null;
+      if (wordPart.contains(pair.part1)) {
+        variant = wordPart.replaceFirst(pair.part1, pair.part2);
+      } else if (wordPart.contains(pair.part2)) {
+        variant = wordPart.replaceFirst(pair.part2, pair.part1);
+      }
+      //System.out.println(word + " <> " + variant);
+      if (variant == null) {
+        partsStartPos += wordPart.length() + 1;
+        continue;
+      }
+      long wordCount = lm.getCount(wordPart);
+      long variantCount = lm.getCount(variant);
+      //float factor = variantCount / (float)Math.max(wordCount, 1);
+      //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
+      if (variantCount > 0 && wordCount == 0 && !blacklist.contains(wordPart) && !isMisspelled(variant) && blacklistRegex.stream().noneMatch(k -> wordPart.matches(".*" + k + ".*"))) {
+        String msg;
+        if (pair.part1Desc != null && pair.part2Desc != null) {
+          msg = "Möglicher Tippfehler. " + uppercaseFirstChar(pair.part1) + ": " + pair.part1Desc + ", " + uppercaseFirstChar(pair.part2) + ": " + pair.part2Desc;
+        } else {
+          msg = "Möglicher Tippfehler: " + pair.part1 + "/" + pair.part2;
+        }
+        int fromPos = readings.getStartPos() + partsStartPos;
+        int toPos = fromPos + wordPart.length() + toPosCorrection;
+        RuleMatch match = new RuleMatch(this, sentence, fromPos, toPos, msg);
+        match.setSuggestedReplacement(variant);
+        ruleMatches.add(match);
+        break;
+      }
+    }
+    partsStartPos += wordPart.length() + 1;
+    return partsStartPos;
   }
 
   /**
@@ -258,6 +356,21 @@ public class ProhibitedCompoundRule extends Rule {
    */
   public void setConfusionPair(Pair confusionPair) {
     this.confusionPair = confusionPair;
+  }
+
+  @Nullable
+  String removeHyphensAndAdaptCase(String word) {
+    String[] parts = word.split("-");
+    if (parts.length > 1) {
+      StringBuilder sb = new StringBuilder();
+      int i = 0;
+      for (String part : parts) {
+        sb.append(i == 0 ? part : StringTools.lowercaseFirstChar(part));
+        i++;
+      }
+      return sb.toString();
+    }
+    return null;
   }
 
   public static class Pair {

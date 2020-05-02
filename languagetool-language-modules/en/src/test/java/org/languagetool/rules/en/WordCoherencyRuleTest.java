@@ -38,7 +38,7 @@ public class WordCoherencyRuleTest {
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
 
   @Before
-  public void before() throws IOException {
+  public void before() {
     TestTools.disableAllRulesExcept(lt, "EN_WORD_COHERENCY");
   }
   
@@ -49,6 +49,24 @@ public class WordCoherencyRuleTest {
     assertGood("He likes archaeology. She likes archaeology, too.");
     // errors:
     assertError("He likes archaeology. She likes archeology, too.");
+    
+    List<RuleMatch> matches1 = lt.check("He is reelected, or he will be re-elected.");
+    assertThat(matches1.size(), is(1));
+    assertThat(matches1.get(0).getFromPos(), is(31));
+    assertThat(matches1.get(0).getToPos(), is(41));
+    assertThat(matches1.get(0).getSuggestedReplacements().toString(), is("[reelected]"));
+    
+    List<RuleMatch> matches2 = lt.check("He was reelected, and I will re-elect him again in 2002.");
+    assertThat(matches2.size(), is(1));
+    assertThat(matches2.get(0).getFromPos(), is(29));
+    assertThat(matches2.get(0).getToPos(), is(37));
+    assertThat(matches2.get(0).getSuggestedReplacements().toString(), is("[reelect]"));
+
+    List<RuleMatch> matches3 = lt.check("He oxidises o, or he oxidizes");
+    assertThat(matches3.size(), is(1));
+    assertThat(matches3.get(0).getFromPos(), is(21));
+    assertThat(matches3.get(0).getToPos(), is(29));
+    assertThat(matches3.get(0).getSuggestedReplacements().toString(), is("[oxidises]"));
   }
 
   @Test

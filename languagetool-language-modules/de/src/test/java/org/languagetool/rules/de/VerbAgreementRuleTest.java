@@ -112,6 +112,10 @@ public class VerbAgreementRuleTest {
     assertGood("Kannst sie gerne anrufen.");
     assertGood("Aber wie ich sehe, benötigt ihr Nachschub.");
     assertGood("Wie ich sehe, benötigt ihr Nachschub.");
+    assertGood("Einer wie du kennt doch bestimmt viele Studenten.");
+    assertGood("Für Sie mache ich eine Ausnahme.");
+    assertGood("Ohne sie hätte ich das nicht geschafft.");
+    assertGood("Ohne Sie hätte ich das nicht geschafft.");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");

@@ -30,26 +30,39 @@ import static junit.framework.TestCase.fail;
 
 public class WordListValidatorTest {
 
-  private static final Pattern VALID_CHARS = Pattern.compile(
-          "[ 0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒãñíîş&" +
+  private static final String VALID_CHARS =
+          "[ 0-9a-zA-ZöäüÖÄÜßëçèéáàóòÈÉÁÀÓÒÍãñíîş&" +
+          "___INSERT___" +
           "Œ€ūαΑβΒγɣΓδΔεΕζΖηΗθΘιΙκΚλΛμΜνΝξΞοΟπΠρΡσΣτΤυΥφΦχΧψΨωΩάΆέΈίΊήΉύΎϊϋΰΐœţłń" +
           "ŚśōżúïÎôêâû" +
-          "Ææ" +  // English
-          "ÍÚÑ" + // for Spanish
-          "õș" +   // for Portuguese
-          "ā" + // for Persian
-          "·" +   // for Catalan
           "'’" +
-          "ýùźăŽČĆÅıøğåšĝÇİŞŠčžć±ą+-" +   // for Dutch (inhabitants) proper names mostly
-          "./-]+" + 
-          "|[khmcdµ]?m[²³]|°[CFR]|CO₂-?.*|mc²"
-  );
+          "./-]+" +
+          "|[khmcdµ]?m[²³]|°[CFR]|C?O₂-?.*|mc²";
 
   // Words that are valid but with special characters so that we don't want to
   // allow them in general:
   private static final Set<String> VALID_WORDS = new HashSet<>(Arrays.asList(
           "Będzin",
           "Bhagavad-gītā",
+          "Sønderjylland/S",
+          "Božena/S",
+          "Brăila/S",
+          "Timișoara/S",
+          "Tromsø/S",
+          "Solidarność",
+          "Salihamidžić/S",
+          "veni, vidi, vici", // en
+          "Food+Tech Connect", // en
+          "comme ci, comme ça", // en
+          "Robinson + Yu",
+          "herõon", // en
+          "herõons", // en
+          "Võro",  // en
+          "Łukasz",
+          "Čakavian",
+          "Erdoğan",
+          "Štokavian",
+          "Veliko Tărnovo",
           "Brāhmaṇa",
           "Forlì-Cesena",
           "Hárbarðsljóð",
@@ -80,8 +93,10 @@ public class WordListValidatorTest {
           "ångström",
           "ångströms",
           "'Ndrangheta",
+          "Hồ Chí Minh",
           "McDonald's",
           "Bahrām",
+          "Kęstutis",
           "µm",
           "µg",
           "µl",
@@ -96,7 +111,20 @@ public class WordListValidatorTest {
           "α", "β", "γ", "δ", "ε", "ζ", "η", "θ", "ι", "κ", "λ", "μ", "ν", "ξ", "ο", "π", "ρ", "σ", "τ", "υ", "φ", "χ", "ψ", "ω"          
   ));
 
+  private final String additionalValidationChars;
+
+  public WordListValidatorTest() {
+    this("");
+  }
+
+  public WordListValidatorTest(String additionalValidationChars) {
+    this.additionalValidationChars = additionalValidationChars;
+  }
+
   public void testWordListValidity(Language lang) {
+    if (lang.getShortCode().equals("ru")) {
+      return;   // skipping, Cyrillic chars not part of the validation yet
+    }
     Set<String> checked = new HashSet<>();
     JLanguageTool lt = new JLanguageTool(lang);
     List<Rule> rules = lt.getAllActiveRules();
@@ -117,11 +145,13 @@ public class WordListValidatorTest {
 
   private void validateWords(List<String> words, String spellingFileName) {
     List<String> failures = new ArrayList<>();
+    String validChars = VALID_CHARS.replace("___INSERT___", additionalValidationChars);
+    Pattern validPattern = Pattern.compile(validChars);
     for (String word : words) {
       if (VALID_WORDS.contains(word) || VALID_WORDS.contains(word.trim())) {
         // okay
-      } else if (!VALID_CHARS.matcher(word).matches()) {
-        failures.add("Word '" + word + "' from " + spellingFileName + " doesn't match regex: " + VALID_CHARS +
+      } else if (!validPattern.matcher(word).matches()) {
+        failures.add("Word '" + word + "' from " + spellingFileName + " doesn't match regex: " + validChars +
                 " - please fix the word or add the character to the language's " + WordListValidatorTest.class.getName() + " if it's valid");
       }
     }

@@ -29,8 +29,32 @@ public class SpanishWordTokenizerTest {
   @Test
   public void testTokenize() {
     final SpanishWordTokenizer wordTokenizer = new SpanishWordTokenizer();
-    final List <String> tokens = wordTokenizer.tokenize("*test+");
+    List <String> tokens = wordTokenizer.tokenize("*test+");
     assertEquals(tokens.size(), 3);
     assertEquals("[*, test, +]", tokens.toString());
+    
+    tokens = wordTokenizer.tokenize("best-seller Covid-19;sars-cov-2");
+    assertEquals(tokens.size(), 5);
+    assertEquals("[best-seller,  , Covid-19, ;, sars-cov-2]", tokens.toString());
+    
+    tokens = wordTokenizer.tokenize("e-mails");
+    assertEquals(tokens.size(), 1);
+    assertEquals("[e-mails]", tokens.toString());
+    
+    tokens = wordTokenizer.tokenize("$100");
+    assertEquals(tokens.size(), 1);
+    assertEquals("[$100]", tokens.toString());
+    
+    tokens = wordTokenizer.tokenize("$1.000");
+    assertEquals(tokens.size(), 1);
+    assertEquals("[$1.000]", tokens.toString());
+    
+    tokens = wordTokenizer.tokenize("$1,400.50");
+    assertEquals(tokens.size(), 1);
+    assertEquals("[$1,400.50]", tokens.toString());
+    
+    tokens = wordTokenizer.tokenize("1,400.50$");
+    assertEquals(tokens.size(), 1);
+    assertEquals("[1,400.50$]", tokens.toString());
   }
 }

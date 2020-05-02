@@ -12,7 +12,7 @@ Andrew Brown and Marco A.G.Pinto:
  — Thousands of proper/places names have been added;
  — Thousands of possessives have been added;
  — Thousands of plurals have been added;
- — Over two thousand duplicates have been removed.
+ — Thousands of duplicates have been removed.
 
 Valuable inputs to this process were received from many other
 people — far too numerous to name. Serious thanks to all for
@@ -117,17 +117,18 @@ to
 		   — Small fixes and enhancements on flags "z" and "O" by Ding-adong.
 2019-04-01 — Improved flag "P" thanks to Ding-adong, giving also -nesses which
 			 increased the wordlist in ~1800 valid words.
-2019-07-01 — Major cleanup of the .dic by removing hundreds of duplicates, merging flags, adding
+2019-07-01
+to
+2019-10-01 — Major cleanup of the .dic by removing thousands of duplicates, merging flags, adding
 			 possessives and plurals.
-2019-08-01 — Major cleanup of the .dic by removing hundreds of duplicates, merging flags, adding
-			 possessives and plurals.
-		   — Improved flags: "i", "n", "N", "O", "W", "Z" and "2":
+		   — Improved flags: "i", "n", "N", "O", "W", "Z", "2" and "3":
 			  — Flag "2" increased the wordlist in ~400 valid words;
 			  — Flag "i" increased the wordlist in ~200 valid words;
 			  — Flag "n" increased the wordlist in ~1000 valid words.
-2019-09-01 — Major cleanup of the .dic by removing hundreds of duplicates, merging flags, adding
-			 possessives and plurals.
-		   — Improved flags: "O", "W", "Z" and "3".
+2019-11-01
+to
+2020-04-01 — Added thousands of possessives and plurals.
+		   — Improved flags: "O", "W".
 -------
 
 MARCO A.G.PINTO:
@@ -158,17 +159,17 @@ E-mail:
 marcoagpinto@sapo.pt
 
 Site:
-http://proofingtoolgui.org
+https://proofingtoolgui.org
 
 FAQ:
-http://proofingtoolgui.org/faq.html
+https://proofingtoolgui.org/faq.html
 
 FAQ ("movie", "automobile", "airplane", "hardcover" and "bookstore"):
-http://proofingtoolgui.org/faq.html#7
+https://proofingtoolgui.org/faq.html#7
 Notice: Due to complaints, "movie" was added on V2.57 since it is a widely used word.
 
 Changelog:
-http://proofingtoolgui.org/en_GB_CHANGES.txt
+https://proofingtoolgui.org/en_GB_CHANGES.txt
 
 Nightly changes (GitHub):
 https://github.com/marcoagpinto/aoo-mozilla-en-dict

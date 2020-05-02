@@ -20,26 +20,36 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.ErrorRateTooHighException;
 import org.languagetool.tools.StringTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
-import java.net.*;
-import java.util.*;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeoutException;
 
 import static java.net.HttpURLConnection.HTTP_UNAVAILABLE;
+import static org.languagetool.server.ServerTools.getHttpReferrer;
 import static org.languagetool.server.ServerTools.print;
 
 class LanguageToolHttpHandler implements HttpHandler {
+
+  private static final Logger logger = LoggerFactory.getLogger(LanguageToolHttpHandler.class);
 
   static final String API_DOC_URL = "https://languagetool.org/http-api/swagger-ui/#/default";
   
@@ -49,21 +59,24 @@ class LanguageToolHttpHandler implements HttpHandler {
   private final RequestLimiter requestLimiter;
   private final ErrorRequestLimiter errorRequestLimiter;
   private final LinkedBlockingQueue<Runnable> workQueue;
+  private final Server httpServer;
   private final TextChecker textCheckerV2;
   private final HTTPServerConfig config;
   private final RequestCounter reqCounter = new RequestCounter();
   
-  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue) {
+  LanguageToolHttpHandler(HTTPServerConfig config, Set<String> allowedIps, boolean internal, RequestLimiter requestLimiter, ErrorRequestLimiter errorLimiter, LinkedBlockingQueue<Runnable> workQueue, Server httpServer) {
     this.config = config;
     this.allowedIps = allowedIps;
     this.requestLimiter = requestLimiter;
     this.errorRequestLimiter = errorLimiter;
     this.workQueue = workQueue;
+    this.httpServer = httpServer;
     this.textCheckerV2 = new V2TextChecker(config, internal, workQueue, reqCounter);
   }
 
   /** @since 2.6 */
   void shutdown() {
+    textCheckerV2.shutdownNow();
   }
 
   @Override
@@ -82,6 +95,11 @@ class LanguageToolHttpHandler implements HttpHandler {
         if (!path.startsWith("/")) {
           path = "/" + path;
         }
+      }
+      if (path.startsWith("/v2/stop") && config.isStoppable()) {
+        logger.warn("Stopping server by external command");
+        httpServer.stop();
+        return;
       }
       if (path.startsWith("/v2/")) {
         // healthcheck should come before other limit checks (requests per time etc.), to be sure it works: 
@@ -134,7 +152,7 @@ class LanguageToolHttpHandler implements HttpHandler {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
           int code = HttpURLConnection.HTTP_FORBIDDEN;
           sendError(httpExchange, code, errorMessage);
-          // already logged vai DatabaseAccessLimitLogEntry
+          // already logged via DatabaseAccessLimitLogEntry
           logError(errorMessage, code, parameters, httpExchange, false);
           return;
         }
@@ -191,7 +209,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         logStacktrace = false;
       } else if (hasCause(e, AuthException.class)) {
         errorCode = HttpURLConnection.HTTP_FORBIDDEN;
-        response = e.getMessage();
+        response = AuthException.class.getName() + ": " + e.getMessage();
         logStacktrace = false;
       } else if (e instanceof IllegalArgumentException || rootCause instanceof IllegalArgumentException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;
@@ -266,10 +284,6 @@ class LanguageToolHttpHandler implements HttpHandler {
   private void logError(String errorMessage, int code, Map<String, String> params, HttpExchange httpExchange, boolean logToDb) {
     String message = errorMessage + ", sending code " + code + " - useragent: " + params.get("useragent") +
             " - HTTP UserAgent: " + ServerTools.getHttpUserAgent(httpExchange) + ", r:" + reqCounter.getRequestCount();
-    // TODO: might need more than 512 chars:
-    //message += ", referrer: " + getHttpReferrer(httpExchange);
-    //message += ", language: " + params.get("language");
-    //message += ", " + getTextOrDataSizeMessage(params);
     if (params.get("username") != null) {
       message += ", user: " + params.get("username");
     }
@@ -279,7 +293,11 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (logToDb) {
       logToDatabase(params, message);
     }
-    print(message);
+    // TODO: might need more than 512 chars, thus not logged to DB:
+    message += ", referrer: " + getHttpReferrer(httpExchange);
+    message += ", language: " + params.get("language");
+    message += ", " + getTextOrDataSizeMessage(params);
+    logger.error(message);
   }
 
   private void logError(String remoteAddress, Exception e, int errorCode, HttpExchange httpExchange, Map<String, String> params, 
@@ -296,10 +314,10 @@ class LanguageToolHttpHandler implements HttpHandler {
     if (logStacktrace) {
       message += "Stacktrace follows:";
       message += ExceptionUtils.getStackTrace(e);
-      print(message, System.err);
+      logger.error(message);
     } else {
       message += "(no stacktrace logged)";
-      print(message, System.err);
+      logger.error(message);
     }
 
     if (!(e instanceof TextTooLongException || e instanceof TooManyRequestsException ||

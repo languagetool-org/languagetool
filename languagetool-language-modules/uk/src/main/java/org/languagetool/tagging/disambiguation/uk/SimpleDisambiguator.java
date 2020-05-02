@@ -1,12 +1,9 @@
 package org.languagetool.tagging.disambiguation.uk;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import org.languagetool.AnalyzedSentence;
@@ -14,39 +11,33 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 
-
 class SimpleDisambiguator {
 
   final Map<String, TokenMatcher> DISAMBIG_REMOVE_MAP = loadMap("/uk/disambig_remove.txt");
 
   private static Map<String, TokenMatcher> loadMap(String path) {
     Map<String, TokenMatcher> result = new HashMap<>();
-    try (InputStream is = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-        Scanner scanner = new Scanner(is, "UTF-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-  
-        if( line.startsWith("#") || line.trim().isEmpty() )
-          continue;
-        
-        line = line.replaceFirst(" *#.*", "");
-  
-        String[] parts = line.trim().split(" ", 2);
-        
-        String[] matchers = parts[1].split("\\|");
-        List<MatcherEntry> matcherEntries = new ArrayList<>();
-        for (String string : matchers) {
-          String[] matcherParts = string.split(" ");
-          matcherEntries.add(new MatcherEntry(matcherParts[0], matcherParts[1]));
-        }
-        
-        result.put(parts[0], new TokenMatcher(matcherEntries));
+    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
+    for (String line : lines) {
+      if( line.startsWith("#") || line.trim().isEmpty() ) {
+        continue;
       }
-      //        System.err.println("Found disambig remove list: " + result.size());
-      return result;
-    } catch (IOException e) {
-      throw new RuntimeException(e);
+      
+      line = line.replaceFirst(" *#.*", "");
+
+      String[] parts = line.trim().split(" ", 2);
+      
+      String[] matchers = parts[1].split("\\|");
+      List<MatcherEntry> matcherEntries = new ArrayList<>();
+      for (String string : matchers) {
+        String[] matcherParts = string.split(" ");
+        matcherEntries.add(new MatcherEntry(matcherParts[0], matcherParts[1]));
+      }
+      
+      result.put(parts[0], new TokenMatcher(matcherEntries));
     }
+    //        System.err.println("Found disambig remove list: " + result.size());
+    return result;
   }
 
   public void removeRareForms(AnalyzedSentence input) {
@@ -86,7 +77,7 @@ class SimpleDisambiguator {
 //          continue;
 
         if( tokenMatcher.matches(analyzedToken) ) {
-          tokens[i].removeReading(analyzedToken);
+          tokens[i].removeReading(analyzedToken, this.toString());
         }
       }
     }    

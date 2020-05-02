@@ -23,7 +23,9 @@ import org.languagetool.rules.Example;
 
 import java.util.ResourceBundle;
 
-
+/**
+ * @since 4.9
+ */
 public class ArabicCommaWhitespaceRule extends CommaWhitespaceRule {
 
   public ArabicCommaWhitespaceRule(ResourceBundle messages) {

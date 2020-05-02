@@ -18,9 +18,9 @@
  */
 package org.languagetool.tagging.fr;
 
-import java.util.Locale;
-
 import org.languagetool.tagging.BaseTagger;
+
+import java.util.Locale;
 
 /** French Tagger
  * 
@@ -29,12 +29,6 @@ import org.languagetool.tagging.BaseTagger;
  * @author Marcin Milkowski
  */
 public class FrenchTagger extends BaseTagger {
-
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/fr/added.txt";
-  }
-
   public FrenchTagger() {
     super("/fr/french.dict", Locale.FRENCH, false);
   }

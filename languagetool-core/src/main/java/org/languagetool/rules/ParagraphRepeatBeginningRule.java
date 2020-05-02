@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
+import org.languagetool.tools.Tools;
 
 /**
  * Check if to paragraphs begin with the same word.
@@ -117,7 +118,7 @@ public class ParagraphRepeatBeginningRule extends TextLevelRule {
     
     for (int n = 0; n < sentences.size() - 1; n++) {
       nextPos += sentences.get(n).getText().length();
-      if(sentences.get(n).hasParagraphEndMark(lang)) {
+      if(Tools.isParagraphEnd(sentences, n, lang)) {
         nextSentence = sentences.get(n + 1);
         nextTokens = nextSentence.getTokensWithoutWhitespace();
         endPos = numCharEqualBeginning(lastTokens, nextTokens);

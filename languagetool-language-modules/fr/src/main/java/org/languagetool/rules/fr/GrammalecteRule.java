@@ -21,7 +21,6 @@ package org.languagetool.rules.fr;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.Experimental;
 import org.languagetool.GlobalConfig;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -44,7 +43,6 @@ import java.util.*;
  * Queries a local Grammalecte server.
  * @since 4.6
  */
-@Experimental
 public class GrammalecteRule extends Rule {
 
   private static Logger logger = LoggerFactory.getLogger(GrammalecteRule.class);
@@ -67,10 +65,11 @@ public class GrammalecteRule extends Rule {
     "nbsp_avant_deux_points",  // Useful only if we decide to have the rest of the non-breakable space rules.
     "nbsp_ajout_avant_double_ponctuation",  // Useful only if we decide to have the rest of the non-breakable space rules.
     "apostrophe_typographique_après_t",  // Not useful. While being the technically correct character, it does not matter much.
-    "unit_nbsp_avant_unités1",
     "typo_tiret_début_ligne",  // Arguably the same as 50671 and 17342 ; the french special character for lists is a 'tiret cadratin' ; so it should be that instead of a dash. Having it count as a mistake is giving access to the otherwise unaccessible special character. However, lists are a common occurrence, and the special character does not make a real difference. Not really useful but debatable
     "typo_guillemets_typographiques_simples_fermants",
     "typo_apostrophe_incorrecte",
+    "unit_nbsp_avant_unités1",
+    "unit_nbsp_avant_unités2",
     "unit_nbsp_avant_unités3",
     "nbsp_après_double_ponctuation",
     "typo_guillemets_typographiques_simples_ouvrants",
@@ -84,7 +83,14 @@ public class GrammalecteRule extends Rule {
     "typo_points_suspension1",
     "typo_points_suspension2",
     "typo_points_suspension3",
-    "tab_début_ligne"
+    "typo_tiret_incise", // picky
+    "esp_avant_après_tiret", // picky
+    "nbsp_après_tiret1", // picky
+    "nbsp_après_tiret2", // picky
+    "esp_mélangés1", // picky
+    "esp_mélangés2", // picky
+    "tab_début_ligne",
+    "esp_milieu_ligne" // we already have WHITESPACE_RULE
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {

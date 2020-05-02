@@ -39,6 +39,7 @@ class MessageHandler {
   
   private static String homeDir;
   private static String logFileName;
+  private static boolean isOpen = false;
   
   private static boolean testMode;
   
@@ -70,6 +71,7 @@ class MessageHandler {
     if (testMode) {
       throw new RuntimeException(e);
     }
+    printException(e);
     String msg = "An error has occurred in LanguageTool "
         + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + "):\n" + e + "\nStacktrace:\n";
     msg += Tools.getFullStackTrace(e);
@@ -78,7 +80,7 @@ class MessageHandler {
         + System.getProperty("java.version") + " from "
         + System.getProperty("java.vm.vendor");
     msg += metaInfo;
-    DialogThread dt = new DialogThread(msg);
+    DialogThread dt = new DialogThread(msg, true);
     e.printStackTrace();
     dt.start();
   }
@@ -97,7 +99,7 @@ class MessageHandler {
   /** 
    * Prints Exception to log-file  
    */
-  static void printException (Throwable t) {
+  static void printException(Throwable t) {
    printToLogFile(Tools.getFullStackTrace(t));
   }
 
@@ -129,20 +131,31 @@ class MessageHandler {
    * @param txt message to be shown
    */
   static void showMessage(String txt) {
-    DialogThread dt = new DialogThread(txt);
+    printToLogFile(txt);
+    DialogThread dt = new DialogThread(txt, false);
     dt.run();
   }
 
   private static class DialogThread extends Thread {
     private final String text;
+    private boolean isException;
 
-    DialogThread(String text) {
+    DialogThread(String text, boolean isException) {
       this.text = text;
+      this.isException = isException;
     }
 
     @Override
     public void run() {
-      JOptionPane.showMessageDialog(null, text);
+      if (isException) {
+        if (!isOpen) {
+          isOpen = true;
+          JOptionPane.showMessageDialog(null, text);
+          isOpen = false;
+        }
+      } else {
+        JOptionPane.showMessageDialog(null, text);
+      }
     }
   }
   

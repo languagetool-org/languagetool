@@ -16,17 +16,12 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
-
 package org.languagetool.rules.pt;
 
-import org.languagetool.Languages;
+import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.rules.AbstractDashRule;
-import org.languagetool.rules.patterns.PatternRule;
-import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
 
-import java.io.IOException;
-import java.util.List;
 import java.util.ResourceBundle;
 
 /**
@@ -35,14 +30,11 @@ import java.util.ResourceBundle;
  */
 public class PostReformPortugueseDashRule extends AbstractDashRule {
 
-  private static final List<PatternRule> dashRules = loadCompoundFile("/pt/post-reform-compounds.txt",
-                    "Um travessão foi utilizado em vez de um hífen. Pretende dizer: ", Languages.getLanguageForShortCode("pt-PT"));
+  private static volatile AhoCorasickDoubleArrayTrie<String> trie;
   
-  public PostReformPortugueseDashRule() throws IOException {
-    super(dashRules);
-    // super.setCategory(Categories.TYPOGRAPHY.getCategory(messages));
+  public PostReformPortugueseDashRule(ResourceBundle messages) {
+    super(messages);
     setLocQualityIssueType(ITSIssueType.Typographical);
-    setDefaultOff(); //     Slows down start up and checking time too much. See 20170916: https://languagetool.org/regression-tests/performance-data.csv
   }
 
   @Override
@@ -53,6 +45,31 @@ public class PostReformPortugueseDashRule extends AbstractDashRule {
   @Override
   public String getDescription() {
     return "Travessões no lugar de hífens";
+  }
+
+  @Override
+  public String getMessage() {
+    return "Um travessão foi utilizado em vez de um hífen.";
+  }
+
+  @Override
+  protected boolean isBoundary(String s) {
+    return !s.matches("[a-zA-ZÂâÃãÇçÊêÓóÔôÕõü]");  // chars from http://unicode.e-workers.de/portugiesisch.php
+  }
+
+  @Override
+  protected AhoCorasickDoubleArrayTrie<String> getCompoundsData() {
+    AhoCorasickDoubleArrayTrie<String> data = trie;
+    if (data == null) {
+      synchronized (PostReformPortugueseDashRule.class) {
+        data = trie;
+        if (data == null) {
+          trie = data = loadCompoundFile("/pt/post-reform-compounds.txt");
+        }
+      }
+    }
+
+    return data;
   }
 
 }

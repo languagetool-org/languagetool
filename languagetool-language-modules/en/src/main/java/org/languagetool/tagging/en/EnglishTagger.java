@@ -18,9 +18,9 @@
  */
 package org.languagetool.tagging.en;
 
-import java.util.Locale;
-
 import org.languagetool.tagging.BaseTagger;
+
+import java.util.Locale;
 
 /**
  * English Part-of-speech tagger.
@@ -30,18 +30,8 @@ import org.languagetool.tagging.BaseTagger;
  * @author Marcin Milkowski
  */
 public class EnglishTagger extends BaseTagger {
-
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/en/added.txt";
-  }
-
-  @Override
-  public String getManualRemovalsFileName() {
-    return "/en/removed.txt";
-  }
-
   public EnglishTagger() {
-    super("/en/english.dict", Locale.ENGLISH, false);
+    // intern tags because we only have 47 types and get megabytes of duplicated strings
+    super("/en/english.dict", Locale.ENGLISH, false, true);
   }
 }

@@ -25,28 +25,29 @@ import org.languagetool.UserConfig;
 import org.languagetool.language.Arabic;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
+/**
+ * @since 4.9
+ */
 public final class ArabicHunspellSpellerRule extends HunspellRule {
 
   public static final String RULE_ID = "HUNSPELL_RULE_AR";
   private static final String RESOURCE_FILENAME = "/ar/hunspell/ar.dic";
 
-  public ArabicHunspellSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig) {
-    super(messages, language, userConfig);
-  }
-
   public ArabicHunspellSpellerRule(ResourceBundle messages, UserConfig userConfig) {
-    this(messages, new Arabic(), userConfig);
+    super(messages, new Arabic(), userConfig);
   }
 
   public ArabicHunspellSpellerRule(ResourceBundle messages) {
     this(messages, null);
   }
 
-  public ArabicHunspellSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
-    super(messages, language, userConfig, altLanguages);
+  public ArabicHunspellSpellerRule(ResourceBundle messages, UserConfig userConfig, List<Language> altLanguages) {
+    super(messages, new Arabic(), userConfig, altLanguages);
   }
 
   @Override
@@ -59,4 +60,23 @@ public final class ArabicHunspellSpellerRule extends HunspellRule {
   protected String getDictFilenameInResources(String langCountry) {
     return RESOURCE_FILENAME;
   }
+
+  @Override
+  protected String[] tokenizeText(String sentence) {
+    Pattern pattern = Pattern.compile("[^\\p{L}" + Arabic.TASHKEEL_CHARS + "]");
+    return pattern.split(sentence);
+  }
+
+  @Override
+  protected boolean ignoreWord(String word) throws IOException {
+    String striped = word.replaceAll("[" + Arabic.TASHKEEL_CHARS + "]", "");
+    return super.ignoreWord(striped);
+  }
+
+  @Override
+  public boolean isMisspelled(String word) {
+    String striped = word.replaceAll("[" + Arabic.TASHKEEL_CHARS + "]", "");
+    return super.isMisspelled(striped);
+  }
+
 }

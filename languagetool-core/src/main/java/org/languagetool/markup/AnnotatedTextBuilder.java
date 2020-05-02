@@ -126,8 +126,10 @@ public class AnnotatedTextBuilder {
         if (hasFakeContent(i, parts)) {
           plainTextPosition += parts.get(i + 1).getPart().length();
           i++;
-          MappingValue mappingValue = new MappingValue(totalPosition, part.getPart().length());
-          mapping.put(plainTextPosition, mappingValue);
+          if (mapping.get(plainTextPosition) == null) {
+            MappingValue mappingValue = new MappingValue(totalPosition, part.getPart().length());
+            mapping.put(plainTextPosition, mappingValue);
+          }
         }
       }
     }

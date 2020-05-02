@@ -100,7 +100,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
           
           if( PosTagHelper.hasPosTagPart(analyzedToken, ":bad") 
               && lowerLemmaToCheck.equals(analyzedToken.getLemma()) ) {
-            tokens[i].removeReading(analyzedToken);
+            tokens[i].removeReading(analyzedToken, this.toString());
           }
         }
       }
@@ -120,7 +120,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
           
           if( ! PosTagHelper.hasPosTagPart(analyzedToken, ":abbr") 
               && ! JLanguageTool.SENTENCE_END_TAGNAME.equals(analyzedToken) ) {
-            tokens[i].removeReading(analyzedToken);
+            tokens[i].removeReading(analyzedToken, this.toString());
           }
         }
       }
@@ -160,7 +160,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
       if( inanimVklyReadings.size() > 0 && otherFound ) {
         for(AnalyzedToken analyzedToken: inanimVklyReadings) {
-          tokens[i].removeReading(analyzedToken);
+          tokens[i].removeReading(analyzedToken, this.toString());
         }
       }
     }
@@ -216,7 +216,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
       }
       if( pluralNameReadings.size() > 0 && otherFound ) {
         for(AnalyzedToken analyzedToken: pluralNameReadings) {
-          tokens[i].removeReading(analyzedToken);
+          tokens[i].removeReading(analyzedToken, this.toString());
         }
       }
     }
@@ -377,7 +377,7 @@ TODO:
 
         if( ! JLanguageTool.SENTENCE_END_TAGNAME.equals(analyzedToken.getPOSTag())
             && ! PosTagHelper.hasPosTag(analyzedToken, pattern) ) {
-          readings.removeReading(analyzedToken);
+          readings.removeReading(analyzedToken, "UkranianHybridDisambiguator");
         }
       }
 

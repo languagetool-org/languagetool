@@ -48,13 +48,36 @@ public class ReflexiveVerbsRuleTest {
 
     //TODO: se'n vola / s'envola
     // correct sentences:
+    //TODO: assertCorrect("Mai se m'hauria ocorregut vanagloriar-me");
+    assertCorrect("s’està esforçant");
+    assertCorrect("m'he estat queixant");
+    assertCorrect("se'n va començar a ressentir");
+    assertCorrect("Me’n pensava endur més de mil");
+    assertCorrect("ja se'n comença a adonar");
+    assertCorrect("s'acaba d'adonar que ha escrit poemes");
+    assertCorrect("se’ls acaben d’emportar un familiar");
+    assertCorrect("i ens l'acabem empassant.");
+    assertCorrect("se’l va acabar enduent");
+    assertCorrect("Ella se sol endur les garrotades.");
+    assertCorrect("No t’acabes d’atrevir.");
+    assertCorrect("Es va intentar suïcidar.");
     assertCorrect("L'ha a baixar desde."); //nonsense sentence with spelling error!
-    //assertCorrect("la festa de Rams es commemora anant a l'església a beneir el palmó");
+    assertCorrect("El tauler es pot construir baixant amb cartes.");
+    assertCorrect("El botó del ratolí es configura per anar endavant i endarrere.");
+    assertCorrect("la festa de Rams es commemora anant a l'església a beneir el palmó");
     assertCorrect("les circumstàncies m'obliguen a gloriar-me"); 
     //assertCorrect("es van agenollar i prosternar");
     //assertCorrect("Una equivocació tan gran no es pot callar.");
     //assertCorrect(" és del tot necessari si no es vol caure en una religió alienant");
+    assertCorrect("Li agrada queixar-se.");
+    assertCorrect("Els agrada queixar-se.");
+    assertCorrect("Ens agrada queixar-se.");
     assertCorrect("Els animem a queixar-se.");
+    assertCorrect("L'animo a continuar esforçant-se.");
+    assertCorrect("Ens agrada queixar-nos.");
+    assertCorrect("Us agrada queixar-vos.");
+    assertIncorrect("Ens agrada queixar-vos.");
+    
     assertCorrect("Lorella va a venir"); // used to cause NPE - see #1787
     assertCorrect("Ens animava a queixar-nos.");
     assertCorrect("L'animem a queixar-se.");
@@ -120,6 +143,7 @@ public class ReflexiveVerbsRuleTest {
     assertCorrect("La mort del pare m’havia portat la imatge d’aquests morts");
     assertCorrect("Una onada de foc em pujava del pit a la cara.");
 
+    assertIncorrect("Ens vàrem marxar amb tren.");
     //donar-se compte
     assertCorrect("D'aquest Decret se n'ha donat compte al Ple de l'Ajuntament");
     assertCorrect("Encara em cal donar compte d'un altre recull");

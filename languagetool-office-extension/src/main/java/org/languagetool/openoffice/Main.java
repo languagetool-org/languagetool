@@ -130,32 +130,14 @@ public class Main extends WeakBase implements XJobExecutor,
     paRes.aText = paraText;
     paRes.aProperties = propertyValues;
     try {
-      int[] footnotePositions = getPropertyValues("FootnotePositions", propertyValues);  // since LO 4.3
-      paRes = documents.getCheckResults(paraText, locale, paRes, footnotePositions, docReset);
+      paRes = documents.getCheckResults(paraText, locale, paRes, propertyValues, docReset);
       docReset = false;
-      if(documents.doResetCheck()) {
-        resetCheck();
-        documents.optimizeReset();
-      }
     } catch (Throwable t) {
       MessageHandler.showError(t);
     }
     return paRes;
   }
 
-  private int[] getPropertyValues(String propName, PropertyValue[] propertyValues) {
-    for (PropertyValue propertyValue : propertyValues) {
-      if (propName.equals(propertyValue.Name)) {
-        if (propertyValue.Value instanceof int[]) {
-          return (int[]) propertyValue.Value;
-        } else {
-          MessageHandler.printToLogFile("Not of expected type int[]: " + propertyValue.Name + ": " + propertyValue.Value.getClass());
-        }
-      }
-    }
-    return new int[]{};  // e.g. for LO/OO < 4.3 and the 'FootnotePositions' property
-  }
-  
   public SwJLanguageTool getJLanguageTool() {
     return documents.getLanguageTool();
   }
@@ -270,7 +252,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Inform listener that the doc should be rechecked.
    */
-  private boolean resetCheck() {
+  public boolean resetCheck() {
     if (!xEventListeners.isEmpty()) {
       for (XLinguServiceEventListener xEvLis : xEventListeners) {
         if (xEvLis != null) {
@@ -349,8 +331,13 @@ public class Main extends WeakBase implements XJobExecutor,
         }
       } else if ("ignoreOnce".equals(sEvent)) {
         documents.ignoreOnce();
-        resetCheck();
-        documents.optimizeReset();
+/*        
+        String docId = documents.ignoreOnce();
+        if(docId != null) {
+          documents.resetCheck(docId);
+          documents.optimizeReset();
+        }
+*/
       } else if ("deactivateRule".equals(sEvent)) {
         documents.deactivateRule();
         resetDocument();
@@ -422,6 +409,7 @@ public class Main extends WeakBase implements XJobExecutor,
         MessageHandler.showError(new RuntimeException("Could not get home directory"));
         directory = null;
       } else if (SystemUtils.IS_OS_WINDOWS) {
+        // Path: \\user\<YourUserName>\AppData\Roaming\languagetool.org\LanguageTool\LibreOffice  
         File appDataDir = null;
         try {
           String appData = System.getenv("APPDATA");
@@ -438,6 +426,7 @@ public class Main extends WeakBase implements XJobExecutor,
           directory = new File(userHome, path);
         }
       } else if (SystemUtils.IS_OS_LINUX) {
+        // Path: /home/<YourUserName>/.config/LanguageTool/LibreOffice  
         File appDataDir = null;
         try {
           String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
@@ -553,7 +542,12 @@ public class Main extends WeakBase implements XJobExecutor,
     //  the data of document will be removed by next call of getNumDocID
     //  to finish checking thread without crashing
     XComponent goneContext = UnoRuntime.queryInterface(XComponent.class, source.Source);
-    documents.setContextOfClosedDoc(goneContext);
+    if(goneContext == null) {
+      MessageHandler.printToLogFile("xComponent of closed document is null");
+    } else {
+      documents.setContextOfClosedDoc(goneContext);
+//      documents.removeMenuListener(goneContext);
+    }
     goneContext.removeEventListener(this); 
   }
 

@@ -1102,6 +1102,26 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="English">
+<rule break="no"><!-- U.S.A (no dot at end) -->
+<beforebreak>[A-Z]\.[A-Z]\.</beforebreak>
+<afterbreak>[A-Z]\b</afterbreak>
+</rule>
+<rule break="no"><!-- L.A (no dot at end) -->
+<beforebreak>\bL\.</beforebreak>
+<afterbreak>A\b</afterbreak>
+</rule>
+<rule break="no"><!-- U.S (no dot at end) -->
+<beforebreak>\bU\.</beforebreak>
+<afterbreak>S\b</afterbreak>
+</rule>
+<rule break="no"><!-- URLs without "www."-->
+<beforebreak>\b(https?|ftp|file|chrome|chromium|android|(chrome|moz)\-extension):///?[A-Za-z0-9\-]+\.</beforebreak>
+<afterbreak>[A-Za-z0-9\-]+(\.|\b)</afterbreak>
+</rule>
+<rule break="no"><!-- Subdomains without "www." (e.g. foo.MyDomain.com)-->
+<beforebreak>\b[A-Za-z0-9\-]+\.</beforebreak>
+<afterbreak>[A-Za-z0-9\-]+\.(com|net|org|info|de|es|edu|co|eu|nl|io|cn|uk|gov|biz|ca|tk|ru|br|jp|pl)(\.|\b)</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\b[nN]o\.\s</beforebreak>
 <afterbreak>\p{N}</afterbreak>
@@ -1111,7 +1131,7 @@
 <afterbreak>D\.?</afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(pp|[Vv]iz|i\.?\s*e|[Vvol]|[Rr]col|maj|Lt|[Ff]ig|[Ff]igs|[Vv]iz|[Vv]ols|[Aa]pprox|[Ii]ncl?|Pres|[Dd]ept|min|max|[Gg]ovt|lb|ft|c\.?\s*f|vs|dia|lbs|\d+-(:?oz|kc|in|h[rp]|ml)|M?sec)\.\s</beforebreak>
+<beforebreak>\b(pp|[Vv]iz|i\.?\s*e|[Vvol]|[Rr]col|maj|Lt|[Ff]ig|[Ff]igs|[Vv]iz|[Vv]ols|[Aa]pprox|[Ii]ncl?|[Aa]cc|Pres|[Dd]ept|min|max|[Gg]ovt|lb|lbf|ft|c\.?\s*f|vs|dia|lbs|\d+-(:?oz|kc|in|h[rp]|ml)|M?sec)\.\s</beforebreak>
 <afterbreak>[^\p{Lu}]|I</afterbreak>
 </rule>
 <rule break="no">
@@ -1138,6 +1158,10 @@
 <rule break="no">
 <beforebreak>\b[Ee]tc\.\s</beforebreak>
 <afterbreak>[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="no"><!-- BTW (by the way) -->
+<beforebreak>\b([Bb]tw|BTW)\.\s</beforebreak>
+<afterbreak></afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\bJan\.\s</beforebreak>
@@ -1183,6 +1207,10 @@
 <beforebreak>(?i)FRITZ!</beforebreak>
 <afterbreak>(?i)Box</afterbreak>
 </rule>
+<rule break="no"><!-- https://de.wikipedia.org/wiki/VW_ID.3 -->
+<beforebreak>ID.</beforebreak>
+<afterbreak>3|Buzz|Crozz</afterbreak>
+</rule>
 <rule break="no"><!-- Ph.D. (see rule PH_D) -->
 <beforebreak>\bP[Hh]\.?\s?[Dd]\.\s</beforebreak>
 <afterbreak></afterbreak>
@@ -1194,6 +1222,26 @@
 <rule break="no"><!-- "I have a LL.B degree." (see rule PH_D) -->
 <beforebreak>\bLL\.\s?[BM]\.\s</beforebreak>
 <afterbreak></afterbreak>
+</rule>
+<rule break="no"><!-- B.Eng. (Bachelor of Engineering) -->
+<beforebreak>\b[BM]\.\s?</beforebreak>
+<afterbreak>Eng\.?</afterbreak>
+</rule>
+<rule break="no"><!-- LL.B. (Bachelor of Laws) -->
+<beforebreak>\bLL\.\s?</beforebreak>
+<afterbreak>[BM]\.?</afterbreak>
+</rule>
+<rule break="no"><!-- B.Sc. (Bachelor of Science) -->
+<beforebreak>\b[BM]\.\s?</beforebreak>
+<afterbreak>Sc\.?</afterbreak>
+</rule>
+<rule break="no"><!-- B.Comp. (Bachelor of Computing) -->
+<beforebreak>\b[BM]\.\s?</beforebreak>
+<afterbreak>Comp?\.?</afterbreak>
+</rule>
+<rule break="no"><!-- B.Arch. (Bachelor of Architecture) -->
+<beforebreak>\b[BM]\.\s?</beforebreak>
+<afterbreak>Arch\.?</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>\b[BM]\.?\s?(Sc|Eng|Comp|Arch)\.\s</beforebreak>
@@ -1327,6 +1375,10 @@
 <beforebreak>\(\p{Ll}+\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
+<rule break="no">
+<beforebreak>i\.e\.\s</beforebreak><!-- "i.e." is never at end of sentence -->
+<afterbreak></afterbreak>
+</rule>
 <rule break="yes">
 <beforebreak>[\.!?…][\u00BB\u2019\u201D\u203A"'\p{Pe}\u0002¹²³]*\s</beforebreak>
 <afterbreak></afterbreak>
@@ -1435,6 +1487,14 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Dutch">
+<rule break="no"><!-- URLs without "www."-->
+<beforebreak>\b(https?|ftp|file|chrome|chromium|android|(chrome|moz)\-extension):///?[A-Za-z0-9\-]+\.</beforebreak>
+<afterbreak>[A-Za-z0-9\-]+(\.|\b)</afterbreak>
+</rule>
+<rule break="no"><!-- Subdomains without "www." (e.g. foo.MyDomain.com)-->
+<beforebreak>\b[A-Za-z0-9\-]+\.</beforebreak>
+<afterbreak>[A-Za-z0-9\-]+\.(com|net|org|info|de|es|edu|co|eu|nl|io|cn|uk|gov|biz|ca|tk|ru|br|jp|pl)(\.|\b)</afterbreak>
+</rule>
 <rule break="no">
 <beforebreak>\b(Drs|Art|Afr|Am|Ar|Br|Cie|Comp|Dhr|Dr|Em|Fa|Kon)\.\s</beforebreak>
 <afterbreak></afterbreak>
@@ -1569,10 +1629,6 @@
 </rule>
 <!--a number with a dot before a lowercase char-->
 <rule break="no">
-<beforebreak>\bmax\.\s</beforebreak>
-<afterbreak>\p{Ll}</afterbreak>
-</rule>
-<rule break="no">
 <beforebreak>\b\d+\.\s</beforebreak>
 <afterbreak>\p{Ll}|\p{Lu}{2,}</afterbreak>
 </rule>
@@ -1617,7 +1673,10 @@
 <beforebreak>\.\)</beforebreak>
 <afterbreak>[A-Z]</afterbreak>
 </rule>
-
+<rule break="no">
+<beforebreak>\bmax\.\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
 </languagerule>
 <languagerule languagerulename="Slovak">
 <rule break="no">
@@ -4522,6 +4581,14 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Spanish">
+<rule break="no"><!-- URLs without "www."-->
+<beforebreak>\b(https?|ftp|file|chrome|chromium|android|(chrome|moz)\-extension):///?[A-Za-z0-9\-]+\.</beforebreak>
+<afterbreak>[A-Za-z0-9\-]+(\.|\b)</afterbreak>
+</rule>
+<rule break="no"><!-- Subdomains without "www." (e.g. foo.MyDomain.com)-->
+<beforebreak>\b[A-Za-z0-9\-]+\.</beforebreak>
+<afterbreak>[A-Za-z0-9\-]+\.(com|net|org|info|de|es|edu|co|eu|nl|io|cn|uk|gov|biz|ca|tk|ru|br|jp|pl)(\.|\b)</afterbreak>
+</rule>
 <!-- Abbreviations that cannot finish sentences-->
 <rule break="no">
 <beforebreak>\b([Aa]vda|[Pp][ol]|Pl?za|[Aa]dm|[Dd]pto|Sr|Mr|Srta)\.\s</beforebreak>
@@ -4553,6 +4620,14 @@
 <rule break="no">
 <beforebreak>\b([\p{Lu}]{2}\.)+[\p{Pe}\p{Pf}\p{Pd}"']*\s</beforebreak>
 <afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bEE\.\s?</beforebreak>
+<afterbreak>UU</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>EE\.\s?UU\.\s?</beforebreak>
+<afterbreak></afterbreak>
 </rule>
 <!-- max min etc -->
 <rule break="no">
@@ -4590,6 +4665,14 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="German">
+<rule break="no"><!-- URLs without "www."-->
+<beforebreak>\b(https?|ftp|file|chrome|chromium|android|(chrome|moz)\-extension):///?[A-Za-z0-9\-]+\.</beforebreak>
+<afterbreak>[A-Za-z0-9\-]+(\.|\b)</afterbreak>
+</rule>
+<rule break="no"><!-- Subdomains without "www." (e.g. foo.MyDomain.com)-->
+<beforebreak>\b[A-Za-z0-9\-]+\.</beforebreak>
+<afterbreak>[A-Za-z0-9\-]+\.(com|net|org|info|de|es|edu|co|eu|nl|io|cn|uk|gov|biz|ca|tk|ru|br|jp|pl)(\.|\b)</afterbreak>
+</rule>
 <!--support simple lists in markdown style-->
 <rule break="yes">
 <beforebreak>\r?\n\s*[-*]+\s</beforebreak>
@@ -4606,8 +4689,24 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
+<beforebreak>Ust.</beforebreak><!-- needed for German rule UST_ID -->
+<afterbreak>Id</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>Prof.</beforebreak><!-- needed for German rule ABKUERZUNG_LEERZEICHEN -->
+<afterbreak>Dr</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>Dr.</beforebreak><!-- needed for German rule ABKUERZUNG_LEERZEICHEN -->
+<afterbreak>iur|med|oec|phil|theol</afterbreak>
+</rule>
+<rule break="no">
 <beforebreak>(?i)FRITZ!</beforebreak>
 <afterbreak>(?i)Box</afterbreak>
+</rule>
+<rule break="no"><!-- https://de.wikipedia.org/wiki/VW_ID.3 -->
+<beforebreak>ID.</beforebreak>
+<afterbreak>3|Buzz|Crozz</afterbreak>
 </rule>
 <rule break="no">
 <beforebreak>[1-3]\.\s</beforebreak>
@@ -4711,7 +4810,7 @@
 </rule>
 <!-- German abbreviations -->
 <rule break="no">
-<beforebreak>\b(Mag|mtl|versch|d|Übers|usw|Bzw|bzw|Ab[hkst]|abzgl|ahd|Akk|aktual|allg|alltagsspr|altdt|alttest|amerikan|Anh|Ank|Anm|Art|autom|Auftragsnr|Az|Bat|bayr|Bde?|bearb|Bed|Bem|bes|bez|Bez|Bhf|bspw|btto|bw)\.\s</beforebreak>
+<beforebreak>\b(Mag|mtl|versch|d|Übers|usw|Bzw|bzw|Ab[hkst]|abzgl|Abzw|ahd|Akk|aktual|allg|alltagsspr|altdt|alttest|amerikan|Anh|Ank|Anm|Art|autom|Auftragsnr|Az|Bat|bayr|Bde?|bearb|Bed|Bem|bes|bez|Bez|Bhf|bspw|btto|bw)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -4723,7 +4822,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(ff|Fa|fachspr|fam|fem|Fem|Fr|franz|frz?|frdl|Frl|Fut|Gd|gebr?|Gebr|geh|geleg|gen|Gen|germ|gesch|ges|get|ggf|Ggf|Ggs|ggT|Gr|griech)\.\s</beforebreak>
+<beforebreak>\b(ff|Fa|fachspr|fam|fem|Fem|Fr|franz|frz?|frdl|Frl|Fut|Gd|gebr?|Gebr|geh|geleg|gen|Gen|germ|gesch|ges|get|ggf|Ggf|Ggs|ggT|Gr|[Gg]rds|griech)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
@@ -4739,7 +4838,7 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(Tel|teilw|Temp|trans|Tsd|übertr|übl|ff|überarb|ugs|univ|unveränd|urspr|USt|UST|USt\-IdNr|sw|vgl|vlt|Vlt|vllt|Vllt|Vgl|Vol|vollst|vorm|Vp|Vs|vs|wesentl|wg|Whg|Hd|Ztr|zus|Zus|zzt?|zzgl|zB|zb|Zz|Zt|zw|Min|Bzgl|bzgl|bezügl|Frhr|ggfs|insb|autom|MwSt)\.\s</beforebreak>
+<beforebreak>\b(Tel|teilw|Temp|trans|Tsd|übertr|übl|ff|überarb|ugs|univ|unveränd|urspr|USt|UST|USt\-IdNr|sw|vgl|vlt|Vlt|vllt|Vllt|Vgl|Vol|vollst|vorm|Vp|Vs|vs|wesentl|wg|Whg|Hd|Ztr|zus|Zus|zzt?|zzgl|zB|zb|Zz|Zt|zw|Min|Bzgl|bzgl|bezügl|Frhr|ggfs|insb|autom|Mw[sS]t)\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Break rules -->
@@ -4967,6 +5066,14 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="French">
+<rule break="no"><!-- URLs without "www."-->
+<beforebreak>\b(https?|ftp|file|chrome|chromium|android|(chrome|moz)\-extension):///?[A-Za-z0-9\-]+\.</beforebreak>
+<afterbreak>[A-Za-z0-9\-]+(\.|\b)</afterbreak>
+</rule>
+<rule break="no"><!-- Subdomains without "www." (e.g. foo.MyDomain.com)-->
+<beforebreak>\b[A-Za-z0-9\-]+\.</beforebreak>
+<afterbreak>[A-Za-z0-9\-]+\.(com|net|org|info|de|es|edu|co|eu|nl|io|cn|uk|gov|biz|ca|tk|ru|br|jp|pl)(\.|\b)</afterbreak>
+</rule>
 <!-- French abbreviations -->
 <rule break="no">
 <beforebreak>\b(art|app|cf|chap|e(nv|tc)|fém|fig|masc|p|sing|suiv|suppl|tél)\.\s</beforebreak>
@@ -5449,6 +5556,14 @@
 </rule>
 </languagerule>
 <languagerule languagerulename="Portuguese">
+<rule break="no"><!-- URLs without "www."-->
+<beforebreak>\b(https?|ftp|file|chrome|chromium|android|(chrome|moz)\-extension):///?[A-Za-z0-9\-]+\.</beforebreak>
+<afterbreak>[A-Za-z0-9\-]+(\.|\b)</afterbreak>
+</rule>
+<rule break="no"><!-- Subdomains without "www." (e.g. foo.MyDomain.com)-->
+<beforebreak>\b[A-Za-z0-9\-]+\.</beforebreak>
+<afterbreak>[A-Za-z0-9\-]+\.(com|net|org|info|de|es|edu|co|eu|nl|io|cn|uk|gov|biz|ca|tk|ru|br|jp|pl)(\.|\b)</afterbreak>
+</rule>
 <!-- Abbreviations that cannot finish sentences-->
 <rule break="no">
 <beforebreak>\b(a|Ab|abrev|absol|acad|Açor|A\. ?D|add|adj|adv|advers|Aeron|afér|Agric|Álg|aprox|art|Artilh|auxil|av|Av)\.\s?</beforebreak>
@@ -5983,6 +6098,89 @@
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
+<languagerule languagerulename="Irish">
+<rule break="no">
+<beforebreak>\bPh\.</beforebreak>
+<afterbreak>D\.</afterbreak>
+</rule>
+<!-- Don't split at e.g. "U.S.A." -->
+<rule break="no">
+<beforebreak>\b\p{L}\.</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Don't split after a white-space followed by a single letter followed
+         by a dot followed by another whitespace. e.g. " p. " -->
+<rule break="no">
+<beforebreak>\s\p{L}\.\s</beforebreak>
+<afterbreak>\p{L}\.</afterbreak>
+</rule>
+<!-- Don't split [.?!] when they're quoted -->
+<rule break="no">
+<beforebreak>['"][\.!?\u0085]['"]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Don't break after quote unless there's a capital letter
+         e.g.: "That's right!" he said. -->
+<rule break="no">
+<beforebreak>["']\s</beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec)\.\s</beforebreak>
+<afterbreak>\d\d(\d\d)?</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>(Ean|Fea|Már|Aib|Bea|Mei|Iúl|Lún|M\.?Fr|D\.?Fr|Sam|Nol)\.\s</beforebreak>
+<afterbreak>\d\d(\d\d)?</afterbreak>
+</rule>
+<!-- English abbreviations - but these work globally for all languages -->
+<rule break="no">
+<beforebreak>\b(Mr|Mrs|Ms|No|pp|St|no|Sr|Jr|Bros|etc|vs|esp|[Ff]ig|Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Okt|Nov|Dec|PhD|al|cf|Inc|Ms|Gen|Sen|Prof|Corp|Co|Ltd)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Latin abbreviations - but these work globally for all languages -->
+<rule break="no">
+<beforebreak>\b(sp|spp)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>([Ll]ch|[Ll]gh|[Uu]imh)\.\s</beforebreak>
+<afterbreak>\d</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\.i\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>Msc\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>Uas\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>Teo\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>m\.sh\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!-- Break rules -->
+<rule break="yes">
+<beforebreak>[\.!?\u0085][\u0002|'|"|«|\)|\]|\}¹²³]?\s+</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[\.!?\u0085]['"\p{Pe}\u00BB\u201D]?</beforebreak>
+<afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>\s\p{L}[\.!?\u0085]\s</beforebreak>
+<afterbreak>\p{Lu}\p{Ll}</afterbreak>
+</rule>
+</languagerule>
 <languagerule languagerulename="GeneralImportant">
 <!--Don't split up URLs.-->
 <rule break="no">
@@ -5995,6 +6193,84 @@
 <afterbreak>\S*@</afterbreak>
 </rule>
 </languagerule>
+<languagerule languagerulename="Arabic">
+ <rule break="no">
+ <beforebreak>\bwww\.</beforebreak>
+ <afterbreak>\w</afterbreak>
+ </rule>
+ <rule break="no">
+ <beforebreak>[\[\(]*…[\]\)]* </beforebreak>
+ <afterbreak>\p{Ll}</afterbreak>
+ </rule>
+ <rule break="no">
+ <beforebreak>\p{Ps}[!?؟]+\p{Pe} </beforebreak>
+ <afterbreak></afterbreak>
+ </rule>
+ <rule break="no">
+ <beforebreak>[\.!?؟…]+\p{Pe} </beforebreak>
+ <afterbreak>\p{Ll}</afterbreak>
+ </rule>
+ <rule break="no">
+ <beforebreak>[«»"”']\s*</beforebreak>
+ <afterbreak>\s*\p{Ll}</afterbreak>
+ </rule>
+ <rule break="no">
+ <beforebreak>[«'"„][\.!?؟…]['"”»]\s</beforebreak>
+ <afterbreak></afterbreak>
+ </rule>
+ <rule break="no">
+ <beforebreak>\b\p{L}\.\s</beforebreak>
+ <afterbreak>\p{L}\.\s</afterbreak>
+ </rule>
+ <rule break="no">
+ <beforebreak>\b\p{L}\.</beforebreak>
+ <afterbreak>\p{L}\.</afterbreak>
+ </rule>
+ <rule break="yes">
+ <beforebreak>[^,،][\s]\p{L}{2}\.\s</beforebreak>
+ <afterbreak>\p{N}+\)\s</afterbreak>
+ </rule>
+ <rule break="no">
+ <beforebreak>[\.\s]\p{L}{1,2}\.\s</beforebreak>
+ <afterbreak>[\p{N}\p{Ll}]</afterbreak>
+ </rule>
+ <rule break="no">
+ <beforebreak>[\[\(]*\.\.\.[\]\)]* </beforebreak>
+ <afterbreak>[^\p{Lu}]</afterbreak>
+ </rule>
+ <rule break="no">
+ <beforebreak>\b\p{Lu}\.\s\p{Lu}\.\s</beforebreak>
+ <afterbreak></afterbreak>
+ </rule>
+ <rule break="no">
+ <beforebreak>\b\p{Lu}\.\p{Lu}\.\s</beforebreak>
+ <afterbreak></afterbreak>
+ </rule>
+ <rule break="no">
+ <beforebreak>[^\.]\s[ابتقجحخدذصضعغفقكلمنهوىيءةأ١٢٣٤٥٦٧٨٩٠A-Z]\.\s</beforebreak>
+ <afterbreak></afterbreak>
+ </rule>
+ <rule break="no">
+ <beforebreak>[^\.]\s[\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0653\u0654\u0655\u0656\u0640]\.\s</beforebreak>
+ <afterbreak></afterbreak>
+ </rule>
+ <rule break="no">
+ <beforebreak>\(\p{Ll}+\.\s</beforebreak>
+ <afterbreak></afterbreak>
+ </rule>
+ <rule break="yes">
+ <beforebreak>[\.!?؟…][«»\u00BB\u2019\u201D\u203A"'\p{Pe}\u0002¹²³]*\s</beforebreak>
+ <afterbreak></afterbreak>
+ </rule>
+ <rule break="yes">
+ <beforebreak>[\.!?؟…][«»'"\u00BB\u2019\u201D\u203A\p{Pe}\u0002]*</beforebreak>
+ <afterbreak>\p{Lu}[^\p{Lu}]</afterbreak>
+ </rule>
+ <rule break="yes">
+ <beforebreak>\s\p{L}[\.!?؟…]\s</beforebreak>
+ <afterbreak>\p{Lu}\p{Ll}</afterbreak>
+ </rule>
+ </languagerule>
 </languagerules>
 <maprules>
 <languagemap languagepattern=".*" languagerulename="GeneralImportant"></languagemap>
@@ -6024,7 +6300,9 @@
 <languagemap languagepattern="(IT|it).*" languagerulename="Italian"></languagemap>
 <languagemap languagepattern="(TA|ta).*" languagerulename="Tamil"></languagemap>
 <languagemap languagepattern="(FA|fa).*" languagerulename="Persian"></languagemap>
+<languagemap languagepattern="(GA|ga).*" languagerulename="Irish"></languagemap>
 <languagemap languagepattern="(SR|sr).*" languagerulename="Serbian"></languagemap>
+<languagemap languagepattern="(AR|ar).*" languagerulename="Arabic"></languagemap>
 <languagemap languagepattern="(SV|sv).*" languagerulename="Generic"></languagemap>
 <languagemap languagepattern="(LT|lt).*" languagerulename="Generic"></languagemap>
 <languagemap languagepattern="(ML|ml).*" languagerulename="Generic"></languagemap>

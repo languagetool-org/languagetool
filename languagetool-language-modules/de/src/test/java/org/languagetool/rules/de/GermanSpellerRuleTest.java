@@ -116,7 +116,9 @@ public class GermanSpellerRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Ventrolateral")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Kleindung")).length, is(1));  // ignored due to ignoreCompoundWithIgnoredWord(), but still in ignore.txt -> ignore.txt must override this
     assertThat(rule.match(lt.getAnalyzedSentence("Majonäse."))[0].getSuggestedReplacements().toString(), is("[Mayonnaise]"));
+    assertFirstSuggestion("Schöler-", "Schüler-", rule, lt);
     assertFirstSuggestion("wars.", "war's", rule, lt);
+    assertFirstSuggestion("haben -sehr", "sehr", rule, lt);
     assertFirstSuggestion("konservierungsstoffe", "Konservierungsstoffe", rule, lt);
 //    assertFirstSuggestion("Ist Ventrolateral", "ventrolateral", rule, lt);
     assertFirstSuggestion("denkte", "dachte", rule, lt);
@@ -404,8 +406,29 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Beanstandigung", "Beanstandung", rule, lt);
     assertFirstSuggestion("Beanstandigungen", "Beanstandungen", rule, lt);
     assertFirstSuggestion("zweiundhalb", "zweieinhalb", rule, lt);
+    assertFirstSuggestion("dreiundhalb", "dreieinhalb", rule, lt);
+    assertFirstSuggestion("Zuguterletzt", "Zu guter Letzt", rule, lt);
+    assertFirstSuggestion("guterletzt", "guter Letzt", rule, lt);
+    assertFirstSuggestion("unfährer", "unfairer", rule, lt);
     assertFirstSuggestion("unfäre", "unfaire", rule, lt);
     assertFirstSuggestion("medikatöses", "medikamentöses", rule, lt);
+    assertFirstSuggestion("versendliches", "versehentliches", rule, lt);
+    assertFirstSuggestion("Nootbooks", "Notebooks", rule, lt);
+    assertFirstSuggestion("Eigtl", "Eigtl.", rule, lt);
+    assertFirstSuggestion("pflanzige", "pflanzliche", rule, lt);
+    assertFirstSuggestion("geblogt", "gebloggt", rule, lt);
+    assertFirstSuggestion("ähliche", "ähnliche", rule, lt);
+    assertFirstSuggestion("entfängt", "empfängt", rule, lt);
+    assertFirstSuggestion("verewiglichte", "verewigte", rule, lt);
+    assertFirstSuggestion("zeritifierte", "zertifizierte", rule, lt);
+    assertFirstSuggestion("gerähte", "Geräte", rule, lt);
+    assertFirstSuggestion("pirsing", "Piercing", rule, lt);
+    assertFirstSuggestion("behilfreiches", "behilfliches", rule, lt);
+    assertFirstSuggestion("einsichtbar", "einsehbar", rule, lt);
+    assertFirstSuggestion("vollrichtest", "verrichtest", rule, lt);
+    assertFirstSuggestion("Vollrichtet", "Verrichtet", rule, lt);
+    assertFirstSuggestion("bedingslosem", "bedingungslosem", rule, lt);
+    assertFirstSuggestion("überstenden", "berstenden", rule, lt);
   }
 
   @Test
@@ -723,6 +746,19 @@ public class GermanSpellerRuleTest {
     assertCorrectionsByOrder(rule, "is", "IS", "die", "in", "im", "ist");  // 'ist' should actually be preferred...
     assertCorrectionsByOrder(rule, "Fux", "Fuchs");  // fixed in morfologik 2.1.4
     assertCorrectionsByOrder(rule, "schänken", "Schänken");  // "schenken" is missing
+  }
+  
+  @Test
+  public void testIsMisspelled() {
+    HunspellRule rule = new GermanSpellerRule(TestTools.getMessages("de"), GERMAN_DE);
+    assertTrue(rule.isMisspelled("dshfsdhsdf"));
+    assertTrue(rule.isMisspelled("Haussarbeit"));
+    assertTrue(rule.isMisspelled("Überschus"));
+    assertTrue(rule.isMisspelled("Überschussen"));
+
+    assertFalse(rule.isMisspelled("Hausarbeit"));
+    assertFalse(rule.isMisspelled("Überschuss"));
+    assertFalse(rule.isMisspelled("Überschüsse"));
   }
   
   @Test

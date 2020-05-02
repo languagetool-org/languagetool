@@ -18,6 +18,8 @@
  */
 package org.languagetool.noop;
 
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.chunking.Chunker;
@@ -30,10 +32,7 @@ import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * A language that is part of languagetool-core but that hasn't any rules.
@@ -42,21 +41,14 @@ public class NoopLanguage extends Language {
 
   private static final String SHORT_CODE = "zz";
 
-  private Tagger tagger;
-  private Chunker chunker;
-  private Disambiguator disambiguator;
-
   @Override
   public Locale getLocale() {
     return new Locale("en");
   }
 
   @Override
-  public Disambiguator getDisambiguator() {
-    if (disambiguator == null) {
-      disambiguator = new NoopDisambiguator();
-    }
-    return disambiguator;
+  public Disambiguator createDefaultDisambiguator() {
+    return new NoopDisambiguator();
   }
 
   @Override
@@ -73,21 +65,17 @@ public class NoopLanguage extends Language {
   public String[] getCountries() {
     return new String[] {};
   }
-  
+
+  @NotNull
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new DemoTagger();
-    }
-    return tagger;
+  public Tagger createDefaultTagger() {
+    return new DemoTagger();
   }
 
+  @Nullable
   @Override
-  public Chunker getChunker() {
-    if (chunker == null) {
-      chunker = new NoopChunker();
-    }
-    return chunker;
+  public Chunker createDefaultChunker() {
+    return new NoopChunker();
   }
 
   @Override
@@ -105,7 +93,7 @@ public class NoopLanguage extends Language {
     return Collections.emptyList();
   }
 
-  public SentenceTokenizer getSentenceTokenizer() {
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
     return new SentenceTokenizer() {
       @Override
       public List<String> tokenize(String text) {
@@ -120,7 +108,8 @@ public class NoopLanguage extends Language {
     };
   }
 
-  public Tokenizer getWordTokenizer() {
+  @Override
+  public Tokenizer createDefaultWordTokenizer() {
     return Collections::singletonList;
   }
 

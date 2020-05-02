@@ -47,4 +47,7 @@ public class PatternRuleBuilderHelper {
     return new PatternTokenBuilder().tokenRegex(regex).build();
   }
 
+  public static PatternToken csRegex(String regex) {
+    return new PatternTokenBuilder().csTokenRegex(regex).build();
+  }
 }

@@ -18,9 +18,7 @@
  */
 package org.languagetool;
 
-import java.util.Locale;
-import java.util.MissingResourceException;
-import java.util.ResourceBundle;
+import java.util.*;
 
 import static org.languagetool.JLanguageTool.MESSAGE_BUNDLE;
 
@@ -28,7 +26,7 @@ import static org.languagetool.JLanguageTool.MESSAGE_BUNDLE;
  * Message bundle helper class used for translation of the user interface.
  * @since 2.3
  */
-final class ResourceBundleTools {
+public final class ResourceBundleTools {
 
   private ResourceBundleTools() {
   }
@@ -38,35 +36,35 @@ final class ResourceBundleTools {
    */
   public static ResourceBundle getMessageBundle() {
     try {
-      ResourceBundle bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE);
-      ResourceBundle fallbackBundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
+      ResourceBundle bundle = JLanguageTool.getDataBroker().getResourceBundle(MESSAGE_BUNDLE, Locale.getDefault());
+      ResourceBundle fallbackBundle = JLanguageTool.getDataBroker().getResourceBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
       return new ResourceBundleWithFallback(bundle, fallbackBundle);
     } catch (MissingResourceException e) {
-      return ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
+      return JLanguageTool.getDataBroker().getResourceBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
     }
   }
 
   /**
    * Gets the ResourceBundle (i18n strings) for the given user interface language.
    */
-  static ResourceBundle getMessageBundle(Language lang) {
+  public static ResourceBundle getMessageBundle(Language lang) {
     try {
-      ResourceBundle bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, lang.getLocaleWithCountryAndVariant());
+      ResourceBundle bundle = JLanguageTool.getDataBroker().getResourceBundle(MESSAGE_BUNDLE, lang.getLocaleWithCountryAndVariant());
       if (!isValidBundleFor(lang, bundle)) {
-        bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, lang.getLocale());
+        bundle = JLanguageTool.getDataBroker().getResourceBundle(MESSAGE_BUNDLE, lang.getLocale());
         if (!isValidBundleFor(lang, bundle)) {
           // happens if 'xx' is requested but only a MessagesBundle_xx_YY.properties exists:
           Language defaultVariant = lang.getDefaultLanguageVariant();
           if (defaultVariant != null && defaultVariant.getCountries().length > 0) {
             Locale locale = new Locale(defaultVariant.getShortCode(), defaultVariant.getCountries()[0]);
-            bundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, locale);
+            bundle = JLanguageTool.getDataBroker().getResourceBundle(MESSAGE_BUNDLE, locale);
           }
         }
       }
-      ResourceBundle fallbackBundle = ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
+      ResourceBundle fallbackBundle = JLanguageTool.getDataBroker().getResourceBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
       return new ResourceBundleWithFallback(bundle, fallbackBundle);
     } catch (MissingResourceException e) {
-      return ResourceBundle.getBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
+      return JLanguageTool.getDataBroker().getResourceBundle(MESSAGE_BUNDLE, Locale.ENGLISH);
     }
   }
 

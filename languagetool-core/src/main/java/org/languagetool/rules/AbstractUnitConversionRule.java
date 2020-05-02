@@ -76,6 +76,8 @@ public abstract class AbstractUnitConversionRule extends Rule {
   protected static final Unit<Temperature> FAHRENHEIT = CELSIUS.multiply(5.0/9.0).shift(-32);
   // limit size of matched number to (possibly) avoid hangups
   protected static final String NUMBER_REGEX = "(-?[0-9]{1,32}[0-9,.]{0,32})";
+
+  protected final Pattern numberRangePart = Pattern.compile("\\b" + NUMBER_REGEX + "$");
   
   private static final double DELTA = 1e-2;
   private static final double ROUNDING_DELTA = 0.05;
@@ -202,9 +204,10 @@ public abstract class AbstractUnitConversionRule extends Rule {
 
     addUnit("mi", MILE, "mi", 1, false);
     addUnit("yd", YARD, "yd", 1, false);
-    addUnit("(?:ft|′|')", FEET, "ft", 1, false);
+    // negative lookahead here to avoid matching "'s" and so on
+    addUnit("(?:ft|′|')(?!(\\w|\\d))", FEET, "ft", 1, false);
     // removed 'in', " because of many false positives
-    addUnit("(?:inch|″)", INCH, "inch", 1, false);
+    addUnit("(?:inch|″)(?!(\\w|\\d))", INCH, "inch", 1, false);
 
     addUnit("(?:km/h|kmh)", KILOMETRE_PER_HOUR, "km/h", 1, true);
     addUnit("(?:mph)", MILE.divide(HOUR), "mph", 1, false);
@@ -394,6 +397,19 @@ public abstract class AbstractUnitConversionRule extends Rule {
     }
   }
 
+
+  protected boolean detectNumberRange(AnalyzedSentence sentence, Matcher matcher) {
+    boolean hyphenInNumber = matcher.group(1).startsWith("-");
+    if (!hyphenInNumber) {
+      return false;
+    }
+
+    String textBefore = sentence.getText().substring(0, matcher.start());
+    boolean endsWithNumberRangePart = numberRangePart.matcher(textBefore).find();
+
+    return endsWithNumberRangePart;
+  }
+
   private void tryConversion(AnalyzedSentence sentence, List<RuleMatch> matches, Pattern unitPattern, Double customValue, Unit customUnit, Matcher unitMatcher, List<Map.Entry<Integer, Integer>> ignoreRanges) {
     Map.Entry<Integer, Integer> range = new AbstractMap.SimpleImmutableEntry<>(
       unitMatcher.start(), unitMatcher.end());
@@ -414,7 +430,14 @@ public abstract class AbstractUnitConversionRule extends Rule {
     double value;
     if (customValue == null) {
       try {
-        value = getNumberFormat().parse(unitMatcher.group(1)).doubleValue();
+        String valueAsString = unitMatcher.group(1);
+        // remove hyphen at start if it belongs to a range (e.g 1-5 miles)
+        // see https://github.com/languagetool-org/languagetool/issues/2170
+        // TODO convert whole range, not only end
+        if (detectNumberRange(sentence, unitMatcher)) {
+          valueAsString = valueAsString.substring(1);
+        }
+        value = getNumberFormat().parse(valueAsString).doubleValue();
       } catch (ParseException e) {
         return;
       }
@@ -435,7 +458,7 @@ public abstract class AbstractUnitConversionRule extends Rule {
       matches.add(match);
     } else { // check given conversion for accuracy
       Map.Entry<Integer, Integer> convertedRange = new AbstractMap.SimpleImmutableEntry<>(
-        convertedMatcher.start(1) + convertedOffset, convertedMatcher.end(2) + convertedOffset);
+        convertedMatcher.start(0) + convertedOffset, convertedMatcher.end(0) + convertedOffset);
       ignoreRanges.add(convertedRange);
 
       // already using one of our conversions?
@@ -491,11 +514,14 @@ public abstract class AbstractUnitConversionRule extends Rule {
           Map.Entry<Unit, Double> metricEquivalent = metricEquivalents.get(0);
           Unit metricUnit = metricEquivalent.getKey();
           Double convertedValueComputed = metricEquivalent.getValue();
+          String original = unitMatcher.group(0);
+          List<String> corrected = converted.stream()
+            .map(suggestion -> getSuggestion(original, suggestion)).collect(Collectors.toList());
           if (!(convertedUnit.equals(metricUnit) && Math.abs(convertedValueInText - convertedValueComputed) < DELTA)) {
             RuleMatch match = new RuleMatch(this, sentence,
-              convertedMatcher.start(1) + convertedOffset, convertedMatcher.end(2) + convertedOffset,
+              unitMatcher.start(), convertedMatcher.end(0) + convertedOffset,
               getMessage(Message.CHECK), getShortMessage(Message.CHECK));
-            match.setSuggestedReplacements(converted);
+            match.setSuggestedReplacements(corrected);
             match.setUrl(buildURLForExplanation(unitMatcher.group(0)));
             matches.add(match);
           }

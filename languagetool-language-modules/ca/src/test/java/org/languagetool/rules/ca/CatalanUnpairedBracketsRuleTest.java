@@ -46,90 +46,86 @@ public class CatalanUnpairedBracketsRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    // correct sentences:
-    assertCorrect("L'«home és així»");
-    assertCorrect("l'«home»");
-    assertCorrect("«\"És així\" o no»");
-    assertCorrect("«\"És així\", va dir.»");
-    assertCorrect("«És \"així\" o no»");
-    assertCorrect("(l'execució a mans d'\"especialistes\")");
-    assertCorrect("(L'\"especialista\")");
-    assertCorrect("\"Vine\", li va dir.");
-    assertCorrect("(Una frase de prova).");
-    assertCorrect("Aquesta és la paraula 'prova'.");
-    assertCorrect("This is a sentence with a smiley :-)");
-    assertCorrect("This is a sentence with a smiley ;-) and so on...");
-    assertCorrect("Aquesta és l'hora de les decisions.");
-    assertCorrect("Aquesta és l’hora de les decisions.");
-    assertCorrect("(fig. 20)");
-    assertCorrect("\"Sóc la teva filla. El corcó no et rosegarà més.\"\n\n");
-    assertCorrect("–\"Club dels llagoters\" –va repetir en Ron.");
-    assertCorrect("—\"Club dels llagoters\" –va repetir en Ron.");
-    assertCorrect("»Això em porta a demanar-t'ho.");
-    assertCorrect("»Això em porta (sí) a demanar-t'ho.");
-    assertCorrect("al capítol 12 \"Llavors i fruits oleaginosos\"");
-    assertCorrect("\"Per què serveixen les forquilles?\" i aquest respon \"per menjar\".");
-    assertCorrect("És a 60º 50' 23\"");
-    assertCorrect("És a 60º 50' 23'");
-    assertCorrect("60° 50' 23'");
-    assertCorrect("60° 50'");
-    //assertCorrect("el grau en 60 parts iguals, tenim el minut (1'):");
-    //assertCorrect("el minut en 60 parts iguals, tenim el segon (1\"):");
-    assertCorrect("El tràiler té una picada d'ullet quan diu que \"no es pot fer una pel·lícula 'slasher' com si fos una sèrie\".");
-    assertCorrect("El tràiler –que té una picada d'ullet quan diu que \"no es pot fer una pel·lícula 'slasher' com si fos una sèrie\"– ja ");
     
-    //assertCorrect("The screen is 20\" wide.");
-    assertCorrect("This is a [test] sentence...");
-    assertCorrect("The plight of Tamil refugees caused a surge of support from most of the Tamil political parties.[90]");
-    assertCorrect("This is what he said: \"We believe in freedom. This is what we do.\"");
-    assertCorrect("(([20] [20] [20]))");
+    // correct sentences:
+    assertMatches("L'«home és així»", 0);
+    assertMatches("l'«home»", 0);
+    assertMatches("«\"És així\" o no»", 0);
+    assertMatches("«\"És així\", va dir.»", 0);
+    assertMatches("«És \"així\" o no»", 0);
+    assertMatches("(l'execució a mans d'\"especialistes\")", 0);
+    assertMatches("(L'\"especialista\")", 0);
+    assertMatches("\"Vine\", li va dir.", 0);
+    assertMatches("(Una frase de prova).", 0);
+    assertMatches("Aquesta és la paraula 'prova'.", 0);
+    assertMatches("This is a sentence with a smiley :-)", 0);
+    assertMatches("This is a sentence with a smiley ;-) and so on...", 0);
+    assertMatches("Aquesta és l'hora de les decisions.", 0);
+    assertMatches("Aquesta és l’hora de les decisions.", 0);
+    assertMatches("(fig. 20)", 0);
+    assertMatches("\"Sóc la teva filla. El corcó no et rosegarà més.\"\n\n", 0);
+    assertMatches("–\"Club dels llagoters\" –va repetir en Ron.", 0);
+    assertMatches("—\"Club dels llagoters\" –va repetir en Ron.", 0);
+    assertMatches("»Això em porta a demanar-t'ho.", 0);
+    assertMatches("»Això em porta (sí) a demanar-t'ho.", 0);
+    assertMatches("al capítol 12 \"Llavors i fruits oleaginosos\"", 0);
+    assertMatches("\"Per què serveixen les forquilles?\" i aquest respon \"per menjar\".", 0);
+    assertMatches("És a 60º 50' 23\"", 0);
+    assertMatches("És a 60º 50' 23'", 0);
+    assertMatches("60° 50' 23'", 0);
+    assertMatches("60° 50'", 0);
+    //assertMatches("el grau en 60 parts iguals, tenim el minut (1'):", 0);
+    //assertMatches("el minut en 60 parts iguals, tenim el segon (1\"):", 0);
+    assertMatches("El tràiler té una picada d'ullet quan diu que \"no es pot fer una pel·lícula 'slasher' com si fos una sèrie\".", 0);
+    assertMatches("El tràiler –que té una picada d'ullet quan diu que \"no es pot fer una pel·lícula 'slasher' com si fos una sèrie\"– ja ", 0);
+    
+    //assertMatches("The screen is 20\" wide.", 0);
+    assertMatches("This is a [test] sentence...", 0);
+    assertMatches("The plight of Tamil refugees caused a surge of support from most of the Tamil political parties.[90]", 0);
+    assertMatches("This is what he said: \"We believe in freedom. This is what we do.\"", 0);
+    assertMatches("(([20] [20] [20]))", 0);
     // test for a case that created a false alarm after disambiguation
-    assertCorrect("This is a \"special test\", right?");
+    assertMatches("This is a \"special test\", right?", 0);
     // numerical bullets
-    assertCorrect("We discussed this in Chapter 1).");
-    assertCorrect("The jury recommended that: (1) Four additional deputies be employed.");
-    assertCorrect("We discussed this in section 1a).");
-    assertCorrect("We discussed this in section iv).");
+    assertMatches("We discussed this in Chapter 1).", 0);
+    assertMatches("The jury recommended that: (1) Four additional deputies be employed.", 0);
+    assertMatches("We discussed this in section 1a).", 0);
+    assertMatches("We discussed this in section iv).", 0);
     //inches exception shouldn't match " here:
-    assertCorrect("In addition, the government would pay a $1,000 \"cost of education\" grant to the schools.");
-    //assertCorrect("Paradise lost to the alleged water needs of Texas' big cities Thursday.");
-    assertCorrect ("Porta'l cap ací.");
-    assertCorrect ("Porta-me'n cinquanta!");
+    assertMatches("In addition, the government would pay a $1,000 \"cost of education\" grant to the schools.", 0);
+    //assertMatches("Paradise lost to the alleged water needs of Texas' big cities Thursday.", 0);
+    assertMatches ("Porta'l cap ací.", 0);
+    assertMatches ("Porta-me'n cinquanta!", 0);
 
     // incorrect sentences:
-    assertIncorrect("(L'\"especialista\"");
-    assertIncorrect("L'«home és així");
-    assertIncorrect("S'«esperava 'el' (segon) \"resultat\"");
-    assertIncorrect("l'«home");
-    assertIncorrect("Ploraria.\"");
-    assertIncorrect("Aquesta és l555’hora de les decisions.");
-    assertIncorrect("Vine\", li va dir.");
-    assertIncorrect("Aquesta és l‘hora de les decisions.");
-    assertIncorrect("(This is a test sentence.");
-    assertIncorrect("This is a test with an apostrophe &'.");
-    assertIncorrect("&'");
-    assertIncorrect("!'");
-    assertIncorrect("What?'");
+    assertMatches("(aquesta 'és la solució)", 1);
+    assertMatches("(L'\"especialista\"", 1);
+    assertMatches("L'«home és així", 1);
+    assertMatches("S'«esperava 'el' (segon) \"resultat\"", 1);
+    assertMatches("l'«home", 1);
+    assertMatches("Ploraria.\"", 1);
+    assertMatches("Aquesta és l555’hora de les decisions.", 1);
+    assertMatches("Vine\", li va dir.", 1);
+    assertMatches("Aquesta és l‘hora de les decisions.", 1);
+    assertMatches("(This is a test sentence.", 1);
+    assertMatches("This is a test with an apostrophe &'.", 1);
+    assertMatches("&'", 1);
+    assertMatches("!'", 1);
+    assertMatches("What?'", 1);
 
     // this is currently considered incorrect... although people often use smileys this way:
-    assertIncorrect("Some text (and some funny remark :-) with more text to follow");
+    assertMatches("Some text (and some funny remark :-) with more text to follow",1);
 
-    RuleMatch[] matches;
-    matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("(This is a test” sentence.")));
-    assertEquals(2, matches.length);
-    matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence("This [is (a test} sentence.")));
-    assertEquals(3, matches.length);
+    
+    assertMatches("(This is a test” sentence.",2);
+    assertMatches("This [is (a test} sentence.",3);
+  }
+  
+  private void assertMatches(String input, int expectedMatches) throws IOException {
+    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(input)));
+    assertEquals(expectedMatches, matches.length);
   }
 
-  private void assertCorrect(String sentence) throws IOException {
-    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(sentence)));
-    assertEquals(0, matches.length);
-  }
-
-  private void assertIncorrect(String sentence) throws IOException {
-    final RuleMatch[] matches = rule.match(Collections.singletonList(langTool.getAnalyzedSentence(sentence)));
-    assertEquals(1, matches.length);
-  }
 
   @Test
   public void testMultipleSentences() throws IOException {

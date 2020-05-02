@@ -19,14 +19,14 @@
 
 package org.languagetool;
 
-import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tools.StringTools;
+
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 
 import static org.languagetool.JLanguageTool.*;
 
@@ -47,11 +47,12 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private AnalyzedToken[] anTokReadings;
   private int startPos;
   private String token;
-  private List<ChunkTag> chunkTags = new ArrayList<>();
+  private List<ChunkTag> chunkTags = Collections.emptyList();
   private boolean isSentEnd;
   private boolean isParaEnd;
   private boolean isWhitespaceBefore;
   private boolean isPosTagUnknown;
+  private String whitespaceBeforeChar;
 
   // If true, then the token is marked up as immune against tests:
   // it should never be matched by any rule. Used to have generalized
@@ -90,6 +91,28 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     isPosTagUnknown = tokens.size() == 1 && tokens.get(0).getPOSTag() == null;
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
+    whitespaceBeforeChar = "";
+  }
+  
+  // Constructor from a previous AnalyzedTokenReadings with new readings, and annotation of the change  
+  public AnalyzedTokenReadings(AnalyzedTokenReadings oldAtr, List<AnalyzedToken> newReadings, String ruleApplied) {
+    this(newReadings, oldAtr.getStartPos());
+    if (oldAtr.isSentenceEnd()) {
+      this.setSentEnd();
+    }
+    if (oldAtr.isParagraphEnd()) {
+      this.setParagraphEnd();
+    }
+    this.setWhitespaceBefore(oldAtr.getWhitespaceBefore());
+    this.setChunkTags(oldAtr.getChunkTags());
+    if (oldAtr.isImmunized()) {
+      this.immunize();
+    }
+    if (oldAtr.isIgnoredBySpeller()) {
+      this.ignoreSpelling();
+    }
+    this.setHistoricalAnnotations(oldAtr.getHistoricalAnnotations());
+    addHistoricalAnnotations(oldAtr.toString(), ruleApplied); 
   }
 
   AnalyzedTokenReadings(AnalyzedToken token) {
@@ -116,11 +139,25 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   public boolean hasPosTag(String posTag) {
     boolean found = false;
     for (AnalyzedToken reading : anTokReadings) {
-      if (reading.getPOSTag() != null) {
-        found = posTag.equals(reading.getPOSTag());
-        if (found) {
-          break;
-        }
+      found = posTag.equals(reading.getPOSTag());
+      if (found) {
+        break;
+      }
+    }
+    return found;
+  }
+  
+  /**
+   * Checks if the token has a particular POS tag and lemma.
+   * 
+   * @param posTag POS tag and lemma to look for
+   */
+  public boolean hasPosTagAndLemma(String posTag, String lemma) {
+    boolean found = false;
+    for (AnalyzedToken reading : anTokReadings) {
+      found = posTag.equals(reading.getPOSTag()) && lemma.equals(reading.getLemma());
+      if (found) {
+        break;
       }
     }
     return found;
@@ -160,11 +197,9 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     boolean found = false;
     for(String lemma : lemmas) {
       for (AnalyzedToken reading : anTokReadings) {
-        if (reading.getLemma() != null) {
-          found = lemma.equals(reading.getLemma());
-          if (found) {
-            return found;
-          }
+        found = lemma.equals(reading.getLemma());
+        if (found) {
+          return found;
         }
       }
     }
@@ -248,7 +283,8 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * Add a new reading.
    * @param token new reading, given as {@link AnalyzedToken}
    */
-  public void addReading(AnalyzedToken token) {
+  public void addReading(AnalyzedToken token, String ruleApplied) {
+    String oldValue = this.toString();
     List<AnalyzedToken> l = new ArrayList<>(Arrays.asList(anTokReadings).subList(0, anTokReadings.length - 1));
     if (anTokReadings[anTokReadings.length - 1].getPOSTag() != null) {
       l.add(anTokReadings[anTokReadings.length - 1]);
@@ -264,6 +300,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     isSentEnd = hasPosTag(SENTENCE_END_TAGNAME);
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
+    addHistoricalAnnotations(oldValue, ruleApplied); 
   }
 
   /**
@@ -272,7 +309,8 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * and an empty lemma is created.
    * @param token reading to be removed
    */
-  public void removeReading(AnalyzedToken token) {
+  public void removeReading(AnalyzedToken token, String ruleApplied) {
+    String oldValue = this.toString();
     List<AnalyzedToken> l = new ArrayList<>();
     AnalyzedToken tmpTok = new AnalyzedToken(token.getToken(), token.getPOSTag(), token.getLemma());
     tmpTok.setWhitespaceBefore(isWhitespaceBefore);
@@ -302,6 +340,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       setParagraphEnd();
     }
     hasSameLemmas = areLemmasSame();
+    addHistoricalAnnotations(oldValue, ruleApplied); 
   }
 
   /**
@@ -368,7 +407,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     if (!isParagraphEnd()) {
       AnalyzedToken paragraphEnd = new AnalyzedToken(getToken(),
           PARAGRAPH_END_TAGNAME, getAnalyzedToken(0).getLemma());
-      addReading(paragraphEnd);
+      addReading(paragraphEnd, "add_paragaph_end");
     }
   }
 
@@ -395,7 +434,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     if (!isSentenceEnd()) {
       AnalyzedToken sentenceEnd = new AnalyzedToken(getToken(),
           SENTENCE_END_TAGNAME, getAnalyzedToken(0).getLemma());
-      addReading(sentenceEnd);
+      addReading(sentenceEnd, "");
     }
   }
 
@@ -416,13 +455,20 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     return token;
   }
 
-  public void setWhitespaceBefore(boolean isWhiteSpaceBefore) {
-    isWhitespaceBefore = isWhiteSpaceBefore;
+  public void setWhitespaceBefore(String prevToken) {
+    isWhitespaceBefore = !prevToken.isEmpty() && StringTools.isWhitespace(prevToken);
     for (AnalyzedToken aTok : anTokReadings) {
-      aTok.setWhitespaceBefore(isWhiteSpaceBefore);
+      aTok.setWhitespaceBefore(isWhitespaceBefore);
+    }
+    if (isWhitespaceBefore) {
+      whitespaceBeforeChar = prevToken;
     }
   }
 
+  public String getWhitespaceBefore() {
+    return whitespaceBeforeChar;
+  }
+  
   public boolean isWhitespaceBefore() {
     return isWhitespaceBefore;
   }
@@ -494,9 +540,17 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
    * Used to track disambiguator actions.
    * @param historicalAnnotations the historicalAnnotations to set
    */
-  public void setHistoricalAnnotations(String historicalAnnotations) {
+  private void setHistoricalAnnotations(String historicalAnnotations) {
     this.historicalAnnotations = historicalAnnotations;
   }
+  
+  private void addHistoricalAnnotations(String oldValue, String ruleApplied) {
+    if (!ruleApplied.isEmpty()) {
+      this.historicalAnnotations = this.getHistoricalAnnotations() + "\n" + ruleApplied + ": " + oldValue + " -> "
+          + this.toString();
+    }
+  }
+  
 
   /**
    * @since 2.3

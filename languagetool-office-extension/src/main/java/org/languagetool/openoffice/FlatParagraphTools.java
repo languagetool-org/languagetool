@@ -20,17 +20,22 @@ package org.languagetool.openoffice;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
+import com.sun.star.container.XStringKeyMap;
 import com.sun.star.lang.XComponent;
+import com.sun.star.linguistic2.SingleProofreadingError;
 import com.sun.star.text.TextMarkupType;
 import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XFlatParagraphIterator;
 import com.sun.star.text.XFlatParagraphIteratorProvider;
+import com.sun.star.text.XMarkingAccess;
+import com.sun.star.text.XParagraphCursor;
 import com.sun.star.uno.UnoRuntime;
-import com.sun.star.uno.XComponentContext;
 
 /**
  * Information about Paragraphs of LibreOffice/OpenOffice documents
@@ -40,14 +45,17 @@ import com.sun.star.uno.XComponentContext;
  */
 public class FlatParagraphTools {
   
-  private static final boolean debugMode = false;   //  should be false except for testing
+  private static boolean debugMode; //  should be false except for testing
   
-  private final XFlatParagraphIterator xFlatParaIter;
-  private final XFlatParagraph xFlatPara;
+  private XFlatParagraphIterator xFlatParaIter;
+  private XFlatParagraph lastFlatPara;
+  private XComponent xComponent;
   
-  FlatParagraphTools(XComponentContext xContext) {
-    xFlatParaIter = getXFlatParagraphIterator(xContext);
-    xFlatPara = getFlatParagraph();
+  FlatParagraphTools(XComponent xComponent) {
+    debugMode = OfficeTools.DEBUG_MODE_FP;
+    this.xComponent = xComponent;
+    xFlatParaIter = getXFlatParagraphIterator(xComponent);
+    lastFlatPara = getCurrentFlatParagraph();
   }
 
   /**
@@ -55,14 +63,13 @@ public class FlatParagraphTools {
    * Returns null if it fails
    */
   @Nullable
-  private XFlatParagraphIterator getXFlatParagraphIterator(XComponentContext xContext) {
+  private XFlatParagraphIterator getXFlatParagraphIterator(XComponent xComponent) {
     try {
-      XComponent xCurrentComponent = OfficeTools.getCurrentComponent(xContext);
-      if (xCurrentComponent == null) {
+      if (xComponent == null) {
         return null;
       }
       XFlatParagraphIteratorProvider xFlatParaItPro 
-          = UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class, xCurrentComponent);
+          = UnoRuntime.queryInterface(XFlatParagraphIteratorProvider.class, xComponent);
       if (xFlatParaItPro == null) {
         return null;
       }
@@ -73,20 +80,32 @@ public class FlatParagraphTools {
     }
   }
   
+  public void init() {
+    XFlatParagraphIterator tmpFlatParaIter = getXFlatParagraphIterator(xComponent);
+    if (tmpFlatParaIter != null) {
+      xFlatParaIter = tmpFlatParaIter;
+    }
+  }
+  
   /**
-   * Returns FlatParagraph
+   * Returns current FlatParagraph
+   * Set lastFlatPara if current FlatParagraph is not null
    * Returns null if it fails
    */
   @Nullable
-  private XFlatParagraph getFlatParagraph() {
+  private XFlatParagraph getCurrentFlatParagraph() {
     try {
       if (xFlatParaIter == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("!?! FlatParagraphIterator == null");
+          MessageHandler.printToLogFile("getCurrentFlatParagraph: FlatParagraphIterator == null");
         }
         return null;
       }
-      return xFlatParaIter.getLastPara();
+      XFlatParagraph tmpFlatPara = xFlatParaIter.getNextPara();
+      if (tmpFlatPara != null) {
+        lastFlatPara = tmpFlatPara;
+      }
+      return tmpFlatPara;
     } catch (Throwable t) {
       MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
       return null;           // Return null as method failed
@@ -94,33 +113,48 @@ public class FlatParagraphTools {
   }
     
   /**
+   * Returns last FlatParagraph not null
+   * Set lastFlatPara if current FlatParagraph is not null
+   * Returns null if it fails
+   */
+  @Nullable
+  private XFlatParagraph getLastFlatParagraph() {
+    getCurrentFlatParagraph();
+    return lastFlatPara;
+  }
+    
+  /**
    * is true if FlatParagraph is from Automatic Iteration
-   * else is false and at failure
    */
   public boolean isFlatParaFromIter() {
-    try {
+    return (getCurrentFlatParagraph() != null);
+  }
+
+  /**
+   * return text of current paragraph
+   * return null if it fails
+   */
+  public String getCurrentParaText() {
+    XFlatParagraph xFlatPara = getCurrentFlatParagraph();
     if (xFlatPara == null) {
       if (debugMode) {
-        MessageHandler.printToLogFile("!?! FlatParagraph == null");
+        MessageHandler.printToLogFile("isCurrentFlatPara: FlatParagraph == null");
       }
-      return false;
+      return null;
     }
-      return xFlatParaIter.getParaBefore(xFlatPara) != null || xFlatParaIter.getParaAfter(xFlatPara) != null;
-    } catch (Throwable t) {
-      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
-      return false;          // Return false as method failed
-    }
+    return xFlatPara.getText();
   }
 
   /**
    * Returns Current Paragraph Number from FlatParagaph
    * Returns -1 if it fails
    */
-  int getCurNumFlatParagraphs() {
+  int getCurNumFlatParagraph() {
     try {
+      XFlatParagraph xFlatPara = getCurrentFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("!?! FlatParagraph == null");
+          MessageHandler.printToLogFile("getCurNumFlatParagraph: FlatParagraph == null");
         }
         return -1;
       }
@@ -144,9 +178,10 @@ public class FlatParagraphTools {
   @Nullable
   public List<String> getAllFlatParagraphs() {
     try {
+      XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("!?! FlatParagraph == null");
+          MessageHandler.printToLogFile("getAllFlatParagraphs: FlatParagraph == null");
         }
         return null;
       }
@@ -169,14 +204,15 @@ public class FlatParagraphTools {
   }
 
   /**
-   * Returns Number of all FlatParagraphs of Document
+   * Returns Number of all FlatParagraphs of Document from current FlatParagraph
    * Returns negative value if it fails
    */
   int getNumberOfAllFlatPara() {
     try {
+      XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("!?! FlatParagraph == null");
+          MessageHandler.printToLogFile("getNumberOfAllFlatPara: FlatParagraph == null");
         }
         return -1;
       }
@@ -205,7 +241,7 @@ public class FlatParagraphTools {
   private int[] getPropertyValues(String propName, XFlatParagraph xFlatPara) {
     if (xFlatPara == null) {
       if (debugMode) {
-        MessageHandler.printToLogFile("!?! FlatParagraph == null");
+        MessageHandler.printToLogFile("getPropertyValues: FlatParagraph == null");
       }
       return  new int[]{};
     }
@@ -234,9 +270,10 @@ public class FlatParagraphTools {
   List<int[]> getFootnotePositions() {
     List<int[]> paraPositions = new ArrayList<>();
     try {
+      XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("!?! FlatParagraph == null");
+          MessageHandler.printToLogFile("getFootnotePositions: FlatParagraph == null");
         }
         return paraPositions;
       }
@@ -264,17 +301,18 @@ public class FlatParagraphTools {
   /**
    * Marks all paragraphs as checked with exception of the paragraphs "from" to "to"
    */
-  void markFlatParasAsChecked(int from, int to, List<Boolean> isChecked) {
+  void setFlatParasAsChecked(int from, int to, List<Boolean> isChecked) {
     try {
+      XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("!?! FlatParagraph == null");
+          MessageHandler.printToLogFile("setFlatParasAsChecked: FlatParagraph == null");
         }
         return;
       }
       if (isChecked == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("!?! List isChecked == null");
+          MessageHandler.printToLogFile("setFlatParasAsChecked: List isChecked == null");
         }
         isChecked  = new ArrayList<>();
       }
@@ -322,9 +360,10 @@ public class FlatParagraphTools {
   List<Boolean> isChecked(List<Integer> changedParas, int nDiv) {
     List<Boolean> isChecked = new ArrayList<>();
     try {
+      XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
-          MessageHandler.printToLogFile("!?! FlatParagraph == null");
+          MessageHandler.printToLogFile("isChecked: FlatParagraph == null");
         }
         return null;
       }
@@ -347,4 +386,122 @@ public class FlatParagraphTools {
     return isChecked;
   }
   
+  /**
+   * Set marks to changed paragraphs
+   * if override is true existing marks are removed and marks are new set
+   * else the marks are added to the existing marks
+   */
+
+  public void markParagraphs(Map<Integer, SingleProofreadingError[]> changedParas, DocumentCache docCache, boolean override, XParagraphCursor cursor) {
+    try {
+      if(changedParas == null || changedParas.isEmpty()) {
+        return;
+      }
+      XFlatParagraph xFlatPara = getLastFlatParagraph();
+      if (xFlatPara == null) {
+        if (debugMode) {
+          MessageHandler.printToLogFile("markParagraphs: FlatParagraph == null");
+        }
+        return;
+      }
+      if(override) {
+        cursor.gotoStart(false);
+      }
+      XFlatParagraph tmpFlatPara = xFlatPara;
+      XFlatParagraph startFlatPara = xFlatPara;
+      while (tmpFlatPara != null) {
+        startFlatPara = tmpFlatPara;
+        tmpFlatPara = xFlatParaIter.getParaBefore(tmpFlatPara);
+      }
+      tmpFlatPara = startFlatPara;
+      int num = 0;
+      int nMarked = 0;
+      while (tmpFlatPara != null && nMarked < changedParas.size()) {
+        int nTextPara = docCache.getNumberOfTextParagraph(num);
+        if(nTextPara >= 0) {
+          if(changedParas.containsKey(nTextPara)) {
+            addMarksToOneParagraph(tmpFlatPara, changedParas.get(nTextPara), cursor, override);
+            nMarked++;
+          }
+          if (override && cursor != null) {
+            cursor.gotoNextParagraph(false);
+          }
+        }
+        tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
+        num++;
+      }
+    } catch (Throwable t) {
+      MessageHandler.printException(t);     // all Exceptions thrown by UnoRuntime.queryInterface are caught
+    }
+  }
+  
+  /**
+   * add marks to existing marks of current paragraph
+   */
+  public void markCurrentParagraph(SingleProofreadingError[] pErrors) {
+    if(pErrors == null || pErrors.length == 0) {
+      return;
+    }
+    XFlatParagraph xFlatPara = getCurrentFlatParagraph();
+    if (xFlatPara == null) {
+      if (debugMode) {
+        MessageHandler.printToLogFile("markParagraphs: FlatParagraph == null");
+      }
+      return;
+    }
+    addMarksToOneParagraph(xFlatPara, pErrors, null, false);
+  }
+    
+  /**
+   * add marks to existing marks of a paragraph
+   * if override: existing marks will be overridden
+   */
+  private void addMarksToOneParagraph(XFlatParagraph flatPara, SingleProofreadingError[] pErrors, XParagraphCursor cursor, boolean override) {
+    
+    if(override && cursor != null) {
+      XMarkingAccess xMarkingAccess = UnoRuntime.queryInterface(XMarkingAccess.class, cursor);
+      if (xMarkingAccess == null) {
+        MessageHandler.printToLogFile("xMarkingAccess == null");
+      } else {
+        xMarkingAccess.invalidateMarkings(TextMarkupType.PROOFREADING);
+        flatPara.setChecked(TextMarkupType.PROOFREADING, true);
+        XComponent markComponent = UnoRuntime.queryInterface(XComponent.class, xMarkingAccess);
+        if(markComponent != null) {
+          markComponent.dispose();
+        }
+      }
+    }
+
+    XStringKeyMap props = flatPara.getMarkupInfoContainer();
+    for(SingleProofreadingError pError : pErrors) {
+      props = flatPara.getMarkupInfoContainer();
+      PropertyValue[] properties = pError.aProperties;
+      int color = -1;
+      short type = -1;
+      for(PropertyValue property : properties) {
+        if("LineColor".equals(property.Name)) {
+          color = (int) property.Value;
+        } else if("LineType".equals(property.Name)) {
+          type = (short) property.Value;
+        }
+      }
+      try {
+        if(color >= 0) {
+          props.insertValue("LineColor", color);
+        }
+        if(type > 0) {
+          props.insertValue("LineType", type);
+        }
+      } catch (Throwable t) {
+        MessageHandler.printException(t);
+      }
+      flatPara.commitStringMarkup(TextMarkupType.PROOFREADING, pError.aRuleIdentifier, 
+          pError.nErrorStart, pError.nErrorLength, props);
+    }
+    if(override) {
+      flatPara.getMarkupInfoContainer();
+      flatPara.commitStringMarkup(TextMarkupType.SENTENCE, new String ("Sentence"), 0, flatPara.getText().length(), props);
+    }
+  }
+
 }

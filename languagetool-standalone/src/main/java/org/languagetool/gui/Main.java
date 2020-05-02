@@ -276,6 +276,8 @@ public final class Main {
     languageBox.setModel(LanguageComboBoxModel.create(messages,
             EXTERNAL_LANGUAGE_SUFFIX, false, externalLanguages, null));
     languageBox.selectLanguage(ltSupport.getLanguage());
+    ltSupport.setLanguage(languageBox.getSelectedLanguage());
+    checkTextAndDisplayResults();
   }
 
   private void showOptions() {

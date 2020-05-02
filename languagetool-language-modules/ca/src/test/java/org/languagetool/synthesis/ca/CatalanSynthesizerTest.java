@@ -34,6 +34,18 @@ public class CatalanSynthesizerTest {
 
   @Test
   public final void testSynthesizeStringString() throws IOException {
+      
+    assertEquals("[un]", synth("1", "_spell_number_"));
+    assertEquals("[onze]", synth("11", "_spell_number_"));
+    assertEquals("[vint-i-un]", synth("21", "_spell_number_"));
+    assertEquals("[vint-i-quatre]", synth("24", "_spell_number_"));
+    assertEquals("[vint-i-una]", synth("21", "_spell_number_:feminine"));
+    assertEquals("[vint-i-dues]", synth("22", "_spell_number_:feminine"));
+    assertEquals("[dos]", synth("2", "_spell_number_"));
+    assertEquals("[dues]", synth("2", "_spell_number_:feminine"));
+    assertEquals("[dues-centes quaranta-dues]", synth("242", "_spell_number_:feminine"));
+    assertEquals("[dos milions dues-centes cinquanta-una mil dues-centes quaranta-una]", synth("2251241", "_spell_number_:feminine"));
+    
     assertEquals(0, synth.synthesize(dummyToken("blablabla"), "blablabla").length);
 
     assertEquals("[sento]", synth("sentir", "VMIP1S0C"));

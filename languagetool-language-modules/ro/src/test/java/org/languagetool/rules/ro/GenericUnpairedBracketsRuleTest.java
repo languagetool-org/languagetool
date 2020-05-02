@@ -52,9 +52,9 @@ public class GenericUnpairedBracketsRuleTest {
     assertMatches("A fost {plecat) pentru (puțin timp}.", 4);
     assertMatches("A fost plecat „pentru... puțin timp.", 1);
     assertMatches("A fost plecat «puțin.", 1);
-    assertMatches("A fost plecat „pentru «puțin timp”.", 3);
-    assertMatches("A fost plecat „pentru puțin» timp”.", 3);
-    assertMatches("A fost plecat „pentru... puțin» timp”.", 3);
+    assertMatches("A fost plecat „pentru «puțin timp”.", 1);
+    assertMatches("A fost plecat „pentru puțin» timp”.", 1);
+    assertMatches("A fost plecat „pentru... puțin» timp”.", 1);
     assertMatches("A fost plecat „pentru... «puțin” timp».", 4);
   }
 

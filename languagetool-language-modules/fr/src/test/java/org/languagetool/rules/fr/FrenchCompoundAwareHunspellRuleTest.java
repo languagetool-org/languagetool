@@ -48,6 +48,11 @@ public class FrenchCompoundAwareHunspellRuleTest {
     assertSuggestion(lt, "coulurs", "couleurs"); 
     assertSuggestion(lt, "boton", "bot on", "bâton", "béton");  // "bouton" would be better? 
     assertSuggestion(lt, "skype", "Skype");
+    assertSuggestion(lt, "Wordpress", "WordPress");
+    assertSuggestion(lt, "wordpress", "WordPress");
+    assertSuggestion(lt, "Etais-tu", "Étais-tu");
+    assertSuggestion(lt, "etais-tu", "étais-tu");
+    assertThat(lt.check("Et d'Harvard").size(), is(0));
   }
 
   private void assertSuggestion(JLanguageTool lt, String input, String... expected) throws IOException {
