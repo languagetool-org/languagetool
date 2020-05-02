@@ -5675,13 +5675,13 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">(some|any|every)(thing)s</token>
+                    <token regexp="yes">(some|any|every|no)(thing)s</token>
                 </pattern>
                 <message>It seems that a possessive apostrophe is missing or the word is misspelled.</message>
                 <suggestion><match no="1" regexp_match="(?i)things" regexp_replace="" />thing's</suggestion>
                 <suggestion><match no="1" regexp_match="(?i)things" regexp_replace="" /> things</suggestion>
                 <suggestion><match no="1" regexp_match="(?i)things" regexp_replace="" />thing</suggestion>
-                <example correction="something's|some things|something">He's eating someones or <marker>somethings</marker> lunch.</example>
+                <example correction="something's|some things|something">He's eating someone's or <marker>somethings</marker> lunch.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5691,6 +5691,61 @@ USA
                 <suggestion><match no="1" regexp_match="(?i)(some|any|every)(where|one|body)s" regexp_replace="$1" /><match no="1" regexp_match="(?i)(some|any|every)(where|one|body)s" regexp_replace="$2" />'s</suggestion>
                 <suggestion><match no="1" regexp_match="(?i)(some|any|every)(where|one|body)s" regexp_replace="$1" /><match no="1" regexp_match="(?i)(some|any|every)(where|one|body)s" regexp_replace="$2" /></suggestion>
                 <example correction="someone's|someone">I think this goes against <marker>someones</marker> principles.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">nobod(y|ie)s</token>
+                    <token regexp="yes">perfect|fool</token>
+                </pattern>
+                <message>Did you mean the idiom <suggestion>nobody's \2</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/nobody's%20perfect</url>
+                <example correction="Nobody's perfect"><marker>Nobodys perfect</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>no</token>
+                    <token regexp="yes">bod(y|ie)s</token>
+                    <token regexp="yes">perfect|fool</token>
+                </pattern>
+                <message>Did you mean the idiom <suggestion>nobody's \3</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/nobody's%20perfect</url>
+                <example correction="Nobody's perfect"><marker>No bodys perfect</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>noones</token>
+                    <token>perfect</token>
+                </pattern>
+                <message>Did you mean the idiom <suggestion>no one's \2</suggestion>?</message>
+                <example correction="No one's perfect"><marker>Noones perfect</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>no</token>
+                    <token>ones</token>
+                    <token>perfect</token>
+                </pattern>
+                <message>Did you mean the idiom <suggestion>no one's \3</suggestion>?</message>
+                <example correction="No one's perfect"><marker>No ones perfect</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">no(where|body)s</token>
+                </pattern>
+                <message>It seems that a possessive apostrophe is missing or the word is misspelled.</message>
+                <suggestion><match no="1" regexp_match="(?i)(no)(where|body)s" regexp_replace="$1" /><match no="1" regexp_match="(?i)(no)(where|body)s" regexp_replace="$2" />'s</suggestion>
+                <suggestion><match no="1" regexp_match="(?i)(no)(where|body)s" regexp_replace="$1" /><match no="1" regexp_match="(?i)(no)(where|body)s" regexp_replace="$2" /></suggestion>
+                <url>https://www.merriam-webster.com/dictionary/nobody's%20perfect</url>
+                <example correction="Nobody's|Nobody"><marker>Nobodys</marker> perfect.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>everybodies</token>
+                </pattern>
+                <message>It seems that a possessive apostrophe is missing or the word is misspelled.</message>
+                <suggestion>everybody's</suggestion>
+                <suggestion>everybody</suggestion>
+                <example correction="Everybody's|Everybody"><marker>Everybodies</marker> is perfect.</example>
             </rule>
         </rulegroup>
 
@@ -11262,6 +11317,13 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="COULDVE" name="couldve (could have)" default="temp_off">
+            <pattern>
+                <token regexp="yes">(c|w|should)ouldve</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="1" regexp_match="(?i)ve" regexp_replace="" />'ve</suggestion> or <suggestion><match no="1" regexp_match="(?i)ve" regexp_replace="" /> have</suggestion>?</message>
+            <example correction="could've|could have">I <marker>couldve</marker> done it.</example>
+        </rule>
         <rule id="THAT_SOUND_GREAT" name="That sound (sounds) cool">
             <antipattern>
                 <token regexp="yes">that|this</token>
