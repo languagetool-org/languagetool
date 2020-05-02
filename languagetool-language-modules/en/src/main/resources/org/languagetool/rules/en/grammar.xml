@@ -5491,6 +5491,11 @@ USA
                     <token regexp="yes">th[eo]se|some|many|all</token>
                     <token>cases</token>
                 </antipattern>
+                <antipattern><!-- introductory phrase-->
+                    <token postag="SENT_START|CC" postag_regexp="yes" />
+                    <token>These</token>
+                    <token>days</token>
+                </antipattern>
                 <antipattern case_sensitive="yes"><!-- company -->
                     <token>Epic</token>
                     <token>Games</token>
@@ -5586,7 +5591,7 @@ USA
                     <token><exception postag="PRP$"/></token>
                     <token postag="DT|JJ.*" postag_regexp="yes"><exception postag="CD"/></token>
                     <marker>
-                        <token postag="NNP?S" postag_regexp="yes" regexp="yes">(\p{Ll}|-)*s<exception regexp="yes">sports|eats|says|likes|loves|hates|desires|his|ones|relations|affairs|weapons|crimes</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NNP?" postag_regexp="yes"/></token>
+                        <token postag="NNP?S" postag_regexp="yes" regexp="yes">(\p{Ll}|-)*s<exception regexp="yes">sports|eats|says|likes|loves|hates|desires|his|ones|relations|affairs|weapons|crimes|arts|maths</exception><exception postag="VBZ|RB|IN|JJ|NN:.*|NNP?" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="NN(:.+)?" postag_regexp="yes" regexp="yes">\p{Ll}{2,}<exception regexp="yes">nothing|(any|some)thing|sector|department|given|exam|faculty|factory|today|yesterday|tomorrow|now|in</exception><exception postag="RB|MD|IN|JJ.*|CC|VB[GDP]" postag_regexp="yes"/></token>
                     <token regexp="yes">\p{Punct}</token>
@@ -8073,6 +8078,10 @@ USA
                 <token regexp="yes">two|three|four|guys|experts|dudes|girls|boys|ladies|brothers|sisters|sweeties?|wives|folks?|gentlemen|gents|lads|geniuses|humans|bastards|morons|douchebags|idiots|kids|weirdos?|skanks?|traitors?|fuckers?|dicks?|devs?|developers?|people</token>
             </antipattern>
             <rule><!-- Would you driver pick us up? -->
+                <antipattern><!-- different error -->
+                    <token>fact</token>
+                    <token>check</token>
+                </antipattern>
                 <pattern>
                     <token postag="MD" />
                     <marker>
@@ -8082,6 +8091,7 @@ USA
                         <exception case_sensitive="yes" regexp="yes">[A-Z].*</exception>
                         <exception postag="RB|VB.*|JJ.*|PRP.*|IN|UH" postag_regexp="yes" />
                         <exception regexp="yes">(every|some|any)(thing|one|body|where)|nothing</exception>
+                        <exception regexp="yes">sort|kind</exception><!-- sort/kind of -->
                         <exception regexp="yes">&verb_abbreviations;|&not_really_verbs;|&adverb_abbreviations;|&incorrect_noun_verbs;|pigtail</exception><!-- "pigtail" is a verb in dev speech -->
                     </token>
                 </pattern>
@@ -8089,6 +8099,7 @@ USA
                 <example correction="your">Will <marker>you</marker> driver pick you up?</example>
                 <example correction="your">Could <marker>you</marker> information be recovered?</example>
                 <example>Would you gentlemen like to follow me?</example>
+                <example>How would you sort of do that?</example>
             </rule>
             <rule><!-- You can send <you> letter -->
                 <pattern>
@@ -42372,7 +42383,13 @@ The accident victim died from her injuries.
                     <token spacebefore="no" regexp="yes" min="0">&apostrophe;</token>
                     <token spacebefore="no" min="0">t</token>
                     <token regexp="yes" skip="-1">I|you|we|they|he|she</token>
-                    <marker><token postag="SENT_END" spacebefore="no">.<exception scope="next">.</exception></token></marker>
+                    <marker>
+                        <token postag="SENT_END" spacebefore="no">
+                            .
+                            <exception scope="next">.</exception>
+                            <exception scope="previous">.</exception>
+                        </token>
+                    </marker>
                 </pattern>
                 <message>This looks like a question. Did you mean <suggestion>?</suggestion>?</message>
                 <example correction="?">Can you help me<marker>.</marker></example>
@@ -42383,6 +42400,7 @@ The accident victim died from her injuries.
                 <example type="correct">Does she need our help at the store today?</example>
                 <example type="correct">Are they going to need our help with the research report?</example>
                 <example type="correct">Haven't I helped you already this week?</example>
+                <example>Have you checked ...</example>
             </rule>
         </rulegroup>
         <rule id="NN_CD_NN_CD_COMMA" name="Comma in 'act 2 scene 5'">
