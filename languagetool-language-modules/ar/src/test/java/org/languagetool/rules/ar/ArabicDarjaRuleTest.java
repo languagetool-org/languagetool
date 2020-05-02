@@ -33,15 +33,15 @@ import java.io.IOException;
 
 import static org.junit.Assert.assertEquals;
 
-public class ArabicBarbarismsRuleTest {
+public class ArabicDarjaRuleTest {
 
-  private ArabicBarbarismsRule rule;
+  private ArabicDarjaRule rule;
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
 
   @Before
   public void setUp() throws Exception {
     Language arabic = new Arabic();
-    rule = new ArabicBarbarismsRule(TestTools.getMessages("ar"));
+    rule = new ArabicDarjaRule(TestTools.getMessages("ar"));
   }
 
   @Test

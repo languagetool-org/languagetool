@@ -35,18 +35,18 @@ import java.util.ResourceBundle;
  * @author Sohaib AFIFI
  * @since 5.0
  */
-public class ArabicBarbarismsRule extends AbstractSimpleReplaceRule2 {
+public class ArabicDarjaRule extends AbstractSimpleReplaceRule2 {
 
-  public static final String PT_BARBARISMS_REPLACE = "AR_BARBARISMS_REPLACE";
+  public static final String AR_DARJA_REPLACE = "AR_DARJA_REPLACE";
 
-  private static final String FILE_NAME = "/ar/barbarisms.txt";
+  private static final String FILE_NAME = "/ar/darja.txt";
 
   @Override
   public final String getFileName() {
     return FILE_NAME;
   }
 
-  public ArabicBarbarismsRule(ResourceBundle messages) throws IOException {
+  public ArabicDarjaRule(ResourceBundle messages) throws IOException {
     super(messages, new Arabic());
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
@@ -56,7 +56,7 @@ public class ArabicBarbarismsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public final String getId() {
-    return PT_BARBARISMS_REPLACE;
+    return AR_DARJA_REPLACE;
   }
 
   @Override
