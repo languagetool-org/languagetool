@@ -229,12 +229,21 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
   protected Map<String, List<String>> getTopSuggestionsIgnoreCase() {
     Map<String, List<String>> s = new HashMap<>();
     s.put("gif", Arrays.asList("GIF"));
+    s.put("gifs", Arrays.asList("GIFs"));
+    s.put("atm", Arrays.asList("ATM"));
+    s.put("atms", Arrays.asList("ATMs"));
     s.put("png", Arrays.asList("PNG"));
+    s.put("pngs", Arrays.asList("PNGs"));
     s.put("csv", Arrays.asList("CSV"));
+    s.put("csvs", Arrays.asList("CSVs"));
     s.put("pdf", Arrays.asList("PDF"));
+    s.put("pdfs", Arrays.asList("PDFs"));
     s.put("jpeg", Arrays.asList("JPEG"));
+    s.put("jpegs", Arrays.asList("JPEGs"));
     s.put("jpg", Arrays.asList("JPG"));
+    s.put("jpgs", Arrays.asList("JPGs"));
     s.put("bmp", Arrays.asList("BMP"));
+    s.put("bmps", Arrays.asList("BMPs"));
     s.put("docx", Arrays.asList("DOCX"));
     s.put("xlsx", Arrays.asList("XLSX"));
     s.put("btw", Arrays.asList("BTW"));
@@ -243,6 +252,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("ip", Arrays.asList("IP"));
     s.put("rfc", Arrays.asList("RFC"));
     s.put("ppt", Arrays.asList("PPT"));
+    s.put("ppts", Arrays.asList("PPTs"));
     s.put("pptx", Arrays.asList("PPTX"));
     s.put("vpn", Arrays.asList("VPN"));
     s.put("psn", Arrays.asList("PSN"));
@@ -258,12 +268,14 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("wtf", Arrays.asList("WTF"));
     s.put("fyi", Arrays.asList("FYI"));
     s.put("url", Arrays.asList("URL"));
+    s.put("urls", Arrays.asList("URLs"));
     s.put("usb", Arrays.asList("USB"));
 
     s.put("italia", Arrays.asList("Italy"));
     s.put("macboook", Arrays.asList("MacBook"));
     s.put("macboooks", Arrays.asList("MacBooks"));
     s.put("paypal", Arrays.asList("PayPal"));
+    s.put("whatsapp", Arrays.asList("WhatsApp"));
     s.put("webex", Arrays.asList("WebEx"));
     s.put("&&", Arrays.asList("&"));
 
