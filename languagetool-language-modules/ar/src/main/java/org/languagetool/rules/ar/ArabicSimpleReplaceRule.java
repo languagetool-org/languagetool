@@ -52,7 +52,7 @@ public class ArabicSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "A rule that matches words which should not be used and suggests correct ones instead";
+    return "\u062e\u0637\u0623 \u0625\u0645\u0644\u0627\u0626\u064a";
   }
 
   @Override
