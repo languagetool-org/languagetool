@@ -100,6 +100,7 @@ public class ArabicTaggerTest {
         "وبلادهما/[بلاد]NJ-;M1I-;W-H|" +
         "وبلادهما/[بلاد]NJ-;M1U-;W-H",
       tokenizer, tagger);
+
     TestTools.myAssert("كبلاد",
       "كبلاد/[بلاد]NJ-;F3--;-K-|" +
         "كبلاد/[بلاد]NJ-;F3A-;-K-|" +
@@ -110,6 +111,7 @@ public class ArabicTaggerTest {
         "كبلاد/[بلاد]NJ-;M1I-;-K-|" +
         "كبلاد/[بلاد]NJ-;M1U-;-K-",
       tokenizer, tagger);
+
     TestTools.myAssert("وكالبلاد",
       "وكالبلاد/[بلاد]NJ-;F3--;WKL|" +
         "وكالبلاد/[بلاد]NJ-;F3A-;WKL|" +
@@ -121,5 +123,8 @@ public class ArabicTaggerTest {
         "وكالبلاد/[بلاد]NJ-;M1U-;WKL",
       tokenizer, tagger);
 
+    TestTools.myAssert("فاستعملها",
+      "فاستعملها/[اِسْتَعْمَلَ]V-1;M1--i-Y;W-H|فاستعملها/[اِسْتَعْمَلَ]V-1;M1--paH;W-H", tokenizer, tagger);
+    
   }
 }
