@@ -39,7 +39,7 @@ class RequestLimiter {
   private final int requestLimitInBytes;
   private final int requestLimitPeriodInSeconds;
   private final Long server;
-  private DatabaseLogger logger;
+  private final DatabaseLogger logger;
 
   /**
    * @param requestLimit the maximum number of request per <tt>requestLimitPeriodInSeconds</tt>
