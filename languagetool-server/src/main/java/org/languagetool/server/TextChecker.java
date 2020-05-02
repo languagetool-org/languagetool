@@ -444,12 +444,13 @@ abstract class TextChecker {
     languageCheckCounts.put(lang.getShortCodeWithCountryAndVariant(), count);
     int computationTime = (int) (System.currentTimeMillis() - timeStart);
     String version = parameters.get("v") != null ? ", v:" + parameters.get("v") : "";
+    String skipLimits = limits.getSkipLimits() ? ", skipLimits" : "";
     logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
             + matches.size() + " matches, "
             + computationTime + "ms, agent:" + agent + version
             + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
             + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
-            + ", m:" + mode.toString().toLowerCase());
+            + ", m:" + mode.toString().toLowerCase() + skipLimits);
 
     int matchCount = matches.size();
     Map<String, Integer> ruleMatchCount = new HashMap<>();

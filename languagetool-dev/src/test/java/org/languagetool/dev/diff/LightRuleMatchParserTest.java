@@ -38,7 +38,7 @@ public class LightRuleMatchParserTest {
       "This is an test. \n" +
       "        ^^       \n" +
       "Time: 10ms for 1 sentences (0.7 sentences/sec)\n";
-    List<LightRuleMatch> matches = parser.parse(new StringReader(s));
+    List<LightRuleMatch> matches = parser.parseCommandLineOutput(new StringReader(s));
     assertThat(matches.size(), is(1));
     LightRuleMatch match = matches.get(0);
     assertThat(match.getLine(), is(1));
@@ -69,7 +69,7 @@ public class LightRuleMatchParserTest {
       "This is somethink test. \n" +
       "        ^^^^^^^^^       \n" +
       "Time: 10ms for 1 sentences (0.7 sentences/sec)\n";
-    List<LightRuleMatch> matches = parser.parse(new StringReader(s));
+    List<LightRuleMatch> matches = parser.parseCommandLineOutput(new StringReader(s));
     assertThat(matches.size(), is(2));
     LightRuleMatch match1 = matches.get(0);
     assertThat(match1.getLine(), is(1));
@@ -102,7 +102,7 @@ public class LightRuleMatchParserTest {
       "Rule source: /org/languagetool/rules/en/grammar.xml\n" +
       "Proponents of anarchism, known as \"anarchists\", advocate stateless societies based on...\n" +
       "                                  ^                                                  \n";
-    List<LightRuleMatch> matches = parser.parse(new StringReader(s));
+    List<LightRuleMatch> matches = parser.parseCommandLineOutput(new StringReader(s));
     assertThat(matches.size(), is(1));
     LightRuleMatch match = matches.get(0);
     assertThat(match.getLine(), is(1));
@@ -128,7 +128,7 @@ public class LightRuleMatchParserTest {
       "Rule source: /org/languagetool/rules/en/grammar-testme.xml\n" +
       "Proponents of anarchism, known as \"anarchists\", advocate stateless societies based on...\n" +
       "                                  ^                                                  \n";
-    List<LightRuleMatch> matches = parser.parse(new StringReader(s));
+    List<LightRuleMatch> matches = parser.parseCommandLineOutput(new StringReader(s));
     assertThat(matches.size(), is(1));
     LightRuleMatch match = matches.get(0);
     assertThat(match.getLine(), is(1));

@@ -102,7 +102,11 @@ class RequestLimiter {
    * @param ipAddress the client's IP address
    * @throws TooManyRequestsException if access is not allowed because the request limit is reached
    */
-  void checkAccess(String ipAddress, Map<String, String> params, Map<String, List<String>> httpHeader) {
+  void checkAccess(String ipAddress, Map<String, String> params, Map<String, List<String>> httpHeader, UserLimits userLimits) {
+    if (userLimits.getSkipLimits()) {
+      // internal special case for e.g. nightly tests
+      return;
+    }
     int reqSize = getRequestSize(params);
     while (requestEvents.size() > REQUEST_QUEUE_SIZE) {
       requestEvents.remove(0);

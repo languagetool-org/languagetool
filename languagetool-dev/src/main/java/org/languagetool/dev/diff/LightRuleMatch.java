@@ -38,10 +38,9 @@ class LightRuleMatch {
   private final String ruleSource;  // e.g. grammar.xml
   private final String title;
   private final Status status;
-  private final boolean isTempOff;
 
   LightRuleMatch(int line, int column, String ruleId, String message, String context, String coveredText,
-                 String suggestions, String ruleSource, String title, Status status, boolean isTempOff) {
+                 String suggestions, String ruleSource, String title, Status status) {
     this.line =  line;
     this.column = column;
     this.fullRuleId = Objects.requireNonNull(ruleId);
@@ -52,7 +51,6 @@ class LightRuleMatch {
     this.ruleSource = ruleSource;
     this.title = title;
     this.status = Objects.requireNonNull(status);
-    this.isTempOff = isTempOff;
   }
 
   int getLine() {
@@ -102,10 +100,6 @@ class LightRuleMatch {
 
   Status getStatus() {
     return status;
-  }
-  
-  boolean isTempOff() {
-    return isTempOff;
   }
   
   @Override

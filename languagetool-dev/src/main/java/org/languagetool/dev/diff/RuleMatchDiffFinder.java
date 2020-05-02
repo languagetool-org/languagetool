@@ -29,6 +29,9 @@ import java.util.*;
 public class RuleMatchDiffFinder {
   
   List<RuleMatchDiff> getDiffs(List<LightRuleMatch> l1, List<LightRuleMatch> l2) {
+    System.out.println("Comparing result 1 (" + l1.size() + " matches) to result 2 (" + l2.size() + " matches)");
+    //debugList("List 1", l1);
+    //debugList("List 2", l2);
     List<RuleMatchDiff> result = new ArrayList<>();
     Map<MatchKey, LightRuleMatch> oldMatches = getMatchMap(l1);
     for (LightRuleMatch match : l2) {
@@ -56,6 +59,13 @@ public class RuleMatchDiffFinder {
       }
     }
     return result;
+  }
+
+  private void debugList(String title, List<LightRuleMatch> l1) {
+    System.out.println(title);
+    for (LightRuleMatch lightRuleMatch : l1) {
+      System.out.println(" *" + lightRuleMatch);
+    }
   }
 
   private Map<MatchKey, LightRuleMatch> getMatchMap(List<LightRuleMatch> list) {
@@ -179,8 +189,8 @@ public class RuleMatchDiffFinder {
   }
 
   private void run(LightRuleMatchParser parser, File file1, File file2, File file3) throws IOException {
-    List<LightRuleMatch> l1 = parser.parse(new FileReader(file1));
-    List<LightRuleMatch> l2 = parser.parse(new FileReader(file2));
+    List<LightRuleMatch> l1 = parser.parseCommandLineOutput(file1);
+    List<LightRuleMatch> l2 = parser.parseCommandLineOutput(file2);
     String title = "Comparing " + file1.getName() + " to "  + file2.getName();
     System.out.println(title);
     List<RuleMatchDiff> diffs = getDiffs(l1, l2);
@@ -222,7 +232,8 @@ public class RuleMatchDiffFinder {
   public static void main(String[] args) throws IOException {
     if (args.length != 3) {
       System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <result>");
-      System.out.println(" <matches1> and <matches2> are text outputs of different versions of e.g. org.languagetool.commandline.Main run on the same input");
+      System.out.println(" <matches1> and <matches2> are text outputs of different versions of org.languagetool.dev.dumpcheck.SentenceSourceChecker run on the same input");
+      System.out.println("                           our JSON outputs from org.languagetool.dev.httpchecker.HttpApiSentenceChecker");
       System.exit(1);
     }
     RuleMatchDiffFinder diffFinder = new RuleMatchDiffFinder();
