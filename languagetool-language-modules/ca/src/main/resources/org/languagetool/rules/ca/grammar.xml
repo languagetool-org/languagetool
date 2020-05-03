@@ -21504,6 +21504,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mediambiental">No tenien consciència <marker>medi ambiental</marker>.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>-</token>
+                    <token spacebefore="no">re</token>
+                    <token spacebefore="no">-</token>
+                </antipattern>
                 <pattern>
                     <token>re</token>
                     <token min="0">-</token>
@@ -21785,10 +21790,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">franco?</token>
                     <token min="0">-</token>
-                    <token inflected="yes" regexp="yes">prussià|alemany|català|sicilià|americà|italià</token>
+                    <token regexp="yes">..+</token>
                 </pattern>
-                <message>Normalment s'escriu junt sense guionet.</message>
-                <suggestion>franco\3</suggestion>
+                <message suppress_misspelled="yes">S'escriu junt.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="franco$1"/></suggestion>
                 <!--<url>http://esadir.cat/entrades/fitxa/node/guionet</url>-->
                 <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=cerca_generica&amp;input_cercar=guionet&amp;tipusCerca=cerca.fitxes</url>
                 <example correction="francoprussiana">La guerra <marker>franc prussiana</marker>.</example>
