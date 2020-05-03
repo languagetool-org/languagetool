@@ -4141,8 +4141,14 @@ USA
                 <antipattern>
                     <token>its</token>
                     <token>too</token>
-                    <token postag="JJ"/>
-                    <token postag="NN.*" postag_regexp="yes"/>
+                    <token postag="JJ" min="1" max="2" />
+                    <token postag="NN.*|UNKNOWN" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>of</token>
+                    <token>its</token>
+                    <token>too</token>
+                    <token postag="JJ" />
                 </antipattern>
                 <pattern>
                     <marker>
@@ -4735,6 +4741,10 @@ USA
                     <token>,</token>
                     <token postag="JJ.*" postag_regexp="yes" />
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes">guess</token>
+                    <token>it</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">I|you|we|they|s?he|it</token>
                     <token postag="RB" min="0" />
@@ -4758,6 +4768,7 @@ USA
                 <example correction="it's">I think <marker>its</marker> nothing to worry about.</example>
                 <example correction="it's">I guess <marker>its</marker> here.</example>
                 <example>I think its natural, black hair looks best.</example>
+                <example>You guessed it right.</example>
                 <example>Hopefully not, but given the fact that you believe it there’s a chance the stress could overcome your body.</example>
             </rule>
         </rulegroup>
@@ -5697,7 +5708,7 @@ USA
                 <suggestion><match no="1" regexp_match="(?i)(some|any|every)(where|one|body)s" regexp_replace="$1" /><match no="1" regexp_match="(?i)(some|any|every)(where|one|body)s" regexp_replace="$2" /></suggestion>
                 <example correction="someone's|someone">I think this goes against <marker>someones</marker> principles.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">nobod(y|ie)s</token>
                     <token regexp="yes">perfect|fool</token>
@@ -5706,7 +5717,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/nobody's%20perfect</url>
                 <example correction="Nobody's perfect"><marker>Nobodys perfect</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>no</token>
                     <token regexp="yes">bod(y|ie)s</token>
@@ -5716,7 +5727,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/nobody's%20perfect</url>
                 <example correction="Nobody's perfect"><marker>No bodys perfect</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>noones</token>
                     <token>perfect</token>
@@ -5724,7 +5735,7 @@ USA
                 <message>Did you mean the idiom <suggestion>no one's \2</suggestion>?</message>
                 <example correction="No one's perfect"><marker>Noones perfect</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>no</token>
                     <token>ones</token>
@@ -5733,7 +5744,7 @@ USA
                 <message>Did you mean the idiom <suggestion>no one's \3</suggestion>?</message>
                 <example correction="No one's perfect"><marker>No ones perfect</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">no(where|body)s</token>
                 </pattern>
@@ -5743,7 +5754,7 @@ USA
                 <url>https://www.merriam-webster.com/dictionary/nobody's%20perfect</url>
                 <example correction="Nobody's|Nobody"><marker>Nobodys</marker> perfect.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>everybodies</token>
                 </pattern>
@@ -10340,12 +10351,12 @@ USA
         <rulegroup id="SILL_STILL" name="confusion of 'sill' vs. 'still'">
             <url>https://www.merriam-webster.com/dictionary/still</url>
             <antipattern>
-                <token regexp="yes">gyp|drodgen|plastic|granite</token>
+                <token regexp="yes" skip="2">gyp|drodgen|plastic|granite|window</token>
                 <token>sill</token>
             </antipattern>
             <antipattern>
-                <token>sill</token>
-                <token regexp="yes">guards?|plastics?|optics?|light.*|beams?|plates?</token>
+                <token skip="2">sill</token>
+                <token regexp="yes">guards?|plastics?|optics?|light.*|beams?|plates?|windows?</token>
             </antipattern>
             <antipattern>
                 <token postag="DT" />
@@ -11328,7 +11339,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="COULDVE" name="couldve (could have)" default="temp_off">
+        <rule id="COULDVE" name="couldve (could've)">
             <pattern>
                 <token regexp="yes">(c|w|should)ouldve</token>
             </pattern>
@@ -11384,6 +11395,35 @@ USA
             <suggestion>smart<match no="2" case_conversion="alllower" /></suggestion>
             <url>https://www.lexico.com/definition/smartphone</url>
             <example correction="smartphone">He got a new <marker>smart phone</marker> for Christmas.</example>
+        </rule>
+        <rule id="SEA_COMPOUNDS" name="sea food (seafood)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">black|red|baltic|dead|deep|caspian|caribbean|arabian|mediter.*|greenland|andaman|sargasso|china|irish|philippine|laptev|tasman|yellow|chukchi|beaufort|siberian|ligurian|norwegian|celtic|bohol|salton|savu|myrtoan|alboran|solomon|bismarck|ceram|labrador|comsonauts|mawson|lazarev|archipelago|molucca|camotes|adolf|east</token>
+                <token>sea</token>
+            </antipattern>
+            <antipattern>
+                <token>Sea</token>
+                <token>Ports</token>
+                <token regexp="yes">Organi[sz]ations?|Authorit(y|ies)</token>
+            </antipattern>
+            <antipattern>
+                <token>Sea</token>
+                <token>Water</token>
+                <token regexp="yes">Conveyances?</token>
+            </antipattern>
+            <antipattern case_sensitive="yes"><!-- name of movie -->
+                <token>Sea</token>
+                <token>Gull</token>
+            </antipattern>
+            <pattern>
+                <token>sea</token>
+                <token regexp="yes">birds?|bags?|foods?|crafts?|farers?|gulls?|grass|horses?|planes?|ports?|water</token>
+            </pattern>
+            <message>This word is normally spelled as one.</message>
+            <suggestion>sea<match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="seafood">For dinner, we ate delicious <marker>sea food</marker>.</example>
+            <example>European Sea Ports Organisation ESPO.</example>
+            <example>Trade with India through the Roman Egyptian Red Sea ports was significant in the first centuries of the Common Era.</example>
         </rule>
         <rulegroup id="WEB_COMPOUNDS" name="web site (website)">
             <rule>
@@ -11527,9 +11567,9 @@ USA
         </rulegroup>
         <rule id="AIRCRAFTS" name="Aircrafts">
             <pattern>
-                <token>aircrafts</token>
+                <token regexp="yes">(air|sea)?crafts</token>
             </pattern>
-            <message>The plural of "aircraft" is not "aircrafts" but <suggestion>aircraft</suggestion>.</message>
+            <message>The plural of "<match no="1" regexp_match="(?i)s$" regexp_replace="" />" is not "\1" but <suggestion><match no="1" regexp_match="(?i)s$" regexp_replace="" /></suggestion>.</message>
             <url>https://www.merriam-webster.com/dictionary/aircraft</url>
             <example correction="aircraft">Freighter <marker>aircrafts</marker>, which are dedicated to the transport of goods, are being mobilized to make up the capacity shortfall.</example>
         </rule>
