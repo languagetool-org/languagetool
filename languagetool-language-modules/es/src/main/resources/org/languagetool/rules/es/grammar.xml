@@ -4181,33 +4181,63 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="IR_GERUNDIO" name="confusión ir + *participio/gerundio" default="temp_off">
-            <antipattern>
-                <token postag="VM..[12]S." postag_regexp="yes"/>
-                <token postag="V.P..SM" postag_regexp="yes" regexp="yes">.*ado</token>
-            </antipattern>
-            <pattern>
-                <and>
-                    <token inflected="yes">ir</token>
-                    <token postag="_reflexive"/>
-                </and>
-                <marker>
+        <rulegroup id="IR_GERUNDIO" name="confusión: ir + *participio/gerundio" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="V.[SI]..S." postag_regexp="yes"/>
+                    <token min="0">ido</token>
                     <token postag="V.P..SM" postag_regexp="yes" regexp="yes">.*ado</token>
-                </marker>
-            </pattern>
-            <message>Posible confusión.</message>
-            <suggestion><match no="2" postag_regexp="yes" postag="(V.P.*)" postag_replace="V.G...."/></suggestion>
-            <example correction="desarrollando">Se fue <marker>desarrollado</marker></example>
-            <example correction="desarrollando">Se va <marker>desarrollado</marker></example>
-            <example correction="cansando">Se va <marker>cansado</marker></example> <!-- ambigous-->
-            <example correction="desarrollando">Se ha ido <marker>desarrollado</marker></example>
-            <example correction="desarrollando">Nos hemos ido <marker>desarrollado</marker></example>
-            <example correction="cansando">Nos hemos ido <marker>cansado</marker></example>
-            <example>Se va deprimido.</example>
-            <example>Nos hemos ido cansados</example>
-            <example>Me voy cansado.</example>
-            <example>Que le fue denegado el ingreso.</example>
-        </rule>
+                </antipattern>
+                <pattern>
+                    <and>
+                        <token inflected="yes">ir</token>
+                        <token postag="_reflexive"/>
+                    </and>
+                    <marker>
+                        <token postag="V.P..SM" postag_regexp="yes" regexp="yes">.*ado</token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion><match no="2" postag_regexp="yes" postag="(V.P.*)" postag_replace="V.G...."/></suggestion>
+                <suggestion><match no="2" postag_regexp="yes" postag="(V.P.*)" postag_replace="V.P..PM"/></suggestion>
+                <example correction="desarrollando|desarrollados">Nos hemos ido <marker>desarrollado</marker></example>
+                <example correction="cansando|cansados">Nos hemos ido <marker>cansado</marker></example>
+                <example correction="cansando|cansados">Se han ido <marker>cansado</marker></example>
+                <example correction="cansando|cansados">Se fueron <marker>cansado</marker></example>
+                <example correction="cansando|cansados">Os habéis ido <marker>cansado</marker></example>
+                <example>Nos hemos ido cansados</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="V.[SI].[12]S.|V.[SI]..P." postag_regexp="yes"/>
+                    <token min="0">ido</token>
+                    <token postag="V.P..SM" postag_regexp="yes" regexp="yes">.*ado</token>
+                </antipattern>
+                <pattern>
+                    <and>
+                        <token inflected="yes">ir</token>
+                        <token postag="_reflexive"/>
+                    </and>
+                    <marker>
+                        <token postag="V.P..SM" postag_regexp="yes" regexp="yes">.*ado<exception regexp="yes">cansado|enfadado</exception></token>
+                    </marker>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion><match no="2" postag_regexp="yes" postag="(V.P.*)" postag_replace="V.G...."/></suggestion>
+                <example correction="desarrollando">Se fue <marker>desarrollado</marker></example>
+                <example correction="desarrollando">Se va <marker>desarrollado</marker></example>
+                <example correction="desarrollando">Se ha ido <marker>desarrollado</marker></example>
+                <example correction="desarrollando">Él se ha ido <marker>desarrollado</marker></example>
+                <example>Se va deprimido.</example>
+                <example>Me voy cansado.</example>
+                <example>Me he ido cansado.</example>
+                <example>Nos hemos ido cansados</example>
+                <example>Que le fue denegado el ingreso.</example>
+                <example>Se va <marker>cansado</marker></example>
+                <example>Él se fue enfadado.</example>
+                <example>Juan se va cansado.</example>
+            </rule>
+        </rulegroup>
         <rule id="CONFUSION_AL_LA" name="confusión al/la">
             <pattern>
                 <marker>
