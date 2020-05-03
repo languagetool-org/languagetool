@@ -155,7 +155,21 @@ public class ProhibitedCompoundRule extends Rule {
           "Maskenherstellers",
           "Maskenherstellern",
           "Firmenvokabular",
-          "Maskenproduktion"
+          "Maskenproduktion",
+          "Maskenpflicht",
+          "Nachmiete",
+          "Ringseil",
+          "Ringseilen",
+          "Jagdschule",
+          "Tachograf",
+          "Tachografs",
+          "Tachografen",
+          "Grafitpulver",
+          "Grafitmine",
+          "Grafitminen",
+          "Nesselstraße",
+          "Reitsachen",
+          "Mehrfachabrechnung"
   ));
 
   // have per-class static list of these and reference that in instance
