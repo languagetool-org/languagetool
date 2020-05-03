@@ -9033,7 +9033,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
-        <rule id="INMITTEN" name="in mitten (inmitten)" default="temp_off">
+        <rule id="INMITTEN" name="in mitten (inmitten)">
             <pattern>
                 <token regexp="yes">[Ii]n</token>
                 <token regexp="yes">[Mm]itten</token>
@@ -33550,6 +33550,22 @@ Andere Projekte</example>
             <url>https://www.duden.de/rechtschreibung/Plug_and_play</url>
             <example correction="Plug-and-play">Das Feature funktioniert dank <marker>Plug und Play</marker>.</example>
             <example>Plug and Play ACPI device</example>
+        </rule>
+        <rule id="EVERBODYS_DARLING" name="Everybody's Darling" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Everybody</token>
+                <token spacebefore="no" regexp="yes">['’`´‘]</token>
+                <token spacebefore="no">s</token>
+                <token>Darling</token>
+            </antipattern>
+            <pattern case_sensitive="no">
+                <token regexp="yes">Every?bod(ys?|ies?)</token>
+                <token min="0" regexp="yes">['’`´‘]</token>
+                <token min="0">s</token>
+                <token regexp="yes">Dar?ling</token>
+            </pattern>
+            <message>Meinten Sie die Redewendung <suggestion>Everybody's Darling</suggestion> (= jmd. der überall beliebt ist)?</message>
+            <example correction="Everybody's Darling">Tobias machte sich bei allen beliebt, er war für einige Zeit <marker>Everybodys Darling</marker>.</example>
         </rule>
         <rulegroup id="MAKE_UP" name="'Make-up'">
             <url>https://www.duden.de/rechtschreibung/Make_up</url>
