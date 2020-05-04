@@ -66,6 +66,11 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
 public class VerbAgreementRule extends TextLevelRule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(  // "Ich hoffe du auch."
+      posRegex("VER:.*"),
+      tokenRegex("du|ihr"),
+      token("auch")
+    ),
     Arrays.asList(
       // "Für Sie mache ich eine Ausnahme."
       token("für"),
