@@ -169,7 +169,9 @@ public class ProhibitedCompoundRule extends Rule {
           "Grafitminen",
           "Nesselstraße",
           "Reitsachen",
-          "Mehrfachabrechnung"
+          "Mehrfachabrechnung",
+          "Stuhlrolle",
+          "Stuhlrollen"
   ));
 
   // have per-class static list of these and reference that in instance
