@@ -11333,6 +11333,60 @@ USA
             </rule>
       </rulegroup>
 
+        <rule id="TIS" name="tis (this)" default="temp_off"><!-- #2821 -->
+            <antipattern>
+                 <token regexp="yes">['’]</token>
+                 <token spacebefore="no">tis</token>
+            </antipattern>
+            <antipattern><!-- Incomplete sentences (three dots: ...) -->
+                 <token>tis</token>
+                 <token>.</token>
+                 <token>.</token>
+                <token postag="SENT_END">.</token>
+            </antipattern>
+            <antipattern><!-- Not English text -->
+                 <token postag="UNKNOWN" regexp="yes">\p{L}\p{L}+</token>
+                 <token>tis</token>
+                 <token postag="UNKNOWN" regexp="yes">\p{L}\p{L}+</token>
+            </antipattern>
+            <antipattern case_sensitive="yes"><!-- Washington... Tis Well www.mountvernon.org/library/digitalhistory/quotes/article/tis-well/ -->
+                 <token skip="-1">Washington</token>
+                 <token>Tis</token>
+                 <token>well</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes" regexp="yes">[Tt]is
+                    <exception scope="next">…</exception>
+                    </token>
+            </pattern>
+            <message>Did you mean <suggestion>this</suggestion> or the literary contraction <suggestion>'\1</suggestion> (straight quote) or <suggestion>’\1</suggestion> (curly quote) as an alternative for <suggestion>it is</suggestion>?</message>
+            <url>https://www.lexico.com/definition/'tis</url>
+            <short>Possible typo</short>
+            <example correction="this|'tis|’tis|it is">Is <marker>tis</marker> sentence correct?</example>
+            <example correction="This|'Tis|’Tis|It is"><marker>Tis</marker> sentence contains an error.</example>
+            <example correction="this|'tis|’tis|it is">What would the rule editor do on <marker>tis</marker> warning?</example>
+            <example correction="This|'Tis|’Tis|It is"><marker>Tis</marker> a bright and sunny morn in the hamlet.</example>
+            <example correction="this|'tis|’tis|it is">I think <marker>tis</marker> a difficult problem to solve.</example>
+            <example correction="This|'Tis|’Tis|It is"><marker>Tis</marker> the season to be thankful.</example>
+            <example correction="This|'Tis|’Tis|It is"><marker>Tis</marker> well is deep and dangerous.</example>
+            <example correction="This|'Tis|’Tis|It is">... when Mike wrote, "<marker>Tis</marker> time it will work!"</example>
+            <example correction="This|'Tis|’Tis|It is">..written at the same time, Brontë wrote "<marker>Tis</marker> bitter sometimes to recall/Illusions once deemed fair".</example><!-- 2020-05-04 MFU: Books of literary criticism that that I have seen with a Google search show that Brontë wrote 'Tis. -->
+            <example>Is <marker>this</marker> sentence correct?</example>
+            <example>The whole story is just a tis...</example>
+            <example>The Gallipoli peninsula (Chersónisos tis Kallípolis) is located in the southern part of East Thrace.</example>
+            <example>"I fled, 'tis true, and saved my life by flight, / bursting my bonds in frenzy of despair, / and hidden in a marish lay that night, / waiting till they should sail, if sail, perchance, they might."</example>
+            <example>"Cyclops Skipper Teuton, 'Tis Said", The Washington Post, April 16, 1918.</example>
+            <example>Other anthems that have used the same melody include Heil dir im Siegerkranz, Kongesangen, My Country, 'Tis of Thee, Rufst du, mein Vaterland, E Ola Ke Alii Ke Akua and The Prayer of Russians.</example>
+            <example>Where ignorance is bliss, 'tis folly to be wise.</example>
+            <example>In the United States, the melody is used for the patriotic song "My Country, 'Tis of Thee".</example>
+            <example>...though the same melody was (and is) widely known in the United States to the lyrics "My country, 'tis of thee".</example>
+            <example>Come, cheer up, my lads, 'tis to glory we steer,</example>
+            <example>1831 – Samuel Francis Smith writes "My Country, 'Tis of Thee" for the Boston, Massachusetts July 4 festivities.</example>
+            <example>Of course, 'tis the season, and the staff at Control Solutions wishes you a happy, healthy holiday, and a prosperous 2002.</example><!-- www.merriam-webster.com/words-at-play/why-we-say-tis-the-season -->
+            <example>Washington said, "Tis well."</example>
+<!-- Not found --><example>When the manager said, '<marker>tis</marker> your problem, not mine,' I was angry.</example>
+        </rule>
+
     </category>
 
     <!-- ====================================================================== -->
