@@ -8780,14 +8780,14 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="nombre pluriel suivi du singulier">
         <antipattern>
+            <token regexp="yes">terminal|master|numéro|variante|option|total</token>
+            <token regexp="yes">\d+</token>
+        </antipattern>
+        <antipattern>
             <token postag="N [fem] s" postag_regexp="yes"/>
             <token regexp="yes">aux|à|de|du</token>
             <token postag="N .*" postag_regexp="yes"/>
             <token postag="J [fem] s" postag_regexp="yes"/>
-        </antipattern>
-        <antipattern>
-          <token>master</token>
-          <token>2</token>
         </antipattern>
         <antipattern>
           <token regexp="yes">\d{5}</token>
