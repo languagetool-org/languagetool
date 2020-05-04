@@ -1649,13 +1649,38 @@ RB => Règles Brutes
       <disambig postag="N f p"/>
     </rule>
   </rulegroup>
-  <rule id="A_PRESENT" name="à présent">
-    <pattern>
-      <token>à</token>
-      <marker><token>présent</token></marker>
-    </pattern>
-    <disambig postag="A"/>
-  </rule>
+  <rulegroup id="A_PRESENT" name="à présent">
+    <rule>
+      <pattern>
+        <marker><token>à</token></marker>
+        <token>présent</token>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>à</token>
+        <marker><token>présent</token></marker>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PAR_CONSEQUENT" name="par conséquent">
+    <rule>
+      <pattern>
+        <marker><token>par</token></marker>
+        <token>conséquent</token>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>par</token>
+        <marker><token>conséquent</token></marker>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+  </rulegroup>
   <rule id="EN_PERMANENCE" name="en permanence">
     <pattern>
       <token>en</token>
