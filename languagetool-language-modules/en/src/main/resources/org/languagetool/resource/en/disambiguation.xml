@@ -4708,6 +4708,14 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="replace"><wd lemma="have" pos="VBZ"/></disambig>
         </rule>
         <rule> <!--  add to Bill's -->
+        <antipattern><!-- #2845 Other CFD's charge a higher fee. -->
+            <token postag_regexp="yes" postag="JJR?"/>
+            <token chunk="E-NP-singular"/>
+            <token regexp="yes">&apostrophe;</token>
+            <token>s</token>
+            <token chunk="E-NP-singular" postag="VB"/>
+            <token postag_regexp="yes" postag="DT|PRP\$"/>
+        </antipattern>
             <pattern>
                 <token postag_regexp="yes" postag="NN.*"/>
                 <marker>
@@ -4718,6 +4726,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <disambig action="add"><wd lemma="'" pos="POS"/></disambig>
             <example type="ambiguous" inputform="'[']" outputform="'['/POS]">This is Bill<marker>'</marker>s house.</example>
             <example type="untouched">Let's go!</example>
+        <example type="untouched">Other CFD's charge a higher fee.</example><!-- #2845 -->
+        <example type="untouched">Although larger company's charge a higher fee, we...</example><!-- #2845 -->
         </rule>
         <rule> <!--  add to Texas' or Armenians' -->
             <pattern>
@@ -4749,6 +4759,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="ambiguous" inputform="'[']" outputform="'['/POS]">Burke-rostagno the Richard S. Burkes<marker>'</marker> home in Wayne may be the setting for the wedding.</example>
         </rule>
     </rulegroup>
+
     <rule id="LIKE_IN" name="like as preposition">
       <pattern>
         <token inflected="yes">be</token>
