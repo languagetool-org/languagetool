@@ -77,6 +77,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("wiederruf(e|st|t|en)?", "wieder", "wider");
     putRepl("wiederrief(st|t|en)?", "wieder", "wider");
     putRepl("wiederleg(e|st|t|en|te|ten)?", "wieder", "wider");
+    putRepl("wiederhall(e|st|t|en|te|ten)?", "wieder", "wider");
+    put("wiederspiegelten", "widerspiegelten");
+    put("wiedererwarten", "wider Erwarten");
     put("herrunterladen", "herunterladen");
     put("zuviel", "zu viel");
     put("abgekatertes", "abgekartetes");
