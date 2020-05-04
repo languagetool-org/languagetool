@@ -3873,11 +3873,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>
                             <exception postag="PREP"></exception>
-                            <exception regexp="yes">[\p{Punct}]|что</exception>
+                            <exception regexp="yes">[\p{Punct}]|что|-|—|–</exception>
                         </token>
                         <token>мол</token>
                          <token>
-                            <exception regexp="yes">[\p{Punct}]</exception>
+                            <exception regexp="yes">[\p{Punct}]|-|—|–</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -7151,7 +7151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Метод лингвосоционического моделирования, предложенный Л. М. Комиссаровой, применяется при анализе.</example>
                 <example correction="жареная">Сегодня на ужин <marker>жаренная</marker> картошка.</example>
             </rule>
-        </rulegroup>
+        </rulegroup>            
         <rulegroup default="on" id="Ne_narech" name="«Не» с наречиями">
             <!-- TODO  -->
             <rule> <!--  1.) невесть кто (что, какой, где, куда )-->
@@ -7334,7 +7334,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>На корабль доставили контейнеры с погруженными в них немецкими автомобилями.</example>
                 <example correction="никому не нужная">На полке лежит никому <marker>ненужная</marker> коробка.</example>
             </rule>
-        </rulegroup>     
+        </rulegroup>
+              
+        <rulegroup default="on" id="Ne_narech_ne_horosho" name="«Не» с наречиями «не хорошо и не плохо»">
+            <rule>
+                <pattern case_sensitive="no">
+                    <marker>
+                        <token>нехорошо</token>
+                        <token>и</token>                        
+                        <token>неплохо</token>
+                    </marker>
+                </pattern>
+                <message>В данном контексте пишется раздельно: <suggestion>не хорошо \2 не плохо</suggestion>.</message>
+                <short>Раздельно с «не»</short>
+                <example>не хорошо и не плохо</example>
+                <example correction="не хорошо и не плохо"><marker>нехорошо и неплохо</marker></example>
+            </rule>
+        </rulegroup>         
+                
         <rulegroup default="on" id="Upr_ne_verb_i_ni" name="Управление глагола при отрицании: «и» вместо «ни»">
             <rule> 
                 <pattern>
