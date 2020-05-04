@@ -8084,7 +8084,7 @@ though, and has since been slightly modified)-->
   </category>
   <category id="CAT_GRAMMAIRE" name="Grammaire">
       <!-- Additions from the premium version -->
-      <rule id="TES_MA" name="Tes ma" default="temp_off">
+      <rule id="TES_MA" name="Tes ma">
           <pattern>
               <token>tes</token>
               <token>ma</token>
@@ -8093,7 +8093,7 @@ though, and has since been slightly modified)-->
           <example correction="T'es ma"><marker>Tes ma</marker> meilleure amie.</example>
       </rule>
       <rulegroup id="LIVRER_A_SOI_MEME" name="Livré à soi-même">
-          <rule name="Livré à lui-même" default="temp_off">
+          <rule name="Livré à lui-même">
               <pattern>
                   <marker>
                       <token>livrer</token>
@@ -8104,7 +8104,7 @@ though, and has since been slightly modified)-->
               <message>Vouliez-vous dire <suggestion>livré</suggestion> ?</message>
               <example correction="livré">Ils l'ont laissé <marker>livrer</marker> à lui-même.</example>
           </rule>
-          <rule name="Livré à elle-même" default="temp_off">
+          <rule name="Livré à elle-même">
               <pattern>
                   <marker>
                       <token>livrer</token>
@@ -8115,7 +8115,7 @@ though, and has since been slightly modified)-->
               <message>Vouliez-vous dire <suggestion>livrée</suggestion> ?</message>
               <example correction="livrée">Ils l'ont laissée <marker>livrer</marker> à elle-même.</example>
           </rule>
-          <rule name="Livrés à eux-même" default="temp_off">
+          <rule name="Livrés à eux-même">
               <antipattern>
                   <token>à</token>
                   <token>livrer</token>
@@ -8130,7 +8130,7 @@ though, and has since been slightly modified)-->
               <message>Vouliez-vous dire <suggestion>livrés</suggestion> ?</message>
               <example correction="livrés">Ils les ont laissés <marker>livrer</marker> à eux-mêmes.</example>
           </rule>
-          <rule name="Livré à elles-même" default="temp_off">
+          <rule name="Livré à elles-même">
               <pattern>
                   <marker>
                       <token>livrer</token>
@@ -8504,14 +8504,23 @@ though, and has since been slightly modified)-->
               <pattern>
                   <token postag_regexp="yes" postag="V etre.*"/>
                   <token postag_regexp="yes" postag="D.*"/>
-                  <token postag="N m s"/>
+                  <token postag="N m s">
+                      <exception postag="V.*" postag_regexp="yes"/>
+                      <exception>pouvoir</exception>
+                  </token>
                   <marker>
-                      <token postag_regexp="yes" postag="V inf.*"/>
+                      <token postag_regexp="yes" postag="V inf.*">
+                          <exception postag_regexp="yes" postag="[NJCDR].*|[AIOKSZMP]"/>
+                      </token>
                   </marker>
               </pattern>
               <message>Dans ce cas, le verbe devrait être au participe passé.</message>
               <suggestion><match no="4" postag_regexp="yes" postag="(V) (inf).*" postag_replace="V ppa m s"/></suggestion>
               <example correction="développé">L'écoute active est un concept <marker>développer</marker> à partir des travaux du psychologue américain Carl Rogers..</example>
+              <example>Ça sera un bon souvenir de mon voyage à travers les États-Unis.</example>
+              <example>Mon épouse est un bon manager.</example>
+              <example>Aussi il était de son devoir de laisser s'appliquer la tanistry.</example>
+              <example>L'intérêt d'un assistant personnel est de pouvoir déléguer.</example>
           </rule>
           <rule name="masculin pluriel">
               <pattern>
@@ -8542,7 +8551,7 @@ though, and has since been slightly modified)-->
           <example correction="implémentations">Ce sont autant d'<marker>implémentation</marker>.</example>
           <example>Telles sont autant de questions soulevées dans cet ouvrage.</example>
       </rule>
-      <rule id="A_PEU_PRES" name="Expression 'à peu près'" default="temp_off">
+      <rule id="A_PEU_PRES" name="Expression 'à peu près'">
           <antipattern>
               <token>à</token>
               <token>peu</token>
