@@ -9846,6 +9846,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Не позднее двух дней со дня направления участнику разъяснения.</example>
         </rule>
         
+        <rule id="Dvigenie_and_Noun2" name="Словосочетание «движение» и существительное">
+	    <pattern>
+	        <token postag_regexp="yes" postag="VB:.*" skip="1"/>
+	        <token inflected="yes" >движение<exception scope="previous" postag="ADJ:.*:P|ADJ:MPR:.*:P" postag_regexp="yes" /></token>
+                <token postag_regexp="yes" postag="NN:.*">
+                <exception postag_regexp="yes" postag="NN:.*:(R|T|Nom)"></exception>
+                <exception postag_regexp="yes" postag="NN:.*" negate_pos="yes"></exception>
+                <exception negate="yes" case_sensitive="yes" regexp="yes">[а-я].*</exception>
+                </token>
+            </pattern>
+            <message>После слов «движение» существительные употребляются в родительном или творительном падеже.</message>
+            <short>Требуется родительный или творительный падеж</short>
+            <example correction="">А теперь <marker>совершаем движение руке</marker> по часовой стрелке.</example>
+            <example>А теперь совершаем движение рукой по часовой стрелке.</example>
+        </rule>
+        
+                        
         <rule id="V_TECHENII" name="Словосочетание «в течении реки»">
             <pattern>
                 <token>в</token>
