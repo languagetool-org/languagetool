@@ -47,25 +47,23 @@ class LightRuleMatchParser {
   }
 
   /**
-   * Parses LT JSON that has been aggregated into a JSON array (one array item per original LT result).
+   * Parses LT JSON that has been appended into a large file (one JSON result per line).
    */
   @NotNull
   private List<LightRuleMatch> parseAggregatedJson(File inputFile) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
-    JsonNode jsonNode = mapper.readTree(inputFile);
     List<LightRuleMatch> ruleMatches = new ArrayList<>();
-    if (jsonNode.isArray()) {
-      for (JsonNode node : jsonNode) {
-        //System.out.println("T:"+node.get("title").asText());
+    try (Scanner scanner = new Scanner(inputFile)) {
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        JsonNode node = mapper.readTree(line);
         JsonNode matches = node.get("matches");
         for (JsonNode match : matches) {
           ruleMatches.add(nodeToLightMatch(node.get("title").asText(), match));
         }
       }
-      return ruleMatches;
-    } else {
-      throw new IllegalArgumentException("File names .json but doesn't contain expected JSON array of LT results: " + inputFile);
     }
+    return ruleMatches;
   }
 
   @NotNull

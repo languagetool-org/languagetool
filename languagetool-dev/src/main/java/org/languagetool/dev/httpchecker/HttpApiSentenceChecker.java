@@ -21,7 +21,6 @@ package org.languagetool.dev.httpchecker;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
@@ -60,13 +59,13 @@ class HttpApiSentenceChecker {
     long t1 = System.currentTimeMillis();
     int lines = countLines(input);
     System.out.println(input + " has " + lines + " lines");
-    List<File> files = new ArrayList<>();
+    List<File> inputFiles = new ArrayList<>();
     try {
-      files = splitInput(lines, input, threadCount);
-      List<File> resultFiles = runOnFiles(files);
-      joinResults(resultFiles, output);
+      inputFiles = splitInput(lines, input, threadCount);
+      List<File> threadFiles = runOnFiles(inputFiles);
+      joinResults(threadFiles, output);
     } finally {
-      for (File file : files) {
+      for (File file : inputFiles) {
         FileUtils.deleteQuietly(file);
       }
     }
@@ -131,7 +130,7 @@ class HttpApiSentenceChecker {
   private List<File> runOnFiles(List<File> files) throws InterruptedException, ExecutionException {
     List<File> resultFiles = new ArrayList<>();
     ExecutorService execService = new ForkJoinPool(threadCount, ForkJoinPool.defaultForkJoinWorkerThreadFactory, null, false);
-    List<Callable<List<File>>> callables = new ArrayList<>();
+    List<Callable<File>> callables = new ArrayList<>();
     int count = 0;
     for (File file : files) {
       if (file.length() == 0) {
@@ -140,31 +139,31 @@ class HttpApiSentenceChecker {
       callables.add(new CheckCallable(count, baseUrl, token, file, langCode));
       count++;
     }
-    List<Future<List<File>>> futures = execService.invokeAll(callables);
-    for (Future<List<File>> future : futures) {
-      resultFiles.addAll(future.get());
+    List<Future<File>> futures = execService.invokeAll(callables);
+    for (Future<File> future : futures) {
+      resultFiles.add(future.get());
     }
     execService.shutdownNow();
     return resultFiles;
   }
 
-  private void joinResults(List<File> resultFiles, File output) throws IOException {
-    System.out.println("Joining " + resultFiles.size() + " result files...");
+  private void joinResults(List<File> threadFiles, File output) throws IOException {
+    // for the diff in RuleMatchDiffFinder, order doesn't matter...
+    System.out.println("Joining " + threadFiles.size() + " result files...");
     ObjectMapper mapper = new ObjectMapper(new JsonFactory());
-    ArrayNode arrayNode = mapper.createArrayNode();
-    resultFiles.sort(Comparator.naturalOrder());
+    threadFiles.sort(Comparator.naturalOrder());
     Set<String> buildDates = new HashSet<>();
-    for (File resultFile : resultFiles) {
-      // each thread has just appended the JSON data, one JSON result per line,
-      // we now put it into a real JSON, i.e. adding the results into a JSON array:
-      List<String> lines = Files.readAllLines(resultFile.toPath());
-      //System.out.println("Loading and merging " + lines.size() + " lines from " + resultFile);
-      for (String line : lines) {
-        JsonNode node = mapper.readTree(line);
-        buildDates.add(node.get("software").get("buildDate").asText());
-        arrayNode.add(node);
+    try (FileWriter fw = new FileWriter(output)) {
+      for (File threadFile : threadFiles) {
+        List<String> lines = Files.readAllLines(threadFile.toPath());
+        for (String line : lines) {
+          JsonNode node = mapper.readTree(line);
+          buildDates.add(node.get("software").get("buildDate").asText());
+          fw.write(line);
+          fw.write("\n");
+        }
+        FileUtils.deleteQuietly(threadFile);
       }
-      FileUtils.deleteQuietly(resultFile);
     }
     if (buildDates.size() > 1) {
       System.err.println("-----------------------------------------------------");
@@ -172,9 +171,6 @@ class HttpApiSentenceChecker {
       System.err.println("-----------------------------------------------------");
     } else {
       System.out.println("All requests answered by API servers with build date " + buildDates);
-    }
-    try (FileWriter fw = new FileWriter(output)) {
-      fw.write(arrayNode.toString());
     }
     System.out.println("Joined result stored at " + output);
   }
