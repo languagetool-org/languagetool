@@ -3868,6 +3868,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
+        <rule default="temp_off" id="Comma_mol" name="Запятая при междометии" >
+                <pattern>   <!-- TODO -->           
+                    <marker>
+                        <token>
+                            <exception postag="PREP"></exception>
+                            <exception regexp="yes">[\p{Punct}]|что</exception>
+                        </token>
+                        <token>мол</token>
+                         <token>
+                            <exception regexp="yes">[\p{Punct}]</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2, \3</suggestion>.</message>
+                <url>http://new.gramota.ru/spravka/punctum?layout=item&amp;id=58_421</url>
+                <short>Пропущена запятая.</short>
+                <example>Я, мол, намерен обедать.</example>
+                <example>Он пошёл на мол ловить рыбу.</example>
+                <example correction="Я, мол, намерен"><marker>Я мол намерен</marker> обедать.</example>
+        </rule>
         
         <rulegroup default="on" id="Oborot_ne_kto_inoj_kak" name="Запятая в сравнительных оборотах">
             <!--   Запятая ставится перед как в сравнительных оборотах "не кто иной, как" и "не что иное, как"
