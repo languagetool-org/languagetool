@@ -3368,7 +3368,7 @@ USA
                         <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
-                    <token><exception postag="VB|RB?" postag_regexp="yes"/><exception regexp="yes">all|first|just</exception></token>
+                    <token><exception postag="VB|RB?" postag_regexp="yes"/><exception regexp="yes">all|first|just|re</exception></token>
                 </pattern>
                 <message>Did you mean <suggestion>\1s</suggestion> or <suggestion>\1</suggestion> (let's = let us; lets = 3rd person singular of 'let')?</message>
                 <short>Possible typo</short>
@@ -3380,6 +3380,7 @@ USA
                 <example>It lets you quickly search for the product.</example>
                 <example>"Let's have a drink, shall we?" "Yes, let's."</example>
                 <example>"Oh let's!" said the little black rabbit and with a hop...</example>
+                <example>Let's re connect.</example><!-- different error, caught by EN_COMPOUNDS -->
             </rule>
             <rule>
                 <pattern>
@@ -20544,6 +20545,22 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rule id="GREYS_ANATOMY" name="Grey's Anatomy" default="temp_off">
+            <!-- Both "Grey's Anatomy" (tv show) and "Gray's Anatomy" (book) are proper nouns -->
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Gr[ae]y|GR[AE]Y</token>
+                <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                <token spacebefore="no" regexp="yes">s|S</token>
+                <token regexp="yes">Anatomy|ANATOMY</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Gr[ae]ys?</token>
+                <token>Anatomy</token>
+            </pattern>
+            <message>Did you mean <suggestion>Grey's Anatomy</suggestion> (TV show) or <suggestion>Gray's Anatomy</suggestion> (textbook of human anatomy)?</message>
+            <url>https://en.wikipedia.org/wiki/Grey%27s_Anatomy</url>
+            <example correction="Grey's Anatomy|Gray's Anatomy">My favorite TV show is <marker>Greys Anatomy</marker>.</example>
+        </rule>
         <rule id="COLD_PLAY" name="Coldplay" default="temp_off">
             <antipattern><!-- I cold play tomorrow -->
                 <token postag="PRP" />
@@ -32464,6 +32481,11 @@ USA
                     <token skip="1" regexp="yes">me|him|her|them</token>
                     <token>please</token>
                 </antipattern>
+                <antipattern>
+                    <token>everyone</token>
+                    <token>listen</token>
+                    <token>up</token>
+                </antipattern>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be|notice</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
                     <token regexp="yes">s?he|(any|every|no|some)(one|body)</token>
@@ -32517,6 +32539,7 @@ USA
                 <example>Where are Carl and Laura?</example>
                 <example>When are Carl, Joseph and Laura back?</example>
                 <example>Somebody help me please!</example>
+                <example>Everyone listen up!</example>
                 <example>Anyone else having to deal with that problem?</example>
                 <example>Anyone going to the concert?</example>
                 <example>If anyone needs help or has any doubt you can talk to me.</example>
@@ -32800,6 +32823,10 @@ USA
                     <token postag="NNP"/>
                     <token postag_regexp="yes" postag="NN(:UN?)?"/>
                 </antipattern>
+                <antipattern>
+                    <token>Gantt</token>
+                    <token>chart</token>
+                </antipattern>
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
@@ -32845,6 +32872,7 @@ USA
                 <example><marker>God grant</marker> that you come home safe and sound.</example>
                 <example><marker>God bless</marker> the United States of America.</example>
                 <example>Ask people to help.</example>
+                <example>Gantt chart that shows data</example>
                 <example>… by Muslims, including "Subhan-Allah" (<marker>Holiness</marker> be to God).</example><!-- The text is correct English (subjunctive 'be'). Unlike the example below, it does not trigger an error, because rules in the disambiguator rulegroup QUOT treat curly quotes and straight quotes differently.  -->
                 <example>… by Muslims, including “Subhan-Allah” (<marker>Holiness</marker> be to God).</example>
                 <example>We elected Jeffrey <marker>captain</marker> of our team.</example>
@@ -38961,13 +38989,18 @@ USA
         <rule id="DID_A_MISTAKE" name="made (did) a mistake">
             <pattern>
                 <marker>
-                    <token>did</token>
+                    <token regexp="yes">
+                        did|done
+                        <exception scope="previous" postag="W.*|SENT_START" postag_regexp="yes" />
+                    </token>
                 </marker>
-                <token regexp='yes'>a|an</token>
-                <token regexp='yes'>mistake|error</token>
+                <token regexp='yes'>an?|some</token>
+                <token regexp='yes'>mistakes?|errors?</token>
             </pattern>
             <message>Did you mean <suggestion>made</suggestion>?</message>
             <example correction='made'>I <marker>did</marker> a mistake</example>
+            <example>When did a mistake appear?</example>
+            <exmpple>Did a mistake make it worse?</example>
         </rule>
         <rule id="HAVE_CD_YEARS" name="Wrong phrase: have x years old (be x years old)">
             <pattern>
@@ -44908,6 +44941,11 @@ The accident victim died from her injuries.
                     <token regexp="yes" skip="1">q(uest)?|questions?</token>
                     <token>ans</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">(in)?correct|wrong</token>
+                    <token>ans</token>
+                    <token inflected="yes">be</token>
+                </antipattern>
                 <antipattern><!-- "Ans:" -->
                     <token postag="SENT_START" />
                     <token>Ans</token>
@@ -44982,6 +45020,7 @@ The accident victim died from her injuries.
                 <example>The ans is correct.</example>
                 <example>Ans' new car is nice.</example>
                 <example>1) Ans: Yes.</example>
+                <example>The correct ans is #2.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GRATE_GREAT" name="grate (great)">
