@@ -119,6 +119,7 @@ public class VerbAgreementRuleTest {
     assertGood("Ich hoffe du auch.");
     assertGood("Ich hoffe ihr auch.");
     assertGood("Wird hoffen du auch.");
+    assertGood("Hab einen schönen Tag!");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");
