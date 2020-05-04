@@ -2311,7 +2311,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="смелая идея">Это <marker>храбрая идея</marker>.</example>
             <example>Это смелая идея.</example>
         </rule>
-        <rulegroup default="on" id="Genitsya" name="«Жениться»/«выйти замуж»">
+        <rulegroup default="on" id="Genitsya" name="Ошибки в употреблении: «Жениться»/«выйти замуж»">
             <rule>
                 <pattern case_sensitive="no">
                     <token>он</token>
@@ -2363,7 +2363,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup id="ROST" name="«Рост»" default="off">
+        <rulegroup id="ROST" name="«Рост»" default="temp_off">
             <rule>
                 <pattern>
                     <token postag="NN:Inanim:.*" postag_regexp="yes" skip="-1"><exception inflected="yes" regexp="yes" >&rost;</exception><exception scope="next" inflected="yes" regexp="yes" >&rost;</exception><exception scope="next" regexp="yes" >[,:;-—–]</exception></token>
@@ -2386,7 +2386,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Сопутствующий рост количества доступных учебных материалов по языку.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ROST2" name="«Рост 2»" default="on"> 
+        <rulegroup id="ROST2" name="«Рост» 2" default="on"> 
             <rule>
                 <antipattern>
                     <token postag="NN:Inanim:.*:Nom" postag_regexp="yes" skip="1"><exception inflected="yes" regexp="yes" >&rost;</exception></token>
@@ -2742,7 +2742,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Мама мыла раму, и готовила дочка"><marker>Мама мыла раму и готовила дочка</marker> обед.</example>
             </rule>        -->
         </rulegroup>
-        <rule  id="Kak_Tak_i" name="Знаки препинания в сложном предложении «Как ... ,так и  ...»">  
+        <rule  id="Kak_Tak_i" name="Знаки препинания в сложном предложении «Как ... , так и  ...»">  
             <pattern>             
                 <marker>
                     <token skip="-1">как</token>           
@@ -2788,7 +2788,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <!-- TODO: Если ты позвонил – говори -->        
         </rulegroup>
-        <rule id="ESLI_TO" name="Сложный союз «если... ,то»">
+        <rule id="ESLI_TO" name="Сложный союз «если... , то»">
             <antipattern>
                 <token>Если</token>
                 <token>то</token>
@@ -9613,6 +9613,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>По улица</marker> пойду.</example>
             <example correction="">Я шёл <marker>по снегом</marker>.</example>
         </rule>
+        
+        <rulegroup default="temp_off" id="PREP_V_tom_Noun" name="Предлог «в» + «том/тот» и существительное">
+          <rule> <!-- TODO: -->
+            <pattern>
+                <token regexp="yes">в|про<exception scope="previous" regexp="yes">надлежащего|требуемого</exception></token>
+                <token>том</token>
+                <token postag="NN:.*:.*:.*" postag_regexp="yes" >  <!-- removed: |SENT_END|PARA_END   !!!!!!! -->
+                    <exception postag="NN:.*:.*:Sin:P" postag_regexp="yes"></exception>
+                    <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
+                </token>
+            </pattern>
+            <message>Требуется предложный падеж или предлог «тот».</message>
+            <short>Требуется предложный падеж.</short>
+            <example>В том деле нет правды.</example>
+            <example>Моделирование прекращается в тот момент, когда практически вся энергия импульса будет либо рассеяна объектом, либо поглощена.</example>
+            <example correction=""><marker>В том делах</marker> нет правды.</example>
+          </rule>
+        </rulegroup>
+        
         <rule default="on" id="grammar_bez_ucheta_and_Noun" name="Оборот «без учёта» и существительное">
             <pattern>
                 <token>без</token>
