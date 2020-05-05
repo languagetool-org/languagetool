@@ -2216,7 +2216,7 @@ USA
                 <example correction="thanks">The case went poorly <marker>tanks</marker> to the lawyer's incompetence.</example>
                 <example>The only way to find out is to get it on a lift and trace the fuel lines from the tanks to the engine.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
                     <token>many</token>
@@ -2228,7 +2228,7 @@ USA
                 <message>Did you mean <suggestion>thanks</suggestion>?</message>
                 <example correction="thanks">Many <marker>tanks</marker> for your help!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>to</token>
                     <token>thank</token>
@@ -2251,7 +2251,7 @@ USA
                 <message>Did you mean <suggestion>thanks</suggestion>?</message>
                 <example correction="Thanks"><marker>Tanks</marker> so much for your help!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>to</token>
                     <token>thank</token>
@@ -2274,7 +2274,7 @@ USA
                 <example correction="Thanks"><marker>Tanks</marker> a lot for your help!</example>
                 <example>I have to thank a lot.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|CC" postag_regexp="yes" />
                     <marker>
@@ -5839,7 +5839,7 @@ USA
                 <suggestion>everybody</suggestion>
                 <example correction="Everybody's|Everybody"><marker>Everybodies</marker> is perfect.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>Hitchhikers</token>
                     <token>Guide</token>
@@ -8029,7 +8029,7 @@ USA
                 <antipattern>
                     <token>your</token>
                     <token postag="JJ.*" postag_regexp="yes">
-                        <exception regexp="yes">so|very|really|totally|not|absolutely</exception>
+                        <exception regexp="yes">so|very|really|totally|not|absolutely|extremely|still|always|obviously</exception>
                     </token>
                     <token postag="NN.*|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z0-9].*</token>
                 </antipattern>
@@ -8038,7 +8038,7 @@ USA
                     <marker>
                         <token>your</token>
                     </marker>
-                    <token regexp="yes">so|very|really|totally|not|absolutely</token>
+                    <token regexp="yes">so|very|really|totally|not|absolutely|extremely|still|always|obviously</token>
                     <token min="0">much</token>
                     <token postag="JJ.*" postag_regexp="yes" />
                 </pattern>
@@ -11535,7 +11535,7 @@ USA
             <url>https://www.lexico.com/definition/smartphone</url>
             <example correction="smartphone">He got a new <marker>smart phone</marker> for Christmas.</example>
         </rule>
-        <rule id="SKY_COMPOUNDS" name="sky scraper (skyscraper)" default="temp_off">
+        <rule id="SKY_COMPOUNDS" name="sky scraper (skyscraper)">
             <antipattern><!-- Sky is also a TV Channel-->
                 <token case_sensitive="yes">Sky</token>
                 <token>box</token>
@@ -11549,7 +11549,7 @@ USA
             <example correction="skyline">New York City has a beautiful <marker>sky line</marker>.</example>
             <example>My Sky box isn't working anymore.</example>
         </rule>
-        <rule id="WHEEL_COMPOUNDS" name="wheel chair (wheelchair)" default="temp_off">
+        <rule id="WHEEL_COMPOUNDS" name="wheel chair (wheelchair)">
             <pattern>
                 <token>wheel</token>
                 <token regexp="yes">chairs?|barrows?|bases?|houses?|wrights?</token>
@@ -16939,6 +16939,12 @@ USA
                 <token regexp="yes">and|&amp;</token>
                 <token>A</token>
             </antipattern>
+            <antipattern><!-- Z and A are ... -->
+                <token case_sensitive="yes" regexp="yes">[A-H]|[J-Z]</token>
+                <token min="0">,</token>
+                <token regexp="yes">and|&amp;|or</token>
+                <token case_sensitive="yes">A</token>
+            </antipattern>
             <antipattern><!-- https://en.wikipedia.org/wiki/PROTECT_IP_Act -->
                 <token>Protect</token>
                 <token>IP</token>
@@ -20113,7 +20119,7 @@ USA
                 <example correction="Google">He was searching on <marker>goggle</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ON_SKYPE" name="Let's talk on skype (Skype)" default="temp_off">
+        <rulegroup id="ON_SKYPE" name="Let's talk on skype (Skype)">
             <rule>
                 <pattern>
                     <token regexp="yes" inflected="yes" skip="1">talk|meet|discuss|plan|chat|call|see|message|text|do|elaborate|contact|share|reply|answer|question</token>
@@ -20545,7 +20551,7 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rule id="GREYS_ANATOMY" name="Grey's Anatomy" default="temp_off">
+        <rule id="GREYS_ANATOMY" name="Grey's Anatomy">
             <!-- Both "Grey's Anatomy" (tv show) and "Gray's Anatomy" (book) are proper nouns -->
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Gr[ae]y|GR[AE]Y</token>
@@ -20561,7 +20567,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Grey%27s_Anatomy</url>
             <example correction="Grey's Anatomy|Gray's Anatomy">My favorite TV show is <marker>Greys Anatomy</marker>.</example>
         </rule>
-        <rule id="COLD_PLAY" name="Coldplay" default="temp_off">
+        <rule id="COLD_PLAY" name="Coldplay">
             <antipattern><!-- I cold play tomorrow -->
                 <token postag="PRP" />
                 <token postag="RB" min="0" />
@@ -34047,7 +34053,7 @@ USA
                     <token regexp="yes">[1-8]|one|two|three|four|five|six|seven|eight</token>
                     <token regexp="yes">bed|(bed|bath)?room|bath</token>
                 </marker>
-                <token regexp="yes">apartments?|tents?|bungalows?|flats?|flexis?|houses?|condos?|cabins?|villas?|hotel|suites?|schoolhouse|rental|accommodations?|cottages?|basement</token>
+                <token regexp="yes">apartments?|tents?|bungalows?|flats?|flexis?|houses?|condos?|cabins?|villas?|hotel|suites?|schoolhouse|rental|accommodations?|cottages?|basement|mansions?</token>
             </pattern>
             <message>It appears that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -34470,7 +34476,7 @@ USA
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
             <antipattern case_sensitive="yes">
                 <token regexp="yes" skip="3">\d+<exception regexp="yes">[01]</exception></token>
-                <token regexp="yes">AVE|Ave(nue)?|Street|BLVD|Blvd|Boulevard|Terrace|Square|St|ST|Center|Cove|Highway|Hwy|HWY|Circle|Drive|Parkway|Pkwy|PKWY|Northeast|Crescent|Trail|Alley|Loop|Lane</token>
+                <token regexp="yes">AVE|Ave(nue)?|Street|BLVD|Blvd|blvd|Boulevard|Terrace|Square|St|ST|Center|Cove|Highway|Hwy|HWY|Circle|Drive|Parkway|Pkwy|PKWY|Northeast|Crescent|Trail|Alley|Loop|Lane|Court</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" skip="1">\d+</token>
@@ -35041,6 +35047,16 @@ USA
                 <token>degree</token>
                 <token regexp="yes">rotation|tilt</token>
             </antipattern>
+            <antipattern><!-- iphone 11 pro max-->
+                <token regexp="yes">\d+</token>
+                <token>pro</token>
+                <token>max</token>
+            </antipattern>
+            <antipattern><!-- In Act 5 he ... -->
+                <token>in</token>
+                <token regexp="yes">act|episode|season</token>
+                <token postag="CD" />
+            </antipattern>
             <pattern>
                 <token postag="CD">
                     <exception scope="previous" spacebefore="no" regexp="yes">[^,]</exception>
@@ -35070,12 +35086,12 @@ USA
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
                         <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza|Parkway|Broadway</exception><!-- probably an address, "333 Grant Avenue" -->
-                        <exception scope="next" regexp="yes">getters|soldiers</exception>
+                        <exception scope="next" regexp="yes">getters|soldiers|IDs</exception>
                         <exception regexp="yes">thousand|[mb]illion</exception>
                     </token>
                 </marker>
             </pattern>
-            <message>Possible agreement error. The noun '<match no="3"/>' seems to be countable, so consider using: <suggestion suppress_misspelled="yes"><match no="3" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
+            <message suppress_misspelled="yes">Possible agreement error. The noun '<match no="3"/>' seems to be countable, so consider using: <suggestion><match no="3" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="books">I have five <marker>book</marker>.</example>
             <example>I have five <marker>books</marker>.</example>
@@ -35174,6 +35190,7 @@ USA
             <example>In the United States, the song peaked at number six on the Billboard Hot 100 chart, paving the way for their first album and their first trip as a group there.</example>
             <example>Since then the corporate headquarters have moved to New York City at 1 Park Avenue in Manhattan, before moving to the Financial District to the former JP Morgan Chase headquarters at 4 New York Plaza.</example>
             <example>It's ten past six.</example>
+            <example>In act 5 Friar played the main role.</example>
             <example>The price of rice rose by three percent.</example>
             <example>The MOS Technology 6502 processor is an 8-bit microprocessor.</example>
             <example>Figure 1 shows a MOS 6502 processor in a DIP-40 plastic package.</example>
@@ -45815,7 +45832,13 @@ The accident victim died from her injuries.
             <antipattern><!-- 7 tips to successful recruiting -->
                 <token>to</token>
                 <token postag="JJ" />
-                <token regexp="yes">recruiting|cooking</token>
+                <token regexp="yes">recruiting|cooking|distancing</token>
+            </antipattern>
+            <antipattern case_sensitive="yes"><!-- copy to Final Inform-->
+                <token postag="VB.*" postag_regexp="yes" regexp="yes">[a-z].*</token>
+                <token>to</token>
+                <token postag="JJ" regexp="yes">[A-Z].*</token>
+                <token postag="VBP?" postag_regexp="yes" regexp="yes">[A-Z].*</token>
             </antipattern>
             <!-- TODO add: "They didn't easy accomplish it" -->
             <rule><!-- MD + adjective ending in "le" + VB -->
@@ -47494,7 +47517,7 @@ The accident victim died from her injuries.
                     <marker>
                         <token>quite</token>
                     </marker>
-                    <token regexp="yes">evenings?|noises?|spaces?|sounds?|musics?|wedding|confidence|signals?|hummings?|tones?|places?|earth|life|woman|man|kids?|child|areas?|days?|rooms?|relationship</token>
+                    <token regexp="yes">evenings?|noises?|spaces?|sounds?|musics?|wedding|confidence|signals?|hummings?|tones?|places?|earth|life|woman|man|kids?|child|areas?|days?|rooms?|relationship|environments?</token>
                 </pattern>
                 <message>Did you mean the adjective <suggestion>quiet</suggestion>? 'quiet' means 'silent', 'quite' mean 'very' or 'to a moderate extent'</message>
                 <example correction="quiet">A very <marker>quite</marker> noise.</example>
