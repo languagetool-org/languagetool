@@ -53,6 +53,7 @@ class LightRuleMatchParser {
   private List<LightRuleMatch> parseAggregatedJson(File inputFile) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     List<LightRuleMatch> ruleMatches = new ArrayList<>();
+    int lineCount = 1;
     try (Scanner scanner = new Scanner(inputFile)) {
       while (scanner.hasNextLine()) {
         String line = scanner.nextLine();
@@ -61,7 +62,10 @@ class LightRuleMatchParser {
         for (JsonNode match : matches) {
           ruleMatches.add(nodeToLightMatch(node.get("title").asText(), match));
         }
+        lineCount++;
       }
+    } catch (Exception e) {
+      throw new RuntimeException("Failed to parse line " + lineCount + " of " + inputFile, e);
     }
     return ruleMatches;
   }

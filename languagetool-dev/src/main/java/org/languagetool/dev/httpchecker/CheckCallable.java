@@ -22,6 +22,10 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.languagetool.*;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.RuleMatchesAsJsonSerializer;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -31,10 +35,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.file.Files;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.Callable;
 
 import static java.lang.Thread.currentThread;
@@ -47,6 +48,7 @@ class CheckCallable implements Callable<File> {
   private final static int batchSize = 10;
   private final static int maxTries = 10;  // maximum tries for HTTP problems
   private final static int retrySleepMillis = 1000;
+  private static final JsonFactory factory = new JsonFactory();
 
   private final int count;
   private final String baseUrl;
@@ -86,12 +88,22 @@ class CheckCallable implements Callable<File> {
           System.out.printf(Locale.ENGLISH, threadName + " - Posting " + tempLines.size() + " texts with " + textToCheck.length() +
             " chars to " + url +  tokenInfo + ", %.1f%%\n", progress);
           for (int retry = 1; true; retry++) {
+            String pseudoFileName = HttpApiSentenceChecker.class.getSimpleName() + "-result-" + count + "-" + startLine + "-" + i;
             try {
               CheckResult result = checkByPost(url, postData);
               //System.out.println(threadName + " - answered by " + result.backendServer);
               JsonNode jsonNode = mapper.readTree(result.json);
-              ((ObjectNode)jsonNode).put("title", HttpApiSentenceChecker.class.getSimpleName() + "-result-" + count + "-" + startLine + "-" + i);  // needed for MatchKey to be specific enough
+              ((ObjectNode)jsonNode).put("title", pseudoFileName);  // needed for MatchKey to be specific enough
               fw.write(jsonNode.toString() + "\n");
+              tempLines.clear();
+              startLine = i;
+              break;
+            } catch (ApiErrorException e) {
+              // Convert the error to a fake rule match so it will appear as part of the diff, instead
+              // of ending up in some log file:
+              System.err.println(threadName + " - POST to " + url + " failed: " + e.getMessage() +
+                ", try " + retry + ", max tries " + maxTries + ", no retries useful for this type of error, storing error as pseudo match");
+              writeFakeError(mapper, fw, textToCheck, pseudoFileName, e);
               tempLines.clear();
               startLine = i;
               break;
@@ -116,7 +128,18 @@ class CheckCallable implements Callable<File> {
     return outFile;
   }
 
-  private CheckResult checkByPost(URL url, String postData) throws IOException {
+  private void writeFakeError(ObjectMapper mapper, FileWriter fw, String textToCheck, String pseudoFileName, ApiErrorException e) throws IOException {
+    Language lang = Languages.getLanguageForShortCode(langCode);
+    JLanguageTool lt = new JLanguageTool(lang);
+    RuleMatch ruleMatch = new RuleMatch(new FakeRule(), lt.getAnalyzedSentence(textToCheck), 0, 1, "API request failed in a way so that re-try makes no sense: " + e.getMessage());
+    DetectedLanguage detectedLang = new DetectedLanguage(lang, lang);
+    String json = new RuleMatchesAsJsonSerializer().ruleMatchesToJson(Collections.singletonList(ruleMatch), textToCheck, 100, detectedLang);
+    JsonNode jsonNode = mapper.readTree(json);
+    ((ObjectNode)jsonNode).put("title", pseudoFileName);  // needed for MatchKey to be specific enough
+    fw.write(jsonNode.toString() + "\n");
+  }
+
+  private CheckResult checkByPost(URL url, String postData) throws IOException, ApiErrorException {
     String keepAlive = System.getProperty("http.keepAlive");
     try {
       System.setProperty("http.keepAlive", "false");  // without this, there's an overhead of about 1 second - not sure why
@@ -130,7 +153,12 @@ class CheckCallable implements Callable<File> {
         if (httpConn.getResponseCode() >= 400) {
           inputStream = httpConn.getErrorStream();
           String error = StringTools.streamToString(inputStream, "UTF-8");
-          throw new IOException("Failed posting to " + url + ", server responded with code " + httpConn.getResponseCode() + " and error: " + error);
+          if (httpConn.getResponseCode() == 400) {
+            // errors where repeating the request probably won't help
+            throw new ApiErrorException(error);
+          } else {
+            throw new IOException("Failed posting to " + url + ", server responded with code " + httpConn.getResponseCode() + " and error: " + error);
+          }
         } else {
           inputStream = httpConn.getInputStream();
           String json = StringTools.streamToString(inputStream, "UTF-8");
@@ -142,6 +170,27 @@ class CheckCallable implements Callable<File> {
       if (keepAlive != null) {
         System.setProperty("http.keepAlive", keepAlive);
       }
+    }
+  }
+
+  static class FakeRule extends Rule {
+    @Override
+    public String getId() {
+      return "FAKE_RULE";
+    }
+    @Override
+    public String getDescription() {
+      return "Pseudo rule to contain API error";
+    }
+    @Override
+    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+      return new RuleMatch[0];
+    }
+  }
+
+  static class ApiErrorException extends Exception {
+    ApiErrorException(String message) {
+      super(message);
     }
   }
 
