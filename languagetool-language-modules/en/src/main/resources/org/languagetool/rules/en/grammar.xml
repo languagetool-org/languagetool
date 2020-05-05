@@ -5848,6 +5848,15 @@ USA
                 <suggestion>Hitchhiker's Guide</suggestion>
                 <example correction="Hitchhiker's Guide">The <marker>Hitchhikers Guide</marker> to the Galaxy</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>Readers</token>
+                    <token>Digest</token>
+                </pattern>
+                <message>A possessive apostrophe is missing.</message>
+                <suggestion>Reader's Digest</suggestion>
+                <example correction="Reader's Digest">Last week's <marker>Readers Digest</marker> was very good.</example>
+            </rule>
         </rulegroup>
 
         <rulegroup id="APOSTROPHE_PLURAL" name="Possessive form instead of plural">
@@ -11525,6 +11534,22 @@ USA
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
+        <rule id="MOTOR_COMPOUNDS" name="motor bike (motorbike)" default="temp_off">
+            <antipattern>
+                <token>motor</token>
+                <token regexp="yes">trucks?|cycles?</token>
+                <token regexp="yes">company|ltd|corp(oration)?|inc|llc</token>
+            </antipattern>
+            <pattern>
+                <token>motor</token>
+                <token regexp="yes">bikes?|bikers?|boats?|cycles?|doms?|trucks?</token>
+            </pattern>
+            <message>This word is normally spelled as one.</message>
+            <suggestion>motor<match no="2" case_conversion="alllower" /></suggestion>
+            <url>https://www.merriam-webster.com/dictionary/motorbike</url>
+            <example correction="motorbike">I love driving my <marker>motor bike</marker>.</example>
+            <example>BSA bought the Sunbeam motorcycles and bicycle business from Associated Motor Cycles Ltd in 1943 and then Ariel Motors Ltd in 1944.</example>
+        </rule>
         <rule id="SMART_COMPOUNDS" name="smart phone (smartphone)">
             <pattern>
                 <token>smart</token>
@@ -11542,12 +11567,55 @@ USA
             </antipattern>
             <pattern>
                 <token>sky</token>
-                <token regexp="yes">scrapers?|rocket(s|ed|ing)?|borne|caps?|diving|divers?|dive[ds]?|hooks?|jack(s|ed)?|jackers?|jacking|lines?|larks?|sails?|walks?|ward|ways?</token>
+                <token regexp="yes">scrapers?|rocket(s|ed|ing)?|borne|caps?|diving|divers?|dive[ds]?|hooks?|jack(s|ed)?|jackers?|jacking|lines?|larks?|sails?|walks?|ward</token>
             </pattern>
             <message>This word is normally spelled as one.</message>
             <suggestion>sky<match no="2" case_conversion="alllower" /></suggestion>
             <example correction="skyline">New York City has a beautiful <marker>sky line</marker>.</example>
             <example>My Sky box isn't working anymore.</example>
+        </rule>
+        <rule id="WAY_COMPOUNDS" name="park way (parkway)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[A-Z].*</token>
+                <token regexp="yes">Way|WAY</token>
+            </antipattern>
+            <antipattern>
+                <token>way</token>
+                <token regexp="yes">too|back|ahead|behind|before|after|off|out|in|up|into|down|over|under</token>
+            </antipattern>
+            <antipattern>
+                <token>way</token>
+                <token postag="JJR" />
+            </antipattern>
+            <antipattern>
+                <token>way</token>
+                <token>to</token>
+                <token>go</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">park|rail|drive|high|sky|motor|run|gate|race|path|speed|entry|water|sub|route</token>
+                <token regexp="yes">ways?</token>
+            </pattern>
+            <message>This noun is normally spelled as one.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="driveway">His car parks in the <marker>drive way</marker>.</example>
+            <example>We live on Inverness Park Way, and used to live on Cedarspur a few years back.</example>
+            <example>You drive way too fast.</example>
+            <example>In the sky way too many clouds are seen.</example>
+            <example>You can run way faster than him.</example>
+        </rule>
+        <rule id="SHIP_COMPOUNDS" name="space ship (spaceship)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[A-Z].*</token>
+                <token regexp="yes">Ship|SHIP</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town</token>
+                <token regexp="yes">ships?</token>
+            </pattern>
+            <message>This noun is normally spelled as one.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="spaceship">The <marker>space ship</marker> flew to the Mars and back.</example>
         </rule>
         <rule id="WHEEL_COMPOUNDS" name="wheel chair (wheelchair)">
             <pattern>
@@ -20328,6 +20396,7 @@ USA
             <example correction="Bon Appétit"><marker>Bon Appetite</marker>!</example>
         </rule>
         <rulegroup id="APPLE_PRODUCTS" name="Apple product names">
+            <url>https://en.wikipedia.org/wiki/Timeline_of_Apple_Inc._products</url>
             <rule>
                 <antipattern case_sensitive="yes">
                     <token regexp="yes">Apple|APPLE</token>
@@ -20370,11 +20439,19 @@ USA
                     </marker>
                     <token min="0" regexp="yes">&apostrophe;</token>
                     <token min="0">s</token>
-                    <token regexp="yes">headquarters?|offices?|cloud|os|macos|employees?|founders?|chargers?|accounts?|login|mobile|revenues?|profits?|website|mails?|software|hardware|germany|devices?|stores?|smartphones?|cell|technology|retail|apps?|eco\-?system|mac|quicktime|safari|resellers?|logo|repair|genius|upgrades?|macbooks?|iphones?|ipads?|stock|icloud|jobs|keyboard|news|nasdaq|newsroom|online|refurbished|support|updates?|usb|screen|thunderbolt|lightning|computers?|developers?|dividends?|events?|emails?|education|siri.*|security</token>
+                    <token regexp="yes">headquarters?|inc|offices?|cloud|os|macos|employees?|founders?|chargers?|accounts?|login|mobile|revenues?|profits?|website|mails?|software|hardware|germany|devices?|stores?|smartphones?|cell|technology|retail|apps?|eco\-?system|mac|quicktime|safari|resellers?|logo|repair|genius|upgrades?|macbooks?|iphones?|ipads?|stock|icloud|jobs|keyboard|news|nasdaq|newsroom|online|refurbished|support|updates?|usb|screen|thunderbolt|lightning|computers?|developers?|dividends?|events?|emails?|education|siri.*|security</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion>Apple</suggestion> (= technology company)?</message>
                 <example correction="Apple">He's an <marker>apple</marker> employee.</example>
                 <example correction="Apple">And <marker>apple</marker>'s revenue is still increasing.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">Apple(Pay|Watch)</token>
+                </pattern>
+                <message>This Apple product is spelled with a space in between.</message>
+                <suggestion>Apple <match no="1" regexp_match="(?i)apple" regexp_replace="" case_conversion="startupper" /></suggestion>
+                <example correction="Apple Pay"><marker>ApplePay</marker> is a mobile payment and digital wallet service by Apple Inc.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MICROSOFT_PRODUCTS" name="Microsoft product names">
@@ -53704,7 +53781,7 @@ The accident victim died from her injuries.
         <token>down</token>
         </marker>
         <token>
-          <exception inflected='yes' regexp='yes'>list|menu</exception></token>
+          <exception inflected='yes' regexp='yes'>list|menu|option</exception></token>
         </pattern>
         <message>This phrase is redundant. Consider using <suggestion>\1</suggestion>.</message>
         <short>Redundant phrase</short>
@@ -53829,13 +53906,13 @@ The accident victim died from her injuries.
         <example>Who has the right over a woman's property?</example>
         </rule>
         <rule id="SELF_ADMITTED" name="self-admitted (admitted)">
-        <pattern>
-        <token>self-admitted</token>
-        </pattern>
-        <message>This phrase is redundant. Consider using <suggestion>admitted</suggestion>.</message>
-        <url>http://www.oxfordreference.com/view/10.1093/acref/9780195135084.001.0001/acref-9780195135084-e-1937</url>
-        <short>Redundant phrase</short>
-        <example correction="admitted">Springfield police arrest 'very dangerous, <marker>self-admitted</marker> gang member.'</example>
+            <pattern>
+                <token>self-admitted</token>
+            </pattern>
+            <message>This phrase is redundant. Consider using just <suggestion>admitted</suggestion>.</message>
+            <url>http://www.oxfordreference.com/view/10.1093/acref/9780195135084.001.0001/acref-9780195135084-e-1937</url>
+            <short>Redundant phrase</short>
+            <example correction="admitted">Springfield police arrest 'very dangerous, <marker>self-admitted</marker> gang member.'</example>
         </rule>
         <rule id="SOME_OF_THE" name="some of the (some)">
             <antipattern>
@@ -53896,21 +53973,39 @@ The accident victim died from her injuries.
             <example type="triggers_error">... promoted the mystical and magical teachings of some of the same ethnic groups he attacked...</example><!-- MFU 2019-09-20. The suggestion 'some [same]' is not correct, but I am not sure whether to add an exception for 'the same'. -->
         </rule>
         <rule id="SUBJECT_MATTER" name="subject matter (subject)">
-        <!-- Created by Tiago F. Santos 24-09-2019 -->
-        <antipattern>
-        <token>does</token>
-        <token>the</token>
-        <token>subject</token>
-        <token>matter</token>
-        </antipattern>
-        <pattern>
-        <token>subject</token>
-        <token>matter</token>
-        </pattern>
-        <message>This phrase is redundant. Consider using <suggestion>\1</suggestion>.</message>
-        <short>Redundant phrase</short>
-        <example correction="subject">What is the <marker>subject matter</marker> we will discuss today?</example>
-        <example>Does the subject matter?</example>
+            <!-- Created by Tiago F. Santos 24-09-2019 -->
+            <antipattern>
+                <token inflected="yes" regexp="yes">do|will|shall|can</token>
+                <token postag="DT|PRP\$" postag_regexp="yes" />
+                <token postag="JJ" min="0" />
+                <token>subject</token>
+                <token>matter</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">do|will|shall|can</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+                <token postag="DT|PRP\$" postag_regexp="yes" />
+                <token postag="JJ" min="0" />
+                <token>subject</token>
+                <token>matter</token>
+            </antipattern>
+            <antipattern>
+                <token>subject</token>
+                <token>matter</token>
+                <token skip="2">to</token>
+                <token>?</token>
+            </antipattern>
+            <pattern>
+                <token>subject</token>
+                <token>matter</token>
+            </pattern>
+            <message>This phrase is redundant. Consider using <suggestion>\1</suggestion> to avoid wordiness.</message>
+            <short>Redundant phrase</short>
+            <example correction="subject">What is the <marker>subject matter</marker> we will discuss today?</example>
+            <example>Does the subject matter?</example>
+            <example>Doesn't this subject matter to you?</example>
+            <example>Do any comments on this subject matter to you?</example>
         </rule>
         <rule id="TRY_AND" name="try and (try to)"><!-- picky -->
             <antipattern>
@@ -53918,10 +54013,10 @@ The accident victim died from her injuries.
                 <token>and</token>
                 <token regexp="yes" inflected="yes">see|fail|harm|error|regret</token>
             </antipattern>
-            <antipattern><!-- dev speech (https://www.w3schools.com/java/java_try_catch.asp) -->
+            <antipattern><!-- "try and catch" is common dev speech (https://www.w3schools.com/java/java_try_catch.asp) -->
                 <token>try</token>
                 <token>and</token>
-                <token>catch</token>
+                <token regexp="yes">catch|try</token>
             </antipattern>
             <antipattern>
                 <token postag="DT" />
@@ -53944,6 +54039,7 @@ The accident victim died from her injuries.
             <example>I would be happy if you could give it a second <marker>try and</marker> send me your feedback.</example>
             <example>Let's <marker>try and</marker> see!</example>
             <example>Potentially, we could try and fail.</example>
+            <example>We have to try and try until it works.</example>
         </rule>
         <rule id="SO_AS_TO" name="so as to (to)">
             <pattern>
