@@ -59,12 +59,14 @@ class CompoundDebugLogger {
     );
   }
 
+  private static int cnt = 0;
   public void logLine(BufferedWriter writer, String word) {
     if( writer == null )
       return;
     
     try {
-      writer.append(word).append('\n').flush();
+      writer.append(word).append('\n');
+      if( ++cnt % 10 == 0) writer.flush();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
@@ -112,7 +114,7 @@ class CompoundDebugLogger {
         firstTag = false;
       }
       writer.newLine();
-      writer.flush();
+      if( ++cnt % 10 == 0) writer.flush();
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

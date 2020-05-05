@@ -1395,6 +1395,8 @@ class CompoundTagger {
         if( right.length() >= 4 && ! StringTools.isCapitalizedWord(right) ) {
           List<TaggedWord> rightWdList = wordTagger.tag(right);
           rightWdList = PosTagHelper.filter2(rightWdList, PREFIX_NO_DASH_POSTAG_PATTERN);
+          rightWdList.removeIf(w -> w.getPosTag().startsWith("noun:inanim") && w.getPosTag().contains("v_kly"));
+
           if( rightWdList.size() > 0 ) {
             rightWdList = PosTagHelper.adjust(rightWdList, addTag, prefix+apo);
 

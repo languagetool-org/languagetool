@@ -51,6 +51,8 @@ class SimpleDisambiguator {
       if( Character.isLowerCase(token.charAt(0)) ) {
         token = token.toLowerCase();
       }
+      token = token.replace("\u0301", "");
+      token = token.replace('\u2013', '-');
 
       TokenMatcher tokenMatcher = DISAMBIG_REMOVE_MAP.get(token);
       if( tokenMatcher == null ) {
