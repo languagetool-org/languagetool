@@ -41,7 +41,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY double_num "два|две|три|четыре|2|3|4">
 <!ENTITY pril_end "ый|ого|ому|ым|ом|ая|ой|ую|ое|ые|ых|ыми">
 <!ENTITY verb "должен|должна|должно|должны|обязана|обязано|обязаны|обязан|необходимо"> <!-- TODO:check in dict -->
-<!ENTITY rost "количество|количественный|качество|качественный|показатель|показательный|экономика|экономический|преступность|преступный|смертность|безработица|безработный|численность|рождаемость|стоимость|долг|доход|ВВП">
+<!ENTITY rost "количество|количественный|качество|качественный|показатель|показательный|экономика|экономический|преступность|преступный|смертность|безработица|безработный|численность|рождаемость|стоимость|долг|доход|расход|протяжённость|продолжительность|ассигнование|урожайность|ВВП|темп|продукт">
 <!ENTITY defis_libo "какая|какие|какое|какой|какому|кому|кто|такому|такая|такое|такой|вообще|всего|где|зачем|когда|куда|откуда|отчего|почему|сколько|тогда|так|туда|чего|что">
 ]>
 <!-- «» -->
@@ -3868,7 +3868,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rule default="temp_off" id="Comma_mol" name="Запятая при междометии" >
+        <rule  id="Comma_mol" name="Запятая при междометии" >
                 <pattern>   <!-- TODO -->           
                     <marker>
                         <token>
@@ -5463,7 +5463,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="grammar_o_tom_to_chto" name="Грамматические ошибки «о том, то что ...»">
             <pattern>
-                <token>о</token>
+                <token>о<exception regexp="yes" scope="previous">—|-|,|[!?)»]</exception></token>
                 <token>том</token>
                 <token>,</token>
                 <token>то</token>
@@ -9651,7 +9651,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Я шёл <marker>по снегом</marker>.</example>
         </rule>
         
-        <rulegroup default="temp_off" id="PREP_V_tom_Noun" name="Предлог «в» + «том/тот» и существительное">
+        <rulegroup  id="PREP_V_tom_Noun" name="Предлог «в» + «том/тот» и существительное">
           <rule> <!-- TODO: -->
             <pattern>
                 <token regexp="yes">в|про<exception scope="previous" regexp="yes">надлежащего|требуемого</exception></token>
@@ -10271,7 +10271,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- о том, что
                 -->
                 <pattern>
-                        <token>о</token>
+                    <token>о<exception scope="previous" regexp="yes">[.?,!:;»)(«-—–"'„]</exception></token>
                         <token>том</token>
                         <token>,</token>
                         <token>что</token>
