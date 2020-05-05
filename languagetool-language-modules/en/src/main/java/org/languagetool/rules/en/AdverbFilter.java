@@ -178,6 +178,10 @@ public class AdverbFilter extends RuleFilter {
     put("especially", "especial");
     put("previously", "previous");
     put("whitely", "white");
+    put("traditionally", "traditional");
+    put("individually", "individual");
+    put("carefully", "careful");
+    put("essentially", "essential");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
