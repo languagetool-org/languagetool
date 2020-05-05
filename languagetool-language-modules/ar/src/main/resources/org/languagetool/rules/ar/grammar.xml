@@ -3268,6 +3268,529 @@ USA
     <example correction="ألجم" type="incorrect"><marker>لجم</marker> الجواد </example>
     <example type="correct">  ألْجَمَ الجوادَ  باللجام</example>
   </rule>
+  <!-- verb_273_lSq_Alwrq_bAlSmg لَصَقَ الورقَ بالصمغِ -->
+  <rule id="verb_273_lSq_Alwrq_bAlSmg" name="لصق الورق بالصمغ">
+    <antipattern>
+      <marker>
+        <token inflected="yes" skip="1">أَلْصَقَ</token>
+      </marker>
+      <token inflected="yes" postag="N.*;-B.?" postag_regexp="yes" regexp="yes">غراء|صمغ|لاصق</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="V.*;.*p.?.?;.*" postag_regexp="yes" skip="1">لَصِقَ</token>
+      </marker>
+      <token inflected="yes" postag="N.*;-B.?" postag_regexp="yes" regexp="yes">غراء|صمغ|لاصق</token>
+    </pattern>
+    <message>(لَصِقَ الشيءُ بغيره): لَزِقَ به. وهو فعلٌ لازم 
+   <suggestion><match no="1" regexp_match="لصق" regexp_replace="أَلْصَق"/></suggestion>
+</message>
+    <example correction="أَلْصَق" type="incorrect"><marker>لصق</marker> الورق بالصمغ </example>
+    <example type="correct"> أَلْصَقَ الورقَ بالصمغِ </example>
+  </rule>
+ <!-- verb_274_lgA_AlmshrwE لَغَا المشروعَ -->
+  <rule id="verb_274_lgA_AlmshrwE" name="لغا المشروع">
+    <pattern>
+      <marker>
+        <token regexp="yes" skip="1">لغا|لغى|لغت|لغوا|لغيت</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">مشروع</token>
+    </pattern>
+    <message>(لغا الشيءُ): بَطَلَ، وهو فعلٌ لازم.. يقال: (بَطَلَ البيعُ، فالبيع باطلٌ/لاغٍ) 
+   <suggestion>أَلْغَى</suggestion>
+</message>
+    <example correction="أَلْغَى" type="incorrect"><marker>لغا</marker> خالد المشروع، فالمشروع لاغ </example>
+    <example type="correct"> أَلْغَى خالدٌ المشروعَ، فالمشروعُ مُلْغًى </example>
+  </rule>
+<!-- verb_275_lfzh_AnfAsh لفظ أنفاسَه -->
+  <rule id="verb_275_lfzh_AnfAsh" name="لفظ أنفاسه">
+    <pattern>
+      <marker>
+      <token inflected="yes" skip="1">لَفَظَ</token>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" regexp="yes">أنفاس|نفس</token>
+	</marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion>انقضت&nbsp;<match no="2"/></suggestion>
+   <suggestion>انقطعت&nbsp;<match no="2"/></suggestion>
+</message>
+    <example correction="انقضت أنفاسه|انقطعت أنفاسه" type="incorrect"><marker>لفظ فلان أنفاسه</marker> </example>
+    <example correction="انقضت أنفاسي|انقطعت أنفاسي" type="incorrect"><marker>لفظت  أنفاسي</marker> </example>
+    <example type="correct"> انقضتْ أنفاسُ فلان </example>
+    <example type="correct">  انقطعتْ أنفاسُ فلان </example>
+  </rule>
+
+  <!-- verb_277_ngz_AldAbt نغز الدابةَ -->
+  <rule id="verb_277_ngz_AldAbt" name="نغز الدابة">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">نَغَزَ</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">دابة</token>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="1" regexp_match="نغز" regexp_replace="نخز"/></suggestion>
+</message>
+    <example correction="نخز" type="incorrect"><marker>نغز</marker> الدابة بعصاه </example>
+    <example type="correct"> نخز الدابةَ بعصاه </example>
+  </rule>
+  <!-- verb_278_nfdh_Sbrh نَفَذَ صَبْرُهُ -->
+  <rule id="verb_278_nfdh_Sbrh" name="نـفذ صبره">
+    <pattern>
+      <marker>
+        <token inflected="yes">نَفَذَ</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">صبر</token>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="1" regexp_match="نفذ" regexp_replace="نفد"/></suggestion>
+</message>
+    <example correction="نفد" type="incorrect"><marker>نفذ</marker> صبره </example>
+    <example type="correct"> نَفِدَ صَبْرُهُ </example>
+  </rule>
+ <!-- verb_280_hds_fy_AlAmr هَدَسَ في الأمر -->
+  <rule id="verb_280_hds_fy_AlAmr" name="هدس في الأمر">
+    <pattern>
+      <marker>
+		<token regexp="yes" skip="1">(&conj;)?(&verb_prefixes;)?(هدس|هدست)</token>
+        <token regexp="yes">&forms_fi;</token>
+        <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" min="0">أمر</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="1" regexp_match="هدس" regexp_replace="هجس"/>&nbsp;<match no="3"/>&nbsp;<match no="2"/></suggestion>
+</message>
+    <example correction="هجس الأمر في" type="incorrect"><marker>هدس في الأمر</marker> </example>
+    <example type="correct"> هَجَسَ الأمرُ في صدره </example>
+  </rule>
+ <!-- verb_281_wjd_Elyh وَجَدَ عليه -->
+  <rule id="verb_281_wjd_Elyh" name="وجد عليه">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">وَجَدَ</token>
+      </marker>
+      <token regexp="yes">&forms_3ala;</token>
+    </pattern>
+    <message>(وجَدَ عليه): غَضِبَ عليه، (وَجَدَ به): أَحَبَّه 
+   <suggestion><match no="1" regexp_match="وجد|يجد|جد" regexp_replace="حزن"/></suggestion>
+</message>
+    <example correction="حزن" type="incorrect"><marker>وجد</marker> عليه </example>
+    <example type="correct"> حَزِنَ عليه </example>
+  </rule>
+<!-- verb_282_wfa_Alkyl وَفَى الكَيْلَ -->
+  <rule id="verb_282_wfa_Alkyl" name="وفى الكيل">
+    <antipattern>
+      <marker>
+        <token inflected="yes" skip="1">أَوْفَى</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">كيل</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="V.*;.*p.?.?;.*" postag_regexp="yes" skip="1">وَفَى</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">كيل</token>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="1" regexp_match="وف" regexp_replace="أوف"/></suggestion>
+</message>
+    <example correction="أوفى" type="incorrect"><marker>وفى</marker> الكيل </example>
+    <example type="correct"> أَوْفَى الكيلَ </example>
+  </rule>
+  <!-- verb_283_wqdt_AlHTb وَقَدْتُ الحطبَ -->
+  <rule id="verb_283_wqdt_AlHTb" name="وقدت الحطب">
+    <antipattern>
+      <marker>
+        <token inflected="yes" skip="1">أوْقَدَ</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" regexp="yes">حطب|خشب</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="V.*;.*p.?.?;.*" postag_regexp="yes" skip="1">وَقَّدَ</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" regexp="yes">حطب|خشب</token>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="1" regexp_match="وقد" regexp_replace="أوقد"/></suggestion>
+</message>
+    <example correction="أوقدت" type="incorrect"><marker>وقدت</marker> الحطب </example>
+    <example type="correct"> أوْقَدْتُ الحطبَ </example>
+  </rule>
+<!-- verb_284_wlE_AlnAr وَلَّعَ النارَ -->
+  <rule id="verb_284_wlE_AlnAr" name="ولع النار">
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="V.*;.*[pi].?.?;.*" postag_regexp="yes" skip="1">وَلَّعَ</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">نار</token>
+    </pattern>
+    <message>(وَلَّع فلاناً به): أغراه 
+   <suggestion><match no="1" regexp_match="ولع" regexp_replace="أشعل"/></suggestion>
+   <suggestion><match no="1" regexp_match="ولع" regexp_replace="أوقد"/></suggestion>
+</message>
+    <example correction="أشعل|أوقد" type="incorrect"><marker>ولع</marker> النار </example>
+    <example type="correct"> أَشْعَلَ / أَوْقَدَ النارَ </example>
+  </rule>
+<!-- verb_284_wlE_AlnAr وَلَّعَ النارَ -->
+  <rule id="verb_284_wlE_AlnAr_2" name="ولع النار">
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="V.*;.*[^pi].?.?;.*" postag_regexp="yes" skip="1">وَلَّعَ</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">نار</token>
+    </pattern>
+    <message>(وَلَّع فلاناً به): أغراه 
+   <suggestion><match no="1" regexp_match="ولع" regexp_replace="شعل"/></suggestion>
+   <suggestion><match no="1" regexp_match="ولع" regexp_replace="وقد"/></suggestion>
+</message>
+    <example correction="يشعل|يوقد" type="incorrect"><marker>يولع</marker> النار </example>
+    <example type="correct"> يشْعل  النار/ يوْقَدَ النارَ </example>
+  </rule>
+
+<!-- verb_285_ytmAsha_mE يتماشى مع -->
+  <rule id="verb_285_ytmAsha_mE" name="يتماشى مع">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">تَمَاشَى</token>
+      <token regexp="yes">&forms_ma3a;</token>
+      </marker>
+
+    </pattern>
+    <message>فاعل (تماشى) لا يكون إلا مثنى أو جمعاً 
+   <suggestion><match no="1" regexp_match="تماشى|تماشي|تماش" regexp_replace="طابق"/></suggestion>
+   <suggestion><match no="1" regexp_match="تماشى|تماشي|تماش" regexp_replace="ساير"/></suggestion>
+   <suggestion><match no="1" regexp_match="تماشى|تماشي|تماش" regexp_replace="شايع"/></suggestion>
+   <suggestion><match no="1" regexp_match="تماشى|تماشي|تماش" regexp_replace="جاري*"/></suggestion>
+</message>
+    <example correction="يطابق|يساير|يشايع|يجاري*" type="incorrect">هذا العمل لا <marker>يتماشى مع</marker> القانون </example>
+    <example type="correct"> هذا العمل لا يطابق / يجاري القانون هذا العمل لا يساير / يشايع القانون </example>
+  </rule>
+
+ <!-- verb_286_ysry_AlHkm_mn يَسْرِي الحُكْمُ من -->
+  <rule id="verb_286_ysry_AlHkm_mn" name="يسري الحكم من">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">سَرَى</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" regexp="yes">حكم|قرار|مرسوم</token>
+      <token regexp="yes">&forms_min;</token>
+    </pattern>
+    <message>(سرى): سار ليلاً، دبّ تحت الأرض . قل نفُذ الحكم 
+   <suggestion><match no="1" regexp_match="سرى|سري|سر" regexp_replace="نفذ"/></suggestion>
+</message>
+    <example correction="ينفذ" type="incorrect"><marker>يسري</marker> الحكم من أول الشهر </example>
+    <example type="correct"> يَنْفُذُ الحُكْمُ من أول الشهر </example>
+  </rule>
+
+ <!-- verb_287_yTAlhA_AlqAnwn يَطالُها القانون -->
+  <rule id="verb_287_yTAlhA_AlqAnwn" name="يطالها القانون">
+    <pattern>
+      <marker>
+		<token regexp="yes">(&conj;)?(ي|ت|سي|ست)?(طال)(&verb_encletics;)?</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" regexp="yes">قانون|قوانين|نظام|أنظمة</token>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="1" regexp_match="طال" regexp_replace="طول"/></suggestion>
+</message>
+    <example correction="يطولها" type="incorrect">هذه  جرائم <marker>يطالها</marker> القانون </example>
+    <example type="correct"> هذه جرائمُ يَطولُها القانون </example>
+  </rule>
+  <!-- verb_288_yThy_AlTEAm يَطْهِي الطعامَ -->
+  <rule id="verb_288_yThy_AlTEAm" name="يطهي الطعام">
+    <antipattern>
+      <marker>
+        <token inflected="yes" skip="1">طَهَا</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">طعام</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">طَهَى</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">طعام</token>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="1" regexp_match="طهي" regexp_replace="طهو"/></suggestion>
+</message>
+    <example correction="يطهو" type="incorrect"><marker>يطهي</marker> الطعام </example>
+    <example type="correct"> يَطْهُو الطعامَ طَهْواً وطَهْياً </example>
+  </rule>
+ <!-- verb_289_ylEb_dwrA_r2ysyA يلعب دوراً رئيسياً -->
+  <rule id="verb_289_ylEb_dwrA_r2ysyA" name="يلعب دورا رئيسيا">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1" regexp="yes">لَعَبَ|لَعِبَ</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" regexp="yes">دور|أدوار</token>
+
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion>أدّى</suggestion>
+   <suggestion>يؤدّي</suggestion>
+   <suggestion>أدّت</suggestion>
+
+</message>
+
+    <example correction="أدّى|يؤدّي|أدّت" type="incorrect"><marker>يلعب</marker> دورا رئيسيا </example>
+    <example type="correct"> يؤدي دوراً رئيسياً </example>
+  </rule>
+ <!-- verb_290_ynqSh_shy2 ينقصه شيء -->
+  <rule id="verb_290_ynqSh_shy2" name="ينقصه شيء">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">نَقَصَ</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" skip="1">شيء</token>
+    </pattern>
+    <message>يفضل أن يقال:  يُعْوِزٌه شيء
+   <suggestion>يُعْوِز</suggestion>
+   <suggestion>يعوزه</suggestion>
+</message>
+    <example correction="يُعْوِز|يعوزه" type="incorrect">العمل جيد لا <marker>ينقصه</marker> شيء </example>
+    <example type="correct"> العمل جيد لا يُعْوِزُهُ شيء </example>
+  </rule>
+ <!-- verb_292_Akhtla_bhA اخْتَلَى بها -->
+  <rule id="verb_292_Akhtla_bhA" name="اختلى بها">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">اِخْتَلَى</token>
+        <token regexp="yes">&forms_bi;</token>
+	  </marker>
+    </pattern>
+    <message>(اختلى البقلَ): احتشَّه؛ أي: انتزعه 
+   <suggestion>خلا بها</suggestion>
+   <suggestion>خلا إليها</suggestion>
+   <suggestion>خلا معها</suggestion>
+
+</message>
+    <example correction="خلا بها|خلا إليها|خلا معها" type="incorrect"><marker>اختلى بها</marker> </example>
+    <example type="correct"> خَلا بها / إليها / معها </example>
+  </rule>
+
+<!-- verb_293_AkhTr_b أَخْطَرَ ب -->
+  <rule id="verb_293_AkhTr_b" name="أخطر ب">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">أَخْطَرَ</token>
+      </marker>
+	<or>
+   <token regexp="yes">&forms_bi;</token>
+   <token postag="N.*;-B.?" postag_regexp="yes"/>
+	</or>
+    </pattern>
+    <message>يفضل أن يقال: أَنْذر بدلا من أخطر
+   <suggestion><match no="1" regexp_match="خطر" regexp_replace="نذر"/></suggestion>
+</message>
+    <example correction="أنذره" type="incorrect"><marker>أخطره</marker> بالأمر </example>
+    <example type="correct"> أنْذَرَهُ بكذا </example>
+  </rule>
+ <!-- verb_294_SAdq_Almjls_Ela_AlqrAr صادق المجلسُ على القرار -->
+  <rule id="verb_294_SAdq_Almjls_Ela_AlqrAr" name="صادق المجلس على القرار">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">صَادَقَ</token>
+      </marker>
+      <token regexp="yes">&forms_3ala;</token>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="1" regexp_match="صادق" regexp_replace="صدّق"/></suggestion>
+   <suggestion>أقرّ*</suggestion>
+   <suggestion>أجاز*</suggestion>
+</message>
+    <example correction="صدّق|أقرّ*|أجاز*" type="incorrect"><marker>صادق</marker> المجلس على القرار </example>
+    <example type="correct"> صدّق / أقرّ / أجاز المجلسُ القرارَ </example>
+  </rule>
+
+ <!-- verb_408_tAjr_b تاجَرَ ب -->
+  <rule id="verb_408_tAjr_b" name="تاجر ب">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">تَاجَرَ</token>
+        <token postag="N.*;-B.?" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <message>(تاجَرَ فلانٌ فلاناً): اتَّجَرَ معه 
+   <suggestion>اتَّجر&nbsp;في&nbsp;<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+</message>
+    <example correction="اتَّجر في البضاعة" type="incorrect"><marker>تاجر بالبضاعة</marker></example>
+    <example type="correct"> اتَّجر في كذا </example>
+  </rule>
+<!-- verb_408_tAjr_b تاجَرَ ب -->
+  <rule id="verb_408_tAjr_b_2" name="تاجر ب">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">تَاجَرَ</token>
+        <token regexp="yes">&forms_bi;</token>
+      </marker>
+    </pattern>
+    <message>(تاجَرَ فلانٌ فلاناً): اتَّجَرَ معه 
+   <suggestion>اتَّجر&nbsp;<match no="2" regexp_match="^ب" regexp_replace="في"/></suggestion>
+</message>
+    <example correction="اتَّجر فيها" type="incorrect"><marker>تاجر بها</marker></example>
+    <example type="correct"> اتَّجر في كذا </example>
+  </rule>
+ <!-- verb_561_nkhr_Alsws_Alkhshb نَخَرَ السُّوسُ الخشبَ -->
+  <rule id="verb_561_nkhr_Alsws_Alkhshb" name="نـخر السوس الخشب">
+    <pattern>
+      <marker>
+        <token inflected="yes">نَخَرَ</token>
+        <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">سوس</token>
+	  </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" regexp="yes">خشب|أخشاب|سن|أسنان</token>
+    </pattern>
+    <message>(نَخِرَ) فعلٌ لازم. (نَخَر): صَوَّتَ بخياشيمه. (نَخَرَ الحالبُ الناقَةَ): دَلَكَ مَنْخِرَها بيدِهِ لِتَدِرّ 
+   <suggestion><match no="1" regexp_match="نخر" regexp_replace="نَخِر"/></suggestion>
+</message>
+    <example correction="نَخِر" type="incorrect"><marker>نخر السوس</marker> الخشب </example>
+    <example type="correct"> نَخِرَ الخشبُ </example>
+  </rule>
+<!-- verb_562_nzf_flAn نَزَفَ فلانٌ -->
+  <rule id="verb_562_nzf_flAn" name="نـزف فلان">
+    <antipattern>
+      <marker>
+        <token inflected="yes">نَزَفَ</token>
+      </marker>
+      <token postag="N.*;--.?" postag_regexp="yes"/>
+	  <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">دم</token>
+    </antipattern>
+
+    <pattern>
+      <marker>
+        <token inflected="yes">نَزَفَ</token>
+       <token postag="N.*;--.?" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <message>(نَزَفَ الشيءُ): نَفِدَ وفَني. (نَزَفَ الدمُ فلاناً): أضعفَهُ بكثرة خروجه منه 
+   <suggestion><match no="1"/>&nbsp;<match no="2"/>&nbsp;دمًا</suggestion>
+</message>
+    <example correction="نزف فلان دمًا" type="incorrect"><marker>نزف فلان</marker></example>
+    <example type="correct"> نَزَفَ فلانٌ دماً </example>
+  </rule>
+  <!-- verb_564_nEa_wfAt نَعَى وفاةَ -->
+  <rule id="verb_564_nEa_wfAt" name="نـعى وفاة">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">نَعَى</token>
+        <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">وفاة</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: نعى فقط بدلا من نعى وفاة
+   <suggestion><match no="1"/></suggestion>
+</message>
+    <example correction="نعى" type="incorrect"><marker>نعى وفاة</marker> صديقه </example>
+    <example type="correct"> نَعَى صديقَه </example>
+  </rule>
+  <!-- verb_260_EfAh_mn_Alwzhyft عَفَاهُ من الوظيفةِ -->
+  <rule id="verb_260_EfAh_mn_Alwzhyft" name="عفاه من الوظيفة">
+    <antipattern>
+      <marker>
+        <token inflected="yes" skip="1">أَعْفَى</token>
+      </marker>
+      <token regexp="yes">&forms_min;</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">عَفَا</token>
+      </marker>
+      <token regexp="yes">&forms_min;</token>
+
+    </pattern>
+    <message>(عفا عنه): صَفَحَ عنه. (عفا الأثرُ): زال 
+   <suggestion>أَعْفَى</suggestion>
+</message>
+    <example correction="أَعْفَى" type="incorrect"><marker>عفاه</marker> من الوظيفة </example>
+    <example type="correct"> أَعْفَاهُ من الوظيفة </example>
+  </rule>
+
+<!-- verb_276_mzH_mE مَزَحَ مع -->
+  <rule id="verb_276_mzH_mE" name="مزح مع">
+    <pattern>
+      <marker>
+        <token inflected="yes">مَزَحَ</token>
+        <token regexp="yes">&forms_ma3a;</token>
+     </marker>
+    </pattern>
+    <message>(مزح خالدٌ مع سعيد) تعني أنهما مزحا معاً، لا أنّ خالداً هو المازِح. ولو شارك سعيدٌ في المزح لقلنا: تمازَحَا 
+   <suggestion><match no="1" regexp_match="مزح" regexp_replace="مازح"/><match no="2" regexp_match="مع" regexp_replace=""/></suggestion>
+</message>
+    <example correction="مازحته" type="incorrect"><marker>مزحت معه</marker> </example>
+
+    <example type="correct"> مَازَحْته </example>
+  </rule>
+<!-- verb_276_mzH_mE مَزَحَ مع -->
+  <rule id="verb_276_mzH_mE_2" name="مزح مع">
+    <pattern>
+      <marker>
+        <token inflected="yes">مَزَحَ</token>
+        <token postag="N.*;--.?" postag_regexp="yes" min="0"/>
+        <token regexp="yes">&forms_ma3a;</token>
+     </marker>
+    </pattern>
+    <message>(مزح خالدٌ مع سعيد) تعني أنهما مزحا معاً، لا أنّ خالداً هو المازِح. ولو شارك سعيدٌ في المزح لقلنا: تمازَحَا 
+   <suggestion><match no="1" regexp_match="مزح" regexp_replace="مازح"/><match no="3" regexp_match="مع" regexp_replace=""/>&nbsp;<match no="2"/></suggestion>
+</message>
+    <example correction="مازح خالد" type="incorrect"><marker>مزح خالد مع</marker> سعيد </example>
+    <example type="correct"> مَازَحَ خالدٌ سعيداً </example>
+  </rule>
+  <!-- verb_257_SlH_AlsyArt صَلَّحَ السيَّارةَ -->
+  <rule id="verb_257_SlH_AlsyArt" name="صلح السيارة">
+    <antipattern>
+      <marker>
+        <token inflected="yes" skip="1">أَصْلَحَ</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">سيارة</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">صَلَّحَ</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">سيارة</token>
+    </pattern>
+    <message>يفضل أن يقال: أصلح السيارة بدلا من صلّحها.
+   <suggestion><match no="1" regexp_match="صلح" regexp_replace="أصلح"/></suggestion>
+</message>
+    <example correction="أصلح" type="incorrect"><marker>صلح</marker> السيارة </example>
+    <example type="correct"> أَصْلَحَ السيارةَ </example>
+    <example type="correct"> يصلح السيارةَ </example>
+  </rule>
+ <!-- verb_258_EdAh_bAlmrD عَدَاهُ بالمرض -->
+  <rule id="verb_258_EdAh_bAlmrD" name="عداه بالمرض">
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="V.*;.*p.?.?;.*" postag_regexp="yes">عَدَا</token>
+      </marker>
+      <token inflected="yes" postag="N.*;-B.?" postag_regexp="yes">مرض</token>
+    </pattern>
+    <message>(عدا): جَرَى، وسَرَق، وجَاوَزَ وتَرَك، لذا قل: 
+   <suggestion>أعدى*</suggestion>
+   <suggestion>أعداه*</suggestion>
+</message>
+    <example correction="أعدى*|أعداه*" type="incorrect"><marker>عداه</marker> بالمرض </example>
+    <example type="correct"> أَعْدَاهُ بالمرض </example>
+  </rule>
+<!-- verb_253_srE_AlEml سَرَّعَ العملَ -->
+  <rule id="verb_253_srE_AlEml" name="سرع العمل">
+    <antipattern>
+      <marker>
+        <token inflected="yes" skip="1">أَسْرَعَ</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">عمل</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="V.*;.*p.?.?;.*" postag_regexp="yes" skip="1">سَرُعَ</token>
+      </marker>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">عمل</token>
+    </pattern>
+    <message>قل أسْرَعَ العمل بدلا من سرّعه.
+   <suggestion><match no="1" regexp_match="سرع" regexp_replace="أسرع"/></suggestion>
+</message>
+    <example correction="أسرع" type="incorrect"><marker>سرع</marker> العمل </example>
+    <example type="correct"> أسرَعَ العملَ </example>
+  </rule>
+
 <!-- TODO -->
     </rulegroup>
   </category>
