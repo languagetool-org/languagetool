@@ -3687,13 +3687,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SENT_START" skip="1"/>
-                    <token postag=".*SUB.*NOM.*SIN.*" postag_regexp="yes"/>
+                    <token postag=".*SUB.*NOM.*SIN.*" postag_regexp="yes">
+                        <exception>aber</exception>
+                    </token>
                     <marker>
                         <token>wahr</token>
                     </marker>
                 </pattern>
                 <message>Meinten Sie <suggestion>war</suggestion> (Vergangenheit von 'sein') statt 'wahr' (wahrhaftig, authentisch)?</message>
                 <example correction="war">Der Lehrer <marker>wahr</marker> schnell.</example>
+                <example>Aber wahr ist auch, dass es nach wie vor eine Machtfülle gibt.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3706,6 +3709,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie <suggestion>war</suggestion> (Vergangenheit von 'sein') statt 'wahr' (wahrhaftig, authentisch)?</message>
                 <example correction="war">Er <marker>wahr</marker> schnell.</example>
                 <example>Sie <marker>war</marker> schnell.</example>
+                <example>Aber wahr ist auch, dass es nach wie vor eine Machtfülle gibt.</example>
             </rule>
             <rule>
                 <pattern>
