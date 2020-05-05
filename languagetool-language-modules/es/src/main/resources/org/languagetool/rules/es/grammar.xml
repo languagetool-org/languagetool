@@ -4003,16 +4003,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="En medio"><marker>Enmedio</marker> de la plaza.</example>
             <example>Moraleja de Enmedio.</example>
         </rule>
-        <rule id="ABREVIATURA_NUMERO" name="abreviatura de número">
-            <pattern>
-                <token regexp="yes">n.?°|nº</token>
-            </pattern>
-            <message>Abreviatura de 'número'.</message>
-            <suggestion>n.º</suggestion>
-            <example correction="n.º">Diario de la República <marker>n°</marker> 18</example>
-            <example correction="n.º">Diario de la República <marker>nº</marker> 18</example>
-            <example>n.º</example>
-        </rule>
+        <rulegroup id="ABREVIATURA_NUMERO" name="abreviatura de número">
+            <rule>
+                <pattern>
+                    <token regexp="yes">n.?°|nº</token>
+                </pattern>
+                <message>Abreviatura de 'número'.</message>
+                <suggestion>n.º</suggestion>
+                <example correction="n.º">Diario de la República <marker>n°</marker> 18</example>
+                <example correction="n.º">Diario de la República <marker>nº</marker> 18</example>
+                <example>n.º</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">(n.?°|nº)\d+</token>
+                </pattern>
+                <message>Abreviatura de 'número'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(n.?°|nº)(\d)" regexp_replace="n.º $2"></match></suggestion>
+                <example correction="n.º 18">Diario de la República <marker>n°18</marker>.</example>
+                <example correction="n.º 18">Diario de la República <marker>nº18</marker>.</example>
+                <example>n.º</example>
+            </rule>
+        </rulegroup>
         <rule id="A_NIVEL_DE" name="a nivel de">
             <antipattern>
                 <token>nivel</token>
@@ -4654,6 +4666,79 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>The Art of Computer Science.</example>
                 <example>Roquebrune-Cap-Martin</example>
                 <example>Metropolitan Museum of Art</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ABREV_HORA" name="abreviatura de horas, gramos" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>hrs</token>
+                    <token>.<exception postag="SENT_END"/></token>
+                </pattern>
+                <message>Para indicar 'horas' se usa el símbolo h, en minúscula y sin punto.</message>
+                <suggestion>h</suggestion>
+                <example correction="h">A las 5 <marker>hrs.</marker> del domingo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>hrs</token>
+                </pattern>
+                <message>Para indicar 'horas' se usa el símbolo h, en minúscula y sin punto.</message>
+                <suggestion>h</suggestion>
+                <example correction="h">A las 5 <marker>hrs</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+(hrs|hr|hs)</token>
+                    <token>.<exception postag="SENT_END"/></token>
+                </pattern>
+                <message>Para indicar 'horas' se usa el símbolo h, en minúscula y sin punto.</message>
+                <suggestion><match no="1" regexp_match="(\d+)h.*" regexp_replace="$1 h"/></suggestion>
+                <example correction="5 h">A las <marker>5hrs.</marker> del domingo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d(hrs|hr|hs)</token>
+                </pattern>
+                <message>Para indicar 'horas' se usa el símbolo h, en minúscula y sin punto.</message>
+                <suggestion><match no="1" regexp_match="(\d+)h.*" regexp_replace="$1 h"/></suggestion>
+                <example correction="5 h">A las <marker>5hs</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+(grs|gr)</token>
+                    <token>.<exception postag="SENT_END"/></token>
+                </pattern>
+                <message>Para indicar 'gramos' se usa el símbolo g.</message>
+                <suggestion><match no="1" regexp_match="(\d+)g.*" regexp_replace="$1 g"/></suggestion>
+                <example correction="5 g">Pesa <marker>5grs.</marker> de más.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">\d+(grs|gr)</token>
+                </pattern>
+                <message>Para indicar 'gramos' se usa el símbolo g.</message>
+                <suggestion><match no="1" regexp_match="(\d+)g.*" regexp_replace="$1 g"/></suggestion>
+                <example correction="5 g">Pesa <marker>5grs</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ABREV_ORDINALES" name="abreviatura de ordinales" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">2do|3ro|4to|5to|6to|7mo|8vo|9no</token>
+                </pattern>
+                <message>Abreviatura de número ordinal.</message>
+                <suggestion><match no="1" regexp_match="(\d).+" regexp_replace="$1.º"/></suggestion>
+                <example correction="2.º">En el <marker>2do</marker> caso.</example>
+                <example correction="5.º">En el <marker>5to</marker> puesto.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">2da|3ra|4ta|5ta|6ta|7ma|8va|9na</token>
+                </pattern>
+                <message>Abreviatura de número ordinal.</message>
+                <suggestion><match no="1" regexp_match="(\d).+" regexp_replace="$1.ª"/></suggestion>
+                <example correction="2.ª">En la <marker>2da</marker> ronda.</example>
+                <example correction="5.ª">En la <marker>5ta</marker> posición.</example>
             </rule>
         </rulegroup>
         <rule id="P_EJ" name="Puntuación en: p. ej." default="on">

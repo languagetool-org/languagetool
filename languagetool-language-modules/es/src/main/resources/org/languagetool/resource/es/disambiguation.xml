@@ -564,10 +564,21 @@ Copyright (C) 2011 Juan Martorell
     <rulegroup id="CURRENCIES" name="monedas">
         <rule>
             <pattern>
-                <token regexp="yes">\$\d+</token>
+                <token regexp="yes">\$[\d+\.,]</token>
             </pattern>
             <disambig action="add">
                 <wd pos="Z"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[\$€\d+\.,]</token>
+                <marker>
+                    <token regexp="yes" case_sensitive="yes">USD|EUR</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="NCMN000"/>
             </disambig>
         </rule>
     </rulegroup>
