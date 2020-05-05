@@ -17135,7 +17135,7 @@ USA
             </antipattern>
             <antipattern> <!-- "Please click the unsubscribe link at the end of the mail" (TODO: we should probably have a rule that suggests putting the verb in quotes) -->
                 <token postag="VBP?" postag_regexp="yes" />
-                <token regexp="yes">CTAs?|buttons?|macros?|links?|teasers?|attributes?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?|modes?|screens?|errors?|tools?|operations?</token>
+                <token regexp="yes">CTAs?|buttons?|events?|macros?|links?|teasers?|attributes?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?|modes?|screens?|errors?|tools?|operations?</token>
             </antipattern>
             <antipattern> <!-- this is better covered by rule ALTER_BOY -->
                 <token regexp="yes">at|to|worship(s|ped)?|around</token>
@@ -44897,11 +44897,27 @@ The accident victim died from her injuries.
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
         <rule id="MEED_MEET" name="meed (meet)" default="temp_off">
+            <antipattern>
+                <token postag="DT|PRP\$" postag_regexp="yes" skip="1" />
+                <token>meed</token>
+                <token>of</token>
+            </antipattern>
+            <antipattern>
+                <token>Meeds</token>
+                <token regexp="yes">LLP|Lake</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token><exception postag="SENT_START" /></token>
+                <token>Meed</token>
+            </antipattern>
             <pattern>
-                <token case_sensitive="yes" regexp="yes">[Mm]eed</token>
+                <token case_sensitive="yes" regexp="yes">[Mm]eed|meeds</token>
             </pattern>
-            <message>Did you mean <suggestion>meet</suggestion>?</message>
+            <message>Did you mean <suggestion><match no="1" regexp_match="(?i)d" regexp_replace="t" /></suggestion>?</message>
             <example correction="meet">Let's <marker>meed</marker> tomorrow at our favorite bar!</example>
+            <example>Benjamin Meeds</example>
+            <example>Geoff Meed</example>
+            <example>In order to understand her meaning, it is necessary to start from a phenomenon which, although old and well recognized, has never received its proper meed of consideration.</example>
         </rule>
         <rule id="SEEM_SEEN" name="seem vs seen">
             <pattern>
