@@ -180,7 +180,7 @@ public class AgreementRule extends Rule {
       token("Club")
     ),
     Arrays.asList(  // "In einem App Store"
-      token("App"),
+      tokenRegex("App|Play"),
       token("Store")
     ),
     Arrays.asList(  // "in dem einen Jahr"
