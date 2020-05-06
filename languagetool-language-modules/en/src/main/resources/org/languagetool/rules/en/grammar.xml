@@ -2505,6 +2505,12 @@ USA
                     <token>,</token>
                     <token>is</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">which|who</token>
+                    <token>if</token>
+                    <token>you</token>
+                    <token postag="VB.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token regexp="yes">which|who(se)?</token>
                     <marker>
@@ -2515,6 +2521,7 @@ USA
                 <short>Possible typo</short>
                 <example correction="is">The rules are tested, which <marker>if</marker> quite fast.</example>
                 <example>Development says the issues are going to be fixed in version 4.712, which if so, is great.</example>
+                <example>Who if you recall was the best?</example>
             </rule>
         </rulegroup>
         <rule id="BED_ENGLISH" name="bed/bat (bad) English/...">
@@ -5848,7 +5855,7 @@ USA
                 <suggestion>Hitchhiker's Guide</suggestion>
                 <example correction="Hitchhiker's Guide">The <marker>Hitchhikers Guide</marker> to the Galaxy</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>Readers</token>
                     <token>Digest</token>
@@ -8238,6 +8245,13 @@ USA
                     <token postag="VB.*" postag_regexp="yes" />
                     <token regexp="yes">having|being</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">who|which|what|when|where</token>
+                    <token>if</token>
+                    <token>you</token>
+                    <token postag="VB.*" postag_regexp="yes" />
+                    <token postag="VB.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token regexp="yes">if|when</token>
                     <marker>
@@ -8267,6 +8281,7 @@ USA
                 <example>You might not have a definitive answer even if you start having sexual relationships.</example>
                 <example>Freedom to do what you want when you want is not freedom, it's licence.</example>
                 <example>Not earning miles when you fly is like keeping your money under a mattress instead of in a savings account.</example>
+                <example>Which if you recall was the best?</example>
             </rule>
             <rule><!-- I think <your> nice -->
                 <antipattern>
@@ -11487,6 +11502,38 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="IN_TERM_OF_PHRASE" name="in term (terms) of" default="temp_off">
+            <antipattern>
+                <token>in</token>
+                <token>terms</token>
+                <token>of</token>
+            </antipattern>
+            <pattern>
+                <token>in</token>
+                <token regexp="yes">terms?</token>
+                <token regexp="yes">off?</token>
+            </pattern>
+            <message>Did you mean the commonly used phrase <suggestion>\1 \2s \3</suggestion>?</message>
+            <url>https://www.lexico.com/definition/in_terms_of</url>
+            <example correction="In terms of"><marker>In term of</marker> academic freedom, however, the process has hardly been progressive.</example>
+        </rule>
+        <rule id="IN_THE_LONG_TERMS" name="in term (terms) of" default="temp_off">
+            <antipattern>
+                <token>in</token>
+                <token>the</token>
+                <token regexp="yes">long|short</token>
+                <token regexp="yes">term|run</token>
+            </antipattern>
+            <pattern>
+                <token>in</token>
+                <token>the</token>
+                <token regexp="yes">lon?g|short</token>
+                <token regexp="yes">(term|run)s?</token>
+            </pattern>
+            <message>Did you mean the commonly used phrase <suggestion>\1 \2 <match no="3" regexp_match="(?i)og" regexp_replace="ong" /> <match no="4" regexp_match="s" regexp_replace="" /></suggestion>?</message>
+            <url>https://www.lexico.com/definition/in_the_long_term</url>
+            <example correction="In the long term"><marker>In the long terms</marker> we will be happy.</example>
+        </rule>
         <rule id="COULDVE" name="couldve (could've)">
             <pattern>
                 <token regexp="yes">(c|w|should)ouldve</token>
@@ -11529,12 +11576,12 @@ USA
                 <token regexp="yes">bomb|nut|sea|egg|cockle|lamp|sub</token>
                 <token regexp="yes">shells?</token>
             </pattern>
-            <message>This word is normally spelled as one.</message>
+            <message>This is normally spelled as one word.</message>
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
-        <rule id="MOTOR_COMPOUNDS" name="motor bike (motorbike)" default="temp_off">
+        <rule id="MOTOR_COMPOUNDS" name="motor bike (motorbike)">
             <antipattern>
                 <token>motor</token>
                 <token regexp="yes">trucks?|cycles?</token>
@@ -11544,7 +11591,7 @@ USA
                 <token>motor</token>
                 <token regexp="yes">bikes?|bikers?|boats?|cycles?|doms?|trucks?</token>
             </pattern>
-            <message>This word is normally spelled as one.</message>
+            <message>This is normally spelled as one word.</message>
             <suggestion>motor<match no="2" case_conversion="alllower" /></suggestion>
             <url>https://www.merriam-webster.com/dictionary/motorbike</url>
             <example correction="motorbike">I love driving my <marker>motor bike</marker>.</example>
@@ -11555,7 +11602,7 @@ USA
                 <token>smart</token>
                 <token regexp="yes">phones?|watch(es)?|grass(es)?|weeds?</token>
             </pattern>
-            <message>This word is normally spelled as one.</message>
+            <message>This is normally spelled as one word.</message>
             <suggestion>smart<match no="2" case_conversion="alllower" /></suggestion>
             <url>https://www.lexico.com/definition/smartphone</url>
             <example correction="smartphone">He got a new <marker>smart phone</marker> for Christmas.</example>
@@ -11569,12 +11616,12 @@ USA
                 <token>sky</token>
                 <token regexp="yes">scrapers?|rocket(s|ed|ing)?|borne|caps?|diving|divers?|dive[ds]?|hooks?|jack(s|ed)?|jackers?|jacking|lines?|larks?|sails?|walks?|ward</token>
             </pattern>
-            <message>This word is normally spelled as one.</message>
+            <message>This is normally spelled as one word.</message>
             <suggestion>sky<match no="2" case_conversion="alllower" /></suggestion>
             <example correction="skyline">New York City has a beautiful <marker>sky line</marker>.</example>
             <example>My Sky box isn't working anymore.</example>
         </rule>
-        <rule id="WAY_COMPOUNDS" name="park way (parkway)" default="temp_off">
+        <rule id="WAY_COMPOUNDS" name="park way (parkway)">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">[A-Z].*</token>
                 <token regexp="yes">Way|WAY</token>
@@ -11593,10 +11640,10 @@ USA
                 <token>go</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">park|rail|drive|high|sky|motor|run|gate|race|path|speed|entry|water|sub|route</token>
+                <token regexp="yes">park|rail|drive|high|sky|motor|run|gate|race|path|speed|entry|water|sub|route|life</token>
                 <token regexp="yes">ways?</token>
             </pattern>
-            <message>This noun is normally spelled as one.</message>
+            <message>This noun is normally spelled as one word.</message>
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <example correction="driveway">His car parks in the <marker>drive way</marker>.</example>
             <example>We live on Inverness Park Way, and used to live on Cedarspur a few years back.</example>
@@ -11604,7 +11651,26 @@ USA
             <example>In the sky way too many clouds are seen.</example>
             <example>You can run way faster than him.</example>
         </rule>
-        <rule id="SHIP_COMPOUNDS" name="space ship (spaceship)" default="temp_off">
+        <rule id="LIFE_COMPOUND" name="life style (lifestyle)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Life</token>
+                <token regexp="yes">Guards|Time</token>
+            </antipattern>
+            <antipattern>
+                <token>royal</token>
+                <token>life</token>
+            </antipattern>
+            <pattern>
+                <token>life</token>
+                <token regexp="yes">styles?|time|boats?|guards?|savers?|blood</token>
+            </pattern>
+            <message>This noun is normally spelled as one word.</message>
+            <suggestion>life<match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="lifestyle">He has an extraordinary <marker>life style</marker>.</example>
+            <example>Life Time (1987, re-release 1999)</example>
+            <example>Conscripts in the Royal Life Guards serve eight months.</example>
+        </rule>
+        <rule id="SHIP_COMPOUNDS" name="space ship (spaceship)">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">[A-Z].*</token>
                 <token regexp="yes">Ship|SHIP</token>
@@ -13576,7 +13642,7 @@ USA
                     <marker>
                         <token>you</token>
                         <token min="0">really</token>
-                        <token regexp="yes">good|ok|okay|mad|happy|cool|coming|ready|fine</token>
+                        <token regexp="yes">good|ok|okay|mad|happy|cool|coming|ready|fine|sure</token>
                         <token>?</token>
                     </marker>
                 </pattern>
@@ -13589,7 +13655,7 @@ USA
                     <marker>
                         <token>you</token>
                         <token min="0">really</token>
-                        <token regexp="yes">good|ok|okay|mad|happy|cool|coming|ready|fine</token>
+                        <token regexp="yes">good|ok|okay|mad|happy|cool|coming|ready|fine|sure</token>
                         <token>with</token>
                         <token regexp="yes">that|this</token>
                         <token>?</token>
@@ -13604,7 +13670,7 @@ USA
                     <marker>
                         <token>you</token>
                         <token min="0">really</token>
-                        <token regexp="yes">good|ok|okay|mad|happy|cool|coming|ready|fine</token>
+                        <token regexp="yes">good|ok|okay|mad|happy|cool|coming|ready|fine|sure</token>
                         <token>?</token>
                     </marker>
                     <token regexp="yes" spacebefore="no">["”'’]</token>
@@ -20445,7 +20511,7 @@ USA
                 <example correction="Apple">He's an <marker>apple</marker> employee.</example>
                 <example correction="Apple">And <marker>apple</marker>'s revenue is still increasing.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">Apple(Pay|Watch)</token>
                 </pattern>
@@ -44896,7 +44962,52 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rule id="MEED_MEET" name="meed (meet)" default="temp_off">
+        <rulegroup id="TRAIL_TRIAL" name="trail (trial)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>free</token>
+                    <token>trail</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 trial</suggestion>?</message>
+                <example correction="free trial">The <marker>free trail</marker> expired after 30 days.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="3">trail</token>
+                    </marker>
+                    <token inflected="yes">expire</token>
+                </pattern>
+                <message>Did you mean <suggestion>trial</suggestion>?</message>
+                <example correction="trial">The <marker>trail</marker> expired after 30 days.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>trail</token>
+                    <token regexp="yes">licen[cs]es?|periods?</token>
+                </pattern>
+                <message>Did you mean <suggestion>trial \2</suggestion>?</message>
+                <example correction="trial license">Your <marker>trail license</marker> has expired.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="1">\d+-(day|week|month)</token>
+                    <token>trail</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 trial</suggestion>?</message>
+                <example correction="30-day trial">Your <marker>30-day trail</marker> expired.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="CD" />
+                    <token regexp="yes" skip="1">(day|week|month)</token>
+                    <token>trail</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 \2 trial</suggestion>?</message>
+                <example correction="30 day trial">Your <marker>30 day trail</marker> expired.</example>
+            </rule>
+        </rulegroup>
+        <rule id="MEED_MEET" name="meed (meet)">
             <antipattern>
                 <token postag="DT|PRP\$" postag_regexp="yes" skip="1" />
                 <token>meed</token>
