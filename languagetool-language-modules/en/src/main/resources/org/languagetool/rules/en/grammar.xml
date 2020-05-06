@@ -25853,18 +25853,29 @@ USA
                 </antipattern>
                 <antipattern><!-- #2123 You will be queen. -->
                     <token>be</token>
-                    <token chunk="E-NP-singular" postag="NN">queen</token><!-- Do not make a general exception for NN:U because 'queen' is NN. Refer to https://www.lexico.com/en/definition/queen: "[as complement] ‘he insisted the princess could be crowned queen’" -->
+                    <token chunk="E-NP-singular" postag="NN" regexp="yes">queen|quarterback</token><!-- Do not make a general exception for NN:U because 'queen' is NN. Refer to https://www.lexico.com/en/definition/queen: "[as complement] ‘he insisted the princess could be crowned queen’" -->
                 </antipattern>
                 <antipattern case_sensitive="yes"><!-- #2434 whether Being came -->
                     <token postag="CC" regexp="yes">\p{Ll}+</token>
                     <token>Being</token><!-- Acts as a proper noun -->
                     <token postag="VBD" regexp="yes">\p{Ll}+</token>
                 </antipattern>
+                <antipattern><!-- #2568 to be season 3 -->
+                    <token>to</token>
+                    <token>be</token>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                    <token postag="CD"/>
+                </antipattern>
+                <antipattern><!-- #2568 being host to -->
+                    <token>being</token>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                    <token postag="IN"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be
                         <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
                         <exception postag='NNP'/>
-                        <exception regexp="yes">s|art|am</exception>
+                        <exception regexp="yes">s|am</exception>
                     </token>
                     <marker>
                         <token postag="VB[DP]?" postag_regexp="yes"><exception postag="VBN|NN:UN?|NNP|JJ.*|RB|IN" postag_regexp="yes"/><exception regexp="yes">are|am</exception></token>
@@ -25894,7 +25905,7 @@ USA
                 <example type="triggers_error">What we are trying to do with Ridley now is go through the painstaking process of trying to...</example>
                 <example>Their opponents were club president Cesar de Zulueta and Valentin Barr.</example>
                 <example>... question of this school was whether Being came before Not-Being (in Chinese, 'ming' and ...</example><!-- #2434 -->
-                <example type="triggers_error">A 10-day-old pup can die from being host to as few as 25 'A. caninum' worms.</example>
+                <example>A 10-day-old pup can die from being host to as few as 25 'A. caninum' worms.</example>
                 <example>... visited the islands (of whom 443,987 <marker>were cruise ship passengers</marker>).</example>
                 <example>The question is can you do everything we've asked...</example>
                 <example>The question is did she know about the...</example>
@@ -25903,6 +25914,9 @@ USA
                 <example>What is Google AMP?</example>
                 <example>You will be queen.</example><!-- #2123 -->
                 <example>I am believe you.</example><!-- #2547 Found by Premium I_AM_VB -->
+                <example>He wanted to be quarterback.</example><!-- #2568 -->
+                <example>It's going to be season 3.</example><!-- #2568 -->
+                <example>Even being host to exchange students can benefit kids.</example><!--  #2568 -->
             </rule>
             <rule>
                 <antipattern><!-- Cannot use a chunk in an exception. Thus, use an antipattern with a chunk in a token. -->
@@ -25964,6 +25978,11 @@ USA
                     <token>rocket</token>
                     <token>science</token>
                 </antipattern>
+                <antipattern><!-- #2568 were down was her -->
+                    <token chunk="B-VP" inflected="yes">be</token>
+                    <token chunk="I-VP" postag="RB"/>
+                    <token chunk="I-VP" regexp="yes">is|was|are|were</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be
                         <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
@@ -26002,6 +26021,7 @@ USA
                 <example>...small role and the fact that the island is mostly bog means that its potential...</example>
                 <example>... these churches are generally <marker>host to</marker> staunch Anglicans who are ...</example>
                 <example>We are also <marker>market leaders</marker>.</example><!-- #2056 -->
+                <example>Joan said kicking people when they were down was her specialty.</example><!--  #2568 -->
             </rule>
         </rulegroup>
 
