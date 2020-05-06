@@ -1268,13 +1268,17 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
                 <token inflected="yes" regexp="yes">ein|der</token>
                 <marker>
                     <and>
-                        <token postag="PA2:.+" postag_regexp="yes"/>
-                        <token postag="VER:[1-3]:[A-Z]{3}:PRT:.+" postag_regexp="yes" regexp="yes">[a-zäöü].+</token>
+                        <token postag="PA2:.+" postag_regexp="yes" />
+                        <token postag="VER:[1-3]:[A-Z]{3}:PRT:.+" postag_regexp="yes" regexp="yes">
+                            [a-zäöü].+
+                            <exception inflected="yes">betonen</exception>
+                        </token>
                     </and>
                 </marker>
                 <token postag="SUB:.+" postag_regexp="yes" regexp="yes">[A-ZÄÖÜ].+</token>
             </pattern>
             <disambig action="remove" postag="VER:.+"/>
+            <example type="untouched">Das betonte Bundeskanzlerin Angela Merkel.</example>
         </rule>
     </rulegroup>
     <rulegroup id="PA2_WERDEN" name="Entferne Adjektiv von Partizip">
