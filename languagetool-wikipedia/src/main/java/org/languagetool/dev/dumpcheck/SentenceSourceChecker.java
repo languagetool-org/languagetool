@@ -171,7 +171,7 @@ public class SentenceSourceChecker {
         boolean enable = false;
         if (rule instanceof AbstractPatternRule) {
           String sourceFile = ((AbstractPatternRule) rule).getSourceFile();
-          if (sourceFile != null && sourceFile.endsWith("/" + ruleSource)) {
+          if (sourceFile != null && sourceFile.endsWith("/" + ruleSource) && !rule.isDefaultOff()) {
             enable = true;
             activatedBySource++;
           }
