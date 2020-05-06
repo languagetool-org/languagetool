@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   private static final List<Pattern> SENTENCE_EXCEPTION_PATTERNS = Arrays.asList(
+    Pattern.compile("wir \\("),  // "Hallo, wir (die Dingsbums Gmbh)"
     Pattern.compile("Wie .*?en Sie"),  // "Wie heizen Sie das Haus?"
     Pattern.compile("fiel(e|en)? .* (aus|auf)")
   );
