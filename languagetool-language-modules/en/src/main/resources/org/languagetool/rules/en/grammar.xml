@@ -68,7 +68,7 @@ USA
     <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
     <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
     <!ENTITY uom_abbreviations_SI "(Y|Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|mol|cd|rad|sr|Hz|N|Pa|J|W|C|V|F|Ω|S|Wb|T|H|lm|lx|Bq|Gy|Sv|kat|min|h|d|L|t|Np|B|eV|u|ua)"><!-- https://physics.nist.gov/cuu/Units/units.html -->
-    <!ENTITY uom_abbreviations_other "bpm|ft|hr|in|ipm|km|kph|lb|lm|mi|ml|mph|ppb|ppm|rpm"><!-- Not a full list. Last updated 2020-04-27. Why is km necessary? It is in uom_abbreviations_SI -->
+    <!ENTITY uom_abbreviations_other "bpm|ft|hr|in|ipm|km|kph|lb|lm|mi|min|ml|mpg|mph|ppb|ppm|rpm|yd"><!-- Not a full list. Last updated 2020-04-27. Why is km necessary? It is in uom_abbreviations_SI. -->
     <!ENTITY ambiguous_date '
         <token regexp="yes">0?[1-9]|1[0-2]</token>
         <token>/</token>
@@ -35150,10 +35150,6 @@ USA
                 <token>sit</token>
                 <token>ups</token>
             </antipattern>
-            <antipattern><!-- #2787 The speedometer was indicating 95 mph. -->
-                <token postag="CD"/>
-                <token case_sensitive="yes" regexp="yes">&uom_abbreviations_SI;|&uom_abbreviations_other;</token><!-- Units of measurement are usually singular. MFU 2020-04-26: some of the exceptions in the pattern are probably not necessary with this antipattern. -->
-            </antipattern>
             <antipattern><!-- #2787 fictional Hundred Acre Wood of -->
                 <token postag="CD" regexp="yes">\p{Lu}.*</token>
                 <token postag="NNP"/>
@@ -35225,9 +35221,10 @@ USA
                         <exception postag="NN:UN?|NNP?S|JJ.*|IN|CD" postag_regexp="yes"/>
                         <exception regexp="yes">will|year|so|pst|well|still|have|had|wether|max</exception>
                         <exception>are</exception> <!-- chunker treats it as E-NP-singular at times... -->
-                        <exception regexp="yes">lb|yd|ft|Msec|[kcm]m|[km]g|gm|lm|lux|mk|gram|stat|[ck]c|hr|min?|m[23]|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent|mil|all|has|if|possible|yearly</exception>
+                        <exception regexp="yes">Msec|lux|mk|gram|stat|[ck]c|m[23]|pH|mcg|pax|cpu|[KMGk]B|kelvin|saw|percent|baht|rub|grad|bounty|dollar|euro?|cent|mil|all|has|if|possible|yearly</exception>
                         <exception regexp="yes">&months;|size|\$\d+|\d+|\)</exception>
                         <exception regexp="yes">&weekdays;</exception>
+                        <exception regexp="yes" case_sensitive="yes">&uom_abbreviations_SI;|&uom_abbreviations_other;</exception>
                         <exception regexp="yes">Ave(nue)?|Street|Terrace|Square|Plaza|Parkway|Broadway</exception><!-- probably an address, "333 Grant Avenue" -->
                         <exception scope="next" regexp="yes">getters|soldiers|IDs</exception>
                         <exception regexp="yes">thousand|[mb]illion</exception>
@@ -35388,6 +35385,7 @@ USA
             <example>... out of which the first four form Greater Athens, while the regional unit...</example><!-- #2787 -->
             <example>Aruba also has 18 radio stations (two AM and 16 FM) and three...</example><!-- #2787 -->
             <example>... which is 72 m2 per head.</example><!-- #2787 -->
+            <example>... the 1997 (still) gets 30 highway mpg, the 2004 gets 26 mpg, and the...</example>
             <example type="triggers_error">When Sony came back with a 2 billion bid, CBS could not refuse.</example><!-- #2440 -->
             <example type="triggers_error">England eventually faced a massive 707 run target for victory and failed, Australia winning the ...</example>
         </rule>
