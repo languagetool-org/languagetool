@@ -29512,6 +29512,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rulegroup id="PELOTON" name="pelotón">
+            <url>https://esadir.cat/entrades/fitxa/node/ciclisme</url>
+            <rule>
+                <pattern>
+                    <token>peloton</token>
+                </pattern>
+                <message>Castellanisme en l'àmbit del ciclisme. 'Peloton' pot ser una marca esportiva.</message>
+                <suggestion>grup</suggestion>
+                <suggestion>gran grup</suggestion>
+                <suggestion>escamot</suggestion>
+                <suggestion>pilot</suggestion>
+                <example correction="grup|gran grup|escamot|pilot">El <marker>peloton</marker> va quedar endarrerit.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">pelotón|pelotó</token>
+                </pattern>
+                <message>Castellanisme en l'àmbit del ciclisme.</message>
+                <suggestion>grup</suggestion>
+                <suggestion>gran grup</suggestion>
+                <suggestion>escamot</suggestion>
+                <suggestion>pilot</suggestion>
+                <example correction="grup|gran grup|escamot|pilot">El <marker>pelotó</marker> va quedar endarrerit.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PARAR_TAULA" name="parar taula">
             <rule>
                 <pattern>
