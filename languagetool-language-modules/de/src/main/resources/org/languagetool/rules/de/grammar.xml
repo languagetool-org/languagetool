@@ -4725,6 +4725,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
         <!-- TODO emphatisch/empathisch -->
+        <rule id="UEBERWEIDUNG" name="Überweidung (Überweisung)">
+            <pattern>
+                <token regexp="yes">Überweidung|Überweidungen</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="weidung" regexp_replace="weisung"/></suggestion>?</message>
+            <example correction="Überweisungen">Die <marker>Überweidungen</marker> auf unser Konto stehen noch aus.</example>
+            <example correction="Überweisung">Die <marker>Überweidung</marker> auf unser Konto steht noch aus.</example>
+        </rule>
         <rule id="VEREINIGTE_STATTEN" name="Vereinigte Statten (Staaten)">
             <pattern>
                 <token inflected="yes">Vereinigte</token>
