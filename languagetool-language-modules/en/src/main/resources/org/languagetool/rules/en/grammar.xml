@@ -11502,6 +11502,50 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="OF_ALL_TIMES" name="He's the best of all times" default="temp_off">
+            <pattern>
+                <token postag="JJS" skip="4" />
+                <marker>
+                    <token>of</token>
+                    <token>all</token>
+                    <token>times</token>
+                </marker>
+            </pattern>
+            <message>In this context, the idiom needs to be spelled <suggestion>\2 \3 <match no="4" regexp_match="s$" regexp_replace="" /></suggestion>.</message>
+            <url>https://www.merriam-webster.com/dictionary/of%20all%20time</url>
+            <example correction="of all time">In my opinion, he is still the greatest basketball player <marker>of all times</marker>.</example>
+        </rule>
+        <rulegroup id="THE_MEAN_TIME_PHRASE" name="in the mean time (meantime)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>in</token>
+                    <token>the</token>
+                    <token>mean</token>
+                    <token regexp="yes">time|while</token>
+                </pattern>
+                <message>The correct spelling for this commonly used idiom is <suggestion>\1 \2 \3<match no="4" case_conversion="alllower" /></suggestion>.</message>
+                <url>https://www.merriam-webster.com/dictionary/in%20the%20meantime</url>
+                <example correction="In the meantime"><marker>In the mean time</marker>, I have checked your CV for mistakes.</example>
+            </rule>
+            <rule>
+                <antipattern><!-- https://en.wikipedia.org/wiki/Mean_time_between_failures -->
+                    <token>mean</token>
+                    <token>time</token>
+                    <token>between</token>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>mean</token>
+                        <token regexp="yes">time|while</token>
+                    </marker>
+                </pattern>
+                <message>This adverb that is commonly used for introductory phrases is spelled as one word.</message>
+                <suggestion>mean<match no="3" case_conversion="alllower" /></suggestion>
+                <example correction="Meanwhile"><marker>Mean while</marker>, I have corrected all your grammar mistakes.</example>
+                <example>Mean time between failures (MTBF) is the predicted elapsed time between inherent failures of a mechanical or electronic system.</example>
+            </rule>
+        </rulegroup>
         <rule id="IN_TERM_OF_PHRASE" name="in term (terms) of" default="temp_off">
             <antipattern>
                 <token>in</token>
@@ -44960,6 +45004,51 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rulegroup id="WURST_WORST" name="wurst vs worst" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>wurst</token>
+                    </marker>
+                    <token regexp="yes">cases?</token>
+                </pattern>
+                <message>Did you mean the adjective <suggestion>worst</suggestion>?</message>
+                <example correction="worst">This is the <marker>wurst</marker> case scenario.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="5">wurst</token>
+                    </marker>
+                    <token>ever</token>
+                </pattern>
+                <message>Did you mean the adjective <suggestion>worst</suggestion>?</message>
+                <example correction="worst">This game is the <marker>wurst</marker> I have ever watched.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token skip="4">wurst</token>
+                    </marker>
+                    <token>of</token>
+                    <token>all</token>
+                </pattern>
+                <message>Did you mean the adjective <suggestion>worst</suggestion>?</message>
+                <example correction="worst">He is the <marker>wurst</marker> player of all time.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>wurst</token>
+                    </marker>
+                    <token inflected="yes">be</token>
+                    <token>yet</token>
+                    <token>to</token>
+                </pattern>
+                <message>Did you mean the adjective <suggestion>worst</suggestion>?</message>
+                <example correction="worst">The <marker>wurst</marker> is yet to come.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TRAIL_TRIAL" name="trail (trial)" default="temp_off">
             <rule>
                 <pattern>
@@ -51521,7 +51610,7 @@ The accident victim died from her injuries.
             </rule>
             <rule> <!-- may effect, might effect, would effect, etc -->
                 <pattern>
-                    <token regexp="yes">might|may|often|(c|sh|w)ould|will|d(id|oes)|not|typically</token>
+                    <token regexp="yes">might|may|often|(c|sh|w)ould|will|d(id|oes)|not|cannot|typically</token>
                     <marker>
                         <token>effect</token>
                     </marker>
@@ -51532,7 +51621,7 @@ The accident victim died from her injuries.
             </rule>
             <rule> <!-- may effect, might effect, would effect, etc -->
                 <pattern>
-                    <token regexp="yes">might|may|often|(c|sh|w)ould|will|did|does|not|typically</token>
+                    <token regexp="yes">might|may|often|(c|sh|w)ould|will|did|does|not|cannot|typically</token>
                     <token postag="RB"/>
                     <marker>
                         <token>effect</token>
@@ -51545,7 +51634,7 @@ The accident victim died from her injuries.
             </rule>
             <rule> <!-- couldn't effect, shouldn't effect, didn't effect, etc. -->
                 <pattern>
-                    <token regexp="yes">(c|sh|w)ouldn|didn|won|can</token>
+                    <token regexp="yes">(c|sh|w)ouldn|didn|doesn|don|won|can</token>
                     <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <marker>
@@ -51554,6 +51643,7 @@ The accident victim died from her injuries.
                 </pattern>
                 <message>Did you mean <suggestion>affect</suggestion>?</message>
                 <example correction="affect">The medicine shouldn't <marker>effect</marker> the baby.</example>
+                <example correction="affect">This doesn't <marker>effect</marker> the timeline.</example>
             </rule>
             <rule> <!-- could've effected, should've effected, etc. -->
                 <pattern>
