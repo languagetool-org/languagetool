@@ -5969,6 +5969,732 @@ USA
         <example type="correct"> كان من الأمر على يقين </example>
       </rule>
     </rulegroup>
+    <rulegroup id="transitive_verbs_indirect_tobe_direct" name="المتعدي بحرف تصحيحه متعد بنفسه">
+<!-- trans_376_AstAdhn_mn استأذن من -->
+  <rule id="trans_376_AstAdhn_mn" name="استأذن من">
+    <pattern>
+	<marker>
+      <token inflected="yes" skip="1">اِسْتَأْذَنَ</token>
+      <token regexp="yes">&forms_min;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="1"/><match no="2" regexp_match="من" regexp_replace=""/></suggestion>
+</message>
+    <example correction="استأذنه" type="incorrect"><marker>استأذن منه</marker></example>
+    <example type="correct"> استأذنه </example>
+  </rule>
+  <!-- trans_384_AHtdha_b احتذى ب -->
+  <rule id="trans_384_AHtdha_b" name="احتذى ب">
+    <pattern>
+      <token inflected="yes" skip="1">اِحْتَذَى</token>
+      <marker>
+        <token postag="N.*;.*;-B.?" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+    <suggestion><match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+</message>
+    <example correction="فلان" type="incorrect">احتذيت <marker>بفلان</marker> </example>
+    <example type="correct"> احتذيت فلانا </example>
+  </rule>
+ <!-- trans_386_AkhTA_En_AlSwAb أَخْطَأَ عنِ الصواب -->
+  <rule id="trans_386_AkhTA_En_AlSwAb" name="أخطأ عن الصواب">
+    <pattern>
+      <token inflected="yes" skip="1">أَخْطَأَ</token>
+      <marker>
+        <token regexp="yes">&forms_3an;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: أخطأ الصواب بدلا من أخطأ عن الصواب
+   <suggestion/>
+</message>
+    <example correction="" type="incorrect"> أخطأ <marker>عن</marker> الصواب </example>
+    <example type="correct"> أخطأ الصواب </example>
+  </rule>
+ <!-- trans_388_Akhlf_bwEdh أَخْلَفَ بوعدِهِ -->
+  <rule id="trans_388_Akhlf_bwEdh" name="أخلف بوعده">
+    <pattern>
+      <token inflected="yes" skip="1">أَخْلَفَ</token>
+      <marker>
+        <token inflected="yes" postag="N.*;.*;-B.?" postag_regexp="yes" skip="1">وعد</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   	<suggestion><match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+</message>
+    <example correction="وعده" type="incorrect"> أخلف <marker>بوعده</marker> </example>
+    <example type="correct"> أخلف وعده </example>
+  </rule>
+ <!-- TODO trans I2D-->
+    </rulegroup>
+  <rulegroup id="transitive_verbs_indirect_tobe_indirect" name="المتعدي بحرف تصحيحه متعد بحرف آخر">
+  <!-- trans_381_AtSl_mE اتّصَلَ مع -->
+  <rule id="trans_381_AtSl_mE" name="اتصل مع">
+    <pattern>
+      <token inflected="yes" skip="1">اِتَّصَلَ</token>
+      <marker>
+        <token regexp="yes">&forms_ma3a;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="2" regexp_match="مع" regexp_replace="ب"/></suggestion>
+</message>
+    <example correction="به" type="incorrect">اتصل <marker>معه</marker> </example>
+    <example type="correct"> اتصل به </example>
+  </rule>
+<!-- trans_382_AjAb_Ela أجاب على -->
+  <rule id="trans_382_AjAb_Ela" name="أجاب على">
+    <pattern>
+      <token inflected="yes" skip="1">أَجَابَ</token>
+      <marker>
+        <token regexp="yes">&forms_3ala;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: \1    
+   <suggestion><match no="2" regexp_match="على|علي" regexp_replace="عن"/></suggestion>
+   <suggestion><match no="2" regexp_match="عل" regexp_replace="إل"/></suggestion>
+</message>
+    <example correction="عن|إلى" type="incorrect">أجاب <marker>على</marker> السؤال </example>
+    <example type="correct"> أجاب عن السؤال </example>
+  </rule>
+ <!-- trans_385_AkhtlfwA_Ela اخْتَلَفُوا على -->
+  <rule id="trans_385_AkhtlfwA_Ela" name="اختلفوا على">
+    <pattern>
+      <token inflected="yes" skip="1">اِخْتَلَفَ</token>
+      <marker>
+        <token regexp="yes">&forms_3ala;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+	<suggestion><match no="2" regexp_match="على|علي" regexp_replace="في"/></suggestion>
+</message>
+    <example correction="في" type="incorrect">اختلفوا <marker>على</marker> الأمر </example>
+    <example type="correct"> اختلفوا في الأمر </example>
+  </rule>
+ <!-- trans_387_AkhTAt_mE أَخْطَأْتُ مع -->
+  <rule id="trans_387_AkhTAt_mE" name="أخطأت مع">
+    <pattern>
+      <token inflected="yes" skip="1">أَخْطَأَ</token>
+      <marker>
+        <token regexp="yes">&forms_ma3a;</token>
+      </marker>
+    </pattern>
+    <message>أخطأتُ مع فلان = أخطأ فلانٌ وأخطأتُ معه ـ قل \1 
+<suggestion>على</suggestion>
+<suggestion>علي</suggestion>
+<suggestion>علينا</suggestion>
+<suggestion>عليك</suggestion>
+<suggestion>عليه</suggestion>
+</message>
+    <example correction="على|علي|علينا|عليك|عليه" type="incorrect"> أخطأت <marker>مع</marker> فلان </example>
+    <example type="correct"> أخطأ على فلان </example>
+  </rule>
+<!-- trans_389_ArtAb_mn ارْتابَ من -->
+  <rule id="trans_389_ArtAb_mn" name="ارتاب من">
+    <pattern>
+      <token inflected="yes" skip="1">اِرْتَابَ</token>
+      <marker>
+        <token regexp="yes">&forms_min;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+<suggestion><match no="2" regexp_match="من" regexp_replace="في"/></suggestion>
+</message>
+    <example correction="في" type="incorrect"> ارتاب <marker>من</marker> الأمر </example>
+    <example type="correct"> ارتاب في الأمر </example>
+  </rule>
+
+ <!-- trans_391_AstEd_2la اسْتَعَدَّ إلى -->
+  <rule id="trans_391_AstEd_2la" name="استعد إلى">
+    <pattern>
+      <token inflected="yes" skip="1">اِسْتَعَدَّ</token>
+      <marker>
+        <token regexp="yes">&forms_ila;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion>ل</suggestion>
+</message>
+    <example correction="ل" type="incorrect"> استعد <marker>إلى</marker> الأمر </example>
+    <example type="correct"> استعد للأمر </example>
+  </rule>
+<!-- trans_392_Astgfr_Allh_En_dhnbh استَغْفَرَ اللهَ عن ذنْبه -->
+  <rule id="trans_392_Astgfr_Allh_En_dhnbh" name="استغفر الله عن ذنبه">
+    <pattern>
+      <token inflected="yes" skip="1">اِسْتَغْفَرَ</token>
+      <marker>
+        <token regexp="yes">&forms_3an;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion>ل*</suggestion>
+<suggestion><match no="2" regexp_match="عن" regexp_replace="من"/></suggestion>
+</message>
+    <example correction="ل*|من" type="incorrect"> استغفر الله <marker>عن</marker> ذنبه </example>
+    <example type="correct"> استغفر الله لذنبه </example>
+  </rule>
+ <!-- trans_393_Astnd_Ela اسْتَنَدَ على -->
+  <rule id="trans_393_Astnd_Ela" name="استنـد على">
+    <pattern>
+      <token inflected="yes" skip="1">اِسْتَنَدَ</token>
+      <marker>
+        <token regexp="yes">&forms_3ala;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="2" regexp_match="عل" regexp_replace="إل"/></suggestion>
+</message>
+    <example correction="إلى" type="incorrect"> استند <marker>على</marker> الشيء </example>
+    <example type="correct"> استند إلى الأرض </example>
+  </rule>
+
+  <!-- trans_396_ASga_l أَصْغَى ل -->
+  <rule id="trans_396_ASga_l" name="أصغى ل">
+    <pattern>
+      <token inflected="yes" skip="1">أَصْغَى</token>
+      <marker>
+        <token postag="N.*;.*;-L.?" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion>إلى&nbsp;<match no="2" regexp_match="^(لل|ل)" regexp_replace=""/>*</suggestion>
+</message>
+    <example correction="إلى حديثه*" type="incorrect"> أصغى <marker>لحديثه</marker> </example>
+    <example type="correct"> أصغى إلى الدرس </example>
+  </rule>
+  <!-- trans_396_ASga_l أَصْغَى ل -->
+  <rule id="trans_396_ASga_l_2" name="أصغى ل">
+    <pattern>
+      <token inflected="yes" skip="1">أَصْغَى</token>
+      <marker>
+        <token regexp="yes">&forms_li;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+<suggestion><match no="2" regexp_match="ل" regexp_replace="إلي"/></suggestion>
+</message>
+    <example correction="إليه" type="incorrect"> أصغى <marker>له</marker> </example>
+    <example type="correct"> أصغى إلى الدرس </example>
+  </rule>
+
+<!-- trans_397_ADTr_l__ADTr_Ela اضْطُرَّ ل | اضطر على -->
+  <rule id="trans_397_ADTr_l__ADTr_Ela" name="اضطر ل |اضطر على">
+    <pattern>
+      <token inflected="yes" skip="1">اِضْطَرَّ</token>
+      <marker>
+        <token postag="N.*;.*;-L.?" postag_regexp="yes" skip="1"/>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion>إلى&nbsp;<match no="2" regexp_match="^(لل|ل)" regexp_replace=""/>*</suggestion>
+</message>
+    <example correction="إلى سفر*" type="incorrect"> اضطر <marker>لسفر</marker> / على السفر </example>
+    <example type="correct"> اضطر إلى الدفع </example>
+  </rule>
+<!-- trans_397_ADTr_l__ADTr_Ela اضْطُرَّ ل | اضطر على -->
+  <rule id="trans_397_ADTr_l__ADTr_Ela_2" name="اضطر ل |اضطر على">
+    <pattern>
+      <token inflected="yes" skip="1">اِضْطَرَّ</token>
+      <marker>
+   <token regexp="yes">&forms_li;</token>
+
+
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+<suggestion><match no="2" regexp_match="ل" regexp_replace="إلي"/></suggestion>
+</message>
+    <example correction="إليه" type="incorrect"> اضطر <marker>له</marker> / على السفر </example>
+    <example type="correct"> اضطر إلى الدفع </example>
+  </rule>
+<!-- trans_397_ADTr_l__ADTr_Ela اضْطُرَّ ل | اضطر على -->
+  <rule id="trans_397_ADTr_l__ADTr_Ela_3" name="اضطر ل |اضطر على">
+    <pattern>
+      <token inflected="yes" skip="1">اِضْطَرَّ</token>
+      <marker>
+   <token regexp="yes">&forms_3ala;</token>
+
+
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+<suggestion><match no="2" regexp_match="عل" regexp_replace="إل"/></suggestion>
+</message>
+    <example correction="إليه" type="incorrect"> اضطر <marker>عليه</marker> / على السفر </example>
+    <example type="correct"> اضطر إلى الدفع </example>
+  </rule>
+
+ <!-- trans_400_AEtdhr_mn اعْتَذَرَ مِن -->
+  <rule id="trans_400_AEtdhr_mn" name="اعتذر من">
+    <pattern>
+      <token inflected="yes" skip="1">اِعْتَذَرَ</token>
+      <marker>
+        <token regexp="yes">&forms_min;</token>
+      </marker>
+    </pattern>
+    <message>(اعتذر مِن فلان): شكاه , هل تقصد اعتذر إليه أو عنه
+   <suggestion><match no="2" regexp_match="من" regexp_replace="عن"/></suggestion>
+   <suggestion>إلى</suggestion>
+ <suggestion>إلي</suggestion>
+ <suggestion>إلينا</suggestion>
+ <suggestion>إليك</suggestion>
+ <suggestion>إليه</suggestion>
+
+
+</message>
+    <example correction="عن|إلى|إلي|إلينا|إليك|إليه" type="incorrect"> اعتذر <marker>من</marker> فلان </example>
+    <example type="correct"> اعتذر إلى فلان </example>
+  </rule>
+
+ <!-- trans_403_Agra_Ela أَغْرى على -->
+  <rule id="trans_403_Agra_Ela" name="أغرى على">
+    <pattern>
+      <token inflected="yes" skip="1">أَغْرَى</token>
+      <marker>
+        <token regexp="yes">&forms_3ala;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="2" regexp_match="على|علي" regexp_replace="ب"/></suggestion>
+</message>
+    <example correction="ب" type="incorrect"> أغراه <marker>على</marker> البيع </example>
+    <example type="correct"> أغراه بالبيع </example>
+  </rule>
+
+  <!-- trans_407_bAdr_l_b بادَرَ ل | ب -->
+  <rule id="trans_407_bAdr_l_b" name="بادر ل|ب">
+    <pattern>
+      <token inflected="yes" skip="1">بَادَرَ</token>
+      <marker>
+		<or>
+        <token postag="N.*;.*;-L.?" postag_regexp="yes"/>
+        <token postag="N.*;.*;-B.?" postag_regexp="yes"/>
+		</or>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion>إلى&nbsp;<match no="2" regexp_match="^(ب|لل|ل)" regexp_replace=""/>*</suggestion>
+</message>
+    <example correction="إلى فعل*" type="incorrect"> بادر <marker>لفعل</marker> / بفعل الشيء </example>
+    <example type="correct"> بادرت إلى الصدقة </example>
+  </rule>
+  <!-- trans_407_bAdr_l_b بادَرَ ل | ب -->
+  <rule id="trans_407_bAdr_l_b_2" name="بادر ل|ب">
+    <pattern>
+      <token inflected="yes" skip="1">بَادَرَ</token>
+      <marker>
+		<or>
+         <token regexp="yes">&forms_li;</token>
+         <token regexp="yes">&forms_bi;</token>
+		</or>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="2" regexp_match="^(ب|ل)" regexp_replace="إلي"/></suggestion>
+</message>
+    <example correction="إليها" type="incorrect"> بادر <marker>لها</marker> / بفعل الشيء </example>
+    <example correction="إليها" type="incorrect"> بادر <marker>بها</marker> / بفعل الشيء </example>
+
+    <example type="correct"> بادرت إلى الصدقة </example>
+  </rule>
+
+ <!-- trans_411_tHkm_b تَحَكَّمَ ب -->
+  <rule id="trans_411_tHkm_b" name="تحكم ب">
+    <pattern>
+      <token inflected="yes" skip="1">تَحَكَّمَ</token>
+      <marker>
+        <token postag="N.*;.*;-B.?" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+    <suggestion>في&nbsp;<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+</message>
+    <example correction="في الشيء" type="incorrect"> تحكم <marker>بالشيء</marker> </example>
+    <example type="correct"> تحكم في الطائرة </example>
+  </rule>
+<!-- trans_411_tHkm_b تَحَكَّمَ ب -->
+  <rule id="trans_411_tHkm_b_2" name="تحكم ب">
+    <pattern>
+      <token inflected="yes" skip="1">تَحَكَّمَ</token>
+      <marker>
+        <token regexp="yes">&forms_bi;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+    <suggestion><match no="2" regexp_match="^ب" regexp_replace="في"/></suggestion>
+</message>
+    <example correction="فيه" type="incorrect"> تحكم <marker>به</marker> </example>
+    <example type="correct"> تحكم فيها  </example>
+  </rule>
+ <!-- trans_414_trbS_l تَرَبَّصَ ل -->
+  <rule id="trans_414_trbS_l" name="تربص ل">
+    <pattern>
+      <token inflected="yes" skip="1">تَرَبَّصَ</token>
+      <marker>
+		<or>
+        <token postag="N.*;.*;-L.?" postag_regexp="yes"/>
+        <token regexp="yes">&forms_li;</token>
+		</or>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال:  تربّص 
+<suggestion><match no="2" regexp_match="^ل" regexp_replace="ب"/></suggestion>
+</message>
+    <example correction="بفلان" type="incorrect"> تربص <marker>لفلان</marker> </example>
+    <example correction="به" type="incorrect"> تربص <marker>له</marker> </example>
+    <example type="correct"> تربصنا باللص </example>
+    <example type="correct"> تربصنا به </example>
+  </rule>
+<!-- trans_415_trdd_Ela تَرَدَّدَ على -->
+  <rule id="trans_415_trdd_Ela" name="تردد على">
+    <pattern>
+      <token inflected="yes" skip="1">تَرَدَّدَ</token>
+      <marker>
+        <token regexp="yes">&forms_3ala;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="2" regexp_match="عل" regexp_replace="إل"/></suggestion>
+</message>
+    <example correction="إلى" type="incorrect"> تردد <marker>على</marker> المكتبة </example>
+    <example type="correct"> ترددت إلى مكتبي </example>
+  </rule>
+
+ <!-- trans_417_tEAlwA_EndnA تعالَوْا عندنا -->
+  <rule id="trans_417_tEAlwA_EndnA" name="تعالوا عندنا">
+    <pattern>
+      <token regexp="yes">تعالي|تعاليا|تعال|تعالوا</token>
+      <marker>
+        <token regexp="yes">عند(&encletics;)</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+<suggestion><match no="2" regexp_match="عند" regexp_replace="إلي"/></suggestion>
+</message>
+    <example correction="إلينا" type="incorrect"> تعالوا <marker>عندنا</marker> </example>
+    <example type="correct"> تعالوا إلينا للإفطار </example>
+  </rule>
+<!-- trans_417_tEAlwA_EndnA تعالَوْا عندنا -->
+  <rule id="trans_417_tEAlwA_EndnA_2" name="تعالوا عندنا">
+    <pattern>
+      <token regexp="yes">تعالي|تعاليا|تعال|تعالوا</token>
+      <marker>
+        <token>عند</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+<suggestion>إلى</suggestion>
+</message>
+    <example correction="إلى" type="incorrect"> تعالوا <marker>عند</marker> المطعم</example>
+    <example type="correct"> تعالوا إلى المطعم للإفطار </example>
+  </rule>
+ <!-- trans_418_tErf_Ela تَعَرَّفَ على -->
+  <rule id="trans_418_tErf_Ela" name="تعرف على">
+    <pattern>
+      <token inflected="yes" skip="1">تَعَرَّفَ</token>
+      <marker>
+        <token regexp="yes">&forms_3ala;</token>
+      </marker>
+    </pattern>
+    <message>تعرّف عليه (أي: جعله يعرفه؛ عرَّفه بنفسه أو أصبح معروفا عنده.). 
+<suggestion><match no="2" regexp_match="عل" regexp_replace="إل"/></suggestion>
+<suggestion><match no="2" regexp_match="على|علي" regexp_replace="ل"/></suggestion>
+<suggestion><match no="2" regexp_match="على|علي" regexp_replace="ب"/></suggestion>
+</message>
+    <example correction="إلى|ل|ب" type="incorrect"> تعرف الموظف <marker>على</marker> المدير </example>
+    <example type="correct"> تعرفت إلى الصديق الجديد </example>
+  </rule>
+
+ <!-- trans_420_tESb_Dd تَعَصَّبَ ضدَّ -->
+  <rule id="trans_420_tESb_Dd" name="تعصب ضد">
+    <pattern>
+      <token inflected="yes" skip="1">تَعَصَّبَ</token>
+      <marker>
+        <token regexp="yes">ضد(&encletics;)</token>
+      </marker>
+    </pattern>
+    <message>(تعصَّب لفلان وتعصّب معه): نَصَرَه. (تعصّب على عدُوِّه): قاومَه وكان مع عصبته ضدّه 
+<suggestion><match no="2" regexp_match="ضد" regexp_replace="علي"/></suggestion>
+</message>
+    <example correction="عليه" type="incorrect"> تعصب <marker>ضده</marker> فلان </example>
+    <example type="correct"> تعصبت الفتاة على الطبيب </example>
+  </rule>
+ <!-- trans_420_tESb_Dd تَعَصَّبَ ضدَّ -->
+  <rule id="trans_420_tESb_Dd_2" name="تعصب ضد">
+    <pattern>
+      <token inflected="yes" skip="1">تَعَصَّبَ</token>
+      <marker>
+        <token>ضد</token>
+      </marker>
+    </pattern>
+    <message>(تعصَّب لفلان وتعصّب معه): نَصَرَه. (تعصّب على عدُوِّه): قاومَه وكان مع عصبته ضدّه 
+<suggestion>على</suggestion>
+</message>
+    <example correction="على" type="incorrect"> تعصب <marker>ضد</marker> فلان </example>
+    <example type="correct"> تعصبت الفتاة على الطبيب </example>
+  </rule>
+  <!-- trans_423_tqAEs_fy تَقَاعَسَ في -->
+  <rule id="trans_423_tqAEs_fy" name="تقاعس في">
+    <pattern>
+      <token inflected="yes" skip="1">تَقَاعَسَ</token>
+      <marker>
+        <token regexp="yes">&forms_fi;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+<suggestion><match no="2" regexp_match="في" regexp_replace="عن"/></suggestion>
+</message>
+    <example correction="عن" type="incorrect"> تقاعس <marker>في</marker> أداء واجبه </example>
+    <example type="correct"> قد يتقاعس عن النهوض </example>
+  </rule>
+ <!-- trans_425_tmrs_Ela تمرَّس على -->
+  <rule id="trans_425_tmrs_Ela" name="تمرس على">
+    <pattern>
+      <token inflected="yes" skip="1">تَمَرَّسَ</token>
+      <marker>
+        <token regexp="yes">&forms_3ala;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+<suggestion><match no="2" regexp_match="على|علي" regexp_replace="ب"/></suggestion>
+</message>
+    <example correction="ب" type="incorrect"> تمرس <marker>على</marker> الأعمال الدقيقة </example>
+    <example type="correct"> تمرّس بالأعمال المكتبية </example>
+  </rule>
+
+ <!-- trans_426_tnAfswA_Ela_AlAmr تَنافَسُوا على الأمرِ -->
+  <rule id="trans_426_tnAfswA_Ela_AlAmr" name="تنافسوا على الأمر">
+    <pattern>
+      <token inflected="yes" skip="1">تَنَافَسَ</token>
+      <marker>
+        <token regexp="yes">&forms_3ala;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+<suggestion><match no="2" regexp_match="على|علي" regexp_replace="في"/></suggestion>
+</message>
+    <example correction="في" type="incorrect"> تنافسوا <marker>على</marker> الأمر </example>
+    <example type="correct"> تنافسوا في حفظ القرآن </example>
+  </rule>
+<!-- trans_427_thAft_AlfrAsh_2la_Alnwr تَهَافَتَ الفراش إلى النور -->
+  <rule id="trans_427_thAft_AlfrAsh_2la_Alnwr" name="تهافت الفراش إلى النور">
+    <pattern>
+      <token inflected="yes" skip="1">تَهَافَتَ</token>
+      <marker>
+        <token regexp="yes">&forms_ila;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="2" regexp_match="إل" regexp_replace="عل"/></suggestion>
+</message>
+    <example correction="على" type="incorrect"> تهافت الفراش <marker>إلى</marker> النور </example>
+    <example type="correct"> تهافت الفراش على النور </example>
+  </rule>
+ <!-- trans_428_thkm_Ela تَهَكَّمَ على -->
+  <rule id="trans_428_thkm_Ela" name="تهكم على">
+    <pattern>
+      <token inflected="yes" skip="1">تَهَكَّمَ</token>
+      <marker>
+        <token regexp="yes">&forms_3ala;</token>
+      </marker>
+    </pattern>
+    <message>(تَهَكَّمَ على فلان): اشتد غضبه عليه 
+   <suggestion><match no="2" regexp_match="على|علي" regexp_replace="ب"/></suggestion>
+</message>
+    <example correction="ب" type="incorrect"> تهكم <marker>على</marker> فلان </example>
+    <example type="correct"> تهكّم بالرجل </example>
+  </rule>
+<!-- trans_432_Hl_fy حَلَّ في -->
+  <rule id="trans_432_Hl_fy" name="حل في">
+    <pattern>
+      <token inflected="yes" skip="1">حَلَّ</token>
+      <marker>
+        <token regexp="yes">&forms_fi;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="2" regexp_match="في" regexp_replace="ب"/></suggestion>
+   <suggestion/>
+</message>
+    <example correction="ب|" type="incorrect"> حل <marker>في</marker> منزلنا </example>
+    <example type="correct"> حلّ بمنزلنا </example>
+  </rule>
+<!-- trans_438_dhkr_bAn ذَكَرَ بأن -->
+  <rule id="trans_438_dhkr_bAn" name="ذكر بأن">
+    <pattern>
+      <token inflected="yes" skip="1">ذَكَرَ</token>
+      <marker>
+        <token regexp="yes">ب(&forms_anna;)</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+</message>
+    <example correction="أنه" type="incorrect"> ذكر <marker>بأنه</marker> مريض </example>
+    <example type="correct"> ذكرت أنه مريض </example>
+  </rule>
+<!-- trans_442_rgbt_shdydt_l رَغْبَةٌ شديدة ل -->
+  <rule id="trans_442_rgbt_shdydt_l" name="رغبة شديدة ل">
+    <pattern>
+      <token inflected="yes" skip="1">رغبة</token>
+      <marker>
+      <token postag="N.*;.*;-L.?" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion>في&nbsp;<match no="2" regexp_match="^ل" regexp_replace=""/></suggestion>
+   <suggestion><match no="2" regexp_match="^ل" regexp_replace="ب"/></suggestion>
+</message>
+    <example correction="في كتابة|بكتابة" type="incorrect"> لديه رغبة شديدة <marker>لكتابة</marker> الشعر </example>
+    <example type="correct"> لديه رغبة شديدة في الكتابة </example>
+  </rule>
+<!-- trans_442_rgbt_shdydt_l رَغْبَةٌ شديدة ل -->
+  <rule id="trans_442_rgbt_shdydt_l_2" name="رغبة شديدة ل">
+    <pattern>
+      <token inflected="yes" skip="1">رغبة</token>
+      <marker>
+      <token regexp="yes">&forms_li;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="2" regexp_match="^ل" regexp_replace="ب"/></suggestion>
+   <suggestion><match no="2" regexp_match="^ل" regexp_replace="في"/></suggestion>
+</message>
+    <example correction="بها|فيها" type="incorrect"> لديه رغبة شديدة <marker>لها</marker> الشعر </example>
+    <example type="correct">لديه رغبة شديدة فيها</example>
+  </rule>
+ <!-- trans_443_zHf_Ela زَحَفَ على -->
+  <rule id="trans_443_zHf_Ela" name="زحف على">
+    <pattern>
+      <token inflected="yes" skip="1">زَحَفَ</token>
+      <marker>
+        <token regexp="yes">&forms_3ala;</token>
+      </marker>
+    </pattern>
+    <message>وتقول: (الصبيُّ يَزحفُ على الأرض)، للإشارة إلى المكان الذي جرى الزحف فوقه 
+   <suggestion><match no="2" regexp_match="عل" regexp_replace="إل"/></suggestion>
+</message>
+    <example correction="إلى" type="incorrect"> زحف الجيش <marker>على</marker> المدينة </example>
+    <example type="correct"> زحف الجيش إلى المدينة </example>
+  </rule>
+ <!-- trans_444_zEm_bAn زعم بأن -->
+  <rule id="trans_444_zEm_bAn" name="زعم بأن">
+    <pattern>
+      <token inflected="yes" skip="1">زَعِمَ</token>
+      <marker>
+        <token regexp="yes">ب(&forms_anna;)</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+</message>
+    <example correction="أنه" type="incorrect"> زعم <marker>بأنه</marker> صادق </example>
+    <example type="correct"> زعم أنه صادق </example>
+  </rule>
+
+  <!-- trans_445_zft_AlErws_Ela_zwjhA زُفَّتْ العروسُ على زوجها -->
+  <rule id="trans_445_zft_AlErws_Ela_zwjhA" name="زفت العروس على زوجها">
+    <pattern>
+      <token inflected="yes" skip="1">زَفَّ</token>
+      <marker>
+        <token regexp="yes">&forms_3ala;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="2" regexp_match="عل" regexp_replace="إل"/></suggestion>
+</message>
+    <example correction="إلى" type="incorrect"> زفت العروس <marker>على</marker> زوجها </example>
+    <example type="correct"> زفت العروس إلى بيت زوجها </example>
+  </rule>
+ <!-- trans_446_zhd_b زَهِدَ ب -->
+  <rule id="trans_446_zhd_b" name="زهد ب">
+    <pattern>
+      <token inflected="yes" skip="1">زَهِدَ</token>
+      <marker>
+        <token postag="N.*;.*;-B.?" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion>في&nbsp;<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+</message>
+    <example correction="في الشيء" type="incorrect"> زهد <marker>بالشيء</marker> </example>
+    <example type="correct"> لقد زهد في النقود </example>
+  </rule>
+ <!-- trans_446_zhd_b زَهِدَ ب -->
+  <rule id="trans_446_zhd_b_2" name="زهد ب">
+    <pattern>
+      <token inflected="yes" skip="1">زَهِدَ</token>
+      <marker>
+        <token regexp="yes">&forms_bi;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="2" regexp_match="^ب" regexp_replace="في"/></suggestion>
+</message>
+    <example correction="فيه" type="incorrect"> زهد <marker>به</marker> </example>
+    <example type="correct"> لقد زهد فيها </example>
+  </rule>
+  <!-- trans_451_shrE_b شَرَعَ ب -->
+  <rule id="trans_451_shrE_b" name="شرع ب">
+    <pattern>
+      <token inflected="yes" skip="1">شَرَعَ</token>
+      <marker>
+        <token postag="N.*;.*;-B.?" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion>في&nbsp;<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+</message>
+    <example correction="في الأمر" type="incorrect"> شرع <marker>بالأمر</marker> </example>
+    <example type="correct"> يشرع في القضية </example>
+  </rule>
+  <!-- trans_451_shrE_b شَرَعَ ب -->
+  <rule id="trans_451_shrE_b_2" name="شرع ب">
+    <pattern>
+      <token inflected="yes" skip="1">شَرَعَ</token>
+      <marker>
+        <token regexp="yes">&forms_bi;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="2" regexp_match="^ب" regexp_replace="في"/></suggestion>
+</message>
+    <example correction="فيه" type="incorrect"> شرع <marker>به</marker> </example>
+    <example type="correct"> يشرع فيه</example>
+  </rule>
+
+  <!-- trans_452_shk_b شَكَّ ب -->
+  <rule id="trans_452_shk_b" name="شـك ب">
+    <pattern>
+      <token inflected="yes" skip="1">شَكَّ</token>
+      <marker>
+        <token postag="N.*;.*;-B.?" postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion>في&nbsp;<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+</message>
+    <example correction="في أمانته" type="incorrect"> شك <marker>بأمانته</marker> </example>
+    <example type="correct"> لا يشك في أمانته </example>
+  </rule>
+ <!-- trans_452_shk_b شَكَّ ب -->
+  <rule id="trans_452_shk_b_2" name="شـك ب">
+    <pattern>
+      <token inflected="yes" skip="1">شَكَّ</token>
+      <marker>
+        <token regexp="yes">&forms_bi;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="2" regexp_match="^ب" regexp_replace="في"/></suggestion>
+</message>
+    <example correction="فيه" type="incorrect"> شك <marker>به</marker> </example>
+    <example type="correct"> لا يشك فيه </example>
+  </rule>
+ <!-- TODO trans I2I-->
+    </rulegroup>
+
   </category>
   <!-- ====================================================================== -->
   <!-- Redundency Phrases -->
