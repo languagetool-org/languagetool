@@ -913,6 +913,65 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="plácida">Una <marker>placida</marker> estancia.</example>
                 <example>Me ha placido el resultado.</example>
             </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes">haber</token>
+                    <token>esplendido</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">esplendid(o|a)s?</token>
+                </pattern>
+                <message>Si es adjetivo, lleva tilde. Correcto si es del v. 'esplender'.</message>
+                <suggestion><match no="1" regexp_match="(?i)(.*pl)e(n.*)" regexp_replace="$1é$2"/></suggestion>
+                <example correction="espléndida">Una <marker>esplendida</marker> estancia.</example>
+                <example>Ha esplendido siempre.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes">haber</token>
+                    <token>fulgido</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">(tran?slucid|fulgid)(o|a)s?</token>
+                </pattern>
+                <message>Si es adjetivo, lleva tilde. Correcto si es del v. <match no="1" regexp_match="(?i)(.*i)d[oa]s?" regexp_replace="$1r"/>.</message>
+                <suggestion><match no="1" regexp_match="(?i)(f|tran?sl)u([lc].*)" regexp_replace="$1ú$2"/></suggestion>
+                <example correction="translúcida">Una tela <marker>translucida</marker>.</example>
+                <example correction="fúlgida">Una tela <marker>fulgida</marker>.</example>
+                <example>Ha fulgido siempre.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>barbaros</token>
+                </pattern>
+                <message>Si es nombre o adjetivo, se escribe con tilde.</message>
+                <suggestion>bárbaros</suggestion>
+                <example correction="bárbaros">Los <marker>barbaros</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">dolar(es)?</token>
+                </pattern>
+                <message>El nombre de la moneda se escribe con tilde.</message>
+                <suggestion><match no="1" regexp_match="(?i)(d)o(l.*)" regexp_replace="$1ó$2"/></suggestion>
+                <example correction="dólares">¿Cuántos <marker>dolares</marker> cuesta?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <unify>
+                        <feature id="genero"/>
+                        <feature id="numero"/>
+                        <token postag="D.*" postag_regexp="yes"/>
+                        <marker>
+                            <token postag="VMP.*" postag_regexp="yes" inflected="yes">vivir</token>
+                        </marker>
+                        <token postag="[NA].*" postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Si es adjetivo, se escribe con tilde.</message>
+                <suggestion><match no="2" regexp_match="(?i)(v)i(v.*)" regexp_replace="$1í$2"/></suggestion>
+                <example correction="vívida">Una <marker>vivida</marker> impresión.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
             <short>El pronombre personal lleva tilde.</short>
