@@ -8590,6 +8590,29 @@ though, and has since been slightly modified)-->
           <example>Est-ce utile?</example>
           <example>Ce hibou</example>
       </rule>
+      <rule id="CET_CE" name="cet / ce" default="temp_off">
+          <pattern>
+              <marker>
+                  <token>cet</token>
+              </marker>
+              <token postag="N m s" regexp="yes">h?[àâaéêèeiîou].*|hy.*|y[pts].*
+                  <exception inflected="yes" regexp="yes">&exceptions_ELISION1;</exception>
+                  <exception regexp="yes">&exceptions_ELISION2;</exception>
+                  <exception postag="UNKNOWN|Z.*" postag_regexp="yes" regexp="yes">h.+</exception><!-- no error for unknown words or proper names -->
+              </token>
+          </pattern>
+          <message>Devant une voyelle ou une voyelle précédée d'un « H » muet, il convient d'utiliser <suggestion>cet</suggestion>.</message>
+          <url>https://www.dictionnaire-academie.fr/article/A6C0792*</url>
+          <example correction="Cet"><marker>Ce</marker> homme.</example>
+          <example correction="Cet"><marker>Ce</marker> arbre.</example>
+          <example correction="Cet"><marker>Ce</marker> été.</example>
+          <example>Cet hydrocarbure.</example>
+          <example correction="Cet"><marker>Ce</marker> hydrocarbure.</example>
+          <example correction="Cet"><marker>Ce</marker> yttrium.</example>
+          <example>Ce yaourt</example>
+          <example>Est-ce utile?</example>
+          <example>Ce hibou</example>
+      </rule>
       <!-- http://www.leconjugueur.com/frlesnombres.php -->
     <rulegroup id="TRAIT_UNION_NOMBRE" name="Nombre avec trait d’union">
       <rule>
