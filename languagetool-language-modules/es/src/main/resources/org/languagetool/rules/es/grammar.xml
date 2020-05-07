@@ -32,6 +32,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY unidades "AM|PM|am|pm|mm|cm|dm|m|km|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|pts|ptes|[£€$]|(mm|cm|dm|m|km)[23²³]"> 
 <!ENTITY abreviaturas "Dir|Dr|Dra|Abg|acept|adm|admón|afma|afmo|Alfz|Almte|ap|apdo|aprox|Arq|art|Arz|atta|atte|atto|av|avd|avda|Barna|Bco|Bibl|Bma|Bmo|Bo|Brig|Bta|Bto|caj|cap|Cdad|cent|cf|cfr|cgo|cje|cl|Cmdt|Cmte|Cnel|col|Comod|Comp|Comte|Contralmte|coord|cp|crec|cta|Cte|cts|ctv|ctvo|cént|Cía|cód|cónf|cónfr|dcha|dcho|depto|diag|dicc|doc|dpto|dto|dupdo|ed|edit|edo|ef|ej|Emmo|entlo|etc|excl|Excma|Excmo|fasc|fca|Fdo|fig|fol|Fr|fra|féc|Gdor|Gdora|Gob|Gral|Hna|Hno|ib|ibíd|Il|Ilma|Ilmo|Iltre|imp|impr|impto|incl|Ing|Inst|izda|izdo|izq|izqda|izqdo|Jhs|Lcda|Lcdo|Lda|Ldo|Lic|Ltd|Ltda|Ltdo|Magfca|Magfco|Mons|mr|ms|máx|mín|nro|núm|Ob|Pat|Pbro|pdo|Pdta|Pdte|pg|pl|plza|Pnt|ppal|pral|Presb|Prof|prov|pról|pza|pág|párr|Rda|Rdo|reg|Rep|Rev|Rte|Rvd|Rvda|Rvdma|Rvdmo|Rvdo|Sdad|Sgto|sig|Soc|Sr|Sra|Srta|Sta|Sto|tel|teléf|tfno|trad|Tte|tít|Ud|Uds|Univ|Valmte|Vd|Vda|Vdo|Vds|vid|vol|vs|vta|vto|Xto|íd">
 <!ENTITY context_te "abedul|alpiste|arroz|banana|boldo|buganvilia|burbujas|burro|calidad|campana|canela|castaño|clavo|compost|congorosa|damiana|diente|epazote|equinácea|eucalipto|fenogreco|flor|fourche|frambuesa|frutas|frutos|ginkgo|herbalife|hibisco|hierbabuena|hierbas|hinojo|hums|jamaica|jazmín|jengibre|jesuitas|kava|kombucha|laurel|lavanda|lechuga|limón|lino|manzana|manzanilla|matcha|melisa|menta|montaña|naranja|navidad|neem|nuez|níspero|oolong|ortiga|orégano|pasiflora|perejil|piña|quina|roca|romero|rooibos|rosas|ruda|sabor|sabores|salón|sauco|semilla|suerte|tilo|tomillo|toronjil|uva|vainilla|valeriana|verbena|walamo|wereke|yerba|yerbabuena|yuja|zacate|zanahoria|zapote|zarzaparrilla|zen|zorrillo">
+<!ENTITY exceptions_Paris "Helena|Elena|Menelao|Héctor|Troya|Atena|Atenea|Atenas|Esparta|príncipe|troyano|Himeneo|juicio">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -971,6 +972,63 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es adjetivo, se escribe con tilde.</message>
                 <suggestion><match no="2" regexp_match="(?i)(v)i(v.*)" regexp_replace="$1í$2"/></suggestion>
                 <example correction="vívida">Una <marker>vivida</marker> impresión.</example>
+            </rule>
+            <!-- TODO: lucido/lúcido, cesar/césar, revolver/revólver -->
+        </rulegroup>
+        <rulegroup id="PARIS" name="Paris/París" default="temp_off">
+            <antipattern>
+                <token postag="SENT_START" skip="-1"/>
+                <token regexp="yes" skip="-1">&exceptions_Paris;</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">is|in|à|von|aus|\p{Lu}.+|\.<exception postag="SPS00"/></token>
+                <token>Paris</token>
+            </antipattern>
+            <antipattern>
+                <token>Paris</token>
+                <token regexp="yes">\p{Lu}.+</token>
+            </antipattern>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <marker>
+                        <token skip="-1">Paris</token>
+                    </marker>
+                    <token postag="NP..G.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>¿Quería decir <suggestion>París</suggestion> (ciudad) en vez de Paris (personaje)?</message>
+                <example correction="París">En <marker>Paris</marker> y Londres.</example>
+                <example>Paris en la guerra de Troya.</example>
+                <example>el juicio de Paris, el rapto de Elena y el sacrificio de Ifigenia.</example>
+                <example>El juicio de Paris.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token postag="NP..G.*" postag_regexp="yes" skip="-1"/>
+                    <marker>
+                        <token>Paris</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>París</suggestion> (ciudad) en vez de Paris (personaje)?</message>
+                <example correction="París">En Londres y <marker>Paris</marker>.</example>
+                <example>En la guerra de Troya, Paris no hace nada.</example>
+                <example>El juicio de Paris y el rapto de Helena.</example>
+                <example>Paris Hilton está en Londres.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" skip="2" inflected="yes">norte|sur|este|oeste|desde|centro|ciudad|gobierno|alcalde|ministerio|ir|visitar|viajar|turismo|turista</token>
+                    <marker>
+                        <token regexp="yes">(?-i)Paris</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>París</suggestion> (ciudad) en vez de Paris (personaje)?</message>
+                <example correction="París">Al norte de <marker>Paris</marker>.</example>
+                <example correction="París">Desde <marker>Paris</marker>.</example>
+                <example correction="París">Mañana me voy a <marker>Paris</marker>.</example>
+                <example>En la guerra de Troya, Paris no hace nada.</example>
+                <example>El juicio de Paris y el rapto de Helena.</example>
+                <example>Robert Paris se va a Londres.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
@@ -4078,7 +4136,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">(n.?°|nº)\d+</token>
                 </pattern>
                 <message>Abreviatura de 'número'.</message>
-                <suggestion><match no="1" regexp_match="(?iu)(n.?°|nº)(\d)" regexp_replace="n.º $2"></match></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)(n.?°|nº)(\d)" regexp_replace="n.º $2"/></suggestion>
                 <example correction="n.º 18">Diario de la República <marker>n°18</marker>.</example>
                 <example correction="n.º 18">Diario de la República <marker>nº18</marker>.</example>
                 <example>n.º</example>

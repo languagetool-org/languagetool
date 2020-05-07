@@ -15447,41 +15447,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Li conta amb qui havia fugit.</example>
             <example>Les hi ha contades amb tot detall.</example>
         </rule>
-        <rulegroup id="PARIS" name="Paris/París">
+        <rulegroup id="PARIS" name="Paris/París" default="temp_off">
+            <antipattern>
+                <token postag="SENT_START" skip="-1"/>
+                <token regexp="yes" skip="-1">&exceptions_Paris;</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">is|in|à|von|aus|\p{Lu}.+|\.<exception postag="SPS00"/></token>
+                <token>Paris</token>
+            </antipattern>
+            <antipattern>
+                <token>Paris</token>
+                <token regexp="yes">\p{Lu}.+</token>
+            </antipattern>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">&exceptions_Paris;</exception></token>
                     <marker>
-                        <token skip="-1">Paris<exception scope="next" regexp="yes">&exceptions_Paris;</exception><exception scope="previous" regexp="yes">is|in|à|von|aus|\p{Lu}.+|\.</exception></token>
+                        <token skip="-1">Paris</token>
                     </marker>
-                    <token postag="NP..G.*" postag_regexp="yes" skip="-1"><exception regexp="yes">Troia|Atena|Esparta|Hèctor</exception><exception scope="next" inflected="yes" regexp="yes">&exceptions_Paris;</exception></token>
-                    <token postag="SENT_END"/>
+                    <token postag="NP..G.*" postag_regexp="yes"></token>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>París</suggestion> (ciutat)?</message>
-                <short>Possible confusió</short>
+                <message>¿Volíeu dir <suggestion>París</suggestion> (ciutat) en lloc de Paris (personatge)?</message>
                 <example correction="París">A <marker>Paris</marker> i Londres.</example>
                 <example>Paris a la guerra de Troia.</example>
                 <example>el judici de Paris, el rapte d'Helena i el sacrifici d'Ifigènia a Aulis</example>
                 <example>El judici de Paris.</example>
+                <example>Paris Hilton és a Londres.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="SENT_START" skip="-1"><exception scope="next" inflected="yes" regexp="yes">&exceptions_Paris;</exception></token>
-                    <token postag="NP..G.*" postag_regexp="yes" skip="-1"><exception regexp="yes">Troia|Atena|Esparta|Hèctor</exception><exception scope="next" regexp="yes">&exceptions_Paris;</exception></token>
+                    <token postag="NP..G.*" postag_regexp="yes" skip="-1"/>
                     <marker>
-                        <token skip="-1">Paris<exception scope="next" inflected="yes" regexp="yes">&exceptions_Paris;</exception><exception scope="previous" regexp="yes">is|in|à|von|aus|\p{Lu}.+|\.</exception></token>
+                        <token>Paris</token>
                     </marker>
-                    <token postag="SENT_END"/>
                 </pattern>
-                <message>¿Volíeu dir <suggestion>París</suggestion> (ciutat) en lloc de Paris (persona)?</message>
-                <short>Possible confusió</short>
+                <message>¿Volíeu dir <suggestion>París</suggestion> (ciutat) en lloc de Paris (personatge)?</message>
                 <example correction="París">A Londres i <marker>Paris</marker>.</example>
                 <example>A la guerra de Troia, Paris no fa res.</example>
                 <example>El sacrifici d'Ifigènia a Aulis, el judici de Paris i el rapte d'Helena.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" skip="1" inflected="yes">nord|sud|est|oest|des|centre|cap|ciutat|govern|alcalde|ministeri</token>
+                    <token regexp="yes" skip="2" inflected="yes">nord|sud|est|oest|des|centre|cap|ciutat|govern|alcalde|ministeri|anar|visitar|viatjar|turisme|turista</token>
                     <marker>
                         <token regexp="yes">(?-i)Paris</token>
                     </marker>
@@ -15490,6 +15498,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>Possible confusió</short>
                 <example correction="París">Al nord de <marker>Paris</marker>.</example>
                 <example correction="París">Des de <marker>Paris</marker>.</example>
+                <example correction="París">Demà me'n vaig a <marker>Paris</marker>.</example>
                 <example>A la guerra de Troia, Paris no fa res.</example>
                 <example>El sacrifici d'Ifigènia a Aulis, el judici de Paris i el rapte d'Helena.</example>
             </rule>
