@@ -15466,7 +15466,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token skip="-1">Paris</token>
                     </marker>
-                    <token postag="NP..G.*" postag_regexp="yes"></token>
+                    <token postag="NP..G.*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>París</suggestion> (ciutat) en lloc de Paris (personatge)?</message>
                 <example correction="París">A <marker>Paris</marker> i Londres.</example>
@@ -43841,6 +43841,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="FORT_RESPECTE" name="*fort/gran respecte">
+            <pattern>
+                <token postag="D..MS." postag_regexp="yes"/>
+                <marker>
+                    <token>fort</token>
+                    <token>respecte</token>
+                </marker>
+                <or>
+                    <token regexp="yes">per|pe|que</token>
+                    <token postag="_PUNCT.*" postag_regexp="yes"/>
+                </or>
+            </pattern>
+            <message>És més adequat dir: <suggestion>gran respecte</suggestion>.</message>
+            <example correction="gran respecte">Li tinc un <marker>fort respecte</marker>.</example>
+            <example correction="gran respecte">Tinc un <marker>fort respecte</marker> pels bonsais.</example>
+            <example>És molt fort respecte als seus rivals.</example>
+            <example>És fort respecte al dèbil.</example>
+        </rule>
         <rule id="NO_PODER_MENYS" name="no poder menys">
             <pattern>
                 <marker>
