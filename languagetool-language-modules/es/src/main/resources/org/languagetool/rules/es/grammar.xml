@@ -1030,6 +1030,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El juicio de Paris y el rapto de Helena.</example>
                 <example>Robert Paris se va a Londres.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">en|hacia</token>
+                    <marker>
+                        <token regexp="yes">(?-i)Paris</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>París</suggestion> (ciudad) en vez de Paris (personaje)?</message>
+                <example correction="París">En <marker>Paris</marker> no hay playa.</example>
+                <example correction="París">Se fueron hacia <marker>Paris</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
             <short>El pronombre personal lleva tilde.</short>
