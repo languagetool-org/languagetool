@@ -6127,69 +6127,72 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="ambiguous" inputform="sister[sister/JJ,sister/NN]" outputform="sister[sister/NN]">I hope my <marker>sister</marker> takes her driving test soon.</example>
     </rule>
 
-        <rule id="VBZNNS_DT_NN" name="verb singular/noun + det + noun => verb">
-          <antipattern><!-- https://www.lexico.com/definition/with_one's_head_in_the_clouds-->
+    <rule id="VBZNNS_DT_NN" name="verb singular/noun + det + noun => verb">
+        <antipattern><!-- https://www.lexico.com/definition/with_one's_head_in_the_clouds-->
             <token>head</token>
             <token>in</token>
             <token>the</token>
             <token>clouds</token>
-          </antipattern>
-          <antipattern><!-- Living costs this month are -->
+        </antipattern>
+        <antipattern><!-- Living costs this month are -->
             <token postag="VBG"/>
             <token postag="NNS"/>
             <token postag="DT"/>
             <token postag="NN(:UN?)?" postag_regexp="yes"/>
             <token postag_regexp="yes" postag="VB[PD]"/>
-          </antipattern>
-          <antipattern><!-- do dreams last forever?-->
+        </antipattern>
+        <antipattern><!-- do dreams last forever?-->
             <token regexp="yes">do|did</token>
             <token postag="NNS"/>
             <token skip="-1" postag="VB"/>
             <token>?</token>
-          </antipattern>
-          <antipattern><!-- We have cards the other wants NN-->
+        </antipattern>
+        <antipattern><!-- We have cards the other wants NN-->
             <token inflected="yes">have</token>
             <token postag="NNS" />
             <token>the</token>
             <token postag="NN.*" postag_regexp="yes" />
             <token postag="VB.*" postag_regexp="yes" />
-          </antipattern>
-          <antipattern><!-- We have cards the other wants NN-->
+        </antipattern>
+        <antipattern><!-- We have cards the other wants NN-->
             <token inflected="yes">have</token>
             <token postag="JJR?" postag_regexp="yes" />
             <token postag="NNS" />
             <token>the</token>
             <token postag="NN.*" postag_regexp="yes" />
             <token postag="VB.*" postag_regexp="yes" />
-          </antipattern>
-          <pattern>
+        </antipattern>
+        <pattern>
             <marker>
-            <and>
-            <token postag="NNS"><exception scope="previous" regexp="yes">is|was</exception><exception postag_regexp="yes" postag="NNPS?"/></token>
-            <token postag="VBZ"/>
-            </and>
+                <and>
+                    <token postag="NNS">
+                        <exception scope="previous" regexp="yes">is|was</exception>
+                        <exception postag_regexp="yes" postag="NNPS?"/>
+                        </token>
+                    <token postag="VBZ"/>
+                </and>
             </marker>
             <token postag="DT"><exception>that</exception></token>
             <token postag="NN(:UN?)?" postag_regexp="yes"><exception postag_regexp="yes" postag="VB.*"/></token>
-          </pattern>
-          <disambig postag="VBZ"/>
-          <example type="untouched">This is work.</example>
-          <example type="untouched">It has an advantage compared to objects that make something.</example>
-          <example type="untouched">For more than one year there was <marker>updates</marker> every day.</example><!-- Refer to grammar THERE_WAS_MANY. -->
-          <example type="untouched">... and there was <marker>weeds</marker> all round the grave.</example>
-          <example type="untouched">Is <marker>marks</marker> all over the window your idea of cleaning?</example>
-          <example type="untouched">The <marker>voices</marker> all die down slowly.</example>
-          <example type="untouched">...of black pants with purple jersey made the <marker>Ravens</marker> the first NFL team to wear dark colors.</example>
-          <example type="untouched">Gordon had his head in the <marker>clouds</marker> all week.</example>
-          <example type="untouched"><marker>Living costs</marker> this month are lower than those of last month.</example>
-          <example type="untouched">... and rising <marker>costs</marker> caused problems for many people.</example>
-          <example type="untouched">... and the increasing <marker>costs</marker> each month are likely to cause more problems.</example>
-          <example type="untouched">... and do <marker>dreams</marker> last forever?</example>
-          <example type="untouched">We have <marker>cards</marker> the other wants</example>
-          <example type="untouched">Just do what you need to do with your vehicle and if you have <marker>questions</marker> the dealer is the best place to start.</example>
-          <example type="untouched">Let me know if you have nice <marker>flavors</marker> the script is smart enough to detect.</example>
-          <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> an event.</example>
-        </rule>
+        </pattern>
+        <disambig postag="VBZ"/>
+        <example type="untouched">This is work.</example>
+        <example type="untouched">It has an advantage compared to objects that make something.</example>
+        <example type="untouched">For more than one year there was <marker>updates</marker> every day.</example><!-- Refer to grammar THERE_WAS_MANY. -->
+        <example type="untouched">... and there was <marker>weeds</marker> all round the grave.</example>
+        <example type="untouched">Is <marker>marks</marker> all over the window your idea of cleaning?</example>
+        <example type="untouched">The <marker>voices</marker> all die down slowly.</example>
+        <example type="untouched">...of black pants with purple jersey made the <marker>Ravens</marker> the first NFL team to wear dark colors.</example>
+        <example type="untouched">Gordon had his head in the <marker>clouds</marker> all week.</example>
+        <example type="untouched"><marker>Living costs</marker> this month are lower than those of last month.</example>
+        <example type="untouched">... and rising <marker>costs</marker> caused problems for many people.</example>
+        <example type="untouched">... and the increasing <marker>costs</marker> each month are likely to cause more problems.</example>
+        <example type="untouched">... and do <marker>dreams</marker> last forever?</example>
+        <example type="untouched">We have <marker>cards</marker> the other wants</example>
+        <example type="untouched">Just do what you need to do with your vehicle and if you have <marker>questions</marker> the dealer is the best place to start.</example>
+        <example type="untouched">Let me know if you have nice <marker>flavors</marker> the script is smart enough to detect.</example>
+        <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> an event.</example>
+    </rule>
 
     <rule id="VBZNNS_NNS" name="verb singular/noun + noun plural or uncountable => verb">
         <antipattern><!-- arts and crafts industry/industries -->
