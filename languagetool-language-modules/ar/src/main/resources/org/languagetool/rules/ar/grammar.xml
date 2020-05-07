@@ -35,8 +35,8 @@ USA
 	<!ENTITY verb_prefixes "ي|ت|ن|أ|سي|ست|سن|سأ">
 	<!ENTITY verb6_prefixes "ا|ي|ت|ن|أ|سي|ست|سن|سأ">
     <!ENTITY conj "و|ف">
-    <!ENTITY encletics "ه|ها|هم|هن|ك|كما|كم|كن|ي|نا">
-	<!ENTITY verb_encletics "ه|ها|هم|هن|ك|كما|كم|كن|ني|نا">
+    <!ENTITY encletics "|ه|ها|هما|هم|هن|ك|كما|كم|كن|ي|نا">
+	<!ENTITY verb_encletics "ه|ها|هما|هم|هن|ك|كما|كم|كن|ني|نا">
     <!ENTITY forms_3an "عن|عني|عنا|عنك|عنكما|عنكم|عنكن|عنه|عنها|عنهما|عنهم|عنهن">
     <!ENTITY forms_3anh "عني|عنا|عنك|عنكما|عنكم|عنكن|عنه|عنها|عنهما|عنهم|عنهن">
     <!ENTITY forms_ila "إلى|إلي|إلينا|إليك|إليكما|إليكم|إليكن|إليه|إليها|إليهما|إليهم|إليهن">
@@ -7117,9 +7117,110 @@ USA
     <example correction="على" type="incorrect"> ينم حديثه <marker>عن</marker> علمه وذكائه </example>
     <example type="correct"> ينمّ حديثه على علمه وذكائه </example>
   </rule>
+<!-- trans_491_ynm_En ينمّ عن -->
+  <rule id="trans_491_ynm_En_3" name="ينم عن">
+    <pattern>
+      <token inflected="yes" skip="1">نَمَّ</token>
+      <marker>
+        <token regexp="yes">&forms_3an;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+     <suggestion><match no="2" postag="PR.*" postag_regexp="yes">على</match></suggestion>
+</message>
+    <example correction="عليها" type="incorrect">حكمته ينمّ  <marker>عنهما</marker> سلوكه </example>
+    <example correction="على" type="incorrect">حكمته ينمّ  <marker>عن</marker> سلوكه </example>
+    <example type="correct"> علمه وذكائه ينمّ على حديثه  </example>
+    <example type="correct"> علمه وذكائه ينمّ عليهما حديثه  </example>
+
+  </rule>
  <!-- TODO trans I2I-->
  </rulegroup>
-    
+    <rulegroup id="transitive_verbs_direct_tobe_indirect" name="المتعدي  بنفسه تصحيحه متعد بحرف">
+ <!-- trans_404_AfAD_AlHdyth أفَاضَ الحديثَ -->
+  <rule id="trans_404_AfAD_AlHdyth" name="أفاض الحديث">
+    <antipattern>
+        <token inflected="yes" skip="1">أَفَاضَ</token>
+        <token regexp="yes">&forms_fi;</token>
+    </antipattern>
+
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="V.?[123];.*;.*-" postag_regexp="yes" skip="1">أَفَاضَ</token>
+	 <!-- الفعل غير متصل بضمير -->
+      </marker>
+	 
+    </pattern>
+    <message>الفعل أفاض متعد بحرف الجر في، وليس متعديا بنفسه. يفضل أن يقال:
+   <suggestion><match no="1"/>&nbsp;في</suggestion>
+</message> 
+    <example correction="أفاض في" type="incorrect"><marker>أفاض</marker> الحديث </example>
+    <example type="correct"> أفاض في الشرح </example>
+    <example type="correct"> أفاض  الأستاذ في الشرح </example>
+  </rule>
+<!-- trans_404_AfAD_AlHdyth أفَاضَ الحديثَ -->
+  <rule id="trans_404_AfAD_AlHdyth_2" name="أفاض الحديث">
+    <antipattern>
+        <token inflected="yes" skip="1">أَفَاضَ</token>
+        <token regexp="yes">&forms_fi;</token>
+    </antipattern>
+
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="V.?[123];.*;.*H" postag_regexp="yes" skip="1">أَفَاضَ</token>
+      </marker>
+	 <!-- الفعل متصل بضمير -->
+	 
+    </pattern>
+    <message>الفعل أفاض متعد بحرف الجر في، وليس متعديا بنفسه. يفضل أن يقال:
+   <suggestion><match no="1"  regexp_match="(&verb_encletics;)$" regexp_replace=""/>&nbsp;في<match no="1"  regexp_match=".*(?=(&verb_encletics;)$)" regexp_replace=""/></suggestion>
+</message> 
+    <example correction="أفاض فيها" type="incorrect"><marker>أفاضها</marker> الحديث </example>
+    <example correction="أفاضو فيه" type="incorrect"><marker>أفاضوه</marker> الحديث </example>
+    <example type="correct"> أفاض فيه الشرح </example>
+    <example type="correct"> أفاض  الأستاذ في الشرح </example>
+  </rule>
+
+  <!-- trans_422_tfAda تفادى -->
+  <rule id="trans_422_tfAda" name="تفادى">
+	<antipattern>
+		<token inflected="yes" skip="1">تَفَادَى</token>
+		<token regexp="yes">&forms_min;</token>
+	</antipattern>
+    <pattern>
+      <marker>
+		<token inflected="yes" postag="V.?[123];.*;.*-" postag_regexp="yes" skip="1">تَفَادَى</token>
+	 <!-- الفعل غير متصل بضمير -->
+      </marker>
+    </pattern>
+    <message>الفعل تفادى متعد ب"مِن"، وليس متعديا بنفسه. يفضل أن يقال: 
+   <suggestion><match no="1"/>&nbsp;من</suggestion>
+</message>
+    <example correction="تفاديت من" type="incorrect"><marker>تفاديت</marker> الشيء </example>
+    <example type="correct"> تفاديت من الشيء </example>
+  </rule>
+<!-- trans_422_tfAda تفادى -->
+  <rule id="trans_422_tfAda_2" name="تفادى">
+	<antipattern>
+		<token inflected="yes" skip="1">تَفَادَى</token>
+		<token regexp="yes">&forms_min;</token>
+	</antipattern>
+    <pattern>
+      <marker>
+		<token inflected="yes" postag="V.?[123];.*;.*H" postag_regexp="yes" skip="1">تَفَادَى</token>
+	 <!-- الفعل متصل بضمير -->
+      </marker>
+    </pattern>
+    <message>الفعل تفادى متعد ب"مِن"، وليس متعديا بنفسه. يفضل أن يقال: 
+   <suggestion><match no="1"  regexp_match="(&verb_encletics;)$" regexp_replace=""/>&nbsp;من<match no="1"  regexp_match=".*(?=(&verb_encletics;)$)" regexp_replace=""/></suggestion>
+</message>
+    <example correction="تفاديت منه" type="incorrect"><marker>تفاديته</marker> الشيء </example>
+    <example correction="تفادا منه" type="incorrect"><marker>تفاداه</marker> الشيء </example>
+    <example type="correct"> تفاديت منه الشيء </example>
+  </rule>
+ <!-- TODO trans D2I-->
+
+    </rulegroup>
  
 
   </category>
