@@ -60,7 +60,9 @@ public class GermanSRXSentenceTokenizerTest {
 
     // non-breaking space, happen e.g. in online editors, because HTML merges spaces:
     assertThat(stokenizer.tokenize("Dies ist ein Satz. \u00A0Noch einer.").size(), is(2));
+    assertThat(stokenizer.tokenize("Dies ist ein Satz.   \u00A0Noch einer.").size(), is(2));
     assertThat(stokenizer.tokenize("Dies ist ein Satz.\u00A0 Noch einer.").size(), is(2));
+    assertThat(stokenizer.tokenize("Dies ist ein Satz.\u00A0\u00A0\u00A0 Noch einer.").size(), is(2));
 
     testSplit("Heute ist der 13.12.2004.");
     testSplit("Heute ist der 13. Dezember.");
