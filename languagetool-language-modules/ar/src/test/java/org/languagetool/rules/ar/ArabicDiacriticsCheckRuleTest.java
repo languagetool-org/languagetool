@@ -39,7 +39,7 @@ public class ArabicDiacriticsCheckRuleTest {
   private JLanguageTool langTool;
 
   @Before
-  public void setUp() throws IOException {
+  public void setUp() {
     rule = new ArabicDiacriticsRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(new Arabic());
   }
@@ -47,15 +47,7 @@ public class ArabicDiacriticsCheckRuleTest {
   @Test
   public void testRule() throws IOException {
     // incorrect sentences:
-    assertIncorrect("تجربة");
-  }
-
-  private void assertCorrect(String sentence) throws IOException {
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence(sentence)).length);
-  }
-
-  private void assertIncorrect(String sentence) throws IOException {
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence(sentence)).length);
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("تجربة")).length);
   }
 
 }

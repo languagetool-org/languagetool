@@ -47,7 +47,7 @@ public class ArabicWrongWordInContextRule extends WrongWordInContextRule {
 
   @Override
   public String getId() {
-    return this.ARABIC_WRONG_WORD_IN_CONTEXT;
+    return ARABIC_WRONG_WORD_IN_CONTEXT;
   }
 
   @Override
@@ -57,7 +57,7 @@ public class ArabicWrongWordInContextRule extends WrongWordInContextRule {
 
   @Override
   protected String getFilename() {
-    return this.FILE_NAME;
+    return FILE_NAME;
   }
 
   @Override

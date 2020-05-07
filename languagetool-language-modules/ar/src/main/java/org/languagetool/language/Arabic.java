@@ -119,7 +119,6 @@ public class Arabic extends Language implements AutoCloseable {
 
       // specific to Arabic :
       new ArabicHunspellSpellerRule(messages, userConfig),
-      //new MorfologikArabicSpellerRule(messages, this),
       new ArabicCommaWhitespaceRule(messages),
       new ArabicDoublePunctuationRule(messages),
       new LongSentenceRule(messages, userConfig, -1, false),
@@ -134,7 +133,7 @@ public class Arabic extends Language implements AutoCloseable {
   }
 
   @Override
-  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
+  public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) {
     return Arrays.asList(
       new ArabicConfusionProbabilityRule(messages, languageModel, this)
     );
@@ -146,13 +145,13 @@ public class Arabic extends Language implements AutoCloseable {
   }
 
   @Override
-  public synchronized LanguageModel getLanguageModel(File indexDir) throws IOException {
+  public synchronized LanguageModel getLanguageModel(File indexDir) {
     languageModel = initLanguageModel(indexDir, languageModel);
     return languageModel;
   }
 
   @Override
-  public void close() throws Exception {
+  public void close() {
     if (languageModel != null) {
       languageModel.close();
     }

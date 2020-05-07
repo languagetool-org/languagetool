@@ -43,7 +43,7 @@ public class ArabicDiacriticsRule extends AbstractSimpleReplaceRule2 {
   private static final String FILE_NAME = "/ar/diacritics.txt";
   private static final Locale AR_LOCALE = new Locale("ar");
 
-  public ArabicDiacriticsRule(ResourceBundle messages) throws IOException {
+  public ArabicDiacriticsRule(ResourceBundle messages) {
     super(messages, new Arabic());
     // setDefaultOff();
     super.setCategory(Categories.STYLE.getCategory(messages));

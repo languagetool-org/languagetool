@@ -62,7 +62,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
    * @return String value - inflected word.
    */
   @Override
-  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag) {
     IStemmer synthesizer = createStemmer();
     List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
     List<String> wordForms = new ArrayList<>();

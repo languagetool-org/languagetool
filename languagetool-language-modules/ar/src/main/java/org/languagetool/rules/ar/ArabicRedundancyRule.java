@@ -45,7 +45,7 @@ public class ArabicRedundancyRule extends AbstractSimpleReplaceRule2 {
   private static final String FILE_NAME = "/ar/redundancies.txt";
   private static final Locale AR_LOCALE = new Locale("ar");  // locale used on case-conversion
 
-  public ArabicRedundancyRule(ResourceBundle messages) throws IOException {
+  public ArabicRedundancyRule(ResourceBundle messages) {
     super(messages, new Arabic());
     super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);

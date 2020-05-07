@@ -40,12 +40,16 @@ public class ArabicTagger extends BaseTagger {
   /* Add the flag to an encoded tag */
   public String addTag(String postag, String flag) {
     StringBuilder tmp = new StringBuilder(postag);
-    if (flag.equals("W")) {
-      tmp.setCharAt(postag.length() - 3, 'W');
-    } else if (flag.equals("K")) {
-      tmp.setCharAt(postag.length() - 2, 'K');
-    } else if (flag.equals("L")) {
-      tmp.setCharAt(postag.length() - 2, 'L');
+    switch (flag) {
+      case "W":
+        tmp.setCharAt(postag.length() - 3, 'W');
+        break;
+      case "K":
+        tmp.setCharAt(postag.length() - 2, 'K');
+        break;
+      case "L":
+        tmp.setCharAt(postag.length() - 2, 'L');
+        break;
     }
     return tmp.toString();
   }

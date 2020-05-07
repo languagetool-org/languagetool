@@ -38,21 +38,14 @@ public class ArabicWordinessRuleTest {
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
 
   @Before
-  public void before() throws IOException {
+  public void before() {
     TestTools.disableAllRulesExcept(lt, ArabicWordinessRule.AR_WORDINESS_REPLACE);
   }
 
   @Test
   public void testRule() throws IOException {
-    // correct sentences:
-
     // errors:
     assertError("وأخيرا وليس آخرا");
-  }
-
-  private void assertGood(String s) throws IOException {
-    ArabicWordinessRule rule = new ArabicWordinessRule(TestTools.getEnglishMessages());
-    assertEquals(0, rule.match(lt.getAnalyzedSentence(s)).length);
   }
 
 

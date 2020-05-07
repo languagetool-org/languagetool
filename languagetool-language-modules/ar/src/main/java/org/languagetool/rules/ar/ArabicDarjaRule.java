@@ -46,7 +46,7 @@ public class ArabicDarjaRule extends AbstractSimpleReplaceRule2 {
     return FILE_NAME;
   }
 
-  public ArabicDarjaRule(ResourceBundle messages) throws IOException {
+  public ArabicDarjaRule(ResourceBundle messages) {
     super(messages, new Arabic());
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
