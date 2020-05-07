@@ -75,7 +75,9 @@ public class CommonWords {
                   l.add(lang);
                   word2langs.put(key, l);
                 } else {
-                  languages.add(lang);
+                  if (!languages.contains(lang)) {
+                    languages.add(lang);
+                  }
                 }
               }
             }
