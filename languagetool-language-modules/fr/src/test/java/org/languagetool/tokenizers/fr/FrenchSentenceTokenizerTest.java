@@ -43,6 +43,7 @@ public class FrenchSentenceTokenizerTest {
     testSplit("Je suis Chris...");
     testSplit("Je suis Chris ...");
     testSplit("Je suis Chris …");
+    testSplit("Votre nom: Chris !");
     testSplit("Je suis (...) Chris");
     testSplit("Je suis Chris (Christopher?).");
     testSplit("Je suis Chris (Christopher ?).");
@@ -67,10 +68,13 @@ public class FrenchSentenceTokenizerTest {
 
     assertThat(stokenizer.tokenize("Je suis Chris. Comment allez vous ?").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris?   Comment allez vous ???").size(), is(2));
+    assertThat(stokenizer.tokenize("Je suis Chris ! Comment allez vous ???").size(), is(2));
+    assertThat(stokenizer.tokenize("Je suis Chris ? Comment allez vous ???").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris. comment allez vous").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris (...). comment allez vous").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris (la la la …). comment allez vous").size(), is(2));
     assertThat(stokenizer.tokenize("Je suis Chris (CHRISTOPHER!). Comment allez vous").size(), is(2));
+    assertThat(stokenizer.tokenize("Je suis Chris... Comment allez vous.").size(), is(2));
   }
 
   private void testSplit(final String... sentences) {
