@@ -11644,12 +11644,12 @@ USA
         <rule id="SMART_COMPOUNDS" name="smart phone (smartphone)">
             <pattern>
                 <token>smart</token>
-                <token regexp="yes">phones?|watch(es)?|grass(es)?|weeds?</token>
+                <token regexp="yes">watch(es)?|grass(es)?|weeds?</token>
             </pattern>
             <message>This is normally spelled as one word.</message>
             <suggestion>smart<match no="2" case_conversion="alllower" /></suggestion>
-            <url>https://www.lexico.com/definition/smartphone</url>
-            <example correction="smartphone">He got a new <marker>smart phone</marker> for Christmas.</example>
+            <url>https://www.lexico.com/definition/smartwatch</url>
+            <example correction="smartwatch">He got a new <marker>smart watch</marker> for Christmas.</example>
         </rule>
         <rule id="SKY_COMPOUNDS" name="sky scraper (skyscraper)">
             <antipattern><!-- Sky is also a TV Channel-->
@@ -11769,14 +11769,11 @@ USA
             <rule>
                 <pattern>
                     <token>web</token>
-                    <token regexp="yes">(site|sight)s?</token>
+                    <token regexp="yes">sights?|sit</token>
                 </pattern>
-                <message>Did you mean <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>?</message>
+                <message>Did you mean <suggestion><match no="1" /><match no="2" regexp_match="(?i)(sight|sit)" regexp_replace="site" case_conversion="alllower" /></suggestion>?</message>
                 <url>https://www.lexico.com/definition/website</url>
-                <example correction="website">The <marker>web site</marker> was down.</example>
-                <example>The <marker>website</marker> was down.</example>
-                <example correction="Websites">Our <marker>Web Sites</marker> are all secured by an SSL certificate.</example>
-                <example type="triggers_error">Achill Archaeological Field School web site.</example><!-- 2 words is possible in AmE: www.merriam-webster.com/dictionary/web%20site -->
+                <example correction="website">The <marker>web sight</marker> was down.</example>
             </rule>
             <rule>
                 <pattern>
@@ -55090,6 +55087,28 @@ The accident victim died from her injuries.
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rulegroup id="RECOMMENDED_COMPOUNDS" name="Recommended compounds (smartphone, website, …)">
+            <rule>
+                <pattern>
+                    <token>smart</token>
+                    <token regexp="yes">phones?</token>
+                </pattern>
+                <message>Nowadays it's more common to write this as one word.</message>
+                <suggestion>smart<match no="2" case_conversion="alllower" /></suggestion>
+                <url>https://www.merriam-webster.com/dictionary/smart%20phone</url>
+                <example correction="smartphone">He is using a <marker>smart phone</marker> to communicate with his friends.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>web</token>
+                    <token regexp="yes">sites?</token>
+                </pattern>
+                <message>Nowadays it's more common to write this as one word.</message>
+                <suggestion>web<match no="2" case_conversion="alllower" /></suggestion>
+                <url>https://www.merriam-webster.com/dictionary/web%20site</url>
+                <example correction="website">He published a new blog post on his <marker>web site</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="MOST_OF_OUR_TIMES" name="Most of our times (time)">
             <pattern>
                 <token inflected="yes" regexp="yes" skip="2">spend|invest|enjoy</token>
