@@ -1142,6 +1142,14 @@
 <beforebreak>\b([Ff]ig|[Dd]ef|[Ee]q|[Ll]em|[Pp]rop|[Tt]hm)s?\.\s</beforebreak>
 <afterbreak>\(\p{N}\)</afterbreak>
 </rule>
+<rule break="no"><!-- I'm (...) great! -->
+<beforebreak>(…|\.\.\.)\s?\)\s</beforebreak>
+<afterbreak>[^\p{P}]</afterbreak>
+</rule>
+<rule break="no"><!-- I will work with someone (Chris or ...?). -->
+<beforebreak>(…|\.\.\.)\s?\?\)\s</beforebreak>
+<afterbreak>[^\p{P}]</afterbreak>
+</rule>
 <rule break="no"><!-- e.g. -->
 <beforebreak>\be\.g\.\s</beforebreak>
 <afterbreak></afterbreak>
@@ -5119,7 +5127,188 @@
 <afterbreak></afterbreak>
 </rule>
 <rule break="no">
-<beforebreak>\b(ave?|boul|Mr?|MM?)\.\s</beforebreak>
+<beforebreak>\b(ave?|boul|Mr?|Mrs|MM?)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\[\(]*…[\]\)]* </beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\p{Ps}[!?]+\p{Pe} </beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\.!?…]+\p{Pe} </beforebreak>
+<afterbreak>\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>["”'’]\s*</beforebreak>
+<afterbreak>\s*\p{Ll}</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>['"„][\.!?…]['"”]\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{L}\.\s</beforebreak>
+<afterbreak>\p{L}\.\s</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{L}\.</beforebreak>
+<afterbreak>\p{L}\.</afterbreak>
+</rule>
+<rule break="no"><!-- Je suis (...) Chris. -->
+<beforebreak>(…|\.\.\.)\s?\)\s</beforebreak>
+<afterbreak>[^\p{P}]</afterbreak>
+</rule>
+<rule break="no"><!-- Je suis (...?) Chris. -->
+<beforebreak>(…|\.\.\.)\s?\?\)\s</beforebreak>
+<afterbreak>[^\p{P}]</afterbreak>
+</rule>
+<rule break="no"><!-- Jones v. Smith -->
+<beforebreak>\p{Lu}\p{L}+\sv\.\s</beforebreak>
+<afterbreak>\p{Lu}\p{L}+</afterbreak>
+</rule>
+<rule break="yes">
+<beforebreak>[^,][\s]\p{L}{2}\.\s</beforebreak>
+<afterbreak>\p{N}+\)\s</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\.\s]\p{L}{1,2}\.\s</beforebreak>
+<afterbreak>[\p{N}\p{Ll}]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[\[\(]*\.\.\.[\]\)]* </beforebreak>
+<afterbreak>[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{Lu}\.\s\p{Lu}\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b\p{Lu}\.\p{Lu}\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>[^\.]\s[A-Z]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(:?Blvd|Ave|Mts?)\.\s</beforebreak>
+<afterbreak>\p{Ll}+</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b(?:Kan|Ill|M[ai]ss)\.\s</beforebreak>
+<afterbreak>\p{Ll}+</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\(\p{Ll}+\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no"><!-- i.e. -->
+<beforebreak>i\.e\.\s</beforebreak><!-- "i.e." is never at end of sentence -->
+<afterbreak></afterbreak>
+</rule>
+<rule break="no"><!-- U.S.A (no dot at end) -->
+<beforebreak>[A-Z]\.[A-Z]\.</beforebreak>
+<afterbreak>[A-Z]\b</afterbreak>
+</rule>
+<rule break="no"><!-- L.A (no dot at end) -->
+<beforebreak>\bL\.</beforebreak>
+<afterbreak>A\b</afterbreak>
+</rule>
+<rule break="no"><!-- U.S (no dot at end) -->
+<beforebreak>\bU\.</beforebreak>
+<afterbreak>[SK]\b</afterbreak>
+</rule>
+<rule break="no"><!-- No. 5 -->
+<beforebreak>\b[nN]o\.\s</beforebreak>
+<afterbreak>\p{N}</afterbreak>
+</rule>
+<rule break="no"><!-- Ph.D. -->
+<beforebreak>\bP[Hh]\.\s?</beforebreak>
+<afterbreak>D\.?</afterbreak>
+</rule>
+<rule break="no"><!-- e.g. -->
+<beforebreak>\be\.g\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no"><!-- vs. -->
+<beforebreak>\bvs\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<!--"Etc." can end the sentence, so we check for the uppercase letter after it.-->
+<rule break="no"><!-- Etc. -->
+<beforebreak>\b[Ee]tc\.\s</beforebreak>
+<afterbreak>[^\p{Lu}]</afterbreak>
+</rule>
+<rule break="no"><!-- BTW (by the way) -->
+<beforebreak>\b([Bb]tw|BTW)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>(?i)FRITZ!</beforebreak>
+<afterbreak>(?i)Box</afterbreak>
+</rule>
+<rule break="no"><!-- https://de.wikipedia.org/wiki/VW_ID.3 -->
+<beforebreak>ID.</beforebreak>
+<afterbreak>3|Buzz|Crozz</afterbreak>
+</rule>
+<rule break="no"><!-- Ph.D. (see rule PH_D) -->
+<beforebreak>\bP[Hh]\.?\s?[Dd]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no"><!-- "I have a B. Eng. degree" (see rule BACHELOR_ABBR) -->
+<beforebreak>\b(P[hH][dD]|BSc|BEng|BComp|BArch|MSc|MEng|MComp)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no"><!-- "I have a LL.B degree." (see rule PH_D) -->
+<beforebreak>\bLL\.\s?[BM]\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no"><!-- B.Eng. (Bachelor of Engineering) -->
+<beforebreak>\b[BM]\.\s?</beforebreak>
+<afterbreak>Eng\.?</afterbreak>
+</rule>
+<rule break="no"><!-- LL.B. (Bachelor of Laws) -->
+<beforebreak>\bLL\.\s?</beforebreak>
+<afterbreak>[BM]\.?</afterbreak>
+</rule>
+<rule break="no"><!-- B.Sc. (Bachelor of Science) -->
+<beforebreak>\b[BM]\.\s?</beforebreak>
+<afterbreak>Sc\.?</afterbreak>
+</rule>
+<rule break="no"><!-- B.Comp. (Bachelor of Computing) -->
+<beforebreak>\b[BM]\.\s?</beforebreak>
+<afterbreak>Comp?\.?</afterbreak>
+</rule>
+<rule break="no"><!-- B.Arch. (Bachelor of Architecture) -->
+<beforebreak>\b[BM]\.\s?</beforebreak>
+<afterbreak>Arch\.?</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\b[BM]\.?\s?(Sc|Eng|Comp|Arch)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bI(nc|NC)\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bCorp\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bBros\.\s</beforebreak>
+<afterbreak></afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bLtd\.\s</beforebreak>
+<afterbreak>\p{Ll}+</afterbreak>
+</rule>
+<rule break="no">
+<beforebreak>\bCo\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!-- Break rules -->
@@ -5136,7 +5325,6 @@
 <afterbreak>\p{Lu}\p{Ll}</afterbreak>
 </rule>
 </languagerule>
-
 <languagerule languagerulename="Ukrainian">
 <!-- when sentence starts with ellipsis: ...Мазій і Юхим теж. -->
 <rule break="no">
