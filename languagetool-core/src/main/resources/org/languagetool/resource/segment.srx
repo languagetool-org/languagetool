@@ -1122,40 +1122,40 @@
 <beforebreak>\b[A-Za-z0-9\-]+\.</beforebreak>
 <afterbreak>[A-Za-z0-9\-]+\.(com|net|org|info|de|es|edu|co|eu|nl|io|cn|uk|gov|biz|ca|tk|ru|br|jp|pl)(\.|\b)</afterbreak>
 </rule>
-<rule break="no">
+<rule break="no"><!-- No. 5 -->
 <beforebreak>\b[nN]o\.\s</beforebreak>
 <afterbreak>\p{N}</afterbreak>
 </rule>
-<rule break="no">
+<rule break="no"><!-- Ph.D. -->
 <beforebreak>\bP[Hh]\.\s?</beforebreak>
 <afterbreak>D\.?</afterbreak>
 </rule>
-<rule break="no">
+<rule break="no"><!-- min. -->
 <beforebreak>\b(pp|[Vv]iz|i\.?\s*e|[Vvol]|[Rr]col|maj|Lt|[Ff]ig|[Ff]igs|[Vv]iz|[Vv]ols|[Aa]pprox|[Ii]ncl?|[Aa]cc|Pres|[Dd]ept|min|max|[Gg]ovt|lb|lbf|ft|c\.?\s*f|vs|dia|lbs|\d+-(:?oz|kc|in|h[rp]|ml)|M?sec)\.\s</beforebreak>
 <afterbreak>[^\p{Lu}]|I</afterbreak>
 </rule>
-<rule break="no">
+<rule break="no"><!-- Fig. 8 -->
 <beforebreak>\b([Ff]ig|[Dd]ef|[Ee]q|[Ll]em|[Pp]rop|[Tt]hm)s?\.\s</beforebreak>
 <afterbreak>\p{N}</afterbreak>
 </rule>
-<rule break="no">
+<rule break="no"><!-- Fig. (8) -->
 <beforebreak>\b([Ff]ig|[Dd]ef|[Ee]q|[Ll]em|[Pp]rop|[Tt]hm)s?\.\s</beforebreak>
 <afterbreak>\(\p{N}\)</afterbreak>
 </rule>
-<rule break="no">
+<rule break="no"><!-- e.g. -->
 <beforebreak>\be\.g\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
-<rule break="no">
+<rule break="no"><!-- vs. -->
 <beforebreak>\bvs\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
-<rule break="no">
+<rule break="no"><!-- esp. -->
 <beforebreak>\be[sx]p\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
 <!--"Etc." can end the sentence, so we check for the uppercase letter after it.-->
-<rule break="no">
+<rule break="no"><!-- Etc. -->
 <beforebreak>\b[Ee]tc\.\s</beforebreak>
 <afterbreak>[^\p{Lu}]</afterbreak>
 </rule>
@@ -1375,7 +1375,7 @@
 <beforebreak>\(\p{Ll}+\.\s</beforebreak>
 <afterbreak></afterbreak>
 </rule>
-<rule break="no">
+<rule break="no"><!-- i.e. -->
 <beforebreak>i\.e\.\s</beforebreak><!-- "i.e." is never at end of sentence -->
 <afterbreak></afterbreak>
 </rule>
