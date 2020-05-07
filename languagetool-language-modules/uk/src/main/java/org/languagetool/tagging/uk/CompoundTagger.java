@@ -245,7 +245,8 @@ class CompoundTagger {
     // Пенсильванія-авеню
 
     if( Character.isUpperCase(leftWord.charAt(0)) && LemmaHelper.CITY_AVENU.contains(rightWord) ) {
-      return PosTagHelper.generateTokensForNv(word, "f", ":prop");
+      String addPos = rightWord.equals("штрассе") ? ":bad" : "";
+      return PosTagHelper.generateTokensForNv(word, "f", ":prop" + addPos);
     }
 
     // Fe-вмісний
@@ -1356,7 +1357,8 @@ class CompoundTagger {
 
       if (word.endsWith("штрассе")
           || word.endsWith("штрасе")) {
-        return PosTagHelper.generateTokensForNv(word, "f", ":prop");
+        String addPos = word.endsWith("штрассе") ? ":bad" : "";
+        return PosTagHelper.generateTokensForNv(word, "f", ":prop" + addPos);
       }
 
       if (word.endsWith("дзе")

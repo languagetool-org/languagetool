@@ -472,9 +472,8 @@ public class UkrainianTaggerTest {
   
   @Test
   public void testDynamicTaggingNoDash() throws IOException {
-    TestTools.myAssert("Лангштрассе", "Лангштрассе/[Лангштрассе]noun:inanim:f:v_dav:nv:prop|Лангштрассе/[Лангштрассе]noun:inanim:f:v_mis:nv:prop"
-        + "|Лангштрассе/[Лангштрассе]noun:inanim:f:v_naz:nv:prop|Лангштрассе/[Лангштрассе]noun:inanim:f:v_oru:nv:prop"
-        + "|Лангштрассе/[Лангштрассе]noun:inanim:f:v_rod:nv:prop|Лангштрассе/[Лангштрассе]noun:inanim:f:v_zna:nv:prop", tokenizer, tagger);
+    TestTools.myAssert("Лангштрассе", "Лангштрассе/[Лангштрассе]noun:inanim:f:v_dav:nv:prop:bad|Лангштрассе/[Лангштрассе]noun:inanim:f:v_mis:nv:prop:bad|Лангштрассе/[Лангштрассе]noun:inanim:f:v_naz:nv:prop:bad"
+        + "|Лангштрассе/[Лангштрассе]noun:inanim:f:v_oru:nv:prop:bad|Лангштрассе/[Лангштрассе]noun:inanim:f:v_rod:nv:prop:bad|Лангштрассе/[Лангштрассе]noun:inanim:f:v_zna:nv:prop:bad", tokenizer, tagger);
 
     TestTools.myAssert("Єнукідзе", "Єнукідзе/[Єнукідзе]noun:inanim:f:v_dav:nv:prop:lname|Єнукідзе/[Єнукідзе]noun:inanim:f:v_mis:nv:prop:lname|Єнукідзе/[Єнукідзе]noun:inanim:f:v_naz:nv:prop:lname"
         + "|Єнукідзе/[Єнукідзе]noun:inanim:f:v_oru:nv:prop:lname|Єнукідзе/[Єнукідзе]noun:inanim:f:v_rod:nv:prop:lname|Єнукідзе/[Єнукідзе]noun:inanim:f:v_zna:nv:prop:lname"
