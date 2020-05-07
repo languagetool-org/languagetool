@@ -283,6 +283,7 @@ public class AgreementRuleTest {
     assertGood("Die Präsent AG.");
     assertGood("In New York war er der Titelheld in Richard III. und spielte den Mark Anton in Julius Cäsar.");
     assertGood("Vielen Dank fürs Bescheid geben.");
+    assertGood("Welche Display Ads?");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");

@@ -371,6 +371,10 @@ public class AgreementRule extends Rule {
       tokenRegex("Managers?")
     ),
     Arrays.asList(
+      token("Display"),
+      tokenRegex("Ads?|Advertising")
+    ),
+    Arrays.asList(
       token("Private"),
       tokenRegex("Equitys?|Clouds?")
     ),
