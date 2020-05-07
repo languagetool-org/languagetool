@@ -64,7 +64,7 @@ USA
     <!ENTITY incorrect_noun_verbs "hide\-?out|charge\-?back|sign\-?off|tie\-?up|stand\-?still|back\-?down|roll\-?over|take\-?away|take\-?up|write\-?off|mix\-?up|walk\-?in|bail\-?out|fill\-?in|give\-?away|pay\-?out|pay\-?off|pay\-?back|run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back">
     
     <!-- words that are informally used as verbs but aren't tagged and shouldn't be tagged as a verb -->
-    <!ENTITY not_really_verbs "self\-?(support|control)s?|overdrafts?|remotes?|nerds?|wrought|karates?|paths?|scapes?|videos?|fann(y|ies)?|bonus(es)?|back\-?ups?|pop\-?ups?|one\-?(shot|click)s?|idiot\-?proofs?|intakes?|rinds?|gaslits?|errors?|prox(y|ies)?|configs?|repros?|super\-?sets?|open\-?sources?|drag\-(and|n)\-drops?|hotfix(es)?|timeouts?|shutdowns?">
+    <!ENTITY not_really_verbs "self\-?(support|control)s?|overdrafts?|remotes?|nerds?|wrought|karates?|paths?|scapes?|videos?|fann(y|ies)?|bonus(es)?|back\-?ups?|pop\-?ups?|one\-?(shot|click)s?|idiot\-?proofs?|intakes?|rinds?|gaslits?|errors?|prox(y|ies)?|configs?|repros?|super\-?sets?|open\-?sources?|drag\-(and|n)\-drops?|hotfix(es)?|timeouts?|shutdowns">
     <!ENTITY subject_pronouns "I|you|he|she|it|we|they|one">
     <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
     <!ENTITY uom_abbreviations_SI "(Y|Z|E|P|T|G|M|k|h|da|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|mol|cd|rad|sr|Hz|N|Pa|J|W|C|V|F|Ω|S|Wb|T|H|lm|lx|Bq|Gy|Sv|kat|min|h|d|L|t|Np|B|eV|u|ua)"><!-- https://physics.nist.gov/cuu/Units/units.html -->
@@ -17958,20 +17958,38 @@ USA
         </rule>
         <rulegroup id="THE_THEY" name="the (they)">
             <rule>
+                <antipattern>
+                    <token regexp="yes">and|or|as|after|before</token>
+                    <token>the</token>
+                    <token postag="JJ.*|NN.*" postag_regexp="yes" />
+                    <token regexp="yes">the|an?|my|y?our|his|her</token>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">when|if|and|because|since|unless|but|as</token>
+                    <token regexp="yes">when|if|and|because|since|unless|but|as|before|after</token>
                     <marker>
                         <token>the</token>
                     </marker>
                     <token postag="VB[DP]?" postag_regexp="yes">
-                        <exception postag="JJ.*" postag_regexp="yes" />
+                        <exception regexp="yes">time|reload</exception>
                     </token>
-                    <token regexp="yes">the|an?|my|y?our|their|his|her|its</token>
+                    <token regexp="yes">
+                        the|an?|my|y?our|their|his|her|its|us|him|me
+                        <exception case_sensitive="yes">US</exception>
+                    </token>
                 </pattern>
-                <message>Did you mean <suggestion>they</suggestion>?</message>
-                <example correction="they">We can do it if <marker>the</marker> create the concept.</example>
+                <message>Did you mean <suggestion>they</suggestion> or <suggestion>then</suggestion>?</message>
+                <example correction="they|then">We can do it if <marker>the</marker> create the concept.</example>
+                <example correction="they|then">What if <marker>the</marker> allowed us to do it?</example>
+                <example correction="they|then">The Tour Down Under is the largest cycling event outside Europe and <marker>the</marker> was the first event outside Europe to be granted UCI ProTour status.</example>
+                <example correction="they|then">I asked the nurse to let me talk to them and when <marker>the</marker> pulled the curtain back no one was there.</example>
+                <example correction="they|then">In politics and civic affairs leaders of the pillar organizations cooperated and <marker>the</marker> acknowledged the right of the other pillars, so public life generally ran smoothly.</example>
                 <example>The older tires get, the harder the rubber becomes and the lower the traction becomes.</example>
-                <example type="triggers_error">The Tour Down Under is the largest cycling event outside Europe and the was the first event outside Europe to be granted UCI ProTour status.</example>
+                <example>We will call the first the furnace and the second the refrigerator.</example>
+                <example>Tokyo was really wonderful and the welcome the Japanese extended to us was also just as wonderful.</example>
+                <example>Detroit techno developed as the DJ The Electrifying Mojo did his radio program, which fused eclectic sounds into the signature Detroit techno sound.</example>
+                <example>These races, Ionian and Dorian, were the foremost in ancient time, the first a Pelasgian and the second a Hellenic people.</example>
+                <example>The macro currently has two triggers, the first a time based trigger that fires at 5:00 am and the second a keystroke trigger.</example>
+                <example>In that case each of the equations describes a spherical cone, with the cusp located at the satellite, and the base a sphere around the satellite.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -37194,6 +37212,111 @@ USA
                 <example>The Thames was once a much broader river.</example>
                 <example>He received an "A".</example>
                 <example>It starts with an “A”.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="THE_US" name="In the us (US)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|y?our|my|their|her|his</token>
+                    <token postag="JJ" min="0">
+                        <exception postag="VB.*|NN.*|RB" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[Uu]s</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>US</suggestion> (= United States)?</message>
+                <url>https://www.merriam-webster.com/dictionary/us</url>
+                <example correction="US">I live in the <marker>us</marker>.</example>
+                <example correction="US">Too bad, you have to be a <marker>us</marker> resident.</example>
+                <example type="triggers_error">The us ending, very common in Latin, was then abbreviated by copyists (monks) by the letter x, resulting in a written form animax.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|y?our|my|their|her|his</token>
+                    <token postag="JJ" min="0">
+                        <exception postag="VB.*|NN.*|RB" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[Uu]k</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>UK</suggestion> (= United Kingdom)?</message>
+                <url>https://www.merriam-webster.com/dictionary/UK</url>
+                <example correction="UK">I live in the <marker>uk</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>U</token>
+                    <token>.</token>
+                    <token>S</token>
+                    <token>.</token>
+                    <token>A</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">the|an?|y?our|my|their|her|his</token>
+                    <token postag="JJ" min="0">
+                        <exception postag="VB.*|NN.*|RB" postag_regexp="yes" />
+                    </token>
+                    <marker>
+                        <token>u</token>
+                        <token spacebefore="no">.</token>
+                        <token spacebefore="no">s</token>
+                        <token spacebefore="no">.</token>
+                        <token spacebefore="no">a</token>
+                        <token spacebefore="no">
+                            .
+                            <exception scope="next" spacebefore="no" regexp="yes">.+</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>U.S.A.</suggestion> (= United States of America)?</message>
+                <example correction="U.S.A.">I live in the <marker>u.s.a.</marker></example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>U</token>
+                    <token>.</token>
+                    <token>S</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern>
+                    <token>the</token>
+                    <marker>
+                        <token>u</token>
+                        <token spacebefore="no">.</token>
+                        <token spacebefore="no">s</token>
+                        <token spacebefore="no">
+                            .
+                            <exception scope="next" spacebefore="no" regexp="yes">.+</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>U.S.</suggestion> (= United States)?</message>
+                <example correction="U.S.">I live in the <marker>u.s.</marker></example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>U</token>
+                    <token>.</token>
+                    <token>K</token>
+                    <token>.</token>
+                </antipattern>
+                <pattern>
+                    <token>the</token>
+                    <marker>
+                        <token>u</token>
+                        <token spacebefore="no">.</token>
+                        <token spacebefore="no">k</token>
+                        <token spacebefore="no">
+                            .
+                            <exception scope="next" spacebefore="no" regexp="yes">.+</exception>
+                        </token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>U.K.</suggestion> (= United Kingdom)?</message>
+                <example correction="U.K.">I live in the <marker>u.k.</marker></example>
             </rule>
         </rulegroup>
         <rule id="DT_PRP" name="The you (you)">
