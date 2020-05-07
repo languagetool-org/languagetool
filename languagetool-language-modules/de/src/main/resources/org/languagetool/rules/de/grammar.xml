@@ -92,7 +92,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY meindein "&lsqb;mds&rsqb;ein|unser|euer|ihr">
     <!ENTITY verbendirekterede "be(fehlen|haupten)|denken|fragen|rufen|sagen|versichern|flüstern|sprechen|schreien|antworten|säuseln|flehen">
     <!ENTITY gefuehladj "böse|erzürnt|sauer|verärgert|wütend|ärgerlich|enttäuscht|genervt|empört|entrüstet|erbost">
-    <!ENTITY fragewoerter "inwie(fern|weit)|wa(nn|rum|s)|we[mnr]|wes(halb|sen|wegen)|wie(so)?|wo(durch|für|gegen|h(er|in)|mit|nach|ran|rauf|raus|rüber|runter|von|zu)?">
+    <!ENTITY fragewoerter "inwie(fern|weit)|wa(nn|rum|s)|we[mnr]|wes(halb|sen|wegen)|wie(so)?|wo(durch|für|gegen|h(er|in)|mit|nach|ran|rauf|raus|rüber|runter|von|zu)?"><!-- TODO: why is "welche/welcher/welches" missing? -->
     <!ENTITY farbadj "grau|weiß|weiss|schwarz|grün|rot|gelb|blau|lila|orange|beige|rosa">
     <!--
     for local testing of an external file - also see below:
@@ -35582,8 +35582,9 @@ Andere Projekte</example>
                     <token><exception regexp="yes">\W</exception></token>
                 </pattern>
                 <message>Prüfen Sie, ob hier die korrekte Verbform verwendet wird.</message>
-                <suggestion>\2t</suggestion>
+                <suggestion><match no="2" regexp_match="t$" regexp_replace="te" />t</suggestion>
                 <example correction="geht">Er <marker>geh</marker> jetzt.</example>
+                <example correction="wurstet">Er <marker>wurst</marker> sich durch.</example>
                 <example>Sie wusste es dank ihres sechsten Sinns.</example>
                 <example>Wenn sie Erfolg hat, wird es gelingen.</example>
                 <example>Dass ihr trotz dieser Krankheit arbeiten könnt, ist gut.</example>
@@ -42166,7 +42167,7 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                     <token>
-                        <exception regexp="yes">,|-|„|»|«|"</exception>
+                        <exception regexp="yes">,|-|–|„|»|«|"|;|…|\(</exception>
                         <exception postag="SENT_START"/>
                     </token>
                     <token>nicht</token>
@@ -42181,7 +42182,7 @@ Andere Projekte</example>
             <rule>
                 <antipattern>
                     <token>ja</token>
-                    <token>oder</token>
+                    <token regexp="yes">und|oder|&amp;</token>
                     <token>nein</token>
                 </antipattern>
                 <antipattern>
@@ -42190,17 +42191,45 @@ Andere Projekte</example>
                     <token>?</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SENT_START"/>
-                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
-                    <token skip="-1" regexp="yes">&fragewoerter;</token>
+                    <token>falsch</token>
+                    <token regexp="yes">und|oder|&amp;</token>
+                    <token>richtig</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes" skip="4" />
+                    <token skip="-1" regexp="yes">&fragewoerter;|welche[rs]?
+                        <exception regexp="yes">,|;|:|-|–</exception>
+                    </token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">sein</token>
+                    <token>das</token>
+                    <token>richtig</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="2">verstehen</token>
+                    <token>das</token>
+                    <token>richtig</token>
                     <token>?</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">,|;|:|-|–</token>
-                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
-                    <token skip="-1" regexp="yes">&fragewoerter;
-                        <exception regexp="yes">,|;|:|-|–</exception>
-                    </token>
+                    <token inflected="yes">sein</token>
+                    <token>das</token>
+                    <token>richtig</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" skip="2">liegen</token>
+                    <token>da</token>
+                    <token>richtig</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern><!-- Tickst du noch ganz richtig? -->
+                    <token regexp="yes" skip="4">tickst|tickt?en?</token>
+                    <token>richtig</token>
                     <token>?</token>
                 </antipattern>
                 <antipattern>
@@ -42220,7 +42249,7 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                     <token>
-                        <exception regexp="yes">,|-|„|»|«|"</exception>
+                        <exception regexp="yes">,|-|–|„|»|«|"|;|…|\(</exception>
                         <exception postag="SENT_START"/>
                     </token>
                     <token  regexp="yes">ja|nein|oder|richtig</token>
@@ -42232,6 +42261,13 @@ Andere Projekte</example>
             <example correction='morgen, oder'>Du kommst <marker>morgen oder</marker>?</example>
             <example correction='melden, richtig'>Eine Kündigung muss ich bis 31. Januar 2021 bei dir <marker>melden richtig</marker>?</example>
             <example>Ja oder nein?</example>
+            <example>Welches ist richtig?</example>
+            <example>Tickst du noch ganz richtig?</example>
+            <example>Welche Antworten waren richtig?</example>
+            <example>Doch was davon ist richtig?</example>
+            <example>Liege ich da richtig?</example>
+            <example>Hey Peter, war das ein Ja?</example>
+            <example>Aber verstehe ich das richtig?</example>
         </rule>
             <rule>
                 <antipattern>
@@ -42265,7 +42301,7 @@ Andere Projekte</example>
                 <pattern>
                     <marker>
                     <token>
-                        <exception regexp="yes">,|-|„|»|«|"</exception>
+                        <exception regexp="yes">,|-|–|„|»|«|"|;|…|\(</exception>
                         <exception postag="SENT_START"/>
                     </token>
                     <token>oder</token>
