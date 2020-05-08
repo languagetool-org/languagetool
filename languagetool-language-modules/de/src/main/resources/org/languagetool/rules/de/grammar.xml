@@ -409,6 +409,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="wurst">Von daher ist das alles eh <marker>Wurst</marker>.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="AUS_DEM_EFFEFF" name="Redewendung: aus dem Effeff" default="temp_off">
+            <url>https://de.wikipedia.org/wiki/Effeff_(Redewendung)</url>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>aus</token>
+                    <token>dem</token>
+                    <token regexp="yes">e?ff?</token>
+                    <token min="0">.</token>
+                    <token regexp="yes">e?ff?</token>
+                </pattern>
+                <message>Meinten Sie die Redewendung <suggestion>aus dem Effeff</suggestion>?</message>
+                <example correction="aus dem Effeff">Er kann das <marker>aus dem Eff Eff</marker>.</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="no">
+                    <token>aus</token>
+                    <token>dem</token>
+                    <token regexp="yes">F\-?F|Ef\-?ef|Eff-Eff</token>
+                </pattern>
+                <message>Meinten Sie die Redewendung <suggestion>aus dem Effeff</suggestion>?</message>
+                <example correction="aus dem Effeff">Er kann das <marker>aus dem FF</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ENTGEHEN_LASSEN" name="entgegen (entgehen) lassen">
             <rule>
                 <pattern case_sensitive="yes">
@@ -9123,16 +9146,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>In Deutschland beantragte EORI-Nummern werden erst nach Vollziehen des Brexits nach dem 1. November 2019 aktiviert.</example>
             </rule>
         </rulegroup>
-        <rule id="DESWEITEREN" name="desweiteren (des Weiteren)">
-            <!-- Already covered by hunspell, a dedicated rule helps to be clearer -->
-            <pattern>
-                <token regexp="yes">desweitere?n</token>
-            </pattern>
-            <message>Das Wort "\1" wird getrennt geschrieben.</message>
-            <suggestion>des Weiteren</suggestion>
-            <url>https://www.duden.de/rechtschreibung/des_Weiteren</url>
-            <example correction="Des Weiteren"><marker>Desweiteren</marker> werde ich eine Eilmeldung rausschicken.</example>
-        </rule>
+        <rulegroup id="DESWEITEREN" name="desweiteren (des Weiteren)">
+            <rule>
+                <!-- Already covered by hunspell, a dedicated rule helps to be clearer -->
+                <pattern>
+                    <token regexp="yes">desweitere?n</token>
+                </pattern>
+                <message>Das Wort "\1" wird getrennt geschrieben.</message>
+                <suggestion>des Weiteren</suggestion>
+                <url>https://www.duden.de/rechtschreibung/des_Weiteren</url>
+                <example correction="Des Weiteren"><marker>Desweiteren</marker> werde ich eine Eilmeldung rausschicken.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>des</token>
+                        <token case_sensitive="yes" regexp="yes">weitere?n</token>
+                    </marker>
+                    <token>
+                        <exception postag=".*(SUB|EIG).*|UNKNOWN|KON.*" postag_regexp="yes" />
+                    </token>
+                </pattern>
+                <message>In der Phrase "des Weiteren" wird "Weiteren" großgeschrieben.</message>
+                <suggestion>des Weiteren</suggestion>
+                <url>https://www.duden.de/rechtschreibung/des_Weiteren</url>
+                <example correction="Des Weiteren"><marker>Des weiteren</marker> werde ich eine Eilmeldung rausschicken.</example>
+                <example correction="Des Weiteren"><marker>Des weiteren</marker> möchte ich gerne die Schüler von der Nutzung des Mailservers ausschließen.</example>
+                <example>Das Bergrecht Preussens und des weiteren Deutschlands.</example>
+                <example>1927 folgte der Bau des weiteren Schachtes 7 in Repelen.</example>
+                <example>1669 erhielt das Herzogtum Schleswig-Holstein-Plön das Territorium des weiteren Teilherzogtums Schleswig-Holstein-Sonderburg-Norburg, bestehend aus dem nördlichen Teil der Insel Alsen, hinzu.</example>
+                <example>1601, während des Polnisch-Schwedischen Kriegs, eroberten schwedische Truppen unter Herzog Karl von Södermanland die Burg, die während des weiteren Kriegsverlaufs in Besitz der Schweden blieb.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FOLLOW_UP" name="Follow up (Follow-up)">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Follow-ups?</token>
@@ -32893,7 +32938,7 @@ Andere Projekte</example>
                 <token>ko</token>
                 <token regexp="yes">phi.*|ah\-.+|gi\-.+|a\-.+|e|euna?.*|ping.*|chiao.*|phra.*|chang?s?|nangs?|ph?an.gans?|uns?|donckers?|laks?|lantas?|willems|un|newcastle|phukets?|phayams?|andos?|arimas?|bylanz.*|brags?|bergmann?s?|götz|hung.*|hy.*|index(es)?|iwa|jon.*|jeon.*|joon.*|ko|kho|kha.*|kut|kret|kradats?|kyaws?|lai.*|mak|magazines?|machidas?|masakis?|matsushitas?|myongs?|ngais?|nakahiras?|nakajimas?|oks?|orbital|rent.*|rayas?|rangs?|samuis?|sa[mk]ets?|suur.*|surins?|so\-?you.*|sung.*|shamos?|sichang.*|soto.*|tao.*|taen.*|takamoros?|tt.*|wais?|wen\-?jes?|yong.*</token>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>KO</token>
                     <token regexp="yes">Kriteriums?|Kriterien|Niederlagen?|Runde|Tropfen|Siegs?|Schlags?|Schläge|Siegers?(in)?</token>
@@ -32902,7 +32947,7 @@ Andere Projekte</example>
                 <suggestion>K.-o.-<match no="2" case_conversion="startupper" /></suggestion>
                 <example correction="K.-o.-Tropfen">Ihr wurden auf einer Party <marker>KO Tropfen</marker> verabreicht.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>K</token>
                     <token>.</token>
@@ -32914,7 +32959,7 @@ Andere Projekte</example>
                 <suggestion>K.-o.-<match no="5" case_conversion="startupper" /></suggestion>
                 <example correction="K.-o.-Tropfen">Ihr wurden auf einer Party <marker>K.O. Tropfen</marker> verabreicht.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">K[Oo]-(Kriteriums?|Kriterien|Niederlagen?|Runde|Tropfen|Siegs?|Schlags?|Schläge|Siegers?(in)?)</token>
                 </pattern>
@@ -33540,7 +33585,7 @@ Andere Projekte</example>
                 <example correction="Trial-and-Error">Er probierte es mit <marker>Try and Error</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ON_AIR" name="on air" default="temp_off">
+        <rulegroup id="ON_AIR" name="on air">
             <url>https://www.duden.de/rechtschreibung/on_air</url>
             <antipattern case_sensitive="no">
                 <token>Air</token>
