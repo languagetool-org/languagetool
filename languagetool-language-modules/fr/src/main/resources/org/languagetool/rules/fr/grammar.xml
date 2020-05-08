@@ -1444,8 +1444,13 @@ though, and has since been slightly modified)-->
           <token spacebefore="no" case_sensitive="yes">A</token>
         </antipattern>
         <antipattern>
+          <token>a</token>
+          <token>.</token>
+          <token>k</token>
+        </antipattern>
+        <antipattern>
           <token case_sensitive="yes">A</token>
-          <token regexp="yes">\/|\)|\.</token>
+          <token regexp="yes">\/|\)|\]|\.</token>
         </antipattern>
         <pattern>
           <token postag="SENT_START"/>
@@ -1463,6 +1468,7 @@ though, and has since been slightly modified)-->
         <example>a) Introduction.</example>
         <example>U.S.A.</example>
         <example>A/B Testez.</example>
+        <example>a.k.a. ou aka., abréviation de also known as, (alias en français), formule introduisant un synonyme.</example>
       </rule>
       <rule>
         <antipattern>
@@ -8736,6 +8742,14 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
     <antipattern>
+      <token>Golden</token>
+      <token>Globes</token>
+    </antipattern>
+    <antipattern>
+      <token>Steve</token>
+      <token>Jobs</token>
+    </antipattern>
+    <antipattern>
         <token>conseillers</token>
         <token postag_regexp="yes" postag="N . sp?"/>
     </antipattern>
@@ -8745,7 +8759,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">\d+</token>
     </antipattern>
     <antipattern>
-        <token regexp="yes">formule|saisons?|épisodes?|zones?</token>
+        <token regexp="yes">formule|saisons?|épisodes?|zones?|divisons?|canal</token>
         <token regexp="yes">\d+</token>
     </antipattern>
     <antipattern>
@@ -9008,6 +9022,8 @@ though, and has since been slightly modified)-->
         <example>Des <marker>poulets</marker> fermiers</example>
         <example>Les hérétiques <marker>ayant</marker> reconnu la foi catholique.</example>
         <example>Les voitures <marker>verte</marker> et rouge.</example>
+        <example>Cecil B. DeMille Award (prix attribué tous les ans lors de la soirée des Golden Globes).</example>
+        <example>Jeffrey S. Young, Steve Jobs cofondateur d'Apple Inc.</example>
         <example>Des livres <marker>audio</marker></example>
         <example>L’institut de recherches <marker>britannique</marker></example>
         <example correction="">Les <marker>camions très lourd</marker>.</example>
@@ -9083,8 +9099,33 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_GENRE" name="Accord en genre">
+        <antipattern><!-- file names -->
+          <token regexp="yes">[a-z_0-9\-]+</token>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no" regexp="yes">[a-z]{2,5}</token>
+        </antipattern>
         <antipattern>
-            <token regexp="yes">terminal|master|numéro|variante|option|total</token>
+          <token>Fox</token>
+          <token>Film</token>
+        </antipattern>
+        <antipattern>
+          <token>Golden</token>
+          <token>Globes</token>
+        </antipattern>
+        <antipattern>
+          <token>Steve</token>
+          <token>Jobs</token>
+        </antipattern>
+        <antipattern>
+          <token>National</token>
+          <token>Geographic</token>
+        </antipattern>
+        <antipattern>
+          <token>Pearl</token>
+          <token regexp="yes">Harbou?r</token>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">terminal|master|numéro|variante|option|total|division|canal</token>
             <token regexp="yes">\d+</token>
         </antipattern>
         <antipattern>
@@ -9529,6 +9570,7 @@ though, and has since been slightly modified)-->
         <example>Les tortues luth.</example>
         <example>L’imprimante laser.</example>
         <example>Via la holding Christian Dior.</example>
+        <example>La Rurale teaser.zip</example>
       </rule>
       <rule name="nom féminin suivi du masculin">
         <antipattern>
@@ -10225,6 +10267,10 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="NON_V" name="pronom sujet + nom/adj">
+      <antipattern>
+        <token>Pearl</token>
+        <token regexp="yes">Harbou?r</token>
+      </antipattern>
       <rule>
         <pattern>
           <token regexp="yes">je|tu|ils?|on</token>
@@ -10242,6 +10288,7 @@ though, and has since been slightly modified)-->
         <example>Il ou elle se trouve là.</example>
         <example correction="">Il <marker>dix</marker> la vérité.</example>
         <example>Il <marker>dit</marker> la vérité.</example>
+        <example>The Attack On Pearl Harbor</example>
       </rule>
       <rule>
         <pattern>
@@ -24742,12 +24789,16 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">makings?</token>
+          <token regexp="yes">
+            <exception scope="previous">the</exception>
+            makings?
+          </token>
           <token regexp="yes">of|off|ofs|offs</token>
         </pattern>
         <message>« Making of » est un anglicisme. Employez <suggestion>coulisses</suggestion>, <suggestion>genèse</suggestion>, <suggestion>réalisation</suggestion>, <suggestion>tournage</suggestion>, <suggestion>secrets de tournage</suggestion>.</message>
         <example correction="coulisses|genèse|réalisation|tournage|secrets de tournage"><marker>making of</marker></example>
         <example>les <marker>coulisses</marker></example>
+        <example>Robert E. Kapsis, Hitchcock : The Making of a Reputation, University of Chicago Press, 1992.</example>
       </rule>
     </rulegroup>
     <rulegroup id="HAS_BEEN" name="has been">
@@ -25279,6 +25330,10 @@ though, and has since been slightly modified)-->
       <example><marker>entraîneur</marker></example>
     </rule>
     <rule id="GREEN" name="green">
+      <antipattern><!-- https://fr.wikipedia.org/wiki/Green_New_Deal -->
+        <token skip="1">Green</token>
+        <token regexp="yes">Deal|Day|Lantern|Boots</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">greens?</token>
       </pattern>
@@ -27704,6 +27759,10 @@ though, and has since been slightly modified)-->
       <example>Les <marker>livres électroniques</marker> sont difficiles à lire.</example>
     </rule>
     <rule id="BUG" name="bug">
+      <antipattern>
+        <token>Bugs</token>
+        <token>Bunny</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">bugs?</token>
       </pattern>
@@ -27970,6 +28029,10 @@ though, and has since been slightly modified)-->
       <example correction="ovation"><marker>standing ovation</marker>.</example>
     </rule>
     <rule id="DEAL" name="deal">
+      <antipattern><!-- https://fr.wikipedia.org/wiki/Green_New_Deal -->
+        <token>New</token>
+        <token>Deal</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">deals?</token>
       </pattern>
@@ -28337,6 +28400,20 @@ though, and has since been slightly modified)-->
       <example><marker>prestige</marker></example>
     </rule>
     <rulegroup id="EG" name="e.g.">
+      <antipattern>
+        <token>E</token>
+        <token>.</token>
+        <token>G</token>
+        <token>.</token>
+        <token regexp="yes" spacebefore="no">[A-Z]</token>
+      </antipattern>
+      <antipattern>
+        <token>.</token>
+        <token spacebefore="no">E</token>
+        <token>.</token>
+        <token>G</token>
+        <token>.</token>
+      </antipattern>
       <rule>
         <pattern>
           <token>e</token>
@@ -28372,6 +28449,20 @@ though, and has since been slightly modified)-->
     </rulegroup>
     -->
     <rulegroup id="VG" name="v.g.">
+      <antipattern>
+        <token>V</token>
+        <token>.</token>
+        <token>G</token>
+        <token>.</token>
+        <token regexp="yes" spacebefore="no">[A-Z]</token>
+      </antipattern>
+      <antipattern>
+        <token>.</token>
+        <token spacebefore="no">V</token>
+        <token>.</token>
+        <token>G</token>
+        <token>.</token>
+      </antipattern>
       <rule>
         <pattern>
           <token>v</token>
@@ -28393,6 +28484,24 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="IE" name="i.e.">
+      <antipattern>
+        <token>I</token>
+        <token>.</token>
+        <token>E</token>
+        <token>.</token>
+        <token regexp="yes" spacebefore="no">[A-Z]</token>
+      </antipattern>
+      <antipattern>
+        <token>.</token>
+        <token spacebefore="no">I</token>
+        <token>.</token>
+        <token>E</token>
+        <token>.</token>
+      </antipattern>
+      <antipattern>
+        <token spacebefore="no">'</token>
+        <token>ie</token>
+      </antipattern>
       <rule>
         <pattern>
           <token>i</token>
@@ -28403,6 +28512,7 @@ though, and has since been slightly modified)-->
         <message>« i.e. » » est un anglicisme. Employez <suggestion>c’est-à-dire</suggestion>, <suggestion>c.-à-d.</suggestion>.</message>
         <example correction="c’est-à-dire|c.-à-d."><marker>i.e.</marker></example>
         <example><marker>c-à-d.</marker></example>
+        <example>Pascal Van Yperseel (1957-....), avec le G. I.E.C., Prix Nobel de la Paix 2004.</example>
       </rule>
       <rule>
         <pattern>
@@ -28411,6 +28521,7 @@ though, and has since been slightly modified)-->
         <message>« i.e. » est un anglicisme. Employez <suggestion>c’est-à-dire</suggestion>, <suggestion>c.-à-d.</suggestion>.</message>
         <example correction="c’est-à-dire|c.-à-d."><marker>ie</marker></example>
         <example><marker>c-à-d.</marker></example>
+        <example>Foi Baha' ie</example>
       </rule>
     </rulegroup>
     <rulegroup id="SELF-CONTROL" name="self-control">
@@ -28662,6 +28773,10 @@ though, and has since been slightly modified)-->
       <example><marker>cocounage</marker>.</example>
     </rule>
     <rule id="COMICS" name="comics">
+      <antipattern>
+        <token regexp="yes">Marvel|DC</token>
+        <token>Comics</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">comics?</token>
       </pattern>
