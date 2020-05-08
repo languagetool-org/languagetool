@@ -48294,11 +48294,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="VORE" name="vore">
             <pattern>
-                <token inflected="yes" regexp="yes">vore|revore|malvore</token>
+                <and>
+                    <token inflected="yes" regexp="yes">.*veure</token>
+                    <token regexp="yes">.*vor.*</token>
+                </and>
             </pattern>
             <message>Forma col·loquial.</message>
             <suggestion><match no="1" regexp_match="(?iu)(.*)vor(.*)" regexp_replace="$1veur$2"/></suggestion>
             <example correction="veuràs">Ho <marker>voràs</marker> bé</example>
+            <example correction="preveuria">Ho <marker>prevoria</marker> bé</example>
         </rule>
         <rule id="PARPALL" name="parpall">
             <pattern>
