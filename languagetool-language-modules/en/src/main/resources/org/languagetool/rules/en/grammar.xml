@@ -131,7 +131,7 @@ USA
         <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
 
-    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region|zone|band|source|influenza|hepatitis|grade|formula|document|division|class|category|dock|column|appendix'>
+    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region|zone|band|source|influenza|hepatitis|grade|formula|document|division|class|category|dock|column|appendix|macro|criterion|vitamin'>
     <!ENTITY nouns_with_i 'article|block|phase|class|grade|part|paragraph|section|chaos|enigma|book|war|king|current|mustang|type|division|level|bi\-?polar|century|tier|numeral|algorithm|auschwitz|algebra'>
 ]>
 
@@ -11626,6 +11626,30 @@ USA
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
+        <rule id="NEWS_COMPOUNDS" name="news paper (newspaper)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>News</token>
+                <token>Group</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>News</token>
+                <token>Letter</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">fox|mercury|cnn|bbc|nyt|abc|msnbc|nbc|rt|google|msn|yahoo</token>
+                <token>news</token>
+            </antipattern>
+            <pattern>
+                <token>news</token>
+                <token regexp="yes">papers?|letters?|readers?|rooms?|agents?|dealers?|groups?|hounds?|makers?|reels?|wom[ea]n|wires?</token>
+            </pattern>
+            <message>This is normally spelled as one word.</message>
+            <suggestion>news<match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="newspaper">Did you read today's <marker>news paper</marker>?</example>
+            <example>The onboard announcements are by BBC News reader (and tram enthusiast) Nicholas Owen.</example>
+            <example>The News Letter, the oldest English-language newspaper in the world still in publication.</example>
+            <example>Fox News (officially known as the Fox News Channel, commonly abbreviated to FNC) is a United States pay television news channel owned by the Fox News Group, a division of Fox.</example>
+        </rule>
         <rule id="MOTOR_COMPOUNDS" name="motor bike (motorbike)">
             <antipattern>
                 <token>motor</token>
@@ -21226,10 +21250,11 @@ USA
                 <marker>
                     <token case_sensitive="yes">windows</token>
                 </marker>
-                <token regexp="yes">\d{1,2}|2000|ce|nt|updates?|re\-?boots?|boots?|xp|vista|store|computers?|machines?|pcs?|sdks?|servers?|services?|config(uration)?|audios?|media|(sub)?systems?|apps?|phones?|workstation|desktops?|drivers?|explorer|errors?|folders?|firewalls?|installers?|kernel|keys?|keyboards?|logos?|licenses?|media|terminals?|registry|version|usb|upgrades?|games?|files?</token>
+                <token regexp="yes">\d{1,2}|20\d{2}|ce|nt|updates?|re\-?boots?|boots?|xp|vista|store|computers?|machines?|pcs?|sdks?|servers?|services?|config(uration)?|audios?|media|(sub)?systems?|apps?|phones?|workstation|desktops?|drivers?|explorer|errors?|folders?|firewalls?|installers?|kernel|keys?|keyboards?|logos?|licenses?|media|terminals?|registry|version|usb|upgrades?|games?|files?</token>
             </pattern>
             <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
             <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
+            <example correction="Windows">It runs on a <marker>windows</marker> 2012 server.</example>
         </rule>
         <rulegroup id="DUNKIN_DONUTS" name="Dunkin' Donuts">
             <rule>
@@ -25173,7 +25198,7 @@ USA
             </antipattern>
             <antipattern>
                 <token case_sensitive="yes">A</token>
-                <token regexp="yes">levels?|records?</token>
+                <token regexp="yes">levels?|records?|divisions?|grade[sd]?|molecules</token>
             </antipattern>
             <antipattern><!-- "He registered a ups.com user" -->
                 <token regexp="yes" skip="2">an?</token>
@@ -25203,17 +25228,48 @@ USA
                 <token regexp="yes">&nouns_with_a;</token>
                 <token case_sensitive="yes">A</token>
             </antipattern>
-            <antipattern><!-- Qur'an -->
-                <token regexp="yes">Qur|Ma</token>
-                <token regexp="yes">&apostrophe;</token>
-                <token>an</token>
-            </antipattern>
             <antipattern><!-- "a.k.a" -->
                 <token>a</token>
                 <token>.</token>
                 <token>k</token>
                 <token>.</token>
                 <token>a</token>
+            </antipattern>
+            <antipattern><!-- A lawyers only meeting -->
+                <token skip="1" regexp="yes">an?</token>
+                <token postag="NNP?S" postag_regexp="yes" />
+                <token>only</token>
+                <token postag="NN(:UN?)?" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="1">an?</token>
+                <token>terms</token>
+                <token>of</token>
+                <token>service</token>
+            </antipattern>
+            <antipattern><!-- https://www.lexico.com/definition/apples_to_apples -->
+                <token>apples</token>
+                <token>to</token>
+                <token regexp="yes">apples|oranges</token>
+            </antipattern>
+            <antipattern>
+                <token>Gems</token>
+                <token>of</token>
+                <token>War</token>
+            </antipattern>
+            <antipattern>
+                <token>American</token>
+                <token>Airlines</token>
+            </antipattern>
+            <antipattern><!-- Qur'an -->
+                <token regexp="yes">Qur|Ma</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>an</token>
+            </antipattern>
+            <antipattern>
+                <token />
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token regexp="yes" spacebefore="no">an?</token>
             </antipattern>
             <rule>
                 <antipattern><!-- an operations center campus -->
@@ -34239,6 +34295,25 @@ USA
             <url>https://en.wikipedia.org/wiki/Multi-factor_authentication</url>
             <example correction="2-factor">He enabled <marker>2 factor</marker> auth to protect his Facebook account.</example>
         </rule>
+        <rule id="WEEK_LONG_HYPHEN" name="A week long (week-long) vacation" default="temp_off">
+            <pattern>
+                <token regexp="yes">an?|the|this|th[oe]se|my|y?our|their|his|her|s|of</token>
+                <token postag="JJ.*" postag_regexp="yes" min="0">
+                    <exception postag="CD" />
+                    <exception regexp="yes">several|few|.*dozen</exception>
+                </token>
+                <marker>
+                    <token regexp="yes">hour|day|week|month|year</token>
+                    <token regexp="yes">long|old</token>
+                </marker>
+                <token postag="NN.*" postag_regexp="yes">
+                    <exception postag="IN|PRP.*|MD|RB" postag_regexp="yes" />
+                </token>
+            </pattern>
+            <message>It seems that a hyphen is missing in the adjective <suggestion>\3-\4</suggestion>.</message>
+            <example correction="week-long">He's going on a <marker>week long</marker> vacation.</example>
+            <example>It is about a year old now.</example>
+        </rule>
         <rule id="LIFE_CHANGING_HYPHEN" name="missing hyphen in 'life changing moments'">
             <pattern>
                 <marker>
@@ -34719,7 +34794,6 @@ USA
             <suggestion>\2,</suggestion>
             <example correction="sooner,">The <marker>sooner</marker> the better!</example>
         </rule>
-
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
             <antipattern case_sensitive="yes">
                 <token regexp="yes" skip="3">\d+<exception regexp="yes">[01]</exception></token>
@@ -37107,7 +37181,7 @@ USA
                     <token postag="DT" case_sensitive="yes">A</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">document|phase|grade|person|criterion|section|type|source</token>
+                    <token regexp="yes">&nouns_with_a;</token>
                     <token>A</token>
                 </antipattern>
                 <antipattern><!-- technical term (https://de.wikipedia.org/wiki/A_Resource_Record) -->
