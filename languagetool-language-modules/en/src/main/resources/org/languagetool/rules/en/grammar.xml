@@ -18013,7 +18013,7 @@ USA
             <rule>
                 <antipattern><!-- adjective without hyphen "This book is a must-read" -->
                     <token>must</token>
-                    <token regexp="yes">have|read|go|see|visit|be|do|offer|take|watch|trip</token>
+                    <token regexp="yes">have|read|go|see|visit|be|do|offer|take|watch|trip|fix</token>
                 </antipattern>
                 <antipattern case_sensitive="yes"><!-- the Will.I.Am Song -->
                     <token>the</token>
@@ -18025,7 +18025,9 @@ USA
                     <token postag="MD" />
                     <token min="0" regexp="yes">&apostrophe;</token>
                     <token postag="RB" min="0" />
-                    <token postag="VBP?" postag_regexp="yes" />
+                    <token postag="VBP?" postag_regexp="yes">
+                        <exception postag="IN" />
+                    </token>
                 </pattern>
                 <message>Did you mean <suggestion>they</suggestion>, <suggestion>that</suggestion> or <suggestion>there</suggestion>?</message>
                 <short>Possible typo</short>
@@ -18038,6 +18040,7 @@ USA
                 <example>On any Day, if the Must Offer Generator cannot generate the full PMax it must file a generation outage report.</example>
                 <example>The must have toy this year...</example>
                 <example>Justify the need.</example>
+                <example>Ripping the will up after all.</example>
             </rule>
             <rule>
                 <pattern>
@@ -23742,12 +23745,16 @@ USA
                 <token regexp="yes">&nouns_with_a;</token>
                 <token>a</token>
             </antipattern>
+            <antipattern>
+                <token>rather</token>
+                <token>out</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes">a</token>
                 <marker>
                     <token postag="RB">
                         <exception postag="JJ[RS]?|NN.*" postag_regexp="yes"/>
-                        <exception regexp="yes">not|after|before|approx|while|bit|otherwise</exception>
+                        <exception regexp="yes">not|after|before|approx|while|bit|otherwise|multiply</exception>
                         <exception case_sensitive="yes">SO</exception>
                         <exception>somewhat</exception><!-- can be a preposition according to https://www.merriam-webster.com/dictionary/somewhat -->
                     </token>
@@ -23769,6 +23776,7 @@ USA
             <example>That was a really kind of weird conversation.</example>
             <example>A completely oil based solution.</example>
             <example>It requires a SO number.</example>
+            <example>Make a multiply equation.</example>
             <example>Such a person may once in a while see a good person.</example>
             <example><marker>Once in a while</marker> everything goes wrong.</example>
             <example correction="philosophical question">This is a <marker>philosophically question</marker>.</example>
@@ -37211,7 +37219,7 @@ USA
                 <example>It starts with an “A”.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="THE_US" name="In the us (US)" default="temp_off">
+        <rulegroup id="THE_US" name="In the us (US)">
             <rule>
                 <pattern>
                     <token regexp="yes">the|an?|y?our|my|their|her|his</token>
