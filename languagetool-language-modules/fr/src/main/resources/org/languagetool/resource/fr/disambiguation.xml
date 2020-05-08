@@ -127,6 +127,16 @@ RB => Règles Brutes
     <disambig postag="A"/>
   </rule>
 
+  <rule name="années" id="ANNEES">
+    <pattern>
+      <token regexp="yes">\d+</token>
+      <marker>
+        <token regexp="yes" case_sensitive="yes">EC|CE|AEC</token> <!-- CE is an anglicism -->
+      </marker>
+    </pattern>
+    <disambig action="replace"><wd pos="A"/></disambig>
+  </rule>
+
   <rulegroup id="LE_LA_PR_OBJ" name="le/la pronom objet">
     <rule>
       <pattern>
