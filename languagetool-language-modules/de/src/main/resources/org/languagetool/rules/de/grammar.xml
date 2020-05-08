@@ -9146,38 +9146,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>In Deutschland beantragte EORI-Nummern werden erst nach Vollziehen des Brexits nach dem 1. November 2019 aktiviert.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DESWEITEREN" name="desweiteren (des Weiteren)">
-            <rule>
-                <!-- Already covered by hunspell, a dedicated rule helps to be clearer -->
-                <pattern>
-                    <token regexp="yes">desweitere?n</token>
-                </pattern>
-                <message>Das Wort "\1" wird getrennt geschrieben.</message>
-                <suggestion>des Weiteren</suggestion>
-                <url>https://www.duden.de/rechtschreibung/des_Weiteren</url>
-                <example correction="Des Weiteren"><marker>Desweiteren</marker> werde ich eine Eilmeldung rausschicken.</example>
-            </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <marker>
-                        <token>des</token>
-                        <token case_sensitive="yes" regexp="yes">weitere?n</token>
-                    </marker>
-                    <token>
-                        <exception postag=".*(SUB|EIG).*|UNKNOWN|KON.*" postag_regexp="yes" />
-                    </token>
-                </pattern>
-                <message>In der Phrase "des Weiteren" wird "Weiteren" großgeschrieben.</message>
-                <suggestion>des Weiteren</suggestion>
-                <url>https://www.duden.de/rechtschreibung/des_Weiteren</url>
-                <example correction="Des Weiteren"><marker>Des weiteren</marker> werde ich eine Eilmeldung rausschicken.</example>
-                <example correction="Des Weiteren"><marker>Des weiteren</marker> möchte ich gerne die Schüler von der Nutzung des Mailservers ausschließen.</example>
-                <example>Das Bergrecht Preussens und des weiteren Deutschlands.</example>
-                <example>1927 folgte der Bau des weiteren Schachtes 7 in Repelen.</example>
-                <example>1669 erhielt das Herzogtum Schleswig-Holstein-Plön das Territorium des weiteren Teilherzogtums Schleswig-Holstein-Sonderburg-Norburg, bestehend aus dem nördlichen Teil der Insel Alsen, hinzu.</example>
-                <example>1601, während des Polnisch-Schwedischen Kriegs, eroberten schwedische Truppen unter Herzog Karl von Södermanland die Burg, die während des weiteren Kriegsverlaufs in Besitz der Schweden blieb.</example>
-            </rule>
-        </rulegroup>
+        <rule id="DESWEITEREN" name="desweiteren (des Weiteren)">
+            <!-- Already covered by hunspell, a dedicated rule helps to be clearer -->
+            <pattern>
+                <token regexp="yes">desweitere?n</token>
+            </pattern>
+            <message>Das Wort "\1" wird getrennt geschrieben.</message>
+            <suggestion>des Weiteren</suggestion>
+            <url>https://www.duden.de/rechtschreibung/des_Weiteren</url>
+            <example correction="Des Weiteren"><marker>Desweiteren</marker> werde ich eine Eilmeldung rausschicken.</example>
+        </rule>
         <rulegroup id="FOLLOW_UP" name="Follow up (Follow-up)">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Follow-ups?</token>
@@ -30897,12 +30875,20 @@ Andere Projekte</example>
             <example correction="Suche">Die binäre <marker>suche</marker> sollte jeder Informatiker verstehen.</example>
         </rule>
         <rule id="DES_WEITEREN" name="'des weiteren (Weiteren)'">
+            <antipattern>
+                <token>weiteren</token>
+                <token postag="(SUB|EIG|UNKNOWN).*" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token>weiteren</token>
+                <token postag="KON.*" postag_regexp="yes" />
+                <token postag="UNKNOWN|.*ADJ.*" postag_regexp="yes" />
+            </antipattern>
             <pattern>
                 <token regexp="yes">des|im</token>
                 <marker>
-                    <token case_sensitive="yes" regexp="yes">weiteren|öftere?n</token>
+                    <token case_sensitive="yes" regexp="yes">weitere?n|öftere?n</token>
                 </marker>
-                <token postag="VER:.*" postag_regexp="yes"><exception postag="SUB:.*" postag_regexp="yes"/></token>
             </pattern>
             <message>&inwend;'\1 <match no="2" case_conversion="startupper"/>' wird <suggestion><match no="2" case_conversion="startupper"/></suggestion> großgeschrieben.</message>
             <short>&prgk;.</short>
@@ -30914,6 +30900,9 @@ Andere Projekte</example>
             <example correction="Weiteren">Und des <marker>weiteren</marker> waren alle Katzen blau.</example>
             <example correction="Weiteren">Und im <marker>weiteren</marker> soll es genau darum gehen.</example>
             <example correction="Öfteren">Des <marker>öfteren</marker> besucht mich mein Sohn.</example>
+            <example correction="Öfteren">Zwar habe ich bereits in der Vergangenheit des <marker>öfteren</marker> kleine Sachen per PHP Programmiert, es wird aber für hier nicht ausreichen.</example>
+            <example correction="Weiteren">1177 wurde hier von Lord Rhys of Deheubarth eine Burg errichtet, die im <marker>weiteren</marker> stark umkämpft war und bereits 1231 niedergebrannt wurde.</example>
+            <example correction="Öfteren">Ihr sprecht des <marker>öfteren</marker> Discord als Kontaktmöglichkeit an, jedoch vermisse ich einen diesbezüglichen Invite Link in den betreffenden Channel.</example>
         </rule>
         <rule id="DES_NACHTS" name="'des nachts (Nachts), eines nachts (Nachts)'">
             <pattern case_sensitive="yes">
