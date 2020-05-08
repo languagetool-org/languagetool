@@ -62,10 +62,18 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true; // "The can can hold the water."
     } else if (wordRepetitionOf("hip", tokens, position) && (position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase("hooray")) {
       return true;
+    } else if (wordRepetitionOf("far", tokens, position) && (position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase("away")) {
+      return true;
+    } else if (wordRepetitionOf("so", tokens, position) && (position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase("much")) {
+      return true;
+    } else if (wordRepetitionOf("so", tokens, position) && (position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase("many")) {
+      return true;
     } else if (wordRepetitionOf("s", tokens, position) && position > 1 && tokens[position - 2].getToken().matches("['’`´‘]")) {
       return true; // It's S.T.E.A.M.
-    } else if (wordRepetitionOf("a", tokens, position) && position > 1 && tokens[position - 2].getToken().matches(".")) {
+    } else if (wordRepetitionOf("a", tokens, position) && position > 1 && tokens[position - 2].getToken().equals(".")) {
       return true; // "a.k.a a"
+    } else if (wordRepetitionOf("on", tokens, position) && position > 1 && tokens[position - 2].getToken().equals(".")) {
+      return true; // "You can contact E.ON on Instagram"
     } else if (tokens[position - 1].getToken().equalsIgnoreCase(word) && (((position + 1 < tokens.length) && tokens[position + 1].getToken().equalsIgnoreCase(word)) || (position > 1 && tokens[position - 2].getToken().equalsIgnoreCase(word)))) {
       // three time word repetition
       return true;
@@ -88,6 +96,12 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;   // "ha ha"
     } else if (wordRepetitionOf("omg", tokens, position)) {
       return true;   // "omg omg"
+    } else if (wordRepetitionOf("boo", tokens, position)) {
+      return true;   // "boo boo"
+    } else if (wordRepetitionOf("tick", tokens, position)) {
+      return true;   // "tick tick"
+    } else if (wordRepetitionOf("twinkle", tokens, position)) {
+      return true;   // "twinkle twinkle little star"
     } else if (wordRepetitionOf("ta", tokens, position)) {
       return true;
     } else if (wordRepetitionOf("la", tokens, position)) {
@@ -102,6 +116,10 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
       return true;
     } else if (wordRepetitionOf("jay", tokens, position)) {
       return true; // Jay Jay (name)
+    } else if (wordRepetitionOf("sri", tokens, position)) {
+      return true; // Sri Sri (name)
+    } else if (wordRepetitionOf("xiao", tokens, position)) {
+      return true; // Xiao Xiao (name)
     } else if (wordRepetitionOf("hey", tokens, position)) {
       return true;
     } else if (wordRepetitionOf("hah", tokens, position)) {
