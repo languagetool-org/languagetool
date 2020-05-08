@@ -333,7 +333,7 @@ public class AgreementRule extends Rule {
       tokenRegex("Besitz|Mut")
     ),
     Arrays.asList(
-      tokenRegex("d(ie|e[nr])|[md]eine[nr]?"),
+      tokenRegex("d(ie|e[nr])|[md]eine[nr]?|(eure|unsere)[nr]?"),
       token("Top"),
       tokenRegex("\\d+")
     ),
@@ -418,6 +418,10 @@ public class AgreementRule extends Rule {
       tokenRegex("[dD](ie|er)"),
       csToken("Super"),
       csToken("Nintendo")
+    ),
+    Arrays.asList( // Firmenname
+      csToken("Pizza"),
+      csToken("Hut")
     ),
     Arrays.asList( // Texas und New Mexico, beides spanische Kolonien, sind
       csToken(","),

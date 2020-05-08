@@ -67,6 +67,13 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("Phi"),
       token("Phi")
     ),
+    Arrays.asList( // Wahrscheinlich ist das das Problem.
+      tokenRegex("ist|war"),
+      token("das"),
+      token("das"),
+      token(".*SUB.*"),
+      token("SENT_END")
+    ),
     Arrays.asList(// "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
       csToken(","),
       new PatternTokenBuilder().csToken("der").matchInflectedForms().build(),
@@ -87,6 +94,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     Arrays.asList(// "Er will sein Leben leben"
       csToken("Leben"),
       csToken("leben")
+    ),
+    Arrays.asList(// "Er muss sein Essen essen"
+      csToken("Essen"),
+      csToken("essen")
     )
   );
 
