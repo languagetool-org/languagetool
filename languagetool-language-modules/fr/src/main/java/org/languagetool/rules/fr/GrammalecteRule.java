@@ -90,7 +90,8 @@ public class GrammalecteRule extends Rule {
     "esp_mélangés1", // picky
     "esp_mélangés2", // picky
     "tab_début_ligne",
-    "esp_milieu_ligne" // we already have WHITESPACE_RULE
+    "esp_milieu_ligne", // we already have WHITESPACE_RULE
+    "typo_espace_manquant_après3" // false alarm in file names (e.g. 'La teaser.zip')
   ));
 
   public GrammalecteRule(ResourceBundle messages, GlobalConfig globalConfig) {
