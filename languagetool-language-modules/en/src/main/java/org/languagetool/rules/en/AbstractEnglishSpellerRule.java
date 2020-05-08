@@ -284,6 +284,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("applepay", Arrays.asList("Apple Pay"));
     s.put("&&", Arrays.asList("&"));
     s.put("wensday", Arrays.asList("Wednesday"));
+    s.put("linkedin", Arrays.asList("LinkedIn"));
 
     s.put("afro-american", Arrays.asList("Afro-American"));
     s.put("oconnor", Arrays.asList("O'Connor"));
