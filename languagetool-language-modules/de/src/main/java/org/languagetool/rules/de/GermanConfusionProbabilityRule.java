@@ -71,7 +71,9 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "was wird unser",
     "die wird wieder",
     "damit wir für",
-    "wie finden sie"
+    "wie finden sie",
+    "wie ist hier der Stand", // vs Sand
+    "wie ist der Stand" // vs Sand
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
