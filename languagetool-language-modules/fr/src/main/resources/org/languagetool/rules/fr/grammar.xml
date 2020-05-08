@@ -555,6 +555,11 @@ though, and has since been slightly modified)-->
         <example correction="près">C’est à peu <marker>prêt</marker> la même chose.</example>
       </rule>
       <rule>
+          <antipattern>
+              <token>de</token>
+              <token>plus</token>
+              <token>près</token>
+          </antipattern>
         <pattern>
           <marker><token>près<exception scope="previous" regexp="yes">peu|de</exception></token></marker>
           <token>à</token>
@@ -1438,6 +1443,10 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="A_A_ACCENT" name="A au lieu de À">
+      <antipattern>
+          <token>a</token>
+          <token>.</token>
+      </antipattern>
       <rule>
         <antipattern>
           <token regexp="yes">\.|\/</token>
@@ -1460,6 +1469,7 @@ though, and has since been slightly modified)-->
           <token>
             <exception regexp="yes">contrario|fortiori|posteriori|priori</exception>
             <exception spacebefore="no">)</exception>
+            <exception postag="V.* ppa.*" postag_regexp="yes"/>
           </token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>À</suggestion> ?</message>
@@ -1469,6 +1479,7 @@ though, and has since been slightly modified)-->
         <example>U.S.A.</example>
         <example>A/B Testez.</example>
         <example>a.k.a. ou aka., abréviation de also known as, (alias en français), formule introduisant un synonyme.</example>
+        <example>A fondé en 2007 un nouveau parti politique.</example>
       </rule>
       <rule>
         <antipattern>
@@ -1793,6 +1804,10 @@ though, and has since been slightly modified)-->
     <rulegroup id="SUR_ACCENT" name="Sur au lieu de Sûr">
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2232</url>
       <rule>
+          <antipattern>
+              <token inflected="yes">asseoir</token>
+              <token>sur</token>
+          </antipattern>
         <pattern>
           <marker>
             <token regexp="yes">sure?s?</token>
@@ -1806,6 +1821,7 @@ though, and has since been slightly modified)-->
         <example>Sûr et certain.</example>
         <example correction="sûre">Je suis <marker>sure</marker> que tu réussiras.</example>
         <example>Il fut invité sur : TF1, France 2 et Arte.</example>
+          <example>C'est-à-dire que le pagayeur est assis sur et non plus dans.</example>
       </rule>
       <rule>
         <pattern>
@@ -1986,6 +2002,12 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <!-- added by Agnes Souque -->
     <rule id="CONF_VERBE_NOM" name="Nom au lieu de Verbe">
+      <antipattern>
+          <token regexp="yes" inflected="yes">attirer|amener|projeter</token>
+          <token regexp="yes">à|vers</token>
+          <token postag="R pers suj .*" postag_regexp="yes"/>
+          <token/>
+      </antipattern>
       <pattern>
         <token postag="R pers suj .*" postag_regexp="yes">
             <exception>lui-même</exception>
@@ -8258,7 +8280,18 @@ though, and has since been slightly modified)-->
           -->
       </rulegroup>
       <rulegroup id="AN_ANNEE" name="Confusion an/année">
-          <rule >
+          <rule>
+              <antipattern>
+                  <token>guerre</token>
+                  <token>de</token>
+                  <token>cent</token>
+                  <token>ans</token>
+              </antipattern>
+              <antipattern>
+                  <token regexp="yes">[«‹»›„“‟”’"❝❞❮❯⹂〝〞〟＂‚‘‛❛❜❟]</token>
+                  <token regexp="yes">ans?</token>
+                  <token regexp="yes">[«‹»›„“‟”’"❝❞❮❯⹂〝〞〟＂‚‘‛❛❜❟]</token>
+              </antipattern>
               <antipattern>
                   <token>an</token>
                   <token>tamm</token>
@@ -8574,7 +8607,7 @@ though, and has since been slightly modified)-->
           <message>Cette expression s'écrit <suggestion>à peu près</suggestion>.</message>
           <example correction="à peu près">Il en faut <marker>a peu près</marker> douze.</example>
       </rule>
-      <rule id="CE_CET" name="ce / cet" default="temp_off">
+      <rule id="CE_CET" name="ce / cet">
           <pattern>
               <marker>
                   <token>ce</token>
@@ -8762,6 +8795,7 @@ though, and has since been slightly modified)-->
     <antipattern>
         <token regexp="yes">formule|saisons?|épisodes?|zones?|divisons?|canal</token>
         <token regexp="yes">\d+</token>
+        <token/>
     </antipattern>
     <antipattern>
         <token regexp="yes">\d+</token>
@@ -8795,6 +8829,31 @@ though, and has since been slightly modified)-->
     <antipattern>
         <token>est</token>
         <token>comme</token>
+    </antipattern>
+    <antipattern>
+        <token/>
+        <token>vol</token>
+        <token>.</token>
+        <token/>
+    </antipattern>
+    <antipattern>
+        <token>transports</token>
+        <token>en</token>
+        <token>commun</token>
+        <token postag=".*p" postag_regexp="yes"/>
+    </antipattern>
+    <antipattern>
+        <token regexp="yes">formations?</token>
+        <token>niveau</token>
+    </antipattern>
+    <antipattern>
+        <token>des</token>
+        <token>tous</token>
+    </antipattern>
+    <antipattern>
+        <token postag=".*p" postag_regexp="yes"/>
+        <token>grand</token>
+        <token>public</token>
     </antipattern>
       <rule name="nombre singulier suivi du pluriel">
           <antipattern>
@@ -9163,6 +9222,13 @@ though, and has since been slightly modified)-->
         </antipattern>
         <antipattern>
             <token regexp="yes">bonjour|bonsoir</token>
+            <token/>
+            <token/>
+        </antipattern>
+        <antipattern>
+            <token/>
+            <token/>
+            <token regexp="yes">bonjour|bonsoir</token>
         </antipattern>
         <antipattern>
             <token regexp="yes">[a-zéèëöïîôêàç\.,]+\b</token>
@@ -9330,6 +9396,15 @@ though, and has since been slightly modified)-->
             <token>adresse</token>
             <token regexp="yes">e-?mails?</token>
             <token postag="V.* ppa m [sp]" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes">sud|nord</token>
+            <token postag="[JN].*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token regexp="yes" case_sensitive="yes">[IVXLCDM]+e</token>
+            <token>siecle</token>
+            <token/>
         </antipattern>
       <rule name="masculin suivi du féminin">
           <antipattern>
@@ -12155,6 +12230,7 @@ though, and has since been slightly modified)-->
             <token postag="V .*" postag_regexp="yes">
               <exception postag="V .* 3 sp?" postag_regexp="yes"/>
               <exception postag="V.* ppa .* sp?" postag_regexp="yes"/>
+              <exception postag="V.* ppr.*" postag_regexp="yes"/>
             </token>
           </marker>
         </pattern>
@@ -12171,6 +12247,7 @@ though, and has since been slightly modified)-->
         <example>Pierre et elle étaient fiancés.</example>
         <example>Il a lui-même été contaminé.</example>
         <example>Elle a elle-même été contaminée.</example>
+        <example>La ville se libère elle-même remplaçant le drapeau à croix gammée par un drapeau tricolore.</example>
       </rule>
       <rule name="ça + 0 tokens + Verbe">
         <pattern>
@@ -28030,16 +28107,17 @@ though, and has since been slightly modified)-->
       <example correction="ovation"><marker>standing ovation</marker>.</example>
     </rule>
     <rule id="DEAL" name="deal">
-      <antipattern><!-- https://fr.wikipedia.org/wiki/Green_New_Deal -->
-        <token>New</token>
-        <token>Deal</token>
-      </antipattern>
+        <antipattern>
+            <token case_sensitive="yes">New</token>
+            <token case_sensitive="yes">Deal</token>
+        </antipattern>
       <pattern>
         <token regexp="yes">deals?</token>
       </pattern>
       <message>« Deal » est un anglicisme. Employez <suggestion>marché</suggestion>, <suggestion>affaire</suggestion>, <suggestion>accord</suggestion>.</message>
       <example correction="marché|affaire|accord"><marker>deal</marker></example>
       <example><marker>marché</marker></example>
+      <example>Le New Deal mis en place par le président Franklin D. Roosevelt.</example>
     </rule>
     <rule id="STAMINA" name="stamina">
       <pattern>
@@ -32156,6 +32234,11 @@ though, and has since been slightly modified)-->
   </category>
   <category id="CAT_REGLES_DE_BASE" name="Règles de base" type="style">
     <rulegroup id="FRENCH_WORD_REPEAT_RULE" name="Doublon (« pour pour », « je je », etc.)">
+        <antipattern>
+            <token>wild</token>
+            <token>wild</token>
+            <token>west</token>
+        </antipattern>
       <rule>
         <pattern>
           <token regexp="yes">\p{L}+<exception postag="SENT_START"/>
