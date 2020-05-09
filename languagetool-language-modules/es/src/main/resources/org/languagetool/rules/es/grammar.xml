@@ -171,21 +171,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rule id="EXCESO_DE_AFORO" name="exceso de aforo">
+            <pattern>
+                <token>exceso</token>
+                <token>de</token>
+                <token>aforo</token>
+            </pattern>
+            <message>Incorrecto en el sentido de <suggestion>exceso de asistentes</suggestion>.</message>
+            <suggestion>sobreaforo</suggestion>
+            <suggestion>sobrecupo</suggestion>
+            <suggestion>exceso del aforo</suggestion>
+            <url>https://www.fundeu.es/recomendacion/exceso-de-aforo-sobreaforo-sobrecupo/</url>
+            <example correction="exceso de asistentes|sobreaforo|sobrecupo|exceso del aforo">Hubo un <marker>exceso de aforo</marker>.</example>
+        </rule>
         <rule id="DHONDT" name="D'Hondt">
             <antipattern case_sensitive="yes">
                 <token>D</token>
-                <token regexp="yes">&apostrophe;</token>
-                <token>Hondt</token>
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token spacebefore="no">Hondt</token>
             </antipattern>
             <pattern>
-                <token>d</token>
-                <token regexp="yes">&apostrophe;</token>
+                <token regexp="yes">de?</token>
+                <token regexp="yes" min="0">&apostrophe;</token>
                 <token regexp="yes">Hond?t?</token>
             </pattern>
             <message>Error ortográfico.</message>
             <suggestion>D'Hondt</suggestion>
             <example correction="D'Hondt">La regla <marker>d'Hondt</marker>.</example>
             <example correction="D'Hondt">La regla <marker>d'Hont</marker>.</example>
+            <example correction="D'Hondt">La regla <marker>de Hondt</marker>.</example>
             <example>La fórmula D'Hondt.</example>
         </rule>
         <rule id="PRET_A_PORTER" name="prêt-à-porter">
@@ -994,7 +1008,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token skip="-1">Paris</token>
                     </marker>
-                    <token postag="NP..G.*" postag_regexp="yes"></token>
+                    <token postag="NP..G.*" postag_regexp="yes"/>
                 </pattern>
                 <message>¿Quería decir <suggestion>París</suggestion> (ciudad) en vez de Paris (personaje)?</message>
                 <example correction="París">En <marker>Paris</marker> y Londres.</example>
@@ -4524,6 +4538,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="reviste">Esto <marker>revierte</marker> mucha importancia.</example>
             <example correction="reviste">Esto <marker>revierte</marker> una gran gravedad.</example>
             <example correction="revestía">Esto <marker>revertía</marker> gravedad.</example>
+        </rule>
+    </category>
+    <category id="CONTEXT" name="Errores según el contexto">
+        <rule id="AFORO" name="aforo/afluencia">
+            <pattern>
+                <marker>
+                    <token skip="5">aforo</token>
+                </marker>
+                <token>fue</token>
+            </pattern>
+            <message>Uso inadecuado en el sentido de 'cantidad de asistentes a un acto'. Correcto si significa 'número máximo autorizado de personas'.</message>
+            <suggestion>afluencia</suggestion>
+            <suggestion>asistentes</suggestion>
+            <url>https://www.fundeu.es/recomendacion/aforo-afluencia/</url>
+            <short>Uso inadecuado en el sentido de 'cantidad de asistentes a un acto'.</short>
+            <example correction="afluencia|asistentes">El <marker>aforo</marker> fue de 5000 personas.</example>
+            <example>El aforo del pabellón es de 5000 personas.</example>
         </rule>
     </category>
     <category id="PREPOSITIONS" name="Preposiciones">
