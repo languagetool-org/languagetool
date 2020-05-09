@@ -755,6 +755,100 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="cual">hecho por el <marker>cuál</marker> se ha llegado a consolidar.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="FUTURO_SUBJUNTIVO" name="confusión cantareis/cantaréis, cantare/cantaré" default="temp_off">
+            <rule>
+                <pattern>
+                    <and>
+                        <token inflected="yes" regexp="yes">.*ar</token>
+                        <token postag="VMSF2P0"/>
+                    </and>
+                </pattern>
+                <message>Probablemente falta una tilde.</message>
+                <!--Correcto si es futuro de subjuntivo (sentido hipotético).-->
+                <suggestion><match no="1" postag="VMSF2P0" postag_regexp="yes" postag_replace="VMIF2P0"/></suggestion>
+                <example correction="cantaréis">¿Cuándo <marker>cantareis</marker>?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <and>
+                        <token inflected="yes" regexp="yes">.*ar</token>
+                        <token postag="VMSF3S0"/>
+                    </and>
+                </pattern>
+                <message>Probablemente falta una tilde.</message>
+                <!--Correcto si es futuro de subjuntivo (sentido hipotético).-->
+                <suggestion><match no="1" postag="VMSF3S0" postag_regexp="yes" postag_replace="VMIF1S0"/></suggestion>
+                <example correction="cantaré">¿Cuándo <marker>cantare</marker>?</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="CS" skip="20"/>
+                    <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes"/>
+                    <token postag="DA.*" postag_regexp="yes" min="0"/>
+                    <token postag="P[RT].*" postag_regexp="yes"/>
+                    <token><match no="0"/></token>
+                </antipattern>
+                <pattern>
+                    <and>
+                        <token inflected="yes" regexp="yes">.*ar</token>
+                        <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)<exception postag="_possible_NP"/></token>
+                    </and>
+                </pattern>
+                <message>Si es futuro, se escribe con tilde.</message>
+                <suggestion><match no="1" postag="VMSI(3S|3P|2S)0" postag_regexp="yes" postag_replace="VMIF$10"/></suggestion>
+                <example correction="Cantará"><marker>Cantara</marker> mañana.</example>
+                <example correction="Cantarán"><marker>Cantaran</marker> mañana.</example>
+                <example correction="Cantarás"><marker>Cantaras</marker> mañana.</example>
+                <example correction="cantarás">¿Cuándo <marker>cantaras</marker>?</example>
+                <example correction="ganarás">¿Cuánto <marker>ganaras</marker>?</example>
+                <example>Si cantaras bien, tendrías éxito.</example>
+                <example>Si cantaran bien, tendrían éxito.</example>
+                <example>Que hablaras así no implica nada.</example>
+                <example>Hablara como hablara no importa.</example>
+                <example>Hablara quien hablara no importa.</example>
+                <example>Pensara lo que pensara no importa.</example>
+                <example>Cantara cuanto cantara</example>
+                <example>Cantara cuánto cantara</example>
+                <example>Diera resultado o no.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">solo|sólo|únicamente|solamente</token>
+                    <token>porque</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">luchar|esforzar|interesar|posible|pelear</token>
+                    <token>porque</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="15">no</token>
+                    <token>porque</token>
+                </antipattern>
+                <pattern>
+                    <token>porque</token>
+                    <marker>
+                        <and>
+                            <token inflected="yes" regexp="yes">.*ar</token>
+                            <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)<exception postag="_possible_NP"/></token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Si es futuro, se escribe con tilde.</message>
+                <suggestion><match no="2" postag="VMSI(3S|3P|2S)0" postag_regexp="yes" postag_replace="VMIF$10"/></suggestion>
+                <example correction="ganarás">Es así porque <marker>ganaras</marker> más.</example>
+                <example>No le puse el título porque pensara solo en ella.</example>
+                <example>Sólo porque pensara que era lo más correcto.</example>
+                <example>No ha sido porque pensara en él </example>
+                <!--<example>Sigo enfadada porque pensaras eso de mí.</example>-->
+                <example>Permaneció al margen, fuera porque ignorase los hechos producidos o por...</example>
+                <example>Peleó porque llegara la luz.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DIACRITICS_OTHERS" name="otros casos de falta de tilde" default="on">
             <rule>
                 <pattern>
