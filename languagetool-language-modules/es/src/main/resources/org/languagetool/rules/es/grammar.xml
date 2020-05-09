@@ -4978,6 +4978,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">1e?ro|2do|3e?ro|4to|5to|6to|7mo|8vo|9no</token>
+                    <token>.<exception postag="SENT_END"/></token>
+                </pattern>
+                <message>Abreviatura de número ordinal.</message>
+                <suggestion><match no="1" regexp_match="(\d).+" regexp_replace="$1.º"/></suggestion>
+                <example correction="2.º">En el <marker>2do.</marker> caso.</example>
+                <example correction="5.º">En el <marker>5to.</marker> puesto.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">1e?ra|2da|3e?ra|4ta|5ta|6ta|7ma|8va|9na</token>
+                    <token>.<exception postag="SENT_END"/></token>
+                </pattern>
+                <message>Abreviatura de número ordinal.</message>
+                <suggestion><match no="1" regexp_match="(\d).+" regexp_replace="$1.ª"/></suggestion>
+                <example correction="2.ª">En la <marker>2da.</marker> ronda.</example>
+                <example correction="5.ª">En la <marker>5ta.</marker> posición.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[2-9]?[13]e?r</token>
+                    <token>.<exception postag="SENT_END"/></token>
+                </pattern>
+                <message>Abreviatura de número ordinal.</message>
+                <suggestion><match no="1" regexp_match="(\d+)e?r" regexp_replace="$1.er"/></suggestion>
+                <example correction="1.er">En el <marker>1r.</marker> caso.</example>
+                <example correction="1.er">En el <marker>1er.</marker> caso.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">1e?ro|2do|3e?ro|4to|5to|6to|7mo|8vo|9no</token>
                 </pattern>
                 <message>Abreviatura de número ordinal.</message>
                 <suggestion><match no="1" regexp_match="(\d).+" regexp_replace="$1.º"/></suggestion>
@@ -4995,12 +5025,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">[13]e?r</token>
+                    <token regexp="yes">[2-9]?[13]e?r</token>
                 </pattern>
                 <message>Abreviatura de número ordinal.</message>
-                <suggestion><match no="1" regexp_match="(\d).+" regexp_replace="$1.er"/></suggestion>
+                <suggestion><match no="1" regexp_match="(\d+)e?r" regexp_replace="$1.er"/></suggestion>
                 <example correction="1.er">En el <marker>1r</marker> caso.</example>
-                <example correction="1.er">En el <marker>1er</marker> caso.</example>
+                <example correction="31.er">En el <marker>31er</marker> caso.</example>
             </rule>
         </rulegroup>
         <rule id="P_EJ" name="Puntuación en: p. ej." default="on">
