@@ -872,6 +872,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="_PUNCT.*" postag_regexp="yes" min="0" max="3"/>
                     <token postag="VMM.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>no</token>
+                    <token postag_regexp="yes" postag="&pronombre_personal_atono_POS;" min="0" max="2"/>
+                    <token postag="VMSP[13]S0" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <and>
                         <token inflected="yes" regexp="yes">.*ar<exception postag="_GN_.*|RG|[NA].*|VMIP.*|V.N.*" postag_regexp="yes"/><exception scope="previous">se</exception></token>
@@ -884,6 +889,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="canté">Yo <marker>cante</marker> esto.</example>
                 <example correction="celebré">dando origen al tristemente <marker>celebre</marker> episodio</example> <!-- TODO: better suggestion: célebre -->
                 <example>Cante usted esto.</example>
+                <example>No cante tan alto.</example>
+                <example>No nos lo cante tan alto.</example>
+                <example>No lo analice así.</example>
                 <example>Cuando lo analice mañana.</example> <!-- TODO: with mark of past: ayer -->
                 <example>El cante jondo.</example>
                 <example>Que cante bien, no implica nada.</example>
