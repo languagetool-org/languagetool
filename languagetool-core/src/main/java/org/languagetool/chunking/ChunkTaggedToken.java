@@ -26,11 +26,9 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * A token and its chunk tag. Used temporarily before we attach this information
- * to {@link org.languagetool.AnalyzedToken}s of {@link AnalyzedTokenReadings}.
- * @since 2.3
+ * @since 2.9 / 5.0
  */
-class ChunkTaggedToken {
+public class ChunkTaggedToken {
 
   private final String token;
   private final List<ChunkTag> chunkTags;
