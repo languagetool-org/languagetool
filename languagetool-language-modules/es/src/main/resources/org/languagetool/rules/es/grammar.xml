@@ -784,7 +784,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará" default="temp_off">
             <rule>
                 <antipattern>
-                    <token postag="CS" skip="20"/>
+                    <token postag="CS|LOC_CS" postag_regexp="yes" skip="20"/>
                     <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
@@ -815,6 +815,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cantara cuanto cantara</example>
                 <example>Cantara cuánto cantara</example>
                 <example>Diera resultado o no.</example>
+                <example>En el caso de que cantara bien, tendría éxito.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -847,6 +848,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--<example>Sigo enfadada porque pensaras eso de mí.</example>-->
                 <example>Permaneció al margen, fuera porque ignorase los hechos producidos o por...</example>
                 <example>Peleó porque llegara la luz.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="SUBJUNTIVO_PASADO" name="confusión cante/canté" default="temp_off">
+            <!-- Needs much better disambiguation -->
+            <rule>
+                <antipattern>
+                    <token postag="CS|LOC_CS|P[RT].*" postag_regexp="yes" skip="20"/>
+                    <token postag="VMSP[13]S0" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="VMSP[13]S0" postag_regexp="yes" skip="15"/>
+                    <token postag="VMSP[13]S0" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="VMSP[13]S0" postag_regexp="yes"/>
+                    <token postag="DA.*" postag_regexp="yes" min="0"/>
+                    <token postag="P[RT].*" postag_regexp="yes"/>
+                    <token><match no="0"/></token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="_PUNCT.*" postag_regexp="yes" min="0" max="3"/>
+                    <token postag="VMM.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <and>
+                        <token inflected="yes" regexp="yes">.*ar<exception postag="_GN_.*|RG|[NA].*|VMIP.*|V.N.*" postag_regexp="yes"/><exception scope="previous">se</exception></token>
+                        <token postag="VMSP[13]S0" postag_regexp="yes" regexp="yes">.+e<exception postag="_possible_NP"/><exception regexp="yes">.+[ui]e.+</exception></token>
+                    </and>
+                </pattern>
+                <message>Si es pasado, se escribe con tilde.</message>
+                <suggestion><match no="1" postag="VMSP[13]S0" postag_regexp="yes" postag_replace="VMIS1S0"/></suggestion>
+                <example correction="analicé">Yo lo <marker>analice</marker> ayer.</example>
+                <example correction="canté">Yo <marker>cante</marker> esto.</example>
+                <example correction="celebré">dando origen al tristemente <marker>celebre</marker> episodio</example> <!-- TODO: better suggestion: célebre -->
+                <example>Cante usted esto.</example>
+                <example>Cuando lo analice mañana.</example> <!-- TODO: with mark of past: ayer -->
+                <example>El cante jondo.</example>
+                <example>Que cante bien, no implica nada.</example>
+                <example>Hable como hable no importa.</example>
+                <example>Cuando hable con él, explíqueselo.</example>
+                <example>Piense lo que piense.</example>
+                <example>Más tarde, empezó a escribir.</example>
+                <example>Además, suele ser colaborador.</example>
+                <example>pero se vende equipamiento</example>
+                <example>En caso de que un mismo equipo dispute las dos finales del año y no llegue a ganar ninguna.</example>
+                <example>Aún pueden verse hoy en día.</example>
+                <example>Se cree que las lenguas.</example>
+                <example>No importa a quién vote el pueblo.</example>
+                <example>sin importar qué sistema de unidades de medida se utilice</example>
+                <example>"Disculpe", me dijo.</example>
+                <example>Estamos de acuerdo se publique.</example>
+                <example>Aunque se considere ya gótica.</example>
+                <example>Aunque lo considere extraño.</example>
+                <example>Y pese a ello fue un éxito.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DIACRITICS_OTHERS" name="otros casos de falta de tilde" default="on">

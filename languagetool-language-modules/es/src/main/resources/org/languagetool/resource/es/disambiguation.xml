@@ -74,6 +74,18 @@ Copyright (C) 2011 Juan Martorell
     </rule>
 
     <rulegroup id="LOC_ADV" name="locuciones adverbiales">
+        <rule id="pese_a" name="pese a">
+            <pattern>
+                <marker>
+                    <token>pese</token>
+                </marker>
+                <token regexp="yes">a|al</token>
+                <!-- TODO: excetpions? -->
+            </pattern>
+            <disambig action="replace">
+                <wd pos="LOC_PREP"/>
+            </disambig>
+        </rule>
         <rule id="por_tanto" name="por tanto">
             <pattern>
                 <marker>
@@ -547,7 +559,9 @@ Copyright (C) 2011 Juan Martorell
                     <token regexp="yes" case_sensitive="yes">[%‰‱]|(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?<exception postag="NP.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd pos="Y"></wd></disambig>
+            <disambig action="add">
+                <wd pos="Y"/>
+            </disambig>
         </rule>
         <rule>
             <pattern>
@@ -558,7 +572,9 @@ Copyright (C) 2011 Juan Martorell
                     <token regexp="yes" case_sensitive="yes">[%‰‱]|(da|h|k|M|G|T|P|E|Z|Y|d|c|m|µ|n|p|f|a|z|y)?(m|g|s|A|K|cd|mol|Hz|N|Pa|J|W|Wh|C|V|Ω|S|F|T|Wb|H|rad|sr|lm|lx|Bq|Gy|Sv|kat|l|L)[²³23]?<exception postag="NP.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
-            <disambig action="add"><wd pos="Y"></wd></disambig>
+            <disambig action="add">
+                <wd pos="Y"/>
+            </disambig>
         </rule>
     </rulegroup>
     <rule id="alrededor_de" name="alrededor de">
@@ -1695,6 +1711,17 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="add">
             <wd pos="_DD_after_noun"/>
         </disambig>
+    </rule>
+
+    <!-- Verbs, tenses, persona -->
+    <rule id="yo_cante" name="yo cante (1p sg)">
+        <pattern>
+            <token>yo</token>
+            <marker>
+                <token postag="VMSP1S0"/>
+            </marker>
+        </pattern>
+        <disambig action="filterall"/>
     </rule>
 
     <!-- SOME EXTRA TAGGING -->
