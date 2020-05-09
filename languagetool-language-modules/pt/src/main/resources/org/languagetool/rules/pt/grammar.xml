@@ -2847,6 +2847,12 @@ MARCOAGPINTO 2020-02-18 -->
       </antipattern>	  	  
 <!-- MARCOAGPINTO 2020-05-03 *END* -->
       <pattern>
+<!-- MARCOAGPINTO 2020-05-09 *START* -->
+<!-- "As pessoas no meu trabalho infelizmente não falam Alemão, apenas português." -->	  
+		  <token negate_pos='yes' postag_regexp='yes' postag='NC[FMC]P000'></token>
+		  <token negate_pos='yes' postag_regexp='no' postag='SPS00'></token>
+<!-- MARCOAGPINTO 2020-05-09 *END* -->	
+<marker>
           <token postag_regexp='yes' postag='D...S.+'>
             <exception negate_pos='yes' postag_regexp='yes' postag='D...S.+'/></token>
           <token max="3" postag_regexp='yes' postag='(?:N..|A...)S.+'>
@@ -2856,10 +2862,11 @@ MARCOAGPINTO 2020-02-18 -->
           <token postag='V.[CIS].([123]P|[12]S).' postag_regexp='yes'>
             <exception postag='V.[CIS].3S.' postag_regexp='yes'/>
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
+</marker>
       </pattern>
       <message>&MSG_ECV;</message>
-        <suggestion><match no='1' include_skipped='all'/> <match no='2' include_skipped='all'/> <match no='3' include_skipped='all'/> <match no='4' include_skipped='all' postag='(V.[CIS].).P(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
-      <example correction='O médico novo saiu|O médico novo saíra'><marker>O médico novo saíram</marker> sem saber como dar a notícia.</example>
+        <suggestion><match no='3' include_skipped='all'/> <match no='4' include_skipped='all'/> <match no='5' include_skipped='all'/> <match no='6' include_skipped='all' postag='(V.[CIS].).P(.)' postag_replace='$1\3S$2' postag_regexp='yes'/></suggestion>
+      <example correction='meu trabalho saiu|meu trabalho saíra'>A chefe no <marker>meu trabalho saíram</marker> sem saber como dar a notícia.</example>
       <example>A sua polidez e o seu empenho fizeram com que todos o admirassem.</example>
       <example>O amor ou o ódio estão presentes.</example>
       <example>Outro governo preocupar-se-ia, talvez, com esta manifestação de ignorância.</example>
