@@ -74,6 +74,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Kruks", "Krux");
     putRepl("wiedersteh(en|st|t)", "wieder", "wider");
     putRepl("wiederstan(d|den|dest)", "wieder", "wider");
+    putRepl("wiedersprech(e|t|en)?", "wieder", "wider");
+    putRepl("wiedersprich(st|t)?", "wieder", "wider");
     putRepl("wiedersprach(st|t|en)?", "wieder", "wider");
     putRepl("wiederruf(e|st|t|en)?", "wieder", "wider");
     putRepl("wiederrief(st|t|en)?", "wieder", "wider");
@@ -83,6 +85,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("wiederstreb(e|st|t|en|te|ten)?", "wieder", "wider");
     put("wiederspiegelten", "widerspiegelten");
     put("wiedererwarten", "wider Erwarten");
+    put("widerholen", "wiederholen");
     put("wiederhohlen", "wiederholen");
     put("herrunterladen", "herunterladen");
     put("dastellen", "darstellen");
