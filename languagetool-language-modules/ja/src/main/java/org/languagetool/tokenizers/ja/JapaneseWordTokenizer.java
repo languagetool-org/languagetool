@@ -39,11 +39,12 @@ public class JapaneseWordTokenizer implements Tokenizer {
     List<String> ret = new ArrayList<>();
     List<Token> tokens = new ArrayList<>();
     try {
-      stringTagger.analyze(text, tokens);
+      synchronized (stringTagger) {
+        stringTagger.analyze(text, tokens);
+      }
     } catch (Exception e) {
       return ret;
     }
-    
     for (Token token : tokens) {
       String basicForm;
       if (token.getMorpheme().getBasicForm().equalsIgnoreCase("*")) {
