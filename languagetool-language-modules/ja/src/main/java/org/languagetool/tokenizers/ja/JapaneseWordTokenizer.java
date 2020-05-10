@@ -37,22 +37,22 @@ public class JapaneseWordTokenizer implements Tokenizer {
   @Override  
   public List<String> tokenize(String text) {
     List<String> ret = new ArrayList<>();
-    List<Token> tokens = new ArrayList<>();
     try {
       synchronized (stringTagger) {
+        List<Token> tokens = new ArrayList<>();
         stringTagger.analyze(text, tokens);
+        for (Token token : tokens) {
+          String basicForm;
+          if (token.getMorpheme().getBasicForm().equalsIgnoreCase("*")) {
+            basicForm = token.getSurface();
+          } else {
+            basicForm = token.getMorpheme().getBasicForm();
+          }
+          ret.add(token.getSurface() + " " + token.getMorpheme().getPartOfSpeech() + " " + basicForm);
+        }
       }
     } catch (Exception e) {
       return ret;
-    }
-    for (Token token : tokens) {
-      String basicForm;
-      if (token.getMorpheme().getBasicForm().equalsIgnoreCase("*")) {
-        basicForm = token.getSurface();
-      } else {
-        basicForm = token.getMorpheme().getBasicForm();
-      }
-      ret.add(token.getSurface() + " " + token.getMorpheme().getPartOfSpeech() + " " + basicForm);
     }
     return ret;
   }
