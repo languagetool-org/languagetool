@@ -11626,7 +11626,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
-        <rule id="NEWS_COMPOUNDS" name="news paper (newspaper)" default="temp_off">
+        <rule id="NEWS_COMPOUNDS" name="news paper (newspaper)">
             <antipattern case_sensitive="yes">
                 <token>News</token>
                 <token>Group</token>
@@ -33143,12 +33143,12 @@ USA
                         <exception scope="previous" postag="PRP$"/>
                         <exception regexp="yes">initials|let(ter)?s</exception>
                     </token>
-                    <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$?|NNP?S|IN|RB|WRB|VBN" postag_regexp="yes"/></token>
+                    <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$?|NNP?S|IN|RB|WRB|VBN|UH" postag_regexp="yes"/></token>
                     <marker>
                         <token postag="VBP?" postag_regexp="yes" regexp="yes">
                             \p{Lower}+
                             <exception postag="VB[ND]|JJ|IN|MD" postag_regexp="yes"/>
-                            <exception>people</exception>
+                            <exception>people</exception><!-- uncommon verbs -->
                         </token>
                     </marker>
                     <token postag="IN|DT" postag_regexp="yes"/>
@@ -33164,6 +33164,7 @@ USA
                 <example>Boys are at higher risk for autism than girls.</example>
                 <example>In reply, he said he was too old for this.</example>
                 <example>I can see Bill looking through the window.</example>
+                <example>Ah yes the wonderful world.</example>
                 <example>Richard J. Hughes made his Morris County debut in his bid for the Democratic gubernatorial elections.</example>
                 <example>... last night got its seven-concert Beethoven cycle at Carnegie Hall off to a good start.</example>
                 <example>... and through knowing Him better to become happier and more effective people.</example>
@@ -34295,7 +34296,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Multi-factor_authentication</url>
             <example correction="2-factor">He enabled <marker>2 factor</marker> auth to protect his Facebook account.</example>
         </rule>
-        <rule id="WEEK_LONG_HYPHEN" name="A week long (week-long) vacation" default="temp_off">
+        <rule id="WEEK_LONG_HYPHEN" name="A week long (week-long) vacation">
             <pattern>
                 <token regexp="yes">an?|the|this|th[oe]se|my|y?our|their|his|her|s|of</token>
                 <token postag="JJ.*" postag_regexp="yes" min="0">
