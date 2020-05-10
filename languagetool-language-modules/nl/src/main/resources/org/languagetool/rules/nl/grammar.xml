@@ -18576,8 +18576,10 @@ steenwijk;Steenwijk
 
 		<rulegroup id="HET_ZNW_DE" name="het man / de man" >
 			<rule>
+				<antipattern><token regexp="yes">en|of|dat</token><token>het</token></antipattern>
+				<antipattern><token>het</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
+				<antipattern><token>het</token><token regexp="yes">een|één</token><token>van</token></antipattern>
 				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token>het</token></antipattern>
-				<antipattern><token>het</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token><token case_sensitive="yes" postag_regexp="yes" postag="ZNW.*HET|ZNW:EKV" regexp="yes">[A-Z].*</token></antipattern>
 				<pattern>
 					<marker>
 						<token>het</token>
@@ -18585,7 +18587,7 @@ steenwijk;Steenwijk
 					<token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|WKW.*|VRZ|BNW.*|BYW"/><exception>mijn</exception></token>
 					<token><exception postag_regexp="yes" postag="ENM.*|WKW.*"/></token>
 				</pattern>
-				<message>\2 is een 'het'-woord: hier moet <suggestion>de</suggestion> staan.</message>
+				<message>\2 is een 'het'-woord: misschien met er toch <suggestion>de</suggestion> staan. Of wellicht stat er een spatie te veel.</message>
 				<example correction="de">Ik zie <marker>het</marker> hond.</example>
 				<example>Niet als <marker>het</marker> firma Janssen betreft.</example>
 			</rule>
