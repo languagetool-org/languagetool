@@ -980,7 +980,7 @@ public class ConfigurationDialog implements ActionListener {
     defaultButton.addActionListener(e -> {
       List<String> saveProfiles = new ArrayList<String>(); 
       saveProfiles.addAll(config.getDefinedProfiles());
-      String saveCurrent = config.getCurrentProfile() == null ? null : new String(config.getCurrentProfile());
+      String saveCurrent = config.getCurrentProfile() == null ? null : config.getCurrentProfile();
       config.initOptions();
       config.addProfiles(saveProfiles);
       config.setCurrentProfile(saveCurrent);
@@ -1365,10 +1365,10 @@ public class ConfigurationDialog implements ActionListener {
   
   private String[] getUnderlineTypes() {
     String[] types = {
-        new String(messages.getString("guiUTypeWave")),
-        new String(messages.getString("guiUTypeBoldWave")),
-        new String(messages.getString("guiUTypeBold")),
-        new String(messages.getString("guiUTypeDash")) };
+      messages.getString("guiUTypeWave"),
+      messages.getString("guiUTypeBoldWave"),
+      messages.getString("guiUTypeBold"),
+      messages.getString("guiUTypeDash")};
     return types;
   }
 

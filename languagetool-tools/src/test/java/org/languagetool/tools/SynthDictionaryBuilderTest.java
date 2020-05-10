@@ -67,7 +67,7 @@ public class SynthDictionaryBuilderTest extends DictionaryBuilderTestHelper {
       if (!b) {
         throw new RuntimeException("Could not rename " + newBinarySynthFile.getAbsolutePath() + " to " + oldBinarySynthFile.getCanonicalPath());
       }*/
-      System.out.println("");
+      System.out.println();
     }
   }
   

@@ -35,7 +35,7 @@ import org.languagetool.tools.Tools;
  */
 class MessageHandler {
   
-  private static final String logLineBreak = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
+  private static final String logLineBreak = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
   
   private static String homeDir;
   private static String logFileName;

@@ -34,7 +34,7 @@ public class IncorrectBitextExample {
   private final List<String> corrections;
 
   public IncorrectBitextExample(StringPair example) {
-    this(example, Collections.<String>emptyList());
+    this(example, Collections.emptyList());
   }
 
   /**

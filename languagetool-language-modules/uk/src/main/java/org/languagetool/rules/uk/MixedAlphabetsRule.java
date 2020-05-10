@@ -147,7 +147,7 @@ public class MixedAlphabetsRule extends Rule {
       else if( tokenString.endsWith("°С") ) {  // cyrillic С
         List<String> replacements = new ArrayList<>();
         int length = tokenString.length();
-        replacements.add( tokenString.substring(0,  length-1) + toLatin(tokenString.substring(length-1, tokenString.length())) );
+        replacements.add( tokenString.substring(0,  length-1) + toLatin(tokenString.substring(length-1)) );
 
         String msg = "Вжито кириличну літеру замість латинської";
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);

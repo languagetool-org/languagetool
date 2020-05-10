@@ -57,7 +57,7 @@ public class POSDictionaryBuilderTest extends DictionaryBuilderTestHelper {
       if (!b) {
         throw new RuntimeException("Could not rename" + newBinaryFile.getAbsolutePath() + " to " + oldBinaryFile.getCanonicalPath());
       }*/
-      System.out.println("");
+      System.out.println();
     }
   }
   
