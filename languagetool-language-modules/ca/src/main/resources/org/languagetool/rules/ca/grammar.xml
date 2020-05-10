@@ -52,7 +52,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY exceptions_MES "missioner|extra|solar|sideral|marià|hivernal|hebreu|jueu|musulmà|islàmic|sinòdic|draconític|lunar|mitjà|tròpic|anomalístic|dedicat|consagrat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent|posterior|previ|consecutiu|precedent">
     <!ENTITY exceptions_LLINDA_AMB "escut|imposta|pòrtic|nom|taulellet|forma|pilastra|orla|dent|figura|llegenda|brancal|frontó|columna|guardapols|línia|motll?ura|floró|motiu|data|imatge|arc|inscripció|dovella|decoració|timpà|relleu|escultura|ornament|ornamentació|ornamentar|decorar|garlanda|esglaó|graó|emblema|torre|pedra">
     <!ENTITY exceptions_ODRE "pell|bot|líquid|aigua|oli|llet|vi|substància|mantega|càntir|ampolla|porró|paràbola|cuir|cuiro">
-    <!ENTITY exceptions_Paris "Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu|judici|juí">
+    <!ENTITY exceptions_Paris "Afrodita|Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu|judici|juí">
     <!ENTITY exceptions_pronom_en "norma|single|nota|tema|taula|mapa|figura|vegeu|juny|sala|pregunta|programa|(?-i)Mateu|Romans|Espanya">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena|ampit|barana|taula|cadira|sofà|finestra|tanca|sorra|arena|terra|cuixa|barra|llitera|calaixera|bàscula|superfície|pota|muralla|mitgera|pedra|pantalla|crossa|roca|boca|cos|llit|taulell|mostrador|llindar|tronc|pit|piano|coixí|graó|escaló|esglaó|forat|motxilla">
     <!ENTITY exceptions_SON "descans|estrès|estrés|cansament|fatiga|hiptertensió|mareig|alegria|somnambulisme|esbarjo|estupor|gana|fam|anorèxia|vigília">
@@ -15447,7 +15447,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Li conta amb qui havia fugit.</example>
             <example>Les hi ha contades amb tot detall.</example>
         </rule>
-        <rulegroup id="PARIS" name="Paris/París" default="temp_off">
+        <rulegroup id="PARIS" name="Paris/París" default="on">
             <antipattern>
                 <token postag="SENT_START" skip="-1"/>
                 <token regexp="yes" skip="-1">&exceptions_Paris;</token>
@@ -22027,6 +22027,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="francoprussiana">La guerra <marker>franc prussiana</marker>.</example>
                 <example correction="Francoprussiana">La Guerra <marker>Franco-Prussiana</marker>.</example>
                 <example>La guerra francoprussiana.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">cardio|càrdio</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">..+</token>
+                </pattern>
+                <message suppress_misspelled="yes">S'escriu junt.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="cardio$1" case_conversion="alllower"/></suggestion>
+                <!--<url>http://esadir.cat/entrades/fitxa/node/guionet</url>-->
+                <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=cerca_generica&amp;input_cercar=guionet&amp;tipusCerca=cerca.fitxes</url>
+                <example correction="cardiovasculars">Problemes <marker>càrdio-vasculars</marker>.</example>
             </rule>
             <rule>
                 <pattern>
