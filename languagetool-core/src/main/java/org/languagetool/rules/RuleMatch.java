@@ -436,7 +436,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     if (rule instanceof PatternRule) {
       //String covered = getSentence().getText().substring(getFromPos(), getToPos());
       //return ((PatternRule) rule).getFullId() + ":" + offsetPosition + ":" + message + ":" + covered + " -> " + getSuggestedReplacements();
-      return ((PatternRule) rule).getFullId() + ":" + offsetPosition + ":" + message;
+      return rule.getFullId() + ":" + offsetPosition + ":" + message;
     } else {
       //String covered = getSentence().getText().substring(getFromPos(), getToPos());
       //return rule.getId() + ":" + offsetPosition + ":" + message + ":" + covered + " -> " + getSuggestedReplacements();

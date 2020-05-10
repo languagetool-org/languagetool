@@ -285,9 +285,7 @@ public class GermanTaggerTest {
     Set<String> elements = new TreeSet<>();
     sb.append('[');
     for (AnalyzedToken reading : tokenReadings) {
-      if (!elements.contains(reading.toString())) {
-        elements.add(reading.toString());
-      }
+      elements.add(reading.toString());
     }
     sb.append(String.join(", ", elements));
     sb.append(']');

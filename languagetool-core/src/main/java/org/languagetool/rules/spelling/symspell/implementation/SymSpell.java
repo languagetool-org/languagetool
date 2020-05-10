@@ -715,7 +715,7 @@ public class SymSpell implements Serializable {
     }
 
     hash &= this.compactMask;
-    hash |= (long) lenMask;
+    hash |= lenMask;
     return (int) hash;
   }
 

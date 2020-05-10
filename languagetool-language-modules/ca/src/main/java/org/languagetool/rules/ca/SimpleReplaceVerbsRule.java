@@ -134,7 +134,7 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
             }
           }
           if (desinence.startsWith("ï")) {
-            desinence = "i" + desinence.substring(1, desinence.length());
+            desinence = "i" + desinence.substring(1);
           }
           infinitive = lexeme.concat("ar");
           if (wrongWords.containsKey(infinitive)) {

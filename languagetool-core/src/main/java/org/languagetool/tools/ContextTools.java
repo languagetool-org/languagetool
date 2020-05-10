@@ -53,7 +53,7 @@ public class ContextTools {
     // now build context string plus marker:
     StringBuilder sb = new StringBuilder();
     sb.append(prefix);
-    sb.append(text.substring(startContent, endContent));
+    sb.append(text, startContent, endContent);
     String markerStr = markerPrefix
         + marker.substring(startContent, endContent);
     sb.append(postfix);

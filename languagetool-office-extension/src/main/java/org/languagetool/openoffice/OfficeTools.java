@@ -52,7 +52,7 @@ class OfficeTools {
   public static final String SINGLE_END_OF_PARAGRAPH = "\n";
   public static final String MANUAL_LINEBREAK = "\r";  //  to distinguish from paragraph separator
   public static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
-  public static final String LOG_LINE_BREAK = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
+  public static final String LOG_LINE_BREAK = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
   
   public static int DEBUG_MODE_SD = 0;
   public static boolean DEBUG_MODE_MD = false;

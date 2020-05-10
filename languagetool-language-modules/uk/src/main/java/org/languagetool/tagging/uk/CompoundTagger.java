@@ -1295,7 +1295,7 @@ class CompoundTagger {
 
 
   private String capitalize(String word) {
-    return word.substring(0, 1).toUpperCase(conversionLocale) + word.substring(1, word.length());
+    return word.substring(0, 1).toUpperCase(conversionLocale) + word.substring(1);
   }
 
   private List<TaggedWord> tagBothCases(String leftWord, Pattern posTagMatcher) {

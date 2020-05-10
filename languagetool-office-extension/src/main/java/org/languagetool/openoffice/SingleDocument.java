@@ -989,7 +989,7 @@ class SingleDocument {
           pErrors = singleParaCache.getFromPara(0, startSentencePos, endSentencePos);
           return pErrors;
         } else if(startSentencePos == 0) {
-          lastSinglePara = new String(paraText);
+          lastSinglePara = paraText;
         }
       }
       // return Cache result if available / for right mouse click or Dialog only use cache

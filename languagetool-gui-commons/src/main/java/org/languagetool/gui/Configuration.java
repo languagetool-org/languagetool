@@ -801,9 +801,7 @@ public class Configuration {
               || rule.getLocQualityIssueType().toString().equalsIgnoreCase("REGISTER")
               || rule.getCategory().getId().toString().equals("STYLE")
               || rule.getCategory().getId().toString().equals("TYPOGRAPHY")) {
-        if (!styleLikeCategories.contains(rule.getCategory().getName())) {
-          styleLikeCategories.add(rule.getCategory().getName());
-        }
+        styleLikeCategories.add(rule.getCategory().getName());
       }
     }
   }
@@ -834,9 +832,7 @@ public class Configuration {
   public String[] getSpecialTabNames() {
     Set<String> tabNames = new HashSet<>();
     for (Map.Entry<String, String> entry : specialTabCategories.entrySet()) {
-      if (!tabNames.contains(entry.getValue())) {
-        tabNames.add(entry.getValue());
-      }
+      tabNames.add(entry.getValue());
     }
     return tabNames.toArray(new String[tabNames.size()]);
   }
@@ -1010,9 +1006,9 @@ public class Configuration {
       
       String prefix;
       if(currentProfile == null) {
-        prefix = new String("");
+        prefix = "";
       } else {
-        prefix = new String(currentProfile);
+        prefix = currentProfile;
       }
       if(!prefix.isEmpty()) {
         prefix = prefix.replaceAll(BLANK, BLANK_REPLACE);
@@ -1269,14 +1265,14 @@ public class Configuration {
     List<String> prefixes = new ArrayList<String>();
     prefixes.add("");
     for(String profile : definedProfiles) {
-      String prefix = new String(profile);
+      String prefix = profile;
       prefixes.add(prefix.replaceAll(BLANK, BLANK_REPLACE) + PROFILE_DELIMITER);
     }
     String currentPrefix;
     if (currentProfile == null) {
-      currentPrefix = new String("");
+      currentPrefix = "";
     } else {
-      currentPrefix = new String(currentProfile);
+      currentPrefix = currentProfile;
     }
     if(!currentPrefix.isEmpty()) {
       currentPrefix = currentPrefix.replaceAll(BLANK, BLANK_REPLACE);
@@ -1366,7 +1362,7 @@ public class Configuration {
           StringBuilder sb = new StringBuilder();
           for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
             String rgb = Integer.toHexString(entry.getValue().getRGB());
-            rgb = rgb.substring(2, rgb.length());
+            rgb = rgb.substring(2);
             sb.append(entry.getKey()).append(":#").append(rgb).append(", ");
           }
           props.setProperty(prefix + ERROR_COLORS_KEY, sb.toString());
@@ -1375,7 +1371,7 @@ public class Configuration {
           StringBuilder sbUC = new StringBuilder();
           for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
             String rgb = Integer.toHexString(entry.getValue().getRGB());
-            rgb = rgb.substring(2, rgb.length());
+            rgb = rgb.substring(2);
             sbUC.append(entry.getKey()).append(":#").append(rgb).append(", ");
           }
           props.setProperty(prefix + UNDERLINE_COLORS_KEY, sbUC.toString());
@@ -1454,7 +1450,7 @@ public class Configuration {
     List<String> prefix = new ArrayList<String>();
     prefix.add("");
     for(String profile : definedProfiles) {
-      String sPrefix = new String(profile);
+      String sPrefix = profile;
       prefix.add(sPrefix.replaceAll(BLANK, BLANK_REPLACE) + PROFILE_DELIMITER);
     }
     for(String sPrefix : prefix) {

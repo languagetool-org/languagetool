@@ -82,12 +82,12 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   public void testSupportsLanguage() {
     FakeLanguage fakeLanguage1 = new FakeLanguage("yy");
     FakeLanguage fakeLanguage2 = new FakeLanguage("zz");
-    PatternRule patternRule1 = new PatternRule("ID", fakeLanguage1, Collections.<PatternToken>emptyList(), "", "", "");
+    PatternRule patternRule1 = new PatternRule("ID", fakeLanguage1, Collections.emptyList(), "", "", "");
     assertTrue(patternRule1.supportsLanguage(fakeLanguage1)); 
     assertFalse(patternRule1.supportsLanguage(fakeLanguage2));
     FakeLanguage fakeLanguage1WithVariant1 = new FakeLanguage("zz", "VAR1");
     FakeLanguage fakeLanguage1WithVariant2 = new FakeLanguage("zz", "VAR2");
-    PatternRule patternRuleVariant1 = new PatternRule("ID", fakeLanguage1WithVariant1, Collections.<PatternToken>emptyList(), "", "", "");
+    PatternRule patternRuleVariant1 = new PatternRule("ID", fakeLanguage1WithVariant1, Collections.emptyList(), "", "", "");
     assertTrue(patternRuleVariant1.supportsLanguage(fakeLanguage1WithVariant1));    
     assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage1));
     assertFalse(patternRuleVariant1.supportsLanguage(fakeLanguage2));
@@ -223,7 +223,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           boolean hasExplicitMarker = patternTokens.stream().anyMatch(PatternToken::isInsideMarker);
           for (PatternToken patternToken : patternTokens) {
             if ((patternToken.isInsideMarker() || !hasExplicitMarker) && patternToken.isSentenceStart()) {
-              System.err.println("WARNING: Sentence start in <marker>: " + ((AbstractPatternRule) rule).getFullId() +
+              System.err.println("WARNING: Sentence start in <marker>: " + rule.getFullId() +
                       " (hasExplicitMarker: " + hasExplicitMarker + ") - please move the <marker> so the SENT_START is not covered");
             }
           }

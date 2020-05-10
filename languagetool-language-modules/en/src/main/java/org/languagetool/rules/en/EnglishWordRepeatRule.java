@@ -52,7 +52,7 @@ public class EnglishWordRepeatRule extends WordRepeatRule {
     // but you you're my best friend ...
     // I'm so so happy
     // I'm very very happy
-    String word = tokens[position].getToken().toString();
+    String word = tokens[position].getToken();
 
     if (wordRepetitionOf("had", tokens, position) && posIsIn(tokens, position - 2, "PRP", "NN")) {
       return true;   // "If I had had time, I would have gone to see him."

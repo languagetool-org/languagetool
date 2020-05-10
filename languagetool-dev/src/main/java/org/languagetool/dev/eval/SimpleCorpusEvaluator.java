@@ -127,7 +127,7 @@ public class SimpleCorpusEvaluator {
   }
 
   private PrecisionRecall printAndResetResults() {
-    System.out.println("");
+    System.out.println();
     System.out.println(sentenceCount + " lines checked with " + errorsInCorpusCount + " errors.");
 
     System.out.println("\nCounting matches, no matter whether the first suggestion is correct:");
