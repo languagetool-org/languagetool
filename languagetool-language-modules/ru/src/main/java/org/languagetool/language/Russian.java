@@ -111,10 +111,11 @@ public class Russian extends Language implements AutoCloseable {
             new LongSentenceRule(messages, userConfig),
             new LongParagraphRule(messages, this, userConfig),
             new ParagraphRepeatBeginningRule(messages, this),
+            new RussianFillerWordsRule(messages, this, userConfig),
         //  new PunctuationMarkAtParagraphEnd(messages, this),
         //  new PunctuationMarkAtParagraphEnd2(messages, this),
-        //  new ReadabilityRule(messages, this, userConfig, false),
-        //  new ReadabilityRule(messages, this, userConfig, true),
+        //  new ReadabilityRule(messages, this, userConfig, false), // need use localise rule
+        //  new ReadabilityRule(messages, this, userConfig, true),  // need use localise rule
         
             
                 // specific to Russian :
