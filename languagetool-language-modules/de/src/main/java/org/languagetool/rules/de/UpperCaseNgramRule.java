@@ -24,9 +24,10 @@ import org.languagetool.Language;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ngrams.Probability;
-import org.languagetool.tools.StringTools;
 
 import java.util.*;
+
+import static org.languagetool.tools.StringTools.*;
 
 /**
  * Finds some(!) words written uppercase that should be spelled lowercase and vice versa.
@@ -44,6 +45,20 @@ public class UpperCaseNgramRule extends Rule {
 
   public UpperCaseNgramRule(ResourceBundle messages, LanguageModel lm, Language lang) {
     super(messages);
+    /*
+    TODO: potential extension - too many false alarms for now...
+    String path = "/de/ambiguous_case.txt";
+    List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
+    for (String line : lines) {
+      if (line.isEmpty() || line.startsWith("#")) {
+        continue;
+      }
+      if (startsWithLowercase(line)) {
+        throw new RuntimeException("Only entries with uppercase first chars expected in " + path + ": " + line);
+      }
+      relevantWords.add(line);
+      relevantWords.add(lowercaseFirstChar(line));
+    }*/
     super.setCategory(Categories.CASING.getCategory(messages));
     this.lm = Objects.requireNonNull(lm);
     setDefaultTempOff();  // TODO
@@ -69,14 +84,14 @@ public class UpperCaseNgramRule extends Rule {
     for (int i = 1; i < tokens.length; i++) {
       AnalyzedTokenReadings token = tokens[i];
       String tokenStr = token.getToken();
-      if (i + 1 < tokens.length && relevantWords.contains(tokenStr) && !StringTools.isAllUppercase(tokenStr)) {
-        String ucToken = StringTools.uppercaseFirstChar(tokenStr);
-        String lcToken = StringTools.lowercaseFirstChar(tokenStr);
+      if (i + 1 < tokens.length && relevantWords.contains(tokenStr) && !isAllUppercase(tokenStr)) {
+        String ucToken = uppercaseFirstChar(tokenStr);
+        String lcToken = lowercaseFirstChar(tokenStr);
         List<String> ucList = Arrays.asList(tokens[i - 1].getToken(), ucToken, tokens[i + 1].getToken());
         List<String> lcList = Arrays.asList(tokens[i - 1].getToken(), lcToken, tokens[i + 1].getToken());
         Probability ucProb = lm.getPseudoProbability(ucList);
         Probability lcProb = lm.getPseudoProbability(lcList);
-        if (StringTools.startsWithUppercase(tokenStr)) {
+        if (startsWithUppercase(tokenStr)) {
           double ratio = lcProb.getProb() / ucProb.getProb();
           if (ratio > THRESHOLD) {
             String msg = "Meinten Sie das Verb '" + lcToken + "'? Nur Nomen und Eigennamen werden großgeschrieben.";
