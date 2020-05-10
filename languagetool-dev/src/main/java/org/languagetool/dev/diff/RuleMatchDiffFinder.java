@@ -194,6 +194,7 @@ public class RuleMatchDiffFinder {
     String title = "Comparing " + file1.getName() + " to "  + file2.getName();
     System.out.println(title);
     List<RuleMatchDiff> diffs = getDiffs(l1, l2);
+    diffs.sort(Comparator.comparing(this::getFullId));
     System.out.println("Total diffs found: " + diffs.size());
     try (FileWriter fw = new FileWriter(file3)) {
       fw.write("<!doctype html>\n");
@@ -227,6 +228,16 @@ public class RuleMatchDiffFinder {
       fw.write("</body>\n");
       fw.write("</html>\n");
     }
+  }
+
+  private String getFullId(RuleMatchDiff diff) {
+    String id = "unknown";
+    if (diff.getOldMatch() != null) {
+      id = diff.getOldMatch().getFullRuleId();
+    } else if (diff.getNewMatch() != null) {
+      id = diff.getNewMatch().getFullRuleId();
+    }
+    return id;
   }
 
   public static void main(String[] args) throws IOException {

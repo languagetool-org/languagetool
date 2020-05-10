@@ -41,7 +41,7 @@ class LightRuleMatch {
 
   LightRuleMatch(int line, int column, String ruleId, String message, String context, String coveredText,
                  String suggestions, String ruleSource, String title, Status status) {
-    this.line =  line;
+    this.line = line;
     this.column = column;
     this.fullRuleId = Objects.requireNonNull(ruleId);
     this.message = Objects.requireNonNull(message);
