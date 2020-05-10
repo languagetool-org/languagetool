@@ -344,6 +344,7 @@ public class CaseRuleTest {
     assertGood("Er vertraut auf CO2-arme Wasserkraft");
     assertGood("Das Entweder-oder ist kein Problem.");
     assertGood("Er liebt ihre Makeup-freie Haut.");
+    assertGood("#4 Aktuelle Situation");
   }
 
   private void assertGood(String input) throws IOException {
