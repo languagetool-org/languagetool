@@ -175,6 +175,7 @@ public class German extends Language implements AutoCloseable {
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
     return Arrays.asList(
+            new UpperCaseNgramRule(messages, languageModel, this),
             new GermanConfusionProbabilityRule(messages, languageModel, this),
             new ProhibitedCompoundRule(messages, languageModel, userConfig)
     );
