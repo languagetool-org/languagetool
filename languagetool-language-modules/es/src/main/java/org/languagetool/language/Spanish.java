@@ -109,7 +109,6 @@ public class Spanish extends Language implements AutoCloseable{
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SpanishWikipediaRule(messages),
-            new SpanishDiacriticsCheckRule(messages),
             new SpanishWrongWordInContextRule(messages),
             new SimpleReplaceRule(messages),
             new SimpleReplaceVerbsRule(messages, this),

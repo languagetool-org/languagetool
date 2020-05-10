@@ -401,7 +401,8 @@ Copyright (C) 2011 Juan Martorell
                 <wd pos="AO0CN0"/>
             </disambig>
         </rule>
-        <!-- excepcions als numerals romans -->
+    </rulegroup>
+    <rulegroup id="romans_exceptions" name="excepciones números romanos">
         <rule>
             <pattern case_sensitive="yes">
                 <token postag="SENT_START"/>
@@ -1344,12 +1345,12 @@ Copyright (C) 2011 Juan Martorell
             <marker>
                 <and>
                     <token postag="D.*" postag_regexp="yes"><exception scope="previous" postag="SPS00"/></token>
-                    <token postag="[PN].*" postag_regexp="yes"/>
+                    <token postag="P.*" postag_regexp="yes"/>
                 </and>
             </marker>
             <token postag="V.*" postag_regexp="yes"><exception postag="N.*|V.N.*|A.*|PI.*|Z|V.P.*" postag_regexp="yes"/></token>
         </pattern>
-        <disambig action="filter" postag="P.*|N.*"/>
+        <disambig action="filter" postag="P.*"/>
         <example type="untouched">De lo uno y lo otro</example>
         <example type="untouched">Las hechas</example>
     </rule>

@@ -1,0 +1,62 @@
+package org.languagetool.rules.es;
+
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.patterns.RuleFilter;
+
+public class DiacriticsCheckFilter extends RuleFilter {
+
+  private static final Map<String, AnalyzedTokenReadings> relevantWords = 
+      new AccentuationDataLoader().loadWords("/es/verb_noaccent_noun-adj_accent.txt");
+  
+  private static final Pattern MS = Pattern.compile("NC[MC][SN]000|A..[MC][SN].|V.P..SM");
+  private static final Pattern FS = Pattern.compile("NC[FC][SN]000|A..[FC][SN].|V.P..SF");
+  private static final Pattern MP = Pattern.compile("NC[MC][PN]000|A..[MC][PN].|V.P..PM");
+  private static final Pattern FP = Pattern.compile("NC[FC][PN]000|A..[FC][PN].|V.P..PF");
+
+  @Override
+  public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
+      AnalyzedTokenReadings[] patternTokens) {
+
+    Pattern desiredGenderNumberPattern = null;
+    String replacement = null;
+    String postag = getRequired("postag", arguments);
+    String form = getRequired("form", arguments);
+    String gendernumber_from = getOptional("gendernumber_from", arguments);
+    if (gendernumber_from != null) {
+      int i = Integer.parseInt(gendernumber_from);
+      AnalyzedTokenReadings atr = match.getSentence().getTokensWithoutWhitespace()[i];
+      if (atr.matchesPosTagRegex(".+MS.*")) { desiredGenderNumberPattern = MS;}
+      if (atr.matchesPosTagRegex(".+MP.*")) { desiredGenderNumberPattern = MP;}
+      if (atr.matchesPosTagRegex(".+FS.*")) { desiredGenderNumberPattern = FS;}
+      if (atr.matchesPosTagRegex(".+FP.*")) { desiredGenderNumberPattern = FP;}
+    }
+    
+    if (relevantWords.containsKey(form)) {
+      if (relevantWords.get(form).matchesPosTagRegex(postag)) {
+        if (desiredGenderNumberPattern != null) {
+          Matcher m = desiredGenderNumberPattern.matcher(relevantWords.get(form).getReadings().get(0).getPOSTag());
+          if (!m.matches()) {
+            return null;
+          }
+        }
+        replacement = relevantWords.get(form).getToken(); 
+      }
+    }
+    if (replacement != null) {
+      String message = match.getMessage();
+      RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
+          message, match.getShortMessage());
+      ruleMatch.setType(match.getType());
+      String suggestion = match.getSuggestedReplacements().get(0).replace("{suggestion}", replacement);
+      ruleMatch.setSuggestedReplacement(suggestion);
+      return ruleMatch;
+    }    
+    return null;
+  }
+
+}
