@@ -18593,6 +18593,17 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 
+		<rulegroup id="WIKKEN" name="wikken zonder wegen" >
+			<rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token>wegen</token></antipattern>
+				<pattern>
+					<token>wikken</token>
+				</pattern>
+				<message>Verwacht wordt: 'wikken en wegen'. Is dit een typfout?</message>
+				<example type="incorrect">Ik loop doro de <marker>wikken</marker> heen.</example>
+			</rule>
+		</rulegroup>
+
 		<!-- te veel false postives
 		<rulegroup id="MIJN_FAVORIET_PRODUCT" name="mijn favoriet product">
 			<rule>
