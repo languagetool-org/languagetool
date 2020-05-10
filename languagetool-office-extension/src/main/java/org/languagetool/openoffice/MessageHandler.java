@@ -55,7 +55,7 @@ class MessageHandler {
   private static void initLogFile() {
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath()))) {
       Date date = new Date();
-      bw.write("LT office integration log from " + date.toString() + logLineBreak);
+      bw.write("LT office integration log from " + date + logLineBreak);
     } catch (Throwable t) {
       showError(t);
     }
@@ -112,7 +112,7 @@ class MessageHandler {
       if(!parentDir.exists()) {
         boolean success = parentDir.mkdirs();
         if(!success) {
-          showMessage("Can't create directory: " + parentDir.toString());
+          showMessage("Can't create directory: " + parentDir);
         }
       }
     }

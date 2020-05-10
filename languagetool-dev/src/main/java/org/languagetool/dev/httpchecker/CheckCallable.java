@@ -94,7 +94,7 @@ class CheckCallable implements Callable<File> {
               //System.out.println(threadName + " - answered by " + result.backendServer);
               JsonNode jsonNode = mapper.readTree(result.json);
               ((ObjectNode)jsonNode).put("title", pseudoFileName);  // needed for MatchKey to be specific enough
-              fw.write(jsonNode.toString() + "\n");
+              fw.write(jsonNode + "\n");
               tempLines.clear();
               startLine = i;
               break;
@@ -136,7 +136,7 @@ class CheckCallable implements Callable<File> {
     String json = new RuleMatchesAsJsonSerializer().ruleMatchesToJson(Collections.singletonList(ruleMatch), textToCheck, 100, detectedLang);
     JsonNode jsonNode = mapper.readTree(json);
     ((ObjectNode)jsonNode).put("title", pseudoFileName);  // needed for MatchKey to be specific enough
-    fw.write(jsonNode.toString() + "\n");
+    fw.write(jsonNode + "\n");
   }
 
   private CheckResult checkByPost(URL url, String postData) throws IOException, ApiErrorException {

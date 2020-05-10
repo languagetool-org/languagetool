@@ -394,7 +394,7 @@ public class UkrainianDisambiguationRuleTest {
       AnalyzedTokenReadings taggedToken = tagged.get(0);
       TokenMatcher tokenMatcher = entry.getValue();
       
-      assertTrue(String.format("%s not found in dictionary, tags: %s", entry.toString(), tagged.toString()), matches(taggedToken, tokenMatcher));
+      assertTrue(String.format("%s not found in dictionary, tags: %s", entry, tagged), matches(taggedToken, tokenMatcher));
     }
   }
 

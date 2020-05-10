@@ -193,7 +193,7 @@ public class MorfologikUkrainianSpellerRuleTest {
     match = rule.match(langTool.getAnalyzedSentence("авіабегемот"));
     assertEquals(1, match.length);
 
-    assertTrue("Should be empty: " + match[0].getSuggestedReplacements().toString(), match[0].getSuggestedReplacements().isEmpty());
+    assertTrue("Should be empty: " + match[0].getSuggestedReplacements(), match[0].getSuggestedReplacements().isEmpty());
 
     match = rule.match(langTool.getAnalyzedSentence("вело-маршрут"));
     assertEquals(1, match.length);
@@ -208,7 +208,7 @@ public class MorfologikUkrainianSpellerRuleTest {
     match = rule.match(langTool.getAnalyzedSentence("вело-бегемот"));
     assertEquals(1, match.length);
 
-    assertTrue("Unexpected suggestions: " + match[0].getSuggestedReplacements().toString(), match[0].getSuggestedReplacements().isEmpty());
+    assertTrue("Unexpected suggestions: " + match[0].getSuggestedReplacements(), match[0].getSuggestedReplacements().isEmpty());
 
     match = rule.match(langTool.getAnalyzedSentence("радіо- та відеоспостереження"));
     assertEquals(0, match.length);

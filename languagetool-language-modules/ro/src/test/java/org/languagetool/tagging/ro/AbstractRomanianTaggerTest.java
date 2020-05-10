@@ -89,7 +89,7 @@ public abstract class AbstractRomanianTaggerTest {
     }
     assertTrue(String.format("Lemma and POS not found for word [%s]! "
             + "Expected [%s/%s]. Actual: %s", inflected, lemma, posTag,
-            allTags.toString()), found);
+            allTags), found);
   }
 
   public RomanianTagger getTagger() {

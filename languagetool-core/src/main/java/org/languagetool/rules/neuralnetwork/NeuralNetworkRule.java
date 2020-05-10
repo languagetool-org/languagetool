@@ -65,7 +65,7 @@ public class NeuralNetworkRule extends Rule {
       }
       classifier = tmpClassifier;
     } catch (FileNotFoundException e) {
-      throw new IOException("Weights for confusion set " + confusionSet.toString() + " are missing", e);
+      throw new IOException("Weights for confusion set " + confusionSet + " are missing", e);
     }
 
     this.id = createId(language);
