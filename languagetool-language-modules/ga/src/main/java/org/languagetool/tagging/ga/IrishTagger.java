@@ -102,7 +102,7 @@ public class IrishTagger extends BaseTagger {
   private List<TaggedWord> filterMorph(String in) {
     List<TaggedWord> tagged = new ArrayList<>();
     List<Retaggable> tocheck = Utils.morphWord(in);
-    if (tocheck.size() == 0) {
+    if (tocheck.isEmpty()) {
       return tagged;
     }
     for(Retaggable rt : tocheck) {

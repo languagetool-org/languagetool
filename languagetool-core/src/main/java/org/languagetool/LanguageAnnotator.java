@@ -201,7 +201,7 @@ public class LanguageAnnotator {
       this.langs = Objects.requireNonNull(langs);
     }
     boolean ambiguous() {
-      return langs.size() == 0 || langs.size() > 1;
+      return langs.size() != 1;
     }
     @Override
     public String toString() {
