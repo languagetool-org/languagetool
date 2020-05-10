@@ -1037,10 +1037,10 @@ public class AgreementRule extends Rule {
         return null;
       }
       List<String> replacements = new ArrayList<>();
-      if (lt.check(testPhrase).size() == 0 && nextToken.isTagged()) {
+      if (lt.check(testPhrase).isEmpty() && nextToken.isTagged()) {
         replacements.add(testPhrase);
       }
-      if (lt.check(hyphenTestPhrase).size() == 0 && nextToken.isTagged()) {
+      if (lt.check(hyphenTestPhrase).isEmpty() && nextToken.isTagged()) {
         replacements.add(hyphenTestPhrase);
       }
       if (replacements.size() > 0) {

@@ -76,7 +76,7 @@ public class NoSuggestionRuleList {
           continue;
         }
         List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
-        if (incorrectExamples.size() == 0) {
+        if (incorrectExamples.isEmpty()) {
           //System.err.println("Skipping " + rule.getId() + " (no example)");
           continue;
         }
@@ -84,7 +84,7 @@ public class NoSuggestionRuleList {
         lt.enableRule(rule.getId());
         List<RuleMatch> matches = lt.check(incorrectExample);
         for (RuleMatch match : matches) {
-          if (match.getSuggestedReplacements().size() == 0) {
+          if (match.getSuggestedReplacements().isEmpty()) {
             //if (rule instanceof AbstractPatternRule) {
             //  printRule(((AbstractPatternRule)rule).getFullId(), rule, incorrectExample, popularity);
             //} else {

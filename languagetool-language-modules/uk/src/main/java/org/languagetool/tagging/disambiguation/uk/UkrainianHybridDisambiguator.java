@@ -237,7 +237,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
       if( tokens[i].hasPartialPosTag(LAST_NAME_TAG) ) {
         lastName = tokens[i];
 
-        // split before next inital starts: "для Л.Кучма Л.Кравчук"
+        // split before next initial starts: "для Л.Кучма Л.Кравчук"
         if( initialsIdxs.size() > 0 ) {
           checkForInitialRetag(lastName, initialsIdxs, tokens);
           lastName = null;
