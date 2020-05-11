@@ -290,7 +290,7 @@ public class HunspellRule extends SpellingCheckRule {
       String token = sentenceTokens[i].getToken();
       if (sentenceTokens[i].isImmunized() || sentenceTokens[i].isIgnoredBySpeller() || isUrl(token) || isEMail(token) || isQuotedCompound(sentence, i, token)) {
         if (isQuotedCompound(sentence, i, token)) {
-          sb.append(" ").append(token.substring(1));
+          sb.append(' ').append(token.substring(1));
         }
         // replace URLs and immunized tokens with whitespace to ignore them for spell checking:
         else if (token.length() < 20) {

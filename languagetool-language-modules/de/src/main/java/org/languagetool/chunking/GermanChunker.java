@@ -420,7 +420,7 @@ public class GermanChunker implements Chunker {
     StringBuilder sb = new StringBuilder();
     for (ChunkTaggedToken token : tokens) {
       String tokenReadingStr = token.getReadings().toString().replaceFirst(Pattern.quote(token.getToken()) + "\\[", "[");
-      sb.append("  ").append(token).append(" -- ").append(tokenReadingStr).append("\n");
+      sb.append("  ").append(token).append(" -- ").append(tokenReadingStr).append('\n');
     }
     return sb.toString();
   }

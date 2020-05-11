@@ -1354,7 +1354,7 @@ public class Configuration {
         if(!configurableRuleValues.isEmpty()) {
           StringBuilder sbRV = new StringBuilder();
           for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
-            sbRV.append(entry.getKey()).append(":").append(Integer.toString(entry.getValue())).append(", ");
+            sbRV.append(entry.getKey()).append(':').append(entry.getValue()).append(", ");
           }
           props.setProperty(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());
         }
@@ -1379,7 +1379,7 @@ public class Configuration {
         if(!underlineTypes.isEmpty()) {
           StringBuilder sbUT = new StringBuilder();
           for (Map.Entry<String, Short> entry : underlineTypes.entrySet()) {
-            sbUT.append(entry.getKey()).append(":").append(Short.toString(entry.getValue())).append(", ");
+            sbUT.append(entry.getKey()).append(':').append(entry.getValue()).append(", ");
           }
           props.setProperty(prefix + UNDERLINE_TYPES_KEY, sbUT.toString());
         }

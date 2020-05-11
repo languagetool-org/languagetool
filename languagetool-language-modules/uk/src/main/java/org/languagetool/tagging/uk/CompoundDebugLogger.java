@@ -91,7 +91,7 @@ class CompoundDebugLogger {
             writer.append(";  ");
             prevLemma = "";
           }
-          writer.append(token).append(" ");
+          writer.append(token).append(' ');
           prevToken = token;
           firstTag = true;
         }
@@ -102,7 +102,7 @@ class CompoundDebugLogger {
           if( prevLemma.length() > 0 ) {
             writer.append(", ");
           }
-          writer.append(lemma); //.append(" ");
+          writer.append(lemma); //.append(' ');
           prevLemma = lemma;
           firstTag = true;
         }
