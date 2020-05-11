@@ -120,13 +120,13 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_2_SMALL_LETTERS_PATTERN = Pattern.compile("([^а-яіїєґ'-][векнпрстцч]{1,2})\\.([екмнпрстч]{1,2})\\.");
   private static final String ABBR_DOT_2_SMALL_LETTERS_REPL = "$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER;
   
-  private static final String ONE_DOT_TWO_REPL = "$1" + NON_BREAKING_DOT_SUBST + "$2";
+  private static final String ONE_DOT_TWO_REPL = "$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2";
 
   // скорочення що не можуть бути в кінці речення
-  private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])(абз|амер|англ|акад(ем)?|арк|ауд|бл(?:изьк)?|буд|в|вип|вірм|грец(?:ьк)"
+  private static final Pattern ABBR_DOT_NON_ENDING_PATTERN = Pattern.compile("(?<![а-яіїєґА-ЯІЇЄҐ'\u0301-])(абз|амер|англ|акад(ем)?|арк|ауд|бл(?:изьк)?|буд|в(?!\\.+)|вип|вірм|грец(?:ьк)"
       + "|держ|див|дод|дол|досл|доц|доп|екон|ел|жін|зав|заст|зах|зб|зв|зовн|ім|івр|ісп|іст|італ"
       + "|к|каб|каф|канд|кв|[1-9]-кімн|кімн|кл|кн|коеф|мал|моб|н|напр|нац|оп|оф|п|пен|перекл|перен|пл|пол|пов|пор|поч|пп|прибл|пров|пром|просп"
-      + "|[Рр]ед|[Рр]еж|розд|рт|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|[тТ]ел|техн|укр|філол|фр|франц|ч|чайн|част|ц|яп)\\.(?!\\.* *$)");
+      + "|[Рр]ед|[Рр]еж|розд|рт|с|[Сс]вв?|скор|соц|співавт|ст|стор|сх|табл|[тТ]ел|техн|укр|філол|фр|франц|ч|чайн|част|ц|яп)\\.(?!\\.+\\s*$)");
   private static final Pattern ABBR_DOT_NON_ENDING_PATTERN_2 = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'-]м)\\.([\\s\u00A0\u202F]*[А-ЯІЇЄҐ])");
   // скорочення що можуть бути в кінці речення
   private static final Pattern ABBR_DOT_ENDING_PATTERN = Pattern.compile("([^а-яіїєґА-ЯІЇЄҐ'\u0301-]((та|й|і) ін|(та|й|і) под|інш|атм|відс|гр|е|коп|обл|р|рр|руб|ст|стол|стор|чол|шт))\\.");
@@ -152,6 +152,9 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern URL_PATTERN = Pattern.compile("((https?|ftp)://|www\\.)[^\\s/$.?#),]+\\.[^\\s),\">]*|(mailto:)?[\\p{L}\\d._-]+@[\\p{L}\\d_-]+(\\.[\\p{L}\\d_-]+)+", Pattern.CASE_INSENSITIVE);
   private static final int URL_START_REPLACE_CHAR = 0xE300;
 
+  private static final Pattern LEADING_DASH_PATTERN = Pattern.compile("^([\u2014\u2013])([а-яіїєґА-ЯІЇЄҐA-Z])");
+  private static final Pattern LEADING_DASH_PATTERN_2 = Pattern.compile("^(-)([А-ЯІЇЄҐA-Z])");
+
 
   public UkrainianWordTokenizer() {
   }
@@ -160,8 +163,63 @@ public class UkrainianWordTokenizer implements Tokenizer {
   public List<String> tokenize(String text) {
     HashMap<String, String> urls = new HashMap<>();
 
+    if( ! text.trim().isEmpty() ) {
+      text = adjustTextForTokenizing(text, urls);
+    }
+
+    List<String> tokenList = new ArrayList<>();
+
+    List<String> tokens = splitWithDelimiters(text, SPLIT_CHARS_REGEX);
+
+    for(String token: tokens) {
+
+      if( token.equals(BREAKING_PLACEHOLDER) )
+        continue;
+
+      token = token.replace(DECIMAL_COMMA_SUBST, ',');
+
+      token = token.replace(NON_BREAKING_SLASH_SUBST, '/');
+      token = token.replace(NON_BREAKING_COLON_SUBST, ':');
+      token = token.replace(NON_BREAKING_SPACE_SUBST, ' ');
+
+      token = token.replace(LEFT_BRACE_SUBST, '(');
+      token = token.replace(RIGHT_BRACE_SUBST, ')');
+
+      // outside of if as we also replace back sentence-ending abbreviations
+      token = token.replace(NON_BREAKING_DOT_SUBST, '.');
+
+      token = token.replace(SOFT_HYPHEN_WRAP_SUBST, SOFT_HYPHEN_WRAP);
+
+      token = token.replace(NON_BREAKING_PLACEHOLDER, "");
+
+      if( ! urls.isEmpty() ) {
+        for(Entry<String, String> entry : urls.entrySet()) {
+          token = token.replace(entry.getKey(), entry.getValue());
+        }
+      }
+
+      tokenList.add( token );
+    }
+
+    return tokenList;
+  }
+
+  private String adjustTextForTokenizing(String text, HashMap<String, String> urls) {
     text = cleanup(text);
 
+    if( "\u2014\u2013-".indexOf(text.charAt(0)) >=0 ) {
+      Matcher matcher = LEADING_DASH_PATTERN.matcher(text);
+      if( matcher.find() ) {
+        text = matcher.replaceFirst("$1"+BREAKING_PLACEHOLDER+"$2");
+      }
+      else {
+        matcher = LEADING_DASH_PATTERN_2.matcher(text);
+        if( matcher.find() ) {
+          text = matcher.replaceFirst("$1"+BREAKING_PLACEHOLDER+"$2");
+        }
+      }
+    }
+    
     if( text.contains(",") ) {
       text = DECIMAL_COMMA_PATTERN.matcher(text).replaceAll(DECIMAL_COMMA_REPL);
     }
@@ -283,43 +341,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = APOSTROPHE_BEGIN_PATTERN.matcher(text).replaceAll("$1'" + BREAKING_PLACEHOLDER + "$2");
       text = APOSTROPHE_END_PATTER.matcher(text).replaceAll("$1" + BREAKING_PLACEHOLDER + "'$2");
     }
-
-
-    List<String> tokenList = new ArrayList<>();
-
-    List<String> tokens = splitWithDelimiters(text, SPLIT_CHARS_REGEX);
-
-    for(String token: tokens) {
-
-      if( token.equals(BREAKING_PLACEHOLDER) )
-        continue;
-
-      token = token.replace(DECIMAL_COMMA_SUBST, ',');
-
-      token = token.replace(NON_BREAKING_SLASH_SUBST, '/');
-      token = token.replace(NON_BREAKING_COLON_SUBST, ':');
-      token = token.replace(NON_BREAKING_SPACE_SUBST, ' ');
-
-      token = token.replace(LEFT_BRACE_SUBST, '(');
-      token = token.replace(RIGHT_BRACE_SUBST, ')');
-
-      // outside of if as we also replace back sentence-ending abbreviations
-      token = token.replace(NON_BREAKING_DOT_SUBST, '.');
-
-      token = token.replace(SOFT_HYPHEN_WRAP_SUBST, SOFT_HYPHEN_WRAP);
-
-      token = token.replace(NON_BREAKING_PLACEHOLDER, "");
-
-      if( ! urls.isEmpty() ) {
-        for(Entry<String, String> entry : urls.entrySet()) {
-          token = token.replace(entry.getKey(), entry.getValue());
-        }
-      }
-
-      tokenList.add( token );
-    }
-
-    return tokenList;
+    return text;
   }
 
   private static String cleanup(String text) {

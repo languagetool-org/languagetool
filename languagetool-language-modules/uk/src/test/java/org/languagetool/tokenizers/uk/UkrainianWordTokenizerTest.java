@@ -293,6 +293,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("100 м. дороги.");
     assertEquals(Arrays.asList("100", " ", "м", ".", " ", "дороги", "."), testList);
 
+    testList = w.tokenize("в м.Київ");
+    assertEquals(Arrays.asList("в", " ", "м.", "Київ"), testList);
+
     testList = w.tokenize("На висоті 4000 м...");
     assertEquals(Arrays.asList("На", " ", "висоті", " ", "4000", " ", "м", "..."), testList);
 
@@ -368,6 +371,9 @@ public class UkrainianWordTokenizerTest {
     testList = w.tokenize("ні могили 6в. ");
     assertEquals(Arrays.asList("ні", " ", "могили", " ", "6в", ".", " "), testList);
 
+    testList = w.tokenize("в... одягненому");
+    assertEquals(Arrays.asList("в", "...", " ", "одягненому"), testList);
+    
     // not too frequent
 //    testList = w.tokenize("30.04.10р.");
 //    assertEquals(Arrays.asList("30.04.10", "р."), testList);
@@ -420,5 +426,12 @@ public class UkrainianWordTokenizerTest {
 
     testList = w.tokenize("вересні--жовтні");
     assertEquals(Arrays.asList("вересні","--","жовтні"), testList);
+
+    testList = w.tokenize("—У певному");
+    assertEquals(Arrays.asList("—", "У", " ", "певному"), testList);
+
+    testList = w.tokenize("-У певному");
+    assertEquals(Arrays.asList("-", "У", " ", "певному"), testList);
+    
   }
 }

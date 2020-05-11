@@ -5332,6 +5332,10 @@
 <afterbreak>\p{Lu}</afterbreak>
 </rule>
 <rule break="no">
+<beforebreak>(в|у|на|за|з|із|зі|зо)(\.\.\.|…)[ \t\u00A0\u202F]*</beforebreak>
+<afterbreak>\p{Lu}</afterbreak>
+</rule>
+<rule break="no">
 <beforebreak>[.!?…][ \t\u00A0\u202F]+</beforebreak>
 <afterbreak>[ \t\u00A0\u202F]*[«"„“]\p{Ll}</afterbreak>
 </rule>
@@ -5454,8 +5458,9 @@
 <afterbreak></afterbreak>
 </rule>
 <!-- місто, але принаймні з парою літер в назві бо є ще метри (м) -->
+<!-- TODO: «всього 20 м. Почалося»  варто розбити -->
 <rule break="no">
-<beforebreak>\bм\.[\s\u00A0\u202F]</beforebreak>
+<beforebreak>\bм\.[\s\u00A0\u202F]*</beforebreak>
 <afterbreak>[А-ЯІЇЄҐ][а-яіїєґ]</afterbreak>
 </rule>
 <!-- село/сторінка/місто, але щоб не збігалося з секундами/метрами -->
