@@ -34051,15 +34051,29 @@ USA
                     <token>up</token>
                     <token>lights</token>
                 </antipattern>
+                <antipattern><!-- #2897 very few left [=very few that are left] -->
+                    <token chunk="E-NP-singular">few</token>
+                    <token chunk="B-VP" postag="VBN"/>
+                </antipattern>
+                <antipattern><!-- #2897 a few of / a computer of / a couple in. In "a X", the suggestion "a Xs" is always incorrect. -->
+                    <token regexp="yes">an?</token>
+                    <token chunk="E-NP-singular"/>
+                </antipattern>
+                <antipattern><!-- #2897 a few letter sounds we -->
+                    <token>a</token>
+                    <token chunk="I-NP-singular">few</token>
+                    <token postag_regexp="yes" postag="JJ|NN"/>
+                    <token postag="NNS"/><!-- sounds/B-VP -->
+                    <token regexp="yes">&subject_pronouns;</token>
+                </antipattern>
                 <pattern>
                     <token>there</token>
                     <token>are</token>
                     <token chunk="B-NP-singular" min="0" max="1"/>
-                    <token chunk="I-NP-singular" min="0" max="-1"/>
+                    <token chunk="I-NP-singular" min="0" max="1"/>
                     <marker>
                         <token chunk="E-NP-singular" postag_regexp="yes" postag="NNP?">
                             <exception postag_regexp="yes" postag="CD|NN(PS|:UN?)"/>
-                            <exception regexp="yes">variety|number|couple|pair|boatload|litany|lot</exception><!-- there are a number of -->
                         </token>
                     </marker>
                 </pattern>
@@ -34068,6 +34082,10 @@ USA
                 <example correction="problems">There are many <marker>problem</marker> in Iraq.</example>
                 <example correction="problems">There are a lot <marker>problem</marker> in Iraq but it is not a terrible situation.</example>
                 <example correction="glows">There are <marker>glow</marker> under lights; the reflections on the water are beautiful.</example><!-- #2597 Missing article before 'lights', but that is a different problem. -->
+                <example correction="defects">There are few <marker>defect</marker> with this test.</example>
+                <example correction="computers">There are a few <marker>computer</marker> to test.</example>
+                <example correction="groups">There are many <marker>group</marker> that we can use.</example>
+                <example correction="couples">There are <marker>couple</marker> in the corner.</example>
                 <example>There are many <marker>problems</marker> in Iraq.</example>
                 <example>Other than this, there are no known surviving texts.</example>
                 <example>There are many other deliberately insulting terms.</example>
@@ -34084,6 +34102,12 @@ USA
                 <example>There are many small to middle wounds.</example><!-- #2597 -->
                 <example>There are glow up lights.</example><!-- #2597 -->
                 <example>Among the most noted interpreters, there are Bahdja Rahal, Cheikh El Hadj Mohamed El Ghafour...</example><!-- #2787 -->
+                <example>There are very few left by what I understand.</example><!-- #2897 -->
+                <example>There are only a few of them.</example><!-- #2897 -->
+                <example>There are Christmas, Easter and Mother's Day.</example><!-- #2897 -->
+                <example>There are a few letter sounds we can use.</example><!-- #2897 -->
+                <example>There are a group of people.</example><!-- #2897 -->
+                <example>There are a computer of mine that needs repairing.</example><!-- #2897. Found by Premium. -->
             </rule>
         </rulegroup>
 
