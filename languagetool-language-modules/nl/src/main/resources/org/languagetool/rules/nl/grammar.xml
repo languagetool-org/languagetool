@@ -18600,7 +18600,19 @@ steenwijk;Steenwijk
 					<token>wikken</token>
 				</pattern>
 				<message>Verwacht wordt: 'wikken en wegen'. Is dit een typfout?</message>
-				<example type="incorrect">Ik loop doro de <marker>wikken</marker> heen.</example>
+				<example type="incorrect">Ik loop door de <marker>wikken</marker> heen.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="LUIST" name="luist/juist/luidt" >
+			<rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">erin|aap</token></antipattern>
+				<antipattern><token>het</token><token>luist</token></antipattern>
+				<pattern>
+					<token>luist</token>
+				</pattern>
+				<message>Je kunt het luist zijn, of iemand erin luizen, maar hier lijkt een typefout te staan van bijvoorbeeld <suggestion>luidt</suggestion> of <suggestion>luistert</suggestion>.</message>
+				<example correction="luidt|luistert">Hij <marker>luist</marker> naar muziek.</example>
 			</rule>
 		</rulegroup>
 
