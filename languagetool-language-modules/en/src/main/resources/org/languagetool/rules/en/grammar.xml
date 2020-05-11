@@ -35814,6 +35814,30 @@ USA
                     </token>
                 <token postag="SENT_END"/>
             </antipattern>
+            <antipattern><!--  #2828 depending on how much firms know www.lexico.com/definition/depending_on-->
+                <token>depending</token>
+                <token>on</token>
+                <token>how</token>
+                <token>much</token>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token min="0" max="1" postag="RB"/>
+                <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
+            </antipattern>
+            <antipattern><!--  #2828 depending on (a) ... (b) how much firms know -->
+                <token>depending</token>
+                <token>on</token>
+                <token>(</token>
+                <token regexp="yes">a|1</token>
+                <token skip="-1">)</token>
+                <token>(</token>
+                <token regexp="yes">[b-z]|[2-9]</token>
+                <token>)</token>
+                <token>how</token>
+                <token>much</token>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token min="0" max="1" postag="RB"/>
+                <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>much</token>
@@ -35831,6 +35855,7 @@ USA
             <example correction="many">In this test, see how <marker>much</marker> muffins usually break.</example><!-- #2541 -->
             <example correction="many">How <marker>much</marker> cats love milk?</example><!-- #2541 -->
             <example correction="many">... although you know how <marker>much</marker> does are in grazing the forest.</example><!-- #2541 -->
+            <example correction="many">It varies depending on how <marker>much</marker> computers you want to test.</example><!--  #2828 -->
             <example>How much does it cost?</example>
             <example>We kindly ask you to provide as much data as possible.</example><!-- #1822 -->
             <example>...about people receiving an income according to how much others subjectively value their labor or what...</example>
@@ -35841,6 +35866,9 @@ USA
             <example>Everyone can understand how much humans love themselves.</example><!-- #2541 -->
             <example>Everyone can see how much cats love themselves.</example><!-- #2541 -->
             <example>Everyone can understand how much humans love beer.</example><!-- #2541 Possibly an error. -->
+            <example>... depending on how much firms actually know about the law.</example><!--  #2828 -->
+            <example>Consumers get good or bad deals from sellers depending on how much firms know about consumer preferences.</example><!--  #2828 -->
+            <example>Consumers get good or bad deals from sellers depending on (a) how much they know about the offerings of different firms and, conversely, (b) how much firms know about consumer preferences.</example><!--  #2828 -->
             <example type="triggers_error">Whether measured as how much citizens worry about climate change or whether climate change poses a threat to them or their way of life.</example><!-- #2541 Possibly correct. -->
         </rule>
 
