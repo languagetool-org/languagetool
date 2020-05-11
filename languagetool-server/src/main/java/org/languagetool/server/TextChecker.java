@@ -154,7 +154,7 @@ abstract class TextChecker {
       for (JLanguageTool.Mode mode : addonModes) {
         QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,
           Collections.emptyList(), Collections.emptyList(), false, true,
-          false, false, mode, null);
+          false, false, false, mode, null);
         PipelinePool.PipelineSettings settings = new PipelinePool.PipelineSettings(language, null, params, config.globalConfig, user);
         prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);
 
@@ -314,15 +314,16 @@ abstract class TextChecker {
       throw new IllegalArgumentException("You must specify enabled rules or categories when using enabledOnly=true");
     }
 
+    boolean enableTempOffRules = "true".equals(parameters.get("enableTempOffRules"));
     boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0 ||
-            enabledCategories.size() > 0 || disabledCategories.size() > 0;
+            enabledCategories.size() > 0 || disabledCategories.size() > 0 || enableTempOffRules;
     boolean allowIncompleteResults = "true".equals(parameters.get("allowIncompleteResults"));
     boolean enableHiddenRules = "true".equals(parameters.get("enableHiddenRules"));
     JLanguageTool.Mode mode = ServerTools.getMode(parameters);
     String callback = parameters.get("callback");
     QueryParams params = new QueryParams(altLanguages, enabledRules, disabledRules,
       enabledCategories, disabledCategories, useEnabledOnly,
-      useQuerySettings, allowIncompleteResults, enableHiddenRules, mode, callback);
+      useQuerySettings, allowIncompleteResults, enableHiddenRules, enableTempOffRules, mode, callback);
 
     int textSize = aText.getPlainText().length();
 
@@ -684,11 +685,12 @@ abstract class TextChecker {
     final boolean useQuerySettings;
     final boolean allowIncompleteResults;
     final boolean enableHiddenRules;
+    final boolean enableTempOffRules;
     final JLanguageTool.Mode mode;
     final String callback;
 
     QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
-                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, JLanguageTool.Mode mode, @Nullable String callback) {
+                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean enableTempOffRules, JLanguageTool.Mode mode, @Nullable String callback) {
       this.altLanguages = Objects.requireNonNull(altLanguages);
       this.enabledRules = enabledRules;
       this.disabledRules = disabledRules;
@@ -698,6 +700,7 @@ abstract class TextChecker {
       this.useQuerySettings = useQuerySettings;
       this.allowIncompleteResults = allowIncompleteResults;
       this.enableHiddenRules = enableHiddenRules;
+      this.enableTempOffRules = enableTempOffRules;
       this.mode = Objects.requireNonNull(mode);
       if (callback != null && !callback.matches("[a-zA-Z]+")) {
         throw new IllegalArgumentException("'callback' value must match [a-zA-Z]+: '" + callback + "'");
@@ -717,6 +720,7 @@ abstract class TextChecker {
         .append(useQuerySettings)
         .append(allowIncompleteResults)
         .append(enableHiddenRules)
+        .append(enableTempOffRules)
         .append(mode)
         .append(callback)
         .toHashCode();
@@ -739,6 +743,7 @@ abstract class TextChecker {
         .append(useQuerySettings, other.useQuerySettings)
         .append(allowIncompleteResults, other.allowIncompleteResults)
         .append(enableHiddenRules, other.enableHiddenRules)
+        .append(enableTempOffRules, other.enableTempOffRules)
         .append(mode, other.mode)
         .append(callback, other.callback)
         .isEquals();
@@ -756,6 +761,7 @@ abstract class TextChecker {
         .append("useQuerySettings", useQuerySettings)
         .append("allowIncompleteResults", allowIncompleteResults)
         .append("enableHiddenRules", enableHiddenRules)
+        .append("enableTempOffRules", enableTempOffRules)
         .append("mode", mode)
         .append("callback", mode)
         .build();
