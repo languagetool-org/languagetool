@@ -29098,13 +29098,13 @@ USA
             <pattern>
                 <marker>
                     <token postag='JJS?' postag_regexp='yes'>
-                      <exception regexp='yes'>more|less|rather|other(?:wise)?|different|inferior|superior|back|meaning</exception>
+                      <exception regexp='yes'>more|less|rather|other(?:wise)?|different|inferior|superior|back|meaning|else</exception>
                       <exception postag='JJR|IN' postag_regexp='yes'/>
                     </token>
                     <token>than</token>
                 </marker>
             </pattern>
-            <message>Use <suggestion suppress_misspelled="yes"><match no='1' postag='JJ.?' postag_regexp='yes' postag_replace='JJR'/> \2</suggestion> to make a comparison with this adjective.</message>
+            <message suppress_misspelled="yes">Use <suggestion><match no='1' postag='JJ.?' postag_regexp='yes' postag_replace='JJR'/> \2</suggestion> to make a comparison with this adjective.</message>
             <example correction="iller than|worse than">That's <marker>worst than</marker> before!</example>
             <example correction="more than">Tom has been <marker>most than</marker> generous. </example>
             <example correction="greater than"> I want to do a routine, if sensor <marker>great than</marker> x° do something.</example>
@@ -29117,6 +29117,7 @@ USA
             <example>All animals are equal, but some animals are more equal than others</example>
             <example>I would rather go out than stay at home.</example>
             <example>I prefer to be crazy than sad.</example>
+            <example>They do better together than apart.</example>
             <example>I may as well go out than stay at home.</example>
             <example>While no nation other than the Russian Federation (and previously the f...</example>
             <example>No sooner had I gone out than it began to rain.</example>
@@ -33517,6 +33518,21 @@ USA
             <example correction="whether or not">It's not certain whether communication with the site's customer service has led it to be clear <marker>if or not</marker> this is true.</example>
         </rule>
         <rule id="KIND_OF_A" name="'kind/type/sort of a/an'">
+            <antipattern>
+                <token postag="VB.*|SENT_START" postag_regexp="yes" />
+                <token postag="RB" min="0" />
+                <token regexp="yes">kind|sort</token>
+                <token>of</token>
+                <token regexp="yes">an?</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token>hurry</token>
+            </antipattern>
+            <antipattern>
+                <token>device</token>
+                <token>type</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">kind|sort|type</token>
                 <token>of</token>
@@ -33525,9 +33541,10 @@ USA
             <message>If '\1' is a classification term, '\3' is not necessary. Use <suggestion>\1 \2</suggestion>. (The phrases 'kind of' and 'sort of' are informal if they mean 'to some extent'.)</message>
             <short>Grammatical problem: possible unnecessary 'a/an'</short>
             <example correction="kind of">What <marker>kind of a</marker> man is Bush?</example>
+            <example correction="kind of">Do you have any <marker>kind of an</marker> alibi?</example>
             <example>What <marker>kind of</marker> man is Bush?</example>
-            <example type="triggers_error">It became <marker>kind of</marker> a last minute decision.</example><!-- https://www.lexico.com/definition/kind_of  -->
-            <example type="triggers_error">I was <marker>sort of</marker> a mascot; I would get them coffee or tea ...</example><!-- https://www.lexico.com/definition/sort_of -->
+            <example>It became <marker>kind of</marker> a last minute decision.</example><!-- https://www.lexico.com/definition/kind_of  -->
+            <example>I was <marker>sort of</marker> a mascot; I would get them coffee or tea ...</example><!-- https://www.lexico.com/definition/sort_of -->
         </rule>
         <rule id="BECAUSE_OF_I" name="because of we (because we)">
             <pattern>
@@ -45265,6 +45282,51 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rulegroup id="LES_LESS" name="les vs. less" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" skip="2">les</token>
+                    </marker>
+                    <token>than</token>
+                </pattern>
+                <message>Did you mean <suggestion>less</suggestion> instead of the French article "les"?</message>
+                <example correction="less">It is <marker>les</marker> than what I expected.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
+                    <token>les</token>
+                </antipattern>
+                <antipattern>
+                    <token>les</token>
+                    <token postag="UNKNOWN" regexp="yes">.*[a-z].*</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">pour|chez|dans</token>
+                    <token>les</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">\p{P}</token>
+                    <token>les</token>
+                    <token regexp="yes">\p{P}</token>
+                </antipattern>
+                <antipattern>
+                    <token>les</token>
+                    <token regexp="yes">amis|grands|mis.rables|trois|objets|mots|mains</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="1">["”]</token>
+                    <token skip="1">les</token>
+                    <token regexp="yes">["”]</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes">les</token>
+                </pattern>
+                <message>Did you mean <suggestion>less</suggestion> instead of the French article "les"?</message>
+                <example correction="less">It is <marker>les</marker> than what I expected.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="WURST_WORST" name="wurst vs worst">
             <rule>
                 <pattern>
