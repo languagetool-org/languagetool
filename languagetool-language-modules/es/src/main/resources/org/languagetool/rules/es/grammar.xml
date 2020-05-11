@@ -1202,7 +1202,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="VMM.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token>ahora</token>
+                <token regexp="yes">ahora|[,¡\("'«‘“]</token>
+                <token postag="VMM.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token>en</token>
+                <token>caso</token>
+                <token>de</token>
+                <token/>
                 <token postag="VMM.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -1327,23 +1334,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Oh, disculpe.</example>
             <example>Tal vez algún día logre amarla de verdad.</example>
 
-            <!-- <example>a la luz del sol (use en un entorno donde las temperaturas varíen</example>
+            <example>a la luz del sol (use en un entorno donde las temperaturas varíen</example>
             <example>En caso de incendio, use las escaleras.</example>
-            ¡Le suplico, llame a un doctor! 
-                    En adelante, trate de llegar a tiempo a la oficina.
-                    En caso de peligro, presione este botón.
-                    Estoy tratando de leer, ¡apague el televisor!
-                    Un momento, espere un minuto.
-                    <example>Antes de ingerirla, cocine bien la carne.</example>
-                <example>En caso de emergencia, llame al 119.</example>
-                <example>En caso de emergencia, marque 119.</example>
-                <example>Después del semáforo, gire a la derecha.</example>
-                <example>Por favor, en caso de emergencia presione este botón al instante. </example>
-                <example>Antes de salir de casa, consulte el servicio meteorológico.</example>
-                <example>Deberías escribir "maneje con cuidado" en el paquete</example>-->
+            <example>¡Le suplico, llame a un doctor!</example>
+            <example>En adelante, trate de llegar a tiempo a la oficina.</example>
+            <example>En caso de peligro, presione este botón.</example>
+            <example>Estoy tratando de leer, ¡apague el televisor!</example>
+            <example>Un momento, espere un minuto.</example>
+            <example>Antes de ingerirla, cocine bien la carne.</example>
+            <example>En caso de emergencia, llame al 119.</example>
+            <example>En caso de emergencia, marque 119.</example>
+            <example>Después del semáforo, gire a la derecha.</example>
+            <example>Por favor, en caso de emergencia presione este botón al instante.</example>
+            <example>Antes de salir de casa, consulte el servicio meteorológico.</example>
+            <example>Deberías escribir "maneje con cuidado" en el paquete</example>
             <!--<example>Cada uno exprese su opinión.</example>
-                ambigous:
-                ¡Sí! ¡Gane dos veces seguidas! -->
+                ambigous: ¡Sí! ¡Gane dos veces seguidas! -->
         </rule>
         <rulegroup id="SUBJUNTIVO_PASADO2" name="analice/analicé ayer" default="temp_off">
             <antipattern>
