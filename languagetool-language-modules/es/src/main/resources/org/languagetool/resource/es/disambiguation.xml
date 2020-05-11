@@ -893,7 +893,7 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
         </rule>
     </rulegroup>
-    
+
     <rule id="dance" name="dance (english)">
         <pattern>
             <token regexp="yes" inflected="yes">música|canción|ritmo|baile|lista|estilo|carácter</token>
@@ -902,7 +902,9 @@ Copyright (C) 2011 Juan Martorell
                 <token>dance</token>
             </marker>
         </pattern>
-        <disambig action="replace"><wd pos="AQ0CN0"/></disambig>
+        <disambig action="replace">
+            <wd pos="AQ0CN0"/>
+        </disambig>
     </rule>
 
     <rule id="apenas" name="apenas (adv)">
@@ -1728,7 +1730,7 @@ Copyright (C) 2011 Juan Martorell
     <!-- Verbs, tenses, persona -->
     <rule id="yo_cante" name="yo cante (1p sg)">
         <pattern>
-            <token>yo</token>
+            <token>yo<exception scope="previous" postag="V.M..1S." postag_regexp="yes"/></token>
             <marker>
                 <token postag="VMSP1S0"/>
             </marker>
