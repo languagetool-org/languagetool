@@ -55,6 +55,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("Na"),
       token("na")
     ),
+    Arrays.asList( // La La Land / la la la ...
+      token("la"),
+      token("la")
+    ),
     Arrays.asList( // "Bei Fragen fragen"
       csToken("Fragen"),
       csToken("fragen")
