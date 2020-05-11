@@ -225,9 +225,13 @@ class CompoundTagger {
 
       for (AnalyzedToken analyzedToken : leftAnalyzedTokens) {
         String posTag = analyzedToken.getPOSTag();
-        if( posTag != null &&
-            (leftWord.equals("дуже") && posTag.contains("adv")) 
+        if (leftWord.equalsIgnoreCase("як") && posTag != null && posTag.contains("noun") )
+          continue;
+          
+        if( posTag != null
+            && (leftWord.equals("дуже") && posTag.contains("adv")) 
              || (leftTagRegex.matcher(posTag).matches()) ) {
+          
           newAnalyzedTokens.add(new AnalyzedToken(word, posTag, analyzedToken.getLemma()));
         }
       }
@@ -245,7 +249,7 @@ class CompoundTagger {
     // Пенсильванія-авеню
 
     if( Character.isUpperCase(leftWord.charAt(0)) && LemmaHelper.CITY_AVENU.contains(rightWord) ) {
-      String addPos = rightWord.equals("штрассе") ? ":bad" : "";
+      String addPos = rightWord.equals("штрассе") ? ":alt" : "";
       return PosTagHelper.generateTokensForNv(word, "f", ":prop" + addPos);
     }
 
@@ -468,7 +472,6 @@ class CompoundTagger {
 
     String[] parts = lowerWord.split("-");
     LinkedHashSet<String> set = new LinkedHashSet<>(Arrays.asList(parts));
-
     // try intj
     String leftWd = parts[0];
     if( set.size() == 2 ) {
@@ -513,7 +516,6 @@ class CompoundTagger {
       }
     }
 
-    
     return null;
   }
 
@@ -985,11 +987,22 @@ class CompoundTagger {
 //          	if( leftAnalyzedToken.getToken().equalsIgnoreCase(rightAnalyzedToken.getToken()) )
 //          		continue;
 
-            String leftGenderConj = PosTagHelper.getGenderConj(leftPosTag);
-            if( leftGenderConj != null && leftGenderConj.equals(PosTagHelper.getGenderConj(rightPosTag)) ) {
-              newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
-            }
+          String leftGenderConj = PosTagHelper.getGenderConj(leftPosTag);
+          if( leftGenderConj != null && leftGenderConj.equals(PosTagHelper.getGenderConj(rightPosTag)) ) {
+            newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightAnalyzedToken.getLemma()));
+          }
   //        }
+        }
+        // чарка-друга
+        else if( leftPosTag.startsWith(IPOSTag.noun.getText()) 
+                && rightAnalyzedToken.getLemma().equals("другий")
+                ) {
+          String leftGenderConj = PosTagHelper.getGenderConj(leftPosTag);
+          if( leftGenderConj != null && leftGenderConj.equals(PosTagHelper.getGenderConj(rightPosTag)) ) {
+            String rightLemma = leftGenderConj.startsWith("m") ? "другий" :
+              leftGenderConj.startsWith("f") ? "друга" : "друге";
+            newAnalyzedTokens.add(new AnalyzedToken(word, leftPosTag + extraNvTag + leftPosTagExtra, leftAnalyzedToken.getLemma() + "-" + rightLemma));
+          }
         }
       }
     }
@@ -1357,7 +1370,7 @@ class CompoundTagger {
 
       if (word.endsWith("штрассе")
           || word.endsWith("штрасе")) {
-        String addPos = word.endsWith("штрассе") ? ":bad" : "";
+        String addPos = word.endsWith("штрассе") ? ":alt" : "";
         return PosTagHelper.generateTokensForNv(word, "f", ":prop" + addPos);
       }
 
