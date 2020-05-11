@@ -177,8 +177,7 @@ public class BaseSynthesizer implements Synthesizer {
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
     if (posTag.equals(SPELLNUMBER_TAG)) {
-      String[] strArray = new String[] {getSpelledNumber(token.getToken())};
-      return strArray;
+      return new String[] {getSpelledNumber(token.getToken())};
     }
     List<String> wordForms = new ArrayList<>();
     lookup(token.getLemma(), posTag, wordForms);
