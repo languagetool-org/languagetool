@@ -185,6 +185,8 @@ public class AdverbFilter extends RuleFilter {
     put("originally", "original");
     put("alarmingly", "alarming");
     put("newly", "new");
+    put("wrongfully", "wrongful");
+    put("structurally", "structural");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
