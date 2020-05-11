@@ -5760,51 +5760,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <marker>
-                        <token>hi</token>
-                        <token postag="V.[^N].*|SPS00" min="1" max="2" postag_regexp="yes"/>
-                        <token>haver</token>
-                    </marker>
+                    <token>hi</token>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                    <token>haver</token>
                 </antipattern>
                 <antipattern>
-                    <marker>
-                        <token>haver</token>
-                        <token postag="&pronom_feble;|RG" postag_regexp="yes" min="0" max="2"/>
-                        <token postag="V.P.*" postag_regexp="yes"/>
-                    </marker>
+                    <token>hi</token>
+                    <token postag="V.[SI].*" postag_regexp="yes" inflected="yes" regexp="yes">haver|deure</token>
+                    <token min="0">hagut</token>
+                    <token inflected="yes">de</token>
+                    <token>haver</token>
                 </antipattern>
                 <antipattern>
-                    <marker>
-                        <token>haver</token>
-                        <token spacebefore="no" min="0">-n</token>
-                        <token spacebefore="no" inflected="yes">hi</token>
-                    </marker>
+                    <token>haver</token>
+                    <token postag="&pronom_feble;|RG" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V.P.*" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
-                    <marker>
-                        <token regexp="yes">haugt|haguda|haguts|hagudes</token>
-                        <token>i</token>
-                        <token>per</token>
-                        <token>haver</token>
-                    </marker>
+                    <token>haver</token>
+                    <token spacebefore="no" min="0">-n</token>
+                    <token spacebefore="no" inflected="yes">hi</token>
                 </antipattern>
                 <antipattern>
-                    <marker>
-                        <token>haver</token>
-                        <token>-se</token>
-                        <token>-les</token>
-                        <token>amb</token>
-                    </marker>
+                    <token regexp="yes">haugt|haguda|haguts|hagudes</token>
+                    <token>i</token>
+                    <token>per</token>
+                    <token>haver</token>
                 </antipattern>
                 <antipattern>
-                    <marker>
-                        <token regexp="yes">se|te|me|us|vos|ens</token>
-                        <token>les</token>
-                        <token inflected="yes">haver</token>
-                        <token>d'</token>
-                        <token>haver</token>
-                        <token>amb</token>
-                    </marker>
+                    <token>haver</token>
+                    <token>-se</token>
+                    <token>-les</token>
+                    <token>amb</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">se|te|me|us|vos|ens</token>
+                    <token>les</token>
+                    <token inflected="yes">haver</token>
+                    <token>d'</token>
+                    <token>haver</token>
+                    <token>amb</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -5820,6 +5815,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Va haver-hi mala sort.</example>
                 <example>Hi ha d'haver un espai.</example>
                 <example>Hi pot haver material.</example>
+                <example>N'hi va haver.</example>
+                <example>N'hi devia haver.</example>
+                <example>Hi ha d'haver material.</example>
+                <example>N'hi hauria d'haver.</example>
+                <example>N'hi devia d'haver.</example>
+                <!-- té un altre error-->
+                <example>N'hi hauria hagut d'haver.</example>
                 <example>Ho hauries d'haver fet.</example>
                 <example>Hauria d'haver-se anomenat així.</example>
                 <example>En el cas d'haver-n'hi més d'un.</example>
