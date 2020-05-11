@@ -155,12 +155,14 @@ public class Spanish extends Language implements AutoCloseable{
       case "CONFUSIONS": return 40;
       case "NO_SEPARADO": return 40;
       case "DIACRITICS": return 30;
-      case "ACCENTUATION_CHECK_ES": return 30;
       case "AGREEMENT_DET_NOUN": return 20;
       case "TYPOGRAPHY": return 10;
       case "HALLA_HAYA": return 10;
       case "EL_TILDE": return -10;
       case "PREPOSICION_VERBO": return -20;
+      case "SUBJUNTIVO_FUTURO": return -30;
+      case "SUBJUNTIVO_PASADO": return -30;
+      case "SUBJUNTIVO_PASADO2": return -30;
     }
     return super.getPriorityForId(id);
   }

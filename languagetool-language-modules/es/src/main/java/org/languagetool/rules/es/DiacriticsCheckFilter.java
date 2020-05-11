@@ -48,7 +48,8 @@ public class DiacriticsCheckFilter extends RuleFilter {
     if (gendernumber_from != null) {
       int i = Integer.parseInt(gendernumber_from);
       if (i < 1 || i > patternTokens.length) {
-        throw new IllegalArgumentException("Index out of bounds in "+match.getRule().getFullId() + " DiacriticsCheckFilter: " + i);
+        throw new IllegalArgumentException(
+            "DiacriticsCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", value: " + i);
       }
       AnalyzedTokenReadings atr = patternTokens[i - 1];
       if (atr.matchesPosTagRegex(".+MS.*")) { desiredGenderNumberPattern = MS;}

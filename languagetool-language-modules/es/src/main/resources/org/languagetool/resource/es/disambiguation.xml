@@ -1737,6 +1737,13 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filterall"/>
     </rule>
+    <rule id="not_imperative" name="no imperativo">
+        <pattern>
+            <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+            <token postag="V.[SI].*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="remove" postag="V.M.*"/>
+    </rule>
 
     <!-- SOME EXTRA TAGGING -->
     <rulegroup id="reflexive_verb" name="reflexive verb">
