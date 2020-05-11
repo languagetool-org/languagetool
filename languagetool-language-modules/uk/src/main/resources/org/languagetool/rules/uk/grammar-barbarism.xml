@@ -6007,15 +6007,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <pattern>
           <token inflected="yes">відноситися</token>
           <token>до</token>
+          <token postag_regexp="yes" postag="adj.*v_rod.*" min="0"/>
           <token postag_regexp="yes" postag="noun:.*v_rod.*">
             <exception postag_regexp="yes" postag="noun:anim.*?v_rod.*|noun.*pron.*"/>
           </token>
         </pattern>
-        <message>Правильно: <suggestion>належати до <match no="3"/></suggestion></message>
-        <suggestion>належати <match no="3" postag_regexp="yes" postag="(noun.*)v_rod(.*)" postag_replace="$1v_dav$2"/></suggestion>
-        <suggestion>ставитися до <match no="3"/></suggestion>
+        <message>Правильно: <suggestion>належати до <match no="3"/> <match no="4"/></suggestion></message>
+        <suggestion>належати <match no="3" postag_regexp="yes" postag="(adj.*)v_rod(.*)" postag_replace="$1v_dav$2"/> <match no="4" postag_regexp="yes" postag="(noun.*)v_rod(.*)" postag_replace="$1v_dav$2"/></suggestion>
+        <suggestion>ставитися до <match no="3"/> <match no="4"/></suggestion>
         <example correction="належати до більшості|належати більшості|ставитися до більшості"><marker>відносився до більшості</marker></example>
         <example correction="належати до роботи|належати роботі|ставитися до роботи"><marker>відносився до роботи</marker> недбало</example>
+        <example correction="належати до другої половини|належати другій половині|ставитися до другої половини"><marker>відносяться до другої половини</marker></example>
         <example>відносився до Ксені</example>
         <example>відносилися до мене</example>
         <example>відносилися до них</example>

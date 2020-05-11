@@ -91,9 +91,9 @@ public class MixedAlphabetsRule extends Rule {
 
       // optimization: 1-letter tokens first
       if( i<tokens.length-1
-          && tokenString.equals("i")
+          && tokenString.matches("[iyaA]")
           && CYRILLIC_FIRST_LETTER.matcher(tokens[i+1].getToken()).matches() ) {
-        String msg = "Вжито латинську «і» замість кириличної";
+        String msg = "Вжито латинську «"+tokenString+"» замість кириличної";
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, Arrays.asList(toCyrillic(tokenString)), msg, sentence);
         ruleMatches.add(potentialRuleMatch);
       }
