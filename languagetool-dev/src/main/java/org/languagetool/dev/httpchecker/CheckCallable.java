@@ -81,7 +81,9 @@ class CheckCallable implements Callable<File> {
           String textToCheck = String.join("\n\n", tempLines);
           URL url = Tools.getUrl(baseUrl + "/v2/check");
           //System.out.println("textToCheck: " + textToCheck);
-          String postData = "language=" + langCode + "&text=" + URLEncoder.encode(textToCheck, "UTF-8");
+          String postData = "language=" + langCode +
+              "&text=" + URLEncoder.encode(textToCheck, "UTF-8") +
+              "&enableTempOffRules=true";
           postData += token != null ? "&token=" + URLEncoder.encode(token, "UTF-8"): "";
           String tokenInfo = token != null ? " with token" : " without token";
           float progress = (float)i / allLines.size() * 100.0f;
