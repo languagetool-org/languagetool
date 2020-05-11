@@ -33135,6 +33135,18 @@ USA
                     <token>Gantt</token>
                     <token>chart</token>
                 </antipattern>
+                <antipattern><!-- www.lexico.com/definition/beta_decay -->
+                    <token>beta</token>
+                    <token>decay</token>
+                </antipattern>
+                <antipattern><!-- Elevations in the Lesser Caucasus vary -->
+                    <token postag="NNS"/>
+                    <token postag="IN"/>
+                    <token chunk="B-NP-singular" postag="DT"/>
+                    <token min="0" max="3" chunk="I-NP-singular"/>
+                    <token chunk="E-NP-singular"/>
+                    <token postag_regexp="yes" postag="VBP?"/>
+                </antipattern>
                 <pattern>
                     <token>
                         <exception regexp="yes">(that|ha[ds]|will|must|could|can|should|would|does|did|may|might|t|let)</exception>
@@ -33156,6 +33168,7 @@ USA
                 <message>The singular proper name '<match no="2"/>' must be used with a third-person or a past tense verb: <suggestion><match no="3" postag="VBZ"/></suggestion>, <suggestion><match no="3" postag="VBD"/></suggestion>.</message>
                 <example correction="walks|walked">Ann <marker>walk</marker> to the building.</example>
                 <example correction="speaks|spoke">Microsoft <marker>speak</marker> to the customers.</example>
+                <example correction="provides|provided">Art <marker>provide</marker> a means to express the...</example><!-- Ambiguous. Possibly 'Art' is a proper noun, possibly it is a common noun. Either way, 'provide' is not correct. -->
                 <example>Bill <marker>walks</marker> to the building.</example>
                 <example>Guinness <marker>walked</marker> to the building.</example>
                 <example>Roosevelt and Hoover speak each other's lines.</example>
@@ -33211,6 +33224,10 @@ USA
                 <example>You can expect <marker>a new Chrome release</marker> every six weeks.</example><!-- #2395 release/E-NP-plural -->
                 <example>You can expect <marker>the newer LanguageTool release</marker> every six weeks.</example><!-- release/E-NP-plural -->
                 <example>You can expect <marker>the new LanguageTool release</marker> after three weeks.</example><!-- release/E-NP-singular -->
+                <example>Beta decay either increases or decreases the atomic number of the nucleus by one.</example>
+                <example>Elevations in the Lesser Caucasus vary between...</example>
+                <example type="triggers_error">1802 – William Wordsworth and his sister, Dorothy see a "long belt" of daffodils...</example><!-- Missing comma after "Dorothy" -->
+                <example type="triggers_error">Online Athens guide with news and events</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
