@@ -56,14 +56,14 @@ public class ConfusionFileIndenter {
       }
       int commentPos = line.lastIndexOf('#');
       if (commentPos <= 0) {
-        indentedLines.append(line).append("\n");
+        indentedLines.append(line).append('\n');
       } else {
         int endData = commentPos;
         while (Character.isWhitespace(line.charAt(endData - 1))) {
           endData--;
         }
         String spaces = StringUtils.repeat(" ", Math.max(1, 82-endData));
-        indentedLines.append(line, 0, endData).append(spaces).append(line.substring(commentPos)).append("\n");
+        indentedLines.append(line, 0, endData).append(spaces).append(line.substring(commentPos)).append('\n');
       }
     }
     return indentedLines.toString();
