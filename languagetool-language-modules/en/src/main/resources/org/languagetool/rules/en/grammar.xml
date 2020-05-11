@@ -11626,6 +11626,33 @@ USA
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
+        <rule id="MAKER_COMPOUNDS" name="trouble maker (troublemaker)" default="temp_off">
+            <pattern>
+                <token regexp="yes">trouble|cabinet|clock|holiday|coffee|boiler|phrase|peace|match|dress|watch|movie|policy|taste|noise|glass|plate|steel|paper|shirt|print|money|merry|auto|shoe|film|pace|rain|home|play|news|king|tool|ods|sail|myth|snow|tent|lock|drug|love|wine|law|car|hay|map|ice|bed|tea|die|wig|war|cap|hat</token>
+                <token regexp="yes">makers?</token>
+            </pattern>
+            <message>This noun is normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="troublemaker">He's such a <marker>trouble maker</marker>.</example>
+        </rule>
+        <rule id="SUPER_COMPOUNDS" name="super market (supermarket)" default="temp_off">
+            <pattern>
+                <token>super</token>
+                <token regexp="yes">markets?|moons?|delegates?|tankers?</token>
+            </pattern>
+            <message>This is normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="supermarket">I need to buy some groceries at the <marker>super market</marker>.</example>
+        </rule>
+        <rule id="TAIL_COMPOUNDS" name="cock tail (cocktail)" default="temp_off">
+            <pattern>
+                <token regexp="yes">cock|pig|mock|duck|bob|pony|whip</token>
+                <token regexp="yes">tails?</token>
+            </pattern>
+            <message>This is normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="cocktail">I would like to drink a <marker>cock tail</marker>.</example>
+        </rule>
         <rule id="NEWS_COMPOUNDS" name="news paper (newspaper)">
             <antipattern case_sensitive="yes">
                 <token>News</token>
@@ -11745,7 +11772,7 @@ USA
                 <token regexp="yes">Ship|SHIP</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town</token>
+                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee</token>
                 <token regexp="yes">ships?</token>
             </pattern>
             <message>This noun is normally spelled as one.</message>
@@ -12003,8 +12030,8 @@ USA
             </antipattern>
             <antipattern>
                 <token>under</token>
-                <token>line</token>
-                <token min="0" regexp="yes">#|no|nr</token>
+                <token regexp="yes">line|rate|estimate</token>
+                <token min="0" regexp="yes" skip="1">#|no|nr|number</token>
                 <token postag="CD" />
             </antipattern>
             <antipattern>
@@ -12015,12 +12042,13 @@ USA
             </antipattern>
             <pattern>
                 <token>under</token>
-                <token inflected="yes" regexp="yes">appreciate|estimate|achieve|whelm|line</token>
+                <token inflected="yes" regexp="yes">appreciate|estimate|achieve|whelm|line|rate</token>
             </pattern>
             <message>This is normally spelled as one word.</message>
             <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion>
             <example correction="underappreciates">He <marker>under appreciates</marker> her skills.</example>
             <example>Just add this under line 302.</example>
+            <example>I explained to her that we had been a customer under Rate No. 21 since July but only obtained access recently.</example>
         </rule>
         <rulegroup id="FEED_BACK" name="feed back (feedback)">
             <antipattern>
@@ -34510,7 +34538,7 @@ USA
                     <token>month</token>
                 </marker>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
-                <token regexp="yes">routine|periods?|intervals?|cycles?|diets?|notice|plan|project|warranty|median|vacation|holiday|trip|milestone|pandemi[ac]|lockdown|shutdown|term|contract|decline</token>
+                <token regexp="yes">routine|periods?|intervals?|cycles?|diets?|notice|plan|project|warranty|median|vacation|holiday|trip|milestone|pandemi[ac]|lockdown|shutdown|term|contract|decline|sentence|calendar|internships?|training|traineeships?|loans?</token>
             </pattern>
             <message>It seems that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -34523,7 +34551,7 @@ USA
                     <token>year</token>
                 </marker>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
-                <token regexp="yes">routine|periods?|intervals?|cycles?|notice|plan|project|warranty|median|reign|span</token>
+                <token regexp="yes">routine|periods?|intervals?|cycles?|notice|plan|project|warranty|median|reign|span|sentences?|mortgages?|anniversar(y|ies)|refinance|milestones?|loans?</token>
             </pattern>
             <message>It seems that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
