@@ -26,8 +26,8 @@ public class PronomFebleDuplicateRule extends Rule {
   private static final Pattern INFINITIU = Pattern.compile("V.N.*");
   private static final Pattern PARTICIPI = Pattern.compile("V.P..SM.");
   private static final Pattern GERUNDI = Pattern.compile("V.G.*");
-  private static final String[] ABANS_DE_GERUNDI = new String[] { "continuar", "seguir", "prosseguir", "anar" };
-  private static final String[] ABANS_DE_INFINITIU = new String[] { "anar", "poder", "voler", "deure" };
+  private static final String[] ABANS_DE_GERUNDI = { "continuar", "seguir", "prosseguir", "anar" };
+  private static final String[] ABANS_DE_INFINITIU = { "anar", "poder", "voler", "deure" };
   //private static final String[] VERBS_IMPERSONAL = new String[] { "ordenar", "recomanar" };
 
   @Override
