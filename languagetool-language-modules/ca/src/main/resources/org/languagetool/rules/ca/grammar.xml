@@ -52,7 +52,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY exceptions_MES "missioner|extra|solar|sideral|marià|hivernal|hebreu|jueu|musulmà|islàmic|sinòdic|draconític|lunar|mitjà|tròpic|anomalístic|dedicat|consagrat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent|posterior|previ|consecutiu|precedent">
     <!ENTITY exceptions_LLINDA_AMB "escut|imposta|pòrtic|nom|taulellet|forma|pilastra|orla|dent|figura|llegenda|brancal|frontó|columna|guardapols|línia|motll?ura|floró|motiu|data|imatge|arc|inscripció|dovella|decoració|timpà|relleu|escultura|ornament|ornamentació|ornamentar|decorar|garlanda|esglaó|graó|emblema|torre|pedra">
     <!ENTITY exceptions_ODRE "pell|bot|líquid|aigua|oli|llet|vi|substància|mantega|càntir|ampolla|porró|paràbola|cuir|cuiro">
-    <!ENTITY exceptions_Paris "Afrodita|Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu|judici|juí">
+    <!ENTITY exceptions_Paris "personatge|mitològic|mitologia|grec|dànau|argiu|Homer|Afrodita|Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu|judici|juí|Ifigènia|Aulis">
     <!ENTITY exceptions_pronom_en "norma|single|nota|tema|taula|mapa|figura|vegeu|juny|sala|pregunta|programa|(?-i)Mateu|Romans|Espanya">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena|ampit|barana|taula|cadira|sofà|finestra|tanca|sorra|arena|terra|cuixa|barra|llitera|calaixera|bàscula|superfície|pota|muralla|mitgera|pedra|pantalla|crossa|roca|boca|cos|llit|taulell|mostrador|llindar|tronc|pit|piano|coixí|graó|escaló|esglaó|forat|motxilla">
     <!ENTITY exceptions_SON "descans|estrès|estrés|cansament|fatiga|hiptertensió|mareig|alegria|somnambulisme|esbarjo|estupor|gana|fam|anorèxia|vigília">
@@ -15456,6 +15456,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="SENT_END"/>
             </antipattern>
             <antipattern>
+                <token postag="SENT_START" skip="-1"/>
+                <token regexp="yes" postag="SENT_END">&exceptions_Paris;</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">is|in|à|von|aus|\p{Lu}.+|\.<exception postag="SPS00"/></token>
                 <token>Paris</token>
             </antipattern>
@@ -15466,43 +15470,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token skip="-1">Paris</token>
-                    </marker>
-                    <token postag="NP..G.*" postag_regexp="yes"/>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>París</suggestion> (ciutat) en lloc de Paris (personatge)?</message>
-                <example correction="París">A <marker>Paris</marker> i Londres.</example>
-                <example>Paris a la guerra de Troia.</example>
-                <example>el judici de Paris, el rapte d'Helena i el sacrifici d'Ifigènia a Aulis</example>
-                <example>El judici de Paris.</example>
-                <example>Paris Hilton és a Londres.</example>
-            </rule>
-            <rule>
-                <pattern case_sensitive="yes">
-                    <token postag="NP..G.*" postag_regexp="yes" skip="-1"/>
-                    <marker>
                         <token>Paris</token>
                     </marker>
                 </pattern>
                 <message>¿Volíeu dir <suggestion>París</suggestion> (ciutat) en lloc de Paris (personatge)?</message>
-                <example correction="París">A Londres i <marker>Paris</marker>.</example>
+                <example correction="París">A <marker>Paris</marker> i Londres.</example>
+                <example correction="París">A <marker>Paris</marker> hi ha el museu del Louvre i la torre Eiffel.</example>
+                <example correction="París">Sóc a <marker>Paris</marker>.</example>
+                <example correction="París"><marker>Paris</marker> és una ciutat preciosa.</example>
+                <example>Paris és un personatge mitològic.</example>
+                <example>Paris a la guerra de Troia.</example>
+                <example>el judici de Paris, el rapte d'Helena i el sacrifici d'Ifigènia a Aulis</example>
+                <example>El judici de Paris.</example>
+                <example>El judici de Paris</example>
+                <example>Paris Hilton és a Londres.</example>
+                <example>Robert Paris és a Londres.</example>
                 <example>A la guerra de Troia, Paris no fa res.</example>
-                <example>El sacrifici d'Ifigènia a Aulis, el judici de Paris i el rapte d'Helena.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token regexp="yes" skip="2" inflected="yes">nord|sud|est|oest|des|centre|cap|ciutat|govern|alcalde|ministeri|anar|visitar|viatjar|turisme|turista</token>
-                    <marker>
-                        <token regexp="yes">(?-i)Paris</token>
-                    </marker>
-                </pattern>
-                <message>¿Volíeu dir <suggestion>París</suggestion> (ciutat) en lloc de Paris (persona)?</message>
-                <short>Possible confusió</short>
-                <example correction="París">Al nord de <marker>Paris</marker>.</example>
-                <example correction="París">Des de <marker>Paris</marker>.</example>
-                <example correction="París">Demà me'n vaig a <marker>Paris</marker>.</example>
-                <example>A la guerra de Troia, Paris no fa res.</example>
-                <example>El sacrifici d'Ifigènia a Aulis, el judici de Paris i el rapte d'Helena.</example>
             </rule>
         </rulegroup>
         <rule id="PARTIT_PARTIR" name="a *partit/partir de">
