@@ -40,8 +40,8 @@ import org.languagetool.rules.AbstractFillerWordsRule;
  */
 public class RussianFillerWordsRule extends AbstractFillerWordsRule {
 
-  private static final Set<String> fillerWords = new HashSet<>(Arrays.asList( "ах","эх",
-      "бу","ох","эээ","э","ух-ты","ух"
+  private static final Set<String> fillerWords = new HashSet<>(Arrays.asList( "ах", "аа", "ааа", "аааа", "ау",
+      "бу", "вау", "ох", "однако", "эээ", "э", "эй", "эх", "ух-ты", "ух"
   ));
   
   public RussianFillerWordsRule(ResourceBundle messages, Language lang, UserConfig userConfig) {
