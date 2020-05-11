@@ -9068,6 +9068,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
+        <rule id="NAECHSTMOEGLICH" name="nächst möglich (nächstmöglich)" default="temp_off">
+            <pattern>
+                <token>nächst</token>
+                <token regexp="yes">(möglich|gelegen|liegend|besser|folgend)(e[srnm]?)?</token>
+            </pattern>
+            <message>Dieses Adjektiv wird zusammengeschrieben.</message>
+            <suggestion>\1\2</suggestion>
+            <example correction="nächstmöglichen">Ich möchte zum <marker>nächst möglichen</marker> Zeitpunkt kündigen.</example> 
+        </rule>
         <rule id="INMITTEN" name="in mitten (inmitten)">
             <pattern>
                 <token regexp="yes">[Ii]n</token>
