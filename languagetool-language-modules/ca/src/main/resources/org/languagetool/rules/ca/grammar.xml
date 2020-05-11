@@ -28425,20 +28425,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="MESOS_ANY" name="Exigeix mesos de l'any en minúscula en dates">
             <rule>
+                <antipattern>
+                    <token postag="SENT_START"/>
+                    <token regexp="yes">(?-i)&mesos_any_maj;</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="_possible_nompropi"/>
+                    <token inflected="yes">de</token>
+                    <token regexp="yes">(?-i)&mesos_any_maj;</token>
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">\d{1,2}|des</token>
-                    <token regexp="yes">de|d'</token>
                     <marker>
                         <token regexp="yes">(?-i)&mesos_any_maj;</token>
                     </marker>
-                    <token regexp="yes" skip="1">de|d'</token>
+                    <token inflected="yes">de</token>
+                    <token min="0" postag="D.*" postag_regexp="yes"/>
                     <token regexp="yes">\d{3,4}|any</token>
                 </pattern>
                 <message>En les dates els mesos de l'any s'escriuen en minúscula.</message>
-                <suggestion><match no="3" case_conversion="alllower"/></suggestion>
+                <suggestion><match no="1" case_conversion="alllower"/></suggestion>
                 <short>Majúscula incorrecta</short>
                 <example correction="juliol">El 3 de <marker>Juliol</marker> de 1985.</example>
                 <example correction="agost">El 3 d'<marker>Agost</marker> d'aquell any.</example>
+                <example correction="juny">De <marker>Juny</marker> del 2020.</example>
                 <example>Des de<marker>Febrer</marker> del 2012</example>
                 <example>Abril de 1965.</example>
                 <example>els fets del Sis d'Octubre del 1934</example>
