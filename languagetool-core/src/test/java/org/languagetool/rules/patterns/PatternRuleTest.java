@@ -371,7 +371,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
           AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(badSentence);
           StringBuilder sb = new StringBuilder("Analyzed token readings:");
           for (AnalyzedTokenReadings atr : analyzedSentence.getTokens()) {
-            sb.append(" ").append(atr);
+            sb.append(' ').append(atr);
           }
           String info = "";
           if (rule instanceof RegexPatternRule) {
@@ -554,7 +554,7 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
         AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(goodSentence);
         StringBuilder sb = new StringBuilder("Analyzed token readings:");
         for (AnalyzedTokenReadings atr : analyzedSentence.getTokens()) {
-          sb.append(" ").append(atr);
+          sb.append(' ').append(atr);
         }
         String failure = "Did not expect error in:\n" +
           "  " + goodSentence + "\n" +

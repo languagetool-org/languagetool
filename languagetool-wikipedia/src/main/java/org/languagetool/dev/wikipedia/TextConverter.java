@@ -195,7 +195,7 @@ public class TextConverter extends AstVisitor {
 
   public void visit(Whitespace w) {
     addMapping(w);
-    write(" ");
+    write(' ');
   }
 
   public void visit(Bold b) {
