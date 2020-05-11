@@ -255,6 +255,8 @@ public class English extends Language implements AutoCloseable {
       case "DOS_AND_DONTS":             return 3;
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
+      case "WON_T_TO":                  return 1;   // higher prio than DON_T_AREN_T
+      case "WAN_T":                     return 1;   // higher prio than DON_T_AREN_T
       case "THE_US":                    return 1;   // higher prio than DT_PRP
       case "A_WINDOWS":                 return 1;   // higher prio than A_PLURAL/A_NNS
       case "SEEM_SEEN":                 return 1;   // higher prio than HAVE_PART_AGREEMENT and PRP_HAVE_VB

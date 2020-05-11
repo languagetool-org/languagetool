@@ -3731,7 +3731,7 @@ USA
                         <token>its</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token postag="SENT_END" regexp="yes">free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
+                    <token postag="SENT_END" regexp="yes">stupid|dumb|free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
                 <short>Possible typo</short>
@@ -3753,7 +3753,7 @@ USA
                         <token>its</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token postag="SENT_END" regexp="yes">free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
+                    <token postag="SENT_END" regexp="yes">stupid|dumb|free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
                 <short>Possible typo</short>
@@ -3769,7 +3769,7 @@ USA
                         <token>its</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token regexp="yes">free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
+                    <token regexp="yes">stupid|dumb|free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
                     <token postag="SENT_END" regexp="yes">\p{P}</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
@@ -4828,6 +4828,11 @@ USA
                     <token inflected="yes">guess</token>
                     <token>it</token>
                 </antipattern>
+                <antipattern>
+                    <token>it</token>
+                    <token>right</token>
+                    <token>now</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">I|you|we|they|s?he|it</token>
                     <token postag="RB" min="0" />
@@ -4852,6 +4857,7 @@ USA
                 <example correction="it's">I guess <marker>its</marker> here.</example>
                 <example>I think its natural, black hair looks best.</example>
                 <example>You guessed it right.</example>
+                <example>I believe it right now.</example>
                 <example>Hopefully not, but given the fact that you believe it there’s a chance the stress could overcome your body.</example>
             </rule>
         </rulegroup>
@@ -11503,6 +11509,43 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="DON_T_AREN_T" name="don't aren't" default="temp_off">
+            <antipattern>
+                <token regexp="yes" skip="3">who|which</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </antipattern>
+            <antipattern>
+                <token skip="2">if</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">[a-z]{3,}</token>
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token spacebefore="no">t</token>
+                <token regexp="yes">[a-z]{3,}</token>
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token spacebefore="no">t</token>
+            </pattern>
+            <message>Two consecutive contractions are very uncommon. Did you maybe just mean <suggestion>\1\2\3</suggestion> or <suggestion>\4\5\6</suggestion>?</message>
+            <example correction="aren't|don't">They <marker>aren't don't</marker> really happy.</example>
+            <example>The ones who don't won't be around very long.</example>
+            <example>If it isn’t don’t say things that could be considered offensive.</example>
+        </rule>
+        <rule id="WON_T_TO" name="I won't (want) to be" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>won</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                </marker>
+                <token>to</token>
+                <token postag="VB" />
+            </pattern>
+            <message>The modal verb "will" can't be used with "to". Did you mean <suggestion>want</suggestion>?</message>
+            <example correction="want">I <marker>won't</marker> to be happy.</example>
+        </rule>
         <rule id="OF_ALL_TIMES" name="He's the best of all times">
             <pattern>
                 <token postag="JJS" skip="4" />
@@ -11772,6 +11815,7 @@ USA
                 <token regexp="yes">Ship|SHIP</token>
             </antipattern>
             <pattern>
+                <!-- TODO: friendship (My friend ships ...) -->
                 <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee</token>
                 <token regexp="yes">ships?</token>
             </pattern>
@@ -21468,7 +21512,32 @@ USA
             <url>https://www.lexico.com/definition/high-end</url>
             <example correction="high-end">The <marker>high end</marker> computer.</example>
         </rule>
-
+        <rulegroup id="SAME_SEX_HYPHEN" name="missing hyphen in 'same sex'" default="temp_off">
+            <url>https://www.lexico.com/definition/same-sex</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|my|y?our|his|her|their</token>
+                    <marker>
+                        <token>same</token>
+                        <token>sex</token>
+                    </marker>
+                </pattern>
+                <message>The adjective <suggestion>same-sex</suggestion> is spelled with a hyphen.</message>
+                <example correction="same-sex">A <marker>same sex</marker> marriage.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>same</token>
+                        <token>sex</token>
+                    </marker>
+                    <token postag="JJ|NN.*" postag_regexp="yes" min="0" />
+                    <token regexp="yes">friendships?|partners|friends|couples?|relationships?|partnerships?|schools?|twins|marriages?|wedding|dating|love|relations?</token>
+                </pattern>
+                <message>The adjective <suggestion>same-sex</suggestion> is spelled with a hyphen.</message>
+                <example correction="Same-sex"><marker>Same sex</marker> marriage is now legal in 20 countries worldwide, including Ireland as of yesterday.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="LOW_COST_HYPHEN" name="missing hyphen in 'low cost'">
             <url>https://www.lexico.com/definition/low-cost</url>
             <rule>
@@ -37859,8 +37928,8 @@ USA
                     <token>no</token>
                 </antipattern>
                 <antipattern>
-                    <token>no</token>
-                    <token>no</token>
+                    <token>la</token>
+                    <token>la</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes">ok(ay)?</token>
@@ -43582,14 +43651,16 @@ The accident victim died from her injuries.
                 </antipattern>
                 <antipattern>
                     <token postag="IN" />
-                    <token>Article</token>
+                    <token regexp="yes">Article|Act</token>
                     <token>I</token>
                 </antipattern>
                 <pattern>
                      <token postag='SENT_START'></token>
                      <token postag='IN'></token>
                      <marker>
-                         <token postag='NN.*' postag_regexp='yes'></token>
+                         <token postag='NN.*' postag_regexp='yes'>
+                            <exception regexp="yes">(some|every|any)(thing|body|one)|behind</exception>
+                         </token>
                          <token regexp="yes" case_sensitive="yes">I|you|s?he|it|we|they</token> <!-- not PRP: exclude 'me', 'himself...' -->
                      </marker>
                  </pattern>
@@ -43599,6 +43670,7 @@ The accident victim died from her injuries.
                  <example correction='years, I'>For <marker>years I</marker> have been travelling.</example>
                  <example>At least they believed me.</example>
                  <example>To see you is always a great pleasure.</example>
+                 <example>After everything we have done...</example>
                  <example>While setting it up correctly, he heard some strange noises.</example>
                  <example>After circling it, he knew that they were dealing with a WW2-era explosive.</example>
                  <example>On condition you are back by ten o'clock, you may go to the dance.</example>
@@ -43609,6 +43681,7 @@ The accident victim died from her injuries.
                  <example>Before writing you this message, I ate my lunch.</example><!-- #2091 -->
                  <example>While saying we are all for change, we are selling something which tells us that change doesn't really matter.</example><!-- #2091 -->
                  <example>Under Article I, Section 3, Clause 6 of the U.S. Constitution.</example>
+                 <example>Throughout Act I, Romeo is ...</example>
             </rule>
         </rulegroup>
         <rulegroup id="INTERJECTIONS_PUNCTUATION" name="Missing puncutation after an interjection">
@@ -46985,6 +47058,52 @@ The accident victim died from her injuries.
                 </pattern>
                 <message>Did you mean <suggestion>their</suggestion>?</message>
                 <example correction="their">I'm not worried about <marker>they're</marker> problems.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
+                        <exception postag="IN|VB.*" postag_regexp="yes" /><!-- "check" is UH, "for" is CC -->
+                    </token>
+                    <marker>
+                        <token>their</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="SENT_END" regexp="yes">stupid|dumb|free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
+                </pattern>
+                <message>Did you mean <suggestion>they're</suggestion> (=<suggestion>they are</suggestion>) instead of 'their' (possessive pronoun)?</message>
+                <short>Possible typo</short>
+                <example correction="They're|They are"><marker>Their</marker> stupid</example>
+                <example>Not mine but their own</example> 
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">yeah?|yes|no|[aoi]+h|uhm|well|y[ae]p|nope|huh|alright|,</token>
+                    <marker>
+                        <token>their</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="SENT_END" regexp="yes">stupid|dumb|free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
+                </pattern>
+                <message>Did you mean <suggestion>they're</suggestion> (=<suggestion>they are</suggestion>) instead of 'their' (possessive pronoun)?</message>
+                <short>Possible typo</short>
+                <example correction="they're|they are">Yes <marker>their</marker> cool</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- needed because of wrong tagging: "cool" is tagged as NN in 'Its cool.' -->
+                <pattern>
+                    <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
+                        <exception postag="IN|VB.*" postag_regexp="yes" /><!-- "check" is UH, "for" is CC -->
+                    </token>
+                    <marker>
+                        <token>their</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token regexp="yes">stupid|dumb|free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Did you mean <suggestion>they're</suggestion> (=<suggestion>they are</suggestion>) instead of 'their' (possessive pronoun)?</message>
+                <short>Possible typo</short>
+                <example correction="They're|They are"><marker>Their</marker> ready!</example>
             </rule>
             <!-- .*/VBG they're::word=\0 their::pivots=they're,their::options=they're,their -->
             <rule id="VBG_THEYRE" name="VBG they're (their)">
