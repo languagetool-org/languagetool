@@ -129,12 +129,12 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
       }
     }
     
-    if( word.contains("-") || word.contains("\u2011") || word.endsWith(".") 
-            || word.equalsIgnoreCase("раза") ) {
-      return hasGoodTag(tokens[idx]);
-    }
-
-    return false;
+//    if( word.contains("-") || word.contains("\u2011") || word.endsWith(".") 
+//            || word.equalsIgnoreCase("раза") ) {
+      return hasGoodTag(tokens[idx]); // && ! PosTagHelper.hasPosTagPart(tokens[idx], ":bad");
+//    }
+//
+//    return false;
   }
 
   private boolean hasGoodTag(AnalyzedTokenReadings tokens) {

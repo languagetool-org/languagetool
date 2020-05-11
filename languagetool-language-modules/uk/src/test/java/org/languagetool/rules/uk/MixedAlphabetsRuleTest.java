@@ -61,7 +61,11 @@ public class MixedAlphabetsRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("Чорного i Азовського"));  // latin i
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("і"), matches[0].getSuggestedReplacements());
-    
+
+    matches = rule.match(langTool.getAnalyzedSentence("A нема"));  // latin A
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("А"), matches[0].getSuggestedReplacements());
+
     matches = rule.match(langTool.getAnalyzedSentence("XІ")); // cyrillic І and latin X
 
     assertEquals(1, matches.length);
