@@ -669,6 +669,12 @@ public class AgreementRule extends Rule {
     Arrays.asList( // https://www.autozeitung.de/
       csToken("Auto"),
       csToken("Zeitung")
+    ),
+    Arrays.asList( // "Das letzte Mal war das Ende der..."
+      csToken("Mal"),
+      new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
+      csToken("das"),
+      posRegex("SUB:NOM:.*")
     )
   );
 

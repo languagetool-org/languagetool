@@ -284,6 +284,7 @@ public class AgreementRuleTest {
     assertGood("In New York war er der Titelheld in Richard III. und spielte den Mark Anton in Julius Cäsar.");
     assertGood("Vielen Dank fürs Bescheid geben.");
     assertGood("Welche Display Ads?");
+    assertGood("Das letzte Mal war das Anfang der 90er Jahre des vergangenen Jahrhunderts");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
