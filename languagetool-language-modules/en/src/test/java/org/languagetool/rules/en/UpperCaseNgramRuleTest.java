@@ -65,7 +65,6 @@ public class UpperCaseNgramRuleTest {
       assertFalse(rule.firstLongWordToRightIsUppercase(tokens1, 10));  // 10 = ","
 
       AnalyzedTokenReadings[] tokens2 = lt.getAnalyzedSentence("From Theory to Practice, followed by some other words").getTokens();
-      System.out.println(">" + tokens2[3]);
       // left:
       assertFalse(rule.firstLongWordToLeftIsUppercase(tokens2, 3));  // 3 = "Theory"
       assertTrue(rule.firstLongWordToLeftIsUppercase(tokens2, 4));   // 4 = "to"

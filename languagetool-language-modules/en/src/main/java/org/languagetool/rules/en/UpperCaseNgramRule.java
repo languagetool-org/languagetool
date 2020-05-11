@@ -53,6 +53,10 @@ public class UpperCaseNgramRule extends Rule {
     Arrays.asList(
       token("Professor"),
       tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      token("Time"),
+      token("magazine")
     )
   );
 
@@ -190,7 +194,7 @@ public class UpperCaseNgramRule extends Rule {
 
   private boolean isShortWord(AnalyzedTokenReadings token) {
     // ignore words typically spelled lowercase even in titles
-    return token.getToken().trim().isEmpty() || token.getToken().matches("and|or|the|of|to|it|for");
+    return token.getToken().trim().isEmpty() || token.getToken().matches("and|or|the|of|to|it|for|as|at|his|her|its|into");
   }
 
   private boolean trieMatches(String text, AnalyzedTokenReadings token) {
