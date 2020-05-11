@@ -8009,7 +8009,7 @@ though, and has since been slightly modified)-->
       </antipattern>
       <pattern>
         <token regexp="yes">[dljmnst]e|la|jusque|que</token>
-        <token regexp="yes">h?[àâaéêèeiîou]\D.*|à|hy\D.*|y[pts].*
+        <token regexp="yes">h?[àâaéêèeiîouœ]\D.*|à|hy\D.*|y[pts].*
           <exception inflected="yes" regexp="yes">&exceptions_ELISION1;</exception>
           <exception regexp="yes">&exceptions_ELISION2;</exception><!-- https://fr.wikipedia.org/wiki/La_Haye -->
           <exception postag="UNKNOWN|Z.*" postag_regexp="yes" regexp="yes">h.+</exception><!-- no error for unknown words or proper names -->
@@ -8018,6 +8018,7 @@ though, and has since been slightly modified)-->
     <message>« \1 \2 » s’élide en <suggestion suppress_misspelled="yes"><match no="1" regexp_match=".$" regexp_replace=""/>’\2</suggestion>.</message>
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1745</url>
       <example correction="L’île"><marker>La île</marker> est encore loin.</example>
+      <example correction="l’œuf">Prenez <marker>le œuf</marker>.</example>
       <example>Il se heurte contre le bas-côté</example>
       <example>Il connait l’histoire de A à Z.</example>
       <example>Il a appris ça en un jour.</example>
@@ -8516,7 +8517,7 @@ though, and has since been slightly modified)-->
           <example correction="trois fois par semaine">Je joue au Softball <marker>trois fois au semaine</marker>.</example>
       </rule>
       <!-- End of additions -->
-      <rulegroup id="ETRE_D_N_V_inf" name="V être suivi de déterminant, nom et verbe à l'infinitif" default="temp_off">
+      <rulegroup id="ETRE_D_N_V_inf" name="V être suivi de déterminant, nom et verbe à l'infinitif">
           <rule name="féminin singulier">
               <pattern>
                   <token postag_regexp="yes" postag="V etre.*"/>
@@ -8613,7 +8614,7 @@ though, and has since been slightly modified)-->
               <marker>
                   <token>ce</token>
               </marker>
-              <token postag="N m s" regexp="yes">h?[àâaéêèeiîou].*|hy.*|y[pts].*
+              <token postag="N m s" regexp="yes">h?[àâaéêèeiîouœ].*|hy.*|y[pts].*
                   <exception inflected="yes" regexp="yes">&exceptions_ELISION1;</exception>
                   <exception regexp="yes">&exceptions_ELISION2;</exception>
                   <exception postag="UNKNOWN|Z.*" postag_regexp="yes" regexp="yes">h.+</exception><!-- no error for unknown words or proper names -->
@@ -8631,9 +8632,10 @@ though, and has since been slightly modified)-->
           <example>Est-ce utile?</example>
           <example>Ce hibou</example>
           <example>Suivez cet œuf.</example>
+          <example correction="cet">Suivez <marker>ce</marker> œuf.</example>
           <example>L'année 1 CE est immédiatement précédé par l'année 1 AEC.</example>
       </rule>
-      <rule id="CET_CE" name="cet / ce" default="temp_off">
+      <rule id="CET_CE" name="cet / ce">
           <pattern>
               <marker>
                   <token>cet</token>
@@ -8657,6 +8659,22 @@ though, and has since been slightly modified)-->
           <example>Cet yttrium.</example>
           <example>Est-ce utile?</example>
           <example>Cet hôpital emploie.</example>
+      </rule>
+      <rule id="ET_CA" name="typo : et ça">
+          <pattern>
+              <token>et</token>
+              <token>ca</token>
+          </pattern>
+          <message>Vouliez-vous dire <suggestion>et ça</suggestion> ?</message>
+          <example correction="et ça">J'en ai pris un <marker>et ca</marker> suffisait pas.</example>
+      </rule>
+      <rule id="LA_JOURNE" name="typo : la journé">
+          <pattern>
+              <token regexp="yes">la|une</token>
+              <token>journé</token>
+          </pattern>
+          <message>Vouliez-vous dire <suggestion>la journée</suggestion> ?</message>
+          <example correction="la journée">J'ai pris <marker>la journé</marker> de repos.</example>
       </rule>
       <!-- http://www.leconjugueur.com/frlesnombres.php -->
     <rulegroup id="TRAIT_UNION_NOMBRE" name="Nombre avec trait d’union">
@@ -13763,7 +13781,7 @@ though, and has since been slightly modified)-->
             <exception scope="next">été</exception>
           </token>
           <marker>
-            <token postag="V.* ppa.* p|V.* ppa.* m s" postag_regexp="yes"/>
+            <token postag="V.* ppa.* p" postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \5 ».</message>
@@ -13790,8 +13808,27 @@ though, and has since been slightly modified)-->
         <example correction="achetée">La voiture qu’ils ont <marker>achetés</marker>.</example>
         <example>Tout cela pour dire qu’on a longtemps été confrontés à ce problème.</example>
         <example>C’est dans la soirée que ces poursuites avaient été entamées.</example>
-          <example correction="aimée">La vidéo que j'ai <marker>aimé</marker>.</example>
       </rule>
+        <rule name="det + n f s suivi par . p">
+            <pattern>
+                <token negate="yes" regexp="yes">plus|moins|dans|de|au|à</token>
+                <token postag="D f s"/>
+                <token postag="N f s">
+                    <exception postag="V.*" postag_regexp="yes"/>
+                </token>
+                <token regexp="yes" skip="2">que?</token>
+                <token postag="V avoir ind.*" postag_regexp="yes" skip="2">
+                    <exception scope="next">été</exception>
+                </token>
+                <marker>
+                    <token postag="V.* ppa.* p|V.* ppa.* m s" postag_regexp="yes"/>
+                </marker>
+                <token postag="M (non)?fin" postag_regexp="yes"/>
+            </pattern>
+            <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \6 ».</message>
+            <suggestion><match no="6" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa f s"/></suggestion>
+            <example correction="aimée">La vidéo que j'ai <marker>aimé</marker>.</example>
+        </rule>
     </rulegroup>
     <rulegroup id="QUI_EST" name="accord qui + verbe être">
       <rule>
@@ -17917,35 +17954,69 @@ though, and has since been slightly modified)-->
     </rule>
   </category>
   <category id="CAT_ANGLICISMES" name="Anglicismes (calques, emprunts directs, etc.)" type="style">
-      <rule id="TEMPLATE_ANGLICISME" name="Anglicisme : template" default="temp_off">
+      <rulegroup id="SCREENSHOT" name="Anglicisme : screenshot" default="temp_off">
+          <rule>
+              <pattern>
+                  <token>screenshot</token>
+              </pattern>
+              <message>« Screenshot » est un anglicisme. L'équivalent français est <suggestion>capture d'écran</suggestion>.</message>
+              <example correction="capture d'écran">J'en ai pris un <marker>screenshot</marker> si tu veux.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>screen</token>
+                  <token>shot</token>
+              </pattern>
+              <message>« Screenshot » est un anglicisme. L'équivalent français est <suggestion>capture d'écran</suggestion>.</message>
+              <example correction="capture d'écran">J'en ai pris un <marker>screen shot</marker> si tu veux.</example>
+          </rule>
+      </rulegroup>
+      <rulegroup id="SCREENCAST" name="Anglicisme : screencast" default="temp_off">
+          <rule>
+              <pattern>
+                  <token>screencast</token>
+              </pattern>
+              <message>« Screencast » est un anglicisme. L'équivalent français est <suggestion>capture vidéo</suggestion>.</message>
+              <example correction="capture vidéo">J'en ai pris un <marker>screencast</marker> si tu veux.</example>
+          </rule>
+          <rule>
+              <pattern>
+                  <token>screen</token>
+                  <token>cast</token>
+              </pattern>
+              <message>« Screencast » est un anglicisme. L'équivalent français est <suggestion>capture vidéo</suggestion>.</message>
+              <example correction="capture vidéo">J'en ai pris un <marker>screen cast</marker> si tu veux.</example>
+          </rule>
+      </rulegroup>
+      <rule id="TEMPLATE_ANGLICISME" name="Anglicisme : template">
           <pattern>
               <token regexp="yes">templates?</token>
           </pattern>
           <message>« \1 » est un anglicisme. Vouliez-vous dire <suggestion><match no="1" regexp_match="template(s)?" regexp_replace="modèle$1"/></suggestion> (informatique, documents), <suggestion><match no="1" regexp_match="template(s)?" regexp_replace="patron$1"/></suggestion> (artisanat, art décoratif) ?</message>
           <example correction="modèles|patrons">Ici, utilisez plutôt ces <marker>templates</marker>.</example>
       </rule>
-      <rule id="ONLINE_ANGLICISME" name="Anglicisme : online" default="temp_off">
+      <rule id="ONLINE_ANGLICISME" name="Anglicisme : online">
           <pattern>
               <token>online</token>
           </pattern>
           <message>« \1 » est un anglicisme. Vouliez-vous dire <suggestion>en ligne</suggestion> ?</message>
           <example correction="en ligne">Je l'ai pourtant vu <marker>online</marker> pas plus tard qu'hier.</example>
       </rule>
-      <rule id="WEBINAR_ANGLICISME" name="Anglicisme : webinar" default="temp_off">
+      <rule id="WEBINAR_ANGLICISME" name="Anglicisme : webinar">
           <pattern>
               <token regexp="yes">webinars?</token>
           </pattern>
           <message>« \1 » est un anglicisme. Vouliez-vous dire <suggestion><match no="1" regexp_match="webinar(s)?" regexp_replace="webinaire$1"/></suggestion>, ou <suggestion><match no="1" regexp_match="webinar(s)?" regexp_replace="séminaire$1"/> web</suggestion> ?</message>
           <example correction="webinaire|séminaire web">Nous avons essayé de passer au format de <marker>webinar</marker> pour notre companie.</example>
       </rule>
-      <rule id="SLIDER_ANGLICISME" name="Anglicisme : slider" default="temp_off">
+      <rule id="SLIDER_ANGLICISME" name="Anglicisme : slider">
           <pattern>
               <token regexp="yes" case_sensitive="yes">sliders?</token>
           </pattern>
           <message>« \1 » est un anglicisme. Vouliez-vous dire <suggestion><match no="1" regexp_match="slider(s)?" regexp_replace="curseur$1"/></suggestion> ?</message>
           <example correction="curseur">Déplacez le <marker>slider</marker> tout à gauche.</example>
       </rule>
-      <rule id="SLIDE_ANGLICISME" name="Anglicisme : slide" default="temp_off">
+      <rule id="SLIDE_ANGLICISME" name="Anglicisme : slide">
           <antipattern>
               <token>Charleston</token>
               <token>slide</token>
