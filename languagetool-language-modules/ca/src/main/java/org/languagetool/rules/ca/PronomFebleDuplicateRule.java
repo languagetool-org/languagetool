@@ -81,7 +81,7 @@ public class PronomFebleDuplicateRule extends Rule {
           StringBuilder suggestion = new StringBuilder();
           for (int j = initPos + 1; j <= i; j++) {
             if (j > initPos + 1 && tokens[j].isWhitespaceBefore()) {
-              suggestion.append(' ');
+              suggestion.append(" ");
             }
             String strToAdd = tokens[j].getToken();
             if (j == initPos + 1 && StringTools.isCapitalizedWord(tokens[initPos].getToken())) {
@@ -94,7 +94,7 @@ public class PronomFebleDuplicateRule extends Rule {
           suggestion = new StringBuilder();
           for (int j = initPos; j <= i - 1; j++) {
             if (j > initPos && tokens[j].isWhitespaceBefore()) {
-              suggestion.append(' ');
+              suggestion.append(" ");
             }
             suggestion.append(tokens[j].getToken());
           }

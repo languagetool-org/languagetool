@@ -105,7 +105,7 @@ public class ConfusionSetLoaderTest {
     for (ConfusionString confusionString : confStrings) {
       sb.append(confusionString.getString()).append(" - ");
       sb.append(confusionString.getDescription());
-      sb.append(' ');
+      sb.append(" ");
     }
     return sb.toString();
   }

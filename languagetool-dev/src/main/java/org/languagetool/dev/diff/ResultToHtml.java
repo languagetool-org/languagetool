@@ -174,7 +174,7 @@ public class ResultToHtml {
   private void print(String s) throws IOException {
     //System.out.println(s);
     fw.write(s);
-    fw.write('\n');
+    fw.write("\n");
   }
 
   public static void main(String[] args) throws IOException {

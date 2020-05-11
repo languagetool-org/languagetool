@@ -131,7 +131,7 @@ public class BaseSynthesizer implements Synthesizer {
       String line = null;
       while ((line = f.readLine()) != null) {
         st.append(line);
-        st.append('\n');
+        st.append("\n");
       }
       s = new Soros(new String(st), langcode);
     } catch (Exception e) {

@@ -164,11 +164,11 @@ public class LanguageAnnotatorTest {
   private String getTokenRangeAsString(List<List<LanguageAnnotator.TokenWithLanguages>> tokenRanges) {
     StringBuilder sb = new StringBuilder();
     for (List<LanguageAnnotator.TokenWithLanguages> tokenRange : tokenRanges) {
-      sb.append('[');
+      sb.append("[");
       for (LanguageAnnotator.TokenWithLanguages tokenWithLanguage : tokenRange) {
         sb.append(tokenWithLanguage.getToken());
       }
-      sb.append(']');
+      sb.append("]");
     }
     return sb.toString();
   }

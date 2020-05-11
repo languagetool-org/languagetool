@@ -57,7 +57,7 @@ class WikipediaSentenceExtractor {
         }
         //System.out.println(sentence);
         fw.write(sentence);
-        fw.write('\n');
+        fw.write("\n");
         sentenceCount++;
         if (sentenceCount % 1000 == 0) {
           System.err.println("Exporting sentence #" + sentenceCount + "...");

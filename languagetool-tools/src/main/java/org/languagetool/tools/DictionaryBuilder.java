@@ -211,7 +211,7 @@ class DictionaryBuilder {
         String[] parts = line.split("\t");
         if (parts.length == 3) {
           out.write(parts[1] + separator + parts[0] + separator + parts[2]);
-          out.write('\n');
+          out.write("\n");
         } else {
           System.err
               .println("Invalid input, expected three tab-separated columns in "

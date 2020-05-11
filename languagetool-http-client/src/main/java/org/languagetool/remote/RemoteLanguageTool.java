@@ -105,9 +105,9 @@ public class RemoteLanguageTool {
 
   private void append(StringBuilder params, String paramName, String paramValue) {
     if (params.length() > 0) {
-      params.append('&');
+      params.append("&");
     }
-    params.append(paramName).append('=').append(encode(paramValue));
+    params.append(paramName).append("=").append(encode(paramValue));
   }
 
   private String encode(String text) {

@@ -142,7 +142,7 @@ public class StringToolsTest {
     assertEquals("bla\nöäü", str);
     StringBuilder longStr = new StringBuilder();
     for (int i = 0; i < 4000; i++) {
-      longStr.append('x');
+      longStr.append("x");
     }
     longStr.append("1234567");
     assertEquals(4007, longStr.length());

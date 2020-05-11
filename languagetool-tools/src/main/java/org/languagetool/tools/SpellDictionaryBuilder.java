@@ -105,10 +105,10 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
                   // https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries
                   // has already been assigned in a previous step, we now cannot just use
                   // that value after having changed the tokenization...
-                  out.write('A');  // assume least frequent
+                  out.write("A");  // assume least frequent
                 }
               }
-              out.write('\n');
+              out.write("\n");
             }
           }
         }

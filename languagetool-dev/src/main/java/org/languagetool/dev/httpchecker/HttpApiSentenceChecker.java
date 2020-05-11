@@ -160,7 +160,7 @@ class HttpApiSentenceChecker {
           JsonNode node = mapper.readTree(line);
           buildDates.add(node.get("software").get("buildDate").asText());
           fw.write(line);
-          fw.write('\n');
+          fw.write("\n");
         }
         FileUtils.deleteQuietly(threadFile);
       }

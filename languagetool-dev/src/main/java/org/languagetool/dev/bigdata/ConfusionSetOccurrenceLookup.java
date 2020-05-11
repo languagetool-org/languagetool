@@ -51,7 +51,7 @@ final class ConfusionSetOccurrenceLookup {
         for (String word : words) {
           long count = lm.getCount(word);
           total += count;
-          sb.append(word).append(':').append(count).append(' ');
+          sb.append(word).append(":").append(count).append(" ");
           counts.add(count);
         }
         float factor = (float)Collections.max(counts) / Collections.min(counts);

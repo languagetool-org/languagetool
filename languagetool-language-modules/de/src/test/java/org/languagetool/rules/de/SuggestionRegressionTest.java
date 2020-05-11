@@ -50,7 +50,7 @@ public class SuggestionRegressionTest {
     JLanguageTool lt = new JLanguageTool(german);
     for (String line : lines) {
       if (line.startsWith("#")) {
-        result.append(line).append('\n');
+        result.append(line).append("\n");
         continue;
       }
       String[] parts = line.split(" => ?");
@@ -62,7 +62,7 @@ public class SuggestionRegressionTest {
       List<String> oldSuggestions = parts.length > 1 ? Arrays.asList(parts[1].split(", ")) : Collections.emptyList();
       List<String> newSuggestions = rule.getSuggestions(word);
       String thisResult = word + " => " + String.join(", ", newSuggestions);
-      result.append(thisResult).append('\n');
+      result.append(thisResult).append("\n");
       if (!oldSuggestions.equals(newSuggestions)) {
         System.err.println("Input   : " + word);
         System.err.println("Expected: " + oldSuggestions);

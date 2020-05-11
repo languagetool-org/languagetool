@@ -613,7 +613,7 @@ public class SymSpell implements Serializable {
     StringBuilder s = new StringBuilder();
 
     for (SuggestItem si : suggestionParts) {
-      s.append(si.term).append(' ');
+      s.append(si.term).append(" ");
       suggestion.count = Math.min(suggestion.count, si.count);
     }
 
