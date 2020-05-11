@@ -126,6 +126,23 @@ public class CaseRule extends Rule {
       regex(".*")
     ),
     Arrays.asList(
+      // GitHub / Markdown check lists
+      SENT_START,
+      regex("\\*|\\-"),
+      token("["),
+      regex("]"),
+      regex(".*")
+    ),
+    Arrays.asList(
+      // GitHub / Markdown check lists
+      SENT_START,
+      regex("\\*|\\-"),
+      token("["),
+      token("x"),
+      regex("]"),
+      regex(".*")
+    ),
+    Arrays.asList(
       regex("Roten?"),
       regex("Bete")
     ),

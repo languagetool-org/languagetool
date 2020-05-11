@@ -337,6 +337,8 @@ public class CaseRuleTest {
     assertGood("Etwas Grünes, Schleimiges klebte an dem Stein.");
     assertGood("Er befürchtet Schlimmeres.");
     assertBad("Bis Bald!");
+    assertGood("#4 Aktuelle Situation");
+    assertGood("* [ ] Ein GitHub Markdown Listenpunkt");
     
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");
@@ -344,7 +346,6 @@ public class CaseRuleTest {
     assertGood("Er vertraut auf CO2-arme Wasserkraft");
     assertGood("Das Entweder-oder ist kein Problem.");
     assertGood("Er liebt ihre Makeup-freie Haut.");
-    assertGood("#4 Aktuelle Situation");
   }
 
   private void assertGood(String input) throws IOException {
