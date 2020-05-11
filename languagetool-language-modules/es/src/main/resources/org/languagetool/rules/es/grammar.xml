@@ -34,6 +34,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY context_te "abedul|alpiste|arroz|banana|boldo|buganvilia|burbujas|burro|calidad|campana|canela|castaño|clavo|compost|congorosa|damiana|diente|epazote|equinácea|eucalipto|fenogreco|flor|fourche|frambuesa|frutas|frutos|ginkgo|herbalife|hibisco|hierbabuena|hierbas|hinojo|hums|jamaica|jazmín|jengibre|jesuitas|kava|kombucha|laurel|lavanda|lechuga|limón|lino|manzana|manzanilla|matcha|melisa|menta|montaña|naranja|navidad|neem|nuez|níspero|oolong|ortiga|orégano|pasiflora|perejil|piña|quina|roca|romero|rooibos|rosas|ruda|sabor|sabores|salón|sauco|semilla|suerte|tilo|tomillo|toronjil|uva|vainilla|valeriana|verbena|walamo|wereke|yerba|yerbabuena|yuja|zacate|zanahoria|zapote|zarzaparrilla|zen|zorrillo">
 <!ENTITY exceptions_Paris "Homero|Ifigenia|Aulis|mitológico|mitología|mito|argivo|Afrodita|Helena|Elena|Menelao|Héctor|Troya|Atena|Atenea|Atenas|Esparta|príncipe|troyano|Himeneo|juicio">
 <!ENTITY pronombre_no_determinante "lo|algo|alguien|alguno|aquello|aquél|aquélla|aquéllas|aquéllos|cual|cualesquiera|cualquiera|eso|esto|media|medias|medio|medios|misma|mismas|mismo|mismos|nada|nadie|naide|ninguno|quienesquiera|quienquiera|uno|ésa|ésas|ése|ésos|ésta|éstas|éste|éstos">
+<!ENTITY adv_probabilidad "ojalá|quizá|quizás">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -1024,6 +1025,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
+                    <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" skip="15"/>
+                    <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="20">&adv_probabilidad;</token>
+                    <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" skip="15"/>
+                    <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
                     <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes"/>
                     <token postag="DA.*" postag_regexp="yes" min="0"/>
                     <token postag="P[RT].*" postag_regexp="yes"/>
@@ -1032,7 +1045,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <and>
                         <token inflected="yes" regexp="yes">.*ar</token>
-                        <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)<exception postag="_possible_NP"/></token>
+                        <token postag="VMSI(3S|3P|2S)0" postag_regexp="yes" regexp="yes">.+(ara|aran|aras)<exception postag="_possible_NP|VMI.*" postag_regexp="yes"/></token>
                     </and>
                 </pattern>
                 <message>Si es futuro, se escribe con tilde.</message>
@@ -1052,6 +1065,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cantara cuánto cantara</example>
                 <example>Diera resultado o no.</example>
                 <example>En el caso de que cantara bien, tendría éxito.</example>
+                <example>Es posible que me confundiera y me llevara tu paraguas.</example>
+                <example>Ojalá ella se sentara en el asiento junto a mí.</example>
+                <example>Ojalá se sentara a mi lado y hablara conmigo.</example>
+                <example>En la evolución, equipara una cosa con la otra.</example>
+                <!-- the error is a missing word before the verb: -->
+                <example correction="dejará">Se adhirió a la organización antes de él <marker>dejara</marker> el cargo.</example>
             </rule>
             <rule>
                 <antipattern>
