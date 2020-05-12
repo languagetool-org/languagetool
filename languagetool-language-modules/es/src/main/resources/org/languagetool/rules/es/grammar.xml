@@ -1604,7 +1604,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="fúlgida">Una tela <marker>fulgida</marker>.</example>
                 <example>Ha fulgido siempre.</example>
             </rule>
-            <rule>
+            <rule> <!-- TODO: bebe/beba (only LatAM)-->
                 <pattern>
                     <token>barbaros</token>
                 </pattern>
@@ -1619,6 +1619,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es nombre o adjetivo, se escribe con tilde.</message>
                 <suggestion>pícaros</suggestion>
                 <example correction="pícaros">Los <marker>picaros</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">ir|tener|haber</token>
+                    <token regexp="yes">a|que|de</token>
+                    <token>cantaros</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">querer|desear|gustar|deber</token>
+                    <token>cantaros</token>
+                </antipattern>
+                <pattern>
+                    <token>cantaros</token>
+                </pattern>
+                <message>Si es nombre, se escribe con tilde.</message>
+                <suggestion>cántaros</suggestion>
+                <example correction="cántaros">Llueve a <marker>cantaros</marker>.</example>
+                <example>Voy a cantaros.</example>
+                <example>Quiero cantaros.</example>
+                <example>Me gustaría cantaros.</example>
             </rule>
             <rule>
                 <pattern>
