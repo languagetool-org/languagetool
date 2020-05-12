@@ -22,9 +22,10 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * Run LT on a large file with one sentence per line.
@@ -35,19 +36,16 @@ class SentenceChecker {
   
   private static final int BATCH_SIZE = 1000;
 
-  private void run(Language language, File file) throws IOException {
+  private void run(Language language, Path path) throws IOException {
     JLanguageTool lt = new JLanguageTool(language);
-    try (Scanner scanner = new Scanner(file)) {
-      int count = 0;
-      long startTime = System.currentTimeMillis();
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
-        lt.check(line);
-        if (++count % BATCH_SIZE == 0) {
-          long time = System.currentTimeMillis() - startTime;
-          System.out.println(count + ". " + time + "ms per " + BATCH_SIZE + " sentences");
-          startTime = System.currentTimeMillis();
-        }
+    int count = 0;
+    long startTime = System.currentTimeMillis();
+    for (String line : Files.readAllLines(path)) {
+      lt.check(line);
+      if (++count % BATCH_SIZE == 0) {
+        long time = System.currentTimeMillis() - startTime;
+        System.out.println(count + ". " + time + "ms per " + BATCH_SIZE + " sentences");
+        startTime = System.currentTimeMillis();
       }
     }
   }
@@ -58,6 +56,6 @@ class SentenceChecker {
       System.exit(1);
     }
     SentenceChecker checker = new SentenceChecker();
-    checker.run(Languages.getLanguageForShortCode(args[0]), new File(args[1]));
+    checker.run(Languages.getLanguageForShortCode(args[0]), Paths.get(args[1]));
   }
 }

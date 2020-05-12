@@ -27,6 +27,7 @@ import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
@@ -142,26 +143,23 @@ public class RuleCreator {
     ruleCount++;
   }
 
-  private void initMaps(File homophoneOccurrenceFile) throws FileNotFoundException {
-    try (Scanner s = new Scanner(homophoneOccurrenceFile)) {
-      while (s.hasNextLine()) {
-        String line = s.nextLine();
-        String[] parts = line.split("\t");
-        if (parts.length != 3) {
-          throw new RuntimeException("Unexpected format: '" + line + "'");
-        }
-        long occurrenceCount = Integer.parseInt(parts[1]);
-        OccurrenceInfo occurrenceInfo = new OccurrenceInfo(parts[2], occurrenceCount);
-        List<OccurrenceInfo> list;
-        if (occurrenceInfos.containsKey(parts[0])) {
-          list = occurrenceInfos.get(parts[0]);
-        } else {
-          list = new ArrayList<>();
-        }
-        list.add(occurrenceInfo);
-        occurrenceInfos.put(parts[0], list);
-        ngramToOccurrence.put(parts[2], occurrenceCount);
+  private void initMaps(File homophoneOccurrenceFile) throws IOException {
+    for (String line : Files.readAllLines(homophoneOccurrenceFile.toPath())) {
+      String[] parts = line.split("\t");
+      if (parts.length != 3) {
+        throw new RuntimeException("Unexpected format: '" + line + "'");
       }
+      long occurrenceCount = Integer.parseInt(parts[1]);
+      OccurrenceInfo occurrenceInfo = new OccurrenceInfo(parts[2], occurrenceCount);
+      List<OccurrenceInfo> list;
+      if (occurrenceInfos.containsKey(parts[0])) {
+        list = occurrenceInfos.get(parts[0]);
+      } else {
+        list = new ArrayList<>();
+      }
+      list.add(occurrenceInfo);
+      occurrenceInfos.put(parts[0], list);
+      ngramToOccurrence.put(parts[2], occurrenceCount);
     }
   }
 

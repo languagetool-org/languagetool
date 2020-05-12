@@ -28,12 +28,12 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.tools.Tools;
 
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -345,9 +345,7 @@ public class HunspellRule extends SpellingCheckRule {
       hunspell = Hunspell.getInstance(Paths.get(shortDicPath + ".dic"), affPath);
     }
     if (affPath != null) {
-      Scanner sc = new Scanner(affPath);
-      while (sc.hasNextLine()) {
-        String line = sc.nextLine();
+      for (String line : Files.readAllLines(affPath)) {
         if (line.startsWith("WORDCHARS ")) {
           String wordCharsFromAff = line.substring("WORDCHARS ".length());
           //System.out.println("#" + wordCharsFromAff+ "#");

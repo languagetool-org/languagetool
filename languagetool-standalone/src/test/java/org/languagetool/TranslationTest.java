@@ -24,6 +24,7 @@ import org.languagetool.tools.StringTools;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
@@ -69,7 +70,7 @@ public class TranslationTest {
         continue;
       }
       File file = file1.exists() ? file1 : file2;
-      List<String> lines = loadFile(file);
+      List<String> lines = Files.readAllLines(file.toPath());
       for (String line : lines) {
         line = line.trim();
         if (StringTools.isEmpty(line) || line.charAt(0)=='#') {
@@ -84,16 +85,6 @@ public class TranslationTest {
     }
   }
   
-  private List<String> loadFile(File file) throws IOException {
-    List<String> l = new ArrayList<>();
-    try (Scanner scanner = new Scanner(file)) {
-      while (scanner.hasNextLine()) {
-        l.add(scanner.nextLine());
-      }
-    }
-    return l;
-  }
-
   private File getEnglishTranslationFile() {
     String name = "../languagetool-core/src/main/resources/org/languagetool/MessagesBundle_en.properties";
     return new File(name.replace("/", File.separator));
