@@ -37227,6 +37227,7 @@ USA
                 <example correction="the most">This is by far <marker>most</marker> popular game ever.</example>
             </rule>
         </rulegroup>
+
         <rule id="EVERY_EACH_SINGULAR" name="'every/each' + SINGULAR">
             <antipattern>
                 <token regexp="yes">each|every</token>
@@ -37237,6 +37238,10 @@ USA
                 <token regexp="yes">each|every</token>
                 <token/>
                 <token spacebefore="no" regexp="yes">&apostrophe;</token>
+            </antipattern>
+            <antipattern><!-- #2685 www.ldoceonline.com/dictionary/each-other -->
+                <token>each</token>
+                <token>others</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">each|every</token>
@@ -37252,7 +37257,9 @@ USA
             <example>In an era in which every players' distance run in training and games can be measured and timed</example>
             <example>I took part in every sports event in school.</example>
             <example>Each seeks to prove to the higher court that the result they desired was the just result.</example>
+            <example>Students were often each others worst enemies.</example><!-- #2685. "each others" should be "each other's", but that is a different problem. Found by POSSESSIVE_APOSTROPHE -->
         </rule>
+
         <rule id="EACH_OTHERS" name="each others’ (other’s)">
             <pattern>
                 <token>each</token>
