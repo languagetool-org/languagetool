@@ -12087,6 +12087,11 @@ USA
                 <token>under</token>
                 <token regexp="yes">lines?</token>
             </antipattern>
+            <antipattern>
+                <token inflected="yes">be</token>
+                <token>under</token>
+                <token>estimate</token>
+            </antipattern>
             <pattern>
                 <token>under</token>
                 <token inflected="yes" regexp="yes">appreciate|estimate|achieve|whelm|line|rate</token>
@@ -12096,6 +12101,7 @@ USA
             <example correction="underappreciates">He <marker>under appreciates</marker> her skills.</example>
             <example>Just add this under line 302.</example>
             <example>I explained to her that we had been a customer under Rate No. 21 since July but only obtained access recently.</example>
+            <example>It is under estimate.</example>
         </rule>
         <rulegroup id="FEED_BACK" name="feed back (feedback)">
             <antipattern>
@@ -22814,10 +22820,12 @@ USA
                         <exception scope="previous" postag="SENT_START"/>
                     </token>
                     <marker>
-                        <token>who</token>
+                        <token case_sensitive="yes" regexp="yes">[Ww]ho</token>
                     </marker>
-                    <token><exception postag="PRP\$?|VB[ZD]|MD|RB|NN.*|IN|CC|WP" postag_regexp="yes"/>
-                        <exception regexp="yes">['“"]|are|else|(?iu)\p{Lu}\p{Ll}+</exception></token>
+                    <token>
+                        <exception postag="PRP\$?|VB[ZD]|MD|RB|NN.*|IN|CC|WP" postag_regexp="yes"/>
+                        <exception regexp="yes">['“"]|are|else|(?iu)\p{Lu}\p{Ll}+|\/</exception>
+                    </token>
                 </pattern>
                 <message>Did you mean <suggestion>whom</suggestion>?</message>
                 <short>Possible typo</short>
@@ -22826,13 +22834,14 @@ USA
                 <example>I will give you a quick synopsis of who Sam is.</example>
                 <example>If you figure out who, let me know.</example>
                 <example>I can't think of who else.</example>
+                <example>Fear of further spread of COVID-19 has led to international travel bans, despite WHO advising against the application of any inappropriate actions.</example>
                 <example correction="whom">The people to <marker>who</marker> the funds were supposedly directed benefited little from them.</example>
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
                     <token postag="IN" regexp="yes">[A-Z].+<exception regexp="yes">Out|Like|Ago|For</exception></token>
                     <marker>
-                        <token>who</token>
+                        <token case_sensitive="yes" regexp="yes">[Ww]ho</token>
                     </marker>
                     <token postag="VB.|MD" postag_regexp="yes"/>
                 </pattern>
@@ -55638,6 +55647,83 @@ The accident victim died from her injuries.
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rulegroup id="INDIAN_ENGLISH" name="Indian English replacements" default="temp_off">
+            <url>https://en.wikipedia.org/wiki/Indian_English#Vocabulary</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">redressals?</token>
+                </pattern>
+                <message>The word "\1" is Indian English. Consider a term that is more suited for an international audience.</message>
+                <suggestion>reparation<match no="1" regexp_match="(?i)redressal" regexp_replace="" case_conversion="alllower" /></suggestion>
+                <suggestion>compensation<match no="1" regexp_match="(?i)redressal" regexp_replace="" case_conversion="alllower" /></suggestion>
+                <suggestion>correction<match no="1" regexp_match="(?i)redressal" regexp_replace="" case_conversion="alllower" /></suggestion>
+                <suggestion>reaction<match no="1" regexp_match="(?i)redressal" regexp_replace="" case_conversion="alllower" /></suggestion>
+                <suggestion>redress</suggestion><!-- TODO: convert this to plural -->
+                <url>https://www.lexico.com/definition/redressal</url>
+                <example correction="reparation|compensation|correction|reaction|redress">Thanks for your speedy <marker>redressal</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">upgradations?</token>
+                </pattern>
+                <message>The word "\1" is Indian English. Consider a term that is more suited for an international audience.</message>
+                <suggestion>upgrade<match no="1" regexp_match="(?i)upgradation" regexp_replace="" case_conversion="alllower" /></suggestion>
+                <suggestion>enhancement<match no="1" regexp_match="(?i)upgradation" regexp_replace="" case_conversion="alllower" /></suggestion>
+                <url>https://www.lexico.com/definition/upgradation</url>
+                <example correction="upgrade|enhancement">I got an <marker>upgradation</marker> to premium economy.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">freeships?</token>
+                </pattern>
+                <message>The word "\1" is Indian English. Consider a term that is more suited for an international audience.</message>
+                <suggestion>free studentship<match no="1" regexp_match="(?i)freeship" regexp_replace="" case_conversion="alllower" /></suggestion>
+                <url>https://www.lexico.com/definition/freeship</url>
+                <example correction="free studentship">He was granted a <marker>freeship</marker> from the state.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>press</token>
+                    <token regexp="yes">persons?</token>
+                </pattern>
+                <message>The term "\1 \2" is Indian English. Consider a term that is more suited for an international audience.</message>
+                <suggestion>journalist<match no="2" regexp_match="(?i)person" regexp_replace="" case_conversion="alllower" /></suggestion>
+                <suggestion>reporter<match no="2" regexp_match="(?i)person" regexp_replace="" case_conversion="alllower" /></suggestion>
+                <url>https://www.lexico.com/definition/press_person</url>
+                <example correction="journalist|reporter">The <marker>press person</marker> interviewed the victim.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">presspersons?</token>
+                </pattern>
+                <message>The term "\1 \2" is Indian English. Consider a term that is more suited for an international audience.</message>
+                <suggestion>journalist<match no="1" regexp_match="(?i)pressperson" regexp_replace="" case_conversion="alllower" /></suggestion>
+                <suggestion>reporter<match no="1" regexp_match="(?i)pressperson" regexp_replace="" case_conversion="alllower" /></suggestion>
+                <url>https://www.lexico.com/definition/press_person</url>
+                <example correction="journalist|reporter">The <marker>pressperson</marker> interviewed the victim.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">prepone</token>
+                </pattern>
+                <message>The term "\1 \2" is Indian English. Consider a term that is more suited for an international audience.</message>
+                <suggestion><match no="1" regexp_match="(?i)prepon" regexp_replace="advanc" /></suggestion>
+                <url>https://www.lexico.com/definition/prepone</url>
+                <example correction="advance">The government might <marker>prepone</marker> these elections so we'd better be prepared.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">do</token>
+                    <token>the</token>
+                    <token>needful</token>
+                </pattern>
+                <message>This expression is chiefly Indian English or dated British English. Consider an alternative that is more suited for an international audience.</message>
+                <suggestion>\1 what is necessary</suggestion>
+                <suggestion>\1 what is required</suggestion>
+                <url>https://en.wiktionary.org/wiki/do_the_needful</url>
+                <example correction="do what is necessary|do what is required">We need to <marker>do the needful</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="RECOMMENDED_COMPOUNDS" name="Recommended compounds (smartphone, website, …)">
             <rule>
                 <pattern>
@@ -57384,6 +57470,21 @@ The accident victim died from her injuries.
     <!-- Semantic -->
     <!-- ====================================================================== -->
     <category id="SEMANTICS" name="Semantics" type="inconsistency">
+        <rule id="APOSTROPHE_UPPERCASE_LETTER" name="Inconsistent case: I don'T (don't)" default="temp_off">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">
+                    .*[a-z]
+                    <exception postag="UNKNOWN" />
+                </token>
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+                <token case_sensitive="yes" regexp="yes" spacebefore="no">S|D|Ve|VE|vE|rE|Re|RE|T|Ll|lL|LL</token>
+            </pattern>
+            <message>Inconsistent capitalization in contraction. Please verify.</message>
+            <suggestion>\1\2<match no="3" case_conversion="alllower" /></suggestion>
+            <example correction="He's"><marker>He'S</marker> very happy.</example>
+            <example correction="don't">I <marker>don'T</marker> have time.</example>
+            <example correction="there's">And <marker>there'S</marker> already a column in the DB.</example>
+        </rule>
         <rulegroup id="PH_D" name="abbreviation of 'philosophiae doctor' (PhD)">
             <antipattern case_sensitive="yes">
                 <token>Ph</token>
