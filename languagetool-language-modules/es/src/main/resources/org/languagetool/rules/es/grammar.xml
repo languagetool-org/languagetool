@@ -1614,6 +1614,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>picaros</token>
+                </pattern>
+                <message>Si es nombre o adjetivo, se escribe con tilde.</message>
+                <suggestion>pícaros</suggestion>
+                <example correction="pícaros">Los <marker>picaros</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">validos?</token>
+                </pattern>
+                <message>Si es adjetivo, se escribe con tilde. Correcto en el sentido de 'hombre de confianza del rey'.</message>
+                <suggestion><match no="1" regexp_match="(?i)(v)a(.*)" regexp_replace="$1á$2"/></suggestion>
+                <example correction="válidos">Son <marker>validos</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">incomodos?</token>
+                </pattern>
+                <message>Si es adjetivo, se escribe con tilde. Correcto en el sentido de 'incomodidad'.</message>
+                <suggestion><match no="1" regexp_match="(?i)(inc)o(.*)" regexp_replace="$1ó$2"/></suggestion>
+                <example correction="incómodos">Son <marker>incomodos</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">oreadas?</token>
+                </pattern>
+                <message>Si es nombre o adjetivo, se escribe con tilde.</message>
+                <suggestion><match no="1" regexp_match="(?i)(or)e(.*)" regexp_replace="$1é$2"/></suggestion>
+                <example correction="oréadas">Las <marker>oreadas</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">dolar(es)?</token>
                 </pattern>
                 <message>El nombre de la moneda se escribe con tilde.</message>
