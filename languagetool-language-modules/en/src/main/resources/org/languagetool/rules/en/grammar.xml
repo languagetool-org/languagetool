@@ -11819,7 +11819,7 @@ USA
             </antipattern>
             <pattern>
                 <!-- TODO: friendship (My friend ships ...) -->
-                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee</token>
+                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee|citizen</token>
                 <token regexp="yes">ships?</token>
             </pattern>
             <message>This noun is normally spelled as one.</message>
@@ -12736,7 +12736,9 @@ USA
         <rulegroup id="PRP_JJ" name="He scary (He is scary)">
             <!-- TODO: You/they afraid -->
             <antipattern>
-                <token postag="VB.*|IN|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z].*|&apostrophe;</token>
+                <token postag="VB.*|IN|UNKNOWN" postag_regexp="yes" regexp="yes">
+                    .*[a-z].*|&apostrophe;
+                </token>
                 <token regexp="yes">it|you</token>
             </antipattern>
             <antipattern><!-- see #2592, #2604, #2584 and #2605  -->
@@ -17675,7 +17677,19 @@ USA
                 <example correction="China">I always wanted to visit <marker>china</marker></example>
             </rule>
         </rulegroup>
-
+        <rule id="IN_QUEENS" name="queens (Queens)" default="temp_off">
+            <pattern>
+                <token regexp="yes">in|from|to|at</token>
+                <marker>
+                    <token case_sensitive="yes">queens</token>
+                </marker>
+            </pattern>
+            <message>Capitalize this word if you mean the New York borough.</message>
+            <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+            <url>https://www.merriam-webster.com/dictionary/Queens</url>
+            <example correction="Queens">I'm from <marker>queens</marker></example>
+            <example>Queens shed their wings after the nuptial flight, leaving visible stubs, a distinguishing feature of queens.</example>
+        </rule>
         <rulegroup id="IN_LONG_BEACH" name="long beach (Long Beach)">
             <url>https://en.wikipedia.org/wiki/Long_Beach,_California</url>
             <antipattern case_sensitive="yes">
@@ -17708,7 +17722,19 @@ USA
                 <example correction="Long Beach"><marker>Long beach</marker> is a city in California.</example>
             </rule>
         </rulegroup>
-
+        <rule id="THE_DUTCH" name="the dutch (Dutch)" default="temp_off">
+            <antipattern>
+                <token>old</token>
+                <token>dutch</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">dutch</token>
+            </pattern>
+            <message>Capitalize this word if you are referring to the Netherlands.</message>
+            <suggestion><match no="2" case_conversion="startupper" /></suggestion>
+            <url>https://www.merriam-webster.com/dictionary/dutch</url>
+            <example correction="Dutch">The <marker>dutch</marker> people are the tallest in the world.</example>
+        </rule>
         <rulegroup id="THE_POLISH" name="the polish (polish)">
             <url>https://www.merriam-webster.com/dictionary/Polish</url>
             <rule>
@@ -17740,7 +17766,7 @@ USA
         <rulegroup id="IN_A_HARRY" name="In a harry (hurry)">
             <antipattern>
                 <token>harry</token>
-                <token regexp="yes">potter.*</token>
+                <token regexp="yes">potter.*|styles.*|truman</token>
             </antipattern>
             <antipattern>
                 <token>harry</token>
@@ -22443,6 +22469,25 @@ USA
                 <token>do</token>
                 <token regexp="yes">it|this</token>
             </antipattern>
+            <antipattern>
+                <token chunk="I-VP" />
+                <token>to</token>
+                <token>do</token>
+                <token>tasks</token>
+            </antipattern>
+            <antipattern>
+                <token chunk="B-VP" />
+                <token>to</token>
+                <token>do</token>
+                <token>tasks</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">be</token>
+                <token postag="JJ.*" postag_regexp="yes" />
+                <token>to</token>
+                <token>do</token>
+                <token>tasks</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -22455,10 +22500,13 @@ USA
                 <suggestion>\1-\2</suggestion>
                 <example correction="to-do">He was working on finishing the <marker>to do</marker> list.</example>
                 <example>It's time to do this again.</example>
+                <example>I’m trying to do tasks.</example>
+                <example>I wanted to do tasks.</example>
+                <example>It was hard to do tasks.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">the|an?|my|your|our|their</token>
+                    <token regexp="yes">the|an?|my|your|our|their|his|many|th[oe]se</token>
                     <token postag="JJ.*" postag_regexp="yes" min="0">
                         <exception regexp="yes">best|worst</exception>
                         <exception postag="NN.*" postag_regexp="yes" />
@@ -22478,6 +22526,48 @@ USA
                 <example>She obeys him no matter what he tells her to do.</example>
                 <example>You must be a fool to do such a thing.</example>
                 <example>I'm giving my best to do that.</example>
+                <example>Tom should be the next to do that.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token case_sensitive="yes">TODO</token>
+                </antipattern>
+                <antipattern>
+                    <token>todo</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" />
+                </antipattern>
+                <pattern>
+                    <token>todo</token>
+                </pattern>
+                <message>It appears that a hyphen is missing in the noun <suggestion><match no="1" regexp_match="(?i)(o)(d)" regexp_replace="$1-$2" /></suggestion> (= task) or did you mean the verb <suggestion>to do</suggestion>?</message>
+                <example correction="to-do|to do">I have nothing <marker>todo</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>Todos</token>
+                    <token regexp="yes">Santos|Tus|Los|Por</token>
+                </antipattern>
+                <antipattern>
+                    <token case_sensitive="yes">TODOS</token>
+                </antipattern>
+                <pattern>
+                    <token>todos</token>
+                </pattern>
+                <message>It appears that a hyphen is missing in the plural noun <suggestion><match no="1" regexp_match="(?i)(o)(d)" regexp_replace="$1-$2" /></suggestion>?</message>
+                <example correction="to-dos">I have plenty of <marker>todos</marker> on my plate.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token case_sensitive="yes">DOS</token>
+                </antipattern>
+                <pattern>
+                    <token>to</token>
+                    <token>dos</token>
+                </pattern>
+                <message>It appears that a hyphen is missing in the plural noun <suggestion>\1-\2</suggestion>.</message>
+                <example correction="to-dos">I have plenty of <marker>to dos</marker> on my plate.</example>
+                <example>Prior to DOS 5, the Basic interpreter was GW-Basic.</example>
             </rule>
             <rule>
                 <pattern>
@@ -32839,7 +32929,55 @@ USA
                 <example>The Hell's Angels came in on motorcycles and slashed banners while yelling "Go back to Russia, you fucking communists!" at the protesters.</example>
             </rule>
         </rulegroup>
-
+        <rule id="HE_NEED" name="He need (needs)" default="temp_off"><!-- cases not caught by HE_VERB_AGR because of MD exception -->
+            <antipattern>
+                <token inflected="yes" regexp="yes">do|be</token>
+                <token regexp="yes">s?he|it</token>
+            </antipattern>
+            <antipattern>
+                <token postag="IN">
+                    <exception>since</exception>
+                </token>
+                <token skip="1">it</token>
+                <token>need</token>
+            </antipattern>
+            <antipattern>
+                <token chunk="I-VP" />
+                <token skip="1">it</token>
+                <token>need</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">do|be</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+                <token regexp="yes">s?he|it</token>
+            </antipattern>
+            <antipattern>
+                <token postag="MD" />
+                <token regexp="yes">s?he|it</token>
+            </antipattern>
+            <antipattern>
+                <token postag="MD" />
+                <token regexp="yes">&apostrophe;</token>
+                <token>t</token>
+                <token regexp="yes">s?he|it</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">s?he|it</token>
+                <token postag="RB" min="0" max="2" />
+                <marker>
+                    <token>need</token>
+                </marker>
+                <token postag="DT|TO|NN:UN?|NN[SP]?|JJ.*" postag_regexp="yes" />
+            </pattern>
+            <message>The pronoun "\1" requires a third person or past tense verb.</message>
+            <suggestion>needs</suggestion>
+            <suggestion>needed</suggestion>
+            <example correction="needs|needed">He <marker>need</marker> to relax.</example>
+            <example>Does she need the book?</example>
+            <example>People who are able to code it need to have the motivation.</example>
+            <example>Note that this integration is not a New Relic creation so issues or problems with it need to be referred to WordPress.</example>
+        </rule>
         <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person/past tense verb with 'he/she/it' or a pronoun">
             <short>Agreement error</short>
             <antipattern><!-- nobody having any question. Applicable to rule 1 and rule 7. -->
@@ -46751,7 +46889,9 @@ The accident victim died from her injuries.
                 <token>though</token>
             </antipattern>
             <antipattern>
-                <token postag="IN" />
+                <token postag="IN">
+                    <exception>since</exception>
+                </token>
                 <token regexp="yes">it|you</token>
             </antipattern>
             <antipattern><!-- 7 tips to successful recruiting -->
@@ -55694,9 +55834,9 @@ The accident victim died from her injuries.
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">presspersons?</token>
+                    <token regexp="yes">press\-?persons?</token>
                 </pattern>
-                <message>The term "\1 \2" is Indian English. Consider a term that is more suited for an international audience.</message>
+                <message>The term "\1" is Indian English. Consider a term that is more suited for an international audience.</message>
                 <suggestion>journalist<match no="1" regexp_match="(?i)pressperson" regexp_replace="" case_conversion="alllower" /></suggestion>
                 <suggestion>reporter<match no="1" regexp_match="(?i)pressperson" regexp_replace="" case_conversion="alllower" /></suggestion>
                 <url>https://www.lexico.com/definition/press_person</url>
@@ -55706,7 +55846,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <token inflected="yes">prepone</token>
                 </pattern>
-                <message>The term "\1 \2" is Indian English. Consider a term that is more suited for an international audience.</message>
+                <message>The term "\1" is Indian English. Consider a term that is more suited for an international audience.</message>
                 <suggestion><match no="1" regexp_match="(?i)prepon" regexp_replace="advanc" /></suggestion>
                 <url>https://www.lexico.com/definition/prepone</url>
                 <example correction="advance">The government might <marker>prepone</marker> these elections so we'd better be prepared.</example>
