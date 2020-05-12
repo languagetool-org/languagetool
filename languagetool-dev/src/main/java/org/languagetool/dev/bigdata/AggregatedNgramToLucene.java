@@ -28,8 +28,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.*;
 
 /**
@@ -56,10 +54,13 @@ class AggregatedNgramToLucene implements AutoCloseable {
     }
   }
 
-  void indexInputFile(Path path) throws IOException {
-    System.out.println("=== Indexing " + path + " ===");
-    for (String line : Files.readAllLines(path)) {
-      indexLine(line);
+  void indexInputFile(File file) throws IOException {
+    System.out.println("=== Indexing " + file + " ===");
+    try (Scanner scanner = new Scanner(file)) {
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
+        indexLine(line);
+      }
     }
   }
 
@@ -126,7 +127,7 @@ class AggregatedNgramToLucene implements AutoCloseable {
     try (AggregatedNgramToLucene prg = new AggregatedNgramToLucene(outputDir)) {
       for (File file : inputDir.listFiles()) {
         if (file.isFile()) {
-          prg.indexInputFile(file.toPath());
+          prg.indexInputFile(file);
         }
       }
       prg.addTotalTokenCountDoc(prg.totalTokenCount, prg.indexes.get(1).indexWriter);

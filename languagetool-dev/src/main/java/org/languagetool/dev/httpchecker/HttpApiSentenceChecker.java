@@ -80,10 +80,11 @@ class HttpApiSentenceChecker {
     return String.format("%d:%02d:%02d", absSeconds / 3600, (absSeconds % 3600) / 60, absSeconds % 60);
   }
 
-  private int countLines(File input) throws IOException {
+  private int countLines(File input) throws FileNotFoundException {
     int count = 0;
-    try (BufferedReader reader = Files.newBufferedReader(input.toPath())) {
-      while (reader.readLine() != null) {
+    try (Scanner sc = new Scanner(input)) {
+      while (sc.hasNextLine()) {
+        sc.nextLine();
         count++;
       }
     }
@@ -99,10 +100,10 @@ class HttpApiSentenceChecker {
     int lineCount = 0;
     File tempFile = getTempFile(fileCount);
     tempFiles.add(tempFile);
-    Writer fw = Files.newBufferedWriter(tempFile.toPath());
-    try (BufferedReader reader = Files.newBufferedReader(input.toPath())) {
-      String line;
-      while ((line = reader.readLine()) != null) {
+    FileWriter fw = new FileWriter(tempFile);
+    try (Scanner sc = new Scanner(input)) {
+      while (sc.hasNextLine()) {
+        String line = sc.nextLine();
         fw.write(line + "\n");
         lineCount++;
         if (lineCount > 0 && lineCount % batchSize == 0) {
@@ -113,7 +114,7 @@ class HttpApiSentenceChecker {
           FileUtils.moveFile(tempFile, destFile);
           tempFile = getTempFile(fileCount);
           tempFiles.add(destFile);
-          fw = Files.newBufferedWriter(tempFile.toPath());
+          fw = new FileWriter(tempFile);
         }
       }
     }

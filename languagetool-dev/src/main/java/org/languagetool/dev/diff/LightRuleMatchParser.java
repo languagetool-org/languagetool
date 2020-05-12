@@ -23,8 +23,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -55,15 +53,19 @@ class LightRuleMatchParser {
   private List<LightRuleMatch> parseAggregatedJson(File inputFile) throws IOException {
     ObjectMapper mapper = new ObjectMapper();
     List<LightRuleMatch> ruleMatches = new ArrayList<>();
-    try (BufferedReader br = Files.newBufferedReader(inputFile.toPath())) {
-      String line;
-      while ((line = br.readLine()) != null) {
+    int lineCount = 1;
+    try (Scanner scanner = new Scanner(inputFile)) {
+      while (scanner.hasNextLine()) {
+        String line = scanner.nextLine();
         JsonNode node = mapper.readTree(line);
         JsonNode matches = node.get("matches");
         for (JsonNode match : matches) {
           ruleMatches.add(nodeToLightMatch(node.get("title").asText(), match));
         }
+        lineCount++;
       }
+    } catch (Exception e) {
+      throw new RuntimeException("Failed to parse line " + lineCount + " of " + inputFile, e);
     }
     return ruleMatches;
   }

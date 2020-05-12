@@ -22,8 +22,6 @@ import org.languagetool.languagemodel.LuceneLanguageModel;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
 
 /**
@@ -41,8 +39,11 @@ final class ConfusionSetOccurrenceLookup {
       System.out.println("Usage: " + ConfusionSetOccurrenceLookup.class.getName() + " <confusion-file> <ngram-data-dir>");
       System.exit(1);
     }
-    try (LuceneLanguageModel lm = new LuceneLanguageModel(new File(args[1]))) {
-      for (String line : Files.readAllLines(Paths.get(args[0]))) {
+    try (Scanner sc = new Scanner(new File(args[0]));
+         LuceneLanguageModel lm = new LuceneLanguageModel(new File(args[1]))
+    ) {
+      while (sc.hasNextLine()) {
+        String line = sc.nextLine();
         String[] words = line.split(";\\s*");
         long total = 0;
         List<Long> counts = new ArrayList<>();
