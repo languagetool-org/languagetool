@@ -8676,7 +8676,17 @@ though, and has since been slightly modified)-->
           <message>Vouliez-vous dire <suggestion>la journée</suggestion> ?</message>
           <example correction="la journée">J'ai pris <marker>la journé</marker> de repos.</example>
       </rule>
-      <!-- http://www.leconjugueur.com/frlesnombres.php -->
+      <rule id="IL_A_TOMBER" name="Expression il a tomber" default="temp_off">
+          <pattern>
+              <token>il</token>
+              <token inflected="yes">avoir</token>
+              <token postag="V.* ppa.*" postag_regexp="yes" inflected="yes">tomber</token>
+          </pattern>
+          <message>Pour cette expression, employez plutôt l'auxiliaire être.</message>
+          <example correction=""><marker>Il a tombé</marker> 20 cm de neige.</example>
+      </rule>
+
+    <!-- http://www.leconjugueur.com/frlesnombres.php -->
     <rulegroup id="TRAIT_UNION_NOMBRE" name="Nombre avec trait d’union">
       <rule>
         <pattern>
@@ -17957,35 +17967,43 @@ though, and has since been slightly modified)-->
       <rulegroup id="SCREENSHOT" name="Anglicisme : screenshot" default="temp_off">
           <rule>
               <pattern>
-                  <token>screenshot</token>
+                  <token regexp="yes">screenshots?</token>
               </pattern>
-              <message>« Screenshot » est un anglicisme. L'équivalent français est <suggestion>capture d'écran</suggestion>.</message>
+              <message>« \1 » est un anglicisme. L'équivalent français est « capture(s) d'écran ».</message>
+              <suggestion><match no="1" regexp_match="(screenshot)(s)?" regexp_replace="capture$2"/> d'écran</suggestion>
               <example correction="capture d'écran">J'en ai pris un <marker>screenshot</marker> si tu veux.</example>
+              <example correction="captures d'écran">J'en ai pris des <marker>screenshots</marker> si tu veux.</example>
           </rule>
           <rule>
               <pattern>
                   <token>screen</token>
-                  <token>shot</token>
+                  <token regexp="yes">shots?</token>
               </pattern>
-              <message>« Screenshot » est un anglicisme. L'équivalent français est <suggestion>capture d'écran</suggestion>.</message>
+              <message>« \1 \2 » est un anglicisme. L'équivalent français est « capture(s) d'écran ».</message>
+              <suggestion><match no="2" regexp_match="(shot)(s)?" regexp_replace="capture$2"/> d'écran</suggestion>
               <example correction="capture d'écran">J'en ai pris un <marker>screen shot</marker> si tu veux.</example>
+              <example correction="captures d'écran">J'en ai pris un <marker>screen shots</marker> si tu veux.</example>
           </rule>
       </rulegroup>
       <rulegroup id="SCREENCAST" name="Anglicisme : screencast" default="temp_off">
           <rule>
               <pattern>
-                  <token>screencast</token>
+                  <token regexp="yes">screencasts?</token>
               </pattern>
-              <message>« Screencast » est un anglicisme. L'équivalent français est <suggestion>capture vidéo</suggestion>.</message>
+              <message>« \1 » est un anglicisme. L'équivalent français est « capture(s) vidéo ».</message>
+              <suggestion><match no="1" regexp_match="(screencast)(s)?" regexp_replace="capture$2"/> vidéo</suggestion>
               <example correction="capture vidéo">J'en ai pris un <marker>screencast</marker> si tu veux.</example>
+              <example correction="captures vidéo">J'en ai pris des <marker>screencasts</marker> si tu veux.</example>
           </rule>
           <rule>
               <pattern>
                   <token>screen</token>
-                  <token>cast</token>
+                  <token regexp="yes">casts?</token>
               </pattern>
-              <message>« Screencast » est un anglicisme. L'équivalent français est <suggestion>capture vidéo</suggestion>.</message>
+              <message>« \1 \2 » est un anglicisme. L'équivalent français est « capture(s) vidéo ».</message>
+              <suggestion><match no="2" regexp_match="(cast)(s)?" regexp_replace="capture$2"/> vidéo</suggestion>
               <example correction="capture vidéo">J'en ai pris un <marker>screen cast</marker> si tu veux.</example>
+              <example correction="captures vidéo">J'en ai pris un <marker>screen casts</marker> si tu veux.</example>
           </rule>
       </rulegroup>
       <rule id="TEMPLATE_ANGLICISME" name="Anglicisme : template">
