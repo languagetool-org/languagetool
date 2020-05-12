@@ -42,18 +42,23 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       "^(des|avant|auto|ex|extra|macro|mega|meta|micro|multi|mono|mini|post|retro|semi|super|trans) (..+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
-  private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnmts])(h?[aeiouàéèíòóú].*)$",
+  private static final Pattern APOSTROF_INICI_VERBS = Pattern.compile("^([lnts])(h?[aeiouàéèíòóú].*)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_INICI_NOM_SING = Pattern.compile("^([ld])(h?[aeiouàéèíòóú].+)$",
+  private static final Pattern APOSTROF_INICI_VERBS_M = Pattern.compile("^(m)(h?[aeiouàéèíòóú].*)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern APOSTROF_INICI_NOM_SING = Pattern.compile("^([ld])(h?[aeiouàéèíòóú]...+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_PLURAL = Pattern.compile("^(d)(h?[aeiouàéèíòóú].+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_FINAL = Pattern.compile("^(.+[aei])(l|ls|m|ns|s)$",
+  private static final Pattern APOSTROF_FINAL = Pattern.compile("^(.+[aei])(l|ls|m|ns|s|n|t)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern GUIONET_FINAL = Pattern.compile(
       "^([\\p{L}·]+)[’']?(hi|ho|la|les|li|lo|los|me|ne|nos|se|te|vos)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern MOVE_TO_SECOND_POS = Pattern.compile("^(.+'[nt])$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern VERB_INDSUBJ = Pattern.compile("V.[SI].*");
+  private static final Pattern VERB_INDSUBJ_M = Pattern.compile("V.[SI].[123]S.*|V.[SI].[23]P.*");
   private static final Pattern NOM_SING = Pattern.compile("V.[NG].*|V.P..S..|N..[SN].*|A...[SN].|PX..S...|DD..S.");
   private static final Pattern NOM_PLURAL = Pattern.compile("V.P..P..|N..[PN].*|A...[PN].|PX..P...|DD..P.");
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
@@ -64,8 +69,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
     tagger = new CatalanTagger(language);
-    dictFilename = "/ca/spelling/spelling-" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
-    //dictFilename = "/ca/spelling/ca_spelling.dict";
+    dictFilename = "/ca/" + language.getShortCodeWithCountryAndVariant() + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
   }
 
   @Override
@@ -95,12 +99,12 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     List<SuggestedReplacement> newSuggestions = new ArrayList<>();
     // for (SuggestedReplacement suggestion : suggestions) {
     for (int i = 0; i < suggestions.size(); i++) {
-      
+
       // remove wrong split prefixes
       if (PREFIX_AMB_ESPAI.matcher(suggestions.get(i).getReplacement()).matches()) {
         continue;
       }
-      
+
       // move some split words to first place
       Matcher matcher = PARTICULA_INICIAL.matcher(suggestions.get(i).getReplacement());
       if (matcher.matches()) {
@@ -118,6 +122,15 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       if (i > 1 && suggestions.size() > 2 && cleanSuggestion.equalsIgnoreCase(word)) {
         newSuggestions.add(1, suggestions.get(i));
         continue;
+      }
+
+      // move "queda'n" to second place
+      if (i == 1) {
+        Matcher m = MOVE_TO_SECOND_POS.matcher(suggestions.get(0).getReplacement());
+        if (m.matches()) {
+          newSuggestions.add(0, suggestions.get(i));
+          continue;
+        }
       }
 
       newSuggestions.add(suggestions.get(i));
@@ -139,13 +152,14 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
      * if (word.length() < 5) { return Collections.emptyList(); }
      */
     String suggestion = "";
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'");
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'");
-    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_PLURAL, NOM_PLURAL, 2, "'");
-    if (!word.endsWith("as") && !word.endsWith("et")) {
-      suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'");
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS, VERB_INDSUBJ, 2, "'", true);
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'", true);
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'", true);
+    suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_PLURAL, NOM_PLURAL, 2, "'", true);
+    if (!word.endsWith("as")) {
+      suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'", true);
     }
-    suggestion = findSuggestion(suggestion, word, GUIONET_FINAL, VERB_INFGERIMP, 1, "-");
+    suggestion = findSuggestion(suggestion, word, GUIONET_FINAL, VERB_INFGERIMP, 1, "-", true);
     if (!suggestion.isEmpty()) {
       return Collections.singletonList(suggestion);
     }
@@ -153,7 +167,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   }
 
   private String findSuggestion(String suggestion, String word, Pattern wordPattern, Pattern postagPattern,
-      int suggestionPosition, String separator) throws IOException {
+      int suggestionPosition, String separator, boolean recursive) throws IOException {
     if (!suggestion.isEmpty()) {
       return suggestion;
     }
@@ -162,6 +176,18 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       String newSuggestion = matcher.group(suggestionPosition);
       if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0), postagPattern)) {
         return matcher.group(1) + separator + matcher.group(2);
+      }
+      if (recursive) {
+        List<String> moresugg = this.speller1.getSuggestions(newSuggestion);
+        if (moresugg.size() > 0) {
+          String newWord;
+          if (suggestionPosition == 1) {
+            newWord = moresugg.get(0) + matcher.group(2);
+          } else {
+            newWord = matcher.group(1) + moresugg.get(0);
+          }
+          return findSuggestion(suggestion, newWord, wordPattern, postagPattern, suggestionPosition, separator, false);
+        }
       }
     }
     return "";
