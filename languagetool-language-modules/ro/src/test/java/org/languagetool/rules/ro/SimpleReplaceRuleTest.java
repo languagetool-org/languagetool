@@ -19,8 +19,8 @@
 
 package org.languagetool.rules.ro;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Romanian;
@@ -32,8 +32,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * @author Ionuț Păduraru
@@ -43,7 +43,7 @@ public class SimpleReplaceRuleTest {
   private SimpleReplaceRule rule;
   private JLanguageTool langTool;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = new SimpleReplaceRule(TestTools.getMessages("ro"));
     langTool = new JLanguageTool(new Romanian());
@@ -137,16 +137,15 @@ public class SimpleReplaceRuleTest {
   private void checkSimpleReplaceRule(String sentence, String... words)
           throws IOException {
     final RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
-    assertEquals("Invalid matches.length while checking sentence: "
-            + sentence, words.length, matches.length);
+    assertEquals(words.length, matches.length, "Invalid matches.length while checking sentence: " + sentence);
     for (int i = 0; i < words.length; i++) {
       final String word = words[i];
       final String[] replacements = word.split("\\/");
-      assertEquals("Invalid replacement count wile checking sentence: "
-              + sentence, replacements.length, matches[i].getSuggestedReplacements().size());
+      assertEquals(replacements.length, matches[i].getSuggestedReplacements().size(),
+        "Invalid replacement count wile checking sentence: " + sentence);
       for (int j = 0; j < replacements.length; j++) {
-        assertEquals("Invalid suggested replacement while checking sentence: "
-                + sentence, replacements[j], matches[i].getSuggestedReplacements().get(j));
+        assertEquals(replacements[j], matches[i].getSuggestedReplacements().get(j),
+          "Invalid suggested replacement while checking sentence: " + sentence);
       }
     }
   }

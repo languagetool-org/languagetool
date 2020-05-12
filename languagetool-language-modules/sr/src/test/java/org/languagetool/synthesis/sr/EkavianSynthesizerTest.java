@@ -19,13 +19,13 @@
 package org.languagetool.synthesis.sr;
 
 import org.jetbrains.annotations.NotNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class EkavianSynthesizerTest {
 

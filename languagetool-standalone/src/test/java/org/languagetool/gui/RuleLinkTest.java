@@ -18,13 +18,13 @@
  */
 package org.languagetool.gui;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.rules.WordRepeatRule;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RuleLinkTest {
 

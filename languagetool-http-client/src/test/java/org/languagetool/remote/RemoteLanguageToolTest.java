@@ -18,7 +18,7 @@
  */
 package org.languagetool.remote;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
 
@@ -30,7 +30,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class RemoteLanguageToolTest { 
 

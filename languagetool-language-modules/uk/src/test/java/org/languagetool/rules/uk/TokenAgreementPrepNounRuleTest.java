@@ -18,16 +18,16 @@
  */
 package org.languagetool.rules.uk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -39,7 +39,7 @@ public class TokenAgreementPrepNounRuleTest {
   private JLanguageTool langTool;
   private TokenAgreementPrepNounRule rule;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new TokenAgreementPrepNounRule(TestTools.getMessages("uk"));
     langTool = new JLanguageTool(new Ukrainian());
@@ -130,7 +130,7 @@ public class TokenAgreementPrepNounRuleTest {
     // check match positions:
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("неба"), matches[0].getSuggestedReplacements());
-    assertTrue("Не містить «родовий»: " + matches[0].getMessage(), matches[0].getMessage().contains("родовий"));
+    assertTrue(matches[0].getMessage().contains("родовий"), "Не містить «родовий»: " + matches[0].getMessage());
 
     matches = ruleMatch("не в останню чергу через корупцією, міжрелігійну ворожнечу");
     assertEquals(1, matches.length);
@@ -149,19 +149,19 @@ public class TokenAgreementPrepNounRuleTest {
     RuleMatch[] match = rule.match(analyzedSentence);
     assertEquals(1, match.length);
     List<String> suggestedReplacements = match[0].getSuggestedReplacements();
-    assertTrue("Did not find «їхній»: " + suggestedReplacements, suggestedReplacements.contains("їхнім"));
+    assertTrue(suggestedReplacements.contains("їхнім"), "Did not find «їхній»: " + suggestedReplacements);
 
     analyzedSentence = langTool.getAnalyzedSentence("О дівчина!");
     match = rule.match(analyzedSentence);
     assertEquals(1, match.length);
     suggestedReplacements = match[0].getSuggestedReplacements();
-    assertTrue("Did not find кличний «дівчино»: " + suggestedReplacements, suggestedReplacements.contains("дівчино"));
+    assertTrue(suggestedReplacements.contains("дівчино"), "Did not find кличний «дівчино»: " + suggestedReplacements);
 
     matches = ruleMatch("по церковним канонам");
     // check match positions:
     assertEquals(1, matches.length);
     List<String> replacements = matches[0].getSuggestedReplacements();
-    assertTrue("Not found церковних among: " + replacements, replacements.contains("церковних"));
+    assertTrue(replacements.contains("церковних"), "Not found церковних among: " + replacements);
     
     // свята
     assertEmptyMatch("на Купала");

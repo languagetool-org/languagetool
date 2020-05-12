@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev.bigdata;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContextBuilderTest {
 

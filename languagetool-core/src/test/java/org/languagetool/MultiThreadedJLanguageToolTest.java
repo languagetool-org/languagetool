@@ -18,7 +18,7 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.MultipleWhitespaceRule;
 import org.languagetool.rules.Rule;
@@ -32,8 +32,7 @@ import java.util.concurrent.RejectedExecutionException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings("ResultOfObjectAllocationIgnored")
 public class MultiThreadedJLanguageToolTest {
@@ -113,13 +112,14 @@ public class MultiThreadedJLanguageToolTest {
     lt.shutdown();
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testIllegalThreadPoolSize1() {
-    new MultiThreadedJLanguageTool(new Demo(), 0);
+    assertThrows(IllegalArgumentException.class, () -> new MultiThreadedJLanguageTool(new Demo(), 0) );
   }
 
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testIllegalThreadPoolSize2() {
-    new MultiThreadedJLanguageTool(new Demo(), null, 0, null);
+    assertThrows(IllegalArgumentException.class, () ->
+      new MultiThreadedJLanguageTool(new Demo(), null, 0, null));
   }
 }

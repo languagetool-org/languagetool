@@ -19,9 +19,9 @@
 package org.languagetool.language.en.translation;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.GlobalConfig;
 import org.languagetool.rules.en.translation.BeoLingusTranslator;
 import org.languagetool.rules.translation.TranslationEntry;
@@ -31,14 +31,14 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class BeoLingusTranslatorTest {
 
   private BeoLingusTranslator translator;
   
-  @Before
+  @BeforeEach
   public void init() throws IOException {
     GlobalConfig globalConfig = new GlobalConfig();
     globalConfig.setBeolingusFile(new File("src/test/resources/beolingus_test.txt"));
@@ -46,7 +46,7 @@ public class BeoLingusTranslatorTest {
   }
 
   @Test
-  @Ignore("for interactive development only")
+  @Disabled("for interactive development only")
   public void testForDevelopment() {
     List<TranslationEntry> result1 = translator.translate("Luftpumpen", "de", "en");
     System.out.println(result1);

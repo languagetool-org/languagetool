@@ -19,14 +19,14 @@
 
 package org.languagetool.synthesis.pl;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.language.Polish;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PolishSynthesizerTest {
 

@@ -18,8 +18,8 @@
  */
 package org.languagetool.tagging.en;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
@@ -29,14 +29,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EnglishTaggerTest {
 
   private EnglishTagger tagger;
   private WordTokenizer tokenizer;
   
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new EnglishTagger();
     tokenizer = new WordTokenizer();

@@ -19,7 +19,7 @@
 package org.languagetool.tagging.sr;
 
 import org.jetbrains.annotations.NotNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 
 import java.io.IOException;

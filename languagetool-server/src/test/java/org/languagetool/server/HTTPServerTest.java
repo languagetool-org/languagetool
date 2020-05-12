@@ -19,8 +19,8 @@
 package org.languagetool.server;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.language.*;
 import org.languagetool.tools.StringTools;
@@ -33,8 +33,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.HashSet;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class HTTPServerTest {
 
@@ -44,7 +45,7 @@ public class HTTPServerTest {
   //private static final String LOAD_TEST_URL = "https://api.languagetool.org/v2/check";
   //private static final String LOAD_TEST_URL = "https://languagetool.org/api/v2/check";
   
-  @Before
+  @BeforeEach
   public void setup() {
     DatabaseLogger.getInstance().disableLogging();
   }
@@ -69,27 +70,27 @@ public class HTTPServerTest {
     String emptyResultPattern = ".*\"matches\":\\[\\].*";
     German german = new GermanyGerman();
     String result1 = checkV2(german, "");
-    assertTrue("Got " + result1 + ", expected " + emptyResultPattern, result1.matches(emptyResultPattern));
+    assertTrue(result1.matches(emptyResultPattern), "Got " + result1 + ", expected " + emptyResultPattern);
     String result2 = checkV2(german, "Ein kleiner Test");
-    assertTrue("Got " + result2 + ", expected " + emptyResultPattern, result2.matches(emptyResultPattern));
+    assertTrue(result2.matches(emptyResultPattern), "Got " + result2 + ", expected " + emptyResultPattern);
     // one error:
     assertTrue(checkV2(german, "ein kleiner test.").contains("UPPERCASE_SENTENCE_START"));
     // two errors:
     String result = checkV2(german, "ein kleiner test. Und wieder Erwarten noch was: \u00f6\u00e4\u00fc\u00df.");
-    assertTrue("Got result without 'UPPERCASE_SENTENCE_START': " + result, result.contains("UPPERCASE_SENTENCE_START"));
-    assertTrue("Got result without 'WIEDER_WILLEN': " + result, result.contains("WIEDER_WILLEN"));
-    assertTrue("Expected special chars, got: '" + result + "'",
-            result.contains("\u00f6\u00e4\u00fc\u00df"));   // special chars are intact
+    assertTrue(result.contains("UPPERCASE_SENTENCE_START"), "Got result without 'UPPERCASE_SENTENCE_START': " + result);
+    assertTrue(result.contains("WIEDER_WILLEN"), "Got result without 'WIEDER_WILLEN': " + result);
+    assertTrue(result.contains("\u00f6\u00e4\u00fc\u00df"),   // special chars are intact
+      "Expected special chars, got: '" + result + "'");
     assertTrue(checkV2(german, "bla <script>").contains("<script>"));  // no escaping of '<' and '>' needed, unlike in XML
 
     // other tests for special characters
     String germanSpecialChars = checkV2(german, "ein kleiner test. Und wieder Erwarten noch was: öäüß+ öäüß.");
-    assertTrue("Expected special chars, got: '" + germanSpecialChars + "'", germanSpecialChars.contains("öäüß+"));
+    assertTrue(germanSpecialChars.contains("öäüß+"), "Expected special chars, got: '" + germanSpecialChars + "'");
     String romanianSpecialChars = checkV2(new Romanian(), "bla bla șțîâă șțîâă și câteva caractere speciale");
-    assertTrue("Expected special chars, got: '" + romanianSpecialChars + "'", romanianSpecialChars.contains("șțîâă"));
+    assertTrue(romanianSpecialChars.contains("șțîâă"), "Expected special chars, got: '" + romanianSpecialChars + "'");
     Polish polish = new Polish();
     String polishSpecialChars = checkV2(polish, "Mówiła długo, żeby tylko mówić mówić długo.");
-    assertTrue("Expected special chars, got: '" + polishSpecialChars+ "'", polishSpecialChars.contains("mówić"));
+    assertTrue(polishSpecialChars.contains("mówić"), "Expected special chars, got: '" + polishSpecialChars+ "'");
     // test http POST
     assertTrue(checkByPOST(new Romanian(), "greșit greșit").contains("greșit"));
     // test supported language listing
@@ -136,26 +137,26 @@ public class HTTPServerTest {
     
     String resultEn = checkWithOptionsV2(
             english, german, "This is an test. We will will do so.", twoRules, nothing, false);
-    assertTrue("Result: " + resultEn, resultEn.contains("EN_A_VS_AN"));
-    assertTrue("Result: " + resultEn, resultEn.contains("ENGLISH_WORD_REPEAT_RULE"));
+    assertTrue(resultEn.contains("EN_A_VS_AN"), "Result: " + resultEn);
+    assertTrue(resultEn.contains("ENGLISH_WORD_REPEAT_RULE"), "Result: " + resultEn);
 
     //check two disabled options
     String result3 = checkWithOptionsV2(
             english, german, "This is an test. We will will do so.", nothing, twoRules, false);
-    assertFalse("Result: " + result3, result3.contains("EN_A_VS_AN"));
-    assertFalse("Result: " + result3, result3.contains("ENGLISH_WORD_REPEAT_RULE"));
+    assertFalse(result3.contains("EN_A_VS_AN"), "Result: " + result3);
+    assertFalse(result3.contains("ENGLISH_WORD_REPEAT_RULE"), "Result: " + result3);
     
     //two disabled, one enabled, so enabled wins
     String result4 = checkWithOptionsV2(
             english, german, "This is an test. We will will do so.", disableAvsAn, twoRules, false);
-    assertTrue("Result: " + result4, result4.contains("EN_A_VS_AN"));
-    assertFalse("Result: " + result4, result4.contains("ENGLISH_WORD_REPEAT_RULE"));
+    assertTrue(result4.contains("EN_A_VS_AN"), "Result: " + result4);
+    assertFalse(result4.contains("ENGLISH_WORD_REPEAT_RULE"), "Result: " + result4);
 
     String result5 = checkV2(null, "This is a test of the language detection.");
-    assertTrue("Result: " + result5, result5.contains("\"en-US\""));
+    assertTrue(result5.contains("\"en-US\""), "Result: " + result5);
 
     String result6 = checkV2(null, "This is a test of the language detection.", "&preferredVariants=de-DE,en-GB");
-    assertTrue("Result: " + result6, result6.contains("\"en-GB\""));
+    assertTrue(result6.contains("\"en-GB\""), "Result: " + result6);
 
     // fallback not working anymore, now giving confidence rating; tested in TextCheckerTest
     //String result7 = checkV2(null, "x");  // too short for auto-fallback, will use fallback

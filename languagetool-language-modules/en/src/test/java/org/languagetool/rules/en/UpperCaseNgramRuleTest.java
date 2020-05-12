@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.RuleMatch;
@@ -29,7 +29,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UpperCaseNgramRuleTest {
 
@@ -79,12 +79,12 @@ public class UpperCaseNgramRuleTest {
 
   private void assertGood(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
-    assertTrue("Expected no matches, got: " + Arrays.toString(matches), matches.length == 0);
+    assertTrue(matches.length == 0, "Expected no matches, got: " + Arrays.toString(matches));
   }
 
   private void assertMatch(String s) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(s));
-    assertTrue("Expected 1 match, got: " + Arrays.toString(matches), matches.length == 1);
+    assertTrue(matches.length == 1, "Expected 1 match, got: " + Arrays.toString(matches));
   }
 
 }

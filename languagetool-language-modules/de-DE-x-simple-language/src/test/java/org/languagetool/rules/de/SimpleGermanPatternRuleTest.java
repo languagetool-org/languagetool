@@ -20,7 +20,7 @@ package org.languagetool.rules.de;
 
 import java.io.IOException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.language.German;
 import org.languagetool.rules.patterns.PatternRuleTest;
 

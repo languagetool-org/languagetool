@@ -1,15 +1,14 @@
 package org.languagetool.tagging;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 
 import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CombiningTaggerTest {
 
@@ -65,9 +64,10 @@ public class CombiningTaggerTest {
     return sb.toString();
   }
 
-  @Test(expected = IOException.class)
-  public void testInvalidFile() throws Exception {
-    new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream("/xx/added-invalid.txt"));
+  @Test
+  public void testInvalidFile() {
+    assertThrows(IOException.class, () ->
+      new ManualTagger(JLanguageTool.getDataBroker().getFromResourceDirAsStream("/xx/added-invalid.txt")));
   }
 
 }

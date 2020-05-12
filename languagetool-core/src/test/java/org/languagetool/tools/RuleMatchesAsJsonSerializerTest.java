@@ -18,7 +18,7 @@
  */
 package org.languagetool.tools;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.JLanguageTool;
@@ -31,7 +31,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RuleMatchesAsJsonSerializerTest {
 
@@ -68,7 +68,8 @@ public class RuleMatchesAsJsonSerializerTest {
   }
 
   private void assertContains(String expectedSubstring, String json) {
-    assertTrue("Did not find expected string '" + expectedSubstring + "' in JSON:\n" + json, json.contains(expectedSubstring));
+    assertTrue(json.contains(expectedSubstring),
+      "Did not find expected string '" + expectedSubstring + "' in JSON:\n" + json);
   }
 
   @Test

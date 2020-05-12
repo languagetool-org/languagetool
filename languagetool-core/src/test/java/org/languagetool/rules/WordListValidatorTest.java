@@ -26,7 +26,7 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import static junit.framework.TestCase.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class WordListValidatorTest {
 

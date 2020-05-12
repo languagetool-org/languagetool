@@ -18,14 +18,14 @@
  */
 package org.languagetool.tagging.disambiguation;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.English;
 import org.languagetool.language.Ukrainian;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MultiWordChunkerTest {
 

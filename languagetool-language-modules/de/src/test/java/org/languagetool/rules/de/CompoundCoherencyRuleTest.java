@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
@@ -29,8 +29,8 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
 
 public class CompoundCoherencyRuleTest {
 
@@ -69,7 +69,7 @@ public class CompoundCoherencyRuleTest {
   }
 
   @Test
-  @Ignore("for debugging")
+  @Disabled("for debugging")
   public void testRuleInteractive() throws IOException {
     RuleMatch[] matches = getMatches("Der Zahn-Ärzte-Verband.", "Der Zahn-Ärzteverband.");
     assertThat("Got " + Arrays.toString(matches), matches.length, is(1));

@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.bitext;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Calls a test from core, because only here in stand-alone all languages 

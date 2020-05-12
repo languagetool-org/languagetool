@@ -19,10 +19,6 @@
 
 package org.languagetool.tagging.disambiguation.rules;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -31,7 +27,7 @@ import java.util.Set;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
@@ -42,6 +38,8 @@ import org.languagetool.XMLValidator;
 import org.languagetool.rules.patterns.PatternTestTools;
 import org.languagetool.tagging.disambiguation.xx.DemoDisambiguator;
 import org.xml.sax.SAXException;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class DisambiguationRuleTest {
 
@@ -126,9 +124,8 @@ public class DisambiguationRuleTest {
           //it's because getRawAnalyzedSentence does not set all properties
           //in AnalyzedSentence, and during equal test they are set for the
           //left-hand side
-          assertEquals("The untouched example (" + goodSentence + ") for " + lang.getName() +
-              " rule " + rule + "] was touched!",
-              sent.toString(), rule.replace(sentToReplace).toString());
+          assertEquals(sent.toString(), rule.replace(sentToReplace).toString(), "The untouched example (" + goodSentence + ") for " + lang.getName() +
+            " rule " + rule + "] was touched!");
         }
       }
       List<DisambiguatedExample> examples = rule.getExamples();
@@ -136,8 +133,8 @@ public class DisambiguationRuleTest {
         for (DisambiguatedExample example : examples) {
 
           String outputForms = example.getDisambiguated();
-          assertTrue("No output form found for: " + id, outputForms != null);
-          assertTrue("Output form must not be empty", outputForms.trim().length() > 0);
+          assertNotNull(outputForms, "No output form found for: " + id);
+          assertTrue(outputForms.trim().length() > 0, "Output form must not be empty");
           int expectedMatchStart = example.getExample().indexOf("<marker>");
           int expectedMatchEnd = example.getExample().indexOf("</marker>") - "<marker>".length();
           if (expectedMatchStart == -1 || expectedMatchEnd == -1) {
@@ -145,10 +142,9 @@ public class DisambiguationRuleTest {
                 + ": No position markup ('<marker>...</marker>') in disambiguated example in rule " + rule);
           }
           String inputForms = example.getAmbiguous();
-          assertTrue("No input form found for: " + id, inputForms != null);
+          assertNotNull(inputForms, "No input form found for: " + id);
           assertTrue(inputForms.trim().length() > 0);
-          assertTrue("Input and output forms for rule " + id + " are the same!",
-              !outputForms.equals(inputForms));
+          assertFalse(outputForms.equals(inputForms), "Input and output forms for rule " + id + " are the same!");
           AnalyzedSentence cleanInput = languageTool
               .getRawAnalyzedSentence(cleanXML(example.getExample()));
           AnalyzedSentence sent = disambiguateUntil(lang, rules, id,
@@ -157,12 +153,12 @@ public class DisambiguationRuleTest {
           AnalyzedSentence disambiguatedSent = rule
               .replace(disambiguateUntil(lang, rules, id, languageTool
                   .getRawAnalyzedSentence(cleanXML(example.getExample()))));
-          assertTrue(
+          assertFalse(cleanInput.equals(disambiguatedSent),
               "Disambiguated sentence is equal to the non-disambiguated sentence for rule: "
-                  + id + ". The sentence was: " + sent, !cleanInput.equals(disambiguatedSent));
-          assertTrue(
+                  + id + ". The sentence was: " + sent);
+          assertFalse(sent.equals(disambiguatedSent),
               "Disambiguated sentence is equal to the input sentence for rule: "
-                  + id + ". The sentence was: " + sent, !sent.equals(disambiguatedSent));
+                  + id + ". The sentence was: " + sent);
           String reading = "";
           String annotations = "";
           for (AnalyzedTokenReadings readings : sent.getTokens()) {
@@ -175,17 +171,16 @@ public class DisambiguationRuleTest {
               annotations = readings.getHistoricalAnnotations();
               int startPos = readings.getStartPos();
               int endPos = readings.getEndPos();
-              assertTrue(
+              assertTrue(startPos == expectedMatchStart && endPos == expectedMatchEnd,
                   "Wrong marker position in the example for the rule " + id +
-                  ": got " + startPos + "-" + endPos + ", expected " + expectedMatchStart + "-" + expectedMatchEnd,
-                  startPos == expectedMatchStart && endPos == expectedMatchEnd);
+                  ": got " + startPos + "-" + endPos + ", expected " + expectedMatchStart + "-" + expectedMatchEnd);
               break;
             }
           }
-          assertEquals("The input form for the rule " + id + " in the example: "
+          assertEquals(inputForms, sortForms(reading),
+            "The input form for the rule " + id + " in the example: "
               + example + " is different than expected (expected "
-              + inputForms + " but got " + sortForms(reading) + "). The token has been changed by the disambiguator: " + annotations,
-              inputForms, sortForms(reading));
+              + inputForms + " but got " + sortForms(reading) + "). The token has been changed by the disambiguator: " + annotations);
           for (AnalyzedTokenReadings readings : disambiguatedSent.getTokens()) {
             if (readings.isSentenceStart() && !outputForms.contains("<S>")) {
               continue;
@@ -198,10 +193,10 @@ public class DisambiguationRuleTest {
               break;
             }
           }
-          assertEquals("The output form for the rule " + id + " in the example: "
+          assertEquals(outputForms, sortForms(reading),
+            "The output form for the rule " + id + " in the example: "
               + example + " is different than expected (expected "
-              + outputForms + " but got " + sortForms(reading) + "). The token has been changed by the disambiguator: " + annotations,
-              outputForms, sortForms(reading));
+              + outputForms + " but got " + sortForms(reading) + "). The token has been changed by the disambiguator: " + annotations);
         }
       }
     }

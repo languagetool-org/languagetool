@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.ngrams;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.FakeLanguage;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -30,8 +30,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
 
 public class ConfusionProbabilityRuleTest {
 

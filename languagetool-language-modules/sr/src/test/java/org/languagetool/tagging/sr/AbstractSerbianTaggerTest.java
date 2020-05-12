@@ -18,7 +18,7 @@
  */
 package org.languagetool.tagging.sr;
 
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tokenizers.WordTokenizer;
@@ -27,7 +27,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Root class for SerbianTagger tests.
@@ -41,7 +41,7 @@ public abstract class AbstractSerbianTaggerTest {
   private SerbianTagger tagger;
   private WordTokenizer tokenizer;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = createTagger();
     tokenizer = new WordTokenizer();

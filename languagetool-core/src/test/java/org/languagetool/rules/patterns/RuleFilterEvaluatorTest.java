@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 
@@ -28,7 +28,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RuleFilterEvaluatorTest {
 
@@ -56,18 +57,19 @@ public class RuleFilterEvaluatorTest {
     assertThat(map.size(), is(1));
   }
 
-  @Test(expected = RuntimeException.class)
-  public void testDuplicateKey() throws Exception {
+  @Test
+  public void testDuplicateKey() {
     AnalyzedTokenReadings[] readingsList = {
             new AnalyzedTokenReadings(new AnalyzedToken("fake1", "SENT_START", null), 0),
             new AnalyzedTokenReadings(new AnalyzedToken("fake1", "pos", null), 0),
             new AnalyzedTokenReadings(new AnalyzedToken("fake2", "pos", null), 0)
     };
-    eval.getResolvedArguments("year:\\1 year:\\2", readingsList, -1, Arrays.asList(1, 2));
+    assertThrows(RuntimeException.class, () ->
+      eval.getResolvedArguments("year:\\1 year:\\2", readingsList, -1, Arrays.asList(1, 2)) );
   }
 
   @Test
-  public void testNoBackReference() throws Exception {
+  public void testNoBackReference() {
     Map<String, String> args = eval.getResolvedArguments("year:2 foo:bar", null, -1, Collections.emptyList());
     Map<String, String> expected = new HashMap<>();
     expected.put("year", "2");
@@ -75,9 +77,10 @@ public class RuleFilterEvaluatorTest {
     assertThat(args, is(expected));
   }
 
-  @Test(expected = RuntimeException.class)
-  public void testTooLargeBackRef() throws Exception {
-    eval.getResolvedArguments("year:\\1 month:\\2 day:\\3 weekDay:\\4", null, -1, Collections.emptyList());
+  @Test
+  public void testTooLargeBackRef() {
+    assertThrows(RuntimeException.class, () ->
+      eval.getResolvedArguments("year:\\1 month:\\2 day:\\3 weekDay:\\4", null, -1, Collections.emptyList()));
   }
 
 }

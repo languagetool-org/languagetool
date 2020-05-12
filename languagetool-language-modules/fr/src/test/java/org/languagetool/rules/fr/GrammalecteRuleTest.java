@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.fr;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.GlobalConfig;
 import org.languagetool.JLanguageTool;
@@ -30,12 +30,12 @@ import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.startsWith;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GrammalecteRuleTest {
 
   @Test
-  @Ignore("only works with Grammalecte running")
+  @Disabled("only works with Grammalecte running")
   public void testMatch() throws IOException {
     GlobalConfig cfg = new GlobalConfig();
     cfg.setGrammalecteServer("http://localhost:8080/gc_text/fr");

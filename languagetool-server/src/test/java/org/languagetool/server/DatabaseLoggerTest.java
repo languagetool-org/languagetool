@@ -21,8 +21,8 @@
 package org.languagetool.server;
 
 import org.apache.ibatis.jdbc.SQL;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
@@ -32,9 +32,10 @@ import java.net.URLEncoder;
 import java.sql.ResultSet;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
-@Ignore("Slightly unstable because of multithreading/sleeps")
+@Disabled("Slightly unstable because of multithreading/sleeps")
 public class DatabaseLoggerTest {
 
   @Test

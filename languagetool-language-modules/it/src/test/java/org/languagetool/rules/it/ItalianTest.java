@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.it;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.Italian;
 

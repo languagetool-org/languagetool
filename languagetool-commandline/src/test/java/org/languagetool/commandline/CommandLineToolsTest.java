@@ -18,21 +18,19 @@
  */
 package org.languagetool.commandline;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.rules.WordRepeatRule;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CommandLineToolsTest {
 
@@ -40,7 +38,7 @@ public class CommandLineToolsTest {
   private PrintStream stdout;
   private PrintStream stderr;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     this.stdout = System.out;
     this.stderr = System.err;
@@ -50,7 +48,7 @@ public class CommandLineToolsTest {
     System.setErr(new PrintStream(err));
   }
 
-  @After
+  @AfterEach
   public void tearDown() {
     System.setOut(this.stdout);
     System.setErr(this.stderr);

@@ -18,8 +18,8 @@
  */
 package org.languagetool.tagging.disambiguation.rules.ro;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Romanian;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
@@ -39,7 +39,7 @@ public class RomanianRuleDisambiguatorTest {
   private XmlRuleDisambiguator disambiguator;
   private DemoDisambiguator disamb2;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new RomanianTagger();
     tokenizer = new RomanianWordTokenizer();

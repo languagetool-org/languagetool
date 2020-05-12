@@ -20,8 +20,8 @@ package org.languagetool.tagging.disambiguation;
 
 import java.io.IOException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
 import org.languagetool.tagging.ca.CatalanTagger;
@@ -37,7 +37,7 @@ public class CatalanDisambiguationRuleTest {
   private SentenceTokenizer sentenceTokenizer;
   private CatalanHybridDisambiguator disambiguator;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new CatalanTagger(new Catalan());
     tokenizer = new CatalanWordTokenizer();

@@ -19,10 +19,10 @@
 package org.languagetool.rules.de;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -33,8 +33,8 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -762,7 +762,7 @@ public class GermanSpellerRuleTest {
   }
   
   @Test
-  @Ignore("testing a potential bug in Morfologik")
+  @Disabled("testing a potential bug in Morfologik")
   public void testMorfologikSpeller() throws Exception {
     List<byte[]> lines = new ArrayList<>();
     lines.add("die".getBytes());
@@ -777,14 +777,14 @@ public class GermanSpellerRuleTest {
   }
 
   @Test
-  @Ignore("testing Morfologik directly, with LT dictionary (de_DE.dict) but no LT-specific code")
+  @Disabled("testing Morfologik directly, with LT dictionary (de_DE.dict) but no LT-specific code")
   public void testMorfologikSpeller2() throws Exception {
     Dictionary dict = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/hunspell/de_DE.dict"));
     runTests(dict, "Fux");
   }
 
   @Test
-  @Ignore("testing Morfologik directly, with hard-coded dictionary but no LT-specific code")
+  @Disabled("testing Morfologik directly, with hard-coded dictionary but no LT-specific code")
   public void testMorfologikSpellerWithSpellingTxt() throws Exception {
     String inputWord = "schänken";  // expected to work (i.e. also suggest 'schenken'), but doesn't
     List<String> dictWords = Arrays.asList("schenken", "Schänken");
@@ -844,7 +844,8 @@ public class GermanSpellerRuleTest {
   private void assertCorrection(HunspellRule rule, String input, String... expectedTerms) throws IOException {
     List<String> suggestions = rule.getSuggestions(input);
     for (String expectedTerm : expectedTerms) {
-      assertTrue("Not found: '" + expectedTerm + "' in: " + suggestions + " for input '" + input + "'", suggestions.contains(expectedTerm));
+      assertTrue(suggestions.contains(expectedTerm),
+        "Not found: '" + expectedTerm + "' in: " + suggestions + " for input '" + input + "'");
     }
   }
   
@@ -852,7 +853,8 @@ public class GermanSpellerRuleTest {
     List<String> suggestions = rule.getSuggestions(input);
     int i = 0;
     for (String expectedTerm : expectedTerms) {
-      assertTrue("Not found at position " + i + ": '" + expectedTerm + "' in: " + suggestions + " for input '" + input + "'", suggestions.get(i).equals(expectedTerm));
+      assertTrue(suggestions.get(i).equals(expectedTerm),
+        "Not found at position " + i + ": '" + expectedTerm + "' in: " + suggestions + " for input '" + input + "'");
       i++;
     }
   }

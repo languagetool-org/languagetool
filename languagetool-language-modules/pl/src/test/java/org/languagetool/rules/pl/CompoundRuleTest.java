@@ -22,19 +22,19 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
 import org.languagetool.rules.AbstractCompoundRuleTest;
 import org.languagetool.rules.RuleMatch;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     lt = new JLanguageTool(new Polish());
     rule = new CompoundRule(TestTools.getEnglishMessages());
@@ -63,19 +63,19 @@ public class CompoundRuleTest extends AbstractCompoundRuleTest {
         line = line.replace('-', ' ');
         RuleMatch[] ruleMatches =
             spellRule.match(lt.getAnalyzedSentence(line));
-        assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
-            0, ruleMatches.length);
+        assertEquals(0, ruleMatches.length,
+          "The entry: " + line + " is not found in the spelling dictionary!");
       } else if (line.endsWith("*")) {
         line = removeLastCharacter(line);
         RuleMatch[] ruleMatches =
             spellRule.match(lt.getAnalyzedSentence(line));
-        assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
-            0, ruleMatches.length);
+        assertEquals(0, ruleMatches.length,
+          "The entry: " + line + " is not found in the spelling dictionary!");
       } else {
-        assertEquals("The entry: " + line + " is not found in the spelling dictionary!",
-            0, spellRule.match(lt.getAnalyzedSentence(line)).length);
-        assertEquals("The entry: " + line.replace("-", "") + " is not found in the spelling dictionary!",
-            0, spellRule.match(lt.getAnalyzedSentence(line.replace("-", ""))).length);
+        assertEquals(0, spellRule.match(lt.getAnalyzedSentence(line)).length,
+          "The entry: " + line + " is not found in the spelling dictionary!");
+        assertEquals(0, spellRule.match(lt.getAnalyzedSentence(line.replace("-", ""))).length,
+          "The entry: " + line.replace("-", "") + " is not found in the spelling dictionary!");
       }
     }
   }

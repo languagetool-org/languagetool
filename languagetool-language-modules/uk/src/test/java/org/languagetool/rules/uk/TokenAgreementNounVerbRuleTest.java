@@ -18,14 +18,14 @@
  */
 package org.languagetool.rules.uk;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -37,7 +37,7 @@ public class TokenAgreementNounVerbRuleTest {
   private JLanguageTool langTool;
   private TokenAgreementNounVerbRule rule;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new TokenAgreementNounVerbRule(TestTools.getMessages("uk"));
     langTool = new JLanguageTool(new Ukrainian());

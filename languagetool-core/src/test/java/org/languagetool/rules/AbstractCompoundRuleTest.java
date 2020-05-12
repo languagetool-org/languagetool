@@ -23,8 +23,8 @@ import org.languagetool.JLanguageTool;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Abstract test case for CompoundRule.
@@ -50,11 +50,11 @@ public abstract class AbstractCompoundRuleTest {
    * @param expSuggestions the expected suggestions
    */
   public void check(int expectedErrors, String text, String... expSuggestions) throws IOException {
-    assertNotNull("Please initialize langTool!", lt);
-    assertNotNull("Please initialize 'rule'!", rule);
+    assertNotNull(lt, "Please initialize langTool!");
+    assertNotNull(rule, "Please initialize 'rule'!");
     RuleMatch[] ruleMatches = rule.match(lt.getAnalyzedSentence(text));
-    assertEquals("Expected " + expectedErrors + " error(s), but got: " + Arrays.toString(ruleMatches),
-            expectedErrors, ruleMatches.length);
+    assertEquals(expectedErrors, ruleMatches.length,
+      "Expected " + expectedErrors + " error(s), but got: " + Arrays.toString(ruleMatches));
     if (expSuggestions != null && expectedErrors != 1) {
       throw new RuntimeException("Sorry, test case can only check suggestion if there's one rule match");
     }
@@ -63,7 +63,7 @@ public abstract class AbstractCompoundRuleTest {
       String errorMessage =
               String.format("Got these suggestions: %s, expected %s ", ruleMatch.getSuggestedReplacements(),
               Arrays.toString(expSuggestions));
-      assertEquals(errorMessage, expSuggestions.length, ruleMatch.getSuggestedReplacements().size());
+      assertEquals(expSuggestions.length, ruleMatch.getSuggestedReplacements().size(), errorMessage);
       int i = 0;
       for (Object element : ruleMatch.getSuggestedReplacements()) {
         String suggestion = (String) element;

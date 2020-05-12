@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.nl;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -28,13 +28,13 @@ import org.languagetool.language.Dutch;
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WordCoherencyRuleTest {
 
   private final JLanguageTool lt = new JLanguageTool(new Dutch());
 
-  @Before
+  @BeforeEach
   public void before() throws IOException {
     TestTools.disableAllRulesExcept(lt, "NL_WORD_COHERENCY");
   }

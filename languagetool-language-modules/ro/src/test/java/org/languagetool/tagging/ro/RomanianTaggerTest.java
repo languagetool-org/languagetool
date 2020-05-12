@@ -20,7 +20,7 @@ package org.languagetool.tagging.ro;
 
 import java.io.IOException;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 
 /**

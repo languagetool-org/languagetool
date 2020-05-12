@@ -19,8 +19,8 @@
 package org.languagetool.chunking;
 
 import org.jetbrains.annotations.NotNull;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -35,12 +35,12 @@ import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class EnglishChunkerTest {
 
   @Test
-  public void testAddChunkTags() throws Exception {
+  public void testAddChunkTags() {
     EnglishChunker chunker = new EnglishChunker();
     List<AnalyzedTokenReadings> readingsList = createReadingsList("A short test of the bicycle is needed");
     chunker.addChunkTags(readingsList);
@@ -106,7 +106,7 @@ public class EnglishChunkerTest {
   }
 
   @Test
-  @Ignore("active when #2119 is fixed")
+  @Disabled("active when #2119 is fixed")
   public void testZeroWidthNoBreakSpace() throws IOException {
     String expected = "[[], [B-NP-singular], [], [I-NP-singular], [], [E-NP-singular]]";
     EnglishChunker chunker = new EnglishChunker();

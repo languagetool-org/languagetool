@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.es;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Spanish;
 import org.languagetool.rules.Rule;
@@ -29,14 +29,14 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class QuestionMarkRuleTest {
 
   private final QuestionMarkRule rule = new QuestionMarkRule(JLanguageTool.getMessageBundle());
   private final JLanguageTool lt = new JLanguageTool(new Spanish());
   
-  @Before
+  @BeforeEach
   public void setup() {
     for (Rule r : lt.getAllActiveRules()) {
       if (!r.getId().equals(rule.getId())) {

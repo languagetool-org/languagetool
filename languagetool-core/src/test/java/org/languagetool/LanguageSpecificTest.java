@@ -30,9 +30,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
 
-import static junit.framework.Assert.fail;
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LanguageSpecificTest {
 
@@ -227,10 +227,10 @@ public class LanguageSpecificTest {
       String input = cleanMarkers(correctExample.getExample());
       enableOnlyOneRule(lt, rule);
       List<RuleMatch> ruleMatches = lt.check(input);
-      assertEquals("Got unexpected rule match for correct example sentence:\n"
+      assertTrue(ruleMatches.isEmpty(), "Got unexpected rule match for correct example sentence:\n"
               + "Text: " + input + "\n"
               + "Rule: " + rule.getId() + "\n"
-              + "Matches: " + ruleMatches, 0, ruleMatches.size());
+              + "Matches: " + ruleMatches);
     }
   }
 
@@ -240,10 +240,11 @@ public class LanguageSpecificTest {
       String input = cleanMarkers(incorrectExample.getExample());
       enableOnlyOneRule(lt, rule);
       List<RuleMatch> ruleMatches = lt.check(input);
-      assertEquals("Did not get the expected rule match for the incorrect example sentence:\n"
+      assertEquals(idToExpectedMatches.getOrDefault(rule.getId(), 1), ruleMatches.size(),
+        "Did not get the expected rule match for the incorrect example sentence:\n"
               + "Text: " + input + "\n"
               + "Rule: " + rule.getId() + "\n"
-              + "Matches: " + ruleMatches, (int)idToExpectedMatches.getOrDefault(rule.getId(), 1), ruleMatches.size());
+              + "Matches: " + ruleMatches);
     }
   }
 

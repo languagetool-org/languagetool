@@ -19,8 +19,8 @@
 
 package org.languagetool.tagging.disambiguation.rules.fr;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.French;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
@@ -40,7 +40,7 @@ public class FrenchRuleDisambiguatorTest {
   private XmlRuleDisambiguator disambiguator;
   private DemoDisambiguator disamb2;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     tagger = new FrenchTagger();
     tokenizer = new WordTokenizer();

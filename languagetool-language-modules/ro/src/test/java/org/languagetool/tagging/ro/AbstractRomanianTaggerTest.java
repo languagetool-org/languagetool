@@ -18,8 +18,8 @@
  */
 package org.languagetool.tagging.ro;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.TestTools;
@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Root class for RomanianTagger tests.
@@ -43,7 +43,7 @@ public abstract class AbstractRomanianTaggerTest {
   private RomanianTagger tagger;
   private WordTokenizer tokenizer;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = createTagger();
     tokenizer = new WordTokenizer();
@@ -87,9 +87,9 @@ public abstract class AbstractRomanianTaggerTest {
         break;
       }
     }
-    assertTrue(String.format("Lemma and POS not found for word [%s]! "
+    assertTrue(found, String.format("Lemma and POS not found for word [%s]! "
             + "Expected [%s/%s]. Actual: %s", inflected, lemma, posTag,
-            allTags), found);
+            allTags));
   }
 
   public RomanianTagger getTagger() {

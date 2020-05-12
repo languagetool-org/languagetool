@@ -21,15 +21,16 @@ package org.languagetool.server;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.SignatureVerificationException;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.markup.AnnotatedTextBuilder;
 
 import java.io.*;
 import java.util.*;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TextCheckerTest {
 
@@ -97,7 +98,7 @@ public class TextCheckerTest {
   }
   
   @Test
-  @Ignore("use to create JWT test tokens for the other tests")
+  @Disabled("use to create JWT test tokens for the other tests")
   public void makeToken() {
     Algorithm algorithm = Algorithm.HMAC256("foobar");
     String token = JWT.create()
@@ -174,7 +175,7 @@ public class TextCheckerTest {
   }
 
   @Test
-  @Ignore("requires fastText (binary and model) installed locally")
+  @Disabled("requires fastText (binary and model) installed locally")
   public void testDetectLanguageOfStringWithFastText() {
     HTTPServerConfig config = new HTTPServerConfig();
     config.setFasttextBinary(new File("/prg/fastText-0.1.0/fasttext"));
@@ -186,14 +187,16 @@ public class TextCheckerTest {
             getDetectedLanguage().getShortCodeWithCountryAndVariant(), is("zz"));  // cs not supported but mapped to noop language
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void testInvalidPreferredVariant() {
-    checker.detectLanguageOfString(english, "de", Arrays.asList("en"), Collections.emptyList(), Collections.emptyList());  // that's not a variant
+    assertThrows(RuntimeException.class, () ->
+      checker.detectLanguageOfString(english, "de", Arrays.asList("en"), Collections.emptyList(), Collections.emptyList()));  // that's not a variant
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void testInvalidPreferredVariant2() {
-    checker.detectLanguageOfString(english, "de", Arrays.asList("en-YY"), Collections.emptyList(), Collections.emptyList());  // variant doesn't exist
+    assertThrows(RuntimeException.class, () ->
+      checker.detectLanguageOfString(english, "de", Arrays.asList("en-YY"), Collections.emptyList(), Collections.emptyList()));  // variant doesn't exist
   }
 
 }

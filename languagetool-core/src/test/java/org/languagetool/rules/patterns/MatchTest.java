@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.language.Demo;
 import org.languagetool.rules.patterns.Match.CaseConversion;
@@ -34,7 +34,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Ionuț Păduraru
@@ -73,7 +73,7 @@ public class MatchTest {
 
   //-- setup
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     tagger = new ManualTaggerAdapter(new ManualTagger(new ByteArrayInputStream(TEST_DATA.getBytes(StandardCharsets.UTF_8))));
     Demo demo = new Demo() {

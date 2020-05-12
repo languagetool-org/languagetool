@@ -18,13 +18,13 @@
  */
 package org.languagetool.tools;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -34,7 +34,7 @@ import java.util.Arrays;
 public class POSDictionaryBuilderTest extends DictionaryBuilderTestHelper {
 
   @Test
-  @Ignore("for interactive use only")
+  @Disabled("for interactive use only")
   public void testExportAndImport() throws Exception {
     for (Language language : Languages.get()) {
       String langCode = language.getShortCode();

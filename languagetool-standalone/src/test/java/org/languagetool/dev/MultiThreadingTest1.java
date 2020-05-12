@@ -19,8 +19,8 @@
 package org.languagetool.dev;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -32,7 +32,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test for multiple languages in multiple threads.
@@ -75,7 +75,7 @@ public class MultiThreadingTest1 {
   private final Map<String,String> expectedResults = new HashMap<>();
 
   @Test
-  @Ignore("for interactive use only")
+  @Disabled("for interactive use only")
   public void test() throws Exception {
     List<Language> languages1 = new ArrayList<>(Languages.get());
     initExpectedResults(languages1);

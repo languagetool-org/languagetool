@@ -19,8 +19,8 @@
 
 package org.languagetool.rules.ca;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
@@ -29,7 +29,7 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author Jaume Ortolà
@@ -39,7 +39,7 @@ public class SimpleReplaceDNVRuleTest {
   private SimpleReplaceDNVRule rule;
   private JLanguageTool langTool;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = new SimpleReplaceDNVRule(TestTools.getMessages("ca"), new ValencianCatalan());
     langTool = new JLanguageTool(new ValencianCatalan());

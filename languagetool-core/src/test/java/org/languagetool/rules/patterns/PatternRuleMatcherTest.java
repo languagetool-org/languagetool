@@ -20,7 +20,8 @@ package org.languagetool.rules.patterns;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,10 +29,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.intellij.lang.annotations.Language;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.language.Demo;
@@ -44,7 +44,7 @@ public class PatternRuleMatcherTest {
 
   private static JLanguageTool langTool;
 
-  @BeforeClass
+  @BeforeAll
   public static void setup() {
     langTool = new JLanguageTool(new Demo());
   }
@@ -186,7 +186,7 @@ public class PatternRuleMatcherTest {
   }
 
   @Test
-  @Ignore("min can only be 0 or 1 so far")
+  @Disabled("min can only be 0 or 1 so far")
   public void testTwoMinOccurrences() throws Exception {
     PatternToken patternTokenB = makeElement("b");
     patternTokenB.setMinOccurrence(2);
@@ -499,8 +499,8 @@ public class PatternRuleMatcherTest {
   private void assertPartialMatch(String input, PatternRuleMatcher matcher) throws IOException {
     RuleMatch[] matches = getMatches(input, matcher);
     assertThat(matches.length , is(1));
-    assertTrue("Expected partial match, got '" + matches[0] + "' for '" + input + "'",
-        matches[0].getFromPos() > 0 || matches[0].getToPos() < input.length());
+    assertTrue(matches[0].getFromPos() > 0 || matches[0].getToPos() < input.length(),
+      "Expected partial match, got '" + matches[0] + "' for '" + input + "'");
   }
 
   private void assertCompleteMatch(String input, PatternRuleMatcher matcher) throws IOException {

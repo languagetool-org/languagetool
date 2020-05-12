@@ -20,14 +20,13 @@ package org.languagetool.rules.en;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Collections;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -105,20 +104,18 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     assertEquals("taught", matches2[0].getSuggestedReplacements().get(0));
     
     RuleMatch[] matches3 = rule.match(langTool.getAnalyzedSentence("I'm g oing"));
-    Assert.assertThat(matches3.length, is(1));
-    Assert.assertThat(matches3[0].getSuggestedReplacements().get(0), is("go ing"));
-    Assert.assertThat(matches3[0].getSuggestedReplacements().get(1), is("going"));
-    Assert.assertThat(matches3[0].getFromPos(), is(4));
-    Assert.assertThat(matches3[0].getToPos(), is(10));
-    
-    
+    assertThat(matches3.length, is(1));
+    assertThat(matches3[0].getSuggestedReplacements().get(0), is("go ing"));
+    assertThat(matches3[0].getSuggestedReplacements().get(1), is("going"));
+    assertThat(matches3[0].getFromPos(), is(4));
+    assertThat(matches3[0].getToPos(), is(10));
   }
 
   private void assertSuggestion(Rule rule, JLanguageTool lt, String input, String... expectedSuggestions) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     assertThat(matches.length, is(1));
-    assertTrue("Expected >= " + expectedSuggestions.length + ", got: " + matches[0].getSuggestedReplacements(),
-            matches[0].getSuggestedReplacements().size() >= expectedSuggestions.length);
+    assertTrue(matches[0].getSuggestedReplacements().size() >= expectedSuggestions.length,
+      "Expected >= " + expectedSuggestions.length + ", got: " + matches[0].getSuggestedReplacements());
     for (String expectedSuggestion : expectedSuggestions) {
       assertTrue(matches[0].getSuggestedReplacements().contains(expectedSuggestion));
     }

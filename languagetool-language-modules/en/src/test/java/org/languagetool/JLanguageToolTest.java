@@ -18,8 +18,8 @@
  */
 package org.languagetool;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool.ParagraphHandling;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.BritishEnglish;
@@ -36,12 +36,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class JLanguageToolTest {
 
-  @Ignore("not a test, but used on http://wiki.languagetool.org/java-api")
+  @Disabled("not a test, but used on http://wiki.languagetool.org/java-api")
   @Test
   public void demoCodeForHomepage() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
@@ -57,7 +58,7 @@ public class JLanguageToolTest {
     }
   }
 
-  @Ignore("not a test, but used on http://wiki.languagetool.org/java-spell-checker")
+  @Disabled("not a test, but used on http://wiki.languagetool.org/java-spell-checker")
   @Test
   public void spellCheckerDemoCodeForHomepage() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
@@ -76,7 +77,7 @@ public class JLanguageToolTest {
     }
   }
 
-  @Ignore("not a test, but used on http://wiki.languagetool.org/java-spell-checker")
+  @Disabled("not a test, but used on http://wiki.languagetool.org/java-spell-checker")
   @Test
   public void spellCheckerDemoCodeForHomepageWithAddedWords() throws IOException {
     JLanguageTool langTool = new JLanguageTool(new BritishEnglish());
@@ -127,12 +128,12 @@ public class JLanguageToolTest {
 
   private void assertNoError(String input, JLanguageTool lt) throws IOException {
     List<RuleMatch> matches = lt.check(input);
-    assertEquals("Did not expect an error in test sentence: '" + input + "', but got: " + matches, 0, matches.size());
+    assertEquals(0, matches.size(), "Did not expect an error in test sentence: '" + input + "', but got: " + matches);
   }
 
   private void assertOneError(String input, JLanguageTool lt) throws IOException {
     List<RuleMatch> matches = lt.check(input);
-    assertEquals("Did expect 1 error in test sentence: '" + input + "', but got: " + matches, 1, matches.size());
+    assertEquals(1, matches.size(), "Did expect 1 error in test sentence: '" + input + "', but got: " + matches);
   }
 
   @Test
@@ -229,14 +230,14 @@ public class JLanguageToolTest {
     tool.addRule(rule2);
 
     List<RuleMatch> ruleMatches1 = tool.check("And one two three.");
-    assertEquals("one overlapping rule must be filtered out", 1, ruleMatches1.size());
+    assertEquals(1, ruleMatches1.size(), "one overlapping rule must be filtered out");
     assertEquals("msg1", ruleMatches1.get(0).getMessage());
 
     String sentence = "And one two three.";
     AnalyzedSentence analyzedSentence = tool.getAnalyzedSentence(sentence);
     List<Rule> bothRules = new ArrayList<>(Arrays.asList(rule1, rule2));
     List<RuleMatch> ruleMatches2 = tool.checkAnalyzedSentence(ParagraphHandling.NORMAL, bothRules, analyzedSentence, true);
-    assertEquals("one overlapping rule must be filtered out", 1, ruleMatches2.size());
+    assertEquals(1, ruleMatches2.size(), "one overlapping rule must be filtered out");
     assertEquals("msg1", ruleMatches2.get(0).getMessage());
   }
   

@@ -18,7 +18,7 @@
  */
 package org.languagetool.languagemodel;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.rules.ngrams.FakeLanguageModel;
 import org.languagetool.rules.ngrams.Probability;
 
@@ -26,14 +26,15 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class BaseLanguageModelTest {
 
   @Test
-  public void testPseudoProbability() throws IOException {
+  public void testPseudoProbability() {
     try (FakeLanguageModel lm = new FakeLanguageModel()) {
       Probability prob1 = lm.getPseudoProbability(Arrays.asList("no", "data", "here"));
       double delta = 0.001;
@@ -48,11 +49,13 @@ public class BaseLanguageModelTest {
     }
   }
 
-  @Test(expected = IndexOutOfBoundsException.class)
-  public void testPseudoProbabilityFail1() throws IOException {
-    try (FakeLanguageModel lm = new FakeLanguageModel()) {
-      lm.getPseudoProbability(Collections.emptyList());
-    }
+  @Test
+  public void testPseudoProbabilityFail1() {
+    assertThrows(IndexOutOfBoundsException.class, () -> {
+      try (FakeLanguageModel lm = new FakeLanguageModel()) {
+        lm.getPseudoProbability(Collections.emptyList());
+      }
+    });
   }
 
 }

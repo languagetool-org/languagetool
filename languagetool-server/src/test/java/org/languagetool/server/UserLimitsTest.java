@@ -18,16 +18,17 @@
  */
 package org.languagetool.server;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserLimitsTest {
 
   @Test
-  public void testDefaultLimits() throws Exception {
+  public void testDefaultLimits() {
     HTTPServerConfig config = new HTTPServerConfig();
     UserLimits defLimits = UserLimits.getDefaultLimits(config);
     assertThat(defLimits.getMaxTextLength(), is(Integer.MAX_VALUE));
@@ -36,7 +37,7 @@ public class UserLimitsTest {
   }
   
   @Test
-  public void testLimitsFromToken1() throws Exception {
+  public void testLimitsFromToken1() {
     HTTPServerConfig config = new HTTPServerConfig();
     config.setSecretTokenKey("foobar");
     // See TextCheckerText.makeToken():
@@ -48,7 +49,7 @@ public class UserLimitsTest {
   }
   
   @Test
-  public void testLimitsFromToken2() throws Exception {
+  public void testLimitsFromToken2() {
     HTTPServerConfig config = new HTTPServerConfig();
     config.setSecretTokenKey("foobar");
     // See TextCheckerText.makeToken():
@@ -60,8 +61,8 @@ public class UserLimitsTest {
   }
   
   @Test
-  @Ignore("would require network access to languagetoolplus.com and the server's secret key")
-  public void testGetLimitsFromUserAccount() throws Exception {
+  @Disabled("would require network access to languagetoolplus.com and the server's secret key")
+  public void testGetLimitsFromUserAccount() {
     HTTPServerConfig config = new HTTPServerConfig();
     config.setSecretTokenKey("fixme");
     UserLimits limits = UserLimits.getLimitsFromUserAccount(config, "fixme", "fixme");

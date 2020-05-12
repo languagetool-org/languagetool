@@ -18,15 +18,13 @@
  */
 package org.languagetool.rules.spelling.hunspell;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.AustrianGerman;
 import org.languagetool.language.German;
-import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.de.GermanSpellerRule;
 import static org.hamcrest.CoreMatchers.is;
@@ -37,8 +35,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class HunspellRuleTest {
 
@@ -147,7 +145,7 @@ public class HunspellRuleTest {
     assertEquals(2, rule.match(langTool.getAnalyzedSentence("Der asdegfue orkt")).length);
   }
 
-  @Ignore("just for internal performance testing, thus ignored by default")
+  @Disabled("just for internal performance testing, thus ignored by default")
   @Test
   public void testPerformance() throws Exception {
     List<Language> allLanguages = Languages.get();
@@ -166,7 +164,7 @@ public class HunspellRuleTest {
     }
   }
 
-  @Ignore("just for internal performance testing, thus ignored by default")
+  @Disabled("just for internal performance testing, thus ignored by default")
   @Test
   public void testCompoundAwareRulePerformance() throws IOException {
     ResourceBundle messages = ResourceBundle.getBundle("org.languagetool.MessagesBundle", new Locale("de"));

@@ -19,8 +19,8 @@
 
 package org.languagetool.rules.en;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -32,14 +32,14 @@ import org.languagetool.rules.TextLevelRule;
 import java.io.IOException;
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class EnglishUnpairedBracketsRuleTest {
 
   private TextLevelRule rule;
   private JLanguageTool langTool;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new EnglishUnpairedBracketsRule(TestTools.getEnglishMessages(), Languages.getLanguageForShortCode("en"));
     langTool = new JLanguageTool(Languages.getLanguageForShortCode("en"));

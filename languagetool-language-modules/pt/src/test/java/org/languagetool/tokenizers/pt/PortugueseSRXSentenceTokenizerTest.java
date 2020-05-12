@@ -18,7 +18,7 @@
  */
 package org.languagetool.tokenizers.pt;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Portuguese;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;

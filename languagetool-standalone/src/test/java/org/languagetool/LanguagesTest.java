@@ -18,14 +18,14 @@
  */
 package org.languagetool;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.Locale;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests a core class as its behavior depends on files in the classpath
@@ -40,16 +40,18 @@ public class LanguagesTest {
     assertThat(languages.size() + 1, is(languagesWithDemo.size()));
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void testGetIsUnmodifiable() {
     List<Language> languages = Languages.get();
-    languages.add(languages.get(0));
+    assertThrows(UnsupportedOperationException.class, () ->
+      languages.add(languages.get(0)));
   }
 
-  @Test(expected = UnsupportedOperationException.class)
+  @Test
   public void testGetWithDemoLanguageIsUnmodifiable() {
     List<Language> languages = Languages.getWithDemoLanguage();
-    languages.add(languages.get(0));
+    assertThrows(UnsupportedOperationException.class, () ->
+      languages.add(languages.get(0)));
   }
 
   @Test
@@ -70,38 +72,42 @@ public class LanguagesTest {
 
   @Test
   public void testIsLanguageSupported() {
-    Assert.assertTrue(Languages.isLanguageSupported("xx"));
-    Assert.assertTrue(Languages.isLanguageSupported("XX"));
-    Assert.assertTrue(Languages.isLanguageSupported("en-US"));
-    Assert.assertTrue(Languages.isLanguageSupported("en-us"));
-    Assert.assertTrue(Languages.isLanguageSupported("EN-US"));
-    Assert.assertTrue(Languages.isLanguageSupported("de"));
-    Assert.assertTrue(Languages.isLanguageSupported("de-DE"));
-    Assert.assertTrue(Languages.isLanguageSupported("de-DE-x-simple-language"));
-    Assert.assertTrue(Languages.isLanguageSupported("de-DE-x-simple-LANGUAGE"));
+    assertTrue(Languages.isLanguageSupported("xx"));
+    assertTrue(Languages.isLanguageSupported("XX"));
+    assertTrue(Languages.isLanguageSupported("en-US"));
+    assertTrue(Languages.isLanguageSupported("en-us"));
+    assertTrue(Languages.isLanguageSupported("EN-US"));
+    assertTrue(Languages.isLanguageSupported("de"));
+    assertTrue(Languages.isLanguageSupported("de-DE"));
+    assertTrue(Languages.isLanguageSupported("de-DE-x-simple-language"));
+    assertTrue(Languages.isLanguageSupported("de-DE-x-simple-LANGUAGE"));
     assertFalse(Languages.isLanguageSupported("yy-ZZ"));
     assertFalse(Languages.isLanguageSupported("zz"));
     assertFalse(Languages.isLanguageSupported("somthing totally invalid"));
   }
 
-  @Test(expected=IllegalArgumentException.class)
+  @Test
   public void testIsLanguageSupportedInvalidCode() {
-    Languages.isLanguageSupported("somthing-totally-inv-alid");
+    assertThrows(IllegalArgumentException.class, () ->
+      Languages.isLanguageSupported("somthing-totally-inv-alid"));
   }
 
-  @Test(expected=IllegalArgumentException.class)
+  @Test
   public void testInvalidShortName1() {
-    Languages.getLanguageForShortCode("de-");
+    assertThrows(IllegalArgumentException.class, () ->
+      Languages.getLanguageForShortCode("de-"));
   }
 
-  @Test(expected=IllegalArgumentException.class)
+  @Test
   public void testInvalidShortName2() {
-    Languages.getLanguageForShortCode("dexx");
+    assertThrows(IllegalArgumentException.class, () ->
+      Languages.getLanguageForShortCode("dexx"));
   }
 
-  @Test(expected=IllegalArgumentException.class)
+  @Test
   public void testInvalidShortName3() {
-    Languages.getLanguageForShortCode("xyz-xx");
+    assertThrows(IllegalArgumentException.class, () ->
+      Languages.getLanguageForShortCode("xyz-xx"));
   }
 
   @Test
@@ -113,8 +119,8 @@ public class LanguagesTest {
 
   @Test
   public void testIsVariant() {
-    Assert.assertTrue(Languages.getLanguageForShortCode("en-US").isVariant());
-    Assert.assertTrue(Languages.getLanguageForShortCode("de-CH").isVariant());
+    assertTrue(Languages.getLanguageForShortCode("en-US").isVariant());
+    assertTrue(Languages.getLanguageForShortCode("de-CH").isVariant());
 
     assertFalse(Languages.getLanguageForShortCode("en").isVariant());
     assertFalse(Languages.getLanguageForShortCode("de").isVariant());
@@ -122,8 +128,8 @@ public class LanguagesTest {
 
   @Test
   public void testHasVariant() {
-    Assert.assertTrue(Languages.getLanguageForShortCode("en").hasVariant());
-    Assert.assertTrue(Languages.getLanguageForShortCode("de").hasVariant());
+    assertTrue(Languages.getLanguageForShortCode("en").hasVariant());
+    assertTrue(Languages.getLanguageForShortCode("de").hasVariant());
 
     assertFalse(Languages.getLanguageForShortCode("en-US").hasVariant());
     assertFalse(Languages.getLanguageForShortCode("de-CH").hasVariant());
@@ -132,16 +138,16 @@ public class LanguagesTest {
 
     for (Language language : Languages.getWithDemoLanguage()) {
       if (language.hasVariant()) {
-        assertNotNull("Language " + language + " needs a default variant", language.getDefaultLanguageVariant());
+        assertNotNull(language.getDefaultLanguageVariant(), "Language " + language + " needs a default variant");
       }
     }
   }
   
   @Test
   public void isHiddenFromGui() {
-    Assert.assertTrue(Languages.getLanguageForShortCode("en").isHiddenFromGui());
-    Assert.assertTrue(Languages.getLanguageForShortCode("de").isHiddenFromGui());
-    Assert.assertTrue(Languages.getLanguageForShortCode("pt").isHiddenFromGui());
+    assertTrue(Languages.getLanguageForShortCode("en").isHiddenFromGui());
+    assertTrue(Languages.getLanguageForShortCode("de").isHiddenFromGui());
+    assertTrue(Languages.getLanguageForShortCode("pt").isHiddenFromGui());
 
     assertFalse(Languages.getLanguageForShortCode("en-US").isHiddenFromGui());
     assertFalse(Languages.getLanguageForShortCode("de-CH").isHiddenFromGui());

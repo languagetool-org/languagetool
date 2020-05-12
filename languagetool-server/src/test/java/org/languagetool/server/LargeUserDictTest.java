@@ -18,8 +18,8 @@
  */
 package org.languagetool.server;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
@@ -40,7 +40,7 @@ public class LargeUserDictTest {
   private static final int RUNS = 100;
 
   @Test
-  @Ignore("requires real database and modifies it")
+  @Disabled("requires real database and modifies it")
   public void testHTTPServer() throws Exception {
     HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
     config.setDatabaseDriver("org.mariadb.jdbc.Driver");

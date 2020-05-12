@@ -18,8 +18,8 @@
  */
 package org.languagetool.tagging.gl;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.WordTokenizer;
 
@@ -34,7 +34,7 @@ public class GalicianTaggerTest {
   private GalicianTagger tagger;
   private WordTokenizer tokenizer;
   
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new GalicianTagger();
     tokenizer = new WordTokenizer();

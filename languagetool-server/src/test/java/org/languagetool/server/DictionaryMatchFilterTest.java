@@ -26,8 +26,8 @@ import org.languagetool.Languages;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class DictionaryMatchFilterTest extends UserDictTest {
   private static final String TEST_SENTENCE = "I wonder if this errors are easy to fix.";

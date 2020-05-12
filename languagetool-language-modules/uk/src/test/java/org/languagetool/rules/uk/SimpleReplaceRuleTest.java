@@ -19,27 +19,26 @@
 
 package org.languagetool.rules.uk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
-
 
 public class SimpleReplaceRuleTest {
   private final JLanguageTool langTool = new JLanguageTool(new Ukrainian());
   private MorfologikUkrainianSpellerRule morfologikSpellerRule;
   private SimpleReplaceRule rule;
 
-  @Before
+  @BeforeEach
   public void setup() throws IOException {
     morfologikSpellerRule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), 
         null, Collections.emptyList());

@@ -1,16 +1,14 @@
 package org.languagetool.tagging.disambiguation;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.tagging.xx.DemoTagger;
 
 import java.io.IOException;
 import java.util.List;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class MultiWordChunkerTest {
 
@@ -30,10 +28,6 @@ public class MultiWordChunkerTest {
       };
     }
   });
-
-  @Before
-  public void setUp() throws Exception {
-  }
 
   @Test
   public void testDisambiguate1() throws IOException {

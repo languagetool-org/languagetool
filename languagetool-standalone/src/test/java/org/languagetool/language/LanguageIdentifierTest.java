@@ -20,8 +20,8 @@ package org.languagetool.language;
 
 import com.optimaize.langdetect.text.TextObjectFactory;
 import com.optimaize.langdetect.text.TextObjectFactoryBuilder;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.DetectedLanguage;
 
 import java.io.File;
@@ -29,8 +29,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class LanguageIdentifierTest {
 
@@ -76,7 +76,7 @@ public class LanguageIdentifierTest {
   }
 
   @Test
-  @Ignore("disabled minimum length, instead now providing confidence score")
+  @Disabled("disabled minimum length, instead now providing confidence score")
   public void testShortAndLongText() {
     LanguageIdentifier id10 = new LanguageIdentifier(10);
     langAssert(null, "Das ist so ein Text, mit dem man testen kann", id10);  // too short when max length is applied
@@ -114,7 +114,7 @@ public class LanguageIdentifierTest {
   }
 
   @Test
-  @Ignore("Only works with locally installed fastText")
+  @Disabled("Only works with locally installed fastText")
   public void testAdditionalLanguagesFasttext() {
     LanguageIdentifier defaultIdent = new LanguageIdentifier();
     langAssert("sk", czech, defaultIdent);  // misdetected, as cz isn't supported by LT
@@ -125,7 +125,7 @@ public class LanguageIdentifierTest {
   }
 
   @Test
-  @Ignore("Only works with locally installed fastText, no test - for interactive use")
+  @Disabled("Only works with locally installed fastText, no test - for interactive use")
   public void testInteractively() {
     LanguageIdentifier ident = new LanguageIdentifier();
     ident.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
@@ -158,7 +158,7 @@ public class LanguageIdentifierTest {
   }
 
   @Test
-  @Ignore("Only works with locally installed fastText")
+  @Disabled("Only works with locally installed fastText")
   public void testShortTexts() {
     LanguageIdentifier defaultIdent = new LanguageIdentifier();
     defaultIdent.enableFasttext(new File(fastTextBinary), new File(fastTextModel));
@@ -185,7 +185,7 @@ public class LanguageIdentifierTest {
   }
 
   @Test
-  @Ignore("Only works with locally installed fastText")
+  @Disabled("Only works with locally installed fastText")
   public void testShortTextsWithPreferredLanguage() {
     LanguageIdentifier ident = new LanguageIdentifier();
     List<String> enDePreferred = Arrays.asList("de", "en");
@@ -222,7 +222,7 @@ public class LanguageIdentifierTest {
   }
 
   @Test
-  @Ignore("Known to fail due to bug")
+  @Disabled("Known to fail due to bug")
   public void textObjectBugForJapanese() {
     // see https://github.com/languagetool-org/languagetool/issues/1278
     TextObjectFactory textObjectFactory  = new TextObjectFactoryBuilder().maxTextLength(1000).build();

@@ -18,14 +18,14 @@
  */
 package org.languagetool.synthesis;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 /**
  * @author Ionuț Păduraru
@@ -34,7 +34,7 @@ public class ManualSynthesizerTest {
 
   private ManualSynthesizer synthesizer;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     String data = 
       "# some test data\n" +

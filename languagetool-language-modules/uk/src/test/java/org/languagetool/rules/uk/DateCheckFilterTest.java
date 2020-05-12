@@ -18,15 +18,15 @@
  */
 package org.languagetool.rules.uk;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class DateCheckFilterTest {
 
   @Test
-  public void testGetDayOfWeek() throws Exception {
+  public void testGetDayOfWeek() {
     DateCheckFilter filter = new DateCheckFilter();
     assertThat(filter.getDayOfWeek("Нед"), is(1));
     assertThat(filter.getDayOfWeek("Пон"), is(2));
@@ -41,7 +41,7 @@ public class DateCheckFilterTest {
   }
 
   @Test
-  public void testMonth() throws Exception {
+  public void testMonth() {
     DateCheckFilter filter = new DateCheckFilter();
     assertThat(filter.getMonth("січ"), is(1));
     assertThat(filter.getMonth("гру"), is(12));

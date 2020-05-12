@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.el;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Greek;
@@ -27,7 +27,7 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * NumeralStressRule TestCase.
@@ -40,7 +40,7 @@ public class NumeralStressRuleTest {
   private NumeralStressRule rule;
   private JLanguageTool langTool;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new NumeralStressRule(TestTools.getMessages("el"));
     langTool = new JLanguageTool(new Greek());

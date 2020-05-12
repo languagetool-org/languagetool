@@ -21,8 +21,8 @@
 
 package org.languagetool.server;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -31,7 +31,7 @@ import java.io.IOException;
 
 import static org.mockito.Mockito.*;
 
-@Ignore("For version of SlowRuleLogger that logs to database; can't mock System.out in maven tests anyway")
+@Disabled("For version of SlowRuleLogger that logs to database; can't mock System.out in maven tests anyway")
 public class SlowRuleLoggerTest {
 
   @Test

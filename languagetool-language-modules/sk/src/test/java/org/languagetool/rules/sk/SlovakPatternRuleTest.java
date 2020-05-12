@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.sk;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.rules.patterns.PatternRuleTest;
 
 import java.io.IOException;

@@ -1,11 +1,11 @@
 package org.languagetool.rules.ca;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
@@ -15,7 +15,7 @@ public class PronomFebleDuplicateRuleTest {
   private PronomFebleDuplicateRule rule;
   private JLanguageTool langTool;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new PronomFebleDuplicateRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(new Catalan());

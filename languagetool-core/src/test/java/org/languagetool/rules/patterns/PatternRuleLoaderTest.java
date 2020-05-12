@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.rules.ITSIssueType;
@@ -30,7 +30,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class PatternRuleLoaderTest {
 
@@ -52,15 +52,21 @@ public class PatternRuleLoaderTest {
     assertNull(demoRule2.getUrl());
 
     assertEquals(ITSIssueType.Uncategorized, demoRule1.getLocQualityIssueType());
-    assertEquals("tag inheritance failed", ITSIssueType.Addition, getRuleById("TEST_GO", rules).getLocQualityIssueType());
-    assertEquals("tag inheritance overwrite failed", ITSIssueType.Uncategorized, getRuleById("TEST_PHRASES1", rules).getLocQualityIssueType());
-    assertEquals("tag inheritance overwrite failed", ITSIssueType.Characters, getRuleById("test_include", rules).getLocQualityIssueType());
+    assertEquals(ITSIssueType.Addition, getRuleById("TEST_GO", rules).getLocQualityIssueType(),
+      "tag inheritance failed");
+    assertEquals(ITSIssueType.Uncategorized, getRuleById("TEST_PHRASES1", rules).getLocQualityIssueType(),
+      "tag inheritance overwrite failed");
+    assertEquals(ITSIssueType.Characters, getRuleById("test_include", rules).getLocQualityIssueType(),
+      "tag inheritance overwrite failed");
 
     List<Rule> groupRules1 = getRulesById("test_spacebefore", rules);
-    assertEquals("tag inheritance form category failed", ITSIssueType.Addition, groupRules1.get(0).getLocQualityIssueType());
-    assertEquals("tag inheritance overwrite failed", ITSIssueType.Duplication, groupRules1.get(1).getLocQualityIssueType());
+    assertEquals(ITSIssueType.Addition, groupRules1.get(0).getLocQualityIssueType(),
+      "tag inheritance form category failed");
+    assertEquals(ITSIssueType.Duplication, groupRules1.get(1).getLocQualityIssueType(),
+      "tag inheritance overwrite failed");
     List<Rule> groupRules2 = getRulesById("test_unification_with_negation", rules);
-    assertEquals("tag inheritance from rulegroup failed", ITSIssueType.Grammar, groupRules2.get(0).getLocQualityIssueType());
+    assertEquals(ITSIssueType.Grammar, groupRules2.get(0).getLocQualityIssueType(),
+      "tag inheritance from rulegroup failed");
 
     Set<String> categories = getCategoryNames(rules);
     assertEquals(5, categories.size());
@@ -88,10 +94,10 @@ public class PatternRuleLoaderTest {
     // make sure URLs don't leak to the next rule:
     List<Rule> orRules2 = getRulesById("OR_GROUPS", rules);
     for (Rule rule : orRules2) {
-      assertNull("http://fake-server.org/rule-group-url", rule.getUrl());
+      assertNull(rule.getUrl(), "http://fake-server.org/rule-group-url");
     }
     Rule nextRule = getRuleById("DEMO_CHUNK_RULE", rules);
-    assertNull("http://fake-server.org/rule-group-url", nextRule.getUrl());
+    assertNull(nextRule.getUrl(), "http://fake-server.org/rule-group-url");
   }
 
   private Set<String> getCategoryNames(List<AbstractPatternRule> rules) {

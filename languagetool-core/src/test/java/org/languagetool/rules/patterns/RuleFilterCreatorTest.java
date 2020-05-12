@@ -18,23 +18,24 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RuleFilterCreatorTest {
 
   private final RuleFilterCreator creator = new RuleFilterCreator();
 
   @Test
-  public void testMockFilter() throws Exception {
+  public void testMockFilter() {
     RuleFilter filter = creator.getFilter(MockFilter.class.getName());
     assertNotNull(filter);
   }
 
-  @Test(expected = RuntimeException.class)
-  public void testInvalidClassName() throws Exception {
-    creator.getFilter("MyInvalidClassName");
+  @Test
+  public void testInvalidClassName() {
+    assertThrows(RuntimeException.class, () -> creator.getFilter("MyInvalidClassName"));
   }
 
 }

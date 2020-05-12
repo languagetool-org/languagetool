@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.sr.ekavian;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.SerbianSerbian;
@@ -28,14 +28,14 @@ import org.languagetool.rules.Rule;
 import java.io.IOException;
 import java.util.Collections;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MorfologikEkavianSpellerRuleTest {
 
   private Rule rule;
   private JLanguageTool languageTool;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = new MorfologikEkavianSpellerRule(TestTools.getMessages("sr"), new SerbianSerbian(), null, Collections.emptyList());
     languageTool = new JLanguageTool(new SerbianSerbian());

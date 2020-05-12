@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev.dumpcheck;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.language.English;
 
 import java.io.ByteArrayInputStream;
@@ -28,8 +28,8 @@ import java.nio.charset.StandardCharsets;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TatoebaSentenceSourceTest {
   

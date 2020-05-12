@@ -22,7 +22,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
@@ -33,7 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class UserDictTest {
 
@@ -104,7 +105,7 @@ public class UserDictTest {
     assertRuleMatch(1, input, lang, errorRuleId, null, null);  // anonymous user
     assertRuleMatch(0, input, lang, errorRuleId, USERNAME1, API_KEY1);
     String json = assertRuleMatch(1, inputWithTypo, lang, errorRuleId, USERNAME1, API_KEY1);
-    assertTrue("Missing suggestion '" + name + "': " + json, json.contains("\"" + name + "\"") || json.contains("\"" + name + ".\""));
+    assertTrue(json.contains("\"" + name + "\"") || json.contains("\"" + name + ".\""), "Missing suggestion '" + name + "': " + json);
     deleteWord(name, USERNAME1, API_KEY1);
     assertThat(getWords(USERNAME1, API_KEY1).toString(), is("[]"));
     assertRuleMatch(1, input, lang, errorRuleId, USERNAME1, API_KEY1);

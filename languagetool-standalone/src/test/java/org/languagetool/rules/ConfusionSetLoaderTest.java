@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -32,8 +32,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.Assert.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ConfusionSetLoaderTest {
   
@@ -57,11 +56,11 @@ public class ConfusionSetLoaderTest {
       }
     }
     int minCount = 1000;
-    assertTrue("Only got " + count + " confusion pairs for all languages, expected > " + minCount, count > minCount);
+    assertTrue(count > minCount, "Only got " + count + " confusion pairs for all languages, expected > " + minCount);
   }
   
   @Test
-  @Ignore("one-time use, migrate descriptions to word_definition.txt")
+  @Disabled("one-time use, migrate descriptions to word_definition.txt")
   public void testConfusionSetDescriptionExport() throws IOException {
     for (Language language : Languages.get()) {
       if (language.getShortCode().equals("de")) {
@@ -92,7 +91,7 @@ public class ConfusionSetLoaderTest {
   }
 
   @Test
-  @Ignore("confusion pairs change rarely, so not running this regularly helps the build stay fast")
+  @Disabled("confusion pairs change rarely, so not running this regularly helps the build stay fast")
   public void testConfusionSetSpelling() throws IOException {
     for (Language lang : Languages.get()) {
       if (lang.getShortCode().equals("en") && !lang.getShortCodeWithCountryAndVariant().equals("en-US")) {

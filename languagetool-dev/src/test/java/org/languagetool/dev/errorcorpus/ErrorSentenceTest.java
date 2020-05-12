@@ -18,7 +18,7 @@
  */
 package org.languagetool.dev.errorcorpus;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -26,7 +26,7 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class ErrorSentenceTest {
 

@@ -18,13 +18,13 @@
  */
 package org.languagetool.tools;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -39,7 +39,7 @@ public class SynthDictionaryBuilderTest extends DictionaryBuilderTestHelper {
       "fsa.dict.encoder=SUFFIX";
   
   @Test
-  @Ignore("for interactive use only")
+  @Disabled("for interactive use only")
   public void testExportPosDictAndCreateSynth() throws Exception {
     for (Language language : Languages.get()) {
       String langCode = language.getShortCode();

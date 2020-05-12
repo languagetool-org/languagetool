@@ -18,14 +18,14 @@
  */
 package org.languagetool.rules.patterns;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.*;
 import org.languagetool.rules.RuleMatch;
@@ -35,7 +35,7 @@ import org.languagetool.rules.en.MorfologikBritishSpellerRule;
 public class FalseFriendRuleTest {
 
   @Test
-  @Ignore("not active for German anymore - replaced by ngram-based false friend rule")
+  @Disabled("not active for German anymore - replaced by ngram-based false friend rule")
   public void testHintsForGermanSpeakers() throws IOException {
     JLanguageTool lt = new JLanguageTool(new English(), new German());
     List<RuleMatch> matches = assertErrors(1, "We will berate you.", lt);
@@ -47,7 +47,7 @@ public class FalseFriendRuleTest {
   }
 
   @Test
-  @Ignore("not active for German anymore - replaced by ngram-based false friend rule")
+  @Disabled("not active for German anymore - replaced by ngram-based false friend rule")
   public void testHintsForGermanSpeakersWithVariant() throws IOException {
     JLanguageTool lt = new JLanguageTool(new BritishEnglish(), new SwissGerman());
     List<RuleMatch> matches = assertErrors(1, "We will berate you.", lt);
@@ -101,7 +101,7 @@ public class FalseFriendRuleTest {
   private List<RuleMatch> assertErrors(int errorCount, String s, JLanguageTool lt) throws IOException {
     List<RuleMatch> matches = lt.check(s);
     //System.err.println(matches);
-    assertEquals("Matches found: " + matches, errorCount, matches.size());
+    assertEquals(errorCount, matches.size(), "Matches found: " + matches);
     return matches;
   }
   

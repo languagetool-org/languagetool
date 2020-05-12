@@ -18,22 +18,22 @@
  */
 package org.languagetool.dev.bigdata;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class LanguageModelSanityTest {
 
   private static final String NGRAM_DIR = "/data/google-ngram-index";
 
   @Test
-  @Ignore("Interactive use only, requires local ngram index")
+  @Disabled("Interactive use only, requires local ngram index")
   public void testEnglishLanguageModelSanity() throws IOException {
     LuceneLanguageModel lm = new LuceneLanguageModel(new File(NGRAM_DIR));
     // 1gram:

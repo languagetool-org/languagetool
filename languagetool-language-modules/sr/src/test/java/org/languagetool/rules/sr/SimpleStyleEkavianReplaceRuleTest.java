@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.sr;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Serbian;
@@ -27,7 +27,7 @@ import org.languagetool.rules.sr.ekavian.SimpleStyleEkavianReplaceRule;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SimpleStyleEkavianReplaceRuleTest {
 

@@ -20,8 +20,8 @@ package org.languagetool.tagging.disambiguation;
 
 import java.io.IOException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Polish;
 import org.languagetool.tagging.pl.PolishTagger;
@@ -36,7 +36,7 @@ public class PolishDisambiguationRuleTest {
   private SentenceTokenizer sentenceTokenizer;
   private MultiWordChunker disambiguator;
     
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new PolishTagger();
     tokenizer = new WordTokenizer();

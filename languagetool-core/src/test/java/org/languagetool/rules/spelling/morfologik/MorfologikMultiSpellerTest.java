@@ -18,13 +18,14 @@
  */
 package org.languagetool.rules.spelling.morfologik;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
 import static java.util.Collections.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MorfologikMultiSpellerTest {
 
@@ -62,14 +63,16 @@ public class MorfologikMultiSpellerTest {
     assertThat(speller.getSuggestions("Häusers").toString(), is("[Häuser]"));
   }
 
-  @Test(expected = RuntimeException.class)
-  public void testInvalidFileName() throws IOException {
-    new MorfologikMultiSpeller("/xx/spelling/test.dict.README", singletonList("/xx/spelling/test2.txt"), null, 1);
+  @Test
+  public void testInvalidFileName() {
+    assertThrows(RuntimeException.class, () ->
+      new MorfologikMultiSpeller("/xx/spelling/test.dict.README", singletonList("/xx/spelling/test2.txt"), null, 1));
   }
 
-  @Test(expected = RuntimeException.class)
-  public void testInvalidFile() throws IOException {
-    new MorfologikMultiSpeller("/xx/spelling/no-such-file", singletonList("/xx/spelling/test2.txt"), null, 1);
+  @Test
+  public void testInvalidFile() {
+    assertThrows(RuntimeException.class, () ->
+      new MorfologikMultiSpeller("/xx/spelling/no-such-file", singletonList("/xx/spelling/test2.txt"), null, 1));
   }
 
   private MorfologikMultiSpeller getSpeller() throws IOException {

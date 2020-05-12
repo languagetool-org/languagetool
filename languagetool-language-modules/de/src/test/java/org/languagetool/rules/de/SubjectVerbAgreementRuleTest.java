@@ -18,28 +18,27 @@
  */
 package org.languagetool.rules.de;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.chunking.GermanChunker;
 import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
-
 
 public class SubjectVerbAgreementRuleTest {
 
   private static SubjectVerbAgreementRule rule;
   private static JLanguageTool langTool;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() {
     Language german = Languages.getLanguageForShortCode("de-DE");
     rule = new SubjectVerbAgreementRule(TestTools.getMessages("de"), (German) german);
@@ -466,7 +465,7 @@ public class SubjectVerbAgreementRuleTest {
       GermanChunker.setDebug(true);
       getMatches(input);  // run again with debug mode
     }
-    Assert.fail(message);
+    Assertions.fail(message);
   }
 
   private RuleMatch[] getMatches(String input) throws IOException {

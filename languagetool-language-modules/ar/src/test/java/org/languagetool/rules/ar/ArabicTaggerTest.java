@@ -19,8 +19,8 @@
  */
 package org.languagetool.rules.ar;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Arabic;
 import org.languagetool.tagging.ar.ArabicTagger;
@@ -33,7 +33,7 @@ public class ArabicTaggerTest {
   private ArabicTagger tagger;
   private WordTokenizer tokenizer;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new ArabicTagger();
     tokenizer = new WordTokenizer();

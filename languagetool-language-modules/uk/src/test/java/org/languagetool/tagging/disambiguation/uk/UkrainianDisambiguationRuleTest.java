@@ -18,8 +18,8 @@
  */
 package org.languagetool.tagging.disambiguation.uk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -27,8 +27,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
@@ -52,7 +52,7 @@ public class UkrainianDisambiguationRuleTest {
   private DemoDisambiguator demoDisambiguator;
   private Disambiguator chunker;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new UkrainianTagger();
     tokenizer = new UkrainianWordTokenizer();
@@ -424,7 +424,7 @@ public class UkrainianDisambiguationRuleTest {
       AnalyzedTokenReadings taggedToken = tagged.get(0);
       TokenMatcher tokenMatcher = entry.getValue();
       
-      assertTrue(String.format("%s not found in dictionary, tags: %s", entry, tagged), matches(taggedToken, tokenMatcher));
+      assertTrue(matches(taggedToken, tokenMatcher), String.format("%s not found in dictionary, tags: %s", entry, tagged));
     }
   }
 

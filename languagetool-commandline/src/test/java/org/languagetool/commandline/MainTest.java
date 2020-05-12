@@ -19,9 +19,9 @@
 package org.languagetool.commandline;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -35,7 +35,8 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Tests the basic features of the command-line interface.
@@ -112,7 +113,7 @@ public class MainTest extends AbstractSecurityTestCase {
 
   }
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     super.setUp();
     this.stdout = System.out;
@@ -123,7 +124,7 @@ public class MainTest extends AbstractSecurityTestCase {
     System.setErr(new PrintStream(this.err));
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     System.setOut(this.stdout);
     System.setErr(this.stderr);
@@ -139,7 +140,7 @@ public class MainTest extends AbstractSecurityTestCase {
     } catch (ExitException e) {
       String output = new String(this.out.toByteArray());
       assertTrue(output.contains("Usage: java -jar languagetool-commandline.jar"));
-      assertEquals("Exit status", 1, e.status);
+      assertEquals(1, e.status, "Exit status");
     }
   }
 
@@ -154,7 +155,7 @@ public class MainTest extends AbstractSecurityTestCase {
       assertTrue(output.contains("German"));
       assertTrue(output.contains("de-DE"));
       assertTrue(output.contains("English"));
-      assertEquals("Exit status", 0, e.status);
+      assertEquals(0, e.status, "Exit status");
     }
   }
 
@@ -229,7 +230,7 @@ public class MainTest extends AbstractSecurityTestCase {
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
     assertTrue(stdout.contains("1.) Line 1, column 9, Rule ID: EN_A_VS_AN"));
     String tagText = new String(this.err.toByteArray());
-    assertTrue("Got: " + tagText, tagText.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>./PCT,O]"));
+    assertTrue(tagText.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>./PCT,O]"), "Got: " + tagText);
   }
 
   @Test
@@ -287,10 +288,11 @@ public class MainTest extends AbstractSecurityTestCase {
 
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertTrue("Got: " + output, output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" " +
+    assertTrue(output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" " +
         "tox=\"10\" ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" shortmsg=\"Word repetition\" " +
         "replacements=\"is\" context=\"....  This is a test of of language tool.  This is is a test of language tool. \"" +
-        " contextoffset=\"48\" offset=\"60\" errorlength=\"5\" category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"duplication\"/>"));
+        " contextoffset=\"48\" offset=\"60\" errorlength=\"5\" category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"duplication\"/>"),
+        "Got: " + output);
   }
   
   @Test
@@ -299,21 +301,21 @@ public class MainTest extends AbstractSecurityTestCase {
     String[] args = {"-l", "en", "--json", "-"};
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertTrue("Got: " + output, output.contains("\"matches\":[{\"message\":\"Use \\\"a\\\" instead of 'an'"));
-    assertTrue("Got: " + output, output.contains("\"shortMessage\":\"Wrong article\""));
-    assertTrue("Got: " + output, output.contains("\"replacements\":[{\"value\":\"a\"}]"));
-    assertTrue("Got: " + output, output.contains("\"offset\":8"));
-    assertTrue("Got: " + output, output.contains("\"length\":2"));
-    assertTrue("Got: " + output, output.contains("\"context\":{\"text\":\"This is an test.  This is a test of of language tool.  ...\""));
-    assertTrue("Got: " + output, output.contains("\"id\":\"EN_A_VS_AN\""));
-    assertTrue("Got: " + output, output.contains("\"description\":\"Use of"));
-    assertTrue("Got: " + output, output.contains("\"issueType\":\"misspelling\""));
-    assertTrue("Got: " + output, output.contains("\"category\":{\"id\":\"MISC\",\"name\":\"Miscellaneous\"}"));
-    assertTrue("Got: " + output, output.contains("\"message\":\"Possible typo: you repeated a word\""));
-    assertTrue("Got: " + output, output.contains("\"sentence\":\"This is an test.\""));
-    assertTrue("Doesn't display Time", !output.contains("Time: "));
-    assertTrue("Json start check",output.startsWith("{\"software\":{\"name\":\"LanguageTool\",\"version\":"));
-    assertTrue("Json end check",output.endsWith("}]}"));
+    assertTrue(output.contains("\"matches\":[{\"message\":\"Use \\\"a\\\" instead of 'an'"), "Got: " + output);
+    assertTrue(output.contains("\"shortMessage\":\"Wrong article\""), "Got: " + output);
+    assertTrue(output.contains("\"replacements\":[{\"value\":\"a\"}]"), "Got: " + output);
+    assertTrue(output.contains("\"offset\":8"), "Got: " + output);
+    assertTrue(output.contains("\"length\":2"), "Got: " + output);
+    assertTrue(output.contains("\"context\":{\"text\":\"This is an test.  This is a test of of language tool.  ...\""), "Got: " + output);
+    assertTrue(output.contains("\"id\":\"EN_A_VS_AN\""), "Got: " + output);
+    assertTrue(output.contains("\"description\":\"Use of"), "Got: " + output);
+    assertTrue(output.contains("\"issueType\":\"misspelling\""), "Got: " + output);
+    assertTrue(output.contains("\"category\":{\"id\":\"MISC\",\"name\":\"Miscellaneous\"}"), "Got: " + output);
+    assertTrue(output.contains("\"message\":\"Possible typo: you repeated a word\""), "Got: " + output);
+    assertTrue(output.contains("\"sentence\":\"This is an test.\""), "Got: " + output);
+    assertFalse(output.contains("Time: "), "Doesn't display Time");
+    assertTrue(output.startsWith("{\"software\":{\"name\":\"LanguageTool\",\"version\":"), "Json start check");
+    assertTrue(output.endsWith("}]}"), "Json end check");
   }
 
   //test line mode vs. para mode
@@ -499,7 +501,7 @@ public class MainTest extends AbstractSecurityTestCase {
     String stdout = new String(this.out.toByteArray());
     String stderr = new String(this.err.toByteArray());
     assertTrue(stderr.indexOf("Expected text language: English") == 0);
-    assertTrue("Got: " + stdout, stdout.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>./PCT,O]"));
+    assertTrue(stdout.contains("<S> This[this/DT,B-NP-singular|E-NP-singular] is[be/VBZ,B-VP] an[a/DT,B-NP-singular] test[test/NN,E-NP-singular].[./.,</S>./PCT,O]"), "Got: " + stdout);
   }
 
   @Test
@@ -569,7 +571,7 @@ public class MainTest extends AbstractSecurityTestCase {
         bitextFile.getAbsolutePath(), input.getAbsolutePath()};
     Main.main(args);
     String output = new String(this.out.toByteArray());
-    assertTrue("red_herring rule should be in the output" + output, output.contains("Rule ID: red_herring"));
+    assertTrue(output.contains("Rule ID: red_herring"), "red_herring rule should be in the output" + output);
   }
 
   @Test

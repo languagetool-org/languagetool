@@ -18,12 +18,12 @@
  */
 package org.languagetool.dev.wikipedia;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import xtc.tree.Location;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class LocationHelperTest {
 

@@ -19,8 +19,8 @@
 
 package org.languagetool.rules.ca;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Catalan;
@@ -31,14 +31,14 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CatalanUnpairedBracketsRuleTest {
 
   private TextLevelRule rule;
   private JLanguageTool langTool;
   
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new CatalanUnpairedBracketsRule(TestTools.getEnglishMessages(), new Catalan());
     langTool = new JLanguageTool(new Catalan());

@@ -18,7 +18,7 @@
  */
 package org.languagetool;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.language.Esperanto;
 import org.languagetool.rules.RuleMatch;
 
@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class EsperantoTest {
   

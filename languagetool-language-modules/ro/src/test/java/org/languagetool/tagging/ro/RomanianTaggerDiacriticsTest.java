@@ -18,7 +18,7 @@
  */
 package org.languagetool.tagging.ro;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * These tests are kept to make sure UTF-8 dictionaries are correctly read.

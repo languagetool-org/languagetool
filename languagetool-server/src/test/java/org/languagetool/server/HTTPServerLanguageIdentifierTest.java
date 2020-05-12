@@ -21,8 +21,8 @@
 package org.languagetool.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
-import org.junit.Ignore;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Disabled;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 
@@ -30,7 +30,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Ignore("for interactive use; requires local Tatoeba data")
+@Disabled("for interactive use; requires local Tatoeba data")
 public class HTTPServerLanguageIdentifierTest extends HTTPServerMultiLangLoadTest {
 
   private final ObjectMapper mapper = new ObjectMapper();
@@ -46,12 +46,13 @@ public class HTTPServerLanguageIdentifierTest extends HTTPServerMultiLangLoadTes
     String languageDetectedCode = detectedLanguageObj.get("code");
     return languageDetectedCode;
   }
-@Override
+
+  @Override
   protected int getRepeatCount() {
     return  TOTAL_REPEATS;
   }
 
-  @After
+  @AfterEach
   public void tearDown() throws Exception {
     System.out.printf("%d / %d detection failures%n", numDetectionFailures.get(), getRepeatCount() * getThreadCount());
   }

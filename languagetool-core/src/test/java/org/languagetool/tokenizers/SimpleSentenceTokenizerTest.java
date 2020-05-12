@@ -18,7 +18,7 @@
  */
 package org.languagetool.tokenizers;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 
 public class SimpleSentenceTokenizerTest {

@@ -19,28 +19,26 @@
 package org.languagetool.rules.de;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.CharacterCodingException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.German;
 import org.languagetool.rules.RuleMatch;
 
 import morfologik.speller.Speller;
 import morfologik.stemming.Dictionary;
 
-@Ignore
+@Disabled
 public class MorfologikGermanyGermanSpellerRuleTest {
 
   @Test
@@ -62,7 +60,7 @@ public class MorfologikGermanyGermanSpellerRuleTest {
   }
   
   @Test
-  @Ignore("testing for https://github.com/languagetool-org/languagetool/issues/236")
+  @Disabled("testing for https://github.com/languagetool-org/languagetool/issues/236")
   public void testFrequency() throws IOException {
     URL fsaURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("de/hunspell/de_DE.dict");
     Dictionary dictionary = Dictionary.read(fsaURL);
@@ -74,7 +72,7 @@ public class MorfologikGermanyGermanSpellerRuleTest {
   }
 
   @Test
-  @Ignore("help testing for https://github.com/morfologik/morfologik-stemming/issues/34")
+  @Disabled("help testing for https://github.com/morfologik/morfologik-stemming/issues/34")
   public void testCommonMisspellings() throws IOException {
     URL fsaURL = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("de/hunspell/de_DE.dict");
     Dictionary dictionary = Dictionary.read(fsaURL);

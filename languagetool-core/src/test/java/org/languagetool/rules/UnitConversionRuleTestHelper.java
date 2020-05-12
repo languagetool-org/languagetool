@@ -22,11 +22,13 @@
 package org.languagetool.rules;
 
 import org.hamcrest.CoreMatchers;
-import org.junit.Assert;
 import org.languagetool.JLanguageTool;
 
 import java.io.IOException;
 import java.util.Arrays;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UnitConversionRuleTestHelper {
   private boolean verbose = false;
@@ -48,7 +50,7 @@ public class UnitConversionRuleTestHelper {
         System.out.println(match.getSuggestedReplacements());
       }
     }
-    Assert.assertThat("Got matches: " + Arrays.toString(matches), matches.length, CoreMatchers.is(expectedMatches));
+    assertThat("Got matches: " + Arrays.toString(matches), matches.length, CoreMatchers.is(expectedMatches));
     if (expectedMatches > 0 && converted != null) {
       RuleMatch match = matches[0];
       boolean suggestionCorrect = false;
@@ -60,7 +62,7 @@ public class UnitConversionRuleTestHelper {
           break;
         }
       }
-      Assert.assertTrue("Suggestion is correct: " + suggestion + " / expected: " + converted, suggestionCorrect);
+      assertTrue(suggestionCorrect, "Suggestion is correct: " + suggestion + " / expected: " + converted);
     }
   }
 }

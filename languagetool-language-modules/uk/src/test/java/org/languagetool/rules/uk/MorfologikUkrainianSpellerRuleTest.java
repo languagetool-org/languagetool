@@ -18,15 +18,15 @@
  */
 package org.languagetool.rules.uk;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
@@ -35,8 +35,8 @@ import org.languagetool.rules.RuleMatch;
 public class MorfologikUkrainianSpellerRuleTest {
   private JLanguageTool langTool;
   private MorfologikUkrainianSpellerRule rule;
-  
-  @Before
+
+  @BeforeEach
   public void init() throws IOException {
     rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), null, Collections.emptyList());
     langTool = new JLanguageTool(new Ukrainian());
@@ -158,7 +158,7 @@ public class MorfologikUkrainianSpellerRuleTest {
 
   @Test
   public void testCompounds() throws IOException {
-    
+
     // compounding
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Жакет був синьо-жовтого кольору")).length);
 
@@ -166,7 +166,7 @@ public class MorfologikUkrainianSpellerRuleTest {
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Він багато сидів на інтермет-форумах")).length);
 
-    
+
     // dynamic tagging
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("екс-креветка")).length);
 
@@ -176,8 +176,8 @@ public class MorfologikUkrainianSpellerRuleTest {
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("екоблогер")).length);
   }
-  
-  
+
+
   @Test
   public void testDashedSuggestions() throws IOException {
     MorfologikUkrainianSpellerRule rule = new MorfologikUkrainianSpellerRule (TestTools.getMessages("uk"), new Ukrainian(), 
@@ -207,7 +207,7 @@ public class MorfologikUkrainianSpellerRuleTest {
     match = rule.match(langTool.getAnalyzedSentence("авіабегемат"));
     assertEquals(1, match.length);
 
-    assertTrue("Should be empty: " + match[0].getSuggestedReplacements(), match[0].getSuggestedReplacements().isEmpty());
+    assertTrue(match[0].getSuggestedReplacements().isEmpty(), "Should be empty: " + match[0].getSuggestedReplacements());
 
     match = rule.match(langTool.getAnalyzedSentence("вело-маршрут"));
     assertEquals(1, match.length);
@@ -222,7 +222,7 @@ public class MorfologikUkrainianSpellerRuleTest {
     match = rule.match(langTool.getAnalyzedSentence("вело-бегемот"));
     assertEquals(1, match.length);
 
-    assertTrue("Unexpected suggestions: " + match[0].getSuggestedReplacements(), match[0].getSuggestedReplacements().isEmpty());
+    assertTrue(match[0].getSuggestedReplacements().isEmpty(), "Unexpected suggestions: " + match[0].getSuggestedReplacements());
 
     match = rule.match(langTool.getAnalyzedSentence("радіо- та відеоспостереження"));
     assertEquals(0, match.length);

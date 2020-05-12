@@ -19,7 +19,7 @@
 package org.languagetool.tools;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
@@ -36,8 +36,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.languagetool.tools.StringTools.ApiPrintMode.*;
 
 @SuppressWarnings("MagicNumber")
@@ -92,7 +92,8 @@ public class RuleMatchAsXmlSerializerTest {
     Pattern matchesPattern =
             Pattern.compile(".*<matches software=\"LanguageTool\" version=\"" + JLanguageTool.VERSION + "\" buildDate=\".*?\">.*", Pattern.DOTALL);
     Matcher matcher = matchesPattern.matcher(xml);
-    assertTrue("Did not find expected '<matches>' element ('" + matchesPattern + "'), got:\n" + xml, matcher.matches());
+    assertTrue(matcher.matches(),
+      "Did not find expected '<matches>' element ('" + matchesPattern + "'), got:\n" + xml);
     assertTrue(xml.contains(">\n" +
             "<error fromy=\"44\" fromx=\"98\" toy=\"45\" tox=\"99\" ruleId=\"FAKE_ID\" msg=\"myMessage\" " +
             "replacements=\"\" context=\"...s is an test...\" contextoffset=\"8\" offset=\"8\" errorlength=\"2\" " +

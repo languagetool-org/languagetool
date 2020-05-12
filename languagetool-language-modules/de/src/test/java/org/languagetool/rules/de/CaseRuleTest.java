@@ -18,15 +18,15 @@
  */
 package org.languagetool.rules.de;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.regex.Pattern;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
@@ -38,7 +38,7 @@ public class CaseRuleTest {
   private CaseRule rule;
   private JLanguageTool lt;
 
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new CaseRule(TestTools.getMessages("de"), (German) Languages.getLanguageForShortCode("de-DE"));
     lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
@@ -349,11 +349,11 @@ public class CaseRuleTest {
   }
 
   private void assertGood(String input) throws IOException {
-    assertEquals("Did not expect error in: '" + input + "'", 0, rule.match(lt.getAnalyzedSentence(input)).length);
+    assertEquals(0, rule.match(lt.getAnalyzedSentence(input)).length, "Did not expect error in: '" + input + "'");
   }
 
   private void assertBad(String input) throws IOException {
-    assertEquals("Did not find expected error in: '" + input + "'", 1, rule.match(lt.getAnalyzedSentence(input)).length);
+    assertEquals(1, rule.match(lt.getAnalyzedSentence(input)).length, "Did not find expected error in: '" + input + "'");
   }
 
   @Test

@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -30,8 +30,9 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Markus Brenneis
@@ -41,7 +42,7 @@ public class VerbAgreementRuleTest {
   private JLanguageTool lt;
   private VerbAgreementRule rule;
   
-  @Before
+  @BeforeEach
   public void setUp() {
     lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     rule = new VerbAgreementRule(TestTools.getMessages("de"), (German) Languages.getLanguageForShortCode("de-DE"));
@@ -266,13 +267,13 @@ public class VerbAgreementRuleTest {
   private void assertBad(String s, String expectedErrorSubstring) throws IOException {
     assertEquals(1, rule.match(lt.analyzeText(s)).length);
     final String errorMessage = rule.match(lt.analyzeText(s))[0].getMessage();
-    assertTrue("Got error '" + errorMessage + "', expected substring '" + expectedErrorSubstring + "'",
-            errorMessage.contains(expectedErrorSubstring));
+    assertTrue(errorMessage.contains(expectedErrorSubstring),
+      "Got error '" + errorMessage + "', expected substring '" + expectedErrorSubstring + "'");
   }
 
   private void assertBad(String s, int n, String... expectedSuggestions) throws IOException {
     RuleMatch[] matches = rule.match(lt.analyzeText(s));
-    assertEquals("Did not find " + n + " match(es) in sentence '" + s + "'", n, matches.length);
+    assertEquals(n, matches.length, "Did not find " + n + " match(es) in sentence '" + s + "'");
     if (expectedSuggestions.length > 0) {
       RuleMatch match = matches[0];
       // When two errors are reported by the rule (so TODO above), it might happen that the first match does not have the suggestions, but the second one

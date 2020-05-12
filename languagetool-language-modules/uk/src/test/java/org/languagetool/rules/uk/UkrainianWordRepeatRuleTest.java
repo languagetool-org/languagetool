@@ -22,21 +22,21 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
 import org.languagetool.rules.RuleMatch;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class UkrainianWordRepeatRuleTest {
   
   private JLanguageTool langTool;
   private UkrainianWordRepeatRule rule;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     langTool = new JLanguageTool(new Ukrainian());
     rule = new UkrainianWordRepeatRule(TestTools.getMessages("uk"), langTool.getLanguage());
@@ -61,7 +61,7 @@ public class UkrainianWordRepeatRuleTest {
   }
 
   private void assertEmptyMatch(String text) throws IOException {
-    assertEquals(text, Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(langTool.getAnalyzedSentence(text))));
+    assertEquals(Collections.<RuleMatch>emptyList(), Arrays.asList(rule.match(langTool.getAnalyzedSentence(text))), text);
   }
 
 }

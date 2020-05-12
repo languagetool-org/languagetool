@@ -20,8 +20,8 @@
 
 package org.languagetool.rules.ar;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
@@ -29,14 +29,14 @@ import org.languagetool.language.Arabic;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ArabicSimpleReplaceRuleTest {
 
   private ArabicSimpleReplaceRule rule;
   private JLanguageTool langTool;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     Language arabic = new Arabic();
     rule = new ArabicSimpleReplaceRule(TestTools.getMessages("ar"), arabic);

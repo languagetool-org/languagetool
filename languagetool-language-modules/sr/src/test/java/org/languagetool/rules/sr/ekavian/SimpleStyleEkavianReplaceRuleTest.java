@@ -19,13 +19,13 @@
 package org.languagetool.rules.sr.ekavian;
 
 import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SimpleStyleEkavianReplaceRuleTest {
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
   }
 

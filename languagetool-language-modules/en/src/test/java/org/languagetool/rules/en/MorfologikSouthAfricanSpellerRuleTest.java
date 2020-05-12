@@ -20,13 +20,13 @@ package org.languagetool.rules.en;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Collections;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
@@ -92,8 +92,8 @@ public class MorfologikSouthAfricanSpellerRuleTest extends AbstractEnglishSpelle
   private void assertSuggestion(Rule rule, JLanguageTool lt, String input, String... expectedSuggestions) throws IOException {
     RuleMatch[] matches = rule.match(lt.getAnalyzedSentence(input));
     assertThat(matches.length, is(1));
-    assertTrue("Expected >= " + expectedSuggestions.length + ", got: " + matches[0].getSuggestedReplacements(),
-            matches[0].getSuggestedReplacements().size() >= expectedSuggestions.length);
+    assertTrue(matches[0].getSuggestedReplacements().size() >= expectedSuggestions.length,
+      "Expected >= " + expectedSuggestions.length + ", got: " + matches[0].getSuggestedReplacements());
     for (String expectedSuggestion : expectedSuggestions) {
       assertTrue(matches[0].getSuggestedReplacements().contains(expectedSuggestion));
     }

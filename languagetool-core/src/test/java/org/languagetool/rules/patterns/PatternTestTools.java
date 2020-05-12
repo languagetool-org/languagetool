@@ -28,7 +28,7 @@ import java.util.regex.Pattern;
 
 import org.languagetool.Language;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Common pattern test routines (usable for Disambiguation rules as well).

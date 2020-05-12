@@ -18,14 +18,14 @@
  */
 package org.languagetool.tokenizers.de;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GermanCompoundTokenizerTest {
   
@@ -38,7 +38,7 @@ public class GermanCompoundTokenizerTest {
   }
 
   @Test
-  @Ignore("for interactive use only")
+  @Disabled("for interactive use only")
   public void testInteractively() throws IOException {
     GermanCompoundTokenizer.ExtendedGermanWordSplitter splitter = new GermanCompoundTokenizer.ExtendedGermanWordSplitter(false);
     String wordsInput = "Bahnhofsuhr, Bahnhofssanierung, Thermostattest";

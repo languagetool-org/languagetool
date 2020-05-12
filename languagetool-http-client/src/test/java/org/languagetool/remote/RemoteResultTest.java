@@ -18,10 +18,11 @@
  */
 package org.languagetool.remote;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RemoteResultTest {
 
@@ -30,8 +31,8 @@ public class RemoteResultTest {
     final RemoteServer remoteServer = new RemoteServer("LanguageTool", "", "");
     final List matches = new ArrayList();
     final RemoteResult objectUnderTest = new RemoteResult("English", "en", "en", "English", matches, remoteServer);
-    Assert.assertEquals(objectUnderTest.getLanguageDetectedCode(), "en");
-    Assert.assertEquals(objectUnderTest.getLanguageDetectedName(), "English");
+    assertEquals(objectUnderTest.getLanguageDetectedCode(), "en");
+    assertEquals(objectUnderTest.getLanguageDetectedName(), "English");
   }
 
 }

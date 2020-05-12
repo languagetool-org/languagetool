@@ -19,7 +19,7 @@
 
 package org.languagetool.rules.uk;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
@@ -28,8 +28,8 @@ import org.languagetool.rules.RuleMatch;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 public class SimpleReplaceRenamedRuleTest {
@@ -46,7 +46,7 @@ public class SimpleReplaceRenamedRuleTest {
     assertEquals(0, matches.length);
 
     matches = rule.match(langTool.getAnalyzedSentence("Дніпродзержинська"));
-    assertEquals(Arrays.asList(matches).toString(), 1, matches.length);
+    assertEquals(1, matches.length, Arrays.asList(matches).toString());
     assertEquals(Arrays.asList("Кам'янське", "кам'янський"), matches[0].getSuggestedReplacements());
     assertTrue(matches[0].getMessage().contains("2016"));
 

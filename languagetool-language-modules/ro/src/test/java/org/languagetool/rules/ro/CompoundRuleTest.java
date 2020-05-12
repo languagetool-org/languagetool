@@ -20,8 +20,8 @@ package org.languagetool.rules.ro;
 
 import java.io.IOException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Romanian;
@@ -32,7 +32,7 @@ import org.languagetool.rules.AbstractCompoundRuleTest;
  */
 public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     lt = new JLanguageTool(new Romanian());
     rule = new CompoundRule(TestTools.getMessages("ro"));

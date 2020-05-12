@@ -18,8 +18,8 @@
  */
 package org.languagetool.remote;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.server.HTTPSServer;
 import org.languagetool.server.HTTPSServerConfig;
 import org.languagetool.server.HTTPServer;
@@ -39,14 +39,15 @@ import java.security.cert.X509Certificate;
 import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RemoteLanguageToolIntegrationTest {
 
   private static final String serverUrl = "http://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPTools.getDefaultPort();
 
   @Test
-  @Ignore("for interactive use only")
+  @Disabled("for interactive use only")
   public void testPublicServer() throws MalformedURLException {
     RemoteLanguageTool lt = new RemoteLanguageTool(new URL("https://languagetool.org/api"));
     RemoteResult matches = lt.check("This is an test.", "en");
@@ -143,31 +144,35 @@ public class RemoteLanguageToolIntegrationTest {
     HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
   }
 
-  @Test(expected=RuntimeException.class)
+  @Test
   public void testInvalidServer() throws MalformedURLException {
     RemoteLanguageTool lt = new RemoteLanguageTool(new URL("http://does-not-exist"));
-    lt.check("foo", "en");
+    assertThrows(RuntimeException.class, () ->
+      lt.check("foo", "en"));
   }
 
-  @Test(expected=RuntimeException.class)
+  @Test
   public void testWrongProtocol() throws MalformedURLException {
     String httpsUrl = "https://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPServerConfig.DEFAULT_PORT;
     RemoteLanguageTool lt = new RemoteLanguageTool(new URL(httpsUrl));
-    lt.check("foo", "en");
+    assertThrows(RuntimeException.class, () ->
+      lt.check("foo", "en"));
   }
 
-  @Test(expected=RuntimeException.class)
+  @Test
   public void testInvalidProtocol() throws MalformedURLException {
     String httpsUrl = "ftp://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPServerConfig.DEFAULT_PORT;
     RemoteLanguageTool lt = new RemoteLanguageTool(new URL(httpsUrl));
-    lt.check("foo", "en");
+    assertThrows(RuntimeException.class, () ->
+      lt.check("foo", "en"));
   }
   
   @SuppressWarnings("ResultOfObjectAllocationIgnored")
-  @Test(expected=MalformedURLException.class)
-  public void testProtocolTypo() throws MalformedURLException {
+  @Test
+  public void testProtocolTypo() {
     String httpsUrl = "htp://" + HTTPServerConfig.DEFAULT_HOST + ":" + HTTPServerConfig.DEFAULT_PORT;
-    new RemoteLanguageTool(new URL(httpsUrl));
+    assertThrows(MalformedURLException.class, () ->
+      new RemoteLanguageTool(new URL(httpsUrl)));
   }
   
 }

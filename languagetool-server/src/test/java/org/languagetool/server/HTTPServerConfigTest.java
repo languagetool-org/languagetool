@@ -18,12 +18,13 @@
  */
 package org.languagetool.server;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import java.io.IOException;
 
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HTTPServerConfigTest {
 
@@ -61,9 +62,9 @@ public class HTTPServerConfigTest {
     HTTPServerConfig config = new HTTPServerConfig(new String[]{HTTPServerConfig.LANGUAGE_MODEL_OPTION, targetLanguageModelDirectory});
 
     //then
-    Assert.assertNotNull(config.languageModelDir);
-    Assert.assertTrue(config.languageModelDir.exists());
-    Assert.assertTrue(config.languageModelDir.getAbsolutePath().endsWith(languageModelDirectory));
+    assertNotNull(config.languageModelDir);
+    assertTrue(config.languageModelDir.exists());
+    assertTrue(config.languageModelDir.getAbsolutePath().endsWith(languageModelDirectory));
   }
 
 }

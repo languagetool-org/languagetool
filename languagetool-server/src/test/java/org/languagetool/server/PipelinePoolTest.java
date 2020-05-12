@@ -21,14 +21,14 @@
 
 package org.languagetool.server;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.markup.AnnotatedTextBuilder;
 
 import java.util.*;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.Mockito.*;
 
 public class PipelinePoolTest {
@@ -215,7 +215,7 @@ public class PipelinePoolTest {
     } catch(Exception e) {
       fail("Expected IllegalPipelineMutationException to be thrown; got " + e);
     } finally {
-      assertTrue("IllegalPipelineMutationException was thrown.", thrown);
+      assertTrue(thrown, "IllegalPipelineMutationException was thrown.");
     }
   }
 

@@ -20,7 +20,7 @@ package org.languagetool.dev.wikipedia;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.English;
@@ -36,7 +36,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class SuggestionReplacerTest {
 
@@ -160,7 +160,7 @@ public class SuggestionReplacerTest {
         // markup area varies because our mapping is sometimes a bit off:
         pos = ruleMatchApplication.getTextWithCorrection().indexOf("<s>absichtlicher Fehler</s>");
       }
-      assertTrue("Found correction at: " + pos, pos > oldPos);
+      assertTrue(pos > oldPos, "Found correction at: " + pos);
       oldPos = pos;
     }
   }
@@ -173,7 +173,7 @@ public class SuggestionReplacerTest {
     PlainTextMapping mapping = filter.filter(origMarkup);
     langTool.disableRule("PUNCTUATION_PARAGRAPH_END");  //  added to prevent crash; TODO: check if needed
     List<RuleMatch> matches = langTool.check(mapping.getPlainText());
-    assertTrue("Expected >= 30 matches, got: " + matches, matches.size() >= 30);
+    assertTrue(matches.size() >= 30, "Expected >= 30 matches, got: " + matches);
     for (RuleMatch match : matches) {
       SuggestionReplacer replacer = new SuggestionReplacer(mapping, origMarkup, new ErrorMarker("<s>", "</s>"));
       List<RuleMatchApplication> ruleMatchApplications = replacer.applySuggestionsToOriginalText(match);

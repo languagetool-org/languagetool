@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.RuleMatch;
@@ -29,7 +29,7 @@ import java.io.File;
 import java.io.IOException;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class EnglishConfusionProbabilityRuleTest {
 
@@ -45,7 +45,7 @@ public class EnglishConfusionProbabilityRuleTest {
   }
 
   @Test
-  @Ignore
+  @Disabled
   public void testRule() throws IOException {
     File indexDir = new File("/data/google-ngram-index");
     if (!indexDir.exists()) {

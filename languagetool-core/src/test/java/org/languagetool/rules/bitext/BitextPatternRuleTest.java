@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules.bitext;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.Rule;
@@ -32,7 +32,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class BitextPatternRuleTest {
 
@@ -95,25 +95,22 @@ public class BitextPatternRuleTest {
     String badSentence = cleanXML(origBadSentence);
     assertTrue(badSentence.trim().length() > 0);
     RuleMatch[] matches = getMatches(rule, badSentence, languageTool);
-    assertTrue(lang + ": Did expect one error in: \"" + badSentence
+    assertTrue(matches.length == 1,
+      lang + ": Did expect one error in: \"" + badSentence
             + "\" (Rule: " + rule + "), got " + matches.length
-            + ". Additional info:" + rule.getMessage(), matches.length == 1);
-    assertEquals(lang
-            + ": Incorrect match position markup (start) for rule " + rule,
-            expectedMatchStart, matches[0].getFromPos());
-    assertEquals(lang
-            + ": Incorrect match position markup (end) for rule " + rule,
-            expectedMatchEnd, matches[0].getToPos());
+            + ". Additional info:" + rule.getMessage());
+    assertEquals(expectedMatchStart, matches[0].getFromPos(),
+      lang + ": Incorrect match position markup (start) for rule " + rule);
+    assertEquals(expectedMatchEnd, matches[0].getToPos(),
+      lang+ ": Incorrect match position markup (end) for rule " + rule);
     // make sure suggestion is what we expect it to be
     if (suggestedCorrection != null && suggestedCorrection.size() > 0) {
-      assertTrue("You specified a correction but your message has no suggestions in rule " + rule,
-              rule.getMessage().contains("<suggestion>")
-      );
-      assertTrue(lang + ": Incorrect suggestions: "
+      assertTrue(rule.getMessage().contains("<suggestion>"),
+        "You specified a correction but your message has no suggestions in rule " + rule);
+      assertTrue(suggestedCorrection.equals(matches[0].getSuggestedReplacements()),
+        lang + ": Incorrect suggestions: "
               + suggestedCorrection + " != "
-              + matches[0].getSuggestedReplacements() + " for rule " + rule,
-              suggestedCorrection.equals(matches[0]
-                      .getSuggestedReplacements()));
+              + matches[0].getSuggestedReplacements() + " for rule " + rule);
       if (matches[0].getSuggestedReplacements().size() > 0) {
         int fromPos = matches[0].getFromPos();
         int toPos = matches[0].getToPos();
@@ -141,12 +138,14 @@ public class BitextPatternRuleTest {
     JLanguageTool srcTool = new JLanguageTool(rule.getSourceLanguage());
     List<StringPair> goodSentences = rule.getCorrectBitextExamples();
     for (StringPair goodSentence : goodSentences) {
-      assertTrue("Got good sentence: '" + goodSentence.getSource() + "'", cleanSentence(goodSentence.getSource()).trim().length() > 0);
-      assertTrue("Got good sentence: '" + goodSentence.getTarget() + "'", cleanSentence(goodSentence.getTarget()).trim().length() > 0);
-      assertFalse(lang + ": Did not expect error in: " + goodSentence
-              + " (Rule: " + rule + ")",
-              match(rule, goodSentence.getSource(), goodSentence.getTarget(),
-                      srcTool, languageTool));
+      assertTrue(cleanSentence(goodSentence.getSource()).trim().length() > 0,
+        "Got good sentence: '" + goodSentence.getSource() + "'");
+      assertTrue(cleanSentence(goodSentence.getTarget()).trim().length() > 0,
+        "Got good sentence: '" + goodSentence.getTarget() + "'");
+      assertFalse(match(rule, goodSentence.getSource(), goodSentence.getTarget(),
+          srcTool, languageTool),
+        lang + ": Did not expect error in: " + goodSentence
+              + " (Rule: " + rule + ")");
     }
     List<IncorrectBitextExample> badSentences = rule.getIncorrectBitextExamples();
     for (IncorrectBitextExample origBadExample : badSentences) {

@@ -18,15 +18,15 @@
  */
 package org.languagetool.rules.uk;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
@@ -42,7 +42,7 @@ public class TokenAgreementAdjNounRuleTest {
 //    System.setProperty("org.languagetool.rules.uk.TokenInflectionAgreementRule.debug", "true");
 //  }
   
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new TokenAgreementAdjNounRule(TestTools.getMessages("uk"));
     langTool = new JLanguageTool(new Ukrainian());
@@ -92,8 +92,8 @@ public class TokenAgreementAdjNounRuleTest {
 
     RuleMatch[] matches0 = rule.match(langTool.getAnalyzedSentence("4 російських винищувача"));
     assertEquals(1, matches0.length);
-    assertTrue("Message is wrong: " + matches0[0].getMessage(),
-        matches0[0].getMessage().contains("[ч.р.: родовий, знахідний]"));
+    assertTrue(matches0[0].getMessage().contains("[ч.р.: родовий, знахідний]"),
+      "Message is wrong: " + matches0[0].getMessage());
     assertEquals(Arrays.asList("російських винищувачів", "російського винищувача"), matches0[0].getSuggestedReplacements());
 
     // from real examples
@@ -165,11 +165,11 @@ public class TokenAgreementAdjNounRuleTest {
     // false v_rod with -у
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("кримського безсмертнику"));
     assertEquals(1, matches.length);
-    assertTrue("Missing message for v_rod/v_dav -у/ю", matches[0].getMessage().contains("Можливо"));
+    assertTrue(matches[0].getMessage().contains("Можливо"), "Missing message for v_rod/v_dav -у/ю");
 
     matches = rule.match(langTool.getAnalyzedSentence("Та пахових ділянках"));
     assertEquals(1, matches.length);
-    assertTrue("Missing message for v_mis", matches[0].getMessage().contains("Можливо"));
+    assertTrue(matches[0].getMessage().contains("Можливо"), "Missing message for v_mis");
 
     // false v_rod with -а
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("федерального округа")).length);
@@ -312,7 +312,7 @@ public class TokenAgreementAdjNounRuleTest {
 
     assertEmptyMatch("дві других дівчини");
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("дві других дівчині")).length);
-    
+
 
     // 1–3-й класи
     assertEmptyMatch("1–3-й класи поснідали й побігли");
@@ -394,7 +394,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("абзац перший частини другої");
     assertEmptyMatch("абзац другий частини першої");
     assertEmptyMatch("частина четверта статті 53");
-    
+
     // мати рівних
     assertEmptyMatch("яких не мала рівних українка");
     
@@ -761,7 +761,7 @@ public class TokenAgreementAdjNounRuleTest {
     
     // problem with anim/inanim
 //    assertEmptyMatch("Хто любить їсти сирі рибу та м’ясо.");
-    
+
     // unknown words
     assertEmptyMatch("Большого та Маріїнського театрів");
     assertEmptyMatch("Пляжі 3, 4 і 5-ї категорій.");

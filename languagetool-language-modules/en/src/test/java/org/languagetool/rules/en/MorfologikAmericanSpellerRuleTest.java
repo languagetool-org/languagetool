@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.language.CanadianEnglish;
 import org.languagetool.rules.Rule;
@@ -32,7 +32,7 @@ import java.util.List;
 import static java.util.Collections.*;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRuleTest {
 
@@ -43,7 +43,7 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
   private static MorfologikCanadianSpellerRule caRule;
   private static JLanguageTool caLangTool;
 
-  @BeforeClass
+  @BeforeAll
   public static void setup() throws IOException {
     rule = new MorfologikAmericanSpellerRule(TestTools.getMessages("en"), language);
     lt = new JLanguageTool(language);
@@ -316,11 +316,11 @@ public class MorfologikAmericanSpellerRuleTest extends AbstractEnglishSpellerRul
     assertThat("Expected " + expectedSuggestionLists.size() + " match, got: " + Arrays.toString(matches), matches.length, is(expectedSuggestionLists.size()));
     int i = 0;
     for (List<String> expectedSuggestions : expectedSuggestionLists) {
-      assertTrue("Expected >= " + expectedSuggestions.size() + ", got: " + matches[0].getSuggestedReplacements(),
-              matches[i].getSuggestedReplacements().size() >= expectedSuggestions.size());
+      assertTrue(matches[i].getSuggestedReplacements().size() >= expectedSuggestions.size(),
+        "Expected >= " + expectedSuggestions.size() + ", got: " + matches[0].getSuggestedReplacements());
       for (String expectedSuggestion : expectedSuggestions) {
-        assertTrue("Replacements '" + matches[i].getSuggestedReplacements() + "' don't contain expected replacement '" + expectedSuggestion + "'",
-                matches[i].getSuggestedReplacements().contains(expectedSuggestion));
+        assertTrue(matches[i].getSuggestedReplacements().contains(expectedSuggestion),
+          "Replacements '" + matches[i].getSuggestedReplacements() + "' don't contain expected replacement '" + expectedSuggestion + "'");
       }
       i++;
     }

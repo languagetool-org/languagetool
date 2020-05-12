@@ -18,15 +18,15 @@
  */
 package org.languagetool.language;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SerbianTest {
 
@@ -41,7 +41,7 @@ public class SerbianTest {
           "grammar-style.xml"
   );
 
-  @Before
+  @BeforeEach
   public void setUp() {
     final String dirBase = "/org/languagetool/rules/sr/";
     for (final String ruleFileName : RULE_FILE_NAMES) {

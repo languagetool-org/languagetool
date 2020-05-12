@@ -18,29 +18,32 @@
  */
 package org.languagetool.tagging.ga;
 
-import junit.framework.TestCase;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Irish;
 import org.languagetool.tokenizers.WordTokenizer;
 
 import java.io.IOException;
 
-public class IrishTaggerTest extends TestCase {
+public class IrishTaggerTest {
   
   private IrishTagger tagger;
   private WordTokenizer tokenizer;
 
-  @Override
+  @BeforeEach
   public void setUp() {
     tagger = new IrishTagger();
     tokenizer = new WordTokenizer();
   }
 
-  public void testDictionary() throws IOException {
+  @Test
+  public void dictionary() throws IOException {
     TestTools.testDictionary(tagger, new Irish());
   }
-  
-  public void testTagger() throws IOException {
+
+  @Test
+  public void tagger() throws IOException {
     TestTools.myAssert("nonexistingword","nonexistingword/[null]null", tokenizer, tagger);
     TestTools.myAssert("bhí sé anseo","bhí/[bí]Noun:Fem:Com:Sg:DefArt|bhí/[bí]Noun:Fem:Com:Sg:Len|bhí/[bí]Noun:Fem:Gen:Sg:Len|bhí/[bí]Noun:Fem:Voc:Sg:Len|bhí/[bí]Verb:VI:PastInd:Len -- sé/[is]Cop:Pres:Pron:Pers:3P:Sg:Masc|sé/[sé]Noun:Masc:Com:Sg|sé/[sé]Noun:Masc:Com:Sg:DefArt|sé/[sé]Noun:Masc:Com:Sg:Ecl|sé/[sé]Noun:Masc:Gen:Sg|sé/[sé]Noun:Masc:Gen:Sg:Ecl|sé/[sé]Num:Card|sé/[sé]Num:Card:Ecl|sé/[sé]Pron:Pers:3P:Sg:Masc:Sbj -- anseo/[anseo]Adv:Loc", tokenizer, tagger);
     TestTools.myAssert("t-athair","t-athair/[athair]Noun:Masc:Com:Sg:DefArt", tokenizer, tagger);

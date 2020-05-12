@@ -18,9 +18,9 @@
  */
 package org.languagetool.tools;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -37,15 +37,15 @@ import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ToolsTest {
 
   private PrintStream stdout;
   private PrintStream stderr;
 
-  @Before
-  public void setUp() throws Exception {
+  @BeforeEach
+  public void setUp() {
     this.stdout = System.out;
     this.stderr = System.err;
     ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -54,8 +54,8 @@ public class ToolsTest {
     System.setErr(new PrintStream(err));
   }
 
-  @After
-  public void tearDown() throws Exception {
+  @AfterEach
+  public void tearDown() {
     System.setOut(this.stdout);
     System.setErr(this.stderr);
   }

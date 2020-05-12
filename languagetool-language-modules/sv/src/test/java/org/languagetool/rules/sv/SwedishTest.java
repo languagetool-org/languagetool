@@ -18,14 +18,14 @@
  */
 package org.languagetool.rules.sv;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.LanguageSpecificTest;
 import org.languagetool.language.Swedish;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
 public class SwedishTest extends LanguageSpecificTest {

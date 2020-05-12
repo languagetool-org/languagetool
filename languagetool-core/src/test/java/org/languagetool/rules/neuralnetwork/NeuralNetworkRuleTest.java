@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.neuralnetwork;
 
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
@@ -43,7 +43,7 @@ public class NeuralNetworkRuleTest {
   private static Language language;
   private static JLanguageTool lt;
 
-  @BeforeClass
+  @BeforeAll
   public static void setUp() throws IOException {
     InputStream confusionSetStream = new ByteArrayInputStream("foo|lorem;bar|ipsum;0.8#blabla\nfizz;buzz;0.8".getBytes(StandardCharsets.UTF_8.name()));
     confusionSets = ScoredConfusionSetLoader.loadConfusionSet(confusionSetStream);

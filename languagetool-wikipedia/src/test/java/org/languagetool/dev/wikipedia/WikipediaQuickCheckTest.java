@@ -19,15 +19,15 @@
 package org.languagetool.dev.wikipedia;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.language.GermanyGerman;
 
 public class WikipediaQuickCheckTest {
@@ -72,8 +72,8 @@ public class WikipediaQuickCheckTest {
     AppliedRuleMatch firstAppliedMatch = appliedMatches.get(0);
     assertThat(firstAppliedMatch.getRuleMatchApplications().size(), is(1));
     RuleMatchApplication ruleMatchApplication = firstAppliedMatch.getRuleMatchApplications().get(0);
-    assertTrue("Got: " + ruleMatchApplication.getTextWithCorrection(),
-            ruleMatchApplication.getTextWithCorrection().contains("<err>wegen dem</err> Leerzeichen."));
+    assertTrue(ruleMatchApplication.getTextWithCorrection().contains("<err>wegen dem</err> Leerzeichen."),
+      "Got: " + ruleMatchApplication.getTextWithCorrection());
     assertThat(ruleMatchApplication.getOriginalErrorContext(12), is("st richtig, <err>wegen dem</err> Leerz"));
     assertThat(ruleMatchApplication.getCorrectedErrorContext(12), is("st richtig, <err>wegen dem</err> Leerz"));
   }

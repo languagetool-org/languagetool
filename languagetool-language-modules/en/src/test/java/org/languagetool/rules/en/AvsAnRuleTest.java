@@ -18,15 +18,15 @@
  */
 package org.languagetool.rules.en;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 import static org.languagetool.rules.en.AvsAnRule.Determiner;
 
 public class AvsAnRuleTest {
@@ -34,7 +34,7 @@ public class AvsAnRuleTest {
   private AvsAnRule rule;
   private JLanguageTool langTool;
 
-  @Before
+  @BeforeEach
   public void setUp() throws IOException {
     rule = new AvsAnRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(Languages.getLanguageForShortCode("en"));

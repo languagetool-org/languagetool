@@ -18,15 +18,16 @@
  */
 package org.languagetool.remote;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RemoteServerTest {
 
   @Test
   public void testToStringOutput() {
     final RemoteServer objectUnderTest = new RemoteServer("Languagetool", "4.5-SNAPSHOT", "2019-02-05 17:54");
-    Assert.assertEquals("Languagetool/4.5-SNAPSHOT/2019-02-05 17:54", objectUnderTest.toString());
+    assertEquals("Languagetool/4.5-SNAPSHOT/2019-02-05 17:54", objectUnderTest.toString());
   }
 
 }

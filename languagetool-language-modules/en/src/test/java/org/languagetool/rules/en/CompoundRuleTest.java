@@ -20,8 +20,8 @@ package org.languagetool.rules.en;
 
 import java.io.IOException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -29,7 +29,7 @@ import org.languagetool.rules.AbstractCompoundRuleTest;
 
 public class CompoundRuleTest extends AbstractCompoundRuleTest {
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     lt = new JLanguageTool(Languages.getLanguageForShortCode("en-US"));
     rule = new CompoundRule(TestTools.getEnglishMessages());

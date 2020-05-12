@@ -18,8 +18,8 @@
  */
 package org.languagetool.rules.de;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
@@ -34,12 +34,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class SuggestionRegressionTest {
   
   @Test
-  @Ignore("a bit too slow to run every time")
+  @Disabled("a bit too slow to run every time")
   public void testSuggestions() throws IOException {
     String file = "src/test/resources/suggestions.txt";
     List<String> lines = Files.readAllLines(Paths.get(file));
@@ -80,7 +80,7 @@ public class SuggestionRegressionTest {
   }
 
   @Test
-  @Ignore("interactive use to find words not yet accepted")
+  @Disabled("interactive use to find words not yet accepted")
   public void testGetExamples() throws IOException {
     GermanyGerman german = (GermanyGerman) Languages.getLanguageForShortCode("de-DE");
     GermanSpellerRule rule = new GermanSpellerRule(TestTools.getEnglishMessages(), german);

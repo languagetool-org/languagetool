@@ -18,12 +18,13 @@
  */
 package org.languagetool.remote;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CheckConfigurationBuilderTest {
   
@@ -50,9 +51,10 @@ public class CheckConfigurationBuilderTest {
     assertThat(config2.guessLanguage(), is(true));
   }
 
-  @Test(expected = IllegalStateException.class)
+  @Test
   public void testInvalidConfig() {
-    new CheckConfigurationBuilder("xx").enabledOnly().build();
+    assertThrows(IllegalStateException.class, () ->
+      new CheckConfigurationBuilder("xx").enabledOnly().build());
   }
 
 }

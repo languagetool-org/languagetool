@@ -18,11 +18,10 @@
  */
 package org.languagetool.server;
 
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.language.German;
 import org.languagetool.tools.StringTools;
 import org.xml.sax.SAXException;
 
@@ -31,16 +30,15 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Test HTTP server access from multiple threads with multiple languages.
  * Unlike HTTPServerMultiLangLoadTest, this always sends the same text 
  * but actually checks results (compares multi-thread results to non-multi-thread).
  */
-@Ignore("for interactive use; requires local Tatoeba data")
+@Disabled("for interactive use; requires local Tatoeba data")
 public class HTTPServerMultiLangLoadTest2 extends HTTPServerMultiLangLoadTest {
 
   private static final String DATA_PATH = "/media/Data/tatoeba/";

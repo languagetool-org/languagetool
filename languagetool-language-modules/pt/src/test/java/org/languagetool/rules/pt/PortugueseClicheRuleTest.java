@@ -19,8 +19,8 @@
 
 package org.languagetool.rules.pt;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Portuguese;
@@ -28,7 +28,7 @@ import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  *
@@ -40,7 +40,7 @@ public class PortugueseClicheRuleTest {
   private PortugueseClicheRule rule;
   private JLanguageTool langTool;
 
-  @Before
+  @BeforeEach
   public void setUp() throws Exception {
     rule = new PortugueseClicheRule(TestTools.getMessages("pt"));
     langTool = new JLanguageTool(new Portuguese());
@@ -67,11 +67,11 @@ public class PortugueseClicheRuleTest {
    */
   private void checkSimpleReplaceRule(String sentence, String word) throws IOException {
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence(sentence));
-    assertEquals("Invalid matches.length while checking sentence: "
-            + sentence, 1, matches.length);
-    assertEquals("Invalid replacement count wile checking sentence: "
-            + sentence, 1, matches[0].getSuggestedReplacements().size());
-    assertEquals("Invalid suggested replacement while checking sentence: "
-            + sentence, word, matches[0].getSuggestedReplacements().get(0));
+    assertEquals(1, matches.length,
+      "Invalid matches.length while checking sentence: " + sentence);
+    assertEquals(1, matches[0].getSuggestedReplacements().size(),
+      "Invalid replacement count wile checking sentence: " + sentence);
+    assertEquals(word, matches[0].getSuggestedReplacements().get(0),
+      "Invalid suggested replacement while checking sentence: " + sentence);
   }
 }

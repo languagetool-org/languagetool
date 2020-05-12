@@ -18,9 +18,6 @@
  */
 package org.languagetool.server;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -30,18 +27,20 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.HashMap;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.language.German;
 import org.languagetool.language.GermanyGerman;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 public class HTTPSServerTest {
 
   private static final String KEYSTORE = "/org/languagetool/server/test-keystore.jks";
   private static final String KEYSTORE_PASSWORD = "mytest";
 
-  @Before
+  @BeforeEach
   public void setup() {
     DatabaseLogger.getInstance().disableLogging();
   }
@@ -138,15 +137,15 @@ public class HTTPSServerTest {
     String httpsPrefix = "https://localhost:" + HTTPTools.getDefaultPort() + "/v2/check";
 
     String result = HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=a+test.&language=en"));
-    assertTrue("Got " + result, result.contains("UPPERCASE_SENTENCE_START"));
+    assertTrue(result.contains("UPPERCASE_SENTENCE_START"), "Got " + result);
 
     StringBuilder longText = new StringBuilder();
     while (longText.length() < 490) {
       longText.append("Run ");
     }
     String result2 = HTTPTools.checkAtUrl(new URL(httpsPrefix + "?text=" + encode(longText.toString()) + "&language=en"));
-    assertTrue("Got " + result2, !result2.contains("UPPERCASE_SENTENCE_START"));
-    assertTrue("Got " + result2, result2.contains("PHRASE_REPETITION"));
+    assertFalse(result2.contains("UPPERCASE_SENTENCE_START"), "Got " + result2);
+    assertTrue(result2.contains("PHRASE_REPETITION"), "Got " + result2);
 
     String overlyLongText = longText + " and some more to get over the limit of 500";
     try {
@@ -160,10 +159,10 @@ public class HTTPSServerTest {
     }
 
     String json = check("de", "This is an English text, but we specify German anyway");
-    assertTrue("Got: " + json, json.contains("\"German\""));
-    assertTrue("Got: " + json, json.contains("\"de\""));
-    assertTrue("Got: " + json, json.contains("\"English (US)\""));
-    assertTrue("Got: " + json, json.contains("\"en-US\""));
+    assertTrue(json.contains("\"German\""), "Got: " + json);
+    assertTrue(json.contains("\"de\""), "Got: " + json);
+    assertTrue(json.contains("\"English (US)\""), "Got: " + json);
+    assertTrue(json.contains("\"en-US\""), "Got: " + json);
   }
 
   private String check(String langCode, String text) throws IOException {

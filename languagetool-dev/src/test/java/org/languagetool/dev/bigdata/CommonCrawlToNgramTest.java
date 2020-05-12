@@ -22,14 +22,14 @@ import java.io.File;
 import java.io.IOException;
 
 import org.apache.commons.io.FileUtils;
-import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.languagetool.language.GermanyGerman;
 
 public class CommonCrawlToNgramTest {
   
   @Test
-  @Ignore("Interactive use only, has not assertions")
+  @Disabled("Interactive use only, has not assertions")
   public void testIndexing() throws IOException {
     File tempDir = new File(FileUtils.getTempDirectory(), "common-crawl-test");
     try {

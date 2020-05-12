@@ -18,7 +18,7 @@
  */
 package org.languagetool.language;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
 import static org.hamcrest.CoreMatchers.is;

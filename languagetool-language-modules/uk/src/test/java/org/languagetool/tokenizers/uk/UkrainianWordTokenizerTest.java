@@ -20,13 +20,13 @@
 package org.languagetool.tokenizers.uk;
 
 import org.apache.commons.lang3.StringUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class UkrainianWordTokenizerTest {
   private final UkrainianWordTokenizer w = new UkrainianWordTokenizer();
@@ -342,7 +342,7 @@ public class UkrainianWordTokenizerTest {
     assertEquals(Arrays.asList("Сьогодні", " ", "(", "у", " ", "четвер", ".", " ", " ", "—", " ", "Ред.", ")", ",", " ", "вранці", "."), testList);
  
     testList = w.tokenize("Fair trade [«Справедлива торгівля». –    Авт.], який стежить за тим, щоб у країнах");
-    assertTrue(testList.toString(), testList.contains("Авт."));
+    assertTrue(testList.contains("Авт."), testList.toString());
     
     testList = w.tokenize("диво з див.");
     assertEquals(Arrays.asList("диво", " ", "з", " ", "див", "."), testList);

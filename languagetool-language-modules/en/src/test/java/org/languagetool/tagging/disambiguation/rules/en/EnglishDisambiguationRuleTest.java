@@ -20,8 +20,8 @@ package org.languagetool.tagging.disambiguation.rules.en;
 
 import java.io.IOException;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
@@ -39,7 +39,7 @@ public class EnglishDisambiguationRuleTest {
   private XmlRuleDisambiguator disambiguator;
   private DemoDisambiguator disamb2;
   
-  @Before
+  @BeforeEach
   public void setUp() {
     tagger = new EnglishTagger();
     tokenizer = new WordTokenizer();

@@ -18,21 +18,21 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CommaWhitespaceRuleTest {
 
   private CommaWhitespaceRule rule;
   private JLanguageTool langTool;
   
-  @Before
+  @BeforeEach
   public void setUp() {
     rule = new CommaWhitespaceRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(TestTools.getDemoLanguage());

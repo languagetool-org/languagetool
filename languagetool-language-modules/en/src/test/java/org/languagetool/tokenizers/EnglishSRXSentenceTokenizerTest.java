@@ -18,8 +18,8 @@
  */
 package org.languagetool.tokenizers;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.English;
 
@@ -30,7 +30,7 @@ public class EnglishSRXSentenceTokenizerTest {
   // accept only \n\n as paragraph:
   private final SentenceTokenizer stokenizer2 = new SRXSentenceTokenizer(new English());
 
-  @Before
+  @BeforeEach
   public void setUp() {
     stokenizer.setSingleLineBreaksMarksParagraph(true);  
     stokenizer2.setSingleLineBreaksMarksParagraph(false);  

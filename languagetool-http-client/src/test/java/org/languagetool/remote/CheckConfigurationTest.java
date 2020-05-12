@@ -18,12 +18,13 @@
  */
 package org.languagetool.remote;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class CheckConfigurationTest {
 
@@ -40,9 +41,10 @@ public class CheckConfigurationTest {
   }
 
   @SuppressWarnings("ResultOfObjectAllocationIgnored")
-  @Test(expected = IllegalArgumentException.class)
+  @Test
   public void testNull() {
-    new CheckConfiguration(null, null, false, null, false, null, null, null);
+    assertThrows(IllegalArgumentException.class, () ->
+      new CheckConfiguration(null, null, false, null, false, null, null, null));
   }
 
 }

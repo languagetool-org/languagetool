@@ -18,7 +18,7 @@
  */
 package org.languagetool.tokenizers.ml;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.TestTools;
 import org.languagetool.language.Malayalam;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;

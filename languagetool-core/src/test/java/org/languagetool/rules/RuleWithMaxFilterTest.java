@@ -18,7 +18,7 @@
  */
 package org.languagetool.rules;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 import org.languagetool.rules.patterns.PatternRule;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SuppressWarnings("MagicNumber")
 public class RuleWithMaxFilterTest {
