@@ -49316,6 +49316,22 @@ The accident victim died from her injuries.
                 <example correction="too">He spent 10% <marker>to</marker> much.</example>
             </rule>
             <rule>
+                <antipattern><!-- #2649 been to far more -->
+                    <token regexp="yes">comes|came|been</token>
+                    <token>to</token>
+                    <token>far</token>
+                    <token postag="JJR"/>
+                </antipattern>
+                <antipattern><!-- #2649 60's to late 70's -->
+                    <token postag="CD"/>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                    <token>to</token>
+                    <token regexp="yes">early|late</token>
+                    <token postag="CD"/>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>s</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">comes|came|much|is|w(?:as|ere)|are|been|s|re|&apostrophe;</token>
                     <token min="0" regexp="yes">not|t</token>
@@ -49331,6 +49347,8 @@ The accident victim died from her injuries.
                 <example>Items X and Y were <marker>two</marker> items that revolutionized the field.</example>
                 <example>The plan is <marker>to</marker> soon launch a new plane.</example>
                 <example>The weather was <marker>too</marker> cold to go swimming.</example>
+                <example>He has been to far more places than him.</example><!-- #2649 -->
+                <example>From early 60's to late 70's.</example><!-- #2649 -->
                 <example correction="too">His idea came much <marker>to</marker> soon to be successful.</example>
                 <example correction="too">It is <marker>to</marker> soon to move the entire industry.</example>
                 <example correction="too">This is <marker>to</marker> long ago.</example>
@@ -49376,6 +49394,15 @@ The accident victim died from her injuries.
                     <token>much</token>
                     <token regexp="yes">more|less</token>
                 </antipattern>
+                <antipattern><!-- #2649 www.lexico.com/definition/due_to -->
+                    <token>due</token>
+                    <token>to</token>
+                </antipattern>
+                <antipattern><!-- #2649 www.ldoceonline.com/dictionary/contrast -->
+                    <token>in</token>
+                    <token>contrast</token>
+                    <token>to</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">tw?o</token>
@@ -49409,6 +49436,8 @@ The accident victim died from her injuries.
                 <example>She's not up to much these days</example><!-- #2460 -->
 <!-- False negative --><example>The manager hasn't been up to much. He stays in his office downstairs and doesn't interfere.</example><!-- #2460 -->
 <!-- False negative --><example>The pressure hasn't been up to much recently; we can say that the adjustments to the valves are satisfactory.</example><!-- #2460 -->
+                <example>In contrast to much of the literature, we propose that...</example><!-- #2649 -->
+                <example>Due to few attendees this week, I would like to cancel...</example><!-- #2649 -->
                 <example correction="too">It broke because <marker>to</marker> much snow was on it.</example>
                 <example correction="too">I hate to replace them; they cost <marker>to</marker> much.</example>
                 <example correction="too">They cost <marker>two</marker> much money.</example>
@@ -49664,7 +49693,7 @@ The accident victim died from her injuries.
                 <pattern>
                     <marker><token>to</token></marker>
                     <token postag="RB">
-                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|nowhere|not|yes|no|multiply|tomorrow|today|tonight|yesterday|here|wheresoever|always|accordingly|never|nowadays|again|n?either|also|t?here|annually|yearly</exception><!-- 'too X' is not standard English. -->
+                      <exception regexp="yes">outside|before|after|why|(any|some)(where|how|one|more)|nowhere|not|yes|no|multiply|tomorrow|today|tonight|yesterday|here|wheresoever|always|accordingly|never|nowadays|again|n?either|also|t?here|annually|yearly|sometimes</exception><!-- 'too X' is not standard English. -->
                       <exception postag_regexp="yes" postag="JJR?|VBP|NNP"/>
                     </token>
                     <token postag="SENT_END" regexp="yes">\p{P}</token>
@@ -49693,6 +49722,7 @@ The accident victim died from her injuries.
                 <example>Remember to always: </example>
                 <example>I don't want to either.</example><!-- #2460 -->
                 <example>The train to there.</example><!-- #2460 -->
+                <example>A song that he listened to sometimes.</example><!-- #2649 -->
             </rule>
             <rule>
                 <pattern>
