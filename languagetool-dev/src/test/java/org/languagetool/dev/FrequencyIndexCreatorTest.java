@@ -31,7 +31,8 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Scanner;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class FrequencyIndexCreatorTest {
 
@@ -43,12 +44,9 @@ public class FrequencyIndexCreatorTest {
     try (FSDirectory directory = FSDirectory.open(INDEX_DIR.toPath())) {
       DirectoryReader reader = DirectoryReader.open(directory);
       IndexSearcher searcher = new IndexSearcher(reader);
-      try (Scanner scanner = new Scanner(new File("/lt/performance-test/en.txt"))) {
-        while (scanner.hasNextLine()) {
-          String line = scanner.nextLine();
-          String[] parts = line.split(" ");
-          accessNgrams(parts, searcher);
-        }
+      for (String line : Files.readAllLines(Paths.get("/lt/performance-test/en.txt"))) {
+        String[] parts = line.split(" ");
+        accessNgrams(parts, searcher);
       }
     }
   }

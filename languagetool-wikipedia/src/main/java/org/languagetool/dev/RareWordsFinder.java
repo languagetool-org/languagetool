@@ -22,12 +22,10 @@ import org.languagetool.rules.spelling.hunspell.Hunspell;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpeller;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.charset.CharacterCodingException;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * A hacky attempt to find rare words which are considered correct
@@ -41,41 +39,38 @@ final class RareWordsFinder {
   
   private final Hunspell hunspell;
   
-  private RareWordsFinder(String hunspellBase) throws IOException {
+  private RareWordsFinder(String hunspellBase) {
     hunspell = new Hunspell(Paths.get(hunspellBase + ".dic"), Paths.get(hunspellBase + ".aff"));
   }
   
-  private void run(File input, int minimum) throws FileNotFoundException, CharacterCodingException {
+  private void run(File input, int minimum) throws IOException {
     MorfologikSpeller speller = new MorfologikSpeller(dictInClassPath, 1);
     int lineCount = 0;
     int wordCount = 0;
-    try (Scanner s = new Scanner(input)) {
-      while (s.hasNextLine()) {
-        String line = s.nextLine();
-        String[] parts = line.split("\t");
-        String word = parts[0];
-        long count = Long.parseLong(parts[1]);
-        if (count <= minimum) {
-          if (word.matches("[a-zA-Z]+") && !word.matches("[A-Z]+") && !word.matches("[a-zA-Z]+[A-Z]+[a-zA-Z]*") && !word.matches("[A-Z].*")) {
-            boolean isMisspelled = speller.isMisspelled(word);
-            if (!isMisspelled) {
-              //List<String> suggestions = speller.getSuggestions(word);  // seems to work only for words that are actually misspellings
-              List<String> suggestions = hunspell.suggest(word);
-              suggestions.remove(word);
-              if (suggestionsMightBeUseful(word, suggestions)) {
-                System.out.println(word + "\t" + count + " -> " + String.join(", ", suggestions));
-                wordCount++;
-              }
+    for (String line : Files.readAllLines(input.toPath())) {
+      String[] parts = line.split("\t");
+      String word = parts[0];
+      long count = Long.parseLong(parts[1]);
+      if (count <= minimum) {
+        if (word.matches("[a-zA-Z]+") && !word.matches("[A-Z]+") && !word.matches("[a-zA-Z]+[A-Z]+[a-zA-Z]*") && !word.matches("[A-Z].*")) {
+          boolean isMisspelled = speller.isMisspelled(word);
+          if (!isMisspelled) {
+            //List<String> suggestions = speller.getSuggestions(word);  // seems to work only for words that are actually misspellings
+            List<String> suggestions = hunspell.suggest(word);
+            suggestions.remove(word);
+            if (suggestionsMightBeUseful(word, suggestions)) {
+              System.out.println(word + "\t" + count + " -> " + String.join(", ", suggestions));
+              wordCount++;
             }
           }
         }
-        lineCount++;
-        if (lineCount % 1_000_000 == 0) {
-          System.out.println("lineCount: " + lineCount + ", words found: " + wordCount);
-        }
       }
-      System.out.println("Done. lineCount: " + lineCount + ", words found: " + wordCount);
+      lineCount++;
+      if (lineCount % 1_000_000 == 0) {
+        System.out.println("lineCount: " + lineCount + ", words found: " + wordCount);
+      }
     }
+    System.out.println("Done. lineCount: " + lineCount + ", words found: " + wordCount);
   }
 
   private boolean suggestionsMightBeUseful(String word, List<String> suggestions) {
