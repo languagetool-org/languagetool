@@ -68,7 +68,6 @@ public class UpperCaseNgramRule extends Rule {
     super.setCategory(Categories.CASING.getCategory(messages));
     this.lm = lm;
     this.lang = lang;
-    setDefaultTempOff();
     setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("This <marker>Prototype</marker> was developed by Miller et al."),
                    Example.fixed("This <marker>prototype</marker> was developed by Miller et al."));
@@ -194,7 +193,7 @@ public class UpperCaseNgramRule extends Rule {
 
   private boolean isShortWord(AnalyzedTokenReadings token) {
     // ignore words typically spelled lowercase even in titles
-    return token.getToken().trim().isEmpty() || token.getToken().matches("and|or|the|of|to|it|for|as|at|his|her|its|into");
+    return token.getToken().trim().isEmpty() || token.getToken().matches("and|or|the|of|on|with|to|it|in|for|as|at|his|her|its|into");
   }
 
   private boolean trieMatches(String text, AnalyzedTokenReadings token) {
