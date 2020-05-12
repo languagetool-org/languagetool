@@ -141,11 +141,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
         <rule id="ZEIL" name="Möglicher Tippfehler 'Zeil'">
+            <antipattern>
+                <token regexp="yes">auf|an</token>
+                <token>der</token>
+                <token>Zeil</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="4">Frankfurt(er|s)?</token>
+                <token>Zeil</token>
+            </antipattern>
+            <antipattern>
+                <token skip="4">Zeil</token>
+                <token regexp="yes">Frankfurt(er|s)?</token>
+            </antipattern>
+            <antipattern>
+                <token skip="2">Zeil</token>
+                <token>Main</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Heinrich|Christoph</token>
+                <token>von</token>
+                <token>Zeil</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Burg|Schloss|Pfarrei</token>
+                <token>Zeil</token>
+            </antipattern>
             <pattern>
                 <token>Zeil</token>
             </pattern>
             <message>Meinten Sie die Einkaufsmeile 'Zeil' in Frankfurt/Main oder vielleicht <suggestion>Ziel</suggestion> oder <suggestion>Zeile</suggestion>?</message>
             <example correction="Ziel|Zeile">Ich bin beim Lesen in der <marker>Zeil</marker> verrutscht.</example>
+            <example>Von Einkaufslaune ist auf der Zeil noch nichts zu spüren.</example>
+            <example>Die Schlagzeilen um die Brauerei Göller aus Zeil am Main reißen nicht ab.</example>
+            <example>Bei Esprit auf der Frankfurter Zeil stehen im Eingangsbereich vier Schilder, wo auf die bekannten Hygienevorschriften hingewiesen wird.</example>
         </rule>
         <rulegroup id="VIELE_DANK" name="viele (vielen) Dank">
             <rule>
