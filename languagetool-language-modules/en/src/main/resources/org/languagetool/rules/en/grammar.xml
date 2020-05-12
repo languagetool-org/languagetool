@@ -6494,15 +6494,6 @@ USA
             <message>Did you mean <suggestion>laughingstock</suggestion>?</message>
             <example correction="laughingstock">The fool was the <marker>laughing stock</marker> of the town.</example>
         </rule>
-        <!-- life time::word=lifetime -->
-        <rule id="LIFE_TIME" name="life time (lifetime)">
-            <pattern>
-                <token>life</token>
-                <token>time</token>
-            </pattern>
-            <message>Did you mean <suggestion>lifetime</suggestion>?</message>
-            <example correction="lifetime">In his <marker>life time</marker>, there will be many medical advances.</example>
-        </rule>
         <!-- mean while::word=meanwhile -->
         <rule id="MEAN_WHILE" name="mean while (meanwhile)">
             <pattern>
@@ -6511,18 +6502,6 @@ USA
             </pattern>
             <message>Did you mean <suggestion>meanwhile</suggestion>?</message>
             <example correction="Meanwhile"><marker>Mean while</marker>, back on the farm...</example>
-        </rule>
-        <rule id="IN_THE_MEAN_TIME" name="in the mean time (meantime)">
-            <pattern>
-                <token>in</token>
-                <token case_sensitive="yes">the</token>
-                <marker>
-                    <token case_sensitive="yes">mean</token>
-                    <token case_sensitive="yes">time</token>
-                </marker>
-            </pattern>
-            <message>Did you mean <suggestion>meantime</suggestion> (=the period of time between two things)?</message>
-            <example correction="meantime">They won't arrive before 6 p.m., but we can continue to use the old ones in the <marker>mean time</marker>.</example>
         </rule>
         <!-- nation wide::word=nationwide -->
         <rule id="NATION_WIDE" name="nation wide (nationwide)">
@@ -11509,7 +11488,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="DON_T_AREN_T" name="don't aren't" default="temp_off">
+        <rule id="DON_T_AREN_T" name="don't aren't">
             <antipattern>
                 <token regexp="yes" skip="2">who|which|that</token>
                 <token regexp="yes">&apostrophe;</token>
@@ -11533,7 +11512,7 @@ USA
             <example>The ones who don't won't be around very long.</example>
             <example>If it isn’t don’t say things that could be considered offensive.</example>
         </rule>
-        <rule id="WON_T_TO" name="I won't (want) to be" default="temp_off">
+        <rule id="WON_T_TO" name="I won't (want) to be">
             <pattern>
                 <marker>
                     <token>won</token>
@@ -11669,7 +11648,11 @@ USA
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
-        <rule id="MAKER_COMPOUNDS" name="trouble maker (troublemaker)" default="temp_off">
+        <rule id="MAKER_COMPOUNDS" name="trouble maker (troublemaker)">
+            <antipattern case_sensitive="yes">
+                <token>Film</token>
+                <token regexp="yes">Makers?</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">trouble|cabinet|clock|holiday|coffee|boiler|phrase|peace|match|dress|watch|movie|policy|taste|noise|glass|plate|steel|paper|shirt|print|money|merry|auto|shoe|film|pace|rain|home|play|news|king|tool|ods|sail|myth|snow|tent|lock|drug|love|wine|law|car|hay|map|ice|bed|tea|die|wig|war|cap|hat</token>
                 <token regexp="yes">makers?</token>
@@ -11677,8 +11660,25 @@ USA
             <message>This noun is normally spelled as one word.</message>
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <example correction="troublemaker">He's such a <marker>trouble maker</marker>.</example>
+            <example>Ōban Star-Racers moved to Tokyo to collaborate with a Japanese production team from Hal Film Maker.</example>
         </rule>
-        <rule id="SUPER_COMPOUNDS" name="super market (supermarket)" default="temp_off">
+        <rule id="KEEPER_COMPOUNDS" name="bar keeper (barkeeper)" default="temp_off">
+            <antipattern><!-- https://en.wikipedia.org/wiki/Bar_Keepers_Friend -->
+                <token>bar</token>
+                <token>keepers</token>
+                <token regexp="yes" min="0">&apostrophe;</token>
+                <token>friend</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">grounds|greens|house|peace|score|store|green|stock|goal|gate|shop|game|time|door|lock|book|inn|bee|zoo|bar</token>
+                <token regexp="yes">keepers?</token>
+            </pattern>
+            <message>This noun is normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="goalkeepers">Manuel Neuer was one of the best <marker>goal keepers</marker> in the world.</example>
+            <example>Try either Bar Keepers Friend or Bon Ami.</example>
+        </rule>
+        <rule id="SUPER_COMPOUNDS" name="super market (supermarket)">
             <pattern>
                 <token>super</token>
                 <token regexp="yes">markets?|moons?|delegates?|tankers?</token>
@@ -11687,7 +11687,7 @@ USA
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <example correction="supermarket">I need to buy some groceries at the <marker>super market</marker>.</example>
         </rule>
-        <rule id="TAIL_COMPOUNDS" name="cock tail (cocktail)" default="temp_off">
+        <rule id="TAIL_COMPOUNDS" name="cock tail (cocktail)">
             <pattern>
                 <token regexp="yes">cock|pig|mock|duck|bob|pony|whip</token>
                 <token regexp="yes">tails?</token>
@@ -21512,7 +21512,7 @@ USA
             <url>https://www.lexico.com/definition/high-end</url>
             <example correction="high-end">The <marker>high end</marker> computer.</example>
         </rule>
-        <rulegroup id="SAME_SEX_HYPHEN" name="missing hyphen in 'same sex'" default="temp_off">
+        <rulegroup id="SAME_SEX_HYPHEN" name="missing hyphen in 'same sex'">
             <url>https://www.lexico.com/definition/same-sex</url>
             <rule>
                 <pattern>
@@ -34269,6 +34269,7 @@ USA
                         <token>of</token>
                         <token chunk="E-NP-singular" postag="NN">
                             <exception postag="NN:U|NNP?S|JJ.*|PRP\$" postag_regexp="yes"/>
+                            <exception>int</exception>
                         </token>
                     </marker>
                     <token>
@@ -34290,6 +34291,7 @@ USA
                 <example>Here are a bunch of mine:</example><!-- Ambiguous. Can parse 'mine' as PRPS or NN. Found by A_LOT_OF_NN -->
                 <example>She bought two pairs of polka dot stockings.</example>
                 <example>He is chief of staff of army.</example>
+                <example>It could easily exceed the range of int.</example><!-- https://en.wiktionary.org/wiki/int#Noun -->
                 <example type="triggers_error">The William Burges collection of armoury was bequeathed to the museum in 1881.</example><!-- I did not find 'armoury' as NN:U -->
             </rule>
             <rule><!-- Glossary of term and acronyms -->
@@ -34305,7 +34307,9 @@ USA
                         <token regexp="yes">&collective_nouns;</token>
                         <token>of</token>
                         <token chunk="B-NP-plural" postag="NN">
-                            <exception postag="NN:U|NNP?S|JJ.*" postag_regexp="yes"/></token>
+                            <exception postag="NN:U|NNP?S|JJ.*" postag_regexp="yes"/>
+                            <exception>int</exception>
+                        </token>
                      </marker>
                      <token regexp="yes">and|or</token>
                      <token/>
@@ -43654,12 +43658,19 @@ The accident victim died from her injuries.
                     <token regexp="yes">Article|Act</token>
                     <token>I</token>
                 </antipattern>
+                <antipattern>
+                    <token postag='SENT_START' />
+                    <token postag='IN' />
+                    <token regexp="yes">(some|every|any)(thing|body|one)</token>
+                    <token regexp="yes" case_sensitive="yes">I|you|s?he|it|we|they</token>
+                    <token postag="VB.*" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
-                     <token postag='SENT_START'></token>
-                     <token postag='IN'></token>
+                     <token postag='SENT_START' />
+                     <token postag='IN' />
                      <marker>
                          <token postag='NN.*' postag_regexp='yes'>
-                            <exception regexp="yes">(some|every|any)(thing|body|one)|behind</exception>
+                            <exception>behind</exception>
                          </token>
                          <token regexp="yes" case_sensitive="yes">I|you|s?he|it|we|they</token> <!-- not PRP: exclude 'me', 'himself...' -->
                      </marker>
@@ -43668,6 +43679,7 @@ The accident victim died from her injuries.
                  <url>http://englishplus.com/grammar/00000074.htm</url>
                  <short>Missing comma</short>
                  <example correction='years, I'>For <marker>years I</marker> have been travelling.</example>
+                 <example correction="everything, you">Before <marker>everything you</marker> should take better care of your health.</example>
                  <example>At least they believed me.</example>
                  <example>To see you is always a great pleasure.</example>
                  <example>After everything we have done...</example>
@@ -45435,7 +45447,36 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rulegroup id="LES_LESS" name="les vs. less" default="temp_off">
+        <rulegroup id="BESIDES_BESIDE" name="beside vs besides" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PCT" postag_regexp="yes" />
+                    <token min="0">and</token>
+                    <marker>
+                        <token>Beside</token>
+                    </marker>
+                    <token regexp="yes" min="0">that|this</token>
+                    <token regexp="yes">
+                        ,|I|we|you|it|s?he|they
+                        <exception scope="next" regexp="yes">,|-|–</exception>
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>besides</suggestion> (= apart from that) which is commonly used to start a sentence.</message>
+                <suggestion>Besides</suggestion>
+                <example correction="Besides"><marker>Beside</marker> that, I have no idea.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes" skip="1">stand|sit</token>
+                    <marker>
+                        <token>besides</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>beside</suggestion> (= next to sth.)?</message>
+                <example correction="beside">He stood <marker>besides</marker> me.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LES_LESS" name="les vs. less">
             <rule>
                 <pattern>
                     <marker>
@@ -45478,6 +45519,7 @@ The accident victim died from her injuries.
                 </pattern>
                 <message>Did you mean <suggestion>less</suggestion> instead of the French article "les"?</message>
                 <example correction="less">It is <marker>les</marker> than what I expected.</example>
+                <example type="triggers_error">Pimentel David, Pimentel Marcia, Computer les kilocalories, Cérès, n. 59, sept-oct.</example>
             </rule>
         </rulegroup>
         <rulegroup id="WURST_WORST" name="wurst vs worst">
@@ -47059,7 +47101,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>their</suggestion>?</message>
                 <example correction="their">I'm not worried about <marker>they're</marker> problems.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
                         <exception postag="IN|VB.*" postag_regexp="yes" /><!-- "check" is UH, "for" is CC -->
@@ -47075,7 +47117,7 @@ The accident victim died from her injuries.
                 <example correction="They're|They are"><marker>Their</marker> stupid</example>
                 <example>Not mine but their own</example> 
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">yeah?|yes|no|[aoi]+h|uhm|well|y[ae]p|nope|huh|alright|,</token>
                     <marker>
@@ -47088,7 +47130,7 @@ The accident victim died from her injuries.
                 <short>Possible typo</short>
                 <example correction="they're|they are">Yes <marker>their</marker> cool</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- needed because of wrong tagging: "cool" is tagged as NN in 'Its cool.' -->
                 <pattern>
                     <token postag="SENT_START|PCT|UH|CC" postag_regexp="yes">
