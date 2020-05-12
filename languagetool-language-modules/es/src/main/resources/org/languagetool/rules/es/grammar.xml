@@ -376,6 +376,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="DIACRITICS" name="Diacríticos (tilde)" type="misspelling">
         <rulegroup id="DIACRITICS_VERB_N_ADJ" name="nombres y adjetivos con tilde">
+            <antipattern>
+                <!-- the error is: tu>tú -->
+                <token>tu</token> 
+                <token postag="V.[SI].2S." postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <!-- de termino-->
                 <pattern>
@@ -469,6 +474,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Por qué decimos esto?</example>
                 <example>La enmienda n.º 4 duplica gran parte.</example>
                 <example>¿Dónde está tu mama, niño?</example>
+                <example>Tu vienes de Suecia.</example> <!-- tu>tú-->
             </rule>
             <rule>
                 <!-- Una nueva formula que -->
@@ -564,7 +570,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <marker>
                             <token postag="D.*|PP...A..|P[DI].*" postag_regexp="yes"><exception regexp="yes">&pronombre_no_determinante;</exception></token>
                             <unify-ignore>
-                                <token/>
+                                <token><exception postag="[AN].*" postag_regexp="yes"/></token>
                             </unify-ignore>
                         </marker>
                         <token postag="N.*" postag_regexp="yes"/>
