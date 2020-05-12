@@ -16326,6 +16326,7 @@ USA
                 <example correction="meals">One of the most frequently ordered <marker>meal</marker> ...</example>
             </rule>
         </rulegroup>
+
         <rule id="PEOPLE_VBZ" name="people + 3rd person verb">
             <antipattern>
                 <token>of</token>
@@ -16382,6 +16383,11 @@ USA
                 <token postag="IN"/>
                 <token>people</token>
             </antipattern>
+            <antipattern><!-- #2820 to criticize people is -->
+                <token chunk="B-VP">to</token>
+                <token chunk="I-VP" postag="VB"/>
+                <token chunk="E-NP-plural">people</token>
+            </antipattern>
             <pattern>
                 <token>people<exception scope="previous" regexp="yes">no|of</exception></token>
                 <token min="0">who</token>
@@ -16407,7 +16413,9 @@ USA
             <example>It will not be long before <marker>one out of five people</marker> owns a car.</example>
             <example>PHE says the risk to people is still “very low”.</example><!--  #2095 -->
             <example>PHE says the risk for people is still “very low”.</example><!--  #2095 -->
+            <example>To criticize people is not good.</example><!-- #2820 -->
         </rule>
+
         <rule id="WE_RB_ARE_VB" name="we + ... + are + base form verb (gerund)">
             <pattern>
                 <token>we</token>
