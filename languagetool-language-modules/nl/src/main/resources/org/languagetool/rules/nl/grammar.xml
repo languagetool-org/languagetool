@@ -31251,6 +31251,8 @@ steenwijk;Steenwijk
 		<rulegroup id="GROEP_DOET" name="groep doet">
 			<rule>
 				<pattern>
+					<token postag="SENT_START"/>
+					<token>een</token>
 					<marker>
 						<token regexp="yes">bende|berg|blik|bos|bups|colonne|drom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje| rits|roedel|schare|serie|slag|sleep|soort|stoet|troep|verzameling|zwik|zooi|zootje</token>
 						<token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
@@ -31258,7 +31260,7 @@ steenwijk;Steenwijk
 					</marker>
 					<token><exception postag="SENT_END"/><exception postag="ZNW:MRV:DE_"/></token>
 				</pattern>
-				<message>De taalinstanties geven verschillende adviezen; volgens Taaladvies.net geldt: gaat het om één groep, dan is het <suggestion><match no="1"/> <match no="2"/> <match no="3" postag="WKW:TGW:3EP"/></suggestion>.</message>
+				<message>De taalinstanties geven verschillende adviezen; volgens Taaladvies.net geldt: gaat het om één groep, dan is het <suggestion><match no="3"/> <match no="4"/> <match no="5" postag="WKW:TGW:3EP"/></suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
 				<short>Enkelvoud</short>
 				<example correction="bende soldaten valt">Een <marker>bende soldaten vallen</marker> aan.</example>
@@ -31270,19 +31272,19 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="GROEP_DEED" name="groep deed">
 			<rule>
-				<pattern case_sensitive="yes">
-					<token regexp="yes">bende|berg|blik|bos|bups|colonne|drom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje| rits|roedel|schare|serie|slag|sleep|soort|stoet|troep|verzameling|zwik|zooi|zootje</token>
-					<token postag="ZNW:MRV:DE_.*" postag_regexp="yes"></token>
-					<token postag="WKW.*INF.*" postag_regexp="yes"/>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>een</token>
+						<token regexp="yes">bende|berg|blik|bos|bups|colonne|drom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje| rits|roedel|schare|serie|slag|sleep|soort|stoet|troep|verzameling|zwik|zooi|zootje</token>
+						<token postag="ZNW:MRV:DE_"></token>
+						<token postag="WKW:VLT:INF.*" postag_regexp="yes"/>
+					</marker>
 				</pattern>
-				<message>De taalinstanties geven verschillende adviezen; volgens Taaladvies.net geldt: gaat het om één groep, dan is het <suggestion><match no="1"/> <match no="2"/> <match no="3" postag="WKW:VLT:1EP"/></suggestion>.</message>
+				<message>De taalinstanties geven verschillende adviezen; volgens Taaladvies.net geldt: gaat het om één groep, dan is het <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:VLT:1EP"/></suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
 				<short>Enkelvoud</short>
-				<example correction="horde mensen liep">Een <marker>horde mensen lopen</marker> daar in.</example>
-				<example correction="reeks vragen werd">Nog een <marker>reeks vragen werden</marker> opgeworpen.</example>
-				<example correction="kudde schapen dreef">Hij kon zelfs een <marker>kudde schapen drijven</marker>.</example>
-				<example correction="groep Welpen noemde">De hele <marker>groep Welpen noemen</marker> we de horde.</example>
-				<example correction="groep pelgrims ging">Gisterenavond met <marker>groep pelgrims gaan</marker> vieren.</example>
+				<example correction="Een horde mensen liep"><marker>Een horde mensen liepen</marker> daar in.</example>
 				<example>Een groep ambtenaren ging op werkbezoek.</example>
 				<example>Een menigte demonstranten had zich verzameld.</example>
 				<example>Een bende hooligans heeft vernielingen aangericht.</example>
@@ -31292,6 +31294,7 @@ steenwijk;Steenwijk
 		<rulegroup id="HELEBOEL_DOET" name="een heleboel doet/doen">
 			<rule>
 				<pattern>
+					<token postag="SENT_START"/>
 					<marker>
 						<token>een</token>
 						<token regexp="yes">hoop|boel|heleboel</token>
@@ -31299,7 +31302,7 @@ steenwijk;Steenwijk
 						<token postag="WKW:TGW:3EP"/>
 					</marker>
 				</pattern>
-				<message>Volgens Taaladvies.net heeft het werkwoord hetzelfde getal als het zelfstandig naamwoord: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag="WKW:TGW:INF"/></suggestion>.</message>
+				<message>Volgens Taaladvies.net heeft het werkwoord hetzelfde getal als het zelfstandig naamwoord: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:TGW:INF"/></suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
 				<short>Meervoud</short>
 				<example correction="Een heleboel soldaten vallen"><marker>Een heleboel soldaten valt</marker> aan.</example>
@@ -31310,6 +31313,7 @@ steenwijk;Steenwijk
 			</rule>
 			<rule>
 				<pattern>
+					<token postag="SENT_START"/>
 					<marker>
 						<token>een</token>
 						<token regexp="yes">hoop|boel|heleboel</token>
@@ -31317,7 +31321,7 @@ steenwijk;Steenwijk
 						<token postag="WKW:VLT:1EP"/>
 					</marker>
 				</pattern>
-				<message>Volgens Taaladvies.net heeft het werkwoord hetzelfde getal als het zelfstandig naamwoord: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag="WKW:VLT:INF"/></suggestion>.</message>
+				<message>Volgens Taaladvies.net heeft het werkwoord hetzelfde getal als het zelfstandig naamwoord: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:VLT:INF"/></suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
 				<short>Meervoud</short>
 				<example correction="Een heleboel soldaten vielen"><marker>Een heleboel soldaten viel</marker> aan.</example>
@@ -31328,6 +31332,7 @@ steenwijk;Steenwijk
 			</rule>
 			<rule>
 				<pattern>
+					<token postag="SENT_START"/>
 					<marker>
 						<token>een</token>
 						<token regexp="yes">hoop|boel|heleboel</token>
@@ -31335,7 +31340,7 @@ steenwijk;Steenwijk
 						<token postag="WKW:TGW:INF"/>
 					</marker>
 				</pattern>
-				<message>Volgens Taaladvies.net heeft het werkwoord hetzelfde getal als het zelfstandig naamwoord: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag="WKW:TGW:3EP"/></suggestion>.</message>
+				<message>Volgens Taaladvies.net heeft het werkwoord hetzelfde getal als het zelfstandig naamwoord: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:TGW:3EP"/></suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
 				<short>Enkelvoud</short>
 				<example correction="Een heleboel hout valt"><marker>Een heleboel hout vallen</marker> om.</example>
@@ -31346,6 +31351,7 @@ steenwijk;Steenwijk
 			</rule>
 			<rule>
 				<pattern>
+					<token postag="SENT_START"/>
 					<marker>
 						<token>een</token>
 						<token regexp="yes">hoop|boel|heleboel</token>
@@ -31353,7 +31359,7 @@ steenwijk;Steenwijk
 						<token postag="WKW:VLT:INF"/>
 					</marker>
 				</pattern>
-				<message>Volgens Taaladvies.net heeft het werkwoord hetzelfde getal als het zelfstandig naamwoord: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag="WKW:VLT:1EP"/></suggestion>.</message>
+				<message>Volgens Taaladvies.net heeft het werkwoord hetzelfde getal als het zelfstandig naamwoord: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:VLT:1EP"/></suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
 				<short>Enkelvoud</short>
 				<example correction="Een heleboel hout viel"><marker>Een heleboel hout vielen</marker> om.</example>
@@ -31366,6 +31372,7 @@ steenwijk;Steenwijk
 		<rulegroup id="EEN_PAAR_DOET" name="een paar doet/doen">
 			<rule>
 				<pattern>
+					<token postag="SENT_START"/>
 					<marker>
 						<token>een</token>
 						<token>paar</token>
@@ -31373,13 +31380,14 @@ steenwijk;Steenwijk
 						<token postag="WKW:TGW:3EP"/>
 					</marker>
 				</pattern>
-				<message>Als 'een paar' hier 'enkele' betekent, dan is juist: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag="WKW:TGW:INF"/></suggestion>.</message>
+				<message>Als 'een paar' hier 'enkele' betekent, dan is juist: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:TGW:INF"/></suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
 				<short>Meervoud</short>
 				<example correction="Een paar dozen staan"><marker>Een paar dozen staat</marker> in de gang.</example>
 			</rule>
 			<rule>
 				<pattern>
+					<token postag="SENT_START"/>
 					<marker>
 						<token>een</token>
 						<token>paar</token>
@@ -31387,13 +31395,14 @@ steenwijk;Steenwijk
 						<token postag="WKW:VLT:1EP"/>
 					</marker>
 				</pattern>
-				<message>Als 'een paar' hier 'enkele' betekent, dan is juist: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag="WKW:VLT:INF"/></suggestion>.</message>
+				<message>Als 'een paar' hier 'enkele' betekent, dan is juist: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:VLT:INF"/></suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
 				<short>Meervoud</short>
 				<example correction="Een paar dozen stonden"><marker>Een paar dozen stond</marker> in de gang.</example>
 			</rule>
 			<rule>
 				<pattern>
+					<token postag="SENT_START"/>
 					<marker>
 						<token>een</token>
 						<token>paar</token>
@@ -31401,13 +31410,14 @@ steenwijk;Steenwijk
 						<token postag="WKW:TGW:INF"/>
 					</marker>
 				</pattern>
-				<message>Als 'een paar' hier 'een koppel van twee' betekent, dan is juist: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag="WKW:TGW:3EP"/></suggestion>.</message>
+				<message>Als 'een paar' hier 'een koppel van twee' betekent, dan is juist: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:TGW:3EP"/></suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
 				<short>Enkelvoud</short>
 				<example correction="Een paar schoenen staat"><marker>Een paar schoenen staan</marker> in de gang.</example>
 			</rule>
 			<rule>
 				<pattern>
+					<token postag="SENT_START"/>
 					<marker>
 						<token>een</token>
 						<token>paar</token>
@@ -31415,7 +31425,7 @@ steenwijk;Steenwijk
 						<token postag="WKW:VLT:INF"/>
 					</marker>
 				</pattern>
-				<message>Als 'een paar' hier 'een koppel van twee' betekent, dan is juist: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag="WKW:VLT:1EP"/></suggestion>.</message>
+				<message>Als 'een paar' hier 'een koppel van twee' betekent, dan is juist: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:VLT:1EP"/></suggestion>.</message>
 				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
 				<short>Enkelvoud</short>
 				<example correction="Een paar schoenen stond"><marker>Een paar schoenen stonden</marker> in de gang.</example>
