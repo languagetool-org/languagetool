@@ -27333,6 +27333,27 @@ USA
                         <token postag="SENT_END"/>
                     </and>
                 </antipattern>
+                <antipattern><!-- #2800 offered to grades 9-10. -->
+                    <token postag="VBN"/>
+                    <token>to</token>
+                    <token chunk="B-NP-plural" postag="NNS"/>
+                    <token regexp="yes">[0-9]+-[0-9]+</token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <antipattern><!-- #2800 Who we relate to makes -->
+                    <token postag="WP"/>
+                    <token regexp="yes">&subject_pronouns;</token>
+                    <token postag_regexp="yes" postag="VB[DPZ]"/>
+                    <token>to</token>
+                    <token postag_regexp="yes" postag="VB[DZ]"/>
+                </antipattern>
+                <antipattern><!-- #2800 Who Bill relates to makes -->
+                    <token postag="WP"/>
+                    <token postag="NNP"/>
+                    <token postag_regexp="yes" postag="VB[DZ]"/>
+                    <token>to</token>
+                    <token postag_regexp="yes" postag="VB[DZ]"/>
+                </antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="VB[DGNPZ]?"/>
                     <token min="0">not</token>
@@ -27372,18 +27393,52 @@ USA
                 <example>Marketing to Kids Gets More Savvy with New Technologies.</example><!-- #2536 -->
                 <example>If you don't like the font you can change it back to Times New Roman.</example><!-- #2536 -->
                 <example>Apply To Labels</example><!-- #2536 -->
+                <example>It was offered to grades 9-10.</example><!-- #2800 -->
+                <example>Who we relate to makes a difference in how we develop and mature.</example><!-- #2800 -->
+                <example>Who Bill relates to makes no difference to me.</example><!-- #2800 -->
             </rule>
-            <rule><!-- MFU 2020-02-05 he tried to laughs. This pattern (except for the NNP exception) was in disambiguation.xml -->
+            <rule><!-- MFU 2020-02-05 he tried to laughs. Based on the pattern that was in disambiguation.xml -->
                 <antipattern><!-- agree to terms and conditions -->
                     <token>to</token>
                     <token chunk="B-NP-plural" postag="NNS"/>
                     <token chunk="I-NP-plural" regexp="yes">and|or</token>
                     <token chunk="E-NP-plural" postag="NNS"/>
                 </antipattern>
-                <antipattern><!-- offered to schools in / #2536 to reports when / #2536 to rules we -->
+                <antipattern><!-- offered to schools in / #2536 to reports when / #2536 to rules we / #2800 -->
                     <token>to</token>
                     <token chunk="E-NP-plural" postag="NNS"/>
-                    <token postag_regexp="yes" postag="IN|CC|PRP"/>
+                    <token postag_regexp="yes" postag="IN|CC|PRP|WP"/>
+                </antipattern>
+                <antipattern><!-- #2800 what happens to books -->
+                    <token postag_regexp="yes" postag="WDT|WP"/>
+                    <token postag_regexp="yes" postag="VB[ZD]"/>
+                    <token>to</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- #2800 agrees to services, terms and conditions [no closing punctuation] -->
+                    <token>to</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token>,</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- #2800 agrees to services, terms and conditions. [closing punctuation] -->
+                    <token>to</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token>,</token>
+                    <token chunk="B-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- #2800 was mean to kids -->
+                    <token inflected="yes">be</token>
+                    <token postag_regexp="yes" postag="JJR?"/>
+                    <token>to</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- #2800 offered to grades 9-10. -->
+                    <token postag="VBN"/>
+                    <token>to</token>
+                    <token chunk="B-NP-plural" postag="NNS"/>
+                    <token regexp="yes">[0-9]+-[0-9]+</token>
+                    <token postag="SENT_END"/>
                 </antipattern>
                 <pattern>
                     <token inflected="yes" regexp="yes" postag="VB.*" postag_regexp="yes">agree|aim|appear|arrange|ask|attempt|beg|afford|wait|choose|claim|decide|demand|desire|expect|fail|guarantee|happen|help|hope|manage|offer|plan|prepare|pretend|promise|prove|refuse|seem|tend|threaten|undertake|want|wish|begin|bother|continue|intend|propose|start|forget|like|mean|need|regret|remember|stop|try</token>
@@ -27396,18 +27451,26 @@ USA
                 </pattern>
                 <message>The verb after "to" should be in the base form: <suggestion><match no="3" postag="VB"/></suggestion>.</message>
                 <short>Grammatical problem: use the base form</short>
-                <example correction="laugh">He tried to <marker>laughs</marker>.</example>
-                <example correction="piece">You’ll need to <marker>pieces</marker>.</example>
+                <example correction="laugh">He tried to <marker>laughs</marker>.</example><!-- laughs/E-NP-plural -->
+                <example correction="piece">You’ll need to <marker>pieces</marker>.</example><!-- pieces/E-NP-plural. 'Piece' usually is transitive. -->
                 <example correction="continue">Those who want to <marker>continues</marker> developing under emacs or sublime...</example>
                 <example correction="provide">But, to start with, you need to <marker>provides</marker> us with more information.</example>
                 <example correction="highlight">Also, I’d like to <marker>highlights</marker> 2 things:</example>
+                <example correction="grade">I want to <marker>grades</marker> 9-10 of these sentences.</example><!-- #2800 -->
                 <example>He tried to <marker>laugh</marker>.</example>
                 <example>... so users don’t need to agree to terms and conditions.</example>
                 <example>... device in a laptop form factor offered to schools in 1997 as an inexpensive ($799 US, original...</example>
                 <example>... and what happened to Bills at the convention.</example>
-                <example type="triggers_error">... is like what happened to Divines: several troops were ...</example>
+                <example>... is like what happened to Divines: several troops were ...</example>
                 <example>Can you confirm this only happens to reports when referenced in a book?</example><!-- #2536 -->
                 <example>Until we agree to rules we cannot give up the tools...</example><!-- #2536 -->
+                <example>They sent claims to doctors that even made us stunned.</example><!-- #2800 -->
+                <example>They wanted to know what happens to dreams that are not remembered anymore.</example><!-- #2800 -->
+                <example>This is similar to what happens to books: they become mouldy.</example><!-- #2800 -->
+                <example>He agrees to services, terms and conditions</example><!-- #2800 no closing punctuation.-->
+                <example>He agrees to services, terms and conditions.</example><!-- #2800 -->
+                <example>He was mean to kids.</example><!-- #2800 -->
+                <example>It was offered to grades 9-10.</example><!-- #2800 -->
             </rule>
             <rule>
                 <antipattern>
