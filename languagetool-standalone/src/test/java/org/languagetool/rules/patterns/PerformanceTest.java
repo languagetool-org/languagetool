@@ -19,52 +19,53 @@
 package org.languagetool.rules.patterns;
 
 import org.languagetool.*;
-//import org.languagetool.markup.AnnotatedText;
-//import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.tools.StringTools;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 
 /**
  * Check performance per sentence. Not a unit test, for interactive use only.
  */
 final class PerformanceTest {
-  
+
   private static final long RUNS = 5;
 
   private PerformanceTest() {
   }
 
   private void run(JLanguageTool lt, File textFile) throws IOException {
-    String text = StringTools.readStream(new FileInputStream(textFile), "utf-8");
-    int sentenceCount = lt.sentenceTokenize(text).size();
-    lt.activateLanguageModelRules(new File("data/ngrams"));
-    //lt.activateLanguageModelRules(new File("/home/dnaber/data/google-ngram-index"));
-    System.out.println("Language: " +  lt.getLanguage() +
-                       ", Text length: " + text.length() + " chars, " + sentenceCount + " sentences");
+    try (InputStream is = Files.newInputStream(textFile.toPath())) {
+      String text = StringTools.readStream(is, "utf-8");
+      int sentenceCount = lt.sentenceTokenize(text).size();
+      lt.activateLanguageModelRules(new File("data/ngrams"));
+      //lt.activateLanguageModelRules(new File("/home/dnaber/data/google-ngram-index"));
+      System.out.println("Language: " + lt.getLanguage() +
+        ", Text length: " + text.length() + " chars, " + sentenceCount + " sentences");
 
-    System.out.println("Warmup...");
-    long startTime1 = System.currentTimeMillis();
-    lt.check(text);
-    long runTime1 = System.currentTimeMillis() - startTime1;
-    float timePerSentence1 = (float)runTime1 / sentenceCount;
-    System.out.printf("Check time on first run: " + runTime1 + "ms = %.1fms per sentence\n", timePerSentence1);
-
-    System.out.println("Checking text...");
-    float totalTime = 0;
-    for (int i = 0; i < RUNS; i++) {
-      long startTime2 = System.currentTimeMillis();
+      System.out.println("Warmup...");
+      long startTime1 = System.currentTimeMillis();
       lt.check(text);
-      //lt.check(new AnnotatedTextBuilder().addText(text).build(), true, JLanguageTool.ParagraphHandling.NORMAL, null, JLanguageTool.Mode.ALL);
-      long runTime2 = System.currentTimeMillis() - startTime2;
-      float timePerSentence2 = (float)runTime2 / sentenceCount;
-      System.out.printf("Check time after warmup: " + runTime2 + "ms = %.1fms per sentence\n", timePerSentence2);
-      totalTime += timePerSentence2;
+      long runTime1 = System.currentTimeMillis() - startTime1;
+      float timePerSentence1 = (float) runTime1 / sentenceCount;
+      System.out.printf("Check time on first run: " + runTime1 + "ms = %.1fms per sentence\n", timePerSentence1);
+
+      System.out.println("Checking text...");
+      float totalTime = 0;
+      for (int i = 0; i < RUNS; i++) {
+        long startTime2 = System.currentTimeMillis();
+        lt.check(text);
+        //lt.check(new AnnotatedTextBuilder().addText(text).build(), true, JLanguageTool.ParagraphHandling.NORMAL, null, JLanguageTool.Mode.ALL);
+        long runTime2 = System.currentTimeMillis() - startTime2;
+        float timePerSentence2 = (float) runTime2 / sentenceCount;
+        System.out.printf("Check time after warmup: " + runTime2 + "ms = %.1fms per sentence\n", timePerSentence2);
+        totalTime += timePerSentence2;
+      }
+      float avg = totalTime / (float) RUNS;
+      System.out.printf("Average time per sentence = %.1fms\n", avg);
     }
-    float avg = totalTime / (float)RUNS;
-    System.out.printf("Average time per sentence = %.1fms\n", avg);
   }
 
   public static void main(String[] args) throws IOException {

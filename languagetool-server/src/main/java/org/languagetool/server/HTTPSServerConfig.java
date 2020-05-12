@@ -19,8 +19,11 @@
 package org.languagetool.server;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Properties;
 
 /**
@@ -73,10 +76,10 @@ public class HTTPSServerConfig extends HTTPServerConfig {
    */
   HTTPSServerConfig(String[] args) {
     super(args);
-    File config = null;
+    Path config = null;
     for (int i = 0; i < args.length; i++) {
       if ("--config".equals(args[i])) {
-        config = new File(args[++i]);
+        config = Paths.get(args[++i]);
       }
     }
     if (config == null) {
@@ -84,10 +87,10 @@ public class HTTPSServerConfig extends HTTPServerConfig {
     }
     try {
       Properties props = new Properties();
-      try (FileInputStream fis = new FileInputStream(config)) {
-        props.load(fis);
-        keystore = new File(getProperty(props, "keystore", config));
-        keyStorePassword = getProperty(props, "password", config);
+      try (InputStream is = Files.newInputStream(config)) {
+        props.load(is);
+        keystore = new File(getProperty(props, "keystore", config.toFile()));
+        keyStorePassword = getProperty(props, "password", config.toFile());
       }
     } catch (IOException e) {
       throw new RuntimeException("Could not load properties from '" + config + "'", e);

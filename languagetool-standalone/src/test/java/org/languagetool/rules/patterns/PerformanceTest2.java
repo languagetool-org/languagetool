@@ -22,12 +22,12 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.MultiThreadedJLanguageTool;
 import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
 import org.languagetool.tools.StringTools;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Random;
 
@@ -44,33 +44,35 @@ final class PerformanceTest2 {
   private static final int MAX_TEXT_LENGTH = 150;
   
   private void run(String languageCode, File textFile) throws IOException {
-    String text = StringTools.readStream(new FileInputStream(textFile), "utf-8");
-    System.out.println("Text length: " + text.length());
-    Random rnd = new Random(42);
-    Language language = Languages.getLanguageForShortCode(languageCode);
-    long totalTime = 0;
-    for (int i = 0; i < RUNS; i++) {
-      int beginIndex = rnd.nextInt(text.length());
-      int endIndex = Math.min(beginIndex + MAX_TEXT_LENGTH, text.length()-1);
-      String subText = text.substring(beginIndex, endIndex);
-      long startTime = System.currentTimeMillis();
-      MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(language);
-      //String ngramPath = "/home/dnaber/data/google-ngram-index";
-      //lt.activateLanguageModelRules(new File(ngramPath));
-      //SuggestionsOrdererConfig.setNgramsPath(ngramPath);
-      //lt.activateWord2VecModelRules(new File("/home/dnaber/lt/word2vec"));
-      List<RuleMatch> matches = lt.check(subText);
-      //System.out.println(matches);
-      long runTime = System.currentTimeMillis() - startTime;
-      lt.shutdown();
-      if (i >= SKIP) {
-        totalTime += runTime;
-        System.out.println("Time: " + runTime + "ms (" + matches.size() + " matches)");
-      } else {
-        System.out.println("Time: " + runTime + "ms (" + matches.size() + " matches) - skipped because of warm-up");
+    try (InputStream is = Files.newInputStream(textFile.toPath())) {
+      String text = StringTools.readStream(is, "utf-8");
+      System.out.println("Text length: " + text.length());
+      Random rnd = new Random(42);
+      Language language = Languages.getLanguageForShortCode(languageCode);
+      long totalTime = 0;
+      for (int i = 0; i < RUNS; i++) {
+        int beginIndex = rnd.nextInt(text.length());
+        int endIndex = Math.min(beginIndex + MAX_TEXT_LENGTH, text.length() - 1);
+        String subText = text.substring(beginIndex, endIndex);
+        long startTime = System.currentTimeMillis();
+        MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(language);
+        //String ngramPath = "/home/dnaber/data/google-ngram-index";
+        //lt.activateLanguageModelRules(new File(ngramPath));
+        //SuggestionsOrdererConfig.setNgramsPath(ngramPath);
+        //lt.activateWord2VecModelRules(new File("/home/dnaber/lt/word2vec"));
+        List<RuleMatch> matches = lt.check(subText);
+        //System.out.println(matches);
+        long runTime = System.currentTimeMillis() - startTime;
+        lt.shutdown();
+        if (i >= SKIP) {
+          totalTime += runTime;
+          System.out.println("Time: " + runTime + "ms (" + matches.size() + " matches)");
+        } else {
+          System.out.println("Time: " + runTime + "ms (" + matches.size() + " matches) - skipped because of warm-up");
+        }
       }
+      System.out.println("Avg. Time: " + (float) totalTime / RUNS);
     }
-    System.out.println("Avg. Time: " + (float)totalTime/RUNS);
   }
 
   public static void main(String[] args) throws IOException {

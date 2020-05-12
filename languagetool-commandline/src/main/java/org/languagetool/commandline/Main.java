@@ -40,6 +40,8 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -90,7 +92,7 @@ class Main {
 
   private void addExternalRules(String filename) throws IOException {
     PatternRuleLoader ruleLoader = new PatternRuleLoader();
-    try (InputStream is = new FileInputStream(filename)) {
+    try (InputStream is = Files.newInputStream(Paths.get(filename))) {
       List<AbstractPatternRule> externalRules = ruleLoader.getRules(is, filename);
       for (AbstractPatternRule externalRule : externalRules) {
         lt.addRule(externalRule);
@@ -297,7 +299,7 @@ class Main {
     String charsetName = encoding != null ? encoding : Charset.defaultCharset().name();
     InputStream is = System.in;
     if (!isStdIn(filename)) {
-      is = new FileInputStream(new File(filename));
+      is = Files.newInputStream(Paths.get(filename));
       BOMInputStream bomIn = new BOMInputStream(is, true, ByteOrderMark.UTF_8,
         ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE,
         ByteOrderMark.UTF_32BE,ByteOrderMark.UTF_32LE);

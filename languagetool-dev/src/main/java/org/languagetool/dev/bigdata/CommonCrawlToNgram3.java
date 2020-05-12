@@ -29,6 +29,7 @@ import org.languagetool.tokenizers.SentenceTokenizer;
 import org.languagetool.tokenizers.Tokenizer;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -74,7 +75,7 @@ class CommonCrawlToNgram3 implements AutoCloseable {
   }
 
   private void indexInputFile() throws IOException, CompressorException {
-    FileInputStream fin = new FileInputStream(input);
+    InputStream fin = Files.newInputStream(input.toPath());
     BufferedInputStream in = new BufferedInputStream(fin);
     try (CompressorInputStream input = new CompressorStreamFactory().createCompressorInputStream(in)) {
       final byte[] buffer = new byte[8192];

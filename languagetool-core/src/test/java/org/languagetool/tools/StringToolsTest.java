@@ -23,9 +23,11 @@ import org.languagetool.FakeLanguage;
 import org.languagetool.Language;
 import org.languagetool.TestTools;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.StringReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,8 +57,10 @@ public class StringToolsTest {
 
   @Test
   public void testReadStream() throws IOException {
-    String content = StringTools.readStream(new FileInputStream("src/test/resources/testinput.txt"), "utf-8");
-    assertEquals("one\ntwo\nöäüß\nșțîâăȘȚÎÂĂ\n", content);
+    try (InputStream is = Files.newInputStream(Paths.get("src/test/resources/testinput.txt"))) {
+      String content = StringTools.readStream(is, "utf-8");
+      assertEquals("one\ntwo\nöäüß\nșțîâăȘȚÎÂĂ\n", content);
+    }
   }
 
   @Test

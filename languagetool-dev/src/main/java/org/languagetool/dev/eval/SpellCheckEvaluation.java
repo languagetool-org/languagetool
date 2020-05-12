@@ -18,6 +18,8 @@
  */
 package org.languagetool.dev.eval;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -25,6 +27,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.List;
 
 /**
@@ -53,11 +56,7 @@ public class SpellCheckEvaluation {
   }
 
   private void checkFile(File file, JLanguageTool lt) throws IOException {
-    try (
-      FileInputStream fis = new FileInputStream(file);
-      InputStreamReader reader = new InputStreamReader(fis, "utf-8");
-      BufferedReader br = new BufferedReader(reader)
-    ) {
+    try (BufferedReader br = Files.newBufferedReader(file.toPath(), UTF_8)) {
       String line;
       while ((line = br.readLine()) != null) {
         List<RuleMatch> matches = lt.check(line);

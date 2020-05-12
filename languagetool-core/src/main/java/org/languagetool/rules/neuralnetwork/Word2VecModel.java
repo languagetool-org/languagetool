@@ -19,17 +19,18 @@
 package org.languagetool.rules.neuralnetwork;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 public class Word2VecModel {
 
   private final Embedding embedding;
   private final File path;
 
-  public Word2VecModel(String path) throws FileNotFoundException {
-    Dictionary dictionary = new org.languagetool.rules.neuralnetwork.Dictionary(new FileInputStream(path + File.separator + "dictionary.txt"));
-    Matrix embedding = new Matrix(new FileInputStream(path + File.separator + "final_embeddings.txt"));
+  public Word2VecModel(String path) throws IOException {
+    Dictionary dictionary = new Dictionary(Files.newInputStream(Paths.get(path, "dictionary.txt")));
+    Matrix embedding = new Matrix(Files.newInputStream(Paths.get(path, "final_embeddings.txt")));
     this.embedding = new Embedding(dictionary, embedding);
     this.path = new File(path);
   }

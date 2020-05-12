@@ -18,13 +18,12 @@
  */
 package org.languagetool.dev.errorcorpus;
 
-import org.apache.commons.io.IOUtils;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -53,9 +52,7 @@ public class PedlerCorpus implements ErrorCorpus {
         System.out.println("Ignoring " + file + ", does not match *.txt");
         continue;
       }
-      try (FileInputStream fis = new FileInputStream(file)) {
-        lines.addAll(IOUtils.readLines(fis));
-      }
+      lines.addAll(Files.readAllLines(file.toPath()));
     }
   }
 

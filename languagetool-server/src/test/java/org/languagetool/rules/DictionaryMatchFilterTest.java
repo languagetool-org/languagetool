@@ -51,7 +51,7 @@ public class DictionaryMatchFilterTest {
     }
 
     @Override
-    public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+    public RuleMatch[] match(AnalyzedSentence sentence) {
       List<RuleMatch> matches = new LinkedList<>();
       for (AnalyzedTokenReadings token : sentence.getTokensWithoutWhitespace()) {
         String word = token.getToken();

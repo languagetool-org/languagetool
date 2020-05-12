@@ -22,9 +22,10 @@ package org.languagetool.bitext;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Iterator;
 
 /**
@@ -48,9 +49,9 @@ public class TabBitextReader implements BitextReader {
   public TabBitextReader(String filename, String encoding) {
     try {     
       if (encoding == null) {
-        in = new BufferedReader(new InputStreamReader(new FileInputStream(filename)));
+        in = Files.newBufferedReader(Paths.get(filename));
       } else {
-        in = new BufferedReader(new InputStreamReader(new FileInputStream(filename), encoding));
+        in = Files.newBufferedReader(Paths.get(filename), Charset.forName(encoding));
       }
       nextLine = in.readLine();
       prevLine = "";

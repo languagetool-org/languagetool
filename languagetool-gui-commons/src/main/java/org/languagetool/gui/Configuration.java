@@ -20,11 +20,9 @@ package org.languagetool.gui;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -985,7 +983,7 @@ public class Configuration {
       cfgFile = oldConfigFile;
     }
 
-    try (FileInputStream fis = new FileInputStream(cfgFile)) {
+    try (InputStream fis = Files.newInputStream(cfgFile.toPath())) {
 
       Properties props = new Properties();
       props.load(fis);
@@ -1145,7 +1143,7 @@ public class Configuration {
       //store config for other languages
       loadConfigForOtherLanguages(lang, props, prefix);
 
-    } catch (FileNotFoundException e) {
+    } catch (NoSuchFileException e) {
       // file not found: okay, leave disabledRuleIds empty
     }
 

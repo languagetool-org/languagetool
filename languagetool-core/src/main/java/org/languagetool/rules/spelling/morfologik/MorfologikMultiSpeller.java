@@ -22,13 +22,15 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.languagetool.JLanguageTool.*;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.Experimental;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.spelling.SpellingCheckRule;
 
@@ -40,7 +42,6 @@ import morfologik.fsa.FSA;
 import morfologik.fsa.builders.CFSA2Serializer;
 import morfologik.fsa.builders.FSABuilder;
 import morfologik.stemming.Dictionary;
-import org.languagetool.tools.StringTools;
 
 /**
  * Morfologik speller that merges results from binary (.dict) and plain text (.txt) dictionaries.
@@ -203,10 +204,11 @@ public class MorfologikMultiSpeller {
       FSA fsa = FSABuilder.build(linesCopy);
       ByteArrayOutputStream fsaOutStream = new CFSA2Serializer().serialize(fsa, new ByteArrayOutputStream());
       ByteArrayInputStream fsaInStream = new ByteArrayInputStream(fsaOutStream.toByteArray());
+      Path path = Paths.get(infoPath);
       Dictionary dict;
-      if (new File(infoPath).exists()) {
+      if (Files.exists(path)) {
         // e.g. when loading dynamic languages from outside the class path
-        dict = Dictionary.read(fsaInStream, new FileInputStream(infoPath));
+        dict = Dictionary.read(fsaInStream, Files.newInputStream(path));
       } else {
         dict = Dictionary.read(fsaInStream, getDataBroker().getFromResourceDirAsStream(infoPath));
       }

@@ -22,8 +22,8 @@ import org.junit.Test;
 import org.languagetool.tools.StringTools;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.util.*;
 
@@ -37,23 +37,25 @@ public class TranslationTest {
     // use English version as the reference:
     File englishFile = getEnglishTranslationFile();
     Properties enProps = new Properties();
-    enProps.load(new FileInputStream(englishFile));
-    Set<Object> englishKeys = enProps.keySet();
-    for (Language lang : Languages.get()) {
-      if (lang.getShortCode().equals("en")) {
-        continue;
-      }
-      Properties langProps = new Properties();
-      File langFile = getTranslationFile(lang);
-      if (!langFile.exists()) {
-        continue;
-      }
-      try (FileInputStream stream = new FileInputStream(langFile)) {
-        langProps.load(stream);
-        Set<Object> langKeys = langProps.keySet();
-        for (Object englishKey : englishKeys) {
-          if (!langKeys.contains(englishKey)) {
-            System.err.println("***** No key '" + englishKey + "' in file " + langFile);
+    try (InputStream is = Files.newInputStream(englishFile.toPath())) {
+      enProps.load(is);
+      Set<Object> englishKeys = enProps.keySet();
+      for (Language lang : Languages.get()) {
+        if (lang.getShortCode().equals("en")) {
+          continue;
+        }
+        Properties langProps = new Properties();
+        File langFile = getTranslationFile(lang);
+        if (!langFile.exists()) {
+          continue;
+        }
+        try (InputStream stream = Files.newInputStream(langFile.toPath())) {
+          langProps.load(stream);
+          Set<Object> langKeys = langProps.keySet();
+          for (Object englishKey : englishKeys) {
+            if (!langKeys.contains(englishKey)) {
+              System.err.println("***** No key '" + englishKey + "' in file " + langFile);
+            }
           }
         }
       }

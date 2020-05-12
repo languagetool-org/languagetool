@@ -20,7 +20,8 @@
  */
 package org.languagetool.dev.bigdata;
 
-import org.apache.commons.io.IOUtils;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
@@ -35,6 +36,8 @@ import org.languagetool.rules.ConfusionPair;
 import org.languagetool.rules.ConfusionSetLoader;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -199,7 +202,7 @@ class AutomaticProhibitedCompoundRuleEvaluator {
       System.out.println("   <exampleSentenceIndexDir> is a Lucene index created by TextIndexCreator");
       System.exit(1);
     }
-    List<String> lines = IOUtils.readLines(new FileInputStream(args[0]), "utf-8");
+    List<String> lines = Files.readAllLines(Paths.get(args[0]), UTF_8);
     AutomaticProhibitedCompoundRuleEvaluator eval = new AutomaticProhibitedCompoundRuleEvaluator(new File(args[1]));
     eval.run(lines, new File(args[2]));
   }

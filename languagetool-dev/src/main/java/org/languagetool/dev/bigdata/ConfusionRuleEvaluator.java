@@ -34,6 +34,9 @@ import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tools.StringTools;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -203,12 +206,12 @@ class ConfusionRuleEvaluator {
   private List<Sentence> getRelevantSentences(List<String> inputs, String token, int maxSentences) throws IOException {
     List<Sentence> sentences = new ArrayList<>();
     for (String input : inputs) {
-      if (new File(input).isDirectory()) {
-        File file = new File(input, token + ".txt");
-        if (!file.exists()) {
-          throw new RuntimeException("File with example sentences not found: " + file);
+      if (Files.isDirectory(Paths.get(input))) {
+        Path path = Paths.get(input, token + ".txt");
+        if (!Files.exists(path)) {
+          throw new RuntimeException("File with example sentences not found: " + path);
         }
-        try (FileInputStream fis = new FileInputStream(file)) {
+        try (InputStream fis = Files.newInputStream(path)) {
           SentenceSource sentenceSource = new PlainTextSentenceSource(fis, language);
           sentences = getSentencesFromSource(inputs, token, maxSentences, sentenceSource);
         }

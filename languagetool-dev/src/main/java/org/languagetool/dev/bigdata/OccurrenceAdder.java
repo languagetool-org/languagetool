@@ -18,9 +18,11 @@
  */
 package org.languagetool.dev.bigdata;
 
-import org.apache.commons.io.IOUtils;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,9 +45,9 @@ public class OccurrenceAdder {
   private void runOnFile(Map<String, Integer> map, File file) throws IOException {
     System.out.println("Working on " + file);
     try (
-      InputStream fileStream = new FileInputStream(file);
+      InputStream fileStream = Files.newInputStream(file.toPath());
       InputStream gzipStream = new GZIPInputStream(fileStream, BUFFER_SIZE);
-      Reader decoder = new InputStreamReader(gzipStream, "utf-8");
+      Reader decoder = new InputStreamReader(gzipStream, UTF_8);
       BufferedReader buffered = new BufferedReader(decoder, BUFFER_SIZE)
     ) {
       String line;
@@ -68,7 +70,7 @@ public class OccurrenceAdder {
     }
     OccurrenceAdder occurrenceAdder = new OccurrenceAdder();
     Map<String, Integer> map = new HashMap<>();
-    List<String> words = IOUtils.readLines(new FileInputStream(args[0]));
+    List<String> words = Files.readAllLines(Paths.get(args[0]));
     for (String word : words) {
       map.put(word, 0);
     }

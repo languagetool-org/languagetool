@@ -88,24 +88,13 @@ public final class StringTools {
    * @since 2.3
    */
   public static String readStream(InputStream stream, String encoding) throws IOException {
-    InputStreamReader isr = null;
     StringBuilder sb = new StringBuilder();
-    try {
-      if (encoding == null) {
-        isr = new InputStreamReader(stream);
-      } else {
-        isr = new InputStreamReader(stream, encoding);
-      }
-      try (BufferedReader br = new BufferedReader(isr)) {
-        String line;
-        while ((line = br.readLine()) != null) {
-          sb.append(line);
-          sb.append('\n');
-        }
-      }
-    } finally {
-      if (isr != null) {
-        isr.close();
+    try (Reader r = encoding == null ? new InputStreamReader(stream) : new InputStreamReader(stream, encoding);
+      BufferedReader br = new BufferedReader(r)) {
+      String line;
+      while ((line = br.readLine()) != null) {
+        sb.append(line);
+        sb.append('\n');
       }
     }
     return sb.toString();

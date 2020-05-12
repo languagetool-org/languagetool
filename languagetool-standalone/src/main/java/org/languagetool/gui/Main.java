@@ -58,12 +58,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -213,7 +211,7 @@ public final class Main {
   }
 
   private void loadFile(File file) {
-    try (FileInputStream inputStream = new FileInputStream(file)) {
+    try (InputStream inputStream = Files.newInputStream(file.toPath())) {
       BOMInputStream bomIn = new BOMInputStream(inputStream, false,
               ByteOrderMark.UTF_8, ByteOrderMark.UTF_16BE, ByteOrderMark.UTF_16LE,
               ByteOrderMark.UTF_32BE, ByteOrderMark.UTF_32LE);
@@ -283,7 +281,7 @@ public final class Main {
     List<Rule> rules = langTool.getAllRules();
     ConfigurationDialog configDialog = getCurrentConfigDialog();
     boolean configChanged = configDialog.show(rules); // this blocks until OK/Cancel is clicked in the dialog
-    if(configChanged) {
+    if (configChanged) {
       Configuration config = ltSupport.getConfig();
       try { //save config - needed for the server
         config.saveConfiguration(langTool.getLanguage());

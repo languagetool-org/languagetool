@@ -29,6 +29,7 @@ import org.languagetool.rules.ScoredConfusionSet;
 import org.languagetool.tools.Tools;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.*;
 
 public class NeuralNetworkRule extends Rule {
@@ -86,9 +87,9 @@ public class NeuralNetworkRule extends Rule {
     return language.getShortCode().toUpperCase() + "_" + subjects.get(0) + "_VS_" + subjects.get(1) + "_NEURALNETWORK";
   }
 
-  private InputStream streamFor(File path, String filename) throws FileNotFoundException {
+  private InputStream streamFor(File path, String filename) throws IOException {
     String folderName = String.join("_", subjects);
-    return new FileInputStream(path.getPath() + File.separator + "neuralnetwork" + File.separator + folderName + File.separator + filename);
+    return Files.newInputStream(path.toPath().resolve("neuralnetwork").resolve(folderName).resolve(filename));
   }
 
   public List<String> getSubjects() {

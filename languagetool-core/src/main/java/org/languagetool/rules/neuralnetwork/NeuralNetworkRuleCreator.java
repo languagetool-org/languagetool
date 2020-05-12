@@ -24,6 +24,7 @@ import org.languagetool.rules.ScoredConfusionSet;
 import org.languagetool.rules.ScoredConfusionSetLoader;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -36,7 +37,7 @@ public abstract class NeuralNetworkRuleCreator {
 
   public static List<Rule> createRules(ResourceBundle messages, Language language, Word2VecModel word2vecModel) throws IOException {
     List<ScoredConfusionSet> confusionSets;
-    try(InputStream confusionSetsStream = new FileInputStream(word2vecModel.getPath() + File.separator + CONFUSION_SET_FILENAME)) {
+    try(InputStream confusionSetsStream = Files.newInputStream(word2vecModel.getPath().toPath().resolve(CONFUSION_SET_FILENAME))) {
       confusionSets = ScoredConfusionSetLoader.loadConfusionSet(confusionSetsStream);
     } catch (FileNotFoundException e) {
       System.err.println("Warning: " + CONFUSION_SET_FILENAME + " not found for " + language.getShortCode());

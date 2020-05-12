@@ -18,15 +18,8 @@
  */
 package org.languagetool.tools;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
@@ -64,7 +57,9 @@ class DictionaryBuilder {
   private String outputFilename;
 
   protected DictionaryBuilder(File infoFile) throws IOException {
-    props.load(new FileInputStream(infoFile));
+    try (InputStream is = Files.newInputStream(infoFile.toPath())) {
+      props.load(is);
+    }
   }
   
   protected void setOutputFilename(String outputFilename) {
@@ -125,7 +120,7 @@ class DictionaryBuilder {
   
   protected void readFreqList(File freqListFile) {
     try (
-      FileInputStream fis = new FileInputStream(freqListFile.getAbsoluteFile());
+      InputStream fis = Files.newInputStream(freqListFile.toPath());
       InputStreamReader reader = new InputStreamReader(fis, "utf-8");
       BufferedReader br = new BufferedReader(reader)
     ) {
@@ -154,8 +149,8 @@ class DictionaryBuilder {
     String encoding = getOption("fsa.dict.encoding");
     int freqValuesApplied = 0;
 
-    try (BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tempFile.getAbsoluteFile()), encoding));
-         BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(dictFile.getAbsoluteFile()), encoding))) {
+    try (BufferedWriter bw = Files.newBufferedWriter(tempFile.toPath(), Charset.forName(encoding));
+         BufferedReader br = Files.newBufferedReader(dictFile.toPath(), Charset.forName(encoding))) {
       String line;
       int maxFreq = Collections.max(freqList.values());
       double maxFreqLog = Math.log(maxFreq);

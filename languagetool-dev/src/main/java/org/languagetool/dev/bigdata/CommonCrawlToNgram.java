@@ -38,6 +38,7 @@ import org.languagetool.tokenizers.Tokenizer;
 import org.tukaani.xz.XZInputStream;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -92,7 +93,7 @@ class CommonCrawlToNgram implements AutoCloseable {
   
   void indexInputFile() throws IOException {
     writeAndEvaluate();  // run now so we have a baseline
-    FileInputStream fin = new FileInputStream(input);
+    InputStream fin = Files.newInputStream(input.toPath());
     BufferedInputStream in = new BufferedInputStream(fin);
     try (XZInputStream xzIn = new XZInputStream(in)) {
       final byte[] buffer = new byte[8192];

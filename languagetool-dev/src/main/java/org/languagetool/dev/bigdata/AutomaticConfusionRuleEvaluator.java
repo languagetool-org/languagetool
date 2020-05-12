@@ -18,7 +18,8 @@
  */
 package org.languagetool.dev.bigdata;
 
-import org.apache.commons.io.IOUtils;
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.*;
@@ -32,6 +33,8 @@ import org.languagetool.rules.ConfusionPair;
 import org.languagetool.rules.ConfusionSetLoader;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -250,7 +253,7 @@ class AutomaticConfusionRuleEvaluator {
       System.exit(1);
     }
     Language lang = Languages.getLanguageForShortCode(args[0]);
-    List<String> lines = IOUtils.readLines(new FileInputStream(args[1]), "utf-8");
+    List<String> lines = Files.readAllLines(Paths.get(args[1]), UTF_8);
     boolean caseInsensitive = args[5].equalsIgnoreCase("true");
     AutomaticConfusionRuleEvaluator eval = new AutomaticConfusionRuleEvaluator(new File(args[2]), args[4], caseInsensitive, lang);
     eval.run(lines, new File(args[3]));

@@ -29,6 +29,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.net.*;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -122,7 +123,9 @@ public final class Tools {
       }
     }
     if (externalBitextRuleFile != null) {
-      bRules.addAll(ruleLoader.getRules(new FileInputStream(externalBitextRuleFile), externalBitextRuleFile.getAbsolutePath()));
+      try (InputStream is = Files.newInputStream(externalBitextRuleFile.toPath())) {
+        bRules.addAll(ruleLoader.getRules(is, externalBitextRuleFile.getAbsolutePath()));
+      }
     }
     
     //load the false friend rules in the bitext mode:

@@ -29,9 +29,10 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLParameters;
 import javax.net.ssl.TrustManagerFactory;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.BindException;
 import java.net.InetSocketAddress;
+import java.nio.file.Files;
 import java.security.KeyStore;
 import java.util.ResourceBundle;
 import java.util.Set;
@@ -87,7 +88,7 @@ public class HTTPSServer extends Server {
   }
 
   private SSLContext getSslContext(File keyStoreFile, String passPhrase) {
-    try (FileInputStream keyStoreStream = new FileInputStream(keyStoreFile)) {
+    try (InputStream keyStoreStream = Files.newInputStream(keyStoreFile.toPath())) {
       KeyStore keystore = KeyStore.getInstance("JKS");
       keystore.load(keyStoreStream, passPhrase.toCharArray());
       KeyManagerFactory kmf = KeyManagerFactory.getInstance("SunX509");

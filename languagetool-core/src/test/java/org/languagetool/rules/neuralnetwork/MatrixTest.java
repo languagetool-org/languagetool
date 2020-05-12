@@ -36,10 +36,10 @@ public class MatrixTest {
 
 //    @Test
 //    public void bigtest() throws IOException {
-//      FileInputStream fileInputStream = new FileInputStream("/tmp/m");
+//      InputStream inputStream = Files.newInputStream(Paths.get("/tmp/m"));
 //      long start = System.currentTimeMillis();
 //      float m[][] = new float[52520][64];
-//      Matrix matrix = new Matrix(fileInputStream);
+//      Matrix matrix = new Matrix(inputStream);
 //      long end = System.currentTimeMillis();
 //      System.out.println((end - start)/1000.0);
 //    }

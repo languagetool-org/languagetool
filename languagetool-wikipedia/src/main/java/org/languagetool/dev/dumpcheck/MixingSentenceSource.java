@@ -21,9 +21,10 @@ package org.languagetool.dev.dumpcheck;
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.Language;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -45,15 +46,15 @@ public class MixingSentenceSource extends SentenceSource {
   public static MixingSentenceSource create(List<String> dumpFileNames, Language language, Pattern filter) throws IOException {
     List<SentenceSource> sources = new ArrayList<>();
     for (String dumpFileName : dumpFileNames) {
-      File file = new File(dumpFileName);
-      if (file.getName().endsWith(".xml")) {
-        sources.add(new WikipediaSentenceSource(new FileInputStream(dumpFileName), language, filter));
-      } else if (file.getName().startsWith("tatoeba-")) {
-        sources.add(new TatoebaSentenceSource(new FileInputStream(dumpFileName), language, filter));
-      } else if (file.getName().endsWith(".txt")) {
-        sources.add(new PlainTextSentenceSource(new FileInputStream(dumpFileName), language, filter));
-      } else if (file.getName().endsWith(".xz")) {
-        sources.add(new CommonCrawlSentenceSource(new FileInputStream(dumpFileName), language, filter));
+      Path path = Paths.get(dumpFileName);
+      if (path.toString().endsWith(".xml")) {
+        sources.add(new WikipediaSentenceSource(Files.newInputStream(path), language, filter));
+      } else if (path.toString().startsWith("tatoeba-")) {
+        sources.add(new TatoebaSentenceSource(Files.newInputStream(path), language, filter));
+      } else if (path.toString().endsWith(".txt")) {
+        sources.add(new PlainTextSentenceSource(Files.newInputStream(path), language, filter));
+      } else if (path.toString().endsWith(".xz")) {
+        sources.add(new CommonCrawlSentenceSource(Files.newInputStream(path), language, filter));
       } else {
         throw new RuntimeException("Could not find a source handler for " + dumpFileName +
                 " - Wikipedia files must be named '*.xml', Tatoeba files must be named 'tatoeba-*', CommonCrawl files '*.xz', plain text files '*.txt'");

@@ -36,8 +36,10 @@ import org.languagetool.rules.*;
 import org.languagetool.rules.de.ProhibitedCompoundRule;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -203,7 +205,7 @@ class ProhibitedCompoundRuleEvaluator {
         if (!file.exists()) {
           throw new RuntimeException("File with example sentences not found: " + file);
         }
-        try (FileInputStream fis = new FileInputStream(file)) {
+        try (InputStream fis = Files.newInputStream(file.toPath())) {
           SentenceSource sentenceSource = new PlainTextSentenceSource(fis, language);
           sentences = getSentencesFromSource(inputs, token, maxSentences, sentenceSource);
         }
@@ -270,27 +272,29 @@ class ProhibitedCompoundRuleEvaluator {
     String langCode = args[1];
     Language lang = Languages.getLanguageForShortCode(langCode);
     ConfusionSetLoader loader = new ConfusionSetLoader(lang);
-    Map<String, List<ConfusionPair>> confusionSet = loader.loadConfusionPairs(new FileInputStream(confusionSetFile));
-    LanguageModel languageModel = new LuceneLanguageModel(new File(args[2], lang.getShortCode()));
-    //LanguageModel languageModel = new BerkeleyRawLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
-    //LanguageModel languageModel = new BerkeleyLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
-    List<String> inputsFiles = new ArrayList<>();
-    inputsFiles.add(args[3]);
-    if (args.length >= 5) {
-      inputsFiles.add(args[4]);
-    }
-    ProhibitedCompoundRuleEvaluator generator = new ProhibitedCompoundRuleEvaluator(lang, languageModel);
-    for (List<ConfusionPair> entries : confusionSet.values()) {
-      for (ConfusionPair pair : entries) {
-          ConfusionString[] words  = pair.getTerms().toArray(new ConfusionString[0]);
+    try (InputStream is = Files.newInputStream(Paths.get(confusionSetFile))) {
+      Map<String, List<ConfusionPair>> confusionSet = loader.loadConfusionPairs(is);
+      LanguageModel languageModel = new LuceneLanguageModel(new File(args[2], lang.getShortCode()));
+      //LanguageModel languageModel = new BerkeleyRawLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
+      //LanguageModel languageModel = new BerkeleyLanguageModel(new File("/media/Data/berkeleylm/google_books_binaries/ger.blm.gz"));
+      List<String> inputsFiles = new ArrayList<>();
+      inputsFiles.add(args[3]);
+      if (args.length >= 5) {
+        inputsFiles.add(args[4]);
+      }
+      ProhibitedCompoundRuleEvaluator generator = new ProhibitedCompoundRuleEvaluator(lang, languageModel);
+      for (List<ConfusionPair> entries : confusionSet.values()) {
+        for (ConfusionPair pair : entries) {
+          ConfusionString[] words = pair.getTerms().toArray(new ConfusionString[0]);
           if (words.length < 2) {
             throw new RuntimeException("Invalid confusion set entry: " + pair);
           }
           generator.run(inputsFiles, words[0].getString(), words[1].getString(), MAX_SENTENCES, EVAL_FACTORS);
+        }
       }
+      long endTime = System.currentTimeMillis();
+      System.out.println("\nTime: " + (endTime - startTime) + "ms");
     }
-    long endTime = System.currentTimeMillis();
-    System.out.println("\nTime: " + (endTime-startTime)+"ms");
   }
 }
 

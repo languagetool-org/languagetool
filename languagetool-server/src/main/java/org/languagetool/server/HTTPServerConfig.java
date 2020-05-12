@@ -25,10 +25,11 @@ import org.languagetool.*;
 import org.languagetool.rules.spelling.morfologik.suggestions_ordering.SuggestionsOrdererConfig;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -207,7 +208,7 @@ public class HTTPServerConfig {
   private void parseConfigFile(File file, boolean loadLangModel, boolean loadWord2VecModel, boolean loadNeuralNetworkModel) {
     try {
       Properties props = new Properties();
-      try (FileInputStream fis = new FileInputStream(file)) {
+      try (InputStream fis = Files.newInputStream(file.toPath())) {
         props.load(fis);
         maxTextLength = Integer.parseInt(getOptionalProperty(props, "maxTextLength", Integer.toString(Integer.MAX_VALUE)));
         maxTextLengthWithApiKey = Integer.parseInt(getOptionalProperty(props, "maxTextLengthWithApiKey", Integer.toString(Integer.MAX_VALUE)));

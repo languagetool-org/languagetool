@@ -23,16 +23,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
-import java.io.PrintWriter;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
@@ -282,38 +276,42 @@ public class MainTest extends AbstractSecurityTestCase {
 
   @Test
   public void testEnglishStdIn4() throws Exception {
-    System.setIn(new FileInputStream(enTestFile));
-    String[] args = {"-l", "en", "--api", "-"};
+    try (InputStream is = Files.newInputStream(enTestFile.toPath())) {
+      System.setIn(is);
+      String[] args = {"-l", "en", "--api", "-"};
 
-    Main.main(args);
-    String output = new String(this.out.toByteArray());
-    assertTrue("Got: " + output, output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" " +
+      Main.main(args);
+      String output = new String(this.out.toByteArray());
+      assertTrue("Got: " + output, output.contains("<error fromy=\"4\" fromx=\"5\" toy=\"4\" " +
         "tox=\"10\" ruleId=\"ENGLISH_WORD_REPEAT_RULE\" msg=\"Possible typo: you repeated a word\" shortmsg=\"Word repetition\" " +
         "replacements=\"is\" context=\"....  This is a test of of language tool.  This is is a test of language tool. \"" +
         " contextoffset=\"48\" offset=\"60\" errorlength=\"5\" category=\"Miscellaneous\" categoryid=\"MISC\" locqualityissuetype=\"duplication\"/>"));
+    }
   }
   
   @Test
   public void testEnglishStdInJsonOutput() throws Exception {
-    System.setIn(new FileInputStream(enTestFile));
-    String[] args = {"-l", "en", "--json", "-"};
-    Main.main(args);
-    String output = new String(this.out.toByteArray());
-    assertTrue("Got: " + output, output.contains("\"matches\":[{\"message\":\"Use \\\"a\\\" instead of 'an'"));
-    assertTrue("Got: " + output, output.contains("\"shortMessage\":\"Wrong article\""));
-    assertTrue("Got: " + output, output.contains("\"replacements\":[{\"value\":\"a\"}]"));
-    assertTrue("Got: " + output, output.contains("\"offset\":8"));
-    assertTrue("Got: " + output, output.contains("\"length\":2"));
-    assertTrue("Got: " + output, output.contains("\"context\":{\"text\":\"This is an test.  This is a test of of language tool.  ...\""));
-    assertTrue("Got: " + output, output.contains("\"id\":\"EN_A_VS_AN\""));
-    assertTrue("Got: " + output, output.contains("\"description\":\"Use of"));
-    assertTrue("Got: " + output, output.contains("\"issueType\":\"misspelling\""));
-    assertTrue("Got: " + output, output.contains("\"category\":{\"id\":\"MISC\",\"name\":\"Miscellaneous\"}"));
-    assertTrue("Got: " + output, output.contains("\"message\":\"Possible typo: you repeated a word\""));
-    assertTrue("Got: " + output, output.contains("\"sentence\":\"This is an test.\""));
-    assertTrue("Doesn't display Time", !output.contains("Time: "));
-    assertTrue("Json start check",output.startsWith("{\"software\":{\"name\":\"LanguageTool\",\"version\":"));
-    assertTrue("Json end check",output.endsWith("}]}"));
+    try (InputStream is = Files.newInputStream(enTestFile.toPath())) {
+      System.setIn(is);
+      String[] args = {"-l", "en", "--json", "-"};
+      Main.main(args);
+      String output = new String(this.out.toByteArray());
+      assertTrue("Got: " + output, output.contains("\"matches\":[{\"message\":\"Use \\\"a\\\" instead of 'an'"));
+      assertTrue("Got: " + output, output.contains("\"shortMessage\":\"Wrong article\""));
+      assertTrue("Got: " + output, output.contains("\"replacements\":[{\"value\":\"a\"}]"));
+      assertTrue("Got: " + output, output.contains("\"offset\":8"));
+      assertTrue("Got: " + output, output.contains("\"length\":2"));
+      assertTrue("Got: " + output, output.contains("\"context\":{\"text\":\"This is an test.  This is a test of of language tool.  ...\""));
+      assertTrue("Got: " + output, output.contains("\"id\":\"EN_A_VS_AN\""));
+      assertTrue("Got: " + output, output.contains("\"description\":\"Use of"));
+      assertTrue("Got: " + output, output.contains("\"issueType\":\"misspelling\""));
+      assertTrue("Got: " + output, output.contains("\"category\":{\"id\":\"MISC\",\"name\":\"Miscellaneous\"}"));
+      assertTrue("Got: " + output, output.contains("\"message\":\"Possible typo: you repeated a word\""));
+      assertTrue("Got: " + output, output.contains("\"sentence\":\"This is an test.\""));
+      assertTrue("Doesn't display Time", !output.contains("Time: "));
+      assertTrue("Json start check", output.startsWith("{\"software\":{\"name\":\"LanguageTool\",\"version\":"));
+      assertTrue("Json end check", output.endsWith("}]}"));
+    }
   }
 
   //test line mode vs. para mode

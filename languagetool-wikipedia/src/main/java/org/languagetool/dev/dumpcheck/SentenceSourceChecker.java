@@ -30,8 +30,11 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.regex.Pattern;
@@ -59,12 +62,12 @@ public class SentenceSourceChecker {
     String languageCode = commandLine.getOptionValue('l');
     Set<String> disabledRuleIds = new HashSet<>();
     if (commandLine.hasOption("rule-properties")) {
-      File disabledRulesPropFile = new File(commandLine.getOptionValue("rule-properties"));
-      if (!disabledRulesPropFile.exists() || disabledRulesPropFile.isDirectory()) {
-        throw new IOException("File not found or isn't a file: " + disabledRulesPropFile.getAbsolutePath());
+      Path disabledRulesPropPath = Paths.get(commandLine.getOptionValue("rule-properties"));
+      if (!Files.exists(disabledRulesPropPath) || Files.isDirectory(disabledRulesPropPath)) {
+        throw new IOException("File not found or isn't a file: " + disabledRulesPropPath.toAbsolutePath());
       }
       Properties disabledRules = new Properties();
-      try (FileInputStream stream = new FileInputStream(disabledRulesPropFile)) {
+      try (InputStream stream = Files.newInputStream(disabledRulesPropPath)) {
         disabledRules.load(stream);
         addDisabledRules("all", disabledRuleIds, disabledRules);
         addDisabledRules(languageCode, disabledRuleIds, disabledRules);

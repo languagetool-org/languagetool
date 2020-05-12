@@ -20,8 +20,9 @@
 package org.languagetool.dev.eval;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.List;
 
 import org.languagetool.JLanguageTool;
@@ -70,16 +71,18 @@ public final class CheckBNC {
       }
     } else {
       System.out.println("Checking " + file.getAbsolutePath());
-      String text = StringTools.readStream(new FileInputStream(file.getAbsolutePath()), "utf-8");
-      text = textFilter.filter(text);
-      if (CHECK_BY_SENTENCE) {
-        final Tokenizer sentenceTokenizer = langTool.getLanguage().getSentenceTokenizer();
-        final List<String> sentences = sentenceTokenizer.tokenize(text);
-        for (String sentence : sentences) {
-          CommandLineTools.checkText(sentence, langTool, false, false, 1000);
+      try (InputStream is = Files.newInputStream(file.toPath())) {
+        String text = StringTools.readStream(is, "utf-8");
+        text = textFilter.filter(text);
+        if (CHECK_BY_SENTENCE) {
+          final Tokenizer sentenceTokenizer = langTool.getLanguage().getSentenceTokenizer();
+          final List<String> sentences = sentenceTokenizer.tokenize(text);
+          for (String sentence : sentences) {
+            CommandLineTools.checkText(sentence, langTool, false, false, 1000);
+          }
+        } else {
+          CommandLineTools.checkText(text, langTool);
         }
-      } else {
-        CommandLineTools.checkText(text, langTool);
       }
     }
   }

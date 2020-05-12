@@ -22,6 +22,8 @@ import org.languagetool.*;
 import org.languagetool.broker.ResourceDataBroker;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -49,8 +51,8 @@ public class CommonWords {
             if (path != null) {
               if (dataBroker.resourceExists(path)) {
                 stream = dataBroker.getFromResourceDirAsStream(path);
-              } else if (new File(path).exists()) {
-                stream = new FileInputStream(path);
+              } else if (Files.exists(Paths.get(path))) {
+                stream = Files.newInputStream(Paths.get(path));
               } else {
                 throw new IOException("Common words file not found for " + lang + ": " + path);
               }

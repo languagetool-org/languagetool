@@ -35,9 +35,9 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -56,8 +56,8 @@ public class RemoteRuleConfig {
     .expireAfterWrite(15, TimeUnit.MINUTES)
     .build(new CacheLoader<File, List<RemoteRuleConfig>>() {
       @Override
-      public List<RemoteRuleConfig> load(File path) throws Exception {
-        try (FileInputStream in = new FileInputStream(path)) {
+      public List<RemoteRuleConfig> load(File file) throws Exception {
+        try (InputStream in = Files.newInputStream(file.toPath())) {
           return parse(in);
         }
       }

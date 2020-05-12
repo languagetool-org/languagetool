@@ -18,12 +18,10 @@
  */
 package org.languagetool.dev.eval;
 
-import org.apache.commons.io.IOUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.BritishEnglish;
-import org.languagetool.language.English;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.languagemodel.LuceneLanguageModel;
 import org.languagetool.rules.*;
@@ -31,9 +29,9 @@ import org.languagetool.rules.en.EnglishConfusionProbabilityRule;
 import org.languagetool.rules.ngrams.ConfusionProbabilityRule;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.*;
 
 /**
@@ -95,11 +93,9 @@ class RealWordFalseAlarmEvaluator {
         System.out.println("Ignoring " + file + ", does not match *.txt");
         continue;
       }
-      try (FileInputStream fis = new FileInputStream(file)) {
-        System.out.println("===== Working on " + file.getName() + " (" + fileCount + "/" + files.length + ") =====");
-        checkLines(IOUtils.readLines(fis), file.getName().replace(".txt", ""));
-        fileCount++;
-      }
+      System.out.println("===== Working on " + file.getName() + " (" + fileCount + "/" + files.length + ") =====");
+      checkLines(Files.readAllLines(file.toPath()), file.getName().replace(".txt", ""));
+      fileCount++;
     }
     System.out.println("==============================");
     System.out.println(globalSentenceCount + " sentences checked");

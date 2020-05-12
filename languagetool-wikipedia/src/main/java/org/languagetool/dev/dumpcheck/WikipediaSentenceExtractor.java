@@ -26,9 +26,10 @@ import org.languagetool.Language;
 import org.languagetool.Languages;
 
 import java.io.BufferedInputStream;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 /**
  * Command line tool to extract sentences from a (optionally bz2-compressed) Wikipedia XML dump.
@@ -37,9 +38,8 @@ import java.io.InputStream;
 class WikipediaSentenceExtractor {
 
   private void extract(Language language, String xmlDumpPath, String outputFile) throws IOException, CompressorException {
-    try (FileInputStream fis = new FileInputStream(xmlDumpPath);
-         BufferedInputStream bis = new BufferedInputStream(fis);
-         FileWriter fw = new FileWriter(outputFile)) {
+    try (BufferedInputStream bis = new BufferedInputStream(Files.newInputStream(Paths.get(xmlDumpPath)));
+         BufferedWriter w = Files.newBufferedWriter(Paths.get(outputFile))) {
       InputStream input;
       if (xmlDumpPath.endsWith(".bz2")) {
         input = new CompressorStreamFactory().createCompressorInputStream(bis);
@@ -56,8 +56,8 @@ class WikipediaSentenceExtractor {
           continue;
         }
         //System.out.println(sentence);
-        fw.write(sentence);
-        fw.write('\n');
+        w.write(sentence);
+        w.write("\n");
         sentenceCount++;
         if (sentenceCount % 1000 == 0) {
           System.err.println("Exporting sentence #" + sentenceCount + "...");

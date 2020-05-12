@@ -18,13 +18,12 @@
  */
 package org.languagetool.dev.errorcorpus;
 
-import org.apache.commons.io.IOUtils;
 import org.languagetool.markup.AnnotatedText;
 import org.languagetool.markup.AnnotatedTextBuilder;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -46,9 +45,7 @@ public class SimpleCorpus implements ErrorCorpus {
   private int pos;
   
   public SimpleCorpus(File simpleTextFile) throws IOException {
-    try (FileInputStream fis = new FileInputStream(simpleTextFile)) {
-      lines.addAll(IOUtils.readLines(fis).stream().filter(line -> line.matches("\\d+\\..*")).collect(Collectors.toList()));
-    }
+    lines.addAll(Files.readAllLines(simpleTextFile.toPath()).stream().filter(line -> line.matches("\\d+\\..*")).collect(Collectors.toList()));
     System.out.println("Loaded " + lines.size() + " example sentences");
   }
 

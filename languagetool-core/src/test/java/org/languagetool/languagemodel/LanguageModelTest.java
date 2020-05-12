@@ -21,7 +21,9 @@ package org.languagetool.languagemodel;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
 
-import java.io.FileInputStream;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
@@ -31,7 +33,7 @@ public class LanguageModelTest {
   private static final String FILE = "/lt/performance-test/en.txt";
 
   protected void testPerformance(LuceneLanguageModel model, int ngramLength) throws Exception {
-    try (FileInputStream fis = new FileInputStream(FILE)) {
+    try (InputStream fis = Files.newInputStream(Paths.get(FILE))) {
       String content = StringTools.readStream(fis, "UTF-8");
       WordTokenizer wordTokenizer = new WordTokenizer();
       List<String> words = wordTokenizer.tokenize(content);

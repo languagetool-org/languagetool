@@ -26,8 +26,9 @@ import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.tools.ContextTools;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.sql.*;
 import java.util.Date;
 import java.util.List;
@@ -60,7 +61,7 @@ class DatabaseHandler extends ResultHandler {
             "VALUES (0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
 
     Properties dbProperties = new Properties();
-    try (FileInputStream inStream = new FileInputStream(propertiesFile)) {
+    try (InputStream inStream = Files.newInputStream(propertiesFile.toPath())) {
       dbProperties.load(inStream);
       String dbUrl = getProperty(dbProperties, "dbUrl");
       String dbUser = getProperty(dbProperties, "dbUser");

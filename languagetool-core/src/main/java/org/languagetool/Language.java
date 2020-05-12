@@ -37,6 +37,9 @@ import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.*;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Pattern;
@@ -585,8 +588,8 @@ public abstract class Language {
           boolean ignore = false;
           if (is == null) {                     // files loaded via the dialog
             try {
-              is = new FileInputStream(fileName);
-            } catch (FileNotFoundException e) {
+              is = Files.newInputStream(Paths.get(fileName));
+            } catch (NoSuchFileException e) {
               if (fileName.contains("-test-")) {
                 // ignore, used for testing
                 ignore = true;

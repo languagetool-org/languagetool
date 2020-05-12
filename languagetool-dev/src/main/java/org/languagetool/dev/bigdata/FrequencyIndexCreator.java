@@ -30,6 +30,7 @@ import org.languagetool.languagemodel.LanguageModel;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicLong;
@@ -175,7 +176,7 @@ public class FrequencyIndexCreator {
     float progress = (float)bytesProcessed.get() / totalBytes * 100;
     System.out.printf("==== Working on " + inputFile + " (%.2f%%) ====\n", progress);
     try (
-      InputStream fileStream = new FileInputStream(inputFile);
+      InputStream fileStream = Files.newInputStream(inputFile.toPath());
       InputStream gzipStream = new GZIPInputStream(fileStream, BUFFER_SIZE);
       Reader decoder = new InputStreamReader(gzipStream, StandardCharsets.UTF_8);
       BufferedReader buffered = new BufferedReader(decoder, BUFFER_SIZE)

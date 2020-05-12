@@ -23,8 +23,11 @@ import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
 import javax.xml.stream.events.XMLEvent;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,23 +48,24 @@ class IpaExtractor {
   private int articleCount = 0;
   private int ipaCount = 0;
 
-  public static void main(String[] args) throws XMLStreamException, FileNotFoundException {
+  public static void main(String[] args) throws XMLStreamException, FileNotFoundException, IOException {
     if (args.length == 0) {
       System.out.println("Usage: " + IpaExtractor.class.getSimpleName() + " <xml-dump...>");
       System.exit(1);
     }
     IpaExtractor extractor = new IpaExtractor();
     for (String filename : args) {
-      FileInputStream fis = new FileInputStream(filename);
-      extractor.run(fis);
+      try (InputStream is = Files.newInputStream(Paths.get(filename))) {
+        extractor.run(is);
+      }
     }
     System.err.println("articleCount: " + extractor.articleCount);
     System.err.println("IPA count: " + extractor.ipaCount);
   }
 
-  private void run(FileInputStream fis) throws XMLStreamException {
+  private void run(InputStream is) throws XMLStreamException {
     XMLInputFactory factory = XMLInputFactory.newInstance();
-    XMLEventReader reader = factory.createXMLEventReader(fis);
+    XMLEventReader reader = factory.createXMLEventReader(is);
     String title = null;
     while (reader.hasNext()) {
       XMLEvent event = reader.nextEvent();

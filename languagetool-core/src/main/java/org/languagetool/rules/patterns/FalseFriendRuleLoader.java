@@ -25,6 +25,7 @@ import org.xml.sax.helpers.DefaultHandler;
 
 import javax.xml.parsers.*;
 import java.io.*;
+import java.nio.file.Files;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -55,7 +56,7 @@ public class FalseFriendRuleLoader extends DefaultHandler {
    * @since 2.3
    */
   public final List<AbstractPatternRule> getRules(File file, Language language, Language motherTongue) throws IOException {
-    try (InputStream inputStream = new FileInputStream(file)) {
+    try (InputStream inputStream = Files.newInputStream(file.toPath())) {
       return getRules(inputStream, language, motherTongue);
     } catch (ParserConfigurationException | SAXException e) {
       throw new IOException("Could not load false friend rules from " + file, e);

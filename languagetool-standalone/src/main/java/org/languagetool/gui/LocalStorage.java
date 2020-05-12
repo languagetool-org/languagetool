@@ -20,12 +20,9 @@ package org.languagetool.gui;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import java.io.*;
+import java.nio.file.Files;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -121,7 +118,7 @@ class LocalStorage {
     }
     synchronized(directory) {
       try (XMLDecoder decoder = new XMLDecoder(new BufferedInputStream(
-            new FileInputStream(new File(directory, name))))) {
+            Files.newInputStream(directory.toPath().resolve(name))))) {
         try {
           return clazz.cast(decoder.readObject());
         } catch (ClassCastException ex) {
@@ -132,7 +129,7 @@ class LocalStorage {
           Tools.showError(ex);
           return null;
         }
-      } catch (FileNotFoundException ex) {
+      } catch (IOException ex) {
         //ignore, we have not saved yet a property with this name
       }
     }
