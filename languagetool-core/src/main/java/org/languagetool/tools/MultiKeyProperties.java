@@ -20,7 +20,10 @@ package org.languagetool.tools;
 
 import org.jetbrains.annotations.Nullable;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 /**
@@ -35,10 +38,11 @@ public class MultiKeyProperties {
 
   private final Map<String, List<String>> properties = new HashMap<>();
 
-  public MultiKeyProperties(InputStream inStream) {
-    try (Scanner scanner = new Scanner(inStream)) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine().trim();
+  public MultiKeyProperties(InputStream inStream) throws IOException {
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(inStream))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        line = line.trim();
         if (line.startsWith("#") || line.isEmpty()) {
           continue;
         }

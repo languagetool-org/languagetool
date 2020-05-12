@@ -20,6 +20,7 @@ package org.languagetool.dev.diff;
 
 import org.junit.Test;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
 
@@ -29,7 +30,7 @@ import static org.junit.Assert.*;
 public class LightRuleMatchParserTest {
   
   @Test
-  public void testParse() {
+  public void testParse() throws IOException {
     LightRuleMatchParser parser = new LightRuleMatchParser();
     String s =
       "1.) Line 1, column 9, Rule ID: EN_A_VS_AN\n" +
@@ -54,7 +55,7 @@ public class LightRuleMatchParserTest {
   }
 
   @Test
-  public void testParseTwoMatches() {
+  public void testParseTwoMatches() throws IOException {
     LightRuleMatchParser parser = new LightRuleMatchParser();
     String s = 
       "1.) Line 1, column 9, Rule ID: EN_A_VS_AN\n" +
@@ -92,7 +93,7 @@ public class LightRuleMatchParserTest {
   }
 
   @Test
-  public void testParseNightlyFormat() {
+  public void testParseNightlyFormat() throws IOException {
     LightRuleMatchParser parser = new LightRuleMatchParser();
     String s =
       "Title: Anarchism\n" +
@@ -119,7 +120,7 @@ public class LightRuleMatchParserTest {
   }
 
   @Test
-  public void testParseNightlyFormatNoSuggestion() {
+  public void testParseNightlyFormatNoSuggestion() throws IOException {
     LightRuleMatchParser parser = new LightRuleMatchParser();
     String s =
       "Title: Anarchism\n" +

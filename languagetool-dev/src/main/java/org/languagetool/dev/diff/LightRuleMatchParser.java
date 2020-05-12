@@ -24,10 +24,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -96,7 +94,7 @@ class LightRuleMatchParser {
     return new LightRuleMatch(0, offset, ruleId, message, context, coveredText, suggestions, ruleSource, title, status);
   }
 
-  List<LightRuleMatch> parseCommandLineOutput(Reader reader) {
+  List<LightRuleMatch> parseCommandLineOutput(Reader reader) throws IOException {
     List<LightRuleMatch> result = new ArrayList<>();
     int lineNum = -1;
     int columnNum = -1;
@@ -106,54 +104,55 @@ class LightRuleMatchParser {
     String suggestion = null;
     String source = null;
     String title = null;
-    Scanner sc = new Scanner(reader);
-    while (sc.hasNextLine()) {
-      String line = sc.nextLine();
-      //System.out.println("L:" + line + " [ctx=" + context + "]");
-      Matcher startMatcher = startPattern.matcher(line);
-      Matcher coverMatcher = coverPattern.matcher(line);
-      if (line.startsWith("Message: ")) {
-        message = line.substring("Message: ".length());
-      } else if (line.startsWith("Suggestion: ")) {
-        suggestion = line.substring("Suggestion: ".length());
-      } else if (line.startsWith("Rule source: ")) {
-        source = line.substring("Rule source: ".length());
-      } else if (line.startsWith("Title: ")) {
-        title = line.substring("Title: ".length());
-      } else if (startMatcher.matches()) {
-        lineNum = Integer.parseInt(startMatcher.group(1));
-        columnNum = Integer.parseInt(startMatcher.group(2));
-        ruleId = startMatcher.group(3);
-      } else if ((suggestion != null || message != null) && context == null) {
-        // context comes directly after suggestion (if any)
-        context = line;
-      } else if (coverMatcher.matches() && line.contains("^")) {
-        String cover = coverMatcher.group(1);
-        int startMarkerPos = cover.indexOf("^");
-        int endMarkerPos = cover.lastIndexOf("^") + 1;
-        String coveredText;
-        String origContext = context;
-        try {
-          int maxEnd = Math.min(endMarkerPos, context.length());
-          coveredText = context.substring(startMarkerPos, maxEnd);
-          context = getContextWithSpan(context, startMarkerPos, maxEnd);
-        } catch (StringIndexOutOfBoundsException e) {
-          System.err.println("Cannot get context, setting to '???':");
-          System.err.println(origContext);
-          System.err.println(cover);
-          //e.printStackTrace();
-          coveredText = "???";
+    try (BufferedReader bufferedReader = new BufferedReader(reader)) {
+      String line;
+      while ((line = bufferedReader.readLine()) != null) {
+        //System.out.println("L:" + line + " [ctx=" + context + "]");
+        Matcher startMatcher = startPattern.matcher(line);
+        Matcher coverMatcher = coverPattern.matcher(line);
+        if (line.startsWith("Message: ")) {
+          message = line.substring("Message: ".length());
+        } else if (line.startsWith("Suggestion: ")) {
+          suggestion = line.substring("Suggestion: ".length());
+        } else if (line.startsWith("Rule source: ")) {
+          source = line.substring("Rule source: ".length());
+        } else if (line.startsWith("Title: ")) {
+          title = line.substring("Title: ".length());
+        } else if (startMatcher.matches()) {
+          lineNum = Integer.parseInt(startMatcher.group(1));
+          columnNum = Integer.parseInt(startMatcher.group(2));
+          ruleId = startMatcher.group(3);
+        } else if ((suggestion != null || message != null) && context == null) {
+          // context comes directly after suggestion (if any)
+          context = line;
+        } else if (coverMatcher.matches() && line.contains("^")) {
+          String cover = coverMatcher.group(1);
+          int startMarkerPos = cover.indexOf("^");
+          int endMarkerPos = cover.lastIndexOf("^") + 1;
+          String coveredText;
+          String origContext = context;
+          try {
+            int maxEnd = Math.min(endMarkerPos, context.length());
+            coveredText = context.substring(startMarkerPos, maxEnd);
+            context = getContextWithSpan(context, startMarkerPos, maxEnd);
+          } catch (StringIndexOutOfBoundsException e) {
+            System.err.println("Cannot get context, setting to '???':");
+            System.err.println(origContext);
+            System.err.println(cover);
+            //e.printStackTrace();
+            coveredText = "???";
+          }
+          String cleanId = ruleId.replace("[off]", "").replace("[temp_off]", "");
+          result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, suggestion, context, coveredText, title, source));
+          lineNum = -1;
+          columnNum = -1;
+          ruleId = null;
+          message = null;
+          context = null;
+          suggestion = null;
+          source = null;
+          // don't reset title, can appear more than once per sentence
         }
-        String cleanId = ruleId.replace("[off]", "").replace("[temp_off]", "");
-        result.add(makeMatch(lineNum, columnNum, ruleId, cleanId, message, suggestion, context, coveredText, title, source));
-        lineNum = -1;
-        columnNum = -1;
-        ruleId = null;
-        message = null;
-        context = null;
-        suggestion = null;
-        source = null;
-        // don't reset title, can appear more than once per sentence
       }
     }
     return result;

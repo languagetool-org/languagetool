@@ -20,8 +20,13 @@ package org.languagetool.rules;
 
 import org.languagetool.JLanguageTool;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Load replacement data from a UTF-8 file. One replacement per line,
@@ -38,9 +43,9 @@ public final class SimpleReplaceDataLoader {
   public Map<String, List<String>> loadWords(String path) {
     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
     Map<String, List<String>> map = new HashMap<>();
-    try (Scanner scanner = new Scanner(stream, "utf-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, UTF_8))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
         if (line.isEmpty() || line.charAt(0) == '#') { // # = comment
           continue;
         }
@@ -55,6 +60,8 @@ public final class SimpleReplaceDataLoader {
           map.put(wrongForm, replacements);
         }
       }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
     return Collections.unmodifiableMap(map);
   }

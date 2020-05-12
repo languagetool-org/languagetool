@@ -18,15 +18,11 @@
  */
 package org.languagetool.tools;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
 
 import org.apache.commons.cli.CommandLine;
 
@@ -79,37 +75,36 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
 
   private File tokenizeInput(File plainTextDictFile) throws IOException {
 //    Tokenizer wordTokenizer = language.getWordTokenizer();
-    String encoding = getOption("fsa.dict.encoding");
+    Charset encoding = Charset.forName(getOption("fsa.dict.encoding"));
     String separatorChar = hasOption("fsa.dict.separator") ? getOption("fsa.dict.separator") : "";
     File tempFile = File.createTempFile(SpellDictionaryBuilder.class.getSimpleName(), ".txt");
     tempFile.deleteOnExit();
 
-    try (Scanner scanner = new Scanner(plainTextDictFile, encoding)) {
-      try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tempFile), encoding))) {
-        while (scanner.hasNextLine()) {
-          String line = scanner.nextLine();
-          int sepPos = separatorChar.isEmpty() ? -1 : line.indexOf(separatorChar);
-          String occurrences = sepPos != -1 ? line.substring(sepPos + separatorChar.length()) : "";
-          String lineWithoutOcc = sepPos != -1 ? line.substring(0, sepPos) : line;
-//          List<String> tokens = wordTokenizer.tokenize(lineWithoutOcc);
-          List<String> tokens = Arrays.asList(lineWithoutOcc);
-          for (String token : tokens) {
-            if (token.length() > 0) {
-              out.write(token);
-              if (sepPos != -1) {
-                out.write(separatorChar);
-                if (tokens.size() == 1) {
-                  out.write(occurrences);
-                } else {
-                  // TODO: as the word occurrence data from
-                  // https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries
-                  // has already been assigned in a previous step, we now cannot just use
-                  // that value after having changed the tokenization...
-                  out.write('A');  // assume least frequent
-                }
+    try (BufferedReader reader = Files.newBufferedReader(plainTextDictFile.toPath(), encoding);
+         Writer out = Files.newBufferedWriter(tempFile.toPath(), encoding)) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        int sepPos = separatorChar.isEmpty() ? -1 : line.indexOf(separatorChar);
+        String occurrences = sepPos != -1 ? line.substring(sepPos + separatorChar.length()) : "";
+        String lineWithoutOcc = sepPos != -1 ? line.substring(0, sepPos) : line;
+//        List<String> tokens = wordTokenizer.tokenize(lineWithoutOcc);
+        List<String> tokens = Arrays.asList(lineWithoutOcc);
+        for (String token : tokens) {
+          if (token.length() > 0) {
+            out.write(token);
+            if (sepPos != -1) {
+              out.write(separatorChar);
+              if (tokens.size() == 1) {
+                out.write(occurrences);
+              } else {
+                // TODO: as the word occurrence data from
+                // https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries
+                // has already been assigned in a previous step, we now cannot just use
+                // that value after having changed the tokenization...
+                out.write('A');  // assume least frequent
               }
-              out.write('\n');
             }
+            out.write('\n');
           }
         }
       }

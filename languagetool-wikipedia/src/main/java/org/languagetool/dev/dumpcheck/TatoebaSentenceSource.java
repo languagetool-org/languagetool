@@ -20,7 +20,10 @@ package org.languagetool.dev.dumpcheck;
 
 import org.languagetool.Language;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -32,7 +35,7 @@ import java.util.regex.Pattern;
 class TatoebaSentenceSource extends SentenceSource {
 
   private final List<TatoebaSentence> sentences;
-  private final Scanner scanner;
+  private final BufferedReader reader;
 
   // Each sentence is one article, but count anyway so it's coherent with what the Wikipedia code does:
   private int articleCount = 0;
@@ -44,7 +47,7 @@ class TatoebaSentenceSource extends SentenceSource {
   /** @since 3.0 */
   TatoebaSentenceSource(InputStream textInput, Language language, Pattern filter) {
     super(language, filter);
-    scanner = new Scanner(textInput);
+    reader = new BufferedReader(new InputStreamReader(textInput));
     sentences = new ArrayList<>();
   }
 
@@ -71,21 +74,25 @@ class TatoebaSentenceSource extends SentenceSource {
   }
 
   private void fillSentences() {
-    while (sentences.isEmpty() && scanner.hasNextLine()) {
-      String line = scanner.nextLine();
-      if (line.isEmpty()) {
-        continue;
+    try {
+      String line;
+      while (sentences.isEmpty() && (line = reader.readLine()) != null) {
+        if (line.isEmpty()) {
+          continue;
+        }
+        String[] parts = line.split("\t");
+        if (parts.length != 3) {
+          System.err.println("Unexpected line format: expected three tab-separated columns: '" + line + "', skipping");
+          continue;
+        }
+        long id = Long.parseLong(parts[0]);
+        String sentence = parts[2];  // actually it's sometimes two (short) sentences, but anyway...
+        if (acceptSentence(sentence)) {
+          sentences.add(new TatoebaSentence(id, sentence));
+        }
       }
-      String[] parts = line.split("\t");
-      if (parts.length != 3) {
-        System.err.println("Unexpected line format: expected three tab-separated columns: '" + line  + "', skipping");
-        continue;
-      }
-      long id = Long.parseLong(parts[0]);
-      String sentence = parts[2];  // actually it's sometimes two (short) sentences, but anyway...
-      if (acceptSentence(sentence)) {
-        sentences.add(new TatoebaSentence(id, sentence));
-      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 

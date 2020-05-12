@@ -25,6 +25,8 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 /**
  * Information about common words - use as a fallback if language identification yields low confidence.
  * @since 4.4
@@ -58,9 +60,9 @@ public class CommonWords {
               System.out.println("WARN: no common words file defined for " + lang + " - this language might not be correctly auto-detected");
               continue;
             }
-            try (Scanner scanner = new Scanner(stream, "utf-8")) {
-              while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, UTF_8))) {
+              String line;
+              while ((line = reader.readLine()) != null) {
                 if (line.isEmpty() || line.startsWith("#")) {
                   continue;
                 }

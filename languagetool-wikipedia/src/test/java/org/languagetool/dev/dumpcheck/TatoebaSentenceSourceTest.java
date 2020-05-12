@@ -22,6 +22,7 @@ import org.junit.Test;
 import org.languagetool.language.English;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -34,20 +35,22 @@ import static org.junit.Assert.assertTrue;
 public class TatoebaSentenceSourceTest {
   
   @Test
-  public void testTatoebaSource() {
-    InputStream stream = WikipediaSentenceSourceTest.class.getResourceAsStream("/org/languagetool/dev/wikipedia/tatoeba-en.txt");
-    TatoebaSentenceSource source = new TatoebaSentenceSource(stream, new English());
-    assertTrue(source.hasNext());
-    assertThat(source.next().getText(), is("\"What is your wish?\" asked the little white rabbit."));
-    assertThat(source.next().getText(), is("The mother wakes up her daughter."));
-    assertThat(source.next().getText(), is("Ken beat me at chess."));
-    assertFalse(source.hasNext());
+  public void testTatoebaSource() throws IOException {
+    try (InputStream stream = WikipediaSentenceSourceTest.class.getResourceAsStream("/org/languagetool/dev/wikipedia/tatoeba-en.txt")) {
+      TatoebaSentenceSource source = new TatoebaSentenceSource(stream, new English());
+      assertTrue(source.hasNext());
+      assertThat(source.next().getText(), is("\"What is your wish?\" asked the little white rabbit."));
+      assertThat(source.next().getText(), is("The mother wakes up her daughter."));
+      assertThat(source.next().getText(), is("Ken beat me at chess."));
+      assertFalse(source.hasNext());
+    }
   }
 
   @Test
-  public void testTatoebaSourceInvalidInput() throws UnsupportedEncodingException {
-    ByteArrayInputStream stream = new ByteArrayInputStream("just a text".getBytes(StandardCharsets.UTF_8));
-    TatoebaSentenceSource source = new TatoebaSentenceSource(stream, new English());
-    source.hasNext();  // doesn't crash
+  public void testTatoebaSourceInvalidInput() throws IOException {
+    try (ByteArrayInputStream stream = new ByteArrayInputStream("just a text".getBytes(StandardCharsets.UTF_8))) {
+      TatoebaSentenceSource source = new TatoebaSentenceSource(stream, new English());
+      source.hasNext();  // doesn't crash
+    }
   }
 }

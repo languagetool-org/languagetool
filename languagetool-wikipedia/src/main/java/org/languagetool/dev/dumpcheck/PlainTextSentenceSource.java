@@ -20,11 +20,13 @@ package org.languagetool.dev.dumpcheck;
 
 import org.languagetool.Language;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 /**
@@ -35,7 +37,7 @@ import java.util.regex.Pattern;
 public class PlainTextSentenceSource extends SentenceSource {
 
   private final List<String> sentences;
-  private final Scanner scanner;
+  private final BufferedReader reader;
 
   // Each sentence is one article, but count anyway so it's coherent with what the Wikipedia code does:
   private int articleCount = 0;
@@ -48,7 +50,7 @@ public class PlainTextSentenceSource extends SentenceSource {
   /** @since 3.0 */
   public PlainTextSentenceSource(InputStream textInput, Language language, Pattern filter) {
     super(language, filter);
-    scanner = new Scanner(textInput);
+    reader = new BufferedReader(new InputStreamReader(textInput));
     sentences = new ArrayList<>();
   }
 
@@ -73,18 +75,22 @@ public class PlainTextSentenceSource extends SentenceSource {
   }
 
   private void fillSentences() {
-    while (sentences.isEmpty() && scanner.hasNextLine()) {
-      String line = scanner.nextLine();
-      if (line.isEmpty()) {
-        continue;
+    try {
+      String line;
+      while (sentences.isEmpty() && (line = reader.readLine()) != null) {
+        if (line.isEmpty()) {
+          continue;
+        }
+        if (line.startsWith("# source:")) {
+          currentUrl = line.substring("# source: ".length());
+          continue;
+        }
+        if (acceptSentence(line)) {
+          sentences.add(line);
+        }
       }
-      if (line.startsWith("# source:")) {
-        currentUrl = line.substring("# source: ".length());
-        continue;
-      }
-      if (acceptSentence(line)) {
-        sentences.add(line);
-      }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
   }
 

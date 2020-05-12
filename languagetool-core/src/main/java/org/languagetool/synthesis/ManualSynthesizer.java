@@ -23,9 +23,13 @@ import gnu.trove.THashSet;
 import org.languagetool.tagging.ManualTagger;
 import org.languagetool.tools.StringTools;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * A synthesizer that reads the inflected form and POS information from a plain (UTF-8) text file.
@@ -45,7 +49,7 @@ public final class ManualSynthesizer {
   private final Set<String> possibleTags;
 
   public ManualSynthesizer(InputStream inputStream) throws IOException {
-    MappingAndTags mappingAndTags = loadMapping(inputStream, "utf8");
+    MappingAndTags mappingAndTags = loadMapping(inputStream);
     mapping = mappingAndTags.mapping;
     possibleTags = Collections.unmodifiableSet(mappingAndTags.tags); // lock
   }
@@ -69,11 +73,11 @@ public final class ManualSynthesizer {
     return mapping.get(lemma + "|" + posTag);
   }
 
-  private MappingAndTags loadMapping(InputStream inputStream, String encoding) throws IOException {
+  private MappingAndTags loadMapping(InputStream inputStream) throws IOException {
     MappingAndTags result = new MappingAndTags();
-    try (Scanner scanner = new Scanner(inputStream, encoding)) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, UTF_8))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
         if (StringTools.isEmpty(line) || line.charAt(0) == '#') {
           continue;
         }

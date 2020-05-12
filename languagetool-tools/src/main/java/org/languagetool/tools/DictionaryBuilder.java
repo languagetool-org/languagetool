@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
@@ -34,7 +35,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -203,11 +203,11 @@ class DictionaryBuilder {
       throw new IOException(
           "A separator character (fsa.dict.separator) must be defined in the dictionary info file.");
     }
-    String encoding = getOption("fsa.dict.encoding");
-    try (Scanner scanner = new Scanner(inputFile, encoding);
-         Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), encoding))) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
+    Charset encoding = Charset.forName(getOption("fsa.dict.encoding"));
+    try (BufferedReader reader = Files.newBufferedReader(inputFile.toPath(), encoding);
+         Writer out = Files.newBufferedWriter(outputFile.toPath(), encoding)) {
+      String line;
+      while ((line = reader.readLine()) != null) {
         String[] parts = line.split("\t");
         if (parts.length == 3) {
           out.write(parts[1] + separator + parts[0] + separator + parts[2]);
@@ -218,7 +218,6 @@ class DictionaryBuilder {
                   + inputFile + ": " + line + " => ignoring");
         }
       }
-      scanner.close();
     }
     return outputFile;
   }

@@ -18,8 +18,7 @@
  */
 package org.languagetool.dev;
 
-import java.io.File;
-import java.io.InputStream;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,7 +26,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Scanner;
 
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -103,11 +101,11 @@ final class RuleActivityOverview {
     return files;
   }
 
-  private int getCommits(String svnOutput) {
+  private int getCommits(String svnOutput) throws IOException {
     int count = 0;
-    try (Scanner scanner = new Scanner(svnOutput)) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
+    try (BufferedReader reader = new BufferedReader(new StringReader(svnOutput))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
         if (line.startsWith("commit ")) {
           count++;
         }
@@ -116,7 +114,7 @@ final class RuleActivityOverview {
     return count;
   }
 
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args) {
     RuleActivityOverview prg = new RuleActivityOverview();
     prg.run();
   }

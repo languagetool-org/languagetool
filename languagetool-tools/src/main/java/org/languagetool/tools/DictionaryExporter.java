@@ -21,14 +21,10 @@ package org.languagetool.tools;
 import morfologik.tools.DictDecompile;
 import morfologik.tools.FSADecompile;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.Writer;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.Arrays;
-import java.util.Scanner;
 import java.util.regex.Pattern;
 
 import org.apache.commons.cli.CommandLine;
@@ -93,12 +89,12 @@ final class DictionaryExporter extends DictionaryBuilder {
           "A separator character (fsa.dict.separator) must be defined in the dictionary info file.");
     }
     boolean hasFrequency = isOptionTrue("fsa.dict.frequency-included");
-    String encoding = getOption("fsa.dict.encoding");
-    
-    try (Scanner scanner = new Scanner(inputFile, encoding);
-         Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), encoding))) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
+    Charset encoding = Charset.forName(getOption("fsa.dict.encoding"));
+
+    try (BufferedReader reader = Files.newBufferedReader(inputFile.toPath(), encoding);
+        Writer out = Files.newBufferedWriter(outputFile.toPath(), encoding)) {
+      String line;
+      while ((line = reader.readLine()) != null) {
         String[] parts = line.split(Pattern.quote(separator));
         if (parts.length == 3) {
           if (hasFrequency) { // remove frequency data in the last byte

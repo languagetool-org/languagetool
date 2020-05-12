@@ -18,10 +18,14 @@
  */
 package org.languagetool.synthesis;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public final class SynthesizerTools {
   
@@ -29,11 +33,12 @@ public final class SynthesizerTools {
     // static methods only, no public constructor
   }
 
-  public static List<String> loadWords(InputStream stream) {
+  public static List<String> loadWords(InputStream stream) throws IOException {
     List<String> result = new ArrayList<>();
-    try (Scanner scanner = new Scanner(stream, "UTF-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine().trim();
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, UTF_8))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        line = line.trim();
         if (line.isEmpty() || line.charAt(0) == '#') {  // ignore empty lines and comments
           continue;
         }

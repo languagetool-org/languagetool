@@ -22,6 +22,8 @@ import org.apache.commons.cli.CommandLine;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -80,12 +82,12 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
     }
   }
 
-  private Set<String> getIgnoreItems(File file) throws FileNotFoundException {
+  private Set<String> getIgnoreItems(File file) throws IOException {
     Set<String> result = new HashSet<>();
     if (file.exists()) {
-      try (Scanner scanner = new Scanner(file, getOption("fsa.dict.encoding"))) {
-        while (scanner.hasNextLine()) {
-          String line = scanner.nextLine();
+      try (BufferedReader reader = Files.newBufferedReader(file.toPath(), Charset.forName(getOption("fsa.dict.encoding")))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
           if (!line.startsWith("#")) {
             result.add(line);
           }
@@ -121,12 +123,12 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
       throw new IOException("A separator character (fsa.dict.separator) must be defined in the dictionary info file.");
     }
     
-    String encoding = getOption("fsa.dict.encoding");
+    Charset encoding = Charset.forName(getOption("fsa.dict.encoding"));
     int posIgnoreCount = 0;
-    Scanner scanner = new Scanner(plainTextDictFile, encoding);
-    try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(reversedFile), encoding))) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
+    try (BufferedReader reader = Files.newBufferedReader(plainTextDictFile.toPath(), encoding);
+        Writer out = Files.newBufferedWriter(reversedFile.toPath(), encoding)) {
+      String line;
+      while ((line = reader.readLine()) != null) {
         if (itemsToBeIgnored.contains(line)) {
           System.out.println("Ignoring: " + line);
           continue;
@@ -144,7 +146,6 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
           System.err.println("Invalid input, expected three tab-separated columns in " + plainTextDictFile + ": " + line + " => ignoring");
         }
       }
-      scanner.close();
     }
     System.out.println("Number of lines ignored due to POS tag filter ('" + ignorePosRegex + "'): " + posIgnoreCount);
     return reversedFile;
@@ -165,9 +166,9 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
 
   private Set<String> collectTags(File plainTextDictFile) throws IOException {
     Set<String> posTags = new HashSet<>();
-    try (Scanner scanner = new Scanner(plainTextDictFile, getOption("fsa.dict.encoding"))) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
+    try (BufferedReader reader = Files.newBufferedReader(plainTextDictFile.toPath(), Charset.forName(getOption("fsa.dict.encoding")))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
         String[] parts = line.split("\t");
         if (parts.length == 3) {
           String posTag = parts[2];

@@ -20,8 +20,13 @@ package org.languagetool.rules.ga;
 
 import org.languagetool.JLanguageTool;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Data for {@link DhaNoBeirtRule}.
@@ -62,9 +67,10 @@ final class DhaNoBeirtData {
   private static Set<String> loadWords(String path) {
     Set<String> set = new HashSet<>();
     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
-    try (Scanner scanner = new Scanner(stream, "utf-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine().trim();
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, UTF_8))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        line = line.trim();
         if (line.isEmpty() || line.charAt(0) == '#') {
           continue;
         }
@@ -74,6 +80,8 @@ final class DhaNoBeirtData {
           set.add(line.toLowerCase());
         }
       }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
     return Collections.unmodifiableSet(set);
   }

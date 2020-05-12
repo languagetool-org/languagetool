@@ -18,7 +18,10 @@
  */
 package org.languagetool.rules;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -31,6 +34,8 @@ import org.jetbrains.annotations.NotNull;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Check if there is a confusion of two words (which might have a similar spelling) depending on the context.
@@ -224,9 +229,9 @@ public abstract class WrongWordInContextRule extends Rule {
   private static List<ContextWords> loadContextWords(String path) {
     List<ContextWords> set = new ArrayList<>();
     InputStream stream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
-    try (Scanner scanner = new Scanner(stream, "utf-8")) {
-      while (scanner.hasNextLine()) {
-        String line = scanner.nextLine();
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(stream, UTF_8))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
         if (line.trim().isEmpty() || line.charAt(0) == '#') {
           continue;
         }
@@ -248,6 +253,8 @@ public abstract class WrongWordInContextRule extends Rule {
           set.add(contextWords);
         } // if (column.length >= 6)
       }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
     return Collections.unmodifiableList(set);
   }

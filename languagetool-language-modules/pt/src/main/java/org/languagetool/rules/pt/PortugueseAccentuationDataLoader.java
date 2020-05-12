@@ -22,10 +22,14 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Scanner;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * Load data for {@link AccentuationCheckRule}.
@@ -34,14 +38,13 @@ import java.util.Scanner;
  */
 class PortugueseAccentuationDataLoader {
 
-  private static final String FILE_ENCODING = "utf-8";
-
   Map<String, AnalyzedTokenReadings> loadWords(String path) {
     final Map<String, AnalyzedTokenReadings> map = new HashMap<>();
     final InputStream inputStream = JLanguageTool.getDataBroker().getFromRulesDirAsStream(path);
-    try (Scanner scanner = new Scanner(inputStream, FILE_ENCODING)) {
-      while (scanner.hasNextLine()) {
-        final String line = scanner.nextLine().trim();
+    try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, UTF_8))) {
+      String line;
+      while ((line = reader.readLine()) != null) {
+        line = line.trim();
         if (line.isEmpty() || line.charAt(0) == '#') {  // ignore comments
           continue;
         }
@@ -54,6 +57,8 @@ class PortugueseAccentuationDataLoader {
         final AnalyzedToken analyzedToken = new AnalyzedToken(parts[1], parts[2], null);
         map.put(parts[0], new AnalyzedTokenReadings(analyzedToken, 0));
       }
+    } catch (IOException e) {
+      throw new RuntimeException(e);
     }
     return map;
   }
