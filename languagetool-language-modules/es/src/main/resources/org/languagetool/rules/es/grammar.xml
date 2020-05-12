@@ -590,7 +590,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="El magnífico"><marker>El magnifico</marker> trabajo realizado.</example>
                 <example correction="la célebre">Debe vañer <marker>la celebre</marker> máxima de Voltaire.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- fue participe de -->
                 <pattern>
                     <token postag="V.[MSIN].*" postag_regexp="yes"/>
@@ -605,7 +605,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="partícipe">Fue <marker>participe</marker> de la operación.</example>
                 <example correction="partícipe">Va a ser <marker>participe</marker> de la operación.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- ha sido participe de -->
                 <pattern>
                     <token postag="V.[MSI].*" postag_regexp="yes" inflected="yes">haber</token>
@@ -620,7 +620,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="partícipe">Ha sido <marker>participe</marker> de la operación.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- ha sido más explicito -->
                 <pattern>
                     <token inflected="yes" regexp="yes">estar|ser|hacer</token>
@@ -1021,7 +1021,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="cual">hecho por el <marker>cuál</marker> se ha llegado a consolidar.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="FUTURO_SUBJ_IND" name="confusión cantareis/cantaréis, cantare/cantaré" default="temp_off">
+        <rulegroup id="FUTURO_SUBJ_IND" name="confusión cantareis/cantaréis, cantare/cantaré">
             <rule>
                 <pattern>
                     <and>
@@ -1054,7 +1054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!--<example>El que matare al Rey será castigado con la pena de muerte</example>-->
             </rule>
         </rulegroup>
-        <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará" default="temp_off">
+        <rulegroup id="SUBJUNTIVO_FUTURO" name="confusión cantara/cantará">
             <rule>
                 <antipattern>
                     <token postag="CS|LOC_CS" postag_regexp="yes" skip="20"/>
@@ -1167,7 +1167,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Peleó porque llegara la luz.</example>
             </rule>
         </rulegroup>
-        <rule id="SUBJUNTIVO_PASADO" name="confusión cante/canté" default="temp_off">
+        <rule id="SUBJUNTIVO_PASADO" name="confusión cante/canté">
             <!-- Needs much better disambiguation -->
             <antipattern>
                 <token regexp="yes">él|ella|usted</token>
@@ -1363,7 +1363,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--<example>Cada uno exprese su opinión.</example>
                 ambigous: ¡Sí! ¡Gane dos veces seguidas! -->
         </rule>
-        <rulegroup id="SUBJUNTIVO_PASADO2" name="analice/analicé ayer" default="temp_off">
+        <rulegroup id="SUBJUNTIVO_PASADO2" name="analice/analicé ayer">
             <antipattern>
                 <token regexp="yes">el|del</token>
                 <token>ayer</token>
@@ -5546,7 +5546,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Metropolitan Museum of Art</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ABREV_HORA" name="abreviatura de horas, gramos" default="temp_off">
+        <rulegroup id="ABREV_HORA" name="abreviatura de horas, gramos" default="on">
             <rule>
                 <pattern>
                     <token>hrs</token>
