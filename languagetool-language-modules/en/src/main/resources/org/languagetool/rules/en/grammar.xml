@@ -36610,6 +36610,7 @@ USA
                 <example correction="for my">I realize there's no excuse <marker>form y</marker> words.</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="SENTENCE_FRAGMENT" name="Sentence is a fragment">
             <url>http://www.chompchomp.com/rules/fragrules.htm</url>
             <!--rule R0.1A Single word list, likely to start a fragment -->
@@ -36691,6 +36692,13 @@ USA
                     <token>If</token>
                     <token skip="2">only</token>
                 </antipattern>
+                <antipattern><!-- #2912 Who Bill relates to makes -->
+                    <token postag="WP"/>
+                    <token postag="NNP"/>
+                    <token postag_regexp="yes" postag="VB[DZ]"/>
+                    <token>to</token>
+                    <token postag_regexp="yes" postag="VB[DZ]"/>
+                </antipattern>
                 <pattern>
                     <token postag='SENT_START'/>
                     <marker>
@@ -36720,6 +36728,7 @@ USA
                 <!--example>If only we'd stop trying to be happy we could have a...</example> XXX This would be a valid correction -->
                 <example type="triggers_error">As if you could kill time without injuring eternity.</example>
                 <example>When the original stories were related (e.g. The War a...</example>
+                <example>Who Bill relates to makes no difference to me.</example><!-- #2912 -->
             </rule>
             <!-- Note: 
                 The following are too useful not to be declared as phrases, unfortunately I want to make progress and I can't find a decent tutorial on 'phrases' and 'unify' 
@@ -36995,6 +37004,7 @@ USA
                 <example>Provided that the dog guards my house; I do not mind it barking loudly.</example>
             </rule>
         </rulegroup>
+
         <rule id="EXCEPTION_PREPOSITION_THE_RULE" name="wrong preposition: 'exception PREPOSITION the rule' (exception to the rule)">
             <pattern>
                 <marker>
