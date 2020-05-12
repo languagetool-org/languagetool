@@ -52,7 +52,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY exceptions_MES "missioner|extra|solar|sideral|marià|hivernal|hebreu|jueu|musulmà|islàmic|sinòdic|draconític|lunar|mitjà|tròpic|anomalístic|dedicat|consagrat|vinent|entrant|propvinent|passat|proppassat|intercalar|anterior|següent|posterior|previ|consecutiu|precedent">
     <!ENTITY exceptions_LLINDA_AMB "escut|imposta|pòrtic|nom|taulellet|forma|pilastra|orla|dent|figura|llegenda|brancal|frontó|columna|guardapols|línia|motll?ura|floró|motiu|data|imatge|arc|inscripció|dovella|decoració|timpà|relleu|escultura|ornament|ornamentació|ornamentar|decorar|garlanda|esglaó|graó|emblema|torre|pedra">
     <!ENTITY exceptions_ODRE "pell|bot|líquid|aigua|oli|llet|vi|substància|mantega|càntir|ampolla|porró|paràbola|cuir|cuiro">
-    <!ENTITY exceptions_Paris "personatge|mitològic|mitologia|mite|argiu|Homer|Afrodita|Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu|judici|juí|Ifigènia|Aulis">
+    <!ENTITY exceptions_Paris "fletxa|arc|sageta|Filoctetes|Hèracles|Hèrcules|Apol·lo|taló|Aquil·les|Aquil·leu|personatge|mitològic|mitologia|mite|argiu|Homer|Afrodita|Helena|Menelau|Hèctor|Troia|Atena|Esparta|príncep|troià|Himeneu|judici|juí|Ifigènia|Aulis">
     <!ENTITY exceptions_pronom_en "norma|single|nota|tema|taula|mapa|figura|vegeu|juny|sala|pregunta|programa|(?-i)Mateu|Romans|Espanya">
     <!ENTITY exceptions_RECOLZAR "cap|espatll?a|cara|punta|marc|porta|contra|banc|mà|genoll|cama|colze|peu|braç|butaca|en|sobre|damunt|paret|escala|arbre|mur|esquena|ampit|barana|taula|cadira|sofà|finestra|tanca|sorra|arena|terra|cuixa|barra|llitera|calaixera|bàscula|superfície|pota|muralla|mitgera|pedra|pantalla|crossa|roca|boca|cos|llit|taulell|mostrador|llindar|tronc|pit|piano|coixí|graó|escaló|esglaó|forat|motxilla">
     <!ENTITY exceptions_SON "descans|estrès|estrés|cansament|fatiga|hiptertensió|mareig|alegria|somnambulisme|esbarjo|estupor|gana|fam|anorèxia|vigília">
@@ -5772,6 +5772,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>haver</token>
                 </antipattern>
                 <antipattern>
+                    <token>hi</token>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                    <token min="0" postag="V.P..SM.|V.N.*"/>
+                    <token>a</token>
+                    <token>haver</token>
+                </antipattern>
+                <antipattern>
                     <token>haver</token>
                     <token postag="&pronom_feble;|RG" postag_regexp="yes" min="0" max="2"/>
                     <token postag="V.P.*" postag_regexp="yes"/>
@@ -5820,6 +5827,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hi ha d'haver material.</example>
                 <example>N'hi hauria d'haver.</example>
                 <example>N'hi devia d'haver.</example>
+                <example>És el que hi acostuma a haver.</example>
                 <!-- té un altre error-->
                 <example>N'hi hauria hagut d'haver.</example>
                 <example>Ho hauries d'haver fet.</example>
