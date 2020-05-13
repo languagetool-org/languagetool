@@ -22,7 +22,9 @@ import morfologik.stemming.Dictionary;
 import morfologik.stemming.DictionaryLookup;
 import morfologik.stemming.WordData;
 import org.languagetool.JLanguageTool;
+import org.languagetool.languagemodel.LuceneLanguageModel;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +33,10 @@ import static org.languagetool.tools.StringTools.*;
 
 public class GermanCaseAmbiguityFinder {
 
+  private static final String NGRAMS = "/home/dnaber/data/google-ngram-index/de";
+
   public static void main(String[] args) throws IOException {
+    LuceneLanguageModel lm = new LuceneLanguageModel(new File(NGRAMS));
     Dictionary dictionary = Dictionary.read(JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/de/german.dict"));
     DictionaryLookup dl = new DictionaryLookup(dictionary);
     Map<String,String> lc = new HashMap<>();
@@ -63,7 +68,10 @@ public class GermanCaseAmbiguityFinder {
       String key = lowercaseFirstChar(entry.getKey());
       if (lc.containsKey(key)) {
         //System.out.println(entry.getKey() + " " + entry.getValue() + " " + lc.get(key));
-        System.out.println(entry.getKey());
+        long lcCount = lm.getCount(lowercaseFirstChar(entry.getKey()));
+        long ucCount = lm.getCount(uppercaseFirstChar(entry.getKey()));
+        long sum = lcCount + ucCount;
+        System.out.println(sum + "\t" + lcCount + "\t" + ucCount + "\t" + entry.getKey());
       }
     }
   }
