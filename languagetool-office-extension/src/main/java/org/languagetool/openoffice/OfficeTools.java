@@ -60,6 +60,7 @@ class OfficeTools {
   public static boolean DEBUG_MODE_FP = false;
   public static boolean DEBUG_MODE_LM = false;
   public static boolean DEBUG_MODE_TQ = false;
+  public static boolean DEBUG_MODE_LD = false;
 
   private static final String MENU_BAR = "private:resource/menubar/menubar";
   private static final String LOG_DELIMITER = ",";
@@ -265,6 +266,8 @@ class OfficeTools {
           DEBUG_MODE_LM = true;
         } else if(level.equals("tq")) {
           DEBUG_MODE_TQ = true;
+        } else if(level.equals("ld")) {
+          DEBUG_MODE_LD = true;
         }
       }
     }

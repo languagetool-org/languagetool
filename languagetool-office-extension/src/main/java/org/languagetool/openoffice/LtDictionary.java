@@ -38,28 +38,35 @@ import com.sun.star.uno.XComponentContext;
  */
 public class LtDictionary {
   
-  private List<String> dictinaryList = new ArrayList<String>();
+  private static boolean debugMode; //  should be false except for testing
 
-  public void setLtDictionary(XComponentContext xContext, SwJLanguageTool langTool, String configDir) {
+  private List<String> dictinaryList = new ArrayList<String>();
+  
+  public LtDictionary() {
+    debugMode = OfficeTools.DEBUG_MODE_LD;
+  }
+
+  public void setLtDictionary(XComponentContext xContext, Locale locale, String configDir) {
     XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
     if(searchableDictionaryList == null) {
       MessageHandler.printToLogFile("searchableDictionaryList == null");
       return;
     }
-    Language language = langTool.getLanguage();
-    Locale locale = LinguisticServices.getLocale(language);
-    String dictionaryName = "LT_" + language.getShortCode() + ".dic";
+    String shortCode = locale.Language;
+    String dictionaryName = "__LT_" + shortCode + "_internal.dic";
     if(!dictinaryList.contains(dictionaryName)) {
       XDictionary manualDictionary = searchableDictionaryList.createDictionary(dictionaryName, locale, DictionaryType.POSITIVE, "");
-      for (String word : getManualWordList(language.getShortCode())) {
+      for (String word : getManualWordList(shortCode)) {
         manualDictionary.add(word, false, "");
       }
       manualDictionary.setActive(true);
       searchableDictionaryList.addDictionary(manualDictionary);
       dictinaryList.add(dictionaryName);
-      MessageHandler.printToLogFile("Internal LT dicitionary for language " + language.getShortCode() + " added: Number of words = " + manualDictionary.getCount());
-      for (XDictionaryEntry entry : manualDictionary.getEntries()) {
-        MessageHandler.printToLogFile(entry.getDictionaryWord());
+      MessageHandler.printToLogFile("Internal LT dicitionary for language " + shortCode + " added: Number of words = " + manualDictionary.getCount());
+      if (debugMode) {
+        for (XDictionaryEntry entry : manualDictionary.getEntries()) {
+          MessageHandler.printToLogFile(entry.getDictionaryWord());
+        }
       }
     }
   }
