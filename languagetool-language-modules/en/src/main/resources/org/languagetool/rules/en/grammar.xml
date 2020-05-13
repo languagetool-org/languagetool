@@ -131,7 +131,7 @@ USA
         <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
 
-    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region|zone|band|source|influenza|hepatitis|grade|formula|document|division|class|category|dock|column|appendix|macro|criterion|vitamin|model'>
+    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region|zone|band|source|influenza|hepatitis|grade|formula|document|division|class|category|dock|column|appendix|macro|criterion|vitamin|model|graph|tier|option'>
     <!ENTITY nouns_with_i 'article|block|phase|class|grade|part|paragraph|section|chaos|enigma|book|war|king|current|mustang|type|division|level|bi\-?polar|century|tier|numeral|algorithm|auschwitz|algebra'>
 ]>
 
@@ -11506,22 +11506,22 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="OKEY_DOKEY" name="okey-dokey" default="temp_off">
+        <rulegroup id="OKEY_DOKEY" name="okey-dokey" default="temp_off">
             <url>https://www.lexico.com/definition/okey-dokey</url>
             <antipattern>
                 <token>okey-dokey</token>
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">ok[ae]y|ok</token>
-                    <token regexp="yes">dok[ae]y?</token>
+                    <token regexp="yes">ok([ae]?y)?</token>
+                    <token regexp="yes">dok[ae]y?|doky</token>
                 </pattern>
                 <message>Did you mean the interjection <suggestion>okey-dokey</suggestion>?</message>
                 <example correction="Okey-dokey"><marker>Okey dokay</marker>, I will do that!</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">ok([ae]y)?-dok[ae]y?</token>
+                    <token regexp="yes">ok([ae]?y)?-dok[ae]?y?</token>
                 </pattern>
                 <message>Did you mean the interjection or adjective <suggestion>okey-dokey</suggestion>?</message>
                 <example correction="Okey-dokey"><marker>Okey-dokay</marker>, I will do that!</example>
@@ -46770,13 +46770,24 @@ The accident victim died from her injuries.
                     <token regexp="yes" skip="1">q(uest)?|questions?</token>
                     <token>ans</token>
                 </antipattern>
-                <antipattern>
-                    <token regexp="yes">(in)?correct|wrong</token>
+                <antipattern><!-- The correct ans is: -->
+                    <token regexp="yes">correct|incorrect|proper|wrong|right</token>
                     <token>ans</token>
                     <token inflected="yes">be</token>
                 </antipattern>
+                <antipattern><!-- "Correct ans:" -->
+                    <token postag="SENT_START" />
+                    <token regexp="yes">correct|incorrect|proper|wrong|right</token>
+                    <token>ans</token>
+                </antipattern>
+                <antipattern><!-- "The ans is correct" -->
+                    <token>ans</token>
+                    <token inflected="yes" skip="1">be</token>
+                    <token regexp="yes">correct|incorrect|proper|wrong|right</token>
+                </antipattern>
                 <antipattern><!-- "Ans:" -->
                     <token postag="SENT_START" />
+                    <token regexp="yes" min="0">Correct|Incorrect|Proper|Wrong|Right</token>
                     <token>Ans</token>
                     <token>:</token>
                 </antipattern>
@@ -46850,6 +46861,7 @@ The accident victim died from her injuries.
                 <example>Ans' new car is nice.</example>
                 <example>1) Ans: Yes.</example>
                 <example>The correct ans is #2.</example>
+                <example>Few ans are wrong.</example>
             </rule>
         </rulegroup>
         <rulegroup id="GRATE_GREAT" name="grate (great)">
@@ -52534,7 +52546,7 @@ The accident victim died from her injuries.
         <rule id="KNEW_NEW" name="knew (new)">
             <pattern>
                 <token postag="JJ">
-                    <exception regexp="yes">only|ever|already|or|then|likely|soon|now|one|else|few|much</exception>
+                    <exception regexp="yes">only|ever|already|or|then|likely|soon|now|one|else|few|much|just</exception>
                     <exception postag_regexp="yes" postag="NN.*"/>
                 </token>
                 <marker>
@@ -52546,6 +52558,7 @@ The accident victim died from her injuries.
             <example>The artistic community <marker>knew</marker> his name.</example>
             <example>If I only <marker>knew</marker> how.</example>
             <example correction="new">This is very <marker>knew</marker> to me.</example>
+            <example>They just knew it was fine.</example>
         </rule>
         <rulegroup id="PRICE_PRIZE" name="price (prize)">
             <rule>
