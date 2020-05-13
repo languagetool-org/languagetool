@@ -457,6 +457,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>20 ОС</example>
     </rule>
 
+    <rule id="top_with_num_2019" name="Топ- з числівниками">
+      <pattern>
+        <token regexp="yes">топ-[0-9]+</token>
+      </pattern>
+      <message>За правописом 2019 компонент топ- із числівниками не поєднуваний</message>
+      <suggestion><match no="1" regexp_match="(топ)-([0-9]+)" regexp_replace="$1 $2"/></suggestion>
+      <example correction="топ 100"><marker>топ-100</marker>.</example>
+    </rule>
+
     <rulegroup id="ABBREVIATIONS_WRONG_DOT" name="Скорочення - зайва крапка">
       <!-- TODO: c - секунда, c. - село/сторінка; м — метр, м. — місто; т - тонна, т. - точка -->
       <url>http://www.library.ukma.edu.ua/fileadmin/documents/Bibliography/26_DCTU3582-97.pdf</url>
