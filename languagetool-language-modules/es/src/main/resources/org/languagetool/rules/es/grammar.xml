@@ -836,18 +836,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SE_CREO" name="confusión: se creo/creó" default="on">
             <rule>
                 <pattern>
-                    <token>se<exception postag="LOC_ADV"/></token>
+                    <token regexp="yes">se|nos<exception postag="LOC_ADV"/></token>
+                    <token min="0" regexp="yes">lo|la|los|las|le|les|te|me|nos|os</token>
                     <token regexp="yes" min="0">["«“‘']</token>
                     <marker>
                         <token postag="VMIP1S0" regexp="yes">.+o<exception>como</exception></token>
                     </marker>
                 </pattern>
                 <message>Si el verbo es en pasado, falta un acento.</message>
-                <suggestion><match no="3" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
+                <suggestion><match no="4" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
                 <example correction="vengó|vino">Se <marker>vengo</marker></example>
                 <example correction="creyó|creó">Se <marker>creo</marker></example>
                 <example correction="determinó">Se <marker>determino</marker></example>
+                <example correction="determinó">Nos <marker>determino</marker> el resultado.</example>
+                <example correction="determinó">Nos lo <marker>determino</marker>.</example>
                 <example correction="determinó">Se "<marker>determino</marker>".</example>
+                <example correction="determinó">Se le "<marker>determino</marker>".</example>
                 <example>Con ella hablo todos los días.</example>
                 <example>Él viene</example>
                 <example type="correct" reason="triggers other rule">No se como lo hizo.</example>
@@ -855,7 +859,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">él|ella<exception postag="SP.*" postag_regexp="yes" scope="previous"/></token>
+                    <token regexp="yes">él|ella|usted<exception postag="SP.*" postag_regexp="yes" scope="previous"/></token>
                     <marker>
                         <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V.{3}3.*|C.*|SP.*" postag_regexp="yes"/><exception postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"/><exception>como</exception></token>
                     </marker>
@@ -864,6 +868,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="2" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
                 <example correction="vengó|vino">Él <marker>vengo</marker></example>
                 <example correction="habló">Ella <marker>hablo</marker></example>
+                <example correction="habló">Usted <marker>hablo</marker></example>
                 <example>Con ella hablo todos los días.</example>
                 <example>Él viene</example>
                 <example>Tanto él como yo.</example>
