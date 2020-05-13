@@ -78,6 +78,9 @@ public class SimpleReplaceRuleTest {
 
     matches = rule.match(langTool.getAnalyzedSentence("щедроти"));
     assertEquals(0, matches.length);
+
+    matches = rule.match(langTool.getAnalyzedSentence("Конрадом II і Генріхом III"));
+    assertEquals(0, matches.length);
   }
 
   @Test

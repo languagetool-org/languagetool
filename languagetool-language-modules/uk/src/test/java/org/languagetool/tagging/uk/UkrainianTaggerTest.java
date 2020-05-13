@@ -88,6 +88,8 @@ public class UkrainianTaggerTest {
     TestTools.myAssert("3,5-5,6% 7° 7,4°С", "3,5-5,6%/[3,5-5,6%]number -- 7°/[7°]number -- 7,4°С/[7,4°С]number", tokenizer, tagger);
 
     TestTools.myAssert("XIX", "XIX/[XIX]number:latin", tokenizer, tagger);
+    TestTools.myAssert("II", "II/[II]number:latin", tokenizer, tagger);
+
     // latin number with cyrillic
     TestTools.myAssert("ХІХ", "ХІХ/[ХІХ]number:latin:bad", tokenizer, tagger);
     TestTools.myAssert("ІV", "ІV/[ІV]number:latin:bad", tokenizer, tagger);

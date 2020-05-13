@@ -41,6 +41,10 @@ public class MixedAlphabetsRuleTest {
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("not mixed")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
 
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("x = a якщо")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("x − a та y − b")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("записати x та y через параметр t")).length);
+
     //incorrect sentences:
 
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("смiття"));  //latin i
