@@ -68,9 +68,8 @@ public class RemoteLanguageModel {
                              @Nullable String clientPrivateKey, @Nullable  String clientCertificate,
                              @Nullable String rootCertificate) throws SSLException {
     // TODO configure deadline/retries/... here?
-    model = BertLmGrpc.newBlockingStub(getChannel(
-      host, port, useSSL, clientPrivateKey, clientCertificate, rootCertificate));
     channel = getChannel(host, port, useSSL, clientPrivateKey, clientCertificate, rootCertificate);
+    model = BertLmGrpc.newBlockingStub(channel);
   }
 
   private ManagedChannel getChannel(String host, int port, boolean useSSL,

@@ -341,7 +341,6 @@ public class English extends Language implements AutoCloseable {
     return super.getPriorityForId(id);
   }
 
-
   @Override
   public Function<Rule, Rule> getRemoteEnhancedRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
     Function<Rule, Rule> fallback = super.getRemoteEnhancedRules(messageBundle, configs, userConfig, motherTongue, altLanguages);

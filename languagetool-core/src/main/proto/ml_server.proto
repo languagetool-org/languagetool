@@ -1,0 +1,29 @@
+syntax = "proto3";
+package lt_ml_server;
+option java_package = "org.languagetool.rules.ml";
+option java_outer_classname = "MLServerProto";
+
+
+service MLServer {
+    rpc Match (MatchRequest) returns (MatchResponse) {}
+}
+
+message MatchRequest {
+    repeated string sentences = 1;
+}
+
+message MatchResponse {
+    repeated MatchList sentenceMatches = 1;
+}
+
+message MatchList {
+    repeated Match matches = 1;
+}
+
+message Match {
+    uint32 offset = 1;
+    uint32 length = 2;
+    string id = 3;
+    string sub_id = 4;
+    repeated string suggestions = 5;
+}
