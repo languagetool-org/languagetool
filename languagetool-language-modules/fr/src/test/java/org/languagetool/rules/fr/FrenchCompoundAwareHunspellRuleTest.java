@@ -53,6 +53,9 @@ public class FrenchCompoundAwareHunspellRuleTest {
     assertSuggestion(lt, "Etais-tu", "Étais-tu");
     assertSuggestion(lt, "etais-tu", "étais-tu");
     assertThat(lt.check("Et d'Harvard").size(), is(0));
+    assertThat(lt.check("déconfinement").size(), is(0));  // from spelling.txt
+    assertThat(lt.check("Déconfinement").size(), is(0));
+    assertThat(lt.check("Le Déconfinement").size(), is(1));  // uppercase only accepted at sentence start
   }
 
   private void assertSuggestion(JLanguageTool lt, String input, String... expected) throws IOException {

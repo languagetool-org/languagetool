@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.fr;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.Example;
@@ -123,6 +124,13 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
     } else {
       return SuggestedReplacement.convert(Collections.singletonList(s));
     }
+  }
+
+  @Override
+  protected boolean ignoreWord(List<String> words, int idx) throws IOException {
+    boolean ignore = super.ignoreWord(words, idx);
+    boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(StringUtils.uncapitalize(words.get(0)));
+    return ignore || ignoreUncapitalizedWord;
   }
 
   @Override
