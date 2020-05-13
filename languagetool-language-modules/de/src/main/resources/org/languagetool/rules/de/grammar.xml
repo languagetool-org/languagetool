@@ -37315,7 +37315,7 @@ Andere Projekte</example>
                     <marker>
                         <token>im</token>
                     </marker>
-                    <token regexp="yes">de[mr]|das</token>
+                    <token regexp="yes">de[mnr]|das</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>in</suggestion>?</message>
                 <example correction="in">Danach lernte er ab 1910 <marker>im</marker> der Hamburger Niederlassung.</example>
@@ -37333,6 +37333,15 @@ Andere Projekte</example>
                 <url>https://www.korrekturen.de/beliebte_fehler/in_nullkommanichts.shtml</url>
                 <example correction="im">Er erledigte es <marker>in</marker> Nullkommanichts.</example>
                 <example correction="im">Er erledigte es <marker>in</marker> Nullkommanix.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>in</token></marker>
+                    <token regexp="yes" case_sensitive="yes">Januar|Februar|März|April|Mai|Ju[ln]i|September|Oktober|November|Dezember</token>
+               </pattern>
+               <message>Meinten Sie <suggestion><match no="1" regexp_match="n" regexp_replace="m"/></suggestion>?</message>
+               <example correction="im">Wir ziehen <marker>in</marker> Januar um.</example>
+               <example>1915 trat sie in Norwegen und Schweden in August Strindbergs Totentanz auf.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ORDER_OF_WORDS" name="falsche Wortreihenfolge">
