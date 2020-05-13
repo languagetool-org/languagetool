@@ -4925,6 +4925,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule id="PRP_NN_VBP" name="vb->vbp">
+        <antipattern><!-- #2919 allows them room -->
+            <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+            <token regexp="yes">&object_pronouns;</token>
+            <token postag="NN:UN"/>
+        </antipattern>
         <pattern>
             <token postag="PRP">
                 <exception postag="RB|PRP\$" postag_regexp="yes"/>
@@ -4948,7 +4953,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Incorrect grammar. If <marker>you account is</marker> a lie, you can go to prison.</example>
         <example type="untouched">Incorrect grammar. If <marker>you account stopped</marker> working, tell the IT department.</example>
         <example type="untouched">Incorrect grammar. I have added that to <marker>me list</marker>.</example>
+        <example type="untouched">Spacing the plants three feet apart allows them room to grow.</example><!-- #2919 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/VBP]">Yes, actually we <marker>claim</marker> that this is true.</example>
+        <example type="ambiguous" inputform="conference[conference/NN:UN,conference/VB,conference/VBP]" outputform="conference[conference/VBP]">When you <marker>conference</marker> with the manager…</example><!-- conference/E-NP-singular -->
     </rule>
 
     <rule id="E_NP_NN_VBP" name="noun phrase end -> NN">
