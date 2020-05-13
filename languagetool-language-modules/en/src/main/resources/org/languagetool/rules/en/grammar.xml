@@ -131,7 +131,7 @@ USA
         <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
 
-    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region|zone|band|source|influenza|hepatitis|grade|formula|document|division|class|category|dock|column|appendix|macro|criterion|vitamin'>
+    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region|zone|band|source|influenza|hepatitis|grade|formula|document|division|class|category|dock|column|appendix|macro|criterion|vitamin|model'>
     <!ENTITY nouns_with_i 'article|block|phase|class|grade|part|paragraph|section|chaos|enigma|book|war|king|current|mustang|type|division|level|bi\-?polar|century|tier|numeral|algorithm|auschwitz|algebra'>
 ]>
 
@@ -5868,7 +5868,22 @@ USA
                 </pattern>
                 <message>A possessive apostrophe is missing.</message>
                 <suggestion>Reader's Digest</suggestion>
+                <url>https://en.wikipedia.org/wiki/Reader%27s_Digest</url>
                 <example correction="Reader's Digest">Last week's <marker>Readers Digest</marker> was very good.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START|DT|PRP\$" postag_regexp="yes" />
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>runners</token>
+                        <token>high</token>
+                    </marker>
+                </pattern>
+                <message>A possessive apostrophe is missing.</message>
+                <suggestion>runner's \4</suggestion>
+                <url>https://www.merriam-webster.com/dictionary/runner%27s%20high</url>
+                <example correction="Runner's High">How to Achieve a <marker>Runners High</marker>.</example>
             </rule>
         </rulegroup>
 
@@ -11650,6 +11665,24 @@ USA
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
+        </rule>
+        <rule id="WRITER_COMPOUNDS" name="ghost writer (ghostwriter)" default="temp_off">
+            <antipattern>
+                <token>screen</token>
+                <token regexp="yes" skip="2">writer.*</token>
+                <token>guild</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>Ghost</token>
+                <token>Writer</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">copy|script|sky|screen|type|ghost</token>
+                <token regexp="yes">writers?</token>
+            </pattern>
+            <message>This noun is normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="ghostwriter">I employed a <marker>ghost writer</marker> for my new book.</example>
         </rule>
         <rule id="MAKER_COMPOUNDS" name="trouble maker (troublemaker)">
             <antipattern case_sensitive="yes">
@@ -17593,9 +17626,13 @@ USA
                 <token>scissor</token>
                 <token postag="NN.*" postag_regexp="yes" />
             </antipattern>
+            <antipattern>
+                <token>the</token>
+                <token>scissors</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">an?|the</token>
-                <token>scissor</token>
+                <token regexp="yes">scissors?</token>
             </pattern>
             <message>The noun "scissors" is mostly used in plural form.</message>
             <suggestion>scissors</suggestion>
@@ -17747,6 +17784,38 @@ USA
                 <message>Capitalize this word if you mean the city in California.</message>
                 <suggestion>Long Beach</suggestion>
                 <example correction="Long Beach"><marker>Long beach</marker> is a city in California.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="IN_LONG_ISLAND" name="long island (Long Island)" default="temp_off">
+            <url>https://en.wikipedia.org/wiki/Long_Island</url>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Long|LONG</token>
+                <token regexp="yes">Island|ISLAND</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">in|from|to|of|at</token>
+                    <marker>
+                        <token>long</token>
+                        <token>island</token>
+                    </marker>
+                </pattern>
+                <message>Capitalize this word if you mean the island near New York City.</message>
+                <suggestion>Long Island</suggestion>
+                <example correction="Long Island">I was born in <marker>long island</marker></example>
+                <example>Japan is a long island chain between the Sea of Okhotsk, the Sea of Japan and the Philippine Sea.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>long</token>
+                        <token>island</token>
+                    </marker>
+                </pattern>
+                <message>Capitalize this word if you mean the island near New York City.</message>
+                <suggestion>Long Island</suggestion>
+                <example correction="Long Island"><marker>Long island</marker> is an island near New York City.</example>
             </rule>
         </rulegroup>
         <rule id="THE_DUTCH" name="the dutch (Dutch)" default="temp_off">
@@ -20923,6 +20992,23 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rule id="LONG_ISLAND_ICED_TEA" name="Long Island iced tea" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Long|LONG</token>
+                <token regexp="yes">Island|ISLAND</token>
+                <token regexp="yes">[Ii]ced|ICED</token>
+                <token regexp="yes">[Tt]ea|TEA</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">lon?g</token>
+                <token regexp="yes">island|iceland</token>
+                <token regexp="yes">iced?</token>
+                <token regexp="yes">teas?</token>
+            </pattern>
+            <message>The proper spelling for this alcoholic mixed drink is <suggestion>Long Island iced <match no="4" case_conversion="alllower" /></suggestion>.</message>
+            <url>https://en.wikipedia.org/wiki/Long_Island_iced_tea</url>
+            <example correction="Long Island iced tea">She was ordering a <marker>long island ice tea</marker>.</example>
+        </rule>
         <rule id="GREYS_ANATOMY" name="Grey's Anatomy">
             <!-- Both "Grey's Anatomy" (tv show) and "Gray's Anatomy" (book) are proper nouns -->
             <antipattern case_sensitive="yes">
@@ -21392,7 +21478,7 @@ USA
                 <marker>
                     <token case_sensitive="yes">windows</token>
                 </marker>
-                <token regexp="yes">\d{1,2}|20\d{2}|ce|nt|updates?|re\-?boots?|boots?|xp|vista|store|computers?|machines?|pcs?|sdks?|servers?|services?|config(uration)?|audios?|media|(sub)?systems?|apps?|phones?|workstation|desktops?|drivers?|explorer|errors?|folders?|firewalls?|installers?|kernel|keys?|keyboards?|logos?|licenses?|media|terminals?|registry|version|usb|upgrades?|games?|files?</token>
+                <token regexp="yes">\d{1,2}|20\d{2}|ce|nt|updates?|devices?|re\-?boots?|boots?|xp|vista|store|computers?|exe|dll|machines?|pcs?|sdks?|servers?|services?|conf|config(uration)?|audios?|media|(sub)?systems?|apps?|phones?|work\-?station|desktops?|drivers?|explorer|errors?|folders?|firewalls?|installers?|kernel|keys?|keyboards?|logos?|licenses?|media|terminals?|registry|version|usb|upgrades?|games?|files?|vms?</token>
             </pattern>
             <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
             <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
@@ -22533,7 +22619,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">the|an?|my|your|our|their|his|many|th[oe]se</token>
+                    <token regexp="yes">the|an?|my|your|our|their|his</token>
                     <token postag="JJ.*" postag_regexp="yes" min="0">
                         <exception regexp="yes">best|worst</exception>
                         <exception postag="NN.*" postag_regexp="yes" />
@@ -22562,7 +22648,7 @@ USA
                 <antipattern>
                     <token>todo</token>
                     <token spacebefore="no">.</token>
-                    <token spacebefore="no" />
+                    <token spacebefore="no" regexp="yes">.*[a-z].*</token>
                 </antipattern>
                 <pattern>
                     <token>todo</token>
@@ -25392,6 +25478,580 @@ USA
             <example><marker>The thousands</marker> of students on campus when protesting.</example>
             <example>It would go up to 21 millions by 1966.</example>
         </rule>
+        <rule id="COUPLE_OF_TIMES" name="couples of times (couple of times)" default="temp_off">
+            <antipattern>
+                <token>couple</token>
+                <token>of</token>
+                <token regexp="yes">times|things</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">couples?</token>
+                <token regexp="yes">off?</token>
+                <token regexp="yes">times?|things?</token>
+            </pattern>
+            <message>Did you mean <suggestion>couple of times</suggestion>?</message>
+            <example correction="couple of times">I tried it a <marker>couples of times</marker>.</example>
+        </rule>
+        <rulegroup id="A_NNS" name="Agreement: 'a' + plural word" default="temp_off"><!-- TODO remove A_PLURAL after successful regression test-->
+            <antipattern><!-- "U.S.A" -->
+                <token case_sensitive="yes" regexp="yes">[A-Z]+</token>
+                <token spacebefore="no">.</token>
+                <token case_sensitive="yes" spacebefore="no">A</token>
+            </antipattern>
+            <antipattern><!-- "L.A" -->
+                <token case_sensitive="yes">L</token>
+                <token spacebefore="no">.</token>
+                <token case_sensitive="yes" spacebefore="no">A</token>
+            </antipattern>
+            <antipattern>
+                <token>.</token>
+                <token regexp="yes" spacebefore="no">[a-z]</token>
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">a</token>
+            </antipattern>
+            <antipattern><!-- bullet point "4.a" -->
+                <token postag="CD"/>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no">a</token>
+            </antipattern>
+            <antipattern>
+                <token>the</token>
+                <token>us</token>
+                <token>of</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token>N</token>
+                <token>/</token>
+                <token>A</token>
+            </antipattern>
+            <antipattern><!-- https://support.dnsimple.com/articles/a-record/ -->
+                <token case_sensitive="yes">A</token>
+                <token regexp="yes">levels?|records?</token>
+            </antipattern>
+            <antipattern><!-- "He registered a ups.com user" -->
+                <token regexp="yes" skip="2">an?</token>
+                <token>.</token>
+                <token regexp="yes" spacebefore="no">\w{2,6}</token>
+            </antipattern>
+            <antipattern><!-- Spanish name -->
+                <token>a</token>
+                <token>las</token>
+            </antipattern>
+            <antipattern><!-- A Creative Commons Attribution -->
+                <token>Creative</token>
+                <token>Commons</token>
+                <token />
+            </antipattern>
+            <antipattern>
+                <token>A</token>
+                <token>nucleotides</token>
+            </antipattern>
+            <antipattern><!-- https://www.merriam-webster.com/dictionary/a%20ways%20to%20go / https://en.wiktionary.org/wiki/ways -->
+                <token>a</token>
+                <token min="0" regexp="yes">little|short|long|smal|big|fair</token>
+                <token>ways</token>
+                <token regexp="yes">to|behind|from|down|off|away|back</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&nouns_with_a;</token>
+                <token case_sensitive="yes">A</token>
+            </antipattern>
+            <antipattern><!-- Qur'an -->
+                <token regexp="yes">Qur|Ma</token>
+                <token regexp="yes">&apostrophe;</token>
+                <token>an</token>
+            </antipattern>
+            <antipattern><!-- "a.k.a" -->
+                <token>a</token>
+                <token>.</token>
+                <token>k</token>
+                <token>.</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1">a</token>
+                <token regexp="yes" spacebefore="yes">b|c|d</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token skip="-1">A</token>
+                <token spacebefore="yes">A</token>
+            </antipattern>
+            <antipattern>
+                <token skip="-1" spacebefore="yes">B</token>
+                <token regexp="yes">A</token>
+            </antipattern>
+            <antipattern><!-- an apples to apples comparison -->
+                <token regexp="yes">an?</token>
+                <token>apples</token>
+                <token>to</token>
+                <token postag="NNS" />
+                <token postag="NNP?|NN:UN?" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">heads|thumbs|studs|bottoms</token>
+                <token regexp="yes">up|down</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&nouns_with_a;</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern>
+                <token>American</token>
+                <token regexp="yes">Airlines|Booksellers</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token>cappella</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token>records</token>
+            </antipattern>
+            <antipattern>
+                <token case_sensitive="yes">A</token>
+                <token regexp="yes">divisions?|grade[sd]?|molecules</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">months|weeks|years</token>
+                <token>long</token>
+            </antipattern>
+            <antipattern><!-- an operations center campus -->
+                <token regexp="yes">an?</token>
+                <token postag="NNS"/><!-- operation/E-NP-plural, thus cannot use the chunker -->
+                <token postag="JJ|NN(:UN?)?" postag_regexp="yes"/>
+                <token postag="NN(:UN?)?" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern><!-- A lawyers only meeting -->
+                <token skip="1" regexp="yes">an?</token>
+                <token postag="NNP?S" postag_regexp="yes" />
+                <token>only</token>
+                <token postag="NN(:UN?)?" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="1">an?</token>
+                <token>terms</token>
+                <token>of</token>
+                <token>service</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">Gems|Spoils</token>
+                <token>of</token>
+                <token>War</token>
+            </antipattern>
+            <antipattern case_sensitive="yes"><!-- He listens to a Sisters of Mercy song -->
+                <token regexp="yes">an?</token>
+                <token postag="JJR?" postag_regexp="yes" min="0" />
+                <token regexp="yes" chunk="E-NP-plural">[A-Z].*</token>
+                <token regexp="yes">[Oo]f</token>
+                <token regexp="yes">[A-Z].*</token>
+                <token />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">triple|double|single|A</token>
+                <token>A</token>
+                <token>batteries</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">&apostrophe;</token>
+                <token regexp="yes" spacebefore="no">an?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="CD" />
+                <token>A</token>
+                <token postag="NNS" />
+            </antipattern>
+            <antipattern><!--  #2069. a good chance things will not become worse. -->
+                <token postag="DT"/>
+                <token postag="JJ"/>
+                <token postag_regexp="yes" postag="NN:UN?"/>
+                <token postag="NNS"/>
+                <token postag="MD"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">an?</token>
+                <token postag="JJR?" postag_regexp="yes" min="0" max="2" />
+                <token regexp="yes" chunk="E-NP-plural">measles|masters|bachelors|associates|headquarters|innings|cms|maxima|optima</token><!-- maxima, optima are car model names -->
+            </antipattern>
+            <antipattern><!-- An earnings release / A comics nerd -->
+                <token regexp="yes">an?</token>
+                <token postag="JJR?" postag_regexp="yes" min="0" max="2" />
+                <token regexp="yes" chunk="E-NP-plural">earnings|relations|savings|arts|sports|maths|olympics|synthetics|mains|comics|communications|motions|insights</token><!-- common plural nouns -->
+                <token postag="NN.*|CC|UNKNOWN" postag_regexp="yes" regexp="yes">.*[a-z].*</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">an?</token>
+                <token postag="JJR?" postag_regexp="yes" min="0" max="2" />
+                <token regexp="yes" chunk="E-NP-plural">stats|backwards|sideways|thanks|Reds</token><!-- A big thanks to Carl-->
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">an?</token>
+                <token postag="JJR?" postag_regexp="yes" min="0" max="2" />
+                <token regexp="yes" chunk="E-NP-plural" case_sensitive="yes">[A-Z]+</token><!-- common plural nouns -->
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">an?</token>
+                <token postag="JJR?" postag_regexp="yes" min="0" max="2" />
+                <token chunk="E-NP-plural" />
+                <token regexp="yes" spacebefore="no">&apostrophe;</token>
+            </antipattern>
+            <antipattern><!-- It's a ten minutes walk -->
+                <token regexp="yes">an?</token>
+                <token postag="JJR?" postag_regexp="yes" min="0" />
+                <token postag="CD" />
+                <token chunk="E-NP-plural" />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">an?</token>
+                <token postag="JJR?" postag_regexp="yes" min="0" max="2" />
+                <token chunk="E-NP-plural" />
+                <token regexp="yes">powered|based|specific|related|compatible|(hard)?wired</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">an?</token>
+                <token regexp="yes">few|.*dozen|time|hundred|thousand|million</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">an?</token>
+                <token postag="JJR?" postag_regexp="yes" />
+                <token regexp="yes">few|.*dozen|time|hundred|thousand|million</token>
+            </antipattern>
+            <antipattern><!-- https://en.wikipedia.org/wiki/Actions_on_Google -->
+                <token>Actions</token>
+                <token>on</token>
+                <token>Google</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token postag="JJR?" postag_regexp="yes" min="0" />
+                <token>works</token>
+                <token>with</token>
+                <token postag="NNP|UNKNOWN" postag_regexp="yes" />
+            </antipattern>
+            <antipattern><!-- incorrect tagging: "I’m not an integrations expert - so I’ll go" / "There is a permissions API you can use to check those permissions." -->
+                <token regexp="yes">an?</token>
+                <token postag="JJR?" postag_regexp="yes" min="0" />
+                <token chunk="E-NP-plural" />
+                <token postag="NN.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-Z].*</token>
+            </antipattern>
+            <antipattern><!-- incorrect tagging: "I’m not an integrations expert - so I’ll go" / "There is a permissions API you can use to check those permissions." -->
+                <token regexp="yes">an?</token>
+                <token chunk="E-NP-plural" />
+                <token regexp="yes">implementation|folder</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token>hands</token>
+                <token>free</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token>bare</token>
+                <token>bones</token>
+            </antipattern>
+            <antipattern case_sensitive="yes"><!-- It is a Pearls Before Swine comic -->
+                <token regexp="yes">an?</token>
+                <token regexp="yes" chunk="E-NP-plural">[A-Z].*</token>
+                <token regexp="yes" skip="2">[A-Z].*</token>
+                <token regexp="yes">[a-z].*|\p{P}</token>
+            </antipattern>
+            <antipattern>
+                <token>rags</token>
+                <token>to</token>
+                <token>riches</token>
+            </antipattern>
+            <antipattern><!-- A variables.txt -->
+                <token chunk="E-NP-plural" />
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">.*[a-z].*</token>
+            </antipattern>
+            <antipattern><!-- A seconds to milliseconds conversion -->
+                <token regexp="yes">an?</token>
+                <token postag="NNS" chunk="E-NP-plural" />
+                <token>to</token>
+                <token postag="NNS" />
+                <token postag="NN|NN:UN?" postag_regexp="yes" />
+            </antipattern>
+            <antipattern><!-- misspelled "SmartThings" -->
+                <token>smart</token>
+                <token chunk="E-NP-plural">things</token>
+            </antipattern>
+            <antipattern><!-- the A forwards to ...-->
+                <token>the</token>
+                <token>a</token>
+            </antipattern>
+            <antipattern><!-- "rails" and "grails" are programming languages -->
+                <token chunk="E-NP-plural" skip="1" regexp="yes">g?rails</token>
+                <token regexp="yes">apps?|applications?|servers?|test.*|packages?|code|repository|programming|views?|\d+|models?|filters?|controllers?|config.*|errors?|exceptions?|templates?</token>
+            </antipattern>
+            <antipattern>
+                <token chunk="E-NP-plural">rules</token>
+                <token>engine</token>
+            </antipattern>
+            <antipattern><!-- "rails" and "grails" are programming languages -->
+                <token chunk="E-NP-plural" case_sensitive="yes" regexp="yes">Rails|Grails</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">an?</token>
+                <token />
+                <token chunk="E-NP-plural" regexp="yes">years|months|weeks|days</token>
+                <token>ago</token>
+            </antipattern>
+            <antipattern><!-- different error (missing apostrophe) -->
+                <token chunk="E-NP-plural">runners</token>
+                <token>high</token>
+            </antipattern>
+            <rule><!-- "The cat is an animals" (only suggest singular form: "animal" because of "is") -->
+                <pattern>
+                    <token regexp="yes">i?s|a?m|was</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[Aa]n?</token>
+                        <token postag="JJR?" postag_regexp="yes" min="0" />
+                        <token postag="NNP?S" postag_regexp="yes" chunk="E-NP-plural">
+                            <exception postag="NNP?|NN:UN?|PRP.*" postag_regexp="yes" />
+                        </token>
+                    </marker>
+                </pattern>
+                <message>The plural noun "\5" cannot be used with the article "\3". Did you mean <suggestion>\3 \4 <match no="5" postag="NNP?|NN:UN?" postag_regexp="yes" /></suggestion>?</message>
+                <example correction="an animal">The cat is <marker>an animals</marker>.</example>
+                <example correction="a common phenomenon">That’s <marker>a common phenomena</marker>.</example>
+                <example correction="a criterion">That is <marker>a criteria</marker> used by Synthetics.</example>
+                <example correction="a new issue">A google search may help, I’m sure this is not <marker>a new issues</marker>.</example>
+                <example correction="a good suggestion">It’s <marker>a good suggestions</marker> though.</example>
+                <example correction="a pretty woman">She is physically <marker>a pretty women</marker>!</example>
+                <example correction="a civil right">It’s <marker>a civil rights</marker> for the soul of humanity.</example>
+                <example correction="a distinguishing characteristic">According to Jonas, alienation is <marker>a distinguishing characteristics</marker> of Gnosticism.</example>
+                <example correction="a question">I guess it’s <marker>a questions</marker> of thresholds the different repositories create.</example>
+                <example correction="a spreadsheet">Attached is <marker>a spreadsheets</marker> with duty rates for select countries.</example>
+                <example correction="a major milestone">The Syria resolution was <marker>a major milestones</marker> for the United Nations.</example>
+                <example>The diamond is a precious stone.</example>
+                <example>It's only a few dollars.</example>
+                <example>I’m a Works with Nest developer.</example>
+                <example>It’s got a long ways to being a mainstream product.</example>
+                <example>That’s probably a ways off.</example>
+                <example>I don’t really know how a traditional rails app works.</example>
+                <example>Quite right, the console patch is certainly a ways off.</example>
+                <example>Their is a stats metric every 15m that is published and it contains a value which is a total value.</example>
+                <example>I’m not an integrations expert - so I’ll go ahead and make this direct message public for now.</example>
+                <example>There is a permissions API you can use to check those permissions.</example>
+                <example>With the release of 7.6.0, there is a new Priorities API.</example>
+                <example>There was an experimental jails implementation.</example>
+                <example>It is a Pearls Before Swine comic.</example>
+                <example>It's a ten minutes walk to the bus stop.</example>
+                <example>I am pretty new to this but I was able to connect an existing alarms hardwired contact.</example>
+                <example>Accordingly, Japan's Self-Defense Forces is an unusual military that has never fired shots outside Japan.</example>
+                <example>Formerly, there was an additional score that was lesser to yuko.</example>
+                <example>I’m not a big comics nerd, so can’t say how true to source it is.</example>
+                <example>His life is a rags to riches story.</example>
+                <example>There is a Variables.plist file Inside KM.</example>
+                <example>The CN Tower is a concrete communications and observation tower located in Downtown Toronto.</example>
+                <example>If there is a logs folder they should contain some messages to you help determine what is wrong.</example>
+            </rule>
+            <rule><!-- "My cat has a long noses" (suggest "a long nose" and "long noses") -->
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[Aa]n?</token>
+                        <token postag="JJR?" postag_regexp="yes" min="0" />
+                        <token postag="NNP?S" postag_regexp="yes" chunk="E-NP-plural">
+                            <exception postag="NNP?|NN:UN?|PRP.*" postag_regexp="yes" />
+                        </token>
+                    </marker>
+                </pattern>
+                <message>The plural noun "\3" cannot be used with the article "\1". Did you mean <suggestion>\1 \2 <match no="3" postag="NNP?|NN:UN?" postag_regexp="yes" /></suggestion> or <suggestion>\2 \3</suggestion>?</message>
+                <example correction="an animal|animals">The cat is <marker>an animals</marker>.</example>
+                <!-- <example correction="crise|crisis">Can you call crises services yourself, is it a <marker>crises</marker>?</example> -->
+                <example correction="an agreement|agreements">I appreciate your efforts to reach <marker>an agreements</marker> on the contents of the paper.</example>
+                <example correction="a different stimulus|different stimuli">Adding more plates not only makes it heavier but also increases the circumference, giving <marker>a different stimuli</marker>.</example>
+                <example correction="an example|examples">For <marker>an examples</marker>, see Python agent attribute examples.</example>
+                <example correction="a lot|lots">This is causing <marker>a lots</marker> of issues.</example>
+                <example correction="a grandchild|grandchildren">Tom is too young to have <marker>a grandchildren</marker>.</example>
+                <example correction="a criterion|criteria">I needed to use a text line as <marker>a criteria</marker> to select users for a list.</example>
+                <example correction="a stimulus|stimuli">A memory occurs when <marker>a stimuli</marker> is too complex that the nervous system...</example>
+                <example correction="a week|weeks">I'm doing sport 3 days <marker>a weeks</marker>.</example>
+                <example correction="an car|cars">They class <marker>an cars</marker> according to a special classification criteria.</example><!-- Spell checker also finds 'an' -->
+                <example correction="a Korean woman|Korean women">The average figure of <marker>a Korean women</marker> in her twenties</example>
+                <example correction="a live mouse|live mice">The cat is playing with <marker>a live mice</marker>.</example>
+                <example correction="A sausage|Sausages"><marker>A sausages</marker></example>
+                <example correction="a gentleman|gentlemen">You’re <marker>a gentlemen</marker> and a nice guy.</example>
+                <example correction="a total saving|total savings">So lower expectations, higher satisfaction, and <marker>a total savings</marker> of around $200.</example>
+                <example correction="a multiple user|multiple users">If <marker>a multiple users</marker> experience the same crash you’ll see this counted in the API.</example>
+                <example correction="a kind|kinds">Same with 4 of <marker>a kinds</marker>.</example>
+                <example correction="a day|days">Just <marker>a days</marker> later, it happened again. .</example>
+                <example>A fish lives in the sea.</example>
+                <example>TODO: ... and make sure that you class <marker>a cars</marker> as specified on the classification criteria.</example>
+                <example>A players hire A players.</example>
+                <example>I even got a dozen cookies each from Cookies by George yesterday.</example>
+                <example>Many folks use Echos as intercoms so it might not be an apples to apples comparison.</example>
+                <example>All three studies concluded that people have a gamblers' fallacy retrospectively as well as to future events.</example>
+                <example>Just wanted give you guys a heads up.</example>
+                <example>I'm a sports fanatic.</example>
+                <example>Two A regions.</example>
+                <example>We have an insights dashboard.</example>
+                <example>I once had someone break into a convertible years ago.</example>
+                <example>I don’t really know how a traditional rails app works.</example>
+                <example>A little ways down.</example>
+                <example>I have an associates in accounting.</example>
+                <example>Not only is a new Ruby available, but a new Rails is out too!</example>
+                <example>How do I create a virtual motions sensor that works.</example>
+                <example>However my keyboard with 2 little triple A batteries will run for almost a year with no swap out.</example>
+                <example>While Iran has outlawed homosexuality, Iranian Shi'a thinkers such as Ayatollah Khomeini have allowed for transgender people to change their sex so that they can enter heterosexual relationships.</example>
+                <example>We anticipate that Sat will be a lawyers only meeting to discuss the corporate structure and the bankruptcy issues related to the different business units.</example>
+                <example>A studs up tackle is made when a player lunges into a tackle with a leg.</example>
+                <example>Also a big thanks to the lovely community on the forums and my family members.</example>
+                <example>A buyers' market is a market in which goods are plentiful, buyers have a wide range of choices, and prices are low.</example>
+                <example>Many a cappella groups can be found in high schools and colleges.</example>
+                <example>The Group A offenses are 46 specific crimes grouped in 22 offense categories.</example>
+                <example>User A shares the appropriate folders with users B and C.</example>
+                <example>Now you can earn AAdvantage bonus miles when you book an American Airlines Vacations ski package.</example>
+                <example>The round was led by Desai Capital Management and included investments from Series A investors Prospect Street Ventures, Draper Richards, eCom Partners, and Pennell Venture Partners.</example>
+                <example>It is a criteria list that we prepared last night.</example>
+                <example>He was employed for a time by a Mrs. Reed.</example>
+                <example>There was a children's party at the Joneses yesterday.</example>
+                <example>A men's retailer opened in Florida.</example>
+                <example>Shi'a Muslims are nice.</example>
+                <example>The A forwards to 217.160.29.39.</example>
+                <example>Our little group did a runthrough of this game.</example>
+                <example>The delay in and delay between both used a seconds to milliseconds conversion that was not moved over to the new scheduler.</example>
+                <example>The league created two A divisions.</example>
+                <example>Division A teams are the best.</example>
+                <example>Dock A floats.</example>
+                <example>Two of the sunroof drains run down the A pillars.</example>
+                <example>* It’s totally possible to have a great score near or a little above the 9k.</example>
+                <example>A half-dozen tools make up the tool collection.</example>
+                <example>He registered a ups.com user</example>
+                <example>On that occasion I bought souvenir dog tags from the onboard gift shop, stamped with a motto of my choosing (“Rise and reverberate”, an old Sisters of Mercy slogan).</example>
+                <example>He moved to Juventus where he won trophies including two Serie A titles.</example>
+                <example>Atlas District, an arts and entertainment district in the Near Northeast</example>
+                <example>"The murderer," wrote Schopenhauer, "who is condemned to death according to the law must, it is true, be now used as a mere means, and with complete right."</example>
+                <example>As a consequence, a LAPS is very similar in structure to an EIS sensor.</example>
+                <example>The batsman averaged almost 40 with the highlight being <marker>an innings</marker> of 125.</example>
+                <example>She attended Sydenham School and left just before taking <marker>A Levels</marker> to go to Drama School.</example>
+                <example>I'm using a Mac and I can't read a <marker>Windows 95</marker> file.</example>
+                <example>… the <marker>heads of a ram and a buck are</marker> budding forth.</example>
+                <example>... Group N Production cars and more modified <marker>Group A</marker> cars.</example>
+                <example>Person A makes a lot of money.</example>
+                <example>ǂHoan and Juǀʼhõasi are Kx'a languages, from the two branches of that family.</example>
+                <example>If a and b are coprime and a divides the product bc, then a divides c.</example>
+                <example>... which includes a regional headquarters, an operations center campus and a $400 million data center.</example>
+                <example>A <marker>tries</marker> to overtake B.</example><!-- #2415 -->
+                <example>A <marker>million</marker> thank you.</example><!-- #2415 -->
+                <example>Only half a dozen asteroids are larger than 87 Sylvia.</example>
+                <example>It's a ten minutes walk to the bus stop.</example>
+                <example>The only exception to this is that if a defendant appeals a conviction for a crime.</example>
+                <example>Three weeks later his last <marker>first-class innings</marker> brought him 62 for Victoria at Sydney.</example>
+                <example>Arrangements of popular music for small a cappella ensembles typically include one voice singing the lead melody...</example>
+                <example>... and these were Grade A major milestones for me.</example>
+                <example>Can I wear a Hoodie backwards?</example>
+                <example>Production of the old Model A cases stopped.</example>
+                <example>He received A on his in class.</example>
+                <example>We have a good chance things will not become worse.</example><!--  #2069 -->
+                <example>I expressed a warm thanks.</example><!-- MFU 2019-10-11. Although 'a warm thanks' is possibly a FP, the 'correction' is '(thanks)'. Thus, I added an exception.-->
+                <example>He made a bad graffiti with his hands.</example><!-- #2250 -->
+                <example>I'm going to sign up for a German class right now.</example>
+                <example type="triggers_error">Generally speaking, any talents that happen after an enemy dies are too slow to matter.</example><!-- see #2921 -->
+                <example>A martial arts strike.</example><!-- see #2923 -->
+                <example>You would need a simple mains relay such as ...</example><!-- see #2923 -->
+                <example type="triggers_error">The American Military authorities established a displaced persons (DP) camp in what used to be a sanatorium...</example>
+                <example type="triggers_error">Dwan operated <marker>Flying A Studios</marker> in La Mesa, California from August 1911 to July 1912.</example>
+                <example type="triggers_error">I think it is a standard milliseconds since epoch.</example>
+            </rule>
+            <rule>
+                <antipattern><!-- if a low rank needs ... -->
+                    <token regexp="yes">an?</token>
+                    <token postag="JJR?" postag_regexp="yes" />
+                    <token postag="NN.*" postag_regexp="yes" />
+                    <token postag="VBZ" chunk="E-NP-plural" />
+                </antipattern>
+                <antipattern><!-- I wish you a good party guys and don 't drink too much ... -->
+                    <token regexp="yes">an?</token>
+                    <token postag="JJR?" postag_regexp="yes" />
+                    <token postag="NN.*" postag_regexp="yes" />
+                    <token regexp="yes">guys|kids|boys|girls|wives|folks|people|children|devs|idiots|ladies|gentlemen|gents|lads|bastards|monsters|[sf]uckers|dicks|weirdos|douchebags|morons</token>
+                </antipattern>
+                <antipattern><!-- an alert only fires if multiple locations signal the same problem ... -->
+                    <token regexp="yes">an?</token>
+                    <token postag="NN:UN?|NN" postag_regexp="yes" />
+                    <token postag="RB.*" postag_regexp="yes" />
+                    <token postag="VBZ" />
+                </antipattern>
+                <antipattern><!-- a reset on trophies so guilds can pull together -->
+                    <token regexp="yes">an?</token>
+                    <token postag="NN:UN?|NN" postag_regexp="yes" />
+                    <token postag="IN" />
+                    <token postag="NNS" chunk="E-NP-plural" />
+                </antipattern>
+                <antipattern><!-- ... around a game so events with live timers can be ... -->
+                    <token regexp="yes">an?</token>
+                    <token postag="NN:UN?|NN" postag_regexp="yes" chunk="E-NP-singular" />
+                    <token postag="RB" />
+                    <token postag="NNS" chunk="E-NP-plural" />
+                </antipattern>
+                <antipattern><!-- being a little scared helps -->
+                    <token regexp="yes">an?</token>
+                    <token>little</token>
+                    <token postag="JJ.*" postag_regexp="yes" />
+                    <token postag="VBZ" chunk="E-NP-plural" />
+                </antipattern>
+                <antipattern><!-- And to a lesser degree oranges -->
+                    <token>lesser</token>
+                    <token>degree</token>
+                    <token postag="NNS" chunk="E-NP-plural" />
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">[Aa]n?</token>
+                        <token postag="JJR?" postag_regexp="yes" />
+                        <token postag="JJR?" postag_regexp="yes">
+                            <exception regexp="yes">other|all|number|various|numerous|several|many|more|less|few</exception>
+                            <exception postag="VBG" />
+                        </token>
+                        <token postag="NNP?S" postag_regexp="yes" chunk="E-NP-plural">
+                            <exception postag="NNP?|NN:UN?|PRP.*" postag_regexp="yes" />
+                        </token>
+                    </marker>
+                </pattern>
+                <message>The plural noun "\4" cannot be used with the article "\1". Did you mean <suggestion>\1 \2 \3 <match no="4" postag="NNP?|NN:UN?" postag_regexp="yes" /></suggestion> or <suggestion>\2 \3 \4</suggestion>?</message>
+                <example correction="an early major milestone|early major milestones">The Syria resolution was <marker>an early major milestones</marker> for the United Nations.</example>
+                <example correction="a simple wooden desk|simple wooden desks">I made <marker>a simple wooden desks</marker>.</example>
+                <example correction="a severe economic crise|a severe economic crisis|severe economic crises">In 1982–1983 Chile witnessed <marker>a severe economic crises</marker> with a surge in unemployment and a meltdown of the financial sector.</example>
+                <example correction="a new presidential election|new presidential elections">After the Egyptian Revolution of 2011, <marker>a new presidential elections</marker> was held 2012.</example>
+                <example correction="a Korean martial art|Korean martial arts">Taekwondo is <marker>a Korean martial arts</marker>.</example>
+                <example>I have a very small box.</example>
+                <example>It is a very sophisticated rules engine developed by the community.</example>
+                <example>But if a low rank needs to play against a warlord VI then it`s just impossible to win.</example>
+                <example>An external service sounds like a good idea!</example>
+                <example type="triggers_error">A New Mythic Approaches - Queen of Sin</example>
+                <example type="triggers_error">I wish you a good party guys and don't drink too much.</example><!-- #2926 -->
+                <example>That’s not a luxury starting players enjoy.</example>
+                <example type="triggers_error">You may be able to use a NRQL alert condition to notify you if a particular service restarts X times in Y minutes.</example><!-- #2926 -->
+                <example>If you’ve seen this and were thrown off by it, then there’s a chance other users have been as well!</example>
+                <example>Is there any way to set a threshold that an alert only fires if multiple locations signal the same problem?</example>
+                <example type="triggers_error">It’s also handy to see how the cost of a given service increases as the month goes by.</example><!-- #2921 -->
+                <example>A little less points are required.</example>
+                <example type="triggers_error">Maybe a random dwarf gains 2 mana on brown gems.</example><!-- #2926 -->
+                <example type="triggers_error">A full team deals 5 dmg/turn!</example><!-- #2926 -->
+                <example>The kingdom could not be levelled above 10 even if we added a hundred more troops anyway.</example>
+                <example type="triggers_error">Perhaps every month have a reset on trophies so guilds can pull together to see how they do?</example><!-- #2927 -->
+                <example>My original avatar was switched into a dwarf numerous times.</example>
+                <example type="triggers_error">Considering that a new clutch costs nearly as much as the value of the car, ...</example><!-- #2926 -->
+                <example type="triggers_error">I mean who wants to lay naked face down on a table while a pretty blonde looks at your ass?</example><!-- #2926 -->
+                <example>It’s not easy or possible for everyone to schedule their day around a game so events with live timers can be a major pain.</example>
+                <example>Being a little scared helps.</example>
+                <example type="triggers_error">The same application running on a bare metal works without any issue.</example><!-- #2926 -->
+                <example>Then again, I’m fortunate to live in a town sporting lots of local options.</example>
+                <example type="triggers_error">A podcast through earbuds.</example><!-- #2927 -->
+                <example type="triggers_error">A good academic likes to be precise.</example><!-- #2926 -->
+                <example>Sour foods include citrus, specifically lemons, limes, and to a lesser degree oranges.</example>
+                <example>Both of them had flatter, fertile agricultural land sloping down to a port several miles away.</example>
+                <example type="triggers_error">The five days’ time required to start a new business ranks 29th.</example><!-- #2926 -->
+                <example type="triggers_error">Expanding its push into entertainment with a bet on preschoolers.</example><!-- #2927 -->
+                <example>His father, Thomas Gerry, was a merchant operating ships out of Marblehead.</example>
+                <example type="triggers_error">But only if a forward pass crosses into the neutral zone.</example><!-- #2926 -->
+                <example type="triggers_error">An electric motor uses electrical energy to produce mechanical energy.</example><!-- #2926 -->
+                <example type="triggers_error">However, if the region of air breakdown extends to another conductor at a different voltage it creates a conductive path between them, and a large current flows through the air, creating an electric arc.</example><!-- #2926 -->
+            </rule>
+        </rulegroup>
 
         <rulegroup id="A_PLURAL" name="Agreement: 'a' + plural word">
             <antipattern><!-- "U.S.A" -->
@@ -32979,6 +33639,11 @@ USA
                 <token>need</token>
             </antipattern>
             <antipattern>
+                <token chunk="B-VP" />
+                <token skip="1">it</token>
+                <token>need</token>
+            </antipattern>
+            <antipattern>
                 <token inflected="yes" regexp="yes">do|be</token>
                 <token regexp="yes">&apostrophe;</token>
                 <token>t</token>
@@ -34726,6 +35391,37 @@ USA
             <message>It seems that a hyphen is missing in the adjective <suggestion>\3-\4</suggestion>.</message>
             <example correction="week-long">He's going on a <marker>week long</marker> vacation.</example>
             <example>It is about a year old now.</example>
+        </rule>
+        <rule id="HANDS_FREE_HYPHEN" name="hands free (hands-free)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>hands</token>
+                    <token>free</token>
+                </marker>
+                <token postag="NN.*" postag_regexp="yes">
+                    <exception postag="IN|PRP\$?|CC" postag_regexp="yes" />
+                </token>
+            </pattern>
+            <message>The adjective <suggestion>\1-\2</suggestion> is spelled with a hyphen.</message>
+            <url>https://www.merriam-webster.com/dictionary/hands-free</url>
+            <example correction="hands-free">He is using a <marker>hands free</marker> device.</example>
+            <example correction="hands-free">A <marker>hands free</marker> cell phone.</example>
+        </rule>
+        <rule id="BARE_BONES_HYPHEN" name="bare bones (bare-bones)" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>bare</token>
+                    <token regexp="yes">bones?</token>
+                </marker>
+                <token postag="NN.*" postag_regexp="yes">
+                    <exception postag="IN|PRP\$?|CC" postag_regexp="yes" />
+                </token>
+            </pattern>
+            <message>This adjective is spelled <suggestion>bare-bones</suggestion>.</message>
+            <url>https://www.merriam-webster.com/dictionary/bare-bones</url>
+            <example correction="bare-bones">Meals on early space flights were <marker>bare bones</marker> affairs.</example>
+            <example correction="bare-bones">I had a 1986 <marker>bare bones</marker> Toyota that left the factory without a radio and speakers.</example>
+            <example>He had only been taught the bare bones of the system, but carried on regardless.</example>
         </rule>
         <rule id="LIFE_CHANGING_HYPHEN" name="missing hyphen in 'life changing moments'">
             <pattern>
@@ -46247,6 +46943,44 @@ The accident victim died from her injuries.
             <example correction="or">He wants to do it once <marker>a</marker> twice a month.</example>
         </rule>
         <rulegroup id="AN_AND" name="confusion of 'an' and 'and'">
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>an</token>
+                    </marker>
+                    <token>all</token>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>and</suggestion>?</message>
+                <example correction="and">This <marker>an</marker> all of above.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>an</token>
+                    </marker>
+                    <token>all</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <token postag="NNS" />
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean <suggestion>and</suggestion>?</message>
+                <example correction="and">This <marker>an</marker> all things of above.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>off</token>
+                    <token regexp="yes">notes?|plan|board|ramps?|course|drives?|flows?|guard|hand.*|the|an?|planes?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">on|yes|off</token>
+                    <token>an</token>
+                    <token regexp="yes">off|no|on</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 and \3</suggestion>?</message>
+                <example correction="on and off">We can turn it <marker>on an off</marker> again.</example>
+                <example>On an off note, yes, this is very confusing.</example>
+            </rule>
             <rule><!-- Go ahead an create a new tool -->
                 <antipattern>
                     <token skip="6">an</token>
@@ -53688,6 +54422,29 @@ The accident victim died from her injuries.
             <short>Nonstandard phrase</short>
             <example correction="nowadays">Money is becoming pretty tight <marker>now and days</marker>.</example>
         </rule>
+        <rulegroup id="ROUND_A_BOUTS" name="round a bout (round a bouts)" default="temp_off">
+            <url>https://www.lexico.com/definition/roundabout</url>
+            <rule>
+                <pattern>
+                    <token>round</token>
+                    <token>a</token>
+                    <token regexp="yes">bouts?</token>
+                </pattern>
+                <message>Did you mean <suggestion>rounda<match no="3" case_conversion="alllower" /></suggestion>?</message>
+                <short>Nonstandard phrase</short>
+                <example correction="roundabouts">The British influence still can be seen in driving on the left side of the road, <marker>round a bouts</marker>, speed bumps, and school uniforms.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>round</token>
+                    <token>abouts</token>
+                </pattern>
+                <message>Did you mean <suggestion>round<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <short>Nonstandard phrase</short>
+                <example correction="roundabouts">The British influence still can be seen in driving on the left side of the road, <marker>round abouts</marker>, speed bumps, and school uniforms.</example>
+            </rule>
+            <!-- TODO catch "the round about" -->
+        </rulegroup>
         <rule id="THE_PROOF_IS_IN_THE_PUDDING" name="the proof is in the pudding (the proof of the pudding is in the eating)">
             <pattern>
                 <token>the</token>
