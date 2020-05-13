@@ -17841,16 +17841,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das <marker>letzte</marker> der drei Bücher</example>
         </rule>
         -->
-        <rule id="FRAGE_KLEIN" name="eine frage (Frage)">
-            <pattern>
-                <token regexp="yes">einer?</token>
-                <marker>
-                    <token case_sensitive="yes">frage</token>
-                </marker>
-            </pattern>
-            <message>Meinten Sie das Nomen <suggestion>Frage</suggestion> (als Nomen großgeschrieben)?</message>
-            <example correction="Frage">Ich habe noch eine <marker>frage</marker>.</example>
-        </rule>
+        <rulegroup id="FRAGE_KLEIN" name="eine frage (Frage)">
+            <rule>
+                <pattern>
+                    <token regexp="yes">einer?</token>
+                    <marker>
+                        <token case_sensitive="yes">frage</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Frage</suggestion> (als Nomen großgeschrieben)?</message>
+                <example correction="Frage">Ich habe noch eine <marker>frage</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <or>
+                        <token postag="ZAL"></token>
+                        <token regexp="yes">[0-9]+</token>
+                    </or>
+                    <marker>
+                        <token case_sensitive="yes">fragen</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie das Nomen <suggestion>Fragen</suggestion> (als Nomen großgeschrieben)?</message>
+                <example correction="Fragen">Ich habe noch ein, zwei <marker>fragen</marker>.</example>
+                <example correction="Fragen">Die Liste enthielt 5 <marker>fragen</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="RECHT_MACHEN" name="Kleinschreibung 'recht' in 'es allen recht machen'">
             <antipattern>
                 <token regexp="yes">zum|mit</token>
