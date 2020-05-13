@@ -11506,6 +11506,27 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="OKEY_DOKEY" name="okey-dokey" default="temp_off">
+            <url>https://www.lexico.com/definition/okey-dokey</url>
+            <antipattern>
+                <token>okey-dokey</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ok[ae]y|ok</token>
+                    <token regexp="yes">dok[ae]y?</token>
+                </pattern>
+                <message>Did you mean the interjection <suggestion>okey-dokey</suggestion>?</message>
+                <example correction="Okey-dokey"><marker>Okey dokay</marker>, I will do that!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ok([ae]y)?-dok[ae]y?</token>
+                </pattern>
+                <message>Did you mean the interjection or adjective <suggestion>okey-dokey</suggestion>?</message>
+                <example correction="Okey-dokey"><marker>Okey-dokay</marker>, I will do that!</example>
+            </rule>
+        </rulegroup>
         <rule id="DON_T_AREN_T" name="don't aren't">
             <antipattern>
                 <token regexp="yes" skip="2">who|which|that</token>
