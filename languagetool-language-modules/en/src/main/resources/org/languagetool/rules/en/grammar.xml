@@ -15371,7 +15371,17 @@ USA
             <short>Missing preposition</short>
             <example correction="rely on">I <marker>rely</marker> my family to help me out.</example>
         </rule>
+
         <rule id="ALLOW_TO_DO" name="Missing preposition: allow (to) do">
+            <antipattern><!-- #2919 uses allowed are -->
+                <token postag="NNS"/>
+                <token>allowed</token>
+            </antipattern>
+            <antipattern><!-- #2919 passive -->
+                <token regexp="yes">is|are|was|were</token>
+                <token min="0" max="2" postag="RB"/>
+                <token>allowed</token>
+            </antipattern>
             <pattern>
                 <token inflected="yes">allow</token>
                 <token min="0" postag="PRP"><exception>one</exception></token>
@@ -15382,7 +15392,13 @@ USA
             <short>Missing preposition</short>
             <example correction="to do">He allowed me <marker>do</marker> it on my own.</example>
             <example>He allowed me <marker>to do</marker> it on my own.</example>
+            <example>The uses allowed are those listed above.</example><!-- #2919 -->
+            <example>The times allowed are shown in Table 3.</example><!-- #2919 -->
+            <example>The times that are allowed tell you when you can safely do the work.</example><!-- #2919 -->
+            <example>Spacing the plants three feet apart allows them room to grow.</example><!-- #2919 -->
+            <example>...since he had entered the correct code that allowed him entrance.</example><!-- #2919 -->
         </rule>
+
         <rule id="EXPLAIN_TO" name="Missing preposition: explain (to)">
             <pattern case_sensitive="yes">
                 <token inflected="yes">explain</token>
