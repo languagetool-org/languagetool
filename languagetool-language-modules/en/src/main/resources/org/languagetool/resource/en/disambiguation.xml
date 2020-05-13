@@ -5744,13 +5744,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <pattern>
             <token postag="NNP">
                 <exception regexp="yes">&months;|&abbrevMonths;</exception>
-                </token>
-            <marker><token postag="CD"/></marker>
+                <exception case_sensitive="yes">For</exception><!-- "For" is NNP (maybe a surname?) -->
+            </token>
+            <marker><token postag="CD" regexp="yes">\d+</token></marker>
         </pattern>
         <disambig action="add"><wd pos="NNP"/></disambig>
         <example type="untouched">Apollo is beautiful.</example>
         <example type="untouched">The problem occurred on November 33 of the year after.</example><!-- Premium #1187 -->
         <example type="untouched">The problem started in January 4 years ago.</example>
+        <example type="untouched">For three nights.</example>
+        <example type="untouched">In three nights.</example>
         <example type="ambiguous" inputform="12[12/CD]" outputform="12[12/CD,12/NNP]">Apollo <marker>12</marker> was beautiful.</example>
     </rule>
 
