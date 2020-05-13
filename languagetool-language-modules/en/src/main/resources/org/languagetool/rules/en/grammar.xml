@@ -15272,12 +15272,19 @@ USA
             <suggestion>them</suggestion>
             <example correction="me|him|her|us|them">Let <marker>she</marker> do it!</example>
         </rule>
+
         <rule id="ASK_NO_PREPOSITION" name="ask + object (no preposition)">
+            <antipattern><!-- #2918 passive -->
+                <token regexp="yes">is|are|was|were</token>
+                <token min="0" max="2" postag="RB"/>
+                <token regexp="yes">asked|told</token>
+                <token>to</token>
+            </antipattern>
             <pattern case_sensitive="yes">
                 <token inflected="yes" regexp="yes">ask|tell</token>
                 <marker>
                     <token>to</token>
-                    <token postag="PRP"/>
+                    <token regexp="yes">&object_pronouns;</token>
                 </marker>
             </pattern>
             <message>The verb 'to <match no="1" postag="VB"/> someone' does not require a preposition.</message>
@@ -15286,7 +15293,11 @@ USA
             <example correction="me">She asked <marker>to me</marker> whether I like cats.</example>
             <example>She was asked <marker>to the</marker> party.</example>
             <example correction="them">I have to tell <marker>to them</marker> the truth.</example>
+            <example correction="him">She was telling <marker>to him</marker> about the problems of disambiguation.</example><!-- #2918 -->
+            <example>... what was told to me.</example><!-- #2918 -->
+            <example>Although secrets are often told to us in confidence, we sometimes reveal them.</example><!-- #2918 -->
         </rule>
+
         <rule id="PLEASE_VBZ" name="please + 3rd person verb">
             <pattern>
                 <token>please</token>
