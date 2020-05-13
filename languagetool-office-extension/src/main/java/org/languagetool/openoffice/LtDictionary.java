@@ -27,6 +27,7 @@ import org.languagetool.Language;
 import com.sun.star.lang.Locale;
 import com.sun.star.linguistic2.DictionaryType;
 import com.sun.star.linguistic2.XDictionary;
+import com.sun.star.linguistic2.XDictionaryEntry;
 import com.sun.star.linguistic2.XSearchableDictionaryList;
 import com.sun.star.uno.XComponentContext;
 
@@ -57,6 +58,9 @@ public class LtDictionary {
       searchableDictionaryList.addDictionary(manualDictionary);
       dictinaryList.add(dictionaryName);
       MessageHandler.printToLogFile("Internal LT dicitionary for language " + language.getShortCode() + " added: Number of words = " + manualDictionary.getCount());
+      for (XDictionaryEntry entry : manualDictionary.getEntries()) {
+        MessageHandler.printToLogFile(entry.getDictionaryWord());
+      }
     }
   }
   
