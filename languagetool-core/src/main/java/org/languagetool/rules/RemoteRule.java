@@ -68,7 +68,7 @@ public abstract class RemoteRule extends Rule {
     shutdownRoutines.forEach(Runnable::run);
   }
 
-  class RemoteRequest {}
+  protected class RemoteRequest {}
 
   protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences);
   protected abstract Callable<RemoteRuleResult> executeRequest(RemoteRequest request);
