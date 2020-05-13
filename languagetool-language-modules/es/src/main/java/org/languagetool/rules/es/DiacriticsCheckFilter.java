@@ -25,6 +25,7 @@ import java.util.regex.Pattern;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
+import org.languagetool.tools.StringTools;
 
 public class DiacriticsCheckFilter extends RuleFilter {
 
@@ -43,12 +44,8 @@ public class DiacriticsCheckFilter extends RuleFilter {
     Pattern desiredGenderNumberPattern = null;
     String replacement = null;
     String postag = getRequired("postag", arguments);
-    String form = getRequired("form", arguments);
+    String form = getRequired("form", arguments).toLowerCase();
     String gendernumber_from = getOptional("gendernumber_from", arguments);
-    if (form.equals("seria")) {
-      int i=0;
-      i++;
-    }
     if (gendernumber_from != null) {
       int i = Integer.parseInt(gendernumber_from);
       if (i < 1 || i > patternTokens.length) {
@@ -79,6 +76,7 @@ public class DiacriticsCheckFilter extends RuleFilter {
           message, match.getShortMessage());
       ruleMatch.setType(match.getType());
       String suggestion = match.getSuggestedReplacements().get(0).replace("{suggestion}", replacement);
+      suggestion = suggestion.replace("{Suggestion}", StringTools.uppercaseFirstChar(replacement));
       ruleMatch.setSuggestedReplacement(suggestion);
       return ruleMatch;
     }    
