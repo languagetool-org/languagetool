@@ -52,7 +52,7 @@ public class ResultToHtml {
     try {
       fw = new FileWriter(outputFile);
       LightRuleMatchParser parser = new LightRuleMatchParser();
-      List<LightRuleMatch> matches = parser.parseCommandLineOutput(new File(inputFile));
+      List<LightRuleMatch> matches = parser.parseOutput(new File(inputFile));
       matches.sort((k, v) -> {
           String catIdK = getCategoryId(k);
           String catIdV = getCategoryId(v);

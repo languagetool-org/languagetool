@@ -38,11 +38,11 @@ class LightRuleMatchParser {
   private final Pattern startPattern = Pattern.compile("^(?:\\d+\\.\\) )?Line (\\d+), column (\\d+), Rule ID: (.*)");
   private final Pattern coverPattern = Pattern.compile("^([ ^]+)$");
 
-  List<LightRuleMatch> parseCommandLineOutput(File inputFile) throws IOException {
+  List<LightRuleMatch> parseOutput(File inputFile) throws IOException {
     if (inputFile.getName().endsWith(".json")) {
       return parseAggregatedJson(inputFile);
     } else {
-      return parseCommandLineOutput(new FileReader(inputFile));
+      return parseOutput(new FileReader(inputFile));
     }
   }
 
@@ -98,7 +98,7 @@ class LightRuleMatchParser {
     return new LightRuleMatch(0, offset, ruleId, message, context, coveredText, suggestions, ruleSource, title, status);
   }
 
-  List<LightRuleMatch> parseCommandLineOutput(Reader reader) {
+  List<LightRuleMatch> parseOutput(Reader reader) {
     List<LightRuleMatch> result = new ArrayList<>();
     int lineNum = -1;
     int columnNum = -1;

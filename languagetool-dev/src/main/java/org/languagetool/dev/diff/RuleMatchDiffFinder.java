@@ -189,8 +189,8 @@ public class RuleMatchDiffFinder {
   }
 
   private void run(LightRuleMatchParser parser, File file1, File file2, File file3) throws IOException {
-    List<LightRuleMatch> l1 = parser.parseCommandLineOutput(file1);
-    List<LightRuleMatch> l2 = parser.parseCommandLineOutput(file2);
+    List<LightRuleMatch> l1 = parser.parseOutput(file1);
+    List<LightRuleMatch> l2 = parser.parseOutput(file2);
     String title = "Comparing " + file1.getName() + " to "  + file2.getName();
     System.out.println(title);
     List<RuleMatchDiff> diffs = getDiffs(l1, l2);
