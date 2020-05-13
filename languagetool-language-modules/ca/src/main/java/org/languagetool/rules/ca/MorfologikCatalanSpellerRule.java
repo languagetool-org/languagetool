@@ -50,7 +50,9 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern APOSTROF_INICI_NOM_PLURAL = Pattern.compile("^(d)(h?[aeiouàéèíòóú].+)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern APOSTROF_FINAL = Pattern.compile("^(.+[aei])(l|ls|m|ns|s|n|t)$",
+  private static final Pattern APOSTROF_FINAL = Pattern.compile("^(.+[aei])(l|ls|m|ns|n|t)$",
+      Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+  private static final Pattern APOSTROF_FINAL_S = Pattern.compile("^(.+e)(s)$",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   private static final Pattern GUIONET_FINAL = Pattern.compile(
       "^([\\p{L}·]+)[’']?(hi|ho|la|les|li|lo|los|me|ne|nos|se|te|vos)$",
@@ -62,6 +64,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
   private static final Pattern NOM_SING = Pattern.compile("V.[NG].*|V.P..S..|N..[SN].*|A...[SN].|PX..S...|DD..S.");
   private static final Pattern NOM_PLURAL = Pattern.compile("V.P..P..|N..[PN].*|A...[PN].|PX..P...|DD..P.");
   private static final Pattern VERB_INFGERIMP = Pattern.compile("V.[NGM].*");
+  private static final Pattern VERB_INF = Pattern.compile("V.N.*");
   private CatalanTagger tagger;
 
   public MorfologikCatalanSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig,
@@ -124,7 +127,7 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
         continue;
       }
 
-      // move "queda'n" to second place
+      // move "queda'n" to second position
       if (i == 1) {
         Matcher m = MOVE_TO_SECOND_POS.matcher(suggestions.get(0).getReplacement());
         if (m.matches()) {
@@ -156,9 +159,8 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_VERBS_M, VERB_INDSUBJ_M, 2, "'", true);
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_SING, NOM_SING, 2, "'", true);
     suggestion = findSuggestion(suggestion, word, APOSTROF_INICI_NOM_PLURAL, NOM_PLURAL, 2, "'", true);
-    if (!word.endsWith("as")) {
-      suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'", true);
-    }
+    suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL, VERB_INFGERIMP, 1, "'", true);
+    suggestion = findSuggestion(suggestion, word, APOSTROF_FINAL_S, VERB_INF, 1, "'", true);
     suggestion = findSuggestion(suggestion, word, GUIONET_FINAL, VERB_INFGERIMP, 1, "-", true);
     if (!suggestion.isEmpty()) {
       return Collections.singletonList(suggestion);

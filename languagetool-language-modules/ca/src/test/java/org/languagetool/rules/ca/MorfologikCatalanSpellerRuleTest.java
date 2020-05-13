@@ -409,6 +409,8 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("air"));
         assertEquals("Aïr", matches[0].getSuggestedReplacements().get(0));
         
+        matches = rule.match(langTool.getAnalyzedSentence("Misiones"));
+        assertEquals("Missiones", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("quedan"));
         assertEquals("queden", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("portan"));
@@ -428,10 +430,13 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("veuret"));
         assertEquals("veure", matches[0].getSuggestedReplacements().get(0));
         assertEquals("veure't", matches[0].getSuggestedReplacements().get(1));
+        matches = rule.match(langTool.getAnalyzedSentence("veures"));
+        assertEquals("veure's", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("beures", matches[0].getSuggestedReplacements().get(1));
         
         matches = rule.match(langTool.getAnalyzedSentence("relajarme"));
         assertEquals("relatar-me", matches[0].getSuggestedReplacements().get(0));
-        //assertEquals("relaxar-me", matches[0].getSuggestedReplacements().get(1));
+        //assertEquals("relaxar-me", matches[0].getSuggestedReplacements().get(1)); next dict update!
         matches = rule.match(langTool.getAnalyzedSentence("aborrirnos"));
         assertEquals("avorrir-nos", matches[0].getSuggestedReplacements().get(0));
         matches = rule.match(langTool.getAnalyzedSentence("aborirnos"));
