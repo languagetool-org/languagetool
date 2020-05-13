@@ -45,6 +45,10 @@ public class DiacriticsCheckFilter extends RuleFilter {
     String postag = getRequired("postag", arguments);
     String form = getRequired("form", arguments);
     String gendernumber_from = getOptional("gendernumber_from", arguments);
+    if (form.equals("seria")) {
+      int i=0;
+      i++;
+    }
     if (gendernumber_from != null) {
       int i = Integer.parseInt(gendernumber_from);
       if (i < 1 || i > patternTokens.length) {

@@ -409,7 +409,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="DIACRITICS_VERB_N_ADJ" name="nombres y adjetivos con tilde">
             <antipattern>
                 <!-- the error is: tu>tú -->
-                <token>tu</token> 
+                <token>tu</token>
                 <token postag="V.[SI].2S." postag_regexp="yes"/>
             </antipattern>
             <rule>
@@ -505,7 +505,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¿Por qué decimos esto?</example>
                 <example>La enmienda n.º 4 duplica gran parte.</example>
                 <example>¿Dónde está tu mama, niño?</example>
-                <example>Tu vienes de Suecia.</example> <!-- tu>tú-->
+                <example>Tu vienes de Suecia.</example>
+                <!-- tu>tú-->
             </rule>
             <rule>
                 <!-- Una nueva formula que -->
@@ -669,6 +670,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ella es demasiado baja.</example>
             </rule>
         </rulegroup>
+        <rule id="DIACRITICS_CONDICIONAL" name="secundaria/secundaría" default="temp_off">
+            <pattern>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <marker>
+                    <token regexp="yes">.+ias?<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <filter class="org.languagetool.rules.es.DiacriticsCheckFilter" args="form:\2 postag:V.IC.*"/>
+            <message>Si es un verbo en condicional, se escribe con tilde.</message>
+            <suggestion>{suggestion}</suggestion>
+            <example correction="sería">Le <marker>seria</marker> favorable</example>
+            <example correction="tocaría">Le <marker>tocaria</marker> la moral.</example>
+            <example>La secundaria es la ESO.</example>
+        </rule>
         <rulegroup id="QUE" name="que/qué">
             <url>https://www.rae.es/consultas/tilde-en-que-cuales-quienes-como-cuan-cuantoaosas-cuando-donde-y-adonde</url>
             <rule>
@@ -1161,7 +1176,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Este tío está completamente majara!</example>
                 <example>Quería adquirir la obra maestra sin importar cuanto costara.</example>
                 <example>No importó cuanto me devanara los sesos.</example>
-                <example>Tal vez alguien le ayudara.</example> <!-- ambiguous? -->
+                <example>Tal vez alguien le ayudara.</example>
+                <!-- ambiguous? -->
                 <!-- the error is a missing word before the verb: -->
                 <example correction="dejará">Se adhirió a la organización antes de él <marker>dejara</marker> el cargo.</example>
             </rule>
@@ -1646,7 +1662,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="fúlgida">Una tela <marker>fulgida</marker>.</example>
                 <example>Ha fulgido siempre.</example>
             </rule>
-            <rule> <!-- TODO: bebe/beba (only LatAM)-->
+            <rule>
+                <!-- TODO: bebe/beba (only LatAM)-->
                 <pattern>
                     <token>barbaros</token>
                 </pattern>
@@ -1744,6 +1761,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es adjetivo, se escribe con tilde.</message>
                 <suggestion><match no="2" regexp_match="(?i)(v)i(v.*)" regexp_replace="$1í$2"/></suggestion>
                 <example correction="vívida">Una <marker>vivida</marker> impresión.</example>
+            </rule>
+            <rule id="TOCARIA" name="tocaria/tocaría">
+                <pattern>
+                    <token regexp="yes">tocarias?</token>
+                </pattern>
+                <message>Si es condicional, se escribe con tilde. Correcto como adjetivo.</message>
+                <suggestion><match no="1" regexp_match="(?iu)tocari(as?)" regexp_replace="tocarí$1"/></suggestion>
+                <example correction="Tocaría"><marker>Tocaria</marker> hacerlo.</example>
+            </rule>
+            <rule id="SERIA" name="seria/sería" default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>seria<exception postag="_GN_FS"/></token>
+                    </marker>
+                    <token postag="[AD].*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
+                <suggestion>sería</suggestion>
+                <example correction="sería">Y <marker>seria</marker> bueno que pasara.</example>
+                <example correction="sería">Y <marker>seria</marker> lo mejor.</example>
+                <example>Es una persona seria la que buscamos.</example>
+            </rule>
+            <rule id="SERIAS" name="serias/serías" default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>serias<exception postag="_GN_FP"/></token>
+                    </marker>
+                    <token postag="[AD].*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
+                <suggestion>serías</suggestion>
+                <example correction="serías">Y <marker>serias</marker> bueno.</example>
+                <example correction="serías">Y <marker>serias</marker> el mejor.</example>
+                <example>Son personas serias las que vienen aquí.</example>
             </rule>
             <!-- TODO: lucido/lúcido, cesar/césar, revolver/revólver -->
         </rulegroup>
@@ -4430,7 +4481,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="aquella enfermera|aquellas enfermeras"><marker>aquella enfermeras</marker></example>
                 <example correction="Aquella médica|Aquella médico|Aquellas médicas"><marker>Aquellos médicas</marker>.</example>
                 <example correction="una tesis|unas tesis">Con <marker>un tesis</marker> sobre Platón.</example>
-                <example correction="una media|unas medias">Es de <marker>un media</marker> alta</example>
                 <example correction="Una noche|Unas noches"><marker>Un noche</marker> tras otra.</example>
                 <example correction="demasiada niña|demasiadas niñas">Son <marker>demasiados niñas</marker>.</example>
                 <example correction="esta agua|estas aguas">De <marker>este agua</marker>.</example>
@@ -4540,6 +4590,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="a los ajedrecistas|a las ajedrecistas"><marker>al ajedrecistas</marker></example>
                 <example correction="de los médicos|de las médicos"><marker>del médicos</marker></example>
                 <example>del médico</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <unify negate="yes">
+                            <feature id="numero"/>
+                            <feature id="genero"/>
+                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
+                            <token postag="_GN.*" postag_regexp="yes"><exception postag="N.CN.*|V.[IS].*" postag_regexp="yes"/></token>
+                        </unify>
+                    </marker>
+                </pattern>
+                <message>Error de concordancia.</message>
+                <example correction="">Es de <marker>un media</marker> alta.</example>
             </rule>
             <rule>
                 <pattern>
