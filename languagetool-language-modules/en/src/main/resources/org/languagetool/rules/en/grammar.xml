@@ -3770,7 +3770,7 @@ USA
                     </marker>
                     <token postag="RB" min="0" />
                     <token regexp="yes">stupid|boring|annoying|dumb|free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
-                    <token regexp="yes">\.|\!|…|\?|\;|\:|that|because|to|since|for|in|on|at|with(in|out)?|from|now|but</token>
+                    <token regexp="yes">\.|\!|…|\?|\;|\:|that|because|to|since|for|in|on|at|with(in|out)?|from|now|but|if|when</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
                 <short>Possible typo</short>
@@ -11540,6 +11540,36 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rule id="WOULD_BE_JJ_VB" name="It would be great write" default="temp_off">
+            <antipattern>
+                <token>thank</token>
+                <token>you</token>
+            </antipattern>
+            <antipattern>
+                <token>let</token>
+                <token regexp="yes">me|us|them|him|her|it</token>
+                <token>know</token>
+            </antipattern>
+            <pattern>
+                <token postag="MD">
+                    <exception>need</exception>
+                </token>
+                <marker>
+                    <token>be</token>
+                    <token postag="JJ" />
+                    <token postag="VB" chunk="B-VP" />
+                </marker>
+            </pattern>
+            <message>The infinitive "\4" after "be" requires "to". Did you mean <suggestion>\2 \3 to \4</suggestion>?</message>
+            <example correction="be great to write">It would <marker>be great write</marker> a story.</example>
+            <example correction="be able to do">Tom thought he might <marker>be able do</marker> that.</example>
+            <example correction="be able to do">I know Tom will <marker>be able do</marker> that.</example>
+            <example correction="be able to think">Hope one day i will <marker>be able think</marker> like you, thank you Michael.</example>
+            <example correction="be able to come">Tom doesn't think he'll <marker>be able come</marker> tomorrow.</example>
+            <example correction="be able to provide">They will also be interested in discussing the interim service agreement and what services we will <marker>be able provide</marker>.</example>
+            <example correction="be available to come">Could we please get together with Brent Price and Mike Jordan and discuss whether Todd would <marker>be available come</marker> over.</example>
+            <example>Any feedback would be great thank you.</example>
+        </rule>
         <rulegroup id="OKEY_DOKEY" name="okey-dokey">
             <url>https://www.lexico.com/definition/okey-dokey</url>
             <antipattern>
