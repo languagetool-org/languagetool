@@ -45,7 +45,12 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
     super(messages);
     super.setCategory(Categories.MISC.getCategory(messages));
     this.setCheckLemmas(false);
-  }  
+  }
+
+  @Override
+  public String getMessage(String tokenStr, List<String> replacements) {
+    return "'" + tokenStr + "' steht in der Liste der nicht erlaubten Wörter.";
+  }
 
   @Override
   public final String getId() {
