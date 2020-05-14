@@ -137,13 +137,13 @@ verb conjugation:
         3   plural  جمع
         4   plural  جمع تكسير
         -   none    لاشيء
-    ## Inlfection case الحالة الإعرابية
-        U   marfou3 مرفوع
-        0   manjzoum    مجزوم
-        I   majrour مجرور
-        A   mansoub منصوب
-        B   mabni   مبني
-        -   undef   لاشيء
+    ## person الشخص         
+
+        I   1st person  متكلم
+        Y   2nd person  مخاطب
+        H   3rd person  غائب
+        -   undef   لاشيء        
+
     ## Inflection marks
 
         u   damma   الضمة
@@ -168,15 +168,17 @@ verb conjugation:
             
     ## Voice البناء         
         a   acive voice معلوم
-        p   acive voice مجهول
+        p   passive voice مجهول
         -   undef   لاشيء
-            
-    ## person الشخص         
 
-        I   1st person  متكلم
-        Y   2nd person  مخاطب
-        H   3rd person  غائب
+    ## Inlfection case الحالة الإعرابية
+        U   marfou3 مرفوع
+        0   manjzoum    مجزوم
+        I   majrour مجرور
+        A   mansoub منصوب
+        B   mabni   مبني
         -   undef   لاشيء
+
 
 Affixes ( Procletic + Ecletic)
 ==============================

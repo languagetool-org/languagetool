@@ -7065,86 +7065,122 @@ USA
         <token inflected="yes" skip="1">أَفَاضَ</token>
         <token regexp="yes">&forms_fi;</token>
     </antipattern>
-
+<antipattern>
+<!-- الحالات التي تتطلب معالجة صرفية خاصة -->
+<!-- مثل أفضتموه => أفضتم منه -->
+<!-- مثل أفاضوه => أفاضوا منه -->
+		<token inflected="yes" skip="1" postag="V.*;M3[HY]-(pa|fa)[-A0];.*H" postag_regexp="yes">أَفَاضَ</token>
+	</antipattern>
     <pattern>
       <marker>
-        <token inflected="yes" postag="V.?[123];.*;.*-" postag_regexp="yes" skip="1">أَفَاضَ</token>
+        <token inflected="yes" postag="V.?[123];.*;.*" postag_regexp="yes" skip="1">أَفَاضَ</token>
 	 <!-- الفعل غير متصل بضمير -->
       </marker>
 	 
     </pattern>
     <message>الفعل أفاض متعد بحرف الجر في، وليس متعديا بنفسه. يفضل أن يقال:
-   <suggestion><match no="1"/>&nbsp;في</suggestion>
+  <suggestion><match no="1"  regexp_match="(&verb_encletics;)$" regexp_replace=""/>&nbsp;في<match no="1"  regexp_match="(.*)((&verb_encletics;)$)|(.*)((&verb_encletics;)?$)" regexp_replace="$2"/></suggestion>
 </message> 
     <example correction="أفاض في" type="incorrect"><marker>أفاض</marker> الحديث </example>
+    <example correction="أفاض فيها" type="incorrect"><marker>أفاضها</marker> الحديث </example>
     <example type="correct"> أفاض في الشرح </example>
     <example type="correct"> أفاض  الأستاذ في الشرح </example>
   </rule>
-<!-- trans_404_AfAD_AlHdyth أفَاضَ الحديثَ -->
+ <!-- trans_404_AfAD_AlHdyth أفَاضَ الحديثَ -->
   <rule id="trans_404_AfAD_AlHdyth_2" name="أفاض الحديث">
     <antipattern>
         <token inflected="yes" skip="1">أَفَاضَ</token>
         <token regexp="yes">&forms_fi;</token>
     </antipattern>
-
-    <pattern>
-      <marker>
-        <token inflected="yes" postag="V.?[123];.*;.*H" postag_regexp="yes" skip="1">أَفَاضَ</token>
+	<pattern>
+<!-- الحالات التي تتطلب معالجة صرفية خاصة -->
+<!-- مثل أفضتموه => أفضتم منه -->
+<!-- مثل أفاضوه => أفاضوا منه -->
+     <marker>
+<token inflected="yes" postag="V.*;M3[HY]-(pa|fa)[-A0];.*H" postag_regexp="yes">أَفَاضَ</token>
       </marker>
-	 <!-- الفعل متصل بضمير -->
+
+	</pattern>
 	 
-    </pattern>
     <message>الفعل أفاض متعد بحرف الجر في، وليس متعديا بنفسه. يفضل أن يقال:
-   <suggestion><match no="1"  regexp_match="(&verb_encletics;)$" regexp_replace=""/>&nbsp;في<match no="1"  regexp_match=".*(?=(&verb_encletics;)$)" regexp_replace=""/></suggestion>
+  <suggestion><match no="1"  regexp_match="(&verb_encletics;)$" regexp_replace=""/>&nbsp;في<match no="1"  regexp_match="(.*)((&verb_encletics;)$)|(.*)((&verb_encletics;)?$)" regexp_replace="$2"/></suggestion>
 </message> 
-    <example correction="أفاض فيها" type="incorrect"><marker>أفاضها</marker> الحديث </example>
     <example correction="أفاضو فيه" type="incorrect"><marker>أفاضوه</marker> الحديث </example>
-    <example type="correct"> أفاض فيه الشرح </example>
+    <example correction="أفضتمو فيه" type="incorrect"><marker>أفضتموه</marker> الحديث </example>
+
+    <example type="correct"> أفاض في الشرح </example>
     <example type="correct"> أفاض  الأستاذ في الشرح </example>
   </rule>
 
-  <!-- trans_422_tfAda تفادى -->
+<!-- trans_422_tfAda تفادى -->
   <rule id="trans_422_tfAda" name="تفادى">
-	<antipattern>
-		<token inflected="yes" skip="1">تَفَادَى</token>
+   <antipattern>  
+<!-- الفعل غير متصل بضمير ومتبوع بحرف تعدي -->
+		<token inflected="yes" postag="V.*;.*;.*-" postag_regexp="yes" skip="1">تَفَادَى</token>
 		<token regexp="yes">&forms_min;</token>
 	</antipattern>
-    <pattern>
-      <marker>
-		<token inflected="yes" postag="V.?[123];.*;.*-" postag_regexp="yes" skip="1">تَفَادَى</token>
+	<antipattern>
+<!-- الحالات التي تتطلب معالجة صرفية خاصة -->
+<!-- مثل تفاديتموه => تفاديتم منه -->
+<!-- مثل تتفادوه => تتفادوا منه -->
+
+		<!--<token regexp="yes"  skip="1" >(&conj;)?(أ|ت|ي|ن)?(تتفادو|يتفادو|تفاديتمو|تفادا|تفادو)(&verb_encletics;)</token>-->
+		<token inflected="yes" postag="V.*;M3[HY]-(pa|fa)[-A0];.*H|V.*;M1H-pa-;.*H|V.*;M1[IHY]-fa[UA];.*H|V.*;F1H-fa[UA];.*H|V.*;M3I-fa[UA];.*H" postag_regexp="yes">تَفَادَى</token>
+	</antipattern>
+	<pattern>
+	  <marker>
+		<token inflected="yes" postag="V.?[123];.*;.*" postag_regexp="yes" skip="1">تَفَادَى</token>
 	 <!-- الفعل غير متصل بضمير -->
-      </marker>
-    </pattern>
-    <message>الفعل تفادى متعد ب"مِن"، وليس متعديا بنفسه. يفضل أن يقال: 
-   <suggestion><match no="1"/>&nbsp;من</suggestion>
+	  </marker>
+	</pattern>
+	<message>الفعل تفادى متعد ب"مِن"، وليس متعديا بنفسه. يفضل أن يقال: 
+  <suggestion><match no="1"  regexp_match="(&verb_encletics;)$" regexp_replace=""/>&nbsp;من<match no="1"  regexp_match="(.*)((&verb_encletics;)$)|(.*)((&verb_encletics;)?$)" regexp_replace="$2"/></suggestion>
+
 </message>
-    <example correction="تفاديت من" type="incorrect"><marker>تفاديت</marker> الشيء </example>
-    <example type="correct"> تفاديت من الشيء </example>
+	<example correction="تفاديت من" type="incorrect"><marker>تفاديت</marker> الشيء </example>
+	<example correction="تفاديت منه" type="incorrect"><marker>تفاديته</marker> الشيء </example>
+	<example type="correct"> تفاديت من الشيء </example>
   </rule>
 <!-- trans_422_tfAda تفادى -->
   <rule id="trans_422_tfAda_2" name="تفادى">
-	<antipattern>
-		<token inflected="yes" skip="1">تَفَادَى</token>
-		<token regexp="yes">&forms_min;</token>
-	</antipattern>
-    <pattern>
-      <marker>
-		<token inflected="yes" postag="V.?[123];.*;.*H" postag_regexp="yes" skip="1">تَفَادَى</token>
-	 <!-- الفعل متصل بضمير -->
-      </marker>
-    </pattern>
+ <!-- TODO review-->
+	<pattern>
+<!-- الحالات التي تتطلب معالجة صرفية خاصة -->
+<!-- مثل تفاديتموه => تفاديتم منه -->
+<!-- مثل تفاداه => تفادى منه -->
+<!-- مثل تفادوه => تفادوا منه -->
+	<!--	<token regexp="yes"  skip="1" >(&conj;)?(تفاديتمو|تفادا|تفادو)(&verb_encletics;)</token>-->
+		<token inflected="yes" postag="V.*;M3[HY]-(pa|fa)[-A0];.*H|V.*;M1H-pa-;.*H|V.*;M1[IHY]-fa[UA];.*H|V.*;F1H-fa[UA];.*H|V.*;M3I-fa[UA];.*H" postag_regexp="yes">تَفَادَى</token>
+	</pattern>
+
     <message>الفعل تفادى متعد ب"مِن"، وليس متعديا بنفسه. يفضل أن يقال: 
-   <suggestion><match no="1"  regexp_match="(&verb_encletics;)$" regexp_replace=""/>&nbsp;من<match no="1"  regexp_match=".*(?=(&verb_encletics;)$)" regexp_replace=""/></suggestion>
+  <suggestion><match no="1"  regexp_match="(&verb_encletics;)$" regexp_replace=""/>*&nbsp;من<match no="1"  regexp_match="(.*)((&verb_encletics;)$)" regexp_replace="$2"/></suggestion>
 </message>
-    <example correction="تفاديت منه" type="incorrect"><marker>تفاديته</marker> الشيء </example>
-    <example correction="تفادا منه" type="incorrect"><marker>تفاداه</marker> الشيء </example>
+
+    <example correction="تفاديتمو* منه" type="incorrect"><marker>تفاديتموه</marker> الشيء </example>
+    <!--<example correction="تفادو* منه" type="incorrect"><marker>تفادوه</marker> الشيء </example>-->
+    <example correction="تفادا* منه" type="incorrect"><marker>تفاداه</marker> الشيء </example>
+
     <example type="correct"> تفاديت منه الشيء </example>
   </rule>
- <!-- TODO trans D2I-->
 
-    </rulegroup>
+
+<!-- trans_422_tfAda تفادى -->
+  <rule id="test_regex" name="استعملتموه " default="off">
+	<pattern>
+		<token inflected="yes">اِسْتَخْدَمَ</token>
+	</pattern>
+
+    <message>Test: 
+  <suggestion><match no="1"  postag="V.*(\+RP)?">اِرْتَادَ</match>&nbsp;إليه</suggestion>
+</message>
+
+    <example correction="ارتدتموك إليه" type="incorrect"><marker>استخدمتموه</marker> الشيء </example>
+    <example type="correct"> احتجتم إليه </example>
+  </rule>
  
-
+ <!-- TODO trans D2I-->
+    </rulegroup>
   </category>
   <!-- ====================================================================== -->
   <!-- Redundency Phrases -->

@@ -124,7 +124,9 @@ public class ArabicTaggerTest {
       tokenizer, tagger);
 
     TestTools.myAssert("فاستعملها",
-      "فاستعملها/[اِسْتَعْمَلَ]V-1;M1--i-Y;W-H|فاستعملها/[اِسْتَعْمَلَ]V-1;M1--paH;W-H", tokenizer, tagger);
+      "فاستعملها/[اِسْتَعْمَلَ]V-1;M1H-pa-;W-H|فاستعملها/[اِسْتَعْمَلَ]V-1;M1Y-i--;W-H"
+      ,
+       tokenizer, tagger);
     
   }
 }
