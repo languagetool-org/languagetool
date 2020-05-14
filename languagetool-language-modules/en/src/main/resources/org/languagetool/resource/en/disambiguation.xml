@@ -7101,6 +7101,20 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token regexp="yes">&subject_pronouns;</token>
             <token postag_regexp="yes" postag="JJR?"/>
         </antipattern>
+        <antipattern><!-- #2926 Chunker error -->
+            <token postag_regexp="yes" postag="DT|PRP\$"/>
+            <token postag_regexp="yes" postag="JJR?"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="E-NP-plural" postag_regexp="yes" postag="VB[ZD]"/>
+            <token postag_regexp="yes" postag="IN|RB|WDT|CD|JJ"/>
+        </antipattern>
+        <antipattern><!-- #2926 Chunker error: a particular service restarts X times  -->
+            <token postag_regexp="yes" postag="DT|PRP\$"/>
+            <token postag_regexp="yes" postag="JJR?"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="E-NP-plural" postag_regexp="yes" postag="VB[ZD]"/>
+            <token case_sensitive="yes" regexp="yes">[A-Z]</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7118,7 +7132,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token><exception postag="NN.*" postag_regexp="yes"/><exception>for</exception></token>
         </pattern>
         <disambig action="filter" postag="JJ.?"/>
-        <!-- example type="ambiguous" inputform="red[red/JJ,red/NN:UN]" outputform="red[red/JJ]">I have many <marker>red</marker> wine.</example -->
+        <example type="ambiguous" inputform="usual[usual/JJ,usual/NN:U]" outputform="usual[usual/JJ]">My <marker>usual</marker> advice to people is just...</example>
+        <example type="ambiguous" inputform="superior[superior/JJ,superior/NN]" outputform="superior[superior/JJ]">The hierarchical <marker>superior</marker> tests, are as the name suggests, better than the regular tests.</example>
         <example type="untouched">This is a nice machine.</example>
         <example type="untouched">Is much powerful and wondrous <marker>magic necessary for</marker> Harry Potter to fly?</example>
         <example type="untouched">The circus will come to <marker>town</marker> tomorrow.</example>
@@ -7130,6 +7145,19 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Noun: Also, this <marker>group</marker> sees them on many occasions.</example><!-- #2405 -->
         <example type="untouched">Noun: Before the <marker>game</marker> starts she is unable to read all instructions.</example><!-- #2427 -->
         <example type="untouched">Noun: The <marker>work</marker> makes it possible.</example><!-- #2427 -->
+        <example type="untouched">A large current flows through the air...</example><!-- #2926 -->
+        <example type="untouched">... if a forward pass crosses into the neutral zone.</example><!-- #2926 -->
+        <example type="untouched">I wish you a good party guys and don't drink too much.</example><!-- #2926 -->
+        <example type="untouched">Considering that a new clutch costs nearly as much...</example><!-- #2926 -->
+        <example type="untouched">... on a table while a pretty blonde looks at your ass?</example><!-- #2926 -->
+        <example type="untouched">The same application running on a bare metal works without any issue.</example><!-- #2926 -->
+        <example type="untouched">A good academic likes to be precise.</example><!-- #2926 -->
+        <example type="untouched">In which a young woman imagines that she is being ...</example><!-- #2926 -->
+        <example type="untouched">Maybe a random dwarf gains 2 mana on brown gems.</example><!-- #2926 -->
+        <example type="untouched">A full team deals 5 dmg/turn!</example><!-- #2926 -->
+        <example type="untouched">An electric motor uses electrical energy to produce mechanical energy.</example><!-- #2926 -->
+        <example type="untouched">The five days’ time required to start a new business ranks 29th.</example><!-- #2926 -->
+        <example type="untouched">... if a particular service restarts X times in Y minutes.</example><!-- #2926 -->
         <!-- TODO: many rules break because of this <example type="untouched">Noun: We have cards the other wants.</example> -->
     </rule>
 
