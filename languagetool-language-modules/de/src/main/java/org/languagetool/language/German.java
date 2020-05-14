@@ -135,6 +135,7 @@ public class German extends Language implements AutoCloseable {
                     Example.fixed("Das Haus ist alt. <marker>Es</marker> wurde 1950 gebaut.")),
             new MultipleWhitespaceRule(messages, this),
             // specific to German:
+            new SimpleReplaceRule(messages),
             new OldSpellingRule(messages),
             new SentenceWhitespaceRule(messages),
             new GermanDoublePunctuationRule(messages),
