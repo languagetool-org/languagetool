@@ -7115,6 +7115,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="E-NP-plural" postag_regexp="yes" postag="VB[ZD]"/>
             <token case_sensitive="yes" regexp="yes">[A-Z]</token>
         </antipattern>
+        <antipattern><!-- cards the other wants. MFU 2020-05-14 'other' is a pronoun, but it is not a personal pronoun (PRP) by the definition on www.lexico.com/definition/other. -->
+            <token chunk="E-NP-plural" postag="NNS"/>
+            <token>the</token>
+            <token>other</token>
+            <token chunk="E-NP-plural" postag_regexp="yes" postag="VB[ZD]"/>
+            <token postag="PCT"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7158,7 +7165,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">An electric motor uses electrical energy to produce mechanical energy.</example><!-- #2926 -->
         <example type="untouched">The five days’ time required to start a new business ranks 29th.</example><!-- #2926 -->
         <example type="untouched">... if a particular service restarts X times in Y minutes.</example><!-- #2926 -->
-        <!-- TODO: many rules break because of this <example type="untouched">Noun: We have cards the other wants.</example> -->
+        <example type="untouched">We have cards the other wants.</example>
     </rule>
 
         <rule id="BENEATH_NOTICE" name="beneath notice">
