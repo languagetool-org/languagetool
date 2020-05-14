@@ -5871,7 +5871,7 @@ USA
                 <url>https://en.wikipedia.org/wiki/Reader%27s_Digest</url>
                 <example correction="Reader's Digest">Last week's <marker>Readers Digest</marker> was very good.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START|DT|PRP\$" postag_regexp="yes" />
                     <token postag="JJ.*" postag_regexp="yes" min="0" />
@@ -11506,7 +11506,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rulegroup id="OKEY_DOKEY" name="okey-dokey" default="temp_off">
+        <rulegroup id="OKEY_DOKEY" name="okey-dokey">
             <url>https://www.lexico.com/definition/okey-dokey</url>
             <antipattern>
                 <token>okey-dokey</token>
@@ -11687,7 +11687,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
-        <rule id="WRITER_COMPOUNDS" name="ghost writer (ghostwriter)" default="temp_off">
+        <rule id="WRITER_COMPOUNDS" name="ghost writer (ghostwriter)">
             <antipattern>
                 <token>screen</token>
                 <token regexp="yes" skip="2">writer.*</token>
@@ -17807,7 +17807,7 @@ USA
                 <example correction="Long Beach"><marker>Long beach</marker> is a city in California.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="IN_LONG_ISLAND" name="long island (Long Island)" default="temp_off">
+        <rulegroup id="IN_LONG_ISLAND" name="long island (Long Island)">
             <url>https://en.wikipedia.org/wiki/Long_Island</url>
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Long|LONG</token>
@@ -21013,7 +21013,28 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rule id="LONG_ISLAND_ICED_TEA" name="Long Island iced tea" default="temp_off">
+        <rulegroup id="Z_WAVE" name="Z-Wave" default="temp_off">
+            <url>https://en.wikipedia.org/wiki/Z-Wave</url>
+            <rule>
+                <pattern>
+                    <token>z</token>
+                    <token>wave</token>
+                </pattern>
+                <message>Did you mean <suggestion>Z-Wave</suggestion> (= wireless protocol)?</message>
+                <example correction="Z-Wave">He is using <marker>Z Wave</marker> to connect the devices.</example>
+            </rule>
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token>Z-Wave</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">z-?wave</token>
+                </pattern>
+                <message>Did you mean <suggestion>Z-Wave</suggestion> (= wireless protocol)?</message>
+                <example correction="Z-Wave">He is using <marker>ZWave</marker> to connect the devices.</example>
+            </rule>
+        </rulegroup>
+        <rule id="LONG_ISLAND_ICED_TEA" name="Long Island iced tea">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Long|LONG</token>
                 <token regexp="yes">Island|ISLAND</token>
@@ -22611,6 +22632,7 @@ USA
             </antipattern>
             <antipattern>
                 <token chunk="B-VP" />
+                <token regexp="yes" min="0">him|her|them|us|it|you|me</token>
                 <token>to</token>
                 <token>do</token>
                 <token>tasks</token>
@@ -22637,6 +22659,7 @@ USA
                 <example>I’m trying to do tasks.</example>
                 <example>I wanted to do tasks.</example>
                 <example>It was hard to do tasks.</example>
+                <example>It allows them to do tasks.</example>
             </rule>
             <rule>
                 <pattern>
@@ -22679,6 +22702,11 @@ USA
             </rule>
             <rule>
                 <antipattern>
+                    <token>hola</token>
+                    <token min="0">a</token>
+                    <token>todos</token>
+                </antipattern>
+                <antipattern>
                     <token>Todos</token>
                     <token regexp="yes">Santos|Tus|Los|Por</token>
                 </antipattern>
@@ -22690,6 +22718,7 @@ USA
                 </pattern>
                 <message>It appears that a hyphen is missing in the plural noun <suggestion><match no="1" regexp_match="(?i)(o)(d)" regexp_replace="$1-$2" /></suggestion>?</message>
                 <example correction="to-dos">I have plenty of <marker>todos</marker> on my plate.</example>
+                <example>Hola todos!</example>
             </rule>
             <rule>
                 <antipattern>
@@ -23994,7 +24023,9 @@ USA
                     <token regexp="yes">&apostrophe;</token>
                     <token>t</token>
                     <marker>
-                        <token postag="VBZ"/>
+                        <token postag="VBZ">
+                            <exception>is</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion><match no="4" postag="VB"/></suggestion>?</message>
@@ -24008,7 +24039,9 @@ USA
                     <token regexp="yes">do|will</token>
                     <token>not</token>
                     <marker>
-                        <token postag="VBZ"/>
+                        <token postag="VBZ">
+                            <exception>is</exception>
+                        </token>
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion><match no="3" postag="VB"/></suggestion>?</message>
@@ -24016,6 +24049,7 @@ USA
                 <example>You do not <marker>have</marker> a bicycle?</example>
                 <example correction="need">I do not <marker>needs</marker> help with that.</example>
                 <example correction="have">You do not <marker>has</marker> a bicycle?</example>
+                <example>... and that they do not is because nobody cares.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DOES_X_HAS" name="does ... 3rd person verb">
@@ -25499,7 +25533,7 @@ USA
             <example><marker>The thousands</marker> of students on campus when protesting.</example>
             <example>It would go up to 21 millions by 1966.</example>
         </rule>
-        <rule id="COUPLE_OF_TIMES" name="couples of times (couple of times)" default="temp_off">
+        <rule id="COUPLE_OF_TIMES" name="couples of times (couple of times)">
             <antipattern>
                 <token>couple</token>
                 <token>of</token>
@@ -25660,11 +25694,18 @@ USA
                 <token>of</token>
                 <token>War</token>
             </antipattern>
-            <antipattern case_sensitive="yes"><!-- He listens to a Sisters of Mercy song -->
-                <token regexp="yes">an?</token>
-                <token postag="JJR?" postag_regexp="yes" min="0" />
+            <antipattern case_sensitive="yes"><!-- He listens to a Sisters of Mercy song / A Centers for Disease study -->
+                <token regexp="yes">[Aa]n?</token>
+                <token postag="JJR?" postag_regexp="yes" />
                 <token regexp="yes" chunk="E-NP-plural">[A-Z].*</token>
-                <token regexp="yes">[Oo]f</token>
+                <token regexp="yes">[Oo]f|[Ff]or</token>
+                <token regexp="yes">[A-Z].*</token>
+                <token />
+            </antipattern>
+            <antipattern case_sensitive="yes"><!-- A Centers for Disease study -->
+                <token regexp="yes">[Aa]n?</token>
+                <token regexp="yes" chunk="E-NP-plural">[A-Z].*</token>
+                <token regexp="yes">[Oo]f|[Ff]or</token>
                 <token regexp="yes">[A-Z].*</token>
                 <token />
             </antipattern>
@@ -25937,6 +25978,7 @@ USA
                 <example>The league created two A divisions.</example>
                 <example>Division A teams are the best.</example>
                 <example>Dock A floats.</example>
+                <example>A Centers for Disease Control and Prevention study.</example>
                 <example>Two of the sunroof drains run down the A pillars.</example>
                 <example>* It’s totally possible to have a great score near or a little above the 9k.</example>
                 <example>A half-dozen tools make up the tool collection.</example>
@@ -26008,6 +26050,12 @@ USA
                     <token postag="RB" />
                     <token postag="NNS" chunk="E-NP-plural" />
                 </antipattern>
+                <antipattern><!-- a jury decided issues of fact -->
+                    <token regexp="yes">an?</token>
+                    <token postag="NN:UN?|NN" postag_regexp="yes" chunk="E-NP-singular" />
+                    <token postag="VBD" />
+                    <token postag="NNS" chunk="E-NP-plural" />
+                </antipattern>
                 <antipattern><!-- being a little scared helps -->
                     <token regexp="yes">an?</token>
                     <token>little</token>
@@ -26071,6 +26119,9 @@ USA
                 <example type="triggers_error">But only if a forward pass crosses into the neutral zone.</example><!-- #2926 -->
                 <example type="triggers_error">An electric motor uses electrical energy to produce mechanical energy.</example><!-- #2926 -->
                 <example type="triggers_error">However, if the region of air breakdown extends to another conductor at a different voltage it creates a conductive path between them, and a large current flows through the air, creating an electric arc.</example><!-- #2926 -->
+                <example>In cases where a judge rather than a jury decided issues of fact, an appellate court will apply an "abuse of discretion" standard of review.</example>
+                <example>The stronger of two acids will have a higher Ka than the weaker acid; the ratio of hydrogen ions to acid will be higher for the stronger acid.</example>
+                <example type="triggers_error">In which a young woman imagines that she is being ...</example><!-- #2926 -->
             </rule>
         </rulegroup>
 
@@ -35413,7 +35464,7 @@ USA
             <example correction="week-long">He's going on a <marker>week long</marker> vacation.</example>
             <example>It is about a year old now.</example>
         </rule>
-        <rule id="HANDS_FREE_HYPHEN" name="hands free (hands-free)" default="temp_off">
+        <rule id="HANDS_FREE_HYPHEN" name="hands free (hands-free)">
             <pattern>
                 <marker>
                     <token>hands</token>
@@ -35428,7 +35479,7 @@ USA
             <example correction="hands-free">He is using a <marker>hands free</marker> device.</example>
             <example correction="hands-free">A <marker>hands free</marker> cell phone.</example>
         </rule>
-        <rule id="BARE_BONES_HYPHEN" name="bare bones (bare-bones)" default="temp_off">
+        <rule id="BARE_BONES_HYPHEN" name="bare bones (bare-bones)">
             <pattern>
                 <marker>
                     <token>bare</token>
@@ -44484,24 +44535,6 @@ The accident victim died from her injuries.
             <url>https://www.merriam-webster.com/dictionary/first%20come,%20first%20served</url>
             <example correction="come,">First <marker>come</marker> first served.</example>
         </rule>
-        <rulegroup id="MISSING_COMMA_WITH_TOO" name="Missing vocative comma">
-            <rule>
-                <pattern>
-                    <token postag="SENT_START"/>
-                    <token min='0' regexp='yes'>["«»“”]</token>
-                    <marker>
-                        <token postag="PRP"><exception postag="PRP$"/></token>
-                        <token>too</token>
-                    </marker>
-                    <token postag="VB.?" postag_regexp="yes"></token>
-                </pattern>
-                <message>Consider using commas to set off 'too', if you want to emphasize an abrupt change of thought.</message>
-                <suggestion>\3, too,</suggestion>
-                <url>https://www.dailywritingtips.com/comma-before-too/</url>
-                <short>Missing comma</short>
-                <example correction="I, too,"><marker>I too</marker> love cheese cake.</example>
-            </rule>
-        </rulegroup>
         <rulegroup id="MISSING_COMMA_WITH_NNP" name="Missing vocative comma">
             <rule>
                 <pattern>
@@ -46976,7 +47009,7 @@ The accident victim died from her injuries.
             <example correction="or">He wants to do it once <marker>a</marker> twice a month.</example>
         </rule>
         <rulegroup id="AN_AND" name="confusion of 'an' and 'and'">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>an</token>
@@ -46987,20 +47020,22 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>and</suggestion>?</message>
                 <example correction="and">This <marker>an</marker> all of above.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>an</token>
                     </marker>
                     <token>all</token>
                     <token postag="JJ.*" postag_regexp="yes" min="0" />
-                    <token postag="NNS" />
+                    <token postag="NNS">
+                        <exception postag="NN|NN:UN?" postag_regexp="yes" />
+                    </token>
                     <token>of</token>
                 </pattern>
                 <message>Did you mean <suggestion>and</suggestion>?</message>
                 <example correction="and">This <marker>an</marker> all things of above.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>off</token>
                     <token regexp="yes">notes?|plan|board|ramps?|course|drives?|flows?|guard|hand.*|the|an?|planes?</token>
@@ -54456,7 +54491,7 @@ The accident victim died from her injuries.
             <short>Nonstandard phrase</short>
             <example correction="nowadays">Money is becoming pretty tight <marker>now and days</marker>.</example>
         </rule>
-        <rulegroup id="ROUND_A_BOUTS" name="round a bout (round a bouts)" default="temp_off">
+        <rulegroup id="ROUND_A_BOUTS" name="round a bout (round a bouts)">
             <url>https://www.lexico.com/definition/roundabout</url>
             <rule>
                 <pattern>
@@ -56610,6 +56645,24 @@ The accident victim died from her injuries.
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rulegroup id="MISSING_COMMA_WITH_TOO" name="Missing vocative comma">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min='0' regexp='yes'>["«»“”]</token>
+                    <marker>
+                        <token postag="PRP"><exception postag="PRP$"/></token>
+                        <token>too</token>
+                    </marker>
+                    <token postag="VB.?" postag_regexp="yes"></token>
+                </pattern>
+                <message>Consider using commas to set off 'too', if you want to emphasize an abrupt change of thought.</message>
+                <suggestion>\3, too,</suggestion>
+                <url>https://www.dailywritingtips.com/comma-before-too/</url>
+                <short>Missing comma</short>
+                <example correction="I, too,"><marker>I too</marker> love cheese cake.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="INDIAN_ENGLISH" name="Indian English replacements">
             <url>https://en.wikipedia.org/wiki/Indian_English#Vocabulary</url>
             <rule>

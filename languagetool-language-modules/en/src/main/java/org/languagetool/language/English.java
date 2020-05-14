@@ -258,6 +258,7 @@ public class English extends Language implements AutoCloseable {
       case "WON_T_TO":                  return 1;   // higher prio than DON_T_AREN_T
       case "WAN_T":                     return 1;   // higher prio than DON_T_AREN_T
       case "THE_US":                    return 1;   // higher prio than DT_PRP
+      case "A_HUNDREDS":                return 1;   // higher prio than A_PLURAL/A_NNS
       case "NOW_A_DAYS":                return 1;   // higher prio than A_PLURAL/A_NNS
       case "COUPLE_OF_TIMES":           return 1;   // higher prio than A_PLURAL/A_NNS
       case "A_WINDOWS":                 return 1;   // higher prio than A_PLURAL/A_NNS
