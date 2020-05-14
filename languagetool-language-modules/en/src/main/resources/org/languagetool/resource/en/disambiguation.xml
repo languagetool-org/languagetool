@@ -5452,6 +5452,30 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="E-NP-plural"/>
             <token postag="NN(:UN)?" postag_regexp="yes"/>
         </antipattern>
+        <antipattern><!-- #2923 makes advancements too fast -->
+            <token chunk="B-VP" postag_regexp="yes" postag="VB.*">
+                <exception postag="MD"/><!-- will pigs always fly -->
+                </token>
+            <token chunk="E-NP-plural"/>
+            <token postag="RB"/>
+            <token postag="JJ"/>
+        </antipattern>
+        <antipattern><!-- #2923 was 15 minutes too long -->
+            <token chunk="B-VP" postag_regexp="yes" inflected="yes">be</token>
+            <token chunk="B-NP-plural" postag="CD"/>
+            <token chunk="E-NP-plural"/>
+            <token postag="RB"/>
+            <token postag="JJ"/>
+        </antipattern>
+        <antipattern><!-- #2923 was it 15 minutes too long... ? -->
+            <token chunk="B-VP" postag_regexp="yes" inflected="yes">be</token>
+            <token regexp="yes">&object_pronouns;</token>
+            <token chunk="B-NP-plural" postag="CD"/>
+            <token chunk="E-NP-plural"/>
+            <token postag="RB"/>
+            <token skip="-1" postag="JJ"/>
+            <token>?</token>
+        </antipattern>
         <pattern>
             <and>
                 <token chunk="E-NP-plural"/>
@@ -5468,6 +5492,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig postag="VBP"/>
         <example type="untouched">The application form</example>
         <example type="ambiguous" inputform="form[form/NN:UN,form/VB,form/VBP]" outputform="form[form/VBP]">The leaves <marker>form</marker> a rosette.</example>
+        <example type="ambiguous" inputform="form[form/NN:UN,form/VB,form/VBP]" outputform="form[form/VBP]">Approximately 15 leaves actually <marker>form</marker> a rosette.</example><!-- #2923 -->
         <example type="ambiguous" inputform="fly[fly/JJ,fly/NN,fly/VB,fly/VBP]" outputform="fly[fly/VBP]">Mummy, but will pigs always <marker>fly</marker> when I can't see them?</example>
         <example type="ambiguous" inputform="strike[strike/NN,strike/VB,strike/VBP]" outputform="strike[strike/VBP]">The angry workers <marker>strike</marker>.</example><!-- #2923 -->
         <example type="untouched">So Rand fell into a severe depression.</example>
@@ -5480,6 +5505,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">A martial arts strike.</example><!-- #2923 -->
         <example type="untouched">An angry workers strike.</example><!-- #2923 Incorrect grammar, missing possessive apostrophe before the noun 'strike'. -->
         <example type="untouched">You would need a simple mains relay such as...</example><!-- #2923 -->
+        <example type="untouched">My biggest concern with smart switches is that technology makes advancements too fast.</example><!-- #2923 -->
+        <example type="untouched">The benefit is that that method makes improvements incredibly fast.</example><!-- #2923 -->
+        <example type="untouched">It was 15 minutes too long.</example><!-- #2923 -->
+        <example type="untouched">Was it 15 minutes too long when you did it?</example><!-- #2923 -->
     </rule>
 
     <rulegroup id="VBP_VBZ_NNS" name="VBZ/NN->VBZ">
