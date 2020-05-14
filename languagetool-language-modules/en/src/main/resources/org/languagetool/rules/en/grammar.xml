@@ -36477,7 +36477,7 @@ USA
             </antipattern>
             <antipattern>
                 <token>360</token>
-                <token>mode</token>
+                <token regexp="yes">mode|camera</token>
             </antipattern>
             <antipattern>
                 <token postag="CD" />
@@ -36635,6 +36635,11 @@ USA
                 <token postag="NNS"/><!-- wins/B-VP -->
                 <token postag="CC"/>
             </antipattern>
+            <antipattern case_sensitive="yes"><!-- name of a building in Allentown -->
+                <token>Two</token>
+                <token>City</token>
+                <token>Center</token>
+            </antipattern>
             <pattern>
                 <token postag="CD">
                     <exception scope="previous" spacebefore="no" regexp="yes">[^,]</exception>
@@ -36649,7 +36654,7 @@ USA
                     <exception scope="previous" regexp="yes">×|x</exception>
                 </token>
                 <token chunk="I-NP-singular" min="0" max="-1">
-                    <exception regexp="yes">Pound|Dollar|RUB|percent|min(ute)?|megapixel|mp|oz|bit|foot|[kcm]ms?|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm|mi|ft|mg|kg|lb|mpg|°C|(milli)?watt|ml|sec|yo</exception>
+                    <exception regexp="yes">Pound|Dollar|RUB|percent|min(ute)?|megapixel|mp|oz|bit|foot|[kcm]ms?|BC|CE|[KMGk]B|^[^a-zA-Z]+|cc|am|pm|mi|ft|mg|kg|lb|mpg|°C|(milli)?watt|ml|sec|yo|yr|year-old</exception>
                     <exception regexp="yes">one|thou|zero|1</exception>
                     <exception regexp="yes">[,;()×]</exception>
                     <exception postag="MD|PRP\$|UNKNOWN" postag_regexp="yes" />
