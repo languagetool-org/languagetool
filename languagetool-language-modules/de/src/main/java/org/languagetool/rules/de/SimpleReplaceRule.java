@@ -33,7 +33,7 @@ import java.util.ResourceBundle;
  */
 public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
-  private static final Map<String, List<String>> wrongWords = loadFromPath("/de/replace.txt");
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/de/replace.txt", "/de/replace_custom.txt");
   private static final Locale DE_LOCALE = new Locale("DE");
 
   @Override

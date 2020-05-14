@@ -2,8 +2,6 @@
 
 ## 5.0-SNAPSHOT (release planned for 2020-06-26)
 
-...
-
 #### Catalan
   * added and improved rules
   * updated dictionary (catalan-pos-dict-2.8), now with a specific dictionary file for spelling suggestions
@@ -23,6 +21,11 @@
 #### Spanish
   * added and improved rules
   * new tagger dictionary by Jaume Ortolà, LGPL, source: https://github.com/jaumeortola/spanish-dict-tools
+
+#### General
+  * added `replace_custom.txt` for several languages so users can have their own very simple replace
+    rules without worrying about updates (they still need to copy the file to the new LT version, though).
+
 
 ## 4.9 (2020-03-24)
 
