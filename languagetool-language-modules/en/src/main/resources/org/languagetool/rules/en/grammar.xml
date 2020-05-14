@@ -11540,7 +11540,22 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rule id="WOULD_BE_JJ_VB" name="It would be great write" default="temp_off">
+        <rule id="THANK_YOU_MUCH" name="Thank you much" default="temp_off">
+            <antipattern>
+                <token>much</token>
+                <token>appreciated</token>
+            </antipattern>
+            <pattern>
+                <token>thank</token>
+                <token>you</token>
+                <token>much</token>
+            </pattern>
+            <message>This phrase is non-standard. Consider replacing it.</message>
+            <suggestion>\1 \2 so \3</suggestion>
+            <suggestion>\1 \2 very \3</suggestion>
+            <example correction="Thank you so much|Thank you very much"><marker>Thank you much</marker>.</example>
+        </rule>
+        <rule id="WOULD_BE_JJ_VB" name="It would be great (to) write" default="temp_off">
             <antipattern>
                 <token>thank</token>
                 <token>you</token>
@@ -17741,6 +17756,10 @@ USA
         </rule>
         <rulegroup id="THE_FRENCH" name="the french (French)">
             <url>https://www.merriam-webster.com/dictionary/French</url>
+            <antipattern><!-- https://www.merriam-webster.com/dictionary/french%20fries (both lower- and uppercase allowed) -->
+                <token>french</token>
+                <token regexp="yes">fr(y|ies)</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token regexp="yes" inflected="yes">pardon|excuse</token>
@@ -17760,7 +17779,7 @@ USA
                         <token case_sensitive="yes">french</token>
                     </marker>
                     <token postag="JJ.*" postag_regexp="yes" min="0" />
-                    <token regexp="yes">presidents?|riviera|expressions?|novels?|bulldogs?|protestants?|wars?|versions?|manicures?|websites?|sites?|university|universities|side|governments?|keyboards?|learners?|organi[zs]ations?|associations?|food|restaurants?|tutors?|lessons?|teachers?|students?|residents?|colleagues?|cars?|speakers?|press|translations?|translators?|regions?|military|guys?|toast|country|city|cities|community|towns?|accents?|people|villages?|words?|languages?|states?|citizens?|football|literature|laws?|revolution|\.|\!|\?</token>
+                    <token regexp="yes">presidents?|speaking|riviera|expressions?|novels?|bulldogs?|tutors?|individualists?|poetr(y|ies)|protestants?|wars?|versions?|manicures?|websites?|sites?|university|universities|side|governments?|keyboards?|learners?|organi[zs]ations?|associations?|food|restaurants?|tutors?|lessons?|teachers?|students?|residents?|colleagues?|cars?|speakers?|press|translations?|translators?|regions?|military|guys?|toast|country|city|cities|community|towns?|accents?|people|villages?|words?|languages?|states?|citizens?|football|literature|laws?|revolution|\.|\!|\?</token>
                 </pattern>
                 <message><suggestion>French</suggestion> needs to be capitalized when not used as a verb.</message>
                 <example correction="French">The <marker>french</marker> government.</example>
@@ -17780,10 +17799,6 @@ USA
                 <example correction="French">He's learning <marker>french</marker>.</example>
             </rule>
             <rule>
-                <antipattern><!-- https://www.merriam-webster.com/dictionary/french%20fries (both lower- and uppercase allowed) -->
-                    <token>french</token>
-                    <token regexp="yes">fr(y|ies)</token>
-                </antipattern>
                 <antipattern>
                     <token postag="VB.*" postag_regexp="yes" />
                     <token>her</token>
@@ -17805,6 +17820,33 @@ USA
                 <message><suggestion>French</suggestion> needs to be capitalized when not used as a verb.</message>
                 <example correction="French">The <marker>french</marker> won the Soccer World Cup in 2018.</example>
                 <example>Don't eat my french fries.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token skip="-1" regexp="yes">german|russian|english|spanish|catalan|arabic|turkish|ukrainian|italian|chinese|czech|dutch|portuguese|canadian|swiss|belgian|belgium|canada|france|poland|morocco|switzerland|monaco|swedish|european|american|usa|paris|warsaw</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">polish|french</token>
+                    </marker>
+                </pattern>
+                <message><suggestion><match no="2" case_conversion="startupper" /></suggestion> needs to be capitalized when you are referring to the language or country.</message>
+                <example correction="Polish">He's having english and <marker>polish</marker> lessons.</example>
+                <example>Belgium is famous for beer, chocolate, waffles and french fries with mayonnaise.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>polish</token>
+                    <token regexp="yes">your|my</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" skip="-1" regexp="yes">polish|french</token>
+                    </marker>
+                    <token regexp="yes">german|russian|english|spanish|catalan|arabic|turkish|ukrainian|italian|chinese|czech|dutch|portuguese|canadian|swiss|belgian|belgium|canada|france|poland|morocco|switzerland|monaco|swedish|european|american|usa|paris|warsaw</token>
+                </pattern>
+                <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> needs to be capitalized when you are referring to the language or country.</message>
+                <example correction="Polish">He's having <marker>polish</marker> and English lessons.</example>
+                <example>Contrary to their name, french fries are claimed to have originated in Belgium, although their exact place of origin is uncertain.</example>
+                <example>I have to polish my English.</example>
             </rule>
         </rulegroup>
         <rulegroup id="IN_CHINA" name="china (China)">
