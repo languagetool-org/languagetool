@@ -172,7 +172,7 @@ public class UpperCaseNgramRule extends Rule {
           double ratio = lcProb.getProb() / ucProb.getProb();
           //System.out.println("-->" + ucProb + ", lc: " + lcProb + " ==> " + ratio);
           if (ratio > THRESHOLD) {
-            String msg = "Only proper nouns start with an uppercase character (there are exceptions for headlines). " + ratio;
+            String msg = "Only proper nouns start with an uppercase character (there are exceptions for headlines).";
             RuleMatch match = new RuleMatch(this, sentence, token.getStartPos(), token.getEndPos(), msg);
             match.setSuggestedReplacement(StringTools.lowercaseFirstChar(tokenStr));
             matches.add(match);
