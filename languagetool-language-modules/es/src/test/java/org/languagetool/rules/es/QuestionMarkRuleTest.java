@@ -47,12 +47,13 @@ public class QuestionMarkRuleTest {
 
   @Test
   public void test() throws IOException {
+   
     RuleMatch[] matches = check("Hola, ¿cómo estás?");
     assertThat(matches.length, is(0));
 
     RuleMatch[] matches2 = check("Hola, cómo estás?");
     assertThat(matches2.length, is(1));
-    assertThat(matches2[0].getSuggestedReplacements().toString(), is("[¿Hola]"));  // maybe ¿ should in front of 'cómo'? 
+    assertThat(matches2[0].getSuggestedReplacements().toString(), is("[¿cómo]")); 
 
     RuleMatch[] matches3 = check("¿Que pasa?");
     assertThat(matches3.length, is(0));
@@ -93,6 +94,20 @@ public class QuestionMarkRuleTest {
     assertThat(matches13.size(), is(1));
     assertThat(matches13.get(0).getSuggestedReplacements().toString(), is("[¿Que]"));
     assertThat(matches13.get(0).getFromPos(), is(20));
+
+    RuleMatch[] matches14 = check("Hola, de qué me hablas?");
+    assertThat(matches14.length, is(1));
+    assertThat(matches14[0].getSuggestedReplacements().toString(), is("[¿de]"));
+    
+    RuleMatch[] matches15 = check("Después de todo lo que pasó, qué quieres que te diga?");
+    assertThat(matches15.length, is(1));
+    assertThat(matches15[0].getSuggestedReplacements().toString(), is("[¿qué]"));
+    
+    RuleMatch[] matches16 = check("Pero cómo quieres que te lo diga?");
+    assertThat(matches16[0].getSuggestedReplacements().toString(), is("[¿Pero]"));
+    
+    RuleMatch[] matches17 = check("Pero, cómo quieres que te lo diga?");
+    assertThat(matches17[0].getSuggestedReplacements().toString(), is("[¿cómo]"));
 
     // Exclamation marks:
     List<RuleMatch> matches20 = lt.check("Qué irritante!");
