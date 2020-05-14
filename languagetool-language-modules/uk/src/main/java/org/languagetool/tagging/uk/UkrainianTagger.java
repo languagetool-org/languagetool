@@ -47,7 +47,7 @@ public class UkrainianTagger extends BaseTagger {
 
   private static final Pattern NUMBER = Pattern.compile("[+-±]?[€₴\\$]?[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?(%|°С?)?|\\d{1,3}([\\s\u00A0\u202F]\\d{3})+");
   // full latin number regex: M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})
-  private static final Pattern LATIN_NUMBER = Pattern.compile("(XC|XL|L?X{1,3})?(IX|IV|V?I{1,3})");
+  private static final Pattern LATIN_NUMBER = Pattern.compile("(XC|XL|L?X{1,3})?(IX|IV|V?I{1,3})|X");
   private static final Pattern LATIN_NUMBER_CYR = Pattern.compile("[IXІХ]|[IІ]V|V?[IІ]{1,3}");
 
   private static final Pattern DATE = Pattern.compile("[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}");
