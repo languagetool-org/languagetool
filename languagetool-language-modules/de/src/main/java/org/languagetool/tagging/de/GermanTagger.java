@@ -191,7 +191,7 @@ public class GermanTagger extends BaseTagger {
       List<AnalyzedToken> readings = new ArrayList<>();
       List<TaggedWord> taggerTokens = null;
       // Gender star etc:
-      String genderGap = "[*:_]";
+      String genderGap = "[*:_/]";
       if (idxPos+2 < sentenceTokens.size() && sentenceTokens.get(idxPos+1).matches(genderGap)) {
         if (sentenceTokens.get(idxPos+2).matches("in|innen|r|e")) {  // "jede*r", "sein*e"
           taggerTokens = new ArrayList<>();
