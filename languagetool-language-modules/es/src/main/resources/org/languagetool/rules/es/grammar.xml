@@ -4078,36 +4078,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>http://lema.rae.es/dpd/srv/search?id=cucx2A8WkD6ImAtPsX#4</url>
             <example correction="dado que">Hay que esperar turno, <marker>dado a que</marker> en muchas ciudades la oferta es menor.</example>
         </rule>
-        <!--DETRAS_PX http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_025.htm-->
         <rulegroup id="DETRAS_PX" name="Adverbio de posición + posesivo">
             <url>https://www.rae.es/consultas/detras-de-mi-encima-de-mi-al-lado-mio</url>
-            <!--1ª Singular: detrás mío.-->
             <rule>
                 <pattern>
                     <token regexp="yes">&adverbio_lugar;</token>
-                    <token postag="PX1.S0S0" postag_regexp="yes"/>
+                    <token regexp="yes">mío|mía</token>
                 </pattern>
                 <message>Es preferible usar otra expresión.</message>
                 <suggestion>\1 de <match no="2" postag="PX(\d).S0S0" postag_regexp="yes" postag_replace="PP$1CSO00">mí</match></suggestion>
                 <example correction="detrás de mí">Venían <marker>detrás mío</marker>.</example>
                 <example>Tengo a los niños encima de mí.</example>
             </rule>
-            <!--2ª Singular: debajo tuyo/tuya-->
             <rule>
                 <pattern>
                     <token regexp="yes">&adverbio_lugar;</token>
-                    <token postag="PX2.S0S0" postag_regexp="yes"/>
+                    <token regexp="yes">tuyo|tuya</token>
                 </pattern>
                 <message>Es preferible usar otra expresión.</message>
                 <suggestion>\1 de <match no="2" postag="PX(\d).S0S0" postag_regexp="yes" postag_replace="PP$1CSO00">ti</match></suggestion>
                 <example correction="detrás de ti">Venían <marker>detrás tuyo</marker>.</example>
                 <example>Tienes a los niños encima de ti.</example>
             </rule>
-            <!--1ª plural: delante nuestro/a.-->
             <rule>
                 <pattern>
                     <token regexp="yes">&adverbio_lugar;</token>
-                    <token postag="PX1.S0P0" postag_regexp="yes"/>
+                    <token regexp="yes">nuestro|nuestra</token>
                 </pattern>
                 <message>Es preferible usar otra expresión.</message>
                 <suggestion>\1 de nosotros</suggestion>
@@ -4115,11 +4111,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="detrás de nosotros|detrás de nosotras">Venían <marker>detrás nuestro</marker>.</example>
                 <example>Tenemos a los niños encima de nosotros.</example>
             </rule>
-            <!--2ª plural: cerca vuestro/a-->
             <rule>
                 <pattern>
                     <token regexp="yes">&adverbio_lugar;</token>
-                    <token postag="PX2.S0P0" postag_regexp="yes"/>
+                    <token regexp="yes">vuestro|vuestra</token>
                 </pattern>
                 <message>Es preferible usar otra expresión.</message>
                 <suggestion>\1 de vosotros</suggestion>
@@ -4127,11 +4122,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="detrás de vosotros|detrás de vosotras">Venían <marker>detrás vuestro</marker>.</example>
                 <example>Tenemos a los niños encima de vosotros.</example>
             </rule>
-            <!--3ª: detrás suyo-->
             <rule>
                 <pattern>
                     <token regexp="yes">&adverbio_lugar;</token>
-                    <token postag="PX3.{2}0C0" postag_regexp="yes"/>
+                    <token regexp="yes">suyo|suya</token>
                 </pattern>
                 <message>Es preferible usar otra expresión.</message>
                 <suggestion>\1 de él</suggestion>
@@ -4527,9 +4521,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ese teléfono|esos teléfonos">Me gusta <marker>esa teléfono</marker> para ti.</example>
                 <example correction="el mil|los miles">Con <marker>las miles</marker> de personas que estaban allí.</example>
                 <example correction="el ciento|los cientos">Con <marker>las cientos</marker> de personas que estaban allí.</example>
-                <example correction="el mil|los miles">Con <marker>las mil</marker> persona que estaban allí.</example>
+                <!--<example correction="el mil|los miles">Con <marker>las mil</marker> persona que estaban allí.</example>  rule for numerals -->
                 <example correction="el Estado|los Estados">Voy a <marker>los Estado</marker> Unidos.</example>
-                <!--<example correction="algún coche|algunos coches">Con <marker>algunos coche</marker>.</example> pending dict update-->
+                <example correction="algún coche|algunos coches">Con <marker>algunos coche</marker>.</example>
                 <!-- TODO: De alguna forma terminaré esta trabajo.
                 Tengo tiempo libre este tarde. -->
                 <example>También lo contrario.</example>
@@ -4603,6 +4597,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="otra oportunidad|otras oportunidades" type="triggers_error" reason="ambiguous, missimg comma">Algunos los llaman problemas y <marker>otros oportunidades</marker> de crecimiento.</example>
                 <!--y para otros dolor.-->
                 <example correction="nuestra revista|nuestras revistas">Suscribiendote a <marker>nuestras revista</marker> te regalamos un secador</example>
+                <example correction="la cosa|las cosas">De <marker>la cosas</marker>.</example>
+                <example correction="mi casa|mis casas"><marker>mi casas</marker></example>
                 <example>sus hermanos</example>
                 <example>Los polis y las polis.</example>
                 <example>El agua.</example>
