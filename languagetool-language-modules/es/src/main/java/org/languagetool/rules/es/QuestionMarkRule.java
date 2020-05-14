@@ -82,11 +82,11 @@ public class QuestionMarkRule extends TextLevelRule {
           }
           // put the question mark in: ¿de qué... ¿para cuál... ¿cómo...
           if (i > 2 && i + 1 < tokens.length) {
-            if (tokens[i].hasPosTag("SPS00")
+            if (tokens[i - 1].getToken().equals(",") && tokens[i].hasPosTag("SPS00")
                 && (tokens[i + 1].hasPosTagStartingWith("PT") || tokens[i + 1].hasPosTagStartingWith("DT"))) {
               firstToken = tokens[i];
             }
-            if (!tokens[i - 1].hasPosTag("SPS00")
+            if (tokens[i - 1].getToken().equals(",")
                 && (tokens[i].hasPosTagStartingWith("PT") || tokens[i].hasPosTagStartingWith("DT"))) {
               firstToken = tokens[i];
             }

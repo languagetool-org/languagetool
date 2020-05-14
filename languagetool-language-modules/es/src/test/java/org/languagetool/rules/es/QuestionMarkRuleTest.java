@@ -108,6 +108,10 @@ public class QuestionMarkRuleTest {
     
     RuleMatch[] matches17 = check("Pero, cómo quieres que te lo diga?");
     assertThat(matches17[0].getSuggestedReplacements().toString(), is("[¿cómo]"));
+    
+    RuleMatch[] matches18 = check("Puedes imaginarte por qué no vino con nosotros?");
+    assertThat(matches18[0].getSuggestedReplacements().toString(), is("[¿Puedes]"));
+     
 
     // Exclamation marks:
     List<RuleMatch> matches20 = lt.check("Qué irritante!");

@@ -2006,6 +2006,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="él">Fue <marker>el</marker>, porque después no vino.</example>
                 <example correction="él">en <marker>el</marker> (también deporte ecuestre)</example>
                 <example correction="él">Si <marker>el</marker> pregunta, yo respondo.</example>
+                <example correction="él">¿Por qué <marker>el</marker> no vino con nosotros?</example>
                 <example>Vive en el ahora.</example>
                 <example>Me gusta el que tienes.</example>
                 <example>ni siquiera el anime era lo suficientemente expresivo</example>
@@ -2041,22 +2042,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule id="TU_TILDE" name="tu / tú" default="temp_off">
                 <antipattern>
                     <token>tu</token>
-                    <token postag="P[TR].*|CS|Y|PI.*|V.N.*|N.FS.*|_QM_OPEN" postag_regexp="yes"><exception postag="V.[IS].2S." postag_regexp="yes"/></token>
+                    <token min="0">,</token>
+                    <token>tu</token>
                 </antipattern>
                 <antipattern>
                     <token>tu</token>
                     <token min="0" max="4" postag_regexp="yes" postag="R.|LOC_ADV|_QM_OPEN"/>
-                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
+                    <token postag="N..[SN].*|A...[SN].|_GN_.S|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..S." postag_regexp="yes"><exception postag="V.[IS].2S." postag_regexp="yes"/></token>
                 </antipattern>
                 <antipattern>
                     <token>tu</token>
                     <token>más</token>
                     <token>que</token>
-                    <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
+                    <token postag="N..[SN].*|A...[SN].|_GN_.S|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..S." postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token>tu<exception postag="_GN_MS|LOC_.*" postag_regexp="yes"/></token>
+                        <token>tu<exception postag="_GN_.S|LOC_.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
                 <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
@@ -2065,8 +2067,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tú">Cuando <marker>tu</marker> vuelves, yo voy.</example>
                 <example correction="tú">Cuando <marker>tu</marker> no vuelves, yo voy.</example>
                 <example correction="tú">Cuando <marker>tu</marker> no nos lo indicas.</example>
+                <example correction="tú">Esto queda entre <marker>tu</marker> y yo.</example>
                 <example>Me alegra tu feliz vuelta al trabajo.</example>
                 <example>Me alegra tu vuelta al trabajo.</example>
+                <example>Es tu hermosa gente trabajadora.</example>
+                <example>¿Cómo vas a explicar la razón de tu no asistencia?</example>
             </rule>
             <rule id="TU_PARTICULA_VERBO_P2" name="Tu + partícula + verbo en 2a">
                 <pattern>

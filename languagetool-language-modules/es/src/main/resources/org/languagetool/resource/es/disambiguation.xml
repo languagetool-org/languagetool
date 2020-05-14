@@ -628,6 +628,28 @@ Copyright (C) 2011 Juan Martorell
             <wd lemma="haber" pos="VMIP1P0"/>
         </disambig>
     </rule>
+    <rulegroup id="VINO" name="vino (noun/verb)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>vino</token>
+                </marker>
+                <token>con</token>
+                <token postag="P.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>no</token>
+                <marker>
+                    <token>vino</token>
+                </marker>
+                <token>con</token>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="VAN_GOGH" name="van Gogh">
         <rule>
             <pattern>
