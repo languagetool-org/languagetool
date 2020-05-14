@@ -1980,6 +1980,14 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
 
+    <rule id="noun_not_reflexive_verb" name="nombre, no verbo reflexivo">
+        <pattern>
+            <marker>
+                <token regexp="yes">persona|personas<exception postag="_reflexive"/></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="V.*"/>
+    </rule>
     <!-- IGNORE SPELLING -->
     <rule name="Ignore spelling pm/am" id="pm_am">
         <!-- style rules can be suggested for these abbreviations -->
