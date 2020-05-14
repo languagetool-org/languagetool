@@ -3059,6 +3059,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token>tik</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">toks?</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="tik$1" case_conversion="alllower"/></suggestion>
+                <example correction="tiktoks">En los <marker>tik-toks</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>wh?at*s</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">app*s*</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="^.*p(s?)$" regexp_replace="wasap$1" case_conversion="alllower"/></suggestion>
+                <suggestion>WhatsApp</suggestion>
+                <example correction="wasaps|WhatsApp">Le he escrito 4 <marker>wats apps</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token regexp="yes">video|vídeo</token>
                     <token min="0">-</token>
                     <token regexp="yes" inflected="yes">llamada|conferencia|tutorial</token>
