@@ -175,36 +175,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
-        <rule id="HACE_UN_MES_ATRAS" name="*hace un mes atrás">
-            <pattern>
-                <token>hace</token>
-                <token postag="D[NI].*" postag_regexp="yes"/>
-                <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
-                <token>atrás</token>
-            </pattern>
-            <message>Expresión incorrecta.</message>
-            <suggestion>\1 \2 \3</suggestion>
-            <suggestion>\2 \3 \4</suggestion>
-            <url>https://www.fundeu.es/recomendacion/hace-un-mes-o-un-mes-atras-pero-no-hace-un-mes-atras-1116/</url>
-            <example correction="Hace un mes|Un mes atrás"><marker>Hace un mes atrás</marker> no se conocía.</example>
-            <example correction="hace dos años|dos años atrás"><marker>hace dos años atrás</marker></example>
-        </rule>
-        <rule id="HACE_UN_MES_Y_MEDIO_ATRAS" name="*hace un mes atrás">
-            <pattern>
-                <token>hace</token>
-                <token postag="D[NI].*" postag_regexp="yes"/>
-                <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
-                <token>y</token>
-                <token regexp="yes">medio|media</token>
-                <token>atrás</token>
-            </pattern>
-            <message>Expresión incorrecta.</message>
-            <suggestion>\1 \2 \3 \4 \5</suggestion>
-            <suggestion>\2 \3 \4 \5 \6</suggestion>
-            <url>https://www.fundeu.es/recomendacion/hace-un-mes-o-un-mes-atras-pero-no-hace-un-mes-atras-1116/</url>
-            <example correction="Hace un mes y medio|Un mes y medio atrás"><marker>Hace un mes y medio atrás</marker> no se conocía.</example>
-            <example correction="hace dos semanas y media|dos semanas y media atrás"><marker>hace dos semanas y media atrás</marker></example>
-        </rule>
+        <rulegroup id="HACE_UN_MES_ATRAS" name="*hace un mes atrás">
+            <rule>
+                <pattern>
+                    <token>hace</token>
+                    <token postag="D[NI].*" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
+                    <token>atrás</token>
+                </pattern>
+                <message>Expresión incorrecta.</message>
+                <suggestion>\1 \2 \3</suggestion>
+                <suggestion>\2 \3 \4</suggestion>
+                <url>https://www.fundeu.es/recomendacion/hace-un-mes-o-un-mes-atras-pero-no-hace-un-mes-atras-1116/</url>
+                <example correction="Hace un mes|Un mes atrás"><marker>Hace un mes atrás</marker> no se conocía.</example>
+                <example correction="hace dos años|dos años atrás"><marker>hace dos años atrás</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>hace</token>
+                    <token postag="RG"/>
+                    <token postag="D[NI].*" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
+                    <token>atrás</token>
+                </pattern>
+                <message>Expresión incorrecta.</message>
+                <suggestion>\1 \2 \3 \4</suggestion>
+                <suggestion>\2 \3 \4 \5</suggestion>
+                <url>https://www.fundeu.es/recomendacion/hace-un-mes-o-un-mes-atras-pero-no-hace-un-mes-atras-1116/</url>
+                <example correction="Hace exactamente un mes|Exactamente un mes atrás"><marker>Hace exactamente un mes atrás</marker> no se conocía.</example>
+            </rule>
+            <rule id="HACE_UN_MES_Y_MEDIO_ATRAS" name="*hace un mes atrás">
+                <pattern>
+                    <token>hace</token>
+                    <token postag="D[NI].*" postag_regexp="yes"/>
+                    <token regexp="yes" inflected="yes">&unidades_tiempo;</token>
+                    <token>y</token>
+                    <token regexp="yes">medio|media</token>
+                    <token>atrás</token>
+                </pattern>
+                <message>Expresión incorrecta.</message>
+                <suggestion>\1 \2 \3 \4 \5</suggestion>
+                <suggestion>\2 \3 \4 \5 \6</suggestion>
+                <url>https://www.fundeu.es/recomendacion/hace-un-mes-o-un-mes-atras-pero-no-hace-un-mes-atras-1116/</url>
+                <example correction="Hace un mes y medio|Un mes y medio atrás"><marker>Hace un mes y medio atrás</marker> no se conocía.</example>
+                <example correction="hace dos semanas y media|dos semanas y media atrás"><marker>hace dos semanas y media atrás</marker></example>
+            </rule>
+        </rulegroup>
         <rule id="EXCESO_DE_AFORO" name="exceso de aforo">
             <pattern>
                 <token>exceso</token>
@@ -836,12 +852,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SE_CREO" name="confusión: se creo/creó" default="on">
             <rule>
                 <pattern>
-                    <token regexp="yes">se|nos<exception postag="LOC_ADV"/></token>
-                    <!--<token min="0" regexp="yes">lo|la|los|las|le|les|te|me|nos|os</token>-->
+                    <token>se<exception postag="LOC_ADV"/></token>
+                    <token min="0" regexp="yes">le|les</token>
                     <token regexp="yes" min="0">["«“‘']</token>
                     <marker>
                         <and>
-                            <token postag="VMIP1S0" regexp="yes">.+o<exception>como</exception></token>
+                            <token postag="VMIP1S0" regexp="yes">.+o</token>
                             <token inflected="yes" regexp="yes">.+ar</token>
                         </and>
                     </marker>
@@ -851,10 +867,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vengó|vino">Se <marker>vengo</marker></example>
                 <example correction="creyó|creó">Se <marker>creo</marker></example>
                 <example correction="determinó">Se <marker>determino</marker></example>
-                <example correction="determinó">Nos <marker>determino</marker> el resultado.</example>
-                <!--<example correction="determinó">Nos lo <marker>determino</marker>.</example>-->
                 <example correction="determinó">Se "<marker>determino</marker>".</example>
-                <!--<example correction="determinó">Se le "<marker>determino</marker>".</example>-->
+                <example correction="determinó">Se le "<marker>determino</marker>".</example>
                 <example>Con ella hablo todos los días.</example>
                 <example>Él viene</example>
                 <example type="correct" reason="triggers other rule">No se como lo hizo.</example>
@@ -865,7 +879,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">él|ella|usted<exception postag="SP.*" postag_regexp="yes" scope="previous"/></token>
                     <marker>
-                        <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V.{3}3.*|C.*|SP.*|V.G.*" postag_regexp="yes"/><exception postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"/><exception>como</exception></token>
+                        <and>
+                            <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V.{3}3.*|C.*|SP.*|V.G.*" postag_regexp="yes"/><exception postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"/></token>
+                            <token inflected="yes" regexp="yes">.+ar</token>
+                        </and>
                     </marker>
                 </pattern>
                 <message>Si el verbo es en pasado, falta un acento.</message>
@@ -875,8 +892,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="habló">Usted <marker>hablo</marker></example>
                 <example>Con ella hablo todos los días.</example>
                 <example>¿Qué estaba usted haciendo?</example>
+                <example>¿Tiene usted uno?</example>
                 <example>Él viene</example>
                 <example>Tanto él como yo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>nos<exception postag="LOC_ADV"/></token>
+                    <token min="0" regexp="yes">lo|la|los|las|le|les</token>
+                    <token regexp="yes" min="0">["«“‘']</token>
+                    <marker>
+                        <and>
+                            <token postag="VMIP1S0" regexp="yes">.+o</token>
+                            <token inflected="yes" regexp="yes">.+ar</token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Si el verbo es en pasado, falta un acento.</message>
+                <suggestion><match no="4" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
+                <example correction="determinó">Nos lo <marker>determino</marker></example>
+                <example correction="determinó">Nos <marker>determino</marker> el resultado.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SE" name="se/sé" default="on">
@@ -1715,7 +1750,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>valido</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">le|lo|la|los|las|os</token>
+                    <token regexp="yes">le|les|lo|los|la|las|os</token>
                     <token>valido</token>
                 </antipattern>
                 <pattern>
@@ -1728,12 +1763,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Yo le valido la prueba.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">le|les|lo|los|la|las|os</token>
+                    <token>incomodo</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">incomodos?</token>
                 </pattern>
                 <message>Si es adjetivo, se escribe con tilde. Correcto en el sentido de 'incomodidad'.</message>
                 <suggestion><match no="1" regexp_match="(?i)(inc)o(.*)" regexp_replace="$1ó$2"/></suggestion>
                 <example correction="incómodos">Son <marker>incomodos</marker>.</example>
+                <example>Disculpen si les incomodo.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -1780,32 +1820,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="(?iu)tocari(as?)" regexp_replace="tocarí$1"/></suggestion>
                 <example correction="Tocaría"><marker>Tocaria</marker> hacerlo.</example>
             </rule>
-            <rule id="SERIA" name="seria/sería" default="temp_off">
-                <pattern>
-                    <marker>
-                        <token>seria<exception postag="_GN_FS"/></token>
-                    </marker>
-                    <token postag="[AD].*" postag_regexp="yes"/>
-                </pattern>
-                <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
-                <suggestion>sería</suggestion>
-                <example correction="sería">Y <marker>seria</marker> bueno que pasara.</example>
-                <example correction="sería">Y <marker>seria</marker> lo mejor.</example>
-                <example>Es una persona seria la que buscamos.</example>
-            </rule>
-            <rule id="SERIAS" name="serias/serías" default="temp_off">
-                <pattern>
-                    <marker>
-                        <token>serias<exception postag="_GN_FP"/></token>
-                    </marker>
-                    <token postag="[AD].*" postag_regexp="yes"/>
-                </pattern>
-                <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
-                <suggestion>serías</suggestion>
-                <example correction="serías">Y <marker>serias</marker> bueno.</example>
-                <example correction="serías">Y <marker>serias</marker> el mejor.</example>
-                <example>Son personas serias las que vienen aquí.</example>
-            </rule>
             <rule id="ADEMAS" name="ademas">
                 <pattern>
                     <token>ademas</token>
@@ -1828,6 +1842,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="convivió">Durante mucho tiempo <marker>convivio</marker> con sus padres.</example>
             </rule>
             <!-- TODO: lucido/lúcido, cesar/césar, revolver/revólver -->
+        </rulegroup>
+        <rulegroup id="SERIA" name="seria/sería" default="temp_off">
+            <antipattern>
+                <token inflected="yes" regexp="yes">poner|ser|estar|parecer|volver</token>
+                <token regexp="yes">serias?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>seria<exception postag="_GN_FS"/></token>
+                    </marker>
+                    <token postag="[AD].*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
+                <suggestion>sería</suggestion>
+                <example correction="sería">Y <marker>seria</marker> bueno que pasara.</example>
+                <example correction="sería">Y <marker>seria</marker> lo mejor.</example>
+                <example>Es una persona seria la que buscamos.</example>
+                <example>Se puso seria otra vez.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>serias<exception postag="_GN_FP"/></token>
+                    </marker>
+                    <token postag="[AD].*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del v. 'ser', se escribe con tilde. Correcto como adjetivo.</message>
+                <suggestion>serías</suggestion>
+                <example correction="serías">Y <marker>serias</marker> bueno.</example>
+                <example correction="serías">Y <marker>serias</marker> el mejor.</example>
+                <example>Son personas serias las que vienen aquí.</example>
+                <example>Se pusieron serias otra vez.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="PARIS" name="Paris/París" default="on">
             <antipattern>
@@ -4373,6 +4421,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>mas</token>
             </antipattern>
             <antipattern>
+                <and>
+                    <token postag="_GN_MS"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </and>
+                <token postag="_GN_MS"/>
+            </antipattern>
+            <antipattern>
+                <and>
+                    <token postag="_GN_FS"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </and>
+                <token postag="_GN_FS"/>
+            </antipattern>
+            <antipattern>
+                <and>
+                    <token postag="_GN_MP"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </and>
+                <token postag="_GN_MP"/>
+            </antipattern>
+            <antipattern>
+                <and>
+                    <token postag="_GN_FP"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </and>
+                <token postag="_GN_FP"/>
+            </antipattern>
+            <antipattern>
                 <!-- with prefixes it is imposible to know the word-->
                 <token postag="N.*" postag_regexp="yes"/>
                 <token spacebefore="no">-</token>
@@ -4435,8 +4511,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <unify negate="yes">
                             <feature id="numero"/>
                             <feature id="genero"/>
-                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
-                            <token postag="N.M.*" postag_regexp="yes"><exception postag="N.CN.*|_GN_.*|V.[IS].*" postag_regexp="yes"/></token>
+                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
+                            <token postag="N.M.*" postag_regexp="yes"><exception postag="N.CN.*|V.[IS].*" postag_regexp="yes"/></token>
                         </unify>
                     </marker>
                 </pattern>
@@ -4500,8 +4576,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <unify negate="yes">
                             <feature id="numero"/>
                             <feature id="genero"/>
-                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
-                            <token postag="N.F.*" postag_regexp="yes"><exception postag="N.CN.*|_GN_.*|V.[IS].*" postag_regexp="yes"/></token>
+                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
+                            <token postag="N.F.*" postag_regexp="yes"><exception postag="N.CN.*|V.[IS].*" postag_regexp="yes"/></token>
                         </unify>
                     </marker>
                 </pattern>
@@ -4557,8 +4633,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <unify negate="yes">
                             <feature id="numero"/>
-                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
-                            <token postag="N.C.*" postag_regexp="yes"><exception postag="N.CN.*|_GN_.*|V.[IS].*" postag_regexp="yes"/></token>
+                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
+                            <token postag="N.C.*" postag_regexp="yes"><exception postag="N.CN.*|V.[IS].*" postag_regexp="yes"/></token>
                         </unify>
                     </marker>
                 </pattern>
@@ -4583,8 +4659,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <unify negate="yes">
                             <feature id="numero"/>
                             <feature id="genero"/>
-                            <token postag="SP\+DA" postag_regexp="yes" regexp="yes">del|al<exception postag="_GN_.*|(&lt;)?NP.*" postag_regexp="yes"/></token>
-                            <token postag="N.[MF][SP].*" postag_regexp="yes"><exception postag="(A.|N).[CM][NS].*|_GN_.*|_GV_" postag_regexp="yes"/><exception postag="V.*" postag_regexp="yes"/></token>
+                            <token postag="SP\+DA" postag_regexp="yes" regexp="yes">del|al<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
+                            <token postag="N.[MF][SP].*" postag_regexp="yes"><exception postag="(A.|N).[CM][NS].*|_GV_" postag_regexp="yes"/><exception postag="V.*" postag_regexp="yes"/></token>
                         </unify>
                     </marker>
                 </pattern>
@@ -4610,8 +4686,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <unify negate="yes">
                             <feature id="numero"/>
                             <feature id="genero"/>
-                            <token postag="SP\+DA" postag_regexp="yes" regexp="yes">del|al<exception postag="_GN_.*|(&lt;)?NP.*" postag_regexp="yes"/></token>
-                            <token postag="N.CP.*" postag_regexp="yes"><exception postag="(A.|N).[CM][NS].*|_GN_.*|_GV_" postag_regexp="yes"/><exception postag="V.*" postag_regexp="yes"/></token>
+                            <token postag="SP\+DA" postag_regexp="yes" regexp="yes">del|al<exception postag="(&lt;)?NP.*" postag_regexp="yes"/></token>
+                            <token postag="N.CP.*" postag_regexp="yes"><exception postag="(A.|N).[CM][NS].*|_GV_" postag_regexp="yes"/><exception postag="V.*" postag_regexp="yes"/></token>
                         </unify>
                     </marker>
                 </pattern>
@@ -4643,39 +4719,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example reason="triggers another rule">Tengo tiempo libre este tarde.</example>
                 <example reason="triggers another rule">En la ciudad esta la sede del Fútbol Club Barcelona.</example>
             </rule>
-            <rule id="DET_FEM_NOM_FEM" name="la agua>el agua">
-                <antipattern>
-                    <token>alta</token>
-                    <token postag="N[CP][FC][SN].*" postag_regexp="yes"><exception>médica</exception></token>
-                </antipattern>
-                <antipattern>
-                    <token>que</token>
-                    <token>la</token>
-                    <token>alta</token>
-                </antipattern>
-                <pattern>
-                    <token>la</token>
-                    <token regexp="yes">&nombre_fem_el;<exception postag="V.[IS].*" postag_regexp="yes" regexp="yes">ama|haya|abra</exception><exception postag="_possible_NP">Haya</exception></token>
-                </pattern>
-                <message>En este caso se usa el artículo determinado masculino.</message>
-                <suggestion>el \2</suggestion>
-                <url>https://www.fundeu.es/recomendacion/la-y-el-en-nombres-femeninos-agua-aguila/</url>
-                <example correction="el agua">Me gusta <marker>la agua</marker> que hay ahí.</example>
-                <example correction="el alta">Le dieron <marker>la alta</marker> en el hospital.</example>
-                <example correction="el alta">Le dieron <marker>la alta</marker> médica en el hospital.</example>
-                <example correction="El ama"><marker>La ama</marker> se fue.</example>
-                <example>Él todavía la ama.</example>
-                <example>Me dan el alta en el hospital.</example>
-                <example>La alta tensión.</example>
-                <example>La alta fiebre.</example>
-                <example>Me gusta el agua que hay ahí.</example>
-                <example>Me dan el alta en el hospital.</example>
-                <example>La alta tensión</example>
-                <example>La gente baja necesita dormir más que la alta.</example>
-                <example>En la Alta Andalucía.</example>
-                <example>Que la haya vendido.</example>
-                <example>Llegó a La Haya.</example>
-            </rule>
             <rule id="LO_LOS" name="confusión lo/los">
                 <antipattern>
                     <token>lo</token>
@@ -4701,6 +4744,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cuando menos te lo esperas te deja.</example>
             </rule>
         </rulegroup>
+        <rule id="DET_FEM_NOM_FEM" name="la agua>el agua">
+            <antipattern>
+                <token>alta</token>
+                <token postag="N[CP][FC][SN].*" postag_regexp="yes"><exception>médica</exception></token>
+            </antipattern>
+            <antipattern>
+                <token>que</token>
+                <token>la</token>
+                <token>alta</token>
+            </antipattern>
+            <pattern>
+                <token>la</token>
+                <token regexp="yes">&nombre_fem_el;<exception postag="V.[IS].*" postag_regexp="yes" regexp="yes">ama|haya|abra</exception><exception postag="_possible_NP">Haya</exception></token>
+            </pattern>
+            <message>En este caso se usa el artículo determinado masculino.</message>
+            <suggestion>el \2</suggestion>
+            <url>https://www.fundeu.es/recomendacion/la-y-el-en-nombres-femeninos-agua-aguila/</url>
+            <example correction="el agua">Me gusta <marker>la agua</marker> que hay ahí.</example>
+            <example correction="el alta">Le dieron <marker>la alta</marker> en el hospital.</example>
+            <example correction="el alta">Le dieron <marker>la alta</marker> médica en el hospital.</example>
+            <example correction="El ama"><marker>La ama</marker> se fue.</example>
+            <example>Él todavía la ama.</example>
+            <example>Me dan el alta en el hospital.</example>
+            <example>La alta tensión.</example>
+            <example>La alta fiebre.</example>
+            <example>Me gusta el agua que hay ahí.</example>
+            <example>Me dan el alta en el hospital.</example>
+            <example>La alta tensión</example>
+            <example>La gente baja necesita dormir más que la alta.</example>
+            <example>En la Alta Andalucía.</example>
+            <example>Que la haya vendido.</example>
+            <example>Llegó a La Haya.</example>
+        </rule>
         <rule id="AGREEMENT_DET_GN" name="concordnacia det + gn" default="off">
             <pattern>
                 <marker>
