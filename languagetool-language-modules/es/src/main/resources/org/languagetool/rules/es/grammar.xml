@@ -837,10 +837,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">se|nos<exception postag="LOC_ADV"/></token>
-                    <token min="0" regexp="yes">lo|la|los|las|le|les|te|me|nos|os</token>
+                    <!--<token min="0" regexp="yes">lo|la|los|las|le|les|te|me|nos|os</token>-->
                     <token regexp="yes" min="0">["«“‘']</token>
                     <marker>
-                        <token postag="VMIP1S0" regexp="yes">.+o<exception>como</exception></token>
+                        <and>
+                            <token postag="VMIP1S0" regexp="yes">.+o<exception>como</exception></token>
+                            <token inflected="yes" regexp="yes">.+ar</token>
+                        </and>
                     </marker>
                 </pattern>
                 <message>Si el verbo es en pasado, falta un acento.</message>
@@ -849,19 +852,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="creyó|creó">Se <marker>creo</marker></example>
                 <example correction="determinó">Se <marker>determino</marker></example>
                 <example correction="determinó">Nos <marker>determino</marker> el resultado.</example>
-                <example correction="determinó">Nos lo <marker>determino</marker>.</example>
+                <!--<example correction="determinó">Nos lo <marker>determino</marker>.</example>-->
                 <example correction="determinó">Se "<marker>determino</marker>".</example>
-                <example correction="determinó">Se le "<marker>determino</marker>".</example>
+                <!--<example correction="determinó">Se le "<marker>determino</marker>".</example>-->
                 <example>Con ella hablo todos los días.</example>
                 <example>Él viene</example>
                 <example type="correct" reason="triggers other rule">No se como lo hizo.</example>
                 <example>Podía ser considerado per se digno de atención.</example>
+                <example>Se lo pregunto a él.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">él|ella|usted<exception postag="SP.*" postag_regexp="yes" scope="previous"/></token>
                     <marker>
-                        <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V.{3}3.*|C.*|SP.*" postag_regexp="yes"/><exception postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"/><exception>como</exception></token>
+                        <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V.{3}3.*|C.*|SP.*|V.G.*" postag_regexp="yes"/><exception postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"/><exception>como</exception></token>
                     </marker>
                 </pattern>
                 <message>Si el verbo es en pasado, falta un acento.</message>
@@ -870,6 +874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="habló">Ella <marker>hablo</marker></example>
                 <example correction="habló">Usted <marker>hablo</marker></example>
                 <example>Con ella hablo todos los días.</example>
+                <example>¿Qué estaba usted haciendo?</example>
                 <example>Él viene</example>
                 <example>Tanto él como yo.</example>
             </rule>
@@ -4593,6 +4598,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de los parques">Ha vuelto <marker>del parques</marker> pronto.</example>
                 <example correction="De la silla"><marker>Del silla</marker></example>
                 <example correction="De la interfaz"><marker>Del interfaz</marker></example>
+                <!--<example correction="De la manera"><marker>Del manera</marker> similar</example>-->
                 <example>Debes estar al corriente.</example>
                 <example>Monsour del Rosario</example>
                 <example>María del Carmen</example>
@@ -4616,20 +4622,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="a los ajedrecistas|a las ajedrecistas"><marker>al ajedrecistas</marker></example>
                 <example correction="de los médicos|de las médicos"><marker>del médicos</marker></example>
                 <example>del médico</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <marker>
-                        <unify negate="yes">
-                            <feature id="numero"/>
-                            <feature id="genero"/>
-                            <token postag="D[^RN].*" postag_regexp="yes"><exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
-                            <token postag="_GN.*" postag_regexp="yes"><exception postag="N.CN.*|V.[IS].*" postag_regexp="yes"/></token>
-                        </unify>
-                    </marker>
-                </pattern>
-                <message>Error de concordancia.</message>
-                <example correction="">Es de <marker>un media</marker> alta.</example>
             </rule>
             <rule>
                 <pattern>
@@ -4709,6 +4701,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cuando menos te lo esperas te deja.</example>
             </rule>
         </rulegroup>
+        <rule id="AGREEMENT_DET_GN" name="concordnacia det + gn" default="off">
+            <pattern>
+                <marker>
+                    <unify negate="yes">
+                        <feature id="numero"/>
+                        <feature id="genero"/>
+                        <token postag="D[^RN].*" postag_regexp="yes"><exception postag="_GN_.*|DA0NS0|_allow_tanto|_DD_after_noun" postag_regexp="yes"/></token>
+                        <token postag="_GN.*" postag_regexp="yes"><exception postag="N.CN.*|V.[IS].*" postag_regexp="yes"/></token>
+                    </unify>
+                </marker>
+            </pattern>
+            <message>Error de concordancia.</message>
+            <example correction="">Es de <marker>un media</marker> alta.</example>
+        </rule>
         <rulegroup id="AGREEMENT_PARTICULAR_CASES" name="otros casos de concordancia">
             <rule id="LAS_NUMBER_MALE" name="'las tres preceptos' etcétera">
                 <pattern>
