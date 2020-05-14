@@ -3393,6 +3393,11 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
     <!-- the known good solution -->
     <rule name="DT + VBN + JJ -&gt; VBN=JJ" id="DT_VBN_JJ">
+        <antipattern><!-- #2927 a reset on -->
+            <token regexp="yes">a|an|the</token>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token postag="IN"/>
+        </antipattern>
         <pattern>
             <token regexp="yes">a|an|the</token>
             <marker>
@@ -3403,6 +3408,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig postag="JJ"/>
         <example type="ambiguous" inputform="known[know/VBN,known/NN]" outputform="known[known/JJ]">This is the <marker>known</marker> good solution.</example>
         <example type="ambiguous" inputform="broken[break/VBN,broken/JJ]" outputform="broken[broken/JJ]">The <marker>broken</marker> window is dangerous.</example>
+        <example type="untouched">Perhaps every month have a reset on trophies so guilds can...</example><!-- #2927 -->
+        <example type="untouched">A podcast through earbuds.</example><!-- #2927 -->
+        <example type="untouched">Expanding its push into entertainment with a bet on preschoolers.</example><!-- #2927 -->
     </rule>
 
     <!-- known written works -->
