@@ -15222,6 +15222,12 @@ USA
                     <token postag="VB" skip="5"></token>
                     <token>please</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="MD" />
+                    <token>it</token>
+                    <token>would</token>
+                    <token>be</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"></token>
                     <token min="0">Even</token>
@@ -15238,6 +15244,7 @@ USA
                 <example correction="had">If she <marker>would have</marker> known about it, she would have been really mad.</example>
                 <example>If you would do this for me, please, I would be extremely happy.</example>
                 <example>If you would like an update in my absence…</example>
+                <example>If you could it would be amazing.</example>
             </rule>
             <rule>
                 <pattern>
@@ -21747,6 +21754,18 @@ USA
             <suggestion>\1-<match no="2" regexp_match="(?i)v" regexp_replace="f" /></suggestion>
             <url>https://www.lexico.com/definition/work-life_balance</url>
             <example correction="Work-life"><marker>Work life</marker> balance is having enough time for work and enough to have a life.</example>
+        </rule>
+        <rule id="RUN_ON_HYPHEN" name="missing hyphen in 'run on'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>run</token>
+                    <token>on</token>
+                </marker>
+                <token regexp="yes">sentences?</token>
+            </pattern>
+            <message>The adjective <suggestion>\1-\2</suggestion> is spelled with a hyphen.</message>
+            <url>https://www.merriam-webster.com/dictionary/run-on</url>
+            <example correction="run-on">I'm using a tool to fix my <marker>run on</marker> sentences.</example>
         </rule>
         <rule id="HIGH_END_HYPHEN" name="missing hyphen in 'high end'">
             <pattern>
