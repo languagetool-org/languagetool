@@ -8338,6 +8338,49 @@ USA
                 <example>I think you mean:</example>
                 <example>I think your best, if not only, bet is an AppleScript applet that accomplishes the same thing.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">when|while|after|before|if|once|as</token>
+                    <marker>
+                        <token>your</token>
+                    </marker>
+                    <token regexp="yes">at|on|in|with(in)?</token>
+                    <token chunk="B-NP-singular" />
+                </pattern>
+                <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
+                <example correction="you're">Please talk to me when <marker>your</marker> at the office.</example>
+                <example correction="you're">Social stuff will come when <marker>your</marker> on top of your symptoms.</example>
+                <example correction="you're">Because they are lots of fun when <marker>your</marker> in a good state of mind.</example>
+                <example correction="you're">If <marker>your</marker> in pain just go to anyone.</example>
+                <example correction="you're">It's very casual, so if <marker>your</marker> in the neighborhood, stop by and have a glass of wine.</example>
+                <example correction="you're">While <marker>your</marker> at it.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">when|while|after|before|if|once|as</token>
+                    <marker>
+                        <token>your</token>
+                    </marker>
+                    <token regexp="yes">at|on|in|with(in)?</token>
+                    <token chunk="B-NP-plural" />
+                </pattern>
+                <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
+                <example correction="you're">Please talk to me when <marker>your</marker> at the offices.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>your</token>
+                    </marker>
+                    <token>not</token>
+                    <token postag="RB" min="0" />
+                    <token postag="JJ" />
+                    <token regexp="yes">with|at</token>
+                </pattern>
+                <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
+                <example correction="you're">How does it feel to talk to someone <marker>your</marker> not familiar with.</example>
+                <example correction="You're"><marker>Your</marker> not useless at all mate.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="EXITED_EXCITED" name="exited (excited)">
             <rule>
@@ -10177,15 +10220,6 @@ USA
                 <example correction="contract">He signed the <marker>contact</marker> yesterday.</example>
             </rule>
         </rulegroup>
-        <rule id="HART_HARD" name="confusion of hart/hard">
-            <pattern>
-                <marker><token>hart</token></marker>
-                <token inflected="yes" regexp="yes">copy|evidence|disk|drive|rock|time|work</token>
-            </pattern>
-            <message>Did you mean <suggestion>hard</suggestion>?</message>
-            <short>Possible typo</short>
-            <example correction="hard">She had a <marker>hart</marker> time there.</example>
-        </rule>
         <rulegroup id="IN_TO_INTO" name="in to (into)">
             <rule>
                 <pattern>
@@ -11736,13 +11770,24 @@ USA
             <example>Try either Bar Keepers Friend or Bon Ami.</example>
         </rule>
         <rule id="SUPER_COMPOUNDS" name="super market (supermarket)">
+            <antipattern><!-- proper nouns -->
+                <token>super</token>
+                <token>hero</token>
+                <token regexp="yes">girls?|squads?</token>
+            </antipattern>
+            <antipattern><!-- proper nouns -->
+                <token regexp="yes">marvel|dc|lego</token>
+                <token>super</token>
+                <token regexp="yes">hero(es)?</token>
+            </antipattern>
             <pattern>
                 <token>super</token>
-                <token regexp="yes">markets?|moons?|delegates?|tankers?</token>
+                <token regexp="yes">markets?|moons?|delegates?|tankers?|glues?|spreaders?|hero(es)?</token>
             </pattern>
-            <message>This is normally spelled as one word.</message>
+            <message>This noun is normally spelled as one word.</message>
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <example correction="supermarket">I need to buy some groceries at the <marker>super market</marker>.</example>
+            <example>Lego Marvel Super Heroes</example>
         </rule>
         <rule id="TAIL_COMPOUNDS" name="cock tail (cocktail)">
             <pattern>
@@ -15177,11 +15222,6 @@ USA
                     <token postag="VB" skip="5"></token>
                     <token>please</token>
                 </antipattern>
-               <antipattern>
-                    <token>would</token>
-                    <token>like</token>
-                    <token>to</token>
-                </antipattern>
                 <pattern>
                     <token postag="SENT_START"></token>
                     <token min="0">Even</token>
@@ -15190,13 +15230,14 @@ USA
                         <token>would
                             <exception scope="previous" postag="POS|PRP\$" postag_regexp="yes"/>
                         </token>
-                        <token postag="VB"></token>
+                        <token postag="VB"><exception>like</exception></token>
                     </marker>
                 </pattern>
                 <message>Consider removing 'would'. (Usually, 'would' does not occur in a conditional clause, unless to make a request or give a polite order.)</message>
                 <suggestion><match no="5" postag="VBD" /></suggestion>
                 <example correction="had">If she <marker>would have</marker> known about it, she would have been really mad.</example>
                 <example>If you would do this for me, please, I would be extremely happy.</example>
+                <example>If you would like an update in my absence…</example>
             </rule>
             <rule>
                 <pattern>
@@ -21515,17 +21556,29 @@ USA
             <example correction="Red-Nosed Reindeer">Rudolph the <marker>Red Nose Raindeer</marker> is a fictional reindeer.</example>
             <example>Rudolph the Red-Nosed Reindeer is a fictional reindeer.</example>
         </rule>
-        <rule id="A_WINDOWS" name="Windows (proper noun)">
-            <pattern>
-                <marker>
-                    <token case_sensitive="yes">windows</token>
-                </marker>
-                <token regexp="yes">\d{1,2}|20\d{2}|ce|nt|updates?|devices?|re\-?boots?|boots?|xp|vista|store|computers?|exe|dll|machines?|pcs?|sdks?|servers?|services?|conf|config(uration)?|audios?|media|(sub)?systems?|apps?|phones?|work\-?station|desktops?|drivers?|explorer|errors?|folders?|firewalls?|installers?|kernel|keys?|keyboards?|logos?|licenses?|media|terminals?|registry|version|usb|upgrades?|games?|files?|vms?</token>
-            </pattern>
-            <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
-            <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
-            <example correction="Windows">It runs on a <marker>windows</marker> 2012 server.</example>
-        </rule>
+        <rulegroup id="A_WINDOWS" name="Windows (proper noun)">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">windows</token>
+                    </marker>
+                    <token regexp="yes">\d{1,2}|20\d{2}|ce|nt|updates?|environments?|os|devices?|re\-?boots?|boots?|xp|vista|store|computers?|exe|dll|(power)?shell|machines?|pcs?|sdks?|servers?|services?|conf|config(uration)?|audios?|api|media|(sub)?systems?|apps?|phones?|work\-?station|desktops?|drivers?|explorer|errors?|folders?|firewalls?|installers?|kernel|keys?|keyboards?|logos?|licenses?|media|terminals?|registry|version|usb|upgrades?|games?|files?|vms?</token>
+                </pattern>
+                <message><suggestion><match no="1" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
+                <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
+                <example correction="Windows">It runs on a <marker>windows</marker> 2012 server.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>on</token>
+                    <marker>
+                        <token case_sensitive="yes">windows</token>
+                    </marker>
+                </pattern>
+                <message><suggestion><match no="2" case_conversion="startupper" /></suggestion> (operating system by Microsoft) is a proper noun and needs to be capitalized.</message>
+                <example correction="Windows">Are you on <marker>windows</marker>?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DUNKIN_DONUTS" name="Dunkin' Donuts">
             <rule>
                 <pattern>
@@ -32832,7 +32885,7 @@ USA
         <rule id="DOESENT" name="dosent (doesn't)">
             <pattern>
                 <marker>
-                    <token regexp="yes">doe?sent</token>
+                    <token regexp="yes">doe?sent|doesint</token>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion>doesn't</suggestion> (= verb)?</message>
@@ -46476,6 +46529,132 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rulegroup id="HART_HARD" name="hart vs hard" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">hart</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the adjective <suggestion>hard</suggestion>?</message>
+                <example correction="hard">It is really <marker>hart</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">make</token>
+                    <token regexp="yes">it|that|this</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token case_sensitive="yes">hart</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the adjective <suggestion>hard</suggestion>?</message>
+                <example correction="hard">It really makes it <marker>hart</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">hart</token>
+                    </marker>
+                    <token chunk="I-VP">to</token>
+                </pattern>
+                <message>Did you mean the adjective <suggestion>hard</suggestion>?</message>
+                <example correction="hard">He makes it <marker>hart</marker> to understand.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>hart</token></marker>
+                    <token inflected="yes" regexp="yes">copy|evidence|disk|drive|rock|time|work</token>
+                </pattern>
+                <message>Did you mean <suggestion>hard</suggestion>?</message>
+                <short>Possible typo</short>
+                <example correction="hard">She had a <marker>hart</marker> time there.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="GIT_GET" name="git vs get" default="temp_off">
+            <antipattern>
+                <token>git</token>
+                <token regexp="yes">repositor.*|server.*|clone.*|issue.*|commit.*|conf.*|push.*|pull.*|log.*|doc.*|director.*|dirs?|ci|branch.*|br|hubs?</token>
+            </antipattern>
+            <rule>
+                <antipattern>
+                    <token postag="IN|UNKNOWN" postag_regexp="yes" />
+                    <token regexp="yes">you|it</token>
+                </antipattern>
+                <antipattern>
+                    <token chunk="B-VP">
+                        <exception regexp="yes" inflected="yes">think|hope|guess</exception>
+                    </token>
+                    <token regexp="yes">you|it</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">I|you|s?he|we|they</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>git</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the verb <suggestion>get</suggestion>?</message>
+                <example correction="get">Do you <marker>git</marker> more than you deserve?</example>
+                <example>I will send to you git credentials.</example>
+                <example>When I Git commit, it opens Atom editor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="MD">
+                        <exception>need</exception>
+                    </token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>git</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the verb <suggestion>get</suggestion>?</message>
+                <example correction="get">I would <marker>git</marker> a new one for Christmas.</example>
+                <example>Do I need Git installed?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="MD" />
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <marker>
+                        <token>git</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the verb <suggestion>get</suggestion>?</message>
+                <example correction="get">I wouldn't <marker>git</marker> a new one for Christmas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">don|doesn</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <marker>
+                        <token>git</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the verb <suggestion>get</suggestion>?</message>
+                <example correction="get">I don't <marker>git</marker> a new one for Christmas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token chunk="B-VP">
+                        <exception inflected="yes" regexp="yes">push|pull|commit</exception>
+                    </token>
+                    <token>to</token>
+                    <marker>
+                        <token>git</token>
+                    </marker>
+                    <token><exception postag="SENT_END" /></token>
+                </pattern>
+                <message>Did you mean the verb <suggestion>get</suggestion>?</message>
+                <example correction="get">I wanted to <marker>git</marker> a new one for Christmas.</example>
+                <example>And then push to git.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BESIDES_BESIDE" name="beside vs besides">
             <rule>
                 <pattern>
