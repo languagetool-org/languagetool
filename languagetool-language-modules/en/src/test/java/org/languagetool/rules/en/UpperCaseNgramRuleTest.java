@@ -20,16 +20,16 @@ package org.languagetool.rules.en;
 
 import org.junit.Test;
 import org.languagetool.*;
-import org.languagetool.languagemodel.LuceneLanguageModel;
+import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.ngrams.FakeLanguageModel;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.Arrays;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class UpperCaseNgramRuleTest {
 
@@ -51,30 +51,32 @@ public class UpperCaseNgramRuleTest {
 
   @Test
   public void testFirstLongWordToLeftIsUppercase() throws IOException, URISyntaxException {
-    URL ngramUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/yy/ngram-index");
-    try (LuceneLanguageModel lm = new LuceneLanguageModel(new File(ngramUrl.toURI()))) {
-      UpperCaseNgramRule rule = new UpperCaseNgramRule(TestTools.getEnglishMessages(), lm, lang);
+    // FIXME commented out version doesn't work when running tests through maven
+    //URL ngramUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/yy/ngram-index");
+    LanguageModel lm = new FakeLanguageModel();
+    //try (LuceneLanguageModel lm = new LuceneLanguageModel(new File(ngramUrl.toURI()))) {
+    UpperCaseNgramRule rule = new UpperCaseNgramRule(TestTools.getEnglishMessages(), lm, lang);
 
-      AnalyzedTokenReadings[] tokens1 = lt.getAnalyzedSentence("As with Lifeboat and Rope, the principal characters were ...").getTokens();
-      // left:
-      assertFalse(rule.firstLongWordToLeftIsUppercase(tokens1, 1));   // 1 = "As"
-      assertTrue(rule.firstLongWordToLeftIsUppercase(tokens1, 9));    // 9 = "Rope"
-      // right:
-      assertTrue(rule.firstLongWordToRightIsUppercase(tokens1, 3));    // 3 = "with"
-      assertTrue(rule.firstLongWordToRightIsUppercase(tokens1, 5));    // 5 = "Lifeboat"
-      assertFalse(rule.firstLongWordToRightIsUppercase(tokens1, 10));  // 10 = ","
+    AnalyzedTokenReadings[] tokens1 = lt.getAnalyzedSentence("As with Lifeboat and Rope, the principal characters were ...").getTokens();
+    // left:
+    assertFalse(rule.firstLongWordToLeftIsUppercase(tokens1, 1));   // 1 = "As"
+    assertTrue(rule.firstLongWordToLeftIsUppercase(tokens1, 9));    // 9 = "Rope"
+    // right:
+    assertTrue(rule.firstLongWordToRightIsUppercase(tokens1, 3));    // 3 = "with"
+    assertTrue(rule.firstLongWordToRightIsUppercase(tokens1, 5));    // 5 = "Lifeboat"
+    assertFalse(rule.firstLongWordToRightIsUppercase(tokens1, 10));  // 10 = ","
 
-      AnalyzedTokenReadings[] tokens2 = lt.getAnalyzedSentence("From Theory to Practice, followed by some other words").getTokens();
-      // left:
-      assertFalse(rule.firstLongWordToLeftIsUppercase(tokens2, 3));  // 3 = "Theory"
-      assertTrue(rule.firstLongWordToLeftIsUppercase(tokens2, 4));   // 4 = "to"
-      assertTrue(rule.firstLongWordToLeftIsUppercase(tokens2, 7));   // 7 = "Practice"
-      assertFalse(rule.firstLongWordToLeftIsUppercase(tokens2, 1));  // 1 = "From" (sentence start)
-      assertFalse(rule.firstLongWordToLeftIsUppercase(tokens2, 12)); // 12 = "by"
-      // right:
-      assertFalse(rule.firstLongWordToRightIsUppercase(tokens2, 8));   // 8 = ","
-      assertFalse(rule.firstLongWordToRightIsUppercase(tokens2, 10));  // 10 = "followed"
-    }
+    AnalyzedTokenReadings[] tokens2 = lt.getAnalyzedSentence("From Theory to Practice, followed by some other words").getTokens();
+    // left:
+    assertFalse(rule.firstLongWordToLeftIsUppercase(tokens2, 3));  // 3 = "Theory"
+    assertTrue(rule.firstLongWordToLeftIsUppercase(tokens2, 4));   // 4 = "to"
+    assertTrue(rule.firstLongWordToLeftIsUppercase(tokens2, 7));   // 7 = "Practice"
+    assertFalse(rule.firstLongWordToLeftIsUppercase(tokens2, 1));  // 1 = "From" (sentence start)
+    assertFalse(rule.firstLongWordToLeftIsUppercase(tokens2, 12)); // 12 = "by"
+    // right:
+    assertFalse(rule.firstLongWordToRightIsUppercase(tokens2, 8));   // 8 = ","
+    assertFalse(rule.firstLongWordToRightIsUppercase(tokens2, 10));  // 10 = "followed"
+    //}
   }
 
   private void assertGood(String s) throws IOException {
