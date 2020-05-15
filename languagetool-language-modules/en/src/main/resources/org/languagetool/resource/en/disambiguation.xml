@@ -2848,54 +2848,56 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
     </rule>
 
     <rule name="determiner + adj/noun + preposition => noun" id="DT_JJNN_IN_NN">
-      <antipattern><!-- a simple as we -->
-        <token skip="-1" postag="SENT_START">
-          <exception scope="next">as</exception></token>
-        <token regexp="yes">an?
-          <exception scope="previous" inflected="yes">be</exception></token>
-        <token postag="JJ"/>
-        <token>as</token>
-        <token regexp="yes">I|you|we|they|s?he|it</token>
-      </antipattern>
-      <antipattern><!-- a small as! -->
-        <token regexp="yes">an?</token>
-        <token postag="JJ"/>
-        <token>as</token>
-        <token regexp="yes">[\.\?!;:]</token>
-      </antipattern>
-      <antipattern><!-- Relative clause: ... say that all in -->
-        <token postag="VB.*" postag_regexp="yes"/>
-        <token>that</token>
-        <token>all</token>
-        <token postag="IN"/>
-      </antipattern>
-      <antipattern>
-        <token>either</token>
-        <token postag="VB.*" postag_regexp="yes" />
-      </antipattern>
-      <pattern>
-        <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one|much</exception></token>
-        <marker>
-        <and>
-          <token postag="NN.*" postag_regexp="yes"/>
-          <token postag="JJS?" postag_regexp="yes"/><!-- XXX exclude JJR to allow error detection -->
-        </and>
-        </marker>
-        <token postag="IN"><exception>while</exception></token>
-      </pattern>
-      <disambig action="filter" postag="NN.*"/>
-      <example type="untouched">It's no fun.</example>
-      <example type="ambiguous" inputform="business[business/JJ,business/NN:UN]" outputform="business[business/NN:UN]">It's no <marker>business</marker> of mine.</example>
-      <example type="ambiguous" inputform="monarch[monarch/JJ,monarch/NN]" outputform="monarch[monarch/NN]">... and a <marker>monarch</marker> as an impartial element able to practise justice.</example>
-      <example type="ambiguous" inputform="model[model/JJ,model/NN,model/VB,model/VBP]" outputform="model[model/NN]">She is as beautiful a <marker>model</marker> as I have ever photographed.</example>
-      <example type="ambiguous" inputform="delinquent[delinquent/JJ,delinquent/NN]" outputform="delinquent[delinquent/NN]">... contemplates the likelihood of his future son being a <marker>delinquent</marker> as he was, a prospect Alex views fatalistically.</example>
-      <example type="untouched">If the <marker>community</marker> at the village fête are...</example><!-- test for #2405 -->
-      <example type="untouched">A short while later, Anders also went to sleep.</example>
-      <example type="untouched">Incorrect grammar. The new method is much <marker>fast</marker> than the old method.</example>
-      <example type="untouched">Incorrect grammar. The solution is not <marker>a simple as</marker> we had hoped.</example>
-      <example type="untouched">Incorrect grammar. It's not a large sheep, it's <marker>a small as</marker>!</example>
-      <example type="untouched">You can either pay via credit card or via PayPal.</example>
-      <example type="untouched">We can say that <marker>all</marker> in some way belong to a kind of ethnic category...</example><!-- 'That' comes before a relative clause in which 'all' is a pronoun (https://www.lexico.com/en/definition/all) -->
+        <antipattern><!-- a simple as we -->
+            <token skip="-1" postag="SENT_START">
+                <exception scope="next">as</exception>
+                </token>
+            <token regexp="yes">an?
+                <exception scope="previous" inflected="yes">be</exception>
+                </token>
+            <token postag="JJ"/>
+            <token>as</token>
+            <token regexp="yes">I|you|we|they|s?he|it</token>
+        </antipattern>
+        <antipattern><!-- a small as! -->
+            <token regexp="yes">an?</token>
+            <token postag="JJ"/>
+            <token>as</token>
+            <token regexp="yes">[\.\?!;:]</token>
+        </antipattern>
+        <antipattern><!-- Relative clause: ... say that all in -->
+            <token postag="VB.*" postag_regexp="yes"/>
+            <token>that</token>
+            <token>all</token>
+            <token postag="IN"/>
+        </antipattern>
+        <antipattern>
+            <token>either</token>
+            <token postag="VB.*" postag_regexp="yes" />
+        </antipattern>
+        <pattern>
+            <token postag="DT"><exception postag="PDT"/><exception regexp="yes">th[eo]se|one|much</exception></token>
+            <marker>
+            <and>
+                <token postag="NN.*" postag_regexp="yes"/>
+                <token postag="JJS?" postag_regexp="yes"/><!-- XXX exclude JJR to allow error detection -->
+            </and>
+            </marker>
+            <token postag="IN"><exception>while</exception></token>
+        </pattern>
+        <disambig action="filter" postag="NN.*"/>
+        <example type="untouched">It's no fun.</example>
+        <example type="ambiguous" inputform="business[business/JJ,business/NN:UN]" outputform="business[business/NN:UN]">It's no <marker>business</marker> of mine.</example>
+        <example type="ambiguous" inputform="monarch[monarch/JJ,monarch/NN]" outputform="monarch[monarch/NN]">... and a <marker>monarch</marker> as an impartial element able to practise justice.</example>
+        <example type="ambiguous" inputform="model[model/JJ,model/NN,model/VB,model/VBP]" outputform="model[model/NN]">She is as beautiful a <marker>model</marker> as I have ever photographed.</example>
+        <example type="ambiguous" inputform="delinquent[delinquent/JJ,delinquent/NN]" outputform="delinquent[delinquent/NN]">... contemplates the likelihood of his future son being a <marker>delinquent</marker> as he was, a prospect Alex views fatalistically.</example>
+        <example type="untouched">If the <marker>community</marker> at the village fête are...</example><!-- test for #2405 -->
+        <example type="untouched">A short while later, Anders also went to sleep.</example>
+        <example type="untouched">Incorrect grammar. The new method is much <marker>fast</marker> than the old method.</example>
+        <example type="untouched">Incorrect grammar. The solution is not <marker>a simple as</marker> we had hoped.</example>
+        <example type="untouched">Incorrect grammar. It's not a large sheep, it's <marker>a small as</marker>!</example>
+        <example type="untouched">You can either pay via credit card or via PayPal.</example>
+        <example type="untouched">We can say that <marker>all</marker> in some way belong to a kind of ethnic category...</example><!-- 'That' comes before a relative clause in which 'all' is a pronoun (https://www.lexico.com/en/definition/all) -->
     </rule>
 
     <rule name="determiner + JJR" id="DT_JJR_SENTEND">
