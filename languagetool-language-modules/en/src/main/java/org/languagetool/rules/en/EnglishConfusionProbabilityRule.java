@@ -215,7 +215,12 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "house and pool",
       "your set up is",
       "your set up was",
+      "because your pay is",
+      "but your pay is",
       "he haven", // vs the
+      "(t)he", // vs the
+      "[t]he", // vs the
+      "same false alarm", // vs some
       "why is he relevant", // vs the
       "then that would", // vs than
       "was he part of" // vs the
