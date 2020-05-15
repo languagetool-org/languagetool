@@ -8280,6 +8280,16 @@ though, and has since been slightly modified)-->
               <example>Elle continue a être gérée conjointement</example>
           </rule>
           -->
+          <rule>
+              <pattern>
+                  <token>dû</token>
+                  <marker>
+                      <token>a</token>
+                  </marker>
+              </pattern>
+              <message>Confusion possible : "a" est une conjuguaison du verbe avoir. Vouliez-vous dire <suggestion>à</suggestion>.</message>
+              <example correction="à">Nous pouvons mettre au point des projets complexes dû <marker>a</marker> nos connaissances et expériences.</example>
+          </rule>
       </rulegroup>
       <rulegroup id="AN_ANNEE" name="Confusion an/année">
           <rule>
@@ -8693,6 +8703,51 @@ though, and has since been slightly modified)-->
           <message>Vouliez-vous dire <suggestion>je suis</suggestion> ?</message>
           <example correction="je suis">Encore une fois, <marker>je sui</marker> désolé.</example>
       </rule>
+      <rulegroup id="AUJOURDHUI" name="erreurs d'orthographe : Aujourd'hui">
+          <rule name="aujour d'hui">
+              <pattern>
+                  <token>aujour</token>
+                  <token>d</token>
+                  <token>'</token>
+                  <token>hui</token>
+              </pattern>
+              <message>En français moderne, ce mot s'écrit sans espaces.</message>
+              <suggestion>aujourd'hui</suggestion>
+              <example correction="aujourd'hui">Je l'ai vu <marker>aujour d'hui</marker>.</example>
+          </rule>
+          <rule name="aujour-d'hui">
+              <pattern>
+                  <token>aujour-d</token>
+                  <token>'</token>
+                  <token>hui</token>
+              </pattern>
+              <message>En français moderne, ce mot s'écrit sans espaces.</message>
+              <suggestion>aujourd'hui</suggestion>
+              <example correction="aujourd'hui">Je l'ai vu <marker>aujour-d'hui</marker>.</example>
+          </rule>
+          <rule name="au jour d'hui">
+              <pattern>
+                  <token>au</token>
+                  <token>jour</token>
+                  <token>d</token>
+                  <token>'</token>
+                  <token>hui</token>
+              </pattern>
+              <message>En français moderne, ce mot s'écrit sans espaces.</message>
+              <suggestion>aujourd'hui</suggestion>
+              <example correction="aujourd'hui">Je l'ai vu <marker>au jour d'hui</marker>.</example>
+          </rule>
+          <rule name="au-jour-d'hui">
+              <pattern>
+                  <token>au-jour-d</token>
+                  <token>'</token>
+                  <token>hui</token>
+              </pattern>
+              <message>En français moderne, ce mot s'écrit sans espaces.</message>
+              <suggestion>aujourd'hui</suggestion>
+              <example correction="aujourd'hui">Je l'ai vu <marker>au-jour-d'hui</marker>.</example>
+          </rule>
+      </rulegroup>
       <!-- http://www.leconjugueur.com/frlesnombres.php -->
     <rulegroup id="TRAIT_UNION_NOMBRE" name="Nombre avec trait d’union">
       <rule>
