@@ -3989,6 +3989,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="filterall"/>
         <example type="ambiguous" inputform="so[so/CC,so/JJ,so/NN:U,so/RB]" outputform="so[so/JJ]">It also made him feel hate, sincere hate, for those <marker>so</marker> labeled.</example>
     </rule>
+
     <rule name="JJ_NN -> JJ" id="JJ_NN_JJ">
         <antipattern><!-- guesses the number wins  -->
             <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
@@ -4000,6 +4001,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-NP-singular">time</token>
             <token chunk="I-NP-singular">period</token>
             <token chunk="E-NP-singular"/><!-- For 'time period three', DT_JJ_NN assigns three/NN] thus I cannot use CD and a general AP -->
+        </antipattern>
+        <antipattern><!-- #2931 Chunker error: wish you a good party guys -->
+            <token skip="-1" postag_regexp="yes" postag="VB.*" inflected="yes">wish</token>
+            <token regexp="yes">an?</token>
+            <token postag_regexp="yes" postag="JJR?"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token regexp="yes">boys|chaps|fellows|girls|guys|ladies|lads|peeps|people</token>
         </antipattern>
         <pattern>
             <marker>
@@ -4021,7 +4029,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Noun. The persons who guessed the <marker>number</marker> won.</example>
         <example type="untouched">Noun. Whoever correctly guesses the <marker>number</marker> wins the prize.</example>
         <example type="untouched">Noun. ... will need to start over at time <marker>period</marker> three.</example>
+        <example type="untouched">I wish you a good party guys and don't drink too much.</example><!-- #2931 -->
     </rule>
+
     <rule name="required to" id="required_to">
         <pattern>
             <marker>
@@ -7131,6 +7141,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="E-NP-plural" postag_regexp="yes" postag="VB[ZD]"/>
             <token postag="PCT"/>
         </antipattern>
+        <antipattern><!-- #2931 Chunker error: wish you a good party guys -->
+            <token skip="-1" postag_regexp="yes" postag="VB.*" inflected="yes">wish</token>
+            <token regexp="yes">an?</token>
+            <token postag_regexp="yes" postag="JJR?"/>
+            <token postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token regexp="yes">boys|chaps|fellows|girls|guys|ladies|lads|peeps|people</token>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7163,7 +7180,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Noun: The <marker>work</marker> makes it possible.</example><!-- #2427 -->
         <example type="untouched">A large current flows through the air...</example><!-- #2926 -->
         <example type="untouched">... if a forward pass crosses into the neutral zone.</example><!-- #2926 -->
-        <example type="untouched">I wish you a good party guys and don't drink too much.</example><!-- #2926 -->
+        <example type="untouched">I wish you a good party guys and don't drink too much.</example><!-- #2926, #2931 -->
         <example type="untouched">Considering that a new clutch costs nearly as much...</example><!-- #2926 -->
         <example type="untouched">... on a table while a pretty blonde looks at your ass?</example><!-- #2926 -->
         <example type="untouched">The same application running on a bare metal works without any issue.</example><!-- #2926 -->
