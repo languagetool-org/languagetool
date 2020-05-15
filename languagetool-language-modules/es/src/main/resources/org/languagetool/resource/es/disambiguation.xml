@@ -580,9 +580,9 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
     <rule id="alrededor_de" name="alrededor de">
         <pattern>
-            <token regexp="yes">unos|unas|los|las</token>
+            <token postag="D...P." postag_regexp="yes"/>
             <marker>
-                <token>alrededor</token>
+                <token regexp="yes">alrededor|cerca</token>
                 <token>de</token>
             </marker>
             <token postag="DN.*" postag_regexp="yes"/>
@@ -1845,7 +1845,7 @@ Copyright (C) 2011 Juan Martorell
                 <token postag="N.*" postag_regexp="yes"/>
                 <token postag="A.*" postag_regexp="yes" skip="20"/>
                 <token>como</token>
-                <token postag="A.*" postag_regexp="yes"/>
+                <token postag="A.*|SPS00" postag_regexp="yes"/>
             </pattern>
             <disambig action="add">
                 <wd pos="_allow_tanto"/>

@@ -1919,44 +1919,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PRONOM_TILDE" name="Pronombres personales con o sin tilde">
             <short>El pronombre personal lleva tilde.</short>
-            <rule id="TU_VERBO_P2" name="Tu + verbo en 2a">
-                <pattern>
-                    <marker>
-                        <token>tu</token>
-                    </marker>
-                    <token postag="V.{3}2.*" postag_regexp="yes"><exception negate_pos="yes" postag="V.{3}2.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
-                <example correction="tú">Cuando <marker>tu</marker> vuelves, yo voy.</example>
-                <example>Me alegra tu vuelta al trabajo.</example>
-            </rule>
-            <rule id="TU_C" name="Tu + conjunción">
-                <pattern>
-                    <marker>
-                        <token>tu</token>
-                    </marker>
-                    <token postag="C." postag_regexp="yes"><exception>bien</exception></token>
-                </pattern>
-                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
-                <example correction="tú">Esto queda entre <marker>tu</marker> y yo.</example>
-                <example>Me alegra tu a la sazón victoria.</example>
-            </rule>
-            <rule id="EL_C" name="El + conjunción">
-                <pattern>
-                    <marker>
-                        <token>el</token>
-                    </marker>
-                    <token postag="CC"><exception regexp="yes">bien|tanto</exception><exception case_sensitive="yes" regexp="yes">[EY]</exception></token>
-                </pattern>
-                <message>El pronombre personal <suggestion>él</suggestion> lleva tilde.</message>
-                <example correction="él">Esto queda entre <marker>el</marker> y yo.</example>
-                <example>Me gusta el que tienes.</example>
-                <example>El E y el Y.</example>
-            </rule>
             <rule id="EL_TILDE" name="el / él" default="on">
                 <antipattern>
                     <token>el</token>
-                    <token regexp="yes">\d+°</token>
+                    <token regexp="yes" case_sensitive="yes">\d+°|E|Y</token>
                     <!-- confusion º / °, to be fixed in another rule -->
                 </antipattern>
                 <antipattern>
@@ -2007,6 +1973,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="él">en <marker>el</marker> (también deporte ecuestre)</example>
                 <example correction="él">Si <marker>el</marker> pregunta, yo respondo.</example>
                 <example correction="él">¿Por qué <marker>el</marker> no vino con nosotros?</example>
+                <example correction="él">Esto queda entre <marker>el</marker> y yo.</example>
+                <example>Me gusta el que tienes.</example>
+                <example>El E y el Y.</example>
+                <example>El bien conocido cantautor.</example>
+                <example>El tan conocido cantautor.</example>
                 <example>Vive en el ahora.</example>
                 <example>Me gusta el que tienes.</example>
                 <example>ni siquiera el anime era lo suficientemente expresivo</example>
@@ -2068,34 +2039,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tú">Cuando <marker>tu</marker> no vuelves, yo voy.</example>
                 <example correction="tú">Cuando <marker>tu</marker> no nos lo indicas.</example>
                 <example correction="tú">Esto queda entre <marker>tu</marker> y yo.</example>
+                <example correction="tú">Tu hermana es como <marker>tu</marker>.</example>
                 <example>Me alegra tu feliz vuelta al trabajo.</example>
                 <example>Me alegra tu vuelta al trabajo.</example>
                 <example>Es tu hermosa gente trabajadora.</example>
                 <example>¿Cómo vas a explicar la razón de tu no asistencia?</example>
-            </rule>
-            <rule id="TU_PARTICULA_VERBO_P2" name="Tu + partícula + verbo en 2a">
-                <pattern>
-                    <marker>
-                        <token>tu</token>
-                    </marker>
-                    <token postag="&pronombre_personal_atono_POS;|RN" postag_regexp="yes" min="0" max="3"/>
-                    <token postag="V.{3}2.*" postag_regexp="yes"><exception regexp="yes" scope="previous">[,;-_—]</exception><exception postag="A.*|DI0.S0" postag_regexp="yes" scope="previous"/><exception negate_pos="yes" postag="V.{3}2.*" postag_regexp="yes"/></token>
-                </pattern>
-                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
-                <example correction="tú">Cuando <marker>tu</marker> no vuelves, yo voy.</example>
-                <example correction="tú">Cuando <marker>tu</marker> no nos lo indicas.</example>
-                <example>Me alegra tu feliz vuelta al trabajo.</example>
-            </rule>
-            <rule id="TU_FINAL" name="Pronombre tú al final de la oración.">
-                <pattern>
-                    <marker>
-                        <token>tu</token>
-                    </marker>
-                    <token postag="SENT_END" regexp="yes">[.?!;]</token>
-                </pattern>
-                <message>El pronombre personal <suggestion>tú</suggestion> lleva tilde.</message>
-                <example correction="tú">Tu hermana es como <marker>tu</marker>.</example>
-                <example>¿Te puedes ocupar tú?</example>
             </rule>
             <rule id="MI_TILDE" name="mi/mí">
                 <antipattern>
@@ -4681,6 +4629,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Me gusta mucho Mary.</example>
                 <example>Este cuenta con 149 empresas.</example>
                 <example>Una S.</example>
+                <example>Con sus cerca de 20 millones de habitantes.</example>
             </rule>
             <rule>
                 <pattern>
@@ -4804,6 +4753,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="N[CP][FC][SN].*" postag_regexp="yes"><exception>médica</exception></token>
             </antipattern>
             <antipattern>
+                <token>alta</token>
+                <token postag="CC"/>
+                <token postag="DA.*|SPS00" postag_regexp="yes" min="0" max="2"/>
+                <token regexp="yes">baja|media</token>
+                <!--<token postag="N[CP][FC][SN].*" postag_regexp="yes"><exception>médica</exception></token>-->
+            </antipattern>
+            <antipattern>
                 <token>que</token>
                 <token>la</token>
                 <token>alta</token>
@@ -4818,6 +4774,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="el agua">Me gusta <marker>la agua</marker> que hay ahí.</example>
             <example correction="el alta">Le dieron <marker>la alta</marker> en el hospital.</example>
             <example correction="el alta">Le dieron <marker>la alta</marker> médica en el hospital.</example>
+            <!--<example correction="el alta">¿Le dieron <marker>la alta</marker> o la baja en el hospital?</example>-->
             <example correction="El ama"><marker>La ama</marker> se fue.</example>
             <example>Él todavía la ama.</example>
             <example>Me dan el alta en el hospital.</example>
@@ -4830,6 +4787,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>En la Alta Andalucía.</example>
             <example>Que la haya vendido.</example>
             <example>Llegó a La Haya.</example>
+            <example>La Alta y la Baja Andalucía.</example>
+            <example>En la alta edad media.</example>
+            <example>En la alta y baja edad media.</example>
+            <example>Ni en la alta ni en la baja edad media.</example>
+            <example>Ni en la alta ni en la baja.</example>
         </rule>
         <rule id="AGREEMENT_DET_GN" name="concordnacia det + gn" default="off">
             <pattern>
