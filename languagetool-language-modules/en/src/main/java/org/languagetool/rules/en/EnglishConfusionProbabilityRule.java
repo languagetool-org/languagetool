@@ -114,7 +114,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       ", its,",
       "us, humans,",
       "bring you happiness",
-      "doing way more",
       "in a while",
       "confirm you own",
       "oh, god",
@@ -125,7 +124,9 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "1 thing",
       "way easier",
       "way faster",
+      "way quicker",
       "way more",
+      "way less",
       "way outside",
       "I now don't",
       "once your return is",
@@ -212,6 +213,10 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "I picture us",
       "your and our", // vs you
       "house and pool",
+      "your set up is",
+      "your set up was",
+      "he haven", // vs the
+      "why is he relevant", // vs the
       "then that would", // vs than
       "was he part of" // vs the
     );
