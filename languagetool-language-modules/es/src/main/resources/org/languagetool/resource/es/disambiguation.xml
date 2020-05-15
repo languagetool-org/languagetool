@@ -822,6 +822,15 @@ Copyright (C) 2011 Juan Martorell
             <wd pos="_GN_FS"/>
         </disambig>
     </rule>
+    
+    <rule id="E_CONJ" name="e (conjunción">
+        <pattern>
+            <marker>
+                <token>e<exception scope="previous" regexp="yes">la|una|esta|esa|aquella</exception></token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N.*"></disambig>
+    </rule>
 
     <!--sobre (no preposición, nombre)-->
     <rule id="SOBRE" name="sobre (nombre)">
