@@ -54,7 +54,7 @@ public class GermanReadabilityRule extends ReadabilityRule {
   public GermanReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, 
       boolean tooEasyTest, int level, boolean defaultOn) {
     super(messages, lang, userConfig, tooEasyTest, level, defaultOn);
-    super.setCategory(new Category(new CategoryId("TEXT_ANALYSIS"), "Textanalyse", Location.INTERNAL, false));
+    super.setCategory(new Category(new CategoryId("TEXT_ANALYSIS"), "Textanalyse/Lesbarkeit", Location.INTERNAL, false));
     this.tooEasyTest = tooEasyTest;
   }
   
