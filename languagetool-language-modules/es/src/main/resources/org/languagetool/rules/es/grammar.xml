@@ -3082,6 +3082,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\1\3</suggestion>
                 <example correction="portaoculares">El <marker>porta oculares</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>estado</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">unidenses?|unidismos?</token>
+                </pattern>
+                <message>Se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="estado$1" case_conversion="alllower"/></suggestion>
+                <example correction="estadounidenses">Los <marker>Estado Unidenses</marker></example>
+            </rule>
         </rulegroup>
         <rule id="ALREDEDOR" name="*(a) alrededor">
             <antipattern>
