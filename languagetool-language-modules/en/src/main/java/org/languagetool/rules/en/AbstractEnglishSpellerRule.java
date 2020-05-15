@@ -274,6 +274,8 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("bbqs", Arrays.asList("BBQs"));
     s.put("ngo", Arrays.asList("NGO"));
     s.put("ngos", Arrays.asList("NGOs"));
+    s.put("js", Arrays.asList("JS"));
+    s.put("css", Arrays.asList("CSS"));
 
     s.put("italia", Arrays.asList("Italy"));
     s.put("macboook", Arrays.asList("MacBook"));
@@ -318,7 +320,6 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Sin-offs", Arrays.asList("Sign-offs"));
     s.put("Alot", Arrays.asList("A lot"));
     s.put("alot", Arrays.asList("a lot"));
-    s.put("css", Arrays.asList("CSS"));
     s.put("DDOS", Arrays.asList("DDoS"));
     s.put("async", Arrays.asList("asynchronous", "asynchronously"));
     s.put("Async", Arrays.asList("Asynchronous", "Asynchronously"));
