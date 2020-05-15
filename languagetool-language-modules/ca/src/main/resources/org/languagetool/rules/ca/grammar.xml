@@ -4215,22 +4215,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="CONCORD_COPULATIVES" name="concordança en frases copulatives">
             <rule>
                 <antipattern>
+                    <token postag="V.[IS].3P.." postag_regexp="yes" skip="-1"/>
                     <token min="2" postag="_GN_.P|N..P.*|DN.*|NCCN.*|D...P." postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <marker>
-                        <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
+                    <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
                             >&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix|quant|resta</exception><exception regexp="yes">.*%</exception></token>
-                        <token min="0">no</token>
+                    <token min="0">no</token>
+                    <marker>
                         <token postag="V.[IS].3P.." postag_regexp="yes" regexp="yes" inflected="yes" skip="-1">ser|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer<exception postag="V.[ISM]..S..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Possible error de concordança.</message>
-                <example correction=""><marker>Aquesta sopa són</marker> molt bones.</example>
-                <example correction=""><marker>Esment especial mereixen</marker> el seu treball.</example>
-                <example correction=""><marker>La cosa semblen</marker> que és així.</example>
+                <suggestion><match no ="4" postag="(V.[IS].3)P(..)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+                <example correction="és">Aquesta sopa <marker>són</marker> molt bona.</example>
+                <example correction="mereix">Esment especial <marker>mereixen</marker> el seu treball.</example>
+                <example correction="sembla|semble">La cosa <marker>semblen</marker> que és així.</example>
                 <example>Dos són sacerdots.</example>
                 <example>La seva passió havien estat les maduixes</example>
                 <example>La seva passió eren les maduixes</example>
@@ -4249,21 +4251,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
-                    <marker>
-                        <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">quin|quant</exception></token>
-                        <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
+                    <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">quin|quant</exception></token>
+                    <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
                             >&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix|quant|quin|resta</exception></token>
-                        <token min="0">no</token>
+                    <token min="0">no</token>
+                    <marker>
                         <token postag="V.[IS].3S.." postag_regexp="yes" inflected="yes" regexp="yes" skip="-1">ser|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer<exception postag="V.[ISM]..P..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
                     <token postag="SENT_END"/>
                 </pattern>
                 <message>Possible error de concordança.</message>
-                <example correction=""><marker>Aquestes sopes és</marker> molt bones.</example>
-                <example correction=""><marker>Els amics és</marker> així.</example>
-                <example correction=""><marker>Els amics té</marker> això.</example>
-                <example correction=""><marker>Esments especials mereix</marker> els seus treballs.</example>
-                <example correction=""><marker>Aquelles persones té</marker> set.</example>
+                <suggestion><match no ="5" postag="(V.[IS].3)S(..)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <example correction="són">Aquestes sopes <marker>és</marker> molt bones.</example>
+                <example correction="són">Els amics <marker>és</marker> així.</example>
+                <example correction="tenen">Els amics <marker>té</marker> això.</example>
+                <example correction="mereixien">Esments especials <marker>mereixia</marker> els seus treballs.</example>
+                <example correction="tenen">Aquelles persones <marker>té</marker> set.</example>
                 <example>Aquells dies era tot bonic.</example>
                 <example>Les coses sembla clarament que són així.</example>
                 <example>Quants diners té ell?</example>
