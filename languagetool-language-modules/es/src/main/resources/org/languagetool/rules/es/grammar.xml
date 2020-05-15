@@ -27,8 +27,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las">
 <!ENTITY nombre_fem_el "abra|África|aguadulce|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
 <!ENTITY dias_semana_may "Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo">
+<!ENTITY dias_semana "lunes|martes|miércoles|jueves|viernes|sábado|domingo">
+<!ENTITY partes_dia "madrugada|mañana|mediodía|tarde|atardecer|noche|medianoche">
 <!-- d, K -->
 <!ENTITY meses_ano_may "Enero|Febrero|Marzo|Abril|Mayo|Junio|Julio|Agosto|Sep?tiembre|Octubre|Noviembre|Diciembre">
+<!ENTITY meses_ano "enero|febrero|marzo|abril|mayo|junio|julio|agosto|sep?tiembre|octubre|noviembre|diciembre">
+<!ENTITY estaciones_ano "primavera|verano|otoño|invierno">
 <!ENTITY unidades "AM|PM|am|pm|mm|cm|dm|m|km|h|min|s|seg|g|kg|Hz|[kM]Hz|°[FC]|pts|ptes|[£€$]|(mm|cm|dm|m|km)[23²³]">
 <!ENTITY abreviaturas "Dir|Dr|Dra|Abg|acept|adm|admón|afma|afmo|Alfz|Almte|ap|apdo|aprox|Arq|art|Arz|atta|atte|atto|av|avd|avda|Barna|Bco|Bibl|Bma|Bmo|Bo|Brig|Bta|Bto|caj|cap|Cdad|cent|cf|cfr|cgo|cje|cl|Cmdt|Cmte|Cnel|col|Comod|Comp|Comte|Contralmte|coord|cp|crec|cta|Cte|cts|ctv|ctvo|cént|Cía|cód|cónf|cónfr|dcha|dcho|depto|diag|dicc|doc|dpto|dto|dupdo|ed|edit|edo|ef|ej|Emmo|entlo|etc|excl|Excma|Excmo|fasc|fca|Fdo|fig|fol|Fr|fra|féc|Gdor|Gdora|Gob|Gral|Hna|Hno|ib|ibíd|Il|Ilma|Ilmo|Iltre|imp|impr|impto|incl|Ing|Inst|izda|izdo|izq|izqda|izqdo|Jhs|Lcda|Lcdo|Lda|Ldo|Lic|Ltd|Ltda|Ltdo|Magfca|Magfco|Mons|mr|ms|máx|mín|nro|núm|Ob|Pat|Pbro|pdo|Pdta|Pdte|pg|pl|plza|Pnt|ppal|pral|Presb|Prof|prov|pról|pza|pág|párr|Rda|Rdo|reg|Rep|Rev|Rte|Rvd|Rvda|Rvdma|Rvdmo|Rvdo|Sdad|Sgto|sig|Soc|Sr|Sra|Srta|Sta|Sto|tel|teléf|tfno|trad|Tte|tít|Ud|Uds|Univ|Valmte|Vd|Vda|Vdo|Vds|vid|vol|vs|vta|vto|Xto|íd">
 <!ENTITY context_te "abedul|alpiste|arroz|banana|boldo|buganvilia|burbujas|burro|calidad|campana|canela|castaño|clavo|compost|congorosa|damiana|diente|epazote|equinácea|eucalipto|fenogreco|flor|fourche|frambuesa|frutas|frutos|ginkgo|herbalife|hibisco|hierbabuena|hierbas|hinojo|hums|jamaica|jazmín|jengibre|jesuitas|kava|kombucha|laurel|lavanda|lechuga|limón|lino|manzana|manzanilla|matcha|melisa|menta|montaña|naranja|navidad|neem|nuez|níspero|oolong|ortiga|orégano|pasiflora|perejil|piña|quina|roca|romero|rooibos|rosas|ruda|sabor|sabores|salón|sauco|semilla|suerte|tilo|tomillo|toronjil|uva|vainilla|valeriana|verbena|walamo|wereke|yerba|yerbabuena|yuja|zacate|zanahoria|zapote|zarzaparrilla|zen|zorrillo">
@@ -37,6 +41,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY adv_probabilidad "ojalá|quizá|quizás|probablemente|posiblemente|seguramente|tal vez">
 <!ENTITY marca_pasado "ayer|anteayer|pasado|antaño">
 <!ENTITY unidades_tiempo "segundo|minuto|hora|día|semana|quincena|mes|bimestre|trimestre|cuatrimestre|semestre|año|lustro|década|siglo|centuria|milenio">
+<!ENTITY expresiones_tiempo "ahora|hoy|ayer|antaño|hogaño|temporada|curso"> <!-- to add manually when needed: mañana-->
+<!ENTITY nombres_colectivos "mayoría|par|gente|grupo|parte|familia">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -4980,6 +4986,130 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Posible falta de concordancia de número entre «\1» y «\2».</message>
                 <example correction="">sólo <marker>ellos vuela</marker> por el cielo</example>
                 <example>aviones vuelan</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AGREEMENT_SUBJECT_VERB_1" name="concordancia sujeto-verbo (ser, estar, tener..." default="temp_off">
+            <rule>
+                <antipattern>
+                    <token postag="V.[IS].3P." postag_regexp="yes" skip="-1"/>
+                    <token min="2" postag="_GN_.P|N..P.*|DN.*|NCCN.*|D...P." postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
+                        >&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|&nombres_colectivos;|qué|cuál|cual|mismo|cuanto|cuánto|resto</exception><exception regexp="yes">.*%</exception></token>
+                    <token min="0">no</token>
+                    <marker>
+                        <token postag="V.[IS].3P." postag_regexp="yes" regexp="yes" inflected="yes" skip="-1">ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer<exception postag="V.[ISM]..S..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="4" postag="(V.[IS].3)P." postag_regexp="yes" postag_replace="$1S."/></suggestion>
+                <example correction="es">Esta sopa <marker>son</marker> muy buena.</example>
+                <example correction="merece">Mención especial <marker>merecen</marker> su trabajo.</example>
+                <example correction="parece">La cosa <marker>parecen</marker> que es así.</example>
+                <example>Dos son sacerdotes.</example>
+                <example>Su pasión son las fresas.</example>
+                <example>Su pasión eran las fresas.</example>
+                <example>Aquel par eran buenos.</example>
+                <example>Mención especial merecen sus trabajos.</example>
+                <example>El resto son explicativos.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes">parecer</token>
+                    <token min="0" max="4" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                    <token>que</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[IS].3S." postag_regexp="yes" skip="-1"/>
+                    <token min="2" postag="_GN_.S|N..S.*|D...S." postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">qué|cu[aá]l|cu[aá]nto</exception></token>
+                    <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
+                        >&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|mismo|resto|qué|cu[aá]l|cu[aá]nto</exception></token>
+                    <token min="0">no</token>
+                    <marker>
+                        <token postag="V.[IS].3S." postag_regexp="yes" inflected="yes" regexp="yes" skip="-1">ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer<exception postag="V.[ISM]..P..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="5" postag="(V.[IS].3)S." postag_regexp="yes" postag_replace="$1P."/></suggestion>
+                <example correction="eran">Estas sopas <marker>era</marker> muy buenas.</example>
+                <example correction="fueron">Los amigos <marker>fue</marker> así.</example>
+                <example correction="tienen">Los amigos <marker>tiene</marker> sed.</example>
+                <example correction="merecen">Menciones especiales <marker>merece</marker> tus trabajos.</example>
+                <example correction="siguen">Aquellas personas <marker>sigue</marker> igual.</example>
+                <example>Aquellos días todo era bonito.</example>
+                <example>Las cosas parece claramente que son así.</example>
+                <example>¿Cuántos años tiene él?</example>
+                <example>¿Cuantos años tiene él?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="V.[IS].3P." postag_regexp="yes" skip="-1"/>
+                    <token min="2" postag="_GN_.P|N..P.*|DN.*|NCCN.*|D...P." postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
+                        >&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|&nombres_colectivos;|qué|cuál|cual|mismo|cuanto|cuánto|resto</exception><exception regexp="yes">.*%</exception></token>
+                    <token min="0">no</token>
+                    <marker>
+                        <token postag="V.[IS].3P." postag_regexp="yes" inflected="yes">haber</token>
+                    </marker>
+                    <token postag="V.P..SM" postag_regexp="yes" regexp="yes" inflected="yes" skip="-1">ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer</token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="4" postag="(V.[IS].3)P." postag_regexp="yes" postag_replace="$1S."/></suggestion>
+                <example correction="ha">Esta sopa <marker>han</marker> sido muy buena.</example>
+                <example correction="ha">Mención especial <marker>han</marker> merecido su trabajo.</example>
+                <example correction="había">La cosa <marker>habían</marker> parecido que era así.</example>
+                <example>Dos han sido sacerdotes.</example>
+                <example>Su pasión han sido las fresas.</example>
+                <example>Su pasión hubieran sido las fresas.</example>
+                <example>Aquel par habían sido buenos.</example>
+                <example>Mención especial han merecido sus trabajos.</example>
+                <example>El resto habían sido explicativos.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token inflected="yes">parecer</token>
+                    <token min="0" max="4" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                    <token>que</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="V.[IS].3S." postag_regexp="yes" skip="-1"/>
+                    <token min="2" postag="_GN_.S|N..S.*|D...S." postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">qué|cu[aá]l|cu[aá]nto</exception></token>
+                    <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
+                        >&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|mismo|resto|qué|cu[aá]l|cu[aá]nto</exception></token>
+                    <token min="0">no</token>
+                    <marker>
+                        <token postag="V.[IS].3S." postag_regexp="yes" inflected="yes">haber</token>
+                    </marker>
+                    <token postag="V.P..SM" postag_regexp="yes" inflected="yes" regexp="yes" skip="-1">ser|seguir|continuar|tener|parecer|mostrar|ofrecer|merecer</token>
+                    <token postag="SENT_END"/>
+                </pattern>
+                <message>Posible error de concordancia.</message>
+                <suggestion><match no="5" postag="(V.[IS].3)S." postag_regexp="yes" postag_replace="$1P."/></suggestion>
+                <example correction="han">Estas sopas <marker>ha</marker> sido muy buenas.</example>
+                <example correction="han">Los amigos <marker>ha</marker> sido así.</example>
+                <example correction="han">Los amigos <marker>ha</marker> tenido sed.</example>
+                <example correction="han">Menciones especiales <marker>ha</marker> merecido tus trabajos.</example>
+                <example correction="habían">Aquellas personas <marker>había</marker> seguido igual.</example>
+                <example>Aquellos días todo había sido bonito.</example>
+                <example>Las cosas había parecido claramente que eran así.</example>
+                <example>¿Cuántos coches ha tenido él?</example>
+                <example>¿Cuantos coches había tenido él?</example>
             </rule>
         </rulegroup>
         <rulegroup id="AGRREMENT_SUBJECT_PREDICATE" name="Concordancia de sujeto y predicado" default="off">
