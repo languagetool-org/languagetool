@@ -78,7 +78,6 @@ public abstract class SpellingCheckRule extends Rule {
 
   private final UserConfig userConfig;
   private final Set<String> wordsToBeProhibited = new THashSet<>();
-  private final List<RuleWithLanguage> altRules;
 
   private Map<String,Set<String>> wordsToBeIgnoredDictionary = new THashMap<>();
   private Map<String,Set<String>> wordsToBeIgnoredDictionaryIgnoreCase = new THashMap<>();
@@ -111,7 +110,6 @@ public abstract class SpellingCheckRule extends Rule {
     if (userConfig != null) {
       wordsToBeIgnored.addAll(userConfig.getAcceptedWords());
     }
-    this.altRules = getAlternativeLangSpellingRules(altLanguages);
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
 
@@ -474,7 +472,7 @@ public abstract class SpellingCheckRule extends Rule {
     // will be created where each words serves as a case-sensitive and non-inflected PatternToken
     // so that the entire multi-word entry is ignored by the spell checker
     List<String> tokens = language.getWordTokenizer().tokenize(line);
-    if (tokens.size()>1) {
+    if (tokens.size() > 1) {
       List<PatternToken> patternTokens = new ArrayList<>(tokens.size());
       for(String token : tokens) {
         if (token.trim().isEmpty()) {
