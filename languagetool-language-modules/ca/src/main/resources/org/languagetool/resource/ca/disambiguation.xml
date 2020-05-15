@@ -4380,7 +4380,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="remove"><wd lemma="hajar"/></disambig>
         </rule>
-        <rule> <!-- excepcions: hi ha necessitat. Pot havier-hi ambigüitats: s'hi havia calat foc -->
+        <rule>  <!-- excepcions: hi ha necessitat. Pot havier-hi ambigüitats: s'hi havia calat foc -->
             <pattern>
                 <token><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes">[^'-].+</exception><exception regexp="yes">ella?</exception><exception postag="NP.*|_GN_.*" postag_regexp="yes"/></token>
                 <token>hi</token>
@@ -4388,11 +4388,26 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"/>
-                        <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">pres|dits?|ratllats?|escrits?|fets?|acabats?|col·locats?|duta|portada|dutes|portades|deixats?|deixad(a|es)|estat|posat|trobat</exception></token>
+                        <token postag="V.P.*" postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token postag="N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="&pronom_feble;" postag_regexp="yes" regexp="yes">[^'-].+</exception><exception regexp="yes">ella?</exception><exception postag="NP.*|_GN_.*" postag_regexp="yes"/></token>
+                <token>hi</token>
+                <token postag="VA..3S.." postag_regexp="yes" inflected="yes">haver</token>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="V.P.*" postag_regexp="yes"><exception regexp="yes">pres|dits?|ratllats?|escrits?|fets?|acabats?|col·locats?|duta|portada|dutes|portades|deixats?|deixad(a|es)|estat|posat|trobat|afegit</exception></token>
                     </and>
                 </marker>
             </pattern>
-            <disambig action="filter" postag="[^V].*"/>
+            <disambig action="remove" postag="V.P.*"/>
         </rule>
         <rule> <!-- excepcions: no hi va haver necessitat -->
             <pattern>
