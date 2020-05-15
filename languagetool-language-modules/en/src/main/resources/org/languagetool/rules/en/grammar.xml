@@ -8338,7 +8338,7 @@ USA
                 <example>I think you mean:</example>
                 <example>I think your best, if not only, bet is an AppleScript applet that accomplishes the same thing.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">when|while|after|before|if|once|as</token>
                     <marker>
@@ -8355,7 +8355,7 @@ USA
                 <example correction="you're">It's very casual, so if <marker>your</marker> in the neighborhood, stop by and have a glass of wine.</example>
                 <example correction="you're">While <marker>your</marker> at it.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">when|while|after|before|if|once|as</token>
                     <marker>
@@ -8367,7 +8367,7 @@ USA
                 <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
                 <example correction="you're">Please talk to me when <marker>your</marker> at the offices.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>your</token>
@@ -21133,7 +21133,7 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rulegroup id="Z_WAVE" name="Z-Wave" default="temp_off">
+        <rulegroup id="Z_WAVE" name="Z-Wave">
             <url>https://en.wikipedia.org/wiki/Z-Wave</url>
             <rule>
                 <pattern>
@@ -21647,7 +21647,7 @@ USA
                 <example correction="Windows">The <marker>windows</marker> 10 update failed.</example>
                 <example correction="Windows">It runs on a <marker>windows</marker> 2012 server.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>on</token>
                     <marker>
@@ -21827,7 +21827,7 @@ USA
             <url>https://www.lexico.com/definition/work-life_balance</url>
             <example correction="Work-life"><marker>Work life</marker> balance is having enough time for work and enough to have a life.</example>
         </rule>
-        <rule id="RUN_ON_HYPHEN" name="missing hyphen in 'run on'" default="temp_off">
+        <rule id="RUN_ON_HYPHEN" name="missing hyphen in 'run on'">
             <pattern>
                 <marker>
                     <token>run</token>
@@ -46645,7 +46645,52 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rulegroup id="HART_HARD" name="hart vs hard" default="temp_off">
+        <rulegroup id="WAN_WANT" name="wan vs want" default="temp_off">
+            <antipattern><!-- caught by WAN_T -->
+                <token>wan</token>
+                <token regexp="yes" min="0">&apostrophe;</token>
+                <token>t</token>
+            </antipattern>
+            <rule>
+                <antipattern>
+                    <token postag="IN" />
+                    <token>you</token>
+                </antipattern>
+                <pattern>
+                    <token case_sensitive="yes" regexp="yes">[Yy]ou|[Tt]hey|[Ww]e|I</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[Ww]an</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>want</suggestion>?</message>
+                <example correction="want">I <marker>wan</marker> this!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[Ww]an</token>
+                    </marker>
+                    <token case_sensitive="yes">to</token>
+                    <token postag="VBP" />
+                </pattern>
+                <message>Did you mean <suggestion>want</suggestion>?</message>
+                <example correction="want">I don't <marker>wan</marker> to pay for this.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">do</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[Ww]an</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>want</suggestion>?</message>
+                <example correction="want">I don't <marker>wan</marker> to pay for this.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="HART_HARD" name="hart vs hard">
             <rule>
                 <pattern>
                     <token inflected="yes">be</token>
@@ -46689,7 +46734,7 @@ The accident victim died from her injuries.
                 <example correction="hard">She had a <marker>hart</marker> time there.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="GIT_GET" name="git vs get" default="temp_off">
+        <rulegroup id="GIT_GET" name="git vs get">
             <antipattern>
                 <token>git</token>
                 <token regexp="yes">repositor.*|server.*|clone.*|issue.*|commit.*|conf.*|push.*|pull.*|log.*|doc.*|director.*|dirs?|ci|branch.*|br|hubs?</token>
