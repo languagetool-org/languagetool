@@ -632,7 +632,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token>vino</token>
+                    <token>vino<exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>
                 </marker>
                 <token>con</token>
                 <token postag="P.*" postag_regexp="yes"/>
@@ -797,9 +797,9 @@ Copyright (C) 2011 Juan Martorell
     </rule>
     <rule id="mas_adj" name="más + adj no adv">
         <pattern>
-            <token regexp="yes">más|menos</token>
+            <token postag="RG"/><!--más|menos|muy|bien-->
             <marker>
-                <token regexp="yes">bajo|largo</token>
+                <token regexp="yes">bajo|largo|seguro</token>
             </marker>
         </pattern>
         <disambig action="filter" postag="AQ.*"/>
