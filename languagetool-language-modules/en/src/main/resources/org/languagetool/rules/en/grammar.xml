@@ -16573,6 +16573,19 @@ USA
                 <token chunk="I-VP" postag="VB"/>
                 <token chunk="E-NP-plural">people</token>
             </antipattern>
+            <antipattern><!-- #2820 test for most people is -->
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="IN"/>
+                <token postag="JJS"/>
+                <token chunk="E-NP-plural">people</token>
+            </antipattern>
+            <antipattern><!-- #2820 that extreme for most people is -->
+                <token>that</token>
+                <token postag_regexp="yes" postag="JJ|NN(:UN?)?"/>
+                <token postag="IN"/>
+                <token postag="JJS"/>
+                <token chunk="E-NP-plural">people</token>
+            </antipattern>
             <pattern>
                 <token>people<exception scope="previous" regexp="yes">no|of</exception></token>
                 <token min="0">who</token>
@@ -16585,12 +16598,13 @@ USA
             <example correction='think'>Some people <marker>thinks</marker> that space is endless.</example>
             <example correction='have|haven'>We are looking for people who <marker>has</marker> expertise in this area.</example>
             <example correction='do'>Also, these people <marker>does</marker> not know the answer.</example>
+            <example correction="am|are|aren">Our people <marker>is</marker> being encouraged to find any way to avoid the tax.</example>
+            <example correction="am|are|aren">This won't work, for most people <marker>is</marker> is quite lazy.</example>
             <example>As the number of older, wealthier people <marker>grows</marker>, so does the number of people eager to prey on them.</example>
             <example>I'm one of those people who has trouble sitting still.</example>
             <example>I'm one of the many people who has trouble sitting still.</example>
             <example>Naming these people <marker>does</marker> not imply their agreement.</example>
             <example>Helping people <marker>is</marker> our duty.</example>
-            <example correction="am|are|aren">Our people <marker>is</marker> being encouraged to find any way to avoid the tax.</example>
             <example>My usual advice to people is just be focused on the problem, learn about the...</example>
             <example>And that no people has a greater claim to that flag than us.</example>
             <example>... believed that <marker>the freedom given to people</marker> leaves the human in a constant fear of failing his/her ...</example>
@@ -16599,6 +16613,8 @@ USA
             <example>PHE says the risk to people is still “very low”.</example><!--  #2095 -->
             <example>PHE says the risk for people is still “very low”.</example><!--  #2095 -->
             <example>To criticize people is not good.</example><!-- #2820 -->
+            <example>The test for most people is relatively simple.</example><!-- #2755 -->
+            <example>Whether the effects will be that extreme for most people is yet to be seen.</example><!-- #2755 -->
         </rule>
 
         <rule id="WE_RB_ARE_VB" name="we + ... + are + base form verb (gerund)">
