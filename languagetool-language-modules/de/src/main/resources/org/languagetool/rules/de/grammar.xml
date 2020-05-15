@@ -141,11 +141,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
         <rule id="WEISS" name="weiss (weiß)">
+            <antipattern>
+                <token regexp="yes">Herrn?|Frau|Fräulein</token>
+                <token case_sensitive="yes">Weiss</token>
+            </antipattern>
+            <antipattern>
+                <token postag_regexp="yes" postag=".*EIG:.*|UNKNOWN" regexp="yes">.*[a-z].*</token>
+                <token min="0">von</token>
+                <token case_sensitive="yes">Weiss</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[A-Z]|Dr|Prof|Familie</token>
+                <token spacebefore="no">.</token>
+                <token>Weiss</token>
+            </antipattern>
             <pattern>
                 <token>weiss</token>
             </pattern>
             <message><suggestion>weiß</suggestion> als Farbe und Form von 'wissen' wird mit 'ß' geschrieben. 'Weiss' kann als Nachname vorkommen.</message>
             <example correction="weiß">Das <marker>weiss</marker> ich auch.</example>
+            <example>Das Buch ist von H. Weiss</example>
+            <example>Hallo Frau Weiss</example>
+            <example>Franz von Weiss</example>
         </rule>
         <rule id="ZEIL" name="Möglicher Tippfehler 'Zeil'">
             <antipattern>
