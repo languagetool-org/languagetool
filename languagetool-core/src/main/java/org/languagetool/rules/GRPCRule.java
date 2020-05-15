@@ -39,10 +39,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.SSLException;
 import java.io.File;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.concurrent.Callable;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -167,11 +164,23 @@ public abstract class GRPCRule extends RemoteRule {
       MLRuleRequest req = (MLRuleRequest) request;
 
       MLServerProto.MatchResponse response = conn.stub.match(req.request);
+      Map<AnalyzedSentence, Integer> offsets = new HashMap<>();
+      int offset = 0;
+      for (int i = 0; i < req.sentences.size(); i++) {
+        AnalyzedSentence sentence = req.sentences.get(i);
+        offsets.put(sentence, offset);
+        offset += sentence.getText().length();
+      }
       List<RuleMatch> matches = Streams.zip(response.getSentenceMatchesList().stream(), req.sentences.stream(), (matchList, sentence) ->
-        matchList.getMatchesList().stream().map(match ->
-          new RuleMatch(this, sentence,
-            match.getOffset(), match.getOffset() + match.getLength(),
-            getMessage(match))
+        matchList.getMatchesList().stream().map(match -> {
+            int relativeOffset = offsets.get(sentence);
+            RuleMatch m = new RuleMatch(this, sentence,
+              relativeOffset + match.getOffset(),
+              relativeOffset + match.getOffset() + match.getLength(),
+              getMessage(match));
+            m.setSuggestedReplacements(match.getSuggestionsList());
+            return m;
+          }
         )
       ).flatMap(Function.identity()).collect(Collectors.toList());
       RemoteRuleResult result = new RemoteRuleResult(true, matches);
