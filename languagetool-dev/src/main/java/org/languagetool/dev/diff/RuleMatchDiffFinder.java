@@ -202,7 +202,7 @@ public class RuleMatchDiffFinder {
       fw.write("<head>\n");
       fw.write("  <title>" + title + "</title>\n");
       fw.write("  <meta charset='utf-8'>\n");
-      fw.write("  <script src='../tablefilter/tablefilter.js'></script>\n");  // https://github.com/koalyptus/TableFilter/
+      fw.write("  <script src='/regression-tests/tablefilter/tablefilter.js'></script>\n");  // https://github.com/koalyptus/TableFilter/
       fw.write("  <style>\n");
       fw.write("    .sentence { color: #666; }\n");
       fw.write("    .marker { text-decoration: underline; }\n");
