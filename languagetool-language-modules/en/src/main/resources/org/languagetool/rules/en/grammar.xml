@@ -11805,6 +11805,10 @@ USA
                 <token regexp="yes" min="0">&apostrophe;</token>
                 <token>friend</token>
             </antipattern>
+            <antipattern case_sensitive="yes"><!-- https://en.wikipedia.org/wiki/Zoo_Keeper_(2003_video_game) -->
+                <token>Zoo</token>
+                <token>Keeper</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">grounds|greens|house|peace|score|store|green|stock|goal|gate|shop|game|time|door|lock|book|inn|bee|zoo|bar</token>
                 <token regexp="yes">keepers?</token>
@@ -17951,7 +17955,7 @@ USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">in|from|to|of|at</token>
+                    <token regexp="yes">in|on|from|to|of|at</token>
                     <marker>
                         <token>long</token>
                         <token>island</token>
@@ -20463,15 +20467,32 @@ USA
                 <example>Those three <marker>install</marker> great effects.</example>
             </rule>
         </rulegroup>
-        <rule id="GAMEBOY" name="gameboy (game boy)">
-            <pattern>
-                <token regexp="yes">gameboys?</token>
-            </pattern>
-            <message>The handheld game console is spelled as two words.</message>
-            <suggestion><match no="1" regexp_match="(?i)gameboy" regexp_replace="Game Boy" /></suggestion>
+        <rulegroup id="GAMEBOY" name="gameboy (game boy)">
             <url>https://en.wikipedia.org/wiki/Game_Boy</url>
-            <example correction="Game Boy">The <marker>Gameboy</marker> is an 8-bit handheld game console developed and manufactured by Nintendo.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">gameboys?</token>
+                </pattern>
+                <message>The handheld game console is spelled as two words.</message>
+                <suggestion><match no="1" regexp_match="(?i)gameboy" regexp_replace="Game Boy" /></suggestion>
+                <example correction="Game Boy">The <marker>Gameboy</marker> is an 8-bit handheld game console developed and manufactured by Nintendo.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern case_sensitive="yes">
+                    <token regexp="yes">Game|GAME</token>
+                    <token regexp="yes">Boy|BOY</token>
+                    <token regexp="yes">[A-Z].*</token>
+                </antipattern>
+                <pattern>
+                    <token>game</token>
+                    <token>boy</token>
+                    <token regexp="yes">advance|color|micro</token>
+                </pattern>
+                <message>The handheld game console is capitalized.</message>
+                <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /> <match no="3" case_conversion="startupper" /></suggestion>
+                <example correction="Game Boy Advance">The <marker>Game boy advance</marker> is an 8-bit handheld game console developed and manufactured by Nintendo.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FOX_NEWS" name="Fox News">
             <rule>
                 <antipattern case_sensitive="yes">
@@ -20925,7 +20946,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token>apple</token>
-                    <token regexp="yes">MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|ARKit|Care|Carplay|EarPods|AirPods|Health|Maps|Siri|Lightning|iMovie|Arcade|Pencil</token>
+                    <token regexp="yes">i?Mac|MacBook|Watch|Pay|Store|Inc|A\d+|Card|Homepod|Music|Wallet|Xcode|HomeKit|ARKit|Care|Carplay|EarPods|AirPods|Health|Maps|Siri|Lightning|iMovie|Arcade|Pencil</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" regexp_match="pod" regexp_replace="Pod" /></suggestion>?</message>
                 <example correction="Apple Inc">He's working for <marker>apple inc</marker>.</example>
@@ -20973,6 +20994,14 @@ USA
                 <message>This Apple product is spelled with a space in between.</message>
                 <suggestion>Apple <match no="1" regexp_match="(?i)apple" regexp_replace="" case_conversion="startupper" /></suggestion>
                 <example correction="Apple Pay"><marker>ApplePay</marker> is a mobile payment and digital wallet service by Apple Inc.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>mac</token>
+                    <token regexp="yes">books?</token>
+                </pattern>
+                <message>Did you mean <suggestion>Mac<match no="2" case_conversion="startupper" /></suggestion> (= product from Apple)?</message>
+                <example correction="MacBook">I'm working on my new <marker>mac book</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MICROSOFT_PRODUCTS" name="Microsoft product names">
@@ -25727,7 +25756,7 @@ USA
             <message>Did you mean <suggestion>couple of times</suggestion>?</message>
             <example correction="couple of times">I tried it a <marker>couples of times</marker>.</example>
         </rule>
-        <rulegroup id="A_NNS" name="Agreement: 'a' + plural word" default="temp_off"><!-- TODO remove A_PLURAL after successful regression test-->
+        <rulegroup id="A_NNS" name="Agreement: 'a' + plural word">
             <antipattern><!-- "U.S.A" -->
                 <token case_sensitive="yes" regexp="yes">[A-Z]+</token>
                 <token spacebefore="no">.</token>
@@ -26305,226 +26334,27 @@ USA
             </rule>
         </rulegroup>
 
-        <rulegroup id="A_PLURAL" name="Agreement: 'a' + plural word">
-            <antipattern><!-- "U.S.A" -->
-                <token case_sensitive="yes" regexp="yes">[A-Z]+</token>
-                <token spacebefore="no">.</token>
-                <token case_sensitive="yes" spacebefore="no">A</token>
-            </antipattern>
-            <antipattern><!-- "L.A" -->
-                <token case_sensitive="yes">L</token>
-                <token spacebefore="no">.</token>
-                <token case_sensitive="yes" spacebefore="no">A</token>
-            </antipattern>
-            <antipattern>
-                <token>.</token>
-                <token regexp="yes" spacebefore="no">[a-z]</token>
-                <token spacebefore="no">.</token>
-                <token regexp="yes" spacebefore="no">a</token>
-            </antipattern>
-            <antipattern><!-- bullet point "4.a" -->
-                <token postag="CD"/>
-                <token spacebefore="no">.</token>
-                <token spacebefore="no">a</token>
-            </antipattern>
-            <antipattern>
-                <token>the</token>
-                <token>us</token>
-                <token>of</token>
-                <token>a</token>
-            </antipattern>
-            <antipattern>
-                <token>N</token>
-                <token>/</token>
-                <token>A</token>
-            </antipattern>
-            <antipattern>
-                <token postag="JJ">a</token><!-- www.lexico.com/en/definition/a_cappella -->
-                <token postag="JJ">cappella</token>
-            </antipattern>
-            <antipattern>
-                <token case_sensitive="yes">A</token>
-                <token regexp="yes">levels?|records?|divisions?|grade[sd]?|molecules</token>
-            </antipattern>
-            <antipattern><!-- "He registered a ups.com user" -->
-                <token regexp="yes" skip="2">an?</token>
-                <token>.</token>
-                <token regexp="yes" spacebefore="no">\w{2,6}</token>
-            </antipattern>
-            <antipattern><!-- Spanish name -->
-                <token>a</token>
-                <token>las</token>
-            </antipattern>
-            <antipattern><!-- A Creative Commons Attribution -->
-                <token>Creative</token>
-                <token>Commons</token>
-                <token />
-            </antipattern>
-            <antipattern>
-                <token>A</token>
-                <token>nucleotides</token>
-            </antipattern>
-            <antipattern><!-- https://www.merriam-webster.com/dictionary/a%20ways%20to%20go -->
-                <token>a</token>
-                <token>ways</token>
-                <token>to</token>
-                <token>go</token>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">&nouns_with_a;</token>
-                <token case_sensitive="yes">A</token>
-            </antipattern>
-            <antipattern><!-- "a.k.a" -->
-                <token>a</token>
-                <token>.</token>
-                <token>k</token>
-                <token>.</token>
-                <token>a</token>
-            </antipattern>
-            <antipattern><!-- A lawyers only meeting -->
-                <token skip="1" regexp="yes">an?</token>
-                <token postag="NNP?S" postag_regexp="yes" />
-                <token>only</token>
-                <token postag="NN(:UN?)?" postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes" skip="1">an?</token>
-                <token>terms</token>
-                <token>of</token>
-                <token>service</token>
-            </antipattern>
-            <antipattern><!-- https://www.lexico.com/definition/apples_to_apples -->
-                <token>apples</token>
-                <token>to</token>
-                <token regexp="yes">apples|oranges</token>
-            </antipattern>
-            <antipattern>
-                <token>Gems</token>
-                <token>of</token>
-                <token>War</token>
-            </antipattern>
-            <antipattern>
-                <token>American</token>
-                <token>Airlines</token>
-            </antipattern>
-            <antipattern><!-- Qur'an -->
-                <token regexp="yes">Qur|Ma</token>
-                <token regexp="yes">&apostrophe;</token>
-                <token>an</token>
-            </antipattern>
-            <antipattern>
-                <token />
-                <token regexp="yes" spacebefore="no">&apostrophe;</token>
-                <token regexp="yes" spacebefore="no">an?</token>
-            </antipattern>
-            <rule>
-                <antipattern><!-- an operations center campus -->
-                    <token regexp="yes">an?</token>
-                    <token postag="NNS"/><!-- operation/E-NP-plural, thus cannot use the chunker -->
-                    <token postag="JJ|NN(:UN?)?" postag_regexp="yes"/>
-                    <token postag="NN(:UN?)?" postag_regexp="yes"/>
-                </antipattern>
-                <pattern>
-                    <token><exception regexp="yes">’|'</exception><exception postag="CD"/></token>
-                    <marker>
-                        <token regexp="yes">an?</token>
-                        <token postag="NNP?S" postag_regexp="yes">
-                            <exception postag="NN:.*|VBZ|NNP?|C[CD]" postag_regexp="yes"/>
-                            <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception> <!-- e.g. "a LAPS" -->
-                            <exception regexp="yes">savings|headquarters|innings|sideways</exception> <!-- savings has singular concord according to OED; headquarters may as well -->
-                        </token>
-                    </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"/><exception regexp="yes">&apostrophe;|and</exception></token>
-                </pattern>
-                <message>Don't use indefinite articles with plural words. Did you mean <suggestion><match no="2"/> <match no="3" postag="NN(:UN?)?" postag_regexp="yes"/></suggestion> or simply <suggestion><match no="3"/></suggestion>?</message>
-                <short>Possible agreement error</short>
-                <example correction="a criterion|criteria">I needed to use a text line as <marker>a criteria</marker> to select users for a list.</example>
-                <example correction="a stimulus|stimuli">A memory occurs when <marker>a stimuli</marker> is too complex that the nervous system...</example>
-                <example correction="a car|cars">... and make sure that you class <marker>a cars</marker> as specified on the classification criteria.</example>
-                <example correction="an car|cars">They class <marker>an cars</marker> according to a special classification criteria.</example><!-- Spell checker also finds 'an' -->
-                <example>It is a criteria list that we prepared last night.</example>
-                <example>He was employed for a time by a Mrs. Reed.</example>
-                <example>There was a children's party at the Joneses yesterday.</example>
-                <example>A men's retailer opened in Florida.</example>
-                <example>Shi'a Muslims are nice.</example>
-                <example>The league created two A divisions.</example>
-                <example>Division A teams are the best.</example>
-                <example>Dock A floats.</example>
-                <example>He registered a ups.com user</example>
-                <example>He moved to Juventus where he won trophies including two Serie A titles.</example>
-                <example>Atlas District, an arts and entertainment district in the Near Northeast</example>
-                <example>"The murderer," wrote Schopenhauer, "who is condemned to death according to the law must, it is true, be now used as a mere means, and with complete right."</example>
-                <example>As a consequence, a LAPS is very similar in structure to an EIS sensor.</example>
-                <example>The batsman averaged almost 40 with the highlight being <marker>an innings</marker> of 125.</example>
-                <example>She attended Sydenham School and left just before taking <marker>A Levels</marker> to go to Drama School.</example>
-                <example>I'm using a Mac and I can't read a <marker>Windows 95</marker> file.</example>
-                <example>… the <marker>heads of a ram and a buck are</marker> budding forth.</example>
-                <example>... Group N Production cars and more modified <marker>Group A</marker> cars.</example>
-                <example>Person A makes a lot of money.</example>
-                <example>... which includes a regional headquarters, an operations center campus and a $400 million data center.</example>
-                <example>A <marker>tries</marker> to overtake B.</example><!-- #2415 -->
-                <example>A <marker>million</marker> thank you.</example><!-- #2415 -->
-                <example type="triggers_error">Dwan operated <marker>Flying A Studios</marker> in La Mesa, California from August 1911 to July 1912.</example>
-            </rule>
-            <rule>
-                <antipattern><!--  #2069. a good chance things will not become worse. -->
-                    <token postag="DT"/>
-                    <token postag="JJ"/>
-                    <token postag_regexp="yes" postag="NN:UN?"/>
-                    <token postag="NNS"/>
-                    <token postag="MD"/>
-                </antipattern>
-                <antipattern><!-- Can I wear a hoodie backwards? -->
-                    <token postag="VB.*" postag_regexp="yes" /> 
-                    <token regexp="yes">an?</token>
-                    <and>
-                        <token postag="NN" />
-                        <token postag="JJ" />
-                    </and>
-                    <and>
-                        <token postag="NNS" />
-                        <token postag="RB" />
-                    </and>
-                </antipattern>
-                <pattern>
-                    <token><exception regexp="yes">’|'</exception><exception postag="CD"/></token>
-                    <token regexp="yes">an?</token>
-                    <token max="2" postag="JJ">
-                        <exception regexp="yes">few|(half-)?dozen|time</exception>
-                        <exception postag="CD|IN" postag_regexp="yes" />
-                    </token>
-                    <marker>
-                        <token postag="NNP?S" postag_regexp="yes">
-                            <exception postag="NN:.*|NN|VBZ|NNP|CC|CD" postag_regexp="yes"/>
-                            <exception regexp="yes">sometimes|savings|headquarters|innings|thanks</exception>
-                            </token>
-                    </marker>
-                    <token><exception postag="NN.*" postag_regexp="yes"/><exception regexp="yes">&apostrophe;|and</exception></token>
-                </pattern>
-                <message>Don't use indefinite articles with plural words. Did you mean <suggestion><match no="4" postag="NN(:UN?)?" postag_regexp="yes"/></suggestion>?</message>
-                <short>Possible agreement error</short>
-                <example correction="milestone">The Syria resolution was a major <marker>milestones</marker> for the United Nations.</example>
-                <example correction="milestone">The Syria resolution was an early major <marker>milestones</marker> for the United Nations.</example>
-                <example correction="woman">The average figure of a Korean <marker>women</marker> in her twenties</example>
-                <example correction="desk">I made a simple wooden <marker>desks</marker>.</example>
-                <example>Only half a dozen asteroids are larger than 87 Sylvia.</example>
-                <example>It's a ten minutes walk to the bus stop.</example>
-                <example>The only exception to this is that if a defendant appeals a conviction for a crime.</example>
-                <example>Three weeks later his last <marker>first-class innings</marker> brought him 62 for Victoria at Sydney.</example>
-                <example>Arrangements of popular music for small a cappella ensembles typically include one voice singing the lead melody...</example>
-                <example>... and these were Grade A major milestones for me.</example>
-                <example>Can I wear a Hoodie backwards?</example>
-                <example>He received A on his in class.</example>
-                <example>We have a good chance things will not become worse.</example><!--  #2069 -->
-                <example>I expressed a warm thanks.</example><!-- MFU 2019-10-11. Although 'a warm thanks' is possibly a FP, the 'correction' is '(thanks)'. Thus, I added an exception.-->
-                <example>He made a bad graffiti with his hands.</example><!-- #2250 -->
-                <example type="triggers_error">I'm going to sign up for a German class right now.</example><!-- MFU 2019-10-11. Caused by disambiguation NN_are_NNS. I do not know how to fix the disambiguation, because it's a semantic problem. -->
-                <example type="triggers_error">The American Military authorities established a displaced persons (DP) camp in what used to be a sanatorium...</example>
-            </rule>
-        </rulegroup>
-
         <rule id="ONE_PLURAL" name="Agreement: 'one' + plural word">
-            <!-- Similar to A_PLURAL except that we deal with other situations:
+            <antipattern>
+                <token>one</token>
+                <token regexp="yes">pagers?|shots?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">page|chapter|phase|part</token>
+                <token>one</token>
+            </antipattern>
+            <antipattern>
+                <token>one</token>
+                <token regexp="yes">to|on</token>
+                <token>one</token>
+            </antipattern>
+            <antipattern>
+                <token>all</token>
+                <token min="0">that</token>
+                <token>one</token>
+                <token>needs</token>
+            </antipattern>
+            <!-- Similar to A_NNS except that we deal with other situations:
                 "one hundred and one items" and "fifty one items" -->
             <pattern>
                 <token><exception regexp="yes">'|division|class|category|formula|number|type|series|and</exception><exception postag="CD"/></token>
@@ -26532,10 +26362,11 @@ USA
                     <token postag="CD">one</token>
                     <token postag="NNP?S" postag_regexp="yes">
                         <exception postag="NN:.*|NN|VBZ|NNP" postag_regexp="yes"/>
-                        <exception regexp="yes">half-century|innings</exception>
+                        <exception regexp="yes">half-century|innings|his</exception>
+                        <exception postag="NN.*" postag_regexp="yes" scope="next" />
+                        <exception regexp="yes" scope="next">&apostrophe;</exception>
                     </token>
                 </marker>
-                <token><exception postag="NN.*" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
             </pattern>
             <message>Don't use the number 'one' with plural words. Did you mean <suggestion><match no="2"/> <match no="3" postag="NN(:.+)?" postag_regexp="yes"/></suggestion>, <suggestion><match no="3" postag="NN|NN:.*\+INDT" postag_regexp="yes"/></suggestion>, or simply <suggestion><match no="3"/></suggestion>?</message>
             <short>Possible agreement error</short>
@@ -26555,9 +26386,10 @@ USA
             <example>Formula One teams are the best.</example>
             <example>He was the first person in a half-century to succeed.</example>
             <example>There was time for <marker>one innings</marker> more.</example>
+            <example>All one needs.</example>
         </rule>
         <rule id="DIE_DICE" name="one die, two dice">
-            <!-- Not currently handled by ONE_PLURAL or A_PLURAL -->
+            <!-- Not currently handled by ONE_PLURAL or A_NNS -->
             <pattern>
                 <token><exception regexp="yes">'|division|class|category|formula|number|type|series|and</exception><exception postag="CD"/></token>
                 <token regexp="yes">a|one</token>
@@ -26584,7 +26416,7 @@ USA
             <example correction="especially">He loves cats, <marker>specially</marker> small ones.</example>
         </rule>
         <rule id="FOOT_FEET" name="one foot, two feet">
-            <!-- Not currently handled by ONE_PLURAL or A_PLURAL -->
+            <!-- Not currently handled by ONE_PLURAL or A_NNS -->
             <pattern>
                 <token><exception regexp="yes">'|division|class|category|formula|number|type|series|and</exception><exception postag="CD"/></token>
                 <token regexp="yes">a|one</token>
@@ -26598,7 +26430,7 @@ USA
             <example>I had a show on one foot.</example>
         </rule>
         <rule id="MAN_MEN" name="one man, two men">
-            <!-- Not currently handled by ONE_PLURAL or A_PLURAL -->
+            <!-- Not currently handled by ONE_PLURAL or A_NNS -->
             <pattern>
                 <token><exception regexp="yes">'|division|class|category|formula|number|type|series|and</exception><exception postag="CD"/></token>
                 <token regexp="yes">a|one</token>
@@ -26613,7 +26445,7 @@ USA
             <example>A <marker>man</marker> walked into the room.</example>
         </rule>
         <rule id="WOMAN_WOMEN" name="one woman, two women">
-            <!-- Not currently handled by ONE_PLURAL or A_PLURAL -->
+            <!-- Not currently handled by ONE_PLURAL or A_NNS -->
             <pattern>
                 <token><exception regexp="yes">'|division|class|category|formula|number|type|series|and</exception><exception postag="CD"/></token>
                 <token regexp="yes">a|one</token>
@@ -35722,7 +35554,7 @@ USA
                     <token regexp="yes">8|16|32|64|128|256|512|1024|2048|4096</token>
                     <token>bit</token>
                 </marker>
-                <token regexp="yes">systems?|computers?|processors?|tokens?|games?|apple|windows|intel|crc|arm|rsa|ssh|ssl|aes|sha|cpus?|ids?|gpus?|pcs?|monitors?|hash(es)?|music|arts?|floats?|pixels?|wep|decimal|random|keys?|encryption|encrypted|signed|memory|operating|os|data|personal|audio|address|graphics?|colou?rs?|coin|integers?|units?|java|jre|jdk|microprocessors?|microcontrollers?|linux|kernels?|arch(itectures)?s?|check|android|numbers?</token>
+                <token regexp="yes">systems?|computers?|processors?|tokens?|handhelds?|games?|apple|windows|intel|crc|arm|rsa|ssh|ssl|aes|sha|cpus?|ids?|gpus?|pcs?|monitors?|hash(es)?|music|arts?|floats?|pixels?|wep|decimal|random|keys?|encryption|encrypted|signed|memory|operating|os|data|personal|audio|address|graphics?|colou?rs?|coin|integers?|units?|java|jre|jdk|microprocessors?|microcontrollers?|linux|kernels?|arch(itectures)?s?|check|android|numbers?</token>
             </pattern>
             <message>It appears that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -57095,6 +56927,26 @@ The accident victim died from her injuries.
                 <url>https://en.wiktionary.org/wiki/do_the_needful</url>
                 <example correction="do what is necessary|do what is required">We need to <marker>do the needful</marker>.</example>
             </rule>
+            <!--
+            <rule>
+                <pattern>
+                    <token regexp="yes">rowdy\-sheeters?</token>
+                </pattern>
+                <message>This expression is chiefly Indian English. Consider an alternative that is more suited for an international audience.</message>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">sub-inspectors?</token>
+                </pattern>
+                <message>This expression is chiefly Indian English. Consider an alternative that is more suited for an international audience.</message>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">timepass</token>
+                </pattern>
+                <message>This expression is chiefly Indian English or dated British English. Consider an alternative that is more suited for an international audience.</message>
+            </rule> -->
+            <!-- TODO https://blogs.wsj.com/indiarealtime/2013/09/04/for-timepass-a-guide-to-indian-english/ -->
         </rulegroup>
         <rulegroup id="RECOMMENDED_COMPOUNDS" name="Recommended compounds (smartphone, website, …)">
             <rule>
