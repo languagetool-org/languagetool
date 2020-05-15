@@ -586,7 +586,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="replace" postag="AO0MS0"/>
         </rule>
-
     </rulegroup>
     <rule id="des_de" name="des de/que">
         <pattern>
@@ -692,6 +691,12 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="replace" postag="_C_TEMPS"/>
         </rule>
     </rulegroup>
+    <rule id="bo" name="bo (no interjecció)">
+        <pattern>
+            <token regexp="yes">bo|bona</token>
+        </pattern>
+        <disambig action="remove" postag="I" />
+    </rule>
     <rule id="ADVERBI_ANTEPOSAT" name="adverbi que es pot anteposar a adjectiu">
         <pattern>
             <token postag="RG" regexp="yes">mal|.+ment|molt|poc|moltíssim|poquíssim|tantíssim|tant|tan|aleshores|alhora|almanco|almenys|aviat|bastant|ben|encara|força|gaire|gairebé|gens|inclús|ja|llavors|mai|massa|menys|mig|millor|més|no|només|pas|pitjor|potser|prompte|prou|quasi|quelcom|sempre|sobretot|sols|suara|també|tampoc|tanmateix|tostemps|tot|tothora|àdhuc</token>
@@ -2579,6 +2584,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="remove" postag="V.P.*"/>
         </rule>
     </rulegroup>
+    <rule id="molt_adverbi" name="molt (adverbi)">
+        <pattern>
+            <marker>
+                <token postag="RG.*" postag_regexp="yes">molt</token>
+            </marker>
+            <token postag="A.*" postag_regexp="yes"><exception postag="A.*" postag_regexp="yes" negate_pos="yes"/></token>
+        </pattern>
+        <disambig action="filter" postag="RG.*"/>
+    </rule>
     <rule id="fer_nVerbConjug" name="no sol ser verb conjugat: fer">
         <!--  paraules comunes que no solen ser verb gairebé mai -->
         <pattern>
@@ -11532,12 +11546,6 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token postag="CC|_PUNCT.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="replace" postag="I" />
-        </rule>
-        <rule>
-            <pattern>
-                <token regexp="yes">bo|bona</token>
-            </pattern>
-            <disambig action="remove" postag="I" />
         </rule>
     </rulegroup>
     <rule id="PI_N" name="pronom indefinit i nom">

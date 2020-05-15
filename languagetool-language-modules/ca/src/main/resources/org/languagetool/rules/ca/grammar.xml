@@ -68,7 +68,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!ENTITY mots_SOTA "direcció|supervisió|batuta|guia|pseudònim|protecció|tutela|denominació|jurisdicció|nom|títol|domini|dominació|patronatge">
     <!ENTITY nombres_que_apostrofen "(1{1,2}|11[.\s]?\d{3}|1{1,2}\.\d{3}\.\d{3}|1{1,2}\s\d{3}\s\d{3}|1{1,2}\d{6})([,]\d+)?([&#37;&#8240;&#8241;′″]|&#176;[CFKNSEW]?)?|11[aèé]|11\.[0-5]\d|(?-i)XI">
     <!ENTITY noms_ABAIXAR_APUJAR "calefacció|impost|sou|salari|guàrdia|vela|persiana|cap|braç|veu|to|preu|pressupost|ràdio|volum|tele|televisió|música|teló|vista">
-    <!ENTITY noms_collectius "majoria|parell|gent|grup|colla|família|part|nombre">
+    <!ENTITY noms_collectius "majoria|parell|gent|grup|colla|família|part|nombre|dotzena|desena|centena|centenar|miler">
     <!ENTITY noms_lletres "a|e|i|o|efa|ef|efe|hac|ela|ele|ema|eme|em|ena|ene|erra|erre|er|essa|esse|ics|enya">
     <!ENTITY numerals_unitats "pocs|poques|tants|tantes|u|un|dos|dues|tres|quatre|cinc|sis|set|vuit|huit|nou|((un|quatr|cinqu|[hv]uit|nov)(è|é|ena|ens|enes))|(dos|tres)(è|é|ena|ens|enes)"> <!-- deu-->
     <!ENTITY ordes "oblat|clarissa|agustí|terciari|mínim|agustinià|salesià|religiós|franciscà|benedictí|templari|templer|cavalleresc|cistercenc|escolapi|monàstic|mercedari|teutònic|cartoixà|dominic|jerònim|caputxí|carmelità">
@@ -4212,21 +4212,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="estan">S'<marker>està</marker> baixant els fitxers.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="CONCORD_COPULATIVES" name="concordança en frases copulatives">
+        <rulegroup id="AGREEMENT_SUBJECT_VERB_SG_PL" name="concordança subjecte verb (ser, estar, tenir...)" default="temp_off">
+            <antipattern>
+                <token postag="V.[IS].3P.." postag_regexp="yes" skip="-1"/>
+                <token min="2" postag="_GN_.P|N..P.*|DN.*|NCCN.*|D...P.|PI.C[NP].*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
-                <antipattern>
-                    <token postag="V.[IS].3P.." postag_regexp="yes" skip="-1"/>
-                    <token min="2" postag="_GN_.P|N..P.*|DN.*|NCCN.*|D...P." postag_regexp="yes"/>
-                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
-                            >&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix|quant|resta</exception><exception regexp="yes">.*%</exception></token>
+                        >&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix|quant|resta</exception><exception regexp="yes">.*%</exception></token>
                     <token min="0">no</token>
                     <marker>
-                        <token postag="V.[IS].3P.." postag_regexp="yes" regexp="yes" inflected="yes" skip="-1">ser|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer<exception postag="V.[ISM]..S..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                        <token postag="V.[IS].3P.." postag_regexp="yes" regexp="yes" inflected="yes">ser|continuar|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer<exception postag="V.[ISM]..S..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="SENT_END"/>
                 </pattern>
                 <message>Possible error de concordança.</message>
                 <suggestion><match no ="4" postag="(V.[IS].3)P(..)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
@@ -4239,26 +4238,65 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Aquell parell eren bons.</example>
                 <example>Esment especial mereixen els seus treballs</example>
                 <example>La resta són incoatius</example>
+                <example>L'infern són els altres.</example>
+                <example>Dreta i esquerra són oposats.</example>
+                <example>Mitja dotzena són sis.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token inflected="yes" regexp="yes">semblar|parèixer</token>
-                    <token min="0" max="4" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
-                    <token>que</token>
-                </antipattern>
-                <antipattern>
-                    <token min="2" postag="_GN_.S|N..S.*|D...S." postag_regexp="yes"/>
-                </antipattern>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
+                        >&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|&noms_collectius;|quin|mateix|quant|resta</exception><exception regexp="yes">.*%</exception></token>
+                    <token min="0">no</token>
+                    <marker>
+                        <token postag="VA[IS].3P.." postag_regexp="yes" inflected="yes" regexp="yes">haver|anar</token>
+                    </marker>
+                    <token postag="V.P..SM.|V.N.*" postag_regexp="yes" regexp="yes" inflected="yes">ser|continuar|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</token>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion><match no ="4" postag="(V.[IS].3)P(..)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+                <example correction="ha">Aquesta sopa <marker>han</marker> estat molt bona.</example>
+                <example correction="havia">Esment especial <marker>havien</marker> merescut el seu treball.</example>
+                <example correction="ha">La cosa <marker>han</marker> semblat que és així.</example>
+                <example>Dos han estat sacerdots.</example>
+                <example>La seva passió havien estat les maduixes</example>
+                <example>Aquell parell haurien estat bons.</example>
+                <example>Esment especial han merescut els seus treballs</example>
+                <example>La resta havien estat vermells.</example>
+                <example>L'infern són els altres.</example>
+                <example>Dreta i esquerra van ser oposats.</example>
+                <example>Mitja dotzena havien sigut sis.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="AGREEMENT_SUBJECT_VERB_PL_SG" name="concordança subjecte verb (ser, estar, tenir...)" default="temp_off">
+            <antipattern>
+                <token inflected="yes" regexp="yes">semblar|parèixer</token>
+                <token min="0" max="4" postag="RG|.*LOC_ADV.*" postag_regexp="yes"/>
+                <token>que</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.[IS].3S." postag_regexp="yes" skip="-1"/>
+                <token min="2" postag="_GN_.S|N..S.*|D...S." postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token postag="V.[IS].3S." postag_regexp="yes" skip="-1"/>
+                <token postag="D...S." postag_regexp="yes"/>
+                <token>que</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.[IS].3S." postag_regexp="yes" skip="-1"/>
+                <token postag="PI..S...|.+\+PP..P..." postag_regexp="yes"/>
+            </antipattern>
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">quin|quant</exception></token>
                     <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
-                            >&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix|quant|quin|resta</exception></token>
+                        >&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix|quant|quin|resta</exception></token>
                     <token min="0">no</token>
                     <marker>
-                        <token postag="V.[IS].3S.." postag_regexp="yes" inflected="yes" regexp="yes" skip="-1">ser|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer<exception postag="V.[ISM]..P..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                        <token postag="V.[IS].3S.." postag_regexp="yes" inflected="yes" regexp="yes">ser|seguir|continuar|tenir|semblar|parèixer|mostrar|oferir|merèixer<exception postag="V.[ISM]..P..|_possible_nompropi|.*LOC_ADV.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token postag="SENT_END"/>
                 </pattern>
                 <message>Possible error de concordança.</message>
                 <suggestion><match no ="5" postag="(V.[IS].3)S(..)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
@@ -4267,9 +4305,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tenen">Els amics <marker>té</marker> això.</example>
                 <example correction="mereixien">Esments especials <marker>mereixia</marker> els seus treballs.</example>
                 <example correction="tenen">Aquelles persones <marker>té</marker> set.</example>
+                <example correction="continuen">Aquelles persones <marker>continua</marker> igual.</example>
                 <example>Aquells dies era tot bonic.</example>
                 <example>Les coses sembla clarament que són així.</example>
                 <example>Quants diners té ell?</example>
+                <example>Estats Units és ric en recursos naturals.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">quin|quant</exception></token>
+                    <token min="1" max="4" postag="_GN_.P|N..P.*" postag_regexp="yes"><exception postag="_GN_.S|N..S.*|NP.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
+                        >&expressions_temps;|&unitats_temps;|&dies_setmana;|&mesos_any;|&estacions;|&parts_dia;|col?p|volta|vegada|pic|mateix|quant|quin|resta</exception></token>
+                    <token min="0">no</token>
+                    <marker>
+                        <token postag="VA[IS].3S.." postag_regexp="yes" inflected="yes" regexp="yes">haver|anar</token>
+                    </marker>
+                    <token postag="V.P..SM.|V.N.*" postag_regexp="yes" regexp="yes" inflected="yes">ser|continuar|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</token>
+                </pattern>
+                <message>Possible error de concordança.</message>
+                <suggestion><match no ="5" postag="(V.[IS].3)S(..)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <example correction="han">Aquestes sopes <marker>ha</marker> estat molt bones.</example>
+                <example correction="han">Els amics <marker>ha</marker> estat així.</example>
+                <example correction="havien">Els amics <marker>havia</marker> tingut això.</example>
+                <example correction="hagueren|haurien">Esments especials <marker>hauria</marker> merescut els seus treballs.</example>
+                <example correction="van|varen">Aquelles persones <marker>va</marker> tenir set.</example>
+                <example correction="van|varen">Aquelles persones <marker>va</marker> continuar igual.</example>
+                <example>Aquells dies era tot bonic.</example>
+                <example>Les coses havia paregut clarament que eren així.</example>
+                <example>Quants diners té ell?</example>
+                <example>Estats Units havia estat ric en recursos naturals.</example>
             </rule>
         </rulegroup>
         <rulegroup id="CONCORDANCES_ATRIBUT" name="Concordances de subjecte i atribut en frases copulatives">
