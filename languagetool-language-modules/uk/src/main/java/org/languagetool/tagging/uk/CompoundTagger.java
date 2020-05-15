@@ -259,7 +259,7 @@ class CompoundTagger {
       List<TaggedWord> rightWdList = tagEitherCase(adjustedWord);
       rightWdList = rightWdList.stream().map(wd -> new TaggedWord("вмісний", wd.getPosTag())).collect(Collectors.toList());
       List<AnalyzedToken> rightAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(rightWord, rightWdList);
-      return generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, IPOSTag.adj.getText());
+      return generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, IPOSTag.adj.getText(), null);
     }
 
     List<TaggedWord> rightWdList = tagEitherCase(rightWord);
@@ -296,7 +296,7 @@ class CompoundTagger {
         && Character.isUpperCase(leftWord.charAt(0))
         && LemmaHelper.hasLemma(rightAnalyzedTokens, Arrays.asList("подібний")) ) {
 
-      return generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, IPOSTag.adj.getText());
+      return generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, IPOSTag.adj.getText(), null);
     }
 
     if( leftWord.equalsIgnoreCase("по") ) {
@@ -379,16 +379,25 @@ class CompoundTagger {
       }
       
       String extraTag = "";
-      if( dashPrefixes.containsKey( leftWord ) )
+      if( dashPrefixes.containsKey( leftWord ) ) {
         extraTag = dashPrefixes.get(leftWord);
-      else 
-      if( dashPrefixes.containsKey( leftWord.toLowerCase() ) )
-        extraTag = dashPrefixes.get(leftWord.toLowerCase());
+      }
+      else { 
+        if( dashPrefixes.containsKey( leftWord.toLowerCase() ) ) {
+          extraTag = dashPrefixes.get(leftWord.toLowerCase());
+        }
+      }
       
       List<AnalyzedToken> newTokensNoun = getNvPrefixNounMatch(word, rightAnalyzedTokens, leftWord, extraTag);
       if( newTokensNoun != null ) {
         newTokens.addAll(newTokensNoun);
       }
+      
+      // топ-десять
+      if( leftWord.equalsIgnoreCase("топ") && PosTagHelper.hasPosTagPart(rightAnalyzedTokens, "numr:") ) {
+        return generateTokensWithRighInflected(word, leftWord, rightAnalyzedTokens, "numr:", ":bad");
+      }
+      
       return newTokens;
     }
 
@@ -592,13 +601,13 @@ class CompoundTagger {
   }
 
 
-  private static List<AnalyzedToken> generateTokensWithRighInflected(String word, String leftWord, List<AnalyzedToken> rightAnalyzedTokens, String posTagStart) {
+  private static List<AnalyzedToken> generateTokensWithRighInflected(String word, String leftWord, List<AnalyzedToken> rightAnalyzedTokens, String posTagStart, String addTag) {
     List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>(rightAnalyzedTokens.size());
     for (AnalyzedToken analyzedToken : rightAnalyzedTokens) {
       String posTag = analyzedToken.getPOSTag();
       if( posTag.startsWith( posTagStart )
             && ! posTag.contains("v_kly") ) {
-        newAnalyzedTokens.add(new AnalyzedToken(word, posTag, leftWord + "-" + analyzedToken.getLemma()));
+        newAnalyzedTokens.add(new AnalyzedToken(word, PosTagHelper.addIfNotContains(posTag, addTag), leftWord + "-" + analyzedToken.getLemma()));
       }
     }
     return newAnalyzedTokens;
