@@ -8781,6 +8781,10 @@ though, and has since been slightly modified)-->
       <token>Globes</token>
     </antipattern>
     <antipattern>
+      <token>covid</token>
+      <token>19</token>
+    </antipattern>
+    <antipattern>
       <token>Steve</token>
       <token>Jobs</token>
     </antipattern>
@@ -8794,7 +8798,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">\d+</token>
     </antipattern>
     <antipattern>
-        <token regexp="yes">formule|saisons?|épisodes?|zones?|divisons?|canal|page|figure|volume</token>
+        <token regexp="yes">terminal|master|numéro|variante|option|total|division|canal|page|figure|volume|chapitre|étape|leçon</token>
         <token regexp="yes">\d+</token>
         <token/>
     </antipattern>
@@ -8915,15 +8919,29 @@ though, and has since been slightly modified)-->
           <token/>
         </antipattern>
         <antipattern>
-            <token>n°</token>
+            <token regexp="yes">n[°º]</token>
             <token regexp="yes">\d+</token>
             <token postag=".*s" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern><!-- time -->
+          <token regexp="yes">\d{1,2}</token>
+          <token>h</token>
+          <token regexp="yes">\d{1,2}</token>
+        </antipattern>
+        <antipattern><!-- time -->
+          <token regexp="yes">\d{1,2}h</token>
+          <token regexp="yes">\d{1,2}</token>
+        </antipattern>
+        <antipattern>
+          <token regexp="yes">\d+</token>
+          <token>:</token>
+          <token regexp="yes">\d+</token>
         </antipattern>
         <pattern>
           <token regexp="yes">[2-9]|[1-9]\d+
             <exception regexp="yes">[12]\d\d\d</exception>
             <exception scope="previous" spacebefore="no">,</exception>
-            <exception scope="previous" regexp="yes">année|taille|(?-i)Peugeot|version</exception>
+            <exception scope="previous" regexp="yes">année|taille|(?-i)Peugeot|.*Benz|version</exception>
             <exception scope="next" regexp="yes">beaucoup|mille fois</exception>
           </token>
           <marker>
@@ -8950,6 +8968,9 @@ though, and has since been slightly modified)-->
         <example>L’année 800 fut considérée comme une renaissance de l’Empire romain d’Occident.</example>
         <example>Contactez-moi au 0101010101 merci beaucoup !</example>
         <example>Le passeport n° 157208191 délivré le 01/12/2015.</example>
+        <example>L'horaire de cette nouvelle réunion hippique, dimanche, sur l'anneau lavallois a été avancé à 12 h 45 car neuf courses sont au programme.</example>
+        <example>10:44:28 Sujet</example>
+        <example>ÉTAPE 6 LEÇON 2</example>
       </rule>
       <rule name="singulier suivi du pluriel">
           <antipattern>
@@ -9192,7 +9213,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">Harbou?r</token>
         </antipattern>
         <antipattern>
-            <token regexp="yes">terminal|master|numéro|variante|option|total|division|canal|page|figure|volume</token>
+            <token regexp="yes">terminal|master|numéro|variante|option|total|division|canal|page|figure|volume|chapitre|étape|leçon</token>
             <token regexp="yes">\d+</token>
         </antipattern>
         <antipattern>
