@@ -5693,6 +5693,15 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/></disambig>
     </rule>
 
+    <rule id="BOOKING_COM" name="NNP for 'Booking.com'">
+        <pattern>
+            <token>booking</token>
+            <token spacebefore="no">.</token>
+            <token spacebefore="no">com</token>
+        </pattern>
+        <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
+    </rule>
+
     <rule id="FORMULA_ONE" name="NNP for 'Formula One'">
         <pattern>
             <token>Formula</token>
@@ -7534,6 +7543,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <marker>
             <token>keto</token>
             <token regexp="yes">acids?|diets?</token>
+          </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+
+    <rule name="KUNG_FU" id="KUNG_FU">
+      <pattern>
+          <marker>
+            <token>kung</token>
+            <token>fu</token>
           </marker>
       </pattern>
       <disambig action="ignore_spelling"/>
