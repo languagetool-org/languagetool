@@ -32,11 +32,11 @@ USA
     <!ENTITY unbreak_procletics "ال">
     <!ENTITY procletics "و|ف|ال|وال|فال|ب|بال|وبال|ك|كال|وكال|فكال|ل|لل|ولل|فلل">
     <!ENTITY undef_procletics "و|ف|ب|ك|">
-	<!ENTITY verb_prefixes "ي|ت|ن|أ|سي|ست|سن|سأ">
-	<!ENTITY verb6_prefixes "ا|ي|ت|ن|أ|سي|ست|سن|سأ">
+    <!ENTITY verb_prefixes "ي|ت|ن|أ|سي|ست|سن|سأ">
+    <!ENTITY verb6_prefixes "ا|ي|ت|ن|أ|سي|ست|سن|سأ">
     <!ENTITY conj "و|ف">
     <!ENTITY encletics "|ه|ها|هما|هم|هن|ك|كما|كم|كن|ي|نا">
-	<!ENTITY verb_encletics "ه|ها|هما|هم|هن|ك|كما|كم|كن|ني|نا">
+    <!ENTITY verb_encletics "ه|ها|هما|هم|هن|ك|كما|كم|كن|ني|نا">
     <!ENTITY forms_3an "عن|عني|عنا|عنك|عنكما|عنكم|عنكن|عنه|عنها|عنهما|عنهم|عنهن">
     <!ENTITY forms_3anh "عني|عنا|عنك|عنكما|عنكم|عنكن|عنه|عنها|عنهما|عنهم|عنهن">
     <!ENTITY forms_ila "إلى|إلي|إلينا|إليك|إليكما|إليكم|إليكن|إليه|إليها|إليهما|إليهم|إليهن">
@@ -176,6 +176,9 @@ USA
                 </example>
       </rule>
     </rulegroup>
+<!--
+    END RULEGROUP gender_agreement_with_demonstrative_pronouns
+-->
     <rulegroup id="gender_agreement_with_relative_pronouns" name="تطابق النوع مع الأسماء الموصولة">
       <rule id="gender_0010_alladhi" name="تطابق النوع مع الذي">
         <pattern>
@@ -202,6 +205,9 @@ USA
         <example correction="التي" type="incorrect"> الكتابة <marker>الذي</marker> جلبناها </example>
       </rule>
     </rulegroup>
+<!--
+   END RULEGROUP gender_agreement_with_relative_pronouns
+-->
     <rulegroup id="gender_agreement_with_pronouns" name="تطابق النوع مع الضمير">
       <rule id="gender_00" name="هي الأكبر">
         <pattern>
@@ -217,6 +223,9 @@ USA
         <example type="correct"> آسيا هي الكبرى بين القارات </example>
       </rule>
     </rulegroup>
+<!--
+    END RULEGROUP gender_agreement_with_pronouns
+-->
     <rulegroup id="gender_agreement_with_adj" name="تطابق المصوف مع الصفة في النوع">
       <rule id="gender_0100" name="رجال يقظى">
         <pattern>
@@ -272,8 +281,13 @@ USA
         </example>
         <example type="correct"> ضَبُعٌ مفترسة </example>
       </rule>
+
+
     </rulegroup>
   </category>
+<!--
+  END CATEGORY GENDER_AGREEMENT
+-->
   <!-- ====================================================================== -->
   <!-- Common errors-->
   <!-- ====================================================================== -->
@@ -300,7 +314,13 @@ USA
         <example correction="شرب"><marker>قمت بشرب</marker> الماء </example>
       </rule>
     </rulegroup>
+<!--
+  END RULEGROUP common errors syntax
+-->
   </category>
+<!--
+   END CATEGORY COMMON_ERRORS_SYNTAX
+-->
   <!-- ====================================================================== -->
   <!-- Grammar Errors -->
   <!-- ====================================================================== -->
@@ -323,6 +343,9 @@ USA
         <example correction="المسافرين" type="incorrect"> عجوزا مع <marker>المسافرون</marker>.</example>-->
       </rule>
     </rulegroup>
+<!--
+    END RULEGROUP  Jar_Majrour
+-->
     <rulegroup id="VerbalOperator" name="العوامل الداخلة على الأفعال">
       <!-- TODO ajust suggestions-->
       <rule id="grammar_0010_jazem" name="حروف الجزم">
@@ -338,7 +361,13 @@ USA
         <example correction=""> لم <marker>يجري</marker></example>
       </rule>
     </rulegroup>
+<!--
+  END RULEGROUP VerbalOperator
+-->
   </category>
+<!--
+   END CATEGORY GRAMMAR ERROR
+-->
   <!-- ====================================================================== -->
   <!-- Syntax Common errors-->
   <!-- ====================================================================== -->
@@ -1741,6 +1770,9 @@ USA
         <example correction="في أثناء|خلال"> الزيارة  . <marker>أثناء</marker> العمل، تحرج الموظف</example>
       </rule>
     </rulegroup>
+<!--
+    END RULEGROUP common_collocations
+-->
     <rulegroup id="common_errors_unsorted" name="أخطاء شائعة">
       <rule id="collo_0087_ya_abati" name="يا أبتي">
         <pattern>
@@ -1831,25 +1863,28 @@ USA
         <!--Correct: يبدو ذلك غامضاً أول وهلة -->
       </rule>
 
-	<rule id ='collo_0094_la_syama' name='سيما_357'>
+    <rule id ='collo_0094_la_syama' name='سيما_357'>
 <antipattern>
-	<token regexp="yes">لا|ولا</token>
-	<token>سيما</token>
+    <token regexp="yes">لا|ولا</token>
+    <token>سيما</token>
 </antipattern>
 
-		<pattern>
+        <pattern>
 
-	<marker>
-	<token>سيما</token>
-	</marker> </pattern>
-		<message>يفضل أن يقال: 
-		    <suggestion>لا سيّما</suggestion>
-		</message>
-		<example correction='لا سيّما' type='incorrect'>سأحقق ما تريد <marker>سيما</marker> الراتب</example>
-	<example type='correct'> سأحقِّقُ ما تريد ولا سيّما../سأحقِّقُ ما تريد لا سيّما.. </example>
-	</rule>
+    <marker>
+    <token>سيما</token>
+    </marker> </pattern>
+        <message>يفضل أن يقال: 
+            <suggestion>لا سيّما</suggestion>
+        </message>
+        <example correction='لا سيّما' type='incorrect'>سأحقق ما تريد <marker>سيما</marker> الراتب</example>
+    <example type='correct'> سأحقِّقُ ما تريد ولا سيّما../سأحقِّقُ ما تريد لا سيّما.. </example>
+    </rule>
 
     </rulegroup>
+<!--
+    END RULEGROUP common_collocations unsorted
+-->
     <rulegroup id="maf3oul_mutlaq" name="مفعول مطلق">
       <rule id="syntax_200_madhhool" name="مذهول">
         <pattern>
@@ -1859,8 +1894,8 @@ USA
           </marker>
         </pattern>
         <message>يفضل أن يقال: 
-			<suggestion>ذاهِلاً</suggestion>
-			<suggestion>مدهوشاً</suggestion>
+            <suggestion>ذاهِلاً</suggestion>
+            <suggestion>مدهوشاً</suggestion>
                 </message>
         <example correction="ذاهِلاً|مدهوشاً" type="incorrect"> يقف <marker>مذهولا</marker> لا يدري ما يفعل </example>
         <example type="correct"> وقف ذاهِلاً / مدهوشاً لا يدري ما يفعل </example>
@@ -1874,11 +1909,14 @@ USA
           <token regexp="yes">&forms_3ala;</token>
         </pattern>
         <message>الفعل هو: (غُشِيَ عليه)، لا: (أُغْشِيَ عليه)  <suggestion>مَغْشِيّاً</suggestion>
-		</message>
+        </message>
         <example correction="مَغْشِيّاً" type="incorrect"> وقع <marker>مغشى</marker> عليه </example>
         <example type="correct"> وقَعَ مَغْشِيّاً عليه </example>
       </rule>
     </rulegroup>
+<!--
+    END RULEGROUP maf3oul mutalq
+-->
     <rulegroup id="Compound_names" name="أسماء مركبة">
       <rule id="syntax_0300_3abd_allah" name="الأسماء المبدوءة بعبد">
         <pattern>
@@ -1888,11 +1926,14 @@ USA
         </pattern>
         <message>  ضع فراغا بعد كلمة عبد وأسماء الله الحسنى
 <suggestion><match no="1" regexp_match="عبد" regexp_replace="عبد&nbsp;"/></suggestion>
-		</message>
+        </message>
         <example correction="عبد الملك" type="incorrect"><marker>عبدالملك</marker> بن مروان </example>
         <example type="correct"> عبد الملك بن مروان </example>
       </rule>
     </rulegroup>
+<!--
+END RULEGROUP compound Names
+-->
     <rulegroup id="Masdar_errors" name="أخطاء في المصادر">
       <rule id="syntax_0400_wadhaha" name="غاية الوضاحة">
         <pattern>
@@ -1919,7 +1960,32 @@ USA
         </message>
         <example correction="الاندماج في">‎‎لم يستطع ‎‎ <marker>التأقلم مع</marker> المحيط الجديد</example>
       </rule>
+
+ <!-- adj_533_swyt_EAlyt سويَّةً عالية -->
+  <rule id="adj_533_swyt_EAlyt" name="سوية عالية">
+    <pattern>
+      <unify>
+        <feature id="gender"/>
+        <feature id="case"/>
+        <feature id="number"/>
+        <marker>
+        <token inflected="yes" postag="N.*;F1.*;.*" postag_regexp="yes">سوي</token>
+        </marker>
+        <token inflected="yes" postag="N.*;.*;--.?" postag_regexp="yes">عالي</token>
+      </unify>
+    </pattern>
+    <message>يفضل أن يقال: 
+<suggestion><match no="1" regexp_match="سوي" regexp_replace="مرتب"/></suggestion>
+<suggestion><match no="1" regexp_match="سوي" regexp_replace="درج"/></suggestion>  
+</message>
+    <example correction="مرتبة|درجة" type="incorrect">بلغ  الإنتاج <marker>سوية</marker> عالية</example>
+    <example correction="المرتبة|الدرجة" type="incorrect">بلغ  الإنتاج <marker>السوية</marker>  العالية</example>
+    <example type="correct"> بلغ الإنتاج الدرجة العالية </example>
+  </rule>
     </rulegroup>
+<!--
+END RULEGROUP Masdar errors
+-->
     <rulegroup id="bad_use_of_prepositions" name="استعمال خاطئ لحروف الجر">
       <rule id="syntax_0500_munawwah" name="المنوه عنه|المنوه إليه">
         <pattern>
@@ -1958,7 +2024,7 @@ USA
         <message>يفضل أن يقال: 
                     <suggestion><match no="1" regexp_match="موشك" regexp_replace="مشرف"/>&nbsp;<match no="2"/></suggestion>
                         <suggestion>على وشْك</suggestion>
-		</message>
+        </message>
         <example correction="مشرف على|على وشْك" type="incorrect"> فلان <marker>موشك على</marker> الإفلاس </example>
         <example type="correct"> فلان مشرف على الإفلاس </example>
       </rule>
@@ -2213,6 +2279,9 @@ USA
         <example type="correct"> لديه رَغْبَةٌ شديدة في الكتابة </example>
       </rule>
     </rulegroup>
+<!--
+  END RULEGROUP bad use of preposition
+-->
   </category>
   <!-- ====================================================================== -->
   <!-- Wrong use -->
@@ -2395,7 +2464,7 @@ USA
   <rule id="verb_209_Astmzj_rAy" name="استمزج رأي">
     <pattern>
       <marker>
-		<token regexp="yes" skip="1">(&conj;)?(&verb6_prefixes;)ستمزج.*</token>
+        <token regexp="yes" skip="1">(&conj;)?(&verb6_prefixes;)ستمزج.*</token>
       </marker>
       <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">رأي</token>
     </pattern>
@@ -2411,7 +2480,7 @@ USA
   <rule id="verb_210_Astnsb_shy2" name="استنسب شيء">
     <pattern>
       <marker>
-		<token regexp="yes" skip="1">(&conj;)?(&verb6_prefixes;)ستنسب.*</token>
+        <token regexp="yes" skip="1">(&conj;)?(&verb6_prefixes;)ستنسب.*</token>
       </marker>
       <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">شيء</token>
     </pattern>
@@ -2506,7 +2575,7 @@ USA
   <rule id="verb_215_AfsH_lh_fy_Almjls" name="أفسح له في المجلس">
     <pattern>
       <marker>
-		<token regexp="yes" skip="1">(&conj;)?أفسح.*</token>
+        <token regexp="yes" skip="1">(&conj;)?أفسح.*</token>
       </marker>
       <token>في</token>
       <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">مجلس</token>
@@ -2552,7 +2621,7 @@ USA
   <rule id="verb_218_Akrb_gm" name="أكرب غم">
     <pattern>
       <marker>
-		<token regexp="yes" skip="1">(&conj;)?أكرب(&verb_encletics;)?</token>
+        <token regexp="yes" skip="1">(&conj;)?أكرب(&verb_encletics;)?</token>
       </marker>
       <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">غم</token>
     </pattern>
@@ -2567,7 +2636,7 @@ USA
   <rule id="verb_220_AmlA_AlwEA2_bAlmA2" name="أملأ الوعاء بالماء">
     <pattern>
       <marker>
-		<token regexp="yes" skip="1">(&conj;)?(أملأ|أملأت)(&verb_encletics;)?</token>
+        <token regexp="yes" skip="1">(&conj;)?(أملأ|أملأت)(&verb_encletics;)?</token>
       </marker>
       <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">وعاء</token>
     </pattern>
@@ -2615,7 +2684,7 @@ USA
         <token inflected="yes" skip="1">أَوْكَلَ</token>
     
       <token regexp="yes">&forms_ila;</token> 
-	 </marker>
+     </marker>
     </pattern>
     <message>يفضل أن يقال: أوْكَلَ الأمرَ على فلان، فهو مُوكَلٌ عليه
 أو وَكَلَ الأمرَ إلى فلان، فهو مَوْكُولٌ إليه.
@@ -2703,11 +2772,11 @@ USA
       <marker>
         <token inflected="yes" skip="1">تَعَهَّدَ</token>
      
-		<or>
+        <or>
       <token regexp="yes" skip="1">&forms_lih;</token>
       <token postag="N.*;-L.?" postag_regexp="yes"/>
-		</or>
-	  </marker>
+        </or>
+      </marker>
     </pattern> 
     <message>(تعهَّدََ الشيءَ): تفقَّدَهُ 
    <suggestion><match no="1" regexp_match="تعهد" regexp_replace="تكفَّل"/></suggestion>
@@ -2734,7 +2803,7 @@ USA
   <rule id="verb_234_tqTb_rjl" name="تَقَطَّب الرجل">
     <pattern>
       <marker>
-		<token regexp="yes" skip="1">(&conj;)?(&verb_prefixes;)?تقطب.*</token>
+        <token regexp="yes" skip="1">(&conj;)?(&verb_prefixes;)?تقطب.*</token>
       </marker>
       <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" skip="1">رجل</token>
     </pattern>
@@ -2750,10 +2819,10 @@ USA
     <pattern>
       <marker>
         <token inflected="yes" skip="1">تَلَهَّفَ</token>
-		<or>
+        <or>
       <token regexp="yes">&forms_3ala;</token>
       <token regexp="yes">&forms_ila;</token>
-		</or>
+        </or>
       </marker>
     </pattern>
     <message>(التلهُّف): التحسّر والتوجع 
@@ -2832,7 +2901,7 @@ USA
   <rule id="verb_241_twAzE_fymA_bynhm" name="توازع فيما بينهم">
     <pattern>
       <marker>
-		<token regexp="yes">(&conj;)?(&verb_prefixes;)?توازع.*</token>
+        <token regexp="yes">(&conj;)?(&verb_prefixes;)?توازع.*</token>
       </marker>
     </pattern>
     <message>ليس في العربية (توازع) بل توزّع
@@ -2922,7 +2991,7 @@ USA
   <rule id="verb_247_dlf_sqf" name="دلف سقف">
     <pattern>
       <marker>
-		<token regexp="yes">(&conj;)?(&verb_prefixes;)?(دلف|دلفت)</token>
+        <token regexp="yes">(&conj;)?(&verb_prefixes;)?(دلف|دلفت)</token>
       </marker>
       <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" regexp="yes">سقوف|سقف</token>
     </pattern>
@@ -2937,7 +3006,7 @@ USA
   <rule id="verb_248_dhs_syArt" name="دهسته السيارة">
     <pattern>
       <marker>
-		<token regexp="yes">(&conj;)?(&verb_prefixes;)?(دهس|دهست)(&verb_encletics;)?</token>
+        <token regexp="yes">(&conj;)?(&verb_prefixes;)?(دهس|دهست)(&verb_encletics;)?</token>
 
       </marker>
       <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">سيارة</token>
@@ -2978,10 +3047,10 @@ USA
       <marker>
         <token inflected="yes" skip="1">رَضَخَ</token>
       </marker>
-	<or>
+    <or>
    <token regexp="yes">&forms_lih;</token>
    <token postag="N.*;-L.?" postag_regexp="yes"></token>
-	</or>
+    </or>
     </pattern>
     <message>(رَضَخَ الشيءَ): كَسَرَه 
    <suggestion><match no="1" regexp_match="رضخ" regexp_replace="خضع"/></suggestion>
@@ -3029,7 +3098,7 @@ USA
   <rule id="verb_255_shE_shms" name="شع شمس">
     <pattern>
       <marker>
-		<token regexp="yes">(&conj;)?(شع|شعت)</token>
+        <token regexp="yes">(&conj;)?(شع|شعت)</token>
       </marker>
       <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" skip="1">شمس</token>
     </pattern>
@@ -3080,7 +3149,7 @@ USA
   <rule id="verb_261_gAfl_lS" name="غافل لص">
     <pattern>
       <marker>
-		<token regexp="yes">(&conj;)?(&verb_prefixes;)?(غافل)(&verb_encletics;)?</token>
+        <token regexp="yes">(&conj;)?(&verb_prefixes;)?(غافل)(&verb_encletics;)?</token>
       </marker>
       <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" regexp="yes">لص|لصوص</token>
     </pattern>
@@ -3316,7 +3385,7 @@ USA
       <marker>
       <token inflected="yes" skip="1">لَفَظَ</token>
       <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" regexp="yes">أنفاس|نفس</token>
-	</marker>
+    </marker>
     </pattern>
     <message>يفضل أن يقال: 
    <suggestion>انقضت&nbsp;<match no="2"/></suggestion>
@@ -3360,7 +3429,7 @@ USA
   <rule id="verb_280_hds_fy_AlAmr" name="هدس في الأمر">
     <pattern>
       <marker>
-		<token regexp="yes" skip="1">(&conj;)?(&verb_prefixes;)?(هدس|هدست)</token>
+        <token regexp="yes" skip="1">(&conj;)?(&verb_prefixes;)?(هدس|هدست)</token>
         <token regexp="yes">&forms_fi;</token>
         <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" min="0">أمر</token>
       </marker>
@@ -3495,7 +3564,7 @@ USA
   <rule id="verb_287_yTAlhA_AlqAnwn" name="يطالها القانون">
     <pattern>
       <marker>
-		<token regexp="yes">(&conj;)?(ي|ت|سي|ست)?(طال)(&verb_encletics;)?</token>
+        <token regexp="yes">(&conj;)?(ي|ت|سي|ست)?(طال)(&verb_encletics;)?</token>
       </marker>
       <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" regexp="yes">قانون|قوانين|نظام|أنظمة</token>
     </pattern>
@@ -3565,7 +3634,7 @@ USA
       <marker>
         <token inflected="yes" skip="1">اِخْتَلَى</token>
         <token regexp="yes">&forms_bih;</token>
-	  </marker>
+      </marker>
     </pattern>
     <message>(اختلى البقلَ): احتشَّه؛ أي: انتزعه 
    <suggestion>خلا بها</suggestion>
@@ -3583,10 +3652,10 @@ USA
       <marker>
         <token inflected="yes" skip="1">أَخْطَرَ</token>
       </marker>
-	<or>
+    <or>
    <token regexp="yes">&forms_bih;</token>
    <token postag="N.*;-B.?" postag_regexp="yes"/>
-	</or>
+    </or>
     </pattern>
     <message>يفضل أن يقال: أَنْذر بدلا من أخطر
    <suggestion><match no="1" regexp_match="خطر" regexp_replace="نذر"/></suggestion>
@@ -3645,7 +3714,7 @@ USA
       <marker>
         <token inflected="yes">نَخَرَ</token>
         <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">سوس</token>
-	  </marker>
+      </marker>
       <token inflected="yes" postag="N.*;--.?" postag_regexp="yes" regexp="yes">خشب|أخشاب|سن|أسنان</token>
     </pattern>
     <message>(نَخِرَ) فعلٌ لازم. (نَخَر): صَوَّتَ بخياشيمه. (نَخَرَ الحالبُ الناقَةَ): دَلَكَ مَنْخِرَها بيدِهِ لِتَدِرّ 
@@ -3661,7 +3730,7 @@ USA
         <token inflected="yes">نَزَفَ</token>
       </marker>
       <token postag="N.*;--.?" postag_regexp="yes"/>
-	  <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">دم</token>
+      <token inflected="yes" postag="N.*;--.?" postag_regexp="yes">دم</token>
     </antipattern>
 
     <pattern>
@@ -3740,6 +3809,8 @@ USA
    <suggestion><match no="1" regexp_match="مزح" regexp_replace="مازح"/><match no="3" regexp_match="مع" regexp_replace=""/>&nbsp;<match no="2"/></suggestion>
 </message>
     <example correction="مازح خالد" type="incorrect"><marker>مزح خالد مع</marker> سعيد </example>
+    <example correction="مازحه&nbsp;" type="incorrect"><marker>مزح معه</marker> سعيد </example>
+
     <example type="correct"> مَازَحَ خالدٌ سعيداً </example>
   </rule>
   <!-- verb_257_SlH_AlsyArt صَلَّحَ السيَّارةَ -->
@@ -3798,10 +3869,37 @@ USA
     <example correction="أسرع" type="incorrect"><marker>سرع</marker> العمل </example>
     <example type="correct"> أسرَعَ العملَ </example>
   </rule>
+  <!-- trans_383_AHtAr_fy احْتَارَ في -->
+  <rule id="trans_383_AHtAr_fy" name="احتار في">
+    <pattern>
+      <marker>
+      <token inflected="yes" skip="1">احتار</token>
+      <token regexp="yes">&forms_fi;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+<!--     <suggestion>حار</suggestion>
+   <suggestion>تحيّر&nbsp;<match no="2"/></suggestion>
+-->
 
-<!-- TODO -->
+     <suggestion><match no="1" postag="(V-1);(.*)" postag_replace="VW1;$2" postag_regexp="yes">حَارَ</match></suggestion>
+   <suggestion><match no="1" postag="(V-1);(.*)" postag_replace="V-0;$2" postag_regexp="yes">تَحَيَّرَ</match>&nbsp;<match no="2"/></suggestion>
+
+
+</message>
+    <example correction="حار|تحير في" type="incorrect"> <marker>احتار في</marker> أمره </example>
+ <!--   <example correction="يحيرون|يتحيّرون في" type="incorrect"> <marker>يحتارون في</marker> أمره </example>-->
+    <example type="correct"> تحيّرت في أمره </example>
+  </rule>
+
     </rulegroup>
+<!--
+  END RULEGROUP wrong_verb_use
+-->
   </category>
+<!--
+  END CATEGORY WRONG_USE
+-->
   <!-- ====================================================================== -->
   <!-- Number Agreement -->
   <!-- ====================================================================== -->
@@ -4013,6 +4111,9 @@ USA
         <example correction="لتسعة وأربعين"><marker>لتسعة وأربعون</marker> طاولة</example>
       </rule>
     </rulegroup>
+<!--
+  END RULEGROUP number_gender
+-->
     <rulegroup id="Number_case" name="تطابق العدد مع الإعراب">
       <rule id="number_21to99_majrour_separate_jar" name=" الأعداد المعطوفة المجرورة بحرف جر منفصل">
         <pattern>
@@ -4030,6 +4131,9 @@ USA
         <example correction="تسعة وأربعين"> على <marker>تسعة وأربعون</marker> طاولة</example>
       </rule>
     </rulegroup>
+<!--
+  END RULEGROUP number_case
+-->
     <rulegroup id="Number_numbered" name="تطابق العدد مع الجمع">
       <rule id="number_number_accord" name="تطابق العدد مع المعدود في العدد">
         <pattern>
@@ -4046,7 +4150,13 @@ USA
         <example correction=""> من ثلاث وعشرين <marker>طالبات</marker></example>
       </rule>
     </rulegroup>
+<!--
+  END RULEGROUP number_gender
+-->
   </category>
+<!--
+  END CATEGORY NUMBER_AGREEMENT
+-->
   <!-- ====================================================================== -->
   <!-- Common errors- on one word -->
   <!-- ====================================================================== -->
@@ -4617,7 +4727,7 @@ USA
         </pattern>
         <message>يفضل أن يقال: 
             <suggestion><match no="1" regexp_match="شفوق" regexp_replace="شَفِيق"/></suggestion>
-		</message>
+        </message>
         <example correction="شَفِيق" type="incorrect"> فلان <marker>شفوق</marker> على ابنه </example>
         <example type="correct"> فلانٌ شَفِيقٌ على ابنه </example>
       </rule>
@@ -4630,7 +4740,7 @@ USA
         <message>يفضل أن يقال: 
         <suggestion><match no="1" regexp_match="دافئ" regexp_replace="دَفِيء"/></suggestion>
             <suggestion><match no="1" regexp_match="دافئ" regexp_replace="دَفِئ"/></suggestion>
-		</message>
+        </message>
         <example correction="دَفِيء|دَفِئ" type="incorrect">مكان <marker>دافئ</marker></example>
         <example type="correct"> مكانٌ دَفِيءٌ / دَفِئٌ </example>
       </rule>
@@ -4643,7 +4753,7 @@ USA
         </pattern>
         <message>(الممنون): المقطوع.(امْتنَّ عليه): ذكّره بنعمته عليه وآذاه بمَنِّهِ 
                     <suggestion><match no="1" regexp_match="ممتن|ممنون" regexp_replace="شَاكِر"/></suggestion> <match no="2"/>
-		</message>
+        </message>
         <example correction="شَاكِر" type="incorrect"> أنا <marker>ممتن</marker> لك </example>
         <example correction="شَاكِر" type="incorrect"> أنا  <marker>ممنون</marker> لك </example>
         <example type="correct"> أنا شَاكِرٌ لك </example>
@@ -4655,14 +4765,14 @@ USA
           </marker>
         </pattern>
         <message>يفضل أن يقال: 
-<!--			<suggestion>مُقْفِرَة</suggestion>
-			<suggestion>قَفْرَة</suggestion>
-			<suggestion>قَفْر</suggestion>-->
+<!--            <suggestion>مُقْفِرَة</suggestion>
+            <suggestion>قَفْرَة</suggestion>
+            <suggestion>قَفْر</suggestion>-->
                <suggestion><match no="1" regexp_match="قفراء" regexp_replace="مُقْفِرَة"/></suggestion>
                <suggestion><match no="1" regexp_match="قفراء" regexp_replace="قَفْرَة"/></suggestion>
                <suggestion><match no="1" regexp_match="قفراء" regexp_replace="قَفْر"/></suggestion>                              
                         
-		</message>
+        </message>
         <example correction="مُقْفِرَة|قَفْرَة|قَفْر" type="incorrect"> أرض <marker>قفراء</marker> </example>
         <example type="correct"> أرضٌ مُقْفِرَةٌ / قَفْرَةٌ / قَفْرٌ </example>
       </rule>
@@ -4674,7 +4784,7 @@ USA
         </pattern>
         <message>الفعل هو: (جَبَى)، لا: (أجْبَى) 
         <suggestion><match no="1" regexp_match="مجباة" regexp_replace="مَجْبِيَّة"/></suggestion>
-	</message>
+    </message>
         <example correction="المَجْبِيَّة" type="incorrect"> الضرائب <marker>المجباة</marker> </example>
         <example type="correct"> الضرائبُ المَجْبِيَّةُ </example>
       </rule>
@@ -4685,9 +4795,9 @@ USA
           </marker>
         </pattern>
         <message>يفضل أن يقال: 
-			<suggestion><match no="1" regexp_match="مندب" regexp_replace="مَنْدُوب"/></suggestion>
-			<suggestion><match no="1" regexp_match="مندب" regexp_replace="مُنْتدَب"/></suggestion>
-		</message>
+            <suggestion><match no="1" regexp_match="مندب" regexp_replace="مَنْدُوب"/></suggestion>
+            <suggestion><match no="1" regexp_match="مندب" regexp_replace="مُنْتدَب"/></suggestion>
+        </message>
         <example correction="المَنْدُوبون|المُنْتدَبون" type="incorrect"> الموظفون <marker>المندبون</marker> </example>
         <example type="correct"> الموظفون الْمَنْدُوبون / الْمُنْتدَبون </example>
       </rule>
@@ -4698,8 +4808,8 @@ USA
           </marker>
         </pattern>
         <message>(قَفَل): رجع من سَفره. (أقْفَلَ البابَ): أغْلَقَه بالقفل 
-	<suggestion><match no="1" regexp_match="مقفول" regexp_replace="مُقْفَل"/></suggestion>
-		</message>
+    <suggestion><match no="1" regexp_match="مقفول" regexp_replace="مُقْفَل"/></suggestion>
+        </message>
         <example correction="مُقْفَل" type="incorrect"> قفل الباب، فهو <marker>مقفول</marker> </example>
         <example type="correct"> أَقْفَلَ البابَ، فهو مُقْفَلٌ </example>
       </rule>
@@ -4710,8 +4820,8 @@ USA
           </marker>
         </pattern>
         <message>(وَصَدَ الشيءُ): ثَبَتَ 
-			<suggestion><match no="1" regexp_match="موصود" regexp_replace="مُوصَد"/></suggestion>
-		</message>
+            <suggestion><match no="1" regexp_match="موصود" regexp_replace="مُوصَد"/></suggestion>
+        </message>
         <example correction="مُوصَد" type="incorrect"> باب <marker>موصود</marker> </example>
         <example type="correct"> بابٌ مُوصَدٌ </example>
       </rule>
@@ -4722,8 +4832,8 @@ USA
           </marker>
         </pattern>
         <message>يفضل أن يقال: 
-			<suggestion><match no="1" regexp_match="طاقوي" regexp_replace="طاقيّ"/></suggestion>
-		</message>
+            <suggestion><match no="1" regexp_match="طاقوي" regexp_replace="طاقيّ"/></suggestion>
+        </message>
         <example correction="طاقيّ" type="incorrect"> تخطيط <marker>طاقوي</marker> </example>
         <example type="correct"> تخطيط طاقيّ </example>
       </rule>
@@ -4734,12 +4844,15 @@ USA
           </marker>
         </pattern>
         <message>الفعل هو: (صاغ)، لا: (أصاغ) 
-	<suggestion><match no="1" regexp_match="مصاغة" regexp_replace="مَصُوغَة"/></suggestion>
-		</message>
+    <suggestion><match no="1" regexp_match="مصاغة" regexp_replace="مَصُوغَة"/></suggestion>
+        </message>
         <example correction="مَصُوغَة" type="incorrect"> حلية <marker>مصاغة</marker> </example>
         <example type="correct"> حليةٌ مَصُوغَةٌ </example>
       </rule>
     </rulegroup>
+<!--
+    END Common erros one word
+-->
     <rulegroup id="wrong_word_use" name="خطأ في استعمال كلمة">
       <rule id="worduse_0056_muAshirat" name="مؤشرات">
         <pattern>
@@ -5064,8 +5177,15 @@ USA
         </message>
         <example correction="كليًّا">‎  عند النظر إلى الموضوع    <marker>ككل</marker></example>
       </rule>
+
     </rulegroup>
+<!--
+    END wrong word use
+-->
   </category>
+<!--
+  END CATEGORY COMMON_ERRORS_ON_ONE_WORD_USE
+-->
   <!-- ====================================================================== -->
   <!-- Common errors- on adjective -->
   <!-- ====================================================================== -->
@@ -5153,7 +5273,7 @@ USA
         </pattern>
         <message>يفضل أن يقال: 
                 <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="مبروك" regexp_replace="مبارك"/></suggestion>
-		</message>
+        </message>
         <example correction="مبارك" type="incorrect"> عيد <marker>مبروك</marker></example>
         <example type="correct"> عيد مبارك </example>
       </rule>
@@ -5195,8 +5315,8 @@ USA
           </unify>
         </pattern>
         <message>يفضل أن يقال: 
-			<suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="مريع" regexp_replace="مُرَوِّع"/></suggestion>
-		</message>
+            <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="مريع" regexp_replace="مُرَوِّع"/></suggestion>
+        </message>
         <example correction="أحداث مُرَوِّعة" type="incorrect">
           <marker>أحداث مريعة</marker>
         </example>
@@ -5211,7 +5331,7 @@ USA
         </pattern>
         <message>الصفة تتبع موصوفها في الإفراد والتثنية والجمع 
                <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="الأعظم" regexp_replace="العُظْمَيانِ"/></suggestion>
-		</message>
+        </message>
         <example correction="العُظْمَيانِ" type="incorrect"> الدولتان <marker>الأعظم</marker> </example>
         <example type="correct"> الدَّوْلتانِ العُظْمَيانِ </example>
       </rule>
@@ -5228,8 +5348,8 @@ USA
           </unify>
         </pattern>
         <message>يفضل أن يقال: 
-			<match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="أعلى" regexp_replace="عليا"/></suggestion>
-		</message>
+            <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="أعلى" regexp_replace="عليا"/></suggestion>
+        </message>
         <example correction="العليا" type="incorrect"> في المرتبة <marker>الأعلى</marker> </example>
         <example type="correct"> في المرتبة العليا </example>
       </rule>
@@ -5247,8 +5367,8 @@ USA
           </unify>
         </pattern>
         <message>يفضل أن يقال: 
-			<match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="داكن" regexp_replace="أدْكن"/></suggestion>
-		</message>
+            <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="داكن" regexp_replace="أدْكن"/></suggestion>
+        </message>
         <example correction="أدْكن" type="incorrect"> بساط <marker>داكن</marker></example>
         <example type="correct"> بساط أدْكن </example>
       </rule>
@@ -5266,8 +5386,8 @@ USA
           </unify>
         </pattern>
         <message>يفضل أن يقال: 
-			<match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="داكنة" regexp_replace="دكناء"/></suggestion>
-		</message>
+            <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="داكنة" regexp_replace="دكناء"/></suggestion>
+        </message>
         <example correction="دكناء" type="incorrect"> سجادة <marker>داكنة</marker></example>
         <example type="correct"> سجادة دكناء </example>
       </rule>
@@ -5285,8 +5405,8 @@ USA
           </unify>
         </pattern>
         <message>الفعل هو: (زار)، لا: (أزار) 
-			<match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="مزار" regexp_replace="مَزُور"/></suggestion>
-		</message>
+            <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="مزار" regexp_replace="مَزُور"/></suggestion>
+        </message>
         <example correction="مَزُور" type="incorrect"> هذا بلد <marker>مزار</marker> </example>
         <example type="correct"> هذا بلدٌ مَزُور </example>
       </rule>
@@ -5306,7 +5426,7 @@ USA
         <message>الفعل هو: (حاك)، لا: (أحاك) 
 <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="محاك" regexp_replace="مَحُوك"/></suggestion>
             <suggestion><match no="2" regexp_match="محاك" regexp_replace="مَحِيك"/></suggestion>
-	 </message>
+     </message>
         <example correction="مَحُوك|مَحِيك" type="incorrect"> ثوب <marker>محاك</marker> </example>
         <example type="correct"> ثوبٌ مَحُوكٌ / مَحِيكٌ </example>
       </rule>
@@ -5324,9 +5444,9 @@ USA
           </unify>
         </pattern>
         <message>(الشَّيِّقُ): المشتاق 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="شيق" regexp_replace="شَائِق"/></suggestion>
-			<suggestion><match no="2" regexp_match="شيق" regexp_replace="مُشَوِّق"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="شيق" regexp_replace="شَائِق"/></suggestion>
+            <suggestion><match no="2" regexp_match="شيق" regexp_replace="مُشَوِّق"/></suggestion>
+        </message>
         <example correction="شَائِق|مُشَوِّق" type="incorrect"> حديث <marker>شيق</marker> </example>
         <example type="correct"> حديثٌ شَائِقٌ / مُشَوِّق </example>
       </rule>
@@ -5346,7 +5466,7 @@ USA
         </pattern>
         <message>يفضل أن يقال: 
 <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="قاصر" regexp_replace="مَقْصُور"/></suggestion>
-		</message>
+        </message>
         <example correction="مَقْصُور" type="incorrect"> حديثه <marker>قاصر</marker> على الشعر </example>
         <example type="correct"> حديثُهُ مَقْصُور على الشعر </example>
       </rule>
@@ -5364,8 +5484,8 @@ USA
           </unify>
         </pattern>
         <message>الفعل هو: (خاط)، لا: (أخاط) 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="مخاط" regexp_replace="مَخِيطٌ"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="مخاط" regexp_replace="مَخِيطٌ"/></suggestion>
+        </message>
         <example correction="مَخِيطٌ" type="incorrect"> هذا ثوب <marker>مخاط</marker> في المصنع </example>
         <example type="correct"> هذا ثوبُ مَخِيطٌ في المصنع </example>
       </rule>
@@ -5383,8 +5503,8 @@ USA
           </unify>
         </pattern>
         <message>يفضل أن يقال: 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="مفتخر" regexp_replace="فاخِر"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="مفتخر" regexp_replace="فاخِر"/></suggestion>
+        </message>
         <example correction="فاخِر" type="incorrect"> ثوب <marker>مفتخر</marker> </example>
         <example type="correct"> ثوبٌ فاخِر </example>
       </rule>
@@ -5402,10 +5522,10 @@ USA
           </unify>
         </pattern>
         <message>(رجلٌ بسيط): منبسط اللسان. (رجلٌ بسيط الوجه): إذا كان متهلّلاً منشرحاً. (رجلٌ بسيط اليدين): إذا كان كريماً مِسْماحاً 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="بسيط" regexp_replace="غِرّ"/></suggestion>
-			<suggestion><match no="2" regexp_match="بسيط" regexp_replace="ساذَج"/></suggestion>
-			<suggestion><match no="2" regexp_match="بسيط" regexp_replace="مُغَفَّل"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="بسيط" regexp_replace="غِرّ"/></suggestion>
+            <suggestion><match no="2" regexp_match="بسيط" regexp_replace="ساذَج"/></suggestion>
+            <suggestion><match no="2" regexp_match="بسيط" regexp_replace="مُغَفَّل"/></suggestion>
+        </message>
         <example correction="غِرّ|ساذَج|مُغَفَّل" type="incorrect"> رجل <marker>بسيط</marker> </example>
         <example type="correct"> رجلٌ غِرٌّ / ساذَج / مُغَفَّل </example>
       </rule>
@@ -5424,7 +5544,7 @@ USA
         </pattern>
         <message>(أهاب): دعا، وصاح 
 <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="مهاب" regexp_replace="مَهِيب"/></suggestion>
-		</message>
+        </message>
         <example correction="مَهِيب" type="incorrect"> قاضينا رجل <marker>مهاب</marker> </example>
         <example type="correct"> قاضِينا رَجُلٌ مَهِيبٌ </example>
       </rule>
@@ -5442,8 +5562,8 @@ USA
           </unify>
         </pattern>
         <message>الفعل هو: (صان)، لا: (أصان) 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="مصان" regexp_replace="مَصُونٌ"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="مصان" regexp_replace="مَصُونٌ"/></suggestion>
+        </message>
         <example correction="مَصُونٌ" type="incorrect"> سر <marker>مصان</marker> </example>
         <example type="correct"> سِرٌّ مَصُونٌ </example>
       </rule>
@@ -5461,8 +5581,8 @@ USA
           </unify>
         </pattern>
         <message>(أبْهَرَ الرجلُ): جاء بالعَجَب 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="مبهر" regexp_replace="باهِر"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="مبهر" regexp_replace="باهِر"/></suggestion>
+        </message>
         <example correction="باهِر" type="incorrect"> ضوء <marker>مبهر</marker> </example>
         <example type="correct"> ضوءٌ باهِرٌ </example>
       </rule>
@@ -5480,8 +5600,8 @@ USA
           </unify>
         </pattern>
         <message>(النذْر): ما يوجبه المرء على نفسه من صدقة أو نحوها 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="نذر" regexp_replace="نَزْر"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="نذر" regexp_replace="نَزْر"/></suggestion>
+        </message>
         <example correction="نَزْر" type="incorrect"> عطاء <marker>نذر</marker> </example>
         <example type="correct"> عطاءٌ نَزْرٌ </example>
       </rule>
@@ -5499,8 +5619,8 @@ USA
           </unify>
         </pattern>
         <message>الفعل هو: (حَطَّ)، لا: (أحَطَّ) 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="محط" regexp_replace="حاطّ"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="محط" regexp_replace="حاطّ"/></suggestion>
+        </message>
         <example correction="حاطّ" type="incorrect"> عمل <marker>محط</marker> بشرفه </example>
         <example type="correct"> عملٌ حاطٌّ بشرفه </example>
       </rule>
@@ -5518,8 +5638,8 @@ USA
           </unify>
         </pattern>
         <message>(مصون) على وزن (مفعول)، لا على وزن (فَعُول) 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="مصون" regexp_replace="مَصُونَة"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="مصون" regexp_replace="مَصُونَة"/></suggestion>
+        </message>
         <example correction="مَصُونَة" type="incorrect"> فتاة <marker>مصون</marker> </example>
         <example type="correct"> فتاةٌ مَصُونَةٌ </example>
       </rule>
@@ -5537,8 +5657,8 @@ USA
           </unify>
         </pattern>
         <message>يفضل أن يقال: 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="جذل" regexp_replace="جَزْل"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="جذل" regexp_replace="جَزْل"/></suggestion>
+        </message>
         <example correction="جَزْل" type="incorrect"> كلام <marker>جذل</marker> </example>
         <example type="correct"> كلامٌ جَزْلٌ </example>
       </rule>
@@ -5556,8 +5676,8 @@ USA
           </unify>
         </pattern>
         <message>(أقالَ البيعَ): فسَخَهُ. (أقالَ عثْرَتَه): تجاوز عنه. (أقالَه من عمله): نحّاه عنه 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="مقال" regexp_replace="مَقُول"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="مقال" regexp_replace="مَقُول"/></suggestion>
+        </message>
         <example correction="مَقُول" type="incorrect"> كلام <marker>مقال</marker> </example>
         <example type="correct"> كلامٌ مَقُولٌ </example>
       </rule>
@@ -5575,8 +5695,8 @@ USA
           </unify>
         </pattern>
         <message>يفضل أن يقال: 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="أدنى" regexp_replace="دنيا"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="أدنى" regexp_replace="دنيا"/></suggestion>
+        </message>
         <example correction="الدنيا" type="incorrect"> في المرتبة <marker>الأدنى</marker> </example>
         <example type="correct"> في المرتبة الدنيا </example>
       </rule>
@@ -5595,7 +5715,7 @@ USA
         </pattern>
         <message>الفعل هو: (عاش)، لا: (أعاش) 
             <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="معاش" regexp_replace="مَعِيش"/></suggestion>
-		</message>
+        </message>
         <example correction="المَعِيش" type="incorrect"> الحال <marker>المعاش</marker> فيها </example>
         <example type="correct"> الحالُ المَعِيشٌ فيها </example>
       </rule>
@@ -5615,7 +5735,7 @@ USA
         </pattern>
         <message>الفعل هو: (أعفى)، لا: (عفا) 
 <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="معفوة|معفية" regexp_replace="مُعْفاة"/></suggestion>
-		</message>
+        </message>
         <example correction="المُعْفاة" type="incorrect"> السلعة  <marker>المعفية</marker> من الحسم.</example>
         <example correction="المُعْفاة" type="incorrect"> السلعة  <marker>المعفوة</marker> من الحسم.</example>
         <example type="correct"> السلعة المُعْفاةٌ من الحسم </example>
@@ -5636,7 +5756,7 @@ USA
         </pattern>
         <message>(أقادَ القاتلَ بالقتيل): قتَلَهُ به قَوْداً. (أقادَهُ خيلاً): أعطاهُ إيّاها ليقودَها 
 <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="مقاد" regexp_replace="مَقُود"/></suggestion>
-		</message>
+        </message>
         <example correction="المَقُود" type="incorrect"> هذا الجهاز <marker>المقاد</marker> من بعد </example>
         <example type="correct"> هذا الجهاز المَقُودٌ من بُعد </example>
       </rule>
@@ -5655,8 +5775,8 @@ USA
         </pattern>
         <message>(الواطئ) اسم فاعل من (وطئ) 
 <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="واطئ" regexp_replace="وَطِيء"/></suggestion>
-			<suggestion><match no="2" regexp_match="واطئ" regexp_replace="منخفض"/></suggestion>
-		</message>
+            <suggestion><match no="2" regexp_match="واطئ" regexp_replace="منخفض"/></suggestion>
+        </message>
         <example correction="وَطِيء|منخفض" type="incorrect"> موضع <marker>واطئ</marker> </example>
         <example type="correct"> مَوْضعٌ وَطِيء / منخفض </example>
       </rule>
@@ -5675,8 +5795,8 @@ USA
         </pattern>
         <message>(دَبَّبَهُ): جَعَلَهُ يَدِبّ 
 <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="مدبب" regexp_replace="مُذَبَّب"/></suggestion>
-		<suggestion><match no="2" regexp_match="مدبب" regexp_replace="حادّ"/></suggestion>
-		</message>
+        <suggestion><match no="2" regexp_match="مدبب" regexp_replace="حادّ"/></suggestion>
+        </message>
         <example correction="مُذَبَّب|حادّ" type="incorrect"> نصل <marker>مدبب</marker> </example>
         <example type="correct"> نَصْلٌ مُذَبَّب / حادٌّ </example>
       </rule>
@@ -5695,7 +5815,7 @@ USA
         </pattern>
         <message>(الصَّبُوح): ما يشرب أو يؤكل في الصباح، ويقابله (الغَبُوق) في المساء 
 <match no="1"/>&nbsp;<suggestion><match no="2" regexp_match="صبوح" regexp_replace="صَبِيح"/></suggestion>
-		</message>
+        </message>
         <example correction="صَبِيح" type="incorrect"> وجه <marker>صبوح</marker> </example>
         <example type="correct"> وجْهٌ صَبِيحٌ </example>
       </rule>
@@ -5713,9 +5833,9 @@ USA
           </unify>
         </pattern>
         <message>(الكاسِر) صفة للطائر الجارح، يقال: نَسْرٌ كاسِرٌ 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="كاسر" regexp_replace="ضار"/></suggestion>
-			<suggestion><match no="2" regexp_match="كاسر" regexp_replace="مُفْتَرِس"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="كاسر" regexp_replace="ضار"/></suggestion>
+            <suggestion><match no="2" regexp_match="كاسر" regexp_replace="مُفْتَرِس"/></suggestion>
+        </message>
         <example correction="ضار|مُفْتَرِس" type="incorrect"> وحش <marker>كاسر</marker> </example>
         <example type="correct"> وحشٌ ضارٍ / مُفْتَرِس </example>
       </rule>
@@ -5733,8 +5853,8 @@ USA
           </unify>
         </pattern>
         <message>(العتيد): المُهَيَّأُ والحاضرُ والمُعَدُّ 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="عتيد" regexp_replace="مُنتَظَر"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="عتيد" regexp_replace="مُنتَظَر"/></suggestion>
+        </message>
         <example correction="مُنتَظَر" type="incorrect"> هذا يوم <marker>عتيد</marker> </example>
         <example type="correct"> هذا يومٌ مُنتَظَرٌ </example>
       </rule>
@@ -5752,8 +5872,8 @@ USA
           </unify>
         </pattern>
         <message>(هَاسَ فلانٌ): أكل شديداً، وطاف بالليل في جُرْأ، (هَوَّسَ اللّهُ فلاناً): جَعَلَهُ ذا هَوَس، (الهَوَس): طَرَفٌ من الجنون. 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="مهووس" regexp_replace="مُهَوَّس"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="مهووس" regexp_replace="مُهَوَّس"/></suggestion>
+        </message>
         <example correction="مُهَوَّس" type="incorrect"> رجل <marker>مهووس</marker> </example>
         <example type="correct"> رجلٌ مُهَوَّس </example>
       </rule>
@@ -5771,8 +5891,8 @@ USA
           </unify>
         </pattern>
         <message>يفضل أن يقال: 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="مهاج" regexp_replace="مَهِيج"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="مهاج" regexp_replace="مَهِيج"/></suggestion>
+        </message>
         <example correction="مَهِيج" type="incorrect"> شر <marker>مهاج</marker> </example>
         <example type="correct"> شرٌّ مَهِيج </example>
       </rule>
@@ -5790,12 +5910,16 @@ USA
           </unify>
         </pattern>
         <message>يفضل أن يقال: 
-<match no="1"/>&nbsp;			<suggestion><match no="2" regexp_match="مثلج" regexp_replace="مَثْلُوجٌ"/></suggestion>
-		</message>
+<match no="1"/>&nbsp;           <suggestion><match no="2" regexp_match="مثلج" regexp_replace="مَثْلُوجٌ"/></suggestion>
+        </message>
         <example correction="مَثْلُوجٌ" type="incorrect"> شراب <marker>مثلج</marker> </example>
         <example type="correct"> شرابٌ مَثْلُوجٌ </example>
       </rule>
+ 
     </rulegroup>
+<!--
+    END RULEGROUP common_errors_adjective
+-->
     <rulegroup id="wrong_adj_use" name="خطأ في استعمال صفة">
       <rule>
         <pattern>
@@ -5825,7 +5949,21 @@ USA
         </message>
         <example correction="المملوء|مملوء|مَلآن|المَلآن|مُمتلِئ|المُمتلِئ">aaهذا الإناء  ‎‎ <marker>مليء</marker> بالشراب</example>
       </rule>
+      <rule id="adj_00012_maa_maghli" name="ماء مغلي">
+        <pattern>
+            <token inflected="yes">ماء</token>
+          <marker>
+            <token regexp="yes">(&unbreak_procletics;)?مغلي</token>
+          </marker>
+        </pattern>
+        <message> قل    ماء <suggestion><match no="2" regexp_match="مغلي" regexp_replace="مُغلّى"/></suggestion>
+        </message>
+        <example correction="المُغلّى" type="incorrect">  الماء <marker>المغلي</marker> بالشراب</example>
+      </rule>
     </rulegroup>
+<!--
+    END RULEGROUP wrong_adj_use
+-->
     <rulegroup id="common_errors_relative_adjective" name="النعوت السببية">
       <rule id="unsorted5179" name="الشراهة_5179">
         <pattern>
@@ -5850,7 +5988,7 @@ USA
         </pattern>
         <message>يفضل أن يقال: 
                     <match no="1"/><suggestion>الأخْطار</suggestion>
-		</message>
+        </message>
         <example correction="الأخْطار" type="incorrect"> أرض كثيرة <marker>المخاطر</marker> </example>
         <example type="correct"> أرضٌ كثيرةُ الأخْطار </example>
       </rule>
@@ -5863,7 +6001,7 @@ USA
         </pattern>
         <message>(المَعْشَر): كلُّ جماعةٍ أمرُهم واحد 
 <match no="1"/><suggestion>العِشْرَة</suggestion>
-		</message>
+        </message>
         <example correction="العِشْرَة" type="incorrect"> فلان حسن <marker>المعشر</marker> </example>
         <example type="correct"> فلانٌ حَسَنُ العِشْرَة </example>
       </rule>
@@ -5876,7 +6014,7 @@ USA
         </pattern>
         <message>(الغاوي): الضال 
                     <suggestion>هَاوٍ</suggestion> <match no="2"/>
-		</message>
+        </message>
         <example correction="هَاوٍ" type="incorrect"> فلان <marker>غاو</marker> للموسيقى, وهم غواة </example>
         <example type="correct"> فلانٌ هَاوٍ للموسيقى, وهم هواة </example>
       </rule>
@@ -5889,12 +6027,18 @@ USA
         </pattern>
         <message>الفعل هو: (قاسَ)، لا: (أقاسَ) 
 <suggestion><match no="1" regexp_match="مقاس" regexp_replace="مَقِيس"/></suggestion>
-		</message>
+        </message>
         <example correction="مَقِيس" type="incorrect"><marker>مقاس</marker> بالمتر </example>
         <example type="correct"> مَقِيسٌ بالمتر </example>
       </rule>
     </rulegroup>
+<!--
+    END RULEGROUP common_errors_relative_adjective
+-->
   </category>
+<!--
+    END CATEGORY COMMON_ERRORS_ON_ADJECTIVES
+-->
   <!-- ====================================================================== -->
   <!-- Common errors- on verbs -->
   <!-- ====================================================================== -->
@@ -5977,11 +6121,14 @@ USA
         <example type="correct"> كان من الأمر على يقين </example>
       </rule>
     </rulegroup>
+<!--
+    END RULEGROUP common_errors_indirect_transitive_verbs
+-->
     <rulegroup id="transitive_verbs_indirect_tobe_direct" name="المتعدي بحرف تصحيحه متعد بنفسه">
 <!-- trans_376_AstAdhn_mn استأذن من -->
   <rule id="trans_376_AstAdhn_mn" name="استأذن من">
     <pattern>
-	<marker>
+    <marker>
       <token inflected="yes" skip="1">اِسْتَأْذَنَ</token>
       <token regexp="yes">&forms_min;</token>
       </marker>
@@ -6029,7 +6176,7 @@ USA
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-   	<suggestion><match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+    <suggestion><match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
 </message>
     <example correction="وعده" type="incorrect"> أخلف <marker>بوعده</marker> </example>
     <example type="correct"> أخلف وعده </example>
@@ -6053,7 +6200,7 @@ USA
 <!-- trans_390_Azdra_b ازْدَرَى ب -->
   <rule id="trans_390_Azdra_b_2" name="ازدرى ب">
     <pattern>
-	<marker>
+    <marker>
       <token inflected="yes" skip="1">اِزْدَرَى</token>
       <token regexp="yes">&forms_bih;</token>
       </marker>
@@ -6080,6 +6227,10 @@ USA
   </rule>
  <!-- TODO trans I2D-->
     </rulegroup>
+<!--
+    END RULEGROUP transitive_verbs_indirect_tobe_direct
+
+-->
   <rulegroup id="transitive_verbs_indirect_tobe_indirect" name="المتعدي بحرف تصحيحه متعد بحرف آخر">
   <!-- trans_381_AtSl_mE اتّصَلَ مع -->
   <rule id="trans_381_AtSl_mE" name="اتصل مع">
@@ -6314,10 +6465,10 @@ USA
     <pattern>
       <token inflected="yes" skip="1">بَادَرَ</token>
       <marker>
-		<or>
+        <or>
         <token postag="N.*;.*;-L.?" postag_regexp="yes"/>
         <token postag="N.*;.*;-B.?" postag_regexp="yes"/>
-		</or>
+        </or>
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
@@ -6331,10 +6482,10 @@ USA
     <pattern>
       <token inflected="yes" skip="1">بَادَرَ</token>
       <marker>
-		<or>
+        <or>
          <token regexp="yes">&forms_lih;</token>
          <token regexp="yes">&forms_bih;</token>
-		</or>
+        </or>
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
@@ -6379,10 +6530,10 @@ USA
     <pattern>
       <token inflected="yes" skip="1">تَرَبَّصَ</token>
       <marker>
-		<or>
+        <or>
         <token postag="N.*;.*;-L.?" postag_regexp="yes"/>
         <token regexp="yes">&forms_lih;</token>
-		</or>
+        </or>
       </marker>
     </pattern>
     <message>يفضل أن يقال:  تربّص 
@@ -6732,7 +6883,7 @@ USA
     <pattern>
       <token inflected="yes" skip="1">طَمَحَ</token>
       <marker>
-		<token postag="N.*;.*;-B.?" postag_regexp="yes"/>
+        <token postag="N.*;.*;-B.?" postag_regexp="yes"/>
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
@@ -6746,7 +6897,7 @@ USA
     <pattern>
       <token inflected="yes" skip="1">طَمَحَ</token>
       <marker>
-		<token regexp="yes">&forms_bih;</token>
+        <token regexp="yes">&forms_bih;</token>
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
@@ -6792,7 +6943,7 @@ USA
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-	• <suggestion>إلى&nbsp;<match no="2" regexp_match="^ل" regexp_replace=""/></suggestion>
+    • <suggestion>إلى&nbsp;<match no="2" regexp_match="^ل" regexp_replace=""/></suggestion>
 </message>
     <example correction="إلى صاحبه" type="incorrect"> عزا الخبر <marker>لصاحبه</marker> </example>
     <example type="correct"> عَزَا الخبَرَ إلى صاحبه </example>
@@ -6806,7 +6957,7 @@ USA
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-	• <suggestion><match no="2" postag="PR.*">إلى</match></suggestion>
+    • <suggestion><match no="2" postag="PR.*">إلى</match></suggestion>
 </message>
     <example correction="إليه" type="incorrect"> عزا الخبر <marker>له</marker> </example>
     <example type="correct"> عَزَا الخبَرَ إليه </example>
@@ -6820,7 +6971,7 @@ USA
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-	• <suggestion><match no="2" postag="PR.*">عن</match></suggestion>
+    • <suggestion><match no="2" postag="PR.*">عن</match></suggestion>
 </message>
     <example correction="عنه" type="incorrect"> فتش <marker>عليه</marker> </example>
     <example type="correct"> فتش عنه </example>
@@ -6834,7 +6985,7 @@ USA
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-	• <suggestion><match no="2" postag="PR.*">ب</match></suggestion>
+    • <suggestion><match no="2" postag="PR.*">ب</match></suggestion>
 </message>
     <example correction="ب" type="incorrect"> قابل الكتاب <marker>على</marker> أصله المخطوط </example>
     <example type="correct"> قابل الكتاب بأصله </example>
@@ -6843,13 +6994,13 @@ USA
   <rule id="trans_472_lA_yktrth_bh" name="لا يكترث به">
     <pattern>
       <token inflected="yes" skip="1">اِكْتَرَثَ</token>
-	 <marker>
-		<or>
-		<token postag="N.*;.*;-B[-H]" postag_regexp="yes"/>
+     <marker>
+        <or>
+        <token postag="N.*;.*;-B[-H]" postag_regexp="yes"/>
   <!-- اسم نكرة أو مضاف لضمير متصل -->
-		<token regexp="yes">&forms_bih;</token>
-		</or>
-	  </marker>
+        <token regexp="yes">&forms_bih;</token>
+        </or>
+      </marker>
     </pattern>
     <message>يفضل أن يقال: 
 <suggestion><match no="2" regexp_match="^ب" regexp_replace="ل"/></suggestion>
@@ -6862,10 +7013,10 @@ USA
   <rule id="trans_472_lA_yktrth_bh_2" name="لا يكترث به">
     <pattern>
       <token inflected="yes" skip="1">اِكْتَرَثَ</token>
-	 <marker>
-		<token postag="N.*;.*;-BL" postag_regexp="yes"/>
+     <marker>
+        <token postag="N.*;.*;-BL" postag_regexp="yes"/>
   <!-- اسم معرفة -->
-	  </marker>
+      </marker>
     </pattern>
     <message>يفضل أن يقال: 
   <suggestion><match no="2" regexp_match="^بال" regexp_replace="لل"/></suggestion>
@@ -6909,7 +7060,7 @@ USA
     <pattern>
       <token inflected="yes" skip="1">لَجَأَ</token>
       <marker>
-		<token postag="N.*;.*;-L.?" postag_regexp="yes"/>
+        <token postag="N.*;.*;-L.?" postag_regexp="yes"/>
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
@@ -6937,7 +7088,7 @@ USA
     <pattern>
       <token inflected="yes" skip="1">أَحْوَجَ</token>
       <marker>
-		<token postag="N.*;.*;-L.?" postag_regexp="yes"/>
+        <token postag="N.*;.*;-L.?" postag_regexp="yes"/>
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
@@ -7058,6 +7209,9 @@ USA
   </rule>
  <!-- TODO trans I2I-->
  </rulegroup>
+<!--
+ END RULEGROUP transitive_verbs_indirect_tobe_direct
+-->
     <rulegroup id="transitive_verbs_direct_tobe_indirect" name="المتعدي  بنفسه تصحيحه متعد بحرف">
  <!-- trans_404_AfAD_AlHdyth أفَاضَ الحديثَ -->
   <rule id="trans_404_AfAD_AlHdyth" name="أفاض الحديث">
@@ -7065,122 +7219,106 @@ USA
         <token inflected="yes" skip="1">أَفَاضَ</token>
         <token regexp="yes">&forms_fi;</token>
     </antipattern>
-<antipattern>
-<!-- الحالات التي تتطلب معالجة صرفية خاصة -->
-<!-- مثل أفضتموه => أفضتم منه -->
-<!-- مثل أفاضوه => أفاضوا منه -->
-		<token inflected="yes" skip="1" postag="V.*;M3[HY]-(pa|fa)[-A0];.*H" postag_regexp="yes">أَفَاضَ</token>
-	</antipattern>
     <pattern>
       <marker>
-        <token inflected="yes" postag="V.?[123];.*;.*" postag_regexp="yes" skip="1">أَفَاضَ</token>
-	 <!-- الفعل غير متصل بضمير -->
+        <token inflected="yes" postag="V.*" postag_regexp="yes" skip="1">أَفَاضَ</token>
       </marker>
-	 
     </pattern>
     <message>الفعل أفاض متعد بحرف الجر في، وليس متعديا بنفسه. يفضل أن يقال:
-  <suggestion><match no="1"  regexp_match="(&verb_encletics;)$" regexp_replace=""/>&nbsp;في<match no="1"  regexp_match="(.*)((&verb_encletics;)$)|(.*)((&verb_encletics;)?$)" regexp_replace="$2"/></suggestion>
+
+  <suggestion><match no="1"  postag="(V.*)(-|H)" postag_replace="$1-" postag_regexp="yes">أَفَاضَ</match>&nbsp;في<match no="1"  regexp_match="(.*)((&verb_encletics;)$)|(.*)((&verb_encletics;)?$)" regexp_replace="$2"/></suggestion>
 </message> 
     <example correction="أفاض في" type="incorrect"><marker>أفاض</marker> الحديث </example>
-    <example correction="أفاض فيها" type="incorrect"><marker>أفاضها</marker> الحديث </example>
-    <example type="correct"> أفاض في الشرح </example>
-    <example type="correct"> أفاض  الأستاذ في الشرح </example>
-  </rule>
- <!-- trans_404_AfAD_AlHdyth أفَاضَ الحديثَ -->
-  <rule id="trans_404_AfAD_AlHdyth_2" name="أفاض الحديث">
-    <antipattern>
-        <token inflected="yes" skip="1">أَفَاضَ</token>
-        <token regexp="yes">&forms_fi;</token>
-    </antipattern>
-	<pattern>
-<!-- الحالات التي تتطلب معالجة صرفية خاصة -->
-<!-- مثل أفضتموه => أفضتم منه -->
-<!-- مثل أفاضوه => أفاضوا منه -->
-     <marker>
-<token inflected="yes" postag="V.*;M3[HY]-(pa|fa)[-A0];.*H" postag_regexp="yes">أَفَاضَ</token>
-      </marker>
-
-	</pattern>
-	 
-    <message>الفعل أفاض متعد بحرف الجر في، وليس متعديا بنفسه. يفضل أن يقال:
-  <suggestion><match no="1"  regexp_match="(&verb_encletics;)$" regexp_replace=""/>&nbsp;في<match no="1"  regexp_match="(.*)((&verb_encletics;)$)|(.*)((&verb_encletics;)?$)" regexp_replace="$2"/></suggestion>
-</message> 
-    <example correction="أفاضو فيه" type="incorrect"><marker>أفاضوه</marker> الحديث </example>
-    <example correction="أفضتمو فيه" type="incorrect"><marker>أفضتموه</marker> الحديث </example>
+    <example correction="أفاض فيها" type="incorrect"><marker>أفاضها</marker> بالحديث </example>
+    <example correction="أفاضوا فيه" type="incorrect"><marker>أفاضوه</marker> الحديث </example>
+    <example correction="أفضتم فيه" type="incorrect"><marker>أفضتموه</marker> الحديث </example>
 
     <example type="correct"> أفاض في الشرح </example>
     <example type="correct"> أفاض  الأستاذ في الشرح </example>
   </rule>
+
 
 <!-- trans_422_tfAda تفادى -->
   <rule id="trans_422_tfAda" name="تفادى">
    <antipattern>  
 <!-- الفعل غير متصل بضمير ومتبوع بحرف تعدي -->
-		<token inflected="yes" postag="V.*;.*;.*-" postag_regexp="yes" skip="1">تَفَادَى</token>
-		<token regexp="yes">&forms_min;</token>
-	</antipattern>
-	<antipattern>
-<!-- الحالات التي تتطلب معالجة صرفية خاصة -->
-<!-- مثل تفاديتموه => تفاديتم منه -->
-<!-- مثل تتفادوه => تتفادوا منه -->
-
-		<!--<token regexp="yes"  skip="1" >(&conj;)?(أ|ت|ي|ن)?(تتفادو|يتفادو|تفاديتمو|تفادا|تفادو)(&verb_encletics;)</token>-->
-		<token inflected="yes" postag="V.*;M3[HY]-(pa|fa)[-A0];.*H|V.*;M1H-pa-;.*H|V.*;M1[IHY]-fa[UA];.*H|V.*;F1H-fa[UA];.*H|V.*;M3I-fa[UA];.*H" postag_regexp="yes">تَفَادَى</token>
-	</antipattern>
-	<pattern>
-	  <marker>
-		<token inflected="yes" postag="V.?[123];.*;.*" postag_regexp="yes" skip="1">تَفَادَى</token>
-	 <!-- الفعل غير متصل بضمير -->
-	  </marker>
-	</pattern>
-	<message>الفعل تفادى متعد ب"مِن"، وليس متعديا بنفسه. يفضل أن يقال: 
-  <suggestion><match no="1"  regexp_match="(&verb_encletics;)$" regexp_replace=""/>&nbsp;من<match no="1"  regexp_match="(.*)((&verb_encletics;)$)|(.*)((&verb_encletics;)?$)" regexp_replace="$2"/></suggestion>
-
-</message>
-	<example correction="تفاديت من" type="incorrect"><marker>تفاديت</marker> الشيء </example>
-	<example correction="تفاديت منه" type="incorrect"><marker>تفاديته</marker> الشيء </example>
-	<example type="correct"> تفاديت من الشيء </example>
-  </rule>
-<!-- trans_422_tfAda تفادى -->
-  <rule id="trans_422_tfAda_2" name="تفادى">
- <!-- TODO review-->
-	<pattern>
-<!-- الحالات التي تتطلب معالجة صرفية خاصة -->
-<!-- مثل تفاديتموه => تفاديتم منه -->
-<!-- مثل تفاداه => تفادى منه -->
-<!-- مثل تفادوه => تفادوا منه -->
-	<!--	<token regexp="yes"  skip="1" >(&conj;)?(تفاديتمو|تفادا|تفادو)(&verb_encletics;)</token>-->
-		<token inflected="yes" postag="V.*;M3[HY]-(pa|fa)[-A0];.*H|V.*;M1H-pa-;.*H|V.*;M1[IHY]-fa[UA];.*H|V.*;F1H-fa[UA];.*H|V.*;M3I-fa[UA];.*H" postag_regexp="yes">تَفَادَى</token>
-	</pattern>
-
+        <token inflected="yes" postag="V.*;.*;.*-" postag_regexp="yes" skip="1">تَفَادَى</token>
+        <token regexp="yes">&forms_min;</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="V.*" postag_regexp="yes" skip="1">تَفَادَى</token>
+      </marker>
+    </pattern>
     <message>الفعل تفادى متعد ب"مِن"، وليس متعديا بنفسه. يفضل أن يقال: 
-  <suggestion><match no="1"  regexp_match="(&verb_encletics;)$" regexp_replace=""/>*&nbsp;من<match no="1"  regexp_match="(.*)((&verb_encletics;)$)" regexp_replace="$2"/></suggestion>
+  <suggestion><match no="1"  postag="(V.*)(-|H)" postag_replace="$1-" postag_regexp="yes">تَفَادَى</match>&nbsp;من<match no="1"  regexp_match="(.*)((&verb_encletics;)$)|(.*)((&verb_encletics;)?$)" regexp_replace="$2"/></suggestion>
+
 </message>
+    <example correction="تفاديت من" type="incorrect"><marker>تفاديت</marker> الشيء </example>
+    <example correction="تفاديت منه" type="incorrect"><marker>تفاديته</marker> الشيء </example>
+    <example correction="تفاديتم منه" type="incorrect"><marker>تفاديتموه</marker> الشيء </example>
+    <example correction="تفادى منه" type="incorrect"><marker>تفاداه</marker> الشيء </example>
 
-    <example correction="تفاديتمو* منه" type="incorrect"><marker>تفاديتموه</marker> الشيء </example>
-    <!--<example correction="تفادو* منه" type="incorrect"><marker>تفادوه</marker> الشيء </example>-->
-    <example correction="تفادا* منه" type="incorrect"><marker>تفاداه</marker> الشيء </example>
-
-    <example type="correct"> تفاديت منه الشيء </example>
+    <example type="correct"> تفاديت من الشيء </example>
   </rule>
-
-
-<!-- trans_422_tfAda تفادى -->
-  <rule id="test_regex" name="استعملتموه " default="off">
-	<pattern>
-		<token inflected="yes">اِسْتَخْدَمَ</token>
-	</pattern>
-
-    <message>Test: 
-  <suggestion><match no="1"  postag="V.*(\+RP)?">اِرْتَادَ</match>&nbsp;إليه</suggestion>
+  <!-- trans_469_qdhf_AlHjArt_Ela قذف الحجارةَ على -->
+  <rule id="trans_469_qdhf_AlHjArt_Ela" name="قذف الحجارة على">
+   <antipattern>  
+<!-- الفعل غير متصل بضمير ومتبوع بحرف تعدي -->
+        <token inflected="yes" postag="V.*;.*;.*-" postag_regexp="yes" skip="1">قَذَفَ</token>
+        <token postag="N.*B." postag_regexp="yes"/>
+    </antipattern>
+   <antipattern>  
+<!-- الفعل غير متصل بضمير ومتبوع بحرف تعدي -->
+        <token inflected="yes" postag="V.*;.*;.*-" postag_regexp="yes" skip="1">قَذَفَ</token>
+        <token regexp="yes">(&forms_bih;)|ب</token>
+    </antipattern>
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="V.*" postag_regexp="yes">قَذَفَ</token>
+    </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+  <suggestion><match no="1"  postag="(V.*)(.)" postag_replace="$1-" postag_regexp="yes">قَذَفَ</match>&nbsp;ب<match no="1"  regexp_match="(.*)((&verb_encletics;)$)|(.*)((&verb_encletics;)?$)" regexp_replace="$2"/></suggestion>
 </message>
+    <example correction="قذف ب" type="incorrect"><marker>قذف</marker> الحجارة على القلعة </example>
+    <example correction="قذف به" type="incorrect"><marker>قذفه</marker></example>
 
-    <example correction="ارتدتموك إليه" type="incorrect"><marker>استخدمتموه</marker> الشيء </example>
-    <example type="correct"> احتجتم إليه </example>
+    <example type="correct"> قذف بالحجارة </example>
+
+  </rule>
+ <!-- trans_470_qTnt_Albld قطنتُ البلدَ -->
+  <rule id="trans_470_qTnt_Albld" name="قطنت البلد">
+    <antipattern>
+      <token inflected="yes" postag="V.*" postag_regexp="yes" skip="1">قَطَنَ</token>
+        <token postag="N.*;.*;-B." postag_regexp="yes"/>
+    </antipattern>
+    <antipattern>
+      <token inflected="yes" postag="V.*" postag_regexp="yes" skip="1">قَطَنَ</token>
+        <token regexp="yes">&forms_fi;</token>
+    </antipattern>
+    <antipattern>
+      <token inflected="yes" postag="V.*" postag_regexp="yes" skip="1">قَطَنَ</token>
+      <token regexp="yes">&forms_bih;</token>
+    </antipattern>
+    <pattern>
+      <token inflected="yes" postag="V-1.*" postag_regexp="yes" skip="1">قَطَنَ</token>
+    </pattern>
+    <message>يفضل أن يقال: 
+  <suggestion><match no="1"  postag="(V-1.*)(.)" postag_replace="$1-" postag_regexp="yes">قَطَنَ</match>&nbsp;في<match no="1"  regexp_match="(.*)((&verb_encletics;)$)|(.*)((&verb_encletics;)?$)" regexp_replace="$2"/></suggestion>
+</message>
+    <example correction="قطنت في" type="incorrect"><marker>قطنت</marker> البلد </example>
+    <example correction="يقطن فيه" type="incorrect">الوطن الذي <marker>يقطنه</marker> البلد </example>
+
+    <example type="correct"> قطنت في البلد </example>
   </rule>
  
  <!-- TODO trans D2I-->
     </rulegroup>
+    
+<!--
+    END RULEGROUP transitive_verbs_direct_tobe_indirect
+-->
   </category>
   <!-- ====================================================================== -->
   <!-- Redundency Phrases -->
@@ -7241,7 +7379,7 @@ USA
         <example correction=""> عودة الأطراف إلى   <marker>طاولة</marker> المداولات</example>
       </rule>
 
-	<rule id="redund_0005_ila_3inda" name="إلى عند">
+    <rule id="redund_0005_ila_3inda" name="إلى عند">
         <pattern>
           <marker>
             <token>إلى</token>
@@ -7255,7 +7393,13 @@ USA
         <example type="correct"> ذهبت عند فلان </example>
       </rule>
     </rulegroup>
+<!--
+    END RULEGROUP REDUNDENCY_PHRASES
+-->
   </category>
+<!--
+    END CATEGORY REDUNDENCY_PHRASES
+-->
   <!-- ====================================================================== -->
   <!-- TODO -->
   <!-- ====================================================================== -->
