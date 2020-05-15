@@ -140,7 +140,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
 
   private static final Pattern YEAR_WITH_R = Pattern.compile("((?:[12][0-9]{3}[—–-])?[12][0-9]{3})(рр?\\.)");
 
-  private static final Pattern COMPOUND_WITH_QUOTES = Pattern.compile("([а-яіїє]-)([«\"„][а-яіїєґ'-]+)([»\"“])", Pattern.CASE_INSENSITIVE);
+  private static final Pattern COMPOUND_WITH_QUOTES = Pattern.compile("([а-яіїє]-)([«\"„][а-яіїєґ'-]+)([»\"“])", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   // Сьогодні (у четвер. - Ред.), вранці.
 //  private static final Pattern ABBR_DOT_PATTERN8 = Pattern.compile("([\\s\u00A0\u202F]+[–—-][\\s\u00A0\u202F]+(?:[Рр]ед|[Аа]вт))\\.([\\)\\]])");

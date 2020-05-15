@@ -457,14 +457,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>20 ОС</example>
     </rule>
 
-    <rule id="top_with_num_2019" name="Топ- з числівниками">
-      <pattern>
-        <token regexp="yes">топ-[0-9]+</token>
-      </pattern>
-      <message>За правописом 2019 компонент топ- із числівниками не поєднуваний</message>
-      <suggestion><match no="1" regexp_match="(топ)-([0-9]+)" regexp_replace="$1 $2"/></suggestion>
-      <example correction="топ 100"><marker>топ-100</marker>.</example>
-    </rule>
+    <rulegroup id="top_with_num_2019" name="Топ- з числівниками">
+      <url>https://r2u.org.ua/check/rules/top_with_num_2019</url>
+      <rule>
+        <pattern>
+          <token regexp="yes">топ-[0-9]+</token>
+        </pattern>
+        <message>За правописом 2019 компонент топ- із числівниками не поєднуваний</message>
+        <suggestion><match no="1" regexp_match="(топ)-([0-9]+)" regexp_replace="найкращі $2"/></suggestion>
+        <suggestion><match no="1" regexp_match="(топ)-([0-9]+)" regexp_replace="найбільші $2"/></suggestion>
+        <example correction="найкращі 100|найбільші 100"><marker>топ-100</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="numr:.*:bad" regexp="yes">топ-.*</token>
+        </pattern>
+        <message>За правописом 2019 компонент топ- із числівниками не поєднуваний</message>
+        <suggestion><match no="1" regexp_match="(топ)-(.*)" regexp_replace="найкращі $2"/></suggestion>
+        <suggestion><match no="1" regexp_match="(топ)-(.*)" regexp_replace="найбільші $2"/></suggestion>
+        <example correction="найкращі десять|найбільші десять"><marker>топ-десять</marker>.</example>
+      </rule>
+    </rulegroup>
 
     <rulegroup id="ABBREVIATIONS_WRONG_DOT" name="Скорочення - зайва крапка">
       <!-- TODO: c - секунда, c. - село/сторінка; м — метр, м. — місто; т - тонна, т. - точка -->
