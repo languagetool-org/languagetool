@@ -152,12 +152,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern case_sensitive="yes">
                 <token regexp="yes">[A-Z]|Dr|Prof|Fa</token>
-                <token spacebefore="no">.</token>
+                <token spacebefore="no" min="0">.</token>
                 <token>Weiss</token>
             </antipattern>
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Familie|Metzgerei|Bäckerei|Firma|Fa</token>
                 <token>Weiss</token>
+            </antipattern>
+            <antipattern><!-- Bei Großschreibung darf "ß" durch "SS" ersetzt werden (https://de.wikipedia.org/wiki/Gro%C3%9Fes_%C3%9F) -->
+                <token case_sensitive="yes">WEISS</token>
             </antipattern>
             <pattern>
                 <token>weiss</token>
@@ -825,10 +828,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="paar kleine|Paar keine">Dort gibt es ein <marker>paar keine</marker> Wanderwege.</example>
             <example correction="paar kleine|Paar keine">... nur weil ein <marker>paar keine</marker> Kinder möchte.</example>
         </rule>
-        <rule id="MIR_MIR" name="Wiederholung Dativ: mir mir/dir/uns">
-            <regexp>\bmir ([dm]ir|ihm|euch|ihnen|[dms]einem|uns(erem)?|(eu|ih)rem)\b</regexp>
+        <rule id="MIR_DIR" name="Wiederholung Dativ: mir dir/uns">
+            <regexp>\bmir (dir|ihm|euch|ihnen|[dms]einem|uns(erem)?|(eu|ih)rem)\b</regexp>
             <message>Hier wird ein Dativ-Pronomen wiederholt. Meinten Sie vielleicht <suggestion>mit \1</suggestion>?</message>
             <example correction="mit dir">Ich will <marker>mir dir</marker> reden.</example>
+        </rule>
+        <rule id="MIR_MIR" name="Wiederholung Dativ: mir mir">
+            <antipattern><!-- "mit mir mir" is found by GERMAN_WORD_REPEAT rule -->
+                <token>mit</token>
+                <token>mir</token>
+                <token>mir</token>
+            </antipattern>
+            <pattern>
+                <token>mir</token>
+                <token>mir</token>
+            </pattern>
+            <message>Hier wird ein Dativ-Pronomen wiederholt. Meinten Sie vielleicht <suggestion>mit mir</suggestion> oder <suggestion>mir</suggestion>?</message>
+            <example correction="mit mir|mir">Hab erbamen <marker>mir mir</marker>!</example>
         </rule>
         <rule id="FINDER_GEWICKELT" name="um den Finder (Finger) gewickelt">
             <pattern>
@@ -9133,6 +9149,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Zusammen-/Getrenntschreibung">
+         <rule id="FUGEN_S_ZUSAMMENSCHREIBUNG" name="Wirtschafts Weisen (Wirtschschaftsweisen)" default="temp_off">
+            <pattern case_sensitive="yes">
+                <token postag="UNKNOWN" regexp="yes">[A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|ling|tum|keit|tum|ion|tät)s</token>
+                <token postag=".*SUB.*" postag_regexp="yes" regexp="yes">
+                    [A-ZÜÄÖ][a-zäöüß]+
+                    <exception>Standards</exception>
+                </token>
+            </pattern>
+            <message>Dieses Wort wird in der Regel zusammengeschrieben.</message>
+            <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion>
+            <suggestion><match no="1" />-<match no="2" /></suggestion>
+            <example correction="Hochleistungssport|Hochleistungs-Sport">Er macht <marker>Hochleistungs Sport</marker>.</example>
+            <example correction="Regenerierungsplan|Regenerierungs-Plan">Ich habe sogar einen liebevoll ausgearbeiteten <marker>Regenerierungs Plan</marker> erhalten, der sich vielversprechend liest.</example>
+            <example correction="Wirtschaftsweisen|Wirtschafts-Weisen">Die <marker>Wirtschafts Weisen</marker>.</example>
+            <example>DRSC – Deutsches Rechnungslegungs Standards Committee</example>
+        </rule>
         <rule id="NAECHSTMOEGLICH" name="nächst möglich (nächstmöglich)">
             <pattern>
                 <token>nächst</token>
@@ -43392,7 +43424,7 @@ Andere Projekte</example>
         </rulegroup>
     </category>
     <category id="EMPFOHLENE_RECHTSCHREIBUNG" name="Empfohlene/Modernere Rechtschreibung" type="style">
-        <rulegroup id="AB_TEST" name="A/B-Test" default="temp_off">
+        <rulegroup id="AB_TEST" name="A/B-Test">
             <url>https://de.wikipedia.org/wiki/A/B-Test</url>
             <rule>
                 <pattern case_sensitive="no">
