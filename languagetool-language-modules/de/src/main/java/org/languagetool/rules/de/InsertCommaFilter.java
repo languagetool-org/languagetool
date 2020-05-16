@@ -47,15 +47,23 @@ public class InsertCommaFilter extends RuleFilter {
         suggestions.add(parts[0] + ", " + parts[1]);
       } else if (parts.length == 3) {
         try {
-          // "Ich hoffe es geht Ihnen gut." -> "Ich hoffe, es geht Ihnen gut."
           List<AnalyzedTokenReadings> tags1 = tagger.tag(Collections.singletonList(parts[0]));
           List<AnalyzedTokenReadings> tags2 = tagger.tag(Collections.singletonList(parts[1]));
+          List<AnalyzedTokenReadings> tags3 = tagger.tag(Collections.singletonList(parts[2]));
+          //System.out.println("#"+tagger.tag(Collections.singletonList(parts[0])));
+          //System.out.println("#"+tagger.tag(Collections.singletonList(parts[1])));
+          //System.out.println("#"+tagger.tag(Collections.singletonList(parts[2])));
           if (tags1.stream().anyMatch(k -> k.hasPosTagStartingWith("VER:")) && tags2.stream().anyMatch(k -> k.hasPosTagStartingWith("PRO:PER:"))) {
+            // "Ich hoffe(,) es geht Ihnen gut."
             suggestions.add(parts[0] + ", " + parts[1] + " " + parts[2]);
           } else if (parts[0].matches("Sag|Sagt") && parts[1].matches("mal") &&
                   tagger.tag(Collections.singletonList(parts[2])).stream().anyMatch(k -> k.hasPosTagStartingWith("VER:"))) {
-            // "Sag mal hast du" -> "Sag mal, hast du"
+            // "Sag mal(,) hast du"
             suggestions.add(parts[0] + " " + parts[1] + ", " + parts[2]);
+          } else if (tags1.stream().anyMatch(k -> k.hasPosTagStartingWith("VER:")) && tags2.stream().anyMatch(k -> k.hasPosTagStartingWith("ADV:")) &&
+            tags3.stream().anyMatch(k -> k.hasPosTagStartingWith("VER:"))) {
+            // "Ich denke(,) hier kann aber auch ..."
+            suggestions.add(parts[0] + ", " + parts[1] + " " + parts[2]);
           }
         } catch (IOException e) {
           throw new RuntimeException(e);
@@ -64,7 +72,7 @@ public class InsertCommaFilter extends RuleFilter {
         if (patternTokenPos == 2 &&
           patternTokens[0].hasPosTagStartingWith("VER:") &&
           patternTokens[1].getToken().matches("der|die|das|seine|ihre|deine|unsere|meine|folgender|dieser")) {
-          // "Aristoteles meint das Genussleben führe nicht zum Glück." -> "Aristoteles meint, das..."
+          // "Aristoteles meint(,) das Genussleben führe nicht zum Glück."
           suggestions.add(parts[0] + ", " + parts[1] + " " + parts[2] + " " + parts[3]);
         }
       }
