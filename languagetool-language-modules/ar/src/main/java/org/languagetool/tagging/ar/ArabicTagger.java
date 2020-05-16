@@ -50,12 +50,9 @@ public class ArabicTagger extends BaseTagger {
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(striped));
       addTokens(taggerTokens, l);
       // additional tagging with prefixes
-//       if (l.isEmpty()) { 
     // if not a stop word add more stemming
     boolean test = isStopWord(taggerTokens);
-//      System.out.println("isStopWord "+word+" "+test);
       if (!isStopWord(taggerTokens)) { 
-//       if (true) { 
       // test all possible tags 
         addTokens(additionalTags(striped, dictLookup), l);
       }
@@ -89,35 +86,21 @@ public class ArabicTagger extends BaseTagger {
         // avoid default case of retured word as it
         if((i == 0) && (j == word.length())) 
             continue;
-        String  prefix = getPrefix(word,i);
-        String suffix = getSuffix(word,j);
+//         String  prefix = getPrefix(word,i);
+//         String suffix = getSuffix(word,j);
+        // get stem return a list, to generate some variants for stems.
         List<String> stemsList = getStem(word, i,j);
         tags  = getTags(word, i, j);
-        
-        // test if suffix is valid
-//         if(debug)
-//             System.out.println("Segementation"+" "+word+" "+prefix+"-"+stem+"-"+suffix);
-//         }
-//     }
+    
     for( String stem: stemsList)
     {
     List<AnalyzedToken> taggerTokens;
     taggerTokens = asAnalyzedTokenList(stem, stemmer.lookup(stem));
-//     taggerTokens = asAnalyzedTokenList(possibleWord, stemmer.lookup(possibleWord));
-    if(debug) System.out.print("Tags: "+word+":");
-    for(String t: tags){
-    if(debug) System.out.print(t+",");
-    }
-    if(debug) System.out.println();
     
     for (AnalyzedToken taggerToken : taggerTokens) {
       String posTag = taggerToken.getPOSTag();
-      if(debug) System.out.println("Add tag 1 "+" "+word+" "+ stem+" "+posTag);
-      
       // modify tags in postag, return null if not compatible
       posTag = modifyPosTag(posTag, tags);
-
-      if(debug) System.out.println("Add tag 2 "+" "+word+" "+ stem+" "+posTag);
       
       if(posTag != null)
         additionalTaggedTokens.add(new AnalyzedToken(word, posTag, taggerToken.getLemma()));
@@ -141,7 +124,6 @@ public class ArabicTagger extends BaseTagger {
    suffix_indexes.add(possibleWord.length());
    int suffix_pos = possibleWord.length();
     if (possibleWord.endsWith("ك")
-//     if (possibleWord.endsWith("ه")
       || possibleWord.endsWith("ها")
       || possibleWord.endsWith("هما")
       || possibleWord.endsWith("كما")
@@ -157,7 +139,6 @@ public class ArabicTagger extends BaseTagger {
             suffix_pos -= 3;
         else 
             suffix_pos -= 2;
-//       possibleWord = possibleWord.replaceAll("(ك|ها|هما|هم|هن|كما|كم|كن|نا|ي)$", "ه");
        suffix_indexes.add(suffix_pos);
     }   
    return suffix_indexes;
@@ -168,7 +149,6 @@ public class ArabicTagger extends BaseTagger {
    int prefix_pos = 0;
    
     if (possibleWord.startsWith("و") || possibleWord.startsWith("ف")) {
-//       tags.add("W");
       possibleWord = possibleWord.replaceAll("^[وف]", "");
       prefix_pos += 1;
       prefix_indexes.add(prefix_pos);
@@ -176,18 +156,12 @@ public class ArabicTagger extends BaseTagger {
     // first Case
     
     if (possibleWord.startsWith("لل")) {
-//       tags.add("L");
-//       possibleWord = possibleWord.replaceAll("^لل", "ال");
       prefix_pos += 1;
       prefix_indexes.add(prefix_pos);      
     } else if (possibleWord.startsWith("ك")) {
-//       tags.add("K");
-//       possibleWord = possibleWord.replaceAll("^[ك]", "");
       prefix_pos += 1;
       prefix_indexes.add(prefix_pos);      
     } else if (possibleWord.startsWith("ل")) {
-//       tags.add("L");
-//       possibleWord = possibleWord.replaceAll("^[ل]", "");
       prefix_pos += 1;
       prefix_indexes.add(prefix_pos);      
     }
@@ -198,8 +172,6 @@ public class ArabicTagger extends BaseTagger {
     ||possibleWord.startsWith("سي")
     ||possibleWord.startsWith("ست")
     ) {
-//       tags.add("S");
-//       possibleWord = possibleWord.replaceAll("^س", "");
       prefix_pos += 1;
       prefix_indexes.add(prefix_pos);      
     }
