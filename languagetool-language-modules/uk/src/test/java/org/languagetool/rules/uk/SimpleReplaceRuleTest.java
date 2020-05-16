@@ -105,9 +105,9 @@ public class SimpleReplaceRuleTest {
   public void testMisspellings() throws IOException {
     SimpleReplaceRule rule = new SimpleReplaceRule(TestTools.getEnglishMessages(), morfologikSpellerRule);
 
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("цурюпинський"));
+    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("ганделик"));
     assertEquals(1, matches.length);
-    assertEquals(Arrays.asList("цюрупинський"), matches[0].getSuggestedReplacements());
+    assertEquals(Arrays.asList("генделик"), matches[0].getSuggestedReplacements());
 //    assertEquals(Categories.MISC.toString(), matches[0].getRule().getCategory().getId());
 //    assertEquals("Це розмовна просторічна форма", matches[0].getMessage());
   }

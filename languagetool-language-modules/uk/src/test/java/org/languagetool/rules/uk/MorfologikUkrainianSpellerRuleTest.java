@@ -72,11 +72,11 @@ public class MorfologikUkrainianSpellerRuleTest {
 
     //incorrect sentences:
 
-    matches = rule.match(langTool.getAnalyzedSentence("атакуючий"));
-    // check match positions:
-    assertEquals(1, matches.length);
-    assertEquals(0, matches[0].getFromPos());
-    assertEquals("атакуючий".length(), matches[0].getToPos());
+//    matches = rule.match(langTool.getAnalyzedSentence("атакуючий"));
+//    // check match positions:
+//    assertEquals(1, matches.length);
+//    assertEquals(0, matches[0].getFromPos());
+//    assertEquals("атакуючий".length(), matches[0].getToPos());
 
 //    matches = rule.match(langTool.getAnalyzedSentence("шклянка"));
 //
@@ -172,7 +172,7 @@ public class MorfologikUkrainianSpellerRuleTest {
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("банд-формування.")).length);
 
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("учбово-виховного")).length);
+//    assertEquals(1, rule.match(langTool.getAnalyzedSentence("учбово-виховного")).length);
 
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("екоблогер")).length);
   }
@@ -209,18 +209,19 @@ public class MorfologikUkrainianSpellerRuleTest {
 
     assertTrue("Should be empty: " + match[0].getSuggestedReplacements(), match[0].getSuggestedReplacements().isEmpty());
 
-    match = rule.match(langTool.getAnalyzedSentence("вело-маршрут"));
-    assertEquals(1, match.length);
-
-    assertEquals(Arrays.asList("веломаршрут"), match[0].getSuggestedReplacements());
-
-    match = rule.match(langTool.getAnalyzedSentence("відео-маршрут"));
-    assertEquals(1, match.length);
-
-    assertEquals(new ArrayList<String>(), match[0].getSuggestedReplacements());
-
-    match = rule.match(langTool.getAnalyzedSentence("вело-бегемот"));
-    assertEquals(1, match.length);
+    // caught by SLOVA_BEZ_DEFISU
+//    match = rule.match(langTool.getAnalyzedSentence("вело-маршрут"));
+//    assertEquals(1, match.length);
+//
+//    assertEquals(Arrays.asList("веломаршрут"), match[0].getSuggestedReplacements());
+//
+//    match = rule.match(langTool.getAnalyzedSentence("відео-маршрут"));
+//    assertEquals(1, match.length);
+//
+//    assertEquals(new ArrayList<String>(), match[0].getSuggestedReplacements());
+//
+//    match = rule.match(langTool.getAnalyzedSentence("вело-бегемот"));
+//    assertEquals(1, match.length);
 
     assertTrue("Unexpected suggestions: " + match[0].getSuggestedReplacements(), match[0].getSuggestedReplacements().isEmpty());
 
