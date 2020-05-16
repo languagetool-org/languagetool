@@ -2922,6 +2922,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="мало не|трохи не|замалим не|мало-мало не|трохи-трохи не|майже">Він <marker>чуть не</marker> втопився?</example>
     </rule>
 
+    <rule id="povistka_dnya" name="Повістка дня">
+      <pattern>
+        <token inflected="yes">повістка</token>
+        <token>дня</token>
+      </pattern>
+      <message>Правильно: <suggestion>порядок денний</suggestion></message>
+      <example correction="порядок денний">на <marker>повістці дня</marker>.</example>
+    </rule>
+
+    <rule id="nasylno_mylym_ne_budesh" name="Насильно милим не будеш">
+      <pattern>
+        <token>насильно</token>
+        <token postag_regexp="yes" postag=".*v_(naz|oru).*" inflected="yes">милий</token>
+        <token>не</token>
+        <token>будеш</token>
+      </pattern>
+      <message>Правильно: <suggestion>на милування нема силування</suggestion></message>
+      <suggestion>силою не бути милою</suggestion>
+      <example correction="на милування нема силування|силою не бути милою"><marker>насильно милим не будеш</marker>.</example>
+    </rule>
+
     <rule id="TRYMATY_V_UMI" name="Тримати в умі">
       <pattern>
         <token inflected="yes">тримати</token>
