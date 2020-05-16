@@ -215,7 +215,7 @@ public class RuleMatchDiffFinder {
       print(diffs, fw);
       fw.write("<script>\n" +
                "var tf = new TableFilter(document.querySelector('.sortable_table'), {\n" +
-               "    base_path: '../tablefilter/',\n" +
+               "    base_path: 'https://unpkg.com/tablefilter@0.7.0/dist/tablefilter/',\n" +
                "    col_0: 'select',\n" +
                "    col_1: 'select',\n" +
                "    auto_filter: { delay: 100 },\n" +
