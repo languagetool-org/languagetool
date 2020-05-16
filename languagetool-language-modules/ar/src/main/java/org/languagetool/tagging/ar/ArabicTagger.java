@@ -38,28 +38,7 @@ public class ArabicTagger extends BaseTagger {
     super("/ar/arabic.dict", new Locale("ar"));
   }
 
-  /* Add the flag to an encoded tag */
-  public String addTag(String postag, String flag) {
-    StringBuilder tmp = new StringBuilder(postag);
-    if (flag.equals("W")) {
-      tmp.setCharAt(postag.length() - 3, 'W');
-    } else if (flag.equals("K")) {
-      if(postag.startsWith("N"))
-      tmp.setCharAt(postag.length() - 2, 'K');
-      else return null;
-    } else if (flag.equals("L")) {
-      tmp.setCharAt(postag.length() - 2, 'L');
-    } else if (flag.equals("S")) {
-    // َAdd S flag 
-    // if postag contains a future tag, TODO with regex
-    if (postag.startsWith("V") && postag.contains("f"))
-      tmp.setCharAt(postag.length() - 2, 'S');
-      else
-      return null;
-    }
-    return tmp.toString();
-  }
-  
+ 
   @Override
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
@@ -71,7 +50,12 @@ public class ArabicTagger extends BaseTagger {
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(striped));
       addTokens(taggerTokens, l);
       // additional tagging with prefixes
-      if (l.isEmpty()) { 
+//       if (l.isEmpty()) { 
+    // if not a stop word add more stemming
+    boolean test = isStopWord(taggerTokens);
+//      System.out.println("isStopWord "+word+" "+test);
+      if (!isStopWord(taggerTokens)) { 
+//       if (true) { 
       // test all possible tags 
         addTokens(additionalTags(striped, dictLookup), l);
       }
@@ -83,9 +67,64 @@ public class ArabicTagger extends BaseTagger {
     }
     return tokenReadings;
   }
-
-  @Nullable
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
+    List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
+    List<String> tags = new ArrayList<>();
+    String possibleWord = word;
+    List<Integer> prefix_index_list = getPrefixIndexList(word);
+    List<Integer> suffix_index_list = getSuffixIndexList(word);
+
+    // compatible case
+    int left = Collections.max(prefix_index_list);
+    int right = Collections.min(suffix_index_list);
+    possibleWord = getStem(word, left, right); 
+    tags  = getTags(word, left, right);
+    if(word.length()> 1)
+        if(debug)
+            System.out.println("Possible words"+" "+word+" "+possibleWord);
+
+    for( int i: prefix_index_list){
+      for( int j: suffix_index_list){
+        // avoid default case of retured word as it
+        if((i == 0) && (j == word.length())) 
+            continue;
+        String  prefix = getPrefix(word,i);
+        String suffix = getSuffix(word,j);
+        String stem = getStem(word, i,j);
+        tags  = getTags(word, i, j);
+        
+        // test if suffix is valid
+        if(debug)
+            System.out.println("Segementation"+" "+word+" "+prefix+"-"+stem+"-"+suffix);
+//         }
+//     }
+    List<AnalyzedToken> taggerTokens;
+    taggerTokens = asAnalyzedTokenList(stem, stemmer.lookup(stem));
+//     taggerTokens = asAnalyzedTokenList(possibleWord, stemmer.lookup(possibleWord));
+    if(debug) System.out.print("Tags: "+word+":");
+    for(String t: tags){
+    if(debug) System.out.print(t+",");
+    }
+    if(debug) System.out.println();
+    
+    for (AnalyzedToken taggerToken : taggerTokens) {
+      String posTag = taggerToken.getPOSTag();
+      if(debug) System.out.println("Add tag 1 "+" "+word+" "+ possibleWord+" "+posTag);
+      
+      // modify tags in postag, return null if not compatible
+      posTag = modifyPosTag(posTag, tags);
+
+      if(debug) System.out.println("Add tag 2 "+" "+word+" "+ possibleWord+" "+posTag);
+      
+      if(posTag != null)
+        additionalTaggedTokens.add(new AnalyzedToken(word, posTag, taggerToken.getLemma()));
+    }
+      }
+     }
+    return additionalTaggedTokens;
+  }
+  @Nullable
+  protected List<AnalyzedToken> additionalTags3(String word, IStemmer stemmer) {
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
     List<String> tags = new ArrayList<>();
     String possibleWord = word;
@@ -311,6 +350,79 @@ public class ArabicTagger extends BaseTagger {
     // TODO if needed
     return tags;
   }
+  
+  private String modifyPosTag(String postag, List<String> tags)
+  { 
+  // if one of tags are imcompatible return null
+    
+     for (String tg : tags) {
+        postag = addTag(postag, tg);
+        if(postag==null)
+         return null;
+        }
+    return postag;
+   }
+   /* Add the flag to an encoded tag */
+  public String addTag(String postag, String flag) {
+    StringBuilder tmp = new StringBuilder(postag);
+    if (flag.equals("W")) {
+      tmp.setCharAt(postag.length() - 3, 'W');
+    } else if (flag.equals("K")) {
+      if(postag.startsWith("N"))
+      {
+      // the noun must be majrour
+       if (isMajrour(postag))
+        tmp.setCharAt(postag.length() - 2, 'K');
+      // a prefix K but non majrour
+      else return null;
+      
+      } else return null;
+    } else if (flag.equals("L")) {
+          if(postag.startsWith("N"))
+      {
+      // the noun must be majrour
+      if (isMajrour(postag))
+        tmp.setCharAt(postag.length() - 2, 'L');
+      // a refix Lam but non majrour
+      else return null;
+      
+      } else { // verb
+      tmp.setCharAt(postag.length() - 2, 'L');
+      
+      }
+    } else if (flag.equals("S")) {
+    // َAdd S flag 
+    // if postag contains a future tag, TODO with regex
+    if (isFutureTense(postag))
+    {
+      tmp.setCharAt(postag.length() - 2, 'S');
+    }
+     else
+      // a prefix Seen but non verb or future
+      return null;
+    }
+    return tmp.toString();
+  }
+  
+  private boolean isMajrour(String postag)
+  {// return true if have flag majrour
+  return ((postag.charAt(6) == 'I')||(postag.charAt(6) == '-'));
+  }
+  private boolean isFutureTense(String postag)
+  {// return true if have flag future 
+  return  (postag.startsWith("V") && postag.contains("f"));
+  }
+  // test if word has stopword tagging
+  private boolean isStopWord(List<AnalyzedToken> taggerTokens) {
+  String posTag;
+  for( AnalyzedToken tok: taggerTokens) {
+   posTag = tok.getPOSTag();
+   if(posTag.startsWith("PR"))
+   return true;
+   }
+   return false;
+  }
+  
   private String getPrefix(String word, int pos) {
    // get prefixe
    return word.substring(0,pos);

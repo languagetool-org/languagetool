@@ -52,7 +52,8 @@ public class ArabicTaggerTest {
 //       "هذه/[هذه]DFS", tokenizer, tagger);
 
     TestTools.myAssert("الخياريتان",
-      "الخياريتان/[خيار]NJ-;F2--;--L", tokenizer, tagger);
+      "الخياريتان/[خيار]NJ-;F2--;--L", 
+      tokenizer, tagger);
 
     TestTools.myAssert("السماء زرقاء",
       "السماء/[سماء]NJ-;F1--;--L|" +
@@ -63,7 +64,8 @@ public class ArabicTaggerTest {
         "زرقاء/[زرقاء]NA-;F1--;---|" +
         "زرقاء/[زرقاء]NA-;F1A-;---|" +
         "زرقاء/[زرقاء]NA-;F1I-;---|" +
-        "زرقاء/[زرقاء]NA-;F1U-;---", tokenizer, tagger);
+        "زرقاء/[زرقاء]NA-;F1U-;---",
+        tokenizer, tagger);
 
     // non-existing-word
     TestTools.myAssert("العباره",
@@ -77,7 +79,8 @@ public class ArabicTaggerTest {
         "والبلاد/[بلاد]NJ-;M1--;W-L|" +
         "والبلاد/[بلاد]NJ-;M1A-;W-L|" +
         "والبلاد/[بلاد]NJ-;M1I-;W-L|" +
-        "والبلاد/[بلاد]NJ-;M1U-;W-L", tokenizer, tagger);
+        "والبلاد/[بلاد]NJ-;M1U-;W-L",
+        tokenizer, tagger);
 
 
     TestTools.myAssert("بلادهما",
@@ -91,7 +94,8 @@ public class ArabicTaggerTest {
         "بلادهما/[بلاد]NJ-;M1U-;--H",
       tokenizer, tagger);
 
-    TestTools.myAssert("وبلادهما", "وبلادهما/[بلاد]NJ-;F3--;W-H|" +
+    TestTools.myAssert("وبلادهما", 
+    "وبلادهما/[بلاد]NJ-;F3--;W-H|" +
         "وبلادهما/[بلاد]NJ-;F3A-;W-H|" +
         "وبلادهما/[بلاد]NJ-;F3I-;W-H|" +
         "وبلادهما/[بلاد]NJ-;F3U-;W-H|" +
@@ -102,25 +106,18 @@ public class ArabicTaggerTest {
       tokenizer, tagger);
 
     TestTools.myAssert("كبلاد",
-      "كبلاد/[بلاد]NJ-;F3--;-K-|" +
-        "كبلاد/[بلاد]NJ-;F3A-;-K-|" +
+        "كبلاد/[بلاد]NJ-;F3--;-K-|" +
         "كبلاد/[بلاد]NJ-;F3I-;-K-|" +
-        "كبلاد/[بلاد]NJ-;F3U-;-K-|" +
         "كبلاد/[بلاد]NJ-;M1--;-K-|" +
-        "كبلاد/[بلاد]NJ-;M1A-;-K-|" +
-        "كبلاد/[بلاد]NJ-;M1I-;-K-|" +
-        "كبلاد/[بلاد]NJ-;M1U-;-K-",
+        "كبلاد/[بلاد]NJ-;M1I-;-K-" ,
+
       tokenizer, tagger);
 
     TestTools.myAssert("وكالبلاد",
       "وكالبلاد/[بلاد]NJ-;F3--;WKL|" +
-        "وكالبلاد/[بلاد]NJ-;F3A-;WKL|" +
         "وكالبلاد/[بلاد]NJ-;F3I-;WKL|" +
-        "وكالبلاد/[بلاد]NJ-;F3U-;WKL|" +
         "وكالبلاد/[بلاد]NJ-;M1--;WKL|" +
-        "وكالبلاد/[بلاد]NJ-;M1A-;WKL|" +
-        "وكالبلاد/[بلاد]NJ-;M1I-;WKL|" +
-        "وكالبلاد/[بلاد]NJ-;M1U-;WKL",
+        "وكالبلاد/[بلاد]NJ-;M1I-;WKL" ,
       tokenizer, tagger);
 
     TestTools.myAssert("فاستعملها",
@@ -129,13 +126,9 @@ public class ArabicTaggerTest {
        tokenizer, tagger);
     TestTools.myAssert("للبلاد",
     "للبلاد/[بلاد]NJ-;F3--;-LL|"+
-    "للبلاد/[بلاد]NJ-;F3A-;-LL|"+
     "للبلاد/[بلاد]NJ-;F3I-;-LL|"+
-    "للبلاد/[بلاد]NJ-;F3U-;-LL|"+
     "للبلاد/[بلاد]NJ-;M1--;-LL|"+
-    "للبلاد/[بلاد]NJ-;M1A-;-LL|"+
-    "للبلاد/[بلاد]NJ-;M1I-;-LL|"+
-    "للبلاد/[بلاد]NJ-;M1U-;-LL",
+    "للبلاد/[بلاد]NJ-;M1I-;-LL",
       tokenizer, tagger);
     TestTools.myAssert("سيعملون",
     "سيعملون/[أَعْمَلَ]V-1;M3H-faU;-S-|"+
@@ -145,19 +138,46 @@ public class ArabicTaggerTest {
     "سيعملون/[عَمَّلَ]V-1;M3H-faU;-S-|"+
     "سيعملون/[عَمَّلَ]V-1;M3H-fpU;-S-",
       tokenizer, tagger);
-    TestTools.myAssert("كتاب",
-    "كتاب/[كتاب]NA-;-3--;---|"+
-    "كتاب/[كتاب]NA-;-3A-;---|"+
-    "كتاب/[كتاب]NA-;-3I-;---|"+
-    "كتاب/[كتاب]NA-;-3U-;---|"+
-    "كتاب/[كتاب]NJ-;M1--;---|"+
-    "كتاب/[كتاب]NJ-;M1A-;---|"+
-    "كتاب/[كتاب]NJ-;M1I-;---|"+
-    "كتاب/[كتاب]NJ-;M1U-;---|"+
-    "كتاب/[كتاب]NM-;M1--;---|"+
-    "كتاب/[كتاب]NM-;M1A-;---|"+
-    "كتاب/[كتاب]NM-;M1I-;---|"+
-    "كتاب/[كتاب]NM-;M1U-;---",
+    TestTools.myAssert("كتاب", 
+//     "",
+"كتاب/[كتاب]NA-;-3--;---|"+
+"كتاب/[كتاب]NA-;-3A-;---|"+
+"كتاب/[كتاب]NA-;-3I-;---|"+
+"كتاب/[كتاب]NA-;-3U-;---|"+
+"كتاب/[كتاب]NJ-;M1--;---|"+
+"كتاب/[كتاب]NJ-;M1A-;---|"+
+"كتاب/[كتاب]NJ-;M1I-;---|"+
+"كتاب/[كتاب]NJ-;M1U-;---|"+
+"كتاب/[كتاب]NM-;M1--;---|"+
+"كتاب/[كتاب]NM-;M1A-;---|"+
+"كتاب/[كتاب]NM-;M1I-;---|"+
+"كتاب/[كتاب]NM-;M1U-;---",
+      tokenizer, tagger);
+    TestTools.myAssert("ورد", 
+//     "",
+"ورد/[رد]NM-;M1--;W--|"+
+"ورد/[رد]NM-;M1A-;W--|"+
+"ورد/[رد]NM-;M1I-;W--|"+
+"ورد/[رد]NM-;M1U-;W--|"+
+"ورد/[رَادَ]VW1;M1Y-i--;W--|"+
+"ورد/[رَدَّ]V-1;M1H-pa-;W--|"+
+"ورد/[رَدَّ]V-1;M1H-pp-;W--|"+
+"ورد/[رَدَّى]VW1;M1Y-i--;W--|"+
+"ورد/[ورد]NJ-;M1--;---|"+
+"ورد/[ورد]NJ-;M1A-;---|"+
+"ورد/[ورد]NJ-;M1I-;---|"+
+"ورد/[ورد]NJ-;M1U-;---|"+
+"ورد/[وَرَدَ]VW1;M1H-pa-;---|"+
+"ورد/[وَرَدَ]VW1;M1H-pp-;---|"+
+"ورد/[وَرَدَ]VW1;M1Y-i--;W--|"+
+"ورد/[وَرُدَ]VW0;M1H-pa-;---|"+
+"ورد/[وَرَّدَ]VW1;M1H-pa-;---|"+
+"ورد/[وَرَّدَ]VW1;M1H-pp-;---|"+
+"ورد/[وَرَّدَ]VW1;M1Y-i--;---"
+,
+      tokenizer, tagger);
+    TestTools.myAssert("للاعب", 
+    "",
       tokenizer, tagger);
   }
 }
