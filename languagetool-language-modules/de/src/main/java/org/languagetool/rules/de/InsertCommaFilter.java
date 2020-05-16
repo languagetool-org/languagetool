@@ -53,15 +53,13 @@ public class InsertCommaFilter extends RuleFilter {
           //System.out.println("#"+tagger.tag(Collections.singletonList(parts[0])));
           //System.out.println("#"+tagger.tag(Collections.singletonList(parts[1])));
           //System.out.println("#"+tagger.tag(Collections.singletonList(parts[2])));
-          if (tags1.stream().anyMatch(k -> k.hasPosTagStartingWith("VER:")) && tags2.stream().anyMatch(k -> k.hasPosTagStartingWith("PRO:PER:"))) {
+          if (hasTag(tags1, "VER:") && hasTag(tags2, "PRO:PER:")) {
             // "Ich hoffe(,) es geht Ihnen gut."
             suggestions.add(parts[0] + ", " + parts[1] + " " + parts[2]);
-          } else if (parts[0].matches("Sag|Sagt") && parts[1].matches("mal") &&
-                  tagger.tag(Collections.singletonList(parts[2])).stream().anyMatch(k -> k.hasPosTagStartingWith("VER:"))) {
+          } else if (parts[0].matches("Sag|Sagt") && parts[1].matches("mal") && hasTag(tags3, "VER:")) {
             // "Sag mal(,) hast du"
             suggestions.add(parts[0] + " " + parts[1] + ", " + parts[2]);
-          } else if (tags1.stream().anyMatch(k -> k.hasPosTagStartingWith("VER:")) && tags2.stream().anyMatch(k -> k.hasPosTagStartingWith("ADV:")) &&
-            tags3.stream().anyMatch(k -> k.hasPosTagStartingWith("VER:"))) {
+          } else if (hasTag(tags1, "VER:") && hasTag(tags2, "ADV:") && hasTag(tags3, "VER:")) {
             // "Ich denke(,) hier kann aber auch ..."
             suggestions.add(parts[0] + ", " + parts[1] + " " + parts[2]);
           }
@@ -80,5 +78,9 @@ public class InsertCommaFilter extends RuleFilter {
     ruleMatch.setSuggestedReplacements(suggestions);
     ruleMatch.setType(match.getType());
     return ruleMatch;
+  }
+
+  private boolean hasTag(List<AnalyzedTokenReadings> tags, String tagStart) {
+    return tags.stream().anyMatch(k -> k.hasPosTagStartingWith(tagStart));
   }
 }
