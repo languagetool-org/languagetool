@@ -56,7 +56,7 @@ public class InsertCommaFilter extends RuleFilter {
           if (hasTag(tags1, "VER:") && hasTag(tags2, "PRO:PER:")) {
             // "Ich hoffe(,) es geht Ihnen gut."
             suggestions.add(parts[0] + ", " + parts[1] + " " + parts[2]);
-          } else if (parts[0].matches("Sag|Sagt") && parts[1].matches("mal") && hasTag(tags3, "VER:")) {
+          } else if (parts[0].matches("[Ss]agt?") && parts[1].matches("mal") && hasTag(tags3, "VER:")) {
             // "Sag mal(,) hast du"
             suggestions.add(parts[0] + " " + parts[1] + ", " + parts[2]);
           } else if (hasTag(tags1, "VER:") && hasTag(tags2, "ADV:") && hasTag(tags3, "VER:")) {
