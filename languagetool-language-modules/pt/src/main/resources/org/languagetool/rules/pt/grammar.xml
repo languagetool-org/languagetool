@@ -29019,6 +29019,24 @@ TODO Write better examples
     <!--      Created by Tiago F. Santos, Portuguese rule, 2017-02-09      -->
       <url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/estrangeirismos-em-italico-ou-entre-aspas/7785</url>
       <short>Estrangeirismo</short>
+<!-- MARCOAGPINTO 2020-05-16 *START* -->
+<rule>
+  <pattern>
+	    <token><exception regexp='yes'>‘|“</exception></token>	
+		<marker>
+			<token>e</token>
+			<token>-</token>	
+			<token regexp='yes'>&barbarismosE;</token>          
+		</marker>
+		<token><exception regexp='yes'>’|”</exception></token>
+  </pattern>
+  <message>Os estrangeirismos devem estar entre aspas ou ser italizados.</message>
+    <suggestion>‘\2\3\4’</suggestion>		
+	<suggestion>“\2\3\4”</suggestion>		
+  <example correction='‘e-bullying’|“e-bullying”'>O <marker>e-bullying</marker> é cada vez mais comum.</example>		
+</rule>	  
+<!-- MARCOAGPINTO 2020-05-16 *END* -->	  
+    <rule>	  
       <antipattern>
           <token regexp='yes'>["“]</token>
           <token regexp='yes' spacebefore='no'>(?:&barbarismos;|&barbarismos2;|&barbarismos3;)s?</token>
@@ -29042,7 +29060,6 @@ TODO Write better examples
         <token regexp='yes'>(?:&barbarismosE;)s?</token>
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-05-06 *END* --> 	  
-    <rule>
       <pattern case_sensitive='yes'>
           <token regexp='yes'>(?:&barbarismos;|&barbarismos2;|&barbarismos3;)s?
             <exception regexp='yes'>(?:bit|kilo(?:bit|byte|volt|watt)|giga(?:byte|watt)|quilohertz|out)s?|versus</exception></token><!-- XXX remove after regenerating regexp -->
