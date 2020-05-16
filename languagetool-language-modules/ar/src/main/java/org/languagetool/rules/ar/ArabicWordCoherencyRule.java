@@ -61,7 +61,7 @@ public class ArabicWordCoherencyRule extends AbstractWordCoherencyRule {
 
   @Override
   public String getId() {
-    return this.AR_WORD_COHERENCY;
+    return AR_WORD_COHERENCY;
   }
 
   @Override

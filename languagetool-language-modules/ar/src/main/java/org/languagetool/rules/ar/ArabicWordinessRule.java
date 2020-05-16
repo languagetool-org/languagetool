@@ -45,7 +45,7 @@ public class ArabicWordinessRule extends AbstractSimpleReplaceRule2 {
   private static final String FILE_NAME = "/ar/wordiness.txt";
   private static final Locale AR_LOCALE = new Locale("ar");  // locale used on case-conversion
 
-  public ArabicWordinessRule(ResourceBundle messages) throws IOException {
+  public ArabicWordinessRule(ResourceBundle messages) {
     super(messages, new Arabic());
     super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);

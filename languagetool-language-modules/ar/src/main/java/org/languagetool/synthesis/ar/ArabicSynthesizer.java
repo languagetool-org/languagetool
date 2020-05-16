@@ -184,3 +184,4 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     return tmp;
   }
 }
+
