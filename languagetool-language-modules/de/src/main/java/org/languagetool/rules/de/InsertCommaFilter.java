@@ -28,6 +28,8 @@ import org.languagetool.tagging.Tagger;
 import java.io.IOException;
 import java.util.*;
 
+import static java.util.Collections.*;
+
 /**
  * Specific to {@code KOMMA_ZWISCHEN_HAUPT_UND_NEBENSATZ} - helps setting the comma suggestion, if easily possible.
  * @since 4.5
@@ -43,16 +45,13 @@ public class InsertCommaFilter extends RuleFilter {
     List<String> suggestions = new ArrayList<>();
     for (String replacement : match.getSuggestedReplacements()) {
       String[] parts = replacement.split("\\s");
-      if (parts.length == 2) {
-        suggestions.add(parts[0] + ", " + parts[1]);
-      } else if (parts.length == 3) {
-        try {
-          List<AnalyzedTokenReadings> tags1 = tagger.tag(Collections.singletonList(parts[0]));
-          List<AnalyzedTokenReadings> tags2 = tagger.tag(Collections.singletonList(parts[1]));
-          List<AnalyzedTokenReadings> tags3 = tagger.tag(Collections.singletonList(parts[2]));
-          //System.out.println("#"+tagger.tag(Collections.singletonList(parts[0])));
-          //System.out.println("#"+tagger.tag(Collections.singletonList(parts[1])));
-          //System.out.println("#"+tagger.tag(Collections.singletonList(parts[2])));
+      try {
+        if (parts.length == 2) {
+          suggestions.add(parts[0] + ", " + parts[1]);
+        } else if (parts.length == 3) {
+          List<AnalyzedTokenReadings> tags1 = tagger.tag(singletonList(parts[0]));
+          List<AnalyzedTokenReadings> tags2 = tagger.tag(singletonList(parts[1]));
+          List<AnalyzedTokenReadings> tags3 = tagger.tag(singletonList(parts[2]));
           if (hasTag(tags1, "VER:") && hasTag(tags2, "PRO:PER:")) {
             // "Ich hoffe(,) es geht Ihnen gut."
             suggestions.add(parts[0] + ", " + parts[1] + " " + parts[2]);
@@ -63,16 +62,30 @@ public class InsertCommaFilter extends RuleFilter {
             // "Ich denke(,) hier kann aber auch ..."
             suggestions.add(parts[0] + ", " + parts[1] + " " + parts[2]);
           }
-        } catch (IOException e) {
-          throw new RuntimeException(e);
+        } else if (parts.length >= 4) {
+          List<AnalyzedTokenReadings> tags1 = tagger.tag(singletonList(parts[0]));
+          List<AnalyzedTokenReadings> tags2 = tagger.tag(singletonList(parts[1]));
+          List<AnalyzedTokenReadings> tags3 = tagger.tag(singletonList(parts[2]));
+          List<String> rest1 = Arrays.asList(parts).subList(1, parts.length);
+          if (patternTokenPos == 2 &&
+            patternTokens[0].hasPosTagStartingWith("VER:") &&
+            patternTokens[1].getToken().matches("der|die|das|seine|ihre|deine|unsere|meine|folgender|dieser")) {
+            // "Aristoteles meint(,) das Genussleben führe nicht zum Glück."
+            suggestions.add(parts[0] + ", " + String.join(" ", rest1));
+          } else if (hasTag(tags1, "VER:") && hasTag(tags2, "PRO:POS:") && hasTag(tags3, "SUB:")) {
+            // "Ich glaube(,) eure Premium-Accounts sind noch aktiv."
+            suggestions.add(parts[0] + ", " + String.join(" ", rest1));
+          } else if (hasTag(tags1, "VER:") && hasTag(tags2, "PRO:PER:") && hasTag(tags3, "ADV:INR")) {
+            // "Weißt du(,) warum diese Regel aus ist?"
+            List<String> rest2 = Arrays.asList(parts).subList(2, parts.length);
+            suggestions.add(parts[0] + " " + parts[1] + ", " + String.join(" ", rest2));
+          } else if (hasTag(tags1, "VER:") && hasTag(tags2, "PRO:POS:") && hasTag(tags3, "ADJ:")) {
+            // "Ich glaube(,) eure individuellen Premium-Accounts sind noch aktiv."
+            suggestions.add(parts[0] + ", " + String.join(" ", rest1));
+          }
         }
-      } else if (parts.length == 4) {
-        if (patternTokenPos == 2 &&
-          patternTokens[0].hasPosTagStartingWith("VER:") &&
-          patternTokens[1].getToken().matches("der|die|das|seine|ihre|deine|unsere|meine|folgender|dieser")) {
-          // "Aristoteles meint(,) das Genussleben führe nicht zum Glück."
-          suggestions.add(parts[0] + ", " + parts[1] + " " + parts[2] + " " + parts[3]);
-        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
       }
     }
     ruleMatch.setSuggestedReplacements(suggestions);
