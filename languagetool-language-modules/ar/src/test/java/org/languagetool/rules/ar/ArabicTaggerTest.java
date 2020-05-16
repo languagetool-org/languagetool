@@ -48,8 +48,8 @@ public class ArabicTaggerTest {
   public void testTagger() throws IOException {
 
 
-    TestTools.myAssert("هذه",
-      "هذه/[هذه]DFS", tokenizer, tagger);
+//     TestTools.myAssert("هذه",
+//       "هذه/[هذه]DFS", tokenizer, tagger);
 
     TestTools.myAssert("الخياريتان",
       "الخياريتان/[خيار]NJ-;F2--;--L", tokenizer, tagger);
@@ -127,6 +127,37 @@ public class ArabicTaggerTest {
       "فاستعملها/[اِسْتَعْمَلَ]V-1;M1H-pa-;W-H|فاستعملها/[اِسْتَعْمَلَ]V-1;M1Y-i--;W-H"
       ,
        tokenizer, tagger);
-    
+    TestTools.myAssert("للبلاد",
+    "للبلاد/[بلاد]NJ-;F3--;-LL|"+
+    "للبلاد/[بلاد]NJ-;F3A-;-LL|"+
+    "للبلاد/[بلاد]NJ-;F3I-;-LL|"+
+    "للبلاد/[بلاد]NJ-;F3U-;-LL|"+
+    "للبلاد/[بلاد]NJ-;M1--;-LL|"+
+    "للبلاد/[بلاد]NJ-;M1A-;-LL|"+
+    "للبلاد/[بلاد]NJ-;M1I-;-LL|"+
+    "للبلاد/[بلاد]NJ-;M1U-;-LL",
+      tokenizer, tagger);
+    TestTools.myAssert("سيعملون",
+    "سيعملون/[أَعْمَلَ]V-1;M3H-faU;-S-|"+
+    "سيعملون/[أَعْمَلَ]V-1;M3H-fpU;-S-|"+
+    "سيعملون/[عَمِلَ]V-1;M3H-faU;-S-|"+
+    "سيعملون/[عَمِلَ]V-1;M3H-fpU;-S-|"+
+    "سيعملون/[عَمَّلَ]V-1;M3H-faU;-S-|"+
+    "سيعملون/[عَمَّلَ]V-1;M3H-fpU;-S-",
+      tokenizer, tagger);
+    TestTools.myAssert("كتاب",
+    "كتاب/[كتاب]NA-;-3--;---|"+
+    "كتاب/[كتاب]NA-;-3A-;---|"+
+    "كتاب/[كتاب]NA-;-3I-;---|"+
+    "كتاب/[كتاب]NA-;-3U-;---|"+
+    "كتاب/[كتاب]NJ-;M1--;---|"+
+    "كتاب/[كتاب]NJ-;M1A-;---|"+
+    "كتاب/[كتاب]NJ-;M1I-;---|"+
+    "كتاب/[كتاب]NJ-;M1U-;---|"+
+    "كتاب/[كتاب]NM-;M1--;---|"+
+    "كتاب/[كتاب]NM-;M1A-;---|"+
+    "كتاب/[كتاب]NM-;M1I-;---|"+
+    "كتاب/[كتاب]NM-;M1U-;---",
+      tokenizer, tagger);
   }
 }

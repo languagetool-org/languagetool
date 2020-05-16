@@ -35,8 +35,7 @@ public class ArabicSynthesizerTest {
     ArabicSynthesizer synth = new ArabicSynthesizer(new Arabic());
     assertEquals(Arrays.toString(synth.synthesize(dummyToken("خيار"), "NJ-;F2--;--L")), "[الخيارتان, الخياريتان]");
     assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H")),
-      "[بلادتك, بلادتي, بلادك, بلادي, بلاديتك, بلاديتي, بلاديك, بلاديي]");
-   // assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H\\+RP", true)),
+      "[بلادته, بلادتي, بلاده, بلادي, بلاديته, بلاديتي, بلاديه, بلاديي]");   // assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H\\+RP", true)),
     //  "[بلادتك, بلادتي, بلادك, بلادي, بلاديتك, بلاديتي, بلاديك, بلاديي]");
     assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H(\\+RP)?")),
       "[بلاد, بلادة, بلادي, بلاديا, بلادية]");
