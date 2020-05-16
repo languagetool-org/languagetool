@@ -93,6 +93,7 @@ public class GrammalecteRule extends Rule {
     "esp_milieu_ligne", // we already have WHITESPACE_RULE
     "typo_ponctuation_superflue1", // false alarm (1, 2, ...)
     "esp_insécables_multiples", // temp disabled, unsure how this works with the browser add-ons
+    "typo_espace_manquant_après1", // false alarm in urls (e.g. '&rk=...')
     "typo_espace_manquant_après2", // false alarm in urls (e.g. '&rk=...')
     "typo_espace_manquant_après3" // false alarm in file names (e.g. 'La teaser.zip')
   ));
