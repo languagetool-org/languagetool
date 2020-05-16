@@ -177,7 +177,12 @@ public class ArabicTaggerTest {
 ,
       tokenizer, tagger);
     TestTools.myAssert("للاعب", 
-    "",
+    "للاعب/[لاعب]NA-;M1--;-L-|"+
+    "للاعب/[لاعب]NA-;M1--;-LL|"+
+    "للاعب/[لاعب]NA-;M1I-;-L-|"+
+    "للاعب/[لاعب]NA-;M1I-;-LL|"+
+    "للاعب/[لَاعَبَ]V-1;M1H-pa-;-L-|"+
+    "للاعب/[لَاعَبَ]V-1;M1Y-i--;-L-",
       tokenizer, tagger);
   }
 }
