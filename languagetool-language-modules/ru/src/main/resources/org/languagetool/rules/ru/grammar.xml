@@ -2363,13 +2363,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup id="ROST" name="«Рост»" default="temp_off"> <!-- default="temp_off" -->
+        <rulegroup id="ROST" name="«Рост»" default="off"> <!-- default="temp_off" -->
             <rule>
                 <pattern>
-                    <token postag="NN:Inanim:.*" postag_regexp="yes" skip="-1"><exception negate_pos="yes" postag="NN:Inanim:.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes" >&rost;</exception><exception scope="next" inflected="yes" regexp="yes" >&rost;</exception><exception scope="next" regexp="yes" >[,:;-—–]</exception><exception scope="previous" postag="PREP"  /></token>
-                    <token>роста<exception inflected="yes" regexp="yes" scope="next" >&rost;</exception><exception postag="NN:Inanim:.*" postag_regexp="yes" scope="next" ></exception><exception scope="previous" regexp="yes" >[,:;-—–]</exception></token>
+                    <token postag="NN:Inanim:.*" postag_regexp="yes" skip="3"><exception negate_pos="yes" postag="NN:Inanim:.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes" >&rost;</exception><exception scope="next" inflected="yes" regexp="yes" >&rost;</exception><exception scope="next" regexp="yes" >[,:;-—–]</exception><exception scope="previous" postag="PREP"  /></token>
+                    <token>роста<exception inflected="yes" regexp="yes" scope="next" >&rost;</exception><exception postag="NN:Inanim:.*" postag_regexp="yes" scope="next" ></exception><exception scope="previous" regexp="yes" >[,:;-—–]</exception><exception scope="previous" postag="PREP"  /></token>
                 </pattern>
-                <message>Рост бывает у одушевлённых слов (человек большого роста), некого числа характеристик (рост показателей, рост качества, количества) и в некоторых устойчивых выражениях (рост экономики, преступности, безработицы).</message>
+                <message>Рост бывает у одушевлённых слов (человек большого роста), некого числа характеристик (рост показателей, рост качества, количества), в некоторых устойчивых выражениях (рост экономики, преступности, безработицы).</message>
                 <short>Замените другим словом</short>
                 <example correction=""><marker>Дом большого роста</marker>.</example>
                 <example>Дом большой высоты.</example>
@@ -2882,6 +2882,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example type="incorrect">Стоимость работ составила 10 <marker>млн</marker> рублей.</example>
         </rule>
         -->
+        <rulegroup id="Punct_eh_ti" name="Пунктуация «эх ты», «эй вы» ">
+            <rule>
+                <pattern>              
+                    <token regexp="yes">эх|эй</token>
+                    <token regexp="yes">ты|вы</token>
+                    <token><exception regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|«|»</exception></token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1 \2, \3</suggestion></message>
+
+                <short>Пропущена запятая.</short>
+                <example correction="Эх вы, коты"><marker>Эх вы коты</marker>!</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="Privet_druzja" name="Устойчивое выражение «Привет, друзья!»">
             <rule>
                 <pattern>              
