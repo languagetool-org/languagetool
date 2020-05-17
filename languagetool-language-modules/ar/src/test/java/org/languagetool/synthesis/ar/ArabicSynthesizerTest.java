@@ -33,9 +33,26 @@ public class ArabicSynthesizerTest {
   @Test
   public final void testSynthesizeStringString() throws IOException {
     ArabicSynthesizer synth = new ArabicSynthesizer(new Arabic());
+
     assertEquals(Arrays.toString(synth.synthesize(dummyToken("خيار"), "NJ-;F2--;--L")), "[الخيارتان, الخياريتان]");
+
     assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H")),
-      "[بلادتك, بلادتي, بلادك, بلادي, بلاديتك, بلاديتي, بلاديك, بلاديي]");
+      "[بلادته, بلادتي, بلاده, بلادي, بلاديته, بلاديتي, بلاديه, بلاديي]");   // assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H\\+RP", true)),
+
+    assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H(\\+RP)?")),
+      "[بلاد, بلادة, بلادي, بلاديا, بلادية]");
+
+    // an example with specific postag with regex flag enabled
+    assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَعْمَلَ"), "V-1;M3Y-pa-;--H(\\+RP)?")),
+      "[استعملتم]");
+
+    // an example with specific postag without regex flag
+    assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَكْمَلَ"), "V-1;M3Y-pa-;---")),
+      "[استكملتم]");
+
+    // an example with specific postag without regex flag + code flag
+    assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَمَعَ"), "V-1;M3Y-pa-;---(\\+RP)?")),
+      "[استمعتم]");
 
   }
 
