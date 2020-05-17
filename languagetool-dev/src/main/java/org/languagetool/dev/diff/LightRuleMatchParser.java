@@ -85,8 +85,13 @@ class LightRuleMatchParser {
     JsonNode replacements = match.get("replacements");
     List<String> replacementList = new ArrayList<>();
     if (replacements != null) {
+      int i = 0;
       for (JsonNode replacement : replacements) {
         replacementList.add(replacement.get("value").asText());
+        i++;
+        if (i >= 5) {
+          break;
+        }
       }
     }
     String suggestions = String.join(", ", replacementList);
