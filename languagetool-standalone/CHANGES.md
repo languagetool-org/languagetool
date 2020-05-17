@@ -6,7 +6,7 @@
 
 #### Arabic
   * added and improved rules
-  * updated POS dictionary (Arramooz [#4ff0aa8](https://github.com/linuxscout/arramooz/commit/4ff0aa8c9df1dcb4d588a4a353b044dfa193d91c))
+  * updated POS dictionary (Arramooz [#e33794e](https://github.com/linuxscout/arramooz/commit/e33794e787d56e7c185c0e281fd8e6d6274f3fdc))
   * remove the Algerian variant (ar-DZ)
   * add support of ngram data ([languagetool-tools-ar](https://github.com/sohaibafifi/languagetool-tools-ar))
   * add Darja, Diacritics, Redundancy, WrongWordInContext, Wordiness and WordCoherency rules.
