@@ -176,7 +176,8 @@ public final class MorfologikCatalanSpellerRule extends MorfologikSpellerRule {
     Matcher matcher = wordPattern.matcher(word);
     if (matcher.matches()) {
       String newSuggestion = matcher.group(suggestionPosition);
-      if (matchPostagRegexp(tagger.tag(Arrays.asList(newSuggestion)).get(0), postagPattern)) {
+      AnalyzedTokenReadings newatr = tagger.tag(Arrays.asList(newSuggestion)).get(0);
+      if (!newatr.hasPosTag("VMIP1S0B") && matchPostagRegexp(newatr, postagPattern)) {
         return matcher.group(1) + separator + matcher.group(2);
       }
       if (recursive) {

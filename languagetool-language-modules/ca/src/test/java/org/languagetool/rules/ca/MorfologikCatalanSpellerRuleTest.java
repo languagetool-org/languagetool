@@ -452,6 +452,9 @@ public class MorfologikCatalanSpellerRuleTest {
         matches = rule.match(langTool.getAnalyzedSentence("portarinhi"));
         assertEquals("portaran", matches[0].getSuggestedReplacements().get(0));
         assertEquals("portaria", matches[0].getSuggestedReplacements().get(1));
+        matches = rule.match(langTool.getAnalyzedSentence("norueg"));
+        assertEquals("noruega", matches[0].getSuggestedReplacements().get(0));
+        assertEquals("noruec", matches[0].getSuggestedReplacements().get(1));
         
         //Ela geminada 
         matches = rule.match(langTool.getAnalyzedSentence("La sol•licitud"));
