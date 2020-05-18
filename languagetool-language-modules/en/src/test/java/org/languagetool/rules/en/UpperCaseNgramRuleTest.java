@@ -27,14 +27,28 @@ import org.languagetool.rules.ngrams.FakeLanguageModel;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class UpperCaseNgramRuleTest {
 
+  private final static Map<String, Integer> map = new HashMap<>();
+  static {
+    map.put("really like", 100);
+    map.put("like spaghetti", 100);
+    map.put("This was", 100);
+    map.put("This was a", 10);
+    map.put("this was", 100);
+    map.put("this was a", 10);
+    map.put("indeed was", 100);
+    map.put("indeed was a", 10);
+  }
+  private final LanguageModel lm = new FakeLanguageModel(map);
   private final Language lang = Languages.getLanguageForShortCode("en");
-  private final UpperCaseRule rule = new UpperCaseRule(TestTools.getEnglishMessages(), lang);
+  private final UpperCaseNgramRule rule = new UpperCaseNgramRule(TestTools.getEnglishMessages(), lm, lang);
   private final JLanguageTool lt = new JLanguageTool(lang);
 
   @Test
@@ -53,7 +67,6 @@ public class UpperCaseNgramRuleTest {
   public void testFirstLongWordToLeftIsUppercase() throws IOException, URISyntaxException {
     // FIXME commented out version doesn't work when running tests through maven
     //URL ngramUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/yy/ngram-index");
-    LanguageModel lm = new FakeLanguageModel();
     //try (LuceneLanguageModel lm = new LuceneLanguageModel(new File(ngramUrl.toURI()))) {
     UpperCaseNgramRule rule = new UpperCaseNgramRule(TestTools.getEnglishMessages(), lm, lang);
 
