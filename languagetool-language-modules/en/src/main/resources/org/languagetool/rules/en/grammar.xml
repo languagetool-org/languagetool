@@ -26941,6 +26941,14 @@ USA
                     <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
                     <token postag="IN"/>
                 </antipattern>
+                <antipattern><!--are do, re, mi, -->
+                    <token inflected="yes">be</token>
+                    <token>do</token>
+                    <token>,</token>
+                    <token>re</token>
+                    <token>,</token>
+                    <token>mi</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be
                         <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
@@ -26987,6 +26995,7 @@ USA
                 <example>He wanted to be quarterback.</example><!-- #2568 -->
                 <example>It's going to be season 3.</example><!-- #2568 -->
                 <example>Even being host to exchange students can benefit kids.</example><!--  #2568 -->
+                <example>In my language, the notes of the scale are do, re, mi, fa, sol, la, ti, do.</example>
             </rule>
             <rule>
                 <antipattern><!-- Cannot use a chunk in an exception. Thus, use an antipattern with a chunk in a token. -->
