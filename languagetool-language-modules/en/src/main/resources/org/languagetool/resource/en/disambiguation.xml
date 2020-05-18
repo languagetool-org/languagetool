@@ -1329,7 +1329,10 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
         </antipattern>
         <pattern>
-            <token><exception regexp="yes">I|you|we|they|he|she|it</exception></token>
+            <token>
+                <exception regexp="yes">&subject_pronouns;</exception>
+                <exception>1</exception>
+                </token>
             <marker>
                 <and>
                 <token postag="VBZ"/>
@@ -1350,6 +1353,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">... but data about whoever each <marker>tries</marker> should tell us whether these judges are corrupt.</example>
         <example type="untouched">Incorrect grammar: He always <marker>notices</marker> were that animal is going.</example><!-- #2598 -->
         <example type="untouched">... that happen after an enemy dies are too slow to matter.</example><!-- #2921 -->
+        <example type="untouched">A thing that one finds should never be kept.</example><!-- #2944 -->
+        <example type="untouched">I think one tests should be sufficient.</example><!-- #2944 -->
+        <example type="untouched">She thinks 1 tests might be sufficient.</example><!-- #2944 -->
         <example type="ambiguous" inputform="forces[force/NNS,force/VBZ]"
                  outputform="forces[force/NNS]">The armed <marker>forces</marker> are here.</example>
     </rule>
