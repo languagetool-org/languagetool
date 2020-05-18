@@ -62,7 +62,7 @@ public class InsertCommaFilter extends RuleFilter {
             // "Ich denke(,) hier kann aber auch ..."
             suggestions.add(parts[0] + ", " + parts[1] + " " + parts[2]);
           }
-        } else if (parts.length >= 4 && parts.length <= 9) {
+        } else if (parts.length >= 4 && parts.length <= 7) {
           List<AnalyzedTokenReadings> tags1 = getTag(0, parts);
           List<AnalyzedTokenReadings> tags2 = getTag(1, parts);
           List<AnalyzedTokenReadings> tags3 = getTag(2, parts);
@@ -86,7 +86,7 @@ public class InsertCommaFilter extends RuleFilter {
             } else if (hasTag(tags1, "VER:") && hasTag(tags2, "PRO:POS:") && hasTag(tags3, "ADJ:")) {
               // "Ich glaube(,) eure individuellen Premium-Accounts sind noch aktiv."
               suggestions.add(parts[0] + ", " + rest1);
-            } else if (hasTag(tags1, "VER:") && hasTag(tags2, "PRO:DEM:") && hasTag(tags3, "SUB:")) {
+            } else if (parts[0].matches("denke|dachte|glaube|schätze|vermute|behaupte") && hasTag(tags2, "PRO:DEM:") && hasTag(tags3, "SUB:")) {
               // "Ich schätze(,) diese Krawatte passt gut zum Anzug."
               suggestions.add(parts[0] + ", " + rest1);
             }
