@@ -285,6 +285,8 @@ public class AgreementRuleTest {
     assertGood("Vielen Dank fürs Bescheid geben.");
     assertGood("Welche Display Ads?");
     assertGood("Das letzte Mal war das Anfang der 90er Jahre des vergangenen Jahrhunderts");
+    assertGood("Der vom Rat der Justizminister gefasste Beschluss zur Aufnahme von Vertriebenen...");
+    assertGood("Der letzte Woche vom Rat der Justizminister gefasste Beschluss zur Aufnahme von Vertriebenen...");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");

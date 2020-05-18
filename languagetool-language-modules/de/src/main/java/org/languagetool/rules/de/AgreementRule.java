@@ -238,6 +238,17 @@ public class AgreementRule extends Rule {
       posRegex("PA2:.*|ADJ:AKK:PLU:.*")  // "ein von vielen bewundertes Haus" / "Das weckte bei vielen ungute Erinnerungen."
     ),
     Arrays.asList(
+      // "Der letzte Woche vom Rat der Justizminister gefasste Beschluss..."
+      tokenRegex("der|die|das|den|dem"),
+      tokenRegex("letzte[ns]?|vorige[ns]?"),
+      tokenRegex("Woche|Monat|Jahr|Jahrzehnt|Jahrhundert"),
+      posRegex("PRP:.*"),
+      posRegex("SUB:.*"),
+      posRegex("ART:.*"),
+      posRegex("SUB:.*"),
+      posRegex("PA2:.*")
+    ),
+    Arrays.asList(
       token("für"),
       tokenRegex("(viele|alle|[dm]ich|ihn|sie|uns|andere)"),
       posRegex("ADJ:AKK:.*")  // "Ein für viele wichtiges Anliegen."
