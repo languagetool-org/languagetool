@@ -942,6 +942,7 @@ public class JLanguageTool {
                                                List<Rule> rules, AnalyzedSentence analyzedSentence, boolean checkRemoteRules) throws IOException {
     List<RuleMatch> sentenceMatches = new ArrayList<>();
     RuleLoggerManager logger = RuleLoggerManager.getInstance();
+    String analyzedSentenceText = analyzedSentence.getText();
     for (Rule rule : rules) {
       if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) break;
 
@@ -964,12 +965,12 @@ public class JLanguageTool {
       long time = System.currentTimeMillis();
       RuleMatch[] thisMatches = rule.match(analyzedSentence);
       logger.log(new RuleCheckTimeMessage(rule.getId(), language.getShortCodeWithCountryAndVariant(),
-        time, analyzedSentence.getText().length()), Level.FINE);
+        time, analyzedSentenceText.length()), Level.FINE);
       for (RuleMatch elem : thisMatches) {
         sentenceMatches.add(elem);
       }
     }
-    AnnotatedText text = new AnnotatedTextBuilder().addText(analyzedSentence.getText()).build();
+    AnnotatedText text = new AnnotatedTextBuilder().addText(analyzedSentenceText).build();
     return applyCustomFilters(new SameRuleGroupFilter().filter(sentenceMatches),text);
   }
 
