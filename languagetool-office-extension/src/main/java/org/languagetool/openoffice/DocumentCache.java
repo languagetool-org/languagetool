@@ -57,7 +57,8 @@ public class DocumentCache {
     if(textParas != null && !textParas.isEmpty()) {
       int n = 0; 
       for(int i = 0; i < paragraphs.size(); i++) {
-        if(footnotes.get(i).length > 0 || (n < textParas.size() && paragraphs.get(i).equals(textParas.get(n)))) {
+        if((footnotes != null && i < footnotes.size() && footnotes.get(i).length > 0)
+            || (n < textParas.size() && paragraphs.get(i).equals(textParas.get(n)))) {
           toTextMapping.add(n);
           toParaMapping.add(i);
           n++;
