@@ -225,6 +225,12 @@ public class MultiDocumentsHandler {
    *  get LanguageTool
    */
   SwJLanguageTool getLanguageTool() {
+    if (langTool == null) {
+      if (docLanguage == null) {
+        docLanguage = getLanguage();
+      }
+      langTool = initLanguageTool();
+    }
     return langTool;
   }
   
