@@ -1224,7 +1224,7 @@ public class CaseRule extends Rule {
       if (StringUtils.equalsAny(prevTokenStr, "und", "oder", "beziehungsweise") && prevPrevToken != null &&
           (tokens[i].hasPartialPosTag("SUB") && tokens[i].hasPartialPosTag(":ADJ")) || //"das dabei Erlernte und Erlebte ist ..." -> 'Erlebte' is correct here
           (prevPrevToken.hasPartialPosTag("SUB") && !hasNounReading(nextReadings) && // "die Ausgaben für Umweltschutz und Soziales"
-              lowercaseReadings != null && lowercaseReadings.hasPartialPosTag("ADJ"))) {
+              lowercaseReadings != null && lowercaseReadings.hasPartialPosTag("ADJ") && !prevTokenStr.equals(","))) {
        return true;
      }
       if (lowercaseReadings != null && lowercaseReadings.hasPosTag("PA1:PRD:GRU:VER")) {
