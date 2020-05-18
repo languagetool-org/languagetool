@@ -125,6 +125,7 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
                 + tokenReadings.getToken().length(), msg, getShort());
             
             List<String> suggestions = morfologikSpellerRule.getSpeller1().getSuggestionsFromDefaultDicts(tokenReadings.getToken());
+            suggestions.removeIf(s -> s.contains(" "));
             match.setSuggestedReplacements(suggestions);
 //            RuleMatch[] spellerMatches = morfologikSpellerRule.match(new AnalyzedSentence(new AnalyzedTokenReadings[] {tokenReadings}));
 //            if( spellerMatches.length > 0 ) {

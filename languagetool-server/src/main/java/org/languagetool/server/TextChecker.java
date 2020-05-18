@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpExchange;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -277,6 +278,22 @@ abstract class TextChecker {
             Arrays.asList(parameters.get("preferredLanguages").split(",")) : Collections.emptyList();
     DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs, preferredLangs);
     Language lang = detLang.getGivenLanguage();
+
+    // == temporary counting code ======================================
+    if (httpExchange.getRequestHeaders() != null && httpExchange.getRequestHeaders().get("Accept-Language") != null) {
+      List<String> langs = httpExchange.getRequestHeaders().get("Accept-Language");
+      if (langs.size() > 0) {
+        String[] split = langs.get(0).split(",");
+        if (split.length > 0 && detLang.getDetectedLanguage() != null && detLang.getDetectedLanguage().getShortCode().equals("en")) {
+          int theCount1 = StringUtils.countMatches(aText.toString(), " the ");
+          int theCount2 = StringUtils.countMatches(aText.toString(), "The ");
+          String browserLang = split[0];
+          System.out.println("STAT\t" + detLang.getDetectedLanguage().getShortCode() + "\t" + detLang.getDetectionConfidence() + "\t" + aText.toString().length() + "\t" + browserLang + "\t" + theCount1 + "\t" + theCount2);
+        }
+      }
+    }
+    // ========================================
+
     Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());
     if (count == null) {
       count = 1;

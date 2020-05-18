@@ -140,38 +140,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
-        <rule id="WEISS" name="weiss (weiß)">
-            <antipattern>
-                <token regexp="yes">Herrn?|Frau|Fräulein</token>
-                <token case_sensitive="yes">Weiss</token>
-            </antipattern>
-            <antipattern>
-                <token postag_regexp="yes" postag=".*EIG:.*|UNKNOWN" regexp="yes">.*[a-z].*</token>
-                <token min="0">von</token>
-                <token case_sensitive="yes">Weiss</token>
-            </antipattern>
-            <antipattern case_sensitive="yes">
-                <token regexp="yes">[A-Z]|Dr|Prof|Fa</token>
-                <token spacebefore="no" min="0">.</token>
-                <token>Weiss</token>
-            </antipattern>
-            <antipattern case_sensitive="yes">
-                <token regexp="yes">Familie|Metzgerei|Bäckerei|Firma|Fa</token>
-                <token>Weiss</token>
-            </antipattern>
-            <antipattern><!-- Bei Großschreibung darf "ß" durch "SS" ersetzt werden (https://de.wikipedia.org/wiki/Gro%C3%9Fes_%C3%9F) -->
-                <token case_sensitive="yes">WEISS</token>
-            </antipattern>
-            <pattern>
-                <token>weiss</token>
-            </pattern>
-            <message><suggestion>weiß</suggestion> als Farbe und Form von 'wissen' wird mit 'ß' geschrieben. 'Weiss' kann als Nachname vorkommen.</message>
-            <example correction="weiß">Das <marker>weiss</marker> ich auch.</example>
-            <example>Das Buch ist von H. Weiss</example>
-            <example>Hallo Frau Weiss</example>
-            <example>Franz von Weiss</example>
-            <example>Die Fa. Weiss hat uns beauftragt.</example>
-        </rule>
         <rule id="ZEIL" name="Möglicher Tippfehler 'Zeil'">
             <antipattern>
                 <token regexp="yes">auf|an</token>
@@ -43051,6 +43019,11 @@ Andere Projekte</example>
                     <token postag="VER:.+:NEB" postag_regexp="yes"/>
                     <token postag="PKT"/>
                 </antipattern>
+                <antipattern>
+                   <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes"/>
+                   <token regexp="yes">und|oder</token>
+                   <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
+                </antipattern>
                 <pattern>
                     <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1">
                         <exception postag="VER:(INF|MOD):.*|VER:AUX:.*:KJ[12]|PA[12]:.*|SUB:.*|EIG:.*|ADJ:.*|ART:.*|PRO:.*|ADV.*|PRP:.*|NEG:.*|ABK:.*|ZUS.*|ZAL.*" postag_regexp="yes"/>
@@ -43091,6 +43064,8 @@ Andere Projekte</example>
                 <example correction="Weißt du, warum diese Regel aus ist"><marker>Weißt du warum diese Regel aus ist</marker>?</example>
                 <example correction="schätze, diese Krawatte passt">Ich <marker>schätze diese Krawatte passt</marker> gut zum Anzug.</example>
                 <example correction="">Es <marker>ist der erste Schritt der zählt</marker>.</example>
+                <example correction="">Dies <marker>ist das Bild welches er malte</marker>.</example>
+                <example correction="">Es <marker>ist das Tier in mir das danach schreit</marker>.</example>
                 <example>Deine Gitarre ist so teuer, dass ich sie nicht kaufen kann.</example>
                 <example>Ich bin so müde, dass ich kaum laufen kann.</example>
                 <example>Sein Benehmen auf der Party war so lustig, dass ich das Lachen nicht zurückhalten konnte.</example>
@@ -43121,6 +43096,7 @@ Andere Projekte</example>
                 <example>Tessa und Gerard waren sehr erfahren und sehr gut trainiert, weswegen sich der Kampf in die Länge zog.</example>
                 <example>Olivia sagte total erschöpft: „Ich hoffe, sie ist zufrieden.“</example>
                 <example>Er wird sie hochführen.</example>
+                <example>Iss und trink so viel du willst!</example>
             </rule>
         </rulegroup>
         <rulegroup id="FEHLERHAFTES_KOMMA_ALLG" name="Fehlerhaftes Komma">

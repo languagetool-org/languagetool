@@ -225,6 +225,12 @@ public class MultiDocumentsHandler {
    *  get LanguageTool
    */
   SwJLanguageTool getLanguageTool() {
+    if (langTool == null) {
+      if (docLanguage == null) {
+        docLanguage = getLanguage();
+      }
+      langTool = initLanguageTool();
+    }
     return langTool;
   }
   
@@ -583,7 +589,7 @@ public class MultiDocumentsHandler {
     for (SingleDocument document : documents) {
       document.resetCache();
     }
-    dictionary.setLtDictionary(xContext, locale, configDir.getPath());
+    dictionary.setLtDictionary(xContext, locale, linguServices);
     if(useQueue) {
       if(textLevelQueue == null) {
         textLevelQueue = new TextLevelCheckQueue(this);

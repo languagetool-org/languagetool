@@ -163,10 +163,10 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   MorfologikMultiSpeller getSpeller1() {
     if( speller1 == null ) {
       try {
-        // we can't call initSpellers() as it's private
+        // we can't call initSpellers() as it's private so we're calling method we can
         isMisspelled("1");
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new RuntimeException(e);
       }
     }
     return speller1;

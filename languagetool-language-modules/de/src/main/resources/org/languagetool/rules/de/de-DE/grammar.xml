@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/print.xsl" title="Pretty print"?>
+<?xml-stylesheet type="text/css" href="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.css" title="Easy editing stylesheet"?>
+
+<!--
+German (de-DE) grammar and typo rules for LanguageTool.
+See resource/de/tagset.txt for the meaning of the POS tags.
+
+Copyright © 2020 Daniel Naber
+http://www.languagetool.org
+
+This library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public
+License as published by the Free Software Foundation; either
+version 2.1 of the License, or (at your option) any later version.
+
+This library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with this library; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+-->
+
+<!DOCTYPE rules [
+]>
+
+<!--suppress ProblematicWhitespace -->
+<rules lang="de-DE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
+
+    <!-- ====================================================================== -->
+    <!-- Tippfehler -->
+    <!-- ====================================================================== -->
+    <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="WEISS" name="weiss (weiß)">
+            <antipattern>
+                <token regexp="yes">Herrn?|Frau|Fräulein</token>
+                <token case_sensitive="yes">Weiss</token>
+            </antipattern>
+            <antipattern>
+                <token postag_regexp="yes" postag=".*EIG:.*|UNKNOWN" regexp="yes">.*[a-z].*</token>
+                <token min="0">von</token>
+                <token case_sensitive="yes">Weiss</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[A-Z]|Dr|Prof|Fa</token>
+                <token spacebefore="no" min="0">.</token>
+                <token>Weiss</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Familie|Metzgerei|Bäckerei|Firma|Fa</token>
+                <token>Weiss</token>
+            </antipattern>
+            <antipattern><!-- Bei Großschreibung darf "ß" durch "SS" ersetzt werden (https://de.wikipedia.org/wiki/Gro%C3%9Fes_%C3%9F) -->
+                <token case_sensitive="yes">WEISS</token>
+            </antipattern>
+            <pattern>
+                <token>weiss</token>
+            </pattern>
+            <message><suggestion>weiß</suggestion> als Farbe und Form von 'wissen' wird mit 'ß' geschrieben. 'Weiss' kann als Nachname vorkommen.</message>
+            <example correction="weiß">Das <marker>weiss</marker> ich auch.</example>
+            <example>Das Buch ist von H. Weiss</example>
+            <example>Hallo Frau Weiss</example>
+            <example>Franz von Weiss</example>
+            <example>Die Fa. Weiss hat uns beauftragt.</example>
+        </rule>
+    </category>
+</rules>
+

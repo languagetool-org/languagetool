@@ -202,6 +202,7 @@ public class CaseRuleTest {
     assertBad("Damit sollen sie die Versorgung in der Region Übernehmen.");
     assertBad("Die Unfallursache scheint geklärt, ein Lichtsignal wurde Überfahren.");
     assertBad("Der Lenker hatte die Höchstgeschwindigkeit um 76 km/h Überschritten.");
+    assertBad("Das sind 10 Millionen Euro, Gleichzeitig und zusätzlich.");
     //assertBad("Das Extreme Sportfest");
     //assertBad("Das Extreme Sportfest findet morgen statt.");
     assertGood("Stets suchte er das Extreme.");

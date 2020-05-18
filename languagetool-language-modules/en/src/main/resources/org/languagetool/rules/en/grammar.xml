@@ -26073,6 +26073,10 @@ USA
                 <token chunk="E-NP-plural">runners</token>
                 <token>high</token>
             </antipattern>
+            <antipattern>
+                <token>A</token>
+                <token>plus</token>
+            </antipattern>
             <rule><!-- "The cat is an animals" (only suggest singular form: "animal" because of "is") -->
                 <pattern>
                     <token regexp="yes">i?s|a?m|was</token>
@@ -26338,7 +26342,7 @@ USA
         <rule id="ONE_PLURAL" name="Agreement: 'one' + plural word">
             <antipattern>
                 <token>one</token>
-                <token regexp="yes">pagers?|shots?</token>
+                <token regexp="yes">pagers?|shots?|timers?</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">page|chapter|phase|part</token>
@@ -26937,6 +26941,20 @@ USA
                     <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
                     <token postag="IN"/>
                 </antipattern>
+                <antipattern><!--are do, re, mi, -->
+                    <token inflected="yes">be</token>
+                    <token>do</token>
+                    <token>,</token>
+                    <token>re</token>
+                    <token>,</token>
+                    <token>mi</token>
+                </antipattern>
+                <antipattern><!-- can a being create -->
+                    <token postag="MD"/>
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
+                    <token>being</token>
+                    <token postag="VBP"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be
                         <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
@@ -26983,6 +27001,8 @@ USA
                 <example>He wanted to be quarterback.</example><!-- #2568 -->
                 <example>It's going to be season 3.</example><!-- #2568 -->
                 <example>Even being host to exchange students can benefit kids.</example><!--  #2568 -->
+                <example>In my language, the notes of the scale are do, re, mi, fa, sol, la, ti, do.</example>
+                <example>Can a being create the fifty billion galaxies...</example>
             </rule>
             <rule>
                 <antipattern><!-- Cannot use a chunk in an exception. Thus, use an antipattern with a chunk in a token. -->
@@ -46732,7 +46752,7 @@ The accident victim died from her injuries.
                 </antipattern>
                 <antipattern>
                     <token>les</token>
-                    <token regexp="yes">amis|grands|mis.rables|trois|objets|mots|mains</token>
+                    <token regexp="yes">amis|grands|mis.rables|trois|objets|mots|mains|cr[eè]me|caprices?|rues?</token>
                 </antipattern>
                 <antipattern>
                     <token regexp="yes" skip="1">["”]</token>
