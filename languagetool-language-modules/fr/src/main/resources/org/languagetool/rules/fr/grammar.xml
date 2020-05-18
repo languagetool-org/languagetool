@@ -8748,6 +8748,16 @@ though, and has since been slightly modified)-->
               <example correction="aujourd'hui">Je l'ai vu <marker>au-jour-d'hui</marker>.</example>
           </rule>
       </rulegroup>
+      <rule id="CORONAVIRUS" name="coronavirus">
+          <pattern>
+              <token regexp="yes">le|du</token>
+              <marker>
+                  <token case_sensitive="yes">corona</token>
+              </marker>
+          </pattern>
+          <message>Le nom exact est <suggestion>coronavirus</suggestion>. « Corona » est un abus de language.</message>
+          <example correction="coronavirus">Depuis le <marker>corona</marker> ça n'est plus possible.</example>
+      </rule>
       <!-- http://www.leconjugueur.com/frlesnombres.php -->
     <rulegroup id="TRAIT_UNION_NOMBRE" name="Nombre avec trait d’union">
       <rule>
@@ -8866,6 +8876,10 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
+    <antipattern>
+        <token>comme</token>
+        <token>prévu</token>
+    </antipattern>
     <antipattern>
       <token>Golden</token>
       <token>Globes</token>
@@ -9266,6 +9280,7 @@ though, and has since been slightly modified)-->
         <example>Tous les lundis soir.</example>
         <example>Les gens autour de nous.</example>
         <example>les conseillers environnement</example>
+        <example>Il arriva à neuf heures comme prévu préalablement.</example>
       </rule>
       <rule>
           <antipattern>
