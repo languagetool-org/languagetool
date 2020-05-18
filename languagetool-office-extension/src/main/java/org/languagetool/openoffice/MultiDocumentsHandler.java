@@ -583,7 +583,7 @@ public class MultiDocumentsHandler {
     for (SingleDocument document : documents) {
       document.resetCache();
     }
-    dictionary.setLtDictionary(xContext, locale, configDir.getPath());
+    dictionary.setLtDictionary(xContext, locale, linguServices);
     if(useQueue) {
       if(textLevelQueue == null) {
         textLevelQueue = new TextLevelCheckQueue(this);

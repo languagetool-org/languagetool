@@ -46,7 +46,7 @@ public class LtDictionary {
     debugMode = OfficeTools.DEBUG_MODE_LD;
   }
 
-  public void setLtDictionary(XComponentContext xContext, Locale locale, String configDir) {
+  public void setLtDictionary(XComponentContext xContext, Locale locale, LinguisticServices linguServices) {
     XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
     if(searchableDictionaryList == null) {
       MessageHandler.printToLogFile("searchableDictionaryList == null");
@@ -56,7 +56,7 @@ public class LtDictionary {
     String dictionaryName = "__LT_" + shortCode + "_internal.dic";
     if(!dictinaryList.contains(dictionaryName)) {
       XDictionary manualDictionary = searchableDictionaryList.createDictionary(dictionaryName, locale, DictionaryType.POSITIVE, "");
-      for (String word : getManualWordList(shortCode)) {
+      for (String word : getManualWordList(locale, linguServices)) {
         manualDictionary.add(word, false, "");
       }
       manualDictionary.setActive(true);
@@ -71,8 +71,9 @@ public class LtDictionary {
     }
   }
   
-  private List<String> getManualWordList(String shortLangCode) {
+  private List<String> getManualWordList(Locale locale, LinguisticServices linguServices) {
     List<String> words = new ArrayList<String>();
+    String shortLangCode = locale.Language;
     String path = "/" + shortLangCode + "/added.txt";
     if(JLanguageTool.getDataBroker().resourceExists(path)) {
       List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
@@ -80,7 +81,7 @@ public class LtDictionary {
         for(String line : lines) {
           if(!line.isEmpty() && !line.startsWith("#")) {
             String[] lineWords = line.trim().split("\\h");
-            if (!words.contains(lineWords[0])) {
+            if (!words.contains(lineWords[0]) && !linguServices.isCorrectSpell(lineWords[0], locale)) {
               words.add(lineWords[0]);
             }
           }
@@ -92,7 +93,8 @@ public class LtDictionary {
       List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
       if(lines != null) {
         for(String line : lines) {
-          if(!line.isEmpty() && !line.startsWith("#")) {
+          line = line.trim();
+          if(!line.isEmpty() && !line.startsWith("#") && !linguServices.isCorrectSpell(line, locale)) {
             MessageHandler.printToLogFile(line);
           }
         }
