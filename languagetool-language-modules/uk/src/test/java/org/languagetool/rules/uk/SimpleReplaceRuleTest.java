@@ -81,6 +81,12 @@ public class SimpleReplaceRuleTest {
 
     matches = rule.match(langTool.getAnalyzedSentence("Конрадом II і Генріхом III"));
     assertEquals(0, matches.length);
+    
+    //TODO: should not react at all
+    matches = rule.match(langTool.getAnalyzedSentence("мікро-району"));
+    assertEquals(1, matches.length);
+    assertEquals(Arrays.asList("мікрорайону"), matches[0].getSuggestedReplacements());
+
   }
 
   @Test
