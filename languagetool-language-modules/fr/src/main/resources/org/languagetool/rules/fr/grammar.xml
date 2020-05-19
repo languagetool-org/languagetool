@@ -8798,7 +8798,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">\d+</token>
     </antipattern>
     <antipattern>
-        <token regexp="yes">formule|saisons?|épisodes?|zones?|divisons?|canal|page|figure|volume|chapitre|étape|leçon</token>
+        <token regexp="yes">formule|saisons?|épisodes?|zones?|divisons?|canal|page|figure|volume|chapitre|étape|leçon|acte|scène</token>
         <token regexp="yes">\d+</token>
         <token/>
     </antipattern>
@@ -8807,7 +8807,7 @@ though, and has since been slightly modified)-->
         <token>éditions</token>
     </antipattern>
     <antipattern>
-        <token regexp="yes">Windows|Apple|Galaxy</token>
+        <token regexp="yes">Windows|Apple|Galaxy|iPhone</token>
         <token regexp="yes">\d+</token>
         <token postag=".*s" postag_regexp="yes"/>
     </antipattern>
@@ -8909,6 +8909,27 @@ though, and has since been slightly modified)-->
             <token regexp="yes">\d+</token>
         </antipattern>
         <antipattern>
+            <token>#</token>
+            <token regexp="yes" spacebefore="no">\d+</token>
+        </antipattern>
+        <antipattern><!-- date 05/12/20 -->
+            <token regexp="yes">\d+</token>
+            <token spacebefore="no">/</token>
+            <token regexp="yes" spacebefore="no">\d+</token>
+        </antipattern>
+        <antipattern><!-- verison number: 2.3.2 -->
+            <token regexp="yes">\d+</token>
+            <token spacebefore="no">.</token>
+            <token regexp="yes" spacebefore="no">\d+</token>
+            <token spacebefore="no">.</token>
+            <token regexp="yes" spacebefore="no">\d+</token>
+        </antipattern>
+        <antipattern><!-- Star Wars 8  -->
+            <token>Star</token>
+            <token>Wars</token>
+            <token regexp="yes">\d+</token>
+        </antipattern>
+        <antipattern>
             <token postag="N [fem] s" postag_regexp="yes"/>
             <token regexp="yes">aux|à|de|du</token>
             <token postag="N .*" postag_regexp="yes"/>
@@ -8971,6 +8992,11 @@ though, and has since been slightly modified)-->
         <example>L'horaire de cette nouvelle réunion hippique, dimanche, sur l'anneau lavallois a été avancé à 12 h 45 car neuf courses sont au programme.</example>
         <example>10:44:28 Sujet</example>
         <example>ÉTAPE 6 LEÇON 2</example>
+        <example>#5397811 est terminé</example>
+        <example>14/05/20 ajouté à la</example>
+        <example>iPhone 11 Pro</example>
+        <example>l’acte 5 scène 4</example>
+        <example>2.3.3 Musique</example>
       </rule>
       <rule name="singulier suivi du pluriel">
           <antipattern>
