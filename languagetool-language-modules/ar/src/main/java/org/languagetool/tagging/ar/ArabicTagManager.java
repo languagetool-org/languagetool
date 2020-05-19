@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2019 Sohaib Afifi, Taha Zerrouki
+ * Copyright (C) 2020 Sohaib Afifi, Taha Zerrouki
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -18,13 +18,11 @@
  */
 package org.languagetool.tagging.ar;
 
-import org.languagetool.language.Arabic;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 /**
- * @since 4.9
+ * @author Taha Zerrouki
+ * @since 5.0
  */
 public class ArabicTagManager {
 
@@ -32,13 +30,12 @@ public class ArabicTagManager {
   private static final int NOUN_TAG_LENGTH = 12;
   private static final int NOUN_FLAG_POS_WORDTYPE = 0;
   private static final int NOUN_FLAG_POS_CATEGORY = 1;
-//  private static final int NOUN_FLAG_POS_NOT_USED = 2;
-//  SEPARATOR ; 3
+
   private static final int NOUN_FLAG_POS_GENDER = 4;
   private static final int NOUN_FLAG_POS_NUMBER = 5;
   private static final int NOUN_FLAG_POS_CASE = 6;
   private static final int NOUN_FLAG_POS_INFLECT_MARK = 7;
-//  SEPARATOR ; 8
+
   private static final int NOUN_FLAG_POS_CONJ = 9;
   private static final int NOUN_FLAG_POS_JAR = 10;
   private static final int NOUN_FLAG_POS_PRONOUN = 11;
@@ -48,7 +45,7 @@ public class ArabicTagManager {
   private static final int VERB_FLAG_POS_WORDTYPE = 0;
   private static final int VERB_FLAG_POS_CATEGORY = 1;
   private static final int VERB_FLAG_POS_TRANS = 2;
-//  SEPARATOR ; 3
+
   private static final int VERB_FLAG_POS_GENDER = 4;
   private static final int VERB_FLAG_POS_NUMBER = 5;
   private static final int VERB_FLAG_POS_PERSON = 6;
@@ -56,7 +53,7 @@ public class ArabicTagManager {
   private static final int VERB_FLAG_POS_TENSE = 8;
   private static final int VERB_FLAG_POS_VOICE = 9;
   private static final int VERB_FLAG_POS_CASE = 10;
-  //  SEPARATOR ; 11
+
   private static final int VERB_FLAG_POS_CONJ = 12;
   private static final int VERB_FLAG_POS_ISTIQBAL = 13;
   private static final int VERB_FLAG_POS_PRONOUN = 14;
@@ -67,7 +64,6 @@ public class ArabicTagManager {
 
   public String modifyPosTag(String postag, List<String> tags) {
     // if one of tags are incompatible return null
-
     for (String tg : tags) {
       postag = addTag(postag, tg);
       if (postag == null)
@@ -90,7 +86,7 @@ public class ArabicTagManager {
         else return null;
 
       } else return null;
-    }  else if (flag.equals("B")) {
+    } else if (flag.equals("B")) {
       if (postag.startsWith("N")) {
         // the noun must be majrour
         if (isMajrour(postag))
@@ -110,8 +106,7 @@ public class ArabicTagManager {
       } else {// verb case
         tmp.setCharAt(postag.length() - 2, 'L');
       }
-    }
-    else if (flag.equals("D")) {
+    } else if (flag.equals("D")) {
       // the noun must be not attached
       if (isUnAttachedNoun(postag))
         tmp.setCharAt(postag.length() - 1, 'L');
@@ -129,232 +124,242 @@ public class ArabicTagManager {
     return tmp.toString();
   }
 
-  /* Add the flag to an encoded tag */
- /* public String addTag(String postag, String flag) {
-    StringBuilder tmp = new StringBuilder(postag);
-    if (flag.equals("W")) {
-      tmp.setCharAt(postag.length() - 3, 'W');
-    } else if (flag.equals("K")) {
-      if (postag.startsWith("N")) {
-        // the noun must be majrour
-        if (isMajrour(postag))
-          tmp.setCharAt(postag.length() - 2, 'K');
-          // a prefix K but non majrour
-        else return null;
-
-      } else return null;
-    }  else if (flag.equals("B")) {
-      if (postag.startsWith("N")) {
-        // the noun must be majrour
-        if (isMajrour(postag))
-          tmp.setCharAt(postag.length() - 2, 'B');
-          // a prefix B but non majrour
-        else return null;
-
-      } else return null;
-    } else if (flag.equals("L")) {
-      if (isNoun(postag)) {
-        // the noun must be majrour
-        if (isMajrour(postag))
-          tmp.setCharAt(postag.length() - 2, 'L');
-          // a prefix Lam but non majrour
-        else return null;
-
-      } else {// verb case
-        tmp.setCharAt(postag.length() - 2, 'L');
-      }
-    }
-    else if (flag.equals("D")) {
-      // the noun must be not attached
-      if (isUnAttachedNoun(postag))
-        tmp.setCharAt(postag.length() - 1, 'L');
-        // a prefix Lam but non majrour
-      else return null;
-    } else if (flag.equals("S")) {
-      // َAdd S flag
-      // if postag contains a future tag, TODO with regex
-      if (isFutureTense(postag)) {
-        tmp.setCharAt(postag.length() - 2, 'S');
-      } else
-        // a prefix Seen but non verb or future
-        return null;
-    }
-    return tmp.toString();
-  }*/
-
-  public boolean isMajrour(String postag) {// return true if have flag majrour
+  /**
+   * @param postag
+   * @return true if have flag majrour
+   */
+  public boolean isMajrour(String postag) {
     return (postag.charAt(6) == 'I') || (postag.charAt(6) == '-');
   }
- 
-  public String setJar(String postag, String jar) {//add jar flag to noun
+
+  /**
+   * @param postag
+   * @param jar
+   * @return add jar flag to noun
+   */
+  public String setJar(String postag, String jar) {
     StringBuilder tmp = new StringBuilder(postag);
     char myflag = 0;
-    if(isMajrour(postag))
-    {
-      if((jar .equals("ب"))||(jar.equals("B")))
+    if (isMajrour(postag)) {
+      if (jar.equals("ب") || jar.equals("B"))
         myflag = 'B';
-      else if((jar .equals( "ل"))||(jar.equals("L")))
+      else if (jar.equals("ل") || jar.equals("L"))
         myflag = 'L';
-      else if((jar.equals("ك"))||(jar.equals("K")))
-      myflag = 'K';
-      else if((jar .equals( "-"))||(jar.isEmpty()))
-      myflag = '-';
-      if(myflag!=0)
+      else if (jar.equals("ك") || jar.equals("K"))
+        myflag = 'K';
+      else if (jar.equals("-") || jar.isEmpty())
+        myflag = '-';
+      if (myflag != 0)
         tmp.setCharAt(NOUN_FLAG_POS_JAR, myflag);
     }
     return tmp.toString();
   }
-  public String setDefinite(String postag, String flag) {//add definite flag to noun
+
+  /**
+   * @param postag
+   * @param flag
+   * @return add definite flag to noun
+   */
+  public String setDefinite(String postag, String flag) {
     StringBuilder tmp = new StringBuilder(postag);
     char myflag = 0;
-    if(isNoun(postag)&& isUnAttachedNoun(postag))
-    {
-      if((flag .equals( "ال"))
-        ||(flag.equals("L"))
-      ||(flag.equals("لل"))
-      ||(flag.equals("D"))
+    if (isNoun(postag) && isUnAttachedNoun(postag)) {
+      if (flag.equals("ال")
+        || flag.equals("L")
+        || flag.equals("لل")
+        || flag.equals("D")
       )
         myflag = 'L';
-      else if((flag.equals( "-"))||(flag.isEmpty()))
+      else if (flag.equals("-") || flag.isEmpty())
         myflag = '-';
-      if(myflag!=0)
-      tmp.setCharAt(NOUN_FLAG_POS_PRONOUN, myflag);
+      if (myflag != 0)
+        tmp.setCharAt(NOUN_FLAG_POS_PRONOUN, myflag);
     }
     return tmp.toString();
   }
+
+  /**
+   * @param postag
+   * @param flag
+   * @return add conjuction flag to noun
+   */
   public String setConjunction(String postag, String flag) {
-  //add conjuction flag to noun
     StringBuilder tmp = new StringBuilder(postag);
     char myflag = 0;
-      if((flag .equals( "و"))
-        ||(flag.equals("W"))
-        ||(flag .equals( "ف"))
-        ||(flag.equals("F"))
-      )
-        myflag = 'W';        
-      else if((flag.equals( "-"))||(flag.isEmpty()))
-        myflag = '-';
-    if(myflag!=0)
-    {
-    if(isNoun(postag))
-    {
-      tmp.setCharAt(NOUN_FLAG_POS_CONJ, myflag);
-    }
-    else if(isVerb(postag))
-    {
-      tmp.setCharAt(VERB_FLAG_POS_CONJ, myflag);
-    }
+    if (flag.equals("و")
+      || flag.equals("W")
+      || flag.equals("ف")
+      || flag.equals("F")
+    )
+      myflag = 'W';
+    else if (flag.equals("-") || flag.isEmpty())
+      myflag = '-';
+    if (myflag != 0) {
+      if (isNoun(postag)) {
+        tmp.setCharAt(NOUN_FLAG_POS_CONJ, myflag);
+      } else if (isVerb(postag)) {
+        tmp.setCharAt(VERB_FLAG_POS_CONJ, myflag);
+      }
     }
     return tmp.toString();
   }
-  public String setPronoun(String postag, String flag) {//add conjuction flag to noun
+
+  /**
+   * @param postag
+   * @param flag
+   * @return add conjuction flag to noun
+   */
+  public String setPronoun(String postag, String flag) {
     StringBuilder tmp = new StringBuilder(postag);
     char myflag = 0;
-      if((flag .equals("ه"))
-        ||(flag.equals("H"))
-      )
-        myflag = 'H';
-    if(myflag!=0)
-    {
-    if(isNoun(postag))
-    {
-      tmp.setCharAt(NOUN_FLAG_POS_PRONOUN, myflag);
+    if (flag.equals("ه")
+      || flag.equals("H")
+    )
+      myflag = 'H';
+    if (myflag != 0) {
+      if (isNoun(postag)) {
+        tmp.setCharAt(NOUN_FLAG_POS_PRONOUN, myflag);
+      } else if (isVerb(postag)) {
+        tmp.setCharAt(VERB_FLAG_POS_PRONOUN, myflag);
+      }
+
     }
-    else if(isVerb(postag))
-    {
-      tmp.setCharAt(VERB_FLAG_POS_PRONOUN, myflag);
-    }
-    
-    }
-    return tmp.toString();    
+    return tmp.toString();
   }
 
-
-  public boolean isFutureTense(String postag) {// return true if have flag future
+  /**
+   * @param postag
+   * @return true if have flag future
+   */
+  public boolean isFutureTense(String postag) {
     return postag.startsWith("V") && postag.contains("f");
   }
 
-  public boolean isUnAttachedNoun(String postag) {// return true if have flag is noun and has attached pronoun
+  /**
+   * @param postag
+   * @return true if have flag is noun and has attached pronoun
+   */
+  public boolean isUnAttachedNoun(String postag) {
     return postag.startsWith("N") && !postag.endsWith("H");
   }
-  public boolean isAttached(String postag) {// return true if have flag is noun/verb and has attached pronoun
-    return ((isNoun(postag) && (postag.charAt(NOUN_FLAG_POS_PRONOUN) == 'H')) 
-    || (isVerb(postag) && (postag.charAt(VERB_FLAG_POS_PRONOUN) == 'H'))) ;
+
+  /**
+   * @param postag
+   * @return true if have flag is noun/verb and has attached pronoun
+   */
+  public boolean isAttached(String postag) {
+    return (isNoun(postag) && (postag.charAt(NOUN_FLAG_POS_PRONOUN) == 'H'))
+      || (isVerb(postag) && (postag.charAt(VERB_FLAG_POS_PRONOUN) == 'H'));
   }
 
-  // test if word has stopword tagging
+  /**
+   * @param postag
+   * @return test if word has stopword tagging
+   */
   public boolean isStopWord(String postag) {
     return postag.startsWith("P");
   }
 
-  public boolean isNoun(String postag) {// return true if have flag noun
+  /**
+   * @param postag
+   * @return true if have flag noun
+   */
+  public boolean isNoun(String postag) {
     return postag.startsWith("N");
   }
-  public boolean isVerb(String postag) {// return true if have flag verb
+
+  /**
+   * @param postag
+   * @return true if have flag verb
+   */
+  public boolean isVerb(String postag) {
     return postag.startsWith("V");
   }
 
-  public boolean isDefinite(String postag) {// return true if have flag is noun and definite
-  
-    return (isNoun(postag) && (postag.charAt(NOUN_FLAG_POS_PRONOUN) == 'L'));
+  /**
+   * @param postag
+   * @return true if have flag is noun and definite
+   */
+  public boolean isDefinite(String postag) {
+
+    return isNoun(postag) && (postag.charAt(NOUN_FLAG_POS_PRONOUN) == 'L');
   }
-  
-  public boolean hasJar(String postag) {// return true if the postag has a Jar 
-  
-    return (isNoun(postag) && (postag.charAt(NOUN_FLAG_POS_JAR) != '-'));
+
+  /**
+   * @param postag
+   * @return true if the postag has a Jar
+   */
+  public boolean hasJar(String postag) {
+
+    return isNoun(postag) && (postag.charAt(NOUN_FLAG_POS_JAR) != '-');
   }
-  public boolean hasConjunction(String postag) {// return true if the postag has a conjuction
-  
-    return ((isNoun(postag) && (postag.charAt(NOUN_FLAG_POS_CONJ) != '-')) 
-    || (isVerb(postag) && (postag.charAt(VERB_FLAG_POS_CONJ) != '-')));
+
+  /**
+   * @param postag
+   * @return true if the postag has a conjuction
+   */
+  public boolean hasConjunction(String postag) {
+
+    return (isNoun(postag) && (postag.charAt(NOUN_FLAG_POS_CONJ) != '-'))
+      || (isVerb(postag) && (postag.charAt(VERB_FLAG_POS_CONJ) != '-'));
   }
-  
-  
-    public String getDefinitePrefix(String postag) {// return true if have flag is noun and definite, return the prefix letter for this case
-      if(postag.isEmpty())
-    return "";
-    if (isNoun(postag) && (postag.charAt(NOUN_FLAG_POS_PRONOUN) == 'L'))
-    {
-    if(hasJar(postag) && getJarPrefix(postag).equals("ل"))
+
+  /**
+   * @param postag
+   * @return if have a flag which is a noun and definite, return the prefix letter for this case
+   */
+  public String getDefinitePrefix(String postag) {
+    if (postag.isEmpty())
+      return "";
+    if (isNoun(postag) && (postag.charAt(NOUN_FLAG_POS_PRONOUN) == 'L')) {
+      if (hasJar(postag) && getJarPrefix(postag).equals("ل"))
         return "ل";
-    else return "ال";
+      else return "ال";
     }
     return "";
-  } 
-    public String getJarPrefix(String postag) {// return  the prefix letter 
-  
-    if(postag.isEmpty())
-    return "";
-  if (isNoun(postag))
-    {
-    if (postag.charAt(NOUN_FLAG_POS_JAR) == 'L')
-    return  "ل";
-    else if (postag.charAt(NOUN_FLAG_POS_JAR) == 'K')
-    return  "ك";
-    else if (postag.charAt(NOUN_FLAG_POS_JAR) == 'B')
-    return  "ب";
+  }
+
+  /**
+   * @param postag
+   * @return the Jar prefix letter
+   */
+  public String getJarPrefix(String postag) {
+
+    if (postag.isEmpty())
+      return "";
+    if (isNoun(postag)) {
+      if (postag.charAt(NOUN_FLAG_POS_JAR) == 'L')
+        return "ل";
+      else if (postag.charAt(NOUN_FLAG_POS_JAR) == 'K')
+        return "ك";
+      else if (postag.charAt(NOUN_FLAG_POS_JAR) == 'B')
+        return "ب";
     }
     return "";
-  } 
-    public String getConjunctionPrefix(String postag) {// return the prefix letter
+  }
+
+  /**
+   * @param postag
+   * @return the Conjunction prefix letter
+   */
+  public String getConjunctionPrefix(String postag) {
     int pos;
-    if(postag.isEmpty())
-    return "";
+    if (postag.isEmpty())
+      return "";
     if (isNoun(postag))
-    pos = NOUN_FLAG_POS_CONJ;
-    else if(isVerb(postag))
-    pos = VERB_FLAG_POS_CONJ;
+      pos = NOUN_FLAG_POS_CONJ;
+    else if (isVerb(postag))
+      pos = VERB_FLAG_POS_CONJ;
     else
-    return "";
-    
-    
+      return "";
+
     if (postag.charAt(pos) == 'F')
-    return  "ف";
+      return "ف";
     else if (postag.charAt(pos) == 'W')
-    return  "و";
-            
+      return "و";
+
     return "";
-  } 
-  
-} // end classe
+  }
+
+}
 

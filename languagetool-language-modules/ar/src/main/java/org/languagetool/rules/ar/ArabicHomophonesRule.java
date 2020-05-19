@@ -1,6 +1,6 @@
 /*
  * LanguageTool, a natural language style checker
- * Copyright (C) 2019 Sohaib Afifi, Taha Zerrouki
+ * Copyright (C) 2020 Sohaib Afifi, Taha Zerrouki
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -19,18 +19,14 @@
  */
 package org.languagetool.rules.ar;
 
-import org.languagetool.language.Arabic;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
-import org.languagetool.rules.ITSIssueType;
 
-import java.io.IOException;
-import java.util.Locale;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-
 
 
 /**
@@ -40,29 +36,26 @@ import java.util.ResourceBundle;
  * @author Taha Zerrouki
  * @since 5.0
  */
- 
- public class ArabicHomophonesRule extends AbstractSimpleReplaceRule {
 
+public class ArabicHomophonesRule extends AbstractSimpleReplaceRule {
+
+  public static final String AR_HOMOPHONES_REPLACE = "AR_HOMOPHONES_REPLACE";
   private static final Map<String, List<String>> wrongWords = loadFromPath("/ar/homophones.txt");
-  public  static final String AR_HOMOPHONES_REPLACE = "AR_HOMOPHONES_REPLACE";  
   private static final Locale AR_LOCALE = new Locale("ar");
+
+  public ArabicHomophonesRule(final ResourceBundle messages) {
+    super(messages);
+    super.setCategory(Categories.STYLE.getCategory(messages));
+    this.setCheckLemmas(true);
+    addExamplePair(Example.wrong("<marker>ضن</marker>"),
+      Example.fixed("<marker>ظن</marker>"));
+  }
 
   @Override
   protected Map<String, List<String>> getWrongWords() {
     return wrongWords;
   }
-  
-  public ArabicHomophonesRule(final ResourceBundle messages) {
-    super(messages);
-    super.setCategory(Categories.STYLE.getCategory(messages));
-    this.setCheckLemmas(true);
-//     setLocQualityIssueType(ITSIssueType.Style);
-    addExamplePair(Example.wrong("<marker>ضن</marker>"),
-      Example.fixed("<marker>ظن</marker>"));    
-  }  
 
-
-  
   @Override
   public final String getId() {
     return AR_HOMOPHONES_REPLACE;
@@ -85,10 +78,10 @@ import java.util.ResourceBundle;
   }
 
   @Override
-    public String getMessage(String tokenStr, List<String> replacements) {
+  public String getMessage(String tokenStr, List<String> replacements) {
     return tokenStr + " كلمة تتشابه مع: "
-        + String.join(", ", replacements) + ".";
+      + String.join(", ", replacements) + ".";
   }
-  
+
 }
 

@@ -1,6 +1,6 @@
 /*
  * LanguageTool, a natural language style checker
- * Copyright (C) 2019 Sohaib Afifi, Taha Zerrouki
+ * Copyright (C) 2020 Sohaib Afifi, Taha Zerrouki
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -29,6 +29,10 @@ import org.languagetool.tagging.ar.ArabicTagManager;
 
 import java.io.IOException;
 
+/**
+ * @author Taha Zerrouki
+ * @since 5.0
+ */
 public class ArabicTagManagerTest {
 
   private ArabicTagManager tagmanager;
@@ -40,8 +44,7 @@ public class ArabicTagManagerTest {
 
 
   @Test
-  public void testTagger() throws IOException {
-
+  public void testTagger(){
     assertEquals(tagmanager.setJar("NJ-;M1I-;---","K"),"NJ-;M1I-;-K-");
     assertEquals(tagmanager.setJar("NJ-;M1I-;---","-"),"NJ-;M1I-;---");
     assertEquals(tagmanager.setDefinite("NJ-;M1I-;---","L"),"NJ-;M1I-;--L");

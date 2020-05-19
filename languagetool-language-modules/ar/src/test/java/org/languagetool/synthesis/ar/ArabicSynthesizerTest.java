@@ -31,16 +31,13 @@ import static org.junit.Assert.assertEquals;
 public class ArabicSynthesizerTest {
 
   @Test
-  public final void testSynthesizeStringString() throws IOException {
+  public final void testSynthesizeStringString() {
     ArabicSynthesizer synth = new ArabicSynthesizer(new Arabic());
 
     assertEquals(Arrays.toString(synth.synthesize(dummyToken("خيار"), "NJ-;F2--;---")), "[خيارتان, خياريتان]");
 
     assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H")),
       "[بلادت, بلادتي, بلاد, بلادي, بلاديت, بلاديتي, بلادي, بلاديي]");   // assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H\\+RP", true)),
-
-//    assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H")),
-//      "[بلاد, بلادة, بلادي, بلاديا, بلادية]");
 
     // an example with specific postag with regex flag enabled
     assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَعْمَلَ"), "V-1;M3Y-pa-;--H")),

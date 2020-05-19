@@ -189,9 +189,7 @@ public class ArabicTaggerTest {
         "للاعب/[لَاعَبَ]V-1;M1H-pa-;-L-|" +
         "للاعب/[لَاعَبَ]V-1;M1Y-i--;-L-",
       tokenizer, tagger);
-
-    // update tagger to handle Beh as Jar letter
-
+    
     TestTools.myAssert("ببلاد",
       "ببلاد/[بلاد]NJ-;F3--;-B-|" +
         "ببلاد/[بلاد]NJ-;F3I-;-B-|" +

@@ -1,6 +1,6 @@
 /*
  * LanguageTool, a natural language style checker
- * Copyright (C) 2019 Sohaib Afifi, Taha Zerrouki
+ * Copyright (C) 2020 Sohaib Afifi, Taha Zerrouki
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -30,7 +30,7 @@ import java.io.IOException;
 import static org.junit.Assert.assertEquals;
 
 /**
- * @author Sohaib AFIFI
+ * @author Taha Zerrouki
  * @since 5.0
  */
 public class ArabicHomophonesCheckRuleTest {
@@ -50,9 +50,9 @@ public class ArabicHomophonesCheckRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("ضن")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("حاضر")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("حض")).length);
-	// can find and replace words after stemming
-	// the word الحاضر doesn't exist, but its lemma حاضر exists
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("الحاضر")).length);    
+    // can find and replace words after stemming
+    // the word الحاضر doesn't exist, but its lemma حاضر exists
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("الحاضر")).length);
   }
 
 }
