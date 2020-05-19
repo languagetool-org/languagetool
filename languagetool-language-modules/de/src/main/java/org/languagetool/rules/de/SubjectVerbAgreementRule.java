@@ -155,7 +155,7 @@ public class SubjectVerbAgreementRule extends Rule {
 
   @Override
   public URL getUrl() {
-    return Tools.getUrl("http://www.canoonet.eu/services/OnlineGrammar/Wort/Verb/Numerus-Person/ProblemNum.html");
+    return Tools.getUrl("https://dict.leo.org/grammatik/deutsch/Wort/Verb/Kategorien/Numerus-Person/ProblemNum.html");
   }
 
   @Override

@@ -176,7 +176,7 @@ public class GermanChunker implements Chunker {
       build("<regex=eine[rs]?> <seiner|ihrer> <pos=PA1> <pos=SUB>", NPS),
 
       // "xy Prozent" - beide Varianten okay (zumindest umgangssprachlich):
-      // siehe http://www.canoonet.eu/services/OnlineGrammar/Wort/Verb/Numerus-Person/ProblemNum.html#Anchor-Mengenangabe-49575
+      // siehe https://dict.leo.org/grammatik/deutsch/Wort/Verb/Kategorien/Numerus-Person/ProblemNum.html#grammarAnchor-Mengenangabe-49575
       build("<regex=[\\d,.]+> <&prozent;>", NPS),
       build("<regex=[\\d,.]+> <&prozent;>", NPP),
 

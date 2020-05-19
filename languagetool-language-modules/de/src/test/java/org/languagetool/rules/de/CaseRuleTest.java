@@ -376,7 +376,7 @@ public class CaseRuleTest {
     assertGood("Das lesen Sie doch sicher in einer Minute durch!");
     assertGood("Formationswasser, das oxidiert war.");
 
-    // Source of the following examples: http://www.canoonet.eu/services/GermanSpelling/Amtlich/GrossKlein/pgf57-58.html
+    // Source of the following examples: https://dict.leo.org/grammatik/deutsch/Rechtschreibung/Amtlich/GrossKlein/pgf57-58.html
     assertGood("Das Lesen fällt mir schwer.");
     assertGood("Sie hörten ein starkes Klopfen.");
     assertGood("Wer erledigt das Fensterputzen?");
