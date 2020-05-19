@@ -6221,15 +6221,17 @@ END RULEGROUP Masdar errors
  <!-- trans_394_AstwTn_fy استوطن في -->
   <rule id="trans_394_AstwTn_fy" name="استوطن في">
     <pattern>
-      <token inflected="yes" skip="1">اِسْتَوْطَنَ</token>
-      <marker>
+      <marker><token inflected="yes" skip="1">اِسْتَوْطَنَ</token>
+      
         <token regexp="yes">&forms_fi;</token>
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-   <suggestion/>
+    <suggestion><match no="1" postag="(V.*)(-)" postag_replace="$1H">اِسْتَوْطَنَ</match><match no="2" regexp_match="في" regexp_replace=""/></suggestion>
 </message>
-    <example correction="" type="incorrect"> حل خالد بحمص واستوطن <marker>فيها</marker> </example>
+    <example correction="استوطنها|استوطننها" type="incorrect"> حل خالد بحمص <marker>استوطن فيها</marker> </example>
+<example correction="واستوطنها|واستوطننها" type="incorrect"> حل خالد بحمص <marker>واستوطن فيها</marker> </example>
+    <!--<example correction="واستوطنها" type="incorrect"> حل خالد بحمص<marker>واستوطن فيها</marker> </example>-->
     <example type="correct"> استوطن البلاد </example>
   </rule>
  <!-- TODO trans I2D-->

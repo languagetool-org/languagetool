@@ -34,7 +34,8 @@ import java.util.Locale;
  * @since 4.9
  */
 public class ArabicTagger extends BaseTagger {
-
+  
+  private ArabicTagManager tagmanager= new ArabicTagManager();
   public ArabicTagger() {
     super("/ar/arabic.dict", new Locale("ar"));
   }
@@ -87,7 +88,7 @@ public class ArabicTagger extends BaseTagger {
           for (AnalyzedToken taggerToken : taggerTokens) {
             String posTag = taggerToken.getPOSTag();
             // modify tags in postag, return null if not compatible
-            posTag = modifyPosTag(posTag, tags);
+            posTag = tagmanager.modifyPosTag(posTag, tags);
 
             if (posTag != null)
               additionalTaggedTokens.add(new AnalyzedToken(word, posTag, taggerToken.getLemma()));
@@ -238,94 +239,93 @@ public class ArabicTagger extends BaseTagger {
     return tags;
   }
 
-  private String modifyPosTag(String postag, List<String> tags) {
-    // if one of tags are incompatible return null
+//   private String modifyPosTag(String postag, List<String> tags) {
+//     // if one of tags are incompatible return null
+// 
+//     for (String tg : tags) {
+//       postag = addTag(postag, tg);
+//       if (postag == null)
+//         return null;
+//     }
+//     return postag;
+//   }
 
-    for (String tg : tags) {
-      postag = addTag(postag, tg);
-      if (postag == null)
-        return null;
-    }
-    return postag;
-  }
+//   /* Add the flag to an encoded tag */
+//   public String addTag(String postag, String flag) {
+//     StringBuilder tmp = new StringBuilder(postag);
+//     if (flag.equals("W")) {
+//       tmp.setCharAt(postag.length() - 3, 'W');
+//     } else if (flag.equals("K")) {
+//       if (postag.startsWith("N")) {
+//         // the noun must be majrour
+//         if (isMajrour(postag))
+//           tmp.setCharAt(postag.length() - 2, 'K');
+//           // a prefix K but non majrour
+//         else return null;
+// 
+//       } else return null;
+//     }  else if (flag.equals("B")) {
+//       if (postag.startsWith("N")) {
+//         // the noun must be majrour
+//         if (isMajrour(postag))
+//           tmp.setCharAt(postag.length() - 2, 'B');
+//           // a prefix B but non majrour
+//         else return null;
+// 
+//       } else return null;
+//     } else if (flag.equals("L")) {
+//       if (isNoun(postag)) {
+//         // the noun must be majrour
+//         if (isMajrour(postag))
+//           tmp.setCharAt(postag.length() - 2, 'L');
+//           // a prefix Lam but non majrour
+//         else return null;
+// 
+//       } else {// verb case
+//         tmp.setCharAt(postag.length() - 2, 'L');
+//       }
+//     }
+//         else if (flag.equals("D")) {
+//         // the noun must be not attached
+//         if (isUnAttachedNoun(postag))
+//           tmp.setCharAt(postag.length() - 1, 'L');
+//           // a prefix Lam but non majrour
+//         else return null;
+//     } else if (flag.equals("S")) {
+//       // َAdd S flag
+//       // if postag contains a future tag, TODO with regex
+//       if (isFutureTense(postag)) {
+//         tmp.setCharAt(postag.length() - 2, 'S');
+//       } else
+//         // a prefix Seen but non verb or future
+//         return null;
+//     }
+//     return tmp.toString();
+//   }
 
-  /* Add the flag to an encoded tag */
-  public String addTag(String postag, String flag) {
-    StringBuilder tmp = new StringBuilder(postag);
-    if (flag.equals("W")) {
-      tmp.setCharAt(postag.length() - 3, 'W');
-    } else if (flag.equals("K")) {
-      if (postag.startsWith("N")) {
-        // the noun must be majrour
-        if (isMajrour(postag))
-          tmp.setCharAt(postag.length() - 2, 'K');
-          // a prefix K but non majrour
-        else return null;
-
-      } else return null;
-    }  else if (flag.equals("B")) {
-      if (postag.startsWith("N")) {
-        // the noun must be majrour
-        if (isMajrour(postag))
-          tmp.setCharAt(postag.length() - 2, 'B');
-          // a prefix B but non majrour
-        else return null;
-
-      } else return null;
-    } else if (flag.equals("L")) {
-      if (isNoun(postag)) {
-        // the noun must be majrour
-        if (isMajrour(postag))
-          tmp.setCharAt(postag.length() - 2, 'L');
-          // a prefix Lam but non majrour
-        else return null;
-
-      } else {// verb case
-        tmp.setCharAt(postag.length() - 2, 'L');
-      }
-    }
-        else if (flag.equals("D")) {
-        // the noun must be not attached
-        if (isUnAttachedNoun(postag))
-          tmp.setCharAt(postag.length() - 1, 'L');
-          // a prefix Lam but non majrour
-        else return null;
-    } else if (flag.equals("S")) {
-      // َAdd S flag
-      // if postag contains a future tag, TODO with regex
-      if (isFutureTense(postag)) {
-        tmp.setCharAt(postag.length() - 2, 'S');
-      } else
-        // a prefix Seen but non verb or future
-        return null;
-    }
-    return tmp.toString();
-  }
-
-  private boolean isMajrour(String postag) {// return true if have flag majrour
-    return (postag.charAt(6) == 'I') || (postag.charAt(6) == '-');
-  }
-  private boolean isNoun(String postag) {// return true if have flag noun
-    return postag.startsWith("N");
-  }
-  private boolean isVerb(String postag) {// return true if have flag verb
-    return postag.startsWith("V");
-  }
-
-  private boolean isFutureTense(String postag) {// return true if have flag future
-    return postag.startsWith("V") && postag.contains("f");
-  }
-
-  private boolean isUnAttachedNoun(String postag) {// return true if have flag is noun and has attached pronoun
-    return postag.startsWith("N") && !postag.endsWith("H");
-  }
+//   private boolean isMajrour(String postag) {// return true if have flag majrour
+//     return (postag.charAt(6) == 'I') || (postag.charAt(6) == '-');
+//   }
+//   private boolean isNoun(String postag) {// return true if have flag noun
+//     return postag.startsWith("N");
+//   }
+//   private boolean isVerb(String postag) {// return true if have flag verb
+//     return postag.startsWith("V");
+//   }
+// 
+//   private boolean isFutureTense(String postag) {// return true if have flag future
+//     return postag.startsWith("V") && postag.contains("f");
+//   }
+// 
+//   private boolean isUnAttachedNoun(String postag) {// return true if have flag is noun and has attached pronoun
+//     return postag.startsWith("N") && !postag.endsWith("H");
+//   }
 
   // test if word has stopword tagging
   private boolean isStopWord(List<AnalyzedToken> taggerTokens) {
-    String posTag;
-    for (AnalyzedToken tok : taggerTokens) {
-      posTag = tok.getPOSTag();
-      if (posTag.startsWith("PR"))
+   // if one token is stop word
+  for (AnalyzedToken tok : taggerTokens) {
+      if (tagmanager.isStopWord(tok.getPOSTag()))
         return true;
     }
     return false;
