@@ -6134,11 +6134,11 @@ END RULEGROUP Masdar errors
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-   <suggestion><match no="1" postag="(V.*)(-)" postag_replace="$1H">اِسْتَأْذَنَ</match></suggestion>
+   <suggestion><match no="1" postag="(V.*)(-)" postag_replace="$1H">اِسْتَأْذَنَ</match><match no="2" regexp_match="من" regexp_replace=""/></suggestion>
 <!--
    <suggestion><match no="1" postag="(V.*)(-)" postag_replace="$1H">اِسْتَأْذَنَ</match>+<match no="2" regexp_match="من" regexp_replace=""/></suggestion>-->
 </message>
-    <example correction="استأذننه|استأذنه" type="incorrect"><marker>استأذن منه</marker></example>
+    <example correction="استأذنه|استأذننه" type="incorrect"><marker>استأذن منه</marker></example>
     <example correction="استأذننه|استأذنوه" type="incorrect"><marker>استأذنوا منه</marker></example>
 
     <example type="correct"> استأذنه </example>
@@ -6210,25 +6210,28 @@ END RULEGROUP Masdar errors
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-    <suggestion><match no="1" postag="(V.*)(-)" postag_replace="$1H">اِزْدَرَى</match></suggestion>
+    <suggestion><match no="1" postag="(V.*)(-)" postag_replace="$1H">اِزْدَرَى</match><match no="2" regexp_match="ب" regexp_replace=""/></suggestion>
 <!--    <suggestion><match no="1" postag="(V.*)(-)" postag_replace="$1H">اِزْدَرَى</match>+<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
 -->
 </message>
     <example correction="ازدراه" type="incorrect"><marker>ازدرى به</marker> </example>
+    <example correction="ازدراهم" type="incorrect"><marker>ازدرى بهم</marker> </example>
     <example type="correct"> ازدراه </example>
   </rule>
  <!-- trans_394_AstwTn_fy استوطن في -->
   <rule id="trans_394_AstwTn_fy" name="استوطن في">
     <pattern>
-      <token inflected="yes" skip="1">اِسْتَوْطَنَ</token>
-      <marker>
+      <marker><token inflected="yes" skip="1">اِسْتَوْطَنَ</token>
+      
         <token regexp="yes">&forms_fi;</token>
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-   <suggestion/>
+    <suggestion><match no="1" postag="(V.*)(-)" postag_replace="$1H">اِسْتَوْطَنَ</match><match no="2" regexp_match="في" regexp_replace=""/></suggestion>
 </message>
-    <example correction="" type="incorrect"> حل خالد بحمص واستوطن <marker>فيها</marker> </example>
+    <example correction="استوطنها|استوطننها" type="incorrect"> حل خالد بحمص <marker>استوطن فيها</marker> </example>
+<example correction="واستوطنها|واستوطننها" type="incorrect"> حل خالد بحمص <marker>واستوطن فيها</marker> </example>
+    <!--<example correction="واستوطنها" type="incorrect"> حل خالد بحمص<marker>واستوطن فيها</marker> </example>-->
     <example type="correct"> استوطن البلاد </example>
   </rule>
  <!-- TODO trans I2D-->

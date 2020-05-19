@@ -23,9 +23,13 @@ import morfologik.stemming.WordData;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
+import org.languagetool.tagging.ar.ArabicTagManager;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Arabic word form synthesizer.
@@ -48,7 +52,7 @@ public class ArabicSynthesizer extends BaseSynthesizer {
 
   // A special tag to remove pronouns properly
   private static final String REMOVE_PRONOUN = "(\\+RP)?";
-
+  private final ArabicTagManager tagmanager = new ArabicTagManager();
 
   public ArabicSynthesizer(Language lang) {
     super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
@@ -65,64 +69,98 @@ public class ArabicSynthesizer extends BaseSynthesizer {
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag) {
     IStemmer synthesizer = createStemmer();
-    String myPosTag = posTag;
-    // a flag to correct special case of posTag
-    String correctionFlag = "";
-    // extract special signature if exists
-    correctionFlag = extractSignature(myPosTag);
-    myPosTag = removeSignature(myPosTag);
-    // correct postag according to special signature if exists
-    myPosTag = correctTag(myPosTag, correctionFlag);
-    List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + myPosTag);
+    List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
     List<String> wordForms = new ArrayList<>();
+    String stem;
     for (WordData wd : wordData) {
-      wordForms.add(wd.getStem().toString());
+      // ajust some stems
+      stem = correctStem(wd.getStem().toString(), posTag);
+      wordForms.add(stem);
     }
     return wordForms.toArray(new String[0]);
   }
 
+  /**
+   * Special English regexp based synthesizer that allows adding articles
+   * when the regexp-based tag ends with a special signature {@code \\+INDT} or {@code \\+DT}.
+   *
+   * @since 2.5
+   */
+  @Override
+  public String[] synthesize(AnalyzedToken token, String posTag,
+                             boolean posTagRegExp) throws IOException {
 
-  /* Extract  */
-  public String extractSignature(String postag) {
-    String tmp = postag;
-    String correctionFlag = "";
-    if (tmp.endsWith(REMOVE_PRONOUN)) {
-      correctionFlag += "+RP";
-    }
-    return correctionFlag;
-  }
+    if (posTag != null && posTagRegExp) {
+      String myPosTag = posTag;
+      initPossibleTags();
+      myPosTag = correctTag(myPosTag);
 
-  /* Extract  */
-  public String removeSignature(String postag) {
-    String tmp = postag;
-    if (tmp.endsWith(REMOVE_PRONOUN)) {
-      // remove the code
-      tmp = tmp.substring(0, tmp.indexOf(REMOVE_PRONOUN));
-    }
-    return tmp;
-  }
-
-  /* remove the flag to an encoded tag */
-  public String removeTag(String postag, String flag) {
-    StringBuilder tmp = new StringBuilder(postag);
-    if (tmp != null) {
-      if (flag.equals("H") && tmp.charAt(tmp.length() - 1) == 'H') {
-
-        tmp.setCharAt(tmp.length() - 1, '-');
+      Pattern p = Pattern.compile(myPosTag);
+      List<String> results = new ArrayList<>();
+      String stem;
+      for (String tag : possibleTags) {
+        Matcher m = p.matcher(tag);
+        if (m.matches() && token.getLemma() != null) {
+          // local result
+          List<String> result_one = new ArrayList<>();
+          lookup(token.getLemma(), tag, result_one);
+          for (String wd : result_one) {
+            // adjust some stems according to original postag
+            stem = correctStem(wd, posTag);
+            results.add(stem);
+          }
+        }
       }
+      return results.toArray(new String[0]);
     }
-    return tmp.toString();
+
+    return synthesize(token, posTag);
   }
+
+
 
   /* correct tags  */
-  public String correctTag(String postag, String correctionFlag) {
+
+  public String correctTag(String postag) {
+    String mypostag = postag;
     if (postag == null) return null;
-    String tmp = postag;
-    // remove attached pronouns 
-    if (correctionFlag.equals("+RP")) {
-      tmp = removeTag(tmp, "H");
-    }
-    return tmp;
+    // remove attached pronouns
+
+    mypostag = tagmanager.setConjunction(mypostag, "-");
+    // remove Alef Lam definite article
+    mypostag = tagmanager.setDefinite(mypostag, "-");
+
+    return mypostag;
   }
+
+
+  /* correct stem to generate stems to be attached with pronouns  */
+  public String correctStem(String stem, String postag) {
+    String correct_stem = stem;
+    if (postag == null) return stem;
+    if (tagmanager.isAttached(postag)) {
+      correct_stem = correct_stem.replaceAll("ه$", "");
+    }
+
+    if (tagmanager.isDefinite(postag)) {
+      String prefix = tagmanager.getDefinitePrefix(postag);// can handle ال & لل
+      correct_stem = prefix + correct_stem;
+    }
+    if (tagmanager.hasJar(postag)) {
+      String prefix = tagmanager.getJarPrefix(postag);
+      correct_stem = prefix + correct_stem;
+    }
+    if (tagmanager.hasConjunction(postag)) {
+      String prefix = tagmanager.getConjunctionPrefix(postag);
+      correct_stem = prefix + correct_stem;
+
+    }
+    return correct_stem;
+  }
+
+
 }
+
+
+
 

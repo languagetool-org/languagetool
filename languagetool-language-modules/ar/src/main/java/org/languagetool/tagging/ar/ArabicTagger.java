@@ -35,6 +35,8 @@ import java.util.Locale;
  */
 public class ArabicTagger extends BaseTagger {
 
+  private final ArabicTagManager tagmanager = new ArabicTagManager();
+
   public ArabicTagger() {
     super("/ar/arabic.dict", new Locale("ar"));
   }
@@ -87,7 +89,7 @@ public class ArabicTagger extends BaseTagger {
           for (AnalyzedToken taggerToken : taggerTokens) {
             String posTag = taggerToken.getPOSTag();
             // modify tags in postag, return null if not compatible
-            posTag = modifyPosTag(posTag, tags);
+            posTag = tagmanager.modifyPosTag(posTag, tags);
 
             if (posTag != null)
               additionalTaggedTokens.add(new AnalyzedToken(word, posTag, taggerToken.getLemma()));
@@ -133,33 +135,66 @@ public class ArabicTagger extends BaseTagger {
   private List<Integer> getPrefixIndexList(String possibleWord) {
     List<Integer> prefix_indexes = new ArrayList<>();
     prefix_indexes.add(0);
-    int prefix_pos = 0;
+    int prefix_pos;
 
-    if (possibleWord.startsWith("و") || possibleWord.startsWith("ف")) {
-      possibleWord = possibleWord.replaceAll("^[وف]", "");
-      prefix_pos += 1;
+    // four letters
+    if (possibleWord.startsWith("وكال")
+      || possibleWord.startsWith("وبال")
+      || possibleWord.startsWith("فكال")
+      || possibleWord.startsWith("فبال")
+    ) {
+      prefix_pos = 4;
       prefix_indexes.add(prefix_pos);
     }
 
-    // first Case
-    if (possibleWord.startsWith("لل")) {
-      prefix_pos += 1;
-      prefix_indexes.add(prefix_pos);
-    } else if (possibleWord.startsWith("ك")) {
-      prefix_pos += 1;
-      prefix_indexes.add(prefix_pos);
-    } else if (possibleWord.startsWith("ل")) {
-      prefix_pos += 1;
+    // three letters
+    if (possibleWord.startsWith("ولل") // هذه حالة ول+ال
+      || possibleWord.startsWith("فلل")
+      || possibleWord.startsWith("فال")
+      || possibleWord.startsWith("وال")
+      || possibleWord.startsWith("بال")
+      || possibleWord.startsWith("كال")
+    ) {
+      prefix_pos = 3;
       prefix_indexes.add(prefix_pos);
     }
-    // second case
 
-    else if (possibleWord.startsWith("سأ")
+    // two letters
+    if (possibleWord.startsWith("لل")  // حالة ل+ال أي حرفان زائدان
+      || possibleWord.startsWith("وك")
+      || possibleWord.startsWith("ول")
+      || possibleWord.startsWith("وب")
+      || possibleWord.startsWith("فك")
+      || possibleWord.startsWith("فل")
+      || possibleWord.startsWith("فب")
+      || possibleWord.startsWith("ال")
+      //  حالة الفعل المضارع، السين فقط ما يؤخذ
+      || possibleWord.startsWith("فسأ")
+      || possibleWord.startsWith("فسن")
+      || possibleWord.startsWith("فسي")
+      || possibleWord.startsWith("فست")
+      || possibleWord.startsWith("وسأ")
+      || possibleWord.startsWith("وسن")
+      || possibleWord.startsWith("وسي")
+      || possibleWord.startsWith("وست")
+
+    ) {
+      prefix_pos = 2;
+      prefix_indexes.add(prefix_pos);
+    }
+
+    // one letter
+    if (possibleWord.startsWith("ك")
+      || possibleWord.startsWith("ل")
+      || possibleWord.startsWith("ب")
+      || possibleWord.startsWith("و")
+      || possibleWord.startsWith("ف")
+      || possibleWord.startsWith("سأ")  //  حالة الفعل المضارع، السين فقط ما يؤخذ
       || possibleWord.startsWith("سن")
       || possibleWord.startsWith("سي")
       || possibleWord.startsWith("ست")
     ) {
-      prefix_pos += 1;
+      prefix_pos = 1;
       prefix_indexes.add(prefix_pos);
     }
 
@@ -180,81 +215,35 @@ public class ArabicTagger extends BaseTagger {
 
     }
     // second place
-    if (prefix.equals("ك")) {
+    if (prefix.startsWith("ك")) {
       tags.add("K");
-    } else if (prefix.equals("ل")) {
+    } else if (prefix.startsWith("ل")) {
       tags.add("L");
-    } else if (prefix.equals("س")) {
+    } else if (prefix.startsWith("ب")) {
+      tags.add("B");
+    } else if (prefix.startsWith("س")) {
       tags.add("S");
     }
+    // last place
+    if (prefix.endsWith("ال")
+      || prefix.endsWith("لل")
+    ) {
+      tags.add("D");
+    }
     // suffixes
-    // TODO if needed
+    // TODO : suffixes if needed
     return tags;
   }
+  
 
-  private String modifyPosTag(String postag, List<String> tags) {
-    // if one of tags are incompatible return null
-
-    for (String tg : tags) {
-      postag = addTag(postag, tg);
-      if (postag == null)
-        return null;
-    }
-    return postag;
-  }
-
-  /* Add the flag to an encoded tag */
-  public String addTag(String postag, String flag) {
-    StringBuilder tmp = new StringBuilder(postag);
-    if (flag.equals("W")) {
-      tmp.setCharAt(postag.length() - 3, 'W');
-    } else if (flag.equals("K")) {
-      if (postag.startsWith("N")) {
-        // the noun must be majrour
-        if (isMajrour(postag))
-          tmp.setCharAt(postag.length() - 2, 'K');
-          // a prefix K but non majrour
-        else return null;
-
-      } else return null;
-    } else if (flag.equals("L")) {
-      if (postag.startsWith("N")) {
-        // the noun must be majrour
-        if (isMajrour(postag))
-          tmp.setCharAt(postag.length() - 2, 'L');
-          // a prefix Lam but non majrour
-        else return null;
-
-      } else { // verb
-        tmp.setCharAt(postag.length() - 2, 'L');
-
-      }
-    } else if (flag.equals("S")) {
-      // َAdd S flag
-      // if postag contains a future tag, TODO with regex
-      if (isFutureTense(postag)) {
-        tmp.setCharAt(postag.length() - 2, 'S');
-      } else
-        // a prefix Seen but non verb or future
-        return null;
-    }
-    return tmp.toString();
-  }
-
-  private boolean isMajrour(String postag) {// return true if have flag majrour
-    return (postag.charAt(6) == 'I') || (postag.charAt(6) == '-');
-  }
-
-  private boolean isFutureTense(String postag) {// return true if have flag future
-    return postag.startsWith("V") && postag.contains("f");
-  }
-
-  // test if word has stopword tagging
+  /**
+   * @param taggerTokens
+   * @return test if word has stopword tagging
+   */
   private boolean isStopWord(List<AnalyzedToken> taggerTokens) {
-    String posTag;
+    // if one token is stop word
     for (AnalyzedToken tok : taggerTokens) {
-      posTag = tok.getPOSTag();
-      if (posTag.startsWith("PR"))
+      if (tagmanager.isStopWord(tok.getPOSTag()))
         return true;
     }
     return false;
@@ -276,12 +265,10 @@ public class ArabicTagger extends BaseTagger {
     // correct some stems
     // correct case of للاسم
     String prefix = getPrefix(word, posStart);
-    if (prefix.equals("ل") && stem.startsWith("ل")) {
-      //stem = "ا"+stem;
-      stemList.add("ا" + stem); // للأسم => ل+الاسم
-      stemList.add("ال" + stem); // للاعب => ل+اللاعب
+    if (prefix.endsWith("لل")) {
+      stemList.add("ل" + stem); // للاعب => لل- لاعب
     }
-    // always
+
     stemList.add(stem);  // لاسم أو ل+لاعب
     return stemList;
   }
