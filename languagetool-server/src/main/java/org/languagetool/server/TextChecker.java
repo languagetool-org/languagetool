@@ -133,11 +133,6 @@ abstract class TextChecker {
         SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
       }
     }
-    // enable logging after warmup to avoid false alarms
-    if (config.getSlowRuleLoggingThreshold() >= 0) {
-      //RuleLoggerManager.getInstance().addLogger(new SlowRuleLogger(this.logServerId, config.getSlowRuleLoggingThreshold()));
-      RuleLoggerManager.getInstance().addLogger(new SlowRuleLogger(System.out, config.getSlowRuleLoggingThreshold()));
-    }
   }
 
   private void prewarmPipelinePool() {

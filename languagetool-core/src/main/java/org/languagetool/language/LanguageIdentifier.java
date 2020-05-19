@@ -248,9 +248,6 @@ public class LanguageIdentifier {
         result = new AbstractMap.SimpleImmutableEntry<>(result.getKey(), newScore);
       } catch (Exception e) {
         fasttextEnabled = false;
-        RuleLoggerMessage msg = new RuleErrorNotification(this.getClass().getSimpleName(), "-",
-          String.format("Fasttext disabled, failed with: %s", ExceptionUtils.getStackTrace(e)));
-        RuleLoggerManager.getInstance().log(msg, Level.WARNING);
         fasttextProcess.destroy();
         logger.error("Fasttext disabled", e);
       }
