@@ -56,6 +56,7 @@ public class UpperCaseNgramRuleTest {
     assertGood("The New York Times reviews their gallery all the time.");  // from spelling_global.txt
     assertGood("This Was a Good Idea");  // no dot = no real sentence
     assertGood("Professor Sprout acclimated the plant to a new environment.");  // "Professor ..." = antipattern
+    assertGood("Beauty products, Clean & Clear facial wash.");
 
     assertMatch("I really Like spaghetti.");
     assertMatch("This Was a good idea.");

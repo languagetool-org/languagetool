@@ -55,6 +55,11 @@ public class UpperCaseNgramRule extends Rule {
       token("Hugs"), token("and"), token("Kisses")
     ),
     Arrays.asList(
+      tokenRegex("[A-Z].+"),  // e.g. "Top 10% Lunch Deals"
+      tokenRegex("\\d+%?"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
       tokenRegex("[0-9]+"),  // e.g. "6) Have a beer"
       tokenRegex("[)\\]]"),
       tokenRegex("[A-Z].+")
@@ -236,7 +241,7 @@ public class UpperCaseNgramRule extends Rule {
 
   private boolean isShortWord(AnalyzedTokenReadings token) {
     // ignore words typically spelled lowercase even in titles
-    return token.getToken().trim().isEmpty() || token.getToken().matches("and|or|the|of|on|with|to|it|in|for|as|at|his|her|its|into");
+    return token.getToken().trim().isEmpty() || token.getToken().matches("and|or|the|of|on|with|to|it|in|for|as|at|his|her|its|into|&|/");
   }
 
   private boolean trieMatches(String text, AnalyzedTokenReadings token) {
