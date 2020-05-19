@@ -53281,9 +53281,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </and>
                 </pattern>
                 <message>No useu com a pronominal aquest verb, o bé afegiu-hi el pronom 'en'.</message>
-                <suggestion><match no="1" regexp_match="(?iu)e?([mts])e?" regexp_replace="$1e'n"/></suggestion>
-                <example correction="se'n">Ell <marker>es va</marker> a casa.</example>
-                <example correction="te'n">Tu <marker>et vas</marker> a casa.</example>
+                <suggestion><match no="1" regexp_match="(?iu)e?([mts])e?" regexp_replace="$1e'n"/> \2</suggestion>
+                <suggestion>\2</suggestion>
+                <example correction="se'n va|va">Ell <marker>es va</marker> a casa.</example>
+                <example correction="te'n vas|vas">Tu <marker>et vas</marker> a casa.</example>
             </rule>
             <rule>
                 <pattern>
@@ -53296,8 +53297,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>No useu com a pronominal aquest verb, o bé afegiu-hi el pronom 'en'.</message>
                 <suggestion><match no="1" regexp_match="(?iu)([mts])'" regexp_replace="$1e n'"/>\2 \3</suggestion>
-                <example correction="Te n'has anat"><marker>T'has anat</marker> de casa.</example>
-                <example correction="Me n'havia anat"><marker>M'havia anat</marker> de casa.</example>
+                <suggestion>\2 \3</suggestion>
+                <example correction="Te n'has anat|Has anat"><marker>T'has anat</marker> de casa.</example>
+                <example correction="Me n'havia anat|Havia anat"><marker>M'havia anat</marker> de casa.</example>
             </rule>
             <rule>
                 <pattern>
@@ -53309,8 +53311,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>No useu com a pronominal aquest verb, o bé afegiu-hi el pronom 'en'.</message>
                 <suggestion><match no="1" regexp_match="(?iu)([mts])'" regexp_replace="$1e n'"/>\2</suggestion>
-                <example correction="Te n'anaves"><marker>T'anaves</marker> de casa.</example>
-                <example correction="Me n'anava"><marker>M'anava</marker> de casa.</example>
+                <suggestion>\2</suggestion>
+                <example correction="Te n'anaves|Anaves"><marker>T'anaves</marker> de casa.</example>
+                <example correction="Me n'anava|Anava"><marker>M'anava</marker> de casa.</example>
             </rule>
             <rule>
                 <pattern>
