@@ -16214,6 +16214,7 @@ USA
                 <example>The most common of <marker>these two is</marker> on the outside.</example>
            </rule>
         </rulegroup>
+
         <rulegroup id="PLURAL_VERB_AFTER_THIS" name="Plural verb after 'this' or 'that'">
             <!-- Created by Tiago F. Santos, 2018-09-15. Edited by MFU 2018-12-10, 2019-01-28, 2019-05-13, 2020-02-06 -->
             <antipattern><!--  does this book...? / Does this extend...? -->
@@ -16380,6 +16381,19 @@ USA
                     <token chunk="I-NP-singular" postag="VBP"/>
                     <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
                 </antipattern>
+                <antipattern><!-- #2674 Hosts using that package don't -->
+                    <token regexp="yes">this|that</token>
+                    <token chunk="E-NP-singular"/>
+                    <token postag_regexp="yes" postag="VBP?"/>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>t</token>
+                </antipattern>
+                <antipattern><!-- #2674 Hosts using that package do not -->
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token chunk="B-VP" postag="VBG"/>
+                    <token/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                </antipattern>
                 <pattern>
                     <token regexp='yes'>
                         th(?:is|at)
@@ -16488,8 +16502,13 @@ USA
                 <example>... but having this occur three times now makes me angry.</example><!-- #2258 -->
                 <example>Now they remove this <marker>agree button</marker> on this website.</example><!-- #2411 -->
                 <example>It happens when you hit that last submit button.</example><!-- #2653 -->
+                <example>Hosts using that package don't block all traffic.</example><!-- #2674 -->
+                <example>Hosts using that package do not block all traffic.</example><!-- #2674 -->
+                <example>People evaluating this test don't always find all the errors.</example><!-- #2674 -->
+                <example>I think this test don't always work.</example><!-- #2674 -->
            </rule>
         </rulegroup>
+
         <rulegroup id="THIS_NNS_VB" name="this + plural noun + verb (these)">
             <rule>
                 <antipattern>
