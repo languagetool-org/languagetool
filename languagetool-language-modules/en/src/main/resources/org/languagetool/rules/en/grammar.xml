@@ -11967,7 +11967,7 @@ USA
             </antipattern>
             <pattern>
                 <!-- TODO: friendship (My friend ships ...) -->
-                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee|citizen</token>
+                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee|citizen|scholar</token>
                 <token regexp="yes">ships?</token>
             </pattern>
             <message>This noun is normally spelled as one.</message>
@@ -12237,8 +12237,19 @@ USA
             </antipattern>
             <antipattern>
                 <token inflected="yes">be</token>
+                <token postag="RB" min="0" />
                 <token>under</token>
-                <token>estimate</token>
+                <token regexp="yes">estimates?|rates?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">(\d+)?%</token>
+                <token>under</token>
+                <token regexp="yes">estimates?|rates?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="CD" skip="1" />
+                <token>under</token>
+                <token regexp="yes">estimates?|rates?</token>
             </antipattern>
             <pattern>
                 <token>under</token>
@@ -12250,7 +12261,82 @@ USA
             <example>Just add this under line 302.</example>
             <example>I explained to her that we had been a customer under Rate No. 21 since July but only obtained access recently.</example>
             <example>It is under estimate.</example>
+            <example>This is 12 % under estimate.</example>
         </rule>
+        <rulegroup id="OVER_COMPLICATE" name="over complicated (overcomplicated)" default="temp_off">
+            <antipattern>
+                <token skip="-1" inflected="yes" regexp="yes">prefer|wear|advantage|recommend|bend|lean</token>
+                <token>over</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">be</token>
+                <token postag="RB" min="0" />
+                <token>over</token>
+                <token postag_regexp="yes" postag="VBZ?" />
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">(\d+)?%</token>
+                <token>over</token>
+                <token regexp="yes">estimates?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="CD" skip="1" />
+                <token>over</token>
+                <token regexp="yes">estimates?</token>
+            </antipattern>
+            <antipattern>
+                <token>over</token>
+                <token regexp="yes">and|&amp;</token>
+                <token>over</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>over</token>
+                    <token inflected="yes" regexp="yes">
+                        complicate|think|come|estimate|haul|flow|kill|look|whelm|reach|see|view|wear
+                        <exception postag="VBG" /><!-- see [3] -->
+                    </token>
+                </pattern>
+                <message>This is normally spelled as one word.</message>
+                <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion>
+                <example correction="overcomplicated">This task is <marker>over complicated</marker>.</example>
+                <example>While its use has several advantages over use of a live edged weapon, ...</example>
+                <example>This influence was evident with Batman showing little remorse over killing or maiming criminals.</example>
+                <example>The snapper will commonly bend over looking between his legs.</example>
+                <example>But in July, the first month of the fiscal year, revenues were 4.7% over estimates, though the California economy is evidently slowing.</example>
+                <example>A mother was leaning over looking for meat and turned around to find her 4 yr.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|his|her|their|its|many|of</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>over</token>
+                        <token regexp="yes">uses?</token>
+                    </marker>
+                </pattern>
+                <message>This is normally spelled as one word.</message>
+                <suggestion>\3<match no="4" case_conversion="alllower" /></suggestion>
+                <example correction="overuse">The <marker>over use</marker> of medicine can harm your health in the long term.</example>
+            </rule>
+            <rule><!-- "he is <over thinking> it" -->
+                <pattern>
+                    <token inflected="yes">
+                        be
+                        <exception>be</exception>
+                    </token>
+                    <token postag="RB" min="0" max="2" />
+                    <marker>
+                        <token>over</token>
+                        <token regexp="yes">complicating|thinking|coming|estimating|hauling|flowing|killing|looking|whelming|reaching|seeing|viewing|wearing</token>
+                    </marker>
+                </pattern>
+                <message>This is normally spelled as one word.</message>
+                <suggestion>\3<match no="4" case_conversion="alllower" /></suggestion>
+                <example correction="overthinking">He is <marker>over thinking</marker> the task.</example>
+                <example>This influence was evident with Batman showing little remorse over killing or maiming criminals.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="FEED_BACK" name="feed back (feedback)">
             <antipattern>
                 <token>no</token>
@@ -43579,6 +43665,10 @@ The accident victim died from her injuries.
           <token regexp="yes">radio|TV</token>
       </antipattern>
       <antipattern>
+        <token>jumping</token>
+        <token regexp="yes">jacks?</token>
+      </antipattern>
+      <antipattern>
           <token>newsletter</token>
           <token regexp="yes">\d+|\p{Lu}.+</token>
       </antipattern>
@@ -43628,6 +43718,10 @@ The accident victim died from her injuries.
           <token>ability</token>
           <token postag='PRP'/>
           <token postag_regexp='yes' postag='V.+'/>
+      </antipattern>
+      <antipattern>
+        <token>individual</token>
+        <token>wants</token>
       </antipattern>
       <pattern>
           <token regexp="yes">&ATD_to_collocation;</token>
