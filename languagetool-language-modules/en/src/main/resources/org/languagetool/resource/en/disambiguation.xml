@@ -3950,6 +3950,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token>mere</token>
             <token postag="CD"/>
         </antipattern>
+        <antipattern><!-- #2759 that sound good. -->
+            <token>that</token>
+            <token postag_regexp="yes" postag="VB[PDZ]"/>
+            <token postag="JJ"/>
+            <token postag="SENT_END"/>
+        </antipattern>
         <pattern>
             <token postag_regexp="yes" postag="DT|JJ|PRP\$"/>
             <token postag="JJ.*|VBG" postag_regexp="yes"><exception postag="RB"/><exception regexp="yes">being|one</exception></token>
@@ -3974,6 +3980,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">An area of twelve inches by thirty three was covered in an unknown powder.</example>
         <example type="untouched">Cardinal: Moody's warned it may downgrade 47 companies and raise a mere <marker>four</marker>.</example><!-- Premium #999 -->
         <example type="untouched">In her research, she found that a mere <marker>twenty</marker> were in the whole of England.</example>
+        <example type="untouched">I think that sound good.</example><!-- #2759 -->
+        <example type="untouched">There are many melodies that sound good.</example><!-- #2759 -->
     </rule>
 
     <rule name="those + VBN/NN + not a noun -> VBN" id="DT_plural_VBNNN_VBN">
