@@ -97,6 +97,9 @@ public class UpperCaseNgramRule extends Rule {
     Arrays.asList(
       token("Time"),
       token("magazine")
+    ),
+    Arrays.asList(
+      token("Teams") // Microsoft Teams (not tagged as NNP)
     )
   );
 
