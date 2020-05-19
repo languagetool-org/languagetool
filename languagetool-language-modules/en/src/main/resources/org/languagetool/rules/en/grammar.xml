@@ -17386,6 +17386,7 @@ USA
             <message>Did you mean <suggestion>of</suggestion>?</message>
             <example correction='of'>Children are fond <marker>to</marker> skipping.</example>
         </rule>
+
         <rule id="A_GREAT_NUMBER_OF_NN" name="a great number of + singular (plural)">
             <pattern>
                 <token>a</token>
@@ -17393,12 +17394,16 @@ USA
                 <token>number</token>
                 <token>of</token>
                 <marker>
-                    <token postag='NN'><exception>cars</exception></token>
+                    <token chunk="E-NP-singular" postag="NN"/>
                 </marker>
             </pattern>
             <message>Did you mean <suggestion><match no="5" postag="NNS"/></suggestion>?</message>
-            <example correction='problems'>A great number of <marker>problem</marker> have arisen.</example>
+            <example correction='problems'>A great number of <marker>problem</marker> can be prevented.</example>
+            <example>A great number of <marker>problems</marker> can be prevented.</example>
+            <example>The effective temperatures of a great number of peculiar (Ap) and metallic line (Am) stars are reduced to one system.</example><!-- #2676 -->
+            <example>A great number of problem conditions can arise.</example><!-- #2676 -->
         </rule>
+
         <rule id="MANY_KINDS_OF" name="many kinds of + singular noun">
             <antipattern>
                 <token>many</token>
