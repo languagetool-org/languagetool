@@ -4060,6 +4060,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="E-NP-plural" postag_regexp="yes" postag="VB[ZD]"/>
             <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]"/>
         </antipattern>
+        <antipattern><!-- #2952 Chunker error: a blonde woman laughs -->
+            <token chunk="B-NP-plural" regexp="yes">an?</token>
+            <token chunk="I-NP-plural" postag_regexp="yes" postag="JJR?"/>
+            <token chunk="I-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token postag_regexp="yes" postag="VB[ZD]"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -4083,6 +4089,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">I wish you a good party guys and don't drink too much.</example><!-- #2931 -->
         <example type="untouched">... cost of a given service increases as the month goes by.</example><!-- #2921 -->
         <example type="untouched">... that happen after an enemy dies are too slow to matter.</example><!-- #2921 -->
+        <example type="untouched">A blonde woman laughs and mucks.</example><!-- #2952 -->
+        <example type="untouched">A blonde woman laughs.</example><!-- #2952 -->
     </rule>
 
     <rule name="required to" id="required_to">
@@ -7238,6 +7246,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token postag_regexp="yes" postag="NN(:UN?)?"/>
             <token regexp="yes">boys|chaps|fellows|girls|guys|ladies|lads|peeps|people</token>
         </antipattern>
+        <antipattern><!-- #2952 Chunker error: a blonde woman laughs -->
+            <token chunk="B-NP-plural" regexp="yes">an?</token>
+            <token chunk="I-NP-plural" postag_regexp="yes" postag="JJR?"/>
+            <token chunk="I-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token postag_regexp="yes" postag="VB[ZD]"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7282,6 +7296,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">The five days’ time required to start a new business ranks 29th.</example><!-- #2926 -->
         <example type="untouched">... if a particular service restarts X times in Y minutes.</example><!-- #2926 -->
         <example type="untouched">We have cards the other wants.</example>
+        <example type="untouched">A blonde woman laughs and mucks.</example><!-- #2952 -->
+        <example type="untouched">A blonde woman laughs.</example><!-- #2952 -->
     </rule>
 
         <rule id="BENEATH_NOTICE" name="beneath notice">
