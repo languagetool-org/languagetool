@@ -131,7 +131,7 @@ USA
         <token regexp="yes" skip="-1">\d\d\d\d</token>
     '>
 
-    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region|zone|band|source|influenza|hepatitis|grade|formula|document|division|class|category|dock|column|appendix|macro|criterion|vitamin|model|graph|tier|option'>
+    <!ENTITY nouns_with_a 'series?|angle|choice|plan|exhibit|annex|part|person|group|team|participant|patient|probant|type|region|zone|band|source|influenza|hepatitis|grade|formula|document|division|class|category|dock|column|appendix|macro|criterion|vitamin|model|graph|tier|option|party'>
     <!ENTITY nouns_with_i 'article|block|phase|class|grade|part|paragraph|section|chaos|enigma|book|war|king|current|mustang|type|division|level|bi\-?polar|century|tier|numeral|algorithm|auschwitz|algebra'>
 ]>
 
@@ -5889,6 +5889,33 @@ USA
                 <suggestion>runner's \4</suggestion>
                 <url>https://www.merriam-webster.com/dictionary/runner%27s%20high</url>
                 <example correction="Runner's High">How to Achieve a <marker>Runners High</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|DT|PRP\$" postag_regexp="yes" />
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token>directors</token>
+                        <token>cut</token>
+                    </marker>
+                </pattern>
+                <message>A possessive apostrophe is missing.</message>
+                <suggestion>director's \4</suggestion>
+                <url>https://www.merriam-webster.com/dictionary/director%27s%20cut</url>
+                <example correction="director's cut">The first trailer for the <marker>directors cut</marker> dropped in June..</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>a</token>
+                    <marker>
+                        <token>stones</token>
+                        <token>throw</token>
+                    </marker>
+                </pattern>
+                <message>A possessive apostrophe is missing.</message>
+                <suggestion>stone's \3</suggestion>
+                <url>https://www.merriam-webster.com/dictionary/a%20stone's%20throw</url>
+                <example correction="stone's throw">She lives just a <marker>stones throw</marker> away from the beach.</example>
             </rule>
         </rulegroup>
 
@@ -11789,6 +11816,46 @@ USA
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <example correction="ghostwriter">I employed a <marker>ghost writer</marker> for my new book.</example>
         </rule>
+        <rule id="WORKER_COMPOUNDS" name="steel worker (steelworker)" default="temp_off">
+            <antipattern><!-- https://en.wikipedia.org/wiki/United_Auto_Workers -->
+                <token skip="1">united</token>
+                <token>workers</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Auto|Farm|Iron</token>
+                <token>Workers</token>
+            </antipattern>
+            <antipattern>
+                <token skip="3">in</token>
+                <token>case</token>
+                <token regexp="yes">workers?</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">part|full|real</token>
+                <token>time</token>
+                <token regexp="yes">workers?</token>
+            </antipattern>
+            <antipattern>
+                <token>association</token>
+                <token skip="4">of</token>
+                <token regexp="yes">workers?</token>
+            </antipattern>
+            <antipattern>
+                <token>sheet</token>
+                <token>metal</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">needle|piece|metal|steel|glass|iron|dock|auto|wage|wood|time|hand|farm|case|non|net</token>
+                <token regexp="yes">workers?</token>
+            </pattern>
+            <message>This noun is normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="steelworker">Tom once was earned his money as a <marker>steel worker</marker>.</example>
+            <example>We need to prepare just in case workers are going to strike.</example>
+            <example>The effort would effectively put the White House on the side of the United Auto Workers.</example>
+            <example>The unions are the Operating Engineers, Insulators and Sheet Metal Workers</example>
+            <example>You know, the Auto Workers' new contract makes Election Day a holiday for their members.</example>
+        </rule>
         <rule id="MAKER_COMPOUNDS" name="trouble maker (troublemaker)">
             <antipattern case_sensitive="yes">
                 <token>Film</token>
@@ -11946,7 +12013,7 @@ USA
             <example>In the sky way too many clouds are seen.</example>
             <example>You can run way faster than him.</example>
         </rule>
-        <rule id="HOLDER_COMPOUNDS" name="share holder (shareholder)" default="temp_off">
+        <rule id="HOLDER_COMPOUNDS" name="share holder (shareholder)">
             <antipattern>
                 <token regexp="yes">credit|green|blue|ghana</token>
                 <token>card</token>
@@ -11960,7 +12027,7 @@ USA
             <example correction="shareholder">Bill Gates is still a <marker>share holder</marker> of Microsoft.</example>
             <example>DBA is required for all U.S. citizens, U.S. residents, U.S. Green Card holders, and all employees or subcontractors hired on overseas government contracts.</example>
         </rule>
-        <rule id="BREAKER_COMPOUNDS" name="law breaker (lawbreaker)" default="temp_off">
+        <rule id="BREAKER_COMPOUNDS" name="law breaker (lawbreaker)">
             <antipattern>
                 <token regexp="yes">credit|green|blue|ghana</token>
                 <token>card</token>
@@ -12295,7 +12362,7 @@ USA
             <example>It is under estimate.</example>
             <example>This is 12 % under estimate.</example>
         </rule>
-        <rulegroup id="OVER_COMPLICATE" name="over complicated (overcomplicated)" default="temp_off">
+        <rulegroup id="OVER_COMPLICATE" name="over complicated (overcomplicated)">
             <antipattern>
                 <token skip="-1" inflected="yes" regexp="yes">prefer|wear|advantage|recommend|bend|lean</token>
                 <token>over</token>
@@ -21845,7 +21912,7 @@ USA
                 <example correction="Windows">Are you on <marker>windows</marker>?</example>
             </rule>
         </rulegroup>
-        <rulegroup id="A_SNICKERS" name="Snickers (proper noun)" default="temp_off">
+        <rulegroup id="A_SNICKERS" name="Snickers (proper noun)">
             <url>https://en.wikipedia.org/wiki/Snickers</url>
             <rule>
                 <pattern>
@@ -26046,6 +26113,10 @@ USA
                 <token>a</token>
                 <token>records</token>
             </antipattern>
+            <antipattern><!-- idiom https://en.wiktionary.org/wiki/stone%27s_throw (caught by POSSESSIVE_APOSTROPHE) -->
+                <token>stones</token>
+                <token>throw</token>
+            </antipattern>
             <antipattern>
                 <token case_sensitive="yes">A</token>
                 <token regexp="yes">divisions?|grade[sd]?|molecules</token>
@@ -26127,7 +26198,10 @@ USA
             <antipattern>
                 <token regexp="yes">an?</token>
                 <token postag="JJR?" postag_regexp="yes" min="0" max="2" />
-                <token regexp="yes" chunk="E-NP-plural">stats|backwards|sideways|thanks|Reds</token><!-- A big thanks to Carl-->
+                <token regexp="yes" chunk="E-NP-plural">stats|backwards|sideways|thanks</token><!-- A big thanks to Carl-->
+            </antipattern>
+            <antipattern><!-- football/soccer teams -->
+                <token case_sensitive="yes" chunk="E-NP-plural" regexp="yes">Reds|Cowboys</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">an?</token>
@@ -26181,8 +26255,9 @@ USA
             </antipattern>
             <antipattern><!-- incorrect tagging: "I’m not an integrations expert - so I’ll go" / "There is a permissions API you can use to check those permissions." -->
                 <token regexp="yes">an?</token>
+                <token postag="JJR?" postag_regexp="yes" min="0" />
                 <token chunk="E-NP-plural" />
-                <token regexp="yes">implementation|folder</token>
+                <token regexp="yes">implementation|folder|file</token>
             </antipattern>
             <antipattern>
                 <token>a</token>
@@ -26406,6 +26481,7 @@ USA
                 <example type="triggers_error">The American Military authorities established a displaced persons (DP) camp in what used to be a sanatorium...</example>
                 <example type="triggers_error">Dwan operated <marker>Flying A Studios</marker> in La Mesa, California from August 1911 to July 1912.</example>
                 <example type="triggers_error">I think it is a standard milliseconds since epoch.</example>
+                <example type="triggers_error">A lighter strikes.</example>
             </rule>
             <rule>
                 <antipattern><!-- if a low rank needs ... -->
@@ -30495,7 +30571,7 @@ USA
             </antipattern>
             <pattern>
                 <token>least<exception scope="previous">at</exception></token>
-                <token postag="JJ[RS]" postag_regexp="yes"><exception>most</exception></token>
+                <token postag="JJ[RS]" postag_regexp="yes"><exception regexp="yes">most|number</exception></token>
             </pattern>
             <message>Non-standard use of the comparative or superlative. Did you mean <suggestion><match no="1"/> <match no="2" postag="JJ"/></suggestion>?</message>
             <short>Grammatical problem: non-standard comparative/superlative</short>
@@ -30504,6 +30580,7 @@ USA
             <example>This is at <marker>least harder</marker> than the trivial task.</example>
             <example>...empty set of real numbers with an upper bound has a <marker>least upper bound</marker>.</example>
             <example correction="least hard">This is the <marker>least hardest</marker>.</example>
+            <example>The least number.</example><!-- number is JJR -->
         </rule>
 
         <rulegroup id="THE_SUPERLATIVE" name="Zero or indefinite article ('a'/'an') before superlatives">
@@ -44995,7 +45072,7 @@ The accident victim died from her injuries.
                      <token postag='SENT_START'></token>
                      <marker><token regexp='yes'>&interjections;</token></marker>
                      <token>
-                       <exception regexp='yes'>[\!\?\.,;]</exception>
+                       <exception regexp='yes'>[\!\?\.,;\-–]</exception>
                        <exception postag='NNP'/>
                     </token>
                  </pattern>
