@@ -2745,20 +2745,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Мама мыла раму, и готовила дочка"><marker>Мама мыла раму и готовила дочка</marker> обед.</example>
             </rule>        -->
         </rulegroup>
-        <rule  id="PNN_Kak_Noun" name="Знаки препинания в предложении «Местоимение + как + существительное»">  
+        <rule  id="PNN_Kak_Noun" name="Знаки препинания в предложении «Местоимение/существительное + как + существительное-сказуемое»">  
             <pattern>             
                 <marker>
-                    <token regexp="yes" >я|мы|вы|ты|он|она|они|оно</token>
+                    <or>
+                        <token regexp="yes" >я|мы|вы|ты|он|она|они|оно</token>
+                        <token postag_regexp="yes" postag="NN:.*:Nom"><exception negate_pos="yes" postag="NN:.*:Nom" postag_regexp="yes"></exception></token>
+                    </or>
                     <token >,</token>
-                    <token skip="-1">как</token>   
+                    <token>как</token>   
                     <token postag_regexp="yes" postag="NN:.*:Nom"></token>
                 </marker>
-                <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
             </pattern>
-            <message>Лишняя запятая.<suggestion>\1 \3 \4</suggestion></message>
+            <message>Лишняя запятая.<suggestion>\1 \3 \4</suggestion> или <suggestion>\1 — \3 \4</suggestion></message>
             <short>Лишняя запятая</short>
             <example>Она как богиня!</example>
-            <example correction="Она как богиня"><marker>Она, как богиня</marker>!</example>
+            <example correction="Она как богиня|Она — как богиня"><marker>Она, как богиня</marker>!</example>
         </rule>  
         <rule  id="Kak_Tak_i" name="Знаки препинания в сложном предложении «Как ... , так и  ...»">  
             <pattern>             
@@ -2922,7 +2924,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Привет, друзья"><marker>Привет друзья</marker>!</example>
             </rule>
         </rulegroup>
-        <rulegroup id="Kak_bi_to_ni_bilo" name="Устойчивое выражение «как бы то ни было»,..">
+        <rulegroup id="Kak_bi_to_ni_bilo" name="Устойчивое выражение «как бы то ни было», ...">
             <rule>
                 <pattern>              
                     <token>как</token>
@@ -7159,8 +7161,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Объекты реализации единых по замыслу архитектурных проектов.</example>
                 <example correction="жаренная">Сегодня на ужин <marker>жареная</marker> на масле картошка.</example>
             </rule>
-        </rulegroup>
-        <rulegroup default="on" id="NN_N_pril_prich_2" name="Правописание «нн» или «н» в причастиях и прилагательных-2">
+
             <rule>
                 <pattern>
                     <marker>  
