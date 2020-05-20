@@ -535,8 +535,9 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("vetos", Arrays.asList("vetoes"));
     s.put("vitas", Arrays.asList("vitae"));
     s.put("watchs", Arrays.asList("watches"));
-    s.put("wifes", Arrays.asList("wives"));
-    s.put("womans", Arrays.asList("women"));
+    s.put("wifes", Arrays.asList("wives", "wife's"));
+    s.put("womans", Arrays.asList("women", "woman's"));
+    s.put("womens", Arrays.asList("women's"));
     // AtD irregular plurals - END
     // "tippy-top" is an often used word by Donald Trump
     s.put("tippy-top", Arrays.asList("tip-top", "top most"));
