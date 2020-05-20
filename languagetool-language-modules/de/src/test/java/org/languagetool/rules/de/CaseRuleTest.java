@@ -179,6 +179,7 @@ public class CaseRuleTest {
     assertGood(";) Dies ist ein Test");
     assertGood("..., die ins Nichts griff.");
     assertGood("Er fragte, was sie über das denken und zwinkerte ihnen zu.");
+    assertGood("dem Ägyptischen, Berberischen, Semitischen, Kuschitischen, Omotischen und dem Tschadischen");
 
     //assertBad("Sie sind nicht Verständlich");
     assertBad("Das machen der Töne ist schwierig.");

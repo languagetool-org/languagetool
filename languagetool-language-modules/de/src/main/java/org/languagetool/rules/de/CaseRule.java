@@ -39,12 +39,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csToken;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.regex;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 /**
  * Check that adjectives and verbs are not written with an uppercase
@@ -71,6 +66,13 @@ public class CaseRule extends Rule {
   
   // also see case_rule_exceptions.txt:
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      // Auflistung
+      csRegex("[A-ZÖÄÜ][a-zöäüß]+"),
+      token(","),
+      csRegex("[A-ZÖÄÜ][a-zöäüß]+"),
+      tokenRegex(",|etc")
+    ),
     Arrays.asList(
       regex("erste[nr]?"),
       csToken("Hilfe")
@@ -366,21 +368,21 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList( // "Das schließen Forscher aus ..."
      token("das"),
-     posRegex("VER:INF:(SFT|NON)"), 
+     posRegex("VER:INF:(SFT|NON)"),
      posRegex("SUB:NOM:PLU:.+|ADV:MOD")
     ),
     Arrays.asList( // Das schaffen moderne E-Autos locker
      token("das"),
-     posRegex("VER:INF:(SFT|NON)"), 
+     posRegex("VER:INF:(SFT|NON)"),
      posRegex("ADJ:.+"),
      posRegex("SUB:NOM:PLU:.+|ADV:MOD")
     ),
     Arrays.asList( // Das schaffen moderne und effiziente E-Autos locker
      token("das"),
-     posRegex("VER:INF:(SFT|NON)"), 
-     posRegex("ADJ:.+"), 
-     posRegex("KON:.+"), 
-     posRegex("ADJ:.+"), 
+     posRegex("VER:INF:(SFT|NON)"),
+     posRegex("ADJ:.+"),
+     posRegex("KON:.+"),
+     posRegex("ADJ:.+"),
      posRegex("SUB:NOM:PLU:.+|ADV:MOD")
     ),
     Arrays.asList( // "Tausende Gläubige kamen, um ihn zu sehen."
@@ -390,17 +392,17 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList( // "Man kann das generalisieren"
       posRegex("VER:MOD.*"),
-      token("das"), 
+      token("das"),
       posRegex("VER:INF:(SFT|NON)")
     ),
     Arrays.asList( // "Vielleicht kann er das generalisieren"
       posRegex("VER:MOD.*"),
-      posRegex("PRO:.+"), 
-      token("das"), 
+      posRegex("PRO:.+"),
+      token("das"),
       posRegex("VER:INF:(SFT|NON)")
     ),
     Arrays.asList( // "Er befürchtete Schlimmeres."
-      regex("Schlimm(er)?es"), 
+      regex("Schlimm(er)?es"),
       pos(JLanguageTool.SENTENCE_END_TAGNAME)
     ),
     Arrays.asList(
@@ -476,12 +478,12 @@ public class CaseRule extends Rule {
       token("in"),
       csToken("Time")
     ),
-    Arrays.asList( // Hey Süßer, 
+    Arrays.asList( // Hey Süßer,
       regex("Hey|Hi|Hallo|Na"),
       regex("Süßer?|Hübscher?"),
       pos("PKT")
     ),
-    Arrays.asList( // Hey mein Süßer, 
+    Arrays.asList( // Hey mein Süßer,
       regex("Hey|Hi|Hallo|Na"),
       regex("du|meine?"),
       regex("Süßer?|Hübscher?"),
@@ -498,7 +500,7 @@ public class CaseRule extends Rule {
     nounIndicators.add("euer");
     nounIndicators.add("unser");
   }
-  
+
   private static final String[] sentenceStartExceptions = {"(", "\"", "'", "‘", "„", "«", "»", ".", "!", "?"};
 
   private static final String[] UNDEFINED_QUANTIFIERS = {"viel", "nichts", "wenig", "allerlei"};
@@ -523,6 +525,12 @@ public class CaseRule extends Rule {
     "Sa",   // Sa. 12 - 16 Uhr
     "Gr",   // "Gr. 12"
     "Mag",   // "Mag. Helke Müller"
+    "Drogenabhängige",
+    "Drogenabhängiger",
+    "Drogenabhängigen",
+    "Asylsuchender",
+    "Asylsuchende",
+    "Asylsuchenden",
     "Dozierende",
     "Dozierenden",
     "Studierende",
