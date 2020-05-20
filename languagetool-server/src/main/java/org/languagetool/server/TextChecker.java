@@ -275,6 +275,7 @@ abstract class TextChecker {
     Language lang = detLang.getGivenLanguage();
 
     // == temporary counting code ======================================
+    /*
     if (httpExchange.getRequestHeaders() != null && httpExchange.getRequestHeaders().get("Accept-Language") != null) {
       List<String> langs = httpExchange.getRequestHeaders().get("Accept-Language");
       if (langs.size() > 0) {
@@ -287,6 +288,7 @@ abstract class TextChecker {
         }
       }
     }
+    */
     // ========================================
 
     Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());
