@@ -34038,6 +34038,7 @@ USA
             <example>People who are able to code it need to have the motivation.</example>
             <example>Note that this integration is not a New Relic creation so issues or problems with it need to be referred to WordPress.</example>
         </rule>
+
         <rulegroup id="HE_VERB_AGR" name="Agreement error: Non-third person/past tense verb with 'he/she/it' or a pronoun">
             <short>Agreement error</short>
             <antipattern><!-- nobody having any question. Applicable to rule 1 and rule 7. -->
@@ -34670,6 +34671,68 @@ USA
                     <token chunk="B-NP-plural" postag="NNP"/>
                     <token chunk="E-NP-plural" postag="NNS"/>
                 </antipattern>
+                <antipattern><!-- #2948 What are Albert’s options? -->
+                    <token regexp="yes">have|are</token>
+                    <token postag="NNP"/>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token min="0" max="1" spacebefore="no">s</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- #2948 Why have Albert’s real options been restricted? -->
+                    <token regexp="yes">have|are</token>
+                    <token postag="NNP"/>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token min="0" max="1" spacebefore="no">s</token>
+                    <token chunk="I-NP-plural"/>
+                </antipattern>
+                <antipattern><!-- #2948 What are Polonius' and King Claudius' plans for spying? -->
+                    <token regexp="yes">have|are</token>
+                    <token postag="NNP"/>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token min="0" max="1" spacebefore="no">s</token>
+                    <token regexp="yes">and|or</token>
+                    <token chunk="B-NP-plural"/>
+                    <token min="0" max="1" chunk="I-NP-plural"/>
+                    <token chunk="E-NP-plural"/>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token min="0" max="1" spacebefore="no">s</token>
+                    <token chunk="E-NP-plural"/>
+                </antipattern>
+                <antipattern><!-- #2948 What are Polonius' and King Claudius' usual plans for spying? -->
+                    <token regexp="yes">have|are</token>
+                    <token postag="NNP"/>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token min="0" max="1" spacebefore="no">s</token>
+                    <token regexp="yes">and|or</token>
+                    <token chunk="B-NP-plural"/>
+                    <token min="0" max="1" chunk="I-NP-plural"/>
+                    <token chunk="E-NP-plural"/>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token min="0" max="1" spacebefore="no">s</token>
+                    <token chunk="I-NP-plural"/>
+                </antipattern>
+                <antipattern><!-- #2948 How have Polonius and the team's tests helped up? -->
+                    <token regexp="yes">have|are</token>
+                    <token postag="NNP"/>
+                    <token regexp="yes">and|or</token>
+                    <token chunk="B-NP-plural"/>
+                    <token min="0" max="1" chunk="I-NP-plural"/>
+                    <token chunk="E-NP-plural"/>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token spacebefore="no">s</token>
+                    <token chunk="E-NP-plural"/>
+                </antipattern>
+                <antipattern><!-- #2948 How have Polonius and the team's unnecessary tests helped up? -->
+                    <token regexp="yes">have|are</token>
+                    <token postag="NNP"/>
+                    <token regexp="yes">and|or</token>
+                    <token chunk="B-NP-plural"/>
+                    <token min="0" max="1" chunk="I-NP-plural"/>
+                    <token chunk="E-NP-plural"/>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token spacebefore="no">s</token>
+                    <token chunk="I-NP-plural"/>
+                </antipattern>
                 <pattern case_sensitive="no">
                     <token postag="SENT_START"/>
                     <token postag="W(RB|P)" postag_regexp="yes"/>
@@ -34680,12 +34743,21 @@ USA
                 </pattern>
                 <message>The singular proper name <match no="4"/> must be used with <suggestion><match no="3" postag="VBZ"/></suggestion>.</message>
                 <example correction="has">When <marker>have</marker> Mary bought a ticket?</example>
+                <example correction="is">What <marker>are</marker> Albert’s option?</example>
                 <example>Why has Mary done this?</example>
                 <example>Which are Taro's?</example>
                 <example>How are Victor and Carl related?</example><!-- #2225 -->
                 <example>Why have Janet and John gone to Hull?</example><!-- #2225 -->
                 <example>What are TCS competitors?</example><!-- #2663 -->
                 <example>How are Theodore and Jimbo related?</example><!-- #2663 -->
+                <example>What are Albert’s options?</example><!-- #2948 -->
+                <example>What are Polonius’ options?</example><!-- #2948 -->
+                <example>Why have Albert’s real options been restricted?</example><!-- #2948 -->
+                <example>How have Polonius’ important tests been compromised?</example><!-- #2948 -->
+                <example>What are Polonius' and King Claudius' plans for spying?</example><!-- #2948 -->
+                <example>What are Polonius' and King Claudius' usual plans for spying?</example><!-- #2948 -->
+                <example>What have Polonius' and the team's plans for spying got to do with me?</example><!-- #2948 -->
+                <example>How have Polonius and the team's unnecessary tests helped us?</example><!-- #2948 -->
             </rule>
         </rulegroup>
 
