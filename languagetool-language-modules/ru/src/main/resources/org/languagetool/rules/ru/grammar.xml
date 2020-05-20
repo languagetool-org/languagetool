@@ -2745,6 +2745,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Мама мыла раму, и готовила дочка"><marker>Мама мыла раму и готовила дочка</marker> обед.</example>
             </rule>        -->
         </rulegroup>
+        <rule  id="PNN_Kak_Noun" name="Знаки препинания в предложении «Местоимение + как + существительное»">  
+            <pattern>             
+                <marker>
+                    <token regexp="yes" >я|мы|вы|ты|он|она|они|оно</token>
+                    <token >,</token>
+                    <token skip="-1">как</token>   
+                    <token postag_regexp="yes" postag="NN:.*:Nom"></token>
+                </marker>
+                <token regexp="yes">[\p{Punct}]<exception>:</exception></token>
+            </pattern>
+            <message>Лишняя запятая.<suggestion>\1 \3 \4</suggestion></message>
+            <short>Лишняя запятая</short>
+            <example>Она как богиня!</example>
+            <example correction="Она как богиня"><marker>Она, как богиня</marker>!</example>
+        </rule>  
         <rule  id="Kak_Tak_i" name="Знаки препинания в сложном предложении «Как ... , так и  ...»">  
             <pattern>             
                 <marker>
