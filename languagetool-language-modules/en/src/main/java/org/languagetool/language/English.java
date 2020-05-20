@@ -374,6 +374,16 @@ public class English extends Language implements AutoCloseable {
         theInsertionID, "the_ins_rule_description", theInsertionMessages);
       rules.add(theInsertionRule);
     }
+    String missingTheID = "MISSING_THE";
+    RemoteRuleConfig missingTheConfig = RemoteRuleConfig.getRelevantConfig(missingTheID, configs);
+    if (missingTheConfig != null) {
+      Map<String, String> missingTheMessages = new HashMap<>();
+      missingTheMessages.put("MISSING_THE", "the_ins_rule_ins_the");
+      Rule missingTheRule = GRPCRule.create(messageBundle,
+        missingTheConfig,
+        missingTheID, "the_ins_rule_description", missingTheMessages);
+      rules.add(missingTheRule);
+    }
     return rules;
   }
 }
