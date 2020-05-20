@@ -4860,6 +4860,124 @@ USA
                 <example>I believe it right now.</example>
                 <example>Hopefully not, but given the fact that you believe it there’s a chance the stress could overcome your body.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token regexp="yes">called|named</token>
+                    <token postag="DT|NN.*|JJ.*|UNKNOWN" postag_regexp="yes" />
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (= it is)?</message>
+                <example correction="it's">I think <marker>its</marker> called Windows.</example>
+                <example correction="It's"><marker>Its</marker> called faith</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token regexp="yes">much|way|far</token>
+                    <and>
+                        <token postag="JJR" />
+                        <token postag="SENT_END" />
+                    </and>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (= it is)?</message>
+                <example correction="It's"><marker>Its</marker> much easier</example>
+                <example>In its much longer history in Eurasia, brown bears diverged from the two species of cave bear, ...</example>
+                <example>The market began the session lower and gradually works its way higher most of the day</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token regexp="yes">much|way|far</token>
+                    <token postag="JJR" />
+                    <token regexp="yes">\.|\!|\?|…|,|than|as|to|for|on|in|at|with(in|out)?|from|now|soon|t?here|because|since|before|after|until|till|like|that|but|if|when</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (= it is)?</message>
+                <example correction="It's"><marker>Its</marker> much easier now</example>
+                <example>While taking immediate action to cut energy use by roughly 5 percent in its California malls, the company is also committed to decreasing energy use at its more than 40 malls across the country.</example>
+                <example>The Maritimes, with its much smaller proportion of the national population (compared to the time of Confederation) also have an over-representation in the Senate, particularly compared to the population growth of Ontario and the western provinces.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token postag="IN" />
+                    <token min="0">all</token>
+                    <token>its</token>
+                </antipattern>
+                <antipattern>
+                    <token>its</token>
+                    <token postag="JJR" />
+                    <token>,</token>
+                    <token postag="JJ.*" postag_regexp="yes" />
+                </antipattern>
+                <antipattern>
+                    <token>its</token>
+                    <token>more</token>
+                    <token>than</token>
+                    <token postag="CD" skip="3" />
+                    <token postag="NNS" chunk="E-NP-plural" />
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token postag="JJR" />
+                    <token regexp="yes">\.|\!|\?|…|,|than|as|to|for|on|in|at|with(in|out)?|from|now|soon|t?here|because|since|before|after|until|till|like|that|but|if|when</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (= it is)?</message>
+                <example correction="It's"><marker>Its</marker> much easier now</example>
+                <example correction="It's"><marker>Its</marker> sometimes better to risk a few 100 points, than almost all of them.</example>
+                <example>While taking immediate action to cut energy use by roughly 5 percent in its California malls, the company is also committed to decreasing energy use at its more than 40 malls across the country.</example>
+                <example>The Maritimes, with its much smaller proportion of the national population (compared to the time of Confederation) also have an over-representation in the Senate, particularly compared to the population growth of Ontario and the western provinces.</example>
+                <example>Another chain with similar orientation is the Tuamotu Archipelago; its older, northerly trend is the Line Islands.</example>
+                <example>Its more than 4,000 employees, located in 60 offices around the world, ...</example>
+                <example>... thanks to Apple's ability to protect its more than 1 billion devices.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <or>
+                        <token postag="SENT_START|PCT|CC" postag_regexp="yes">
+                            <exception postag="IN" />
+                        </token>
+                        <token inflected="yes" regexp="yes">think|hope</token>
+                    </or>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token regexp="yes">much|way|far</token>
+                    <token postag="JJR" />
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (= it is)?</message>
+                <example correction="it's">But <marker>its</marker> much better like this.</example>
+                <example correction="it's">I think <marker>its</marker> much better now.</example>
+                <example correction="It's"><marker>Its</marker> much easier.</example>
+                <example>In its much longer history in Eurasia, brown bears diverged from the two species of cave bear, ...</example>
+                <example>The market began the session lower and gradually works its way higher most of the day</example>
+                <example>Ruby 2.2.0 is on its way later in the year, and the Ruby agent is ready for it.</example>
+                <example>It superseded the earlier Geiger-Müller tube because of its much longer life and lower operating voltage, typically 400-900 volts.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token postag="RB" min="0" />
+                    <token>as</token>
+                    <token postag="JJ" />
+                    <token>as</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (= it is)?</message>
+                <example correction="it's">I think <marker>its</marker> already as good as it can get.</example>
+                <example correction="It's"><marker>Its</marker> as simple as that.</example>
+            </rule>
         </rulegroup>
         <rule id="CC_IT_VBG" name="'it' vs. 'its' after 'and'">
             <pattern>
@@ -42956,22 +43074,45 @@ The accident victim died from her injuries.
           <token>mine</token>
           <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
       </antipattern>
+      <antipattern>
+        <token>one</token>
+        <token>another</token>
+        <token postag="PRP$" />
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">and|but</token>
+        <token>no</token>
+        <token regexp="yes">your|his|her|my</token>
+      </antipattern>
+      <antipattern>
+        <token postag="SENT_START" />
+        <token>no</token>
+        <token regexp="yes">your|his|her|my</token>
+      </antipattern>
+      <antipattern><!-- https://en.wikipedia.org/wiki/The_My_Hero_Project -->
+        <token>my</token>
+        <token>hero</token>
+        <token>project</token>
+      </antipattern>
       <pattern>
-          <token postag="DT">
-            <exception regexp="yes">neither|either|that|all|much</exception></token>
-          <token postag="PRP$">
-            <exception regexp="yes" case_sensitive="yes">My|Your|Our|His|Her|Their</exception></token>
-          <token/>
+        <token postag="DT">
+            <exception regexp="yes">neither|either|that|all|much</exception>
+        </token>
+        <token postag="PRP$">
+            <exception regexp="yes" case_sensitive="yes">M[Yy]|Your|Our|His|Her|Their</exception>
+        </token>
       </pattern>
-      <message>A determiner cannot combine with a possessive pronoun. Did you mean simply <suggestion>\2 \3</suggestion> or <suggestion>\1 \3</suggestion>?</message>
-      <example correction='My car|The car'><marker>The my car</marker> is in the garage.</example>
-      <example correction='our country|those country'>These customs differ from <marker>those our country</marker>.</example>
+      <message>A determiner cannot combine with a possessive pronoun. Did you mean simply <suggestion>\1</suggestion> or <suggestion>\2</suggestion>?</message>
+      <example correction='The|My'><marker>The my</marker> car is in the garage.</example>
+      <example correction='those|our'>These customs differ from <marker>those our</marker> country.</example>
       <example>Are <marker>these yours</marker>?</example>
       <example><marker>Either</marker> your granddaughter is going insane or ...</example>
       <example>Are <marker>those your</marker> pictures?</example>
       <example>"Were <marker>those your</marker> best options?" he asked.</example>
       <example><marker>For one reason or another</marker> their holiday in France didn't come up to expectations.</example>
       <example>... evidence of the Hallstatt culture was found by a mine manager in the 19th century.</example>
+      <example>The My Hero Project.</example>
+      <example>And no your username can't be changed.</example>
     </rule>
     <rule id="ENROLLED_IN_FOR" name="I enrolled international school">
     <!-- Created by Nicholas Walker (Bokomaru), 2017-11-14 -->
@@ -47721,6 +47862,11 @@ The accident victim died from her injuries.
                     <token>also</token>
                     <token postag="JJ" />
                 </antipattern>
+                <antipattern><!-- short for "apartment hotel" https://en.wikipedia.org/wiki/Apartment_hotel -->
+                    <token>an</token>
+                    <token>apart</token>
+                    <token>hotel</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[Aa]n</token>
@@ -47732,6 +47878,29 @@ The accident victim died from her injuries.
                 <example>After the victory of the PdL in the 2008 general election, AN was merged into the PdL in early 2009.</example>
                 <example>When the receptor is inactive, the GEF domain may be bound to an also inactive α-subunit of a heterotrimeric G-protein.</example>
                 <example>I myself an also African American.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">you|s?he|they|we</token>
+                    <marker>
+                        <token case_sensitive="yes" regexp="yes">[Aa]n</token>
+                    </marker>
+                    <token regexp="yes">your|her|his|their|our</token>
+                </pattern>
+                <message>Did you mean <suggestion>and</suggestion>?</message>
+                <example correction="and">I can't wait to see you <marker>an</marker> your uncle tomorrow.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>an</token>
+                    </marker>
+                    <token postag="RB" />
+                    <token postag="VB[DN]" postag_regexp="yes" />
+                    <token postag="SENT_END" regexp="yes">\p{P}</token>
+                </pattern>
+                <message>Did you mean <suggestion>and</suggestion>?</message>
+                <example correction="and">The text was in Dutch <marker>an</marker> already deleted.</example>
             </rule>
         </rulegroup>
         <rule id="LET_IS_VB" name="let is (us) know">
