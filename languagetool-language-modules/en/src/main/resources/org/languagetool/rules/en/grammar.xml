@@ -34610,6 +34610,11 @@ USA
                 <example type="triggers_error">Online Athens guide with news and events</example>
             </rule>
             <rule>
+                <antipattern><!-- #2948 Are he and -->
+                    <token regexp="yes">Have|Are</token>
+                    <token regexp="yes">s?he</token>
+                    <token>and</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <marker>
@@ -34619,7 +34624,9 @@ USA
                 </pattern>
                 <message>The pronoun <match no="3"/> must be used with <suggestion><match no="2" postag="VBZ"/></suggestion>.</message>
                 <example correction="Has"><marker>Have</marker> she bought a ticket?</example>
+                <example correction="Is"><marker>Are</marker> he or Tom really happy?</example><!-- #2948 -->
                 <example>Has anyone done this?</example>
+                <example>Are he and Tom really happy?</example><!-- #2948 -->
             </rule>
             <rule>
                 <antipattern><!-- #2122 -->
