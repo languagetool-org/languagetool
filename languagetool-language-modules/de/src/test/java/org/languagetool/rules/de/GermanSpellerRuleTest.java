@@ -759,6 +759,11 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.isMisspelled("Hausarbeit"));
     assertFalse(rule.isMisspelled("Überschuss"));
     assertFalse(rule.isMisspelled("Überschüsse"));
+
+    assertTrue(rule.isMisspelled("Spielzugcomputer"));
+    assertTrue(rule.isMisspelled("Spielzugcomputern"));
+    assertFalse(rule.isMisspelled("Spielzug"));
+    assertFalse(rule.isMisspelled("Spielzugs"));
   }
   
   @Test
