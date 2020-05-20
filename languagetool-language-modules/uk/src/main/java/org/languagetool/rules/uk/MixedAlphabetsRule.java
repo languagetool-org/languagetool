@@ -116,6 +116,7 @@ public class MixedAlphabetsRule extends Rule {
 
       if( MIXED_ALPHABETS.matcher(tokenString).matches() ) {
 
+        String msg = "Вжито кириличні й латинські літери в одному слові";
         List<String> replacements = new ArrayList<>();
 
         if(!LATIN_ONLY.matcher(tokenString).matches() && ! LIKELY_LATIN_NUMBER.matcher(tokenString).matches()) {
@@ -125,10 +126,10 @@ public class MixedAlphabetsRule extends Rule {
           String converted = toLatinLeftOnly(tokenString);
           converted = adjustForInvalidSuffix(converted);
           replacements.add( converted );
+          msg = "Вжито кириличні літери замість латинських";
         }
 
         if (replacements.size() > 0) {
-          String msg = "Вжито кириличні літери замість латинських на позначення римської цифри";
           msg = adjustForInvalidSuffix(tokenString, msg);
 
           RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);

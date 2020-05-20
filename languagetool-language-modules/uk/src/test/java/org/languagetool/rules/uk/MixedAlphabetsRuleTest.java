@@ -50,61 +50,75 @@ public class MixedAlphabetsRuleTest {
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("смiття"));  //latin i
     // check match positions:
     assertEquals(1, matches.length);
+    assertEquals("Вжито кириличні й латинські літери в одному слові", matches[0].getMessage());
     assertEquals(Arrays.asList("сміття"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(langTool.getAnalyzedSentence("mіхed"));  // cyrillic i and x
-
     assertEquals(1, matches.length);
+    assertEquals("Вжито кириличні літери замість латинських", matches[0].getMessage());
     assertEquals(Arrays.asList("mixed"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(langTool.getAnalyzedSentence("горíти"));  // umlaut instead of accented і
-
     assertEquals(1, matches.length);
+    assertEquals("Вжито кириличні й латинські літери в одному слові", matches[0].getMessage());
     assertEquals(Arrays.asList("горі́ти"), matches[0].getSuggestedReplacements());
+
+    matches = rule.match(langTool.getAnalyzedSentence("двоáктний")); // lating á 
+    assertEquals(1, matches.length);
+    assertEquals("Вжито кириличні й латинські літери в одному слові", matches[0].getMessage());
 
     matches = rule.match(langTool.getAnalyzedSentence("Чорного i Азовського"));  // latin i
     assertEquals(1, matches.length);
+    assertEquals("Вжито латинську «i» замість кириличної", matches[0].getMessage());
     assertEquals(Arrays.asList("і"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(langTool.getAnalyzedSentence("A нема"));  // latin A
     assertEquals(1, matches.length);
+    assertEquals("Вжито латинську «A» замість кириличної", matches[0].getMessage());
     assertEquals(Arrays.asList("А"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(langTool.getAnalyzedSentence("XІ")); // cyrillic І and latin X
 
     assertEquals(1, matches.length);
+    assertEquals("Вжито кириличні літери замість латинських", matches[0].getMessage());
     assertEquals(Arrays.asList("XI"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(langTool.getAnalyzedSentence("ХI")); // cyrillic X and latin I
 
     assertEquals(1, matches.length);
+    assertEquals("Вжито кириличні літери замість латинських", matches[0].getMessage());
     assertEquals(Arrays.asList("XI"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(langTool.getAnalyzedSentence("VIIІ-го")); // latin VII and cyrillic І
 
     assertEquals(1, matches.length);
+    assertEquals("Вжито кириличні літери замість латинських. Також: до римських цифр букви не дописуються.", matches[0].getMessage());
     assertEquals(Arrays.asList("VIII"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(langTool.getAnalyzedSentence("ІІІ-го")); // cyrillic І
 
     assertEquals(1, matches.length);
+    assertEquals("Вжито кириличні літери замість латинських на позначення римської цифри. Також: до римських цифр букви не дописуються.", matches[0].getMessage());
     assertEquals(Arrays.asList("III"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(langTool.getAnalyzedSentence("ХІ")); // cyrillic both X and I used for latin number
-
     assertEquals(1, matches.length);
+    assertEquals("Вжито кириличні літери замість латинських на позначення римської цифри", matches[0].getMessage());
     assertEquals(Arrays.asList("XI"), matches[0].getSuggestedReplacements());
 
     matches = rule.match(langTool.getAnalyzedSentence("Щеплення від гепатиту В.")); // cyrillic B
     assertEquals(1, matches.length);
+    assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
     assertEquals("B", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(langTool.getAnalyzedSentence("група А")); // cyrillic А
     assertEquals(1, matches.length);
+    assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
     assertEquals("A", matches[0].getSuggestedReplacements().get(0));
 
     matches = rule.match(langTool.getAnalyzedSentence("На 0,6°С.")); // cyrillic С
     assertEquals(1, matches.length);
+    assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
     assertEquals("0,6°C", matches[0].getSuggestedReplacements().get(0));
   }
 
