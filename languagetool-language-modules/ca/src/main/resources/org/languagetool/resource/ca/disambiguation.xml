@@ -957,6 +957,17 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </pattern>
             <disambig action="replace"><wd lemma="temps ha" pos="LOC_ADV"/><wd lemma="temps ha" pos="LOC_ADV"/></disambig>
         </rule>
+        <rule id="venir_de_gust" name="venir de gust (locució adverbial)">
+            <pattern>
+                <token inflected="yes">venir</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <marker>
+                    <token>de</token>
+                    <token>gust</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd lemma="de gust" pos="LOC_ADV"/><wd lemma="de gust" pos="LOC_ADV"/></disambig>
+        </rule>
         <rule id="en_va1" name="en va (locució adverbial)">
             <pattern>
                 <token><exception regexp="yes">'ls|'ns|us</exception></token>
@@ -12882,7 +12893,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <token min="0" max="3" postag="&pronom_feble;|R.*" postag_regexp="yes"/>
                 <marker>
                     <and>
-                        <token postag="V.[SI].1S.." postag_regexp="yes"/>
+                        <token postag="V.[SI].1S.." postag_regexp="yes"><exception postag="VMIP1S0V"/></token>
                         <token postag="V.[SI].3S.." postag_regexp="yes"/>
                     </and>
                 </marker>
