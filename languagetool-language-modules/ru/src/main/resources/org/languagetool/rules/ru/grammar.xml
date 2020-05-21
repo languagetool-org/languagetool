@@ -10373,21 +10373,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=""><marker>Не следует пытаться не</marker> избегать двойных отрицаний.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="temp_off" id="DoubleIH" name="Два «их» в предложении"> 
+        <rulegroup id="DoubleIH" name="Два «их» в предложении"> 
             <rule>
                 <!-- 2 "их" в предложении
                 TODO: See RussianWordRepeatRule.java also.
                 -->
                 <pattern>
-                    <marker>
                         <token skip="-1">их<exception  scope="next" regexp="yes">[,:;.!?…]|-|–|—</exception><exception regexp="yes" scope="next">и|только|или</exception></token>
+                    <marker>
                         <token skip="-1">их<exception  scope="previous" regexp="yes">['"«]</exception></token>
                     </marker>
                     <token regexp="yes">[.!?:;]</token>
                 </pattern>
                 <message>Стиль: не ставьте два «их» в предложении.</message>            
                 <example>Не ставьте два «их» подряд.</example>
-                <example correction="">Это <marker>их идея два их</marker> подряд.</example>
+                <example correction="">Это их идея два <marker>их</marker> подряд.</example>
             </rule>
         </rulegroup>                   
                                  
