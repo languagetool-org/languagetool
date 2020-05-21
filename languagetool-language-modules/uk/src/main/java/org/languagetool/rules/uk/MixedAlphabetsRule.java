@@ -32,6 +32,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.StringTools;
 
 /**
  * A rule that matches words Latin and Cyrillic characters in them
@@ -99,6 +100,15 @@ public class MixedAlphabetsRule extends Rule {
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, Arrays.asList(toCyrillic(tokenString)), msg, sentence);
         ruleMatches.add(potentialRuleMatch);
       }
+      else if ("І".equals(tokenString)
+          && ( i > 1 && StringTools.isCapitalizedWord(tokens[i-1].getToken())) ) {
+        List<String> replacements = new ArrayList<>();
+        replacements.add( toLatin(tokenString) );
+
+        String msg = "Вжито кириличну літеру замість латинської";
+        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
+        ruleMatches.add(potentialRuleMatch);
+      }
       else if (COMMON_CYR_LETTERS.matcher(tokenString).matches()) {
         String prevLemma = tokens[i-1].getAnalyzedToken(0).getLemma();
         if( prevLemma != null && prevLemma.matches("гепатит|група|турнір") ) {
@@ -127,11 +137,10 @@ public class MixedAlphabetsRule extends Rule {
           converted = adjustForInvalidSuffix(converted);
           replacements.add( converted );
           msg = "Вжито кириличні літери замість латинських";
+          msg = adjustForInvalidSuffix(tokenString, msg);
         }
 
         if (replacements.size() > 0) {
-          msg = adjustForInvalidSuffix(tokenString, msg);
-
           RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
           ruleMatches.add(potentialRuleMatch);
         }
@@ -168,7 +177,7 @@ public class MixedAlphabetsRule extends Rule {
   }
 
   private String adjustForInvalidSuffix(String tokenString, String msg) {
-    if( tokenString.contains("-") ) {
+    if( tokenString.contains("-") && tokenString.matches("[IVXІХ]+-[а-яіїє]{1,4}") ) {
       msg += ". Також: до римських цифр букви не дописуються.";
     }
     return msg;

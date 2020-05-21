@@ -49,6 +49,21 @@
   </unification>
 
 
+  <rule name="Кирилічна цифра I" id="сyrillic_digit_I">
+    <pattern>
+      <token postag_regexp="yes" postag="noun:anim:.*?fname.*"/>
+      <marker>
+        <token case_sensitive="yes">І</token>
+      </marker>
+    </pattern>
+    <disambig postag="number:latin:bad" />
+    <example type="ambiguous"
+        inputform="І[&lt;/S&gt;,і/conj:coord,і/part]"
+        outputform="І[&lt;/S&gt;,і/number:latin:bad]">Петром <marker>І</marker> </example>
+    <example type="untouched">НАЦІЯ І НАРОД</example>
+    <example type="untouched">І все</example>
+  </rule>
+
   <rule name="Паралельні погані форми" id="parallel_bad_forms">
     <pattern>
       <marker>
