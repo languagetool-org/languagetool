@@ -27298,6 +27298,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">no l'ha pas <marker>dut</marker></example>
             <example>l'ha duta</example>
         </rule>
+        <rulegroup id="EVITA_PER_TAL_DE" name="evita 'per tal de/que'" default="off">
+            <rule>
+                <pattern>
+                    <token>per</token>
+                    <token>tal</token>
+                    <token regexp="yes">de|d'</token>
+                    <token/>
+                </pattern>
+                <message>Eviteu aquesta locució.</message>
+                <suggestion>per a \4</suggestion>
+                <example correction="per a millorar">Mesures <marker>per tal de millorar</marker></example>
+                <example correction="per a intentar">Mesures <marker>per tal d'intentar</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>per</token>
+                    <token>tal</token>
+                    <token>que</token>
+                </pattern>
+                <message>Eviteu aquesta locució.</message>
+                <suggestion>perquè</suggestion>
+                <example correction="perquè">Mesures <marker>per tal que</marker> millorem.</example>
+            </rule>
+        </rulegroup>
         <rule id="PER_INFINITIU" name="Revisa 'per + infinitiu'" default="off">
             <antipattern>
                 <token regexp="yes" inflected="yes">vetllar|vetlar|esforçar|apostar|bregar|treballar|optar|lluitar</token>
