@@ -1910,6 +1910,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="convivió">Durante mucho tiempo <marker>convivio</marker> con sus padres.</example>
             </rule>
             <!-- TODO: lucido/lúcido, cesar/césar, revolver/revólver -->
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="D..MS.|SP\+DA" postag_regexp="yes"/>
+                    <marker>
+                        <token>compas</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>compás</suggestion> en vez de \2 (=compadres, compañeros)?</message>
+                <suggestion>compás</suggestion>
+                <example correction="compás">Dame el <marker>compas</marker>.</example>
+                <example correction="compás">Del <marker>compas</marker> 4 al 34.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="SERIA" name="seria/sería">
             <antipattern>
@@ -3591,15 +3603,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="AE_COMIDO" name="Tiempos compuestos 'a' o 'e' + participio">
             <rule id="A_PARTICIPIO" name="a + participio">
+                <antipattern>
+                    <token inflected="yes" regexp="yes">meter|oler|olor|saber|sabor|gusto|gustar|aroma|peste|apestar</token>
+                    <token>a</token>
+                </antipattern>
                 <pattern>
-                    <token><exception inflected="yes" regexp="yes">meter|ol[oe]r|sab[oe]r|gust(o|ar)|arom.+|pest.+</exception></token>
                     <marker>
                         <token>a</token>
                     </marker>
                     <token postag="V[ASM]P00SM" postag_regexp="yes"><exception regexp="yes">(gan|sold|abog|pes?c)ado|dicho|(cubi|mu)erto|partido</exception></token>
                 </pattern>
-                <message>El verbo 'haber' lleva hache: <suggestion>ha</suggestion></message>
-                <short>El verbo «haber» lleva hache.</short>
+                <message>El v. 'haber' se escribe con hache.</message>
+                <suggestion>ha</suggestion>
                 <example correction="ha">El atleta <marker>a</marker> corrido de forma espectacular.</example>
                 <example>Este bacalao huele <marker>a</marker> pescado fresco.</example>
             </rule>
