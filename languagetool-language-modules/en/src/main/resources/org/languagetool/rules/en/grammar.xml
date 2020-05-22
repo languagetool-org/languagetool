@@ -22314,6 +22314,16 @@ USA
             <url>https://www.lexico.com/definition/work-life_balance</url>
             <example correction="Work-life"><marker>Work life</marker> balance is having enough time for work and enough to have a life.</example>
         </rule>
+        <rulegroup id="ONE_NIGHT_STAND_HYPHEN" name="missing hyphen in 'one night stand'" default="temp_off">
+            <pattern>
+                <token>one</token>
+                <token>night</token>
+                <token regexp="yes">stands?</token>
+            </pattern>
+            <message>This noun is normally spelled with a hyphen.</message>
+            <suggestion>\1-\2 \3</suggestion>
+            <example correction="one-night stand">Tom and Mary had a <marker>one night stand</marker>.</example>
+        </rule>
         <rule id="RUN_ON_HYPHEN" name="missing hyphen in 'run on'">
             <pattern>
                 <marker>
@@ -26204,6 +26214,12 @@ USA
             <example correction="couple of times">I tried it a <marker>couples of times</marker>.</example>
         </rule>
         <rulegroup id="A_NNS" name="Agreement: 'a' + plural word">
+            <antipattern>
+                <token>one</token>
+                <token>of</token>
+                <token>a</token>
+                <token>kind</token>
+            </antipattern>
             <antipattern><!-- "U.S.A" -->
                 <token case_sensitive="yes" regexp="yes">[A-Z]+</token>
                 <token spacebefore="no">.</token>
@@ -26363,6 +26379,7 @@ USA
                 <token postag="JJR?" postag_regexp="yes" />
                 <token regexp="yes" chunk="E-NP-plural">[A-Z].*</token>
                 <token regexp="yes">[Oo]f|[Ff]or</token>
+                <token min="0" regexp="yes">[Tt]he</token>
                 <token regexp="yes">[A-Z].*</token>
                 <token />
             </antipattern>
@@ -26370,6 +26387,7 @@ USA
                 <token regexp="yes">[Aa]n?</token>
                 <token regexp="yes" chunk="E-NP-plural">[A-Z].*</token>
                 <token regexp="yes">[Oo]f|[Ff]or</token>
+                <token min="0" regexp="yes">[Tt]he</token>
                 <token regexp="yes">[A-Z].*</token>
                 <token />
             </antipattern>
@@ -26467,7 +26485,7 @@ USA
                 <token regexp="yes">an?</token>
                 <token postag="JJR?" postag_regexp="yes" min="0" />
                 <token chunk="E-NP-plural" />
-                <token regexp="yes">implementation|folder|file</token>
+                <token regexp="yes">implementation|folder|file|feature</token>
             </antipattern>
             <antipattern>
                 <token>a</token>
@@ -26534,6 +26552,10 @@ USA
             <antipattern>
                 <token>A</token>
                 <token>plus</token>
+            </antipattern>
+            <antipattern>
+                <token>a</token>
+                <token>na</token>
             </antipattern>
             <rule><!-- "The cat is an animals" (only suggest singular form: "animal" because of "is") -->
                 <pattern>
@@ -26741,12 +26763,16 @@ USA
                     <token>degree</token>
                     <token postag="NNS" chunk="E-NP-plural" />
                 </antipattern>
+                <antipattern>
+                    <token>sales</token>
+                    <token>operations</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes">[Aa]n?</token>
                         <token postag="JJR?" postag_regexp="yes" />
                         <token postag="JJR?" postag_regexp="yes">
-                            <exception regexp="yes">other|all|number|various|numerous|several|many|more|less|few</exception>
+                            <exception regexp="yes">other|all|number|various|numerous|several|many|more|less|few|fewer</exception>
                             <exception postag="VBG" />
                         </token>
                         <token postag="NNP?S" postag_regexp="yes" chunk="E-NP-plural">
@@ -26796,6 +26822,7 @@ USA
                 <example>In cases where a judge rather than a jury decided issues of fact, an appellate court will apply an "abuse of discretion" standard of review.</example>
                 <example>The stronger of two acids will have a higher Ka than the weaker acid; the ratio of hydrogen ions to acid will be higher for the stronger acid.</example>
                 <example>In which a young woman imagines that she is being ...</example><!-- #2926 -->
+                <example>Andrew is a great sales operations lead.</example>
             </rule>
         </rulegroup>
 
