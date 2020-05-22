@@ -183,6 +183,57 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rulegroup id="PODER_VOSEO" name="poder + forma voseo" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>si</token>
+                    <marker>
+                        <token inflected="yes" regexp="yes">poder|querer</token>
+                        <token postag="VMM02V0.PP.*PP.*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Construcción incorrecta.</message>
+                <suggestion>\2 <match no="3" postag="VMM02V0.(PP.*).(PP.*)" postag_regexp="yes" postag_replace="VMN0000.$1.$2"/></suggestion>
+                <suggestion>\2, \3</suggestion>
+                <example correction="podés contármelas|podés, contámelas">Si <marker>podés contámelas</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>si</token>
+                    <marker>
+                        <token inflected="yes" regexp="yes">poder|querer</token>
+                        <token postag="VMM02V0.PP.*0" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Construcción incorrecta.</message>
+                <suggestion>\2 <match no="3" postag="VMM02V0.(PP.*)" postag_regexp="yes" postag_replace="VMN0000.$1"/></suggestion>
+                <suggestion>\2, \3</suggestion>
+                <example correction="querés compartirla|querés, compartila">Si <marker>querés compartila</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">poder|querer|deber|que</token>
+                    <marker>
+                        <token postag="VMM02V0.PP.*PP.*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Construcción incorrecta.</message>
+                <suggestion><match no="2" postag="VMM02V0.(PP.*).(PP.*)" postag_regexp="yes" postag_replace="VMN0000.$1.$2"/></suggestion>
+                <example correction="contármelas">¿Podés <marker>contámelas</marker>?</example>
+                <example correction="contármelo">Tienes que <marker>contámelo</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">poder|querer|deber|que</token>
+                    <marker>
+                        <token postag="VMM02V0.PP.*0" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Construcción incorrecta.</message>
+                <suggestion><match no="2" postag="VMM02V0.(PP.*)" postag_regexp="yes" postag_replace="VMN0000.$1"/></suggestion>
+                <example correction="compartirla">No quiere <marker>compartila</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HACE_UN_MES_ATRAS" name="*hace un mes atrás">
             <rule>
                 <pattern>
@@ -3991,7 +4042,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
-                    <token postag="VMSI[13]S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="VMSI[13]S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+se<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion>\1 <match no="2" postag="(V.*)" postag_regexp="yes" postag_replace="VMN0000.PP3CN000"/></suggestion>
@@ -4000,20 +4051,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
-                    <token postag="VMM02V0.PP.*PP.*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
+                    <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
-                <suggestion>\1 <match no="2" postag="VMM02V0.(PP.*).(PP.*)" postag_regexp="yes" postag_replace="VMN0000.$1.$2"/></suggestion>
-                <example correction="de contármelas">Miedo <marker>de contámelas</marker>.</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
-                    <token postag="VMM02V0.PP.*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
-                </pattern>
-                <message>Construcción incorrecta.</message>
-                <suggestion>\1 <match no="2" postag="VMM02V0.(PP.*)" postag_regexp="yes" postag_replace="VMN0000.$1"/></suggestion>
-                <example correction="de compartirla">Miedo <marker>de compartila</marker>.</example>
+                <suggestion>\1 <match no="2" postag="V.[SI].*" postag_regexp="yes" postag_replace="V.N0000"/></suggestion>
+                <example correction="a acabar">Miedo <marker>a acabara</marker>.</example>
             </rule>
             <rule>
                 <!-- catch-all rule without suggestions-->
@@ -4386,7 +4428,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <!--http://roble.pntic.mec.es/acid0002/index_archivos/Gramatica/imperativo.htm
         cantad [cantar/VMM02P0]
         cantéis[cantar/VMSP2P0]
-
         ven   [venir/VMM02S0
         vengas[venir/VMSP2S0]-->
         <!--NO_IMPERATIVO No + imperativo-->
@@ -4841,7 +4882,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la silla|las sillas">Ordenamos <marker>las silla</marker> por colores.</example>
                 <example correction="esa silla|esas sillas">Me gusta <marker>ese silla</marker> que hay ahí.</example>
                 <example correction="la silla|las sillas">Me gusta <marker>el silla</marker> que hay ahí.</example>
-                <example correction="La ratio|Las ratios"><marker>El ratio</marker> es de 50.</example>
+                <!--<example correction="La ratio|Las ratios"><marker>El ratio</marker> es de 50.</example>-->
                 <example correction="La casa|Las casas"><marker>Las casa</marker> de la colina.</example>
                 <example correction="una baguette|unas baguettes">Compré <marker>un baguette</marker>.</example>
                 <example correction="otra oportunidad|otras oportunidades" type="triggers_error" reason="ambiguous, missimg comma">Algunos los llaman problemas y <marker>otros oportunidades</marker> de crecimiento.</example>
@@ -5695,6 +5736,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
+        <rulegroup id="VES_VEZ" name="ves/vez" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>cada</token>
+                    <marker>
+                        <token>ves</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>vez</suggestion>?</message>
+                <example correction="vez">Cada <marker>ves</marker> que te veo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DD.FS." postag_regexp="yes"/>
+                    <marker>
+                        <token>ves</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>vez</suggestion>?</message>
+                <example correction="vez">Aquella <marker>ves</marker> que lo vi.</example>
+                <example>¿La ves ahí?</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="IR_GERUNDIO" name="confusión: ir + *participio/gerundio" default="on">
             <rule>
                 <antipattern>
