@@ -64,6 +64,21 @@
     <example type="untouched">І все</example>
   </rule>
 
+  <rule name="Кирилічна цифра I" id="сyrillic_digit_I_2">
+    <pattern>
+      <marker>
+        <token case_sensitive="yes">І</token>
+      </marker>
+      <token>ст.</token>
+    </pattern>
+    <disambig postag="number:latin:bad" />
+    <example type="ambiguous"
+        inputform="І[і/conj:coord,і/part]"
+        outputform="І[і/number:latin:bad]">у <marker>І</marker> ст.</example>
+    <example type="untouched">НАЦІЯ І НАРОД</example>
+    <example type="untouched">І все</example>
+  </rule>
+
   <rule name="Паралельні погані форми" id="parallel_bad_forms">
     <pattern>
       <marker>

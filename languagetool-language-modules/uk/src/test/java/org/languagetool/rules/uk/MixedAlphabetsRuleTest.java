@@ -84,6 +84,11 @@ public class MixedAlphabetsRuleTest {
     assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
     assertEquals("I", matches[0].getSuggestedReplacements().get(0));
 
+    matches = rule.match(langTool.getAnalyzedSentence("у І ст.")); // cyrillic І
+    assertEquals(1, matches.length);
+    assertEquals("Вжито кириличну літеру замість латинської", matches[0].getMessage());
+    assertEquals("I", matches[0].getSuggestedReplacements().get(0));
+
     matches = rule.match(langTool.getAnalyzedSentence("XІ")); // cyrillic І and latin X
     assertEquals(1, matches.length);
     assertEquals("Вжито кириличні літери замість латинських", matches[0].getMessage());

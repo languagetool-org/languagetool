@@ -101,7 +101,8 @@ public class MixedAlphabetsRule extends Rule {
         ruleMatches.add(potentialRuleMatch);
       }
       else if ("І".equals(tokenString)
-          && ( i > 1 && StringTools.isCapitalizedWord(tokens[i-1].getToken())) ) {
+          && ( i > 1 && StringTools.isCapitalizedWord(tokens[i-1].getToken())
+              || i < tokens.length -1 && "ст.".equals(tokens[i+1].getToken()) ) ) {
         List<String> replacements = new ArrayList<>();
         replacements.add( toLatin(tokenString) );
 
