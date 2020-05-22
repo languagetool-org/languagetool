@@ -34,6 +34,7 @@ import java.io.IOException;
 import java.util.*;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
 
 /**
@@ -54,6 +55,69 @@ public class UpperCaseNgramRule extends Rule {
     Arrays.asList(
       token("Hugs"), token("and"), token("Kisses")
     ),
+    Arrays.asList( // Please go to File and select Options. 
+      token("go"),
+      token("to"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      tokenRegex("[A-Z].+"),
+      token(","),
+      tokenRegex("[Aa]nd|[Oo]r|&"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // "The goal is to Develop, Discuss and Learn.""
+      tokenRegex("[A-Z].+"),
+      token(","),
+      tokenRegex("[A-Z].+"),
+      tokenRegex("[Aa]nd|[Oo]r|&"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      tokenRegex("[A-Z].+"),
+      token(">"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // Two-word phrases with "?" or "!": "What Happened?", "Catch Up!" (can be headlines)
+      tokenRegex("[A-Z].+"),
+      tokenRegex("[A-Z].+"),
+      tokenRegex("[\\!\\?]")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // Step1 - Watch the full episode.
+      tokenRegex(".*\\w.*"),
+      tokenRegex("-|–"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // Step 1 - Watch the full episode.
+      tokenRegex(".*\\w.*"),
+      tokenRegex("[0-9]+"),
+      tokenRegex("-|–"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // Lesson #1 - Learn the alphabet.
+      tokenRegex(".*\\w.*"),
+      token("#"),
+      tokenRegex("[0-9]+"),
+      tokenRegex("-|–"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      token("BBC"),
+      token("Culture")
+    ),
+    Arrays.asList(
+      token("Amazon"),
+      token("Live")
+    ),
+    Arrays.asList(
+      tokenRegex("[A-Z].+"),
+      token("/"),
+      tokenRegex("[A-Z].+")
+    ),
     Arrays.asList(
       tokenRegex("[A-Z].+"),  // e.g. "Top 10% Lunch Deals"
       tokenRegex("\\d+%?"),
@@ -63,6 +127,16 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("[0-9]+"),  // e.g. "6) Have a beer"
       tokenRegex("[)\\]]"),
       tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      tokenRegex("[a-z]"),  // e.g. "a) Have a beer"
+      tokenRegex("[)\\]]"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      tokenRegex("[\\(\\]]"),  // e.g. "(b) Have a beer"
+      tokenRegex("[a-z0-9]"),
+      tokenRegex("[)\\]]")
     ),
     Arrays.asList(
       tokenRegex("[A-Z].+"),  // e.g. "Freelance 2.0"
@@ -104,7 +178,7 @@ public class UpperCaseNgramRule extends Rule {
       token("magazine")
     ),
     Arrays.asList(
-      token("Teams") // Microsoft Teams (not tagged as NNP)
+      tokenRegex("Teams|Maps") // Microsoft Teams / Google Maps (not tagged as NNP)
     )
   );
 

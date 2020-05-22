@@ -57,6 +57,13 @@ public class UpperCaseNgramRuleTest {
     assertGood("This Was a Good Idea");  // no dot = no real sentence
     assertGood("Professor Sprout acclimated the plant to a new environment.");  // "Professor ..." = antipattern
     assertGood("Beauty products, Clean & Clear facial wash.");
+    assertGood("Please click Account > Withdraw > Update.");
+    assertGood("The goal is to Develop, Discuss and Learn.");
+    assertGood("(b) Summarize the strategy.");
+    assertGood("Figure/Ground:");
+    assertGood("What Happened?");
+    assertGood("1- Have you personally made any improvements?");
+    assertGood("Lesson #1 - Create a webinar.");
 
     assertMatch("I really Like spaghetti.");
     assertMatch("This Was a good idea.");
