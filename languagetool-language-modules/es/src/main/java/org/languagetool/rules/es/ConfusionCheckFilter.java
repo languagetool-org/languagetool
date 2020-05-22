@@ -72,6 +72,10 @@ public class ConfusionCheckFilter extends RuleFilter {
     }
     if (replacement != null) {
       String message = match.getMessage();
+      // Change the message if the replacement has no diacritic
+      if (!(StringTools.hasDiacritics(replacement) && !StringTools.hasDiacritics(form))) {
+        message = message.replace("se escribe con tilde", "se escribe de otra manera");
+      }
       RuleMatch ruleMatch = new RuleMatch(match.getRule(), match.getSentence(), match.getFromPos(), match.getToPos(),
           message, match.getShortMessage());
       ruleMatch.setType(match.getType());

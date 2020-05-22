@@ -462,6 +462,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="diagnóstico">del <marker>diagnostico</marker></example>
                 <example correction="línea">Le espera en <marker>linea</marker></example>
                 <example correction="sólido">De vapor a <marker>solido</marker>.</example>
+                <example correction="rayas">Con <marker>rallas</marker> blancas.</example>
                 <example>El grupo PPE-DE solicita que se retire.</example>
             </rule>
             <rule>
@@ -1107,7 +1108,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token>venias<exception postag="_GN_FP"></exception></token>
+                        <token>venias<exception postag="_GN_FP"/></token>
                     </marker>
                 </pattern>
                 <message>Si es del v. 'venir', lleva tilde. Puede ser, más raramente, un sustantivo sin tilde.</message>
@@ -3898,7 +3899,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="por que|por los que|por los cuales">Los motivos <marker>porque</marker> nos fuimos.</example>
             </rule>
         </rulegroup>
-        <rule id="PREPOSICION_VERBO" name="Combinación imposible: preposición + verbo conjugado">
+        <rulegroup id="PREPOSICION_VERBO" name="Combinación imposible: preposición + verbo conjugado">
             <antipattern>
                 <token>/</token>
                 <token>a</token>
@@ -3911,48 +3912,62 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">desde|hasta|de</token>
                 <token regexp="yes">hace|hacía</token>
             </antipattern>
-            <pattern>
-                <token postag="SPS00|SP\+DA" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
-                <token min="0" max="3" postag="DA.*|PP3..A.*|PP[123]C[SP]000|P0[123].*" postag_regexp="yes"/>
-                <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/><exception>verse</exception></token>
-            </pattern>
-            <message>Combinación imposible: preposición + verbo conjugado.</message>
-            <example correction=""><marker>en informa</marker>.</example>
-            <example correction=""><marker>con el informa</marker>.</example>
-            <example correction=""><marker>del informa</marker>.</example>
-            <example correction=""><marker>de cantaba</marker>.</example>
-            <example correction=""><marker>al encontrase</marker> ésta en baja.</example>
-            <example correction=""><marker>De lo debemos</marker> a él.</example>
-            <example>de cantar</example>
-            <example>Entre ellos están la llama</example>
-            <example>según anunció un portavoz</example>
-            <example>no volvieron a verse más</example>
-            <!-- It needs better disambiguation: verse (v. ver, v. versar)-->
-            <example>al encontrarse ésta en baja</example>
-            <example>Cuanto más bajo se encuentre el sol</example>
-            <example>El papel de las arqueas</example>
-            <example>El sobre contenía información</example>
-            <example>junto con las riñas de gallos</example>
-            <example>entre los meses de octubre, noviembre y diciembre.</example>
-            <example>Tras las reformas.</example>
-            <example>gran golpe en la batalla</example>
-            <example>después de la derrota</example>
-            <example>dependiendo de la masa de la estrella</example>
-            <example>en la antigua Roma</example>
-            <example>de lo uno y de lo otro</example>
-            <example>El libro de los cinco anillos.</example>
-            <example>seguían acudiendo hasta la tumba del apóstol</example>
-            <example>ya hasta las ves venir</example>
-            <example>Ella no volverá hasta las cinco.</example>
-            <example>no estará aquí hasta la una</example>
-            <example>Según se me dijo.</example>
-            <example>A veces hasta nos lanzamos almohadas.</example>
-            <example>Sí, por lo visto.</example>
-            <example>En son de paz.</example>
-            <example>La alternativa A es la mejor.</example>
-            <example>A convence a B.</example>
-            <example>Un vasito de vino con la comida.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token postag="SPS00|SP\+DA" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
+                    <marker>
+                        <token regexp="yes">estás?</token>
+                    </marker>
+                </pattern>
+                <message>Si es un determinante y no es del v. 'estar', se escribe sin tilde.</message>
+                <suggestion><match no="2" regexp_match="(?iu)está(s?)" regexp_replace="esta$1"/></suggestion>
+                <example correction="estas">En <marker>estás</marker> cosas.</example>
+                <example correction="esta">De <marker>está</marker> manera.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SPS00|SP\+DA" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
+                    <token min="0" max="3" postag="DA.*|PP3..A.*|PP[123]C[SP]000|P0[123].*" postag_regexp="yes"/>
+                    <token postag="V.[MSI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/><exception>verse</exception></token>
+                </pattern>
+                <message>Combinación imposible: preposición + verbo conjugado.</message>
+                <example correction=""><marker>en informa</marker>.</example>
+                <example correction=""><marker>con el informa</marker>.</example>
+                <example correction=""><marker>del informa</marker>.</example>
+                <example correction=""><marker>de cantaba</marker>.</example>
+                <example correction=""><marker>al encontrase</marker> ésta en baja.</example>
+                <example correction=""><marker>De lo debemos</marker> a él.</example>
+                <example>de cantar</example>
+                <example>Entre ellos están la llama</example>
+                <example>según anunció un portavoz</example>
+                <example>no volvieron a verse más</example>
+                <!-- It needs better disambiguation: verse (v. ver, v. versar)-->
+                <example>al encontrarse ésta en baja</example>
+                <example>Cuanto más bajo se encuentre el sol</example>
+                <example>El papel de las arqueas</example>
+                <example>El sobre contenía información</example>
+                <example>junto con las riñas de gallos</example>
+                <example>entre los meses de octubre, noviembre y diciembre.</example>
+                <example>Tras las reformas.</example>
+                <example>gran golpe en la batalla</example>
+                <example>después de la derrota</example>
+                <example>dependiendo de la masa de la estrella</example>
+                <example>en la antigua Roma</example>
+                <example>de lo uno y de lo otro</example>
+                <example>El libro de los cinco anillos.</example>
+                <example>seguían acudiendo hasta la tumba del apóstol</example>
+                <example>ya hasta las ves venir</example>
+                <example>Ella no volverá hasta las cinco.</example>
+                <example>no estará aquí hasta la una</example>
+                <example>Según se me dijo.</example>
+                <example>A veces hasta nos lanzamos almohadas.</example>
+                <example>Sí, por lo visto.</example>
+                <example>En son de paz.</example>
+                <example>La alternativa A es la mejor.</example>
+                <example>A convence a B.</example>
+                <example>Un vasito de vino con la comida.</example>
+            </rule>
+        </rulegroup>
         <rule id="SURGIR_EFECTO" name="*surgir/surtir efecto">
             <pattern>
                 <marker>
