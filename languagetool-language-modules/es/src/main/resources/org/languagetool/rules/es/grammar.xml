@@ -44,7 +44,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY expresiones_tiempo "ahora|hoy|ayer|antaño|hogaño|temporada|curso"> <!-- to add manually when needed: mañana-->
 <!ENTITY nombres_colectivos "mayoría|par|gente|grupo|parte|familia|docena|centena|millar">
 <!ENTITY common_english_nouns_feminine "Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation">
-<!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day">
+<!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -380,7 +380,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.fundeu.es/recomendacion/los-tira-y-afloja-los-tiras-y-aflojas/</url>
             <example correction="los tira y afloja"><marker>los tiras y aflojas</marker></example>
         </rule>
-        <!-- AFRENTAR_DIFICULTADES http://cvc.cervantes.es/lengua/alhabla/museo_horrores/museo_050.htm-->
         <rule id="AFRENTAR_DIFICULTADES" name="afrentar dificultades o problemas (afrontar)">
             <pattern>
                 <token inflected="yes" skip="1">afrentar</token>
@@ -1071,6 +1070,52 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tenías" type="triggers_error" reason="rare">Las <marker>tenias</marker> son un gusano plateminto.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SERA" name="sera/será" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>sera</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'ser', lleva tilde. Puede ser, más raramente, un sustantivo sin tilde.</message>
+                <suggestion>será</suggestion>
+                <example correction="será">Él <marker>sera</marker> artista.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>seras</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'ser', lleva tilde. Puede ser, más raramente, un sustantivo sin tilde.</message>
+                <suggestion>serás</suggestion>
+                <example correction="Serás"><marker>Seras</marker> lo que quieras.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="VENIA" name="venia/venía" default="off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>venia<exception scope="previous">la</exception></token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'venir', lleva tilde. Puede ser un sustantivo sin tilde (ej. 'con la venia').</message>
+                <suggestion>venía</suggestion>
+                <example correction="Venía"><marker>Venia</marker> de lejos.</example>
+                <example>Con la venia, señoria.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>venias<exception postag="_GN_FP"></exception></token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'venir', lleva tilde. Puede ser, más raramente, un sustantivo sin tilde.</message>
+                <suggestion>venías</suggestion>
+                <example correction="venías">Lo <marker>venias</marker> pensando.</example>
+                <example>Las <marker>venias</marker> de designación.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="COMO" name="como/cómo" default="on">
             <rule>
                 <pattern>
@@ -1292,6 +1337,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag_regexp="yes" min="0" max="2" postag="&pronombre_personal_atono_POS;"/>
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>una</token>
+                <token>vez</token>
+                <token postag_regexp="yes" min="0" max="2" postag="&pronombre_personal_atono_POS;"/>
+                <token postag="VMSP[13]S0" postag_regexp="yes"/>
+            </antipattern>
             <!--<antipattern>
                 <token>tal</token>
                 <token skip="5">vez</token>
@@ -1478,6 +1529,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Segunda actividad: realice un mapa.</example>
             <example>Espero me perdone.</example>
             <example>Espero tome a bien mi petición.</example>
+            <example>Una vez termine de cargar, pulse Enter.</example>
             <!--<example>Cada uno exprese su opinión.</example>
                 ambigous: ¡Sí! ¡Gane dos veces seguidas! -->
         </rule>
@@ -3131,6 +3183,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule default="temp_off">
                 <pattern>
+                    <token>saca</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes">bala|bocado|bota|broca|clavo|corcho|cuarto|filástica|leche|mancha|manta|manteca|muela|muestra|nabo|pelota|perra|punta|tapón|tinta|trapo|tuerca</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="saca$1" case_conversion="alllower"/></suggestion>
+                <example correction="sacaleches">Necesito un <marker>saca leches</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
                     <token>afro</token>
                     <token min="0">-</token>
                     <token regexp="yes">...+</token>
@@ -4707,6 +4769,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Este cuenta con 149 empresas.</example>
                 <example>Una S.</example>
                 <example>Con sus cerca de 20 millones de habitantes.</example>
+                <example>La misión del piel roja.</example>
             </rule>
             <rule>
                 <pattern>
