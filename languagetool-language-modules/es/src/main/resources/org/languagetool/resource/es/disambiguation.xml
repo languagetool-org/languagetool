@@ -2078,14 +2078,26 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
-    <rule name="Ignore spelling of domain names" id="IGNORE_DOMAIN_NAMES">
+    <rulegroup name="Ignore spelling of domain names" id="IGNORE_DOMAIN_NAMES">
+        <rule>
         <pattern case_sensitive="yes">
             <token regexp="yes">[A-Za-z0-9\-]+</token>
             <token spacebefore="no">.</token>
             <token spacebefore="no" regexp="yes">&dominios_internet;</token>
         </pattern>
         <disambig action="ignore_spelling"/>
-    </rule>
+        </rule>
+        <rule> <!-- es.wikipedia.org-->
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[A-Za-z0-9\-]+</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">[A-Za-z0-9\-]+</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">&dominios_internet;</token>
+            </pattern>
+            <disambig action="add"><wd lemma="url" pos="url"/><wd lemma="url" pos="url"/><wd lemma="url" pos="url"/><wd lemma="url" pos="url"/><wd lemma="url" pos="url"/></disambig>
+        </rule>
+    </rulegroup>
     <rule name="Ignore common chemical formulas" id="IGNORE_COMMON_CHEMICAL_FORMULAS">
         <!-- Created by Tiago F. Santos, 2019-08-29  -->
         <!-- List retreived and triaged from https://en.wikipedia.org/wiki/Glossary_of_chemical_formulas -->
