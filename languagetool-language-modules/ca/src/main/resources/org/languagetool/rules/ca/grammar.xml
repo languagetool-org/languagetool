@@ -4606,7 +4606,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token><exception postag="D[DAIN].*|N.*" postag_regexp="yes"/><exception inflected="yes">fer</exception><exception>tan</exception></token>
+                    <token><exception postag="D[DAIN].*|N.*|PP3MSA00|PP3CP000" postag_regexp="yes"/><exception inflected="yes">fer</exception><exception>tan</exception></token>
                     <marker>
                         <token regexp="yes">[mts]e(u|us|ua|ues|va|ves)|[nv]ostr(a|es?)<exception postag="LOC_ADV|_C_LLOC" postag_regexp="yes"/><exception regexp="yes">seus?|nostr(e|a)</exception></token>
                     </marker>
@@ -4628,7 +4628,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token><exception postag="D[DAIN].*|N.*" postag_regexp="yes"/></token>
+                    <token><exception postag="D[DAIN].*|N.*|PP3MSA00|PP3CP000" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">seus?<exception postag="LOC_ADV|_C_LLOC" postag_regexp="yes"/></token>
                     </marker>
@@ -25202,6 +25202,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si és una beguda, cal escriure <suggestion>te</suggestion>.</message>
                 <example correction="te">amb un <marker>té</marker></example>
                 <example>amb un te</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>te</token>
+                    </marker>
+                    <token regexp="yes">els?</token>
+                    <token regexp="yes">seus?</token>
+                </pattern>
+                <message>S'accentua si és del v. 'tenir'.</message>
+                <suggestion>té</suggestion>
+                <example correction="té">No se sap no <marker>te</marker> els seus origens.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ES" name="es/és">
@@ -49711,6 +49723,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Potser trobaré qui m'ho pugui explicar.</example>
             <example>com si potser no l'hagués de veure més</example>
             <example>Potser quan s'acabi el curs tornarà</example>
+            <example>La Gioconda, probablement el quadre més famós de la pintura occidental.</example>
         </rule>
         <rule id="ESPERA_QUE_INDICATIU" name="esperar que + *indicatiu/subjuntiu">
             <!-- Espero que mai no es troben/trobin (cal distingir dialectes) -->
@@ -52725,8 +52738,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="PORTAR_EMPORTAR" name="portar-se/emportar-se">
             <antipattern>
                 <token inflected="yes" regexp="yes">portar|dur</token>
-                <token min="0" max="2" postag="PP.*|RG" postag_regexp="yes"><exception>bé</exception></token>
-                <token>bé</token>
+                <token min="0" max="2" postag="PP.*|RG" postag_regexp="yes"><exception regexp="yes">bé|be|mal|malament</exception></token>
+                <token regexp="yes">bé|be|mal|malament</token>
             </antipattern>
             <antipattern>
                 <token inflected="yes" regexp="yes">portar|dur</token>
@@ -52752,6 +52765,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes" skip="2">portar|dur</token>
                 <token>a</token>
                 <token>terme</token>
+            </antipattern>
+            <antipattern>
+                <token postag="_es_personal_sg" inflected="yes">es</token>
+                <token min="0" postag="VA.*" postag_regexp="yes"/>
+                <token inflected="yes">poder</token>
+                <token inflected="yes" regexp="yes">portar|dur</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -52781,6 +52800,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="emportar" type="triggers_error" reason="ambiguous">per on volia <marker>portar</marker>-me el mestre</example>
                 <example>per a portar-te aigua</example>
                 <example>La mort del pare m’havia portat la imatge.</example>
+                <example>La corona es pot portar al temple.</example>
             </rule>
             <rule>
                 <pattern>
@@ -52899,7 +52919,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <!-- queixar-vos, queixant-te -->
-                <token postag="SENT_START|_PUNCT.*|C.*|N.*" postag_regexp="yes"/>
+                <token postag="SENT_START|_PUNCT.*|C.*|N.*|RG" postag_regexp="yes"/>
                 <token postag="SPS00|LOC_PREP" postag_regexp="yes" min="0" max="2"/>
                 <token postag="V.[NG].*" postag_regexp="yes"/>
                 <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
@@ -52911,7 +52931,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
             </antipattern>
             <antipattern>
-                <token>en</token>
+                <token regexp="yes">en|sense?</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
                 <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
             </antipattern>
@@ -52927,6 +52947,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
             </antipattern>
             <antipattern>
+                <token postag="V.[GN].*" postag_regexp="yes" inflected="yes">haver</token>
+                <token inflected="yes">de</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+                <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
+            </antipattern>
+            <antipattern>
                 <!-- poder-se queixar -->
                 <token postag="SENT_START|_PUNCT.*|C.*" postag_regexp="yes"/>
                 <token postag="SPS00|LOC_PREP" postag_regexp="yes" min="0" max="2"/>
@@ -52937,7 +52963,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <!-- poder queixar-se -->
                 <token postag="SENT_START|_PUNCT.*|C.*" postag_regexp="yes"/>
-                <token postag="SPS00|LOC_PREP" postag_regexp="yes" min="0" max="2"/>
+                <token postag="V.[NG].*" postag_regexp="yes" inflected="yes">poder</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+                <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
+            </antipattern>
+            <antipattern>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
                 <token postag="V.[NG].*" postag_regexp="yes" inflected="yes">poder</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
                 <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
@@ -53082,6 +53114,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>L'única cosa que podia fer era abstenir-me.</example>
             <example>La possibilitat d'abstenir-se.</example>
             <example>elegint abstenir-se en la votació final</example>
+            <example>Havent de suïcidar-se.</example>
+            <example>fins a poder autodissoldre's</example>
+            <example>Recomanen abstenir-se.</example>
+            <example>Et recomano abstenir-te'n.</example>
+            <example>Tenen prohibit expressament d'immiscir-se.</example>
             <!-- li agrada ... -->
             <example>Li agrada queixar-se.</example>
             <example>Li agrada a voltes queixar-se.</example>
