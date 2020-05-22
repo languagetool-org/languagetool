@@ -31,7 +31,7 @@ import java.util.Scanner;
  * Load data for {@link AccentuationCheckRule}.
  * @since 3.3
  */
-class AccentuationDataLoader {
+class ConfusionPairsDataLoader {
 
   private static final String FILE_ENCODING = "utf-8";
 

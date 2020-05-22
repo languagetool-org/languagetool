@@ -27,10 +27,10 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 import org.languagetool.tools.StringTools;
 
-public class DiacriticsCheckFilter extends RuleFilter {
+public class ConfusionCheckFilter extends RuleFilter {
 
   private static final Map<String, AnalyzedTokenReadings> relevantWords = 
-      new AccentuationDataLoader().loadWords("/es/verb_noaccent_noun-adj_accent.txt");
+      new ConfusionPairsDataLoader().loadWords("/es/confusion_pairs.txt");
   
   private static final Pattern MS = Pattern.compile("NC[MC][SN]000|A..[MC][SN].|V.P..SM");
   private static final Pattern FS = Pattern.compile("NC[FC][SN]000|A..[FC][SN].|V.P..SF");
@@ -50,7 +50,7 @@ public class DiacriticsCheckFilter extends RuleFilter {
       int i = Integer.parseInt(gendernumber_from);
       if (i < 1 || i > patternTokens.length) {
         throw new IllegalArgumentException(
-            "DiacriticsCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", value: " + i);
+            "ConfusionCheckFilter: Index out of bounds in " + match.getRule().getFullId() + ", value: " + i);
       }
       AnalyzedTokenReadings atr = patternTokens[i - 1];
       if (atr.matchesPosTagRegex(".+MS.*")) { desiredGenderNumberPattern = MS;}
