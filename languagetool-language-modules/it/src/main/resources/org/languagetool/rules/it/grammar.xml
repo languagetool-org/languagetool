@@ -1769,12 +1769,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- serve il "\+m" con ADJ perché la 'm' compare anche in 'ADJ:comp+f' -->
                     <token postag="(ADJ.+\+m|DET.+:m).*" postag_regexp="yes">
 <!-- 180 + -->
-                        <exception postag="(ADJ.+\+f|DET.+:f).*" postag_regexp="yes"/>
+                        <exception postag="(NOUN-F|ADJ.+\+f|DET.+:f).*" postag_regexp="yes"/>
 <!-- 180 - -->
                     </token>
                 </pattern>
                 <message>Forse volevi dire <suggestion>al <match no="2"/></suggestion>?</message>
                 <example correction="al mio">Ho portato un regalo <marker>la mio</marker> papà.</example>
+                <example>La tesi dell'autore.</example>
             </rule>
             <rule>
                 <!-- "al" + sostantivo femminile -->
