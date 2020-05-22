@@ -217,9 +217,15 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "your set up was",
       "because your pay is",
       "but your pay is",
+      "the while block", // dev speech
+      "updated my edge", // vs by
       "he haven", // vs the
+      "is he naked", // vs the
+      "these news sound", // vs new
+      "those news sound", // vs new
       "(t)he", // vs the
       "[t]he", // vs the
+      "the role at", // vs add
       "same false alarm", // vs some
       "why is he relevant", // vs the
       "then that would", // vs than
