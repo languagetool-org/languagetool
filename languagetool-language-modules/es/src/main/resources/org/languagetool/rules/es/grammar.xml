@@ -185,15 +185,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
         <rulegroup id="VALLA_VAYA" name="valla/vaya (ir)">
             <rule default="temp_off">
-               <pattern>
-                   <token regexp="yes">que|cuando|donde|me|te|se|las|lo|los|le|les|nos|os</token>
-                   <marker>
-                       <token>valla</token>
-                   </marker>
-                   <!--<token regexp="yes">al?</token>-->
-               </pattern>
-               <message>Si es del v. 'ir', se escribe <suggestion>vaya</suggestion>.</message>
-               <example correction="vaya">Cuando <marker>valla</marker> a comprar, coja la lista.</example>
+                <pattern>
+                    <token regexp="yes">que|cuando|donde|me|te|se|las|lo|los|le|les|nos|os</token>
+                    <marker>
+                        <token>valla</token>
+                    </marker>
+                    <!--<token regexp="yes">al?</token>-->
+                </pattern>
+                <message>Si es del v. 'ir', se escribe <suggestion>vaya</suggestion>.</message>
+                <example correction="vaya">Cuando <marker>valla</marker> a comprar, coja la lista.</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
@@ -521,6 +521,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>tu</token>
                 <token postag="V.[SI].2S." postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token postag="_possible_NP"/>
+            </antipattern>
             <rule>
                 <!-- de termino-->
                 <pattern>
@@ -550,6 +553,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="sólido">De vapor a <marker>solido</marker>.</example>
                 <example correction="rayas">Con <marker>rallas</marker> blancas.</example>
                 <example>El grupo PPE-DE solicita que se retire.</example>
+                <example>Vivió en Echo Park.</example>
             </rule>
             <rule>
                 <!-- del tristemente celebre-->
@@ -3287,12 +3291,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>sobre</token>
                     <token min="0">-</token>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">...+</token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">...+<exception regexp="yes">dich(o|a)s?</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="sobre$1"/></suggestion>
                 <example correction="sobresalían">Ellos <marker>sobre salían</marker>.</example>
                 <example>Háblame sobre todo esto.</example>
+                <example>Al actuar sobre dichos órganos.</example>
             </rule>
             <rule default="temp_off">
                 <pattern>
@@ -3718,6 +3723,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes" regexp="yes">meter|oler|olor|saber|sabor|gusto|gustar|aroma|peste|apestar</token>
                     <token>a</token>
                 </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token>estado</token>
+                    <token regexp="yes">líquido|sólido|gaseoso</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="2">de</token>
+                    <token regexp="yes">mediano|bajo</token>
+                    <token>a</token>
+                    <token>elevado</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">sujetar|sujeto</token>
+                    <token>a</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>a</token>
@@ -4025,7 +4045,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="por que|por los que|por los cuales">Los motivos <marker>porque</marker> nos fuimos.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PREPOSICION_VERBO" name="Combinación imposible: preposición + verbo conjugado">
+        <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
             <antipattern>
                 <token>/</token>
                 <token>a</token>
@@ -4040,6 +4060,35 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
+                    <marker>
+                        <token>de<exception postag="_possible_NP"/></token>
+                        <token>estás</token>
+                    </marker>
+                </pattern>
+                <message>Si es un determinante y no es del v. 'estar', se escribe sin tilde.</message>
+                <suggestion>\1 estas</suggestion>
+                <suggestion>le \2</suggestion>
+                <suggestion>me \2</suggestion>
+                <suggestion>te \2</suggestion>
+                <example correction="De estas|Le estás|Me estás|Te estás"><marker>De estás</marker> cosas.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>de<exception postag="_possible_NP"/></token>
+                        <token>está</token>
+                    </marker>
+                </pattern>
+                <message>Si es un determinante y no es del v. 'estar', se escribe sin tilde.</message>
+                <suggestion>\1 esta</suggestion>
+                <suggestion>se \2</suggestion>
+                <suggestion>le \2</suggestion>
+                <suggestion>me \2</suggestion>
+                <suggestion>te \2</suggestion>
+                <example correction="De esta|Se está|Le está|Me está|Te está"><marker>De está</marker> manera.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">estás?</token>
@@ -4048,7 +4097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es un determinante y no es del v. 'estar', se escribe sin tilde.</message>
                 <suggestion><match no="2" regexp_match="(?iu)está(s?)" regexp_replace="esta$1"/></suggestion>
                 <example correction="estas">En <marker>estás</marker> cosas.</example>
-                <example correction="esta">De <marker>está</marker> manera.</example>
+                <example correction="esta">Con <marker>está</marker> definición.</example>
             </rule>
             <rule>
                 <pattern>
@@ -4077,7 +4126,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
                     <token postag="VMSI[13]S0" postag_regexp="yes" regexp="yes">[\p{Ll}]+se<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
@@ -4086,12 +4135,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception postag="CS|A.*|RG|_possible_NP" postag_regexp="yes"/></token>
                     <token postag="V.[SI].*" postag_regexp="yes" regexp="yes">[\p{Ll}]+<exception negate_pos="yes" postag="V.[MSI].*|SENT_END" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción incorrecta.</message>
                 <suggestion>\1 <match no="2" postag="V.[SI].*" postag_regexp="yes" postag_replace="V.N0000"/></suggestion>
                 <example correction="a acabar">Miedo <marker>a acabara</marker>.</example>
+                <example>Imprime, copia y hasta escanea.</example>
+                <example>El complemento de un conjunto A es el conjunto A∁.</example>
             </rule>
             <rule>
                 <!-- catch-all rule without suggestions-->
@@ -4953,6 +5004,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Una S.</example>
                 <example>Con sus cerca de 20 millones de habitantes.</example>
                 <example>La misión del piel roja.</example>
+                <example>El IVA se aplica en caja.</example>
             </rule>
             <rule>
                 <pattern>
