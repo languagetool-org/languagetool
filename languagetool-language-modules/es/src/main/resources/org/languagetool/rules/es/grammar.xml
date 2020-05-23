@@ -184,7 +184,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
         <rulegroup id="VALLA_VAYA" name="valla/vaya (ir)">
-            <rule default="temp_off">
+            <rule default="on">
                 <pattern>
                     <token regexp="yes">que|cuando|donde|me|te|se|las|lo|los|le|les|nos|os</token>
                     <marker>
@@ -218,7 +218,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="vayas">En el caso de que <marker>vallas</marker> a comprar, coge la lista.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PODER_VOSEO" name="poder + forma voseo" default="temp_off">
+        <rulegroup id="PODER_VOSEO" name="poder + forma voseo" default="on">
             <antipattern>
                 <token>así</token>
                 <token>que</token>
@@ -1207,7 +1207,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tenías" type="triggers_error" reason="rare">Las <marker>tenias</marker> son un gusano plateminto.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SERA" name="sera/será" default="temp_off">
+        <rulegroup id="SERA" name="sera/será" default="on">
             <rule>
                 <pattern>
                     <marker>
@@ -1229,7 +1229,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Serás"><marker>Seras</marker> lo que quieras.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VERA" name="vera/verá" default="temp_off">
+        <rulegroup id="VERA" name="vera/verá" default="on">
             <rule>
                 <antipattern>
                     <token case_sensitive="yes">Vera</token>
@@ -2084,7 +2084,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="convivió">Durante mucho tiempo <marker>convivio</marker> con sus padres.</example>
             </rule>
             <!-- TODO: lucido/lúcido, cesar/césar, revolver/revólver -->
-            <rule default="temp_off">
+            <rule default="on">
                 <pattern>
                     <token postag="D..MS.|SP\+DA" postag_regexp="yes"/>
                     <marker>
@@ -3346,7 +3346,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="^(.*)$" regexp_replace="estado$1" case_conversion="alllower"/></suggestion>
                 <example correction="estadounidenses">Los <marker>Estado Unidenses</marker></example>
             </rule>
-            <rule default="temp_off">
+            <rule default="on">
                 <pattern>
                     <token>sobre</token>
                     <token min="0">-</token>
@@ -3358,7 +3358,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Háblame sobre todo esto.</example>
                 <example>Al actuar sobre dichos órganos.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="on">
                 <pattern>
                     <token>cubre</token>
                     <token min="0">-</token>
@@ -3369,7 +3369,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="cubrebocas">El <marker>cubre bocas</marker>.</example>
                 <example>El cubrebocas cubre las bocas.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="on">
                 <pattern>
                     <token>saca</token>
                     <token min="0">-</token>
@@ -3379,7 +3379,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="saca$1" case_conversion="alllower"/></suggestion>
                 <example correction="sacaleches">Necesito un <marker>saca leches</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="on">
                 <pattern>
                     <token>afro</token>
                     <token min="0">-</token>
@@ -4399,10 +4399,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de que">Está bien alegrarse <marker>que</marker> haya dinero para todos.</example>
                 <example>No pareces enterarte de que todo está resuelto.</example>
             </rule>
-            <rule default="temp_off">
+            <rule default="on">
                 <antipattern>
                     <token postag="PP[123]C[SP][0D]00" postag_regexp="yes"/>
-                    <token regexp="yes" postag="V...3S." postag_regexp="yes" inflected="yes">gustar|alegrar|entristecer|agobiar|importar|resbalar|hartar|emocionar|alterar|aburrir|faltar|preocupar</token>
+                    <token regexp="yes" postag="V...3S." postag_regexp="yes" inflected="yes">alegrar|hartar</token>
                     <token>que</token>
                 </antipattern>
                 <pattern>
@@ -4414,6 +4414,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>En este contexto, el verbo va seguido normalmente de la preposición 'de'.</message>
                 <suggestion>de que</suggestion>
                 <example correction="de que">Les informamos <marker>que</marker> es obligatorio.</example>
+                <example correction="de que">Me harté <marker>que</marker> no cumpliera.</example>
+                <example>Me hartó que no cumpliera.</example>
                 <example>Dudo que él venga.</example>
                 <example>Me alegra que hayas podido venir.</example>
                 <example>No sabes lo harta que estoy.</example>
@@ -5959,7 +5961,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rulegroup id="VES_VEZ" name="ves/vez" default="temp_off">
+        <rulegroup id="VES_VEZ" name="ves/vez" default="on">
             <rule>
                 <pattern>
                     <token>cada</token>
