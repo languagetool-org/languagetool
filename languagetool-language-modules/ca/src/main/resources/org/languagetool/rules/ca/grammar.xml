@@ -37686,6 +37686,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="CARREJAR_CARREGAR" name="carrejar/carregar">
+            <pattern>
+                <token regexp="yes">es|ho|el|la|els|les</token>
+                <marker>
+                    <token>carregi</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>carregui</suggestion> (del v. 'carregar')?</message>
+            <example correction="carregui">Fins que es <marker>carregi</marker> del tot.</example>
+        </rule>
         <rulegroup id="TIRETES" name="*tiretes/fiblades">
             <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=agulletes&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=8566&amp;idHit=8566&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=2&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Com+es+diu+agujetas+en+catal%E0%3F+%2F+%C9s+correcte+agulletes+en+catal%E0%3F+%2F+%C9s+correcte+tiretes+en+catal%E0%3F&amp;tematica=Ci%E8ncies+de+la+salut&amp;tipusCerca=cerca.tot</url>
             <rule>
@@ -50540,6 +50550,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>però no si vénen tard</example>
         </rule>
         <rulegroup id="COSES_QUE_FER" name="coses *que/a fer">
+            <rule>
+                <antipattern>
+                    <token>res</token>
+                    <token skip="-1" regexp="yes">millor|més</token>
+                    <token>que</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="8">preguntar|demanar|sol·licitar</token>
+                    <token postag="N.*|PI.*" postag_regexp="yes" skip="1"><exception postag="_GV_|V.*" postag_regexp="yes"/><exception scope="next" regexp="yes" negate="yes">que|més</exception></token>
+                    <marker>
+                        <token>que<exception postag="comparatiu|relatiu|conjuncio" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="VMN.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si el 'que' no és comparatiu, potser cal canviar-lo.</message>
+                <suggestion>què</suggestion>
+                <suggestion>a</suggestion>
+                <suggestion>per</suggestion>
+                <suggestion>per a</suggestion>
+                <example correction="què|a|per|per a">Finestra emergent que pregunta a l'usuari <marker>que</marker> fer.</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token>res</token>
