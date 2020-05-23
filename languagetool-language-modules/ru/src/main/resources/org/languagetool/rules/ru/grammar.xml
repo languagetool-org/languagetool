@@ -7150,7 +7150,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token postag="ADJ:.*" postag_regexp="yes" regexp="yes">.*[аеёиоуэюя][н](&pril_end;)<exception  postag="ADJ:Comp" /><exception  negate_pos="yes" postag="ADJ:.*" postag_regexp="yes"></exception></token>  <!-- <exception>женат</exception> --> 
                     </marker>
                     <token  postag="PREP" skip="1" ></token>  
-                    <token postag="NN:.*:.*:.*:P" postag_regexp="yes"></token>
+                        <token postag="NN:.*:.*:.*:P" postag_regexp="yes"></token>
                 </pattern>
                 <message>Причастие пишется с «нн», есть зависимые слова: <suggestion suppress_misspelled="yes"><match no="1" regexp_match="(.*[аеёиоуэюя])[н]([а-мо-я]{1,3})" regexp_replace="$1нн$2"></match></suggestion></message>
                 <short>Пишется с «нн»</short>
@@ -7161,9 +7161,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Он женат на стюардессе.</example>
                 <example>Раньше в этом регионе.</example>
                 <example>Вы больше не одиноки в комнате.</example>
+                <example>Я не уверена в том, что он говорит правду.</example>
                 <example>Ещё один остановочный пункт существовал на острове Змеиный близ дельты Дуная.</example>
                 <example>Объекты реализации единых по замыслу архитектурных проектов.</example>
                 <example correction="жаренная">Сегодня на ужин <marker>жареная</marker> на масле картошка.</example>
+                <example correction="жаренная">Сегодня на ужин <marker>жареная</marker> в этом масле картошка.</example>
             </rule>
 
             <rule>
@@ -7171,7 +7173,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>  
                         <token postag="PT:.*" postag_regexp="yes" regexp="yes">.*[аеёиоуэюя][н][н]([а-мо-я]{1,3})<exception  negate_pos="yes" postag="PT:.*" postag_regexp="yes"></exception><exception scope="previous" >,</exception><exception scope="previous" postag="ADV" ></exception></token>
                     </marker>
-                    <token negate_pos="yes"  postag="PREP" ><exception  postag="NN:.*:.*:.*:(T|D)" postag_regexp="yes"></exception><exception regexp="yes">[А-ЯЁ]</exception></token>
+                    <token negate_pos="yes"  postag="PREP" ><exception  postag="NN:.*:.*:.*:(T|D)" postag_regexp="yes"></exception><exception regexp="yes">[А-ЯЁ]</exception></token>                
                     <token negate_pos="yes" postag="NN:.*:.*:.*:T" postag_regexp="yes"></token>
                 </pattern>
                 <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
@@ -7183,10 +7185,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Во дворце состоялось объединённое заседание.</example>
                 <example>Поступки, совершённые ими.</example>
                 <example>Эта подержанная машина продаётся.</example>
+                <example>Я не уверена в том, что он говорит правду.</example>
                 <example>На фоне начинающихся массовых беспорядков, порождённых экономической и политической ситуацией, наблюдается кризис.</example>
                 <example>Декларация содержит рекомендации по охране, адресованные странам и правительствам.</example>
                 <example>Метод лингвосоционического моделирования, предложенный Л. М. Комиссаровой, применяется при анализе.</example>
                 <example correction="жареная">Сегодня на ужин <marker>жаренная</marker> картошка.</example>
+ <!--           <example correction="уверена">Я не <marker>уверенна</marker> в том, что он говорит правду.</example>  -->
             </rule>
         </rulegroup>            
         <rulegroup default="on" id="Ne_narech" name="«Не» с наречиями">
