@@ -219,6 +219,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="PODER_VOSEO" name="poder + forma voseo" default="temp_off">
+            <antipattern>
+                <token>así</token>
+                <token>que</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>si</token>
@@ -267,6 +271,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Construcción incorrecta.</message>
                 <suggestion><match no="2" postag="VMM02V0.(PP.*)" postag_regexp="yes" postag_replace="VMN0000.$1"/></suggestion>
                 <example correction="compartirla">No quiere <marker>compartila</marker>.</example>
+                <example>Así que terminala.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HACE_UN_MES_ATRAS" name="*hace un mes atrás">
@@ -608,7 +613,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Un termino -->
                 <pattern>
-                    <token postag="D[^RTEN].*" postag_regexp="yes"><exception>el</exception></token>
+                    <token postag="D[^RTEN].*" postag_regexp="yes">
+                        <exception regexp="yes">el|lo|la</exception>
+                        <exception postag="PP.*" postag_regexp="yes"/>
+                    </token>
                     <marker>
                         <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                     </marker>
@@ -631,7 +639,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La enmienda n.º 4 duplica gran parte.</example>
                 <example>¿Dónde está tu mama, niño?</example>
                 <example>Tu vienes de Suecia.</example>
+                <example>Todos lo aman.</example>
+                <example>Su abuela lo crio.</example>
+                <example>Para gente que no la practica.</example>
                 <!-- tu>tú-->
+            </rule>
+            <rule default="temp_off">
+                <!-- La fabrica produjo -->
+                <pattern>
+                    <token postag="D[^RTEN].*" postag_regexp="yes"><exception>lo</exception></token>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token min="0" max="2" postag_regexp="yes" postag="RN|&pronombre_personal_atono_POS;"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:NC.* gendernumber_from:1"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="fábrica">La <marker>fabrica</marker> produjo lo necesario.</example>
+                <example correction="náuseas">Las <marker>nauseas</marker> no se pasan solo con fuerza de voluntad.</example>
+                <example correction="árboles">Los <marker>arboles</marker> bloqueaban el paisaje.</example>
+                <example>Cuando lo casaron se sintió libre.</example>
+                <!-- TODO: Matemáticas no es solo memorizar las formulas.-->
             </rule>
             <rule>
                 <!-- Una nueva formula que -->
@@ -653,6 +683,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="fórmula">Una nueva <marker>formula</marker> que fue descubierta.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>de</token>
+                    <token>menos</token>
+                </antipattern>
                 <pattern>
                     <token postag="D.*|PP...A..|P[DI].*" postag_regexp="yes"><exception regexp="yes">&pronombre_no_determinante;</exception></token>
                     <marker>
@@ -667,6 +701,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="máquina">La <marker>maquina</marker> del tiempo.</example>
                 <example correction="fórmula">La <marker>formula</marker> de inspiración.</example>
                 <example>Que nadie participe de ellos.</example>
+                <example>No puedo describir con palabras cuánto echo de menos a Tom.</example>
             </rule>
             <!-- adjectives -->
             <rule>
@@ -3315,7 +3350,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>sobre</token>
                     <token min="0">-</token>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">...+<exception regexp="yes">dich(o|a)s?</exception></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">...+<exception regexp="yes">dich(o|a)s?|comidas?</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="sobre$1"/></suggestion>
@@ -3772,6 +3807,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="A.*" postag_regexp="yes"/>
                     <token><exception>que</exception><exception postag="D.*" postag_regexp="yes"/></token>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">poner|meter|situar|colocar</token>
+                    <token>a</token>
+                    <token>cubierto</token>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token>cubierto</token>
+                    <token><exception regexp="yes">que|de</exception><exception postag="D.*" postag_regexp="yes"/></token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">pasar|convertir</token>
+                    <token skip="2">de</token>
+                    <token>a</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>a</token>
@@ -3787,6 +3837,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ha">Esta industria <marker>a</marker> comenzado a desarrollarse.</example>
                 <example correction="ha">la comunidad mundial <marker>a</marker> creado organismos bilaterales.</example>
                 <example correction="ha">El dubstep <marker>a</marker> influenciado este género.</example>
+                <example correction="Ha"><marker>A</marker> cubierto de nieve las montañas.</example>
                 <example>Este bacalao huele a pescado fresco.</example>
                 <example>Lo envió a dicho juzgado.</example>
                 <example>De tubular a acampanado.</example>
@@ -3795,6 +3846,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es una familia cosmopolita de climas cálidos a templado-frescos.</example>
                 <!--<example>con un tubo corto a elongado y lóbulos</example>-->
                 <example>Se reserva, a pedido de parte, la posibilidad de fallar.</example>
+                <example>¡A cubierto!</example>
+                <example>Hay que ponerse a cubierto de la lluvia.</example>
+                <example>Ponte a cubierto.</example>
+                <example>Él pasó de acusador a acusado.</example>
             </rule>
             <rule id="E_PARTICIPIO" name="e/he + participio">
                 <pattern>
@@ -4109,7 +4164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="PREP_VERB" name="Combinación imposible: preposición + verbo conjugado">
             <antipattern>
-                <token>/</token>
+                <token regexp="yes">/|letra</token>
                 <token>a</token>
             </antipattern>
             <antipattern>
@@ -4210,6 +4265,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>la \2</suggestion>
                 <suggestion>\1 <match no="2" postag="V.[SI].*" postag_regexp="yes" postag_replace="V.N0000"/></suggestion>
                 <example correction="la podemos|a podar|a poder">Y <marker>a podemos</marker> hacer.</example>
+                <example>La letra a es la primera del alfabeto.</example>
             </rule>
             <rule>
                 <pattern>
@@ -4350,7 +4406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">alegrar|enterar|informar|convencer|hartar|quejar|protestar<exception postag="A.*" postag_regexp="yes"/></token>
+                    <token regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">alegrar|enterar|informar|convencer|hartar|quejar|protestar<exception postag="[AN].*" postag_regexp="yes"/></token>
                     <marker>
                         <token>que</token>
                     </marker>
@@ -4361,6 +4417,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Dudo que él venga.</example>
                 <example>Me alegra que hayas podido venir.</example>
                 <example>No sabes lo harta que estoy.</example>
+                <example>¿Tienes alguna queja que hacer?</example>
             </rule>
             <rule>
                 <pattern>
@@ -5012,6 +5069,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El Santa Monica Track Club</example>
                 <example>Cuando me los saboreo soy muy feliz</example>
                 <example>Bienvenidos al Pizza Day.</example>
+                <example>Donde las dan las toman.</example>
                 <!-- <example>no esta claro</example> better: other rule-->
             </rule>
             <rule>
