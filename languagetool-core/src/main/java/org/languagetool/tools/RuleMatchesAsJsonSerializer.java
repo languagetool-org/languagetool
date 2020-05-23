@@ -233,7 +233,7 @@ public class RuleMatchesAsJsonSerializer {
       if (pRule.getSubId() != null) {
         g.writeStringField("subId", pRule.getSubId());
       }
-      if (pRule.getSourceFile() != null && !pRule.getSourceFile().endsWith("/grammar.xml")) {
+      if (pRule.getSourceFile() != null && compactMode != 1) {
         g.writeStringField("sourceFile", pRule.getSourceFile().replaceFirst(".*/", ""));
       }
     }
