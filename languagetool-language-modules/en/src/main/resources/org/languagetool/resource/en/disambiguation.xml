@@ -2411,6 +2411,18 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes">is|was</token>
                 <token postag_regexp="yes" postag="VBP?"/>
             </antipattern>
+            <antipattern><!-- Premium #1416 no action was take [MFU Semantics is important for this rule. Compare with the 'lead' examples. -->
+                <token postag="DT"/>
+                <token postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token regexp="yes">is|was</token>
+                <token postag_regexp="yes" postag="VBP?">take</token>
+            </antipattern>
+            <antipattern><!-- Premium #1416. Passive: test was lead by -->
+                <token postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token regexp="yes">is|was</token>
+                <token postag_regexp="yes" postag="VBP?"/>
+                <token>by</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">are|is|was|been</token><!-- MFU 2020-02-21 Why doesn't this also have 'were'? -->
                 <marker>
@@ -2448,6 +2460,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">Incorrect grammar: The ship was in distress; she was founder in the storm.</example><!-- #2544 -->
             <example type="untouched">I thought having my mother for a teacher would make school easier, all it's done is <marker>make</marker> it worse.</example><!-- #2575 -->
             <example type="untouched">... Trump administration is trying to do is <marker>make</marker> it impossible...</example><!-- #2604 -->
+            <example type="untouched">Since there was no reply, no action was take.</example><!-- Premium #1416 -->
+            <example type="untouched">All tests were led by managers; no test was <marker>lead</marker> by the technicians.</example><!-- Premium #1416. Incorrect grammar, should be 'led'. -->
+<!--            <example type="untouched">All the sheep found their way to the pasture, although no sheep was <marker>lead</marker> on this occasion (because the sheepdog was ill).</example>--><!-- Premium #1416 -->
             <example type="ambiguous" inputform="founder[founder/NN,founder/VB,founder/VBP]" outputform="founder[founder/NN]">He was <marker>founder</marker> of the Chemical Society of London in 1841, being its first Treasurer and second President.</example>
             <example type="ambiguous" inputform="book[book/NN,book/VB,book/VBP]" outputform="book[book/NN]">They are <marker>book</marker> salesmen, aren't they?</example>
             <example type="ambiguous" inputform="lead[lead/NN:UN,lead/VB,lead/VBP]" outputform="lead[lead/NN:UN]">I think that this metal is <marker>lead</marker>.</example>
