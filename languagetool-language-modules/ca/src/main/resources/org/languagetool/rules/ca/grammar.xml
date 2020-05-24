@@ -14533,6 +14533,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>atenent</token>
                         <token>a</token>
+                        <token regexp="yes">ls?</token>
+                    </marker>
+                </pattern>
+                <message>En el sentit de "tenir en compte" el v. 'atendre' és transitiu.</message>
+                <suggestion><match no="4" postag="D..(.)(.)." postag_regexp="yes" postag_replace="VMP00$2$10">atendre</match> e\4</suggestion>
+                <suggestion>atenint-nos a\4</suggestion>
+                <suggestion>tenint en compte e\4</suggestion>
+                <example correction="Atesos els|Atenint-nos als|Tenint en compte els"><marker>Atenent als</marker> problemes actuals.</example>
+                <example>Atenent a tots els clients</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                    <marker>
+                        <token>atenent</token>
+                        <token>a</token>
                     </marker>
                     <token postag="D.*" postag_regexp="yes"/>
                 </pattern>
@@ -37686,6 +37702,36 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_WORDS_IN_CONTEXT" name="Paraules incorrectes segons el context" type="grammar">
         <!-- #nomenar/anomenar
             (?i)nomen.+ (?i)anomen.+    nom anom    (?i)càrrecs?|senadors?|.*presidents?|diputa.*|.*conseller.*|.*ministre.*|.*director.*|capit.+|.*general.*|vicari.*|rector.*|.*bisbe.*|alcalde.*|batl?le.*|tribunals?|consell|comit[éè]s?|entrenador.*|encarrega[td].*   ddXd,6dDd3d designar per a un càrrec    donar nom -->
+        <rule id="A_VALL" name="a vall/avall">
+            <antipattern>
+                <token regexp="yes">com|vall</token>
+                <token>a</token>
+                <token>vall</token>
+            </antipattern>
+            <pattern>
+                <token>a</token>
+                <token regexp="yes">vall|munt</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>a<match no="2" case_conversion="alllower"/></suggestion>?</message>
+            <example correction="avall">Tira amunt o <marker>a vall</marker>.</example>
+            <example correction="amunt">Anaven <marker>a munt</marker> i avall.</example>
+            <example>Anaven de vall a vall.</example>
+            <example>Coneguda històricament com a vall de Brocà.</example>
+        </rule>
+        <rule id="GAUDI" name="Gaudi/Gaudí">
+            <pattern>
+                <token case_sensitive="yes">Gaudi</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>Gaudí</suggestion> (cognom)?</message>
+            <example correction="Gaudí">Antoni <marker>Gaudi</marker>.</example>
+        </rule>
+        <rule id="PREGUERA" name="preguera/preguerra">
+            <pattern>
+                <token>preguera</token>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>preguerra</suggestion>? 'Preguera' és sinònim de 'pregària'.</message>
+            <example correction="preguerra">Durant la <marker>preguera</marker>.</example>
+        </rule>
         <rule id="CARREJAR_CARREGAR" name="carrejar/carregar">
             <pattern>
                 <token regexp="yes">es|ho|el|la|els|les</token>
