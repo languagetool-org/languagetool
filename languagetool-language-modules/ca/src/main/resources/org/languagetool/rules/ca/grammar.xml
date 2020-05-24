@@ -4244,7 +4244,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Possible error de concordança.</message>
-                <suggestion><match no ="4" postag="(V.[IS].3)P(..)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+                <suggestion><match no="4" postag="(V.[IS].3)P(..)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
                 <example correction="és">Aquesta sopa <marker>són</marker> molt bona.</example>
                 <example correction="mereix">Esment especial <marker>mereixen</marker> el seu treball.</example>
                 <example correction="sembla|semble">La cosa <marker>semblen</marker> que és així.</example>
@@ -4271,7 +4271,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.P..SM.|V.N.*" postag_regexp="yes" regexp="yes" inflected="yes">ser|continuar|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</token>
                 </pattern>
                 <message>Possible error de concordança.</message>
-                <suggestion><match no ="4" postag="(V.[IS].3)P(..)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
+                <suggestion><match no="4" postag="(V.[IS].3)P(..)" postag_regexp="yes" postag_replace="$1S$2"/></suggestion>
                 <example correction="ha">Aquesta sopa <marker>han</marker> estat molt bona.</example>
                 <example correction="havia">Esment especial <marker>havien</marker> merescut el seu treball.</example>
                 <example correction="ha">La cosa <marker>han</marker> semblat que és així.</example>
@@ -4316,7 +4316,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Possible error de concordança.</message>
-                <suggestion><match no ="5" postag="(V.[IS].3)S(..)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <suggestion><match no="5" postag="(V.[IS].3)S(..)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
                 <example correction="són">Aquestes sopes <marker>és</marker> molt bones.</example>
                 <example correction="són">Els amics <marker>és</marker> així.</example>
                 <example correction="tenen">Els amics <marker>té</marker> això.</example>
@@ -4342,7 +4342,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.P..SM.|V.N.*" postag_regexp="yes" regexp="yes" inflected="yes">ser|continuar|seguir|tenir|semblar|parèixer|mostrar|oferir|merèixer</token>
                 </pattern>
                 <message>Possible error de concordança.</message>
-                <suggestion><match no ="5" postag="(V.[IS].3)S(..)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
+                <suggestion><match no="5" postag="(V.[IS].3)S(..)" postag_regexp="yes" postag_replace="$1P$2"/></suggestion>
                 <example correction="han">Aquestes sopes <marker>ha</marker> estat molt bones.</example>
                 <example correction="han">Els amics <marker>ha</marker> estat així.</example>
                 <example correction="havien">Els amics <marker>havia</marker> tingut això.</example>
@@ -52856,10 +52856,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                    <and>
-                        <token inflected="yes">portar</token>
-                        <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
-                    </and>
+                        <and>
+                            <token inflected="yes">portar</token>
+                            <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
+                        </and>
                     </marker>
                     <token min="0" max="2" spacebefore="no"/>
                     <token postag="[AND].*" postag_regexp="yes"/>
@@ -52971,7 +52971,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <unify>
                         <feature id="persona"/>
-                        <feature id="nombre"></feature>
+                        <feature id="nombre"/>
                         <token postag="P0[12].*" postag_regexp="yes"><exception regexp="yes">[-'].*</exception></token>
                         <unify-ignore>
                             <token min="0" max="2" postag="V.[SI].*|SPS00" postag_regexp="yes" inflected="yes" regexp="yes">anar|haver|pensar|intentar|soler|deure|poder|voler|de</token>
@@ -52979,7 +52979,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         </unify-ignore>
                         <marker>
                             <token postag="V.N.*" postag_regexp="yes"/>
-                            <token postag="P0[12].*" postag_regexp="yes" spacebefore="no"></token>
+                            <token postag="P0[12].*" postag_regexp="yes" spacebefore="no"/>
                         </marker>
                     </unify>
                 </pattern>
@@ -52998,10 +52998,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <feature id="nombre"/>
                         <token postag="P0[12].*" postag_regexp="yes" spacebefore="no"/>
                         <marker>
-                        <unify-ignore>
-                            <token postag="V.N.*" postag_regexp="yes"/>
-                        </unify-ignore>
-                        <token postag="P0[12].*" postag_regexp="yes" spacebefore="no"/>
+                            <unify-ignore>
+                                <token postag="V.N.*" postag_regexp="yes"/>
+                            </unify-ignore>
+                            <token postag="P0[12].*" postag_regexp="yes" spacebefore="no"/>
                         </marker>
                     </unify>
                 </pattern>
@@ -53100,12 +53100,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes" spacebefore="no">es</token>
             </antipattern>
             <pattern>
-                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_reflexius;
-                    <exception postag="_reflexiu|_reflexiu_complement" postag_regexp="yes"/>
-                    <exception inflected="yes" regexp="yes">amoixar|delirar|atendre|escollir|assolir|autografiar|automatitzar|autoritzar</exception>
-                    <exception regexp="yes">industria|industries</exception>
-                    <exception postag="N.*|A.*|_GN_.*|RG|_possible_nompropi" postag_regexp="yes"/>
-                </token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_reflexius;<exception postag="_reflexiu|_reflexiu_complement" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
+                    >amoixar|delirar|atendre|escollir|assolir|autografiar|automatitzar|autoritzar</exception><exception regexp="yes">industria|industries</exception><exception postag="N.*|A.*|_GN_.*|RG|_possible_nompropi" postag_regexp="yes"/></token>
             </pattern>
             <message>Aquest verb és pronominal. Probablement falta un pronom.</message>
             <example correction="">Va <marker>queixar</marker></example>
@@ -53321,7 +53317,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="va caure">El nen que <marker>es va caure</marker> al pou</example>
                 <example correction="ha de caure">El nen <marker>s'ha de caure</marker>.</example>
                 <example correction="callà">Tot l'auditori <marker>es callà</marker>.</example>
-                <example correction="van caure">Les gotes que <marker>es van caure</marker> fora.</example> 
+                <example correction="van caure">Les gotes que <marker>es van caure</marker> fora.</example>
                 <example correction="han baixat">Ells <marker>s'han baixat</marker> del tren.</example>
                 <example correction="han baixat">Ximo Puig i Rubalcaba no <marker>s'han baixat</marker> del cotxe oficial des del 79.</example>
                 <example correction="va callar">Tothom <marker>es va callar</marker>.</example>
@@ -53427,9 +53423,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes" inflected="yes">bé|malament|de primera</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes" skip="5">es|se|s'<exception postag="_es_personal_.*|_es_impersonal_pl" postag_regexp="yes"/>
-                    <exception scope="next" postag="PP...A00|PP3C[SP].00|P0.*" postag_regexp="yes"/>       
-                </token>
+                <token regexp="yes" skip="5">es|se|s'<exception postag="_es_personal_.*|_es_impersonal_pl" postag_regexp="yes"/> <exception scope="next" postag="PP...A00|PP3C[SP].00|P0.*" postag_regexp="yes"/> </token>
                 <token postag="VM.*" postag_regexp="yes" inflected="yes" regexp="yes">anar|venir</token>
             </antipattern>
             <antipattern>
@@ -53509,11 +53503,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Ell es <marker>va</marker> a casa.</example>
                 <example correction="">Joan no es <marker>va</marker> a l'escola</example>
                 <example correction="">que el procés no se'ns <marker>vagi</marker> de les mans</example>
-                <example correction="">Aleshores ell es va <marker>anar</marker> a estudiar a Barcelona</example> 
+                <example correction="">Aleshores ell es va <marker>anar</marker> a estudiar a Barcelona</example>
                 <example correction="">Joan es va <marker>anar</marker> a estudiar a Barcelona.</example>
                 <example correction="">se'ns va <marker>anar</marker> la mà</example>
-                <example correction="">A Joan se li va <marker>anar</marker> la mà</example>  
-                <example correction="">Al pare se li va <marker>anar</marker> la mà</example>  
+                <example correction="">A Joan se li va <marker>anar</marker> la mà</example>
+                <example correction="">Al pare se li va <marker>anar</marker> la mà</example>
                 <example correction="">Escriu que quan era mosso «se li <marker>anaven</marker> els ulls»</example>
                 <example correction="">Aleshores es van <marker>anar</marker> a la ciutat a presentar una queixa.</example>
                 <example correction="">I es <marker>pujà</marker> al cel.</example>
@@ -53521,7 +53515,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Jo m'<marker>anava</marker> a cent per hora.</example>
                 <example correction="">Sempre t'havies <marker>anat</marker> bé</example>
                 <example correction="">M'<marker>anava</marker> a casa a cent per hora.</example>
-                <example correction="">les membranes s'han <marker>anat</marker> fabricat amb materials sintètics</example> 
+                <example correction="">les membranes s'han <marker>anat</marker> fabricat amb materials sintètics</example>
                 <example correction="">s'han <marker>anat</marker> fabricat amb materials sintètics</example>
                 <example correction="">Holmes i Watson s'han <marker>anat</marker> d'acampada</example>
                 <example correction="">L'independentisme s'ha <marker>anat</marker> a Brussel·les!</example>
@@ -53570,7 +53564,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>No useu com a pronominal aquest verb, o bé afegiu-hi el pronom 'en'.</message>
                 <suggestion>\1\2'n</suggestion>
                 <suggestion>\1</suggestion>
-                <example correction="anar-se'n|anar">Ho volen per <marker>anar-se</marker> de la zona</example> 
+                <example correction="anar-se'n|anar">Ho volen per <marker>anar-se</marker> de la zona</example>
                 <example correction="anar-se'n|anar">Ho desitgen per <marker>anar-se</marker> de la zona</example>
                 <example correction="pujar-se'n|pujar">El que poden fer és intentar <marker>pujar-se</marker> al carro de la indignació.</example>
                 <example correction="Pujar-se'n|Pujar"><marker>Pujar-se</marker> al carro de la indignació.</example>
