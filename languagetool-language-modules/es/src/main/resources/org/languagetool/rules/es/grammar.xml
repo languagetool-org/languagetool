@@ -184,7 +184,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
         <rulegroup id="VALLA_VAYA" name="valla/vaya (ir)">
-            <rule default="on">
+            <rule>
                 <pattern>
                     <token regexp="yes">que|cuando|donde|me|te|se|las|lo|los|le|les|nos|os</token>
                     <marker>
@@ -195,7 +195,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del v. 'ir', se escribe <suggestion>vaya</suggestion>.</message>
                 <example correction="vaya">Cuando <marker>valla</marker> a comprar, coja la lista.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">que|cuando|donde|me|te|se|lo|los|la|le|les|nos|os</token>
                     <marker>
@@ -206,7 +206,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Si es del v. 'ir', se escribe <suggestion>vayas</suggestion></message>
                 <example correction="vayas">Cuando <marker>vallas</marker> a comprar, coge la lista.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token regexp="yes">vallas?</token>
@@ -536,9 +536,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- the error is: tu>tú -->
                 <token>tu</token>
                 <token postag="V.[SI].2S." postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token postag="_possible_NP"/>
             </antipattern>
             <rule>
                 <!-- de termino-->
@@ -2264,6 +2261,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En el mejor de los casos.</example>
                 <example>Nuestro restaurant es el mejor.</example>
                 <example>Él era el más seguro de sí mismo.</example>
+                <example>En el este existe un conjunto de grupos.</example>
             </rule>
             <rule id="TU_TILDE" name="tu / tú">
                 <antipattern>
