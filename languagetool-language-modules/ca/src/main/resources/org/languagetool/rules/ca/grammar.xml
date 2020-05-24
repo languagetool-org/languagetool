@@ -19586,6 +19586,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
+                        <token regexp="yes">glori(a|es)<exception postag="_reflexiu"/></token>
+                    </marker>
+                </pattern>
+                <message>Si és un nom, s'ha d'accentuar.</message>
+                <suggestion><match no="1" regexp_match="(?iu).*(a|es)" regexp_replace="glòri$1" case_conversion="alllower"/></suggestion>
+                <example correction="glòria">La <marker>gloria</marker> militar.</example>
+                <example>Es gloria de les victòries.</example>
+                <example>Et glories de poca cosa.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
                         <token regexp="yes">histori(a|es)</token>
                     </marker>
                 </pattern>
@@ -53035,7 +53047,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <!-- queixar-vos, queixant-te -->
-                <token postag="SENT_START|_PUNCT.*|C.*|N.*|RG" postag_regexp="yes"/>
+                <token postag="SENT_START|_PUNCT.*|C.*|[NA].*|RG" postag_regexp="yes"/>
                 <token postag="SPS00|LOC_PREP" postag_regexp="yes" min="0" max="2"/>
                 <token postag="V.[NG].*" postag_regexp="yes"/>
                 <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
@@ -53059,6 +53071,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token postag="VS.*|V.G.*" postag_regexp="yes"/>
+                <token postag="V.N.*" postag_regexp="yes"/>
+                <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">representar|implicar|suposar|resultar</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
                 <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
             </antipattern>
@@ -53101,7 +53118,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_reflexius;<exception postag="_reflexiu|_reflexiu_complement" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
-                    >amoixar|delirar|atendre|escollir|assolir|autografiar|automatitzar|autoritzar</exception><exception regexp="yes">industria|industries</exception><exception postag="N.*|A.*|_GN_.*|RG|_possible_nompropi" postag_regexp="yes"/></token>
+                    >amoixar|delirar|atendre|escollir|assolir|autografiar|automatitzar|autoritzar</exception><exception regexp="yes">industria|industries|gloria|glories</exception><exception postag="N.*|A.*|_GN_.*|RG|_possible_nompropi" postag_regexp="yes"/></token>
             </pattern>
             <message>Aquest verb és pronominal. Probablement falta un pronom.</message>
             <example correction="">Va <marker>queixar</marker></example>
@@ -53233,6 +53250,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Et recomano abstenir-te'n.</example>
             <example>Tenen prohibit expressament d'immiscir-se.</example>
             <example>Estava agenollada.</example>
+            <example>Representaria adonar-se de l'enorme diferència.</example>
+            <example>Si no hagués mirat dins el pot no me'n hauria adonat.</example>
+            <example>Prou sentit comú per adonar-se de la injustícia.</example>
             <!-- li agrada ... -->
             <example>Li agrada queixar-se.</example>
             <example>Li agrada a voltes queixar-se.</example>
@@ -53269,7 +53289,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes" skip="5">es|se|s'<exception postag="_es_personal_.*" postag_regexp="yes"/><exception scope="next" postag="PP...A00|PP3C[SP].00|P0.*" postag_regexp="yes"/></token>
-                <token inflected="yes" regexp="yes">baixar|albergar</token>
+                <token inflected="yes" regexp="yes">baixar|albergar|postular</token>
             </antipattern>
             <antipattern>
                 <token>s'</token>
@@ -53335,6 +53355,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La nit de sant Joan es baixaven falles de la muntanya.</example>
                 <example>La senyera s'ha de baixar.</example>
                 <example>No s'ha de caure en la desesperació.</example>
+                <example>També s'ha postulat l'existència d'una tercera espècie.</example>
             </rule>
             <rule>
                 <pattern>
@@ -53387,7 +53408,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="P0.*" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
                 <token inflected="yes" skip="5">en<exception scope="next" postag="P0.0.*" postag_regexp="yes"/></token>
-                <token inflected="yes" regexp="yes">anar|pujar|venir</token>
+                <token postag="VM.*" postag_regexp="yes" regexp="yes" inflected="yes">anar|pujar|venir</token>
             </antipattern>
             <antipattern>
                 <token inflected="yes" regexp="yes">anar|pujar|venir</token>
@@ -53396,7 +53417,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token inflected="yes">anar</token>
-                <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
+                <token postag="P.*" postag_regexp="yes" spacebefore="no" max="2"/>
                 <token postag="RG|LOC_ADV|_cometes_obertura" postag_regexp="yes" min="0" max="4"/>
                 <token postag="V.G.*" postag_regexp="yes"/>
             </antipattern>
@@ -53462,11 +53483,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\2</suggestion>
                 <example correction="se'n va|va">Ell <marker>es va</marker> a casa.</example>
                 <example correction="te'n vas|vas">Tu <marker>et vas</marker> a casa.</example>
+                <example correction="se'n puja|puja">Joan <marker>es puja</marker> a la superfície.</example>
+                <!--<example>Es puja a la superfície.</example>-->
+                <example>Es van «civilitzar» a Anglaterra.</example>
             </rule>
             <rule>
                 <pattern>
                     <token regexp="yes">[mts]'</token>
-                    <token/>
+                    <token postag="VA.*" postag_regexp="yes"/>
                     <and>
                         <token inflected="yes" regexp="yes">anar|pujar|venir<exception inflected="yes">vendre</exception><exception postag="VA.*" postag_regexp="yes"/></token>
                         <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
@@ -53510,7 +53534,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Al pare se li va <marker>anar</marker> la mà</example>
                 <example correction="">Escriu que quan era mosso «se li <marker>anaven</marker> els ulls»</example>
                 <example correction="">Aleshores es van <marker>anar</marker> a la ciutat a presentar una queixa.</example>
-                <example correction="">I es <marker>pujà</marker> al cel.</example>
                 <example correction="">El dia que ell es va <marker>anar</marker> a la ciutat.</example>
                 <example correction="">Jo m'<marker>anava</marker> a cent per hora.</example>
                 <example correction="">Sempre t'havies <marker>anat</marker> bé</example>
@@ -53526,6 +53549,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example reason="ambiguous">Aleshores es va <marker>anar</marker> a la ciutat a presentar una queixa.</example>
                 <example reason="ambiguous">quan es <marker>pugen</marker>, permeten canviar de feina.</example>
                 <example reason="ambiguous">El dia que es va anar a la ciutat.</example>
+                <example correction="">I es <marker>pujà</marker> al cel.</example>
+                <example correction="" type="triggers_error" reason="ambiguous">I, mantenint el contacte amb el caiac, es <marker>puja</marker> a la superfície.</example>
                 <example>Joan se'n va a casa.</example>
                 <example>Se li n'anaven els ulls.</example>
                 <example>Ens hem d'anar esforçant</example>
@@ -53555,6 +53580,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Les mesures que es vénen aplicant fins ara.</example>
                 <example>Que en breu es vagin a incloure en un Llibre Blanc.</example>
                 <example>Que el debat s'anava a celebrar aquest matí.</example>
+                <example>Me'n vaig anar de vacances.</example>
+                <example>Me n'he anat de vacances.</example>
+                <example>Me'n pujo.</example>
+                <example>Vés-te fixant.</example>
+                <example>Vés-t'hi fixant.</example>
+                <example>La gent havia d'aixecar-se i anar a treballar.</example>
             </rule>
             <rule>
                 <pattern>
@@ -53568,6 +53599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="anar-se'n|anar">Ho desitgen per <marker>anar-se</marker> de la zona</example>
                 <example correction="pujar-se'n|pujar">El que poden fer és intentar <marker>pujar-se</marker> al carro de la indignació.</example>
                 <example correction="Pujar-se'n|Pujar"><marker>Pujar-se</marker> al carro de la indignació.</example>
+                <example correction="anar-me'n|anar">Estic considerant <marker>anar-me</marker> amb ells.</example>
                 <example>Per a anar-se'n de la zona.</example>
                 <example>Aneu-vos-en de la zona.</example>
                 <example>Vés-te'n.</example>
