@@ -54,7 +54,7 @@ public class LtDictionary {
     }
     String shortCode = locale.Language;
     String dictionaryName = "__LT_" + shortCode + "_internal.dic";
-    if(!dictinaryList.contains(dictionaryName)) {
+    if (!dictinaryList.contains(dictionaryName)) {
       XDictionary manualDictionary = searchableDictionaryList.createDictionary(dictionaryName, locale, DictionaryType.POSITIVE, "");
       for (String word : getManualWordList(locale, linguServices)) {
         manualDictionary.add(word, false, "");
@@ -75,11 +75,11 @@ public class LtDictionary {
     List<String> words = new ArrayList<String>();
     String shortLangCode = locale.Language;
     String path = "/" + shortLangCode + "/added.txt";
-    if(JLanguageTool.getDataBroker().resourceExists(path)) {
+    if (JLanguageTool.getDataBroker().resourceExists(path)) {
       List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
-      if(lines != null) {
-        for(String line : lines) {
-          if(!line.isEmpty() && !line.startsWith("#")) {
+      if (lines != null) {
+        for (String line : lines) {
+          if (!line.isEmpty() && !line.startsWith("#")) {
             String[] lineWords = line.trim().split("\\h");
             if (!words.contains(lineWords[0]) && !linguServices.isCorrectSpell(lineWords[0], locale)) {
               words.add(lineWords[0]);
@@ -88,14 +88,28 @@ public class LtDictionary {
         }
       }
     }
-    path = "/" + shortLangCode + "/spelling.txt";
-    if(JLanguageTool.getDataBroker().resourceExists(path)) {
-      List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
-      if(lines != null) {
-        for(String line : lines) {
-          line = line.trim();
-          if(!line.isEmpty() && !line.startsWith("#") && !linguServices.isCorrectSpell(line, locale)) {
-            MessageHandler.printToLogFile(line);
+    for (int i = 0; i < 4; i++) {
+      if (i == 0) {
+        path = "/" + shortLangCode + "/spelling.txt";
+      } else if (i == 1) {
+        path = "/" + shortLangCode + "/hunspell/spelling.txt";
+      } else if (i == 2) {
+        path = "/" + shortLangCode + "/hunspell/spelling-" + shortLangCode + "-" + locale.Country + ".txt";
+      } else {
+        path = "/" + shortLangCode + "/hunspell/spelling-" + shortLangCode + "_" + locale.Country + ".txt";
+      }
+      if (JLanguageTool.getDataBroker().resourceExists(path)) {
+        List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(path);
+        if (lines != null) {
+          for (String line : lines) {
+            if (!line.isEmpty() && !line.startsWith("#")) {
+              String[] lineWords = line.trim().split("\\h");
+              lineWords = lineWords[0].trim().split("/");
+              lineWords[0] = lineWords[0].replaceAll("_","");
+              if (!lineWords[0].isEmpty() && !words.contains(lineWords[0]) && !linguServices.isCorrectSpell(lineWords[0], locale)) {
+                words.add(lineWords[0]);
+              }
+            }
           }
         }
       }
