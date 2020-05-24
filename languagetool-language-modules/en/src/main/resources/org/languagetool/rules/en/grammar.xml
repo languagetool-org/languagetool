@@ -4889,7 +4889,7 @@ USA
                 <example>In its much longer history in Eurasia, brown bears diverged from the two species of cave bear, ...</example>
                 <example>The market began the session lower and gradually works its way higher most of the day</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>its</token>
@@ -8531,7 +8531,7 @@ USA
                 <example correction="you're">How does it feel to talk to someone <marker>your</marker> not familiar with.</example>
                 <example correction="You're"><marker>Your</marker> not useless at all mate.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">if|once|when|as|but|because</token>
                     <marker>
@@ -8543,8 +8543,7 @@ USA
                 <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
                 <example correction="you're">Please say hello once <marker>your</marker> there.</example>
             </rule>
-
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token><exception regexp="yes">long|soon|good|bad|much|fast|quick</exception></token>
                     <token>as</token>
@@ -8567,7 +8566,7 @@ USA
                 <example>Please let me know if your understanding of the questions to be addressed differs from the foregoing.</example>
                 <example>You cannot have competition being viable when your base of potential customers is so small.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>the</token>
                     <token postag="JJ" min="0" />
@@ -8582,7 +8581,7 @@ USA
                 <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
                 <example correction="you're">It’s not your fault for their closed minds or for being in the situation <marker>your</marker> in.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="PCT|SENT_START|CC" postag_regexp="yes">
                         <exception>for</exception>
@@ -8596,7 +8595,7 @@ USA
                 <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
                 <example correction="You're"><marker>Your</marker> welcome</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="PCT|SENT_START|CC" postag_regexp="yes">
                         <exception>for</exception>
@@ -12059,7 +12058,7 @@ USA
         </rule>
         <rule id="MAKER_COMPOUNDS" name="trouble maker (troublemaker)">
             <antipattern case_sensitive="yes">
-                <token>Film</token>
+                <token regexp="yes">Film|Movie</token>
                 <token regexp="yes">Makers?</token>
             </antipattern>
             <pattern>
@@ -12070,8 +12069,9 @@ USA
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <example correction="troublemaker">He's such a <marker>trouble maker</marker>.</example>
             <example>Ōban Star-Racers moved to Tokyo to collaborate with a Japanese production team from Hal Film Maker.</example>
+            <example>Movie Maker 10</example>
         </rule>
-        <rule id="ROLL_COMPOUNDS" name="pay roll (payroll)" default="temp_off">
+        <rule id="ROLL_COMPOUNDS" name="pay roll (payroll)">
             <pattern>
                 <token regexp="yes">pay|bank|bed</token>
                 <token>roll</token>
@@ -21254,6 +21254,15 @@ USA
                 <message>The proper noun <suggestion>Chrome \2</suggestion> (= software from Google) needs to be capitalized.</message>
                 <example correction="Chrome 70">I'm using <marker>chromium 70</marker>.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>chrome</token>
+                    <token regexp="yes">books?</token>
+                </pattern>
+                <message>Did you mean <suggestion>Chrome<match no="2" case_conversion="alllower" /></suggestion> (= computer from Google)?</message>
+                <url>https://en.wikipedia.org/wiki/Chromebook</url>
+                <example correction="Chromebook">I'm working on my new <marker>chrome book</marker>.</example>
+            </rule>
         </rulegroup>
         <rulegroup id="OPERA_BROWSER" name="capitalization of 'Opera' (browser)">
             <url>https://en.wikipedia.org/wiki/Opera_(web_browser)</url>
@@ -21596,6 +21605,16 @@ USA
             <message>Did you mean <suggestion>WhatsApp</suggestion> (= Messenger) or <suggestion>what's up</suggestion> (= question)?</message>
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
+        </rule>
+        <rule id="COCA_COLA" name="Coca Cola (Coca-Cola)" default="temp_off">
+            <pattern>
+                <token>Coca</token>
+                <token>Cola</token>
+            </pattern>
+            <message>The name of this popular soft drink is capitalized and spelled with a hyphen.</message>
+            <suggestion>Coca-Cola</suggestion>
+            <url>https://en.wikipedia.org/wiki/Coca-Cola</url>
+            <example correction="Coca-Cola">He loves to drink <marker>Coca Cola</marker>.</example>
         </rule>
         <rulegroup id="Z_WAVE" name="Z-Wave">
             <url>https://en.wikipedia.org/wiki/Z-Wave</url>
@@ -22314,7 +22333,7 @@ USA
             <url>https://www.lexico.com/definition/work-life_balance</url>
             <example correction="Work-life"><marker>Work life</marker> balance is having enough time for work and enough to have a life.</example>
         </rule>
-        <rule id="ONE_NIGHT_STAND_HYPHEN" name="missing hyphen in 'one night stand'" default="temp_off">
+        <rule id="ONE_NIGHT_STAND_HYPHEN" name="missing hyphen in 'one night stand'">
             <pattern>
                 <token>one</token>
                 <token>night</token>
@@ -23323,6 +23342,11 @@ USA
                 <example>It allows them to do tasks.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>to</token>
+                    <token>do</token>
+                    <token postag="DT|PRP\$" postag_regexp="yes" />
+                </antipattern>
                 <pattern>
                     <token regexp="yes">the|an?|my|your|our|their|his</token>
                     <token postag="JJ.*" postag_regexp="yes" min="0">
@@ -26429,7 +26453,7 @@ USA
                 <token regexp="yes" chunk="E-NP-plural">stats|backwards|sideways|thanks</token><!-- A big thanks to Carl-->
             </antipattern>
             <antipattern><!-- football/soccer teams -->
-                <token case_sensitive="yes" chunk="E-NP-plural" regexp="yes">Reds|Cowboys</token>
+                <token case_sensitive="yes" chunk="E-NP-plural" regexp="yes">Reds|Cowboys|Knicks</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">an?</token>
@@ -40741,6 +40765,10 @@ USA
                     <token chunk="B-VP" postag="VBN"/>
                     <token postag="RB"/>
                 </antipattern>
+                <antipattern>
+                    <token>let</token>
+                    <token>loose</token>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be</token>
                     <token postag_regexp="yes" postag="DT|PRP\$"/>
@@ -40750,7 +40778,7 @@ USA
                             <exception postag="RB"/>
                             <exception regexp="yes">.*(st|nd|rd|th)</exception>
                             <exception>only</exception>
-                            </token>
+                        </token>
                         <token postag="VBN"/>
                     </marker>
                     <token postag_regexp="yes" postag="NN(S|:UN?)?">

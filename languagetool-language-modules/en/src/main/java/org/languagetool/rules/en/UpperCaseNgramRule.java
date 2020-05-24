@@ -36,6 +36,7 @@ import java.util.*;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
 
 /**
  * Finds some(!) words written uppercase that should be spelled lowercase.
@@ -74,9 +75,9 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("[A-Z].+")
     ),
     Arrays.asList(
-      tokenRegex("[A-Z].+"),
+      csRegex("[A-Z].+"),
       token(">"),
-      tokenRegex("[A-Z].+")
+      csRegex("[A-Z].+")
     ),
     Arrays.asList(
       pos("SENT_START"), // Two-word phrases with "?" or "!": "What Happened?", "Catch Up!" (can be headlines)
@@ -109,14 +110,18 @@ public class UpperCaseNgramRule extends Rule {
       token("BBC"),
       token("Culture")
     ),
+    Arrays.asList( // name of TV series
+      token("Dublin"),
+      token("Murders")
+    ),
     Arrays.asList(
       token("Amazon"),
       token("Live")
     ),
     Arrays.asList(
-      tokenRegex("[A-Z].+"),
+      csRegex("[A-Z].+"),
       token("/"),
-      tokenRegex("[A-Z].+")
+      csRegex("[A-Z].+")
     ),
     Arrays.asList(
       tokenRegex("[A-Z].+"),  // e.g. "Top 10% Lunch Deals"
@@ -145,15 +150,9 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("[0-9]+")
     ),
     Arrays.asList(
-      tokenRegex("[A-Z].+"),  // e.g. "You Don't Know"
+      tokenRegex("[A-Z].+"),  // e.g. "You Don't Know" or "Kuiper’s Belt"
       tokenRegex("['’`´‘]"),
-      token("t"),
-      tokenRegex("[A-Z].+")
-    ),
-    Arrays.asList(
-      tokenRegex("[A-Z].+"),  // e.g. Kuiper’s Belt
-      tokenRegex("['’`´‘]"),
-      token("s"),
+      tokenRegex("t|d|ve|s|re|m"),
       tokenRegex("[A-Z].+")
     ),
     Arrays.asList(
