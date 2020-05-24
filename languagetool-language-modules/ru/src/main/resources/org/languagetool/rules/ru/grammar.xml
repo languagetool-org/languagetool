@@ -4154,7 +4154,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=" вдобавок">Вокалисты неритмично поют,и<marker>, вдобавок,</marker>не те ноты.</example>
             </rule>
             <rule>
-                <pattern>   <!-- TODO: add "в действительности"*, "в итоге"*, "в конечном итоге", "в любом случае", "в особенности"*, "в остальном"*, "в результате"*, "в связи с вышеизложенным", "ведь"**, "вместе с тем", "на всякий случай", "на данный момент", "наверняка"*, "несмотря ни на что" -->
+                <pattern>   <!-- TODO: add "в действительности"*, "в итоге"*, "в конечном итоге"*, "в любом случае"*, "в особенности"*, "в остальном"*, "в результате"*, "в связи с вышеизложенным"*, "ведь"**, "вместе с тем"*, "на всякий случай"*, "на данный момент"*, "наверняка"*, "несмотря ни на что"* -->
                     <token postag="SENT_START"></token>
                     <marker>
                         <token>В</token>
@@ -4176,7 +4176,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    <token postag="SENT_START"></token>
                     <marker>
                         <token>В</token>
-                        <token regexp="yes">результате|действительности|итоге|особенности|остальном|результате</token>
+                        <token regexp="yes">результате|действительности|итоге|особенности|остальном</token>
                         <token>,</token>
                     </marker>
                     <token negate="yes" regexp="yes">&start_vvodnoe;</token>
@@ -4187,7 +4187,112 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>В результате приходится ограничить выбор.</example>
                 <example correction="В результате"><marker>В результате,</marker> приходится ограничить выбор</example>
             </rule>
-       
+            <rule>
+                <pattern>
+                   <token postag="SENT_START"></token>
+                    <marker>
+                        <token>В</token>
+                        <token>конечном</token>
+                        <token>итоге</token>
+                        <token>,</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
+                </pattern>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Запятые не нужны.</short>
+                <example>В конечном итоге приходится ограничить выбор.</example>
+                <example correction="В конечном итоге"><marker>В конечном итоге,</marker> приходится ограничить выбор</example>
+            </rule>
+            <rule>
+                <pattern>
+                   <token postag="SENT_START"></token>
+                    <marker>
+                        <token>В</token>
+                        <token>любом</token>
+                        <token>случае</token>
+                        <token>,</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
+                </pattern>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Запятые не нужны.</short>
+                <example>В любом случае приходится ограничить выбор.</example>
+                <example correction="В любом случае"><marker>В любом случае,</marker> приходится ограничить выбор</example>
+            </rule>
+            <rule>
+                <pattern>
+                   <token postag="SENT_START"></token>
+                    <marker>
+                        <token>В</token>
+                        <token>связи</token>
+                        <token>с</token>
+                        <token>вышеизложенным</token>
+                        <token>,</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
+                </pattern>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Запятые не нужны.</short>
+                <example>В связи с вышеизложенным приходится ограничить выбор.</example>
+                <example correction="В связи с вышеизложенным"><marker>В связи с вышеизложенным,</marker> приходится ограничить выбор</example>
+            </rule>
+            <rule>
+                <pattern>
+                   <token postag="SENT_START"></token>
+                    <marker>
+                        <token>На</token>
+                        <token regexp="yes">всякий|данный</token>
+                        <token regexp="yes">случай|момент</token>
+                        <token>,</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
+                </pattern>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Запятые не нужны.</short>
+                <example>На данный момент приходится ограничить выбор.</example>
+                <example correction="На данный момент"><marker>На данный момент,</marker> приходится ограничить выбор</example>
+            </rule>         
+            <rule>
+                <pattern>
+                   <token postag="SENT_START"></token>
+                    <marker>
+                        <token>Вместе</token>
+                        <token>с</token>
+                        <token>тем</token>
+                        <token>,</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
+                </pattern>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Запятые не нужны.</short>
+                <example>В конечном итоге приходится ограничить выбор.</example>
+                <example correction="Вместе с тем"><marker>Вместе с тем,</marker> приходится ограничить выбор</example>
+            </rule>
+            <rule>
+                <pattern>
+                   <token postag="SENT_START"></token>
+                    <marker>
+                        <token>Несмотря</token>
+                        <token>ни</token>
+                        <token>на</token>
+                        <token>что</token>
+                        <token>,</token>
+                    </marker>
+                    <token negate="yes" regexp="yes">&start_vvodnoe;</token>
+                </pattern>
+                <message>Выражение не является вводным. Запятые не нужны: <suggestion>\2 \3 \4 \5</suggestion>.</message>
+                <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
+                <short>Запятые не нужны.</short>
+                <example>Несмотря ни на что приходится ограничить выбор.</example>
+                <example correction="Несмотря ни на что"><marker>Несмотря ни на что,</marker> приходится ограничить выбор</example>
+            </rule>
+            
+             
         </rulegroup>
         
         <rulegroup default="on" id="COMPLEX_SOUZ_PUNCT_START_S" name="Сложный союз в начале предложения">
