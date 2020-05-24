@@ -4141,7 +4141,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <marker>
                         <token>,</token>
-                        <token regexp="yes">авось|буквально|будто|вдобавок|вдруг|ведь|вот|всё-таки|даже|исключительно|именно|небось|приблизительно|примерно|притом|почти|поэтому|просто|решительно|словно|якобы</token>
+                        <token regexp="yes">авось|буквально|будто|вдобавок|вдруг|ведь|вот|всё-таки|даже|исключительно|именно|небось|наверняка|приблизительно|примерно|притом|почти|поэтому|просто|решительно|словно|якобы</token>
                         <token skip="-1"><exception scope="next" regexp="yes">как|что|чтобы</exception>,</token>
                     </marker>
                     <token>.</token>
@@ -4154,11 +4154,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction=" вдобавок">Вокалисты неритмично поют,и<marker>, вдобавок,</marker>не те ноты.</example>
             </rule>
             <rule>
-                <pattern>
+                <pattern>   <!-- TODO: add "в действительности"*, "в итоге"*, "в конечном итоге", "в любом случае", "в особенности"*, "в остальном"*, "в результате"*, "в связи с вышеизложенным", "ведь"**, "вместе с тем", "на всякий случай", "на данный момент", "наверняка"*, "несмотря ни на что" -->
                     <token postag="SENT_START"></token>
                     <marker>
                         <token>В</token>
-                        <token regexp="yes">последнем|этом|том|противном|хорошем|худшем</token>
+                        <token regexp="yes">последнем|этом|том|противном|хорошем|худшем|плохом|любом</token>
                         <token>случае</token>
                         <token>,</token>
                     </marker>
@@ -4176,7 +4176,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                    <token postag="SENT_START"></token>
                     <marker>
                         <token>В</token>
-                        <token>результате</token>
+                        <token regexp="yes">результате|действительности|итоге|особенности|остальном|результате</token>
                         <token>,</token>
                     </marker>
                     <token negate="yes" regexp="yes">&start_vvodnoe;</token>
