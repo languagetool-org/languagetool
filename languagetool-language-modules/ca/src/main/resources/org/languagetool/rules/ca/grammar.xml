@@ -4979,7 +4979,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 on dormíem l'abnegada Alcestis i jo
                 </rule> -->
         </rulegroup>
-        <!-- <rulegroup id="VERBS_PRONOMINALS" name="verbs reflexius: desperta't">  -->
         <rulegroup id="PASSAR_PEL_CAP" name="verbs no pronomianls: Passar*(-se) pel cap">
             <url>http://esadir.cat/entrades/fitxa/id/1441</url>
             <rule>
@@ -52849,14 +52848,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes">poder</token>
                 <token inflected="yes" regexp="yes">portar|dur</token>
             </antipattern>
+            <antipattern>
+                <token>es</token>
+                <token inflected="yes" regexp="yes">portar|dur</token>
+                <token postag="V.G.*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <pattern>
+                    <marker>
                     <and>
                         <token inflected="yes">portar</token>
                         <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
                     </and>
+                    </marker>
+                    <token min="0" max="2" spacebefore="no"/>
+                    <token postag="[AND].*" postag_regexp="yes"/>
                 </pattern>
-                <message>Probablement cal dir <suggestion><match no="1" regexp_match="^(.*)$" regexp_replace="em$1" case_conversion="alllower"/></suggestion>.</message>
+                <message>Probablement cal dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">emportar</match></suggestion>.</message>
                 <example correction="emportar">Joan es va <marker>portar</marker> el carretó.</example>
                 <example correction="emportar">Ells es volen <marker>portar</marker> les ànimes a l'inframón.</example>
                 <example correction="emportem">En aquesta vida ens <marker>portem</marker> moltes sorpreses.</example>
@@ -52872,25 +52880,56 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>que Joan em portés el mocador</example>
                 <example correction="emportés" type="triggers_error" reason="ambiguous">que Joan es <marker>portés</marker> el mocador.</example>
                 <example correction="emportar" type="triggers_error" reason="ambiguous">Totes les comissions es van <marker>portar</marker> els seus propis cuiners.</example>
+                <example>La llengua es va portar a Amèrica.</example>
                 <example>Deixa de portar-me la contra.</example>
                 <example>quan el vent ja m'hauria portat les rondalles</example>
-                <example correction="emportar" type="triggers_error" reason="ambiguous">per on volia <marker>portar</marker>-me el mestre</example>
-                <example>per a portar-te aigua</example>
-                <example>La mort del pare m’havia portat la imatge.</example>
-                <example>La corona es pot portar al temple.</example>
             </rule>
             <rule>
                 <pattern>
-                    <and>
-                        <token inflected="yes">dur<exception inflected="yes">durar</exception></token>
-                        <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
-                    </and>
+                    <marker>
+                        <and>
+                            <token inflected="yes">dur<exception inflected="yes">durar</exception></token>
+                            <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
+                        </and>
+                    </marker>
+                    <token min="0" max="2" spacebefore="no"/>
+                    <token postag="[AND].*" postag_regexp="yes"/>
                 </pattern>
-                <message>Probablement cal dir <suggestion><match no="1" regexp_match="^(.*)$" regexp_replace="en$1" case_conversion="alllower"/></suggestion>.</message>
+                <message>Probablement cal dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">endur</match></suggestion>.</message>
                 <example correction="endur">Joan es va <marker>dur</marker> el carretó.</example>
                 <example>Em duràs un mocador de seda del teu color.</example>
                 <example>L'altre es duu la mà al llavi.</example>
                 <example>Encara ha de dur-se a terme.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ho|'l|'ls|la|les|'n</token>
+                    <token min="0" postag="VA.*" postag_regexp="yes"/>
+                    <marker>
+                        <and>
+                            <token inflected="yes">portar</token>
+                            <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Probablement cal dir <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">emportar</match></suggestion>.</message>
+                <example correction="emportessis">Si te'l <marker>portessis</marker>, s'acabaria.</example>
+                <example correction="emportes">Si te'n <marker>portes</marker> quatre, s'acabarà.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">ho|'l|'ls|la|les|'n</token>
+                    <token min="0" postag="VA.*" postag_regexp="yes"/>
+                    <marker>
+                        <and>
+                            <token inflected="yes">dur<exception inflected="yes">durar</exception></token>
+                            <token postag="_reflexiu"><exception postag="_reflexiu_complement"/></token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Probablement cal dir <suggestion><match no="3" postag="(V.*)" postag_regexp="yes" postag_replace="$1">endur</match></suggestion>.</message>
+                <example correction="enduguessis">Si te'l <marker>duguessis</marker>, s'acabaria.</example>
+                <example correction="enduus|endús">Si te'n <marker>duus</marker> quatre, s'acabarà.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EL_FAN_AGENOLLAR" name="el fan agenollar*(-se)">
@@ -52977,7 +53016,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="V.P.*" postag_regexp="yes"><exception postag="_GV_"/></token>
             </antipattern>
             <antipattern>
-                <token inflected="yes" regexp="yes">ser|quedar|restar|semblar</token>
+                <token postag="V.*" postag_regexp="yes"><exception inflected="yes">haver</exception></token>
                 <token postag="V.P.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -53114,6 +53153,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">No ha pas <marker>esforçat</marker> gens.</example>
             <example correction="">No pareixes <marker>adonar</marker>-se de res.</example>
             <example correction="">Et convé <marker>adonar</marker>-se de res.</example>
+            <example correction="">Havia a vegades <marker>esforçat</marker>.</example>
             <example>És un home esforçat.</example>
             <example>És una dona esforçada</example>
             <example>Queixant-vos no aconseguireu res.</example>
@@ -53196,6 +53236,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Recomanen abstenir-se.</example>
             <example>Et recomano abstenir-te'n.</example>
             <example>Tenen prohibit expressament d'immiscir-se.</example>
+            <example>Estava agenollada.</example>
             <!-- li agrada ... -->
             <example>Li agrada queixar-se.</example>
             <example>Li agrada a voltes queixar-se.</example>
