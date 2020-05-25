@@ -18,6 +18,7 @@
  */
 package org.languagetool.language;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.*;
 import org.languagetool.broker.ResourceDataBroker;
 
@@ -93,7 +94,7 @@ public class CommonWords {
 
   public Map<Language, Integer> getKnownWordsPerLanguage(String text) {
     Map<Language,Integer> result = new HashMap<>();
-    if (!text.endsWith(" ")) {
+    if (!text.endsWith(" ") && StringUtils.countMatches(text, " ") > 0) {
       // last word might not be finished yet, so ignore
       text = text.replaceFirst("\\p{L}+$", "");
     }
