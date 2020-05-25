@@ -40657,6 +40657,12 @@ USA
                     <token chunk="B-VP" postag="VBN"/>
                     <token chunk="E-NP-plural" postag="NNS"/>
                 </antipattern>
+                <antipattern><!-- #2964 was a pandemic called COVID-19 -->
+                    <token chunk="B-NP-singular" postag_regexp="yes" postag="DT|PRP\$"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                    <token chunk="B-VP" postag="VBN"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+                </antipattern>
                 <antipattern><!-- I'm a good fit due to ... -->
                     <token postag="VBN"/>
                     <token>due</token>
@@ -40743,6 +40749,7 @@ USA
                 <example>It is the so-called personalized treatment</example><!-- #2722 -->
                 <example>It was this one entitled kid.</example><!-- #2741 -->
                 <example>It was a snow-white padded walling.</example><!-- #2741 -->
+                <example>There was a pandemic called COVID-19.</example><!-- #2964 -->
                 <example type="triggers_error">... to finance the government, to be the sole <marker>authorised distributor</marker> of banknotes, and to function as...</example>
                 <example type="triggers_error">Cicero successfully made him appear to be a foreign <marker>freed man</marker> who was devious enough to take advantage...</example><!-- foreignly is an adverb: www.merriam-webster.com/dictionary/foreignly -->
                 <example type="triggers_error">...to see if there is a <marker>previous established</marker> consensus or compromise.</example><!-- Semantic ambiguity. 'previous [established consensus]' is correct. But, possibly, the writer means '[previously established] consensus, in which case the analysis is correct. -->
