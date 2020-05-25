@@ -43,8 +43,10 @@ import java.util.stream.Collectors;
  * reorder suggestions from another rule using BERT as a LM
  */
 public class BERTSuggestionRanking extends RemoteRule {
-  private static final Logger logger = LoggerFactory.getLogger(BERTSuggestionRanking.class);
+
   public static final String RULE_ID = "BERT_SUGGESTION_RANKING";
+
+  private static final Logger logger = LoggerFactory.getLogger(BERTSuggestionRanking.class);
 
   private static final LoadingCache<RemoteRuleConfig, RemoteLanguageModel> models =
     CacheBuilder.newBuilder().build(CacheLoader.from(serviceConfiguration -> {
@@ -73,7 +75,7 @@ public class BERTSuggestionRanking extends RemoteRule {
   public BERTSuggestionRanking(Rule rule, RemoteRuleConfig config, UserConfig userConfig) {
     super(rule.messages, config);
     this.wrappedRule = rule;
-
+    super.setCategory(wrappedRule.getCategory());
     synchronized (models) {
       RemoteLanguageModel model = null;
       if (getId().equals(userConfig.getAbTest())) {

@@ -830,6 +830,7 @@ public class JLanguageTool {
     if (remoteRulesThreadPool != null && mode != Mode.TEXTLEVEL_ONLY) {
       remoteRuleTasks = allRules.stream()
         .filter(rule -> rule instanceof RemoteRule)
+        .filter(rule -> !ignoreRule(rule))
         .map(rule -> ((RemoteRule) rule).run(analyzedSentences))
         .collect(Collectors.toList());
       remoteRuleTasks.forEach(remoteRulesThreadPool::submit);
