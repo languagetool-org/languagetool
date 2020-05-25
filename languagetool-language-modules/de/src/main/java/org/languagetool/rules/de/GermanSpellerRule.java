@@ -887,7 +887,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("voluptös(e|ere|este)?[mnrs]?$", "tös", "tuös");
     putRepl("[pP]flanzig(e[mnrs]?)?", "ig", "lich");
     putRepl("geblogt(e[mnrs]?)?$", "gt", "ggt");
-    putRepl("herraus.*", "herraus", "heraus");  }
+    putRepl("herraus.*", "herraus", "heraus");
     put("aufgehangen", "aufgehängt");
     put("Ehrenamtpauschale", "Ehrenamtspauschale");
     put("Geborgsamkeit", "Geborgenheit");
@@ -899,6 +899,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Werksresett", "Werksreset");
     put("wiederfahren", "widerfahren");
     put("wiederspiegelten", "widerspiegelten");
+  }
 
   private static void putRepl(String wordPattern, String pattern, String replacement) {
     ADDITIONAL_SUGGESTIONS.put(Pattern.compile(wordPattern), w -> Collections.singletonList(w.replaceFirst(pattern, replacement)));
