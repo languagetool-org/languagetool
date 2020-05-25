@@ -35766,6 +35766,51 @@ USA
                     <token postag="NNS"/><!-- sounds/B-VP -->
                     <token regexp="yes">&subject_pronouns;</token>
                 </antipattern>
+                <antipattern><!-- #2966 only few who -->
+                    <token postag="RB"/>
+                    <token>few</token>
+                    <token postag="WP"/>
+                </antipattern>
+                <antipattern><!-- #2966 few out there -->
+                    <token chunk="I-NP-singular">few</token>
+                    <token postag_regexp="yes" postag="JJ|RB"/>
+                    <token postag="RB"/>
+                </antipattern>
+                <antipattern><!-- #2966 are several, -->
+                    <token>are</token>
+                    <token chunk="E-NP-singular" postag="JJ"/>
+                    <token postag="PCT"/>
+                </antipattern>
+                <antipattern><!-- #2966 are just the two of -->
+                    <token>are</token>
+                    <token chunk="B-NP-singular" postag="RB"/>
+                    <token>the</token>
+                    <token chunk="E-NP-singular" regexp="yes">two|three|four|five|six|seven|eight|nine|ten</token><!-- Cannot use CD because of disambiguation DT_JJNN_IN_NN (which is correct for AmE: www.merriam-webster.com/dictionary/two) -->
+                    <token>of</token>
+                </antipattern>
+                <antipattern><!-- #2966 101 file sharing services. Refer to #2968 -->
+                    <token>are</token>
+                    <token chunk="B-NP-singular" postag="CD"/>
+                    <token chunk="E-NP-singular">file</token>
+                    <token>sharing</token>
+                    <token postag="NNS"/>
+                </antipattern>
+                <antipattern><!-- #2966 are two inside -->
+                    <token>are</token>
+                    <token chunk="B-NP-singular" postag="CD"/>
+                    <token chunk="E-NP-singular" postag="RB"/>
+                </antipattern>
+                <antipattern><!-- #2966 are no: -->
+                    <token>are</token>
+                    <token chunk="E-NP-singular" postag="DT"/>
+                    <token>:</token>
+                </antipattern>
+                <antipattern><!-- #2966 www.merriam-webster.com/dictionary/good%20deal%20of -->
+                    <token>a</token>
+                    <token>good</token>
+                    <token>deal</token>
+                    <token>of</token>
+                </antipattern>
                 <pattern>
                     <token>there</token>
                     <token>are</token>
@@ -35808,6 +35853,18 @@ USA
                 <example>There are a few letter sounds we can use.</example><!-- #2897 -->
                 <example>There are a group of people.</example><!-- #2897 -->
                 <example>There are a computer of mine that needs repairing.</example><!-- #2897. Found by Premium. -->
+                <example>There are only few who do this.</example><!-- #2966 -->
+                <example>There are a few out there.</example><!-- #2966 -->
+                <example>There are several, including one by Millais.</example><!-- #2966 -->
+                <example>There are just the two of us here.</example><!-- #2966 -->
+                <example>There are a large number of other dodecahedra.</example><!-- #2966 -->
+                <example>There are an infinite number of numbers.</example><!-- #2966 -->
+                <example>There are 101 file sharing services out there already.</example><!-- #2966. Should be 'file-sharing services' -->
+                <example>However, there are a vast variety of metal discuses to choose from.</example><!-- #2966 -->
+                <example>And there are two inside.</example><!-- #2966 -->
+                <example>There are no:</example><!-- #2966 -->
+                <example>There are a good deal of books you can buy</example><!-- #2966 -->
+                <example>But there are other, far more compelling reasons.</example><!-- #2966 -->
             </rule>
         </rulegroup>
 
