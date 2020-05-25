@@ -249,6 +249,7 @@ public class English extends Language implements AutoCloseable {
   public int getPriorityForId(String id) {
     switch (id) {
       case "THE_INS_RULE": return 50; // higher priority for testing/evaluation; only activated by configuring remote rule
+      case "CONFPAIRS_EN_GPT2": return 50; // higher priority for testing/evaluation; only activated by configuring remote rule
       case "I_E":                       return 10; // needs higher prio than EN_COMPOUNDS ("i.e learning")
       case "MISSING_HYPHEN":            return 5;
       case "TRANSLATION_RULE":          return 5;   // Premium
@@ -385,6 +386,18 @@ public class English extends Language implements AutoCloseable {
         missingTheConfig,
         missingTheID, "the_ins_rule_description", missingTheMessages);
       rules.add(missingTheRule);
+    }
+    String gpt2ConfpairID = "CONFPAIRS_EN_GPT2";
+    RemoteRuleConfig gpt2ConfpairConfig = RemoteRuleConfig.getRelevantConfig(gpt2ConfpairID, configs);
+    if (gpt2ConfpairConfig != null) {
+      Map<String, String> gpt2ConfpairMessages = new HashMap<>();
+      gpt2ConfpairMessages.put("ads-adds", "confpairs_EN_gpt2_rule_ads-adds");
+      gpt2ConfpairMessages.put("adds-ads", "confpairs_EN_gpt2_rule_adds-ads");
+      gpt2ConfpairMessages.put("adolescence-adolescents", "confpairs_EN_gpt2_rule_adolescence-adolescents");
+      Rule gpt2ConfpairRule = GRPCRule.create(messageBundle,
+        gpt2ConfpairConfig,
+        gpt2ConfpairID, "confpairs_EN_gpt2_rule_description", gpt2ConfpairMessages);
+      rules.add(gpt2ConfpairRule);
     }
     return rules;
   }
