@@ -18,11 +18,7 @@
  */
 package org.languagetool.language;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
-
+import org.jetbrains.annotations.NotNull;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.rules.*;
@@ -32,14 +28,14 @@ import org.languagetool.tagging.xx.DemoTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
+import java.io.IOException;
+import java.util.*;
+
 /**
  * @deprecated this language hasn't been maintained for years, it will be removed from LanguageTool after release 3.6
  */
 @Deprecated
 public class Lithuanian extends Language {
-
-  private Tagger tagger;
-  private SentenceTokenizer sentenceTokenizer;
 
   @Override
   public String getName() {
@@ -57,19 +53,14 @@ public class Lithuanian extends Language {
   }
 
   @Override
-  public SentenceTokenizer getSentenceTokenizer() {
-    if (sentenceTokenizer == null) {
-      sentenceTokenizer = new SRXSentenceTokenizer(this);
-    }
-    return sentenceTokenizer;
+  public SentenceTokenizer createDefaultSentenceTokenizer() {
+    return new SRXSentenceTokenizer(this);
   }
 
+  @NotNull
   @Override
-  public Tagger getTagger() {
-    if (tagger == null) {
-      tagger = new DemoTagger();
-    }
-    return tagger;
+  public Tagger createDefaultTagger() {
+    return new DemoTagger();
   }
 
   @Override

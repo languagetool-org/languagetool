@@ -39,12 +39,7 @@ import java.net.URL;
 import java.util.*;
 import java.util.regex.Pattern;
 
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csToken;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.regex;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 /**
  * Check that adjectives and verbs are not written with an uppercase
@@ -71,6 +66,13 @@ public class CaseRule extends Rule {
   
   // also see case_rule_exceptions.txt:
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      // Auflistung
+      csRegex("[A-ZÖÄÜ][a-zöäüß]+"),
+      token(","),
+      csRegex("[A-ZÖÄÜ][a-zöäüß]+"),
+      tokenRegex(",|etc")
+    ),
     Arrays.asList(
       regex("erste[nr]?"),
       csToken("Hilfe")
@@ -101,9 +103,45 @@ public class CaseRule extends Rule {
       regex(".*")
     ),
     Arrays.asList(
+      SENT_START,
+      regex("[A-Z]"),
+      token(")"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // Commas used as lower quotes
+      SENT_START,
+      token(","),
+      token(","),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
       // https://github.com/languagetool-org/languagetool/issues/1515
       SENT_START,
-      regex("▶︎|▶|\\*|•|-|★"),
+      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞"),
+      regex(".*")
+    ),
+    Arrays.asList(
+      SENT_START,
+      token("#"),
+      regex("\\d+"),
+      regex(".*")
+    ),
+    Arrays.asList(
+      // GitHub / Markdown check lists
+      SENT_START,
+      regex("\\*|\\-"),
+      token("["),
+      regex("]"),
+      regex(".*")
+    ),
+    Arrays.asList(
+      // GitHub / Markdown check lists
+      SENT_START,
+      regex("\\*|\\-"),
+      token("["),
+      token("x"),
+      regex("]"),
       regex(".*")
     ),
     Arrays.asList(
@@ -125,6 +163,23 @@ public class CaseRule extends Rule {
     Arrays.asList(
       regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern"),
       pos("UNKNOWN")
+    ),
+    Arrays.asList(
+      token("International"),
+      regex("Managements?")
+    ),
+    Arrays.asList(
+      token("National"),
+      regex("Boards?")
+    ),
+    Arrays.asList(
+      regex("[kK]nock"),
+      regex("[oO]ut")
+    ),
+    Arrays.asList( // "was sie über das denken"
+      token("über"),
+      token("das"),
+      token("denken")
     ),
     // names with english adjectives
     Arrays.asList(
@@ -313,21 +368,21 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList( // "Das schließen Forscher aus ..."
      token("das"),
-     posRegex("VER:INF:(SFT|NON)"), 
+     posRegex("VER:INF:(SFT|NON)"),
      posRegex("SUB:NOM:PLU:.+|ADV:MOD")
     ),
     Arrays.asList( // Das schaffen moderne E-Autos locker
      token("das"),
-     posRegex("VER:INF:(SFT|NON)"), 
+     posRegex("VER:INF:(SFT|NON)"),
      posRegex("ADJ:.+"),
      posRegex("SUB:NOM:PLU:.+|ADV:MOD")
     ),
     Arrays.asList( // Das schaffen moderne und effiziente E-Autos locker
      token("das"),
-     posRegex("VER:INF:(SFT|NON)"), 
-     posRegex("ADJ:.+"), 
-     posRegex("KON:.+"), 
-     posRegex("ADJ:.+"), 
+     posRegex("VER:INF:(SFT|NON)"),
+     posRegex("ADJ:.+"),
+     posRegex("KON:.+"),
+     posRegex("ADJ:.+"),
      posRegex("SUB:NOM:PLU:.+|ADV:MOD")
     ),
     Arrays.asList( // "Tausende Gläubige kamen, um ihn zu sehen."
@@ -337,17 +392,17 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList( // "Man kann das generalisieren"
       posRegex("VER:MOD.*"),
-      token("das"), 
+      token("das"),
       posRegex("VER:INF:(SFT|NON)")
     ),
     Arrays.asList( // "Vielleicht kann er das generalisieren"
       posRegex("VER:MOD.*"),
-      posRegex("PRO:.+"), 
-      token("das"), 
+      posRegex("PRO:.+"),
+      token("das"),
       posRegex("VER:INF:(SFT|NON)")
     ),
     Arrays.asList( // "Er befürchtete Schlimmeres."
-      regex("Schlimm(er)?es"), 
+      regex("Schlimm(er)?es"),
       pos(JLanguageTool.SENTENCE_END_TAGNAME)
     ),
     Arrays.asList(
@@ -410,17 +465,25 @@ public class CaseRule extends Rule {
       csToken("Top"),
       csToken("Ten")
     ),
+    Arrays.asList( // Dutch name (e.g. "Bert van den Brink")
+      csToken("Van"),
+      csToken("Den")
+    ),
+    Arrays.asList(
+      csToken("Lasse"),
+      posRegex("EIG:.*|UNKNOWN")
+    ),
     Arrays.asList(
       csToken("Just"),
       token("in"),
       csToken("Time")
     ),
-    Arrays.asList( // Hey Süßer, 
+    Arrays.asList( // Hey Süßer,
       regex("Hey|Hi|Hallo|Na"),
       regex("Süßer?|Hübscher?"),
       pos("PKT")
     ),
-    Arrays.asList( // Hey mein Süßer, 
+    Arrays.asList( // Hey mein Süßer,
       regex("Hey|Hi|Hallo|Na"),
       regex("du|meine?"),
       regex("Süßer?|Hübscher?"),
@@ -437,7 +500,7 @@ public class CaseRule extends Rule {
     nounIndicators.add("euer");
     nounIndicators.add("unser");
   }
-  
+
   private static final String[] sentenceStartExceptions = {"(", "\"", "'", "‘", "„", "«", "»", ".", "!", "?"};
 
   private static final String[] UNDEFINED_QUANTIFIERS = {"viel", "nichts", "wenig", "allerlei"};
@@ -454,11 +517,22 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
+    "Mo",
+    "Di",
+    "Mi",
     "Do",   // "Di. und Do. um 18 Uhr"
     "Fr",   // "Fr. Dr. Müller"
     "Sa",   // Sa. 12 - 16 Uhr
     "Gr",   // "Gr. 12"
     "Mag",   // "Mag. Helke Müller"
+    "Drogenabhängige",
+    "Drogenabhängiger",
+    "Drogenabhängigen",
+    "Asylsuchender",
+    "Asylsuchende",
+    "Asylsuchenden",
+    "Dozierende",
+    "Dozierenden",
     "Studierende",
     "Suchbegriffen",
     "Plattdeutsch",
@@ -567,7 +641,9 @@ public class CaseRule extends Rule {
     "Frevel",
     "Genüge",
     "Gefallen", // Gefallen finden
+    "Gläubige",
     "Gläubiger",
+    "Gläubigen",
     "Hechte",
     "Herzöge",
     "Herzögen",
@@ -597,8 +673,9 @@ public class CaseRule extends Rule {
     "Landwirtschaft",
     "Langem",
     "Längerem",
+    "Lausitz",
     "Le",    // "Le Monde" etc
-    "Lehrlingsunter­weisung",
+    "Lehrlingsunterweisung",
     // "Leichter", // Leichter = ein Schiff in oben offener Bauweise ohne Eigenantrieb
     "Letzt",
     "Letzt",      // "zu guter Letzt"
@@ -609,6 +686,7 @@ public class CaseRule extends Rule {
     "Links",
     "Löhne",
     "Luden",
+    "Milk", // Englisches Wort und eine Form von "melken"
     "Mitfahrt",
     "Mr",
     "Mrd",
@@ -785,6 +863,7 @@ public class CaseRule extends Rule {
     languages.add("Slowakisch");
     languages.add("Slowenisch");
     languages.add("Spanisch");
+    languages.add("Syrisch");
     languages.add("Tamilisch");
     languages.add("Tibetisch");
     languages.add("Tschechisch");
@@ -866,7 +945,7 @@ public class CaseRule extends Rule {
   
   @Override
   public URL getUrl() {
-    return Tools.getUrl("http://www.canoonet.eu/services/GermanSpelling/Regeln/Gross-klein/index.html");
+    return Tools.getUrl("https://dict.leo.org/grammatik/deutsch/Rechtschreibung/Regeln/Gross-klein/index.html");
   }
 
   @Override
@@ -945,7 +1024,7 @@ public class CaseRule extends Rule {
       } else if (analyzedToken.hasPosTagStartingWith("SUB:") &&
                  i < tokens.length-1 &&
                  Character.isLowerCase(tokens[i+1].getToken().charAt(0)) &&
-                 tokens[i+1].matchesPosTagRegex("VER:[123]:.+")) {
+                 tokens[i+1].matchesPosTagRegex("(VER:[123]:|PA2).+")) {
         // "Viele Minderjährige sind" but not "Das wirklich Wichtige Verfahren ist"
         continue;  
       }
@@ -1017,7 +1096,7 @@ public class CaseRule extends Rule {
   }
 
   private boolean isSalutation(String token) {
-    return StringUtils.equalsAny(token, "Herr", "Herrn", "Frau");
+    return StringUtils.equalsAny(token, "Herr", "Herrn", "Frau", "Fräulein");
   }
 
   private boolean isCompany(String token) {
@@ -1081,6 +1160,7 @@ public class CaseRule extends Rule {
         !isSpecialCase(i, tokens) &&
         !isAdjectiveAsNoun(i, tokens, lowercaseReadings) &&
         !isExceptionPhrase(i, tokens) &&
+        !(i == 2 && "“".equals(tokens[i-1].getToken())) &&   // closing quote at sentence start (https://github.com/languagetool-org/languagetool/issues/2558)
         !isNounWithVerbReading(i, tokens)) {
       String fixedWord = StringTools.lowercaseFirstChar(tokens[i].getToken());
       if (":".equals(tokens[i - 1].getToken())) {
@@ -1152,7 +1232,7 @@ public class CaseRule extends Rule {
       if (StringUtils.equalsAny(prevTokenStr, "und", "oder", "beziehungsweise") && prevPrevToken != null &&
           (tokens[i].hasPartialPosTag("SUB") && tokens[i].hasPartialPosTag(":ADJ")) || //"das dabei Erlernte und Erlebte ist ..." -> 'Erlebte' is correct here
           (prevPrevToken.hasPartialPosTag("SUB") && !hasNounReading(nextReadings) && // "die Ausgaben für Umweltschutz und Soziales"
-              lowercaseReadings != null && lowercaseReadings.hasPartialPosTag("ADJ"))) {
+              lowercaseReadings != null && lowercaseReadings.hasPartialPosTag("ADJ") && !prevTokenStr.equals(","))) {
        return true;
      }
       if (lowercaseReadings != null && lowercaseReadings.hasPosTag("PA1:PRD:GRU:VER")) {
@@ -1317,12 +1397,10 @@ public class CaseRule extends Rule {
   }
 
   private AnalyzedTokenReadings lookup(String word) {
-    AnalyzedTokenReadings lookupResult = null;
     try {
-      lookupResult = tagger.lookup(word);
+      return tagger.lookup(word);
     } catch (IOException e) {
-      throw new RuntimeException("Could not lookup '"+word+"'.", e);
+      throw new RuntimeException("Could not lookup '" + word + "'.", e);
     }
-    return lookupResult;
   }
 }

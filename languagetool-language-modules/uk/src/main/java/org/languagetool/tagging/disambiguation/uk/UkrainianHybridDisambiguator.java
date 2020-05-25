@@ -23,6 +23,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -31,12 +33,14 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.Ukrainian;
+import org.languagetool.rules.uk.CaseGovernmentHelper;
 import org.languagetool.rules.uk.LemmaHelper;
 import org.languagetool.tagging.disambiguation.AbstractDisambiguator;
 import org.languagetool.tagging.disambiguation.Disambiguator;
 import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
 import org.languagetool.tagging.uk.PosTagHelper;
 import org.languagetool.tools.StringTools;
+import java.util.stream.Collectors;
 
 /**
  * Hybrid chunker-disambiguator for Ukrainian.
@@ -59,6 +63,18 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new Ukrainian());
   private final SimpleDisambiguator simpleDisambiguator = new SimpleDisambiguator();
 
+  static final Set<String> V_MIS_PREPS = CaseGovernmentHelper.CASE_GOVERNMENT_MAP.entrySet()
+      .stream().filter(e -> e.getValue().contains("v_mis")).map(Map.Entry::getKey).collect(Collectors.toSet());
+  static final Set<String> V_NON_MIS_PREPS = CaseGovernmentHelper.CASE_GOVERNMENT_MAP.entrySet()
+      .stream().filter(e -> ! e.getValue().contains("v_mis")).map(Map.Entry::getKey).collect(Collectors.toSet());
+  
+  static {
+    // add Latin y/B - often used instead of real prep
+    // we'll catch it in MixedAlphabetsRule
+    V_MIS_PREPS.add("y");
+    V_MIS_PREPS.add("B");
+  }
+  
 
   /**
    * Calls two disambiguator classes: (1) a chunker; (2) a rule-based disambiguator.
@@ -72,6 +88,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
 
   @Override
   public AnalyzedSentence preDisambiguate(AnalyzedSentence input) {
+    removeVmis(input);
     retagInitials(input);
     removeInanimVKly(input);
     removePluralForNames(input);
@@ -81,6 +98,64 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     disambiguateSt(input);
 
     return input;
+  }
+
+  private void removeVmis(AnalyzedSentence input) {
+    AnalyzedTokenReadings[] tokens = input.getTokensWithoutWhitespace();
+    
+    boolean startCheck = false;
+    for (int i = 1; i < tokens.length; i++) {
+      List<AnalyzedToken> analyzedTokens = tokens[i].getReadings();
+
+      if (tokens[i].getToken() == null )
+        continue;
+      
+      String lowerCaseToken = tokens[i].getToken().toLowerCase();
+
+      boolean hasPrep = PosTagHelper.hasPosTagPart(tokens[i], "prep");
+
+      if( ! startCheck ) {
+        if( hasPrep ) {
+          startCheck = true;
+        }
+        else {
+          if( lowerCaseToken.matches("[а-яіїєґa-z0-9].*") ) {
+            // sometimes sentences incorrectly split, e.g. "захопленню зброї;" - leave it
+            if( StringUtils.isAllLowerCase(tokens[i].getToken()) ) {
+              continue;
+            }
+            startCheck = true;
+          }
+        }
+      }
+      
+      if( hasPrep && V_MIS_PREPS.contains(lowerCaseToken) )
+        return;
+
+      if ( ! canRemoveVmis(analyzedTokens) )
+        continue;
+
+      for (AnalyzedToken analyzedToken : analyzedTokens) {
+        if( PosTagHelper.hasPosTagPart(analyzedToken, "v_mis") ) {
+          tokens[i].removeReading(analyzedToken, "dis_v_mis");
+        }
+      }
+    }
+  }
+
+  private boolean canRemoveVmis(List<AnalyzedToken> analyzedTokens) {
+    boolean foundVmis = false, foundOther = false;
+    for(AnalyzedToken token: analyzedTokens) {
+      if( PosTagHelper.hasPosTagPart(token, "v_mis") ) {
+        foundVmis = true;
+      }
+      else if( token.getPOSTag() != null && ! token.getPOSTag().endsWith("_END") ) {
+        foundOther = true;
+      }
+      if( foundVmis && foundOther )
+        break;
+    }
+    return foundVmis && foundOther;
   }
 
   // correct: Єврокомісія, but often written: єврокомісія
@@ -237,7 +312,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
       if( tokens[i].hasPartialPosTag(LAST_NAME_TAG) ) {
         lastName = tokens[i];
 
-        // split before next inital starts: "для Л.Кучма Л.Кравчук"
+        // split before next initial starts: "для Л.Кучма Л.Кравчук"
         if( initialsIdxs.size() > 0 ) {
           checkForInitialRetag(lastName, initialsIdxs, tokens);
           lastName = null;

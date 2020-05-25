@@ -78,7 +78,7 @@ public class ResultCache {
       return sentence.getText().length() / 75 + matches.size();
     }
   }
-  
+
   class SentenceWeigher implements Weigher<SimpleInputSentence, AnalyzedSentence> {
     @Override
     public int weigh(SimpleInputSentence sentence, AnalyzedSentence analyzedSentence) {

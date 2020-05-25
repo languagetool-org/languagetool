@@ -37,14 +37,11 @@ class DatabaseLogger {
   // package private for mocking in tests
   static DatabaseLogger instance = null;
 
-/*  // smaller numbers for tests
-  static final int SQL_BATCH_SIZE = 10;
-  static final int SQL_BATCH_WAITING_TIME = 5000; // milliseconds to wait until batch gets committed anyway
-  static final int POLLING_TIME = 1000; */
-  static final int SQL_BATCH_SIZE = 1000;
-  static final int SQL_BATCH_WAITING_TIME = 10000; // milliseconds to wait until batch gets committed anyway
+  // smaller numbers used for tests
+  static final int POLLING_TIME = 1000;
+  static int SQL_BATCH_SIZE = 1000;
+  static int SQL_BATCH_WAITING_TIME = 10000; // milliseconds to wait until batch gets committed anyway
   
-  private static final int POLLING_TIME = 1000;
   private static final int MAX_QUEUE_SIZE = 50000; // drop entries after limit is reached, to avoid running out of memory
 
   /**
@@ -152,6 +149,7 @@ class DatabaseLogger {
       String[] statements = {"org.languagetool.server.LogMapper.createRuleMatches",
         "org.languagetool.server.LogMapper.createCheckLog",
         "org.languagetool.server.LogMapper.createMiscLog",
+        "org.languagetool.server.LogMapper.createPings",
         "org.languagetool.server.LogMapper.createAccessLimits",
         "org.languagetool.server.LogMapper.createCheckError",
         "org.languagetool.server.LogMapper.createCacheStats",
@@ -172,6 +170,7 @@ class DatabaseLogger {
       session.delete("org.languagetool.server.LogMapper.dropRuleMatches");
       session.delete("org.languagetool.server.LogMapper.dropCheckLog");
       session.delete("org.languagetool.server.LogMapper.dropMiscLog");
+      session.delete("org.languagetool.server.LogMapper.dropPings");
       session.delete("org.languagetool.server.LogMapper.dropAccessLimits");
       session.delete("org.languagetool.server.LogMapper.dropCheckError");
       session.delete("org.languagetool.server.LogMapper.dropCacheStats");

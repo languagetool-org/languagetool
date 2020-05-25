@@ -33,6 +33,7 @@ import java.util.*;
 
 import static java.util.Arrays.*;
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
 
 /**
  * Simple agreement checker for German noun phrases. Checks agreement in:
@@ -49,14 +50,23 @@ public class AgreementRule2 extends Rule {
     asList(token("Ernst")),      // Vorname
     asList(token("Anders")),     // Vorname
     asList(token("wirklich")),   // "Wirklich Frieden herrscht aber noch nicht"
+    asList(token("gemeinsam")),   // "Gemeinsam Sportler anfeuern"
     asList(token("wenig")),      // "Wenig Geld - ..."
+    asList(token("weniger")),      // "Weniger Geld - ..."
     asList(token("richtig")),    // "Richtig Kaffee kochen ..."
     asList(token("weiß")),       // "Weiß Papa, dass ..."
     asList(token("speziell")),   // "Speziell Flugfähigkeit hat sich unabhängig voneinander ..."
     asList(token("halb")),       // "Halb Traum, halb Wirklichkeit"
     asList(token("hinter")),     // "Hinter Bäumen"
     asList(token("vermutlich")), // "Vermutlich Ende 1813 erkrankte..."
-    asList(token("Einfach"), token("Bescheid")),    // "Einfach Bescheid sagen ..."
+    asList(token("eventuell")), // "Eventuell Ende 1813 erkrankte..."
+    asList(token("ausschließlich")),
+    asList(token("ausschliesslich")),
+    asList(token("einfach")),    // "Einfach Bescheid sagen ..."
+    asList(token("endlich")),    // "Endlich Mittagspause!"
+    asList(token("unbemerkt")),    // "Unbemerkt Süßigkeiten essen"
+    asList(token("Typisch"), tokenRegex("Mann|Frau")),    // "Einfach Bescheid sagen ..."
+    asList(token("Genau"), token("Null")),
     asList(token("wohl")),       // "Wohl Anfang 1725 begegnete Bach ..."
     asList(token("erst")),       // "Erst X, dann ..."
     asList(token("lieber")),     // "Lieber X als Y"
@@ -67,10 +77,12 @@ public class AgreementRule2 extends Rule {
     asList(token("security")),   // engl.
     asList(token("business")),   // oft engl.
     asList(token("voll"), token("Sorge")),
-    asList(token("Personal"), token("Computer")),
     asList(token("Ganz"), token("Gentleman")),
     asList(token("Russisch"), token("Roulette")),
-    asList(token("International"), token("Management")),
+    asList(token("Clever"), tokenRegex("Shuttles?")), // name
+    asList(token("Personal"), tokenRegex("(Computer|Coach|Trainer).*")),
+    asList(tokenRegex("Digital|Regional|Global|Bilingual|International|National|Visual|Final|Rapid|Dual"), tokenRegex("(Initiative|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity|City|Paper|Transfer|Transformation|Power).*")),
+    asList(token("Smart"), tokenRegex("(Service|Home|Meter|City|Hall).*")),
     asList(token("GmbH"))
   );
   private final Language language;

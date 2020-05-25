@@ -55,6 +55,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("Na"),
       token("na")
     ),
+    Arrays.asList( // La La Land / la la la ...
+      token("la"),
+      token("la")
+    ),
     Arrays.asList( // "Bei Fragen fragen"
       csToken("Fragen"),
       csToken("fragen")
@@ -67,10 +71,23 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("Phi"),
       token("Phi")
     ),
+    Arrays.asList( // Wahrscheinlich ist das das Problem.
+      tokenRegex("ist|war"),
+      token("das"),
+      token("das"),
+      token(".*SUB.*"),
+      token("SENT_END")
+    ),
     Arrays.asList(// "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
       csToken(","),
       new PatternTokenBuilder().csToken("der").matchInflectedForms().build(),
       new PatternTokenBuilder().csToken("der").matchInflectedForms().build()
+    ),
+    Arrays.asList(// "Alle die die"
+      csToken("alle"),
+      new PatternTokenBuilder().csToken("die").build(),
+      new PatternTokenBuilder().csToken("die").setSkip(-1).build(),
+      new PatternTokenBuilder().posRegex("UNKNOWN|VER:.*").build()
     ),
     Arrays.asList(// "Das Haus, in das das Kind läuft."
       csToken(","),
@@ -81,6 +98,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     Arrays.asList(// "Er will sein Leben leben"
       csToken("Leben"),
       csToken("leben")
+    ),
+    Arrays.asList(// "Er muss sein Essen essen"
+      csToken("Essen"),
+      csToken("essen")
     )
   );
 
@@ -115,6 +136,12 @@ public class GermanWordRepeatRule extends WordRepeatRule {
           return true;
       }
     }
+
+    if (tokens[position].getToken().matches("(?i)^[a-z]$") && position > 1 && tokens[position - 2].getToken().matches("(?i)^[a-z]$") && (position + 1 < tokens.length) && tokens[position + 1].getToken().matches("(?i)^[a-z]$")) {
+      // spelling with spaces in between: "A B B A"
+      return true;
+    }
+
     return false;
   }
 

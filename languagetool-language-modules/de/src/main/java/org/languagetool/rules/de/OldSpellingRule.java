@@ -18,10 +18,10 @@
  */
 package org.languagetool.rules.de;
 
+import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.rules.*;
 
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -30,17 +30,13 @@ import java.util.*;
  */
 public class OldSpellingRule extends Rule {
 
-  private static final String DESC = "Findet Schreibweisen, die nur in der alten Rechtschreibung gültig waren";
   private static final String FILE_PATH = "/de/alt_neu.csv";
-  private static final String MESSAGE = "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.";
-  private static final String SHORT_MESSAGE = "alte Rechtschreibung";
-  private static final String RULE_INTERNAL = "OLD_SPELLING_INTERNAL";
-  private static final ITSIssueType ISSUE_TYPE = ITSIssueType.Misspelling;
-  private static final SpellingData DATA = new SpellingData(DESC, FILE_PATH, MESSAGE, SHORT_MESSAGE, RULE_INTERNAL, ISSUE_TYPE);
+  private static final List<String> exceptions = Arrays.asList("Schloß Holte");
+  private static final SpellingData DATA = new SpellingData(FILE_PATH);
 
   public OldSpellingRule(ResourceBundle messages) {
     super.setCategory(Categories.TYPOS.getCategory(messages));
-    setLocQualityIssueType(ISSUE_TYPE);
+    setLocQualityIssueType(ITSIssueType.Misspelling);
     addExamplePair(Example.wrong("Der <marker>Abfluß</marker> ist schon wieder verstopft."),
                    Example.fixed("Der <marker>Abfluss</marker> ist schon wieder verstopft."));
   }
@@ -52,13 +48,52 @@ public class OldSpellingRule extends Rule {
 
   @Override
   public String getDescription() {
-    return DESC;
+    return "Findet Schreibweisen, die nur in der alten Rechtschreibung gültig waren";
   }
 
   @Override
-  public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    String[] exceptions = {"Schloß Holte"};
-    return toRuleMatchArray(SpellingRuleWithSuggestions.computeMatches(sentence, DATA, exceptions));
+  public RuleMatch[] match(AnalyzedSentence sentence) {
+    List<RuleMatch> matches = new ArrayList<>();
+    String text = sentence.getText();
+    List<AhoCorasickDoubleArrayTrie.Hit<String>> hits = DATA.getTrie().parseText(text);
+    Set<Integer> startPositions = new HashSet<>();
+    Collections.reverse(hits);  // work on longest matches first
+    for (AhoCorasickDoubleArrayTrie.Hit<String> hit : hits) {
+      if (startPositions.contains(hit.begin)) {
+        continue;   // avoid overlapping matches
+      }
+      boolean ignore = false;
+      for (String exception : exceptions) {
+        if (hit.begin + exception.length() <= text.length()) {
+          String excCovered = text.substring(hit.begin, hit.begin + exception.length());
+          if (excCovered.equals(exception)) {
+            ignore = true;
+            break;
+          }
+        }
+      }
+      if (hit.begin > 0 && !isBoundary(text.substring(hit.begin-1, hit.begin))) {
+        // prevent substring matches
+        ignore = true;
+      }
+      if (hit.end < text.length() && !isBoundary(text.substring(hit.end, hit.end+1))) {
+        // prevent substring matches, e.g. "Foto" for "Photons"
+        ignore = true;
+      }
+      if (!ignore) {
+        RuleMatch match = new RuleMatch(this, sentence, hit.begin, hit.end,
+          "Diese Schreibweise war nur in der alten Rechtschreibung korrekt.", "alte Rechtschreibung");
+        String[] suggestions = hit.value.split("\\|");
+        match.setSuggestedReplacements(Arrays.asList(suggestions));
+        matches.add(match);
+        startPositions.add(hit.begin);
+      }
+    }
+    return toRuleMatchArray(matches);
+  }
+
+  private boolean isBoundary(String s) {
+    return !s.matches("[a-zA-Zöäüß]");
   }
   
 }

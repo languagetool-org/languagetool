@@ -85,7 +85,7 @@ class Main {
     }
     lt.activateRemoteRules(options.getRemoteRulesFile() != null ? new File(options.getRemoteRulesFile()) : null);
     Tools.selectRules(lt, options.getDisabledCategories(), options.getEnabledCategories(),
-            new HashSet<>(options.getDisabledRules()), new HashSet<>(options.getEnabledRules()), options.isUseEnabledOnly());
+            new HashSet<>(options.getDisabledRules()), new HashSet<>(options.getEnabledRules()), options.isUseEnabledOnly(), options.isEnableTempOff());
   }
 
   private void addExternalRules(String filename) throws IOException {
@@ -381,13 +381,13 @@ class Main {
       commandLineParser.printUsage();
       System.exit(1);
     } catch (IllegalArgumentException e) {
-      System.err.println(e.toString());
+      System.err.println(e);
       System.exit(1);
     } catch (UnknownParameterException e) {
       if (e.getMessage() != null) {
         System.err.println(e.getMessage());
       } else {
-        System.err.println(e.toString());
+        System.err.println(e);
       }
       commandLineParser.printUsage(System.err);
       System.exit(1);

@@ -68,7 +68,7 @@ public abstract class RemoteRule extends Rule {
     shutdownRoutines.forEach(Runnable::run);
   }
 
-  class RemoteRequest {}
+  protected class RemoteRequest {}
 
   protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences);
   protected abstract Callable<RemoteRuleResult> executeRequest(RemoteRequest request);
@@ -94,9 +94,9 @@ public abstract class RemoteRule extends Rule {
 
       for (int i = 0; i <= serviceConfiguration.getMaxRetries(); i++) {
         Callable<RemoteRuleResult> task = executeRequest(req);
+        long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +
+          Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());
         try {
-          long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +
-            Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());
           Future<RemoteRuleResult> future = executors.get(ruleId).submit(task);
           if (timeout <= 0)  { // for debugging, disable timeout
             result = future.get();
@@ -115,7 +115,7 @@ public abstract class RemoteRule extends Rule {
           RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, requestResult);
           return result.getMatches();
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
-          logger.warn("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times" , e);
+          logger.warn("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
 
           RemoteRuleMetrics.RequestResult status;
           if (e instanceof TimeoutException || e instanceof InterruptedException) {

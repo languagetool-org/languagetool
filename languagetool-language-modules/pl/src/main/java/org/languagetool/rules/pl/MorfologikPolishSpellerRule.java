@@ -133,11 +133,11 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
         return ruleMatches;
       }
       if (createSuggestions) {
-        List<String> suggestions = speller1.getSuggestions(word);
+        List<SuggestedReplacement> suggestions = SuggestedReplacement.convert(speller1.getSuggestions(word));
         suggestions.addAll(0, getAdditionalTopSuggestions(suggestions, word));
         suggestions.addAll(getAdditionalSuggestions(suggestions, word));
         if (!suggestions.isEmpty()) {
-          ruleMatch.setSuggestedReplacements(pruneSuggestions(orderSuggestions(suggestions,word)));
+          ruleMatch.setSuggestedReplacementObjects(pruneSuggestions(orderSuggestions(suggestions,word)));
         }
       } else {
         // limited to save CPU
@@ -195,13 +195,13 @@ public final class MorfologikPolishSpellerRule extends MorfologikSpellerRule {
    * Remove suggestions -- not really runon words using a list of non-word suffixes
    * @return A list of pruned suggestions.
    */
-    private List<String> pruneSuggestions(List<String> suggestions) {
-      List<String> prunedSuggestions = new ArrayList<>(suggestions.size());
-      for (String suggestion : suggestions) {
-        if (suggestion.indexOf(' ') == -1) {
+    private List<SuggestedReplacement> pruneSuggestions(List<SuggestedReplacement> suggestions) {
+      List<SuggestedReplacement> prunedSuggestions = new ArrayList<>(suggestions.size());
+      for (SuggestedReplacement suggestion : suggestions) {
+        if (suggestion.getReplacement().indexOf(' ') == -1) {
           prunedSuggestions.add(suggestion);
         } else {
-          String[] complexSug = suggestion.split(" ");
+          String[] complexSug = suggestion.getReplacement().split(" ");
           if (!bannedSuffixes.contains(complexSug[1])) {
             prunedSuggestions.add(suggestion);
           }

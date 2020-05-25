@@ -20,9 +20,7 @@ package org.languagetool.rules.ru;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.language.Russian;
+import org.languagetool.*;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 
@@ -30,18 +28,17 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class RussianDashRuleTest {
 
-  private JLanguageTool langTool;
+  private JLanguageTool lt;
   private Rule rule;
 
   @Before
-  public void setUp() throws Exception {
-    Language lang = new Russian();
-    langTool = new JLanguageTool(lang);
-    rule = new RussianDashRule();
+  public void setUp() {
+    Language lang = Languages.getLanguageForShortCode("ru");
+    lt = new JLanguageTool(lang);
+    rule = new RussianDashRule(JLanguageTool.getMessageBundle(lang));
   }
 
   @Test
@@ -49,6 +46,7 @@ public class RussianDashRuleTest {
     // correct sentences:
     check(0, "Он вышел из-за забора.");
     check(0, "Ростов-на-Дону.");
+    check(0, "ведром — работай");
     // incorrect sentences:
     check(1, "из—за", new String[]{"из-за"});
     check(1, "Ростов — на — Дону", new String[]{"Ростов-на-Дону"});
@@ -58,17 +56,9 @@ public class RussianDashRuleTest {
     check(expectedErrors, text, null);
   }
 
-  /**
-   * Check the text against the compound rule.
-   * @param expectedErrors the number of expected errors
-   * @param text the text to check
-   * @param expSuggestions the expected suggestions
-   */
   private void check(int expectedErrors, String text, String[] expSuggestions) throws IOException {
-    assertNotNull("Please initialize langTool!", langTool);
-    assertNotNull("Please initialize 'rule'!", rule);
-    RuleMatch[] ruleMatches = rule.match(langTool.getAnalyzedSentence(text));
-    assertEquals("Expected " + expectedErrors + "errors, but got: " + Arrays.toString(ruleMatches),
+    RuleMatch[] ruleMatches = rule.match(lt.getAnalyzedSentence(text));
+    assertEquals("Expected " + expectedErrors + " errors, but got: " + Arrays.toString(ruleMatches),
         expectedErrors, ruleMatches.length);
     if (expSuggestions != null && expectedErrors != 1) {
       throw new RuntimeException("Sorry, test case can only check suggestion if there's one rule match");

@@ -22,9 +22,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.AmericanEnglish;
 import org.languagetool.language.English;
-import org.languagetool.rules.ConfusionPair;
-import org.languagetool.rules.ConfusionSetLoader;
-import org.languagetool.rules.ConfusionString;
+import org.languagetool.rules.*;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
 
@@ -43,7 +41,7 @@ public class RuleCreator {
   
   private final Map<String, List<OccurrenceInfo>> occurrenceInfos = new HashMap<>();
   private final Map<String, Long> ngramToOccurrence = new HashMap<>();
-  private final WordTokenizer wordTokenizer = new English().getWordTokenizer();
+  private final WordTokenizer wordTokenizer = (WordTokenizer) new English().getWordTokenizer();
   private final float minErrorProb;
 
   private int ruleCount = 0;

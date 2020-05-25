@@ -23,7 +23,7 @@ package org.languagetool.rules;
 
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
-import io.prometheus.client.Summary;
+import io.prometheus.client.Histogram;
 
 public final class RemoteRuleMetrics {
 
@@ -42,27 +42,42 @@ public final class RemoteRuleMetrics {
 
   // TODO: provide configuration as info?
 
-  @Deprecated
-  private static final Counter requests = Counter.build("languagetool_remote_rule_requests_total",
-    "Amount of requests sent for the given rule").labelNames("rule_id", "result").register();
+  private static final double[] LATENCY_BUCKETS = {
+    .01, .02, .03, .04, .05, .06, .07, .08, .09,
+    .10, .11, .12, .13, .14, .15, .16, .17, .18, .19,
+    .20, .22, .24, .26, .28, .30, .32, .34, .36, .38,
+    .40, .42, .44, .46, .48, .50, .52, .54, .56, .58,
+    .60, .62, .64, .66, .68, .70, .72, .74, .76, .78,
+    .80, .82, .84, .86, .88, .90, .92, .94, .96, .98,
+    1.0, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9,
+    2.0, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9,
+    3.0, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7, 3.8, 3.9,
+    4.0, 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7, 4.8, 4.9,
+    5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0, 8.5, 9.0, 9.5,
+    10., 11., 12., 13., 14., 15., 16., 17., 18., 19.,
+  };
+
+  private static final double[] SIZE_BUCKETS = {
+    25, 50, 100, 150, 200, 250, 300, 400, 500, 750, 1000, 2000, 3000, 4000, 5000, 7500, 10000, 15000, 20000, 30000, 40000
+  };
+
   private static final Counter retries = Counter.build("languagetool_remote_rule_retries_total",
     "Amount of retries for the given rule").labelNames("rule_id").register();
-
-  @Deprecated
-  private static final Counter requestDuration = Counter.build("languagetool_remote_rule_request_duration_seconds_total",
-    "Time spent waiting for requests of the given rule").labelNames("rule_id").register();
 
   private static final Counter downtime = Counter.build("languagetool_remote_rule_downtime_seconds_total",
     "Time remote rules were deactivated because of errors").labelNames("rule_id").register();
 
-  // supersedes requests, requestDuration
-  private static final Summary requestTimeSummary = Summary.build("languagetool_remote_rule_request_duration_seconds",
-    "Request duration summary").labelNames("rule_id", "result")
-    .quantile(0.5, 0.05).quantile(0.9, 0.01).register();
+  private static final Histogram requestLatency = Histogram
+    .build("languagetool_remote_rule_request_latency_seconds", "Request duration summary")
+    .labelNames("rule_id", "result")
+    .buckets(LATENCY_BUCKETS)
+    .register();
 
-  private static final Summary requestSizeSummary = Summary.build("languagetool_remote_rule_request_size",
-    "Request size summary").labelNames("rule_id", "result")
-    .quantile(0.5, 0.05).quantile(0.9, 0.01).register();
+  private static final Histogram requestThroughput = Histogram
+    .build("languagetool_remote_rule_request_throughput_characters", "Request size summary")
+    .labelNames("rule_id", "result")
+    .buckets(SIZE_BUCKETS)
+    .register();
 
   private static final Gauge failures = Gauge.build("languagetool_remote_rule_consecutive_failures",
     "Amount of consecutive failures").labelNames("rule_id").register();
@@ -71,11 +86,9 @@ public final class RemoteRuleMetrics {
     "Status of remote rule").labelNames("rule_id").register();
 
   public static void request(String rule, int numRetries, long nanoseconds, long characters, RequestResult result) {
-    requests.labels(rule, result.name().toLowerCase()).inc();
-    requestTimeSummary.labels(rule, result.name().toLowerCase()).observe((double) nanoseconds / 1e9);
-    requestSizeSummary.labels(rule, result.name().toLowerCase()).observe(characters);
+    requestLatency.labels(rule, result.name().toLowerCase()).observe((double) nanoseconds / 1e9);
+    requestThroughput.labels(rule, result.name().toLowerCase()).observe(characters);
     retries.labels(rule).inc(numRetries);
-    requestDuration.labels(rule).inc((double) nanoseconds / 1e9);
   }
 
   public static void failures(String rule, int count) {

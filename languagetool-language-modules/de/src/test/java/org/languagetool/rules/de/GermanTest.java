@@ -46,7 +46,7 @@ public class GermanTest extends LanguageSpecificTest {
     testDemoText(lang, s,
       Arrays.asList("UPPERCASE_SENTENCE_START", "EIN_PAAR", "COMMA_PARENTHESIS_WHITESPACE", "ANGST_UND_BANGE", "KOMP_WIE", "GERMAN_SPELLER_RULE", "SAGT_RUFT", "DATUM_WOCHENTAG", "DE_AGREEMENT")
     );
-    runTests(lang);
+    runTests(lang, null, "_");
   }
 
   @Test
@@ -90,6 +90,22 @@ public class GermanTest extends LanguageSpecificTest {
         if (message.contains(" fordert ")) {
           origWord = "fordert";
           suggWord = "erfordert";
+        }
+        if (message.contains("auseinandergeschrieben")) {
+          origWord = "auseinandergeschrieben";
+          suggWord = "getrennt geschrieben";
+        }
+        if (message.contains("getrenntgeschrieben")) {
+          origWord = "getrenntgeschrieben";
+          suggWord = "getrennt geschrieben";
+        }
+        if (message.contains("Meinten sie")) {
+          origWord = "Meinten sie";
+          suggWord = "Meinten Sie";
+        }
+        if (message.contains("meinten sie")) {
+          origWord = "meinten sie";
+          suggWord = "meinten Sie";
         }
         if (origWord != null) {
           System.err.println("WARNING: Aus Gründen der Einheitlichkeit bitte '" + suggWord + "' nutzen statt '" + origWord + "' in der Regel " + patternRule.getFullId() + ", message: '" + message + "'");
@@ -153,7 +169,8 @@ public class GermanTest extends LanguageSpecificTest {
   private boolean lacksSwitzerlandSpelling(String pattern) {
     return pattern != null && pattern.contains("ß") 
       && !pattern.contains("(ß|ss)") 
-      && !containsSwitzerlandSpelling(pattern) 
+      && !pattern.contains("(ss|ß)")
+      && !containsSwitzerlandSpelling(pattern)
       && !allInBrackets('ß', pattern);
   }
 

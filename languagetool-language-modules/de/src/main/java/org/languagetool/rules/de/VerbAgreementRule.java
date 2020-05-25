@@ -67,6 +67,16 @@ public class VerbAgreementRule extends TextLevelRule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // "Da machte er auch vor dem eigenen Volk nicht halt."
+      new PatternTokenBuilder().token("machen").matchInflectedForms().setSkip(-1).build(),
+      token("halt")
+    ),
+    Arrays.asList(  // "Ich hoffe du auch."
+      posRegex("VER:.*"),
+      tokenRegex("du|ihr"),
+      token("auch")
+    ),
+    Arrays.asList(
       // "Für Sie mache ich eine Ausnahme."
       token("für"),
       token("Sie"),
@@ -191,6 +201,12 @@ public class VerbAgreementRule extends TextLevelRule {
      posRegex("VER:MOD:1:PLU:.+"),
      csToken("wir"),
      csToken("bitte")
+    ),
+    Arrays.asList( // Ohne sie hätte ich das nie geschafft.
+     token("ohne"),
+     token("sie"),
+     token("hätte"),
+     token("ich")
     )
   );
 

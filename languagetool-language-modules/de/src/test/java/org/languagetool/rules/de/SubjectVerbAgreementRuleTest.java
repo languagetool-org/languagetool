@@ -425,7 +425,7 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectSingularAndPluralVerb() throws IOException {
     // Manchmal sind beide Varianten korrekt:
-    // siehe http://www.canoonet.eu/services/OnlineGrammar/Wort/Verb/Numerus-Person/ProblemNum.html
+    // siehe https://dict.leo.org/grammatik/deutsch/Wort/Verb/Kategorien/Numerus-Person/ProblemNum.html
     List<String> sentences = Arrays.asList(
         "So mancher Mitarbeiter und manche Führungskraft ist im Urlaub.",
         "So mancher Mitarbeiter und manche Führungskraft sind im Urlaub.",

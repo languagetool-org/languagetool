@@ -32,6 +32,7 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
+import org.languagetool.tools.StringTools;
 
 /**
  * A rule that matches words Latin and Cyrillic characters in them
@@ -91,10 +92,22 @@ public class MixedAlphabetsRule extends Rule {
 
       // optimization: 1-letter tokens first
       if( i<tokens.length-1
-          && tokenString.equals("i")
-          && CYRILLIC_FIRST_LETTER.matcher(tokens[i+1].getToken()).matches() ) {
-        String msg = "Вжито латинську «і» замість кириличної";
+          && ( tokenString.matches("[iya]")
+            || (tokenString.equals("A") && i == 1) )
+          && CYRILLIC_FIRST_LETTER.matcher(tokens[i+1].getToken()).matches()
+          && Arrays.stream(tokens).noneMatch(t -> t.getToken().matches("[xbB]")) ) {    // filter out formulas
+        String msg = "Вжито латинську «"+tokenString+"» замість кириличної";
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, Arrays.asList(toCyrillic(tokenString)), msg, sentence);
+        ruleMatches.add(potentialRuleMatch);
+      }
+      else if ("І".equals(tokenString)
+          && ( i > 1 && StringTools.isCapitalizedWord(tokens[i-1].getToken())
+              || i < tokens.length -1 && "ст.".equals(tokens[i+1].getToken()) ) ) {
+        List<String> replacements = new ArrayList<>();
+        replacements.add( toLatin(tokenString) );
+
+        String msg = "Вжито кириличну літеру замість латинської";
+        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
         ruleMatches.add(potentialRuleMatch);
       }
       else if (COMMON_CYR_LETTERS.matcher(tokenString).matches()) {
@@ -114,6 +127,7 @@ public class MixedAlphabetsRule extends Rule {
 
       if( MIXED_ALPHABETS.matcher(tokenString).matches() ) {
 
+        String msg = "Вжито кириличні й латинські літери в одному слові";
         List<String> replacements = new ArrayList<>();
 
         if(!LATIN_ONLY.matcher(tokenString).matches() && ! LIKELY_LATIN_NUMBER.matcher(tokenString).matches()) {
@@ -123,12 +137,11 @@ public class MixedAlphabetsRule extends Rule {
           String converted = toLatinLeftOnly(tokenString);
           converted = adjustForInvalidSuffix(converted);
           replacements.add( converted );
+          msg = "Вжито кириличні літери замість латинських";
+          msg = adjustForInvalidSuffix(tokenString, msg);
         }
 
         if (replacements.size() > 0) {
-          String msg = "Вжито кириличні літери замість латинських на позначення римської цифри";
-          msg = adjustForInvalidSuffix(tokenString, msg);
-
           RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
           ruleMatches.add(potentialRuleMatch);
         }
@@ -147,7 +160,7 @@ public class MixedAlphabetsRule extends Rule {
       else if( tokenString.endsWith("°С") ) {  // cyrillic С
         List<String> replacements = new ArrayList<>();
         int length = tokenString.length();
-        replacements.add( tokenString.substring(0,  length-1) + toLatin(tokenString.substring(length-1, tokenString.length())) );
+        replacements.add( tokenString.substring(0,  length-1) + toLatin(tokenString.substring(length-1)) );
 
         String msg = "Вжито кириличну літеру замість латинської";
         RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, replacements, msg, sentence);
@@ -165,7 +178,7 @@ public class MixedAlphabetsRule extends Rule {
   }
 
   private String adjustForInvalidSuffix(String tokenString, String msg) {
-    if( tokenString.contains("-") ) {
+    if( tokenString.contains("-") && tokenString.matches("[IVXІХ]+-[а-яіїє]{1,4}") ) {
       msg += ". Також: до римських цифр букви не дописуються.";
     }
     return msg;

@@ -19,7 +19,9 @@
 package org.languagetool.openoffice;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -37,12 +39,16 @@ class ResultCache {
   private Map<Integer, CacheSentenceEntries> entries;
 
   ResultCache() {
-    entries = new HashMap<>();
+    this(null);
   }
 
   ResultCache(ResultCache cache) {
-    this.entries = new HashMap<>();
-    this.entries.putAll(cache.entries);
+    this.entries = Collections.synchronizedMap(new HashMap<>());
+    if(cache != null) {
+      synchronized(cache.entries) {
+        this.entries.putAll(cache.entries);
+      }
+    }
   }
 
   /**
@@ -81,18 +87,20 @@ class ResultCache {
     }
     
     Map<Integer, CacheSentenceEntries> tmpEntries = entries;
-    entries = new HashMap<>();
-    for(int i : tmpEntries.keySet()) {
-      if(i > lastParagraph) {
-        entries.put(i + shift, tmpEntries.get(i));
-      } else {
-        entries.put(i, tmpEntries.get(i));
-      } 
+    entries = Collections.synchronizedMap(new HashMap<>());
+    synchronized (tmpEntries) {
+      for(int i : tmpEntries.keySet()) {
+        if(i > lastParagraph) {
+          entries.put(i + shift, tmpEntries.get(i));
+        } else {
+          entries.put(i, tmpEntries.get(i));
+        } 
+      }
     }
   }
 
   /**
-   * add / replace an cache entry
+   * add / replace a cache entry
    */
   void put(int numberOfParagraph, int startOfSentencePosition, int nextSentencePosition, SingleProofreadingError[] errorArray) {
     CacheSentenceEntries sentenceEntries = entries.get(numberOfParagraph);
@@ -104,7 +112,7 @@ class ResultCache {
   }
 
   /**
-   *add / replace an cache entry for paragraph
+   * add / replace a cache entry for paragraph
    */
   void put(int numberOfParagraph, SingleProofreadingError[] errorArray) {
     entries.put(numberOfParagraph, new CacheSentenceEntries(0, 0, errorArray));
@@ -216,7 +224,7 @@ class ResultCache {
   }
 
   /**
-   * Compares paragraph cache with an other
+   * Compares a paragraph cache with another cache.
    * Gives back a list of entries for every paragraph: true if the both entries are identically
    */
   List<Integer> differenceInCaches(ResultCache oldCache) {
@@ -224,14 +232,17 @@ class ResultCache {
     CacheSentenceEntries oEntry;
     CacheSentenceEntries nEntry;
     boolean isDifferent = true;
-    for (int nPara : entries.keySet()) {
-      if(oldCache != null) {
-        nEntry = entries.get(nPara);
-        oEntry = oldCache.getEntryByParagraph(nPara);
-        isDifferent = areDifferentEntries(nEntry, oEntry);
-      }
-      if (isDifferent) {
-        differentParas.add(nPara);
+    synchronized(entries) {
+      Set<Integer> entrySet = new HashSet<>(entries.keySet());
+      for (int nPara : entrySet) {
+        if(oldCache != null) {
+          nEntry = entries.get(nPara);
+          oEntry = oldCache.getEntryByParagraph(nPara);
+          isDifferent = areDifferentEntries(nEntry, oEntry);
+        }
+        if (isDifferent) {
+          differentParas.add(nPara);
+        }
       }
     }
     return differentParas;
@@ -327,7 +338,7 @@ class ResultCache {
       return entry.nextSentencePosition;
     }
     
-    private class CacheEntry {
+    private static class CacheEntry {
       final int nextSentencePosition;
       final SingleProofreadingError[] errorArray;
 

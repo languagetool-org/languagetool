@@ -403,6 +403,10 @@ public class ConfigurationDialog implements ActionListener {
       versionText.setForeground(Color.blue);
       jPane.add(versionText, cons);
       cons.gridy++;
+      JLabel versionText1 = new JLabel(messages.getString("guiUColorHint1"));
+      versionText1.setForeground(Color.blue);
+      jPane.add(versionText1, cons);
+      cons.gridy++;
     }
 
     cons.weightx = 2.0f;
@@ -410,6 +414,19 @@ public class ConfigurationDialog implements ActionListener {
     cons.fill = GridBagConstraints.BOTH;
     
     jPane.add(new JScrollPane(getUnderlineColorPanel(rules)), cons);
+    
+    if(insideOffice) {
+      JCheckBox markSingleCharBold = new JCheckBox(Tools.getLabel(messages.getString("guiMarkSingleCharBold")));
+      markSingleCharBold.setSelected(config.markSingleCharBold());
+      markSingleCharBold.addItemListener(e -> config.setMarkSingleCharBold(markSingleCharBold.isSelected()));
+      JLabel dummyLabel = new JLabel(" ");
+      cons.weightx = 0.0f;
+      cons.weighty = 0.0f;
+      cons.gridx = 0;
+      cons.gridy++;
+      jPane.add(dummyLabel, cons);
+      jPane.add(markSingleCharBold, cons);
+    }
     
     Container contentPane = dialog.getContentPane();
     contentPane.setLayout(new GridBagLayout());
@@ -723,6 +740,7 @@ public class ConfigurationDialog implements ActionListener {
     portPanel.add(useRemoteServerBox, cons);
     cons.insets = new Insets(0, 30, 0, 0);
     JPanel serverPanel = new JPanel();
+    
     serverPanel.setLayout(new GridBagLayout());
     GridBagConstraints cons1 = new GridBagConstraints();
     cons1.insets = new Insets(0, 0, 0, 0);
@@ -734,6 +752,11 @@ public class ConfigurationDialog implements ActionListener {
     serverPanel.add(useServerBox, cons1);
     cons1.gridx++;
     serverPanel.add(otherServerNameField, cons1);
+    JLabel serverExampleLabel = new JLabel(" " + Tools.getLabel(messages.getString("guiUseServerExample")));
+    serverExampleLabel.enable(false);
+    cons1.gridy++;
+    serverPanel.add(serverExampleLabel, cons1);
+
     cons.gridx = 0;
     cons.gridy++;
     portPanel.add(serverPanel, cons);
@@ -957,7 +980,7 @@ public class ConfigurationDialog implements ActionListener {
     defaultButton.addActionListener(e -> {
       List<String> saveProfiles = new ArrayList<String>(); 
       saveProfiles.addAll(config.getDefinedProfiles());
-      String saveCurrent = config.getCurrentProfile() == null ? null : new String(config.getCurrentProfile());
+      String saveCurrent = config.getCurrentProfile() == null ? null : config.getCurrentProfile();
       config.initOptions();
       config.addProfiles(saveProfiles);
       config.setCurrentProfile(saveCurrent);
@@ -1173,8 +1196,8 @@ public class ConfigurationDialog implements ActionListener {
       motherTongues.add(NO_MOTHER_TONGUE);
     }
     for (Language lang : Languages.get()) {
-     motherTongues.add(lang.getTranslatedName(messages));
-     motherTongues.sort(null);
+      motherTongues.add(lang.getTranslatedName(messages));
+      motherTongues.sort(null);
     }
     return motherTongues.toArray(new String[motherTongues.size()]);
   }
@@ -1188,6 +1211,24 @@ public class ConfigurationDialog implements ActionListener {
       for(JPanel extra : extraPanels) {
         if(extra instanceof SavablePanel) {
           ((SavablePanel) extra).save();
+        }
+      }
+      if(insideOffice && config.doRemoteCheck() && config.useOtherServer()) {
+        String serverName = config.getServerUrl();
+        if(serverName == null || (!serverName.startsWith("http://") && !serverName.startsWith("https://"))
+            || serverName.endsWith("/") || serverName.endsWith("/v2")) {
+          JOptionPane.showMessageDialog(dialog, Tools.getLabel(messages.getString("guiUseServerWarning1")) + "\n" + Tools.getLabel(messages.getString("guiUseServerWarning2")));
+          if(serverName.endsWith("/")) {
+            serverName = serverName.substring(0, serverName.length() - 1);
+            config.setOtherServerUrl(serverName);
+          }
+          if(serverName.endsWith("/v2")) {
+            serverName = serverName.substring(0, serverName.length() - 3);
+            config.setOtherServerUrl(serverName);
+          }
+          restartShow = true;
+          dialog.setVisible(false);
+          return;
         }
       }
       configChanged = true;
@@ -1321,11 +1362,44 @@ public class ConfigurationDialog implements ActionListener {
     }
     return panel;
   }
-
-/*  Panel to choose underline Colors  
- *  @since 4.2
- */
   
+  private String[] getUnderlineTypes() {
+    String[] types = {
+      messages.getString("guiUTypeWave"),
+      messages.getString("guiUTypeBoldWave"),
+      messages.getString("guiUTypeBold"),
+      messages.getString("guiUTypeDash")};
+    return types;
+  }
+
+  private int getUnderlineType(String category) {
+    short nType = config.getUnderlineType(category);
+    if(nType == Configuration.UNDERLINE_BOLDWAVE) {
+      return 1;
+    } else if(nType == Configuration.UNDERLINE_BOLD) {
+      return 2;
+    } else if(nType == Configuration.UNDERLINE_DASH) {
+      return 3;
+    } else {
+      return 0;
+    }
+  }
+
+  private void setUnderlineType(int index, String category) {
+    if(index == 1) {
+      config.setUnderlineType(category, Configuration.UNDERLINE_BOLDWAVE);
+    } else if(index == 2) {
+      config.setUnderlineType(category, Configuration.UNDERLINE_BOLD);
+    } else if(index == 3) {
+      config.setUnderlineType(category, Configuration.UNDERLINE_DASH);
+    } else {
+      config.setDefaultUnderlineType(category);
+    }
+  }
+
+/**  Panel to choose underline Colors  
+ *   @since 4.2
+ */
   JPanel getUnderlineColorPanel(List<Rule> rules) {
     JPanel panel = new JPanel();
 
@@ -1355,6 +1429,7 @@ public class ConfigurationDialog implements ActionListener {
     List<JLabel> underlineLabel = new ArrayList<JLabel>();
     List<JButton> changeButton = new ArrayList<JButton>();
     List<JButton> defaultButton = new ArrayList<JButton>();
+    List<JComboBox<String>> underlineType  = new ArrayList<JComboBox<String>>();
     for(int nCat = 0; nCat < categories.size(); nCat++) {
       categorieLabel.add(new JLabel(categories.get(nCat) + " "));
       underlineLabel.add(new JLabel(" \u2588\u2588\u2588 "));  // \u2587 is smaller
@@ -1363,6 +1438,19 @@ public class ConfigurationDialog implements ActionListener {
       JLabel uLabel = underlineLabel.get(nCat);
       String cLabel = categories.get(nCat);
       panel.add(categorieLabel.get(nCat), cons);
+
+      underlineType.add(new JComboBox<String>(getUnderlineTypes()));
+      JComboBox<String> uLineType = underlineType.get(nCat);
+      if(insideOffice) {
+        uLineType.setSelectedIndex(getUnderlineType(cLabel));
+        uLineType.addItemListener(e -> {
+          if (e.getStateChange() == ItemEvent.SELECTED) {
+            setUnderlineType(uLineType.getSelectedIndex(), cLabel);
+          }
+        });
+        cons.gridx++;
+        panel.add(uLineType, cons);
+      }
       cons.gridx++;
       panel.add(underlineLabel.get(nCat), cons);
 
@@ -1382,12 +1470,17 @@ public class ConfigurationDialog implements ActionListener {
       defaultButton.get(nCat).addActionListener(e -> {
         config.setDefaultUnderlineColor(cLabel);
         uLabel.setForeground(config.getUnderlineColor(cLabel));
+        if(insideOffice) {
+          config.setDefaultUnderlineType(cLabel);
+          uLineType.setSelectedIndex(getUnderlineType(cLabel));
+        }
       });
       cons.gridx++;
       panel.add(defaultButton.get(nCat), cons);
       cons.gridx = 0;
       cons.gridy++;
     }
+    
     return panel;
   }
 

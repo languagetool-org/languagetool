@@ -131,7 +131,7 @@ public class BaseSynthesizer implements Synthesizer {
       String line = null;
       while ((line = f.readLine()) != null) {
         st.append(line);
-        st.append("\n");
+        st.append('\n');
       }
       s = new Soros(new String(st), langcode);
     } catch (Exception e) {
@@ -177,8 +177,7 @@ public class BaseSynthesizer implements Synthesizer {
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
     if (posTag.equals(SPELLNUMBER_TAG)) {
-      String[] strArray = new String[] {getSpelledNumber(token.getToken())};
-      return strArray;
+      return new String[] {getSpelledNumber(token.getToken())};
     }
     List<String> wordForms = new ArrayList<>();
     lookup(token.getLemma(), posTag, wordForms);

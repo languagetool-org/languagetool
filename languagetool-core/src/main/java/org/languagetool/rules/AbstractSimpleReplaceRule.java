@@ -18,11 +18,7 @@
  */
 package org.languagetool.rules;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.languagetool.AnalyzedSentence;
@@ -47,6 +43,18 @@ public abstract class AbstractSimpleReplaceRule extends Rule {
 
   protected static Map<String, List<String>> loadFromPath(String path) {
     return new SimpleReplaceDataLoader().loadWords(path);
+  }
+
+  /**
+   * @since 5.0
+   */
+  protected static Map<String, List<String>> loadFromPath(String... paths) {
+    SimpleReplaceDataLoader loader = new SimpleReplaceDataLoader();
+    Map<String, List<String>> map = new HashMap<>();
+    for (String path : paths) {
+      map.putAll(loader.loadWords(path));
+    }
+    return map;
   }
 
   /**

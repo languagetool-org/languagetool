@@ -19,6 +19,7 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
@@ -51,8 +52,8 @@ public class GermanyGerman extends German {
   }
 
   @Override
-  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, userConfig, motherTongue, altLanguages));
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, globalConfig, userConfig, motherTongue, altLanguages));
     rules.add(new GermanSpellerRule(messages, this,
       userConfig, null, altLanguages, languageModel));
     return rules;

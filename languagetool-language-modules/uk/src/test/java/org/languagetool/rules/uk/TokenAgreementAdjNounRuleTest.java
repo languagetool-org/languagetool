@@ -27,6 +27,7 @@ import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.languagetool.AnalyzedSentence;
 import org.languagetool.JLanguageTool;
 import org.languagetool.TestTools;
 import org.languagetool.language.Ukrainian;
@@ -93,8 +94,8 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, matches0.length);
     assertTrue("Message is wrong: " + matches0[0].getMessage(),
         matches0[0].getMessage().contains("[ч.р.: родовий, знахідний]"));
-    assertEquals(Arrays.asList("російських винищувачів", "російських винищувачах", "російського винищувача"), matches0[0].getSuggestedReplacements());
-    
+    assertEquals(Arrays.asList("російських винищувачів", "російського винищувача"), matches0[0].getSuggestedReplacements());
+
     // from real examples
     
     // і-и
@@ -166,6 +167,10 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, matches.length);
     assertTrue("Missing message for v_rod/v_dav -у/ю", matches[0].getMessage().contains("Можливо"));
 
+    matches = rule.match(langTool.getAnalyzedSentence("Та пахових ділянках"));
+    assertEquals(1, matches.length);
+    assertTrue("Missing message for v_mis", matches[0].getMessage().contains("Можливо"));
+
     // false v_rod with -а
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("федерального округа")).length);
 
@@ -222,15 +227,6 @@ public class TokenAgreementAdjNounRuleTest {
     // pron + adj:n:v_rod
     assertEmptyMatch("чогось схожого Європа");
     assertEmptyMatch("писав про щось подібне Юрій");
-    
-    // дріб
-    assertEmptyMatch("дві мільярдних метра");
-    assertEmptyMatch("п’ять шостих населення");
-
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("п'ять шості світу")).length);
-
-    assertEmptyMatch("1/8-ї фіналу");
-    assertEquals(1, rule.match(langTool.getAnalyzedSentence("1/8-ї фіналом")).length);
 
     assertEmptyMatch("з 11-ма годинами");
     assertEmptyMatch("вбивство 148-ми селян");
@@ -270,6 +266,9 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("Суд визнав неконституційними низку положень");
 
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("від наступних пари")).length);
+
+    assertEmptyMatch("Північний Рейн-Вестфалія");
+
   }
   
   @Test
@@ -298,8 +297,23 @@ public class TokenAgreementAdjNounRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("дві високих дівчині")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("83,7 квадратних кілометра")).length);
 
+    // дріб
+    assertEmptyMatch("дві мільярдних метра");
+    assertEmptyMatch("п’ять шостих населення");
+    assertEmptyMatch("чотирьох п’ятих прибутку");
 
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("п'ять шості світу")).length);
+
+    assertEmptyMatch("1/8-ї фіналу");
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("1/8-ї фіналом")).length);
+
+    assertEmptyMatch("В одній другій українка здолала");
+    assertEmptyMatch("поступився в одній восьмій французу");
+
+    assertEmptyMatch("дві других дівчини");
+    assertEquals(1, rule.match(langTool.getAnalyzedSentence("дві других дівчині")).length);
     
+
     // 1–3-й класи
     assertEmptyMatch("1–3-й класи поснідали й побігли");
     assertEmptyMatch("у 5–8-му класах");
@@ -379,6 +393,7 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("князівством Литовським подоляни");
     assertEmptyMatch("абзац перший частини другої");
     assertEmptyMatch("абзац другий частини першої");
+    assertEmptyMatch("частина четверта статті 53");
     
     // мати рівних
     assertEmptyMatch("яких не мала рівних українка");
@@ -744,12 +759,16 @@ public class TokenAgreementAdjNounRuleTest {
     assertEmptyMatch("ні у методологічному, ні у практичному аспектах.");
     assertEmptyMatch("Хоч в англомовній, хоч в україномовній версіях");
     
+    // problem with anim/inanim
+//    assertEmptyMatch("Хто любить їсти сирі рибу та м’ясо.");
+    
     // unknown words
     assertEmptyMatch("Большого та Маріїнського театрів");
     assertEmptyMatch("Пляжі 3, 4 і 5-ї категорій.");
 
     assertHasError("У львівській та київський Книгарнях");
-    assertHasError("повоєнні Австрія з Фінляндію");
+//    assertHasError("повоєнні Австрія з Фінляндію");
+    assertHasError("налякані Австрія з Фінляндію");
 //    assertEquals(1, rule.match(langTool.getAnalyzedSentence("«Старий паразите...» І кокетлива інтонації ведучої не замасковує зовсім невиправдану")).length);
 
     assertHasError("Судячи з січневих продаж, 2009-й може стати");
@@ -866,7 +885,8 @@ public class TokenAgreementAdjNounRuleTest {
 
   private void assertHasError(String text) {
     try {
-      assertEquals(1, rule.match(langTool.getAnalyzedSentence(text)).length);
+      AnalyzedSentence sent = langTool.getAnalyzedSentence(text);
+      assertEquals(1, rule.match(sent).length);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }

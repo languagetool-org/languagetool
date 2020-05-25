@@ -22,10 +22,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpServer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
 
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;

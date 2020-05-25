@@ -18,25 +18,26 @@
  */
 package org.languagetool.language;
 
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.Language;
-import org.languagetool.UserConfig;
+import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.de.SwissCompoundRule;
 import org.languagetool.rules.de.SwissGermanSpellerRule;
+import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.de.SwissGermanTagger;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 @SuppressWarnings("deprecation")
 public class SwissGerman extends German {
 
-  public SwissGerman() {
-    super.tagger = new SwissGermanTagger();
+  @NotNull
+  @Override
+  public Tagger createDefaultTagger() {
+    return new SwissGermanTagger();
   }
 
   @Override
@@ -57,8 +58,8 @@ public class SwissGerman extends German {
   }
 
   @Override
-  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, userConfig, motherTongue, altLanguages));
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, globalConfig, userConfig, motherTongue, altLanguages));
     rules.add(new SwissGermanSpellerRule(messages, this,
       userConfig, languageModel));
     return rules;

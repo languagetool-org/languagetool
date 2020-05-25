@@ -2,10 +2,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <prerequisites>
-    <maven>3.04</maven>
-  </prerequisites>
-    
   <parent>
     <groupId>org.sonatype.oss</groupId>
     <artifactId>oss-parent</artifactId>
@@ -21,11 +17,11 @@
 
   <groupId>org.languagetool</groupId>
   <artifactId>languagetool-parent</artifactId>
-  <version>4.9-SNAPSHOT</version>
+  <version>5.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <properties>
-      <languagetool.version>4.9-SNAPSHOT</languagetool.version>
+      <languagetool.version>5.0-SNAPSHOT</languagetool.version>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
       <maven.compiler.source>1.8</maven.compiler.source>
       <maven.compiler.target>1.8</maven.compiler.target>
@@ -34,7 +30,7 @@
       <maven.assemby.plugin>2.6</maven.assemby.plugin>
       <junit.version>4.12</junit.version>
       <morfologik.version>2.1.7</morfologik.version>
-      <jackson.version>2.9.10</jackson.version>
+      <jackson.version>2.10.2</jackson.version>
       <lucene.version>5.5.5</lucene.version>
   </properties>
   
@@ -56,13 +52,16 @@
                   <!-- see https://github.com/languagetool-org/languagetool/issues/1745 -->
                   <groupId>org.apache.maven.plugins</groupId>
                   <artifactId>maven-enforcer-plugin</artifactId>
-                  <version>3.0.0-M2</version>
+                  <version>3.0.0-M3</version>
                   <executions>
                       <execution>
                           <id>enforce</id>
                           <configuration>
                               <rules>
                                   <dependencyConvergence/>
+                                  <requireMavenVersion>
+                                      <version>[3.0,)</version>
+                                  </requireMavenVersion>
                               </rules>
                           </configuration>
                           <goals>

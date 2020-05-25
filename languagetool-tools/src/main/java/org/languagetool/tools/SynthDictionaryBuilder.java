@@ -36,6 +36,8 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
    */
   private static final String POLISH_IGNORE_REGEX = ":neg|qub|depr";
 
+  private static String tagsFilename; 
+  
   SynthDictionaryBuilder(File infoFile) throws IOException {
     super(infoFile);
   }
@@ -53,6 +55,8 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
     
     SynthDictionaryBuilder builder = new SynthDictionaryBuilder(infoFile);
     builder.setOutputFilename(cmdLine.getOptionValue(BuilderOptions.OUTPUT_OPTION));
+	
+    tagsFilename = cmdLine.getOptionValue(BuilderOptions.OUTPUT_OPTION) + "_tags.txt";
 
     builder.build(plainTextDictFile, infoFile);
   }
@@ -66,7 +70,7 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
       Set<String> itemsToBeIgnored = getIgnoreItems(new File(infoFile.getParent(), "filter-archaic.txt"));
       Pattern ignorePosRegex = getPosTagIgnoreRegex(infoFile);
       reversedFile = reverseLineContent(plainTextDictFile, itemsToBeIgnored, ignorePosRegex);
-      writePosTagsToFile(plainTextDictFile, getTagFile(tempFile));
+      writePosTagsToFile(plainTextDictFile, new File(tagsFilename));
       return buildDict(reversedFile);
     } finally {
       tempFile.delete();
@@ -110,10 +114,13 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
 
   private File reverseLineContent(File plainTextDictFile, Set<String> itemsToBeIgnored, Pattern ignorePosRegex) throws IOException {
     File reversedFile = File.createTempFile(SynthDictionaryBuilder.class.getSimpleName() + "_reversed", ".txt");
+    reversedFile.deleteOnExit();
+
     String separator = getOption("fsa.dict.separator");
     if (separator == null || separator.trim().isEmpty()) {
       throw new IOException("A separator character (fsa.dict.separator) must be defined in the dictionary info file.");
     }
+    
     String encoding = getOption("fsa.dict.encoding");
     int posIgnoreCount = 0;
     Scanner scanner = new Scanner(plainTextDictFile, encoding);
@@ -132,7 +139,7 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
             continue;
           }
           out.write(parts[0] + separator + parts[1] + "|" + posTag );
-          out.write("\n");
+          out.write('\n');
         } else {
           System.err.println("Invalid input, expected three tab-separated columns in " + plainTextDictFile + ": " + line + " => ignoring");
         }
@@ -143,11 +150,6 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
     return reversedFile;
   }
 
-  private File getTagFile(File tempFile) {
-    String name = tempFile.getAbsolutePath() + "_tags.txt";
-    return new File(name);
-  }
-
   private void writePosTagsToFile(File plainTextDictFile, File tagFile) throws IOException {
     Set<String> posTags = collectTags(plainTextDictFile);
     List<String> sortedTags = new ArrayList<>(posTags);
@@ -156,7 +158,7 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
     try (FileWriter out = new FileWriter(tagFile)) {
       for (String tag : sortedTags) {
         out.write(tag);
-        out.write("\n");
+        out.write('\n');
       }
     }
   }

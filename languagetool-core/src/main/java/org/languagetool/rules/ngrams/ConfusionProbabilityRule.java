@@ -18,15 +18,11 @@
  */
 package org.languagetool.rules.ngrams;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.google.common.cache.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.*;
+import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.tools.StringTools;
@@ -149,7 +145,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
           if (isEasilyConfused) {
             List<ConfusionString> pairs = uppercase ? confusionPair.getUppercaseFirstCharTerms() : confusionPair.getTerms();
             ConfusionString betterAlternative = getBetterAlternativeOrNull(tokens.get(pos), tokens, pairs, confusionPair.getFactor());
-            if (betterAlternative != null && !isException(text)) {
+            if (betterAlternative != null && !isException(text, googleToken.startPos, googleToken.endPos)) {
               if (!confusionPair.isBidirectional() && betterAlternative.getString().equals(pairs.get(0).getString())) {
                 // only direction A -> B is possible, i.e. if A is used incorrectly, B is suggested - not vice versa
                 continue;
@@ -165,8 +161,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
                 // "Resolves:" (-> "Resolved:")
                 continue;
               }
-              boolean skip = isLocalException(sentence, googleToken);
-              if (!skip) {
+              if (!isLocalException(sentence, googleToken)) {
                 RuleMatch match = new RuleMatch(this, sentence, googleToken.startPos, googleToken.endPos, message);
                 match.setSuggestedReplacements(suggestions);
                 matches.add(match);
@@ -217,7 +212,7 @@ public abstract class ConfusionProbabilityRule extends Rule {
   /**
    * Return true to prevent a match.
    */
-  protected boolean isException(String sentenceText) {
+  protected boolean isException(String sentenceText, int startPos, int endPos) {
     return false;
   }
 

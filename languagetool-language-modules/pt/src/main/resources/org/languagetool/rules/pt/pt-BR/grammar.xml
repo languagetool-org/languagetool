@@ -599,7 +599,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 				<marker>
 					<token>daqui</token>
 				</marker>
-				<token negate="yes">a</token>
+				<token negate="yes">a
+				  <exception regexp='yes'>\.|,</exception></token> <!-- MARCOAGPINTO 2020-05-19 -->
 			</pattern>
 			<message>O advérbio daqui é usado para indicar lugar ou tempo e pede a preposição a. Substitua «daqui» por <suggestion>daqui a</suggestion>.</message>
 			<example correction="daqui a">Farei o pagamento <marker>daqui</marker> 5 dias.</example>
@@ -941,4 +942,92 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
   </category>
 
+<category id="STYLE" name="Style" type="style">
+    <rulegroup id="EMAIL" name="E-mail (correio eletrônico)">
+      <rule>
+        <pattern>
+		  <token>e</token>
+		  <token spacebefore="no">-</token>
+          <token spacebefore="no">mail</token>
+        </pattern>
+        <message>'e-mail' é um estrangeirismo. É preferível dizer <suggestion>endereço eletrônico</suggestion> ou <suggestion>correio eletrônico</suggestion>.</message>
+        <url>https://pt.wikipedia.org/wiki/E-mail</url>
+        <example correction="endereço eletrônico|correio eletrônico">Padrões para codificação de mensagens de <marker>e-mail</marker> foram propostas em 1973 (RFC 561)</example>
+      </rule>
+      <rule>
+        <pattern>
+		  <token>e</token>
+		  <token spacebefore="no">-</token>
+          <token spacebefore="no">mails</token>
+        </pattern>
+        <message>'e-mails' é um estrangeirismo. É preferível dizer <suggestion>endereços eletrônicos</suggestion> ou <suggestion>correios eletrônicos</suggestion>.</message>
+        <url>https://pt.wikipedia.org/wiki/E-mail</url>
+        <example correction="endereços eletrônicos|correios eletrônicos">Em inglês americano, email é usado como um substantivo coletivo, mas, no inglês britânico, é mais comumente usado como um substantivo comum, com a forma plural <marker>e-mails</marker>.</example>
+      </rule>
+	  <rule>
+        <antipattern>
+          <token>e</token>
+          <token min="0">-</token>
+          <token>mail</token>
+        </antipattern>
+        <pattern>
+          <token>mail</token>
+        </pattern>
+        <message>'mail' é um estrangeirismo. É preferível dizer <suggestion>endereço eletrônico</suggestion> ou <suggestion>correio eletrônico</suggestion>.</message>
+        <example correction="endereço eletrônico|correio eletrônico">Padrões para codificação de mensagens de <marker>mail</marker> foram propostas em 1973 (RFC 561)</example>
+      </rule>
+      <rule>
+        <antipattern>
+          <token>e</token>
+          <token min="0">-</token>
+          <token>mails</token>
+        </antipattern>
+        <pattern>
+          <token>mails</token>
+        </pattern>
+        <message>'mails' é um estrangeirismo. É preferível dizer <suggestion>endereços eletrônicos</suggestion> ou <suggestion>correios eletrônicos</suggestion>.</message>
+        <example correction="endereços eletrônicos|correios eletrônicos">Em inglês americano, email é usado como um substantivo coletivo, mas, no inglês britânico, é mais comumente usado como um substantivo comum, com a forma plural <marker>mails</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+		  <token>e</token>
+		  <token spacebefore="no">-</token>
+          <token spacebefore="no">book</token>
+        </pattern>
+        <message>'e-book' é um estrangeirismo. É preferível dizer <suggestion>livro eletrônico</suggestion>.</message>
+        <url>https://pt.wikipedia.org/wiki/Livro_digital</url>
+        <example correction="livro eletrônico">O mais forte candidato a criador do <marker>e-book</marker> é Michael Stern Hart.</example>
+      </rule>
+      <rule>
+        <pattern>
+		  <token>e</token>
+		  <token spacebefore="no">-</token>
+          <token spacebefore="no">books</token>
+        </pattern>
+        <message>'e-books' é um estrangeirismo. É preferível dizer <suggestion>livros eletrônicos</suggestion>.</message>
+        <url>https://pt.wikipedia.org/wiki/Livro_digital</url>
+        <example correction="livros eletrônicos">Escritores e editores possuem uma grande variedade de formatos à disposição quando se trata de <marker>e-books</marker>, cada um com suas vantagens e desvantagens.</example>
+      </rule>
+      <rule>
+        <pattern>
+		  <token>e</token>
+		  <token spacebefore="no">-</token>
+          <token spacebefore="no">zine</token>
+        </pattern>
+        <message>'e-zine' é um estrangeirismo. É preferível dizer <suggestion>revista eletrônica</suggestion>.</message>
+        <url>https://pt.wikipedia.org/wiki/E-zine</url>
+        <example correction="Revista eletrônica"><marker>E-zine</marker> é um "fanzine eletrônica".</example>
+      </rule>
+      <rule>
+        <pattern>
+		  <token>e</token>
+		  <token spacebefore="no">-</token>
+          <token spacebefore="no">zines</token>
+        </pattern>
+        <message>'e-zines' é um estrangeirismo. É preferível dizer <suggestion>revistas eletrônicas</suggestion>.</message>
+        <url>https://pt.wikipedia.org/wiki/E-zine</url>
+        <example correction="revistas eletrônicas">Existem também <marker>e-zines</marker> comerciais, mais voltados para a venda de espaços publicitários do que para a produção de conteúdo.</example>
+      </rule>
+    </rulegroup>
+  </category>
 </rules>

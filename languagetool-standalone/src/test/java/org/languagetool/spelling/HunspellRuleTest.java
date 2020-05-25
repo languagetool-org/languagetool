@@ -38,7 +38,7 @@ public class HunspellRuleTest {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"), altLangs, null, null, null, null);
     List<RuleMatch> matches = lt.check("Der ROI ist schoon.");
     assertThat(matches.size(), is(1));
-    assertTrue(matches.get(0).getMessage().contains("Rechtschreibfehler"));
+    assertTrue(matches.get(0).getMessage().contains("Tippfehler"));
   }
   
 }

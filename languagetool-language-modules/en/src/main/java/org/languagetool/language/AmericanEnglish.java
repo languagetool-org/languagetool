@@ -20,6 +20,7 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.Nullable;
+import org.languagetool.GlobalConfig;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
@@ -56,32 +57,12 @@ public class AmericanEnglish extends English {
   }
 
   @Override
-  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, userConfig, motherTongue, altLanguages));
+  public List<Rule> getRelevantLanguageModelCapableRules(ResourceBundle messages, @Nullable LanguageModel languageModel, GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
+    List<Rule> rules = new ArrayList<>(super.getRelevantLanguageModelCapableRules(messages, languageModel, globalConfig, userConfig, motherTongue, altLanguages));
     if (SuggestionsChanges.isRunningExperiment("SymSpell") || SuggestionsChanges.isRunningExperiment("SymSpell+NewSuggestionsOrderer")) {
       rules.add(new SymSpellRule(messages, this, userConfig, altLanguages, languageModel));
     } else {
-      // A/B test of BERTSuggestionRanking for speller rule, added as remote rule; tests/command line etc. still need this one
-      if (!UserConfig.hasABTestsEnabled()) {
-        rules.add(new MorfologikAmericanSpellerRule(messages, this, userConfig, altLanguages, languageModel));
-      }
-    }
-    return rules;
-  }
-
-  @Override
-  public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs,
-                                           UserConfig userConfig, Language motherTongue, List<Language> altLanguages)
-    throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantRemoteRules(messageBundle, configs, userConfig, motherTongue, altLanguages));
-    RemoteRuleConfig bert = RemoteRuleConfig.getRelevantConfig(BERTSuggestionRanking.RULE_ID, configs);
-    if (UserConfig.hasABTestsEnabled()) {
-      Rule speller = new MorfologikAmericanSpellerRule(messageBundle, this, userConfig, altLanguages);
-      if (bert != null) {
-        rules.add(new BERTSuggestionRanking(speller, bert, userConfig));
-      } else { // not added above, add plain rule here
-        rules.add(speller);
-      }
+      rules.add(new MorfologikAmericanSpellerRule(messages, this, globalConfig, userConfig, altLanguages, languageModel, motherTongue));
     }
     return rules;
   }

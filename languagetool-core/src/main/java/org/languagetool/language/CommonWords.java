@@ -18,10 +18,9 @@
  */
 package org.languagetool.language;
 
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.Languages;
-import org.languagetool.databroker.ResourceDataBroker;
+import org.apache.commons.lang3.StringUtils;
+import org.languagetool.*;
+import org.languagetool.broker.ResourceDataBroker;
 
 import java.io.*;
 import java.util.*;
@@ -77,7 +76,9 @@ public class CommonWords {
                   l.add(lang);
                   word2langs.put(key, l);
                 } else {
-                  languages.add(lang);
+                  if (!languages.contains(lang)) {
+                    languages.add(lang);
+                  }
                 }
               }
             }
@@ -93,13 +94,13 @@ public class CommonWords {
 
   public Map<Language, Integer> getKnownWordsPerLanguage(String text) {
     Map<Language,Integer> result = new HashMap<>();
-    if (!text.endsWith(" ")) {
+    if (!text.endsWith(" ") && StringUtils.countMatches(text, " ") > 0) {
       // last word might not be finished yet, so ignore
       text = text.replaceFirst("\\p{L}+$", "");
     }
     // Proper per-language tokenizing might help, but then the common_words.txt
     // will also need to be tokenized the same way. Also, this is quite fast.
-    String[] words = text.split("[(),.:;!?„“\"¡¿\\s-]");
+    String[] words = text.split("[(),.:;!?„“\"¡¿\\s\\[\\]{}-]");
     for (String word : words) {
       if (numberPattern.matcher(word).matches()) {
         continue;

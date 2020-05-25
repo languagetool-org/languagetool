@@ -21,6 +21,7 @@ package org.languagetool.commandline;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
 import org.languagetool.bitext.BitextReader;
 import org.languagetool.bitext.StringPair;
 import org.languagetool.rules.Rule;
@@ -42,6 +43,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.stream.Collectors;
 
 /**
  * @since 2.3
@@ -69,17 +71,17 @@ public final class CommandLineTools {
   }
 
   public static int checkText(String contents, JLanguageTool lt) throws IOException {
-    return checkText(contents, lt, false, false, -1, 0, 0, StringTools.ApiPrintMode.NORMAL_API, false, Collections.<String>emptyList());
+    return checkText(contents, lt, false, false, -1, 0, 0, StringTools.ApiPrintMode.NORMAL_API, false, Collections.emptyList());
   }
 
   public static int checkText(String contents, JLanguageTool lt,
                               boolean isXmlFormat, boolean isJsonFormat, int lineOffset) throws IOException {
-    return checkText(contents, lt, isXmlFormat, isJsonFormat, -1, lineOffset, 0, StringTools.ApiPrintMode.NORMAL_API, false, Collections.<String>emptyList());
+    return checkText(contents, lt, isXmlFormat, isJsonFormat, -1, lineOffset, 0, StringTools.ApiPrintMode.NORMAL_API, false, Collections.emptyList());
   }
   
   public static int checkText(String contents, JLanguageTool lt,
           boolean isXmlFormat, boolean isJsonFormat, int lineOffset, boolean listUnknownWords) throws IOException {
-    return checkText(contents, lt, isXmlFormat, isJsonFormat, -1, lineOffset, 0, StringTools.ApiPrintMode.NORMAL_API, listUnknownWords, Collections.<String>emptyList());
+    return checkText(contents, lt, isXmlFormat, isJsonFormat, -1, lineOffset, 0, StringTools.ApiPrintMode.NORMAL_API, listUnknownWords, Collections.emptyList());
 }
 
   /**
@@ -269,34 +271,77 @@ public final class CommandLineTools {
    */
   public static void profileRulesOnText(String contents,
                                         JLanguageTool lt) throws IOException {
-    long[] workTime = new long[10];
+    int iterationCount = 3;
+    long[] workTime = new long[iterationCount];
     List<Rule> rules = lt.getAllActiveRules();
     int ruleCount = rules.size();
-    System.out.printf("Testing %d rules%n", ruleCount);
-    System.out.println("Rule ID\tTime\tSentences\tMatches\tSentences per sec.");
+
     List<String> sentences = lt.sentenceTokenize(contents);
+
+    long analyzeStartTime = System.currentTimeMillis();
+    List<AnalyzedSentence> rawAnalyzedSentences = new ArrayList<>();
+    for(String sentence: sentences) {
+      rawAnalyzedSentences.add(lt.getRawAnalyzedSentence(sentence));
+    }
+
+    long tagEndTime = System.currentTimeMillis();
+
+    long analyzeEndTime = tagEndTime;
+    long analyzeTime = analyzeEndTime-analyzeStartTime;
+    System.out.printf("Analyze time: %d ms, %.1f sent/sec\n\n", analyzeTime, (float)sentences.size()/analyzeTime);
+
+    Language language = lt.getLanguage();
+    
+    //TODO: it would be nice to have timing for each disambiguation rule too
+    List<AnalyzedSentence> analyzedSentences = rawAnalyzedSentences.stream().map( s -> 
+    {
+      try {
+        AnalyzedSentence disambig = language.getDisambiguator().disambiguate(s);
+        AnalyzedSentence analyzedSentence = new AnalyzedSentence(disambig.getTokens(), s.getTokens());
+        if (language.getPostDisambiguationChunker() != null) {
+          language.getPostDisambiguationChunker().addChunkTags(Arrays.asList(analyzedSentence.getTokens()));
+        }
+        return analyzedSentence;
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    ).collect(Collectors.toList());
+
+    long disambigEndTime = System.currentTimeMillis();
+    long disambigTime = disambigEndTime-tagEndTime;
+    System.out.printf("Disambig time: %d ms, %f sent/sec\n\n", disambigTime, (float)sentences.size()/disambigTime);
+
+    System.out.printf("Testing %d rules%n", ruleCount);
+    System.out.printf("%-40s%10s%10s%10s%15s\n", "Rule ID", "Time", "Sentences", "Matches", "Sentences per sec.");
+    
+    
     for (Rule rule : rules) {
       if (rule instanceof TextLevelRule) {
         continue; // profile rules for sentences only
       }
+
       int matchCount = 0;
-      for (int k = 0; k < 10; k++) {
+      for (int k = 0; k < iterationCount; k++) {
         long startTime = System.currentTimeMillis();
-        for (String sentence : sentences) {
+        for (AnalyzedSentence sentence : analyzedSentences) {
           matchCount += rule.match
-                  (lt.getAnalyzedSentence(sentence)).length;
+                  (sentence).length;
         }
-        long endTime = System.currentTimeMillis();
+        long endTime =  System.currentTimeMillis();
         workTime[k] = endTime - startTime;
       }
+
       long time = median(workTime);
       float timeInSeconds = time / 1000.0f;
       float sentencesPerSecond = sentences.size() / timeInSeconds;
       System.out.printf(Locale.ENGLISH,
-              "%s\t%d\t%d\t%d\t%.1f", rule.getId(),
+              "%-40s%10d%10d%10d%15.1f\n", rule.getId(),
               time, sentences.size(), matchCount, sentencesPerSecond);
-      System.out.println();
     }
+    
+    long ruleEndTime =  System.currentTimeMillis();
+    System.out.printf("\nTotal rule time: %d ms\n", (ruleEndTime - disambigEndTime)/iterationCount);
   }
 
   private static long median(long[] m) {

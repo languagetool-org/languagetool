@@ -73,21 +73,9 @@ public class SentenceSourceChecker {
     int maxArticles = Integer.parseInt(commandLine.getOptionValue("max-sentences", "0"));
     int maxErrors = Integer.parseInt(commandLine.getOptionValue("max-errors", "0"));
     int contextSize = Integer.parseInt(commandLine.getOptionValue("context-size", "50"));
-    String[] ruleIds = commandLine.hasOption('r') ? commandLine.getOptionValue('r').split(",") : null;
-    String[] categoryIds = commandLine.hasOption("also-enable-categories") ?
-                           commandLine.getOptionValue("also-enable-categories").split(",") : null;
-    String[] fileNames = commandLine.getOptionValues('f');
-    File languageModelDir = commandLine.hasOption("languagemodel") ?
-                            new File(commandLine.getOptionValue("languagemodel")) : null;
-    File word2vecModelDir = commandLine.hasOption("word2vecmodel") ?
-            new File(commandLine.getOptionValue("word2vecmodel")) : null;
-    File neuralNetworkModelDir = commandLine.hasOption("neuralnetworkmodel") ?
-      new File(commandLine.getOptionValue("neuralnetworkmodel")) : null;
-    File remoteRules = commandLine.hasOption("remoterules") ?
-      new File(commandLine.getOptionValue("remoterules")) : null;
-    Pattern filter = commandLine.hasOption("filter") ? Pattern.compile(commandLine.getOptionValue("filter")) : null;
-    prg.run(propFile, disabledRuleIds, languageCode, Arrays.asList(fileNames), ruleIds, categoryIds, maxArticles,
-      maxErrors, contextSize, languageModelDir, word2vecModelDir, neuralNetworkModelDir, remoteRules, filter);
+    prg.run(propFile, disabledRuleIds, languageCode, maxArticles,
+      maxErrors, contextSize,
+      commandLine);
   }
 
   private static void addDisabledRules(String languageCode, Set<String> disabledRuleIds, Properties disabledRules) {
@@ -101,48 +89,41 @@ public class SentenceSourceChecker {
   private static CommandLine ensureCorrectUsageOrExit(String[] args) {
     Options options = new Options();
     options.addOption(Option.builder("l").longOpt("language").argName("code").hasArg()
-            .desc("language code like 'en' or 'de'")
-            .required().build());
+            .desc("language code like 'en' or 'de'").required().build());
     options.addOption(Option.builder("d").longOpt("db-properties").argName("file").hasArg()
             .desc("A file to set database access properties. If not set, the output will be written to STDOUT. " +
-                    "The file needs to set the properties dbUrl ('jdbc:...'), dbUser, and dbPassword. " +
-                    "It can optionally define the batchSize for insert statements, which defaults to 1.")
-            .build());
+                  "The file needs to set the properties dbUrl ('jdbc:...'), dbUser, and dbPassword. " +
+                  "It can optionally define the batchSize for insert statements, which defaults to 1.").build());
     options.addOption(Option.builder().longOpt("rule-properties").argName("file").hasArg()
-            .desc("A file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4)")
-            .build());
+            .desc("A file to set rules which should be disabled per language (e.g. en=RULE1,RULE2 or all=RULE3,RULE4)").build());
     options.addOption(Option.builder("r").longOpt("rule-ids").argName("id").hasArg()
-            .desc("comma-separated list of rule-ids to activate")
-            .build());
+            .desc("comma-separated list of rule-ids to activate").build());
     options.addOption(Option.builder().longOpt("also-enable-categories").argName("categories").hasArg()
-            .desc("comma-separated list of categories to activate, additionally to rules activated anyway")
-            .build());
+            .desc("comma-separated list of categories to activate, additionally to rules activated anyway").build());
     options.addOption(Option.builder("f").longOpt("file").argName("file").hasArg()
             .desc("an unpacked Wikipedia XML dump; (must be named *.xml, dumps are available from http://dumps.wikimedia.org/backup-index.html) " +
-                    "or a Tatoeba CSV file filtered to contain only one language (must be named tatoeba-*). You can specify this option more than once.")
-            .required()
-            .build());
+                  "or a Tatoeba CSV file filtered to contain only one language (must be named tatoeba-*). You can specify this option more than once.")
+            .required().build());
     options.addOption(Option.builder().longOpt("max-sentences").argName("number").hasArg()
-            .desc("maximum number of sentences to check")
-            .build());
+            .desc("maximum number of sentences to check").build());
     options.addOption(Option.builder().longOpt("max-errors").argName("number").hasArg()
-            .desc("maximum number of errors, stop when finding more")
-            .build());
+            .desc("maximum number of errors, stop when finding more").build());
     options.addOption(Option.builder().longOpt("context-size").argName("number").hasArg()
-            .desc("context size per error, in characters")
-            .build());
+            .desc("context size per error, in characters").build());
     options.addOption(Option.builder().longOpt("languagemodel").argName("indexDir").hasArg()
-            .desc("directory with a '3grams' sub directory that contains an ngram index")
-            .build());
+            .desc("directory with a '3grams' sub directory that contains an ngram index").build());
     options.addOption(Option.builder().longOpt("neuralnetworkmodel").argName("baseDir").hasArg()
-            .desc("base directory for saved neural network models")
-            .build());
+            .desc("base directory for saved neural network models").build());
     options.addOption(Option.builder().longOpt("remoterules").argName("configFile").hasArg()
-      .desc("JSON file with configuration of remote rules")
-      .build());
+            .desc("JSON file with configuration of remote rules").build());
     options.addOption(Option.builder().longOpt("filter").argName("regex").hasArg()
-            .desc("Consider only sentences that contain this regular expression (for speed up)")
-            .build());
+            .desc("Consider only sentences that contain this regular expression (for speed up)").build());
+    options.addOption(Option.builder().longOpt("spelling")
+            .desc("Don't skip spell checking rules").build());
+    options.addOption(Option.builder().longOpt("rulesource").hasArg()
+            .desc("Activate only rules from this XML file (e.g. 'grammar.xml')").build());
+    options.addOption(Option.builder().longOpt("skip").hasArg()
+            .desc("Skip this many sentences from input before actually checking sentences").build());
     try {
       CommandLineParser parser = new DefaultParser();
       return parser.parse(options, args);
@@ -157,10 +138,20 @@ public class SentenceSourceChecker {
     throw new IllegalStateException();
   }
 
-  private void run(File propFile, Set<String> disabledRules, String langCode, List<String> fileNames, String[] ruleIds,
-                   String[] additionalCategoryIds, int maxSentences, int maxErrors, int contextSize,
-                   File languageModelDir, File word2vecModelDir, File neuralNetworkModelDir, File remoteRules, Pattern filter) throws IOException {
+  private void run(File propFile, Set<String> disabledRules, String langCode,
+                   int maxSentences, int maxErrors, int contextSize,
+                   CommandLine options) throws IOException {
     long startTime = System.currentTimeMillis();
+    String[] ruleIds = options.hasOption('r') ? options.getOptionValue('r').split(",") : null;
+    String[] additionalCategoryIds = options.hasOption("also-enable-categories") ? options.getOptionValue("also-enable-categories").split(",") : null;
+    String[] fileNames = options.getOptionValues('f');
+    File languageModelDir = options.hasOption("languagemodel") ? new File(options.getOptionValue("languagemodel")) : null;
+    File word2vecModelDir = options.hasOption("word2vecmodel") ? new File(options.getOptionValue("word2vecmodel")) : null;
+    File neuralNetworkModelDir = options.hasOption("neuralnetworkmodel") ? new File(options.getOptionValue("neuralnetworkmodel")) : null;
+    File remoteRules = options.hasOption("remoterules") ? new File(options.getOptionValue("remoterules")) : null;
+    Pattern filter = options.hasOption("filter") ? Pattern.compile(options.getOptionValue("filter")) : null;
+    String ruleSource = options.hasOption("rulesource") ? options.getOptionValue("rulesource") : null;
+    int sentencesToSkip = options.hasOption("skip") ? Integer.parseInt(options.getOptionValue("skip")) : 0;
     Language lang = Languages.getLanguageForShortCode(langCode);
     MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang);
     lt.setCleanOverlappingMatches(false);
@@ -173,45 +164,79 @@ public class SentenceSourceChecker {
     if (neuralNetworkModelDir != null) {
       lt.activateNeuralNetworkRules(neuralNetworkModelDir);
     }
+    int activatedBySource = 0;
     for (Rule rule : lt.getAllRules()) {
       if (rule.isDefaultTempOff()) {
-        if (rule instanceof AbstractPatternRule) {
-          System.out.println("Activating " + ((AbstractPatternRule) rule).getFullId() + ", which is default='temp_off'");
-        } else {
-          System.out.println("Activating " + rule.getId() + ", which is default='temp_off'");
-        }
+        System.out.println("Activating " + rule.getFullId() + ", which is default='temp_off'");
         lt.enableRule(rule.getId());
+      }
+      if (ruleSource != null) {
+        boolean enable = false;
+        if (rule instanceof AbstractPatternRule) {
+          String sourceFile = ((AbstractPatternRule) rule).getSourceFile();
+          if (sourceFile != null && sourceFile.endsWith("/" + ruleSource) && !rule.isDefaultOff()) {
+            enable = true;
+            activatedBySource++;
+          }
+        }
+        if (enable) {
+          lt.enableRule(rule.getId());
+        } else {
+          lt.disableRule(rule.getId());
+        }
       }
     }
     lt.activateRemoteRules(remoteRules);
-    if (ruleIds != null) {
-      enableOnlySpecifiedRules(ruleIds, lt);
+    if (ruleSource == null) {
+      if (ruleIds != null) {
+        enableOnlySpecifiedRules(ruleIds, lt);
+      } else {
+        applyRuleDeactivation(lt, disabledRules);
+      }
     } else {
-      applyRuleDeactivation(lt, disabledRules);
+      System.out.println("Activated " + activatedBySource + " rules from " + ruleSource);
     }
     if (filter != null) {
       System.out.println("*** NOTE: only sentences that match regular expression '" + filter + "' will be checked");
     }
     activateAdditionalCategories(additionalCategoryIds, lt);
-    disableSpellingRules(lt);
+    if (options.hasOption("spelling")) {
+      System.out.println("Spelling rules active: yes (only if you're using a language code like en-US which comes with spelling)");
+    } else if (ruleIds == null) {
+      disableSpellingRules(lt);
+      System.out.println("Spelling rules active: no");
+    }
     System.out.println("Working on: " + StringUtils.join(fileNames, ", "));
     System.out.println("Sentence limit: " + (maxSentences > 0 ? maxSentences : "no limit"));
     System.out.println("Context size: " + contextSize);
     System.out.println("Error limit: " + (maxErrors > 0 ? maxErrors : "no limit"));
+    System.out.println("Skip: " + sentencesToSkip);
     //System.out.println("Version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
 
     ResultHandler resultHandler = null;
     int ruleMatchCount = 0;
     int sentenceCount = 0;
+    int skipCount = 0;
+    boolean skipMessageShown = false;
     try {
       if (propFile != null) {
         resultHandler = new DatabaseHandler(propFile, maxSentences, maxErrors);
       } else {
         resultHandler = new StdoutHandler(maxSentences, maxErrors, contextSize);
       }
-      MixingSentenceSource mixingSource = MixingSentenceSource.create(fileNames, lang, filter);
+      MixingSentenceSource mixingSource = MixingSentenceSource.create(Arrays.asList(fileNames), lang, filter);
       while (mixingSource.hasNext()) {
         Sentence sentence = mixingSource.next();
+        if (sentencesToSkip > 0 && skipCount < sentencesToSkip) {
+          if (skipCount % 5000 == 0) {
+            System.err.printf("%s sentences skipped...\n", NumberFormat.getNumberInstance(Locale.US).format(skipCount));
+          }
+          skipCount++;
+          continue;
+        } else if (sentencesToSkip > 0 && !skipMessageShown) {
+          System.err.println("Done skipping " + sentencesToSkip + " sentences.");
+          skipMessageShown = true;
+        }
         try {
           List<RuleMatch> matches = lt.check(sentence.getText());
           resultHandler.handleResult(sentence, matches, lang);
@@ -234,7 +259,7 @@ public class SentenceSourceChecker {
         float matchesPerSentence = (float)ruleMatchCount / sentenceCount;
         System.out.printf(lang + ": %d total matches\n", ruleMatchCount);
         System.out.printf(Locale.ENGLISH, lang + ": ø%.2f rule matches per sentence\n", matchesPerSentence);
-        long runTimeMillis = System.currentTimeMillis() - startTime;
+        //long runTimeMillis = System.currentTimeMillis() - startTime;
         //System.out.printf(Locale.ENGLISH, lang + ": Time: %.2f minutes\n", runTimeMillis/1000.0/60.0);
         try {
           resultHandler.close();
@@ -300,7 +325,6 @@ public class SentenceSourceChecker {
         lt.disableRule(rule.getId());
       }
     }
-    System.out.println("All spelling rules are disabled");
   }
 
 }

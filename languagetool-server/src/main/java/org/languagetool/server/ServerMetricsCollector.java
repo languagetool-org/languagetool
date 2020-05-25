@@ -22,9 +22,8 @@ import com.google.common.cache.Cache;
 import io.prometheus.client.Counter;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.Histogram;
-import io.prometheus.client.Summary;
-import io.prometheus.client.guava.cache.CacheMetricsCollector;
 import io.prometheus.client.exporter.HTTPServer;
+import io.prometheus.client.guava.cache.CacheMetricsCollector;
 import io.prometheus.client.hotspot.DefaultExports;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +31,10 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class ServerMetricsCollector {
 
@@ -46,12 +48,12 @@ public class ServerMetricsCollector {
     INVALID_REQUEST
   }
 
-  private static final double[] LATENCY_BUCKETS = new double[] {
+  private static final double[] LATENCY_BUCKETS = {
     .025, .05, .075, .1, .125, .15, .175, .2, .25, .3, .35, .4, .45, .5, .75, 1.,
     1.25, 1.5, 1.75, 2., 2.5, 3., 4., 5., 7.5, 10., 15.
   };
 
-  private static final double[] SIZE_BUCKETS = new double[] {
+  private static final double[] SIZE_BUCKETS = {
     25, 50, 100, 150, 200, 250, 300, 400, 500, 750, 1000, 2500, 5000, 7500, 10000, 15000, 20000, 30000, 40000
   };
 

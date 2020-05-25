@@ -18,20 +18,16 @@
  */
 package org.languagetool.tools;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.regex.Pattern;
-
+import com.google.common.xml.XmlEscapers;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 
-import com.google.common.xml.XmlEscapers;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * Tools for working with strings.
@@ -229,6 +225,16 @@ public final class StringTools {
    */
   @Nullable
   public static String lowercaseFirstChar(String str) {
+    return changeFirstCharCase(str, false);
+  }
+
+  /**
+   * Return <code>str</code> if str is capitalized {@link #isCapitalizedWord(String)},
+   * otherwise return modified <code>str</code> so that its first character
+   * is now a lowercase character.
+   */
+  public static String lowercaseFirstCharIfCapitalized(String str) {
+    if (!isCapitalizedWord(str)) return str;
     return changeFirstCharCase(str, false);
   }
 
@@ -468,6 +474,15 @@ public final class StringTools {
       s = XML_PATTERN.matcher(s).replaceAll("");
     }
     return s;
+  }
+  
+  public static boolean hasDiacritics(String str) {
+    return !str.equals(removeDiacritics(str));
+  }
+  
+  public static String removeDiacritics(String str) {
+    String s = Normalizer.normalize(str, Normalizer.Form.NFD);
+    return s.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
   }
 
   @Nullable

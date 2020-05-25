@@ -92,9 +92,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </token>
         </pattern>
         <message>За правописом 2019 «пів» з іменниками пишемо окремо, якщо це слово не становить єдине поняття</message>
-        <suggestion><match no="1" regexp_match="(пів)['–-]?([а-яіїєґА-ЯІЇЄҐ].*)" regexp_replace="$1 $2" /></suggestion>
+        <suggestion><match no="1" regexp_match="([пП]ів)['–-]?([а-яіїєґА-ЯІЇЄҐ].*)" regexp_replace="$1 $2" /></suggestion>
         <example correction="пів яблука">з'їв <marker>пів'яблука</marker>.</example>
-        <example correction="пів ящика">з'їв <marker>пів'ящика</marker>.</example>
+        <example correction="Пів ящика">з'їв <marker>Пів'ящика</marker>.</example>
         <example correction="пів України">з'їв <marker>пів-України</marker>.</example>
         <example correction="пів Європи">з'їв <marker>пів'Європи</marker>.</example>
         <example>пів'ют</example>
@@ -124,7 +124,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">[»"”“]</token>
         </antipattern>
         <pattern>
-          <token regexp="yes">(авіа|авто|агро|анти|аудіо|біо|вело|відео|водо|газо|геліо|гео|гідро|гіпер|давньо|древньо|екзо|екстра|електро|зоо|ізо|квазі|кіно|космо|контр|лже|макро|мета|метео|мікро|мілі|моно|мото|мульти|нео|псевдо|пост|радіо|рентгено|стерео|супер|теле|транс|турбо|ультра|фоно|фото)[-–][а-яіїєґ][^-]{2,}
+          <!-- to speed up slow rule: these don't happen often: геліо|гідро|космо|метео|мілі|палео|рентгено|стерео|фоно  -->
+          <token regexp="yes">(авіа|авто|агро|анти|аудіо|біо|вело|відео|водо|газо|гео|гіпер|давньо|екзо|еко|екстра|електро|етно|загально|зоо|ізо|квазі|кіно|контр|лже|макро|мета|мікро|моно|мото|мульти|нео|пост|псевдо|радіо|соціо|супер|теле|транс|турбо|ультра|фото)[-–][а-яіїєґ][^-]{2,}
             <exception inflected="yes" regexp="yes">аудіо-відео|геліо-кадмієвий|водо-водяний|супер-пупер.*|водо-водо.*</exception>
             <!-- will be handled by 2019 spelling rule -->
             <exception regexp="yes">контр[-–]адмір.*</exception>
@@ -137,7 +138,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example correction="мультивалютний"><marker>мульти-валютний</marker> обмін.</example>
         <example correction="ультрагіркий">У цього овоча <marker>ультра-гіркий</marker> присмак.</example>
         <example correction="Квазісмішний"><marker>Квазі-смішний</marker> жарт.</example>
+        <!-- 
         <example correction="гідроаеропорт"><marker>гідро-аеропорт</marker>.</example>
+         -->
+        <example correction="екопоселення"><marker>еко-поселення</marker></example>
         <example>анти-Забужко</example>
         <example>мета-2013</example>
         <example>контр-адмірал</example>
@@ -173,21 +177,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>супер Нова</example>
         <!-- handled by rule above -->
         <example>екс капітан</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token case_sensitive="yes" regexp="yes">еко-[а-яіїєґ].+
-            <exception postag_regexp="yes" postag="adj.*"/>
-          </token>
-        </pattern>
-        <message>Пишеться разом <suggestion><match no="1" regexp_match="(.*)[-–](.*)" regexp_replace="$1$2"/></suggestion></message>
-        <url>http://www.pravopys.net/#search=25-33</url>
-        <short>Правильно писати разом</short>
-        <example correction="екопоселення"><marker>еко-поселення</marker></example>
-        <!--
-        <example>еко-соціальний</example>
-        -->
       </rule>
 
       <rule>
@@ -286,7 +275,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <rule>
         <pattern>
           <token postag_regexp="yes" postag=".*:alt.*">
-            <exception negate_pos="yes" postag_regexp="yes" postag=".*:alt.*|SENT_END" />
+            <exception negate_pos="yes" postag_regexp="yes" postag=".*:alt.*|SENT_END|PARA_END" />
           </token>
         </pattern>
         <message>Слово, написане не за чинним правописом</message>
@@ -295,6 +284,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>проекту</example>
         <example>проєкту</example>
         <example correction=""><marker>ґра́нтовий</marker></example>
+        <!-- TODO: fix core
+        <example correction=""><marker>ґра́нтовий</marker>.</example>
+        -->
         <example>хоче прорости</example>
         <example>проекту</example>
       </rule>
@@ -307,7 +299,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </antipattern>
       <pattern>
         <token postag_regexp="yes" postag="verb.*?subst.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?subst.*|SENT_END"/>
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?subst.*|SENT_END|PARA_END"/>
         </token>
       </pattern>
       <message>Форми теп. і майб. ч. на -м(ся) є просторічними. Нормативними є форми на -мо: <suggestion><match no="1" regexp_match="^(.*?)(ся)?$" regexp_replace="$1о$2"/></suggestion></message>
@@ -465,6 +457,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>20 ОС</example>
     </rule>
 
+    <rulegroup id="top_with_num_2019" name="Топ- з числівниками">
+      <url>https://r2u.org.ua/check/rules/top_with_num_2019</url>
+      <rule>
+        <pattern>
+          <token regexp="yes">топ-[0-9]+</token>
+        </pattern>
+        <message>За правописом 2019 компонент топ- із числівниками не поєднуваний</message>
+        <suggestion><match no="1" regexp_match="(топ)-([0-9]+)" regexp_replace="найкращі $2"/></suggestion>
+        <suggestion><match no="1" regexp_match="(топ)-([0-9]+)" regexp_replace="найбільші $2"/></suggestion>
+        <example correction="найкращі 100|найбільші 100"><marker>топ-100</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token postag_regexp="yes" postag="numr:.*:bad" regexp="yes">топ-.*</token>
+        </pattern>
+        <message>За правописом 2019 компонент топ- із числівниками не поєднуваний</message>
+        <suggestion><match no="1" regexp_match="(топ)-(.*)" regexp_replace="найкращі $2"/></suggestion>
+        <suggestion><match no="1" regexp_match="(топ)-(.*)" regexp_replace="найбільші $2"/></suggestion>
+        <example correction="найкращі десять|найбільші десять"><marker>топ-десять</marker>.</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="ABBREVIATIONS_WRONG_DOT" name="Скорочення - зайва крапка">
       <!-- TODO: c - секунда, c. - село/сторінка; м — метр, м. — місто; т - тонна, т. - точка -->
       <url>http://www.library.ukma.edu.ua/fileadmin/documents/Bibliography/26_DCTU3582-97.pdf</url>
@@ -476,7 +491,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </antipattern>
         <pattern>
           <token case_sensitive="yes" regexp="yes">[мк]?г|мкг|грн|год|крб|м?л|млн|млрд|[мнсдк]м|мкм|[нм]с|мкс|смт|трлн|хв</token>
-          <token negate_pos="yes" postag="SENT_END">.</token>
+          <token negate_pos="yes" postag_regexp="yes" postag="SENT_END|PARA_END">.</token>
         </pattern>
         <message>Стягнені скорочення та метричні одиниці пишуться без крапки: <suggestion><match no="1"/></suggestion></message>
         <example correction="грн">100 <marker>грн.</marker> в банк.</example>
@@ -504,7 +519,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token regexp="yes">[0-9,-]+|кв\.|куб\.</token>
           <marker>
             <token case_sensitive="yes" regexp="yes">([смкд]|мк)?м</token>
-            <token negate_pos="yes" postag="SENT_END">.</token>
+            <token negate_pos="yes" postag_regexp="yes" postag="SENT_END|PARA_END">.</token>
           </marker>
           <token case_sensitive="yes" negate="yes" regexp="yes">[А-ЯІЇЄҐ].*</token>
         </pattern>
@@ -1033,15 +1048,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <suggestion><match no="1" regexp_match="МАС(.*)" regexp_replace="MAC$1"/></suggestion>
         <example correction="MAC-адреса"><marker>МАС-адреса</marker>.</example>
       </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">ТВ-[а-яіїєґ].*</token>
-        </pattern>
-        <message>Потенційна помилка: ТВ замість ТБ</message>
-        <suggestion><match no="1" regexp_match="ТВ(.*)" regexp_replace="ТБ$1"/></suggestion>
-        <example correction="ТБ-шоу"><marker>ТВ-шоу</marker>.</example>
-        <example>ТВ-21</example>
-      </rule>
     </rulegroup>
 
     <rulegroup id="KVT_HOD" name="кВт*год">
@@ -1128,6 +1134,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="туману"><marker>тумана</marker> напустив.</example>
     </rule>
 
+    <rulegroup id="neporivniuvayi" name="Непорівнюваний">
+      <rule>
+        <pattern>
+          <token inflected="yes">непорівнюваний</token>
+        </pattern>
+        <message>Непорівнюваний має значення "що його не порівнюють" (в момент мовлення). В більшості випадків потрібне слово: <suggestion>непорівнянний</suggestion> "що його неможливо порівняти"</message>
+        <example correction="непорівнянний">отакий <marker>непорівнюваний</marker> варіант</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes">непорівнюваність</token>
+        </pattern>
+        <message>Непорівнюваність має значення "що його не порівнюють" (в момент мовлення). В більшості випадків потрібне слово: <suggestion>непорівнянність</suggestion> "неможливість порівняти"</message>
+        <example correction="непорівнянність">отака <marker>непорівнюваність</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token inflected="yes">непояснюваний</token>
+        </pattern>
+        <message>Непояснюваний має значення "що його не пояснюють" (в момент мовлення). В більшості випадків потрібне слово: <suggestion>непоясненний</suggestion> "що його неможливо пояснити"</message>
+        <example correction="непоясненний">отакий <marker>непояснюваний</marker> варіант</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="stretch_plivka" name="Стретч плівка">
       <rule>
         <pattern>
@@ -1179,6 +1211,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="відтепер"><marker>від тепер</marker> і до кінця.</example>
     </rule>
 
+    <rule id="dva_prizvyscha" name="Два прізвища через дефіс">
+      <pattern>
+        <token regexp="yes">Джексона-Веніка|Колесніченка-Ківалова|Молотова-Ріббентропа</token>
+      </pattern>
+      <message>Два прізвища пишуться через тире</message>
+      <suggestion><match no="1" regexp_match="(.*?)-(.*?)" regexp_replace="$1 — $2"/></suggestion>
+      <example correction="Джексона — Веніка">поправка <marker>Джексона-Веніка</marker>.</example>
+    </rule>
 
 <!-- 
     з пробілом: ДСТУ 3582-97 (1997) http://www.stu.cn.ua/media/files/pdf/DSTU_3582-97.pdf

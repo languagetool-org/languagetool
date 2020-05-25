@@ -19,13 +19,11 @@
 
 package org.languagetool.rules.en;
 
-import org.languagetool.Languages;
+import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.languagetool.rules.AbstractDashRule;
 import org.languagetool.rules.Example;
-import org.languagetool.rules.patterns.PatternRule;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Check for compounds written with dashes instead of hyphens.
@@ -33,11 +31,10 @@ import java.util.List;
  */
 public class EnglishDashRule extends AbstractDashRule {
 
-  private static final List<PatternRule> dashRules = loadCompoundFile("/en/compounds.txt",
-          "A dash was used instead of a hyphen. Did you mean: ", Languages.getLanguageForShortCode("en"));
+  private static volatile AhoCorasickDoubleArrayTrie<String> trie;
 
-  public EnglishDashRule() throws IOException {
-    super(dashRules);
+  public EnglishDashRule(ResourceBundle messages) {
+    super(messages);
     addExamplePair(Example.wrong("I'll buy a new <marker>T—shirt</marker>."),
                    Example.fixed("I'll buy a new <marker>T-shirt</marker>."));
   }
@@ -52,4 +49,23 @@ public class EnglishDashRule extends AbstractDashRule {
     return "Checks if hyphenated words were spelled with dashes (e.g., 'T — shirt' instead 'T-shirt').";
   }
 
+  @Override
+  public String getMessage() {
+    return "A dash was used instead of a hyphen.";
+  }
+
+  @Override
+  protected AhoCorasickDoubleArrayTrie<String> getCompoundsData() {
+    AhoCorasickDoubleArrayTrie<String> data = trie;
+    if (data == null) {
+      synchronized (EnglishDashRule.class) {
+        data = trie;
+        if (data == null) {
+          trie = data = loadCompoundFile("/en/compounds.txt");
+        }
+      }
+    }
+
+    return data;
+  }
 }

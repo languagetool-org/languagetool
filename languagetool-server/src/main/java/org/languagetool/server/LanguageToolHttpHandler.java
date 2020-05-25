@@ -147,7 +147,8 @@ class LanguageToolHttpHandler implements HttpHandler {
       parameters = getRequestQuery(httpExchange, requestedUri);
       if (requestLimiter != null) {
         try {
-          requestLimiter.checkAccess(remoteAddress, parameters, httpExchange.getRequestHeaders());
+          UserLimits userLimits = ServerTools.getUserLimits(parameters, config);
+          requestLimiter.checkAccess(remoteAddress, parameters, httpExchange.getRequestHeaders(), userLimits);
         } catch (TooManyRequestsException e) {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
           int code = HttpURLConnection.HTTP_FORBIDDEN;
@@ -209,7 +210,7 @@ class LanguageToolHttpHandler implements HttpHandler {
         logStacktrace = false;
       } else if (hasCause(e, AuthException.class)) {
         errorCode = HttpURLConnection.HTTP_FORBIDDEN;
-        response = e.getMessage();
+        response = AuthException.class.getName() + ": " + e.getMessage();
         logStacktrace = false;
       } else if (e instanceof IllegalArgumentException || rootCause instanceof IllegalArgumentException) {
         errorCode = HttpURLConnection.HTTP_BAD_REQUEST;

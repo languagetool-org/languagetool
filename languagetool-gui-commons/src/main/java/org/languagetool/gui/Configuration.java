@@ -53,6 +53,11 @@ import org.languagetool.rules.Rule;
  * @author Daniel Naber
  */
 public class Configuration {
+  
+  public final static short UNDERLINE_WAVE = 10;
+  public final static short UNDERLINE_BOLDWAVE = 18;
+  public final static short UNDERLINE_BOLD = 12;
+  public final static short UNDERLINE_DASH = 5;
 
   static final int DEFAULT_SERVER_PORT = 8081;  // should be HTTPServerConfig.DEFAULT_PORT but we don't have that dependency
   static final int DEFAULT_NUM_CHECK_PARAS = -1;  //  default number of parameters to be checked by TextLevelRules in LO/OO 
@@ -65,6 +70,7 @@ public class Configuration {
   static final boolean DEFAULT_USE_DOC_LANGUAGE = true;
   static final boolean DEFAULT_DO_REMOTE_CHECK = false;
   static final boolean DEFAULT_USE_OTHER_SERVER = false;
+  static final boolean DEFAULT_MARK_SINGLE_CHAR_BOLD = false;
 
   static final Color STYLE_COLOR = new Color(0, 175, 0);
 
@@ -99,6 +105,7 @@ public class Configuration {
   private static final String LF_NAME_KEY = "lookAndFeelName";
   private static final String ERROR_COLORS_KEY = "errorColors";
   private static final String UNDERLINE_COLORS_KEY = "underlineColors";
+  private static final String UNDERLINE_TYPES_KEY = "underlineTypes";
   private static final String CONFIGURABLE_RULE_VALUES_KEY = "configurableRuleValues";
   private static final String LT_SWITCHED_OFF_KEY = "ltSwitchedOff";
   private static final String IS_MULTI_THREAD_LO_KEY = "isMultiThread";
@@ -106,6 +113,8 @@ public class Configuration {
   private static final String DO_REMOTE_CHECK_KEY = "doRemoteCheck";
   private static final String OTHER_SERVER_URL_KEY = "otherServerUrl";
   private static final String USE_OTHER_SERVER_KEY = "useOtherServer";
+  private static final String MARK_SINGLE_CHAR_BOLD_KEY = "markSingleCharBold";
+  private static final String LOG_LEVEL_KEY = "logLevel";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -126,6 +135,7 @@ public class Configuration {
   private final Map<String, String> configForOtherLanguages = new HashMap<>();
   private final Map<ITSIssueType, Color> errorColors = new EnumMap<>(ITSIssueType.class);
   private final Map<String, Color> underlineColors = new HashMap<>();
+  private final Map<String, Short> underlineTypes = new HashMap<>();
   private final Map<String, Integer> configurableRuleValues = new HashMap<>();
   private final Set<String> styleLikeCategories = new HashSet<>();
   private final Map<String, String> specialTabCategories = new HashMap<>();
@@ -164,10 +174,12 @@ public class Configuration {
   private boolean useDocLanguage = DEFAULT_USE_DOC_LANGUAGE;
   private boolean doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
   private boolean useOtherServer = DEFAULT_USE_OTHER_SERVER;
+  private boolean markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
   private String externalRuleDirectory;
   private String lookAndFeelName;
   private String currentProfile = null;
   private String otherServerUrl = null;
+  private String logLevel = null;
   private boolean switchOff = false;
 
   /**
@@ -193,9 +205,11 @@ public class Configuration {
   }
 
   public Configuration(File baseDir, String filename, File oldConfigFile, Language lang, LinguServices linguServices) throws IOException {
-    if (baseDir == null || !baseDir.isDirectory()) {
-      throw new IllegalArgumentException("Cannot open file " + filename + " in directory " + baseDir);
-    }
+    // already fails silently if file doesn't exist in loadConfiguration, don't fail here either
+    // can cause problem when starting LanguageTool server as a user without a home directory because of default arguments
+    //if (baseDir == null || !baseDir.isDirectory()) {
+    //  throw new IllegalArgumentException("Cannot open file " + filename + " in directory " + baseDir);
+    //}
     initOptions();
     this.lang = lang;
     configFile = new File(baseDir, filename);
@@ -215,6 +229,7 @@ public class Configuration {
   public void initOptions() {
     configForOtherLanguages.clear();
     underlineColors.clear();
+    underlineTypes.clear();
     configurableRuleValues.clear();
 
     disabledRuleIds.clear();
@@ -242,10 +257,12 @@ public class Configuration {
     useDocLanguage = DEFAULT_USE_DOC_LANGUAGE;
     doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
     useOtherServer = DEFAULT_USE_OTHER_SERVER;
+    markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
     externalRuleDirectory = null;
     lookAndFeelName = null;
     currentProfile = null;
     otherServerUrl = null;
+    logLevel = null;
     switchOff = false;
   }
   /**
@@ -290,7 +307,9 @@ public class Configuration {
     this.currentProfile = configuration.currentProfile;
     this.doRemoteCheck = configuration.doRemoteCheck;
     this.useOtherServer = configuration.useOtherServer;
+    this.markSingleCharBold = configuration.markSingleCharBold;
     this.otherServerUrl = configuration.otherServerUrl;
+    this.logLevel = configuration.logLevel;
     
     this.disabledRuleIds.clear();
     this.disabledRuleIds.addAll(configuration.disabledRuleIds);
@@ -307,6 +326,10 @@ public class Configuration {
     this.underlineColors.clear();
     for (Map.Entry<String, Color> entry : configuration.underlineColors.entrySet()) {
       this.underlineColors.put(entry.getKey(), entry.getValue());
+    }
+    this.underlineTypes.clear();
+    for (Map.Entry<String, Short> entry : configuration.underlineTypes.entrySet()) {
+      this.underlineTypes.put(entry.getKey(), entry.getValue());
     }
     this.configurableRuleValues.clear();
     for (Map.Entry<String, Integer> entry : configuration.configurableRuleValues.entrySet()) {
@@ -440,6 +463,17 @@ public class Configuration {
     return useOtherServer ? otherServerUrl : null;
   }
 
+  public String getlogLevel() {
+    return logLevel;
+  }
+
+  public void setMarkSingleCharBold(boolean markSingleCharBold) {
+    this.markSingleCharBold = markSingleCharBold;
+  }
+
+  public boolean markSingleCharBold() {
+    return markSingleCharBold;
+  }
   
   /**
    * Determines whether the tagger window will also print the disambiguation
@@ -767,9 +801,7 @@ public class Configuration {
               || rule.getLocQualityIssueType().toString().equalsIgnoreCase("REGISTER")
               || rule.getCategory().getId().toString().equals("STYLE")
               || rule.getCategory().getId().toString().equals("TYPOGRAPHY")) {
-        if (!styleLikeCategories.contains(rule.getCategory().getName())) {
-          styleLikeCategories.add(rule.getCategory().getName());
-        }
+        styleLikeCategories.add(rule.getCategory().getName());
       }
     }
   }
@@ -800,9 +832,7 @@ public class Configuration {
   public String[] getSpecialTabNames() {
     Set<String> tabNames = new HashSet<>();
     for (Map.Entry<String, String> entry : specialTabCategories.entrySet()) {
-      if (!tabNames.contains(entry.getValue())) {
-        tabNames.add(entry.getValue());
-      }
+      tabNames.add(entry.getValue());
     }
     return tabNames.toArray(new String[tabNames.size()]);
   }
@@ -856,6 +886,40 @@ public class Configuration {
    */
   public void setDefaultUnderlineColor(String category) {
     underlineColors.remove(category);
+  }
+
+  /**
+   * @since 4.9
+   */
+  public Map<String, Short> getUnderlineTypes() {
+    return underlineTypes;
+  }
+
+  /**
+   * @since 4.9
+   * Get the type to underline a rule match by the Name of its category
+   */
+  public Short getUnderlineType(String category) {
+    if (underlineTypes.containsKey(category)) {
+      return underlineTypes.get(category);
+    }
+    return UNDERLINE_WAVE;
+  }
+
+  /**
+   * @since 4.9
+   * Set the type to underline a rule match for its category
+   */
+  public void setUnderlineType(String category, short type) {
+    underlineTypes.put(category, type);
+  }
+
+  /**
+   * @since 4.9
+   * Set the type back to default (removes category from map)
+   */
+  public void setDefaultUnderlineType(String category) {
+    underlineTypes.remove(category);
   }
 
   /**
@@ -936,13 +1000,15 @@ public class Configuration {
       }
       definedProfiles.addAll(getListFromProperties(props, DEFINED_PROFILES_KEY));
       
+      logLevel = (String) props.get(LOG_LEVEL_KEY);
+      
       storeConfigforAllProfiles(props);
       
       String prefix;
       if(currentProfile == null) {
-        prefix = new String("");
+        prefix = "";
       } else {
-        prefix = new String(currentProfile);
+        prefix = currentProfile;
       }
       if(!prefix.isEmpty()) {
         prefix = prefix.replaceAll(BLANK, BLANK_REPLACE);
@@ -1056,6 +1122,11 @@ public class Configuration {
       
       otherServerUrl = (String) props.get(prefix + OTHER_SERVER_URL_KEY);
       
+      String markSingleCharBoldString = (String) props.get(prefix + MARK_SINGLE_CHAR_BOLD_KEY);
+      if (markSingleCharBoldString != null) {
+        markSingleCharBold = Boolean.parseBoolean(markSingleCharBoldString);
+      }
+      
       String rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier);
       if(rulesValuesString == null) {
         rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY);
@@ -1067,6 +1138,9 @@ public class Configuration {
 
       String underlineColorsString = (String) props.get(prefix + UNDERLINE_COLORS_KEY);
       parseUnderlineColors(underlineColorsString);
+
+      String underlineTypesString = (String) props.get(prefix + UNDERLINE_TYPES_KEY);
+      parseUnderlineTypes(underlineTypesString);
 
       //store config for other languages
       loadConfigForOtherLanguages(lang, props, prefix);
@@ -1101,6 +1175,19 @@ public class Configuration {
           throw new RuntimeException("Could not parse type and color, colon expected: '" + typeToColor + "'");
         }
         underlineColors.put(typeAndColor[0], Color.decode(typeAndColor[1]));
+      }
+    }
+  }
+
+  private void parseUnderlineTypes(String typessString) {
+    if (StringUtils.isNotEmpty(typessString)) {
+      String[] categoryToTypesList = typessString.split(CONFIGURABLE_RULE_SPLITTER_REGEXP);
+      for (String categoryToType : categoryToTypesList) {
+        String[] categoryAndType = categoryToType.split(":");
+        if (categoryAndType.length != 2) {
+          throw new RuntimeException("Could not parse category and type, colon expected: '" + categoryToType + "'");
+        }
+        underlineTypes.put(categoryAndType[0], Short.parseShort(categoryAndType[1]));
       }
     }
   }
@@ -1167,6 +1254,10 @@ public class Configuration {
       props.setProperty(DEFINED_PROFILES_KEY, String.join(DELIMITER, definedProfiles));
     }
     
+    if(logLevel != null) {
+      props.setProperty(LOG_LEVEL_KEY, logLevel);
+    }
+    
     try (FileOutputStream fos = new FileOutputStream(configFile)) {
       props.store(fos, "LanguageTool configuration (" + JLanguageTool.VERSION + "/" + JLanguageTool.BUILD_DATE + ")");
     }
@@ -1174,14 +1265,14 @@ public class Configuration {
     List<String> prefixes = new ArrayList<String>();
     prefixes.add("");
     for(String profile : definedProfiles) {
-      String prefix = new String(profile);
+      String prefix = profile;
       prefixes.add(prefix.replaceAll(BLANK, BLANK_REPLACE) + PROFILE_DELIMITER);
     }
     String currentPrefix;
     if (currentProfile == null) {
-      currentPrefix = new String("");
+      currentPrefix = "";
     } else {
-      currentPrefix = new String(currentProfile);
+      currentPrefix = currentProfile;
     }
     if(!currentPrefix.isEmpty()) {
       currentPrefix = currentPrefix.replaceAll(BLANK, BLANK_REPLACE);
@@ -1236,6 +1327,9 @@ public class Configuration {
         if(useOtherServer != DEFAULT_USE_OTHER_SERVER) {
           props.setProperty(prefix + USE_OTHER_SERVER_KEY, Boolean.toString(useOtherServer));
         }
+        if(markSingleCharBold != DEFAULT_MARK_SINGLE_CHAR_BOLD) {
+          props.setProperty(prefix + MARK_SINGLE_CHAR_BOLD_KEY, Boolean.toString(markSingleCharBold));
+        }
         if(switchOff) {
           props.setProperty(prefix + LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));
         }
@@ -1257,28 +1351,38 @@ public class Configuration {
         if (externalRuleDirectory != null) {
           props.setProperty(prefix + EXTERNAL_RULE_DIRECTORY, externalRuleDirectory);
         }
-        StringBuilder sbRV = new StringBuilder();
-        for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
-          sbRV.append(entry.getKey()).append(":").append(Integer.toString(entry.getValue())).append(", ");
+        if(!configurableRuleValues.isEmpty()) {
+          StringBuilder sbRV = new StringBuilder();
+          for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
+            sbRV.append(entry.getKey()).append(':').append(entry.getValue()).append(", ");
+          }
+          props.setProperty(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());
         }
-        props.setProperty(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());
-      
-        StringBuilder sb = new StringBuilder();
-        for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
-          String rgb = Integer.toHexString(entry.getValue().getRGB());
-          rgb = rgb.substring(2, rgb.length());
-          sb.append(entry.getKey()).append(":#").append(rgb).append(", ");
+        if(!errorColors.isEmpty()) {
+          StringBuilder sb = new StringBuilder();
+          for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
+            String rgb = Integer.toHexString(entry.getValue().getRGB());
+            rgb = rgb.substring(2);
+            sb.append(entry.getKey()).append(":#").append(rgb).append(", ");
+          }
+          props.setProperty(prefix + ERROR_COLORS_KEY, sb.toString());
         }
-        props.setProperty(prefix + ERROR_COLORS_KEY, sb.toString());
-      
-        StringBuilder sbUC = new StringBuilder();
-        for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
-          String rgb = Integer.toHexString(entry.getValue().getRGB());
-          rgb = rgb.substring(2, rgb.length());
-          sbUC.append(entry.getKey()).append(":#").append(rgb).append(", ");
+        if(!underlineColors.isEmpty()) {
+          StringBuilder sbUC = new StringBuilder();
+          for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
+            String rgb = Integer.toHexString(entry.getValue().getRGB());
+            rgb = rgb.substring(2);
+            sbUC.append(entry.getKey()).append(":#").append(rgb).append(", ");
+          }
+          props.setProperty(prefix + UNDERLINE_COLORS_KEY, sbUC.toString());
         }
-        props.setProperty(prefix + UNDERLINE_COLORS_KEY, sbUC.toString());
-      
+        if(!underlineTypes.isEmpty()) {
+          StringBuilder sbUT = new StringBuilder();
+          for (Map.Entry<String, Short> entry : underlineTypes.entrySet()) {
+            sbUT.append(entry.getKey()).append(':').append(entry.getValue()).append(", ");
+          }
+          props.setProperty(prefix + UNDERLINE_TYPES_KEY, sbUT.toString());
+        }
         for (String key : configForOtherLanguages.keySet()) {
           props.setProperty(key, configForOtherLanguages.get(key));
         }
@@ -1326,12 +1430,14 @@ public class Configuration {
     allProfileKeys.add(LF_NAME_KEY);
     allProfileKeys.add(ERROR_COLORS_KEY);
     allProfileKeys.add(UNDERLINE_COLORS_KEY);
+    allProfileKeys.add(UNDERLINE_TYPES_KEY);
     allProfileKeys.add(LT_SWITCHED_OFF_KEY);
     allProfileKeys.add(IS_MULTI_THREAD_LO_KEY);
     allProfileKeys.add(EXTERNAL_RULE_DIRECTORY);
     allProfileKeys.add(DO_REMOTE_CHECK_KEY);
     allProfileKeys.add(OTHER_SERVER_URL_KEY);
     allProfileKeys.add(USE_OTHER_SERVER_KEY);
+    allProfileKeys.add(MARK_SINGLE_CHAR_BOLD_KEY);
 
     allProfileLangKeys.add(DISABLED_RULES_KEY);
     allProfileLangKeys.add(ENABLED_RULES_KEY);
@@ -1344,7 +1450,7 @@ public class Configuration {
     List<String> prefix = new ArrayList<String>();
     prefix.add("");
     for(String profile : definedProfiles) {
-      String sPrefix = new String(profile);
+      String sPrefix = profile;
       prefix.add(sPrefix.replaceAll(BLANK, BLANK_REPLACE) + PROFILE_DELIMITER);
     }
     for(String sPrefix : prefix) {

@@ -71,7 +71,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
   public MissingCommaRelativeClauseRule(ResourceBundle messages, boolean behind) {
     super(messages);
     super.setCategory(new Category(new CategoryId("HILFESTELLUNG_KOMMASETZUNG"),
-        "Hilfestellung für Kommasetzung", Location.INTERNAL, true));
+        "Kommasetzung", Location.INTERNAL, true));
     super.makeAntiPatterns(ANTI_PATTERNS, GERMAN);
     this.behind = behind;
   }

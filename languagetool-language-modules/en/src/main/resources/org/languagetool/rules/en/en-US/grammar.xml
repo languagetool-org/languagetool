@@ -102,8 +102,14 @@ USA
     <!-- ====================================================================== -->
     <!-- Possible typos -->
     <!-- ====================================================================== -->
-    <category id="US_SPECIFIC_TYPOS" name="Possible Typo" type="misspelling">
+    <category id="TYPOS" name="Possible Typo" type="misspelling">
+
           <rule id="ANY_MORE" name="any more (anymore)">
+              <antipattern><!-- any more likely than -->
+                 <token>more</token>
+                 <token postag="JJ"/>
+                 <token>than</token>
+              </antipattern>
               <pattern>
                   <marker>
                      <token>any</token>
@@ -120,9 +126,12 @@ USA
               <example correction="anymore">You're not sure <marker>any more</marker>, are you?</example>
               <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker>.</example><!-- #2309. -->
               <example correction="anymore">Stop submitting the results, the test will not be completed <marker>any more</marker></example><!-- #2309. No full stop. -->
+              <example correction="anymore">You don't have to take care of them <marker>any more</marker>   </example><!-- #2779. Extra spaces -->
               <example>I couldn't find my way around it <marker>anymore</marker>.</example>
               <example>If we see that your plan isn't a good fit anymore in the long run, we'd contact you.</example><!-- #2368 -->
+              <example>But I don't think it's any more likely than a farmer harvesting guano...</example><!-- #2717 -->
           </rule>
+
     </category>
 
     <category id="AMERICAN_ENGLISH_STYLE" name="American English Style" type="style">
@@ -219,6 +228,23 @@ USA
             <example correction="">The 4.<marker>6-centigramme</marker> difference is not a problem.</example>
             <example correction="">Also find typgoraphic errors: a 5.7.<marker>8-femtogramme</marker> difference is not important.</example>
        </rule>
+
+    <rule id="AT_THE_WEEKEND" name="Collocation: at the weekend"><!-- Premium #983 -->
+    <!-- Modified. Originally created by Nicholas Walker (Bokomaru), 2017-11-14 -->
+      <pattern>
+          <marker>
+              <token>at</token>
+              <token>the</token>
+              <token>weekend</token>
+          </marker>
+          <token postag="SENT_END"/>
+      </pattern>
+      <message>The phrase '\1 \2 \3' is a British English expression, which is used the same way as <suggestion>on \2 \3</suggestion> in American English.</message>
+      <url>http://learnersdictionary.com/qa/Over-the-weekend-on-the-weekend-at-the-weekend</url>
+      <short>Collocation error</short>
+      <example correction="on the weekend">I like to play soccer <marker>at the weekend</marker>.</example>
+    </rule>
+
     </category>
 
     <category id="SEMANTICS" name="Semantics" type="inconsistency">

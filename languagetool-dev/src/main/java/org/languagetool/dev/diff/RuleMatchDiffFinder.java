@@ -29,6 +29,9 @@ import java.util.*;
 public class RuleMatchDiffFinder {
   
   List<RuleMatchDiff> getDiffs(List<LightRuleMatch> l1, List<LightRuleMatch> l2) {
+    System.out.println("Comparing result 1 (" + l1.size() + " matches) to result 2 (" + l2.size() + " matches)");
+    //debugList("List 1", l1);
+    //debugList("List 2", l2);
     List<RuleMatchDiff> result = new ArrayList<>();
     Map<MatchKey, LightRuleMatch> oldMatches = getMatchMap(l1);
     for (LightRuleMatch match : l2) {
@@ -58,6 +61,13 @@ public class RuleMatchDiffFinder {
     return result;
   }
 
+  private void debugList(String title, List<LightRuleMatch> l1) {
+    System.out.println(title);
+    for (LightRuleMatch lightRuleMatch : l1) {
+      System.out.println(" *" + lightRuleMatch);
+    }
+  }
+
   private Map<MatchKey, LightRuleMatch> getMatchMap(List<LightRuleMatch> list) {
     Map<MatchKey, LightRuleMatch> map = new HashMap<>();
     for (LightRuleMatch match : list) {
@@ -68,7 +78,7 @@ public class RuleMatchDiffFinder {
     return map;
   }
 
-  private void print(List<RuleMatchDiff> diffs, FileWriter fw) throws IOException {
+  private void printDiffs(List<RuleMatchDiff> diffs, FileWriter fw) throws IOException {
     fw.write("Diffs found: " + diffs.size() + "<br>\n");
     printTableBegin(fw);
     for (RuleMatchDiff diff : diffs) {
@@ -178,51 +188,119 @@ public class RuleMatchDiffFinder {
     fw.write("</table>\n\n");
   }
 
-  private void run(LightRuleMatchParser parser, File file1, File file2, File file3) throws IOException {
-    List<LightRuleMatch> l1 = parser.parse(new FileReader(file1));
-    List<LightRuleMatch> l2 = parser.parse(new FileReader(file2));
+  private void run(LightRuleMatchParser parser, File file1, File file2, File outputDir) throws IOException {
+    List<LightRuleMatch> l1 = parser.parseOutput(file1);
+    List<LightRuleMatch> l2 = parser.parseOutput(file2);
     String title = "Comparing " + file1.getName() + " to "  + file2.getName();
     System.out.println(title);
     List<RuleMatchDiff> diffs = getDiffs(l1, l2);
+    diffs.sort(Comparator.comparing(this::getFullId));
     System.out.println("Total diffs found: " + diffs.size());
-    try (FileWriter fw = new FileWriter(file3)) {
-      fw.write("<!doctype html>\n");
-      fw.write("<html>\n");
-      fw.write("<head>\n");
-      fw.write("  <title>" + title + "</title>\n");
-      fw.write("  <meta charset='utf-8'>\n");
-      fw.write("  <script src='../tablefilter/tablefilter.js'></script>\n");  // https://github.com/koalyptus/TableFilter/
-      fw.write("  <style>\n");
-      fw.write("    .sentence { color: #666; }\n");
-      fw.write("    .marker { text-decoration: underline; }\n");
-      fw.write("    .source { color: #999; }\n");
-      fw.write("    .status { color: #999; }\n");
-      fw.write("    .whitespace { background-color: #ccc; }\n");
-      fw.write("  </style>\n");
-      fw.write("</head>\n");
-      fw.write("<body>\n\n");
-      print(diffs, fw);
-      fw.write("<script>\n" +
-               "var tf = new TableFilter(document.querySelector('.sortable_table'), {\n" +
-               "    base_path: '../tablefilter/',\n" +
-               "    col_0: 'select',\n" +
-               "    col_1: 'select',\n" +
-               "    auto_filter: { delay: 100 },\n" +
-               "    grid_layout: false,\n" +
-               "    col_types: ['string', 'string', 'string'],\n" +
-               "    extensions: [{ name: 'sort' }]\n" +
-               "});\n" +
-               "tf.init();\n" +
-               "</script>");
-      fw.write("</body>\n");
-      fw.write("</html>\n");
+    Map<String, List<RuleMatchDiff>> keyToDiffs = groupDiffs(diffs);
+    List<OutputFile> outputFiles = new ArrayList<>();
+    for (Map.Entry<String, List<RuleMatchDiff>> entry : keyToDiffs.entrySet()) {
+      File outputFile = new File(outputDir, "result_" + entry.getKey().replaceAll("/" , "_").replaceAll("[\\s_]+", "_") + ".html");
+      if (entry.getValue().size() > 0) {
+        outputFiles.add(new OutputFile(outputFile, entry.getValue().size()));
+      }
+      try (FileWriter fw = new FileWriter(outputFile)) {
+        System.out.println("Writing result to " + outputFile);
+        printHeader(title, fw);
+        printDiffs(entry.getValue(), fw);
+        printFooter(fw);
+      }
     }
+    try (FileWriter fw = new FileWriter(new File(outputDir, "index.html"))) {
+      printHeader("Overview of regression results", fw);
+      for (OutputFile outputFile : outputFiles) {
+        fw.write("<a href='" + outputFile.file.getName() + "'>" +
+          outputFile.file.getName().replace("result_", "").replace(".html", "") +
+          " (" + outputFile.itemCount + ")</a><br>\n");
+      }
+      printFooter(fw);
+    }
+  }
+
+  static class OutputFile {
+    File file;
+    int itemCount;
+    OutputFile(File file, int itemCount) {
+      this.file = file;
+      this.itemCount = itemCount;
+    }
+  }
+
+  private Map<String, List<RuleMatchDiff>> groupDiffs(List<RuleMatchDiff> diffs) {
+    Map<String, List<RuleMatchDiff>> keyToDiffs = new TreeMap<>();
+    String prevKey = "";
+    List<RuleMatchDiff> l = new ArrayList<>();
+    for (RuleMatchDiff diff : diffs) {
+      String key;
+      if (diff.getOldMatch() != null) {
+        key = cleanSource(diff.getOldMatch().getRuleSource()) + " / " + diff.getOldMatch().getFullRuleId();
+      } else {
+        key = cleanSource(diff.getNewMatch().getRuleSource()) + " / " + diff.getNewMatch().getFullRuleId();
+      }
+      if (!key.equals(prevKey)) {
+        keyToDiffs.put(prevKey, l);
+        l = new ArrayList<>();
+      }
+      l.add(diff);
+      prevKey = key;
+    }
+    return keyToDiffs;
+  }
+
+  private void printHeader(String title, FileWriter fw) throws IOException {
+    fw.write("<!doctype html>\n");
+    fw.write("<html>\n");
+    fw.write("<head>\n");
+    fw.write("  <title>" + title + "</title>\n");
+    fw.write("  <meta charset='utf-8'>\n");
+    fw.write("  <script src='https://unpkg.com/tablefilter@0.7.0/dist/tablefilter/tablefilter.js'></script>\n");  // https://github.com/koalyptus/TableFilter/
+    fw.write("  <style>\n");
+    fw.write("    .sentence { color: #666; }\n");
+    fw.write("    .marker { text-decoration: underline; }\n");
+    fw.write("    .source { color: #999; }\n");
+    fw.write("    .status { color: #999; }\n");
+    fw.write("    .whitespace { background-color: #ccc; }\n");
+    fw.write("  </style>\n");
+    fw.write("</head>\n");
+    fw.write("<body>\n\n");
+  }
+
+  private void printFooter(FileWriter fw) throws IOException {
+    fw.write("<script>\n" +
+      "var tf = new TableFilter(document.querySelector('.sortable_table'), {\n" +
+      "    base_path: 'https://unpkg.com/tablefilter@0.7.0/dist/tablefilter/',\n" +
+      "    col_0: 'select',\n" +
+      "    col_1: 'select',\n" +
+      "    auto_filter: { delay: 100 },\n" +
+      "    grid_layout: false,\n" +
+      "    col_types: ['string', 'string', 'string'],\n" +
+      "    extensions: [{ name: 'sort' }]\n" +
+      "});\n" +
+      "tf.init();\n" +
+      "</script>");
+    fw.write("</body>\n");
+    fw.write("</html>\n");
+  }
+
+  private String getFullId(RuleMatchDiff diff) {
+    String id = "unknown";
+    if (diff.getOldMatch() != null) {
+      id = diff.getOldMatch().getFullRuleId();
+    } else if (diff.getNewMatch() != null) {
+      id = diff.getNewMatch().getFullRuleId();
+    }
+    return id;
   }
 
   public static void main(String[] args) throws IOException {
     if (args.length != 3) {
-      System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <result>");
-      System.out.println(" <matches1> and <matches2> are text outputs of different versions of e.g. org.languagetool.commandline.Main run on the same input");
+      System.out.println("Usage: " + RuleMatchDiffFinder.class.getSimpleName() + " <matches1> <matches2> <resultDir>");
+      System.out.println(" <matches1> and <matches2> are text outputs of different versions of org.languagetool.dev.dumpcheck.SentenceSourceChecker run on the same input");
+      System.out.println("                           our JSON outputs from org.languagetool.dev.httpchecker.HttpApiSentenceChecker");
       System.exit(1);
     }
     RuleMatchDiffFinder diffFinder = new RuleMatchDiffFinder();
@@ -254,8 +332,17 @@ public class RuleMatchDiffFinder {
     } else {
       File file1 = new File(args[0]);
       File file2 = new File(args[1]);
-      File file3 = new File(args[2]);
-      diffFinder.run(parser, file1, file2, file3);
+      File outputDir = new File(args[2]);
+      if (outputDir.exists() && outputDir.isFile()) {
+        throw new IOException("<resultDir> already exists, but is a file: " + outputDir);
+      }
+      if (!outputDir.exists()) {
+        boolean mkdir = outputDir.mkdir();
+        if (!mkdir) {
+          throw new IOException("Could not create directory " + outputDir);
+        }
+      }
+      diffFinder.run(parser, file1, file2, outputDir);
     }
   }
 

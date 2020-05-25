@@ -48,6 +48,13 @@ public class GermanCompoundTokenizer implements Tokenizer {
     static Set<String> extendedList() {
       Set<String> words = new HashSet<>(EmbeddedGermanDictionary.getWords());
       // add compound parts here so we don't need to update JWordSplitter for every missing word we find:
+      words.add("online");
+      words.add("affin");
+      words.add("affine");
+      words.add("affiner");
+      words.add("affines");
+      words.add("affinen");
+      words.add("affinem");
       words.add("trockner");
       words.add("thermostat");
       words.add("thermostats");

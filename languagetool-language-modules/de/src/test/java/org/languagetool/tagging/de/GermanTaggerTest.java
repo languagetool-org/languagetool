@@ -29,14 +29,16 @@ import org.languagetool.JLanguageTool;
 import java.io.IOException;
 import java.util.*;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.*;
 
 @SuppressWarnings("ConstantConditions")
 public class GermanTaggerTest {
 
+  private final GermanTagger tagger = new GermanTagger();
+
   @Test
   public void testLemmaOfForDashCompounds() throws IOException {
-    GermanTagger tagger = new GermanTagger();
     AnalyzedTokenReadings aToken = tagger.lookup("Zahn-Arzt-Verband");
     List<String> lemmas = new ArrayList<>();
     for (AnalyzedToken analyzedToken : aToken) {
@@ -48,10 +50,10 @@ public class GermanTaggerTest {
   @Test
   public void testGenderGap() throws IOException {
     // https://github.com/languagetool-org/languagetool/issues/2417
-    GermanTagger tagger = new GermanTagger();
     assertTrue(tagger.tag(Arrays.asList("viele", "Freund", "*", "innen")).get(1).hasPartialPosTag(":PLU:FEM"));
     assertTrue(tagger.tag(Arrays.asList("viele", "Freund", "_", "innen")).get(1).hasPartialPosTag(":PLU:FEM"));
     assertTrue(tagger.tag(Arrays.asList("viele", "Freund", ":", "innen")).get(1).hasPartialPosTag(":PLU:FEM"));
+    assertTrue(tagger.tag(Arrays.asList("viele", "Freund", "/", "innen")).get(1).hasPartialPosTag(":PLU:FEM"));
     assertTrue(tagger.tag(Arrays.asList("jede", "*", "r", "Mitarbeiter", "*", "in")).get(0).hasPartialPosTag("PRO:IND:NOM:SIN:FEM"));
     assertTrue(tagger.tag(Arrays.asList("jede", "*", "r", "Mitarbeiter", "*", "in")).get(0).hasPartialPosTag("PRO:IND:NOM:SIN:MAS"));
     assertTrue(tagger.tag(Arrays.asList("jede", "*", "r", "Mitarbeiter", "*", "in")).get(3).hasPartialPosTag("SUB:NOM:SIN:FEM"));
@@ -60,8 +62,6 @@ public class GermanTaggerTest {
   
   @Test
   public void testTagger() throws IOException {
-    GermanTagger tagger = new GermanTagger();
-
     AnalyzedTokenReadings aToken = tagger.lookup("Haus");
     assertEquals("Haus[Haus/SUB:AKK:SIN:NEU, Haus/SUB:DAT:SIN:NEU, Haus/SUB:NOM:SIN:NEU]", toSortedString(aToken));
     assertEquals("Haus", aToken.getReadings().get(0).getLemma());
@@ -154,22 +154,16 @@ public class GermanTaggerTest {
   // make sure we use the version of the POS data that was extended with post spelling reform data
   @Test
   public void testExtendedTagger() throws IOException {
-    GermanTagger tagger = new GermanTagger();
-
     assertEquals("Kuß[Kuß/SUB:AKK:SIN:MAS, Kuß/SUB:DAT:SIN:MAS, Kuß/SUB:NOM:SIN:MAS]", toSortedString(tagger.lookup("Kuß")));
     assertEquals("Kuss[Kuss/SUB:AKK:SIN:MAS, Kuss/SUB:DAT:SIN:MAS, Kuss/SUB:NOM:SIN:MAS]", toSortedString(tagger.lookup("Kuss")));
 
     assertEquals("Haß[Haß/SUB:AKK:SIN:MAS, Haß/SUB:DAT:SIN:MAS, Haß/SUB:NOM:SIN:MAS]", toSortedString(tagger.lookup("Haß")));
     assertEquals("Hass[Hass/SUB:AKK:SIN:MAS, Hass/SUB:DAT:SIN:MAS, Hass/SUB:NOM:SIN:MAS]", toSortedString(tagger.lookup("Hass")));
-
-    assertEquals("muß[müssen/VER:MOD:1:SIN:PRÄ, müssen/VER:MOD:3:SIN:PRÄ]", toSortedString(tagger.lookup("muß")));
-    assertEquals("muss[müssen/VER:MOD:1:SIN:PRÄ, müssen/VER:MOD:3:SIN:PRÄ]", toSortedString(tagger.lookup("muss")));
   }
 
   @Test
   public void testAfterColon() throws IOException {
     // a colon doesn't start a new sentence in LT, but often it should, so we check the special case for that
-    GermanTagger tagger = new GermanTagger();
     List<AnalyzedTokenReadings> tags = tagger.tag(Arrays.asList("Er", "sagte", ":", "Als", "Erstes", "würde", "ich"));
     assertEquals(7, tags.size());
     assertEquals("Als", tags.get(3).getToken());
@@ -178,8 +172,6 @@ public class GermanTaggerTest {
 
   @Test
   public void testTaggerBaseforms() throws IOException {
-    GermanTagger tagger = new GermanTagger();
-
     List<AnalyzedToken> readings1 = tagger.lookup("übrigbleibst").getReadings();
     assertEquals(1, readings1.size());
     assertEquals("übrigbleiben", readings1.get(0).getLemma());
@@ -199,7 +191,6 @@ public class GermanTaggerTest {
 
   @Test
   public void testTag() throws IOException {
-    GermanTagger tagger = new GermanTagger();
     List<String> upperCaseWord = Arrays.asList("Das");
     List<AnalyzedTokenReadings> readings = tagger.tag(upperCaseWord, false);
     assertEquals("[Das[Das/null*]]", readings.toString());
@@ -210,7 +201,6 @@ public class GermanTaggerTest {
   @Test
   public void testTagWithManualDictExtension() throws IOException {
     // words not originally in Morphy but added in LT 1.8 (moved from added.txt to german.dict)
-    GermanTagger tagger = new GermanTagger();
     List<AnalyzedTokenReadings> readings = tagger.tag(Collections.singletonList("Wichtigtuerinnen"));
     assertEquals("[Wichtigtuerinnen[Wichtigtuerin/SUB:AKK:PLU:FEM*," +
             "Wichtigtuerin/SUB:DAT:PLU:FEM*,Wichtigtuerin/SUB:GEN:PLU:FEM*,Wichtigtuerin/SUB:NOM:PLU:FEM*]]", readings.toString());
@@ -229,6 +219,61 @@ public class GermanTaggerTest {
     }
   }
 
+  @Test
+  public void testIsWeiseException() {
+    assertFalse(tagger.isWeiseException("überweise"));
+    assertFalse(tagger.isWeiseException("verweise"));
+    assertFalse(tagger.isWeiseException("eimerweise"));
+    assertFalse(tagger.isWeiseException("meterweise"));
+    assertFalse(tagger.isWeiseException("literweise"));
+    assertFalse(tagger.isWeiseException("blätterweise"));
+    assertFalse(tagger.isWeiseException("erweise"));
+
+    assertTrue(tagger.isWeiseException("lustigerweise"));
+    assertTrue(tagger.isWeiseException("idealerweise"));
+  }
+
+  @Test
+  public void testPrefixVerbsFromSpellingTxt() throws IOException {
+    List<AnalyzedTokenReadings> result1 = tagger.tag(Collections.singletonList("herumgeben"));
+    assertThat(result1.size(), is(1));
+    assertThat(result1.get(0).getReadings().size(), is(5));
+    String res1 = result1.toString();
+    assertTrue(res1.contains("herumgeben/VER:1:PLU:KJ1:NON*"));
+    assertTrue(res1.contains("herumgeben/VER:1:PLU:PRÄ:NON*"));
+    assertTrue(res1.contains("herumgeben/VER:3:PLU:KJ1:NON*"));
+    assertTrue(res1.contains("herumgeben/VER:3:PLU:PRÄ:NON*"));
+    assertTrue(res1.contains("herumgeben/VER:INF:NON*"));
+    assertFalse(res1.contains("ADJ:"));
+    assertFalse(res1.contains("PA1:"));
+    assertFalse(res1.contains("PA2:"));
+
+    List<AnalyzedTokenReadings> result2 = tagger.tag(Collections.singletonList("herumgab"));
+    assertThat(result2.size(), is(1));
+    assertThat(result2.get(0).getReadings().size(), is(2));
+    String res2 = result2.toString();
+    assertTrue(res2.contains("herumgeben/VER:1:SIN:PRT:NON*"));
+    assertTrue(res2.contains("herumgeben/VER:3:SIN:PRT:NON*"));
+    assertFalse(res2.contains("ADJ:"));
+
+    List<AnalyzedTokenReadings> result3 = tagger.tag(Collections.singletonList("zurückgeschickt"));
+    assertThat(result3.size(), is(1));
+    assertThat(result3.get(0).getReadings().size(), is(1));
+    String res3 = result3.toString();
+    assertTrue(res3.contains("zurückschicken/VER:PA2:SFT*"));
+    assertFalse(res3.contains("ADJ:"));
+
+    List<AnalyzedTokenReadings> result4 = tagger.tag(Collections.singletonList("abzuschicken"));
+    assertThat(result4.size(), is(1));
+    assertThat(result4.get(0).getReadings().size(), is(5));
+    String res4 = result4.toString();
+    assertTrue(res4.contains("abschicken/VER:1:PLU:KJ1:SFT*"));
+    assertTrue(res4.contains("abschicken/VER:1:PLU:PRÄ:SFT*"));
+    assertTrue(res4.contains("abschicken/VER:3:PLU:KJ1:SFT*"));
+    assertTrue(res4.contains("abschicken/VER:3:PLU:PRÄ:SFT*"));
+    assertFalse(res4.contains("ADJ:"));
+  }
+
   /**
    * Returns a string representation like {@code toString()}, but sorts
    * the elements alphabetically.
@@ -238,9 +283,7 @@ public class GermanTaggerTest {
     Set<String> elements = new TreeSet<>();
     sb.append('[');
     for (AnalyzedToken reading : tokenReadings) {
-      if (!elements.contains(reading.toString())) {
-        elements.add(reading.toString());
-      }
+      elements.add(reading.toString());
     }
     sb.append(String.join(", ", elements));
     sb.append(']');

@@ -33,6 +33,8 @@ import org.languagetool.rules.ConfusionSetLoader;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -60,6 +62,7 @@ class AutomaticConfusionRuleEvaluator {
   private AutomaticConfusionRuleEvaluator(File luceneIndexDir, String fieldName, boolean caseInsensitive, Language lang) throws IOException {
     this.fieldName = fieldName;
     this.caseInsensitive = caseInsensitive;
+    System.out.println("Using " + luceneIndexDir + " to search example sentences");
     DirectoryReader reader = DirectoryReader.open(FSDirectory.open(luceneIndexDir.toPath()));
     searcher = new IndexSearcher(reader);
     InputStream confusionSetStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream("/" + lang.getShortCode() + "/confusion_sets.txt");
@@ -199,6 +202,11 @@ class AutomaticConfusionRuleEvaluator {
     Set<String> foundSentences = new HashSet<>();
     for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
       String sentence = searcher.doc(scoreDoc.doc).get(fieldName);
+      int occCount = countRegexMatches(sentence, word);
+      if (occCount > 1) {
+        //System.out.println("Skipping, word '" + word + "' appears more than once: " + sentence);
+        continue;
+      }
       if (caseInsensitive) {
         if (!foundSentences.contains(sentence)) {
           fw.write(sentence + "\n");
@@ -221,6 +229,14 @@ class AutomaticConfusionRuleEvaluator {
     long iterateTime = t3 - t2;
     System.out.println("Found " + count + " examples for " + word +
             " (" + searchTime + "ms, " + iterateTime + "ms), case insensitive=" + caseInsensitive + ", totalHits: " + topDocs.totalHits);
+    return count;
+  }
+
+  private int countRegexMatches(String sentence, String word) {
+    int count = 0;
+    Matcher matcher = Pattern.compile("\\b" + word + "\\b").matcher(sentence);
+    while (matcher.find())
+      count++;
     return count;
   }
 

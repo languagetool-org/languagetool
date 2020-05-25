@@ -15,6 +15,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
 import org.languagetool.tagging.TaggedWord;
 
 /**
@@ -168,6 +169,38 @@ public final class PosTagHelper {
     return false;
   }
 
+  public static boolean hasPosTagPartAll(AnalyzedTokenReadings analyzedTokenReadings, String posTagPart) {
+    return hasPosTagPartAll(analyzedTokenReadings.getReadings(), posTagPart);
+  }
+  
+  public static boolean hasPosTagPartAll(List<AnalyzedToken> analyzedTokenReadings, String posTagPart) {
+    boolean foundTag = false;
+    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
+      if( analyzedToken.getPOSTag() != null
+          && ! analyzedToken.getPOSTag().equals(JLanguageTool.SENTENCE_END_TAGNAME)
+          && ! analyzedToken.getPOSTag().equals(JLanguageTool.PARAGRAPH_END_TAGNAME)) {
+        if (!analyzedToken.getPOSTag().contains(posTagPart))
+          return false;
+        if( ! foundTag ) {
+          foundTag = analyzedToken.getPOSTag().contains(posTagPart);
+        }
+      }
+    }
+    return foundTag;
+  }
+
+  public static boolean hasPosTagStart(AnalyzedTokenReadings analyzedTokenReadings, String posTagPart) {
+    return hasPosTagStart(analyzedTokenReadings.getReadings(), posTagPart);
+  }
+
+  public static boolean hasPosTagStart(List<AnalyzedToken> analyzedTokenReadings, String posTagPart) {
+    for(AnalyzedToken analyzedToken: analyzedTokenReadings) {
+      if( analyzedToken.getPOSTag() != null && analyzedToken.getPOSTag().startsWith(posTagPart) )
+        return true;
+    }
+    return false;
+  }
+
   public static boolean hasPosTagPart2(List<TaggedWord> taggedWords, String posTagPart) {
     for(TaggedWord analyzedToken: taggedWords) {
       if( analyzedToken.getPosTag() != null && analyzedToken.getPosTag().contains(posTagPart) )
@@ -218,27 +251,29 @@ public final class PosTagHelper {
   }
 
   @NotNull
-  public static List<AnalyzedToken> generateTokensForNv(String word, String gender, String extraTags) {
-    String posTagBase = "noun:inanim:" + gender + ":";
-  
+  public static List<AnalyzedToken> generateTokensForNv(String word, String genders, String extraTags) {
     List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
-    for(String vidm: VIDMINKY_MAP.keySet()) {
-      if( vidm.equals("v_kly") )
-        continue;
-  
-      String posTag = posTagBase + vidm + PosTagHelper.NO_VIDMINOK_SUBSTR;
-      if( extraTags != null ) {
-        posTag += extraTags;
+    for(char gen: genders.toCharArray()) {
+      String posTagBase = "noun:inanim:" + gen + ":";
+
+      for(String vidm: VIDMINKY_MAP.keySet()) {
+        if( vidm.equals("v_kly") )
+          continue;
+
+        String posTag = posTagBase + vidm + PosTagHelper.NO_VIDMINOK_SUBSTR;
+        if( extraTags != null ) {
+          posTag += extraTags;
+        }
+        newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));
       }
-      newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));
     }
     
     return newAnalyzedTokens;
   }
 
   @NotNull
-  public static String addIfNotContains(@NotNull String tag, @NotNull String addTag) {
-    if( ! tag.contains(addTag) )
+  public static String addIfNotContains(@NotNull String tag, @Nullable String addTag) {
+    if( addTag != null && ! tag.contains(addTag) )
       return tag + addTag;
     return tag;
   }
@@ -253,6 +288,29 @@ public final class PosTagHelper {
     return taggedWords.stream()
         .map(w -> new TaggedWord(lemma != null ? lemma : w.getLemma(), addIfNotContains(w.getPosTag(), addTag)))
         .collect(Collectors.toList());
+  }
+
+  @NotNull
+  public static List<TaggedWord> adjust(@NotNull List<TaggedWord> taggedWords, @Nullable String addTag, @Nullable String lemmaPrefix) {
+    return taggedWords.stream()
+        .map(w -> new TaggedWord(adjustLemma(w, lemmaPrefix), addIfNotContains(cleanExtraTags(w.getPosTag()), addTag)))
+        .collect(Collectors.toList());
+  }
+
+  private static String adjustLemma(TaggedWord w, String lemmaPrefix) {
+    return lemmaPrefix != null 
+        ? lemmaPrefix + w.getLemma()
+//            ( lemmaPrefix.endsWith("-") || lemmaPrefix.endsWith("'") 
+//              ? w.getLemma() 
+//              : w.getLemma().toLowerCase() )
+        : w.getLemma();
+  }
+
+  private static String cleanExtraTags(String tag) {
+    if( tag != null ) {
+      tag = tag.replaceAll(":(comp.|&&?adjp:.*?(:(im)?perf)+)", "");
+    }
+    return tag;
   }
 
   public static List<AnalyzedToken> filter(List<AnalyzedToken> analyzedTokens, Pattern posTag) {

@@ -18,9 +18,6 @@
  */
 package org.languagetool.rules;
 
-import java.util.Arrays;
-import java.util.List;
-
 final class TestHackHelper {
 
   private TestHackHelper() {
@@ -28,8 +25,7 @@ final class TestHackHelper {
 
   static boolean isJUnitTest() {
     StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-    List<StackTraceElement> list = Arrays.asList(stackTrace);
-    for (StackTraceElement element : list) {
+    for (StackTraceElement element : stackTrace) {
       if (element.getClassName().startsWith("org.junit.") ||
               element.getClassName().equals("org.languagetool.rules.patterns.PatternRuleTest")) {
         return true;

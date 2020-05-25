@@ -123,7 +123,7 @@ class RealWordCorpusEvaluator {
     System.out.println("    [+ ] = this is an expected error");
     System.out.println("    [++] = this is an expected error and the first suggestion is correct");
     System.out.println("    [//]  = not counted because already matches by a different rule");
-    System.out.println("");
+    System.out.println();
     ErrorCorpus corpus = getCorpus(dir);
     checkLines(corpus);
     printResults();
@@ -179,7 +179,7 @@ class RealWordCorpusEvaluator {
   }
 
   private void printResults() {
-    System.out.println("");
+    System.out.println();
     System.out.println(sentenceCount + " lines checked with " + errorsInCorpusCount + " errors.");
     System.out.println("Confusion rule matches: " + perfectConfusionMatches+ " perfect, "
             + goodConfusionMatches + " good, " + badConfusionMatches + " bad (" + badConfusionMatchWords + ")");

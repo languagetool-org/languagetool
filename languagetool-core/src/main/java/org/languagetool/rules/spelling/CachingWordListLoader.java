@@ -28,6 +28,7 @@ import org.languagetool.JLanguageTool;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -43,21 +44,18 @@ public class CachingWordListLoader {
       .build(new CacheLoader<String, List<String>>() {
         @Override
         public List<String> load(@NotNull String fileInClassPath) throws IOException {
-          return loadWordsFromPath(fileInClassPath);
-        }
-        private List<String> loadWordsFromPath(String filePath) {
           List<String> result = new ArrayList<>();
-          if (!JLanguageTool.getDataBroker().resourceExists(filePath)) {
+          if (!JLanguageTool.getDataBroker().resourceExists(fileInClassPath)) {
             return result;
           }
-          List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(filePath);
+          List<String> lines = JLanguageTool.getDataBroker().getFromResourceDirAsLines(fileInClassPath);
           for (String line : lines) {
             if (line.isEmpty() || line.startsWith("#")) {
               continue;
             }
             result.add(StringUtils.substringBefore(line.trim(), "#"));
           }
-          return result;
+          return Collections.unmodifiableList(result);
         }
       });
 

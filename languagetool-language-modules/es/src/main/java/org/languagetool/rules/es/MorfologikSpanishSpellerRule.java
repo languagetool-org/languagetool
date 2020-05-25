@@ -30,7 +30,7 @@ import java.util.ResourceBundle;
  * @since 2.8
  */
 public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
-
+    
   public MorfologikSpanishSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) throws IOException {
     super(messages, language, userConfig, altLanguages);
     this.setIgnoreTaggedWords();
@@ -38,11 +38,13 @@ public class MorfologikSpanishSpellerRule extends MorfologikSpellerRule {
 
   @Override
   public String getFileName() {
-    return "/es/hunspell/es_ES.dict";
+    return "/es/es-ES.dict";
   }
 
   @Override
   public final String getId() {
     return "MORFOLOGIK_RULE_ES";
   }
+ 
+
 }

@@ -21,6 +21,7 @@ package org.languagetool.openoffice;
 import org.jetbrains.annotations.Nullable;
 
 import com.sun.star.frame.XController;
+import com.sun.star.frame.XDesktop;
 import com.sun.star.frame.XModel;
 import com.sun.star.lang.XComponent;
 import com.sun.star.text.XParagraphCursor;
@@ -39,10 +40,10 @@ import com.sun.star.uno.XComponentContext;
  */
 public class ViewCursorTools {
   
-  private final XTextViewCursor xVCursor;
+  private final XDesktop xDesktop;
 
   ViewCursorTools(XComponentContext xContext) {
-    xVCursor = getViewCursor(xContext);
+    xDesktop = OfficeTools.getDesktop(xContext);
   }
 
   /** 
@@ -50,9 +51,9 @@ public class ViewCursorTools {
    * Returns null if it fails
    */
   @Nullable
-  private XTextViewCursor getViewCursor(XComponentContext xContext) {
+  private XTextViewCursor getViewCursor() {
     try {
-      XComponent xCurrentComponent = OfficeTools.getCurrentComponent(xContext);
+      XComponent xCurrentComponent = xDesktop.getCurrentComponent();
       if (xCurrentComponent == null) {
         return null;
       }
@@ -82,6 +83,7 @@ public class ViewCursorTools {
    */
   XParagraphCursor getParagraphCursorFromViewCursor() {
     try {
+      XTextViewCursor xVCursor = getViewCursor();
       if (xVCursor == null) {
         return null;
       }

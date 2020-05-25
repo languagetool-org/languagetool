@@ -20,13 +20,8 @@ package org.languagetool.rules.de;
 
 import com.hankcs.algorithm.AhoCorasickDoubleArrayTrie;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.LinguServices;
-import org.languagetool.UserConfig;
-import org.languagetool.databroker.ResourceDataBroker;
+import org.languagetool.*;
+import org.languagetool.broker.ResourceDataBroker;
 import org.languagetool.language.GermanyGerman;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
@@ -51,6 +46,11 @@ public class ProhibitedCompoundRule extends Rule {
   private static final List<Pair> lowercasePairs = Arrays.asList(
           // NOTE: words here must be all-lowercase
           // NOTE: no need to add words from confusion_sets.txt, they will be used automatically (if starting with uppercase char)
+          new Pair("kiefer", "knöcherner Teil des Schädels", "kiefern", "Kieferngewächse (Baum)"),
+          new Pair("gel", "dickflüssige Masse", "geld", "Zahlungsmittel"),
+          new Pair("flucht", "Entkommen, Fliehen", "frucht", "Ummantelung des Samens einer Pflanze"),
+          new Pair("kamp", "Flurname für ein Stück Land", "kampf", "Auseinandersetzung"),
+          new Pair("obst", "Frucht", "ost", "Himmelsrichtung"),
           new Pair("beeren", "Früchte", "bären", "Raubtiere"),
           new Pair("laus", "Insekt", "lauf", "Bewegungsart"),
           new Pair("läuse", "Insekt", "läufe", "Bewegungsart"),
@@ -85,6 +85,10 @@ public class ProhibitedCompoundRule extends Rule {
   private static GermanSpellerRule spellerRule;
   private static LinguServices linguServices;
   private static final List<String> ignoreWords = Arrays.asList("Die", "De");
+  private static final List<String> blacklistRegex = Arrays.asList(
+    "gra(ph|f)ie",  // Geographie
+    "Gra(ph|f)it"   // Grafit/Graphit
+  );
   private static final Set<String> blacklist = new HashSet<>(Arrays.asList(
           "Gründertag",
           "Korrekturlösung",
@@ -93,14 +97,19 @@ public class ProhibitedCompoundRule extends Rule {
           "Holzstele",
           "Brandschutz",
           "Testbahn",
+          "Testbahnen",
           "Reiszwecke",
+          "Reiszwecken",
           "Startglocke",
+          "Startglocken",
           "Ladepunkte",
           "Kinderpreise",
           "Kinderpreisen",
           "Belegungsoptionen",
           "Brandgebiete",
+          "Brandgebieten",
           "Innenfell",
+          "Innenfelle",
           "Batteriepreis",
           "Alltagsschuhe",
           "Alltagsschuhen",
@@ -108,6 +117,7 @@ public class ProhibitedCompoundRule extends Rule {
           "Arbeiterschuhen",
           "Bartvogel",
           "Abschiedsmail",
+          "Abschiedsmails",
           "Wohnindex",
           "Entwicklungsstudio",
           "Ermittlungsgesetz",
@@ -115,7 +125,57 @@ public class ProhibitedCompoundRule extends Rule {
           "Stromspender",
           "Turmvverlag",  // eigtl. Turm-Verlag, muss hier als Ausnahme aber so stehen
           "Bäckerlunge",
-          "Reisbeutel"
+          "Reisbeutel",
+          "Reisbeuteln",
+          "Reisbeutels",
+          "Fellnase",
+          "Fellnasen",
+          "Kletterwald",
+          "Kletterwalds",
+          "Lusthöhle",
+          "Lusthöhlen",
+          "Abschlagswert",
+          "Schuhfach",
+          "Schuhfächer",
+          "Spülkanüle",
+          "Spülkanülen",
+          "Tankkosten",
+          "Hangout",
+          "Hangouts",
+          "Kassenloser",
+          "kassenloser",
+          "Reisnadel",
+          "Reisnadeln",
+          "stielloses",
+          "stielloser",
+          "stiellosen",
+          "Beiratsregelung",
+          "Beiratsregelungen",
+          "Kreiskongress",
+          "Lagekosten",
+          "hineinfeiern",
+          "Maskenhersteller", // vs Marken
+          "Wabendesign",  // vs. Marken
+          "Maskenherstellers",
+          "Maskenherstellern",
+          "Firmenvokabular",
+          "Maskenproduktion",
+          "Maskenpflicht",
+          "Nachmiete",
+          "Ringseil",
+          "Ringseilen",
+          "Jagdschule",
+          "Tachograf",
+          "Tachografs",
+          "Tachografen",
+          "Grafitpulver",
+          "Grafitmine",
+          "Grafitminen",
+          "Nesselstraße",
+          "Reitsachen",
+          "Mehrfachabrechnung",
+          "Stuhlrolle",
+          "Stuhlrollen"
   ));
 
   // have per-class static list of these and reference that in instance
@@ -134,7 +194,6 @@ public class ProhibitedCompoundRule extends Rule {
     prohibitedCompoundRuleSearcher = setupAhoCorasickSearch(pairs, pairMap);
     prohibitedCompoundRulePairMap = pairMap;
   }
-
 
   private static void addAllCaseVariants(List<Pair> candidatePairs, Pair lcPair) {
     candidatePairs.add(new Pair(lcPair.part1, lcPair.part1Desc, lcPair.part2, lcPair.part2Desc));
@@ -228,7 +287,6 @@ public class ProhibitedCompoundRule extends Rule {
     return "Markiert wahrscheinlich falsche Komposita wie 'Lehrzeile', wenn 'Leerzeile' häufiger vorkommt.";
   }
 
-
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
@@ -256,7 +314,7 @@ public class ProhibitedCompoundRule extends Rule {
      only nouns can be compounds
      all parts are at least 3 characters long -> words must have at least 6 characters
     */
-    if ((readings.isTagged() && !readings.hasPartialPosTag("SUB")) || wordPart.length() <= 6) {
+    if ((readings.isTagged() && !readings.hasPartialPosTag("SUB")) && !readings.hasPosTagStartingWith("EIG:") || wordPart.length() <= 6) {  // EIG: e.g. "Obstdeutschland" -> "Ostdeutschland"
       partsStartPos += wordPart.length() + 1;
       return partsStartPos;
     }
@@ -292,7 +350,7 @@ public class ProhibitedCompoundRule extends Rule {
       long variantCount = lm.getCount(variant);
       //float factor = variantCount / (float)Math.max(wordCount, 1);
       //System.out.println("word: " + word + " (" + wordCount + "), variant: " + variant + " (" + variantCount + "), factor: " + factor + ", pair: " + pair);
-      if (variantCount > 0 && wordCount == 0 && !blacklist.contains(wordPart) && !isMisspelled(variant)) {
+      if (variantCount > 0 && wordCount == 0 && !blacklist.contains(wordPart) && !isMisspelled(variant) && blacklistRegex.stream().noneMatch(k -> wordPart.matches(".*" + k + ".*"))) {
         String msg;
         if (pair.part1Desc != null && pair.part2Desc != null) {
           msg = "Möglicher Tippfehler. " + uppercaseFirstChar(pair.part1) + ": " + pair.part1Desc + ", " + uppercaseFirstChar(pair.part2) + ": " + pair.part2Desc;

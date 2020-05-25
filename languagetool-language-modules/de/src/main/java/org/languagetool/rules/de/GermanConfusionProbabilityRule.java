@@ -35,12 +35,20 @@ import java.util.regex.Pattern;
 public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   private static final List<Pattern> SENTENCE_EXCEPTION_PATTERNS = Arrays.asList(
+    Pattern.compile("wir \\("),  // "Hallo, wir (die Dingsbums Gmbh)"
+    Pattern.compile("Wie .*?en Sie"),  // "Wie heizen Sie das Haus?"
     Pattern.compile("fiel(e|en)? .* (aus|auf)")
   );
 
   private static final List<String> EXCEPTIONS = Arrays.asList(
     // Use all-lowercase, matches will be case-insensitive.
     // See https://github.com/languagetool-org/languagetool/issues/1516
+    ", dir bei",  // "froh, dir bei deiner Arbeit zu helfen"
+    "fiel hinaus",
+    "du hast dir",
+    "vielen als held",
+    "seht gut",  // "Ihr seht gut aus"
+    "so viel das",
     "wie erinnern sie sich",
     "dürfen wir nicht",
     "kann dich auch",
@@ -59,7 +67,17 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "so wir können",
     "wie zahlen sie",
     "war sich für nichts", // war sich für nichts zu schade
-    "ich drei bin" // seit ich drei bin.
+    "ich drei bin", // seit ich drei bin.
+    "was wird unser",
+    "die wird wieder",
+    "damit wir für",
+    "wie finden sie",
+    "ach die armen",
+    "wir würden sie", // vs wird
+    "damit wir ihre daten", // vs wird
+    "kannst du doch gerne", // vs dich
+    "wie ist hier der Stand", // vs Sand
+    "wie ist der Stand" // vs Sand
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
@@ -73,7 +91,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   }
 
   @Override
-  protected boolean isException(String sentenceText) {
+  protected boolean isException(String sentenceText, int startPos, int endPos) {
     for (Pattern pattern : SENTENCE_EXCEPTION_PATTERNS) {
       Matcher m = pattern.matcher(sentenceText);
       if (m.find()) {

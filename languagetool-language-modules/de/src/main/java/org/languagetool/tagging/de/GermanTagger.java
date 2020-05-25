@@ -18,24 +18,20 @@
  */
 package org.languagetool.tagging.de;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.tagging.BaseTagger;
-import org.languagetool.tagging.ManualTagger;
-import org.languagetool.tagging.TaggedWord;
+import org.languagetool.language.GermanyGerman;
+import org.languagetool.rules.spelling.CachingWordListLoader;
+import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tagging.*;
 import org.languagetool.tokenizers.de.GermanCompoundTokenizer;
 import org.languagetool.tools.StringTools;
+
+import java.io.IOException;
+import java.util.*;
 
 /**
  * German part-of-speech tagger, requires data file in <code>de/german.dict</code> in the classpath.
@@ -47,15 +43,72 @@ import org.languagetool.tools.StringTools;
 public class GermanTagger extends BaseTagger {
 
   private final ManualTagger removalTagger;
+  private final Map<String, PrefixInfixVerb> verbInfos = new HashMap<>();
 
   private GermanCompoundTokenizer compoundTokenizer;
 
+  private final static Synthesizer synthesizer = new GermanyGerman().getSynthesizer();
+
+  private static final List<String> allAdjGruTags = new ArrayList<>();
+  static {
+    for (String nomAkkGenDat : Arrays.asList("NOM", "AKK", "GEN", "DAT")) {
+      for (String pluSin : Arrays.asList("PLU", "SIN")) {
+        for (String masFemNeu : Arrays.asList("MAS", "FEM", "NEU")) {
+          for (String defIndSol : Arrays.asList("DEF", "IND", "SOL")) {
+            allAdjGruTags.add("ADJ:" + nomAkkGenDat + ":" + pluSin + ":" + masFemNeu + ":GRU:" + defIndSol);
+          }
+        }
+      }
+    }
+  }
+
+  private static final List<String> tagsForWeise = new ArrayList<>();
+  static {
+    // "kofferweise", "idealerweise" etc.
+    tagsForWeise.add("ADJ:AKK:PLU:FEM:GRU:SOL");
+    tagsForWeise.add("ADJ:AKK:PLU:MAS:GRU:SOL");
+    tagsForWeise.add("ADJ:AKK:PLU:NEU:GRU:SOL");
+    tagsForWeise.add("ADJ:AKK:SIN:FEM:GRU:DEF");
+    tagsForWeise.add("ADJ:AKK:SIN:FEM:GRU:IND");
+    tagsForWeise.add("ADJ:AKK:SIN:FEM:GRU:SOL");
+    tagsForWeise.add("ADJ:AKK:SIN:NEU:GRU:DEF");
+    tagsForWeise.add("ADJ:NOM:PLU:FEM:GRU:SOL");
+    tagsForWeise.add("ADJ:NOM:PLU:MAS:GRU:SOL");
+    tagsForWeise.add("ADJ:NOM:PLU:NEU:GRU:SOL");
+    tagsForWeise.add("ADJ:NOM:SIN:FEM:GRU:DEF");
+    tagsForWeise.add("ADJ:NOM:SIN:FEM:GRU:IND");
+    tagsForWeise.add("ADJ:NOM:SIN:FEM:GRU:SOL");
+    tagsForWeise.add("ADJ:NOM:SIN:MAS:GRU:DEF");
+    tagsForWeise.add("ADJ:NOM:SIN:NEU:GRU:DEF");
+    tagsForWeise.add("ADJ:PRD:GRU");
+  }
+
   public GermanTagger() {
-    super("/de/german.dict");
-    try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(getManualRemovalsFileName())) {
-      removalTagger = new ManualTagger(stream);
-    } catch (IOException e) {
-      throw new RuntimeException("Could not load manual tagger data from " + getManualAdditionsFileName(), e);
+    super("/de/german.dict", Locale.GERMAN);
+    removalTagger = (ManualTagger) ((CombiningTagger) getWordTagger()).getRemovalTagger();
+    initVerbInfos();
+  }
+
+  private void initVerbInfos() {
+    List<String> spellingWords = new CachingWordListLoader().loadWords("de/hunspell/spelling.txt");
+    for (String line : spellingWords) {
+      if (!line.contains("_")) {
+        continue;
+      }
+      String[] parts = line.replace("#.*", "").trim().split("_");
+      String prefix = parts[0];
+      String verbBaseform = parts[1];
+      try {
+        String[] forms = synthesizer.synthesize(new AnalyzedToken(verbBaseform, "FAKE", verbBaseform), "VER:.*", true);
+        for (String form : forms) {
+          if (!form.contains("ß")) {  // skip these, it's too risky to introduce old spellings like "gewußt" from the synthesizer
+            verbInfos.put(prefix + form, new PrefixInfixVerb(prefix, "", verbBaseform));
+          }
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+      verbInfos.put(prefix + "zu" + verbBaseform, new PrefixInfixVerb(prefix, "zu", verbBaseform));  //  "zu<verb>" is not part of forms from synthesizer
     }
   }
 
@@ -98,16 +151,6 @@ public class GermanTagger extends BaseTagger {
     return result;
   }
 
-  @Override
-  public String getManualAdditionsFileName() {
-    return "/de/added.txt";
-  }
-
-  @Override
-  public String getManualRemovalsFileName() {
-    return "/de/removed.txt";
-  }
-
   /**
    * Return only the first reading of the given word or {@code null}.
    */
@@ -148,7 +191,7 @@ public class GermanTagger extends BaseTagger {
       List<AnalyzedToken> readings = new ArrayList<>();
       List<TaggedWord> taggerTokens = null;
       // Gender star etc:
-      String genderGap = "[*:_]";
+      String genderGap = "[*:_/]";
       if (idxPos+2 < sentenceTokens.size() && sentenceTokens.get(idxPos+1).matches(genderGap)) {
         if (sentenceTokens.get(idxPos+2).matches("in|innen|r|e")) {  // "jede*r", "sein*e"
           taggerTokens = new ArrayList<>();
@@ -167,22 +210,42 @@ public class GermanTagger extends BaseTagger {
       } else if (pos == 0 && ignoreCase) {   // "Haben", "Sollen", "Können", "Gerade" etc. at start of sentence
         taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));
       } else if (pos > 1 && taggerTokens.isEmpty() && ignoreCase) {
-          int idx = sentenceTokens.indexOf(word);
-          // add lowercase token readings to words at start of direct speech
-          if (idx > 2 && sentenceTokens.get(idx-1).contentEquals("„") && sentenceTokens.get(idx-3).contentEquals(":")) {
-            taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));
-          }
+        int idx = sentenceTokens.indexOf(word);
+        // add lowercase token readings to words at start of direct speech
+        if (idx > 2 && sentenceTokens.get(idx-1).contentEquals("„") && sentenceTokens.get(idx-3).contentEquals(":")) {
+          taggerTokens.addAll(getWordTagger().tag(word.toLowerCase()));
+        }
       }
 
       if (taggerTokens.size() > 0) { //Word known, just add analyzed token to readings
         readings.addAll(getAnalyzedTokens(taggerTokens, word));
       } else { // Word not known, try to decompose it and use the last part for POS tagging:
-        if (!StringUtils.isAllBlank(word)) {
+        PrefixInfixVerb verbInfo = verbInfos.get(word);
+        //String prefixVerbLastPart = prefixedVerbLastPart(word);   // see https://github.com/languagetool-org/languagetool/issues/2740
+        if (verbInfo != null) {   // e.g. "herumgeben" with "herum_geben" in spelling.txt
+          String noPrefixForm = word.substring(verbInfo.prefix.length() + verbInfo.infix.length());   // infix can be "zu"
+          List<TaggedWord> tags = tag(noPrefixForm);
+          for (TaggedWord tag : tags) {
+            if (tag.getPosTag() != null && tag.getPosTag().startsWith("VER:")) {  // e.g. "schicke" is verb and adjective
+              readings.add(new AnalyzedToken(word, tag.getPosTag(), verbInfo.prefix + tag.getLemma()));
+            }
+          }
+        /*} else if (prefixVerbLastPart != null) {   // "aufstöhnen" etc.
+          List<TaggedWord> taggedWords = getWordTagger().tag(prefixVerbLastPart);
+          String firstPart = word.replaceFirst(prefixVerbLastPart + "$", "");
+          for (TaggedWord taggedWord : taggedWords) {
+            readings.add(new AnalyzedToken(word, taggedWord.getPosTag(), firstPart+taggedWord.getLemma()));
+          }*/
+        } else if (isWeiseException(word)) {   // "idealerweise" etc. but not "überweise", "eimerweise"
+          for (String tag : tagsForWeise) {
+            readings.add(new AnalyzedToken(word, tag, word));
+          }
+        } else if (!StringUtils.isAllBlank(word)) {
           List<String> compoundParts = compoundTokenizer.tokenize(word);
           if (compoundParts.size() <= 1) {//Could not find simple compound parts
             // Recognize alternative imperative forms (e.g., "Geh bitte!" in addition to "Gehe bitte!")
             List<AnalyzedToken> imperativeFormList = getImperativeForm(word, sentenceTokens, pos);
-            List<AnalyzedToken> substantivatedFormsList = getSubstantivatedForms(word, sentenceTokens, pos);
+            List<AnalyzedToken> substantivatedFormsList = getSubstantivatedForms(word, sentenceTokens);
             if (imperativeFormList.size() > 0) {
               readings.addAll(imperativeFormList);
             } else if (substantivatedFormsList.size() > 0) {
@@ -255,12 +318,34 @@ public class GermanTagger extends BaseTagger {
           readings.add(getNoInfoToken(word));
         }
       }
-      tokenReadings.add(new AnalyzedTokenReadings(readings.toArray(new AnalyzedToken[readings.size()]), pos));
+      tokenReadings.add(new AnalyzedTokenReadings(readings.toArray(new AnalyzedToken[0]), pos));
       pos += word.length();
       prevWord = word;
       idxPos++;
     }
     return tokenReadings;
+  }
+
+  @Nullable
+  String prefixedVerbLastPart(String word) {
+    // "aufstöhnen" (auf+stöhnen) etc.
+    for (String prefix : VerbPrefixes.get()) {
+      if (word.startsWith(prefix)) {
+        List<TaggedWord> tags = tag(word.replaceFirst("^" + prefix, ""));
+        if (tags.stream().anyMatch(k -> k.getPosTag() != null && k.getPosTag().startsWith("VER:"))) {
+          return word.substring(prefix.length());
+        }
+      }
+    }
+    return null;
+  }
+
+  boolean isWeiseException(String word) {
+    if (word.endsWith("erweise")) {  // "idealerweise" etc.
+      List<TaggedWord> tags = tag(word.replaceFirst("erweise$", ""));
+      return tags.stream().anyMatch(k -> k.getPosTag() != null && k.getPosTag().startsWith("ADJ:"));
+    }
+    return false;
   }
 
   /*
@@ -303,8 +388,16 @@ public class GermanTagger extends BaseTagger {
    * (e.g., "Verletzter" in "Ein Verletzter kam ins Krankenhaus" needs to be tagged as "SUB:NOM:SIN:MAS")
    * @param word to be checked
    */
-  private List<AnalyzedToken> getSubstantivatedForms(String word, List<String> sentenceTokens, int pos) {
+  private List<AnalyzedToken> getSubstantivatedForms(String word, List<String> sentenceTokens) {
     if (word.endsWith("er")) {
+      if (word.matches("\\d{4}+er")) {
+        // e.g. "Den 2019er Wert hatten sie geschätzt"
+        List<AnalyzedToken> list = new ArrayList<>();
+        for (String tag : allAdjGruTags) {
+          list.add(new AnalyzedToken(word, tag, word));
+        }
+        return list;
+      }
       List<TaggedWord> lowerCaseTags = getWordTagger().tag(word.toLowerCase());
       // do not add tag words whose lower case variant is an adverb (e.g, "Früher") to avoid false negatives for DE_CASE
       if (lowerCaseTags.stream().anyMatch(t -> t.getPosTag().startsWith("ADV"))) {
@@ -369,4 +462,14 @@ public class GermanTagger extends BaseTagger {
     return result;
   }
 
+  static class PrefixInfixVerb {
+    String prefix;
+    String infix;
+    String verbBaseform;
+    PrefixInfixVerb(String prefix, String infix, String verbBaseform) {
+      this.prefix = prefix;
+      this.infix = infix;
+      this.verbBaseform = verbBaseform;
+    }
+  }
 }

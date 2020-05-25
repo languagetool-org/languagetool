@@ -48,6 +48,8 @@ class CommandLineParser {
         options.setVerbose(true);
       } else if (args[i].equals("--line-by-line")) {
         options.setLineByLine(true);
+      } else if (args[i].equals("--enable-temp-off")) {
+        options.setEnableTempOff(true);
       } else if (args[i].equals("-t") || args[i].equals("--taggeronly")) {
         options.setTaggerOnly(true);
         if (options.isListUnknown()) {
@@ -234,6 +236,7 @@ class CommandLineParser {
             + "  --fasttextbinary FILE    fasttext executable (optional), see https://fasttext.cc/docs/en/support.html\n"
             + "  --xmlfilter              remove XML/HTML elements from input before checking (deprecated)\n"
             + "  --line-by-line           work on file line by line (for development, e.g. inside an IDE)"
+            + "  --enable-temp-off        enable all temp_off rules (for testing and development)"
     );
   }
 

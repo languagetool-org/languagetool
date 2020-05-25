@@ -66,4 +66,9 @@ public abstract class RuleFilter {
     return result;
   }
 
+  protected String getOptional(String key, Map<String, String> map) {
+    String result = map.get(key);
+    return result;
+  }
+
 }

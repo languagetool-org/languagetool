@@ -49,17 +49,14 @@ public class PunctuationMarkAtParagraphEnd extends TextLevelRule {
     super(messages);
     this.lang = Objects.requireNonNull(lang);
     super.setCategory(Categories.PUNCTUATION.getCategory(messages));
+    setLocQualityIssueType(ITSIssueType.Grammar);
     if (!defaultActive) {
       setDefaultOff();
     }
-    setLocQualityIssueType(ITSIssueType.Grammar);
   }
 
   public PunctuationMarkAtParagraphEnd(ResourceBundle messages, Language lang) {
-    super(messages);
-    this.lang = Objects.requireNonNull(lang);
-    super.setCategory(Categories.PUNCTUATION.getCategory(messages));
-    setLocQualityIssueType(ITSIssueType.Grammar);
+    this(messages, lang, true);
   }
 
   @Override

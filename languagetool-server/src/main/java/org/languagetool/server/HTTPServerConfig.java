@@ -109,6 +109,20 @@ public class HTTPServerConfig {
   protected String abTest = null;
   protected Pattern abTestClients = null;
   protected int abTestRollout = 100; // percentage [0,100]
+
+  private static final List<String> KNOWN_OPTION_KEYS = Arrays.asList("abTest", "abTestClients", "abTestRollout",
+    "beolingusFile", "blockedReferrers", "cacheSize", "cacheTTLSeconds",
+    "dbDriver", "dbPassword", "dbUrl", "dbUsername", "disabledRuleIds", "fasttextBinary", "fasttextModel", "grammalectePassword",
+    "grammalecteServer", "grammalecteUser", "hiddenMatchesLanguages", "hiddenMatchesServer", "hiddenMatchesServerFailTimeout",
+    "hiddenMatchesServerTimeout", "ipFingerprintFactor", "languageModel", "maxCheckThreads", "maxCheckTimeMillis",
+    "maxCheckTimeWithApiKeyMillis", "maxErrorsPerWordRate", "maxPipelinePoolSize", "maxSpellingSuggestions", "maxTextHardLength",
+    "maxTextLength", "maxTextLengthWithApiKey", "maxWorkQueueSize", "neuralNetworkModel", "pipelineCaching",
+    "pipelineExpireTimeInSeconds", "pipelinePrewarming", "prometheusMonitoring", "prometheusPort", "remoteRulesFile",
+    "requestLimit", "requestLimitInBytes", "requestLimitPeriodInSeconds", "rulesFile", "secretTokenKey", "serverURL",
+    "skipLoggingChecks", "skipLoggingRuleMatches", "timeoutRequestLimit", "trustXForwardForHeader", "warmUp", "word2vecModel",
+    "keystore", "password", "maxTextLengthPremium", "maxTextLengthAnonymous", "maxTextLengthLoggedIn", "gracefulDatabaseFailure",
+    "redisPassword", "redisHost", "dbLogging", "premiumOnly");
+
   /**
    * Create a server configuration for the default port ({@link #DEFAULT_PORT}).
    */
@@ -246,14 +260,14 @@ public class HTTPServerConfig {
         if (rulesConfigFilePath != null) {
           rulesConfigFile = new File(rulesConfigFilePath);
           if (!rulesConfigFile.exists() || !rulesConfigFile.isFile()) {
-            throw new RuntimeException("Rules Configuration file can not be found: " + rulesConfigFile);
+            throw new RuntimeException("Rules Configuration file cannot be found: " + rulesConfigFile);
           }
         }
         String remoteRulesConfigFilePath = getOptionalProperty(props, "remoteRulesFile", null);
         if (remoteRulesConfigFilePath != null) {
           remoteRulesConfigFile = new File(remoteRulesConfigFilePath);
           if (!remoteRulesConfigFile.exists() || !remoteRulesConfigFile.isFile()) {
-            throw new RuntimeException("Remote rules configuration file can not be found: " + remoteRulesConfigFile);
+            throw new RuntimeException("Remote rules configuration file cannot be found: " + remoteRulesConfigFile);
           }
         }
         cacheSize = Integer.parseInt(getOptionalProperty(props, "cacheSize", "0"));
@@ -296,6 +310,22 @@ public class HTTPServerConfig {
         globalConfig.setGrammalecteServer(getOptionalProperty(props, "grammalecteServer", null));
         globalConfig.setGrammalecteUser(getOptionalProperty(props, "grammalecteUser", null));
         globalConfig.setGrammalectePassword(getOptionalProperty(props, "grammalectePassword", null));
+        String beolingusFile = getOptionalProperty(props, "beolingusFile", null);
+        if (beolingusFile != null) {
+          if (new File(beolingusFile).exists()) {
+            globalConfig.setBeolingusFile(new File(beolingusFile));
+          } else {
+            throw new IllegalArgumentException("beolingusFile not found: " + beolingusFile);
+          }
+        }
+        for (Object o : props.keySet()) {
+          String key = (String)o;
+          if (!KNOWN_OPTION_KEYS.contains(key) && !key.matches("lang-[a-z]+-dictPath") && !key.matches("lang-[a-z]+")) {
+            System.err.println("***** WARNING: ****");
+            System.err.println("Key '" + key + "' from configuration file '" + file + "' is unknown. Please check the key's spelling (case is significant).");
+            System.err.println("Known keys: " + KNOWN_OPTION_KEYS);
+          }
+        }
 
         addDynamicLanguages(props);
         setAbTest(getOptionalProperty(props, "abTest", null));
@@ -455,7 +485,6 @@ public class HTTPServerConfig {
    * Maximum text length for users that can identify themselves with an API key.
    * @since 4.2
    */
-  @Experimental
   int getMaxTextLengthWithApiKey() {
     return maxTextLengthWithApiKey;
   }
@@ -522,7 +551,6 @@ public class HTTPServerConfig {
   }
 
   /** @since 4.2 */
-  @Experimental
   long getMaxCheckTimeWithApiKeyMillis() {
     return maxCheckTimeWithApiKeyMillis;
   }
@@ -757,7 +785,6 @@ public class HTTPServerConfig {
    * @since 4.0
    */
   @Nullable
-  @Experimental
   String getHiddenMatchesServer() {
     return hiddenMatchesServer;
   }
@@ -766,7 +793,6 @@ public class HTTPServerConfig {
    * Timeout in milliseconds for querying {@link #getHiddenMatchesServer()}.
    * @since 4.0
    */
-  @Experimental
   int getHiddenMatchesServerTimeout() {
     return hiddenMatchesServerTimeout;
   }
@@ -775,7 +801,6 @@ public class HTTPServerConfig {
    * Period to skip requests to hidden matches server after a timeout (in milliseconds)
    * @since 4.5
    */
-  @Experimental
   int getHiddenMatchesServerFailTimeout() {
     return hiddenMatchesServerFailTimeout;
   }
@@ -784,7 +809,6 @@ public class HTTPServerConfig {
    * Languages for which {@link #getHiddenMatchesServer()} will be queried.
    * @since 4.0
    */
-  @Experimental
   List<Language> getHiddenMatchesLanguages() {
     return hiddenMatchesLanguages;
   }
@@ -812,7 +836,6 @@ public class HTTPServerConfig {
    * @since 4.2
    */
   @Nullable
-  @Experimental
   String getDatabaseDriver() {
     return dbDriver;
   }
@@ -820,7 +843,6 @@ public class HTTPServerConfig {
   /**
    * @since 4.2
    */
-  @Experimental
   void setDatabaseDriver(String dbDriver) {
     this.dbDriver = dbDriver;
   }
@@ -830,7 +852,6 @@ public class HTTPServerConfig {
    * @since 4.2
    */
   @Nullable
-  @Experimental
   String getDatabaseUrl() {
     return dbUrl;
   }
@@ -838,7 +859,6 @@ public class HTTPServerConfig {
   /**
    * @since 4.2
    */
-  @Experimental
   void setDatabaseUrl(String dbUrl) {
     this.dbUrl = dbUrl;
   }
@@ -848,7 +868,6 @@ public class HTTPServerConfig {
    * @since 4.2
    */
   @Nullable
-  @Experimental
   String getDatabaseUsername() {
     return dbUsername;
   }
@@ -856,7 +875,6 @@ public class HTTPServerConfig {
   /**
    * @since 4.2
    */
-  @Experimental
   void setDatabaseUsername(String dbUsername) {
     this.dbUsername = dbUsername;
   }
@@ -866,7 +884,6 @@ public class HTTPServerConfig {
    * @since 4.2
    */
   @Nullable
-  @Experimental
   String getDatabasePassword() {
     return dbPassword;
   }
@@ -874,7 +891,6 @@ public class HTTPServerConfig {
   /**
    * @since 4.2
    */
-  @Experimental
   void setDatabasePassword(String dbPassword) {
     this.dbPassword = dbPassword;
   }
@@ -883,7 +899,6 @@ public class HTTPServerConfig {
    * Whether meta data about each search (like in the logfile) should be logged to the database.
    * @since 4.4
    */
-  @Experimental
   void setDatabaseLogging(boolean logging) {
     this.dbLogging = logging;
   }
@@ -891,7 +906,6 @@ public class HTTPServerConfig {
   /**
    * @since 4.4
    */
-  @Experimental
   boolean getDatabaseLogging() {
     return this.dbLogging;
   }
@@ -915,7 +929,6 @@ public class HTTPServerConfig {
    * @since 4.5
    * @return threshold for rule computation time until a warning gets logged, in milliseconds
    */
-  @Experimental
   public int getSlowRuleLoggingThreshold() {
     return slowRuleLoggingThreshold;
   }
@@ -953,7 +966,6 @@ public class HTTPServerConfig {
    * @since 4.4
    * See if a specific A/B-Test is to be run
    */
-  @Experimental
   @Nullable
   public String getAbTest() {
     return abTest;
@@ -963,7 +975,6 @@ public class HTTPServerConfig {
    * @since 4.4
    * Enable a specific A/B-Test to be run (or null to disable all tests)
    */
-  @Experimental
   public void setAbTest(@Nullable String abTest) {
     if (abTest != null && abTest.trim().isEmpty()) {
       this.abTest = null;
@@ -973,7 +984,7 @@ public class HTTPServerConfig {
   }
 
   /**
-   * Clients that a A/B test runs on; null -> disabled
+   * Clients that a A/B test runs on; null -&gt; disabled
    * @since 4.9
    */
   @Experimental
@@ -983,7 +994,7 @@ public class HTTPServerConfig {
   }
 
   /**
-   * Clients that a A/B test runs on; null -> disabled
+   * Clients that a A/B test runs on; null -&gt; disabled
    * @since 4.9
    */
   @Experimental

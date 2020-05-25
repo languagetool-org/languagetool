@@ -141,8 +141,6 @@ public class Utils {
    * Attempts to unlenite a string (See {@link #lenite(String)})
    * Deliberately does not check if first character is one
    * that ought to be lenited (this can be checked in XML rules)
-   * @param in
-   * @return
    */
   public static String unLenite(String in) {
     if (in.length() < 2) {
@@ -210,7 +208,7 @@ public class Utils {
 
   /**
    * Helper to uneclipse single-letter consonant eclipsis (i.e., not bhfear or
-   *  n-éin), handling miscapitalised eclipsed words: Gcarr -> Carr, etc.
+   *  n-éin), handling miscapitalised eclipsed words: Gcarr -&gt; Carr, etc.
    * @param in string to uneclipse
    * @param first first (eclipsis) character
    * @param second second character; first character of the word proper
@@ -655,95 +653,95 @@ public class Utils {
     return sb.toString();
   }
 
-  private static final int MATHEMATICAL_BOLD_CAPITAL_A = (int) '\uDC00';
-  private static final int MATHEMATICAL_BOLD_CAPITAL_Z = (int) '\uDC19';
-  private static final int MATHEMATICAL_BOLD_SMALL_A = (int) '\uDC1A';
-  private static final int MATHEMATICAL_BOLD_SMALL_Z = (int) '\uDC33';
-  private static final int MATHEMATICAL_ITALIC_CAPITAL_A = (int) '\uDC34';
-  private static final int MATHEMATICAL_ITALIC_CAPITAL_Z = (int) '\uDC4D';
-  private static final int MATHEMATICAL_ITALIC_SMALL_A = (int) '\uDC4E';
-  private static final int MATHEMATICAL_ITALIC_SMALL_Z = (int) '\uDC67';
-  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_A = (int) '\uDC68';
-  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z = (int) '\uDC81';
-  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_A = (int) '\uDC82';
-  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_Z = (int) '\uDC9B';
-  private static final int MATHEMATICAL_SCRIPT_CAPITAL_A = (int) '\uDC9C';
-  private static final int MATHEMATICAL_SCRIPT_CAPITAL_Z = (int) '\uDCB5';
-  private static final int MATHEMATICAL_SCRIPT_SMALL_A = (int) '\uDCB6';
-  private static final int MATHEMATICAL_SCRIPT_SMALL_Z = (int) '\uDCCF';
-  private static final int MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A = (int) '\uDCD0';
-  private static final int MATHEMATICAL_BOLD_SCRIPT_CAPITAL_Z = (int) '\uDCE9';
-  private static final int MATHEMATICAL_BOLD_SCRIPT_SMALL_A = (int) '\uDCEA';
-  private static final int MATHEMATICAL_BOLD_SCRIPT_SMALL_Z = (int) '\uDD03';
-  private static final int MATHEMATICAL_FRAKTUR_CAPITAL_A = (int) '\uDD04';
-  private static final int MATHEMATICAL_FRAKTUR_CAPITAL_Z = (int) '\uDD1D';
-  private static final int MATHEMATICAL_FRAKTUR_SMALL_A = (int) '\uDD1E';
-  private static final int MATHEMATICAL_FRAKTUR_SMALL_Z = (int) '\uDD37';
-  private static final int MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A = (int) '\uDD38';
-  private static final int MATHEMATICAL_DOUBLESTRUCK_CAPITAL_Z = (int) '\uDD51';
-  private static final int MATHEMATICAL_DOUBLESTRUCK_SMALL_A = (int) '\uDD52';
-  private static final int MATHEMATICAL_DOUBLESTRUCK_SMALL_Z = (int) '\uDD6B';
-  private static final int MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A = (int) '\uDD6C';
-  private static final int MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_Z = (int) '\uDD85';
-  private static final int MATHEMATICAL_BOLD_FRAKTUR_SMALL_A = (int) '\uDD86';
-  private static final int MATHEMATICAL_BOLD_FRAKTUR_SMALL_Z = (int) '\uDD9F';
-  private static final int MATHEMATICAL_SANSSERIF_CAPITAL_A = (int) '\uDDA0';
-  private static final int MATHEMATICAL_SANSSERIF_CAPITAL_Z = (int) '\uDDB9';
-  private static final int MATHEMATICAL_SANSSERIF_SMALL_A = (int) '\uDDBA';
-  private static final int MATHEMATICAL_SANSSERIF_SMALL_Z = (int) '\uDDD3';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A = (int) '\uDDD4';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_Z = (int) '\uDDED';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_A = (int) '\uDDEE';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_Z = (int) '\uDE07';
-  private static final int MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A = (int) '\uDE08';
-  private static final int MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_Z = (int) '\uDE21';
-  private static final int MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A = (int) '\uDE22';
-  private static final int MATHEMATICAL_SANSSERIF_ITALIC_SMALL_Z = (int) '\uDE3B';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A = (int) '\uDE3C';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_Z = (int) '\uDE55';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A = (int) '\uDE56';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_Z = (int) '\uDE6F';
-  private static final int MATHEMATICAL_MONOSPACE_CAPITAL_A = (int) '\uDE70';
-  private static final int MATHEMATICAL_MONOSPACE_CAPITAL_Z = (int) '\uDE89';
-  private static final int MATHEMATICAL_MONOSPACE_SMALL_A = (int) '\uDE8A';
-  private static final int MATHEMATICAL_MONOSPACE_SMALL_Z = (int) '\uDEA3';
-  private static final int MATHEMATICAL_ITALIC_SMALL_DOTLESS_I = (int) '\uDEA4';
-  private static final int MATHEMATICAL_ITALIC_SMALL_DOTLESS_J = (int) '\uDEA5';
-  private static final int MATHEMATICAL_BOLD_CAPITAL_ALPHA = (int) '\uDEA8';
-  private static final int MATHEMATICAL_BOLD_CAPITAL_OMEGA = (int) '\uDEC0';
-  private static final int MATHEMATICAL_BOLD_SMALL_ALPHA = (int) '\uDEC2';
-  private static final int MATHEMATICAL_BOLD_SMALL_OMEGA = (int) '\uDEDA';
-  private static final int MATHEMATICAL_ITALIC_CAPITAL_ALPHA = (int) '\uDEE2';
-  private static final int MATHEMATICAL_ITALIC_CAPITAL_OMEGA = (int) '\uDEFA';
-  private static final int MATHEMATICAL_ITALIC_SMALL_ALPHA = (int) '\uDEFC';
-  private static final int MATHEMATICAL_ITALIC_SMALL_OMEGA = (int) '\uDF14';
-  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_ALPHA = (int) '\uDF1C';
-  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_OMEGA = (int) '\uDF34';
-  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_ALPHA = (int) '\uDF36';
-  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_OMEGA = (int) '\uDF4E';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_ALPHA = (int) '\uDF56';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_OMEGA = (int) '\uDF6E';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_ALPHA = (int) '\uDF70';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_OMEGA = (int) '\uDF88';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_ALPHA = (int) '\uDF90';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_OMEGA = (int) '\uDFA8';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_ALPHA = (int) '\uDFAA';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_OMEGA = (int) '\uDFC2';
-  private static final int MATHEMATICAL_BOLD_DIGIT_ZERO = (int) '\uDFCE';
-  private static final int MATHEMATICAL_BOLD_DIGIT_NINE = (int) '\uDFD7';
-  private static final int MATHEMATICAL_DOUBLESTRUCK_DIGIT_ZERO = (int) '\uDFD8';
-  private static final int MATHEMATICAL_DOUBLESTRUCK_DIGIT_NINE = (int) '\uDFE1';
-  private static final int MATHEMATICAL_SANSSERIF_DIGIT_ZERO = (int) '\uDFE2';
-  private static final int MATHEMATICAL_SANSSERIF_DIGIT_NINE = (int) '\uDFEB';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_DIGIT_ZERO = (int) '\uDFEC';
-  private static final int MATHEMATICAL_SANSSERIF_BOLD_DIGIT_NINE = (int) '\uDFF5';
-  private static final int MATHEMATICAL_MONOSPACE_DIGIT_ZERO = (int) '\uDFF6';
-  private static final int MATHEMATICAL_MONOSPACE_DIGIT_NINE = (int) '\uDFFF';
-  private static final int CAPITAL_A = (int) 'A';
-  private static final int SMALL_A = (int) 'a';
-  private static final int CAPITAL_ALPHA = (int) 'Α';
-  private static final int SMALL_ALPHA = (int) 'α';
-  private static final int DIGIT_ZERO = (int) '0';
+  private static final int MATHEMATICAL_BOLD_CAPITAL_A = '\uDC00';
+  private static final int MATHEMATICAL_BOLD_CAPITAL_Z = '\uDC19';
+  private static final int MATHEMATICAL_BOLD_SMALL_A = '\uDC1A';
+  private static final int MATHEMATICAL_BOLD_SMALL_Z = '\uDC33';
+  private static final int MATHEMATICAL_ITALIC_CAPITAL_A = '\uDC34';
+  private static final int MATHEMATICAL_ITALIC_CAPITAL_Z = '\uDC4D';
+  private static final int MATHEMATICAL_ITALIC_SMALL_A = '\uDC4E';
+  private static final int MATHEMATICAL_ITALIC_SMALL_Z = '\uDC67';
+  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_A = '\uDC68';
+  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_Z = '\uDC81';
+  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_A = '\uDC82';
+  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_Z = '\uDC9B';
+  private static final int MATHEMATICAL_SCRIPT_CAPITAL_A = '\uDC9C';
+  private static final int MATHEMATICAL_SCRIPT_CAPITAL_Z = '\uDCB5';
+  private static final int MATHEMATICAL_SCRIPT_SMALL_A = '\uDCB6';
+  private static final int MATHEMATICAL_SCRIPT_SMALL_Z = '\uDCCF';
+  private static final int MATHEMATICAL_BOLD_SCRIPT_CAPITAL_A = '\uDCD0';
+  private static final int MATHEMATICAL_BOLD_SCRIPT_CAPITAL_Z = '\uDCE9';
+  private static final int MATHEMATICAL_BOLD_SCRIPT_SMALL_A = '\uDCEA';
+  private static final int MATHEMATICAL_BOLD_SCRIPT_SMALL_Z = '\uDD03';
+  private static final int MATHEMATICAL_FRAKTUR_CAPITAL_A = '\uDD04';
+  private static final int MATHEMATICAL_FRAKTUR_CAPITAL_Z = '\uDD1D';
+  private static final int MATHEMATICAL_FRAKTUR_SMALL_A = '\uDD1E';
+  private static final int MATHEMATICAL_FRAKTUR_SMALL_Z = '\uDD37';
+  private static final int MATHEMATICAL_DOUBLESTRUCK_CAPITAL_A = '\uDD38';
+  private static final int MATHEMATICAL_DOUBLESTRUCK_CAPITAL_Z = '\uDD51';
+  private static final int MATHEMATICAL_DOUBLESTRUCK_SMALL_A = '\uDD52';
+  private static final int MATHEMATICAL_DOUBLESTRUCK_SMALL_Z = '\uDD6B';
+  private static final int MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_A = '\uDD6C';
+  private static final int MATHEMATICAL_BOLD_FRAKTUR_CAPITAL_Z = '\uDD85';
+  private static final int MATHEMATICAL_BOLD_FRAKTUR_SMALL_A = '\uDD86';
+  private static final int MATHEMATICAL_BOLD_FRAKTUR_SMALL_Z = '\uDD9F';
+  private static final int MATHEMATICAL_SANSSERIF_CAPITAL_A = '\uDDA0';
+  private static final int MATHEMATICAL_SANSSERIF_CAPITAL_Z = '\uDDB9';
+  private static final int MATHEMATICAL_SANSSERIF_SMALL_A = '\uDDBA';
+  private static final int MATHEMATICAL_SANSSERIF_SMALL_Z = '\uDDD3';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_A = '\uDDD4';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_Z = '\uDDED';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_A = '\uDDEE';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_Z = '\uDE07';
+  private static final int MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_A = '\uDE08';
+  private static final int MATHEMATICAL_SANSSERIF_ITALIC_CAPITAL_Z = '\uDE21';
+  private static final int MATHEMATICAL_SANSSERIF_ITALIC_SMALL_A = '\uDE22';
+  private static final int MATHEMATICAL_SANSSERIF_ITALIC_SMALL_Z = '\uDE3B';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_A = '\uDE3C';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_Z = '\uDE55';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_A = '\uDE56';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_Z = '\uDE6F';
+  private static final int MATHEMATICAL_MONOSPACE_CAPITAL_A = '\uDE70';
+  private static final int MATHEMATICAL_MONOSPACE_CAPITAL_Z = '\uDE89';
+  private static final int MATHEMATICAL_MONOSPACE_SMALL_A = '\uDE8A';
+  private static final int MATHEMATICAL_MONOSPACE_SMALL_Z = '\uDEA3';
+  private static final int MATHEMATICAL_ITALIC_SMALL_DOTLESS_I = '\uDEA4';
+  private static final int MATHEMATICAL_ITALIC_SMALL_DOTLESS_J = '\uDEA5';
+  private static final int MATHEMATICAL_BOLD_CAPITAL_ALPHA = '\uDEA8';
+  private static final int MATHEMATICAL_BOLD_CAPITAL_OMEGA = '\uDEC0';
+  private static final int MATHEMATICAL_BOLD_SMALL_ALPHA = '\uDEC2';
+  private static final int MATHEMATICAL_BOLD_SMALL_OMEGA = '\uDEDA';
+  private static final int MATHEMATICAL_ITALIC_CAPITAL_ALPHA = '\uDEE2';
+  private static final int MATHEMATICAL_ITALIC_CAPITAL_OMEGA = '\uDEFA';
+  private static final int MATHEMATICAL_ITALIC_SMALL_ALPHA = '\uDEFC';
+  private static final int MATHEMATICAL_ITALIC_SMALL_OMEGA = '\uDF14';
+  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_ALPHA = '\uDF1C';
+  private static final int MATHEMATICAL_BOLD_ITALIC_CAPITAL_OMEGA = '\uDF34';
+  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_ALPHA = '\uDF36';
+  private static final int MATHEMATICAL_BOLD_ITALIC_SMALL_OMEGA = '\uDF4E';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_ALPHA = '\uDF56';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_CAPITAL_OMEGA = '\uDF6E';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_ALPHA = '\uDF70';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_SMALL_OMEGA = '\uDF88';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_ALPHA = '\uDF90';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_CAPITAL_OMEGA = '\uDFA8';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_ALPHA = '\uDFAA';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_ITALIC_SMALL_OMEGA = '\uDFC2';
+  private static final int MATHEMATICAL_BOLD_DIGIT_ZERO = '\uDFCE';
+  private static final int MATHEMATICAL_BOLD_DIGIT_NINE = '\uDFD7';
+  private static final int MATHEMATICAL_DOUBLESTRUCK_DIGIT_ZERO = '\uDFD8';
+  private static final int MATHEMATICAL_DOUBLESTRUCK_DIGIT_NINE = '\uDFE1';
+  private static final int MATHEMATICAL_SANSSERIF_DIGIT_ZERO = '\uDFE2';
+  private static final int MATHEMATICAL_SANSSERIF_DIGIT_NINE = '\uDFEB';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_DIGIT_ZERO = '\uDFEC';
+  private static final int MATHEMATICAL_SANSSERIF_BOLD_DIGIT_NINE = '\uDFF5';
+  private static final int MATHEMATICAL_MONOSPACE_DIGIT_ZERO = '\uDFF6';
+  private static final int MATHEMATICAL_MONOSPACE_DIGIT_NINE = '\uDFFF';
+  private static final int CAPITAL_A = 'A';
+  private static final int SMALL_A = 'a';
+  private static final int CAPITAL_ALPHA = 'Α';
+  private static final int SMALL_ALPHA = 'α';
+  private static final int DIGIT_ZERO = '0';
 
   public static boolean isAllMathsChars(String s) {
     if(s.length() % 2 != 0) {
@@ -755,7 +753,7 @@ public class Utils {
           return false;
         }
       } else {
-        int numValue = (int) s.charAt(i);
+        int numValue = s.charAt(i);
         if (numValue < MATHEMATICAL_BOLD_CAPITAL_A || numValue > MATHEMATICAL_MONOSPACE_DIGIT_NINE) {
           return false;
         }
@@ -766,7 +764,7 @@ public class Utils {
 
   public static boolean isAllHalfWidthChars(String s) {
     for (char c : s.toCharArray()) {
-      int charValue = (int) c;
+      int charValue = c;
       if (charValue < (int) 'Ａ') {
         return false;
       } else if (charValue > (int) 'Ｚ' && charValue < (int) 'ａ') {
@@ -780,13 +778,13 @@ public class Utils {
 
   public static String halfwidthLatinToLatin(String s) {
     StringBuilder sb = new StringBuilder();
-    int HALFWIDTH_LATIN_CAPITAL_A = (int) 'Ａ';
-    int HALFWIDTH_LATIN_CAPITAL_Z = (int) 'Ｚ';
-    int HALFWIDTH_LATIN_SMALL_A = (int) 'ａ';
-    int HALFWIDTH_LATIN_SMALL_Z = (int) 'ｚ';
+    int HALFWIDTH_LATIN_CAPITAL_A = 'Ａ';
+    int HALFWIDTH_LATIN_CAPITAL_Z = 'Ｚ';
+    int HALFWIDTH_LATIN_SMALL_A = 'ａ';
+    int HALFWIDTH_LATIN_SMALL_Z = 'ｚ';
 
     for (char c : s.toCharArray()) {
-      int charValue = (int) c;
+      int charValue = c;
       if (charValue >= HALFWIDTH_LATIN_CAPITAL_A && charValue <= HALFWIDTH_LATIN_CAPITAL_Z) {
         sb.append((char) (charValue - HALFWIDTH_LATIN_CAPITAL_A + CAPITAL_A));
       } else if (charValue >= HALFWIDTH_LATIN_SMALL_A && charValue <= HALFWIDTH_LATIN_SMALL_Z) {
@@ -803,7 +801,7 @@ public class Utils {
   }
 
   private static char getMathsChar(char c, boolean normaliseGreek, boolean normaliseDigits) {
-    int numeric = (int) c;
+    int numeric = c;
     if (numeric < 0) {
       throw new RuntimeException("Failed to read character " + c);
     }

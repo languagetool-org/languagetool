@@ -58,6 +58,7 @@ public class CommandLineOptions {
   private boolean autoDetect = false;
   private boolean xmlFiltering = false;
   private boolean lineByLine = false;
+  private boolean enableTempOff = false;
   @Nullable
   private Language language = null;
   @Nullable
@@ -120,6 +121,14 @@ public class CommandLineOptions {
 
   public void setLineByLine (boolean lineByLine) {
     this.lineByLine = lineByLine;
+  }
+
+  public boolean isEnableTempOff() {
+    return enableTempOff;
+  }
+
+  public void setEnableTempOff(boolean enableTempOff) {
+    this.enableTempOff = enableTempOff;
   }
 
   public boolean isRecursive() {

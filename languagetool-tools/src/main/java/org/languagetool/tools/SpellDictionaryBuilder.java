@@ -82,6 +82,8 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
     String encoding = getOption("fsa.dict.encoding");
     String separatorChar = hasOption("fsa.dict.separator") ? getOption("fsa.dict.separator") : "";
     File tempFile = File.createTempFile(SpellDictionaryBuilder.class.getSimpleName(), ".txt");
+    tempFile.deleteOnExit();
+
     try (Scanner scanner = new Scanner(plainTextDictFile, encoding)) {
       try (Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(tempFile), encoding))) {
         while (scanner.hasNextLine()) {
@@ -103,10 +105,10 @@ final class SpellDictionaryBuilder extends DictionaryBuilder {
                   // https://github.com/mozilla-b2g/gaia/tree/master/apps/keyboard/js/imes/latin/dictionaries
                   // has already been assigned in a previous step, we now cannot just use
                   // that value after having changed the tokenization...
-                  out.write("A");  // assume least frequent
+                  out.write('A');  // assume least frequent
                 }
               }
-              out.write("\n");
+              out.write('\n');
             }
           }
         }

@@ -4,7 +4,7 @@
     <parent>
         <groupId>org.languagetool</groupId>
         <artifactId>languagetool-parent</artifactId>
-        <version>4.9-SNAPSHOT</version>
+        <version>5.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
@@ -86,15 +86,24 @@
                     </execution>
                 </executions>
             </plugin>
-            <!-- grpc code generation -->
+
+            <!--
+             we use the the maven plugin to generate sources that we also include in our source tree (+ git)
+             this step otherwise doesn't play nice with IDEs,
+             i.e. you need to run mvn package manually because the IDEs don't do the code generation step and get compilation errors
+              -->
+        <!-- START OF gRPC code generation -->
             <plugin>
                 <groupId>org.xolstice.maven.plugins</groupId>
                 <artifactId>protobuf-maven-plugin</artifactId>
-                <version>0.5.1</version>
+                <version>0.6.1</version>
                 <configuration>
-                    <protocArtifact>com.google.protobuf:protoc:3.6.1:exe:${os.detected.classifier}</protocArtifact>
+                    <protocArtifact>com.google.protobuf:protoc:3.11.0:exe:${os.detected.classifier}</protocArtifact>
                     <pluginId>grpc-java</pluginId>
-                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.19.0:exe:${os.detected.classifier}</pluginArtifact>
+                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.27.1:exe:${os.detected.classifier}</pluginArtifact>
+                    <!-- output into src/main/java, but don't ever clear it (would delete all regular source files) -->
+                    <outputDirectory>${project.build.sourceDirectory}/</outputDirectory>
+                    <clearOutputDirectory>false</clearOutputDirectory>
                 </configuration>
                 <executions>
                     <execution>
@@ -105,14 +114,15 @@
                     </execution>
                 </executions>
             </plugin>
+            <!-- END OF gRPC code generation -->
         </plugins>
 
         <extensions>
-            <!-- grpc code generation -->
+            <!-- another dependency for gRPC code generation -->
             <extension>
                 <groupId>kr.motd.maven</groupId>
                 <artifactId>os-maven-plugin</artifactId>
-                <version>1.5.0.Final</version>
+                <version>1.6.2</version>
             </extension>
         </extensions>
     </build>
@@ -175,6 +185,11 @@
                     <artifactId>commons-logging</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.hankcs</groupId>
+            <artifactId>aho-corasick-double-array-trie</artifactId>
+            <version>1.2.2</version>
         </dependency>
         <dependency>
             <groupId>com.optimaize.languagedetector</groupId>
@@ -267,39 +282,16 @@
             <scope>test</scope>
         </dependency>
 
-        <!--xgboost-related pmml dependencies-->
-        <!--<dependency>-->
-            <!--<groupId>org.jpmml</groupId>-->
-            <!--<artifactId>pmml-evaluator</artifactId>-->
-            <!--<version>1.4.2</version>-->
-        <!--</dependency>-->
-        <!--<dependency>-->
-            <!--<groupId>org.jpmml</groupId>-->
-            <!--<artifactId>pmml-evaluator-extension</artifactId>-->
-            <!--<version>1.4.2</version>-->
-        <!--</dependency>-->
-        <dependency>
-            <groupId>ai.h2o</groupId>
-            <artifactId>xgboost-predictor</artifactId>
-            <version>0.3.1</version>
-        </dependency>
-
-        <dependency>
-            <groupId>ml.dmlc</groupId>
-            <artifactId>xgboost4j</artifactId>
-            <version>0.90</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.scala-lang</groupId>
-                    <artifactId>scala-library</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-csv</artifactId>
             <version>1.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
         </dependency>
 
         <!-- prometheus monitoring, further dependencies in languagetool-server -->
@@ -323,9 +315,19 @@
 
         <!-- grpc, used in BERT service -->
         <dependency>
+            <!-- fix compilation error:
+                cannot find symbol
+                [ERROR]   symbol:   class Generated
+                [ERROR]   location: package javax.annotation
+            see https://github.com/grpc/grpc-java/issues/3633, https://github.com/grpc/grpc-java/issues/4725 -->
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+        <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-netty-shaded</artifactId>
-            <version>1.27.0</version>
+            <version>1.27.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.errorprone</groupId>
@@ -340,7 +342,7 @@
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-protobuf</artifactId>
-            <version>1.27.0</version>
+            <version>1.27.1</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.guava</groupId>
@@ -359,7 +361,7 @@
         <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-stub</artifactId>
-            <version>1.27.0</version>
+            <version>1.27.1</version>
         </dependency>
 
         <dependency>
@@ -373,6 +375,12 @@
             <artifactId>mockito-core</artifactId>
             <version>2.28.2</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.jetbrains.intellij.deps</groupId>
+            <artifactId>trove4j</artifactId>
+            <version>1.0.20190514</version>
         </dependency>
 
     </dependencies>

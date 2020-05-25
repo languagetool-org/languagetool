@@ -2,14 +2,12 @@ package org.languagetool.rules.spelling.hunspell;
 
 import dumonts.hunspell.bindings.HunspellLibrary;
 import org.bridj.Pointer;
+import org.languagetool.JLanguageTool;
+import org.languagetool.broker.ResourceDataBroker;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
+import java.nio.file.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,12 +39,17 @@ public class Hunspell implements Closeable {
   }
 
   public Hunspell(Path dictionary, Path affix) {
-    Pointer<Byte> aff = Pointer.pointerToCString(affix.toString());
-    Pointer<Byte> dic = Pointer.pointerToCString(dictionary.toString());
-    handle = HunspellLibrary.Hunspell_create(aff, dic);
-    charset = Charset.forName(HunspellLibrary.Hunspell_get_dic_encoding(handle).getCString());
-    if (this.handle == null) {
-      throw new RuntimeException("Unable to create Hunspell instance");
+    try {
+      Pointer<Byte> aff = Pointer.pointerToCString(affix.toString());
+      Pointer<Byte> dic = Pointer.pointerToCString(dictionary.toString());
+      handle = HunspellLibrary.Hunspell_create(aff, dic);
+      charset = Charset.forName(HunspellLibrary.Hunspell_get_dic_encoding(handle).getCString());
+      if (this.handle == null) {
+        throw new RuntimeException("Unable to create Hunspell instance");
+      }
+    } catch (UnsatisfiedLinkError e) {
+      throw new RuntimeException("Could not create hunspell instance. Please note that only 64 bit platforms " +
+        "(Linux, Windows, Mac) are supported by LanguageTool and that your JVM (Java) also needs to b 64 bit.", e);
     }
   }
   
@@ -63,9 +66,9 @@ public class Hunspell implements Closeable {
 
   public static Hunspell forDictionaryInResources(String language, String resourcePath) {
     try {
-      ClassLoader loader = Hunspell.class.getClassLoader();
-      InputStream dictionaryStream = loader.getResourceAsStream(resourcePath + language + ".dic");
-      InputStream affixStream = loader.getResourceAsStream(resourcePath + language + ".aff");
+      ResourceDataBroker broker = JLanguageTool.getDataBroker();
+      InputStream dictionaryStream = broker.getAsStream(resourcePath + language + ".dic");
+      InputStream affixStream = broker.getAsStream(resourcePath + language + ".aff");
       if (dictionaryStream == null || affixStream == null) {
         throw new RuntimeException("Could not find dictionary for language \"" + language + "\" in classpath");
       }

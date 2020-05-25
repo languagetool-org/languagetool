@@ -58,7 +58,7 @@ public final class WordTokenizer {
                 getTokensWithoutWhitespace();
         for (AnalyzedTokenReadings a : atr) {
           out.write(a.getToken());
-          out.write("\n");
+          out.write('\n');
         }
       }
     } finally {

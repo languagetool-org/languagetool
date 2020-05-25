@@ -27,16 +27,13 @@ import org.jetbrains.annotations.Nullable;
 import com.sun.star.beans.PropertyValue;
 import com.sun.star.beans.XPropertySet;
 import com.sun.star.container.XStringKeyMap;
-import com.sun.star.lang.IllegalArgumentException;
 import com.sun.star.lang.XComponent;
 import com.sun.star.linguistic2.SingleProofreadingError;
-import com.sun.star.text.TextMarkupDescriptor;
 import com.sun.star.text.TextMarkupType;
 import com.sun.star.text.XFlatParagraph;
 import com.sun.star.text.XFlatParagraphIterator;
 import com.sun.star.text.XFlatParagraphIteratorProvider;
 import com.sun.star.text.XMarkingAccess;
-import com.sun.star.text.XMultiTextMarkup;
 import com.sun.star.text.XParagraphCursor;
 import com.sun.star.uno.UnoRuntime;
 
@@ -48,13 +45,14 @@ import com.sun.star.uno.UnoRuntime;
  */
 public class FlatParagraphTools {
   
-  private static final boolean debugMode = false;   //  should be false except for testing
+  private static boolean debugMode; //  should be false except for testing
   
-  private final XFlatParagraphIterator xFlatParaIter;
+  private XFlatParagraphIterator xFlatParaIter;
   private XFlatParagraph lastFlatPara;
   private XComponent xComponent;
   
   FlatParagraphTools(XComponent xComponent) {
+    debugMode = OfficeTools.DEBUG_MODE_FP;
     this.xComponent = xComponent;
     xFlatParaIter = getXFlatParagraphIterator(xComponent);
     lastFlatPara = getCurrentFlatParagraph();
@@ -82,6 +80,13 @@ public class FlatParagraphTools {
     }
   }
   
+  public void init() {
+    XFlatParagraphIterator tmpFlatParaIter = getXFlatParagraphIterator(xComponent);
+    if (tmpFlatParaIter != null) {
+      xFlatParaIter = tmpFlatParaIter;
+    }
+  }
+  
   /**
    * Returns current FlatParagraph
    * Set lastFlatPara if current FlatParagraph is not null
@@ -96,7 +101,7 @@ public class FlatParagraphTools {
         }
         return null;
       }
-      XFlatParagraph tmpFlatPara = xFlatParaIter.getLastPara();
+      XFlatParagraph tmpFlatPara = xFlatParaIter.getNextPara();
       if (tmpFlatPara != null) {
         lastFlatPara = tmpFlatPara;
       }
@@ -120,10 +125,24 @@ public class FlatParagraphTools {
     
   /**
    * is true if FlatParagraph is from Automatic Iteration
-   * else is false and at failure
    */
   public boolean isFlatParaFromIter() {
     return (getCurrentFlatParagraph() != null);
+  }
+
+  /**
+   * return text of current paragraph
+   * return null if it fails
+   */
+  public String getCurrentParaText() {
+    XFlatParagraph xFlatPara = getCurrentFlatParagraph();
+    if (xFlatPara == null) {
+      if (debugMode) {
+        MessageHandler.printToLogFile("isCurrentFlatPara: FlatParagraph == null");
+      }
+      return null;
+    }
+    return xFlatPara.getText();
   }
 
   /**
@@ -190,7 +209,7 @@ public class FlatParagraphTools {
    */
   int getNumberOfAllFlatPara() {
     try {
-      XFlatParagraph xFlatPara = getCurrentFlatParagraph();
+      XFlatParagraph xFlatPara = getLastFlatParagraph();
       if (xFlatPara == null) {
         if (debugMode) {
           MessageHandler.printToLogFile("getNumberOfAllFlatPara: FlatParagraph == null");
@@ -373,7 +392,7 @@ public class FlatParagraphTools {
    * else the marks are added to the existing marks
    */
 
-  public void markParagraphs(Map<Integer, SingleProofreadingError[]> changedParas, int nDiv, boolean override) {
+  public void markParagraphs(Map<Integer, SingleProofreadingError[]> changedParas, DocumentCache docCache, boolean override, XParagraphCursor cursor) {
     try {
       if(changedParas == null || changedParas.isEmpty()) {
         return;
@@ -385,15 +404,7 @@ public class FlatParagraphTools {
         }
         return;
       }
-      XParagraphCursor cursor = null;
       if(override) {
-        DocumentCursorTools docCursor = new DocumentCursorTools(xComponent);
-        if(docCursor != null) {
-          cursor = docCursor.getParagraphCursor();
-        }
-        if (cursor == null) {
-          MessageHandler.printToLogFile("cursor == null");
-        }
         cursor.gotoStart(false);
       }
       XFlatParagraph tmpFlatPara = xFlatPara;
@@ -406,16 +417,15 @@ public class FlatParagraphTools {
       int num = 0;
       int nMarked = 0;
       while (tmpFlatPara != null && nMarked < changedParas.size()) {
-        if(changedParas.containsKey(num - nDiv)) {
-          if(override) {
-            setMarksToOneParagraph(tmpFlatPara, changedParas.get(num - nDiv), cursor);
-          } else {
-            addMarksToOneParagraph(tmpFlatPara, changedParas.get(num - nDiv));
+        int nTextPara = docCache.getNumberOfTextParagraph(num);
+        if(nTextPara >= 0) {
+          if(changedParas.containsKey(nTextPara)) {
+            addMarksToOneParagraph(tmpFlatPara, changedParas.get(nTextPara), cursor, override);
+            nMarked++;
           }
-          nMarked++;
-        }
-        if (override && cursor != null && num >= nDiv) {
-          cursor.gotoNextParagraph(false);
+          if (override && cursor != null) {
+            cursor.gotoNextParagraph(false);
+          }
         }
         tmpFlatPara = xFlatParaIter.getParaAfter(tmpFlatPara);
         num++;
@@ -426,94 +436,72 @@ public class FlatParagraphTools {
   }
   
   /**
-   * add marks to existing marks of a paragraph
+   * add marks to existing marks of current paragraph
    */
-  private void addMarksToOneParagraph(XFlatParagraph flatPara, SingleProofreadingError[] pErrors) {
-    XStringKeyMap props = flatPara.getMarkupInfoContainer();
-    for(SingleProofreadingError pError : pErrors) {
-      props = flatPara.getMarkupInfoContainer();
-      PropertyValue[] properties = pError.aProperties;
-      int color = -1;
-      for(PropertyValue property : properties) {
-        if("LineColor".equals(property.Name)) {
-          color = (int) property.Value;
-        }
-      }
-      if(color >= 0) {
-        try {
-          props.insertValue("LineColor", color);
-        } catch (Throwable t) {
-          MessageHandler.printException(t);
-        }
-      }
-      flatPara.commitStringMarkup(TextMarkupType.PROOFREADING, pError.aRuleIdentifier, 
-          pError.nErrorStart, pError.nErrorLength, props);
-    }
-  }
-
-  /**
-   * overrides existing marks of a paragraph
-   */
-  private void setMarksToOneParagraph(XFlatParagraph flatPara, SingleProofreadingError[] pErrors, XParagraphCursor cursor) {
-    XMultiTextMarkup xMultiTextMarkup;
-    try {
-      xMultiTextMarkup = UnoRuntime.queryInterface(XMultiTextMarkup.class, flatPara);
-      if (xMultiTextMarkup == null) {
-        MessageHandler.printToLogFile("xMultiTextMarkup == null");
-        return;
-      }
-    } catch (Throwable e) {
-      MessageHandler.printException(e);
+  public void markCurrentParagraph(SingleProofreadingError[] pErrors) {
+    if(pErrors == null || pErrors.length == 0) {
       return;
     }
-    if(cursor != null) {
+    XFlatParagraph xFlatPara = getCurrentFlatParagraph();
+    if (xFlatPara == null) {
+      if (debugMode) {
+        MessageHandler.printToLogFile("markParagraphs: FlatParagraph == null");
+      }
+      return;
+    }
+    addMarksToOneParagraph(xFlatPara, pErrors, null, false);
+  }
+    
+  /**
+   * add marks to existing marks of a paragraph
+   * if override: existing marks will be overridden
+   */
+  private void addMarksToOneParagraph(XFlatParagraph flatPara, SingleProofreadingError[] pErrors, XParagraphCursor cursor, boolean override) {
+    
+    if(override && cursor != null) {
       XMarkingAccess xMarkingAccess = UnoRuntime.queryInterface(XMarkingAccess.class, cursor);
       if (xMarkingAccess == null) {
         MessageHandler.printToLogFile("xMarkingAccess == null");
       } else {
         xMarkingAccess.invalidateMarkings(TextMarkupType.PROOFREADING);
         flatPara.setChecked(TextMarkupType.PROOFREADING, true);
+        XComponent markComponent = UnoRuntime.queryInterface(XComponent.class, xMarkingAccess);
+        if(markComponent != null) {
+          markComponent.dispose();
+        }
       }
     }
-    XStringKeyMap props;
-    TextMarkupDescriptor textMarkups[] = new TextMarkupDescriptor[pErrors.length + 1];
-    for(int i = 0; i < pErrors.length; i++) {
-      SingleProofreadingError pError = pErrors[i];
+
+    XStringKeyMap props = flatPara.getMarkupInfoContainer();
+    for(SingleProofreadingError pError : pErrors) {
       props = flatPara.getMarkupInfoContainer();
       PropertyValue[] properties = pError.aProperties;
       int color = -1;
+      short type = -1;
       for(PropertyValue property : properties) {
         if("LineColor".equals(property.Name)) {
           color = (int) property.Value;
+        } else if("LineType".equals(property.Name)) {
+          type = (short) property.Value;
         }
       }
-      if(color >= 0) {
-        try {
+      try {
+        if(color >= 0) {
           props.insertValue("LineColor", color);
-        } catch (Throwable t) {
-          MessageHandler.printException(t);
         }
+        if(type > 0) {
+          props.insertValue("LineType", type);
+        }
+      } catch (Throwable t) {
+        MessageHandler.printException(t);
       }
-      TextMarkupDescriptor textMarkup = new TextMarkupDescriptor();
-      textMarkup.nType = TextMarkupType.PROOFREADING;
-      textMarkup.nOffset = pError.nErrorStart;
-      textMarkup.nLength = pError.nErrorLength;
-      textMarkup.aIdentifier = pError.aRuleIdentifier;
-      textMarkup.xMarkupInfoContainer = props;
-      textMarkups[i] = textMarkup;
+      flatPara.commitStringMarkup(TextMarkupType.PROOFREADING, pError.aRuleIdentifier, 
+          pError.nErrorStart, pError.nErrorLength, props);
     }
-    props = flatPara.getMarkupInfoContainer();
-    TextMarkupDescriptor textMarkup = new TextMarkupDescriptor();
-    textMarkup.nType = TextMarkupType.SENTENCE;
-    textMarkup.nOffset = 0;
-    textMarkup.nLength = flatPara.getText().length();
-    textMarkup.aIdentifier = new String ("Sentence");
-    textMarkup.xMarkupInfoContainer = props;
-    textMarkups[pErrors.length] = textMarkup;
-    try {
-      xMultiTextMarkup.commitMultiTextMarkup(textMarkups);
-    } catch (IllegalArgumentException t) {
-      MessageHandler.printException(t);
+    if(override) {
+      flatPara.getMarkupInfoContainer();
+      flatPara.commitStringMarkup(TextMarkupType.SENTENCE, "Sentence", 0, flatPara.getText().length(), props);
     }
   }
+
 }

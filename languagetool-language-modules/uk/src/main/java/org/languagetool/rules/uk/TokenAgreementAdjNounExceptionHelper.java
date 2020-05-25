@@ -62,6 +62,12 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
+    if( LemmaHelper.hasLemma(tokens[i-1], "північний")
+        && LemmaHelper.hasLemma(tokens[i], "Рейн-Вестфалія") ) {
+      logException();
+      return true;
+    }
+
     //  в день Хрещення Господнього священики
     if( LemmaHelper.hasLemma(tokens[i-1], Arrays.asList("божий", "господній", "Христовий"))
         && Character.isUpperCase(tokens[i-1].getToken().charAt(0))) {
@@ -112,11 +118,13 @@ final class TokenAgreementAdjNounExceptionHelper {
     }
 
     // абзац другий частини першої
+    // пункт третій рішення міськради
     if( i > 2 && i < tokens.length -1
-        && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, "adj.*&numr.*") 
-        && PosTagHelper.hasPosTag(tokens[i+1], "adj:.:v_rod.*&numr.*")
-        && LemmaHelper.hasLemma(tokens[i-2], Arrays.asList("абзац", "розділ", "пункт", "частина"))
-        && LemmaHelper.hasLemma(tokens[i], Arrays.asList("абзац", "розділ", "пункт", "частина"))
+        && PosTagHelper.hasPosTag(adjAnalyzedTokenReadings, Pattern.compile("adj:[mf]:.*&numr.*|number.*")) 
+        && PosTagHelper.hasPosTag(slaveTokenReadings, Pattern.compile("noun:inanim:.:v_rod.*"))
+//        && PosTagHelper.hasPosTag(tokens[i+1], Pattern.compile("adj:.:v_rod.*&numr.*|number.*"))
+        && LemmaHelper.hasLemma(tokens[i-2], Arrays.asList("абзац", "розділ", "пункт", "підпункт", "частина", "стаття"))
+//        && LemmaHelper.hasLemma(tokens[i], Arrays.asList("абзац", "розділ", "пункт", "підпункт", "частина", "стаття"))
         ) { 
       logException();
       return true;
@@ -584,15 +592,33 @@ final class TokenAgreementAdjNounExceptionHelper {
       return true;
     }
 
-    // п'ять шостих світу
     if( i > 1
-        && PosTagHelper.hasPosTag(tokens[i-1], ".*:p:v_rod.*num.*")
         && PosTagHelper.hasPosTagPart(tokens[i-2], "num")
-        && PosTagHelper.hasPosTag(tokens[i], "noun.*v_rod.*") ) {
-      logException();
-      return true;
+        && PosTagHelper.hasPosTag(tokens[i-1], "adj.*num.*")
+        ) {
+      // п'ять шостих світу
+      if( PosTagHelper.hasPosTag(tokens[i-2], "(noun|numr).*") 
+          && PosTagHelper.hasPosTag(tokens[i-1], "adj:p:v_rod.*") ) {
+        
+        // (вона й) дві других дівчини
+        if( LemmaHelper.hasLemma(tokens[i-1], "другий") 
+            && ! LemmaHelper.hasLemma(tokens[i-2], "один") )
+          return false;
+        
+        logException();
+        return true;
+      }
+      // одній восьмій
+      if( PosTagHelper.hasPosTag(tokens[i-2], "adj:f:.*pron.*")
+          && LemmaHelper.hasLemma(tokens[i-2], "один")
+          && ! Collections.disjoint(
+              InflectionHelper.getAdjInflections(tokens[i-2].getReadings()),
+              InflectionHelper.getAdjInflections(tokens[i-1].getReadings())) ) {
+        logException();
+        return true;
+      }
     }
-
+    
     // 1/8-ї фіналу
     if( i > 3
         && "/".equals(tokens[i-2].getToken())

@@ -18,20 +18,18 @@
  */
 package org.languagetool.rules.de;
 
+import org.languagetool.rules.CompoundRuleData;
 import org.languagetool.rules.LineExpander;
-import org.languagetool.rules.*;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 /**
  * @since 4.9
  */
 public class SwissCompoundRule extends GermanCompoundRule {
 
-  private static final CompoundRuleData compoundData = new CompoundRuleData(new SwissExpander(), "/de/compounds.txt", "/de/compound-cities.txt");
+  private static volatile CompoundRuleData compoundData;
  
   public SwissCompoundRule(ResourceBundle messages) throws IOException {
     super(messages);
@@ -44,7 +42,17 @@ public class SwissCompoundRule extends GermanCompoundRule {
 
   @Override
   protected CompoundRuleData getCompoundRuleData() {
-    return compoundData;
+    CompoundRuleData data = compoundData;
+    if (data == null) {
+      synchronized (SwissCompoundRule.class) {
+        data = compoundData;
+        if (data == null) {
+          compoundData = data = new CompoundRuleData(new SwissExpander(), "/de/compounds.txt", "/de/compound-cities.txt");
+        }
+      }
+    }
+
+    return data;
   }
   
   static class SwissExpander implements LineExpander {

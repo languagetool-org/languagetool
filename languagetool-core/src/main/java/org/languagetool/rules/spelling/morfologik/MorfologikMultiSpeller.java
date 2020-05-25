@@ -91,7 +91,6 @@ public class MorfologikMultiSpeller {
    * @param maxEditDistance maximum edit distance for accepting suggestions
    * @since 4.2
    */
-  @Experimental
   public MorfologikMultiSpeller(String binaryDictPath, List<String> plainTextPaths, String languageVariantPlainTextPath,
     UserConfig userConfig, int maxEditDistance) throws IOException {
     this(binaryDictPath,
@@ -270,21 +269,19 @@ public class MorfologikMultiSpeller {
   }
 
   /**
-   * @since 4.5
    * @param word misspelled word
    * @return suggestions from users personal dictionary
+   * @since 4.5
    */
-  @Experimental
   public List<String> getSuggestionsFromUserDicts(String word) {
     return getSuggestionsFromSpellers(word, userDictSpellers);
   }
 
   /**
-   * @since 4.5
    * @param word misspelled word
    * @return suggestions from built-in dictionaries
+   * @since 4.5
    */
-  @Experimental
   public List<String> getSuggestionsFromDefaultDicts(String word) {
     return getSuggestionsFromSpellers(word, defaultDictSpellers);
   }

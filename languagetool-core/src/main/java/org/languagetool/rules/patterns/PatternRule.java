@@ -18,17 +18,14 @@
  */
 package org.languagetool.rules.patterns;
 
-import java.io.IOException;
-import java.util.*;
-import java.util.stream.Collectors;
-
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.Experimental;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * A Rule that describes a language error as a simple pattern of words or of
@@ -70,8 +67,9 @@ public class PatternRule extends AbstractPatternRule {
     super(id, description, language, patternTokens, false);
     this.message = Objects.requireNonNull(message);
     this.shortMessage = Objects.requireNonNull(shortMessage);
-    this.elementNo = new ArrayList<>();
-    this.suggestionsOutMsg = Objects.requireNonNull(suggestionsOutMsg);
+    this.elementNo = new ArrayList<>(0);
+    Objects.requireNonNull(suggestionsOutMsg);
+    this.suggestionsOutMsg = suggestionsOutMsg.isEmpty() ? "" : suggestionsOutMsg;
     String prevName = "";
     String curName;
     int cnt = 0;
@@ -122,7 +120,6 @@ public class PatternRule extends AbstractPatternRule {
   /**
    * @since 4.5
    */
-  @Experimental
   public PatternRule(String id, Language language,
       List<PatternToken> patternTokens, String description,
       String message, String shortMessage, String suggestionsOutMsg,
@@ -132,12 +129,10 @@ public class PatternRule extends AbstractPatternRule {
     this.interpretPosTagsPreDisambiguation = interpretPosTagsPreDisambiguation;
   }
 
-  @Experimental
   @Override
   public int estimateContextForSureMatch() {
     int extendAfterMarker = 0;
     boolean markerSeen = false;
-    boolean infinity = false;
     for (PatternToken pToken : this.patternTokens) {
       if (markerSeen && !pToken.isInsideMarker()) {
         extendAfterMarker++;
@@ -150,31 +145,25 @@ public class PatternRule extends AbstractPatternRule {
         markerSeen = true;
       }
       if (pToken.getSkipNext() == -1) {
-        infinity = true;
-        break;
+        return -1;
       } else {
         extendAfterMarker += pToken.getSkipNext();
       }
     }
-    List<Integer> antiPatternLengths = antiPatterns.stream().map(p -> p.patternTokens.size()).collect(Collectors.toList());
+    List<Integer> antiPatternLengths = getAntiPatterns().stream().map(p -> p.patternTokens.size()).collect(Collectors.toList());
     int longestAntiPattern = antiPatternLengths.stream().max(Comparator.comparing(i -> i)).orElse(0);
     int longestSkip = 0;
-    for (DisambiguationPatternRule antiPattern : antiPatterns) {
+    for (DisambiguationPatternRule antiPattern : getAntiPatterns()) {
       for (PatternToken token : antiPattern.getPatternTokens()) {
         if (token.getSkipNext() == -1) {
-          infinity = true;
-          break;
+          return -1;
         } else if (token.getSkipNext() > longestSkip) {
           longestSkip = token.getSkipNext();
         }
       }
     }
     //System.out.println("extendAfterMarker: " + extendAfterMarker + ", antiPatternLengths: " + antiPatternLengths + ", longestSkip: " + longestSkip);
-    if (infinity) {
-      return -1;
-    } else {
-      return extendAfterMarker + Math.max(longestAntiPattern, longestAntiPattern + longestSkip);
-    }
+    return extendAfterMarker + Math.max(longestAntiPattern, longestAntiPattern + longestSkip);
   }
 
   /**
@@ -182,7 +171,6 @@ public class PatternRule extends AbstractPatternRule {
    * sentence *before* disambiguation.
    * @since 4.5
    */
-  @Experimental
   boolean isInterpretPosTagsPreDisambiguation() {
     return interpretPosTagsPreDisambiguation;
   }
@@ -263,6 +251,7 @@ public class PatternRule extends AbstractPatternRule {
         }
       }
     }
+    if (set.isEmpty()) return Collections.emptySet();
     return Collections.unmodifiableSet(set);
   }
 

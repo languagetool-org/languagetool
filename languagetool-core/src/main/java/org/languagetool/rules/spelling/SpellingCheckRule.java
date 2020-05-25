@@ -18,21 +18,18 @@
  */
 package org.languagetool.rules.spelling;
 
+import gnu.trove.THashMap;
+import gnu.trove.THashSet;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
-import org.languagetool.rules.ITSIssueType;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.SuggestedReplacement;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrderer;
-import org.languagetool.rules.spelling.suggestions.SuggestionsOrdererFeatureExtractor;
-import org.languagetool.rules.spelling.suggestions.SuggestionsRanker;
+import org.languagetool.rules.spelling.suggestions.*;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tokenizers.WordTokenizer;
 import org.languagetool.tools.StringTools;
@@ -67,7 +64,6 @@ public abstract class SpellingCheckRule extends Rule {
    * Optional, allows e.g. better suggestions when set
    */
   @Nullable
-  @Experimental
   protected LanguageModel languageModel;
   protected final CachingWordListLoader wordListLoader = new CachingWordListLoader();
 
@@ -81,11 +77,10 @@ public abstract class SpellingCheckRule extends Rule {
   private static final Comparator<String> STRING_LENGTH_COMPARATOR = Comparator.comparingInt(String::length);
 
   private final UserConfig userConfig;
-  private final Set<String> wordsToBeProhibited = new HashSet<>();
-  private final List<RuleWithLanguage> altRules;
+  private final Set<String> wordsToBeProhibited = new THashSet<>();
 
-  private Map<String,Set<String>> wordsToBeIgnoredDictionary = new HashMap<>();
-  private Map<String,Set<String>> wordsToBeIgnoredDictionaryIgnoreCase = new HashMap<>();
+  private Map<String,Set<String>> wordsToBeIgnoredDictionary = new THashMap<>();
+  private Map<String,Set<String>> wordsToBeIgnoredDictionaryIgnoreCase = new THashMap<>();
   
   private List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
   private boolean considerIgnoreWords = true;
@@ -107,7 +102,6 @@ public abstract class SpellingCheckRule extends Rule {
   /**
    * @since 4.5
    */
-  @Experimental
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages, @Nullable LanguageModel languageModel) {
     super(messages);
     this.language = language;
@@ -116,21 +110,21 @@ public abstract class SpellingCheckRule extends Rule {
     if (userConfig != null) {
       wordsToBeIgnored.addAll(userConfig.getAcceptedWords());
     }
-    this.altRules = getAlternativeLangSpellingRules(altLanguages);
     setLocQualityIssueType(ITSIssueType.Misspelling);
   }
 
   /**
-   *
-   * @param word misspelled word that suggestions should be generated for
-   * @param userCandidates candidates from personal dictionary
-   * @param candidates candidates from default dictionary
+   *  @param word misspelled word that suggestions should be generated for
+   * @param userCandidatesList candidates from personal dictionary
+   * @param candidatesList candidates from default dictionary
    * @param orderer model to rank suggestions / extract features, or null
    * @param match rule match to add suggestions to
    */
-  protected static void addSuggestionsToRuleMatch(String word, List<String> userCandidates, List<String> candidates,
+  protected static void addSuggestionsToRuleMatch(String word, List<SuggestedReplacement> userCandidatesList, List<SuggestedReplacement> candidatesList,
                                                   @Nullable SuggestionsOrderer orderer, RuleMatch match) {
     AnalyzedSentence sentence = match.getSentence();
+    List<String> userCandidates = userCandidatesList.stream().map(SuggestedReplacement::getReplacement).collect(Collectors.toList());
+    List<String> candidates = candidatesList.stream().map(SuggestedReplacement::getReplacement).collect(Collectors.toList());
     int startPos = match.getFromPos();
     //long startTime = System.currentTimeMillis();
     if (orderer != null && orderer.isMlAvailable()) {
@@ -179,10 +173,10 @@ public abstract class SpellingCheckRule extends Rule {
         match.setSuggestedReplacementObjects(combinedSuggestions);
       }
     } else { // no reranking
-      List<String> combinedSuggestions = new ArrayList<>();
-      combinedSuggestions.addAll(userCandidates);
-      combinedSuggestions.addAll(candidates);
-      match.addSuggestedReplacements(combinedSuggestions);
+      List<SuggestedReplacement> combinedSuggestions = new ArrayList<>(match.getSuggestedReplacementObjects());
+      combinedSuggestions.addAll(userCandidatesList);
+      combinedSuggestions.addAll(candidatesList);
+      match.setSuggestedReplacementObjects(combinedSuggestions);
     }
     /*long timeDelta = System.currentTimeMillis() - startTime;
     System.out.printf("Reordering %d suggestions took %d ms.%n", result.getSuggestedReplacements().size(), timeDelta);*/
@@ -237,11 +231,11 @@ public abstract class SpellingCheckRule extends Rule {
   private void updateIgnoredWordDictionary() {
     wordsToBeIgnoredDictionary = wordsToBeIgnored
                                    .stream()
-                                   .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toSet()));
+                                   .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toCollection(THashSet::new)));
     wordsToBeIgnoredDictionaryIgnoreCase = wordsToBeIgnored
                                              .stream()
                                              .map(String::toLowerCase)
-                                             .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toSet()));
+                                             .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toCollection(THashSet::new)));
   }
 
   /**
@@ -256,22 +250,22 @@ public abstract class SpellingCheckRule extends Rule {
    * re-order the suggestions anyway). Only add suggestions here that you know are spelled correctly,
    * they will not be checked again before being shown to the user.
    */
-  protected List<String> getAdditionalTopSuggestions(List<String> suggestions, String word) throws IOException {
+  protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
     List<String> moreSuggestions = new ArrayList<>();
-    if (("Languagetool".equals(word) || "languagetool".equals(word)) && !suggestions.contains(LANGUAGETOOL)) {
+    if (("Languagetool".equals(word) || "languagetool".equals(word)) && suggestions.stream().noneMatch(k -> k.getReplacement().equals(LANGUAGETOOL))) {
       moreSuggestions.add(LANGUAGETOOL);
     }
-    if (("Languagetooler".equals(word) || "languagetooler".equals(word)) && !suggestions.contains(LANGUAGETOOLER)) {
+    if (("Languagetooler".equals(word) || "languagetooler".equals(word)) && suggestions.stream().noneMatch(k -> k.getReplacement().equals(LANGUAGETOOLER))) {
       moreSuggestions.add(LANGUAGETOOLER);
     }
-    return moreSuggestions;
+    return SuggestedReplacement.convert(moreSuggestions);
   }
 
   /**
    * Get additional suggestions added after other suggestions (note the rule may choose to
    * re-order the suggestions anyway).
    */
-  protected List<String> getAdditionalSuggestions(List<String> suggestions, String word) {
+  protected List<SuggestedReplacement> getAdditionalSuggestions(List<SuggestedReplacement> suggestions, String word) {
     return Collections.emptyList();
   }
 
@@ -334,16 +328,8 @@ public abstract class SpellingCheckRule extends Rule {
     return WordTokenizer.isEMail(token);
   }
 
-  protected void filterDupes(List<String> words) {
-    Set<String> seen = new HashSet<>();
-    Iterator<String> iterator = words.iterator();
-    while (iterator.hasNext()) {
-      String word = iterator.next();
-      if (seen.contains(word)) {
-        iterator.remove();
-      }
-      seen.add(word);
-    }
+  protected <T> List<T> filterDupes(List<T> words) {
+    return words.stream().distinct().collect(Collectors.toList());
   }
 
   protected synchronized void init() throws IOException {
@@ -445,21 +431,26 @@ public abstract class SpellingCheckRule extends Rule {
    * Remove prohibited words from suggestions.
    * @since 2.8
    */
-  protected List<String> filterSuggestions(List<String> suggestions, AnalyzedSentence sentence, int i) {
-    suggestions.removeIf(suggestion -> isProhibited(suggestion));
-    List<String> newSuggestions = new ArrayList<>();
-    for (String suggestion : suggestions) {
-      String suggestionWithoutS = suggestion.length() > 3 ? suggestion.substring(0, suggestion.length() - 2) : "";
-      if (suggestion.endsWith(" s") && isProperNoun(suggestionWithoutS)) {
+  protected List<SuggestedReplacement> filterSuggestions(List<SuggestedReplacement> suggestions, AnalyzedSentence sentence, int i) {
+    suggestions.removeIf(suggestion -> isProhibited(suggestion.getReplacement()));
+    List<SuggestedReplacement> newSuggestions = new ArrayList<>();
+    for (SuggestedReplacement suggestion : suggestions) {
+      String replacement = suggestion.getReplacement();
+      String suggestionWithoutS = replacement.length() > 3 ? replacement.substring(0, replacement.length() - 2) : "";
+      if (replacement.endsWith(" s") && isProperNoun(suggestionWithoutS)) {
         // "Michael s" -> "Michael's"
         //System.out.println("### " + suggestion + " => " + sentence.getText().replaceAll(suggestionWithoutS + "s", "**" + suggestionWithoutS + "s**"));
-        newSuggestions.add(0, suggestionWithoutS);
-        newSuggestions.add(0, suggestionWithoutS + "'s");
+        SuggestedReplacement sugg1 = new SuggestedReplacement(suggestionWithoutS);
+        sugg1.setType(SuggestedReplacement.SuggestionType.Curated);
+        newSuggestions.add(0, sugg1);
+        SuggestedReplacement sugg2 = new SuggestedReplacement(suggestionWithoutS + "'s");
+        sugg2.setType(SuggestedReplacement.SuggestionType.Curated);
+        newSuggestions.add(0, sugg2);
       } else {
         newSuggestions.add(suggestion);
       }
     }
-    filterDupes(newSuggestions);
+    newSuggestions = filterDupes(newSuggestions);
     return newSuggestions;
   }
 
@@ -481,7 +472,7 @@ public abstract class SpellingCheckRule extends Rule {
     // will be created where each words serves as a case-sensitive and non-inflected PatternToken
     // so that the entire multi-word entry is ignored by the spell checker
     List<String> tokens = language.getWordTokenizer().tokenize(line);
-    if (tokens.size()>1) {
+    if (tokens.size() > 1) {
       List<PatternToken> patternTokens = new ArrayList<>(tokens.size());
       for(String token : tokens) {
         if (token.trim().isEmpty()) {
@@ -520,7 +511,7 @@ public abstract class SpellingCheckRule extends Rule {
       try {
         rules = new ArrayList<>(altLanguage.getRelevantRules(messages, userConfig, null, Collections.emptyList()));
         rules.addAll(altLanguage.getRelevantLanguageModelCapableRules(messages, null,
-          userConfig, null, Collections.emptyList()));
+          null, userConfig, null, Collections.emptyList()));
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -531,31 +522,6 @@ public abstract class SpellingCheckRule extends Rule {
       }
     }
     return spellingRules;
-  }
-
-  protected Language acceptedInAlternativeLanguage(String word) throws IOException {
-    if (word.length() <= 2) {
-      // it's strange if single characters are suddenly considered English
-      return null;
-    }
-    for (RuleWithLanguage altRule : altRules) {
-      AnalyzedToken token = new AnalyzedToken(word, null, null);
-      AnalyzedToken sentenceStartToken = new AnalyzedToken("", JLanguageTool.SENTENCE_START_TAGNAME, null);
-      AnalyzedTokenReadings startTokenReadings = new AnalyzedTokenReadings(sentenceStartToken, 0);
-      AnalyzedTokenReadings atr = new AnalyzedTokenReadings(token, 0);
-      RuleMatch[] matches = altRule.getRule().match(new AnalyzedSentence(new AnalyzedTokenReadings[]{startTokenReadings, atr}));
-      if (matches.length == 0) {
-        return altRule.getLanguage();
-      } else {
-        if (word.endsWith(".")) {
-          Language altLanguage = acceptedInAlternativeLanguage(word.substring(0, word.length() - 1));
-          if (altLanguage != null) {
-            return altLanguage;
-          }
-        }
-      }
-    }
-    return null;
   }
 
   /**

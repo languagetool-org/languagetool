@@ -18,27 +18,17 @@
  */
 package org.languagetool.tools;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
-import org.languagetool.rules.Category;
-import org.languagetool.rules.CategoryId;
-import org.languagetool.rules.Rule;
-import org.languagetool.rules.RuleMatch;
+import org.languagetool.*;
+import org.languagetool.rules.*;
 import org.languagetool.rules.bitext.BitextRule;
 import org.languagetool.rules.patterns.PasswordAuthenticator;
-import org.languagetool.rules.patterns.bitext.BitextPatternRule;
-import org.languagetool.rules.patterns.bitext.BitextPatternRuleLoader;
-import org.languagetool.rules.patterns.bitext.FalseFriendsAsBitextLoader;
+import org.languagetool.rules.patterns.bitext.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.*;
 import java.lang.reflect.Constructor;
-import java.net.Authenticator;
-import java.net.MalformedURLException;
-import java.net.NetPermission;
-import java.net.URL;
+import java.net.*;
 import java.text.MessageFormat;
 import java.util.*;
 
@@ -263,13 +253,13 @@ public final class Tools {
   /**
    * Load a file from the classpath using {@link Class#getResourceAsStream(String)}.
    * Please load files in the {@code rules} and {@code resource} directories with
-   * {@link org.languagetool.databroker.ResourceDataBroker} instead.
+   * {@link org.languagetool.broker.ResourceDataBroker} instead.
    */
   public static InputStream getStream(String path) throws IOException {
     // the other ways to load the stream like
     // "Tools.class.getClass().getResourceAsStream(filename)"
     // don't work in a web context (using Grails):
-    InputStream is = Tools.class.getResourceAsStream(path);
+    InputStream is = JLanguageTool.getDataBroker().getAsStream(path);
     if (is == null) {
       throw new IOException("Could not load file from classpath: '" + path + "'");
     }
@@ -288,14 +278,22 @@ public final class Tools {
     disabledRuleIdsSet.addAll(disabledRuleIds);
     Set<String> enabledRuleIdsSet = new HashSet<>();
     enabledRuleIdsSet.addAll(enabledRuleIds);
-    selectRules(lt, Collections.emptySet(), Collections.emptySet(), disabledRuleIdsSet, enabledRuleIdsSet, useEnabledOnly);
+    selectRules(lt, Collections.emptySet(), Collections.emptySet(), disabledRuleIdsSet, enabledRuleIdsSet, useEnabledOnly, false);
   }
 
   /**
    * @since 3.3
    */
   public static void selectRules(JLanguageTool lt, Set<CategoryId> disabledCategories, Set<CategoryId> enabledCategories,
-                                 Set<String> disabledRules, Set<String> enabledRules, boolean useEnabledOnly) {
+                                 Set<String> disabledRules, Set<String> enabledRules, boolean useEnabledOnly, boolean enableTempOff) {
+    if (enableTempOff) {
+      for (Rule rule : lt.getAllRules()) {
+        if (rule.isDefaultTempOff()) {
+          System.out.println("Activating " + rule.getFullId() + ", which is default='temp_off'");
+          lt.enableRule(rule.getId());
+        }
+      }
+    }
     for (CategoryId id : disabledCategories) {
       lt.disableCategory(id);
     }

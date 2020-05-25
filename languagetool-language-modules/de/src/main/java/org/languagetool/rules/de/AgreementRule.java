@@ -18,13 +18,6 @@
  */
 package org.languagetool.rules.de;
 
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csToken;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csRegex;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -52,6 +45,8 @@ import org.languagetool.tagging.de.GermanToken.POSType;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
 import org.languagetool.tools.Tools;
+
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
 
 /**
  * Simple agreement checker for German noun phrases. Checks agreement in:
@@ -89,9 +84,83 @@ public class AgreementRule extends Rule {
   private static final AnalyzedToken[] ZUR_REPLACEMENT = {new AnalyzedToken("der", "ART:DEF:DAT:SIN:FEM", "der")};
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(  // "Besonders reizen mich Fahrräder.", "weil mich psychische Erkrankungen aus der Bahn werfen"
+      tokenRegex("dich|mich"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      posRegex("SUB:.*")
+    ),
     Arrays.asList(  // "jenes Weges, den die Tausenden Juden 1945 ..."
       token("die"),
       token("Tausenden"),
+      posRegex("SUB:.*PLU.*")
+    ),
+    Arrays.asList(  // misspelling "Format"
+      tokenRegex("das|ein"),
+      token("Formart")
+    ),
+    Arrays.asList(  // "... andere erfreut Tennis."
+      regex("andere"),
+      posRegex("VER:PA2.*"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "Das eine bedeutet Gefahr und das andere Gelegenheit."
+      regex("der|die|das"),
+      new PatternTokenBuilder().token("eine").setSkip(-1).build(),
+      regex("der|die|das"),
+      token("andere"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "... größeren Bekanntheitsgrad in der Bevölkerung als jeder andere Kandidat vor ihm"
+      regex("jede[mnrs]?"),
+      regex("anderen?"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "... kein anderer Unrecht hat."
+      regex("diese[rs]?|keine?"),
+      regex("anderer?"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "Toleranz ist der Verdacht, dass der andere Recht hat."
+      regex("der|die|das"),
+      regex("anderen?"),
+      token("Recht"),
+      regex("hat|hatte|habe|haben|gehabt")
+    ),
+    Arrays.asList(  // "als einziger ein für die anderen unsichtbares Wunder zu sehen."
+      token("für"),
+      regex("den|die"),
+      token("anderen")
+    ),
+    Arrays.asList(  // "Wer auf eines anderen Schuhe wartet...", "...Auge darauf haben, dass keine der anderen Abbruch tue"
+      regex("der|eine[sr]"),
+      token("anderen"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "wenn andere anderer Meinung sind"
+      token("andere"),
+      regex("anderer?"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "Hat ein Schutzgut gegenüber den anderen Priorität?"
+      token("gegenüber"),
+      token("den"),
+      token("anderen"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "... ist des anderen Freiheitskämpfer", "... die anderen Volleyball"
+      regex("des|die"),
+      token("anderen"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "Ein Esel schimpft den anderen Langohr."
+      posRegex("VER:2:.*"),
+      regex("den|die|das"),
+      regex("anderen?"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList(  // "... eine bessere Behandlung als andere Gefangene."
+      token("als"),
+      token("andere"),
       posRegex("SUB:.*PLU.*")
     ),
     Arrays.asList(  // "was sein Klient für ein Mensch sei"
@@ -111,7 +180,7 @@ public class AgreementRule extends Rule {
       token("Club")
     ),
     Arrays.asList(  // "In einem App Store"
-      token("App"),
+      tokenRegex("App|Play"),
       token("Store")
     ),
     Arrays.asList(  // "in dem einen Jahr"
@@ -169,8 +238,19 @@ public class AgreementRule extends Rule {
       posRegex("PA2:.*|ADJ:AKK:PLU:.*")  // "ein von vielen bewundertes Haus" / "Das weckte bei vielen ungute Erinnerungen."
     ),
     Arrays.asList(
+      // "Der letzte Woche vom Rat der Justizminister gefasste Beschluss..."
+      tokenRegex("der|die|das|den|dem"),
+      tokenRegex("letzte[ns]?|vorige[ns]?"),
+      tokenRegex("Woche|Monat|Jahr|Jahrzehnt|Jahrhundert"),
+      posRegex("PRP:.*"),
+      posRegex("SUB:.*"),
+      posRegex("ART:.*"),
+      posRegex("SUB:.*"),
+      posRegex("PA2:.*")
+    ),
+    Arrays.asList(
       token("für"),
-      tokenRegex("(viele|alle|[dm]ich|ihn|sie|uns)"),
+      tokenRegex("(viele|alle|[dm]ich|ihn|sie|uns|andere)"),
       posRegex("ADJ:AKK:.*")  // "Ein für viele wichtiges Anliegen."
     ),
     Arrays.asList(
@@ -205,7 +285,7 @@ public class AgreementRule extends Rule {
       posRegex("PKT|KON:NEB|ZUS")// "Ist das Kunst?" / "Ist das Kunst oder Abfall?" / "Sind das Eier aus Bodenhaltung"
     ),
     Arrays.asList( // Die Präsent AG
-      tokenRegex("Präsent|Windhorst"),
+      tokenRegex("Präsent|Windhorst|Energiedienst"),
       token("AG")
     ),
     Arrays.asList(
@@ -264,7 +344,7 @@ public class AgreementRule extends Rule {
       tokenRegex("Besitz|Mut")
     ),
     Arrays.asList(
-      tokenRegex("d(ie|e[nr])|[md]eine[nr]?"),
+      tokenRegex("d(ie|e[nr])|[md]eine[nr]?|(eure|unsere)[nr]?"),
       token("Top"),
       tokenRegex("\\d+")
     ),
@@ -302,8 +382,12 @@ public class AgreementRule extends Rule {
       tokenRegex("Managers?")
     ),
     Arrays.asList(
+      token("Display"),
+      tokenRegex("Ads?|Advertising")
+    ),
+    Arrays.asList(
       token("Private"),
-      tokenRegex("Equitys?")
+      tokenRegex("Equitys?|Clouds?")
     ),
     Arrays.asList(
       token("Personal"),
@@ -345,6 +429,10 @@ public class AgreementRule extends Rule {
       tokenRegex("[dD](ie|er)"),
       csToken("Super"),
       csToken("Nintendo")
+    ),
+    Arrays.asList( // Firmenname
+      csToken("Pizza"),
+      csToken("Hut")
     ),
     Arrays.asList( // Texas und New Mexico, beides spanische Kolonien, sind
       csToken(","),
@@ -538,6 +626,15 @@ public class AgreementRule extends Rule {
       csToken("League")
     ),
     Arrays.asList(
+      // Common job title
+      csToken("Software"),
+      tokenRegex("Engineers?|Developer[sn]?|(Back|Front)end")
+    ),
+    Arrays.asList(
+      csToken("Mark"),
+      posRegex("EIG:.*")
+    ),
+    Arrays.asList(
       csToken("Sales"),
       tokenRegex("Agent")
     ),
@@ -557,6 +654,38 @@ public class AgreementRule extends Rule {
       token("die"),
       tokenRegex("Deutsch|Englisch|Spanisch|Französisch|Russisch|Polnisch|Holländisch|Niederländisch|Portugiesisch"),
       new PatternTokenBuilder().csToken("sprechen").matchInflectedForms().build()
+    ),
+    Arrays.asList( // "Ein Trainer, der zum einen Fußballspiele sehr gut lesen und analysieren kann"
+      token("zum"),
+      token("einen"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList( // https://www.duden.de/suchen/dudenonline/Fake%20News
+      csToken("Fake"),
+      posRegex("News")
+    ),
+    Arrays.asList(
+      tokenRegex("Steinberg|Park"),
+      csToken("Apotheke")
+    ),
+    Arrays.asList( // Vielen Dank fürs Bescheid geben
+      token("fürs"),
+      token("Bescheid"),
+      tokenRegex("geben|sagen")
+    ),
+    Arrays.asList( // "Los" ist ein deutsches Substantiv
+      token("Los"),
+      tokenRegex("Angeles|Zetas")
+    ),
+    Arrays.asList( // https://www.autozeitung.de/
+      csToken("Auto"),
+      csToken("Zeitung")
+    ),
+    Arrays.asList( // "Das letzte Mal war das Ende der..."
+      csToken("Mal"),
+      new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
+      csToken("das"),
+      posRegex("SUB:NOM:.*")
     )
   );
 
@@ -571,6 +700,9 @@ public class AgreementRule extends Rule {
     ));
 
   private static final Set<String> VIELE_WENIGE_LOWERCASE = new HashSet<>(Arrays.asList(
+    "andere",
+    "anderer",
+    "anderen",
     "sämtlicher",
     "etliche",
     "etlicher",
@@ -625,8 +757,12 @@ public class AgreementRule extends Rule {
     "Prozent",   // Plural "Prozente", trotzdem ist "mehrere Prozent" korrekt
     "Gramm",
     "Kilogramm",
+    "Piepen", // Die Piepen
+    "Badlands",
+    "Visual", // englisch
     "Chief", // Chief Excutive Officer
     "Carina", // Name
+    "Wüstenrot", // Name
     "Meter", // Das Meter (Objekt zum Messen)
     "Boots", // "Die neuen Boots" (englisch Stiefel)
     "Taxameter", // Beides erlaubt "Das" und "Die"
@@ -914,18 +1050,21 @@ public class AgreementRule extends Rule {
   private RuleMatch getRuleMatch(AnalyzedTokenReadings token1, AnalyzedSentence sentence, AnalyzedTokenReadings nextToken, String testPhrase, String hyphenTestPhrase) {
     try {
       initLt();
+      if (nextToken.getReadings().stream().allMatch(k -> k.getPOSTag() != null && k.getPOSTag().startsWith("EIG:"))) {
+        return null;
+      }
       List<String> replacements = new ArrayList<>();
-      if (lt.check(testPhrase).size() == 0 && nextToken.isTagged()) {
+      if (lt.check(testPhrase).isEmpty() && nextToken.isTagged()) {
         replacements.add(testPhrase);
       }
-      if (lt.check(hyphenTestPhrase).size() == 0 && nextToken.isTagged()) {
+      if (lt.check(hyphenTestPhrase).isEmpty() && nextToken.isTagged()) {
         replacements.add(hyphenTestPhrase);
       }
       if (replacements.size() > 0) {
         String message = "Wenn es sich um ein zusammengesetztes Nomen handelt, wird es zusammengeschrieben.";
         RuleMatch ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), nextToken.getEndPos(), message);
         ruleMatch.addSuggestedReplacements(replacements);
-        ruleMatch.setUrl(Tools.getUrl("http://www.canoonet.eu/services/GermanSpelling/Regeln/Getrennt-zusammen/Nomen.html#Anchor-Nomen-49575"));
+        ruleMatch.setUrl(Tools.getUrl("https://dict.leo.org/grammatik/deutsch/Rechtschreibung/Regeln/Getrennt-zusammen/Nomen.html#grammarAnchor-Nomen-49575"));
         return ruleMatch;
       }
     } catch (IOException e) {

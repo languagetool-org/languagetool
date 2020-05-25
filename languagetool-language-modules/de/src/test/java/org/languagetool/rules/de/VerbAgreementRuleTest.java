@@ -42,7 +42,7 @@ public class VerbAgreementRuleTest {
   private VerbAgreementRule rule;
   
   @Before
-  public void setUp() throws IOException {
+  public void setUp() {
     lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
     rule = new VerbAgreementRule(TestTools.getMessages("de"), (German) Languages.getLanguageForShortCode("de-DE"));
   }
@@ -114,6 +114,12 @@ public class VerbAgreementRuleTest {
     assertGood("Wie ich sehe, benötigt ihr Nachschub.");
     assertGood("Einer wie du kennt doch bestimmt viele Studenten.");
     assertGood("Für Sie mache ich eine Ausnahme.");
+    assertGood("Ohne sie hätte ich das nicht geschafft.");
+    assertGood("Ohne Sie hätte ich das nicht geschafft.");
+    assertGood("Ich hoffe du auch.");
+    assertGood("Ich hoffe ihr auch.");
+    assertGood("Wird hoffen du auch.");
+    assertGood("Hab einen schönen Tag!");
     // incorrect sentences:
     assertBad("Als Borcarbid weißt es eine hohe Härte auf.");
     assertBad("Das greift auf Vorläuferinstitutionen bist auf die Zeit von 1234 zurück.");
