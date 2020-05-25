@@ -1056,7 +1056,6 @@ public class JLanguageTool {
       AnalyzedSentence raw = getRawAnalyzedSentence(sentence);
       AnalyzedSentence disambig = language.getDisambiguator().disambiguate(raw);
       AnalyzedSentence analyzedSentence = new AnalyzedSentence(disambig.getTokens(), raw.getTokens());
-
       if (language.getPostDisambiguationChunker() != null) {
         language.getPostDisambiguationChunker().addChunkTags(Arrays.asList(analyzedSentence.getTokens()));
       }
@@ -1075,54 +1074,7 @@ public class JLanguageTool {
    * @since 0.9.8
    */
   public AnalyzedSentence getRawAnalyzedSentence(String sentence) throws IOException {
-    Integer sentenceSize = sentence.length();
-    Integer sentenceEnd = userConfig.currentSentenceOffset + sentenceSize;
-
-    List<String> tokens;
-    List<Integer> immuneTokenIndexes = new ArrayList<>();
-    if(userConfig.immuneTextRanges == null) {
-      tokens = language.getWordTokenizer().tokenize(sentence);
-    } else {
-      List<List<Integer>> currentSentenceRanges = new ArrayList<>();
-      Integer currentRangeEnd;
-      for(List<Integer> currentRange : userConfig.immuneTextRanges) {
-        currentRangeEnd = currentRange.get(0) + currentRange.get(1);
-
-        if(currentRange.get(0) >= userConfig.currentSentenceOffset && currentRangeEnd <= sentenceEnd) {
-          List<Integer> newRange = new ArrayList<>();
-          newRange.add(currentRange.get(0) - userConfig.currentSentenceOffset);
-          newRange.add(currentRange.get(1));
-          currentSentenceRanges.add(newRange);
-        } else if(currentRange.get(0) > sentenceEnd) {
-          break;
-        }
-      }
-
-      tokens = new ArrayList<>();
-
-      int currentPosition = 0, tokenEndPosition;
-      for(List<Integer> currentRange : currentSentenceRanges) {
-
-        tokenEndPosition = currentRange.get(0) + currentRange.get(1);
-
-        tokens.addAll(language.getWordTokenizer().tokenize(
-          sentence.substring(currentPosition, currentRange.get(0))
-        ));
-
-
-        tokens.add(sentence.substring(currentRange.get(0), tokenEndPosition));
-        immuneTokenIndexes.add(tokens.size() - 1);
-        currentPosition = tokenEndPosition;
-      }
-      if(currentPosition < sentenceSize) {
-        tokens.addAll(language.getWordTokenizer().tokenize(
-          sentence.substring(currentPosition)
-        ));
-      }
-    }
-
-    userConfig.currentSentenceOffset += sentenceSize;
-
+    List<String> tokens = language.getWordTokenizer().tokenize(sentence);
     Map<Integer, String> softHyphenTokens = replaceSoftHyphens(tokens);
 
     List<AnalyzedTokenReadings> aTokens = language.getTagger().tag(tokens);
@@ -1156,10 +1108,6 @@ public class JLanguageTool {
         AnalyzedToken newToken = language.getTagger().createToken(softHyphenTokens.get(i), null);
         aTokens.get(i).addReading(newToken, "softHyphenTokens");
       }
-    }
-
-    for(Integer immunizedTokenIndex : immuneTokenIndexes) {
-      aTokens.get(immunizedTokenIndex).immunize();
     }
 
     // add additional tags

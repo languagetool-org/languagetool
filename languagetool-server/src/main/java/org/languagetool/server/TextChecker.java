@@ -230,19 +230,6 @@ abstract class TextChecker {
 
     boolean filterDictionaryMatches = "true".equals(parameters.get("filterDictionaryMatches"));
 
-    UserConfig userConfig = new UserConfig(dict, getRuleValues(parameters), config.getMaxSpellingSuggestions(), null, null, filterDictionaryMatches);
-
-    if (parameters.containsKey("immune_text_ranges")) {
-      try {
-        ObjectMapper mapper = new ObjectMapper();
-        List<List<Integer>> forcedTokenRanges = mapper.readValue(parameters.get("immune_text_ranges"), new TypeReference<List<List<Integer>>>(){});
-        userConfig.immuneTextRanges = forcedTokenRanges;
-      } catch (Exception e) {
-        e.printStackTrace();
-        throw new RuntimeException("'immune_text_ranges' should be a JSON array in string format.");
-      }
-    }
-
     Long textSessionId = null;
     try {
       if (parameters.containsKey("textSessionId")) {
@@ -302,7 +289,6 @@ abstract class TextChecker {
             Arrays.asList(parameters.get("preferredLanguages").split(",")) : Collections.emptyList();
     DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs, preferredLangs);
     Language lang = detLang.getGivenLanguage();
-
     Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());
     if (count == null) {
       count = 1;
