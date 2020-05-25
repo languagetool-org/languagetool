@@ -19,7 +19,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
     <!ENTITY dies_setmana "dilluns|dimarts|dimecres|dijous|divendres|dissabte|diumenge">
     <!ENTITY parts_dia "matinada|matí|migdia|tarda|vesprada|horabaixa|vespre|capvespre|nit1|mitjanit">
     <!ENTITY elements_perifrasis_verbals "a|acabar|amb|anar|aplegar|arribar|començar|continuar|de|deixar|deure|en|estar|haver|intentar|mirar|parar|pas|pensar|poder|provar|prosseguir|prou|seguir|soler|tenir|tornar|tractar|venir|voler">
-    <!ENTITY elements_perifrasis_verbals2 "decidir|proposar|suggerir|semblar|parèixer|aconseguir|recomanar|procurar|tendir|acordar|optar|disposar|resistir|evitar|tardar|trigar|afanyar">
+    <!ENTITY elements_perifrasis_verbals2 "decidir|proposar|suggerir|semblar|parèixer|aconseguir|recomanar|procurar|tendir|acordar|optar|disposar|resistir|evitar|tardar|trigar|afanyar|fer|bé">
 ]>
 <rules lang="ca" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="nombre">
@@ -6335,6 +6335,15 @@ Copyright (C) 2012 Jaume Ortolà i Font
             </marker>
         </pattern>
         <disambig action="filter" postag="NC.*"/>
+    </rule>
+    <rule id="fer_be" name="fer bé">
+        <pattern>
+            <token inflected="yes">fer</token>
+            <marker>
+                <token>bé</token>
+            </marker>
+        </pattern>
+        <disambig action="filter" postag="RG"></disambig>
     </rule>
     <rule id="termini" name="curt/llarg/mitjà termini">
         <pattern>
@@ -14261,6 +14270,11 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token>prou</token>
             <token><exception regexp="yes" inflected="yes">a|de|amb</exception></token>
         </antipattern>
+        <antipattern>
+            <token inflected="yes">fer</token>
+            <token><exception>bé</exception></token>
+            <token><exception inflected="yes">de</exception></token>
+        </antipattern>
         <!--<antipattern>
             <token inflected="yes">en<exception scope="previous" postag="P0.*" postag_regexp="yes"/></token>
             <token><exception>prou</exception><exception postag="V.[SI].*" postag_regexp="yes"/></token>
@@ -14325,7 +14339,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <unify-ignore>
                         <token postag="V.[NP].*|SPS00|LOC_ADV|R.|PP3.*" postag_regexp="yes" min="0" max="5"/>
                     </unify-ignore>
-                    <token postag="P0.0.*" postag_regexp="yes" spacebefore="no" skip="2"><exception scope="next" postag="PP.*|V.N.*" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="P0.0.*" postag_regexp="yes" spacebefore="no" skip="2"><exception scope="next" postag="PP.*|V.N.*|SPS00" postag_regexp="yes" negate_pos="yes"/></token>
                 </unify>
                 <marker>
                     <token postag="V.N.*" postag_regexp="yes"/>
@@ -14341,14 +14355,14 @@ Copyright (C) 2012 Jaume Ortolà i Font
                 <unify>
                     <feature id="nombre"/>
                     <feature id="persona"/>
-                    <token postag="V.[SI].*" postag_regexp="yes" inflected="yes" regexp="yes">&elements_perifrasis_verbals;</token>
+                    <token postag="V.[SI].*" postag_regexp="yes" inflected="yes" regexp="yes">&elements_perifrasis_verbals;&elements_perifrasis_verbals2;</token>
                     <unify-ignore>
-                        <token postag="V.[NP].*|SPS00|R.|LOC_ADV|PP3.*" postag_regexp="yes" min="0" max="5"/>
-                        <token postag="V.N.*" postag_regexp="yes" inflected="yes" regexp="yes">començar|tornar</token>
+                        <token postag="V.[NP].*|SPS00|R.|LOC_ADV|PP3.*" postag_regexp="yes" min="0" max="5"><exception postag="V.N.*" postag_regexp="yes" inflected="yes" regexp="yes">començar|tornar|deixar</exception></token>
+                        <token postag="V.N.*" postag_regexp="yes" inflected="yes" regexp="yes">començar|tornar|deixar</token>
                     </unify-ignore>
-                    <token postag="P0.0.*" postag_regexp="yes" spacebefore="no" skip="2"/>
+                    <token postag="P0.0.*" postag_regexp="yes" spacebefore="no"/>
                 </unify>
-                <token>a</token>
+                <token inflected="yes" regexp="yes">a|de</token>
                 <marker>
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </marker>
