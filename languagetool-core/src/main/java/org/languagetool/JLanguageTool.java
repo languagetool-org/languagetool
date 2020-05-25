@@ -1110,6 +1110,7 @@ public class JLanguageTool {
       }
     }
 
+
     // add additional tags
     int lastToken = toArrayCount - 1;
     // make SENT_END appear at last not whitespace token

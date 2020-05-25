@@ -51,6 +51,7 @@ public class UserConfig {
   private final LinguServices linguServices;
   // needs to be in UserConfig so it is considered both in ResultCache and in PipelinePool
   private final boolean filterDictionaryMatches;
+
   // partially indifferent for comparing UserConfigs (e.g. in PipelinePool)
   // provided to rules only for A/B tests ->
   private final Long textSessionId;

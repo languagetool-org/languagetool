@@ -213,6 +213,7 @@ abstract class TextChecker {
               " characters (it's " + aText.getPlainText().length() + " characters). Please submit a shorter text.");
     }
 
+    boolean filterDictionaryMatches = "true".equals(parameters.get("filterDictionaryMatches"));
     List<String> dict = new ArrayList<>(
       limits.getPremiumUid() != null ? getUserDictWords(limits.getPremiumUid()) : Collections.emptyList()
     );
@@ -227,8 +228,6 @@ abstract class TextChecker {
         throw new RuntimeException("'dictionary' should be a JSON array in string format.");
       }
     }
-
-    boolean filterDictionaryMatches = "true".equals(parameters.get("filterDictionaryMatches"));
 
     Long textSessionId = null;
     try {
