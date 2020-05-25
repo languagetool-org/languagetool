@@ -4160,6 +4160,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token postag="JJ.*" postag_regexp="yes" />
                 <token postag="SENT_END" regexp="yes">\p{P}</token>
             </antipattern>
+            <antipattern><!-- Premium #1418 are all then entered ... -->
+                <token chunk="B-VP" inflected="yes">be</token>
+                <token chunk="I-VP" postag="DT"/>
+                <token chunk="I-VP" postag="RB"/>
+                <token chunk="I-VP" postag="VBN"/>
+            </antipattern>
             <pattern>
                 <token postag="DT|PRP\$" postag_regexp="yes">
                     <exception regexp="yes">th[eo]se|no|much</exception>
@@ -4185,6 +4191,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">Grammar error. I think its great.</example>
             <example type="untouched">Adjective. The <marker>basic</marker> installed software is not sufficient. We need the enhanced software.</example>
             <example type="untouched">Instead, we should either say:</example><!-- #2503 -->
+            <example type="untouched">While they usually are all then entered into ...</example><!-- Premium #1418 -->
             <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">How about we do this <marker>work</marker>?</example>
             <example type="ambiguous" inputform="sister[sister/JJ,sister/NN]" outputform="sister[sister/NN]">My <marker>sister</marker> believes you!</example>
         </rule>
