@@ -20,11 +20,9 @@ package org.languagetool.rules.spelling;
 
 import gnu.trove.THashMap;
 import gnu.trove.THashSet;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
-import org.languagetool.languagemodel.BaseLanguageModel;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
@@ -114,7 +112,7 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
   /**
-   *  @param word misspelled word that suggestions should be generated for
+   * @param word misspelled word that suggestions should be generated for
    * @param userCandidatesList candidates from personal dictionary
    * @param candidatesList candidates from default dictionary
    * @param orderer model to rank suggestions / extract features, or null
@@ -504,26 +502,6 @@ public abstract class SpellingCheckRule extends Rule {
     return Collections.singletonList(line);
   }
 
-  protected List<RuleWithLanguage> getAlternativeLangSpellingRules(List<Language> alternativeLanguages) {
-    List<RuleWithLanguage> spellingRules = new ArrayList<>();
-    for (Language altLanguage : alternativeLanguages) {
-      List<Rule> rules;
-      try {
-        rules = new ArrayList<>(altLanguage.getRelevantRules(messages, userConfig, null, Collections.emptyList()));
-        rules.addAll(altLanguage.getRelevantLanguageModelCapableRules(messages, null,
-          null, userConfig, null, Collections.emptyList()));
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      }
-      for (Rule rule : rules) {
-        if (rule.isDictionaryBasedSpellingRule()) {
-          spellingRules.add(new RuleWithLanguage(rule, altLanguage));
-        }
-      }
-    }
-    return spellingRules;
-  }
-
   /**
    * Accept (case-sensitively, unless at the start of a sentence) the given phrases even though they
    * are not in the built-in dictionary.
@@ -611,29 +589,4 @@ public abstract class SpellingCheckRule extends Rule {
     return match.isPresent() ? match.get().length() : 0;
   }
 
-
-  @Experimental
-  protected List<String> reorderSuggestions(List<String> suggestions, String word) {
-    // WORK IN PROGRESS
-    if (languageModel == null) {
-      return suggestions;
-    }
-    BaseLanguageModel lm = (BaseLanguageModel) languageModel;
-    List<Integer> levenshteinDistances = suggestions.stream().map(suggestion -> StringUtils.getLevenshteinDistance(word, suggestion)).collect(Collectors.toList());
-    List<Long> frequencies = suggestions.stream().map(lm::getCount).collect(Collectors.toList());
-    Long frequenciesSum = frequencies.stream().reduce((a, b) -> a + b).orElse(1L);
-    List<Float> normalizedFrequencies = frequencies.stream().map(f -> (float) f / frequenciesSum).collect(Collectors.toList());
-    System.out.println("frequencies: " + frequencies + " / normalized: " + normalizedFrequencies);
-
-    List<Pair<String, Float>> scoredSuggestions = new ArrayList<>(suggestions.size());
-    for (int i = 0; i < suggestions.size(); i++) {
-      float score = (1f / normalizedFrequencies.get(i)) * levenshteinDistances.get(i);
-      scoredSuggestions.add(Pair.of(suggestions.get(i), score));
-    }
-    scoredSuggestions.sort(Comparator.comparing(Pair::getRight));
-
-    System.out.println("Before reordering: " + suggestions.subList(0, 5) + " / After: " + scoredSuggestions.subList(0, 5));
-
-    return scoredSuggestions.stream().map(Pair::getLeft).collect(Collectors.toList());
-  }
 }
