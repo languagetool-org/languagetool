@@ -761,6 +761,20 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(serverPanel, cons);
 
+    cons.insets = new Insets(0, 4, 0, 0);
+    cons.gridx = 0;
+    cons.gridy++;
+    JLabel dummyLabel4 = new JLabel(" ");
+    portPanel.add(dummyLabel4, cons);
+    JCheckBox useLtDictionaryBox = new JCheckBox(Tools.getLabel(messages.getString("guiUseLtDictionary")));
+    useLtDictionaryBox.setSelected(config.useLtDictionary());
+    useLtDictionaryBox.addItemListener(e -> {
+      config.setUseLtDictionary(useLtDictionaryBox.isSelected());
+    });
+    cons.gridy++;
+    portPanel.add(useLtDictionaryBox, cons);
+
+    
   }
   
   private int showRemoteServerHint(Component component, boolean otherServer) {

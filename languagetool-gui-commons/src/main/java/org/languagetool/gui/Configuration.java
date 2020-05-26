@@ -71,6 +71,7 @@ public class Configuration {
   static final boolean DEFAULT_DO_REMOTE_CHECK = false;
   static final boolean DEFAULT_USE_OTHER_SERVER = false;
   static final boolean DEFAULT_MARK_SINGLE_CHAR_BOLD = false;
+  static final boolean DEFAULT_USE_LT_DICTIONARY = true;
 
   static final Color STYLE_COLOR = new Color(0, 175, 0);
 
@@ -115,6 +116,7 @@ public class Configuration {
   private static final String USE_OTHER_SERVER_KEY = "useOtherServer";
   private static final String MARK_SINGLE_CHAR_BOLD_KEY = "markSingleCharBold";
   private static final String LOG_LEVEL_KEY = "logLevel";
+  private static final String USE_LT_DICTIONARY_KEY = "UseLtDictionary";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -175,6 +177,7 @@ public class Configuration {
   private boolean doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
   private boolean useOtherServer = DEFAULT_USE_OTHER_SERVER;
   private boolean markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
+  private boolean useLtDictionary = DEFAULT_USE_LT_DICTIONARY;
   private String externalRuleDirectory;
   private String lookAndFeelName;
   private String currentProfile = null;
@@ -258,6 +261,7 @@ public class Configuration {
     doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
     useOtherServer = DEFAULT_USE_OTHER_SERVER;
     markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
+    useLtDictionary = DEFAULT_USE_LT_DICTIONARY;
     externalRuleDirectory = null;
     lookAndFeelName = null;
     currentProfile = null;
@@ -308,6 +312,7 @@ public class Configuration {
     this.doRemoteCheck = configuration.doRemoteCheck;
     this.useOtherServer = configuration.useOtherServer;
     this.markSingleCharBold = configuration.markSingleCharBold;
+    this.useLtDictionary = configuration.useLtDictionary;
     this.otherServerUrl = configuration.otherServerUrl;
     this.logLevel = configuration.logLevel;
     
@@ -473,6 +478,14 @@ public class Configuration {
 
   public boolean markSingleCharBold() {
     return markSingleCharBold;
+  }
+  
+  public void setUseLtDictionary(boolean useLtDictionary) {
+    this.useLtDictionary = useLtDictionary;
+  }
+
+  public boolean useLtDictionary() {
+    return useLtDictionary;
   }
   
   /**
@@ -1127,6 +1140,11 @@ public class Configuration {
         markSingleCharBold = Boolean.parseBoolean(markSingleCharBoldString);
       }
       
+      String useLtDictionaryString = (String) props.get(prefix + USE_LT_DICTIONARY_KEY);
+      if (useLtDictionaryString != null) {
+        this.useLtDictionary = Boolean.parseBoolean(useLtDictionaryString);
+      }
+      
       String rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier);
       if(rulesValuesString == null) {
         rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY);
@@ -1330,6 +1348,9 @@ public class Configuration {
         if(markSingleCharBold != DEFAULT_MARK_SINGLE_CHAR_BOLD) {
           props.setProperty(prefix + MARK_SINGLE_CHAR_BOLD_KEY, Boolean.toString(markSingleCharBold));
         }
+        if(useLtDictionary != DEFAULT_USE_LT_DICTIONARY) {
+          props.setProperty(prefix + USE_LT_DICTIONARY_KEY, Boolean.toString(useLtDictionary));
+        }
         if(switchOff) {
           props.setProperty(prefix + LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));
         }
@@ -1438,6 +1459,7 @@ public class Configuration {
     allProfileKeys.add(OTHER_SERVER_URL_KEY);
     allProfileKeys.add(USE_OTHER_SERVER_KEY);
     allProfileKeys.add(MARK_SINGLE_CHAR_BOLD_KEY);
+    allProfileKeys.add(USE_LT_DICTIONARY_KEY);
 
     allProfileLangKeys.add(DISABLED_RULES_KEY);
     allProfileLangKeys.add(ENABLED_RULES_KEY);

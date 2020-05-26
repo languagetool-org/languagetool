@@ -116,5 +116,22 @@ public class LtDictionary {
     }
     return words;
   }
+  
+  public void removeLtDictionaries(XComponentContext xContext) {
+    if (!dictinaryList.isEmpty()) {
+      XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
+      if(searchableDictionaryList == null) {
+        MessageHandler.printToLogFile("searchableDictionaryList == null");
+        return;
+      }
+      for (String dictionaryName : dictinaryList) {
+        XDictionary manualDictionary = searchableDictionaryList.getDictionaryByName(dictionaryName);
+        if (manualDictionary != null) {
+          searchableDictionaryList.removeDictionary(manualDictionary);
+        }
+      }
+      dictinaryList.clear();
+    }
+  }
 
 }
