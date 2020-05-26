@@ -8753,7 +8753,17 @@ though, and has since been slightly modified)-->
           <message>Vouliez-vous dire <suggestion>la journée</suggestion> ?</message>
           <example correction="la journée">J'ai pris <marker>la journé</marker> de repos.</example>
       </rule>
-      <rule id="IL_A_TOMBER" name="Expression il a tomber" default="temp_off">
+      <rule id="LA_SANTE" name="typo : la santé">
+          <pattern>
+              <token regexp="yes">la|une</token>
+              <token regexp="yes">sant[eé][eé]?
+                <exception>santé</exception>
+              </token>
+          </pattern>
+          <message>Vouliez-vous dire <suggestion>la santé</suggestion> ?</message>
+          <example correction="la santé">Et t'as pris soin de <marker>la sante</marker> ?</example>
+      </rule>
+      <rule id="IL_A_TOMBER" name="Expression il a tomber">
           <pattern>
               <token>il</token>
               <token inflected="yes">avoir</token>
@@ -18172,7 +18182,7 @@ though, and has since been slightly modified)-->
       <suggestion>à cause de</suggestion>
       <example correction="Parce que|À cause de"><marker>Because</marker> j'aime ça.</example>
     </rule>
-      <rulegroup id="SCREENSHOT" name="Anglicisme : screenshot" default="temp_off">
+      <rulegroup id="SCREENSHOT" name="Anglicisme : screenshot">
           <rule>
               <pattern>
                   <token regexp="yes">screenshots?</token>
@@ -18195,7 +18205,7 @@ though, and has since been slightly modified)-->
               <example correction="Captures d'écran"><marker>Screen shots</marker>, qui, j'en suis sûr, vous convaincront.</example>
           </rule>
       </rulegroup>
-      <rulegroup id="SCREENCAST" name="Anglicisme : screencast" default="temp_off">
+      <rulegroup id="SCREENCAST" name="Anglicisme : screencast">
           <rule>
               <pattern>
                   <token regexp="yes">screencasts?</token>
