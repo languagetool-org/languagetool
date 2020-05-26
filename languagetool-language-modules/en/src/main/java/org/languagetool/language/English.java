@@ -256,6 +256,7 @@ public class English extends Language implements AutoCloseable {
       case "DOS_AND_DONTS":             return 3;
       case "EN_COMPOUNDS":              return 2;
       case "ABBREVIATION_PUNCTUATION":  return 2;
+      case "COVID_19":                  return 1;
       case "WON_T_TO":                  return 1;   // higher prio than DON_T_AREN_T
       case "WAN_T":                     return 1;   // higher prio than DON_T_AREN_T
       case "THE_US":                    return 1;   // higher prio than DT_PRP
@@ -290,6 +291,7 @@ public class English extends Language implements AutoCloseable {
       case "CHILDISH_LANGUAGE":         return 8;   // prefer over spell checker
       case "EN_DIACRITICS_REPLACE":     return 9;   // prefer over spell checker (like PHRASE_REPETITION)
       case "WE_BE":                     return -1;
+      case "A_LOT_OF_NN":               return -1;
       case "IT_VBZ":                    return -1;
       case "IT_IS_2":                   return -1;
       case "A_RB_NN":                   return -1;  // prefer other more specific rules (e.g. QUIET_QUITE)

@@ -3731,7 +3731,7 @@ USA
                         <token>its</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token postag="SENT_END" regexp="yes">stupid|boring|annoying|dumb|free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
+                    <token postag="SENT_END" regexp="yes">useless|stupid|boring|annoying|dumb|free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
                 <short>Possible typo</short>
@@ -3753,7 +3753,7 @@ USA
                         <token>its</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token postag="SENT_END" regexp="yes">stupid|boring|annoying|dumb|free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
+                    <token postag="SENT_END" regexp="yes">useless|stupid|boring|annoying|dumb|free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
                 <short>Possible typo</short>
@@ -3769,7 +3769,7 @@ USA
                         <token>its</token>
                     </marker>
                     <token postag="RB" min="0" />
-                    <token regexp="yes">stupid|boring|annoying|dumb|free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
+                    <token regexp="yes">useless|stupid|boring|annoying|dumb|free|expensive|cheap|new|old|everyday|wrong|(in)?correct|sure|on|off|out|in|fine|ok(ay)?|(al)?right|left|awesome|available|beautiful|ready|(im)?possible|dangerous|different|enough|t?here|sexy|delicious|&short_adjectives;|&optional_short_adjectives;</token>
                     <token regexp="yes">\.|\!|…|\?|\;|\:|that|because|to|since|for|in|on|at|with(in|out)?|from|now|but|if|when</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=<suggestion>it is</suggestion>) instead of 'its' (possessive pronoun)?</message>
@@ -6122,7 +6122,7 @@ USA
             <pattern>
                 <token case_sensitive="yes" regexp="yes">
                     <exception regexp="yes" scope="previous">the|an?|my|y?our|his|her|their</exception>
-                    harry|matt|mike|trump|jack
+                    harry|matt|mike|trump|jack|tom
                 </token><!-- lowercase names that are also verbs or adjectives -->
                 <token regexp="yes" spacebefore="no">&apostrophe;</token>
                 <token spacebefore="no">s</token>
@@ -8432,6 +8432,7 @@ USA
                 <example>Freedom to do what you want when you want is not freedom, it's licence.</example>
                 <example>Not earning miles when you fly is like keeping your money under a mattress instead of in a savings account.</example>
                 <example>Which if you recall was the best?</example>
+                <example type="triggers_error">The feeling that you have when you drive is wonderful.</example>
             </rule>
             <rule><!-- I think <your> nice -->
                 <antipattern>
@@ -11772,6 +11773,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+
         <rule id="THANK_YOU_MUCH" name="Thank you much">
             <antipattern>
                 <token>much</token>
@@ -11997,6 +11999,37 @@ USA
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
+        </rule>
+        <rule id="BACK_COMPOUNDS" name="back log (backlog)" default="temp_off">
+            <antipattern>
+                <token>hand</token>
+                <token>in</token>
+                <token regexp="yes">hand|glove</token>
+            </antipattern>
+            <antipattern>
+                <token>back</token>
+                <token>to</token>
+                <token>back</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">top|right|bottom|left|side|north|south|east|west</token>
+                <token regexp="yes">and|&amp;</token>
+                <token>back</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">take|come</token>
+                <token>back</token>
+            </antipattern>
+            <pattern>
+                <token>back</token>
+                <token regexp="yes">logs?|lash(es)?|bones?|drops?|packs?|packers?|side|grounds?|stages?|spaces?|spins?|stabs?|stabbed|stabbing|stabbers?|beats?|flips?|streets?|breakers?|gammon|slash(es)?|hands?|lights?|stretch(es)?</token>
+            </pattern>
+            <message>This is normally spelled as one word.</message>
+            <suggestion>back<match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="backlog">We can move the task to our <marker>back log</marker>.</example>
+            <example>We headed back hand in hand.</example>
+            <example>Moving shift knob to left and back drops it into lower gear.</example>
+            <example>Yes, I thought was to not take back space in the EOT area since we have some available and were not looking to expand there.</example>
         </rule>
         <rule id="WRITER_COMPOUNDS" name="ghost writer (ghostwriter)">
             <antipattern>
@@ -15522,6 +15555,46 @@ USA
                 <token postag="DT" skip="2" />
                 <token regexp="yes">bunch|lot|pair|couple|majority</token>
             </antipattern>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">be</token>
+                    <marker>
+                        <token postag="JJ" min="0" chunk="B-NP-singular">
+                            <exception postag="IN" />
+                            <exception regexp="yes">less|more|fewer</exception>
+                        </token>
+                        <token regexp="yes">number|handful|variety|majority|bunch|lot|pair|couple</token>
+                        <token>of</token>
+                    </marker>
+                    <token chunk="B-NP-plural" />
+                </pattern>
+                <message>It seems that an article is missing. Did you mean <suggestion>a \2 \3 \4</suggestion>?</message>
+                <example correction="a number of">There are <marker>number of</marker> animals that eat plants.</example>
+                <example correction="a unknown number of">There are <marker>unknown number of</marker> people who search for the same answer and today I am one of them.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>most</token>
+                    <token>wanted</token>
+                </antipattern>
+                <pattern>
+                    <token inflected="yes" regexp="yes">have|need|get|take|receive|want|send|make|do|say|know|see|use|find|give|tell|work|call|try|ask|feel</token><!-- TODO: add more verbs -->
+                    <marker>
+                        <token postag="JJ" min="0" chunk="B-NP-singular">
+                            <exception postag="IN" />
+                            <exception regexp="yes">less|more|fewer</exception>
+                        </token>
+                        <token regexp="yes">number|handful|variety|majority|bunch|lot|pair|couple</token>
+                        <token>of</token>
+                    </marker>
+                    <token chunk="B-NP-plural" />
+                </pattern>
+                <message>It seems that an article is missing. Did you mean <suggestion>the \2 \3 \4</suggestion> or <suggestion>a \2 \3 \4</suggestion>?</message>
+                <example correction="the same number of|a same number of">Kepler-90 has <marker>same number of</marker> planets as our Sun.</example>
+                <example correction="the whole bunch of|a whole bunch of">The voices told me he's lying and has <marker>whole bunch of</marker> females in his phone.</example>
+                <example correction="the moderate number of|a moderate number of">Kabul and Jalalabad have <marker>moderate number of</marker> listeners.</example>
+                <example>Tom and Mary are the most wanted pair of bank robbers in the continent.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token postag="VB.*|IN|PCT|CC|RB|UH" postag_regexp="yes">
@@ -17371,17 +17444,23 @@ USA
                 <token postag="CD" />
                 <token>am</token>
             </antipattern>
+            <antipattern>
+                <token>I</token>
+                <token postag="RB" />
+                <token>am</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>am<exception scope="previous">I</exception></token>
                 </marker>
                 <token postag='VBG'/>
             </pattern>
-            <message>Did you mean <suggestion>am I</suggestion>?</message>
-            <example correction="am I">Whom <marker>am</marker> talking with?</example>
+            <message>Did you mean <suggestion>am I</suggestion> or <suggestion>I am</suggestion>?</message>
+            <example correction="am I|I am">Whom <marker>am</marker> talking with?</example>
             <example>Whom <marker>am I</marker> talking with?</example>
             <example>AM broadcasting (radio broadcasting using amplitude modulation)...</example>
             <example>The 8 AM meeting is being held in the big conference room.</example>
+            <example>I really am going crazy.</example>
         </rule>
 
         <rulegroup id="SHOULD_BE_DO" name="should be do (done)"> 
@@ -17694,23 +17773,6 @@ USA
             </pattern>
             <message>Did you mean <suggestion>of</suggestion>?</message>
             <example correction='of'>Children are fond <marker>to</marker> skipping.</example>
-        </rule>
-
-        <rule id="A_GREAT_NUMBER_OF_NN" name="a great number of + singular (plural)">
-            <pattern>
-                <token>a</token>
-                <token>great</token>
-                <token>number</token>
-                <token>of</token>
-                <marker>
-                    <token chunk="E-NP-singular" postag="NN"/>
-                </marker>
-            </pattern>
-            <message>Did you mean <suggestion><match no="5" postag="NNS"/></suggestion>?</message>
-            <example correction='problems'>A great number of <marker>problem</marker> can be prevented.</example>
-            <example>A great number of <marker>problems</marker> can be prevented.</example>
-            <example>The effective temperatures of a great number of peculiar (Ap) and metallic line (Am) stars are reduced to one system.</example><!-- #2676 -->
-            <example>A great number of problem conditions can arise.</example><!-- #2676 -->
         </rule>
 
         <rule id="MANY_KINDS_OF" name="many kinds of + singular noun">
@@ -21606,7 +21668,29 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rule id="COCA_COLA" name="Coca Cola (Coca-Cola)" default="temp_off">
+        <rulegroup id="KAMA_SUTRA" name="Kama Sutra" default="temp_off">
+            <url>https://en.wikipedia.org/wiki/Kama_Sutra</url>
+            <antipattern case_sensitive="yes">
+                <token>Kama</token>
+                <token>Sutra</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">kar?ma</token>
+                    <token regexp="yes">sutr?a</token>
+                </pattern>
+                <message>Did you mean <suggestion>Kama Sutra</suggestion> (= sanskrit on sexuality)?</message>
+                <example correction="Kama Sutra">The <marker>Karma Sutra</marker> is an ancient Indian Sanskrit text on sexuality, eroticism and emotional fulfillment in life.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">kar?masutr?a</token>
+                </pattern>
+                <message>Did you mean <suggestion>Kama Sutra</suggestion> (= sanskrit on sexuality)?</message>
+                <example correction="Kama Sutra">The <marker>Karmasutra</marker> is an ancient Indian Sanskrit text on sexuality, eroticism and emotional fulfillment in life.</example>
+            </rule>
+        </rulegroup>
+        <rule id="COCA_COLA" name="Coca Cola (Coca-Cola)">
             <pattern>
                 <token>Coca</token>
                 <token>Cola</token>
@@ -23324,6 +23408,10 @@ USA
                 <token>do</token>
                 <token>tasks</token>
             </antipattern>
+            <antipattern><!-- spanish -->
+                <token regexp="yes">bien|que|por|hola</token>
+                <token regexp="yes">todos?</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -23378,10 +23466,6 @@ USA
                     <token>todo</token>
                     <token spacebefore="no">.</token>
                     <token spacebefore="no" regexp="yes">.*[a-z].*</token>
-                </antipattern>
-                <antipattern>
-                    <token>bien</token>
-                    <token>todo</token>
                 </antipattern>
                 <pattern>
                     <token>todo</token>
@@ -35908,33 +35992,121 @@ USA
             <antipattern>
                 <token inflected="yes">do</token>
                 <token>a</token>
-                <token regexp="yes">lot|bunch</token>
+                <token regexp="yes">lot|bunch|couple|lack|number|pair|handful</token>
                 <token>of</token>
                 <token postag="NNP?" postag_regexp="yes"/>
                 <token postag="VBG"/>
             </antipattern>
-            <!--antipattern>< a lot of CPU power >
+            <antipattern><!-- it is a lot of ... -->
+                <token regexp="yes">i?s</token>
+                <token>a</token>
+                <token>lot</token>
                 <token>of</token>
-                <token>CPU</token><token chunk="B-NP-singular" postag="NNP?" postag_regexp="yes"/>
-                <token>power</token><token chunk="E-NP-singular" postag="NN(:UN?)?" postag_regexp="yes"/>
-            </antipattern-->
+                <token postag="NNP?" postag_regexp="yes" chunk="E-NP-singular" />
+            </antipattern>
+            <antipattern>
+                <token postag="JJ" chunk="E-NP-singular" />
+                <token regexp="yes">and|or|&amp;</token>
+                <token chunk="B-NP-plural" />
+            </antipattern>
+            <antipattern><!-- He reminds me a lot of my dad. -->
+                <token>a</token>
+                <token>lot</token>
+                <token>of</token>
+                <token postag="PRP\$|DT" postag_regexp="yes" />
+                <token chunk="E-NP-singular" />
+            </antipattern>
+            <antipattern><!-- A lot of stop and go -->
+                <token chunk="E-NP-singular">stop</token>
+                <token regexp="yes">and|&amp;</token>
+                <token>go</token>
+            </antipattern>
+            <antipattern><!-- A lot of eye contact -->
+                <token chunk="E-NP-singular">eye</token>
+                <token>contact</token>
+            </antipattern>
+            <antipattern><!-- A lot of internet traffic -->
+                <token chunk="E-NP-singular">internet</token>
+                <token>traffic</token>
+            </antipattern>
+            <antipattern><!-- A lot of Node.js services -->
+                <token chunk="E-NP-singular" />
+                <token spacebefore="no">.</token>
+                <token regexp="yes" spacebefore="no">\w+</token>
+            </antipattern>
+            <antipattern><!-- I have a lot of triangle like elements -->
+                <token chunk="E-NP-singular" postag="NNP?" postag_regexp="yes" />
+                <token>like</token>
+                <token chunk="B-NP-plural" />
+            </antipattern>
+            <antipattern><!-- I haven't seen a lot of Tom recently -->
+                <token>a</token>
+                <token>lot</token>
+                <token>of</token>
+                <token regexp="yes" chunk="E-NP-singular">karma|[GC]PU|UNO|UNESCO|Harry|Matt|Mike|Trump|Jack|Tom</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>a</token>
-                    <token regexp="yes">lot|bunch|couple|lack</token>
+                    <token postag="JJR?" postag_regexp="yes" min="0" />
+                    <token regexp="yes">lot|bunch|couple|lack|number|pair|handful</token>
                     <token>of</token>
-                    <token postag="NNP?" postag_regexp="yes"><exception postag="NN:U|NNP?S|JJ.*" postag_regexp="yes"/></token>
+                    <token min="0" chunk="B-NP-singular">
+                        <exception regexp="yes">\p{P}|an?</exception>
+                    </token>
+                    <token postag="NNP?" postag_regexp="yes" chunk="E-NP-singular">
+                        <exception postag="NN:U|NNP?S" postag_regexp="yes"/>
+                        <exception regexp="yes">mine|while|out|in|on</exception>
+                        <exception scope="next" regexp="yes">&apostrophe;</exception>
+                        <exception scope="next" postag="NNS" />
+                    </token>
                 </marker>
-                <token><exception postag="NNP?S" postag_regexp="yes"/><exception regexp="yes">&apostrophe;</exception></token>
             </pattern>
-            <message>Possible agreement error. The noun <match no="4"/> seems to be countable; consider using: <suggestion>a <match no="2"/> of <match no="4" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
+            <message suppress_misspelled="yes">Possible agreement error. The noun <match no="6"/> seems to be countable; consider using: <suggestion>a <match no="2"/> \3 \4 \5 <match no="6" postag="NNP?S" postag_regexp="yes"/></suggestion>.</message>
             <short>Grammatical problem</short>
             <example correction="a lot of cars">I have <marker>a lot of car</marker>.</example>
+            <example correction="a couple of anomalies">There are <marker>a couple of anomaly</marker>.</example>
+            <example correction="a bunch of idiots">What <marker>a bunch of idiot</marker>.</example>
+            <example correction="a lot of inconsistencies">Many languages have <marker>a lot of inconsistency</marker>.</example>
+            <example correction="a lot of things">There a are <marker>a lot of thing</marker> to do.</example>
+            <example correction="a lot of things">There a are <marker>a lot of thing</marker> to do.</example>
+            <example correction="a number of anomalies">There are <marker>a number of anomaly</marker>.</example>
+            <example correction='A great number of problems'><marker>A great number of problem</marker> can be prevented.</example>
             <example>I have <marker>a lot of wine</marker>.</example>
             <example>I did <marker>a lot of rat</marker> killing.</example>
             <example>It steals a lot of <marker>CPU power</marker> just like Facebook...</example><!-- https://forum.languagetool.org/t/en-possible-false-positive-2019-08-27/4662 -->
             <example type="triggers_error">A lack of vowel marking (often with ambiguity between no vowel an...</example>
+            <example type="triggers_error">Some of that MPG drop is more so due to a lack of highway driving lately.</example>
+            <example type="triggers_error">There are a number of the SEC why we're inserting it now.</example>
             <example>...e of the state banks, a weak financial market and a lack of bank transparency.</example>
+            <example>I have a lot of time.</example>
+            <example>We need a lot of fuel.</example>
+            <example>Tom reminds me a lot of my dad.</example>
+            <example>I don’t mean hot rodding, but a lot of stop and go with a lot of turns.</example>
+            <example>Thankfully, a lot of mine are past the 8 issue and 14 is a long way off.</example>
+            <example>I put on a lot of sunscreen, but I still got a bad sunburn.</example>
+            <example>A number of different chemical and physical processes and mechanisms can be involved in the process of emulsification.</example>
+            <example>So you have to be prepared for a lot of churn.</example>
+            <example>It can cause a lot of damage.</example>
+            <example>It has a lot of CPU power.</example>
+            <example>I have a lot of triangle like elements.</example>
+            <example>A lot of California used to be under water.</example>
+            <example>She has a lot of book work to do.</example>
+            <example>There is a lot of tear gas going to the floor.</example>
+            <example>I am receiving a lot of invalid URL hits to our server.</example>
+            <example>This actually could save a lot of space while also looking good.</example>
+            <example>There’s a lot of upside to leaving it in.</example>
+            <example>I have read a lot of Kate Atkinson so far.</example>
+            <example>I played a lot of UNO with her.</example>
+            <example>There are a lot of Middle Eastern countries.</example>
+            <example>The virus spread to a lot of East Africa.</example>
+            <example>I've seen a lot of Tom recently.</example>
+            <example>A great number of <marker>problems</marker> can be prevented.</example>
+            <example>The effective temperatures of a great number of peculiar (Ap) and metallic line (Am) stars are reduced to one system.</example><!-- #2676 -->
+            <example>A great number of problem conditions can arise.</example><!-- #2676 -->
+            <example>A nearby pair of a vacancy and an interstitial is often called a Frenkel defect or Frenkel pair.</example>
+            <example>A decent number of out of the money $19 calls were exercised last night, we haven't seen that play in some time.</example>
+            <example>I’ve got a bunch of Node.js services hooked up to new relic.</example>
         </rule>
         <rulegroup id="A_COLLECTIVE_OF_NN" name="Possible agreement error: 'a + collective noun + of' + singular countable noun"><!-- #2141 -->
             <short>Grammatical problem</short>
@@ -57767,6 +57939,25 @@ The accident victim died from her injuries.
                 <suggestion><match no="1" regexp_match="(?i)(ee)(ma)" regexp_replace="$1 $2" /></suggestion>
                 <url>https://www.merriam-webster.com/dictionary/coffeemaker</url>
                 <example correction="coffee maker">Not everyone wants or needs a fancy <marker>coffeemaker</marker>, and that’s totally fine.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">backseats?</token>
+                </pattern>
+                <message>It's more common to write this as two words.</message>
+                <suggestion><match no="1" regexp_match="(?i)(ck)(se)" regexp_replace="$1 $2" /></suggestion>
+                <url>https://www.merriam-webster.com/dictionary/backseat</url>
+                <example correction="back seat">He is sitiing on the <marker>backseat</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>back</token>
+                    <token regexp="yes">yards?</token>
+                </pattern>
+                <message>It's more common to write this as one word.</message>
+                <suggestion>back<match no="2" case_conversion="alllower" /></suggestion>
+                <url>https://www.merriam-webster.com/dictionary/backyard</url>
+                <example correction="backyard">He is having a party in his <marker>back yard</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="MOST_OF_OUR_TIMES" name="Most of our times (time)">
