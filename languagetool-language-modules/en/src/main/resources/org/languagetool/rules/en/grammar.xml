@@ -17543,6 +17543,10 @@ USA
                 <example correction='to change'>They do not need <marker>change</marker> them.</example>
             </rule>
             <rule>
+                <antipattern><!-- #2929 -->
+                    <token>need</token>
+                    <token chunk="B-NP-singular" postag_regexp="yes" postag="JJ|NN:UN?"/>
+                </antipattern>
                 <pattern>
                     <token>don</token>
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
@@ -17554,6 +17558,9 @@ USA
                 </pattern>
                 <message>Did you mean <suggestion>to <match no="5"/></suggestion>?</message>
                 <example correction='to change'>They don't need <marker>change</marker> them.</example>
+                <example>They don't need <marker>to change</marker> them.</example>
+                <example>We don't need direct soil.</example><!-- #2929 -->
+                <example>We don't need water to grow our plants.</example><!-- #2929 -->
             </rule>
         </rulegroup>
 
