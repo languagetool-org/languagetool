@@ -183,11 +183,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
-        <rulegroup id="HOLA_COMO_ESTAS" name="Hola, ¿cómo estás?" default="temp_off">
+        <rulegroup id="HOLA_COMO_ESTAS" name="Hola, ¿cómo estás?">
             <rule>
                 <antipattern>
                     <token>Hola</token>
-                    <token>,</token>
+                    <token regexp="yes">[,!]</token>
                     <token>¿</token>
                     <token>cómo</token>
                     <token regexp="yes">estás|está|estáis|están</token>
@@ -203,11 +203,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Error de ortografía.</message>
                 <suggestion>Hola, ¿cómo <match no="4" regexp_match="(?iu)est[aá](i?s?n?)" regexp_replace="está$1"/>?</suggestion>
                 <example correction="Hola, ¿cómo estáis?">"<marker>Ola como estais?</marker></example>
+                <example>¡Hola! ¿Cómo estás?</example>
+                <example>Hola, ¿cómo estáis?</example>
             </rule>
             <rule>
                 <antipattern>
                     <token>Hola</token>
-                    <token>,</token>
+                    <token regexp="yes">[,!]</token>
                     <token>¿</token>
                     <token>cómo</token>
                     <token regexp="yes">estás|está|estáis|están</token>
@@ -233,7 +235,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token>Hola</token>
-                    <token>,</token>
+                    <token regexp="yes">[,!]</token>
                     <token>¿</token>
                     <token>cómo</token>
                     <token regexp="yes">estás|está|estáis|están</token>
