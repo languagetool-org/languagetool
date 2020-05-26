@@ -15,10 +15,14 @@
 #### French
   * added and improved rules
 
+#### German
+  * added and improved rules
+  * rules that apply to de-DE and de-AT (but not de-CH) can now be placed in `de/de-DE-AT/grammar.xml` 
+
 #### Russian
   * added and improved rules
   * added new Java rules
-  * rebuilded and improved main spellchecker dictionary
+  * rebuilt and improved main spellchecker dictionary
   * new variant (only yo "ё") spellchecker dictionary and new java rule for it
 
 

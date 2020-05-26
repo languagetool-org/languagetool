@@ -127,11 +127,20 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
   }
 
   protected void runGrammarRuleForLanguage(Language lang) throws IOException {
-    if (skipCountryVariant(lang)) {
-      System.out.println("Skipping " + lang + " because there are no specific rules for that variant");
-      return;
+    if (lang.getShortCode().equals("de")) {
+      if (lang.getShortCodeWithCountryAndVariant().equals("de-DE")) {
+        runTestForLanguage(lang);  // tests de-DE-AT/grammar.xml
+        runTestForLanguage(Languages.getLanguageForShortCode("de"));  // tests de/grammar.xml
+      } else {
+        System.out.println("Skipping " + lang + " because only de-DE gets tested for German (assuming there are no de-CH specific rules)");
+      }
+    } else {
+      if (skipCountryVariant(lang)) {
+        System.out.println("Skipping " + lang + " because there are no specific rules for that variant");
+        return;
+      }
+      runTestForLanguage(lang);
     }
-    runTestForLanguage(lang);
   }
 
   private void runGrammarRulesFromXmlTestIgnoringLanguages(Set<Language> ignoredLanguages) throws IOException {
@@ -175,7 +184,10 @@ public class PatternRuleTest extends AbstractPatternRuleTest {
       String ruleFilePath = rulesDir + "/" + grammarFile;
       try (InputStream xmlStream = this.getClass().getResourceAsStream(ruleFilePath)) {
         if (xmlStream == null) {
-          if (!ruleFilePath.equals("/org/languagetool/rules/en/en-US/grammar-l2-de.xml") && !ruleFilePath.equals("/org/languagetool/rules/en/en-US/grammar-l2-fr.xml")) {
+          if (!ruleFilePath.equals("/org/languagetool/rules/en/en-US/grammar-l2-de.xml") &&
+              !ruleFilePath.equals("/org/languagetool/rules/en/en-US/grammar-l2-fr.xml") &&
+              !ruleFilePath.equals("/org/languagetool/rules/de/de-DE/grammar.xml")
+            ) {
             System.out.println("No rule file found at " + ruleFilePath + " in classpath. THIS SHOULD BE FIXED!");
           }
           continue;
