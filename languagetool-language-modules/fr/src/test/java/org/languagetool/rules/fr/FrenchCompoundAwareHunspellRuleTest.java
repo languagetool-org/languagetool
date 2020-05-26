@@ -36,6 +36,9 @@ public class FrenchCompoundAwareHunspellRuleTest {
   public void testSpellcheck() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("fr"));
     TestTools.disableAllRulesExcept(lt, "FR_SPELLING_RULE");
+    assertSuggestion(lt, "et ca", "ça"); // see #2900
+    assertSuggestion(lt, "La journé", "jour né"); // see #2900. Better: journée
+    assertSuggestion(lt, "la sante", "santé"); // see #2900
     assertSuggestion(lt, "Parcontre", "Par contre");  // see #1797
     assertSuggestion(lt, "parcontre", "par contre");  // see #1797
     assertSuggestion(lt, "Ca", "Ça");  // see #912
