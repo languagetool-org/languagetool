@@ -177,7 +177,7 @@ public abstract class GRPCRule extends RemoteRule {
             RuleMatch m = new RuleMatch(this, sentence,
               relativeOffset + match.getOffset(),
               relativeOffset + match.getOffset() + match.getLength(),
-              getMessage(match));
+              getMessage(match, sentence));
             m.setSuggestedReplacements(match.getSuggestionsList());
             return m;
           }
@@ -188,7 +188,7 @@ public abstract class GRPCRule extends RemoteRule {
     };
   }
 
-  protected abstract String getMessage(MLServerProto.Match match);
+  protected abstract String getMessage(MLServerProto.Match match, AnalyzedSentence sentence);
 
   @Override
   protected RemoteRuleResult fallbackResults(RemoteRule.RemoteRequest request) {
@@ -213,13 +213,8 @@ public abstract class GRPCRule extends RemoteRule {
 
 
       @Override
-      protected String getMessage(MLServerProto.Match match) {
+      protected String getMessage(MLServerProto.Match match, AnalyzedSentence sentence) {
         return messages.getString(messagesByID.get(match.getSubId()));
-      }
-
-      @Override
-      public String getId() {
-        return id;
       }
 
       @Override

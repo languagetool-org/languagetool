@@ -141,6 +141,11 @@ public abstract class RemoteRule extends Rule {
   }
 
   @Override
+  public String getId() {
+    return serviceConfiguration.getRuleId();
+  }
+
+  @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
     FutureTask<List<RuleMatch>> task = run(Collections.singletonList(sentence));
     task.run();

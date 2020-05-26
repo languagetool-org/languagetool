@@ -390,13 +390,7 @@ public class English extends Language implements AutoCloseable {
     String gpt2ConfpairID = "CONFPAIRS_EN_GPT2";
     RemoteRuleConfig gpt2ConfpairConfig = RemoteRuleConfig.getRelevantConfig(gpt2ConfpairID, configs);
     if (gpt2ConfpairConfig != null) {
-      Map<String, String> gpt2ConfpairMessages = new HashMap<>();
-      gpt2ConfpairMessages.put("ads-adds", "confpairs_EN_gpt2_rule_ads-adds");
-      gpt2ConfpairMessages.put("adds-ads", "confpairs_EN_gpt2_rule_adds-ads");
-      gpt2ConfpairMessages.put("adolescence-adolescents", "confpairs_EN_gpt2_rule_adolescence-adolescents");
-      Rule gpt2ConfpairRule = GRPCRule.create(messageBundle,
-        gpt2ConfpairConfig,
-        gpt2ConfpairID, "confpairs_EN_gpt2_rule_description", gpt2ConfpairMessages);
+      Rule gpt2ConfpairRule = new GRPCConfusionRule(messageBundle, gpt2ConfpairConfig);
       rules.add(gpt2ConfpairRule);
     }
     return rules;
