@@ -3125,6 +3125,11 @@ USA
                     <token chunk="I-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
                     <token regexp="yes">and|or</token>
                 </antipattern>
+                <antipattern><!-- #2555 were pain and suffering -->
+                    <token>were</token>
+                    <token chunk="B-NP-singular" postag_regexp="yes" postag="NN:UN?"/>
+                    <token regexp="yes">and|or</token>
+                </antipattern>
                 <pattern>
                     <token><exception postag="CC"/></token>
                     <token><exception postag="WP|NNS|WRB|CD" postag_regexp="yes"/><exception regexp="yes">there|the[ym]|we|you</exception></token>
@@ -3150,6 +3155,7 @@ USA
                 <example>"Were I in England now, as once I was, and had but this fish painted, not a holiday fool there but would give a piece of silver"</example><!-- #2555 -->
                 <example>... but were he rich, he still would not be happy.</example><!-- #2555 -->
                 <example>Alternatively, for some women, the only feelings that could be shown were anger and rage.</example><!-- #2555 -->
+                <example>... the problems brought upon the family were pain and suffering.</example><!-- #2978 -->
             </rule>
             <rule>
                 <pattern>
