@@ -1131,7 +1131,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Como siempre, has oído mal!</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SE_CREO" name="confusión: se creo/creó" default="on">
+        <rulegroup id="SE_CREO" name="confusión: se creo/creó">
             <rule>
                 <pattern>
                     <token>se<exception postag="LOC_ADV"/></token>
@@ -1160,6 +1160,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">él|ella|usted<exception postag="SP.*" postag_regexp="yes" scope="previous"/></token>
+                    <token regexp="yes" min="0">["«“‘']</token>
                     <marker>
                         <and>
                             <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V.{3}3.*|C.*|SP.*|V.G.*" postag_regexp="yes"/><exception postag="V.{3}3.*|AQ.*|[NCR].*" postag_regexp="yes"/></token>
@@ -1168,7 +1169,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Si el verbo es en pasado, falta un acento.</message>
-                <suggestion><match no="2" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
+                <suggestion><match no="3" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
                 <example correction="vengó|vino">Él <marker>vengo</marker></example>
                 <example correction="habló">Ella <marker>hablo</marker></example>
                 <example correction="habló">Usted <marker>hablo</marker></example>
@@ -1194,6 +1195,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="4" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
                 <example correction="determinó">Nos lo <marker>determino</marker></example>
                 <example correction="determinó">Nos <marker>determino</marker> el resultado.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <token min="1" max="4" postag="_GN_.S|N..S.*" postag_regexp="yes"><exception postag="_GN_.P|N..P.*|DN.*|NCCN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
+                        >&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez|&nombres_colectivos;|qué|cuál|cual|mismo|cuanto|cuánto|resto</exception><exception regexp="yes">.*%</exception></token>
+                    <token regexp="yes" min="0">["«“‘']</token>
+                    <marker>
+                        <and>
+                            <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*" postag_regexp="yes"/></token>
+                            <token inflected="yes" regexp="yes">.+ar</token>
+                        </and>
+                    </marker>
+                </pattern>
+                <message>Si el verbo es en pasado, falta un acento.</message>
+                <suggestion><match no="4" postag="VMIP1S0" postag_regexp="yes" postag_replace="VMIS3S0"/></suggestion>
+                <example correction="colaboró">La policía <marker>colaboro</marker> con el juez</example>
+                <example correction="habló">Juan <marker>hablo</marker> con ella.</example>
+                <example>Siempre colaboro con la policía.</example>
+                <example>El jueves hablo con él.</example>
+                <example>Mañana hablo con ella.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SE" name="se/sé" default="on">
