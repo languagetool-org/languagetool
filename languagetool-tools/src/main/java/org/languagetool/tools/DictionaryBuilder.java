@@ -58,7 +58,7 @@ class DictionaryBuilder {
   private static final SerializationFormat serializationFormat = SerializationFormat.CFSA2;
 
   private final Map<String, Integer> freqList = new HashMap<>();
-  private final Pattern pFreqEntry = Pattern.compile(".*<w f=\"(\\d+)\" flags=\"(.*)\">(.+)</w>.*");
+  private final Pattern pFreqEntry = Pattern.compile(".*<w f=\"(\\d+)\"(?: flags=\"(.*?)\")?>(.+)</w>.*");
   // Valid for tagger dictionaries (wordform_TAB_lemma_TAB_postag) or spelling dictionaries (wordform)
   private final Pattern pTaggerEntry = Pattern.compile("^([^\t]+).*$");
   private String outputFilename;
