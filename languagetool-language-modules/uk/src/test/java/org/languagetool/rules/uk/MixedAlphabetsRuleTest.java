@@ -114,6 +114,11 @@ public class MixedAlphabetsRuleTest {
     assertEquals("Вжито кириличні літери замість латинських на позначення римської цифри", matches[0].getMessage());
     assertEquals(Arrays.asList("XI"), matches[0].getSuggestedReplacements());
 
+    matches = rule.match(langTool.getAnalyzedSentence("СOVID-19")); // cyrillic С
+    assertEquals(1, matches.length);
+    assertEquals("Вжито кириличні літери замість латинських", matches[0].getMessage());
+    assertEquals(Arrays.asList("COVID-19"), matches[0].getSuggestedReplacements());
+
     matches = rule.match(langTool.getAnalyzedSentence("австрo-турецької")); // cyrillic both X and I used for latin number
     assertEquals(1, matches.length);
     assertEquals("Вжито кириличні й латинські літери в одному слові", matches[0].getMessage());

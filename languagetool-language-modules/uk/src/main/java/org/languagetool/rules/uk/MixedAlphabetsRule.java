@@ -172,7 +172,7 @@ public class MixedAlphabetsRule extends Rule {
 
   private String adjustForInvalidSuffix(String tokenString) {
     if( tokenString.contains("-") ) {
-      tokenString = tokenString.replaceFirst("-.*", "");
+      tokenString = tokenString.replaceFirst("-[а-яіїє]{1,4}", "");
     }
     return tokenString;
   }
