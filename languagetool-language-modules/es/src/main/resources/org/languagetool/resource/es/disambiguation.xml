@@ -113,6 +113,28 @@ Copyright (C) 2011 Juan Martorell
             </disambig>
             <example type="untouched">Con la propuesta <marker>de nuevo</marker> servidor</example>
         </rule>
+        <rule id="frente_a" name="frente a">
+            <pattern>
+                <marker>
+                    <token>frente</token>
+                </marker>
+                <token regexp="yes">a|al</token>
+            </pattern>
+            <disambig action="filter" postag="RG"/>
+        </rule>
+        <rule id="en_tanto" name="en tanto">
+            <pattern>
+                <marker>
+                    <token>en</token>
+                    <token>tanto</token>
+                </marker>
+                <token><exception postag="N.[MC][SN].*" regexp="yes"/></token>
+            </pattern>
+            <disambig action="replace">
+                <wd pos="LOC_ADV"/>
+                <wd pos="LOC_ADV"/>
+            </disambig>
+        </rule>
         <rule id="sobre_todo" name="sobre todo">
             <pattern>
                 <marker>
@@ -809,7 +831,8 @@ Copyright (C) 2011 Juan Martorell
     </rule>
     <rule id="mas_adj" name="más + adj no adv">
         <pattern>
-            <token postag="RG"/><!--más|menos|muy|bien-->
+            <token postag="RG"/>
+            <!--más|menos|muy|bien-->
             <marker>
                 <token regexp="yes">bajo|largo|seguro</token>
             </marker>
@@ -834,14 +857,14 @@ Copyright (C) 2011 Juan Martorell
             <wd pos="_GN_FS"/>
         </disambig>
     </rule>
-    
+
     <rule id="E_CONJ" name="e (conjunción">
         <pattern>
             <marker>
                 <token>e<exception scope="previous" regexp="yes">la|una|esta|esa|aquella</exception></token>
             </marker>
         </pattern>
-        <disambig action="remove" postag="N.*"></disambig>
+        <disambig action="remove" postag="N.*"/>
     </rule>
 
     <!--sobre (no preposición, nombre)-->
@@ -2092,14 +2115,15 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>
     <rulegroup name="Ignore spelling of domain names" id="IGNORE_DOMAIN_NAMES">
         <rule>
-        <pattern case_sensitive="yes">
-            <token regexp="yes">[A-Za-z0-9\-]+</token>
-            <token spacebefore="no">.</token>
-            <token spacebefore="no" regexp="yes">&dominios_internet;</token>
-        </pattern>
-        <disambig action="ignore_spelling"/>
+            <pattern case_sensitive="yes">
+                <token regexp="yes">[A-Za-z0-9\-]+</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">&dominios_internet;</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
         </rule>
-        <rule> <!-- es.wikipedia.org-->
+        <rule>
+            <!-- es.wikipedia.org-->
             <pattern case_sensitive="yes">
                 <token regexp="yes">[A-Za-z0-9\-]+</token>
                 <token spacebefore="no">.</token>
@@ -2107,7 +2131,13 @@ Copyright (C) 2011 Juan Martorell
                 <token spacebefore="no">.</token>
                 <token spacebefore="no" regexp="yes">&dominios_internet;</token>
             </pattern>
-            <disambig action="add"><wd lemma="url" pos="url"/><wd lemma="url" pos="url"/><wd lemma="url" pos="url"/><wd lemma="url" pos="url"/><wd lemma="url" pos="url"/></disambig>
+            <disambig action="add">
+                <wd lemma="url" pos="url"/>
+                <wd lemma="url" pos="url"/>
+                <wd lemma="url" pos="url"/>
+                <wd lemma="url" pos="url"/>
+                <wd lemma="url" pos="url"/>
+            </disambig>
         </rule>
     </rulegroup>
     <rule name="Ignore common chemical formulas" id="IGNORE_COMMON_CHEMICAL_FORMULAS">
