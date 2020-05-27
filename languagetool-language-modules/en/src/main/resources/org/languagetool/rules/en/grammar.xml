@@ -25634,6 +25634,14 @@ USA
                         <token postag="SENT_END"/>
                     </and>
                 </antipattern>
+                <antipattern><!-- Any workarounds while Steve works on a fix? -->
+                    <token postag="SENT_START"/>
+                    <token/>
+                    <token/>
+                    <token postag="CC"/>
+                    <token chunk="B-NP-singular" postag="NNP"/>
+                    <token chunk="B-VP" postag="VBZ"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token postag="DT|PRP\$" postag_regexp="yes"/>
@@ -25649,6 +25657,8 @@ USA
                 <example correction="want">Many users in Asia <marker>wants</marker> to learn English.</example>
                 <example>The children of American soldiers staying in Japan and Japanese women were...</example>
                 <example>The families of flowering plants</example><!-- No closing punctuation: -->
+                <example>Any workarounds while Steve works on a fix?</example><!-- Refer to #2981 -->
+                <example>Your suggestions while Mike works on a fix are welcome.</example>
             </rule>
             <rule>
                 <pattern>
