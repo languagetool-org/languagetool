@@ -61,7 +61,7 @@ USA
     <!ENTITY verb_abbreviations "fwds?|rsvps?|dms?|pms?|execs?|reps?|mods?|noms?|intros?|intercoms?|bbqs?|chgs?|fts?|recs?|exps?|collab|repro">
 
     <!-- verbs that when spelled as one word become a noun -->
-    <!ENTITY incorrect_noun_verbs "pull\-?up|take\-?off|hide\-?out|charge\-?back|sign\-?off|tie\-?up|stand\-?still|back\-?down|roll\-?over|take\-?away|take\-?up|write\-?off|mix\-?up|walk\-?in|bail\-?out|fill\-?in|give\-?away|pay\-?out|pay\-?off|pay\-?back|run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back">
+    <!ENTITY incorrect_noun_verbs "pull\-?up|take\-?off|hide\-?out|charge\-?back|sign\-?off|tie\-?up|stand\-?still|back\-?down|roll\-?over|take\-?away|take\-?up|write\-?off|mix\-?up|walk\-?in|bail\-?out|fill\-?in|give\-?away|pay\-?out|pay\-?off|pay\-?back|run\-?in|fail\-?over|go\-?ahead|trade\-?in|sit\-?up|kick\-?back|top\-?up|warm\-?up|run\-?up|run\-?off|freak\-?out|slow\-?down|white\-list|roll\-?back|hang\-?up|hang\-?out|hand\-?off|shout\-?out|plug\-?in|drop\-?down|drop\-?off|sleep\-?over|start\-?up|pop\-?up|voiceover|cash\-?out|print\-?out|line\-?up|catch\-?up|call\-?back|stand\-?by|try\-?out|kick\-off|stand\-?up|come\-?back|stand\-?alone|lay\-?off|burn\-?out|sign\-?up|sign\-?in|sign\-?out|log\-?out|log\-?in|take\-?over|mark\-?up|log\-?on|set\-?up|pick\-?up|feed\-?back|back\-?up|walk\-?through|break\-?out|break\-?through|hook\-?up|shut\-?off|break\-?down|pay\-off|time\-?out|clean\-?up|look\-?up|look\-?out|roll\-?out|work\-?out|make\-?up|follow\-?up|check\-?out|check\-?in|lay\-?out|work\-?around|shut\-?down|fall\-?back">
     
     <!-- words that are informally used as verbs but aren't tagged and shouldn't be tagged as a verb -->
     <!ENTITY not_really_verbs "self\-?(support|control)s?|overdrafts?|remotes?|nerds?|wrought|karates?|paths?|scapes?|videos?|fann(y|ies)?|bonus(es)?|back\-?ups?|pop\-?ups?|one\-?(shot|click)s?|idiot\-?proofs?|intakes?|rinds?|gaslits?|errors?|prox(y|ies)?|configs?|repros?|super\-?sets?|open\-?sources?|drag\-(and|n)\-drops?|hotfix(es)?|timeouts?|shutdowns">
@@ -10053,21 +10053,39 @@ USA
             <message>Did you mean <suggestion>can black out</suggestion>?</message>
             <example correction="can black out">You <marker>can blackout</marker> if you have any more to drink.</example>
         </rule>
-        <!-- can setup::word=can set up -->
         <rulegroup id="SETUP_VERB" name="setup (set up)">
+            <url>https://www.merriam-webster.com/dictionary/set%20up</url>
             <rule>
                 <antipattern>
-                    <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move|subject|similar</token>
+                    <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move|subject|similar|navigate|prior</token>
                     <token>to</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">can(not)?|been|[wc]ould|should|might|must|was|were|may|ve|did|ha([ds]|ve)|help|is|a?re|a?m|to</token>
-                    <token regexp="yes">set-?up</token>
+                    <token regexp="yes">been|was|were|ve|did|ha([ds]|ve)|help|is|a?re|a?m|to|who</token>
+                    <marker>
+                        <token regexp="yes">set-?up</token>
+                    </marker>
                 </pattern>
                 <message>The verb 'set up' is spelled as two words. The noun 'setup' is spelled as one.</message>
-                <suggestion>\1 set up</suggestion>
-                <url>https://www.merriam-webster.com/dictionary/set%20up</url>
-                <example correction="can set up">She <marker>can setup</marker> the tent in thirty seconds.</example>
+                <suggestion>set up</suggestion>
+                <example correction="set up">She has <marker>setup</marker> the tent in thirty seconds.</example>
+                <example>She can set up the tent very quickly.</example>
+                <example>The setup is working.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="MD">
+                        <exception>need</exception>
+                    </token>
+                    <token min="0" regexp="yes">&apostrophe;</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token regexp="yes">set-?up</token>
+                    </marker>
+                </pattern>
+                <message>The verb 'set up' is spelled as two words. The noun 'setup' is spelled as one.</message>
+                <suggestion>set up</suggestion>
+                <example correction="set up">She can <marker>setup</marker> the tent in thirty seconds.</example>
                 <example>She can set up the tent very quickly.</example>
                 <example>The setup is working.</example>
             </rule>
@@ -10081,24 +10099,113 @@ USA
                 </pattern>
                 <message>The verb 'set up' is spelled as two words. The noun 'setup' is spelled as one.</message>
                 <suggestion>set up</suggestion>
-                <url>https://www.merriam-webster.com/dictionary/set%20up</url>
                 <example correction="set up">They <marker>setup</marker> a meeting.</example>
                 <example correction="set up">I just <marker>setup</marker> a new meeting.</example>
                 <example>The setup is working.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">do</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token postag="RB" />
+                    <marker>
+                        <token regexp="yes">set\-?up</token>
+                    </marker>
+                </pattern>
+                <message>The verb 'set up' is spelled as two words. The noun 'setup' is spelled as one.</message>
+                <suggestion>set up</suggestion>
+                <example correction="set up">We didn't <marker>setup</marker> a meeting yet.</example>
+            </rule>
             <rule>
+                <antipattern>
+                    <token>the</token>
+                    <token>most</token>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token regexp="yes">day|week|month|go</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">set-?up</token>
                     </marker>
-                    <token regexp="yes">an?|the|my|y?our|her|his|its</token>
+                    <token regexp="yes">
+                        an?|the|my|y?our|her|his|its
+                        <exception case_sensitive="yes">A</exception>
+                    </token>
                 </pattern>
                 <message>The verb 'set up' is spelled as two words. The noun 'setup' is spelled as one.</message>
                 <suggestion>set up</suggestion>
-                <url>https://www.merriam-webster.com/dictionary/set%20up</url>
                 <example correction="set up">They <marker>setup</marker> a meeting.</example>
                 <example correction="set up">I just <marker>setup</marker> a new meeting.</example>
                 <example>The setup is working.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="WORKOUT_VERB" name="can workout (work out)" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/work%20out</url>
+            <rule>
+                <pattern>
+                    <token postag="MD">
+                        <exception>need</exception>
+                    </token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token regexp="yes">work\-?out</token>
+                    </marker>
+                </pattern>
+                <message>The verb <suggestion>work out</suggestion> is spelled as two words. The noun 'workout' is spelled as one.</message>
+                <example correction="work out">We can <marker>workout</marker> after we get lunch.</example>
+                <example>We can work out after we eat lunch.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move|subject|similar|navigate|prior</token>
+                    <token>to</token>
+                </antipattern>
+                <antipattern>
+                    <token>workout</token>
+                    <token min="0">#</token>
+                    <token regexp="yes">\d+</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">to|who</token>
+                    <marker>
+                        <token regexp="yes">work\-?out</token>
+                    </marker>
+                </pattern>
+                <message>The verb <suggestion>work out</suggestion> is spelled as two words. The noun 'workout' is spelled as one.</message>
+                <example correction="work out">We wanted to <marker>workout</marker> after we get lunch.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token postag="UNKNOWN|VB.*|IN" postag_regexp="yes" />
+                    <token regexp="yes">it|you</token>
+                    <token>workout</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">we|they|you|I|s?he</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token regexp="yes">work\-?out</token>
+                    </marker>
+                </pattern>
+                <message>The verb <suggestion>work out</suggestion> is spelled as two words. The noun 'workout' is spelled as one.</message>
+                <example correction="work out">We <marker>workout</marker> after we get lunch.</example>
+                <example>We can work out after we eat lunch.</example>
+                <example>Together with you workout is really fun.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">do</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token postag="RB" />
+                    <marker>
+                        <token regexp="yes">work\-?out</token>
+                    </marker>
+                </pattern>
+                <message>The verb <suggestion>work out</suggestion> is spelled as two words. The noun 'workout' is spelled as one.</message>
+                <example correction="work out">We didn't <marker>workout</marker> after we got lunch.</example>
             </rule>
         </rulegroup>
 
@@ -10166,7 +10273,7 @@ USA
         </rulegroup>
         <rulegroup id="CAN_CHECKIN" name="can checkin (check in)">
             <antipattern>
-                <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move</token>
+                <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move|prior|navigate</token>
                 <token>to</token>
             </antipattern>
             <rule>
@@ -10196,7 +10303,7 @@ USA
         </rule>
         <rule id="CAN_CHECKOUT" name="can checkout (check out)">
             <antipattern>
-                <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move</token>
+                <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move|prior|navigate</token>
                 <token>to</token>
             </antipattern>
             <pattern>
@@ -10219,16 +10326,6 @@ USA
             <url>https://www.merriam-webster.com/dictionary/check%20out</url>
             <example correction="check out">They <marker>checkout</marker> tomorrow</example>
             <example>The checkout was yesterday.</example>
-        </rule>
-        <!-- can workout::word=can work out -->
-        <rule id="CAN_WORKOUT" name="can workout (work out)">
-            <pattern>
-                <token>can</token>
-                <token>workout</token>
-            </pattern>
-            <message>Did you mean <suggestion>can work out</suggestion>?</message>
-            <example correction="can work out">We <marker>can workout</marker> after we get lunch.</example>
-            <example>We can work out after we eat lunch.</example>
         </rule>
         <!-- got shutdown::word=got shut down -->
         <rule id="GOT_SHUTDOWN" name="got shutdown (shut down)">
@@ -10592,8 +10689,18 @@ USA
                 <example correction="safe">Is it <marker>save</marker> to use it?</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>need</token>
+                    <token postag="RB" min="0" />
+                    <token>safe</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="CC|SENT_START" postag_regexp="yes" />
+                    <token postag="MD" />
+                    <token skip="-1">safe</token>
+                    <token>?</token>
+                </antipattern>
                 <pattern>
-                    <token postag="PRP|NN.*" postag_regexp="yes" />
                     <token postag="MD" />
                     <token regexp="yes" min="0">&apostrophe;</token>
                     <token min="0">t</token>
@@ -10605,8 +10712,9 @@ USA
                         </token>
                     </marker>
                 </pattern>
-                <message>The word "safe" is an adjective. Did you mean the verb <suggestion>save</suggestion>?</message>
+                <message>The word "safe" is an adjective/noun. Did you mean the verb <suggestion>save</suggestion>?</message>
                 <example correction="save">He could <marker>safe</marker> my life.</example>
+                <example>Can safe environments become unsafe?</example>
             </rule>
             <rule>
                 <antipattern>
@@ -10821,7 +10929,7 @@ USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move|subject|similar</token>
+                    <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move|subject|similar|prior|navigate</token>
                     <token>to</token>
                 </antipattern>
                 <pattern>
@@ -11773,7 +11881,32 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-
+        <rulegroup id="HALF_WAY" name="half way" default="temp_off">
+            <url>https://www.lexico.com/definition/halfway</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>half</token>
+                        <token>way</token>
+                    </marker>
+                    <token postag="IN" />
+                </pattern>
+                <message>The adjective or adverb <suggestion>halfway</suggestion> is spelled as one word.</message>
+                <example correction="halfway">He stopped <marker>half way</marker> down the passage.</example>
+                <example correction="halfway">Tom is only <marker>half way</marker> through doing that.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>half</token>
+                        <token>way</token>
+                    </marker>
+                    <token regexp="yes">away|home|measure(ment)?|points?|marks?</token>
+                </pattern>
+                <message>The adjective or adverb <suggestion>halfway</suggestion> is spelled as one word.</message>
+                <example correction="halfway">We've reached the <marker>half way</marker> point of the season.</example>
+            </rule>
+        </rulegroup>
         <rule id="THANK_YOU_MUCH" name="Thank you much">
             <antipattern>
                 <token>much</token>
@@ -12000,7 +12133,46 @@ USA
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
-        <rule id="BACK_COMPOUNDS" name="back log (backlog)" default="temp_off">
+        <rule id="ACHE_COMPOUNDS" name="head ache (headache)" default="temp_off">
+            <antipattern>
+                <token chunk="B-VP" />
+                <token regexp="yes">her|his|y?our</token>
+                <token regexp="yes">heart|head</token>
+                <token>ache</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">heart|head</token>
+                <token>ache</token>
+            </pattern>
+            <message>This noun is normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <url>https://www.merriam-webster.com/dictionary/headache</url>
+            <example correction="headache">Tom didn't feel good because of his <marker>head ache</marker>.</example>
+            <example>How my poor heart aches!</example>
+            <example>Mary was forced to sell her parents' house, where she had grown up, and this made her heart ache.</example>
+        </rule>
+        <rule id="OUT_COMPOUNDS" name="out break (outbreak)" default="temp_off">
+            <antipattern>
+                <token inflected="yes">comment</token>
+                <token>out</token>
+            </antipattern>
+            <antipattern>
+                <token>roll</token>
+                <token>out</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">the|an?|my|your|his|her|their|of|many|no</token>
+                <token postag="JJ.*" postag_regexp="yes" min="0" />
+                <marker>
+                    <token>out</token>
+                    <token regexp="yes">breaks?|dated|looks?|comes?|puts?|laws?|calls?|lines?|sides?|backs?|casts?|liners?|bound</token>
+                </marker>
+            </pattern>
+            <message>The noun <suggestion>out<match no="4" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
+            <example correction="outbreak">The <marker>out break</marker> caused lockdowns all over the word.</example>
+            <example>Check the commented out line below.</example>
+        </rule>
+        <rule id="BACK_COMPOUNDS" name="back log (backlog)">
             <antipattern>
                 <token>hand</token>
                 <token>in</token>
@@ -12020,6 +12192,11 @@ USA
                 <token inflected="yes" regexp="yes">take|come</token>
                 <token>back</token>
             </antipattern>
+            <antipattern><!-- proper noun -->
+                <token>back</token>
+                <token>stage</token>
+                <token>magazine</token>
+            </antipattern>
             <pattern>
                 <token>back</token>
                 <token regexp="yes">logs?|lash(es)?|bones?|drops?|packs?|packers?|side|grounds?|stages?|spaces?|spins?|stabs?|stabbed|stabbing|stabbers?|beats?|flips?|streets?|breakers?|gammon|slash(es)?|hands?|lights?|stretch(es)?</token>
@@ -12030,6 +12207,7 @@ USA
             <example>We headed back hand in hand.</example>
             <example>Moving shift knob to left and back drops it into lower gear.</example>
             <example>Yes, I thought was to not take back space in the EOT area since we have some available and were not looking to expand there.</example>
+            <example>Singer/Songwriter of the Year, Back Stage Magazine, NYC 2001</example>
         </rule>
         <rule id="WRITER_COMPOUNDS" name="ghost writer (ghostwriter)">
             <antipattern>
@@ -12373,7 +12551,7 @@ USA
                 <example correction="webtoon">The <marker>web toon</marker> was nice to watch.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="AIR_COMPOUND" name="air line (air line)">
+        <rulegroup id="AIR_COMPOUNDS" name="air line (air line)">
             <rule>
                 <pattern>
                     <token>air</token>
@@ -12384,7 +12562,7 @@ USA
                 <example correction="airport">Which <marker>air port</marker> are you arriving at?</example>
             </rule>
         </rulegroup>
-        <rule id="RAIN_COMPOUND" name="rain bow (rainbow)">
+        <rule id="RAIN_COMPOUNDS" name="rain bow (rainbow)">
             <pattern>
                 <token>rain</token>
                 <token regexp="yes">bows?</token>
@@ -14433,6 +14611,10 @@ USA
                 <token>beta</token>
                 <token>test</token>
             </antipattern>
+            <antipattern><!-- https://www.merriam-webster.com/dictionary/couch%20surf -->
+                <token>couch</token>
+                <token>surf</token>
+            </antipattern>
             <antipattern><!-- https://www.lexico.com/definition/problem-solve -->
                 <token>problem</token>
                 <token>solve</token>
@@ -15555,7 +15737,7 @@ USA
                 <token postag="DT" skip="2" />
                 <token regexp="yes">bunch|lot|pair|couple|majority</token>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes">be</token>
                     <marker>
@@ -15572,7 +15754,7 @@ USA
                 <example correction="a number of">There are <marker>number of</marker> animals that eat plants.</example>
                 <example correction="a unknown number of">There are <marker>unknown number of</marker> people who search for the same answer and today I am one of them.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>most</token>
                     <token>wanted</token>
@@ -21675,7 +21857,16 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rulegroup id="KAMA_SUTRA" name="Kama Sutra" default="temp_off">
+        <rule id="YOU_TUBE" name="YouTube">
+            <pattern>
+                <token>You</token>
+                <token regexp="yes">Tube(rs?)?</token>
+            </pattern>
+            <message>The name/noun <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> is spelled as one word.</message>
+            <url>https://en.wikipedia.org/wiki/YouTube</url>
+            <example correction="YouTube">He is watching videos on <marker>You Tube</marker>.</example>
+        </rule>
+        <rulegroup id="KAMA_SUTRA" name="Kama Sutra">
             <url>https://en.wikipedia.org/wiki/Kama_Sutra</url>
             <antipattern case_sensitive="yes">
                 <token>Kama</token>
@@ -22433,6 +22624,18 @@ USA
             <message>This noun is normally spelled with a hyphen.</message>
             <suggestion>\1-\2 \3</suggestion>
             <example correction="one-night stand">Tom and Mary had a <marker>one night stand</marker>.</example>
+        </rule>
+        <rule id="LOW_HANGING_FRUIT_HYPHEN" name="missing hyphen in 'low hanging fruit'" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>low</token>
+                    <token>hanging</token>
+                </marker>
+                <token regexp="yes">fruits?|ways?|solutions?|aproach(es)?|ideas?|clouds?|wires?|cables?|fogs?|opportunit(y|ies)|branch(es)?|limbs?</token>
+            </pattern>
+            <message>It seems that a hyphen is missing in the adjective <suggestion>\1-\2</suggestion>.</message>
+            <url>https://www.lexico.com/definition/low-hanging</url>
+            <example correction="low-hanging">The task was very easy to accomplish, it really was a <marker>low hanging</marker> fruit.</example>
         </rule>
         <rule id="RUN_ON_HYPHEN" name="missing hyphen in 'run on'">
             <pattern>
@@ -28619,13 +28822,22 @@ USA
             <token>who</token>
             <token postag="VB.*" postag_regexp="yes" />
           </antipattern>
+          <antipattern><!-- https://en.wikipedia.org/wiki/Yellow_River -->
+            <token>huang</token>
+            <token>he</token>
+          </antipattern>
+          <antipattern>
+            <token>we</token>
+            <token>elderly</token>
+            <token>people</token>
+          </antipattern>
           <pattern>
             <marker>
               <token regexp='yes'>It?|you|s?he|we|they
                 <exception case_sensitive='yes'>IT</exception>
                 <exception case_sensitive='yes'>i</exception></token>
               <token postag="N.+" postag_regexp='yes'>
-                <exception postag='V.+|RB|IN|UH' postag_regexp='yes'/>
+                <exception postag='V.+|RBR?|IN|UH' postag_regexp='yes'/>
                 <exception>wont</exception><!-- already caught by WONT_CONTRACTION -->
                 <exception>can</exception><!-- 'can' is only tagged as 'NN' in 'The best I can is ...'-->
                 <exception regexp="yes">auto|self|inter|re|un</exception><!-- compound error (has different rules) -->
@@ -33389,7 +33601,7 @@ USA
                     <token regexp="yes">s?he|it</token>
                     <token postag="RB" min="0" />
                     <marker>
-                        <token>discuses</token>
+                        <token regexp="yes">discus|discuses</token>
                     </marker>
                 </pattern>
                 <message>Did you mean the verb <suggestion>discusses</suggestion> (= talk about something)?</message>
@@ -33400,16 +33612,18 @@ USA
                     <token regexp="yes">we|they|I|you</token>
                     <token postag="RB" min="0" />
                     <marker>
-                        <token>discuses</token>
+                        <token regexp="yes">discus|discuses</token>
                     </marker>
                 </pattern>
                 <message>Did you mean the verb <suggestion>discuss</suggestion> (= talk about something)?</message>
-                <example correction="discuss">We <marker>discuses</marker> the topic.</example>
+                <example correction="discuss">We <marker>discus</marker> the topic.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token postag="NN.*|PRP" postag_regexp="yes" /> 
+                    <token postag="NN.*|PRP" postag_regexp="yes" />
+                    <token regexp="yes" min="0">&apostrophe;</token>
                     <token postag="MD" />
+                    <token regexp="yes" min="0">&apostrophe;</token>
                     <token postag="RB" min="0" />
                     <marker>
                         <token>discus</token>
@@ -33417,6 +33631,7 @@ USA
                 </pattern>
                 <message>Did you mean the verb <suggestion>discuss</suggestion> (= talk about something)?</message>
                 <example correction="discuss">We can <marker>discus</marker> the topic.</example>
+                <example correction="discuss">We can't <marker>discus</marker> the topic.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRP_SAIS" name="it sais (says)">
@@ -34374,6 +34589,10 @@ USA
                 <token>t</token>
                 <token regexp="yes">s?he|it</token>
             </antipattern>
+            <antipattern><!-- https://en.wikipedia.org/wiki/Yellow_River -->
+                <token>huang</token>
+                <token>he</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">s?he|it</token>
                 <token postag="RB" min="0" max="2" />
@@ -34420,6 +34639,10 @@ USA
                 <token postag="VBG" />
             </antipattern>
             <rule>
+                <antipattern><!-- https://en.wikipedia.org/wiki/Yellow_River -->
+                    <token>huang</token>
+                    <token>he</token>
+                </antipattern>
                 <antipattern>
                     <token regexp="yes">with(out)?</token>
                     <token regexp="yes">(any|every|no|some)(one|body)</token>
@@ -34542,6 +34765,10 @@ USA
                     <token min="0" max="3" chunk="I-NP-plural"/>
                     <token chunk="E-NP-plural" postag="VBZ"/>
                     <token postag="NNP"/>
+                </antipattern>
+                <antipattern><!-- https://www.merriam-webster.com/dictionary/couch%20surf -->
+                    <token>couch</token>
+                    <token>surfs</token>
                 </antipattern>
                 <pattern>
                     <token negate="yes" regexp="yes"><exception inflected="yes" regexp="yes">feel|hear|see|insist|suggest|help|prevent|stop|of|have|be|notice</exception>(that|how|will|must|could|can|should|would|does|did|may|might|t|let|dare|lest|into)</token>
@@ -36043,7 +36270,7 @@ USA
             </antipattern>
             <antipattern><!-- I have a lot of triangle like elements -->
                 <token chunk="E-NP-singular" postag="NNP?" postag_regexp="yes" />
-                <token>like</token>
+                <token regexp="yes">like|owned|based</token>
                 <token chunk="B-NP-plural" />
             </antipattern>
             <antipattern><!-- I haven't seen a lot of Tom recently -->
@@ -36054,16 +36281,16 @@ USA
             </antipattern>
             <pattern>
                 <marker>
-                    <token>a</token>
+                    <token regexp="yes">an?</token>
                     <token postag="JJR?" postag_regexp="yes" min="0" />
                     <token regexp="yes">lot|bunch|couple|lack|number|pair|handful</token>
                     <token>of</token>
                     <token min="0" chunk="B-NP-singular">
-                        <exception regexp="yes">\p{P}|an?</exception>
+                        <exception regexp="yes">\p{P}|an?|each</exception>
                     </token>
                     <token postag="NNP?" postag_regexp="yes" chunk="E-NP-singular">
-                        <exception postag="NN:U|NNP?S" postag_regexp="yes"/>
-                        <exception regexp="yes">mine|while|out|in|on</exception>
+                        <exception postag="NN:U|NNP?S|IN" postag_regexp="yes"/>
+                        <exception regexp="yes">mine|while</exception>
                         <exception scope="next" regexp="yes">&apostrophe;</exception>
                         <exception scope="next" postag="NNS" />
                     </token>
@@ -36114,6 +36341,11 @@ USA
             <example>A nearby pair of a vacancy and an interstitial is often called a Frenkel defect or Frenkel pair.</example>
             <example>A decent number of out of the money $19 calls were exercised last night, we haven't seen that play in some time.</example>
             <example>I’ve got a bunch of Node.js services hooked up to new relic.</example>
+            <example>It appears that my evil twin went out last night and proceeded to get in peoples faces and talk a lot of smack, as well as leave messages on answering machines.</example>
+            <example>I hope to open a bunch of the investor owned utilities for general trading.</example>
+            <example>I think by fixing the rate like this we are leaving a lot of money behind.</example>
+            <example>He thinks the best person is probably someone from KJ who does a lot of stuff up there.</example>
+            <example>I've got a bunch of volunteer work that I've been doing, and I'm booked up through the 17th.</example>
         </rule>
         <rulegroup id="A_COLLECTIVE_OF_NN" name="Possible agreement error: 'a + collective noun + of' + singular countable noun"><!-- #2141 -->
             <short>Grammatical problem</short>
@@ -40558,6 +40790,11 @@ USA
                 <token>we</token>
                 <token regexp="yes">primates|humans</token>
             </antipattern>
+            <antipattern><!-- we Americans think ... -->
+                <token regexp="yes">we|you</token>
+                <token postag="NNPS" />
+                <token postag="VB.*" postag_regexp="yes" />
+            </antipattern>
             <antipattern><!-- you bastards! -->
                 <token>you</token>
                 <token />
@@ -40601,7 +40838,7 @@ USA
             </antipattern>
             <antipattern><!-- you bastards, you guys -->
                 <token>you</token>
-                <token regexp="yes">(bastard|guy|idiot|girl|boy|zombies|moron|monster|bro|fucker|dick|kid|weirdo|murderer|traitor|skank)s?|kiddo|sir|mamm?a|papa|uncle|auntie|ladies|gentlemen|gents|lads</token>
+                <token regexp="yes">(bastard|guy|idiot|girl|boy|zombies|moron|monster|bro|fucker|dick|kid|weirdo|murderer|traitor|skank)s?|kiddo|sir|mamm?a|papa|uncle|auntie|ladies|gentlemen|gents|lads|assholes?|students?|sweethearts?</token>
             </antipattern>
             <antipattern><!-- you son of a bitch -->
                 <token>you</token>
@@ -57947,16 +58184,7 @@ The accident victim died from her injuries.
                 <url>https://www.merriam-webster.com/dictionary/coffeemaker</url>
                 <example correction="coffee maker">Not everyone wants or needs a fancy <marker>coffeemaker</marker>, and that’s totally fine.</example>
             </rule>
-            <rule default="temp_off">
-                <pattern>
-                    <token regexp="yes">backseats?</token>
-                </pattern>
-                <message>It's more common to write this as two words.</message>
-                <suggestion><match no="1" regexp_match="(?i)(ck)(se)" regexp_replace="$1 $2" /></suggestion>
-                <url>https://www.merriam-webster.com/dictionary/backseat</url>
-                <example correction="back seat">He is sitiing on the <marker>backseat</marker>.</example>
-            </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>back</token>
                     <token regexp="yes">yards?</token>
