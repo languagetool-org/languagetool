@@ -127,8 +127,8 @@ to
 			  — Flag "n" increased the wordlist in ~1000 valid words.
 2019-11-01
 to
-2020-04-01 — Added thousands of possessives and plurals.
-		   — Improved flags: "O", "W".
+2020-06-01 — Added thousands of possessives and plurals.
+		   — Improved flags: "N", "O", "W".
 -------
 
 MARCO A.G.PINTO:
