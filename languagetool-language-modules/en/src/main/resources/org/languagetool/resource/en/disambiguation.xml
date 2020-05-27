@@ -3432,14 +3432,19 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <pattern>
             <marker>
                 <and>
-                    <token postag="IN"><exception>like</exception></token>
+                    <token postag="IN">
+                        <exception postag="CC"/>
+                        <exception>like</exception><!-- Do we need a new postag for subordinating conjunctions? -->
+                        </token>
                     <token postag="NN"/>
                 </and>
             </marker>
             <token postag_regexp="yes" postag="PRP\$|NNP"/>
         </pattern>
         <disambig postag="IN"/>
+        <example type="ambiguous" inputform="in[in/IN,in/NN,in/RB,in/RP]" outputform="in[in/IN]">We have many customers <marker>in</marker> Dallas.</example>
         <example type="untouched">CC: CDC officials have said that <marker>while</marker> it's clear asymptomatic spread does happen, it does not...</example><!-- Premium #1079 -->
+        <example type="untouched">CC: Any workarounds while Steve works on a fix?</example><!-- #2981 -->
         <example type="untouched">RP: ...to catch the suicide bombers downtown, prior to them carrying <marker>out</marker> their evil plan.</example>
     </rule>
 
