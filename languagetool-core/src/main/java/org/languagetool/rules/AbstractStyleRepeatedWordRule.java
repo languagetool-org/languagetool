@@ -51,7 +51,6 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   
   private final LinguServices linguServices;
   private final Language lang;
-  private Map<String, List<String>> synonymsCache;
   
   protected int maxDistanceOfSentences = 1;
 
@@ -188,7 +187,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   /**
    * get synonyms for a word
    */
-  public List<String> getSynonymsForWord(String word) {
+  public List<String> getSynonymsForWord(String word, Map<String, List<String>> synonymsCache) {
     List<String> synonyms = new ArrayList<String>();
     if (synonymsCache.containsKey(word)) {
       synonyms = synonymsCache.get(word);
@@ -207,7 +206,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   /**
    * get synonyms for a repeated word
    */
-  public List<String> getSynonyms(AnalyzedTokenReadings token) {
+  public List<String> getSynonyms(AnalyzedTokenReadings token, Map<String, List<String>> synonymsCache) {
     List<String> synonyms = new ArrayList<String>();
     if(linguServices == null || token == null) {
       return synonyms;
@@ -216,11 +215,11 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     for (AnalyzedToken reading : readings) {
       String lemma = reading.getLemma();
       if (lemma != null) {
-        synonyms = getSynonymsForWord(lemma);
+        synonyms = getSynonymsForWord(lemma, synonymsCache);
       }
     }
     if(synonyms.isEmpty()) {
-      synonyms = getSynonymsForWord(token.getToken());
+      synonyms = getSynonymsForWord(token.getToken(), synonymsCache);
     }
     return synonyms;
   }
@@ -264,7 +263,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     List<AnalyzedTokenReadings[]> tokenList = new ArrayList<>();
-    synonymsCache = new HashMap<String, List<String>>();
+    Map<String, List<String>> synonymsCache = new HashMap<String, List<String>>();
     int pos = 0;
     for (int n = 0; n < maxDistanceOfSentences && n < sentences.size(); n++) {
       tokenList.add(sentences.get(n).getTokensWithoutWhitespace());
@@ -312,7 +311,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
               int startPos = pos + token.getStartPos();
               int endPos = pos + token.getEndPos();
               RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg);
-              List<String> suggestions = getSynonyms(token);
+              List<String> suggestions = getSynonyms(token, synonymsCache);
               if(!suggestions.isEmpty()) {
                 ruleMatch.setSuggestedReplacements(suggestions);
               }
@@ -327,7 +326,6 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
       }
       pos += sentences.get(n).getText().length();
     }
-    synonymsCache = null;
     return toRuleMatchArray(ruleMatches);
   }
   
