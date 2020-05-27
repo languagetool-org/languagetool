@@ -72,6 +72,8 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("inbetracht", "in Betracht");
     put("einlogen", "einloggen");
     put("Kruks", "Krux");
+    put("Filterbubble", "Filterblase");
+    put("Filterbubbles", "Filterblasen");
     putRepl("wiedersteh(en|st|t)", "wieder", "wider");
     putRepl("wiederstan(d|den|dest)", "wieder", "wider");
     putRepl("wiedersprech(e|t|en)?", "wieder", "wider");
