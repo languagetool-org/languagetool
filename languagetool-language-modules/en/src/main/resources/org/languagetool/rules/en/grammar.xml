@@ -41832,6 +41832,83 @@ USA
             <example>Now, a <marker>hundred thousand</marker> people use LanguageTool.</example><!-- Do not suggest 'hundred thousand', because an article is necessary, unlike for 'ten thousand' -->
             <example><marker>Ten thousand</marker> books are in this library.</example>
         </rule>
+
+        <rule id="NNS_IN_NNP_VBZ" name="Use the base form or the past tense with a plural noun" default="temp_off"><!-- https://forum.languagetool.org/t/en-undetected-error/5724 -->
+            <antipattern><!-- API calls -->
+                <token>API</token>
+                <token>calls</token>
+            </antipattern>
+            <antipattern><!-- removal of price caps in California -->
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token>of</token>
+                <token chunk="B-NP-plural"/>
+                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+            </antipattern>
+            <antipattern><!-- coat of arms of Cuba -->
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token>of</token>
+                <token chunk="E-NP-plural" postag="NNS"/>
+            </antipattern>
+            <antipattern><!-- chunker error: oil price spikes as Iraq -->
+                <token chunk="B-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token chunk="I-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token chunk="E-NP-plural" postag="VBZ"/>
+                <token postag="CC"/>
+            </antipattern>
+            <pattern>
+                <token chunk="E-NP-plural" postag="NNS">
+                    <exception postag_regexp="yes" postag="NNPS?"/>
+                    <exception regexp="yes">\p{Lu}\p{L}+</exception><!-- Assume initial caps is a proper noun to prevent too many FP: Cache Jars in Memory -->
+                    </token>
+                <token postag="IN">
+                    <exception postag="xCC"/>
+                    <exception>like</exception><!-- Do we need a new postag for subordinating conjunctions? -->
+                    <exception regexp="yes">than|while</exception>
+                    </token>
+                <token postag="NNP"/>
+                <marker>
+                    <token chunk="B-VP" postag="VBZ"/>
+                </marker>
+            </pattern>
+            <message>After the plural noun '\1' use <suggestion><match no="4" postag="VBP"/></suggestion> or <suggestion><match no="4" postag="VBD"/></suggestion>.</message>
+            <short>Agreement error</short>
+            <example correction="show|showed">The test results after Christmas <marker>shows</marker> great improvement.</example>
+            <example correction="have|haven|had">Natural gas imports from Canada <marker>has</marker> steadily declined.</example>
+            <example correction="get|got">All activities in Echo <marker>gets</marker> recognized as scenes.</example>
+            <example correction="know|knew">About 40–45% of educated people in Jamaica <marker>knows</marker> some form of Spanish.</example>
+            <example>The test results after Christmas <marker>showed</marker> great improvement.</example>
+            <example>Natural gas imports from Canada <marker>have</marker> steadily declined.</example>
+            <example>Ports of GNU utilities for Microsoft Windows</example>
+            <example>Types of tackles in Australian rules</example>
+            <example>BS 57 Report on heads for Small Screws</example>
+            <example>Oil price spikes as Iraq stops exporting in protest at UN sanctions.</example>
+            <example>Tom has more friends than Mary does.</example>
+            <example>It collects data via API calls to Insights.</example>
+            <example>Kew Gardens in London has one of the biggest non-commercial compost heaps in Europe.</example>
+            <example>New Relic now supports creating dashboards via API calls: https://docs...</example>
+            <example>1910 – The Boy Scouts of America is incorporated by William D. Boyce.</example>
+            <example>The controversial removal of price caps in California is allowing prices to rise.</example>
+            <example>If this holds true, sounds like Burton plans to make things pretty messy.</example>
+            <example>Any workarounds while Steve works on a fix?</example>
+            <example>The coat of arms of Cuba features a fasces</example><!-- No closing punctuation. -->
+            <example>A bunch of filings on Thursday is next.</example>
+            <example>Make sure the box that reads Cache Jars in Memory is NOT checked.</example>
+            <example>My Years of Pain is what gave me a unique insight into other people. </example>
+            <example>1890 – The United Mine Workers of America is founded in Columbus, Ohio</example>
+            <example>The relationship between the utility and AG Signs of Stockton spans two decades. </example>
+            <example>Cheshvan has 29 days while Kislev has 30 days.</example>
+<!--
+            <example>And joining us now from his company headquarters in Houston is Kenneth Lay.</example>
+            <example>A Hewlett Packard office for French-speaking countries in Africa is in Algiers.</example>
+            <example>The first of a series of bombings in Moscow kills one person and wounds 40 others</example>
+            <example>Each of the major scripts of India has its own numeral glyphs.</example>
+            <example>The virtual assignment of British Energy's contracts to Enron gives the UK coal team total...</example>
+            <example>Contact and migration with Han people from China has brought Confucianism, Daoism...</example>
+            <example>One trend among imitators of Poe has been claims by clairvoyants or psychics to be "channeling" poems from Poe's spirit</example>
+-->
+        </rule>
+
     </category>
 
     <!-- ====================================================================== -->
