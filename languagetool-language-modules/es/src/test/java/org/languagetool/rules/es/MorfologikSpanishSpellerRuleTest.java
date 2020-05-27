@@ -90,8 +90,10 @@ public class MorfologikSpanishSpellerRuleTest {
     assertEquals("respuestas", matches[0].getSuggestedReplacements().get(0));
     
     matches = rule.match(langTool.getAnalyzedSentence("mui"));
-    assertEquals("TUI", matches[0].getSuggestedReplacements().get(0));
-    //assertEquals("muy", matches[0].getSuggestedReplacements().get(1)); // pending dictionary update
+    assertEquals("muy", matches[0].getSuggestedReplacements().get(0)); 
+    
+    matches = rule.match(langTool.getAnalyzedSentence("finga"));
+    assertEquals("finja", matches[0].getSuggestedReplacements().get(0));
     
     //currencies
     matches = rule.match(langTool.getAnalyzedSentence("$100"));
