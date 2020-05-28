@@ -190,6 +190,18 @@ public class AdverbFilter extends RuleFilter {
     put("pacifically", "pacific");
     put("seemingly", "seeming");
     put("sustainably", "sustainable");
+    put("momentarily", "momentary");
+    put("coldly", "cold");
+    put("nasally", "nasal");
+    put("densely", "dense");
+    put("grimly", "grim");
+    put("calmly", "calm");
+    put("racially", "racial");
+    put("widely", "wide");
+    put("peacefully", "peaceful");
+    put("heavily", "heavy");
+    put("authentically", "authentic");
+    put("honestly", "honest");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
