@@ -890,6 +890,15 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[pP]flanzig(e[mnrs]?)?", "ig", "lich");
     putRepl("geblogt(e[mnrs]?)?$", "gt", "ggt");
     putRepl("herraus.*", "herraus", "heraus");
+    putRepl("[aA]bbonier(en?|s?t|te[mnrst]?)", "bbo", "bon");
+    putRepl("[aA]pelier(en?|s?t|te[nt]?)", "pel", "ppell");
+    putRepl("[vV]oltie?schier(en?|s?t|te[nt]?)", "ie?sch", "ig");
+    putRepl("[mM]eistverkaufteste[mnrs]?", "teste", "te");
+    putRepl("[uU]nleshaft(e[mnrs]?)?", "haft", "erlich");
+    putRepl("[gG]laubenswürdig(e[mnrs]?)?", "ens", "");
+    putRepl("[nN]i[vw]ovoll(e[mnrs]?)?", "[vw]ovoll", "veauvoll");
+    putRepl("[nN]otgezwungend?(e[mnrs]?)?", "zwungend?", "drungen");
+    putRepl("Aux-Anschl(uss(es)?|üssen?)", "Aux", "AUX");
     put("aufgehangen", "aufgehängt");
     put("Ehrenamtpauschale", "Ehrenamtspauschale");
     put("Geborgsamkeit", "Geborgenheit");
