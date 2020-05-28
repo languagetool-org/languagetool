@@ -3230,7 +3230,7 @@ MARCOAGPINTO 2020-02-18 -->
     <!-- TODO encontrar outra lista de verbos abundantes e formas alternativas -->
     <!--url>https://ciberduvidas.iscte-iul.pt/consultorio/perguntas/os-participios-passados-regulares-e-irregulares/20960</url-->
     <!--url>https://www.conjugacao.com.br/</url-->
-    <rule>
+    <rule default="temp_off">
       <antipattern>
           <token>há</token>
           <token>volta</token>
@@ -3246,33 +3246,40 @@ MARCOAGPINTO 2020-02-18 -->
       <pattern>
           <token regexp='yes' inflected='yes'>ter|haver</token><!-- TODO testar chegar -->
           <token min="0" max="3" postag_regexp='yes' postag='R.+'/>
-          <token regexp='yes'>(?:(?:a(?:bsort|ces|nex|ntepag)|bent|ch(?:ei|go|onclus|ult)|d(?:efes|esenvolt|espert|ispers|issoluto|istint)|e(?:leit|mers|nxut|nvolt|ret|xaust|xpress|xpuls|xtint)|f(?:ind|ix|rit)|g(?:anh|ast)|i(?:mers|mpress|ncurs|nsert|sent)|limp|m(?:algast|alquist|anifest|ort)|o(?:cult|miss|press)|p(?:ag|asm|eg)|r(?:eeleit|epuls|evolt|ot)|s(?:alvo|egur|epult|olt|ubmers|uj|ujeit|upress|urpres|uspens)|v(?:ag|olt))[ao]|a(?:ceit[aoe]|ssente)|entregue)s?
-            <exception regexp='yes'>(?:aces|ganh|gast|mort|pag|salv|eleit|expuls)[ao]s?|entregues?|aceites?|oculto|vagas?</exception></token><!-- XXX significado distintos. Removidos: incluso|tinto -->
+          <marker>
+              <token postag="V.P.*" postag_regexp='yes'><exception regexp='yes'>(?:aces|ganh|gast|mort|pag|salv|eleit|expuls)[ao]s?|entregues?|aceites?|oculto|vagas?|incluso|tinto</exception></token><!-- XXX significado distintos. Removidos: incluso|tinto -->
+          </marker>
       </pattern>
+      <filter class="org.languagetool.rules.pt.RegularIrregularParticipleFilter" args="direction:IrregularToRegular"/>
       <message>Com o verbo '<match no='1' postag='VMN0000'/>' deve utilizar-se o particípio passado regular.</message>
-    <!--suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' postag_match='VMP00(.)(.)' postag_replace='VMIP1$20' suppress_misspelled='yes'/></suggestion-->
-        <suggestion suppress_misspelled='yes'>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)([ao]s?)' regexp_replace='$1ad$2'/></suggestion>
-      <example correction='ter discretamente limpado'>Depois de <marker>ter discretamente limpo</marker> o carro, foi desculpado.</example>
-      <example>Depois de <marker>ter discretamente limpado</marker> o carro, foi desculpado.</example>
+      <suggestion>{suggestion}</suggestion>
+      <!--<suggestion><match no="3" postag="(V.P.*)" postag_regexp="yes" postag_replace="$1"/></suggestion>-->
+      <example correction='limpado'>Depois de ter discretamente <marker>limpo</marker> o carro, foi desculpado.</example>
+      <example>Depois de ter discretamente limpado o carro, foi desculpado.</example>
       <example>…, seguidos pelos primeiros amniotas, os mamíferos há volta de 200 milhões de anos e as aves há cerca de 100 …</example>
       <example>Ainda bem que tinha seguro para a casa.</example>
-      <example correction='tinha segurado'>Ainda bem que <marker>tinha seguro</marker> a casa.</example>
+      <example correction='segurado'>Ainda bem que tinha <marker>seguro</marker> a casa.</example>
+      <example correction="imprimido">Percebi que tinha <marker>impresso</marker> o documento errado.</example>
+      <example>Tenho morto muitas moscas.</example>
     </rule>
-    <rule>
+
+    <rule default="temp_off">
       <pattern>
           <token regexp='yes' inflected='yes'>ser|estar|ficar|permanecer|parecer
             <exception>seres</exception></token>
           <token min="0" max="3" postag_regexp='yes' postag='R.'/>
-          <token regexp='yes'>(?:a(?:ceitad|ntepagad|prisionad|ssentad)|benzid|d(?:espertad|ispersad)|e(?:legid|mergid|nchid|ntregad|nxugad|xaurid|xpelid|xpressad|xprimid|xpulsad|xtinguid)|f(?:indad|ixad|rigid|ritad)|g(?:anhad|astad)|i(?:mergid|mprimid|ncurrid|sentad)|limpad|m(?:algastad|alquerid|anifestad|atad|orrido)|o(?:mitid|primid)|p(?:agad|asmad|rendid)|r(?:reelegid|epelid|evolvid|ompid)|s(?:alvad|egurad|oltad|ubmergid|ujad|ujeitad|urpreendid|uspendid)|v(?:agad|olvid))[ao]s?</token>
+          <marker>
+              <token postag="V.P.*" postag_regexp='yes'><exception regexp="yes" inflected="yes">absorver|acender|encher|anexar|concluir|cultivar|defender|desenvolver|dissolver|distinguir|envolver|incluir|inserir|ocultar|pegar|sepultar|suprimir|tingir</exception></token>
+          </marker>
     <!-- XXX Removidos: absorvido|acendido|anexado|concluído|cultivado|defendido|desenvolvido|dissolvido|distinguido|envolvido|erigido|incluído|inserido|ocultado|pegado|sepultado|suprimido|tingido
            Formas não reconhecidas como verbo abuntante por todos os dicionários, em desuso, ou com significados distintos.  -->
       </pattern>
+      <filter class="org.languagetool.rules.pt.RegularIrregularParticipleFilter" args="direction:RegularToIrregular"/>
       <message>Com o verbo '<match no='1' postag='VMN0000'/>' deve utilizar-se o particípio passado irregular.</message>
-        <suggestion suppress_misspelled='yes'>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)ad([ao]s?)' regexp_replace='$1$2'/></suggestion>
-    <!--suggestion>\1 <match no='2' include_skipped='all'/> <match no='3' regexp_match='(.+)ad([ao]s?)' regexp_replace='$1ue' suppress_misspelled='yes'/></suggestion-->
-      <example correction='foi gasto'>O dinheiro <marker>foi gastado</marker> o mês passado.</example>
-      <example type='triggers_error'>A piscina <marker>foi enchida</marker> o mês passado.</example>
-      <example>A piscina <marker>foi cheia</marker> o mês passado.</example>
+      <suggestion>{suggestion}</suggestion>
+      <example correction='gasto'>O dinheiro foi <marker>gastado</marker> o mês passado.</example>
+      <example>A piscina foi enchida o mês passado.</example>
+      <example>A piscina foi cheia o mês passado.</example>
       <example>Em algumas fontes, alguns territórios não estão incluídos na Europa, enquanto noutras incluem-nos.</example>
       <example>O mais recente estado, o Havaí, foi anexado em 21 de agosto de 1959.</example>
       <example>O jazz foi desenvolvido por artistas inovadores, tais como Louis Armstrong.</example>
@@ -3281,6 +3288,7 @@ MARCOAGPINTO 2020-02-18 -->
       <example>A estação fica ao oeste do hotel.</example>
       <example>O chá é muito cultivado na Índia.</example>
     </rule>
+    
     <rule>
       <pattern>
           <token regexp='yes' inflected='yes'>ser|estar|ficar|permanecer|parecer
