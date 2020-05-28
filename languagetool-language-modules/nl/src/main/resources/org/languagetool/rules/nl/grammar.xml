@@ -33502,11 +33502,11 @@ steenwijk;Steenwijk
 				<example correction="bezigheid">Zulke inkomsten worden dus behaald in de uitoefening van de <marker>beroepswerkzaamheid</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DEELTEKEN" name="/">
+		<rulegroup id="DEELTEKEN" name="/" default="off"> <!-- picky (or at least experienced as such -->
 			<rule>
-				
 				<!-- TODO: individuele gevallen zoeken; het is anders een wel heel algemene melding -->
 				<antipattern><token regexp="yes" skip="-1">http.*</token><token postag="SENT_END"/></antipattern>
+				<antipattern><token regexp="yes">[0-9]+</token><token>/</token><token regexp="yes">[0-9]+</token></antipattern>
 				<antipattern><token>en</token><token>/</token><token>of</token></antipattern>
 				<pattern>
 					<token><exception regexp="yes">[./]</exception></token>
@@ -33516,9 +33516,9 @@ steenwijk;Steenwijk
 						<token regexp="yes">.{3,}<exception regexp="yes">[0-9]+</exception></token>
 					</marker>
 				</pattern>
-				<message>Vermijd de / buiten berekeningen of eenheden. Gebruik <suggestion><match no="2"/>-<match no="4"/></suggestion> voor gelijkwaardige begrippen, <suggestion><match no="2"/> of <match no="4"/></suggestion>, <suggestion><match no="2"/>- of <match no="4"/></suggestion>, <suggestion><match no="2"/> en <match no="4"/></suggestion>, of <suggestion><match no="2"/>- en <match no="4"/></suggestion>, <suggestion><match no="2"/> per <match no="4"/></suggestion> voor verhoudingen of <suggestion><match no="2"/>, <match no="4"/></suggestion>.</message>
-				<example correction="man-vrouwverhouding|man of vrouwverhouding|man- of vrouwverhouding|man en vrouwverhouding|man- en vrouwverhouding|man per vrouwverhouding|man, vrouwverhouding">De <marker>man/vrouwverhouding</marker> is ongelijk.</example>
-				<example correction="Hij-zij|Hij of zij|Hij- of zij|Hij en zij|Hij- en zij|Hij per zij|Hij, zij"><marker>Hij/zij</marker> is vandaag 3 jaar oud.</example>
+				<message>Vermijd als het even kan de / buiten berekeningen of eenheden.</message>
+				<url>https://onzetaal.nl/taaladvies/schuine-streep-en-backslash/</url>
+				<example type="incorrect"><marker>Hij/zij</marker> is vandaag 3 jaar oud.</example>
 				<example type="correct">Kijk eens naar <marker>https://www.languagetool.org/nl</marker> of het klopt.</example>
 			</rule>
 		</rulegroup>
