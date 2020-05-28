@@ -42021,6 +42021,223 @@ Whether the Russian Government shares any of the station's radar data with Azerb
 -->
         </rule>
 
+        <rulegroup id="MISSING_TO_BEFORE_A_VERB" name="Use 'to' before the base form of a verb" default="temp_off"><!-- Premium #1405 -->
+
+            <rule><!-- Need is possibly a modal verb. Use chunks -->
+                <antipattern><!-- need help every day -->
+                    <token>need</token>
+                    <token postag_regexp="yes" postag="NN:UN?"/>
+                    <token regexp="yes">each|every</token>
+                    <token postag_regexp="yes" postag="NN:UN?"/>
+                </antipattern>
+                <antipattern><!-- need like -->
+                    <token>need</token>
+                    <token regexp="yes">like|cause</token><!-- 'cause' is short for 'because' -->
+                </antipattern>
+                <antipattern><!-- www.lexico.com/definition/if_need_be -->
+                    <token>if</token>
+                    <token>need</token>
+                    <token>be</token>
+                </antipattern>
+                <antipattern><!-- you need help with / I need step 4 -->
+                    <token regexp="yes">I|you|we|they</token>
+                    <token min="0" max="3" postag="RB"/>
+                    <token>need</token>
+                    <token postag_regexp="yes" postag="NN(:UN?)?"/>
+                    <token postag_regexp="yes" postag="IN|PCT|CD|PRP|WP|WDT"/>
+                </antipattern>
+                <antipattern><!--  need help all the time -->
+                    <token>need</token>
+                    <token postag_regexp="yes" postag="NN:UN?"/>
+                    <token>all</token>
+                    <token>the</token>
+                    <token postag_regexp="yes" postag="NN:UN?"/>
+                </antipattern>
+                <antipattern><!-- need deal # -->
+                    <token>need</token>
+                    <token postag_regexp="yes" postag="NN(:UN?)?"/>
+                    <token>#</token>
+                </antipattern>
+                <antipattern><!-- www.lexico.com/definition/big_time -->
+                    <token>need</token>
+                    <token postag_regexp="yes" postag="NN(:UN?)?"/>
+                    <token>big</token>
+                    <token>time</token>
+                </antipattern>
+                <antipattern><!-- you guys need help -->
+                    <token>you</token>
+                    <token regexp="yes">bastards|guys|idiots|girls|boys|zombies|morons|monsters|bros|fuckers|dicks|kids|weirdos|skanks|ladies|gentlemen|gents|lads|assholes</token>
+                    <token>need</token>
+                    <token postag_regexp="yes" postag="NN:UN?"/>
+                </antipattern>
+                <antipattern><!--  then you need rear wheel bearings -->
+                    <token>need</token>
+                    <token postag_regexp="yes" postag="JJR?"/>
+                    <token chunk="B-NP-plural"/>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <pattern>
+                    <token chunk="B-VP" postag_regexp="yes" postag="VBP?">need</token><!-- base form only -->
+                    <marker>
+                        <token chunk="I-VP" postag="VB"/>
+                    </marker>
+                    <or>
+                        <token chunk="B-NP-singular"/>
+                        <token chunk="B-NP-plural">
+                            <exception>pleas</exception><!-- Incorrect spelling of "please" -->
+                            </token>
+                    </or>
+                </pattern>
+                <message>Make sure that '\1 \2' is correct. If '\1' is a modal verb, the text is correct. If '\1' is a lexical verb, use <suggestion>to \2</suggestion>.</message>
+                <url>https://www.lexico.com/definition/need</url>
+                <short>Possible grammar error</short>
+                <example correction="to accelerate">I think we need <marker>accelerate</marker> this process.</example>
+                <example correction="to use">I need <marker>use</marker> subtitles on my video.</example>
+                <example correction="to use">Do the technicians need <marker>use</marker> oil?</example>
+                <example correction="to buy">I need <marker>buy</marker> a new car.</example>
+                <example correction="to bring">I need <marker>bring</marker> some flowers.</example>
+                <example correction="to bring">The technicians need <marker>bring</marker> washers.</example>
+                <example correction="to do">You know you need <marker>do</marker> that, don't you?</example>
+                <example correction="to express">I felt i need <marker>express</marker> this feeling so i made this little poem:</example>
+                <example correction="to install">I think i need <marker>install</marker> SpringScanner.</example>
+                <example>I think we need <marker>to accelerate</marker> this process.</example>
+                <example>I need help with this task.</example><!-- help/I-VP -->
+                <example>Please i need help</example><!-- No closing punctuation -->
+                <example>I really need help.</example>
+                <example>We so badly need rain.</example>
+                <example>People need love.</example>
+                <example>People need people.</example>
+                <example>I need people I can rely on.</example>
+                <example>Children need sleep.</example>
+                <example>Do you need toilet paper?</example>
+                <example>Do you need water resistant?</example><!-- Missing noun after 'water resistant' -->
+                <example>Do you need help moving?</example>
+                <example>The mechanics need help moving to the new workshop.</example>
+                <example>I bring mine if need be.</example>
+                <example>If need be you can order an additional one.</example>
+                <example>Tom and Mary really need help.</example>
+                <example>I need help also.</example><!-- Context dependent. Possibly 'to' is missing. -->
+                <example>You need better mechanics.</example>
+                <example>We need lower taxes.</example>
+                <example>We need better focus.</example>
+                <example>We need better support.</example><!-- No chunk information for 'support'. -->
+                <example>Do the technicians need police protection?</example><!-- police/B-NP-plural -->
+                <example>Do the technicians need police truncheons?</example>
+                <example>I need help every day.</example>
+                <example>I need like 8-10.</example>
+                <example>Let me choose what I need cause I found it.</example>
+                <example>Also let them know what you are doing to help yourself and what you need help with.</example>
+                <example>When the devs need fast cash then put it on sale for $1500.</example>
+                <example>That’s why I need step 4 of my script.</example>
+                <example>My understanding is that you need rank 1 or 2 to register for a given week.</example>
+                <example>I need deal #854688 pathed for EPGT and for TETC.</example>
+                <example>We need help all the time.</example>
+                <example>... we have been thinking that they need help big time.</example>
+                <example>I need help what to look for please.</example>
+                <example>I haven't used them, so if you need help you should ask on the Script Debugger Forum.</example>
+                <example>You need love He has got it.</example>
+                <example>I haven't used them, so if you need help you should ask on the Script Debugger Forum.</example>
+                <example>... like movies with strong emotional content, and I need help it’s getting out of my hands!</example>
+                <example>If it turns out you need help I hope you can get it easily.</example>
+                <example> I also added my terminal information I need help I’ve been trying to fix it and I cant find anything that works</example>
+                <example>... but if you guys need help I could try to see if I can do the work well enough.</example>
+                <example>If it has a roaring sound coming from the rear, then you need rear wheel bearings.</example><!-- rear/I-VP -->
+                <example>I need help pleas.</example>
+
+<!--
+
+                <example>We need complete well characteristic data (depth, basin, age) in order to be accurate.</example>
+                <example>Do we really need duplicate hero type association when there are so many troop types?</example>
+                <example>I need license key location, because I added it to the in-correct account, so I need to change it to another license key.</example>
+                <example>And if you do have a project of your own where you need design help, you can of course submit it there too.</example>
+                <example>If a grammar does generate the empty string, it will be necessary to include the rule, but there need be no other ε-rule.</example>
+                <example>Others can view your app’s data, they just need be granted permission- by You!.</example>
+                <example>The gas contracts we need include the following, can you give us timescales.</example>
+                <example>I need access ASAP as I am supporting a trader who does most of his deals on EOL.</example>
+
+                <example>If you received new @GLOBAL license keys recently (within the last 6 months to a year), you need do nothing, otherwise contact FEA to receive updated license keys.</example>
+                <example>We need account information necessary to set it up such as name, TIN etc.</example>
+                <example>permissions: ['r'] // need read permission to create subscriptions!</example>
+                <example>I need deal date, start date, end date, premium, strike price,...</example>
+                <example>I need cost reductions, improved cash flow and SUPPORT.</example>
+                <example>I need change overs to happen on Mondays cause that’s my day off to grind</example>
+                <example>That’s right, but you need write access to the data directory too.</example>
+-->
+                <example>All you need bring are sheets.</example><!-- Ambiguous -->
+<!-- Testrules error. The GUI finds this sentence, but testrules says " didn't actually trigger an error"  <example type="triggers_error">At this stage no further discussion need take place on this point.</example> Modal -->
+<!-- Testrules error. The GUI finds this sentence, but testrules says " didn't actually trigger an error"  <example type="triggers_error">You need say nothing more.</example>Ambiguous: do not make an antipattern. -->
+<!-- Testrules error. The GUI finds this sentence, but testrules says " didn't actually trigger an error"  <example type="triggers_error">You need go only one stop on the underground.</example> Ambiguous: do not make an antipattern. -->
+            </rule>
+
+            <rule><!-- Need is possibly a modal verb. Special cases: do not use chunks -->
+                <antipattern><!-- need lower taxes -->
+                    <token>need</token>
+                    <token chunk="B-NP-plural" postag_regexp="yes" postag="JJR?"/>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
+                <pattern>
+                    <token chunk="B-VP" postag_regexp="yes" postag="VBP?">need</token><!-- base form only -->
+                    <marker>
+                        <token postag="VB"/>
+                    </marker>
+                    <or>
+                        <token postag="NNS"/>
+                        <token regexp="yes">(https?|www).*</token>
+                    </or>
+                </pattern>
+                <message>  xxx Make sure that '\1 \2' is correct. If '\1' is a modal verb, the text is correct. If '\1' is a lexical verb, use <suggestion>to \2</suggestion>.</message>
+                <url>https://www.lexico.com/definition/need</url>
+                <short>Possible grammar error</short>
+                <example correction="to use">Even native English speakers need <marker>use</marker> subtitles.</example><!-- use/B-NP-plural. Do not use the chunker. -->
+                <example correction="to use">Did the technicians need <marker>use</marker> washers?</example>
+                <example correction="to bring">The technicians need <marker>bring</marker> washers for the test.</example><!-- washers/B-ADVP -->
+                <example correction="to remove"> I guess that means I need <marker>remove</marker> https://docs.cert-manager.io/en/release-0.4/index.html from my cluster.</example><!-- https has no chunk information. -->
+                <example>Even native English speakers need <marker>to use</marker> subtitles.</example>
+                <example>We need lower taxes.</example>
+                <example>You need better mechanics.</example>
+                <example>Do the technicians need truncheons?</example>
+<!--
+Cool, but We Need Shrimp Warriors too !
+Do i need smart things hub for this?
+Need to know by tomorrow morning because we will be loading to Unify and need contract numbers assigned.
+If you have a jack, you need jack stands.
+I’m a developer: I need log files to troubleshooting my house
+i need help pleas.
+I need ice cubes.
+I need band aids.
+They are herbivores, and need forest environments to survive.
+all they need to do is rework the weapons a little to reflect current powerlevel of troops most of them just need cost adjustments.
+Let me know if something doesn't show up, or if you need deal numbers.
+I would like to use this for a File Export, so I only need read Permissions.
+I think we need price caps all the time not just when we're in an emergency.
+Sandy bottoms without rocks need pyramid weights.
+You need shit loads of luck!
+My black shoes need heel repairs.
+There are a lot of issues we to need invent solutions for, or to collaborate with the CG to get them specified.
+The idea behind this tool is to help us track in writing the multitude of work we need cost estimates on.
+...and just how much I rely on my mother to help remind me of things I need like meds and food etc.
+In order to support the greenfield merchant decision making process for '01, we need price forecasts 1.
+You need brake pads and rotors, and make sure the calipers move freely.
+We need team leaders, walkers and volunteers to help us reach our goal.
+I need cost reductions, improved cash flow and SUPPORT.
+In that case I do not think it’s the right choice, to implement previously we need know domains where files host and more data.
+... but they need gas utilities in California opposed interstate capacity expansions into the state.
+All animals and some plants need trace amounts of selenium.
+I need change overs to happen on Mondays cause that’s my day off to grind
+If the shop tells you that you need brake pads and new rotors don’t be surprised.
+> I need text files for my domain certificate, how can I get them?
+If I need Shield stones, I don’t want other stones, keys or souls inflating the price.
+In the short term, we need price caps," Gov. Davis has said to state legislators.
+If you need code samples, I can zip up the storybook code and send it to your email.
+But it turns out the Pentagon has plenty of folks who need satellite phones, particularly in the Navy.
+I just need ping monitors so it’s not useful for me to sign up for a paid account (maybe in the future)!
+To all, This is just a reminder that we need PEP forms and ratings on those associates under your charge that will be represented by Mark Russ.
+-->
+                <example>All you need bring are sheets.</example><!-- Ambiguous -->
+            </rule>
+
+        </rulegroup>
+
     </category>
 
     <!-- ====================================================================== -->
