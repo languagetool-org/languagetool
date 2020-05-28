@@ -38,7 +38,7 @@ public class RegularIrregularParticipleFilter extends RuleFilter {
 
   @Override
   public RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos,
-      AnalyzedTokenReadings[] patternTokens) {
+      AnalyzedTokenReadings[] patternTokens) throws IOException {
 
     String direction = getRequired("direction", arguments); // RegularToIrregular or IrregularToRegular
     AnalyzedTokenReadings atr = null;
@@ -70,7 +70,7 @@ public class RegularIrregularParticipleFilter extends RuleFilter {
       try {
         participles = synth.synthesize(selectedAT, desiredPostag, true);
       } catch (IOException e) {
-        e.printStackTrace();
+        throw new IOException("Cannot synthesize " + selectedAT.toString());
       }
       if (participles != null && participles.length > 1) {
         if (direction.equalsIgnoreCase("RegularToIrregular") && isRegular(atr.getToken())) {
