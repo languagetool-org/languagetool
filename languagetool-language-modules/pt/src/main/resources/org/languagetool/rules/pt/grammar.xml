@@ -1563,6 +1563,16 @@ title="Easy editing stylesheet" ?>
 		<token postag='SPS00' postag_regexp='no'/>
       </antipattern>  
 <!-- MARCOAGPINTO 2020-05-25 *END* -->
+<!-- MARCOAGPINTO 2020-05-28 *START* -->
+<!-- "A justiça é responsável pelo julgamento das matérias de direito público relativos aos órgãos da administração pública do estado." -->
+<!-- "A justiça é responsável pelo julgamento das matérias de direito público relativos a órgãos da administração pública do estado." -->
+      <antipattern>
+		<token negate='yes' regexp='yes'>a|o</token>
+		<token postag='AQ0MS0|NCMS000' postag_regexp='yes'/>
+		<token postag='AQ0MP0' postag_regexp='no'/>
+		<token regexp='yes'>aos|a</token>
+      </antipattern>  
+<!-- MARCOAGPINTO 2020-05-28 *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
