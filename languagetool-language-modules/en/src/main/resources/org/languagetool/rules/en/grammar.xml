@@ -10109,7 +10109,7 @@ USA
                 <example correction="set up">I just <marker>setup</marker> a new meeting.</example>
                 <example>The setup is working.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes">do</token>
                     <token regexp="yes" min="0">&apostrophe;</token>
@@ -10147,7 +10147,7 @@ USA
                 <example>The setup is working.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="WORKOUT_VERB" name="can workout (work out)" default="temp_off">
+        <rulegroup id="WORKOUT_VERB" name="can workout (work out)">
             <url>https://www.merriam-webster.com/dictionary/work%20out</url>
             <rule>
                 <pattern>
@@ -11887,7 +11887,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rulegroup id="HALF_WAY" name="half way" default="temp_off">
+        <rulegroup id="HALF_WAY" name="half way">
             <url>https://www.lexico.com/definition/halfway</url>
             <rule>
                 <pattern>
@@ -12139,12 +12139,94 @@ USA
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
-        <rule id="ACHE_COMPOUNDS" name="head ache (headache)" default="temp_off">
+        <rule id="WORTHY_COMPOUNDS" name="news worthy (newsworthy)" default="temp_off">
+            <pattern>
+                <token regexp="yes">untrust|praise|credit|unnews|trust|blame|crash|unsea|thank|note|news|road|sea|air</token>
+                <token>worthy</token>
+            </pattern>
+            <message>This adjective is normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="newsworthy">The event was very popular and seemed <marker>news worthy</marker>.</example>
+        </rule>
+        <rule id="COUNTER_COMPOUNDS" name="counter part (counterpart)" default="temp_off">
+            <pattern>
+                <token>counter</token>
+                <token regexp="yes">parts?|party|parties|intuitive|feit|feiters?|points?</token>
+            </pattern>
+            <message>This word is normally spelled as one word.</message>
+            <suggestion>counter<match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="counterparts">The secretary of defense met with his <marker>counter parts</marker> in Asia to discuss the nuclear crisis.</example>
+        </rule>
+        <rulegroup id="HAND_COMPOUNDS" name="before hand (beforehand)" default="temp_off">
+            <antipattern>
+                <token>hand</token>
+                <token>in</token>
+                <token>hand</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token>before</token>
+                    <token>hand</token>
+                </pattern>
+                <message>This adverb or adjective is spelled as one word.</message>
+                <suggestion>beforehand</suggestion>
+                <url>https://www.merriam-webster.com/dictionary/beforehand</url>
+                <example correction="beforehand">He did it <marker>before hand</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes" regexp="yes">look|seem|be</token>
+                    <token postag="RB" min="0" />
+                    <marker>
+                        <token>hand</token>
+                        <token>some</token>
+                    </marker>
+                </pattern>
+                <message>The adjective <suggestion>handsome</suggestion> is spelled as one word.</message>
+                <example correction="handsome">He is <marker>hand some</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>hand</token>
+                        <token>some</token>
+                    </marker>
+                    <token postag="JJ" min="0" />
+                    <token regexp="yes">(wo)?man|gentlem[ea]n|(wo)?men|boys?|guys?</token>
+                </pattern>
+                <message>The adjective <suggestion>handsome</suggestion> is spelled as one word.</message>
+                <example correction="handsome">He is a <marker>hand some</marker> man.</example>
+            </rule>
+        </rulegroup>
+        <rule id="SPACE_COMPOUNDS" name="space ship (spaceship)" default="temp_off">
+            <pattern>
+                <token>space</token>
+                <token regexp="yes">crafts?|suites?|walkers?|ships?|ports?</token>
+            </pattern>
+            <message>This noun is normally spelled as one word.</message>
+            <suggestion>space<match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="spaceship">She was flying to the moon in a <marker>space ship</marker>.</example>
+        </rule>
+        <rule id="WHOLE_COMPOUNDS" name="whole sale (wholesale)" default="temp_off">
+            <pattern>
+                <token>whole</token>
+                <token regexp="yes">sale|some|hearted</token>
+            </pattern>
+            <message>This word is normally spelled as one word.</message>
+            <suggestion>whole<match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="wholesale">Bottles from this region sell <marker>whole sale</marker> at about £72 a case.</example>
+        </rule>
+        <rule id="ACHE_COMPOUNDS" name="head ache (headache)">
             <antipattern>
                 <token chunk="B-VP" />
                 <token regexp="yes">her|his|y?our</token>
                 <token regexp="yes">heart|head</token>
                 <token>ache</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">make</token>
+                <token regexp="yes">my|your|her|his</token>
+                <token regexp="yes">heart|head</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">heart|head</token>
@@ -12156,14 +12238,19 @@ USA
             <example correction="headache">Tom didn't feel good because of his <marker>head ache</marker>.</example>
             <example>How my poor heart aches!</example>
             <example>Mary was forced to sell her parents' house, where she had grown up, and this made her heart ache.</example>
+            <example>The sad story made my heart ache.</example>
         </rule>
-        <rule id="OUT_COMPOUNDS" name="out break (outbreak)" default="temp_off">
+        <rule id="OUT_COMPOUNDS" name="out break (outbreak)">
             <antipattern>
                 <token inflected="yes">comment</token>
                 <token>out</token>
             </antipattern>
             <antipattern>
-                <token>roll</token>
+                <token inflected="yes">roll</token>
+                <token>out</token>
+            </antipattern>
+            <antipattern>
+                <token>stressed</token>
                 <token>out</token>
             </antipattern>
             <pattern>
@@ -12177,6 +12264,7 @@ USA
             <message>The noun <suggestion>out<match no="4" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
             <example correction="outbreak">The <marker>out break</marker> caused lockdowns all over the word.</example>
             <example>Check the commented out line below.</example>
+            <example>It sounded like you were a bit on the stressed out side.</example>
         </rule>
         <rule id="BACK_COMPOUNDS" name="back log (backlog)">
             <antipattern>
@@ -22631,7 +22719,7 @@ USA
             <suggestion>\1-\2 \3</suggestion>
             <example correction="one-night stand">Tom and Mary had a <marker>one night stand</marker>.</example>
         </rule>
-        <rule id="LOW_HANGING_FRUIT_HYPHEN" name="missing hyphen in 'low hanging fruit'" default="temp_off">
+        <rule id="LOW_HANGING_FRUIT_HYPHEN" name="missing hyphen in 'low hanging fruit'">
             <pattern>
                 <marker>
                     <token>low</token>
@@ -28772,8 +28860,9 @@ USA
             <token inflected="yes">distance</token>
           </antipattern>
         <antipattern><!-- We Americans / We Germans -->
-            <token>we</token>
+            <token regexp="yes">we|you</token>
             <token postag="NNPS?" postag_regexp="yes" />
+            <token postag="VB.*" postag_regexp="yes" />
           </antipattern>
           <antipattern>
             <token regexp='yes'>we|you</token>
@@ -29044,6 +29133,7 @@ USA
           <example>I can offer you Lifetime Warranty.</example>
           <example>As I Lay Dying.</example><!-- #2770 -->
           <example>Are we army officers?</example>
+          <example>You Russians are really wonderful people.</example>
         </rule>
 
         <rulegroup id="TO_NON_BASE" name="'to' + non-base form">
@@ -46413,6 +46503,10 @@ The accident victim died from her injuries.
             <example>We compare our results to the <marker>state of the art</marker>.</example>
         </rule>
         <rule id="OUT_OF_PLACE" name="out of place (out-of-place) etc.">
+            <antipattern>
+                <token regexp="yes">&apostrophe;</token>
+                <token postag="VBZ">s</token>
+            </antipattern>
             <pattern>
                 <or>
                     <token regexp="yes">an?|the|my|his|her|their|our|your|s</token>
@@ -46423,12 +46517,15 @@ The accident victim died from her injuries.
                     <token>of</token>
                     <token regexp="yes">place|doors?|band|bounds|courts?|stock|home|town|reach|network|office|scope|state|wedlock|pockets?|order</token>
                 </marker>
-                <token postag='NN.*' postag_regexp='yes' />
+                <token postag='NN.*' postag_regexp='yes'>
+                    <exception>till</exception>
+                </token>
             </pattern>
             <message>Did you mean <suggestion>out-of-\4</suggestion>?</message>
             <example>This word is <marker>out of place</marker>.</example>
             <!--<example correction="">This word is <marker>out-of-place</marker>.</example>-->
             <example correction="out-of-place">This is an <marker>out of place</marker> word.</example>
+            <example>He's out of town till Monday, but please try to get a hold of his assistant at the number below to get a mailing address.</example>
         </rule>
         <rule id="OUT_OF_THE_WAY" name="out of the way (out-of-the-way) etc.">
             <pattern>
@@ -47463,6 +47560,10 @@ The accident victim died from her injuries.
                 <example>Rudolph is two years old.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token postag="VBZ">s</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">an?|the|my|his|her|its|their|our|your|s</token>
                     <token postag="JJ" min="0"/>
@@ -47470,7 +47571,9 @@ The accident victim died from her injuries.
                         <token postag="CD"></token>
                         <token regexp="yes">second|min(ute)?|hour|day|week|month|year|foot|met(er|re)|mile|inch|page|store?y</token>
                     </marker>
-                    <token postag="NN.*|JJ" postag_regexp="yes" />
+                    <token postag="NN.*|JJ" postag_regexp="yes">
+                        <exception>till</exception>
+                    </token>
                 </pattern>
                 <message>When a number forms part of an adjectival compound, use a hyphen: <suggestion>\3-\4</suggestion></message>
                 <url>https://dictionary.cambridge.org/us/grammar/british-grammar/word-formation/compounds</url>
@@ -47479,6 +47582,8 @@ The accident victim died from her injuries.
                 <example correction="100-metre">He won the <marker>100 metre</marker> sprint.</example>
                 <example correction="15-foot">Lara handed me a <marker>15 foot</marker> pole.</example>
                 <example correction="eighteen-inch">An <marker>eighteen inch</marker> monitor is too big for my desk.</example>
+                <example correction="one-hour">Tom's <marker>one hour</marker> workout was very intense.</example>
+                <example>There's only one week till Easter Sunday.</example>
             </rule>
             <rule>
                 <pattern>
@@ -48437,6 +48542,10 @@ The accident victim died from her injuries.
             <antipattern>
                 <token>you</token>
                 <token regexp="yes">&apostrophe;</token>
+            </antipattern>
+            <antipattern><!-- caught by WORD_REPEAT_RULE -->
+                <token>than</token>
+                <token>than</token>
             </antipattern>
             <pattern>
                 <or>
