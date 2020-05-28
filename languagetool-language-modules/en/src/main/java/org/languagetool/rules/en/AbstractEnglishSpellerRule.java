@@ -380,6 +380,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     // in en-gb it's 'maths'
     s.put("math", Arrays.asList("maths"));
     s.put("fora", Arrays.asList("for a"));
+    s.put("fomr", Arrays.asList("form", "from"));
     s.put("lotsa", Arrays.asList("lots of"));
     s.put("tryna", Arrays.asList("trying to"));
     s.put("coulda", Arrays.asList("could have"));
