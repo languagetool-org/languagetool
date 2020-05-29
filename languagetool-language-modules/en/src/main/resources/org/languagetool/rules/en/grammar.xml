@@ -42030,15 +42030,111 @@ USA
                 <token chunk="E-NP-plural" postag="VBZ"/>
                 <token postag="CC"/>
             </antipattern>
+            <antipattern><!-- the military of Algeria -->
+                <token chunk="B-NP-plural" postag="DT"/><!-- Not "About 40–45% of educated people in Jamaica" -->
+                <token chunk="E-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="IN"/>
+                <token postag="NNP"/>
+            </antipattern>
+            <antipattern><!-- one in 10 children dies -->
+                <token regexp="yes">one|1</token>
+                <token postag="IN"/>
+                <token postag="CD"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+            </antipattern>
+            <antipattern><!-- Two thirds of Azerbaijan -->
+                <token postag="CD">
+                    <exception regexp="yes">one|1</exception>
+                    </token>
+                <token chunk="E-NP-plural" postag="NNS" regexp="yes">thirds|fourths|fifths|sixths|sevenths|eighths|ninths|tenths|elevenths|twelfths|thirteenths|fourteenths|fifteenths|sixteenths|seventeenths|eighteenths|nineteenths|twentieths|thirtieths|f(ifs|or)tieths|sixtieths|seventieths|eightieths|ninetieths|hundredths|thousandths|millionths|billionths|trillionths</token>
+                <token postag="IN"/>
+                <token postag="NNP"/>
+                <token/>
+            </antipattern>
+            <antipattern><!-- as... as -->
+                <token skip="5">as</token>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token>as</token>
+            </antipattern>
+            <antipattern><!-- https://en.wikipedia.org/wiki/Tower_of_Hanoi -->
+                <token>Towers</token>
+                <token>of</token>
+                <token regexp="yes">Brahma|Hanoi</token>
+            </antipattern>
+            <antipattern><!-- assignment of British Energy's contracts -->
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="IN"/>
+                <token chunk="B-NP-plural"/>
+                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token chunk="E-NP-plural"/><!-- 'Energy' is not NNS -->
+                <token regexp="yes">&apostrophe;</token>
+                <token>s</token>
+                <token chunk="E-NP-plural" postag="NNS"/>
+            </antipattern>
+            <antipattern><!-- joining us now from his company headquarters in Houston is Kenneth -->
+                <token chunk="B-VP" postag="VBG"/>
+                <token skip="-1" regexp="yes">&object_pronouns;</token>
+                <token chunk="E-NP-plural" postag="NNS"/>
+            </antipattern>
+            <antipattern><!-- Each of the major scripts of India -->
+                <token postag="DT"/>
+                <token postag="IN"/>
+                <token chunk="B-NP-plural"/>
+                <token min="1" max="4" chunk="I-NP-plural"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token postag="IN"/>
+            </antipattern>
+            <antipattern><!-- migration with Han people from China  -->
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="IN"/>
+                <token chunk="B-NP-plural"/>
+                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token postag="IN"/>
+            </antipattern>
+            <antipattern><!-- One trend among imitators of Poe has been -->
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="IN"/>
+                <token chunk="B-NP-plural"/>
+                <token postag="IN"/>
+                <token postag="NNP"/>
+            </antipattern>
+            <antipattern><!-- Whether the Russian Government shares any of the station's radar data with Azerbaijan is -->
+                <token skip="-1">whether</token>
+                <token postag="SENT_END"/>
+            </antipattern>
+            <antipattern><!-- series of bombings in Moscow -->
+                <token chunk="E-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/><!-- series is NN and NNS -->
+                <token postag="IN"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token postag="IN"/>
+                <token postag="NNP"/>
+            </antipattern>
+            <antipattern><!-- series of terribly long bombings in Moscow -->
+                <token chunk="E-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="IN"/>
+                <token chunk="B-NP-plural"/>
+                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token postag="IN"/>
+                <token postag="NNP"/>
+            </antipattern>
+            <antipattern><!-- It's been three weeks since Tom has been here -->
+                <token>been</token>
+                <token chunk="B-NP-plural"/>
+                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token>since</token>
+                <token postag="NNP"/>
+            </antipattern>
             <pattern>
                 <token chunk="E-NP-plural" postag="NNS">
                     <exception postag_regexp="yes" postag="NNPS?"/>
                     <exception regexp="yes">\p{Lu}\p{L}+</exception><!-- Assume initial caps is a proper noun to prevent too many FP: Cache Jars in Memory -->
                     </token>
                 <token postag="IN">
-                    <exception postag="xCC"/>
-                    <exception>like</exception><!-- Do we need a new postag for subordinating conjunctions? -->
-                    <exception regexp="yes">than|while</exception>
+<!--                    <exception postag="CC"/> Refer to https://github.com/languagetool-org/languagetool/issues/2988 -->
+                    <exception regexp="yes">as|like|than|while|before</exception><!-- Subordinating conjunctions. 'After' is also a subordinating conjunction, thus this exception is not sufficient. If I add 'after', the Christmas error is not found. -->
                     </token>
                 <token postag="NNP"/>
                 <marker>
@@ -42048,9 +42144,13 @@ USA
             <message>After the plural noun '\1' use <suggestion><match no="4" postag="VBP"/></suggestion> or <suggestion><match no="4" postag="VBD"/></suggestion>.</message>
             <short>Agreement error</short>
             <example correction="show|showed">The test results after Christmas <marker>shows</marker> great improvement.</example>
+            <example correction="have|haven|had">Unfortunately, the results since Christmas <marker>has</marker> not been good.</example>
             <example correction="have|haven|had">Natural gas imports from Canada <marker>has</marker> steadily declined.</example>
             <example correction="get|got">All activities in Echo <marker>gets</marker> recognized as scenes.</example>
             <example correction="know|knew">About 40–45% of educated people in Jamaica <marker>knows</marker> some form of Spanish.</example>
+            <example correction="consist|consisted">The examples of Mike <marker>consists</marker> of many unusual sentences.</example>
+            <example correction="am|are|aren|was|were">By contrast, the relationships between these families within Austro-Asiatic <marker>is</marker> debated.</example><!-- The agreement error is between 'relationships' and 'is', not 'families' and 'is'. -->
+            <example correction="exemplify|exemplified">Societal changes in China <marker>exemplifies</marker> this well.</example>
             <example>The test results after Christmas <marker>showed</marker> great improvement.</example>
             <example>Natural gas imports from Canada <marker>have</marker> steadily declined.</example>
             <example>Ports of GNU utilities for Microsoft Windows</example>
@@ -42070,28 +42170,112 @@ USA
             <example>Make sure the box that reads Cache Jars in Memory is NOT checked.</example>
             <example>My Years of Pain is what gave me a unique insight into other people. </example>
             <example>1890 – The United Mine Workers of America is founded in Columbus, Ohio</example>
-            <example>The relationship between the utility and AG Signs of Stockton spans two decades. </example>
+            <example>The relationship between the utility and AG Signs of Stockton spans two decades.</example>
             <example>Cheshvan has 29 days while Kislev has 30 days.</example>
-<!--
-The military of Algeria consists of the People's National Army (ANP), the...
-...illegally make Rearden Metal, then later decides to quit and join Galt's strike moments before Dagny arrives to try to persuade him otherwise.
-By contrast, the relationships between these families within Austro-Asiatic is debated.
-Since the adoption of a new constitution, early in 2010, the politics of Angola takes place in a framework of a presidential republic.
-The military of Afghanistan is under the Ministry of Defense, which includes the Afghan National Army and the Afghan Air Force.
-Data from 2010 suggests that one in 10 children in Afghanistan dies before they are five years old.
-...is banned, though defaming individuals or producing material contrary to the principles of Islam is prohibited.
-Two thirds of Azerbaijan is rich in oil and natural gas.
-For example, towers of Hanoi is a well understood in recursive implementation.
-In The Knights for instance, Cleon's corrupt service to the people of Athens is originally depicted as a household relationship in which the slave dupes his master.
-Kate has three times as many records as Jane has.
-Whether the Russian Government shares any of the station's radar data with Azerbaijan is unknown.
-            <example>And joining us now from his company headquarters in Houston is Kenneth Lay.</example>
-            <example>A Hewlett Packard office for French-speaking countries in Africa is in Algiers.</example>
-            <example>The first of a series of bombings in Moscow kills one person and wounds 40 others</example>
-            <example>Each of the major scripts of India has its own numeral glyphs.</example>
+            <example>The military of Algeria consists of the People's National Army (ANP), the...</example>
+            <example>In The Knights for instance, Cleon's corrupt service to the people of Athens is originally depicted as a household relationship in which the slave dupes his master.</example>
+            <example>Data from 2010 suggests that one in 10 children in Afghanistan dies before they are five years old.</example>
+            <example>Two thirds of Azerbaijan is rich in oil and natural gas.</example>
+            <example>Kate has three times as many records as Jane has.</example>
+            <example>Tom hasn't been to Australia as many times as Mary has.</example>
+            <example>I don't have as many pairs of socks as Tom does.</example>
+            <example>For example, towers of Hanoi is a well understood in recursive implementation.</example>
             <example>The virtual assignment of British Energy's contracts to Enron gives the UK coal team total...</example>
+            <example>And joining us now from his company headquarters in Houston is Kenneth Lay.</example>
+            <example>Joining us now with her fans from Houston is Layla Kent.</example>
+            <example>Visiting them now with their friends in Paris gives me great pleasure.</example>
+            <example>Each of the major scripts of India has its own numeral glyphs.</example>
             <example>Contact and migration with Han people from China has brought Confucianism, Daoism...</example>
-            <example>One trend among imitators of Poe has been claims by clairvoyants or psychics to be "channeling" poems from Poe's spirit</example>
+            <example>A Hewlett Packard office for French-speaking countries in Africa is in Algiers.</example>
+            <example>One trend among imitators of Poe has been...</example>
+            <example>Whether the Russian Government shares any of the station's radar data with Azerbaijan is unknown.</example>
+            <example>The first of a series of bombings in Moscow kills one person and wounds 40 others</example>
+            <example>Which very violent series of terribly long bombings in Moscow shows that the...?</example>
+            <example>...decides to quit and join Galt's strike moments before Dagny arrives to try to persuade him otherwise.</example>
+            <example>It's been three weeks since Tom has been here.</example>
+            <example>Also, Enron will deliver forms as Barclays wishes.</example>
+            <example>Oil prices spikes as Iraq stops exporting in protest at UN sanctions.</example><!-- 'Oil prices spikes' is not correct, but that is out of scope of this rule. -->
+<!-- Results from 250,000 rule editor checks.
+            <example>Terraxis wipes blues after Luther is gone.</example>
+            <example>Lisa Lees Karen/Tana, Please review the product types for bandwidth and approve copying profiles as Tom indicates below.</example>
+            <example>Their ability to provide services for India needs to be sorted out quickly.</example>
+            <example>The only way to execute JavaScript actions in Chrome is via AppleScript.</example>
+            <example>The franchising of foreign goods and services to India is in its infancy.</example>
+            <example>The Institute site also lists nearly 1,500 performances of Chopin works on YouTube .</example>
+            <example>Tom is counting the days until Mary arrives.</example>
+            <example>My main app to manipulate windows in Mac is Moom.</example>
+            <example>You know that anyone wearing pants in November is just visiting from Ohio.</example>
+            <example>Another perk that draws many expats to Ecuador is its low cost of living.</example>
+            <example>The variety of climates, soils, and drainage conditions in Brazil is reflected in the range of its vegetation types.</example>
+            <example>The method used for tests in Australia is not meant to be difficult for the people sitting them.</example>
+            <example>In addition, the Bolshevik Revolution forced thousands of Russian exiles westward.</example>
+            <example>The number of flying insects collected in traps in nature reserves in Germany has declined by 75% over the last 25 years.</example>
+            <example>MAJOR COMPANY / INDUSTRY NEWS motors of Korea has come under fire from Daewoo's workers union.</example>
+            <example>Students are taught Spanish in school from the primary level upwards; about 40–45% of educated people in Jamaica knows some form of Spanish.</example>
+            <example>Still, since the mid-2000s incorporation of antisemitic discourse into the platforms and speeches of nationalist political movements in Russia has been reported by human rights monitors in Russia as well as in the press.</example>
+            <example>Recent analysis of the competitive effects of school vouchers in Florida suggests that more competition improves performance in the regular public schools.</example>
+            <example>In translations of Disney works the nephews have different local-sounding names that often follow the repetition (parachesis) of the English names.</example>
+            <example>The Humbo Assisted Regeneration Project which uses FMNR techniques in Ethiopia has received money from The World Bank’s BioCarbon Fund,</example>
+            <example>The death of thousands of people in Gaza is inevitable and that's what turns any massive attack on that enclave into a genocide.</example>
+            <example>Charles Ernest Beulé performed some preliminary excavations of Roman remains on Byrsa hill in 1860.</example>
+            <example>Hephaestus is to the male gods as Athena is to the females, for he gives skill to mortal artists and was believed to have taught men the arts alongside Athena.</example>
+            <example>It does have special rules for HTML tags though.</example>
+            <example>Q7: What versions of Jira does JPT support?</example>
+            <example>From that perspective, a player that for some reason only does their seals on Sunday loses 133 seals/week for this decision.</example>
+            <example>What distributions of Linux does the agent for .NET Core work with?</example>
+            <example>Since 1973, the number of countries establishing diplomatic relations with Gabon has doubled.</example>
+            <example>Throughout the summer, the Actors' Theatre of Columbus offers free performances of Shakespearean plays in an open-air amphitheatre in Schiller Park in historic German Village.</example>
+            <example>The six Algerians arrested this week in Madrid were accused of planning to launch suicide attacks on US targets in Europe.</example>
+            <example>Earlier, the state government sources told PTI that a team of senior officials from Enron headquarters in Houston is slated to attend the first Godbole renegotiations committee meeting, now to be held on May 11.</example>
+            <example>The last wolf in Ireland is thought to have been killed at Myshall, on the slopes of Mount Leinster in Co. Carlow in 1786 by a pack of wolfdogs kept by a Mr Watson of Ballydarton.</example>
+            <example>I guess wars for Israel is fine with you.</example>
+            <example>Translating sentences on Tatoeba is more fun than doing homework.</example>
+            <example>One of the most striking, although inconclusive, features of Chronicles is that its closing sentence is repeated as the opening of Ezra–Nehemiah.</example>
+            <example>Effect of changing gas prices on Gallup is demonstrated on the first page lower left table.</example>
+            <example>Ptolemy's method of connecting the stars of Capricornus has been influential.</example>
+            <example>The oldest of the non-Christian communities in Wales is Judaism.</example>
+            <example>Dahlberg conceded that other interstate lines also deliver to the Wheeler Ridge point, but "adding more players to Wheeler gives markets on SoCal more supply options.</example>
+            <example>Dahlberg conceded that other interstate lines also deliver to the Wheeler Ridge point, but "adding more players to Wheeler gives markets on Socal more supply options.</example>
+            <example>The National Atlas page showing federal lands in Nevada shows the area as lying within the Nellis Air Force Base.</example>
+            <example>The word ethics in English refers to several things.</example>
+            <example>The revised invoices for Duke contracts 27291 and 27349 appear to be correct.</example>
+            <example>Many of the craters on Mars differ from those on the Moon and other moons since Mars contains ice under the ground, especially in the higher latitudes.</example>
+            <example>In Islam, Elijah appears in the Quran as a prophet and messenger of God, where his biblical narrative of preaching against the worshipers of Baal is recounted in a concise form.</example>
+            <example>However, it has been argued that the absence of any Old Iranian (Avestan) loanwords in Brahui suggests that the Brahui migrated to Balochistan from central India less than 1,000 years ago.</example>
+            <example>The number one reason why friends dump their friends on Facebook is too many useless posts.</example>
+            <example>It clearly says on your linked page that editing users via API is not supported, was removed, and Atlassian was looking into supporting Atlassian Accounts via API.</example>
+            <example>The earliest record of Hazara in the areas of Pakistan is found in Broadfoot's Sappers company from 1835 in Quetta.</example>
+            <example>Since it reflects spoken language, it does not use the positional system as in Arabic numerals, in the same way that spelling out numbers in English does not.</example>
+            <example>By following these recent option plays, YOU could have pocketed sweet profits like...41% in 3 weeks with Microsoft calls... 150% in 2 months with Comex calls...</example>
+            <example>Members are elected to represent constituencies by first-past-the-post and hold their seats until Parliament is dissolved.</example>
+            <example>Such an assumption pertinent to the ownership claims and assets of DPC is implicit in his provocative statement.</example>
+            <example>The ratepayers will be reminded for 10 years after Davis is gone about his expensive brilliance.</example>
+            <example>The speed at which he keeps churning out sentences in Albanian makes me wonder if 'he' is a machine.</example>
+            <example>You ignoring the fact that you luck with gems in AB is RNG and that doesn’t apply to everyone so that statement about them getting better troops with gems is wrong.</example>
+            <example>Ten years in Washington is longer than any other man has had it—too long!"</example>
+            <example>The entity that enters into financial trades in Singapore is ECTRIC (Singapore branch).</example>
+            <example>Tana's primary role is "special projects" but she is helping Susan and Samantha with daily matters until Stephanie begins work and has some experience.</example>
+            <example>It always seems to me that controlling things through Alexa makes your house remote controlled, not automated.</example>
+            <example>Alpha Centauri is not actually a sequel to Civilization, despite beginning with the same event that ends Civilization and Civilization II: a manned spacecraft from Earth arrives in the Alpha Centauri star system.</example>
+            <example>Anything the corporate media spins against Bernie is simply their usual attack, smear, or LIES against “America’s Dad”!</example>
+            <example>Skis up to 280 cm have been produced in Finland, and the longest recorded ski in Norway is 373 cm.</example>
+            <example>Because with this macro, then text data from Excel is still 12 MB but without the images the Clipboard History Switcher activates without a lag.</example>
+            <example>Palestinian negotiators, however, have refused to resume direct talks until Israel ceases all settlement activity.</example>
+            <example>During a trial period the County Council provisions for Gotland has been evolved to provisions for a Regional Council, meaning that it has assumed certain tasks from the County Administrative Board.</example>
+            <example>An example subdomain that points to Apache is api.getcodeerp.com.br</example>
+            <example>The 2010 maternal mortality rate per 100,000 births for Guinea is 680.</example>
+            <example>[BETA RELEASE] URI Switch - Device Handler for controlling items via HTTP calls Community Created Device Types</example>
+            <example>US banks and investors claim processing transactions in Europe costs up to seven times as much as in the US, where most clearing and settlement is handled by the Depository Trust & Clearing Corporation.</example>
+            <example>Anyone who studies the facts in California knows that power is being withheld in order to drive up the price.</example>
+            <example>The primary way to get metrics from Spark is through a JMXSink.</example>
+            <example>The practice of putting up special decorations at Christmas has a long history.</example>
+            <example>Studying the surface features of Mars is still referred to as "geography."</example>
+            <example>The IT/ITES revenues of Visakhapatnam is at in 2012–2013.</example>
+            <example>The later responses from Hyundai seems clear in its acceptance of repudiation.</example>
+            <example>Today, all that remains of Ctesiphon is the shrine town of Salman Pak, just to the south of Greater Baghdad.</example>
+            <example>I'm counting the days till Tom gets here.</example>
+            <example>Today women's athletics at UT has its own corporate structure and hierarchy.</example>
+            <example>The potential arbitration proceedings with Shanghai needs to be added to the list as a retained litigation.</example>
 -->
         </rule>
 
