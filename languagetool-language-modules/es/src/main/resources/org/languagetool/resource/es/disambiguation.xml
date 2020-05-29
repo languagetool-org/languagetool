@@ -66,7 +66,7 @@ Copyright (C) 2011 Juan Martorell
     <rule id="not_noun" name="not noun">
         <pattern>
             <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">no|eres|lo|los|de</token>
+                <token postag="N.*" postag_regexp="yes" regexp="yes">no|eres|lo|los|de|restante|restantes</token>
                 <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
             </and>
         </pattern>
@@ -622,6 +622,56 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="add">
                 <wd pos="Y"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="ENUMERATIONS" name="enumeraciones con lestras: a)">
+        <rule>
+            <pattern>
+                <token postag="SENT_START"/>
+                <marker>
+                    <token regexp="yes">[a-z]</token>
+                </marker>
+                <token spacebefore="no">)</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_enumeration"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">,|;|y|o|ni</token>
+                <marker>
+                    <token regexp="yes">[a-z]</token>
+                </marker>
+                <token spacebefore="no">)</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_enumeration"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">letra|sección|apartado</token>
+                <token regexp="yes">[a-z]</token>
+                <token regexp="yes">,|y|o|ni</token>
+                <marker>
+                    <token regexp="yes">[a-z]</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_enumeration"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" inflected="yes">letra|sección|apartado</token>
+                <marker>
+                    <token regexp="yes">[a-z]</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_enumeration"/>
             </disambig>
         </rule>
     </rulegroup>
