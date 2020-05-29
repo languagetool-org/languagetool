@@ -127,7 +127,7 @@ public final class CommandLineTools {
       PrintStream out = new PrintStream(System.out, true, "UTF-8");
       out.print(json);
     } else {
-      printMatches(ruleMatches, prevMatches, contents, contextSize);
+      printMatches(ruleMatches, prevMatches, contents, contextSize, lt.getLanguage());
     }
 
     //display stats if it's not in a buffered mode
@@ -166,7 +166,7 @@ public final class CommandLineTools {
    * @since 1.0.1
    */
   private static void printMatches(List<RuleMatch> ruleMatches,
-                                   int prevMatches, String contents, int contextSize) {
+                                   int prevMatches, String contents, int contextSize, Language lang) {
     int i = 1;
     ContextTools contextTools = new ContextTools();
     contextTools.setContextSize(contextSize);
@@ -179,6 +179,10 @@ public final class CommandLineTools {
         if (pRule.getSubId() != null) {
           output += "[" + pRule.getSubId() + "]";
         }
+      }
+      int priorityForId = lang.getPriorityForId(match.getRule().getId());
+      if (priorityForId != 0) {
+        output += " prio=" + priorityForId;
       }
       System.out.println(output);
       String msg = match.getMessage();
@@ -249,7 +253,7 @@ public final class CommandLineTools {
                   reader.getCurrentLine(), contextSize);
           out.print(xml);
         } else {
-          printMatches(fixedMatches, matchCount, reader.getCurrentLine(), contextSize);
+          printMatches(fixedMatches, matchCount, reader.getCurrentLine(), contextSize, trgLt.getLanguage());
           matchCount += fixedMatches.size();
         }
       }

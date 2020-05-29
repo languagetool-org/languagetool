@@ -47,6 +47,7 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRege
 public class AgreementRule2 extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = asList(
+    asList(token("weitgehend"), token("Einigkeit")),      // feste Phrase
     asList(token("Ernst")),      // Vorname
     asList(token("Anders")),     // Vorname
     asList(token("wirklich")),   // "Wirklich Frieden herrscht aber noch nicht"
@@ -62,6 +63,7 @@ public class AgreementRule2 extends Rule {
     asList(token("eventuell")), // "Eventuell Ende 1813 erkrankte..."
     asList(token("ausschließlich")),
     asList(token("ausschliesslich")),
+    asList(token("bloß")),       // "Bloß Anhängerkupplung und solche Dinge..."
     asList(token("einfach")),    // "Einfach Bescheid sagen ..."
     asList(token("endlich")),    // "Endlich Mittagspause!"
     asList(token("unbemerkt")),    // "Unbemerkt Süßigkeiten essen"
@@ -119,9 +121,10 @@ public class AgreementRule2 extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     for (int i = 0; i < tokens.length; i++) {
-      if (!tokens[i].isSentenceStart() && !tokens[i].getToken().matches("[\"„»«]")) {
+      String token = tokens[i].getToken();
+      if (!tokens[i].isSentenceStart() && !token.matches("[\"„»«]")) {
         // skip quotes, as these are not relevant
-        if (i+ 1 < tokens.length && tokens[i].hasPosTagStartingWith("ADJ:") && tokens[i+1].hasPosTagStartingWith("SUB:")) {
+        if (i+ 1 < tokens.length && tokens[i].hasPosTagStartingWith("ADJ:") && tokens[i+1].hasPosTagStartingWith("SUB:") && !tokens[i+1].hasPosTagStartingWith("EIG:")) {
           if (tokens[i].isImmunized() || tokens[i+1].isImmunized()) {
             continue;
           }

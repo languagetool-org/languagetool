@@ -84,6 +84,59 @@ public class AgreementRule extends Rule {
   private static final AnalyzedToken[] ZUR_REPLACEMENT = {new AnalyzedToken("der", "ART:DEF:DAT:SIN:FEM", "der")};
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      posRegex("ART:.*FEM.*"),  // "Eine Lücke in der erneuerbare Energien eine sinnvolle Rolle spielen könnten"
+      posRegex("SUB:.*FEM.*"),
+      token("in"),
+      token("der")
+    ),
+    Arrays.asList(
+      regex("die|der"),  // "die Querwild GmbH"
+      posRegex("SUB:.*"),
+      token("GmbH")
+    ),
+    Arrays.asList(
+      regex("Die"),
+      regex("Waltons")
+    ),
+    Arrays.asList(
+      regex("Große[sn]?"),
+      regex("(Bundes)?Verdienstkreuz(es)?")
+    ),
+    Arrays.asList( // "Adiponitril und Acetoncyanhydrin, beides Zwischenprodukte der Kunststoffproduktion."
+      tokenRegex(".*"),
+      token("und"),
+      tokenRegex(".*"),
+      token(","),
+      token("beides"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList( // "In den Zwei Abhandlungen" (lowercase "zwei" is correct, but does not need to be found here)
+      tokenRegex("Eins|Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun|Zehn|Elf|Zwölf"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList( // "Eine Massengrenze, bis zu der Lithium nachgewiesen werden kann."
+      token("bis"),
+      token("zu"),
+      token("der"),
+      posRegex("SUB:.*"),
+      posRegex("PA2:.*")
+    ),
+    Arrays.asList(
+      tokenRegex("jeder?"),
+      token("Abitur")
+    ),
+    Arrays.asList(
+      token("Halle"),
+      token("an"),
+      token("der"),
+      token("Saale")
+    ),
+    Arrays.asList(  // "mehrere Tausend Menschen"
+      tokenRegex("Dutzend|Hundert|Tausend"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      posRegex("SUB:.*")
+    ),
     Arrays.asList(  // "Besonders reizen mich Fahrräder.", "weil mich psychische Erkrankungen aus der Bahn werfen"
       tokenRegex("dich|mich"),
       new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
@@ -755,6 +808,7 @@ public class AgreementRule extends Rule {
 
   private static final Set<String> NOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
     "Prozent",   // Plural "Prozente", trotzdem ist "mehrere Prozent" korrekt
+    "Wollen",  // das Wollen
     "Gramm",
     "Kilogramm",
     "Piepen", // Die Piepen
@@ -834,7 +888,7 @@ public class AgreementRule extends Rule {
       }
 
       // avoid false alarm on "nichts Gutes" and "alles Gute"
-      if (StringUtils.equalsAny(tokenReadings.getToken(), "nichts", "alles", "dies")) {
+      if (StringUtils.equalsAny(tokenReadings.getToken(), "nichts", "Nichts", "alles", "Alles", "dies", "Dies")) {
         ignore = true;
       }
 

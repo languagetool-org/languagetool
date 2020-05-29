@@ -301,7 +301,7 @@ public class GermanTagger extends BaseTagger {
                 readings.add(getNoInfoToken(word));
               }
             }
-          } else {
+          } else if (!(idxPos+2 < sentenceTokens.size() && sentenceTokens.get(idxPos+1).equals(".") && sentenceTokens.get(idxPos+2).matches("com|net|org|de|at|ch|fr|uk|gov"))) {  // TODO: find better way to ignore domains
             // last part governs a word's POS:
             String lastPart = compoundParts.get(compoundParts.size() - 1);
             if (StringTools.startsWithUppercase(word)) {
@@ -314,7 +314,8 @@ public class GermanTagger extends BaseTagger {
               readings.addAll(getAnalyzedTokens(partTaggerTokens, word, compoundParts));
             }
           }
-        } else {
+        }
+        if (readings.size() == 0) {
           readings.add(getNoInfoToken(word));
         }
       }
@@ -449,6 +450,10 @@ public class GermanTagger extends BaseTagger {
   private List<AnalyzedToken> getAnalyzedTokens(List<TaggedWord> taggedWords, String word, List<String> compoundParts) {
     List<AnalyzedToken> result = new ArrayList<>();
     for (TaggedWord taggedWord : taggedWords) {
+      if (taggedWord.getPosTag() != null && taggedWord.getPosTag().startsWith("VER:IMP")) {
+        // ignore imperative, as otherwise e.g. "zehnfach" will be interpreted as a verb (zehn + fach)
+        continue;
+      }
       List<String> allButLastPart = compoundParts.subList(0, compoundParts.size() - 1);
       StringBuilder lemma = new StringBuilder();
       int i = 0;

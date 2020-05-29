@@ -215,6 +215,7 @@ public class AgreementRuleTest {
     assertGood("Alle Professor*innen");
     assertGood("Gleichzeitig wünscht sich Ihr frostresistenter Mitbewohner einige Grad weniger im eigenen Zimmer?");
     assertGood("Ein Trainer, der zum einen Fußballspiele sehr gut lesen und analysieren kann");
+    assertGood("Eine Massengrenze, bis zu der Lithium nachgewiesen werden kann.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");

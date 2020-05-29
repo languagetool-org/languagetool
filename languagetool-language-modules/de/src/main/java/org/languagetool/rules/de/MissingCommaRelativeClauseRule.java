@@ -18,10 +18,6 @@
  */
 package org.languagetool.rules.de;
 
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csToken;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.regex;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -42,6 +38,8 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+
 /**
  * A rule checks a sentence for a missing comma before or after a relative clause (only for German language)
  * @author Fred Kruse
@@ -55,6 +53,14 @@ public class MissingCommaRelativeClauseRule extends Rule {
   private static final German GERMAN = new GermanyGerman();
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+      Arrays.asList(
+        token("wenn"),
+        token("das")
+      ),
+      Arrays.asList(
+        token("anstelle"),
+        regex("dieser|dieses")
+      ),
       Arrays.asList(
         csToken("mit"),
         regex("de[mr]"),
@@ -363,6 +369,9 @@ public class MissingCommaRelativeClauseRule extends Rule {
    */
   private static int missedCommaInFront(AnalyzedTokenReadings[] tokens, int start, int end, int lastVerb) {
     for(int i = start; i < lastVerb - 1; i++) {
+      if (tokens[i].isImmunized()) {
+        continue;
+      }
       if(isPronoun(tokens, i)) {
         String gender = getGender(tokens[i]);
         if(gender != null && !isAnyVerb(tokens, i + 1)

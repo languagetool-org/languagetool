@@ -45,6 +45,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     // See https://github.com/languagetool-org/languagetool/issues/1516
     ", dir bei",  // "froh, dir bei deiner Arbeit zu helfen"
     "fiel hinaus",
+    "setz dir",  // "Setz dir doch bitte einen Termin am Donnerstag"
     "du hast dir",
     "vielen als held",
     "seht gut",  // "Ihr seht gut aus"

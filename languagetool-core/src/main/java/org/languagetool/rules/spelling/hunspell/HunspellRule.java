@@ -28,7 +28,6 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.tools.Tools;
 
 import java.io.*;
 import java.net.URISyntaxException;

@@ -67,6 +67,16 @@ public class CaseRule extends Rule {
   // also see case_rule_exceptions.txt:
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      token("Rock"),
+      regex("['’]"),
+      token("n"),
+      regex("['’]"),
+      token("Roll")
+    ),
+    Arrays.asList(
+      regex("Vitamin-[A-Z][0-9]?-reich(e|en|em|es)?")
+    ),
+    Arrays.asList(
       // Auflistung
       csRegex("[A-ZÖÄÜ][a-zöäüß]+"),
       token(","),
@@ -525,12 +535,156 @@ public class CaseRule extends Rule {
     "Sa",   // Sa. 12 - 16 Uhr
     "Gr",   // "Gr. 12"
     "Mag",   // "Mag. Helke Müller"
+    "Diss",
+    "Invalide",
+    "Invalider",
+    "Invaliden",
+    "Linksintellektuelle",
+    "Linksintellektueller",
+    "Linksintellektuellen",
     "Drogenabhängige",
+    "Drogenabhängiger",
     "Drogenabhängiger",
     "Drogenabhängigen",
     "Asylsuchender",
     "Asylsuchende",
     "Asylsuchenden",
+    "Landtagsabgeordnete",
+    "Landtagsabgeordneter",
+    "Landtagsabgeordneten",
+    "Stadtverordnete",
+    "Stadtverordneter",
+    "Stadtverordneten",
+    "Veränderliche",
+    "Veränderlicher",
+    "Veränderlichen",
+    "Werktätige",
+    "Werktätiger",
+    "Werktätigen",
+    "Drücke",
+    "Klecks",
+    "Quatsch",
+    "Speis",
+    "Flash",
+    "Suhl",
+    "Müh",
+    "Bims",
+    "Wisch",
+    "Außenputz",
+    "Rinderhack",
+    "Hack",
+    "Schlitz",
+    "Frevler",
+    "Zementputz",
+    "Hurst",  // Name
+    "Bombardier",  // Name
+    "Kraus",  // Nachname
+    "Strunz",  // Nachname
+    "Bell",  // Nachname
+    "Melk",  // Nachname
+    "Klopp",  // Nachname
+    "Walz",  // Nachname
+    "Schiel",  // Nachname
+    "Dusch",  // Nachname
+    "Penn",  // Nachname
+    "Dörr",  // Nachname
+    "Kies",
+    "Koks",
+    "Dell",  // Name
+    "Wall",
+    "Beige",
+    "Zoom",
+    "Perl",
+    "Parallele",
+    "Parallelen",
+    "Rutsch",
+    "Spar",
+    "Merz",
+    "Bundestagsabgeordneter",
+    "Bundestagsabgeordneten",
+    "Bundestagsabgeordnete",
+    "Reichstagsabgeordneter",
+    "Reichstagsabgeordneten",
+    "Reichstagsabgeordnete",
+    "Medienschaffende",
+    "Medienschaffenden",
+    "Medienschaffender",
+    "Vorstandsvorsitzender",
+    "Vorstandsvorsitzenden",
+    "Vorstandsvorsitzende",
+    "Strafgefangenen",
+    "Strafgefangener",
+    "Strafgefangene",
+    "Pädophile",
+    "Pädophiler",
+    "Pädophilen",
+    "Lehrbeauftragte",
+    "Lehrbeauftragter",
+    "Lehrbeauftragten",
+    "Erkrankte",
+    "Erkrankter",
+    "Erkrankten",
+    "Eigner",
+    "Polizeibeamten",
+    "Polizeibeamter",
+    "Polizeibeamte",
+    "Kriegsversehrte",
+    "Kriegsversehrter",
+    "Kriegsversehrten",
+    "Demenzkranke",
+    "Demenzkranker",
+    "Demenzkranken",
+    "Parteivorsitzende",
+    "Parteivorsitzender",
+    "Parteivorsitzenden",
+    "Kriegsgefangene",
+    "Kriegsgefangener",
+    "Kriegsgefangenen",
+    "Ehrenvorsitzende",
+    "Ehrenvorsitzender",
+    "Ehrenvorsitzenden",
+    "Oberkommandierende",
+    "Oberkommandierender",
+    "Oberkommandierenden",
+    "Mitangeklagte",
+    "Schuhfilz",
+    "Mix",
+    "Rahm",
+    "Flansch",
+    "WhatsApp",
+    "Verschleiß",
+    "Wehrbeauftragter",
+    "Wehrbeauftragte",
+    "Wehrbeauftragten",
+    "Wehrbeauftragtem",
+    "Prozessbevollmächtigter",
+    "Prozessbevollmächtigte",
+    "Prozessbevollmächtigten",
+    "Prozessbevollmächtigtem",
+    "Bundesbeamte",
+    "Bundesbeamter",
+    "Bundesbeamten",
+    "Bundesbeamtem",
+    "Datenschutzbeauftragter",
+    "Datenschutzbeauftragte",
+    "Datenschutzbeauftragten",
+    "Datenschutzbeauftragtem",
+    "Steuerbevollmächtigte",
+    "Steuerbevollmächtigter",
+    "Steuerbevollmächtigten",
+    "Steuerbevollmächtigtem",
+    "Filmschaffende",
+    "Filmschaffender",
+    "Filmschaffenden",
+    "Filmschaffendem",
+    "Arbeitssuchende",
+    "Arbeitssuchender",
+    "Arbeitssuchenden",
+    "Arbeitssuchendem",
+    "Bausachverständige",
+    "Bausachverständiger",
+    "Bausachverständigen",
+    "Bausachverständigem",
     "Dozierende",
     "Dozierenden",
     "Studierende",
@@ -1159,6 +1313,7 @@ public class CaseRule extends Rule {
         !isAdverbAndNominalization(i, tokens) &&
         !isSpecialCase(i, tokens) &&
         !isAdjectiveAsNoun(i, tokens, lowercaseReadings) &&
+        !isSingularImperative(lowercaseReadings, tokens[i]) &&  // too many names like "Kusch", "Klemm" etc.
         !isExceptionPhrase(i, tokens) &&
         !(i == 2 && "“".equals(tokens[i-1].getToken())) &&   // closing quote at sentence start (https://github.com/languagetool-org/languagetool/issues/2558)
         !isNounWithVerbReading(i, tokens)) {
@@ -1175,6 +1330,11 @@ public class CaseRule extends Rule {
       }
       addRuleMatch(ruleMatches, sentence, UPPERCASE_MESSAGE, tokens[i], fixedWord);
     }
+  }
+
+  private boolean isSingularImperative(AnalyzedTokenReadings lowercaseReadings, AnalyzedTokenReadings token) {
+    return lowercaseReadings != null && lowercaseReadings.hasPosTagStartingWith("VER:IMP:SIN") &&
+              !"Ein".equals(token.getToken()) && !"Eine".equals(token.getToken());
   }
 
   private boolean isNounWithVerbReading(int i, AnalyzedTokenReadings[] tokens) {

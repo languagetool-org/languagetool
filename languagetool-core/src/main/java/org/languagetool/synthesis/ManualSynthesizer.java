@@ -77,6 +77,7 @@ public final class ManualSynthesizer {
         if (StringTools.isEmpty(line) || line.charAt(0) == '#') {
           continue;
         }
+        line = line.replaceFirst("#.*", "").trim();
         String[] parts = line.split("\t");
         if (parts.length != 3) {
           throw new IOException("Unknown line format when loading manual synthesizer dictionary: " + line);

@@ -2056,7 +2056,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token postag="ADJ:.*" postag_regexp="yes">
                         <exception postag="ADJ:PRD:(KOM|GRU)|SUB:.*" postag_regexp="yes"/>
-                        <exception regexp="yes">dehnbarer|andere|lange|höher|einige|solche|weitere|folgende[rs]?|öde|spitze</exception>
+                        <exception regexp="yes">dehnbarer|andere|lange|höher|einige|solche|weitere|folgende[rs]?|öde|spitze|viele</exception>
                         <exception inflected="yes">andere</exception>
                     </token>
                 </marker>
@@ -2078,7 +2078,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token><exception>auch</exception></token>
                 <token>so</token>
                 <marker>
-                    <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">lange|berühmte</exception></token>
+                    <token postag="ADJ:.*" postag_regexp="yes"><exception postag="ADJ:PRD:GRU"/><exception regexp="yes">lange|berühmte|viele</exception></token>
                 </marker>
                 <token>wie</token>
                 <token><exception postag_regexp="yes" postag="ADJ.[NGDA].*"/></token>
@@ -3204,6 +3204,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rulegroup id="DIE_DE" name="'de (die)'">
             <rule>
+                <antipattern>
+                    <token>de</token>
+                    <token>Chevalier</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">\.|van|/|.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
                     <marker>
@@ -7148,7 +7152,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>dass</token>
                     </marker>
-                    <token postag="VER:(AUX:)?(2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">sieben|gilt|äußerst|äusserst|anstelle|einst|meinen?|tausenden?|!(hat)</exception></token>
+                    <token postag="VER:(AUX:)?(2|3):.+" postag_regexp="yes"><exception postag="(PA2|SUB|ART|ADJ):.+" postag_regexp="yes"/><exception regexp="yes">vermöge|sieben|gilt|äußerst|äusserst|anstelle|einst|meinen?|tausenden?|!(hat)</exception></token>
                 </pattern>
                 <message>Meinten Sie <suggestion>das</suggestion>? Die Subjunktion 'dass' scheint an dieser Stelle nicht zu passen.</message>
                 <url>https://www.duden.de/rechtschreibung/dass#bi-artikel-div-block_1</url>
@@ -12445,6 +12449,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="ART:.+" postag_regexp="yes"/>
                     <token>weg</token>
                 </antipattern>
+                <antipattern>
+                    <!-- probably a domain -->
+                    <token regexp="yes">auf|an</token>
+                    <token regexp="yes">[a-z]+</token>
+                    <token spacebefore="no">.</token>
+                    <token spacebefore="no" regexp="yes">[a-z]{2,8}</token>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token><exception>;</exception><exception>:</exception><exception>,</exception></token>
                     <marker>
@@ -12854,9 +12865,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                 </pattern>
                 <message>Zahlen bis zu einer Million werden, wenn man sie ausschreibt, zusammengeschrieben.</message>
-                <suggestion>\2\3</suggestion>
+                <suggestion>\2<match no="3" case_conversion="startlower"/></suggestion>
                 <short>Möglicher Tippfehler</short>
                 <example correction="sechshundert">Er besitzt <marker>sechs hundert</marker> Briefmarken.</example>
+                <example correction="Zweihundert"><marker>Zwei Hundert</marker> Dollar sind eine Menge für mich.</example>
                 <example>Du weißt, dass zwei mal <marker>zwei vier</marker> ist.</example>
                 <example>Wenn du von <marker>zehn vier</marker> wegnimmst, dann hast du sechs.</example>
                 <example>Dass die Wurzel aus <marker>vier zwei</marker> ist, weiß ich.</example>
@@ -12995,6 +13007,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="VER:.*" postag_regexp="yes">
                         <exception postag="VER:AUX:.*|SUB:.*|PRP:.*" postag_regexp="yes"/>
                         <exception regexp="yes">(an|au[fs]|hin|unter|ein).+</exception>
+                        <exception>gar</exception>
                         <exception regexp="yes" inflected="yes">mögen|können|dürfen</exception>
                     </token>
                 </marker>
@@ -16213,6 +16226,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="FERNSEHENGUCKEN" name="'Fernsehen gucken (fernsehen)'">
             <rule>
+                <antipattern>
+                    <!-- auch Umgangsprache, aber vermeidet falschen Vorschlag -->
+                    <token>Fernsehen</token>
+                    <token>guck</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" skip="1">Fernseh(en)?<exception scope="next">,</exception></token>
                     <token inflected="yes">gucken</token>
@@ -17761,7 +17779,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token postag="VER:.*" postag_regexp="yes"/>
+                    <token postag="VER:.*" postag_regexp="yes"><exception postag="VER:IMP.*" postag_regexp="yes"/></token>
                     <marker>
                         <token>sie</token>
                     </marker>
@@ -17770,6 +17788,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Meinten Sie die Anrede <suggestion>Sie</suggestion> (großgeschrieben)?</message>
                 <example correction="Sie">Aber führen <marker>sie</marker> bitte die Bestellung so aus.</example>
                 <example correction="Sie">Führen <marker>sie</marker> bitte die Bestellung so aus</example>
+                <example>Diese Seite wurde nicht sauber gedruckt, also druck sie bitte noch einmal aus.</example>
             </rule>
         </rulegroup>
         <rulegroup id="MIT_FREUNDLICHEN_GRUESSEN_KOMMA" name="Falsches Satzzeichen nach 'Mit freundlichen Grüßen' etc.">
@@ -34529,7 +34548,7 @@ Andere Projekte</example>
             <message>Eventuell wird hier ein bestimmter Artikel mit einem unbestimmten Adjektiv kombiniert.</message>
             <suggestion><match no="3" postag_regexp="yes" postag="(ADJ|PA1):.*DEF.*"/></suggestion>
             <example correction="kommerzielle|kommerziellen|kommerziellere|kommerzielleren|kommerziellste|kommerziellsten">ROBOT ist das <marker>kommerzielles</marker> System.</example>
-            <example correction="passende|passenden">Er ist der <marker>passender</marker> Mann dazu.</example>
+            <example correction="passende|passenden|passendere|passenderen|passendste|passendsten">Er ist der <marker>passender</marker> Mann dazu.</example>
             <example>ROBOT ist ein <marker>kommerzielles</marker> System.</example>
             <example>Ist das <marker>japanisches</marker> Essen?</example>
             <example>Vorfälle, über die autistische Menschen berichten.</example>
@@ -35165,6 +35184,10 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="MEIN_KLEIN_HAUS" name="Unflektiertes Adjektiv statt flektierter Form (unvollständig!), z.B. 'mein klein (kleines) Haus' ">
             <rule>
+                <antipattern>
+                    <token postag="ZAL"/>
+                    <token>Euro</token>
+                </antipattern>
                 <antipattern>
                     <token>auf</token><!-- auf praktisch Null-->
                     <token postag=" ADJ:PRD:GRU"/>
@@ -36870,12 +36893,19 @@ Andere Projekte</example>
                     <token regexp="yes" skip="5">vo[mn]</token>
                     <token>aus</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">d(ies)?en|jenen|[dkms]?einen|ihren</token>
+                    <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"><exception>anderen</exception></token>
+                    <token postag="SUB:.+:SIN:.+" postag_regexp="yes"/>
+                    <token postag="PA1:.+" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="PRP:.+CAU:DAT" postag_regexp="yes"/>
                     <marker><token regexp="yes">d(ies)?en|jenen|[dkms]?einen|ihren</token></marker>
                     <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"><exception>anderen</exception></token>
                     <token postag="SUB:.+:SIN:.+" postag_regexp="yes">
-                        <exception postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"/></token>
+                        <exception postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"/>
+                    </token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion>? (Alternativ prüfen Sie, ob '<match no="1" regexp_match="^mit$" regexp_replace="mit' durch 'mir"/>' ersetzt werden muss.)</message>
                 <url>https://dict.leo.org/grammatik/deutsch/Wort/Praeposition/Kasus/Dativ.html</url>
@@ -36888,6 +36918,7 @@ Andere Projekte</example>
                 <example>Bei klarem Wetter kann man von hier aus <marker>den</marker> Berg Fuji sehen.</example>
                 <example>Er dehnte nach und nach seinen Einfluss aus.</example>
                 <example>Die US-Regierung will meiner Ansicht nach keinen militärischen Konflikt.</example>
+                <example>Es sorgt für ständigen Nachschub aus den Bernstein führenden Schichten.</example>
             </rule>
             <rule>
                 <pattern>
@@ -36895,7 +36926,8 @@ Andere Projekte</example>
                     <marker><token regexp="yes">d(ies)?en|jenen|s?einen|ihren</token></marker>
                     <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"><exception>anderen</exception></token>
                     <token postag="SUB:.+:SIN:MAS.*" postag_regexp="yes">
-                        <exception postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"/></token>
+                        <exception postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"/>
+                    </token>
                 </pattern>
                 <message>Meinten Sie <suggestion><match no="2" regexp_match="n$" regexp_replace="m"/></suggestion>?</message>
                 <url>https://dict.leo.org/grammatik/deutsch/Wort/Praeposition/Kasus/Dativ.html</url>
@@ -36911,7 +36943,8 @@ Andere Projekte</example>
                     <marker><token regexp="yes">d(ies)?em|jenem|[dkms]?einem|ihrem</token></marker>
                     <token postag="ADJ:.+:SIN:.+" postag_regexp="yes" min="0"/>
                     <token postag="SUB:.+:SIN:.*" postag_regexp="yes">
-                        <exception postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"/></token>
+                        <exception postag="SUB:.+:PLU:.+|.+:INF" postag_regexp="yes"/>
+                    </token>
                     <token inflected="yes">legen</token>
                     <token postag="PKT"/>
                 </pattern>
@@ -37182,6 +37215,7 @@ Andere Projekte</example>
                             <exception postag=".+:ADJ" postag_regexp="yes"/>
                             <exception postag="SUB:(.+):PLU:.+" postag_regexp="yes"/>
                             <exception regexp="yes">Spannung|Bier|Unklarheit|Wassers?|Glas|.*teilen|Übereinkommen|Mal|.*Prozent|Paar|Stück|Fuß|Fuss|Grad|Gramm|Kilo.*|Milli.+|Mark|Reichsmark|Rentenmark|Zeit|Irritation|Pfund|Einwanderung|Auswanderung|Kritik|Literatur|Aufmerksamkeit|Verwirrung|Bar|Gold|Schlamms?|Schilling|Überredungskunst|Aufregung|Muße|Musse|Mitte</exception>
+                            <exception regexp="yes" case_sensitive="yes">Dutzend|Hundert|Tausend</exception>
                         </token>
                     </marker>
                     <token>
@@ -42966,12 +43000,12 @@ Andere Projekte</example>
                    <token postag="VER:.+" postag_regexp="yes"/>
                </antipattern>
                <antipattern>
-                <token postag="VER:.+" postag_regexp="yes"/>
-                <token skip="-1"/>
-                <token>,</token>
-                <token skip="-1"/>
-                <token postag="VER:.+" postag_regexp="yes"/>
-            </antipattern>
+                  <token postag="VER:.+" postag_regexp="yes"/>
+                  <token skip="-1"/>
+                  <token>,</token>
+                  <token skip="-1"/>
+                  <token postag="VER:.+" postag_regexp="yes"/>
+               </antipattern>
                <antipattern>
                     <token postag="VER:.+" postag_regexp="yes"/>
                     <token skip="-1"/>
@@ -42993,6 +43027,17 @@ Andere Projekte</example>
                    <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes"/>
                    <token regexp="yes">und|oder</token>
                    <token postag="VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+</token>
+                </antipattern>
+                <antipattern>
+                    <!-- Ernüchtert dreinblickend kam sie aus dem Zimmer. -->
+                   <token postag="VER:PA2.*" postag_regexp="yes"/>
+                   <token postag="VER:PA1.*" postag_regexp="yes"/>
+                   <token postag="VER:.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <!-- Daniel Schöpf hat sie ins Studio begleitet. -->
+                   <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
+                   <token postag="VER:IMP:SIN.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>  <!-- zu viele Namen wie "Schöpf", "Klemm" -->
                 </antipattern>
                 <pattern>
                     <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1">
@@ -43067,6 +43112,9 @@ Andere Projekte</example>
                 <example>Olivia sagte total erschöpft: „Ich hoffe, sie ist zufrieden.“</example>
                 <example>Er wird sie hochführen.</example>
                 <example>Iss und trink so viel du willst!</example>
+                <example>Ernüchtert dreinblickend kam sie aus dem Zimmer.</example>
+                <example>US-Justizminister William Barr hat eine aktive Unterstützung angekündigt.</example>
+                <example>Daniel Schöpf hat sie ins Studio begleitet.</example>
             </rule>
         </rulegroup>
         <rulegroup id="FEHLERHAFTES_KOMMA_ALLG" name="Fehlerhaftes Komma">

@@ -166,6 +166,7 @@ public class CaseRuleTest {
     assertGood("“In den meisten Bundesländern werden solche Studien per se nicht durchgeführt.”");
     assertGood("Aber “in den meisten Bundesländern werden solche Studien per se nicht durchgeführt.”");
     assertGood("A) Das Haus");
+    assertGood("Rabi und Polykarp Kusch an der Columbia-Universität");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
@@ -185,7 +186,7 @@ public class CaseRuleTest {
     assertBad("Das machen der Töne ist schwierig.");
     assertBad("Sie Vertraute niemandem.");
     assertBad("Beten Lernt man in Nöten.");
-    assertBad("Ich gehe gerne Joggen.");
+    //assertBad("Ich gehe gerne Joggen.");
     assertBad("Er ist Groß.");
     assertBad("Die Zahl ging auf Über 1.000 zurück.");
     assertBad("Er sammelt Große und kleine Tassen.");
@@ -348,6 +349,10 @@ public class CaseRuleTest {
     assertGood("Er vertraut auf CO2-arme Wasserkraft");
     assertGood("Das Entweder-oder ist kein Problem.");
     assertGood("Er liebt ihre Makeup-freie Haut.");
+    assertGood("Das ist eine Schreibweise.");
+    assertBad("Das ist Eine Schreibweise.");
+    assertGood("Das ist ein Mann.");
+    assertBad("Das ist Ein Mann.");
   }
 
   private void assertGood(String input) throws IOException {
