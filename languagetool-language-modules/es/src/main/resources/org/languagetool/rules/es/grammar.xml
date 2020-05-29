@@ -786,7 +786,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Para gente que no la practica.</example>
                 <!-- tu>tú-->
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <!-- La fabrica produjo -->
                 <pattern>
                     <token postag="D[^RTEN].*" postag_regexp="yes"><exception>lo</exception></token>
@@ -1200,7 +1200,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="determinó">Nos lo <marker>determino</marker></example>
                 <example correction="determinó">Nos <marker>determino</marker> el resultado.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <phraseref idref="_GN_SINGULAR"/>
@@ -6211,7 +6211,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <rule id="SIN_EMBRAGO" name="sin *embrago/embargo" default="temp_off">
+        <rule id="SIN_EMBRAGO" name="sin *embrago/embargo">
             <pattern>
                 <token>sin</token>
                 <token>embrago</token>
@@ -6220,7 +6220,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>sin embargo</suggestion>
             <example correction="Sin embargo"><marker>Sin embrago</marker>, me gusta.</example>
         </rule>
-        <rule id="PRESA_PRENSA" name="*presa/prensa" default="temp_off">
+        <rule id="PRESA_PRENSA" name="*presa/prensa">
             <pattern>
                 <token inflected="yes">departamento</token>
                 <token>de</token>
@@ -6452,7 +6452,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONTEXT" name="Errores según el contexto">
-        <rule id="EN_TANTO" name="en tanto / en cuanto" default="temp_off">
+        <rule id="EN_TANTO" name="en tanto / en cuanto">
             <pattern>
                 <marker>
                     <token>en</token>
@@ -6460,7 +6460,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token postag="NCF.*|NC.P.*" postag_regexp="yes"/>
             </pattern>
-            <message>Con el sentido de 'en calidad de, considerado como', es preferible usar otra expresión.</message>
+            <message>Con el sentido de 'en calidad de, considerado como' es preferible usar otra expresión.</message>
             <suggestion>en cuanto</suggestion>
             <url>https://www.rae.es/dpd/tanta</url>
             <example correction="En cuanto"><marker>En tanto</marker> heredera de la monarquía.</example>
