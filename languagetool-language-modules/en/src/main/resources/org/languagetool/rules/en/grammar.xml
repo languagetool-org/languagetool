@@ -6128,7 +6128,7 @@ USA
             <pattern>
                 <token case_sensitive="yes" regexp="yes">
                     <exception regexp="yes" scope="previous">the|an?|my|y?our|his|her|their</exception>
-                    harry|matt|mike|trump|jack|tom
+                    harry|matt|mike|trump|jack|tom|mark
                 </token><!-- lowercase names that are also verbs or adjectives -->
                 <token regexp="yes" spacebefore="no">&apostrophe;</token>
                 <token spacebefore="no">s</token>
@@ -6700,15 +6700,6 @@ USA
             </pattern>
             <message>Did you mean <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>?</message>
             <example correction="newcomers">There were many <marker>new comers</marker> at the concert.</example>
-        </rule>
-        <!-- note worthy::word=noteworthy -->
-        <rule id="NOTE_WORTHY" name="note worthy (noteworthy)">
-            <pattern>
-                <token>note</token>
-                <token>worthy</token>
-            </pattern>
-            <message>Did you mean <suggestion>noteworthy</suggestion>?</message>
-            <example correction="noteworthy">This was a <marker>note worthy</marker> achievement.</example>
         </rule>
         <!-- now a days::word=nowadays -->
         <rule id="NOW_A_DAYS" name="now a days (nowadays)">
@@ -10066,6 +10057,11 @@ USA
                     <token regexp="yes" inflected="yes">proceed|go|forward|refer|send|continue|move|subject|similar|navigate|prior</token>
                     <token>to</token>
                 </antipattern>
+                <antipattern>
+                    <token skip="6">from</token>
+                    <token>to</token>
+                    <token regexp="yes">set\-?up</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">been|was|were|ve|did|ha([ds]|ve)|help|is|a?re|a?m|to|who</token>
                     <marker>
@@ -10174,6 +10170,11 @@ USA
                     <token min="0">#</token>
                     <token regexp="yes">\d+</token>
                 </antipattern>
+                <antipattern>
+                    <token skip="6">from</token>
+                    <token>to</token>
+                    <token regexp="yes">work\-?out</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">to|who</token>
                     <marker>
@@ -10182,6 +10183,7 @@ USA
                 </pattern>
                 <message>The verb <suggestion>work out</suggestion> is spelled as two words. The noun 'workout' is spelled as one.</message>
                 <example correction="work out">We wanted to <marker>workout</marker> after we get lunch.</example>
+                <example>Everything from initial tryouts to workout routines and the difficulties involved is shown.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -12139,7 +12141,23 @@ USA
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
-        <rule id="WORTHY_COMPOUNDS" name="news worthy (newsworthy)" default="temp_off">
+        <rule id="FRIEND_COMPOUNDS" name="boy friend (boyfriend)" default="temp_off">
+            <antipattern><!-- https://en.wikipedia.org/wiki/Superman's_Girl_Friend,_Lois_Lane -->
+                <token skip="2">Superman</token>
+                <token>Girl</token>
+                <token>Friend</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">boy|girl</token>
+                <token regexp="yes">friends?</token>
+            </pattern>
+            <message>This is normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <url>https://www.merriam-webster.com/dictionary/boyfriend</url>
+            <example correction="girlfriend">Tom and his <marker>girl friend</marker> are in love.</example>
+            <example>Superman's Girl Friend, Lois Lane is an American comic book series.</example>
+        </rule>
+        <rule id="WORTHY_COMPOUNDS" name="news worthy (newsworthy)">
             <pattern>
                 <token regexp="yes">untrust|praise|credit|unnews|trust|blame|crash|unsea|thank|note|news|road|sea|air</token>
                 <token>worthy</token>
@@ -12148,7 +12166,12 @@ USA
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <example correction="newsworthy">The event was very popular and seemed <marker>news worthy</marker>.</example>
         </rule>
-        <rule id="COUNTER_COMPOUNDS" name="counter part (counterpart)" default="temp_off">
+        <rule id="COUNTER_COMPOUNDS" name="counter part (counterpart)">
+            <antipattern><!-- BBC series -->
+                <token>point</token>
+                <token>counter</token>
+                <token>point</token>
+            </antipattern>
             <pattern>
                 <token>counter</token>
                 <token regexp="yes">parts?|party|parties|intuitive|feit|feiters?|points?</token>
@@ -12157,7 +12180,7 @@ USA
             <suggestion>counter<match no="2" case_conversion="alllower" /></suggestion>
             <example correction="counterparts">The secretary of defense met with his <marker>counter parts</marker> in Asia to discuss the nuclear crisis.</example>
         </rule>
-        <rulegroup id="HAND_COMPOUNDS" name="before hand (beforehand)" default="temp_off">
+        <rulegroup id="HAND_COMPOUNDS" name="before hand (beforehand)">
             <antipattern>
                 <token>hand</token>
                 <token>in</token>
@@ -12198,7 +12221,7 @@ USA
                 <example correction="handsome">He is a <marker>hand some</marker> man.</example>
             </rule>
         </rulegroup>
-        <rule id="SPACE_COMPOUNDS" name="space ship (spaceship)" default="temp_off">
+        <rule id="SPACE_COMPOUNDS" name="space ship (spaceship)">
             <pattern>
                 <token>space</token>
                 <token regexp="yes">crafts?|suites?|walkers?|ships?|ports?</token>
@@ -12207,7 +12230,7 @@ USA
             <suggestion>space<match no="2" case_conversion="alllower" /></suggestion>
             <example correction="spaceship">She was flying to the moon in a <marker>space ship</marker>.</example>
         </rule>
-        <rule id="WHOLE_COMPOUNDS" name="whole sale (wholesale)" default="temp_off">
+        <rule id="WHOLE_COMPOUNDS" name="whole sale (wholesale)">
             <pattern>
                 <token>whole</token>
                 <token regexp="yes">sale|some|hearted</token>
@@ -12261,7 +12284,7 @@ USA
                     <token regexp="yes">breaks?|dated|looks?|comes?|puts?|laws?|calls?|lines?|sides?|backs?|casts?|liners?|bound</token>
                 </marker>
             </pattern>
-            <message>The noun <suggestion>out<match no="4" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
+            <message>The word <suggestion>out<match no="4" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
             <example correction="outbreak">The <marker>out break</marker> caused lockdowns all over the word.</example>
             <example>Check the commented out line below.</example>
             <example>It sounded like you were a bit on the stressed out side.</example>
@@ -12293,7 +12316,7 @@ USA
             </antipattern>
             <pattern>
                 <token>back</token>
-                <token regexp="yes">logs?|lash(es)?|bones?|drops?|packs?|packers?|side|grounds?|stages?|spaces?|spins?|stabs?|stabbed|stabbing|stabbers?|beats?|flips?|streets?|breakers?|gammon|slash(es)?|hands?|lights?|stretch(es)?</token>
+                <token regexp="yes">logs?|lash(es)?|bones?|drops?|packs?|packers?|side|grounds?|stages?|spaces?|spins?|stabs?|stabbed|stabbing|stabbers?|beats?|flips?|streets?|breakers?|gammon|slash(es)?|hands?|lights?|stretch(es)?|stops?|stopped|stopping</token>
             </pattern>
             <message>This is normally spelled as one word.</message>
             <suggestion>back<match no="2" case_conversion="alllower" /></suggestion>
@@ -12449,7 +12472,7 @@ USA
             </antipattern>
             <pattern>
                 <token>news</token>
-                <token regexp="yes">papers?|letters?|readers?|rooms?|agents?|dealers?|groups?|hounds?|makers?|reels?|wom[ea]n|wires?</token>
+                <token regexp="yes">papers?|letters?|readers?|rooms?|agents?|dealers?|groups?|hounds?|makers?|reels?|wom[ea]n|wires?|stands?</token>
             </pattern>
             <message>This is normally spelled as one word.</message>
             <suggestion>news<match no="2" case_conversion="alllower" /></suggestion>
@@ -12457,6 +12480,15 @@ USA
             <example>The onboard announcements are by BBC News reader (and tram enthusiast) Nicholas Owen.</example>
             <example>The News Letter, the oldest English-language newspaper in the world still in publication.</example>
             <example>Fox News (officially known as the Fox News Channel, commonly abbreviated to FNC) is a United States pay television news channel owned by the Fox News Group, a division of Fox.</example>
+        </rule>
+        <rule id="WIDE_COMPOUNDS" name="wide spread (widespread)" default="temp_off">
+            <pattern>
+                <token>wide</token>
+                <token regexp="yes">spread|band|mouthed</token>
+            </pattern>
+            <message>The adjective <suggestion>wide<match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
+            <url>https://www.merriam-webster.com/dictionary/widespread</url>
+            <example correction="widespread">It was a <marker>wide spread</marker> virus.</example>
         </rule>
         <rule id="MOTOR_COMPOUNDS" name="motor bike (motorbike)">
             <antipattern>
@@ -12581,7 +12613,7 @@ USA
             </antipattern>
             <pattern>
                 <!-- TODO: friendship (My friend ships ...) -->
-                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee|citizen|scholar</token>
+                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee|citizen|scholar|owner|controller</token>
                 <token regexp="yes">ships?</token>
             </pattern>
             <message>This noun is normally spelled as one.</message>
@@ -18679,6 +18711,25 @@ USA
             <example correction="Queens">I'm from <marker>queens</marker></example>
             <example>Queens shed their wings after the nuptial flight, leaving visible stubs, a distinguishing feature of queens.</example>
         </rule>
+        <rule id="BAY_AREA" name="bay area (Bay Area)">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Bay|BAY</token>
+                <token regexp="yes">Area|AREA</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">tampa|winyah|chesapeake</token>
+                <token>bay</token>
+                <token>area</token>
+            </antipattern>
+            <pattern>
+                <token>bay</token>
+                <token>area</token>
+            </pattern>
+            <message>Capitalize this word if you mean the region in California.</message>
+            <suggestion>Bay Area</suggestion>
+            <url>https://en.wikipedia.org/wiki/San_Francisco_Bay_Area</url>
+            <example correction="Bay Area">The <marker>bay area</marker> is home to many technology companies.</example>
+        </rule>
         <rulegroup id="IN_LONG_BEACH" name="long beach (Long Beach)">
             <url>https://en.wikipedia.org/wiki/Long_Beach,_California</url>
             <antipattern case_sensitive="yes">
@@ -22085,6 +22136,15 @@ USA
             <message>This car brand is normally spelled with a hyphen <suggestion><match no="1" case_conversion="startupper" />-Benz</suggestion>.</message>
             <url>https://en.wikipedia.org/wiki/Mercedes-Benz</url>
             <example correction="Mercedes-Benz"><marker>Mercedes Benz</marker> is a German car brand.</example>
+        </rule>
+        <rule id="JAY_Z" name="Jay Z (Jay-Z)">
+            <pattern case_sensitive="no">
+                <token>Jay</token>
+                <token>Z</token>
+            </pattern>
+            <message>The name of this rapper is spelled with a hyphen <suggestion>Jay-Z</suggestion>.</message>
+            <url>https://en.wikipedia.org/wiki/Jay-Z</url>
+            <example correction="Jay-Z"><marker>Jay Z</marker> is an American rapper.</example>
         </rule>
         <rule id="OBJECTIVE_C" name="Objective-C">
             <pattern>
@@ -47813,6 +47873,7 @@ The accident victim died from her injuries.
                 <example correction="eighteen-inch">An <marker>eighteen inch</marker> monitor is too big for my desk.</example>
                 <example correction="one-hour">Tom's <marker>one hour</marker> workout was very intense.</example>
                 <example>There's only one week till Easter Sunday.</example>
+                <example>There's only one day left.</example>
             </rule>
             <rule>
                 <pattern>
