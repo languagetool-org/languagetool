@@ -7487,9 +7487,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>   
                     <marker>
                         <token>не</token>
-                        <token postag="ADJ:Short:.*" postag_regexp="yes"><exception  postag="PT_Short:.*|VB:.*" postag_regexp="yes"/></token>
+                        <token postag="ADJ:Short:.*" postag_regexp="yes"><exception negate="yes"  postag="ADJ:Short:.*" postag_regexp="yes"/></token>   <!-- <exception  postag="PT_Short:.*|VB:.*" postag_regexp="yes"/> -->
                     </marker>
-                    <token negate_pos="yes"  postag="PREP" ><exception  postag="NN:.*:.*:.*:(T|D)" postag_regexp="yes"></exception><exception regexp="yes">[А-ЯЁ]</exception></token>                
+                    <token><exception  postag="PREP" /><exception  postag="NN:.*:.*:.*:(T|D)" postag_regexp="yes" /><exception regexp="yes">[А-ЯЁ]</exception></token>                
 
                 </pattern>
                 <message>Пишется слитно: <suggestion>\1\2</suggestion>.</message>
