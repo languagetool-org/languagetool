@@ -76,6 +76,7 @@ class LightRuleMatchParser {
     int offset = match.get("offset").asInt();
     JsonNode rule = match.get("rule");
     String ruleId = rule.get("id").asText();
+    String fullRuleId = rule.get("subId") != null ? ruleId + "[" + rule.get("subId").asText() + "]" : ruleId;
     String message = match.get("message").asText();
     int contextOffset = match.get("context").get("offset").asInt();
     int contextLength = match.get("context").get("length").asInt();
@@ -108,7 +109,7 @@ class LightRuleMatchParser {
     if (rule.get("tempOff") != null && rule.get("tempOff").asBoolean()) {
       status = LightRuleMatch.Status.temp_off;
     }
-    return new LightRuleMatch(0, offset, ruleId, message, context, coveredText, suggestions, ruleSource, title, status);
+    return new LightRuleMatch(0, offset, fullRuleId, message, context, coveredText, suggestions, ruleSource, title, status);
   }
 
   List<LightRuleMatch> parseOutput(Reader reader) {
