@@ -53066,7 +53066,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- havent-se queixat -->
                 <token postag="V.[NG].*" postag_regexp="yes" inflected="yes">haver</token>
                 <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
-                <token postag="V.P..SM." postag_regexp="yes"/>
+                <token postag="P.*" postag_regexp="yes" spacebefore="no" min="0"/>
+                <token postag="V.P....." postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <!-- havent-s'hi d'esforçar -->
@@ -53078,7 +53079,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <!-- queixar-vos, queixant-te -->
-                <token postag="SENT_START|_PUNCT.*|C.*|[NA].*|UNKNOWN" postag_regexp="yes"/>
+                <token postag="SENT_START|_PUNCT.*|C.*|[NAD].*|UNKNOWN" postag_regexp="yes"/>
                 <token postag="SPS00|LOC_PREP|LOC_ADV|RG" postag_regexp="yes" min="0" max="2"/>
                 <token postag="V.[NG].*" postag_regexp="yes"/>
                 <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
@@ -53091,7 +53092,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token regexp="yes">en|sense?|no</token>
-                <token postag="V.N.*" postag_regexp="yes"/>
+                <token min="0" regexp="yes">poder|voler</token>
+                <token postag="V.[NG].*" postag_regexp="yes"><exception regexp="yes">poder|voler</exception></token>
                 <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
             </antipattern>
             <antipattern>
@@ -53120,7 +53122,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
             </antipattern>
             <antipattern>
-                <token inflected="yes" regexp="yes">representar|implicar|suposar|resultar</token>
+                <token inflected="yes" regexp="yes">representar|implicar|suposar|resultar|significar|exigir|demanar</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
                 <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
             </antipattern>
@@ -53155,12 +53157,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token inflected="yes">fer</token>
                 <token min="0" regexp="yes">-li|-los</token>
-                <token regexp="yes">empassar|engolir</token>
+                <token regexp="yes">empassar|engolir|adonar</token>
             </antipattern>
             <antipattern>
                 <token postag="VM..3S.*" postag_regexp="yes" regexp="yes" inflected="yes">caldre|convenir<exception scope="previous" regexp="yes">et|em|ens|us|es|el</exception></token>
                 <token postag="V.N.*" postag_regexp="yes"/>
                 <token inflected="yes" spacebefore="no">es</token>
+            </antipattern>
+            <antipattern>
+                <token>atenint</token>
+                <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
+                <token>a</token>
             </antipattern>
             <pattern>
                 <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">&verbs_reflexius;<exception postag="_reflexiu|_reflexiu_complement" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
@@ -53320,6 +53327,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Per acabar-nos d'empassar el menjar.</example>
             <example>Com si jo li hagués demanat que me’l portés.</example>
             <example>Farem bé de deixar-nos d'empassar.</example>
+            <example>després d'haver-se-les empassades</example>
+            <example>Ens en farà adonar.</example>
+            <example>Obligant-lo a refiar-se.</example>
+            <example>Que li permet adonar-se.</example>
+            <example>No s'havien pas esforçat a confrontar.</example>
+            <example>T'he vist esforçar-te.</example>
+            <example>Els vam veure emportant-se polls.</example>
+            <example>T'he vist queixant-te.</example>
+            <example>Us vaig veure queixant-vos.</example>
+            <example>Sense poder adonar-se.</example>
+            <example>Sense voler-se adonar.</example>
+            <example>Hom podrà optar per esgargamellar-se.</example>
+            <example>Va aconseguir d'endur-se'n un exemplar.</example>
             <!-- li agrada ... -->
             <example>Li agrada queixar-se.</example>
             <example>Li agrada a voltes queixar-se.</example>
@@ -53328,6 +53348,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Us agrada sempre queixar-vos.</example>
             <example>Et deu agradar queixar-te.</example>
             <example>Ens agrada a vegades queixar-nos.</example>
+            <example>Es veu obligat a autocastigar-se.</example>
+            <example>Es van veure obligats a queixar-se.</example>
+            <example>S'han vist obligades a queixar-se.</example>
+            <example>S'ha vist obligada a queixar-se.</example>
             <!-- Us animem a ... -->
             <example>Els animem a queixar-se.</example>
             <example>Us animo a continuar esforçant-vos.</example>
@@ -53428,6 +53452,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No s'ha de caure en la desesperació.</example>
                 <example>També s'ha postulat l'existència d'una tercera espècie.</example>
                 <example>Probablement es podia saltar de dalt a baix.</example>
+                <example>En ells s'alberguen malalts.</example>
             </rule>
             <rule>
                 <pattern>
