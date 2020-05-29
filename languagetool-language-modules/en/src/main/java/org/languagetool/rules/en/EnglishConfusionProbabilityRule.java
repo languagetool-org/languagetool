@@ -151,6 +151,9 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "enjoy us being", // vs is
       "If your use of", // vs you
       "way too much", // vs was
+      "way too early", // vs was
+      "way too soon", // vs was
+      "way too quick", // vs was
       "then,", // vs than
       "then?", // vs than
       "no it doesn", // vs know
@@ -229,7 +232,16 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "same false alarm", // vs some
       "why is he relevant", // vs the
       "then that would", // vs than
-      "was he part of" // vs the
+      "was he part of", // vs the
+      "is he right now", // vs the
+      "news site",
+      "news website",
+      "news organization",
+      "news organisation",
+      "scene in a movie",
+      "mr.bean", // vs been
+      "mr. bean", // vs been
+      "your push notification" // vs you
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
