@@ -123,6 +123,49 @@ public class UpperCaseNgramRule extends Rule {
       token("/"),
       csRegex("[A-Z].+")
     ),
+    Arrays.asList( // "Order #76540"
+      csRegex("[A-Z].+"),
+      token("#"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList( // "He plays games at Games.co.uk."
+      csRegex("[A-Z].+"),
+      token("."),
+      tokenRegex("com?|de|us|gov|net|info|org|es|mx|ca|uk|at|ch|it|pl|ru|nl|ie|be|fr")
+    ),
+    Arrays.asList(
+      tokenRegex("[A-Z].+"),  // He's Ben (Been)
+      token("("),
+      tokenRegex("[A-Z].+"),
+      token(")")
+    ),
+    Arrays.asList(
+      token("["),
+      tokenRegex("[A-Z].+"),
+      token("]")
+    ),
+    Arrays.asList(
+      token("Pay"),
+      token("per"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      tokenRegex("Hi|Hello|Heya?"),
+      token(","),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // "C stands for Curse."
+      tokenRegex("[A-Z]"),
+      tokenRegex("is|stands"),
+      token("for"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // The Story: (short headlines with colon)
+      tokenRegex("[A-Z].+"),
+      tokenRegex("[A-Z].+"),
+      token(":")
+    ),
     Arrays.asList(
       tokenRegex("[A-Z].+"),  // e.g. "Top 10% Lunch Deals"
       tokenRegex("\\d+%?"),

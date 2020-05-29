@@ -64,6 +64,10 @@ public class UpperCaseNgramRuleTest {
     assertGood("What Happened?");
     assertGood("1- Have you personally made any improvements?");
     assertGood("Lesson #1 - Create a webinar.");
+    assertGood("Please refund Order #5698656.");
+    assertGood("Let's play games at Games.co.uk.");
+    assertGood("Ben (Been).");
+    assertGood("C stands for Curse.");
 
     assertMatch("I really Like spaghetti.");
     assertMatch("This Was a good idea.");
