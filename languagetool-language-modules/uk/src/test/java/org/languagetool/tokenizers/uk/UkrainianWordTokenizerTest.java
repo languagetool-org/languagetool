@@ -111,6 +111,30 @@ public class UkrainianWordTokenizerTest {
   }
 
   @Test
+  public void testNumbersMissingSpace() {
+    List<String> testList = w.tokenize("від 12 до14 років");
+    assertEquals(Arrays.asList("від", " ", "12", " ", "до", "14", " ", "років"), testList);
+
+    testList = w.tokenize("до14-15");
+    assertEquals(Arrays.asList("до", "14-15"), testList);
+
+    testList = w.tokenize("Т.Шевченка53");
+    assertEquals(Arrays.asList("Т.", "Шевченка", "53"), testList);
+
+//    testList = w.tokenize("«Тен»103.");
+//    assertEquals(Arrays.asList("«", "Тен", "»", "103", "."), testList);
+
+    testList = w.tokenize("«Мак2»");
+    assertEquals(Arrays.asList("«", "Мак2", "»"), testList);
+
+    testList = w.tokenize("км2");
+    assertEquals(Arrays.asList("км2"), testList);
+
+    testList = w.tokenize("000ххх000");
+    assertEquals(Arrays.asList("000ххх000"), testList);
+  }
+
+  @Test
   public void testTokenize() {
     List<String> testList = w.tokenize("Вони прийшли додому.");
     assertEquals(Arrays.asList("Вони", " ", "прийшли", " ", "додому", "."), testList);

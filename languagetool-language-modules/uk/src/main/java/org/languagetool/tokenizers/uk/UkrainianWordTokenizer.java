@@ -155,6 +155,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern LEADING_DASH_PATTERN = Pattern.compile("^([\u2014\u2013])([а-яіїєґА-ЯІЇЄҐA-Z])");
   private static final Pattern LEADING_DASH_PATTERN_2 = Pattern.compile("^(-)([А-ЯІЇЄҐA-Z])");
 
+  private static final Pattern NUMBER_MISSING_SPACE = Pattern.compile("((?:[\\s\uE110]|^)(?!(?:[кдсмн]|мк)?м[23])[а-яїієґА-ЯІЇЄҐ'-]*[а-яїієґ]'?[а-яїієґ])([0-9]+(?![а-яіїєґА-ЯІЇЄҐa-zA-Z»\"“]))");
+
 
   public UkrainianWordTokenizer() {
   }
@@ -341,6 +343,8 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = APOSTROPHE_BEGIN_PATTERN.matcher(text).replaceAll("$1'" + BREAKING_PLACEHOLDER + "$2");
       text = APOSTROPHE_END_PATTER.matcher(text).replaceAll("$1" + BREAKING_PLACEHOLDER + "'$2");
     }
+
+    text = NUMBER_MISSING_SPACE.matcher(text).replaceAll("$1" + BREAKING_PLACEHOLDER + "$2");
     return text;
   }
 
