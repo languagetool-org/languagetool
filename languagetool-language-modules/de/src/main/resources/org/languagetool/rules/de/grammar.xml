@@ -16373,6 +16373,74 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="SINN_MACHEN" name="'Sinn machen'">
             <rule>
                 <pattern>
+                    <token>macht</token>
+                    <token regexp="yes">es|das</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>'Sinn machen' ist umgangssprachlich.</message>
+                <suggestion>ergibt \2 Sinn</suggestion>
+                <suggestion>stiftet \2 Sinn</suggestion>
+                <suggestion>ist \2 sinnvoll</suggestion>
+                <example correction="Ergibt es Sinn|Stiftet es Sinn|Ist es sinnvoll"><marker>Macht es Sinn</marker>, dass wir das schon heute erledigen?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">es|das</token>
+                    <token>macht</token>
+                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>'Sinn machen' ist umgangssprachlich.</message>
+                <suggestion>\1 ergibt \3 Sinn</suggestion>
+                <suggestion>\1 stiftet \3 Sinn</suggestion>
+                <suggestion>\1 ist \3 sinnvoll</suggestion>
+                <example correction="Das ergibt Sinn|Das stiftet Sinn|Das ist sinnvoll"><marker>Das macht Sinn</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">es|das</token>
+                    <token regexp="yes">würde|könnte|müsste|sollte|wird|kann|muss|soll</token>
+                    <token min="0" regexp="yes">nur|jetzt|aktuell|wirklich|total|schon|keinen</token>
+                    <token>Sinn</token>
+                    <token>machen</token>
+                </pattern>
+                <message>'Sinn machen' ist umgangssprachlich.</message>
+                <suggestion>\1 \2 \3 Sinn ergeben</suggestion>
+                <suggestion>\1 \2 \3 Sinn stiften</suggestion>
+                <example correction="Das würde total Sinn ergeben|Das würde total Sinn stiften"><marker>Das würde total Sinn machen</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">es|das</token>
+                    <token>macht</token>
+                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total</token>
+                    <token>keinen</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>'Sinn machen' ist umgangssprachlich.</message>
+                <suggestion>\1 ergibt \3 \4 Sinn</suggestion>
+                <suggestion>\1 stiftet \3 \4 Sinn</suggestion>
+                <suggestion>\1 ist \3 nicht sinnvoll</suggestion>
+                <suggestion>\1 ist sinnlos</suggestion>
+                <example correction="Das ergibt keinen Sinn|Das stiftet keinen Sinn|Das ist nicht sinnvoll|Das ist sinnlos"><marker>Das macht keinen Sinn</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">es|das</token>
+                    <token>macht</token>
+                    <token min="0" regexp="yes">überhaupt|gar|wirklich|jetzt|total</token>
+                    <token>keinen</token>
+                    <token>Sinn</token>
+                </pattern>
+                <message>'Sinn machen' ist umgangssprachlich.</message>
+                <suggestion>\1 ergibt \3 \4 Sinn</suggestion>
+                <suggestion>\1 stiftet \3 \4 Sinn</suggestion>
+                <suggestion>\1 ist \3 nicht sinnvoll</suggestion>
+                <suggestion>\1 ist sinnlos</suggestion>
+                <example correction="Das ergibt keinen Sinn|Das stiftet keinen Sinn|Das ist nicht sinnvoll|Das ist sinnlos"><marker>Das macht keinen Sinn</marker>!</example>
+            </rule>
+            <rule>
+                <pattern>
                     <token skip="4" inflected="yes">machen<exception scope="next">,</exception></token>
                     <token>Sinn</token>
                 </pattern>
