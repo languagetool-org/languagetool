@@ -12141,6 +12141,20 @@ USA
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
+        <rule id="MARK_COMPOUNDS" name="trade mark (trademark)" default="temp_off">
+            <antipattern>
+                <token>marks</token>
+                <token regexp="yes">the|an?</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">reichs|trade|bench|water|birth|metal|press|match|land|hall|book|tele|post|tide|pock|sitz|foot|ear|sea|ost</token>
+                <token regexp="yes">marks?</token>
+            </pattern>
+            <message>This is normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="trademark">You can't copy his <marker>trade mark</marker>.</example>
+            <example>This first trade marks the end of the confrontation between the two countries.</example>
+        </rule>
         <rule id="FRIEND_COMPOUNDS" name="boy friend (boyfriend)" default="temp_off">
             <antipattern><!-- https://en.wikipedia.org/wiki/Superman's_Girl_Friend,_Lois_Lane -->
                 <token skip="2">Superman</token>
