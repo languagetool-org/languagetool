@@ -70,7 +70,7 @@ public class RegularIrregularParticipleFilter extends RuleFilter {
       try {
         participles = synth.synthesize(selectedAT, desiredPostag, true);
       } catch (IOException e) {
-        throw new IOException("Cannot synthesize " + selectedAT.toString());
+        throw new IOException("Cannot synthesize " + selectedAT.toString() + e);
       }
       if (participles != null && participles.length > 1) {
         if (direction.equalsIgnoreCase("RegularToIrregular") && isRegular(atr.getToken())) {
