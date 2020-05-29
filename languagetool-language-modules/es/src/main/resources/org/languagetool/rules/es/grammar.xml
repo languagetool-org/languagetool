@@ -2549,6 +2549,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>en</token>
                     <token>realidad</token>
                 </antipattern>
+                <antipattern>
+                    <token inflected="yes">ser</token>
+                    <token>esta</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>esta</token>
@@ -2572,6 +2576,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>siendo esta uno de los mejores ejemplos</example>
                 <example>es esta una de las mejores</example>
                 <example>por ser esta la casa matriz</example>
+                <example>No ha sido esta la vía elegida.</example>
             </rule>
             <rule>
                 <!-- está + adjetivo-->
@@ -4309,6 +4314,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.*" postag_regexp="yes" regexp="yes" inflected="yes">preguntar|pedir|explicar|contar|decir</token>
                     <token>porque</token>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes">haber|tener</token>
+                    <token regexp="yes">que|de</token>
+                    <token>decirse</token>
+                    <token>porque</token>
+                </antipattern>
+                <antipattern>
+                    <token>se</token>
+                    <token regexp="yes" inflected="yes">haber|tener</token>
+                    <token regexp="yes">que|de</token>
+                    <token>decir</token>
+                    <token>porque</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" inflected="yes">saber|preguntar|pedir|explicar|contar|decir<exception postag=".*PP...A..|_GN_.*" postag_regexp="yes"/></token>
                     <marker>
@@ -4324,6 +4342,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Lo dices porque tienes miedo.</example>
                 <example>He querido decirlo porque después propondré otra cosa.</example>
                 <example>En relación con esta pregunta porque usted no se encontraba presente.</example>
+                <example>Y esto tiene que decirse <marker>porque</marker> es necesario.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5181,6 +5200,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- confusion º / °, to be fixed in another rule -->
                 <token regexp="yes">\d+°</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">al|del|el</token>
+                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</exception></token>
+                <token case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</token>
+            </antipattern>
+            <antipattern>
+                <token>la</token>
+                <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</exception></token>
+                <token case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</token>
+            </antipattern>
             <!--exceptions with other suggestions-->
             <rule>
                 <pattern>
@@ -5223,11 +5252,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token postag="D..FS.*" postag_regexp="yes"/>
                     <token regexp="yes">.</token>
-                </antipattern>
-                <antipattern>
-                    <token regexp="yes">al|del|el</token>
-                    <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</exception></token>
-                    <token case_sensitive="yes" regexp="yes">&common_english_nouns_masculine;</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -5296,11 +5320,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- <example>no esta claro</example> better: other rule-->
             </rule>
             <rule>
-                <antipattern>
-                    <token>la</token>
-                    <token min="1" max="5" regexp="yes" case_sensitive="yes">\p{Lu}.*<exception case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</exception></token>
-                    <token case_sensitive="yes" regexp="yes">&common_english_nouns_feminine;</token>
-                </antipattern>
                 <pattern>
                     <marker>
                         <unify negate="yes">
@@ -6620,7 +6639,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <pattern>
                 <marker>
-                    <token></token>
+                    <token><exception postag="C.*" postag_regexp="yes"/></token>
                     <token>puesto</token>
                     <token>que</token>
                 </marker>
@@ -6635,6 +6654,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Su mismo puesto que el año anterior.</example>
             <example>Se enfrentó al cuarto puesto que era el Madrid.</example>
             <example>Se enfrentó al cuarto, puesto que era el Madrid.</example>
+            <example>En cualquier caso y puesto que no quiero extenderme, señor presidente.</example>
         </rule>
         <!--TODO: idem with ", pues"-->
     </category>
