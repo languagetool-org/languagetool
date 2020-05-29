@@ -83,7 +83,7 @@ class CompoundTagger {
 
   // додаткові вкорочені прикметникові ліві частини, що не мають відповідного прикметника
   private static final List<String> LEFT_O_ADJ = Arrays.asList(
-    "австро", "адиго", "американо", "англо", "афро", "еко", "іспано", "італо", "історико", "києво", "марокано", "угро"
+    "австро", "адиго", "американо", "англо", "афро", "еко", "іспано", "італо", "історико", "києво", "марокано", "угро", "японо"
   );
 
   private static final List<String> LEFT_O_ADJ_INVALID = Arrays.asList(
@@ -165,6 +165,13 @@ class CompoundTagger {
     String leftWord = word.substring(0, dashIdx);
     String rightWord = word.substring(dashIdx + 1);
 
+    // з-зателефоную
+    if( leftWord.length() == 1 && rightWord.length() > 3 && rightWord.startsWith(leftWord.toLowerCase()) ) {
+      List<TaggedWord> rightWdList = wordTagger.tag(rightWord);
+      rightWdList = PosTagHelper.adjust(rightWdList, ":alt", null);
+      return ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(word, rightWdList);
+    }
+    
     
     boolean dashPrefixMatch = dashPrefixes.containsKey( leftWord ) 
         || dashPrefixes.containsKey( leftWord.toLowerCase() ) 
@@ -405,7 +412,8 @@ class CompoundTagger {
 
     // allow га-га!
 
-    if( ! PosTagHelper.hasPosTag(leftAnalyzedTokens, "intj.*") ) {
+    boolean hasIntj = PosTagHelper.hasPosTagStart(leftAnalyzedTokens, "intj");
+    if( ! hasIntj ) {
       String noDashWord = word.replace("-", "");
       List<TaggedWord> noDashWordList = tagAsIsAndWithLowerCase(noDashWord);
       List<AnalyzedToken> noDashAnalyzedTokens = ukrainianTagger.asAnalyzedTokenListForTaggedWordsInternal(noDashWord, noDashWordList);
@@ -417,7 +425,7 @@ class CompoundTagger {
 
     // вгору-вниз, лікар-гомеопат, жило-було
 
-    if( ! leftWdList.isEmpty() && leftWord.length() > 2 ) {
+    if( ! leftWdList.isEmpty() && (leftWord.length() > 2 || hasIntj) ) {
       List<AnalyzedToken> tagMatch = tagMatch(word, leftAnalyzedTokens, rightAnalyzedTokens);
       if( tagMatch != null ) {
         return tagMatch;

@@ -303,13 +303,24 @@ public class UkrainianDisambiguationRuleTest {
       +" преподобний/[преподобний]adj:m:v_kly|преподобний/[преподобний]adj:m:v_naz|преподобний/[преподобний]adj:m:v_zna:rinanim"
       +"|преподобний/[преподобний]noun:anim:m:v_kly|преподобний/[преподобний]noun:anim:m:v_naz"
       +"  /[null]null"
-      +" С./[null]null"
+      +" С./[null]noninf:abbr"
       +"  /[null]null"
-      +" С./[null]null"
+      +" С./[null]noninf:abbr"
       +"  /[null]null"
       +" Мокітімі/[null]null ,/[null]null  /[null]null"
       +" був/[бути]verb:imperf:past:m  /[null]null чудовою/[чудовий]adj:f:v_oru:compb  /[null]null людиною/[людина]noun:anim:f:v_oru ./[null]null",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
+    TestTools.myAssert("Є. Тахкк",
+        "/[null]SENT_START"
+          + " Є./[null]noninf:abbr  /[null]null Тахкк/[null]null",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+    
+    TestTools.myAssert("В. Іпа",
+        "/[null]SENT_START"
+          + " В./[null]noninf:abbr  /[null]null Іпа/[null]null",
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
+
   }
 
   @Test

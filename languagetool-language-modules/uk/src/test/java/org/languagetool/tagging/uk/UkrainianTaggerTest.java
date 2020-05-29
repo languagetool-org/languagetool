@@ -94,6 +94,7 @@ public class UkrainianTaggerTest {
     // latin number with cyrillic
     TestTools.myAssert("ХІХ", "ХІХ/[ХІХ]number:latin:bad", tokenizer, tagger);
     TestTools.myAssert("ІV", "ІV/[ІV]number:latin:bad", tokenizer, tagger);
+    TestTools.myAssert("ХІХ-го", "ХІХ-го/[ХІХ-го]number:latin:bad", tokenizer, tagger);
 
     // done in disambig
 //    TestTools.myAssert("Петром І", "Петром/[Петро]noun:anim:m:v_oru:prop:fname І/[І]number:latin:bad", tokenizer, tagger);
@@ -154,6 +155,7 @@ public class UkrainianTaggerTest {
   public void testProperNameAllCaps() throws IOException {
     TestTools.myAssert("УКРАЇНА", "УКРАЇНА/[Україна]noun:inanim:f:v_naz:prop:geo", tokenizer, tagger);
     TestTools.myAssert("СИРІЮ", "СИРІЮ/[Сирія]noun:inanim:f:v_zna:prop:geo|СИРІЮ/[сиріти]verb:imperf:pres:s:1", tokenizer, tagger);
+    TestTools.myAssert("НЬЮ-ЙОРК", "НЬЮ-ЙОРК/[Нью-Йорк]noun:inanim:m:v_naz:prop:geo:xp1|НЬЮ-ЙОРК/[Нью-Йорк]noun:inanim:m:v_naz:prop:geo:xp2|НЬЮ-ЙОРК/[Нью-Йорк]noun:inanim:m:v_zna:prop:geo:xp1|НЬЮ-ЙОРК/[Нью-Йорк]noun:inanim:m:v_zna:prop:geo:xp2", tokenizer, tagger);
     assertNotTagged("УКРАЇ");
   }
 
@@ -386,6 +388,7 @@ public class UkrainianTaggerTest {
   public void testDynamicTaggingIntj() throws IOException {
     TestTools.myAssert("Гей-гей-гей", "Гей-гей-гей/[гей-гей-гей]intj", tokenizer, tagger);
     TestTools.myAssert("Ого-го-го-го", "Ого-го-го-го/[ого-го-го-го]intj", tokenizer, tagger);
+    TestTools.myAssert("фу-фу", "фу-фу/[фу-фу]intj", tokenizer, tagger);
     //TODO:
     assertNotTagged("йо-йо-тусовки");
   }
@@ -618,6 +621,9 @@ public class UkrainianTaggerTest {
     // мілі- (з дефісом) є помилковим префіксом
     TestTools.myAssert("мілі-ціо-нерів", "мілі-ціо-нерів/[null]null", tokenizer, tagger);
     //TODO:
+    
+    TestTools.myAssert("з-зателефоную", "з-зателефоную/[зателефонувати]verb:perf:futr:s:1:alt", tokenizer, tagger);
+    
 //    TestTools.myAssert("відео-звер-нення", "", tokenizer, tagger);
     //TODO: should technically tag both lowercase and uppercase to get :fname as well
 //    TestTools.myAssert("Да-а-ри", "", tokenizer, tagger);

@@ -90,6 +90,7 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
   public AnalyzedSentence preDisambiguate(AnalyzedSentence input) {
     removeVmis(input);
     retagInitials(input);
+    retagUnknownInitials(input);
     removeInanimVKly(input);
     removePluralForNames(input);
     removeLowerCaseHomonymsForAbbreviations(input);
@@ -336,6 +337,28 @@ public class UkrainianHybridDisambiguator extends AbstractDisambiguator {
     checkForInitialRetag(lastName, initialsIdxs, tokens);
   }
 
+  private void retagUnknownInitials(AnalyzedSentence input) {
+    AnalyzedTokenReadings[] tokens = input.getTokens();
+
+    for (int i = 1; i < tokens.length; i++) {
+      if( tokens[i].getToken().endsWith(".") 
+          && INITIAL_REGEX.matcher(tokens[i].getToken()).matches() ) {
+        
+        if( PosTagHelper.hasPosTagPart(tokens[i], "name") )
+          continue;
+
+        for(AnalyzedToken tokenReading: tokens[i].getReadings()) {
+//          if( ! "noninfl:abbr".equals(tokenReading.getPOSTag()) ) {
+            tokens[i].removeReading(tokenReading, "dis_unknown_initials");
+//          }
+        }
+
+        AnalyzedToken newToken = new AnalyzedToken(tokens[i].getToken(), "noninf:abbr", null);
+        tokens[i].addReading(newToken, "dis_unknown_initials");
+      }
+    }
+  }
+  
   private static void checkForInitialRetag(AnalyzedTokenReadings lastName, List<Integer> initialsIdxs, AnalyzedTokenReadings[] tokens) {
     if( lastName != null
         && (initialsIdxs.size() == 1 || initialsIdxs.size() == 2) ) {

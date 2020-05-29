@@ -28,6 +28,7 @@ import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
+import org.languagetool.rules.uk.LemmaHelper;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tagging.WordTagger;
@@ -48,7 +49,7 @@ public class UkrainianTagger extends BaseTagger {
   private static final Pattern NUMBER = Pattern.compile("[+-±]?[€₴\\$]?[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?(%|°С?)?|\\d{1,3}([\\s\u00A0\u202F]\\d{3})+");
   // full latin number regex: M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})
   private static final Pattern LATIN_NUMBER = Pattern.compile("(?=[MDCLXVI])M*(C[MD]|D?C*)(X[CL]|L?X*)(I[XV]|V?I*)");
-  private static final Pattern LATIN_NUMBER_CYR = Pattern.compile("[IXІХ]|[IІ]V|V?[IІ]{1,3}");
+  private static final Pattern LATIN_NUMBER_CYR = Pattern.compile("[IXІХV]{2,4}(-[а-яі]{1,4})?|[IXІХV](-[а-яі]{1,4})");
   private static final Pattern HASHTAG = Pattern.compile("#[а-яіїєґa-z_][а-яіїєґa-z0-9_]*", Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   private static final Pattern DATE = Pattern.compile("[\\d]{2}\\.[\\d]{2}\\.[\\d]{4}");
@@ -74,13 +75,13 @@ public class UkrainianTagger extends BaseTagger {
 
     if ( LATIN_NUMBER.matcher(word).matches() ) {
       List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
-      additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.number.getText()+":latin", word));
+      additionalTaggedTokens.add(new AnalyzedToken(word, "number:latin", word));
       return additionalTaggedTokens;
     }
 
     if ( LATIN_NUMBER_CYR.matcher(word).matches() ) {
       List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
-      additionalTaggedTokens.add(new AnalyzedToken(word, IPOSTag.number.getText()+":latin:bad", word));
+      additionalTaggedTokens.add(new AnalyzedToken(word, "number:latin:bad", word));
       return additionalTaggedTokens;
     }
 
@@ -165,9 +166,9 @@ public class UkrainianTagger extends BaseTagger {
     }
 
     // try УКРАЇНА as Україна and СИРІЮ as Сирію
-    if( word.length() > 2 && StringUtils.isAllUpperCase(word) ) {
+    if( word.length() > 2 && LemmaHelper.isAllUppercaseUk(word) ) {
 
-      String newWord = StringUtils.capitalize(StringUtils.lowerCase(word));
+      String newWord = LemmaHelper.capitalizeProperName(word);
 
       List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(word, newWord, Pattern.compile("noun.*?:prop.*"), null, null);
       if( newTokens.size() > 0 ) {

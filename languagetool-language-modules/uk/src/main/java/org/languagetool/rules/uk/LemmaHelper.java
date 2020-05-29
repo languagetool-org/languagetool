@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.tagging.uk.PosTagHelper;
@@ -183,6 +184,28 @@ public abstract class LemmaHelper {
     }
 
     return -1;
+  }
+
+  public static boolean isAllUppercaseUk(String word) {
+    final int sz = word.length();
+    for (int i = 0; i < sz; i++) {
+        char ch = word.charAt(i);
+        if (ch != '-' && ch != '\u2013' && !Character.isUpperCase(ch)) {
+            return false;
+        }
+    }
+    return true;
+  }
+
+  public static String capitalizeProperName(String word) {
+    char[] chars = new char[word.length()];
+    char prevChar = '-';
+    for(int i=0; i<chars.length; i++) {
+      char ch = word.charAt(i);
+      chars[i] = prevChar == '-' ? ch : Character.toLowerCase(ch);
+      prevChar = ch == '\u2013' ? '-' : ch;
+    }
+    return new String(chars);
   }
 
 }
