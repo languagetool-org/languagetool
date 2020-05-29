@@ -1680,7 +1680,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token postag="VMSP[13]S0" postag_regexp="yes" skip="15"/>
+                <token postag="VMSP[13]S0" postag_regexp="yes" skip="25"/>
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -5091,7 +5091,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token skip="2">sino<exception regexp="yes" scope="next">que|también|porque|como|cómo|donde|qué|quien|quién|si|quienes|quiénes|,|;|cuando|según</exception></token>
+                        <token skip="2">sino<exception regexp="yes" scope="next">que|también|porque|como|cómo|donde|qué|quien|quién|si|quienes|quiénes|,|;|cuando|según|cuál|cuáles|cual|cuales</exception></token>
                     </marker>
                     <token postag="V.[^NGP].*" postag_regexp="yes"><exception negate_pos="yes" postag="V.[^NGP].*" postag_regexp="yes"/></token>
                 </pattern>
@@ -5568,11 +5568,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>las</token>
                     </marker>
                     <token postag="DN.*" postag_regexp="yes"/>
-                    <token postag="NCMP000"/>
+                    <token postag="NCMP000"><exception postag=".*[FC][PN].*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>concordancia gramatical</message>
                 <suggestion>los</suggestion>
                 <example correction="los">Cumplir dos de <marker>las</marker> tres preceptos.</example>
+                <example>De las 16 restantes.</example>
             </rule>
             <rule id="LOS_NUMBER_FEMALE" name="'los tres preguntas' etcétera">
                 <pattern>
@@ -5686,6 +5687,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Yo vengo</example>
                 <example>Entre vosotros y nosotros es imprescindible el diálogo.</example>
                 <example>Quien como yo tiene el honor de presidir.</example>
+                <example>Personas como yo seguirán comiendo chocolate.</example>
             </rule>
             <rule id="PP_V_2" name="Concordancia 2ª persona">
                 <pattern case_sensitive="no">
