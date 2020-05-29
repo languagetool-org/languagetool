@@ -157,6 +157,13 @@ public class MorfologikUkrainianSpellerRuleTest {
   }
 
   @Test
+  public void testSuggestionOrder() throws IOException {
+    RuleMatch[] match = rule.match(langTool.getAnalyzedSentence("захворіває"));
+    assertEquals(1, Arrays.asList(match).size());
+    assertEquals(Arrays.asList("захворів", "захворіла", "захворіє", "захворівши", "захворював"), match[0].getSuggestedReplacements());
+  }
+
+  @Test
   public void testCompounds() throws IOException {
     
     // compounding

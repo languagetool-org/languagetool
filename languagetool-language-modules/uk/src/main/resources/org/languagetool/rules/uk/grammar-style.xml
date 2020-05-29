@@ -1714,6 +1714,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>накидав зверху каміння та давай носити воду</example>
     </rule>
 
+
+    <rule id="verb_short" name="Вкорочені форми дієслів">
+      <antipattern>
+        <token negate_pos="yes" postag="SENT_START"/>
+        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</token>
+      </antipattern>
+      <pattern>
+        <token postag_regexp="yes" postag="verb.*short.*">
+          <exception regexp="yes">бува|зна</exception>
+          <exception case_sensitive="yes" regexp="yes">Міша|Кива|Чита</exception>
+        </token>
+      </pattern>
+      <message>Ця форма обмежена усним та поетичним мовленням.</message>
+      <suggestion><match no="1" postag_regexp="yes" postag="(verb.*):short(.*)" postag_replace="$1$2"/></suggestion>
+      <example correction="співає">Він <marker>співа</marker>.</example>
+      <example>він дає.</example>
+      <example>й бува.</example>
+      <example>Ігоря Поклада</example>
+    </rule>
+
+
     <rule id="u_znak_vdiachnosti" name="У знак вдячності">
       <pattern>
         <token regexp="yes">[ву]</token>

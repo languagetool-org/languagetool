@@ -315,17 +315,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <rulegroup id="DIGITS_AND_LETTERS" name="Цифри та літери">
       <rule>
         <antipattern>
-          <token>«</token>
-          <token regexp="yes">[А-ЯІЇЄҐа-яіїєґ'-][а-яіїєґ]+[0-9]+[^а-яіїєґ]+</token>
-          <token>»</token>
-        </antipattern>
-        <antipattern>
-          <token regexp="yes" inflected="yes">пункт|підпункт</token>
+          <token regexp="yes">[«"„]</token>
+          <token regexp="yes" spacebefore="no">[а-яіїєґ'-][а-яіїєґ]+[0-9]+[^а-яіїєґ]+</token>
+          <!-- 
+          <token regexp="yes">[»"“]</token>
+           -->
         </antipattern>
         <pattern>
           <marker>
-            <token regexp="yes">[А-ЯІЇЄҐа-яіїєґ'-][а-яіїєґ]+[0-9]+[^а-яіїєґ–-][^а-яіїєґ]*
-              <exception regexp="yes">([кдсмн]|мк)?м[23]</exception>
+            <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]*[а-яіїєґ]+[0-9]+[^а-яіїєґА-ЯІЇЄҐ–-][^а-яіїєґА-ЯІЇЄҐ]*
               <exception regexp="yes" case_sensitive="yes">[А-ЯІЇЄҐ-]+[0-9]+</exception>
             </token>
           </marker>
@@ -333,10 +331,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <message>Відсутній дефіс або пробіл між словом і числом</message>
         <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐа-яіїєґ'-])([0-9]+)" regexp_replace="$1-$2"/></suggestion>
         <suggestion><match no="1" regexp_match="([А-ЯІЇЄҐа-яіїєґ'-])([0-9]+)" regexp_replace="$1 $2"/></suggestion>
-        <example correction="культивувати-170|культивувати 170">почали <marker>культивувати170</marker> років</example>
-        <example correction="до-1600|до 1600"><marker>до1600</marker> ккал</example>
-        <example correction="Євро-2012|Євро 2012">на хвилі <marker>Євро2012</marker></example>
-        <example correction="майже-100%|майже 100%"><marker>майже100%</marker>.</example>
+        <example correction="Мі-17|Мі 17"><marker>Мі17</marker></example>
+        <example>СО2</example>
+        <example>абстракція11</example>
+        <example>"Приват24 для бізнезу"</example>
+        <example>Ан32-П</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[а-яіїєґ][а-яіїєґ'.-]*</token>
+            <token regexp="yes" spacebefore="no">[0-9][0-9.,:–—-]*%?</token>
+          </marker>
+        </pattern>
+        <message>Відсутній дефіс або пробіл між словом і числом</message>
+        <suggestion><match no="1"/> <match no="2"/></suggestion>
+        <suggestion><match no="1"/>-<match no="2"/></suggestion>
+        <example correction="мої 1|мої-1">А <marker>мої1</marker>.</example>
+        <example correction="культивувати 170|культивувати-170">почали <marker>культивувати170</marker> років</example>
+        <example correction="до 1600|до-1600"><marker>до1600</marker> ккал</example>
+        <example correction="Євро 2012|Євро-2012">на хвилі <marker>Євро2012</marker></example>
+        <example correction="майже 100%|майже-100%"><marker>майже100%</marker>.</example>
+        <example correction="тримаємо 12–15|тримаємо-12–15"><marker>тримаємо12–15</marker> хвилин</example>
         <example>20 мм2</example>
         <!-- CO2 in cyrillic -->
         <example>СО2</example>
@@ -344,9 +361,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>АН4774087</example>
         <example>ТУ4-2441</example>
         <example>в підпункті 14а</example>
-        <!-- часто виноски втрачають суперскрипт і стають числами після слова
-        <example>абстракція11</example>
-        -->
       </rule>
 
       <rule>
