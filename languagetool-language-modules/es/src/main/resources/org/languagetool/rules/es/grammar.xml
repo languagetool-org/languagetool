@@ -730,6 +730,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>{suggestion}</suggestion>
                 <example correction="célebre">del tristemente <marker>celebre</marker> episodio.</example>
                 <example correction="célebre">de la tristemente <marker>celebre</marker> ocasión.</example>
+                <example>Al menos legitima una decisión.</example>
             </rule>
             <rule>
                 <!-- El termino. Avoids rule EL_TILDE -->
@@ -1653,7 +1654,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="VMSP[13]S0" postag_regexp="yes" regexp="yes">.+e</token>
             </antipattern>
             <antipattern>
-                <token postag="CS|LOC_CS|P[RT].*" postag_regexp="yes" skip="20"/>
+                <token postag="CS|LOC_CS|P[RT].*" postag_regexp="yes" skip="-1"/>
                 <token postag="VMSP[13]S0" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -1856,6 +1857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Espero tome a bien mi petición.</example>
             <example>Una vez termine de cargar, pulse Enter.</example>
             <example>Le guste a uno la expresión o no.</example>
+            <example>En tanto el planteamiento ocasione más ineficacia.</example>
             <!--<example>Cada uno exprese su opinión.</example>
                 ambigous: ¡Sí! ¡Gane dos veces seguidas! -->
         </rule>
@@ -1870,7 +1872,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes" skip="5">&marca_pasado;<exception scope="next" postag="CS|PR.*" postag_regexp="yes"/></token>
+                    <token regexp="yes" inflected="yes" skip="5">&marca_pasado;<exception scope="next" postag="CS|PR.*|_PUNCT.*" postag_regexp="yes"/></token>
                     <marker>
                         <and>
                             <token inflected="yes" regexp="yes">.*ar<exception postag="_GN_.*|RG|[NA].*|V.I.*|V.N.*" postag_regexp="yes"/><exception scope="previous" regexp="yes">se|que</exception></token>
@@ -1883,6 +1885,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="analicé">Cuando ayer lo <marker>analice</marker>, no vi nada estraño.</example>
                 <example>No dejes que el ayer ocupe demasiado de hoy.</example>
                 <example>Depende de la cantidad de pasado que lleve consigo.</example>
+                <example>No puede ser que, después del debate de ayer, no tome posición.</example>
             </rule>
             <rule>
                 <pattern>
@@ -2361,6 +2364,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                     <token postag="N.[MC][SN].*|A..[MC][SN].|_GN_MS|DN.*|UNKNOWN|_possible_NP|V.N.*|V.P..SM" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token>antes</token>
+                    <token>y</token>
+                    <token>el</token>
+                    <token>después</token>
+                </antipattern>
+                <antipattern>
+                    <token>el</token>
+                    <token>-</token>
+                    <token regexp="yes" case_sensitive="yes">\p{Lu}.+</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>el<exception postag="_GN_MS|LOC_.*" postag_regexp="yes"/></token>
@@ -2417,6 +2432,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Nuestro restaurant es el mejor.</example>
                 <example>Él era el más seguro de sí mismo.</example>
                 <example>En el este existe un conjunto de grupos.</example>
+                <example>fijar el tanto por ciento</example>
             </rule>
             <rule id="TU_TILDE" name="tu / tú">
                 <antipattern>
@@ -2590,6 +2606,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Esta es preciosa.</example>
                 <example>Esta música era interpretada por la banda.</example>
                 <example>Pensamos que esta pobre Europa.</example>
+                <example>La conversación que he tenido esta misma mañana.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ESTAS_TILDE" name="estas/estás">
@@ -3212,6 +3229,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="curriculum vitae|currículums|currículos">Los <marker>currículums vitae</marker>.</example>
         </rule>
         <rulegroup id="NO_SEPARADO" name="palabras no separadas">
+            <rule default="temp_off">
+                <pattern>
+                    <token>social</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes">demócrata|cristiano</token>
+                </pattern>
+                <message>Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="social$1"/></suggestion>
+                <example correction="socialdemócratas">Son <marker>social demócratas</marker>.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token>re</token>
@@ -3504,7 +3531,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>sobre</token>
                     <token min="0">-</token>
-                    <token postag="V.*" postag_regexp="yes" regexp="yes">...+<exception regexp="yes">dich(o|a)s?|comidas?|medidas?</exception></token>
+                    <token postag="V.*" postag_regexp="yes" regexp="yes">...+<exception regexp="yes">dich(o|a)s?|comidas?|medidas?|impuestos?</exception></token>
                 </pattern>
                 <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="sobre$1"/></suggestion>
@@ -4283,7 +4310,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>porque</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" inflected="yes">saber|preguntar|pedir|explicar|contar|decir<exception postag=".*PP...A.." postag_regexp="yes"/></token>
+                    <token regexp="yes" inflected="yes">saber|preguntar|pedir|explicar|contar|decir<exception postag=".*PP...A..|_GN_.*" postag_regexp="yes"/></token>
                     <marker>
                         <token regexp="yes">porque|porqué</token>
                     </marker>
@@ -4296,6 +4323,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Se explicaría porque era inventado.</example>
                 <example>Lo dices porque tienes miedo.</example>
                 <example>He querido decirlo porque después propondré otra cosa.</example>
+                <example>En relación con esta pregunta porque usted no se encontraba presente.</example>
             </rule>
             <rule>
                 <pattern>
@@ -4342,6 +4370,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token regexp="yes">hace|hacía</token>
                 <token inflected="yes">numeral</token>
+            </antipattern>
+            <antipattern>
+                <token>van</token>
+                <token regexp="yes" case_sensitive="yes">\p{Lu}.+</token>
             </antipattern>
             <rule>
                 <pattern>
@@ -4582,6 +4614,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" postag="V...3S." postag_regexp="yes" inflected="yes">alegrar|hartar</token>
                     <token>que</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="V.P.*" postag_regexp="yes"><exception scope="previous" inflected="yes">haber</exception></token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">alegrar|enterar|informar|convencer|hartar|quejar|protestar<exception postag="[AN].*" postag_regexp="yes"/></token>
                     <marker>
@@ -4591,12 +4626,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>En este contexto, el verbo va seguido normalmente de la preposición 'de'.</message>
                 <suggestion>de que</suggestion>
                 <example correction="de que">Les informamos <marker>que</marker> es obligatorio.</example>
+                <example correction="de que">Les hemos informado <marker>que</marker> es obligatorio.</example>
                 <example correction="de que">Me harté <marker>que</marker> no cumpliera.</example>
                 <example>Me hartó que no cumpliera.</example>
                 <example>Dudo que él venga.</example>
                 <example>Me alegra que hayas podido venir.</example>
                 <example>No sabes lo harta que estoy.</example>
                 <example>¿Tienes alguna queja que hacer?</example>
+                <example>No está todo lo bien informado que podría estar.</example>
             </rule>
             <rule>
                 <pattern>
@@ -5622,12 +5659,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule id="PP_V_1" name="Concordancia 1ª persona">
                 <pattern>
-                    <token postag="PP1(.{2}N|CN0|MP0).*" postag_regexp="yes"><exception postag="SP.*" postag_regexp="yes" scope="previous"/><exception postag="V.{3}1.*|C.*|SP.*" postag_regexp="yes"/></token>
+                    <token postag="PP1(.{2}N|CN0|MP0).*" postag_regexp="yes"><exception postag="SP.*|CC" postag_regexp="yes" scope="previous"/><exception postag="V.{3}1.*|C.*|SP.*" postag_regexp="yes"/></token>
                     <token postag="V.{3}[23].*" postag_regexp="yes"><exception postag="V.{3}1.*|AQ.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Posible falta de concordancia de persona entre «\1» y «\2».</message>
                 <example correction=""><marker>Yo vienes</marker></example>
                 <example>Yo vengo</example>
+                <example>Entre vosotros y nosotros es imprescindible el diálogo.</example>
+                <example>Quien como yo tiene el honor de presidir.</example>
             </rule>
             <rule id="PP_V_2" name="Concordancia 2ª persona">
                 <pattern case_sensitive="no">
@@ -6575,24 +6614,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" postag="A..[MC][SN]." postag_regexp="yes"/>
                 <token>puesto</token>
             </antipattern>
+            <antipattern>
+                <token skip="2" postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <token>puesto</token>
+            </antipattern>
             <pattern>
-                <token><exception postag="SENT_START"/></token>
-                <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception></token>
                 <marker>
-                    <token><exception postag="SENT_START"/><exception regexp="yes">[,;:(]</exception><exception regexp="yes" spacebefore="yes">[—–-]</exception></token>
+                    <token></token>
                     <token>puesto</token>
                     <token>que</token>
                 </marker>
             </pattern>
             <message>Como locución causal, se escribe con coma.</message>
-            <suggestion>\3, \4 \5</suggestion>
+            <suggestion>\1, \2 \3</suggestion>
             <url>https://www.fundeu.es/recomendacion/coma-antes-de-ya-que-pues-o-puesto-que/</url>
             <example correction="profesional, puesto que">Busque atención <marker>profesional puesto que</marker> pueden deberse a una infección.</example>
             <example>Es un puesto que interesa.</example>
             <example>Es un buen puesto que le gusta.</example>
             <example>Cita un buen puesto que hayas tenido.</example>
-            <example>su mismo puesto que el año anterior</example>
+            <example>Su mismo puesto que el año anterior.</example>
             <example>Se enfrentó al cuarto puesto que era el Madrid.</example>
+            <example>Se enfrentó al cuarto, puesto que era el Madrid.</example>
         </rule>
         <!--TODO: idem with ", pues"-->
     </category>

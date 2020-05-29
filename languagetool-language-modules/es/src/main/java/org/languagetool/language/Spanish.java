@@ -100,9 +100,7 @@ public class Spanish extends Language implements AutoCloseable{
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new GenericUnpairedBracketsRule(messages,
-                    Arrays.asList("[", "(", "{", "“", "«", "»"),
-                    Arrays.asList("]", ")", "}", "”", "»", "«")),
+            new SpanishUnpairedBracketsRule(messages),
             new QuestionMarkRule(messages),
             new MorfologikSpanishSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),

@@ -51,6 +51,7 @@ public class SpanishSentenceTokenizerTest {
     testSplit("N.º operación 220130000138.");  
 
     // Abbreviations
+    testSplit("las Sras. diputadas");
     testSplit("No Mr. Spock sino otro.");
     testSplit("Ver el cap. 24 del libro.");
     testSplit("Ver el cap. IX del libro.");
