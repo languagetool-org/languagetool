@@ -53504,25 +53504,12 @@ The accident victim died from her injuries.
                 <example correction="From now on"><marker>From know on</marker>, he is the “Big Kahuna”.</example>
             </rule>
             <rule>
-                <antipattern><!-- You even know him? -->
-                    <token postag="PRP|NNP" postag_regexp="yes" />
-                    <token postag="MD" min="0" />
-                    <token>even</token>
-                    <token>know</token>
-                    <token postag="PRP" />
-                </antipattern>
-                <antipattern>
-                    <token>even</token>
-                    <token>know</token>
-                    <token regexp="yes">it|you</token>
-                    <token postag="PCT" />
-                </antipattern>
                 <pattern>
                     <token regexp="yes"><exception scope="previous">t</exception>and|but|by|even|from|so</token>
                     <marker>
                         <token>know</token>
                     </marker>
-                    <token postag="PRP"/>
+                    <token regexp="yes" case_sensitive="yes">he|she|we|I</token>
                 </pattern>
                 <message>Did you mean <suggestion>now</suggestion>?</message>
                 <short>Possible typo</short>
@@ -53530,6 +53517,7 @@ The accident victim died from her injuries.
                 <example>I don't even know myself.</example>
                 <example>You even know him?</example>
                 <example>You're voting for a loser and you're too dumb to even know it.</example>
+                <example>They are great and know them well.</example>
             </rule>
             <rule>
                 <pattern>
