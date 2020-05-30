@@ -51,7 +51,8 @@ class LightRuleMatchParser {
    * Parses LT JSON that has been appended into a large file (one JSON result per line).
    */
   @NotNull
-  private List<LightRuleMatch> parseAggregatedJson(File inputFile) throws IOException {
+  private List<LightRuleMatch> parseAggregatedJson(File inputFile) {
+    System.out.println("Parsing " + inputFile + "...");
     ObjectMapper mapper = new ObjectMapper();
     List<LightRuleMatch> ruleMatches = new ArrayList<>();
     int lineCount = 1;
