@@ -47,6 +47,7 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRege
 public class AgreementRule2 extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = asList(
+    asList(token("Gesetzlich"), token("Krankenversicherte")),
     asList(token("weitgehend"), token("Einigkeit")),      // feste Phrase
     asList(token("Ernst")),      // Vorname
     asList(token("Anders")),     // Vorname
