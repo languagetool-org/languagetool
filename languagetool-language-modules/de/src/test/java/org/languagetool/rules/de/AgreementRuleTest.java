@@ -68,6 +68,7 @@ public class AgreementRuleTest {
   @Test
   public void testDetNounRule() throws IOException {
     // correct sentences:
+	assertGood("Die Einen sagen dies, die Anderen das.");
     assertGood("So ist es in den USA.");
     assertGood("Das ist der Tisch.");
     assertGood("Das ist das Haus.");

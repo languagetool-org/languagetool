@@ -96,8 +96,8 @@ public class AgreementRule extends Rule {
       token("GmbH")
     ),
     Arrays.asList(
-      regex("Die"),
-      regex("Waltons")
+      token("Die"),
+      regex("Waltons|Einen")
     ),
     Arrays.asList(
       regex("Große[sn]?"),
