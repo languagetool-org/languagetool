@@ -67,6 +67,14 @@ public class CaseRule extends Rule {
   // also see case_rule_exceptions.txt:
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // "Tom ist ein engagierter, gutaussehender Vierzigjähriger, der..."
+      posRegex("(ADJ:|PA2).*"),
+      token(","),
+      posRegex("(ADJ:|PA2).*"),
+      regex("[A-ZÖÄÜ].+jährige[mnr]?"),
+      posRegex("(?!SUB).*")
+    ),
+    Arrays.asList(
       token("Rock"),
       regex("['’]"),
       token("n"),
@@ -689,7 +697,6 @@ public class CaseRule extends Rule {
     "Bausachverständiger",
     "Bausachverständigen",
     "Bausachverständigem",
-    "Vierzigjährigen",
     "Heurige",
     "Ratsuchende",
     "Ratsuchender",

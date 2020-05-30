@@ -342,7 +342,8 @@ public class CaseRuleTest {
     assertBad("Bis Bald!");
     assertGood("#4 Aktuelle Situation");
     assertGood("* [ ] Ein GitHub Markdown Listenpunkt");
-    
+    assertGood("Tom ist ein engagierter, gutaussehender Vierzigjähriger, der...");
+
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");
     assertGood("Er isst Na-haltiges Obst.");
