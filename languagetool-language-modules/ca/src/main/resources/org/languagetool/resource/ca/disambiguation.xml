@@ -5246,10 +5246,23 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <rule>
             <pattern>
                 <marker>
-                    <token inflected="yes" skip="5">haver<exception scope="next" postag="V.N.*" postag_regexp="yes"/></token>
+                    <token inflected="yes" skip="6">haver<exception scope="next" postag="V.N.*" postag_regexp="yes"/></token>
                     <!-- <exception scope="next" postag="_GV_|_PUNCT_CONT|P.*|R.*|.*LOC_ADV.*|V.*|SENT_END|[NAS].*|CC|complement" postag_regexp="yes" negate_pos="yes"/> -->
                 </marker>
                 <token regexp="yes">de|d'</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_obligacio" lemma="haver"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes" skip="1">haver<exception scope="next" postag="V.N.*" postag_regexp="yes"/></token>
+                </marker>
+                <token postag="LOC_ADV" skip="5" regexp="yes">de|d'</token>
+                <token inflected="yes">de</token>
                 <token postag="V.N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="add">
