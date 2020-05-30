@@ -7,7 +7,7 @@
   * updated dictionary (catalan-pos-dict-2.8), now with a specific dictionary file for spelling suggestions
 
 #### English
-  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.83 - 2020-04-01)
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.85 - 2020-06-01)
 
 #### Esperanto
   * added and improved rules
@@ -25,7 +25,7 @@
   * added and improved rules
   * added new Java rules
   * rebuilt and improved main spellchecker dictionary
-  * new variant (only yo "ё") spellchecker dictionary and new java rule for it
+  * new variant (only yo "ё") spellchecker dictionary and new java rule for it (off by default)
 
 
 #### Spanish
