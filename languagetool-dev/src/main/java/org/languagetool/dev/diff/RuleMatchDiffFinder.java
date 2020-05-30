@@ -194,7 +194,14 @@ public class RuleMatchDiffFinder {
     String title = "Comparing " + file1.getName() + " to "  + file2.getName();
     System.out.println(title);
     List<RuleMatchDiff> diffs = getDiffs(l1, l2);
-    diffs.sort(Comparator.comparing(this::getFullId));
+    diffs.sort((k, j) -> {
+        int idDiff = getFullId(k).compareTo(getFullId(j));
+        if (idDiff == 0) {
+          return k.getStatus().compareTo(j.getStatus());
+        }
+        return idDiff;
+      }
+    );
     System.out.println("Total diffs found: " + diffs.size());
     Map<String, List<RuleMatchDiff>> keyToDiffs = groupDiffs(diffs);
     List<OutputFile> outputFiles = new ArrayList<>();
