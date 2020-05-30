@@ -36584,11 +36584,14 @@ Andere Projekte</example>
             </rule>
         </rulegroup>
         <rule id="EINE_MILLIONEN" name="'eine Millionen (Million)'">
-            <regexp>(?&lt;!,)\b(einer?|1) Millionen\b</regexp>
-            <message>Meinten Sie <suggestion>\1 Million</suggestion>, die Zahl 1.000.000? 'Millionen' ist der Plural von 'Million' und sollte nur verwendet werden, wenn von mehr als einer Million die Rede ist.</message>
+            <regexp>(?&lt;!,)\b(einer?|1) ([MB]illi(on|ard)|Tausend)en\b</regexp>
+            <message>Meinten Sie <suggestion>\1 <match no="2" regexp_match="ard" regexp_replace="arde"/></suggestion>? '\2en' ist der Plural von '<match no="2" regexp_match="ard" regexp_replace="arde"/>' und sollte nur verwendet werden, wenn von mehr als einer <match no="2" regexp_match="ard" regexp_replace="arde"/> die Rede ist.</message>
             <example correction="eine Million">Sie verdient <marker>eine Millionen</marker> Euro im Jahr.</example>
             <example correction="1 Million">Sie verdient <marker>1 Millionen</marker> Euro im Jahr.</example>
-            <example>Die Stadt hat 2,1 Millonen Einwohner.</example>
+            <example correction="eine Milliarde">Sie verdient <marker>eine Milliarden</marker> Euro im Jahr.</example>
+            <example correction="1 Billion">Sie verdient <marker>1 Billionen</marker> Euro im Jahr.</example>
+            <example correction="eine Billiarde">Sie verdient <marker>eine Billiarden</marker> Euro im Jahr.</example>
+            <example>Die Stadt hat 2,1 Millionen Einwohner.</example>
         </rule>
         <rule id="IM_KEINEN" name="'im keinen (kleinen)'">
             <pattern>
