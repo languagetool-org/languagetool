@@ -19066,6 +19066,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Fug und Recht">Ich kann mit <marker>fug und recht</marker> behaupten, dass ich hochintelligent bin.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="PLEITE_SEIN" name="Pleite (pleite) sein">
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token inflected="yes">sein</token>
+                    <token min="0">nicht</token>
+                    <marker><token regexp="yes">Pleite|Klasse</token></marker>
+                 </pattern>
+                 <message>In der Wendung '<suggestion><match no="3" case_conversion="startlower"/></suggestion> sein' wird '<match no="3" case_conversion="startlower"/>' kleingeschrieben.</message>
+                 <example correction="pleite">Ich bin nicht <marker>Pleite</marker>.</example>
+                 <example correction="klasse">Dein Spiel ist <marker>Klasse</marker>.</example>
+             </rule>
+        </rulegroup>
         <rule id="ALS_ERSTES" name="'als erstes (Erstes)' etc.">
             <antipattern>
                 <token>als</token>
@@ -32409,6 +32421,17 @@ Andere Projekte</example>
                 <short>'leidtun' wird kleingeschrieben.</short>
                 <example correction="leidtun">Das wird mir noch <marker>Leidtun</marker>.</example>
                 <example>Worin äußert sich dieses Leidtun?</example>
+            </rule>
+            <rule>
+                <pattern case_sensitive="yes">
+                    <token>wie</token>
+                    <marker>
+                        <token skip="3">Leid<exception scope="next" postag="PKT"/></token>
+                    </marker>
+                    <token inflected="yes">tun</token>
+                </pattern>
+                <message>&inwend;'jemandem leidtun' wird <suggestion><match case_conversion="alllower" no="2"/></suggestion> kleingeschrieben.</message>
+                <example correction="leid">Sie sagte, wie <marker>Leid</marker> es ihr täte.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SOMMERS_WIE_WINTERS" name="'sommers wie winters'">
