@@ -54,7 +54,7 @@ public class MissingCommaRelativeClauseRule extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
       Arrays.asList(
-        token("wenn"),
+        regex("gerade|wenn"),
         token("das")
       ),
       Arrays.asList(
