@@ -32552,9 +32552,12 @@ Andere Projekte</example>
                     <token postag="ZAL"/>
                 </antipattern>
                 <pattern>
-                    <token postag="PRO:.*:SIN:NEU:.*|ADJ:(AKK|DAT):...:NEU:.*|ZAL" postag_regexp="yes"><exception regexp="yes">gerade|ungerade|jedem</exception></token>
+                    <token postag="PRO:.*:SIN:NEU:.*|ADJ:(AKK|DAT):...:NEU:.*|ZAL" postag_regexp="yes">
+                        <exception regexp="yes">gerade|ungerade|jedem</exception>
+                        <exception postag_regexp="yes" postag="VER:IMP:.*"/>
+                    </token>
                     <marker>
-                    <token case_sensitive="yes">mal</token>
+                        <token case_sensitive="yes">mal</token>
                     </marker>
                 </pattern>
                 <message>Wenn <suggestion>Mal</suggestion> hier ein Nomen (das Mal, die Male) oder eine Zähleinheit (ein einziges Mal) ist, wird dieses großgeschrieben.</message>
@@ -32563,6 +32566,7 @@ Andere Projekte</example>
                 <example correction="Mal">Sie hatte es ihm einige <marker>mal</marker> gezeigt.</example>
                 <example>Sie hatte es ihm einige <marker>Mal</marker> gezeigt.</example>
                 <example correction="Mal">Beim nächsten <marker>mal</marker> werde ich ihn schlagen.</example>
+                <example>Achte mal darauf, wie der Spieler seine Ellbogen einsetzt.</example>
             </rule>
             <rule>
                 <pattern>
