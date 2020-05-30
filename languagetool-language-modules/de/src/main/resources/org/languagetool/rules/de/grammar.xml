@@ -40940,6 +40940,55 @@ Andere Projekte</example>
             <example>Er zitterte ob Marias Schlagfertigkeit.</example>
             <example>Sie fragte: "Wer küsste wen?"</example>
         </rule>
+        <rulegroup id="KOMMA_VOR_WIE" name="Komma vor wie">
+            <rule>
+                <antipattern>
+                    <token skip="-1" regexp="yes">(genau)?so</token>
+                    <token>wie</token>
+                </antipattern>
+                <antipattern>
+                    <token>wie</token>
+                    <token postag="PA2.+" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag='VER:[1-3].+' postag_regexp='yes'><exception postag="VER:(AUX|MOD|IMP:SIN:SF).+" postag_regexp="yes"></exception><exception>mal</exception></token>
+                    <marker>
+                        <token skip="-1">wie</token>
+                    </marker>
+                    <token><exception scope="next" postag="PKT"/><exception postag="PA2.+" postag_regexp="yes"/></token>
+                    <token postag="VER:[1-3].+" postag_regexp="yes"><exception postag="PA2.+" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Wird hier ein Nebensatz eingeleitet, muss dieser durch ein Komma abgetrennt werden. Meinten Sie <suggestion>, wie</suggestion>?</message>
+                <short>Möglicherweise fehlendes Komma</short>
+                <example correction=', wie'>Er fragt<marker> wie</marker> das ginge.</example>
+                <example>Er blieb wie angewurzelt stehen.</example>
+                <example>Er lügt wie gedruckt und schreibt gestochen schön.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token skip="-1">wie<exception scope="next" postag="VER:[1-3].+" postag_regexp="yes"/></token>
+                    <token postag="KON:NEB"/>
+                </antipattern>
+                <pattern>
+                    <token inflected='yes'>sein</token>
+                    <token min="0">nicht</token>
+                    <token postag='ADJ:PRD:GRU'/> 
+                    <marker>
+                        <token skip="-1">wie</token>
+                    </marker>
+                    <token skip="-1"><exception scope="next" postag="PKT"/><exception postag="PA2.+" postag_regexp="yes"/></token>
+                    <token postag="VER:[1-3].+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Wird hier ein Nebensatz eingeleitet, muss dieser durch ein Komma abgetrennt werden. Meinten Sie <suggestion>, wie</suggestion>?</message>
+                <short>Möglicherweise fehlendes Komma</short>
+                <example correction=', wie'>Er ist nicht richtig<marker> wie</marker> du das machst.</example>
+                <example correction=', wie'>Er ist richtig<marker> wie</marker> du das machst.</example>
+                <example correction=', wie'>Er ist nicht richtig<marker> wie</marker> du das gemacht hast.</example>
+                <example correction=', wie'>Er ist richtig<marker> wie</marker> du das gemacht hast.</example>
+                <example correction=', wie'>Das ist schön<marker> wie</marker> er das macht.</example>
+                <example correction=', wie'>Das ist schön<marker> wie</marker> er sein Geld verdient.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="DOPPELTE_SATZZEICHEN" name="Doppelte Satzzeichen">
             <rule>
                 <antipattern>
