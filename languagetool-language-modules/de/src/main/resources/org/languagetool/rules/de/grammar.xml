@@ -33251,6 +33251,7 @@ Andere Projekte</example>
               <marker>
                   <token postag="PRP:LOK+TMP+MOD:DAT+AKK" skip="3">
                       <exception postag=".+(AKK|DAT):.+|UNKNOWN|PKT" postag_regexp="yes" scope="next"/>
+                      <exception scope="next">Reims</exception>
                       <exception case_sensitive="yes">an</exception>
                       <exception case_sensitive="yes" regexp="yes">[A-ZÜ].+</exception>
                   </token>
@@ -33266,6 +33267,7 @@ Andere Projekte</example>
             <example>In deren Tradition entstanden unter anderem die Buddenbrocks.</example>
             <example>Ich stelle sicher, dass unser Add-on in deren Store kommt.</example>
             <example>Ich bin froh, in einer Gegend zu leben, in der Frieden herrscht.</example>
+            <example>Da keine hochrangigen sowjetischen Offiziere in Reims teilgenommen hatten, ...</example>
           </rule>
         </rulegroup>
         <!-- TODO: testen!!
@@ -35606,7 +35608,7 @@ Andere Projekte</example>
                     <marker>
                         <token postag="ADJ:NOM:SIN:MAS:GRU:DEF">
                             <exception negate_pos="yes" postag="ADJ:NOM:SIN:MAS:GRU:DEF"/>
-                            <exception regexp="yes">gerade|.+weise|lange|andere</exception>
+                            <exception regexp="yes">gerade|.+weise|lange|andere|heutige</exception>
                         </token>
                         <token postag="SUB:NOM:SIN:MAS">
                             <exception negate_pos="yes" postag="SUB:NOM:SIN:MAS"/>
@@ -43123,6 +43125,11 @@ Andere Projekte</example>
                     <!-- Daniel Schöpf hat sie ins Studio begleitet. -->
                    <token regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>
                    <token postag="VER:IMP:SIN.*" postag_regexp="yes" regexp="yes" case_sensitive="yes">[A-ZÖÄÜ].+</token>  <!-- zu viele Namen wie "Schöpf", "Klemm" -->
+                </antipattern>
+                <antipattern>
+                   <token>kreuz</token>
+                   <token>und</token>
+                   <token>quer</token>
                 </antipattern>
                 <pattern>
                     <token postag="(VER:[1-3]:.*|VER.*:[1-3]:.*|VER:IMP:.*)" postag_regexp="yes" skip="-1">
