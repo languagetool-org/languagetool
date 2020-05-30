@@ -18172,6 +18172,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>das</token>
                 <token>beste</token>
             </antipattern>
+            <antipattern>
+                <!-- Golden Satellite Award für das beste adaptierte Drehbuch -->
+                <token postag="ART:DEF:(AKK|NOM):SIN:NEU|PRO:POS:NOM:.+|PRO:PER:GEN:.+" postag_regexp="yes"/>
+                <token case_sensitive="yes" regexp="yes" postag_regexp="yes" postag="ADJ:AKK:SIN:NEU:.+">(best|gleich|möglichst|übrig)+e[sn]?</token>
+                <token postag="PA2:.*" postag_regexp="yes"/>
+                <token postag_regexp="yes" postag="SUB:.*"/>
+            </antipattern>
             <pattern>
                 <token postag="ART:DEF:(AKK|NOM):SIN:NEU|PRO:POS:NOM:.+|PRO:PER:GEN:.+" postag_regexp="yes"/>
                 <marker>
@@ -18188,6 +18195,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Das Verhältnis zwischen ihnen war nicht das <marker>beste</marker>.</example>
             <example>Tom war klar, dass sein Französisch nicht das beste war.</example>
             <example>Von allen Häusern ist unseres das beste.</example>
+            <example>Golden Satellite Award für das beste adaptierte Drehbuch</example>
             <example correction="Übriges">Das tat sein <marker>übriges</marker>.</example>
         </rule>
         <rule id="DAS_BESTE_SEIN" name="'das beste (Beste) sein'">
@@ -34553,7 +34561,7 @@ Andere Projekte</example>
                 <token regexp="yes">d(er|ie|as)</token>
                 <marker>
                     <token postag_regexp="yes" postag="(ADJ|PA1):.*:(IND|SOL).*"><exception postag="(ADJ|PA1):.*:DEF.*" postag_regexp="yes"/>
-                        <exception regexp="yes">früher|später|lieber|anderer|weniger</exception>
+                        <exception regexp="yes">früher|später|lieber|anderer|weniger|lauter</exception>
                     </token>
                 </marker>
                 <token postag_regexp="yes" postag="SUB:.*"/>
@@ -34566,6 +34574,7 @@ Andere Projekte</example>
             <example>Ist das <marker>japanisches</marker> Essen?</example>
             <example>Vorfälle, über die autistische Menschen berichten.</example>
             <example>Dabei hatte das fatale Konsequenzen.</example>
+            <example>Ich fürchte, dass das lauter Lügen sind.</example>
             <example type="triggers_error">Damit ähnelt die Altersstruktur der <marker>europäischer</marker> Städte.</example>
         </rule>
         <rule id="VERB_IST" name="Verb 1./3. Person (statt Partizip) + 'ist'">
@@ -37512,7 +37521,7 @@ Andere Projekte</example>
                     <token postag='SUB:.+:SIN:FEM' postag_regexp='yes'/>
                     <token>,</token>
                     <marker>
-                    <token regexp='yes'>(der|das)</token>
+                      <token regexp='yes'>(der|das)</token>
                     </marker>
                     <token skip='-1'/>
                     <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'/>
@@ -39701,7 +39710,9 @@ Andere Projekte</example>
                 <pattern>
                     <token negate="yes" regexp="yes">'|’</token>
                     <marker>
-                        <token postag="SUB:.*" postag_regexp="yes" regexp="yes">.*(s|ß|tz|z|x|ce|cz|ć)</token>
+                        <token postag="SUB:.*" postag_regexp="yes" regexp="yes">.*(s|ß|tz|z|x|ce|cz|ć)
+                            <exception postag="EIG:.*" postag_regexp="yes"/>
+                        </token>
                         <token regexp="yes" spacebefore="no">'|’</token>
                     </marker>
                     <token negate="yes" regexp="yes">schen?</token>
@@ -39716,6 +39727,7 @@ Andere Projekte</example>
                 <example>Das nennt die Regierung jetzt '<marker>Versorgungsgesetz'</marker>.</example>
                 <example>Die <marker>Lenz'</marker>sche Regel ist wichtig.</example>
                 <example>Der <marker>Girls’</marker> Day findet jährlich statt.</example>
+                <example>Von James Dean wurde Stevens' Technik lapidar als Around-the-clock-Methode betitelt.</example>
                 <example type="triggers_error"><marker>Strauß’</marker> Politik</example>
                 <example correction="Zirkus|Zirkusse|Zirkussen">Der Direktor des <marker>Zirkus'</marker> Krone</example>
                 <example correction="Hauses">Der Direktor des <marker>Haus'</marker> Krone</example>
@@ -40927,6 +40939,11 @@ Andere Projekte</example>
         <rulegroup id="DOPPELTE_SATZZEICHEN" name="Doppelte Satzzeichen">
             <rule>
                 <antipattern>
+                    <token>Diss</token> <!-- sollte man hier alle Abkürzungen matchen? -->
+                    <token>.</token>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
                     <token>.</token>
                     <token>.</token>
                     <token>.</token>
@@ -40963,6 +40980,7 @@ Andere Projekte</example>
                 <example>Vereinigte Fachverl., Mainz 48.</example>
                 <example>(1919-1920; Neue Folge 1921-1933, 1946 ff., Österreich)</example>
                 <example>eK (e. K., e. Kfr., e. Kfm.) – eingetragene/r Kauffrau/Kaufmann</example>
+                <example>Diss., Würzburg 1979.</example>
             </rule>
             <rule>
                 <antipattern>
