@@ -4156,6 +4156,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="hecho">Ha <marker>echo</marker> un gran esfuerzo.</example>
                 <example correction="hecho">Habías <marker>echo</marker> esto.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes" regexp="yes">ser|estar|parecer|resultar</token>
+                    <marker>
+                        <token regexp="yes">des(echo|echa|echas)</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'deshacer', se escribe <suggestion><match no="2" regexp_match="(?iu)des(echo|echa|echas)" regexp_replace="desh$1" case_conversion="alllower"/></suggestion>.</message>
+                <example correction="deshecho">Parece <marker>desecho</marker>.</example>
+                <example correction="deshecha">Está <marker>desecha</marker> de cansancio.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes">haber</token>
+                    <marker>
+                        <token>desecho</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'deshacer', se escribe <suggestion>deshecho</suggestion>.</message>
+                <example correction="deshecho">Ha <marker>desecho</marker> el camino.</example>
+                <example correction="deshecho">Habías <marker>desecho</marker> esto.</example>
+            </rule>
         </rulegroup>
         <rule id="HECHO_ECHO" name="*hecho/echo" default="on">
             <antipattern>
@@ -4218,6 +4240,37 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
+        <rulegroup id="PARA_QUE_IND" name="para que/qué + v. ind." default="temp_off">
+            <rule>
+                <pattern>
+                    <token>para</token>
+                    <token>que</token>
+                    <token postag="VMI.*" postag_regexp="yes"><exception postag="V.S.*|RG" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Construcción errónea: falta una tilde o un verbo en subjuntivo.</message>
+                <suggestion>para qué \3</suggestion>
+                <suggestion>\1 \2 <match no="3" postag="VMI(.*)" postag_regexp="yes" postag_replace="VMS$1"/></suggestion>
+                <example correction="para qué tengo|para que tenga">Y <marker>para que tengo</marker> buenos resultados.</example>
+                <example correction="para qué sirve|para que sirva">Me gustaría saber <marker>para que sirve</marker> esto.</example>
+                <example>Para que podamos ganar más.</example>
+                <example>Para que así podamos salir.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>para</token>
+                    <token>que</token>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token postag="VMI.*" postag_regexp="yes"><exception postag="V.S.*|RG" postag_regexp="yes"/></token>
+                </pattern>
+                <message>Construcción errónea: falta una tilde o un verbo en subjuntivo.</message>
+                <suggestion>para qué \3 \4</suggestion>
+                <suggestion>\1 \2 \3 <match no="4" postag="VMI(.*)" postag_regexp="yes" postag_replace="VMS$1"/></suggestion>
+                <example correction="para qué le sirve|para que le sirva">Me gustaría saber <marker>para que le sirve</marker> esto.</example>
+                <example correction="para qué le servía|para que le sirviera|para que le sirviese">Me gustaría saber <marker>para que le servía</marker> esto.</example>
+                <example>Para que le podamos ganar más.</example>
+                <example>Para que así le podamos ganar.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="Y_E_O_U" name="y Italia, o Honduras">
             <rule id="Y_E" name="e ante palabras empezando por i">
                 <pattern>
