@@ -938,21 +938,23 @@ class SingleDocument {
    * get the next queue entry which is the next empty cache entry
    */
   public QueueEntry getNextQueueEntry(int nPara, int nCache) {
-    for(int i = nPara + 1; i < docCache.textSize(); i++) {
-      if(paragraphsCache.get(nCache).getEntryByParagraph(i) == null) {
-        return createQueueEntry(i, nCache);
+    if (docCache != null) {
+      for(int i = nPara + 1; i < docCache.textSize(); i++) {
+        if(paragraphsCache.get(nCache).getEntryByParagraph(i) == null) {
+          return createQueueEntry(i, nCache);
+        }
       }
-    }
-    for(int i = 0; i < nPara; i++) {
-      if(paragraphsCache.get(nCache).getEntryByParagraph(i) == null) {
-        return createQueueEntry(i, nCache);
+      for(int i = 0; i < nPara; i++) {
+        if(paragraphsCache.get(nCache).getEntryByParagraph(i) == null) {
+          return createQueueEntry(i, nCache);
+        }
       }
-    }
-    for(int n = 0; n < minToCheckPara.size(); n++) {
-      if(n != nCache && minToCheckPara.get(n) != 0) {
-        for(int i = 0; i < docCache.textSize(); i++) {
-          if(paragraphsCache.get(n).getEntryByParagraph(i) == null) {
-            return createQueueEntry(i, n);
+      for(int n = 0; n < minToCheckPara.size(); n++) {
+        if(n != nCache && minToCheckPara.get(n) != 0) {
+          for(int i = 0; i < docCache.textSize(); i++) {
+            if(paragraphsCache.get(n).getEntryByParagraph(i) == null) {
+              return createQueueEntry(i, n);
+            }
           }
         }
       }
