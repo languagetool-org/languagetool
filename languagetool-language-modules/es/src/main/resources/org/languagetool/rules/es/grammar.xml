@@ -189,6 +189,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rulegroup id="AL_IGUAL_QUE" name="al igual *de/*a/que" default="temp_off">
+            <url>https://www.fundeu.es/recomendacion/al-igual-que-no-al-igual-de-ni-al-igual-a/</url>
+            <rule>
+                <pattern>
+                    <token>al</token>
+                    <token>igual</token>
+                    <token regexp="yes">de|a</token>
+                </pattern>
+                <message>Expressión incorrecta.</message>
+                <suggestion>al igual que</suggestion>
+                <example correction="al igual que">Lo hizo <marker>al igual a</marker> otros.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>al</token>
+                    <token>igual</token>
+                    <token regexp="yes">del|al</token>
+                </pattern>
+                <message>Expressión incorrecta.</message>
+                <suggestion>al igual que el</suggestion>
+                <example correction="al igual que el">Lo hizo <marker>al igual del</marker> otro.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HOLA_COMO_ESTAS" name="Hola, ¿cómo estás?">
             <rule>
                 <antipattern>
