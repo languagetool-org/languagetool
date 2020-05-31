@@ -14261,7 +14261,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
         </antipattern>
         <antipattern>
             <token inflected="yes" regexp="yes">tornar|tendir|arribar|aplegar</token>
-            <token><exception>a</exception></token>
+            <token><exception>a</exception><exception postag="RG"/></token>
         </antipattern>
         <antipattern>
             <token inflected="yes" regexp="yes">començar|venir</token>
@@ -14286,6 +14286,10 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <antipattern>
             <token inflected="yes">fer</token>
             <token><exception>bé</exception></token>
+        </antipattern>
+        <antipattern>
+            <token inflected="yes">fer</token>
+            <token>bé</token>
             <token><exception inflected="yes">de</exception></token>
         </antipattern>
         <antipattern>
@@ -14360,7 +14364,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <unify-ignore>
                         <token postag="V.[NP].*|SPS00|LOC_ADV|R.|PP3.*" postag_regexp="yes" min="0" max="5"/>
                     </unify-ignore>
-                    <token postag="P0.0.*" postag_regexp="yes" spacebefore="no" skip="2"><exception scope="next" postag="PP.*|V.N.*|SPS00" postag_regexp="yes" negate_pos="yes"/></token>
+                    <token postag="P0.0.*" postag_regexp="yes" spacebefore="no" skip="2"><exception scope="next" postag="PP.*|V.N.*|SPS00" postag_regexp="yes" negate_pos="yes"/><exception scope="next">per</exception></token>
                 </unify>
                 <marker>
                     <token postag="V.N.*" postag_regexp="yes"/>
@@ -14643,7 +14647,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
                     <token postag="P0[12]0.*" postag_regexp="yes"/>
                     <unify-ignore>
                         <token postag="VA.*" postag_regexp="yes" min="0"/>
-                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">veure|sentir|observar</token>
+                        <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes" skip="2">veure|sentir|observar</token>
                         <marker>
                             <token postag="V.[NG].*" postag_regexp="yes"/>
                         </marker>
@@ -14660,7 +14664,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <pattern>
                 <token regexp="yes">el|els|l'</token>
                 <token postag="VA.*" postag_regexp="yes" min="0"/>
-                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes">veure|sentir|observar</token>
+                <token postag="V.*" postag_regexp="yes" inflected="yes" regexp="yes" skip="2">veure|sentir|observar</token>
                 <marker>
                     <token postag="V.[NG].*" postag_regexp="yes"/>
                 </marker>
