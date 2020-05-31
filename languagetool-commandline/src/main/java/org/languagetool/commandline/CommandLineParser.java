@@ -231,7 +231,7 @@ class CommandLineParser {
             + "                           ngram occurrence counts; activates the confusion rule if supported\n"
             + "  --word2vecmodel DIR      a directory with e.g. 'en' sub directory (i.e. a language code) that contains\n"
             + "                           final_embeddings.txt and dictionary.txt; activates neural network based rules\n"
-            + "  --neuralnetworkmodel DIR a base directory for various saved neural network models\n"
+            + "  --neuralnetworkmodel DIR a base directory for various saved neural network models (deprecated)\n"
             + "  --fasttextmodel FILE     fasttext language detection model (optional), see https://fasttext.cc/docs/en/language-identification.html\n"
             + "  --fasttextbinary FILE    fasttext executable (optional), see https://fasttext.cc/docs/en/support.html\n"
             + "  --xmlfilter              remove XML/HTML elements from input before checking (deprecated)\n"
