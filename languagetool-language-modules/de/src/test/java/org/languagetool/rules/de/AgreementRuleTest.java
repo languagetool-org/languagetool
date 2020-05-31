@@ -143,6 +143,7 @@ public class AgreementRuleTest {
     assertGood("Den 2019er Wert hatten sie geschätzt.");
     assertGood("Andere formale Systeme, deren Semantiken jeweils...");
     assertGood("Gesetz zur Änderung des Kündigungsrechts und anderer arbeitsrechtlicher Vorschriften");
+    //assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
