@@ -46,11 +46,11 @@ public class LtDictionary {
     debugMode = OfficeTools.DEBUG_MODE_LD;
   }
 
-  public void setLtDictionary(XComponentContext xContext, Locale locale, LinguisticServices linguServices) {
+  public boolean setLtDictionary(XComponentContext xContext, Locale locale, LinguisticServices linguServices) {
     XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
     if(searchableDictionaryList == null) {
       MessageHandler.printToLogFile("searchableDictionaryList == null");
-      return;
+      return false;
     }
     String shortCode = locale.Language;
     String dictionaryName = "__LT_" + shortCode + "_internal.dic";
@@ -68,7 +68,9 @@ public class LtDictionary {
           MessageHandler.printToLogFile(entry.getDictionaryWord());
         }
       }
+      return true;
     }
+    return false;
   }
   
   private List<String> getManualWordList(Locale locale, LinguisticServices linguServices) {
@@ -117,12 +119,12 @@ public class LtDictionary {
     return words;
   }
   
-  public void removeLtDictionaries(XComponentContext xContext) {
+  public boolean removeLtDictionaries(XComponentContext xContext) {
     if (!dictinaryList.isEmpty()) {
       XSearchableDictionaryList searchableDictionaryList = OfficeTools.getSearchableDictionaryList(xContext);
       if(searchableDictionaryList == null) {
         MessageHandler.printToLogFile("searchableDictionaryList == null");
-        return;
+        return false;
       }
       for (String dictionaryName : dictinaryList) {
         XDictionary manualDictionary = searchableDictionaryList.getDictionaryByName(dictionaryName);
@@ -131,7 +133,9 @@ public class LtDictionary {
         }
       }
       dictinaryList.clear();
+      return true;
     }
+    return false;
   }
 
 }
