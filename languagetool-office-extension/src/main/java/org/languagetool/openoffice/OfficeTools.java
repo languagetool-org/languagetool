@@ -53,6 +53,8 @@ class OfficeTools {
   public static final String MANUAL_LINEBREAK = "\r";  //  to distinguish from paragraph separator
   public static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
   public static final String LOG_LINE_BREAK = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
+  public static final int MAX_SUGGESTIONS = 15;  // Number of suggestions maximal shown in LO/OO
+
   
   public static int DEBUG_MODE_SD = 0;
   public static boolean DEBUG_MODE_MD = false;

@@ -186,6 +186,9 @@ public class LinguisticServices extends LinguServices {
       XMeaning[] meanings = thesaurus.queryMeanings(word, locale, properties);
       List<String> synonyms = new ArrayList<String>();
       for (XMeaning meaning : meanings) {
+        if(synonyms.size() >= OfficeTools.MAX_SUGGESTIONS) {
+          break;
+        }
         String[] singleSynonyms = meaning.querySynonyms();
         Collections.addAll(synonyms, singleSynonyms);
       }
