@@ -4591,6 +4591,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
+        <rulegroup default="on" id="A_VDRUG_NO_COMMA" name="После слова «вдруг» запятая не ставится">
+            <rule>
+                <pattern>
+                    <token>а</token>
+                    <token>вдруг</token>
+                    <token>,<exception scope="next" regexp="yes">&start_vvodnoe;</exception></token>
+                </pattern>
+                <message>Запятая не нужна: <suggestion>\1 \2</suggestion>.</message>
+
+                <short>Запятая не нужна.</short>
+                <example>А вдруг это любовь.</example>
+                <example correction="А вдруг"><marker>А вдруг,</marker> это любовь?</example>
+            </rule>
+        </rulegroup>  
+        
         <rulegroup default="on" id="COMPLEX_SOUZ_NO_COMMA" name="Сложные союзы не разделяются «тогда как», «словно как», ...">
             <!-- Сложные союзы не разделяются «тогда как», «словно как», ...  ->> запятая не ставится. $ 108 Розенталь -->
             <rule>
@@ -7482,7 +7497,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
             
-            <rule default="temp_off" id="Ne_pril_prich1" name="«Не» с прилагательными/причастиями 1"> 
+            <rule default="off" id="Ne_pril_prich1" name="«Не» с прилагательными/причастиями 1"> 
                 <!-- Его походка медлительна, неуверенна. Это краткое прилагательное, слитное написание НЕ, две буквы НН, зависимых слов нет -->
                 <pattern>   
                     <marker>
