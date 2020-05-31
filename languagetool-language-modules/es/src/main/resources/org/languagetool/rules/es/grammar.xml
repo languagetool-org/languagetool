@@ -3234,14 +3234,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="curriculum vitae|currículums|currículos">Los <marker>currículums vitae</marker>.</example>
         </rule>
         <rulegroup id="NO_SEPARADO" name="palabras no separadas">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>social</token>
                     <token min="0">-</token>
                     <token regexp="yes" inflected="yes">demócrata|cristiano</token>
                 </pattern>
                 <message>Probablemente se escribe junto.</message>
-                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="social$1"/></suggestion>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="social$1" case_conversion="alllower"/></suggestion>
                 <example correction="socialdemócratas">Son <marker>social demócratas</marker>.</example>
             </rule>
             <rule>
