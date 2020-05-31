@@ -944,6 +944,15 @@ Copyright © 2013 Markus Brenneis, Daniel Naber, Jan Schreiber
         </pattern>
         <disambig action="remove" postag="VER:.+"/>
     </rule>
+    <rule id="KAUFVERHALTEN" name="kein Verb: Kaufverhalten">
+        <pattern case_sensitive="yes">
+            <marker>
+                <token regexp="yes" postag_regexp="yes" postag="VER:.+">[A-Z].+verhalten
+                </token>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="VER:.+"/>
+    </rule>
     <rule id="SUBSTANTIVIERTES_VERB" name="kein Verb: substantiviertes Verb">
         <pattern case_sensitive="yes">
             <token postag="PRP:LOK:DAT|ART:DEF:.+:NEU" postag_regexp="yes"/>
