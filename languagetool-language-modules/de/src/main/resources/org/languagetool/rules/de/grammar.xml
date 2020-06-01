@@ -140,6 +140,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="ENTSCHEIDEN_ENTSCHEIDEND" name="entscheiden(d)">
+            <pattern case_sensitive="yes">
+                <token inflected="yes" skip="1">sein<exception scope="next">zu</exception><exception postag="PKT" scope="next"/></token>
+                <marker><token>entscheiden</token></marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>entschieden</suggestion> oder <suggestion>entscheidend</suggestion>?</message>
+            <short>&typo;.</short>
+            <example correction="entschieden|entscheidend">Für ihn war es <marker>entscheiden</marker>, dass sie kommt.</example>
+            <example>Zuerst entscheiden wir, was notwendig ist zu entscheiden.</example>
+        </rule>
         <rule id="ZEIL" name="Möglicher Tippfehler 'Zeil'">
             <antipattern>
                 <token regexp="yes">auf|an</token>
