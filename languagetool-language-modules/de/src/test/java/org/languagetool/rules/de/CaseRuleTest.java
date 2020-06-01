@@ -167,6 +167,7 @@ public class CaseRuleTest {
     assertGood("Aber “in den meisten Bundesländern werden solche Studien per se nicht durchgeführt.”");
     assertGood("A) Das Haus");
     assertGood("Rabi und Polykarp Kusch an der Columbia-Universität");
+    assertGood("Man geht davon aus, dass es sich dabei nicht um Reinigungsverhalten handelt.");
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");

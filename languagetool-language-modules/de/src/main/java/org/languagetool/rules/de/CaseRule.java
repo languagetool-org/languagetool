@@ -1251,6 +1251,9 @@ public class CaseRule extends Rule {
       lowercaseReadings.hasPosTagStartingWith("VER:INF")) {
       return true;
     }
+    if (tokens[pos].getToken().matches(".+verhalten")) {
+      return false;
+    }
     // find error in: "Man müsse Überlegen, wie man das Problem löst."
     boolean isPotentialError = pos < tokens.length - 3
         && tokens[pos+1].getToken().equals(",")

@@ -149,6 +149,7 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectSingularVerb() throws IOException {
     List<String> sentences = Arrays.asList(
+        "All diesen Stadtteilen ist die Nähe zum Hamburger Hafen und zu den Industrie- und Gewerbegebieten gemein.",
         "All diesen Bereichen ist gemeinsam, dass sie unterfinanziert sind.",
         "Nicht entmutigen lassen, nur weil Sie kein Genie sind.",
         "Denken Sie daran, dass Sie hier zu Gast sind und sich entsprechend verhalten sollten.",
@@ -330,6 +331,7 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectPluralVerb() throws IOException {
     List<String> sentences = Arrays.asList(
+        "Auch die Reste eines sehr großen Insektenfressers sind unter den Fossilien.",
         "Eine Persönlichkeit sind Sie selbst.",
         "Die Katzen sind schön.",
         "Frau Meier und Herr Müller sind alt.",
