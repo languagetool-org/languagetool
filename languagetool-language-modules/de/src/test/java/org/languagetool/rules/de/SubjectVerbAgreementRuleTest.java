@@ -331,6 +331,7 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectPluralVerb() throws IOException {
     List<String> sentences = Arrays.asList(
+        "Zwei Schülern war aufgefallen, dass man im Fernsehen dazu nichts mehr sieht.",
         "Auch die Reste eines sehr großen Insektenfressers sind unter den Fossilien.",
         "Eine Persönlichkeit sind Sie selbst.",
         "Die Katzen sind schön.",

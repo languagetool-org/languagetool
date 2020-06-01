@@ -72,6 +72,18 @@ public class SubjectVerbAgreementRule extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // "Zwei Schülern war aufgefallen, dass man im Fernsehen..."
+      pos("ZAL"),
+      posRegex("SUB:DAT:PLU:.*"),
+      token("war")
+    ),
+    Arrays.asList(
+      // "Auch die Zehn Gebote sind Ausdruck davon."
+      token("Zehn"),
+      token("Gebote"),
+      token("sind")
+    ),
+    Arrays.asList(
       // "All diesen Stadtteilen ist die Nähe zum Hamburger Hafen..."
       token("all"),
       tokenRegex("den|diesen"),
