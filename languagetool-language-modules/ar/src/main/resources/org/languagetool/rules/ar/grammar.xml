@@ -6216,6 +6216,10 @@ END RULEGROUP Masdar errors
 </message>
     <example correction="ازدراه" type="incorrect"><marker>ازدرى به</marker> </example>
     <example correction="ازدراهم" type="incorrect"><marker>ازدرى بهم</marker> </example>
+<!--
+<example correction="ازدروهم" type="incorrect"><marker>ازدروا بهم</marker> </example>
+
+-->
     <example type="correct"> ازدراه </example>
   </rule>
  <!-- trans_394_AstwTn_fy استوطن في -->
@@ -6227,13 +6231,99 @@ END RULEGROUP Masdar errors
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-    <suggestion><match no="1" postag="(V.*)(-)" postag_replace="$1H">اِسْتَوْطَنَ</match><match no="2" regexp_match="في" regexp_replace=""/></suggestion>
+    <suggestion><match no="1" postag="(V.*a.;..)(-)" postag_replace="$1H">اِسْتَوْطَنَ</match><match no="2" regexp_match="في" regexp_replace=""/></suggestion>
 </message>
-    <example correction="استوطنها|استوطننها" type="incorrect"> حل خالد بحمص <marker>استوطن فيها</marker> </example>
-<example correction="واستوطنها|واستوطننها" type="incorrect"> حل خالد بحمص <marker>واستوطن فيها</marker> </example>
-    <!--<example correction="واستوطنها" type="incorrect"> حل خالد بحمص<marker>واستوطن فيها</marker> </example>-->
+    <example correction="استوطنها" type="incorrect"> حل خالد بحمص <marker>استوطن فيها</marker> </example>
+<example correction="واستوطنها" type="incorrect"> حل خالد بحمص <marker>واستوطن فيها</marker> </example>
+     <example correction="استوطنتموها" type="incorrect">حللتم بالشام ثم <marker>استوطنتم فيها</marker> </example>
+ <example correction="يستوطنونها" type="incorrect">حلّوا بالشام ثم <marker>يستوطنون فيها</marker> </example>
+    <example correction="استوطنوها" type="incorrect">حلّوا بالشام ثم <marker>استوطنوا فيها</marker> </example>
     <example type="correct"> استوطن البلاد </example>
   </rule>
+ <!-- trans_398_ATAH_b أَطَاحَ ب -->
+  <rule id="trans_398_ATAH_b" name="أطاح ب">
+    <pattern>
+       <marker>
+		<token inflected="yes" skip="1">أَطَاحَ</token>
+        <token regexp="yes">&forms_bih;</token>
+      </marker>
+    </pattern>
+    <message>الفعل (أطاح) يتعدى بنفسه 
+       <suggestion><match no="1" postag="(V.*a.;..)(-)" postag_replace="$1H">أَطَاحَ</match><match no="2" regexp_match="ب" regexp_replace=""/></suggestion>
+</message>
+    <example correction="أطاحه" type="incorrect"><marker>أطاح به</marker> </example>
+<example correction="يطيحونه" type="incorrect"><marker>يطيحون به</marker> </example>
+    <example type="correct"> أطاح الجدار </example>
+  </rule>
+ <!-- trans_398_ATAH_b أَطَاحَ ب -->
+  <rule id="trans_398_ATAH_b_2" name="أطاح ب">
+    <pattern>
+       <marker>
+		<token inflected="yes" skip="1">أَطَاحَ</token>
+        <token postag="N.*;.B." postag_regexp="yes"/>
+      </marker>
+    </pattern>
+    <message>الفعل (أطاح) يتعدى بنفسه 
+       <suggestion><match no="1" postag="(V.*a.;..)(-)" postag_replace="$1H">أَطَاحَ</match>&nbsp;<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+</message>
+    <example correction="أطاح ماله" type="incorrect"><marker>أطاح بماله</marker> </example>
+    <example type="correct"> أطاح الجدار </example>
+  </rule>
+<!-- trans_399_AEtAd_Ela اعْتَادَ على -->
+  <rule id="trans_399_AEtAd_Ela" name="اعتاد على">
+    <pattern>
+      <marker>
+      <token inflected="yes" skip="1">اِعْتَادَ</token>     
+      <token regexp="yes">&forms_3ala;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+    <suggestion><match no="1" postag="(V.*a.;..)(-)" postag_replace="$1H">اِعْتَادَ</match><match no="2" regexp_match="على|علي" regexp_replace=""/></suggestion>
+</message>
+
+    <example correction="اعتاد" type="incorrect"><marker>اعتاد على</marker> الأمر </example>
+    <example correction="اعتادوها" type="incorrect"><marker>اعتادوا عليها</marker> الأمر </example>
+    <example correction="اعتدتمونا" type="incorrect"><marker>اعتدتم علينا</marker> الأمر </example>
+
+    <example type="correct"> اعتاد الأمر </example>
+  </rule>
+
+ <!-- trans_402_AEln_En أَعْلَنَ عن -->
+  <rule id="trans_402_AEln_En" name="أعلن عن">
+    <pattern>
+      <marker>
+		<token inflected="yes" skip="1" postag="V.*a.;..-" postag_regexp="yes">أَعْلَنَ</token>      
+        <token regexp="yes">&forms_3an;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+      <suggestion><match no="1" postag="(V.*a.;..)(-)" postag_replace="$1H">أَعْلَنَ</match><match no="2" regexp_match="عن" regexp_replace=""/></suggestion>
+</message>
+    <example correction="أعلنت" type="incorrect"><marker>أعلنت عن</marker> افتتاح الدورة </example>
+    <example correction="أعلنتموها" type="incorrect"><marker>أعلنتم عنها</marker> في  افتتاح الدورة </example>
+    <example correction="أعلنوهما" type="incorrect"><marker>أعلنوا عنهما</marker> في  افتتاح الدورة </example>
+
+    <example type="correct"> أعلن افتتاح الدورة </example>
+
+  </rule>
+
+ <!-- trans_409_tbE_l تبع ل -->
+  <rule id="trans_409_tbE_l" name="تبع ل">
+    <pattern>
+      <marker>
+        <token inflected="yes" postag_regexp="yes" skip="1">تَبِعَ</token>
+        <token regexp="yes">&forms_lih;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+      <suggestion><match no="1" postag="(V.*a.;..)(-)" postag_replace="$1H">تَبِعَ</match><match no="2" regexp_match="^ل" regexp_replace=""/></suggestion>
+</message>
+    <example correction="تتبعها" type="incorrect"> هذه الإدارة <marker>تتبع لها</marker> فروعكم  </example>
+    <example type="correct"> هذه الإدارة تتبعها فروعكم </example>
+  </rule>
+
+ 
+ 
  <!-- TODO trans I2D-->
     </rulegroup>
 <!--
