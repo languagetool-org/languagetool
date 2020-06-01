@@ -7497,12 +7497,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
             
-            <rule default="off" id="Ne_pril_prich1" name="«Не» с прилагательными/причастиями 1"> 
+            <rule default="temp_off" id="Ne_pril_prich1" name="«Не» с прилагательными/причастиями 1"> 
                 <!-- Его походка медлительна, неуверенна. Это краткое прилагательное, слитное написание НЕ, две буквы НН, зависимых слов нет -->
                 <pattern>   
                     <marker>
                         <token>не</token>
-                        <token postag="ADJ:Short:.*" postag_regexp="yes"><exception negate_pos="yes"  postag="ADJ:Short:.*" postag_regexp="yes"/></token>   <!-- <exception  postag="PT_Short:.*|VB:.*" postag_regexp="yes"/> -->
+                        <token postag="ADJ:Short:.*" postag_regexp="yes"><exception negate_pos="yes"  postag="ADJ:Short:.*" postag_regexp="yes"/><exception postag="ADJ:Short:Masc" /></token>   <!-- <exception  postag="PT_Short:.*|VB:.*" postag_regexp="yes"/> -->
                     </marker>
                     <token><exception  postag="PREP" /><exception  postag="NN:.*:.*:.*:(T|D)|ADV" postag_regexp="yes" /><exception regexp="yes">[А-ЯЁ]</exception></token>                
 
@@ -7576,7 +7576,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup default="on" id="Pravopisanie_po-prezhnemu" name="Правописание слов «по-прежнему» или «по прежнему»">    
             <rule>
-                <pattern>
+                <pattern raw_pos="yes">
                     <marker>
                         <token>по</token>
                         <token  postag="ADJ:Posit:Masc:D" />
@@ -7602,7 +7602,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                             <exception regexp="yes">черному|чёрному|белому|красному|синему|желтому|жёлтому|русскому|прусскому|австрийскому|английскому|немецкому|французскому|испанскому|португальскому|голландскому|датскому|китайскому|японскому|арабскому|индийскому|армянскому|грузинскому|польскому|чешскому</exception>
                         </token>
                     </marker>
-                    <token>.</token>
+                    <token regexp="yes">[.!?]</token>
                 </pattern>
                 <message>Слово пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
                 <short>Пишется через дефис.</short>
@@ -7611,7 +7611,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="по-прежнему">Я поступлю <marker>по прежнему</marker>.</example>
             </rule>
             <rule>
-                <pattern>
+                <pattern raw_pos="yes">
                     <marker>
                         <token>по</token>
                         <token  postag="ADJ:Posit:Masc:D">
@@ -7647,7 +7647,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <exception scope="next" postag_regexp="yes" postag="NN:.*:Masc:.*:D|NN:.*:Neut:.*:D" />
                         <exception>IP-адресу</exception>
                     </token>
-                    <token>.</token>
+                    <token regexp="yes">[.!?]</token>
                 </pattern>
                 <message>Слово пишется через дефис: <suggestion>\1-\2</suggestion>.</message>
                 <short>Пишется через дефис.</short>
@@ -7660,7 +7660,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
 
             <rule>
-                <pattern>
+                <pattern raw_pos="yes">
                     <marker>
                         <token postag="ADV" regexp="yes" skip="1">по-.*<exception regexp="yes">по-моему|по-твоему|по-нашему|по-вашему|по-разному</exception></token>
                     </marker>
