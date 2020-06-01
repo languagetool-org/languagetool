@@ -1177,7 +1177,6 @@ Copyright (C) 2011 Juan Martorell
                 <token postag="DA.*" postag_regexp="yes"><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
                 <marker>
                     <token postag="[AN].*" postag_regexp="yes"/>
-
                 </marker>
             </unify>
         </pattern>
@@ -1193,7 +1192,67 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filter" postag="NC.*"/>
     </rule>
-
+    <rulegroup id="la_planta" name="la planta (noun), exeption to next rule">
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="DA.*" postag_regexp="yes"><exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+                    <marker>
+                        <token postag="NC.*" postag_regexp="yes"></token>
+                    </marker>
+                </unify>
+                <token min="0">no</token>
+                <token postag="V.*|AQ.*|&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="NC.*"/>
+            <example type="untouched">Se la ve tranquila.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="NC.*" postag_regexp="yes"></token>
+                    </marker>
+                </unify>
+                <token>de</token>
+                <token><exception regexp="yes">manera|forma</exception></token>
+            </pattern>
+            <disambig action="filter" postag="NC.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="DA.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="NC.*" postag_regexp="yes"/>
+                    </marker>
+                </unify>
+                <token postag="SP.*" postag_regexp="yes"/>
+                <token>que</token>
+            </pattern>
+            <disambig action="filter" postag="NC.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="genero"/>
+                    <feature id="numero"/>
+                    <token postag="D.*" postag_regexp="yes"/>
+                    <marker>
+                        <token postag="NC.*" postag_regexp="yes" inflected="yes">queja</token>
+                    </marker>
+                </unify>
+            </pattern>
+            <disambig action="filter" postag="NC.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="que_la_saque" name="que + pronombre verbo 3a persona sing">
         <rule>
             <pattern>
