@@ -13611,6 +13611,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Wenn aus dem Morgen ich ins Gestern blicke, bin ich auch schlau.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token postag="VER:.*:PRÄ.*" postag_regexp="yes"/>
+                    <token skip="-1" min="0"></token>
+                    <token regexp="yes">noch|wieder|diesmal|mal|nun</token>
+                </antipattern>
+                <antipattern>
+                     <token postag="VER:.*:PRÄ.*" postag_regexp="yes"/>
+                     <token postag="PA2:.+|VER:AUX:.+|VER:MOD:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">aus|noch|wie</token>
+                    <token min="0"/>
+                     <token regexp="yes">(vor)?letzte[ns]?|voriges?</token>
+                     <token regexp="yes">&wochentage;|Woche|Wochenende|Monat|Jahr</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START" skip="-1">
                         <exception postag_regexp="yes" postag="VER:(AUX|MOD):.*" scope="next"/>
@@ -13629,6 +13644,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>
                         <exception inflected="yes">haben</exception>
                         <exception inflected="yes">sein</exception>
+                        <exception>(</exception>
                     </token>
                 </pattern>
                 <message>Falsche Zeitform? Meinten Sie <suggestion><match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="(.*):PRÄ:(.*)" postag_replace="$1:PRT:$2"/></suggestion>?</message>
@@ -13639,6 +13655,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Rate mal, wer mich <marker>letzten Mittwoch besucht</marker> hat.</example>
                 <example>Yoko ging <marker>vorletzte Woche einkaufen</marker>.</example>
                 <example>Seit dem <marker>letzten Montag arbeitet</marker> er wieder.</example>
+                <example>Das schwere Spiel vom letzten Wochenende sitzt der Mannschaft noch in den Knochen.</example>
+                <example>Gehe dorthin spazieren, wohin er in der letzten Woche spazieren gegangen ist.</example>
+                <example>Genau wie im letzen Jahr gibt es nun auch wieder eine Bühne.</example>
+                <example>Der Fehler tritt auf, nachdem die Updates der letzten Woche installiert wurden.</example>
+                <example>Ich habe das Programm noch letzte Woche benutzt.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HUMANEXPERIMENT" name="Mehrdeutigkeit: menschliche Experimente (Humanexperimente)">
