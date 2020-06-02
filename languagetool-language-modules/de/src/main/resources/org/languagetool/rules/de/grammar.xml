@@ -34955,16 +34955,25 @@ Andere Projekte</example>
             <example correction="mir">Ich kann <marker>mich</marker> nicht vorstellen, dass das klappt.</example>
         </rule>
         <rule id="EINES_GENITIV" name="Nomen + eines/einer + Genitiv">
+            <antipattern>
+                <token>studium</token>
+                <token>generale</token>
+            </antipattern>
             <pattern>
                 <token postag='SUB:.+' postag_regexp='yes'/>
                 <token regexp="yes">eines|einer</token>
                 <marker>
-                    <token postag='SUB:.+' postag_regexp='yes'><exception postag='SUB:GEN:.+' postag_regexp='yes'/><exception>Diabetes</exception></token>
+                    <token postag='SUB:.+' postag_regexp='yes'>
+                        <exception postag='SUB:GEN:.+' postag_regexp='yes'/>
+                        <exception>Diabetes</exception>
+                        <exception scope="next" postag="SUB:.+|UNKNOWN" postag_regexp="yes"/>
+                    </token>
                 </marker>
             </pattern>
             <message>Hier sollte vermutlich der Genitiv benutzt werden.</message>
             <suggestion><match no="3" postag_regexp="yes" postag="SUB:.*?:(.*?):(.*?)" postag_replace="SUB:GEN:$1:$2"/></suggestion>
             <example correction='Kriteriums'>…zur Erstellung eines <marker>Kriterium</marker>.</example>
+            <example>Diese Lampe ist sehr gut für die Aufzucht einer Cannabispflanze geeignet.</example>
         </rule>
         <rule id="ZU_KOMMA_ALS" name="zu, als dass">
             <pattern>
