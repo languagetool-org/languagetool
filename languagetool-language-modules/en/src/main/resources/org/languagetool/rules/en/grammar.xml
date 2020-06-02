@@ -42598,7 +42598,12 @@ USA
                 <pattern>
                     <token chunk="B-VP" postag_regexp="yes" postag="VBP?">need</token><!-- base form only -->
                     <marker>
-                        <token chunk="I-VP" postag="VB"/>
+                        <or>
+                            <token postag="VB"><!-- verbs that are not also nouns (e.g. "believe") -->
+                                <exception postag_regexp="yes" postag="NN.*"/>
+                                </token>
+                            <token regexp="yes">use|think|go</token><!-- verbs that are rarely used as nouns after "need" -->
+                        </or>
                     </marker>
                     <or>
                         <token chunk="B-NP-singular"/>
@@ -42613,11 +42618,11 @@ USA
                 <example correction="to accelerate">I think we need <marker>accelerate</marker> this process.</example>
                 <example correction="to use">I need <marker>use</marker> subtitles on my video.</example>
                 <example correction="to use">Do the technicians need <marker>use</marker> oil?</example>
-                <example correction="to buy">I need <marker>buy</marker> a new car.</example>
+<!-- <example correction="to buy">I need <marker>buy</marker> a new car.</example> -->
                 <example correction="to bring">I need <marker>bring</marker> some flowers.</example>
                 <example correction="to bring">The technicians need <marker>bring</marker> washers.</example>
                 <example correction="to do">You know you need <marker>do</marker> that, don't you?</example>
-                <example correction="to express">I felt i need <marker>express</marker> this feeling so i made this little poem:</example>
+<!-- <example correction="to express">I felt i need <marker>express</marker> this feeling so i made this little poem:</example> -->
                 <example correction="to install">I think i need <marker>install</marker> SpringScanner.</example>
                 <example>I think we need <marker>to accelerate</marker> this process.</example>
                 <example>I need help with this task.</example><!-- help/I-VP -->
@@ -42662,25 +42667,22 @@ USA
                 <example>... but if you guys need help I could try to see if I can do the work well enough.</example>
                 <example>If it has a roaring sound coming from the rear, then you need rear wheel bearings.</example><!-- rear/I-VP -->
                 <example>I need help pleas.</example>
-
-<!--
-
-                <example>We need complete well characteristic data (depth, basin, age) in order to be accurate.</example>
-                <example>Do we really need duplicate hero type association when there are so many troop types?</example>
-                <example>I need license key location, because I added it to the in-correct account, so I need to change it to another license key.</example>
-                <example>And if you do have a project of your own where you need design help, you can of course submit it there too.</example>
-                <example>If a grammar does generate the empty string, it will be necessary to include the rule, but there need be no other ε-rule.</example>
-                <example>Others can view your app’s data, they just need be granted permission- by You!.</example>
-                <example>The gas contracts we need include the following, can you give us timescales.</example>
-                <example>I need access ASAP as I am supporting a trader who does most of his deals on EOL.</example>
-
-                <example>If you received new @GLOBAL license keys recently (within the last 6 months to a year), you need do nothing, otherwise contact FEA to receive updated license keys.</example>
                 <example>We need account information necessary to set it up such as name, TIN etc.</example>
                 <example>permissions: ['r'] // need read permission to create subscriptions!</example>
                 <example>I need deal date, start date, end date, premium, strike price,...</example>
-                <example>I need cost reductions, improved cash flow and SUPPORT.</example>
-                <example>I need change overs to happen on Mondays cause that’s my day off to grind</example>
-                <example>That’s right, but you need write access to the data directory too.</example>
+                <example>I need access ASAP as I am supporting a trader who does most of his deals on EOL.</example>
+                <example>Do we really need duplicate hero type association when there are so many troop types?</example>
+                <example>I need license key location, because I added it to the in-correct account, so I need to change it to another license key.</example>
+                <example>And if you do have a project of your own where you need design help, you can of course submit it there too.</example>
+<!-- Testrules complains
+                <example type="triggers_error">We need complete well characteristic data (depth, basin, age) in order to be accurate.</example>
+                <example type="triggers_error">If a grammar does generate the empty string, it will be necessary to include the rule, but there need be no other ε-rule.</example>
+                <example type="triggers_error">Others can view your app’s data, they just need be granted permission- by You!</example>
+                <example type="triggers_error">The gas contracts we need include the following, can you give us timescales.</example>
+                <example type="triggers_error">If you received new @GLOBAL license keys recently (within the last 6 months to a year), you need do nothing, otherwise contact FEA to receive updated license keys.</example>
+                <example type="triggers_error">I need cost reductions, improved cash flow and SUPPORT.</example>
+                <example type="triggers_error">I need change overs to happen on Mondays cause that’s my day off to grind</example>
+                <example type="triggers_error">That’s right, but you need write access to the data directory too.</example>
 -->
                 <example>All you need bring are sheets.</example><!-- Ambiguous -->
 <!-- Testrules error. The GUI finds this sentence, but testrules says " didn't actually trigger an error"  <example type="triggers_error">At this stage no further discussion need take place on this point.</example> Modal -->
