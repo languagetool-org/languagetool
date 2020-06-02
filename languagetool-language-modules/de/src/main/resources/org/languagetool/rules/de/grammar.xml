@@ -34883,11 +34883,30 @@ Andere Projekte</example>
                 <token postag="SUB:NOM:SIN:FEM:ADJ"/>
                 <token postag='VER:1:PLU:PRÄ.*' postag_regexp='yes'/>
             </antipattern>
+            <antipattern>
+                <token postag='SUB:NOM:SIN:(MAS|FEM|NEU)' postag_regexp='yes'/>
+                <token postag='VER:1:PLU:PRÄ.*' postag_regexp='yes'/>
+                <token postag="VER:.+|KON:.+" postag_regexp="yes">
+                    <exception postag="SUB:.+" postag_regexp="yes"/>
+                </token>
+            </antipattern>
+            <antipattern>
+                   <token postag='SUB:NOM:SIN:(MAS|FEM|NEU)' postag_regexp='yes'/>
+                <token postag='VER:1:PLU:PRÄ.*' postag_regexp='yes'/>
+                <token postag="SUB:.+:PLU:.+|PRO:PER:.+:PLU:.+"  postag_regexp="yes">
+                    <exception postag="VER:.+" postag_regexp="yes"/>
+                </token>
+            </antipattern>
+             <antipattern>
+                 <token postag='SUB:NOM:SIN:(MAS|FEM|NEU)' postag_regexp='yes'/>
+                <token postag='VER:1:PLU:PRÄ.*' postag_regexp='yes'/>
+                <token case_sensitive="yes">Sie</token>
+            </antipattern>
             <pattern>
                 <token postag="SENT_START"/>
                 <marker>
                     <token postag='SUB:NOM:SIN:(MAS|FEM|NEU)' postag_regexp='yes'>
-                        <exception postag_regexp="yes" postag="SUB:NOM:PLU:(MAS|FEM|NEU)|ADJ:(PRD:GRU|NOM:PLU:...:GRU:SOL)"/>
+                        <exception postag_regexp="yes" postag="ZAL|PRP:.+|ADV|ADV:.+|VER:.+|PRO:DEM|SUB:NOM:PLU:(MAS|FEM|NEU)|ADJ:(PRD:GRU|NOM:PLU:...:GRU:SOL)"/>
                         <exception regexp="yes">Datum|Entweder|Bitte|Mal|Laut|Wein|Angst|Glück|Gewicht|Geld|Vorzugsweise|.+tag|Wasser|Können</exception><!--TODO: alle unzählbaren Nomen-->
                         <exception regexp="yes">&sprachadj1;</exception>
                         <exception regexp="yes">&wochentage;</exception>
@@ -34917,6 +34936,13 @@ Andere Projekte</example>
             <example>Reich werden in China</example>
             <example>Junge bleiben bei Einkommen in der EU zurück.</example>
             <example>Datum füllen wir dann aus.</example>
+            <example>Drei leben friedlich, wenn zwei nicht daheim sind.</example>
+            <example>Selbst essen macht satt.</example>
+            <example>Daheim werden sie nicht geschätzt.</example>
+            <example>Klappe halten!</example>
+            <example>Zeit haben wir genug.</example>
+            <example>Bambus essen Gorillas sehr gern.</example>
+            <example>Langeweile haben wir dennoch nicht.</example>
         </rule>
         <rule id="SENT_START_PLU_SIN" name="Nomen plural + Verb singular am Satzanfang">
             <antipattern>
