@@ -6128,7 +6128,7 @@ USA
             <pattern>
                 <token case_sensitive="yes" regexp="yes">
                     <exception regexp="yes" scope="previous">the|an?|my|y?our|his|her|their</exception>
-                    harry|matt|mike|trump|jack|tom|mark
+                    harry|matt|mike|trump|jack|tom|mark|nick
                 </token><!-- lowercase names that are also verbs or adjectives -->
                 <token regexp="yes" spacebefore="no">&apostrophe;</token>
                 <token spacebefore="no">s</token>
@@ -11889,6 +11889,35 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
+        <rulegroup id="SLOW_MO" name="slo-mo" default="temp_off">
+            <url>https://www.merriam-webster.com/dictionary/slo-mo</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">slow?</token>
+                    <token regexp="yes">mos?</token>
+                </pattern>
+                <message>Did you mean the noun or adjective <suggestion>slo-\2</suggestion> (= <suggestion>slow <match no="2" regexp_match="(?i)o" regexp_replace="otion" /></suggestion>)?</message>
+                <example correction="slo-mo|slow motion">The video was playing in <marker>slow mo</marker>.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">slo-mos?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">slow?\-?mos?</token>
+                </pattern>
+                <message>Did you mean the noun or adjective <suggestion>slo-mo</suggestion> (= <suggestion>slow motion</suggestion>)?</message>
+                <example correction="slo-mo|slow motion">The video was playing in <marker>slow-mo</marker>.</example>
+            </rule>
+        </rulegroup>
+        <rule id="LIKELY_HOOD" name="likely hood (likelihood)" default="temp_off">
+            <pattern>
+                <token regexp="yes">(un)?likel[iy]|livel[iy]</token>
+                <token regexp="yes">hoods?</token>
+            </pattern>
+            <message>Did you mean the noun <suggestion><match no="1" case_conversion="alllower" regexp_match="(?i)y$" regexp_replace="i" /><match no="2" case_conversion="alllower" /></suggestion>?</message>
+            <example correction="livelihoods">There are many people whose <marker>lively hoods</marker> depend on the rain forest.</example>
+        </rule>
         <rulegroup id="HALF_WAY" name="half way">
             <url>https://www.lexico.com/definition/halfway</url>
             <rule>
@@ -12141,7 +12170,55 @@ USA
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
-        <rule id="MARK_COMPOUNDS" name="trade mark (trademark)" default="temp_off">
+        <rule id="LINE_COMPOUNDS" name="dead line (deadline)" default="temp_off">
+            <pattern>
+                <token>dead</token>
+                <token regexp="yes">lines?</token>
+            </pattern>
+            <message>This is normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <url>https://www.merriam-webster.com/dictionary/deadline</url>
+            <example correction="deadline">We completed the task before it hit the <marker>dead line</marker>.</example>
+        </rule>
+        <rule id="OWNER_COMPOUNDS" name="home owner (homeowner)" default="temp_off">
+            <pattern>
+                <token regexp="yes">ship|land|home</token>
+                <token regexp="yes">owners?</token>
+            </pattern>
+            <message>This noun normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="homeowner">A <marker>home owner</marker> is someone who owns a house.</example>
+        </rule>
+        <rule id="LAW_COMPOUNDS" name="law suit (lawsuit)" default="temp_off">
+            <antipattern>
+                <token>law</token>
+                <token regexp="yes">suits?</token>
+                <token regexp="yes">the|an?|his|her|their|my|y?our</token>
+            </antipattern>
+            <pattern>
+                <token>law</token>
+                <token regexp="yes">suits?|fare|breakers?|givers?|makers?</token>
+            </pattern>
+            <message>This noun normally spelled as one word.</message>
+            <suggestion>law<match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="lawsuit">She filed a <marker>law suit</marker> against the city.</example>
+            <example>The law suits my taste.</example>
+        </rule>
+        <rule id="HOOD_COMPOUNDS" name="neighbor hood (neighboorhood)" default="temp_off">
+            <antipattern case_sensitive="yes"><!-- https://en.wikipedia.org/wiki/Father_Hood -->
+                <token>Father</token>
+                <token>Hood</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">grandparent|neighbou?r|creature|bachelor|spinster|brother|widower|toddler|prophet|servant|mother|priest|father|sister|knight|person|people|maiden|nation|cousin|victim|orphan|parent|child|woman|false|state|widow|saint|monks|hardi|human|witch|adult|puppy|fairy|self|monk|maid|wife|serf|king|girl|baby|lady|aunt|man|god|boy</token>
+                <token regexp="yes">hoods?</token>
+            </pattern>
+            <message>This noun normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="neighborhood">She lives in a wealthy <marker>neighbor hood</marker>.</example>
+            <example>Old Father Hood, standing over there as he has been since time out of mind, took a couple of human lives the other day.</example>
+        </rule>
+        <rule id="MARK_COMPOUNDS" name="trade mark (trademark)">
             <antipattern>
                 <token>marks</token>
                 <token regexp="yes">the|an?</token>
@@ -12155,7 +12232,7 @@ USA
             <example correction="trademark">You can't copy his <marker>trade mark</marker>.</example>
             <example>This first trade marks the end of the confrontation between the two countries.</example>
         </rule>
-        <rule id="FRIEND_COMPOUNDS" name="boy friend (boyfriend)" default="temp_off">
+        <rule id="FRIEND_COMPOUNDS" name="boy friend (boyfriend)">
             <antipattern><!-- https://en.wikipedia.org/wiki/Superman's_Girl_Friend,_Lois_Lane -->
                 <token skip="2">Superman</token>
                 <token>Girl</token>
@@ -12455,7 +12532,7 @@ USA
             </antipattern>
             <pattern>
                 <token>super</token>
-                <token regexp="yes">markets?|moons?|delegates?|tankers?|glues?|spreaders?|hero(es)?</token>
+                <token regexp="yes">markets?|moons?|delegates?|tankers?|glues?|spreaders?|hero(es)?|chargers?</token>
             </pattern>
             <message>This noun is normally spelled as one word.</message>
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
@@ -12495,7 +12572,18 @@ USA
             <example>The News Letter, the oldest English-language newspaper in the world still in publication.</example>
             <example>Fox News (officially known as the Fox News Channel, commonly abbreviated to FNC) is a United States pay television news channel owned by the Fox News Group, a division of Fox.</example>
         </rule>
-        <rule id="WIDE_COMPOUNDS" name="wide spread (widespread)" default="temp_off">
+        <rule id="WIDE_COMPOUNDS" name="wide spread (widespread)">
+            <antipattern>
+                <token>wide</token>
+                <token>spread</token>
+                <token postag="IN" />
+            </antipattern>
+            <antipattern>
+                <token postag="DT" skip="1" />
+                <token>wide</token>
+                <token>spread</token>
+                <token postag="PCT|CC" postag_regexp="yes" />
+            </antipattern>
             <pattern>
                 <token>wide</token>
                 <token regexp="yes">spread|band|mouthed</token>
@@ -12503,6 +12591,8 @@ USA
             <message>The adjective <suggestion>wide<match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
             <url>https://www.merriam-webster.com/dictionary/widespread</url>
             <example correction="widespread">It was a <marker>wide spread</marker> virus.</example>
+            <example>Though lacking MusicLab's support a wide spread of BearShare versions from 4.7 to 5.2.5.6 remain the second most popular servent on gnutella, alongside LimeWire.</example>
+            <example>The move to modernity was sanctioned because a stock price quoted in fractions forces an artificially wide spread.</example>
         </rule>
         <rule id="MOTOR_COMPOUNDS" name="motor bike (motorbike)">
             <antipattern>
@@ -18731,7 +18821,7 @@ USA
                 <token regexp="yes">Area|AREA</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">tampa|winyah|chesapeake</token>
+                <token regexp="yes">tampa|winyah|chesapeake|turtle|monterey</token>
                 <token>bay</token>
                 <token>area</token>
             </antipattern>
