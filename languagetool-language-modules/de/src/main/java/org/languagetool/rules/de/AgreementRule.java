@@ -1185,6 +1185,9 @@ public class AgreementRule extends Rule {
       if (compoundMatch != null) {
         return compoundMatch;
       }
+      if (token3.hasPartialPosTag("ABK")) {
+        return null;
+      }
       String msg = "Möglicherweise fehlende grammatische Übereinstimmung " +
             "von Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +
             "statt 'mein kleines Haus'";

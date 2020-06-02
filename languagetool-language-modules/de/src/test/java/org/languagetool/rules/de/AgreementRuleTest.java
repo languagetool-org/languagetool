@@ -68,7 +68,7 @@ public class AgreementRuleTest {
   @Test
   public void testDetNounRule() throws IOException {
     // correct sentences:
-	assertGood("Die Einen sagen dies, die Anderen das.");
+	  assertGood("Die Einen sagen dies, die Anderen das.");
     assertGood("So ist es in den USA.");
     assertGood("Das ist der Tisch.");
     assertGood("Das ist das Haus.");
@@ -442,6 +442,7 @@ public class AgreementRuleTest {
     assertGood("Der riesigen Tische wegen.");
     assertGood("An der roten Ampel.");
     assertGood("Dann hat das natürlich Nachteile.");
+    assertGood("Ihre erste Nr. 1");
 
     // incorrect sentences:
     assertBad("Es sind die riesigen Tisch.");
