@@ -28,6 +28,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- https://fr.wikipedia.org/wiki/La_Haye -->
 ]>
 <rules lang="fr" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <unification feature="number">
+    <equivalence type="sg">
+      <token postag=".* sp?" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="pl">
+      <token postag=".* s?p" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+  <unification feature="gender">
+    <equivalence type="masc">
+      <token postag=".* [me] [sp][sp]?" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="fem">
+      <token postag=".* [fe] [sp][sp]?" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
+  <unification feature="person">
+    <equivalence type="p1">
+      <token postag=".* 1 .*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="p2">
+      <token postag=".* 2 .*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="p3">
+      <token postag=".* 3 .*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
   <category id="CAT_PLEONASMES" name="Pléonasmes">
     <!--The following rules were created by Hugo Voisard
 (the rule on "ajouter en plus"
@@ -7985,10 +8012,11 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token>presqu'</token>
+          <token>presqu</token>
+          <token>'</token>
           <token negate="yes" regexp="yes">[îi]les?</token>
         </pattern>
-        <message>« presque » ne s’élide que dans le nom « presqu’île ». Employez <suggestion>presque \2</suggestion>.</message>
+        <message>« presque » ne s’élide que dans le nom « presqu’île ». Employez <suggestion>presque \3</suggestion>.</message>
         <example correction="presque exacte">La réponse est <marker>presqu’exacte</marker>.</example>
       </rule>
     </rulegroup>
@@ -12133,7 +12161,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="ACCORD_R_PERS_VERBE" name="accord pronom personnel avec verbe">
       <rule name="je + token + verbe">
         <pattern>
-          <token postag="R pers suj 1 s"/>
+          <token postag="R pers suj 1 s"><exception regexp="yes">-.+</exception></token>
           <token min="0" inflected="yes">ne</token>
           <token min="0" max="3" postag="R .*" postag_regexp="yes"/>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 s" postag_regexp="yes"/></token></marker>
@@ -12219,8 +12247,9 @@ though, and has since been slightly modified)-->
       <rule name="il/elle/on + 0 tokens + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
+            <exception regexp="yes">-.+</exception>
             <exception regexp="yes">ça|ce(la|ci)?|(celui|celle)([-‑‐]ci)?</exception>
-            <exception scope="previous" postag_regexp="yes" postag="P|&lt;/DE&gt;"/>
+            <exception scope="previous" postag="P"/>
             <exception scope="previous">et</exception>
           </token>
           <marker>
@@ -12263,7 +12292,6 @@ though, and has since been slightly modified)-->
         <example>Et ça fonctionne.</example>
         <example>Je ne trouve pas ça intéressant.</example>
       </rule>
-
       <rule name="il/elle/on + 1 token + Verbe">
         <antipattern>
           <token postag="[NZ].*" postag_regexp="yes"/>
@@ -12273,7 +12301,6 @@ though, and has since been slightly modified)-->
         <antipattern>
             <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
                 <exception regexp="yes">ce|celle|cela</exception>
-                <exception scope="previous" postag="&lt;/DE&gt;"/>
                 <exception scope="previous" postag="P"/>
             </token>
             <token>en</token>
@@ -12281,8 +12308,7 @@ though, and has since been slightly modified)-->
         </antipattern>
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
-            <exception regexp="yes">ce|celle|cela</exception>
-            <exception scope="previous" postag="&lt;/DE&gt;"/>
+            <exception regexp="yes">ce|celle|cela|-.*</exception>
             <exception scope="previous" postag="P"/>
           </token>
           <token regexp="yes">[lmnst]e|la|les|[nv]ous|leur|lui|en|y</token>
@@ -12302,7 +12328,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="ça + 1 tokens + Verbe">
         <pattern>
-          <token regexp="yes">ça|(celui|celle)[-‑‐]là|personne</token>
+          <token regexp="yes">ça|(celui|celle)-là|personne</token>
           <token>ne</token>
           <marker>
             <token postag="V .*" postag_regexp="yes">
@@ -12316,17 +12342,15 @@ though, and has since been slightly modified)-->
         <example correction="">Personne ne <marker>peux</marker> me le dire.</example>
         <example>Personne ne <marker>peut</marker> me le dire.</example>
       </rule>
-
       <rule name="il/elle/on + 2 tokens + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
-            <exception regexp="yes">ça|cela|ceci|ce|celle</exception>
-            <exception scope="previous" postag="&lt;/DE&gt;"/>
+            <exception regexp="yes">ça|cela|ceci|ce|celle|-.*</exception>
             <exception scope="previous" postag="P"/>
           </token>
           <!-- Not all combinations of 2 tokens between il/elle/on and verb are actually possible -->
-          <token regexp="yes">[lmnst]|[mnst]e|la|les?|[nv]ous|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|[mnst]e|la|les?|[vn]ous|en|y|lui|leur</token>
+          <token min="0" inflected="yes">ne</token>
+          <token min="0" max="3" postag="R .*" postag_regexp="yes"/>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
@@ -12338,13 +12362,12 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="il/elle/on + 2 tokens + Verbe">
         <pattern>
-          <token regexp="yes">ça|cela|ceci|(celui|celle)[-‑‐](ci|là)</token>
+          <token regexp="yes">ça|cela|ceci|(celui|celle)-(ci|là)</token>
           <!-- Not all combinations of 2 tokens between il/elle/on and verb are actually possible -->
-          <token regexp="yes">[lmnst]|[mnst]e|la|les?|[nv]ous|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|[mnst]e|la|les?|[vn]ous|en|y|lui|leur</token>
+          <token min="1" max="3" postag="R .*" postag_regexp="yes"/>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s|V.* inf" postag_regexp="yes"/></token></marker>
         </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
+        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \3 ».</message>
         <example correction="">Ça t’<marker>irais</marker> bien.</example>
         <example>Ça t’<marker>irait</marker> bien.</example>
         <example>Ne laisse pas ça t’arrêter.</example>
@@ -12352,16 +12375,15 @@ though, and has since been slightly modified)-->
       <rule name="il/elle/on + 3 tokens + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
-            <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" postag="P"/>
+            <exception regexp="yes">-.*</exception>
           </token>
           <!-- Not all combinations of 3 tokens between il/elle/on and verb are actually possible -->
-          <token regexp="yes">[mnst]e?</token>
-          <token regexp="yes">[’´'‛′‘]|[lmst]e?|[vn]ous|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
+          <token min="0" inflected="yes">ne</token>
+          <token min="1" max="3" postag="R .*" postag_regexp="yes"/>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s|V .* ppr" postag_regexp="yes"/></token></marker>
         </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \5 ».</message>
+        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
         <example correction="">Cela ne t’<marker>aideras</marker> pas.</example>
         <example>Cela ne t’<marker>aidera</marker> pas.</example>
         <example correction="">Elle m’en <marker>parlent</marker></example>
@@ -12374,24 +12396,23 @@ though, and has since been slightly modified)-->
       <rule name="il/elle/on + 4 tokens + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
-            <exception scope="previous" postag="&lt;/DE&gt;"/>
+            <exception regexp="yes">-.*</exception>
             <exception scope="previous" postag="P"/>
           </token>
           <!-- Not all combinations of 4 tokens between il/elle/on and verb are actually possible -->
           <token>ne</token>
-          <token regexp="yes">[lmts]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">[lmts]'</token>
           <token regexp="yes">en|y</token>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"/></token></marker>
         </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \6 ».</message>
+        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \5 ».</message>
         <example correction="">Elle ne s’en <marker>souviens</marker> pas.</example>
         <example>Elle ne s’en <marker>souvient</marker> pas.</example>
       </rule>
 
       <rule name="nous + Verbe">
         <pattern>
-          <token postag="R pers suj 1 p"><exception postag="R pers obj 1 p"/></token>
+          <token postag="R pers suj 1 p"><exception postag="R pers obj 1 p"/><exception regexp="yes">-.*</exception></token>
           <token min="0" max="1">ne</token>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 p" postag_regexp="yes"/></token></marker>
         </pattern>
@@ -12408,7 +12429,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="nous + pronom obj + Verbe">
         <pattern>
-          <token postag="R pers suj 1 p"><exception postag="R pers obj 1 p"/></token>
+          <token postag="R pers suj 1 p"><exception postag="R pers obj 1 p"/><exception regexp="yes">-.*</exception></token>
           <token min="0" max="1">ne</token>
           <token postag="R pers obj.*" postag_regexp="yes"/>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 p" postag_regexp="yes"/></token></marker>
@@ -12425,7 +12446,7 @@ though, and has since been slightly modified)-->
             <token regexp="yes">remerciant|souhaitant</token>
         </antipattern>
         <pattern>
-          <token postag="R pers suj 2 p"><exception postag="R pers obj 2 p"/></token>
+          <token postag="R pers suj 2 p"><exception postag="R pers obj 2 p"/><exception regexp="yes">-.*</exception></token>
           <token min="0" max="1">ne</token>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 2 p" postag_regexp="yes"/></token></marker>
         </pattern>
@@ -12440,7 +12461,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="vous + pronom obj + Verbe">
         <pattern>
-          <token postag="R pers suj 2 p"><exception postag="R pers obj 2 p"/></token>
+          <token postag="R pers suj 2 p"><exception postag="R pers obj 2 p"/><exception regexp="yes">-.*</exception></token>
           <token min="0" max="1">ne</token>
           <token postag="R pers obj.*" postag_regexp="yes"/>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 2 p" postag_regexp="yes"/></token></marker>
@@ -12454,7 +12475,7 @@ though, and has since been slightly modified)-->
 
       <rule name="ils/elles + 0 token + Verbe">
         <antipattern>
-          <token regexp="yes">(?:celles|ceux)[-‑‐](?:ci|là)</token>
+          <token regexp="yes">(?:celles|ceux)-(?:ci|là)</token>
           <token postag_regexp="yes" postag="V .* ppr"/>
         </antipattern>
         <pattern>
@@ -12489,19 +12510,18 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="ils/elles + 2 tokens + Verbe">
         <antipattern>
-          <token regexp="yes">(?:celles|ceux)[-‑‐](?:ci|là)</token>
-          <token regexp="yes">[lmnst]|[mnst]e|la|les?|[nv]ous|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|[mnst]e|la|les?|[vn]ous|en|lui|leur</token>
+          <token regexp="yes">(?:celles|ceux)-(?:ci|là)</token>
+          <token min="1" max="2" postag="R .*" postag_regexp="yes"/>
           <token postag="V .* ppr" postag_regexp="yes"/>
         </antipattern>
         <pattern>
           <token postag="R pers suj 3 .* p|R dem . p" postag_regexp="yes">
-            <exception scope="previous" postag="&lt;/DE&gt;"/>
             <exception scope="previous" postag="P"/>
+            <exception regexp="yes">-.*</exception>
           </token>
           <!-- Not all combinations of 2 tokens between ils/elles and verb are actually possible -->
-          <token regexp="yes">[lmnst]|[mnst]e|la|les?|[nv]ous|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|[mnst]e|la|les?|[vn]ous|en|y|lui|leur</token>
+          <token min="0" inflected="yes">ne</token>
+          <token min="1" max="2" postag="R .*" postag_regexp="yes"/>
           <marker>
             <token postag="V .*" postag_regexp="yes">
               <exception postag="V .* 3 p" postag_regexp="yes"/>
@@ -12511,23 +12531,23 @@ though, and has since been slightly modified)-->
         <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
         <example correction="">Ils ne nous <marker>attends</marker> pas</example>
         <example>Ils ne nous attendent pas</example>
-        <example correction="">Ceux-ci l’<marker>aide</marker>.</example>
+        <!-- TODO: l'aide: det+noun / pron+verb <example correction="">Ceux-ci l’<marker>aide</marker>.</example> -->
         <example>Ceux-ci l’aident.</example>
         <example>Ceux-ci n’ayant pas été approuvés.</example>
+        <example>Afin d'apporter à ceux-ci l'aide technique et administrative.</example>
       </rule>
       <rule name="ils/elles + 3 tokens + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* p|R dem . p" postag_regexp="yes">
-            <exception scope="previous" postag="&lt;/DE&gt;"/>
+            <exception regexp="yes">-.*</exception>
             <exception scope="previous" postag="P"/>
           </token>
           <!-- Not all combinations of 3 tokens between ils/elles and verb are actually possible -->
-          <token regexp="yes">[mnst]e?</token>
-          <token regexp="yes">[’´'‛′‘]|[lmst]e?|[vn]ous|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
+          <token min="0" inflected="yes">ne</token>
+          <token min="1" max="2" postag="R .*" postag_regexp="yes"/>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
         </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \5 ».</message>
+        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \4 ».</message>
         <example correction="">Ils ne m’<marker>attends</marker> pas.</example>
         <example>Ils ne m’<marker>attendent</marker> pas.</example>
         <example correction="">Ils me l’<marker>avait</marker> donné.</example>
@@ -12536,17 +12556,16 @@ though, and has since been slightly modified)-->
       <rule name="ils/elles + 4 tokens + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* p|R dem . p" postag_regexp="yes">
-            <exception scope="previous" postag="&lt;/DE&gt;"/>
+            <exception regexp="yes">-.*</exception>
             <exception scope="previous" postag="P"/>
           </token>
           <!-- Not all combinations of 4 tokens between ils/elles and verb are actually possible -->
           <token>ne</token>
-          <token regexp="yes">[lmts]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">[lmts]'</token>
           <token regexp="yes">en|y</token>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
         </pattern>
-        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \6 ».</message>
+        <message>Vérifiez l’accord entre le pronom « \1 » et le verbe « \5 ».</message>
         <example correction="">Ils ne s’en <marker>souvient</marker> pas.</example>
         <example><marker>Ils ne s’en souviennent</marker> pas.</example>
       </rule>
@@ -12571,8 +12590,8 @@ though, and has since been slightly modified)-->
         </antipattern>
         <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">ne?</token>
-          <token min="0" max="1" regexp="yes">[lmt]e|[nv]ous|les|la|leur|lui|[’´'‛′‘]</token>
+          <token inflected="yes">ne</token>
+          <token min="0" max="1" regexp="yes">[lmt][e']|[nv]ous|les|la|leur|lui</token>
           <marker>
             <token postag_regexp="yes" postag="V.*">
               <exception postag_regexp="yes" postag="V.* (imp|ppr).*"/>
@@ -12600,10 +12619,9 @@ though, and has since been slightly modified)-->
         </antipattern>
         <pattern>
           <token postag="SENT_START"/>
-          <token regexp="yes">ne?</token>
+          <token inflected="yes">ne</token>
             <!-- 2 token (not all combinations are possible) -->
-          <token regexp="yes">[mtl]e|les|la?|[’´'‛′‘]</token>
-          <token regexp="yes">les?|la|[nv]ous|lui|leur|y|en|[’´'‛′‘]</token>
+          <token postag="R .*" postag_regexp="yes" min="1" max="2"/>
           <marker>
             <token postag_regexp="yes" postag="V.*">
               <exception postag_regexp="yes" postag="V.* (imp|ppr).*"/>
@@ -12611,8 +12629,8 @@ though, and has since been slightly modified)-->
           </marker>
           <token regexp="yes">pas|plus</token>
         </pattern>
-        <message>Le verbe « \5 » devrait être à l’impératif.</message>
-        <suggestion><match no="5" postag="V (avoir )?(etre )?(inf|ind|con|sub) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2imp $4 2 $6"/></suggestion>
+        <message>Le verbe « \4 » devrait être à l’impératif.</message>
+        <suggestion><match no="4" postag="V (avoir )?(etre )?(inf|ind|con|sub) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2imp $4 2 $6"/></suggestion>
         <example correction="attends">Ne l’<marker>attend</marker> pas</example>
         <example>Ne l’<marker>attends</marker> pas</example>
         <example>Ne l’<marker>ayant</marker> pas trouvé</example>
@@ -12624,8 +12642,7 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START"/>
           <token>ne</token>
             <!-- 3 token -->
-          <token regexp="yes">[mtl]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">[mtl]'</token>
           <token regexp="yes">y|en</token>
           <marker>
             <token postag_regexp="yes" postag="V.*">
@@ -12634,8 +12651,8 @@ though, and has since been slightly modified)-->
           </marker>
           <token regexp="yes">pas|plus</token>
         </pattern>
-        <message>Le verbe « \6 » devrait être à l’impératif.</message>
-        <suggestion><match no="6" postag="V (avoir )?(etre )?(inf|ind|con|sub) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2imp $4 2 $6"/></suggestion>
+        <message>Le verbe « \5 » devrait être à l’impératif.</message>
+        <suggestion><match no="5" postag="V (avoir )?(etre )?(inf|ind|con|sub) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2imp $4 2 $6"/></suggestion>
         <example correction="attends">Ne m’y <marker>attend</marker> pas</example>
         <example>Ne m’y <marker>attends</marker> pas</example>
         <example>Ne m’y <marker>étant</marker> pas rendu compte</example>
@@ -12708,16 +12725,15 @@ though, and has since been slightly modified)-->
         <pattern>
           <marker>
             <token postag="V.* imp .*" postag_regexp="yes"/>
-            <token regexp="yes">[mt]</token>
-            <token regexp="yes">[’´'‛′‘]</token>
+            <token regexp="yes">[mt]'</token>
             <token regexp="yes">en|y</token>
           </marker>
           <token><exception postag="V.* inf" postag_regexp="yes"/></token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>\1-\2\3\4</suggestion> ?</message>
-        <example correction="Donne-m’en"><marker>Donne m’en</marker> un peu.</example>
+        <message>Voulez-vous écrire <suggestion>\1-\2\3</suggestion> ?</message>
+        <example correction="Donne-m'en"><marker>Donne m’en</marker> un peu.</example>
         <example>Donne-m’en un peu.</example>
-        <example correction="Trouve-t’en"><marker>Trouve t’en</marker> toi-même !</example>
+        <example correction="Trouve-t'en"><marker>Trouve t’en</marker> toi-même !</example>
         <example>Trouve-t’en toi-même !</example>
         <example>Veuillez m’en montrer un autre.</example>
       </rule>
@@ -12774,51 +12790,56 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">.*[-‑‐](en|les|l[ae])</token>
+          <token regexp="yes">-(en|les|l[ae])</token>
           <token regexp="yes">[mt]oi|lui</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
-        <example correction="Donne-le-moi"><marker>Donne-le moi</marker> plus tard.</example>
+        <example correction="-le-moi">Donne<marker>-le moi</marker> plus tard.</example>
         <example>Donne-le-moi plus tard.</example>
-        <example correction="Donne-en-lui"><marker>Donne-en lui</marker>.</example>
+        <example correction="-en-lui">Donne<marker>-en lui</marker>.</example>
         <example>Donne-en-lui.</example>
       </rule>
       <rule>
+        <antipattern>
+          <token>en</token>
+          <token postag="N .*" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+          <token>en</token>
+          <token>dehors</token>
+        </antipattern>
         <pattern>
           <marker>
-            <token regexp="yes">.*[-‑‐]([mt]oi|[nv]ous|lui|leur|l[ae]|les)</token>
+            <token regexp="yes">-([mt]oi|[nv]ous|lui|leur|l[ae]|les)</token>
             <token regexp="yes">en|y|leur</token>
           </marker>
-          <token postag_regexp="yes" postag="P|SENT_END|[CM] .*">
-            <exception>dehors</exception>
-          </token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
-        <example correction="Offre-leur-en"><marker>Offre-leur en</marker>.</example>
+        <example correction="-leur-en">Offre<marker>-leur en</marker>.</example>
         <example>Offre-leur-en.</example>
-        <example correction="Appuyez-vous-y"><marker>Appuyez-vous y</marker>.</example>
+        <example correction="-vous-y">Appuyez<marker>-vous y</marker>.</example>
         <example>Appuyez-vous-y.</example>
-        <example correction="Souvenez-vous-en"><marker>Souvenez-vous en</marker>.</example>
+        <example correction="-vous-en">Souvenez<marker>-vous en</marker>.</example>
         <example>Souvenez-vous-en.</example>
         <example>Croyez-vous en Dieu ?</example>
         <example>Envoie-les en vacances.</example>
-        <example correction="Offre-lui-en"><marker>Offre-lui en</marker>.</example>
+        <example correction="-lui-en">Offre<marker>-lui en</marker>.</example>
         <example>Offre-lui-en.</example>
-        <example correction="Prends-moi-en"><marker>Prends-moi en</marker> quand tu seras là.</example>
+        <example correction="-moi-en">Prends<marker>-moi en</marker> quand tu seras là.</example>
         <example>Prends-moi-en quand tu seras là.</example>
         <example>Laisse-moi en dehors de cette affaire.</example>
-        <example correction="Demande-les-leur"><marker>Demande-les leur</marker>.</example>
+        <example correction="-les-leur">Demande<marker>-les leur</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <marker>
-            <token regexp="yes">.*[-‑‐](l[ae]|les)</token>
+            <token regexp="yes">-(l[ae]|les)</token>
             <token regexp="yes">[nv]ous</token>
           </marker>
           <token postag_regexp="yes" postag="P|SENT_END|[CM] .*"/>
         </pattern>
         <message>Voulez-vous écrire <suggestion>\1-\2</suggestion> ?</message>
-        <example correction="Envoie-la-nous"><marker>Envoie-la nous</marker>.</example>
+        <example correction="-la-nous">Envoie<marker>-la nous</marker>.</example>
         <example>Envoie-la-nous.</example>
         <example>Voulez-vous vous en aller ?</example>
       </rule>
@@ -12837,7 +12858,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token>que</token>
           <marker><token postag="V.* [12] .*" postag_regexp="yes"><exception postag="[NJ].*|V.* 3 .*|V.* inf" postag_regexp="yes"/></token></marker>
-          <token><exception regexp="yes">tu|je|[nv]ous|donc</exception></token>
+          <token><exception regexp="yes">(-?(tu|je|[nv]ous))|donc</exception></token>
         </pattern>
         <message>Le verbe « \2 » devrait être à la 3ᵉ personne. Cette suggestion respecte le mode et le temps que vous avez employés, vérifiez qu'elle soit bien correcte.</message>
         <suggestion><match no="2" postag="(V.*) [12] (.*)" postag_regexp="yes" postag_replace="$1 3 $2"/></suggestion>
@@ -12846,16 +12867,16 @@ though, and has since been slightly modified)-->
         <example>C’est là que volèrent la reine et son essaim.</example>
         <example>Je n’ai que mépris pour son comportement.</example>
         <example>Que vas donc tu faire ?</example>
+        <example>Que pouvais-je faire ?</example>
       </rule>
       <rule>
         <pattern>
-          <token>qu</token>
-          <token regexp="yes">['´‘’′]</token>
+          <token>qu'</token>
           <marker><token postag="V.* [12] .*" postag_regexp="yes"><exception postag="[NJ].*|V.* 3 .*|V.* inf" postag_regexp="yes"/></token></marker>
-          <token><exception regexp="yes">tu|je|[nv]ous|donc</exception></token>
+          <token><exception regexp="yes">(-?(tu|je|[nv]ous))|donc</exception></token>
         </pattern>
         <message>Le verbe « \2 » devrait être à la 3ᵉ personne. Cette suggestion respecte le mode et le temps que vous avez employés, vérifiez qu'elle soit bien correcte.</message>
-        <suggestion><match no="3" postag="(V.*) [12] (.*)" postag_regexp="yes" postag_replace="$1 3 $2"/></suggestion>
+        <suggestion><match no="2" postag="(V.*) [12] (.*)" postag_regexp="yes" postag_replace="$1 3 $2"/></suggestion>
         <example correction="arrivera">Jamais je ne pensais qu'<marker>arriverai</marker> le jour où je ne pourrais dire ça.</example>
         <example>Mieux vaut arriver tôt qu’arriver tard.</example>
         <example>Qu’as donc tu fait ?</example>
@@ -13180,8 +13201,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
-          <token regexp="yes">[lmt]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">[lmt]'</token>
           <token inflected="yes">avoir</token>
           <marker>
             <token postag="V.* ppa.*" postag_regexp="yes">
@@ -13189,8 +13209,8 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le participe « \6 » devrait être au singulier.</message>
-        <suggestion><match no="6" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa $3 s"/></suggestion>
+        <message>Le participe « \5 » devrait être au singulier.</message>
+        <suggestion><match no="5" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa $3 s"/></suggestion>
         <example correction="mangé">Nous l'avons <marker>mangés</marker>.</example>
         <example correction="mangée">Nous l'avons <marker>mangées</marker>.</example>
         <example>Nous l’avons mangé.</example>
@@ -13248,8 +13268,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
-          <token>n</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token>n'</token>
           <token inflected="yes">avoir</token>
           <token regexp="yes">pas|guère|point|rien|jamais</token>
           <marker>
@@ -13258,8 +13277,8 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le participe « \7 » devrait être au masculin singulier.</message>
-        <suggestion><match no="7" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa m s"/></suggestion>
+        <message>Le participe « \6 » devrait être au masculin singulier.</message>
+        <suggestion><match no="6" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa m s"/></suggestion>
         <example correction="mangé">Nous n’avons pas <marker>mangés</marker> des huitres.</example>
         <example>Nous n’avons pas mangé des huitres.</example>
         <example correction="mangé">Isabelle n’a jamais <marker>mangée</marker> des huitres.</example>
@@ -13270,8 +13289,7 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <token postag="R pers suj.*|Z.*" postag_regexp="yes"/>
           <token>ne</token>
-          <token regexp="yes">[lmt]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">[lmt]'</token>
           <token inflected="yes">avoir</token>
           <token regexp="yes">pas|guère|point|rien|jamais</token>
           <marker>
@@ -13280,8 +13298,8 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le participe « \8 » devrait être au singulier.</message>
-        <suggestion><match no="8" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa $3 s"/></suggestion>
+        <message>Le participe « \7 » devrait être au singulier.</message>
+        <suggestion><match no="7" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa $3 s"/></suggestion>
         <example correction="écouté">Nous ne t’avons pas <marker>écoutés</marker>.</example>
         <example correction="écoutée">Nous ne t’avons pas <marker>écoutées</marker>.</example>
         <example>Nous ne t’avons pas écouté.</example>
@@ -13341,8 +13359,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
-          <token regexp="yes">[jt]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">[jt]'</token>
           <token inflected="yes">avoir</token>
           <marker>
             <token postag="V.* ppa.*" postag_regexp="yes">
@@ -13350,8 +13367,8 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le participe « \5 » devrait être au masculin singulier.</message>
-        <suggestion><match no="5" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa m s"/></suggestion>
+        <message>Le participe « \4 » devrait être au masculin singulier.</message>
+        <suggestion><match no="4" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa m s"/></suggestion>
         <example correction="mangé">J’ai <marker>mangés</marker> des huitres.</example>
         <example>J’ai mangé des huitres.</example>
         <example correction="mangé">Je suis allée en Bretagne et j’ai <marker>mangée</marker> des huitres.</example>
@@ -13381,8 +13398,7 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <token postag="D.*" postag_regexp="yes"/>
           <token postag="N.*" postag_regexp="yes"/>
-          <token regexp="yes">[lmt]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">[lmt]'</token>
           <token inflected="yes">avoir</token>
           <marker>
             <token postag="V.* ppa.*" postag_regexp="yes">
@@ -13390,8 +13406,8 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le participe « \7 » devrait être au singulier.</message>
-        <suggestion><match no="7" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa $3 s"/></suggestion>
+        <message>Le participe « \6 » devrait être au singulier.</message>
+        <suggestion><match no="6" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa $3 s"/></suggestion>
         <example correction="écouté">Les élèves t’ont <marker>écoutés</marker>.</example>
         <example correction="écoutée">Les élèves t’ont <marker>écoutées</marker>.</example>
         <example>Les élèves t’ont écouté.</example>
@@ -13451,8 +13467,7 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START|C coor" postag_regexp="yes"/>
           <token postag="D.*" postag_regexp="yes"/>
           <token postag="N.*" postag_regexp="yes"/>
-          <token>n</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token>n'</token>
           <token inflected="yes">avoir</token>
           <token regexp="yes">pas|guère|point|rien|jamais</token>
           <marker>
@@ -13461,8 +13476,8 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le participe « \8 » devrait être au masculin singulier.</message>
-        <suggestion><match no="8" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa m s"/></suggestion>
+        <message>Le participe « \7 » devrait être au masculin singulier.</message>
+        <suggestion><match no="7" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa m s"/></suggestion>
         <example correction="terminé">Les élèves n’ont pas <marker>terminés</marker> leurs devoirs.</example>
         <example correction="terminé">Les élèves n’ont pas <marker>terminée</marker> leurs devoirs.</example>
         <example correction="terminé">Les élèves n’ont pas <marker>terminées</marker> leurs devoirs.</example>
@@ -13474,8 +13489,7 @@ though, and has since been slightly modified)-->
           <token postag="D.*" postag_regexp="yes"/>
           <token postag="N.*" postag_regexp="yes"/>
           <token>ne</token>
-          <token regexp="yes">[mtl]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">[mtl]'</token>
           <token inflected="yes">avoir</token>
           <token regexp="yes">pas|guère|point|rien|jamais</token>
           <marker>
@@ -13484,8 +13498,8 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le participe « \9 » devrait être au singulier.</message>
-        <suggestion><match no="9" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa $3 s"/></suggestion>
+        <message>Le participe « \8 » devrait être au singulier.</message>
+        <suggestion><match no="8" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa $3 s"/></suggestion>
         <example correction="écouté">Les élèves ne m’ont pas <marker>écoutés</marker>.</example>
         <example correction="écoutée">Les élèves ne m’ont pas <marker>écoutées</marker>.</example>
         <example>Les élèves ne m’ont pas écouté.</example>
@@ -13549,11 +13563,12 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="SENT_START|C coor" skip="1" postag_regexp="yes"><exception scope="next" regexp="yes">en|les</exception></token>
-          <token regexp="yes">(?:ai|avais|aurais?|eus)[-‑‐]je|(?:as|avais|aurai?s|eus)[-‑‐]tu|(?:a|avait|aura|aurait|eut)(?:[-‑‐]t)[-‑‐](?:il|elle|on)|(?:avi?ons|auri?ons|eûmes)[-‑‐]nous|(?:avi?ez|auri?ez|eûtes)[-‑‐]vous|(?:ont|avaient|auront|auraient|eurent)[-‑‐](?:ils|elles)</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes" spacebefore="no">-(je|tu|nous|vous)|-(t-)?(il|elle|on|ils|elles)</token>
           <marker><token postag="V.* ppa.*" postag_regexp="yes"><exception postag="V.* ppa [me] sp?" postag_regexp="yes"/></token></marker>
         </pattern>
-        <message>Le participe « \3 » devrait être au masculin singulier.</message>
-        <suggestion><match no="3" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa m s"/></suggestion>
+        <message>Le participe « \4 » devrait être au masculin singulier.</message>
+        <suggestion><match no="4" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa m s"/></suggestion>
         <example correction="eu">A-t-il <marker>eus</marker> peur ?</example>
         <example correction="eu">As-tu <marker>eus</marker> peur ?</example>
         <example correction="eu">Pourquoi as-tu <marker>eus</marker> peur ?</example>
@@ -13568,11 +13583,12 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="SENT_START"/>
           <token>Les</token>
-          <token regexp="yes">(?:ai|avais|aurais?|eus)[-‑‐]je|(?:as|avais|aurai?s|eus)[-‑‐]tu|(?:a|avait|aura|aurait|eut)(?:[-‑‐]t)[-‑‐](?:il|elle|on)|(?:avi?ons|auri?ons|eûmes)[-‑‐]nous|(?:avi?ez|auri?ez|eûtes)[-‑‐]vous|(?:ont|avaient|auront|auraient|eurent)[-‑‐](?:ils|elles)</token>
+          <token inflected="yes">avoir</token>
+          <token regexp="yes" spacebefore="no">-(je|tu|nous|vous)|-(t-)?(il|elle|on|ils|elles)</token>
           <marker><token postag="V.* ppa . s" postag_regexp="yes"/></marker>
         </pattern>
-        <message>Le participe « \4 » devrait être au pluriel.</message>
-        <suggestion><match no="4" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa $3 p"/></suggestion>
+        <message>Le participe « \5 » devrait être au pluriel.</message>
+        <suggestion><match no="5" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa $3 p"/></suggestion>
         <example correction="lus">Les as-tu <marker>lu</marker> ?</example>
         <example correction="lus">Les a-t-il <marker>lu</marker> ?</example>
       </rule>
@@ -13581,7 +13597,7 @@ though, and has since been slightly modified)-->
       <rule name="m p suivi par . s">
         <antipattern>
           <token regexp="yes">voulu|souhaité</token>
-          <token min="0" max="2" regexp="yes">[mts]e?|lui|[nv]ous|[’´'‛′‘]</token>
+          <token min="0" max="1" regexp="yes">[mts][e']|lui|[nv]ous</token>
           <token postag="V.* inf" postag_regexp="yes"/>
         </antipattern>
         <pattern>
@@ -13616,7 +13632,7 @@ though, and has since been slightly modified)-->
         <rule name="f p suivi par . s">
             <antipattern>
                 <token regexp="yes">voulu|souhaité</token>
-                <token min="0" max="2" regexp="yes">[mts]e?|lui|[nv]ous|[’´'‛′‘]</token>
+                <token min="0" max="1" regexp="yes">[mts][e']|lui|[nv]ous</token>
                 <token postag="V.* inf" postag_regexp="yes"/>
             </antipattern>
             <pattern>
@@ -13837,67 +13853,64 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rule id="PEUX_JE" name="peux-je → puis-je">
-      <pattern><token regexp="yes">peux[-‑‐]je</token></pattern>
+      <pattern>
+        <token>peux</token>
+        <token>-je</token>
+      </pattern>
       <message>Seule la forme interrogative <suggestion>puis-je</suggestion> est correcte.</message>
       <example correction="Puis-je"><marker>Peux-je</marker> rester ?</example>
       <example>Puis-je rester ?</example>
     </rule>
-    <rulegroup id="ACCORD_V_QUESTION" name="Accord avec forme interrogative des verbes">
-      <rule>
-        <pattern><token regexp="yes">(.*)[-‑‐]je</token></pattern>
-        <filter class="org.languagetool.rules.fr.FrenchPartialPosTagFilter"
-                args="no:1 regexp:(.*)[-‑‐]je postag_regexp:V.*(?:ind|con|sub).*1\ss negate_pos:yes"/>
-        <message>« \1 » n’est pas un verbe à la première personne du singulier.</message>
-        <example correction="">Que <marker>pouvait-je</marker> faire ?</example>
-        <example>Que pouvais-je faire ?</example>
-      </rule>
-      <rule>
-        <pattern><token regexp="yes">(.*)[-‑‐]tu</token></pattern>
-        <filter class="org.languagetool.rules.fr.FrenchPartialPosTagFilter"
-                args="no:1 regexp:(.*)[-‑‐]tu postag_regexp:V.*(?:ind|con|sub).*2\ss negate_pos:yes"/>
-        <message>« \1 » n’est pas un verbe à la deuxième personne du singulier.</message>
-        <example correction="">Que <marker>mange-tu</marker> ?</example>
-        <example correction="">Quand <marker>parts-tu</marker> ?</example>
-        <example>Que manges-tu ?</example>
-      </rule>
-      <rule>
-        <pattern><token regexp="yes">(.*?)[-‑‐](?:t[-‑‐])?(?:il|elle|on)<exception regexp="yes">entre[-‑‐].*</exception></token></pattern>
-        <filter class="org.languagetool.rules.fr.FrenchPartialPosTagFilter"
-                args="no:1 regexp:(.*?)[-‑‐](?:t[-‑‐])?(?:il|elle|on) postag_regexp:V.*(?:ind|con|sub).*3\ss negate_pos:yes"/>
-        <message>« \1 » n’est pas un verbe à la troisième personne du singulier.</message>
-        <example correction=""><marker>Pourraient-il</marker> venir ?</example>
-        <example correction="">Que <marker>manges-t-elle</marker> ?</example>
-        <example>Pourrait-il venir ?</example>
-        <example>Que mange-t-elle ?</example>
-        <example>Entre-t-il ?</example>
-      </rule>
-      <rule>
-        <pattern><token regexp="yes">(.*)[-‑‐]nous</token></pattern>
-        <filter class="org.languagetool.rules.fr.FrenchPartialPosTagFilter"
-                args="no:1 regexp:(.*)[-‑‐]nous postag_regexp:V.*(?:ind|con|sub).*1\sp|V.*\simp\spres\s2\s[sp] negate_pos:yes"/>
-        <message>« \1 » n’est pas un verbe à la première personne du pluriel.</message>
-        <example correction="">Quand <marker>partiront-nous</marker> ?</example>
-        <example>Quand partirons-nous ?</example>
-        <example>Attrapez-nous ?</example>
-        <example>Attrape-nous ?</example>
-      </rule>
-      <rule>
-        <pattern><token regexp="yes">(.*)[-‑‐]vous</token></pattern>
-        <filter class="org.languagetool.rules.fr.FrenchPartialPosTagFilter"
-                args="no:1 regexp:(.*)[-‑‐]vous postag_regexp:V.*(?:ind|con|sub).*2\sp negate_pos:yes"/>
-        <message>« \1 » n’est pas un verbe à la deuxième personne du pluriel.</message>
-        <example correction="">Que <marker>mangeons-vous</marker> ?</example>
-        <example>Que mangez-vous ?</example>
-      </rule>
-      <rule>
-        <pattern><token regexp="yes">(.*?)[-‑‐](?:t[-‑‐])?(?:il|elle)s</token></pattern>
-        <filter class="org.languagetool.rules.fr.FrenchPartialPosTagFilter"
-                args="no:1 regexp:(.*?)[-‑‐](?:t[-‑‐])?(?:il|elle)s postag_regexp:V.*(?:ind|con|sub).*3\sp negate_pos:yes"/>
-        <message>« \1 » n’est pas un verbe à la troisième personne du pluriel.</message>
-        <example correction="">Que <marker>pouvait-ils</marker> faire ?</example>
-        <example>Que pouvaient-ils faire ?</example>
-      </rule>
-    </rulegroup>
+    <rule id="ACCORD_V_QUESTION" name="Accord avec forme interrogative des verbes">
+      <antipattern>
+        <token postag="V imp .*" postag_regexp="yes"><exception scope="previous" postag="R inte"/></token>
+        <token>-nous</token>
+      </antipattern>
+      <pattern>
+        <unify negate="yes">
+          <feature id="number"/>
+          <feature id="person"/>
+          <token postag="V (ind|sub|con) .*" postag_regexp="yes"/>
+          <token postag="R pers suj .*" postag_regexp="yes" regexp="yes">-.*</token>
+        </unify>
+      </pattern>
+      <message>« \1 » et « \2 » ne sont pas bien accordés en nombre ou personne.</message>
+      <example correction="">Que <marker>pouvait-je</marker> faire ?</example>
+      <example>Que pouvais-je faire ?</example>
+      <example correction="">Que <marker>mange-tu</marker> ?</example>
+      <example>Que manges-tu ?</example>
+      <example correction=""><marker>Pourraient-il</marker> venir ?</example>
+      <example correction="">Que <marker>manges-t-elle</marker> ?</example>
+      <example>Pourrait-il venir ?</example>
+      <example>Que mange-t-elle ?</example>
+      <example>Entre-t-il ?</example>
+      <example correction="">Quand <marker>partiront-nous</marker> ?</example>
+      <example>Quand partirons-nous ?</example>
+      <example>Attrapez-nous ?</example>
+      <example>Attrape-nous ?</example>
+      <example correction="">Que <marker>mangeons-vous</marker> ?</example>
+      <example>Que mangez-vous ?</example>
+      <example correction="">Que <marker>pouvait-ils</marker> faire ?</example>
+      <example>Que pouvaient-ils faire ?</example>
+      <example>Faites-le-moi.</example>
+    </rule>
+    <rule id="NONVERB_PRON" name="verb non valide + pronom">
+      <antipattern>
+        <token postag="V.*" postag_regexp="yes"/>
+        <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
+        <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token><exception postag="V .*" postag_regexp="yes"/></token>
+        </marker>
+        <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
+      </pattern>
+      <message>« \1 » n’est pas un verbe valide.</message>
+      <example correction="">Quand <marker>parts</marker>-tu ?</example>
+      <example>Mon enfant ne m’en veux pas.</example>
+      <example>Faites-le-moi.</example>
+    </rule>
     <rulegroup id="ACCORD_NOM_VERBE" name="Accord">
       <rule name="l’ + nom + token + verbe 3e personne singulier">
         <pattern>
@@ -14040,8 +14053,8 @@ though, and has since been slightly modified)-->
           <token postag="D.*" postag_regexp="yes"/>
           <token postag="N . s" postag_regexp="yes"/>
           <!-- Not all combinations of tokens are actually possible -->
-          <token regexp="yes">[lmnts]|[mnt]e|la|les?|[ql]ui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|[ql]ui|leur</token>
+          <token inflected="yes" min="0">ne</token>
+          <token postag="R .*" postag_regexp="yes" min="0" max="2"/>
           <marker>
             <token postag="V.*" postag_regexp="yes">
               <exception postag="V .* 3 s|V.* ppr|N.*" postag_regexp="yes"/>
@@ -14059,6 +14072,9 @@ though, and has since been slightly modified)-->
         <example correction="est">Mon enfant qui lui <marker>sont</marker> intelligent</example>
         <example>Ce fut l’entreprise de marketing de la décennie.</example>
         <example correction="peut">Mon enfant lui qui <marker>peux</marker> marcher</example>
+        <example correction="veut">Mon enfant ne m’en <marker>veux</marker> pas.</example>
+        <example correction="étudie">Mon enfant ne l’<marker>étudient</marker>.</example>
+        <example>Mon enfant ne l’<marker>étudie</marker>.</example>
       </rule>
       <rule name="sujet singulier + 3 tokens + verbe pluriel">
         <pattern>
@@ -14068,9 +14084,9 @@ though, and has since been slightly modified)-->
           <token postag="D.*" postag_regexp="yes"/>
           <token postag="N . s" postag_regexp="yes"/>
           <!-- Not all combinations of tokens are actually possible -->
-          <token regexp="yes">[mnt]|ne|qui</token>
-          <token regexp="yes">[’´'‛′‘]|[lmnt]e?|[vn]ous|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
+          <token>qui</token>
+          <token min="0" inflected="yes">ne</token>
+          <token postag="R .*" postag_regexp="yes" min="0" max="3"></token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
               <exception postag="V .* 3 s|V .*ppr" postag_regexp="yes"/>
@@ -14079,32 +14095,8 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Le verbe « \7 » devrait être à la 3ᵉ personne du singulier.</message>
         <suggestion><match no="7" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
-        <example correction="étudie">Mon enfant ne l’<marker>étudient</marker>.</example>
-        <example>Mon enfant ne l’<marker>étudie</marker>.</example>
         <example correction="étudie">Mon enfant qui l’<marker>étudient</marker>.</example>
         <example correction="a">Comment se fait-il que le réveil qui n’<marker>ai</marker> pas sonné.</example>
-      </rule>
-      <rule name="sujet singulier + 4 tokens + verbe pluriel">
-        <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
-            <exception regexp="yes">et|ou|ni</exception>
-          </token>
-          <token postag="D.*" postag_regexp="yes"/>
-          <token postag="N . s" postag_regexp="yes"/>
-          <!-- Not all combinations of tokens are actually possible -->
-          <token regexp="yes">ne|qui</token>
-          <token regexp="yes">[lmt]|ne</token>
-          <token regexp="yes">[’´'‛′‘]|s|lui</token>
-          <token regexp="yes">en|y|[’´'‛′‘]</token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 s|V .*ppr" postag_regexp="yes"/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \8 » devrait être à la 3ᵉ personne du singulier.</message>
-        <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
-        <example correction="veut">Mon enfant ne m’en <marker>veux</marker> pas.</example>
         <example correction="veut">Mon enfant qui ne lui en <marker>veux</marker> pas.</example>
         <example>Mon enfant ne m’en veut pas.</example>
         <example correction="est">Mon enfant qui ne s'<marker>es</marker> pas réveillé.</example>
@@ -14119,8 +14111,7 @@ though, and has since been slightly modified)-->
           <!-- Not all combinations of tokens are actually possible -->
           <token>qui</token>
           <token>ne</token>
-          <token regexp="yes">[lmt]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">[lmt]'</token>
           <token>en</token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
@@ -14128,8 +14119,8 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \9 » devrait être à la 3ᵉ personne du singulier.</message>
-        <suggestion><match no="9" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+        <message>Le verbe « \8 » devrait être à la 3ᵉ personne du singulier.</message>
+        <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="veut">Mon enfant qui ne m’en <marker>veux</marker> pas.</example>
         <example>Mon enfant qui ne m’en veut pas.</example>
       </rule>
@@ -14144,8 +14135,7 @@ though, and has since been slightly modified)-->
           <token regexp="yes">,|qui</token>
           <token>lui</token>
           <token>ne</token>
-          <token regexp="yes">[lmts]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">[lmts]'</token>
           <token>en</token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
@@ -14153,8 +14143,8 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \10 » devrait être à la 3ᵉ personne du singulier.</message>
-        <suggestion><match no="10" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
+        <message>Le verbe « \9 » devrait être à la 3ᵉ personne du singulier.</message>
+        <suggestion><match no="9" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
         <example correction="veut">Mon enfant qui lui ne m’en <marker>veux</marker> pas.</example>
         <example>Mon enfant qui lui ne m’en veut pas.</example>
         <example correction="veut">Mon enfant, lui ne m’en <marker>veux</marker> pas.</example>
@@ -14215,6 +14205,10 @@ though, and has since been slightly modified)-->
         <example>Les États-Unis se composent de 50 états.</example>
       </rule>
       <rule name="sujet pluriel + 2 tokens + verbe singulier">
+        <antipattern>
+          <token>nous</token>
+          <token regexp="yes">les|le|la</token>
+        </antipattern>
         <pattern>
           <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
           <token postag="D.*" postag_regexp="yes"/>
@@ -14222,32 +14216,9 @@ though, and has since been slightly modified)-->
             <exception postag="N . sp?" postag_regexp="yes"/>
           </token>
           <!-- Not all combinations of tokens are actually possible -->
-          <token regexp="yes">[lmnts]|[mnt]e|la|les?|[ql]ui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|[ql]ui|leur</token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|J . s?p" postag_regexp="yes"/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \6 » devrait être à la 3ᵉ personne du pluriel.</message>
-        <suggestion><match no="6" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
-        <example correction="arrivent">Les camions n’<marker>arrive</marker> pas.</example>
-        <example>Les camions n’arrivent pas.</example>
-        <example>Les cuillères en bois commencent à moisir.</example>
-        <example>Ces choses nous les partageons.</example>
-        <example>Mon fils n’arrive pas à faire les additions.</example>
-        <example correction="ont">Les enfants qui lui <marker>a</marker> dit.</example>
-      </rule>
-      <rule name="sujet pluriel + 3 tokens + verbe singulier">
-        <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
-          <token postag="D.*" postag_regexp="yes"/>
-          <token postag="[NZ] . p" postag_regexp="yes"/>
-          <!-- Not all combinations of tokens are actually possible -->
-          <token regexp="yes">,|[mnt]|ne|qui</token>
-          <token regexp="yes">[’´'‛′‘]|[lmts]e?|[vn]ous|[ql]ui|leur|n</token>
-          <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
+          <token min="0">,</token>
+          <token min="1" max="2" inflected="yes" regexp="yes">ne|qui</token>
+          <token postag="R .*" postag_regexp="yes" min="0" max="3"/>
           <marker>
             <token postag="V.*" postag_regexp="yes">
               <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|J . s?p" postag_regexp="yes"/>
@@ -14256,29 +14227,16 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>Le verbe « \7 » devrait être à la 3ᵉ personne du pluriel.</message>
         <suggestion><match no="7" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+        <example correction="arrivent">Les camions n’<marker>arrive</marker> pas.</example>
+        <example>Les camions n’arrivent pas.</example>
+        <example>Les cuillères en bois commencent à moisir.</example>
+        <example>Ces choses nous les partageons.</example>
+        <example>Mon fils n’arrive pas à faire les additions.</example>
+        <example correction="ont">Les enfants qui lui <marker>a</marker> dit.</example>
         <example correction="attendent">Les enfants ne l’<marker>attend</marker> pas.</example>
         <example>Les enfants ne l’attendent pas.</example>
         <example correction="attendent">Les enfants qui n’<marker>attende</marker> pas seront punis.</example>
         <example correction="ont">Les enfants, qui lui <marker>a</marker> dit.</example>
-      </rule>
-      <rule name="sujet pluriel + 4 tokens + verbe singulier">
-        <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"/>
-          <token postag="D.*" postag_regexp="yes"/>
-          <token postag="[NZ] . p" postag_regexp="yes"/>
-          <!-- Not all combinations of tokens are actually possible -->
-          <token regexp="yes">ne|qui</token>
-          <token regexp="yes">[lmtn]|ne</token>
-          <token regexp="yes">[’´'‛′‘]|[lmts]|lui</token>
-          <token regexp="yes">en|y|[’´'‛′‘]</token>
-          <marker>
-            <token postag="V.*" postag_regexp="yes">
-              <exception postag="V .* 3 p|V ppa . s?p|V.* ppr|J . s?p" postag_regexp="yes"/>
-            </token>
-          </marker>
-        </pattern>
-        <message>Le verbe « \8 » devrait être à la 3ᵉ personne du pluriel.</message>
-        <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="veulent">Mes enfants ne m’en <marker>veux</marker> pas.</example>
         <example>Mes enfants ne m’en veulent pas.</example>
         <example correction="attendent">Mes enfants qui ne m’<marker>attende</marker> pas.</example>
@@ -14295,8 +14253,7 @@ though, and has since been slightly modified)-->
           <!-- Not all combinations of tokens are actually possible -->
           <token>qui</token>
           <token>ne</token>
-          <token regexp="yes">[tms]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">[tms]'</token>
           <token>en</token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
@@ -14304,8 +14261,8 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \9 » devrait être à la 3ᵉ personne du pluriel.</message>
-        <suggestion><match no="9" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+        <message>Le verbe « \8 » devrait être à la 3ᵉ personne du pluriel.</message>
+        <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="veulent">Mes enfants qui ne m’en <marker>veux</marker> pas.</example>
         <example correction="veulent">Mes enfants qui ne t’en <marker>veux</marker> pas.</example>
         <example correction="veulent">Mes enfants qui ne s’en <marker>veux</marker> pas.</example>
@@ -14320,8 +14277,7 @@ though, and has since been slightly modified)-->
           <token>qui</token>
           <token>eux</token>
           <token>ne</token>
-          <token regexp="yes">[tms]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">[tms]'</token>
           <token>en</token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
@@ -14329,8 +14285,8 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \10 » devrait être à la 3ᵉ personne du pluriel.</message>
-        <suggestion><match no="10" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+        <message>Le verbe « \9 » devrait être à la 3ᵉ personne du pluriel.</message>
+        <suggestion><match no="9" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="veulent">Mes enfants qui eux ne m’en <marker>veux</marker> pas.</example>
         <example correction="veulent">Mes enfants qui eux ne t’en <marker>veux</marker> pas.</example>
         <example correction="veulent">Mes enfants qui eux ne s’en <marker>veux</marker> pas.</example>
@@ -14371,13 +14327,12 @@ though, and has since been slightly modified)-->
           <token>la</token>
           <token>plupart</token>
           <token min="0" max="1">ne</token>
-          <token regexp="yes">[lmnst]</token>
-          <token regexp="yes">['´‘’′]</token>
+          <token regexp="yes">[lmnst]'</token>
           <token min="0" max="1">en</token>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Lorsque la plupart est employé seul, sans complément, le verbe devrait être à la 3ᵉ personne du pluriel.</message>
-        <suggestion><match no="7" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
+        <suggestion><match no="6" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
         <example correction="arrivent">La plupart n’<marker>arrive</marker> jamais à l’heure.</example>
         <example>La plupart n’<marker>arrivent</marker> jamais à l’heure.</example>
         <example correction="intéressent">La plupart s’<marker>intéresse</marker> à la politique.</example>
@@ -14423,8 +14378,8 @@ though, and has since been slightly modified)-->
           <token>des</token>
           <token postag="N . s?p" postag_regexp="yes"/>
           <!-- 2 tokens: not all combinations of tokens are actually possible -->
-          <token regexp="yes">[lmnts]|[mnts]e|la|les?|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|lui|leur</token>
+          <token min="0" inflected="yes">ne</token>
+          <token postag="R .*" postag_regexp="yes" min="1" max="3"/>
           <marker><token postag="V.*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Lorsque l’expression « la plupart » est employée avec un complément, le verbe s’accorde toujours avec ce complément.</message>
@@ -14432,22 +14387,6 @@ though, and has since been slightly modified)-->
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1650</url>
         <example correction="entendent">La plupart des spécialistes s’<marker>entende</marker> sur ce point.</example>
         <example>La plupart des spécialistes s’entendent sur ce point.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>la</token>
-          <token>plupart</token>
-          <token>des</token>
-          <token postag="N . s?p" postag_regexp="yes"/>
-          <!-- 3 tokens: not all combinations of tokens are actually possible -->
-          <token regexp="yes">[mnt]|ne</token>
-          <token regexp="yes">[’´'‛′‘]|[lmts]e?|[vn]ous|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
-          <marker><token postag="V.*" postag_regexp="yes"><exception postag="V .* 3 p" postag_regexp="yes"/></token></marker>
-        </pattern>
-        <message>Lorsque l’expression « la plupart » est employée avec un complément, le verbe s’accorde toujours avec ce complément.</message>
-        <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 p"/></suggestion>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1650</url>
         <example correction="entendent">La plupart des spécialistes ne s’<marker>entende</marker> sur ce point.</example>
         <example>La plupart des spécialistes ne s’entendent sur ce point.</example>
       </rule>
@@ -14478,8 +14417,8 @@ though, and has since been slightly modified)-->
           <token>du</token>
           <token postag="N . sp?" postag_regexp="yes"/>
           <!-- 2 tokens: not all combinations of tokens are actually possible -->
-          <token regexp="yes">[lmnts]|[mnts]e|la|les?|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|[mnt]e|la|les?|[vn]ous|en|y|lui|leur</token>
+          <token inflected="yes" min="0">ne</token>
+          <token postag="R .*" postag_regexp="yes" min="1" max="3"/>
           <marker><token postag="V.*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Lorsque l’expression « la plupart » est employée avec un complément, le verbe s’accorde toujours avec ce complément.</message>
@@ -14487,22 +14426,6 @@ though, and has since been slightly modified)-->
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1650</url>
         <example correction="aventure">La plupart du monde s’<marker>aventurent</marker> ici.</example>
         <example>La plupart du monde s’aventure ici.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>la</token>
-          <token>plupart</token>
-          <token>du</token>
-          <token postag="N . sp?" postag_regexp="yes"/>
-          <!-- 3 tokens: not all combinations of tokens are actually possible -->
-          <token regexp="yes">[mnt]|ne</token>
-          <token regexp="yes">[’´'‛′‘]|[lmts]e?|[vn]ous|lui|leur</token>
-          <token regexp="yes">[’´'‛′‘]|l[ea]|[vn]ous|lui|leur|en|y</token>
-          <marker><token postag="V.*" postag_regexp="yes"><exception postag="V .* 3 s" postag_regexp="yes"/></token></marker>
-        </pattern>
-        <message>Lorsque l’expression « la plupart » est employée avec un complément, le verbe s’accorde toujours avec ce complément.</message>
-        <suggestion><match no="8" postag="(V.*) [123] [sp]" postag_regexp="yes" postag_replace="$1 3 s"/></suggestion>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1650</url>
         <example correction="aventure">La plupart du monde ne s’<marker>aventurent</marker> pas ici.</example>
         <example>La plupart du monde ne s’aventure pas ici.</example>
       </rule>
@@ -14673,11 +14596,16 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(demis|demies?)[-‑‐](douzaine|cercle|litre|journée|heure|frère|sœur|soeur|fin|sel|finale|centre|pension|portion|mot|morte?|blonde?|longueur|page|mesure|écrémée?|tour|teinte)s?</token>
+          <marker>
+            <token regexp="yes">demis|demies?</token>
+            <token min="0">-</token>
+          <token regexp="yes">(douzaine|cercle|litre|journée|heure|frère|sœur|soeur|fin|sel|finale|centre|pension|portion|mot|morte?|blonde?|longueur|page|mesure|écrémée?|tour|teinte)s?</token>
+          </marker>
         </pattern>
         <message>Devant un nom ou adjective « demi » est invariable et se rattache avec un trait d’union.</message>
-        <suggestion><match no="1" regexp_match="demis|demies?" regexp_replace="demi"/></suggestion>
+        <suggestion>demi-\3</suggestion>
         <example correction="demi-heure">L’entretien dure environ une <marker>demie-heure</marker>.</example>
+        <example correction="demi-heure">L’entretien dure environ une <marker>demie heure</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -14737,28 +14665,26 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token>qu</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token>qu'</token>
           <marker>
             <token>est</token>
             <token>ce</token>
           </marker>
           <token regexp="yes">que|qu'</token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>\3-\4</suggestion> ?</message>
+        <message>Voulez-vous dire <suggestion>\2-\3</suggestion> ?</message>
         <example correction="est-ce">Qu’<marker>est ce</marker> que tu dis ?</example>
       </rule>
     </rulegroup>
     <rule id="N_EST_CE_PAS" name="n’est-ce pas">
       <pattern>
-        <token>n</token>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token>n'</token>
         <token>est</token>
         <token>ce</token>
         <token>pas</token>
       </pattern>
-      <message>Voulez-vous dire <suggestion>\1\2\3-\4 \5</suggestion> ?</message>
-      <example correction="n’est-ce pas">Il vient, <marker>n’est ce pas</marker> ?</example>
+      <message>Voulez-vous dire <suggestion>\1\2-\3 \4</suggestion> ?</message>
+      <example correction="n'est-ce pas">Il vient, <marker>n’est ce pas</marker> ?</example>
       <example>Il vient, n’est-ce pas ?</example>
     </rule>
     <rulegroup id="TRAIT_UNION_INVERSION" name="Trait d’union dans l’inversion verbe-pronom sujet">
@@ -14820,8 +14746,7 @@ though, and has since been slightly modified)-->
                 <token regexp="yes">moi-mêmes?</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">je?|tu?|ils?|elles?|on|y|[mts]on</token>
-                <token min="0" max="1" regexp="yes">['’]</token>
+                <token regexp="yes">j[e']|t[u']|ils?|elles?|on|y|[mts]on</token>
                 <token min="0"/>
                 <token postag="V .* 1 s" postag_regexp="yes">
                     <exception postag="N.*" postag_regexp="yes"/>
@@ -14831,8 +14756,7 @@ though, and has since been slightly modified)-->
                 <token postag="R pers suj 1 s"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes">je?|tu?|ils?|elles?|on|y|[mts]on</token>
-                <token min="0" max="1" regexp="yes">['’]</token>
+                <token regexp="yes">j[e']|t[u']|ils?|elles?|on|y|[mts]on</token>
                 <token>en</token>
                 <token postag="V .* 1 s" postag_regexp="yes">
                     <exception postag="N.*" postag_regexp="yes"/>
@@ -14886,8 +14810,7 @@ though, and has since been slightly modified)-->
                 <token postag_regexp="yes" postag="V( avoir| etre)? imp.*"/>
             </antipattern>
             <antipattern>
-                <token>c</token>
-                <token regexp="yes">['’]</token>
+                <token>c'</token>
                 <token postag="V .* 3 s" postag_regexp="yes"/>
                 <token regexp="yes">il|elle</token>
             </antipattern>
@@ -14922,7 +14845,7 @@ though, and has since been slightly modified)-->
                         <exception regexp="yes">.*[td]</exception>
                         <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
                     </token>
-                    <token postag="R pers suj 3 [mfe] s" postag_regexp="yes"/>
+                    <token postag="R pers suj 3 [mfe] s" postag_regexp="yes"><exception regexp="yes">-.*</exception></token>
                 </marker>
                 <token>
                     <exception>y</exception>
@@ -14943,8 +14866,7 @@ though, and has since been slightly modified)-->
         </rule>
         <rule name="troisième personne du singuler, verbe finissant par -d ou -t">
             <antipattern>
-                <token>c</token>
-                <token regexp="yes">['’]</token>
+                <token>c'</token>
                 <token postag="V.* 3 s" postag_regexp="yes"/>
                 <token regexp="yes">il|elle</token>
             </antipattern>
@@ -14990,7 +14912,7 @@ though, and has since been slightly modified)-->
             <message>Voulez-vous dire <suggestion>\1-\2</suggestion> ?</message>
             <example correction="prend-il">Que <marker>prend il</marker> ?</example>
             <example correction="abandonnait-il">Qu'<marker>abandonnait il</marker> ?</example>
-            <example>En outre, c’est elle qui aux côtés de François Mitterrand signe le le traité de Maastricht prévoyant l’euro.</example>
+            <example>En outre, c’est elle qui aux côtés de François Mitterrand signe le traité de Maastricht prévoyant l’euro.</example>
         </rule>
         <rule name="première personne du pluriel">
             <antipattern>
@@ -15011,7 +14933,7 @@ though, and has since been slightly modified)-->
                     <token postag="V .* 1 p" postag_regexp="yes">
                         <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
                     </token>
-                    <token postag="R pers suj 1 p"/>
+                    <token postag="R pers suj 1 p"><exception regexp="yes">-.*</exception></token>
                 </marker>
                 <token><exception regexp="yes">(re)?(asse?oir|laver)</exception></token>
             </pattern>
@@ -15041,7 +14963,7 @@ though, and has since been slightly modified)-->
                         <exception postag="R pers suj .*" postag_regexp="yes" scope="previous"/>
                         <exception regexp="yes">veuillez|sachez</exception>
                     </token>
-                    <token postag="R pers suj 2 p"/>
+                    <token postag="R pers suj 2 p"><exception regexp="yes">-.*</exception></token>
                 </marker>
                 <token><exception regexp="yes">(re)?(asse?oir|laver)</exception></token>
             </pattern>
@@ -15054,11 +14976,11 @@ though, and has since been slightly modified)-->
         </rule>
       <rule name="correction du tiret d'inversion">
         <pattern>
-          <token regexp="yes">.*[-‑‐]t</token>
-          <token regexp="yes">[’´'‛′‘]</token>
-          <token regexp="yes">ils?|elles?|on</token>
+          <token/>
+          <token>-</token>
+          <token regexp="yes">t'(ils?|elles?|on)</token>
         </pattern>
-        <message>Voulez-vous dire <suggestion>\1-\3</suggestion> ?</message>
+        <message>Voulez-vous dire <suggestion>\1\2<match no="3" regexp_match="'" regexp_replace="-"/></suggestion> ?</message>
         <example correction="mange-t-on">Que <marker>mange-t’on</marker> ?</example>
       </rule>
     </rulegroup>
@@ -15080,20 +15002,22 @@ though, and has since been slightly modified)-->
     <rulegroup id="T_EUPHONIQUE" name="t euphonique">
       <rule>
         <pattern>
-          <token regexp="yes">.*[dt][-‑‐]t[-‑‐](?:il|elle|on)</token>
+          <token regexp="yes">.*[dt]</token>
+          <token regexp="yes">-t-(?:il|elle|on)</token>
         </pattern>
         <message>Si le verbe se termine par t ou d, la liaison se fait sans t euphonique.</message>
-        <suggestion><match no="1" regexp_match="[-‑‐]t[-‑‐]" regexp_replace="-"/></suggestion>
+        <suggestion>\1<match no="2" regexp_match="-t-" regexp_replace="-"/></suggestion>
         <url>https://www.projet-voltaire.fr/regles-orthographe/mentend-il-ou-mentend-t-il/</url>
         <example correction="faut-il">Que <marker>faut-t-il</marker> faire ?</example>
         <example>Que faut-il faire ?</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">.*[^ae][-‑‐]t[-‑‐](?:il|elle|on)<exception regexp="yes">(?:convainc|voilà)[-‑‐]t[-‑‐].*</exception></token>
+          <token regexp="yes">.*[^ae]<exception regexp="yes">(?:convainc|voilà)</exception></token>
+          <token regexp="yes">-t-(?:il|elle|on)</token>
         </pattern>
         <message>Le -t- euphonique n’est possible qu’avec les verbes se terminant en a ou e et avec le verbe convaincre.</message>
-        <suggestion><match no="1" regexp_match="([a-zàâéèêîôöùç]+)-([a-zàâéèêîôöùç])-([a-zàâéèêîôöùç]+)" regexp_replace="$1 $3"/></suggestion>
+        <suggestion>\1 <match no="2" regexp_match="-t-" regexp_replace=""/></suggestion>
         <url>https://www.projet-voltaire.fr/regles-orthographe/mentend-il-ou-mentend-t-il/</url>
         <example correction="arriveras il">Quand <marker>arriveras-t-il</marker> ?</example>
         <example>Quand arrivera-t-il ?</example>
@@ -15103,27 +15027,40 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">.*[-‑‐]t[-‑‐](?:je|tu|[nv]ous|ils|elles)</token>
+          <token></token>
+          <token>-</token>
+          <token>t</token>
+          <token>-</token>
+          <token regexp="yes">(?:je|tu|[nv]ous|ils|elles)</token>
         </pattern>
         <message>Le -t- euphonique n’est possible qu’avec un pronom sujet de troisième personne (il, elle on).</message>
-        <suggestion><match no="1" regexp_match="([a-zàâéèêîôöùç]+)-([a-zàâéèêîôöùç])-([a-zàâéèêîôöùç]+)" regexp_replace="$1 $3"/></suggestion>
+        <suggestion>\1 \5</suggestion>
         <url>https://www.projet-voltaire.fr/regles-orthographe/mentend-il-ou-mentend-t-il/</url>
         <example correction="arriveras tu">Quand <marker>arriveras-t-tu</marker> ?</example>
         <example>Quand <marker>arriveras-tu</marker> ?</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">(.*[ae]|convainc)[-‑‐](il|elle|on)</token>
+          <token regexp="yes">(.*[ae]|convainc)</token>
+          <token regexp="yes">-(il|elle|on)</token>
         </pattern>
         <message>Il manque un -t- euphonique.</message>
-        <suggestion><match no="1" regexp_match="(.*)[-‑‐](il|elle|on)" regexp_replace="$1-t-$2"/></suggestion>
+        <suggestion>\1-t\2</suggestion>
         <url>https://www.projet-voltaire.fr/regles-orthographe/mentend-il-ou-mentend-t-il/</url>
         <example correction="Va-t-il"><marker>Va-il</marker> venir ?</example>
         <example correction="convainc-t-il">Vous <marker>convainc-il</marker> ?</example>
       </rule>
     </rulegroup>
     <rule id="Y_A_T_IL" name="y-a-t-il → y a-t-il">
-      <pattern><token regexp="yes">y[-‑‐]a[-‑‐]t[-‑‐]il</token></pattern>
+      <pattern>
+        <token>y</token>
+        <token>-</token>
+        <token>a</token>
+        <token>-</token>
+        <token>t</token>
+        <token>-</token>
+        <token>il</token>
+      </pattern>
       <message>Voulez-vous écrire <suggestion>y a-t-il</suggestion> ?</message>
       <example correction="Y a-t-il"><marker>Y-a-t-il</marker> un pilote dans l’avion ?</example>
     </rule>
@@ -15163,9 +15100,11 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">comme[-‑‐](?:ci|ça)</token>
+          <token>comme</token>
+          <token regexp="yes">[-‑‐]</token>
+          <token regexp="yes">(?:ci|ça)</token>
         </pattern>
-        <message>Écrivez <suggestion><match no="1" regexp_match="[-‑‐]" regexp_replace=" "/></suggestion> sans trait d’union.</message>
+        <message>Écrivez <suggestion>\1 \3</suggestion> sans trait d’union.</message>
         <example correction="comme ci">Faites <marker>comme-ci</marker>.</example>
       </rule>
     </rulegroup>
@@ -15187,23 +15126,27 @@ though, and has since been slightly modified)-->
     <rulegroup id="INV_T_EUPHONIQUE" name="t euphonique invalide">
       <rule>
         <pattern>
-          <token regexp="yes">.*[-‑‐]t[-‑‐]en</token>
+          <token/>
+          <token>-</token>
+          <token>t</token>
+          <token>-</token>
+          <token>en</token>
         </pattern>
-        <message>Ne pas confondre le t euphonique et l’apostrophe. Écrivez <suggestion><match no="1" regexp_match="[-‑‐]en$" regexp_replace="’en"/></suggestion>.</message>
-
+        <message>Ne pas confondre le t euphonique et l’apostrophe. Écrivez <suggestion>\1\2\3'\5</suggestion>.</message>
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
-        <example correction="Va-t’en"><marker>Va-t-en</marker> !</example>
+        <example correction="Va-t'en"><marker>Va-t-en</marker> !</example>
         <example>C’est un va-t-en-guerre.</example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">.*[-‑‐]t[-‑‐].*
-              <exception regexp="yes">.*-(ils?|elles?|on)|va-t-en-guerre</exception>
-              <exception regexp="yes">.*[-‑‐]t[-‑‐]en</exception>
-        </token>
+          <token/>
+          <token>-</token>
+          <token>t</token>
+          <token>-</token>
+          <token/>
         </pattern>
         <message>Le t euphonique ne peut s’employer qu'avec il, ils, elle, elles ou on.</message>
-        <suggestion><match no="1" regexp_match="([a-zàâéèêîôöùç]+)-([a-zàâéèêîôöùç])-([a-zàâéèêîôöùç]+)" regexp_replace="$1 $3"/></suggestion>
+        <suggestion>\1 \5</suggestion>
         <url>http://www.academie-francaise.fr/quatre-z-assiettes-il-va-t-la-peche</url>
         <example correction="va à">Il <marker>va-t-à</marker> la pêche.</example>
         <example>Va-t-elle venir ?</example>
@@ -15449,7 +15392,8 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START" skip="1"/>
           <token>si</token>
           <token postag="Z|R pers suj.*" postag_regexp="yes"/>
-          <token min="0" max="3" regexp="yes">[mnst]e?|[nv]ous|lui|leur|en|y|les?|la?|[’´'‛′‘]</token>
+          <token inflected="yes" min="0">ne</token>
+          <token postag="R .*" postag_regexp="yes" min="0" max="3"/>
           <marker>
             <token postag="V.* (futu|con).*" postag_regexp="yes">
               <exception postag="V.* (ind|sub) (pres|impa).*" postag_regexp="yes"/>
@@ -15475,8 +15419,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="SENT_START" skip="1"/>
           <token>si</token>
-          <token regexp="yes">[jt]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">[jt]'</token>
           <marker>
             <token postag="V.* (futu|con).*" postag_regexp="yes">
               <exception postag="V.* (ind|sub) (pres|impa).*" postag_regexp="yes"/>
@@ -15493,14 +15436,15 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START" skip="1"/>
           <token>s'</token>
           <token regexp="yes">ils?</token>
-          <token min="0" max="3" regexp="yes">[mnnst]e?|[nv]ous|lui|leur|en|y|les?|la?|[’´'‛′‘]</token>
+          <token inflected="yes" min="0">ne</token>
+          <token postag="R .*" postag_regexp="yes" min="0" max="3"/>
           <marker>
             <token postag="V.* (futu|con).*" postag_regexp="yes">
               <exception postag="V.* (ind|sub) (pres|impa).*" postag_regexp="yes"/>
             </token>
           </marker>
         </pattern>
-        <message>« \2\3\4 » ne peut pas être suivi d’un verbe au futur ou conditionnel.</message>
+        <message>« \2\3 » ne peut pas être suivi d’un verbe au futur ou conditionnel.</message>
         <example correction="">S’ils <marker>auraient</marker> gagné</example>
         <example>S’ils <marker>avaient</marker> gagné</example>
         <example correction="">S’ils ne <marker>partiraient</marker> pas</example>
@@ -15556,8 +15500,7 @@ though, and has since been slightly modified)-->
             <token postag="V.*ind.*" postag_regexp="yes"/>
             <token inflected="yes" regexp="yes">aimer|approuver|attendre|craindre|demander|déplorer|désirer|douter|exiger|falloir|importer|interdire|ordonner|permettre|préférer|refuser|regretter|souhaiter|suffire|suggérer|vouloir</token>
           </and>
-          <token>qu</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token>qu'</token>
           <token postag="[ZR].*" postag_regexp="yes"/>
           <marker>
             <token postag="V.*" postag_regexp="yes">
@@ -15565,15 +15508,15 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \6 » doit être au subjonctif.</message>
-        <suggestion><match no="6" postag="V (etre )?(avoir )?(ind|con|sub|imp) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2sub $4 $5 $6"/></suggestion>
+        <message>Le verbe « \5 » doit être au subjonctif.</message>
+        <suggestion><match no="5" postag="V (etre )?(avoir )?(ind|con|sub|imp) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2sub $4 $5 $6"/></suggestion>
         <example correction="apprenne">Je souhaite qu’il <marker>apprend</marker> le français.</example>
         <example>Je souhaite qu’il <marker>apprenne</marker> le français.</example>
       </rule>
       <rule>
         <pattern>
           <token postag="[ZR].*" postag_regexp="yes"/>
-          <token regexp="yes" skip="1">ne?</token>
+          <token inflected="yes">ne</token>
           <and>
             <token postag="V.*ind.*" postag_regexp="yes"/>
             <token inflected="yes" regexp="yes">permettre|falloir|vouloir|ordonner|exiger|désirer|suffire|espérer</token>
@@ -15754,8 +15697,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token>jusqu</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token>jusqu'</token>
           <token>à</token>
           <token>ce</token>
           <token regexp="yes" skip="1">que|qu'</token>
@@ -15766,15 +15708,14 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \7 » doit être au subjonctif après la location « \1 \2 \3 ».</message>
-        <suggestion><match no="7" postag="V (etre )?(avoir )?(ind|con|sub|imp) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2sub $4 $5 $6"/></suggestion>
+        <message>Le verbe « \6 » doit être au subjonctif après la location « \1 \2 \3 ».</message>
+        <suggestion><match no="6" postag="V (etre )?(avoir )?(ind|con|sub|imp) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2sub $4 $5 $6"/></suggestion>
         <example correction="réponde">Demander jusqu’à ce qu’il <marker>répond</marker>.</example>
         <example>Demander jusqu’à ce qu’il réponde.</example>
       </rule>
       <rule>
         <pattern>
-          <token>jusqu</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token>jusqu'</token>
           <token>à</token>
           <token>ce</token>
           <token regexp="yes" skip="1">que|qu'</token>
@@ -15786,8 +15727,8 @@ though, and has since been slightly modified)-->
             </token>
           </marker>
         </pattern>
-        <message>Le verbe « \8 » doit être au subjonctif après la location « \1 \2 \3 ».</message>
-        <suggestion><match no="8" postag="V (etre )?(avoir )?(ind|con|sub|imp) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2sub $4 $5 $6"/></suggestion>
+        <message>Le verbe « \7 » doit être au subjonctif après la location « \1 \2 \3 ».</message>
+        <suggestion><match no="7" postag="V (etre )?(avoir )?(ind|con|sub|imp) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2sub $4 $5 $6"/></suggestion>
         <example correction="réponde">Demander jusqu’à ce qu’il me <marker>répond</marker>.</example>
         <example>Demander jusqu’à ce qu’il me réponde.</example>
       </rule>
@@ -15869,24 +15810,22 @@ though, and has since been slightly modified)-->
     <rulegroup id="J_AIMERAI" name="j’aimerai, j’aimerais">
       <rule>
         <pattern>
-          <token>j</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token>j'</token>
           <marker><token regexp="yes">adorerai|aimerai|apprécierai</token></marker>
           <token regexp="yes">que|qu'|bien|[mt]e?|[nv]ous|lui|ne</token>
         </pattern>
-        <message>Voulez-vous utiliser le conditionnel <suggestion>\3s</suggestion> au lieu du futur « \3 » pour exprimer un souhait ?</message>
+        <message>Voulez-vous utiliser le conditionnel <suggestion>\2s</suggestion> au lieu du futur « \2 » pour exprimer un souhait ?</message>
         <example correction="aimerais">J’<marker>aimerai</marker> bien travailler ici.</example>
       </rule>
       <rule>
         <pattern>
           <token>je</token>
-          <token>n</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token>n'</token>
           <marker><token regexp="yes">adorerai|aimerai|apprécierai</token></marker>
           <token>pas</token>
           <token regexp="yes">que|qu'|[mt]e|[nv]ous|lui</token>
         </pattern>
-        <message>Voulez-vous utiliser le conditionnel <suggestion>\4s</suggestion> au lieu du futur « \4 » pour exprimer un souhait ?</message>
+        <message>Voulez-vous utiliser le conditionnel <suggestion>\3s</suggestion> au lieu du futur « \3 » pour exprimer un souhait ?</message>
         <example correction="aimerais">Je n’<marker>aimerai</marker> pas lui dire.</example>
       </rule>
       <rule>
@@ -15931,24 +15870,23 @@ though, and has since been slightly modified)-->
           </marker>
           <token negate="yes" regexp="yes">mal|moins</token>
         </pattern>
-        <message>Formulation familière. Voulez-vous écrire <suggestion>je n'\3 \4</suggestion> ?</message>
+        <message>Formulation familière. Voulez-vous écrire <suggestion>je n'\2 \3</suggestion> ?</message>
         <url>http://www.academie-francaise.fr/ne</url>
-        <example correction="Je n’ai pas"><marker>J’ai pas</marker> compris.</example>
+        <example correction="Je n'ai pas"><marker>J’ai pas</marker> compris.</example>
         <example>Je n’ai pas compris.</example>
       </rule>
       <rule>
         <pattern>
           <marker>
-            <token>t<exception scope="previous">ne</exception></token>
-            <token regexp="yes">[’´'‛′‘]</token>
+            <token>t'<exception scope="previous">ne</exception></token>
             <token postag="V.* 2 s" postag_regexp="yes" regexp="yes">[aàâeéèêioœuyh].*</token>
             <token regexp="yes">pas|jamais|guère</token>
           </marker>
           <token negate="yes" regexp="yes">mal|moins</token>
         </pattern>
-        <message>Formulation familière. Voulez-vous écrire <suggestion>tu n\2\3 \4</suggestion> ?</message>
+        <message>Formulation familière. Voulez-vous écrire <suggestion>tu n'\2 \3</suggestion> ?</message>
         <url>http://www.academie-francaise.fr/ne</url>
-        <example correction="Tu n’as pas"><marker>T’as pas</marker> compris.</example>
+        <example correction="Tu n'as pas"><marker>T’as pas</marker> compris.</example>
         <example>Tu n’as pas compris.</example>
         <example>Ne t’inquiète pas.</example>
       </rule>
@@ -16147,28 +16085,24 @@ though, and has since been slightly modified)-->
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=4113</url>
       <example correction="prévu">La rencontre s’est déroulée comme <marker>prévues</marker>.</example>
     </rule>
-    <rulegroup id="SOI_DISANT" name="soit-disant → soi-disant">
-      <rule>
-        <pattern>
-          <token regexp="yes">soit?[-‑‐]disante?s?<exception regexp="yes">soi[-‑‐]disant</exception></token>
-        </pattern>
-        <message>Voulez-vous écrire <suggestion>soi-disant</suggestion> (invariable) ?</message>
-        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2792</url>
-        <example correction="soi-disant">Méfiez-vous de cette <marker>soi-disante</marker> sorcière.</example>
-        <example correction="soi-disant">Méfiez-vous de cette <marker>soit-disant</marker> sorcière.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">soit?</token>
-          <token regexp="yes">disante?s?</token>
-        </pattern>
-        <message>Voulez-vous écrire <suggestion>soi-disant</suggestion> (invariable) ?</message>
-        <example correction="soi-disant">Méfiez-vous de cette <marker>soi disant</marker> sorcière.</example>
-      </rule>
-    </rulegroup>
+    <rule id="SOI_DISANT" name="soit-disant → soi-disant">
+      <pattern>
+        <token regexp="yes">soit?</token>
+        <token regexp="yes" min="0">[-‑‐]</token>
+        <token regexp="yes">disante?s?</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>soi-disant</suggestion> (invariable) ?</message>
+      <example correction="soi-disant">Méfiez-vous de cette <marker>soi disant</marker> sorcière.</example>
+      <example correction="soi-disant">Méfiez-vous de cette <marker>soi-disante</marker> sorcière.</example>
+      <example correction="soi-disant">Méfiez-vous de cette <marker>soit-disant</marker> sorcière.</example>
+    </rule>
     <rule id="EUX_MEMES" name="eux-même → eux-mêmes">
-      <pattern><token regexp="yes">(eux|elles)[-‑‐]même</token></pattern>
-      <message>Voulez-vous écrire <suggestion>\1s</suggestion> ?</message>
+      <pattern>
+        <token regexp="yes">eux|elles</token>
+        <token regexp="yes">[-‑‐]</token>
+        <token>même</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>\1-\3s</suggestion> ?</message>
       <example correction="elles-mêmes">Elles y arrivent <marker>elles-même</marker>.</example>
       <example>Elles y arrivent elles-mêmes.</example>
       <example>Vous y arriverez vous-mêmes.</example>
@@ -16186,28 +16120,19 @@ though, and has since been slightly modified)-->
       <example correction="moins">L’accident a fait au <marker>mois</marker> 3 morts.</example>
       <example>L’accident a fait au moins trois morts.</example>
     </rule>
-    <rulegroup id="MISES_A_JOUR" name="mises à jours → mises à jour">
-      <rule>
-        <pattern>
-          <token regexp="yes">mises?</token>
-          <token regexp="yes">[aà]</token>
-          <token>jours</token>
-        </pattern>
-        <message>Voulez-vous écrire <suggestion>mises à jour</suggestion> ?</message>
-        <url>https://fr.wiktionary.org/wiki/mise_%C3%A0_jour</url>
-        <example correction="mises à jour">Je reçois des <marker>mises à jours</marker> régulièrement.</example>
-        <example>Je reçois des mises à jour régulièrement.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">mises?[-‑‐][àa][-‑‐]jours?</token>
-        </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" regexp_match="([^-‑]+).*" regexp_replace="$1"/> à jour</suggestion> ?</message>
-        <url>https://fr.wiktionary.org/wiki/mise_%C3%A0_jour</url>
-        <example correction="mises à jour">Je reçois des <marker>mises-à-jour</marker> régulièrement.</example>
-        <example>Je reçois des mises à jour régulièrement.</example>
-      </rule>
-    </rulegroup>
+    <rule id="MISES_A_JOUR" name="mises à jours → mises à jour">
+      <pattern>
+        <token regexp="yes">mises?</token>
+        <token min="0" regexp="yes">[-‑‐]</token>
+        <token regexp="yes">[aà]</token>
+        <token min="0" regexp="yes">[-‑‐]</token>
+        <token>jours</token>
+      </pattern>
+      <message>Voulez-vous écrire <suggestion>mises à jour</suggestion> ?</message>
+      <url>https://fr.wiktionary.org/wiki/mise_%C3%A0_jour</url>
+      <example correction="mises à jour">Je reçois des <marker>mises à jours</marker> régulièrement.</example>
+      <example>Je reçois des mises à jour régulièrement.</example>
+    </rule>
     <rulegroup id="TRES" name="très + adjectif/adverbe/participe passé">
       <rule>
         <pattern>
@@ -16486,8 +16411,8 @@ though, and has since been slightly modified)-->
         <token inflected="yes">de</token>
         <token regexp="yes">arrosages?</token>
       </pattern>
-      <message>« Boyau d’arrosage » est un régionalisme (Québec). Employez <suggestion>tuyau d\3arrosage</suggestion>.</message>
-      <example correction="tuyau d’arrosage"><marker>boyau d’arrosage</marker></example>
+      <message>« Boyau d’arrosage » est un régionalisme (Québec). Employez <suggestion>tuyau d'arrosage</suggestion>.</message>
+      <example correction="tuyau d'arrosage"><marker>boyau d’arrosage</marker></example>
       <example><marker>tuyau d’arrosage</marker></example>
     </rule>
     <rule id="COLLEUX" name="colleux">
@@ -16705,8 +16630,7 @@ though, and has since been slightly modified)-->
           <token>à</token>
           <token>part</token>
           <token>de</token>
-          <token regexp="yes">[dt]</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">[dt]'</token>
           <token regexp="yes">ça|cela</token>
         </pattern>
         <message>« À part de ça » est un régionalisme (Québec). Employez <suggestion>à part ça</suggestion>.</message>
@@ -17120,48 +17044,29 @@ though, and has since been slightly modified)-->
       <example correction="tétras"><marker>perdrix des savanes</marker></example>
       <example><marker>tétras</marker></example>
     </rule>
-    <rulegroup id="PERDRIX_DE_BOIS-FRANCS" name="perdrix de bois francs">
-      <rule>
-        <pattern>
-          <token regexp="yes">perdrixs?</token>
-          <token regexp="yes">des?</token>
-          <token regexp="yes">bois[-‑‐]francs?</token>
-        </pattern>
-        <message>« Perdrix de bois francs » est un régionalisme (Québec). Employez <suggestion>gélinotte huppée</suggestion>.</message>
-        <example correction="gélinotte huppée"><marker>perdrix de bois-francs</marker></example>
-        <example><marker>gélinotte huppée</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">perdrixs?</token>
-          <token regexp="yes">des?</token>
-          <token>bois</token>
-          <token regexp="yes">francs?</token>
-        </pattern>
-        <message>« Perdrix de bois francs » est un régionalisme (Québec). Employez <suggestion>gélinotte huppée</suggestion>.</message>
-        <example correction="gélinotte huppée"><marker>perdrix de bois francs</marker></example>
-        <example><marker>gélinotte huppée</marker></example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="CAMION-REMORQUE" name="camion-remorque">
-      <rule>
-        <pattern>
-          <token regexp="yes">camions?</token>
-          <token regexp="yes">remorques?</token>
-        </pattern>
-        <message>« Camion-remorque » est un régionalisme (Québec). Employez <suggestion>semi-remorque</suggestion>, <suggestion>semi</suggestion>.</message>
-        <example correction="semi-remorque|semi"><marker>camion remorque</marker></example>
-        <example><marker>semi-remorque</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">camions?[-‑‐]remorques?</token>
-        </pattern>
-        <message>« Camion-remorque » est un régionalisme (Québec). Employez <suggestion>semi-remorque</suggestion>, <suggestion>semi</suggestion>.</message>
-        <example correction="semi-remorque|semi"><marker>camion-remorque</marker></example>
-        <example><marker>semi-remorque</marker></example>
-      </rule>
-    </rulegroup>
+    <rule id="PERDRIX_DE_BOIS-FRANCS" name="perdrix de bois francs">
+      <pattern>
+        <token regexp="yes">perdrixs?</token>
+        <token regexp="yes">des?</token>
+        <token>bois</token>
+        <token regexp="yes" min="0">[-‑‐]</token>
+        <token regexp="yes">francs?</token>
+      </pattern>
+      <message>« Perdrix de bois francs » est un régionalisme (Québec). Employez <suggestion>gélinotte huppée</suggestion>.</message>
+      <example correction="gélinotte huppée"><marker>perdrix de bois francs</marker></example>
+      <example correction="gélinotte huppée"><marker>perdrix de bois-francs</marker></example>
+      <example><marker>gélinotte huppée</marker></example>
+    </rule>
+    <rule id="CAMION-REMORQUE" name="camion-remorque">
+      <pattern>
+        <token regexp="yes">camions?</token>
+        <token regexp="yes" min="0">[-‑‐]</token>
+        <token regexp="yes">remorques?</token>
+      </pattern>
+      <message>« Camion-remorque » est un régionalisme (Québec). Employez <suggestion>semi-remorque</suggestion>, <suggestion>semi</suggestion>.</message>
+      <example correction="semi-remorque|semi"><marker>camion remorque</marker></example>
+      <example><marker>semi-remorque</marker></example>
+    </rule>
     <rule id="MARINGOUINIERE" name="maringouinière">
       <pattern>
         <token regexp="yes">maringouinières?</token>
@@ -17221,44 +17126,28 @@ though, and has since been slightly modified)-->
         <example><marker>pic</marker></example>
       </rule>
     </rulegroup>
-    <rulegroup id="CRAPET_SOLEIL" name="crapet soleil">
-      <rule>
-        <pattern>
-          <token regexp="yes">crapets?[-‑‐]soleils?</token>
-        </pattern>
-        <message>« Crapet soleil » est un régionalisme (Québec). Employez <suggestion>perche arc-en-ciel</suggestion>, <suggestion>perche soleil</suggestion>.</message>
-        <example correction="perche arc-en-ciel|perche soleil"><marker>crapet-soleil</marker></example>
-        <example><marker>perche soleil</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">crapets?</token>
-          <token regexp="yes">soleils?</token>
-        </pattern>
-        <message>« Crapet soleil » est un régionalisme (Québec). Employez <suggestion>perche arc-en-ciel</suggestion>, <suggestion>perche soleil</suggestion>.</message>
-        <example correction="perche arc-en-ciel|perche soleil"><marker>crapet soleil</marker></example>
-        <example><marker>perche soleil</marker></example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="PORTE-POUSSIERE" name="porte-poussière">
-      <rule>
-        <pattern>
-          <token regexp="yes">portes?[-‑‐]poussières?</token>
-        </pattern>
-        <message>« Porte-poussière » est un régionalisme (Québec). Employez <suggestion>pelle à ordures</suggestion>, <suggestion>pelle à poussière</suggestion>.</message>
-        <example correction="pelle à ordures|pelle à poussière"><marker>porte-poussière</marker></example>
-        <example><marker>pelle à poussière</marker></example>
-      </rule>
-      <rule>
+    <rule id="CRAPET_SOLEIL" name="crapet soleil">
+      <pattern>
+        <token regexp="yes">crapets?</token>
+        <token regexp="yes" min="0">[-‑‐]</token>
+        <token regexp="yes">soleils?</token>
+      </pattern>
+      <message>« Crapet soleil » est un régionalisme (Québec). Employez <suggestion>perche arc-en-ciel</suggestion>, <suggestion>perche soleil</suggestion>.</message>
+      <example correction="perche arc-en-ciel|perche soleil"><marker>crapet soleil</marker></example>
+      <example correction="perche arc-en-ciel|perche soleil"><marker>crapet-soleil</marker></example>
+      <example><marker>perche soleil</marker></example>
+    </rule>
+    <rule id="PORTE-POUSSIERE" name="porte-poussière">
         <pattern>
           <token regexp="yes">portes?</token>
+          <token regexp="yes" min="0">[-‑‐]</token>
           <token regexp="yes">poussières?</token>
         </pattern>
         <message>« Porte-poussière » est un régionalisme (Québec). Employez <suggestion>pelle à ordures</suggestion>, <suggestion>pelle à poussière</suggestion>.</message>
         <example correction="pelle à ordures|pelle à poussière"><marker>porte poussière</marker></example>
+      <example correction="pelle à ordures|pelle à poussière"><marker>porte-poussière</marker></example>
         <example><marker>pelle à poussière</marker></example>
-      </rule>
-    </rulegroup>
+    </rule>
     <rule id="BOIS_ROND" name="bois rond">
       <pattern>
         <token>bois</token>
@@ -17565,25 +17454,17 @@ though, and has since been slightly modified)-->
       <example correction="se fier à"><marker>se fier sur</marker></example>
       <example><marker>se fier à</marker></example>
     </rule>
-    <rulegroup id="CHIEN-CHAUD" name="chien-chaud">
-      <rule>
-        <pattern>
-          <token regexp="yes">chiens?[-‑‐]chauds?</token>
-        </pattern>
-        <message>« Chien-chaud » est un régionalisme (Québec) inusité et critiqué comme précieux. Employez <suggestion>hot-dog</suggestion>.</message>
-        <example correction="hot-dog"><marker>chien-chaud</marker></example>
-        <example><marker>hot-dog</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected="yes">chien</token>
-          <token inflected="yes">chaud</token>
-        </pattern>
-        <message>« Chien-chaud » est un régionalisme (Québec) inusité et critiqué comme précieux. Employez <suggestion>hot-dog</suggestion>.</message>
-        <example correction="hot-dog"><marker>chien chaud</marker></example>
-        <example><marker>hot-dog</marker></example>
-      </rule>
-    </rulegroup>
+    <rule id="CHIEN-CHAUD" name="chien-chaud">
+      <pattern>
+        <token inflected="yes">chien</token>
+        <token regexp="yes" min="0">[-‑‐]</token>
+        <token inflected="yes">chaud</token>
+      </pattern>
+      <message>« Chien-chaud » est un régionalisme (Québec) inusité et critiqué comme précieux. Employez <suggestion>hot-dog</suggestion>.</message>
+      <example correction="hot-dog"><marker>chien chaud</marker></example>
+      <example correction="hot-dog"><marker>chien-chaud</marker></example>
+      <example><marker>hot-dog</marker></example>
+    </rule>
     <rule id="PATATES_PILEES" name="patates pilées">
       <pattern>
         <token regexp="yes">patates?</token>
@@ -17802,20 +17683,34 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="AFFILE-CRAYON" name="affile-crayon">
       <pattern>
-        <token regexp="yes">affile[-‑‐]crayons?</token>
+        <token regexp="yes">affiles?</token>
+        <token regexp="yes" min="0">[-‑‐]</token>
+        <token regexp="yes">crayons?</token>
       </pattern>
       <message>« Affile-crayon » est un régionalisme (Québec). Employez <suggestion>taille-crayon</suggestion>.</message>
       <example correction="taille-crayon"><marker>affile-crayon</marker></example>
       <example><marker>taille-crayon</marker></example>
     </rule>
-    <rule id="AIGUISE-CRAYON" name="aiguise-crayon">
-      <pattern>
-        <token regexp="yes">aiguises?[-‑‐]crayons?</token>
-      </pattern>
-      <message>« Aiguise-crayon » est un régionalisme (Québec). Employez <suggestion>taille-crayon</suggestion>.</message>
-      <example correction="taille-crayon"><marker>aiguise-crayon</marker></example>
-      <example><marker>taille-crayon</marker></example>
-    </rule>
+    <rulegroup id="AIGUISE-CRAYON" name="aiguise-crayon">
+      <rule>
+       <pattern>
+         <token regexp="yes">aiguises?</token>
+         <token regexp="yes" min="0">[-‑‐]</token>
+         <token regexp="yes">crayons?</token>
+       </pattern>
+       <message>« Aiguise-crayon » est un régionalisme (Québec). Employez <suggestion>taille-crayon</suggestion>.</message>
+       <example correction="taille-crayon"><marker>aiguise crayons</marker></example>
+       <example><marker>taille-crayon</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes">aiguise-crayon</token>
+        </pattern>
+        <message>« Aiguise-crayon » est un régionalisme (Québec). Employez <suggestion>taille-crayon</suggestion>.</message>
+        <example correction="taille-crayon"><marker>aiguise-crayon</marker></example>
+        <example><marker>taille-crayon</marker></example>
+      </rule>
+    </rulegroup>
     <rule id="AFFILER_UN_CRAYON" name="affiler un crayon">
       <pattern>
         <token inflected="yes" skip="4">affiler</token>
@@ -18170,38 +18065,25 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">bébés?</token>
+          <token regexp="yes" min="0">[-‑‐]</token>
           <token regexp="yes">dolls?</token>
         </pattern>
         <message>« Bébé doll » est un anglicisme. Employez <suggestion>nuisette</suggestion>.</message>
         <example correction="nuisette"><marker>bébé doll</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">bébés?[-‑‐]dolls?</token>
-        </pattern>
-        <message>« Bébé doll » est un anglicisme. Employez <suggestion>nuisette</suggestion>.</message>
         <example correction="nuisette"><marker>bébé-doll</marker></example>
       </rule>
     </rulegroup>
-    <rulegroup id="PLUME-FONTAINE" name="plume-fontaine">
-      <rule>
-        <pattern>
-          <token regexp="yes">plumes?[-‑‐]fontaines?</token>
-        </pattern>
-        <message>« Plume-fontaine » est un anglicisme (fountain pen). Employez <suggestion>stylo plume</suggestion>, <suggestion>stylo à plume</suggestion>.</message>
-        <example correction="stylo plume|stylo à plume"><marker>plume-fontaine</marker></example>
-        <example><marker>stylo plume</marker></example>
-      </rule>
-      <rule>
+    <rule id="PLUME-FONTAINE" name="plume-fontaine">
         <pattern>
           <token regexp="yes">plumes?</token>
+          <token regexp="yes" min="0">[-‑‐]</token>
           <token regexp="yes">fontaines?</token>
         </pattern>
         <message>« Plume-fontaine » est un anglicisme (fountain pen). Employez <suggestion>stylo plume</suggestion>, <suggestion>stylo à plume</suggestion>.</message>
+        <example correction="stylo plume|stylo à plume"><marker>plume-fontaine</marker></example>
         <example correction="stylo plume|stylo à plume"><marker>plume fontaine</marker></example>
         <example><marker>stylo plume</marker></example>
-      </rule>
-    </rulegroup>
+    </rule>
     <rulegroup id="POPCORN" name="popcorn">
       <rule>
         <pattern>
@@ -18209,11 +18091,13 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>« Popcorn » est un anglicisme. Employez <suggestion>maïs soufflé</suggestion>, <suggestion>maïs éclaté</suggestion>.</message>
         <example correction="maïs soufflé|maïs éclaté"><marker>popcorn</marker></example>
+        <example correction="maïs soufflé|maïs éclaté"><marker>pop-corn</marker></example>
         <example><marker>maïs soufflé</marker></example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">pops?</token>
+          <token regexp="yes" min="0">[-‑‐]</token>
           <token regexp="yes">corns?</token>
         </pattern>
         <message>« Popcorn » est un anglicisme. Employez <suggestion>maïs soufflé</suggestion>, <suggestion>maïs éclaté</suggestion>.</message>
@@ -18224,19 +18108,21 @@ though, and has since been slightly modified)-->
     <rulegroup id="ROAST_BEEF" name="roast beef">
       <rule>
         <pattern>
-          <token regexp="yes">roasts?[-‑‐]beefs?</token>
-        </pattern>
-        <message>« Roast beef » est un anglicisme. Employez <suggestion>rôti de bœuf</suggestion>, <suggestion>rosbif</suggestion>.</message>
-        <example correction="rôti de bœuf|rosbif"><marker>roast-beef</marker></example>
-        <example><marker>rôti de bœuf</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">roasts?</token>
+          <token regexp="yes" min="0">[-‑‐]</token>
           <token regexp="yes">beefs?</token>
         </pattern>
         <message>« Roast beef » est un anglicisme. Employez <suggestion>rôti de bœuf</suggestion>, <suggestion>rosbif</suggestion>.</message>
         <example correction="rôti de bœuf|rosbif"><marker>roast beef</marker></example>
+        <example><marker>rôti de bœuf</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token regexp="yes">roast-?beefs?</token>
+        </pattern>
+        <message>« Roast beef » est un anglicisme. Employez <suggestion>rôti de bœuf</suggestion>, <suggestion>rosbif</suggestion>.</message>
+        <example correction="rôti de bœuf|rosbif"><marker>roastbeef</marker></example>
+        <example correction="rôti de bœuf|rosbif"><marker>roast-beef</marker></example>
         <example><marker>rôti de bœuf</marker></example>
       </rule>
     </rulegroup>
@@ -18396,12 +18282,16 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="LAISSEZ_MOI_VOUS_DIRE_QUE" name="laisse-moi te dire que">
       <pattern>
-        <token regexp="yes">laisse[-‑‐]moi</token>
+        <token>laisse</token>
+        <token>-moi</token>
         <token>te</token>
         <token>dire</token>
         <token regexp="yes">que|qu'</token>
       </pattern>
-      <message>« Laisse-moi te dire que » est un anglicisme (let me tell you that). Employez <suggestion>je t’assure que</suggestion>, <suggestion>crois-moi, tu</suggestion>, <suggestion>il faut dire que tu</suggestion>.</message>
+      <message>« Laisse-moi te dire que » est un anglicisme (let me tell you that).</message>
+      <suggestion>je t’assure que</suggestion>
+      <suggestion>crois-moi, tu</suggestion>
+      <suggestion>il faut dire que tu</suggestion>
       <example correction="je t’assure que|crois-moi, tu|il faut dire que tu"><marker>laisse-moi te dire que</marker></example>
       <example><marker>il faut dire que</marker></example>
     </rule>
@@ -18413,17 +18303,20 @@ though, and has since been slightly modified)-->
         <token>des</token>
         <token>dents</token>
       </pattern>
-      <message>« Par la peau des dents » est un anglicisme. Employez <suggestion>l’échapper belle</suggestion>, <suggestion>de justesse</suggestion>, <suggestion>in extremis</suggestion>.</message>
+      <message>« Par la peau des dents » est un anglicisme.</message>
+      <suggestion>l’échapper belle</suggestion>
+      <suggestion>de justesse</suggestion>
+      <suggestion>in extremis</suggestion>
       <example correction="l’échapper belle|de justesse|in extremis"><marker>par la peau des dents</marker></example>
       <example><marker>l’échapper belle</marker></example>
     </rule>
     <rule id="SOBJECTER_A" name="s’objecter à">
       <pattern>
-        <token regexp="yes" skip="3">se|t|te|s|nous|vous|me|m</token>
+        <token regexp="yes" skip="2">se|t'|te|s'|nous|vous|me|m'</token>
         <token inflected="yes">objecter</token>
         <token>à</token>
       </pattern>
-      <message>« Se mériter » est un calque (to object). Employez <suggestion>s’opposer à</suggestion>, <suggestion>s’élever contre</suggestion>.</message>
+      <message>« objecter à » est un calque (to object). Employez <suggestion>s’opposer à</suggestion>, <suggestion>s’élever contre</suggestion>.</message>
       <example correction="s’opposer à|s’élever contre"><marker>s’objecter à</marker></example>
       <example><marker>s’opposer à</marker></example>
     </rule>
@@ -18442,8 +18335,8 @@ though, and has since been slightly modified)-->
         <token inflected="yes">de</token>
         <token>autobus</token>
       </pattern>
-      <message>« Passe d’autobus » est un anglicisme (bus pass). Employez <suggestion>carte d\3autobus</suggestion>.</message>
-      <example correction="carte d’autobus"><marker>passe d’autobus</marker></example>
+      <message>« Passe d’autobus » est un anglicisme (bus pass). Employez <suggestion>carte d'autobus</suggestion>.</message>
+      <example correction="carte d'autobus"><marker>passe d’autobus</marker></example>
     </rule>
     <rule id="PECANE" name="pécan(e)">
       <pattern>
@@ -18481,19 +18374,13 @@ though, and has since been slightly modified)-->
     <rulegroup id="NON-APPLICABLE" name="non-applicable">
       <rule>
         <pattern>
-          <token regexp="yes">non-applicables?</token>
-        </pattern>
-        <message>« Non applicable » est un anglicisme. Employez <suggestion>sans objet</suggestion>, <suggestion>S. O.</suggestion>, <suggestion>s. o.</suggestion>.</message>
-        <example correction="sans objet|S. O.|s. o."><marker>non-applicable</marker></example>
-        <example><marker>sans objet</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token>non</token>
+          <token min="0">-</token>
           <token regexp="yes">applicables?</token>
         </pattern>
         <message>« Non applicable » est un anglicisme. Employez <suggestion>sans objet</suggestion>, <suggestion>S. O.</suggestion>, <suggestion>s. o.</suggestion>.</message>
         <example correction="sans objet|S. O.|s. o."><marker>non applicable</marker></example>
+        <example correction="sans objet|S. O.|s. o."><marker>non-applicable</marker></example>
         <example><marker>sans objet</marker></example>
       </rule>
     </rulegroup>
@@ -18636,7 +18523,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="LAISSEZ-MOI_VOUS_DIRE_QUE" name="laissez-moi vous dire que">
       <pattern>
-        <token regexp="yes">laissez[-‑‐]moi</token>
+        <token>laissez</token>
+        <token>-moi</token>
         <token>vous</token>
         <token>dire</token>
         <token regexp="yes">que|qu'</token>
@@ -18647,7 +18535,8 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="LAISSEZ_MOI_TE_DIRE_QUE" name="laisse-moi te dire que">
       <pattern>
-        <token regexp="yes">laisse[-‑‐]moi</token>
+        <token>laisse</token>
+        <token>-moi</token>
         <token>te</token>
         <token>dire</token>
         <token regexp="yes">que|qu'</token>
@@ -18672,8 +18561,8 @@ though, and has since been slightly modified)-->
         <token inflected="yes">de</token>
         <token>haddock</token>
       </pattern>
-      <message>« Filet d’haddock » est un anglicisme (haddock fillet). Employez <suggestion>filet d\3églefin</suggestion>, <suggestion>filet d\3aiglefin</suggestion>.</message>
-      <example correction="filet d’églefin|filet d’aiglefin"><marker>filet d’haddock</marker></example>
+      <message>« Filet d’haddock » est un anglicisme (haddock fillet). Employez <suggestion>filet d'églefin</suggestion>, <suggestion>filet d'aiglefin</suggestion>.</message>
+      <example correction="filet d'églefin|filet d'aiglefin"><marker>filet d’haddock</marker></example>
       <example><marker>filet d’aiglefin</marker></example>
     </rule>
     <rule id="PRENDRE_LA_PART_DE" name="prendre la part de">
@@ -18763,8 +18652,8 @@ though, and has since been slightly modified)-->
         <token inflected="yes">de</token>
         <token regexp="yes">entreprises?</token>
       </pattern>
-      <message>« Gérant d’entreprise » est un anglicisme (business manager). Employez <suggestion>chef d\3entreprise</suggestion>.</message>
-      <example correction="chef d’entreprise"><marker>gérant d’entreprise</marker></example>
+      <message>« Gérant d’entreprise » est un anglicisme (business manager). Employez <suggestion>chef d'entreprise</suggestion>.</message>
+      <example correction="chef d'entreprise"><marker>gérant d’entreprise</marker></example>
     </rule>
     <rule id="GERANT_DE_BANQUE" name="gérant de banque">
       <pattern>
@@ -19030,8 +18919,8 @@ though, and has since been slightly modified)-->
         <token inflected="yes">de</token>
         <token regexp="yes">affaires?</token>
       </pattern>
-      <message>« Opportunité d’affaires » est un anglicisme (business opportunity). Employez <suggestion>occasion de faire des affaires</suggestion>, <suggestion>occasion d\3affaires</suggestion>.</message>
-      <example correction="occasion de faire des affaires|occasion d’affaires"><marker>opportunité d’affaires</marker></example>
+      <message>« Opportunité d’affaires » est un anglicisme (business opportunity). Employez <suggestion>occasion de faire des affaires</suggestion>, <suggestion>occasion d'affaires</suggestion>.</message>
+      <example correction="occasion de faire des affaires|occasion d'affaires"><marker>opportunité d’affaires</marker></example>
       <example><marker>occasion d’affaires</marker></example>
     </rule>
     <rule id="CRAYON_DE_PLOMB" name="crayon (au/de) plomb">
@@ -19147,7 +19036,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="CI-ATTACHE" name="ci-attaché">
       <pattern>
-        <token regexp="yes">ci-attachée?s?</token>
+        <token>ci</token>
+        <token>-</token>
+        <token regexp="yes">attachée?s?</token>
       </pattern>
       <message>« Ci-attaché » est un régionalisme (Québec). Employez <suggestion>ci-joint</suggestion>.</message>
       <example correction="ci-joint"><marker>ci-attaché</marker></example>
@@ -19338,13 +19229,15 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="JUSQUA_DATE" name="jusqu’à date">
       <pattern>
-        <token>jusqu</token>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token>jusqu'</token>
         <token>à</token>
         <token>date</token>
       </pattern>
-      <message>« Jusqu’à date » est un anglicisme (up to date). Employez <suggestion>jusqu\2à présent</suggestion>, <suggestion>jusqu\2à maintenant</suggestion>, <suggestion>jusqu’à ce jour</suggestion>.</message>
-      <example correction="jusqu’à présent|jusqu’à maintenant|jusqu’à ce jour"><marker>jusqu’à date</marker></example>
+      <message>« Jusqu’à date » est un anglicisme (up to date).</message>
+      <suggestion>jusqu'à présent</suggestion>
+      <suggestion>jusqu'à maintenant</suggestion>
+      <suggestion>jusqu'à ce jour</suggestion>
+      <example correction="jusqu'à présent|jusqu'à maintenant|jusqu'à ce jour"><marker>jusqu’à date</marker></example>
       <example><marker>jusqu’à présent</marker></example>
     </rule>
     <rule id="CLINIQUE_DE_GOLF" name="clinique de golf">
@@ -19469,23 +19362,16 @@ though, and has since been slightly modified)-->
       <message>« Chèque sans fonds » est un anglicisme (not sufficient funds cheque). Employez <suggestion>chèque sans provision</suggestion>.</message>
       <example correction="chèque sans provision"><marker>chèque sans fonds</marker></example>
     </rule>
-    <rulegroup id="DRAP_CONTOUR" name="drap contour">
-      <rule>
-        <pattern>
-          <token regexp="yes" skip="4">draps?</token>
-          <token regexp="yes">contours?</token>
-        </pattern>
-        <message>« Drap contour » est un anglicisme (contour sheet). Employez <suggestion>drap-housse</suggestion>.</message>
-        <example correction="drap-housse"><marker>drap contour</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">draps?-contours?</token>
-        </pattern>
-        <message>« Drap contour » est un anglicisme (contour sheet). Employez <suggestion>drap-housse</suggestion>.</message>
-        <example correction="drap-housse"><marker>drap-contour</marker></example>
-      </rule>
-    </rulegroup>
+    <rule id="DRAP_CONTOUR" name="drap contour">
+      <pattern>
+        <token regexp="yes" skip="4">draps?</token>
+        <token min="0">-</token>
+        <token regexp="yes">contours?</token>
+      </pattern>
+      <message>« Drap contour » est un anglicisme (contour sheet). Employez <suggestion>drap-housse</suggestion>.</message>
+      <example correction="drap-housse"><marker>drap contour</marker></example>
+      <example correction="drap-housse"><marker>drap-contour</marker></example>
+    </rule>
     <rulegroup id="CHEQUE_NSF" name="chèque n.s.f.">
       <rule>
         <pattern>
@@ -19659,40 +19545,40 @@ though, and has since been slightly modified)-->
       <example correction="réductions de postes|suppressions de postes|diminutions de postes|abolitions de postes"><marker>coupures de postes</marker></example>
       <example><marker>suppressions de postes</marker></example>
     </rule>
-    <rulegroup id="ENVELOPPE-RETOUR" name="enveloppe-retour">
-      <rule>
-        <pattern>
-          <token regexp="yes">enveloppes?-retours?</token>
-        </pattern>
-        <message>« Enveloppe-retour » est un anglicisme (return envelope). Employez <suggestion>enveloppe-réponse</suggestion>.</message>
-        <example correction="enveloppe-réponse"><marker>enveloppe-retour</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">enveloppes?</token>
-          <token regexp="yes">retours?</token>
-        </pattern>
-        <message>« Enveloppe-retour » est un anglicisme (return envelope). Employez <suggestion>enveloppe-réponse</suggestion>.</message>
-        <example correction="enveloppe-réponse"><marker>enveloppe retour</marker></example>
-      </rule>
-    </rulegroup>
+    <rule id="ENVELOPPE-RETOUR" name="enveloppe-retour">
+      <pattern>
+        <token regexp="yes">enveloppes?</token>
+        <token min="0">-</token>
+        <token regexp="yes">retours?</token>
+      </pattern>
+      <message>« Enveloppe-retour » est un anglicisme (return envelope). Employez <suggestion>enveloppe-réponse</suggestion>.</message>
+      <example correction="enveloppe-réponse"><marker>enveloppe retour</marker></example>
+      <example correction="enveloppe-réponse"><marker>enveloppe-retour</marker></example>
+    </rule>
     <rulegroup id="ENVELOPPE-RETOUR_PREADRESSEE" name="enveloppe-retour préadressée">
       <rule>
         <pattern>
-          <token regexp="yes">enveloppes?-retours?</token>
-          <token regexp="yes">pré-?adressée?s?</token>
+          <token regexp="yes">enveloppes?</token>
+          <token min="0">-</token>
+          <token regexp="yes">retours?</token>
+          <token>pré</token>
+          <token min="0">-</token>
+          <token regexp="yes">adressée?s?</token>
         </pattern>
         <message>« Enveloppe-retour préadressée » est un anglicisme. Employez <suggestion>enveloppe-réponse affranchie</suggestion>.</message>
-        <example correction="enveloppe-réponse affranchie"><marker>enveloppe-retour préadressée</marker></example>
+        <example correction="enveloppe-réponse affranchie"><marker>enveloppe retour pré adressée</marker></example>
+        <example correction="enveloppe-réponse affranchie"><marker>enveloppe-retour pré-adressée</marker></example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">enveloppes?</token>
+          <token min="0">-</token>
           <token regexp="yes">retours?</token>
-          <token regexp="yes">pré-?adressée?s?</token>
+          <token regexp="yes">préadressée?s?</token>
         </pattern>
         <message>« Enveloppe-retour préadressée » est un anglicisme. Employez <suggestion>enveloppe-réponse affranchie</suggestion>.</message>
         <example correction="enveloppe-réponse affranchie"><marker>enveloppe retour préadressée</marker></example>
+        <example correction="enveloppe-réponse affranchie"><marker>enveloppe-retour préadressée</marker></example>
       </rule>
     </rulegroup>
     <rule id="EXECUTIF_SYNDICAL" name="exécutif syndical">
@@ -19721,25 +19607,17 @@ though, and has since been slightly modified)-->
       <example correction="chef de direction|directeur général"><marker>directeur exécutif</marker></example>
       <example><marker>chef de direction</marker></example>
     </rule>
-    <rulegroup id="SECRETAIRE_EXECUTIF" name="secrétaire exécutif">
-      <rule>
-        <pattern>
-          <token regexp="yes">secrétaires?</token>
-          <token regexp="yes">exécutifs?|exécutives?</token>
-        </pattern>
-        <message>« Secrétaire exécutif » est un anglicisme (executive secretary). Employez <suggestion>secrétaire de direction</suggestion>, <suggestion>secrétaire général</suggestion>, <suggestion>secrétaire administratif</suggestion>.</message>
-        <example correction="secrétaire de direction|secrétaire général|secrétaire administratif"><marker>secrétaire exécutif</marker></example>
-        <example><marker>secrétaire de direction</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">secrétaires?-exécutifs?|secrétaires?-exécutives?</token>
-        </pattern>
-        <message>« Secrétaire exécutif » est un anglicisme (executive secretary). Employez <suggestion>secrétaire de direction</suggestion>, <suggestion>secrétaire général</suggestion>, <suggestion>secrétaire administratif</suggestion>.</message>
-        <example correction="secrétaire de direction|secrétaire général|secrétaire administratif"><marker>secrétaire-exécutif</marker></example>
-        <example><marker>secrétaire de direction</marker></example>
-      </rule>
-    </rulegroup>
+    <rule id="SECRETAIRE_EXECUTIF" name="secrétaire exécutif">
+      <pattern>
+        <token regexp="yes">secrétaires?</token>
+        <token min="0">-</token>
+        <token regexp="yes">exécutifs?|exécutives?</token>
+      </pattern>
+      <message>« Secrétaire exécutif » est un anglicisme (executive secretary). Employez <suggestion>secrétaire de direction</suggestion>, <suggestion>secrétaire général</suggestion>, <suggestion>secrétaire administratif</suggestion>.</message>
+      <example correction="secrétaire de direction|secrétaire général|secrétaire administratif"><marker>secrétaire exécutif</marker></example>
+      <example correction="secrétaire de direction|secrétaire général|secrétaire administratif"><marker>secrétaire-exécutif</marker></example>
+      <example><marker>secrétaire de direction</marker></example>
+    </rule>
     <rule id="VICE-PRESIDENT_EXECUTIF" name="vice-président exécutif">
       <pattern>
         <token regexp="yes" skip="1">vice-présidente?s?</token>
@@ -19749,42 +19627,27 @@ though, and has since been slightly modified)-->
       <example correction="vice-président et directeur général"><marker>vice-président exécutif</marker></example>
       <example><marker>vice-président et directeur exécutif</marker></example>
     </rule>
-    <rulegroup id="COUPON-RABAIS" name="coupon-rabais">
-      <rule>
-        <pattern>
-          <token regexp="yes">coupons?-rabais</token>
-        </pattern>
-        <message>« Coupon-rabais » est un anglicisme. Employez <suggestion>bon de réduction</suggestion>, <suggestion>coupon de réduction</suggestion>.</message>
-        <example correction="bon de réduction|coupon de réduction"><marker>coupon-rabais</marker></example>
-        <example><marker>coupon de réduction</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">coupons?</token>
-          <token>rabais</token>
-        </pattern>
-        <message>« Coupon-rabais » est un anglicisme. Employez <suggestion>bon de réduction</suggestion>, <suggestion>coupon de réduction</suggestion>.</message>
-        <example correction="bon de réduction|coupon de réduction"><marker>coupon rabais</marker></example>
-        <example><marker>coupon de réduction</marker></example>
-      </rule>
-    </rulegroup>
-    <rulegroup id="CLEF_MAITRESSE" name="clef maîtresse">
-      <rule>
+    <rule id="COUPON-RABAIS" name="coupon-rabais">
+      <pattern>
+        <token regexp="yes">coupons?</token>
+        <token min="0">-</token>
+        <token>rabais</token>
+      </pattern>
+      <message>« Coupon-rabais » est un anglicisme. Employez <suggestion>bon de réduction</suggestion>, <suggestion>coupon de réduction</suggestion>.</message>
+      <example correction="bon de réduction|coupon de réduction"><marker>coupon rabais</marker></example>
+      <example correction="bon de réduction|coupon de réduction"><marker>coupon-rabais</marker></example>
+      <example><marker>coupon de réduction</marker></example>
+    </rule>
+    <rule id="CLEF_MAITRESSE" name="clef maîtresse">
         <pattern>
           <token regexp="yes">cl[eé]f?s?</token>
+          <token min="0"/>
           <token>maîtresse</token>
         </pattern>
         <message>« Clé maîtresse » est un anglicisme (master key). Employez <suggestion>passe-partout</suggestion> (serrurerie).</message>
         <example correction="passe-partout"><marker>clé maîtresse</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">cl[eé]f?s?-ma[îi]tresses?</token>
-        </pattern>
-        <message>« Clé maîtresse » est un anglicisme (master key). Employez <suggestion>passe-partout</suggestion> (serrurerie).</message>
         <example correction="passe-partout"><marker>clé-maîtresse</marker></example>
-      </rule>
-    </rulegroup>
+    </rule>
     <rule id="ERREUR_CLERICALE" name="erreur cléricale">
       <pattern>
         <token regexp="yes">erreurs?</token>
@@ -19910,18 +19773,13 @@ though, and has since been slightly modified)-->
     <rulegroup id="CHANSON_THEME" name="chanson thème">
       <rule>
         <pattern>
-          <token regexp="yes">chansons?-thèmes?</token>
-        </pattern>
-        <message>« Chanson thème » est un anglicisme. Employez <suggestion>indicatif musical</suggestion>.</message>
-        <example correction="indicatif musical"><marker>chanson-thème</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">chansons?</token>
+          <token min="0">-</token>
           <token regexp="yes">thèmes?</token>
         </pattern>
         <message>« Chanson thème » est un anglicisme. Employez <suggestion>indicatif musical</suggestion>.</message>
         <example correction="indicatif musical"><marker>chanson thème</marker></example>
+        <example correction="indicatif musical"><marker>chanson-thème</marker></example>
       </rule>
     </rulegroup>
     <rule id="METTRE_EN_NOMINATION" name="mettre en nomination">
@@ -20100,8 +19958,8 @@ though, and has since been slightly modified)-->
         <token inflected="yes">de</token>
         <token regexp="yes">admissions?</token>
       </pattern>
-      <message>« Pas d’admission » est un anglicisme. Employez <suggestion>entrée interdite</suggestion>, <suggestion>défense d\3entrer</suggestion>.</message>
-      <example correction="entrée interdite|défense d’entrer"><marker>pas d’admission</marker></example>
+      <message>« Pas d’admission » est un anglicisme. Employez <suggestion>entrée interdite</suggestion>, <suggestion>défense d'entrer</suggestion>.</message>
+      <example correction="entrée interdite|défense d'entrer"><marker>pas d’admission</marker></example>
       <example><marker>entrée interdite</marker></example>
     </rule>
     <rule id="PAS_DADMISSION_SANS_AFFAIRES" name="pas d’admission sans affaires">
@@ -20370,107 +20228,75 @@ though, and has since been slightly modified)-->
     <rulegroup id="SEMI-DETACHE" name="semi-détaché">
       <rule>
         <pattern>
-          <token regexp="yes">semi-?détachée?s?</token>
-        </pattern>
-        <message>« Semi-détaché » est un anglicisme (semidetached). Employez <suggestion>club de forme</suggestion>, <suggestion>club de mise en forme</suggestion>, <suggestion>salle de gymnastique</suggestion>, <suggestion>salle de musculation</suggestion>.</message>
-        <example correction="club de forme|club de mise en forme|salle de gymnastique|salle de musculation"><marker>semi-détaché</marker></example>
-        <example><marker>jumelé</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">semie?s?</token>
+          <token min="0">-</token>
           <token regexp="yes">détachée?s?</token>
         </pattern>
         <message>« Semi-détaché » est un anglicisme (semidetached). Employez <suggestion>club de forme</suggestion>, <suggestion>club de mise en forme</suggestion>, <suggestion>salle de gymnastique</suggestion>, <suggestion>salle de musculation</suggestion>.</message>
         <example correction="club de forme|club de mise en forme|salle de gymnastique|salle de musculation"><marker>semi détaché</marker></example>
+        <example correction="club de forme|club de mise en forme|salle de gymnastique|salle de musculation"><marker>semi-détaché</marker></example>
         <example><marker>jumelé</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="CLUB_SANTE" name="club santé">
       <rule>
         <pattern>
-          <token regexp="yes">clubs?-santés?</token>
-        </pattern>
-        <message>« Club santé » est un anglicisme (health club). Employez <suggestion>club de forme</suggestion>, <suggestion>club de mise en forme</suggestion>, <suggestion>salle de gymnastique</suggestion>, <suggestion>salle de musculation</suggestion>.</message>
-        <example correction="club de forme|club de mise en forme|salle de gymnastique|salle de musculation"><marker>club-santé</marker></example>
-        <example><marker>club de forme</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">clubs?</token>
+          <token min="0">-</token>
           <token regexp="yes">santés?</token>
         </pattern>
         <message>« Club santé » est un anglicisme (health club). Employez <suggestion>club de forme</suggestion>, <suggestion>club de mise en forme</suggestion>, <suggestion>salle de gymnastique</suggestion>, <suggestion>salle de musculation</suggestion>.</message>
         <example correction="club de forme|club de mise en forme|salle de gymnastique|salle de musculation"><marker>club santé</marker></example>
+        <example correction="club de forme|club de mise en forme|salle de gymnastique|salle de musculation"><marker>club-santé</marker></example>
         <example><marker>club de forme</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="ASSISTANT-CUISINIER" name="assistant-cuisinier">
       <rule>
         <pattern>
-          <token regexp="yes">assistants?-cuisiniers?|assistantes?-cuisinières?</token>
-        </pattern>
-        <message>« Assistant-cuisinier » est un anglicisme. Employez <suggestion>aide-cuisinier</suggestion>.</message>
-        <example correction="aide-cuisinier"><marker>assistant-cuisinier</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">assistante?s?</token>
+          <token min="0">-</token>
           <token regexp="yes">cuisiniers?|cuisinières?</token>
         </pattern>
         <message>« Assistant-cuisinier » est un anglicisme. Employez <suggestion>aide-cuisinier</suggestion>.</message>
         <example correction="aide-cuisinier"><marker>assistant cuisinier</marker></example>
+        <example correction="aide-cuisinier"><marker>assistant-cuisinier</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="ASSISTANT-DIRECTEUR" name="assistant-directeur">
       <rule>
         <pattern>
-          <token regexp="yes">assistante?s?-directeurs?|assistante?s?-directrices?</token>
-        </pattern>
-        <message>« Assistant-directeur » est un anglicisme. Employez <suggestion>directeur adjoint</suggestion>.</message>
-        <example correction="directeur adjoint"><marker>assistant-directeur</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">assistante?s?</token>
+          <token min="0">-</token>
           <token regexp="yes">directeurs?|directrices?</token>
         </pattern>
         <message>« Assistant-directeur » est un anglicisme. Employez <suggestion>directeur adjoint</suggestion>.</message>
         <example correction="directeur adjoint"><marker>assistant directeur</marker></example>
+        <example correction="directeur adjoint"><marker>assistant-directeur</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="CERTIFICAT-CADEAU" name="certificat-cadeau">
       <rule>
         <pattern>
-          <token regexp="yes">certificats?-cadeaux?</token>
-        </pattern>
-        <message>« Certificat-cadeau » est un anglicisme. Employez <suggestion>chèque-cadeau</suggestion>.</message>
-        <example correction="chèque-cadeau"><marker>certificat-cadeau</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">certificats?</token>
+          <token min="0">-</token>
           <token regexp="yes">cadeaux?</token>
         </pattern>
         <message>« Certificat-cadeau » est un anglicisme. Employez <suggestion>chèque-cadeau</suggestion>.</message>
         <example correction="chèque-cadeau"><marker>certificat cadeau</marker></example>
+        <example correction="chèque-cadeau"><marker>certificat-cadeau</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="BALLON-METEO" name="ballon-météo">
       <rule>
         <pattern>
-          <token regexp="yes">ballons?-?météos?|ballons?-?météorologiques?</token>
-        </pattern>
-        <message>« Ballon-météo » est un anglicisme (meteorological balloon). Employez <suggestion>ballon-sonde</suggestion>.</message>
-        <example correction="ballon-sonde"><marker>ballon-météo</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">ballons?</token>
+          <token min="0">-</token>
           <token regexp="yes">météos?|météorologiques?</token>
         </pattern>
         <message>« Ballon-météo » est un anglicisme (meteorological balloon). Employez <suggestion>ballon-sonde</suggestion>.</message>
         <example correction="ballon-sonde"><marker>ballon météo</marker></example>
+        <example correction="ballon-sonde"><marker>ballon-météo</marker></example>
         <example><marker>ballon sonde</marker></example>
       </rule>
     </rulegroup>
@@ -20508,8 +20334,8 @@ though, and has since been slightly modified)-->
         <token inflected="yes">de</token>
         <token regexp="yes">assurances?</token>
       </pattern>
-      <message>« Ajusteur d’assurances » est un anglicisme (ajustor). Employez <suggestion>expert en assurances</suggestion>, <suggestion>inspecteur d\3assurances</suggestion>.</message>
-      <example correction="expert en assurances|inspecteur d’assurances"><marker>ajusteur d’assurances</marker></example>
+      <message>« Ajusteur d’assurances » est un anglicisme (ajustor). Employez <suggestion>expert en assurances</suggestion>, <suggestion>inspecteur d'assurances</suggestion>.</message>
+      <example correction="expert en assurances|inspecteur d'assurances"><marker>ajusteur d’assurances</marker></example>
       <example><marker>inspecteur d’assurances</marker></example>
     </rule>
     <rule id="RECU_DIMPOTS" name="reçu (pour fins) d’impôt">
@@ -20833,7 +20659,8 @@ though, and has since been slightly modified)-->
     <rule id="COMMENT_AS-TU_AIME" name="comment as-tu aimé">
       <pattern>
         <token>comment</token>
-        <token regexp="yes" skip="1">as[-‑‐]tu</token>
+        <token>as</token>
+        <token>-tu</token>
         <token>aimé</token>
       </pattern>
       <message>« Comment as-tu aimé » est un anglicisme (how did you like). Employez <suggestion>as-tu aimé</suggestion>.</message>
@@ -20842,7 +20669,8 @@ though, and has since been slightly modified)-->
     <rule id="COMMENT_AVEZ-VOUS_AIME" name="comment avez-vous aimé">
       <pattern>
         <token>comment</token>
-        <token regexp="yes">avez[-‑‐]vous</token>
+        <token>avez</token>
+        <token>-vous</token>
         <token>aimé</token>
       </pattern>
       <message>« Comment avez-vous aimé » est un anglicisme (how did you like). Employez <suggestion>avez-vous aimé</suggestion>.</message>
@@ -20906,38 +20734,26 @@ though, and has since been slightly modified)-->
     <rulegroup id="COUVRE-PLANCHER" name="couvre-plancher">
       <rule>
         <pattern>
-          <token regexp="yes">couvre-?planchers?</token>
-        </pattern>
-        <message>« Couvre-plancher » est un anglicisme (floor covering). Pour éviter la critique, employez plutôt (terme général) <suggestion>revêtement de sol</suggestion>, (dans certains cas) <suggestion>tapis</suggestion>, <suggestion>moquette</suggestion>.</message>
-        <example correction="revêtement de sol|tapis|moquette"><marker>couvre-plancher</marker></example>
-        <example><marker>revêtement de sol</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">couvres?</token>
+          <token min="0">-</token>
           <token regexp="yes">planchers?</token>
         </pattern>
         <message>« Couvre-plancher » est un anglicisme (floor covering). Pour éviter la critique, employez plutôt (terme général) <suggestion>revêtement de sol</suggestion>, (dans certains cas) <suggestion>tapis</suggestion>, <suggestion>moquette</suggestion>.</message>
         <example correction="revêtement de sol|tapis|moquette"><marker>couvre plancher</marker></example>
+        <example correction="revêtement de sol|tapis|moquette"><marker>couvre-plancher</marker></example>
         <example><marker>revêtement de sol</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="COUVRE-SIEGE" name="couvre-siège">
       <rule>
         <pattern>
-          <token regexp="yes">couvre-?sièges?</token>
-        </pattern>
-        <message>« Couvre-siège » est un anglicisme (seat cover). Employez <suggestion>housse de siège</suggestion>, <suggestion>housse</suggestion>.</message>
-        <example correction="housse de siège|housse"><marker>couvre-siège</marker></example>
-        <example><marker>housse</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">couvres?</token>
+          <token min="0">-</token>
           <token regexp="yes">sièges?</token>
         </pattern>
         <message>« Couvre-siège » est un anglicisme (seat cover). Employez <suggestion>housse de siège</suggestion>, <suggestion>housse</suggestion>.</message>
         <example correction="housse de siège|housse"><marker>couvre siège</marker></example>
+        <example correction="housse de siège|housse"><marker>couvre-siège</marker></example>
         <example><marker>housse</marker></example>
       </rule>
     </rulegroup>
@@ -21093,38 +20909,26 @@ though, and has since been slightly modified)-->
     <rulegroup id="ASSURANCE-FEU" name="assurance-feu">
       <rule>
         <pattern>
-          <token regexp="yes">assurances?-feux?</token>
-        </pattern>
-        <message>« Assurance-feu » est un anglicisme (fire insurance). Employez <suggestion>assurance contre l’incendie</suggestion>, <suggestion>assurance incendie</suggestion>.</message>
-        <example correction="assurance contre l’incendie|assurance incendie"><marker>assurance-feu</marker></example>
-        <example><marker>assurance contre l’incendie</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">assurances?</token>
+          <token min="0">-</token>
           <token regexp="yes">feux?</token>
         </pattern>
         <message>« Assurance-feu » est un anglicisme (fire insurance). Employez <suggestion>assurance contre l’incendie</suggestion>, <suggestion>assurance incendie</suggestion>.</message>
         <example correction="assurance contre l’incendie|assurance incendie"><marker>assurance feu</marker></example>
+        <example correction="assurance contre l’incendie|assurance incendie"><marker>assurance-feu</marker></example>
         <example><marker>assurance contre l’incendie</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="PORTE-PATIO" name="porte-patio">
       <rule>
         <pattern>
-          <token regexp="yes">portes?-patios?</token>
-        </pattern>
-        <message>« Porte-patio » est un anglicisme (patio door). Employez <suggestion>porte-fenêtre</suggestion>, <suggestion>porte vitrée</suggestion>, <suggestion>baie coulissante</suggestion>.</message>
-        <example correction="porte-fenêtre|porte vitrée|baie coulissante"><marker>porte-patio</marker></example>
-        <example><marker>porte-fenêtre</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">portes?</token>
+          <token min="0">-</token>
           <token regexp="yes">patios?</token>
         </pattern>
         <message>« Porte-patio » est un anglicisme (patio door). Employez <suggestion>porte-fenêtre</suggestion>, <suggestion>porte vitrée</suggestion>, <suggestion>baie coulissante</suggestion>.</message>
         <example correction="porte-fenêtre|porte vitrée|baie coulissante"><marker>porte patio</marker></example>
+        <example correction="porte-fenêtre|porte vitrée|baie coulissante"><marker>porte-patio</marker></example>
         <example><marker>porte-fenêtre</marker></example>
       </rule>
     </rulegroup>
@@ -21231,19 +21035,13 @@ though, and has since been slightly modified)-->
     <rulegroup id="CENTRE-JARDIN" name="centre-jardin">
       <rule>
         <pattern>
-          <token regexp="yes">centres?[-‑‐]jardins?</token>
-        </pattern>
-        <message>« Centre-jardin » est un anglicisme (garden center). Employez <suggestion>jardinerie [raison sociale]</suggestion>, <suggestion>[raison sociale] jardinerie</suggestion>.</message>
-        <example correction="jardinerie [raison sociale]|[raison sociale] jardinerie"><marker>centre-jardin</marker></example>
-        <example><marker>jardinerie [raison sociale]</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">centres?</token>
+          <token min="0">-</token>
           <token regexp="yes">jardins?</token>
         </pattern>
         <message>« Centre-jardin » est un anglicisme (garden center). Employez <suggestion>jardinerie [raison sociale]</suggestion>, <suggestion>[raison sociale] jardinerie</suggestion>.</message>
         <example correction="jardinerie [raison sociale]|[raison sociale] jardinerie"><marker>centre jardin</marker></example>
+        <example correction="jardinerie [raison sociale]|[raison sociale] jardinerie"><marker>centre-jardin</marker></example>
         <example><marker>jardinerie [raison sociale]</marker></example>
       </rule>
     </rulegroup>
@@ -21263,8 +21061,8 @@ though, and has since been slightly modified)-->
         <token inflected="yes">de</token>
         <token regexp="yes">eaux?</token>
       </pattern>
-      <message>« Tour d’eau » est un anglicisme (water tower). Employez <suggestion>château d\3eau</suggestion>.</message>
-      <example correction="château d’eau"><marker>tour d’eau</marker></example>
+      <message>« Tour d’eau » est un anglicisme (water tower). Employez <suggestion>château d'eau</suggestion>.</message>
+      <example correction="château d'eau"><marker>tour d’eau</marker></example>
     </rule>
     <rule id="PATE_DE_TOMATE" name="pâte de tomate">
       <pattern>
@@ -21611,12 +21409,12 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PARE-CHOC_A_PARE-CHOC" name="pare-choc à pare-choc">
       <pattern>
-        <token regexp="yes">pare[-‑‐]chocs?</token>
+        <token>pare-chocs</token>
         <token regexp="yes">[aà]</token>
-        <token regexp="yes">pare[-‑‐]chocs?</token>
+        <token>pare-chocs</token>
       </pattern>
-      <message>« Pare-choc à pare-choc » est un anglicisme (bumper to bumper). Employez <suggestion>pare-choc contre pare-choc</suggestion>.</message>
-      <example correction="pare-choc contre pare-choc"><marker>pare-choc à pare-choc</marker>.</example>
+      <message>« Pare-chocs à pare-chocs » est un anglicisme (bumper to bumper). Employez <suggestion>pare-chocs contre pare-chocs</suggestion>.</message>
+      <example correction="pare-chocs contre pare-chocs"><marker>pare-chocs à pare-chocs</marker>.</example>
     </rule>
     <rule id="RETOURNER_UN_APPEL" name="retourner un appel">
       <pattern>
@@ -22149,9 +21947,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="QUEST-CE_QUI_ARRIVE_AVEC" name="qu’est-ce qui arrive avec">
       <pattern>
-        <token>qu</token>
-        <token regexp="yes">[’´'‛′‘]</token>
-        <token regexp="yes" skip="4">est[-‑‐]ce</token>
+        <token>qu'</token>
+        <token>est</token>
+        <token skip="4">-ce</token>
         <token inflected="yes" skip="5">arriver</token>
         <token>avec</token>
       </pattern>
@@ -22192,7 +21990,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="SOUS-CONTRACTEUR" name="sous-contracteur">
       <pattern>
-        <token regexp="yes">sous-contracteurs?</token>
+        <token regexp="yes">sous</token>
+        <token min="0">-</token>
+        <token regexp="yes">contracteurs?</token>
       </pattern>
       <message>« Sous-contracteur » est un anglicisme (subcontractor). Employez <suggestion>sous-traitant</suggestion>, <suggestion>sous-entrepreneur</suggestion>.</message>
       <example correction="sous-traitant|sous-entrepreneur"><marker>sous-contracteur</marker>.</example>
@@ -23088,17 +22888,11 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">blocs?</token>
+          <token min="0">-</token>
           <token regexp="yes">appartements?</token>
         </pattern>
         <message>« Bloc appartements » est un anglicisme (appartement block). Employez <suggestion>immeuble d’habitation</suggestion>, <suggestion>immeuble résidentiel</suggestion>.</message>
         <example correction="immeuble d’habitation|immeuble résidentiel"><marker>bloc appartements</marker></example>
-        <example><marker>immeuble résidentiel</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">blocs?-appartements?</token>
-        </pattern>
-        <message>« Bloc appartements » est un anglicisme (appartement block). Employez <suggestion>immeuble d’habitation</suggestion>, <suggestion>immeuble résidentiel</suggestion>.</message>
         <example correction="immeuble d’habitation|immeuble résidentiel"><marker>bloc-appartements</marker></example>
         <example><marker>immeuble résidentiel</marker></example>
       </rule>
@@ -23252,7 +23046,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="BUREAU-CHEF" name="bureau-chef">
       <pattern>
-        <token regexp="yes">bureaux?-chefs?</token>
+        <token regexp="yes">bureaux?</token>
+        <token min="0">-</token>
+        <token regexp="yes">chefs?</token>
       </pattern>
       <message>« Bureau-chef » est un anglicisme (head office). Employez <suggestion>siège social</suggestion>.</message>
       <example correction="siège social"><marker>bureau-chef</marker></example>
@@ -23436,7 +23232,9 @@ though, and has since been slightly modified)-->
     <rule id="VENTE_SEMI-ANNUELLE" name="vente semi-annuelle">
       <pattern>
         <token regexp="yes">ventes?</token>
-        <token regexp="yes">semi-?annuelles?</token>
+        <token regexp="yes">semi</token>
+        <token min="0">-</token>
+        <token regexp="yes">annuelles?</token>
       </pattern>
       <message>« Vente semi-annuelle » est un anglicisme (semi-annual sale). Employez <suggestion>solde semestriel</suggestion>.</message>
       <example correction="solde semestriel"><marker>vente semi-annuelle</marker></example>
@@ -23444,19 +23242,14 @@ though, and has since been slightly modified)-->
     <rulegroup id="PINCE-GRIP" name="pince-grip">
       <rule>
         <pattern>
-          <token regexp="yes">pinces?-grips?|pinces?-grippe?</token>
-        </pattern>
-        <message>« Pince-grip » est un anglicisme (vise-grip). Employez <suggestion>pince-étau</suggestion>.</message>
-        <example correction="pince-étau"><marker>pince-grip</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">pinces?</token>
+          <token min="0">-</token>
           <token regexp="yes">grips?|grippes?</token>
         </pattern>
         <message>« Pince-grip » est un anglicisme (vise-grip). Employez <suggestion>pince-étau</suggestion>.</message>
         <example correction="pince-étau"><marker>pince grip</marker></example>
         <example><marker>pince étau</marker></example>
+        <example correction="pince-étau"><marker>pince-grip</marker></example>
       </rule>
     </rulegroup>
     <rule id="LIT_DOUBLE" name="lit double">
@@ -23843,7 +23636,7 @@ though, and has since been slightly modified)-->
         <token>impression</token>
         <token regexp="yes">que|qu'</token>
       </pattern>
-      <message>« Être sous l’impression que » est un anglicisme (to be under the impression that). Employez <suggestion>avoir l\3impression que</suggestion>.</message>
+      <message>« Être sous l’impression que » est un anglicisme (to be under the impression that). Employez <suggestion>avoir l'impression que</suggestion>.</message>
       <example correction="avoir l’impression que"><marker>sous l’impression que</marker></example>
     </rule>
     <rule id="ETRE_EN_AMOUR" name="être en amour">
@@ -23974,22 +23767,16 @@ though, and has since been slightly modified)-->
         <token regexp="yes">oeil|œil</token>
         <token>sur</token>
       </pattern>
-      <message>« Garder l’œil sur quelqu’un ou quelque chose » est un anglicisme (to keep an eye on). Employez <suggestion>surveiller</suggestion>, <suggestion>avoir à l\3œil</suggestion>.</message>
-      <example correction="surveiller|avoir à l’œil"><marker>garder l’œil sur</marker></example>
+      <message>« Garder l’œil sur quelqu’un ou quelque chose » est un anglicisme (to keep an eye on). Employez <suggestion>surveiller</suggestion>, <suggestion>avoir à l'œil</suggestion>.</message>
+      <example correction="surveiller|avoir à l'œil"><marker>garder l’œil sur</marker></example>
       <example><marker>avoir à l’œil</marker></example>
     </rule>
     <rulegroup id="LAISSER_SAVOIR" name="laisser savoir">
       <rule>
         <pattern>
-          <token inflected="yes" skip="2">laisser</token>
-          <token>savoir</token>
-        </pattern>
-        <message>« Laisser savoir » est un anglicisme (to let know). Employez <suggestion>faire savoir</suggestion>.</message>
-        <example correction="faire savoir"><marker>laisser savoir</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token inflected="yes">laissez-le-moi</token>
+          <token>laissez</token>
+          <token>-le</token>
+          <token>-moi</token>
           <token>savoir</token>
         </pattern>
         <message>« Laissez-le-moi savoir » est un anglicisme (let me know it). Employez <suggestion>faites-le-moi savoir</suggestion>.</message>
@@ -23997,11 +23784,21 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes">laisse-le-moi</token>
+          <token>laisse</token>
+          <token>-le</token>
+          <token>-moi</token>
           <token>savoir</token>
         </pattern>
         <message>« Laisse-le-moi savoir » est un anglicisme (let me know it). Employez <suggestion>fais-le-moi savoir</suggestion>.</message>
         <example correction="fais-le-moi savoir"><marker>laisse-le-moi savoir</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token inflected="yes" skip="2">laisser</token>
+          <token>savoir</token>
+        </pattern>
+        <message>« Laisser savoir » est un anglicisme (to let know). Employez <suggestion>faire savoir</suggestion>.</message>
+        <example correction="faire savoir"><marker>laisser savoir</marker></example>
       </rule>
     </rulegroup>
     <rule id="FAIRE_UN_FOU_DE_SOI" name="faire un fou de soi">
@@ -24071,8 +23868,8 @@ though, and has since been slightly modified)-->
         <token>emphase</token>
         <token>sur</token>
       </pattern>
-      <message>« Mettre l’emphase sur » est un anglicisme (to put the emphasis on). Employez <suggestion>mettre l\3accent sur</suggestion>, <suggestion>insister sur</suggestion>.</message>
-      <example correction="mettre l’accent sur|insister sur"><marker>mettre l’emphase sur</marker></example>
+      <message>« Mettre l’emphase sur » est un anglicisme (to put the emphasis on). Employez <suggestion>mettre l'accent sur</suggestion>, <suggestion>insister sur</suggestion>.</message>
+      <example correction="mettre l'accent sur|insister sur"><marker>mettre l’emphase sur</marker></example>
       <example><marker>mettre l’accent sur</marker></example>
     </rule>
     <rulegroup id="A_CAPACITE" name="à (pleine) capacité">
@@ -24204,18 +24001,13 @@ though, and has since been slightly modified)-->
     <rulegroup id="BAIN-TOURBILLON" name="bain-tourbillon">
       <rule>
         <pattern>
-          <token regexp="yes">bain-tourbillon|bains-tourbillon|bain-tourbillons|bains-tourbillons</token>
-        </pattern>
-        <message>« Bain-tourbillon » est un anglicisme (whirlpool). Employez <suggestion>baignoire à remous</suggestion>.</message>
-        <example correction="baignoire à remous"><marker>bain-tourbillon</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">bains?</token>
+          <token min="0">-</token>
           <token regexp="yes">tourbillons?</token>
         </pattern>
         <message>« Bain-tourbillon » est un anglicisme (whirlpool). Employez <suggestion>baignoire à remous</suggestion>.</message>
         <example correction="baignoire à remous"><marker>bain tourbillon</marker></example>
+        <example correction="baignoire à remous"><marker>bain-tourbillon</marker></example>
       </rule>
     </rulegroup>
     <rule id="FREIN_A_BRAS" name="frein à bras">
@@ -24311,16 +24103,11 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">vi[sc]es?</token>
+          <token min="0">-</token>
           <token regexp="yes">grips?|grippes?</token>
         </pattern>
         <message>« Vise-grip » est un anglicisme. Employez <suggestion>pince-étau</suggestion>.</message>
         <example correction="pince-étau"><marker>vise grip</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">vi[sc]e-?grips?</token>
-        </pattern>
-        <message>« Vise-grip » est un anglicisme. Employez <suggestion>pince-étau</suggestion>.</message>
         <example correction="pince-étau"><marker>vise-grip</marker></example>
       </rule>
     </rulegroup>
@@ -24328,17 +24115,11 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">packages?</token>
+          <token min="0">-</token>
           <token regexp="yes">deals?</token>
         </pattern>
         <message>« Package deal » est un anglicisme. Employez <suggestion>accord global</suggestion>, <suggestion>entente globale</suggestion>.</message>
         <example correction="accord global|entente globale"><marker>package deal</marker></example>
-        <example><marker>accord global</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">package-?deals?</token>
-        </pattern>
-        <message>« Package deal » est un anglicisme. Employez <suggestion>accord global</suggestion>, <suggestion>entente globale</suggestion>.</message>
         <example correction="accord global|entente globale"><marker>package-deal</marker></example>
         <example><marker>accord global</marker></example>
       </rule>
@@ -24347,17 +24128,11 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">queens?</token>
+          <token min="0">-</token>
           <token regexp="yes">sizes?</token>
         </pattern>
         <message>« Queen size » est un anglicisme. Employez <suggestion>grand format</suggestion> (lit), <suggestion>longue</suggestion> (cigarette).</message>
         <example correction="grand format|longue">lit <marker>queen size</marker></example>
-        <example>lit <marker>grand format</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">queen-?sizes?</token>
-        </pattern>
-        <message>« Queen size » est un anglicisme. Employez <suggestion>grand format</suggestion> (lit), <suggestion>longue</suggestion> (cigarette).</message>
         <example correction="grand format|longue">lit <marker>queen-size</marker></example>
         <example>lit <marker>grand format</marker></example>
       </rule>
@@ -24366,16 +24141,11 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">meltings?</token>
+          <token min="0">-</token>
           <token regexp="yes">pots?</token>
         </pattern>
         <message>« Melting pot » est un anglicisme. Employez <suggestion>creuset</suggestion>.</message>
         <example correction="creuset"><marker>melting pot</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">melting-?pots?</token>
-        </pattern>
-        <message>« Melting pot » est un anglicisme. Employez <suggestion>creuset</suggestion>.</message>
         <example correction="creuset"><marker>melting-pot</marker></example>
       </rule>
     </rulegroup>
@@ -24855,22 +24625,16 @@ though, and has since been slightly modified)-->
     <rulegroup id="MAKING_OF" name="making of">
       <rule>
         <pattern>
-          <token regexp="yes">making-of|making-off|making-ofs|making-offs</token>
-        </pattern>
-        <message>« Making of » est un anglicisme. Employez <suggestion>coulisses</suggestion>, <suggestion>genèse</suggestion>, <suggestion>réalisation</suggestion>, <suggestion>tournage</suggestion>, <suggestion>secrets de tournage</suggestion>.</message>
-        <example correction="coulisses|genèse|réalisation|tournage|secrets de tournage"><marker>making-of</marker></example>
-        <example>les <marker>coulisses</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">
             <exception scope="previous">the</exception>
             makings?
           </token>
+          <token min="0">-</token>
           <token regexp="yes">of|off|ofs|offs</token>
         </pattern>
         <message>« Making of » est un anglicisme. Employez <suggestion>coulisses</suggestion>, <suggestion>genèse</suggestion>, <suggestion>réalisation</suggestion>, <suggestion>tournage</suggestion>, <suggestion>secrets de tournage</suggestion>.</message>
         <example correction="coulisses|genèse|réalisation|tournage|secrets de tournage"><marker>making of</marker></example>
+        <example correction="coulisses|genèse|réalisation|tournage|secrets de tournage"><marker>making-of</marker></example>
         <example>les <marker>coulisses</marker></example>
         <example>Robert E. Kapsis, Hitchcock : The Making of a Reputation, University of Chicago Press, 1992.</example>
       </rule>
@@ -24878,64 +24642,46 @@ though, and has since been slightly modified)-->
     <rulegroup id="HAS_BEEN" name="has been">
       <rule>
         <pattern>
-          <token regexp="yes">has-?beens?</token>
-        </pattern>
-        <message>« Has been » est un anglicisme. Employez <suggestion>qui a fait son temps</suggestion>, <suggestion>dépassé</suggestion>, <suggestion>démodé</suggestion> (familier).</message>
-        <example correction="qui a fait son temps|dépassé|démodé"><marker>has-been</marker></example>
-        <example>Les <marker>dépassés</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
           <token>has</token>
+          <token min="0">-</token>
           <token regexp="yes">beens?</token>
         </pattern>
         <message>« Has been » est un anglicisme. Employez <suggestion>qui a fait son temps</suggestion>, <suggestion>dépassé</suggestion>, <suggestion>démodé</suggestion> (familier).</message>
         <example correction="qui a fait son temps|dépassé|démodé"><marker>has been</marker></example>
+        <example correction="qui a fait son temps|dépassé|démodé"><marker>has-been</marker></example>
         <example>Les <marker>dépassés</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="MASS_MEDIA" name="mass media">
       <rule>
         <pattern>
-          <token regexp="yes">mass-?m[eé]dias?</token>
-        </pattern>
-        <message>« Mass media » est un anglicisme. Employez <suggestion>média de masse</suggestion>.</message>
-        <example correction="média de masse"><marker>mass-media</marker></example>
-        <example>les <marker>média de masse</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">mass|masses</token>
+          <token min="0">-</token>
           <token regexp="yes">média|media|medias|médias</token>
         </pattern>
         <message>« Mass media » est un anglicisme. Employez <suggestion>média de masse</suggestion>.</message>
         <example correction="média de masse"><marker>mass media</marker></example>
+        <example correction="média de masse"><marker>mass-media</marker></example>
         <example>les <marker>média de masse</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="LAZY-BOY" name="lazy-boy">
       <rule>
         <pattern>
-          <token regexp="yes">lazys?-boys?|lazies-boys?|lazyboys?</token>
-        </pattern>
-        <message>« Lazy-boy » est un anglicisme. Employez <suggestion>fauteuil de repos</suggestion>.</message>
-        <example correction="fauteuil de repos"><marker>lazy-boy</marker></example>
-        <example>les <marker>fauteuils de repos</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">lazys?|lazies</token>
+          <token min="0">-</token>
           <token regexp="yes">boys?</token>
         </pattern>
         <message>« Lazy-boy » est un anglicisme. Employez <suggestion>fauteuil de repos</suggestion>.</message>
         <example correction="fauteuil de repos"><marker>lazy boy</marker></example>
+        <example correction="fauteuil de repos"><marker>lazy-boy</marker></example>
         <example>les <marker>fauteuils de repos</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="HATCHBACK" name="hatchback">
       <rule>
         <pattern>
-          <token regexp="yes">hatchback|hatch-back|hatch-backs|hatchbacks</token>
+          <token regexp="yes">hatchbacks?</token>
         </pattern>
         <message>« Hatchback » est un anglicisme. Employez <suggestion>hayon</suggestion> (partie mobile de la voiture), <suggestion>coupé avec hayon</suggestion>, <suggestion>berline avec hayon</suggestion>, <suggestion>trois portes</suggestion>, <suggestion>cinq portes</suggestion>. Un « coupé » possède deux portes latérales ; une « berline » en possède quatre.</message>
         <example correction="hayon|coupé avec hayon|berline avec hayon|trois portes|cinq portes"><marker>hatchback</marker></example>
@@ -24944,6 +24690,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">hatchs?|hatches</token>
+          <token min="0">-</token>
           <token regexp="yes">backs?</token>
         </pattern>
         <message>« Hatchback » est un anglicisme. Employez <suggestion>hayon</suggestion> (partie mobile de la voiture), <suggestion>coupé avec hayon</suggestion>, <suggestion>berline avec hayon</suggestion>, <suggestion>trois portes</suggestion>, <suggestion>cinq portes</suggestion>. Un « coupé » possède deux portes latérales ; une « berline » en possède quatre.</message>
@@ -24971,34 +24718,29 @@ though, and has since been slightly modified)-->
     <rulegroup id="HAPPY-FEW" name="happy-few">
       <rule>
         <pattern>
-          <token regexp="yes">happy-fews?</token>
-        </pattern>
-        <message>« Happy-few » est un anglicisme. Employez <suggestion>privilégiés</suggestion>, <suggestion>l’élite</suggestion>, <suggestion>la crème</suggestion> (familier).</message>
-        <example correction="privilégiés|l’élite|la crème"><marker>happy-few</marker></example>
-        <example>les <marker>privilégiés</marker></example>
-      </rule>
-      <rule>
-        <pattern>
           <token regexp="yes">happys?|happies</token>
+          <token min="0">-</token>
           <token regexp="yes">fews?</token>
         </pattern>
         <message>« Happy-few » est un anglicisme. Employez <suggestion>privilégiés</suggestion>, <suggestion>l’élite</suggestion>, <suggestion>la crème</suggestion> (familier).</message>
         <example correction="privilégiés|l’élite|la crème"><marker>happy few</marker></example>
+        <example correction="privilégiés|l’élite|la crème"><marker>happy-few</marker></example>
         <example>les <marker>privilégiés</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="HIGH-TECH" name="high-tech">
       <rule>
         <pattern>
-          <token regexp="yes">high-?techs?</token>
+          <token regexp="yes">hightechs?</token>
         </pattern>
         <message>« High-tech » est un anglicisme. Employez <suggestion>haute technologie</suggestion> (substantif), <suggestion>de pointe</suggestion> (locution adjectivale).</message>
-        <example correction="haute technologie|de pointe"><marker>high-tech</marker></example>
+        <example correction="haute technologie|de pointe"><marker>hightech</marker></example>
         <example><marker>haute technologie</marker></example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">highs?</token>
+          <token min="0">-</token>
           <token regexp="yes">techs?</token>
         </pattern>
         <message>« High-tech » est un anglicisme. Employez <suggestion>haute technologie</suggestion> (substantif), <suggestion>de pointe</suggestion> (locution adjectivale).</message>
@@ -25028,15 +24770,16 @@ though, and has since been slightly modified)-->
     <rulegroup id="FULL_PIN" name="full pin">
       <rule>
         <pattern>
-          <token regexp="yes">full-?pins?</token>
+          <token regexp="yes">fullpins?</token>
         </pattern>
         <message>« Full pin » est un anglicisme. Employez <suggestion>un max</suggestion> (familier ; degré d’intensité), <suggestion>à pleins tubes</suggestion> (familier ; volume), <suggestion>à plein régime</suggestion> (vitesse), <suggestion>à toute allure</suggestion> (vitesse), <suggestion>à fond de train</suggestion> (familier ; vitesse), <suggestion>à fond la caisse</suggestion> (familier ; vitesse), <suggestion>à toute vapeur</suggestion> (familier ; vitesse), <suggestion>à toute pompe</suggestion> (familier ; vitesse), <suggestion>à pleine gomme</suggestion> (familier ; vitesse).</message>
-        <example correction="un max|à pleins tubes|à plein régime|à toute allure|à fond de train|à fond la caisse|à toute vapeur|à toute pompe|à pleine gomme"><marker>full-pin</marker></example>
+        <example correction="un max|à pleins tubes|à plein régime|à toute allure|à fond de train|à fond la caisse|à toute vapeur|à toute pompe|à pleine gomme"><marker>fullpin</marker></example>
         <example><marker>à plein régime</marker></example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">fulls?</token>
+          <token min="0">-</token>
           <token regexp="yes">pins?</token>
         </pattern>
         <message>« Full pin » est un anglicisme. Employez <suggestion>un max</suggestion> (familier ; degré d’intensité), <suggestion>à plein tubes</suggestion> (familier ; volume), <suggestion>à plein régime</suggestion> (vitesse), <suggestion>à toute allure</suggestion> (vitesse), <suggestion>à fond de train</suggestion> (familier ; vitesse), <suggestion>à fond la caisse</suggestion> (familier ; vitesse), <suggestion>à toute vapeur</suggestion> (familier ; vitesse), <suggestion>à toute pompe</suggestion> (familier ; vitesse), <suggestion>à pleine gomme</suggestion> (familier ; vitesse).</message>
@@ -25084,6 +24827,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">eggs?</token>
+          <token min="0">-</token>
           <token regexp="yes">rolls?</token>
         </pattern>
         <message>« Egg roll » est un anglicisme. Employez <suggestion>rouleau de printemps</suggestion>, <suggestion>pâté impérial</suggestion>.</message>
@@ -25092,7 +24836,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">egg-?rolls?</token>
+          <token regexp="yes">eggrolls?</token>
         </pattern>
         <message>« Egg roll » est un anglicisme. Employez <suggestion>rouleau de printemps</suggestion>, <suggestion>pâté impérial</suggestion>.</message>
         <example correction="rouleau de printemps|pâté impérial"><marker>egg-roll</marker></example>
@@ -25103,6 +24847,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">clams?</token>
+          <token min="0">-</token>
           <token regexp="yes">chowders?</token>
         </pattern>
         <message>« Clam chowder » est un anglicisme. Employez <suggestion>chaudrée de palourde</suggestion>.</message>
@@ -25111,7 +24856,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">clam-?chowders?</token>
+          <token regexp="yes">clamchowders?</token>
         </pattern>
         <message>« Clam chowder » est un anglicisme. Employez <suggestion>chaudrée de palourde</suggestion>.</message>
         <example correction="chaudrée de palourde"><marker>clam-chowder</marker></example>
@@ -25122,6 +24867,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">crows?</token>
+          <token min="0">-</token>
           <token regexp="yes">bars?|barres?</token>
         </pattern>
         <message>« Crowbar » est un anglicisme. Employez <suggestion>pied-de-biche</suggestion>, <suggestion>pince-monseigneur</suggestion>, <suggestion>pince à levier</suggestion>, <suggestion>barre à mine</suggestion> (pour creuser, essoucher).</message>
@@ -25130,7 +24876,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">crow-?bars?|crow-barres?</token>
+          <token regexp="yes">crowbars?|crowbarres?</token>
         </pattern>
         <message>« Crowbar » est un anglicisme. Employez <suggestion>pied-de-biche</suggestion>, <suggestion>pince-monseigneur</suggestion>, <suggestion>pince à levier</suggestion>, <suggestion>barre à mine</suggestion> (pour creuser, essoucher).</message>
         <example correction="pied-de-biche|pince-monseigneur|pince à levier|barre à mine"><marker>crowbar</marker></example>
@@ -25165,17 +24911,11 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token>ex</token>
+          <token min="0">-</token>
           <token>officio</token>
         </pattern>
         <message>« Ex officio » est un anglicisme. Employez <suggestion>d’office</suggestion>, <suggestion>de droit</suggestion>.</message>
         <example correction="d’office|de droit"><marker>ex officio</marker></example>
-        <example><marker>d’office</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>ex-officio</token>
-        </pattern>
-        <message>« Ex officio » est un anglicisme. Employez <suggestion>d’office</suggestion>, <suggestion>de droit</suggestion>.</message>
         <example correction="d’office|de droit"><marker>ex-officio</marker></example>
         <example><marker>d’office</marker></example>
       </rule>
@@ -25184,40 +24924,45 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">eyes?</token>
+          <token min="0">-</token>
           <token regexp="yes">liners?</token>
         </pattern>
         <message>« Eye liner » est un anglicisme. Employez <suggestion>crayon</suggestion>.</message>
         <example correction="crayon"><marker>eye liner</marker></example>
+        <example correction="crayon"><marker>eye-liner</marker></example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">eyes?-?liners?</token>
+          <token regexp="yes">eyes?liners?</token>
         </pattern>
         <message>« Eye-liner » est un anglicisme. Employez <suggestion>crayon</suggestion>.</message>
-        <example correction="crayon"><marker>eye-liner</marker></example>
+        <example correction="crayon"><marker>eyeliner</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="CRUISE_CONTROL" name="cruise control">
       <rule>
         <pattern>
           <token regexp="yes">cruises?</token>
+          <token min="0">-</token>
           <token regexp="yes">controls?</token>
         </pattern>
         <message>« Cruise control » est un anglicisme. Employez <suggestion>régulateur de vitesse</suggestion>.</message>
         <example correction="régulateur de vitesse"><marker>cruise control</marker></example>
+        <example correction="régulateur de vitesse"><marker>cruise-control</marker></example>
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">cruise-?controls?</token>
+          <token regexp="yes">cruisecontrols?</token>
         </pattern>
         <message>« Cruise control » est un anglicisme. Employez <suggestion>régulateur de vitesse</suggestion>.</message>
-        <example correction="régulateur de vitesse"><marker>cruise-control</marker></example>
+        <example correction="régulateur de vitesse"><marker>cruisecontrol</marker></example>
       </rule>
     </rulegroup>
     <rulegroup id="CLAPBOARD" name="clapboard">
       <rule>
         <pattern>
           <token regexp="yes">claps?</token>
+          <token min="0">-</token>
           <token regexp="yes">boards?</token>
         </pattern>
         <message>« Clapboard » est un anglicisme. Employez <suggestion>clin d’aluminium</suggestion>.</message>
@@ -25225,7 +24970,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">clap-?boards?</token>
+          <token regexp="yes">clapboards?</token>
         </pattern>
         <message>« Clapboard » est un anglicisme. Employez <suggestion>clin d’aluminium</suggestion>.</message>
         <example correction="clin d’aluminium"><marker>clapboard</marker></example>
@@ -25235,6 +24980,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">fasts?</token>
+          <token min="0">-</token>
           <token regexp="yes">foods?</token>
         </pattern>
         <message>« Fast food » est un anglicisme. Employez <suggestion>repas-minute</suggestion>, <suggestion>restaurant-minute</suggestion>, <suggestion>cuisine-minute</suggestion>, <suggestion>plat-minute</suggestion>, <suggestion>prêt-à-manger</suggestion>, <suggestion>restauration-minute</suggestion>.</message>
@@ -25243,10 +24989,10 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">fast-?foods?</token>
+          <token regexp="yes">fastfoods?</token>
         </pattern>
         <message>« Fast food » est un anglicisme. Employez <suggestion>repas-minute</suggestion>, <suggestion>restaurant-minute</suggestion>, <suggestion>cuisine-minute</suggestion>, <suggestion>plat-minute</suggestion>, <suggestion>prêt-à-manger</suggestion>, <suggestion>restauration-minute</suggestion>.</message>
-        <example correction="repas-minute|restaurant-minute|cuisine-minute|plat-minute|prêt-à-manger|restauration-minute"><marker>fast-food</marker></example>
+        <example correction="repas-minute|restaurant-minute|cuisine-minute|plat-minute|prêt-à-manger|restauration-minute"><marker>fastfood</marker></example>
         <example><marker>repas-minute</marker></example>
       </rule>
     </rulegroup>
@@ -25254,6 +25000,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">burns?</token>
+          <token min="0">-</token>
           <token regexp="yes">outs?</token>
         </pattern>
         <message>« Burnout » est un anglicisme. Employez <suggestion>surmenage</suggestion>, <suggestion>épuisement professionnel</suggestion>.</message>
@@ -25262,10 +25009,10 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">burn-?outs?</token>
+          <token regexp="yes">burnouts?</token>
         </pattern>
         <message>« Burnout » est un anglicisme. Employez <suggestion>surmenage</suggestion>, <suggestion>épuisement professionnel</suggestion>.</message>
-        <example correction="surmenage|épuisement professionnel"><marker>burn-out</marker></example>
+        <example correction="surmenage|épuisement professionnel"><marker>burnout</marker></example>
         <example><marker>surmenage</marker></example>
       </rule>
     </rulegroup>
@@ -25273,18 +25020,13 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">beds?</token>
+          <token min="0">-</token>
           <token>and</token>
+          <token min="0">-</token>
           <token regexp="yes">breakfasts?</token>
         </pattern>
         <message>« Bed and breakfast » est un anglicisme. Employez <suggestion>chambre d’hôte</suggestion>, <suggestion>maison d’hôte</suggestion>.</message>
         <example correction="chambre d’hôte|maison d’hôte"><marker>bed and breakfast</marker></example>
-        <example><marker>chambre d’hôte</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">bed-and-breakfast|beds-and-breakfasts|beds-and-breakfast|bed-and-breakfasts</token>
-        </pattern>
-        <message>« Bed and breakfast » est un anglicisme. Employez <suggestion>chambre d’hôte</suggestion>, <suggestion>maison d’hôte</suggestion>.</message>
         <example correction="chambre d’hôte|maison d’hôte"><marker>bed-and-breakfast</marker></example>
         <example><marker>chambre d’hôte</marker></example>
       </rule>

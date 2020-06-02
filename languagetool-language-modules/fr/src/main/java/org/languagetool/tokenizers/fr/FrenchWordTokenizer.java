@@ -36,7 +36,7 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class FrenchWordTokenizer extends WordTokenizer {
 
-  private static final int maxPatterns = 3;
+  private static final int maxPatterns = 4;
   private final Pattern[] patterns = new Pattern[maxPatterns];
 
   FrenchTagger tagger;
@@ -83,10 +83,13 @@ public class FrenchWordTokenizer extends WordTokenizer {
     patterns[0] = Pattern.compile(
         "^(n['’])([^\\-]*)(-ce|-elle|-t-elle|-elles|-en|-il|-t-il|-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-    patterns[1] = Pattern.compile(
-        "^(c['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quelqu['’]|quoiqu['’]|presqu['’])([^'’\\-].*)$",
+    patterns[1] = Pattern.compile( //|presqu['’] |quelqu['’]
+        "^(c['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^'’\\-].*)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[2] = Pattern.compile(
+        "^([^\\-]*)(-ce|-elle|-t-elle|-elles|-en|-il|-t-il|-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)(-ce|-elle|-t-elle|-elles|-en|-il|-t-il|-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
+        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    patterns[3] = Pattern.compile(
         "^([^\\-]*)(-ce|-elle|-t-elle|-elles|-en|-il|-t-il|-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     

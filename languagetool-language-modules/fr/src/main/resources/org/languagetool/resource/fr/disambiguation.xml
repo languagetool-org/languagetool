@@ -108,6 +108,15 @@ RB => Règles Brutes
       <disambig postag="N m p"/>
     </rule>
   </rulegroup>
+  
+  <rule id="VERB_PRON" name="verb + pronoun">
+    <pattern>
+      <token postag="V .*" postag_regexp="yes"/>
+      <token postag="R .*" postag_regexp="yes" spacebefore="no"/>
+    </pattern>
+    <disambig action="filterall"></disambig>
+  </rule>
+  
   <rule name="nom" id="NOM">
     <pattern>
       <token postag="SENT_START"/>

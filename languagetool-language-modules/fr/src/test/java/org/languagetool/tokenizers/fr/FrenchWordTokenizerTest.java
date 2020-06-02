@@ -59,6 +59,8 @@ public class FrenchWordTokenizerTest {
     assertEquals(tokens.size(), 2);
     tokens = wordTokenizer.tokenize("N’est-il");
     assertEquals(tokens.size(), 3);    
+    tokens = wordTokenizer.tokenize("Faites-le-moi");
+    assertEquals(tokens.size(), 3);
     
     tokens = wordTokenizer.tokenize("10 000");
     assertEquals(tokens.size(), 1);
