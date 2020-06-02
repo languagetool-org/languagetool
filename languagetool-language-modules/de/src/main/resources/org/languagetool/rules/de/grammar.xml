@@ -42550,6 +42550,15 @@ Andere Projekte</example>
                     <token inflected="yes">sein</token>
                     <token>das</token>
                     <token>richtig</token>
+                    <token min="0">so</token>
+                    <token>?</token>
+                </antipattern>
+                 <antipattern>
+                    <token inflected="yes">machen</token>
+                    <token postag="PRO:PER:NOM:.+" postag_regexp="yes"/>
+                    <token regexp="yes">das|es</token>
+                    <token min="0">so</token>
+                    <token>richtig</token>
                     <token>?</token>
                 </antipattern>
                 <antipattern>
@@ -42561,13 +42570,13 @@ Andere Projekte</example>
                 <antipattern>
                     <token regexp="yes">,|;|:|-|–</token>
                     <token inflected="yes">sein</token>
-                    <token>das</token>
+                    <token regexp="yes">das|es|alles</token>
                     <token>richtig</token>
                     <token>?</token>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes" skip="2">liegen</token>
-                    <token>da</token>
+                    <token inflected="yes" skip="2" regexp="yes">liegen</token>
+                    <token regexp="yes">da</token>
                     <token>richtig</token>
                     <token>?</token>
                 </antipattern>
@@ -42577,23 +42586,24 @@ Andere Projekte</example>
                     <token>?</token>
                 </antipattern>
                 <antipattern>
-                    <token postag="SENT_START"/>
-                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
-                    <token skip="-1" postag="VER:.*" postag_regexp="yes"/>
+                    <token>ein</token>
+                    <token regexp="yes">ja|nein</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes">sein</token>
+                    <token regexp="yes">das|es|alles</token>
+                    <token>richtig</token>
                     <token>?</token>
                 </antipattern>
                 <antipattern>
-                    <token regexp="yes">,|;|:|-|–</token>
-                    <token min="0" max="1" regexp="yes">„|»|«|"</token>
-                    <token skip="-1" postag="VER:.*" postag_regexp="yes">
-                        <exception regexp="yes">,|;|:|-|–</exception>
-                    </token>
-                    <token>?</token>
+                    <token inflected="yes">sein</token>
+                    <token skip="-1"></token>
+                    <token>richtig</token>
                 </antipattern>
                 <pattern>
                     <marker>
                     <token>
-                        <exception regexp="yes">,|-|–|„|»|«|"|;|…|\(</exception>
+                        <exception regexp="yes">,|-|–|„|»|«|"|;|…|\(|:|=|\(</exception>
                         <exception postag="SENT_START"/>
                     </token>
                     <token  regexp="yes">ja|nein|oder|richtig</token>
@@ -42604,6 +42614,7 @@ Andere Projekte</example>
             <suggestion>\1, \2</suggestion>
             <example correction='morgen, oder'>Du kommst <marker>morgen oder</marker>?</example>
             <example correction='melden, richtig'>Eine Kündigung muss ich bis 31. Januar 2021 bei dir <marker>melden richtig</marker>?</example>
+            <example correction='blöd, oder'>Gar nicht so <marker>blöd oder</marker>?</example>
             <example>Ja oder nein?</example>
             <example>Welches ist richtig?</example>
             <example>Tickst du noch ganz richtig?</example>
