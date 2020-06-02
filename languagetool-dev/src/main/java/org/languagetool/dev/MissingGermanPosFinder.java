@@ -43,10 +43,20 @@ public class MissingGermanPosFinder {
     LuceneLanguageModel lm = new LuceneLanguageModel(new File(args[1]));
     GermanTagger tagger = new GermanTagger();
     for (String word : lines) {
+      int origCount = -1;
+      if (word.matches("\\d+ .*")) {
+        String[] parts = word.split(" ");
+        origCount = Integer.parseInt(parts[0]);
+        word = parts[1];
+      }
       word = word.trim();
+      if (word.endsWith(".")) {
+        word = word.substring(0, word.length()-1);
+      }
       AnalyzedTokenReadings matches = tagger.lookup(word);
-      if (matches == null || !matches.isTagged()) {
-        long count = lm.getCount(word);
+      AnalyzedTokenReadings lcMatches = tagger.lookup(word.toLowerCase());
+      if ((matches == null || !matches.isTagged()) && (lcMatches == null || !lcMatches.isTagged())) {
+        long count = origCount == -1 ? lm.getCount(word) : origCount;
         System.out.println(count + "\t" + word);
       }
     }
