@@ -42103,7 +42103,7 @@ USA
             <example><marker>Ten thousand</marker> books are in this library.</example>
         </rule>
 
-        <rule id="NNS_IN_NNP_VBZ" name="Use the base form or the past tense with a plural noun" default="temp_off"><!-- https://forum.languagetool.org/t/en-undetected-error/5724 -->
+        <rule id="NNS_IN_NNP_VBZ" name="Use the base form or the past tense with a plural noun"><!-- https://forum.languagetool.org/t/en-undetected-error/5724 -->
             <antipattern><!-- Generalize. Any verb before the plural noun: is counting the days until Mary / will be reminded for 10 years after Davis. I made these general rules because trying to make AP for all the examples takes too long. Some antipatterns that contain verbs are now redundant. A possible result of the generalized APs is that this rule will not find all errors. -->
                 <token skip="-1" chunk="I-VP" postag_regexp="yes" postag="VB.*"/>
                 <token chunk="E-NP-plural" postag="NNS"/>
@@ -42116,16 +42116,42 @@ USA
                 <token postag="IN"/>
                 <token postag="NNP"/>
             </antipattern>
+            <antipattern><!-- insects collected in traps in nature reserves in Germany is (The generalized AP for verbs are not sufficient, but if I relax them, the rule does not find all the errors.) -->
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token chunk="B-VP" postag_regexp="yes" postag="VB[NG]"/>
+                <token postag="IN"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token postag="IN"/>
+                <token chunk="B-NP-plural"/>
+                <token min="0" max="10" chunk="I-NP-plural"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token postag="IN"/>
+                <token postag="NNP"/>
+            </antipattern>
+            <antipattern><!--  maturity of loans made by domestic financial institutions to businesses in Germany is -->
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="IN"/>
+                <token chunk="E-NP-plural"/>
+                <token chunk="B-VP" postag_regexp="yes" postag="VB[NG]"/>
+                <token postag="IN"/>
+                <token chunk="B-NP-plural"/>
+                <token min="0" max="10" chunk="I-NP-plural"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token postag="IN"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token postag="IN"/>
+                <token postag="NNP"/>
+            </antipattern>
             <antipattern><!-- What versions of Jira does JPT support? -->
                 <token postag="NNP"/>
                 <token skip="-1">does</token>
                 <token>?</token>
             </antipattern>
-            <antipattern><!-- removal of price caps in California -->
+            <antipattern><!-- removal of price caps in California / absence of any older Iranian (Avestan) loanwords in Brahui -->
                 <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
                 <token>of</token>
                 <token chunk="B-NP-plural"/>
-                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token min="0" max="10" chunk="I-NP-plural"/><!-- Does not give the expected result without 'max' -->
                 <token chunk="E-NP-plural" postag="NNS"/>
             </antipattern>
             <antipattern><!-- coat of arms of Cuba -->
@@ -42138,12 +42164,6 @@ USA
                 <token chunk="I-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
                 <token chunk="E-NP-plural" postag="VBZ"/>
                 <token postag="CC"/>
-            </antipattern>
-            <antipattern><!-- the military of Algeria / the word ethics  -->
-                <token chunk="B-NP-plural" postag="DT"/><!-- Not "About 40–45% of educated people in Jamaica" -->
-                <token chunk="E-NP-plural" postag_regexp="yes" postag="NN(:UN?)?" regexp="yes">military|ethics</token><!-- Not: Many people in America likes hamburgers and beer. -->
-                <token postag="IN"/>
-                <token postag="NNP"/>
             </antipattern>
             <antipattern><!-- one in 10 children dies -->
                 <token regexp="yes">one|1</token>
@@ -42174,7 +42194,7 @@ USA
                 <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
                 <token postag="IN"/>
                 <token chunk="B-NP-plural"/>
-                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token min="0" max="10" chunk="I-NP-plural"/>
                 <token chunk="E-NP-plural"/><!-- 'Energy' is not NNS -->
                 <token regexp="yes">&apostrophe;</token>
                 <token>s</token>
@@ -42197,7 +42217,7 @@ USA
                 <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
                 <token postag="IN"/>
                 <token chunk="B-NP-plural"/>
-                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token min="0" max="10" chunk="I-NP-plural"/>
                 <token chunk="E-NP-plural" postag="NNS"/>
                 <token postag="IN"/>
             </antipattern>
@@ -42223,7 +42243,7 @@ USA
                 <token chunk="E-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
                 <token postag="IN"/>
                 <token chunk="B-NP-plural"/>
-                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token min="0" max="10" chunk="I-NP-plural"/>
                 <token chunk="E-NP-plural" postag="NNS"/>
                 <token postag="IN"/>
                 <token postag="NNP"/>
@@ -42231,7 +42251,7 @@ USA
             <antipattern><!-- It's been three weeks since Tom has been here -->
                 <token>been</token>
                 <token chunk="B-NP-plural"/>
-                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token min="0" max="10" chunk="I-NP-plural"/>
                 <token chunk="E-NP-plural" postag="NNS"/>
                 <token>since</token>
                 <token postag="NNP"/>
@@ -42240,7 +42260,7 @@ USA
                 <token chunk="E-NP-singular"/>
                 <token postag="IN"/>
                 <token chunk="B-NP-plural"/>
-                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token min="0" max="10" chunk="I-NP-plural"/>
                 <token chunk="E-NP-plural" postag="NNS"/>
                 <token postag="IN"/>
                 <token postag="NNP"/>
@@ -42254,7 +42274,7 @@ USA
                 <token min="0" max="1">,</token>
                 <token regexp="yes">and|or</token>
                 <token chunk="B-NP-plural"/>
-                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token min="0" max="10" chunk="I-NP-plural"/>
                 <token chunk="E-NP-plural" postag="NNS"/>
                 <token postag="IN"/>
                 <token postag="NNP"/>
@@ -42268,8 +42288,8 @@ USA
                 <token postag="IN"/>
                 <token postag="NNP"/>
             </antipattern>
-            <antipattern><!-- word ethics in English -->
-                <token regexp="yes">ethics|athletics</token><!-- Not: People in America is -->
+            <antipattern><!-- Plural words that are used as singular: athletics, data, ethics, military -->
+                <token chunk="E-NP-plural" postag_regexp="yes" postag="NN(:UN?)?" regexp="yes">athletics|data|ethics|media|military|politics</token><!-- Not: People in America is -->
                 <token postag="IN"/>
                 <token postag="NNP"/>
             </antipattern>
@@ -42286,11 +42306,11 @@ USA
                 <token chunk="E-NP-singular"/>
                 <token postag="IN"/>
                 <token chunk="B-NP-plural"/>
-                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token min="0" max="10" chunk="I-NP-plural"/>
                 <token chunk="E-NP-plural" postag="NNS"/>
                 <token postag="IN"/>
                 <token chunk="B-NP-plural"/>
-                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token min="0" max="10" chunk="I-NP-plural"/>
                 <token chunk="E-NP-plural" postag="NNS"/>
                 <token postag="IN"/>
                 <token postag="NNP"/>
@@ -42335,7 +42355,7 @@ USA
                 <token postag="JJ"/>
                 <token postag="IN"/>
                 <token chunk="B-NP-plural"/>
-                <token min="0" max="4" chunk="I-NP-plural"/>
+                <token min="0" max="10" chunk="I-NP-plural"/>
                 <token chunk="E-NP-plural" postag="NNS"/>
                 <token postag="IN"/>
                 <token postag="NNP"/>
@@ -42351,7 +42371,7 @@ USA
                 <token regexp="yes">one|1</token>
                 <token>of</token>
                 <token chunk="B-NP-singular"/>
-                <token min="0" max="4" chunk="I-NP-singular"/>
+                <token min="0" max="10" chunk="I-NP-singular"/>
                 <token chunk="E-NP-singular"/>
                 <token>,</token>
                 <token postag_regexp="yes" postag="CC|RB"/>
@@ -42367,13 +42387,53 @@ USA
                 <token postag="IN"/>
                 <token postag="NNP"/>
             </antipattern>
+            <antipattern><!-- all that remains of Ctesiphon -->
+                <token>all</token>
+                <token>that</token>
+                <token chunk="E-NP-plural" postag="VBZ"/>
+                <token postag="IN"/>
+                <token postag="NNP"/>
+            </antipattern>
+            <antipattern><!-- translations of Disney works the -->
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token postag="IN"/>
+                <token postag="NNP"/>
+                <token postag="NNS"/>
+                <token postag_regexp="yes" postag="DT|PRP\$"/>
+            </antipattern>
+            <antipattern><!-- Membership in the various branches, groups and subgroups of Indo-European -->
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="IN"/>
+                <token chunk="B-NP-plural"/>
+                <token min="0" max="10" chunk="I-NP-plural"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token>,</token>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token min="0" max="1">,</token>
+                <token regexp="yes">and|or</token>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token postag="IN"/>
+                <token postag="NNP"/>
+            </antipattern>
+            <antipattern><!-- partnership between Tom James and the renowned mills of Huddersfield  -->
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                <token postag="IN"/>
+                <token chunk="B-NP-singular"/>
+                <token min="0" max="10" chunk="I-NP-singular"/>
+                <token chunk="E-NP-singular"/>
+                <token regexp="yes">and|or</token>
+                <token chunk="B-NP-plural"/>
+                <token min="0" max="10" chunk="I-NP-plural"/>
+                <token chunk="E-NP-plural" postag="NNS"/>
+                <token postag="IN"/>
+                <token postag="NNP"/>
+            </antipattern>
             <pattern>
                 <token chunk="E-NP-plural" postag="NNS">
                     <exception postag_regexp="yes" postag="NNPS?"/>
                     <exception regexp="yes">\p{Lu}\p{L}+</exception><!-- Assume initial caps is a proper noun to prevent too many FP: Cache Jars in Memory -->
                     </token>
                 <token postag="IN">
-<!--                    <exception postag="CC"/> Refer to https://github.com/languagetool-org/languagetool/issues/2988 -->
                     <exception regexp="yes">as|like|than|while</exception><!-- Subordinating conjunctions. 'After' is also a subordinating conjunction, thus this exception is not sufficient. If I add 'after', the Christmas error is not found. -->
                     </token>
                 <token postag="NNP"/>
@@ -42467,10 +42527,17 @@ USA
             <example>...41% in 3 weeks with Microsoft calls...</example>
             <example>One of the most striking, although inconclusive, features of Chronicles is that its closing sentence is repeated as the opening of Ezra–Nehemiah.</example>
             <example>Ten years in Washington is longer than any other man has had it—too long!</example>
-            <example type="triggers_error">Because with this macro, then text data from Excel is still 12 MB but...</example>
-            <example type="triggers_error">The number of flying insects collected in traps in nature reserves in Germany has declined by 75% over the last 25 years.</example>
-            <example type="triggers_error">Today, all that remains of Ctesiphon is the shrine town of Salman Pak, just to the south of Greater Baghdad.</example>
-            <example type="triggers_error">In translations of Disney works the nephews have different local-sounding names.</example>
+            <example>Because with this macro, then text data from Excel is still 12 MB but...</example>
+            <example>The number of flying insects collected in traps in nature reserves in Germany has declined by 75% over the last 25 years.</example>
+            <example>Today, all that remains of Ctesiphon is the shrine town of Salman Pak.</example>
+            <example>In translations of Disney works the nephews have different local-sounding names.</example>
+            <example>Since the adoption of a new constitution, early in 2010, the politics of Angola takes place in a framework of a presidential republic.</example><!-- Regression 2020-06-01 -->
+            <example>The absence of any older Iranian (Avestan) loanwords in Brahui supports this hypothesis.</example>
+            <example>Membership in the various branches, groups and subgroups of Indo-European is also genealogical.</example>
+            <example>Membership in the various branches, groups, and subgroups of Indo-European is also genealogical.</example>
+            <example>Yet, a close partnership between Tom James and the renowned mills of Huddersfield permits us to control costs and make CEO Super 180's readily available to you.</example>
+            <example>The average maturity of loans made by domestic financial institutions to businesses in Germany is 4.28 years.</example>
+            <example type="triggers_error">During March, Limassol has average temperatures of during the day and at night, in other coastal locations in Cyprus is generally during the day and at night.</example><!-- Ignore this garbled sentence. -->
         </rule>
 
         <rulegroup id="MISSING_TO_BEFORE_A_VERB" name="Use 'to' before the base form of a verb" default="temp_off"><!-- Premium #1405 -->
