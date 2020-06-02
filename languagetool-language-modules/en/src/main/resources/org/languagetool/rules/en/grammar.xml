@@ -27512,6 +27512,11 @@ USA
                     <token regexp="yes">s?he|it|they|you|we</token>
                     <token inflected="yes">have</token>
                 </antipattern>
+                <antipattern><!-- #3005 have Deal #254839 -->
+                    <token postag="VB.?" postag_regexp="yes" inflected="yes">have</token>
+                    <token chunk="B-NP-singular" postag="NN"/><!-- NN:UN is in the exception in the pattern -->
+                    <token>#</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <marker>
@@ -27559,6 +27564,7 @@ USA
                 <example>Make sure that the candidate has pen and paper for the written test.</example><!-- #2089 -->
                 <example>Do you have bicycle in your garage?</example><!-- #2089. Missing article before a count noun, but that problem is not applicable to this rule. -->
                 <example>... and you should have write access there.</example><!-- #2810 -->
+                <example>Logistics needs either (1) have Deal #254839 extended, (2) new deal, or (3) approval to...</example><!-- #3005 -->
             </rule>
             <rule>
                 <antipattern><!-- www.ldoceonline.com/dictionary/far -->
