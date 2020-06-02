@@ -189,7 +189,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
-        <rulegroup id="AL_IGUAL_QUE" name="al igual *de/*a/que" default="temp_off">
+        <rulegroup id="AL_IGUAL_QUE" name="al igual *de/*a/que">
             <url>https://www.fundeu.es/recomendacion/al-igual-que-no-al-igual-de-ni-al-igual-a/</url>
             <rule>
                 <pattern>
@@ -3529,7 +3529,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">video|vídeo</token>
                     <token min="0">-</token>
-                    <token regexp="yes" inflected="yes">aficionado|arte|casete|casetera|cinta|clip|club|conferencia|consola|currículo|currículum|cámara|disco|fonía|frecuencia|grabación|grabador|grafía|juego|llamada|marcador|matón|montaje|tape|tarjeta|teca|tecnología|telefonía|teléfono|texto|tutorial|vigilancia</token>
+                    <token regexp="yes" inflected="yes"
+                        >aficionado|arte|casete|casetera|cinta|clip|club|conferencia|consola|currículo|currículum|cámara|disco|fonía|frecuencia|grabación|grabador|grafía|juego|llamada|marcador|matón|montaje|tape|tarjeta|teca|tecnología|telefonía|teléfono|texto|tutorial|vigilancia</token>
                 </pattern>
                 <message>Se escribe junto.</message>
                 <suggestion>video\3</suggestion>
@@ -4179,7 +4180,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="hecho">Ha <marker>echo</marker> un gran esfuerzo.</example>
                 <example correction="hecho">Habías <marker>echo</marker> esto.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">ser|estar|parecer|resultar</token>
                     <marker>
@@ -4190,7 +4191,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="deshecho">Parece <marker>desecho</marker>.</example>
                 <example correction="deshecha">Está <marker>desecha</marker> de cansancio.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes">haber</token>
                     <marker>
@@ -4263,7 +4264,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
-        <rulegroup id="PARA_QUE_IND" name="para que/qué + v. ind." default="temp_off">
+        <rulegroup id="PARA_QUE_IND" name="para que/qué + v. ind.">
             <rule>
                 <pattern>
                     <token>para</token>
@@ -6453,27 +6454,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Érase una vez.</example>
             </rule>
         </rulegroup>
-        <rule id="EL_LA_EN_LA" name="*el/en la" default="on">
+        <rulegroup id="EL_LA_EN_LA" name="*el/en la" default="on">
             <antipattern>
                 <token skip="2">la</token>
                 <token regexp="yes">44[0-9](Hz)?</token>
             </antipattern>
-            <pattern>
-                <marker>
-                    <token>el</token>
-                </marker>
-                <token postag="_GN_F." postag_regexp="yes" regexp="yes">la|las</token>
-            </pattern>
-            <message>Posible confusión.</message>
-            <suggestion>en</suggestion>
-            <example correction="en">Fue <marker>el</marker> la plaza.</example>
-            <example correction="en">Viven <marker>el</marker> las calles.</example>
-            <example>El la del diapasón.</example>
-            <example>El la sobreagudo.</example>
-            <example>En el La a 440Hz.</example>
-            <example>En el La a 440 Hz.</example>
-            <example>En el La 440 Hz.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                    </marker>
+                    <token postag="_GN_F." postag_regexp="yes" regexp="yes">la|las</token>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion>en</suggestion>
+                <example correction="en">Fue <marker>el</marker> la plaza.</example>
+                <example correction="en">Viven <marker>el</marker> las calles.</example>
+                <example>El la del diapasón.</example>
+                <example>El la sobreagudo.</example>
+                <example>En el La a 440Hz.</example>
+                <example>En el La a 440 Hz.</example>
+                <example>En el La 440 Hz.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>el</token>
+                    </marker>
+                    <token postag="_GN_M." postag_regexp="yes" regexp="yes">la|las</token>
+                    <token postag="_GN_F." postag_regexp="yes"/>
+                </pattern>
+                <message>Posible confusión.</message>
+                <suggestion>en</suggestion>
+                <example correction="en">Ocurrió <marker>el</marker> la fecha histórica del 23 de abril.</example>
+                <example>El la del diapasón.</example>
+                <example>El la sobreagudo.</example>
+                <example>En el La a 440Hz.</example>
+                <example>En el La a 440 Hz.</example>
+                <example>En el La 440 Hz.</example>
+            </rule>
+        </rulegroup>
         <rule id="CUIDAD_CIUDAD" name="*cuidad/ciudad" default="on">
             <pattern>
                 <token postag="D..[CF]S." postag_regexp="yes"/>
