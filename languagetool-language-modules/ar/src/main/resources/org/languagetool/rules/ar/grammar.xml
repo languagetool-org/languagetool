@@ -6316,13 +6316,35 @@ END RULEGROUP Masdar errors
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-      <suggestion><match no="1" postag="(V.*a.;..)(-)" postag_replace="$1H">تَبِعَ</match><match no="2" regexp_match="^ل" regexp_replace=""/></suggestion>
+      <suggestion><match no="1" postag="(V.*a.;..)(-)" postag_replace="$1H" >تَبِعَ</match><match no="2" regexp_match="^ل" regexp_replace=""/></suggestion>
 </message>
     <example correction="تتبعها" type="incorrect"> هذه الإدارة <marker>تتبع لها</marker> فروعكم  </example>
+    <example correction="يتبعونها" type="incorrect"> هذه الإدارة <marker>يتبعون لها</marker> فروعكم  </example>
+    <example correction="يتبعوها" type="incorrect"> هذه الإدارة <marker>يتبعوا لها</marker> فروعكم  </example>
     <example type="correct"> هذه الإدارة تتبعها فروعكم </example>
   </rule>
 
- 
+  <!-- trans_409_tbE_l تبع ل -->
+  <rule id="trans_409_tbE_l_2" name="تبع ل">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1">تَبِعَ</token>
+        <token postag="N.*;-L." postag_regexp="yes"/>
+<!--حالة الاسم المجرور باللام-->
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+
+<!--
+ <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="^(لل|ل)" regexp_replace=""/></suggestion>-->
+
+ <suggestion><match no="1"/>&nbsp;<match no="2" postag="(N.*;)-L(.)" postag_replace="$1--$2" postag_regexp="yes"/></suggestion>
+
+</message>
+    <example correction="تتبع الوزارة" type="incorrect"> هذه الإدارة <marker>تتبع للوزارة</marker> فروعكم  </example>
+    <example correction="تتبع وزارة" type="incorrect"> هذه الإدارة <marker>تتبع لوزارة</marker> فروعكم  </example>
+    <example type="correct"> هذه الإدارة تتبع الوزارة فروعكم </example>
+  </rule>
  
  <!-- TODO trans I2D-->
     </rulegroup>

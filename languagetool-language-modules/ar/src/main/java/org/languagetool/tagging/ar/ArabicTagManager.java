@@ -240,7 +240,7 @@ public class ArabicTagManager {
    * @return true if have flag is noun and has attached pronoun
    */
   public boolean isUnAttachedNoun(String postag) {
-    return postag.startsWith("N") && !postag.endsWith("H");
+    return postag.startsWith("N") && !postag.endsWith("H")&& !postag.endsWith("X");
   }
 
   /**
