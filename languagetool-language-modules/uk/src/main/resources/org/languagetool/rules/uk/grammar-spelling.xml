@@ -259,18 +259,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="DASH" name="Риска">
-      <rule>
-        <pattern>
-          <token regexp="yes">[а-яіїєґ']+[—–][а-яіїєґ']+</token>
-        </pattern>
-        <message>Риска всередині слова. Всередині слова вживайте дефіс: <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1-$2"/></suggestion>, між словами виокремлюйте риску пробілами: <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1 — $2"/></suggestion></message>
-        <example correction="січень-лютий|січень — лютий"><marker>січень—лютий</marker></example>
-        <example correction="яскраво-рожевий|яскраво — рожевий"><marker>яскраво–рожевий</marker></example>
-        <example correction="Вовка-Волкова|Вовка — Волкова"><marker>Вовка—Волкова</marker></example>
-      </rule>
-    </rulegroup>
-
     <rulegroup id="ALT_SPELLING" name="Альтернативний правопис">
       <rule>
         <pattern>
@@ -448,28 +436,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <example>концерти № 1 Л. Бетховена</example>
       </rule>
     </rulegroup>
-
-    <rule id="UPPER_INDEX_FOR_M" name="Верхній індекс для метрів">
-      <pattern>
-        <token regexp="yes">([кдсмн]|мк)?м[23]</token>
-      </pattern>
-      <message>Можливо, потрібен верхній індекс?</message>
-      <suggestion><match no="1" regexp_match="([а-я]+)([23])" regexp_replace="$1²"/></suggestion>
-      <suggestion><match no="1" regexp_match="([а-я]+)([23])" regexp_replace="$1³"/></suggestion>
-      <example correction="км²|км³">900 тис. <marker>км2</marker></example>
-      <example correction="м²|м³">900 <marker>м3</marker></example>
-      <example>20 скм3</example>
-    </rule>
-
-    <rule id="DEGREES_FOR_C" name="Знак градусів">
-      <pattern>
-        <token case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</token>	<!-- both lat and cyr o and C -->
-      </pattern>
-      <message>Можливо, потрібен знак градуса?</message>
-      <suggestion><match no="1" regexp_match="([+-]?[0-9,-]*[0-9])[оo][СC]" regexp_replace="$1°C"/></suggestion>
-      <example correction="27°C">температура знизиться до <marker>27оC</marker>.</example>
-      <example>20 ОС</example>
-    </rule>
 
     <rulegroup id="top_with_num_2019" name="Топ- з числівниками">
       <url>https://r2u.org.ua/check/rules/top_with_num_2019</url>
@@ -1064,37 +1030,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="KVT_HOD" name="кВт*год">
-      <rule>
-        <pattern>
-          <token>кВт</token>
-          <token>/</token>
-          <token>год</token>
-        </pattern>
-        <message>Правильно: <suggestion>кВт·год</suggestion></message>
-        <example correction="кВт·год">15 <marker>кВт/год</marker>.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token>кВт</token>
-          <token>/</token>
-          <token>г</token>
-        </pattern>
-        <message>Правильно: <suggestion>кВт·год</suggestion></message>
-        <example correction="кВт·год">15 <marker>кВт/г</marker>.</example>
-      </rule>
-
-      <rule>
-        <pattern>
-          <token regexp="yes">кВт[*∙]г</token>
-        </pattern>
-        <message>Правильно: <suggestion>кВт·год</suggestion></message>
-        <example correction="кВт·год">15 <marker>кВт*г</marker>.</example>
-        <example correction="кВт·год">15 <marker>кВт∙г</marker>.</example>
-      </rule>
-    </rulegroup>
-
 
     <rulegroup id="zakinchennya_cyfrovyh_chyslivnykiv" name="Закінчення цифрових числівників">
       <url>https://r2u.org.ua/check/rules/zakinchennya_cyfrovyh_chyslivnykiv</url>
@@ -1185,22 +1120,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
-    <rulegroup id="word_with_long_dash" name="Слова з довгим тире без пробілу">
-      <rule>
-        <pattern>
-          <marker>
-            <token regexp="yes">[а-яіїєґ][а-яіїєґ'-]*</token>
-            <token spacebefore="no">—</token>
-          </marker>
-          <token spacebefore="yes"/>
-        </pattern>
-        <message>Довге тире після слова без пробілу</message>
-        <suggestion>\1 —</suggestion>
-        <suggestion>\1-</suggestion>
-        <example correction="зими —|зими-"><marker>зими—</marker> літа</example>
-      </rule>
-    </rulegroup>
-
 <!-- we have Java rule
     <rule id="small_letter_at_sent_start" name="Мала літера на початку речення">
       <pattern>
@@ -1251,6 +1170,89 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 -->
+  </category>
+
+  <category id="TYPOGRAPHY" name="Typography" type="typographical">
+    <rulegroup id="DASH" name="Риска">
+      <rule>
+        <pattern>
+          <token regexp="yes">[а-яіїєґ']+[—–][а-яіїєґ']+</token>
+        </pattern>
+        <message>Риска всередині слова. Всередині слова вживайте дефіс: <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1-$2"/></suggestion>, між словами виокремлюйте риску пробілами: <suggestion><match no="1" regexp_match="(.*)[—–](.*)" regexp_replace="$1 — $2"/></suggestion></message>
+        <example correction="січень-лютий|січень — лютий"><marker>січень—лютий</marker></example>
+        <example correction="яскраво-рожевий|яскраво — рожевий"><marker>яскраво–рожевий</marker></example>
+        <example correction="Вовка-Волкова|Вовка — Волкова"><marker>Вовка—Волкова</marker></example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="word_with_long_dash" name="Слова з довгим тире без пробілу">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">[а-яіїєґ][а-яіїєґ'-]*</token>
+            <token spacebefore="no">—</token>
+          </marker>
+          <token spacebefore="yes"/>
+        </pattern>
+        <message>Довге тире після слова без пробілу</message>
+        <suggestion>\1 —</suggestion>
+        <suggestion>\1-</suggestion>
+        <example correction="зими —|зими-"><marker>зими—</marker> літа</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="KVT_HOD" name="кВт*год">
+      <rule>
+        <pattern>
+          <token>кВт</token>
+          <token>/</token>
+          <token>год</token>
+        </pattern>
+        <message>Правильно: <suggestion>кВт·год</suggestion></message>
+        <example correction="кВт·год">15 <marker>кВт/год</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token>кВт</token>
+          <token>/</token>
+          <token>г</token>
+        </pattern>
+        <message>Правильно: <suggestion>кВт·год</suggestion></message>
+        <example correction="кВт·год">15 <marker>кВт/г</marker>.</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <token regexp="yes">кВт[*∙]г</token>
+        </pattern>
+        <message>Правильно: <suggestion>кВт·год</suggestion></message>
+        <example correction="кВт·год">15 <marker>кВт*г</marker>.</example>
+        <example correction="кВт·год">15 <marker>кВт∙г</marker>.</example>
+      </rule>
+    </rulegroup>
+
+    <rule id="UPPER_INDEX_FOR_M" name="Верхній індекс для метрів">
+      <pattern>
+        <token regexp="yes">([кдсмн]|мк)?м[23]</token>
+      </pattern>
+      <message>Можливо, потрібен верхній індекс?</message>
+      <suggestion><match no="1" regexp_match="([а-я]+)([23])" regexp_replace="$1²"/></suggestion>
+      <suggestion><match no="1" regexp_match="([а-я]+)([23])" regexp_replace="$1³"/></suggestion>
+      <example correction="км²|км³">900 тис. <marker>км2</marker></example>
+      <example correction="м²|м³">900 <marker>м3</marker></example>
+      <example>20 скм3</example>
+    </rule>
+
+    <rule id="DEGREES_FOR_C" name="Знак градусів">
+      <pattern>
+        <token case_sensitive="yes" regexp="yes">[+-]?[0-9,-]*[0-9][оo][СC]</token> <!-- both lat and cyr o and C -->
+      </pattern>
+      <message>Можливо, потрібен знак градуса?</message>
+      <suggestion><match no="1" regexp_match="([+-]?[0-9,-]*[0-9])[оo][СC]" regexp_replace="$1°C"/></suggestion>
+      <example correction="27°C">температура знизиться до <marker>27оC</marker>.</example>
+      <example>20 ОС</example>
+    </rule>
   </category>
 
 
