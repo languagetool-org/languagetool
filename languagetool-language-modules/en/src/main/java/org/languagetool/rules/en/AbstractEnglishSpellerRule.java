@@ -374,6 +374,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("pitty", Arrays.asList("pity"));
     s.put("barbwire", Arrays.asList("barbed wire"));
     s.put("barbwires", Arrays.asList("barbed wires"));
+    s.put("monkie", Arrays.asList("monkey"));
+    s.put("Monkie", Arrays.asList("Monkey"));
+    s.put("monkies", Arrays.asList("monkeys"));
+    s.put("Monkies", Arrays.asList("Monkeys"));
     // the replacement pairs would prefer "speak"
     s.put("speach", Arrays.asList("speech"));
     s.put("icecreem", Arrays.asList("ice cream"));
