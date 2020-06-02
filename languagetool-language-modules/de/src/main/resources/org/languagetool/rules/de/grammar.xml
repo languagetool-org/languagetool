@@ -39491,14 +39491,36 @@ Andere Projekte</example>
                     <token postag="VER:INF:.*" postag_regexp="yes"/>
                     <token>,</token>
                     <token postag="VER:AUX:.*" postag_regexp="yes"/>
-                 </antipattern>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER:.*" postag_regexp="yes"/>
+                    <token skip="-1"/>
+                    <token min="0" postag="PA2:.+" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token postag="VER:.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">ist|bist</token>
+                    <token min="0"/>
+                    <token inflected="yes">kein</token>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                    <token>.</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER:.*" postag_regexp="yes"/>
+                    <token skip="-1"/>
+                    <token>,</token>
+                   <token postag="ART:.+" postag_regexp="yes"/>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                    <token postag="VER:(1|2|3):.+" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <token min="0" max="1" regexp="yes">„|»|«|"</token>
                     <token regexp="yes">ist|bist</token>
                     <token skip="-1" postag="PRO:.*|SUB:.*|EIG:.*|ADJ:.*" postag_regexp="yes">
                         <exception scope="next" regexp="yes">\?|!|:|“|»|«|"</exception>
-                        <exception>wohl</exception>
+                        <exception regexp="yes">wohl|eben|natürlich|mir</exception>
                     </token>
                     <token skip="-1" postag="SUB:.*|EIG:.*|PRO:(PER|IND):.*" postag_regexp="yes">
                         <exception scope="next" regexp="yes">\?|!|:|“|»|«|"</exception>
@@ -39513,6 +39535,9 @@ Andere Projekte</example>
                 <example correction="?">"Ist er schon nach Hause gegangen<marker>.</marker></example>
                 <example>Mach es bitte ein zweites Mal.</example>
                 <example>Sollte das Add-on fälschlich aktiv sein, würden Sie das bemerken.</example>
+                <example>Ist Adenosin gebunden, ist das ein Signal für die Zelle, etwas weniger zu arbeiten.</example>
+                <example>Ist dein Feind auch eine Ameise, betrachte ihn als Elefanten.</example>
+                <example>Ist die Lüge noch so schnell, die Wahrheit holt sie doch ein.</example>
             </rule>
             <rule>
                 <antipattern>
