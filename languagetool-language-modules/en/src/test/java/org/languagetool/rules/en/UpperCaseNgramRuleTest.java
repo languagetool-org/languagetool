@@ -68,6 +68,7 @@ public class UpperCaseNgramRuleTest {
     assertGood("Let's play games at Games.co.uk.");
     assertGood("Ben (Been).");
     assertGood("C stands for Curse.");
+    assertGood("The United States also used the short-lived slogan, \"Tastes So Good, You'll Roar\", in the early 1980s.");
 
     assertMatch("I really Like spaghetti.");
     assertMatch("This Was a good idea.");

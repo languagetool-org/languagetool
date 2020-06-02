@@ -99,6 +99,37 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("[A-Z].+")
     ),
     Arrays.asList(
+      pos("SENT_START"), // Markdowm headline # Show some
+      token("#"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // Markdowm headline ## Show some
+      token("#"),
+      token("#"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // Markdowm headline ## Show some
+      token("#"),
+      token("#"),
+      token("#"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // Scene 4, Lines 93-96
+      tokenRegex("[A-Z].+"),
+      tokenRegex("\\d+"),
+      tokenRegex("-|–|,"),
+      tokenRegex("[A-Z].+"),
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList( // 1.- Sign up for ...
+      tokenRegex("\\d+"),
+      token("."),
+      tokenRegex("-|–"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
       pos("SENT_START"), // Lesson #1 - Learn the alphabet.
       tokenRegex(".*\\w.*"),
       token("#"),
@@ -167,6 +198,13 @@ public class UpperCaseNgramRule extends Rule {
       token(":")
     ),
     Arrays.asList(
+      pos("SENT_START"), // Easy to Use: (short headlines with colon)
+      tokenRegex("[A-Z].+"),
+      tokenRegex("[a-z].+"),
+      tokenRegex("[A-Z].+"),
+      token(":")
+    ),
+    Arrays.asList(
       tokenRegex("[A-Z].+"),  // e.g. "Top 10% Lunch Deals"
       tokenRegex("\\d+%?"),
       tokenRegex("[A-Z].+")
@@ -195,7 +233,7 @@ public class UpperCaseNgramRule extends Rule {
     Arrays.asList(
       tokenRegex("[A-Z].+"),  // e.g. "You Don't Know" or "Kuiper’s Belt"
       tokenRegex("['’`´‘]"),
-      tokenRegex("t|d|ve|s|re|m"),
+      tokenRegex("t|d|ve|s|re|m|ll"),
       tokenRegex("[A-Z].+")
     ),
     Arrays.asList(
@@ -220,7 +258,7 @@ public class UpperCaseNgramRule extends Rule {
       token("magazine")
     ),
     Arrays.asList(
-      tokenRegex("Teams|Maps") // Microsoft Teams / Google Maps (not tagged as NNP)
+      tokenRegex("Teams|Maps|Canvas") // Microsoft Teams / Google Maps (not tagged as NNP)
     )
   );
 
