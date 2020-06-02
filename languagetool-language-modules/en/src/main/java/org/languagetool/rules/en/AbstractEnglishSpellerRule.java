@@ -228,6 +228,17 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected Map<String, List<String>> getTopSuggestionsIgnoreCase() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("xml", Arrays.asList("XML"));
+    s.put("php", Arrays.asList("PHP"));
+    s.put("asp", Arrays.asList("ASP"));
+    s.put("rss", Arrays.asList("RSS"));
+    s.put("ssd", Arrays.asList("SSD"));
+    s.put("ssds", Arrays.asList("SSDs"));
+    s.put("hdds", Arrays.asList("HDDs"));
+    s.put("isp", Arrays.asList("ISP"));
+    s.put("isps", Arrays.asList("ISPs"));
+    s.put("suv", Arrays.asList("SUV"));
+    s.put("suvs", Arrays.asList("SUVs"));
     s.put("gif", Arrays.asList("GIF"));
     s.put("gifs", Arrays.asList("GIFs"));
     s.put("atm", Arrays.asList("ATM"));
@@ -317,6 +328,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
 
   protected Map<String, List<String>> getTopSuggestions() {
     Map<String, List<String>> s = new HashMap<>();
+    s.put("on-prem", Arrays.asList("on-premise"));
     s.put("sin-off", Arrays.asList("sign-off"));
     s.put("sin-offs", Arrays.asList("sign-offs"));
     s.put("Sin-off", Arrays.asList("Sign-off"));
