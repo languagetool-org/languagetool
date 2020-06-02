@@ -4629,7 +4629,7 @@ USA
                         <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>s</token>
                     </marker>
-                    <token regexp="yes">\d+th</token>
+                    <token regexp="yes">\d+(th|st|rd|nd)</token>
                 </pattern>
                 <message>Did you mean <suggestion>its</suggestion> (possessive pronoun) instead of 'it's' (=it is)?</message>
                 <short>Possible typo</short>
@@ -4645,11 +4645,12 @@ USA
                         <token>its</token>
                     </marker>
                     <token>time</token>
-                    <token>to</token>
+                    <token regexp="yes">to|for</token>
                 </pattern>
                 <message>Did you mean <suggestion>it's</suggestion> (=it is) instead of the possessive pronoun 'its'?</message>
                 <short>Possible typo</short>
                 <example correction="it's">I have decided that <marker>its</marker> time to leave.</example>
+                <example correction="it's">I think <marker>its</marker> time for lunch.</example>
                 <example>The government has taken <marker>its</marker> time to catch up with the digital economy.</example>
             </rule>
         </rulegroup>
@@ -5652,6 +5653,10 @@ USA
                 <token>financial</token>
                 <token>services</token>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">(tele)?communications</token>
+                <token>technology</token>
+            </antipattern>
             <rule>
                 <antipattern><!-- Allow "Tom hates / likes / play ...." -->
                     <token postag="SENT_START"/>
@@ -5791,6 +5796,7 @@ USA
                 <example>In the old days friendship really had more meaning.</example>
                 <example>The American Film Institute was founded in 1967 as a national arts organization to preserve the legacy of American film heritage, educate the next generation of filmmakers.</example>
                 <example>As of 2001, he was still a part-time martial arts instructor there.</example>
+                <example>Zoom Video Communications, Inc. is an American communications technology company headquartered in San Jose, California.</example>
                 <example>The ING Group is a Dutch multinational banking and financial services corporation headquartered in Amsterdam.</example><!-- #2915 -->
                 <example type="triggers_error">The new restaurant was making the <marker>owners</marker> money hand over fist.</example>
                 <example correction="clothes'">Blank noise doing a <marker>clothes</marker> installation to say</example>
@@ -12329,6 +12335,64 @@ USA
             <message>This word is normally spelled as one word.</message>
             <suggestion>whole<match no="2" case_conversion="alllower" /></suggestion>
             <example correction="wholesale">Bottles from this region sell <marker>whole sale</marker> at about £72 a case.</example>
+        </rule>
+        <rule id="UP_COMPOUNDS" name="up date (update)" default="temp_off">
+            <antipattern>
+                <token inflected="yes" regexp="yes">catch|end|start|pile|cover|speed|turn|stay|jump|pull|push|tie|take|mix|sit|top|warm|run|pop|hang|line|stand|pick|back|hook|clean|look|make|follow|ramp|build|wave|clear|weld|kick|hold|shut|bring|set|free|wake|wound|divide|fill|roll|meet|come|light|open|match|rise|raise</token>
+                <token min="0" regexp="yes">it(self)?|that|this|th[oe]se</token>
+                <token>up</token>
+            </antipattern>
+            <antipattern>
+                <token>side</token>
+                <token>to</token>
+                <token>side</token>
+            </antipattern>
+            <antipattern>
+                <token>time</token>
+                <token>after</token>
+                <token>time</token>
+            </antipattern>
+            <pattern>
+                <token>up</token>
+                <token inflected="yes" regexp="yes">
+                    date|load|sell|coming|grade|hold|lift|set|start|side|time|roar
+                    <exception regexp="yes">timing|timed</exception>
+                </token>
+            </pattern>
+            <message suppress_misspelled="yes">This word is normally spelled as one. Did you mean <suggestion>up<match no="2" case_conversion="alllower" /></suggestion>?</message>
+            <example correction="update">Please <marker>up date</marker> your smartphone to the latest version.</example>
+            <example>We ended up selling 131 boxes at the booth on Saturday.</example>
+            <example>I am setting up time for Rick to interview these candidates next Monday.</example>
+        </rule>
+        <rule id="DOWN_COMPOUND" name="up date (update)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Down</token>
+                <token>Beat</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" regexp="yes">hold|lay|shut|cut|bring|come|close|drill|run|jump|fall</token>
+                <token min="0" regexp="yes">it(self)?|that|this|th[oe]se</token>
+                <token>down</token>
+            </antipattern>
+            <antipattern>
+                <token>side</token>
+                <token>to</token>
+                <token>side</token>
+            </antipattern>
+            <antipattern>
+                <token>time</token>
+                <token>after</token>
+                <token>time</token>
+            </antipattern>
+            <pattern>
+                <token>down</token>
+                <token inflected="yes" regexp="yes">
+                    load|grade|side|play|beat|fall|size|time
+                    <exception regexp="yes">timing|timed|fell|falling</exception>
+                </token>
+            </pattern>
+            <message suppress_misspelled="yes">This word is normally spelled as one. Did you mean <suggestion>down<match no="2" case_conversion="alllower" /></suggestion>?</message>
+            <example correction="download">Please <marker>down load</marker> the latest version.</example>
         </rule>
         <rule id="ACHE_COMPOUNDS" name="head ache (headache)">
             <antipattern>
@@ -21967,7 +22031,7 @@ USA
                 </antipattern>
                 <pattern>
                     <token>microsoft</token>
-                    <token regexp="yes">word|excel|outlook|office|edge|azure|inc|surface|windows|hotmail|lumia|bing|solitaire|editor|teams</token>
+                    <token regexp="yes">word|excel|outlook|office|edge|azure|inc|surface|windows|hotmail|lumia|bing|solitaire|editor|teams|defender</token>
                 </pattern>
                 <message>Did you mean the proper noun <suggestion>Microsoft <match no="2" case_conversion="startupper" /></suggestion> (= Microsoft product)?</message>
                 <example correction="Microsoft Word"><marker>Microsoft word</marker> is a word processor.</example>
@@ -22105,6 +22169,15 @@ USA
             <message>Did you mean <suggestion>WhatsApp</suggestion> (= Messenger) or <suggestion>what's up</suggestion> (= question)?</message>
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
+        </rule>
+        <rule id="JAVA_SCRIPT" name="JavaScript" default="temp_off">
+            <pattern>
+                <token>java</token>
+                <token>script</token>
+            </pattern>
+            <message>Did you mean <suggestion>JavaScript</suggestion> (= programming language)?</message>
+            <url>https://en.wikipedia.org/wiki/JavaScript</url>
+            <example correction="JavaScript">He's a <marker>java script</marker> programmer.</example>
         </rule>
         <rule id="YOU_TUBE" name="YouTube">
             <pattern>
@@ -39432,44 +39505,96 @@ USA
             <example>Your action with <marker>regard to</marker> the decision of the committee is not satisfactory.</example>
             <example>Your action <marker>regarding</marker> the decision of the committee is not satisfactory.</example>
         </rule>
-        <rule id="ARTICLE_ADJECTIVE_OF" name="ARTICLE ADJECTIVE of">
+        <rulegroup id="ARTICLE_ADJECTIVE_OF" name="ARTICLE ADJECTIVE of">
             <antipattern><!-- Nominalized adjective: https://en.wikipedia.org/wiki/Nominalized_adjective -->
                 <token>the</token>
                 <token regexp="yes">blind|deaf|disabled|homeless|poor|rich|wealthy</token><!-- Only relatively common nominalizations. -->
                 <token>of</token>
             </antipattern>
-            <pattern>
-                <token regexp="yes">an?|the</token>
-                <token postag="JJ" regexp="yes">[a-z]+<exception postag_regexp="yes" postag="NN.*|VBG"/><exception regexp="yes">[0-9]?(1st|2nd|3rd|[0-9]th)</exception><exception regexp="yes">innermost|outermost|northernmost|southernmost|easternmost|westernmost|next</exception></token><!-- The exception for VBG is necessary, because adjectives such as 'draining', 'cooling', and 'functioning' can be used as gerunds [https://en.wikipedia.org/wiki/Gerund]. The exception for ordinal numbers does not ignore incorrect abbreviations such as 21th. Innermost: some dictionaries say that it is an adjective that is used only before a noun. Other dictionaries say that it is a noun and an adjective. Northernmost: SOED says that this is can be a noun.  -->
+            <antipattern>
+                <token>free</token>
                 <token>of</token>
-            </pattern>
-            <message>The phrase '\1 \2 \3' is not correct. Use a noun, not an adjective, between '\1' and '\3'.</message>
-            <short>Grammatical problem: use a noun</short>
-            <example correction="">We are not responsible for <marker>the delusional of</marker> your client.</example>
-            <example correction="">We describe <marker>an unusual of</marker> benign prostatic hyperplasia that demonstrated florid sclerosing...</example>
-            <example correction="">Diamonds are <marker>the only of</marker> these mineral resources currently being developed.</example>
-            <example correction="">That same year, <marker>the mainline of</marker> the transcontinental railroad into Oakland was...</example>
-            <example correction="">...conventional light, medium, and heavy crude, plus <marker>an additional of</marker> pentanes plus used for blending with heavy crude ...</example>
-            <example correction="">Since 2002, <marker>the peninsular of</marker> Actium has been linked with Preveza on the north ...</example>
-            <example>We are not responsible for <marker>the delusions of</marker> your client.</example>
-            <example>Use <marker>the larger of</marker> the two pieces.</example>
-            <example><marker>The earliest of</marker> these is Diodorus Siculus (1st century BC).</example>
-            <example>In a recent survey, <marker>a high of</marker> 37 percent of people say that the ...</example>
-            <example><marker>The blooming of</marker> 3,000 cherry trees marks the 94th anniversary of Japan's gift of ...</example>
-            <example><marker>The English of</marker> a person who learns English as an adult is usually different to the English spoken by a native speaker.</example>
-            <example>The test will be on <marker>the 5th of</marker> November next year.</example>
-            <example><marker>The innermost of</marker> the concentric circles is...</example>
-            <example><marker>The best-known of</marker> these works is that by Plato, who...</example>
-            <example>...by persons other than <marker>the next of</marker> kin.</example>
-            <example><marker>The next of</marker> these problems is discussed in Chapter 5.</example>
-            <example>... limited polar heat convergence and caused <marker>a cooling of</marker> sea surface temperatures by several degrees.</example>
-            <example>The Bronx is <marker>the northernmost of</marker> the five boroughs of New York City.</example>
-            <example>It spans three time zones, <marker>the easternmost of</marker> which is one hour ahead of Eastern Standard Time.</example>
-            <example><marker>The large-scale of</marker> these works is an indication of the...</example><!-- False negative. TODO -->
-            <example>We need <marker>a sample of</marker> water for this test.</example>
-            <example>I'm thirsty. I would like <marker>a large of</marker> water.</example><!-- False negative. TODO. But refer to previous example ('a sample of'). -->
-            <example type="triggers_error">'<marker>The Wretched of</marker> the Earth' is a 1961 book by Frantz Fanon.</example>
-        </rule>
+                <token>charge</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the</token>
+                    <marker>
+                        <token>live</token>
+                    </marker>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean the noun <suggestion>life</suggestion>?</message>
+                <example correction="life">The <marker>live</marker> of Brian.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the</token>
+                    <marker>
+                        <token regexp="yes">important|significant</token>
+                    </marker>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean the noun <suggestion><match no="2" regexp_match="(?i)ant$" regexp_replace="ance" /></suggestion>?</message>
+                <example correction="importance">He emphasized the <marker>important</marker> of this task.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the</token>
+                    <marker>
+                        <token regexp="yes">(main|front)-?line</token>
+                    </marker>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean the noun <suggestion><match no="2" regexp_match="(?i)-?line" regexp_replace="" /> line</suggestion> (spelled as two words)?</message>
+                <url>https://www.merriam-webster.com/dictionary/front%20line</url>
+                <example correction="front line">He was standing on the <marker>frontline</marker> of the protests.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the</token>
+                    <marker>
+                        <token regexp="yes">wide-?spread</token>
+                    </marker>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean the noun <suggestion>wide spread</suggestion> (spelled as two words)?</message>
+                <example correction="wide spread">The <marker>widespread</marker> of the virus caused some serious problems.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">an?|the</token>
+                    <token postag="JJ" regexp="yes">[a-z]+<exception postag_regexp="yes" postag="NN.*|VBG"/><exception regexp="yes">[0-9]?(1st|2nd|3rd|[0-9]th)</exception><exception regexp="yes">innermost|outermost|northernmost|southernmost|easternmost|westernmost|next</exception></token><!-- The exception for VBG is necessary, because adjectives such as 'draining', 'cooling', and 'functioning' can be used as gerunds [https://en.wikipedia.org/wiki/Gerund]. The exception for ordinal numbers does not ignore incorrect abbreviations such as 21th. Innermost: some dictionaries say that it is an adjective that is used only before a noun. Other dictionaries say that it is a noun and an adjective. Northernmost: SOED says that this is can be a noun.  -->
+                    <token>of</token>
+                </pattern>
+                <message>The phrase '\1 \2 \3' is not correct. Use a noun, not an adjective, between '\1' and '\3'.</message>
+                <short>Grammatical problem: use a noun</short>
+                <example correction="">We are not responsible for <marker>the delusional of</marker> your client.</example>
+                <example correction="">We describe <marker>an unusual of</marker> benign prostatic hyperplasia that demonstrated florid sclerosing...</example>
+                <example correction="">Diamonds are <marker>the only of</marker> these mineral resources currently being developed.</example>
+                <example correction="">That same year, <marker>the mainline of</marker> the transcontinental railroad into Oakland was...</example>
+                <example correction="">...conventional light, medium, and heavy crude, plus <marker>an additional of</marker> pentanes plus used for blending with heavy crude ...</example>
+                <example correction="">Since 2002, <marker>the peninsular of</marker> Actium has been linked with Preveza on the north ...</example>
+                <example>We are not responsible for <marker>the delusions of</marker> your client.</example>
+                <example>Use <marker>the larger of</marker> the two pieces.</example>
+                <example><marker>The earliest of</marker> these is Diodorus Siculus (1st century BC).</example>
+                <example>In a recent survey, <marker>a high of</marker> 37 percent of people say that the ...</example>
+                <example><marker>The blooming of</marker> 3,000 cherry trees marks the 94th anniversary of Japan's gift of ...</example>
+                <example><marker>The English of</marker> a person who learns English as an adult is usually different to the English spoken by a native speaker.</example>
+                <example>The test will be on <marker>the 5th of</marker> November next year.</example>
+                <example><marker>The innermost of</marker> the concentric circles is...</example>
+                <example><marker>The best-known of</marker> these works is that by Plato, who...</example>
+                <example>...by persons other than <marker>the next of</marker> kin.</example>
+                <example><marker>The next of</marker> these problems is discussed in Chapter 5.</example>
+                <example>... limited polar heat convergence and caused <marker>a cooling of</marker> sea surface temperatures by several degrees.</example>
+                <example>The Bronx is <marker>the northernmost of</marker> the five boroughs of New York City.</example>
+                <example>It spans three time zones, <marker>the easternmost of</marker> which is one hour ahead of Eastern Standard Time.</example>
+                <example><marker>The large-scale of</marker> these works is an indication of the...</example><!-- False negative. TODO -->
+                <example>We need <marker>a sample of</marker> water for this test.</example>
+                <example>I'm thirsty. I would like <marker>a large of</marker> water.</example><!-- False negative. TODO. But refer to previous example ('a sample of'). -->
+                <example type="triggers_error">'<marker>The Wretched of</marker> the Earth' is a 1961 book by Frantz Fanon.</example>
+            </rule>
+        </rulegroup>
         <rule id="LOSE_LIVES" name="lose their life (lives)">
             <pattern>
                 <token inflected="yes" regexp="yes">lose|save|sacrifice|give|risk|end|put|change|affect</token>
@@ -50045,12 +50170,12 @@ The accident victim died from her injuries.
         </rule>
         <rulegroup id="ADJECTIVE_ADVERB" name="adjective vs. adverb"><!-- TODO add more pairs (general(ly), direct(ly), eventual(ly), certain(ly), extreme(ly), immediate(ly), slow(ly) ...) -->
             <antipattern>
-                <token regexp="yes">subject|responses?|addition|attention|due|alternatives?|exposure|similar|comparable|access|regards?|related|key</token>
+                <token regexp="yes">subject|responses?|addition|attention|due|alternatives?|exposure|similar|comparable|access|regards?|related|key|prior</token>
                 <token>to</token>
                 <token postag="JJ" />
             </antipattern>
             <antipattern>
-                <token inflected="yes" skip="1" regexp="yes">compare|refer|relate|restrict|return|lead|respond|regard|transfer</token>
+                <token inflected="yes" skip="1" regexp="yes">compare|refer|relate|restrict|return|lead|respond|regard|transfer|adhere|invite</token>
                 <token>to</token>
             </antipattern>
             <antipattern>
@@ -50103,6 +50228,11 @@ The accident victim died from her injuries.
                 <token postag="JJ" regexp="yes">[A-Z].*</token>
                 <token postag="VBP?" postag_regexp="yes" regexp="yes">[A-Z].*</token>
             </antipattern>
+            <antipattern>
+                <token>you</token>
+                <token postag="JJ" />
+                <token>man</token>
+            </antipattern>
             <!-- TODO add: "They didn't easy accomplish it" -->
             <rule><!-- MD + adjective ending in "le" + VB -->
                 <pattern>
@@ -50140,6 +50270,7 @@ The accident victim died from her injuries.
                 <example correction="simply">You <marker>simple</marker> need the white neutral from the source box.</example>
                 <example correction="simply">Our 50 character limit is a bit arbitrary — we <marker>simple</marker> chose to put a limit on our password character allowance.</example>
                 <example correction="probably">We <marker>probable</marker> should tell him that we don't have anymore unless New Albany is enough.</example>
+                <example>You horrible man!</example>
             </rule>
             <rule><!-- to + adjective ending in "le" + VB -->
                 <pattern>
