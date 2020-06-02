@@ -18159,11 +18159,21 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="DAS_BESTE_AM" name="'das beste (Beste) am' etc.">
             <rule>
+                <antipattern>
+                    <token>das</token>
+                    <token postag="ADJ:NOM:SIN:NEU:(GRU|SUP):DEF" postag_regexp="yes"/>
+                    <token>in</token>
+                    <token postag="ART:.+" postag_regexp="yes" min="0"/>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                    <token postag="PA2:.+" postag_regexp="yes"/>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token>das</token>
                     <marker>
                         <token postag="ADJ:NOM:SIN:NEU:(GRU|SUP):DEF" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-zäöü]+e
                             <exception>andere</exception>
+                            <exception postag="ADJ:PRD:GRU"></exception>
                         </token>
                     </marker>
                     <token regexp="yes" case_sensitive="yes">[ai][mn]|daran</token>
@@ -18172,6 +18182,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <short>&prgk;.</short>
                 <example correction="Gute">Sie hat den Glauben an das <marker>gute</marker> im Menschen verloren.</example>
                 <example correction="Schlechteste">Dies ruft das <marker>schlechteste</marker> im Menschen hervor.</example>
+                <example>1938 starb das letzte in einem Zoo gehaltene Exemplar.</example>
+                <example>Deshalb kämen auch andere Préludes, z. B. das sechste in h-Moll, als Regentropfen-Prélude in Frage.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DOPPELPUNKT_GROSS" name="Großschreibung nach Doppelpunkt">
