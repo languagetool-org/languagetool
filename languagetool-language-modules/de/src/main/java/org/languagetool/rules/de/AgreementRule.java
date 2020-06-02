@@ -85,6 +85,11 @@ public class AgreementRule extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      tokenRegex("der|die|das"),   // "Lieber jemanden, der einem Tipps gibt."
+      token("einem"),
+      posRegex("SUB:.*:PLU:.*")
+    ),
+    Arrays.asList(
       tokenRegex("der|des"),   // "Die dauerhafte Abgrenzung des später Niedersachsen genannten Gebietes"
       posRegex("ADJ:.*"),
       posRegex("EIG:.*"),
