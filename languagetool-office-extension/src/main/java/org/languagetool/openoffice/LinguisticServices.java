@@ -33,6 +33,7 @@ import com.sun.star.linguistic2.XHyphenator;
 import com.sun.star.linguistic2.XLinguServiceManager;
 import com.sun.star.linguistic2.XMeaning;
 import com.sun.star.linguistic2.XPossibleHyphens;
+import com.sun.star.linguistic2.XSpellAlternatives;
 import com.sun.star.linguistic2.XSpellChecker;
 import com.sun.star.linguistic2.XThesaurus;
 import com.sun.star.uno.UnoRuntime;
@@ -220,6 +221,29 @@ public class LinguisticServices extends LinguServices {
       // If anything goes wrong, give the user a stack trace
       printMessage(t);
       return false;
+    }
+  }
+
+  /**
+   * Returns Alternatives to  wrong spelled word
+   */
+  public String[] getSpellAlternatives(String word, Language lang) {
+    return getSpellAlternatives(word, getLocale(lang));
+  }
+  
+  public String[] getSpellAlternatives(String word, Locale locale) {
+    if(spellChecker == null) {
+      printText("XSpellChecker == null");
+      return null;
+    }
+    PropertyValue[] properties = new PropertyValue[0];
+    try {
+      XSpellAlternatives spellAlternatives = spellChecker.spell(word, locale, properties);
+      return spellAlternatives.getAlternatives();
+    } catch (Throwable t) {
+      // If anything goes wrong, give the user a stack trace
+      printMessage(t);
+      return null;
     }
   }
 

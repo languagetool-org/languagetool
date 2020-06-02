@@ -51,6 +51,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
 
   public Main(XComponentContext xCompContext) {
+    changeContext(xCompContext);
     documents = new MultiDocumentsHandler(xContext, this, this);
   }
 

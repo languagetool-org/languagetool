@@ -118,10 +118,13 @@ public class MultiDocumentsHandler {
 
 
   MultiDocumentsHandler(XComponentContext xContext, XProofreader xProofreader, XEventListener xEventListener) {
+//  MultiDocumentsHandler(XComponentContext xContext) {
     this.xContext = xContext;
     this.configFile = CONFIG_FILE;
     this.xEventListener = xEventListener;
     this.xProofreader = xProofreader;
+//    this.xEventListener = null;
+//    this.xProofreader = null;
     xEventListeners = new ArrayList<>();
     File homeDir = getHomeDir();
     this.configDir = getLOConfigDir();
@@ -1001,12 +1004,6 @@ public class MultiDocumentsHandler {
   }
 
   public void trigger(String sEvent) {
-    if (Thread.currentThread().getContextClassLoader() == null) {
-      Thread.currentThread().setContextClassLoader(Main.class.getClassLoader());
-    }
-    if (!javaVersionOkay()) {
-      return;
-    }
     try {
       if ("configure".equals(sEvent)) {
         runOptionsDialog();
@@ -1015,20 +1012,18 @@ public class MultiDocumentsHandler {
         aboutThread.start();
       } else if ("switchOff".equals(sEvent)) {
         if(toggleSwitchedOff()) {
-          resetCheck();
+          resetCheck(); 
         }
       } else if ("ignoreOnce".equals(sEvent)) {
         ignoreOnce();
-/*        
-        String docId = documents.ignoreOnce();
-        if(docId != null) {
-          documents.resetCheck(docId);
-          documents.optimizeReset();
-        }
-*/
       } else if ("deactivateRule".equals(sEvent)) {
         deactivateRule();
         resetDocument();
+      } else if ("checkDialog".equals(sEvent)) {
+        if (OfficeTools.DEVELOP_MODE) {
+          SpellAndGrammarCheckDialog checkDialog = new SpellAndGrammarCheckDialog(xContext);
+          checkDialog.start();
+        }
       } else if ("remoteHint".equals(sEvent)) {
         if(getConfiguration().useOtherServer()) {
           MessageHandler.showMessage(MessageFormat.format(messages.getString("loRemoteInfoOtherServer"), 
@@ -1044,7 +1039,7 @@ public class MultiDocumentsHandler {
     }
   }
 
-  private boolean javaVersionOkay() {
+  public boolean javaVersionOkay() {
     String version = System.getProperty("java.version");
     if (version != null
         && (version.startsWith("1.0") || version.startsWith("1.1")
@@ -1060,11 +1055,10 @@ public class MultiDocumentsHandler {
       if (!System.getProperty("os.name").contains("OS X")) {
          // Cross-Platform Look And Feel @since 3.7
          if (System.getProperty("os.name").contains("Linux")) {
-         UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
+           UIManager.setLookAndFeel("com.sun.java.swing.plaf.gtk.GTKLookAndFeel");
          }
          else {
-         UIManager.setLookAndFeel(
-            UIManager.getSystemLookAndFeelClassName());
+           UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
          }
       }
     } catch (Exception ignored) {
