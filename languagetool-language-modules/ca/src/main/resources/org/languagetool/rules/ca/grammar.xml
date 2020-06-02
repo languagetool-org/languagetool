@@ -28842,23 +28842,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="&#8239;°C">Fa una temperatura de 25<marker> ºC</marker>.</example>
             <example>Fa 25°.</example>
         </rule>
-        <rule id="SIMBOL_GRAU_ORDINAL" name="ordinals no estàndards (ºª); símbol de grau (°)">
+        <rulegroup id="SIMBOL_GRAU_ORDINAL" name="ordinals no estàndards (ºª); símbol de grau (°)">
             <antipattern case_sensitive="yes">
                 <marker>
                     <token regexp="yes">.*º</token>
                     <token regexp="yes">[CFNSEW]</token>
                 </marker>
             </antipattern>
-            <pattern>
-                <token regexp="yes">.*º<exception>nº</exception></token>
-            </pattern>
-            <message>Si voleu indicar graus, useu el símbol <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1°"/></suggestion>. Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1è"/></suggestion> (sing.) <suggestion><match no="1"
-                regexp_match="(.*)º" regexp_replace="$1ns"/></suggestion> (pl.).</message>
-            <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1é"/></suggestion>
-            <short>Error tipogràfic</short>
-            <example correction="25°|25è|25ns|25é">Fa una temperatura de <marker>25º</marker>.</example>
-            <example>Fa 25°.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[13]º</token>
+                </pattern>
+                <message>Si voleu indicar graus, useu el símbol <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1°"/></suggestion>. Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1r"/></suggestion> (sing.) <suggestion><match no="1"
+                    regexp_match="(.*)º" regexp_replace="$1rs"/></suggestion> (pl.).</message>
+                <short>Error tipogràfic</short>
+                <example correction="3°|3r|3rs"><marker>3º</marker>.</example>
+                <example correction="1°|1r|1rs"><marker>1º</marker>.</example>
+                <example>Fa 3°.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>2º</token>
+                </pattern>
+                <message>Si voleu indicar graus, useu el símbol <suggestion>2°</suggestion>. Per a indicar ordinals, useu <suggestion>2n</suggestion> (sing.) <suggestion>2ns</suggestion> (pl.).</message>
+                <short>Error tipogràfic</short>
+                <example correction="2°|2n|2ns"><marker>2º</marker>.</example>
+                <example>Fa 2°.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">.*º<exception>nº</exception></token>
+                </pattern>
+                <message>Si voleu indicar graus, useu el símbol <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1°"/></suggestion>. Per a indicar ordinals, useu <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1è"/></suggestion> (sing.) <suggestion><match no="1"
+                    regexp_match="(.*)º" regexp_replace="$1ns"/></suggestion> (pl.).</message>
+                <suggestion><match no="1" regexp_match="(.*)º" regexp_replace="$1é"/></suggestion>
+                <short>Error tipogràfic</short>
+                <example correction="25°|25è|25ns|25é">Fa una temperatura de <marker>25º</marker>.</example>
+                <example>Fa 25°.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="ORDINALS" name="escriptura dels ordinals (1r, 2n...) ">
             <rule>
                 <pattern case_sensitive="yes">
@@ -53116,7 +53138,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>acabar</token>
                 <token postag="P0.*" postag_regexp="yes" spacebefore="no"/>
                 <token inflected="yes">de</token>
-                <token postag="V.N.*" postag_regexp="yes"></token>
+                <token postag="V.N.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token postag="V.G.*" postag_regexp="yes"/>
@@ -53324,7 +53346,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Optà per coalitzar-se.</example>
             <example>La vull rescatar per endur-me-la.</example>
             <example>Ja no sap quina una empescar-se.</example>
-            <example>Tornava per emportar-se'n més.</example> <!-- però en aquest cas no es comprova la concordança-->
+            <example>Tornava per emportar-se'n més.</example>
+            <!-- però en aquest cas no es comprova la concordança-->
             <example>No va poder evitar adonar-se que era igual.</example>
             <example>Però no m'he pas adonat del canvi.</example>
             <example>Va trigar una mica a adonar-se.</example>
@@ -53557,7 +53580,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token inflected="yes" regexp="yes">anar|venir|pujar</token>
                 <token postag="P0.*" postag_regexp="yes" spacebefore="no" min="0"/>
                 <token>a</token>
-                <token regexp="yes">&verbs_reflexius_potencials;|&verbs_reflexius;|veure|buscar|cercar</token> 
+                <token regexp="yes">&verbs_reflexius_potencials;|&verbs_reflexius;|veure|buscar|cercar</token>
             </antipattern>
             <antipattern>
                 <token inflected="yes" regexp="yes" skip="4">anar|venir|pujar</token>
