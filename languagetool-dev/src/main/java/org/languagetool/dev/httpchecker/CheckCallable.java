@@ -22,6 +22,7 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
@@ -55,13 +56,23 @@ class CheckCallable implements Callable<File> {
   private final String token;
   private final File file;
   private final String langCode;
+  @Nullable
+  private final String user;
+  @Nullable
+  private final String password;
 
   CheckCallable(int count, String baseUrl, String token, File file, String langCode) {
+    this(count, baseUrl, token, file, langCode, null, null);
+  }
+
+  CheckCallable(int count, String baseUrl, String token, File file, String langCode, @Nullable String user, @Nullable String password) {
     this.count = count;
     this.baseUrl = Objects.requireNonNull(baseUrl);
     this.token = token;
     this.file = Objects.requireNonNull(file);
     this.langCode = Objects.requireNonNull(langCode);
+    this.user = user;
+    this.password = password;
   }
 
   @Override
@@ -147,6 +158,11 @@ class CheckCallable implements Callable<File> {
       System.setProperty("http.keepAlive", "false");  // without this, there's an overhead of about 1 second - not sure why
       URLConnection conn = url.openConnection();
       conn.setDoOutput(true);
+      if (user != null && password != null) {
+        String authString = user + ":" + password;
+        String encoded = Base64.getEncoder().encodeToString(authString.getBytes());
+        conn.setRequestProperty("Authorization", "Basic " + encoded);
+      }
       try (OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream())) {
         writer.write(postData);
         writer.flush();
