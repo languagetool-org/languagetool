@@ -36,7 +36,7 @@ import org.languagetool.tokenizers.WordTokenizer;
  */
 public class FrenchWordTokenizer extends WordTokenizer {
 
-  private static final int maxPatterns = 4;
+  private static final int maxPatterns = 5;
   private final Pattern[] patterns = new Pattern[maxPatterns];
 
   FrenchTagger tagger;
@@ -81,7 +81,7 @@ public class FrenchWordTokenizer extends WordTokenizer {
     // que, si
     // It creates 2 tokens: <token>l'</token><token>homme</token>
     patterns[0] = Pattern.compile(
-        "^(n['’])([^\\-]*)(-ce|-elle|-t-elle|-elles|-en|-il|-t-il|-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
+        "^(n['’]|qu['’])([^\\-]*)(-ce|-elle|-t-elle|-elles|-en|-il|-t-il|-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[1] = Pattern.compile( //|presqu['’] |quelqu['’]
         "^(c['’]|j['’]|n['’]|m['’]|t['’]|s['’]|l['’]|d['’]|qu['’]|jusqu['’]|lorsqu['’]|puisqu['’]|quoiqu['’])([^'’\\-].*)$",
@@ -90,6 +90,9 @@ public class FrenchWordTokenizer extends WordTokenizer {
         "^([^\\-]*)(-ce|-elle|-t-elle|-elles|-en|-il|-t-il|-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)(-ce|-elle|-t-elle|-elles|-en|-il|-t-il|-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     patterns[3] = Pattern.compile(
+        "^([^\\-]*)(-t|-m)('en|'y)$",
+        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
+    patterns[4] = Pattern.compile(
         "^([^\\-]*)(-ce|-elle|-t-elle|-elles|-en|-il|-t-il|-ils|-je|-la|-le|-les|-leur|-lui|-moi|-nous|-on|-t-on|-toi|-tu|-vous|-vs|-y)$",
         Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
     
