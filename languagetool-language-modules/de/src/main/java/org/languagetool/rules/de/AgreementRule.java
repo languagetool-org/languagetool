@@ -248,6 +248,10 @@ public class AgreementRule extends Rule {
       token("Computer"),
       token("Club")
     ),
+    Arrays.asList(  // "der Echo Show" (Amazon device)
+      token("Echo"),
+      tokenRegex("Show|Dot")
+    ),
     Arrays.asList(  // "In einem App Store"
       tokenRegex("App|Play"),
       token("Store")
