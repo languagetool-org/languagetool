@@ -1042,7 +1042,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- aggettivi o pronomi indefiniti -->
 			<rule>
                 <pattern>
-                    <token skip="2" regexp="yes">qualunque|chiunque|qualsiasi|ovunque|dovunque</token>
+                    <token skip="2" regexp="yes">qualunque|qualsiasi|ovunque|dovunque</token> <!--chiunque-->
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
@@ -1053,12 +1053,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>L'aggettivo '<match no="1"/>' richiede il congiuntivo.</message>
                 <example correction="">Ti troverò ovunque tu <marker>sei</marker>.</example>
                 <example>Ti troverò ovunque tu <marker>sia</marker>.</example>
+			    <example>Chiunque può apprezzare i risultati ottenuti.</example>
             </rule>
             <!-- espressioni impersonali è bene che, è meglio che -->
 			<rule>
                 <pattern>
                     <token>è</token>
-                    <token/>
+                    <token regexp="yes">bene|meglio</token>
                     <token skip="2">che</token>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
@@ -1070,6 +1071,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>L'espressione impersonale 'è <match no="2"/> che' richiede il congiuntivo.</message>
                 <example correction="">Credimi, è meglio che tu <marker>sei</marker> vicino.</example>
                 <example>Credimi, è meglio che tu <marker>sia</marker> vicino.</example>
+                <example>È così che funziona.</example>
             </rule>
 <!-- PB008 - -->
         </rulegroup>
