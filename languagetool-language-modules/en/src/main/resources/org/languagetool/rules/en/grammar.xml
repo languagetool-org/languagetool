@@ -42682,67 +42682,38 @@ USA
 
         <rulegroup id="MISSING_TO_BEFORE_A_VERB" name="Use 'to' before the base form of a verb" default="temp_off"><!-- Premium #1405 -->
 
-            <rule><!-- Need is possibly a modal verb. Use chunks -->
-                <antipattern><!-- need help every day -->
-                    <token>need</token>
-                    <token postag_regexp="yes" postag="NN:UN?"/>
-                    <token regexp="yes">each|every</token>
-                    <token postag_regexp="yes" postag="NN:UN?"/>
-                </antipattern>
-                <antipattern><!-- need like -->
-                    <token>need</token>
-                    <token regexp="yes">like|cause</token><!-- 'cause' is short for 'because' -->
-                </antipattern>
+            <rule><!-- Need is possibly a modal verb. Use chunks (refer to the next rule). -->
                 <antipattern><!-- www.lexico.com/definition/if_need_be -->
-                    <token>if</token>
+                    <token regexp="yes">if|there</token><!-- MFU: I did not find a reference for 'there need be' -->
                     <token>need</token>
                     <token>be</token>
                 </antipattern>
-                <antipattern><!-- you need help with / I need step 4 -->
-                    <token regexp="yes">I|you|we|they</token>
-                    <token min="0" max="3" postag="RB"/>
+                <antipattern><!-- www.tutorialspoint.com/unix/unix-file-permission.htm -->
                     <token>need</token>
-                    <token postag_regexp="yes" postag="NN(:UN?)?"/>
-                    <token postag_regexp="yes" postag="IN|PCT|CD|PRP|WP|WDT"/>
+                    <token regexp="yes">execute|read|write</token>
+                    <token chunk="E-NP-singular">access</token>
                 </antipattern>
-                <antipattern><!--  need help all the time -->
-                    <token>need</token>
-                    <token postag_regexp="yes" postag="NN:UN?"/>
-                    <token>all</token>
-                    <token>the</token>
-                    <token postag_regexp="yes" postag="NN:UN?"/>
-                </antipattern>
-                <antipattern><!-- need deal # -->
-                    <token>need</token>
-                    <token postag_regexp="yes" postag="NN(:UN?)?"/>
-                    <token>#</token>
-                </antipattern>
-                <antipattern><!-- www.lexico.com/definition/big_time -->
-                    <token>need</token>
-                    <token postag_regexp="yes" postag="NN(:UN?)?"/>
-                    <token>big</token>
-                    <token>time</token>
-                </antipattern>
-                <antipattern><!-- you guys need help -->
-                    <token>you</token>
-                    <token regexp="yes">bastards|guys|idiots|girls|boys|zombies|morons|monsters|bros|fuckers|dicks|kids|weirdos|skanks|ladies|gentlemen|gents|lads|assholes</token>
-                    <token>need</token>
-                    <token postag_regexp="yes" postag="NN:UN?"/>
-                </antipattern>
-                <antipattern><!--  then you need rear wheel bearings -->
-                    <token>need</token>
-                    <token postag_regexp="yes" postag="JJR?"/>
-                    <token chunk="B-NP-plural"/>
+                <antipattern><!-- contracts we need include the -->
                     <token chunk="E-NP-plural" postag="NNS"/>
+                    <token regexp="yes">&subject_pronouns;</token>
+                    <token>need</token>
+                    <token postag="VB"/>
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
+                </antipattern>
+                <antipattern><!-- documents that the managers need include -->
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token>need</token>
+                    <token postag="VB"/>
+                    <token postag_regexp="yes" postag="DT|PRP\$"/>
                 </antipattern>
                 <pattern>
                     <token chunk="B-VP" postag_regexp="yes" postag="VBP?">need</token><!-- base form only -->
                     <marker>
                         <or>
-                            <token postag="VB"><!-- verbs that are not also nouns (e.g. "believe") -->
-                                <exception postag_regexp="yes" postag="NN.*"/>
+                            <token chunk="I-VP" postag="VB"><!-- verbs that are not also nouns (e.g. "believe") -->
+                                <exception postag_regexp="yes" postag="NN.*|JJ"/>
                                 </token>
-                            <token regexp="yes">use|think|go</token><!-- verbs that are rarely used as nouns after "need" -->
+                            <token regexp="yes">buy|go|think|use</token><!-- verbs that are rarely used as nouns after "need" -->
                         </or>
                     </marker>
                     <or>
@@ -42758,12 +42729,14 @@ USA
                 <example correction="to accelerate">I think we need <marker>accelerate</marker> this process.</example>
                 <example correction="to use">I need <marker>use</marker> subtitles on my video.</example>
                 <example correction="to use">Do the technicians need <marker>use</marker> oil?</example>
-<!-- <example correction="to buy">I need <marker>buy</marker> a new car.</example> -->
+                <example correction="to buy">I need <marker>buy</marker> a new car.</example>
                 <example correction="to bring">I need <marker>bring</marker> some flowers.</example>
                 <example correction="to bring">The technicians need <marker>bring</marker> washers.</example>
                 <example correction="to do">You know you need <marker>do</marker> that, don't you?</example>
-<!-- <example correction="to express">I felt i need <marker>express</marker> this feeling so i made this little poem:</example> -->
                 <example correction="to install">I think i need <marker>install</marker> SpringScanner.</example>
+                <example correction="to be">Others can view your app’s data, they just need <marker>be</marker> granted permission- by You!</example>
+                <example correction="to write">We need <marker>write</marker> access courses in sociology and media studies.</example><!-- www.lexico.com/definition/access_course -->
+                <example correction="to include">We need <marker>include</marker> the following information in the proposal:</example>
                 <example>I think we need <marker>to accelerate</marker> this process.</example>
                 <example>I need help with this task.</example><!-- help/I-VP -->
                 <example>Please i need help</example><!-- No closing punctuation -->
@@ -42779,6 +42752,7 @@ USA
                 <example>The mechanics need help moving to the new workshop.</example>
                 <example>I bring mine if need be.</example>
                 <example>If need be you can order an additional one.</example>
+                <example>If a grammar does generate the empty string, it will be necessary to include the rule, but there need be no other ε-rule.</example>
                 <example>Tom and Mary really need help.</example>
                 <example>I need help also.</example><!-- Context dependent. Possibly 'to' is missing. -->
                 <example>You need better mechanics.</example>
@@ -42812,22 +42786,23 @@ USA
                 <example>I need deal date, start date, end date, premium, strike price,...</example>
                 <example>I need access ASAP as I am supporting a trader who does most of his deals on EOL.</example>
                 <example>Do we really need duplicate hero type association when there are so many troop types?</example>
-                <example>I need license key location, because I added it to the in-correct account, so I need to change it to another license key.</example>
+                <example>I need license key location, because I added it to the in-correct account, so I need to change it to another license key.</example><!-- license/I-VP -->
+                <example>We need license and cost information before we continue this discussion about buying your software.</example><!-- license/B-NP-singular -->
                 <example>And if you do have a project of your own where you need design help, you can of course submit it there too.</example>
-<!-- Testrules complains
-                <example type="triggers_error">We need complete well characteristic data (depth, basin, age) in order to be accurate.</example>
-                <example type="triggers_error">If a grammar does generate the empty string, it will be necessary to include the rule, but there need be no other ε-rule.</example>
-                <example type="triggers_error">Others can view your app’s data, they just need be granted permission- by You!</example>
-                <example type="triggers_error">The gas contracts we need include the following, can you give us timescales.</example>
-                <example type="triggers_error">If you received new @GLOBAL license keys recently (within the last 6 months to a year), you need do nothing, otherwise contact FEA to receive updated license keys.</example>
-                <example type="triggers_error">I need cost reductions, improved cash flow and SUPPORT.</example>
-                <example type="triggers_error">I need change overs to happen on Mondays cause that’s my day off to grind</example>
-                <example type="triggers_error">That’s right, but you need write access to the data directory too.</example>
--->
+                <example>We need complete well characteristic data (depth, basin, age) in order to be accurate.</example>
+                <example>I need cost reductions, improved cash flow and SUPPORT.</example>
+                <example>I need change overs to happen on Mondays.</example>
+                <example>The gas contracts we need include the following, can you give us timescales.</example>
+                <example>The documents that the managers need include the following:</example>
+                <example>That’s right, but you need write access to the data directory too.</example>
                 <example>All you need bring are sheets.</example><!-- Ambiguous -->
-<!-- Testrules error. The GUI finds this sentence, but testrules says " didn't actually trigger an error"  <example type="triggers_error">At this stage no further discussion need take place on this point.</example> Modal -->
-<!-- Testrules error. The GUI finds this sentence, but testrules says " didn't actually trigger an error"  <example type="triggers_error">You need say nothing more.</example>Ambiguous: do not make an antipattern. -->
-<!-- Testrules error. The GUI finds this sentence, but testrules says " didn't actually trigger an error"  <example type="triggers_error">You need go only one stop on the underground.</example> Ambiguous: do not make an antipattern. -->
+<!-- Not found --><example>I felt i need <marker>express</marker> this feeling so i made this little poem:</example>
+<!-- #2312 Testrules error. The GUI finds the error, but testrules says " didn't actually trigger an error" 
+<example type="triggers_error">At this stage no further discussion need take place on this point.</example> Modal 
+<example type="triggers_error">You need say nothing more.</example> Ambiguous: do not make an antipattern.
+<example type="triggers_error">You need go only one stop on the underground.</example> Ambiguous: do not make an antipattern.
+<example type="triggers_error">If you received new @GLOBAL license keys recently (within the last 6 months to a year), you need do nothing, otherwise contact FEA to receive updated license keys.</example>
+-->
             </rule>
 
             <rule><!-- Need is possibly a modal verb. Special cases: do not use chunks -->
