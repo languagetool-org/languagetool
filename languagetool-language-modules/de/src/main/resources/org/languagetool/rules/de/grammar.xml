@@ -6974,7 +6974,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token case_sensitive="yes" skip="-1">Das
                         <exception regexp="yes" scope="next">,|;|:|-|–|\)|\(|„|“|»|«|"|und|oder</exception>
                     </token>
-                    <token postag="SUB.*SIN.*NEU.*|EIG.*SIN.*NEU.*|UNKNOWN" postag_regexp="yes"/>
+                    <token postag="SUB.*SIN.*NEU.*|EIG.*SIN.*NEU.*|UNKNOWN|SUB:.+:ADJ" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token case_sensitive="yes">Das</token>
@@ -6992,7 +6992,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token case_sensitive="yes">Das</token>
                     <token>mit</token>
-                    <token postag="PRO:PER:.*|EIG:.*|UNKNOWN" postag_regexp="yes"/>
+                    <token postag="PRO:PER:.*|EIG:.*|UNKNOWN|ART:.+" postag_regexp="yes"/>
                 </antipattern>
                 <antipattern>
                     <token case_sensitive="yes" skip="-1">Das</token>
@@ -7002,6 +7002,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token case_sensitive="yes" skip="-1">Das</token>
                     <token postag="VER:EIZ.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>Das</token>
+                    <token postag="SUB:.+:MAS" postag_regexp="yes"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -7017,6 +7022,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Dass"><marker>Das</marker> er sie liebt, sagt er.</example>
                 <example correction="Dass"><marker>Das</marker> er sie liebt, hat er geschrieben.</example>
                 <example>Das eben ist der Witz, dass sie es nicht wusste.</example>
+                <example>Der Konditional ist also nur dann falsch, wenn es regnet.</example>
+                <example>Das mit den Zetteln haben wir abgeschafft.</example>
            </rule>
            <rule>
                 <antipattern>
