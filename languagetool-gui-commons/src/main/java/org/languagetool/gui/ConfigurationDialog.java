@@ -43,6 +43,7 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.*;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * Dialog that offers the available rules so they can be turned on/off
@@ -684,7 +685,12 @@ public class ConfigurationDialog implements ActionListener {
         if(serverName.isEmpty()) {
           serverName = null;
         }
-        config.setOtherServerUrl(serverName);
+        if (config.isValidServerUrl(serverName)) {
+          otherServerNameField.setForeground(Color.BLACK);
+          config.setOtherServerUrl(serverName);
+        } else {
+          otherServerNameField.setForeground(Color.RED);
+        }
       }
     });
 

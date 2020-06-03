@@ -34,6 +34,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 import java.util.Properties;
 import java.util.Set;
 
@@ -981,6 +982,16 @@ public class Configuration {
     this.switchOff = switchOff;
     saveConfiguration(lang);
   }
+  
+  /**
+   * Test if http-server URL is correct
+   */
+  public boolean isValidServerUrl(String url) {
+    if (url.endsWith("/") || url.endsWith("/v2") || !Pattern.matches("http://.+:\\d+.*", url)) {
+      return false;
+    }
+    return true;
+  }
 
   private void loadConfiguration() throws IOException {
     loadConfiguration(null);
@@ -1134,6 +1145,9 @@ public class Configuration {
       }
       
       otherServerUrl = (String) props.get(prefix + OTHER_SERVER_URL_KEY);
+      if (otherServerUrl != null && !isValidServerUrl(otherServerUrl)) {
+        otherServerUrl = null;
+      }
       
       String markSingleCharBoldString = (String) props.get(prefix + MARK_SINGLE_CHAR_BOLD_KEY);
       if (markSingleCharBoldString != null) {
@@ -1354,7 +1368,7 @@ public class Configuration {
         if(switchOff) {
           props.setProperty(prefix + LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));
         }
-        if (otherServerUrl != null) {
+        if (otherServerUrl != null && isValidServerUrl(otherServerUrl)) {
           props.setProperty(prefix + OTHER_SERVER_URL_KEY, otherServerUrl);
         }
         if (fontName != null) {
