@@ -35779,8 +35779,19 @@ Andere Projekte</example>
                     <token regexp="yes" case_sensitive="yes">D(ies)?er|Jener</token>
                     <token/>
                     <token>und</token>
-                    <token postag="ADJ:NOM:SIN:MAS:GRU:DEF"></token>
-                    <token postag="SUB:NOM:SIN:MAS"></token>
+                    <token postag="ADJ:NOM:SIN:MAS:GRU:DEF"/>
+                    <token postag="SUB:NOM:SIN:MAS"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="ART:.+" postag_regexp="yes"/>
+                    <token postag="ADJ:PRD:GRU"/>
+                       <token postag="ADJ:NOM:SIN:MAS:GRU:DEF"/>
+                    <token postag="SUB:NOM:SIN:MAS"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="ADJ:PRD:KOM"/>
+                    <token postag="ADJ:NOM:SIN:MAS:GRU:DEF"/>
+                    <token postag="SUB:NOM:SIN:MAS"/>
                 </antipattern>
                 <pattern>
                     <token>
@@ -35790,13 +35801,14 @@ Andere Projekte</example>
                     <marker>
                         <token postag="ADJ:NOM:SIN:MAS:GRU:DEF">
                             <exception negate_pos="yes" postag="ADJ:NOM:SIN:MAS:GRU:DEF"/>
-                            <exception regexp="yes">gerade|.+weise|lange|andere|heutige</exception>
+                            <exception regexp="yes">gerade|.+weise|lange|andere|heutige|erlaubte</exception>
                         </token>
                         <token postag="SUB:NOM:SIN:MAS">
                             <exception negate_pos="yes" postag="SUB:NOM:SIN:MAS"/>
                             <exception>Fuß</exception><!-- veraltete Maßeinheit-->
                             <exception>Fuss</exception><!-- veraltete Maßeinheit (de-CH)-->
-                            <exception>Dollar</exception>
+                            <exception regexp="yes">Dollar|Zoll</exception>
+                            <exception scope="next" postag="SUB:.+|UNKNOWN" postag_regexp="yes"/>
                         </token>
                     </marker>
                     <token><exception inflected="yes" regexp="yes">sein|werden</exception></token>
@@ -35811,6 +35823,8 @@ Andere Projekte</example>
                 <example>Das bayerische Fuß und das englische Fuß waren unterschiedlich.</example>
                 <example>Er erreichte einen größeren Bekanntheitsgrad in der Bevölkerung als jeder andere Kandidat vor ihm.</example>
                 <example>Es sind bereits knapp 25 Millionen australische Dollar zusammengekommen.</example>
+                <example>So ist die Beere bekannter als der eigentlich namensgebende Vogel.</example>
+                <example>Ihn störte der humoristische Umgang mit dem Thema.</example>
             </rule>
         </rulegroup>
         <rulegroup id="PRP_ADJ_AGREEMENT" name="falscher Kasus/Numerus/Genus des Adjektivs">
