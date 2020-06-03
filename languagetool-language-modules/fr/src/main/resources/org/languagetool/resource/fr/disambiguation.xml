@@ -341,6 +341,7 @@ RB => Règles Brutes
         <marker>
           <token>nous</token>
         </marker>
+        <token><exception postag="V .+ .+ 1 p" postag_regexp="yes"/></token>
       </pattern>
       <disambig postag="R pers obj 1 p"/>
     </rule>
@@ -718,8 +719,20 @@ RB => Règles Brutes
         <marker>
           <token>vous</token>
         </marker>
+        <token postag="V.*" postag_regexp="yes"/>
+        <token postag="R pers suj.*" postag_regexp="yes" regexp="yes" spacebefore="no">-.*</token>
       </pattern>
-      <disambig postag="R pers suj 2 p"/>
+      <disambig action="filter" postag="R pers obj 2 p"/>
+    </rule> 
+    
+    <rule name="Vous">
+      <pattern>
+        <token postag="SENT_START"/>
+        <marker>
+          <token>vous</token>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="R pers suj 2 p"/>
     </rule>
     <rule name="que vous">
       <pattern>
@@ -908,17 +921,29 @@ RB => Règles Brutes
     </pattern>
     <disambig action="filterall"/>
   </rule>
+  
+  <rule id="AVOIR_PP" name="avoir + pp">
+    <pattern>
+      <token regexp="yes">l'|les</token>
+      <marker>
+        <token inflected="yes">avoir</token>
+      </marker>
+      <token postag="V ppa .*" postag_regexp="yes"/>
+    </pattern>
+    <disambig action="filter" postag="V.*"/>
+  </rule>
   <rule name="RP : Det + Nom ambigu" id="RP-D_N_AMBIG">
     <pattern>
       <unify> <feature id="number"/> <feature id="gender"/>
-        <token postag="D.*" postag_regexp="yes"><exception>même</exception></token>
-        <token postag="N.*|J.*|V ppa.*" postag_regexp="yes"><exception regexp="yes">a|dans|envers|si|fut|plus</exception></token>
+        <token postag="D.*" postag_regexp="yes"><exception>même</exception><exception postag="P"/></token>
+        <token postag="N.*|J.*|V ppa.*" postag_regexp="yes"><exception regexp="yes">a|dans|envers|si|fut|plus|avoir</exception></token>
       </unify>
     </pattern>
     <disambig action="filterall"/>
     <example type="untouched">Ils sont parti.</example>
     <example type="ambiguous" inputform="livre[livre/N e s,livrer/V imp pres 2 s,livrer/V ind pres 1 s,livrer/V ind pres 3 s,livrer/V sub pres 1 s,livrer/V sub pres 3 s]" outputform="livre[livre/N e s]">Il a enfin publié son <marker>livre</marker>.</example>
   </rule>
+  <!-- TODO: tu ne l'as; l'avoir rencontrée -->
 
   <!-- This is to catch frequent errors such as "J'ai manger" which would not
          be caught without disambiguation as "manger" can also be a noun -->
@@ -1034,6 +1059,15 @@ RB => Règles Brutes
       </marker>
     </pattern>
     <disambig><match no="2" postag_regexp="yes" postag="V etre ind pres .*"/></disambig>
+  </rule>
+  <rule id="SOMMER_ETRE" name="sommer être">
+    <pattern>
+    <marker>
+      <token>sommes</token>
+    </marker>
+    <token spacebefore="no">-nous</token>
+    </pattern>
+    <disambig action="filter" postag=".* 1 p"></disambig>
   </rule>
   <rule name="RP : Indicatif avoir (as a ont)" id="RP-AS_A_ONT">
     <pattern>
@@ -1879,6 +1913,15 @@ RB => Règles Brutes
       <pattern>
         <marker>
           <token regexp="yes">\-\d+</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <pattern>
+        <marker>
+          <token>-</token>
+          <token regexp="yes">[\d+\.,]</token>
         </marker>
       </pattern>
       <disambig action="ignore_spelling"/>
