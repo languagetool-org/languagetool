@@ -1049,12 +1049,11 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
    */
   @Override
   public List<String> getSuggestions(String word) throws IOException {
-    if (word.endsWith("en")   // we're looking for base forms of verbs
-        && word.length() < 20 && word.matches("[a-zA-Zöäüß-]+.?")) {
+    if (word.length() < 18 && word.matches("[a-zA-Zöäüß-]+.?")) {
       for (String prefix : VerbPrefixes.get()) {
         if (word.startsWith(prefix)) {
           String lastPart = word.substring(prefix.length());
-          if (!isMisspelled(lastPart)) {
+          if (lastPart.length() > 3 && !isMisspelled(lastPart)) {
             // as these are only single words and both the first part and the last part are spelled correctly
             // (but the combination is not), it's okay to log the words from a privacy perspective:
             logger.info("UNKNOWN: " + word);
