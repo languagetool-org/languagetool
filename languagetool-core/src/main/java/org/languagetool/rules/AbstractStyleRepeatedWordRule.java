@@ -22,9 +22,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedSentence;
@@ -187,26 +185,21 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   /**
    * get synonyms for a word
    */
-  public List<String> getSynonymsForWord(String word, Map<String, List<String>> synonymsCache) {
+  public List<String> getSynonymsForWord(String word) {
     List<String> synonyms = new ArrayList<String>();
-    if (synonymsCache.containsKey(word)) {
-      synonyms = synonymsCache.get(word);
-    } else {
-      List<String> rawSynonyms = linguServices.getSynonyms(word, lang);
-      for (String synonym : rawSynonyms) {
-        synonym = synonym.replaceAll("\\(.*\\)", "").trim();
-        if (!synonym.isEmpty() && !synonyms.contains(synonym)) {
-          synonyms.add(synonym);
-        }
+    List<String> rawSynonyms = linguServices.getSynonyms(word, lang);
+    for (String synonym : rawSynonyms) {
+      synonym = synonym.replaceAll("\\(.*\\)", "").trim();
+      if (!synonym.isEmpty() && !synonyms.contains(synonym)) {
+        synonyms.add(synonym);
       }
-      synonymsCache.put(word, synonyms);
     }
     return synonyms;
   }
   /**
    * get synonyms for a repeated word
    */
-  public List<String> getSynonyms(AnalyzedTokenReadings token, Map<String, List<String>> synonymsCache) {
+  public List<String> getSynonyms(AnalyzedTokenReadings token) {
     List<String> synonyms = new ArrayList<String>();
     if(linguServices == null || token == null) {
       return synonyms;
@@ -215,11 +208,11 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     for (AnalyzedToken reading : readings) {
       String lemma = reading.getLemma();
       if (lemma != null) {
-        synonyms = getSynonymsForWord(lemma, synonymsCache);
+        synonyms = getSynonymsForWord(lemma);
       }
     }
     if(synonyms.isEmpty()) {
-      synonyms = getSynonymsForWord(token.getToken(), synonymsCache);
+      synonyms = getSynonymsForWord(token.getToken());
     }
     return synonyms;
   }
@@ -263,7 +256,6 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     List<AnalyzedTokenReadings[]> tokenList = new ArrayList<>();
-    Map<String, List<String>> synonymsCache = new HashMap<String, List<String>>();
     int pos = 0;
     for (int n = 0; n < maxDistanceOfSentences && n < sentences.size(); n++) {
       tokenList.add(sentences.get(n).getTokensWithoutWhitespace());
@@ -311,7 +303,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
               int startPos = pos + token.getStartPos();
               int endPos = pos + token.getEndPos();
               RuleMatch ruleMatch = new RuleMatch(this, startPos, endPos, msg);
-              List<String> suggestions = getSynonyms(token, synonymsCache);
+              List<String> suggestions = getSynonyms(token);
               if(!suggestions.isEmpty()) {
                 ruleMatch.setSuggestedReplacements(suggestions);
               }

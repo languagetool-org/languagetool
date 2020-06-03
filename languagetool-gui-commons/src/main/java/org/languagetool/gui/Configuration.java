@@ -43,7 +43,6 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.LinguServices;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 
@@ -73,6 +72,7 @@ public class Configuration {
   static final boolean DEFAULT_USE_OTHER_SERVER = false;
   static final boolean DEFAULT_MARK_SINGLE_CHAR_BOLD = false;
   static final boolean DEFAULT_USE_LT_DICTIONARY = true;
+  static final boolean DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS = true;
 
   static final Color STYLE_COLOR = new Color(0, 175, 0);
 
@@ -118,6 +118,7 @@ public class Configuration {
   private static final String MARK_SINGLE_CHAR_BOLD_KEY = "markSingleCharBold";
   private static final String LOG_LEVEL_KEY = "logLevel";
   private static final String USE_LT_DICTIONARY_KEY = "UseLtDictionary";
+  private static final String NO_SYNONYMS_AS_SUGGESTIONS_KEY = "noSynonymsAsSuggestions";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -179,13 +180,14 @@ public class Configuration {
   private boolean useOtherServer = DEFAULT_USE_OTHER_SERVER;
   private boolean markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
   private boolean useLtDictionary = DEFAULT_USE_LT_DICTIONARY;
+  private boolean noSynonymsAsSuggestions = DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS;
   private String externalRuleDirectory;
   private String lookAndFeelName;
   private String currentProfile = null;
   private String otherServerUrl = null;
   private String logLevel = null;
   private boolean switchOff = false;
-
+  
   /**
    * Uses the configuration file from the default location.
    *
@@ -201,14 +203,10 @@ public class Configuration {
   }
 
   public Configuration(File baseDir, String filename, Language lang) throws IOException {
-    this(baseDir, filename, lang, null);
+    this(baseDir, filename, null, lang);
   }
 
-  public Configuration(File baseDir, String filename, Language lang, LinguServices linguServices) throws IOException {
-    this(baseDir, filename, null, lang, linguServices);
-  }
-
-  public Configuration(File baseDir, String filename, File oldConfigFile, Language lang, LinguServices linguServices) throws IOException {
+  public Configuration(File baseDir, String filename, File oldConfigFile, Language lang) throws IOException {
     // already fails silently if file doesn't exist in loadConfiguration, don't fail here either
     // can cause problem when starting LanguageTool server as a user without a home directory because of default arguments
     //if (baseDir == null || !baseDir.isDirectory()) {
@@ -263,6 +261,7 @@ public class Configuration {
     useOtherServer = DEFAULT_USE_OTHER_SERVER;
     markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
     useLtDictionary = DEFAULT_USE_LT_DICTIONARY;
+    noSynonymsAsSuggestions = DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS;
     externalRuleDirectory = null;
     lookAndFeelName = null;
     currentProfile = null;
@@ -314,6 +313,7 @@ public class Configuration {
     this.useOtherServer = configuration.useOtherServer;
     this.markSingleCharBold = configuration.markSingleCharBold;
     this.useLtDictionary = configuration.useLtDictionary;
+    this.noSynonymsAsSuggestions = configuration.noSynonymsAsSuggestions;
     this.otherServerUrl = configuration.otherServerUrl;
     this.logLevel = configuration.logLevel;
     
@@ -487,6 +487,14 @@ public class Configuration {
 
   public boolean useLtDictionary() {
     return useLtDictionary;
+  }
+  
+  public void setNoSynonymsAsSuggestions(boolean noSynonymsAsSuggestions) {
+    this.noSynonymsAsSuggestions = noSynonymsAsSuggestions;
+  }
+
+  public boolean noSynonymsAsSuggestions() {
+    return noSynonymsAsSuggestions;
   }
   
   /**
@@ -1156,7 +1164,12 @@ public class Configuration {
       
       String useLtDictionaryString = (String) props.get(prefix + USE_LT_DICTIONARY_KEY);
       if (useLtDictionaryString != null) {
-        this.useLtDictionary = Boolean.parseBoolean(useLtDictionaryString);
+        useLtDictionary = Boolean.parseBoolean(useLtDictionaryString);
+      }
+      
+      String noSynonymsAsSuggestionsString = (String) props.get(prefix + NO_SYNONYMS_AS_SUGGESTIONS_KEY);
+      if (noSynonymsAsSuggestionsString != null) {
+        noSynonymsAsSuggestions = Boolean.parseBoolean(noSynonymsAsSuggestionsString);
       }
       
       String rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier);
@@ -1365,6 +1378,9 @@ public class Configuration {
         if(useLtDictionary != DEFAULT_USE_LT_DICTIONARY) {
           props.setProperty(prefix + USE_LT_DICTIONARY_KEY, Boolean.toString(useLtDictionary));
         }
+        if(noSynonymsAsSuggestions != DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS) {
+          props.setProperty(prefix + NO_SYNONYMS_AS_SUGGESTIONS_KEY, Boolean.toString(noSynonymsAsSuggestions));
+        }
         if(switchOff) {
           props.setProperty(prefix + LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));
         }
@@ -1474,6 +1490,7 @@ public class Configuration {
     allProfileKeys.add(USE_OTHER_SERVER_KEY);
     allProfileKeys.add(MARK_SINGLE_CHAR_BOLD_KEY);
     allProfileKeys.add(USE_LT_DICTIONARY_KEY);
+    allProfileKeys.add(NO_SYNONYMS_AS_SUGGESTIONS_KEY);
 
     allProfileLangKeys.add(DISABLED_RULES_KEY);
     allProfileLangKeys.add(ENABLED_RULES_KEY);

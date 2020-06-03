@@ -780,6 +780,13 @@ public class ConfigurationDialog implements ActionListener {
     cons.gridy++;
     portPanel.add(useLtDictionaryBox, cons);
 
+    JCheckBox noSynonymsAsSuggestionsBox = new JCheckBox(Tools.getLabel(messages.getString("guiNoSynonymsAsSuggestions")));
+    noSynonymsAsSuggestionsBox.setSelected(config.noSynonymsAsSuggestions());
+    noSynonymsAsSuggestionsBox.addItemListener(e -> {
+      config.setNoSynonymsAsSuggestions(noSynonymsAsSuggestionsBox.isSelected());
+    });
+    cons.gridy++;
+    portPanel.add(noSynonymsAsSuggestionsBox, cons);
     
   }
   
