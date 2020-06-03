@@ -43156,6 +43156,19 @@ Andere Projekte</example>
                     <token>was</token>
                     <token>wolle</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" skip="-1"/>
+                    <token skip="-1">,</token>
+                    <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" skip="-1"/>
+                    <token regexp="yes">wie|als</token>
+                    <token skip="-1">
+                        <exception scope="next" postag="VER:.+" postag_regexp="yes"></exception>
+                        <exception postag="VER:.+" postag_regexp="yes"></exception>
+                    </token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token postag="VER:[1-3]:.*|VER:.*:[1-3]:.*|VER:IMP:.*" postag_regexp="yes" skip="-1">
