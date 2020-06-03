@@ -18479,25 +18479,12 @@ steenwijk;Steenwijk
 				<pattern>
 					<token postag="SENT_START"/>
 					<marker>
-						<token postag_regexp="yes" postag="WKW:TGW:3EP.*"><exception postag_regexp="yes" postag="WKW:TGW:1EP.*"/></token>
+						<token postag_regexp="yes" postag="WKW:TGW:3EP.*"><exception postag_regexp="yes" postag="WKW:TGW:1EP.*|WKW:VTD:1EP.*"/></token>
 					</marker>
 					<token regexp="yes">ik|je|jij</token>
 				</pattern>
 				<message>U bedoelt vast <suggestion><match no="2" postag_regexp="yes" postag="WKW:TGW:1EP.*"/></suggestion>.</message>
 				<example correction="Vind"><marker>Vindt</marker> jij dit fout?</example>
-			</rule>
-		</rulegroup>
-		<rulegroup id="DOMINEE_VERRUILD_KERK" name="verkeerde werkwoordvorm" default="temp_off">
-			<rule>
-				<pattern>
-					<token postag_regexp="yes" postag="ZNW:EKV:.*"/>
-					<marker>
-						<token postag="WKW:VTD:ONV"><exception postag_regexp="yes" postag="WKW:TGW:3EP.*"/></token>
-					</marker>
-					<token postag_regexp="yes" postag="ZNW.*"/>
-				</pattern>
-				<message>U bedoelt vast <suggestion><match no="2" postag_regexp="yes" postag="WKW:TGW:3EP.*"/></suggestion>.</message>
-				<example correction="verruilt">Dominee <marker>verruild</marker> kerk voor auto.</example>
 			</rule>
 		</rulegroup>
 		
@@ -40052,6 +40039,7 @@ steenwijk;Steenwijk
 		</rulegroup>
 
 		<rulegroup id="GAAT_GISTEREN" name="verkeerde werkwoordvorm" default="temp_off">
+			<antipattern><token postag="SENT_START" skip="-1"/><token postag="WKW:VTD:ONV"/></antipattern>
 			<rule>
 				<pattern>
 					<marker>
