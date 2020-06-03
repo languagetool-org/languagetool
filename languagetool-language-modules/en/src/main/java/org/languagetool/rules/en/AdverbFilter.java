@@ -204,6 +204,7 @@ public class AdverbFilter extends RuleFilter {
     put("honestly", "honest");
     put("voluntarily", "voluntary");
     put("desperately", "desperate");
+    put("immensely", "immense");
     put("apparently", "apparent");
     put("straightforwardly", "straightforward");
 

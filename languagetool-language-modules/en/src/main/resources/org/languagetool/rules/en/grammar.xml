@@ -6928,14 +6928,20 @@ USA
                 <token regexp="yes">For|for</token><!-- Lower case 'f' is a style decision -->
                 <token>Nature</token>
             </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>world</token>
+                <token>wide</token>
+                <token>web</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>world</token>
-                    <token>wide</token>
+                    <token>
+                        wide</token>
                 </marker>
-                <token><exception>web</exception></token> <!-- Don't suggest change for "World Wide Web" -->
             </pattern>
-            <message>Did you mean <suggestion>worldwide</suggestion>?</message>
+            <message>The adjective/adverb <suggestion>worldwide</suggestion> is spelled as one word?</message>
+            <url>https://www.merriam-webster.com/dictionary/worldwide</url>
             <example correction="worldwide">There was a <marker>world wide</marker> epidemic.</example>
             <example>There was a <marker>world-wide</marker> epidemic.</example>
             <example>The '<marker>World Wide Fund For Nature</marker>' is also known as the 'World Wildlife Fund' (https://wwf.panda.org/who_we_are/wwf_offices/uk/).</example>
@@ -11895,7 +11901,7 @@ USA
     <!-- Grammar -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammar" type="grammar">
-        <rulegroup id="SLOW_MO" name="slo-mo" default="temp_off">
+        <rulegroup id="SLOW_MO" name="slo-mo">
             <url>https://www.merriam-webster.com/dictionary/slo-mo</url>
             <rule>
                 <pattern>
@@ -11916,7 +11922,7 @@ USA
                 <example correction="slo-mo|slow motion">The video was playing in <marker>slow-mo</marker>.</example>
             </rule>
         </rulegroup>
-        <rule id="LIKELY_HOOD" name="likely hood (likelihood)" default="temp_off">
+        <rule id="LIKELY_HOOD" name="likely hood (likelihood)">
             <pattern>
                 <token regexp="yes">(un)?likel[iy]|livel[iy]</token>
                 <token regexp="yes">hoods?</token>
@@ -11924,7 +11930,7 @@ USA
             <message>Did you mean the noun <suggestion><match no="1" case_conversion="alllower" regexp_match="(?i)y$" regexp_replace="i" /><match no="2" case_conversion="alllower" /></suggestion>?</message>
             <example correction="livelihoods">There are many people whose <marker>lively hoods</marker> depend on the rain forest.</example>
         </rule>
-        <rulegroup id="HALF_WAY" name="half way">
+        <rulegroup id="HALF_WAY_COMPOUND" name="half way">
             <url>https://www.lexico.com/definition/halfway</url>
             <rule>
                 <pattern>
@@ -12176,7 +12182,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/nutshell</url>
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
-        <rule id="LINE_COMPOUNDS" name="dead line (deadline)" default="temp_off">
+        <rule id="LINE_COMPOUNDS" name="dead line (deadline)">
             <pattern>
                 <token>dead</token>
                 <token regexp="yes">lines?</token>
@@ -12186,7 +12192,7 @@ USA
             <url>https://www.merriam-webster.com/dictionary/deadline</url>
             <example correction="deadline">We completed the task before it hit the <marker>dead line</marker>.</example>
         </rule>
-        <rule id="OWNER_COMPOUNDS" name="home owner (homeowner)" default="temp_off">
+        <rule id="OWNER_COMPOUNDS" name="home owner (homeowner)">
             <pattern>
                 <token regexp="yes">ship|land|home</token>
                 <token regexp="yes">owners?</token>
@@ -12195,7 +12201,7 @@ USA
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <example correction="homeowner">A <marker>home owner</marker> is someone who owns a house.</example>
         </rule>
-        <rule id="LAW_COMPOUNDS" name="law suit (lawsuit)" default="temp_off">
+        <rule id="LAW_COMPOUNDS" name="law suit (lawsuit)">
             <antipattern>
                 <token>law</token>
                 <token regexp="yes">suits?</token>
@@ -12210,7 +12216,7 @@ USA
             <example correction="lawsuit">She filed a <marker>law suit</marker> against the city.</example>
             <example>The law suits my taste.</example>
         </rule>
-        <rule id="HOOD_COMPOUNDS" name="neighbor hood (neighboorhood)" default="temp_off">
+        <rule id="HOOD_COMPOUNDS" name="neighbor hood (neighboorhood)">
             <antipattern case_sensitive="yes"><!-- https://en.wikipedia.org/wiki/Father_Hood -->
                 <token>Father</token>
                 <token>Hood</token>
@@ -12336,7 +12342,7 @@ USA
             <suggestion>whole<match no="2" case_conversion="alllower" /></suggestion>
             <example correction="wholesale">Bottles from this region sell <marker>whole sale</marker> at about £72 a case.</example>
         </rule>
-        <rule id="UP_COMPOUNDS" name="up date (update)" default="temp_off">
+        <rule id="UP_COMPOUNDS" name="up date (update)">
             <antipattern>
                 <token inflected="yes" regexp="yes">catch|end|start|pile|cover|speed|turn|stay|jump|pull|push|tie|take|mix|sit|top|warm|run|pop|hang|line|stand|pick|back|hook|clean|look|make|follow|ramp|build|wave|clear|weld|kick|hold|shut|bring|set|free|wake|wound|divide|fill|roll|meet|come|light|open|match|rise|raise</token>
                 <token min="0" regexp="yes">it(self)?|that|this|th[oe]se</token>
@@ -12364,7 +12370,7 @@ USA
             <example>We ended up selling 131 boxes at the booth on Saturday.</example>
             <example>I am setting up time for Rick to interview these candidates next Monday.</example>
         </rule>
-        <rule id="DOWN_COMPOUND" name="up date (update)" default="temp_off">
+        <rule id="DOWN_COMPOUND" name="up date (update)">
             <antipattern case_sensitive="yes">
                 <token>Down</token>
                 <token>Beat</token>
@@ -22170,7 +22176,7 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
-        <rule id="JAVA_SCRIPT" name="JavaScript" default="temp_off">
+        <rule id="JAVA_SCRIPT" name="JavaScript">
             <pattern>
                 <token>java</token>
                 <token>script</token>
