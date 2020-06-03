@@ -42,6 +42,7 @@ USA
     <!ENTITY forms_ila "إلى|إلي|إلينا|إليك|إليكما|إليكم|إليكن|إليه|إليها|إليهما|إليهم|إليهن">
     <!ENTITY forms_ilayh "إلي|إلينا|إليك|إليكما|إليكم|إليكن|إليه|إليها|إليهما|إليهم|إليهن">
     <!ENTITY forms_3ala "على|علي|علينا|عليك|عليكما|عليكم|عليكن|عليه|عليها|عليهما|عليهم|عليهن">
+    <!ENTITY forms_3alayh "علينا|عليك|عليكما|عليكم|عليكن|عليه|عليها|عليهما|عليهم|عليهن">
     <!ENTITY forms_fi "في|فينا|فيك|فيكما|فيكم|فيكن|فيه|فيها|فيهما|فيهم|فيهن">
     <!ENTITY forms_fih "فينا|فيك|فيكما|فيكم|فيكن|فيه|فيها|فيهما|فيهم|فيهن">
     <!ENTITY forms_hawla "حول|حولنا|حولك|حولكما|حولكم|حولكن|حوله|حولها|حولهما|حولهم|حولهن">
@@ -3882,8 +3883,8 @@ END RULEGROUP Masdar errors
    <suggestion>تحيّر&nbsp;<match no="2"/></suggestion>
 -->
 
-     <suggestion><match no="1" postag="(V-1);(.*)" postag_replace="VW1;$2" postag_regexp="yes">حَارَ</match></suggestion>
-   <suggestion><match no="1" postag="(V-1);(.*)" postag_replace="V-0;$2" postag_regexp="yes">تَحَيَّرَ</match>&nbsp;<match no="2"/></suggestion>
+     <suggestion><match no="1" postag="(V51);(.*)" postag_replace="VW1;$2" postag_regexp="yes">حَارَ</match></suggestion>
+   <suggestion><match no="1" postag="(V51);(.*)" postag_replace="V50;$2" postag_regexp="yes">تَحَيَّرَ</match>&nbsp;<match no="2"/></suggestion>
 
 
 </message>
@@ -3937,7 +3938,7 @@ END RULEGROUP Masdar errors
             <token regexp="yes">ثلاث|أربع|خمس|ست|سبع|ثماني|تسع</token>
             <token regexp="yes">عشرة|عشر</token>
           </marker>
-          <token postag="N.*;M1.*;---" postag_regexp="yes"/>
+          <token postag="N.*;M1.*;--[-n]" postag_regexp="yes"/>
         </pattern>
         <message>أتقصد <suggestion><match no="1"/>ة عشر</suggestion>؟
 الأعداد المركبة من ثلاثة عشر إلى تسعة عشر، تكون مؤنثة الجزء الأول قبل الأسماء المذكرة.  قل ثلاثة عشر رجلا، ولا تقل ثلاث عشر رجلا.   
@@ -3951,7 +3952,7 @@ END RULEGROUP Masdar errors
             <token regexp="yes">ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة</token>
             <token>عشرة</token>
           </marker>
-          <token postag="N.*;M1.*;---" postag_regexp="yes"/>
+          <token postag="N.*;M1.*;--[-n]" postag_regexp="yes"/>
         </pattern>
         <message>أتقصد <suggestion><match no="1"/> عشر</suggestion>؟
 الأعداد المركبة من ثلاثة عشر إلى تسعة عشر، تكون مذكرة الجزء الثاني  قبل الأسماء المذكرة.    قل ثلاثة عشر رجلا، ولا تقل ثلاثة عشرة رجلا. 
@@ -3964,7 +3965,7 @@ END RULEGROUP Masdar errors
             <token regexp="yes">إحدى|اثنتي</token>
             <token regexp="yes">عشرة|عشر</token>
           </marker>
-          <token postag="N.*;M1.*;---" postag_regexp="yes"/>
+          <token postag="N.*;M1.*;--[-n]" postag_regexp="yes"/>
         </pattern>
         <message>أتقصد <suggestion>أحد عشر</suggestion>؟
 
@@ -3978,7 +3979,7 @@ END RULEGROUP Masdar errors
             <token regexp="yes">أحد|اثني</token>
             <token regexp="yes">عشرة|عشر</token>
           </marker>
-          <token postag="N.*;F1.*;---" postag_regexp="yes"/>
+          <token postag="N.*;F1.*;--[-n]" postag_regexp="yes"/>
         </pattern>
         <message>أتقصد <suggestion>إحدى عشرة</suggestion>؟
 
@@ -3992,7 +3993,7 @@ END RULEGROUP Masdar errors
             <token regexp="yes">اثنتا|اثنتي</token>
             <token regexp="yes">عشرة|عشر</token>
           </marker>
-          <token postag="N.*;M1.*;---" postag_regexp="yes"/>
+          <token postag="N.*;M1.*;--[-n]" postag_regexp="yes"/>
         </pattern>
         <message>أتقصد <suggestion>اثنا عشر</suggestion><suggestion>اثني عشر</suggestion>؟
 
@@ -4007,7 +4008,7 @@ END RULEGROUP Masdar errors
             <token regexp="yes">اثنا|اثني</token>
             <token regexp="yes">عشرة|عشر</token>
           </marker>
-          <token postag="N.*;F1.*;---" postag_regexp="yes"/>
+          <token postag="N.*;F1.*;--[-n]" postag_regexp="yes"/>
         </pattern>
         <message>أتقصد <suggestion>اثنتا عشرة</suggestion><suggestion>اثنتي عشرة</suggestion>؟
 
@@ -4021,7 +4022,7 @@ END RULEGROUP Masdar errors
             <token regexp="yes">ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة</token>
             <token regexp="yes">عشرة|عشر</token>
           </marker>
-          <token postag="N.*;F1.*;---" postag_regexp="yes"/>
+          <token postag="N.*;F1.*;--[-n]" postag_regexp="yes"/>
         </pattern>
         <message>أتقصد <suggestion><match no="1" regexp_match="ة" regexp_replace=""/> عشرة</suggestion>؟
 الأعداد المركبة من ثلاثة عشر إلى تسعة عشر، تكون مذكرة الجزء الأول قبل الأسماء المؤنثة.  قل ثلاث عشرة طالبة، ولا تقل ثلاثة عشر طالبة.    
@@ -4035,7 +4036,7 @@ END RULEGROUP Masdar errors
             <token regexp="yes">ثلاث|أربع|خمس|ست|سبع|ثماني|تسع</token>
             <token>عشر</token>
           </marker>
-          <token postag="N.*;F1.*;---" postag_regexp="yes"/>
+          <token postag="N.*;F1.*;--[-n]" postag_regexp="yes"/>
         </pattern>
         <message>أتقصد <suggestion><match no="1"/> عشرة</suggestion>؟
 الأعداد المركبة من ثلاثة عشر إلى تسعة عشر، تكون مؤنثة الجزء الثاني  قبل الأسماء المؤنثة.    قل ثلاث عشرة طالبة، ولا تقل ثلاث عشر طالبة.     
@@ -4048,7 +4049,7 @@ END RULEGROUP Masdar errors
             <token regexp="yes">واحدة|ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة</token>
             <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
           </marker>
-          <token postag="N.*;M1.*;---" postag_regexp="yes"/>
+          <token postag="N.*;M1.*;--[-n]" postag_regexp="yes"/>
         </pattern>
         <message>أتقصد <suggestion><match no="1" regexp_match="ة" regexp_replace=""/>&nbsp;<match no="2"/></suggestion>؟
 الأعداد المعطوفة من 21 إلى 99، تكون مطابقة في التأنيث والتذكير للمعدود.         
@@ -4062,7 +4063,7 @@ END RULEGROUP Masdar errors
             <token regexp="yes">اثنتان|اثنتين</token>
             <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
           </marker>
-          <token postag="N.*;M1.*;---" postag_regexp="yes"/>
+          <token postag="N.*;M1.*;--[-n]" postag_regexp="yes"/>
         </pattern>
         <message>أتقصد <suggestion>اثنان <match no="2" regexp_match="ين" regexp_replace="ون"/></suggestion><suggestion>اثنين <match no="2" regexp_match="ون" regexp_replace="ين"/></suggestion>؟
 الأعداد المعطوفة من 21 إلى 99، تكون مطابقة في التأنيث والتذكير للمعدود.         
@@ -4075,7 +4076,7 @@ END RULEGROUP Masdar errors
             <token regexp="yes">ثلاث|أربع|خمس|ست|سبع|تسع|ثماني|واحد</token>
             <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
           </marker>
-          <token postag="N.*;F1.*;---" postag_regexp="yes"/>
+          <token postag="N.*;F1.*;--[-n]" postag_regexp="yes"/>
         </pattern>
         <message>أتقصد <suggestion><match no="1"/>ة&nbsp;<match no="2"/></suggestion>؟
 الأعداد المعطوفة من 21 إلى 99، تكون مطابقة في التأنيث والتذكير للمعدود.         
@@ -4089,7 +4090,7 @@ END RULEGROUP Masdar errors
             <token regexp="yes">اثنان|اثنين</token>
             <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
           </marker>
-          <token postag="N.*;F1.*;---" postag_regexp="yes"/>
+          <token postag="N.*;F1.*;--[-n]" postag_regexp="yes"/>
         </pattern>
         <message>أتقصد <suggestion>اثنتان <match no="2" regexp_match="ين" regexp_replace="ون"/></suggestion><suggestion>اثنتين <match no="2" regexp_match="ون" regexp_replace="ين"/></suggestion>؟
 الأعداد المعطوفة من 21 إلى 99، تكون مطابقة في التأنيث والتذكير للمعدود.         
@@ -4102,7 +4103,7 @@ END RULEGROUP Masdar errors
             <token regexp="yes">[بكل](ثلاث|أربع|خمس|ست|سبع|تسع|ثماني|اثنين|واحد|ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة)</token>
             <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون</token>
           </marker>
-          <token postag="N.*;.?1.*;---" postag_regexp="yes"/>
+          <token postag="N.*;.?1.*;--[-n]" postag_regexp="yes"/>
         </pattern>
         <message>أتقصد <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="ون" regexp_replace="ين"/></suggestion>؟
 الأعداد المعطوفة من 21 إلى 99، تجر العقود بالياء والنون قل بخمسة وعشرين ولا تقل بخمسة وعشرون.       
@@ -4122,7 +4123,7 @@ END RULEGROUP Masdar errors
             <token regexp="yes">ثلاث|أربع|خمس|ست|سبع|تسع|ثماني|اثنين|واحد|ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة</token>
             <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون</token>
           </marker>
-          <token postag="N.*;.?1.*;---" postag_regexp="yes"/>
+          <token postag="N.*;.?1.*;--[-n]" postag_regexp="yes"/>
         </pattern>
         <message>أتقصد <suggestion><match no="2"/>&nbsp;<match no="3" regexp_match="ون" regexp_replace="ين"/></suggestion>؟
 الأعداد المعطوفة من 21 إلى 99، تجر العقود بالياء والنون قل  "في خمسة وعشرين" ولا تقل  "في خمسة وعشرون".         
@@ -4141,7 +4142,7 @@ END RULEGROUP Masdar errors
 ثلاث|أربع|خمس|ست|سبع|تسع|ثماني|اثنين|واحد|ثلاثة|أربعة|خمسة|ستة|سبعة|ثمانية|تسعة|اثنان</token>
           <token regexp="yes">وعشرون|وثلاثون|وأربعون|وخمسون|وستون|وسبعون|وثمانون|وتسعون|وعشرين|وثلاثين|وأربعين|وخمسين|وستين|وسبعين|وثمانين|وتسعين</token>
           <marker>
-            <token postag="N.*;.?3.*;---" postag_regexp="yes"/>
+            <token postag="N.*;.?3.*;--[-n]" postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>أتقصد <suggestion/>؟
@@ -6130,45 +6131,93 @@ END RULEGROUP Masdar errors
     <pattern>
     <marker>
       <token inflected="yes" skip="1">اِسْتَأْذَنَ</token>
-      <token regexp="yes">&forms_min;</token>
+      <token regexp="yes">&forms_minh;</token>
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-   <suggestion><match no="1" postag="(V.*)(-)" postag_replace="$1H">اِسْتَأْذَنَ</match><match no="2" regexp_match="من" regexp_replace=""/></suggestion>
-<!--
-   <suggestion><match no="1" postag="(V.*)(-)" postag_replace="$1H">اِسْتَأْذَنَ</match>+<match no="2" regexp_match="من" regexp_replace=""/></suggestion>-->
+   <suggestion><match no="1" postag="(V.*a.;..)(-)" postag_replace="$1H">اِسْتَأْذَنَ</match><match no="2" regexp_match="من" regexp_replace=""/></suggestion>
+
 </message>
-    <example correction="استأذنه|استأذننه" type="incorrect"><marker>استأذن منه</marker></example>
-    <example correction="استأذننه|استأذنوه" type="incorrect"><marker>استأذنوا منه</marker></example>
+    <example correction="استأذنه" type="incorrect"><marker>استأذن منه</marker></example>
+    <example correction="استأذنوه" type="incorrect"><marker>استأذنوا منه</marker></example>
+
+    <example type="correct"> استأذنه </example>
+  </rule>
+
+<!-- trans_376_AstAdhn_mn استأذن من -->
+  <rule id="trans_376_AstAdhn_mn_2" name="استأذن من">
+    <pattern>
+    <marker>
+      <token inflected="yes" skip="1">اِسْتَأْذَنَ</token>
+      <token>من</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="1"/></suggestion>
+
+</message>
+    <example correction="استأذن" type="incorrect"><marker>استأذن من</marker></example>
+    <example correction="استأذنوا" type="incorrect"><marker>استأذنوا من</marker></example>
 
     <example type="correct"> استأذنه </example>
   </rule>
   <!-- trans_384_AHtdha_b احتذى ب -->
   <rule id="trans_384_AHtdha_b" name="احتذى ب">
     <pattern>
-      <token inflected="yes" skip="1">اِحْتَذَى</token>
       <marker>
-        <token postag="N.*;.*;-B.?" postag_regexp="yes"/>
+      <token inflected="yes" skip="1">اِحْتَذَى</token>
+        <token postag="N.*;.*;-B." postag_regexp="yes"/>
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-    <suggestion><match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+    <suggestion><match no="1"/>&nbsp;<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
 </message>
-    <example correction="فلان" type="incorrect">احتذيت <marker>بفلان</marker> </example>
+    <example correction="احتذيت فلان" type="incorrect"><marker>احتذيت بفلان</marker> </example>
     <example type="correct"> احتذيت فلانا </example>
+  </rule>
+  <!-- trans_384_AHtdha_b احتذى ب -->
+  <rule id="trans_384_AHtdha_b_2" name="احتذى ب">
+    <pattern>
+      <marker>
+      <token inflected="yes" skip="1" postag="VW1.*" postag_regexp="yes">اِحْتَذَى</token>
+        <token regexp="yes">&forms_bih;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+   <suggestion><match no="1" postag="(VW1.*a.;..)(-)" postag_replace="$1H">اِحْتَذَى</match><match no="2" regexp_match="ب" regexp_replace=""/></suggestion>
+</message>
+    <example correction="احتذيته" type="incorrect"><marker>احتذيت به</marker> </example>
+    <example correction="احتذوه" type="incorrect"><marker>احتذوا به</marker> </example>
+
+    <example type="correct"> احتذيت فلانا </example>
+
   </rule>
  <!-- trans_386_AkhTA_En_AlSwAb أَخْطَأَ عنِ الصواب -->
   <rule id="trans_386_AkhTA_En_AlSwAb" name="أخطأ عن الصواب">
     <pattern>
+     <marker>
       <token inflected="yes" skip="1">أَخْطَأَ</token>
-      <marker>
-        <token regexp="yes">&forms_3an;</token>
+        <token regexp="yes">&forms_3anh;</token>
       </marker>
     </pattern>
     <message>يفضل أن يقال: أخطأ الصواب بدلا من أخطأ عن الصواب
-   <suggestion/>
+   <suggestion><match no="1" postag="(V41.*a.;..)(-)" postag_replace="$1H">أَخْطَأَ</match><match no="2" regexp_match="عن" regexp_replace=""/></suggestion>
 </message>
-    <example correction="" type="incorrect"> أخطأ <marker>عن</marker> الصواب </example>
+    <example correction="أخطأه" type="incorrect"><marker>أخطأ عنه</marker></example>
+    <example type="correct"> أخطأ الصواب </example>
+  </rule>
+ <!-- trans_386_AkhTA_En_AlSwAb أَخْطَأَ عنِ الصواب -->
+  <rule id="trans_386_AkhTA_En_AlSwAb_2" name="أخطأ عن الصواب">
+    <pattern>
+     <marker>
+      <token inflected="yes" skip="1">أَخْطَأَ</token>
+        <token>عن</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: أخطأ الصواب بدلا من أخطأ عن الصواب
+   <suggestion><match no="1"/></suggestion>
+</message>
+    <example correction="أخطأ" type="incorrect"><marker>أخطأ عن</marker> الصواب</example>
     <example type="correct"> أخطأ الصواب </example>
   </rule>
  <!-- trans_388_Akhlf_bwEdh أَخْلَفَ بوعدِهِ -->
@@ -6210,7 +6259,7 @@ END RULEGROUP Masdar errors
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-    <suggestion><match no="1" postag="(V.*)(-)" postag_replace="$1H">اِزْدَرَى</match><match no="2" regexp_match="ب" regexp_replace=""/></suggestion>
+    <suggestion><match no="1" postag="(V.*a.;..)(-)" postag_replace="$1H">اِزْدَرَى</match><match no="2" regexp_match="ب" regexp_replace=""/></suggestion>
 <!--    <suggestion><match no="1" postag="(V.*)(-)" postag_replace="$1H">اِزْدَرَى</match>+<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
 -->
 </message>
@@ -6306,6 +6355,24 @@ END RULEGROUP Masdar errors
     <example type="correct"> أعلن افتتاح الدورة </example>
 
   </rule>
+ <!-- trans_410_tHqq_mn_Alkhbr تَحَقَّقَ من الخبرِ -->
+  <rule id="trans_410_tHqq_mn_Alkhbr" name="تحقق من الخبر">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1" postag="V51.*a.;..-" postag_regexp="yes">تَحَقَّقَ</token>
+        <token regexp="yes">&forms_min;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+<!-- Verb Intransitive to transitive-->
+<suggestion><match no="1" postag="(V51.*a.;..)(-)" postag_replace="$1H" >تَحَقَّقَ</match><match no="2" regexp_match="من" regexp_replace=""/></suggestion>
+
+</message>
+    <example correction="تحقق" type="incorrect"><marker>تحقق فلان من</marker> الخبر  </example>
+    <example correction="تحققه" type="incorrect"><marker>تحقق فلان منه</marker> الخبر  </example>
+    <example type="correct"> تحقّقت الخبر </example>
+  </rule>
+  
 
  <!-- trans_409_tbE_l تبع ل -->
   <rule id="trans_409_tbE_l" name="تبع ل">
@@ -6316,7 +6383,7 @@ END RULEGROUP Masdar errors
       </marker>
     </pattern>
     <message>يفضل أن يقال: 
-      <suggestion><match no="1" postag="(V.*a.;..)(-)" postag_replace="$1H" >تَبِعَ</match><match no="2" regexp_match="^ل" regexp_replace=""/></suggestion>
+      <suggestion><match no="1" postag="(V3.*a.;..)(-)" postag_replace="$1H" >تَبِعَ</match><match no="2" regexp_match="^ل" regexp_replace=""/></suggestion>
 </message>
     <example correction="تتبعها" type="incorrect"> هذه الإدارة <marker>تتبع لها</marker> فروعكم  </example>
     <example correction="يتبعونها" type="incorrect"> هذه الإدارة <marker>يتبعون لها</marker> فروعكم  </example>
@@ -6341,11 +6408,117 @@ END RULEGROUP Masdar errors
  <suggestion><match no="1"/>&nbsp;<match no="2" postag="(N.*;)-L(.)" postag_replace="$1--$2" postag_regexp="yes"/></suggestion>
 
 </message>
-    <example correction="تتبع الوزارة" type="incorrect"> هذه الإدارة <marker>تتبع للوزارة</marker> فروعكم  </example>
-    <example correction="تتبع وزارة" type="incorrect"> هذه الإدارة <marker>تتبع لوزارة</marker> فروعكم  </example>
+    <example correction="تتبع الوزارة|تتبع الوزاري" type="incorrect"> هذه الإدارة <marker>تتبع للوزارة</marker> فروعكم  </example>
+    <example correction="تتبع وزارة|تتبع وزاري"  type="incorrect"> هذه الإدارة <marker>تتبع لوزارة</marker> فروعكم  </example>
     <example type="correct"> هذه الإدارة تتبع الوزارة فروعكم </example>
   </rule>
- 
+
+ <!-- trans_412_tdAwl_Alqwm_fy تداول القومُ في -->
+  <rule id="trans_412_tdAwl_Alqwm_fy" name="تداول القوم في">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1" postag="V5.*-" postag_regexp="yes">تَدَاوَلَ</token>
+        <token regexp="yes">&forms_fi;</token>
+      </marker>
+    </pattern>
+    <message>(تداولوا الشيءَ): أخذه هؤلاء مرة، وأولئك أخرى 
+<suggestion><match no="1" postag="(V5.*a.;..)(-)" postag_replace="$1H">تَدَاوَلَ</match><match no="2" regexp_match="في" regexp_replace=""/></suggestion>
+</message>
+    <example correction="تداول" type="incorrect"><marker>تداول القوم في</marker> الشيء  </example>
+    <example correction="تداولوه" type="incorrect"><marker>تداولوا فيه</marker></example>
+
+    <example type="correct"> تداولنا القضية </example>
+  </rule>
+  <!-- trans_416_trwq_l تَرُوقُ ل -->
+  <rule id="trans_416_trwq_l" name="تروق ل">
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="VW.*" postag_regexp="yes" skip="1">رَاقَ</token>
+        <token regexp="yes">&forms_lih;</token>
+      </marker>
+    </pattern>
+    <message>الفعل (راق) يتعدى بنفسه 
+<!-- Verb Intransitive to transitive-->
+<suggestion><match no="1" postag="(VW.*a.;..)(-)" postag_replace="$1H">رَاقَ</match><match no="2" regexp_match="ل" regexp_replace=""/></suggestion>
+
+<!-- Verb Intransitive to transitive, when the preposition letter is attached to a noun
+<suggestion><match no="1" postag="(V.*a.;..)(-)" postag_replace="$1H">رَاقَ</match>&nbsp;<match no="2" regexp_match="^ب" regexp_replace=""/></suggestion>
+-->
+</message>
+    <example correction="تروقهما" type="incorrect"> كتب <marker>تروق لهما</marker>  </example>
+    <example type="correct"> راقت القصة الطفل </example>
+  </rule>
+
+  <!-- trans_416_trwq_l تَرُوقُ ل -->
+  <rule id="trans_416_trwq_l_2" name="تروق ل">
+    <pattern>
+      <marker>
+        <token inflected="yes" postag="VW.*" postag_regexp="yes" skip="1">رَاقَ</token>
+        <token postag="N.*;-L." postag_regexp="yes"/>
+<!--حالة الاسم المجرور باللام-->
+
+      </marker>
+    </pattern>
+    <message>الفعل (راق) يتعدى بنفسه 
+<!-- Verb Intransitive to transitive, when the preposition letter is attached to a noun-->
+<suggestion><match no="1"/>&nbsp;<match no="2" postag="(N.*;)-L(.)" postag_replace="$1--$2" postag_regexp="yes"/></suggestion>
+
+</message>
+    <example correction="تروق القارئ|تروق القارئي" type="incorrect"> كتب <marker>تروق للقارئ</marker>  </example>
+    <example type="correct"> راقت القصة الطفل </example>
+  </rule>
+   <!-- trans_421_tEwd_Ela تَعَوَّدَ على -->
+  <rule id="trans_421_tEwd_Ela" name="تعود على">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1" postag="V51.*" postag_regexp="yes">تَعَوَّدَ</token>
+        <token regexp="yes">&forms_3alayh;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+<!-- Verb Intransitive to transitive -->
+<suggestion><match no="1" postag="(V51.*a.;..)(-)" postag_replace="$1H">تَعَوَّدَ</match><match no="2" regexp_match="على|علي" regexp_replace=""/></suggestion>
+
+
+</message>
+    <example correction="تعودوها" type="incorrect">القراءة <marker>تعودوا عليها</marker>   </example>
+    <example type="correct"> تعوّدت البنت القراءة </example>
+
+  </rule>
+  <!-- trans_421_tEwd_Ela تَعَوَّدَ على -->
+  <rule id="trans_421_tEwd_Ela_2" name="تعود على">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1" postag="V51.*" postag_regexp="yes">تَعَوَّدَ</token>
+        <token>على</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+<!-- Verb Intransitive to transitive -->
+<suggestion><match no="1"/></suggestion>
+</message>
+    <example correction="تعود" type="incorrect"><marker>تعود على</marker> القراءة  </example>
+    <example correction="تعودوا" type="incorrect"><marker>تعودوا على</marker> القراءة  </example>
+    <example type="correct"> تعوّدت البنت القراءة </example>
+
+  </rule>
+  <!-- trans_434_khwl_2lyh_AlAmr خَوَّلَ إليه الأمرَ -->
+  <rule id="trans_434_khwl_2lyh_AlAmr" name="خول إليه الأمر">
+    <pattern>
+      <marker>
+        <token inflected="yes" skip="1" postag="V4.*" postag_regexp="yes">خَوَّلَ</token>
+        <token regexp="yes">&forms_ila;</token>
+      </marker>
+    </pattern>
+    <message>يفضل أن يقال: 
+<!-- Verb Intransitive to transitive -->
+<suggestion><match no="1" postag="(V4.*a.;..)(-)" postag_replace="$1H">خَوَّلَ</match><match no="2" regexp_match="إلى|إلي" regexp_replace=""/></suggestion>
+</message>
+    <example correction="خوله" type="incorrect"><marker>خول إليه</marker> الأمر  </example>
+    <example correction="يخولهما" type="incorrect"><marker>يخول إليهما</marker> الأمر  </example>
+    <example type="correct"> خوّل الشعب الرئيس </example>
+  </rule>
+
  <!-- TODO trans I2D-->
     </rulegroup>
 <!--
@@ -7408,31 +7581,7 @@ END RULEGROUP Masdar errors
     <example type="correct"> قذف بالحجارة </example>
 
   </rule>
- <!-- trans_470_qTnt_Albld قطنتُ البلدَ -->
-  <rule id="trans_470_qTnt_Albld" name="قطنت البلد">
-    <antipattern>
-      <token inflected="yes" postag="V.*" postag_regexp="yes" skip="1">قَطَنَ</token>
-        <token postag="N.*;.*;-B." postag_regexp="yes"/>
-    </antipattern>
-    <antipattern>
-      <token inflected="yes" postag="V.*" postag_regexp="yes" skip="1">قَطَنَ</token>
-        <token regexp="yes">&forms_fi;</token>
-    </antipattern>
-    <antipattern>
-      <token inflected="yes" postag="V.*" postag_regexp="yes" skip="1">قَطَنَ</token>
-      <token regexp="yes">&forms_bih;</token>
-    </antipattern>
-    <pattern>
-      <token inflected="yes" postag="V-1.*" postag_regexp="yes" skip="1">قَطَنَ</token>
-    </pattern>
-    <message>يفضل أن يقال: 
-  <suggestion><match no="1"  postag="(V-1.*)(.)" postag_replace="$1-" postag_regexp="yes">قَطَنَ</match>&nbsp;في<match no="1"  regexp_match="(.*)((&verb_encletics;)$)|(.*)((&verb_encletics;)?$)" regexp_replace="$2"/></suggestion>
-</message>
-    <example correction="قطنت في" type="incorrect"><marker>قطنت</marker> البلد </example>
-    <example correction="يقطن فيه" type="incorrect">الوطن الذي <marker>يقطنه</marker> البلد </example>
 
-    <example type="correct"> قطنت في البلد </example>
-  </rule>
  
  <!-- TODO trans D2I-->
     </rulegroup>
