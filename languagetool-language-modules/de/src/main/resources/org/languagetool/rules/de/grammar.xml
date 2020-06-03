@@ -9151,6 +9151,47 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="DIES_BEZUEGLICH" name="dies bezüglich (diesbezüglich)" default="temp_off">
+            <pattern>
+                <token>dies</token>
+                <token regexp="yes">bez(ü|ue)glich</token>
+            </pattern>
+            <message>Das Adjektiv <suggestion>diesbezüglich</suggestion> wird zusammengeschrieben.</message>
+            <url>https://www.duden.de/rechtschreibung/diesbezueglich</url>
+            <example correction="diesbezüglich">Er konnte <marker>dies bezüglich</marker> nichts sagen.</example>
+        </rule>
+        <rule id="LANDING_PAGE" name="Landingpage">
+            <pattern>
+                <token>Landing</token>
+                <token regexp="yes">Pages?</token>
+            </pattern>
+            <message>Dieser Anglizismus wird zusammengeschrieben.</message>
+            <suggestion>Landing-<match no="2" case_conversion="startupper" /></suggestion>
+            <suggestion>Landing<match no="2" case_conversion="alllower" /></suggestion>
+            <url>https://www.duden.de/suchen/dudenonline/Landingpage</url>
+            <example correction="Landing-Page|Landingpage">Sie hat, dank Werbung, viele Besucher auf ihrer <marker>Landing Page</marker>.</example>
+        </rule>
+        <rule id="ONLINE_MARKETING" name="Online-Marketing">
+            <pattern case_sensitive="yes">
+                <token regexp="yes">Online|Offline|Guerilla</token>
+                <token regexp="yes">Marketings?</token>
+            </pattern>
+            <message>Dieses Substantiv wird mit Bindestrich geschrieben.</message>
+            <suggestion>\1-\2</suggestion>
+            <url>https://de.wikipedia.org/wiki/Online-Marketing</url>
+            <example correction="Online-Marketing">Sie konnten die Verkäufe durch <marker>Online Marketing</marker> steigern.</example>
+        </rule>
+        <rule id="HOME_OFFICE" name="Home-Office">
+            <pattern>
+                <token>Home</token>
+                <token regexp="yes">Offices?</token>
+            </pattern>
+            <message>Der Anglizismus, der das Arbeiten von Zuhause beschreibt, wird zusammengeschrieben.</message>
+            <suggestion>Home<match no="2" case_conversion="alllower" /></suggestion>
+            <suggestion>Home-<match no="2" case_conversion="startupper" /></suggestion>
+            <url>https://www.duden.de/rechtschreibung/Homeoffice</url>
+            <example correction="Homeoffice|Home-Office">Wegen der Corona-Pandemie mussten alle Mitarbeiter aus dem <marker>Home Office</marker> arbeiten.</example>
+        </rule>
          <rule id="FUGEN_S_ZUSAMMENSCHREIBUNG" name="Wirtschafts Weisen (Wirtschschaftsweisen)" default="temp_off">
             <pattern case_sensitive="yes">
                 <token postag="UNKNOWN" regexp="yes">[A-ZÜÄÖ][a-zäöüß]{2,}(ung|schaft|sicht|heit|ling|keit|tum|ion|tät)s</token>
@@ -43697,6 +43738,23 @@ Andere Projekte</example>
         </rulegroup>
     </category>
     <category id="EMPFOHLENE_RECHTSCHREIBUNG" name="Empfohlene/Modernere Rechtschreibung" type="style">
+        <rulegroup id="BZGL_ABK" name="Schreibweise der Abkürzung 'bzgl.'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>bezgl</token>
+                    <token spacebefore="no">.</token>
+                </pattern>
+                <message>Die empfohlene Abkürzung für "bezüglich" ist <suggestion>bzgl.</suggestion>.</message>
+                <example correction="bzgl.">Er wollte nichts sagen <marker>bezgl.</marker> ihrer Frage.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>bezgl</token>
+                </pattern>
+                <message>Die empfohlene Abkürzung für "bezüglich" ist <suggestion>bzgl.</suggestion>.</message>
+                <example correction="bzgl.">Er wollte nichts sagen <marker>bezgl</marker> ihrer Frage.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="AB_TEST" name="A/B-Test">
             <url>https://de.wikipedia.org/wiki/A/B-Test</url>
             <rule>
