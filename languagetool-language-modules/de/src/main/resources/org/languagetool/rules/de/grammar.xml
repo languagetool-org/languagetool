@@ -35829,10 +35829,29 @@ Andere Projekte</example>
         </rulegroup>
         <rulegroup id="PRP_ADJ_AGREEMENT" name="falscher Kasus/Numerus/Genus des Adjektivs">
             <rule>
+                <antipattern>
+                    <token>Königlich</token>
+                    <token inflected="yes" regexp="yes">dänische|niederländisch</token>
+                    <token inflected="yes">Kunstakademie|akademie</token>
+                </antipattern>
+                <antipattern>
+                    <token>National</token>
+                    <token>Institute</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="PRP:LOK+TMP+MOD:DAT+AKK"/>
+                    <token postag="ART:.*" postag_regexp="yes"/>
+                    <token postag="ADJ:PRD:GRU" regexp="yes">[a-z].+g|hauptsächlich</token>
+                </antipattern>
                 <pattern>
                     <token postag="PRP:LOK+TMP+MOD:DAT+AKK"/>
                     <token postag="ART:.*" postag_regexp="yes"/>
-                    <marker><token postag="ADJ:PRD:GRU"><exception>wenig</exception></token></marker>
+                    <marker>
+                        <token postag="ADJ:PRD:GRU">
+                            <exception regexp="yes">wenig|smart</exception>
+                            <exception postag="SUB:.+|ADV:.+" postag_regexp="yes"/>
+                        </token>
+                    </marker>
                     <token postag="SUB:.*" postag_regexp="yes"/>
                 </pattern>
                 <message>Prüfen Sie die Übereinstimmung von Kasus, Numerus und Genus zwischen '\3' und '\4'.</message>
@@ -35841,6 +35860,8 @@ Andere Projekte</example>
                 <suggestion>\3es</suggestion>
                 <example correction="rote|roten|rotes">Er wartet an der <marker>rot</marker> Ampel.</example>
                 <example correction="große|großen|großes">Er wohnt in einem <marker>groß</marker> Haus.</example>
+                <example>Die teuersten Häuser an einer Amsterdamer Gracht kosteten rund 10.000 Gulden.</example>
+                <example>1652 verließ sie im Alter von 72 Jahren das Schloss, in dem ständig Soldaten einquartiert waren.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SUBJECT_VERB_AGREEMENT" name="fehlende Übereinstimmung zwischen Subjekt und Prädikat">
