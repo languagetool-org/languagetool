@@ -42609,34 +42609,51 @@ Andere Projekte</example>
                     <token>?</token>
                 </antipattern>
                 <antipattern>
+                    <token postag="SENT_START"/>
+                    <token postag="ADV:.+" postag_regexp="yes"/>
+                    <token>richtig</token>
+                </antipattern>
+                <antipattern>
                     <token inflected="yes">sein</token>
                     <token skip="-1"></token>
                     <token>richtig</token>
                 </antipattern>
+                <antipattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes"/>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token skip="-1"></token>
+                    <token>richtig</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">,|-|–|„|»|«|"|;|…|\(|:|=|\(</token>
+                    <token min="0"></token>
+                    <token  regexp="yes">ja|nein|oder|richtig</token>
+                </antipattern>
                 <pattern>
                     <marker>
-                    <token>
-                        <exception regexp="yes">,|-|–|„|»|«|"|;|…|\(|:|=|\(</exception>
-                        <exception postag="SENT_START"/>
-                    </token>
-                    <token  regexp="yes">ja|nein|oder|richtig</token>
-                </marker>
+                        <token>
+                            <exception regexp="yes">,|-|–|„|»|«|"|;|…|\(|:|=|\(</exception>
+                            <exception postag="SENT_START"/>
+                        </token>
+                        <token  regexp="yes">ja|nein|oder|richtig</token>
+                    </marker>
                 <token>?</token>
-            </pattern>
-            <message>Ein Komma vor '\2' setzen?</message>
-            <suggestion>\1, \2</suggestion>
-            <example correction='morgen, oder'>Du kommst <marker>morgen oder</marker>?</example>
-            <example correction='melden, richtig'>Eine Kündigung muss ich bis 31. Januar 2021 bei dir <marker>melden richtig</marker>?</example>
-            <example correction='blöd, oder'>Gar nicht so <marker>blöd oder</marker>?</example>
-            <example>Ja oder nein?</example>
-            <example>Welches ist richtig?</example>
-            <example>Tickst du noch ganz richtig?</example>
-            <example>Welche Antworten waren richtig?</example>
-            <example>Doch was davon ist richtig?</example>
-            <example>Liege ich da richtig?</example>
-            <example>Hey Peter, war das ein Ja?</example>
-            <example>Aber verstehe ich das richtig?</example>
-        </rule>
+                </pattern>
+                <message>Ein Komma vor '\2' setzen?</message>
+                <suggestion>\1, \2</suggestion>
+                <example correction='morgen, oder'>Du kommst <marker>morgen oder</marker>?</example>
+                <example correction='melden, richtig'>Eine Kündigung muss ich bis 31. Januar 2021 bei dir <marker>melden richtig</marker>?</example>
+                <example correction='blöd, oder'>Gar nicht so <marker>blöd oder</marker>?</example>
+                <example>Ja oder nein?</example>
+                <example>Welches ist richtig?</example>
+                <example>Tickst du noch ganz richtig?</example>
+                <example>Welche Antworten waren richtig?</example>
+                <example>Doch was davon ist richtig?</example>
+                <example>Liege ich da richtig?</example>
+                <example>Hey Peter, war das ein Ja?</example>
+                <example>Aber verstehe ich das richtig?</example>
+                <example>Geht deine Uhr richtig?</example>
+            </rule>
             <rule>
                 <antipattern>
                     <token postag="SENT_START"/>
