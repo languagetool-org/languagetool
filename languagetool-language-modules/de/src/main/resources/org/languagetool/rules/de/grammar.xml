@@ -37741,12 +37741,77 @@ Andere Projekte</example>
                     <token postag='VER:INF:.+' postag_regexp='yes'/>
                     <token>,</token>
                 </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>die</token>
+                    <token postag="ADJ:.+:FEM:.+" postag_regexp="yes" min="0"/>
+                    <token>„</token>
+                    <token postag="SUB:.+:FEM" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>die</token>
+                    <token postag="ADJ:.+:FEM:.+" postag_regexp="yes" max ="2" min="0"/>
+                    <token postag="SUB:.+:FEM|SUB:.+:PLU:.+" postag_regexp="yes"/>
+                </antipattern>
+                  <antipattern>
+                    <token>,</token>
+                    <token>das</token>
+                    <token postag="ADJ:.+:NEU:.+" postag_regexp="yes" max ="2" min="0"/>
+                    <token postag="UNKNOWN" min="0"/>
+                    <token postag="SUB:.+:NEU" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                     <token>,</token>
+                    <token>das</token>
+                    <token postag="SUB:.+:NEU" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>das</token>
+                    <token postag="ADJ:.+:NEU:.+|PRP:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token>das</token>
+                    <token postag="VER:.+" postag_regexp="yes"/>
+                    <token>,</token>
+                </antipattern>
+                <antipattern>
+                    <token>das</token>
+                    <token inflected="yes">sein</token>
+                    <token postag="ART:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="PRP:.+|UNKNOWN" postag_regexp="yes"/>
+                    <token postag="ART:.+" postag_regexp="yes"/>
+                    <token postag="SUB:(DAT|AKK):.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>die</token>
+                    <token min="0"/>
+                    <token>beide</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="SUB:NOM:.+" postag_regexp="yes"/>
+                    <token regexp="yes">und|oder</token>
+                    <token postag='ART:.+:.+:SIN:MAS' postag_regexp='yes'/>
+                    <token postag='SUB:.+:SIN:MAS' postag_regexp='yes'/>
+                    <token>,</token>
+                    <token>die</token>
+                </antipattern>
                 <pattern>
-                    <token postag='ART:.+:.+:SIN:MAS' postag_regexp='yes'><exception>eines</exception></token>
-                    <token postag='SUB:.+:SIN:MAS' postag_regexp='yes'><exception postag='SUB:.+:SIN:NEU' postag_regexp='yes'/></token>
+                    <token postag='ART:.+:.+:SIN:MAS' postag_regexp='yes'><exception regexp="yes">eines|des</exception></token>
+                    <token postag='SUB:.+:SIN:MAS' postag_regexp='yes'>
+                        <exception postag='SUB:.+:SIN:NEU|SUB:GEN:.+' postag_regexp='yes'/>
+                        <exception regexp="yes">[a-z].+teil</exception>
+                    </token>
                     <token>,</token>
                     <marker>
-                        <token regexp='yes'>d(ie|as)</token>
+                        <token regexp='yes'>d(ie|as)
+                            <exception scope="next" postag="UNKNOWN"></exception>
+                            <exception scope="next" regexp="yes">[a-z].+car</exception>
+                        </token>
                     </marker>
                     <token skip='-1'/>
                     <token postag='(VER:MOD:2:SIN:.+|VER:3:SIN:.+)' postag_regexp='yes'/>
@@ -37755,14 +37820,19 @@ Andere Projekte</example>
                 <example correction='der'>Kennst du den Mann, <marker>das</marker> da steht?</example>
                 <example correction='der'>Ich habe einen Wagen, <marker>die</marker> sehr wenig verbraucht.</example>
                 <example>Der Bundeskanzler, die Gesetze sind da eindeutig, wird vom Parlament gewählt.</example>
-                <example>Das war der Anlass, die heutige, vereinheitlichte Definition einzuführen.</example>
                 <example>Erfahrung ist die Summe der Fehler, die man gemacht hat.</example>
-                <example>Einen Krieg mit den Goten, die bereits sein Vorgänger entscheidend geschlagen hatte, konnte er relativ schnell zu Ende führen.</example>
                 <example>RISC ist eine Abkürzung aus dem IT-Bereich, die eine Bauart von Prozessoren bezeichnet.</example>
+                <example>Das war der Anlass, die heutige, vereinheitlichte Definition einzuführen.</example>
+                <example>Einen Krieg mit den Goten, die bereits sein Vorgänger entscheidend geschlagen hatte, konnte er relativ schnell zu Ende führen.</example>
                 <example>Er zeigte ihn den Beamten, die sich wunderten, dass er gekommen war.</example>
                 <example>Sie identifizierten ein Bauteil, das dort hergestellt wurde.</example>
                 <example>Das Amt eines Staatspräsidenten, das einige Landesverfassungen verankerten, wurde für beendet erklärt.</example>
                 <example>Gott gebe mir die Gelassenheit, die Dinge hinzunehmen, die ich nicht ändern kann, den Mut, die Dinge zu ändern, die ich ändern kann, und die Weisheit, das eine vom anderen zu unterscheiden.</example>
+                <example>Hier eine unvollständige Liste mit dem Pflanzenteil, das überwiegend genutzt wird.</example>
+                <example>Der Himalaya, die Berggegenden des Nordostens sowie trockenere Regionen weisen eine geringe Besiedlungsdichte auf.</example>
+                <example>1436 war die Kuppel des Doms, die als achteckiger Doppelschalbau gebaut wurde, fertiggestellt.</example>
+                <example>Das ist die Burg Hohenberg auf dem Turmberg, die nicht wieder aufgebaut wurde.</example>
+                <example>1790 erhielt die Abtei noch einmal den Blutbann, das heißt, die gesamte Gerichtsbarkeit lag beim Abt und seinem Konvent.</example>
             </rule>
         </rulegroup>
     </category>
