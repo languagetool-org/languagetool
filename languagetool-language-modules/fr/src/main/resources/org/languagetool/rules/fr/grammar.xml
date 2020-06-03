@@ -29787,7 +29787,7 @@ though, and has since been slightly modified)-->
         <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
         <example correction="20 h 30|20:30">Il est <marker>20h30</marker>.</example>
       </rule>
-      <rule>
+      <!--<rule>
         <pattern><token regexp="yes">(\d+)h-(\d+)h</token></pattern>
         <message>La lettre h doit être espacée dans les heures abrégées.</message>
         <suggestion><match no="1" regexp_match="(\d+)[hH]\-(\d+)[hH]" regexp_replace="$1 h - $2 h"/></suggestion>
@@ -29818,7 +29818,7 @@ though, and has since been slightly modified)-->
         <suggestion><match no="1" regexp_match="(\d+)[hH](\d{2})\-(\d+)[hH]" regexp_replace="$1:$2 - $3:00"/></suggestion>
         <url>https://fr.wikipedia.org/wiki/Heure#Typographie</url>
         <example correction="18 h 30 - 21 h|18:30 - 21:00"><marker>18h30-21h</marker></example>
-      </rule>
+      </rule>-->
       <rule>
         <!-- <pattern><token regexp="yes">(?:1?\d|2[0-4])h</token></pattern> -->
         <pattern><token regexp="yes">(\d+)h</token></pattern>
@@ -30034,12 +30034,11 @@ though, and has since been slightly modified)-->
     <rule id="BRULEMENT_DESTOMAC" name="brûlement d’estomac">
       <pattern>
         <token regexp="yes">br[ûu]lements?</token>
-        <token>d</token>
-        <token regexp="yes">['´‘’′]</token>
+        <token>d'</token>
         <token regexp="yes">estomacs?</token>
       </pattern>
-      <message>« Brûlement d’estomac » est un archaïsme. Pour être bien compris de tous, Employez <suggestion>brûlure d\3estomac</suggestion>.</message>
-      <example correction="brûlure d’estomac"><marker>brûlement d’estomac</marker></example>
+      <message>« Brûlement d’estomac » est un archaïsme. Pour être bien compris de tous, Employez <suggestion>brûlure d'estomac</suggestion>.</message>
+      <example correction="brûlure d'estomac"><marker>brûlement d’estomac</marker></example>
     </rule>
     <rule id="DOUBLER_UNE_CLASSE" name="doubler une classe">
       <pattern>
@@ -30284,21 +30283,20 @@ though, and has since been slightly modified)-->
         <token>affaire</token>
       </pattern>
       <message>Employez <suggestion>\1 \2\3s</suggestion>, car il s’agit du chiffre des affaires.</message>
-      <example correction="chiffre d’affaires">Le <marker>chiffre d’affaire</marker> de l’entreprise.</example>
+      <example correction="chiffre d'affaires">Le <marker>chiffre d’affaire</marker> de l’entreprise.</example>
       <example>Le chiffre d’affaires de l’entreprise.</example>
     </rule>
     <rule id="S_EN_SUIVRE" name="s’en suivre au lieu de s’ensuivre">
       <pattern>
-        <token>s</token>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token>s'</token>
         <token>en</token>
         <and>
           <token inflected="yes">suivre</token>
           <token postag="V .*" postag_regexp="yes"/>
         </and>
       </pattern>
-      <message>« \1\2\3 \4 » est incorrecte. Employez <suggestion>\1\2en\4</suggestion>.</message>
-      <example correction="s’ensuivit">La défaite <marker>s’en suivit</marker>.</example>
+      <message>« \1\2 \3 » est incorrecte. Employez <suggestion>\1\2\3</suggestion>.</message>
+      <example correction="s'ensuivit">La défaite <marker>s’en suivit</marker>.</example>
       <example>La défaite s’ensuivit.</example>
     </rule>
     <!--The following rules were created by Hugo Voisard-->
@@ -30342,7 +30340,9 @@ though, and has since been slightly modified)-->
     <rule id="LHYDRO-QUEBEC" name="l’Hydro-Québec">
       <pattern>
         <token>l'</token>
-        <token regexp="yes">hydro[-‑‐]québec</token>
+        <token>hydro</token>
+        <token>-</token>
+        <token>québec</token>
       </pattern>
       <message>« L’Hydro-Québec » est une expression fautive. Employez <suggestion>Hydro-Québec</suggestion>.</message>
       <example correction="Hydro-Québec"><marker>l’Hydro-Québec</marker></example>
@@ -30355,8 +30355,8 @@ though, and has since been slightly modified)-->
         <token regexp="yes">ans?</token>
         <token regexp="yes">40|quarante</token>
       </pattern>
-      <message>« Comme dans l’an 40 » est une expression fautive. Employez <suggestion>comme de l\4an 40</suggestion> (se moquer de quelque chose).</message>
-      <example correction="comme de l’an 40"><marker>comme dans l’an 40</marker></example>
+      <message>« Comme dans l’an 40 » est une expression fautive. Employez <suggestion>comme de l'an 40</suggestion> (se moquer de quelque chose).</message>
+      <example correction="comme de l'an 40"><marker>comme dans l’an 40</marker></example>
     </rule>
     <rule id="IL_ME_FAIT_PLAISIR_PLAISIR" name="il me fait plaisir de">
       <pattern>
@@ -30376,8 +30376,8 @@ though, and has since been slightly modified)-->
         <token inflected="yes">de</token>
         <token regexp="yes">inaptitudes?</token>
       </pattern>
-      <message>« Perdre des points d’inaptitude » est une expression fautive. Employez <suggestion>accumuler des points d\4inaptitude</suggestion>.</message>
-      <example correction="accumuler des points d’inaptitude"><marker>perdre des points d’inaptitude</marker></example>
+      <message>« Perdre des points d’inaptitude » est une expression fautive. Employez <suggestion>accumuler des points d'inaptitude</suggestion>.</message>
+      <example correction="accumuler des points d'inaptitude"><marker>perdre des points d’inaptitude</marker></example>
     </rule>
     <rule id="PAYER_RUBIS_SUR_LONGLE" name="payer rubis sur l’ongle">
       <pattern>
@@ -30387,8 +30387,8 @@ though, and has since been slightly modified)-->
         <token>l'</token>
         <token regexp="yes">ondes?</token>
       </pattern>
-      <message>« Payer rubis sur l’ongle » est une expression fautive. Employez <suggestion>payer rubis sur l\5ongle</suggestion>.</message>
-      <example correction="payer rubis sur l’ongle"><marker>payer rubis sur l’onde</marker></example>
+      <message>« Payer rubis sur l’ongle » est une expression fautive. Employez <suggestion>payer rubis sur l'ongle</suggestion>.</message>
+      <example correction="payer rubis sur l'ongle"><marker>payer rubis sur l’onde</marker></example>
     </rule>
     <rule id="LEVEE_DU_RIDEAU" name="levée de rideau">
       <pattern>
@@ -30434,14 +30434,13 @@ though, and has since been slightly modified)-->
     <rule id="LOIN_SEN_FAUT" name="loin s’en faut">
       <pattern>
         <token>loin</token>
-        <token>s</token>
-        <token regexp="yes">[’´'‛′‘]</token>
+        <token>s'</token>
         <token>en</token>
         <token inflected="yes">falloir</token>
       </pattern>
-      <message>« Loin s’en faut » est une expression fautive. Employez <suggestion>tant s\3en faut</suggestion>, <suggestion>loin de là</suggestion>.</message>
+      <message>« Loin s’en faut » est une expression fautive. Employez <suggestion>tant s'en faut</suggestion>, <suggestion>loin de là</suggestion>.</message>
       <url>http://www.academie-francaise.fr/loin-sen-faut</url>
-      <example correction="tant s’en faut|loin de là"><marker>loin s’en faut</marker></example>
+      <example correction="tant s'en faut|loin de là"><marker>loin s’en faut</marker></example>
       <example><marker>loin de là</marker></example>
     </rule>
     <rule id="MOUSSER_UNE_CANDIDATURE" name="mousser une candidature">
@@ -30487,9 +30486,11 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">pires?[-‑‐]allers?</token>
+          <token regexp="yes">pires?</token>
+          <token>-</token>
+          <token regexp="yes">allers?</token>
         </pattern>
-        <message>« Pire-aller » est une expression fautive. Employez <suggestion>pis-aller</suggestion>.</message>
+        <message>« Pire aller » est une expression fautive. Employez <suggestion>pis-aller</suggestion>.</message>
         <example correction="pis-aller"><marker>pire-aller</marker></example>
       </rule>
     </rulegroup>
@@ -30504,8 +30505,7 @@ though, and has since been slightly modified)-->
     <rulegroup id="SACCAPARER_DE" name="s’accaparer de">
       <rule>
         <pattern>
-          <token regexp="yes">se|t|te|s|nous|vous|me|m</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token regexp="yes">se|t'|te|s'|nous|vous|me|m'</token>
           <token inflected="yes" skip="3">accaparer</token>
           <token regexp="yes">de|d|du</token>
         </pattern>
@@ -30523,18 +30523,20 @@ though, and has since been slightly modified)-->
         <example><marker>accaparer quelque chose</marker></example>
       </rule>
     </rulegroup>
-    <rule id="ASSIS-TOI" name="assis-toi">
+    <rule id="ASSIS-TOI" name="assis-toi"> <!-- TODO: more general agreement rule? -->
       <pattern>
-        <token regexp="yes">assis[-‑‐]toi</token>
+        <token>assis</token>
+        <token>-toi</token>
       </pattern>
       <message>« Assis-toi » est une expression fautive. Employez <suggestion>assieds-toi</suggestion>, <suggestion>assois-toi</suggestion>.</message>
       <url>http://www.academie-francaise.fr/assis-toi</url>
       <example correction="assieds-toi|assois-toi"><marker>assis-toi</marker></example>
       <example><marker>assieds-toi</marker>.</example>
     </rule>
-    <rule id="ASSISEZ-VOUS" name="assisez-vous">
+    <rule id="ASSISEZ-VOUS" name="assisez-vous">  <!-- TODO: more general agreement rule? -->
       <pattern>
-        <token regexp="yes">assisez[-‑‐]vous</token>
+        <token>assisez</token>
+        <token>-vous</token>
       </pattern>
       <message>« Assisez-vous » est une expression fautive. Employez <suggestion>asseyez-vous</suggestion>, <suggestion>assoyez-vous</suggestion>.</message>
       <example correction="asseyez-vous|assoyez-vous"><marker>assisez-vous</marker></example>
@@ -30543,30 +30545,20 @@ though, and has since been slightly modified)-->
     <rulegroup id="NETRE_PAS_SANS_IGNORER" name="n’être pas sans ignorer">
       <rule>
         <pattern>
-          <token>n</token>
-          <token regexp="yes">[’´'‛′‘]</token>
+          <token inflected="yes">ne</token>
           <token inflected="yes" skip="3">être</token>
           <token>sans</token>
-          <token>ignorer</token>
+          <marker>
+            <token>ignorer</token>
+          </marker>
         </pattern>
-        <message>« N’être pas sans ignorer » est une expression fautive. Employez <suggestion>n\2être pas sans savoir</suggestion>.</message>
+        <message>« N’être pas sans ignorer » est une expression fautive. Employez « n'être pas sans savoir ».</message>
+        <suggestion>savoir</suggestion>
         <url>http://www.académie-française.fr/vous-netes-pas-sans-ignorer-que</url>
-        <example correction="N’être pas sans savoir"><marker>N’être pas sans ignorer</marker></example>
-        <example><marker>n’être pas sans savoir</marker>.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token>ne</token>
-          <token inflected="yes" skip="3">être</token>
-          <token>pas</token>
-          <token>sans</token>
-          <token>ignorer</token>
-        </pattern>
-        <message>« ne pas être sans ignorer » est une expression fautive. Employez ne pas être sans savoir.</message>
-        <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4"/> savoir</suggestion>
-        <url>http://www.académie-française.fr/vous-netes-pas-sans-ignorer-que</url>
-        <example correction="ne suis pas sans savoir">Je <marker>ne suis pas sans ignorer</marker></example>
+        <example correction="savoir">N’être pas sans <marker>ignorer</marker></example>
+        <example correction="savoir">Je ne suis pas sans <marker>ignorer</marker></example>
         <example>Je <marker>ne suis pas sans savoir</marker></example>
+        <example><marker>n’être pas sans savoir</marker>.</example>
       </rule>
     </rulegroup>
     <rulegroup id="AVOIR_DE_LA_TEMPERATURE" name="avoir de la température → avoir la fièvre">
@@ -30670,7 +30662,9 @@ though, and has since been slightly modified)-->
     <rule id="AU_LAC_BEAUPORT" name="au Lac-Beauport">
       <pattern>
         <token>au</token>
-        <token regexp="yes">Lac[-‑‐]Beauport</token>
+        <token>Lac</token>
+        <token>-</token>
+        <token>Beauport</token>
       </pattern>
       <message>« Au Lac-Beauport » est une expression fautive. Employez <suggestion>à Lac-Beaport</suggestion> (en parlant de la municipalité, et non du lac lui-même).</message>
       <example correction="à Lac-Beaport"><marker>au Lac-Beauport</marker></example>
@@ -30689,7 +30683,13 @@ though, and has since been slightly modified)-->
     <rule id="AU_CAP-DE-LA-MADELEINE" name="au Cap-de-la-Madeleine">
       <pattern>
         <token>au</token>
-        <token regexp="yes">Cap[-‑‐]de[-‑‐]la[-‑‐]Madeleine</token>
+        <token>Cap</token>
+        <token>-</token>
+        <token>de</token>
+        <token>-</token>
+        <token>la</token>
+        <token>-</token>
+        <token>Madeleine</token>
       </pattern>
       <message>« Au Cap-de-la-Madeleine » est une expression fautive. Employez <suggestion>à Cap-de-la-Madeleine</suggestion> (en parlant de la municipalité, et non du cap lui-même). Depuis 2002, cette municipalité n’existe plus en tant qu’entité indépendante. Elle fait maintenant partie de Trois-Rivières.</message>
       <example correction="à Cap-de-la-Madeleine"><marker>au Cap-de-la-Madeleine</marker></example>
@@ -30783,16 +30783,16 @@ though, and has since been slightly modified)-->
         <token postag="SENT_START"/>
         <marker>
           <token>À</token>
-          <token>l</token>
-          <token regexp="yes" skip="1">[’´'‛′‘]</token>
+          <token>l'</token>
+          <token min="0">aimable</token>
           <token>intention</token>
           <token inflected="yes">de</token>
         </marker>
       </pattern>
-      <message>« à l’intention de » est une expression fautive (impropriété). Employez <suggestion>à l\4attention de</suggestion>.</message>
+      <message>« à l’intention de » est une expression fautive (impropriété). Employez <suggestion>à l'attention de</suggestion>.</message>
       <url>http://www.academie-francaise.fr/questions-de-langue#3_strong-em--l-attention-de--l-intention-de-em-strong</url>
-      <example correction="À l’attention de"><marker>À l’intention de</marker></example>
-      <example correction="À l’attention de"><marker>À l’aimable intention de</marker></example>
+      <example correction="À l'attention de"><marker>À l’intention de</marker></example>
+      <example correction="À l'attention de"><marker>À l’aimable intention de</marker></example>
       <example><marker>À l’aimable attention de</marker></example>
       <example>Un cadeau à l’intention de ma femme.</example>
     </rule>
@@ -30832,7 +30832,9 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>prendre</token>
         <token>à</token>
-        <token regexp="yes">brasse[-‑‐]corps</token>
+        <token>brasse</token>
+        <token>-</token>
+        <token>corps</token>
       </pattern>
       <message>« Prendre à brasse-corps » est une expression fautive. Employez <suggestion>prendre à bras-le-corps</suggestion>.</message>
       <example correction="prendre à bras-le-corps"><marker>prendre à brasse-corps</marker></example>
@@ -30900,19 +30902,12 @@ though, and has since been slightly modified)-->
         <pattern>
           <token>sans</token>
           <token>dessus</token>
+          <token min="0">-</token>
           <token>dessous</token>
         </pattern>
         <message>« Sans dessus dessous » est une expression fautive. Employez <suggestion>sens dessus dessous</suggestion> (mais on prononce bien « sens » comme « sans » dans cette locution, d’où l’erreur).</message>
         <url>http://www.academie-francaise.fr/sens-dessus-dessous-tourner-les-sangs</url>
         <example correction="sens dessus dessous"><marker>sans dessus dessous</marker></example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">s[ae]ns</token>
-          <token regexp="yes">dessus[-‑‐]dessous</token>
-        </pattern>
-        <message>« \1 \2 » est une expression fautive. Employez <suggestion>sens dessus dessous</suggestion> (mais on prononce bien « sens » comme « sans » dans cette locution, d’où l’erreur).</message>
-        <url>http://www.academie-francaise.fr/sens-dessus-dessous-tourner-les-sangs</url>
         <example correction="sens dessus dessous"><marker>sans dessus-dessous</marker></example>
       </rule>
     </rulegroup>
@@ -31194,7 +31189,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="SOIT_DISAMMENT" name="soit-disamment → soit-disant">
       <pattern>
-        <token regexp="yes">soit?-dis[ae]mm?ente?s?</token>
+        <token regexp="yes">soit?</token>
+        <token min="0">-</token>
+        <token regexp="yes">dis[ae]mm?ente?s?</token>
       </pattern>
       <message>« Soi-disant » est un adverbe invariable. Y ajouter le suffixe -emment est inutile, et relève de l’hypercorrection.</message>
       <suggestion>soi-disant</suggestion>
@@ -31251,7 +31248,8 @@ though, and has since been slightly modified)-->
       <url>http://www.academie-francaise.fr/sadresser-aupres</url>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">adresser|adresse-toi|adressez-vous|adressons-nous</token>
+          <token inflected="yes">adresser</token>
+          <token min="0" regexp="yes">-toi|-vous|-nous</token>
           <token regexp="yes" min="0" max="1">pas|plus|jamais|toujours</token>
           <marker>
             <token>auprès</token>
@@ -31265,22 +31263,24 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">adresser|adresse-toi|adressez-vous|adressons-nous</token>
+          <token inflected="yes">adresser</token>
+          <token min="0" regexp="yes">-toi|-vous|-nous</token>
           <token postag="A" min="0" max="1"/>
           <marker>
             <token>auprès</token>
-            <token>d</token>
-            <token regexp="yes">['´‘’′]</token>
+            <token>d'</token>
+            <token></token>
           </marker>
         </pattern>
         <message>On ne doit en aucun cas utiliser la préposition « auprès » avec le verbe « adresser ».</message>
-        <suggestion>à</suggestion>
-        <example correction="à">Le médecin m’a adressé <marker>auprès d’</marker> une de ses collègues.</example>
-        <example correction="à">Le médecin m’a adressé immédiatement <marker>auprès d’</marker> une de ses collègues.</example>
+        <suggestion>à \6</suggestion>
+        <example correction="à une">Le médecin m’a adressé <marker>auprès d’une</marker> de ses collègues.</example>
+        <example correction="à une">Le médecin m’a adressé immédiatement <marker>auprès d’une</marker> de ses collègues.</example>
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">adresser|adresse-toi|adressez-vous|adressons-nous</token>
+          <token inflected="yes">adresser</token>
+          <token min="0" regexp="yes">-toi|-vous|-nous</token>
           <token postag="A" min="0" max="1"/>
           <marker>
             <token>auprès</token>
@@ -31293,7 +31293,8 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token inflected="yes" regexp="yes">adresser|adresse-toi|adressez-vous|adressons-nous</token>
+          <token inflected="yes">adresser</token>
+          <token min="0" regexp="yes">-toi|-vous|-nous</token>
           <token postag="A" min="0" max="1"/>
           <marker>
             <token>auprès</token>
@@ -31316,7 +31317,7 @@ though, and has since been slightly modified)-->
         </pattern>
         <message>On ne doit en aucun cas utiliser la préposition « auprès » avec le verbe « adresser ».</message>
         <suggestion>à</suggestion>
-        <example correction="À"><marker>Auprès de</marker> qui dois-je m‘adresser ?</example>
+        <example correction="À"><marker>Auprès de</marker> qui dois-je m’adresser ?</example>
         <example correction="à">Il ne sait pas <marker>auprès de</marker> qui s'adresser.</example>
       </rule>
     </rulegroup>
@@ -31330,45 +31331,36 @@ though, and has since been slightly modified)-->
       </pattern>
       <message>Employez <suggestion>de sorte \5</suggestion>.</message>
       <url>http://www.academie-francaise.fr/de-sorte-ce-que</url>
-      <example correction="de sorte qu">Agissez <marker>de sorte à ce qu</marker>’on vous aime.</example>
+      <example correction="de sorte qu'">Agissez <marker>de sorte à ce qu’</marker>on vous aime.</example>
       <example correction="de sorte que">Asseyez-vous, <marker>de sorte à ce que</marker> tous puissent voir le spectacle.</example>
     </rule>
       <rulegroup id="Y_A" name="Expression familière y'a">
           <antipattern>
-              <token>y</token>
-              <token>'</token>
-              <token>a</token>
+              <token>y'a</token>
               <token>pas</token>
               <token inflected="yes">de</token>
               <token min="0" max="1">'</token>
               <token>lézard</token>
           </antipattern>
           <antipattern>
-              <token>y</token>
-              <token>'</token>
+            <token>y'a</token>
               <token>a</token>
               <token>pas</token>
               <token>photo</token>
           </antipattern>
           <rule name="Expression familière y'a (affirmatif)">
               <antipattern>
-                  <token>y</token>
-                  <token>'</token>
-                  <token>a</token>
+                <token>y'a</token>
                   <token>pas</token>
                   <token><exception>mal</exception></token>
               </antipattern>
               <antipattern>
-                  <token>y</token>
-                  <token>'</token>
-                  <token>a</token>
+                <token>y'a</token>
                   <token>bon</token>
                   <token case_sensitive="yes">Awards</token>
               </antipattern>
               <pattern>
-                  <token>y</token>
-                  <token>'</token>
-                  <token>a</token>
+                <token>y'a</token>
               </pattern>
               <message>La formulation « y'a » est très familière. Vouliez-vous dire <suggestion>il y a</suggestion> ?</message>
               <example correction="Il y a"><marker>Y'a</marker> pas mal de gens dehors.</example>
@@ -31377,17 +31369,13 @@ though, and has since been slightly modified)-->
           </rule>
           <rule name="Expression familière y'a (négatif)">
               <antipattern>
-                  <token>y</token>
-                  <token>'</token>
-                  <token>a</token>
+                <token>y'a</token>
                   <token>pas</token>
                   <token>mal</token>
               </antipattern>
               <pattern>
                   <marker>
-                      <token>y</token>
-                      <token>'</token>
-                      <token>a</token>
+                    <token>y'a</token>
                   </marker>
                   <token min="0" max="1" postag="A"/>
                   <token>pas</token>
@@ -31417,12 +31405,14 @@ though, and has since been slightly modified)-->
   <category id="CAT_MARQUES_DE_COMMERCE" name="Marques de commerce">
     <rule id="UBUNTU" name="Ubuntu-12.4 → Ubuntu-12.04">
       <pattern>
-        <token regexp="yes">([klx]|ed)?ubuntu-\d\d</token>
-        <token spacebefore="no">.</token>
-        <token spacebefore="no" regexp="yes">\d</token>
+        <token regexp="yes">([klx]|ed)?ubuntu</token>
+        <token>-</token>
+        <marker>
+          <token regexp="yes">\d\d\.\d</token>
+        </marker>
       </pattern>
-      <message>Voulez-vous écrire <suggestion>\1.0\3</suggestion> ?</message>
-      <example correction="xubuntu-12.04">J’ai installé <marker>xubuntu-12.4</marker>.</example>
+      <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="(\d\d\.)(\d)" regexp_replace="$10$2"/></suggestion> ?</message>
+      <example correction="12.04">J’ai installé xubuntu-<marker>12.4</marker>.</example>
     </rule>
     <rule id="X86" name="X86 → x86">
       <regexp case_sensitive="yes">\bX86(?:[-_]64)?\b</regexp>
@@ -31430,17 +31420,28 @@ though, and has since been slightly modified)-->
       <example correction="x86">Le jeu d’instruction <marker>X86</marker>.</example>
       <example correction="x86_64">Le jeu d’instruction <marker>X86_64</marker>.</example>
     </rule>
-    <rule id="SQLITE" name="SQLite">
-      <pattern>
-        <token regexp="yes">sql-?l?i(te|ght)<exception case_sensitive="yes">SQLite</exception></token>
-      </pattern>
-      <message>Voulez-vous écrire <suggestion>SQLite</suggestion> ?</message>
-      <url>https://fr.wikipedia.org/wiki/SQLite</url>
-      <example correction="SQLite">Android utilise <marker>SQLlite</marker>.</example>
-      <example correction="SQLite">Android utilise <marker>SQL-lite</marker>.</example>
-      <example correction="SQLite">Android utilise <marker>Sqlite</marker>.</example>
-      <example correction="SQLite">Android utilise <marker>SQLight</marker>.</example>
-    </rule>
+    <rulegroup id="SQLITE" name="SQLite">
+      <rule>
+        <pattern>
+          <token regexp="yes">sqll?i(te|ght)<exception case_sensitive="yes">SQLite</exception></token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>SQLite</suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/SQLite</url>
+        <example correction="SQLite">Android utilise <marker>SQLlite</marker>.</example>
+        <example correction="SQLite">Android utilise <marker>Sqlite</marker>.</example>
+        <example correction="SQLite">Android utilise <marker>SQLight</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>sql</token>
+          <token min="0">-</token>
+          <token regexp="yes">l?i(te|ght)</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>SQLite</suggestion> ?</message>
+        <url>https://fr.wikipedia.org/wiki/SQLite</url>
+        <example correction="SQLite">Android utilise <marker>SQL-lite</marker>.</example>
+      </rule>
+    </rulegroup>
     <rule id="GRAMMALECTE" name="Grammalecte">
       <pattern>
         <token regexp="yes">gramm?all?ecte?<exception>grammalecte</exception></token>
@@ -31513,25 +31514,21 @@ though, and has since been slightly modified)-->
       <url>https://fr.wikipedia.org/wiki/Windows</url>
       <example correction="Windows"><marker>Window</marker> Vista plante tout le temps.</example>
     </rule>
-    <rulegroup id="X_WINDOW" name="X Window">
-      <rule>
+    <rule id="X_WINDOW" name="X Window">
+        <antipattern case_sensitive="yes">
+          <token>X</token>
+          <token>Window</token>
+        </antipattern>
         <pattern>
           <token case_sensitive="yes">X</token>
-          <token>Windows</token>
+          <token min="0">-</token>
+          <token regexp="yes">Windows?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>X Window</suggestion> ?</message>
         <url>https://fr.wikipedia.org/wiki/X_Toolkit</url>
         <example correction="X Window">C’est le MIT qui a publié la première version de <marker>X Windows</marker> en juin 1984.</example>
-      </rule>
-      <rule>
-        <pattern>
-          <token regexp="yes">X[-‑‐]?Windows?</token>
-        </pattern>
-        <message>Voulez-vous écrire <suggestion>X Window</suggestion> ?</message>
-        <url>https://fr.wikipedia.org/wiki/X_Toolkit</url>
         <example correction="X Window">C’est le MIT qui a publié la première version de <marker>X-Windows</marker> en juin 1984.</example>
-      </rule>
-    </rulegroup>
+    </rule>
     <rulegroup id="OPEN_STREET_MAP" name="OpenStreetMap">
       <url>https://fr.wikipedia.org/wiki/OpenStreetMap</url>
       <rule>
@@ -31882,7 +31879,7 @@ though, and has since been slightly modified)-->
           </marker>
           <token regexp="yes">(st|saint)([-‑‐].*)?</token>
         </pattern>
-        <message>Employez <suggestion><match no="3" case_conversion="startlower"/></suggestion> avec minuscule quand il s’agit du bâtiment et une majuscule quand il s’agit d’une institution.</message>
+        <message>Employez <suggestion><match no="2" case_conversion="startlower"/></suggestion> avec minuscule quand il s’agit du bâtiment et une majuscule quand il s’agit d’une institution.</message>
         <example correction="église">L’<marker>Église</marker> Saint-Paul</example>
       </rule>
       <rule>
@@ -32021,9 +32018,13 @@ though, and has since been slightly modified)-->
         <pattern>
           <token>vers</token>
           <token>le</token>
-          <marker><token regexp="yes">(?-i)(Nord|Sud)([-‑‐](Ouest|Est))</token></marker>
+          <marker>
+            <token regexp="yes">(?-i)(Nord|Sud)</token>
+            <token>-</token>
+            <token regexp="yes">Ouest|Est</token>
+          </marker>
         </pattern>
-        <message>Les points cardinaux s’écrivent avec une minuscule quand ils expriment une direction. Employez <suggestion><match no="3" case_conversion="alllower"/></suggestion>.</message>
+        <message>Les points cardinaux s’écrivent avec une minuscule quand ils expriment une direction. Employez <suggestion><match no="3" case_conversion="alllower"/>-<match no="5" case_conversion="alllower"/></suggestion>.</message>
         <example correction="nord-est">Je me dirige vers le <marker>Nord-Est</marker>.</example>
       </rule>
       <rule>
@@ -32118,7 +32119,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="LAISSER-PASSER" name="laisser-passer → laissez-passer">
       <pattern>
-        <token regexp="yes">laisser[-‑‐]passer</token>
+        <token>laisser</token>
+        <token>-</token>
+        <token>passer</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>laissez-passer</suggestion> ?</message>
       <example correction="laissez-passer">Il vous faut un <marker>laisser-passer</marker>.</example>
@@ -32126,14 +32129,14 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="NOEUDS_PAR_HEURE" name="nœuds par heure → nœuds">
       <pattern>
-        <token regexp="yes">(demi[-‑‐])?(nœud|noeud)s?</token>
+        <token regexp="yes">(nœud|noeud)s?</token>
         <token>par</token>
         <token>heure</token>
       </pattern>
       <message>« nœud » est une unité de vitesse, on ne doit donc pas ajouter « par heure », sauf dans de rares cas où l’on parle de variation de vitesse.</message>
       <suggestion>\1</suggestion>
       <url>https://fr.wikipedia.org/wiki/N%C5%93ud_%28unit%C3%A9%29</url>
-      <example correction="demi-nœud">Le courant est d’un <marker>demi-nœud par heure</marker>.</example>
+      <example correction="nœud">Le courant est d’un demi-<marker>nœud par heure</marker>.</example>
       <example>Le courant est d’un demi-nœud.</example>
     </rule>
     <rule id="HZ_PAR_SECONDE" name="hertz par second → hertz">
@@ -32269,9 +32272,9 @@ though, and has since been slightly modified)-->
           <token regexp="yes">lundi|lun|mardi|mar|mercredi|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim</token>
           <token min="0" max="1">,</token>
           <token regexp="yes">[012]?\d|3[01]</token>
-          <token>/</token>
+          <token min="0" regexp="yes">-|/</token>
           <token regexp="yes">0?\d|1[012]</token>
-          <token>/</token>
+          <token min="0" regexp="yes">-|/</token>
           <token regexp="yes">[12]\d\d\d</token>
         </pattern>
         <filter class="org.languagetool.rules.fr.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
@@ -32280,6 +32283,10 @@ though, and has since been slightly modified)-->
         <example correction=""><marker>Vendredi 28/8/2014</marker>.</example>
         <example correction=""><marker>Vendredi, 28/8/2014</marker>.</example>
         <example correction=""><marker>Ven 28/8/2014</marker>.</example>
+        <example correction=""><marker>Vendredi 28-8-2014</marker>.</example>
+        <example correction=""><marker>Vendredi 28-08-2014</marker>.</example>
+        <example correction=""><marker>Vendredi, 28-08-2014</marker>.</example>
+        <example><marker>Jeudi 28-08-2014</marker>.</example>
         <example><marker>Jeudi 28/08/2014</marker>.</example>
       </rule>
       <rule>
@@ -32287,9 +32294,9 @@ though, and has since been slightly modified)-->
           <token regexp="yes">lundi|lun|mardi|mar|mercredi|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim</token>
           <token min="0" max="1">,</token>
           <token regexp="yes">[12]\d\d\d</token>
-          <token>/</token>
+          <token min="0" regexp="yes">-|/</token>
           <token regexp="yes">0?\d|1[012]</token>
-          <token>/</token>
+          <token min="0" regexp="yes">-|/</token>
           <token regexp="yes">[012]?\d|3[01]</token>
         </pattern>
         <filter class="org.languagetool.rules.fr.DateCheckFilter" args="year:\3 month:\5 day:\7 weekDay:\1"/>
@@ -32299,19 +32306,23 @@ though, and has since been slightly modified)-->
         <example correction=""><marker>Ven, 2014/08/28</marker>.</example>
         <example><marker>Jeudi 2014/08/28</marker>.</example>
       </rule>
-      <rule>
+      <!--<rule>
         <pattern>
           <token regexp="yes">lundi|lun|mardi|mar|mercredi|mer|jeudi|jeu|vendredi|ven|samedi|sam|dimanche|dim</token>
           <token min="0" max="1">,</token>
-          <token regexp="yes">\d\d?[-‑‐]\d\d?[-‑‐]\d\d\d\d</token>
+          <token regexp="yes">\d\d?</token>
+          <token>-</token>
+          <token regexp="yes">\d\d?</token>
+          <token>-</token>
+          <token regexp="yes">\d\d\d\d</token>
         </pattern>
-        <filter class="org.languagetool.rules.fr.DMYDateCheckFilter" args="date:\3 weekDay:\1"/>
+        <filter class="org.languagetool.rules.fr.DMYDateCheckFilter" args="year:\3 month:\5 day:\7 weekDay:\1"/>
         <message>La date « \1\2 \3 » n’est pas un <match no="1" case_conversion="alllower"/> mais un {realDay}.</message>
         <example correction=""><marker>Vendredi 28-8-2014</marker>.</example>
         <example correction=""><marker>Vendredi 28-08-2014</marker>.</example>
         <example correction=""><marker>Vendredi, 28-08-2014</marker>.</example>
         <example><marker>Jeudi 28-08-2014</marker>.</example>
-      </rule>
+      </rule>-->
     </rulegroup>
     <rulegroup id="DATE" name="date incorrecte">
       <rule>
@@ -32340,18 +32351,21 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token regexp="yes">31[-‑‐](avril|avr|juin|jui|septembre|sep|novembre|nov|0?[469]|11)([-‑‐]\d\d(\d\d)?)?</token>
+          <token>31</token>
+          <token min="0" regexp="yes">-|/</token>
+          <token regexp="yes">avril|avr|juin|jui|septembre|sep|novembre|nov|0?[469]|11</token>
         </pattern>
-        <message>Le mois « <match no="1" regexp_match="31-([^-]*)(.*)" regexp_replace="$1"/> » n’a que 30 jours.</message>
-        <example correction="">Il est né le <marker>31-septembre-1969</marker>.</example>
-        <example correction="">Il est né le <marker>31-09-1969</marker>.</example>
-        <example correction="">Il est né le <marker>31-9-69</marker>.</example>
+        <message>Le mois « \3 » n’a que 30 jours.</message>
+        <example correction="">Il est né le <marker>31-septembre</marker>-1969.</example>
+        <example correction="">Il est né le <marker>31-09</marker>-1969.</example>
+        <example correction="">Il est né le <marker>31-9</marker>-69.</example>
         <example>Il est né le <marker>31-8-69</marker>.</example>
         <example>Il est né le <marker>31-aout-1969</marker>.</example>
       </rule>
       <rule>
         <pattern>
           <token regexp="yes">3[01]</token>
+          <token min="0" regexp="yes">-|/</token>
           <token regexp="yes">février|fév</token>
         </pattern>
         <message>Le mois de février n’a que 28 ou 29 jours pour les années bissextiles.</message>
@@ -32362,17 +32376,19 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">3[01]</token>
-          <token>/</token>
+          <token min="0" regexp="yes">-|/</token>
           <token regexp="yes">février|fév|0?2</token>
-          <token>/</token>
+          <token min="0" regexp="yes">-|/</token>
           <token regexp="yes">\d\d\d\d</token>
         </pattern>
         <message>Le mois de février n’a que 28 ou 29 jours pour les années bissextiles.</message>
         <url>https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile</url>
         <example correction="">Il est né le <marker>30/février/1969</marker>.</example>
+        <example correction="">Il est né le <marker>30-02-1969</marker>.</example>
+        <example>Il est né le <marker>28-02-1969</marker>.</example>
         <example>Il est né le <marker>28 février</marker>.</example>
       </rule>
-      <rule>
+      <!--<rule>
         <pattern>
           <token regexp="yes">3[01][-‑‐](février|fév|0?2)([-‑‐]\d\d(\d\d)?)?</token>
         </pattern>
@@ -32380,13 +32396,13 @@ though, and has since been slightly modified)-->
         <url>https://fr.wikipedia.org/wiki/Ann%C3%A9e_bissextile</url>
         <example correction="">Il est né le <marker>30-02-1969</marker>.</example>
         <example>Il est né le <marker>28-02-1969</marker>.</example>
-      </rule>
+      </rule>-->
       <rule>
         <pattern>
           <token>29</token>
-          <token min="0" max="1">/</token>
+          <token min="0" regexp="yes">-|/</token>
           <token regexp="yes">février|fév|0?2</token>
-          <token min="0" max="1">/</token>
+          <token min="0" regexp="yes">-|/</token>
           <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
             <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
           </token>
@@ -32424,8 +32440,11 @@ though, and has since been slightly modified)-->
         <example>Le <marker>29 février 2020</marker>.</example>
         <!-- 2100 is not a leap year (divisible by 100) -->
         <example correction="">Le <marker>29 février 2100</marker>.</example>
+        <example correction="">Le <marker>29-02-1900</marker></example>
+        <example correction="">Le <marker>29-février-2005</marker></example>
+        <example>Le 29-février-2004</example>
       </rule>
-      <rule>
+      <!--<rule>
         <pattern>
           <token regexp="yes">29[-‑‐](février|fév|0?2)[-‑‐]\d\d(00|\d[13579]|[02468][26]|[13579][048])
             <exception regexp="yes">29[-‑‐][^-]+[-‑‐][13579][26]00|[2468][048]00</exception>
@@ -32436,7 +32455,7 @@ though, and has since been slightly modified)-->
         <example correction="">Le <marker>29-02-1900</marker></example>
         <example correction="">Le <marker>29-février-2005</marker></example>
         <example>Le 29-février-2004</example>
-      </rule>
+      </rule>-->
     </rulegroup>
     <rulegroup id="ADRESSES_FRANCE" name="Format des adresses en France">
       <!-- TODO: improve this rule to detect other problems in French addresses -->
