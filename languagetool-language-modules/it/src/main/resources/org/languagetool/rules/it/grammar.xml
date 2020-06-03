@@ -424,6 +424,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>La preposizione articolata non concorda con il sostantivo che la segue</message>
                 <example type="correct">Il libro <marker>degli amici</marker>.</example>
                 <example type="incorrect">Il libro <marker>degli amico</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag='ARTPRE-M:s'/>
+                    <token postag='NOUN-M:p|NOUN-F:[sp]' postag_regexp="yes"><exception postag="NOUN-M:s|ADJ:pos\+m\+s" postag_regexp="yes"/></token>
+                </pattern>
+                <message>La preposizione articolata non concorda con il sostantivo che la segue</message>
+                <example type="correct">Il libro <marker>dell'amico amici</marker>.</example>
+                <example type="incorrect">Il libro <marker>dello amici</marker></example>
+                <example correction=""><marker>sul prodotti</marker></example>
+                <example correction=""><marker>nel terra</marker></example>
+                <example correction=""><marker>nel amica</marker></example>
+                <example correction=""><marker>nel amiche</marker></example>
                 <example>dal problema</example>
                 <example>nel panorama</example>
                 <example>sul pianeta</example>
@@ -432,16 +445,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>dal verde</example>
                 <example>dal sistema</example>
                 <example>al cinema</example>
-            </rule>
-            <rule>
-                <pattern>
-                    <token postag='ARTPRE-M:s'/>
-                    <token postag='NOUN-M:p'><exception postag="NOUN-M:s"/></token>
-                </pattern>
-                <message>La preposizione articolata non concorda con il sostantivo che la segue</message>
-                <example type="correct">Il libro <marker>dell'amico amici</marker>.</example>
-                <example type="incorrect">Il libro <marker>dello amici</marker></example>
-                <example correction=""><marker>sul prodotti</marker></example>
             </rule>
             <rule>
                 <pattern>
