@@ -8837,6 +8837,25 @@ though, and has since been slightly modified)-->
           <message>Le nom exact est <suggestion>coronavirus</suggestion>. « Corona » est un abus de language.</message>
           <example correction="coronavirus">Depuis le <marker>corona</marker> ça n'est plus possible.</example>
       </rule>
+      <!-- this is an example rule: -->
+      <rule id="N_A_V_PPR" name="Participe présent au lieu d'adjectif">
+          <pattern>
+              <token postag="N.*" postag_regexp="yes"/>
+              <token postag="A">plutôt</token>
+              <marker>
+                  <token postag="V ppr">
+                      <exception postag="J.*" postag_regexp="yes"/>
+                  </token>
+              </marker>
+          </pattern>
+          <message>Erreur possible, il est probable que dans ce cas un adjectif soit attendu. Vouliez-vous dire « <match no="3" postag_regexp="yes" postag="V ppr" postag_replace="J m s"/> » ? (Si la suggestion est erronée, vérifiez la racine de votre mot).</message>
+          <suggestion><match no="3" postag_regexp="yes" postag="V ppr" postag_replace="J m s"/></suggestion>
+          <suggestion><match no="3" postag_regexp="yes" postag="V ppr" postag_replace="J m p"/></suggestion>
+          <suggestion><match no="3" postag_regexp="yes" postag="V ppr" postag_replace="J f s"/></suggestion>
+          <suggestion><match no="3" postag_regexp="yes" postag="V ppr" postag_replace="J f p"/></suggestion>
+          <example correction="négligé|négligés|négligée|négligées">Élève plutôt <marker>négligeant</marker>, il est devenu un brillant étudiant.</example>
+      </rule>
+
       <!-- http://www.leconjugueur.com/frlesnombres.php -->
     <rulegroup id="TRAIT_UNION_NOMBRE" name="Nombre avec trait d’union">
       <rule>
