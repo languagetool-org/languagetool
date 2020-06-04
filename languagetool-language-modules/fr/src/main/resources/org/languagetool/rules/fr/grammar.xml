@@ -853,12 +853,13 @@ though, and has since been slightly modified)-->
         <marker>
           <token regexp="yes">davantages?</token>
         </marker>
-        <token negate="yes" regexp="yes">de|d</token>
+        <token><exception regexp="yes">de|d'</exception></token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>d’avantage</suggestion> ?</message>
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2059</url>
       <example correction="d’avantage">Il a assez <marker>davantage</marker>.</example>
       <example>Si vous souhaitez en savoir davantage, veuillez me contacter.</example>
+      <example>Je ne pense pas que davantage d'étudiants veulent venir.</example>
     </rule>
     <rulegroup id="D_AVANTAGE" name="D’avantage au lieu de davantage">
       <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=2059</url>
@@ -9195,6 +9196,7 @@ though, and has since been slightly modified)-->
         <example>Combien de fois avez-vous été amoureuses dans votre vie.</example>
         <example>La couronne périphérique alterne falaises abruptes et plages.</example>
         <example>Commençons par lister les tailles des différents visuels qui composent une page ou un profil social media.</example>
+        <example>vingt-et-une heures</example>
       </rule>
       <rule name="pluriel suivi du singulier">
         <antipattern>
@@ -9907,6 +9909,12 @@ though, and has since been slightly modified)-->
           <token>code</token>
           <token>promo</token>
         </antipattern>
+        <antipattern>
+          <token>relation</token>
+          <token></token>
+          <token spacebefore="no">-</token>
+          <token spacebefore="no"></token>
+        </antipattern>
         <pattern>
           <token postag="N f .*" postag_regexp="yes">
             <exception regexp="yes" scope="previous">des?</exception>
@@ -10579,7 +10587,7 @@ though, and has since been slightly modified)-->
       </antipattern>
       <rule>
         <pattern>
-          <token regexp="yes">je|tu|ils?|on</token>
+          <token regexp="yes">je|tu|ils?|on<exception scope="previous">-</exception></token>
           <marker>
             <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
               <exception postag="V.*" postag_regexp="yes"/>
@@ -10599,6 +10607,7 @@ though, and has since been slightly modified)-->
         <example>Même s'il s'est excusé</example>
         <example>Je ne suis pas un artiste.</example>
         <example>J'ai dix fois plus de livres que tu en as.</example>
+        <example>Qu'y-a-t-il dans le nid ?</example> <!-- Triggers another rule-->
       </rule>
       <rule>
         <pattern>
@@ -15118,6 +15127,10 @@ though, and has since been slightly modified)-->
     </rule>
     -->
     <rulegroup id="T_EUPHONIQUE" name="t euphonique">
+      <antipattern> <!-- Other rules should trigger -->
+        <token>-</token>
+        <token regexp="yes">il|elle|on|ils|elles</token>
+      </antipattern>
       <rule>
         <pattern>
           <token regexp="yes">.*[dt]</token>
@@ -15185,11 +15198,14 @@ though, and has since been slightly modified)-->
       <pattern>
         <token>y</token>
         <token>-</token>
-        <token>a</token>
-        <token>-t-il</token>
+        <token inflected="yes">avoir</token>
       </pattern>
-      <message>Voulez-vous écrire <suggestion>y a-t-il</suggestion> ?</message>
-      <example correction="Y a-t-il"><marker>Y-a-t-il</marker> un pilote dans l’avion ?</example>
+      <message>Voulez-vous écrire <suggestion>y \3</suggestion> ?</message>
+      <example correction="Y a"><marker>Y-a</marker>-t-il un pilote dans l’avion ?</example>
+      <example correction="y a">Pourquoi n’<marker>y-a</marker>-t’il pas de fichiers audio pour l’arabe ?</example>
+      <example correction="y a">Qu'<marker>y-a</marker>-t-il dans le nid ?</example>
+      <example correction="y avait">Qui <marker>y-avait</marker>-il cette nuit-là ?</example>
+      <example correction="y a">Combien <marker>y-a</marker>-t-il de zoos en Australie?</example>
     </rule>
     <rulegroup id="CI" name="ci joint → ci-joint (etc.)">
       <rule>
@@ -15251,6 +15267,10 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="INV_T_EUPHONIQUE" name="t euphonique invalide">
+      <antipattern> <!-- Other rules should trigger -->
+        <token>-</token>
+        <token regexp="yes">il|elle|on|ils|elles</token>
+      </antipattern>
       <rule>
         <pattern>
           <token/>
