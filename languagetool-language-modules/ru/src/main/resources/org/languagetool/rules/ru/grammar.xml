@@ -39,7 +39,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY start_vvodnoe "по-видимому|по-моему|по-твоему|впрочем|итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых|к|видишь|понимаешь|конечно|несомненно|вероятно|может|кажется|однако|одним|несмотря|наверное|прежде"> <!-- First words for exceptions in other rules!!! -->
 <!ENTITY missing_yo "жилье|белье|битье|щеткой|стерней|сырье|ружье|фоторужье|копье|чутье|офицерье|рытье|цевье|острие|вранье|дутье|нытье|звезды">
 <!ENTITY double_num "два|две|три|четыре|2|3|4">
-<!ENTITY pnct "[.?,!:;»)(«—–'’‘„…-]|&quot;">   <!--  &#34;  =  ["] = &quot; -->  
+<!ENTITY pnct "[.?,!:;»)(«—–'’‘„“”…-]|&quot;">   <!--  &#34;  =  ["] = &quot; -->  
 <!ENTITY pril_end "ый|ого|ому|ым|ом|ая|ой|ую|ое|ые|ых|ыми">
 <!ENTITY verb "должен|должна|должно|должны|обязана|обязано|обязаны|обязан|необходимо"> <!-- TODO:check in dict -->
 <!ENTITY rost "количество|количественный|качество|качественный|показатель|показательный|экономика|экономический|преступность|преступный|смертность|безработица|безработный|численность|рождаемость|выработка|прибыль|стоимость|долг|госдолг|доход|расход|протяжённость|продолжительность|ассигнование|урожайность|популярность|напряжённость|ВВП|коралл|темп|продукт|возможность|замедление|результат|десятилетие|сравнение|объём|автомобилизация|вид|сбыт|цена|противоречие|мера|урожай|инвестиция|производство|сила|потребность|точка|процесс|тело|концентрация|время|стимулятор|регулятор|благосостояние|причина|предпосылка|сезон|политика|период|тенденция|ожидание|национализм|зарплата|микроорганизм|бактерия|потенциал|система|поощрение|производительность|самосознание|сознательность">
@@ -3011,7 +3011,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"></token>
                     <marker>
                         <token>Привет</token>
-                        <token negate="yes" regexp="yes">[\p{Punct}]<exception>и</exception></token>
+                        <token negate="yes" regexp="yes">&pnct;<exception>и</exception></token>
                     </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2, \3</suggestion>.</message>
@@ -3047,7 +3047,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|–|-|—|к<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|к<exception postag="SENT_START"></exception></token>
                     <token>таким</token>
                     <token>как</token>
                 </pattern>
@@ -3061,7 +3061,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|–|-|—<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;<exception postag="SENT_START"></exception></token>
                     <token>к</token>
                     <token>таким</token>
                     <token>как</token>
@@ -3078,10 +3078,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}]|–|-|—|так|и|но|а|да<exception postag="SENT_START"></exception></token>
+                        <token negate="yes" regexp="yes">&pnct;|так|и|но|а|да<exception postag="SENT_START"></exception></token>
                         <token>как</token>
                         <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
-                        <token skip= "1" negate="yes" regexp="yes">[\p{Punct}]|»|–|-|—|…<exception  postag_regexp="yes" postag="NN:.*"></exception><exception  scope="next" postag_regexp="yes" postag="NN:.*"></exception></token>
+                        <token skip= "1" negate="yes" regexp="yes">&pnct;<exception  postag_regexp="yes" postag="NN:.*"></exception><exception  scope="next" postag_regexp="yes" postag="NN:.*"></exception></token>
                     </marker>
                     <token></token>
                 </pattern>
@@ -3097,7 +3097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|–|-|—|так|и|но|а|да<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|так|и|но|а|да<exception postag="SENT_START"></exception></token>
                     <token>как</token>
                     <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
                     <token>,</token>
@@ -3115,7 +3115,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>как</token>
                         <token regexp="yes">обычно|всегда|правило|исключение|нарочно|сейчас</token>
                     </marker>
-                    <token negate="yes" regexp="yes">[\p{Punct}]|»|–|-|—|…<exception  postag_regexp="yes" postag="NN:.*"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;<exception  postag_regexp="yes" postag="NN:.*"></exception></token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2 \3,</suggestion></message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3146,7 +3146,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="no">
                     <marker>
-                        <token negate="yes" regexp="yes">[\p{Punct}]|так|же|равно|также|время|–|-|—<exception postag="SENT_START"></exception></token>
+                        <token negate="yes" regexp="yes">&pnct;|так|же|равно|также|время<exception postag="SENT_START"></exception></token>
                         <token>как</token>
                         <token skip="-1">и<exception scope="next">так</exception></token>
                     </marker>
@@ -3165,21 +3165,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token negate="yes" regexp="yes">&pnct;|[=+]|’|‘|…|ну|Ну<exception postag="SENT_START"></exception></token>
+                        <token negate="yes" regexp="yes">&pnct;|[+]|ну|Ну<exception postag="SENT_START"></exception></token>
                         <token>а</token>
                     </marker>
-                    <token negate="yes" regexp="yes">&pnct;|\|[=+]</token>
+                    <token><exception regexp="yes">&pnct;|\|[+]</exception><exception >=</exception></token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\1, \2</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%A1%D0%BB%D0%BE%D0%B6%D0%BD%D0%BE%D1%81%D0%BE%D1%87%D0%B8%D0%BD%D1%91%D0%BD%D0%BD%D0%BE%D0%B5_%D0%BF%D1%80%D0%B5%D0%B4%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D0%B5</url>
                 <short>Пропущена запятая.</short>
                 <example>И растёт ребёнок там не по дням, а по часам.</example>
+                <example>Имеет кубическую гранецентрированную решётку типа NaCl, пространственная группа Fm3m, с периодом а = 0,4235 нм.</example>
                 <example correction="дням, а">И растёт ребёнок там не по <marker>дням а</marker> по часам.</example>
             </rule>
          <!--  а + (что|точнее|то|следовательно|ну-ка|ну|например|наоборот|может|лучше|между|иначе|как|именно|значит|и|ещё|еще|всё-таки|все-таки|если|главное|впрочем|вернее|ведь|вдруг) -->
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|’|‘|…|«<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;<exception postag="SENT_START"></exception></token>
                     <token>но</token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\1, \2</suggestion>.</message>
@@ -3253,7 +3254,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                      <unify negate="no">
                       <feature id="gender"/>
                       <feature id="number"/>
-                        <token negate="yes" regexp="yes">[\p{Punct}]|[\p{Digit}]*|-|—|–|’|‘|…|ну|«|большинство|меньшинство|часть|доля<exception postag="SENT_START"></exception><exception postag_regexp="yes" postag="CONJ|ADJ:.*|Num:.*|NumC:.*"></exception><exception>соответствии</exception></token>
+                        <token negate="yes" regexp="yes">&pnct;|[\p{Digit}]*|ну|большинство|меньшинство|часть|доля<exception postag="SENT_START"></exception><exception postag_regexp="yes" postag="CONJ|ADJ:.*|Num:.*|NumC:.*"></exception><exception>соответствии</exception></token>
                         <unify-ignore>
                             <token postag="PREP"><exception regexp="yes">из|над</exception></token>
                         </unify-ignore>
@@ -3298,7 +3299,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <unify negate="no">
                       <feature id="gender"/>
                       <feature id="number"/>
-                        <token negate="yes" regexp="yes">[\p{Punct}]|[\p{Digit}]*|-|—|–|’|‘|…|ну|Ну|«<exception postag="SENT_START"></exception><exception postag="PREP"></exception><exception postag_regexp="yes" postag="NN:.*:.*:.*:(D|T)|CONJ|ADJ:.*|Num:.*|NumC:.*"></exception></token>
+                        <token negate="yes" regexp="yes">&pnct;|[\p{Digit}]*|ну|Ну<exception postag="SENT_START"></exception><exception postag="PREP"></exception><exception postag_regexp="yes" postag="NN:.*:.*:.*:(D|T)|CONJ|ADJ:.*|Num:.*|NumC:.*"></exception></token>
                           <token inflected="yes">который<exception regexp="yes">которых|которого|которой</exception></token>
                     </unify>
                     </marker>
@@ -3510,7 +3511,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup default="on" id="VVODNOE_SLOVO" name="Вводные слова: «по-видимому», ...">
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|а|как|который|которого|которому|
+                    <token negate="yes" regexp="yes">&pnct;|а|как|который|которого|которому|
                         котором|которая|которой|которую|которые|которых|
                     которыми|которое|которым<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">по-видимому|по-моему|по-твоему|впрочем</token>
@@ -3526,7 +3527,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|а|как|который|которого|которому|
+                    <token negate="yes" regexp="yes">&pnct;|а|как|который|которого|которому|
                         котором|которая|которой|которую|которые|которых|
                     которыми|которое|которым<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">по-видимому|по-моему|по-твоему|впрочем</token>
@@ -3543,7 +3544,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">по-видимому|по-моему|по-твоему|впрочем</token>
                     </marker>
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–</token>
+                    <token negate="yes" regexp="yes">&pnct;</token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2,</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3555,7 +3556,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"></token>
                     <marker>
                         <token regexp="yes">По-видимому|По-моему|По-твоему|Впрочем|Ох|Ах</token>
-                        <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                        <token negate="yes" regexp="yes">&pnct;</token>
                     </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2, \3</suggestion>.</message>
@@ -3567,7 +3568,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Вводные слова: итак, следовательно, во-первых, наконец, между прочим, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|[«"]<exception postag="SENT_START"></exception><exception regexp="yes">[аА]</exception></token>
+                    <token negate="yes" regexp="yes">&pnct;<exception postag="SENT_START"></exception><exception regexp="yes">[аА]</exception></token>
                     <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых</token>
                     <token negate="yes" regexp="yes">,|далее|[»]</token>
                 </pattern>
@@ -3582,7 +3583,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Вводные слова: итак, следовательно, во-первых, наконец, между прочим, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|а|А|и|но<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|а|А|и|но<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых</token>
                     <token>,</token>
                 </pattern>
@@ -3598,7 +3599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">итак|следовательно|во-первых|во-вторых|в-третьих|в-четвертых|в-пятых</token>
                     </marker>
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–</token>
+                    <token negate="yes" regexp="yes">&pnct;</token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2,</suggestion>.</message>
                 
@@ -3611,7 +3612,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"></token>
                     <marker>
                         <token regexp="yes">Итак|Следовательно|Во-первых|Во-вторых|В-третьих|В-четвертых|В-пятых</token>
-                        <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                        <token negate="yes" regexp="yes">&pnct;</token>
                     </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2, \3</suggestion>.</message>
@@ -3624,7 +3625,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Вводные слова:   видишь (ли), понимаешь (ли), ...-->
                 <pattern>
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|вот<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|вот<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">видишь|понимаешь</token>
                     <token>ли</token>
                     <token negate="yes">,</token>
@@ -3640,7 +3641,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Вводные слова:   видишь (ли), понимаешь (ли), ...-->
                 <pattern>
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|вот<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|вот<exception postag="SENT_START"></exception></token>
                     <token regexp="yes">видишь|понимаешь</token>
                     <token>ли</token>
                     <token>,</token>
@@ -3657,7 +3658,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token regexp="yes">видишь|понимаешь</token>
                         <token>ли</token>
                     </marker>
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–</token>
+                    <token negate="yes" regexp="yes">&pnct;</token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2 \3,</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3684,7 +3685,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!--Вводные слова: к счастью, к несчастью, к радости, к ужасу, к сожалению, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|а|и|но<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но<exception postag="SENT_START"></exception></token>
                     <token>к</token>
                     <token regexp="yes">счастью|несчастью|радости|ужасу|сожалению</token>
                     <token negate="yes">,</token>
@@ -3699,7 +3700,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!--Вводные слова: к счастью, к несчастью, к радости, к ужасу, к сожалению, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|а|и|но<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но<exception postag="SENT_START"></exception></token>
                     <token>к</token>
                     <token regexp="yes">счастью|несчастью|радости|ужасу|сожалению</token>
                     <token>,</token>
@@ -3717,7 +3718,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>к</token>
                         <token regexp="yes">счастью|несчастью|радости|ужасу|сожалению</token>
                     </marker>
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–</token>
+                    <token negate="yes" regexp="yes">&pnct;</token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2 \3,</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3731,7 +3732,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>К</token>
                         <token regexp="yes">счастью|несчастью|радости|ужасу|сожалению</token>
-                        <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                        <token negate="yes" regexp="yes">&pnct;</token>
                     </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2 \3, \4</suggestion>.</message>
@@ -3744,7 +3745,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|«|наиболее|наименее|более|менее|очень|а|и|но|что<exception postag="SENT_START|PNN:.*" postag_regexp="yes"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|наиболее|наименее|более|менее|очень|а|и|но|что<exception postag="SENT_START|PNN:.*" postag_regexp="yes"></exception></token>
                     <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>   <!-- temp remove однако -->           
                     <and>
                         <token negate="yes">,</token>
@@ -3765,7 +3766,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Вводные слова: конечно, несомненно, вероятно, может быть, кажется, однако, наверное, наверно   ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|«|наиболее|наименее|более|менее|очень|а|и|но|что|как<exception postag="SENT_START|PNN:.*" postag_regexp="yes"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|наиболее|наименее|более|менее|очень|а|и|но|что|как<exception postag="SENT_START|PNN:.*" postag_regexp="yes"></exception></token>
                     <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>  <!-- temp remove однако (Вводное слово «однако» не может стоять в начале предложения, соединять однородные члены и части сложного предложения.)--> 
                     <token>,</token>
                 </pattern>
@@ -3783,7 +3784,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">конечно|несомненно|вероятно|кажется|наверно|наверное</token>  <!-- temp remove однако --> 
                     </marker>
-                    <token negate="yes" regexp="yes" skip="-1"><exception regexp= "yes" >если|же|ж</exception><exception scope="next" postag_regexp="yes" postag="VB:.*"></exception>[\p{Punct}]|-|—|–</token>
+                    <token negate="yes" regexp="yes" skip="-1"><exception regexp= "yes" >если|же|ж</exception><exception scope="next" postag_regexp="yes" postag="VB:.*"></exception>&pnct;</token>
                     <token regexp="yes">[.,:;!?]</token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2,</suggestion>.</message>
@@ -3803,7 +3804,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="SENT_START"></token>
                     <marker>
                         <token regexp="yes">Конечно|Несомненно|Вероятно|Кажется|Наверное|Наверно</token>
-                        <token negate="yes" regexp="yes">[\p{Punct}]|же</token>
+                        <token negate="yes" regexp="yes">&pnct;|же</token>
                     </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2, \3</suggestion>.</message>
@@ -3819,7 +3820,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>Может</token>
                         <token>быть</token>
-                        <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                        <token negate="yes" regexp="yes">&pnct;</token>
                     </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2 \3, \4</suggestion>.</message>
@@ -3832,7 +3833,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Вводные слова:   одним словом, вообще, иначе говоря, так сказать, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|а|и|но<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но<exception postag="SENT_START"></exception></token>
                     <token>одним</token>
                     <token>словом</token>
                     <token negate="yes">,</token>
@@ -3846,7 +3847,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Вводные слова:   одним словом, вообще, иначе говоря, так сказать, ...-->
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|а|и|но<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|а|и|но<exception postag="SENT_START"></exception></token>
                     <token>одним</token>
                     <token>словом</token>
                     <token>,</token>
@@ -3864,7 +3865,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>одним</token>
                         <token>словом</token>
                     </marker>
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–</token>
+                    <token negate="yes" regexp="yes">&pnct;</token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2 \3,</suggestion>.</message>
                 <url>http://ru.wikipedia.org/wiki/%D0%92%D0%B2%D0%BE%D0%B4%D0%BD%D1%8B%D0%B5_%D1%81%D0%BB%D0%BE%D0%B2%D0%B0</url>
@@ -3878,7 +3879,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>Одним</token>
                         <token>словом</token>
-                        <token negate="yes" regexp="yes">[\p{Punct}]</token>
+                        <token negate="yes" regexp="yes">&pnct;</token>
                     </marker>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\2 \3, \4</suggestion>.</message>
@@ -3910,11 +3911,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>
                             <exception postag="PREP"></exception>
-                            <exception regexp="yes">[\p{Punct}]|что|-|—|–</exception>
+                            <exception regexp="yes">&pnct;|что</exception>
                         </token>
                         <token>мол</token>
                          <token>
-                            <exception regexp="yes">[\p{Punct}]|-|—|–</exception>
+                            <exception regexp="yes">&pnct;</exception>
                         </token>
                     </marker>
                 </pattern>
@@ -3952,7 +3953,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern> <!--  remove case sensitive -->
                   <marker> 
-                    <token negate="yes" regexp="yes">[\p{Punct}]|-|—|–|бы|возникши(.*)|но|однако|только|а|что<exception postag="SENT_START"></exception><exception postag_regexp="yes"  postag="VB:.*|NN:.*:Nom"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;|бы|возникши(.*)|но|однако|только|а|что<exception postag="SENT_START"></exception><exception postag_regexp="yes"  postag="VB:.*|NN:.*:Nom"></exception></token>
                     <token regexp="yes">кроме|помимо|вместо</token>
                   </marker>
                   <token><exception inflected="yes" regexp="yes" >аналогичный|типовой|похожий|нетиповой|непохожий|одинаковый|различный</exception></token>
@@ -3974,7 +3975,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">[\p{Punct}]|–|-|—<exception postag="SENT_START"></exception></token>
+                    <token negate="yes" regexp="yes">&pnct;<exception postag="SENT_START"></exception></token>
                     <token>за</token>
                     <token>исключением</token>
                 </pattern>
@@ -3987,7 +3988,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule default="on" id="V_tom_chisle" name="«В том числе»">
             <pattern case_sensitive="yes">
-                <token negate="yes" regexp="yes">и|[\p{Punct}]|–|-|—<exception postag="SENT_START"></exception></token>
+                <token negate="yes" regexp="yes">и|&pnct;<exception postag="SENT_START"></exception></token>
                 <token>в</token>
                 <token>том</token>
                 <token>числе</token>
