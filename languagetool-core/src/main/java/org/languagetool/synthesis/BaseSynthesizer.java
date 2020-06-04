@@ -143,9 +143,9 @@ public class BaseSynthesizer implements Synthesizer {
    * Lookup the inflected forms of a lemma defined by a part-of-speech tag.
    * @param lemma the lemma to be inflected.
    * @param posTag the desired part-of-speech tag.
-   * @param results the list to collect the inflected forms.
    */
-  protected void lookup(String lemma, String posTag, List<String> results) {
+  protected List<String> lookup(String lemma, String posTag) {
+    List<String> results = new ArrayList<>();
     synchronized (this) { // the stemmer is not thread-safe
       List<WordData> wordForms = stemmer.lookup(lemma + "|" + posTag);
       for (WordData wd : wordForms) {
@@ -164,6 +164,7 @@ public class BaseSynthesizer implements Synthesizer {
         results.removeAll(removeForms);
       }
     }
+    return results;
   }
 
   /**
@@ -178,8 +179,7 @@ public class BaseSynthesizer implements Synthesizer {
     if (posTag.equals(SPELLNUMBER_TAG)) {
       return new String[] {getSpelledNumber(token.getToken())};
     }
-    List<String> wordForms = new ArrayList<>();
-    lookup(token.getLemma(), posTag, wordForms);
+    List<String> wordForms = lookup(token.getLemma(), posTag);
     return wordForms.toArray(new String[0]);
   }
 
@@ -192,7 +192,7 @@ public class BaseSynthesizer implements Synthesizer {
       for (String tag : possibleTags) {
         Matcher m = p.matcher(tag);
         if (m.matches()) {
-          lookup(token.getLemma(), tag, results);
+          results.addAll(lookup(token.getLemma(), tag));
         }
       }
       return results.toArray(new String[0]);

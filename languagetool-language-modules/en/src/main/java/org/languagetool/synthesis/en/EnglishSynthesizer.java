@@ -119,8 +119,7 @@ public class EnglishSynthesizer extends BaseSynthesizer {
   }
 
   private void lookup(String lemma, String posTag, List<String> results, String determiner) {
-    List<String> lookup = new ArrayList<>();
-    super.lookup(lemma, posTag, lookup);
+    List<String> lookup = super.lookup(lemma, posTag);
     for (String result : lookup) {
       results.add(determiner + StringTools.lowercaseFirstCharIfCapitalized(result));
     }

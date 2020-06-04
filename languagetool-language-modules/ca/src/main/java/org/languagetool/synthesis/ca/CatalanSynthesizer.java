@@ -107,7 +107,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
         if (addDt) {
           lookupWithEl(token.getLemma(), tag, prep, results, synthesizer);
         } else {
-          lookup(token.getLemma(), tag, results);
+          results.addAll(lookup(token.getLemma(), tag));
         }
       }
     }       
@@ -115,10 +115,10 @@ public class CatalanSynthesizer extends BaseSynthesizer {
     // if not found, try verbs from any regional variant
     if (results.isEmpty() && posTag.startsWith("V")) {
       if (posTag.endsWith("V") || posTag.endsWith("B")) {
-        lookup(token.getLemma(), posTag.substring(0, posTag.length() - 1).concat("Z"), results);
+        results.addAll(lookup(token.getLemma(), posTag.substring(0, posTag.length() - 1).concat("Z")));
       }
       if (results.isEmpty() && !posTag.endsWith("0")) {
-            lookup(token.getLemma(), posTag.substring(0, posTag.length() - 1).concat("0"), results);
+        results.addAll(lookup(token.getLemma(), posTag.substring(0, posTag.length() - 1).concat("0")));
       }
       if (results.isEmpty()) { // another try
         return synthesize(token, posTag.substring(0, posTag.length() - 1).concat("."), true);
@@ -146,7 +146,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
       for (String tag : possibleTags) {
         Matcher m = p.matcher(tag);
         if (m.matches()) {
-          lookup(token.getLemma(), tag, results);
+          results.addAll(lookup(token.getLemma(), tag));
         }
       }
       // if not found, try verbs from any regional variant
@@ -159,7 +159,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
             for (String tag : possibleTags) {
               Matcher m = p.matcher(tag);
               if (m.matches()) {
-                lookup(token.getLemma(), tag, results);
+                results.addAll(lookup(token.getLemma(), tag));
               }
             }
           }
@@ -169,7 +169,7 @@ public class CatalanSynthesizer extends BaseSynthesizer {
             for (String tag : possibleTags) {
               Matcher m = p.matcher(tag);
               if (m.matches()) {
-                lookup(token.getLemma(), tag, results);
+                results.addAll(lookup(token.getLemma(), tag));
               }
             }
           }
