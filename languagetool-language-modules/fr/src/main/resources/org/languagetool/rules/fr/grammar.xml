@@ -9879,7 +9879,7 @@ though, and has since been slightly modified)-->
             <token regexp="yes">aux|à|de|du|d'</token>
             <token postag="N .*" postag_regexp="yes"/>
             <token min="0" max="1" postag="A"/>
-            <token postag="J [me] sp?" postag_regexp="yes"/>
+            <token postag="J [me] ([sp]|sp)" postag_regexp="yes"/>
         </antipattern>
           <antipattern>
               <token postag="N m [sp]" postag_regexp="yes"/>
@@ -9963,6 +9963,7 @@ though, and has since been slightly modified)-->
         <example>Le système d'éducation japonais.</example>
         <example>Tout le monde l'aura oublié.</example>
         <example>Le Roi d'Espagne comme souverain.</example>
+        <example>de systèmes d'exploitation installés</example>
         <example type="triggers_error" reason="pending multiwords">pour l'interface utilisateur</example>
       </rule>
     </rulegroup>
@@ -14017,7 +14018,7 @@ though, and has since been slightly modified)-->
       </antipattern>
       <pattern>
         <marker>
-          <token><exception postag="V .* (ind|sub).*" postag_regexp="yes"/></token>
+          <token><exception postag="V.* (ind|sub|imp|con).*" postag_regexp="yes"/></token>
         </marker>
         <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
       </pattern>
@@ -14026,6 +14027,10 @@ though, and has since been slightly modified)-->
       <example correction="">Me <marker>trompé</marker>-je ?</example>
       <example>Mon enfant ne m’en veux pas.</example>
       <example>Faites-le-moi.</example>
+      <example>Dépêche-toi !</example>
+      <example>Pourquoi demandes-tu ?</example>
+      <example> Que devrions-nous faire ?</example>
+      <example>s'exclama-t-il</example>
     </rule>
     <rulegroup id="ACCORD_NOM_VERBE" name="Accord">
       <antipattern>
@@ -15161,6 +15166,19 @@ though, and has since been slightly modified)-->
         <example correction="convainc-t-il">Vous <marker>convainc-il</marker> ?</example>
       </rule>
     </rulegroup>
+    <rule id="VOUS_A_T_IL" name="vous-a-t-il → vous a-t-il">
+      <pattern>
+        <token regexp="yes">vous|nous</token>
+        <token spacebefore="no">-</token>
+        <token postag="V.*" postag_regexp="yes" spacebefore="no"></token>
+      </pattern>
+      <message>Écrivez <suggestion>\1 \3</suggestion> sans trait d’union.</message>
+      <example correction="vous a">Et <marker>vous-a</marker>-t-il dit pourquoi il était là ?</example>
+      <example>Parle-nous-en !</example>
+      <example>Donne-nous-en.</example>
+      <example>Allons le voir par nous-mêmes !</example>
+      <example>Faites-le vous-même.</example>
+    </rule>
     <rule id="Y_A_T_IL" name="y-a-t-il → y a-t-il">
       <pattern>
         <token>y</token>
