@@ -87,7 +87,6 @@ public class BaseSynthesizer implements Synthesizer {
   
   public BaseSynthesizer(String resourceFileName, String tagFileName, Language lang) {
     this(null, resourceFileName, tagFileName, lang);
-    
   }
 
   /**

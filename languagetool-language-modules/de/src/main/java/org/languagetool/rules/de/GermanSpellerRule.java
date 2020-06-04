@@ -939,11 +939,9 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   private final Synthesizer synthesizer;
   private final Tagger tagger;
 
-
   public GermanSpellerRule(ResourceBundle messages, German language) {
     this(messages, language, null, null);
   }
-
 
   /**
    * @since 4.2
@@ -957,7 +955,6 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
    */
   public GermanSpellerRule(ResourceBundle messages, German language, UserConfig userConfig, String languageVariantPlainTextDict, List<Language> altLanguages, LanguageModel languageModel) {
     super(messages, language, language.getNonStrictCompoundSplitter(), getSpeller(language, userConfig, languageVariantPlainTextDict), userConfig, altLanguages, languageModel);
-
     addExamplePair(Example.wrong("LanguageTool kann mehr als eine <marker>nromale</marker> Rechtschreibprüfung."),
                    Example.fixed("LanguageTool kann mehr als eine <marker>normale</marker> Rechtschreibprüfung."));
     compoundTokenizer = language.getStrictCompoundTokenizer();
@@ -1044,6 +1041,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     }
     return super.createWrongSplitMatch(sentence, ruleMatchesSoFar, pos, coveredWord, suggestion1, suggestion2, prevPos);
   }
+
   /*
    * @since 3.6
    */
