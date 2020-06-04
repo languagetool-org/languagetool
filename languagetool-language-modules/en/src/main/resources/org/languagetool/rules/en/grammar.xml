@@ -6134,7 +6134,7 @@ USA
             <pattern>
                 <token case_sensitive="yes" regexp="yes">
                     <exception regexp="yes" scope="previous">the|an?|my|y?our|his|her|their</exception>
-                    harry|matt|mike|trump|jack|tom|mark|nick
+                    harry|matt|mike|trump|jack|tom|mark|nick|robin
                 </token><!-- lowercase names that are also verbs or adjectives -->
                 <token regexp="yes" spacebefore="no">&apostrophe;</token>
                 <token spacebefore="no">s</token>
@@ -6891,15 +6891,6 @@ USA
             <message>Did you mean <suggestion>somehow</suggestion>?</message>
             <example correction="Somehow"><marker>Some how</marker>, we made it out alive.</example>
         </rule>
-        <!-- stale mate::word=stalemate -->
-        <rule id="STALE_MATE" name="stale mate (stalemate)">
-            <pattern>
-                <token>stale</token>
-                <token>mate</token>
-            </pattern>
-            <message>Did you mean <suggestion>stalemate</suggestion>?</message>
-            <example correction="stalemate">The game ended in a <marker>stale mate</marker>.</example>
-        </rule>
         <!-- them selves::word=themselves -->
         <rule id="THEM_SELVES" name="them selves (themselves)">
             <pattern>
@@ -6928,7 +6919,7 @@ USA
                 <token regexp="yes">For|for</token><!-- Lower case 'f' is a style decision -->
                 <token>Nature</token>
             </antipattern>
-            <antipattern case_sensitive="yes">
+            <antipattern>
                 <token>world</token>
                 <token>wide</token>
                 <token>web</token>
@@ -6936,8 +6927,7 @@ USA
             <pattern>
                 <marker>
                     <token>world</token>
-                    <token>
-                        wide</token>
+                    <token>wide</token>
                 </marker>
             </pattern>
             <message>The adjective/adverb <suggestion>worldwide</suggestion> is spelled as one word?</message>
@@ -11329,6 +11319,11 @@ USA
 
         <rulegroup id="THANKS_YOU" name="Thanks (Thank) you">
             <url>https://www.lexico.com/definition/thank_you</url>
+            <antipattern>
+                <token>you</token>
+                <token min="0" regexp="yes">&apostrophe;</token>
+                <token regexp="yes">a?re</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="SENT_START|PCT" postag_regexp="yes" />
@@ -11345,6 +11340,7 @@ USA
                 <example correction="thank you">Great, <marker>thanks you</marker>.</example>
                 <example>He <marker>thanks</marker> you for your help.</example>
                 <example><marker>Thanks</marker>, you are good to me.</example>
+                <example>Thanks you are the best.</example><!-- missing comma, different issue -->
             </rule>
             <rule>
                 <pattern>
@@ -12160,8 +12156,8 @@ USA
                         <exception postag="VBD|MD" postag_regexp="yes" />
                     </token>
                 </marker>
-                <token min="0" regexp="yes">so|very|really|not|totally|even|pretty|absolutely|still|extremely</token>
-                <token regexp="yes">&short_adjectives;|&optional_short_adjectives;|awesome|beautiful|ready|(im)?possible|different|wrong|fine|ok(ay)?|(al)?right|available|ready|dangerous|enough|sexy|delicious</token>
+                <token min="0" regexp="yes">so|very|really|not|totally|even|pretty|absolutely|still|extremely|kinda|almost</token>
+                <token regexp="yes">&short_adjectives;|&optional_short_adjectives;|awesome|beautiful|ready|(im)?possible|different|wrong|fine|ok(ay)?|(al)?right|available|ready|dangerous|enough|sexy|delicious|excellent|annoying|(in)?correct</token>
                 <token postag="CC|PCT|IN|SENT_END" postag_regexp="yes" />
             </pattern>
             <message>Did you mean <suggestion><match no="6" postag="VBZ" /></suggestion>?</message>
@@ -12172,13 +12168,29 @@ USA
             <example>That man left before I could get his name.</example>
             <example>THIS TIME OFF.</example>
         </rule>
-        <rule id="STEP_COMPOUNDS" name="step father (stepfather)" default="temp_off">
+        <rule id="STEP_COMPOUNDS" name="step father (stepfather)">
             <pattern>
                 <token>step</token>
                 <token regexp="yes">(father|mother|mom|dad|son|daughter|brother|sister)s?|child|children|family|families</token>
             </pattern>
             <message>The noun <suggestion>step<match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
             <example correction="stepson">She has a <marker>step son</marker> from his previous marriage.</example>
+        </rule>
+        <rule id="MATE_COMPOUNDS" name="stale mate (stalemate)" default="temp_off">
+            <pattern>
+                <token regexp="yes">stale|room|class|school|seat|work|cell|ship|team</token>
+                <token regexp="yes">mates?</token>
+            </pattern>
+            <message>The noun <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
+            <example correction="stalemate">The game ended in a <marker>stale mate</marker>.</example>
+        </rule>
+        <rule id="PRINT_COMPOUNDS" name="step father (stepfather)" default="temp_off">
+            <pattern>
+                <token regexp="yes">foot|thumb|voice|blue|finger|news</token>
+                <token regexp="yes">prints?</token>
+            </pattern>
+            <message>The noun <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
+            <example correction="fingerprint">She unlocked her smartphone with her <marker>finger print</marker>.</example>
         </rule>
         <rule id="SHELL_COMPOUNDS" name="bomb shell (bombshell)">
             <pattern>
@@ -12192,7 +12204,7 @@ USA
         </rule>
         <rule id="LINE_COMPOUNDS" name="dead line (deadline)">
             <pattern>
-                <token>dead</token>
+                <token regexp="yes">dead|guide</token>
                 <token regexp="yes">lines?</token>
             </pattern>
             <message>This is normally spelled as one word.</message>
@@ -12352,7 +12364,7 @@ USA
         </rule>
         <rule id="UP_COMPOUNDS" name="up date (update)">
             <antipattern>
-                <token inflected="yes" regexp="yes">catch|end|start|pile|cover|speed|turn|stay|jump|pull|push|tie|take|mix|sit|top|warm|run|pop|hang|line|stand|pick|back|hook|clean|look|make|follow|ramp|build|wave|clear|weld|kick|hold|shut|bring|set|free|wake|wound|divide|fill|roll|meet|come|light|open|match|rise|raise</token>
+                <token inflected="yes" regexp="yes">catch|end|start|pile|cover|speed|turn|stay|jump|pull|push|tie|take|mix|sit|top|warm|run|pop|hang|line|stand|pick|back|hook|clean|look|make|follow|ramp|build|wave|clear|weld|kick|hold|shut|bring|set|free|wake|wound|divide|fill|roll|meet|come|light|open|match|rise|raise|sign</token>
                 <token min="0" regexp="yes">it(self)?|that|this|th[oe]se</token>
                 <token>up</token>
             </antipattern>
@@ -12506,7 +12518,7 @@ USA
                 <token>Writer</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">copy|script|sky|screen|type|ghost</token>
+                <token regexp="yes">copy|script|sky|screen|type|ghost|song</token>
                 <token regexp="yes">writers?</token>
             </pattern>
             <message>This noun is normally spelled as one word.</message>
@@ -12795,7 +12807,7 @@ USA
             </antipattern>
             <pattern>
                 <!-- TODO: friendship (My friend ships ...) -->
-                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee|citizen|scholar|owner|controller</token>
+                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee|citizen|scholar|owner|controller|dictator</token>
                 <token regexp="yes">ships?</token>
             </pattern>
             <message>This noun is normally spelled as one.</message>
@@ -13053,7 +13065,7 @@ USA
             </antipattern>
             <antipattern>
                 <token>under</token>
-                <token regexp="yes">line|rate|estimate</token>
+                <token regexp="yes">line|rate|estimate|report</token>
                 <token min="0" regexp="yes" skip="1">#|no|nr|number</token>
                 <token postag="CD" />
             </antipattern>
@@ -13081,7 +13093,7 @@ USA
             </antipattern>
             <pattern>
                 <token>under</token>
-                <token inflected="yes" regexp="yes">appreciate|estimate|achieve|whelm|line|rate</token>
+                <token inflected="yes" regexp="yes">appreciate|estimate|achieve|whelm|line|rate|report|represent</token>
             </pattern>
             <message>This is normally spelled as one word.</message>
             <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion>
@@ -13121,7 +13133,7 @@ USA
                 <pattern>
                     <token>over</token>
                     <token inflected="yes" regexp="yes">
-                        complicate|think|come|estimate|haul|flow|kill|look|whelm|reach|see|view|wear
+                        complicate|think|come|estimate|haul|flow|kill|look|whelm|reach|see|view|wear|report
                         <exception postag="VBG" /><!-- see [3] -->
                     </token>
                 </pattern>
@@ -33431,33 +33443,50 @@ USA
             <example correction="Does anyone"><marker>Do anyone</marker>?</example>
             <example>Do something that relaxes you.</example>
         </rule>
-        <rule id="DO_HE_VERB" name="do (does) he have">
-            <!-- more specific than HE_VERB_AGR, helps to avoid loops with that -->
-            <antipattern><!-- #2125 Do it after school. -->
-                <token>do</token>
-                <token skip="-1">it
-                    <exception scope="next">?</exception>
-                    </token>
-                <token postag="SENT_END"/>
-            </antipattern>
-            <pattern>
-                <marker>
+        <rulegroup id="DO_HE_VERB" name="do (does) he have">
+            <rule>
+                <!-- more specific than HE_VERB_AGR, helps to avoid loops with that -->
+                <antipattern><!-- #2125 Do it after school. -->
                     <token>do</token>
-                </marker>
-                <token regexp="yes">he|she|it</token>
-                <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
-                <token postag="VB"><exception regexp="yes">well|even|better</exception></token>
-            </pattern>
-            <message>Did you mean <suggestion>does</suggestion>?</message>
-            <example correction="Does"><marker>Do</marker> she have dinner alone?</example>
-            <example correction="Does"><marker>Do</marker> it look broken to you?</example>
-            <example correction="does">... but <marker>do</marker> it usually look good or bad?</example>
-            <example>If you do it at all, try to do it well.</example>
-            <example>Then please do it after school.</example><!-- #2125 -->
-            <example>Then do it after school.</example>
-            <example>Do it after school.</example>
-            <example>You should do it before school.</example>
-        </rule>
+                    <token skip="-1">it
+                        <exception scope="next">?</exception>
+                        </token>
+                    <token postag="SENT_END"/>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>do</token>
+                    </marker>
+                    <token regexp="yes">he|she|it</token>
+                    <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
+                    <token postag="VB"><exception regexp="yes">well|even|better</exception></token>
+                </pattern>
+                <message>Did you mean <suggestion>does</suggestion>?</message>
+                <example correction="Does"><marker>Do</marker> she have dinner alone?</example>
+                <example correction="Does"><marker>Do</marker> it look broken to you?</example>
+                <example correction="does">... but <marker>do</marker> it usually look good or bad?</example>
+                <example>If you do it at all, try to do it well.</example>
+                <example>Then please do it after school.</example><!-- #2125 -->
+                <example>Then do it after school.</example>
+                <example>Do it after school.</example>
+                <example>You should do it before school.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>don</token>
+                        <token regexp="yes">&apostrophe;</token>
+                        <token>t</token>
+                    </marker>
+                    <token regexp="yes">he|she|it</token>
+                    <token postag="RB" min='0' max='3'><exception postag="VBD"/></token>
+                    <token postag="VB"><exception regexp="yes">well|even|better</exception></token>
+                </pattern>
+                <message>Did you mean <suggestion>doesn't</suggestion>?</message>
+                <example correction="Doesn't"><marker>Don't</marker> she have dinner alone?</example>
+                <example correction="Doesn't"><marker>Don’t</marker> it help you somehow?</example>
+            </rule>
+        </rulegroup>
         <rule id="WHEN_IS_NNP_AND_NNP" name="Incorrect use of 'is' vs. 'are'">
             <pattern>
                 <token postag="SENT_START|CC" postag_regexp="yes" />
@@ -33638,7 +33667,7 @@ USA
                     <token regexp="yes">s?he|it</token>
                     <token postag="RB" min="0" />
                     <marker>
-                        <token>wonts</token>
+                        <token regexp="yes">wonts?</token>
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>wants</suggestion>?</message>
