@@ -45,6 +45,8 @@ public class FrenchTagger extends BaseTagger {
   private static final Pattern VERB = Pattern.compile("V .+");
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto-|re-)(.*[aeiouêàéèíòóïü].+[aeiouêàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
+  private static final Pattern NOUN_ADJ = Pattern.compile("[NJ] .+");
+  private static final Pattern PREFIXES_NOUN_ADJ = Pattern.compile("(micro-|macro-)(.*[aeiouêàéèíòóïü].+[aeiouêàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
   public FrenchTagger() {
     super("/fr/french.dict", Locale.FRENCH, false);
@@ -155,6 +157,22 @@ public class FrenchTagger extends BaseTagger {
         final String posTag = taggerToken.getPOSTag();
         if (posTag != null) {
           final Matcher m = VERB.matcher(posTag);
+          if (m.matches()) {
+            String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
+            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+          }
+        }
+      }
+      return additionalTaggedTokens;
+    }
+    matcher = PREFIXES_NOUN_ADJ.matcher(word);
+    if (matcher.matches()) {
+      final String possibleVerb = matcher.group(2).toLowerCase();
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(possibleVerb));
+      for (AnalyzedToken taggerToken : taggerTokens ) {
+        final String posTag = taggerToken.getPOSTag();
+        if (posTag != null) {
+          final Matcher m = NOUN_ADJ.matcher(posTag);
           if (m.matches()) {
             String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
             additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
