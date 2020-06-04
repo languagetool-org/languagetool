@@ -42571,12 +42571,11 @@ Andere Projekte</example>
                     <token postag="PKT"/>
                 </antipattern>
                 <pattern>
-                    <marker>
                     <token><exception regexp="yes">,|;|-|–|—|\(|„|“|"</exception><exception postag="SENT_START"/></token>
                     <token>sondern</token>
-                    </marker>
                 </pattern>
-                <message>Wenn die Konjunktion '\2' hier einen Nebensatz einleitet, wird ein Komma gesetzt.</message>                <suggestion>\1, \2</suggestion>
+                <message>Nach der Konjunktion 'sondern' folgt immer ein Komma.</message>
+                <suggestion>\1, \2</suggestion>
                 <example correction="Sommer, sondern">Es ist nicht <marker>Sommer sondern</marker> Winter.</example>
                 <example>Es ist nicht <marker>Sommer, sondern</marker> Winter.</example>
                 <example>Diese <marker>Insekten sondern</marker> einen bestimmten Duftstoff ab.</example>
