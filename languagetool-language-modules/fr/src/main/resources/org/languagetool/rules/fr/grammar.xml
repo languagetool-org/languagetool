@@ -1772,6 +1772,10 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="OU" name="Ou au lieux de où">
       <rule>
+        <antipattern>
+          <token inflected="yes">être<exception>être</exception></token>
+          <token regexp="yes" spacebefore="no">-.*</token>
+        </antipattern>
         <pattern>
           <marker>
             <token>ou</token>
@@ -1784,6 +1788,7 @@ though, and has since been slightly modified)-->
         <example>Où sont mes affaires ?</example>
         <example>Manger ou être mangé, c’est la loi de la nature.</example>
         <example>Ils ont été <marker>ou</marker> sont pour l’implantation de la centrale nucléaire.</example>
+        <example>Est-ce que tu manges à la maison ou est-ce que tu manges dehors ?</example>
       </rule>
       <rule>
         <pattern>
@@ -5343,6 +5348,7 @@ though, and has since been slightly modified)-->
         <message>Voulez-vous écrire <suggestion><match no="3" regexp_match="^....." regexp_replace="venim"/></suggestion> ?</message>
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1890</url>
         <example correction="venimeuses">Les couleuvres ne sont pas <marker>vénéneuses</marker>.</example>
+        <example correction="venimeux">Ce serpent n'est pas <marker>vénéneux</marker>.</example>
       </rule>
       <rule>
         <pattern>
@@ -9594,6 +9600,15 @@ though, and has since been slightly modified)-->
               <token postag="A" min="0" max="1"/>
               <token postag="J [me] [sp]" postag_regexp="yes"/>
           </antipattern>
+        <antipattern>
+          <token postag="N [me] [sp]" postag_regexp="yes"/>
+          <token regexp="yes">aux|à|de|du</token>
+          <token postag="N .*" postag_regexp="yes"/>
+          <token regexp="yes">aux|à|de|du</token>
+          <token postag="N .*" postag_regexp="yes"/>
+          <token postag="A" min="0" max="1"/>
+          <token postag="J [me] [sp]" postag_regexp="yes"/>
+        </antipattern>
           <antipattern>
               <token>moteur</token>
               <token>essence</token>
@@ -9667,6 +9682,7 @@ though, and has since been slightly modified)-->
         <example>Aucune destruction n’a été jusqu’à <marker>présent rapportée</marker>.</example>
         <example>Cette voiture a un moteur essence.</example>
         <example>Elle est par <marker>conséquent perdue</marker></example>
+        <example>Bonjour, est-ce Madame Brown ?</example>
       </rule>
       <rule name="nom masculin suivi du féminin">
         <antipattern>
@@ -9675,6 +9691,15 @@ though, and has since been slightly modified)-->
             <token postag="N .*" postag_regexp="yes"/>
             <token postag="A" min="0" max="1"/>
             <token postag="J [fe] [sp]" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+          <token postag="N [fe] [sp]" postag_regexp="yes"/>
+          <token regexp="yes">aux|à|de|du|d'</token>
+          <token postag="N .*" postag_regexp="yes"/>
+          <token regexp="yes">aux|à|de|du|d'</token>
+          <token postag="N .*" postag_regexp="yes"/>
+          <token postag="A" min="0" max="1"/>
+          <token postag="J [fe] [sp]" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
           <token>n</token>
@@ -9752,6 +9777,7 @@ though, and has since been slightly modified)-->
         <example>Kyoto vaut la peine d'être visitée.</example>
         <example>déclarations d'amour régulières</example>
         <example>Une maquette d'avion réellement jolie.</example>
+        <example>une feuille de papier d'aluminium beurrée</example>
       </rule>
       <rule name="féminin suivi du masculin">
          <antipattern>
@@ -9780,6 +9806,10 @@ though, and has since been slightly modified)-->
         <antipattern>
           <token inflected="yes">imprimante</token>
           <token>laser</token>
+        </antipattern>
+        <antipattern>
+          <token>saint</token>
+          <token spacebefore="no">-</token>
         </antipattern>
         <pattern>
           <token postag="[DJ] f .*" postag_regexp="yes" skip="1">
@@ -9841,12 +9871,14 @@ though, and has since been slightly modified)-->
         <example>La Premier League écossaise</example>
         <example>l'histoire de la National Football League</example>
         <example>la 38e draft de la National Basketball Association</example>
+        <example>de la basilique saint-Pierre</example>
       </rule>
       <rule name="nom féminin suivi du masculin">
         <antipattern>
             <token postag="N [me] [sp]" postag_regexp="yes"/>
             <token regexp="yes">aux|à|de|du|d'</token>
             <token postag="N .*" postag_regexp="yes"/>
+            <token min="0" max="1" postag="A"/>
             <token postag="J [me] sp?" postag_regexp="yes"/>
         </antipattern>
           <antipattern>
@@ -9854,6 +9886,7 @@ though, and has since been slightly modified)-->
               <token>et</token>
               <token postag="D f [sp]" postag_regexp="yes"/>
               <token postag="N f [sp]" postag_regexp="yes"/>
+              <token min="0" max="1" postag="A"/>
               <token postag="(J|V ppa) m .*" postag_regexp="yes"/>
           </antipattern>
         <antipattern>
@@ -9929,6 +9962,8 @@ though, and has since been slightly modified)-->
         <example>Je trouve le rythme et la mélodie combinés avec des rimes très beaux dans cette chanson.</example>
         <example>Le système d'éducation japonais.</example>
         <example>Tout le monde l'aura oublié.</example>
+        <example>Le Roi d'Espagne comme souverain.</example>
+        <example type="triggers_error" reason="pending multiwords">pour l'interface utilisateur</example>
       </rule>
     </rulegroup>
     <rulegroup id="NOM_DE_PAYS" name="Nom de pays sans majuscule" default="off">
@@ -10495,7 +10530,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
          <pattern>
-          <token inflected="yes" regexp="yes">&lt;/[MTS]E&gt;|[mts]e</token>
+          <token inflected="yes" regexp="yes">[mts][e']</token>
           <marker>
             <token postag="V.* ppa.*" postag_regexp="yes" regexp="yes">.*é</token>
           </marker>
@@ -10604,6 +10639,7 @@ though, and has since been slightly modified)-->
         <example>On ne la paie pas.</example>
         <example>Cela fait dix ans que l'on ne s'est pas vus.</example>
         <example>Es-tu sûr que tu ne l'as jamais rencontré ?</example>
+        <example>Petit-déjeunes-tu à la maison ?</example>
       </rule>
       <rule>
         <pattern>
@@ -12188,6 +12224,15 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="ACCORD_R_PERS_VERBE" name="accord pronom personnel avec verbe">
+      <antipattern>
+        <token postag="P"/>
+        <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes"/>
+      </antipattern>
+      <antipattern>
+        <token postag="[NJ].*" postag_regexp="yes"/>
+        <token>comme</token>
+        <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes"/>
+      </antipattern>
       <rule name="je + token + verbe">
         <pattern>
           <token postag="R pers suj 1 s"><exception regexp="yes">-.+</exception></token>
@@ -12382,7 +12427,7 @@ though, and has since been slightly modified)-->
       <rule name="il/elle/on + 2 tokens + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
-            <exception regexp="yes">ça|cela|ceci|ce|celle|-.*|c'</exception>
+            <exception regexp="yes">ça|cela|ceci|ce|celle|-.*|c'|(celui|celle)-(ci|là)</exception>
             <exception scope="previous" postag="P"/>
           </token>
           <!-- Not all combinations of 2 tokens between il/elle/on and verb are actually possible -->
@@ -12397,6 +12442,7 @@ though, and has since been slightly modified)-->
         <example correction="">Comme il n’<marker>avais</marker> plus de voiture, il prenait le bus.</example>
         <example>Comme il n’avait plus de voiture, il prenait le bus.</example>
         <example>C'étaient toutes des choses faites main.</example>
+        <example>Les polluants comme celui-ci viennent principalement de la combustion.</example>
       </rule>
       <rule name="il/elle/on + 2 tokens + Verbe">
         <pattern>
@@ -13108,7 +13154,7 @@ though, and has since been slightly modified)-->
           <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception regexp="yes" scope="next">d|du|des?|en|et</exception></token>
           <token postag="[NR].* s" postag_regexp="yes">
-            <exception regexp="yes">[mt]oi|[nv]ous|eux</exception>
+            <exception regexp="yes">-?[mt]oi|[nv]ous|eux</exception>
             <exception postag="[NJ].* s?p" postag_regexp="yes"/>
           </token>
           <token>qui</token>
@@ -13127,6 +13173,7 @@ though, and has since been slightly modified)-->
         <example>Eux qui jouent ici</example>
         <example>Quelques jeux vidéo qui ont marqué les années 80.</example>
         <example>Six médecins et un infirmier qui travaillaient à l’hôpital.</example>
+        <example>Dis-moi qui sont tes amis.</example>
       </rule>
       <rule>
         <pattern>
@@ -13134,7 +13181,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes" scope="next">d|du|des?|en</exception>
           </token>
           <token postag="[NR].* s" postag_regexp="yes">
-            <exception regexp="yes">[mt]oi|[nv]ous|eux</exception>
+            <exception regexp="yes">-?[mt]oi|[nv]ous|eux</exception>
           </token>
           <token>qui</token>
           <token postag="R pers obj.*" postag_regexp="yes">
@@ -13602,7 +13649,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START|C coor" skip="1" postag_regexp="yes"><exception scope="next" regexp="yes">en|les|l'</exception></token>
+          <token postag="SENT_START|C coor" skip="1" postag_regexp="yes"><exception scope="next" regexp="yes">en|les|l'|t'|m'</exception></token>
           <token inflected="yes">avoir</token>
           <token regexp="yes" spacebefore="no">-(je|tu|nous|vous)|-(t-)?(il|elle|on|ils|elles)</token>
           <marker><token postag="V.* ppa.*" postag_regexp="yes"><exception postag="V.* ppa [me] sp?" postag_regexp="yes"/></token></marker>
@@ -13619,6 +13666,7 @@ though, and has since been slightly modified)-->
         <example>En aviez-vous mangés ?</example>
         <example>Les as-tu lus ?</example>
         <example>L'avez-vous entendue parler français ?</example>
+        <example>T'a-t-il demandée en mariage ?</example>
       </rule>
       <rule>
         <pattern>
@@ -13636,7 +13684,7 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token>L'</token>
+          <token regexp="yes">L'|T'</token>
           <token inflected="yes">avoir</token>
           <token regexp="yes" spacebefore="no">-(je|tu|nous|vous)|-(t-)?(il|elle|on|ils|elles)</token>
           <marker><token postag="V.* ppa . p" postag_regexp="yes"/></marker>
@@ -13646,6 +13694,7 @@ though, and has since been slightly modified)-->
         <example correction="lu">L'as-tu <marker>lus</marker> ?</example>
         <example correction="lu">L'a-t-il <marker>lus</marker> ?</example>
         <example correction="entendue">L'avez-vous <marker>entendues</marker> parler français ?</example>
+        <example correction="demandée">T'a-t-il <marker>demandées</marker> en mariage ?</example>
       </rule>
     </rulegroup>
     <rulegroup id="QUE_AVOIR" name="accord que + verbe avoir">
@@ -13968,12 +14017,13 @@ though, and has since been slightly modified)-->
       </antipattern>
       <pattern>
         <marker>
-          <token><exception postag="V .*" postag_regexp="yes"/></token>
+          <token><exception postag="V .* (ind|sub).*" postag_regexp="yes"/></token>
         </marker>
         <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">-.+</token>
       </pattern>
       <message>« \1 » n’est pas un verbe valide.</message>
       <example correction="">Quand <marker>parts</marker>-tu ?</example>
+      <example correction="">Me <marker>trompé</marker>-je ?</example>
       <example>Mon enfant ne m’en veux pas.</example>
       <example>Faites-le-moi.</example>
     </rule>
@@ -14239,6 +14289,7 @@ though, and has since been slightly modified)-->
         <example>Des petites <marker>zones</marker> favorables à la biodiversité.</example>
         <example>Du tronc poussent les branches.</example>
         <example>Quels changements attendre de la réalité augmentée ?</example>
+        <example>Les personnes sourd-muettes</example>
       </rule>
       <rule name="sujet pluriel + 1 token + verbe singulier">
         <pattern>
@@ -14972,6 +15023,7 @@ though, and has since been slightly modified)-->
             <example correction="prend-il">Que <marker>prend il</marker> ?</example>
             <example correction="abandonnait-il">Qu'<marker>abandonnait il</marker> ?</example>
             <example>En outre, c’est elle qui aux côtés de François Mitterrand signe le traité de Maastricht prévoyant l’euro.</example>
+            <example>On dit qu'en fait il n'avait rien à voir avec ça.</example>
         </rule>
         <rule name="première personne du pluriel">
             <antipattern>
@@ -15089,11 +15141,10 @@ though, and has since been slightly modified)-->
           <token></token>
           <token>-</token>
           <token>t</token>
-          <token>-</token>
-          <token regexp="yes">(?:je|tu|[nv]ous|ils|elles)</token>
+          <token regexp="yes">-.*<exception regexp="yes">-il|-ils|-elle|-elles|-on</exception></token>
         </pattern>
         <message>Le -t- euphonique n’est possible qu’avec un pronom sujet de troisième personne (il, elle on).</message>
-        <suggestion>\1 \5</suggestion>
+        <suggestion>\1 <match no="5" regexp_match="^-" regexp_replace=""/></suggestion>
         <url>https://www.projet-voltaire.fr/regles-orthographe/mentend-il-ou-mentend-t-il/</url>
         <example correction="arriveras tu">Quand <marker>arriveras-t-tu</marker> ?</example>
         <example>Quand <marker>arriveras-tu</marker> ?</example>
@@ -15115,10 +15166,7 @@ though, and has since been slightly modified)-->
         <token>y</token>
         <token>-</token>
         <token>a</token>
-        <token>-</token>
-        <token>t</token>
-        <token>-</token>
-        <token>il</token>
+        <token>-t-il</token>
       </pattern>
       <message>Voulez-vous écrire <suggestion>y a-t-il</suggestion> ?</message>
       <example correction="Y a-t-il"><marker>Y-a-t-il</marker> un pilote dans l’avion ?</example>
@@ -15188,10 +15236,9 @@ though, and has since been slightly modified)-->
           <token/>
           <token>-</token>
           <token>t</token>
-          <token>-</token>
-          <token>en</token>
+          <token>-en</token>
         </pattern>
-        <message>Ne pas confondre le t euphonique et l’apostrophe. Écrivez <suggestion>\1\2\3'\5</suggestion>.</message>
+        <message>Ne pas confondre le t euphonique et l’apostrophe. Écrivez <suggestion>\1\2\3<match no="4" regexp_match="^-" regexp_replace="'"/></suggestion>.</message>
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?T1=t+euphonique</url>
         <example correction="Va-t'en"><marker>Va-t-en</marker> !</example>
         <example>C’est un va-t-en-guerre.</example>
@@ -15926,6 +15973,10 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rulegroup id="P_V_PAS" name="négation sans NE">
+      <antipattern>
+        <token>jamais</token>
+        <token regexp="yes">vu|vue|vus|vues</token>
+      </antipattern>
       <rule>
         <pattern>
           <marker>
@@ -15974,6 +16025,7 @@ though, and has since been slightly modified)-->
         <example>Il a pas moins de 10 voitures.</example>
         <example>Ne vous inquiétez pas.</example>
         <example>Ne nous inquiétons pas.</example>
+        <example>C'est le pire film que j'ai jamais vu.</example>
       </rule>
       <rule>
         <pattern>
@@ -23902,11 +23954,12 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="FAIRE_APPLICATION" name="faire application">
       <pattern>
-        <token inflected="yes" skip="2">faire</token>
+        <token inflected="yes" skip="2">faire<exception scope="next">,</exception></token>
         <token>application</token>
       </pattern>
       <message>« Faire application » est un anglicisme (to make an application). Employez <suggestion>poser sa candidature</suggestion>.</message>
       <example correction="poser sa candidature"><marker>faire application</marker></example>
+      <example>Quoi que nous fassions, l'application est très importante.</example>
     </rule>
     <rule id="FAIRE_SUR_QUE" name="faire sûr que">
       <pattern>
@@ -28847,11 +28900,12 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="ESPACE_POURCENT" name="espace insécable avant %">
       <pattern>
-        <token regexp="yes">\d+%</token>
+        <token regexp="yes">[\d\.,]+%</token>
       </pattern>
       <message>Il faut utiliser une espace insécable avant le symbole des pourcentages. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)%" regexp_replace="$1 %"/></suggestion> ?</message>
       <url>https://fr.wikipedia.org/wiki/%25</url>
       <example correction="8 %">Une croissance de <marker>8%</marker>.</example>
+      <example correction="8,5 %">Une croissance de <marker>8,5%</marker>.</example>
     </rule>
     <rule default="off" id="ALORS" name="alors (sans virgule après)">
       <pattern>
@@ -29544,8 +29598,7 @@ though, and has since been slightly modified)-->
           <token>va<exception scope="previous">en</exception></token>
           <token>-</token>
           <token>t</token>
-          <token>-</token>
-          <token>en</token>
+          <token>-en</token>
           <token regexp="yes">guerres?</token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>va-t-en-guerre</suggestion> ?</message>
@@ -31117,6 +31170,7 @@ though, and has since been slightly modified)-->
       <message>« Faire affaires avec » est une expression fautive (expression invariable). Employez <suggestion>affaire avec</suggestion>.</message>
       <example correction="affaire avec">faire <marker>affaires avec</marker></example>
       <example><marker>faire affaire avec</marker></example>
+      <!-- TODO: correct? <example>Comment fais-tu des affaires avec 300 yuan ?</example>-->
     </rule>
     <rule id="TENIR_POUR_ACQUIT" name="tenir pour acquit">
       <pattern>

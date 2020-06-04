@@ -69,6 +69,15 @@ public class FrenchWordTokenizerTest {
     assertEquals(tokens.size(), 3);
     tokens = wordTokenizer.tokenize("rendez-vous");
     assertEquals(tokens.size(), 1);
+    tokens = wordTokenizer.tokenize("Petit-déjeunes-tu");
+    assertEquals(tokens.size(), 2);
+    tokens = wordTokenizer.tokenize("Y-a-t-il");
+    assertEquals(tokens.size(), 4);
+    tokens = wordTokenizer.tokenize("va-t-en"); // wrong, correct: va-t'en
+    assertEquals(tokens.size(), 4);
+    tokens = wordTokenizer.tokenize("va-t'en");
+    assertEquals(tokens.size(), 3);
+    
     
     tokens = wordTokenizer.tokenize("10 000");
     assertEquals(tokens.size(), 1);
