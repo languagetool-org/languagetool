@@ -153,7 +153,8 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token>mientras</token>
                     <token>tanto</token>
-                </marker><!-- exceptions? -->
+                </marker>
+                <!-- exceptions? -->
             </pattern>
             <disambig action="replace">
                 <wd pos="LOC_ADV"/>
@@ -1183,15 +1184,23 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="V.[SIM].*"/>
     </rule>
 
-    <rule id="probably_noun" name="probably_noun">
-        <pattern>
-            <marker>
-                <token inflected="yes">casa</token>
-            </marker>
-            <token regexp="yes">del?</token>
-        </pattern>
-        <disambig action="filter" postag="NC.*"/>
-    </rule>
+    <rulegroup id="probably_noun" name="probably_noun">
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">casa</token>
+                </marker>
+                <token regexp="yes">del?</token>
+            </pattern>
+            <disambig action="filter" postag="NC.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes">mesa</token>
+            </pattern>
+            <disambig action="filter" postag="NC.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="la_planta" name="la planta (noun), exeption to next rule">
         <rule>
             <pattern>
@@ -1200,7 +1209,7 @@ Copyright (C) 2011 Juan Martorell
                     <feature id="numero"/>
                     <token postag="DA.*" postag_regexp="yes"><exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="NC.*" postag_regexp="yes"></token>
+                        <token postag="NC.*" postag_regexp="yes"/>
                     </marker>
                 </unify>
                 <token min="0">no</token>
@@ -1216,7 +1225,7 @@ Copyright (C) 2011 Juan Martorell
                     <feature id="numero"/>
                     <token postag="DA.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="NC.*" postag_regexp="yes"></token>
+                        <token postag="NC.*" postag_regexp="yes"/>
                     </marker>
                 </unify>
                 <token>de</token>
@@ -1939,7 +1948,7 @@ Copyright (C) 2011 Juan Martorell
             <marker>
                 <and>
                     <token postag="N.*" postag_regexp="yes" regexp="yes">haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token postag="N.*" postag_regexp="yes" negate_pos="yes"></token>
+                    <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
         </pattern>
