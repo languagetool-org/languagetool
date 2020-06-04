@@ -9191,7 +9191,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rule id="DIES_BEZUEGLICH" name="dies bezüglich (diesbezüglich)" default="temp_off">
+        <rulegroup id="DIE_JENINGEN" name="die Jenigen (diejenigen)">
+            <url>https://de.wiktionary.org/wiki/diejenigen</url>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">des|den|dem</token>
+                    <token>jenige</token>
+                </antipattern>
+                <antipattern>
+                    <token>das</token>
+                    <token>jenigen</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">die|der|das|den|des|dem</token>
+                    <token regexp="yes">jenigen?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>die<match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="diejenigen">Das waren <marker>die Jenigen</marker>, die das Feuer auch wieder gelöscht haben.</example>
+            </rule>
+        </rulegroup>
+        <rule id="DIES_BEZUEGLICH" name="dies bezüglich (diesbezüglich)">
             <pattern>
                 <token>dies</token>
                 <token regexp="yes">bez(ü|ue)glich</token>
@@ -9216,7 +9235,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">Online|Offline|Guerilla</token>
                 <token regexp="yes">Marketings?</token>
             </pattern>
-            <message>Dieses Substantiv wird mit Bindestrich geschrieben.</message>
+            <message>Dieses Nomen wird mit Bindestrich geschrieben.</message>
             <suggestion>\1-\2</suggestion>
             <url>https://de.wikipedia.org/wiki/Online-Marketing</url>
             <example correction="Online-Marketing">Sie konnten die Verkäufe durch <marker>Online Marketing</marker> steigern.</example>
@@ -42807,8 +42826,8 @@ Andere Projekte</example>
                     <token>?</token>
                 </antipattern>
                 <antipattern>
-                    <token inflected="yes" skip="2" regexp="yes">liegen</token>
-                    <token regexp="yes">da</token>
+                    <token inflected="yes" skip="2">liegen</token>
+                    <token>da</token>
                     <token>richtig</token>
                     <token>?</token>
                 </antipattern>
@@ -43936,7 +43955,7 @@ Andere Projekte</example>
         </rulegroup>
     </category>
     <category id="EMPFOHLENE_RECHTSCHREIBUNG" name="Empfohlene/Modernere Rechtschreibung" type="style">
-        <rulegroup id="BZGL_ABK" name="Schreibweise der Abkürzung 'bzgl.'" default="temp_off">
+        <rulegroup id="BZGL_ABK" name="Schreibweise der Abkürzung 'bzgl.'">
             <rule>
                 <pattern>
                     <token>bezgl</token>
