@@ -45,6 +45,17 @@ RB => Règles Brutes
       <token postag=".* [fe] [sp][sp]?" postag_regexp="yes"/>
     </equivalence>
   </unification>
+  <unification feature="person">
+    <equivalence type="p1">
+      <token postag=".* 1 .*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="p2">
+      <token postag=".* 2 .*" postag_regexp="yes"/>
+    </equivalence>
+    <equivalence type="p3">
+      <token postag=".* 3 .*" postag_regexp="yes"/>
+    </equivalence>
+  </unification>
 
   <rule name="C" id="C_APOSTROPHE">
     <pattern>
@@ -269,7 +280,7 @@ RB => Règles Brutes
       <pattern>
         <token regexp="yes">chaque|des?|maint|mêmes|moult|nul|plusieurs|quelques<exception scope="previous" regexp="yes">&apostrophe;</exception></token>
         <marker>
-          <token postag="N.*" postag_regexp="yes"><exception regexp="yes">est|multiples|si|petite?s?|mauvais|pires?</exception></token>
+          <token postag="N.*" postag_regexp="yes"><exception regexp="yes">est|multiples|si|petite?s?|mauvais|pires?</exception><exception inflected="yes">bon</exception></token>
         </marker>
       </pattern>
       <disambig action="filter" postag="N.*"/>
@@ -358,7 +369,7 @@ RB => Règles Brutes
     </rule>
     <rule name="qui nous">
       <pattern>
-        <token regexp="yes">à|qui|de|ne|chez|sur|sans|entre|parmi|tout|pour</token>
+        <token regexp="yes">à|de|ne|chez|sur|sans|entre|parmi|tout|pour</token> <!--qui|-->
         <marker><token>nous</token></marker>
       </pattern>
       <disambig postag="R pers obj 1 p"/>
@@ -700,59 +711,62 @@ RB => Règles Brutes
         <marker>
           <token>tu</token>
         </marker>
-        <token regexp="yes">[mntl]e?|la|lui|leur|[nv]ous</token>
+        <token regexp="yes">[mntl][e']|la|lui|leur|[nv]ous</token>
       </pattern>
       <disambig postag="R pers suj 2 s"/>
     </rule>
 
+    <rule name="nous a-t-elle">
+      <pattern>
+        <marker>
+          <token regexp="yes">[nv]ous</token>
+        </marker>
+        <token regexp="yes" min="0">le|l'|la|les</token>
+        <token postag="V.*" postag_regexp="yes"/>
+        <token postag="R pers suj.*" postag_regexp="yes" spacebefore="no"/>
+      </pattern>
+      <disambig action="filter" postag="R pers obj.*"/>
+    </rule>
+    
     <rule name="Nous">
       <pattern>
         <token postag="SENT_START"/>
         <marker>
-          <token>nous</token>
+          <token regexp="yes">nous|vous</token>
         </marker>
       </pattern>
-      <disambig postag="R pers suj 1 p"/>
+      <disambig action="filter" postag="R pers suj [12] p"/>
     </rule>
+    
+    <rule name="que nous offre la nature">
+      <pattern>
+        <token>que</token>
+        <marker>
+          <token postag="R pers obj [21] p" postag_regexp="yes" regexp="yes">nous|vous</token>
+        </marker>
+        <token postag="V.* 3 s" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="R pers obj [12] p"/>
+    </rule>
+    
     <rule name="que nous">
       <pattern>
         <token>que</token>
         <marker>
-          <token postag="R pers suj 1 p">nous</token>
+          <token postag="R pers suj [21] p" postag_regexp="yes" regexp="yes">nous|vous</token>
         </marker>
       </pattern>
-      <disambig postag="R pers suj 1 p"/>
+      <disambig action="filter" postag="R pers suj [12] p"/>
     </rule>
-
-    <rule name="Vous">
-      <pattern>
-        <token postag="SENT_START"/>
-        <marker>
-          <token>vous</token>
-        </marker>
-        <token postag="V.*" postag_regexp="yes"/>
-        <token postag="R pers suj.*" postag_regexp="yes" regexp="yes" spacebefore="no">-.*</token>
-      </pattern>
-      <disambig action="filter" postag="R pers obj 2 p"/>
-    </rule> 
     
-    <rule name="Vous">
+    <rule name="nous croyons">
       <pattern>
-        <token postag="SENT_START"/>
         <marker>
-          <token>vous</token>
+          <token>nous</token>
         </marker>
+        <token postag="V .* 1 p" postag_regexp="yes"/>
       </pattern>
-      <disambig action="filter" postag="R pers suj 2 p"/>
-    </rule>
-    <rule name="que vous">
-      <pattern>
-        <token>que</token>
-        <marker>
-          <token postag="R pers suj 2 p">vous</token>
-        </marker>
-      </pattern>
-      <disambig postag="R pers suj 2 p"/>
+      <disambig action="filter" postag="R pers suj 1 p"/>
     </rule>
 
   </rulegroup>
@@ -933,16 +947,71 @@ RB => Règles Brutes
     <disambig action="filterall"/>
   </rule>
   
-  <rule id="AVOIR_PP" name="avoir + pp">
-    <pattern>
-      <token regexp="yes">l'|les</token>
+  <rulegroup id="AVOIR_PP" name="avoir + pp">
+    <rule>
+      <pattern>
+        <token regexp="yes">l'|les</token>
+        <marker>
+          <token inflected="yes">avoir</token>
+        </marker>
+        <token postag="V ppa .*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="V.*"/>
+    </rule>
+    <rule name="qu'as donc tu fait">
+      <pattern>
+        <unify>
+          <feature id="number"/>
+          <feature id="person"/>
+          <token inflected="yes">avoir</token>
+          <unify-ignore>
+            <token min="0">donc</token>
+          </unify-ignore>
+          <token postag="R pers suj.*" postag_regexp="yes"/>
+        </unify>
+        <marker>
+        <token postag="V ppa .*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V ppa.*"/>
+    </rule>
+  </rulegroup>
+  
+  <rulegroup id="PRONOM_SUJET_VERB" name="pronom sujet + verb">
+    <rule>
+      <pattern>
+      <token regexp="yes">je|tu|ils?|on</token>
+      <token inflected="yes" min="0">ne</token>
       <marker>
-        <token inflected="yes">avoir</token>
+        <token postag="V.* (ind|sub|con).*" postag_regexp="yes"/>
       </marker>
-      <token postag="V ppa .*" postag_regexp="yes"/>
-    </pattern>
-    <disambig action="filter" postag="V.*"/>
-  </rule>
+      </pattern>
+      <disambig action="filter" postag="V.* (ind|sub|con).*"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">je|tu|ils?|on</token>
+        <token inflected="yes" min="0">ne</token>
+        <token postag="R pers obj.*" postag_regexp="yes" regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les</token>
+        <marker>
+          <token postag="V.* (ind|sub|con).*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.* (ind|sub|con).*"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">je|tu|ils?|on</token>
+        <token inflected="yes" min="0">ne</token>
+        <token postag="R pers obj.*" postag_regexp="yes">[lmst]'|lui|leur|[nv]ous|la|le|les</token>
+        <token postag="R pers obj.*" postag_regexp="yes" regexp="yes">y|en</token>
+        <marker>
+          <token postag="V.* (ind|sub|con).*" postag_regexp="yes"/>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.* (ind|sub|con).*"/>
+    </rule>
+  </rulegroup>
   <rule name="RP : Det + Nom ambigu" id="RP-D_N_AMBIG">
     <pattern>
       <unify> <feature id="number"/> <feature id="gender"/>
@@ -1992,8 +2061,7 @@ RB => Règles Brutes
   <rule name="Ignore spelling of l'ONU" id="IGNORE_SPELLING_OF_L_ONU">
     <!-- see https://github.com/languagetool-org/languagetool/issues/2665 -->
     <pattern>
-        <token regexp="yes">[dl]</token>
-        <token spacebefore="no" regexp="yes">&apostrophe;</token>
+        <token regexp="yes">[dl]'</token>
         <token spacebefore="no" case_sensitive="yes" regexp="yes">ONU|AGV|UNSC|Excel|OTAN|ADLC|OFSP</token><!-- not sure if this the best way to fix this -->
     </pattern>
     <disambig action="ignore_spelling"/>
@@ -2002,8 +2070,7 @@ RB => Règles Brutes
   <rule name="Ignore spelling of l'e-mail" id="IGNORE_SPELLING_OF_L_EMAIL">
     <!-- see https://github.com/languagetool-org/languagetool/issues/2665 -->
     <pattern>
-        <token regexp="yes">[dl]</token>
-        <token spacebefore="no" regexp="yes">&apostrophe;</token>
+        <token regexp="yes">[dl]'</token>
         <token spacebefore="no" case_sensitive="yes" regexp="yes">emails?</token><!-- not sure if this the best way to fix this -->
     </pattern>
     <disambig action="ignore_spelling"/>
@@ -2021,8 +2088,7 @@ RB => Règles Brutes
 
   <rule name="Ignore spelling of d'1" id="IGNORE_SPELLING_OF_D_UN">
     <pattern>
-        <token>d</token>
-        <token spacebefore="no" regexp="yes">&apostrophe;</token>
+        <token>d'</token>
         <token spacebefore="no">1</token><!-- not sure if this the best way to fix this -->
     </pattern>
     <disambig action="ignore_spelling"/>

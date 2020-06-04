@@ -982,13 +982,14 @@ though, and has since been slightly modified)-->
       <rule>
         <pattern>
           <token regexp="yes">il|elle|on
-            <exception scope="previous" regexp="yes">à|pour|['´‘’′]</exception>
+            <exception scope="previous" regexp="yes">à|pour</exception>
             <exception scope="previous" inflected="yes">être</exception>
           </token>
-          <marker><token regexp="yes">peut[-‑‐]être</token></marker>
+          <marker><token>peut-être</token></marker>
         </pattern>
         <message>Voulez-vous écrire <suggestion>peut être</suggestion> ?</message>
         <example correction="peut être">Elle <marker>peut-être</marker> ennuyeuse.</example>
+        <example correction="peut être">Ce qu'il <marker>peut-être</marker> relou, alors.</example>
         <example>La lettre est à elle peut-être.</example>
         <example>C’est elle peut-être.</example>
       </rule>
@@ -1514,19 +1515,16 @@ though, and has since been slightly modified)-->
           <token regexp="yes">\/|\)|\.</token>
         </antipattern>
         <pattern>
-          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
-            <exception regexp="yes" scope="next">qu[ie]?</exception>
-          </token>
+          <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1"><exception regexp="yes" scope="next">qu[ie]?</exception></token>
           <token postag="V.*" postag_regexp="yes">
             <exception postag="[ZNRJ].*" postag_regexp="yes"/>
             <exception postag="V inf"/>
             <exception regexp="yes">puis|née?s?</exception>
           </token>
-          <marker><token>a
-          </token></marker>
-          <token>
-            <exception regexp="yes">contrario|enclos|fortiori|posteriori|priori|capp?ella|côté|.</exception>
-          </token>
+          <marker>
+            <token>a</token>
+          </marker>
+          <token><exception regexp="yes">contrario|enclos|fortiori|posteriori|priori|capp?ella|côté|.</exception></token>
         </pattern>
         <message>Voulez-vous écrire <suggestion>à</suggestion> ?</message>
         <example correction="à">Ils s’apprêtent <marker>a</marker> le dépasser.</example>
@@ -10100,6 +10098,7 @@ though, and has since been slightly modified)-->
         <example>Des créatures <marker>marines</marker>.</example>
         <example>Un cageot des <marker>premières cerises</marker>.</example>
         <example correction="azur">Elle avait les yeux <marker>azurs</marker>.</example>
+        <example>Nous mangeons de bonnes cerises.</example>
       </rule>
       <rule>
         <antipattern>
@@ -10635,7 +10634,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">je|tu|ils?|on</token>
           <token inflected="yes">ne</token>
-          <token regexp="yes">[lmst]'|lui|leur|[nv]ous|la|le|les</token>
+          <token regexp="yes">[lmst][e']|lui|leur|[nv]ous|la|le|les</token>
           <marker>
             <token postag="(?!PARA_END)[ACKNJZP].*" postag_regexp="yes">
               <exception postag="V.*" postag_regexp="yes"/>
@@ -10652,6 +10651,8 @@ though, and has since been slightly modified)-->
         <example>Cela fait dix ans que l'on ne s'est pas vus.</example>
         <example>Es-tu sûr que tu ne l'as jamais rencontré ?</example>
         <example>Petit-déjeunes-tu à la maison ?</example>
+        <example>On ne l'invite pas.</example>
+        <example>Il ne s'auto-mutile pas !</example>
       </rule>
       <rule>
         <pattern>
@@ -10667,7 +10668,6 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>« \5 » n’est pas un verbe.</message>
-        
         <example correction="">Je ne m'en <marker>sorts</marker> pas.</example>
         <example>Je ne l’<marker>abandonne</marker> pas.</example>
         <example>Il ne l’<marker>est</marker> que durant l’élection.</example>
@@ -12237,8 +12237,9 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rulegroup id="ACCORD_R_PERS_VERBE" name="accord pronom personnel avec verbe">
       <antipattern>
-        <token postag="P"/>
-        <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes"/>
+        <token postag="P"/> 
+        <token min="0">-</token> <!-- entre-eux? -->
+        <token postag="R pers suj 3 .*|R dem .*" postag_regexp="yes"/>
       </antipattern>
       <antipattern>
         <token postag="[NJ].*" postag_regexp="yes"/>
@@ -12385,6 +12386,7 @@ though, and has since been slightly modified)-->
         <example correction="">Et ça <marker>fonctionnent</marker>.</example>
         <example>Et ça fonctionne.</example>
         <example>Je ne trouve pas ça intéressant.</example>
+        <example>Ça tu l'as mérité.</example>
       </rule>
       <rule name="il/elle/on + 1 token + Verbe">
         <antipattern>
@@ -12505,7 +12507,6 @@ though, and has since been slightly modified)-->
         <example correction="">Elle ne s’en <marker>souviens</marker> pas.</example>
         <example>Elle ne s’en <marker>souvient</marker> pas.</example>
       </rule>
-
       <rule name="nous + Verbe">
         <pattern>
           <token postag="R pers suj 1 p"><exception postag="R pers obj 1 p"/><exception regexp="yes">-.*</exception></token>
@@ -12521,7 +12522,10 @@ though, and has since been slightly modified)-->
         <example>Nous ne sommes pas perdus.</example>
         <example correction="">Les erreurs que nous <marker>feront</marker>.</example>
         <example correction="">Les erreurs que nous ne <marker>feront</marker> plus.</example>
+        <example>Les cadeaux qu'ils nous feront.</example>
         <example>Les erreurs que nous ferons.</example>
+        <example>Nous a-t-elle vues ?</example>
+        <example>Le miel est la meilleure médication que nous offre la nature</example>
       </rule>
       <rule name="nous + pronom obj + Verbe">
         <pattern>
@@ -12555,6 +12559,7 @@ though, and has since been slightly modified)-->
         <example>Écoutez ce que vous disent ces femmes.</example>
         <example>Écoutez ce que vous dit cette femme.</example>
         <example>Vous ai-je fait attendre longtemps ?</example>
+        <example>Que vous arrive-t-il donc ?</example>
       </rule>
       <rule name="vous + pronom obj + Verbe">
         <pattern>
@@ -12568,8 +12573,8 @@ though, and has since been slightly modified)-->
         <example>Vous nous attendez</example>
         <example correction="">Vous ne nous <marker>attendons</marker> pas.</example>
         <example>Vous ne nous attendez pas.</example>
+        <example>Vous l'ai-je demandé ?</example>
       </rule>
-
       <rule name="ils/elles + 0 token + Verbe">
         <antipattern>
           <token regexp="yes">(?:celles|ceux)-(?:ci|là)</token>
@@ -12605,7 +12610,7 @@ though, and has since been slightly modified)-->
         <example>Ils ont eux-mêmes été contaminés.</example>
         <example>Ont-ils apprécié leurs vacances en Écosse ?</example>
       </rule>
-      <rule name="ils/elles + 2 tokens + Verbe">
+      <rule name="celles/ceux + 2 tokens + Verbe">
         <antipattern>
           <token regexp="yes">(?:celles|ceux)-(?:ci|là)</token>
           <token min="1" max="2" postag="R pers obj.*" postag_regexp="yes"/>
@@ -12632,6 +12637,8 @@ though, and has since been slightly modified)-->
         <example>Ceux-ci l’aident.</example>
         <example>Ceux-ci n’ayant pas été approuvés.</example>
         <example>Afin d'apporter à ceux-ci l'aide technique et administrative.</example>
+        <example>Toutes celles nous croyons acquises.</example>
+        <example>Lequel d'entre-eux était-ce ?</example>
       </rule>
       <rule name="ils/elles + 3 tokens + Verbe">
         <pattern>
@@ -13193,7 +13200,7 @@ though, and has since been slightly modified)-->
             <exception regexp="yes" scope="next">d|du|des?|en</exception>
           </token>
           <token postag="[NR].* s" postag_regexp="yes">
-            <exception regexp="yes">-?[mt]oi|[nv]ous|eux</exception>
+            <exception regexp="yes">[mt]oi|[nv]ous|eux|-.*</exception>
           </token>
           <token>qui</token>
           <token postag="R pers obj.*" postag_regexp="yes">
@@ -13207,6 +13214,7 @@ though, and has since been slightly modified)-->
         <suggestion><match no="5" postag="V (.*) [123] [sp]" postag_regexp="yes" postag_replace="V $1 3 s"/></suggestion>
         <example correction="dérange">Celle qui me <marker>dérangent</marker> ici</example>
         <example>Celle qui me dérange</example>
+        <example>Sais-tu qui nous sommes ?</example>
       </rule>
       <rule>
         <pattern>
@@ -13661,7 +13669,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
-          <token postag="SENT_START|C coor" skip="1" postag_regexp="yes"><exception scope="next" regexp="yes">en|les|l'|t'|m'</exception></token>
+          <token postag="SENT_START|C coor" skip="1" postag_regexp="yes"><exception scope="next" regexp="yes">en|les|l'|t'|m'|nous</exception></token>
           <token inflected="yes">avoir</token>
           <token regexp="yes" spacebefore="no">-(je|tu|nous|vous)|-(t-)?(il|elle|on|ils|elles)</token>
           <marker><token postag="V.* ppa.*" postag_regexp="yes"><exception postag="V.* ppa [me] sp?" postag_regexp="yes"/></token></marker>
@@ -13679,11 +13687,12 @@ though, and has since been slightly modified)-->
         <example>Les as-tu lus ?</example>
         <example>L'avez-vous entendue parler français ?</example>
         <example>T'a-t-il demandée en mariage ?</example>
+        <example>Nous a-t-elle vues ?</example>
       </rule>
       <rule>
         <pattern>
           <token postag="SENT_START"/>
-          <token>Les</token>
+          <token regexp="yes">Les|Nous</token>
           <token inflected="yes">avoir</token>
           <token regexp="yes" spacebefore="no">-(je|tu|nous|vous)|-(t-)?(il|elle|on|ils|elles)</token>
           <marker><token postag="V.* ppa . s" postag_regexp="yes"/></marker>
@@ -13692,6 +13701,7 @@ though, and has since been slightly modified)-->
         <suggestion><match no="5" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa $3 p"/></suggestion>
         <example correction="lus">Les as-tu <marker>lu</marker> ?</example>
         <example correction="lus">Les a-t-il <marker>lu</marker> ?</example>
+        <example correction="vues">Nous a-t-elle <marker>vue</marker> ?</example>
       </rule>
       <rule>
         <pattern>
@@ -13718,7 +13728,7 @@ though, and has since been slightly modified)-->
         </antipattern>
         <pattern>
           <token negate="yes" regexp="yes">plus|moins|dans|de|au|à|appareil</token>
-          <token postag="N m p"><exception>fois</exception></token>
+          <token postag="N m p"><exception regexp="yes">fois|ans</exception></token>
           <token regexp="yes" skip="2">que|qu'</token>
           <token postag="V avoir ind.*" postag_regexp="yes" skip="2"><exception scope="next" postag="V avoir ind.*" postag_regexp="yes"/></token>
           <marker>
@@ -13743,7 +13753,8 @@ though, and has since been slightly modified)-->
         <example>Les images qu’elle a envoyées ont montré une structure inattendue.</example>
         <example correction="eus">Les bateaux qu’elle a <marker>eue</marker>.</example>
         <example>Les récompenses qu’elle a eues.</example>
-          <example correction="aimés">Les marteaux que j'ai <marker>aimées</marker>.</example>
+        <example correction="aimés">Les marteaux que j'ai <marker>aimées</marker>.</example>
+        <example>Ça fait trois ans que je n'ai pas vu Tom.</example>
       </rule>
         <rule name="f p suivi par . s">
             <antipattern>
@@ -29238,6 +29249,16 @@ though, and has since been slightly modified)-->
         <example correction="ex cathedra">Certains professeurs parlent <marker>ex-cathedra</marker> : ils ont un ton doctoral.</example>
         <example correction="ex æquo">Il y a beaucoup de candidats <marker>ex-æquo</marker>.</example>
         <example correction="ex abrupto"> Il a abordé <marker>ex-abrupto</marker> cette question déliquate</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>entre</token>
+          <token>-</token>
+          <token regexp="yes">eux|elles|nous|vous</token>
+        </pattern>
+        <message>L’expression <suggestion>\1 \3</suggestion> s’écrit sans trait d’union.</message>
+        <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1732</url>
+        <example correction="entre eux">Lequel d'<marker>entre-eux</marker> était-ce ?</example>
       </rule>
     </rulegroup>
     <rule id="CEST_A_DIRE" name="c’est à dire">

@@ -77,6 +77,8 @@ public class FrenchWordTokenizerTest {
     assertEquals(tokens.size(), 4);
     tokens = wordTokenizer.tokenize("va-t'en");
     assertEquals(tokens.size(), 3);
+    tokens = wordTokenizer.tokenize("d'1");
+    assertEquals(tokens.size(), 2);
     
     
     tokens = wordTokenizer.tokenize("10 000");

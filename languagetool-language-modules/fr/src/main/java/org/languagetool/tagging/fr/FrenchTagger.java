@@ -18,15 +18,21 @@
  */
 package org.languagetool.tagging.fr;
 
+import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
+import morfologik.stemming.DictionaryLookup;
+import morfologik.stemming.IStemmer;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /** French Tagger
  * 
@@ -35,6 +41,11 @@ import java.util.Locale;
  * @author Jaume Ortolà
  */
 public class FrenchTagger extends BaseTagger {
+  
+  private static final Pattern VERB = Pattern.compile("V .+");
+  private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto-|re-)(.*[aeiouêàéèíòóïü].+[aeiouêàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+
+  
   public FrenchTagger() {
     super("/fr/french.dict", Locale.FRENCH, false);
   }
@@ -87,9 +98,9 @@ public class FrenchTagger extends BaseTagger {
       }
 
       // additional tagging with prefixes
-      /*if (l.isEmpty() && !isMixedCase) {
-        addTokens(additionalTags(word, dictLookup), l);
-      }*/
+      if (l.isEmpty() && !isMixedCase) {
+        addTokens(additionalTags(word), l);
+      }
 
       if (l.isEmpty()) {
         l.add(new AnalyzedToken(word, null, null));
@@ -112,6 +123,49 @@ public class FrenchTagger extends BaseTagger {
     }
 
     return tokenReadings;
+  }
+  
+  @Nullable
+  protected List<AnalyzedToken> additionalTags(String word) {
+    List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
+    //Any well-formed adverb with suffix -ment is tagged as an adverb (RG)
+    //Adjectiu femení singular o participi femení singular + -ment
+    //final String lowerWord = word.toLowerCase(locale);
+    /*if (lowerWord.endsWith("ment")){  
+      final String possibleAdj = lowerWord.replaceAll("^(.+)ment$", "$1");
+      List<AnalyzedToken> taggerTokens;
+      taggerTokens = asAnalyzedTokenList(possibleAdj, dictLookup.lookup(possibleAdj));
+      for (AnalyzedToken taggerToken : taggerTokens ) {
+        final String posTag = taggerToken.getPOSTag();
+        if (posTag != null) {
+          final Matcher m = ADJ_PART_FS.matcher(posTag);
+          if (m.matches()) {
+            additionalTaggedTokens.add(new AnalyzedToken(word, "RG", lowerWord));
+            return additionalTaggedTokens;
+          }
+        }
+      }
+    }*/
+    //Any well-formed verb with prefixes is tagged as a verb copying the original tags
+    Matcher matcher = PREFIXES_FOR_VERBS.matcher(word);
+    if (matcher.matches()) {
+      final String possibleVerb = matcher.group(2).toLowerCase();
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(possibleVerb));
+      for (AnalyzedToken taggerToken : taggerTokens ) {
+        final String posTag = taggerToken.getPOSTag();
+        if (posTag != null) {
+          final Matcher m = VERB.matcher(posTag);
+          if (m.matches()) {
+            String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
+            additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+          }
+        }
+      }
+      return additionalTaggedTokens;
+    }
+
+    
+    return null;
   }
   
   private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {

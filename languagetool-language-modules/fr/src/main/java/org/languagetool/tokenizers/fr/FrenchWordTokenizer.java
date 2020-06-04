@@ -44,15 +44,15 @@ public class FrenchWordTokenizer extends WordTokenizer {
   // Patterns to avoid splitting words in certain special cases
 
   // apostrophe
-  private static final Pattern TYPEWRITER_APOSTROPHE = Pattern.compile("([\\p{L}])'([\\p{L}\"‘“«])",
+  private static final Pattern TYPEWRITER_APOSTROPHE = Pattern.compile("([\\p{L}])'([\\p{L}1\"‘“«])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern TYPOGRAPHIC_APOSTROPHE = Pattern.compile("([\\p{L}])’([\\p{L}\"‘“«])",
+  private static final Pattern TYPOGRAPHIC_APOSTROPHE = Pattern.compile("([\\p{L}])’([\\p{L}1\"‘“«])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
-  // nearby hyphens. Ex.: vint-i-quatre
+  // nearby hyphens. 
   private static final Pattern NEARBY_HYPHENS = Pattern.compile("([\\p{L}])-([\\p{L}])-([\\p{L}])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  // hyphens. Ex.: vint-i-quatre
+  // hyphens.
   private static final Pattern HYPHENS = Pattern.compile("([\\p{L}])-([\\p{L}\\d])",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
   // decimal point between digits

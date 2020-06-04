@@ -60,6 +60,10 @@ public class FrenchCompoundAwareHunspellRuleTest {
     assertThat(lt.check("Déconfinement").size(), is(0));
     assertThat(lt.check("Le Déconfinement").size(), is(1));  // uppercase only accepted at sentence start
     //TODO: assertThat(lt.check("Dominique Strauss-Kahn"), is(0));
+    assertThat(lt.check("L'ONU").size(), is(0));
+    assertThat(lt.check("d'1").size(), is(0));
+    assertThat(lt.check("L'email").size(), is(0));
+    
   }
 
   private void assertSuggestion(JLanguageTool lt, String input, String... expected) throws IOException {
