@@ -45,8 +45,8 @@ public class FrenchTagger extends BaseTagger {
   private static final Pattern VERB = Pattern.compile("V .+");
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto-|re-)(.*[aeiouêàéèíòóïü].+[aeiouêàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
-  private static final Pattern NOUN_ADJ = Pattern.compile("[NJ] .+");
-  private static final Pattern PREFIXES_NOUN_ADJ = Pattern.compile("(micro-|macro-)(.*[aeiouêàéèíòóïü].+[aeiouêàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern NOUN_ADJ = Pattern.compile("[NJ] .+|V ppa.*");
+  private static final Pattern PREFIXES_NOUN_ADJ = Pattern.compile("(micro-|macro-|sous-|haut-|auto-|ré-|pré-)(.*[aeiouêàéèíòóïü].+[aeiouêàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
   
   public FrenchTagger() {
     super("/fr/french.dict", Locale.FRENCH, false);

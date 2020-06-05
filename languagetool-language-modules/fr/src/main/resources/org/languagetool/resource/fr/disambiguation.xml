@@ -122,7 +122,7 @@ RB => Règles Brutes
   
   <rule id="VERB_PRON" name="verb + pronoun">
     <pattern>
-      <token postag="V .*" postag_regexp="yes"/>
+      <token postag="V .*" postag_regexp="yes"><exception>entre</exception></token>
       <token postag="R .*" postag_regexp="yes" spacebefore="no" regexp="yes">['-].*</token>
     </pattern>
     <disambig action="filterall"></disambig>
@@ -515,6 +515,16 @@ RB => Règles Brutes
       </pattern>
       <disambig postag="R pers obj 2 p"/>
     </rule>
+    <rule name="vous devez le demander">
+      <pattern>
+        <marker>
+          <token>vous</token>  
+        </marker>
+        <token postag="V.* 2 p" postag_regexp="yes" skip="1"/>
+        <token postag="V inf"/>
+      </pattern>
+      <disambig action="filter" postag="R pers suj 2 p"/>
+    </rule>
     <rule name="ça vous">
       <pattern>
         <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="1"/>
@@ -523,7 +533,7 @@ RB => Règles Brutes
           <token>vous</token>
         </marker>
       </pattern>
-      <disambig postag="R pers obj 2 p"/>
+      <disambig action="filter" postag="R pers obj 2 p"/>
     </rule>
     <rule name="ce que vous v 3 p">
       <pattern>
@@ -900,6 +910,16 @@ RB => Règles Brutes
     </rule>
   </rulegroup>
   
+  <rule name="en pensant" id="EN_PENSANT">
+    <pattern>
+      <marker>
+        <token>en</token>
+      </marker>
+      <token postag="V ppr"/>
+    </pattern>
+    <disambig action="filter" postag="P"></disambig>
+  </rule>
+  
   <rule name="Pronoun + verb" id="PRON_VERB">
     <pattern>
       <token postag="R .*" postag_regexp="yes"/>
@@ -1003,7 +1023,7 @@ RB => Règles Brutes
       <pattern>
         <token regexp="yes">je|tu|ils?|on</token>
         <token inflected="yes" min="0">ne</token>
-        <token postag="R pers obj.*" postag_regexp="yes">[lmst]'|lui|leur|[nv]ous|la|le|les</token>
+        <token postag="R pers obj.*" postag_regexp="yes" regexp="yes">[lmst]'|lui|leur|[nv]ous|la|le|les</token>
         <token postag="R pers obj.*" postag_regexp="yes" regexp="yes">y|en</token>
         <marker>
           <token postag="V.* (ind|sub|con).*" postag_regexp="yes"/>
@@ -1199,6 +1219,15 @@ RB => Règles Brutes
     </pattern>
     <disambig><match no="1" postag_regexp="yes" postag="D.*"/></disambig>
   </rule>
+  <rule name="en (no preposition)" id="EN_NO_PREPOSITION">
+    <pattern>
+      <marker>
+        <token>en</token>
+      </marker>
+      <token postag="V (sub|ind|con).*" postag_regexp="yes"><exception>fait</exception><exception postag="N.*" postag_regexp="yes"/></token>
+    </pattern>
+    <disambig action="remove" postag="P"></disambig>
+  </rule>
   <rule name="RB : Préposition" id="RB-PREPOSITION">
     <pattern>
       <marker>
@@ -1298,6 +1327,14 @@ RB => Règles Brutes
       </marker>
     </pattern>
     <disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
+  </rule>
+  
+  <rule id="COMME" name="comme (not adverb)">
+    <!-- adverb: Comme vous y allez ! -->
+    <pattern>
+      <token>comme</token>
+    </pattern>
+    <disambig action="remove" postag="A"/>
   </rule>
 
   <rule name="RB : adverbes" id="RB-ADVERBES">
@@ -1515,7 +1552,7 @@ RB => Règles Brutes
   <rulegroup name="en fait" id="EN_FAIT">
     <rule>
       <pattern>
-        <token><exception postag="Z.*" postag_regexp="yes"/><exception regexp="yes">il|elle|on|&apostrophe;</exception></token>
+        <token><exception postag="Z.*" postag_regexp="yes"/><exception regexp="yes">il|elle|n'</exception><exception postag="R.*" postag_regexp="yes" regexp="yes">.*'</exception></token>
         <marker><token>en</token></marker>
         <token>fait</token>
       </pattern>
@@ -1523,7 +1560,7 @@ RB => Règles Brutes
     </rule>
     <rule>
       <pattern>
-        <token><exception postag="Z.*" postag_regexp="yes"/><exception regexp="yes">il|elle|on|&apostrophe;</exception></token>
+        <token><exception postag="Z.*" postag_regexp="yes"/><exception regexp="yes">il|elle|on|n'</exception><exception postag="R.*" postag_regexp="yes" regexp="yes">.*'</exception></token>
         <token>en</token>
         <marker><token>fait</token></marker>
       </pattern>
