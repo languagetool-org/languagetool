@@ -9907,7 +9907,16 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="nom féminin suivi du masculin">
         <antipattern>
-            <token postag="N [me] [sp]" postag_regexp="yes"/>
+          <token postag="N [me] ([sp]|sp)" postag_regexp="yes"/>
+          <token regexp="yes">aux|à|de|du|d'</token>
+          <token postag="N .*" postag_regexp="yes"/>
+          <token regexp="yes">aux|à|de|du|d'</token>
+          <token postag="N .*" postag_regexp="yes"/>
+          <token min="0" max="1" postag="A"/>
+          <token postag="J [me] ([sp]|sp)" postag_regexp="yes"/>
+        </antipattern>
+        <antipattern>
+            <token postag="N [me] ([sp]|sp)" postag_regexp="yes"/>
             <token regexp="yes">aux|à|de|du|d'</token>
             <token postag="N .*" postag_regexp="yes"/>
             <token min="0" max="1" postag="A"/>
@@ -9997,6 +10006,7 @@ though, and has since been slightly modified)-->
         <example>Le Roi d'Espagne comme souverain.</example>
         <example>de systèmes d'exploitation installés</example>
         <example type="triggers_error" reason="pending multiwords">pour l'interface utilisateur</example>
+        <example>un taux de taxe d'habitation inférieur</example>
       </rule>
     </rulegroup>
     <rulegroup id="NOM_DE_PAYS" name="Nom de pays sans majuscule" default="off">
