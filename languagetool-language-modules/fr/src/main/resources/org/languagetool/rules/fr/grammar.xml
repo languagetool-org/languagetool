@@ -10882,6 +10882,7 @@ though, and has since been slightly modified)-->
         <example>Je vais au marché.</example>
         <example>Au revoir.</example>
         <example>Au sortir de la guerre.</example>
+        <example>Aurons-nous un été chaud ?</example>
       </rule>
     </rulegroup>
     <rulegroup id="ETRE_VPPA_OU_ADJ" name="être + participe passé">
@@ -13305,6 +13306,7 @@ though, and has since been slightly modified)-->
         <example>Les gens qui nous dérangent</example>
         <example>C’est vous qui vous trompez.</example>
         <example>Savez-vous qui l'a fait ?</example>
+        <example>Dites-leur qui vous êtes.</example>
       </rule>
       <rule>
         <pattern>
@@ -14036,21 +14038,18 @@ though, and has since been slightly modified)-->
             <pattern>
                 <token negate="yes" regexp="yes">plus|moins|dans|de|au|à</token>
                 <token postag="D f s"/>
-                <token postag="N f s">
-                    <exception postag="V.*" postag_regexp="yes"/>
-                </token>
+                <token postag="N f s"><exception postag="V.*" postag_regexp="yes"/></token>
                 <token regexp="yes" skip="2">que|qu'</token>
-                <token postag="V avoir ind.*" postag_regexp="yes" skip="2">
-                    <exception scope="next">été</exception>
-                </token>
+                <token postag="V avoir ind.*" postag_regexp="yes" skip="2"><exception scope="next">été</exception></token>
                 <marker>
                     <token postag="V.* ppa.* p|V.* ppa.* m s" postag_regexp="yes"/>
                 </marker>
                 <token postag="M (non)?fin" postag_regexp="yes"/>
             </pattern>
-            <message>Si « \2 » est l’antécédent du relatif « \3 », vérifiez l’accord du participe « \6 ».</message>
+            <message>Si « \3 » est l’antécédent du relatif « \4 », vérifiez l’accord du participe « \6 ».</message>
             <suggestion><match no="6" postag="V (etre )?(avoir )?ppa ([mfe]) ([sp])" postag_regexp="yes" postag_replace="V $1$2ppa f s"/></suggestion>
             <example correction="aimée">La vidéo que j'ai <marker>aimé</marker>.</example>
+          <example correction="témoignée">Je te remercie pour la confiance que tu m'as <marker>témoigné</marker>.</example>
         </rule>
     </rulegroup>
     <rulegroup id="QUI_EST" name="accord qui + verbe être">

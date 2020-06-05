@@ -489,10 +489,18 @@ RB => Règles Brutes
     </rule>
     <rule name="qui vous">
       <pattern>
-        <token regexp="yes">à|qui|de|ne|chez|sur|sans|entre|parmi|tout|pour</token>
+        <token regexp="yes">à|de|ne|chez|sur|sans|entre|parmi|tout|pour</token> <!--qui|-->
         <marker><token>vous</token></marker>
       </pattern>
       <disambig postag="R pers obj 2 p"/>
+    </rule>
+    <rule name="qui vous">
+      <pattern>
+        <token>qui</token>
+        <marker><token>vous</token></marker>
+        <token postag="V .* 2 p" postag_regexp="yes"/>
+      </pattern>
+      <disambig postag="R pers suj 2 p"/>
     </rule>
     <rule name="Robert vous">
       <pattern>
@@ -1123,7 +1131,7 @@ RB => Règles Brutes
       <pattern>
         <token postag="V avoir .*" postag_regexp="yes" skip="2"/>
         <marker>
-          <token>été</token>
+          <token>été<exception scope="previous" postag="D m s"/></token>
         </marker>
       </pattern>
       <disambig action="replace"><wd lemma="être" pos="V etre ppa e sp"/></disambig>
