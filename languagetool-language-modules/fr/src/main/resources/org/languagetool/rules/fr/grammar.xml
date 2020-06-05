@@ -12417,6 +12417,7 @@ though, and has since been slightly modified)-->
         <example correction="">Je ne l’y <marker>ait</marker> pas vu.</example>
         <example>Je ne l’y <marker>ai</marker> pas vu.</example>
         <example correction="">Je vous <marker>avez</marker> avertis de ne pas venir ici.</example>
+        <example>La lettre j s’écrivait également sans point suscrit.</example>
       </rule>
       <rule name="tu token + verbe">
         <antipattern>
@@ -12468,7 +12469,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
             <exception regexp="yes">-.+</exception>
-            <exception regexp="yes">ça|ce(la|ci)?|(celui|celle)([-‑‐]ci)?|c'</exception>
+            <exception regexp="yes">ça|ce(la|ci)?|(celui|celle)([-‑‐]ci)?|c'|.*-même</exception>
             <exception scope="previous" postag="P"/>
             <exception scope="previous">et</exception>
           </token>
@@ -12495,6 +12496,7 @@ though, and has since been slightly modified)-->
         <example>Elle a elle-même été contaminée.</example>
         <example>La ville se libère elle-même remplaçant le drapeau à croix gammée par un drapeau tricolore.</example>
         <example>C'étaient toutes des choses faites main.</example>
+        <example>La police fait elle-même surveiller certains commissariats.</example>
       </rule>
       <rule name="ça + 0 tokens + Verbe">
         <pattern>
@@ -12568,7 +12570,7 @@ though, and has since been slightly modified)-->
       <rule name="il/elle/on + 2 tokens + Verbe">
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
-            <exception regexp="yes">ça|cela|ceci|ce|celle|-.*|c'|(celui|celle)-(ci|là)|celui</exception>
+            <exception regexp="yes">ça|cela|ceci|ce|celle|-.*|c'|(celui|celle)-(ci|là)|celui|.*-même</exception>
             <exception scope="previous" postag="P"/>
           </token>
           <!-- Not all combinations of 2 tokens between il/elle/on and verb are actually possible -->
@@ -12588,6 +12590,7 @@ though, and has since been slightly modified)-->
         <example>et celui ayant le plus besoin de croire</example>
         <example>Elle se flatte elle-même en pensant qu'elle est belle</example>
         <example>Elle vient elle-même me le conter.</example>
+        <example>et se voit elle-même découpée en tranches</example>
       </rule>
       <rule name="il/elle/on + 2 tokens + Verbe">
         <pattern>
@@ -12719,7 +12722,7 @@ though, and has since been slightly modified)-->
         </antipattern>
         <pattern>
           <token postag="R pers suj 3 .* p|R dem . p" postag_regexp="yes">
-            <exception regexp="yes">celles|ceux|-.*</exception>
+            <exception regexp="yes">celles|ceux|-.*|.*-mêmes</exception>
             <exception scope="previous" postag="P"/>
           </token>
           <token min="0" max="1" regexp="yes">[lmnst]e|la|les|[nv]ous|leur|lui|en|y</token>
@@ -12746,6 +12749,7 @@ though, and has since been slightly modified)-->
         <example>Ceux-ci ayant été approuvés.</example>
         <example>Ils ont eux-mêmes été contaminés.</example>
         <example>Ont-ils apprécié leurs vacances en Écosse ?</example>
+        <example>et pourront, par conséquent, elles-mêmes être appelées</example>
       </rule>
       <rule name="celles/ceux + 2 tokens + Verbe">
         <antipattern>
@@ -15854,8 +15858,8 @@ though, and has since been slightly modified)-->
         <message>Le verbe « \7 » doit être au subjonctif.</message>
         <suggestion><match no="7" postag="V (etre )?(avoir )?(ind|con|sub|imp) (pres|psim|impa|futu) ([123]) ([sp])" postag_regexp="yes" postag_replace="V $1$2sub $4 $5 $6"/></suggestion>
         <example correction="comprenne">C’est le seul ami qui me <marker>comprend</marker>.</example>
+        <example correction="aie">C'est le seul livre que j'<marker>ai</marker>.</example>
         <example>C’est le seul ami qui me <marker>comprenne</marker>.</example>
-        <!--TODO: <example>C'est le seul livre que j'ai.</example>-->
       </rule>
     </rulegroup>
     <rulegroup id="SUBJ_LOCU" name="subjonctif après location">
