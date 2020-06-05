@@ -8713,7 +8713,7 @@ though, and has since been slightly modified)-->
                   <token inflected="yes" regexp="yes">&exceptions_ELISION1;</token>
                   <token regexp="yes">&exceptions_ELISION2;</token>
                   <token postag="N [me] s" postag_regexp="yes">
-                      <exception regexp="yes">[àâaéêèeiîou].*|y[pts].*</exception>
+                      <exception regexp="yes">[àâaéêèeiîouœ].*|y[pts].*</exception>
                       <exception postag="UNKNOWN|Z.*" postag_regexp="yes"/><!-- no error for unknown words or proper names -->
                       <exception regexp="yes">h.*</exception><!-- list for words beginning with h below -->
                   </token>
@@ -8728,6 +8728,7 @@ though, and has since been slightly modified)-->
           <example>Cet yttrium.</example>
           <example>Est-ce utile?</example>
           <example>Cet hôpital emploie.</example>
+          <example>Cet œil</example>
       </rule>
       <rule id="ET_CA" name="typo : et ça" default="temp_off">
           <pattern>
@@ -29442,7 +29443,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule default="temp_off">
         <pattern>
-          <token regexp="yes">entre|chez|vous</token>
+          <token regexp="yes">entre|vous</token>
           <token regexp="yes">-(nous|vous|moi|toi)</token>
         </pattern>
         <message>L’expression <suggestion>\1 <match no="2" regexp_match="-" regexp_replace=""/></suggestion> s’écrit sans trait d’union.</message>
