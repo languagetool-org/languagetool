@@ -42843,17 +42843,18 @@ USA
         </rule>
 
         <rulegroup id="MISSING_TO_BEFORE_A_VERB" name="Use 'to' before the base form of a verb" default="temp_off"><!-- Premium #1405 -->
+            <short>Possible grammar error</short>
+            <antipattern><!-- www.tutorialspoint.com/unix/unix-file-permission.htm -->
+                <token postag_regexp="yes" postag="VB.*" regexp="yes" inflected="yes">need|try|want</token>
+                <token regexp="yes">execute|read|write</token>
+                <token chunk="E-NP-singular">access</token>
+            </antipattern>
 
             <rule><!-- Need is possibly a modal verb. Use chunks (refer to the next rule). -->
                 <antipattern><!-- www.lexico.com/definition/if_need_be -->
                     <token regexp="yes">if|there</token><!-- MFU: I did not find a reference for 'there need be' -->
                     <token>need</token>
                     <token>be</token>
-                </antipattern>
-                <antipattern><!-- www.tutorialspoint.com/unix/unix-file-permission.htm -->
-                    <token>need</token>
-                    <token regexp="yes">execute|read|write</token>
-                    <token chunk="E-NP-singular">access</token>
                 </antipattern>
                 <antipattern><!-- contracts we need include the -->
                     <token chunk="E-NP-plural" postag="NNS"/>
@@ -42873,7 +42874,7 @@ USA
                     <marker>
                         <or>
                             <token chunk="I-VP" postag="VB"><!-- verbs that are not also nouns (e.g. "believe") -->
-                                <exception postag_regexp="yes" postag="NN.*|JJ"/>
+                                <exception postag_regexp="yes" postag="NN.*|JJR?"/>
                                 </token>
                             <token regexp="yes">buy|convert|curl|fill|find|fix|get|go|hope|keep|know|look|make|move|pick|ping|preload|put|redirect|remove|repeat|run|show|slip|spell|stun|swamp|take|think|use|wait|weed</token><!-- verbs that are rarely used as nouns after "need" and which are not adjectives -->
                         </or>
@@ -42887,7 +42888,6 @@ USA
                 </pattern>
                 <message>Make sure that '\1 \2' is correct. If '\1' is a modal verb, the text is correct. If '\1' is a lexical verb, use <suggestion>to \2</suggestion>.</message>
                 <url>https://www.lexico.com/definition/need</url>
-                <short>Possible grammar error</short>
                 <example correction="to accelerate">I think we need <marker>accelerate</marker> this process.</example>
                 <example correction="to use">I need <marker>use</marker> subtitles on my video.</example>
                 <example correction="to use">Do the technicians need <marker>use</marker> oil?</example>
@@ -42974,10 +42974,11 @@ USA
                     <token chunk="B-NP-plural" postag_regexp="yes" postag="JJR?"/>
                     <token chunk="E-NP-plural" postag="NNS"/>
                 </antipattern>
-                <antipattern><!-- need cost reductions [Possibly this AP will cause FN. Refer to the 'cost increases' example.] -->
+                <antipattern><!-- Verbs that are not noun or not usually nouns -->
                     <token>need</token>
-                    <token>cost</token>
-                    <token>reductions</token>
+                    <token postag_regexp="yes" postag="NN.*">
+                        <exception regexp="yes">buy|convert|curl|fill|find|fix|get|go|hope|keep|know|look|make|move|pick|ping|preload|put|redirect|remove|repeat|run|show|slip|spell|stun|swamp|take|think|use|wait|weed</exception><!-- Copy from rule 1 -->
+                        </token>
                 </antipattern>
                 <pattern>
                     <token chunk="B-VP" postag_regexp="yes" postag="VBP?">need</token><!-- base form only -->
@@ -42992,15 +42993,13 @@ USA
                     </or>
                     <token postag_regexp="yes" postag="PCT|IN"/>
                 </pattern>
-                <message>  xxx Make sure that '\1 \2' is correct. If '\1' is a modal verb, the text is correct. If '\1' is a lexical verb, use <suggestion>to \2</suggestion>.</message>
+                <message>Make sure that '\1 \2' is correct. If '\1' is a modal verb, the text is correct. If '\1' is a lexical verb, use <suggestion>to \2</suggestion>.</message>
                 <url>https://www.lexico.com/definition/need</url>
-                <short>Possible grammar error</short>
                 <example correction="to use">Even native English speakers need <marker>use</marker> subtitles.</example><!-- use/B-NP-plural. Do not use the chunker. -->
                 <example correction="to use">Did the technicians need <marker>use</marker> washers?</example>
                 <example correction="to bring">The technicians need <marker>bring</marker> washers for the test.</example><!-- washers/B-ADVP -->
                 <example correction="to remove">I guess that means I need <marker>remove</marker> https://docs.cert-manager.io/en/release-0.4/index.html from my cluster.</example><!-- https has no chunk information. -->
                 <example correction="to invent">There are a lot of issues we to need <marker>invent</marker> solutions for, or to collaborate with the CG to get them specified.</example>
-                <example correction="to cost">We need <marker>cost</marker> increases in the frequency of the testing.</example><!-- better as "cost the increases..." -->
                 <example>Even native English speakers need <marker>to use</marker> subtitles.</example>
                 <example>We need lower taxes.</example>
                 <example>You need better mechanics.</example>
@@ -43018,29 +43017,96 @@ USA
                 <example>I just need ping monitors so it’s not useful for me to sign up for a paid account (maybe in the future)!</example>
                 <example>This is just a reminder that we need PEP forms and ratings on those associates under your charge that will be represented by Mark Russ.</example>
                 <example>All you need bring are sheets.</example><!-- Ambiguous -->
+                <example>Let me know if something doesn't show up, or if you need deal numbers.</example>
+                <example>I would like to use this for a File Export, so I only need read Permissions.</example>
+                <example>We need team leaders, walkers and volunteers to help us reach our goal.</example>
+                <example>If you have a jack, you need jack stands.</example>
+                <example>I’m a developer: I need log files to troubleshooting my house</example>
+                <example>I need ice cubes.</example>
+                <example>They are herbivores, and need forest environments to survive.</example>
+                <example>all they need to do is rework the weapons a little to reflect current powerlevel of troops most of them just need cost adjustments.</example>
+                <example>Sandy bottoms without rocks need pyramid weights.</example>
+                <example>My black shoes need heel repairs.</example>
+                <example>The idea behind this tool is to help us track in writing the multitude of work we need cost estimates on.</example>
+                <example>... but they need gas utilities in California opposed interstate capacity expansions into the state.</example>
+                <example>All animals and some plants need trace amounts of selenium.</example>
+                <example>I need text files for my domain certificate, how can I get them?</example>
+                <example>If I need Shield stones, I don’t want other stones, keys or souls inflating the price.</example>
+                <example>"In the short term, we need price caps," Gov. Davis has said to state legislators.</example>
+                <example>If you need code samples, I can zip up the storybook code and send it to your email.</example>
+                <example>But it turns out the Pentagon has plenty of folks who need satellite phones, particularly in the Navy.</example>
+<!-- TO DO --><example>We need <marker>cost</marker> increases in the frequency of the testing.</example><!-- better as "cost the increases..." -->
 <!-- Testrules says no error, but the GUI finds an error
-                <example type="triggers_error">Let me know if something doesn't show up, or if you need deal numbers.</example>
-                <example type="triggers_error">I would like to use this for a File Export, so I only need read Permissions.</example>
-                <example type="triggers_error">We need team leaders, walkers and volunteers to help us reach our goal.</example>
-                <example type="triggers_error">If you have a jack, you need jack stands.</example>
-                <example type="triggers_error">I’m a developer: I need log files to troubleshooting my house</example>
-                <example type="triggers_error">I need ice cubes.</example>
-                <example type="triggers_error">They are herbivores, and need forest environments to survive.</example>
-                <example type="triggers_error">all they need to do is rework the weapons a little to reflect current powerlevel of troops most of them just need cost adjustments.</example>
-                <example type="triggers_error">Sandy bottoms without rocks need pyramid weights.</example>
-                <example type="triggers_error">My black shoes need heel repairs.</example>
-                <example type="triggers_error">The idea behind this tool is to help us track in writing the multitude of work we need cost estimates on.</example>
-                <example type="triggers_error">... but they need gas utilities in California opposed interstate capacity expansions into the state.</example>
-                <example type="triggers_error">All animals and some plants need trace amounts of selenium.</example>
-                <example type="triggers_error">I need text files for my domain certificate, how can I get them?</example>
-                <example type="triggers_error">If I need Shield stones, I don’t want other stones, keys or souls inflating the price.</example>
-                <example type="triggers_error">"In the short term, we need price caps," Gov. Davis has said to state legislators.</example>
-                <example type="triggers_error">If you need code samples, I can zip up the storybook code and send it to your email.</example>
-                <example type="triggers_error">But it turns out the Pentagon has plenty of folks who need satellite phones, particularly in the Navy.</example>
+                <example type="triggers_error">I need change overs to happen on Mondays.</example> * The correct noun is 'changeovers'. Refer to #3022 
+                <example type="triggers_error">You need shit loads of luck!</example> * If the user accepts the LT suggestion 'shitloads', there is no incorrect warning.
+-->
+            </rule>
 
-These are real 'triggers_error':
-                <example type="triggers_error">I need change overs to happen on Mondays.</example> * The correct noun is 'changeovers'. Refer to #3022 *
-                <example type="triggers_error">You need shit loads of luck!</example> * If the user accepts the LT suggestion 'shitloads', there is no incorrect warning. *
+            <rule><!-- want/need/try -->
+                <antipattern><!-- needs vary region to region -->
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token postag_regexp="yes" postag="VB[PD]?"/>
+                    <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                    <token>to</token>
+                    <token><match no="2"/></token>
+                </antipattern>
+                <antipattern><!-- Men's wants become -->
+                    <token regexp="yes">&apostrophe;</token>
+                    <token postag="POS">s</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                    <token postag_regexp="yes" postag="VB[PD]?"/>
+                </antipattern>
+                <antipattern><!-- www.collinsdictionary.com/dictionary/english/if-need-be-if-needs-be -->
+                    <token>if</token>
+                    <token>needs</token>
+                    <token>be</token>
+                </antipattern>
+                <pattern>
+                    <token postag_regexp="yes" postag="VB.*" regexp="yes" inflected="yes">need|try|want
+                        <exception>need</exception><!-- Refer to rule 1 and rule 2 -->
+                        </token>
+                    <marker>
+                        <or>
+                            <token postag="VB"><!-- verbs that are not also nouns (e.g. "believe") -->
+                                <exception postag_regexp="yes" postag="NN.*|JJR?"/>
+                                </token>
+                            <token regexp="yes">buy|convert|curl|fill|find|fix|get|go|hope|keep|know|look|make|move|pick|ping|preload|put|redirect|remove|repeat|run|show|slip|spell|stun|swamp|take|think|use|wait|weed</token><!-- verbs that are rarely used as nouns after "need" and which are not adjectives -->
+                        </or>
+                    </marker>
+                    <token postag_regexp="yes" postag="DT|PRP\$|JJR?|NN.*"/>
+<!-- This method causes testrules to give incorrect "triggers_error" messages. In order to keep the examples as a test, I used only one token.
+                    <or>
+                        <token chunk="B-NP-singular"/>
+                        <token chunk="B-NP-plural">
+                            <exception>pleas</exception>
+                            </token>
+                        <token chunk="E-NP-singular"/> * try use oil? *
+                        <token chunk="E-NP-plural"/> * needed use subtitles *
+                    </or>
+-->
+                </pattern>
+                <message>Did you mean <suggestion>to \2</suggestion>?</message>
+                <example correction="to accelerate">I hope that they try <marker>accelerate</marker> this process.</example>
+                <example correction="to use">I needed <marker>use</marker> subtitles on my video.</example><!-- use/B-NP-plural -->
+                <example correction="to use">Did the technicians try <marker>use</marker> oil?</example>
+                <example correction="to buy">She really needs <marker>buy</marker> a new car.</example>
+                <example correction="to bring">I am trying <marker>bring</marker> some sanity to this project.</example>
+                <example correction="to bring">The technician needs <marker>bring</marker> washers.</example><!-- needs/E-NP-plural -->
+                <example correction="to do">You know she tried <marker>do</marker> that, don't you?</example>
+                <example correction="to install">I think you will want <marker>install</marker> the SpringScanner software.</example>
+                <example correction="to be">They just want <marker>be</marker> important people!</example>
+                <example correction="to write">We can try <marker>write</marker> access courses in sociology and media studies.</example>
+                <example correction="to include">She wants <marker>include</marker> the following information in the proposal:</example>
+                <example correction="To Add">Step 3: Try <marker>Add</marker> a Device for Testing.</example>
+                <example correction="To Encode">Add a bit of CSS to get the font and style you want <marker>Encode</marker> any special characters in the copied text as HTML entities.</example><!-- Missing full stop between sentences. -->
+                <example>I hope that they try <marker>to accelerate</marker> this process.</example>
+                <example>We all want better television.</example>
+                <example>Nor should CBM be standardized because needs vary region to region.</example>
+                <example>Men's wants become greater in proportion to the increase in their income.</example>
+                <example>If needs be lay it on a bit thick.</example>
+<!-- False negative --><example>I think you will want <marker>install</marker> SpringScanner.</example>
+<!-- Testrules says no error, but the GUI finds an error
+                <example type="triggers_error">Try Add a Device and just let it search for a while.</example>
 -->
             </rule>
 
