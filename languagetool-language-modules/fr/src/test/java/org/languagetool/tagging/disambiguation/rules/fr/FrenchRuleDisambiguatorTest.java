@@ -75,6 +75,11 @@ public class FrenchRuleDisambiguatorTest {
     TestTools.myAssert("Je suis petite.",
         "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null suis/[suivre]V imp pres 2 s|suis/[suivre]V ind pres 1 s|suis/[suivre]V ind pres 2 s|suis/[être]V etre ind pres 1 s  /[null]null petite/[petit]J f s|petite/[petit]N f s ./[null]null", 
         tokenizer, sentenceTokenizer, tagger, disamb2);
+    
+    // multiwords: d'abord (locution adverbiale)
+    TestTools.myAssert("Je suis d'abord allé au laboratoire.",
+        "/[null]SENT_START Je/[je]R pers suj 1 s  /[null]null suis/[être]V etre ind pres 1 s  /[null]null d'/[d'abord]A abord/[d'abord]A  /[null]null allé/[aller]V ppa m s  /[null]null au/[au]D m s  /[null]null laboratoire/[laboratoire]N m s ./[null]null", 
+        tokenizer, sentenceTokenizer, tagger, disambiguator);
   }
   
 }
