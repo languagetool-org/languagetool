@@ -9931,6 +9931,7 @@ though, and has since been slightly modified)-->
         <antipattern>
             <token postag="N [me] ([sp]|sp)" postag_regexp="yes"/>
             <token regexp="yes">aux|à|de|du|d'</token>
+            <token postag="D.*" postag_regexp="yes" min="0"/>
             <token postag="N .*" postag_regexp="yes"/>
             <token min="0" max="1" postag="A"/>
             <token postag="J [me] ([sp]|sp)" postag_regexp="yes"/>
@@ -10020,6 +10021,7 @@ though, and has since been slightly modified)-->
         <example>de systèmes d'exploitation installés</example>
         <example>pour l'interface utilisateur</example>
         <example>un taux de taxe d'habitation inférieur</example>
+        <example>le monde de l’image autonomisé</example>
       </rule>
     </rulegroup>
     <rulegroup id="NOM_DE_PAYS" name="Nom de pays sans majuscule" default="off">
@@ -16171,8 +16173,8 @@ though, and has since been slightly modified)-->
         <token regexp="yes">vu|vue|vus|vues</token>
       </antipattern>
       <antipattern>
-        <token>que</token>
-        <token>j'</token>
+        <token regexp="yes">que|qu'</token>
+        <token regexp="yes" skip="1">je|j'|tu|t'|il|ils|elle|elles|on|nous|vous</token>
         <token inflected="yes">avoir</token>
         <token>jamais</token>
       </antipattern>
@@ -16270,6 +16272,7 @@ though, and has since been slightly modified)-->
         <message>Formulation familière. Voulez-vous écrire <suggestion>ne \2\3 \4</suggestion> ?</message>
         <url>http://www.academie-francaise.fr/ne</url>
         <example correction="ne m'attendais pas">Je <marker>m’attendais pas</marker> à ce</example>
+        <example>Quel est le meilleur conseil qu'on t'ait jamais donné ?</example>
       </rule>
       <rule>
         <pattern>
