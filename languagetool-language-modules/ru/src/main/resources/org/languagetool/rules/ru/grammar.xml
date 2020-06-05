@@ -2380,7 +2380,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="2">рост<exception inflected="yes" regexp="yes" scope="next">&rost;</exception><exception inflected="yes" regexp="yes" scope="previous">&rost;</exception><exception scope="next" regexp="yes" >&pnct;</exception><exception scope="next" postag="NN:(Name|Fam|Patr):.*" postag_regexp="yes" /><exception scope="previous" postag="PREP"  /></token>
+                    <token inflected="yes" skip="2">рост<exception inflected="yes" regexp="yes" scope="next">&rost;</exception><exception inflected="yes" regexp="yes" scope="previous">&rost;</exception><exception scope="next" regexp="yes" >&pnct;</exception><exception scope="next" postag="NN:(Name|Fam|Patr):.*" postag_regexp="yes" /><exception scope="previous" postag="PREP"  /><exception scope="next" postag="PREP"  /></token>
                     <token postag="NN:Inanim:.*" postag_regexp="yes" ><exception postag="NN:(Name|Fam|Patr):.*" postag_regexp="yes" /></token>
                 </pattern>
                 <message>Рост бывает у одушевлённых слов (человек большого роста), некого числа характеристик (рост показателей, рост качества, количества) и в некоторых устойчивых выражениях (рост экономики, преступности, безработицы).</message>
@@ -2454,7 +2454,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag_regexp="yes" postag="VB:INF:.*"></token>
                 </antipattern>
                 <antipattern>
-                    <token>только</token>
+                    <token regexp="yes">только|а|но</token>
                     <token regexp="yes">чтобы|чтоб</token>
                     <token postag_regexp="yes" postag="VB:INF:.*"></token>
                 </antipattern>
@@ -3165,7 +3165,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
-                        <token negate="yes" regexp="yes">&pnct;|[+]|ну|Ну<exception postag="SENT_START"></exception></token>
+                        <token negate="yes" regexp="yes">&pnct;|[+]|/|ну|Ну<exception postag="SENT_START"></exception></token>
                         <token>а</token>
                     </marker>
                     <token><exception regexp="yes">&pnct;|\|[+]</exception><exception >=</exception></token>
