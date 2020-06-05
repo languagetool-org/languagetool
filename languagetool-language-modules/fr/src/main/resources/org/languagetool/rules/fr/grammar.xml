@@ -7403,6 +7403,13 @@ though, and has since been slightly modified)-->
           <token>héro</token>
         </pattern>
         <message>Confusion probable entre « super-héro » et <suggestion>super-héros</suggestion>.</message>
+        <example correction="super-héros">C’est un <marker>super héro</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>super-héro</token>
+        </pattern>
+        <message>Confusion probable entre « super-héro » et <suggestion>super-héros</suggestion>.</message>
         <example correction="super-héros">C’est un <marker>super-héro</marker>.</example>
       </rule>
     </rulegroup>
@@ -8373,7 +8380,7 @@ though, and has since been slightly modified)-->
                   <token>
                       <exception>par</exception>
                       <exception>un</exception>
-                      <exception>'</exception>
+                      <exception>l'</exception>
                       <exception>/</exception>
                       <exception regexp="yes">Vendémiaire|Brumaire|Frimaire|Nivôse|Pluviôse|Ventôse|Germinal|Floréal|Prairial|Messidor|Thermidor|Fructidor</exception>
                       <exception regexp="yes">\d+[-–—]\d+</exception>
@@ -8397,12 +8404,13 @@ though, and has since been slightly modified)-->
               <example>Je suis devenu membre du club il y a 1O ans.</example>
               <example>Quel âge aurez-vous l'an prochain ?</example>
               <example>20,83 ans d'études</example>
+              <example>Le Jour de l'An ouvre l'année.</example>
           </rule>
           <rule>
               <pattern>
                   <or>
                       <token>un</token>
-                      <token>'<exception scope="previous" regexp="yes">d|l</exception></token>
+                      <token regexp="yes">.*'<exception scope="previous" regexp="yes">d'|l'</exception></token>
                       <token>sept</token>
                       <token>cent</token>
                       <token>cents</token>
@@ -12349,7 +12357,15 @@ though, and has since been slightly modified)-->
       </antipattern>
       <antipattern>
         <token postag="R pers suj.*" postag_regexp="yes"/>
+        <token inflected="yes" min="0">ne</token>
         <token postag="V.* (ind|sub|con).*" postag_regexp="yes"/>
+        <token min="0" postag="A"/>
+        <token postag="R dem.*" postag_regexp="yes"/>
+      </antipattern>
+      <antipattern>
+        <token inflected="yes">ne</token>
+        <token postag="V.* (ind|sub|con).*" postag_regexp="yes"/>
+        <token min="0" postag="A"/>
         <token postag="R dem.*" postag_regexp="yes"/>
       </antipattern>
       <rule name="je + token + verbe">
@@ -12586,6 +12602,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="R pers suj 3 .* s|R dem . s" postag_regexp="yes">
             <exception scope="previous" postag="P"/>
+            <exception scope="previous" postag="V inf"/>
             <exception regexp="yes">-.*</exception>
           </token>
           <!-- Not all combinations of 3 tokens between il/elle/on and verb are actually possible -->
@@ -12603,6 +12620,10 @@ though, and has since been slightly modified)-->
         <example>Ça ne t’intéresse pas.</example>
         <example>Ceci ne s’étant pas révélé suffisant, il recommença.</example>
         <example>Que je sois damné si je laisse ça m'arrêter !</example>
+        <example>Je ne laisserai jamais cela se reproduire.</example>
+        <example>Ne laissons pas cela se produire.</example>
+        <example>Pouvez-vous honnêtement imaginer cela se produire</example>
+        <example>Nous ne devrions pas laisser cela nous arrêter.</example>
       </rule>
       <rule name="il/elle/on + 4 tokens + Verbe">
         <pattern>
@@ -13881,7 +13902,7 @@ though, and has since been slightly modified)-->
             </antipattern>
             <pattern>
                 <token negate="yes" regexp="yes">plus|moins|dans|de|au|à|appareil</token>
-                <token postag="N f p"><exception>fois</exception></token>
+              <token postag="N f p"><exception regexp="yes">fois|ans|années|semaines|jours|mois|siècles</exception></token>
                 <token regexp="yes" skip="2">que|qu'</token>
                 <token postag="V avoir ind.*" postag_regexp="yes" skip="2"><exception scope="next" postag="V avoir ind.*" postag_regexp="yes"/></token>
                 <marker>
@@ -14111,11 +14132,11 @@ though, and has since been slightly modified)-->
         <token>-nous</token>
       </antipattern>
       <antipattern>
-          <token postag="V (ind|sub|con) .* 3 p.*" postag_regexp="yes"/>
+          <token postag="V.* (ind|sub|con) .* 3 p.*" postag_regexp="yes"/>
           <token postag="R pers suj .*3 p.*" postag_regexp="yes" regexp="yes">-.*</token>
       </antipattern>
       <antipattern>
-        <token postag="V (ind|sub|con) .*1 p.*" postag_regexp="yes"/>
+        <token postag="V.* (ind|sub|con) .*1 p.*" postag_regexp="yes"/>
         <token postag="R pers suj .*1 p.*" postag_regexp="yes" regexp="yes">-.*</token>
       </antipattern>
       <pattern>
@@ -14149,6 +14170,7 @@ though, and has since been slightly modified)-->
       <example>Ne nous sommes-nous pas rencontrés quelque part avant ?</example>
       <example>Combien de personnes étaient-elles présentes à la réunion ?</example>
       <example>Les nouvelles peuvent-elles être vraies ?</example>
+      <example>Sont-elles canadiennes ?</example>
     </rule>
     <rule id="NONVERB_PRON" name="verb non valide + pronom">
       <antipattern>
