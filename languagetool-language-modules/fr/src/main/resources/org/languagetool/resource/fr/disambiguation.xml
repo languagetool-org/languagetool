@@ -506,9 +506,7 @@ RB => Règles Brutes
     </rule>
     <rule name="quelqu'un vous">
       <pattern>
-        <token>quelqu</token>
-        <token regexp="yes">&apostrophe;</token>
-        <token regexp="yes">une?s?</token>
+        <token regexp="yes">quelqu'une?s?</token>
         <marker>
           <token>vous</token>
         </marker>
@@ -965,6 +963,16 @@ RB => Règles Brutes
       </unify>
     </pattern>
     <disambig action="filterall"/>
+  </rule>
+  
+  <rule id="OSER_ING" name="oser + inf">
+    <pattern>
+      <marker>
+        <token inflected="yes">oser</token>
+      </marker>
+      <token postag="V inf"/>
+    </pattern>
+    <disambig action="filter" postag="V.*"></disambig>
   </rule>
   
   <rulegroup id="AVOIR_PP" name="avoir + pp">

@@ -8907,6 +8907,10 @@ though, and has since been slightly modified)-->
         <token spacebefore="no">-</token>
         <token spacebefore="no"></token>
       </antipattern>
+      <antipattern>
+        <token>saint</token>
+        <token>-</token>
+      </antipattern>
     <antipattern>
         <token>comme</token>
         <token>prévu</token>
@@ -12338,6 +12342,12 @@ though, and has since been slightly modified)-->
         <token postag="V ppa.*" postag_regexp="yes"/>
       </antipattern>
       <antipattern>
+        <token inflected="yes">venir</token>
+        <token postag="R pers suj.*" postag_regexp="yes"/>
+        <token postag="R pers obj.*" postag_regexp="yes" min="0" max="2"/>
+        <token postag="V inf"/>
+      </antipattern>
+      <antipattern>
         <token postag="R pers suj.*" postag_regexp="yes"/>
         <token postag="V.* (ind|sub|con).*" postag_regexp="yes"/>
         <token postag="R dem.*" postag_regexp="yes"/>
@@ -12346,7 +12356,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token postag="R pers suj 1 s"><exception regexp="yes">-.+</exception></token>
           <token min="0" inflected="yes">ne</token>
-          <token min="0" max="3" postag="R pers obj.*" postag_regexp="yes"/>
+          <token min="0" max="3" postag="R pers obj.*" postag_regexp="yes"><exception postag="R pers suj.*" postag_regexp="yes"/></token>
           <marker><token postag="V .*" postag_regexp="yes"><exception postag="V .* 1 s" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Vérifiez l’accord entre le pronom « je » et le verbe « \4 ».</message>
@@ -12387,6 +12397,7 @@ though, and has since been slightly modified)-->
         <example>Je ne m’en <marker>souviens</marker> pas.</example>
         <example correction="">Je ne l’y <marker>ait</marker> pas vu.</example>
         <example>Je ne l’y <marker>ai</marker> pas vu.</example>
+        <example correction="">Je vous <marker>avez</marker> avertis de ne pas venir ici.</example>
       </rule>
       <rule name="tu token + verbe">
         <antipattern>
@@ -12557,6 +12568,7 @@ though, and has since been slightly modified)-->
         <example>Jane a elle-même écrit la lettre.</example>
         <example>et celui ayant le plus besoin de croire</example>
         <example>Elle se flatte elle-même en pensant qu'elle est belle</example>
+        <example>Elle vient elle-même me le conter.</example>
       </rule>
       <rule name="il/elle/on + 2 tokens + Verbe">
         <pattern>
@@ -14271,6 +14283,7 @@ though, and has since been slightly modified)-->
         <example correction="a">Comment se fait-il que le réveil n’<marker>ai</marker> pas sonné.</example>
         <example>Comment se fait-il que le réveil n’ait pas sonné.</example>
         <example>les employés et la direction n’aboutirent à aucun résultat.</example>
+        <example>Qui l'ose réveiller peut s'en laisser surprendre.</example>
       </rule>
       <rule name="sujet singulier + 1 token + verbe 3e personne singulier">
         <pattern>
@@ -16136,6 +16149,12 @@ though, and has since been slightly modified)-->
         <token>jamais</token>
         <token regexp="yes">vu|vue|vus|vues</token>
       </antipattern>
+      <antipattern>
+        <token>que</token>
+        <token>j'</token>
+        <token inflected="yes">avoir</token>
+        <token>jamais</token>
+      </antipattern>
       <rule>
         <pattern>
           <marker>
@@ -16185,6 +16204,7 @@ though, and has since been slightly modified)-->
         <example>Ne vous inquiétez pas.</example>
         <example>Ne nous inquiétons pas.</example>
         <example>C'est le pire film que j'ai jamais vu.</example>
+        <example>C'est le meilleur repas que j'ai jamais mangé.</example>
       </rule>
       <rule>
         <pattern>
@@ -20969,7 +20989,7 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="SE_TIRER_DANS_LE_PIED" name="se tirer dans le(s) pied(s)">
       <pattern>
-        <token regexp="yes" skip="3">se|t|te|s|nous|vous|me|m</token>
+        <token regexp="yes" skip="3">se|t'|te|s'|nous|vous|me|m</token>
         <token inflected="yes">tirer</token>
         <token>dans</token>
         <token regexp="yes">les?</token>
@@ -29372,7 +29392,7 @@ though, and has since been slightly modified)-->
         <example correction="ex æquo">Il y a beaucoup de candidats <marker>ex-æquo</marker>.</example>
         <example correction="ex abrupto"> Il a abordé <marker>ex-abrupto</marker> cette question déliquate</example>
       </rule>
-      <rule>
+      <rule default="temp_off">
         <pattern>
           <token>entre</token>
           <token>-</token>
@@ -29382,16 +29402,17 @@ though, and has since been slightly modified)-->
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1732</url>
         <example correction="entre eux">Lequel d'<marker>entre-eux</marker> était-ce ?</example>
       </rule>
-      <rule>
+      <rule default="temp_off">
         <pattern>
-          <token regexp="yes">entre|chez</token>
+          <token regexp="yes">entre|chez|vous</token>
           <token regexp="yes">-(nous|vous|moi|toi)</token>
         </pattern>
         <message>L’expression <suggestion>\1 <match no="2" regexp_match="-" regexp_replace=""/></suggestion> s’écrit sans trait d’union.</message>
         <url>http://bdl.oqlf.gouv.qc.ca/bdl/gabarit_bdl.asp?id=1732</url>
         <example correction="entre vous">Lequel d'<marker>entre-vous</marker> était-ce ?</example>
+        <example correction="Vous vous"><marker>Vous-vous</marker> rapellez ?</example>
       </rule>
-      <rule>
+      <rule default="temp_off">
         <pattern>
           <token>derrière</token>
           <token regexp="yes">-(lui|elles|nous|vous)</token>
