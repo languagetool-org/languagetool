@@ -280,7 +280,7 @@ RB => Règles Brutes
       <pattern>
         <token regexp="yes">chaque|des?|maint|mêmes|moult|nul|plusieurs|quelques<exception scope="previous" regexp="yes">&apostrophe;</exception></token>
         <marker>
-          <token postag="N.*" postag_regexp="yes"><exception regexp="yes">est|multiples|si|petite?s?|mauvais|pires?</exception><exception inflected="yes">bon</exception></token>
+          <token postag="N.*" postag_regexp="yes"><exception regexp="yes">est|multiples|si|petite?s?|mauvais|pires?</exception><exception inflected="yes">bon</exception><exception postag="K"/></token>
         </marker>
       </pattern>
       <disambig action="filter" postag="N.*"/>
@@ -1052,7 +1052,7 @@ RB => Règles Brutes
     <pattern>
       <unify> <feature id="number"/> <feature id="gender"/>
         <token postag="D.*" postag_regexp="yes"><exception>même</exception><exception postag="P"/></token>
-        <token postag="N.*|J.*|V ppa.*" postag_regexp="yes"><exception regexp="yes">a|dans|envers|si|fut|plus|avoir</exception></token>
+        <token postag="N.*|J.*|V ppa.*" postag_regexp="yes"><exception regexp="yes">a|dans|envers|si|fut|plus|avoir</exception><exception postag="K"/></token>
       </unify>
     </pattern>
     <disambig action="filterall"/>
