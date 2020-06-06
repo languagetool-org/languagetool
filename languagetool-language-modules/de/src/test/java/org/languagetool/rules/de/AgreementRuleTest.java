@@ -33,9 +33,6 @@ import java.util.List;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
-/**
- * @author Daniel Naber
- */
 public class AgreementRuleTest {
 
   private AgreementRule rule;
@@ -145,6 +142,8 @@ public class AgreementRuleTest {
     assertGood("Gesetz zur Änderung des Kündigungsrechts und anderer arbeitsrechtlicher Vorschriften");
     assertGood("Die dauerhafte Abgrenzung des später Niedersachsen genannten Gebietes von Westfalen begann im 12. Jahrhundert.");
     assertGood("Lieber jemanden, der einem Tipps gibt.");
+    assertGood("Jainas ist sogar der Genuss jeglicher tierischer Nahrungsmittel strengstens untersagt.");
+    assertGood("Es sind jegliche tierische Nahrungsmittel untersagt.");
     //assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
 
     assertGood("Wir machen das Januar.");
