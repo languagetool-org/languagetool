@@ -509,6 +509,20 @@ USA
     </category>
 
     <category id="SEMANTICS" name="Semantics" type="inconsistency">
+        <rule id="UNION_JACK" name="Union Jack">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Union|UNION</token>
+                <token regexp="yes">Jack|JACK</token>
+            </antipattern>
+            <pattern>
+                <token>union</token>
+                <token>jack</token>
+            </pattern>
+            <message>Capitalize this word if you mean the national flag of the UK.</message>
+            <suggestion>Union Jack</suggestion>
+            <url>https://www.lexico.com/definition/union_jack</url>
+            <example correction="Union Jack">The <marker>union jack</marker> is the national flag of the UK.</example>
+        </rule>
         <rulegroup id="DATE_FUTURE_VERB_PAST_US" name="Future date, but verb in past tense (UK)">
             <rule><!-- We have visited the client on 27/10/2040 -->
                 <pattern>

@@ -147,7 +147,7 @@ public class Indexer implements AutoCloseable {
     int addCount = 0;
     while ((line = reader.readLine()) != null) {
       if (!(line.equals("")) && paragraph.length() + line.length() < Integer.MAX_VALUE) {
-        paragraph.append(line).append("\n");
+        paragraph.append(line).append('\n');
       } else {
         List<String> sentences = sentenceTokenizer.tokenize(paragraph.toString());
         for (String sentence : sentences) {

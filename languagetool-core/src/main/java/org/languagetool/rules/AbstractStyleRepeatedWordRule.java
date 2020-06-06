@@ -183,6 +183,20 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   }
   
   /**
+   * get synonyms for a word
+   */
+  public List<String> getSynonymsForWord(String word) {
+    List<String> synonyms = new ArrayList<String>();
+    List<String> rawSynonyms = linguServices.getSynonyms(word, lang);
+    for (String synonym : rawSynonyms) {
+      synonym = synonym.replaceAll("\\(.*\\)", "").trim();
+      if (!synonym.isEmpty() && !synonyms.contains(synonym)) {
+        synonyms.add(synonym);
+      }
+    }
+    return synonyms;
+  }
+  /**
    * get synonyms for a repeated word
    */
   public List<String> getSynonyms(AnalyzedTokenReadings token) {
@@ -194,23 +208,11 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     for (AnalyzedToken reading : readings) {
       String lemma = reading.getLemma();
       if (lemma != null) {
-        List<String> rawSynonyms = linguServices.getSynonyms(lemma, lang);
-        for (String synonym : rawSynonyms) {
-          synonym = synonym.replaceAll("\\(.*\\)", "").trim();
-          if (!synonym.isEmpty() && !synonyms.contains(synonym)) {
-            synonyms.add(synonym);
-          }
-        }
+        synonyms = getSynonymsForWord(lemma);
       }
     }
     if(synonyms.isEmpty()) {
-      List<String> rawSynonyms = linguServices.getSynonyms(token.getToken(), lang);
-      for (String synonym : rawSynonyms) {
-        synonym = synonym.replaceAll("\\(.*\\)", "").trim();
-        if (!synonym.isEmpty() && !synonyms.contains(synonym)) {
-          synonyms.add(synonym);
-        }
-      }
+      synonyms = getSynonymsForWord(token.getToken());
     }
     return synonyms;
   }

@@ -34,7 +34,6 @@ import org.languagetool.UserConfig;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
-import org.languagetool.tagging.uk.IPOSTag;
 import org.languagetool.tools.StringTools;
 
 public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule {
@@ -129,12 +128,12 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
       }
     }
     
-    if( word.contains("-") || word.contains("\u2011") || word.endsWith(".") 
-            || word.equalsIgnoreCase("раза") ) {
-      return hasGoodTag(tokens[idx]);
-    }
-
-    return false;
+//    if( word.contains("-") || word.contains("\u2011") || word.endsWith(".") 
+//            || word.equalsIgnoreCase("раза") ) {
+      return hasGoodTag(tokens[idx]); // && ! PosTagHelper.hasPosTagPart(tokens[idx], ":bad");
+//    }
+//
+//    return false;
   }
 
   private boolean hasGoodTag(AnalyzedTokenReadings tokens) {
@@ -143,7 +142,7 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
       if( posTag != null 
             && ! posTag.equals(JLanguageTool.SENTENCE_END_TAGNAME) 
             && ! posTag.equals(JLanguageTool.PARAGRAPH_END_TAGNAME) 
-            && ! posTag.contains(IPOSTag.bad.getText()) 
+//            && (! posTag.contains(IPOSTag.bad.getText()) || posTag.contains(":latin"))  
             && ! (posTag.contains(":inanim") && posTag.contains(":v_kly")) )
         return true;
     }
@@ -158,6 +157,19 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
         DO_NOT_SUGGEST_SPACED_PATTERN.matcher(item.getReplacement()).matches() ||
         item.getReplacement().contains("- "));
     return suggestions;
+  }
+
+  // workaround to allow other rules generate spelling suggestions without invoking match()
+  MorfologikMultiSpeller getSpeller1() {
+    if( speller1 == null ) {
+      try {
+        // we can't call initSpellers() as it's private so we're calling method we can
+        isMisspelled("1");
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    return speller1;
   }
 
 }

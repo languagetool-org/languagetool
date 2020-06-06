@@ -9,7 +9,7 @@ import org.languagetool.tagging.uk.PosTagHelper;
 
 public class CaseGovernmentHelper {
 
-  static final Map<String, Set<String>> CASE_GOVERNMENT_MAP = loadMap("/uk/case_government.txt");
+  public static final Map<String, Set<String>> CASE_GOVERNMENT_MAP = loadMap("/uk/case_government.txt");
 
   static {
     CASE_GOVERNMENT_MAP.put("згідно з", new HashSet<>(Arrays.asList("v_oru")));

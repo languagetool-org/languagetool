@@ -300,12 +300,12 @@ public class WikipediaQuickCheck {
       RuleMatchApplication matchApplication = match.getRuleMatchApplications().get(0);
       RuleMatch ruleMatch = match.getRuleMatch();
       Rule rule = ruleMatch.getRule();
-      System.out.println("");
+      System.out.println();
       String message = ruleMatch.getMessage().replace("<suggestion>", "'").replace("</suggestion>", "'");
       errorCount++;
       System.out.print(errorCount + ". " + message);
       if (rule instanceof AbstractPatternRule) {
-        System.out.println(" (" + ((AbstractPatternRule) rule).getFullId() + ")");
+        System.out.println(" (" + rule.getFullId() + ")");
       } else {
         System.out.println(" (" + rule.getId() + ")");
       }

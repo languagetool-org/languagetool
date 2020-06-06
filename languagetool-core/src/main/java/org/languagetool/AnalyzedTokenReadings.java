@@ -547,7 +547,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private void addHistoricalAnnotations(String oldValue, String ruleApplied) {
     if (!ruleApplied.isEmpty()) {
       this.historicalAnnotations = this.getHistoricalAnnotations() + "\n" + ruleApplied + ": " + oldValue + " -> "
-          + this.toString();
+          + this;
     }
   }
   

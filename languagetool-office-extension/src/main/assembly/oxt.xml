@@ -18,7 +18,10 @@
                 <include>description.xml</include>
                 <include>description/**</include>
                 <include>Addons.xcu</include>
+                <include>Accelerators.xcu</include>
                 <include>Linguistic.xcu</include>
+                <include>WriterWindowState.xcu</include>
+                <include>SpellAndGrammarCheckDialog.xdl</include>
             </includes>
         </fileSet>
         <fileSet>
@@ -45,7 +48,6 @@
             <unpack>false</unpack>
             <scope>runtime</scope>
             <excludes>
-                <exclude>net.java.dev.jna:jna</exclude>
                 <exclude>org.languagetool:language-*</exclude>
             </excludes>
         </dependencySet>
@@ -55,7 +57,12 @@
             <unpackOptions>
                 <excludes>
                      <!-- we don't offer spell checking in LibreOffice/OpenOffice -->
-                    <exclude>**/hunspell/**</exclude>
+                    <exclude>**/hunspell/*dic*</exclude>
+                    <exclude>**/hunspell/*header</exclude>
+                    <exclude>**/hunspell/*info</exclude>
+                    <exclude>**/hunspell/*aff</exclude>
+                    <exclude>**/hunspell/*sh</exclude>
+                    <exclude>**/hunspell/*README*</exclude>
                     <exclude>**/spelling/**</exclude>
                 </excludes>
             </unpackOptions>

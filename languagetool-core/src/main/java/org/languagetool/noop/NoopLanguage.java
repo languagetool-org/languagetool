@@ -110,7 +110,8 @@ public class NoopLanguage extends Language {
 
   @Override
   public Tokenizer createDefaultWordTokenizer() {
-    return Collections::singletonList;
+    // result needs to be modifiable (see JLanguageTool.replaceSoftHyphens())
+    return text -> new ArrayList<>();
   }
 
 }

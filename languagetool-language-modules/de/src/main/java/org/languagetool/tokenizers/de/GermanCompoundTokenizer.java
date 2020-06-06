@@ -87,6 +87,37 @@ public class GermanCompoundTokenizer implements Tokenizer {
       words.add("freundlicher");
       words.add("freundlichen");
       words.add("freundlichem");
+      words.add("gelegenen");  // e.g. höchstgelegenen
+      words.add("gelegenes");
+      words.add("gelegene");
+      words.add("gelegen");
+      words.add("neurogen");
+      words.add("neurogene");
+      words.add("neurogenes");
+      words.add("neurogenen");
+      words.add("autogene");
+      words.add("autogenes");
+      words.add("autogenen");
+      words.add("biogenetisch");
+      words.add("biogenetische");
+      words.add("biogenetischen");
+      words.add("biogenetisches");
+      words.add("fotogene");
+      words.add("fotogenes");
+      words.add("fotogenen");
+      words.add("erlegene");
+      words.add("erlegenes");
+      words.add("erlegenen");
+      words.add("genesenden");
+      words.add("genesender");
+      words.add("geneset");
+      words.add("telegene");
+      words.add("telegenen");
+      words.add("telegenes");
+      words.add("genetisch");
+      words.add("genetische");
+      words.add("genetischen");
+      words.add("genetisches");
       return words;
     }
   }

@@ -98,7 +98,7 @@ public class PolishWordTokenizer extends WordTokenizer {
           l.add("-");
         } else if (token.charAt(0) == '-') {
           l.add("-");
-          l.addAll(tokenize(token.substring(1, token.length())));
+          l.addAll(tokenize(token.substring(1)));
         } else if (token.contains("-")) {
           String[] tokenParts = token.split("-");
           if (prefixes.contains(tokenParts[0])

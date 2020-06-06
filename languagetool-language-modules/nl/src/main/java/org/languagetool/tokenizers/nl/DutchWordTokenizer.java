@@ -59,7 +59,7 @@ public class DutchWordTokenizer extends WordTokenizer {
         if (startsWithQuote(token) && endsWithQuote(token) && token.length() > 2) {
           l.add(token.substring(0, 1));
           l.add(token.substring(1, token.length()-1));
-          l.add(token.substring(token.length()-1, token.length()));
+          l.add(token.substring(token.length()-1));
         } else if (endsWithQuote(token)) {
           int cnt = 0;
           while (endsWithQuote(token)) {
@@ -73,7 +73,7 @@ public class DutchWordTokenizer extends WordTokenizer {
         } else if (startsWithQuote(token)) {
           while (startsWithQuote(token)) {
             l.add(token.substring(0, 1));
-            token = token.substring(1, token.length());
+            token = token.substring(1);
           }
           l.add(token);
         } else {

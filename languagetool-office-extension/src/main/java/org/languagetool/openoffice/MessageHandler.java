@@ -35,7 +35,7 @@ import org.languagetool.tools.Tools;
  */
 class MessageHandler {
   
-  private static final String logLineBreak = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
+  private static final String logLineBreak = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
   
   private static String homeDir;
   private static String logFileName;
@@ -55,7 +55,7 @@ class MessageHandler {
   private static void initLogFile() {
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath()))) {
       Date date = new Date();
-      bw.write("LT office integration log from " + date.toString() + logLineBreak);
+      bw.write("LT office integration log from " + date + logLineBreak);
     } catch (Throwable t) {
       showError(t);
     }
@@ -112,7 +112,7 @@ class MessageHandler {
       if(!parentDir.exists()) {
         boolean success = parentDir.mkdirs();
         if(!success) {
-          showMessage("Can't create directory: " + parentDir.toString());
+          showMessage("Can't create directory: " + parentDir);
         }
       }
     }

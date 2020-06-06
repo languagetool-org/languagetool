@@ -394,7 +394,9 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
               String suffix = translator.getTranslationSuffix(s);
               SuggestedReplacement repl = new SuggestedReplacement(translator.cleanTranslationForReplace(s, prevWord), String.join(", ", translation.getL1()), suffix.isEmpty() ? null : suffix);
               repl.setType(SuggestedReplacement.SuggestionType.Translation);
-              l.add(repl);
+              if (!repl.getReplacement().equals(word)) {
+                l.add(repl);
+              }
             }
           }
           List<SuggestedReplacement> mergedRepl = mergeSuggestionsWithSameTranslation(l);

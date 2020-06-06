@@ -46,6 +46,7 @@ class UserLimits {
   private int maxTextLength;
   private long maxCheckTimeMillis;
   private Long premiumUid;
+  private boolean skipLimits;
 
   private static final LoadingCache<Account, String> cache = CacheBuilder.newBuilder()
           .expireAfterWrite(15, TimeUnit.MINUTES)
@@ -82,10 +83,12 @@ class UserLimits {
     boolean hasPremium = !premiumClaim.isNull() && premiumClaim.asBoolean();
     Claim uidClaim = decodedToken.getClaim("uid");
     long uid = uidClaim.isNull() ? -1 : uidClaim.asLong();
-    return new UserLimits(
-            maxTextLengthClaim.isNull() ? config.maxTextLength : maxTextLengthClaim.asInt(),
-            config.maxCheckTimeMillis,
-            hasPremium ? uid : null);
+    UserLimits userLimits = new UserLimits(
+      maxTextLengthClaim.isNull() ? config.maxTextLength : maxTextLengthClaim.asInt(),
+      config.maxCheckTimeMillis,
+      hasPremium ? uid : null);
+    userLimits.skipLimits = decodedToken.getClaim("skipLimits").isNull() ? false : decodedToken.getClaim("skipLimits").asBoolean();
+    return userLimits;
   }
 
   /**
@@ -148,12 +151,23 @@ class UserLimits {
     this.premiumUid = premiumUid;
   }
 
+  /**
+   * Special case for internal use to skip all limits.
+   */
+  UserLimits(boolean skipLimits) {
+    this.skipLimits = skipLimits;
+  }
+
   int getMaxTextLength() {
     return maxTextLength;
   }
 
   long getMaxCheckTimeMillis() {
    return maxCheckTimeMillis;
+  }
+
+  boolean getSkipLimits() {
+    return skipLimits;
   }
 
   @Nullable

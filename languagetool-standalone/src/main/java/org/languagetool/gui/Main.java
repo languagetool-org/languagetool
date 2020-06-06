@@ -230,9 +230,7 @@ public final class Main {
       textArea.setText(fileContents);
       currentFile = file;
       updateTitle();
-      if(recentFiles.contains(file.getAbsolutePath())) {
-        recentFiles.remove(file.getAbsolutePath());
-      }
+      recentFiles.remove(file.getAbsolutePath());
       recentFiles.add(file.getAbsolutePath());
       localStorage.saveProperty("recentFiles", recentFiles);
       updateRecentFilesMenu();

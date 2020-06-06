@@ -31,7 +31,8 @@ import com.sun.star.uno.XComponentContext;
  */
 public class SingletonFactory implements XSingleComponentFactory, XServiceInfo {
 
-  private transient org.languagetool.openoffice.Main instance;
+//  private transient org.languagetool.openoffice.Main instance;
+  private static org.languagetool.openoffice.Main instance = null;
 
   @Override
   public final Object createInstanceWithArgumentsAndContext(Object[] arguments, 

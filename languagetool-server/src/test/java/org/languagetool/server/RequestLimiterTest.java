@@ -28,7 +28,9 @@ import java.util.Map;
 import static org.junit.Assert.fail;
 
 public class RequestLimiterTest {
-  
+
+  private final HTTPServerConfig config = new HTTPServerConfig();
+
   @Test
   public void testIsAccessOkay() throws Exception {
     RequestLimiter limiter = new RequestLimiter(3, 0, 1, 2);
@@ -96,11 +98,20 @@ public class RequestLimiterTest {
     assertOkay(limiter, firstIp, params, firstHeader);  // +10 bytes! but text level only, counts only a tenth of that, so okay (31 bytes)
     params.put("mode", "all");
     assertException(limiter, firstIp, params, firstHeader);  // 41 bytes!
+    assertOkayWithSkippingLimits(limiter, firstIp, params, firstHeader);
   }
 
   private void assertOkay(RequestLimiter limiter, String ip, Map<String, String> params, Map<String, List<String>> header) {
     try {
-      limiter.checkAccess(ip, params, header);
+      limiter.checkAccess(ip, params, header, UserLimits.getDefaultLimits(config));
+    } catch (TooManyRequestsException e) {
+      fail();
+    }
+  }
+
+  private void assertOkayWithSkippingLimits(RequestLimiter limiter, String ip, Map<String, String> params, Map<String, List<String>> header) {
+    try {
+      limiter.checkAccess(ip, params, header, new UserLimits(true));
     } catch (TooManyRequestsException e) {
       fail();
     }
@@ -108,7 +119,7 @@ public class RequestLimiterTest {
 
   private void assertException(RequestLimiter limiter, String ip, Map<String, String> params, Map<String, List<String>> header) {
     try {
-      limiter.checkAccess(ip, params, header);
+      limiter.checkAccess(ip, params, header, UserLimits.getDefaultLimits(config));
       fail();
     } catch (TooManyRequestsException ignored) {}
   }

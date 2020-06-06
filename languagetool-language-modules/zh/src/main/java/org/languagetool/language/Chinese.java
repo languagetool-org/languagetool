@@ -93,7 +93,7 @@ public class Chinese extends Language implements AutoCloseable {
   /** @since 3.1 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
-    return Arrays.<Rule>asList(
+    return Arrays.asList(
             new ChineseConfusionProbabilityRule(messages, languageModel, this)
     );
   }

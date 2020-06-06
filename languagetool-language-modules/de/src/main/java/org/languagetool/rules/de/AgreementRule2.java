@@ -47,9 +47,12 @@ import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRege
 public class AgreementRule2 extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = asList(
+    asList(token("Gesetzlich"), token("Krankenversicherte")),
+    asList(token("weitgehend"), token("Einigkeit")),      // feste Phrase
     asList(token("Ernst")),      // Vorname
     asList(token("Anders")),     // Vorname
     asList(token("wirklich")),   // "Wirklich Frieden herrscht aber noch nicht"
+    asList(token("gemeinsam")),   // "Gemeinsam Sportler anfeuern"
     asList(token("wenig")),      // "Wenig Geld - ..."
     asList(token("weniger")),      // "Weniger Geld - ..."
     asList(token("richtig")),    // "Richtig Kaffee kochen ..."
@@ -58,7 +61,15 @@ public class AgreementRule2 extends Rule {
     asList(token("halb")),       // "Halb Traum, halb Wirklichkeit"
     asList(token("hinter")),     // "Hinter Bäumen"
     asList(token("vermutlich")), // "Vermutlich Ende 1813 erkrankte..."
-    asList(token("Einfach"), token("Bescheid")),    // "Einfach Bescheid sagen ..."
+    asList(token("eventuell")), // "Eventuell Ende 1813 erkrankte..."
+    asList(token("ausschließlich")),
+    asList(token("ausschliesslich")),
+    asList(token("bloß")),       // "Bloß Anhängerkupplung und solche Dinge..."
+    asList(token("einfach")),    // "Einfach Bescheid sagen ..."
+    asList(token("endlich")),    // "Endlich Mittagspause!"
+    asList(token("unbemerkt")),    // "Unbemerkt Süßigkeiten essen"
+    asList(token("Typisch"), tokenRegex("Mann|Frau")),    // "Einfach Bescheid sagen ..."
+    asList(token("Genau"), token("Null")),
     asList(token("wohl")),       // "Wohl Anfang 1725 begegnete Bach ..."
     asList(token("erst")),       // "Erst X, dann ..."
     asList(token("lieber")),     // "Lieber X als Y"
@@ -73,8 +84,8 @@ public class AgreementRule2 extends Rule {
     asList(token("Russisch"), token("Roulette")),
     asList(token("Clever"), tokenRegex("Shuttles?")), // name
     asList(token("Personal"), tokenRegex("(Computer|Coach|Trainer).*")),
-    asList(tokenRegex("Digital|Regional|Global|Bilingual|International|National|Visual"), tokenRegex("(Initiative|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity).*")),
-    asList(token("Smart"), tokenRegex("(Service|Home|Meter|City).*")),
+    asList(tokenRegex("Digital|Regional|Global|Bilingual|International|National|Visual|Final|Rapid|Dual"), tokenRegex("(Initiative|Connection|Bootcamp|Leadership|Sales|Community|Service|Management|Board|Identity|City|Paper|Transfer|Transformation|Power).*")),
+    asList(token("Smart"), tokenRegex("(Service|Home|Meter|City|Hall).*")),
     asList(token("GmbH"))
   );
   private final Language language;
@@ -111,9 +122,10 @@ public class AgreementRule2 extends Rule {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
     for (int i = 0; i < tokens.length; i++) {
-      if (!tokens[i].isSentenceStart() && !tokens[i].getToken().matches("[\"„»«]")) {
+      String token = tokens[i].getToken();
+      if (!tokens[i].isSentenceStart() && !token.matches("[\"„»«]")) {
         // skip quotes, as these are not relevant
-        if (i+ 1 < tokens.length && tokens[i].hasPosTagStartingWith("ADJ:") && tokens[i+1].hasPosTagStartingWith("SUB:")) {
+        if (i+ 1 < tokens.length && tokens[i].hasPosTagStartingWith("ADJ:") && tokens[i+1].hasPosTagStartingWith("SUB:") && !tokens[i+1].hasPosTagStartingWith("EIG:")) {
           if (tokens[i].isImmunized() || tokens[i+1].isImmunized()) {
             continue;
           }

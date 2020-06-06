@@ -144,7 +144,7 @@ public class LanguageSpecificTest {
       JLanguageTool lt = new JLanguageTool(language);
       List<Rule> allRules = lt.getAllRules();
       for (Rule rule : allRules) {
-        if (rule.getIncorrectExamples().size() == 0) {
+        if (rule.getIncorrectExamples().isEmpty()) {
           System.err.println("*** WARNING: " + language.getShortCodeWithCountryAndVariant() + " rule " + rule.getId() + " has no incorrect examples");
         }
       }

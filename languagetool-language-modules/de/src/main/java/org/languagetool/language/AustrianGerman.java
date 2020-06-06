@@ -25,15 +25,13 @@ import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Rule;
 import org.languagetool.rules.de.AustrianGermanSpellerRule;
-import org.languagetool.rules.de.GermanCompoundRule;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
-@SuppressWarnings("deprecation")
-public class AustrianGerman extends German {
+public class AustrianGerman extends NonSwissGerman {
 
   @Override
   public String[] getCountries() {
@@ -43,13 +41,6 @@ public class AustrianGerman extends German {
   @Override
   public String getName() {
     return "German (Austria)";
-  }
-
-  @Override
-  public List<Rule> getRelevantRules(ResourceBundle messages, UserConfig userConfig, Language motherTongue, List<Language> altLanguages) throws IOException {
-    List<Rule> rules = new ArrayList<>(super.getRelevantRules(messages, userConfig, motherTongue, altLanguages));
-    rules.add(new GermanCompoundRule(messages));
-    return rules;
   }
 
   @Override

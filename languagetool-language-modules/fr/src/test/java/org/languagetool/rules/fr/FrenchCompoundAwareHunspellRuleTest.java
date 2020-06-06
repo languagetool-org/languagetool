@@ -36,6 +36,9 @@ public class FrenchCompoundAwareHunspellRuleTest {
   public void testSpellcheck() throws IOException {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("fr"));
     TestTools.disableAllRulesExcept(lt, "FR_SPELLING_RULE");
+    assertSuggestion(lt, "et ca", "ça"); // see #2900
+    assertSuggestion(lt, "La journé", "jour né"); // see #2900. Better: journée
+    assertSuggestion(lt, "la sante", "santé"); // see #2900
     assertSuggestion(lt, "Parcontre", "Par contre");  // see #1797
     assertSuggestion(lt, "parcontre", "par contre");  // see #1797
     assertSuggestion(lt, "Ca", "Ça");  // see #912
@@ -53,6 +56,9 @@ public class FrenchCompoundAwareHunspellRuleTest {
     assertSuggestion(lt, "Etais-tu", "Étais-tu");
     assertSuggestion(lt, "etais-tu", "étais-tu");
     assertThat(lt.check("Et d'Harvard").size(), is(0));
+    assertThat(lt.check("déconfinement").size(), is(0));  // from spelling.txt
+    assertThat(lt.check("Déconfinement").size(), is(0));
+    assertThat(lt.check("Le Déconfinement").size(), is(1));  // uppercase only accepted at sentence start
   }
 
   private void assertSuggestion(JLanguageTool lt, String input, String... expected) throws IOException {

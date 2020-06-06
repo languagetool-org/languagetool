@@ -149,6 +149,7 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectSingularVerb() throws IOException {
     List<String> sentences = Arrays.asList(
+        "All diesen Stadtteilen ist die Nähe zum Hamburger Hafen und zu den Industrie- und Gewerbegebieten gemein.",
         "All diesen Bereichen ist gemeinsam, dass sie unterfinanziert sind.",
         "Nicht entmutigen lassen, nur weil Sie kein Genie sind.",
         "Denken Sie daran, dass Sie hier zu Gast sind und sich entsprechend verhalten sollten.",
@@ -330,6 +331,8 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectPluralVerb() throws IOException {
     List<String> sentences = Arrays.asList(
+        "Zwei Schülern war aufgefallen, dass man im Fernsehen dazu nichts mehr sieht.",
+        "Auch die Reste eines sehr großen Insektenfressers sind unter den Fossilien.",
         "Eine Persönlichkeit sind Sie selbst.",
         "Die Katzen sind schön.",
         "Frau Meier und Herr Müller sind alt.",
@@ -425,7 +428,7 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectSingularAndPluralVerb() throws IOException {
     // Manchmal sind beide Varianten korrekt:
-    // siehe http://www.canoonet.eu/services/OnlineGrammar/Wort/Verb/Numerus-Person/ProblemNum.html
+    // siehe https://dict.leo.org/grammatik/deutsch/Wort/Verb/Kategorien/Numerus-Person/ProblemNum.html
     List<String> sentences = Arrays.asList(
         "So mancher Mitarbeiter und manche Führungskraft ist im Urlaub.",
         "So mancher Mitarbeiter und manche Führungskraft sind im Urlaub.",

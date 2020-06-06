@@ -55,6 +55,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
       token("Na"),
       token("na")
     ),
+    Arrays.asList( // La La Land / la la la ...
+      token("la"),
+      token("la")
+    ),
     Arrays.asList( // "Bei Fragen fragen"
       csToken("Fragen"),
       csToken("fragen")
@@ -66,6 +70,13 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     Arrays.asList( // Phi Phi Islands
       token("Phi"),
       token("Phi")
+    ),
+    Arrays.asList( // Wahrscheinlich ist das das Problem.
+      tokenRegex("ist|war"),
+      token("das"),
+      token("das"),
+      token(".*SUB.*"),
+      token("SENT_END")
     ),
     Arrays.asList(// "wie Honda und Samsung, die die Bezahlung ihrer Firmenchefs..."
       csToken(","),
@@ -87,6 +98,10 @@ public class GermanWordRepeatRule extends WordRepeatRule {
     Arrays.asList(// "Er will sein Leben leben"
       csToken("Leben"),
       csToken("leben")
+    ),
+    Arrays.asList(// "Er muss sein Essen essen"
+      csToken("Essen"),
+      csToken("essen")
     )
   );
 

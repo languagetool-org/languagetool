@@ -22,6 +22,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.rules.RuleMatch;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -37,7 +38,7 @@ public class RuleFilterEvaluator {
   }
 
   @Nullable
-  public RuleMatch runFilter(String filterArgs, RuleMatch ruleMatch, AnalyzedTokenReadings[] patternTokens, int patternTokenPos, List<Integer> tokenPositions) {
+  public RuleMatch runFilter(String filterArgs, RuleMatch ruleMatch, AnalyzedTokenReadings[] patternTokens, int patternTokenPos, List<Integer> tokenPositions) throws IOException {
     Map<String,String> args = getResolvedArguments(filterArgs, patternTokens, patternTokenPos, tokenPositions);
     return filter.acceptRuleMatch(ruleMatch, args, patternTokenPos, patternTokens);
   }

@@ -43,7 +43,7 @@ public class DemoPatternRuleTest extends PatternRuleTest {
 
   @Test
   public void testGrammarRulesFromXML2() throws IOException {
-    new PatternRule("-1", language, Collections.<PatternToken>emptyList(), "", "", "");
+    new PatternRule("-1", language, Collections.emptyList(), "", "", "");
   }
 
   @Test

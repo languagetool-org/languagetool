@@ -25,6 +25,7 @@ import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
+import org.languagetool.tagging.TaggedWord;
 
 import java.io.IOException;
 import java.util.*;
@@ -53,12 +54,25 @@ public class GermanTaggerTest {
     assertTrue(tagger.tag(Arrays.asList("viele", "Freund", "*", "innen")).get(1).hasPartialPosTag(":PLU:FEM"));
     assertTrue(tagger.tag(Arrays.asList("viele", "Freund", "_", "innen")).get(1).hasPartialPosTag(":PLU:FEM"));
     assertTrue(tagger.tag(Arrays.asList("viele", "Freund", ":", "innen")).get(1).hasPartialPosTag(":PLU:FEM"));
+    assertTrue(tagger.tag(Arrays.asList("viele", "Freund", "/", "innen")).get(1).hasPartialPosTag(":PLU:FEM"));
     assertTrue(tagger.tag(Arrays.asList("jede", "*", "r", "Mitarbeiter", "*", "in")).get(0).hasPartialPosTag("PRO:IND:NOM:SIN:FEM"));
     assertTrue(tagger.tag(Arrays.asList("jede", "*", "r", "Mitarbeiter", "*", "in")).get(0).hasPartialPosTag("PRO:IND:NOM:SIN:MAS"));
     assertTrue(tagger.tag(Arrays.asList("jede", "*", "r", "Mitarbeiter", "*", "in")).get(3).hasPartialPosTag("SUB:NOM:SIN:FEM"));
     assertTrue(tagger.tag(Arrays.asList("jede", "*", "r", "Mitarbeiter", "*", "in")).get(3).hasPartialPosTag("SUB:NOM:SIN:MAS"));
   }
   
+  @Test
+  public void testIgnoreDomain() throws IOException {
+    List<AnalyzedTokenReadings> aToken = tagger.tag(Arrays.asList("bundestag", ".", "de"));
+    assertFalse(aToken.get(0).isTagged());
+  }
+
+  @Test
+  public void testIgnoreImperative() throws IOException {
+    List<AnalyzedTokenReadings> aToken = tagger.tag(Arrays.asList("zehnfach"));
+    assertFalse(aToken.get(0).isTagged());
+  }
+
   @Test
   public void testTagger() throws IOException {
     AnalyzedTokenReadings aToken = tagger.lookup("Haus");
@@ -158,9 +172,6 @@ public class GermanTaggerTest {
 
     assertEquals("Haß[Haß/SUB:AKK:SIN:MAS, Haß/SUB:DAT:SIN:MAS, Haß/SUB:NOM:SIN:MAS]", toSortedString(tagger.lookup("Haß")));
     assertEquals("Hass[Hass/SUB:AKK:SIN:MAS, Hass/SUB:DAT:SIN:MAS, Hass/SUB:NOM:SIN:MAS]", toSortedString(tagger.lookup("Hass")));
-
-    assertEquals("muß[müssen/VER:MOD:1:SIN:PRÄ, müssen/VER:MOD:3:SIN:PRÄ]", toSortedString(tagger.lookup("muß")));
-    assertEquals("muss[müssen/VER:MOD:1:SIN:PRÄ, müssen/VER:MOD:3:SIN:PRÄ]", toSortedString(tagger.lookup("muss")));
   }
 
   @Test
@@ -285,9 +296,7 @@ public class GermanTaggerTest {
     Set<String> elements = new TreeSet<>();
     sb.append('[');
     for (AnalyzedToken reading : tokenReadings) {
-      if (!elements.contains(reading.toString())) {
-        elements.add(reading.toString());
-      }
+      elements.add(reading.toString());
     }
     sb.append(String.join(", ", elements));
     sb.append(']');
