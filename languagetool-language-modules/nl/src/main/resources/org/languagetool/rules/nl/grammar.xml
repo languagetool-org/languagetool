@@ -18476,6 +18476,8 @@ steenwijk;Steenwijk
 		</rulegroup>
 		<rulegroup id="VINDT_IK" name="verkeerde werkwoordvorm" default="temp_off">
 			<rule>
+				<antipattern><token>je</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token>je</token><token postag_regexp="yes" postag="BNW.*"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
 				<pattern>
 					<token postag="SENT_START"/>
 					<marker>
@@ -33522,7 +33524,7 @@ steenwijk;Steenwijk
 				<example correction="bezigheid">Zulke inkomsten worden dus behaald in de uitoefening van de <marker>beroepswerkzaamheid</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DEELTEKEN" name="/" default="off"> <!-- picky (or at least experienced as such -->
+		<rulegroup id="BREUKSTREEP" name="/" default="off"> <!-- picky (or at least experienced as such -->
 			<rule>
 				<!-- TODO: individuele gevallen zoeken; het is anders een wel heel algemene melding -->
 				<antipattern><token regexp="yes" skip="-1">http.*</token><token postag="SENT_END"/></antipattern>
@@ -40035,30 +40037,6 @@ steenwijk;Steenwijk
 				</pattern>
 				<message>Is deze kwalificatie wel noodzakelijk? Zo niet, laat het dan weg <suggestion></suggestion>.</message>
 				<example correction="">We spreken de <marker>mannelijke</marker> bestuurder.</example>
-			</rule>
-		</rulegroup>
-
-		<rulegroup id="GAAT_GISTEREN" name="verkeerde werkwoordvorm" default="temp_off">
-			<antipattern><token postag="SENT_START" skip="-1"/><token postag="WKW:VTD:ONV"/></antipattern>
-			<rule>
-				<pattern>
-					<marker>
-						<token postag_regexp="yes" postag="WKW:TGW:[13]EP.*"><exception postag_regexp="yes" postag="WKW:VLT.*"/></token>
-					</marker>
-					<token regexp="yes">eergisteren|gisteren</token>
-				</pattern>
-				<message>U bedoelt vast <suggestion><match no="1" postag_regexp="yes" postag="WKW:VLT:1EP.*"/></suggestion>.</message>
-				<example correction="verruilde">Dominee <marker>verruilt</marker> gisteren zijn kerk.</example>
-			</rule>
-			<rule>
-				<pattern>
-					<marker>
-						<token postag_regexp="yes" postag="WKW:TGW:INF.*"><exception postag_regexp="yes" postag="WKW:VLT:INF.*"/></token>
-					</marker>
-					<token regexp="yes">eergisteren|gisteren</token>
-				</pattern>
-				<message>U bedoelt vast <suggestion><match no="1" postag_regexp="yes" postag="WKW:VLT:INF.*"/></suggestion>.</message>
-				<example correction="verruilden">Dominees <marker>verruilen</marker> gisteren hun kerk.</example>
 			</rule>
 		</rulegroup>
 		
