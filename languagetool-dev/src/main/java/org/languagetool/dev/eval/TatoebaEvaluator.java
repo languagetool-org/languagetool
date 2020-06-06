@@ -28,6 +28,9 @@ import java.io.IOException;
 /**
  * See https://gist.github.com/danielnaber/79907f27e272fa43a4fa23b400a9fbd4
  * for how to extract the files from Tatoeba.
+ *
+ * Use `grep "Rule ID" /tmp/out | sed 's/.*Rule ID: //' | sort | uniq -c | sort -rn`
+ * to get to rules (when only running on a single language).
  */
 public class TatoebaEvaluator {
 
@@ -35,6 +38,9 @@ public class TatoebaEvaluator {
 
   private void run() throws IOException {
     for (Language lang : Languages.get()) {
+      //if (!lang.getShortCode().equals("sk")) {
+      //  continue;
+      //}
       File file = new File(template.replaceFirst("LANG", lang.getShortCode()));
       if (!file.exists() || file.length() == 0) {
         System.err.println("File not found or empty, skipping: " + file);

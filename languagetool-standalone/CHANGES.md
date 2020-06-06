@@ -27,7 +27,9 @@
   * rebuilt and improved main spellchecker dictionary
   * new variant (only yo "ё") spellchecker dictionary and new java rule for it (off by default)
 
-
+#### Slovak
+  * commented out rules that caused many false alarms
+  
 #### Spanish
   * added and improved rules
   * new tagger dictionary by Jaume Ortolà, LGPL, source: https://github.com/jaumeortola/spanish-dict-tools
