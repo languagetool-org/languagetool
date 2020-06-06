@@ -21,6 +21,9 @@
   * Updated the German part-of-speech dictionary (https://github.com/languagetool-org/german-pos-dict)
     to version 1.2.
 
+#### Persian
+  * commented out rules that caused many false alarms
+
 #### Russian
   * added and improved rules
   * added new Java rules
