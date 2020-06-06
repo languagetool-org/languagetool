@@ -2319,7 +2319,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>вышел</token>
                     <token>замуж</token>
                 </pattern>
-                <message>"Выйти замуж" употребляется только со словами женского рода: <suggestion>\1 женился</suggestion></message>
+                <message>«Выйти замуж» употребляется только со словами женского рода: <suggestion>\1 женился</suggestion></message>
                 <url>http://ru.wiktionary.org/wiki/%D0%B2%D1%8B%D0%B9%D1%82%D0%B8_%D0%B7%D0%B0%D0%BC%D1%83%D0%B6</url>
                 <short>Требуется женский род.</short>
                 <example>
@@ -2333,7 +2333,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>вышел</token>
                     <token>замуж</token>
                 </pattern>
-                <message>"Выйти замуж" употребляется только со словами женского рода: <suggestion>\1 женился</suggestion></message>
+                <message>«Выйти замуж» употребляется только со словами женского рода: <suggestion>\1 женился</suggestion></message>
                 <url>http://ru.wiktionary.org/wiki/%D0%B2%D1%8B%D0%B9%D1%82%D0%B8_%D0%B7%D0%B0%D0%BC%D1%83%D0%B6</url>
                 <short>Требуется женский род.</short>
                 <example><marker>Дочка вышла замуж</marker>.</example>
@@ -2345,7 +2345,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>она</token>
                     <token>женилась</token>
                 </pattern>
-                <message>"Жениться" употребляется только со словами мужского рода: <suggestion>\1 вышла замуж</suggestion></message>
+                <message>«Жениться» употребляется только со словами мужского рода: <suggestion>\1 вышла замуж</suggestion></message>
                 <url>http://ru.wiktionary.org/wiki/%D0%B6%D0%B5%D0%BD%D0%B8%D1%82%D1%8C%D1%81%D1%8F</url>               
                 <short>Требуется мужской род.</short>
                 <example><marker>Он женился</marker>.</example>
@@ -2356,7 +2356,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="NN:.*:Fem:Sin:.*" postag_regexp="yes"></token>  
                     <token>женилась</token>    
                 </pattern>
-                <message>"Жениться" употребляется только со словами мужскгого рода: <suggestion>\1 вышла замуж</suggestion></message>
+                <message>«Жениться» употребляется только со словами мужскгого рода: <suggestion>\1 вышла замуж</suggestion></message>
                 <url>http://ru.wiktionary.org/wiki/%D0%B6%D0%B5%D0%BD%D0%B8%D1%82%D1%8C%D1%81%D1%8F</url>
                 <short>Требуется мужской род.</short>
                 <example><marker>Сын женился</marker>.</example>
@@ -2367,8 +2367,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ROST" name="«Рост»" default="on">
             <rule>
                 <pattern>
-                    <token postag="NN:Inanim:.*" postag_regexp="yes" skip="2"><exception negate_pos="yes" postag="NN:Inanim:.*" postag_regexp="yes" /><exception inflected="yes" regexp="yes" >&rost;</exception><exception scope="next" inflected="yes" regexp="yes" >&rost;</exception><exception scope="next" regexp="yes" >&pnct;</exception><exception scope="previous" postag="PREP"  /></token>
-                    <token>роста<exception inflected="yes" regexp="yes" scope="next" >&rost;</exception><exception postag="NN:Inanim:.*" postag_regexp="yes" scope="next" ></exception><exception scope="previous" regexp="yes" >&pnct;</exception><exception scope="previous" postag="PREP"  /></token>
+                    <token postag="NN:Inanim:.*" postag_regexp="yes" skip="2">
+                        <exception negate_pos="yes" postag="NN:Inanim:.*" postag_regexp="yes" />
+                        <exception inflected="yes" regexp="yes" >&rost;</exception>
+                        <exception scope="next" inflected="yes" regexp="yes" >&rost;</exception>
+                        <exception scope="next" regexp="yes" >&pnct;</exception>
+                        <exception scope="previous" postag="PREP"  /> 
+                        <exception scope="next" postag_regexp="yes" postag="PREP|CONJ"  />
+                    </token>
+                    <token>роста<exception inflected="yes" regexp="yes" scope="next" >&rost;</exception>
+                        <exception postag="NN:Inanim:.*" postag_regexp="yes" scope="next" ></exception>
+                        <exception scope="previous" regexp="yes" >&pnct;</exception>
+                        <exception scope="previous" postag="PREP"  />
+                    </token>
                 </pattern>
                 <message>Рост бывает у одушевлённых слов (человек большого роста), некого числа характеристик (рост показателей, рост качества, количества), в некоторых устойчивых выражениях (рост экономики, преступности, безработицы).</message>
                 <short>Замените другим словом</short>
@@ -2380,7 +2391,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token inflected="yes" skip="2">рост<exception inflected="yes" regexp="yes" scope="next">&rost;</exception><exception inflected="yes" regexp="yes" scope="previous">&rost;</exception><exception scope="next" regexp="yes" >&pnct;</exception><exception scope="next" postag="NN:(Name|Fam|Patr):.*" postag_regexp="yes" /><exception scope="previous" postag="PREP"  /><exception scope="next" postag="PREP"  /></token>
+                    <token inflected="yes" skip="2">рост<exception inflected="yes" regexp="yes" scope="next">&rost;</exception>
+                        <exception inflected="yes" regexp="yes" scope="previous">&rost;</exception>
+                        <exception scope="next" regexp="yes" >&pnct;</exception>
+                        <exception scope="next" postag="NN:(Name|Fam|Patr):.*" postag_regexp="yes" />
+                        <exception scope="previous" postag="PREP"  />
+                        <exception scope="next" postag="PREP"  />
+                        <exception>Ростов</exception>
+                    </token>
                     <token postag="NN:Inanim:.*" postag_regexp="yes" ><exception postag="NN:(Name|Fam|Patr):.*" postag_regexp="yes" /></token>
                 </pattern>
                 <message>Рост бывает у одушевлённых слов (человек большого роста), некого числа характеристик (рост показателей, рост качества, количества) и в некоторых устойчивых выражениях (рост экономики, преступности, безработицы).</message>
@@ -2388,6 +2406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Сопутствующий <marker>рост доступных учебных материалов</marker> по языку.</example>
                 <example>Сопутствующий рост количества доступных учебных материалов по языку.</example>
                 <example>По останкам установлено, что рост Ивана Грозного был около 179—180 сантиметров.</example>
+                <example>Города Ростов и Таганрог, слобода Батайск.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ROST2" name="«Рост» 2" default="on"> 
