@@ -899,7 +899,10 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("[gG]laubenswürdig(e[mnrs]?)?", "ens", "");
     putRepl("[nN]i[vw]ovoll(e[mnrs]?)?", "[vw]ovoll", "veauvoll");
     putRepl("[nN]otgezwungend?(e[mnrs]?)?", "zwungend?", "drungen");
+    putRepl("[mM]isstraurig(e[mnrs]?)?", "rig", "isch");
+    putRepl("[iI]nflagrantie?", "flagrantie?", " flagranti");
     putRepl("Aux-Anschl(uss(es)?|üssen?)", "Aux", "AUX");
+    put("Gewebtrauma", "Gewebetrauma");
     put("aufgehangen", "aufgehängt");
     put("Ehrenamtpauschale", "Ehrenamtspauschale");
     put("Geborgsamkeit", "Geborgenheit");

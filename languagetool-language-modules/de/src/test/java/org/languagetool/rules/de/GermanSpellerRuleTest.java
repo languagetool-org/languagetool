@@ -438,6 +438,7 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("nivovolle", "niveauvolle", rule, lt);
     assertFirstSuggestion("niwovoller", "niveauvoller", rule, lt);
     assertFirstSuggestion("notgezwungender", "notgedrungener", rule, lt);
+    assertFirstSuggestion("misstraurig", "misstrauisch", rule, lt);
     assertFirstSuggestion("Aux-Anschluss", "AUX-Anschluss", rule, lt);
   }
 
