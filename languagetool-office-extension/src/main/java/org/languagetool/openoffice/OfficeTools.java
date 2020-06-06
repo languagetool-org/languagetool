@@ -52,7 +52,9 @@ class OfficeTools {
   public static final String SINGLE_END_OF_PARAGRAPH = "\n";
   public static final String MANUAL_LINEBREAK = "\r";  //  to distinguish from paragraph separator
   public static final String ZERO_WIDTH_SPACE = "\u200B";  // Used to mark footnotes
-  public static final String LOG_LINE_BREAK = System.getProperty("line.separator");  //  LineBreak in Log-File (MS-Windows compatible)
+  public static final String LOG_LINE_BREAK = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
+  public static final int MAX_SUGGESTIONS = 15;  // Number of suggestions maximal shown in LO/OO
+
   
   public static int DEBUG_MODE_SD = 0;
   public static boolean DEBUG_MODE_MD = false;
@@ -60,6 +62,8 @@ class OfficeTools {
   public static boolean DEBUG_MODE_FP = false;
   public static boolean DEBUG_MODE_LM = false;
   public static boolean DEBUG_MODE_TQ = false;
+  public static boolean DEBUG_MODE_LD = false;
+  public static boolean DEVELOP_MODE = false;
 
   private static final String MENU_BAR = "private:resource/menubar/menubar";
   private static final String LOG_DELIMITER = ",";
@@ -265,6 +269,10 @@ class OfficeTools {
           DEBUG_MODE_LM = true;
         } else if(level.equals("tq")) {
           DEBUG_MODE_TQ = true;
+        } else if(level.equals("ld")) {
+          DEBUG_MODE_LD = true;
+        } else if(level.equals("dev")) {
+          DEVELOP_MODE = true;
         }
       }
     }

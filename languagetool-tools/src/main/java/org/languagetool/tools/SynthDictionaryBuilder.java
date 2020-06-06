@@ -139,7 +139,7 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
             continue;
           }
           out.write(parts[0] + separator + parts[1] + "|" + posTag );
-          out.write("\n");
+          out.write('\n');
         } else {
           System.err.println("Invalid input, expected three tab-separated columns in " + plainTextDictFile + ": " + line + " => ignoring");
         }
@@ -158,7 +158,7 @@ final class SynthDictionaryBuilder extends DictionaryBuilder {
     try (FileWriter out = new FileWriter(tagFile)) {
       for (String tag : sortedTags) {
         out.write(tag);
-        out.write("\n");
+        out.write('\n');
       }
     }
   }

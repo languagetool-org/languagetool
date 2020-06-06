@@ -39,12 +39,17 @@ public class Hunspell implements Closeable {
   }
 
   public Hunspell(Path dictionary, Path affix) {
-    Pointer<Byte> aff = Pointer.pointerToCString(affix.toString());
-    Pointer<Byte> dic = Pointer.pointerToCString(dictionary.toString());
-    handle = HunspellLibrary.Hunspell_create(aff, dic);
-    charset = Charset.forName(HunspellLibrary.Hunspell_get_dic_encoding(handle).getCString());
-    if (this.handle == null) {
-      throw new RuntimeException("Unable to create Hunspell instance");
+    try {
+      Pointer<Byte> aff = Pointer.pointerToCString(affix.toString());
+      Pointer<Byte> dic = Pointer.pointerToCString(dictionary.toString());
+      handle = HunspellLibrary.Hunspell_create(aff, dic);
+      charset = Charset.forName(HunspellLibrary.Hunspell_get_dic_encoding(handle).getCString());
+      if (this.handle == null) {
+        throw new RuntimeException("Unable to create Hunspell instance");
+      }
+    } catch (UnsatisfiedLinkError e) {
+      throw new RuntimeException("Could not create hunspell instance. Please note that only 64 bit platforms " +
+        "(Linux, Windows, Mac) are supported by LanguageTool and that your JVM (Java) also needs to b 64 bit.", e);
     }
   }
   

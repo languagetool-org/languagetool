@@ -114,7 +114,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       ", its,",
       "us, humans,",
       "bring you happiness",
-      "doing way more",
       "in a while",
       "confirm you own",
       "oh, god",
@@ -124,7 +123,11 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "he needs",
       "1 thing",
       "way easier",
+      "way faster",
+      "way quicker",
       "way more",
+      "way less",
+      "way outside",
       "I now don't",
       "once your return is",
       "can we text",
@@ -148,35 +151,38 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "enjoy us being", // vs is
       "If your use of", // vs you
       "way too much", // vs was
+      "way too early", // vs was
+      "way too soon", // vs was
+      "way too quick", // vs was
       "then,", // vs than
       "then?", // vs than
-      "also no it doesn", // vs know
-      "also no it isn",
-      "also no it wasn",
-      "also no it hasn",
-      "also no it can't",
-      "also no it won't",
-      "also no it wouldn",
-      "also no it couldn",
-      "also no it shouldn",
+      "no it doesn", // vs know
+      "no it isn",
+      "no it wasn",
+      "no it hasn",
+      "no it can't",
+      "no it won't",
+      "no it wouldn",
+      "no it couldn",
+      "no it shouldn",
       "no that's not", // vs know
       "provided my country",
-      "so no i don't",
-      "so no i can't",
-      "so no i won't",
-      "so no i wasn",
-      "so no i haven",
-      "so no i wouldn",
-      "so no i couldn",
-      "so no i shouldn",
-      "so no you don't",
-      "so no you can't",
-      "so no you won't",
-      "so no you weren",
-      "so no you haven",
-      "so no you wouldn",
-      "so no you couldn",
-      "so no you shouldn",
+      "no i don't",
+      "no i can't",
+      "no i won't",
+      "no i wasn",
+      "no i haven",
+      "no i wouldn",
+      "no i couldn",
+      "no i shouldn",
+      "no you don't",
+      "no you can't",
+      "no you won't",
+      "no you weren",
+      "no you haven",
+      "no you wouldn",
+      "no you couldn",
+      "no you shouldn",
       "for your recharge", // vs you
       "all you kids", // vs your
       "thanks for the patience", // vs patients
@@ -184,7 +190,58 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "is he famous for", // vs the
       "was he famous for", // the
       "really quiet at", // vs quit/quite
-      "he programs" // vs the
+      "he programs", // vs the
+      "scene 1", // vs seen
+      "scene 2",
+      "scene 3",
+      "scene 4",
+      "scene 5",
+      "scene 6",
+      "scene 7",
+      "scene 8",
+      "scene 9",
+      "scene 10",
+      "scene 11",
+      "scene 12",
+      "scene 13",
+      "scene 14",
+      "scene 15",
+      "make a hire",
+      "on the news",
+      "brown plane",
+      "news politics",
+      "organic reach",
+      "out bid",
+      "message us in",
+      "I picture us",
+      "your and our", // vs you
+      "house and pool",
+      "your set up is",
+      "your set up was",
+      "because your pay is",
+      "but your pay is",
+      "the while block", // dev speech
+      "updated my edge", // vs by
+      "he haven", // vs the
+      "is he naked", // vs the
+      "these news sound", // vs new
+      "those news sound", // vs new
+      "(t)he", // vs the
+      "[t]he", // vs the
+      "the role at", // vs add
+      "same false alarm", // vs some
+      "why is he relevant", // vs the
+      "then that would", // vs than
+      "was he part of", // vs the
+      "is he right now", // vs the
+      "news site",
+      "news website",
+      "news organization",
+      "news organisation",
+      "scene in a movie",
+      "mr.bean", // vs been
+      "mr. bean", // vs been
+      "your push notification" // vs you
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {

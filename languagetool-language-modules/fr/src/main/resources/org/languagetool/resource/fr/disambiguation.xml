@@ -127,6 +127,16 @@ RB => Règles Brutes
     <disambig postag="A"/>
   </rule>
 
+  <rule name="années" id="ANNEES">
+    <pattern>
+      <token regexp="yes">\d+</token>
+      <marker>
+        <token regexp="yes" case_sensitive="yes">EC|CE|AEC</token> <!-- CE is an anglicism -->
+      </marker>
+    </pattern>
+    <disambig action="replace"><wd pos="A"/></disambig>
+  </rule>
+
   <rulegroup id="LE_LA_PR_OBJ" name="le/la pronom objet">
     <rule>
       <pattern>
@@ -1649,13 +1659,38 @@ RB => Règles Brutes
       <disambig postag="N f p"/>
     </rule>
   </rulegroup>
-  <rule id="A_PRESENT" name="à présent">
-    <pattern>
-      <token>à</token>
-      <marker><token>présent</token></marker>
-    </pattern>
-    <disambig postag="A"/>
-  </rule>
+  <rulegroup id="A_PRESENT" name="à présent">
+    <rule>
+      <pattern>
+        <marker><token>à</token></marker>
+        <token>présent</token>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>à</token>
+        <marker><token>présent</token></marker>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+  </rulegroup>
+  <rulegroup id="PAR_CONSEQUENT" name="par conséquent">
+    <rule>
+      <pattern>
+        <marker><token>par</token></marker>
+        <token>conséquent</token>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+    <rule>
+      <pattern>
+        <token>par</token>
+        <marker><token>conséquent</token></marker>
+      </pattern>
+      <disambig postag="A"/>
+    </rule>
+  </rulegroup>
   <rule id="EN_PERMANENCE" name="en permanence">
     <pattern>
       <token>en</token>
@@ -1871,7 +1906,7 @@ RB => Règles Brutes
     <pattern>
         <token regexp="yes">[dl]</token>
         <token spacebefore="no" regexp="yes">&apostrophe;</token>
-        <token spacebefore="no" case_sensitive="yes" regexp="yes">ONU|AGV|UNSC|Excel|OTAN|ADLC</token><!-- not sure if this the best way to fix this -->
+        <token spacebefore="no" case_sensitive="yes" regexp="yes">ONU|AGV|UNSC|Excel|OTAN|ADLC|OFSP</token><!-- not sure if this the best way to fix this -->
     </pattern>
     <disambig action="ignore_spelling"/>
   </rule>

@@ -577,6 +577,7 @@ public class HTTPServerConfig {
    * Get base directory for neural network models or {@code null}
    * @since 4.4
    */
+  @Deprecated
   public File getNeuralNetworkModelDir() {
     return neuralNetworkModelDir;
   }

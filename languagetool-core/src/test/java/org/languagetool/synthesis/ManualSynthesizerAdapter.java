@@ -52,12 +52,13 @@ public class ManualSynthesizerAdapter extends BaseSynthesizer {
   }
 
   @Override
-  protected void lookup(String lemma, String posTag, List<String> results) {
-    super.lookup(lemma, posTag, results);
+  protected List<String> lookup(String lemma, String posTag) {
+    List<String> results = super.lookup(lemma, posTag);
     List<String> manualForms = manualSynthesizer.lookup(lemma.toLowerCase(), posTag);
     if (manualForms != null) {
       results.addAll(manualForms);
     }
+    return results;
   }
 
 }

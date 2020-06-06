@@ -23,6 +23,7 @@ import org.languagetool.rules.FakeRule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.patterns.RuleFilter;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -38,7 +39,7 @@ public class CompoundFilterTest {
   private final RuleFilter filter = new CompoundFilter();
 
   @Test
-  public void testFilter() {
+  public void testFilter() throws IOException {
     assertSuggestion(asList("tv", "meubel"), "tv-meubel");
     assertSuggestion(asList("test-tv", "meubel"), "test-tv-meubel");
     assertSuggestion(asList("onzin", "tv"), "onzin-tv");
@@ -52,7 +53,7 @@ public class CompoundFilterTest {
     assertSuggestion(asList("ANWB", "tv", "wagen"), "ANWB-tv-wagen");
   }
 
-  private void assertSuggestion(List<String> words, String expectedSuggestion) {
+  private void assertSuggestion(List<String> words, String expectedSuggestion) throws IOException {
     RuleMatch ruleMatch = filter.acceptRuleMatch(match, makeMap(words), -1, null);
     assertThat(ruleMatch.getSuggestedReplacements().size(), is(1));
     assertThat(ruleMatch.getSuggestedReplacements().get(0), is(expectedSuggestion));

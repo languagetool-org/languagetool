@@ -58,7 +58,7 @@ class DictionaryBuilder {
   private static final SerializationFormat serializationFormat = SerializationFormat.CFSA2;
 
   private final Map<String, Integer> freqList = new HashMap<>();
-  private final Pattern pFreqEntry = Pattern.compile(".*<w f=\"(\\d+)\" flags=\"(.*)\">(.+)</w>.*");
+  private final Pattern pFreqEntry = Pattern.compile(".*<w f=\"(\\d+)\"(?: flags=\"(.*?)\")?>(.+)</w>.*");
   // Valid for tagger dictionaries (wordform_TAB_lemma_TAB_postag) or spelling dictionaries (wordform)
   private final Pattern pTaggerEntry = Pattern.compile("^([^\t]+).*$");
   private String outputFilename;
@@ -211,7 +211,7 @@ class DictionaryBuilder {
         String[] parts = line.split("\t");
         if (parts.length == 3) {
           out.write(parts[1] + separator + parts[0] + separator + parts[2]);
-          out.write("\n");
+          out.write('\n');
         } else {
           System.err
               .println("Invalid input, expected three tab-separated columns in "

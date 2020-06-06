@@ -28,7 +28,6 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
-import org.languagetool.tools.Tools;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -62,6 +61,9 @@ public class HunspellRule extends SpellingCheckRule {
   private static final String NON_ALPHABETIC = "[^\\p{L}]";
 
   private final boolean monitorRules;
+  
+  //200 most common French words. They are used to avoid wrong split suggestions
+  private final List<String> commonFrenchWords = Arrays.asList(new String[]{"a", "acte", "aider", "air", "ajouter", "aller", "allé", "animal", "année", "appel", "après", "arrière", "aucun", "aussi", "autre", "avant", "avec", "avoir", "bas", "beaucoup", "besoin", "bien", "bon", "boîte", "cause", "ce", "certains", "ces", "changement", "chaque", "chaud", "chose", "comme", "comment", "construire", "côté", "dans", "de", "dehors", "deux", "différer", "dire", "dit", "donner", "droit", "déménagement", "eau", "elle", "encore", "ensemble", "essayer", "est", "et", "eu", "fabriqué", "faible", "faire", "fait", "faut", "fin", "forme", "garçon", "genre", "grand", "haut", "homme", "hommes", "ici", "il", "ils", "image", "interroger", "je", "jouer", "jour", "jusqu’à", "juste", "la", "le", "les", "leur", "lieu", "ligne", "lire", "long", "lui", "lumière", "là", "ma", "main", "maintenant", "mais", "maison", "manière", "mettre", "moi", "monde", "montrer", "mot", "mère", "même", "ne", "nom", "nombre", "notre", "nous", "nouveau", "obtenir", "ou", "où", "par", "partie", "penser", "personnes", "petit", "peu", "peut", "phrase", "plus", "point", "port", "pour", "pourquoi", "pourrait", "première", "prendre", "près", "puis", "père", "quand", "que", "qui", "regarder", "savoir", "seulement", "si", "signifier", "soi", "son", "sont", "sous", "suivre", "sur", "tel", "temps", "terre", "tour", "tous", "tout", "travail", "trois", "trop", "trouver", "très", "tête", "un", "utiliser", "venir", "venu", "vers", "vieux", "vivre", "voir", "volonté", "votre", "voudrais", "vouloir", "vous", "à", "écrire", "épeler", "étaient", "était", "été", "être"});
 
   public static Queue<String> getActiveChecks() {
     return activeChecks;
@@ -152,10 +154,13 @@ public class HunspellRule extends SpellingCheckRule {
           if (word.endsWith(".")) {
             cleanWord = word.substring(0, word.length()-1);
           }
-          
           if (i > 0 && prevStartPos != -1) {
             String prevWord = tokens[i-1];
-            if (prevWord.length() > 0) {
+            boolean ignoreSplitting = false;
+            if (this.language.getShortCode().equals("fr") && commonFrenchWords.contains(prevWord.toLowerCase())) {
+              ignoreSplitting = true;
+            }
+            if (!ignoreSplitting && prevWord.length() > 0) {
               // "thanky ou" -> "thank you"
               String sugg1a = prevWord.substring(0, prevWord.length()-1);
               String sugg1b = cutOffDot(prevWord.substring(prevWord.length()-1) + word);
@@ -290,7 +295,7 @@ public class HunspellRule extends SpellingCheckRule {
       String token = sentenceTokens[i].getToken();
       if (sentenceTokens[i].isImmunized() || sentenceTokens[i].isIgnoredBySpeller() || isUrl(token) || isEMail(token) || isQuotedCompound(sentence, i, token)) {
         if (isQuotedCompound(sentence, i, token)) {
-          sb.append(" ").append(token.substring(1));
+          sb.append(' ').append(token.substring(1));
         }
         // replace URLs and immunized tokens with whitespace to ignore them for spell checking:
         else if (token.length() < 20) {

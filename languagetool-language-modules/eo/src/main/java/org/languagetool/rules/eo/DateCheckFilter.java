@@ -45,17 +45,17 @@ public class DateCheckFilter extends AbstractDateCheckFilter {
     int n = 0;
     if (day.startsWith("dek")) {
       n = 10;
-      day = day.substring(3, day.length());
+      day = day.substring(3);
     } else if (day.startsWith("dudek")) {
       n = 20;
-      day = day.substring(5, day.length());
+      day = day.substring(5);
     } else if (day.startsWith("tridek")) {
       n = 30;
-      day = day.substring(6, day.length());
+      day = day.substring(6);
     }
     if (n > 0 && day.startsWith("-")) {
       // Remove hyphen as in "dudek-trian".
-      day = day.substring(1, day.length());
+      day = day.substring(1);
     }
     if (day.equals("unua"))  n += 1;
     if (day.equals("dua"))   n += 2;

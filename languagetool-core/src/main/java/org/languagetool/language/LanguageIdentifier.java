@@ -248,11 +248,8 @@ public class LanguageIdentifier {
         result = new AbstractMap.SimpleImmutableEntry<>(result.getKey(), newScore);
       } catch (Exception e) {
         fasttextEnabled = false;
-        RuleLoggerMessage msg = new RuleErrorNotification(this.getClass().getSimpleName(), "-",
-          String.format("Fasttext disabled, failed on '%s' (shortText='%s'): %s", text, shortText, ExceptionUtils.getStackTrace(e)));
-        RuleLoggerManager.getInstance().log(msg, Level.WARNING);
         fasttextProcess.destroy();
-        logger.error(String.format("Fasttext disabled, failed on '%s' (shortText='%s')", text, shortText), e);
+        logger.error("Fasttext disabled", e);
       }
     }
     if (!fasttextEnabled) { // no else, value can change in if clause

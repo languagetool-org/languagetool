@@ -381,13 +381,13 @@ class Main {
       commandLineParser.printUsage();
       System.exit(1);
     } catch (IllegalArgumentException e) {
-      System.err.println(e.toString());
+      System.err.println(e);
       System.exit(1);
     } catch (UnknownParameterException e) {
       if (e.getMessage() != null) {
         System.err.println(e.getMessage());
       } else {
-        System.err.println(e.toString());
+        System.err.println(e);
       }
       commandLineParser.printUsage(System.err);
       System.exit(1);

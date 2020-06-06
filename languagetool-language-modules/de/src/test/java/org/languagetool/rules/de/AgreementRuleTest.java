@@ -68,6 +68,7 @@ public class AgreementRuleTest {
   @Test
   public void testDetNounRule() throws IOException {
     // correct sentences:
+	  assertGood("Die Einen sagen dies, die Anderen das.");
     assertGood("So ist es in den USA.");
     assertGood("Das ist der Tisch.");
     assertGood("Das ist das Haus.");
@@ -142,6 +143,9 @@ public class AgreementRuleTest {
     assertGood("Den 2019er Wert hatten sie geschätzt.");
     assertGood("Andere formale Systeme, deren Semantiken jeweils...");
     assertGood("Gesetz zur Änderung des Kündigungsrechts und anderer arbeitsrechtlicher Vorschriften");
+    assertGood("Die dauerhafte Abgrenzung des später Niedersachsen genannten Gebietes von Westfalen begann im 12. Jahrhundert.");
+    assertGood("Lieber jemanden, der einem Tipps gibt.");
+    //assertGood("... der zu dieser Zeit aber ohnehin schon allen Einfluss verloren hatte.");
 
     assertGood("Wir machen das Januar.");
     assertGood("Wir teilen das Morgen mit.");
@@ -215,6 +219,7 @@ public class AgreementRuleTest {
     assertGood("Alle Professor*innen");
     assertGood("Gleichzeitig wünscht sich Ihr frostresistenter Mitbewohner einige Grad weniger im eigenen Zimmer?");
     assertGood("Ein Trainer, der zum einen Fußballspiele sehr gut lesen und analysieren kann");
+    assertGood("Eine Massengrenze, bis zu der Lithium nachgewiesen werden kann.");
 
     // relative clauses:
     assertGood("Das Recht, das Frauen eingeräumt wird.");
@@ -283,6 +288,10 @@ public class AgreementRuleTest {
     assertGood("Die Präsent AG.");
     assertGood("In New York war er der Titelheld in Richard III. und spielte den Mark Anton in Julius Cäsar.");
     assertGood("Vielen Dank fürs Bescheid geben.");
+    assertGood("Welche Display Ads?");
+    assertGood("Das letzte Mal war das Anfang der 90er Jahre des vergangenen Jahrhunderts");
+    assertGood("Der vom Rat der Justizminister gefasste Beschluss zur Aufnahme von Vertriebenen...");
+    assertGood("Der letzte Woche vom Rat der Justizminister gefasste Beschluss zur Aufnahme von Vertriebenen...");
 
     // incorrect sentences:
     assertBad("Ein Buch mit einem ganz ähnlichem Titel.");
@@ -360,6 +369,7 @@ public class AgreementRuleTest {
     assertGood("Dann wird das Konsequenzen haben.");
     assertGood("Dann hat das Konsequenzen.");
     assertGood("Sollte das Konsequenzen nach sich ziehen?");
+    assertGood("Der Echo Show von Amazon");
 
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
@@ -434,6 +444,7 @@ public class AgreementRuleTest {
     assertGood("Der riesigen Tische wegen.");
     assertGood("An der roten Ampel.");
     assertGood("Dann hat das natürlich Nachteile.");
+    assertGood("Ihre erste Nr. 1");
 
     // incorrect sentences:
     assertBad("Es sind die riesigen Tisch.");

@@ -54,35 +54,45 @@ public class DocumentCache {
     }
     List<int[]> footnotes = flatPara.getFootnotePositions();
     
+    if(debugMode) {
+      MessageHandler.printToLogFile("\n\nNot mapped paragraphs:");
+    }
     if(textParas != null && !textParas.isEmpty()) {
       int n = 0; 
       for(int i = 0; i < paragraphs.size(); i++) {
-        if(footnotes.get(i).length > 0 || (n < textParas.size() && paragraphs.get(i).equals(textParas.get(n)))) {
+        if((footnotes != null && i < footnotes.size() && footnotes.get(i).length > 0)
+            || (n < textParas.size() && (paragraphs.get(i).equals(textParas.get(n)) 
+                || removeZeroWidthSpace(paragraphs.get(i)).equals(textParas.get(n))))) {
           toTextMapping.add(n);
           toParaMapping.add(i);
           n++;
         } else {
           toTextMapping.add(-1);
+          if(debugMode) {
+            MessageHandler.printToLogFile("\nFlat("  + i + "): '" + paragraphs.get(i));
+            if(n < textParas.size()) {
+              MessageHandler.printToLogFile("Doc("  + n + "): '" + textParas.get(n));
+            }
+          }  
         }
       }
-    }
-
-    if(debugMode) {
-      MessageHandler.printToLogFile("toParaMapping:");
-      for(int i = 0; i < toParaMapping.size(); i++) {
-        MessageHandler.printToLogFile("Doc: " + i + " Flat: " + toParaMapping.get(i)
-        + OfficeTools.LOG_LINE_BREAK + getTextParagraph(i));
-      }
-      MessageHandler.printToLogFile("toTextMapping:");
-      for(int i = 0; i < toTextMapping.size(); i++) {
-        MessageHandler.printToLogFile("Flat: " + i + " Doc: " + toTextMapping.get(i));
-        if(toTextMapping.get(i) == -1) {
-          MessageHandler.printToLogFile("'" + paragraphs.get(i) + "'");
+      if(debugMode) {
+        MessageHandler.printToLogFile("\n\ntoParaMapping:");
+        for(int i = 0; i < toParaMapping.size(); i++) {
+          MessageHandler.printToLogFile("Doc: " + i + " Flat: " + toParaMapping.get(i)
+          + OfficeTools.LOG_LINE_BREAK + getTextParagraph(i));
         }
-      }
-      MessageHandler.printToLogFile("headings:");
-      for(int i = 0; i < headings.size(); i++) {
-        MessageHandler.printToLogFile("Num: " + i + " Heading: " + headings.get(i));
+        MessageHandler.printToLogFile("\n\ntoTextMapping:");
+        for(int i = 0; i < toTextMapping.size(); i++) {
+          MessageHandler.printToLogFile("Flat: " + i + " Doc: " + toTextMapping.get(i));
+//        if(toTextMapping.get(i) == -1) {
+//          MessageHandler.printToLogFile("'" + paragraphs.get(i) + "'");
+//        }
+        }
+        MessageHandler.printToLogFile("\n\nheadings:");
+        for(int i = 0; i < headings.size(); i++) {
+          MessageHandler.printToLogFile("Num: " + i + " Heading: " + headings.get(i));
+        }
       }
     }
   }
@@ -235,6 +245,13 @@ public class DocumentCache {
    */
   public static String fixLinebreak (String text) {
     return text.replaceAll(OfficeTools.SINGLE_END_OF_PARAGRAPH, OfficeTools.MANUAL_LINEBREAK);
+  }
+
+  /**
+   * Change manual linebreak to distinguish from end of paragraph
+   */
+  public static String removeZeroWidthSpace (String text) {
+    return text.replaceAll(OfficeTools.ZERO_WIDTH_SPACE, "");
   }
 
   /**

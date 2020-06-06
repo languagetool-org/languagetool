@@ -31,7 +31,7 @@ public class GermanDoublePunctuationRule extends DoublePunctuationRule {
   
   public GermanDoublePunctuationRule(ResourceBundle messages) {
     super(messages);
-    setUrl(Tools.getUrl("http://www.canoonet.eu/services/GermanSpelling/Amtlich/Interpunktion/pgf101-105.html#pgf103"));
+    setUrl(Tools.getUrl("https://dict.leo.org/grammatik/deutsch/Rechtschreibung/Amtlich/Interpunktion/pgf101-105.html#grammarpgf103"));
     addExamplePair(Example.wrong("Sein Vater ist Regierungsrat <marker>a. D..</marker>"),
                    Example.fixed("Sein Vater ist Regierungsrat <marker>a. D.</marker>"));
   }

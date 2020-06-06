@@ -113,7 +113,7 @@ public class SentenceSourceChecker {
     options.addOption(Option.builder().longOpt("languagemodel").argName("indexDir").hasArg()
             .desc("directory with a '3grams' sub directory that contains an ngram index").build());
     options.addOption(Option.builder().longOpt("neuralnetworkmodel").argName("baseDir").hasArg()
-            .desc("base directory for saved neural network models").build());
+            .desc("base directory for saved neural network models (deprecated)").build());
     options.addOption(Option.builder().longOpt("remoterules").argName("configFile").hasArg()
             .desc("JSON file with configuration of remote rules").build());
     options.addOption(Option.builder().longOpt("filter").argName("regex").hasArg()
@@ -122,6 +122,8 @@ public class SentenceSourceChecker {
             .desc("Don't skip spell checking rules").build());
     options.addOption(Option.builder().longOpt("rulesource").hasArg()
             .desc("Activate only rules from this XML file (e.g. 'grammar.xml')").build());
+    options.addOption(Option.builder().longOpt("skip").hasArg()
+            .desc("Skip this many sentences from input before actually checking sentences").build());
     try {
       CommandLineParser parser = new DefaultParser();
       return parser.parse(options, args);
@@ -149,6 +151,7 @@ public class SentenceSourceChecker {
     File remoteRules = options.hasOption("remoterules") ? new File(options.getOptionValue("remoterules")) : null;
     Pattern filter = options.hasOption("filter") ? Pattern.compile(options.getOptionValue("filter")) : null;
     String ruleSource = options.hasOption("rulesource") ? options.getOptionValue("rulesource") : null;
+    int sentencesToSkip = options.hasOption("skip") ? Integer.parseInt(options.getOptionValue("skip")) : 0;
     Language lang = Languages.getLanguageForShortCode(langCode);
     MultiThreadedJLanguageTool lt = new MultiThreadedJLanguageTool(lang);
     lt.setCleanOverlappingMatches(false);
@@ -171,7 +174,7 @@ public class SentenceSourceChecker {
         boolean enable = false;
         if (rule instanceof AbstractPatternRule) {
           String sourceFile = ((AbstractPatternRule) rule).getSourceFile();
-          if (sourceFile != null && sourceFile.endsWith("/" + ruleSource)) {
+          if (sourceFile != null && sourceFile.endsWith("/" + ruleSource) && !rule.isDefaultOff()) {
             enable = true;
             activatedBySource++;
           }
@@ -207,11 +210,14 @@ public class SentenceSourceChecker {
     System.out.println("Sentence limit: " + (maxSentences > 0 ? maxSentences : "no limit"));
     System.out.println("Context size: " + contextSize);
     System.out.println("Error limit: " + (maxErrors > 0 ? maxErrors : "no limit"));
+    System.out.println("Skip: " + sentencesToSkip);
     //System.out.println("Version: " + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + ")");
 
     ResultHandler resultHandler = null;
     int ruleMatchCount = 0;
     int sentenceCount = 0;
+    int skipCount = 0;
+    boolean skipMessageShown = false;
     try {
       if (propFile != null) {
         resultHandler = new DatabaseHandler(propFile, maxSentences, maxErrors);
@@ -221,6 +227,16 @@ public class SentenceSourceChecker {
       MixingSentenceSource mixingSource = MixingSentenceSource.create(Arrays.asList(fileNames), lang, filter);
       while (mixingSource.hasNext()) {
         Sentence sentence = mixingSource.next();
+        if (sentencesToSkip > 0 && skipCount < sentencesToSkip) {
+          if (skipCount % 5000 == 0) {
+            System.err.printf("%s sentences skipped...\n", NumberFormat.getNumberInstance(Locale.US).format(skipCount));
+          }
+          skipCount++;
+          continue;
+        } else if (sentencesToSkip > 0 && !skipMessageShown) {
+          System.err.println("Done skipping " + sentencesToSkip + " sentences.");
+          skipMessageShown = true;
+        }
         try {
           List<RuleMatch> matches = lt.check(sentence.getText());
           resultHandler.handleResult(sentence, matches, lang);

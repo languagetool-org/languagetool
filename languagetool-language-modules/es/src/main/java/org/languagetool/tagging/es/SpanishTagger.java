@@ -67,7 +67,7 @@ public class SpanishTagger extends BaseTagger {
         addTokens(lowerTaggerTokens, l);
       }
       // tag all-uppercase proper nouns (ex. FRANCIA)
-      if (l.isEmpty() && isAllUpper) {
+      if (isAllUpper) {
         final String firstUpper = StringTools.uppercaseFirstChar(lowerWord);
         List<AnalyzedToken> firstupperTaggerTokens = asAnalyzedTokenListForTaggedWords(word,
             getWordTagger().tag(firstUpper));

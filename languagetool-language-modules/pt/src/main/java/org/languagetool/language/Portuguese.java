@@ -130,7 +130,7 @@ public class Portuguese extends Language implements AutoCloseable {
             //Specific to Portuguese:
             new PostReformPortugueseCompoundRule(messages),
             new PortugueseReplaceRule(messages),
-            new PortugueseBarbarismsRule(messages),
+            new PortugueseBarbarismsRule(messages, "/pt/barbarisms-pt.txt"),
             new PortugueseClicheRule(messages),
             new PortugueseFillerWordsRule(messages, this, userConfig),
             new PortugueseRedundancyRule(messages),
@@ -164,7 +164,7 @@ public class Portuguese extends Language implements AutoCloseable {
   /** @since 3.6 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
-    return Arrays.<Rule>asList(
+    return Arrays.asList(
             new PortugueseConfusionProbabilityRule(messages, languageModel, this)
     );
   }

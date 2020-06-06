@@ -84,6 +84,75 @@ public class AgreementRule extends Rule {
   private static final AnalyzedToken[] ZUR_REPLACEMENT = {new AnalyzedToken("der", "ART:DEF:DAT:SIN:FEM", "der")};
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
+    Arrays.asList(
+      tokenRegex("der|die|das"),   // "Lieber jemanden, der einem Tipps gibt."
+      token("einem"),
+      posRegex("SUB:.*:PLU:.*")
+    ),
+    Arrays.asList(
+      tokenRegex("der|des"),   // "Die dauerhafte Abgrenzung des später Niedersachsen genannten Gebietes"
+      posRegex("ADJ:.*"),
+      posRegex("EIG:.*"),
+      posRegex("PA2:.*")
+    ),
+    Arrays.asList(
+      posRegex("ART:.*FEM.*"),  // "Eine Lücke in der erneuerbare Energien eine sinnvolle Rolle spielen könnten"
+      posRegex("SUB:.*FEM.*"),
+      token("in"),
+      token("der")
+    ),
+    Arrays.asList(
+      token("einem"),
+      token("kalte"),
+      token("Schauer")
+    ),
+    Arrays.asList(
+      regex("die|der"),  // "die Querwild GmbH"
+      posRegex("SUB:.*"),
+      token("GmbH")
+    ),
+    Arrays.asList(
+      token("Die"),
+      regex("Waltons|Einen")
+    ),
+    Arrays.asList(
+      regex("Große[sn]?"),
+      regex("(Bundes)?Verdienstkreuz(es)?")
+    ),
+    Arrays.asList( // "Adiponitril und Acetoncyanhydrin, beides Zwischenprodukte der Kunststoffproduktion."
+      tokenRegex(".*"),
+      token("und"),
+      tokenRegex(".*"),
+      token(","),
+      token("beides"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList( // "In den Zwei Abhandlungen" (lowercase "zwei" is correct, but does not need to be found here)
+      tokenRegex("Eins|Zwei|Drei|Vier|Fünf|Sechs|Sieben|Acht|Neun|Zehn|Elf|Zwölf"),
+      posRegex("SUB:.*")
+    ),
+    Arrays.asList( // "Eine Massengrenze, bis zu der Lithium nachgewiesen werden kann."
+      token("bis"),
+      token("zu"),
+      token("der"),
+      posRegex("SUB:.*"),
+      posRegex("PA2:.*")
+    ),
+    Arrays.asList(
+      tokenRegex("jeder?"),
+      token("Abitur")
+    ),
+    Arrays.asList(
+      token("Halle"),
+      token("an"),
+      token("der"),
+      token("Saale")
+    ),
+    Arrays.asList(  // "mehrere Tausend Menschen"
+      tokenRegex("Dutzend|Hundert|Tausend"),
+      new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
+      posRegex("SUB:.*")
+    ),
     Arrays.asList(  // "Besonders reizen mich Fahrräder.", "weil mich psychische Erkrankungen aus der Bahn werfen"
       tokenRegex("dich|mich"),
       new PatternTokenBuilder().posRegex("ADJ:.*").min(0).build(),
@@ -179,8 +248,12 @@ public class AgreementRule extends Rule {
       token("Computer"),
       token("Club")
     ),
+    Arrays.asList(  // "der Echo Show" (Amazon device)
+      token("Echo"),
+      tokenRegex("Show|Dot")
+    ),
     Arrays.asList(  // "In einem App Store"
-      token("App"),
+      tokenRegex("App|Play"),
       token("Store")
     ),
     Arrays.asList(  // "in dem einen Jahr"
@@ -236,6 +309,17 @@ public class AgreementRule extends Rule {
       tokenRegex("von|bei"),
       tokenRegex("(vielen|allen)"),
       posRegex("PA2:.*|ADJ:AKK:PLU:.*")  // "ein von vielen bewundertes Haus" / "Das weckte bei vielen ungute Erinnerungen."
+    ),
+    Arrays.asList(
+      // "Der letzte Woche vom Rat der Justizminister gefasste Beschluss..."
+      tokenRegex("der|die|das|den|dem"),
+      tokenRegex("letzte[ns]?|vorige[ns]?"),
+      tokenRegex("Woche|Monat|Jahr|Jahrzehnt|Jahrhundert"),
+      posRegex("PRP:.*"),
+      posRegex("SUB:.*"),
+      posRegex("ART:.*"),
+      posRegex("SUB:.*"),
+      posRegex("PA2:.*")
     ),
     Arrays.asList(
       token("für"),
@@ -333,7 +417,7 @@ public class AgreementRule extends Rule {
       tokenRegex("Besitz|Mut")
     ),
     Arrays.asList(
-      tokenRegex("d(ie|e[nr])|[md]eine[nr]?"),
+      tokenRegex("d(ie|e[nr])|[md]eine[nr]?|(eure|unsere)[nr]?"),
       token("Top"),
       tokenRegex("\\d+")
     ),
@@ -369,6 +453,10 @@ public class AgreementRule extends Rule {
     Arrays.asList(
       token("Account"),
       tokenRegex("Managers?")
+    ),
+    Arrays.asList(
+      token("Display"),
+      tokenRegex("Ads?|Advertising")
     ),
     Arrays.asList(
       token("Private"),
@@ -414,6 +502,10 @@ public class AgreementRule extends Rule {
       tokenRegex("[dD](ie|er)"),
       csToken("Super"),
       csToken("Nintendo")
+    ),
+    Arrays.asList( // Firmenname
+      csToken("Pizza"),
+      csToken("Hut")
     ),
     Arrays.asList( // Texas und New Mexico, beides spanische Kolonien, sind
       csToken(","),
@@ -661,6 +753,12 @@ public class AgreementRule extends Rule {
     Arrays.asList( // https://www.autozeitung.de/
       csToken("Auto"),
       csToken("Zeitung")
+    ),
+    Arrays.asList( // "Das letzte Mal war das Ende der..."
+      csToken("Mal"),
+      new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
+      csToken("das"),
+      posRegex("SUB:NOM:.*")
     )
   );
 
@@ -730,6 +828,7 @@ public class AgreementRule extends Rule {
 
   private static final Set<String> NOUNS_TO_BE_IGNORED = new HashSet<>(Arrays.asList(
     "Prozent",   // Plural "Prozente", trotzdem ist "mehrere Prozent" korrekt
+    "Wollen",  // das Wollen
     "Gramm",
     "Kilogramm",
     "Piepen", // Die Piepen
@@ -809,7 +908,7 @@ public class AgreementRule extends Rule {
       }
 
       // avoid false alarm on "nichts Gutes" and "alles Gute"
-      if (StringUtils.equalsAny(tokenReadings.getToken(), "nichts", "alles", "dies")) {
+      if (StringUtils.equalsAny(tokenReadings.getToken(), "nichts", "Nichts", "alles", "Alles", "dies", "Dies")) {
         ignore = true;
       }
 
@@ -1029,17 +1128,17 @@ public class AgreementRule extends Rule {
         return null;
       }
       List<String> replacements = new ArrayList<>();
-      if (lt.check(testPhrase).size() == 0 && nextToken.isTagged()) {
+      if (lt.check(testPhrase).isEmpty() && nextToken.isTagged()) {
         replacements.add(testPhrase);
       }
-      if (lt.check(hyphenTestPhrase).size() == 0 && nextToken.isTagged()) {
+      if (lt.check(hyphenTestPhrase).isEmpty() && nextToken.isTagged()) {
         replacements.add(hyphenTestPhrase);
       }
       if (replacements.size() > 0) {
         String message = "Wenn es sich um ein zusammengesetztes Nomen handelt, wird es zusammengeschrieben.";
         RuleMatch ruleMatch = new RuleMatch(this, sentence, token1.getStartPos(), nextToken.getEndPos(), message);
         ruleMatch.addSuggestedReplacements(replacements);
-        ruleMatch.setUrl(Tools.getUrl("http://www.canoonet.eu/services/GermanSpelling/Regeln/Getrennt-zusammen/Nomen.html#Anchor-Nomen-49575"));
+        ruleMatch.setUrl(Tools.getUrl("https://dict.leo.org/grammatik/deutsch/Rechtschreibung/Regeln/Getrennt-zusammen/Nomen.html#grammarAnchor-Nomen-49575"));
         return ruleMatch;
       }
     } catch (IOException e) {
@@ -1094,6 +1193,9 @@ public class AgreementRule extends Rule {
       RuleMatch compoundMatch = getCompoundError(token1, token2, token3, tokenPos, sentence);
       if (compoundMatch != null) {
         return compoundMatch;
+      }
+      if (token3.hasPartialPosTag("ABK")) {
+        return null;
       }
       String msg = "Möglicherweise fehlende grammatische Übereinstimmung " +
             "von Kasus, Numerus oder Genus. Beispiel: 'mein kleiner Haus' " +

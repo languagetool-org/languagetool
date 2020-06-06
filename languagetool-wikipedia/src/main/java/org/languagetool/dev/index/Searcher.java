@@ -151,7 +151,7 @@ public class Searcher {
         throw new NullPointerException("Cannot search on null query for rule: " + rule.getId());
       }
 
-      System.out.println("Running query: " + query.toString());
+      System.out.println("Running query: " + query);
       SearchRunnable runnable = new SearchRunnable(indexSearcher, query, language, rule);
       Thread searchThread = new Thread(runnable);
       searchThread.start();

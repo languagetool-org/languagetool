@@ -124,7 +124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- GRAMMATICA AGGETTIVI - GR_01 -->
     <category id="CAT1" name="Grammatica - Aggettivi">
-        <rulegroup name="uso corretto" id="GR_01_001">
+        <rulegroup name="uso corretto" id="GR_01_001" default="temp_off">
             <!-- PB003 + -->
             <!-- meglio -->
             <rule>
@@ -167,7 +167,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
     <!-- GRAMMATICA ARTICOLI - GR_02 -->
     <category id="CAT2" name="Grammatica - Articoli">
-        <rulegroup name="uso corretto" id="GR_02_001">
+        <rulegroup name="uso corretto" id="GR_02_001" default="temp_off">
             <!-- la -->
             <rule>
                 <pattern>
@@ -391,7 +391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CAT4" name="Grammatica - Frase">
         <!-- TO DO	<rulegroup name="altri elementi" id="GR_05_001">
             </rulegroup> -->
-        <rulegroup name="struttura" id="GR_05_002">
+        <rulegroup name="struttura" id="GR_05_002" default="temp_off">
             <!-- non iniziare la frase con una congiunzione -->
             <rule>
                 <pattern>
@@ -428,11 +428,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token postag='ARTPRE-M:s'/>
-                    <token postag='NOUN-M:p'><exception postag="NOUN-M:s"/></token>
+                    <token postag='NOUN-M:p|NOUN-F:[sp]' postag_regexp="yes"><exception postag="NOUN-M:s|ADJ:pos\+m\+s" postag_regexp="yes"/></token>
                 </pattern>
                 <message>La preposizione articolata non concorda con il sostantivo che la segue</message>
                 <example type="correct">Il libro <marker>dell'amico amici</marker>.</example>
                 <example type="incorrect">Il libro <marker>dello amici</marker></example>
+                <example correction=""><marker>sul prodotti</marker></example>
+                <example correction=""><marker>nel terra</marker></example>
+                <example correction=""><marker>nel amica</marker></example>
+                <example correction=""><marker>nel amiche</marker></example>
+                <example>dal problema</example>
+                <example>nel panorama</example>
+                <example>sul pianeta</example>
+                <example>sul tema</example>
+                <example>del programma</example>
+                <example>dal verde</example>
+                <example>dal sistema</example>
+                <example>al cinema</example>
             </rule>
             <rule>
                 <pattern>
@@ -453,23 +465,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect">Il libro <marker>della amiche</marker></example>
             </rule>
         </rulegroup>
-        <rule id="CONCORDANZA_PREPOSIZIONE" name="Concordanza preposizione articolata maschile - genere parola seguente">
-            <pattern case_sensitive='yes'>
-                <token regexp='yes'>del|al|dal|nel|sul</token>
-                <token regexp='yes'>[^A-Z].*i|[a-z].*a
-                    <exception>sistema</exception>
-                    <exception>pianeta</exception>
-                    <exception>programma</exception>
-                    <exception>cinema</exception>
-                    <exception>panorama</exception>
-                    <exception>tema</exception>
-                    <exception>patriarca</exception>
-                </token>
-            </pattern>
-            <message>Concordanza preposizione articolata maschile - genere parola seguente</message>
-            <example correction=''>leader <marker>sul prodotti</marker></example>
-            <example>leader sui prodotti</example>
-        </rule>
         <rulegroup name="uso corretto" id="GR_07_001">
             <!-- da -->
             <rule>
@@ -833,7 +828,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=''>non <marker>sono vengono</marker> preparate con le tecnologie e le infrastrutture adatte</example>
         </rule>
         
-	<rulegroup name="concordanza tempi delle coordinate" id="GR_10_001">
+	<rulegroup name="concordanza tempi delle coordinate" id="GR_10_001" default="temp_off">
 <!-- PB007 + -->	    
             <!-- IND PRESENTE -->
 	    <rule>
@@ -988,7 +983,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!--  congiunzioni subordinanti -->
             <rule>
                 <pattern>
-                    <token skip="2" regexp="yes">affinché|acciocché|purché|benché|sebbene|quantunque|qualora</token>
+                    <token regexp="yes">affinché|acciocché|purché|benché|sebbene|quantunque|qualora</token>
+                    <token min="0" max="3" postag="PRO-PERS-.*|ADV" postag_regexp="yes"/>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
@@ -1004,7 +1000,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>a</token>
                     <token>meno</token>
-                    <token skip="2">che</token>
+                    <token>che</token>
+                    <token min="0" max="3" postag="PRO-PERS-.*|ADV" postag_regexp="yes"/>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
@@ -1020,7 +1017,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>nel</token>
                     <token>caso</token>
-                    <token skip="2">che</token>
+                    <token>che</token>
+                    <token min="0" max="3" postag="PRO-PERS-.*|ADV" postag_regexp="yes"/>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
@@ -1035,7 +1033,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <token regexp="yes">prima|senza</token>
-                    <token skip="2">che</token>
+                    <token>che</token>
+                    <token min="0" max="3" postag="PRO-PERS-.*|ADV" postag_regexp="yes"/>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
@@ -1050,7 +1049,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <!-- aggettivi o pronomi indefiniti -->
 			<rule>
                 <pattern>
-                    <token skip="2" regexp="yes">qualunque|chiunque|qualsiasi|ovunque|dovunque</token>
+                    <token regexp="yes">qualunque|qualsiasi|ovunque|dovunque</token> <!--chiunque-->
+                    <token min="0" max="3" postag="PRO-PERS-.*|ADV" postag_regexp="yes"/>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>
@@ -1061,13 +1061,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>L'aggettivo '<match no="1"/>' richiede il congiuntivo.</message>
                 <example correction="">Ti troverò ovunque tu <marker>sei</marker>.</example>
                 <example>Ti troverò ovunque tu <marker>sia</marker>.</example>
+			    <example>Chiunque può apprezzare i risultati ottenuti.</example>
+			    <example>Qualunque cosa dirai, non ti crederò.</example>
+			    <example>Qualsiasi modo mi va bene.</example>
             </rule>
             <!-- espressioni impersonali è bene che, è meglio che -->
 			<rule>
                 <pattern>
                     <token>è</token>
-                    <token/>
-                    <token skip="2">che</token>
+                    <token regexp="yes">bene|meglio</token>
+                    <token>che</token>
+                    <token min="0" max="3" postag="PRO-PERS-.*|ADV" postag_regexp="yes"/>
                     <marker>
                     	<token postag="VER.*" postag_regexp="yes">
                     	    <exception postag="(VER.sub.*)|(NOUN.*)" postag_regexp="yes"/>                    	    
@@ -1078,6 +1082,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>L'espressione impersonale 'è <match no="2"/> che' richiede il congiuntivo.</message>
                 <example correction="">Credimi, è meglio che tu <marker>sei</marker> vicino.</example>
                 <example>Credimi, è meglio che tu <marker>sia</marker> vicino.</example>
+                <example>È così che funziona.</example>
             </rule>
 <!-- PB008 - -->
         </rulegroup>
@@ -1451,7 +1456,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Puoi vederlo ogni mattina <marker>od ogni</marker> sera.</example>
             </rule>
         </rulegroup>
-        <rulegroup name="ripetizioni" id="ST_03_002">
+        <rulegroup name="ripetizioni" id="ST_03_002" default="temp_off">
             <rule>
                 <pattern>
 <!-- PB001 + -->
@@ -1488,7 +1493,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup name="in cifre se minori di 10" id="ST_04_001">
             <antipattern>
                 <token regexp="yes">\d+</token>
-                <token regexp="yes">[:\.]</token>
+                <token regexp="yes">[:\.aoe]|dei|da</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes" spacebefore="no">[,\.]</token>
+                <token regexp="yes" spacebefore="no">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">[\+\-=]</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes">[\+\-=]</token> 
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\p{Lu}.*</token>
                 <token regexp="yes">\d+</token>
             </antipattern>
             <rule>
@@ -1616,6 +1638,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="CAT12" name="Ulteriori errori comuni - voci del verbo 'avere'">
         <rulegroup name="scambio di 'a' ed 'ha'" id="ER_01_001">
             <rule>
+                <antipattern>
+                    <token>a</token>
+                    <token regexp="yes">volte|letto|posto|morte|punti|punta</token>
+                </antipattern>
+                <antipattern>
+                    <token inflected="yes" regexp="yes">andare|portare</token>
+                    <token>a</token>
+                </antipattern>
                 <!-- "a" + un participio passato -->
                 <pattern>
                     <token>a</token>
@@ -1624,8 +1654,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
                 <example correction="ha fatto">La mamma <marker>a fatto</marker> la spesa.</example>
                 <example>Tutte le informazioni del mondo a portata di mano</example>
+                <example>Dovrebbe andare a messa più spesso.</example>
+                <example>Esperienze diverse portano a scelte diverse.</example>
             </rule>
-            <rule>
+            <rule default="temp_off">
                 <!-- "a" + un sostantivo plurale -->
                 <pattern>
                     <token>a</token>
@@ -1635,8 +1667,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ha soldi">Piero <marker>a soldi</marker> con sé?.</example>
                 <example>Piero <marker>ha soldi</marker> con se?.</example>
                 <example>Di esempi ce ne sono a volontà.</example>
+                <example correction="ha piedi" type="triggers_error" reason="to be fixed!">Preferirei andare <marker>a piedi</marker> che stare qua ad aspettare il bus.</example>
             </rule>
-            <rule default="off" name="suggerisci sempre lo scambio di 'a' con 'ha'" id="ER_01_001a">
+            <rule default="temp_off" name="suggerisci sempre lo scambio di 'a' con 'ha'" id="ER_01_001a">
                 <pattern>
                     <token>a</token>
                 </pattern>
@@ -1693,12 +1726,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <!-- "anno" + un participio passato -->
                 <pattern>
                     <token>anno</token>
-                    <token postag="VER:part.+past.*" postag_regexp="yes"/>
+                    <token postag="VER:part.+past.*" postag_regexp="yes"><exception>scorso</exception></token>
                 </pattern>
                 <message>Forse volevi dire <suggestion>hanno <match no="2"/></suggestion>?</message>
                 <example correction="Hanno fatto"><marker>Anno fatto</marker> i compiti?</example>
+                <example>Non conoscevo Tom l' anno scorso.</example>
             </rule>
-            <rule>
+            <rule default="off">
                 <!-- "anno" + articolo -->
                 <pattern>
                     <token>anno</token>
@@ -1707,9 +1741,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Forse volevi dire <suggestion>ha <match no="2"/></suggestion>?</message>
                 <example correction="ha un">Piero e Cinzia <marker>anno un</marker> bel cane.</example>
                 <example>Piero e Cinzia <marker>hanno un</marker> bel cane.</example>
+                <!--In che anno sei nato?-->
             </rule>
         </rulegroup>
-        <rule name="scambio di 'o' ed 'ho'" id="ER_01_004">
+        <rule name="scambio di 'o' ed 'ho'" id="ER_01_004" default="off">
             <!-- "o" + un participio passato -->
             <pattern>
                 <token>o</token>
@@ -1717,6 +1752,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Forse volevi dire <suggestion>ho <match no="2"/></suggestion>?</message>
             <example correction="ho fatto">Non <marker>o fatto</marker> i compiti.</example>
+            <!--<example>Il serpente è vivo o morto?</example>-->
         </rule>
     </category>
 
@@ -1747,7 +1783,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="alla mia mamma">Ho dato un bacio <marker>ala mia mamma</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup name="scambio di 'la' e 'al'" id="ER_02_002">
+        <rulegroup name="scambio di 'la' e 'al'" id="ER_02_002" default="temp_off">
             <rule>
                 <!-- "la" + sostantivo maschile -->
                 <pattern>
@@ -1769,12 +1805,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <!-- serve il "\+m" con ADJ perché la 'm' compare anche in 'ADJ:comp+f' -->
                     <token postag="(ADJ.+\+m|DET.+:m).*" postag_regexp="yes">
 <!-- 180 + -->
-                        <exception postag="(ADJ.+\+f|DET.+:f).*" postag_regexp="yes"/>
+                        <exception postag="(NOUN-F|ADJ.+\+f|DET.+:f).*" postag_regexp="yes"/>
 <!-- 180 - -->
                     </token>
                 </pattern>
                 <message>Forse volevi dire <suggestion>al <match no="2"/></suggestion>?</message>
                 <example correction="al mio">Ho portato un regalo <marker>la mio</marker> papà.</example>
+                <example>La tesi dell'autore.</example>
             </rule>
             <rule>
                 <!-- "al" + sostantivo femminile -->
@@ -1804,7 +1841,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la tua">Ho mangiato <marker>al tua</marker> merenda.</example>
             </rule>
         </rulegroup>
-        <rulegroup name="scambio di 'li' e 'il'" id="ER_02_003">
+        <rulegroup name="scambio di 'li' e 'il'" id="ER_02_003" default="temp_off">
             <rule>
                 <!-- "li" + sostantivo maschile -->
                 <pattern>

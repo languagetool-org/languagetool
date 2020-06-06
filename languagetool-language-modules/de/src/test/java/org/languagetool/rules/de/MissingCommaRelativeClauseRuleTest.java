@@ -30,10 +30,10 @@ import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 
 public class MissingCommaRelativeClauseRuleTest {
+
   @Test
   public void testMatch() throws Exception {
     JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("de-DE"));
-    
     MissingCommaRelativeClauseRule rule = new MissingCommaRelativeClauseRule(TestTools.getMessages("de"));
     
     assertMatch("Das Auto das am Straßenrand steht parkt im Halteverbot.", 4, 12, rule, lt);
@@ -44,11 +44,12 @@ public class MissingCommaRelativeClauseRuleTest {
     assertMatch("Die Frau die vor dem Auto steht, hat schwarze Haare.", 4, 12, rule, lt);
     assertMatch("Alles was ich habe, ist ein Buch.", 0, 9, rule, lt);
     
-
     assertNoMatch("Computer machen die Leute dumm.", rule, lt);
     assertNoMatch("Die Unstimmigkeit zwischen den Geschichten der zwei Unfallbeteiligten war groß.", rule, lt);
     assertNoMatch("Ebenso darf keine schwerere Strafe als die zum Zeitpunkt der Begehung der strafbaren Handlung angedrohte Strafe verhängt werden.", rule, lt);
-    
+    assertNoMatch("Als dritte Gruppe lassen sich Aminosäuren fassen, die der Organismus anstelle dieser in Proteine einbaut.", rule, lt);
+    assertNoMatch("Selbst wenn das alles perfekt verlustfrei wäre, hätte ich nichts gewonnen.", rule, lt);
+
     rule = new MissingCommaRelativeClauseRule(TestTools.getMessages("de"), true);
     
     assertMatch("Das Auto, das am Straßenrand steht parkt im Halteverbot.", 29, 40, rule, lt);
@@ -61,7 +62,6 @@ public class MissingCommaRelativeClauseRuleTest {
     assertNoMatch("Wenn du alles, was du meinst nicht zu können, von anderen erledigen lässt, wirst du es niemals selbst lernen.", rule, lt);
     assertNoMatch("Er hat einen Zeitraum durchlebt, in dem seine Gedanken verträumt auf den weiten Feldern der Mysterien umherirrten.", rule, lt);
     assertNoMatch("Es ist die Wiederkehr der Panikmache, die der neue Nationalismus mit dem der Sprachreiniger verbindet und die Geschichte der Sprachreinigung zu einem Lehrstück macht.", rule, lt);   
-  
   }
   
   protected void assertNoMatch(String input, MissingCommaRelativeClauseRule rule, JLanguageTool lt) throws IOException {
@@ -74,7 +74,5 @@ public class MissingCommaRelativeClauseRuleTest {
     assertThat(matches[0].getFromPos(), is(from));
     assertThat(matches[0].getToPos(), is(to));
   }
-
-  
 
 }

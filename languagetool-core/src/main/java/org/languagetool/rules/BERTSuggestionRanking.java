@@ -43,8 +43,10 @@ import java.util.stream.Collectors;
  * reorder suggestions from another rule using BERT as a LM
  */
 public class BERTSuggestionRanking extends RemoteRule {
-  private static final Logger logger = LoggerFactory.getLogger(BERTSuggestionRanking.class);
+
   public static final String RULE_ID = "BERT_SUGGESTION_RANKING";
+
+  private static final Logger logger = LoggerFactory.getLogger(BERTSuggestionRanking.class);
 
   private static final LoadingCache<RemoteRuleConfig, RemoteLanguageModel> models =
     CacheBuilder.newBuilder().build(CacheLoader.from(serviceConfiguration -> {
@@ -73,7 +75,7 @@ public class BERTSuggestionRanking extends RemoteRule {
   public BERTSuggestionRanking(Rule rule, RemoteRuleConfig config, UserConfig userConfig) {
     super(rule.messages, config);
     this.wrappedRule = rule;
-
+    super.setCategory(wrappedRule.getCategory());
     synchronized (models) {
       RemoteLanguageModel model = null;
       if (getId().equals(userConfig.getAbTest())) {
@@ -115,13 +117,17 @@ public class BERTSuggestionRanking extends RemoteRule {
     List<RuleMatch> matches = new LinkedList<>();
     List<RemoteLanguageModel.Request> requests = new LinkedList<>();
     try {
+      int offset = 0;
       for (AnalyzedSentence sentence : sentences) {
         RuleMatch[] sentenceMatches = wrappedRule.match(sentence);
         for (RuleMatch match : sentenceMatches) {
           match.setSuggestedReplacementObjects(prepareSuggestions(match.getSuggestedReplacementObjects()));
+          // build request before correcting offset, as we send only sentence as text
           requests.add(buildRequest(match));
+          match.setOffsetPosition(match.getFromPos() + offset, match.getToPos() + offset);
         }
         Collections.addAll(matches, sentenceMatches);
+        offset += sentence.getText().length();
       }
       return new MatchesForReordering(matches, requests);
     } catch (IOException e) {
@@ -132,7 +138,7 @@ public class BERTSuggestionRanking extends RemoteRule {
 
   @Override
   protected RemoteRuleResult fallbackResults(RemoteRequest request) {
-    return new RemoteRuleResult(false, false, ((MatchesForReordering) request).matches);
+    return new RemoteRuleResult(false, ((MatchesForReordering) request).matches);
   }
 
   @Override
@@ -150,7 +156,7 @@ public class BERTSuggestionRanking extends RemoteRule {
       requests = requests.stream().filter(Objects::nonNull).collect(Collectors.toList());
 
       if (requests.isEmpty()) {
-        return new RemoteRuleResult(false, true, matches);
+        return new RemoteRuleResult(false, matches);
       } else {
         List<List<Double>> results = model.batchScore(requests);
         // put curated at the top, then compare probabilities
@@ -187,7 +193,7 @@ public class BERTSuggestionRanking extends RemoteRule {
           //logger.info("Reordered correction for '{}' from {} to {}", error, req.candidates, ranked);
           match.setSuggestedReplacementObjects(ranked);
         }
-        return new RemoteRuleResult(true, true, matches);
+        return new RemoteRuleResult(true, matches);
       }
     };
   }

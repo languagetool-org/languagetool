@@ -83,23 +83,23 @@ public class LocationHelper {
   }
 
   private static boolean isReferenceStart(String text, int i) {
-    return i < text.length() - 4 && text.substring(i, i + 4).equals("<ref");
+    return text.startsWith("<ref", i);
   }
 
   private static boolean isFullReferenceEndTag(String text, int i) {
-    return i < text.length() - 6 && text.substring(i, i + 6).equals("</ref>");
+    return text.startsWith("</ref>", i);
   }
 
   private static boolean isShortReferenceEndTag(String text, int i) {
-    return i < text.length() - 2 && text.substring(i, i + 2).equals("/>");
+    return text.startsWith("/>", i);
   }
 
   private static boolean isHtmlCommentStart(String text, int i) {
-    return i < text.length() - 4 && text.substring(i, i + 4).equals("<!--");
+    return text.startsWith("<!--", i);
   }
 
   private static boolean isHtmlCommentEnd(String text, int i) {
-    return i < text.length() - 3 && text.substring(i, i + 3).equals("-->");
+    return text.startsWith("-->", i);
   }
 
 }

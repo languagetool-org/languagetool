@@ -44,6 +44,7 @@ public class GermanWordRepeatRuleTest {
     assertThat(rule.match(lt.getAnalyzedSentence("Wie bei Honda, die die Bezahlung erhöht haben.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Dann warfen sie sie weg.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Dann konnte sie sie sehen.")).length, is(0));
+    assertThat(rule.match(lt.getAnalyzedSentence("Er muss sein Essen essen.")).length, is(0));
     assertThat(rule.match(lt.getAnalyzedSentence("Hat sie sie")).length, is(1));  // used to crash, issue #1010
     assertThat(rule.match(lt.getAnalyzedSentence("Hat hat")).length, is(1));
     assertThat(rule.match(lt.getAnalyzedSentence("hat hat")).length, is(1));

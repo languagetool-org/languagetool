@@ -500,7 +500,7 @@ public class FlatParagraphTools {
     }
     if(override) {
       flatPara.getMarkupInfoContainer();
-      flatPara.commitStringMarkup(TextMarkupType.SENTENCE, new String ("Sentence"), 0, flatPara.getText().length(), props);
+      flatPara.commitStringMarkup(TextMarkupType.SENTENCE, "Sentence", 0, flatPara.getText().length(), props);
     }
   }
 

@@ -121,7 +121,6 @@ public class AdverbFilter extends RuleFilter {
     put("negatively", "negative");
     put("outwards", "outward");
     put("devastatingly", "devastating");
-    put("entirely", "entire");
     put("relatively", "relative");
     put("absolutely", "absolute");
     put("socially", "social");
@@ -175,6 +174,39 @@ public class AdverbFilter extends RuleFilter {
     put("shortly", "short");
     put("mildly", "mild");
     put("secretly", "secret");
+    put("especially", "especial");
+    put("previously", "previous");
+    put("whitely", "white");
+    put("traditionally", "traditional");
+    put("individually", "individual");
+    put("carefully", "careful");
+    put("essentially", "essential");
+    put("originally", "original");
+    put("alarmingly", "alarming");
+    put("newly", "new");
+    put("wrongfully", "wrongful");
+    put("structurally", "structural");
+    put("globally", "global");
+    put("pacifically", "pacific");
+    put("seemingly", "seeming");
+    put("sustainably", "sustainable");
+    put("momentarily", "momentary");
+    put("coldly", "cold");
+    put("nasally", "nasal");
+    put("densely", "dense");
+    put("grimly", "grim");
+    put("calmly", "calm");
+    put("racially", "racial");
+    put("widely", "wide");
+    put("peacefully", "peaceful");
+    put("heavily", "heavy");
+    put("authentically", "authentic");
+    put("honestly", "honest");
+    put("voluntarily", "voluntary");
+    put("desperately", "desperate");
+    put("immensely", "immense");
+    put("apparently", "apparent");
+    put("straightforwardly", "straightforward");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
