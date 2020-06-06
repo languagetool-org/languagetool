@@ -21442,6 +21442,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ménage à trois"><marker>ménagé-â-trois</marker>.</example>
             <example>ménage à trois</example>
         </rule>
+        <rule id="PEARL_HARBOR" name="Pearl Harbor">
+            <antipattern case_sensitive="yes">
+                <token>Pearl</token>
+                <token>Harbor</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">pearl|perl|pel</token>
+                <token min="0">-</token>
+                <token regexp="yes">harbo?u?rt?</token>
+            </pattern>
+            <message>Error ortográfico.</message>
+            <suggestion>Pearl Harbor</suggestion>
+            <example correction="Pearl Harbor">El ataque a <marker>Perl Harbor</marker>.</example>
+            <example correction="Pearl Harbor">El ataque a <marker>pearl harbor</marker>.</example>
+            <example>Pearl Harbor</example>
+        </rule>
         <rule id="DEJA_VU" name="déjà-vu">
             <pattern>
                 <token regexp="yes">d[eèé]j[aàá]</token>
