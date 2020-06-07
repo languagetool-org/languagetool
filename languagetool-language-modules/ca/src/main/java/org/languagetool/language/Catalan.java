@@ -132,7 +132,7 @@ public class Catalan extends Language {
   }
 
   @Override
-  public int getPriorityForId(String id) {
+  protected int getPriorityForId(String id) {
     switch (id) {
       case "CA_SIMPLE_REPLACE_BALEARIC": return 100;
       case "INCORRECT_EXPRESSIONS": return 50;

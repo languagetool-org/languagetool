@@ -80,7 +80,7 @@ public class SimpleGerman extends GermanyGerman {
   }
 
   @Override
-  public int getPriorityForId(String id) {
+  protected int getPriorityForId(String id) {
     if (id.equals(LongSentenceRule.RULE_ID)) {
       return 10;
     } else if (id.equals("LANGES_WORT")) {

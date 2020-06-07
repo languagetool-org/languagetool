@@ -180,7 +180,7 @@ public final class CommandLineTools {
           output += "[" + pRule.getSubId() + "]";
         }
       }
-      int priorityForId = lang.getPriorityForId(match.getRule().getId());
+      int priorityForId = lang.getRulePriority(match.getRule());
       if (priorityForId != 0) {
         output += " prio=" + priorityForId;
       }

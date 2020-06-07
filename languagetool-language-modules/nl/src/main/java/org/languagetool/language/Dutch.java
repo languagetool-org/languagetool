@@ -134,7 +134,7 @@ public class Dutch extends Language {
   }
 
   @Override
-  public int getPriorityForId(String id) {
+  protected int getPriorityForId(String id) {
     switch (id) {
       case SimpleReplaceRule.DUTCH_SIMPLE_REPLACE_RULE: return 1;
       case LongSentenceRule.RULE_ID: return -1;

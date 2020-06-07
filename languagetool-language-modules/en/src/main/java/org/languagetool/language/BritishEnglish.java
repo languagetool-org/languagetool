@@ -63,7 +63,7 @@ public class BritishEnglish extends English {
   }
 
   @Override
-  public int getPriorityForId(String id) {
+  protected int getPriorityForId(String id) {
     switch (id) {
       case "OXFORD_SPELLING_ISATION_NOUNS": return -20;
       case "OXFORD_SPELLING_ISE_VERBS":     return -21;

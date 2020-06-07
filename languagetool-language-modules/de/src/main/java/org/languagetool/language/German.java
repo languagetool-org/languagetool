@@ -252,7 +252,7 @@ public class German extends Language implements AutoCloseable {
   }
 
   @Override
-  public int getPriorityForId(String id) {
+  protected int getPriorityForId(String id) {
     switch (id) {
       // Rule ids:
       case "OLD_SPELLING_INTERNAL": return 10;
