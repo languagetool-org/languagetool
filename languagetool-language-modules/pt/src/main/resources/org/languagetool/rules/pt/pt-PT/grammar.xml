@@ -1083,6 +1083,22 @@ title="Easy editing stylesheet" ?>
 		  <token regexp='yes'>me|nos</token>
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-07 *END* -->
+<!-- MARCOAGPINTO 2020-06-07 *START* -->
+<!-- "Cabe-lhe assinar e mandar publicar os decretos da Assembleia e do Governo Regional." -->
+      <antipattern>
+		  <token postag="V...3.+" postag_regexp='yes'/>
+		  <token regexp='yes' spacebefore='no'>&hifen;</token>
+		  <token regexp='yes'>lhe|lhes</token>
+		  <token postag="VMN0000" postag_regexp='no'/>
+      </antipattern>
+<!-- "Falta-lhe talento para ser ator." -->
+      <antipattern>
+		  <token postag="NCFS000" postag_regexp='no'/>
+		  <token regexp='yes' spacebefore='no'>&hifen;</token>
+		  <token regexp='yes'>lhe|lhes</token>
+		  <token postag="VMN0000|NC[CFM]S000" postag_regexp='yes'/>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-06-07 *END* -->
       <pattern>
           <token min='0' regexp='yes'>tu|vós</token>
           <token postag="V...2.+" postag_regexp='yes'>
