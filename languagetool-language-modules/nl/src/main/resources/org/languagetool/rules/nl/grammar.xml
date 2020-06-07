@@ -12761,7 +12761,7 @@ onwaarschijnlijk
 				<pattern>
 					<marker>
 						<token postag="ZNW:EKV.*" postag_regexp="yes" regexp="yes">.*[aiouy]<exception regexp="yes">nu|.*(aa|ai|au|ee|ei|eu|oe|oi|oo|ou|ui|uu|ey)$</exception></token>
-						<token spacebefore="yes" regexp="yes">&apostrof;</token>
+						<token spacebefore="yes" regexp="yes">&apostrof;|&quot;</token>
 						<token spacebefore="no">s</token>
 					</marker>
 					<token><exception regexp="yes">morgens|ochtends|middags|avonds|nachts</exception></token>
@@ -17853,7 +17853,7 @@ steenwijk;Steenwijk
 				<antipattern><token regexp="yes">altijd|steeds|zelf|eerst|we|mezelf|nog|dan|alleen|enkel|zo|nu|nou|\.|-|,|\(|toch|ook|van|toe|het|dat|dit|die|er|je|hij|zij|wij|zeg|hem|haar|hen|weinig|echter</token><token>maar</token></antipattern>
 				
 				<pattern>
-					<token><exception postag="SENT_START"/></token>
+					<token><exception postag="SENT_START"/><exception regexp="yes">&apostrof;</exception></token>
 					<token>maar</token>
 				</pattern>
 				<message>Voor '\2' komt vaak (als u een pauze hoort) een komma: <suggestion>\1, \2</suggestion></message>
