@@ -42,11 +42,6 @@ import java.util.*;
  */
 public class GermanTagger extends BaseTagger {
 
-  private final ManualTagger removalTagger;
-  private final Map<String, PrefixInfixVerb> verbInfos = new HashMap<>();
-
-  private GermanCompoundTokenizer compoundTokenizer;
-
   private final static Synthesizer synthesizer = new GermanyGerman().getSynthesizer();
 
   private static final List<String> allAdjGruTags = new ArrayList<>();
@@ -82,6 +77,11 @@ public class GermanTagger extends BaseTagger {
     tagsForWeise.add("ADJ:NOM:SIN:NEU:GRU:DEF");
     tagsForWeise.add("ADJ:PRD:GRU");
   }
+
+  private final ManualTagger removalTagger;
+  private final Map<String, PrefixInfixVerb> verbInfos = new HashMap<>();
+
+  private GermanCompoundTokenizer compoundTokenizer;
 
   public GermanTagger() {
     super("/de/german.dict", Locale.GERMAN);

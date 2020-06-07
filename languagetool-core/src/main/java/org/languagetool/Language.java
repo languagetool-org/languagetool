@@ -355,7 +355,6 @@ public abstract class Language {
     if (tagger == null) {
       tagger = createDefaultTagger();
     }
-
     return tagger;
   }
 
@@ -493,7 +492,6 @@ public abstract class Language {
     if (synthesizer == null) {
       synthesizer = createDefaultSynthesizer();
     }
-
     return synthesizer;
   }
 

@@ -31,7 +31,7 @@ import java.util.*;
  */
 public class LineExpander implements org.languagetool.rules.LineExpander {
 
-  private final static Synthesizer synthesizer = new GermanyGerman().getSynthesizer();
+  private final static Synthesizer synthesizer = Objects.requireNonNull(new GermanyGerman().getSynthesizer());
 
   @Override
   public List<String> expandLine(String line) {
