@@ -35,6 +35,7 @@ public class CommonWordsTest {
   public void test() throws IOException {
     Language de = Languages.getLanguageForShortCode("de");
     Language en = Languages.getLanguageForShortCode("en");
+    Language es = Languages.getLanguageForShortCode("es");
     CommonWords cw = new CommonWords();
 
     Map<Language, Integer> res1 = cw.getKnownWordsPerLanguage("Das ist bequem");
@@ -52,6 +53,12 @@ public class CommonWordsTest {
     Map<Language, Integer> res4 = cw.getKnownWordsPerLanguage("this is a test");
     assertThat(res4.get(en), is(3));
     assertThat(res4.get(de), is(1));
+    
+    Map<Language, Integer> res5 = cw.getKnownWordsPerLanguage("Ideábamos una declaracion con el.");
+    assertThat(res5.get(es), is(5));
+    
+    Map<Language, Integer> res6 = cw.getKnownWordsPerLanguage("Ideábamos una declaracion con el; desassigna mencions.");
+    assertThat(res6.get(es), is(3));
   }
 
 }
