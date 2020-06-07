@@ -207,6 +207,7 @@ public class AdverbFilter extends RuleFilter {
     put("immensely", "immense");
     put("apparently", "apparent");
     put("straightforwardly", "straightforward");
+    put("anatomically", "anatomical");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");

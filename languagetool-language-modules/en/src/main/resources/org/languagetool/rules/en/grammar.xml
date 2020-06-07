@@ -12208,7 +12208,7 @@ USA
             <message>The noun <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
             <example correction="stalemate">The game ended in a <marker>stale mate</marker>.</example>
         </rule>
-        <rule id="PRINT_COMPOUNDS" name="step father (stepfather)">
+        <rule id="PRINT_COMPOUNDS" name="foot print (footprint)">
             <pattern>
                 <token regexp="yes">foot|thumb|voice|blue|finger|news</token>
                 <token regexp="yes">prints?</token>
@@ -12227,14 +12227,31 @@ USA
             <example correction="nutshell">I can explain it in a <marker>nut shell</marker>.</example>
         </rule>
         <rule id="LINE_COMPOUNDS" name="dead line (deadline)">
+            <antipattern><!-- https://hpletconnect.energytransfer.com/ -->
+                <token regexp="yes">houston|olympic|canyon|oasis|panhandle|foothills|williams</token>
+                <token>pipe</token>
+                <token>line</token>
+            </antipattern>
+            <antipattern><!-- https://hpletconnect.energytransfer.com/ -->
+                <token>pipe</token>
+                <token>line</token>
+                <token regexp="yes">company|corp(oration)?|co</token>
+            </antipattern>
+            <antipattern><!-- https://aopl.org/ -->
+                <token>association</token>
+                <token>of</token>
+                <token>oil</token>
+                <token>pipe</token>
+            </antipattern>
             <pattern>
-                <token regexp="yes">dead|guide</token>
+                <token regexp="yes">dead|guide|border|pipe</token>
                 <token regexp="yes">lines?</token>
             </pattern>
             <message>This is normally spelled as one word.</message>
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <url>https://www.merriam-webster.com/dictionary/deadline</url>
             <example correction="deadline">We completed the task before it hit the <marker>dead line</marker>.</example>
+            <example>The enron counterparty is Houston Pipe Line Company.</example>
         </rule>
         <rule id="OWNER_COMPOUNDS" name="home owner (homeowner)">
             <pattern>
@@ -12388,7 +12405,7 @@ USA
         </rule>
         <rule id="UP_COMPOUNDS" name="up date (update)">
             <antipattern>
-                <token inflected="yes" regexp="yes">catch|end|start|pile|cover|speed|turn|stay|jump|pull|push|tie|take|mix|sit|top|warm|run|pop|hang|line|stand|pick|back|hook|clean|look|make|follow|ramp|build|wave|clear|weld|kick|hold|shut|bring|set|free|wake|wound|divide|fill|roll|meet|come|light|open|match|rise|raise|sign</token>
+                <token inflected="yes" regexp="yes">catch|end|start|pile|cover|speed|turn|stay|jump|pull|push|tie|take|mix|sit|top|warm|run|pop|hang|line|stand|pick|back|hook|clean|look|make|follow|ramp|build|wave|clear|weld|kick|hold|shut|bring|set|free|wake|wound|divide|fill|roll|meet|come|light|open|match|rise|raise|sign|hike|lit</token>
                 <token min="0" regexp="yes">it(self)?|that|this|th[oe]se</token>
                 <token>up</token>
             </antipattern>
@@ -12420,7 +12437,7 @@ USA
                 <token>Beat</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes" regexp="yes">hold|lay|shut|cut|bring|come|close|drill|run|jump|fall</token>
+                <token inflected="yes" regexp="yes">hold|lay|shut|cut|bring|come|close|drill|run|jump|fall|hike</token>
                 <token min="0" regexp="yes">it(self)?|that|this|th[oe]se</token>
                 <token>down</token>
             </antipattern>
@@ -12486,13 +12503,72 @@ USA
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
                 <marker>
                     <token>out</token>
-                    <token regexp="yes">breaks?|dated|looks?|comes?|puts?|laws?|calls?|lines?|sides?|backs?|casts?|liners?|bound</token>
+                    <token regexp="yes">breaks?|dated|looks?|comes?|puts?|laws?|calls?|lines?|sides?|backs?|casts?|liners?|bound|standing</token>
                 </marker>
             </pattern>
             <message>The word <suggestion>out<match no="4" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
             <example correction="outbreak">The <marker>out break</marker> caused lockdowns all over the word.</example>
             <example>Check the commented out line below.</example>
             <example>It sounded like you were a bit on the stressed out side.</example>
+        </rule>
+        <rule id="HOW_COMPOUNDS" name="any how (anyhow)" default="temp_off">
+            <antipattern><!-- A How To-->
+                <token>how</token>
+                <token>to</token>
+                <token><exception postag="VBP" /></token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">any|some</token>
+                <token>how</token>
+            </pattern>
+            <message>The adverb <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
+            <example correction="Somehow"><marker>Some how</marker> I manged to get this task done.</example>
+            <example>Let's find some how to that describes all steps in detail.</example>
+        </rule>
+        <rule id="HOME_COMPOUNDS" name="home land (homeland)" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Home</token>
+                <token>Town</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">google|connect|smart</token>
+                <token>home</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">stay</token>
+                <token min="0">at</token>
+                <token>home</token>
+            </antipattern>
+            <antipattern>
+                <token>work</token>
+                <token postag="RB" min="0" />
+                <token regexp="yes">fine|good|well</token>
+            </antipattern>
+            <pattern>
+                <token>home</token>
+                <token regexp="yes">lands?|made|towns?|sickness(es)?|schooling|grown|work|boys?</token>
+            </pattern>
+            <message>The word <suggestion>home<match no="2" case_conversion="alllower" /></suggestion> is normally spelled as one word.</message>
+            <example correction="homework">The teacher handed out the <marker>home work</marker>.</example>
+            <example>The new home works as a surrogate of home.</example>
+            <example>Stay at home boy!</example>
+            <example>Lee W. Stanley, The Old Home Town.</example>
+            <example>My smart home made all my friends jealous.</example>
+            <example>Also, within the private sector there are a number of home schools.</example>
+        </rule>
+        <rule id="HOUSE_COMPOUNDS" name="house hold (household)" default="temp_off">
+            <antipattern><!-- book name https://www.ndbooks.com/book/earth-house-hold/ -->
+                <token>earth</token>
+                <token>house</token>
+                <token>hold</token>
+            </antipattern>
+            <pattern>
+                <token>house</token>
+                <token regexp="yes">wife|wives|holds?|work|boats?|breakers?|keepers?|masters?|holders?|fathers?|dress(es)?|boaters?|mothers?|keeping|persons?|wifery|parents?|rooms?|maids?|leeks?|fly|flies|bound</token>
+            </pattern>
+            <message>The word <suggestion>house<match no="2" case_conversion="alllower" /></suggestion> is normally spelled as one word.</message>
+            <example correction="housemaid">She does all the cleaning because she is a <marker>house maid</marker>.</example>
+            <example>My house works like my office.</example>
         </rule>
         <rule id="BACK_COMPOUNDS" name="back log (backlog)">
             <antipattern>
@@ -12899,7 +12975,7 @@ USA
             <rule>
                 <pattern>
                     <token>air</token>
-                    <token regexp="yes">crafts?|borne|ports?|bags?</token>
+                    <token regexp="yes">crafts?|borne|ports?|bags?|space</token>
                 </pattern>
                 <message>This word is normally spelled as one.</message>
                 <suggestion>air<match no="2" case_conversion="alllower" /></suggestion>
@@ -22242,6 +22318,21 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rule id="BLACK_LIVES_MATTER" name="Black Lives Matter">
+            <antipattern>
+                <token>black</token>
+                <token>lives</token>
+                <token>matter</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">bl?ack</token>
+                <token regexp="yes">li[vf]es?</token>
+                <token regexp="yes">matt?ers?</token>
+            </pattern>
+            <message>Did you mean the human rights movement <suggestion>Black Lives Matter</suggestion>?</message>
+            <url>https://en.wikipedia.org/wiki/Black_Lives_Matter</url>
+            <example correction="Black Lives Matter"><marker>Black Lifes Matters</marker> is a human rights movement.</example>
+        </rule>
         <rule id="BLACK_SEA" name="Black Sea">
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Black|Dead|BLACK|DEAD</token>
@@ -25504,6 +25595,10 @@ USA
                 <token regexp="yes">an?</token>
                 <token>about</token>
                 <token regexp="yes">section|page|website|tab|text|you</token>
+            </antipattern>
+            <antipattern><!-- Indeed is a job platform -->
+                <token>indeed</token>
+                <token regexp="yes">profiles?|accounts?|users?</token>
             </antipattern>
             <antipattern><!-- https://www.lexico.com/definition/bit_part -->
                 <token>bit</token>
@@ -34046,7 +34141,7 @@ USA
                 <example correction="is">He <marker>his</marker> the best!</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PRP_COM" name="you com (come)" default="temp_off">
+        <rulegroup id="PRP_COM" name="you com (come)">
             <url>https://www.merriam-webster.com/dictionary/come</url>
             <antipattern>
                 <token>com</token>
@@ -50077,7 +50172,7 @@ The accident victim died from her injuries.
                 <url>https://www.merriam-webster.com/dictionary/once%20upon%20a%20time</url>
                 <example correction="Once"><marker>One</marker> upon a time a queen married a king.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>at</token>
                     <token>once</token>
@@ -50095,7 +50190,7 @@ The accident victim died from her injuries.
                 <example correction="one">Maybe this is <marker>once</marker> of the reasons.</example>
                 <example>We spoke once of the steamer that runs on land, that travels on ribbons of steel.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>at</token>
                     <token>once</token>
@@ -56702,7 +56797,7 @@ The accident victim died from her injuries.
         <rulegroup id="OVER_TIME" name="over time (overtime)">
             <rule>
                 <antipattern>
-                    <token inflected="yes">earn</token>
+                    <token regexp="yes" inflected="yes" skip="5">get|receive|earn|have|give|pay</token>
                     <token>more</token>
                     <token>over</token>
                     <token>time</token>
@@ -56711,7 +56806,7 @@ The accident victim died from her injuries.
                     <token regexp="yes">in(to)?|less|more|of|working</token>
                     <marker>
                         <token>over</token>
-                        <token>time</token> 
+                        <token>time</token>
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>overtime</suggestion> (=time someone works beyond normal working hours)?</message>
@@ -59555,7 +59650,7 @@ The accident victim died from her injuries.
                 <url>https://www.merriam-webster.com/dictionary/backyard</url>
                 <example correction="backyard">He is having a party in his <marker>back yard</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>user</token>
                     <token regexp="yes">names?</token>
@@ -59564,6 +59659,16 @@ The accident victim died from her injuries.
                 <suggestion>user<match no="2" case_conversion="alllower" /></suggestion>
                 <url>https://www.merriam-webster.com/dictionary/username</url>
                 <example correction="username">I have set a <marker>user name</marker> for my online profile.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>land</token>
+                    <token regexp="yes">lines?</token>
+                </pattern>
+                <message>It's more common nowadays to write this noun as one word.</message>
+                <suggestion>land<match no="2" case_conversion="alllower" /></suggestion>
+                <url>https://www.merriam-webster.com/dictionary/landline</url>
+                <example correction="landline">I don't own a mobile phone, I only have a <marker>land line</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="MOST_OF_OUR_TIMES" name="Most of our times (time)">
