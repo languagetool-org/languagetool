@@ -726,6 +726,18 @@ Copyright (C) 2011 Juan Martorell
             <wd lemma="haber" pos="VMIP1P0"/>
         </disambig>
     </rule>
+    <rulegroup id="COMO" name="como">
+        <rule>
+            <pattern>
+                <token>que</token>
+                <marker>
+                    <token>como</token>
+                </marker>
+                <token postag="[NA].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+    </rulegroup>
     <rulegroup id="VINO" name="vino (noun/verb)">
         <rule>
             <pattern>
@@ -744,6 +756,15 @@ Copyright (C) 2011 Juan Martorell
                     <token>vino</token>
                 </marker>
                 <token>con</token>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>vino</token>
+                </marker>
+                <token postag="D.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="remove" postag="N.*"/>
         </rule>

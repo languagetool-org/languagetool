@@ -379,13 +379,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">vallas?</token>
+                        <token regexp="yes">valla[ns]?</token>
                     </marker>
                     <token regexp="yes">a</token>
                     <token postag="V.N.*" postag_regexp="yes"/>
                 </pattern>
-                <message>Si es del v. 'ir', se escribe <suggestion><match no="1" regexp_match="(?iu)vall(as?)" regexp_replace="vay$1"/></suggestion></message>
+                <message>Si es del v. 'ir', se escribe <suggestion><match no="1" regexp_match="(?iu)vall(a[ns]?)" regexp_replace="vay$1"/></suggestion></message>
                 <example correction="vayas">En el caso de que <marker>vallas</marker> a comprar, coge la lista.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">valla[ns]?</token>
+                    </marker>
+                    <token postag="V.G.*" postag_regexp="yes"/>
+                </pattern>
+                <message>Si es del v. 'ir', se escribe <suggestion><match no="1" regexp_match="(?iu)vall(a[ns]?)" regexp_replace="vay$1"/></suggestion></message>
+                <example correction="vayan">para que lo <marker>vallan</marker> desarrollando</example>
             </rule>
         </rulegroup>
         <rulegroup id="PODER_VOSEO" name="poder + forma voseo" default="on">
@@ -3274,11 +3284,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="curriculum vitae|currículums|currículos">Los <marker>currículums vitae</marker>.</example>
         </rule>
         <rulegroup id="NO_SEPARADO" name="palabras no separadas">
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>medio</token>
                     <token min="0">-</token>
-                    <token regexp="yes" inflected="yes">ambiental|carpiano|clavicular|pensionista|tarsiano|ambientalista|campo|campista|centro</token>
+                    <token regexp="yes" inflected="yes">ambiental|carpiano|clavicular|pensionista|tarsiano|ambientalista|campista|centro</token>
                 </pattern>
                 <message>Probablemente se escribe junto.</message>
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="medio$1" case_conversion="alllower"/></suggestion>
@@ -3414,7 +3424,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         >biología|biológico|biólogo|cultural|culturalmente|diversidad|drama|económicamente|económico|grafía|grama|laboral|lingüista|lingüística|lingüísticamente|lingüístico|logismo|logía|lógicamente|lógico|metría|métrico|políticamente|político|profesional|pático|sanitario</token>
                 </pattern>
                 <message>Se escribe junto.</message>
-                <suggestion>\1\3</suggestion>
+                <suggestion>\1<match no="3" case_conversion="alllower"/></suggestion>
                 <example correction="sociodiversidad">La <marker>socio diversidad</marker>.</example>
             </rule>
             <rule>
@@ -3424,7 +3434,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes" inflected="yes">nasal|faríngeo|laríngeo|dental</token>
                 </pattern>
                 <message>Se escribe junto.</message>
-                <suggestion>\1\3</suggestion>
+                <suggestion>\1<match no="3" case_conversion="alllower"/></suggestion>
                 <example correction="buconasales">Los <marker>buco nasales</marker></example>
             </rule>
             <rule>
@@ -3434,7 +3444,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token inflected="yes">localización</token>
                 </pattern>
                 <message>Se escribe junto.</message>
-                <suggestion>\1\3</suggestion>
+                <suggestion>\1<match no="3" case_conversion="alllower"/></suggestion>
                 <example correction="geolocalizaciones"><marker>geo localizaciones</marker></example>
                 <example correction="geolocalizaciones"><marker>geo-localizaciones</marker></example>
             </rule>
@@ -3684,12 +3694,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>En alusión al sobretodo del sargento.</example>
         </rule>
         <rulegroup id="HALLA_HAYA" name="halla/haya">
-            <antipattern>
-                <token regexp="yes">haya|hayan</token>
-                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
-                <token>de</token>
-                <token postag="V.N.*" postag_regexp="yes"/>
-            </antipattern>
             <rule>
                 <antipattern>
                     <token>se</token>
@@ -3738,6 +3742,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="hayan">Cuando lo <marker>hallan</marker> acabado, me lo mandan.</example>
                 <example>Hallan muerto a un hombre de 50 años.</example>
             </rule>
+            <rule>
+                <pattern>
+                    <token>para</token>
+                    <token>que</token>
+                    <marker>
+                        <token>halla</token>
+                    </marker>
+                </pattern>
+                <message>Probablemente hay que escribir <suggestion>haya</suggestion> (v. haber). Correcto si es del v. 'hallar' (=encuentran).</message>
+                <example correction="haya">Para que <marker>halla</marker> climatización.</example>
+            </rule>
             <rule id="SE_HALLA_SE_HAYA" name="se halla / se haya" default="off">
                 <!-- This will cause a lot of false alarms, but it could be a useful warning -->
                 <antipattern>
@@ -3780,7 +3795,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>descubrirá que Rodríguez se halla implicado </example>
                 <example>El calor al que se halla sometido.</example>
             </rule>
-            <!-- haya > halla -->
+        </rulegroup>
+        <rulegroup id="HAYA_HALLA" name="haya/halla">
+            <antipattern>
+                <token regexp="yes">haya|hayan</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"/>
+                <token>de</token>
+                <token postag="V.N.*" postag_regexp="yes"/>
+            </antipattern>
             <rule>
                 <antipattern>
                     <token regexp="yes" skip="15">que|cuando|cual</token>
@@ -4296,15 +4318,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>para</token>
                     <token>que</token>
-                    <token postag="VMI.*" postag_regexp="yes"><exception postag="V.S.*|RG|PI.*" postag_regexp="yes"/></token>
+                    <token postag="VMI.*" postag_regexp="yes"><exception postag="V.S.*|RG|PI.*|N.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Construcción errónea: falta una tilde o un verbo en subjuntivo.</message>
                 <suggestion>para qué \3</suggestion>
-                <suggestion>\1 \2 <match no="3" postag="VMI(.*)" postag_regexp="yes" postag_replace="VMS$1"/></suggestion>
+                <suggestion suppress_misspelled="yes">\1 \2 <match no="3" postag="VMI(.*)" postag_regexp="yes" postag_replace="VMS$1"/></suggestion>
                 <example correction="para qué tengo|para que tenga">Y <marker>para que tengo</marker> buenos resultados.</example>
                 <example correction="para qué sirve|para que sirva">Me gustaría saber <marker>para que sirve</marker> esto.</example>
+                <example correction="para qué vino">Si la Ley era buena, <marker>para que vino</marker> el Señor a morir.</example>
                 <example>Para que podamos ganar más.</example>
                 <example>Para que así podamos salir.</example>
+                <example>han desarrollado un sistema para que marcas e influencers identifiquen sus posts</example>
+                <example>para que como usuario puedas encontrar y contactar con los propietarios</example>
             </rule>
             <rule>
                 <pattern>
@@ -4315,7 +4340,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Construcción errónea: falta una tilde o un verbo en subjuntivo.</message>
                 <suggestion>para qué \3 \4</suggestion>
-                <suggestion>\1 \2 \3 <match no="4" postag="VMI(.*)" postag_regexp="yes" postag_replace="VMS$1"/></suggestion>
+                <suggestion suppress_misspelled="yes">\1 \2 \3 <match no="4" postag="VMI(.*)" postag_regexp="yes" postag_replace="VMS$1"/></suggestion>
                 <example correction="para qué le sirve|para que le sirva">Me gustaría saber <marker>para que le sirve</marker> esto.</example>
                 <example correction="para qué le servía|para que le sirviera|para que le sirviese">Me gustaría saber <marker>para que le servía</marker> esto.</example>
                 <example>Para que le podamos ganar más.</example>
