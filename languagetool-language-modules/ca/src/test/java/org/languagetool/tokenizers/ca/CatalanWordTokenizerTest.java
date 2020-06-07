@@ -31,6 +31,11 @@ public class CatalanWordTokenizerTest {
   public void testTokenize() {
     CatalanWordTokenizer wordTokenizer = new CatalanWordTokenizer();
     List<String> tokens;
+    
+    tokens = wordTokenizer.tokenize("Visiteu 'http://www.softcatala.org'");
+    assertEquals("[Visiteu,  , ', http://www.softcatala.org, ']", tokens.toString());
+    tokens = wordTokenizer.tokenize("Visiteu \"http://www.softcatala.org\"");
+    assertEquals("[Visiteu,  , \", http://www.softcatala.org, \"]", tokens.toString());
     tokens = wordTokenizer.tokenize("name@example.com");
     assertEquals(tokens.size(), 1);
     tokens = wordTokenizer.tokenize("name@example.com.");
@@ -128,5 +133,7 @@ public class CatalanWordTokenizerTest {
     tokens = wordTokenizer.tokenize("$1");
     assertEquals(tokens.size(), 1);
     assertEquals("[$1]", tokens.toString());
+    
+
   }
 }

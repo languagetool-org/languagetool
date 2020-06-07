@@ -148,7 +148,7 @@ public class WordTokenizer implements Tokenizer {
     StringBuilder url = new StringBuilder();
     String urlQuote = null;
     for (int i = 0; i < l.size(); i++) {
-      if (urlStartsAt(i, l)) {
+      if (urlStartsAt(i, l) && !inUrl) {
         inUrl = true;
         if (i-1 >= 0) {
           urlQuote = l.get(i-1);
@@ -224,7 +224,7 @@ public class WordTokenizer implements Tokenizer {
         return true;
       }
     } else {
-      if (!URL_CHARS.matcher(token).matches() || token.equals(".")) {
+      if (!URL_CHARS.matcher(token).matches() || token.equals(".") || token.equals(urlQuote)) {
         return true;
       }
     }
