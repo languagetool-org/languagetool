@@ -932,6 +932,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>sog</token>
                     <token>.</token>
                 </antipattern>
+                <antipattern><!-- caught by IM_LAUFE -->
+                    <token>im</token>
+                    <token>laufe</token>
+                    <token regexp="yes">de[rs]|unsere[rs]|ihre[rs]|[smd]eine[rs]</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token>im</token>
@@ -7653,6 +7658,30 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://de.wikipedia.org/wiki/WhatsApp</url>
             <short>&getrennt;.</short>
             <example correction="WhatsApp">Wir schrieben per <marker>whats app</marker>.</example>
+        </rule>
+        <rule id="PAY_PAL" name="PayPal">
+            <pattern>
+                <token>Pay</token>
+                <token>Pal</token>
+            </pattern>
+            <message>Der Name <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= Zahlungsdienstleister) wird als ein Wort geschrieben.</message>
+            <url>https://de.wikipedia.org/wiki/PayPal</url>
+            <example correction="PayPal">Er zahlte die Ware mit <marker>Pay Pal</marker>.</example>
+        </rule>
+        <rule id="BLACK_LIVES_MATTER" name="Black Lives Matter">
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Black|BLACK</token>
+                <token regexp="yes">Lives|LIVES</token>
+                <token regexp="yes">Matter|MATTER</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">bl?ack</token>
+                <token regexp="yes">li[vf]es?</token>
+                <token regexp="yes">matt?ers?</token>
+            </pattern>
+            <message>Meinten Sie die internationale Bewegung <suggestion>Black Lives Matter</suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/Black_Lives_Matter</url>
+            <example correction="Black Lives Matter"><marker>Black Lifes Matter</marker> (BLM) ist eine internationale Bewegung, die innerhalb der afroamerikanischen Gemeinschaft in den Vereinigten Staaten entstanden ist und sich gegen Gewalt gegen Schwarze bzw. People of color einsetzt.</example>
         </rule>
         <rule id="JAVA_SCRIPT" name="JavaScript">
             <pattern>
