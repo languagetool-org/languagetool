@@ -12511,7 +12511,7 @@ USA
             <example>Check the commented out line below.</example>
             <example>It sounded like you were a bit on the stressed out side.</example>
         </rule>
-        <rule id="HOW_COMPOUNDS" name="any how (anyhow)" default="temp_off">
+        <rule id="HOW_COMPOUNDS" name="any how (anyhow)">
             <antipattern><!-- A How To-->
                 <token>how</token>
                 <token>to</token>
@@ -12525,11 +12525,15 @@ USA
             <example correction="Somehow"><marker>Some how</marker> I manged to get this task done.</example>
             <example>Let's find some how to that describes all steps in detail.</example>
         </rule>
-        <rule id="HOME_COMPOUNDS" name="home land (homeland)" default="temp_off">
-            <antipattern case_sensitive="yes">
-                <token>Home</token>
-                <token>Town</token>
-            </antipattern>
+        <rule id="LAND_COMPOUNDS" name="land lord (landlord)" default="temp_off">
+            <pattern>
+                <token>land</token>
+                <token regexp="yes">fall|slide|lords?|marks?|form|lady|mines?</token>
+            </pattern>
+            <message>The word <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
+            <example correction="landlord">The goal is to educate tenants about the legal amount their <marker>land lord</marker> can up their rent.</example>
+        </rule>
+        <rule id="HOME_COMPOUNDS" name="home land (homeland)">
             <antipattern>
                 <token regexp="yes">google|connect|smart</token>
                 <token>home</token>
@@ -12546,7 +12550,7 @@ USA
             </antipattern>
             <pattern>
                 <token>home</token>
-                <token regexp="yes">lands?|made|towns?|sickness(es)?|schooling|grown|work|boys?</token>
+                <token regexp="yes">lands?|made|sickness(es)?|schooling|grown|work|boys?</token>
             </pattern>
             <message>The word <suggestion>home<match no="2" case_conversion="alllower" /></suggestion> is normally spelled as one word.</message>
             <example correction="homework">The teacher handed out the <marker>home work</marker>.</example>
@@ -12556,7 +12560,7 @@ USA
             <example>My smart home made all my friends jealous.</example>
             <example>Also, within the private sector there are a number of home schools.</example>
         </rule>
-        <rule id="HOUSE_COMPOUNDS" name="house hold (household)" default="temp_off">
+        <rule id="HOUSE_COMPOUNDS" name="house hold (household)">
             <antipattern><!-- book name https://www.ndbooks.com/book/earth-house-hold/ -->
                 <token>earth</token>
                 <token>house</token>
@@ -18526,6 +18530,10 @@ USA
                 <token>act</token>
             </antipattern>
             <antipattern>
+                <token>nerf</token>
+                <token regexp="yes">guns?</token>
+            </antipattern>
+            <antipattern>
                 <token>the</token>
                 <token>bring</token>
                 <token skip="6">your</token>
@@ -22368,6 +22376,15 @@ USA
             <message>The name/noun <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> is spelled as one word.</message>
             <url>https://en.wikipedia.org/wiki/YouTube</url>
             <example correction="YouTube">He is watching videos on <marker>You Tube</marker>.</example>
+        </rule>
+        <rule id="PAY_PAL" name="PayPal">
+            <pattern>
+                <token>Pay</token>
+                <token>Pal</token>
+            </pattern>
+            <message>The name <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= payment provider) is spelled as one word.</message>
+            <url>https://en.wikipedia.org/wiki/PayPal</url>
+            <example correction="PayPal">He is paying via <marker>Pay Pal</marker>.</example>
         </rule>
         <rulegroup id="KAMA_SUTRA" name="Kama Sutra">
             <url>https://en.wikipedia.org/wiki/Kama_Sutra</url>
@@ -49088,6 +49105,17 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rule id="DIES_DOES" name="dies vs does" default="temp_off">
+            <pattern>
+                <token regexp="yes">s?he|it</token>
+                <marker>
+                    <token>dies</token>
+                </marker>
+                <token regexp="yes">not|that</token>
+            </pattern>
+            <message>Did you mean <suggestion>does</suggestion>?</message>
+            <example correction="does">He <marker>dies</marker> not know what we do.</example>
+        </rule>
         <rulegroup id="WAN_WANT" name="wan vs want">
             <antipattern><!-- caught by WAN_T -->
                 <token>wan</token>

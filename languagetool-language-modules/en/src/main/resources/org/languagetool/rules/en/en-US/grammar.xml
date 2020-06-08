@@ -103,7 +103,14 @@ USA
     <!-- Possible typos -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Possible Typo" type="misspelling">
-
+        <rule id="HOME_COMPOUNDS_EN_US" name="home town (hometown)">
+            <pattern>
+                <token>home</token>
+                <token regexp="yes">towns?</token>
+            </pattern>
+            <message>The word <suggestion>home<match no="2" case_conversion="alllower" /></suggestion> is normally spelled as one word.</message>
+            <example correction="hometown">He came to visit her <marker>home town</marker>.</example>
+        </rule>
           <rule id="ANY_MORE" name="any more (anymore)">
               <antipattern><!-- any more likely than -->
                  <token>more</token>
