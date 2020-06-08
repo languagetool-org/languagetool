@@ -14716,6 +14716,29 @@ USA
                 <message>Did you mean <suggestion>\3s</suggestion>?</message>
                 <example correction="regards">Best <marker>regard</marker></example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes">best|kind|kindest|warm|warmest</token>
+                    <marker>
+                        <token>wish</token>
+                    </marker>
+                    <token regexp="yes">,|\.|!|:</token>
+                </pattern>
+                <message>Did you mean <suggestion>wishes</suggestion>?</message>
+                <example correction="wishes">Best <marker>wish</marker>, Carl.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START" />
+                    <token regexp="yes">best|kind|kindest|warm|warmest</token>
+                    <marker>
+                        <token postag="SENT_END">wish</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean <suggestion>wishes</suggestion>?</message>
+                <example correction="wishes">Best <marker>wish</marker></example>
+            </rule>
         </rulegroup>
         <rule id="SPLITTED" name="splitted (split)">
             <pattern>
@@ -21891,6 +21914,29 @@ USA
                 <example correction="Skype">Let's have a quick <marker>skype</marker> call.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="ON_EXCEL" name="In excel (Excel)" default="temp_off">
+            <url>https://en.wikipedia.org/wiki/Microsoft_Excel</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes">in|on|of|for|into|with(out)?|at</token>
+                    <marker>
+                        <token case_sensitive="yes">excel</token>
+                    </marker>
+                </pattern>
+                <message>Capitalize this word if you mean the computer program <suggestion>Excel</suggestion>.</message>
+                <example correction="Excel">I'm very good in <marker>excel</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token case_sensitive="yes">excel</token>
+                    </marker>
+                    <token regexp="yes">charts?|sheets?|files?|spreadsheets?|formats?|software|program|20\d{2}|macros?|formulas?|functions?</token>
+                </pattern>
+                <message>Capitalize this word if you mean the computer program <suggestion>Excel</suggestion>.</message>
+                <example correction="Excel">Please send me the <marker>excel</marker> file via e-mail.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="GOOGLE_PRODUCTS" name="Google product names">
             <rule>
                 <antipattern case_sensitive="yes">
@@ -23376,6 +23422,39 @@ USA
                 <suggestion>\3-\4 \5</suggestion>
                 <example correction="10-mile race">He was wining the <marker>10 mile race</marker>.</example>
                 <example>Escape to the Cayman Islands and head for the famous Seven Mile Beach, ideal for swimming, diving, and other water sports.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="PERSON_HYPHEN" name="missing hyphen in '2 person meeting'" default="temp_off">
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|their|his|her|its|s</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token postag="CD" />
+                        <token>person</token>
+                        <token postag="NN.*" postag_regexp="yes" />
+                    </marker>
+                </pattern>
+                <message>It seems that a hyphen is missing.</message>
+                <suggestion>\3-\4 \5</suggestion>
+                <example correction="10-person meeting">The <marker>10 person meeting</marker> took more than 2 hours.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">one|1</token>
+                    <token>person</token>
+                    <token postag="VBZ" />
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token postag="CD" />
+                        <token>person</token>
+                        <token regexp="yes">tents?|vans?|groups?|neighborhoods?|games?|kayaks?|bikes?|teams?|relationships?|boats?|bicycles?|famil(y|ies)|meetings?|crews?|bands?|staff|households?|tables?|limits?</token>
+                    </marker>
+                </pattern>
+                <message>It seems that a hyphen is missing.</message>
+                <suggestion>\1-\2 \3</suggestion>
+                <example correction="10-person van">He bought ae <marker>10 person van</marker> for his family vacation.</example>
             </rule>
         </rulegroup>
         <rule id="END_TO_END_HYPHEN" name="missing hyphen in 'end-to-end">
@@ -31717,7 +31796,17 @@ USA
             <example correction="least hard">This is the <marker>least hardest</marker>.</example>
             <example>The least number.</example><!-- number is JJR -->
         </rule>
-
+        <rule id="WORLDS_BEST" name="Worlds (World's) Best" default="temp_off">
+            <pattern>
+                <marker>
+                    <token>worlds</token>
+                </marker>
+                <token postag="JJS" />
+            </pattern>
+            <message>It seems that a possessive apostrophe is missing.</message>
+            <suggestion>world's</suggestion>
+            <example correction="world's">He is the <marker>worlds</marker> best footballer.</example>
+        </rule>
         <rulegroup id="THE_SUPERLATIVE" name="Zero or indefinite article ('a'/'an') before superlatives">
             <antipattern>
                 <token postag_regexp="yes" postag="PRP\$|WP\$|DT|JJ|C[CD]|:|NNP|POS"/>
@@ -31778,7 +31867,7 @@ USA
                     <marker>
                         <token regexp="yes">an?</token>
                     </marker>
-                    <token postag="JJS|RBS" postag_regexp="yes"><exception>most</exception></token>
+                    <token postag="JJS|RBS" postag_regexp="yes"><exception>most</exception><exception>man</exception></token>
                 </pattern>
                 <message>Use <suggestion>the</suggestion> with the superlative.</message>
                 <short>Grammatical problem: use 'the'</short>
@@ -31893,7 +31982,7 @@ USA
                         <token><exception postag="PRP\$|WP\$|DT|JJ|C[CD]|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">&apostrophe;</exception><exception>at</exception></token>
                         <token postag="JJS">best</token>
                     </marker>
-                    <token postag="NN.*|JJ" postag_regexp="yes"><exception postag="IN"/><exception>man</exception><exception inflected="yes">sell</exception></token>
+                    <token postag="NN.*|JJ" postag_regexp="yes"><exception postag="IN"/><exception regexp="yes">man|regards</exception><exception inflected="yes">sell</exception></token>
                     <token><exception>by</exception></token>
                 </pattern>
                 <message>A determiner is probably missing here: <suggestion>\1 the \2</suggestion>.</message>
@@ -39810,7 +39899,7 @@ USA
         <rulegroup id="ARTICLE_ADJECTIVE_OF" name="ARTICLE ADJECTIVE of">
             <antipattern><!-- Nominalized adjective: https://en.wikipedia.org/wiki/Nominalized_adjective -->
                 <token>the</token>
-                <token regexp="yes">blind|deaf|disabled|homeless|poor|rich|wealthy</token><!-- Only relatively common nominalizations. -->
+                <token regexp="yes">blind|deaf|disabled|homeless|heartless|poor|rich|wealthy</token><!-- Only relatively common nominalizations. -->
                 <token>of</token>
             </antipattern>
             <antipattern>
@@ -39828,6 +39917,17 @@ USA
                 </pattern>
                 <message>Did you mean the noun <suggestion>life</suggestion>?</message>
                 <example correction="life">The <marker>live</marker> of Brian.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">an?|the</token>
+                    <marker>
+                        <token>numerous</token>
+                    </marker>
+                    <token>of</token>
+                </pattern>
+                <message>Did you mean the noun <suggestion>number</suggestion>?</message>
+                <example correction="number">The <marker>numerous</marker> of people is too high.</example>
             </rule>
             <rule>
                 <pattern>
@@ -39866,17 +39966,19 @@ USA
             <rule>
                 <pattern>
                     <token regexp="yes">an?|the</token>
-                    <token postag="JJ" regexp="yes">[a-z]+<exception postag_regexp="yes" postag="NN.*|VBG"/><exception regexp="yes">[0-9]?(1st|2nd|3rd|[0-9]th)</exception><exception regexp="yes">innermost|outermost|northernmost|southernmost|easternmost|westernmost|next</exception></token><!-- The exception for VBG is necessary, because adjectives such as 'draining', 'cooling', and 'functioning' can be used as gerunds [https://en.wikipedia.org/wiki/Gerund]. The exception for ordinal numbers does not ignore incorrect abbreviations such as 21th. Innermost: some dictionaries say that it is an adjective that is used only before a noun. Other dictionaries say that it is a noun and an adjective. Northernmost: SOED says that this is can be a noun.  -->
+                    <marker>
+                        <token postag="JJ" regexp="yes">[a-z]+<exception postag_regexp="yes" postag="NN.*|VBG"/><exception regexp="yes">[0-9]?(1st|2nd|3rd|[0-9]th)</exception><exception regexp="yes">innermost|outermost|northernmost|southernmost|easternmost|westernmost|next</exception></token><!-- The exception for VBG is necessary, because adjectives such as 'draining', 'cooling', and 'functioning' can be used as gerunds [https://en.wikipedia.org/wiki/Gerund]. The exception for ordinal numbers does not ignore incorrect abbreviations such as 21th. Innermost: some dictionaries say that it is an adjective that is used only before a noun. Other dictionaries say that it is a noun and an adjective. Northernmost: SOED says that this is can be a noun.  -->
+                    </marker>
                     <token>of</token>
                 </pattern>
                 <message>The phrase '\1 \2 \3' is not correct. Use a noun, not an adjective, between '\1' and '\3'.</message>
                 <short>Grammatical problem: use a noun</short>
-                <example correction="">We are not responsible for <marker>the delusional of</marker> your client.</example>
-                <example correction="">We describe <marker>an unusual of</marker> benign prostatic hyperplasia that demonstrated florid sclerosing...</example>
-                <example correction="">Diamonds are <marker>the only of</marker> these mineral resources currently being developed.</example>
-                <example correction="">That same year, <marker>the mainline of</marker> the transcontinental railroad into Oakland was...</example>
-                <example correction="">...conventional light, medium, and heavy crude, plus <marker>an additional of</marker> pentanes plus used for blending with heavy crude ...</example>
-                <example correction="">Since 2002, <marker>the peninsular of</marker> Actium has been linked with Preveza on the north ...</example>
+                <example correction="">We are not responsible for the <marker>delusional</marker> of your client.</example>
+                <example correction="">We describe an <marker>unusual</marker> of benign prostatic hyperplasia that demonstrated florid sclerosing...</example>
+                <example correction="">Diamonds are the <marker>only</marker> of these mineral resources currently being developed.</example>
+                <example correction="">That same year, the <marker>mainline</marker> of the transcontinental railroad into Oakland was...</example>
+                <example correction="">...conventional light, medium, and heavy crude, plus an <marker>additional</marker> of pentanes plus used for blending with heavy crude ...</example>
+                <example correction="">Since 2002, the <marker>peninsular</marker> of Actium has been linked with Preveza on the north ...</example>
                 <example>We are not responsible for <marker>the delusions of</marker> your client.</example>
                 <example>Use <marker>the larger of</marker> the two pieces.</example>
                 <example><marker>The earliest of</marker> these is Diodorus Siculus (1st century BC).</example>
