@@ -1344,6 +1344,59 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Mañana hablo con ella.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SE_FIE" name="confusión: se fie/fíe" default="temp_off">
+            <rule>
+                <pattern>
+                    <token>se<exception postag="LOC_ADV"/></token>
+                    <token min="0" regexp="yes">le|les</token>
+                    <token regexp="yes" min="0">["«“‘']</token>
+                    <marker>
+                        <token postag="VMIS1S0" regexp="yes">crie|fie|guie|lie</token>
+                    </marker>
+                </pattern>
+                <message>El verbo <match no="4"/> está en pasado, probablemente es presente de subjuntivo con tilde.</message>
+                <suggestion><match no="4" regexp_match="(?iu)(.*)ie" regexp_replace="$1íe"/></suggestion>
+                <example correction="fíe">No hay nadie que se <marker>fie</marker> de él</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">él|ella|usted<exception postag="SP.*" postag_regexp="yes" scope="previous"/></token>
+                    <token regexp="yes" min="0">["«“‘']</token>
+                    <marker>
+                        <token postag="VMIS1S0" regexp="yes">crie|fie|guie|lie</token>
+                    </marker>
+                </pattern>
+                <message>El verbo <match no="3"/> está en pasado, probablemente es presente de subjuntivo con tilde.</message>
+                <suggestion><match no="3" regexp_match="(?iu)(.*)ie" regexp_replace="$1íe"/></suggestion>
+                <example correction="guíe">Necesitamos que él <marker>guie</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>nos<exception postag="LOC_ADV"/></token>
+                    <token min="0" regexp="yes">lo|la|los|las|le|les</token>
+                    <token regexp="yes" min="0">["«“‘']</token>
+                    <marker>
+                        <token postag="VMIS1S0" regexp="yes">crie|fie|guie|lie</token>
+                    </marker>
+                </pattern>
+                <message>El verbo <match no="4"/> está en pasado, probablemente es presente de subjuntivo con tilde.</message>
+                <suggestion><match no="4" regexp_match="(?iu)(.*)ie" regexp_replace="$1íe"/></suggestion>
+                <example correction="guíe">Necesitamos que él nos <marker>guie</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|C.*|_PUNCT.*" postag_regexp="yes"/>
+                    <phraseref idref="_GN_SINGULAR"/>
+                    <token regexp="yes" min="0">["«“‘']</token>
+                    <marker>
+                        <token postag="VMIS1S0" regexp="yes">crie|fie|guie|lie</token>
+                    </marker>
+                </pattern>
+                <message>El verbo <match no="4"/> está en pasado, probablemente es presente de subjuntivo con tilde.</message>
+                <suggestion><match no="4" regexp_match="(?iu)(.*)ie" regexp_replace="$1íe"/></suggestion>
+                <example correction="guíe">Necesitamos que el taxi <marker>guie</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SE" name="se/sé" default="on">
             <rule>
                 <antipattern>
@@ -2556,6 +2609,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Él era el más seguro de sí mismo.</example>
                 <example>En el este existe un conjunto de grupos.</example>
                 <example>fijar el tanto por ciento</example>
+                <example>El vino 3 tiene nariz balsámica.</example>
+                <example>Como el vino los amores.</example>
             </rule>
             <rule id="TU_TILDE" name="tu / tú">
                 <antipattern>
@@ -3915,6 +3970,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Aunque se haya siempre pensado así.</example>
                 <example>Aunque se hayan hecho siempre así.</example>
                 <example>Cuando los transportes se hayan de realizar.</example>
+                <example>lo que probablemente se haya debido a la reducción de tamaño</example>
             </rule>
             <rule>
                 <antipattern>
@@ -4399,6 +4455,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="para qué tengo|para que tenga">Y <marker>para que tengo</marker> buenos resultados.</example>
                 <example correction="para qué sirve|para que sirva">Me gustaría saber <marker>para que sirve</marker> esto.</example>
                 <example correction="para qué vino">Si la Ley era buena, <marker>para que vino</marker> el Señor a morir.</example>
+                <example correction="para qué vas|para que vayas">Justifica siempre <marker>para que vas</marker> a utilizar el crédito</example>
                 <example>Para que podamos ganar más.</example>
                 <example>Para que así podamos salir.</example>
                 <example>han desarrollado un sistema para que marcas e influencers identifiquen sus posts</example>
@@ -6601,7 +6658,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>En el La a 440 Hz.</example>
                 <example>En el La 440 Hz.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>el</token>

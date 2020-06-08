@@ -762,7 +762,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token>vino</token>
+                    <token>vino<exception scope="previous" postag="D..MS." postag_regexp="yes"/></token>
                 </marker>
                 <token postag="D.*" postag_regexp="yes"/>
             </pattern>
@@ -953,6 +953,16 @@ Copyright (C) 2011 Juan Martorell
             <wd pos="_GN_FS"/>
             <wd pos="_GN_FS"/>
         </disambig>
+    </rule>
+    <rule id="DEBER" name="deber (verb)">
+        <pattern>
+            <marker>
+                <token inflected="yes">deber</token>
+            </marker>
+            <token min="0">de</token>
+            <token postag="V.N.*" postag_regexp="yes"/>
+        </pattern>
+        <disambig action="filter" postag="V.*"/>
     </rule>
 
     <rule id="E_CONJ" name="e (conjunción">
