@@ -6289,6 +6289,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="вжили серйозних заходів"><marker>вжили серйозні міри</marker></example>
     </rule>
 
+    <rule id="nest_chysla" name="Несть числа">
+      <pattern>
+        <token>несть</token>
+        <token postag_regexp="yes" postag="noun.*?:p:v_dav.*" min="0"/>
+        <token>числа</token>
+      </pattern>
+      <message>Правильно: <suggestion>нема (немає) ліку <match no="2"/></suggestion></message>
+      <suggestion>без ліку (безліч) <match no="2" postag_regexp="yes" postag="(noun.*?:p:)v_dav(.*)" postag_replace="$1v_rod$2"/></suggestion>
+      <suggestion>сила-силенна (сила-силюща, силеча) <match no="2" postag_regexp="yes" postag="(noun.*?:p:)v_dav(.*)" postag_replace="$1v_rod$2"/></suggestion>
+      <example correction="нема (немає) ліку їм|без ліку (безліч) них|без ліку (безліч) їх|сила-силенна (сила-силюща, силеча) них|сила-силенна (сила-силюща, силеча) їх"><marker>несть їм числа</marker></example>
+    </rule>
+
     <rule id="budte_dobri" name="Будьте добрі">
       <pattern>
         <token>будьте</token>

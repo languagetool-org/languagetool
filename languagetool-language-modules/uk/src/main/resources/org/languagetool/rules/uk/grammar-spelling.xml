@@ -1153,6 +1153,49 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Джексона — Веніка">поправка <marker>Джексона-Веніка</marker>.</example>
     </rule>
 
+    <rulegroup id="skladni_neozhacheni_zaymennyky" name="Складні неозначені займенники">
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">бо|чорт</token>
+            <token>зна</token>
+            <token inflected="yes" regexp="yes">котрий|чий|який|хто|що|де|як|коли|куди|звідки</token>
+          </marker>
+        </pattern>
+        <message>Орфографічна помилка</message>
+        <suggestion><match no="1"/><match no="2"/>-<match no="3"/></suggestion>
+        <example correction="бозна-якому"><marker>бо зна якому</marker></example>
+        <example>бозна в якому</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token regexp="yes">казна|хтозна</token>
+            <token inflected="yes" regexp="yes">котрий|чий|який|хто|що|де|як|коли|куди|звідки</token>
+          </marker>
+        </pattern>
+        <message>Орфографічна помилка</message>
+        <suggestion><match no="1"/>-<match no="2"/></suggestion>
+        <example correction="казна-якому"><marker>казна якому</marker></example>
+        <example>казна щомісяця одержуватиме</example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>хто</token>
+            <token>зна</token>
+            <token inflected="yes" regexp="yes">котрий|чий|який|хто|що|де|як|коли|куди|звідки</token>
+          </marker>
+        </pattern>
+        <message>Орфографічна помилка</message>
+        <suggestion><match no="1"/><match no="2"/>-<match no="3"/></suggestion>
+        <example correction="хтозна-що"><marker>хто зна що</marker></example>
+        <example>і хтозна, що діятиметься</example>
+      </rule>
+    </rulegroup>
+
 <!-- 
     з пробілом: ДСТУ 3582-97 (1997) http://www.stu.cn.ua/media/files/pdf/DSTU_3582-97.pdf
     без пробіла: ДСТУ 3582-13 (2013) http://lib.npu.edu.ua/full_txt/DSTU_3582_2013.pdf
