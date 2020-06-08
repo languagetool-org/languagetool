@@ -118,6 +118,8 @@ public class TokenAgreementPrepNounRuleTest {
     assertEmptyMatch("Вони замість Андрій вибрали Юрій");
     assertEmptyMatch("час від часу нам доводилось");
     assertEmptyMatch("ні до чого доброго силові дії не призведуть");
+    
+    assertEmptyMatch("у святая святих");
 //    assertEmptyMatch("Імена від Андрій до Юрій");  // називний між від і до рідко зустрічається але такий виняток ховає багато помилок 
 
 //    assertEmptyMatch("як у Конана Дойла")).length); //TODO

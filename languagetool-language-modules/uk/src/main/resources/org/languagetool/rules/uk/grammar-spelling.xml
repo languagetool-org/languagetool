@@ -286,8 +286,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ']+</token>
       </antipattern>
       <pattern>
-        <token postag_regexp="yes" postag="verb.*?subst.*">
-          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?subst.*|SENT_END|PARA_END"/>
+        <token postag_regexp="yes" postag="verb.*?:p:1:subst.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:p:1:subst.*|SENT_END|PARA_END"/>
         </token>
       </pattern>
       <message>Форми теп. і майб. ч. на -м(ся) є просторічними. Нормативними є форми на -мо: <suggestion><match no="1" regexp_match="^(.*?)(ся)?$" regexp_replace="$1о$2"/></suggestion></message>
@@ -298,6 +298,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Скажемо">…<marker>Скажем</marker> їм.</example>
       <example>прозвали Сергієм Підрахуєм</example>
       <example>В.Кукольником, П.Подієм, І.Орлом</example>
+      <example>хотять</example>
+    </rule>
+
+    <rule id="VERB_SUBSTANDARD_FORMS_2" name="Просторічні форми 2">
+      <pattern>
+        <token postag_regexp="yes" postag="verb.*?:p:3:subst.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag="verb.*?:p:3:subst.*|SENT_END|PARA_END"/>
+        </token>
+      </pattern>
+      <message>Ця дієслівна форма є просторічною</message>
+      <example correction="">щось <marker>хотять</marker>.</example>
     </rule>
 
     <rulegroup id="DIGITS_AND_LETTERS" name="Цифри та літери">
@@ -1297,6 +1308,5 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>20 ОС</example>
     </rule>
   </category>
-
 
 </rules>

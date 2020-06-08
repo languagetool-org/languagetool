@@ -106,7 +106,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
         </pattern>
-        <message>Дієслово після модального слова має йти інфінітивом: <suggestion><match no="5" postag_regexp="yes" postag="verb.*:inf.*"/></suggestion></message>
+        <message>Дієслово після модального слова має йти інфінітивом: <suggestion><match no="5" postag_regexp="yes" postag="verb.*:inf(?!.*short).*"/></suggestion></message>
         <example correction="писати">Треба <marker>писав</marker>.</example>
         <example correction="писати">Треба не <marker>писав</marker>.</example>
         <example correction="сподіватись|сподіватися">І тому варто <marker>сподіваюся</marker>, що це спрацює.</example>
@@ -164,7 +164,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
         </pattern>
-        <message>Дієслово після модального слова має йти інфінітивом: <suggestion><match no="4" postag_regexp="yes" postag="verb.*:inf.*"/></suggestion></message>
+        <message>Дієслово після модального слова має йти інфінітивом: <suggestion><match no="4" postag_regexp="yes" postag="verb.*:inf(?!.*short).*"/></suggestion></message>
         <example correction="писати">Мусять <marker>писали</marker>.</example>
         <example correction="пищати">Маємо не <marker>пищали</marker>.</example>
         <example correction="спинитись|спинитися">І тому він має <marker>спинилися</marker>.</example>
@@ -203,7 +203,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
         </pattern>
-        <message>Дієслово після модального слова має йти інфінітивом: <suggestion><match no="4" postag_regexp="yes" postag="verb.*:inf.*"/></suggestion></message>
+        <message>Дієслово після модального слова має йти інфінітивом: <suggestion><match no="4" postag_regexp="yes" postag="verb.*:inf(?!.*short).*"/></suggestion></message>
         <example correction="працювати">Вони не бажали <marker>працювали</marker>.</example>
         <example correction="стріляти">Вони благали не <marker>стрілятимуть</marker>.</example>
         <!-- TODO:
@@ -227,7 +227,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </token>
           </marker>
         </pattern>
-        <message>Дієслово після модального слова має йти інфінітивом: <suggestion><match no="5" postag_regexp="yes" postag="verb.*:inf.*"/></suggestion></message>
+        <message>Дієслово після модального слова має йти інфінітивом: <suggestion><match no="5" postag_regexp="yes" postag="verb.*:inf(?!.*short).*"/></suggestion></message>
         <example correction="писати">Повинен <marker>писатиме</marker>.</example>
         <example correction="плакати">Повинна не <marker>плакатиме</marker>.</example>
         <example correction="писати">Повинен би був <marker>писатиме</marker>.</example>
@@ -1054,8 +1054,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>пів</token>
           <token postag_regexp="yes" postag="adj:f:v_rod.*" regexp="yes" inflected="yes">&hours;</token>
         </pattern>
-        <message>Правильно: <suggestion>(о) пів на <match no="2" postag_regexp="yes" postag="adj:f:v_zna.*"/></suggestion></message>
-        <suggestion>(о) пів до <match no="2" postag_regexp="yes" postag="adj:f:v_rod.*"/></suggestion>
+        <message>Правильно: <suggestion>(о) пів на <match no="2" postag_regexp="yes" postag="adj:f:v_zna(?!.*long).*"/></suggestion></message>
+        <suggestion>(о) пів до <match no="2" postag_regexp="yes" postag="adj:f:v_rod(?!.*long).*"/></suggestion>
         <example correction="(о) пів на першу|(о) пів до першої"><marker>пів першої</marker> приїхав і він</example>
         <example>пів на першу приїхав і він</example>
       </rule>
@@ -1198,7 +1198,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </pattern>
         <!-- TODO: use java code to get previous hour?? -->
         <message>Правильно: <suggestion>по [<match no="3" postag_regexp="yes" postag="adj:f:v_mis.*"/> - 1 година]</suggestion></message>
-        <suggestion>на <match no="3" postag_regexp="yes" postag="adj:f:v_zna.*"/></suggestion>
+        <suggestion>на <match no="3" postag_regexp="yes" postag="adj:f:v_zna(?!.*long).*"/></suggestion>
         <example correction="по [третій - 1 година]|на третю">п'ять хвилин <marker>третьої</marker></example>
         <example correction="по [дев'ятій - 1 година]|на дев'яту">5 хвилин <marker>дев'ятої</marker></example>
         <example correction="по [сьомій - 1 година]|на сьому">двадцять п'ять хвилин <marker>сьомої</marker></example>

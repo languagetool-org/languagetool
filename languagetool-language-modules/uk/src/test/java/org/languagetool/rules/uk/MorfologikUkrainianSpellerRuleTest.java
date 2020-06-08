@@ -97,9 +97,8 @@ public class MorfologikUkrainianSpellerRuleTest {
     assertEquals(0, matches.length);
 
     // розмовний інфінітив
-    matches = rule.match(langTool.getAnalyzedSentence("писать"));
-
-    assertEquals(1, matches.length);
+//    matches = rule.match(langTool.getAnalyzedSentence("треба писать"));
+//    assertEquals(0, matches.length);
 
     // abbreviations
 

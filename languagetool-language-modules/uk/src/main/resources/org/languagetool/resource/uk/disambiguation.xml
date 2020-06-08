@@ -1078,9 +1078,9 @@
       </marker>
       <token>з</token>
     </pattern>
-    <disambig action="remove" postag="adv"></disambig>
+    <disambig action="remove" postag="adv:compb"></disambig>
     <example type="ambiguous"
-        inputform="Згідно[згідно/adv]"
+        inputform="Згідно[згідно/adv:compb]"
         outputform="Згідно[Згідно]"><marker>Згідно</marker> з правилом.</example>
     <example type="untouched">Вони жили згідно.</example>
   </rule>
@@ -2734,21 +2734,56 @@
     <example type="untouched">д.м.н.</example>
   </rule>
 
+<!-- TODO: забути/забувши взять -->
+
+  <rule name="Розмовні форми інфінітиву" id="verb_inf_short_1">
+    <antipattern>
+      <token regexp="yes" inflected="yes" postag_regexp="yes" postag="verb.*|.*predic.*|adj:.:v_naz.*">треба|можна|повинно|мусити|мати|з?могти|с?хотіти|довестися|бажати|стати|наважитися|довестися|повинний|ладний|бути|варто|годі</token>
+      <token min="0"/>
+      <token postag_regexp="yes" postag="verb.*?:inf.*:short.*"/>
+    </antipattern>
+    <antipattern>
+      <token postag_regexp="yes" postag="verb.*?:inf.*:short.*"/>
+      <token min="0"/>
+      <token regexp="yes" inflected="yes" postag_regexp="yes" postag="verb.*|.*predic.*|adj:.:v_naz.*">треба|можна|повинно|мусити|мати|з?могти|с?хотіти|довестися|бажати|стати|наважитися|довестися|повинний|ладний|бути|варто|годі</token>
+    </antipattern>
+    <pattern>
+      <token></token>
+      <marker>
+        <and>
+          <token postag_regexp="yes" postag="verb.*?:inf:short.*"/>
+          <token negate_pos="yes" postag_regexp="yes" postag="verb.*:inf:short.*|SENT.*"/>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="remove" postag="verb.*?:inf:short.*"/>
+    <example type="ambiguous" 
+        inputform="довірять[довірити/verb:perf:futr:p:3,довіряти/verb:imperf:inf:short]" 
+        outputform="довірять[довірити/verb:perf:futr:p:3]">вони <marker>довірять</marker>.</example>
+    <example type="untouched">Він поїхав гулять.</example>
+    <example type="untouched">треба б довірять.</example>
+    <example type="untouched">довірять не треба</example>
+    <example type="untouched">має знаходиться</example>
+    <example type="untouched">повинні знаходиться</example>
+    <example type="untouched">писать</example>
+  </rule>
+
+
   <!--
   <rule name="Розмовні форми інфінітиву (лишити)" id="VERB_INF_COLL_LEAVE">
     <pattern>
       <token></token>
       <marker>
           <and>
-      <token postag_regexp="yes" postag="verb.*:inf.*:coll.*"/>
-      <token negate_pos="yes" postag_regexp="yes" postag="verb.*:inf.*:coll.*"/>
+      <token postag_regexp="yes" postag="verb.*:inf.*:short.*"/>
+      <token negate_pos="yes" postag_regexp="yes" postag="verb.*:inf.*:short.*"/>
           </and>
       </marker>
     </pattern>
-    <disambig postag="verb.*:inf.*:coll.*"/>
+    <disambig postag="verb.*:inf.*:short.*"/>
     <example type="ambiguous" 
-        inputform="довірять[довіряти/verb:imperf:inf:coll,довірити verb:perf:futr:p:3]" 
-        outputform="довірять[довіряти/verb:imperf:inf:coll]">воно повинно <marker>довірять</marker>.</example>
+        inputform="довірять[довіряти/verb:imperf:inf:short,довірити verb:perf:futr:p:3]" 
+        outputform="довірять[довіряти/verb:imperf:inf:short]">воно повинно <marker>довірять</marker>.</example>
     <example type="untouched">Він поїхав гулять.</example>
     <example type="untouched">Дурити не гарно.</example>
   </rule>
@@ -2756,13 +2791,13 @@
   <rule name="Розмовні форми інфінітиву (прибрати)" id="VERB_INF_COLL_REMOVE">
     <pattern>
           <and>
-      <token postag_regexp="yes" postag="verb.*:inf.*:coll.*"/>
-      <token negate_pos="yes" postag_regexp="yes" postag="verb.*:inf.*:coll.*"/>
+      <token postag_regexp="yes" postag="verb.*:inf.*:short.*"/>
+      <token negate_pos="yes" postag_regexp="yes" postag="verb.*:inf.*:short.*"/>
           </and>
     </pattern>
-    <disambig action="remove" postag="verb.*:inf.*:coll.*"/>
+    <disambig action="remove" postag="verb.*:inf.*:short.*"/>
     <example type="ambiguous" 
-        inputform="бурить[бурити/verb:imperf:inf:coll,бурити/verb:imperf:pres:s:3]" 
+        inputform="бурить[бурити/verb:imperf:inf:short,бурити/verb:imperf:pres:s:3]" 
         outputform="бурить[бурити/verb:imperf:pres:s:3]">Він <marker>бурить</marker>.</example>
     <example type="untouched">Він поїхав гулять.</example>
     <example type="untouched">Дурити не гарно.</example>

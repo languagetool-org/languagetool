@@ -199,7 +199,7 @@ public class TokenAgreementNounVerbRuleTest {
     assertEmptyMatch("Я уявити себе не можу без нашої програми.");
     assertEmptyMatch("ми розраховувати не повинні");
     assertEmptyMatch("Хотів би я подивитися");
-    assertEmptyMatch("на останніх ми працювати не згодні");
+    assertEmptyMatch("на останніх ми працювати не згідні");
     assertMatches(1, "на останніх ми працювати не питаючи нікого");
     assertEmptyMatch("те, чого я слухати не дуже хочу");
     assertEmptyMatch("чи гідні ми бути незалежними");

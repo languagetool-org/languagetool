@@ -128,6 +128,11 @@ public class TokenAgreementPrepNounExceptionHelper {
         return new RuleException(1);
       }
 
+      if( token.equals("святая")
+          && tokens[i+1].getToken().equals("святих") ) {
+        return new RuleException(Type.exception);
+      }
+
       if( (prep.equalsIgnoreCase("через") || prep.equalsIgnoreCase("на"))  // років 10, відсотки 3-4
           && (PosTagHelper.startsWithPosTag2(tokenReadings.getReadings(), "noun:inanim:p:v_naz") 
               || PosTagHelper.startsWithPosTag2(tokenReadings.getReadings(), "noun:inanim:p:v_rod")) // token.equals("років") 
