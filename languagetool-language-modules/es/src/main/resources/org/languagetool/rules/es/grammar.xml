@@ -1019,7 +1019,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="NCMS.*" postag_regexp="yes"/>
                     <marker>
-                        <token><exception regexp="yes">solicito|indico|vienes</exception></token>
+                        <token><exception regexp="yes">solicito|indico|vienes|verifico</exception></token>
                     </marker>
                 </pattern>
                 <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:A.* gendernumber_from:1"/>
@@ -1032,6 +1032,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Pero al mismo tiempo indico que no puede ser</example>
                 <example>En su lugar decimos esto.</example>
                 <example>El semáforo indica la luz amarilla.</example>
+                <example>Con gusto verifico su informe.</example>
             </rule>
             <rule>
                 <!-- de forma integra -->
@@ -1110,7 +1111,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- ha sido más explicito -->
                 <pattern>
-                    <token inflected="yes" regexp="yes">estar|ser|hacer</token>
+                    <token inflected="yes" regexp="yes">estar|ser|hacer<exception postag="_GN_MS"></exception></token>
                     <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                     <marker>
                         <token><exception postag="RG|LOC_ADV|[NA].*" postag_regexp="yes"/></token>
@@ -1123,6 +1124,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="explícito">Fue <marker>explicito</marker>.</example>
                 <example correction="explícito">Fue mucho más <marker>explicito</marker>.</example>
                 <example>Ella es demasiado baja.</example>
+                <example>En el estado opera el nepotismo.</example>
             </rule>
         </rulegroup>
         <rule id="DIACRITICS_CONDICIONAL" name="secundaria/secundaría">
@@ -1365,7 +1367,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <and>
                             <token postag="VMIP1S0" regexp="yes">.+o<exception postag="V...3.*|C.*|SP.*|V.G.*|[ANCR].*" postag_regexp="yes"/></token>
-                            <token inflected="yes" regexp="yes">.+ar</token>
+                            <token inflected="yes" regexp="yes">.+ar<exception inflected="yes" regexp="yes">.+ir</exception></token>
                         </and>
                     </marker>
                 </pattern>
@@ -1377,6 +1379,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El jueves hablo con él.</example>
                 <example>Mañana hablo con ella.</example>
                 <example>El objetivo creo que ha quedado claro.</example>
+                <example>Un grande gozo siento en mí.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SE_FIE" name="confusión: se fie/fíe" default="temp_off">
