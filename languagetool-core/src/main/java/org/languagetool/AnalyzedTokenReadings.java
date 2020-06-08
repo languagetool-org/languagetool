@@ -521,6 +521,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       }
       if (posTag != null) {
         hasNoPOStag = false;
+        break;
       }
     }
     for (AnalyzedToken an: anTokReadings) {
