@@ -12180,7 +12180,7 @@ USA
                         <exception postag="VBD|MD" postag_regexp="yes" />
                     </token>
                 </marker>
-                <token min="0" regexp="yes">so|very|really|not|totally|even|pretty|absolutely|still|extremely|kinda|almost</token>
+                <token min="0" regexp="yes">so|very|really|not|totally|even|pretty|absolutely|still|extremely|kinda|almost|too</token>
                 <token regexp="yes">&short_adjectives;|&optional_short_adjectives;|awesome|beautiful|ready|(im)?possible|different|wrong|fine|ok(ay)?|(al)?right|available|ready|dangerous|enough|sexy|delicious|excellent|annoying|(in)?correct</token>
                 <token postag="CC|PCT|IN|SENT_END" postag_regexp="yes" />
             </pattern>
@@ -12191,6 +12191,19 @@ USA
             <example correction="holds">This probably <marker>hold</marker> true for all doctors.</example>
             <example>That man left before I could get his name.</example>
             <example>THIS TIME OFF.</example>
+        </rule>
+        <rule id="SOUND_GREAT" name="Sound (sounds) great" default="temp_off">
+            <pattern>
+                <token postag="SENT_START" />
+                <marker>
+                    <token regexp="yes">sound|seem|look</token>
+                </marker>
+                <token min="0" regexp="yes">so|very|really|not|totally|even|pretty|absolutely|still|extremely|kinda|almost|too</token>
+                <token regexp="yes">&short_adjectives;|&optional_short_adjectives;|awesome|beautiful|ready|(im)?possible|different|wrong|fine|ok(ay)?|(al)?right|available|ready|dangerous|enough|sexy|delicious|excellent|annoying|(in)?correct</token>
+                <token regexp="yes">to|for|\.|!|,|because|but|in|on|with(out)?|t?here</token>
+            </pattern>
+            <message>Did you mean <suggestion><match no="2" postag="VBZ" /></suggestion>?</message>
+            <example correction="Sounds"><marker>Sound</marker> great!</example>
         </rule>
         <rule id="STEP_COMPOUNDS" name="step father (stepfather)">
             <pattern>
