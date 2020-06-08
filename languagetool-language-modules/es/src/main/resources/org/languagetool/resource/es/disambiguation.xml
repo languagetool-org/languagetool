@@ -1760,11 +1760,18 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="unify"/>
     </rule>
-
-
     <!-- END: nominal groups -->
 
     <rulegroup id="PREPOSICIONES" name="preposiciones">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="AQ0MS0">salvo</token>
+                </marker>
+                <token postag="V.I.*" postag_regexp="yes" inflected="yes">ser</token>
+            </pattern>
+            <disambig action="remove" postag="SPS00"></disambig>
+        </rule>
         <rule>
             <pattern>
                 <marker>
