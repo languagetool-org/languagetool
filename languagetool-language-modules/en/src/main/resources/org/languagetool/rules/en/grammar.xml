@@ -31815,8 +31815,13 @@ USA
                     <token>others</token><!-- Missing apostrophe, but that is a different problem -->
                     <token postag="JJS"/>
                 </antipattern>
+                <antipattern><!-- #3037 deepest/darkest secret -->
+                    <token postag="JJS"/>
+                    <token>/</token>
+                    <token postag="JJS"/>
+                </antipattern>
                 <pattern>
-                    <token><exception postag="PRP\$|WP\$|DT|JJ|C[CD]|:|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">['’…]</exception><exception>at</exception></token>
+                    <token><exception postag="PRP\$|WP\$|DT|JJS?|C[CD]|:|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">['’…]</exception><exception>at</exception></token>
                     <marker>
                         <token postag="JJS">
                             <exception regexp="yes">most|least|best|dearest</exception>
@@ -31846,6 +31851,9 @@ USA
                 <example>... the northern region worst hit by the outbreak...</example><!-- #2731 -->
                 <example>He sorted it from largest to smallest categories.</example>
                 <example>Students were often each others worst enemies when discussing their experiences</example><!-- #2684. Incorrect grammar, should be "each other's worst" -->
+                <example>What's your deepest darkest secret?</example><!-- #3037 -->
+                <example>What's your deepest/darkest secret?</example><!-- #3037 -->
+                <example>Please order by the most/least expensive</example><!-- #3037 -->
             </rule>
             <rule>
                 <antipattern>
