@@ -6375,6 +6375,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="I-NP-singular" postag="JJ"/>
             <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
         </antipattern>
+        <antipattern><!--  #3037 our economic best interest -->
+            <token postag="PRP$"/>
+            <token chunk="I-NP-singular" postag="JJ"/>
+            <token chunk="I-NP-singular" postag="JJS"/>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+        </antipattern>
         <pattern>
             <token postag="PRP$"/>
             <marker>
@@ -6392,6 +6398,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Adjective: The national team plays its <marker>home</marker> games at the Ghazi Stadium in Kabul.</example>
         <example type="untouched">His last view of the land he had inhabited was by moonlight...</example><!-- Chunker error: view/E-NP-plural -->
         <example type="untouched">I really like our great team</example><!-- #2441 -->
+        <example type="untouched">It is in our economic best interest.</example><!-- #3037 -->
         <example type="ambiguous" inputform="sister[sister/JJ,sister/NN]" outputform="sister[sister/NN]">I hope my <marker>sister</marker> takes her driving test soon.</example>
     </rule>
 
