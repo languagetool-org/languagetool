@@ -191,25 +191,43 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
         <rulegroup id="AL_IGUAL_QUE" name="al igual *de/*a/que">
             <url>https://www.fundeu.es/recomendacion/al-igual-que-no-al-igual-de-ni-al-igual-a/</url>
+            <antipattern>
+                <token>a</token>
+                <token postag="D.*" postag_regexp="yes"><exception>lo</exception></token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>al</token>
                     <token>igual</token>
-                    <token regexp="yes">de|a</token>
+                    <token>de</token>
                 </pattern>
-                <message>Expresión incorrecta.</message>
+                <message>Expresión desaconsejable.</message>
                 <suggestion>al igual que</suggestion>
-                <example correction="al igual que">Lo hizo <marker>al igual a</marker> otros.</example>
+                <example correction="al igual que">Lo hizo <marker>al igual de</marker> Corea.</example>
+                <example>Al igual a mi papito y mis hermanos</example>
+                <example>Lo hizo al igual a otros.</example>
             </rule>
             <rule>
                 <pattern>
                     <token>al</token>
                     <token>igual</token>
-                    <token regexp="yes">del|al</token>
+                    <token>del</token>
                 </pattern>
-                <message>Expresión incorrecta.</message>
+                <message>Expresión desaconsejable.</message>
                 <suggestion>al igual que el</suggestion>
                 <example correction="al igual que el">Lo hizo <marker>al igual del</marker> otro.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>al</token>
+                    <token>igual</token>
+                    <token regexp="yes">de|a</token>
+                    <token>lo</token>
+                    <token>que</token>
+                </pattern>
+                <message>Expresión desaconsejable.</message>
+                <suggestion>al igual que</suggestion>
+                <example correction="al igual que">Lo hizo <marker>al igual a lo que</marker> hizo el otro.</example>
             </rule>
         </rulegroup>
         <rulegroup id="HOLA_COMO_ESTAS" name="Hola, ¿cómo estás?">
@@ -1324,6 +1342,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="determinó">Nos <marker>determino</marker> el resultado.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>creo</token>
+                    <token>que</token>
+                </antipattern>
                 <pattern>
                     <token postag="SENT_START"/>
                     <phraseref idref="_GN_SINGULAR"/>
@@ -1342,6 +1364,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Siempre colaboro con la policía.</example>
                 <example>El jueves hablo con él.</example>
                 <example>Mañana hablo con ella.</example>
+                <example>El objetivo creo que ha quedado claro.</example>
             </rule>
         </rulegroup>
         <rulegroup id="SE_FIE" name="confusión: se fie/fíe" default="temp_off">
@@ -2571,6 +2594,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="él">Si <marker>el</marker> pregunta, yo respondo.</example>
                 <example correction="él">¿Por qué <marker>el</marker> no vino con nosotros?</example>
                 <example correction="él">Esto queda entre <marker>el</marker> y yo.</example>
+                <example correction="él">Vivimos en <marker>el</marker> pero hay que saber respetar al resto.</example>
                 <example>Me gusta el que tienes.</example>
                 <example>El E y el Y.</example>
                 <example>El bien conocido cantautor.</example>
@@ -5847,6 +5871,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>concordancia gramatical</message>
                 <suggestion>las</suggestion>
                 <example correction="las">Cumplir dos de <marker>los</marker> tres preguntas.</example>
+                <example correction="las">Puede dar <marker>los</marker> cinco ideas nuevas.</example>
                 <example>¿Cuál de los dos eres?</example>
             </rule>
             <rule id="ALGUNA_OTRO" name="'alguna otro' -&gt; 'alguna otra'">
@@ -6639,36 +6664,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="EL_LA_EN_LA" name="*el/en la" default="on">
             <antipattern>
                 <token skip="2">la</token>
-                <token regexp="yes">44[0-9](Hz)?</token>
+                <token regexp="yes">44[0-9](Hz)?|agudo|sobreagudo|grave|sobregrave|diapasón</token>
             </antipattern>
             <rule>
                 <pattern>
-                    <marker>
-                        <token>el</token>
-                    </marker>
-                    <token postag="_GN_F." postag_regexp="yes" regexp="yes">la|las</token>
+                    <token>en</token>
+                    <token>el</token>
+                    <token>la</token>
                 </pattern>
-                <message>Posible confusión.</message>
-                <suggestion>en</suggestion>
-                <example correction="en">Fue <marker>el</marker> la plaza.</example>
-                <example correction="en">Viven <marker>el</marker> las calles.</example>
-                <example>El la del diapasón.</example>
-                <example>El la sobreagudo.</example>
-                <example>En el La a 440Hz.</example>
-                <example>En el La a 440 Hz.</example>
-                <example>En el La 440 Hz.</example>
+                <message>Posible confusión</message>
+                <suggestion>en el</suggestion>
+                <suggestion>en la</suggestion>
+                <example correction="en el|en la">Pesco <marker>en el la</marker> represa.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
                         <token>el</token>
                     </marker>
-                    <token postag="_GN_M." postag_regexp="yes" regexp="yes">la|las</token>
-                    <token postag="_GN_F." postag_regexp="yes"/>
+                    <token regexp="yes">la|las</token>
                 </pattern>
                 <message>Posible confusión.</message>
                 <suggestion>en</suggestion>
+                <example correction="en">Fue <marker>el</marker> la plaza.</example>
+                <example correction="en">Viven <marker>el</marker> las calles.</example>
                 <example correction="en">Ocurrió <marker>el</marker> la fecha histórica del 23 de abril.</example>
+                <example correction="en">estudiar doctorado <marker>el</marker> la rea de sociología.</example>
+                <example correction="en">usados <marker>el</marker> la práctica de karate</example>
                 <example>El la del diapasón.</example>
                 <example>El la sobreagudo.</example>
                 <example>En el La a 440Hz.</example>
@@ -6916,7 +6938,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>puesto</token>
             </antipattern>
             <antipattern>
-                <token skip="2" postag="SENT_START|_PUNCT.*" postag_regexp="yes"/>
+                <token skip="2" postag="SENT_START|_PUNCT.*" postag_regexp="yes"><exception>)</exception></token>
                 <token>puesto</token>
             </antipattern>
             <pattern>

@@ -1240,13 +1240,16 @@ Copyright (C) 2011 Juan Martorell
                     <feature id="numero"/>
                     <token postag="DA.*" postag_regexp="yes"><exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
                     <marker>
-                        <token postag="NC.*" postag_regexp="yes"/>
+                        <and>
+                            <token postag="NC.*" postag_regexp="yes"/>
+                            <token postag="V.[SI].*" postag_regexp="yes"/>
+                        </and>
                     </marker>
                 </unify>
                 <token min="0">no</token>
                 <token postag="V.*|AQ.*|&pronombre_personal_atono_POS;" postag_regexp="yes"/>
             </pattern>
-            <disambig action="filter" postag="NC.*"/>
+            <disambig action="remove" postag="V.[SI].*"/>
             <example type="untouched">Se la ve tranquila.</example>
         </rule>
         <rule>
@@ -1256,13 +1259,16 @@ Copyright (C) 2011 Juan Martorell
                     <feature id="numero"/>
                     <token postag="DA.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="NC.*" postag_regexp="yes"/>
+                        <and>
+                            <token postag="NC.*" postag_regexp="yes"/>
+                            <token postag="V.[SI].*" postag_regexp="yes"/>
+                        </and>
                     </marker>
                 </unify>
                 <token>de</token>
                 <token><exception regexp="yes">manera|forma</exception></token>
             </pattern>
-            <disambig action="filter" postag="NC.*"/>
+            <disambig action="remove" postag="V.[SI].*"/>
         </rule>
         <rule>
             <pattern>
@@ -1271,13 +1277,16 @@ Copyright (C) 2011 Juan Martorell
                     <feature id="numero"/>
                     <token postag="DA.*" postag_regexp="yes"/>
                     <marker>
-                        <token postag="NC.*" postag_regexp="yes"/>
+                        <and>
+                            <token postag="NC.*" postag_regexp="yes"/>
+                            <token postag="V.[SI].*" postag_regexp="yes"/>
+                        </and>
                     </marker>
                 </unify>
                 <token postag="SP.*" postag_regexp="yes"/>
                 <token>que</token>
             </pattern>
-            <disambig action="filter" postag="NC.*"/>
+            <disambig action="remove" postag="V.[SI].*"/>
         </rule>
         <rule>
             <pattern>
@@ -1290,7 +1299,7 @@ Copyright (C) 2011 Juan Martorell
                     </marker>
                 </unify>
             </pattern>
-            <disambig action="filter" postag="NC.*"/>
+            <disambig action="remove" postag="V.[SI].*"/>
         </rule>
     </rulegroup>
     <rulegroup id="que_la_saque" name="que + pronombre verbo 3a persona sing">
