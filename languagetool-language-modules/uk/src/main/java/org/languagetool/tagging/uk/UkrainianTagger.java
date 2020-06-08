@@ -26,7 +26,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.rules.uk.LemmaHelper;
 import org.languagetool.tagging.BaseTagger;
@@ -151,7 +150,7 @@ public class UkrainianTagger extends BaseTagger {
       }
       
       // try г instead of ґ
-      else if( word.contains("ґ") ) {
+      else if( word.contains("ґ") || word.contains("Ґ") ) {
         tokens = convertTokens(tokens, word, "ґ", "г", ":alt");
       }
       else if( word.contains("ія") ) {
@@ -220,6 +219,9 @@ public class UkrainianTagger extends BaseTagger {
 
   private List<AnalyzedToken> convertTokens(List<AnalyzedToken> origTokens, String word, String str, String dictStr, String additionalTag) {
     String adjustedWord = word.replace(str, dictStr);
+    if( str.length() == 1 ) {
+        adjustedWord = adjustedWord.replace(str.toUpperCase(), dictStr.toUpperCase());
+    }
 
     List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(word, adjustedWord, null, additionalTag,
         (lemma) -> lemma.replace(dictStr, str));
