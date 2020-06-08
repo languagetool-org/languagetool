@@ -250,6 +250,8 @@ public class English extends Language implements AutoCloseable {
     switch (id) {
       case "THE_INS_RULE": return 50; // higher priority for testing/evaluation; only activated by configuring remote rule
       case "CONFPAIRS_EN_GPT2": return 50; // higher priority for testing/evaluation; only activated by configuring remote rule
+      case "CONFPAIRS_EN_GPT2_L": return 50; // higher priority for testing/evaluation; only activated by configuring remote rule
+      case "CONFPAIRS_EN_GPT2_XL": return 50; // higher priority for testing/evaluation; only activated by configuring remote rule
       case "I_E":                       return 10; // needs higher prio than EN_COMPOUNDS ("i.e learning")
       case "MISSING_HYPHEN":            return 5;
       case "TRANSLATION_RULE":          return 5;   // Premium
@@ -390,11 +392,13 @@ public class English extends Language implements AutoCloseable {
         missingTheID, "the_ins_rule_description", missingTheMessages);
       rules.add(missingTheRule);
     }
-    String gpt2ConfpairID = "CONFPAIRS_EN_GPT2";
-    RemoteRuleConfig gpt2ConfpairConfig = RemoteRuleConfig.getRelevantConfig(gpt2ConfpairID, configs);
-    if (gpt2ConfpairConfig != null) {
-      Rule gpt2ConfpairRule = new GRPCConfusionRule(messageBundle, gpt2ConfpairConfig);
-      rules.add(gpt2ConfpairRule);
+    List<String> confpairRules = Arrays.asList("CONFPAIRS_EN_GPT2", "CONFPAIRS_EN_GPT2_L", "CONFPAIRS_EN_GPT2_XL");
+    for (String confpairID : confpairRules) {
+      RemoteRuleConfig confpairConfig = RemoteRuleConfig.getRelevantConfig(confpairID, configs);
+      if (confpairConfig != null) {
+        Rule confpairRule = new GRPCConfusionRule(messageBundle, confpairConfig);
+        rules.add(confpairRule);
+      }
     }
     return rules;
   }
