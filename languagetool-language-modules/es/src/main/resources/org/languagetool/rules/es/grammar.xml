@@ -213,15 +213,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="HOLA_COMO_ESTAS" name="Hola, ¿cómo estás?">
+            <antipattern>
+                <token>Hola</token>
+                <token regexp="yes">[,!]</token>
+                <token>¿</token>
+                <token>cómo</token>
+                <token regexp="yes">estás|está|estáis|están</token>
+                <token>?</token>
+            </antipattern>
+            <antipattern>
+                <token>Hola</token>
+                <token regexp="yes">[,!]</token>
+                <token>¿</token>
+                <token>cómo</token>
+                <token regexp="yes">estás|está|estáis|están</token>
+                <token>,</token>
+                <token postag="NP.*|N.*|A.*" postag_regexp="yes" min="1" max="3"/>
+                <token>?</token>
+            </antipattern>
             <rule>
-                <antipattern>
-                    <token>Hola</token>
-                    <token regexp="yes">[,!]</token>
-                    <token>¿</token>
-                    <token>cómo</token>
-                    <token regexp="yes">estás|está|estáis|están</token>
-                    <token>?</token>
-                </antipattern>
                 <pattern>
                     <token regexp="yes">hola|ola</token>
                     <token min="0" max="2" postag="_PUNCT.*" postag_regexp="yes"/>
@@ -236,16 +246,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hola, ¿cómo estáis?</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token>Hola</token>
-                    <token regexp="yes">[,!]</token>
-                    <token>¿</token>
-                    <token>cómo</token>
-                    <token regexp="yes">estás|está|estáis|están</token>
-                    <token>,</token>
-                    <token postag="NP.*|N.*|A.*" postag_regexp="yes" min="1" max="3"/>
-                    <token>?</token>
-                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">hola|ola</token>
@@ -262,16 +262,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Hola, ¿cómo estás,">"<marker>Ola, ¿cómo estas</marker> Jorge?</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token>Hola</token>
-                    <token regexp="yes">[,!]</token>
-                    <token>¿</token>
-                    <token>cómo</token>
-                    <token regexp="yes">estás|está|estáis|están</token>
-                    <token>,</token>
-                    <token postag="NP.*|N.*|A.*" postag_regexp="yes" min="1" max="3"/>
-                    <token>?</token>
-                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">hola|ola</token>
@@ -287,6 +277,113 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>Hola, ¿cómo <match no="4" regexp_match="(?iu)est[aá](i?s?n?)" regexp_replace="está$1"/>,</suggestion>
                 <example correction="Hola, ¿cómo estáis,">"<marker>Ola como estais,</marker> amigos?</example>
                 <example correction="Hola, ¿cómo estás,">"<marker>Ola, ¿cómo estas,</marker> Jorge?</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>cómo</token>
+                    <token regexp="yes">estás|está|estáis|están</token>
+                    <token>,</token>
+                    <token postag="NP.*|N.*|A.*" postag_regexp="yes" min="1" max="3"/>
+                    <token>?</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token min="0">¿</token>
+                        <token regexp="yes">como|cómo</token>
+                        <token regexp="yes">estás|estas|está|esta|estáis|estais|estan|están</token>
+                        <token min="0">,</token>
+                    </marker>
+                    <token postag="NP.*|N.*|A.*" postag_regexp="yes" min="1" max="3"/>
+                    <token>?</token>
+                </pattern>
+                <message>Faltan tildes o una coma.</message>
+                <suggestion>¿<match no="2" regexp_match="(?iu)c[oó]mo" regexp_replace="cómo" case_conversion="preserve"/> <match no="3" regexp_match="(?iu)est[aá](i?s?n?)" regexp_replace="está$1" case_conversion="alllower"/>,</suggestion>
+                <example correction="¿Cómo estáis,">"<marker>Como estais</marker> amigos?</example>
+                <example correction="¿Cómo estás,"><marker>¿Cómo estas</marker> Jorge?</example>
+                <example correction="¿Cómo está,"><marker>¿Cómo esta,</marker> Jorge?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">hola|ola</token>
+                        <token min="0" max="2" postag="_PUNCT.*" postag_regexp="yes"/>
+                        <token regexp="yes">como|cómo</token>
+                        <token regexp="yes">estás|estas|está|esta|estáis|estais|están|estan</token>
+                        <token postag="NP.*|N.*|A.*" postag_regexp="yes"/>
+                        <token postag="NP.*|N.*|A.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Error de ortografía.</message>
+                <suggestion>Hola, ¿cómo <match no="4" regexp_match="(?iu)est[aá](i?s?n?)" regexp_replace="está$1"/>, \5 \6?</suggestion>
+                <example correction="Hola, ¿cómo estáis, queridos amigos?">"<marker>Ola como estais queridos amigos</marker></example>
+                <example correction="Hola, ¿cómo estás, amigo Jorge?">"<marker>Ola, ¿cómo estas amigo Jorge</marker></example>
+                <example>Hola, ¿cómo estás, amigo Jorge?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">hola|ola</token>
+                        <token min="0" max="2" postag="_PUNCT.*" postag_regexp="yes"/>
+                        <token regexp="yes">como|cómo</token>
+                        <token regexp="yes">estás|estas|está|esta|estáis|estais|están|estan</token>
+                        <token postag="NP.*|N.*|A.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Error de ortografía.</message>
+                <suggestion>Hola, ¿cómo <match no="4" regexp_match="(?iu)est[aá](i?s?n?)" regexp_replace="está$1"/>, \5?</suggestion>
+                <example correction="Hola, ¿cómo estáis, amigos?">"<marker>Ola como estais amigos</marker></example>
+                <example correction="Hola, ¿cómo estás, Jorge?">"<marker>Ola, ¿cómo estas Jorge</marker></example>
+                <example>Hola, ¿cómo estás, Jorge?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">hola|ola</token>
+                        <token min="0" max="2" postag="_PUNCT.*" postag_regexp="yes"/>
+                        <token regexp="yes">como|cómo</token>
+                        <token regexp="yes">estás|estas|está|esta|estáis|estais|están|estan</token>
+                        <token>,</token> <!-- Bug: works with min="0" in the command-line, but tests fail-->
+                        <token postag="NP.*|N.*|A.*" postag_regexp="yes"/>
+                        <token postag="NP.*|N.*|A.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Error de ortografía.</message>
+                <suggestion>Hola, ¿cómo <match no="4" regexp_match="(?iu)est[aá](i?s?n?)" regexp_replace="está$1"/>, \6 \7?</suggestion>
+                <example correction="Hola, ¿cómo estáis, queridos amigos?">"<marker>Ola como estais, queridos amigos</marker></example>
+                <example correction="Hola, ¿cómo estás, amigo Jorge?">"<marker>Ola, ¿cómo estas, amigo Jorge</marker></example>
+                <example>Hola, ¿cómo estás, amigo Jorge?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">hola|ola</token>
+                        <token min="0" max="2" postag="_PUNCT.*" postag_regexp="yes"/>
+                        <token regexp="yes">como|cómo</token>
+                        <token regexp="yes">estás|estas|está|esta|estáis|estais|están|estan</token>
+                        <token>,</token> <!-- Bug: works with min="0" in the command-line, but tests fail-->
+                        <token postag="NP.*|N.*|A.*" postag_regexp="yes"/>
+                    </marker>
+                </pattern>
+                <message>Error de ortografía.</message>
+                <suggestion>Hola, ¿cómo <match no="4" regexp_match="(?iu)est[aá](i?s?n?)" regexp_replace="está$1"/>, \6?</suggestion>
+                <example correction="Hola, ¿cómo estáis, amigos?">"<marker>Ola como estais, amigos</marker></example>
+                <example correction="Hola, ¿cómo estás, Jorge?">"<marker>Ola, ¿cómo estas, Jorge</marker></example>
+                <example>Hola, ¿cómo estás, Jorge?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">hola|ola</token>
+                        <token min="0" max="2" postag="_PUNCT.*" postag_regexp="yes"/>
+                        <token regexp="yes">como|cómo</token>
+                        <token regexp="yes">estás|estas|está|esta|estáis|estais|estan|están</token>
+                    </marker>
+                </pattern>
+                <message>Error de ortografía</message>
+                <suggestion>Hola, ¿<match no="3" regexp_match="(?iu)c[oó]mo" regexp_replace="cómo" case_conversion="preserve"/> <match no="4" regexp_match="(?iu)est[aá](i?s?n?)" regexp_replace="está$1" case_conversion="alllower"/>?</suggestion>
+                <example correction="Hola, ¿cómo estás?"><marker>ola como estas</marker></example>
+                <example correction="Hola, ¿cómo estás?"><marker>hola como estas</marker></example>
+                <example>Hola, ¿cómo estás, Pedro?</example>
             </rule>
             <rule>
                 <pattern>
@@ -327,30 +424,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Hola,">"¿<marker>Ola</marker> quién es?"</example>
                 <example correction="Hola,">¡<marker>Ola</marker> quien va!</example>
                 <example>Ola de calor en la costa.</example>
-            </rule>
-            <rule>
-                <antipattern>
-                    <token>cómo</token>
-                    <token regexp="yes">estás|está|estáis|están</token>
-                    <token>,</token>
-                    <token postag="NP.*|N.*|A.*" postag_regexp="yes" min="1" max="3"/>
-                    <token>?</token>
-                </antipattern>
-                <pattern>
-                    <marker>
-                        <token min="0">¿</token>
-                        <token regexp="yes">como|cómo</token>
-                        <token regexp="yes">estás|estas|está|esta|estáis|estais|estan|están</token>
-                        <token min="0">,</token>
-                    </marker>
-                    <token postag="NP.*|N.*|A.*" postag_regexp="yes" min="1" max="3"/>
-                    <token>?</token>
-                </pattern>
-                <message>Faltan tildes o una coma.</message>
-                <suggestion>¿<match no="2" regexp_match="(?iu)c[oó]mo" regexp_replace="cómo" case_conversion="preserve"/> <match no="3" regexp_match="(?iu)est[aá](i?s?n?)" regexp_replace="está$1"/>,</suggestion>
-                <example correction="¿Cómo estáis,">"<marker>Como estais</marker> amigos?</example>
-                <example correction="¿Cómo estás,"><marker>¿Cómo estas</marker> Jorge?</example>
-                <example correction="¿Cómo está,"><marker>¿Cómo esta,</marker> Jorge?</example>
             </rule>
         </rulegroup>
         <rulegroup id="VALLA_VAYA" name="valla/vaya (ir)">
