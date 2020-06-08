@@ -187,6 +187,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="verano" type="incorrect">Este <marker>Verano</marker> me voy de vacaciones.</example>
             <example type="correct">Ha sido el <marker>invierno</marker> más frío que recuerdo.</example>
         </rule>
+        <rule id="HOMO" name="homo/Homo" default="temp_off">
+            <pattern>
+                <token case_sensitive="yes">homo</token>
+            </pattern>
+            <message>Se escribe con mayúscula.</message>
+            <suggestion>Homo</suggestion>
+            <example correction="Homo">Es propio del <marker>homo</marker> sapiens.</example>
+        </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
         <rulegroup id="AL_IGUAL_QUE" name="al igual *de/*a/que">
@@ -360,7 +368,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token min="0" max="2" postag="_PUNCT.*" postag_regexp="yes"/>
                         <token regexp="yes">como|cómo</token>
                         <token regexp="yes">estás|estas|está|esta|estáis|estais|están|estan</token>
-                        <token>,</token> <!-- Bug: works with min="0" in the command-line, but tests fail-->
+                        <token>,</token>
+                        <!-- Bug: works with min="0" in the command-line, but tests fail-->
                         <token postag="NP.*|N.*|A.*" postag_regexp="yes"/>
                         <token postag="NP.*|N.*|A.*" postag_regexp="yes"/>
                     </marker>
@@ -378,7 +387,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token min="0" max="2" postag="_PUNCT.*" postag_regexp="yes"/>
                         <token regexp="yes">como|cómo</token>
                         <token regexp="yes">estás|estas|está|esta|estáis|estais|están|estan</token>
-                        <token>,</token> <!-- Bug: works with min="0" in the command-line, but tests fail-->
+                        <token>,</token>
+                        <!-- Bug: works with min="0" in the command-line, but tests fail-->
                         <token postag="NP.*|N.*|A.*" postag_regexp="yes"/>
                     </marker>
                 </pattern>
@@ -6245,6 +6255,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="dedicación parcial|dedicación no exclusiva|a tiempo parcial"><marker>part-time</marker></example>
             </rule>
         </rulegroup>
+        <rulegroup id="PER_CAPITA" name="per cápita">
+            <rule>
+                <pattern>
+                    <token>per</token>
+                    <token>capita</token>
+                </pattern>
+                <message>Esta expresión latina se suele escribir adaptada (sin comillas ni cursiva).</message>
+                <suggestion>per cápita</suggestion>
+                <example correction="per cápita">La renta <marker>per capita</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>por</token>
+                    <token regexp="yes">capita|cápita</token>
+                </pattern>
+                <message>Esta expresión latina se suele escribir adaptada (sin comillas ni cursiva).</message>
+                <suggestion>per cápita</suggestion>
+                <example correction="per cápita">La renta <marker>por capita</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="COMPLEJIZAR" name="complejizar/complicar">
             <pattern>
                 <token inflected="yes">complejizar</token>
@@ -6297,6 +6327,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="En medio"><marker>Enmedio</marker> de la plaza.</example>
             <example>Moraleja de Enmedio.</example>
         </rule>
+        <rule id="APESAR" name="a pesar">
+            <pattern>
+                <token>apesar</token>
+            </pattern>
+            <message>Se escribe separado.</message>
+            <suggestion>a pesar</suggestion>
+            <example correction="A pesar"><marker>Apesar</marker> de todo, lo comprendo.</example>
+        </rule>
         <rulegroup id="ABREVIATURA_NUMERO" name="abreviatura de número">
             <rule>
                 <pattern>
@@ -6304,8 +6342,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>Abreviatura de 'número'.</message>
                 <suggestion>n.º</suggestion>
-                <example correction="n.º">Diario de la República <marker>n°</marker> 18</example>
-                <example correction="n.º">Diario de la República <marker>nº</marker> 18</example>
+                <suggestion>núm.</suggestion>
+                <suggestion>nro.</suggestion>
+                <example correction="n.º|núm.|nro.">Diario de la República <marker>n°</marker> 18</example>
+                <example correction="n.º|núm.|nro.">Diario de la República <marker>nº</marker> 18</example>
                 <example>n.º</example>
             </rule>
             <rule>
@@ -6317,6 +6357,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="n.º 18">Diario de la República <marker>n°18</marker>.</example>
                 <example correction="n.º 18">Diario de la República <marker>nº18</marker>.</example>
                 <example>n.º</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">num|núm</token>
+                    </marker>
+                    <token><exception>.</exception></token>
+                </pattern>
+                <message>Abreviatura de 'número'.</message>
+                <suggestion>núm.</suggestion>
+                <suggestion>n.º</suggestion>
+                <suggestion>nro.</suggestion>
+                <example correction="núm.|n.º|nro.">Diario de la República <marker>num</marker> 18.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">num</token>
+                        <token>.</token>
+                    </marker>
+                </pattern>
+                <message>Abreviatura de 'número'.</message>
+                <suggestion>núm.</suggestion>
+                <suggestion>n.º</suggestion>
+                <suggestion>nro.</suggestion>
+                <example correction="núm.|n.º|nro.">Diario de la República <marker>num.</marker> 18.</example>
             </rule>
         </rulegroup>
         <rule id="A_NIVEL_DE" name="a nivel de">
@@ -6974,6 +7040,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="2" regexp_match="(\d+)°" regexp_replace="$1.º"/></suggestion>
             <example correction="9.º">El <marker>9°</marker> clasificado</example>
         </rule>
+        <rulegroup id="DEGREE_CHAR" name="carácter equivocado de grados" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">.+º[CFKNSEW]</token>
+                    </marker>
+                </pattern>
+                <message>Carácter incorrecto para indicar grados.</message>
+                <suggestion><match no="1" regexp_match="º" regexp_replace=" °"/></suggestion>
+                <example correction="1 °C"><marker>1ºC</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">º[CFKNSEW]</token>
+                    </marker>
+                </pattern>
+                <message>Carácter incorrecto para indicar grados.</message>
+                <suggestion><match no="1" regexp_match="º" regexp_replace="°"/></suggestion>
+                <example correction="°C">1 <marker>ºC</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="SUPERINDEX" name="superíndices en unidades: m2/m²" default="on">
             <rule>
                 <pattern>

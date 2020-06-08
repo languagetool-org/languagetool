@@ -550,7 +550,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule id="numero_graus" name="grados">
             <pattern>
-                <token regexp="yes">[\d,. ]+[°′″‴][CFKNSEW]?</token>
+                <token regexp="yes">[\d,. ]+[º°′″‴][CFKNSEW]?</token>
             </pattern>
             <disambig action="replace">
                 <wd pos="NCMP000"/>
@@ -2168,7 +2168,19 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="V.M.*"/>
     </rule>
-
+    <rulegroup id="allowed_repetitions" name="allowed repetitions">
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">sapiens|muy</token>
+                </marker>
+                <token><match no="1"/></token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <!-- SOME EXTRA TAGGING -->
     <rulegroup id="reflexive_verb" name="reflexive verb">
         <rule>
