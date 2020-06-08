@@ -8006,9 +8006,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">J.r.me</token>
                 <token regexp="yes">(Boateng|Bonaparte|Kerviel|Lalande|Leroy|Cahuzac|Ferrari|Fernandez|Bel)s?</token>
             </pattern>
-            <message>Meinten Sie <suggestion>Jérôme <match no="2" case_conversion="startupper" /></suggestion> (= prominente Person)</message>
+            <message>Meinten Sie <suggestion>Jérôme <match no="2" case_conversion="startupper" /></suggestion> (= prominente Person)?</message>
+            <url>https://de.wikipedia.org/wiki/J%C3%A9r%C3%B4me_Boateng</url>
             <example correction="Jérôme Boateng"><marker>Jerome Boateng</marker> ist ein deutscher Fußballspieler.</example>
             <example>Jérôme Boatengs Karriere erreichte seinen Höhepunkt mit dem Gewinn der WM 2014.</example>
+        </rule>
+        <rule id="ILKAY_GUNDOGAN" name="İlkay Gündoğan">
+            <antipattern case_sensitive="yes">
+                <token>İlkay</token>
+                <token>Gündoğan</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Il?ka[iy]</token>
+                <token regexp="yes">G.ndo.ans?</token>
+            </pattern>
+            <message>Meinten Sie den Fußballer <suggestion>İlkay <match no="2" regexp_match="(?i).*an(s)?$" regexp_replace="Gündoğan" /></suggestion>?</message>
+            <url>https://de.wikipedia.org/wiki/%C4%B0lkay_G%C3%BCndo%C4%9Fan</url>
+            <example correction="İlkay Gündoğan"><marker>Ilkay Gündogan</marker> ist ein deutscher Fußballspieler.</example>
         </rule>
         <rule id="LEROY_SANE" name="Leroy Sané">
             <antipattern case_sensitive="yes">
