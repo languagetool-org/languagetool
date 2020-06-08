@@ -96,6 +96,77 @@
         </rule>
     </rulegroup>
 
+    <rulegroup id="PRE_HYPHENATED_ADJECTIVES" name="hyphenated adjectives (pre-/post- + NOUN)"><!-- Premium #1454 -->
+
+        <rule><!-- disambiguation, singular common nouns -->
+            <pattern>
+                <marker>
+                    <token chunk="I-NP-singular" regexp="yes">(pre|post)-[a-z]+<exception postag="JJ"/></token><!-- case-sensitive, lower case only? -->
+                </marker>
+            <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?">
+                <exception postag="NNP"/><!-- If the pre-sample Peter gave ['Peter' is disambiguated later] -->
+                </token>
+            </pattern>
+            <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
+                args="no:1 regexp:(?:pre|post)-([a-z]+) postag_regexp:NN(:UN?)?"/><!-- The filter is case-sensitive -->
+            <disambig action="add"><wd pos="JJ"/></disambig>
+            <example type="untouched">When you <marker>pre-the</marker> test, be careful.</example>
+            <example type="untouched">Can you <marker>pre-quickly</marker> this?</example>
+            <example type="untouched">When you are <marker>pre-inculcating</marker> the technicians...</example>
+            <example type="untouched">If the <marker>pre-disambiguate</marker> is satisfactory, stop the test.</example>
+            <example type="untouched">Do not <marker>pre-rabbit</marker> when you are tired.</example>
+            <example type="untouched">The '<marker>pre-match</marker>' terms that have quote marks are not touched.</example>
+            <example type="untouched">Can we <marker>pre-sample</marker> books?</example>
+            <example type="untouched">A <marker>pre-sample</marker> books is not correct grammar.</example>
+            <example type="untouched">If the <marker>pre-sample</marker> Peter gave us is satisfactory...</example>
+            <example type="untouched">This <marker>pre-sale</marker> example is not touched because 'pre-sale' is an adjective.</example>
+            <example type="untouched">The <marker>post-changes</marker> test was interesting.</example><!-- Do we permit this structure? -->
+            <example type="untouched">Currently, this <marker>pre-TEST</marker> term is not permitted.</example>
+            <example type="untouched">If a <marker>Pre-capitalization</marker> feature is necessary...</example>
+            <example type="untouched"><marker>Pre-capitalization</marker> feature is sometimes necessary.</example>
+            <example type="ambiguous" inputform="pre-rabbit[pre-rabbit]" outputform="pre-rabbit[pre-rabbit/JJ]">The <marker>pre-rabbit</marker> test was a resounding success.</example>
+            <example type="ambiguous" inputform="post-match[post-match]" outputform="post-match[post-match/JJ]">That <marker>post-match</marker> drink left us a little woozy.</example>
+            <example type="ambiguous" inputform="pre-sulphurization[pre-sulphurization]" outputform="pre-sulphurization[pre-sulphurization/JJ]">This is a <marker>pre-sulphurization</marker> test for spelling.</example>
+            <example type="ambiguous" inputform="post-match[post-match]" outputform="post-match[post-match/JJ]">Your <marker>post-match</marker> speech was great!</example>
+        </rule>
+
+        <rule><!-- disambiguation, plural common nouns -->
+            <pattern>
+                <marker>
+                    <token chunk="I-NP-plural" regexp="yes">(pre|post)-[a-z]+<exception postag="JJ"/></token>
+                </marker>
+            <token chunk="E-NP-plural" postag="NNS"/>
+            </pattern>
+            <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
+                args="no:1 regexp:(?:pre|post)-([a-z]+) postag_regexp:NN(:UN?)?"/>
+            <disambig action="add"><wd pos="JJ"/></disambig>
+            <example type="untouched">Whose <marker>pre-match</marker> speech was rubbish?</example>
+            <example type="untouched">Actually, <marker>pre-TEST</marker> terms like this are not allowed.</example>
+            <example type="untouched"><marker>Pre-disambiguation</marker> checks were not necessary.</example><!-- Pre-disambiguation/B-NP-plural. Thus, a different rule is necessary. -->
+            <example type="ambiguous" inputform="pre-rabbit[pre-rabbit]" outputform="pre-rabbit[pre-rabbit/JJ]">The <marker>pre-rabbit</marker> tests were successfully done.</example>
+            <example type="ambiguous" inputform="post-match[post-match]" outputform="post-match[post-match/JJ]">Those <marker>post-match</marker> drinks left us a little woozy.</example>
+            <example type="ambiguous" inputform="pre-sulphurization[pre-sulphurization]" outputform="pre-sulphurization[pre-sulphurization/JJ]">Some <marker>pre-sulphurization</marker> tests for spelling are necessary</example>
+            <example type="ambiguous" inputform="pre-disambiguation[pre-disambiguation]" outputform="pre-disambiguation[pre-disambiguation/JJ]">My <marker>pre-disambiguation</marker> tests are OK.</example>
+        </rule>
+
+        <rule><!-- ignore spelling -->
+            <pattern>
+                <marker>
+                    <token postag="JJ" regexp="yes">(pre|post)-[a-z]+
+                        <exception regexp="yes">.*(aluminium|sulphur).*</exception><!-- BrE spelling -->
+                        <exception regexp="yes">.*(aluminum|sulfur).*</exception><!-- AmE spelling -->
+                        </token>
+                </marker>
+            <token postag_regexp="yes" postag="NN.*"/>
+            </pattern>
+            <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
+                args="no:1 regexp:pre-([a-z]+|[A-Z]+) postag_regexp:NN(:UN?)?"/><!-- The filter makes sure that this term is the one to which the postag was applied. But, it it necessary? -->
+            <disambig action="ignore_spelling"/>
+<!-- Is it possible to add examples as tests to make sure that the rule works? -->
+        </rule>
+
+    </rulegroup>
+
     <rulegroup id="NUMBER_YEAR_OLD" name="hyphenated adjectives/nouns (10-year-old)"><!-- https://writingexplained.org/years-old-hyphenate -->
     <!-- This rulegroup has some simple antipatterns to prevent giving a reading to incorrect text. If necessary, other rules later in the disambiguation should disambiguate NN/JJ readings -->
         <rule><!-- adjective -->
