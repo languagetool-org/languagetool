@@ -1770,7 +1770,7 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
                 <token postag="V.I.*" postag_regexp="yes" inflected="yes">ser</token>
             </pattern>
-            <disambig action="remove" postag="SPS00"></disambig>
+            <disambig action="remove" postag="SPS00"/>
         </rule>
         <rule>
             <pattern>
@@ -1779,7 +1779,7 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
                 <token>en</token>
             </pattern>
-            <disambig action="remove" postag="SPS00"></disambig>
+            <disambig action="remove" postag="SPS00"/>
         </rule>
         <rule>
             <pattern>
@@ -2266,18 +2266,18 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="ignore_spelling"/>
     </rule>
-    <rulegroup name="Ignore spelling: A380" id="letters_words">
+    <rulegroup name="Ignore spelling numbers " id="IGNORE_NUMBERS">
         <rule>
+            <!-- style rules can be suggested for these abbreviations -->
             <pattern>
-                <token regexp="yes" case_sensitive="yes">[A-Z]+\d+</token>
+                <token regexp="yes">([012][0-9][\.,])?[0-6]?[0-9]</token>
+                <token regexp="yes" case_sensitive="yes">pm|am|PM|AM|GMT|CEST|UTC|EST</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes" case_sensitive="yes">[A-Z0-9]+</token>
-                <token spacebefore="no">-</token>
-                <token spacebefore="no" regexp="yes" case_sensitive="yes">[A-Z0-9]+</token>
+                <token regexp="yes">[\d ,\.]+x[\d ,\.]+</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>
