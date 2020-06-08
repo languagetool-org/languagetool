@@ -78,7 +78,8 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "damit wir ihre daten", // vs wird
     "kannst du doch gerne", // vs dich
     "wie ist hier der Stand", // vs Sand
-    "wie ist der Stand" // vs Sand
+    "wie ist der Stand", // vs Sand
+    "anders seht" // falls ihr das anders seht (weht)
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
