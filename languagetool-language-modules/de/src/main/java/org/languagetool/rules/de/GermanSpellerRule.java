@@ -139,6 +139,7 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     put("Hijab", "Hidschāb");
     put("[lL]eerequiment", "Leerequipment");
     put("unauslässlich", w -> Arrays.asList("unerlässlich", "unablässig", "unauslöschlich"));
+    putRepl("[Ww]i", "i", "ie");
     putRepl("[uU]nauslässlich(e[mnrs]?)?", "aus", "er");
     putRepl("[vV]erewiglicht(e[mnrs]?)?", "lich", "");
     putRepl("[zZ]eritifiert(e[mnrs]?)?", "eritifiert", "ertifiziert");
