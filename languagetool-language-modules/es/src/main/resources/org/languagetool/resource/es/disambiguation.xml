@@ -191,6 +191,16 @@ Copyright (C) 2011 Juan Martorell
             <wd lemma="manos libres" pos="AQ0MN0"/>
         </disambig>
     </rule>
+    <rule id="LA_NOUN" name="la (noun)">
+        <pattern>
+            <marker>
+                <token>la</token>
+            </marker>
+            <token min="0" regexp="yes">a|de</token>
+            <token regexp="yes">44[0-9](Hz)?|agudo|sobreagudo|grave|sobregrave|diapasón</token>
+        </pattern>
+        <disambig action="filter" postag="N.*"></disambig>
+    </rule>
     <rulegroup id="NUMERALS" name="numerales">
         <rule>
             <pattern>
@@ -550,7 +560,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule id="numero_graus" name="grados">
             <pattern>
-                <token regexp="yes">[\d,. ]+[º°′″‴][CFKNSEW]?</token>
+                <token regexp="yes">[\d,. ]+[º°′″‴][CFKNSEW]?<exception regexp="yes">[\d,. ]+º</exception></token>
             </pattern>
             <disambig action="replace">
                 <wd pos="NCMP000"/>
@@ -1242,14 +1252,14 @@ Copyright (C) 2011 Juan Martorell
                     <marker>
                         <and>
                             <token postag="NC.*" postag_regexp="yes"/>
-                            <token postag="V.[SI].*" postag_regexp="yes"/>
+                            <token postag="V.[MSI].*" postag_regexp="yes"/>
                         </and>
                     </marker>
                 </unify>
                 <token min="0">no</token>
                 <token postag="V.*|AQ.*|&pronombre_personal_atono_POS;" postag_regexp="yes"/>
             </pattern>
-            <disambig action="remove" postag="V.[SI].*"/>
+            <disambig action="remove" postag="V.[MSI].*"/>
             <example type="untouched">Se la ve tranquila.</example>
         </rule>
         <rule>
@@ -1261,14 +1271,14 @@ Copyright (C) 2011 Juan Martorell
                     <marker>
                         <and>
                             <token postag="NC.*" postag_regexp="yes"/>
-                            <token postag="V.[SI].*" postag_regexp="yes"/>
+                            <token postag="V.[MSI].*" postag_regexp="yes"/>
                         </and>
                     </marker>
                 </unify>
                 <token>de</token>
                 <token><exception regexp="yes">manera|forma</exception></token>
             </pattern>
-            <disambig action="remove" postag="V.[SI].*"/>
+            <disambig action="remove" postag="V.[MSI].*"/>
         </rule>
         <rule>
             <pattern>
@@ -1279,14 +1289,14 @@ Copyright (C) 2011 Juan Martorell
                     <marker>
                         <and>
                             <token postag="NC.*" postag_regexp="yes"/>
-                            <token postag="V.[SI].*" postag_regexp="yes"/>
+                            <token postag="V.[MSI].*" postag_regexp="yes"/>
                         </and>
                     </marker>
                 </unify>
                 <token postag="SP.*" postag_regexp="yes"/>
                 <token>que</token>
             </pattern>
-            <disambig action="remove" postag="V.[SI].*"/>
+            <disambig action="remove" postag="V.[MSI].*"/>
         </rule>
         <rule>
             <pattern>
@@ -1299,7 +1309,7 @@ Copyright (C) 2011 Juan Martorell
                     </marker>
                 </unify>
             </pattern>
-            <disambig action="remove" postag="V.[SI].*"/>
+            <disambig action="remove" postag="V.[SMI].*"/>
         </rule>
     </rulegroup>
     <rulegroup id="que_la_saque" name="que + pronombre verbo 3a persona sing">
@@ -2278,6 +2288,20 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <token regexp="yes">[\d ,\.]+x[\d ,\.]+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[A-Z0-9]+</token>
+                <token spacebefore="no">-</token>
+                <token spacebefore="no" regexp="yes" case_sensitive="yes">[A-Z0-9]+</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">[A-Z]+\d+</token>
             </pattern>
             <disambig action="ignore_spelling"/>
         </rule>

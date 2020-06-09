@@ -190,7 +190,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <rule id="HOMO" name="homo/Homo" default="temp_off">
             <pattern>
-                <token case_sensitive="yes">homo</token>
+                <marker>
+                    <token case_sensitive="yes">homo</token>
+                </marker>
+                <token regexp="yes">antecessor|erectus|ergaster|habilis|heidelbergensis|neanderthalensis|rhodesiensis|rudolfensis|sapiens</token>
             </pattern>
             <message>Se escribe con mayúscula.</message>
             <suggestion>Homo</suggestion>
@@ -256,6 +259,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">estás|está|estáis|están</token>
                 <token>,</token>
                 <token postag="NP.*|N.*|A.*" postag_regexp="yes" min="1" max="3"/>
+                <token>?</token>
+            </antipattern>
+            <antipattern>
+                <token>¿</token>
+                <token>cómo</token>
+                <token regexp="yes">estás|está|estáis|están</token>
+                <token>?</token>
+            </antipattern>
+            <antipattern>
+                <token>¿</token>
+                <token>cómo</token>
+                <token regexp="yes">estás|está|estáis|están</token>
+                <token>,</token>
+                <token postag="NP.*|N.*|A.*" postag_regexp="yes" min="1" max="3"/>
+                <token>?</token>
+            </antipattern>
+            <antipattern>
+                <token>¿</token>
+                <token>cómo</token>
+                <token regexp="yes">estás|está|estáis|están</token>
+                <token regexp="yes">tú|él|ella|usted|ustedes|vosotros|ellos|ellas|todos|todas</token>
+                <token>?</token>
+            </antipattern>
+            <antipattern>
+                <token>¿</token>
+                <token>cómo</token>
+                <token regexp="yes">está|están</token>
+                <token postag="NP.*|N.*|A.*|D.*" postag_regexp="yes" min="1" max="4"/>
                 <token>?</token>
             </antipattern>
             <rule>
@@ -413,6 +444,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Hola, ¿cómo estás?"><marker>ola como estas</marker></example>
                 <example correction="Hola, ¿cómo estás?"><marker>hola como estas</marker></example>
                 <example>Hola, ¿cómo estás, Pedro?</example>
+                <example>Hola, ¿cómo están ustedes?</example>
+                <example>Hola, ¿cómo están todos?</example>
             </rule>
             <rule>
                 <pattern>
@@ -2665,6 +2698,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>fijar el tanto por ciento</example>
                 <example>El vino 3 tiene nariz balsámica.</example>
                 <example>Como el vino los amores.</example>
+                <example>Andaba el 32º a casi 25 minutos del líder.</example>
             </rule>
             <rule id="TU_TILDE" name="tu / tú">
                 <antipattern>
@@ -3018,6 +3052,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token case_sensitive="yes">DE</token>
             </antipattern>
+            <antipattern>
+                <token>el</token>
+                <token>la</token>
+                <token>de</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -3058,6 +3097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La de es la tercera letra del abecedario.</example>
                 <example reason="triggers another rule">Te de los jesuitas.</example>
                 <example reason="triggers another rule">Tomaré el te de tu madre.</example>
+                <example>El la de diapasón es usado como referencia.</example>
             </rule>
             <rule>
                 <pattern>
@@ -4271,7 +4311,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token>a</token>
+                        <token>a<exception postag="_possible_NP"></exception></token>
                     </marker>
                     <token postag="V.P00SM" postag_regexp="yes"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/></token>
                 </pattern>
@@ -4297,6 +4337,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Hay que ponerse a cubierto de la lluvia.</example>
                 <example>Ponte a cubierto.</example>
                 <example>Él pasó de acusador a acusado.</example>
+                <example>en el equipo de la Serie A debido a la dificultad</example>
             </rule>
             <rule id="E_PARTICIPIO" name="e/he + participio">
                 <pattern>
@@ -4836,6 +4877,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="a acabar">Miedo <marker>a acabara</marker>.</example>
                 <example>Imprime, copia y hasta escanea.</example>
                 <example>El complemento de un conjunto A es el conjunto A∁.</example>
+                <example>Y por contra existe otra línia de pensamiento.</example>
             </rule>
             <rule>
                 <!-- catch-all rule without suggestions-->
@@ -5649,6 +5691,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cuando me los saboreo soy muy feliz</example>
                 <example>Bienvenidos al Pizza Day.</example>
                 <example>Donde las dan las toman.</example>
+                <example>Andaba el 32º a casi 25 minutos del líder.</example>
+                <example>El plazo termina el 1º de mayo.</example>
                 <!-- <example>no esta claro</example> better: other rule-->
             </rule>
             <rule>
@@ -5768,6 +5812,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>María del Carmen</example>
                 <example>países del África ecuatorial</example>
                 <example>del 10° año</example>
+                <example>Del 2º batallón.</example>
             </rule>
             <rule>
                 <pattern>
@@ -6783,13 +6828,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token>en</token>
+                    <token regexp="yes">en|con|sin|por|desde</token>
                     <token>el</token>
                     <token>la</token>
                 </pattern>
                 <message>Posible confusión</message>
-                <suggestion>en el</suggestion>
-                <suggestion>en la</suggestion>
+                <suggestion>\1 el</suggestion>
+                <suggestion>\1 la</suggestion>
                 <example correction="en el|en la">Pesco <marker>en el la</marker> represa.</example>
             </rule>
             <rule>
@@ -7364,7 +7409,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <pattern case_sensitive="yes">
                 <token regexp="yes">(\d[\d.,]+)?\d+(&unidades;)</token>
             </pattern>
-            <message>Falta un espacio.</message>
+            <message>Falta un espacio antes de la unidad.</message>
             <suggestion><match no="1" regexp_match="((\d[\d.,]+)?\d+)(&unidades;)" regexp_replace="$1&#8239;$3"/></suggestion>
             <example correction="33,4&#8239;km">Había <marker>33,4km</marker>.</example>
             <example correction="100&#8239;€">Cuesta <marker>100€</marker>.</example>
