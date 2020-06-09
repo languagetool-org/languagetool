@@ -9284,7 +9284,7 @@ though, and has since been slightly modified)-->
         <pattern>
           <token negate="yes" regexp="yes">des?</token>
             <marker>
-            <token postag="[DJN] . p" postag_regexp="yes" skip="1">
+              <token postag="[DJN] . p|P\+D e p" postag_regexp="yes" skip="1">
               <exception postag="K"/>
               <exception postag="V.*" postag_regexp="yes"/>
               <exception postag=".* sp?" postag_regexp="yes" scope="current"/>
@@ -9677,7 +9677,7 @@ though, and has since been slightly modified)-->
               <token postag="V ppa.*" postag_regexp="yes"/>
           </antipattern>
         <pattern>
-          <token postag="[DJ] m .*" postag_regexp="yes">
+          <token postag="[DJ] m .*|P\+D m s" postag_regexp="yes">
             <exception scope="previous" regexp="yes">des?|du</exception>
             <exception postag="K|[NJ] [fe] .*|V.*" postag_regexp="yes"/>
             <exception postag="Z [fe] .*" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</exception>
@@ -10246,7 +10246,7 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en genre.</message>
-        <suggestion><match no="3" postag="(R rel) f (.*)" postag_regexp="yes" postag_replace="$1 m $2"/></suggestion>
+        <suggestion><match no="3" postag="P.(R rel) f (.*)" postag_regexp="yes" postag_replace="P.$1 m $2"/></suggestion>
         <example correction="auxquels">Les hommes <marker>auxquelles</marker> tu parles.</example>
         <example>Les <marker>femmes auxquelles</marker> tu parles</example>
         <example><marker>Un dans</marker> chaque bras.</example>
@@ -10368,7 +10368,7 @@ though, and has since been slightly modified)-->
           </marker>
         </pattern>
         <message>« \2 » et « \3 » ne semblent pas bien accordés en nombre.</message>
-        <suggestion><match no="3" postag="(R rel) ([mf]) p" postag_regexp="yes" postag_replace="$1 $2 s"/></suggestion>
+        <suggestion><match no="3" postag="P.(R rel) ([mf]) p" postag_regexp="yes" postag_replace="P.$1 $2 s"/></suggestion>
         <example correction="auquel">L’homme <marker>auxquels</marker> tu parles</example>
         <example>Les <marker>hommes auxquels</marker> tu parles</example>
       </rule>
@@ -13205,7 +13205,7 @@ though, and has since been slightly modified)-->
           <token postag="N . p" postag_regexp="yes"/>
         </pattern>
         <message>« \1 \2 \3 » n’est pas accordé en nombre avec « \5 ».</message>
-        <suggestion><match no="1" postag="D ([mf]) s" postag_regexp="yes" postag_replace="D $1 p"/> que <match no="3" postag="V etre sub (impa|pres) 3 s" postag_regexp="yes" postag_replace="V etre sub $1 3 p"/></suggestion>
+        <suggestion><match no="1" postag="R rel ([mf]) s" postag_regexp="yes" postag_replace="R rel $1 p"/> que <match no="3" postag="V etre sub (impa|pres) 3 s" postag_regexp="yes" postag_replace="V etre sub $1 3 p"/></suggestion>
         <example correction="Quelles que soient"><marker>Quelle que soit</marker> ses raisons.</example>
       </rule>
       <rule>
@@ -13219,7 +13219,7 @@ though, and has since been slightly modified)-->
           <token postag="N . s" postag_regexp="yes"/>
         </pattern>
         <message>« \1 \2 \3 » n’est pas accordé en nombre avec « \5 ».</message>
-        <suggestion><match no="1" postag="D ([mf]) p" postag_regexp="yes" postag_replace="D $1 s"/> que <match no="3" postag="V etre sub (impa|pres) 3 p" postag_regexp="yes" postag_replace="V etre sub $1 3 s"/></suggestion>
+        <suggestion><match no="1" postag="R rel ([mf]) p" postag_regexp="yes" postag_replace="R rel $1 s"/> que <match no="3" postag="V etre sub (impa|pres) 3 p" postag_regexp="yes" postag_replace="V etre sub $1 3 s"/></suggestion>
         <example correction="Quelle que soit"><marker>Quelles que soient</marker> sa raison.</example>
       </rule>
     </rulegroup>
@@ -14218,7 +14218,7 @@ though, and has since been slightly modified)-->
       </antipattern>
       <rule name="l’ + nom + token + verbe 3e personne singulier">
         <pattern>
-          <token postag="SENT_START|C coor| R rel .*" postag_regexp="yes">
+          <token postag="SENT_START|C coor| R rel .*|C sub" postag_regexp="yes">
             <exception regexp="yes">et|ou|ni</exception>
           </token>
           <token>l'</token>
@@ -14244,7 +14244,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="nom propre + token + verbe 3e personne singulier">
         <pattern>
-          <token postag="SENT_START|C coor| R rel .*" postag_regexp="yes">
+          <token postag="SENT_START|C coor| R rel .*|C sub" postag_regexp="yes">
             <exception regexp="yes">et|ou|ni</exception>
           </token>
           <token postag="Z . sp?" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</token>
@@ -14266,7 +14266,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="nom propre + 2 token + verbe 3e personne singulier">
         <pattern>
-          <token postag="SENT_START|C coor| R rel .*" postag_regexp="yes">
+          <token postag="SENT_START|C coor| R rel .*|C sub" postag_regexp="yes">
             <exception regexp="yes">et|ou|ni</exception>
           </token>
           <token postag="Z . sp?" postag_regexp="yes" regexp="yes">(?-i)\p{Lu}.*</token>
@@ -14289,7 +14289,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="sujet singulier + verbe 3e personne singulier">
         <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"><exception regexp="yes">et|ou|ni</exception></token>
+          <token postag="SENT_START|C coor|R rel .*|C sub" postag_regexp="yes"><exception regexp="yes">et|ou|ni</exception></token>
           <token postag="D.*" postag_regexp="yes"><exception regexp="yes">quel|quelle</exception></token>
           <token postag="N . s" postag_regexp="yes"><exception regexp="yes">mot|verbe</exception></token>
           <token inflected="yes" min="0">ne</token>
@@ -14325,7 +14325,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="sujet singulier + 1 token + verbe 3e personne singulier">
         <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"><exception regexp="yes">et|ou|ni</exception></token>
+          <token postag="SENT_START|C coor|R rel .*|C sub" postag_regexp="yes"><exception regexp="yes">et|ou|ni</exception></token>
           <token postag="D.*" postag_regexp="yes"/>
           <token postag="N . s" postag_regexp="yes"/>
           <token inflected="yes" min="0">ne</token>
@@ -14345,7 +14345,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="sujet singulier + 2 tokens + verbe pluriel">
         <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes">
+          <token postag="SENT_START|C coor|R rel .*|C sub" postag_regexp="yes">
             <exception regexp="yes">et|ou|ni</exception>
           </token>
           <token postag="D.*" postag_regexp="yes"/>
@@ -14371,7 +14371,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule name="sujet singulier + 3 tokens + verbe pluriel">
         <pattern>
-          <token postag="SENT_START|C coor|R rel .*" postag_regexp="yes"><exception regexp="yes">et|ou|ni</exception></token>
+          <token postag="SENT_START|C coor|R rel .*|C sub" postag_regexp="yes"><exception regexp="yes">et|ou|ni</exception></token>
           <token postag="D.*" postag_regexp="yes"/>
           <token postag="N . s" postag_regexp="yes"/>
           <!-- Not all combinations of tokens are actually possible -->

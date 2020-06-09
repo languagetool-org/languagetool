@@ -1247,7 +1247,7 @@ RB => Règles Brutes
   <rule name="RB : Préposition" id="RB-PREPOSITION">
     <pattern>
       <marker>
-        <token postag="P"><exception regexp="yes">attendu|passé</exception><exception scope="previous" regexp="yes">.*'</exception></token>
+        <token postag="P"><exception regexp="yes">attendu|passé|comme</exception><exception scope="previous" regexp="yes">.*'</exception></token>
       </marker>
     </pattern>
     <disambig postag="P"/>
@@ -1274,17 +1274,7 @@ RB => Règles Brutes
   <rulegroup name="RB : Pro pers + V" id="RB-PRO_PERS_V">
     <rule name="je + verbe">
       <pattern>
-        <token>je</token>
-        <marker>
-          <token postag="V.* 1 s" postag_regexp="yes"/>
-        </marker>
-      </pattern>
-      <disambig action="filter" postag="V.* 1 s"/>
-    </rule>
-    <rule name="j' + verbe">
-      <pattern>
-        <token>j</token>
-        <token regexp="yes">&apostrophe;</token>
+        <token regexp="yes">je|j'</token>
         <marker>
           <token postag="V.* 1 s" postag_regexp="yes"/>
         </marker>
@@ -1304,8 +1294,7 @@ RB => Règles Brutes
       <pattern>
         <token postag="SENT_START"/>
         <token>ne<exception scope="previous" postag_regexp="yes" postag="R pers suj.*"/></token>
-        <token>t</token>
-        <token regexp="yes">&apostrophe;</token>
+        <token>t'</token>
         <marker>
           <token postag="V.* 2 s" postag_regexp="yes"/>
         </marker>
@@ -1345,13 +1334,22 @@ RB => Règles Brutes
     <disambig><match no="1" postag_regexp="yes" postag="J.*"/></disambig>
   </rule>
   
-  <rule id="COMME" name="comme (not adverb)">
+  <rulegroup id="COMME" name="comme (not adverb)">
+    
     <!-- adverb: Comme vous y allez ! -->
-    <pattern>
-      <token>comme</token>
-    </pattern>
+    <rule>
+      <pattern>
+        <token>comme</token>
+      </pattern>
     <disambig action="remove" postag="A"/>
-  </rule>
+    </rule>
+    <rule>
+      <pattern>
+        <token>comme</token>
+      </pattern>
+      <disambig action="remove" postag="P"/>
+    </rule>
+  </rulegroup>
 
   <rule name="RB : adverbes" id="RB-ADVERBES">
     <pattern>

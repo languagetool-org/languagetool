@@ -46,7 +46,7 @@ public class FrenchTaggerTest {
   @Test
   public void testTagger() throws IOException {
     TestTools.myAssert("C'est la vie.",
-        "C'/[ce]R dem m s -- est/[est]N m s|est/[être]V etre ind pres 3 s -- la/[la]D f s|la/[la]N m sp|la/[la]R pers obj 3 f s -- vie/[vie]N f s", tokenizer, tagger);
+        "C'/[ce]R dem m s -- est/[est]N m s|est/[être]V etre ind pres 3 s -- la/[la]N m sp|la/[le]D f s|la/[le]R pers obj 3 f s -- vie/[vie]N f s", tokenizer, tagger);
     TestTools.myAssert("Je ne parle pas français.",
         "Je/[je]R pers suj 1 s -- ne/[ne]A -- parle/[parler]V imp pres 2 s|parle/[parler]V ind pres 1 s|parle/[parler]V ind pres 3 s|parle/[parler]V sub pres 1 s|parle/[parler]V sub pres 3 s -- pas/[pas]A|pas/[pas]N m sp -- français/[français]J m sp|français/[français]N m sp", tokenizer, tagger);
     TestTools.myAssert("blablabla","blablabla/[blablabla]N m s", tokenizer, tagger);
@@ -68,7 +68,7 @@ public class FrenchTaggerTest {
     TestTools.myAssert("entr’ouvrions","entr'ouvrions/[entr'ouvrir]V ind impa 1 p|entr'ouvrions/[entr'ouvrir]V sub pres 1 p", tokenizer, tagger);
     TestTools.myAssert("Penses-tu","Penses/[penser]V ind pres 2 s|Penses/[penser]V sub pres 2 s -- -tu/[tu]R pers suj 2 s", tokenizer, tagger);
     TestTools.myAssert("Strauss-Kahn", "Strauss-Kahn/[Strauss-Kahn]Z e sp", tokenizer, tagger);
-    TestTools.myAssert("va-t'en", "va/[aller]V imp pres 2 s|va/[aller]V ind pres 3 s -- -t/[te]R pers obj 2 s -- 'en/[en]R pers obj", tokenizer, tagger);
+    TestTools.myAssert("va-t'en", "va/[aller]V imp pres 2 s|va/[aller]V ind pres 3 s -- -t/[te]R pers obj 2 s -- 'en/[en]R pers obj 3 sp", tokenizer, tagger);
   }
 
 }
