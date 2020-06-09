@@ -11205,6 +11205,12 @@ USA
                 <token regexp="yes" spacebefore="no">['‘"“]</token>
             </antipattern>
             <antipattern>
+                <token regexp="yes" skip="2">['‘"“]</token>
+                <token regexp="yes">[a-z-]+</token>
+                <token regexp="yes" spacebefore="no">[a-z-]+</token>
+                <token regexp="yes" spacebefore="no">['‘"“]</token>
+            </antipattern>
+            <antipattern>
                 <token skip="3" regexp="yes">=|\*|\/|\+|\-|%</token>
                 <token>_</token>
             </antipattern>
@@ -12192,7 +12198,7 @@ USA
             <example>That man left before I could get his name.</example>
             <example>THIS TIME OFF.</example>
         </rule>
-        <rule id="SOUND_GREAT" name="Sound (sounds) great" default="temp_off">
+        <rule id="SOUND_GREAT" name="Sound (sounds) great">
             <pattern>
                 <token postag="SENT_START" />
                 <marker>
@@ -12257,7 +12263,7 @@ USA
                 <token>pipe</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">dead|guide|border|pipe</token>
+                <token regexp="yes">dead|guide|border|pipe|base|head</token>
                 <token regexp="yes">lines?</token>
             </pattern>
             <message>This is normally spelled as one word.</message>
@@ -12303,6 +12309,32 @@ USA
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <example correction="neighborhood">She lives in a wealthy <marker>neighbor hood</marker>.</example>
             <example>Old Father Hood, standing over there as he has been since time out of mind, took a couple of human lives the other day.</example>
+        </rule>
+        <rule id="WITHDRAW_COMPOUNDS" name="with draw (withdraw)" default="temp_off">
+            <antipattern>
+                <token chunk="I-VP" />
+                <token regexp="yes">them|him|her|us|it|you|me</token>
+            </antipattern>
+            <antipattern>
+                <token chunk="B-VP" />
+                <token regexp="yes">them|him|her|us|it|you|me</token>
+            </antipattern>
+            <pattern>
+                <token postag="MD|PRP|TO" postag_regexp="yes" />
+                <token regexp="yes" min="0">&apostrophe;</token>
+                <token regexp="yes" min="0">t|s|re|ve|m</token>
+                <marker>
+                    <token>with</token>
+                    <token regexp="yes">
+                        draw[ns]?|drew|drawing
+                        <exception case_sensitive="yes">Drew</exception>
+                    </token>
+                </marker>
+            </pattern>
+            <message>Did you mean the verb <suggestion>with<match no="5" case_conversion="alllower" /></suggestion> which is spelled as one word?</message>
+            <example correction="withdraw">I will <marker>with draw</marker> my money from the ATM.</example>
+            <example>If this is a problem, give me a call because we'll need to discuss it with Drew.</example>
+            <example>The bishops made Bernard secretary of the council, and charged him with drawing up the synodal statutes.</example>
         </rule>
         <rule id="MARK_COMPOUNDS" name="trade mark (trademark)">
             <antipattern>
@@ -12538,10 +12570,10 @@ USA
             <example correction="Somehow"><marker>Some how</marker> I manged to get this task done.</example>
             <example>Let's find some how to that describes all steps in detail.</example>
         </rule>
-        <rule id="LAND_COMPOUNDS" name="land lord (landlord)" default="temp_off">
+        <rule id="LAND_COMPOUNDS" name="land lord (landlord)">
             <pattern>
                 <token>land</token>
-                <token regexp="yes">fall|slide|lords?|marks?|form|lady|mines?</token>
+                <token regexp="yes">fall|slide|lords?|marks?|form|lady</token>
             </pattern>
             <message>The word <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
             <example correction="landlord">The goal is to educate tenants about the legal amount their <marker>land lord</marker> can up their rent.</example>
@@ -14735,7 +14767,7 @@ USA
                 <message>Did you mean <suggestion>\3s</suggestion>?</message>
                 <example correction="regards">Best <marker>regard</marker></example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START" />
                     <token regexp="yes">best|kind|kindest|warm|warmest</token>
@@ -14747,7 +14779,7 @@ USA
                 <message>Did you mean <suggestion>wishes</suggestion>?</message>
                 <example correction="wishes">Best <marker>wish</marker>, Carl.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="SENT_START" />
                     <token regexp="yes">best|kind|kindest|warm|warmest</token>
@@ -17446,6 +17478,12 @@ USA
                     <token/>
                     <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
                 </antipattern>
+                <antipattern><!-- "this subscribe functionality has ..." -->
+                    <token>this</token>
+                    <token postag="VBP" />
+                    <token regexp="yes">request|functionality|feature|button</token>
+                    <token postag="VB[ZD]" postag_regexp="yes" chunk="B-VP" />
+                </antipattern>
                 <pattern>
                     <token regexp='yes'>
                         th(?:is|at)
@@ -17455,7 +17493,7 @@ USA
                         <exception postag='VB.*' postag_regexp='yes' scope='previous' regexp='yes' inflected='yes'>let|make|see|hear|need</exception>
                     </token>
                     <token min='0' postag_regexp='yes' postag='NN(:U|P)?'>
-                        <exception regexp='yes'>can|one|google|excel|then|species</exception>
+                        <exception regexp='yes'>can|one|google|excel|then|species|week|maybe</exception>
                         <exception postag="W.*" postag_regexp="yes" />
                     </token>
                     <token postag='VBP?' postag_regexp='yes'><exception negate_pos='yes' postag='VBP?' postag_regexp='yes'/><exception>be</exception></token>
@@ -17479,6 +17517,9 @@ USA
                 <example>Why did this have to happen ...</example>
                 <example>Why didn't this happen earlier?</example>
                 <example>Reading this how do you feel?</example>
+                <example>This week do you want to finish the task finally?</example>
+                <example>This reopen request has been marked as invalid.</example>
+                <example>This accept button is too large.</example>
                 <example>Those that struggle are often ...</example>
                 <example>This error and this fail are the reason.</example>
                 <example>Not only does this create seperational cases, ..</example>
@@ -21933,7 +21974,7 @@ USA
                 <example correction="Skype">Let's have a quick <marker>skype</marker> call.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ON_EXCEL" name="In excel (Excel)" default="temp_off">
+        <rulegroup id="ON_EXCEL" name="In excel (Excel)">
             <url>https://en.wikipedia.org/wiki/Microsoft_Excel</url>
             <rule>
                 <pattern>
@@ -23443,10 +23484,19 @@ USA
                 <example>Escape to the Cayman Islands and head for the famous Seven Mile Beach, ideal for swimming, diving, and other water sports.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="PERSON_HYPHEN" name="missing hyphen in '2 person meeting'" default="temp_off">
+        <rulegroup id="PERSON_HYPHEN" name="missing hyphen in '2 person meeting'">
             <rule>
+                <antipattern>
+                    <token skip="1">the</token>
+                    <token regexp="yes">1|one</token>
+                    <token>person</token>
+                    <token postag="VBG" />
+                </antipattern>
                 <pattern>
-                    <token regexp="yes">the|an?|my|y?our|their|his|her|its|s</token>
+                    <token regexp="yes">
+                        the|an?|my|y?our|their|his|her|its|s
+                        <exception postag="VBZ">s</exception>
+                    </token>
                     <token postag="JJ.*" postag_regexp="yes" min="0" />
                     <marker>
                         <token postag="CD" />
@@ -23457,6 +23507,8 @@ USA
                 <message>It seems that a hyphen is missing.</message>
                 <suggestion>\3-\4 \5</suggestion>
                 <example correction="10-person meeting">The <marker>10 person meeting</marker> took more than 2 hours.</example>
+                <example>They also implemented a new performance system that would give the 1 person rowing the boat greater incentive to work harder.</example>
+                <example>There's one person in particular I'd like to talk to.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -23468,7 +23520,7 @@ USA
                     <marker>
                         <token postag="CD" />
                         <token>person</token>
-                        <token regexp="yes">tents?|vans?|groups?|neighborhoods?|games?|kayaks?|bikes?|teams?|relationships?|boats?|bicycles?|famil(y|ies)|meetings?|crews?|bands?|staff|households?|tables?|limits?</token>
+                        <token regexp="yes">tents?|vans?|groups?|neighborhoods?|games?|kayaks?|bikes?|teams?|relationships?|boats?|bicycles?|famil(y|ies)|meetings?|crews?|bands?|staff|households?|tables?|limits?|delegations?|sedans?</token>
                     </marker>
                 </pattern>
                 <message>It seems that a hyphen is missing.</message>
@@ -31451,7 +31503,9 @@ USA
                 <message>The verb '\3' is normally not used in the progressive form. Try a simple form instead.</message>
                 <short>Grammatical problem: do not use the progressive</short>
                 <example>I <marker>am surprised</marker>.</example>
+                <example>I <marker>am surprised</marker>.</example>
                 <example correction="">I <marker>am surprising</marker>.</example>
+                <example correction="">I <marker>am not surprising</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="THIS_NNS" name="'this' vs. 'these'">
@@ -31815,7 +31869,7 @@ USA
             <example correction="least hard">This is the <marker>least hardest</marker>.</example>
             <example>The least number.</example><!-- number is JJR -->
         </rule>
-        <rule id="WORLDS_BEST" name="Worlds (World's) Best" default="temp_off">
+        <rule id="WORLDS_BEST" name="Worlds (World's) Best">
             <pattern>
                 <marker>
                     <token>worlds</token>
@@ -39937,7 +39991,7 @@ USA
                 <message>Did you mean the noun <suggestion>life</suggestion>?</message>
                 <example correction="life">The <marker>live</marker> of Brian.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">an?|the</token>
                     <marker>
@@ -49241,7 +49295,7 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
-        <rule id="DIES_DOES" name="dies vs does" default="temp_off">
+        <rule id="DIES_DOES" name="dies vs does">
             <pattern>
                 <token regexp="yes">s?he|it</token>
                 <marker>
