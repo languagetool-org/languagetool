@@ -6299,22 +6299,22 @@ MARCOAGPINTO 2020-02-18 -->
           <token min='0'>.</token>
           <token>:</token>
       </antipattern>
-<!-- MARCOAGPINTO 2020-06-08 *START* -->
+<!-- MARCOAGPINTO 2020-06-08 + 2020-06-09 *START* -->
 <!-- "Falemos da: Universidade de Lisboa." -->
 <!-- "Falemos da: Universidade Federal do Rio de Janeiro." -->
 <!-- "Falemos da: República Dominicana." -->
       <antipattern>
-		  <token regexp='no'>universidade</token>	  
+		  <token regexp='yes'>universidade|faculdade</token>	  
 		  <token min="0" max="1" regexp="yes">federal|estadual|estatal</token>
 		  <token min="0" max="1" regexp='yes'>das?|de|dos?</token>
 		  <token postag="NP[CFM][SP]000|NP[CFM][SP]G00" postag_regexp='yes'/>
       </antipattern>
       <antipattern>
-		  <token regexp='no'>república</token>	  
+		  <token regexp='yes'>república|editora</token>	  
 		  <token min="0" max="1" regexp='yes'>das?|de|dos?</token>
 		  <token postag="NP[CFM][SP]000|NP[CFM][SP]G00|AQ0FS0" postag_regexp='yes'/>
       </antipattern>	  
-<!-- MARCOAGPINTO 2020-06-08 *END* -->
+<!-- MARCOAGPINTO 2020-06-08 + 2020-06-09 *END* -->
       <pattern>
           <token regexp='yes'>[\,\;\:]
             <exception scope='previous' case_sensitive="yes" regexp="yes">\p{Lu}\p{Ll}+</exception><!-- References --></token>
