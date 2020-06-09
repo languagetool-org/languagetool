@@ -3897,7 +3897,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token regexp="yes">(ein)?mal</token>
                 </pattern>
-                <message>Meinten Sie <suggestion>wieder</suggestion>?</message>
+                <message>Meinten Sie <suggestion>wieder</suggestion> (ein weiteres Mal, noch)?</message>
                 <example correction="wieder">Sie kam <marker>wider</marker> einmal zu spät.</example>
             </rule>
             <rule>
@@ -3907,9 +3907,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>wider</token>
                     </marker>
                 </pattern>
-                <message>Meinten Sie <suggestion>wieder</suggestion>?</message>
+                <message>Meinten Sie <suggestion>wieder</suggestion> (ein weiteres Mal, noch)?</message>
                 <example correction="wieder">Ich möchte mal <marker>wider</marker> richtig feiern.</example>
                 <example correction="wieder">Ich möchte morgen <marker>wider</marker> richtig feiern.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>wider</token>
+                    <token regexp="yes">zu</token>
+                    <token inflected="yes" regexp="yes">hallen|klingen|schallen|scheinen|spiegeln|strahlen|reden|setzen</token>
+                </antipattern>
+                  <antipattern>
+                    <token inflected="yes" regexp="yes">hallen|klingen|schallen|scheinen|spiegeln|strahlen|reden|setzen</token>
+                    <token skip="-1"/>
+                    <token>wider</token>
+                </antipattern>
+                <antipattern>
+                    <token>wider</token>
+                    <token postag="PRO:POS:.+|ART:.+" postag_regexp="yes" min="0"/>
+                    <token postag="SUB:.+" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token postag="VER:(AUX|MOD):.+" postag_regexp="yes"/>
+                    <token min="0" postag="ADV:MOD"/>
+                    <marker>
+                        <token>wider</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>wieder</suggestion> (ein weiteres Mal, noch)?</message>
+                <example correction="wieder">Ich bin <marker>wider</marker> nicht da.</example>
+                <example correction="wieder">Sie ist aber <marker>wider</marker> beschäftigt.</example>
+                <example correction="wieder">Er möchte <marker>wider</marker> nach Hause.</example>
+                <example correction="wieder">Es ist <marker>wider</marker> zum Verzweifeln.</example>
+                <example>Dieses Buch ist wider Erwarten einfach zu lesen.</example>
+                <example>Das ist wider meiner Religion.</example>
             </rule>
         </rulegroup>
         <rule id="SONDER" name="'sonder (sondern)'">
