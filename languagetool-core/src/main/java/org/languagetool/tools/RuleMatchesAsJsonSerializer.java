@@ -184,7 +184,12 @@ public class RuleMatchesAsJsonSerializer {
   private void writeReplacements(JsonGenerator g, RuleMatch match) throws IOException {
     g.writeArrayFieldStart("replacements");
     boolean autoCorrect = match.isAutoCorrect();
+    int i = 0;
     for (SuggestedReplacement replacement : match.getSuggestedReplacementObjects()) {
+      i++;
+      if (compactMode == 1 && i > 5) {  // these clients only show up to 5 suggestions anyway
+        break;
+      }
       g.writeStartObject();
       g.writeStringField("value", replacement.getReplacement());
       if (replacement.getShortDescription() != null) {
