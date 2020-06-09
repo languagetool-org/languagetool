@@ -199,7 +199,7 @@ Copyright (C) 2011 Juan Martorell
             <token min="0" regexp="yes">a|de</token>
             <token regexp="yes">44[0-9](Hz)?|agudo|sobreagudo|grave|sobregrave|diapasón</token>
         </pattern>
-        <disambig action="filter" postag="N.*"></disambig>
+        <disambig action="filter" postag="N.*"/>
     </rule>
     <rulegroup id="NUMERALS" name="numerales">
         <rule>
@@ -2237,6 +2237,20 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
                 <token>a</token>
                 <token>la</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <token>si</token>
+                <marker>
+                    <token>no</token>
+                </marker>
+                <token>no</token>
+                <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
             </pattern>
             <disambig action="add">
                 <wd pos="_allow_repeat"/>

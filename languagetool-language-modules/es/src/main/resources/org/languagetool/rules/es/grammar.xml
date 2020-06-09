@@ -188,7 +188,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="verano" type="incorrect">Este <marker>Verano</marker> me voy de vacaciones.</example>
             <example type="correct">Ha sido el <marker>invierno</marker> más frío que recuerdo.</example>
         </rule>
-        <rule id="HOMO" name="homo/Homo" default="temp_off">
+        <rule id="HOMO" name="homo/Homo">
             <pattern>
                 <marker>
                     <token case_sensitive="yes">homo</token>
@@ -1415,7 +1415,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Un grande gozo siento en mí.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SE_FIE" name="confusión: se fie/fíe" default="temp_off">
+        <rulegroup id="SE_FIE" name="confusión: se fie/fíe">
             <rule>
                 <pattern>
                     <token>se<exception postag="LOC_ADV"/></token>
@@ -7137,13 +7137,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="COMMA_REPETITION" name="coma en repeticiones">
             <pattern>
                 <marker>
-                    <token regexp="yes">sí|no</token>
+                    <token regexp="yes">sí|no<exception postag="_allow_repeat"/></token>
                     <token><match no="0"/></token>
                 </marker>
             </pattern>
             <message>Probablemente falta una coma.</message>
             <suggestion>\1, \2</suggestion>
             <example correction="Sí, sí"><marker>Sí sí</marker>, tienes que venir.</example>
+            <example>Si lo hecho me lo dices clarito, y si no no me hagas perder el tiempo.</example>
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
@@ -7158,7 +7159,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion><match no="2" regexp_match="(\d+)°" regexp_replace="$1.º"/></suggestion>
             <example correction="9.º">El <marker>9°</marker> clasificado</example>
         </rule>
-        <rulegroup id="DEGREE_CHAR" name="carácter equivocado de grados" default="temp_off">
+        <rulegroup id="DEGREE_CHAR" name="carácter equivocado de grados">
             <rule>
                 <pattern>
                     <marker>
@@ -7265,7 +7266,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>de Google Doc</example>
             </rule>
         </rulegroup>
-        <rule id="WRONG_DASH" name="Carácter de guión incorrecto (u+2500)" default="temp_off">
+        <rule id="WRONG_DASH" name="Carácter de guión incorrecto (u+2500)">
             <pattern case_sensitive="no">
                 <marker>
                     <token regexp="yes">.*─.*</token>
