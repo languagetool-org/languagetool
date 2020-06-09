@@ -19,7 +19,7 @@
   * added and improved rules
   * rules that apply to de-DE and de-AT (but not de-CH) can now be placed in `de/de-DE-AT/grammar.xml`
   * Updated the German part-of-speech dictionary (https://github.com/languagetool-org/german-pos-dict)
-    to version 1.2.
+    to version 1.2.1.
 
 #### Persian
   * commented out rules that caused many false alarms
