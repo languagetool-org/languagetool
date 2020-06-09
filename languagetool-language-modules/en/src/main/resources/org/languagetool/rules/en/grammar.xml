@@ -8616,12 +8616,15 @@ USA
             <rule default="temp_off">
                 <antipattern>
                     <token>a</token>
-                    <token>/</token>
-                    <token>c</token>
+                    <token regexp="yes">/|\*</token>
                 </antipattern>
                 <antipattern>
                     <token>come</token>
                     <token>on</token>
+                </antipattern>
+                <antipattern>
+                    <token>a</token>
+                    <token regexp="yes">records?</token>
                 </antipattern>
                 <pattern>
                     <token regexp="yes">(in)?to|of|in|on|with(out)?|at|for</token>
@@ -8646,8 +8649,7 @@ USA
                 </antipattern>
                 <antipattern>
                     <token>a</token>
-                    <token>/</token>
-                    <token>c</token>
+                    <token regexp="yes">/|\*</token>
                 </antipattern>
                 <pattern>
                     <marker>
@@ -8665,6 +8667,7 @@ USA
                 <example>Your O's resemble your A's.</example>
                 <example>Your A record must point to your ip address `159.65.156.240`, so your server answers directly.</example>
                 <example>What did you do to your a/c system?</example>
+                <example>It hurts my a**.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EXITED_EXCITED" name="exited (excited)">
@@ -13015,7 +13018,7 @@ USA
             </antipattern>
             <pattern>
                 <!-- TODO: friendship (My friend ships ...) -->
-                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee|citizen|scholar|owner|controller|dictator|champion</token>
+                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee|citizen|scholar|owner|controller|dictator|champion|fellow</token>
                 <token regexp="yes">ships?</token>
             </pattern>
             <message>This noun is normally spelled as one.</message>
@@ -19137,7 +19140,7 @@ USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">in|from|to</token>
+                    <token regexp="yes">in|from|to|across</token>
                     <marker>
                         <token case_sensitive="yes">china</token>
                     </marker>
@@ -23223,7 +23226,7 @@ USA
                 <token>turkey</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">in|from|of</token>
+                <token regexp="yes">in|from|of|across</token>
                 <marker>
                     <token case_sensitive="yes">
                         turkey
@@ -35447,10 +35450,18 @@ USA
                     <token>huang</token>
                     <token>he</token>
                 </antipattern>
+                <antipattern><!-- proper noun-->
+                    <token>clash</token>
+                    <token>royale</token>
+                </antipattern>
                 <antipattern>
                     <token regexp="yes">with(out)?</token>
                     <token regexp="yes">(any|every|no|some)(one|body)</token>
                     <token postag="VBG"/>
+                </antipattern>
+                <antipattern><!-- missing space between dash and "is" -->
+                    <token>-is</token>
+                    <token regexp="yes">s?he</token>
                 </antipattern>
                 <antipattern case_sensitive="yes">
                     <token>(</token>
@@ -35586,9 +35597,9 @@ USA
                             <exception postag="VB[NDZ]|JJ.*|RB|MD|IN" postag_regexp="yes"/>
                             <!-- already found by EN_CONTRACTION_SPELLING: -->
                             <exception>cant</exception>
+                            <exception scope="next" regexp="yes">&apostrophe;</exception>
                         </token>
                     </marker>
-                    <token><exception regexp="yes">&apostrophe;</exception></token>
                 </pattern>
                 <message>The pronoun '<match no="2"/>' is usually used with a third-person or a past tense verb: <suggestion><match no="4" postag="VBZ"/></suggestion>, <suggestion><match no="4" postag="VBD"/></suggestion>.</message>
                 <example correction="walks|walked">He <marker>walk</marker> to the building every day.</example>
@@ -35606,6 +35617,7 @@ USA
                 <example correction="hates|hated">Everybody <marker>hate</marker> to hear bad news.</example>
                 <example correction="moves|moved">Nobody <marker>move</marker>?</example>
                 <example>Nobody move!</example>
+                <example>-Is he going to tell the truth?</example><!-- missing space between (different error) -->
                 <example>The bride came into the room, with everyone staring at her.</example>
                 <example correction="does|did">Without somebody <marker>do</marker> the test, we cannot know.</example>
                 <example>Only supply information that you are comfortable with anyone <marker>seeing</marker>.</example>
