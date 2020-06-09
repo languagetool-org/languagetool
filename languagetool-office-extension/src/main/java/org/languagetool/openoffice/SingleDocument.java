@@ -203,7 +203,7 @@ class SingleDocument {
       if (debugMode > 1) {
         MessageHandler.printToLogFile("paRes.aErrors.length: " + paRes.aErrors.length + "; docID: " + docID + OfficeTools.LOG_LINE_BREAK);
       }
-      if(resetCheck) {
+      if(resetCheck && paRes.nStartOfNextSentencePosition >= paraText.length()) {
         if(numParasToCheck != 0 && paraNum >= 0) {
           if (docCursor == null) {
             docCursor = new DocumentCursorTools(xComponent);
@@ -631,7 +631,7 @@ class SingleDocument {
       for (int i = 0; i < minToCheckPara.size(); i++) {
         if(minToCheckPara.get(i) != 0) {
           for (int n = from; n <= to; n++) {
-            addQueueEntry(n, i, minToCheckPara.get(i), docID);
+            addQueueEntry(n, i, minToCheckPara.get(i), docID, true);
           }
         }
       }
@@ -674,7 +674,7 @@ class SingleDocument {
           if(minToCheckPara.get(i) == 0) {
             paragraphsCache.get(i).remove(nParas);
           } else {
-            addQueueEntry(nParas, i, minToCheckPara.get(i), docID);
+            addQueueEntry(nParas, i, minToCheckPara.get(i), docID, true);
           }
         }
       } else {
@@ -915,11 +915,11 @@ class SingleDocument {
   /**
    * Add an new entry to text level queue
    */
-  public void addQueueEntry(int nPara, int nCache, int nCheck, String docId) {
+  public void addQueueEntry(int nPara, int nCache, int nCheck, String docId, boolean overrideRunning) {
     if(mDocHandler.isSortedRuleForIndex(nCache)) {
       int nStart = docCache.getStartOfParaCheck(nPara, nCheck, textIsChanged);
       int nEnd = docCache.getEndOfParaCheck(nPara, nCheck, textIsChanged);
-      mDocHandler.getTextLevelCheckQueue().addQueueEntry(nStart, nEnd, nCache, nCheck, docId, resetCheck);
+      mDocHandler.getTextLevelCheckQueue().addQueueEntry(nStart, nEnd, nCache, nCheck, docId, overrideRunning);
     }
   }
   
@@ -996,7 +996,7 @@ class SingleDocument {
       // return Cache result if available / for right mouse click or Dialog only use cache
       if(paraNum >= 0 && (pErrors != null || isMouseOrDialog || (useQueue && parasToCheck != 0))) {
         if(useQueue && pErrors == null && parasToCheck != 0) {
-          addQueueEntry(paraNum, cacheNum, parasToCheck, docID);
+          addQueueEntry(paraNum, cacheNum, parasToCheck, docID, false);
         }
         return pErrors;
       }
