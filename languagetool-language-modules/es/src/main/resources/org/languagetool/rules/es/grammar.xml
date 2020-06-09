@@ -4339,6 +4339,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Él pasó de acusador a acusado.</example>
                 <example>en el equipo de la Serie A debido a la dificultad</example>
             </rule>
+            <rule id="AN_PARTICIPIO" name="an + participio">
+                <pattern>
+                    <marker>
+                        <token skip="4">an<exception postag="_possible_NP"/><exception case_sensitive="yes">AN</exception></token>
+                    </marker>
+                    <token postag="V.P..SM" postag_regexp="yes"/>
+                </pattern>
+                <message>si es del v. 'haber', se escribe con hache.</message>
+                <suggestion>han</suggestion>
+                <example correction="han">Ellos <marker>an</marker> llegado tarde.</example>
+                <example correction="han">Ellos <marker>an</marker> muchas veces llegado tarde.</example>
+                <example>Como presidente de la AN.</example>
+            </rule>
             <rule id="E_PARTICIPIO" name="e/he + participio">
                 <pattern>
                     <marker>
@@ -7121,6 +7134,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>En cualquier caso y puesto que no quiero extenderme, señor presidente.</example>
         </rule>
         <!--TODO: idem with ", pues"-->
+        <rule id="COMMA_REPETITION" name="coma en repeticiones">
+            <pattern>
+                <marker>
+                    <token regexp="yes">sí|no</token>
+                    <token><match no="0"/></token>
+                </marker>
+            </pattern>
+            <message>Probablemente falta una coma.</message>
+            <suggestion>\1, \2</suggestion>
+            <example correction="Sí, sí"><marker>Sí sí</marker>, tienes que venir.</example>
+        </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
         <rule id="ORDINAL_CHAR" name="carácter equivocado en ordinales">

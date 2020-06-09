@@ -2206,6 +2206,42 @@ Copyright (C) 2011 Juan Martorell
                 <wd pos="_allow_repeat"/>
             </disambig>
         </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>a</token>
+                </marker>
+                <token>A</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <marker>
+                    <token>de</token>
+                </marker>
+                <token>De</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern case_sensitive="yes">
+                <token>de</token>
+                <token>la</token>
+                <marker>
+                    <token>a</token>
+                </marker>
+                <token>a</token>
+                <token>la</token>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
     </rulegroup>
     <!-- SOME EXTRA TAGGING -->
     <rulegroup id="reflexive_verb" name="reflexive verb">
@@ -2268,6 +2304,16 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="V.*"/>
     </rule>
     <!-- IGNORE SPELLING -->
+    <rule id="DE_LA_A" name="de la a a la z">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">de|a|desde|hasta</token>
+            <token>la</token>
+            <marker>
+                <token regexp="yes">[a-z]</token>
+            </marker>
+        </pattern>
+        <disambig action="ignore_spelling"/>
+    </rule>
     <rule name="Ignore spelling pm/am" id="pm_am">
         <!-- style rules can be suggested for these abbreviations -->
         <pattern>
