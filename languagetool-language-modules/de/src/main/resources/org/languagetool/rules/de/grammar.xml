@@ -43167,6 +43167,15 @@ Andere Projekte</example>
                     <token postag="SENT_END"/>
                 </antipattern>
                 <antipattern>
+                    <token postag="KON:.+" postag_regexp="yes">
+                        <exception>nur</exception>
+                        <exception scope="previous" postag="PRO:REF:.+|VER:.+|NEG" postag_regexp="yes"/>
+                    </token>
+                    <token postag="KON:.+" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>,</token>
+                    <token postag="KON:.+" postag_regexp="yes"/>
                     <token postag="KON:.+" postag_regexp="yes"/>
                     <token postag="KON:.+" postag_regexp="yes"/>
                 </antipattern>
@@ -43187,6 +43196,7 @@ Andere Projekte</example>
                 <suggestion>\1, \2</suggestion>
                 <example correction="gegangen, weil">Ich bin heute nicht in die Schule <marker>gegangen weil</marker> ich starke Kopfschmerzen hatte.</example>
                 <example correction="bestätigt, dass">Google belohnt responsive Webdesign, indem es Anfang 2015 offiziell <marker>bestätigt dass</marker> "Mobile-Friendly Sites" bevorzugt werden.</example>
+                <example correction="aber, dass">Es zeigt sich <marker>aber dass</marker> die Kopien einige Einschränkungen haben, die einer echten Seele nicht gegeben wären.</example>
                 <example>Ich bin heute nicht in die Schule <marker>gegangen, weil</marker> ich starke Kopfschmerzen hatte.</example>
                 <example>Sie waren nicht nur unbeliebt, weil sie den Krieg nach Kambodscha getragen hatten, sondern auch weil sie für viele ein Symbol für die Fremdbestimmung darstellten.</example>
                 <example>Drei Tage nachdem er es getan hatte, bereute er es schon.</example>
