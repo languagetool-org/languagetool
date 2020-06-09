@@ -66,8 +66,8 @@ public class DisambiguationRuleTest {
       }
       System.out.println("Running disambiguation tests for " + lang.getName() + "...");
       DisambiguationRuleLoader ruleLoader = new DisambiguationRuleLoader();
-      JLanguageTool languageTool = new JLanguageTool(lang);
-      if (!(languageTool.getLanguage().getDisambiguator() instanceof DemoDisambiguator)) {
+      JLanguageTool lt = new JLanguageTool(lang);
+      if (!(lt.getLanguage().getDisambiguator() instanceof DemoDisambiguator)) {
         long startTime = System.currentTimeMillis();
         String name = JLanguageTool.getDataBroker().getResourceDir() + "/" + lang.getShortCode()
             + "/disambiguation.xml";
@@ -78,7 +78,7 @@ public class DisambiguationRuleTest {
           PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getPatternTokens(),
               rule.getId(), rule.getSubId(), lang);
         }
-        testDisambiguationRulesFromXML(rules, languageTool, lang);
+        testDisambiguationRulesFromXML(rules, lt, lang);
         long endTime = System.currentTimeMillis();
         System.out.println(rules.size() + " rules tested (" + (endTime-startTime) + "ms)");
       }
@@ -107,7 +107,7 @@ public class DisambiguationRuleTest {
 
   private void testDisambiguationRulesFromXML(
       List<DisambiguationPatternRule> rules,
-      JLanguageTool languageTool, Language lang) throws IOException {
+      JLanguageTool lt, Language lang) throws IOException {
     for (DisambiguationPatternRule rule : rules) {
       String id = rule.getId();
       if (rule.getUntouchedExamples() != null) {
@@ -118,10 +118,8 @@ public class DisambiguationRuleTest {
           goodSentence = cleanXML(goodSentence);
 
           assertTrue(goodSentence.trim().length() > 0);
-          AnalyzedSentence sent = disambiguateUntil(lang, rules, id,
-              languageTool.getRawAnalyzedSentence(goodSentence));
-          AnalyzedSentence sentToReplace = disambiguateUntil(lang, rules, id,
-              languageTool.getRawAnalyzedSentence(goodSentence));
+          AnalyzedSentence sent = disambiguateUntil(lang, rules, id, lt.getRawAnalyzedSentence(goodSentence));
+          AnalyzedSentence sentToReplace = disambiguateUntil(lang, rules, id, lt.getRawAnalyzedSentence(goodSentence));
           //note: we're testing only if string representations are equal
           //it's because getRawAnalyzedSentence does not set all properties
           //in AnalyzedSentence, and during equal test they are set for the
@@ -149,14 +147,10 @@ public class DisambiguationRuleTest {
           assertTrue(inputForms.trim().length() > 0);
           assertTrue("Input and output forms for rule " + id + " are the same!",
               !outputForms.equals(inputForms));
-          AnalyzedSentence cleanInput = languageTool
-              .getRawAnalyzedSentence(cleanXML(example.getExample()));
-          AnalyzedSentence sent = disambiguateUntil(lang, rules, id,
-              languageTool
-              .getRawAnalyzedSentence(cleanXML(example.getExample())));
-          AnalyzedSentence disambiguatedSent = rule
-              .replace(disambiguateUntil(lang, rules, id, languageTool
-                  .getRawAnalyzedSentence(cleanXML(example.getExample()))));
+          AnalyzedSentence cleanInput = lt.getRawAnalyzedSentence(cleanXML(example.getExample()));
+          AnalyzedSentence sent = disambiguateUntil(lang, rules, id, lt.getRawAnalyzedSentence(cleanXML(example.getExample())));
+          AnalyzedSentence disambiguatedSent = rule.replace(disambiguateUntil(lang, rules, id,
+                  lt.getRawAnalyzedSentence(cleanXML(example.getExample()))));
           assertTrue(
               "Disambiguated sentence is equal to the non-disambiguated sentence for rule: "
                   + id + ". The sentence was: " + sent, !cleanInput.equals(disambiguatedSent));
@@ -211,11 +205,8 @@ public class DisambiguationRuleTest {
   private AnalyzedSentence disambiguateUntil(
       Language lang, List<DisambiguationPatternRule> rules, String ruleID,
       AnalyzedSentence sentence) throws IOException {
-
     AnalyzedSentence disambiguated = sentence;
-    
     disambiguated = lang.getDisambiguator().preDisambiguate(disambiguated);
-
     for (DisambiguationPatternRule rule : rules) {
       if (ruleID.equals(rule.getId())) {
         break;
@@ -242,7 +233,7 @@ public class DisambiguationRuleTest {
       Set<Language> ignoredLanguages = TestTools.getLanguagesExcept(args);
       test.testDisambiguationRulesFromXML(ignoredLanguages);
     }
-    System.out.println("Tests successful.");
+    System.out.println("Disambiguator tests successful.");
   }
 
 }

@@ -60,16 +60,15 @@ public class BitextPatternRuleTest {
         continue;
       }
       System.out.println("Running tests for " + lang.getName() + "...");
-      JLanguageTool languageTool = new JLanguageTool(lang);
+      JLanguageTool lt = new JLanguageTool(lang);
       List<BitextPatternRule> rules = ruleLoader.getRules(is, name);
-      testBitextRulesFromXML(rules, languageTool, lang);
+      testBitextRulesFromXML(rules, lt, lang);
     }
   }
   
-  private void testBitextRulesFromXML(List<BitextPatternRule> rules,
-      JLanguageTool languageTool, Language lang) throws IOException {    
+  private void testBitextRulesFromXML(List<BitextPatternRule> rules, JLanguageTool lt, Language lang) throws IOException {
     for (BitextPatternRule rule : rules) {
-      testBitextRule(rule, lang, languageTool);
+      testBitextRule(rule, lang, lt);
     }
   }
 
@@ -84,17 +83,16 @@ public class BitextPatternRuleTest {
           + ": No error position markup ('<marker>...</marker>') in bad example in rule "
           + rule);
     }
-
   }
 
   private void testBadSentence(String origBadSentence,
                                List<String> suggestedCorrection, int expectedMatchStart,
                                int expectedMatchEnd, AbstractPatternRule rule,
                                Language lang,
-                               JLanguageTool languageTool) throws IOException {
+                               JLanguageTool lt) throws IOException {
     String badSentence = cleanXML(origBadSentence);
     assertTrue(badSentence.trim().length() > 0);
-    RuleMatch[] matches = getMatches(rule, badSentence, languageTool);
+    RuleMatch[] matches = getMatches(rule, badSentence, lt);
     assertTrue(lang + ": Did expect one error in: \"" + badSentence
             + "\" (Rule: " + rule + "), got " + matches.length
             + ". Additional info:" + rule.getMessage(), matches.length == 1);
@@ -120,7 +118,7 @@ public class BitextPatternRuleTest {
         for (String repl : matches[0].getSuggestedReplacements()) {
           String fixedSentence = badSentence.substring(0, fromPos)
                   + repl + badSentence.substring(toPos);
-          matches = getMatches(rule, fixedSentence, languageTool);
+          matches = getMatches(rule, fixedSentence, lt);
           if (matches.length > 0) {
             fail("Incorrect input:\n"
                     + "  " + badSentence
@@ -137,7 +135,7 @@ public class BitextPatternRuleTest {
   }
 
   private void testBitextRule(BitextPatternRule rule, Language lang,
-                              JLanguageTool languageTool) throws IOException {
+                              JLanguageTool lt) throws IOException {
     JLanguageTool srcTool = new JLanguageTool(rule.getSourceLanguage());
     List<StringPair> goodSentences = rule.getCorrectBitextExamples();
     for (StringPair goodSentence : goodSentences) {
@@ -146,7 +144,7 @@ public class BitextPatternRuleTest {
       assertFalse(lang + ": Did not expect error in: " + goodSentence
               + " (Rule: " + rule + ")",
               match(rule, goodSentence.getSource(), goodSentence.getTarget(),
-                      srcTool, languageTool));
+                      srcTool, lt));
     }
     List<IncorrectBitextExample> badSentences = rule.getIncorrectBitextExamples();
     for (IncorrectBitextExample origBadExample : badSentences) {
@@ -174,7 +172,7 @@ public class BitextPatternRuleTest {
               suggestedCorrection, expectedTrgMatchStart,
               expectedTrgMatchEnd, rule.getTrgRule(),
               lang,
-              languageTool);
+              lt);
     }
   }
 
@@ -191,12 +189,9 @@ public class BitextPatternRuleTest {
     return matches.length > 0;
   }
 
-  
-  private RuleMatch[] getMatches(Rule rule, String sentence,
-      JLanguageTool languageTool) throws IOException {
-    AnalyzedSentence analyzedSentence = languageTool.getAnalyzedSentence(sentence);
-    RuleMatch[] matches = rule.match(analyzedSentence);
-    return matches;
+  private RuleMatch[] getMatches(Rule rule, String sentence, JLanguageTool lt) throws IOException {
+    AnalyzedSentence analyzedSentence = lt.getAnalyzedSentence(sentence);
+    return rule.match(analyzedSentence);
   }
 
   /**
@@ -212,7 +207,7 @@ public class BitextPatternRuleTest {
       Set<Language> ignoredLanguages = TestTools.getLanguagesExcept(args);
       prt.testBitextRulesFromXML(ignoredLanguages);
     }
-    System.out.println("Tests successful.");
+    System.out.println("Bitext pattern tests successful.");
   }
 
 }
