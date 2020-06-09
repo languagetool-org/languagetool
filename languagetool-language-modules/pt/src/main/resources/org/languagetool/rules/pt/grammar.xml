@@ -29293,20 +29293,20 @@ TODO Write better examples
   <rulegroup id='EU_NÓS_REMOVAL' name="Omitir pronome pessoal eu/nós" type='style'>
     <!--      Created by Marco A.G.Pinto, Portuguese rule      -->
     <rule>
-<!-- MARCOAGPINTO 2020-06-07 *START* -->
+<!-- MARCOAGPINTO 2020-06-07 + 2020-06-09 *START* -->
 <!-- ! or ? or . at the end -->
       <antipattern>
           <token>eu</token>
           <token postag_regexp="yes" postag="V...1S.+"/>	  
 		  <token regexp='yes'>\.|!|\?</token>
       </antipattern>
-<!-- after a , -->
+<!-- after a "," or "e" -->
       <antipattern>
-		  <token>,</token>
+		  <token regexp='yes'>,|e</token>
           <token spacebefore='yes'>eu</token>
           <token postag_regexp="yes" postag="V...1S.+"/>	  		  
       </antipattern>
-<!-- MARCOAGPINTO 2020-06-07 *END* -->
+<!-- MARCOAGPINTO 2020-06-07 + 2020-06-09 *END* -->
       <pattern>
           <token>eu</token>
           <token postag_regexp="yes" postag="V...1S.+">
@@ -29316,20 +29316,20 @@ TODO Write better examples
       <example correction="quero">O que <marker>eu quero</marker> é casar.</example>
     </rule>
     <rule>
-<!-- MARCOAGPINTO 2020-06-07 *START* -->
+<!-- MARCOAGPINTO 2020-06-07 + 2020-06-09 *START* -->
 <!-- ! or ? or . at the end -->
       <antipattern>
           <token>nós</token>
           <token postag_regexp="yes" postag="V...1P.+"/>	  
 		  <token regexp='yes'>\.|!|\?</token>
       </antipattern>
-<!-- after a , -->
+<!-- after a "," or "e" -->
       <antipattern>
-		  <token>,</token>
+		  <token regexp='yes'>,|e</token>
           <token spacebefore='yes'>nós</token>
           <token postag_regexp="yes" postag="V...1P.+"/>	  		  
       </antipattern>
-<!-- MARCOAGPINTO 2020-06-07 *END* -->
+<!-- MARCOAGPINTO 2020-06-07 + 2020-06-09 *END* -->
       <pattern>
           <token>nós</token>
           <token postag_regexp="yes" postag="V...1P.+">
