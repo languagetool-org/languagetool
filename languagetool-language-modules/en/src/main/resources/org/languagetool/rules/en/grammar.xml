@@ -38524,6 +38524,12 @@ USA
                 <token>sharing</token>
                 <token postag="NNS"/>
             </antipattern>
+            <antipattern><!-- #1350 Eighty minus twenty is sixty -->
+                <token postag="CD"/>
+                <token regexp="yes">plus|and|minus</token>
+                <token regexp="yes">one|two|three|four|five|six|seven|eight|nine|ten|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety</token><!-- DT_JJ_NN correctly removes CD. Thus, this token is necessary. -->
+                <token>is</token>
+            </antipattern>
             <pattern>
                 <token postag="CD">
                     <exception scope="previous" spacebefore="no" regexp="yes">[^,]</exception>
@@ -38717,6 +38723,7 @@ USA
             <example>... Olympics with just 20 gold medal wins since first taking part in 1920.</example><!-- #2599 wins/B-VP -->
             <example>You can earn 200 bonus bucks.</example><!-- #2932 bucks/B-VP -->
             <example>There are 101 file sharing services out there already.</example><!-- #2966 -->
+            <example>Eighty minus twenty is sixty.</example><!-- #3049 -->
             <example type="triggers_error">When Sony came back with a 2 billion bid, CBS could not refuse.</example><!-- #2440 -->
             <example type="triggers_error">England eventually faced a massive 707 run target for victory and failed, Australia winning the ...</example>
         </rule>
