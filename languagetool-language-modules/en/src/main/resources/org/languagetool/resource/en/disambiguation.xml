@@ -128,6 +128,7 @@
             <example type="ambiguous" inputform="post-match[post-match]" outputform="post-match[post-match/JJ]">That <marker>post-match</marker> drink left us a little woozy.</example>
             <example type="ambiguous" inputform="pre-sulphurization[pre-sulphurization]" outputform="pre-sulphurization[pre-sulphurization/JJ]">This is a <marker>pre-sulphurization</marker> test for spelling.</example>
             <example type="ambiguous" inputform="post-match[post-match]" outputform="post-match[post-match/JJ]">Your <marker>post-match</marker> speech was great!</example>
+            <example type="ambiguous" inputform="post-metre[post-metre]" outputform="post-metre[post-metre/JJ]">Ignore the spelling for this <marker>post-metre</marker> example.</example>
         </rule>
 
         <rule><!-- disambiguation, plural common nouns -->
@@ -143,24 +144,27 @@
             <example type="untouched">Whose <marker>pre-match</marker> speech was rubbish?</example>
             <example type="untouched">Actually, <marker>pre-TEST</marker> terms like this are not allowed.</example>
             <example type="untouched"><marker>Pre-disambiguation</marker> checks were not necessary.</example><!-- Pre-disambiguation/B-NP-plural. Thus, a different rule is necessary. -->
+            <example type="untouched">The problems of pre-industrialisation processes were noted.</example><!-- pre-industrialisation/B-NP-plural -->
             <example type="ambiguous" inputform="pre-rabbit[pre-rabbit]" outputform="pre-rabbit[pre-rabbit/JJ]">The <marker>pre-rabbit</marker> tests were successfully done.</example>
             <example type="ambiguous" inputform="post-match[post-match]" outputform="post-match[post-match/JJ]">Those <marker>post-match</marker> drinks left us a little woozy.</example>
             <example type="ambiguous" inputform="pre-sulphurization[pre-sulphurization]" outputform="pre-sulphurization[pre-sulphurization/JJ]">Some <marker>pre-sulphurization</marker> tests for spelling are necessary</example>
             <example type="ambiguous" inputform="pre-disambiguation[pre-disambiguation]" outputform="pre-disambiguation[pre-disambiguation/JJ]">My <marker>pre-disambiguation</marker> tests are OK.</example>
+            <example type="ambiguous" inputform="pre-industrialisation[pre-industrialisation]" outputform="pre-industrialisation[pre-industrialisation/JJ]">The <marker>pre-industrialisation</marker> processes were noted.</example>
         </rule>
 
         <rule><!-- ignore spelling -->
             <pattern>
                 <marker>
                     <token postag="JJ" regexp="yes">(pre|post)-[a-z]+
-                        <exception regexp="yes">.*(aluminium|sulphur).*</exception><!-- BrE spelling -->
-                        <exception regexp="yes">.*(aluminum|sulfur).*</exception><!-- AmE spelling -->
+                        <exception regexp="yes">.*(aluminium|colour|dialoge|programme|sulphur).*</exception><!-- BrE spelling -->
+                        <exception regexp="yes">.*(aluminum|color|dialog|program|sulfur).*</exception><!-- AmE spelling -->
+                        <exception regexp="yes">.*(gramme|metre|is(ation|er|ability))</exception><!-- Suffixes, BrE spelling. -->
                         </token>
                 </marker>
             <token postag_regexp="yes" postag="NN.*"/>
             </pattern>
             <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
-                args="no:1 regexp:pre-([a-z]+|[A-Z]+) postag_regexp:NN(:UN?)?"/><!-- The filter makes sure that this term is the one to which the postag was applied. But, it it necessary? -->
+                args="no:1 regexp:pre-([a-z]+|[A-Z]+) postag_regexp:NN(:UN?)?"/><!-- The filter makes sure that this term is the one to which the postag was applied. -->
             <disambig action="ignore_spelling"/>
 <!-- Is it possible to add examples as tests to make sure that the rule works? -->
         </rule>
