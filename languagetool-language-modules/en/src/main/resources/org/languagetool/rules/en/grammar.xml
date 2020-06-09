@@ -21957,10 +21957,10 @@ USA
                     <token regexp="yes" inflected="yes" skip="1">talk|meet|discuss|plan|chat|call|see|message|text|do|elaborate|contact|share|reply|answer|question</token>
                     <token regexp="yes">on|via</token>
                     <marker>
-                        <token regexp="yes" case_sensitive="yes">zoom|skype|hangouts|slack</token>
+                        <token regexp="yes" case_sensitive="yes">zoom|skype|hangouts|slack|teams</token>
                     </marker>
                 </pattern>
-                <message>Did you mean the video conferencing tool <suggestion><match no="3" case_conversion="startupper" /></suggestion> (= proper noun, capitalized)?</message>
+                <message>Did you mean the communication tool <suggestion><match no="3" case_conversion="startupper" /></suggestion> (= proper noun, capitalized)?</message>
                 <example correction="Skype">Let's have a chat on <marker>skype</marker>.</example>
             </rule>
             <rule>
@@ -21970,7 +21970,7 @@ USA
                     </marker>
                     <token regexp="yes">chats?|talks?|calls?|meetings?|presentations?|conversations?|stand\-?up|apps?|interviews?|discussions?|messages?|messaging|channels?|contacts?|notifications?|conferenc(e|ing)|answers?|repl(y|ies)</token>
                 </pattern>
-                <message>Did you mean the video conferencing tool <suggestion><match no="1" case_conversion="startupper" /></suggestion> (= proper noun, capitalized)?</message>
+                <message>Did you mean the communication tool <suggestion><match no="1" case_conversion="startupper" /></suggestion> (= proper noun, capitalized)?</message>
                 <example correction="Skype">Let's have a quick <marker>skype</marker> call.</example>
             </rule>
         </rulegroup>
@@ -27225,6 +27225,12 @@ USA
             <example correction="couple of times">I tried it a <marker>couples of times</marker>.</example>
         </rule>
         <rulegroup id="A_NNS" name="Agreement: 'a' + plural word">
+            <antipattern><!-- caught by AN_AND -->
+                <token regexp="yes">on|yes|off</token>
+                <token>an</token>
+                <token regexp="yes">off|no|on</token>
+                <token chunk="E-NP-plural" />
+            </antipattern>
             <antipattern>
                 <token>one</token>
                 <token>of</token>
@@ -49302,6 +49308,19 @@ The accident victim died from her injuries.
     <!-- Commonly Confused Words -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Commonly Confused Words" type="misspelling">
+        <rule id="WRIT_WRITE" name="writ vs write" default="temp_off">
+            <pattern>
+                <token postag="PRP|MD|TO" postag_regexp="yes">
+                    <exception>need</exception>
+                </token>
+                <token postag="RB" min="0" />
+                <marker>
+                    <token>writ</token>
+                </marker>
+            </pattern>
+            <message>Did you mean the verb <suggestion>write</suggestion>?</message>
+            <example correction="write">I can <marker>writ</marker> you a message on Slack.</example>
+        </rule>
         <rule id="DIES_DOES" name="dies vs does">
             <pattern>
                 <token regexp="yes">s?he|it</token>
@@ -50092,6 +50111,11 @@ The accident victim died from her injuries.
                 <example>Is there a way to internally rewire an off the shelf multi-speed portable fan.</example>
             </rule>
             <rule>
+                <antipattern><!-- missing hyphen (different error) -->
+                    <token>an</token>
+                    <token>in</token>
+                    <token regexp="yes">house|flight|car|depth|between|store|service|group|ground|home</token>
+                </antipattern>
                 <pattern>
                     <token postag="NN.*|PRP" postag_regexp="yes" />
                     <token postag="RB" min="0" />
@@ -50109,6 +50133,7 @@ The accident victim died from her injuries.
                 </pattern>
                 <message>Did you mean <suggestion>and</suggestion>?</message>
                 <example correction="and">They decline <marker>an</marker> eventually go extinct.</example>
+                <example>An in house solution.</example><!-- different error -->
             </rule>
             <rule>
                 <pattern>
