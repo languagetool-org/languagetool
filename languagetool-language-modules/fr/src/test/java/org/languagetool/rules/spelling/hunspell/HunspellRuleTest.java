@@ -45,6 +45,8 @@ public class HunspellRuleTest {
     test("Le cœur, la sœur.", 0);
 
     test("LanguageTool", 0);
+    
+    test("L'ONU", 0);
 
     // Tests with dash and apostrophes.
     test("Il arrive après-demain.", 0);

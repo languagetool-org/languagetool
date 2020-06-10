@@ -32,6 +32,8 @@ import org.languagetool.tagging.disambiguation.fr.FrenchHybridDisambiguator;
 import org.languagetool.tagging.fr.FrenchTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
+import org.languagetool.tokenizers.fr.FrenchWordTokenizer;
 
 import java.io.File;
 import java.io.IOException;
@@ -72,6 +74,11 @@ public class French extends Language implements AutoCloseable {
   @Override
   public Synthesizer createDefaultSynthesizer() {
     return new FrenchSynthesizer(this);
+  }
+  
+  @Override
+  public Tokenizer createDefaultWordTokenizer() {
+    return new FrenchWordTokenizer();
   }
 
   @Override
