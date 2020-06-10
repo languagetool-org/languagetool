@@ -8613,7 +8613,7 @@ USA
                 <example correction="You're"><marker>Your</marker> way better than that!</example>
                 <example>Getting to Baseline Knowing how much electricity appliances use can help you budget your way closer to baseline levels.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>a</token>
                     <token regexp="yes">/|\*</token>
@@ -8642,7 +8642,7 @@ USA
                 <example correction="your|the">Please forward this email to <marker>your the</marker> administrative staff of your department, so they can access the portal site.</example>
                 <example>What did you do to your a/c system?</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>a</token>
                     <token regexp="yes">records?</token>
@@ -12366,7 +12366,7 @@ USA
             <example correction="neighborhood">She lives in a wealthy <marker>neighbor hood</marker>.</example>
             <example>Old Father Hood, standing over there as he has been since time out of mind, took a couple of human lives the other day.</example>
         </rule>
-        <rule id="WITHDRAW_COMPOUNDS" name="with draw (withdraw)" default="temp_off">
+        <rule id="WITHDRAW_COMPOUNDS" name="with draw (withdraw)">
             <antipattern>
                 <token chunk="I-VP" />
                 <token regexp="yes">them|him|her|us|it|you|me</token>
@@ -13306,9 +13306,13 @@ USA
                 <token>rate</token>
                 <token regexp="yes">hikes?</token>
             </antipattern>
+            <antipattern>
+                <token>under</token>
+                <token>mine</token>
+            </antipattern>
             <pattern>
                 <token>under</token>
-                <token inflected="yes" regexp="yes">appreciate|estimate|achieve|whelm|line|rate|report|represent</token>
+                <token inflected="yes" regexp="yes">appreciate|estimate|achieve|whelm|line|rate|report|represent|mine</token>
             </pattern>
             <message>This is normally spelled as one word.</message>
             <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion>
@@ -13317,6 +13321,7 @@ USA
             <example>I explained to her that we had been a customer under Rate No. 21 since July but only obtained access recently.</example>
             <example>It is under estimate.</example>
             <example>This is 12 % under estimate.</example>
+            <example>I wish to add something under mine.</example>
         </rule>
         <rulegroup id="OVER_COMPLICATE" name="over complicated (overcomplicated)">
             <antipattern>
@@ -22021,6 +22026,17 @@ USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes" inflected="yes" skip="3">invitation|invite</token>
+                    <token regexp="yes" skip="1">for|to</token>
+                    <marker>
+                        <token regexp="yes" case_sensitive="yes">zoom|skype|hangouts|slack</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the communication tool <suggestion><match no="3" case_conversion="startupper" /></suggestion> (= proper noun, capitalized)?</message>
+                <example correction="Slack">He got invited to their <marker>slack</marker> channel.</example>
+            </rule>
+            <rule>
+                <pattern>
                     <marker>
                         <token regexp="yes" case_sensitive="yes" skip="1">zoom|skype|hangouts|slack</token>
                     </marker>
@@ -22047,7 +22063,7 @@ USA
                     <marker>
                         <token case_sensitive="yes">excel</token>
                     </marker>
-                    <token regexp="yes">charts?|sheets?|files?|spreadsheets?|formats?|software|program|20\d{2}|macros?|formulas?|functions?</token>
+                    <token regexp="yes">charts?|sheets?|files?|spreadsheets?|formats?|software|program|20\d{2}|macros?|formulas?|functions?|cells?|documents?|workshops?|trainings?</token>
                 </pattern>
                 <message>Capitalize this word if you mean the computer program <suggestion>Excel</suggestion>.</message>
                 <example correction="Excel">Please send me the <marker>excel</marker> file via e-mail.</example>
@@ -22488,6 +22504,19 @@ USA
             <url>https://en.wikipedia.org/wiki/WhatsApp</url>
             <example correction="WhatsApp|What's up">He is using <marker>Whats App</marker> to communicate with his friends.</example>
         </rule>
+        <rule id="JENNIFER_ANISTON" name="Jennifer Aniston">
+            <antipattern case_sensitive="yes">
+                <token>Jennifer</token>
+                <token>Aniston</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Jenn?iff?er</token>
+                <token regexp="yes">Ann?iston</token>
+            </pattern>
+            <message>Did you mean the actress <suggestion>Jennifer Aniston</suggestion>?</message>
+            <url>https://en.wikipedia.org/wiki/Jennifer_Aniston</url>
+            <example correction="Jennifer Aniston"><marker>Jenifer Aniston</marker> is an American actress.</example>
+        </rule>
         <rulegroup id="BLACK_LIVES_MATTER" name="Black Lives Matter">
             <url>https://en.wikipedia.org/wiki/Black_Lives_Matter</url>
             <antipattern case_sensitive="yes">
@@ -22495,7 +22524,7 @@ USA
                 <token regexp="yes">Lives|LIVES</token>
                 <token regexp="yes">Matter|MATTER</token>
             </antipattern>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token regexp="yes">the|an?|our|their</token>
                     <token postag="JJ.*" postag_regexp="yes" min="0" />
@@ -22509,7 +22538,7 @@ USA
                 <suggestion>Black Lives Matter</suggestion>
                 <example correction="Black Lives Matter">The <marker>black lives matter</marker> movement.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <marker>
                         <token>black</token>
@@ -49406,7 +49435,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>come</suggestion>?</message>
                 <example correction="come">It has <marker>com</marker> to an end.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>com</token>
                     <token>on</token>
@@ -49416,7 +49445,7 @@ The accident victim died from her injuries.
                 <example>Visit JCPenney.com on the WorldPerks Mall.</example>
             </rule>
         </rulegroup>
-        <rule id="WRIT_WRITE" name="writ vs write" default="temp_off">
+        <rule id="WRIT_WRITE" name="writ vs write">
             <pattern>
                 <token postag="PRP|MD|TO" postag_regexp="yes">
                     <exception>need</exception>
