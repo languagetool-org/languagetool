@@ -23,32 +23,25 @@ import morfologik.stemming.IStemmer;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.language.Arabic;
 import org.languagetool.tagging.BaseTagger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * @since 4.9
  */
 public class ArabicTagger extends BaseTagger {
 
+  private final ArabicTagManager tagmanager = new ArabicTagManager();
+
   public ArabicTagger() {
     super("/ar/arabic.dict", new Locale("ar"));
   }
 
-  /* Add the flag to an encoded tag */
-  public String addTag(String postag, String flag) {
-    StringBuilder tmp = new StringBuilder(postag);
-    if (flag.equals("W")) {
-      tmp.setCharAt(postag.length() - 3, 'W');
-    } else if (flag.equals("K")) {
-      tmp.setCharAt(postag.length() - 2, 'K');
-    } else if (flag.equals("L")) {
-      tmp.setCharAt(postag.length() - 2, 'L');
-    }
-    return tmp.toString();
-  }
-  
+
   @Override
   public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
     List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
@@ -56,11 +49,13 @@ public class ArabicTagger extends BaseTagger {
     int pos = 0;
     for (String word : sentenceTokens) {
       List<AnalyzedToken> l = new ArrayList<>();
-      String striped = word.replaceAll("[\u064B\u064C\u064D\u064E\u064F\u0650\u0651\u0652\u0653\u0654\u0655\u0656\u0640]", "");
+      String striped = word.replaceAll("[" + Arabic.TASHKEEL_CHARS + "]", "");
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(striped));
       addTokens(taggerTokens, l);
       // additional tagging with prefixes
-      if (l.isEmpty()) {
+      // if not a stop word add more stemming
+      if (!isStopWord(taggerTokens)) {
+        // test all possible tags
         addTokens(additionalTags(striped, dictLookup), l);
       }
       if (l.isEmpty()) {
@@ -75,24 +70,48 @@ public class ArabicTagger extends BaseTagger {
   @Nullable
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
-    List<String> tags = new ArrayList<>();
-    String possibleWord = word;
-    if (possibleWord.startsWith("و") || possibleWord.startsWith("ف")) {
-      tags.add("W");
-      possibleWord = possibleWord.replaceAll("^[وف]", "");
-    }
-    if (possibleWord.startsWith("لل")) {
-      tags.add("L");
-      possibleWord = possibleWord.replaceAll("^[لل]", "");
-    } else if (possibleWord.startsWith("ك")) {
-      tags.add("K");
-      possibleWord = possibleWord.replaceAll("^[ك]", "");
-    } else if (possibleWord.startsWith("ل")) {
-      tags.add("L");
-      possibleWord = possibleWord.replaceAll("^[ل]", "");
-    }
+    List<Integer> prefix_index_list = getPrefixIndexList(word);
+    List<Integer> suffix_index_list = getSuffixIndexList(word);
 
-    if (possibleWord.endsWith("ه")
+    for (int i : prefix_index_list) {
+      for (int j : suffix_index_list) {
+        // avoid default case of returned word as it
+        if ((i == 0) && (j == word.length()))
+          continue;
+        // get stem return a list, to generate some variants for stems.
+        List<String> stemsList = getStem(word, i, j);
+        List<String> tags = getTags(word, i);
+
+        for (String stem : stemsList) {
+          List<AnalyzedToken> taggerTokens;
+          taggerTokens = asAnalyzedTokenList(stem, stemmer.lookup(stem));
+
+          for (AnalyzedToken taggerToken : taggerTokens) {
+            String posTag = taggerToken.getPOSTag();
+            // modify tags in postag, return null if not compatible
+            posTag = tagmanager.modifyPosTag(posTag, tags);
+
+            if (posTag != null)
+              additionalTaggedTokens.add(new AnalyzedToken(word, posTag, taggerToken.getLemma()));
+          } // for taggerToken
+        } // for stem in stems
+      } // for j
+    } // for i
+    return additionalTaggedTokens;
+  }
+
+  private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {
+    if (taggedTokens != null) {
+      l.addAll(taggedTokens);
+    }
+  }
+
+
+  private List<Integer> getSuffixIndexList(String possibleWord) {
+    List<Integer> suffix_indexes = new ArrayList<>();
+    suffix_indexes.add(possibleWord.length());
+    int suffix_pos = possibleWord.length();
+    if (possibleWord.endsWith("ك")
       || possibleWord.endsWith("ها")
       || possibleWord.endsWith("هما")
       || possibleWord.endsWith("كما")
@@ -102,23 +121,156 @@ public class ArabicTagger extends BaseTagger {
       || possibleWord.endsWith("كن")
       || possibleWord.endsWith("نا")
     ) {
-      possibleWord = possibleWord.replaceAll("(ه|ها|هما|هم|هن|كما|كم|كن|نا|ي)$", "ك");
+      if (possibleWord.endsWith("ك"))
+        suffix_pos -= 1;
+      else if (possibleWord.endsWith("هما") || possibleWord.endsWith("كما"))
+        suffix_pos -= 3;
+      else
+        suffix_pos -= 2;
+      suffix_indexes.add(suffix_pos);
     }
-    List<AnalyzedToken> taggerTokens;
-    taggerTokens = asAnalyzedTokenList(possibleWord, stemmer.lookup(possibleWord));
-    for (AnalyzedToken taggerToken : taggerTokens) {
-      String posTag = taggerToken.getPOSTag();
-      for (String tag : tags) {
-        posTag = addTag(posTag, tag);
-      }
-      additionalTaggedTokens.add(new AnalyzedToken(word, posTag, taggerToken.getLemma()));
-    }
-    return additionalTaggedTokens;
+    return suffix_indexes;
   }
 
-  private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {
-    if (taggedTokens != null) {
-      l.addAll(taggedTokens);
+  private List<Integer> getPrefixIndexList(String possibleWord) {
+    List<Integer> prefix_indexes = new ArrayList<>();
+    prefix_indexes.add(0);
+    int prefix_pos;
+
+    // four letters
+    if (possibleWord.startsWith("وكال")
+      || possibleWord.startsWith("وبال")
+      || possibleWord.startsWith("فكال")
+      || possibleWord.startsWith("فبال")
+    ) {
+      prefix_pos = 4;
+      prefix_indexes.add(prefix_pos);
     }
+
+    // three letters
+    if (possibleWord.startsWith("ولل") // هذه حالة ول+ال
+      || possibleWord.startsWith("فلل")
+      || possibleWord.startsWith("فال")
+      || possibleWord.startsWith("وال")
+      || possibleWord.startsWith("بال")
+      || possibleWord.startsWith("كال")
+    ) {
+      prefix_pos = 3;
+      prefix_indexes.add(prefix_pos);
+    }
+
+    // two letters
+    if (possibleWord.startsWith("لل")  // حالة ل+ال أي حرفان زائدان
+      || possibleWord.startsWith("وك")
+      || possibleWord.startsWith("ول")
+      || possibleWord.startsWith("وب")
+      || possibleWord.startsWith("فك")
+      || possibleWord.startsWith("فل")
+      || possibleWord.startsWith("فب")
+      || possibleWord.startsWith("ال")
+      //  حالة الفعل المضارع، السين فقط ما يؤخذ
+      || possibleWord.startsWith("فسأ")
+      || possibleWord.startsWith("فسن")
+      || possibleWord.startsWith("فسي")
+      || possibleWord.startsWith("فست")
+      || possibleWord.startsWith("وسأ")
+      || possibleWord.startsWith("وسن")
+      || possibleWord.startsWith("وسي")
+      || possibleWord.startsWith("وست")
+
+    ) {
+      prefix_pos = 2;
+      prefix_indexes.add(prefix_pos);
+    }
+
+    // one letter
+    if (possibleWord.startsWith("ك")
+      || possibleWord.startsWith("ل")
+      || possibleWord.startsWith("ب")
+      || possibleWord.startsWith("و")
+      || possibleWord.startsWith("ف")
+      || possibleWord.startsWith("سأ")  //  حالة الفعل المضارع، السين فقط ما يؤخذ
+      || possibleWord.startsWith("سن")
+      || possibleWord.startsWith("سي")
+      || possibleWord.startsWith("ست")
+    ) {
+      prefix_pos = 1;
+      prefix_indexes.add(prefix_pos);
+    }
+
+    // get prefixe
+    return prefix_indexes;
+  }
+
+
+  private List<String> getTags(String word, int posStart) {
+    List<String> tags = new ArrayList<>();
+    // extract tags from word
+    String prefix = getPrefix(word, posStart);
+    // prefixes
+    // first place
+    if (prefix.startsWith("و") || prefix.startsWith("ف")) {
+      tags.add("W");
+      prefix = prefix.replaceAll("^[وف]", "");
+
+    }
+    // second place
+    if (prefix.startsWith("ك")) {
+      tags.add("K");
+    } else if (prefix.startsWith("ل")) {
+      tags.add("L");
+    } else if (prefix.startsWith("ب")) {
+      tags.add("B");
+    } else if (prefix.startsWith("س")) {
+      tags.add("S");
+    }
+    // last place
+    if (prefix.endsWith("ال")
+      || prefix.endsWith("لل")
+    ) {
+      tags.add("D");
+    }
+    // suffixes
+    // TODO : suffixes if needed
+    return tags;
+  }
+  
+
+  /**
+   * @param taggerTokens
+   * @return test if word has stopword tagging
+   */
+  private boolean isStopWord(List<AnalyzedToken> taggerTokens) {
+    // if one token is stop word
+    for (AnalyzedToken tok : taggerTokens) {
+      if (tagmanager.isStopWord(tok.getPOSTag()))
+        return true;
+    }
+    return false;
+  }
+
+  private String getPrefix(String word, int pos) {
+    // get prefixe
+    return word.substring(0, pos);
+  }
+
+  private List<String> getStem(String word, int posStart, int posEnd) {
+    // get prefixe
+    // extract only stem+suffix, the suffix ill be replaced by pronoun model
+    List<String> stemList = new ArrayList<>();
+    String stem = word.substring(posStart);
+    if (posEnd != word.length()) { // convert attached pronouns to one model form
+      stem = stem.replaceAll("(ك|ها|هما|هم|هن|كما|كم|كن|نا|ي)$", "ه");
+    }
+    // correct some stems
+    // correct case of للاسم
+    String prefix = getPrefix(word, posStart);
+    if (prefix.endsWith("لل")) {
+      stemList.add("ل" + stem); // للاعب => لل- لاعب
+    }
+
+    stemList.add(stem);  // لاسم أو ل+لاعب
+    return stemList;
   }
 }
+

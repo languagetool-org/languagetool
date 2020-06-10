@@ -23,6 +23,7 @@ import morfologik.stemming.WordData;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
+import org.languagetool.tagging.ar.ArabicTagManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,12 +34,12 @@ import java.util.regex.Pattern;
 /**
  * Arabic word form synthesizer.
  * Based on part-of-speech lists in Public Domain. See readme.txt for details,
- * the POS tagset is described in tagset.txt.
+ * the POS tagset is described in arabic_tags_description.txt.
  * <p>
  * There are two special additions:
  * <ol>
- * <li>+GF - tag that adds  feminine gender to word</li>
- * <li>+GM - a tag that adds masculine gender to word</li>
+ *    <li>+GF - tag that adds  feminine gender to word</li>
+ *    <li>+GM - a tag that adds masculine gender to word</li>
  * </ol>
  *
  * @author Taha Zerrouki
@@ -48,6 +49,10 @@ public class ArabicSynthesizer extends BaseSynthesizer {
 
   private static final String RESOURCE_FILENAME = "/ar/arabic_synth.dict";
   private static final String TAGS_FILE_NAME = "/ar/arabic_tags.txt";
+
+  // A special tag to remove pronouns properly
+  private static final String REMOVE_PRONOUN = "(\\+RP)?";
+  private final ArabicTagManager tagmanager = new ArabicTagManager();
 
   public ArabicSynthesizer(Language lang) {
     super(RESOURCE_FILENAME, TAGS_FILE_NAME, lang);
@@ -62,19 +67,24 @@ public class ArabicSynthesizer extends BaseSynthesizer {
    * @return String value - inflected word.
    */
   @Override
-  public String[] synthesize(AnalyzedToken token, String posTag) throws IOException {
+  public String[] synthesize(AnalyzedToken token, String posTag) {
     IStemmer synthesizer = createStemmer();
     List<WordData> wordData = synthesizer.lookup(token.getLemma() + "|" + posTag);
     List<String> wordForms = new ArrayList<>();
+    String stem;
     for (WordData wd : wordData) {
-      wordForms.add(wd.getStem().toString());
+      // ajust some stems
+      stem = correctStem(wd.getStem().toString(), posTag);
+      wordForms.add(stem);
     }
     return wordForms.toArray(new String[0]);
   }
 
   /**
-   * Special Arabic regexp based synthesizer that allows adding articles
-   * when the regexp-based tag ends with a special signature {@code \\+GM} or {@code \\+GF}.
+   * Special English regexp based synthesizer that allows adding articles
+   * when the regexp-based tag ends with a special signature {@code \\+INDT} or {@code \\+DT}.
+   *
+   * @since 2.5
    */
   @Override
   public String[] synthesize(AnalyzedToken token, String posTag,
@@ -82,15 +92,22 @@ public class ArabicSynthesizer extends BaseSynthesizer {
 
     if (posTag != null && posTagRegExp) {
       String myPosTag = posTag;
-      String det = "";
       initPossibleTags();
+      myPosTag = correctTag(myPosTag);
+
       Pattern p = Pattern.compile(myPosTag);
       List<String> results = new ArrayList<>();
-
+      String stem;
       for (String tag : possibleTags) {
         Matcher m = p.matcher(tag);
-        if (m.matches()) {
-          lookup(token.getLemma(), tag, results, det);
+        if (m.matches() && token.getLemma() != null) {
+          // local result
+          List<String> result_one = lookup(token.getLemma(), tag);
+          for (String wd : result_one) {
+            // adjust some stems according to original postag
+            stem = correctStem(wd, posTag);
+            results.add(stem);
+          }
         }
       }
       return results.toArray(new String[0]);
@@ -99,13 +116,50 @@ public class ArabicSynthesizer extends BaseSynthesizer {
     return synthesize(token, posTag);
   }
 
-  private void lookup(String lemma, String posTag, List<String> results, String determiner) {
-    synchronized (this) { // the stemmer is not thread-safe
-      List<WordData> wordForms = getStemmer().lookup(lemma + "|" + posTag);
-      for (WordData wd : wordForms) {
-        results.add(determiner + wd.getStem());
-      }
-    }
+
+
+  /* correct tags  */
+
+  public String correctTag(String postag) {
+    String mypostag = postag;
+    if (postag == null) return null;
+    // remove attached pronouns
+
+    mypostag = tagmanager.setConjunction(mypostag, "-");
+    // remove Alef Lam definite article
+    mypostag = tagmanager.setDefinite(mypostag, "-");
+
+    return mypostag;
   }
 
+
+  /* correct stem to generate stems to be attached with pronouns  */
+  public String correctStem(String stem, String postag) {
+    String correct_stem = stem;
+    if (postag == null) return stem;
+    if (tagmanager.isAttached(postag)) {
+      correct_stem = correct_stem.replaceAll("ه$", "");
+    }
+
+    if (tagmanager.isDefinite(postag)) {
+      String prefix = tagmanager.getDefinitePrefix(postag);// can handle ال & لل
+      correct_stem = prefix + correct_stem;
+    }
+    if (tagmanager.hasJar(postag)) {
+      String prefix = tagmanager.getJarPrefix(postag);
+      correct_stem = prefix + correct_stem;
+    }
+    if (tagmanager.hasConjunction(postag)) {
+      String prefix = tagmanager.getConjunctionPrefix(postag);
+      correct_stem = prefix + correct_stem;
+
+    }
+    return correct_stem;
+  }
+
+
 }
+
+
+
+

@@ -2,6 +2,13 @@
 
 ## 5.0-SNAPSHOT (release planned for 2020-06-26)
 
+#### Arabic
+  * added and improved rules
+  * updated POS dictionary (Arramooz [#e33794e](https://github.com/linuxscout/arramooz/commit/e33794e787d56e7c185c0e281fd8e6d6274f3fdc))
+  * remove the Algerian variant (ar-DZ)
+  * add support of ngram data ([languagetool-tools-ar](https://github.com/sohaibafifi/languagetool-tools-ar))
+  * add Darja, Diacritics, Redundancy, WrongWordInContext, Wordiness, Homophones and WordCoherency rules.
+  
 #### Catalan
   * added and improved rules
   * updated dictionary (catalan-pos-dict-2.8), now with a specific dictionary file for spelling suggestions

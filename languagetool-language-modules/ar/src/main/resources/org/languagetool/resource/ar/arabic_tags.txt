@@ -1,188 +1,984 @@
-Description of Arabic tag sets
-==============================
-The arabic tag sytax for grammar check is composed of 4 parts
-
-The tag starts by word class
-for example 
-V: Verb
-N: Noun
-P: tool or partical
-
-Nouns
-=====
-
-3 parts:
-========
-* word class and category
-* Conjugation ( suffixes used to conjugate words in dual form, feminin form).
-* Affixes ( prefixes and encletics)
-
-
-
-Word class and category:
-========================
- define the attributes of word in dictionary, for example,
-contains 3 parts
-- Word type:
-	N: noun,
-	V: verb,
-	P: particle
-- Word sub class:
-	M	Masdar	مصدر
-	A	Adjective	صفة
-	A	Adjective similair	صفة مشبهة
-	A	Adjective superlative	صيغة مبالغة
-	A	maf3oul	اسم مفعول
-	A	fa3il	اسم فاعل
-	P	Proper Noun	اسم علم
-	S	Superlative	اسم تفضيل
-	J	jamid	جامد
-- Not used
-
-
-Noun conjugation: 4 letters
-===========================
-	- Gender suffix:
-		M: masculine ( ون is a mark of masculine)
-		F: feminine (ة or ات)
-		-: none
-	- Number suffix:
-		1: single
-		2: dual
-		3: plural ( regular masculine or feminine plural, or irregular plural)
-		3I: irregular plural form
-	- Case ( إعراب)
-		U	marfou3	مرفوع
-		0	manjzoum	 مجزوم
-		I	majrour	مجرور
-		A	mansoub	منصوب
-		B	mabni	مبني
-		-	undef	لاشيء
-	- Inflection Mark علامة الإعراب
-		u	damma	الضمة
-		a	fatha	الفتحة
-		i	kasra	الكسرة
-		0	sukun	السكون
-		U	dammatan	تنوين الضمة
-		e	fathatan	تنوين الفتحة
-		E	alef_fathatan	تنوين الألف
-		I	kasratan	تنوين الكسرة
-		A	alef	الألف
-		W	waw	الواو
-		Y	yeh	الياء
-		N	noon	ثبوت النون
-		-	undef	لاشيء
-
-Noun prefixes and encletic:
-===========================
-contains 3 parts
-W: conjonction: starts by WAW or FEH, take 3 values: W: for waw, F; for Feh, -: none.
-B: preposition: B: for Beh, K: for Kaf, L: for Lam, by default we use B, -: none.
-L/H: definite article, L: for AL,  H: attached pronouns  -: none.
-	H: define the extended words added to the lexem: الضمائر المضافة
-	H: if have encletic
-
-Example:
-شرفك	شرف	NS-;M3U-;--H
-شرفي	شرف	NS-;M3U-;---
-الشرف	شرف	NS-;M3A-;--L
-شرفتك	شرف	NS-;F3A-;--H
-شرف	شرف	NS-;M3U-;---
-شرفين	شرف	NS-;M3I-;---
-بالشرف	شرف	NS-;M3I-;-BL
-الشرفي	شرف	NS-;M3A-;--L
-شرف	شرف	NS-;M3A-;---
-شرفي	شرف	NS-;M3A-;---
-
-
-
-
-
-
-Verbs
-=====
-Word class + conjugation + affixes
-
-verb Word class:
-================
-	Word type: V
-	verb class:
-		N	invariable	فعل جامد
-		H	heart	أفعال القلوب
-		R	probability	أفعال الظن
-		T	Tranfert	أفعال التحويل
-		I	initiative	أفعال الشروع
-		W	Weak	معتل
-
-	transitivity: 
-		0	intransitive	لازم
-		1	transitive	متعدي
-		2	double transitive	متعدي لمفعولين
-		4	common	مشترك
-		تعدي	undef	لاشيء
-
-verb conjugation:
-=================
-
-# Conjugation			
-	## Gender الجنس			
-		M	masculine	مذكر
-		F	Feminine	مؤنث
-		-	none	لاشيء
-	## Number العدد			
-		1	single	مفرد
-		2	dual	مثنى
-		3	plural	جمع
-		4	plural	جمع تكسير
-		-	none	لاشيء
-	## Inlfection case الحالة الإعرابية
-		U	marfou3	مرفوع
-		0	manjzoum	مجزوم
-		I	majrour	مجرور
-		A	mansoub	منصوب
-		B	mabni	مبني
-		-	undef	لاشيء
-	## Inflection marks
-
-		u	damma	الضمة
-		a	fatha	الفتحة
-		i	kasra	الكسرة
-		0	sukun	السكون
-		U	dammatan	تنوين الضمة
-		e	fathatan	تنوين الفتحة
-		E	alef_fathatan	تنوين الألف
-		I	kasratan	تنوين الكسرة
-		A	alef	الألف
-		W	waw	الواو
-		Y	yeh	الياء
-		N	noon	ثبوت النون
-		-	undef	لاشيء
-
-	## tense الزمن
-		p	past	ماض
-		f	present	مضارع
-		i	imperative	أمر
-		-	undef	لاشيء
-			
-	## Voice البناء			
-		a	acive voice	معلوم
-		p	acive voice	مجهول
-		-	undef	لاشيء
-			
-	## person الشخص			
-
-		I	1st person	متكلم
-		Y	2nd person	مخاطب
-		H	3rd person	غائب
-		-	undef	لاشيء
-
-Affixes ( Procletic + Ecletic)
-==============================
-	Verb procletic:
-	===============
-	W: conjonction: starts by WAW or FEH, take 3 values: W: for waw, F; for Feh, -: none.
-	S: future prefix, س+يتعلم
-	Verb encletic:
-	==============
-	define the extended words added to the lexem: الضمائر المضافة
-	H: if have encletic
+NA-;-1--;---
+NA-;-1A-;---
+NA-;-1AE;---
+NA-;-1A-;--H
+NA-;-1--;--H
+NA-;-1I-;---
+NA-;-1I-;--H
+NA-;-1U-;---
+NA-;-1U-;--H
+NA-;-2A-;---
+NA-;-2--;--H
+NA-;-2U-;---
+NA-;-2U-;--H
+NA-;-3--;---
+NA-;-3A-;---
+NA-;-3AE;---
+NA-;-3A-;--H
+NA-;-3--;--H
+NA-;-3I-;---
+NA-;-3I-;--H
+NA-;-3U-;---
+NA-;-3U-;--H
+NA-;F1--;---
+NA-;F1A-;---
+NA-;F1AE;---
+NA-;F1A-;--H
+NA-;F1--;--H
+NA-;F1I-;---
+NA-;F1I-;--H
+NA-;F1U-;---
+NA-;F1U-;--H
+NA-;F2--;---
+NA-;F2A-;---
+NA-;F2--;--H
+NA-;F2I-;---
+NA-;F2U-;---
+NA-;F2U-;--H
+NA-;F3--;---
+NA-;F3A-;---
+NA-;F3AE;---
+NA-;F3A-;--H
+NA-;F3--;--H
+NA-;F3I-;---
+NA-;F3I-;--H
+NA-;F3U-;---
+NA-;F3U-;--H
+NA-;M1--;---
+NA-;M1A-;---
+NA-;M1AE;---
+NA-;M1A-;--H
+NA-;M1--;--H
+NA-;M1I-;---
+NA-;M1I-;--H
+NA-;M1U-;---
+NA-;M1U-;--H
+NA-;M2A-;---
+NA-;M2--;--H
+NA-;M2U-;---
+NA-;M2U-;--H
+NA-;M3--;---
+NA-;M3A-;---
+NA-;M3AE;---
+NA-;M3A-;--H
+NA-;M3--;--H
+NA-;M3I-;---
+NA-;M3I-;--H
+NA-;M3U-;---
+NA-;M3U-;--H
+N--;F1--;---
+N--;F1A-;---
+N--;F1AE;---
+N--;F1A-;--H
+N--;F1--;--H
+N--;F1I-;---
+N--;F1I-;--H
+N--;F1U-;---
+N--;F1U-;--H
+N--;F2--;---
+N--;F2A-;---
+N--;F2--;--H
+N--;F2I-;---
+N--;F2U-;---
+N--;F2U-;--H
+N--;F3--;---
+N--;F3A-;---
+N--;F3AE;---
+N--;F3A-;--H
+N--;F3--;--H
+N--;F3I-;---
+N--;F3I-;--H
+N--;F3U-;---
+N--;F3U-;--H
+NJ-;-1--;---
+NJ-;-1A-;---
+NJ-;-1AE;---
+NJ-;-1A-;--H
+NJ-;-1--;--H
+NJ-;-1I-;---
+NJ-;-1I-;--H
+NJ-;-1U-;---
+NJ-;-1U-;--H
+NJ-;-2A-;---
+NJ-;-2--;--H
+NJ-;-2U-;---
+NJ-;-2U-;--H
+NJ-;-3I-;---
+NJ-;F---;---
+NJ-;F1--;---
+NJ-;F1A-;---
+NJ-;F1AE;---
+NJ-;F1A-;--H
+NJ-;F1--;--H
+NJ-;F1I-;---
+NJ-;F1I-;--H
+NJ-;F1U-;---
+NJ-;F1U-;--H
+NJ-;F2--;---
+NJ-;F2A-;---
+NJ-;F2--;--H
+NJ-;F2I-;---
+NJ-;F2U-;---
+NJ-;F2U-;--H
+NJ-;F3--;---
+NJ-;F3A-;---
+NJ-;F3AE;---
+NJ-;F3A-;--H
+NJ-;F3--;--H
+NJ-;F3I-;---
+NJ-;F3I-;--H
+NJ-;F3U-;---
+NJ-;F3U-;--H
+NJ-;F-A-;---
+NJ-;F-A-;--H
+NJ-;F---;--H
+NJ-;F-I-;---
+NJ-;F-I-;--H
+NJ-;F-U-;---
+NJ-;F-U-;--H
+NJ-;M---;---
+NJ-;M1--;---
+NJ-;M1A-;---
+NJ-;M1AE;---
+NJ-;M1A-;--H
+NJ-;M1--;--H
+NJ-;M1I-;---
+NJ-;M1I-;--H
+NJ-;M1U-;---
+NJ-;M1U-;--H
+NJ-;M2A-;---
+NJ-;M2--;--H
+NJ-;M2U-;---
+NJ-;M2U-;--H
+NJ-;M3--;---
+NJ-;M3A-;---
+NJ-;M3AE;---
+NJ-;M3A-;--H
+NJ-;M3--;--H
+NJ-;M3I-;---
+NJ-;M3I-;--H
+NJ-;M3U-;---
+NJ-;M3U-;--H
+NJ-;M-A-;---
+NJ-;M-AE;---
+NJ-;M-A-;--H
+NJ-;M---;--H
+NJ-;M-I-;---
+NJ-;M-I-;--H
+NJ-;M-U-;---
+NJ-;M-U-;--H
+N--;M1--;---
+N--;M1A-;---
+N--;M1AE;---
+N--;M1A-;--H
+N--;M1--;--H
+N--;M1I-;---
+N--;M1I-;--H
+N--;M1U-;---
+N--;M1U-;--H
+N--;M2A-;---
+N--;M2--;--H
+N--;M2U-;---
+N--;M2U-;--H
+N--;M3--;---
+N--;M3A-;---
+N--;M3AE;---
+N--;M3A-;--H
+N--;M3--;--H
+N--;M3I-;---
+N--;M3I-;--H
+N--;M3U-;---
+N--;M3U-;--H
+NM-;F1--;---
+NM-;F1A-;---
+NM-;F1AE;---
+NM-;F1A-;--H
+NM-;F1--;--H
+NM-;F1I-;---
+NM-;F1I-;--H
+NM-;F1U-;---
+NM-;F1U-;--H
+NM-;F2--;---
+NM-;F2A-;---
+NM-;F2--;--H
+NM-;F2I-;---
+NM-;F2U-;---
+NM-;F2U-;--H
+NM-;F3--;---
+NM-;F3A-;---
+NM-;F3AE;---
+NM-;F3A-;--H
+NM-;F3--;--H
+NM-;F3I-;---
+NM-;F3I-;--H
+NM-;F3U-;---
+NM-;F3U-;--H
+NM-;M1--;---
+NM-;M1A-;---
+NM-;M1AE;---
+NM-;M1A-;--H
+NM-;M1--;--H
+NM-;M1I-;---
+NM-;M1I-;--H
+NM-;M1U-;---
+NM-;M1U-;--H
+NM-;M2A-;---
+NM-;M2--;--H
+NM-;M2U-;---
+NM-;M2U-;--H
+NM-;M3I-;---
+NS-;F1--;---
+NS-;F1A-;---
+NS-;F1A-;--H
+NS-;F1--;--H
+NS-;F1I-;---
+NS-;F1I-;--H
+NS-;F1U-;---
+NS-;F1U-;--H
+NS-;F2--;---
+NS-;F2A-;---
+NS-;F2--;--H
+NS-;F2I-;---
+NS-;F2U-;---
+NS-;F2U-;--H
+NS-;F3--;---
+NS-;F3A-;---
+NS-;F3A-;--H
+NS-;F3--;--H
+NS-;F3I-;---
+NS-;F3I-;--H
+NS-;F3U-;---
+NS-;F3U-;--H
+NS-;M1--;---
+NS-;M1A-;---
+NS-;M1A-;--H
+NS-;M1--;--H
+NS-;M1I-;---
+NS-;M1I-;--H
+NS-;M1U-;---
+NS-;M1U-;--H
+NS-;M2A-;---
+NS-;M2--;--H
+NS-;M2U-;---
+NS-;M2U-;--H
+NS-;M3--;---
+NS-;M3A-;---
+NS-;M3AE;---
+NS-;M3A-;--H
+NS-;M3--;--H
+NS-;M3I-;---
+NS-;M3I-;--H
+NS-;M3U-;---
+NS-;M3U-;--H
+PR-;---;---
+PRD;---;F1H
+PRD;---;F3H
+PRD;---;F3Y
+PRD;---;M1H
+PRD;---;M1I
+PRD;---;M1Y
+PRD;---;M2H
+PRD;---;M2Y
+PRD;---;M3H
+PRD;---;M3I
+PRD;---;M3Y
+V-0;F1H-fa0;---
+V-0;F1H-faA;---
+V-0;F1H-faM;---
+V-0;F1H-faU;---
+V-0;F1H-fp0;---
+V-0;F1H-fpA;---
+V-0;F1H-fpM;---
+V-0;F1H-fpU;---
+V-0;F1H-pa-;---
+V-0;F1H-pp-;---
+V-0;F1Y-fa0;---
+V-0;F1Y-faA;---
+V-0;F1Y-faM;---
+V-0;F1Y-faU;---
+V-0;F1Y-i--;---
+V-0;F1Y-pa-;---
+V-0;F2H-fa0;---
+V-0;F2H-faA;---
+V-0;F2H-faM;---
+V-0;F2H-faU;---
+V-0;F2H-pa-;---
+V-0;F3H-fa0;---
+V-0;F3H-faA;---
+V-0;F3H-faM;---
+V-0;F3H-faU;---
+V-0;F3H-pa-;---
+V-0;F3Y-fa0;---
+V-0;F3Y-faA;---
+V-0;F3Y-faM;---
+V-0;F3Y-faU;---
+V-0;F3Y-i--;---
+V-0;F3Y-pa-;---
+V-0;M1H-fa0;---
+V-0;M1H-faA;---
+V-0;M1H-faM;---
+V-0;M1H-faU;---
+V-0;M1H-fp0;---
+V-0;M1H-fpA;---
+V-0;M1H-fpM;---
+V-0;M1H-fpU;---
+V-0;M1H-pa-;---
+V-0;M1H-pp-;---
+V-0;M1I-fa0;---
+V-0;M1I-faA;---
+V-0;M1I-faM;---
+V-0;M1I-faU;---
+V-0;M1I-pa-;---
+V-0;M1Y-fa0;---
+V-0;M1Y-faA;---
+V-0;M1Y-faM;---
+V-0;M1Y-faU;---
+V-0;M1Y-i--;---
+V-0;M1Y-pa-;---
+V-0;M2H-fa0;---
+V-0;M2H-faA;---
+V-0;M2H-faM;---
+V-0;M2H-faU;---
+V-0;M2H-pa-;---
+V-0;M2Y-fa0;---
+V-0;M2Y-faA;---
+V-0;M2Y-faM;---
+V-0;M2Y-faU;---
+V-0;M2Y-i--;---
+V-0;M2Y-pa-;---
+V-0;M3H-fa0;---
+V-0;M3H-faA;---
+V-0;M3H-faM;---
+V-0;M3H-faU;---
+V-0;M3H-pa-;---
+V-0;M3I-fa0;---
+V-0;M3I-faA;---
+V-0;M3I-faM;---
+V-0;M3I-faU;---
+V-0;M3I-pa-;---
+V-0;M3Y-fa0;---
+V-0;M3Y-faA;---
+V-0;M3Y-faM;---
+V-0;M3Y-faU;---
+V-0;M3Y-i--;---
+V-0;M3Y-pa-;---
+V-1;F1H-fa0;---
+V-1;F1H-fa0;--H
+V-1;F1H-faA;---
+V-1;F1H-faA;--H
+V-1;F1H-faM;---
+V-1;F1H-faM;--H
+V-1;F1H-faU;---
+V-1;F1H-faU;--H
+V-1;F1H-fp0;---
+V-1;F1H-fp0;--H
+V-1;F1H-fpA;---
+V-1;F1H-fpA;--H
+V-1;F1H-fpM;---
+V-1;F1H-fpM;--H
+V-1;F1H-fpU;---
+V-1;F1H-fpU;--H
+V-1;F1H-pa-;---
+V-1;F1H-pa-;--H
+V-1;F1H-pp-;---
+V-1;F1H-pp-;--H
+V-1;F1Y-fa0;---
+V-1;F1Y-fa0;--H
+V-1;F1Y-faA;---
+V-1;F1Y-faA;--H
+V-1;F1Y-faM;---
+V-1;F1Y-faM;--H
+V-1;F1Y-faU;---
+V-1;F1Y-faU;--H
+V-1;F1Y-fp0;---
+V-1;F1Y-fp0;--H
+V-1;F1Y-fpA;---
+V-1;F1Y-fpA;--H
+V-1;F1Y-fpM;---
+V-1;F1Y-fpM;--H
+V-1;F1Y-fpU;---
+V-1;F1Y-fpU;--H
+V-1;F1Y-i--;---
+V-1;F1Y-i--;--H
+V-1;F1Y-pa-;---
+V-1;F1Y-pa-;--H
+V-1;F1Y-pp-;---
+V-1;F1Y-pp-;--H
+V-1;F2H-fa0;---
+V-1;F2H-fa0;--H
+V-1;F2H-faA;---
+V-1;F2H-faA;--H
+V-1;F2H-faM;---
+V-1;F2H-faM;--H
+V-1;F2H-faU;---
+V-1;F2H-faU;--H
+V-1;F2H-fp0;---
+V-1;F2H-fp0;--H
+V-1;F2H-fpA;---
+V-1;F2H-fpA;--H
+V-1;F2H-fpM;---
+V-1;F2H-fpM;--H
+V-1;F2H-fpU;---
+V-1;F2H-fpU;--H
+V-1;F2H-pa-;---
+V-1;F2H-pa-;--H
+V-1;F2H-pp-;---
+V-1;F2H-pp-;--H
+V-1;F3H-fa0;---
+V-1;F3H-fa0;--H
+V-1;F3H-faA;---
+V-1;F3H-faA;--H
+V-1;F3H-faM;---
+V-1;F3H-faM;--H
+V-1;F3H-faU;---
+V-1;F3H-faU;--H
+V-1;F3H-fp0;---
+V-1;F3H-fp0;--H
+V-1;F3H-fpA;---
+V-1;F3H-fpA;--H
+V-1;F3H-fpM;---
+V-1;F3H-fpM;--H
+V-1;F3H-fpU;---
+V-1;F3H-fpU;--H
+V-1;F3H-pa-;---
+V-1;F3H-pa-;--H
+V-1;F3H-pp-;---
+V-1;F3H-pp-;--H
+V-1;F3Y-fa0;---
+V-1;F3Y-fa0;--H
+V-1;F3Y-faA;---
+V-1;F3Y-faA;--H
+V-1;F3Y-faM;---
+V-1;F3Y-faM;--H
+V-1;F3Y-faU;---
+V-1;F3Y-faU;--H
+V-1;F3Y-fp0;---
+V-1;F3Y-fp0;--H
+V-1;F3Y-fpA;---
+V-1;F3Y-fpA;--H
+V-1;F3Y-fpM;---
+V-1;F3Y-fpM;--H
+V-1;F3Y-fpU;---
+V-1;F3Y-fpU;--H
+V-1;F3Y-i--;---
+V-1;F3Y-i--;--H
+V-1;F3Y-pa-;---
+V-1;F3Y-pa-;--H
+V-1;F3Y-pp-;---
+V-1;F3Y-pp-;--H
+V-1;M1H-fa0;---
+V-1;M1H-fa0;--H
+V-1;M1H-faA;---
+V-1;M1H-faA;--H
+V-1;M1H-faM;---
+V-1;M1H-faM;--H
+V-1;M1H-faU;---
+V-1;M1H-faU;--H
+V-1;M1H-fp0;---
+V-1;M1H-fp0;--H
+V-1;M1H-fpA;---
+V-1;M1H-fpA;--H
+V-1;M1H-fpM;---
+V-1;M1H-fpM;--H
+V-1;M1H-fpU;---
+V-1;M1H-fpU;--H
+V-1;M1H-pa-;---
+V-1;M1H-pa-;--H
+V-1;M1H-pp-;---
+V-1;M1H-pp-;--H
+V-1;M1I-fa0;---
+V-1;M1I-fa0;--H
+V-1;M1I-faA;---
+V-1;M1I-faA;--H
+V-1;M1I-faM;---
+V-1;M1I-faM;--H
+V-1;M1I-faU;---
+V-1;M1I-faU;--H
+V-1;M1I-fp0;---
+V-1;M1I-fp0;--H
+V-1;M1I-fpA;---
+V-1;M1I-fpA;--H
+V-1;M1I-fpM;---
+V-1;M1I-fpM;--H
+V-1;M1I-fpU;---
+V-1;M1I-fpU;--H
+V-1;M1I-pa-;---
+V-1;M1I-pa-;--H
+V-1;M1I-pp-;---
+V-1;M1I-pp-;--H
+V-1;M1Y-fa0;---
+V-1;M1Y-fa0;--H
+V-1;M1Y-faA;---
+V-1;M1Y-faA;--H
+V-1;M1Y-faM;---
+V-1;M1Y-faM;--H
+V-1;M1Y-faU;---
+V-1;M1Y-faU;--H
+V-1;M1Y-fp0;---
+V-1;M1Y-fp0;--H
+V-1;M1Y-fpA;---
+V-1;M1Y-fpA;--H
+V-1;M1Y-fpM;---
+V-1;M1Y-fpM;--H
+V-1;M1Y-fpU;---
+V-1;M1Y-fpU;--H
+V-1;M1Y-i--;---
+V-1;M1Y-i--;--H
+V-1;M1Y-pa-;---
+V-1;M1Y-pa-;--H
+V-1;M1Y-pp-;---
+V-1;M1Y-pp-;--H
+V-1;M2H-fa0;---
+V-1;M2H-fa0;--H
+V-1;M2H-faA;---
+V-1;M2H-faA;--H
+V-1;M2H-faM;---
+V-1;M2H-faM;--H
+V-1;M2H-faU;---
+V-1;M2H-faU;--H
+V-1;M2H-fp0;---
+V-1;M2H-fp0;--H
+V-1;M2H-fpA;---
+V-1;M2H-fpA;--H
+V-1;M2H-fpM;---
+V-1;M2H-fpM;--H
+V-1;M2H-fpU;---
+V-1;M2H-fpU;--H
+V-1;M2H-pa-;---
+V-1;M2H-pa-;--H
+V-1;M2H-pp-;---
+V-1;M2H-pp-;--H
+V-1;M2Y-fa0;---
+V-1;M2Y-fa0;--H
+V-1;M2Y-faA;---
+V-1;M2Y-faA;--H
+V-1;M2Y-faM;---
+V-1;M2Y-faM;--H
+V-1;M2Y-faU;---
+V-1;M2Y-faU;--H
+V-1;M2Y-fp0;---
+V-1;M2Y-fp0;--H
+V-1;M2Y-fpA;---
+V-1;M2Y-fpA;--H
+V-1;M2Y-fpM;---
+V-1;M2Y-fpM;--H
+V-1;M2Y-fpU;---
+V-1;M2Y-fpU;--H
+V-1;M2Y-i--;---
+V-1;M2Y-i--;--H
+V-1;M2Y-pa-;---
+V-1;M2Y-pa-;--H
+V-1;M2Y-pp-;---
+V-1;M2Y-pp-;--H
+V-1;M3H-fa0;---
+V-1;M3H-fa0;--H
+V-1;M3H-faA;---
+V-1;M3H-faA;--H
+V-1;M3H-faM;---
+V-1;M3H-faM;--H
+V-1;M3H-faU;---
+V-1;M3H-faU;--H
+V-1;M3H-fp0;---
+V-1;M3H-fp0;--H
+V-1;M3H-fpA;---
+V-1;M3H-fpA;--H
+V-1;M3H-fpM;---
+V-1;M3H-fpM;--H
+V-1;M3H-fpU;---
+V-1;M3H-fpU;--H
+V-1;M3H-pa-;---
+V-1;M3H-pa-;--H
+V-1;M3H-pp-;---
+V-1;M3H-pp-;--H
+V-1;M3I-fa0;---
+V-1;M3I-fa0;--H
+V-1;M3I-faA;---
+V-1;M3I-faA;--H
+V-1;M3I-faM;---
+V-1;M3I-faM;--H
+V-1;M3I-faU;---
+V-1;M3I-faU;--H
+V-1;M3I-fp0;---
+V-1;M3I-fp0;--H
+V-1;M3I-fpA;---
+V-1;M3I-fpA;--H
+V-1;M3I-fpM;---
+V-1;M3I-fpM;--H
+V-1;M3I-fpU;---
+V-1;M3I-fpU;--H
+V-1;M3I-pa-;---
+V-1;M3I-pa-;--H
+V-1;M3I-pp-;---
+V-1;M3I-pp-;--H
+V-1;M3Y-fa0;---
+V-1;M3Y-fa0;--H
+V-1;M3Y-faA;---
+V-1;M3Y-faA;--H
+V-1;M3Y-faM;---
+V-1;M3Y-faM;--H
+V-1;M3Y-faU;---
+V-1;M3Y-faU;--H
+V-1;M3Y-fp0;---
+V-1;M3Y-fp0;--H
+V-1;M3Y-fpA;---
+V-1;M3Y-fpA;--H
+V-1;M3Y-fpM;---
+V-1;M3Y-fpM;--H
+V-1;M3Y-fpU;---
+V-1;M3Y-fpU;--H
+V-1;M3Y-i--;---
+V-1;M3Y-i--;--H
+V-1;M3Y-pa-;---
+V-1;M3Y-pa-;--H
+V-1;M3Y-pp-;---
+V-1;M3Y-pp-;--H
+VW0;F1H-fa0;---
+VW0;F1H-faA;---
+VW0;F1H-faM;---
+VW0;F1H-faU;---
+VW0;F1H-fp0;---
+VW0;F1H-fpA;---
+VW0;F1H-fpM;---
+VW0;F1H-fpU;---
+VW0;F1H-pa-;---
+VW0;F1H-pp-;---
+VW0;F1Y-fa0;---
+VW0;F1Y-faA;---
+VW0;F1Y-faM;---
+VW0;F1Y-faU;---
+VW0;F1Y-i--;---
+VW0;F1Y-pa-;---
+VW0;F2H-fa0;---
+VW0;F2H-faA;---
+VW0;F2H-faM;---
+VW0;F2H-faU;---
+VW0;F2H-pa-;---
+VW0;F3H-fa0;---
+VW0;F3H-faA;---
+VW0;F3H-faM;---
+VW0;F3H-faU;---
+VW0;F3H-pa-;---
+VW0;F3Y-fa0;---
+VW0;F3Y-faA;---
+VW0;F3Y-faM;---
+VW0;F3Y-faU;---
+VW0;F3Y-i--;---
+VW0;F3Y-pa-;---
+VW0;M1H-fa0;---
+VW0;M1H-faA;---
+VW0;M1H-faM;---
+VW0;M1H-faU;---
+VW0;M1H-fp0;---
+VW0;M1H-fpA;---
+VW0;M1H-fpM;---
+VW0;M1H-fpU;---
+VW0;M1H-pa-;---
+VW0;M1H-pp-;---
+VW0;M1I-fa0;---
+VW0;M1I-faA;---
+VW0;M1I-faM;---
+VW0;M1I-faU;---
+VW0;M1I-pa-;---
+VW0;M1Y-fa0;---
+VW0;M1Y-faA;---
+VW0;M1Y-faM;---
+VW0;M1Y-faU;---
+VW0;M1Y-i--;---
+VW0;M1Y-pa-;---
+VW0;M2H-fa0;---
+VW0;M2H-faA;---
+VW0;M2H-faM;---
+VW0;M2H-faU;---
+VW0;M2H-pa-;---
+VW0;M2Y-fa0;---
+VW0;M2Y-faA;---
+VW0;M2Y-faM;---
+VW0;M2Y-faU;---
+VW0;M2Y-i--;---
+VW0;M2Y-pa-;---
+VW0;M3H-fa0;---
+VW0;M3H-faA;---
+VW0;M3H-faM;---
+VW0;M3H-faU;---
+VW0;M3H-pa-;---
+VW0;M3I-fa0;---
+VW0;M3I-faA;---
+VW0;M3I-faM;---
+VW0;M3I-faU;---
+VW0;M3I-pa-;---
+VW0;M3Y-fa0;---
+VW0;M3Y-faA;---
+VW0;M3Y-faM;---
+VW0;M3Y-faU;---
+VW0;M3Y-i--;---
+VW0;M3Y-pa-;---
+VW1;F1H-fa0;---
+VW1;F1H-fa0;--H
+VW1;F1H-faA;---
+VW1;F1H-faA;--H
+VW1;F1H-faM;---
+VW1;F1H-faM;--H
+VW1;F1H-faU;---
+VW1;F1H-faU;--H
+VW1;F1H-fp0;---
+VW1;F1H-fp0;--H
+VW1;F1H-fpA;---
+VW1;F1H-fpA;--H
+VW1;F1H-fpM;---
+VW1;F1H-fpM;--H
+VW1;F1H-fpU;---
+VW1;F1H-fpU;--H
+VW1;F1H-pa-;---
+VW1;F1H-pa-;--H
+VW1;F1H-pp-;---
+VW1;F1H-pp-;--H
+VW1;F1Y-fa0;---
+VW1;F1Y-fa0;--H
+VW1;F1Y-faA;---
+VW1;F1Y-faA;--H
+VW1;F1Y-faM;---
+VW1;F1Y-faM;--H
+VW1;F1Y-faU;---
+VW1;F1Y-faU;--H
+VW1;F1Y-fp0;---
+VW1;F1Y-fp0;--H
+VW1;F1Y-fpA;---
+VW1;F1Y-fpA;--H
+VW1;F1Y-fpM;---
+VW1;F1Y-fpM;--H
+VW1;F1Y-fpU;---
+VW1;F1Y-fpU;--H
+VW1;F1Y-i--;---
+VW1;F1Y-i--;--H
+VW1;F1Y-pa-;---
+VW1;F1Y-pa-;--H
+VW1;F1Y-pp-;---
+VW1;F1Y-pp-;--H
+VW1;F2H-fa0;---
+VW1;F2H-fa0;--H
+VW1;F2H-faA;---
+VW1;F2H-faA;--H
+VW1;F2H-faM;---
+VW1;F2H-faM;--H
+VW1;F2H-faU;---
+VW1;F2H-faU;--H
+VW1;F2H-fp0;---
+VW1;F2H-fp0;--H
+VW1;F2H-fpA;---
+VW1;F2H-fpA;--H
+VW1;F2H-fpM;---
+VW1;F2H-fpM;--H
+VW1;F2H-fpU;---
+VW1;F2H-fpU;--H
+VW1;F2H-pa-;---
+VW1;F2H-pa-;--H
+VW1;F2H-pp-;---
+VW1;F2H-pp-;--H
+VW1;F3H-fa0;---
+VW1;F3H-fa0;--H
+VW1;F3H-faA;---
+VW1;F3H-faA;--H
+VW1;F3H-faM;---
+VW1;F3H-faM;--H
+VW1;F3H-faU;---
+VW1;F3H-faU;--H
+VW1;F3H-fp0;---
+VW1;F3H-fp0;--H
+VW1;F3H-fpA;---
+VW1;F3H-fpA;--H
+VW1;F3H-fpM;---
+VW1;F3H-fpM;--H
+VW1;F3H-fpU;---
+VW1;F3H-fpU;--H
+VW1;F3H-pa-;---
+VW1;F3H-pa-;--H
+VW1;F3H-pp-;---
+VW1;F3H-pp-;--H
+VW1;F3Y-fa0;---
+VW1;F3Y-fa0;--H
+VW1;F3Y-faA;---
+VW1;F3Y-faA;--H
+VW1;F3Y-faM;---
+VW1;F3Y-faM;--H
+VW1;F3Y-faU;---
+VW1;F3Y-faU;--H
+VW1;F3Y-fp0;---
+VW1;F3Y-fp0;--H
+VW1;F3Y-fpA;---
+VW1;F3Y-fpA;--H
+VW1;F3Y-fpM;---
+VW1;F3Y-fpM;--H
+VW1;F3Y-fpU;---
+VW1;F3Y-fpU;--H
+VW1;F3Y-i--;---
+VW1;F3Y-i--;--H
+VW1;F3Y-pa-;---
+VW1;F3Y-pa-;--H
+VW1;F3Y-pp-;---
+VW1;F3Y-pp-;--H
+VW1;M1H-fa0;---
+VW1;M1H-fa0;--H
+VW1;M1H-faA;---
+VW1;M1H-faA;--H
+VW1;M1H-faM;---
+VW1;M1H-faM;--H
+VW1;M1H-faU;---
+VW1;M1H-faU;--H
+VW1;M1H-fp0;---
+VW1;M1H-fp0;--H
+VW1;M1H-fpA;---
+VW1;M1H-fpA;--H
+VW1;M1H-fpM;---
+VW1;M1H-fpM;--H
+VW1;M1H-fpU;---
+VW1;M1H-fpU;--H
+VW1;M1H-pa-;---
+VW1;M1H-pa-;--H
+VW1;M1H-pp-;---
+VW1;M1H-pp-;--H
+VW1;M1I-fa0;---
+VW1;M1I-fa0;--H
+VW1;M1I-faA;---
+VW1;M1I-faA;--H
+VW1;M1I-faM;---
+VW1;M1I-faM;--H
+VW1;M1I-faU;---
+VW1;M1I-faU;--H
+VW1;M1I-fp0;---
+VW1;M1I-fp0;--H
+VW1;M1I-fpA;---
+VW1;M1I-fpA;--H
+VW1;M1I-fpM;---
+VW1;M1I-fpM;--H
+VW1;M1I-fpU;---
+VW1;M1I-fpU;--H
+VW1;M1I-pa-;---
+VW1;M1I-pa-;--H
+VW1;M1I-pp-;---
+VW1;M1I-pp-;--H
+VW1;M1Y-fa0;---
+VW1;M1Y-fa0;--H
+VW1;M1Y-faA;---
+VW1;M1Y-faA;--H
+VW1;M1Y-faM;---
+VW1;M1Y-faM;--H
+VW1;M1Y-faU;---
+VW1;M1Y-faU;--H
+VW1;M1Y-fp0;---
+VW1;M1Y-fp0;--H
+VW1;M1Y-fpA;---
+VW1;M1Y-fpA;--H
+VW1;M1Y-fpM;---
+VW1;M1Y-fpM;--H
+VW1;M1Y-fpU;---
+VW1;M1Y-fpU;--H
+VW1;M1Y-i--;---
+VW1;M1Y-i--;--H
+VW1;M1Y-pa-;---
+VW1;M1Y-pa-;--H
+VW1;M1Y-pp-;---
+VW1;M1Y-pp-;--H
+VW1;M2H-fa0;---
+VW1;M2H-fa0;--H
+VW1;M2H-faA;---
+VW1;M2H-faA;--H
+VW1;M2H-faM;---
+VW1;M2H-faM;--H
+VW1;M2H-faU;---
+VW1;M2H-faU;--H
+VW1;M2H-fp0;---
+VW1;M2H-fp0;--H
+VW1;M2H-fpA;---
+VW1;M2H-fpA;--H
+VW1;M2H-fpM;---
+VW1;M2H-fpM;--H
+VW1;M2H-fpU;---
+VW1;M2H-fpU;--H
+VW1;M2H-pa-;---
+VW1;M2H-pa-;--H
+VW1;M2H-pp-;---
+VW1;M2H-pp-;--H
+VW1;M2Y-fa0;---
+VW1;M2Y-fa0;--H
+VW1;M2Y-faA;---
+VW1;M2Y-faA;--H
+VW1;M2Y-faM;---
+VW1;M2Y-faM;--H
+VW1;M2Y-faU;---
+VW1;M2Y-faU;--H
+VW1;M2Y-fp0;---
+VW1;M2Y-fp0;--H
+VW1;M2Y-fpA;---
+VW1;M2Y-fpA;--H
+VW1;M2Y-fpM;---
+VW1;M2Y-fpM;--H
+VW1;M2Y-fpU;---
+VW1;M2Y-fpU;--H
+VW1;M2Y-i--;---
+VW1;M2Y-i--;--H
+VW1;M2Y-pa-;---
+VW1;M2Y-pa-;--H
+VW1;M2Y-pp-;---
+VW1;M2Y-pp-;--H
+VW1;M3H-fa0;---
+VW1;M3H-fa0;--H
+VW1;M3H-faA;---
+VW1;M3H-faA;--H
+VW1;M3H-faM;---
+VW1;M3H-faM;--H
+VW1;M3H-faU;---
+VW1;M3H-faU;--H
+VW1;M3H-fp0;---
+VW1;M3H-fp0;--H
+VW1;M3H-fpA;---
+VW1;M3H-fpA;--H
+VW1;M3H-fpM;---
+VW1;M3H-fpM;--H
+VW1;M3H-fpU;---
+VW1;M3H-fpU;--H
+VW1;M3H-pa-;---
+VW1;M3H-pa-;--H
+VW1;M3H-pp-;---
+VW1;M3H-pp-;--H
+VW1;M3I-fa0;---
+VW1;M3I-fa0;--H
+VW1;M3I-faA;---
+VW1;M3I-faA;--H
+VW1;M3I-faM;---
+VW1;M3I-faM;--H
+VW1;M3I-faU;---
+VW1;M3I-faU;--H
+VW1;M3I-fp0;---
+VW1;M3I-fp0;--H
+VW1;M3I-fpA;---
+VW1;M3I-fpA;--H
+VW1;M3I-fpM;---
+VW1;M3I-fpM;--H
+VW1;M3I-fpU;---
+VW1;M3I-fpU;--H
+VW1;M3I-pa-;---
+VW1;M3I-pa-;--H
+VW1;M3I-pp-;---
+VW1;M3I-pp-;--H
+VW1;M3Y-fa0;---
+VW1;M3Y-fa0;--H
+VW1;M3Y-faA;---
+VW1;M3Y-faA;--H
+VW1;M3Y-faM;---
+VW1;M3Y-faM;--H
+VW1;M3Y-faU;---
+VW1;M3Y-faU;--H
+VW1;M3Y-fp0;---
+VW1;M3Y-fp0;--H
+VW1;M3Y-fpA;---
+VW1;M3Y-fpA;--H
+VW1;M3Y-fpM;---
+VW1;M3Y-fpM;--H
+VW1;M3Y-fpU;---
+VW1;M3Y-fpU;--H
+VW1;M3Y-i--;---
+VW1;M3Y-i--;--H
+VW1;M3Y-pa-;---
+VW1;M3Y-pa-;--H
+VW1;M3Y-pp-;---
+VW1;M3Y-pp-;--H
