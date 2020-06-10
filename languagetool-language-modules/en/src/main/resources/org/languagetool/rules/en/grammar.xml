@@ -18309,7 +18309,7 @@ USA
                     <token>not</token>
                     <token>need</token>
                     <marker>
-                        <token postag='VB'><exception regexp='yes'>proof|fake|help|luck</exception></token>
+                        <token postag='VB'><exception regexp='yes'>proof|fake|help|luck|people</exception></token>
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>to <match no="4"/></suggestion>?</message>
@@ -18326,7 +18326,7 @@ USA
                     <token>t</token>
                     <token>need</token>
                     <marker>
-                        <token postag='VB'><exception regexp='yes'>proof|fake|help|luck</exception></token>
+                        <token postag='VB'><exception regexp='yes'>proof|fake|help|luck|people</exception></token>
                     </marker>
                 </pattern>
                 <message>Did you mean <suggestion>to <match no="5"/></suggestion>?</message>
@@ -18334,6 +18334,7 @@ USA
                 <example>They don't need <marker>to change</marker> them.</example>
                 <example>We don't need direct soil.</example><!-- #2929 -->
                 <example>We don't need water to grow our plants.</example><!-- #2929 -->
+                <example>We don't need people like you.</example>
             </rule>
         </rulegroup>
 
@@ -31998,12 +31999,12 @@ USA
         <rule id="WORLDS_BEST" name="Worlds (World's) Best">
             <pattern>
                 <marker>
-                    <token>worlds</token>
+                    <token regexp="yes" case_sensitive="yes">[Ww]orlds|Americas</token>
                 </marker>
                 <token postag="JJS" />
             </pattern>
             <message>It seems that a possessive apostrophe is missing.</message>
-            <suggestion>world's</suggestion>
+            <suggestion><match no="1" regexp_match="(?i)s$" regexp_replace="" />'s</suggestion>
             <example correction="world's">He is the <marker>worlds</marker> best footballer.</example>
         </rule>
         <rulegroup id="THE_SUPERLATIVE" name="Zero or indefinite article ('a'/'an') before superlatives">
