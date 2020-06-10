@@ -36058,17 +36058,34 @@ USA
                     <token chunk="B-NP-plural" postag="NNP"/>
                     <token chunk="E-NP-plural" postag="NNS"/>
                 </antipattern>
+                <antipattern><!-- #3048 Are NASA publicity test images -->
+                    <token regexp="yes">Have|Are</token>
+                    <token chunk="B-NP-plural" postag="NNP"/>
+                    <token chunk="I-NP-plural"/>
+                </antipattern>
+                <antipattern><!-- #3048 chunker error: Are NASA publicity images -->
+                    <token chunk="B-NP-plural" regexp="yes">Have|Are</token>
+                    <token chunk="I-NP-plural" postag="NNP"/>
+                    <token chunk="I-NP-plural"/>
+                </antipattern>
                 <pattern case_sensitive="yes">
                     <token postag="SENT_START"/>
                     <marker>
                         <token regexp="yes">Have|Are|Am</token>
                     </marker>
-                    <token postag="NNP" regexp="yes">.{2,}<exception postag="JJ|CC|RP|DT|PRP\$|NNP?S|IN|RB|WRB" postag_regexp="yes"/></token>
+                    <token postag="NNP" regexp="yes">.{2,}
+                        <exception postag="JJ|CC|RP|DT|PRP\$|NNP?S|IN|RB|WRB" postag_regexp="yes"/>
+                        <exception scope="next" regexp="yes">and|or|&amp;</exception>
+                        </token>
                 </pattern>
                 <message>The singular proper name <match no="3"/> must be used with <suggestion><match no="2" postag="VBZ"/></suggestion>.</message>
                 <example correction="Has"><marker>Have</marker> Mary bought a ticket?</example>
                 <example><marker>Has</marker> Jack done this?</example>
                 <example>Are NASA images really taken from space?</example><!-- #2122 -->
+                <example>Are Adrian and John related to each other?</example><!-- #3048 -->
+                <example>Have Mary or John been to Darmstadt?</example><!-- #3048 -->
+                <example>Have Mary &amp; Jane finished the work?</example><!-- #3048 -->
+                <example>Are NASA publicity test images really taken from space?</example><!-- #3048 -->
             </rule>
             <rule>
                 <pattern case_sensitive="no">
@@ -36164,6 +36181,18 @@ USA
                     <token spacebefore="no">s</token>
                     <token chunk="I-NP-plural"/>
                 </antipattern>
+                <antipattern><!-- #3048 How are DNA sequence and DNA material -->
+                    <token regexp="yes">have|are</token>
+                    <token chunk="B-NP-singular" postag="NNP"/>
+                    <token chunk="I-NP-singular"/><!-- min/max does not work -->
+                    <token chunk="I-NP-singular" regexp="yes">and|or|&amp;</token>
+                    <token chunk="I-NP-singular"/>
+                </antipattern>
+                <antipattern><!-- #3048 How are DNA test sequences -->
+                    <token regexp="yes">have|are</token>
+                    <token chunk="B-NP-plural" postag="NNP"/>
+                    <token chunk="I-NP-plural"/>
+                </antipattern>
                 <pattern case_sensitive="no">
                     <token postag="SENT_START"/>
                     <token postag="W(RB|P)" postag_regexp="yes"/>
@@ -36189,6 +36218,11 @@ USA
                 <example>What are Polonius' and King Claudius' usual plans for spying?</example><!-- #2948 -->
                 <example>What have Polonius' and the team's plans for spying got to do with me?</example><!-- #2948 -->
                 <example>How have Polonius and the team's unnecessary tests helped us?</example><!-- #2948 -->
+                <example>How are DNA sequence and DNA material working?</example><!-- #3048 -->
+                <example>How are Chris Evans &amp; Jennifer Aniston?</example><!-- #3048 -->
+                <example>How are DNA test sequences important?</example><!-- #3048 -->
+                <example type="triggers_error">How are DNA  test sequence or DNA material working?</example><!-- #3048. After the min/max problem is fixed, this should not trigger an error. -->
+                <example type="triggers_error">How are Chris John Jones &amp; Jennifer Aniston related?</example><!-- #3048 -->
             </rule>
         </rulegroup>
 
