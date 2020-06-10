@@ -1468,7 +1468,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>на</token>
         </marker>
       </pattern>
-      <message>Хоча вислів незважаючи на засвідчений у словниках, текстах і чинному правописі, у багатьох випадках те саме значення можна передати іншими словами</message>
+      <message>Хоча вислів «незважаючи на» засвідчений у словниках, текстах і чинному правописі, у багатьох випадках те саме значення можна передати іншими словами</message>
       <suggestion>попри</suggestion>
       <suggestion>дарма що</suggestion>
       <suggestion>всупереч</suggestion>
@@ -1714,6 +1714,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>накидав зверху каміння та давай носити воду</example>
     </rule>
 
+
+    <rule id="verb_short" name="Вкорочені форми дієслів">
+      <antipattern>
+        <token negate_pos="yes" postag="SENT_START"/>
+        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ].*</token>
+      </antipattern>
+      <pattern>
+        <token postag_regexp="yes" postag="verb.*short.*">
+          <exception regexp="yes">бува|зна</exception>
+          <exception case_sensitive="yes" regexp="yes">Міша|Кива|Чита</exception>
+        </token>
+      </pattern>
+      <message>Ця форма обмежена усним та поетичним мовленням.</message>
+      <suggestion><match no="1" postag_regexp="yes" postag="(verb.*):short(.*)" postag_replace="$1$2"/></suggestion>
+      <example correction="співає">Він <marker>співа</marker>.</example>
+      <example>він дає.</example>
+      <example>й бува.</example>
+      <example>Ігоря Поклада</example>
+    </rule>
+
+
     <rule id="u_znak_vdiachnosti" name="У знак вдячності">
       <pattern>
         <token regexp="yes">[ву]</token>
@@ -1928,6 +1949,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <suggestion>минулого року</suggestion>
       <suggestion>того року</suggestion>
       <example correction="торік|минулого року|того року"><marker>в минулому році</marker></example>
+    </rule>
+
+    <rule id="na_protyazi" name="На протязі">
+      <pattern>
+        <marker>
+          <token>на</token>
+          <token>протязі</token>
+        </marker>
+        <token postag_regexp="yes" postag=".*?v_rod.*|adv.*|number.*"/>
+      </pattern>
+      <message>На позначення часового відрізка деякі мовознавці не рекомендують вживати «на протязі»</message>
+      <suggestion>упродовж</suggestion>
+      <suggestion>протягом</suggestion>
+      <url>https://r2u.org.ua/check/rules/na_protyazi</url>
+      <example correction="упродовж|протягом"><marker>на протязі</marker> року</example>
+      <example correction="упродовж|протягом"><marker>на протязі</marker> 10 хвилин</example>
+      <example correction="упродовж|протягом"><marker>на протязі</marker> XX століття</example>
+      <example correction="упродовж|протягом"><marker>на протязі</marker> майже 20 хв.</example>
+      <example>той стоїть на протязі</example>
+      <example>той стояв на протязі кілька хвилин.</example>
     </rule>
 
     <rule id="vuhan" name="Вухань">

@@ -100,16 +100,13 @@ public class Spanish extends Language implements AutoCloseable{
     return Arrays.asList(
             new CommaWhitespaceRule(messages),
             new DoublePunctuationRule(messages),
-            new GenericUnpairedBracketsRule(messages,
-                    Arrays.asList("[", "(", "{", "“", "«", "»"),
-                    Arrays.asList("]", ")", "}", "”", "»", "«")),
+            new SpanishUnpairedBracketsRule(messages),
             new QuestionMarkRule(messages),
             new MorfologikSpanishSpellerRule(messages, this, userConfig, altLanguages),
             new UppercaseSentenceStartRule(messages, this),
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
             new SpanishWikipediaRule(messages),
-            new SpanishDiacriticsCheckRule(messages),
             new SpanishWrongWordInContextRule(messages),
             new SimpleReplaceRule(messages),
             new SimpleReplaceVerbsRule(messages, this),
@@ -154,13 +151,17 @@ public class Spanish extends Language implements AutoCloseable{
       case "INCORRECT_EXPRESSIONS": return 40;
       case "MISSPELLING": return 40;  
       case "CONFUSIONS": return 40;
+      case "NO_SEPARADO": return 40;
       case "DIACRITICS": return 30;
-      case "ACCENTUATION_CHECK_ES": return 30;
       case "AGREEMENT_DET_NOUN": return 20;
-      case "PUNTO_EN_ABREVIATURAS": return 10;
+      case "TYPOGRAPHY": return 10;
       case "HALLA_HAYA": return 10;
       case "EL_TILDE": return -10;
       case "PREPOSICION_VERBO": return -20;
+      case "SUBJUNTIVO_FUTURO": return -30;
+      case "SUBJUNTIVO_PASADO": return -30;
+      case "SUBJUNTIVO_PASADO2": return -30;
+      case "VOSEO": return -40;
     }
     return super.getPriorityForId(id);
   }

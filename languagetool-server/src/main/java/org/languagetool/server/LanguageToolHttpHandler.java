@@ -147,7 +147,8 @@ class LanguageToolHttpHandler implements HttpHandler {
       parameters = getRequestQuery(httpExchange, requestedUri);
       if (requestLimiter != null) {
         try {
-          requestLimiter.checkAccess(remoteAddress, parameters, httpExchange.getRequestHeaders());
+          UserLimits userLimits = ServerTools.getUserLimits(parameters, config);
+          requestLimiter.checkAccess(remoteAddress, parameters, httpExchange.getRequestHeaders(), userLimits);
         } catch (TooManyRequestsException e) {
           String errorMessage = "Error: Access from " + remoteAddress + " denied: " + e.getMessage();
           int code = HttpURLConnection.HTTP_FORBIDDEN;

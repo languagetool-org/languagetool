@@ -27,6 +27,7 @@ import org.languagetool.tools.Tools;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import java.net.URL;
@@ -43,16 +44,18 @@ public class PortugueseBarbarismsRule extends AbstractSimpleReplaceRule2 {
 
   public static final String PT_BARBARISMS_REPLACE = "PT_BARBARISMS_REPLACE";
 
-  private static final String FILE_NAME = "/pt/barbarisms.txt";
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
+
+  private final String path;
 
   @Override
   public final String getFileName() {
-    return FILE_NAME;
+    return path;
   }
 
-  public PortugueseBarbarismsRule(ResourceBundle messages) throws IOException {
+  public PortugueseBarbarismsRule(ResourceBundle messages, String path) throws IOException {
     super(messages, new Portuguese());
+    this.path = Objects.requireNonNull(path);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
     addExamplePair(Example.wrong("<marker>curriculum vitae</marker>"),

@@ -2,8 +2,6 @@
 
 ## 5.0-SNAPSHOT (release planned for 2020-06-26)
 
-...
-
 #### Arabic
   * added and improved rules
   * updated POS dictionary (Arramooz [#e33794e](https://github.com/linuxscout/arramooz/commit/e33794e787d56e7c185c0e281fd8e6d6274f3fdc))
@@ -16,7 +14,7 @@
   * updated dictionary (catalan-pos-dict-2.8), now with a specific dictionary file for spelling suggestions
 
 #### English
-  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.83 - 2020-04-01)
+  * updated en_GB spellchecker dictionary from https://github.com/marcoagpinto/aoo-mozilla-en-dict (Version 2.85 - 2020-06-01)
 
 #### Esperanto
   * added and improved rules
@@ -24,12 +22,32 @@
 #### French
   * added and improved rules
 
+#### German
+  * added and improved rules
+  * rules that apply to de-DE and de-AT (but not de-CH) can now be placed in `de/de-DE-AT/grammar.xml`
+  * Updated the German part-of-speech dictionary (https://github.com/languagetool-org/german-pos-dict)
+    to version 1.2.
+
+#### Persian
+  * commented out rules that caused many false alarms
+
 #### Russian
   * added and improved rules
+  * added new Java rules
+  * rebuilt and improved main spellchecker dictionary
+  * new variant (only yo "ё") spellchecker dictionary and new java rule for it (off by default)
 
+#### Slovak
+  * commented out rules that caused many false alarms
+  
 #### Spanish
   * added and improved rules
   * new tagger dictionary by Jaume Ortolà, LGPL, source: https://github.com/jaumeortola/spanish-dict-tools
+
+#### General
+  * added `replace_custom.txt` for several languages so users can have their own very simple replace
+    rules without worrying about updates (they still need to copy the file to the new LT version, though).
+
 
 ## 4.9 (2020-03-24)
 

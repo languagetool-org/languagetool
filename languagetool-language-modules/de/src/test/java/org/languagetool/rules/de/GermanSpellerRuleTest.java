@@ -429,6 +429,17 @@ public class GermanSpellerRuleTest {
     assertFirstSuggestion("Vollrichtet", "Verrichtet", rule, lt);
     assertFirstSuggestion("bedingslosem", "bedingungslosem", rule, lt);
     assertFirstSuggestion("überstenden", "berstenden", rule, lt);
+    assertFirstSuggestion("abbonierst", "abonnierst", rule, lt);
+    assertFirstSuggestion("Apeliere", "Appelliere", rule, lt);
+    assertFirstSuggestion("voltieschiert", "voltigiert", rule, lt);
+    assertFirstSuggestion("meistverkaufteste", "meistverkaufte", rule, lt);
+    assertFirstSuggestion("unleshaftem", "unleserlichem", rule, lt);
+    assertFirstSuggestion("glaubenswürdig", "glaubwürdig", rule, lt);
+    assertFirstSuggestion("nivovolle", "niveauvolle", rule, lt);
+    assertFirstSuggestion("niwovoller", "niveauvoller", rule, lt);
+    assertFirstSuggestion("notgezwungender", "notgedrungener", rule, lt);
+    assertFirstSuggestion("misstraurig", "misstrauisch", rule, lt);
+    assertFirstSuggestion("Aux-Anschluss", "AUX-Anschluss", rule, lt);
   }
 
   @Test
@@ -759,6 +770,11 @@ public class GermanSpellerRuleTest {
     assertFalse(rule.isMisspelled("Hausarbeit"));
     assertFalse(rule.isMisspelled("Überschuss"));
     assertFalse(rule.isMisspelled("Überschüsse"));
+
+    assertTrue(rule.isMisspelled("Spielzugcomputer"));
+    assertTrue(rule.isMisspelled("Spielzugcomputern"));
+    assertFalse(rule.isMisspelled("Spielzug"));
+    assertFalse(rule.isMisspelled("Spielzugs"));
   }
   
   @Test

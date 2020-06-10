@@ -117,23 +117,26 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
         matches.add(match);
       }
       else {
-        if( PosTagHelper.hasPosTagPart(tokenReadings, ":bad") ) {
-          try {
+        if( PosTagHelper.hasPosTagPart(tokenReadings, ":bad") && ! PosTagHelper.hasPosTagStart(tokenReadings, "number") ) {
+//          try {
             String msg = "Неправильно написане слово.";
 
             RuleMatch match = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getStartPos()
                 + tokenReadings.getToken().length(), msg, getShort());
             
-            RuleMatch[] spellerMatches = morfologikSpellerRule.match(new AnalyzedSentence(new AnalyzedTokenReadings[] {tokenReadings}));
-            if( spellerMatches.length > 0 ) {
-              match.setSuggestedReplacements(spellerMatches[0].getSuggestedReplacements());
-            }
+            List<String> suggestions = morfologikSpellerRule.getSpeller1().getSuggestionsFromDefaultDicts(tokenReadings.getToken());
+            suggestions.removeIf(s -> s.contains(" "));
+            match.setSuggestedReplacements(suggestions);
+//            RuleMatch[] spellerMatches = morfologikSpellerRule.match(new AnalyzedSentence(new AnalyzedTokenReadings[] {tokenReadings}));
+//            if( spellerMatches.length > 0 ) {
+//              match.setSuggestedReplacements(spellerMatches[0].getSuggestedReplacements());
+//            }
 
             matches.add(match);
-          }
-          catch (IOException e) {
-            throw new RuntimeException(e);
-          }
+//          }
+//          catch (IOException e) {
+//            throw new RuntimeException(e);
+//          }
         }
       }
     }

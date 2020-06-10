@@ -34,6 +34,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.regex.Pattern;
 import java.util.Properties;
 import java.util.Set;
 
@@ -42,7 +43,6 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
-import org.languagetool.LinguServices;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Rule;
 
@@ -71,6 +71,8 @@ public class Configuration {
   static final boolean DEFAULT_DO_REMOTE_CHECK = false;
   static final boolean DEFAULT_USE_OTHER_SERVER = false;
   static final boolean DEFAULT_MARK_SINGLE_CHAR_BOLD = false;
+  static final boolean DEFAULT_USE_LT_DICTIONARY = true;
+  static final boolean DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS = true;
 
   static final Color STYLE_COLOR = new Color(0, 175, 0);
 
@@ -115,6 +117,8 @@ public class Configuration {
   private static final String USE_OTHER_SERVER_KEY = "useOtherServer";
   private static final String MARK_SINGLE_CHAR_BOLD_KEY = "markSingleCharBold";
   private static final String LOG_LEVEL_KEY = "logLevel";
+  private static final String USE_LT_DICTIONARY_KEY = "UseLtDictionary";
+  private static final String NO_SYNONYMS_AS_SUGGESTIONS_KEY = "noSynonymsAsSuggestions";
 
   private static final String DELIMITER = ",";
   // find all comma followed by zero or more white space characters that are preceded by ":" AND a valid 6-digit hex code
@@ -175,13 +179,15 @@ public class Configuration {
   private boolean doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
   private boolean useOtherServer = DEFAULT_USE_OTHER_SERVER;
   private boolean markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
+  private boolean useLtDictionary = DEFAULT_USE_LT_DICTIONARY;
+  private boolean noSynonymsAsSuggestions = DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS;
   private String externalRuleDirectory;
   private String lookAndFeelName;
   private String currentProfile = null;
   private String otherServerUrl = null;
   private String logLevel = null;
   private boolean switchOff = false;
-
+  
   /**
    * Uses the configuration file from the default location.
    *
@@ -197,14 +203,10 @@ public class Configuration {
   }
 
   public Configuration(File baseDir, String filename, Language lang) throws IOException {
-    this(baseDir, filename, lang, null);
+    this(baseDir, filename, null, lang);
   }
 
-  public Configuration(File baseDir, String filename, Language lang, LinguServices linguServices) throws IOException {
-    this(baseDir, filename, null, lang, linguServices);
-  }
-
-  public Configuration(File baseDir, String filename, File oldConfigFile, Language lang, LinguServices linguServices) throws IOException {
+  public Configuration(File baseDir, String filename, File oldConfigFile, Language lang) throws IOException {
     // already fails silently if file doesn't exist in loadConfiguration, don't fail here either
     // can cause problem when starting LanguageTool server as a user without a home directory because of default arguments
     //if (baseDir == null || !baseDir.isDirectory()) {
@@ -258,6 +260,8 @@ public class Configuration {
     doRemoteCheck = DEFAULT_DO_REMOTE_CHECK;
     useOtherServer = DEFAULT_USE_OTHER_SERVER;
     markSingleCharBold = DEFAULT_MARK_SINGLE_CHAR_BOLD;
+    useLtDictionary = DEFAULT_USE_LT_DICTIONARY;
+    noSynonymsAsSuggestions = DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS;
     externalRuleDirectory = null;
     lookAndFeelName = null;
     currentProfile = null;
@@ -308,6 +312,8 @@ public class Configuration {
     this.doRemoteCheck = configuration.doRemoteCheck;
     this.useOtherServer = configuration.useOtherServer;
     this.markSingleCharBold = configuration.markSingleCharBold;
+    this.useLtDictionary = configuration.useLtDictionary;
+    this.noSynonymsAsSuggestions = configuration.noSynonymsAsSuggestions;
     this.otherServerUrl = configuration.otherServerUrl;
     this.logLevel = configuration.logLevel;
     
@@ -473,6 +479,22 @@ public class Configuration {
 
   public boolean markSingleCharBold() {
     return markSingleCharBold;
+  }
+  
+  public void setUseLtDictionary(boolean useLtDictionary) {
+    this.useLtDictionary = useLtDictionary;
+  }
+
+  public boolean useLtDictionary() {
+    return useLtDictionary;
+  }
+  
+  public void setNoSynonymsAsSuggestions(boolean noSynonymsAsSuggestions) {
+    this.noSynonymsAsSuggestions = noSynonymsAsSuggestions;
+  }
+
+  public boolean noSynonymsAsSuggestions() {
+    return noSynonymsAsSuggestions;
   }
   
   /**
@@ -801,9 +823,7 @@ public class Configuration {
               || rule.getLocQualityIssueType().toString().equalsIgnoreCase("REGISTER")
               || rule.getCategory().getId().toString().equals("STYLE")
               || rule.getCategory().getId().toString().equals("TYPOGRAPHY")) {
-        if (!styleLikeCategories.contains(rule.getCategory().getName())) {
-          styleLikeCategories.add(rule.getCategory().getName());
-        }
+        styleLikeCategories.add(rule.getCategory().getName());
       }
     }
   }
@@ -834,9 +854,7 @@ public class Configuration {
   public String[] getSpecialTabNames() {
     Set<String> tabNames = new HashSet<>();
     for (Map.Entry<String, String> entry : specialTabCategories.entrySet()) {
-      if (!tabNames.contains(entry.getValue())) {
-        tabNames.add(entry.getValue());
-      }
+      tabNames.add(entry.getValue());
     }
     return tabNames.toArray(new String[tabNames.size()]);
   }
@@ -972,6 +990,16 @@ public class Configuration {
     this.switchOff = switchOff;
     saveConfiguration(lang);
   }
+  
+  /**
+   * Test if http-server URL is correct
+   */
+  public boolean isValidServerUrl(String url) {
+    if (url.endsWith("/") || url.endsWith("/v2") || !Pattern.matches("http://.+:\\d+.*", url)) {
+      return false;
+    }
+    return true;
+  }
 
   private void loadConfiguration() throws IOException {
     loadConfiguration(null);
@@ -1010,9 +1038,9 @@ public class Configuration {
       
       String prefix;
       if(currentProfile == null) {
-        prefix = new String("");
+        prefix = "";
       } else {
-        prefix = new String(currentProfile);
+        prefix = currentProfile;
       }
       if(!prefix.isEmpty()) {
         prefix = prefix.replaceAll(BLANK, BLANK_REPLACE);
@@ -1125,10 +1153,23 @@ public class Configuration {
       }
       
       otherServerUrl = (String) props.get(prefix + OTHER_SERVER_URL_KEY);
+      if (otherServerUrl != null && !isValidServerUrl(otherServerUrl)) {
+        otherServerUrl = null;
+      }
       
       String markSingleCharBoldString = (String) props.get(prefix + MARK_SINGLE_CHAR_BOLD_KEY);
       if (markSingleCharBoldString != null) {
         markSingleCharBold = Boolean.parseBoolean(markSingleCharBoldString);
+      }
+      
+      String useLtDictionaryString = (String) props.get(prefix + USE_LT_DICTIONARY_KEY);
+      if (useLtDictionaryString != null) {
+        useLtDictionary = Boolean.parseBoolean(useLtDictionaryString);
+      }
+      
+      String noSynonymsAsSuggestionsString = (String) props.get(prefix + NO_SYNONYMS_AS_SUGGESTIONS_KEY);
+      if (noSynonymsAsSuggestionsString != null) {
+        noSynonymsAsSuggestions = Boolean.parseBoolean(noSynonymsAsSuggestionsString);
       }
       
       String rulesValuesString = (String) props.get(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier);
@@ -1269,14 +1310,14 @@ public class Configuration {
     List<String> prefixes = new ArrayList<String>();
     prefixes.add("");
     for(String profile : definedProfiles) {
-      String prefix = new String(profile);
+      String prefix = profile;
       prefixes.add(prefix.replaceAll(BLANK, BLANK_REPLACE) + PROFILE_DELIMITER);
     }
     String currentPrefix;
     if (currentProfile == null) {
-      currentPrefix = new String("");
+      currentPrefix = "";
     } else {
-      currentPrefix = new String(currentProfile);
+      currentPrefix = currentProfile;
     }
     if(!currentPrefix.isEmpty()) {
       currentPrefix = currentPrefix.replaceAll(BLANK, BLANK_REPLACE);
@@ -1334,10 +1375,16 @@ public class Configuration {
         if(markSingleCharBold != DEFAULT_MARK_SINGLE_CHAR_BOLD) {
           props.setProperty(prefix + MARK_SINGLE_CHAR_BOLD_KEY, Boolean.toString(markSingleCharBold));
         }
+        if(useLtDictionary != DEFAULT_USE_LT_DICTIONARY) {
+          props.setProperty(prefix + USE_LT_DICTIONARY_KEY, Boolean.toString(useLtDictionary));
+        }
+        if(noSynonymsAsSuggestions != DEFAULT_NO_SYNONYMS_AS_SUGGESTIONS) {
+          props.setProperty(prefix + NO_SYNONYMS_AS_SUGGESTIONS_KEY, Boolean.toString(noSynonymsAsSuggestions));
+        }
         if(switchOff) {
           props.setProperty(prefix + LT_SWITCHED_OFF_KEY, Boolean.toString(switchOff));
         }
-        if (otherServerUrl != null) {
+        if (otherServerUrl != null && isValidServerUrl(otherServerUrl)) {
           props.setProperty(prefix + OTHER_SERVER_URL_KEY, otherServerUrl);
         }
         if (fontName != null) {
@@ -1358,7 +1405,7 @@ public class Configuration {
         if(!configurableRuleValues.isEmpty()) {
           StringBuilder sbRV = new StringBuilder();
           for (Map.Entry<String, Integer> entry : configurableRuleValues.entrySet()) {
-            sbRV.append(entry.getKey()).append(":").append(Integer.toString(entry.getValue())).append(", ");
+            sbRV.append(entry.getKey()).append(':').append(entry.getValue()).append(", ");
           }
           props.setProperty(prefix + CONFIGURABLE_RULE_VALUES_KEY + qualifier, sbRV.toString());
         }
@@ -1366,7 +1413,7 @@ public class Configuration {
           StringBuilder sb = new StringBuilder();
           for (Map.Entry<ITSIssueType, Color> entry : errorColors.entrySet()) {
             String rgb = Integer.toHexString(entry.getValue().getRGB());
-            rgb = rgb.substring(2, rgb.length());
+            rgb = rgb.substring(2);
             sb.append(entry.getKey()).append(":#").append(rgb).append(", ");
           }
           props.setProperty(prefix + ERROR_COLORS_KEY, sb.toString());
@@ -1375,7 +1422,7 @@ public class Configuration {
           StringBuilder sbUC = new StringBuilder();
           for (Map.Entry<String, Color> entry : underlineColors.entrySet()) {
             String rgb = Integer.toHexString(entry.getValue().getRGB());
-            rgb = rgb.substring(2, rgb.length());
+            rgb = rgb.substring(2);
             sbUC.append(entry.getKey()).append(":#").append(rgb).append(", ");
           }
           props.setProperty(prefix + UNDERLINE_COLORS_KEY, sbUC.toString());
@@ -1383,7 +1430,7 @@ public class Configuration {
         if(!underlineTypes.isEmpty()) {
           StringBuilder sbUT = new StringBuilder();
           for (Map.Entry<String, Short> entry : underlineTypes.entrySet()) {
-            sbUT.append(entry.getKey()).append(":").append(Short.toString(entry.getValue())).append(", ");
+            sbUT.append(entry.getKey()).append(':').append(entry.getValue()).append(", ");
           }
           props.setProperty(prefix + UNDERLINE_TYPES_KEY, sbUT.toString());
         }
@@ -1442,6 +1489,8 @@ public class Configuration {
     allProfileKeys.add(OTHER_SERVER_URL_KEY);
     allProfileKeys.add(USE_OTHER_SERVER_KEY);
     allProfileKeys.add(MARK_SINGLE_CHAR_BOLD_KEY);
+    allProfileKeys.add(USE_LT_DICTIONARY_KEY);
+    allProfileKeys.add(NO_SYNONYMS_AS_SUGGESTIONS_KEY);
 
     allProfileLangKeys.add(DISABLED_RULES_KEY);
     allProfileLangKeys.add(ENABLED_RULES_KEY);
@@ -1454,7 +1503,7 @@ public class Configuration {
     List<String> prefix = new ArrayList<String>();
     prefix.add("");
     for(String profile : definedProfiles) {
-      String sPrefix = new String(profile);
+      String sPrefix = profile;
       prefix.add(sPrefix.replaceAll(BLANK, BLANK_REPLACE) + PROFILE_DELIMITER);
     }
     for(String sPrefix : prefix) {

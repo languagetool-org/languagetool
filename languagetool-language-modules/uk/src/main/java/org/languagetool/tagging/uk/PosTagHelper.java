@@ -251,27 +251,29 @@ public final class PosTagHelper {
   }
 
   @NotNull
-  public static List<AnalyzedToken> generateTokensForNv(String word, String gender, String extraTags) {
-    String posTagBase = "noun:inanim:" + gender + ":";
-  
+  public static List<AnalyzedToken> generateTokensForNv(String word, String genders, String extraTags) {
     List<AnalyzedToken> newAnalyzedTokens = new ArrayList<>();
-    for(String vidm: VIDMINKY_MAP.keySet()) {
-      if( vidm.equals("v_kly") )
-        continue;
-  
-      String posTag = posTagBase + vidm + PosTagHelper.NO_VIDMINOK_SUBSTR;
-      if( extraTags != null ) {
-        posTag += extraTags;
+    for(char gen: genders.toCharArray()) {
+      String posTagBase = "noun:inanim:" + gen + ":";
+
+      for(String vidm: VIDMINKY_MAP.keySet()) {
+        if( vidm.equals("v_kly") )
+          continue;
+
+        String posTag = posTagBase + vidm + PosTagHelper.NO_VIDMINOK_SUBSTR;
+        if( extraTags != null ) {
+          posTag += extraTags;
+        }
+        newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));
       }
-      newAnalyzedTokens.add(new AnalyzedToken(word, posTag, word));
     }
     
     return newAnalyzedTokens;
   }
 
   @NotNull
-  public static String addIfNotContains(@NotNull String tag, @NotNull String addTag) {
-    if( ! tag.contains(addTag) )
+  public static String addIfNotContains(@NotNull String tag, @Nullable String addTag) {
+    if( addTag != null && ! tag.contains(addTag) )
       return tag + addTag;
     return tag;
   }
@@ -286,6 +288,29 @@ public final class PosTagHelper {
     return taggedWords.stream()
         .map(w -> new TaggedWord(lemma != null ? lemma : w.getLemma(), addIfNotContains(w.getPosTag(), addTag)))
         .collect(Collectors.toList());
+  }
+
+  @NotNull
+  public static List<TaggedWord> adjust(@NotNull List<TaggedWord> taggedWords, @Nullable String addTag, @Nullable String lemmaPrefix) {
+    return taggedWords.stream()
+        .map(w -> new TaggedWord(adjustLemma(w, lemmaPrefix), addIfNotContains(cleanExtraTags(w.getPosTag()), addTag)))
+        .collect(Collectors.toList());
+  }
+
+  private static String adjustLemma(TaggedWord w, String lemmaPrefix) {
+    return lemmaPrefix != null 
+        ? lemmaPrefix + w.getLemma()
+//            ( lemmaPrefix.endsWith("-") || lemmaPrefix.endsWith("'") 
+//              ? w.getLemma() 
+//              : w.getLemma().toLowerCase() )
+        : w.getLemma();
+  }
+
+  private static String cleanExtraTags(String tag) {
+    if( tag != null ) {
+      tag = tag.replaceAll(":(comp.|&&?adjp:.*?(:(im)?perf)+)", "");
+    }
+    return tag;
   }
 
   public static List<AnalyzedToken> filter(List<AnalyzedToken> analyzedTokens, Pattern posTag) {

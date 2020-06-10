@@ -51,7 +51,7 @@ public class BaseLanguageModelTest {
   @Test(expected = IndexOutOfBoundsException.class)
   public void testPseudoProbabilityFail1() throws IOException {
     try (FakeLanguageModel lm = new FakeLanguageModel()) {
-      lm.getPseudoProbability(Collections.<String>emptyList());
+      lm.getPseudoProbability(Collections.emptyList());
     }
   }
 

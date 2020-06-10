@@ -99,6 +99,14 @@ public class GermanTest extends LanguageSpecificTest {
           origWord = "getrenntgeschrieben";
           suggWord = "getrennt geschrieben";
         }
+        if (message.contains("Meinten sie")) {
+          origWord = "Meinten sie";
+          suggWord = "Meinten Sie";
+        }
+        if (message.contains("meinten sie")) {
+          origWord = "meinten sie";
+          suggWord = "meinten Sie";
+        }
         if (origWord != null) {
           System.err.println("WARNING: Aus Gründen der Einheitlichkeit bitte '" + suggWord + "' nutzen statt '" + origWord + "' in der Regel " + patternRule.getFullId() + ", message: '" + message + "'");
         }
@@ -161,7 +169,8 @@ public class GermanTest extends LanguageSpecificTest {
   private boolean lacksSwitzerlandSpelling(String pattern) {
     return pattern != null && pattern.contains("ß") 
       && !pattern.contains("(ß|ss)") 
-      && !containsSwitzerlandSpelling(pattern) 
+      && !pattern.contains("(ss|ß)")
+      && !containsSwitzerlandSpelling(pattern)
       && !allInBrackets('ß', pattern);
   }
 

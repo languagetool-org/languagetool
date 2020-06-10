@@ -167,7 +167,7 @@ public class RegexPatternRule extends AbstractPatternRule implements RuleMatcher
   
   @Override
   public String toString() {
-    return pattern.toString() + "/flags:" + pattern.flags();
+    return pattern + "/flags:" + pattern.flags();
   }
 
   /* (non-Javadoc)

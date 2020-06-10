@@ -69,7 +69,7 @@ public class NumeralStressRule extends Rule {
     StringBuilder stressedSuffixRE = new StringBuilder();
     for (int i = 0; i < stressedSfx.length; i++) {
       if (i > 0) {
-        stressedSuffixRE.append("|");
+        stressedSuffixRE.append('|');
       }
       stressedSuffixRE.append(stressedSfx[i]);
       suffixMap.put(stressedSfx[i], unstressedSfx[i]);
@@ -78,9 +78,9 @@ public class NumeralStressRule extends Rule {
     StringBuilder pattern = new StringBuilder("([1-9][0-9]*)(");
     pattern.append(stressedSuffixRE);
     for (String sfx : unstressedSfx) {
-      pattern.append("|").append(sfx);
+      pattern.append('|').append(sfx);
     }
-    pattern.append(")");
+    pattern.append(')');
 
     numeral = Pattern.compile(pattern.toString());
     //we know the token can not start with 0

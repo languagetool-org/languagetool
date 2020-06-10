@@ -29,6 +29,7 @@ public class UnicodeBasedLangIdentifierTest {
 
   @Test
   public void testGetAdditionalLangCodes() {
+    String arabic = "[ar]";
     String cyrillic = "[ru, uk, be]";
     String cjk = "[zh, ja]";
     String devanagari = "[hi, mr]";
@@ -53,6 +54,12 @@ public class UnicodeBasedLangIdentifierTest {
                      "Here's some short English text, but it's short"), is(cyrillic));
     assertThat(codes("проверяет ваше правописание на более чем 20 языках" +
                      "Here's some English text"), is(cyrillic));
+
+    // Arabic
+    assertThat(codes("لِينُكس (بالإنجليزية: Linux)\u200F (عن هذا الملف استمع (؟·معلومات)) ويسمى أيضا"), is(arabic));
+    assertThat(codes("طور لينكس في الأصل لكي يعمل على"), is(arabic));
+    assertThat(codes("يعمل لينكس أيضا على"), is(arabic));
+    assertThat(codes("في بادئ الأمر أراد"), is(arabic));
 
     // Chinese:
     // accept ambiguity here, we assume the actual language identifier will tell Chinese from Japanese

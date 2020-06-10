@@ -26,8 +26,8 @@ public class PronomFebleDuplicateRule extends Rule {
   private static final Pattern INFINITIU = Pattern.compile("V.N.*");
   private static final Pattern PARTICIPI = Pattern.compile("V.P..SM.");
   private static final Pattern GERUNDI = Pattern.compile("V.G.*");
-  private static final String[] ABANS_DE_GERUNDI = new String[] { "continuar", "seguir", "prosseguir", "anar" };
-  private static final String[] ABANS_DE_INFINITIU = new String[] { "anar", "poder", "voler", "deure" };
+  private static final String[] ABANS_DE_GERUNDI = { "continuar", "seguir", "prosseguir", "anar" };
+  private static final String[] ABANS_DE_INFINITIU = { "anar", "poder", "voler", "deure" };
   //private static final String[] VERBS_IMPERSONAL = new String[] { "ordenar", "recomanar" };
 
   @Override
@@ -81,7 +81,7 @@ public class PronomFebleDuplicateRule extends Rule {
           StringBuilder suggestion = new StringBuilder();
           for (int j = initPos + 1; j <= i; j++) {
             if (j > initPos + 1 && tokens[j].isWhitespaceBefore()) {
-              suggestion.append(" ");
+              suggestion.append(' ');
             }
             String strToAdd = tokens[j].getToken();
             if (j == initPos + 1 && StringTools.isCapitalizedWord(tokens[initPos].getToken())) {
@@ -94,7 +94,7 @@ public class PronomFebleDuplicateRule extends Rule {
           suggestion = new StringBuilder();
           for (int j = initPos; j <= i - 1; j++) {
             if (j > initPos && tokens[j].isWhitespaceBefore()) {
-              suggestion.append(" ");
+              suggestion.append(' ');
             }
             suggestion.append(tokens[j].getToken());
           }

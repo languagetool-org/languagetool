@@ -37,6 +37,7 @@ class UnicodeBasedLangIdentifier {
   }
 
   List<String> getAdditionalLangCodes(String str) {
+    int arabicChars = 0;
     int cyrillicChars = 0;
     int cjkChars = 0;
     int khmerChars = 0;
@@ -48,6 +49,9 @@ class UnicodeBasedLangIdentifier {
       int val = str.charAt(i);
       if (!Character.isWhitespace(val) && !Character.isDigit(val)) {
         significantChars++;
+      }
+      if (val >= 0x0600 && val <= 0x06FF) {
+        arabicChars++;
       }
       if (val >= 0x0400 && val <= 0x04FF) {
         cyrillicChars++;
@@ -73,6 +77,9 @@ class UnicodeBasedLangIdentifier {
       }
     }
     List<String> langCodes = new ArrayList<>();
+    if ((float)arabicChars / significantChars >= THRESHOLD) {
+      langCodes.add("ar");
+    }
     if ((float)cyrillicChars / significantChars >= THRESHOLD) {
       langCodes.add("ru");
       langCodes.add("uk");

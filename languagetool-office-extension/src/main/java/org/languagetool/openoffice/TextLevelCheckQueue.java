@@ -315,7 +315,7 @@ public class TextLevelCheckQueue {
       this.nEnd = nEnd;
       this.nCache = nCache;
       this.nCheck = nCheck;
-      this.docId = new String(docId);
+      this.docId = docId;
       this.overrideRunning = overrideRunning;
     }
     
@@ -434,7 +434,7 @@ public class TextLevelCheckQueue {
                 MessageHandler.printToLogFile("run queue entry: docId = " + queueEntry.docId + ", nStart = " 
                     + queueEntry.nStart + ", nEnd = " + queueEntry.nEnd + ", nCheck = " + queueEntry.nCheck + ", overrideRunning = " + queueEntry.overrideRunning);
               }
-              lastDocId = new String(queueEntry.docId);
+              lastDocId = queueEntry.docId;
               Language entryLanguage = getLanguage(lastDocId);
               if(lastLanguage == null || !lastLanguage.equals(entryLanguage)) {
                 lastLanguage = entryLanguage;

@@ -47,10 +47,31 @@ public class SimpleReplaceVerbsRuleTest {
   @Test
   public void testRule() throws IOException {
 
-    // correct sentences:
-
     // incorrect sentences:
-    RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("pringava"));
+    RuleMatch[] matches;
+    
+    matches = rule.match(langTool.getAnalyzedSentence("permanegué"));
+    assertEquals(1, matches.length);
+    assertEquals("restà", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("estigué", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("quedà", matches[0].getSuggestedReplacements().get(2));
+    assertEquals("romangué", matches[0].getSuggestedReplacements().get(3));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("permanesqué"));
+    assertEquals(1, matches.length);
+    assertEquals("restà", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("estigué", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("quedà", matches[0].getSuggestedReplacements().get(2));
+    assertEquals("romangué", matches[0].getSuggestedReplacements().get(3));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("permanéixer"));
+    assertEquals(1, matches.length);
+    assertEquals("restar", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("estar", matches[0].getSuggestedReplacements().get(1));
+    assertEquals("quedar", matches[0].getSuggestedReplacements().get(2));
+    assertEquals("romandre", matches[0].getSuggestedReplacements().get(3));
+    
+    matches = rule.match(langTool.getAnalyzedSentence("pringava"));
     assertEquals(1, matches.length);
     assertEquals("enllardava", matches[0].getSuggestedReplacements().get(0));
     assertEquals("empastifava", matches[0].getSuggestedReplacements().get(1));
@@ -140,7 +161,8 @@ public class SimpleReplaceVerbsRuleTest {
     assertEquals("desproveíssim", matches[0].getSuggestedReplacements().get(0));
     
     matches = rule.match(langTool.getAnalyzedSentence("desabasta"));
-    assertEquals("desproveeix", matches[0].getSuggestedReplacements().get(0));
+    assertEquals("desproveeix", matches[0].getSuggestedReplacements().get(0)); 
+
   }
 
 }

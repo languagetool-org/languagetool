@@ -221,6 +221,10 @@ public class TokenAgreementAdjNounRule extends Rule {
             && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*?:v_oru.*") ) {
           msg += ". Можливо, тут «не» потрібно писати окремо?";
         }
+        else if( ! PosTagHelper.hasPosTag(adjTokenReadings, "adj.*?v_mis.*")
+            && PosTagHelper.hasPosTag(slaveTokenReadings, "noun.*?v_mis.*") ) {
+          msg += ". Можливо, пропущено прийменник на/в/у...?";
+        }
 
         RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, adjAnalyzedTokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());
 

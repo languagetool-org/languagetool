@@ -18,6 +18,7 @@
  */
 package org.languagetool.rules.fr;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.Example;
@@ -106,6 +107,9 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
       case "depeche-toi": s = "dépêche-toi"; break;
       case "preferes-tu": s = "préfères-tu"; break;
       case "Preferes-tu": s = "Préfères-tu"; break;
+      case "la-bas": s = "là-bas"; break;
+      case "la-dedans": s = "là-dedans"; break;
+      case "la-dessus": s = "là-dessus"; break;
       /* a more generic solution could be like this, but which of the suggestions for the first part can be re-prepended?
       Pattern p = Pattern.compile("([a-zA-Z]+)-(tu|vous|ce|il|toi)");
       Matcher matcher = p.matcher(word);
@@ -120,6 +124,13 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
     } else {
       return SuggestedReplacement.convert(Collections.singletonList(s));
     }
+  }
+
+  @Override
+  protected boolean ignoreWord(List<String> words, int idx) throws IOException {
+    boolean ignore = super.ignoreWord(words, idx);
+    boolean ignoreUncapitalizedWord = !ignore && idx == 0 && super.ignoreWord(StringUtils.uncapitalize(words.get(0)));
+    return ignore || ignoreUncapitalizedWord;
   }
 
   @Override

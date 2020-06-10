@@ -98,12 +98,13 @@ public class TextCheckerTest {
   
   @Test
   @Ignore("use to create JWT test tokens for the other tests")
-  public void makeToken() throws UnsupportedEncodingException {
+  public void makeToken() {
     Algorithm algorithm = Algorithm.HMAC256("foobar");
     String token = JWT.create()
             .withIssuer("http://foobar")
             .withIssuedAt(new Date())
             .withClaim("maxTextLength", 30)
+            //.withClaim("skipLimits", true)
             //.withExpiresAt(new Date());
             .sign(algorithm);
     System.out.println(token);

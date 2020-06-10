@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   private static final List<Pattern> SENTENCE_EXCEPTION_PATTERNS = Arrays.asList(
+    Pattern.compile("wir \\("),  // "Hallo, wir (die Dingsbums Gmbh)"
     Pattern.compile("Wie .*?en Sie"),  // "Wie heizen Sie das Haus?"
     Pattern.compile("fiel(e|en)? .* (aus|auf)")
   );
@@ -44,6 +45,7 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     // See https://github.com/languagetool-org/languagetool/issues/1516
     ", dir bei",  // "froh, dir bei deiner Arbeit zu helfen"
     "fiel hinaus",
+    "setz dir",  // "Setz dir doch bitte einen Termin am Donnerstag"
     "du hast dir",
     "vielen als held",
     "seht gut",  // "Ihr seht gut aus"
@@ -70,7 +72,13 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "was wird unser",
     "die wird wieder",
     "damit wir für",
-    "wie finden sie"
+    "wie finden sie",
+    "ach die armen",
+    "wir würden sie", // vs wird
+    "damit wir ihre daten", // vs wird
+    "kannst du doch gerne", // vs dich
+    "wie ist hier der Stand", // vs Sand
+    "wie ist der Stand" // vs Sand
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {

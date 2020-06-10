@@ -20,6 +20,7 @@ package org.languagetool.server;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.sun.net.httpserver.HttpExchange;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -116,7 +117,6 @@ abstract class TextChecker {
 
     if (cache != null) {
       ServerMetricsCollector.getInstance().monitorCache("languagetool_matches_cache", cache.getMatchesCache());
-      ServerMetricsCollector.getInstance().monitorCache("languagetool_remote_matches_cache", cache.getRemoteMatchesCache());
       ServerMetricsCollector.getInstance().monitorCache("languagetool_sentences_cache", cache.getSentenceCache());
     }
 
@@ -132,11 +132,6 @@ abstract class TextChecker {
       if (config.getAbTest().equals("SuggestionsOrderer")) {
         SuggestionsOrdererConfig.setMLSuggestionsOrderingEnabled(true);
       }
-    }
-    // enable logging after warmup to avoid false alarms
-    if (config.getSlowRuleLoggingThreshold() >= 0) {
-      //RuleLoggerManager.getInstance().addLogger(new SlowRuleLogger(this.logServerId, config.getSlowRuleLoggingThreshold()));
-      RuleLoggerManager.getInstance().addLogger(new SlowRuleLogger(System.out, config.getSlowRuleLoggingThreshold()));
     }
   }
 
@@ -155,7 +150,7 @@ abstract class TextChecker {
       for (JLanguageTool.Mode mode : addonModes) {
         QueryParams params = new QueryParams(Collections.emptyList(), Collections.emptyList(), addonDisabledRules,
           Collections.emptyList(), Collections.emptyList(), false, true,
-          false, false, mode, null);
+          false, false, false, mode, null);
         PipelinePool.PipelineSettings settings = new PipelinePool.PipelineSettings(language, null, params, config.globalConfig, user);
         prewarmSettings.put(settings, NUM_PIPELINES_PER_SETTING);
 
@@ -278,6 +273,24 @@ abstract class TextChecker {
             Arrays.asList(parameters.get("preferredLanguages").split(",")) : Collections.emptyList();
     DetectedLanguage detLang = getLanguage(aText.getPlainText(), parameters, preferredVariants, noopLangs, preferredLangs);
     Language lang = detLang.getGivenLanguage();
+
+    // == temporary counting code ======================================
+    /*
+    if (httpExchange.getRequestHeaders() != null && httpExchange.getRequestHeaders().get("Accept-Language") != null) {
+      List<String> langs = httpExchange.getRequestHeaders().get("Accept-Language");
+      if (langs.size() > 0) {
+        String[] split = langs.get(0).split(",");
+        if (split.length > 0 && detLang.getDetectedLanguage() != null && detLang.getDetectedLanguage().getShortCode().equals("en")) {
+          int theCount1 = StringUtils.countMatches(aText.toString(), " the ");
+          int theCount2 = StringUtils.countMatches(aText.toString(), "The ");
+          String browserLang = split[0];
+          System.out.println("STAT\t" + detLang.getDetectedLanguage().getShortCode() + "\t" + detLang.getDetectionConfidence() + "\t" + aText.toString().length() + "\t" + browserLang + "\t" + theCount1 + "\t" + theCount2);
+        }
+      }
+    }
+    */
+    // ========================================
+
     Integer count = languageCheckCounts.get(lang.getShortCodeWithCountryAndVariant());
     if (count == null) {
       count = 1;
@@ -315,15 +328,16 @@ abstract class TextChecker {
       throw new IllegalArgumentException("You must specify enabled rules or categories when using enabledOnly=true");
     }
 
+    boolean enableTempOffRules = "true".equals(parameters.get("enableTempOffRules"));
     boolean useQuerySettings = enabledRules.size() > 0 || disabledRules.size() > 0 ||
-            enabledCategories.size() > 0 || disabledCategories.size() > 0;
+            enabledCategories.size() > 0 || disabledCategories.size() > 0 || enableTempOffRules;
     boolean allowIncompleteResults = "true".equals(parameters.get("allowIncompleteResults"));
     boolean enableHiddenRules = "true".equals(parameters.get("enableHiddenRules"));
     JLanguageTool.Mode mode = ServerTools.getMode(parameters);
     String callback = parameters.get("callback");
     QueryParams params = new QueryParams(altLanguages, enabledRules, disabledRules,
       enabledCategories, disabledCategories, useEnabledOnly,
-      useQuerySettings, allowIncompleteResults, enableHiddenRules, mode, callback);
+      useQuerySettings, allowIncompleteResults, enableHiddenRules, enableTempOffRules, mode, callback);
 
     int textSize = aText.getPlainText().length();
 
@@ -445,12 +459,13 @@ abstract class TextChecker {
     languageCheckCounts.put(lang.getShortCodeWithCountryAndVariant(), count);
     int computationTime = (int) (System.currentTimeMillis() - timeStart);
     String version = parameters.get("v") != null ? ", v:" + parameters.get("v") : "";
+    String skipLimits = limits.getSkipLimits() ? ", skipLimits" : "";
     logger.info("Check done: " + aText.getPlainText().length() + " chars, " + languageMessage + ", #" + count + ", " + referrer + ", "
             + matches.size() + " matches, "
             + computationTime + "ms, agent:" + agent + version
             + ", " + messageSent + ", q:" + (workQueue != null ? workQueue.size() : "?")
             + ", h:" + reqCounter.getHandleCount() + ", dH:" + reqCounter.getDistinctIps()
-            + ", m:" + mode.toString().toLowerCase());
+            + ", m:" + mode.toString().toLowerCase() + skipLimits);
 
     int matchCount = matches.size();
     Map<String, Integer> ruleMatchCount = new HashMap<>();
@@ -684,11 +699,12 @@ abstract class TextChecker {
     final boolean useQuerySettings;
     final boolean allowIncompleteResults;
     final boolean enableHiddenRules;
+    final boolean enableTempOffRules;
     final JLanguageTool.Mode mode;
     final String callback;
 
     QueryParams(List<Language> altLanguages, List<String> enabledRules, List<String> disabledRules, List<CategoryId> enabledCategories, List<CategoryId> disabledCategories,
-                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, JLanguageTool.Mode mode, @Nullable String callback) {
+                boolean useEnabledOnly, boolean useQuerySettings, boolean allowIncompleteResults, boolean enableHiddenRules, boolean enableTempOffRules, JLanguageTool.Mode mode, @Nullable String callback) {
       this.altLanguages = Objects.requireNonNull(altLanguages);
       this.enabledRules = enabledRules;
       this.disabledRules = disabledRules;
@@ -698,6 +714,7 @@ abstract class TextChecker {
       this.useQuerySettings = useQuerySettings;
       this.allowIncompleteResults = allowIncompleteResults;
       this.enableHiddenRules = enableHiddenRules;
+      this.enableTempOffRules = enableTempOffRules;
       this.mode = Objects.requireNonNull(mode);
       if (callback != null && !callback.matches("[a-zA-Z]+")) {
         throw new IllegalArgumentException("'callback' value must match [a-zA-Z]+: '" + callback + "'");
@@ -717,6 +734,7 @@ abstract class TextChecker {
         .append(useQuerySettings)
         .append(allowIncompleteResults)
         .append(enableHiddenRules)
+        .append(enableTempOffRules)
         .append(mode)
         .append(callback)
         .toHashCode();
@@ -739,6 +757,7 @@ abstract class TextChecker {
         .append(useQuerySettings, other.useQuerySettings)
         .append(allowIncompleteResults, other.allowIncompleteResults)
         .append(enableHiddenRules, other.enableHiddenRules)
+        .append(enableTempOffRules, other.enableTempOffRules)
         .append(mode, other.mode)
         .append(callback, other.callback)
         .isEquals();
@@ -756,6 +775,7 @@ abstract class TextChecker {
         .append("useQuerySettings", useQuerySettings)
         .append("allowIncompleteResults", allowIncompleteResults)
         .append("enableHiddenRules", enableHiddenRules)
+        .append("enableTempOffRules", enableTempOffRules)
         .append("mode", mode)
         .append("callback", mode)
         .build();
