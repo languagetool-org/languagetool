@@ -1592,12 +1592,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token regexp="yes">&pronombre_personal_atono;<exception>la</exception></token>
                     <marker>
-                        <token>continua</token>
+                        <token regexp="yes">continua|perpetua</token>
                     </marker>
                 </pattern>
                 <message>Si es un verbo, lleva tilde.</message>
-                <suggestion>continúa</suggestion>
+                <suggestion><match no="2" regexp_match="(?iu)ua" regexp_replace="úa"/></suggestion>
                 <example correction="continúa">Se <marker>continua</marker> igual.</example>
+                <example correction="perpetúa">Se <marker>perpetua</marker> igual.</example>
                 <example correction="continúa">Él lo <marker>continua</marker>.</example>
                 <example>La continua tensión.</example>
             </rule>
