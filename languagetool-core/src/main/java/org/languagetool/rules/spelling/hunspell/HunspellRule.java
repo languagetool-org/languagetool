@@ -28,6 +28,7 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.SuggestedReplacement;
 import org.languagetool.rules.spelling.SpellingCheckRule;
+import org.languagetool.tools.StringTools;
 
 import java.io.*;
 import java.net.URISyntaxException;
@@ -225,6 +226,20 @@ public class HunspellRule extends SpellingCheckRule {
               }
             }
             suggestions = filterDupes(filterSuggestions(suggestions, sentence, i));
+            // Find potentially missing compounds with privacy-friendly logging: we only log a single unknown word with no
+            // meta data and only if it's made up of two valid words, similar to the "UNKNOWN" logging in
+            // GermanSpellerRule:
+            if (language.getShortCode().equals("de")) {
+              String covered = sentence.getText().substring(len, len + cleanWord.length());
+              if (suggestions.stream().anyMatch(
+                    k -> k.getReplacement().contains(" ") &&
+                    StringTools.uppercaseFirstChar(k.getReplacement().replaceAll(" ", "").toLowerCase()).equals(covered) &&
+                    k.getReplacement().length() > 6 && k.getReplacement().length() < 25 &&
+                    k.getReplacement().matches("[a-zA-ZÖÄÜöäüß -]+")
+                  )) {
+                System.out.println("COMPOUND: " + covered);
+              }
+            }
             // TODO user suggestions
             addSuggestionsToRuleMatch(cleanWord, Collections.emptyList(), suggestions, null, ruleMatch);
           } else {
