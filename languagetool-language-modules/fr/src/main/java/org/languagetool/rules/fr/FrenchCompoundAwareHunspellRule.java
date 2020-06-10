@@ -29,8 +29,6 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tokenizers.CompoundWordTokenizer;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,7 +45,7 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
   private final static Pattern vocalPattern = Pattern.compile("[dDLl]['’′][Hh]?[aàâäeéèêëiîïoöôuyAÀÂÄEÉÈÊËIÎÏOÖÔUY].*");
 
   public FrenchCompoundAwareHunspellRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
-    super(messages, language, new NonSplittingTokenizer(), getSpeller(language, userConfig), userConfig, altLanguages);
+    super(messages, language, new NonSplittingTokenizer(), getSpeller(language, userConfig, null), userConfig, altLanguages);
     addExamplePair(Example.wrong("Le <marker>chein</marker> noir"),
                    Example.fixed("Le <marker>chien</marker> noir"));
   }
@@ -62,33 +60,17 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
   }
 
   @Nullable
-  private static MorfologikMultiSpeller getSpeller(Language language, UserConfig userConfig) {
-    if (!language.getShortCode().equals(Locale.FRENCH.getLanguage())) {
-      throw new RuntimeException("Language is not a variant of French: " + language);
-    }
+  private static MorfologikMultiSpeller getSpeller(Language language, UserConfig userConfig, String languageVariantPlainTextDict) {
     try {
-      String morfoFile = "/fr/hunspell/fr_" + language.getCountries()[0] + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
-      if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
-        // spell data will not exist in LibreOffice/OpenOffice context
-        List<String> paths = Arrays.asList(
-          "/fr/hunspell/spelling.txt",
-          "/fr/hunspell/spelling_custom.txt",
-          "spelling_global.txt"
-        );
-        List<InputStream> streams = new ArrayList<>();
-        for (String path : paths) {
-          // add separation between streams so that missing newlines at the end don't join the last & first line from two files
-          String separation = "# Start of file " + path.replaceAll("\n", "") + "\n";
-          ByteArrayInputStream separationStream = new ByteArrayInputStream(
-            Charset.defaultCharset().encode(separation).array());
-          streams.add(separationStream);
-          streams.add(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path));
-          streams.add(new ByteArrayInputStream(System.lineSeparator().getBytes(StandardCharsets.UTF_8)));  // don't crash if input doesn't end with newline
-        }
+      String langCode = language.getShortCode();
+      String morfoFile = "/" + langCode + "/hunspell/" + langCode + "_" + language.getCountries()[0] + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+      if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {  // spell data will not exist in LibreOffice/OpenOffice context
+        List<String> paths = getSpellingFilePaths(langCode);
+        List<InputStream> streams = getStreams(paths);
         try (BufferedReader br = new BufferedReader(
           new InputStreamReader(new SequenceInputStream(Collections.enumeration(streams)), UTF_8))) {
           return new MorfologikMultiSpeller(morfoFile, br, paths,
-            null, null, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), 2);
+            null, languageVariantPlainTextDict, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), 2);
         }
       } else {
         return null;

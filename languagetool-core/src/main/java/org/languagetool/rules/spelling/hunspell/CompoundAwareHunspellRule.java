@@ -19,6 +19,8 @@
 package org.languagetool.rules.spelling.hunspell;
 
 import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
+import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
@@ -26,7 +28,9 @@ import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
 import org.languagetool.tokenizers.CompoundWordTokenizer;
 import org.languagetool.tools.StringTools;
 
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.IntStream;
 
@@ -43,6 +47,30 @@ public abstract class CompoundAwareHunspellRule extends HunspellRule {
   private final MorfologikMultiSpeller morfoSpeller;
 
   protected abstract void filterForLanguage(List<String> suggestions);
+
+  @NotNull
+  protected static List<String> getSpellingFilePaths(String langCode) {
+    return Arrays.asList(
+      "/" + langCode + "/hunspell/spelling.txt",
+      "/" + langCode + "/hunspell/spelling_custom.txt",
+      "spelling_global.txt"
+    );
+  }
+
+  @NotNull
+  protected static List<InputStream> getStreams(List<String> paths) {
+    List<InputStream> streams = new ArrayList<>();
+    for (String path : paths) {
+      // add separation between streams so that missing newlines at the end don't join the last & first line from two files
+      String separation = "# Start of file " + path.replaceAll("\n", "") + "\n";
+      ByteArrayInputStream separationStream = new ByteArrayInputStream(
+        Charset.defaultCharset().encode(separation).array());
+      streams.add(separationStream);
+      streams.add(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path));
+      streams.add(new ByteArrayInputStream(System.lineSeparator().getBytes(StandardCharsets.UTF_8)));  // don't crash if input doesn't end with newline
+    }
+    return streams;
+  }
 
   public CompoundAwareHunspellRule(ResourceBundle messages, Language language, CompoundWordTokenizer compoundSplitter, MorfologikMultiSpeller morfoSpeller, UserConfig userConfig) {
     this(messages, language, compoundSplitter, morfoSpeller, userConfig, Collections.emptyList());

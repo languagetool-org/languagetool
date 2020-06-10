@@ -41,8 +41,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.*;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.function.Function;
 import java.util.regex.Pattern;
@@ -1078,36 +1076,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
   }
 
   @Nullable
-  private static MorfologikMultiSpeller getSpeller(Language language, UserConfig userConfig,
-                                                   String languageVariantPlainTextDict) {
-    if (!language.getShortCode().equals(Locale.GERMAN.getLanguage())) {
-      throw new IllegalArgumentException("Language is not a variant of German: " + language);
-    }
+  protected static MorfologikMultiSpeller getSpeller(Language language, UserConfig userConfig, String languageVariantPlainTextDict) {
     try {
-      String morfoFile = "/de/hunspell/de_" + language.getCountries()[0] + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
+      String langCode = language.getShortCode();
+      String morfoFile = "/" + langCode + "/hunspell/" + langCode + "_" + language.getCountries()[0] + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {  // spell data will not exist in LibreOffice/OpenOffice context
-        List<String> paths = Arrays.asList(
-          "/de/hunspell/spelling.txt",
-          "/de/hunspell/spelling_custom.txt",
-          "spelling_global.txt"
-        );
-        List<InputStream> streams = new ArrayList<>();
-        for (String path : paths) {
-          // add separation between streams so that missing newlines at the end don't join the last & first line from two files
-          String separation = "# Start of file " + path.replaceAll("\n", "") + "\n";
-          ByteArrayInputStream separationStream = new ByteArrayInputStream(
-            Charset.defaultCharset().encode(separation).array());
-          streams.add(separationStream);
-          streams.add(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path));
-          streams.add(new ByteArrayInputStream(System.lineSeparator().getBytes(StandardCharsets.UTF_8)));  // don't crash if input doesn't end with newline
-        }
+        List<String> paths = getSpellingFilePaths(langCode);
+        List<InputStream> streams = getStreams(paths);
         try (BufferedReader br = new BufferedReader(
           new InputStreamReader(new SequenceInputStream(Collections.enumeration(streams)), UTF_8))) {
-          BufferedReader variantReader = null;
-          if (languageVariantPlainTextDict != null && !languageVariantPlainTextDict.isEmpty()) {
-            InputStream variantStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(languageVariantPlainTextDict);
-            variantReader = new ExpandingReader(new BufferedReader(new InputStreamReader(variantStream, UTF_8)));
-          }
+          BufferedReader variantReader = getVariantReader(languageVariantPlainTextDict);
           return new MorfologikMultiSpeller(morfoFile, new ExpandingReader(br), paths,
             variantReader, languageVariantPlainTextDict, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), MAX_EDIT_DISTANCE);
         }
@@ -1117,6 +1095,16 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     } catch (IOException e) {
       throw new RuntimeException("Could not set up morfologik spell checker", e);
     }
+  }
+
+  @Nullable
+  private static BufferedReader getVariantReader(String languageVariantPlainTextDict) {
+    BufferedReader variantReader = null;
+    if (languageVariantPlainTextDict != null && !languageVariantPlainTextDict.isEmpty()) {
+      InputStream variantStream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(languageVariantPlainTextDict);
+      variantReader = new ExpandingReader(new BufferedReader(new InputStreamReader(variantStream, UTF_8)));
+    }
+    return variantReader;
   }
 
   @Override
