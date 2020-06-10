@@ -29258,7 +29258,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">\d+.+</token>
       </antipattern>
       <pattern>
-        <token regexp="yes">(\d+)?\-?\d+([kcmµn]?m|[km]?g|°C|m?l|(kilo|méga|giga|téra|péta)?watt|[TGMK]o|ohms?|kW|[MGTP]W|mph|fps|m²|m³|m?s|[GMkhdcm]N|V|min|px|Mpx|[GM]Hz|[TGMKtgmk]o|mA|Ω|mcg|pts)</token>
+        <token regexp="yes">\-?(\d+)?\-?\d+([kcmµn]?m|[km]?g|°C|m?l|(kilo|méga|giga|téra|péta)?watt|[TGMK]o|ohms?|kW|[MGTP]W|mph|fps|m²|m³|m?s|[GMkhdcm]N|V|min|px|Mpx|[GM]Hz|[TGMKtgmk]o|mA|Ω|mcg|pts|mAh)</token>
       </pattern>
       <message>Il faut utiliser une espace insécable avant l’unité. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)(.*)" regexp_replace="$1 $2"/></suggestion> ?</message>
       <example correction="80 kg">Je pèse <marker>80kg</marker>.</example>
@@ -30215,7 +30215,7 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <!-- <pattern><token regexp="yes">(?:1?\d|2[0-4])h</token></pattern> -->
-        <pattern><token regexp="yes">(\d+)h</token></pattern>
+        <pattern><token regexp="yes">\-?(\d+)h</token></pattern>
         <message>La lettre h doit être espacée dans les heures abrégées.</message>
         <suggestion><match no="1" regexp_match="(\d+)[hH]" regexp_replace="$1 h"/></suggestion>
         <suggestion><match no="1" regexp_match="(\d+)[hH]" regexp_replace="$1:00"/></suggestion>
@@ -31841,6 +31841,95 @@ though, and has since been slightly modified)-->
       <example correction="SQLite">Android utilise <marker>SQL-lite</marker>.</example>
       <example correction="SQLite">Android utilise <marker>Sqlite</marker>.</example>
       <example correction="SQLite">Android utilise <marker>SQLight</marker>.</example>
+    </rule>
+    <rulegroup id="COVID_19" name="COVID-19" default="temp_off">
+        <url>https://fr.wikipedia.org/wiki/Maladie_%C3%A0_coronavirus_2019</url>
+        <rule>
+            <pattern>
+                <token>Covid</token>
+                <token>19</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>COVID-19</suggestion> ou <suggestion>Covid-19</suggestion> (= coronavirus)?</message>
+            <example correction="COVID-19|Covid-19">La <marker>COVID 19</marker> est la maladie infectieuse causée par le dernier coronavirus qui a été découvert</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>Covid19</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>COVID-19</suggestion> ou <suggestion>Covid-19</suggestion> (= coronavirus)?</message>
+            <example correction="COVID-19|Covid-19">La <marker>COVID19</marker> est la maladie infectieuse causée par le dernier coronavirus qui a été découvert</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token>corona</token>
+                <token regexp="yes">virus</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion>?</message>
+            <example correction="coronavirus">La COVID-19 est la maladie infectieuse causée par le dernier <marker>corona virus</marker> qui a été découvert.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">corona\-virus</token>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>coronavirus</suggestion>?</message>
+            <example correction="coronavirus">La COVID-19 est la maladie infectieuse causée par le dernier <marker>corona-virus</marker> qui a été découvert.</example>
+        </rule>
+    </rulegroup>
+    <rule id="WHATS_APP" name="WhatsApp" default="temp_off">
+        <pattern>
+            <token>whats</token>
+            <token>app</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>WhatsApp</suggestion> (= application mobile)?</message>
+        <url>https://fr.wikipedia.org/wiki/WhatsApp</url>
+        <example correction="WhatsApp"><marker>Whats App</marker> est une application mobile.</example>
+    </rule>
+    <rulegroup id="BLACK_LIVES_MATTER" name="Black Lives Matter" default="temp_off">
+        <url>https://fr.wikipedia.org/wiki/Black_Lives_Matter</url>
+        <antipattern case_sensitive="yes">
+            <token regexp="yes">Black|BLACK</token>
+            <token regexp="yes">Lives|LIVES</token>
+            <token regexp="yes">Matter|MATTER</token>
+        </antipattern>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>black</token>
+                    <token regexp="yes">li[fv]es?</token>
+                    <token regexp="yes">matters?</token>
+                </marker>
+            </pattern>
+            <message>Voulez-vous écrire <suggestion>Black Lives Matter</suggestion>?</message>
+            <suggestion>Black Lives Matter</suggestion>
+            <example correction="Black Lives Matter"><marker>Black Lifes Matter</marker> est un mouvement.</example>
+        </rule>
+    </rulegroup>
+    <rule id="JAVA_SCRIPT" name="JavaScript" default="temp_off">
+        <pattern>
+            <token>java</token>
+            <token>script</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>JavaScript</suggestion> (= langage de programmation)?</message>
+        <url>https://fr.wikipedia.org/wiki/JavaScript</url>
+        <example correction="JavaScript"><marker>Java Script</marker> est un langage de programmation</example>
+    </rule>
+    <rule id="YOU_TUBE" name="YouTube" default="temp_off">
+        <pattern>
+            <token>You</token>
+            <token>Tube</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= hébergement de vidéos)?</message>
+        <url>https://fr.wikipedia.org/wiki/YouTube</url>
+        <example correction="YouTube"><marker>You tube</marker> est un site web d’hébergement de vidéos.</example>
+    </rule>
+    <rule id="PAY_PAL" name="PayPal" default="temp_off">
+        <pattern>
+            <token>Pay</token>
+            <token>Pal</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= service de paiement)?</message>
+        <url>https://fr.wikipedia.org/wiki/PayPal</url>
+        <example correction="PayPal"><marker>Pay Pal</marker> est une entreprise américaine offrant un système de service de paiement.</example>
     </rule>
     <rule id="GRAMMALECTE" name="Grammalecte">
       <pattern>
