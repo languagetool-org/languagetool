@@ -55,6 +55,7 @@ public class FrenchCompoundAwareHunspellRuleTest {
     assertSuggestion(lt, "wordpress", "WordPress");
     assertSuggestion(lt, "Etais-tu", "Étais-tu");
     assertSuggestion(lt, "etais-tu", "étais-tu");
+    assertSuggestion(lt, "Playstation", "PlayStation");  // spelling_global.txt
     assertThat(lt.check("Et d'Harvard").size(), is(0));
     assertThat(lt.check("déconfinement").size(), is(0));  // from spelling.txt
     assertThat(lt.check("Déconfinement").size(), is(0));

@@ -29,10 +29,13 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tokenizers.CompoundWordTokenizer;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * A French spell checker that uses hunspell for checking but Morfologik for suggestions (for performance reasons).
@@ -67,10 +70,25 @@ public class FrenchCompoundAwareHunspellRule extends CompoundAwareHunspellRule {
       String morfoFile = "/fr/hunspell/fr_" + language.getCountries()[0] + JLanguageTool.DICTIONARY_FILENAME_EXTENSION;
       if (JLanguageTool.getDataBroker().resourceExists(morfoFile)) {
         // spell data will not exist in LibreOffice/OpenOffice context
-        String path = "/fr/hunspell/spelling.txt";
-        try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(path);
-             BufferedReader br = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8))) {
-          return new MorfologikMultiSpeller(morfoFile, br, Collections.singletonList(path), null, null, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), 2);
+        List<String> paths = Arrays.asList(
+          "/fr/hunspell/spelling.txt",
+          "/fr/hunspell/spelling_custom.txt",
+          "spelling_global.txt"
+        );
+        List<InputStream> streams = new ArrayList<>();
+        for (String path : paths) {
+          // add separation between streams so that missing newlines at the end don't join the last & first line from two files
+          String separation = "# Start of file " + path.replaceAll("\n", "") + "\n";
+          ByteArrayInputStream separationStream = new ByteArrayInputStream(
+            Charset.defaultCharset().encode(separation).array());
+          streams.add(separationStream);
+          streams.add(JLanguageTool.getDataBroker().getFromResourceDirAsStream(path));
+          streams.add(new ByteArrayInputStream(System.lineSeparator().getBytes(StandardCharsets.UTF_8)));  // don't crash if input doesn't end with newline
+        }
+        try (BufferedReader br = new BufferedReader(
+          new InputStreamReader(new SequenceInputStream(Collections.enumeration(streams)), UTF_8))) {
+          return new MorfologikMultiSpeller(morfoFile, br, paths,
+            null, null, userConfig != null ? userConfig.getAcceptedWords(): Collections.emptyList(), 2);
         }
       } else {
         return null;
