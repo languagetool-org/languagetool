@@ -20,7 +20,9 @@ package org.languagetool.openoffice;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.languagetool.Language;
 import org.languagetool.LinguServices;
@@ -33,6 +35,7 @@ import com.sun.star.linguistic2.XHyphenator;
 import com.sun.star.linguistic2.XLinguServiceManager;
 import com.sun.star.linguistic2.XMeaning;
 import com.sun.star.linguistic2.XPossibleHyphens;
+import com.sun.star.linguistic2.XSpellAlternatives;
 import com.sun.star.linguistic2.XSpellChecker;
 import com.sun.star.linguistic2.XThesaurus;
 import com.sun.star.uno.UnoRuntime;
@@ -48,13 +51,21 @@ public class LinguisticServices extends LinguServices {
   private XThesaurus thesaurus = null;
   private XSpellChecker spellChecker = null;
   private XHyphenator hyphenator = null;
-  
+  private Map<String, List<String>> synonymsCache;
+  private boolean noSynonymsAsSuggestions = false;
+
   public LinguisticServices(XComponentContext xContext) {
+    this(xContext, false);
+  }
+  
+  public LinguisticServices(XComponentContext xContext, boolean noSynonymsAsSuggestions) {
     if (xContext != null) {
       XLinguServiceManager mxLinguSvcMgr = GetLinguSvcMgr(xContext);
       thesaurus = GetThesaurus(mxLinguSvcMgr);
       spellChecker = GetSpellChecker(mxLinguSvcMgr);
       hyphenator = GetHyphenator(mxLinguSvcMgr);
+      synonymsCache = new HashMap<String, List<String>>();
+      this.noSynonymsAsSuggestions = noSynonymsAsSuggestions;
     }
   }
   
@@ -173,27 +184,37 @@ public class LinguisticServices extends LinguServices {
   }
   
   public List<String> getSynonyms(String word, Locale locale) {
+    if (this.noSynonymsAsSuggestions) {
+      return new ArrayList<String>();
+    }
+    if (synonymsCache.containsKey(word)) {
+      return synonymsCache.get(word);
+    }
+    List<String> synonyms = new ArrayList<String>();
     try {
       if (thesaurus == null) {
         printText("XThesaurus == null");
-        return null;
+        return synonyms;
       }
       if (locale == null) {
         printText("Locale == null");
-        return null;
+        return synonyms;
       }
       PropertyValue[] properties = new PropertyValue[0];
       XMeaning[] meanings = thesaurus.queryMeanings(word, locale, properties);
-      List<String> synonyms = new ArrayList<String>();
       for (XMeaning meaning : meanings) {
+        if(synonyms.size() >= OfficeTools.MAX_SUGGESTIONS) {
+          break;
+        }
         String[] singleSynonyms = meaning.querySynonyms();
         Collections.addAll(synonyms, singleSynonyms);
       }
+      synonymsCache.put(word, synonyms);
       return synonyms;
     } catch (Throwable t) {
       // If anything goes wrong, give the user a stack trace
       printMessage(t);
-      return null;
+      return synonyms;
     }
   }
 
@@ -217,6 +238,29 @@ public class LinguisticServices extends LinguServices {
       // If anything goes wrong, give the user a stack trace
       printMessage(t);
       return false;
+    }
+  }
+
+  /**
+   * Returns Alternatives to  wrong spelled word
+   */
+  public String[] getSpellAlternatives(String word, Language lang) {
+    return getSpellAlternatives(word, getLocale(lang));
+  }
+  
+  public String[] getSpellAlternatives(String word, Locale locale) {
+    if(spellChecker == null) {
+      printText("XSpellChecker == null");
+      return null;
+    }
+    PropertyValue[] properties = new PropertyValue[0];
+    try {
+      XSpellAlternatives spellAlternatives = spellChecker.spell(word, locale, properties);
+      return spellAlternatives.getAlternatives();
+    } catch (Throwable t) {
+      // If anything goes wrong, give the user a stack trace
+      printMessage(t);
+      return null;
     }
   }
 

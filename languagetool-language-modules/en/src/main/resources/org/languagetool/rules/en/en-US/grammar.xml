@@ -110,6 +110,12 @@ USA
                  <token postag="JJ"/>
                  <token>than</token>
               </antipattern>
+              <antipattern><!-- #2985 any more random lag spikes -->
+                 <token chunk="B-NP-plural">any</token>
+                 <token chunk="I-NP-plural">more</token>
+                 <token min="0" max="4" chunk="I-NP-plural"/>
+                 <token postag="NNS"/>
+              </antipattern>
               <pattern>
                   <marker>
                      <token>any</token>
@@ -130,6 +136,8 @@ USA
               <example>I couldn't find my way around it <marker>anymore</marker>.</example>
               <example>If we see that your plan isn't a good fit anymore in the long run, we'd contact you.</example><!-- #2368 -->
               <example>But I don't think it's any more likely than a farmer harvesting guano...</example><!-- #2717 -->
+              <example>Do it so that there aren't any more random lag spikes.</example><!-- #2985 -->
+              <example>There aren't any more random spikes.</example><!-- #2985 -->
           </rule>
 
     </category>

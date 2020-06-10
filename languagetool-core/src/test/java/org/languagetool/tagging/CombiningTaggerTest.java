@@ -58,9 +58,9 @@ public class CombiningTaggerTest {
     StringBuilder sb = new StringBuilder();
     for (TaggedWord taggedWord : result) {
       sb.append(taggedWord.getLemma());
-      sb.append("/");
+      sb.append('/');
       sb.append(taggedWord.getPosTag());
-      sb.append("\n");
+      sb.append('\n');
     }
     return sb.toString();
   }

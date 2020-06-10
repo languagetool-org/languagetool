@@ -89,6 +89,22 @@ public class MorfologikSpanishSpellerRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("respostas"));
     assertEquals("respuestas", matches[0].getSuggestedReplacements().get(0));
     
+    matches = rule.match(langTool.getAnalyzedSentence("mui"));
+    assertEquals("muy", matches[0].getSuggestedReplacements().get(0)); 
+    
+    matches = rule.match(langTool.getAnalyzedSentence("finga"));
+    assertEquals("finja", matches[0].getSuggestedReplacements().get(0));
+    
+    //currencies
+    matches = rule.match(langTool.getAnalyzedSentence("$100"));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("$10,000"));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("10,000 USD"));
+    assertEquals(0, matches.length);
+    matches = rule.match(langTool.getAnalyzedSentence("10,000 EUR"));
+    assertEquals(0, matches.length);
+    
   }
 
 }

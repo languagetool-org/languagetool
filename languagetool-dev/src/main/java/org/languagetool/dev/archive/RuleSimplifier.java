@@ -99,11 +99,11 @@ final class RuleSimplifier {
       if (hasCSParts && !allCSParts && !patternToken.isCaseSensitive()) {
         sb.append("(?i:");
         appendTokenString(sb, str, setAllParenthesis);
-        sb.append(")");
+        sb.append(')');
       } else {
         appendTokenString(sb, str, setAllParenthesis);
       }
-      sb.append(" ");
+      sb.append(' ');
     }
     String escapedRegex = XmlEscapers.xmlContentEscaper().escape(sb.toString().trim());
     if (allCSParts) {
@@ -118,7 +118,7 @@ final class RuleSimplifier {
   
   private void appendTokenString(StringBuilder sb, String str, boolean setAllParenthesis) {
     if (str.contains("|") || setAllParenthesis) {
-      sb.append("(").append(str).append(")");
+      sb.append('(').append(str).append(')');
     } else {
       sb.append(str);
     }

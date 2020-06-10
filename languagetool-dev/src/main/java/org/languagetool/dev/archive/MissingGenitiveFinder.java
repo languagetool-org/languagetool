@@ -51,7 +51,7 @@ public class MissingGenitiveFinder {
   private Map<String, Integer> loadOccurrences(String filename) throws IOException {
     System.err.println("Loading " + filename);
     Map<String, Integer> map = new HashMap<>();
-    List<String> lines = (List<String>)FileUtils.readLines(new File(filename));
+    List<String> lines = FileUtils.readLines(new File(filename));
     for (String line : lines) {
       String[] parts = line.split(" ");
       map.put(parts[0], Integer.valueOf(parts[1]));

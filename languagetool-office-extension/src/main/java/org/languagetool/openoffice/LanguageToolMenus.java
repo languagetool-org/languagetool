@@ -426,10 +426,10 @@ public class LanguageToolMenus {
         MessageHandler.printToLogFile("Property: Name: " + property.Name + ", Type: " + property.Type);
       }
       if(props.getPropertySetInfo().hasPropertyByName("Text")) {
-        MessageHandler.printToLogFile("Property: Name: " + props.getPropertyValue("Text").toString());
+        MessageHandler.printToLogFile("Property: Name: " + props.getPropertyValue("Text"));
       }
       if(props.getPropertySetInfo().hasPropertyByName("CommandURL")) {
-        MessageHandler.printToLogFile("Property: CommandURL: " + props.getPropertyValue("CommandURL").toString());
+        MessageHandler.printToLogFile("Property: CommandURL: " + props.getPropertyValue("CommandURL"));
       }
     }
 

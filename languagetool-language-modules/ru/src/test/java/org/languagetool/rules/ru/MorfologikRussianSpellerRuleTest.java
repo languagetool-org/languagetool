@@ -46,11 +46,26 @@ public class MorfologikRussianSpellerRuleTest {
         // correct word
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("русский")).length);
         
+        // correct word
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("ёжик")).length);
+      
+        // correct word
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("ежик")).length);
+        
+        
         // incorrect word with hyphen
         assertEquals(1, rule.match(langTool.getAnalyzedSentence("юго-зпдный")).length);
 
         // correct word with hyphen
         assertEquals(0, rule.match(langTool.getAnalyzedSentence("северо-восточный")).length);
+        
+                
+        // correct word with hyphen
+        assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ростов-на-Дону")).length);
+        
+        // incorrect word with hyphen
+        assertEquals(1, rule.match(langTool.getAnalyzedSentence("Ростов-на-дону")).length);
+
 
      }
 }

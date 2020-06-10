@@ -105,14 +105,29 @@ public class Russian extends Language implements AutoCloseable {
             new WordRepeatRule(messages, this),
             new MultipleWhitespaceRule(messages, this),
 	    new SentenceWhitespaceRule(messages),
-            // specific to Russian :
+        //  new WhiteSpaceBeforeParagraphEnd(messages, this),
+            new WhiteSpaceAtBeginOfParagraph(messages),
+        //  new EmptyLineRule(messages, this),
+            new LongSentenceRule(messages, userConfig),
+            new LongParagraphRule(messages, this, userConfig),
+            new ParagraphRepeatBeginningRule(messages, this),
+            new RussianFillerWordsRule(messages, this, userConfig),
+        //  new PunctuationMarkAtParagraphEnd(messages, this),
+        //  new PunctuationMarkAtParagraphEnd2(messages, this),
+        //  new ReadabilityRule(messages, this, userConfig, false), // need use localise rule
+        //  new ReadabilityRule(messages, this, userConfig, true),  // need use localise rule
+     
+            
+                // specific to Russian :
+            new MorfologikRussianYOSpellerRule(messages, this, userConfig, altLanguages), // This rule must set off by default!!!
             new RussianUnpairedBracketsRule(messages, this),
             new RussianCompoundRule(messages),
             new RussianSimpleReplaceRule(messages),
             new RussianWordCoherencyRule(messages),
             new RussianWordRepeatRule(messages),
             new RussianVerbConjugationRule(messages),
-            new RussianDashRule(messages)
+            new RussianDashRule(messages),
+            new RussianSpecificCaseRule(messages)
     );
   }
 
@@ -126,7 +141,7 @@ public class Russian extends Language implements AutoCloseable {
   /** @since 3.1 */
   @Override
   public List<Rule> getRelevantLanguageModelRules(ResourceBundle messages, LanguageModel languageModel, UserConfig userConfig) throws IOException {
-    return Arrays.<Rule>asList(
+    return Arrays.asList(
             new RussianConfusionProbabilityRule(messages, languageModel, this)
     );
   }

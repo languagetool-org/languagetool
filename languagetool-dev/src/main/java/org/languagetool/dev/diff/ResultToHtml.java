@@ -25,7 +25,7 @@ import org.languagetool.Languages;
 import org.languagetool.rules.Rule;
 import org.languagetool.tools.StringTools;
 
-import java.io.FileReader;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
@@ -52,7 +52,7 @@ public class ResultToHtml {
     try {
       fw = new FileWriter(outputFile);
       LightRuleMatchParser parser = new LightRuleMatchParser();
-      List<LightRuleMatch> matches = parser.parse(new FileReader(inputFile));
+      List<LightRuleMatch> matches = parser.parseOutput(new File(inputFile));
       matches.sort((k, v) -> {
           String catIdK = getCategoryId(k);
           String catIdV = getCategoryId(v);
@@ -102,7 +102,7 @@ public class ResultToHtml {
         }
         Integer count = matchToCount.get(match.getFullRuleId());
         if (count >= THRESHOLD) {
-          String tempOff = match.isTempOff() ? "[temp_off]" : "";
+          String tempOff = match.getStatus() == LightRuleMatch.Status.temp_off ? "[temp_off]" : "";
           print("<a name='" + match.getFullRuleId() + "'></a><h3>" + match.getFullRuleId() + " " + tempOff + " (" + count + " matches)</h3>");
           print("Source: " + match.getRuleSource() + "<br><br>");
           print("<ol>");
@@ -174,7 +174,7 @@ public class ResultToHtml {
   private void print(String s) throws IOException {
     //System.out.println(s);
     fw.write(s);
-    fw.write("\n");
+    fw.write('\n');
   }
 
   public static void main(String[] args) throws IOException {

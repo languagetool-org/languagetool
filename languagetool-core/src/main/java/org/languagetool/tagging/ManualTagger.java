@@ -64,6 +64,7 @@ public class ManualTagger implements WordTagger {
         if (StringTools.isEmpty(line) || line.charAt(0) == '#') {
           continue;
         }
+        line = line.replaceFirst("#.*", "").trim();
         String[] parts = line.split("\t");
         if (parts.length != 3) {
           throw new IOException("Unknown line format when loading manual tagger dictionary, expected three tab-separated fields: '" + line + "'");

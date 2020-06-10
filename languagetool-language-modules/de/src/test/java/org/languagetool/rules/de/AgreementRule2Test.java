@@ -52,6 +52,9 @@ public class AgreementRule2Test {
     assertGood("Weniger Personal wird im ganzen Land gebraucht.");
     assertGood("National Board of Review"); // eng
     assertGood("International Management"); // eng.
+    assertGood("Gemeinsam Sportler anfeuern.");
+    assertGood("Viel Spaß beim Arbeiten");
+    assertGood("Ganz Europa stand vor einer Neuordnung.");
   }
 
   private void assertGood(String s) throws IOException {

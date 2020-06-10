@@ -21,6 +21,7 @@ package org.languagetool.rules;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
+import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.languagetool.rules.patterns.PatternRule;
 import org.languagetool.rules.patterns.PatternRuleMatcher;
 import org.languagetool.tools.StringTools;
@@ -153,6 +154,14 @@ public class RuleMatch implements Comparable<RuleMatch> {
         replacement = StringTools.uppercaseFirstChar(replacement);
       }
       SuggestedReplacement repl = new SuggestedReplacement(replacement);
+      /*if (getRule() instanceof AbstractPatternRule) {
+        String covered = sentence.getText().substring(fromPos, toPos);
+        if (covered.equals(repl.getReplacement()) && ((AbstractPatternRule) getRule()).getFilter() == null) {
+          // only for development:
+          //System.out.println("WARN: suggestion == covered text for rule " + getRule().getFullId() + ", covered: " + covered + ", " + sentence.getText());
+          System.out.println("WARN: suggestion == covered text for rule " + getRule().getFullId());
+        }
+      }*/
       if (!suggestedReplacements.contains(repl)) {
         suggestedReplacements.add(repl);
       }
@@ -436,7 +445,7 @@ public class RuleMatch implements Comparable<RuleMatch> {
     if (rule instanceof PatternRule) {
       //String covered = getSentence().getText().substring(getFromPos(), getToPos());
       //return ((PatternRule) rule).getFullId() + ":" + offsetPosition + ":" + message + ":" + covered + " -> " + getSuggestedReplacements();
-      return ((PatternRule) rule).getFullId() + ":" + offsetPosition + ":" + message;
+      return rule.getFullId() + ":" + offsetPosition + ":" + message;
     } else {
       //String covered = getSentence().getText().substring(getFromPos(), getToPos());
       //return rule.getId() + ":" + offsetPosition + ":" + message + ":" + covered + " -> " + getSuggestedReplacements();

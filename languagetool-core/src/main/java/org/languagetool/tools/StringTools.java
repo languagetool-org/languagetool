@@ -25,6 +25,7 @@ import org.languagetool.Language;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.text.Normalizer;
 import java.util.*;
 import java.util.regex.Pattern;
 
@@ -473,6 +474,15 @@ public final class StringTools {
       s = XML_PATTERN.matcher(s).replaceAll("");
     }
     return s;
+  }
+  
+  public static boolean hasDiacritics(String str) {
+    return !str.equals(removeDiacritics(str));
+  }
+  
+  public static String removeDiacritics(String str) {
+    String s = Normalizer.normalize(str, Normalizer.Form.NFD);
+    return s.replaceAll("[\\p{InCombiningDiacriticalMarks}]", "");
   }
 
   @Nullable

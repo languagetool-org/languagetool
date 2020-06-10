@@ -37,8 +37,8 @@ public final class AnyCharTokenizer extends Tokenizer {
 
   private final CharacterUtils.CharacterBuffer ioBuffer = CharacterUtils.newCharacterBuffer(4096);
   private final CharacterUtils charUtils = CharacterUtils.getInstance();
-  private final CharTermAttribute termAtt = (CharTermAttribute)this.addAttribute(CharTermAttribute.class);
-  private final OffsetAttribute offsetAtt = (OffsetAttribute)this.addAttribute(OffsetAttribute.class);
+  private final CharTermAttribute termAtt = this.addAttribute(CharTermAttribute.class);
+  private final OffsetAttribute offsetAtt = this.addAttribute(OffsetAttribute.class);
 
   private int bufferIndex = 0;
   private int dataLen = 0;

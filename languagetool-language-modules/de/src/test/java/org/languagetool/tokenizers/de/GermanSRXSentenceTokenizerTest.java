@@ -23,6 +23,9 @@ import org.languagetool.Languages;
 import org.languagetool.TestTools;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+
 /**
  * @author Daniel Naber
  */
@@ -54,6 +57,12 @@ public class GermanSRXSentenceTokenizerTest {
     testSplit("Friedrich II. öfter auch bekannt als Friedrich der Große.");
     testSplit("Friedrich VII. öfter auch bekannt als Friedrich der Große.");
     testSplit("Friedrich X. öfter auch bekannt als Friedrich der Zehnte.");
+
+    // non-breaking space, happen e.g. in online editors, because HTML merges spaces:
+    assertThat(stokenizer.tokenize("Dies ist ein Satz. \u00A0Noch einer.").size(), is(2));
+    assertThat(stokenizer.tokenize("Dies ist ein Satz.   \u00A0Noch einer.").size(), is(2));
+    assertThat(stokenizer.tokenize("Dies ist ein Satz.\u00A0 Noch einer.").size(), is(2));
+    assertThat(stokenizer.tokenize("Dies ist ein Satz.\u00A0\u00A0\u00A0 Noch einer.").size(), is(2));
 
     testSplit("Heute ist der 13.12.2004.");
     testSplit("Heute ist der 13. Dezember.");

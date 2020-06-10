@@ -48,6 +48,7 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("Комендант преподобний С.\u00A0С.\u00A0Мокітімі 1.");
     testSplit("Комендант преподобний С.\u00A0С. Мокітімі 2.");
     testSplit("Склад: акад. Вернадський, проф. Харченко, доц. Семеняк.");
+    testSplit("Ів. Франко.");
 
     testSplit("Опергрупа приїхала в с. Лісове.");
     testSplit("300 р. до н. е.");
@@ -73,6 +74,7 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("В цих світлих просторих апартаментах...  м’які крісла, килими, дорогі статуетки");
     testSplit("А та — навперейми... «давайте мені!»");
     testSplit("слугував ...    «витяг з протоколу зустрічі");
+    testSplit("на... Луганському");
     testSplit("(вони самі це визнали. - Ред.)");
 
     testSplit("Всього 33 тис. 356 особи");
@@ -81,6 +83,7 @@ public class UkrainianSRXSentenceTokenizerTest {
     testSplit("У с. Вижва");
     testSplit("Книжка (с. 200)");
     testSplit("позначені: «с. Вижва»");
+    testSplit("в м.Києві");
     testSplit("Микола Васюк (с. Корнієнки, Полтавська обл.)");
     testSplit("U.S. Marine");
     testSplit("B.B. King");

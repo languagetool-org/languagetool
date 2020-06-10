@@ -42,7 +42,7 @@ public final class RemoteRuleMetrics {
 
   // TODO: provide configuration as info?
 
-  private static final double[] LATENCY_BUCKETS = new double[] {
+  private static final double[] LATENCY_BUCKETS = {
     .01, .02, .03, .04, .05, .06, .07, .08, .09,
     .10, .11, .12, .13, .14, .15, .16, .17, .18, .19,
     .20, .22, .24, .26, .28, .30, .32, .34, .36, .38,
@@ -57,7 +57,7 @@ public final class RemoteRuleMetrics {
     10., 11., 12., 13., 14., 15., 16., 17., 18., 19.,
   };
 
-  private static final double[] SIZE_BUCKETS = new double[] {
+  private static final double[] SIZE_BUCKETS = {
     25, 50, 100, 150, 200, 250, 300, 400, 500, 750, 1000, 2000, 3000, 4000, 5000, 7500, 10000, 15000, 20000, 30000, 40000
   };
 

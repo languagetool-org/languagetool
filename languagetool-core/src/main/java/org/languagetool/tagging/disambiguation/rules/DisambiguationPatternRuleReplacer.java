@@ -177,7 +177,7 @@ class DisambiguationPatternRuleReplacer extends AbstractPatternRulePerformer {
     return true;
   }
 
-  private boolean keepDespiteFilter(AnalyzedTokenReadings[] tokens, int[] tokenPositions, int firstMatchToken, int lastMatchToken) {
+  private boolean keepDespiteFilter(AnalyzedTokenReadings[] tokens, int[] tokenPositions, int firstMatchToken, int lastMatchToken) throws IOException {
     RuleFilter filter = rule.getFilter();
     if (filter != null) {
       RuleFilterEvaluator ruleFilterEval = new RuleFilterEvaluator(filter);

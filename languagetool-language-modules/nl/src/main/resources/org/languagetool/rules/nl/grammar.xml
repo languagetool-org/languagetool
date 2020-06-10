@@ -10748,6 +10748,12 @@ onwaarschijnlijk
 				<message>U bedoelt vast <suggestion>Greta Thunberg</suggestion>, de milieuactiviste.</message>
 				<example correction="Greta Thunberg">Kent u <marker>Gretta tunberg</marker>?</example>
 			</rule>	
+			<rule>
+				<antipattern case_sensitive="yes"><token>Wouter</token><token>Bos</token></antipattern>
+				<pattern><token regexp="yes">w[oa]uter</token><token>bos</token></pattern>
+				<message>U bedoelt vast <suggestion>Wouter Bos</suggestion>, de (ex-)politicus.</message>
+				<example correction="Wouter Bos">Kent u <marker>wouter bos</marker>?</example>
+			</rule>	
 			
 		</rulegroup>
 	</category>
@@ -12068,7 +12074,7 @@ onwaarschijnlijk
 				</antipattern>
 				<pattern>
 					<token regexp="yes">[0-9]{1,3}</token>
-					<token regexp="yes">(jarig|duims|armig|benig|bloemig|cellig|daags|assig|eiig|rijig|zadig|tonner|ponder|delig|hoekig|kops|tallig|persoons|steens|stelig|talig|urig|baans|plusser|polig).*</token>
+					<token regexp="yes">(jarig|duims|armig|benig|bloemig|cellig|daags|assig|eiig|rijig|zadig|tonner|ponder|delig|hoekig|kops|tallig|persoons|steens|stelig|talig|urig|baans|plusser|polig).*<exception>persoonsgegevens</exception></token>
 				</pattern>
 				<message>Hier moet vast een koppelteken: <suggestion><match no="1"/>-<match no="2"/></suggestion></message>
 				<url>https://onzetaal.nl/taaladvies/advies/80-jarig-80-jarig</url>
@@ -18468,6 +18474,22 @@ steenwijk;Steenwijk
 				<example correction="werd, verwaarloost|werd verwaarloosd">Het restaurant <marker>werd verwaarloost</marker>.</example>
 			</rule>
 		</rulegroup>
+		<rulegroup id="VINDT_IK" name="verkeerde werkwoordvorm" default="temp_off">
+			<rule>
+				<antipattern><token>je</token><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<antipattern><token>je</token><token postag_regexp="yes" postag="BNW.*"/><token postag_regexp="yes" postag="ZNW.*"/></antipattern>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token postag_regexp="yes" postag="WKW:TGW:3EP.*"><exception postag_regexp="yes" postag="WKW:TGW:1EP.*|WKW:VTD:1EP.*"/></token>
+					</marker>
+					<token regexp="yes">ik|je|jij</token>
+				</pattern>
+				<message>U bedoelt vast <suggestion><match no="2" postag_regexp="yes" postag="WKW:TGW:1EP.*"/></suggestion>.</message>
+				<example correction="Vind"><marker>Vindt</marker> jij dit fout?</example>
+			</rule>
+		</rulegroup>
+		
 		<!-- too many false positives
 		<rulegroup id="VERWAARLOOST_WERD" name="verkeerde werkwoordvorm invers" default="on">
 			<rule>
@@ -18491,6 +18513,18 @@ steenwijk;Steenwijk
 				</pattern>
 				<message>Er staat wellicht een n te veel: <suggestion><match no="1" regexp_match="n$" regexp_replace=""/> \2</suggestion></message>
 				<example correction="gestoorde man">Ik zie de <marker>gestoorden man</marker> lopen.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="X_GEWIJS" name="gewijs hoort vaak ergens aan vast">
+			<rule>
+				<antipattern><token>het</token><token>gewijs</token></antipattern>
+				<pattern>
+					<token/>
+					<token>gewijs</token>
+				</pattern>
+				<message>U bedoelt vast: <suggestion>\1\2</suggestion></message>
+				<example correction="paarsgewijs">Fouten komen vaak <marker>paars gewijs</marker> langs.</example>
 			</rule>
 		</rulegroup>
 		
@@ -18561,6 +18595,49 @@ steenwijk;Steenwijk
 				<example correction="dat">In het midden hangt het printje <marker>die</marker> tussen de booster en de ringleiding is geplaatst.</example>
 			</rule>
 		</rulegroup>
+
+		<rulegroup id="HET_ZNW_DE" name="het man / de man" >
+			<rule>
+				<antipattern><token regexp="yes">en|of|dat</token><token>het</token></antipattern>
+				<antipattern><token>het</token><token case_sensitive="yes" regexp="yes">[A-Z].*</token></antipattern>
+				<antipattern><token>het</token><token regexp="yes">een|één</token><token>van</token></antipattern>
+				<antipattern><token postag_regexp="yes" postag="WKW:TGW:3EP|WKW:VLT:1EP"/><token>het</token></antipattern>
+				<pattern>
+					<marker>
+						<token>het</token>
+					</marker>
+					<token postag="ZNW:EKV:DE_"><exception postag_regexp="yes" postag="ZNW:EKV|ZNW.*HET|WKW.*|VRZ|BNW.*|BYW"/><exception regexp="yes">mijn|hen</exception></token>
+					<token><exception postag_regexp="yes" postag="ENM.*|WKW.*"/></token>
+				</pattern>
+				<message>\2 is een 'de'-woord: misschien met er toch <suggestion>de</suggestion> staan. Of wellicht staat er een spatie te veel.</message>
+				<example correction="de">Ik zie <marker>het</marker> hond.</example>
+				<example>Niet als <marker>het</marker> firma Janssen betreft.</example>
+			</rule>
+		</rulegroup>
+<!-- TODO CHECK TODO -->
+		<rulegroup id="WIKKEN" name="wikken zonder wegen" >
+			<rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token>wegen</token></antipattern>
+				<pattern>
+					<token>wikken</token>
+				</pattern>
+				<message>Verwacht wordt: 'wikken en wegen'. Is dit een typfout?</message>
+				<example type="incorrect">Ik loop door de <marker>wikken</marker> heen.</example>
+			</rule>
+		</rulegroup>
+
+		<rulegroup id="LUIST" name="luist/juist/luidt" >
+			<rule>
+				<antipattern><token postag="SENT_START" skip="-1"/><token regexp="yes">erin|aap</token></antipattern>
+				<antipattern><token>het</token><token>luist</token></antipattern>
+				<pattern>
+					<token>luist</token>
+				</pattern>
+				<message>Je kunt het luist zijn, of iemand erin luizen, maar hier lijkt een typefout te staan van bijvoorbeeld <suggestion>luidt</suggestion> of <suggestion>luistert</suggestion>.</message>
+				<example correction="luidt|luistert">Hij <marker>luist</marker> naar muziek.</example>
+			</rule>
+		</rulegroup>
+
 		<!-- te veel false postives
 		<rulegroup id="MIJN_FAVORIET_PRODUCT" name="mijn favoriet product">
 			<rule>
@@ -31192,42 +31269,191 @@ steenwijk;Steenwijk
 				<example correction="houden">Zij <marker>houwen</marker> van haar.</example>
 			</rule>
 		</rulegroup>
-		<!--
+
 		<rulegroup id="GROEP_DOET" name="groep doet">
 			<rule>
 				<pattern>
+					<token postag="SENT_START"/>
+					<token>een</token>
 					<marker>
-						<token regexp="yes">bende|berg|blik|bos|bups|colonne|grom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje|rits|roedel|schare|serie|slag|sleep|stoet|troep|verzameling|zwik|zooi|zootje</token>
+						<token regexp="yes">bende|berg|blik|bos|bups|colonne|drom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje| rits|roedel|schare|serie|slag|sleep|soort|stoet|troep|verzameling|zwik|zooi|zootje</token>
 						<token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
 						<token postag="WKW:TGW:INF"/>
 					</marker>
 					<token><exception postag="SENT_END"/><exception postag="ZNW:MRV:DE_"/></token>
 				</pattern>
-				<message>Gaat het om één groep, dan is het <suggestion><match no="1"/> <match no="2"/> <match no="3" postag="WKW:TGW:3EP"/></suggestion>.</message>
-				<url>https://onzetaal.nl/taaladvies/advies/aantal</url>
-				<example correction="colonne soldaten valt">Een <marker>colonne soldaten vallen</marker> aan.</example>
-				<example>Een <marker>groep soldaten</marker> valt aan.</example>
+				<message>De taalinstanties geven verschillende adviezen; volgens Taaladvies.net geldt: gaat het om één groep, dan is het <suggestion><match no="3"/> <match no="4"/> <match no="5" postag="WKW:TGW:3EP"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
+				<short>Enkelvoud</short>
+				<example correction="bende soldaten valt">Een <marker>bende soldaten vallen</marker> aan.</example>
+				<example>Een groep ambtenaren ging op werkbezoek.</example>
+				<example>Een menigte demonstranten had zich verzameld.</example>
+				<example>Een bende hooligans heeft vernielingen aangericht.</example>
+				<example>Een kudde schapen liep te grazen.</example>
 			</rule>
 		</rulegroup>
 		<rulegroup id="GROEP_DEED" name="groep deed">
 			<rule>
-				<pattern case_sensitive="yes">
-					<token regexp="yes">bende|berg|blik|bos|bups|colonne|grom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje|rits|roedel|schare|serie|sleep|stoet|troep|verzameling|zwik|zooi|zootje</token>
-					<token postag="ZNW:MRV:DE_.*" postag_regexp="yes"></token>
-					<token postag="WKW.*INF.*" postag_regexp="yes"/>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>een</token>
+						<token regexp="yes">bende|berg|blik|bos|bups|colonne|drom|groep|groepje|hoeveelheid|horde|kluit|kluwen|kudde|lading|leger|legioen|menigte|meute|reeks|rij|rijtje| rits|roedel|schare|serie|slag|sleep|soort|stoet|troep|verzameling|zwik|zooi|zootje</token>
+						<token postag="ZNW:MRV:DE_"></token>
+						<token postag="WKW:VLT:INF.*" postag_regexp="yes"/>
+					</marker>
 				</pattern>
-				<message>Gaat het om één groep, dan is het <suggestion><match no="1"/> <match no="2"/> <match no="3" postag="WKW:VLT:1EP"/></suggestion>.</message>
-				<url>https://onzetaal.nl/taaladvies/advies/aantal</url>
-				<short>Een groep is één.</short>
-				<example correction="colonne soldaten viel">Een <marker>colonne soldaten vielen</marker> aan.</example>
-				<example correction="horde mensen liep">Een <marker>horde mensen lopen</marker> daar in.</example>
-				<example correction="reeks vragen werd">Nog een <marker>reeks vragen werden</marker> opgeworpen.</example>
-				<example correction="kudde schapen dreef">Hij kon zelfs een <marker>kudde schapen drijven</marker>.</example>
-				<example correction="groep Welpen noemde">De hele <marker>groep Welpen noemen</marker> we de horde.</example>
-				<example correction="groep pelgrims ging">Gisterenavond met <marker>groep pelgrims gaan</marker> vieren.</example>
+				<message>De taalinstanties geven verschillende adviezen; volgens Taaladvies.net geldt: gaat het om één groep, dan is het <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:VLT:1EP"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
+				<short>Enkelvoud</short>
+				<example correction="Een horde mensen liep"><marker>Een horde mensen liepen</marker> daar in.</example>
+				<example>Een groep ambtenaren ging op werkbezoek.</example>
+				<example>Een menigte demonstranten had zich verzameld.</example>
+				<example>Een bende hooligans heeft vernielingen aangericht.</example>
+				<example>Een kudde schapen liep te grazen.</example>
 			</rule>
 		</rulegroup>
-		-->
+		<rulegroup id="HELEBOEL_DOET" name="een heleboel doet/doen">
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>een</token>
+						<token regexp="yes">hoop|boel|heleboel</token>
+						<token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
+						<token postag="WKW:TGW:3EP"/>
+					</marker>
+				</pattern>
+				<message>Volgens Taaladvies.net heeft het werkwoord hetzelfde getal als het zelfstandig naamwoord: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:TGW:INF"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
+				<short>Meervoud</short>
+				<example correction="Een heleboel soldaten vallen"><marker>Een heleboel soldaten valt</marker> aan.</example>
+				<example>Een heleboel tieners kwamen naar het muziekfestival.</example>
+				<example>Een hoop kinderen geloven niet meer in Sinterklaas.</example>
+				<example>Een boel automobilisten namen een sluiproute.</example>
+				<example>Een hoop protest was het gevolg.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>een</token>
+						<token regexp="yes">hoop|boel|heleboel</token>
+						<token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
+						<token postag="WKW:VLT:1EP"/>
+					</marker>
+				</pattern>
+				<message>Volgens Taaladvies.net heeft het werkwoord hetzelfde getal als het zelfstandig naamwoord: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:VLT:INF"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
+				<short>Meervoud</short>
+				<example correction="Een heleboel soldaten vielen"><marker>Een heleboel soldaten viel</marker> aan.</example>
+				<example>Een heleboel tieners kwamen naar het muziekfestival.</example>
+				<example>Een hoop kinderen geloven niet meer in Sinterklaas.</example>
+				<example>Een boel automobilisten namen een sluiproute.</example>
+				<example>Een hoop protest was het gevolg.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>een</token>
+						<token regexp="yes">hoop|boel|heleboel</token>
+						<token postag="ZNW:EKV.*" postag_regexp="yes"/>
+						<token postag="WKW:TGW:INF"/>
+					</marker>
+				</pattern>
+				<message>Volgens Taaladvies.net heeft het werkwoord hetzelfde getal als het zelfstandig naamwoord: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:TGW:3EP"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
+				<short>Enkelvoud</short>
+				<example correction="Een heleboel hout valt"><marker>Een heleboel hout vallen</marker> om.</example>
+				<example>Een heleboel tieners kwamen naar het muziekfestival.</example>
+				<example>Een hoop kinderen geloven niet meer in Sinterklaas.</example>
+				<example>Een boel automobilisten namen een sluiproute.</example>
+				<example>Een hoop protest was het gevolg.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>een</token>
+						<token regexp="yes">hoop|boel|heleboel</token>
+						<token postag="ZNW:EKV.*" postag_regexp="yes"/>
+						<token postag="WKW:VLT:INF"/>
+					</marker>
+				</pattern>
+				<message>Volgens Taaladvies.net heeft het werkwoord hetzelfde getal als het zelfstandig naamwoord: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:VLT:1EP"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
+				<short>Enkelvoud</short>
+				<example correction="Een heleboel hout viel"><marker>Een heleboel hout vielen</marker> om.</example>
+				<example>Een heleboel tieners kwamen naar het muziekfestival.</example>
+				<example>Een hoop kinderen geloven niet meer in Sinterklaas.</example>
+				<example>Een boel automobilisten namen een sluiproute.</example>
+				<example>Een hoop protest was het gevolg.</example>
+			</rule>
+		</rulegroup>
+		<rulegroup id="EEN_PAAR_DOET" name="een paar doet/doen">
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>een</token>
+						<token>paar</token>
+						<token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
+						<token postag="WKW:TGW:3EP"/>
+					</marker>
+				</pattern>
+				<message>Als 'een paar' hier 'enkele' betekent, dan is juist: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:TGW:INF"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
+				<short>Meervoud</short>
+				<example correction="Een paar dozen staan"><marker>Een paar dozen staat</marker> in de gang.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>een</token>
+						<token>paar</token>
+						<token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
+						<token postag="WKW:VLT:1EP"/>
+					</marker>
+				</pattern>
+				<message>Als 'een paar' hier 'enkele' betekent, dan is juist: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:VLT:INF"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
+				<short>Meervoud</short>
+				<example correction="Een paar dozen stonden"><marker>Een paar dozen stond</marker> in de gang.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>een</token>
+						<token>paar</token>
+						<token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
+						<token postag="WKW:TGW:INF"/>
+					</marker>
+				</pattern>
+				<message>Als 'een paar' hier 'een koppel van twee' betekent, dan is juist: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:TGW:3EP"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
+				<short>Enkelvoud</short>
+				<example correction="Een paar schoenen staat"><marker>Een paar schoenen staan</marker> in de gang.</example>
+			</rule>
+			<rule>
+				<pattern>
+					<token postag="SENT_START"/>
+					<marker>
+						<token>een</token>
+						<token>paar</token>
+						<token postag="ZNW:MRV:DE_.*" postag_regexp="yes"/>
+						<token postag="WKW:VLT:INF"/>
+					</marker>
+				</pattern>
+				<message>Als 'een paar' hier 'een koppel van twee' betekent, dan is juist: <suggestion><match no="2"/> <match no="3"/> <match no="4"/> <match no="5" postag="WKW:VLT:1EP"/></suggestion>.</message>
+				<url>https://taaladvies.net/taal/advies/vraag/1247</url>
+				<short>Enkelvoud</short>
+				<example correction="Een paar schoenen stond"><marker>Een paar schoenen stonden</marker> in de gang.</example>
+			</rule>
+		</rulegroup>
+
 		<rulegroup id="UW_U_a" name="uw gaat → u gaat">
 			<rule>
 				<pattern>
@@ -33298,11 +33524,11 @@ steenwijk;Steenwijk
 				<example correction="bezigheid">Zulke inkomsten worden dus behaald in de uitoefening van de <marker>beroepswerkzaamheid</marker>.</example>
 			</rule>
 		</rulegroup>
-		<rulegroup id="DEELTEKEN" name="/">
+		<rulegroup id="BREUKSTREEP" name="/" default="off"> <!-- picky (or at least experienced as such -->
 			<rule>
-				
 				<!-- TODO: individuele gevallen zoeken; het is anders een wel heel algemene melding -->
 				<antipattern><token regexp="yes" skip="-1">http.*</token><token postag="SENT_END"/></antipattern>
+				<antipattern><token regexp="yes">[0-9]+</token><token>/</token><token regexp="yes">[0-9]+</token></antipattern>
 				<antipattern><token>en</token><token>/</token><token>of</token></antipattern>
 				<pattern>
 					<token><exception regexp="yes">[./]</exception></token>
@@ -33312,9 +33538,9 @@ steenwijk;Steenwijk
 						<token regexp="yes">.{3,}<exception regexp="yes">[0-9]+</exception></token>
 					</marker>
 				</pattern>
-				<message>Vermijd de / buiten berekeningen of eenheden. Gebruik <suggestion><match no="2"/>-<match no="4"/></suggestion> voor gelijkwaardige begrippen, <suggestion><match no="2"/> of <match no="4"/></suggestion>, <suggestion><match no="2"/>- of <match no="4"/></suggestion>, <suggestion><match no="2"/> en <match no="4"/></suggestion>, of <suggestion><match no="2"/>- en <match no="4"/></suggestion>, <suggestion><match no="2"/> per <match no="4"/></suggestion> voor verhoudingen of <suggestion><match no="2"/>, <match no="4"/></suggestion>.</message>
-				<example correction="man-vrouwverhouding|man of vrouwverhouding|man- of vrouwverhouding|man en vrouwverhouding|man- en vrouwverhouding|man per vrouwverhouding|man, vrouwverhouding">De <marker>man/vrouwverhouding</marker> is ongelijk.</example>
-				<example correction="Hij-zij|Hij of zij|Hij- of zij|Hij en zij|Hij- en zij|Hij per zij|Hij, zij"><marker>Hij/zij</marker> is vandaag 3 jaar oud.</example>
+				<message>Vermijd als het even kan de / buiten berekeningen of eenheden.</message>
+				<url>https://onzetaal.nl/taaladvies/schuine-streep-en-backslash/</url>
+				<example type="incorrect"><marker>Hij/zij</marker> is vandaag 3 jaar oud.</example>
 				<example type="correct">Kijk eens naar <marker>https://www.languagetool.org/nl</marker> of het klopt.</example>
 			</rule>
 		</rulegroup>
@@ -39815,6 +40041,5 @@ steenwijk;Steenwijk
 		</rulegroup>
 		
 	</category>
-	
 
 </rules>

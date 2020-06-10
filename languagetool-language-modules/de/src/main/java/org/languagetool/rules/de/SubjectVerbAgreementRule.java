@@ -72,6 +72,45 @@ public class SubjectVerbAgreementRule extends Rule {
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     Arrays.asList(
+      // "Zwei Schülern war aufgefallen, dass man im Fernsehen..."
+      pos("ZAL"),
+      posRegex("SUB:DAT:PLU:.*"),
+      token("war")
+    ),
+    Arrays.asList(
+      // "Auch die Zehn Gebote sind Ausdruck davon."
+      token("Zehn"),
+      token("Gebote"),
+      token("sind")
+    ),
+    Arrays.asList(
+      // "All diesen Stadtteilen ist die Nähe zum Hamburger Hafen..."
+      token("all"),
+      tokenRegex("den|diesen"),
+      posRegex("SUB:.*PLU.*"),
+      token("ist"),
+      posRegex("ART:.*"),
+      posRegex("SUB:.*SIN.*")
+    ),
+    Arrays.asList(
+      // "Auch die Reste eines sehr großen Insektenfressers sind unter den Fossilien." - Chunker zu fixen wäre die bessere Lösung...
+      tokenRegex("Reste|Überreste"),
+      tokenRegex("eines|des"),
+      posRegex("ADV:.*"),
+      posRegex("ADJ:.*"),
+      posRegex("SUB:.*SIN.*"),
+      tokenRegex("sind")
+    ),
+    Arrays.asList(
+      // "Die eiförmigen und oben abgerundeten Blätter sind grün." - Chunker zu fixen wäre die bessere Lösung...
+      posRegex("ADJ:.*"),
+      tokenRegex("und|sowie"),
+      posRegex("ADV:.*"),
+      posRegex("PA2:.*"),
+      posRegex("SUB:.*PLU.*"),
+      tokenRegex("sind")
+    ),
+    Arrays.asList(
       tokenRegex("ist|war"),
       token("gemeinsam")
     ),
@@ -155,7 +194,7 @@ public class SubjectVerbAgreementRule extends Rule {
 
   @Override
   public URL getUrl() {
-    return Tools.getUrl("http://www.canoonet.eu/services/OnlineGrammar/Wort/Verb/Numerus-Person/ProblemNum.html");
+    return Tools.getUrl("https://dict.leo.org/grammatik/deutsch/Wort/Verb/Kategorien/Numerus-Person/ProblemNum.html");
   }
 
   @Override
