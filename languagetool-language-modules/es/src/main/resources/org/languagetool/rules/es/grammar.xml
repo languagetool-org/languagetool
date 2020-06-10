@@ -359,6 +359,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="¿Cómo estáis,">"<marker>Como estais</marker> amigos?</example>
                 <example correction="¿Cómo estás,"><marker>¿Cómo estas</marker> Jorge?</example>
                 <example correction="¿Cómo está,"><marker>¿Cómo esta,</marker> Jorge?</example>
+                <example>¿Cómo está hecho?</example>
+                <example>¿Cómo está diseñado?</example>
             </rule>
             <rule>
                 <pattern>
@@ -7135,6 +7137,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         <!--TODO: idem with ", pues"-->
         <rule id="COMMA_REPETITION" name="coma en repeticiones">
+            <antipattern>
+                <token>no</token>
+                <token spacebefore="no">-</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token regexp="yes">sí|no<exception postag="_allow_repeat"/></token>
@@ -7145,6 +7151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>\1, \2</suggestion>
             <example correction="Sí, sí"><marker>Sí sí</marker>, tienes que venir.</example>
             <example>Si lo hecho me lo dices clarito, y si no no me hagas perder el tiempo.</example>
+            <example>O si no no funciona.</example>
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
