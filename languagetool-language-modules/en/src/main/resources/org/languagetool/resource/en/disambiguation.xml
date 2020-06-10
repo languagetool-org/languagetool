@@ -98,17 +98,17 @@
 
     <rulegroup id="PRE_HYPHENATED_ADJECTIVES" name="hyphenated adjectives (pre-/post- + NOUN)"><!-- Premium #1454 -->
 
-        <rule><!-- disambiguation, singular common nouns -->
+        <rule><!-- disambiguation, singular noun phrase -->
             <pattern>
                 <marker>
-                    <token chunk="I-NP-singular" regexp="yes">(pre|post)-[a-z]+<exception postag="JJ"/></token><!-- case-sensitive, lower case only? -->
+                    <token chunk="I-NP-singular" regexp="yes">(pre|post)-[a-z]+<exception postag="JJ"/></token>
                 </marker>
             <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?">
                 <exception postag="NNP"/><!-- If the pre-sample Peter gave ['Peter' is disambiguated later] -->
                 </token>
             </pattern>
             <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
-                args="no:1 regexp:(?:pre|post)-([a-z]+) postag_regexp:NN(:UN?)?"/><!-- The filter is case-sensitive -->
+                args="no:1 regexp:(?:pre|post)-([A-Z]?[a-z]+) postag_regexp:NN(P|:UN?)?"/><!-- The filter is case-sensitive -->
             <disambig action="add"><wd pos="JJ"/></disambig>
             <example type="untouched">When you <marker>pre-the</marker> test, be careful.</example>
             <example type="untouched">Can you <marker>pre-quickly</marker> this?</example>
@@ -118,20 +118,23 @@
             <example type="untouched">The '<marker>pre-match</marker>' terms that have quote marks are not touched.</example>
             <example type="untouched">Can we <marker>pre-sample</marker> books?</example>
             <example type="untouched">A <marker>pre-sample</marker> books is not correct grammar.</example>
-            <example type="untouched">If the <marker>pre-sample</marker> Peter gave us is satisfactory...</example>
+            <example type="untouched">If the <marker>pre-sample</marker> Peter gave us is satisfactory...</example><!-- Peter/E-NP-singular -->
             <example type="untouched">This <marker>pre-sale</marker> example is not touched because 'pre-sale' is an adjective.</example>
-            <example type="untouched">The <marker>post-changes</marker> test was interesting.</example><!-- Do we permit this structure? -->
+            <example type="untouched">The <marker>post-changes</marker> test was interesting.</example>
             <example type="untouched">Currently, this <marker>pre-TEST</marker> term is not permitted.</example>
             <example type="untouched">If a <marker>Pre-capitalization</marker> feature is necessary...</example>
             <example type="untouched"><marker>Pre-capitalization</marker> feature is sometimes necessary.</example>
+            <example type="untouched">This typography for the <marker>Pre-Computer</marker> term is not permitted.</example>
             <example type="ambiguous" inputform="pre-rabbit[pre-rabbit]" outputform="pre-rabbit[pre-rabbit/JJ]">The <marker>pre-rabbit</marker> test was a resounding success.</example>
             <example type="ambiguous" inputform="post-match[post-match]" outputform="post-match[post-match/JJ]">That <marker>post-match</marker> drink left us a little woozy.</example>
             <example type="ambiguous" inputform="pre-sulphurization[pre-sulphurization]" outputform="pre-sulphurization[pre-sulphurization/JJ]">This is a <marker>pre-sulphurization</marker> test for spelling.</example>
             <example type="ambiguous" inputform="post-match[post-match]" outputform="post-match[post-match/JJ]">Your <marker>post-match</marker> speech was great!</example>
             <example type="ambiguous" inputform="post-metre[post-metre]" outputform="post-metre[post-metre/JJ]">Ignore the spelling for this <marker>post-metre</marker> example.</example>
+            <example type="ambiguous" inputform="pre-Fukushima[pre-Fukushima]" outputform="pre-Fukushima[pre-Fukushima/JJ]">Make sure that this unusual <marker>pre-Fukushima</marker> test is satisfactory.</example>
+            <example type="ambiguous" inputform="pre-Computer[pre-Computer]" outputform="pre-Computer[pre-Computer/JJ]">This <marker>pre-Computer</marker> term is permitted.</example><!-- If this typography is not permitted for common nouns, then make an antipattern. An AP is much simpler alternative to special rules for proper nouns. -->
         </rule>
 
-        <rule><!-- disambiguation, plural common nouns -->
+        <rule><!-- disambiguation, plural noun phrase, chunk="I-NP-plural -->
             <pattern>
                 <marker>
                     <token chunk="I-NP-plural" regexp="yes">(pre|post)-[a-z]+<exception postag="JJ"/></token>
@@ -139,7 +142,7 @@
             <token chunk="E-NP-plural" postag="NNS"/>
             </pattern>
             <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
-                args="no:1 regexp:(?:pre|post)-([a-z]+) postag_regexp:NN(:UN?)?"/>
+                args="no:1 regexp:(?:[Pp]re|[Pp]ost)-([A-Z]?[a-z]+) postag_regexp:NN(P|:UN?)?"/>
             <disambig action="add"><wd pos="JJ"/></disambig>
             <example type="untouched">Whose <marker>pre-match</marker> speech was rubbish?</example>
             <example type="untouched">Actually, <marker>pre-TEST</marker> terms like this are not allowed.</example>
@@ -150,6 +153,23 @@
             <example type="ambiguous" inputform="pre-sulphurization[pre-sulphurization]" outputform="pre-sulphurization[pre-sulphurization/JJ]">Some <marker>pre-sulphurization</marker> tests for spelling are necessary</example>
             <example type="ambiguous" inputform="pre-disambiguation[pre-disambiguation]" outputform="pre-disambiguation[pre-disambiguation/JJ]">My <marker>pre-disambiguation</marker> tests are OK.</example>
             <example type="ambiguous" inputform="pre-industrialisation[pre-industrialisation]" outputform="pre-industrialisation[pre-industrialisation/JJ]">The <marker>pre-industrialisation</marker> processes were noted.</example>
+            <example type="ambiguous" inputform="pre-Fukushima[pre-Fukushima]" outputform="pre-Fukushima[pre-Fukushima/JJ]">All new <marker>pre-Fukushima</marker> tests must be done carefully.</example>
+        </rule>
+
+        <rule><!-- disambiguation, plural common nouns, chunk="B-NP-plural -->
+            <pattern>
+                <marker>
+                    <token chunk="B-NP-plural" regexp="yes">(pre|post)-[a-z]+<exception postag="JJ"/></token>
+                </marker>
+            <token chunk="E-NP-plural" postag="NNS"/>
+            </pattern>
+            <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
+                args="no:1 regexp:(?:[Pp]re|[Pp]ost)-([A-Z]?[a-z]+) postag_regexp:NN(P|:UN?)?"/>
+            <disambig action="add"><wd pos="JJ"/></disambig>
+            <example type="ambiguous" inputform="Pre-disambiguation[Pre-disambiguation]" outputform="Pre-disambiguation[Pre-disambiguation/JJ]"><marker>Pre-disambiguation</marker> checks were not necessary.</example>
+            <example type="ambiguous" inputform="pre-industrialisation[pre-industrialisation]" outputform="pre-industrialisation[pre-industrialisation/JJ]">The problems of <marker>pre-industrialisation</marker> processes were noted.</example>
+            <example type="ambiguous" inputform="Pre-Fukushima[Pre-Fukushima]" outputform="Pre-Fukushima[Pre-Fukushima/JJ]"><marker>Pre-Fukushima</marker> tests must be done immediately.</example>
+            <example type="ambiguous" inputform="Pre-Computer[Pre-Computer]" outputform="Pre-Computer[Pre-Computer/JJ]"><marker>Pre-Computer</marker> terms are permitted.</example><!-- If this typography is not permitted for common nouns, then make an antipattern. An AP is much simpler alternative to special rules for proper nouns. -->
         </rule>
 
         <rule><!-- ignore spelling -->
@@ -164,9 +184,8 @@
             <token postag_regexp="yes" postag="NN.*"/>
             </pattern>
             <filter class="org.languagetool.rules.en.NoDisambiguationEnglishPartialPosTagFilter"
-                args="no:1 regexp:pre-([a-z]+|[A-Z]+) postag_regexp:NN(:UN?)?"/><!-- The filter makes sure that this term is the one to which the postag was applied. -->
+                args="no:1 regexp:(?:[Pp]re|[Pp]ost)-([A-Z]?[a-z]+) postag_regexp:NN(P|:UN?)?"/><!-- The filter makes sure that this term is the one to which the postag was applied. -->
             <disambig action="ignore_spelling"/>
-<!-- Is it possible to add examples as tests to make sure that the rule works? -->
         </rule>
 
     </rulegroup>
