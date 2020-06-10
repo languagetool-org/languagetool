@@ -9234,6 +9234,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="TOP_GROSS_SUB" name="Top Model (Top-Model|Topmodel|top Model)">
+            <antipattern>
+                <token>top</token>
+                <token regexp="yes">teams?</token>
+                <token regexp="yes">cups?</token>
+            </antipattern>
+            <antipattern>
+                <token>tennessee</token>
+                <token>flat</token>
+                <token>top</token>
+                <token>box</token>
+            </antipattern>
+            <pattern>
+                <token>
+                    <exception regexp="yes">&anf;|next</exception>
+                    <exception postag="SENT_START" />
+                </token>
+                <marker>
+                    <token case_sensitive="yes">
+                        Top
+                    </token>
+                    <token postag="SUB.*" postag_regexp="yes">
+                        <exception postag="SUB.*ADJ" postag_regexp="yes"/>
+                        <exception scope="next" regexp="yes">&anf;</exception>
+                        <exception>Speed</exception><!-- Eigenname "Top Speed" -->
+                    </token>
+                </marker>
+            </pattern>
+            <message>Wenn es sich hierbei um ein zusammengesetztes Nomen handelt, wird es zusammengeschrieben. Handelt es sich bei 'top' um ein Adjektiv, wird es kleingeschrieben.</message>
+            <suggestion>\2-\3</suggestion>
+            <suggestion>\2<match no="3" case_conversion="startlower"/></suggestion>
+            <suggestion><match no="2" case_conversion="startlower"/> \3</suggestion>        
+            <example>Germany’s Next Top Model</example>
+            <example>Lösche oder benenne “Top Sites”</example>
+            <example>Unser Ziel ist eine Top Moderne Infrastruktur.</example>
+            <example>Top Model!</example>
+            <example correction="Top-Model|Topmodel|top Model">Sie ist ein <marker>Top Model</marker>.</example>
+        </rule>
         <rule id="DURCH_WACHSEN" name="durch wachsen (durchwachsen)">
             <pattern>
                 <token>durch</token>
