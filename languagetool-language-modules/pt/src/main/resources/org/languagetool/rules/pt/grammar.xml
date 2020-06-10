@@ -2586,7 +2586,15 @@ title="Easy editing stylesheet" ?>
       <antipattern case_sensitive="yes">
           <token>Santa</token>
           <token>Casa</token>
-      </antipattern>
+      </antipattern>  
+<!-- MARCOAGPINTO 2020-06-10 *START* -->
+<!-- "O presidente da França visitará o Japão próximo mês." -->
+<!-- "O francês é falado em partes da Itália, assim como na França." -->
+      <antipattern>
+        <token regexp='yes'>da|de</token>
+		<token regexp="yes" case_sensitive="yes">&toponimos_sem_artigo;</token>	
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-06-10 *END* --> 
       <pattern>
         <or>
           <token postag="DA.+" postag_regexp="yes">
