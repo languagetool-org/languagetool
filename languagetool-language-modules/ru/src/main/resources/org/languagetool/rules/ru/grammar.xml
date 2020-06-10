@@ -2733,8 +2733,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Он понял, как Алексей сделал"><marker>Он понял как Алексей сделал</marker> эту модель.</example>
 <!--            <example correction="Все пошли, и Дина пошла"><marker>Все пошли и Дина пошла</marker>.</example>  -->
             </rule>
+          </rulegroup>
+          
+          <rulegroup default="temp_off" id="Prep_i_2" name="Пропущена запятая перед «и»/«как» в сложном предложении 2">
             <!--           NN:.*   VB:.*  и    VB:.*   NN:.*  (много ложных срабатываний, если есть обобщающее слово)  -->    
-  <!--      <rule>   
+            <rule>   
                <antipattern>
                     <token postag="VB:.*" postag_regexp="yes" skip="-1"></token>
                     <token postag="PNN:.*|NN:.*:.*:Nom" postag_regexp="yes" skip="-1"></token>
@@ -2749,7 +2752,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]</exception></token>           
+                        <token postag="NN:.*:.*:Nom" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*:.*:.*" postag_regexp="yes"></exception><exception scope="previous" regexp="yes">[\p{Punct}]|[:]</exception></token>           
                         <token postag="VB:.*" postag_regexp="yes" skip="-1"><exception  regexp="yes" scope="next">,|;|–|-|—|:</exception></token>
                         <token regexp="yes" skip="-1">и|как|когда|пока|если<exception regexp="yes" scope="next">[,;-]</exception><exception  scope="previous">так</exception></token>
                         <token postag="VB:.*" postag_regexp="yes" ><exception negate_pos="yes" postag="VB:.*" postag_regexp="yes"></exception></token>           
@@ -2765,7 +2768,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Года пролетели, и настало время"><marker>Года пролетели и настало время</marker>.</example>
                 <example correction="Парень понял, как сделал мальчик"><marker>Парень понял как сделал мальчик</marker> эту модель.</example>
                 <example correction="Мама мыла раму, и готовила дочка"><marker>Мама мыла раму и готовила дочка</marker> обед.</example>
-            </rule>        -->
+            </rule>
         </rulegroup>
         <rule  id="PNN_Kak_Noun" name="Знаки препинания в предложении «Местоимение/существительное + как + существительное-сказуемое»">  
             <pattern>          <!-- see KAK_PRAVILO -->   
@@ -2910,20 +2913,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Стоимость работ составила 10 тыс. рублей.</example>
             <example correction="тыс.">Стоимость работ составила 10 <marker>тыс</marker> рублей.</example>
         </rule>
-        <!--        
-        <rule default="off" id="ABREV_DOT2" name="Точка после сокращений (млн, млрд)">
-            <pattern case_sensitive="yes">
-                <marker>
-                    <token regexp="yes">млн|млрд</token>
-                </marker>
-                <token negate="yes" regexp="yes">[./]</token>
-            </pattern>
-            <message>Точка должна стоять после сокращений: <suggestion>\1.</suggestion></message>
-            <short>Точка после сокращений</short>
-            <example>Стоимость работ составила 10 млн. рублей.</example>
-            <example type="incorrect">Стоимость работ составила 10 <marker>млн</marker> рублей.</example>
-        </rule>
-        -->
         <rulegroup id="Punct_eh_ti" name="Пунктуация «эх ты», «эй вы» ">
             <rule>
                 <pattern>              
