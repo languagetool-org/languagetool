@@ -129,6 +129,45 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("-|–"),
       tokenRegex("[A-Z].+")
     ),
+    Arrays.asList( // French Quote + Uppercase word
+      tokenRegex("«"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // H1 What's wrong?
+      tokenRegex("H[1-6]"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // ii) Enabling you to ...
+      tokenRegex("[a-z]{1,2}"),
+      token(")"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // bullet point
+      token("•"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // Dash + Uppercase word
+      tokenRegex("-|–"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList(
+      tokenRegex("Step|Grade"), // I finished Step 6
+      tokenRegex("\\d+")
+    ),
+    Arrays.asList(
+      tokenRegex("the|our|their"), // Let's talk to the Onboarding team.
+      tokenRegex("[A-Z].+"),
+      tokenRegex("team|department")
+    ),
+    Arrays.asList(
+      pos("SENT_START"), // 12.3 Game.
+      tokenRegex("\\d+"),
+      tokenRegex("\\.|/"),
+      tokenRegex("\\d+"),
+      tokenRegex("[A-Z].+")
+    ),
     Arrays.asList(
       pos("SENT_START"), // Lesson #1 - Learn the alphabet.
       tokenRegex(".*\\w.*"),
@@ -148,6 +187,10 @@ public class UpperCaseNgramRule extends Rule {
     Arrays.asList(
       token("Amazon"),
       token("Live")
+    ),
+    Arrays.asList( // Company name
+      token("Volvo"),
+      token("Buses")
     ),
     Arrays.asList(
       csRegex("[A-Z].+"),
@@ -258,7 +301,7 @@ public class UpperCaseNgramRule extends Rule {
       token("magazine")
     ),
     Arrays.asList(
-      tokenRegex("Teams|Maps|Canvas") // Microsoft Teams / Google Maps (not tagged as NNP)
+      tokenRegex("Teams|Maps|Canvas|Remind|Switch") // Microsoft Teams, Google Maps, Remind App, Nintendo Switch (not tagged as NNP)
     )
   );
 

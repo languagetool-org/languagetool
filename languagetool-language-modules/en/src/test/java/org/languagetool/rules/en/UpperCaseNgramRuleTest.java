@@ -69,6 +69,13 @@ public class UpperCaseNgramRuleTest {
     assertGood("Ben (Been).");
     assertGood("C stands for Curse.");
     assertGood("The United States also used the short-lived slogan, \"Tastes So Good, You'll Roar\", in the early 1980s.");
+    assertGood("09/06 - Spoken to the business manager.");
+    assertGood("12.3 Game.");
+    assertGood("Let's talk to the Onboarding team.");
+    // TODO:
+    //assertGood("Best Regards.");
+    //assertGood("USB Port.");
+    assertGood("ii) Expanded the notes.");
 
     assertMatch("I really Like spaghetti.");
     assertMatch("This Was a good idea.");
