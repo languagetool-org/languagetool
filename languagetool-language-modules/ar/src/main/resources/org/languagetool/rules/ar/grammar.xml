@@ -328,40 +328,67 @@ USA
   <!-- Grammar Errors -->
   <!-- ====================================================================== -->
   <category id="GRAMMAR_ERROR" name="أخطاء نحوية" type="grammar">
-    <rulegroup id="Jar_majrour" name="جار ومجرور1">
-      <rule id="grammar_0000_jar" name="جار ومجرور 1">
-        <pattern>
-          <token regexp="yes">&horof_jar;</token>
-          <marker>
-            <token postag="N.*;.?2U.?;--.*|N.*;M[3]U.?;--.*" postag_regexp="yes"/>
-          </marker>
-        </pattern>
-        <message>انتبه لحرف الجر فالمثنى يجر بالياء 
-        <suggestion><match no="2" regexp_match="(ان|ون)$" regexp_replace="ين"/></suggestion>
-        </message>
-        <example correction="الغابرين" type="incorrect"> عجوزا في <marker>الغابران</marker>.</example>
-        <example correction="الكتابين" type="incorrect"> نظرت في <marker>الكتابان</marker>.</example>
-        <example correction="صفحتين" type="incorrect"> نظرت في <marker>صفحتان</marker>.</example>
-        <!--  <example correction="مسافرين" type="incorrect"> هرولت إلى <marker>مسافرون</marker>.</example>
-        <example correction="المسافرين" type="incorrect"> عجوزا مع <marker>المسافرون</marker>.</example>-->
-      </rule>
-    </rulegroup>
-<!--
-    END RULEGROUP  Jar_Majrour
--->
+
     <rulegroup id="VerbalOperator" name="العوامل الداخلة على الأفعال">
-      <!-- TODO ajust suggestions-->
-      <rule id="grammar_0010_jazem" name="حروف الجزم">
+      <rule id="grammar_0010_jazem_lm" name="حروف الجزم لم">
+        <antipattern>
+			<token>لم</token>
+            <token postag="V..;.*f.0;---" postag_regexp="yes"/>
+        </antipattern>
         <pattern>
-          <token regexp="yes">لم|لما|إن|إنما|من|ما|مهما|متى|أي|أين|أيان|أنى|حيثما</token>
           <marker>
-            <token postag="VW.*;.?.?[^J].?f.*;---" postag_regexp="yes"/>
+			<token>لم</token>
+            <token postag="V..;.*f.[^0];---" postag_regexp="yes"/>
           </marker>
         </pattern>
         <message>أتقصد؟
 الفعل المضارع بعد "لم" يأتي مجزوما.
+        
+        <suggestion><match no="1"/>&nbsp;<match no="2" postag="(V..;.*f.).*" postag_replace="$10;---" postag_regexp="yes"/></suggestion>        
         </message>
-        <example correction=""> لم <marker>يجري</marker></example>
+        <example correction="لم يجر" type="incorrect"><marker>لم يجري</marker></example>
+        <example correction="لم يستطيعوا" type="incorrect"><marker>لم يستطيعون</marker></example>
+      </rule>
+      <!-- grammar_0010_jazem_lamma حروف الجزم لما-->
+      <rule id="grammar_0010_jazem_lamma" name="حروف الجزم لما">
+        <antipattern>
+			<token>لما</token>
+            <token postag="V..;.*f.0;---" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+          <marker>
+			<token>لما</token>
+            <token postag="V..;.*f.[^0];---" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>أتقصد؟
+الفعل المضارع بعد "لمّا" يأتي مجزوما. مثل لمّا يدخلْ الإيمان في قلوبكم.
+        
+        <suggestion>لَمَّا&nbsp;<match no="2" postag="(V..;.*f.).*" postag_replace="$10;---" postag_regexp="yes"/></suggestion>        
+        </message>
+        <example correction="لَمَّا يجر" type="incorrect"><marker>لما يجري</marker></example>
+        <example correction="لَمَّا يستطيعوا" type="incorrect"><marker>لما يستطيعون</marker></example>
+      </rule>
+
+      <!-- grammar_0010_jazem_lam_nahia  حروف الجزم لا الناهية-->
+      <rule id="grammar_0010_jazem_la_nahia" name="حروف الجزم لا الناهية">
+        <antipattern>
+			<token>لا</token>
+            <token postag="V..;..Y.f.0;---" postag_regexp="yes"/>
+        </antipattern>
+        <pattern>
+          <marker>
+			<token>لا</token>
+            <token postag="V..;..Y.f.[^0];---" postag_regexp="yes"/>
+          </marker>
+        </pattern>
+        <message>أتقصد؟
+الفعل المضارع بعد "لا الناهية" يأتي مجزوما.
+        
+        <suggestion><match no="1"/>&nbsp;<match no="2" postag="(V..;..Y.f.).*" postag_replace="$10;---" postag_regexp="yes"/></suggestion>        
+        </message>
+        <example type="correct"><marker>لا يجري</marker></example>
+        <example correction="لا تخافوا" type="incorrect"><marker>لا تخافون</marker></example>
       </rule>
     </rulegroup>
 <!--
