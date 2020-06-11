@@ -7855,6 +7855,30 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
       <disambig action="ignore_spelling"/>
     </rule>
 
+    <rulegroup name="Noun: cram school" id="POS_CRAM_SCHOOL"><!-- www.lexico.com/definition/cram_school -->
+        <rule>
+            <pattern>
+                <marker>
+                    <token chunk="I-NP-singular">cram</token>
+                    <token chunk="E-NP-singular">school</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd pos="NN"/><wd pos="NN"/></disambig>
+            <example type="untouched">How many times have I told you not to cram school bags with dead frogs?</example>
+            <example type="ambiguous" inputform="cram[cram/VB,cram/VBP]" outputform="cram[cram/NN]">He studies at a <marker>cram</marker> school.</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token>cram</token>
+                    <token chunk="E-NP-plural">schools</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd pos="NNS"/><wd pos="NNS"/></disambig>
+            <example type="ambiguous" inputform="cram[cram/VB,cram/VBP]" outputform="cram[cram/NNS]">These <marker>cram</marker> schools are terrible.</example>
+        </rule>
+    </rulegroup>
+
     <rule name="KETO" id="SPELLING_KETO">
       <pattern>
           <marker>
