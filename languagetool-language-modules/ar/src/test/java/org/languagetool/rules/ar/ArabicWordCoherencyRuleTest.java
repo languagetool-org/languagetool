@@ -46,13 +46,9 @@ public class ArabicWordCoherencyRuleTest {
 
   @Test
   public void testRule() throws IOException {
-    // correct sentences:
-
     // errors:
-        assertError("أنا أظن أن هذا ممكن لكنني أضن أنني كنت مخطئا");
-//     assertError("ذكر وزير الشؤون الخارجية أننا لا نتدخل في الشئون الداخلية");
-//     assertError("هو الذي ضرب الولد الذى تكلم"); 
-    }
+    assertError("أنا أظن أن هذا ممكن لكنني أضن أنني كنت مخطئا");
+  }
   
   private void assertError(String s) throws IOException {
     ArabicWordCoherencyRule rule = new ArabicWordCoherencyRule(TestTools.getEnglishMessages());
