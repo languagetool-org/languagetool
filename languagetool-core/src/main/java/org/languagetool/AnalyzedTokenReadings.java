@@ -580,7 +580,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       sb.append(',');
     }
     sb.delete(sb.length() - 1, sb.length());
-    if (chunkTags.size() > 0) {
+    if (!chunkTags.isEmpty()) {
       sb.append(',');
       sb.append(StringUtils.join(chunkTags, "|"));
     }
@@ -653,8 +653,7 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   @Override
   public boolean equals(Object obj) {
     if (this == obj) { return true; }
-    if (obj == null) { return false; }
-    if (getClass() != obj.getClass()) {
+    if (obj == null || getClass() != obj.getClass()) {
       return false;
     }
     AnalyzedTokenReadings other = (AnalyzedTokenReadings) obj;

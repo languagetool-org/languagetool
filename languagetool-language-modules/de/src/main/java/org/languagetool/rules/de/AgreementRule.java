@@ -1219,7 +1219,7 @@ public class AgreementRule extends Rule {
     Set<String> set1 = AgreementTools.getAgreementCategories(token1, categoryToRelaxSet, true);
     Set<String> set2 = AgreementTools.getAgreementCategories(token2, categoryToRelaxSet, true);
     set1.retainAll(set2);
-    return set1.size() > 0;
+    return !set1.isEmpty();
   }
 
   @NotNull

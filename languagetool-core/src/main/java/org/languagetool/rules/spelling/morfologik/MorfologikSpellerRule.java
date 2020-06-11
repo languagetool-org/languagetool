@@ -19,9 +19,30 @@
 
 package org.languagetool.rules.spelling.morfologik;
 
+import static org.languagetool.JLanguageTool.getDataBroker;
+
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.*;
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.Experimental;
+import org.languagetool.GlobalConfig;
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.ITSIssueType;
@@ -31,18 +52,8 @@ import org.languagetool.rules.spelling.SpellingCheckRule;
 import org.languagetool.rules.spelling.suggestions.SuggestionsChanges;
 import org.languagetool.rules.translation.TranslationEntry;
 import org.languagetool.rules.translation.Translator;
-import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
-import static org.languagetool.JLanguageTool.getDataBroker;
 
 public abstract class MorfologikSpellerRule extends SpellingCheckRule {
 
@@ -325,7 +336,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
     // Check for split word with next word
     if (ruleMatch == null && idx < tokens.length - 1 && tokens[idx + 1].isWhitespaceBefore()) {
       String nextWord = tokens[idx + 1].getToken();
-      if (nextWord.length() > 0 && !nextWord.matches(".*\\d.*")
+      if (nextWord.length() > 0 && !StringUtils.containsAny(nextWord, "0", "1", "2", "3", "4", "5", "6", "7", "8", "9")
           && getFrequency(speller1, nextWord) < MAX_FREQUENCY_FOR_SPLITTING) {
         int nextStartPos = tokens[idx + 1].getStartPos();
         String sugg1a = word.substring(0, word.length() - 1);
@@ -382,8 +393,8 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
       phrasesToTranslate.add(new PhraseToTranslate(word, startPos + word.length()));
       for (PhraseToTranslate phraseToTranslate : phrasesToTranslate) {
         List<TranslationEntry> translations = translator.translate(phraseToTranslate.phrase, motherTongue.getShortCode(), language.getShortCode());
-        if (translations.size() > 0) {
-          logger.info("Translated: " + word);   // privacy: logging a single word without IP address etc. is okay
+        if (!translations.isEmpty()) {
+          logger.info("Translated: {}", word);   // privacy: logging a single word without IP address etc. is okay
           ruleMatch = new RuleMatch(this, sentence, startPos, phraseToTranslate.endPos, translator.getMessage());
           ruleMatch.setType(RuleMatch.Type.Hint);
           ruleMatch.setSuggestedReplacements(new ArrayList<>());
@@ -400,7 +411,7 @@ public abstract class MorfologikSpellerRule extends SpellingCheckRule {
             }
           }
           List<SuggestedReplacement> mergedRepl = mergeSuggestionsWithSameTranslation(l);
-          if (mergedRepl.size() > 0) {
+          if (!mergedRepl.isEmpty()) {
             ruleMatch.setSuggestedReplacementObjects(mergedRepl);
             translationSuggestionCount = mergedRepl.size();
             if (phraseToTranslate.phrase.contains(" ")) {
