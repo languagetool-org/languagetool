@@ -12505,10 +12505,53 @@ USA
             <suggestion>whole<match no="2" case_conversion="alllower" /></suggestion>
             <example correction="wholesale">Bottles from this region sell <marker>whole sale</marker> at about £72 a case.</example>
         </rule>
+        <rule id="WARE_COMPOUNDS" name="soft ware (software)" default="temp_off">
+            <pattern>
+                <token regexp="yes">ransom|free|kitchen|earthen|lacquer|granite|crackle|course|silver|dinner|hollow|wooden|enamel|yellow|willow|luster|jasper|sponge|hypera|share|group|table|glass|stone|vapou?r|china|brass|metal|cream|bloat|delft|hollo|treen|agate|soft|hard|firm|gift|cook|bake|flat|stem|iron|dish|oven|slip|outs|clay|cane|bar|wet|red|tin|sea|tea</token>
+                <token>ware</token>
+            </pattern>
+            <message>This is normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="software">He installed the <marker>soft ware</marker> on his computer.</example>
+        </rule>
+        <rule id="PLACE_COMPOUNDS" name="market place (marketplace)" default="temp_off">
+            <pattern>
+                <token regexp="yes">market|birth</token>
+                <token regexp="yes">places?</token>
+            </pattern>
+            <message>This is normally spelled as one word.</message>
+            <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="marketplace">They are selling their fruits at a <marker>market place</marker>.</example>
+        </rule>
+        <rulegroup id="DOOR_COMPOUNDS" name="in door (indoor)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="DT|PRP\$?|IN" postag_regexp="yes" />
+                    <token postag="JJ.*" postag_regexp="yes" min="0" />
+                    <marker>
+                        <token regexp="yes">in|out</token>
+                        <token>door</token>
+                    </marker>
+                </pattern>
+                <message>Did you mean the adjective <suggestion><match no="3" case_conversion="alllower" /><match no="4" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="outdoor">He is a fan of <marker>out door</marker> sports.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">in|out</token>
+                        <token>door</token>
+                    </marker>
+                    <token regexp="yes">sports?|activit(y|ies)|events?|cricket|departments?|girls?|pursuits?|champion.*|soccers?|stadiums?|footballs?|seasons?|games?|climbing|concerts?|ads?|advertising|furnitures?</token>
+                </pattern>
+                <message>Did you mean the adjective <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>?</message>
+                <example correction="outdoor">He is a fan of <marker>out door</marker> sports.</example>
+            </rule>
+        </rulegroup>
         <rule id="UP_COMPOUNDS" name="up date (update)">
             <antipattern>
-                <token inflected="yes" regexp="yes">catch|end|start|pile|cover|speed|turn|stay|jump|pull|push|tie|take|mix|sit|top|warm|run|pop|hang|line|stand|pick|back|hook|clean|look|make|follow|ramp|build|wave|clear|weld|kick|hold|shut|bring|set|free|wake|wound|divide|fill|roll|meet|come|light|open|match|rise|raise|sign|hike|lit</token>
-                <token min="0" regexp="yes">it(self)?|that|this|th[oe]se</token>
+                <token inflected="yes" regexp="yes">catch|end|start|pile|cover|speed|turn|stay|jump|pull|push|tie|take|mix|sit|top|warm|run|pop|hang|line|stand|pick|back|hook|clean|look|make|follow|ramp|build|wave|clear|weld|kick|hold|shut|bring|set|free|wake|wound|divide|fill|roll|meet|come|light|open|match|rise|raise|sign|hike|lif?t</token>
+                <token min="0" regexp="yes">it(self)?|that|this|th[oe]se|them|him|her|us</token>
                 <token>up</token>
             </antipattern>
             <antipattern>
@@ -12540,7 +12583,7 @@ USA
             </antipattern>
             <antipattern>
                 <token inflected="yes" regexp="yes">hold|lay|shut|cut|bring|come|close|drill|run|jump|fall|hike</token>
-                <token min="0" regexp="yes">it(self)?|that|this|th[oe]se</token>
+                <token min="0" regexp="yes">it(self)?|that|this|th[oe]se|them|him|her|us</token>
                 <token>down</token>
             </antipattern>
             <antipattern>
@@ -14925,6 +14968,11 @@ USA
             <example correction="to be able">Absent that, we need <marker>to able</marker> to present majority and minority proposals.</example>
         </rule>
         <rulegroup id="PRP_ABLE_TO" name="missing 'be' before 'able'">
+            <antipattern><!-- Caught by WE_BE: We might we able to reproduce and fix the issue. Also, do you use other add-ons? -->
+                <token regexp="yes">we|they|you|it|s?he</token>
+                <token postag="RB" min="0" />
+                <token postag="MD" />
+            </antipattern>
             <rule>
                 <pattern>
                     <token postag="MD" />
@@ -22559,6 +22607,11 @@ USA
                     <token>lives</token>
                     <token>matter</token>
                 </antipattern>
+                <antipattern>
+                    <token>black</token>
+                    <token>life</token>
+                    <token>matters</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes">bl?ack</token>
                     <token regexp="yes">li[vf]es?</token>
@@ -23537,6 +23590,18 @@ USA
                 </pattern>
                 <message>Did you mean the adjective <suggestion>\3-\4</suggestion> (spelled with a hyphen)?</message>
                 <example correction="twin-engined">He drives a <marker>twin engined</marker> Mustang.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="CD" />
+                    <token regexp="yes">stroke|cycle</token>
+                    <token regexp="yes" min="0">diesel|gas(oline)?|dirt|power|freedom</token>
+                    <token regexp="yes">engines?|motor.*|bikes?</token>
+                </pattern>
+                <message>It seems that a hyphen is missing.</message>
+                <suggestion>\1-\2 \3 \4</suggestion>
+                <url>https://www.lexico.com/definition/four-stroke</url>
+                <example correction="four-stroke engine">He is driving a car with a <marker>four stroke engine</marker>.</example>
             </rule>
         </rulegroup>
 
@@ -37619,7 +37684,7 @@ USA
                     <exception postag="DT|IN|CD" postag_regexp="yes" />
                     <exception regexp="yes">per|\p{P}</exception>
                 </token>
-                <token regexp="yes">ad|advertisements?|pitch(es)?|commercials?|civics|showdown|strategy|quiz|videos?|riddles?|scrubs?|walmarts?|runoffs?|pharmac(y|ies)|motels?|hotels?|convenience|walgreens|fitness|gyms?|laundromats?|autozones?|mcdonalds?|forecasts?|myster(y|ies)|weather|lag|jobs?|shifts?|workouts?|clock|desks?|drive|events?|lessons?|call|days?|timestamps?|timer|sessions?|services?|journeys?|hikes?|trainings?|sleep|meeting|deal|period|patrols|panic|operation|level|update|rule|standoffs?|response|timeframe|format|cycles?|surger(y|ies)|walk|delays?|notice|difference|countdown|battery|conversations?|naps?|projects?|ride|rescue|block|trips?|rest|visit|breaks?|delivery|queue|marathons?|window|contractors?|controllers?|workweeks?|workdays?</token>
+                <token regexp="yes">ad|dose|advertisements?|pitch(es)?|commercials?|civics|showdown|strategy|quiz|videos?|riddles?|scrubs?|walmarts?|runoffs?|pharmac(y|ies)|motels?|hotels?|convenience|walgreens|fitness|gyms?|laundromats?|autozones?|mcdonalds?|forecasts?|myster(y|ies)|weather|lag|jobs?|shifts?|workouts?|clock|desks?|drive|events?|lessons?|call|days?|timestamps?|timer|sessions?|services?|journeys?|hikes?|trainings?|sleep|meeting|deal|period|patrols|panic|operation|level|update|rule|standoffs?|response|timeframe|format|cycles?|surger(y|ies)|walk|delays?|notice|difference|countdown|battery|conversations?|naps?|projects?|ride|rescue|block|trips?|rest|visit|breaks?|delivery|queue|marathons?|window|contractors?|controllers?|workweeks?|workdays?</token>
             </pattern>
             <message>It appears that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -37640,7 +37705,7 @@ USA
                     <token>week</token>
                 </marker>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
-                <token regexp="yes">semester|pandemi[ac]|vacation|holiday|notice|diets?|periods?|moving|streak|cycles?|arrangements?|routine|gym|plan|work\-?out|project|pregnancy|fetus|trip|training|program|courses?|highs?|lows?|trial|rotation|intervals?|warranty|delivery|median|lockdown|shutdown|decline</token>
+                <token regexp="yes">pause|semester|pandemi[ac]|vacation|holiday|notice|diets?|periods?|moving|streak|cycles?|arrangements?|routine|gym|plan|work\-?out|project|pregnancy|fetus|trip|training|program|courses?|highs?|lows?|trial|rotation|intervals?|warranty|delivery|median|lockdown|shutdown|decline</token>
             </pattern>
             <message>It seems that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -37653,7 +37718,7 @@ USA
                     <token>month</token>
                 </marker>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
-                <token regexp="yes">routine|periods?|intervals?|cycles?|diets?|notice|plan|project|warranty|median|vacation|holiday|trip|milestone|pandemi[ac]|lockdown|shutdown|term|contract|decline|sentence|calendar|internships?|training|traineeships?|loans?</token>
+                <token regexp="yes">pause|routine|periods?|intervals?|cycles?|diets?|notice|plan|project|warranty|median|vacation|holiday|trip|milestone|pandemi[ac]|lockdown|shutdown|term|contract|decline|sentence|calendar|internships?|training|traineeships?|loans?</token>
             </pattern>
             <message>It seems that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -37666,7 +37731,7 @@ USA
                     <token>year</token>
                 </marker>
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
-                <token regexp="yes">routine|periods?|intervals?|cycles?|notice|plan|project|warranty|median|reign|span|sentences?|mortgages?|anniversar(y|ies)|refinance|milestones?|loans?</token>
+                <token regexp="yes">routine|periods?|intervals?|cycles?|notice|plan|project|warranty|median|reign|span|sentences?|mortgages?|anniversar(y|ies)|refinance|milestones?|loans?|treat(y|ies)</token>
             </pattern>
             <message>It seems that a hyphen is missing.</message>
             <suggestion>\1-\2</suggestion>
@@ -37976,7 +38041,21 @@ USA
         <rule id="CD_NN" name="Possible agreement error: numeral + singular countable noun">
             <antipattern case_sensitive="yes">
                 <token regexp="yes" skip="3">\d+<exception regexp="yes">[01]</exception></token>
-                <token regexp="yes">AVE|Ave(nue)?|Street|BLVD|Blvd|blvd|Boulevard|Terrace|Square|St|ST|Center|Cove|Highway|Hwy|HWY|Circle|Drive|Parkway|Pkwy|PKWY|Northeast|Crescent|Trail|Alley|Loop|Lane|Court</token>
+                <token regexp="yes">AVE|Ave(nue)?|Street|BLVD|Blvd|blvd|Boulevard|Terrace|Square|St|ST|Center|Cove|Highway|Hwy|HWY|Circle|Drive|Parkway|Pkwy|PKWY|Northeast|Crescent|Trail|Alley|Loop|Lane|Ln|Court</token>
+            </antipattern>
+            <antipattern><!-- The day 2 session -->
+                <token>day</token>
+                <token regexp="yes">\d+</token>
+                <token>session</token>
+            </antipattern>
+            <antipattern><!-- GTA 5 download -->
+                <token>gta</token>
+                <token regexp="yes">\d+</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token>VAC</token>
+                <token>circuit</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" skip="1">\d+</token>
@@ -37996,7 +38075,7 @@ USA
             <antipattern><!-- the law 101 workshop -->
                 <token postag="NN.*" postag_regexp="yes" />
                 <token>101</token>
-                <token regexp="yes">workshop|course|project|training|learning</token>
+                <token regexp="yes">workshop|course|project|training|learning|guide</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">\d+</token>
@@ -38250,6 +38329,16 @@ USA
                 <token regexp="yes">more|less</token>
                 <token postag="VB.*" postag_regexp="yes" />
                 <token postag="IN|CC" postag_regexp="yes" />
+            </antipattern>
+            <antipattern>
+                <token postag="CD" />
+                <token>and</token>
+                <token>a</token>
+                <token>half</token>
+            </antipattern>
+            <antipattern>
+                <token postag="CD" />
+                <token>wheeler</token>
             </antipattern>
             <antipattern>
                 <token>half</token>
@@ -38729,6 +38818,7 @@ USA
             <example>He was introducing a 3,000 limit per transaction.</example>
             <example>He turns 80 next month.</example>
             <example>He was switching from 32 to 64 bit.</example>
+            <example>120 VAC Circuit</example>
             <example>He has a 4 page summary.</example>
             <example>A canal 4 treatment.</example>
             <example>The Windows 10 update failed.</example>
@@ -40770,6 +40860,11 @@ USA
                 <token regexp="yes">a|the</token>
                 <token>mine</token>
                 <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>the</token>
+                <token>ALL</token>
+                <token regexp="yes">[A-Z]+</token>
             </antipattern>
             <antipattern><!-- https://orthodoxwiki.org/One_Holy_Catholic_and_Apostolic_Church -->
                 <token>the</token>
@@ -50680,6 +50775,7 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>be</suggestion>?</message>
                 <example correction="be">Having a new car would probably <marker>we</marker> great.</example>
                 <example correction="be">That would <marker>we</marker> very helpful.</example>
+                <example correction="be">Using that, we might <marker>we</marker> able to reproduce and fix the issue.</example>
                 <example>What time shall we meet tomorrow?</example>
                 <example>Can we ever truly be free?</example>
                 <example>Can we just not talk for a minute?</example>
@@ -60415,17 +60511,30 @@ The accident victim died from her injuries.
                 <example>They call me Gonna.</example>
             </rule>
         </rulegroup>
-        <rule id="Y_ALL" name="y'all (you all)">
-            <pattern>
-                <token>y</token>
-                <token regexp="yes">&apostrophe;</token>
-                <token>all</token>
-            </pattern>
-            <message>This phrase is informal. Consider an alternative.</message>
-            <suggestion>you all</suggestion>
-            <suggestion>all of you</suggestion>
-            <example correction="You all|All of you"><marker>Y'all</marker> don't know what I'm talking about.</example>
-        </rule>
+        <rulegroup id="Y_ALL" name="y'all (you all)">
+            <rule default="temp_off">
+                <pattern>
+                    <token>all</token>
+                    <token>of</token>
+                    <token regexp="yes">ya?|you</token>
+                    <token regexp="yes" min="0">&apostrophe;</token>
+                    <token>all</token>
+                </pattern>
+                <message>The word "all" is repeated. Consider just using <suggestion>\1 \2 \3ou</suggestion>.</message>
+                <example correction="all of you">I will send an update to <marker>all of y'all</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>y</token>
+                    <token regexp="yes">&apostrophe;</token>
+                    <token>all</token>
+                </pattern>
+                <message>This phrase is informal. Consider an alternative.</message>
+                <suggestion>you all</suggestion>
+                <suggestion>all of you</suggestion>
+                <example correction="You all|All of you"><marker>Y'all</marker> don't know what I'm talking about.</example>
+            </rule>
+        </rulegroup>
         <rule id="DONTCHA" name="dontcha (don't you)">
             <pattern>
                 <token>dontcha</token>
@@ -61235,7 +61344,7 @@ The accident victim died from her injuries.
     <rule>
         <antipattern>
             <token>Bubba</token>
-            <token>Gump</token>
+            <token regexp="yes">Gump|Wallace|Watson|Smith|Jenkins|Sparx.*|Harris|Ray|Ho-Tep|Brooks|Wells|Paris|Phillips|Green|Dickerson|Franks|Crosby</token>
         </antipattern>
         <antipattern>
             <token>Hubba</token>
@@ -61246,7 +61355,9 @@ The accident victim died from her injuries.
         </pattern>
         <message>In some contexts, this is childish or slang language. Consider alternatives.</message>
         <suggestion><match no="1" regexp_match="(?i)ubba" regexp_replace="rother" /></suggestion>
+        <url>https://en.wikipedia.org/wiki/Bubba</url>
         <example correction="Brother">He's my <marker>Bubba</marker>.</example>
+        <example>Darrell Bubba Wallace Jr. is an American professional stock car racing driver.</example>
     </rule>
     <rule>
         <antipattern><!-- Popular name for a song, café, book, kindergarten -->
@@ -61274,7 +61385,7 @@ The accident victim died from her injuries.
     <rule>
         <antipattern><!-- Popular Pizza Franchise, Musician -->
             <token>papa</token>
-            <token regexp="yes">johns?|roach|murphy</token>
+            <token regexp="yes">johns?|roach|murphy|smurf|elf</token>
         </antipattern>
         <antipattern><!-- caught by PAPUA_NEW_GUINEA -->
             <token>papa</token>
@@ -61302,7 +61413,7 @@ The accident victim died from her injuries.
     <rule>
         <antipattern><!-- sex position, food container -->
             <token regexp="yes">doggy|doggie</token>
-            <token regexp="yes">style|bag</token>
+            <token regexp="yes">style|bag|positions?</token>
         </antipattern>
         <antipattern><!-- "to lie doggo" https://www.merriam-webster.com/dictionary/doggo -->
             <token inflected="yes">lie</token>
@@ -64634,6 +64745,16 @@ The accident victim died from her injuries.
     </category>
 
   <category id="TYPOGRAPHY" name="Typography" type="typographical">
+    <rule id="TL_DR" name="TL DR (TL;DR)" default="temp_off">
+        <pattern case_sensitive="yes">
+            <token regexp="yes">tl|TL</token>
+            <token regexp="yes" min="0">[/:]</token>
+            <token regexp="yes">dr|DR</token>
+        </pattern>
+        <message>Did you mean the internet acronym <suggestion>TL;DR</suggestion> or <suggestion>TLDR</suggestion> (short for "Too Long; Didn't Read")?</message>
+        <url>https://www.merriam-webster.com/dictionary/TL;DR</url>
+        <example correction="TL;DR|TLDR"><marker>tl:dr</marker> it was great!.</example>
+    </rule>
     <rule id="O_CONNOR" name="O Connor (O'Connor)">
         <antipattern>
             <token regexp="yes">\p{P}</token>
