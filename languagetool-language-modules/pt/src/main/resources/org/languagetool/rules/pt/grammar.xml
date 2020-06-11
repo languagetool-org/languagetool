@@ -42,7 +42,8 @@ title="Easy editing stylesheet" ?>
     <!ENTITY paises_com_artigo "(?:A(?:feganistão|lbânia|lemanha|rábia|rgélia|rgentina|rménia|ustrália|zerbaijão)|Áustria|B(?:aamas|arbados|élgica|elize|enim|ielorrússia|irmânia|olívia|ósnia|otsuana|rasil|ulgária|urúndi|utão)|C(?:amarões|amboja|anadá|azaquistão|hade|hile|hina|hipre|olômbia|omores|ongo|oreia|atar|roácia)|Kosovo|Dinamarca|E(?:gito|mirados|quador|slováquia|slovénia|stónia|tiópia|UA)|F(?:iji|ilipinas|inlândia)|G(?:abão|âmbia|ana|eórgia|récia|uatemala|uiana|uiné)|H(?:aiti|onduras|ungria)|Índia|I(?:lhas|ndonésia|rão|raque|rlanda|slândia)|J(?:amaica|apão|ordânia)|L(?:aos|esoto|etónia|íbano|ibéria|íbia|ituânia|uxemburgo)|M(?:acedónia|alásia|aldivas|al[aá]ui|ali|auritânia|éxico|ianmar|icronésia|oldávia|ónaco|ongólia)|N(?:amíbia|epal|icarágua|igéria|oruega)|P(?:alestina|anamá|apua|aquistão|araguai|er[uú]|olónia)|Q(?:uénia|uirguistão)|R(?:epública|oménia|uanda|ússia)|S(?:amoa|eicheles|enegal|érvia|íria|omália|ri|uazilândia|udão|uécia|uíça|uriname)|T(?:ailândia|ajiquistão|anzânia|ogo|onga|unísia|urcomenistão|urquia)|U(?:crânia|ruguai|sbequistão)|V(?:aticano|enezuela|ietname)|Zâmbia)"><!-- |Omã -->
     <!-- XXX after adding POSs to Portuguese.dict (POSs) readd Bahamas|Barém|Banglade(?:sh|xe|che)|Brunei|Burquina|Cosovo|Qatar|Cuaite|Iémen|Jibuti|Laus|Maláui|Malawi|Maurícias|Nauru|Quiribáti|Zimbabue|Zimbábue
          XXX See issue #793 -->
-    <!ENTITY outros_toponimos_com_artigo "(?:Europa|A(?:lgarve|madora)|C(?:airo|aldas|ovilhã)|Figueira|Furadouro|Guarda|Porto|A(?:lameda|venida)|Largo|Pr(?:raça|aceta)|Rua|Terreiro)"><!-- TODO praça cause mismatched article. verify --><!-- |Rondônia -->
+    <!ENTITY paises_com_artigo_marcoagpinto_na "Espanha|França|Inglaterra|Itália|Madagáscar|Marrocos|Moçambique">
+	<!ENTITY outros_toponimos_com_artigo "(?:Europa|A(?:lgarve|madora)|C(?:airo|aldas|ovilhã)|Figueira|Furadouro|Guarda|Porto|A(?:lameda|venida)|Largo|Pr(?:raça|aceta)|Rua|Terreiro)"><!-- TODO praça cause mismatched article. verify --><!-- |Rondônia -->
     <!ENTITY toponimos_sem_artigo "(?:A(?:lagoas|ngola|ragão)|B(?:raga|urma)|C(?:astela|oimbra|uba)|Espanha|F(?:aro|rança)|Goiás|Havana|I(?:nglaterra|tália)|Lisboa|M(?:adagáscar|arrocos|oçambique)|P(?:aris|ernambuco|ortugal)|Roraima|Sergipe|T(?:ai[uw]an|aiuã|imor)|M(?:ercúrio|arte)|Vénus|Júpiter|Saturno|Urano|Neptuno|Plutão)">
 
     <!ENTITY requer_crase "(?:a(?:cesso|(?:cessíve|gradáve)(l|is)|comodadad[ao]|costumad[ao]|nálog[ao])|benéfic[ao]|c(?:ontrári|ontígu[ao])|d(?:aqui|estinad[ao])|e(?:quivalente|xpost[ao])|f(ace|avoráv|i(?:el|éis))|h(?:abituad[ao]|omenage(m|ns)|orror)|i(?:dêntic[ao]|(?:gua|nsens[ií]ve)(l|is)|nferior(es)?)|n(?:ecessári[ao]|ociv[ao])|o(?:bediência|bediente)|p(?:(?:aralel|ropíci|róxim)[ao]|(?:refer[ií]ve|rejudicia)(l|is)|restes)|r(?:(?:elativ|estrit)[ao])|s(?:emelhante|ens[ií]ve(l|is)|entad[ao]|ubmiss[ao]|uperior(es)?)|visita)s?">
@@ -2600,6 +2601,15 @@ title="Easy editing stylesheet" ?>
       <antipattern>
         <token regexp='no'>pela</token>
 		<token regexp="yes" case_sensitive="yes">&toponimos_sem_artigo;
+			<exception postag_regexp='yes' postag='NPMSG00|NPMS000'></exception>
+		</token>	
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-06-11 *END* -->
+<!-- MARCOAGPINTO 2020-06-11 *START* -->
+<!-- "O estudo foi realizado na Espanha." -->
+      <antipattern>
+        <token regexp='no'>na</token>
+		<token regexp="yes" case_sensitive="yes">&paises_com_artigo;|&paises_com_artigo_marcoagpinto_na;
 			<exception postag_regexp='yes' postag='NPMSG00|NPMS000'></exception>
 		</token>	
       </antipattern>	  
