@@ -34,13 +34,13 @@ import java.io.IOException;
  */
 public class TatoebaEvaluator {
 
-  private final static String template = "/Users/sohaib.lafifi/Code/Arabic/tatoeba/sentences-LANG-20191014-top1000.txt";
+  private final static String template = "/home/dnaber/data/corpus/tatoeba/20191014/sentences-LANG-20191014-top1000.txt";
 
   private void run() throws IOException {
     for (Language lang : Languages.get()) {
-      if (!lang.getShortCode().equals("ar")) {
-        continue;
-      }
+      //if (!lang.getShortCode().equals("sk")) {
+      //  continue;
+      //}
       File file = new File(template.replaceFirst("LANG", lang.getShortCode()));
       if (!file.exists() || file.length() == 0) {
         System.err.println("File not found or empty, skipping: " + file);
