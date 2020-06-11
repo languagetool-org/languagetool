@@ -19,7 +19,9 @@
  */
 package org.languagetool.rules.ar;
 
+import org.languagetool.language.Arabic;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 
@@ -37,23 +39,23 @@ import java.util.ResourceBundle;
  * @since 5.0
  */
 
-public class ArabicHomophonesRule extends AbstractSimpleReplaceRule {
+public class ArabicHomophonesRule extends AbstractSimpleReplaceRule2 {
 
   public static final String AR_HOMOPHONES_REPLACE = "AR_HOMOPHONES_REPLACE";
-  private static final Map<String, List<String>> wrongWords = loadFromPath("/ar/homophones.txt");
+  private static final String RESOURCE_FILENAME = "ar/homophones.txt";
   private static final Locale AR_LOCALE = new Locale("ar");
 
   public ArabicHomophonesRule(final ResourceBundle messages) {
-    super(messages);
-    super.setCategory(Categories.STYLE.getCategory(messages));
-    this.setCheckLemmas(true);
+    super(messages, new Arabic());
+    super.setCategory(Categories.CONFUSED_WORDS.getCategory(messages));
     addExamplePair(Example.wrong("<marker>ضن</marker>"),
       Example.fixed("<marker>ظن</marker>"));
   }
 
+
   @Override
-  protected Map<String, List<String>> getWrongWords() {
-    return wrongWords;
+  public String getFileName() {
+    return RESOURCE_FILENAME;
   }
 
   @Override
@@ -71,16 +73,20 @@ public class ArabicHomophonesRule extends AbstractSimpleReplaceRule {
     return "كلمات متشابهة لفظا يرجى التحقق منها";
   }
 
+  @Override
+  public String getSuggestion() {
+    return "قل $suggestions";
+  }
+
+  @Override
+  public String getSuggestionsSeparator() {
+    return " أو  ";
+  }
+
 
   @Override
   public Locale getLocale() {
     return AR_LOCALE;
-  }
-
-  @Override
-  public String getMessage(String tokenStr, List<String> replacements) {
-    return tokenStr + " كلمة تتشابه مع: "
-      + String.join(", ", replacements) + ".";
   }
 
 }
