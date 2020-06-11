@@ -8730,7 +8730,7 @@ though, and has since been slightly modified)-->
           <example>Cet hôpital emploie.</example>
           <example>Cet œil</example>
       </rule>
-      <rule id="ET_CA" name="typo : et ça" default="temp_off">
+      <rule id="ET_CA" name="typo : et ça">
           <pattern>
               <token>et</token>
               <token>ca</token>
@@ -8738,7 +8738,7 @@ though, and has since been slightly modified)-->
           <message>Vouliez-vous dire <suggestion>et ça</suggestion> ?</message>
           <example correction="et ça">J'en ai pris un <marker>et ca</marker> suffisait pas.</example>
       </rule>
-      <rule id="LA_JOURNE" name="typo : la journé" default="temp_off">
+      <rule id="LA_JOURNE" name="typo : la journé">
           <pattern>
               <token regexp="yes">la|une</token>
               <token>journé</token>
@@ -30121,7 +30121,11 @@ though, and has since been slightly modified)-->
       <example>Ils ont beaucoup d’enfants.</example>
       <example>Pressez la touche 'c' pour continuer.</example>
     </rule>
-    <rule id="APOS_INCORRECT" name="apostrophe incorrecte" default="temp_off">
+    <rule id="APOS_INCORRECT" name="apostrophe incorrecte">
+      <antipattern>
+        <token regexp="yes">\d[\d ,\.]*</token>
+        <token>′</token> <!-- prime, minutes -->
+      </antipattern>
       <pattern>
         <marker>
           <token/>
@@ -30135,8 +30139,8 @@ though, and has since been slightly modified)-->
       <example correction="D’|D'"><marker>D´</marker>enfants.</example>
       <example correction="D’|D'"><marker>D‘</marker>enfants.</example>
       <example correction="D’|D'"><marker>D′</marker>enfants.</example>
+      <example>Les Humains (court métrage, 9′), 2003</example>
     </rule>
-
     <rule id="SAINT_VALENTIN" name="Saint Valentin">
       <pattern>
         <token postag="D f s"/>
