@@ -36,6 +36,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.nio.file.Files;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.Callable;
 
@@ -49,7 +50,6 @@ class CheckCallable implements Callable<File> {
   private final static int batchSize = 10;
   private final static int maxTries = 10;  // maximum tries for HTTP problems
   private final static int retrySleepMillis = 1000;
-  private static final JsonFactory factory = new JsonFactory();
 
   private final int count;
   private final String baseUrl;
@@ -60,10 +60,6 @@ class CheckCallable implements Callable<File> {
   private final String user;
   @Nullable
   private final String password;
-
-  CheckCallable(int count, String baseUrl, String token, File file, String langCode) {
-    this(count, baseUrl, token, file, langCode, null, null);
-  }
 
   CheckCallable(int count, String baseUrl, String token, File file, String langCode, @Nullable String user, @Nullable String password) {
     this.count = count;
@@ -79,7 +75,7 @@ class CheckCallable implements Callable<File> {
   public File call() throws Exception {
     List<String> allLines = Files.readAllLines(file.toPath());
     String threadName = currentThread().getName();
-    System.out.println(threadName + " - loaded " + allLines.size() + " lines from " + file.getName());
+    printOut(threadName + " - loaded " + allLines.size() + " lines from " + file.getName());
     List<String> tempLines = new ArrayList<>();
     ObjectMapper mapper = new ObjectMapper(new JsonFactory());
     int startLine = 0;
@@ -91,20 +87,20 @@ class CheckCallable implements Callable<File> {
         if (tempLines.size() >= batchSize || i == allLines.size() - 1) {
           String textToCheck = String.join("\n\n", tempLines);
           URL url = Tools.getUrl(baseUrl + "/v2/check");
-          //System.out.println("textToCheck: " + textToCheck);
+          //printOut("textToCheck: " + textToCheck);
           String postData = "language=" + langCode +
               "&text=" + URLEncoder.encode(textToCheck, "UTF-8") +
               "&enableTempOffRules=true";
           postData += token != null ? "&token=" + URLEncoder.encode(token, "UTF-8"): "";
           String tokenInfo = token != null ? " with token" : " without token";
           float progress = (float)i / allLines.size() * 100.0f;
-          System.out.printf(Locale.ENGLISH, threadName + " - Posting " + tempLines.size() + " texts with " + textToCheck.length() +
-            " chars to " + url +  tokenInfo + ", %.1f%%\n", progress);
+          printOut(String.format(Locale.ENGLISH, threadName + " - Posting " + tempLines.size() + " texts with " + textToCheck.length() +
+            " chars to " + url +  tokenInfo + ", %.1f%%", progress));
           for (int retry = 1; true; retry++) {
             String pseudoFileName = HttpApiSentenceChecker.class.getSimpleName() + "-result-" + count + "-" + startLine + "-" + i;
             try {
               CheckResult result = checkByPost(url, postData);
-              //System.out.println(threadName + " - answered by " + result.backendServer);
+              //printOut(threadName + " - answered by " + result.backendServer);
               JsonNode jsonNode = mapper.readTree(result.json);
               ((ObjectNode)jsonNode).put("title", pseudoFileName);  // needed for MatchKey to be specific enough
               fw.write(jsonNode + "\n");
@@ -114,7 +110,7 @@ class CheckCallable implements Callable<File> {
             } catch (ApiErrorException e) {
               // Convert the error to a fake rule match so it will appear as part of the diff, instead
               // of ending up in some log file:
-              System.err.println(threadName + " - POST to " + url + " failed: " + e.getMessage() +
+              printErr(threadName + " - POST to " + url + " failed: " + e.getMessage() +
                 ", try " + retry + ", max tries " + maxTries + ", no retries useful for this type of error, storing error as pseudo match");
               writeFakeError(mapper, fw, textToCheck, pseudoFileName, e);
               tempLines.clear();
@@ -122,12 +118,12 @@ class CheckCallable implements Callable<File> {
               break;
             } catch (Exception e) {
               if (retry >= maxTries) {
-                System.err.println(threadName + " - POST to " + url + " failed: " + e.getMessage() +
+                printErr(threadName + " - POST to " + url + " failed: " + e.getMessage() +
                   ", try " + retry + ", max tries " + maxTries + ", no retries left, throwing exception");
                 throw e;
               } else {
                 long sleepMillis = retrySleepMillis * retry;
-                System.err.println(threadName + " - POST to " + url + " failed: " + e.getMessage() +
+                printErr(threadName + " - POST to " + url + " failed: " + e.getMessage() +
                   ", try " + retry + ", max tries " + maxTries + ", sleeping " + sleepMillis + "ms before retry");
                 Thread.sleep(sleepMillis);
                 //e.printStackTrace();
@@ -137,8 +133,18 @@ class CheckCallable implements Callable<File> {
         }
       }
     }
-    System.out.println(threadName + " - Done.");
+    printOut(threadName + " - Done.");
     return outFile;
+  }
+
+  private void printOut(String s) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    System.out.println(sdf.format(new Date()) + " " + s);
+  }
+
+  private void printErr(String s) {
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    System.err.println(sdf.format(new Date()) + " " + s);
   }
 
   private void writeFakeError(ObjectMapper mapper, FileWriter fw, String textToCheck, String pseudoFileName, ApiErrorException e) throws IOException {
