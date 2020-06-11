@@ -8921,13 +8921,22 @@ though, and has since been slightly modified)-->
     </rule>
     <rulegroup id="ACCORD_NOMBRE" name="Accord en nombre">
       <antipattern>
-        <token regexp="yes" inflected="yes">relation|rencontre|interprète|traduction</token>
-        <token></token>
+        <token regexp="yes" inflected="yes">rapport|relation|rencontre|interprète|traduction|cycle</token>
+        <token min="0" postag="J .*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes"></token>
         <token spacebefore="no">-</token>
         <token spacebefore="no"></token>
       </antipattern>
       <antipattern>
-        <token>saint</token>
+        <token>-</token> <!-- probably enumeration -->
+        <token regexp="yes">\d+</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">nord|sud|est|ouest|top|bottom</token>
+        <token>-</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">saint|sainte|st|saintes</token>
         <token>-</token>
       </antipattern>
     <antipattern>
@@ -9244,6 +9253,7 @@ though, and has since been slightly modified)-->
             <token postag="N [fem] s" postag_regexp="yes"/>
             <token regexp="yes">aux|à|de|du|d'</token>
             <token postag="N .*" postag_regexp="yes"/>
+            <token min="0" postag="A"/>
             <token postag="J [fem] s" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
@@ -9390,6 +9400,18 @@ though, and has since been slightly modified)-->
           <token spacebefore="no">.</token>
           <token spacebefore="no" regexp="yes">[a-z]{2,5}</token>
         </antipattern>
+      <antipattern case_sensitive="yes"> <!-- acronyms  -->
+        <token regexp="yes">-|/</token>
+        <token regexp="yes" spacebefore="no">[A-Z][A-Z]+</token>        
+      </antipattern>
+      <antipattern>
+        <token postag="R rel.*" postag_regexp="yes"/> <!-- lequel...-->
+      </antipattern>
+      <antipattern>
+        <token postag="D f s"/>
+        <token>mi</token>
+        <token>-</token>
+      </antipattern>
         <antipattern> <!-- TODO: move to multiwords or disambiguation.xml -->
           <token>pourvu</token>
           <token regexp="yes">que|qu'</token>
@@ -9637,31 +9659,32 @@ though, and has since been slightly modified)-->
             <token/>
         </antipattern>
       <antipattern>
-        <token regexp="yes" inflected="yes">relation|rencontre|interprète|traduction</token>
-        <token></token>
+        <token regexp="yes" inflected="yes">rapport|relation|rencontre|interprète|traduction|cycle</token>
+        <token min="0" postag="J .*" postag_regexp="yes"/>
+        <token postag="N.*" postag_regexp="yes"></token>
         <token spacebefore="no">-</token>
         <token spacebefore="no"></token>
       </antipattern>
       <antipattern>
-        <token>saint</token>
+        <token regexp="yes">saint|sainte|st|saints</token>
         <token>-</token>
       </antipattern>
       <rule name="masculin suivi du féminin">
           <antipattern>
-              <token postag="N [me] [sp]" postag_regexp="yes"/>
-              <token regexp="yes">aux|à|de|du</token>
+            <token postag="N [fe] ([sp]|sp)" postag_regexp="yes"/>
+              <token regexp="yes">aux|à|de|du|d'</token>
               <token postag="N .*" postag_regexp="yes"/>
               <token postag="A" min="0" max="1"/>
-              <token postag="J [me] [sp]" postag_regexp="yes"/>
+            <token postag="J [fe] ([sp]|sp)" postag_regexp="yes"/>
           </antipattern>
         <antipattern>
-          <token postag="N [me] [sp]" postag_regexp="yes"/>
-          <token regexp="yes">aux|à|de|du</token>
+          <token postag="N [fe] ([sp]|sp)" postag_regexp="yes"/>
+          <token regexp="yes">aux|à|de|du|d'</token>
           <token postag="N .*" postag_regexp="yes"/>
-          <token regexp="yes">aux|à|de|du</token>
+          <token regexp="yes">aux|à|de|du|d'</token>
           <token postag="N .*" postag_regexp="yes"/>
           <token postag="A" min="0" max="1"/>
-          <token postag="J [me] [sp]" postag_regexp="yes"/>
+          <token postag="J [fe] ([sp]|sp)" postag_regexp="yes"/>
         </antipattern>
           <antipattern>
               <token>moteur</token>
@@ -9737,23 +9760,24 @@ though, and has since been slightly modified)-->
         <example>Elle est par <marker>conséquent perdue</marker></example>
         <example>Bonjour, est-ce Madame Brown ?</example>
         <example>Je suis professeure d'espagnol comme langue étrangère.</example>
+        <example>un auto-équilibrage</example>
       </rule>
       <rule name="nom masculin suivi du féminin">
         <antipattern>
-            <token postag="N [fe] [sp]" postag_regexp="yes"/>
+          <token postag="N [fe] ([sp]|sp)" postag_regexp="yes"/>
             <token regexp="yes">aux|à|de|du|d'</token>
             <token postag="N .*" postag_regexp="yes"/>
             <token postag="A" min="0" max="1"/>
-            <token postag="J [fe] [sp]" postag_regexp="yes"/>
+          <token postag="J [fe] ([sp]|sp)" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
-          <token postag="N [fe] [sp]" postag_regexp="yes"/>
+          <token postag="N [fe] ([sp]|sp)" postag_regexp="yes"/>
           <token regexp="yes">aux|à|de|du|d'</token>
           <token postag="N .*" postag_regexp="yes"/>
           <token regexp="yes">aux|à|de|du|d'</token>
           <token postag="N .*" postag_regexp="yes"/>
           <token postag="A" min="0" max="1"/>
-          <token postag="J [fe] [sp]" postag_regexp="yes"/>
+          <token postag="J [fe] ([sp]|sp)" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
           <token>n</token>
@@ -9833,6 +9857,8 @@ though, and has since been slightly modified)-->
         <example>Une maquette d'avion réellement jolie.</example>
         <example>une feuille de papier d'aluminium beurrée</example>
         <example>qu'il a d'abord comprise</example>
+        <example>D'abord isolée.</example>
+        <example>à l’étranger fait partie des projets</example>
       </rule>
       <rule name="féminin suivi du masculin">
          <antipattern>
@@ -9841,10 +9867,10 @@ though, and has since been slightly modified)-->
            <token regexp="yes" case_sensitive="yes">&common_english_nouns_feminine;</token>
          </antipattern>
          <antipattern>
-            <token postag="N [fe] [sp]" postag_regexp="yes"/>
+           <token postag="N [me] ([sp]|sp)" postag_regexp="yes"/>
             <token regexp="yes">aux|à|de|du|d'</token>
             <token postag="N .*" postag_regexp="yes"/>
-            <token postag="J [fe] [sp]" postag_regexp="yes"/>
+           <token postag="J [me] ([sp]|sp)" postag_regexp="yes"/>
         </antipattern>
         <antipattern>
           <token>avenue</token>
@@ -9942,9 +9968,9 @@ though, and has since been slightly modified)-->
         <antipattern>
             <token postag="N [me] ([sp]|sp)" postag_regexp="yes"/>
             <token regexp="yes">aux|à|de|du|d'</token>
-            <token postag="D.*" postag_regexp="yes" min="0"/>
+          <token postag="D.*|J .*" postag_regexp="yes" min="0"/>
             <token postag="N .*" postag_regexp="yes"/>
-            <token min="0" max="1" postag="A"/>
+          <token min="0" max="1" postag="A|J f .*" postag_regexp="yes"/>
             <token postag="J [me] ([sp]|sp)" postag_regexp="yes"/>
         </antipattern>
           <antipattern>
@@ -10033,6 +10059,7 @@ though, and has since been slightly modified)-->
         <example>pour l'interface utilisateur</example>
         <example>un taux de taxe d'habitation inférieur</example>
         <example>le monde de l’image autonomisé</example>
+        <example>Le rôle du parti d'extrême droite anglais</example>
       </rule>
     </rulegroup>
     <rulegroup id="NOM_DE_PAYS" name="Nom de pays sans majuscule" default="off">
@@ -10106,46 +10133,30 @@ though, and has since been slightly modified)-->
             <example correction="République Démocratique Du Congo">Aujourd'hui, la <marker>république démocratique du congo</marker>, demain le Canada.</example>
         </rule>
     </rulegroup>
-      <rulegroup id="ACCORD_CENTAINE_DE" name="centaine de">
-      <rule>
+    <rule id="ACCORD_CENTAINE_DE" name="centaine de">
         <antipattern>
           <token>nombre</token>
-          <token>de</token>
-          <token regexp="yes">masse|neuf|(?-i)Mach</token>
+          <token inflected="yes">de</token>
+          <token regexp="yes">masse|neuf|(?-i)Mach|onde|or|oxydation</token>
         </antipattern>
         <pattern>
           <token regexp="yes">dizaines?|douzaines?|centaines?|milliers?|millions?|nombre|multitude|infinité|série</token>
-          <token>de</token>
+          <token inflected="yes">de</token>
           <marker><token postag="(N|J|V ppa) . s" postag_regexp="yes"><exception postag="[NJ] . s?p|V ppa . s?p" postag_regexp="yes"/></token></marker>
         </pattern>
         <message>Le mot « \3 » devrait être au pluriel.</message>
         <suggestion><match no="3" postag_regexp="yes" postag="(N|J|V ppa) (.) s" postag_replace="$1 $2 p"/></suggestion>
         <example correction="personnes">Une centaine de <marker>personne</marker> est venue.</example>
-        <example>Une centaine de personnes est venue.</example>
-        <example>Il faut beaucoup de sucre.</example>
-        <example>Le nombre de masse est un terme employé en chimie.</example>
-        <example>Ils sont au nombre de neuf.</example>
-      </rule>
-      <rule>
-        <antipattern>
-          <token>nombre</token>
-          <token inflected="yes">de</token>
-          <token regexp="yes">onde|or|oxydation</token>
-        </antipattern>
-        <pattern>
-          <token regexp="yes">dizaines?|douzaines?|centaines?|milliers?|millions?|nombre|multitude|infinité|série</token>
-          <token inflected="yes">de</token>
-          <marker><token postag="(N|J|V ppa) . s" postag_regexp="yes"><exception postag="[NJ] . s?p|V ppa . s?p" postag_regexp="yes"/></token></marker>
-        </pattern>
-        <message>Le mot « \3 » devrait être au pluriel.</message>
-        <suggestion><match no="3" postag="(N|J|V ppa) (.) s" postag_regexp="yes" postag_replace="$1 $2 p"/></suggestion>
         <example correction="anarchistes">Une centaine d’<marker>anarchiste</marker> est venue.</example>
         <example>Une centaine d’anarchistes est venue.</example>
         <example>Il faut beaucoup d’eau.</example>
         <example>Le nombre d’oxydation.</example>
         <example>Le nombre d’onde.</example>
-      </rule>
-    </rulegroup>
+        <example>Une centaine de personnes est venue.</example>
+        <example>Il faut beaucoup de sucre.</example>
+        <example>Le nombre de masse est un terme employé en chimie.</example>
+        <example>Ils sont au nombre de neuf.</example>
+    </rule>
     <rulegroup id="ACCORD_COULEUR" name="accord couleur">
       <rule>
         <pattern>
@@ -10849,7 +10860,7 @@ though, and has since been slightly modified)-->
           </token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
-              <exception postag="N.*|V pp[ar].*" postag_regexp="yes"/>
+              <exception postag="[NJ].*|V pp[ar].*" postag_regexp="yes"/>
               <exception regexp="yes">soit|(?-i)\p{Lu}+</exception>
               <exception regexp="yes">animes?</exception>
             </token>
@@ -10878,13 +10889,14 @@ though, and has since been slightly modified)-->
         <example>Tous sauf un acceptèrent le plan.</example>
         <example>Le ton est donné.</example>
         <example>J'ai pris un rendez-vous avec M. Kennedy.</example>
+        <example>était celui du célèbre entraîneur</example>
       </rule>
       <rule>
         <pattern>
           <token>au</token>
           <marker>
             <token postag="V.*" postag_regexp="yes">
-              <exception postag="N.*|V pp[ar].*" postag_regexp="yes"/>
+              <exception postag="[NJ].*|V pp[ar].*" postag_regexp="yes"/>
               <exception regexp="yes">revoir|sortir</exception>
               <exception regexp="yes">(?-i)\p{Lu}+</exception>
             </token>
@@ -12172,7 +12184,7 @@ though, and has since been slightly modified)-->
           <token postag="V avoir .*" postag_regexp="yes"><exception postag="N m p">avions</exception></token><marker>
             <token postag="V (inf|ind|sub|con|ppr).*" postag_regexp="yes"><exception postag="[RND] .*|V .*ppa m s" postag_regexp="yes"/><exception>hélas</exception></token></marker>
         </pattern>
-        <message>Après l’auxiliaire « \1 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
+        <message>Après l’auxiliaire « \2 », le verbe devrait être au participe passé. Quant à l'accord, celui-ci s'accorde avec le COD s'il est placé avant l'auxiliaire ; sinon il restera au masculin singulier.</message>
         <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m s"/></suggestion>
         <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa f s"/></suggestion>
         <suggestion><match no="3" postag="V.*" postag_regexp="yes" postag_replace="V ppa m p"/></suggestion>
@@ -12190,6 +12202,10 @@ though, and has since been slightly modified)-->
         <antipattern>
           <token regexp="yes">bisphénols?</token>
           <token regexp="yes">(?-i)A</token>
+        </antipattern>
+        <antipattern>
+          <token>semble</token>
+          <token>-t-il</token>
         </antipattern>
         <pattern>
           <token postag="V avoir .*" postag_regexp="yes"><exception postag="N m p">avions</exception></token><marker>
@@ -13274,7 +13290,7 @@ though, and has since been slightly modified)-->
         <example>Était-ce toi qui as laissé la porte ouverte ?</example>
         <example>Des copains plus vieux que toi qui fumaient.</example>
       </rule>
-      <rule>
+      <rule default="temp_off">
         <pattern>
           <token postag="SENT_START|M nonfin" postag_regexp="yes" skip="-1">
             <exception regexp="yes" scope="next">du?|des?|en</exception>
@@ -13304,6 +13320,7 @@ though, and has since been slightly modified)-->
         <example>Vous tous qui venez ici.</example>
         <example>Dis-moi qui sont tes amis.</example>
         <example>Savez-vous qui est l'ambassadeur ?</example>
+        <!-- TODO: Un système d'information géographique est un système d'informations qui permet de collecter, manipuler des renseignements de cartographie -->
       </rule>
       <rule>
         <pattern>
@@ -14211,7 +14228,7 @@ though, and has since been slightly modified)-->
       <example>s'exclama-t-il</example>
       <example>Le soldat de garde se mit au garde-à-vous.</example>
     </rule>
-    <rulegroup id="ACCORD_NOM_VERBE" name="Accord">
+    <rulegroup id="ACCORD_NOM_VERBE" name="Accord" default="temp_off">
       <antipattern>
         <token postag="V.*" postag_regexp="yes"/>
         <token postag="R pers suj.*" postag_regexp="yes" regexp="yes">-.*</token>
@@ -23126,6 +23143,10 @@ though, and has since been slightly modified)-->
       <example>Il est parti de cette entreprise.</example>
     </rule>
     <rule id="PARTIR_UNE_MODE" name="partir une mode">
+      <antipattern>
+        <token regexp="yes" inflected="yes">devenir|faire</token>
+        <token>partie</token>
+      </antipattern>
       <pattern>
         <token inflected="yes" skip="3">partir</token>
         <token regexp="yes">modes?</token>
@@ -29287,6 +29308,15 @@ though, and has since been slightly modified)-->
       </rule>
       <rule>
         <pattern>
+          <token>porte</token>
+          <token>-</token>
+          <token regexp="yes">feuilles?</token>
+        </pattern>
+        <message>Faute de typographie. Employez <suggestion>\1\3</suggestion>.</message>
+        <example correction="portefeuille">J'ai perdu mon <marker>porte-feuille</marker>.</example>
+      </rule>
+      <rule>
+        <pattern>
           <token>les</token>
           <marker>
             <token>trois-quarts</token>
@@ -29915,11 +29945,9 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="INTER-CLUB" name="inter-club">
       <pattern>
-        <token>inter</token>
-        <token>-</token>
-        <token regexp="yes">clubs?</token>
+        <token regexp="yes">inter-clubs?</token>
       </pattern>
-      <message>« Inter-club » est une faute de typographie. Employez <suggestion>inter\3</suggestion>.</message>
+      <message>« Inter-club » est une faute de typographie. Employez <suggestion><match no="1" regexp_match="-" regexp_replace=""/></suggestion>.</message>
       <example correction="interclub"><marker>inter-club</marker></example>
     </rule>
     <rulegroup id="XXieme" name="XXième">
@@ -32129,7 +32157,7 @@ though, and has since been slightly modified)-->
       <message>« Mon dieu » est une expression fautive. Employez <suggestion>mon Dieu</suggestion>.</message>
       <example correction="Mon Dieu"><marker>Mon dieu</marker> !</example>
     </rule>
-    <rule id="DIEU" name="dieu">
+    <rule id="DIEU" name="dieu" default="temp_off"> <!-- TODO: too many false alarms -->
       <pattern case_sensitive="yes">
         <token>dieu<exception postag="D.*" postag_regexp="yes" scope="previous"/></token>
       </pattern>
@@ -32507,12 +32535,10 @@ though, and has since been slightly modified)-->
           <token>vers</token>
           <token>le</token>
           <marker>
-            <token regexp="yes">(?-i)(Nord|Sud)</token>
-            <token>-</token>
-            <token regexp="yes">Ouest|Est</token>
+            <token regexp="yes">(nord|sud)-(ouest|est)<exception case_sensitive="yes" regexp="yes">(nord|sud)-(ouest|est)</exception></token>
           </marker>
         </pattern>
-        <message>Les points cardinaux s’écrivent avec une minuscule quand ils expriment une direction. Employez <suggestion><match no="3" case_conversion="alllower"/>-<match no="5" case_conversion="alllower"/></suggestion>.</message>
+        <message>Les points cardinaux s’écrivent avec une minuscule quand ils expriment une direction. Employez <suggestion><match no="3" case_conversion="alllower"/></suggestion>.</message>
         <example correction="nord-est">Je me dirige vers le <marker>Nord-Est</marker>.</example>
       </rule>
       <rule>

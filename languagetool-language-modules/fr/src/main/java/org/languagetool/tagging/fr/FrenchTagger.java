@@ -46,7 +46,8 @@ public class FrenchTagger extends BaseTagger {
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto-|re-)(.*[aeiouêàéèíòóïü].+[aeiouêàéèíòóïü].*)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   private static final Pattern NOUN_ADJ = Pattern.compile("[NJ] .+|V ppa.*");
-  private static final Pattern PREFIXES_NOUN_ADJ = Pattern.compile("(micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-)(.+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  private static final Pattern PREFIXES_NOUN_ADJ = Pattern.compile("(nord-|sud-|néo-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-)(.+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
+  //|nord-|sud-
   
   public FrenchTagger() {
     super("/fr/french.dict", Locale.FRENCH, false);
@@ -99,8 +100,8 @@ public class FrenchTagger extends BaseTagger {
         addTokens(firstupperTaggerTokens, l);
       }
 
-      // additional tagging with prefixes
-      if (l.isEmpty() && !isMixedCase) {
+      // additional tagging with prefixes   removed: && !isMixedCase
+      if (l.isEmpty()) {
         addTokens(additionalTags(word), l);
       }
 
@@ -163,12 +164,14 @@ public class FrenchTagger extends BaseTagger {
           }
         }
       }
-      return additionalTaggedTokens;
+      if (!additionalTaggedTokens.isEmpty()) {
+        return additionalTaggedTokens;
+      }
     }
     matcher = PREFIXES_NOUN_ADJ.matcher(word);
     if (matcher.matches()) {
-      final String possibleVerb = matcher.group(2).toLowerCase();
-      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(possibleVerb));
+      String possibleNoun = matcher.group(2).toLowerCase();
+      List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(possibleNoun));
       for (AnalyzedToken taggerToken : taggerTokens ) {
         final String posTag = taggerToken.getPOSTag();
         if (posTag != null) {
@@ -179,10 +182,22 @@ public class FrenchTagger extends BaseTagger {
           }
         }
       }
+      // with lower case
+      if (additionalTaggedTokens.isEmpty()) {
+        taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(possibleNoun.toLowerCase()));
+        for (AnalyzedToken taggerToken : taggerTokens ) {
+          final String posTag = taggerToken.getPOSTag();
+          if (posTag != null) {
+            final Matcher m = NOUN_ADJ.matcher(posTag);
+            if (m.matches()) {
+              String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
+              additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
+            }
+          }
+        } 
+      }
       return additionalTaggedTokens;
     }
-
-    
     return null;
   }
   

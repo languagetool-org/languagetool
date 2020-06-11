@@ -58,6 +58,9 @@ public class FrenchTaggerTest {
     TestTools.myAssert("micro-plastiques","micro-plastiques/[micro-plastique]J e p|micro-plastiques/[micro-plastique]N e p", tokenizer, tagger);
     TestTools.myAssert("sous-espace","sous-espace/[sous-espace]N m s", tokenizer, tagger);
     TestTools.myAssert("sous-corps","sous-corps/[sous-corps]N m sp", tokenizer, tagger);
+    TestTools.myAssert("auto-empoisonnement","auto-empoisonnement/[auto-empoisonnement]N m s", tokenizer, tagger);
+    TestTools.myAssert("auto-équilibrage","auto-équilibrage/[auto-équilibrage]N m s", tokenizer, tagger);
+    TestTools.myAssert("Grand-Chambre","Grand-Chambre/[grand-chambre]N f s", tokenizer, tagger);
     
     TestTools.myAssert("d’aujourd’hui","d'/[de]D e s|d'/[de]P -- aujourd'hui/[aujourd'hui]A", tokenizer, tagger);
     TestTools.myAssert("d'aujourd’hui","d'/[de]D e s|d'/[de]P -- aujourd'hui/[aujourd'hui]A", tokenizer, tagger);

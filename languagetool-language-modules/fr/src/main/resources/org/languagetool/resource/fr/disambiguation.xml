@@ -915,7 +915,13 @@ RB => Règles Brutes
       <disambig postag="A"/>
     </rule>
   </rulegroup>
-  
+  <rule id="FAIRE_PARTIE" name="faire partie">
+    <pattern>
+      <token postag="V.*" postag_regexp="yes" inflected="yes">faire</token>
+      <token postag="N f s">partie</token>
+    </pattern>
+    <disambig action="filterall"></disambig>
+  </rule>
   <rule name="en pensant" id="EN_PENSANT">
     <pattern>
       <marker>
