@@ -36,8 +36,8 @@ public class ArabicSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   public ArabicSimpleReplaceRule(ResourceBundle messages, Language language) {
     super(messages, language);
     super.setCategory(Categories.CONFUSED_WORDS.getCategory(messages));
-    addExamplePair(Example.wrong("<marker>إنشاء</marker>"),
-                   Example.fixed("<marker>إن شاء</marker>"));
+    addExamplePair(Example.wrong("<marker>الى</marker>"),
+      Example.fixed("<marker>إلى</marker>"));
   }
 
   @Override
@@ -52,7 +52,7 @@ public class ArabicSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "A rule that matches words which should not be used and suggests correct ones instead";
+    return "قاعدة تطابق الكلمات التي يجب تجنبها وتقترح تصويبا لها";
   }
 
   @Override

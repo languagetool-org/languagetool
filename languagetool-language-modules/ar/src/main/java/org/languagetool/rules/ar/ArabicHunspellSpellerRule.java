@@ -20,13 +20,11 @@
 package org.languagetool.rules.ar;
 
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.Language;
 import org.languagetool.UserConfig;
 import org.languagetool.language.Arabic;
 import org.languagetool.rules.spelling.hunspell.HunspellRule;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
 
@@ -49,10 +47,6 @@ public final class ArabicHunspellSpellerRule extends HunspellRule {
 
   public ArabicHunspellSpellerRule(ResourceBundle messages) {
     this(messages, null);
-  }
-
-  public ArabicHunspellSpellerRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages) {
-    super(messages, language, userConfig, altLanguages);
   }
 
   @Override
