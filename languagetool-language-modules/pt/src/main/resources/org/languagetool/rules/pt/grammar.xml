@@ -2595,6 +2595,15 @@ title="Easy editing stylesheet" ?>
 		<token regexp="yes" case_sensitive="yes">&toponimos_sem_artigo;</token>	
       </antipattern>	  
 <!-- MARCOAGPINTO 2020-06-10 *END* --> 
+<!-- MARCOAGPINTO 2020-06-11 *START* -->
+<!-- "O estudo foi realizado pela Espanha." -->
+      <antipattern>
+        <token regexp='no'>pela</token>
+		<token regexp="yes" case_sensitive="yes">&toponimos_sem_artigo;
+			<exception postag_regexp='yes' postag='NPMSG00|NPMS000'></exception>
+		</token>	
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-06-11 *END* -->
       <pattern>
         <or>
           <token postag="DA.+" postag_regexp="yes">
