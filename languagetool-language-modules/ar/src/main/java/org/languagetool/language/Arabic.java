@@ -38,7 +38,9 @@ import org.languagetool.tokenizers.Tokenizer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Support for Arabic.
@@ -109,9 +111,7 @@ public class Arabic extends Language implements AutoCloseable {
   public Contributor[] getMaintainers() {
     return new Contributor[]{
       new Contributor("Taha Zerrouki"),
-      new Contributor("Sohaib Afifi"),
-      new Contributor("Imen Kali"),
-      new Contributor("Karima Tchoketch"),
+      new Contributor("Sohaib Afifi")
     };
   }
 

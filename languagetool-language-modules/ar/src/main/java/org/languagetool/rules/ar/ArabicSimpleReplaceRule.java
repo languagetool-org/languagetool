@@ -19,7 +19,7 @@
  */
 package org.languagetool.rules.ar;
 
-import org.languagetool.Language;
+import org.languagetool.language.Arabic;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
@@ -28,13 +28,13 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class ArabicSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
-  
+
   public static final String RULE_ID = "AR_SIMPLE_REPLACE";
-  
+
   private static final String RESOURCE_FILENAME = "ar/replaces.txt";
 
-  public ArabicSimpleReplaceRule(ResourceBundle messages, Language language) {
-    super(messages, language);
+  public ArabicSimpleReplaceRule(ResourceBundle messages) {
+    super(messages, new Arabic());
     super.setCategory(Categories.CONFUSED_WORDS.getCategory(messages));
     addExamplePair(Example.wrong("<marker>الى</marker>"),
       Example.fixed("<marker>إلى</marker>"));
@@ -57,8 +57,7 @@ public class ArabicSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getShort() {
-    // TODO : change to messages.getString
-    return "\u062e\u0637\u0623 \u0625\u0645\u0644\u0627\u0626\u064a";
+    return "خطأ، يفضل أن  يقال:";
   }
 
   @Override

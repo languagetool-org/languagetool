@@ -18,6 +18,9 @@
  */
 package org.languagetool.synthesis.ar;
 
+import morfologik.stemming.IStemmer;
+import morfologik.stemming.WordData;
+import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 import org.languagetool.tagging.ar.ArabicTagManager;

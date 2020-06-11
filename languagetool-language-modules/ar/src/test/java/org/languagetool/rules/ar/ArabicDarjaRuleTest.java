@@ -23,10 +23,8 @@ package org.languagetool.rules.ar;
 import org.junit.Before;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
-import org.languagetool.language.Arabic;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
