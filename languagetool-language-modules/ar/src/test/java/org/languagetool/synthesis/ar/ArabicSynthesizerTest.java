@@ -40,15 +40,15 @@ public class ArabicSynthesizerTest {
       "[بلادت, بلادتي, بلاد, بلادي]");   // assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H\\+RP", true)),
 
     // an example with specific postag with regex flag enabled
-    assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَعْمَلَ"), "V-1;M3Y-pa-;--H")),
+    assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَعْمَلَ"), "V61;M3Y-pa-;--H")),
       "[استعملتمو]");
 
     // an example with specific postag without regex flag
-    assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَكْمَلَ"), "V-1;M3Y-pa-;---")),
+    assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَكْمَلَ"), "V61;M3Y-pa-;---")),
       "[استكملتم]");
 
     // an example with specific postag without regex flag + code flag
-    assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَمَعَ"), "V-1;M3Y-pa-;---")),
+    assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَمَعَ"), "V51;M3Y-pa-;---")),
       "[استمعتم]");
 
   }
