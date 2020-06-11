@@ -759,6 +759,10 @@ public class AgreementRule extends Rule {
       new PatternTokenBuilder().token("sein").matchInflectedForms().build(),
       csToken("das"),
       posRegex("SUB:NOM:.*")
+    ),
+    Arrays.asList(
+      csToken("FC"), // Die FC Bayern München Hymne (Vorschlag macht keinen Sinn "FC-Bayern")
+      csToken("Bayern")
     )
   );
 
