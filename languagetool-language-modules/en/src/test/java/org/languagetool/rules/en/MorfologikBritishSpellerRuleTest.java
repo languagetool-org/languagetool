@@ -82,6 +82,10 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("123454")).length);
     // Greek letters
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("μ")).length);
+    // With multiwords
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ménage à trois")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("ménage à trois")).length);
+    assertEquals(0, rule.match(langTool.getAnalyzedSentence("The quid pro quo")).length);
 
     //incorrect sentences:
 
