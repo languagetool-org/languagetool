@@ -41,6 +41,8 @@ import java.util.regex.Pattern;
  *       to match any verb in English.</li>
  *   <li>{@code negate_postag}: if value is yes, then the regexp is negated (not negated if not specified).</li>
  *   <li>{@code two_groups_regexp}: if value is yes, then the regexp must contain 2 groups (if not specified - 1 groups).</li>
+ *   <li>{@code prefix}: a string with prefix that is added to token (since 5.0).</li>
+ *   <li>{@code suffix}: a string with suffix that is added to token (since 5.0).</li>
  * </ul>
  * @since 2.8
  */
@@ -59,7 +61,21 @@ public abstract class PartialPosTagFilter extends RuleFilter {
     String requiredTagRegexp = args.get("postag_regexp");
     boolean negatePos = args.containsKey("negate_pos");
     boolean two_groups_regexp = args.containsKey("two_groups_regexp");
-    String token = patternTokens[tokenPos - 1].getToken();
+
+      String prefix = "";
+      String suffix = "";
+
+      if (args.containsKey("prefix")) {
+          prefix = args.get("prefix");
+      };
+
+      if (args.containsKey("suffix")) {
+          suffix = args.get("suffix");
+      };
+
+     
+    String token = prefix + patternTokens[tokenPos - 1].getToken() + suffix;
+    
     Matcher matcher = pattern.matcher(token);
     if ((matcher.groupCount() != 1) && !(two_groups_regexp)) {
       throw new RuntimeException("Got " + matcher.groupCount() + " groups for regex '" + pattern.pattern() + "', expected 1");
