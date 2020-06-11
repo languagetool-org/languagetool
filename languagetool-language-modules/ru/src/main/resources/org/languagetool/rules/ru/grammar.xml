@@ -436,6 +436,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>И двери открыть вручную.</example>
             </rule>                 
         </rulegroup>
+        <rule  id="v_ruchnuju2" name="Логические ошибки «в ручную/вручную» 2" default="temp_off">
+            <pattern>
+                <token>вручную<exception postag="VB:.*|PT.*" postag_regexp="yes" scope="previous"></exception></token>
+                <token postag="N(N|NN|NF):.*:.*:V|PNN:.*" postag_regexp="yes"></token>
+            </pattern>
+            <message>Имелось в виду: <suggestion>в ручную <match no="2"/></suggestion>?</message>
+            <short>Логическая ошибка</short>
+            <example correction="В ручную кладь">
+                <marker>Вручную кладь</marker> можно сдать сумку.</example>
+            <example>В ручную кладь можно сдать сумку.</example>
+            <example>И двери открыть вручную.</example>
+        </rule>
         <rulegroup id="INFORMATIVNIJ_INFORMACIONNIJ" name="Логические ошибки «информативный/информационный»">
             <rule>
                 <pattern>
@@ -7430,7 +7442,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="неплохо, но">Работа выполнена <marker>не плохо, но</marker> медленно.</example>
         </rule>
         </rulegroup>            
-        <rule  id="Ne_narech2" name="«Не» с наречиями 2" default="temp_off">
+        <rule  id="Ne_narech2" name="«Не» с наречиями 2" default="off">
             <!-- TODO set on after release default="temp_off"-->
             <!-- слитное написание частицы не:
                отсутствует противопоставление, отсутствуют слова  «отнюдь, вовсе, далеко», отсутствует местоимение или наречие с «ни»
@@ -7535,7 +7547,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token><exception  postag="PREP" /><exception  postag="NN:.*:.*:.*:(T|D)|ADV" postag_regexp="yes" /><exception regexp="yes">[А-ЯЁ]</exception></token>                
                 </pattern>
-        <!--    <filter class="org.languagetool.rules.ru.RussianPrefixSuffixPosTagFilter" 
+        <!--    <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
                 args="no:2 regexp:(.*) postag_regexp:(ADJ:Short:.*) prefix:не suffix:  "/>   -->  <!--   Test if word with "не" exist! -->
                 <message>Пишется слитно: <suggestion>\1\2</suggestion>.</message>
                 <short>Слитно с «не»</short>
