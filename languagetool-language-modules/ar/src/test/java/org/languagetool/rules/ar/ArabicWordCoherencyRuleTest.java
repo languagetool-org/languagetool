@@ -40,7 +40,7 @@ public class ArabicWordCoherencyRuleTest {
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
 
   @Before
-  public void before() throws IOException {
+  public void before() {
     TestTools.disableAllRulesExcept(lt, "AR_WORD_COHERENCY");
   }
 

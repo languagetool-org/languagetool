@@ -28,12 +28,13 @@ import org.languagetool.TestTools;
 import org.languagetool.rules.RuleMatch;
 
 import java.io.IOException;
+
 import static org.junit.Assert.assertEquals;
 
 public class ArabicSimpleReplaceRuleTest {
 
   private ArabicSimpleReplaceRule rule;
-  private JLanguageTool langTool;
+  private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
 
   @Before
   public void setUp() {
