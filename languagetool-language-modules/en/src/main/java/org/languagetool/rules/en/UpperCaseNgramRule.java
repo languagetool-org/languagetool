@@ -71,7 +71,7 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("[A-Z].+"),
       token(","),
       tokenRegex("[A-Z].+"),
-      tokenRegex("[Aa]nd|[Oo]r|&"),
+      tokenRegex("[Aa]nd|[Oo]r|&|,"),
       tokenRegex("[A-Z].+")
     ),
     Arrays.asList(
@@ -299,6 +299,16 @@ public class UpperCaseNgramRule extends Rule {
     Arrays.asList(
       token("Time"),
       token("magazine")
+    ),
+    Arrays.asList( // My name is Gentle.
+      token("name"),
+      token("is"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // They called it Greet.
+      tokenRegex("call|calls|called"),
+      token("it"),
+      tokenRegex("[A-Z].+")
     ),
     Arrays.asList(
       tokenRegex("Teams|Maps|Canvas|Remind|Switch") // Microsoft Teams, Google Maps, Remind App, Nintendo Switch (not tagged as NNP)

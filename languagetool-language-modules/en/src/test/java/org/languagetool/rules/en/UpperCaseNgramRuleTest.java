@@ -72,6 +72,8 @@ public class UpperCaseNgramRuleTest {
     assertGood("09/06 - Spoken to the business manager.");
     assertGood("12.3 Game.");
     assertGood("Let's talk to the Onboarding team.");
+    assertGood("My name is Gentle.");
+    assertGood("They called it Greet.");
     // TODO:
     //assertGood("Best Regards.");
     //assertGood("USB Port.");
