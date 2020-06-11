@@ -36800,6 +36800,10 @@ Andere Projekte</example>
                     <token regexp="yes">hat(te)?</token>
                     <token>das</token>
                 </antipattern>
+                <antipattern>
+                    <token>Theater</token>
+                    <token>AG</token>
+                </antipattern>
                 <pattern>
                     <token negate="yes">,</token>
                     <marker>
@@ -36808,7 +36812,7 @@ Andere Projekte</example>
                             <exception postag="ADJ:.*:DEF" postag_regexp="yes"/>
                             <exception postag="ADJ:PRD.*" postag_regexp="yes"/>
                             <exception postag="ADV.*|ZUS.*" postag_regexp="yes"/>
-                            <exception regexp="yes">anderer|weniger|gerade|heutiger|weiter(er)?|teilweise</exception>
+                            <exception regexp="yes">anderer|weniger|gerade|heutiger|weiter(er?)?|teilweise</exception>
                         </token>
                     </marker>
                     <token/>
@@ -36832,6 +36836,7 @@ Andere Projekte</example>
                 <example>Durch die rege Bautätigkeit hat der Bausektor eine wichtige Rolle erlangt.</example>
                 <example>In diesem Fall hatte das fatale Konsequenzen.</example>
                 <example>Das ist der weniger schöne Teil der Strecke.</example>
+                <example>Die ehemalige Theater AG</example><!-- different error found by DE_COMPOUNDS -->
             </rule>
         </rulegroup>
         <rulegroup id="ADJ_PRAEDIKATIV" name="Starke, schwache oder gemischte Adjektiv-Flexion statt prädikativer, z.B. 'sich normale (normal) entwickeln'">
