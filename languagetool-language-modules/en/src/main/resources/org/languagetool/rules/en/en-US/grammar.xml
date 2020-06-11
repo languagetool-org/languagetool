@@ -33,7 +33,7 @@ USA
         <!ENTITY abbrevMonths "Jan|Feb|Mar|Apr|Jun|Jul|Aug|Sep|Sept|Oct|Nov|Dec">
 
     <!ENTITY hyphen "(?:[-‑])">
-
+    <!ENTITY subordinating_conjunctions "after|although|as|because|before|if|lest|like|once|since|than|that|though|unless|until|whenever|where|whereas|wherever|whether|while|why"><!-- #2988 -->
     <!ENTITY ambiguous_date '
         <token regexp="yes">0?[1-9]|1[0-2]</token>
         <token>/</token>
@@ -111,6 +111,7 @@ USA
             <message>The word <suggestion>home<match no="2" case_conversion="alllower" /></suggestion> is normally spelled as one word.</message>
             <example correction="hometown">He came to visit her <marker>home town</marker>.</example>
         </rule>
+
           <rule id="ANY_MORE" name="any more (anymore)">
               <antipattern><!-- any more likely than -->
                  <token>more</token>
@@ -122,6 +123,18 @@ USA
                  <token chunk="I-NP-plural">more</token>
                  <token min="0" max="4" chunk="I-NP-plural"/>
                  <token postag="NNS"/>
+              </antipattern>
+              <antipattern><!-- #3057 have any more unless -->
+                 <token postag_regexp="yes" postag="VB.*"/>
+                 <token>any</token>
+                 <token>more</token>
+                 <token regexp="yes">&subordinating_conjunctions;</token>
+              </antipattern>
+              <antipattern><!-- #3057 want any more because -->
+                 <token postag_regexp="yes" postag="VB.*"/>
+                 <token>any</token>
+                 <token>more</token>
+                 <token postag="CC"/>
               </antipattern>
               <pattern>
                   <marker>
@@ -145,6 +158,9 @@ USA
               <example>But I don't think it's any more likely than a farmer harvesting guano...</example><!-- #2717 -->
               <example>Do it so that there aren't any more random lag spikes.</example><!-- #2985 -->
               <example>There aren't any more random spikes.</example><!-- #2985 -->
+              <example>We probably should tell him that we don't have any more unless New Albany is enough.</example><!-- #3057 -->
+              <example>Tell her that we don't really want any more because we have sufficient.</example><!-- #3057 -->
+              <example>If we had bought any more while prices were high, we would have lose money.</example><!-- #3057 -->
           </rule>
 
     </category>
