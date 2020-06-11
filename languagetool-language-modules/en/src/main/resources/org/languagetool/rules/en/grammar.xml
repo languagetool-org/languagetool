@@ -33087,6 +33087,11 @@ USA
                     <token regexp="yes">that|which</token>
                     <token postag="PRP"/>
                 </antipattern>
+                <antipattern><!-- did so minutes -->
+                    <token regexp="yes">do(es)?|did</token>
+                    <token>so</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
                 <pattern>
                     <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|than|wh(?:om?|ich)|a|the|neither|nor</exception></token>
                     <token skip="1" regexp="yes" postag="MD|VBD" postag_regexp="yes">did|will|could|can|should|would|does|ll|shall|cannot|might|may</token>
@@ -33134,6 +33139,7 @@ USA
                 <example>This will costs €30.</example><!-- Premium #999. Treat as NN + VBZ, not as an error. -->
                 <example>The ability to model and modify systems at will affords science an ethical method of...</example><!-- Premium #999. -->
                 <example>I just did courses that we discussed.</example><!-- #2458 -->
+                <example>I had great trouble getting to sleep last night and probably only did so minutes before the quake.</example><!-- regression 2020-06-11 -->
                 <example type="triggers_error">John Smith did rewrites.</example><!-- 'rewrite' is transitive (www.ldoceonline.com/dictionary/rewrite). Thus, this sentence must be the correct interpretation (did + NNS). -->
                 <example type="triggers_error">John Smith did rewrites for the editorial department.</example>
                 <example type="triggers_error">Would logs help?</example>
@@ -42456,6 +42462,11 @@ USA
                     <token>so</token>
                     <token postag="VBG"/>
                 </antipattern>
+                <antipattern><!-- did so minutes -->
+                    <token regexp="yes">do(es)?|did</token>
+                    <token>so</token>
+                    <token chunk="E-NP-plural" postag="NNS"/>
+                </antipattern>
                 <pattern>
                     <token postag_regexp="yes" postag="VB.*" regexp="yes">do(es)?|did</token>
                     <token min="0" max="2" postag="RB">
@@ -42560,6 +42571,7 @@ USA
                 <example>I’ll probably be back for more questions if the other 3 way switches don’t look quite the same as the one I just did looked.</example><!-- The final 'looked' is redundant. Compare: "I'll be back if the other switches don't work the same as the switch I just tested." But the sentence is correct in the context of this rule. -->
                 <example>You could do so using the Nexmo API.</example><!-- 2458 -->
                 <example>It has the same problems any RGBW controller does handling an RGBW bulb profile.</example>
+                <example>I had great trouble getting to sleep last night and probably only did so minutes before the quake.</example><!-- regression 2020-06-11 -->
                 <example type="triggers_error">It suffers the same issue any rgbw controller does using a rgbw bulb profile.</example><!-- The correct adjective capitalization is 'RGBW' -->
                 <example type="triggers_error">Inovelli makes one similar to the Zooz but for the same price also does <marker>dimming</marker>.</example><!-- Unlike 'lighting', dimming is not NN:U in standard English. -->
                 <example type="triggers_error">Vista has a smartphone app controlled transformer/controller that does dimming and on/off but only over Bluetooth.</example>
