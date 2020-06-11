@@ -1176,6 +1176,70 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="tocaría">Le <marker>tocaria</marker> la moral.</example>
             <example>La secundaria es la ESO.</example>
         </rule>
+        <rulegroup id="RELATIVOS_SIN_TILDE" name="relativos sin tilde (quien, donde...)" default="temp_off">
+            <url>https://www.fundeu.es/recomendacion/alguien-a-quien-preguntar-sin-tilde-en-quien/</url>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">alguien|nadie|nada|modo|manera|lugar|sitio</token>
+                    <token postag="SPS00"/>
+                    <marker>
+                        <token>quién</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe sin tilde, porque es una construcción de relativo.</message>
+                <suggestion>quien</suggestion>
+                <example correction="quien">No tengo a nadie en <marker>quién</marker> confiar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">alguien|nadie|nada|modo|manera|lugar|sitio</token>
+                    <token postag="SPS00" min="0"/>
+                    <marker>
+                        <token>qué</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe sin tilde, porque es una construcción de relativo.</message>
+                <suggestion>que</suggestion>
+                <example correction="que">No tengo nada <marker>qué</marker> hacer.</example>
+                <example correction="que">No tengo nada en <marker>qué</marker> agarrarme.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">alguien|nadie|nada|modo|manera|lugar|sitio</token>
+                    <token postag="SPS00" min="0"/>
+                    <marker>
+                        <token>dónde</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe sin tilde, porque es una construcción de relativo.</message>
+                <suggestion>donde</suggestion>
+                <example correction="donde">No hay lugar por <marker>dónde</marker> comenzar.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">fecha|&unidades_tiempo;|alguien|nadie|nada|modo|manera|lugar|sitio</token>
+                    <token postag="SPS00" min="0"/>
+                    <marker>
+                        <token>cuándo</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe sin tilde, porque es una construcción de relativo.</message>
+                <suggestion>cuando</suggestion>
+                <example correction="cuando">Depende de la fecha <marker>cuándo</marker> empiece.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes" inflected="yes">fecha|&unidades_tiempo;|alguien|nadie|nada|modo|manera|lugar|sitio</token>
+                    <token postag="SPS00" min="0"/>
+                    <marker>
+                        <token>cómo</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe sin tilde, porque es una construcción de relativo.</message>
+                <suggestion>como</suggestion>
+                <example correction="como">Depende del modo <marker>cómo</marker> se haga.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="QUE" name="que/qué">
             <url>https://www.rae.es/consultas/tilde-en-que-cuales-quienes-como-cuan-cuantoaosas-cuando-donde-y-adonde</url>
             <rule>
@@ -4333,7 +4397,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>
-                        <token>a<exception postag="_possible_NP"></exception></token>
+                        <token>a<exception postag="_possible_NP"/></token>
                     </marker>
                     <token postag="V.P00SM" postag_regexp="yes"><exception postag="_GN_.*|_possible_NP" postag_regexp="yes"/></token>
                 </pattern>
