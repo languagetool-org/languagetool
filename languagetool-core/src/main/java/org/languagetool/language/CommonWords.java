@@ -35,9 +35,9 @@ public class CommonWords {
   private final static Map<String, List<Language>> word2langs = Collections.synchronizedMap(new HashMap<>());
   private final static Pattern numberPattern = Pattern.compile("[0-9.,%-]+");
   
-  private final static Language eslang = Languages.getLanguageForShortCode("es");
+  private final static Language esLang = Languages.getLanguageForShortCode("es");
   // but -cion can be Esperanto; ía(n) can be Galician
-  private final static Pattern SpanishPattern = Pattern.compile("^[a-zñ]+(ón|cion|aban|ábamos|ábais|íamos|íais|[úí]a[sn]?|úe[ns]?)$");
+  private final static Pattern spanishPattern = Pattern.compile("^[a-zñ]+(ón|cion|aban|ábamos|ábais|íamos|íais|[úí]a[sn]?|úe[ns]?)$");
   private final static Pattern notSpanishPattern = Pattern.compile("^.*ns$|^.*(ss|[çàèòï]).*$");
 
   public CommonWords() throws IOException {
@@ -99,31 +99,31 @@ public class CommonWords {
 
   public Map<Language, Integer> getKnownWordsPerLanguage(String text) {
     Map<Language,Integer> result = new HashMap<>();
-    String auxtext = text.replaceAll("[(),.:;!?„“\"¡¿\\s\\[\\]{}-«»”]", " ");
-    if (!auxtext.endsWith(" ") && StringUtils.countMatches(auxtext, " ") > 0) {
+    String auxText = text.replaceAll("[(),.:;!?„“\"¡¿\\s\\[\\]{}-«»”]", " ");
+    if (!auxText.endsWith(" ") && StringUtils.countMatches(auxText, " ") > 0) {
       // last word might not be finished yet, so ignore
-      auxtext = auxtext.replaceFirst("\\p{L}+$", "");
+      auxText = auxText.replaceFirst("\\p{L}+$", "");
     }
     // Proper per-language tokenizing might help, but then the common_words.txt
     // will also need to be tokenized the same way. Also, this is quite fast.
-    String[] words = auxtext.split(" ");
+    String[] words = auxText.split(" ");
     for (String word : words) {
       if (numberPattern.matcher(word).matches()) {
         continue;
       }
-      String lcword = word.toLowerCase();
-      List<Language> languages = word2langs.get(lcword);
+      String lcWord = word.toLowerCase();
+      List<Language> languages = word2langs.get(lcWord);
       if (languages != null) {
         for (Language lang : languages) {
           result.put(lang, result.getOrDefault(lang, 0) + 1);
         }
       }
       //Spanish
-      if (( languages == null || !languages.contains(eslang)) && SpanishPattern.matcher(lcword).matches()) {
-        result.put(eslang, result.getOrDefault(eslang, 0) + 1);
+      if ((languages == null || !languages.contains(esLang)) && spanishPattern.matcher(lcWord).matches()) {
+        result.put(esLang, result.getOrDefault(esLang, 0) + 1);
       }
-      if (( languages == null || !languages.contains(eslang)) && notSpanishPattern.matcher(lcword).matches()) {
-        result.put(eslang, result.getOrDefault(eslang, 0) - 1);
+      if ((languages == null || !languages.contains(esLang)) && notSpanishPattern.matcher(lcWord).matches()) {
+        result.put(esLang, result.getOrDefault(esLang, 0) - 1);
       }
     }
     return result;
