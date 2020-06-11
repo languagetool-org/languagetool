@@ -41,7 +41,7 @@ public class ArabicRedundancyRuleTest {
   private ArabicRedundancyRule rule;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     rule = new ArabicRedundancyRule(TestTools.getMessages("ar"));
   }
 

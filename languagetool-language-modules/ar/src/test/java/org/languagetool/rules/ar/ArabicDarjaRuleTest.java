@@ -37,7 +37,7 @@ public class ArabicDarjaRuleTest {
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     rule = new ArabicDarjaRule(TestTools.getMessages("ar"));
   }
 

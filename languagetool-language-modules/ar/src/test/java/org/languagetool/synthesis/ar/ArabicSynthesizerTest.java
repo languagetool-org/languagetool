@@ -23,7 +23,6 @@ import org.junit.Test;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.language.Arabic;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;

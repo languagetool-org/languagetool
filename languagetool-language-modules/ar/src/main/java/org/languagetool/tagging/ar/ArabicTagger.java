@@ -243,8 +243,9 @@ public class ArabicTagger extends BaseTagger {
   private boolean isStopWord(List<AnalyzedToken> taggerTokens) {
     // if one token is stop word
     for (AnalyzedToken tok : taggerTokens) {
-      if (tagmanager.isStopWord(tok.getPOSTag()))
+      if (tok != null && tagmanager.isStopWord(tok.getPOSTag())) {
         return true;
+      }
     }
     return false;
   }

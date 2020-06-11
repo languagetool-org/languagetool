@@ -19,7 +19,9 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.*;
+import org.languagetool.Language;
+import org.languagetool.LanguageMaintainedState;
+import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
 import org.languagetool.rules.ar.*;
@@ -29,11 +31,16 @@ import org.languagetool.tagging.Tagger;
 import org.languagetool.tagging.ar.ArabicHybridDisambiguator;
 import org.languagetool.tagging.ar.ArabicTagger;
 import org.languagetool.tagging.disambiguation.Disambiguator;
-import org.languagetool.tokenizers.*;
+import org.languagetool.tokenizers.ArabicWordTokenizer;
+import org.languagetool.tokenizers.SRXSentenceTokenizer;
+import org.languagetool.tokenizers.SentenceTokenizer;
+import org.languagetool.tokenizers.Tokenizer;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * Support for Arabic.

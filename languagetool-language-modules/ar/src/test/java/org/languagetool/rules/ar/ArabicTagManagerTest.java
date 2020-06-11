@@ -21,13 +21,9 @@ package org.languagetool.rules.ar;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;				
-import org.languagetool.language.Arabic;
 import org.languagetool.tagging.ar.ArabicTagManager;
 
-
-import java.io.IOException;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Taha Zerrouki

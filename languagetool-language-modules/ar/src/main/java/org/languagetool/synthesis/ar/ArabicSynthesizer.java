@@ -50,8 +50,6 @@ public class ArabicSynthesizer extends BaseSynthesizer {
   private static final String RESOURCE_FILENAME = "/ar/arabic_synth.dict";
   private static final String TAGS_FILE_NAME = "/ar/arabic_tags.txt";
 
-  // A special tag to remove pronouns properly
-  private static final String REMOVE_PRONOUN = "(\\+RP)?";
   private final ArabicTagManager tagmanager = new ArabicTagManager();
 
   public ArabicSynthesizer(Language lang) {

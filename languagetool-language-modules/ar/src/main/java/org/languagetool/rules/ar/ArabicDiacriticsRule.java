@@ -25,7 +25,6 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 
-import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 

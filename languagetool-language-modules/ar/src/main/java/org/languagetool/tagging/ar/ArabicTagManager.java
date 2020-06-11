@@ -75,51 +75,58 @@ public class ArabicTagManager {
   /* Add the flag to an encoded tag */
   public String addTag(String postag, String flag) {
     StringBuilder tmp = new StringBuilder(postag);
-    if (flag.equals("W")) {
-      tmp.setCharAt(postag.length() - 3, 'W');
-    } else if (flag.equals("K")) {
-      if (postag.startsWith("N")) {
-        // the noun must be majrour
-        if (isMajrour(postag))
-          tmp.setCharAt(postag.length() - 2, 'K');
-          // a prefix K but non majrour
-        else return null;
+    switch (flag) {
+      case "W":
+        tmp.setCharAt(postag.length() - 3, 'W');
+        break;
+      case "K":
+        if (postag.startsWith("N")) {
+          // the noun must be majrour
+          if (isMajrour(postag))
+            tmp.setCharAt(postag.length() - 2, 'K');
+            // a prefix K but non majrour
+          else return null;
 
-      } else return null;
-    } else if (flag.equals("B")) {
-      if (postag.startsWith("N")) {
-        // the noun must be majrour
-        if (isMajrour(postag))
-          tmp.setCharAt(postag.length() - 2, 'B');
-          // a prefix B but non majrour
-        else return null;
+        } else return null;
+        break;
+      case "B":
+        if (postag.startsWith("N")) {
+          // the noun must be majrour
+          if (isMajrour(postag))
+            tmp.setCharAt(postag.length() - 2, 'B');
+            // a prefix B but non majrour
+          else return null;
 
-      } else return null;
-    } else if (flag.equals("L")) {
-      if (isNoun(postag)) {
-        // the noun must be majrour
-        if (isMajrour(postag))
+        } else return null;
+        break;
+      case "L":
+        if (isNoun(postag)) {
+          // the noun must be majrour
+          if (isMajrour(postag))
+            tmp.setCharAt(postag.length() - 2, 'L');
+            // a prefix Lam but non majrour
+          else return null;
+
+        } else {// verb case
           tmp.setCharAt(postag.length() - 2, 'L');
+        }
+        break;
+      case "D":
+        // the noun must be not attached
+        if (isUnAttachedNoun(postag))
+          tmp.setCharAt(postag.length() - 1, 'L');
           // a prefix Lam but non majrour
         else return null;
-
-      } else {// verb case
-        tmp.setCharAt(postag.length() - 2, 'L');
-      }
-    } else if (flag.equals("D")) {
-      // the noun must be not attached
-      if (isUnAttachedNoun(postag))
-        tmp.setCharAt(postag.length() - 1, 'L');
-        // a prefix Lam but non majrour
-      else return null;
-    } else if (flag.equals("S")) {
-      // َAdd S flag
-      // if postag contains a future tag, TODO with regex
-      if (isFutureTense(postag)) {
-        tmp.setCharAt(postag.length() - 2, 'S');
-      } else
-        // a prefix Seen but non verb or future
-        return null;
+        break;
+      case "S":
+        // َAdd S flag
+        // if postag contains a future tag, TODO with regex
+        if (isFutureTense(postag)) {
+          tmp.setCharAt(postag.length() - 2, 'S');
+        } else
+          // a prefix Seen but non verb or future
+          return null;
+        break;
     }
     return tmp.toString();
   }
