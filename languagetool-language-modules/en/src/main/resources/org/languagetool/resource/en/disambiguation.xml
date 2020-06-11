@@ -97,6 +97,9 @@
     </rulegroup>
 
     <rulegroup id="PRE_HYPHENATED_ADJECTIVES" name="hyphenated adjectives (pre-/post- + NOUN)"><!-- Premium #1454 -->
+        <antipattern><!-- Words that are known to be spelled without a hyphen. -->
+            <token regexp="yes">(pre|post)-(requisite)</token><!-- Only 'prerequisite' is in the standard dictionaries. -->
+        </antipattern>
 
         <rule><!-- disambiguation, singular noun phrase -->
             <pattern>
@@ -125,6 +128,7 @@
             <example type="untouched">If a <marker>Pre-capitalization</marker> feature is necessary...</example>
             <example type="untouched"><marker>Pre-capitalization</marker> feature is sometimes necessary.</example>
             <example type="untouched">This typography for the <marker>Pre-Computer</marker> term is not permitted.</example>
+            <example type="untouched">The correct typography for the <marker>pre-requisite</marker> adjective is 'prerequisite'.</example>
             <example type="ambiguous" inputform="pre-rabbit[pre-rabbit]" outputform="pre-rabbit[pre-rabbit/JJ]">The <marker>pre-rabbit</marker> test was a resounding success.</example>
             <example type="ambiguous" inputform="post-match[post-match]" outputform="post-match[post-match/JJ]">That <marker>post-match</marker> drink left us a little woozy.</example>
             <example type="ambiguous" inputform="pre-sulphurization[pre-sulphurization]" outputform="pre-sulphurization[pre-sulphurization/JJ]">This is a <marker>pre-sulphurization</marker> test for spelling.</example>
