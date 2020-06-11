@@ -25,9 +25,6 @@ import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
-import morfologik.stemming.DictionaryLookup;
-import morfologik.stemming.IStemmer;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;

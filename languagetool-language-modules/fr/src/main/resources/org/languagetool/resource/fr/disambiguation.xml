@@ -128,6 +128,17 @@ RB => Règles Brutes
     <disambig action="filterall"></disambig>
   </rule>
   
+  <rule id="PREFIXES" name="prefixes">
+    <pattern>
+      <marker>
+        <token regexp="yes">pré|nord|sud|néo|méga|ultra|pro|inter|micro|macro|sous|haut|auto|ré|pré|super|vice|hyper|proto|grand|pseudo</token>
+      </marker>
+      <token spacebefore="no">-</token>
+      <token spacebefore="no"/>
+    </pattern>
+    <disambig action="replace"><wd lemma="prefix" pos="A"/></disambig>
+  </rule>
+  
   <rule name="nom" id="NOM">
     <pattern>
       <token postag="SENT_START"/>
