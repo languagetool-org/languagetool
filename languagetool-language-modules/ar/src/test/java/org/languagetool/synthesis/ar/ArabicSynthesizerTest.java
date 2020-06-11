@@ -37,7 +37,7 @@ public class ArabicSynthesizerTest {
     assertEquals(Arrays.toString(synth.synthesize(dummyToken("خيار"), "NJ-;F2--;---")), "[خيارتان, خياريتان]");
 
     assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H")),
-      "[بلادت, بلادتي, بلاد, بلادي, بلاديت, بلاديتي, بلادي, بلاديي]");   // assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H\\+RP", true)),
+      "[بلادت, بلادتي, بلاد, بلادي]");   // assertEquals(Arrays.toString(synth.synthesize(dummyToken("بلاد"), "NJ-;F3A-;--H\\+RP", true)),
 
     // an example with specific postag with regex flag enabled
     assertEquals(Arrays.toString(synth.synthesize(dummyToken("اِسْتَعْمَلَ"), "V-1;M3Y-pa-;--H")),

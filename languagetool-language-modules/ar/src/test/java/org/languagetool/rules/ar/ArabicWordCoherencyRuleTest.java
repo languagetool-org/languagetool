@@ -48,7 +48,6 @@ public class ArabicWordCoherencyRuleTest {
   public void testRule() throws IOException {
     // errors:
     assertError("أنا أظن أن هذا ممكن لكنني أضن أنني كنت مخطئا");
-    assertError("أنا أحب الرياضيات وأنت تحب الرياضات");
   }
   
   private void assertError(String s) throws IOException {
