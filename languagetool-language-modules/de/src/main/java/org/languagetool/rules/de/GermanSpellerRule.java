@@ -83,6 +83,14 @@ public class GermanSpellerRule extends CompoundAwareHunspellRule {
     putRepl("wiederhall(e|st|t|en|te|ten)?", "wieder", "wider");
     putRepl("wiedersetz(e|t|en|te|ten)?", "wieder", "wider");
     putRepl("wiederstreb(e|st|t|en|te|ten)?", "wieder", "wider");
+    put("gesynct", "synchronisiert");
+    put("gesynced", "synchronisiert");
+    put("gesyncht", "synchronisiert");
+    put("gesyngt", "synchronisiert");
+    put("synce", "synchronisiere");
+    put("synche", "synchronisiere");
+    put("syncen", "synchronisieren");
+    put("synchen", "synchronisieren");
     put("wiederspiegelten", "widerspiegelten");
     put("wiedererwarten", "wider Erwarten");
     put("widerholen", "wiederholen");
