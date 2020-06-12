@@ -407,47 +407,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>          
         </rulegroup>
         <rulegroup id="v_ruchnuju" name="Логические ошибки «в ручную/вручную»">
-            <!--
             <rule> 
-                <pattern>
-                    <token>вручную</token>
-                    <token postag="N(N|NN|NF):.*:.*:V|PNN:.*" postag_regexp="yes"></token>
-                </pattern>
-                 
-                <message>Имелось в виду: <suggestion>в ручную \2</suggestion>?</message>
-                <short>Логическая ошибка</short>
-                <example correction="В ручную кладь"><marker>Вручную кладь</marker> можно сдать сумку.</example>
-                <example>В ручную кладь можно сдать сумку.</example>
-                <example>И двери открыть вручную.</example>
-            </rule> 
-            -->
-               <rule> 
                 <pattern>
                     <token postag="VB.*" postag_regexp="yes"></token>
                     <token>в</token>
                     <token>ручную</token>
                     <token>.</token>
-                </pattern>
-                 
+                </pattern>                 
                 <message>Имелось в виду: <suggestion>\1 \2\3\4</suggestion>?</message>
                 <short>Логическая ошибка</short>
                 <example correction="открыть вручную.">И двери <marker>открыть в ручную.</marker></example>
                 <example>В ручную кладь можно сдать сумку.</example>
                 <example>И двери открыть вручную.</example>
-            </rule>                 
+            </rule>                       
+            <rule>
+                <pattern>
+                    <token>вручную<exception postag="VB:.*|PT.*" postag_regexp="yes" scope="previous"></exception></token>
+                    <token postag="N(N|NN|NF):.*:.*:V|PNN:.*" postag_regexp="yes"></token>
+                </pattern>
+                <message>Имелось в виду: <suggestion>в ручную <match no="2"/></suggestion>?</message>
+                <short>Логическая ошибка</short>
+                <example correction="В ручную кладь">
+                    <marker>Вручную кладь</marker> можно сдать сумку.</example>
+                <example>В ручную кладь можно сдать сумку.</example>
+                <example>И двери открыть вручную.</example>
+            </rule>
         </rulegroup>
-        <rule  id="v_ruchnuju2" name="Логические ошибки «в ручную/вручную» 2" default="temp_off">
-            <pattern>
-                <token>вручную<exception postag="VB:.*|PT.*" postag_regexp="yes" scope="previous"></exception></token>
-                <token postag="N(N|NN|NF):.*:.*:V|PNN:.*" postag_regexp="yes"></token>
-            </pattern>
-            <message>Имелось в виду: <suggestion>в ручную <match no="2"/></suggestion>?</message>
-            <short>Логическая ошибка</short>
-            <example correction="В ручную кладь">
-                <marker>Вручную кладь</marker> можно сдать сумку.</example>
-            <example>В ручную кладь можно сдать сумку.</example>
-            <example>И двери открыть вручную.</example>
-        </rule>
         <rulegroup id="INFORMATIVNIJ_INFORMACIONNIJ" name="Логические ошибки «информативный/информационный»">
             <rule>
                 <pattern>
