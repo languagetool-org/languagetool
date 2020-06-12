@@ -1176,7 +1176,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="tocaría">Le <marker>tocaria</marker> la moral.</example>
             <example>La secundaria es la ESO.</example>
         </rule>
-        <rulegroup id="RELATIVOS_SIN_TILDE" name="relativos sin tilde (quien, donde...)" default="temp_off">
+        <rulegroup id="RELATIVOS_SIN_TILDE" name="relativos sin tilde (quien, donde...)">
             <url>https://www.fundeu.es/recomendacion/alguien-a-quien-preguntar-sin-tilde-en-quien/</url>
             <rule>
                 <pattern>
@@ -1186,50 +1186,65 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>quién</token>
                     </marker>
                 </pattern>
-                <message>Se escribe sin tilde, porque es una construcción de relativo.</message>
+                <message>Se escribe sin tilde porque es una construcción de relativo.</message>
                 <suggestion>quien</suggestion>
                 <example correction="quien">No tengo a nadie en <marker>quién</marker> confiar.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token skip="-1">qué</token>
+                    <token>?</token>
+                </antipattern>
                 <pattern>
+                    <token inflected="yes" regexp="yes" skip="2">tener|haber</token>
                     <token regexp="yes" inflected="yes">alguien|nadie|nada|modo|manera|lugar|sitio</token>
                     <token postag="SPS00" min="0"/>
                     <marker>
                         <token>qué</token>
                     </marker>
                 </pattern>
-                <message>Se escribe sin tilde, porque es una construcción de relativo.</message>
+                <message>Se escribe sin tilde porque es una construcción de relativo.</message>
                 <suggestion>que</suggestion>
                 <example correction="que">No tengo nada <marker>qué</marker> hacer.</example>
-                <example correction="que">No tengo nada en <marker>qué</marker> agarrarme.</example>
+                <example correction="que">No tengo nada de <marker>qué</marker> preocuparme.</example>
+                <example correction="que">No tienes nada por <marker>qué</marker> preocuparte.</example>
+                <example correction="que">No tengo nada con <marker>qué</marker> escribir.</example>
+                <example correction="que">No hay nada con <marker>qué</marker> escribir.</example>
+                <example>Nadie le preguntó a nadie a qué partido votaba.</example>
+                <example>No cuenta para nada de qué colegio egresó una persona.</example>
+                <example>¿Puede explicarme alguien por qué siempre pasa esto?</example>
+                <example>No le dije a nadie a qué hora llegaría.</example>
+                <example>¿Nada de qué?</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">alguien|nadie|nada|modo|manera|lugar|sitio</token>
+                    <token regexp="yes" inflected="yes">lugar|sitio|plaza|calle|avenida|camino|carretera|casa|hotel|restaurante</token>
                     <token postag="SPS00" min="0"/>
                     <marker>
                         <token>dónde</token>
                     </marker>
                 </pattern>
-                <message>Se escribe sin tilde, porque es una construcción de relativo.</message>
+                <message>Se escribe sin tilde porque es una construcción de relativo.</message>
                 <suggestion>donde</suggestion>
                 <example correction="donde">No hay lugar por <marker>dónde</marker> comenzar.</example>
+                <example>Nunca le diré a nadie dónde he escondido el tesoro.</example>
+                <example>No quiero que encuentre nadie dónde enterramos el tesoro.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">fecha|&unidades_tiempo;|alguien|nadie|nada|modo|manera|lugar|sitio</token>
+                    <token regexp="yes" inflected="yes">fecha|&unidades_tiempo;</token>
                     <token postag="SPS00" min="0"/>
                     <marker>
                         <token>cuándo</token>
                     </marker>
                 </pattern>
-                <message>Se escribe sin tilde, porque es una construcción de relativo.</message>
+                <message>Se escribe sin tilde porque es una construcción de relativo.</message>
                 <suggestion>cuando</suggestion>
                 <example correction="cuando">Depende de la fecha <marker>cuándo</marker> empiece.</example>
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes" inflected="yes">fecha|&unidades_tiempo;|alguien|nadie|nada|modo|manera|lugar|sitio</token>
+                    <token regexp="yes" inflected="yes">modo|manera|método|sistema</token>
                     <token postag="SPS00" min="0"/>
                     <marker>
                         <token>cómo</token>
@@ -1666,7 +1681,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="continúa">Él lo <marker>continua</marker>.</example>
                 <example>La continua tensión.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token postag="CS|PR.*|PP.*" postag_regexp="yes"/>
                     <marker>
@@ -1679,8 +1694,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="continúa">Él <marker>continua</marker> la tradición.</example>
                 <example correction="continúa">La presión que <marker>continua</marker>.</example>
                 <example correction="continúas">Tú <marker>continuas</marker> la tradición.</example>
+                <example correction="continúas">Si <marker>continuas</marker> nevagando, aceptas las condiciones.</example>
                 <!--<example correction="perpetúa">La enseñanza <marker>perpetua</marker> las desigualdades.</example>-->
-                <example correction="continúa">otro periódico que <marker>continua</marker> esa misma nota.</example>
+                <example correction="continúa">Otro periódico que <marker>continua</marker> esa misma nota.</example>
                 <example>Recibieron prisión perpetua ocho acusados.</example>
                 <example>De forma continua la cosa va.</example>
                 <example>La continua tensión.</example>
@@ -6564,6 +6580,40 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>n.º</suggestion>
                 <suggestion>nro.</suggestion>
                 <example correction="núm.|n.º|nro.">Diario de la República <marker>num.</marker> 18.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="ABREVIATURA_TELEFONO" name="abreviatura de teléfono">
+            <antipattern>
+                <token regexp="yes">tel|teléf|tfno</token>
+                <token spacebefore="no">.</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">tel|teléf|tfno|telf|tlf</token>
+                    <token regexp="yes">[\.:]</token>
+                </pattern>
+                <message>Abreviatura de teléfono.</message>
+                <suggestion>tel.</suggestion>
+                <suggestion>teléf.</suggestion>
+                <suggestion>tfno.</suggestion>
+                <example correction="tel.|teléf.|tfno.">Llama al <marker>telf.</marker> 666666.</example>
+                <example correction="Tel.|Teléf.|Tfno."><marker>Tlf:</marker> 666666.</example>
+                <example>Llama al tel. 44444444.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">tel|teléf|tfno|telf|tlf</token>
+                    </marker>
+                    <token><exception regexp="yes">[\.:]</exception></token>
+                </pattern>
+                <message>Abreviatura de teléfono.</message>
+                <suggestion>tel.</suggestion>
+                <suggestion>teléf.</suggestion>
+                <suggestion>tfno.</suggestion>
+                <example correction="tel.|teléf.|tfno.">Llama al <marker>telf</marker> 666666.</example>
+                <example correction="Tel.|Teléf.|Tfno."><marker>Tlf</marker> 666666.</example>
+                <example>Llama al tfno. 44444444.</example>
             </rule>
         </rulegroup>
         <rule id="A_NIVEL_DE" name="a nivel de">
