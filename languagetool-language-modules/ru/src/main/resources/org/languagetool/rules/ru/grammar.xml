@@ -7557,7 +7557,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>не хорошо и не плохо</example>
                 <example correction="не хорошо и не плохо"><marker>нехорошо и неплохо</marker></example>
             </rule>
-        </rulegroup>         
+        </rulegroup>
+        <rulegroup default="on" id="Ne_komu_inomu_kak" name="Оборот «не кому иному, как»">
+            <rule>
+                <pattern case_sensitive="no">
+                    <marker>
+                        <token regexp="yes">некому|нечему|никому|ничему</token>
+                        <token regexp="yes">иному|другому</token>                                                
+                        <token min="0" max="1">,</token>
+                        <token>как</token>
+                    </marker>
+                </pattern>
+                <message>В данном контексте пишется раздельно: <suggestion><match no="1" regexp_match="([нН])([еи])(.*)" regexp_replace="$1е $3"></match> <match no="2" />, <match no="4" /></suggestion>.</message>
+                <url>https://www.anews.com/p/126679064-nikto-inoj-ili-ne-kto-inoj-kak-pravilno-pishetsya-i-v-chem-raznica/</url>
+                <short>Раздельно с «не»</short>
+                <example>не кому иному, как</example>
+                <example correction="не кому иному, как"><marker>некому иному, как</marker></example>
+                <example correction="Не кому иному, как"><marker>Никому иному как</marker></example>
+            </rule>
+        </rulegroup>                
                 
         <rulegroup default="on" id="Upr_ne_verb_i_ni" name="Управление глагола при отрицании: «и» вместо «ни»">
             <rule> 
