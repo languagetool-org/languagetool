@@ -94,6 +94,15 @@ USA
 <rules lang="en-GB" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category id="AMERICAN_ENGLISH" name="American English phrases" type="locale-violation">
+        <rule id="EGGPLANT" name="eggplant/aubergine" default="temp_off">
+            <pattern>
+                <token regexp="yes">eggplants?</token>
+            </pattern>
+            <message>This term is chiefly North American English. Consider a replacement.</message>
+            <suggestion><match no="1" regexp_match="(?i)eggplant" regexp_replace="aubergine" /></suggestion>
+            <url>https://www.lexico.com/en/definition/eggplant</url>
+            <example correction="aubergines">He loved to eat <marker>eggplants</marker> for breakfast.</example>
+        </rule>
         <rule id="ZIP_CODE_POSTCODE" name="zip code/postcode">
             <pattern>
                 <token>zip</token>

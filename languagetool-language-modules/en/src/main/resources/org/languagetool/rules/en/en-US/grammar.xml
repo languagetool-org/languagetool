@@ -221,6 +221,16 @@ USA
     </category>
 
     <category id="BRITISH_ENGLISH" name="British English phrases" type="locale-violation">
+        <rule id="AUBERGINE" name="eggplant/aubergine" default="temp_off">
+            <pattern>
+                <token regexp="yes">aubergines?</token>
+            </pattern>
+            <message>This term is chiefly British English. Consider a replacement.</message>
+            <suggestion><match no="1" regexp_match="(?i)aubergine" regexp_replace="eggplant" /></suggestion>
+            <url>https://www.merriam-webster.com/dictionary/aubergine</url>
+            <example correction="eggplants">He loved to eat <marker>aubergines</marker> for breakfast.</example>
+        </rule>
+
         <rule id="GROUND_FIRST_FLOOR" name="ground floor/first floor">
             <pattern>
                 <token>ground</token>
