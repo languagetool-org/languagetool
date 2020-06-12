@@ -74,6 +74,14 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("[Aa]nd|[Oo]r|&|,"),
       tokenRegex("[A-Z].+")
     ),
+    Arrays.asList( // "The goal is to Develop, Discuss and Learn.""
+      tokenRegex("[A-Z].+"),
+      token(")"),
+      token(","),
+      tokenRegex("[A-Z].+"),
+      tokenRegex("[Aa]nd|[Oo]r|&|,"),
+      tokenRegex("[A-Z].+")
+    ),
     Arrays.asList(
       csRegex("[A-Z].+"),
       token(">"),
@@ -153,7 +161,7 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("[A-Z].+")
     ),
     Arrays.asList(
-      tokenRegex("Step|Grade"), // I finished Step 6
+      tokenRegex("Step|Grade|Phase|Reason"), // I finished Step 6
       tokenRegex("\\d+")
     ),
     Arrays.asList(
@@ -306,8 +314,8 @@ public class UpperCaseNgramRule extends Rule {
       tokenRegex("[A-Z].+")
     ),
     Arrays.asList( // They called it Greet.
-      tokenRegex("call|calls|called"),
-      token("it"),
+      tokenRegex("calls?|called|calling|name[ds]?|naming"),
+      token("it|him|her|them|that|this"),
       tokenRegex("[A-Z].+")
     ),
     Arrays.asList(
