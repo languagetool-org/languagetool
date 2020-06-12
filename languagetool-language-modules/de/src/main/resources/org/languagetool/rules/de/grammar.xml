@@ -4848,6 +4848,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="OHMEN" name="Ohmen (Omen)" default="temp_off">
+            <pattern>
+                <token regexp="yes">gutes|schlechtes</token>
+                <marker>
+                    <token>Ohmen</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion>Omen</suggestion> (aus dem Sprichwort "ein gutes Omen")?</message>
+            <url>https://www.duden.de/rechtschreibung/Omen</url>
+            <example correction="Omen">Das ist doch ein gutes <marker>Ohmen</marker>.</example>
+        </rule>
         <rulegroup id="DANKS" name="Danks (Danke)" default="temp_off">
             <rule>
                 <pattern>
