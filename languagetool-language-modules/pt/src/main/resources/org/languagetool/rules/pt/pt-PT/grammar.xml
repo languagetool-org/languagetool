@@ -538,6 +538,19 @@ title="Easy editing stylesheet" ?>
           <token>sendo</token>
           <token postag='V.P.+' postag_regexp='yes'/>
       </antipattern>
+<!-- MARCOAGPINTO 2020-06-12 *START* -->
+<!-- "Ao fazê-lo vão saindo resultados cada vez mais inesperados." -->
+<!-- "Ao fazê-lo vai saindo resultados cada vez mais inesperados." -->
+<!-- "Ao fazê-lo vão saindo equações cada vez mais inesperadas." -->
+<!-- "Ao fazê-lo vai saindo equações cada vez mais inesperadas." -->
+<!-- "Ao fazê-lo vão saindo agentes cada vez mais inesperados." -->
+<!-- "Ao fazê-lo vai saindo agentes cada vez mais inesperadas." -->
+      <antipattern>
+	      <token negate_pos="yes" postag='CS|RG' postag_regexp='yes'/>
+          <token inflected='yes' regexp='no'>ir</token>
+          <token regexp='yes'>sendo|ficando|saindo</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-06-12 *END* -->	  
       <pattern>
           <token inflected='yes' regexp='yes'>estar|andar|ir|vir</token>
           <token postag='V.G0+' postag_regexp='yes'/>
@@ -560,6 +573,19 @@ title="Easy editing stylesheet" ?>
           <token postag='V.G0+' postag_regexp='yes'>
             <exception postag='V.G0+' postag_regexp='yes' negate_pos='yes'/></token>
       </pattern>
+<!-- MARCOAGPINTO 2020-06-12 *START* -->
+<!-- "Ao fazê-lo vão saindo resultados cada vez mais inesperados." -->
+<!-- "Ao fazê-lo vai saindo resultados cada vez mais inesperados." -->
+<!-- "Ao fazê-lo vão saindo equações cada vez mais inesperadas." -->
+<!-- "Ao fazê-lo vai saindo equações cada vez mais inesperadas." -->
+<!-- "Ao fazê-lo vão saindo agentes cada vez mais inesperados." -->
+<!-- "Ao fazê-lo vai saindo agentes cada vez mais inesperadas." -->
+      <antipattern>
+	      <token negate_pos="yes" postag='CS|RG' postag_regexp='yes'/>
+          <token inflected='yes' regexp='no'>ir</token>
+          <token regexp='yes'>sendo|ficando|saindo</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-06-12 *END* -->	  
       <message>Se possível, evite o gerúndio.</message>
         <suggestion>\1 a <match no='2' postag='VMN0000' case_conversion="alllower"/></suggestion>
       <example correction='continua a ser'>O processo básico <marker>continua sendo</marker> o mesmo.</example>
