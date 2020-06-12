@@ -8843,8 +8843,7 @@ though, and has since been slightly modified)-->
           <message>Le nom exact est <suggestion>coronavirus</suggestion>. « Corona » est un abus de language.</message>
           <example correction="coronavirus">Depuis le <marker>corona</marker> ça n'est plus possible.</example>
       </rule>
-      <!-- this is an example rule: -->
-      <rule id="N_A_V_PPR" name="Participe présent au lieu d'adjectif">
+      <rule id="N_A_V_PPR" name="Participe présent au lieu d'adjectif" >
           <pattern>
               <token postag="N.*" postag_regexp="yes"/>
               <token postag="A">plutôt</token>
@@ -8861,7 +8860,6 @@ though, and has since been slightly modified)-->
           <suggestion><match no="3" postag_regexp="yes" postag="V ppr" postag_replace="J f p"/></suggestion>
           <example correction="négligé|négligés|négligée|négligées">Élève plutôt <marker>négligeant</marker>, il est devenu un brillant étudiant.</example>
       </rule>
-
       <!-- http://www.leconjugueur.com/frlesnombres.php -->
     <rulegroup id="TRAIT_UNION_NOMBRE" name="Nombre avec trait d’union">
       <rule>
@@ -10900,6 +10898,11 @@ though, and has since been slightly modified)-->
     </rule>
     -->
     <rulegroup id="N_V" name="pas de verbe après : au, de, du…">
+        <antipattern>
+            <token>monts</token>
+            <token>du</token>
+            <token>Forez</token>
+        </antipattern>
       <rule>
         <antipattern>
           <token regexp="yes">.*'|num[eé]ro|sauf</token>
@@ -10919,6 +10922,9 @@ though, and has since been slightly modified)-->
               <exception postag="[NJ].*|V pp[ar].*" postag_regexp="yes"/>
               <exception regexp="yes">soit|(?-i)\p{Lu}+</exception>
               <exception regexp="yes">animes?</exception>
+                <exception>bandai</exception>
+                <exception>consumer</exception>
+                <exception>Bordes-sur-Arize</exception>
             </token>
           </marker>
         </pattern>
@@ -10956,6 +10962,9 @@ though, and has since been slightly modified)-->
               <exception postag="[NJ].*|V pp[ar].*" postag_regexp="yes"/>
               <exception regexp="yes">revoir|sortir</exception>
               <exception regexp="yes">(?-i)\p{Lu}+</exception>
+                <exception>bandai</exception>
+                <exception>consumer</exception>
+                <exception>Bordes-sur-Arize</exception>
             </token>
           </marker>
         </pattern>
@@ -20966,7 +20975,7 @@ though, and has since been slightly modified)-->
             <token regexp="yes">d[eu]</token>
             <token>calendrier</token>
             <token>avant</token>
-            <token regexp="yes">Jésus</token>
+            <token>Jésus</token>
         </antipattern>
       <pattern>
         <token regexp="yes">années?</token>
@@ -32425,7 +32434,7 @@ though, and has since been slightly modified)-->
           </marker>
           <token><exception regexp="yes">approximatif|argotique|correct|courant|facile|fluide|littéraire|parfait|universel</exception></token>
         </pattern>
-        <message>Les gentilés (noms des habitants) prennent une majuscule, mais pas les noms des langues. Voulez-vous écrire <suggestion><match no="2" case_conversion="startupper"/></suggestion> ?</message>
+        <message>Les gentilés (noms des habitants) prennent une majuscule, mais pas les noms des langues ou les adjectifs. Voulez-vous écrire <suggestion><match no="2" case_conversion="startupper"/></suggestion> ?</message>
         <example correction="Anglais">Je travaille en anglais avec des <marker>anglais</marker>.</example>
         <example correction="Anglaises">Je travaille en anglais avec des <marker>anglaises</marker>.</example>
         <example>Je travaille en anglais avec des Anglais.</example>
@@ -32446,7 +32455,7 @@ though, and has since been slightly modified)-->
             <token regexp="yes">(?-iu:(afghan|algérien|arménien|australien|autrichien|bahaméen|bahreïnien|barbadien|bélizien|breton|bolivien|bosnien|brésilien|brunéien|cambodgien|canadien|capverdien|chilien|colombien|comorien|costaricien|djiboutien|équatorien|équato[-‑‐]guinéen|érythréen|estonien|états[-‑‐]?unien|étasunien|éthiopien|fidjien|gambien|guyanien|haïtien|hondurien|indien|ivoirien|égyptien|ghanéen|géorgien|guadeloupéen|grenadien|guinéen|indonésien|irakien|italien|iranien|israélien|jordanien|koweïtien|laotien|letton|libérien|lituanien|libyen|macédonien|malaisien|maldivien|malien|mauricien|mauritanien|namibien|nicaraguayen|nord[-‑‐]coréen|niouéen|nigérien|norvégien|micronésien|palestinien|panaméen|papouasien|paraguayen|parisien|péruvien|polynésien|qatarien|saint[-‑‐]lucien|salvadorien|santoméen|saoudien|singapourien|somalien|sud[-‑‐]coréen|surinamien|syrien|tahitien|tanzanien|tchadien|tonguien|trinidadien|tunisien|ukrainien|uruguayen|vénézuélien|vietnamien|zambien|zimbabwéen)(s|nes)|(albanais|allemand|angolais|anglais|antiguais|azerbaïdjanais|bâlois|bangladais|béninois|bhoutanais|bordelais|birman|botswanais|brestois|bruxellois|burkinais|burundais|camerounais|chinois|congolais|danois|dominiquais|finlandais|français|gabonais|genévois|hollandais|hongrois|indochinois|irlandais|islandais|lapon|libanais|liechtensteinois|lillois|luxembourgeois|japonais|lyonnais|maltais|marseillais|marshallais|myanmarais|nantais|nauruan|néerlandais|néo[-‑‐]zélandais|népalais|omanais|ougandais|pakistanais|paluan|polonais|portugais|rwandais|sénégalais|soudanais|srilankais|suédois|strasbourgeois|seychellois|taïwanais|thaïlandais|togolais|zaïrois|zurichois)(es)?|(andorran|américain|argentin|burkinab[èé]|centrafricain|cubain|dominicain|espagnol|jamaïcain|kényan|kosovar|maori|marocain|mexicain|mongol|monpelliérain|monténégrin|mozambicain|omani|philippin|roumain|sud[-‑‐]africain|toulousain|tuvaluan)e?s|(basque|belge|biélorusse|britannique|bulgare|chypriote|corse|croate|guatémaltèque|malgache|malawite|moldave|monégasque|russe|slovaque|slovène|suisse|scandinave|serbe|soviétique|tchèque|turkmène|yéménite|yougoslave)s|bahreïni|émirati|formosans|grec(que)?s|kazakhs|sothos|ouzbeks|qatariotes|swazi|tadjiks|turcs|turques|vanuatuans)</token>
           </marker>
         </pattern>
-        <message>Les gentilés (noms des habitants) ont une majuscule (mais pas les noms des langues). Voulez-vous écrire <suggestion><match no="3" case_conversion="startupper"/></suggestion> ?</message>
+        <message>Les gentilés (noms des habitants) ont une majuscule (mais pas les noms des langues) ou les adjectifs. Voulez-vous écrire <suggestion><match no="3" case_conversion="startupper"/></suggestion> ?</message>
         <example correction="Suisses">Beaucoup de <marker>suisses</marker> partent en vacances à l’étranger.</example>
         <example>Une leçon de français.</example>
         <example>J’ai appris un peu de français ici et là.</example>
@@ -32461,7 +32470,7 @@ though, and has since been slightly modified)-->
             <token regexp="yes">(?-iu:(afghan|algérien|arménien|australien|autrichien|équatorien|équato[-‑‐]guinéen|érythréen|estonien|états[-‑‐]?unien|étasunien|éthiopien|indien|ivoirien|égyptien|indonésien|irakien|italien|iranien|israélien)(s|nes)|(albanais|allemand|angolais|anglais|antiguais|azerbaïdjanais|indochinois|irlandais|islandais|ougandais)(es)?|(andorran|américain|argentin|espagnol)e?s|émirati|formosans|ouzbeks)</token>
           </marker>
         </pattern>
-        <message>Les gentilés (noms des habitants) ont une majuscule (mais pas les noms des langues). Voulez-vous écrire <suggestion><match no="3" case_conversion="startupper"/></suggestion> ?</message>
+        <message>Les gentilés (noms des habitants) ont une majuscule (mais pas les noms des langues ou les adjectifs). Voulez-vous écrire <suggestion><match no="3" case_conversion="startupper"/></suggestion> ?</message>
         <example correction="Anglais">Beaucoup d’<marker>anglais</marker> partent en vacances à l’étranger.</example>
       </rule>
     </rulegroup>
