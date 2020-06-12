@@ -3914,7 +3914,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <antipattern>
                     <token>wider</token>
-                    <token regexp="yes">zu</token>
+                    <token>zu</token>
                     <token inflected="yes" regexp="yes">hallen|klingen|schallen|scheinen|spiegeln|strahlen|reden|setzen</token>
                 </antipattern>
                   <antipattern>
@@ -9265,6 +9265,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="EIN_KIND_POLITIK" name="Ein-Kind-Politik"><!-- needs higher prio than DE_AGREEMENT -->
+            <pattern>
+                <token>ein</token>
+                <token>Kind</token>
+                <token>Politik</token>
+            </pattern>
+            <message>Das Nomen <suggestion>Ein-Kind-Politik</suggestion> wird mit Bindestrichen geschrieben.</message>
+            <url>https://de.wikipedia.org/wiki/Ein-Kind-Politik</url>
+            <example correction="Ein-Kind-Politik">Die <marker>ein Kind Politik</marker> war eine Politik zur Kontrolle des Bevölkerungswachstums in der Volksrepublik China.</example>
+        </rule>
+        <rule id="SCHRITT_FUER_SCHRITT_ANLEITUNG" name="Schritt-für-Schritt-Anleitung"><!-- needs higher prio than DE_AGREEMENT -->
+            <pattern>
+                <token>Schritt</token>
+                <token>für</token>
+                <token>Schritt</token>
+                <token regexp="yes">Anleitung(en)?|Erklärung(en)?|Tutorial</token>
+            </pattern>
+            <message>Das Nomen <suggestion>Schritt-für-Schritt-<match no="4" case_conversion="startupper" /></suggestion> wird mit Bindestrichen geschrieben.</message>
+            <example correction="Schritt-für-Schritt-Anleitung">Sie hat extra dafür eine <marker>Schritt für Schritt Anleitung</marker> erstellt.</example>
+        </rule>
         <rule id="TOP_GROSS_SUB" name="Top Model (Top-Model|Topmodel|top Model)">
             <antipattern>
                 <token>top</token>
@@ -17343,6 +17363,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>drauf</token>
                     <token postag="VER:.*" postag_regexp="yes"/>
                 </antipattern>
+                <antipattern>
+                    <token regexp="yes">Geschwindigkeit|Speed</token>
+                    <token>drauf</token>
+                </antipattern>
                 <pattern>
                     <token>drauf</token>
                 </pattern>
@@ -17350,6 +17374,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>https://www.duden.de/rechtschreibung/drauf</url>
                 <example correction="darauf">Ich komme einfach nicht <marker>drauf</marker>.</example>
                 <example>Schau doch mal bitte da drauf.</example>
+                <example>Da bekommt man scheinbar ganz schön Speed drauf!</example>
             </rule>
         </rulegroup>
     </category>
