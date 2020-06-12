@@ -3497,6 +3497,19 @@ MARCOAGPINTO 2020-02-18 -->
           <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
           <token postag='VMN0000'/>
       </antipattern>
+<!-- MARCOAGPINTO 2020-06-12 *START* -->
+<!-- "No entanto, a maioria da classe já aprendeu a ignorá-lo." -->
+      <antipattern>
+          <token>a</token>
+          <token regexp='yes'>maioria|minoria</token>
+          <token min='0' regexp='yes'>d[eao]s?</token>
+          <token min='0' postag_regexp='yes' postag='N.+'/>
+          <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
+          <token postag="VMX0000" postag_regexp="no"/>
+		  <token regexp='yes' spacebefore='no'>&hifen;</token>
+		  <token postag="PP3[FM]SA00" postag_regexp="yes"/>
+      </antipattern>	  
+<!-- MARCOAGPINTO 2020-06-12 *END* -->	 	  
       <pattern>
           <token>a</token>
           <token regexp='yes'>maioria|minoria</token>
@@ -3505,6 +3518,7 @@ MARCOAGPINTO 2020-02-18 -->
           <token min="0" skip="3" postag_regexp='yes' postag='R.'/>
           <token postag_regexp='yes' postag='V.+'>
             <exception postag_regexp='yes' postag='V...3S.+'/>
+			<exception postag_regexp='yes' postag='VMN0000|VMP00S[FM]'/> <!-- MARCOAGPINTO - 2020-06-12 -->
             <exception negate_pos='yes' postag_regexp='yes' postag='V.+'/></token>
       </pattern>
       <message>Nesta situação deve utilizar o verbo no singular.</message>
