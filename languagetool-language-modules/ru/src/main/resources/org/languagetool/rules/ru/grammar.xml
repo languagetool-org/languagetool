@@ -11811,67 +11811,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 -->
-  <!--      <rulegroup id="Postrojenije_slovosochet_mnogo_malo_nemnogo_nemalo" name="Согласование подлежащего, выраженного оборотом со словами «много, мало, немного, немало», и сказуемого">
-
-
+        <rulegroup id="Postrojenije_slovosochet_mnogo_malo_nemnogo_nemalo" name="Согласование подлежащего, выраженного оборотом со словами «много, мало, немного, немало», и сказуемого" default="temp_off">
             <rule>   
                 <pattern>
                     <marker>
-                        <token>много</token>
-                        <token postag="VB:Past:.*:.*:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
+                        <token regexp="yes">много|немало|немного|мало</token>
+                        <token postag="VB:Past:.*:.*:PL|VB:Fut:.*:.*:PL:P3|VB:Real:.*:.*:PL:P3" postag_regexp="yes"/>
                     </marker>
                 </pattern>
-                <message>Если подлежащее выражено оборотом со словами: «много», «мало», «немного», «немало» - сказуемое ставим в ед. ч.</message>
+                <message>Если подлежащее выражено оборотом со словами: «много», «мало», «немного», «немало» – сказуемое ставится в форме единственного числа.</message>
                 <short>Ошибка в согласовании</short>
                 <example type="incorrect"><marker>Много нашлись</marker> желающих присоединиться.</example>
                 <example>Много нашлось желающих присоединиться.</example>
-            </rule>
-
-
-            <rule>   
-                <pattern>
-                    <marker>
-                        <token>немало</token>
-                        <token postag="VB:Past:.*:.*:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
-                    </marker>
-                </pattern>
-                <message>Если подлежащее выражено оборотом со словами: «много», «мало», «немного», «немало» - сказуемое ставим в единственном числе</message>
-                <short>Ошибка в согласовании</short>
                 <example type="incorrect"><marker>Немало были</marker> и отказавшихся.</example>
                 <example>Немало было и отказавшихся.</example>
-            </rule>
-
-
-            <rule>   
-                <pattern>
-                    <marker>
-                        <token>немного</token>
-                        <token postag="VB:Past:.*:.*:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
-                    </marker>
-                </pattern>
-                <message>Если подлежащее выражено оборотом со словами «много», «мало», «немного», «немало» - сказуемое ставим в единственном числе</message>
-                <short>Ошибка в согласовании</short>
                 <example type="incorrect"><marker>Немного пришли</marker> людей его поддержать.</example>
                 <example>Немного пришло людей его поддержать.</example>
-            </rule>
-
-
-            <rule>   
-                <pattern>
-                    <marker>
-                        <token>мало</token>
-                        <token postag="VB:Past:.*:.*:PL|VB:Fut:PL:P3|VB:Real:PL:P3" postag_regexp="yes"/>
-                    </marker>
-                </pattern>
-                <message>Если подлежащее выражено оборотом со словами «много», «мало», «немного», «немало» - сказуемое ставим в единственном числе</message>
-                <short>Ошибка в согласовании</short>
                 <example type="incorrect"><marker>Мало остались</marker> в живых.</example>
                 <example>Мало осталось в живых.</example>
             </rule>
-
-
         </rulegroup>
-      -->   
+ 
         <rulegroup id="Postrojenije_slovosochetanij_skazuem_sing" name="Употребление числа сказуемого: ед. ч."> 
             <rule>   
                 <pattern>
