@@ -48,7 +48,6 @@ public class ArabicWordinessRuleTest {
     assertError("وأخيرا وليس آخرا");
   }
 
-
   private void assertError(String s) throws IOException {
     ArabicWordinessRule rule = new ArabicWordinessRule(TestTools.getEnglishMessages());
     assertEquals(1, rule.match(lt.getAnalyzedSentence(s)).length);

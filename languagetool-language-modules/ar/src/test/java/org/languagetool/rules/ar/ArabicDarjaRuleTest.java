@@ -33,8 +33,9 @@ import static org.junit.Assert.assertEquals;
 
 public class ArabicDarjaRuleTest {
 
-  private ArabicDarjaRule rule;
   private final JLanguageTool lt = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
+
+  private ArabicDarjaRule rule;
 
   @Before
   public void setUp() {
@@ -43,7 +44,6 @@ public class ArabicDarjaRuleTest {
 
   @Test
   public void testRule() throws IOException {
-
     // correct sentences:
     assertEquals(0, rule.match(lt.getAnalyzedSentence("إن شاء")).length);
 
@@ -53,7 +53,5 @@ public class ArabicDarjaRuleTest {
     assertEquals("فلفل حلو", matches[0].getSuggestedReplacements().get(0));
 
     assertEquals(1, rule.match(lt.getAnalyzedSentence("فايدة")).length);
-
-
   }
 }

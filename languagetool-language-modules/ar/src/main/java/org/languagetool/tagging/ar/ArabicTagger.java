@@ -235,9 +235,7 @@ public class ArabicTagger extends BaseTagger {
     return tags;
   }
   
-
   /**
-   * @param taggerTokens
    * @return test if word has stopword tagging
    */
   private boolean isStopWord(List<AnalyzedToken> taggerTokens) {
@@ -251,12 +249,11 @@ public class ArabicTagger extends BaseTagger {
   }
 
   private String getPrefix(String word, int pos) {
-    // get prefixe
     return word.substring(0, pos);
   }
 
   private List<String> getStem(String word, int posStart, int posEnd) {
-    // get prefixe
+    // get prefix
     // extract only stem+suffix, the suffix ill be replaced by pronoun model
     List<String> stemList = new ArrayList<>();
     String stem = word.substring(posStart);

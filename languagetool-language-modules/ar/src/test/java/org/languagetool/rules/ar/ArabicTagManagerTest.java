@@ -31,25 +31,23 @@ import static org.junit.Assert.assertEquals;
  */
 public class ArabicTagManagerTest {
 
-  private ArabicTagManager tagmanager;
+  private ArabicTagManager tagManager;
 
   @Before
   public void setUp() {
-    tagmanager = new ArabicTagManager();
+    tagManager = new ArabicTagManager();
   }
-
 
   @Test
   public void testTagger(){
-    assertEquals(tagmanager.setJar("NJ-;M1I-;---","K"),"NJ-;M1I-;-K-");
-    assertEquals(tagmanager.setJar("NJ-;M1I-;---","-"),"NJ-;M1I-;---");
-    assertEquals(tagmanager.setDefinite("NJ-;M1I-;---","L"),"NJ-;M1I-;--L");
-    assertEquals(tagmanager.setDefinite("NJ-;M1I-;--H","L"),"NJ-;M1I-;--H");
-    assertEquals(tagmanager.setPronoun("NJ-;M1I-;---","H"),"NJ-;M1I-;--H");
-    assertEquals(tagmanager.setConjunction("NJ-;M1I-;---","W"),"NJ-;M1I-;W--");
-    assertEquals(tagmanager.setConjunction("V-1;M1I----;---","W"),"V-1;M1I----;W--");
-    assertEquals(tagmanager.getConjunctionPrefix("V-1;M1I----;W--"),"و");
-
+    assertEquals(tagManager.setJar("NJ-;M1I-;---","K"),"NJ-;M1I-;-K-");
+    assertEquals(tagManager.setJar("NJ-;M1I-;---","-"),"NJ-;M1I-;---");
+    assertEquals(tagManager.setDefinite("NJ-;M1I-;---","L"),"NJ-;M1I-;--L");
+    assertEquals(tagManager.setDefinite("NJ-;M1I-;--H","L"),"NJ-;M1I-;--H");
+    assertEquals(tagManager.setPronoun("NJ-;M1I-;---","H"),"NJ-;M1I-;--H");
+    assertEquals(tagManager.setConjunction("NJ-;M1I-;---","W"),"NJ-;M1I-;W--");
+    assertEquals(tagManager.setConjunction("V-1;M1I----;---","W"),"V-1;M1I----;W--");
+    assertEquals(tagManager.getConjunctionPrefix("V-1;M1I----;W--"),"و");
   }
 
 }

@@ -30,7 +30,6 @@ public class ArabicSRXSentenceTokenizerTest {
   
   @Test
   public void test() {
-
     testSplit("مشوار التعلم طويل.");
     testSplit("هل ستنام الليلة؟");
     testSplit("قُل: توْأمٌ، وتوْأمانِ: وقلْ: هذانِ توْأمانِ.. ");
