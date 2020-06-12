@@ -12,6 +12,7 @@
     <!ENTITY object_pronouns "me|you|him|her|it|us|them|one">
     <!ENTITY hispanic_nnp "Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad|Torre|Camino|Club|Tapas|Palma">
     <!ENTITY plural_adjectival_nouns "angry|blind|deaf|destitute|dead|dying|elderly|faithful|homeless|injured|insane|jobless|old|poor|rich|sick|squeamish|wealthy|wicked|wounded|young"><!-- One-word terms only, only after the word 'the': www.oxfordlearnersdictionaries.com/definition/english/rich, www.englishgrammar.org/adjectives-nouns/ -->
+    <!ENTITY subordinating_conjunctions "after|although|as|because|before|if|lest|like|once|since|than|that|though|unless|until|whenever|where|whereas|wherever|whether|while|why"><!-- #2988 -->
 ]>
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -1785,8 +1786,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
 
     <!-- useful for this/these rule, e.g., in this circumstances -->
     <rule name="preposition + 'this' + verb 3sg/NNS -&gt; nns" id="IN_VBZ_NNS">
+        <antipattern><!-- #3071 unless this causes -->
+            <token regexp="yes">&subordinating_conjunctions;</token>
+            <token>this</token>
+            <token postag="VBZ"/>
+        </antipattern>
         <pattern>
-            <token postag="IN"><exception regexp="yes">as|like</exception></token>
+            <token postag="IN"/>
             <token regexp="yes">th(is|ese)</token>
             <marker>
                 <and>
@@ -1796,6 +1802,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </marker>
         </pattern>
         <disambig postag="NNS"/>
+      <example type="untouched">Add "short" between "product" and "description", unless this causes a problem.</example>
     </rule>
 
     <rule id="DURING_VBZ_NNS" name="during + verb 3sg.NNS =>NNS">
