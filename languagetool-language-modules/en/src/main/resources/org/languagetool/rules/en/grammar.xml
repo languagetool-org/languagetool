@@ -51563,8 +51563,16 @@ The accident victim died from her injuries.
         </rulegroup>
         <rulegroup id="THEYRE_THEIR" name="they're (their)">
             <rule>
+                <antipattern><!-- unless they're able to -->
+                    <token regexp="yes">&subordinating_conjunctions;</token>
+                    <token>they</token>
+                    <token spacebefore="no" regexp="yes">&apostrophe;</token>
+                    <token>re</token>
+                    <token postag="JJ"/>
+                    <token>to</token>
+                </antipattern>
                 <pattern>
-                    <token postag="IN"><exception>while</exception></token>
+                    <token postag="IN"/>
                     <marker>
                         <token>they</token>
                         <token spacebefore="no" regexp="yes">&apostrophe;</token>
@@ -51574,6 +51582,11 @@ The accident victim died from her injuries.
                 </pattern>
                 <message>Did you mean <suggestion>their</suggestion>?</message>
                 <example correction="their">I'm not worried about <marker>they're</marker> problems.</example>
+                <example correction="their">I'm not under <marker>they're</marker> influence.</example>
+                <example correction="their">She's not at all happy while <marker>they're</marker> findings continue to be ignored by the team.</example>
+                <example>I'm not worried about <marker>their</marker> problems.</example>
+                <example>The SEC will not approve the deal unless they're able to raise cash by selling these assets.</example>
+                <example>I won't do more since they're happy to do it themselves.</example>
             </rule>
             <rule>
                 <pattern>
