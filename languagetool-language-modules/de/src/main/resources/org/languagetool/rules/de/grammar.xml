@@ -4848,6 +4848,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rulegroup id="DANKS" name="Danks (Danke)" default="temp_off">
+            <rule>
+                <pattern>
+                    <token postag="SENT_START|PKT" postag_regexp="yes" />
+                    <marker>
+                        <token>Danks</token>
+                    </marker>
+                </pattern>
+                <message>Meinten Sie <suggestion>Danke</suggestion>?</message>
+                <example correction="Danke"><marker>Danks</marker> für deine Hilfe.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes" skip="1">des|meines|unseres|ihres|s?eines</token>
+                    <token>Danks</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>Danks</token>
+                    </marker>
+                    <token regexp="yes">(da)?für</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Danke</suggestion>?</message>
+                <example correction="Danke"><marker>Danks</marker> für deine Hilfe.</example>
+                <example>Kein Wort des Danks.</example>
+                <example>Eine kleine Geste des Danks für die Unterstützung.</example>
+            </rule>
+        </rulegroup>
         <!-- TODO emphatisch/empathisch -->
         <rule id="UEBERWEIDUNG" name="Überweidung (Überweisung)">
             <pattern>
