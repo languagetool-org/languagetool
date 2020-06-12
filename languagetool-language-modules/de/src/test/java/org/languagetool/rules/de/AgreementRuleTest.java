@@ -369,6 +369,7 @@ public class AgreementRuleTest {
     assertGood("Dann hat das Konsequenzen.");
     assertGood("Sollte das Konsequenzen nach sich ziehen?");
     assertGood("Der Echo Show von Amazon");
+    assertGood("Die BVG kommen immer zu spät.");
 
     assertBad("Hier steht Ihre Text.");
     assertBad("Hier steht ihre Text.");
