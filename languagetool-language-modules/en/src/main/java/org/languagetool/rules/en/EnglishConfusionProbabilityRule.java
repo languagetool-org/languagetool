@@ -183,6 +183,8 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "no you wouldn",
       "no you couldn",
       "no you shouldn",
+      "no they were not",
+      "no we were not",
       "for your recharge", // vs you
       "all you kids", // vs your
       "thanks for the patience", // vs patients
@@ -241,7 +243,16 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "scene in a movie",
       "mr.bean", // vs been
       "mr. bean", // vs been
-      "your push notification" // vs you
+      "your push notification", // vs you
+      "check our page about",
+      "have a think", // vs thing (see https://www.lexico.com/definition/think)
+      "had a think",
+      "live support", // vs life
+      "your troll", // vs you
+      "led screen", // vs let
+      "waiste type", // vs waste
+      "(wait)",
+      "of you being her" // vs your
     );
     
   public EnglishConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {
