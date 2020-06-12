@@ -83,6 +83,13 @@
             <example type="ambiguous" inputform="3-warning[3-warning]" outputform="3-warning[3-warning/JJ]">There is a <marker>3-warning</marker> rule, which means that after 3 warnings, you will be dismissed.</example><!-- warning/NN:UN -->
         </rule>
         <rule>
+            <antipattern><!-- 3.3.3-GB -->
+                <token regexp="yes">[0-9]+</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes">[0-9]+</token>
+                <token spacebefore="no">.</token>
+                <token spacebefore="no" regexp="yes" case_sensitive="yes">[0-9]+-(KB|MB|GB)<exception postag="JJ"/></token>
+            </antipattern>
             <pattern>
                 <token regexp="yes" case_sensitive="yes">[0-9]+-(KB|MB|GB)<exception postag="JJ"/></token>
             </pattern>
@@ -90,7 +97,7 @@
             <example type="untouched">The file is <marker>30 GB</marker>.</example>
             <example type="untouched">A <marker>30-Gb</marker> file is too large.</example>
             <example type="untouched">A <marker>3-5-GB</marker> file is too large.</example>
-<!--            <example type="untouched">A <marker>3.3.3-GB</marker> file is too large.</example>-->
+            <example type="untouched">A <marker>3.3.3-GB</marker> file is too large.</example>
             <example type="ambiguous" inputform="30-GB[30-GB]" outputform="30-GB[30-GB/JJ]">A <marker>30-GB</marker> file is too large.</example>
             <example type="ambiguous" inputform="5-GB[5-GB]" outputform="5-GB[5-GB/JJ]">A 55.<marker>5-GB</marker> file is too large.</example>
             <example type="ambiguous" inputform="5-GB[5-GB]" outputform="5-GB[5-GB/JJ]">2.<marker>5-GB</marker> files and larger can ...</example>
