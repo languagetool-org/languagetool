@@ -56537,7 +56537,9 @@ The accident victim died from her injuries.
         </rule>
         <rule id="IN_YOU_RE_NN" name="you're (your)">
             <pattern>
-                <token postag="IN"><exception>like</exception><exception>while</exception></token>
+                <token postag="IN">
+                    <exception regexp="yes">&subordinating_conjunctions;</exception>
+                    </token>
                 <marker>
                     <token inflected="no">you</token>
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
@@ -56550,6 +56552,7 @@ The accident victim died from her injuries.
             <short>Possible typo</short>
             <example correction="your">There are a number of things you can do to reduce the risk to <marker>you’re</marker> pet.</example>
             <example>You should read a lot of books while you're young.</example>
+            <example>... so playing Ismail isn't advisable unless you're desperate.</example>
         </rule>
         <rulegroup id="DEER_DEAR" name="deer/dear">
             <rule>
