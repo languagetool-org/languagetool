@@ -7568,14 +7568,29 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>как</token>
                     </marker>
                 </pattern>
-                <message>В данном контексте пишется раздельно: <suggestion><match no="1" regexp_match="([нН])([еи])(.*)" regexp_replace="$1е $3"></match> <match no="2" />, <match no="4" /></suggestion>.</message>
+                <message>В данном контексте (имеется противопоставление) пишется раздельно: <suggestion><match no="1" regexp_match="([нН])([еи])(.*)" regexp_replace="$1е $3"></match> <match no="2" />, <match no="4" /></suggestion>.</message>
                 <url>https://www.anews.com/p/126679064-nikto-inoj-ili-ne-kto-inoj-kak-pravilno-pishetsya-i-v-chem-raznica/</url>
                 <short>Раздельно с «не»</short>
                 <example>не кому иному, как</example>
                 <example correction="не кому иному, как"><marker>некому иному, как</marker></example>
                 <example correction="Не кому иному, как"><marker>Никому иному как</marker></example>
             </rule>
-        </rulegroup>                
+            <rule>
+                <pattern case_sensitive="no">
+                    <marker>
+                        <token>а</token>
+                        <token regexp="yes">некому|нечему|никому|ничему</token>
+                        <token regexp="yes">иному|другому</token>                                                
+                    </marker>
+                </pattern>
+                <message>В данном контексте (имеется противопоставление) пишется раздельно: <suggestion><match no="1" /> <match no="2" regexp_match="([нН])([еи])(.*)" regexp_replace="$1е $3"></match> <match no="3" /></suggestion>.</message>
+                <url>https://www.anews.com/p/126679064-nikto-inoj-ili-ne-kto-inoj-kak-pravilno-pishetsya-i-v-chem-raznica/</url>
+                <short>Раздельно с «не»</short>
+                <example>а не кому иному</example>
+                <example correction="а не кому иному"><marker>а некому иному</marker></example>
+
+            </rule>
+        </rulegroup>
                 
         <rulegroup default="on" id="Upr_ne_verb_i_ni" name="Управление глагола при отрицании: «и» вместо «ни»">
             <rule> 
