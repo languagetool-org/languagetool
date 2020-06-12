@@ -136,7 +136,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // https://github.com/languagetool-org/languagetool/issues/1515
       SENT_START,
-      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞"),
+      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✅|➡️"),
       regex(".*")
     ),
     Arrays.asList(
@@ -179,7 +179,7 @@ public class CaseRule extends Rule {
     ),
     // names with english adjectives
     Arrays.asList(
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern"),
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive"),
       pos("UNKNOWN")
     ),
     Arrays.asList(
@@ -202,7 +202,7 @@ public class CaseRule extends Rule {
     // names with english adjectives
     Arrays.asList(
       pos("UNKNOWN"),
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern")
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive")
     ),
     // names with english adjectives
     Arrays.asList(
@@ -506,6 +506,36 @@ public class CaseRule extends Rule {
       regex("du|meine?"),
       regex("Süßer?|Hübscher?"),
       pos("PKT")
+    ),
+    Arrays.asList( // Grüße aus Höchst, Ich wohne in Wohlen
+      regex("aus|in"),
+      regex("Höchst|Wohlen")
+    ),
+    Arrays.asList( // Am So. (Sonntag)
+      regex(",|/|-|am|bis|vor|\\("),
+      csToken("So"),
+      token(".")
+    ),
+    Arrays.asList(
+      // a.) Im Mittelpunkt ...
+      SENT_START,
+      regex("[a-z]"),
+      token("."),
+      token(")"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // ---> Der USB  ...
+      SENT_START,
+      regex("[-]{1,}"),
+      token(">"),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // # Was macht eigentlich Karl
+      SENT_START,
+      regex("[#]{1,}"),
+      regex("[A-ZÄÜÖ].*")
     )
   );
 
@@ -535,13 +565,15 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
+    "Eckhart",
+
     "Mo",
     "Di",
     "Mi",
     "Do",   // "Di. und Do. um 18 Uhr"
     "Fr",   // "Fr. Dr. Müller"
     "Sa",   // Sa. 12 - 16 Uhr
-    "Gr",   // "Gr. 12"
+    "Gr",   // "Gr. 12" (Größe)
     "Mag",   // "Mag. Helke Müller"
     "Diss",
     "Invalide",
@@ -947,6 +979,7 @@ public class CaseRule extends Rule {
     "Zwinge",
     "Zirkusrund",
     "Tertiär",  // geologischer Zeitabschnitt
+    "Urdu",
 
     "Erster",   // "er wurde Erster im Langlauf"
     "Zweiter",

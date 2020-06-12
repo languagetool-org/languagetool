@@ -344,6 +344,12 @@ public class CaseRuleTest {
     assertGood("#4 Aktuelle Situation");
     assertGood("* [ ] Ein GitHub Markdown Listenpunkt");
     assertGood("Tom ist ein engagierter, gutaussehender Vierzigjähriger, der...");
+    assertGood("a.) Im Zusammenhang mit ...");
+    assertGood("✔︎ Weckt Aufmerksamkeit.");
+    assertGood("Hallo Eckhart,");
+    assertGood("Er kann Polnisch und Urdu.");
+    assertGood("---> Der USB 3.0 Stecker");
+    assertGood("Black Lives Matter");
 
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");
