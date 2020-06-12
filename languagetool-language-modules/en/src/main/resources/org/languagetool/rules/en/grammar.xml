@@ -4986,6 +4986,96 @@ USA
                 <example correction="it's">I think <marker>its</marker> already as good as it can get.</example>
                 <example correction="It's"><marker>Its</marker> as simple as that.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">when|if|since|because|but|as|unless|once|until|till</token>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token regexp="yes">under|over</token>
+                    <or>
+                        <token chunk="B-NP-singular" />
+                        <token chunk="B-NP-plural" />
+                    </or>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (= it is)?</message>
+                <example correction="it's">Let me know when <marker>its</marker> under pressure.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">when|if|since|because|but|as|unless|once|until|till</token>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token>out</token>
+                    <token regexp="yes">of|in|on|with|under|over|at</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (= it is)?</message>
+                <example correction="it's">Let me know as soon as <marker>its</marker> out of the meeting.</example>
+                <example correction="it's">I'm very serious about covering you when <marker>its</marker> out in January.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>done</token>
+                    <token regexp="yes">list|projects?|tasks?|issues?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">when|if|since|because|but|as|unless|once|until|till</token>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token min="0" regexp="yes">finally|already|eventually|really|now|actually|completely|totally|absolutely|almost</token>
+                    <token>done</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (= it is)?</message>
+                <example correction="it's">Let me know when <marker>its</marker> done.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">to|from</token>
+                    <token>its</token>
+                    <token>done</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">done|sick</token>
+                    <token>,</token>
+                    <token postag="JJ" />
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token min="0" regexp="yes">finally|already|eventually|really|now|actually|completely|totally|absolutely|almost|so|very</token>
+                    <token regexp="yes">done|sick</token>
+                    <token regexp="yes">\p{P}|with(out|in)?|finally|already|almost|now|at|then|in|from|t?here|out|soon|for|because|but|when|as|until|till|before|after|of|under|over|via|through</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (= it is)?</message>
+                <example correction="it's">Let me know when <marker>its</marker> done.</example>
+                <example>It harmed them with its sick, sick greed.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token min="0" regexp="yes">finally|already|eventually|really|now|actually|completely|totally|absolutely|almost</token>
+                    <token postag="SENT_END">done</token>
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (= it is)?</message>
+                <example correction="it's">Let me know when <marker>its</marker> done</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>its</token>
+                    </marker>
+                    <token min="0" regexp="yes">finally|already|eventually|really|now|actually|completely|totally|absolutely|almost</token>
+                    <token regexp="yes">done|sick</token>
+                    <token postag="VBG" />
+                </pattern>
+                <message>Did you mean <suggestion>it's</suggestion> (= it is)?</message>
+                <example correction="it's">Let me know when <marker>its</marker> done making it.</example>
+            </rule>
         </rulegroup>
         <rule id="CC_IT_VBG" name="'it' vs. 'its' after 'and'">
             <pattern>
@@ -8669,6 +8759,97 @@ USA
                 <example>Your A record must point to your ip address `159.65.156.240`, so your server answers directly.</example>
                 <example>What did you do to your a/c system?</example>
                 <example>It hurts my a**.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">when|if|since|because|but|as|unless|once|until|till</token>
+                    <marker>
+                        <token>your</token>
+                    </marker>
+                    <token regexp="yes">under|over</token>
+                    <or>
+                        <token chunk="B-NP-singular" />
+                        <token chunk="B-NP-plural" />
+                    </or>
+                </pattern>
+                <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
+                <example correction="you're">Let me know when <marker>your</marker> under pressure.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token regexp="yes">when|if|since|because|but|as|unless|once|until|till</token>
+                    <marker>
+                        <token>your</token>
+                    </marker>
+                    <token>out</token>
+                    <token regexp="yes">of|in|on|with|under|over|at</token>
+                </pattern>
+                <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
+                <example correction="you're">Let me know as soon as <marker>your</marker> out of the meeting.</example>
+                <example correction="you're">I'm very serious about covering you when <marker>your</marker> out in January.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>done</token>
+                    <token regexp="yes">list|projects?|tasks?|issues?</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">when|if|since|because|but|as|unless|once|until|till</token>
+                    <marker>
+                        <token>your</token>
+                    </marker>
+                    <token min="0" regexp="yes">finally|already|eventually|really|now|actually|completely|totally|absolutely|almost</token>
+                    <token>done</token>
+                </pattern>
+                <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
+                <example correction="you're">Let me know when <marker>your</marker> done.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token regexp="yes">to|from</token>
+                    <token>your</token>
+                    <token>done</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">done|sick</token>
+                    <token>,</token>
+                    <token postag="JJ" />
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token>your</token>
+                    </marker>
+                    <token min="0" regexp="yes">finally|already|eventually|really|now|actually|completely|totally|absolutely|almost|so|very</token>
+                    <token regexp="yes">done|sick</token>
+                    <token regexp="yes">\p{P}|with(out|in)?|finally|already|almost|now|at|then|in|from|t?here|out|soon|for|because|but|when|as|until|till|before|after|of|under|over|via|through</token>
+                </pattern>
+                <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
+                <example correction="you're">Let me know when <marker>your</marker> done.</example>
+                <example correction="You're"><marker>Your</marker> done when I say you're done.</example>
+                <example>You harmed them with your sick, sick greed.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>your</token>
+                    </marker>
+                    <token min="0" regexp="yes">finally|already|eventually|really|now|actually|completely|totally|absolutely|almost</token>
+                    <token postag="SENT_END">done</token>
+                </pattern>
+                <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
+                <example correction="you're">Let me know when <marker>your</marker> done</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>your</token>
+                    </marker>
+                    <token min="0" regexp="yes">finally|already|eventually|really|now|actually|completely|totally|absolutely|almost</token>
+                    <token regexp="yes">done|sick</token>
+                    <token postag="VBG" />
+                </pattern>
+                <message>Did you mean <suggestion>you're</suggestion> (= you are)?</message>
+                <example correction="you're">Let me know when <marker>your</marker> done making it.</example>
             </rule>
         </rulegroup>
         <rulegroup id="EXITED_EXCITED" name="exited (excited)">
@@ -13356,7 +13537,7 @@ USA
             </antipattern>
             <pattern>
                 <token>under</token>
-                <token inflected="yes" regexp="yes">appreciate|estimate|achieve|whelm|line|rate|report|represent|mine|score</token>
+                <token inflected="yes" regexp="yes">appreciate|estimate|achieve|whelm|line|rate|report|represent|mine|score|stand|go</token>
             </pattern>
             <message>This is normally spelled as one word.</message>
             <suggestion>\1<match no="2" case_conversion="alllower" /></suggestion>
