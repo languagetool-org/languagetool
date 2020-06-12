@@ -164,7 +164,7 @@ public class BERTSuggestionRanking extends RemoteRule {
           if (a.getKey().getType() != b.getKey().getType()) {
             if (a.getKey().getType() == SuggestedReplacement.SuggestionType.Curated) {
               return 1;
-            } else if (b.getKey().getType() == SuggestedReplacement.SuggestionType.Curated){
+            } else if (b.getKey().getType() == SuggestedReplacement.SuggestionType.Curated) {
               return -1;
             } else {
               return a.getRight().compareTo(b.getRight());

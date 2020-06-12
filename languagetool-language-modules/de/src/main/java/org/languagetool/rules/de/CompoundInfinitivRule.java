@@ -57,8 +57,9 @@ public class CompoundInfinitivRule extends Rule {
   private static Dictionary dict;
   
   private final LinguServices linguServices;
-  private Speller speller = null;
   private final Language lang;
+
+  private Speller speller = null;
 
   private static final List<List<PatternToken>> ANTI_PATTERNS = Arrays.asList(
     //
@@ -78,7 +79,7 @@ public class CompoundInfinitivRule extends Rule {
     )
   );
   
-  private static final String ADJ_EXCEPTION[] = {
+  private static final String[] ADJ_EXCEPTION = {
     "schwer",
     "klar",
     "verloren",
