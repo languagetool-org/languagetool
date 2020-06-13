@@ -126,7 +126,7 @@ public class BERTSuggestionRanking extends RemoteRule {
           // build request before correcting offset, as we send only sentence as text
           requests.add(buildRequest(match));
           int fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + offset, false);
-          int toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + offset, true);
+          int toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + offset - 1, true) + 1;
           match.setOffsetPosition(fromPos, toPos);
         }
         Collections.addAll(matches, sentenceMatches);
