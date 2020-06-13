@@ -125,8 +125,16 @@ public class BERTSuggestionRanking extends RemoteRule {
           match.setSuggestedReplacementObjects(prepareSuggestions(match.getSuggestedReplacementObjects()));
           // build request before correcting offset, as we send only sentence as text
           requests.add(buildRequest(match));
-          int fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + offset, false);
-          int toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + offset - 1, true) + 1;
+          int fromPos;
+          int toPos;
+          if (annotatedText != null) {
+            fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + offset, false);
+            toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + offset - 1, true) + 1;
+          } else {
+            // TODO: when can annotatedText be null?
+            fromPos = match.getFromPos() + offset;
+            toPos = match.getToPos() + offset;
+          }
           match.setOffsetPosition(fromPos, toPos);
         }
         Collections.addAll(matches, sentenceMatches);

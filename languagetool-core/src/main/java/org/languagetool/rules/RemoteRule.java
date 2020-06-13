@@ -74,7 +74,7 @@ public abstract class RemoteRule extends Rule {
   protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
 
   public FutureTask<List<RuleMatch>> run(List<AnalyzedSentence> sentences, AnnotatedText annotatedText) {
-    this.annotatedText = Objects.requireNonNull(annotatedText);
+    this.annotatedText = annotatedText;
     return new FutureTask<>(() -> {
       long startTime = System.nanoTime();
       long characters = sentences.stream().mapToInt(sentence -> sentence.getText().length()).sum();
