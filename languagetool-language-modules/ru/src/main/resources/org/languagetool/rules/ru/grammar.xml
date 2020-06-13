@@ -7562,8 +7562,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <pattern case_sensitive="no">
                     <marker>
-                        <token regexp="yes">некому|нечему|никому|ничему</token>
-                        <token regexp="yes">иному|другому</token>                                                
+                        <token regexp="yes">некому|нечему|никому|ничему|некто|нечто</token>
+                        <token regexp="yes">иному|другому|иной|другой</token>                                                
                         <token min="0" max="1">,</token>
                         <token>как</token>
                     </marker>
@@ -7589,6 +7589,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>а не кому иному</example>
                 <example correction="а не кому иному"><marker>а некому иному</marker></example>
 
+            </rule>
+        </rulegroup>
+        <rulegroup default="on" id="nikto_ioj" name="Оборот «никто иной»">
+            <rule>  <!--  некто иной = кто-то другой: «Некто иной изображён на картине.» -->
+                <pattern case_sensitive="no">
+                    <marker>
+                        <token>ни<exception scope="previous">а</exception></token>  
+                        <token regexp="yes">кто|что</token>  
+                        <token regexp="yes">иной|другой<exception scope="next" regexp="yes">,|как</exception></token>                                                
+                    </marker>
+                </pattern>
+                <message>В данном контексте (нет противопоставления) пишется слитно: <suggestion>\1\2 \3</suggestion>.</message>
+                <url>https://www.anews.com/p/126679064-nikto-inoj-ili-ne-kto-inoj-kak-pravilno-pishetsya-i-v-chem-raznica/</url>
+                <short>Слитно с «не»</short>
+                <example>Никто иной не может быть там.</example>
+                <example correction="Никто иной"><marker>Ни кто иной</marker> не может быть там.</example>
             </rule>
         </rulegroup>
                 
