@@ -46,6 +46,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY nombres_colectivos "mayoría|par|gente|grupo|parte|familia|docena|centena|millar">
 <!ENTITY common_english_nouns_feminine "Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference">
 <!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre">
+<!ENTITY context_ano "defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -6811,6 +6812,100 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>este</suggestion>?</message>
             <example correction="este">En <marker>esto</marker> campo es el mejor.</example>
         </rule>-->
+        <rulegroup id="ANO" name="ano/año" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token>-</token>
+                    <token spacebefore="no">ano</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" inflected="yes" skip="-1">&context_ano;</token>
+                    <token>ano</token>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">ano</token>
+                    <token regexp="yes" inflected="yes">&context_ano;</token>
+                </antipattern>
+                <antipattern>
+                    <token>por</token>
+                    <token>el</token>
+                    <token>ano</token>
+                </antipattern>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">ano</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">año</match></suggestion> (=período de doce meses)?</message>
+                <example correction="año">En el <marker>ano</marker> 1920.</example>
+                <example correction="año">En el <marker>ano</marker> ochenta.</example>
+                <example correction="años">En los <marker>anos</marker> ochenta.</example>
+                <example correction="año">Aquel <marker>ano</marker> lo ganó todo.</example>
+                <example correction="años">Esos <marker>anos</marker> no ocurrió nada.</example>
+                <example correction="año">En su primer <marker>ano</marker> como profesional.</example>
+                <example correction="año">El <marker>ano</marker> pasado.</example>
+                <example correction="años">Los <marker>anos</marker> siguientes.</example>
+                <example correction="año">El pasado <marker>ano</marker>.</example>
+                <example correction="años">Los siguientes <marker>anos</marker>.</example>
+                <example correction="año">El pasado <marker>ano</marker>.</example>
+                <example correction="años">Los siguientes <marker>anos</marker>.</example>
+                <example correction="año">El <marker>ano</marker> que viene.</example>
+                <example correction="año">Toma dos cursos por <marker>ano</marker>.</example>
+                <example correction="años">Los <marker>anos</marker> que vienen.</example>
+                <example>Se forma con el sufixo -ano.</example>
+                <example>¡Si la mierda tuviera valor el hombre nacería sin ano!</example>
+                <example>El ano es el orificio por el que se expele el excremento.</example>
+                <example>El ano es el agujero por el que sale la mierda.</example>
+                <example>Las hecese salen por el ano.</example>
+                <example>Salen por el ano.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DN.*" postag_regexp="yes" skip="4"/>
+                    <token>al</token>
+                    <marker>
+                        <token>ano</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
+                <example correction="año">Gana 3.000.000 € al <marker>ano</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ano</token>
+                    </marker>
+                    <token inflected="yes">numeral</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
+                <example correction="año">Esto -<marker>ano</marker> 2000- era importante.</example>
+                <example correction="año">Saldrán por el <marker>ano</marker> 2050.</example>
+                <example correction="año">Se hizo una colonoscopia el <marker>ano</marker> 2010.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="4" regexp="yes" inflected="yes">&unidades_tiempo;|&meses_ano;|vez|estación|vacaciones</token>
+                    <marker>
+                        <token>ano</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
+                <example correction="año">En octubre del <marker>ano</marker> pasado.</example>
+                <example correction="año">Tres veces al <marker>ano</marker>.</example>
+                <example correction="año">Todos los días del <marker>ano</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">todo|durante</token>
+                    <token>el</token>
+                    <marker>
+                        <token>ano</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
+                <example correction="año">Durante todo el <marker>ano</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="SIN_EMBRAGO" name="sin *embrago/embargo">
             <pattern>
                 <token>sin</token>
