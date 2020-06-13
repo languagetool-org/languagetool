@@ -6585,6 +6585,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="ABREVIATURA_TELEFONO" name="abreviatura de teléfono">
             <antipattern>
+                <token>tel</token>
+                <token min="0">-</token>
+                <token>aviv</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">tel|teléf|tfno</token>
                 <token spacebefore="no">.</token>
             </antipattern>
@@ -6615,6 +6620,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tel.|teléf.|tfno.">Llama al <marker>telf</marker> 666666.</example>
                 <example correction="Tel.|Teléf.|Tfno."><marker>Tlf</marker> 666666.</example>
                 <example>Llama al tfno. 44444444.</example>
+                <example>Londres, Nueva York, Tel Aviv y Ámsterdam.</example>
             </rule>
         </rulegroup>
         <rule id="A_NIVEL_DE" name="a nivel de">
