@@ -18899,6 +18899,7 @@ USA
                 <example correction="stroke">That was a <marker>stoke</marker> of genius.</example>
             </rule>
         </rulegroup>
+
         <rule id="A_INFINITIVE" name="a/the + infinitive">
             <antipattern><!-- https://www.americansforthearts.org/by-program/reports-and-data/legislation-policy/legislative-issue-center/the-create-act -->
                 <token>create</token>
@@ -19172,6 +19173,11 @@ USA
                 <token postag='VB|VBP' postag_regexp='yes' />
                 <token spacebefore="no">_</token>
             </antipattern>
+            <antipattern><!-- #3076 the co-lead singer -->
+                <token regexp='yes'>an?|the</token>
+                <token>co-lead</token><!-- Not a standard adjective in English -->
+                <token chunk='E-NP-singular' />
+            </antipattern>
             <pattern>
                 <token regexp='yes'>an?|the</token>
                 <token postag='VB|VBP' postag_regexp='yes'>
@@ -19184,7 +19190,7 @@ USA
             </pattern>
             <message>After '\1', do not use a verb. Make sure that the spelling of '\2' is correct. If '\2' is the first word in a compound adjective, use a hyphen between the two words. Note: This error message can occur if you use a verb as a noun, and the word is not a noun in standard English.</message>
             <short>Grammatical mistake</short>
-            <example correction="">This is <marker>a compete</marker> catastrophe.</example>
+            <example correction="">This is <marker>a compete</marker> catastrophe.</example><!-- compete/I-NP-singular -->
             <example correction=""><marker>a compete</marker></example>
             <example correction=""><!--Not a noun in standard English. -->Only <marker>a reload</marker> of the page will fix this. [https://github.com/languagetool-org/languagetool/issues/1379]</example>
             <example>This is <marker>a complete</marker> catastrophe</example>
@@ -19218,7 +19224,9 @@ USA
             <example>Python provides the bisect module.</example><!-- Copied from Premium #845 -->
             <example>It has been awhile since we put the mail feedbag on and had a munch.</example><!-- Copied from Premium #845 -->
             <example>AI and AN are also in line for this constructive disruption.</example>
+            <example>... Skyler Jett, replaced Lionel Richie as the co-lead singer for The Commodores.</example><!-- #3076 -->
         </rule>
+
         <rule id="THE_HOT_DOG" name="the hot-dog (hot dog)">
             <!-- nouns that are verbs when spelled with a hyphen in between -->
             <pattern>
