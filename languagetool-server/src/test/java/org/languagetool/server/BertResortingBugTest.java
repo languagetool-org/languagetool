@@ -31,7 +31,7 @@ import java.util.Map;
 public class BertResortingBugTest {
 
   @Test
-  @Ignore("shows bugs - for interactive use")
+  @Ignore("used to show bug #2969 - for interactive use, requires server")
   public void testHttpApi() throws IOException {
     String s = "A teext.\nAn errör-free text.\nSo much teext.";  // must exactly match 'data'
     String data = "{\"annotation\":[{\"text\":\"A teext.\"},{\"markup\":\"\\n\",\"interpretAs\":\"\\n\\n\"},{\"text\":\"An errör-free text.\"},{\"markup\":\"\\n\",\"interpretAs\":\"\\n\\n\"},{\"text\":\"So much teext.\"}]}";

@@ -32,6 +32,7 @@ import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
 import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
+import org.languagetool.markup.AnnotatedText;
 import org.languagetool.rules.ml.MLServerGrpc;
 import org.languagetool.rules.ml.MLServerProto;
 import org.slf4j.Logger;
@@ -152,7 +153,7 @@ public abstract class GRPCRule extends RemoteRule {
   }
 
   @Override
-  protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences) {
+  protected RemoteRule.RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText) {
     List<String> text = sentences.stream().map(AnalyzedSentence::getText).collect(Collectors.toList());
     MLServerProto.MatchRequest req = MLServerProto.MatchRequest.newBuilder().addAllSentences(text).build();
     return new MLRuleRequest(req, sentences);

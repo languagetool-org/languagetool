@@ -30,6 +30,7 @@ import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.UserConfig;
 import org.languagetool.languagemodel.bert.RemoteLanguageModel;
+import org.languagetool.markup.AnnotatedText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,7 +114,7 @@ public class BERTSuggestionRanking extends RemoteRule {
   }
 
   @Override
-  protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences) {
+  protected RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, AnnotatedText annotatedText) {
     List<RuleMatch> matches = new LinkedList<>();
     List<RemoteLanguageModel.Request> requests = new LinkedList<>();
     try {
@@ -124,7 +125,9 @@ public class BERTSuggestionRanking extends RemoteRule {
           match.setSuggestedReplacementObjects(prepareSuggestions(match.getSuggestedReplacementObjects()));
           // build request before correcting offset, as we send only sentence as text
           requests.add(buildRequest(match));
-          match.setOffsetPosition(match.getFromPos() + offset, match.getToPos() + offset);
+          int fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + offset, false);
+          int toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + offset, true);
+          match.setOffsetPosition(fromPos, toPos);
         }
         Collections.addAll(matches, sentenceMatches);
         offset += sentence.getText().length();
