@@ -29975,7 +29975,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">telf|tlf|tel</token>
+                    <token regexp="yes">telf|tlf</token>
                     <token spacebefore="no" regexp="yes">[\.:]</token>
                 </pattern>
                 <message>Abreviatura de telèfon.</message>
@@ -29984,11 +29984,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="tel.|telèfon">Truqueu al <marker>telf.</marker> 666666.</example>
                 <example correction="Tel.|Telèfon"><marker>Tlf:</marker> 666666.</example>
                 <example>Truqueu al tel. 44444444.</example>
+                <example>Se li ha posat un tel: la vaca és cega.</example>
+                <example>El tel i la olor que fa em molesta.</example>
+                <example>Copa de Tel Laquix</example>
+                <example>Vaig a Tel Aviv.</example>
             </rule>
             <rule>
                 <pattern>
                     <marker>
-                        <token regexp="yes">telf|tlf|tel</token>
+                        <token regexp="yes">telf|tlf</token>
                     </marker>
                     <token><exception spacebefore="no" regexp="yes">[\.:]</exception></token>
                 </pattern>
@@ -29997,6 +30001,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>telèfon</suggestion>
                 <example correction="tel.|telèfon">Truqueu al <marker>tlf</marker> 666666.</example>
                 <example>Truqueu al tel. 44444444.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>tel</token>
+                        <token min="0">:</token>
+                    </marker>
+                    <token regexp="yes">\d.+|reserves|informació</token>
+                </pattern>
+                <message>Abreviatura de telèfon.</message>
+                <suggestion>tel.</suggestion>
+                <suggestion>telèfon</suggestion>
+                <example correction="tel.|telèfon">Truqueu al <marker>tel:</marker> 666666.</example>
+                <example correction="Tel.|Telèfon">Truqueu al <marker>Tel</marker> 666666.</example>
+                <example>Se li ha posat un tel: la vaca és cega.</example>
+                <example>El tel i la olor que fa em molesta.</example>
+                <example>Copa de Tel Laquix</example>
+                <example>Vaig a Tel Aviv.</example>
             </rule>
         </rulegroup>
         <rule id="NO_NUM" name="abreviatura de número: núm.">
