@@ -51781,15 +51781,15 @@ The accident victim died from her injuries.
                 <example correction="Blu-ray">I ordered a <marker>Blu ray</marker> with their software.</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="THEYRE_THEIR" name="they're (their)">
             <rule>
-                <antipattern><!-- unless they're able to -->
+                <antipattern><!-- unless they're able to / #3077 while they're sick / #3077 while they're away -->
                     <token regexp="yes">&subordinating_conjunctions;</token>
                     <token>they</token>
                     <token spacebefore="no" regexp="yes">&apostrophe;</token>
                     <token>re</token>
-                    <token postag="JJ"/>
-                    <token>to</token>
+                    <token postag_regexp="yes" postag="JJ|RB"/>
                 </antipattern>
                 <pattern>
                     <token postag="IN"/>
@@ -51798,7 +51798,7 @@ The accident victim died from her injuries.
                         <token spacebefore="no" regexp="yes">&apostrophe;</token>
                         <token>re</token>
                     </marker>
-                    <token postag_regexp="yes" postag="NN.*"><exception>out</exception></token>
+                    <token postag_regexp="yes" postag="NN.*"/>
                 </pattern>
                 <message>Did you mean <suggestion>their</suggestion>?</message>
                 <example correction="their">I'm not worried about <marker>they're</marker> problems.</example>
@@ -51807,6 +51807,9 @@ The accident victim died from her injuries.
                 <example>I'm not worried about <marker>their</marker> problems.</example>
                 <example>The SEC will not approve the deal unless they're able to raise cash by selling these assets.</example>
                 <example>I won't do more since they're happy to do it themselves.</example>
+                <example>It's a great way to really 'see' your college kids while they're away at school.</example><!-- #3077 -->
+                <example>Tom and Mary won't be able to do that while they're sick.</example><!-- #3077 -->
+                <example>You can't see them now, they're out.</example>
             </rule>
             <rule>
                 <pattern>
@@ -51926,6 +51929,7 @@ The accident victim died from her injuries.
                 <example>I think their natural, black hair looks nice.</example>
             </rule>
         </rulegroup>
+
         <rulegroup id="PIC_PICK" name="pic vs. pick">
             <rule>
                 <pattern>
