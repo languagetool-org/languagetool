@@ -41,9 +41,15 @@ public class LineExpanderTest {
     assertThat(expand("viertjüngste/A"), is("[viertjüngste, viertjüngster, viertjüngstes, viertjüngsten, viertjüngstem]"));
     assertThat(expand("Das  #foo"), is("[Das]"));
     assertThat(expand("Tisch/E  #bla #foo"), is("[Tisch, Tische]"));
+
+    assertThat(expand("Escape\\/N"), is("[Escape/N]"));
+    //assertThat(expand("Escape\\/N/S"), is("[Escape/N, Escape/Ns]"));  // combination of escape and flag not supported yet
+
     assertThat(expand("rüber_machen  #bla #foo"), is("[rübermach, rübergemacht, rübermachest, rübermachst, rübermache, " +
                       "rübermachen, rübermachet, rübermachte, rübermachend, rübermachten, rübermacht, rübermachtest, " +
                       "rübermachtet, rüberzumachen]"));
+    assertThat(expand("escape\\_machen"), is("[escape_machen]"));
+
     try {
       expand("rüber/invalidword");
       fail();

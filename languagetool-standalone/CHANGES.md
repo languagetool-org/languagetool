@@ -27,6 +27,8 @@
   * rules that apply to de-DE and de-AT (but not de-CH) can now be placed in `de/de-DE-AT/grammar.xml`
   * Updated the German part-of-speech dictionary (https://github.com/languagetool-org/german-pos-dict)
     to version 1.2.1.
+  * Special chars `_` and `/` can now be escaped in `spelling.txt` and `spelling_custom.txt` using
+    the backslash. For example, `foo\/s` will add `foo/s` to the dictionary.
 
 #### Persian
   * commented out rules that caused many false alarms
