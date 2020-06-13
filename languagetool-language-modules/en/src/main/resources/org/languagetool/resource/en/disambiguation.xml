@@ -4884,6 +4884,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="ambiguous" inputform="s[s/POS]" outputform="s[be/VBZ,s/POS]">One person closed the door and another'<marker>s</marker> opened it again.</example>
             <example type="ambiguous" inputform="s[s/POS]" outputform="s[be/VBZ,s/POS]">One opportunity closed, but another'<marker>s</marker> opened.</example>
         </rule>
+
         <!--  remove POS where it doesn't occur after the noun-->
         <rule name="Remove possessive ending" id="POS_REMOVE">
             <!--  probably verb "is":remove -->
@@ -4903,6 +4904,20 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
                 <token regexp="yes">&apostrophe;</token>
                 <token spacebefore="no">s</token>
             </antipattern>
+            <antipattern><!-- #3078 the ball-park's owner -->
+                <token postag_regexp="yes" postag="DT|PRP\$"/>
+                <token postag="JJ"/><!-- 'ball-park' is not a noun. Not correct English, but the s that follows is possessive, not a verb -->
+                <token regexp="yes">&apostrophe;</token>
+                <token spacebefore="no">s</token>
+                <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+            </antipattern>
+            <antipattern><!-- #3078 your dirty's tests -->
+                <token postag_regexp="yes" postag="DT|PRP\$"/>
+                <token postag="JJ"/><!-- Not correct English, but the s that follows is possessive, not a verb -->
+                <token regexp="yes">&apostrophe;</token>
+                <token spacebefore="no">s</token>
+                <token chunk="E-NP-plural" postag_regexp="yes" postag="NNS"/>
+            </antipattern>
             <pattern>
                 <token><exception postag_regexp="yes" postag="NN.*|PRP\$|DT|UNKNOWN|CD"/></token>
                 <token spacebefore="no" regexp="yes">&apostrophe;</token>
@@ -4915,9 +4930,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <example type="untouched">This is your's.</example>
             <example type="untouched">... written "freind" and one of the S's was the wrong way round.</example>
             <example type="untouched">Moody's and Standard &amp; Poor'<marker>s</marker> have stable outlooks on the country's sovereign rating.</example>
+            <example type="untouched">... you pay a concession fee to the ball-park's owner.</example><!-- #3078 -->
+            <example type="untouched">The dirty's test is correct.</example><!-- #3078 -->
+            <example type="untouched">Are your dirty's tests ready for approval?</example><!-- #3078 -->
             <example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[be/VBZ]">Where'<marker>s</marker> Bill?</example>
             <example type="ambiguous" inputform="s[be/VBZ,s/POS]" outputform="s[be/VBZ]">Not good style: If the S'<marker>s</marker> not the correct colour, the advert won't look good.</example>
         </rule>
+
         <rule name="s = POS with NNS + are/were">
             <pattern>
                 <token postag="NN:UN?" postag_regexp="yes"/>
