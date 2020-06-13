@@ -41,27 +41,32 @@ public class MultiWordChunker extends AbstractDisambiguator {
 
   private final String filename;
   private final boolean allowFirstCapitalized;
+  private final boolean allowAllUppercase;
 
   private Map<String, Integer> mStartSpace;
   private Map<String, Integer> mStartNoSpace;
-  private Map<String, String> mFull;
+  private Map<String, AnalyzedToken> mFull;
 
   /**
    * @param filename file text with multiwords and tags
    */
   public MultiWordChunker(String filename) {
-    this(filename, false);
+    this(filename, false, false);
   }
-  
+
   /**
-   * @param filename file text with multiwords and tags
-   * @param allowFirstCapitalized if set to {@code true}, first word of the multiword can be capitalized
+   * @param filename              file text with multiwords and tags
+   * @param allowFirstCapitalized if set to {@code true}, first word of the
+   *                              multiword can be capitalized
+   * @param allowAllUppercase     if set to {@code true}, the all uppercase
+   *                              version of the multiword is allowed
    */
-  public MultiWordChunker(String filename, boolean allowFirstCapitalized) {
+  public MultiWordChunker(String filename, boolean allowFirstCapitalized, boolean allowAllUppercase) {
     this.filename = filename;
     this.allowFirstCapitalized = allowFirstCapitalized;
+    this.allowAllUppercase = allowAllUppercase;
   }
-  
+
   /*
    * Lazy init, thanks to Artur Trzewik
    */
@@ -73,44 +78,63 @@ public class MultiWordChunker extends AbstractDisambiguator {
 
     Map<String, Integer> mStartSpace = new HashMap<>();
     Map<String, Integer> mStartNoSpace = new HashMap<>();
-    Map<String, String> mFull = new HashMap<>();
+    Map<String, AnalyzedToken> mFull = new HashMap<>();
 
     try (InputStream stream = JLanguageTool.getDataBroker().getFromResourceDirAsStream(filename)) {
       List<String> posTokens = loadWords(stream);
       for (String posToken : posTokens) {
         String[] tokenAndTag = posToken.split("\t");
         if (tokenAndTag.length != 2) {
-          throw new RuntimeException("Invalid format in " + filename + ": '" + posToken + "', expected two tab-separated parts");
+          throw new RuntimeException(
+              "Invalid format in " + filename + ": '" + posToken + "', expected two tab-separated parts");
         }
-        boolean containsSpace = tokenAndTag[0].indexOf(' ') > 0;
-        String firstToken;
-        String[] firstTokens;
-        if (!containsSpace) {
-          firstTokens = new String[tokenAndTag[0].length()];
-          firstToken = tokenAndTag[0].substring(0, 1);
-          for (int i = 1; i < tokenAndTag[0].length(); i++) {
-            firstTokens[i] = tokenAndTag[0].substring(i - 1, i);
+        List<String> tokens = new ArrayList<String>();
+        String originalToken = tokenAndTag[0];
+        String tag = tokenAndTag[1];
+        tokens.add(originalToken);
+        if (allowFirstCapitalized) {
+          String tokenFirstCapitalized = StringTools.uppercaseFirstChar(originalToken);
+          if (!mFull.containsKey(tokenFirstCapitalized) && !originalToken.equals(tokenFirstCapitalized)) {
+            tokens.add(tokenFirstCapitalized);
           }
-          if (mStartNoSpace.containsKey(firstToken)) {
-            if (mStartNoSpace.get(firstToken) < firstTokens.length) {
+        }
+        if (allowAllUppercase) {
+          String tokenAllUppercase = originalToken.toUpperCase();
+          if (!mFull.containsKey(tokenAllUppercase) && !originalToken.equals(tokenAllUppercase)) {
+            tokens.add(tokenAllUppercase);
+          }
+        }
+        for (String token : tokens) {
+          boolean containsSpace = token.indexOf(' ') > 0;
+          String firstToken;
+          String[] firstTokens;
+          if (!containsSpace) {
+            firstTokens = new String[tokenAndTag[0].length()];
+            firstToken = token.substring(0, 1);
+            for (int i = 1; i < token.length(); i++) {
+              firstTokens[i] = token.substring(i - 1, i);
+            }
+            if (mStartNoSpace.containsKey(firstToken)) {
+              if (mStartNoSpace.get(firstToken) < firstTokens.length) {
+                mStartNoSpace.put(firstToken, firstTokens.length);
+              }
+            } else {
               mStartNoSpace.put(firstToken, firstTokens.length);
             }
           } else {
-            mStartNoSpace.put(firstToken, firstTokens.length);
-          }
-        } else {
-          firstTokens = tokenAndTag[0].split(" ");
-          firstToken = firstTokens[0];
+            firstTokens = token.split(" ");
+            firstToken = firstTokens[0];
 
-          if (mStartSpace.containsKey(firstToken)) {
-            if (mStartSpace.get(firstToken) < firstTokens.length) {
+            if (mStartSpace.containsKey(firstToken)) {
+              if (mStartSpace.get(firstToken) < firstTokens.length) {
+                mStartSpace.put(firstToken, firstTokens.length);
+              }
+            } else {
               mStartSpace.put(firstToken, firstTokens.length);
             }
-          } else {
-            mStartSpace.put(firstToken, firstTokens.length);
           }
+          mFull.put(token, new AnalyzedToken(token, tag, originalToken));
         }
-        mFull.put(tokenAndTag[0], tokenAndTag[1]);
       }
     } catch (IOException e) {
       throw new RuntimeException(e);
@@ -138,93 +162,71 @@ public class MultiWordChunker extends AbstractDisambiguator {
 
     for (int i = 0; i < anTokens.length; i++) {
       String tok = output[i].getToken();
-      if (tok.length()<1) {
+      if (tok.length() < 1) {
         continue;
       }
       // If the second token is not whitespace, concatenate it
-      if (i + 1 < anTokens.length && !anTokens[i+1].isWhitespace()) {
+      if (i + 1 < anTokens.length && !anTokens[i + 1].isWhitespace()) {
         tok = tok + output[i + 1].getToken();
       }
-      // If it is a capitalized word, the second time try with lowercase word.
-      int myCount = 0;
-      while (myCount < 2) {
-        StringBuilder tokens = new StringBuilder();
-        int finalLen = 0;
-        if (mStartSpace.containsKey(tok)) {
-          int len = mStartSpace.get(tok);
-          int j = i;
-          int lenCounter = 0;
-          while (j < anTokens.length) {
-            if (!anTokens[j].isWhitespace()) {
-              if (j == i && myCount == 1) {
-                tokens.append(anTokens[j].getToken().toLowerCase());
-              } else {
-                tokens.append(anTokens[j].getToken());
-              }
-              String toks = tokens.toString();
-              if (mFull.containsKey(toks)) {
-                output[i] = prepareNewReading(toks, output[i].getToken(), output[i], false);
-                output[finalLen] = prepareNewReading(toks,
-                    anTokens[finalLen].getToken(), output[finalLen], true);
-              }
-            } else {
-              if (j > 1 && !anTokens[j-1].isWhitespace()) { //avoid multiple whitespaces
-                tokens.append(' ');
-                lenCounter++;
-              }
-              if (lenCounter == len) {
-                break;
-              }
-            }
-            j++;
-            finalLen = j;
-          } 
-        }
 
-        if (mStartNoSpace.containsKey(tok.substring(0, 1))) {
-          int j = i;
-          while (j < anTokens.length && !anTokens[j].isWhitespace()) {
-            if (j == i && myCount == 1) {
-              tokens.append(anTokens[j].getToken().toLowerCase());
-            } else {
-              tokens.append(anTokens[j].getToken());
-            }
+      StringBuilder tokens = new StringBuilder();
+      int finalLen = 0;
+      if (mStartSpace.containsKey(tok)) {
+        int len = mStartSpace.get(tok);
+        int j = i;
+        int lenCounter = 0;
+        while (j < anTokens.length) {
+          if (!anTokens[j].isWhitespace()) {
+            tokens.append(anTokens[j].getToken());
             String toks = tokens.toString();
             if (mFull.containsKey(toks)) {
-              output[i] = prepareNewReading(toks, anTokens[i].getToken(),
-                  output[i], false);
-              output[j] = prepareNewReading(toks, anTokens[j].getToken(),
-                  output[j], true);
+              output[i] = prepareNewReading(toks, output[i].getToken(), output[i], false);
+              output[finalLen] = prepareNewReading(toks, anTokens[finalLen].getToken(), output[finalLen], true);
             }
-            j++;
+          } else {
+            if (j > 1 && !anTokens[j - 1].isWhitespace()) { // avoid multiple whitespaces
+              tokens.append(' ');
+              lenCounter++;
+            }
+            if (lenCounter == len) {
+              break;
+            }
           }
+          j++;
+          finalLen = j;
         }
-        // If it is a capitalized word, try with lowercase word.
-        myCount++;
-        if (allowFirstCapitalized && StringTools.isCapitalizedWord(tok)
-            && myCount == 1) {
-            tok = tok.toLowerCase();
-        } else {
-          myCount = 2;
+      }
+      if (mStartNoSpace.containsKey(tok.substring(0, 1))) {
+        int j = i;
+        while (j < anTokens.length && !anTokens[j].isWhitespace()) {
+          tokens.append(anTokens[j].getToken());
+          String toks = tokens.toString();
+          if (mFull.containsKey(toks)) {
+            output[i] = prepareNewReading(toks, anTokens[i].getToken(), output[i], false);
+            output[j] = prepareNewReading(toks, anTokens[j].getToken(), output[j], true);
+          }
+          j++;
         }
       }
     }
     return new AnalyzedSentence(output);
   }
 
-  private AnalyzedTokenReadings prepareNewReading(String tokens, String tok, AnalyzedTokenReadings token, boolean isLast) {
+  private AnalyzedTokenReadings prepareNewReading(String tokens, String tok, AnalyzedTokenReadings token,
+      boolean isLast) {
     StringBuilder sb = new StringBuilder();
     sb.append('<');
     if (isLast) {
       sb.append('/');
     }
-    sb.append(mFull.get(tokens));
+    sb.append(mFull.get(tokens).getPOSTag());
     sb.append('>');
-    AnalyzedToken tokenStart = new AnalyzedToken(tok, sb.toString(), tokens);
+    AnalyzedToken tokenStart = new AnalyzedToken(tok, sb.toString(), mFull.get(tokens).getLemma());
     return setAndAnnotate(token, tokenStart);
   }
 
-  private AnalyzedTokenReadings setAndAnnotate(AnalyzedTokenReadings oldReading, AnalyzedToken newReading) {  
+  private AnalyzedTokenReadings setAndAnnotate(AnalyzedTokenReadings oldReading, AnalyzedToken newReading) {
     AnalyzedTokenReadings newAtr = oldReading;
     newAtr.addReading(newReading, "MULTIWORD_CHUNKER");
     return newAtr;
@@ -236,7 +238,7 @@ public class MultiWordChunker extends AbstractDisambiguator {
       String line;
       while ((line = reader.readLine()) != null) {
         line = line.trim();
-        if (line.isEmpty() || line.charAt(0) == '#') {  // ignore comments
+        if (line.isEmpty() || line.charAt(0) == '#') { // ignore comments
           continue;
         }
         lines.add(line.replaceFirst("#.*", "").trim());

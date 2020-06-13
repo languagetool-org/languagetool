@@ -39,7 +39,7 @@ import org.languagetool.tagging.disambiguation.rules.XmlRuleDisambiguator;
  */
 public class EnglishHybridDisambiguator extends AbstractDisambiguator {
 
-  private final Disambiguator chunker = new MultiWordChunker("/en/multiwords.txt", true);
+  private final Disambiguator chunker = new MultiWordChunker("/en/multiwords.txt", true, true);
   private final Disambiguator disambiguator = new XmlRuleDisambiguator(new English());
 
   /**
