@@ -6167,8 +6167,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Унёс <marker>свои тело</marker> и душу.</example>
             <example correction=""><marker>эти отношение</marker></example>
         </rule>
-        <rule  id="Unify_PNN_NN_number" name="Согласование местоимения с существительным по числу" default="off">
-            <!-- Disabled. Может быть не только согласование, но и управление.
+        <rule  id="Unify_PNN_NN_number" name="Согласование местоимения с существительным по числу" default="temp_off">
+            <!-- Disabled. Может быть не только согласование, но и управление.  default="temp_off"
+            TODO: указать список конкретных местоимений, к которым применимо правило
             "Целое больше суммы его частей."
             "Давай, я завяжу тебе шнурки."
             -->
@@ -6176,7 +6177,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <unify negate="yes">
                         <feature id="number"/>
-                        <token postag="PNN:.*" postag_regexp="yes"><exception scope="previous" regexp="yes">,|–|-|—</exception><exception scope="previous" postag="PREP"></exception><exception inflected="yes" regexp="yes" >это|то</exception></token>
+                        <token postag="PNN:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="PNN:.*:(R|D|V|T|P):.*" /><exception scope="previous" regexp="yes">,|–|-|—</exception><exception scope="previous" postag="PREP" /><exception inflected="yes" regexp="yes" >это|то</exception></token>
                         <token postag="NN:.*|SENT_END|PARA_END" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*|SENT_END|PARA_END" postag_regexp="yes" />
                             <!-- Слова без буквы ё имеют неправильный падеж -->
                             <exception regexp="yes">&missing_yo;</exception>
@@ -6188,6 +6189,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Не согласуются по числу</short>
             <example>По сумме всех запусков оптимизации.</example>
             <example>Это и повлияло на их решение.</example>
+            <example>Я не могу не верить его словам.</example>
             <example correction="">По сумме <marker>всего запускам</marker> оптимизации.</example>
         </rule>                                           
         <rulegroup default="on" id="Soglasovanie_ADJ_NN" name="Согласование прилагательного с существительным">
@@ -11360,7 +11362,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 		    <token regexp="yes">\p{L}\p{L}+</token>
 		    </marker>
 	    </pattern>
-	    <message>Возможно, нужна буква из кириллицы вместо аналогичной по начертанию латинской или наоборот. Для обозначения ударения используйте символ U+0301 в кодировке Юникод вместо букв из других алфавитов.</message>	    
+	    <message>Возможно, нужна буква из кириллицы вместо аналогичной по начертанию латинской или наоборот. Вместо букв из других алфавитов для обозначения ударения используйте символ U+0301 в кодировке Юникод.</message>	    
 	    <url>https://ru.wikipedia.org/wiki/%D0%97%D0%BD%D0%B0%D0%BA_%D1%83%D0%B4%D0%B0%D1%80%D0%B5%D0%BD%D0%B8%D1%8F#.D0.92.D0.B2.D0.BE.D0.B4_.D0.B7.D0.BD.D0.B0.D0.BA.D0.B0_.D1.81_.D0.BA.D0.BB.D0.B0.D0.B2.D0.B8.D0.B0.D1.82.D1.83.D1.80.D1.8B</url>
 	    <short>Возможно нужна буква из кириллицы вместо аналогичной по начертанию латинской или наоборот</short>
             <example correction="">Книга <marker>прo</marker> Львов.</example>
@@ -11502,7 +11504,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Заглавными"><marker>ЗАГЛАВНЫМИ</marker> буквами не выделяйте текст.</example>
             </rule>  -->
         </rulegroup>
-        <rule id="DotOrCase" name="Точка или заглавная буква" >  <!-- default="temp_off" -->
+        <rule id="DotOrCase" name="Точка или заглавная буква" >
             <pattern>
                 <token regexp="yes">[а-яё][а-яё-]*</token>
                 <token><exception regexp="yes">&pnct;</exception></token>
@@ -11864,12 +11866,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>   
                 <pattern>
                     <marker>
-                        <token regexp="yes">много|немало|немного|мало</token>
-                        <token postag="VB:Past:.*:.*:PL|VB:Fut:.*:.*:PL:P3|VB:Real:.*:.*:PL:P3" postag_regexp="yes"/>
+                        <token regexp="yes">много|немало|немного|мало<exception scope="previous" postag="PNN:.*|NN:.*:Nom" postag_regexp = "yes"></exception></token>
+                        <token postag="VB:Past:INTR:.*:PL" postag_regexp="yes">  <!-- temp remove |VB:Fut:.*:.*:PL:P3|VB:Real:.*:.*:PL:P3 to avoid false positives -->
+                            <exception scope="next" postag="PNN:.*|NN:.*:Nom" postag_regexp = "yes"></exception>
+                        </token>
                     </marker>
                 </pattern>
-                <message>Если подлежащее выражено оборотом со словами: «много», «мало», «немного», «немало» – сказуемое ставится в форме единственного числа.</message>
-                <short>Ошибка в согласовании</short>
+                <message>Стиль: если подлежащее выражено оборотом со словами: «много», «мало», «немного», «немало» – сказуемое обычно ставится в форме единственного числа.</message>
+                <url>http://new.gramota.ru/spravka/letters?id=64</url>
+                <short>Стиль: обычно требуется единственное число</short>
                 <example type="incorrect"><marker>Много нашлись</marker> желающих присоединиться.</example>
                 <example>Много нашлось желающих присоединиться.</example>
                 <example type="incorrect"><marker>Немало были</marker> и отказавшихся.</example>
@@ -11878,6 +11883,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Немного пришло людей его поддержать.</example>
                 <example type="incorrect"><marker>Мало остались</marker> в живых.</example>
                 <example>Мало осталось в живых.</example>
+                <example>Они много разговаривали.</example>
             </rule>
         </rulegroup>
  
