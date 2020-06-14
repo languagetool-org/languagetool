@@ -7918,4 +7918,60 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
+    <category name="repeticiones" id="REPETITIONS">
+        <rulegroup id="REPETEAD_ELEMENTS" name="elementos repetidos incorrectamente" default="temp_off">
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>ya</token>
+                        <token skip="7"/>
+                        <token><match no="0"/></token>
+                        <token><match no="1"/></token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token skip="6" regexp="yes">también|ya|aun|aún<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
+                    <token><match no="0"/></token>
+                </pattern>
+                <message>Repetición probablemente incorrecta.</message>
+                <suggestion><match no="1" include_skipped="all"/></suggestion>
+                <suggestion><match no="1" include_skipped="following"/> <match no="2"/></suggestion>
+                <example correction="También se llama|Se llama también"><marker>También se llama también</marker> así.</example>
+                <example correction="aún no es|no es aún">Esto <marker>aún no es aún</marker> definitivo.</example>
+                <example>También es blanco y también es negreo.</example>
+                <example>Ya por verguenza ya por timidez</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token skip="2" regexp="yes">solo|sólo|solamente<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
+                    <token><match no="0"/></token>
+                </pattern>
+                <message>Repetición probablemente incorrecta.</message>
+                <suggestion><match no="1" include_skipped="all"/></suggestion>
+                <suggestion><match no="1" include_skipped="following"/> <match no="2"/></suggestion>
+                <example correction="Solo faltaba|Faltaba solo"><marker>Solo faltaba solo</marker> esto.</example>
+                <example correction="Solo ha faltado|Ha faltado solo"><marker>Solo ha faltado solo</marker> esto.</example>
+                <example>Solo es blanco, solo es negro.</example>
+                <example>Ni solo por verguenza ni solo por timidez.</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token>no</token>
+                    <token regexp="yes">solo|sólo|solamente|únicamente|exclusivamente</token>
+                </antipattern>
+                <pattern>
+                    <token skip="2">no<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
+                    <token><match no="0"/></token>
+                </pattern>
+                <message>Repetició probablement incorrecta.</message>
+                <suggestion><match no="1" include_skipped="all"/></suggestion>
+                <suggestion><match no="1" include_skipped="following"/> <match no="2"/></suggestion>
+                <example correction="no yo|yo no">Eso <marker>no yo no</marker> lo haría.</example>
+                <example>No solo no megusta, me repugna.</example>
+                <example>No, no me gusta.</example>
+                <example>No y no: esta es mi respuesta.</example>
+                <example>No que no pudiese ser.</example>
+            </rule>
+        </rulegroup>
+    </category>
 </rules>
