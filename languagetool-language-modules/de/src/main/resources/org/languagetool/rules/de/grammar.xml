@@ -9304,6 +9304,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rulegroup id="PLUG_IN_HYBRID" name="Plug-in-Hybrid" default="temp_off">
+            <url>https://de.wikipedia.org/wiki/Plug-in-Hybrid</url>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">Plug-in-Hybrid(s|e|en)?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Plug-?in</token>
+                    <token regexp="yes">Hybrid(s|e|en)?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Plug-in-<match no="2" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Plug-in-Hybride"><marker>Plugin Hybride</marker> sind sehr viel umweltschonender.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">Plug-?in-?Hybrid(s|e|en)?</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>Plug-in-<match no="1" regexp_match="(?i)Plug-?in-?" regexp_replace="" case_conversion="startupper" /></suggestion>?</message>
+                <example correction="Plug-in-Hybrid">Er fährt einen <marker>Plugin-Hybrid</marker>.</example>
+            </rule>
+        </rulegroup>
         <rule id="MIDLIFE_CRISIS" name="Midlife-Crisis">
             <pattern>
                 <token regexp="yes">midli[vf]e</token>
