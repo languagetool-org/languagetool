@@ -46,7 +46,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY nombres_colectivos "mayoría|par|gente|grupo|parte|familia|docena|centena|millar">
 <!ENTITY common_english_nouns_feminine "Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference">
 <!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre">
-<!ENTITY context_ano "defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
+<!ENTITY context_ano "estómago|intestino|defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -6802,7 +6802,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONFUSIONS" name="Confusiones">
-        <!--<rule id="ESTO_ESTE" name="esto/este" default="temp_off">
+        <!--<rule id="ESTO_ESTE" name="esto/este">
             <pattern>
                 <marker>
                     <token>esto</token>
@@ -6812,7 +6812,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>este</suggestion>?</message>
             <example correction="este">En <marker>esto</marker> campo es el mejor.</example>
         </rule>-->
-        <rulegroup id="ANO" name="ano/año" default="temp_off">
+        <rulegroup id="ANO" name="ano/año">
             <rule>
                 <antipattern>
                     <token>-</token>
@@ -6829,6 +6829,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <antipattern>
                     <token>por</token>
                     <token>el</token>
+                    <token>ano</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">cabeza|estómago|boca|barriga|intestino</token>
+                    <token>al</token>
                     <token>ano</token>
                 </antipattern>
                 <pattern>
@@ -6904,6 +6909,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </pattern>
                 <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
                 <example correction="año">Durante todo el <marker>ano</marker>.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ano</token>
+                    </marker>
+                    <token>que</token>
+                </pattern>
+                <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
+                <example correction="año">Le operarán el intestino el <marker>ano</marker> que viene.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>ano</token>
+                    </marker>
+                    <token postag="DN.*|A..[MC][SN].|V.P...SM" postag_regexp="yes"/>
+                </pattern>
+                <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
+                <example correction="año">Le operaron el intestino el <marker>ano</marker> pasado.</example>
+                <example correction="año">Le operaron el intestino el <marker>ano</marker> 2010.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="DN.*|A..[MC][SN].|V.P...SM" postag_regexp="yes"/>
+                    <marker>
+                        <token>ano</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
+                <example correction="año">Le operaron del intestino el pasado <marker>ano</marker>.</example>
+                <example correction="año">Le operarán del intestino el próximo <marker>ano</marker>.</example>
             </rule>
         </rulegroup>
         <rule id="SIN_EMBRAGO" name="sin *embrago/embargo">
