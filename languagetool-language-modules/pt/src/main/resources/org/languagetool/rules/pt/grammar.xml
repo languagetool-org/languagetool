@@ -762,6 +762,16 @@ title="Easy editing stylesheet" ?>
 		<token postag='AQ0CP0|NC[FMC]P000' postag_regexp='yes'/>
       </antipattern>  
 <!-- MARCOAGPINTO 2020-05-26 *END* -->
+<!-- MARCOAGPINTO 2020-06-14 *START* -->
+<!-- "A ocupação soviética resultou na morte de afegãos, a maioria civis." -->
+<!-- "A ocupação soviética resultou na morte de afegãos, a maioria homens." -->
+<!-- "A ocupação soviética resultou na morte de afegãos, a maioria mulheres." -->
+      <antipattern>
+	      <token regexp='yes'>a|na</token>
+		  <token regexp='no'>maioria</token>
+		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-06-14 *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <!-- MARCOAGPINTO 2019-12-31 -->
         <marker>
@@ -1727,6 +1737,15 @@ title="Easy editing stylesheet" ?>
 		  <token postag='NC[CFM]P000' postag_regexp='yes'/>		  
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-06 *END* -->
+<!-- MARCOAGPINTO 2020-06-14 *START* -->
+<!-- "Algumas medidas revelaram-se de tal modo eficazes que persistiram nos diversos regulamentos." -->
+      <antipattern>
+	      <token postag='NC[CFM]S000' postag_regexp='yes'/>
+		  <token postag='AQ0[CFM]P0' postag_regexp='yes'/>
+		  <token postag='CS|P[ERT]0CN000' postag_regexp='yes'/>
+		  <token postag='VMIM3P0|VMIS3P0' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-06-14 *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -1980,6 +1999,25 @@ title="Easy editing stylesheet" ?>
 		  <token postag='SPS00' postag_regexp='no'/>		  
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-04 *END* -->
+<!-- MARCOAGPINTO 2020-06-14 *START* -->
+<!-- "A ocupação soviética resultou na morte de afegãos, a maioria civis." -->
+<!-- "A ocupação soviética resultou na morte de afegãos, a maioria homens." -->
+<!-- "A ocupação soviética resultou na morte de afegãos, a maioria mulheres." -->
+      <antipattern>
+	      <token regexp='yes'>a|na</token>
+		  <token regexp='no'>maioria</token>
+		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-06-14 *END* -->
+<!-- MARCOAGPINTO 2020-06-14 *START* -->
+<!-- "Os remanescentes do regime derrubado juntaram-se a diferentes grupos." -->
+<!-- "Os remanescentes do regime derrubado juntaram-se a diferentes organizações." -->
+      <antipattern>
+	      <token regexp='yes'>a|de|em|nos|nas</token>
+		  <token postag='AQ0[CFM]P0' postag_regexp='yes'/>
+		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-06-14 *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
