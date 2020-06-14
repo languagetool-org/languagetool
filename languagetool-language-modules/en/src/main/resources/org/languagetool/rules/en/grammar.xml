@@ -12200,7 +12200,7 @@ USA
             <pattern>
                 <token regexp="yes">(un)?likel[iy]|livel[iy]</token>
                 <token regexp="yes">hoods?</token>
-            </pattern>
+            </pattern>  
             <message>Did you mean the noun <suggestion><match no="1" case_conversion="alllower" regexp_match="(?i)y$" regexp_replace="i" /><match no="2" case_conversion="alllower" /></suggestion>?</message>
             <example correction="livelihoods">There are many people whose <marker>lively hoods</marker> depend on the rain forest.</example>
         </rule>
@@ -12737,6 +12737,14 @@ USA
                 <message>The adjective <suggestion>handsome</suggestion> is spelled as one word.</message>
                 <example correction="handsome">He is a <marker>hand some</marker> man.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>hand</token>
+                    <token regexp="yes">rails?|railings?</token>
+                </pattern>
+                <message>The noun <suggestion>hand<match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
+                <example correction="handrail">The <marker>hand rail</marker> was very slippery.</example>
+            </rule>
         </rulegroup>
         <rule id="SPACE_COMPOUNDS" name="space ship (spaceship)">
             <pattern>
@@ -13140,6 +13148,14 @@ USA
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <example correction="supermarket">I need to buy some groceries at the <marker>super market</marker>.</example>
             <example>Lego Marvel Super Heroes</example>
+        </rule>
+        <rule id="STAIRS_COMPOUNDS" name="down stairs (downstairs)" default="temp_off">
+            <pattern>
+                <token regexp="yes">up|down</token>
+                <token>stairs</token>
+            </pattern>
+            <message>Did you mean <suggestion>\1stairs</suggestion>?</message>
+            <example correction="upstairs">Please go <marker>up stairs</marker> to your room.</example>
         </rule>
         <rule id="TAIL_COMPOUNDS" name="cock tail (cocktail)">
             <pattern>
@@ -41133,6 +41149,19 @@ USA
                 <example correction="U.K.">I live in the <marker>u.k.</marker></example>
             </rule>
         </rulegroup>
+        <rule id="THE_IT" name="the it (IT)">
+            <antipattern>
+                <token regexp="yes">an|the</token>
+                <token regexp="yes">(?-i)It</token>
+                <token inflected="yes">girl</token>
+            </antipattern>
+            <pattern>
+                <token>the</token>
+                <token regexp="yes" case_sensitive="yes">[Ii]t</token>
+            </pattern>
+            <message>Please verify. Did you mean <suggestion>\2</suggestion> or <suggestion>the IT</suggestion> (= information technology)?</message>
+            <example correction="it|the IT">Please send it to <marker>the it</marker>.</example>
+        </rule>
         <rule id="DT_PRP" name="The you (you)">
             <antipattern>
                 <token regexp="yes">an|the</token>
@@ -60363,6 +60392,13 @@ The accident victim died from her injuries.
     <!-- Style -->
     <!-- ====================================================================== -->
     <category id="STYLE" name="Style" type="style">
+        <rule id="TIFLIS" name="Tiflis" default="temp_off">
+            <pattern>
+                <token case_sensitive="yes">Tiflis</token>
+            </pattern>
+            <message>The capital city of Georgia is today known under the name <suggestion>Tbilisi</suggestion>.</message>
+            <example correction="Tbilisi">The capital city of Georgia is <marker>Tiflis</marker>.</example>
+        </rule>
         <rulegroup id="MISSING_COMMA_WITH_TOO" name="Missing vocative comma">
             <rule>
                 <pattern>
