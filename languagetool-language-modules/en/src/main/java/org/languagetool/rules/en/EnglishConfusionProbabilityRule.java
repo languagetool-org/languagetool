@@ -249,7 +249,6 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "had a think",
       "live support", // vs life
       "your troll", // vs you
-      "led screen", // vs let
       "waiste type", // vs waste
       "(wait)",
       "of you being her" // vs your
