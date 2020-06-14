@@ -63,7 +63,6 @@ public class AgreementRule2 extends Rule {
     asList(token("vermutlich")), // "Vermutlich Ende 1813 erkrankte..."
     asList(token("eventuell")), // "Eventuell Ende 1813 erkrankte..."
     asList(token("ausschließlich")),
-    asList(token("natürlich")), // Natürlich Donnerstag!
     asList(token("ausschliesslich")),
     asList(token("bloß")),       // "Bloß Anhängerkupplung und solche Dinge..."
     asList(token("einfach")),    // "Einfach Bescheid sagen ..."

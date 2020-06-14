@@ -4848,7 +4848,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
-        <rule id="OHMEN" name="Ohmen (Omen)" default="temp_off">
+        <rule id="OHMEN" name="Ohmen (Omen)">
             <pattern>
                 <token regexp="yes">gutes|schlechtes</token>
                 <marker>
@@ -4859,7 +4859,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.duden.de/rechtschreibung/Omen</url>
             <example correction="Omen">Das ist doch ein gutes <marker>Ohmen</marker>.</example>
         </rule>
-        <rulegroup id="DANKS" name="Danks (Danke)" default="temp_off">
+        <rulegroup id="DANKS" name="Danks (Danke)">
             <rule>
                 <pattern>
                     <token postag="SENT_START|PKT" postag_regexp="yes" />
@@ -9304,6 +9304,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="MIDLIFE_CRISIS" name="Midlife-Crisis">
+            <pattern>
+                <token regexp="yes">midli[vf]e</token>
+                <token regexp="yes">[kc]ris[ie]s?</token>
+            </pattern>
+            <message>Meinten Sie das Nomen <suggestion>Midlife-Crisis</suggestion>?</message>
+            <example correction="Midlife-Crisis">Mit 40 bekam er eine <marker>Midlife Crises</marker>.</example>
+        </rule>
         <rule id="EIN_KIND_POLITIK" name="Ein-Kind-Politik"><!-- needs higher prio than DE_AGREEMENT -->
             <pattern>
                 <token>ein</token>

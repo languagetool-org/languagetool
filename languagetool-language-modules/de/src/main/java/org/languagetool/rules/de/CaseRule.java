@@ -136,7 +136,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // https://github.com/languagetool-org/languagetool/issues/1515
       SENT_START,
-      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✅|➡️"),
+      regex("▶︎|▶|▶️|→|\\*|•|-|★|⧪|⮞|✔︎|✓|✅|➡️"),
       regex(".*")
     ),
     Arrays.asList(
@@ -262,7 +262,7 @@ public class CaseRule extends Rule {
     Arrays.asList(
       // Names: "Jeremy Schulte", "Alexa Jung", "Fiete Lang", ...
       posRegex("UNKNOWN|EIG:.+"),
-      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich")
+      regex("Schulte|Junge?|Lange?|Braun|Groß|Gross|K(ü|ue)hne?|Schier|Becker|Sauer|Ernst|Fr(ö|oe)hlich|Kurz|Klein|Schick|Frisch|Weigert|D(ü|ue)rr|Nagele|Hoppe|D(ö|oe)rre|G(ö|oe)ttlich|Stark")
     ),
     Arrays.asList(
       token(","),
@@ -565,8 +565,6 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
-    "Eckhart",
-
     "Mo",
     "Di",
     "Mi",
@@ -656,6 +654,9 @@ public class CaseRule extends Rule {
     "Vorstandsvorsitzender",
     "Vorstandsvorsitzenden",
     "Vorstandsvorsitzende",
+    "Marketingtreibende",
+    "Marketingtreibender",
+    "Marketingtreibenden",
     "Strafgefangenen",
     "Strafgefangener",
     "Strafgefangene",
