@@ -18550,6 +18550,8 @@ steenwijk;Steenwijk
 			</rule>
 		</rulegroup>
 		<rulegroup id="DE_IPV_HET" name="De i.p.v. het">
+			<antipattern><token>de</token><token case_sensitive="yes">EEG</token></antipattern><!-- het eeg vs de EEG -->
+			<antipattern><token>de</token><token>nummer</token><token postag="GET"/></antipattern><!-- de nummer een -->
 			<antipattern><token>de</token><token postag="BNW.*|WKW:(ODW|VTD):.*|GET:RNG" postag_regexp="yes"/></antipattern>
 			<antipattern><token>de</token><token postag="ZNW:EKV|ZNW.*DE_" postag_regexp="yes"/></antipattern>
 			<antipattern><token>de</token><token regexp="yes">weer|meer|weinig</token></antipattern>
