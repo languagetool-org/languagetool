@@ -65,9 +65,9 @@ public class FrenchWordTokenizer extends WordTokenizer {
   // the first is an exception to the two next patterns
   private static final Pattern SPACE_DIGITS0 = Pattern.compile("([\\d]{4}) ",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern SPACE_DIGITS = Pattern.compile("([\\d]) ([\\d][\\d][\\d])",
+  private static final Pattern SPACE_DIGITS = Pattern.compile("([\\d]) ([\\d][\\d][\\d])\\b",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-  private static final Pattern SPACE_DIGITS2 = Pattern.compile("([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])",
+  private static final Pattern SPACE_DIGITS2 = Pattern.compile("([\\d]) ([\\d][\\d][\\d]) ([\\d][\\d][\\d])\\b",
       Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
 
   public FrenchWordTokenizer() {
@@ -130,10 +130,10 @@ public class FrenchWordTokenizer extends WordTokenizer {
     auxText = matcher.replaceAll("$1\u0001\u0001FR_DECIMALPOINT\u0001\u0001$2");
     matcher = DECIMAL_COMMA.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001FR_DECIMALCOMMA\u0001\u0001$2");
-    matcher = SPACE_DIGITS0.matcher(auxText);
-    auxText = matcher.replaceAll("$1\u0001\u0001FR_SPACE0\u0001\u0001");
     matcher = SPACE_DIGITS2.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001FR_SPACE\u0001\u0001$2\u0001\u0001FR_SPACE\u0001\u0001$3");
+    matcher = SPACE_DIGITS0.matcher(auxText);
+    auxText = matcher.replaceAll("$1\u0001\u0001FR_SPACE0\u0001\u0001");
     matcher = SPACE_DIGITS.matcher(auxText);
     auxText = matcher.replaceAll("$1\u0001\u0001FR_SPACE\u0001\u0001$2");
     auxText = auxText.replaceAll("\\u0001\\u0001FR_SPACE0\\u0001\\u0001", " ");
