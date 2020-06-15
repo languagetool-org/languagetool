@@ -6167,20 +6167,23 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Унёс <marker>свои тело</marker> и душу.</example>
             <example correction=""><marker>эти отношение</marker></example>
         </rule>
-        <rule  id="Unify_PNN_NN_number" name="Согласование местоимения с существительным по числу" default="temp_off">
+        <!--
+        <rule  id="Unify_PNN_NN_number" name="Согласование местоимения с существительным по числу" default="off">  -->
             <!-- Disabled. Может быть не только согласование, но и управление.  default="temp_off"
             TODO: указать список конкретных местоимений, к которым применимо правило
             "Целое больше суммы его частей."
             "Давай, я завяжу тебе шнурки."
             -->
+            <!--
             <pattern>
                 <marker>
                     <unify negate="yes">
                         <feature id="number"/>
                         <token postag="PNN:.*" postag_regexp="yes"><exception postag_regexp="yes" postag="PNN:.*:(R|D|V|T|P):.*" /><exception scope="previous" regexp="yes">,|–|-|—</exception><exception scope="previous" postag="PREP" /><exception inflected="yes" regexp="yes" >это|то</exception></token>
                         <token postag="NN:.*|SENT_END|PARA_END" postag_regexp="yes"><exception negate_pos="yes" postag="NN:.*|SENT_END|PARA_END" postag_regexp="yes" />
-                            <!-- Слова без буквы ё имеют неправильный падеж -->
-                            <exception regexp="yes">&missing_yo;</exception>
+        -->
+                    <!-- Слова без буквы ё имеют неправильный падеж -->
+        <!--                    <exception regexp="yes">&missing_yo;</exception>
                         </token>
                     </unify>				        
                 </marker>
@@ -6191,7 +6194,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Это и повлияло на их решение.</example>
             <example>Я не могу не верить его словам.</example>
             <example correction="">По сумме <marker>всего запускам</marker> оптимизации.</example>
-        </rule>                                           
+        </rule>        -->                                   
         <rulegroup default="on" id="Soglasovanie_ADJ_NN" name="Согласование прилагательного с существительным">
 	        <antipattern>
                 <token case_sensitive="yes" regexp="yes">[А-Я].+<exception postag="CONJ|PREP" postag_regexp="yes" /></token>
@@ -11866,7 +11869,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>   
                 <pattern>
                     <marker>
-                        <token regexp="yes">много|немало|немного|мало<exception scope="previous" postag="PNN:.*|NN:.*:Nom" postag_regexp = "yes"></exception></token>
+                        <token regexp="yes">много|немало|немного|мало<exception scope="previous" postag="PNN:.*|NN:.*:Nom" postag_regexp = "yes"></exception><exception scope="previous" regexp = "yes">,|;|:</exception></token>
                         <token postag="VB:Past:INTR:.*:PL" postag_regexp="yes">  <!-- temp remove |VB:Fut:.*:.*:PL:P3|VB:Real:.*:.*:PL:P3 to avoid false positives -->
                             <exception scope="next" postag="PNN:.*|NN:.*:Nom" postag_regexp = "yes"></exception>
                         </token>
@@ -11884,6 +11887,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect"><marker>Мало остались</marker> в живых.</example>
                 <example>Мало осталось в живых.</example>
                 <example>Они много разговаривали.</example>
+                <example>Мы принимали участие в экскурсиях, совершали пешие прогулки, катались верхом и, конечно, много купались, ныряли и загорали.</example>                           
             </rule>
         </rulegroup>
  
