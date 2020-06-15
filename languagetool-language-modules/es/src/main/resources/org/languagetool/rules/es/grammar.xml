@@ -46,7 +46,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY nombres_colectivos "mayoría|par|gente|grupo|parte|familia|docena|centena|millar">
 <!ENTITY common_english_nouns_feminine "Society|League|Corporation|Association|Gallery|Navy|Area|Cup|Foundation|Conference">
 <!ENTITY common_english_nouns_masculine "Club|TM|UD|UE|SD|Team|Day|Center|Centre">
-<!ENTITY context_ano "estómago|intestino|defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
+<!ENTITY context_ano "anal|culo|cáncer|rectal|estómago|intestino|defecación|defecar|digestivo|sistema|tracto|hez|mierda|excremento|orificio|excretar|cagar">
 ]>
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <unification feature="numero">
@@ -7941,8 +7941,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token><match no="1"/></token>
                     </marker>
                 </antipattern>
+                <antipattern>
+                    <token>ya</token>
+                    <token>que</token>
+                </antipattern>
                 <pattern>
-                    <token skip="6" regexp="yes">también|ya|aun|aún<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
+                    <token skip="5" regexp="yes">también|ya|aun|aún<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
                     <token><match no="0"/></token>
                 </pattern>
                 <message>Repetición probablemente incorrecta.</message>
@@ -7967,22 +7971,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ni solo por verguenza ni solo por timidez.</example>
             </rule>
             <rule>
-                <antipattern>
-                    <token>no</token>
-                    <token regexp="yes">solo|sólo|solamente|únicamente|exclusivamente</token>
-                </antipattern>
                 <pattern>
-                    <token skip="2">no<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
+                    <token>no</token>
+                    <token postag="RG|PP.*" postag_regexp="yes"><exception regexp="yes">solo|sólo|solamente|únicamente|exclusivamente</exception></token>
                     <token><match no="0"/></token>
                 </pattern>
-                <message>Repetició probablement incorrecta.</message>
-                <suggestion><match no="1" include_skipped="all"/></suggestion>
+                <message>Repetición probablemente incorrecta.</message>
+                <suggestion>\2 \3</suggestion>
+                <suggestion>\1 \2</suggestion>
                 <suggestion><match no="1" include_skipped="following"/> <match no="2"/></suggestion>
-                <example correction="no yo|yo no">Eso <marker>no yo no</marker> lo haría.</example>
+                <example correction="yo no|no yo">Eso <marker>no yo no</marker> lo haría.</example>
                 <example>No solo no megusta, me repugna.</example>
                 <example>No, no me gusta.</example>
                 <example>No y no: esta es mi respuesta.</example>
                 <example>No que no pudiese ser.</example>
+                <example>Una persona que no te entiende no tiene por qué ser idiota.</example>
+                <example>No puedes no verlo.</example>
             </rule>
         </rulegroup>
     </category>
