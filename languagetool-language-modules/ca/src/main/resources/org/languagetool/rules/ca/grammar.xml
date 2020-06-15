@@ -2330,6 +2330,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">av[ií](a|es|en|em|eu)|as|em|eu|e|an<exception regexp="yes">\p{Lu}+</exception><exception postag="_GN_MS"/></token>
                 <token postag="V.P..SM." postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token>avinguda</token>
+                <token regexp="yes">\p{Lu}.*</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <!-- <token><exception postag="SENT_START"/><exception regexp="yes" spacebefore="yes">[¿¡"«»—–:\-]</exception></token> -->
@@ -20415,17 +20419,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>pas</token>
                 <token>no</token>
             </antipattern>
+            <antipattern>
+                <token>si</token>
+                <token>no</token>
+            </antipattern>
             <pattern>
                 <token>no</token>
-                <token postag="RG"><exception regexp="yes">sols|solament|només</exception></token>
+                <token postag="RG|PP.*" postag_regexp="yes"><exception regexp="yes">sols|solament|només</exception></token>
                 <token>no</token>
             </pattern>
             <message>Repetició probablement incorrecta.</message>
             <suggestion>\2 \3</suggestion>
             <suggestion>\1 \2</suggestion>
             <example correction="pràcticament no|no pràcticament"><marker>no pràcticament no</marker>.</example>
+            <example correction="jo no|no jo">Això <marker>no jo no</marker> ho faria.</example>
+            <example>No sols no m'agrada, em repugna.</example>
+            <example>No, no m'agrada.</example>
+            <example>No i no: aquesta és la resposta.</example>
+            <example>No que no pogués ser.</example>
             <example>No només no</example>
             <example>Val més fer això que no pas no fer-ho.</example>
+            <example>Si no ja no ens hi posaríem, oi?</example>
         </rule>
         <rulegroup id="ELEMENTS_REPETITS" name="repetició: també... també">
             <rule>
@@ -20461,24 +20475,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Només va faltar|Va faltar només"><marker>Només va faltar només</marker> això.</example>
                 <example>Sols és blanc, i sols és negre.</example>
                 <example>Només per vergonya, només per timidesa</example>
-            </rule>
-            <rule default="temp_off">
-                <antipattern>
-                    <token>no</token>
-                    <token regexp="yes">sols|només|solament|únicament</token>
-                </antipattern>
-                <pattern>
-                    <token skip="2">no<exception scope="next" postag="_PUNCT.*|C.*" postag_regexp="yes"/></token>
-                    <token><match no="0"/></token>
-                </pattern>
-                <message>Repetició probablement incorrecta.</message>
-                <suggestion><match no="1" include_skipped="all"/></suggestion>
-                <suggestion><match no="1" include_skipped="following"/> <match no="2"/></suggestion>
-                <example correction="no jo|jo no">Això <marker>no jo no</marker> ho faria.</example>
-                <example>No sols no m'agrada, em repugna.</example>
-                <example>No, no m'agrada.</example>
-                <example>No i no: aquesta és la resposta.</example>
-                <example>No que no pogués ser.</example>
             </rule>
         </rulegroup>
         <rule id="REPETICIO_INFINITIU" name="infinitiu repetit">

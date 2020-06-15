@@ -15076,6 +15076,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
         <!-- girar el cap cap a l’altra persona -->
         <rule>
             <pattern>
+                <token>si</token>
+                <marker>
+                    <token>no</token>
+                </marker>
+                <token>no</token>
+                <token postag="&pronom_feble;" postag_regexp="yes" min="0" max="2"/>
+                <token postag="V.[SI].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_allow_repeat"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
                 <token>cada</token>
                 <marker>
                     <token regexp="yes">una?</token>
