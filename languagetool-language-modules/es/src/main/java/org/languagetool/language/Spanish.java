@@ -168,6 +168,7 @@ public class Spanish extends Language implements AutoCloseable{
       case "SUBJUNTIVO_PASADO": return -30;
       case "SUBJUNTIVO_PASADO2": return -30;
       case "VOSEO": return -40;
+      case "UPPERCASE_SENTENCE_START": return -50;
     }
     return super.getPriorityForId(id);
   }
