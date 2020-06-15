@@ -6149,6 +6149,81 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la atenuante">En este caso concurre <marker>el atenuante</marker> del pronto pago.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="DAR_POR_HECHO_EL" name="concordancia: dar por hecha la" default="temp_off">
+            <url>https://www.fundeu.es/recomendacion/dar-por-hecho-femenino-plural/</url>
+            <rule>
+                <pattern>
+                    <token inflected="yes">dar</token>
+                    <token>por</token>
+                    <unify negate="yes">
+                        <feature id="genero"/>
+                        <feature id="numero"/>
+                        <marker>
+                            <token postag="V.P.*|AQ.*" postag_regexp="yes" inflected="yes" regexp="yes">hacer|bueno|válido|sentar|descontar|suponer</token>
+                        </marker>
+                        <token postag="D..FS." postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Esta expresión debe concordar en ǵenero y número.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(V.P.*|AQ.*)" postag_replace="V.P..SF|A..FS."/></suggestion>
+                <example correction="hecha">Se da por <marker>hecho</marker> la profundización de la crisis.</example>
+                <example correction="supuesta">Se da por <marker>supuesto</marker> la profundización de la crisis.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">dar</token>
+                    <token>por</token>
+                    <unify negate="yes">
+                        <feature id="genero"/>
+                        <feature id="numero"/>
+                        <marker>
+                            <token postag="V.P.*|AQ.*" postag_regexp="yes" inflected="yes" regexp="yes">hacer|bueno|válido|sentar|descontar|suponer</token>
+                        </marker>
+                        <token postag="D..MS." postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Esta expresión debe concordar en ǵenero y número.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(V.P.*|AQ.*)" postag_replace="V.P..SM|A..MS."/></suggestion>
+                <example correction="hecho">Se da por <marker>hecha</marker> el resultado.</example>
+                <example correction="supuesto">Se da por <marker>supuesta</marker> el resultado.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">dar</token>
+                    <token>por</token>
+                    <unify negate="yes">
+                        <feature id="genero"/>
+                        <feature id="numero"/>
+                        <marker>
+                            <token postag="V.P.*|AQ.*" postag_regexp="yes" inflected="yes" regexp="yes">hacer|bueno|válido|sentar|descontar|suponer</token>
+                        </marker>
+                        <token postag="D..FP." postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Esta expresión debe concordar en ǵenero y número.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(V.P.*|AQ.*)" postag_replace="V.P..PF|A..FP."/></suggestion>
+                <example correction="hechas">Se da por <marker>hecho</marker> las crisis.</example>
+                <example correction="supuestas">Se da por <marker>supuesto</marker> las crisis.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">dar</token>
+                    <token>por</token>
+                    <unify negate="yes">
+                        <feature id="genero"/>
+                        <feature id="numero"/>
+                        <marker>
+                            <token postag="V.P.*|AQ.*" postag_regexp="yes" inflected="yes" regexp="yes">hacer|bueno|válido|sentar|descontar|suponer</token>
+                        </marker>
+                        <token postag="D..MP." postag_regexp="yes"/>
+                    </unify>
+                </pattern>
+                <message>Esta expresión debe concordar en ǵenero y número.</message>
+                <suggestion><match no="3" postag_regexp="yes" postag="(V.P.*|AQ.*)" postag_replace="V.P..PM|A..MP."/></suggestion>
+                <example correction="hechos">Se da por <marker>hecho</marker> los resultados.</example>
+                <example correction="supuestos">Se da por <marker>supuesta</marker> los resultados.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="BUENAS_TARDES" name="concordancia: buenas tardes">
             <!-- this rule is necessary because "tardes" can be noun/verb-->
             <rule>
