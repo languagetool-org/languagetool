@@ -168,6 +168,7 @@ public class CaseRuleTest {
     assertGood("A) Das Haus");
     assertGood("Rabi und Polykarp Kusch an der Columbia-Universität");
     assertGood("Man geht davon aus, dass es sich dabei nicht um Reinigungsverhalten handelt.");
+    assertGood("WUrzeln");  // to be found by spell checker
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
