@@ -38566,13 +38566,23 @@ Andere Projekte</example>
                 <pattern>
                     <token>alles</token>
                     <marker>
-                        <token case_sensitive="yes">mögliche</token>
+                        <token postag="ADJ:(AKK|NOM):PLU:NEU:...:SOL" postag_regexp="yes" case_sensitive="yes" regexp="yes">[a-züöä].+e
+                            <exception regexp="yes">andere|gerade|.+weise</exception>
+                            <exception scope="previous" inflected="yes">sein</exception>
+                        </token>
                     </marker>
+                    <token><exception case_sensitive="yes" regexp="yes">[A-ZÄÖÜ].+|[“"]</exception></token>
                 </pattern>
                 <message>Schreiben Sie dieses als Nomen gebrauchte Adjektiv groß.</message>
-                <suggestion>Mögliche</suggestion>
+                <suggestion><match no="2" case_conversion="startupper"/></suggestion>
                 <short>&prgk;.</short>
                 <example correction="Mögliche">Er tat alles <marker>mögliche</marker>, um ihr zu helfen.</example>
+                <example correction="Übrige">Er tat alles <marker>übrige</marker>.</example>
+                <example correction="Weitere">Er tat alles <marker>weitere</marker>.</example>
+                <example>Das sind alles <marker>weitere</marker> Bruchstücke derselben Vase.</example>
+                <example>Ich liebe sie; alles <marker>andere</marker> ist egal.</example>
+                <example>Er stellte fest, dass der Klimawandel alles irdische Leben ausgelöscht hatte.</example>
+                <example>Das ist alles zwangsweise eine Sache der Erziehung.</example>
             </rule>
             <rule>
                 <pattern>
