@@ -7829,6 +7829,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Coronavirus">Das <marker>Corona Virus</marker> hat 2020 eine Pandemie ausgelöst.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SOVIEL" name="so viel (soviel)">
+            <rule>
+                <pattern>
+                    <marker><token>soviel</token></marker>
+                    <token>wie</token>
+                </pattern>
+                <message>Meinten Sie <suggestion>so viel</suggestion>?</message>
+                <example correction="so viel">Er verdient <marker>soviel</marker> wie ich.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker><token>soviel</token></marker>
+                    <token postag="PA2.+" postag_regexp="yes"></token>
+                </pattern>
+                <message>Meinten Sie <suggestion>so viel</suggestion>?</message>
+                <example correction="so viel">Er hat <marker>soviel</marker> gewonnen, dass er aufhören sollte.</example>
+                <example correction="so viel">Er hat schon <marker>soviel</marker> gesehen.</example>
+            </rule>
+        </rulegroup>
         <rule id="FRANK_WALTER_STEINMEIER" name="Frank-Walter Steinmeier">
             <pattern>
                 <token>Frank</token>
