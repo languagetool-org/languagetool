@@ -202,6 +202,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rule id="CUOTA_COTA" name="cuota/cota" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected="yes">cuota</token>
+                </marker>
+                <token>de</token>
+                <token>nieve</token>
+            </pattern>
+            <message>En este contexto se usa otra palabra.</message>
+            <suggestion><match no="1" postag="(N.*)" postag_regexp="yes" postag_replace="$1">cota</match></suggestion>
+            <example correction="cota">La <marker>cuota</marker> de nieve está en 2000 metros.</example>
+        </rule>
         <rulegroup id="AL_IGUAL_QUE" name="al igual *de/*a/que">
             <url>https://www.fundeu.es/recomendacion/al-igual-que-no-al-igual-de-ni-al-igual-a/</url>
             <antipattern>
@@ -3903,7 +3915,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">video|vídeo</token>
                     <token min="0">-</token>
                     <token regexp="yes" inflected="yes"
-                        >aficionado|arte|casete|casetera|cinta|clip|club|conferencia|consola|currículo|currículum|cámara|disco|fonía|frecuencia|grabación|grabador|grafía|juego|llamada|marcador|matón|montaje|tape|tarjeta|teca|tecnología|telefonía|teléfono|texto|tutorial|vigilancia</token>
+                        >aficionado|arte|blog|casete|casetera|cinta|clip|club|conferencia|consola|currículo|currículum|cámara|disco|fonía|frecuencia|grabación|grabador|grafía|juego|llamada|marcador|matón|montaje|tape|tarjeta|teca|tecnología|telefonía|teléfono|texto|tutorial|vigilancia</token>
                 </pattern>
                 <message>Se escribe junto.</message>
                 <suggestion>video\3</suggestion>
@@ -3973,6 +3985,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="afroamericanos">Los <marker>afro-americanos</marker>.</example>
                 <example>Háblame sobre todo esto.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>des</token>
+                    <token min="0">-</token>
+                    <token regexp="yes" inflected="yes">globalizar|globalización</token>
+                </pattern>
+                <message>Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="des$1" case_conversion="alllower"/></suggestion>
+                <example correction="desglobalización">La <marker>des-globalización</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>neuro</token>
+                    <token min="0">-</token>
+                    <token postag="[NAV].*" postag_regexp="yes"/>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="neuro$1" case_conversion="alllower"/></suggestion>
+                <example correction="neurobiología">La <marker>neuro-biología</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="ALREDEDOR" name="*(a) alrededor">
             <antipattern>
@@ -4003,6 +4035,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>al cabo</suggestion>
             <example correction="a cabo|al cabo">Lo llevó <marker>acabo</marker> con solvencia.</example>
             <example correction="a cabo|al cabo">Hay que llevarlo <marker>acabo</marker> con solvencia.</example>
+        </rule>
+        <rule id="DAR_ABASTO" name="dar *a basto/abasto" default="temp_off">
+            <pattern>
+                <token inflected="yes" skip="2">dar</token>
+                <marker>
+                    <token>a</token>
+                    <token>basto</token>
+                </marker>
+            </pattern>
+            <message>Se escribe junto.</message>
+            <suggestion>abasto</suggestion>
+            <example correction="abasto">No dábamos nunca <marker>a basto</marker>.</example>
         </rule>
         <rule id="DAR_A_LUGAR" name="dar *(a) lugar" default="on">
             <pattern>
