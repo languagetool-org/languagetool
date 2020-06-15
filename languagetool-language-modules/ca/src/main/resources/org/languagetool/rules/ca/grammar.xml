@@ -53661,6 +53661,90 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Mentre mirava d'alçar-se va caure damunt seu una pluja de pedres.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="RIURE" name="riure/riure's de" default="temp_off">
+            <antipattern>
+                <token inflected="yes" skip="5">riure</token>
+                <token inflected="yes">de</token>
+            </antipattern>
+            <antipattern>
+                <token postag="PP.*" postag_regexp="yes" inflected="yes">en</token>
+                <token postag="V.*|SPS.*" postag_regexp="yes" min="0" max="4"><exception inflected="yes">riure</exception></token>
+                <token inflected="yes">riure</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">riure</token>
+                <token postag="&pronom_feble;" postag_regexp="yes" spacebefore="no"/>
+                <token postag="PP.*" postag_regexp="yes" inflected="yes" spacebefore="no">en</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="P0.*" postag_regexp="yes"/>
+                    <token postag="VA.*" postag_regexp="yes"/>
+                    <and>
+                      <token inflected="yes">riure</token>
+                      <token postag="_reflexiu"/>
+                    </and>
+                </pattern>
+                <message>El verb 'riure' sols pot ser reflexiu si va acompanyat d'un complement amb "de" (riure's de, riure-se'n).</message>
+                <suggestion>\2 \3</suggestion>
+                <example correction="Vam riure"><marker>Ens vam riure</marker> molt.</example>
+                <example correction="Heu rigut"><marker>Us heu rigut</marker> molt.</example>
+                <example>Proveu de fer-ho sense riure.</example>
+                <example>Proveu de fer-ho sense riure's d'ell.</example>
+                <example>Em vaig riure d'ell</example>
+                <example>Ens en vam riure molt.</example>
+                <example>Te n'has de riure.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="P0.*" postag_regexp="yes"/>
+                    <and>
+                        <token inflected="yes">riure</token>
+                        <token postag="_reflexiu"/>
+                    </and>
+                </pattern>
+                <message>El verb 'riure' sols pot ser reflexiu si va acompanyat d'un complement amb "de" (riure's de, riure-se'n).</message>
+                <suggestion>\2</suggestion>
+                <example correction="Riu"><marker>Es riu</marker> molt.</example>
+                <example correction="Riguérem"><marker>Ens riguérem</marker> molt.</example>
+                <example>Proveu de fer-ho sense riure.</example>
+                <example>Proveu de fer-ho sense riure's d'ell.</example>
+                <example>Em vaig riure d'ell</example>
+                <example>Ens en vam riure molt.</example>
+                <example>Te n'has de riure.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">riure</token>
+                    <token regexp="yes">'m|'t|'s|'ns|-us|-vos</token>
+                </pattern>
+                <message>El verb 'riure' sols pot ser reflexiu si va acompanyat d'un complement amb "de" (riure's de, riure-se'n).</message>
+                <suggestion>riure</suggestion>
+                <example correction="riure">Proveu de fer-ho sense <marker>riure's</marker>.</example>
+                <example correction="riure">No podia parar de <marker>riure'm</marker>.</example>
+                <example>Proveu de fer-ho sense riure.</example>
+                <example>Proveu de fer-ho sense riure-us d'ell.</example>
+                <example>Proveu de fer-ho sense riure-us-en.</example>
+                <example>Em vaig riure d'ell</example>
+                <example>Ens en vam riure molt.</example>
+                <example>Val més riure't de tu mateix.</example>
+            </rule>
+            <rule> <!--catch all rule-->
+                <pattern>
+                    <and>
+                        <token inflected="yes">riure</token>
+                        <token postag="_reflexiu"/>
+                    </and>
+                </pattern>
+                <message>El verb 'riure' sols pot ser reflexiu si va acompanyat d'un complement amb "de" (riure's de, riure-se'n).</message>
+                <example correction="">Ens hem hagut de <marker>riure</marker> molt.</example>
+                <example>Proveu de fer-ho sense riure.</example>
+                <example>Proveu de fer-ho sense riure's d'ell.</example>
+                <example>Em vaig riure d'ell</example>
+                <example>Ens en vam riure molt.</example>
+                <example>Te n'has de riure.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VERBS_MOVIMENT" name="verbs de moviment: anar-se'n, pujar-se'n...">
             <antipattern>
                 <token postag="P0.*" postag_regexp="yes"><exception regexp="yes">['-].+</exception></token>
