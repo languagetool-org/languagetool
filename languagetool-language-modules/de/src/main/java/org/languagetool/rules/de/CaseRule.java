@@ -536,6 +536,46 @@ public class CaseRule extends Rule {
       SENT_START,
       regex("[#]{1,}"),
       regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // = Schrittweise Erklärung ()
+      SENT_START,
+      token("="),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // == Schrittweise Erklärung
+      SENT_START,
+      token("="),
+      token("="),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // === Schrittweise Erklärung
+      SENT_START,
+      token("="),
+      token("="),
+      token("="),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // ==== Schrittweise Erklärung
+      SENT_START,
+      token("="),
+      token("="),
+      token("="),
+      token("="),
+      regex("[A-ZÄÜÖ].*")
+    ),
+    Arrays.asList(
+      // ===== Schrittweise Erklärung
+      SENT_START,
+      token("="),
+      token("="),
+      token("="),
+      token("="),
+      token("="),
+      regex("[A-ZÄÜÖ].*")
     )
   );
 
@@ -980,7 +1020,6 @@ public class CaseRule extends Rule {
     "Zwinge",
     "Zirkusrund",
     "Tertiär",  // geologischer Zeitabschnitt
-    "Urdu",
 
     "Erster",   // "er wurde Erster im Langlauf"
     "Zweiter",

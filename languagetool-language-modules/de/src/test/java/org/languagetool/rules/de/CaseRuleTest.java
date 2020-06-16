@@ -351,6 +351,7 @@ public class CaseRuleTest {
     assertGood("Er kann Polnisch und Urdu.");
     assertGood("---> Der USB 3.0 Stecker");
     assertGood("Black Lives Matter");
+    assertGood("== Schrittweise Erklärung");
 
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");
