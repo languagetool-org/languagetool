@@ -1000,15 +1000,30 @@ RB => Règles Brutes
     <disambig action="filter" postag="V.*"></disambig>
   </rule>
   
-  <rule id="ETRE_PP" name="être + PP">
-    <pattern>
-      <marker>
-        <token postag="V.*" postag_regexp="yes" inflected="yes">être</token>
-      </marker>
-      <token postag="V ppa.*" postag_regexp="yes"/>
-    </pattern>
-    <disambig action="filter" postag="V.*"/>
-  </rule>
+  <rulegroup id="ETRE" name="être">
+    <rule id="ETRE_PP" name="être + PP">
+      <pattern>
+        <marker>
+          <token postag="V.*" postag_regexp="yes" inflected="yes">être</token>
+        </marker>
+        <token postag="V ppa.*" postag_regexp="yes"/>
+      </pattern>
+      <disambig action="filter" postag="V.*"/>
+    </rule>
+    <rule>
+      <antipattern>
+        <token postag="P.*|D.*" postag_regexp="yes"/>
+        <token>est</token>
+      </antipattern>
+      <pattern>
+        <marker>
+          <token postag="V.*" postag_regexp="yes">est</token>
+        </marker>
+      </pattern>
+      <disambig action="filter" postag="V.*"/>
+    </rule>
+  </rulegroup>
+  
   
   <rulegroup id="AVOIR_PP" name="avoir + pp">
     <rule>
