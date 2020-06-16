@@ -4003,7 +4003,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="afroamericanos">Los <marker>afro-americanos</marker>.</example>
                 <example>Háblame sobre todo esto.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>des</token>
                     <token min="0">-</token>
@@ -4013,7 +4013,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="des$1" case_conversion="alllower"/></suggestion>
                 <example correction="desglobalización">La <marker>des-globalización</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>neuro</token>
                     <token min="0">-</token>
@@ -4054,7 +4054,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="a cabo|al cabo">Lo llevó <marker>acabo</marker> con solvencia.</example>
             <example correction="a cabo|al cabo">Hay que llevarlo <marker>acabo</marker> con solvencia.</example>
         </rule>
-        <rule id="DAR_ABASTO" name="dar *a basto/abasto" default="temp_off">
+        <rule id="DAR_ABASTO" name="dar *a basto/abasto">
             <pattern>
                 <token inflected="yes" skip="2">dar</token>
                 <marker>
@@ -6211,7 +6211,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="la atenuante">En este caso concurre <marker>el atenuante</marker> del pronto pago.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="DAR_POR_HECHO_EL" name="concordancia: dar por hecha la" default="temp_off">
+        <rulegroup id="DAR_POR_HECHO_EL" name="concordancia: dar por hecha la">
             <url>https://www.fundeu.es/recomendacion/dar-por-hecho-femenino-plural/</url>
             <rule>
                 <pattern>
@@ -6286,8 +6286,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="supuestos">Se da por <marker>supuesta</marker> los resultados.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TENER_PREVISTO_EL" name="concordancia: tener/estar previsto el" default="temp_off">
+        <rulegroup id="TENER_PREVISTO_EL" name="concordancia: tener/estar previsto el">
             <url>https://www.fundeu.es/recomendacion/dar-por-hecho-femenino-plural/</url>
+            <antipattern> <!-- inverted subject-->
+                <token>¿</token>
+                <token inflected="yes">tener</token>
+                <token postag="V.P.*" postag_regexp="yes" inflected="yes">prever</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">tener|estar</token>
@@ -6351,7 +6356,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Esta expresión debe concordar en ǵenero y número.</message>
                 <suggestion><match no="2" postag_regexp="yes" postag="(V.P.*|AQ.*)" postag_replace="V.P..PM|A..MP."/></suggestion>
                 <example correction="previstos">Tenían <marker>previsto</marker> los resultados.</example>
-                <example correction="previstos" type="triggers_error" reason="inverted subject">¿Tienen <marker>previsto</marker> los dioses hacerme una visita?</example>
+                <example>¿Tienen <marker>previsto</marker> los dioses hacerme una visita?</example>
             </rule>
         </rulegroup>
         <rulegroup id="BUENAS_TARDES" name="concordancia: buenas tardes">
