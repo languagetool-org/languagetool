@@ -29212,7 +29212,7 @@ though, and has since been slightly modified)-->
       <example correction="casier|remise|débarras|armoire extérieure"><marker>locker</marker></example>
       <example><marker>remise</marker></example>
     </rule>
-      <rule id="VISIO" name="raccourci visio">
+      <rule id="VISIO" name="raccourci visio" default="temp_off">
           <antipattern>
               <token>visio</token>
               <token>raconte</token>
@@ -29224,27 +29224,42 @@ though, and has since been slightly modified)-->
           </antipattern>
           <pattern>
               <token regexp="yes">en|la|une|des|les|cette|ces</token>
-              <token>visio</token>
+              <marker>
+                <token>visio</token>
+              </marker>
           </pattern>
           <message>« \1 » est un raccourci familier. Employez <suggestion>visioconférence</suggestion> dans un contexte plus sérieux.</message>
-          <example correction="visioconférence">Nous pourrons régler ce problème dans notre prochain entretien <marker>en visio</marker>.</example>
+          <example correction="visioconférence">Nous pourrons régler ce problème dans notre prochain entretien en <marker>visio</marker>.</example>
           <example>Le but de la Visio Karoli Grossi est clairement de légitimer la succession des Carolingiens.</example>
           <example>La Visio raconte comment le fier chevalier Tondale...</example>
       </rule>
-      <rule id="FORM" name="form">
+      <rule id="FORM" name="form" default="temp_off">
           <pattern>
               <token regexp="yes">forms?</token>
           </pattern>
           <message>« \1 » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="questionnaire$2"/></suggestion>, <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="formulaire$2"/></suggestion>, <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="forme$2"/></suggestion>, <suggestion>mouler</suggestion>.</message>
           <example correction="questionnaire|formulaire|forme|mouler">Je lui ai donné cette <marker>form</marker> a remplir</example>
       </rule>
-      <rule id="TEAM" name="team">
+      <rule id="TEAM" name="team" default="temp_off">
           <pattern>
-              <token regexp="yes">teams?</token>
+              <token>team</token>
           </pattern>
-          <message>« \1 » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(team)(s)?" regexp_replace="équipe$2"/></suggestion>.</message>
+          <message>« \1 » est un anglicisme. Employez <suggestion>équipe</suggestion>.</message>
           <example correction="équipe">IL fait partie de la <marker>team</marker> Castor</example>
-          <example correction="équipes">Faites deux <marker>teams</marker>.</example>
+      </rule>
+      <rule id="LINK" name="link" default="temp_off">
+          <pattern>
+              <token case_sensitive="yes">link</token>
+          </pattern>
+          <message>« \1 » est un anglicisme. Employez <suggestion>lien</suggestion>.</message>
+          <example correction="lien">Pense à mettre <marker>link</marker> entre les deux éléments.</example>
+      </rule>
+      <rule id="SEARCH" name="search" default="temp_off">
+          <pattern>
+              <token>search</token>
+          </pattern>
+          <message>« \1 » est un anglicisme. Employez <suggestion>recherche</suggestion>.</message>
+          <example correction="recherche">Pense à rajouter une <marker>search</marker> pour les deux éléments.</example>
       </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie">
