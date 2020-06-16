@@ -49,7 +49,10 @@
 #### General
   * added `replace_custom.txt` for several languages so users can have their own very simple replace
     rules without worrying about updates (they still need to copy the file to the new LT version, though).
-
+  * Updated dependency `com.gitlab.dumonts:hunspell` to 1.1.1 to make spell checking work on older Linux 
+    distributions like RHEL 7.
+  
+  
 
 ## 4.9 (2020-03-24)
 
