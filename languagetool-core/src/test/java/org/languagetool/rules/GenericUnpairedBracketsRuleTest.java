@@ -62,12 +62,9 @@ public class GenericUnpairedBracketsRuleTest {
     assertMatches(0, "\n\na) item one\nb) item two\nc) item three");
     assertMatches(0, "This is a), not b)");
     assertMatches(0, "This is it (a, not b) some more test");
-    assertMatches(0, "This is »not an error yet");
-    assertMatches(0, "See https://de.wikipedia.org/wiki/Schlammersdorf_(Adelsgeschlecht)");
 
     assertMatches(1, "This is not correct«");
-    assertMatches(1, "This is »not correct.");
-    assertMatches(1, "This is »not an error yet\n\nBut now it has become one");
+    assertMatches(1, "This is »not correct");
     assertMatches(1, "This is correct.\n\n»But this is not.");
     assertMatches(1, "This is correct.\n\nBut this is not«");
     assertMatches(1, "»This is correct«\n\nBut this is not«");
@@ -98,10 +95,6 @@ public class GenericUnpairedBracketsRuleTest {
     assertThat(match2.getEndLine(), is(2));
     assertThat(match2.getColumn(), is(4));
     assertThat(match2.getEndColumn(), is(5));
-
-    RuleMatch match3 = lt.check("Th\u00ADis »is a test.").get(0);
-    assertThat(match3.getFromPos(), is(6));
-    assertThat(match3.getToPos(), is(7));
   }
 
   private void setUpRule(Language language) {

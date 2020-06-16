@@ -67,7 +67,7 @@ public class UkrainianDisambiguationRuleTest {
 
     TestTools.myAssert("Танцювати до впаду", 
       "/[null]SENT_START Танцювати/[танцювати]verb:imperf:inf  /[null]null до/[до впаду]<adv>|до/[до]prep  /[null]null " +
-      "впаду/[впад]noun:inanim:m:v_dav:rare|впаду/[впад]noun:inanim:m:v_rod:rare|впаду/[впасти]verb:perf:futr:s:1:xp2|впаду/[до впаду]<adv>",
+      "впаду/[впасти]verb:perf:futr:s:1:xp2|впаду/[до впаду]<adv>",
       tokenizer, sentenceTokenizer, tagger, disambiguator);
     
     TestTools.myAssert("Прийшла Люба додому.", 
@@ -80,51 +80,15 @@ public class UkrainianDisambiguationRuleTest {
   }
 
   @Test
-  public void testDisambiguatorRetagFemNames() throws IOException {
-//    німкеня Бахман була 
-//    княгиня Кочубей перебудувала
-//    пані Грибан слухала
-//    Олександр П’ятниця метнув
-//    пані Сіроштан оприлюднила
-//    леді Черчилль передала
-//    поляк Дура швидко скоротив
-//    Анхель Ді Марія яскраво проявив
-    // TODO:
-    // ведучого ВВС Стівена Сакура принести
-    // суд зобов’язав Олега Гаркота відшкодувати потерпілому
-    // як не вмів Чіпріан Маріка реалізовувати моменти
-    // TODO: non-v_naz
-    
-    TestTools.myAssert("леді Черчилль була",
-        "/[null]SENT_START"
-        + " леді/[леді]noun:anim:f:v_dav:nv|леді/[леді]noun:anim:f:v_kly:nv|леді/[леді]noun:anim:f:v_mis:nv|леді/[леді]noun:anim:f:v_naz:nv|леді/[леді]noun:anim:f:v_oru:nv|леді/[леді]noun:anim:f:v_rod:nv|леді/[леді]noun:anim:f:v_zna:nv|леді/[леді]noun:anim:p:v_dav:nv|леді/[леді]noun:anim:p:v_kly:nv|леді/[леді]noun:anim:p:v_mis:nv|леді/[леді]noun:anim:p:v_naz:nv|леді/[леді]noun:anim:p:v_oru:nv|леді/[леді]noun:anim:p:v_rod:nv|леді/[леді]noun:anim:p:v_zna:nv"
-        + "  /[null]null"
-        + " Черчилль/[Черчилль]noun:anim:f:v_naz:prop:lname"
-        + "  /[null]null"
-        + " була/[бути]verb:imperf:past:f",
-        tokenizer, sentenceTokenizer, tagger, disambiguator);
-
-    TestTools.myAssert("Олег П'ятниця метнув",
-        "/[null]SENT_START"
-        + " Олег/[Олег]noun:anim:m:v_naz:prop:fname"
-        + "  /[null]null"
-        + " П'ятниця/[П'ятниця]noun:anim:m:v_naz:prop:lname"
-        + "  /[null]null"
-        + " метнув/[метнути]verb:perf:past:m",
-        tokenizer, sentenceTokenizer, tagger, disambiguator);
-  }
-  
-  
-  @Test
   public void testDisambiguatorRemoveVmis() throws IOException {
     TestTools.myAssert("У Зв'язку",
         "/[null]SENT_START У/[у]prep  /[null]null "
-        + "Зв'язку/[зв'язка]noun:inanim:f:v_zna|Зв'язку/[зв'язок]noun:inanim:m:v_dav|Зв'язку/[зв'язок]noun:inanim:m:v_mis|Зв'язку/[зв'язок]noun:inanim:m:v_rod",
+        + "Зв'язку/[зв'язка]noun:inanim:f:v_zna|Зв'язку/[зв'язкий]adj:f:v_zna|Зв'язку/[зв'язок]noun:inanim:m:v_dav|Зв'язку/[зв'язок]noun:inanim:m:v_mis|Зв'язку/[зв'язок]noun:inanim:m:v_rod",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("Зв'язку",
         "/[null]SENT_START "
-        + "Зв'язку/[зв'язка]noun:inanim:f:v_zna|Зв'язку/[зв'язок]noun:inanim:m:v_dav|Зв'язку/[зв'язок]noun:inanim:m:v_rod",
+        + "Зв'язку/[зв'язка]noun:inanim:f:v_zna|Зв'язку/[зв'язкий]adj:f:v_zna|Зв'язку/[зв'язок]noun:inanim:m:v_dav|Зв'язку/[зв'язок]noun:inanim:m:v_rod",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
     TestTools.myAssert("нейтралітеті",
@@ -357,13 +321,6 @@ public class UkrainianDisambiguationRuleTest {
           + " В./[null]noninf:abbr  /[null]null Іпа/[null]null",
         tokenizer, sentenceTokenizer, tagger, disambiguator);
 
-    TestTools.myAssert("С. Гокінґ", 
-        "/[null]SENT_START"
-        + " С./[С.]noun:anim:m:v_naz:prop:fname:abbr"
-        + "  /[null]null"
-        + " Гокінґ/[Гокінґ]noun:anim:m:v_naz:prop:lname:alt", 
-        tokenizer, sentenceTokenizer, tagger, disambiguator);
-    
   }
 
   @Test
@@ -523,25 +480,6 @@ public class UkrainianDisambiguationRuleTest {
 
   }
 
-  
-  @Test
-  public void testDisambiguatorRaza() throws IOException {
-
-    List<AnalyzedTokenReadings> tagged = tagger.tag(tokenizer.tokenize("На Україна — Іспанія."));
-    AnalyzedSentence disambiged = disambiguator.disambiguate(new AnalyzedSentence(tagged.toArray(new AnalyzedTokenReadings[0])));
-
-    AnalyzedTokenReadings dash = disambiged.getTokens()[4];
-    assertEquals("—", dash.getReadings().get(0).getToken());
-    assertEquals("", dash.getReadings().get(0).getLemma());
-    assertTrue(dash.isPosTagUnknown());
-    
-    tagged = tagger.tag(tokenizer.tokenize("1,5 раза"));
-    disambiged = disambiguator.disambiguate(new AnalyzedSentence(tagged.toArray(new AnalyzedTokenReadings[0])));
-    
-    AnalyzedTokenReadings raza = disambiged.getTokens()[2];
-    assertEquals("раз", raza.getReadings().get(0).getLemma());
-//    assertFalse(raza.isPosTagUnknown());
-  }
 }
 
 

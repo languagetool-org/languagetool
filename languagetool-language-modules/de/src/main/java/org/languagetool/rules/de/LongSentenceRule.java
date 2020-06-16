@@ -34,8 +34,13 @@ import java.util.ResourceBundle;
  */
 public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
 
-  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive, boolean picky) {
-    super(messages, userConfig, defaultWords, defaultActive, picky);
+  private static final boolean DEFAULT_ACTIVATION = false;
+
+  /**
+   * @param defaultActive allows default granularity
+   */
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive) {
+    super(messages, userConfig, defaultWords);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
     addExamplePair(Example.wrong("<marker>Dies ist ein Bandwurmsatz, der immer weiter geht, obwohl das kein guter Stil ist, den man eigentlich berücksichtigen sollte, obwohl es auch andere Meinungen gibt, die aber in der Minderzahl sind, weil die meisten Autoren sich doch an die Stilvorgaben halten, wenn auch nicht alle, was aber letztendlich wiederum eine Sache des Geschmacks ist</marker>."),
@@ -43,20 +48,42 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
     if (defaultActive) {
       setDefaultOn();
     }
-    if (defaultWords > 0) {
+    if(defaultWords > 0) {
       this.maxWords = defaultWords;
     }
     if (userConfig != null) {
       int confWords = userConfig.getConfigValueByID(getId());
-      if (confWords > 0) {
+      if(confWords > 0) {
         this.maxWords = confWords;
       }
     }
   }
 
+  /**
+   * Creates a rule with default inactive
+   * @since 4.2
+   */
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords) {
+    this(messages, userConfig, defaultWords, DEFAULT_ACTIVATION);
+  }
+
+
+  /**
+   * Creates a rule with default values can be overwritten by configuration settings
+   * @since 4.2
+   */
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig) {
+    this(messages, userConfig, -1, DEFAULT_ACTIVATION);
+  }
+
   @Override
   public String getDescription() {
     return "Sehr langer Satz";
+  }
+
+  @Override
+  public String getMessage() {
+    return "Der Satz hat an der markierten Stelle mehr als " + maxWords + " Wörter.";
   }
 
   @Override
@@ -67,11 +94,12 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
   private boolean isWordCount(String tokenText) {
     if (tokenText.length() > 0) {
       char firstChar = tokenText.charAt(0);
-      if ((firstChar >= 'A' && firstChar <= 'Z') ||
-          (firstChar >= 'a' && firstChar <= 'z') ||
-          firstChar == 'ä' || firstChar == 'ö' || firstChar == 'ü' || firstChar == 'Ä' ||
-          firstChar == 'Ö' || firstChar == 'Ü' || firstChar == 'ß') {
-        return true;
+      if (((firstChar >= 'A' && firstChar <= 'Z')
+                || (firstChar >= 'a' && firstChar <= 'z')
+                || firstChar == 'ä' || firstChar == 'ö' || firstChar == 'ü'
+                || firstChar == 'Ä' || firstChar == 'Ö' || firstChar == 'Ü' 
+                || firstChar == 'ß')) {
+      return true;
       }
     } 
     return false;
@@ -95,7 +123,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
               && !tokens[i].getToken().equals("\n\r")
               ) {
         if (isWordCount(tokens[i].getToken())) {
-          if (numWords == maxWords) {
+          if(numWords == maxWords) {
             fromPos.add(tokens[i].getStartPos());
             toPos.add(tokens[i].getEndPos());
           }

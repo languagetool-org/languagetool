@@ -28,8 +28,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.*;
-import org.languagetool.markup.AnnotatedText;
-import org.languagetool.markup.AnnotatedTextBuilder;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.en.MorfologikAmericanSpellerRule;
 import org.languagetool.rules.en.MorfologikBritishSpellerRule;
@@ -101,18 +99,14 @@ public class FalseFriendRuleTest {
   }
   
   private List<RuleMatch> assertErrors(int errorCount, String s, JLanguageTool lt) throws IOException {
-    AnnotatedText text = new AnnotatedTextBuilder().addText(s).build();
-    List<RuleMatch> matches = lt.check(text, true, JLanguageTool.ParagraphHandling.NORMAL, null,
-            JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY);
+    List<RuleMatch> matches = lt.check(s);
     //System.err.println(matches);
     assertEquals("Matches found: " + matches, errorCount, matches.size());
     return matches;
   }
   
-  private void assertSuggestions(int suggestionCount, String s, JLanguageTool lt) throws IOException {
-    AnnotatedText text = new AnnotatedTextBuilder().addText(s).build();
-    List<RuleMatch> matches = lt.check(text, true, JLanguageTool.ParagraphHandling.NORMAL, null,
-            JLanguageTool.Mode.ALL, JLanguageTool.Level.PICKY);
+  private void assertSuggestions(int suggestionCount, String text, JLanguageTool lt) throws IOException {
+    List<RuleMatch> matches = lt.check(text);
     int suggestionsFound = 0;
     for (RuleMatch match : matches) {
       int pos = 0;

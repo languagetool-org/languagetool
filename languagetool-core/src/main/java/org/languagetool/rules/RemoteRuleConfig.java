@@ -75,7 +75,6 @@ public class RemoteRuleConfig {
   private final Integer fall;
   private final Long downMilliseconds;
 
-
   private final Map<String, String> options;
 
   // TODO configure health checks, load balancing, ...?
@@ -126,7 +125,6 @@ public class RemoteRuleConfig {
   public float getTimeoutPerCharacterMilliseconds() {
     return timeoutPerCharacterMilliseconds != null ? timeoutPerCharacterMilliseconds : DEFAULT_TIMEOUT_PER_CHAR;
   }
-
   public Map<String, String> getOptions() {
     return options;
   }

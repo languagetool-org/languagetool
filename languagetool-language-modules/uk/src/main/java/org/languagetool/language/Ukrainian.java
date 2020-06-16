@@ -127,11 +127,9 @@ public class Ukrainian extends Language {
     MorfologikUkrainianSpellerRule morfologikSpellerRule = new MorfologikUkrainianSpellerRule(messages, this, userConfig, altLanguages);
 
     return Arrays.asList(
-        // lower priority rules
-
-        new UkrainianCommaWhitespaceRule(messages,
-            Example.wrong("Ми обідали борщем<marker> ,</marker> пловом і салатом,— все смачне."),
-            Example.fixed("Ми обідали борщем<marker>,</marker> пловом і салатом,— все смачне")),
+        new CommaWhitespaceRule(messages,
+            Example.wrong("Ми обідали борщем<marker> ,</marker> пловом і салатом."),
+            Example.fixed("Ми обідали борщем<marker>,</marker> пловом і салатом")),
 
         // TODO: does not handle dot in abbreviations in the middle of the sentence, and also !.., ?..
         new UppercaseSentenceStartRule(messages, this,
@@ -141,17 +139,9 @@ public class Ukrainian extends Language {
         new MultipleWhitespaceRule(messages, this),
         new UkrainianWordRepeatRule(messages, this),
 
-        new TypographyRule(messages),
-        new HiddenCharacterRule(messages),
-
-
-        // medium priority rules
-        
         // TODO: does not handle !.. and ?..
         //            new DoublePunctuationRule(messages),
         morfologikSpellerRule,
-
-        // high priority rules
 
         new MissingHyphenRule(messages, ((UkrainianTagger)getTagger()).getWordTagger()),
 
@@ -164,7 +154,9 @@ public class Ukrainian extends Language {
         new SimpleReplaceSoftRule(messages),
         new SimpleReplaceRenamedRule(messages),
         getSpellingReplacementRule(messages),
-        new SimpleReplaceRule(messages, morfologikSpellerRule)
+        new SimpleReplaceRule(messages, morfologikSpellerRule),
+
+        new HiddenCharacterRule(messages)
     );
   }
 
@@ -191,36 +183,6 @@ public class Ukrainian extends Language {
   @Override
   public List<String> getDefaultDisabledRulesForVariant() {
     return Arrays.asList("piv_before_iotized_1992", "piv_with_proper_noun_1992");
-  }
-  
-  /** @since 5.1 */
-  @Override
-  public String getOpeningDoubleQuote() {
-    return "«";
-  }
-
-  /** @since 5.1 */
-  @Override
-  public String getClosingDoubleQuote() {
-    return "»";
-  }
-  
-  /** @since 5.1 */
-  @Override
-  public String getOpeningSingleQuote() {
-    return "‘";
-  }
-
-  /** @since 5.1 */
-  @Override
-  public String getClosingSingleQuote() {
-    return "’";
-  }
-  
-  /** @since 5.1 */
-  @Override
-  public boolean isAdvancedTypographyEnabled() {
-    return false;  //DISABLED!
   }
 
 }

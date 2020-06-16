@@ -41,7 +41,6 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private final Map<String, List<String>> suggestionMap = new HashMap<>();  // rule ID -> list of translations
   private final List<String> suggestions = new ArrayList<>();
   private final List<StringBuilder> translations = new ArrayList<>();
-  private final String falseFriendHint;
 
   private boolean defaultOff;
   private Language language;
@@ -49,6 +48,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
   private Language currentTranslationLanguage;
   private StringBuilder translation = new StringBuilder();
   private boolean inTranslation;
+  private String falseFriendHint;
 
   FalseFriendRuleHandler(Language textLanguage, Language motherTongue, String falseFriendHint) {
     englishMessages = ResourceBundleTools.getMessageBundle(Languages.getLanguageForShortCode("en-US"));
@@ -151,7 +151,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
         }
         break;
       case TOKEN:
-        finalizeTokens(language.getUnifierConfiguration());
+        finalizeTokens();
         break;
       case PATTERN:
         inPattern = false;
@@ -162,7 +162,7 @@ class FalseFriendRuleHandler extends XMLRuleHandler {
           translations.add(translation);
         }
         if (currentTranslationLanguage != null && currentTranslationLanguage.equalsConsiderVariantsIfSpecified(textLanguage)
-                && language.equalsConsiderVariantsIfSpecified(motherTongue) && !suggestions.contains(translation.toString())) {
+                && language.equalsConsiderVariantsIfSpecified(motherTongue)) {
           suggestions.add(translation.toString());
         }
         translation = new StringBuilder();

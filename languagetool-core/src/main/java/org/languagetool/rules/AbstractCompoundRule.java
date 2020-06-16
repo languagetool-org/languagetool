@@ -18,15 +18,21 @@
  */
 package org.languagetool.rules;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Queue;
+import java.util.ResourceBundle;
+import java.util.concurrent.ArrayBlockingQueue;
+
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.tools.StringTools;
-
-import java.io.IOException;
-import java.util.*;
 
 /**
  * Checks that compounds (if in the list) are not written as separate words.
@@ -97,7 +103,7 @@ public abstract class AbstractCompoundRule extends Rule {
     AnalyzedTokenReadings[] tokens = getSentenceWithImmunization(sentence).getTokensWithoutWhitespace();
 
     RuleMatch prevRuleMatch = null;
-    ArrayDeque<AnalyzedTokenReadings> prevTokens = new ArrayDeque<>(MAX_TERMS);
+    Queue<AnalyzedTokenReadings> prevTokens = new ArrayBlockingQueue<>(MAX_TERMS);
     for (int i = 0; i < tokens.length + MAX_TERMS-1; i++) {
       AnalyzedTokenReadings token;
       // we need to extend the token list so we find matches at the end of the original list:
@@ -228,11 +234,12 @@ public abstract class AbstractCompoundRule extends Rule {
     return sb.toString();
   }
 
-  private static void addToQueue(AnalyzedTokenReadings token, ArrayDeque<AnalyzedTokenReadings> prevTokens) {
-    if (prevTokens.size() == MAX_TERMS) {
+  private void addToQueue(AnalyzedTokenReadings token, Queue<AnalyzedTokenReadings> prevTokens) {
+    boolean inserted = prevTokens.offer(token);
+    if (!inserted) {
       prevTokens.poll();
+      prevTokens.offer(token);
     }
-    prevTokens.offer(token);
   }
 
 }

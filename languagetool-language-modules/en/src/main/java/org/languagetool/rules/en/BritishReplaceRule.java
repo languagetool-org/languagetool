@@ -18,20 +18,15 @@
  */
 package org.languagetool.rules.en;
 
-import com.google.common.base.Suppliers;
-import org.languagetool.Languages;
 import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
-import org.languagetool.synthesis.Synthesizer;
-import org.languagetool.synthesis.en.EnglishSynthesizer;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.function.Supplier;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -44,7 +39,6 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
   public static final String BRITISH_SIMPLE_REPLACE_RULE = "EN_GB_SIMPLE_REPLACE";
 
   private static final Map<String, List<String>> wrongWords = loadFromPath("/en/en-GB/replace.txt");
-  private static final Supplier<Synthesizer> synth = Suppliers.memoize(() -> new EnglishSynthesizer(Languages.getLanguageForShortCode("en")));
   private static final Locale EN_GB_LOCALE = new Locale("en-GB");
 
   @Override
@@ -76,7 +70,8 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
   
   @Override
   public String getMessage(String tokenStr, List<String> replacements) {
-    return "'" + tokenStr + "' is a common American expression. Consider using expressions more common to British English.";
+    return tokenStr + " is a common American expression, in British English it is more common to use: "
+        + String.join(", ", replacements) + ".";
   }
 
   @Override
@@ -89,8 +84,4 @@ public class BritishReplaceRule extends AbstractSimpleReplaceRule {
     return EN_GB_LOCALE;
   }
 
-  @Override
-  public Synthesizer getSynthesizer() {
-    return synth.get();
-  }
 }

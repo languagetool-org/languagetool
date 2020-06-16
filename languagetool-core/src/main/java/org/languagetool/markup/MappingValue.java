@@ -45,8 +45,4 @@ class MappingValue {
     return fakeMarkupLength;
   }
 
-  @Override
-  public String toString() {
-    return "totalPos:" + totalPosition + ",fakeMarkupLen=" + fakeMarkupLength;
-  }
 }

@@ -45,7 +45,7 @@ public class AvsAnRule extends Rule {
     A, AN, A_OR_AN, UNKNOWN
   }
 
-  private static final Pattern cleanupPattern = Pattern.compile("[^αa-zA-Z0-9.;,:']");
+  private static final Pattern cleanupPattern = Pattern.compile("[^αa-zA-Z0-9\\.;,:']");
 
   public AvsAnRule(ResourceBundle messages) {
     super.setCategory(Categories.MISC.getCategory(messages));
@@ -97,11 +97,11 @@ public class AvsAnRule extends Rule {
         if (equalsA && determiner == Determiner.AN) {
           String replacement = StringTools.startsWithUppercase(prevTokenStr) ? "An" : "an";
           msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevTokenStr + "' if the following "+
-                  "word starts with a vowel sound, e.g. 'an article', 'an hour'.";
+                  "word starts with a vowel sound, e.g. 'an article', 'an hour'";
         } else if (equalsAn && determiner == Determiner.A) {
           String replacement = StringTools.startsWithUppercase(prevTokenStr) ? "A" : "a";
           msg = "Use <suggestion>" + replacement + "</suggestion> instead of '" + prevTokenStr + "' if the following "+
-                  "word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'.";
+                  "word doesn't start with a vowel sound, e.g. 'a sentence', 'a university'";
         }
         if (msg != null) {
           RuleMatch match = new RuleMatch(
@@ -110,13 +110,9 @@ public class AvsAnRule extends Rule {
           ruleMatches.add(match);
         }
       }
-      String nextToken = "";
-      if (i + 1 < tokens.length) {
-        nextToken = tokens[i + 1].getToken();
-      }
       if (token.hasPosTag("DT")) {
         prevTokenIndex = i;
-      } else if (token.getToken().matches("[-\"()\\[\\]]+") && nextToken.length() > 1) {
+      } else if (token.getToken().matches("[-\"()\\[\\]]+")) {
         // skip e.g. the quote in >>an "industry party"<<
       } else {
         prevTokenIndex = 0;
@@ -143,7 +139,7 @@ public class AvsAnRule extends Rule {
     }
   }
 
-  static Determiner getCorrectDeterminerFor(AnalyzedTokenReadings token) {
+  Determiner getCorrectDeterminerFor(AnalyzedTokenReadings token) {
     String word = token.getToken();
     Determiner determiner = Determiner.UNKNOWN;
     String[] parts = word.split("[-']");  // for example, in "one-way" only "one" is relevant
@@ -181,7 +177,7 @@ public class AvsAnRule extends Rule {
     return determiner;
   }
 
-  private static boolean isVowel(char c) {
+  private boolean isVowel(char c) {
     char lc = Character.toLowerCase(c);
     return lc == 'a' || lc == 'e' || lc == 'i' || lc == 'o' || lc == 'u';
   }

@@ -38,8 +38,10 @@ import static java.util.Comparator.comparing;
 
 /**
  * Command line tool to list supported languages and their number of rules.
+ * 
  * @author Daniel Naber
  */
+@SuppressWarnings("StringConcatenationInsideStringBufferAppend")
 public final class RuleOverview {
 
   private static final List<String> langSpecificWebsites = Arrays.asList(
@@ -69,6 +71,7 @@ public final class RuleOverview {
     System.out.println("  <th valign='bottom' align=\"left\" width=\"60\">XML<br/>rules</th>");
     System.out.println("  <th></th>");
     System.out.println("  <th align=\"left\" width=\"60\">Java<br/>rules</th>");
+    System.out.println("  <th align=\"left\" width=\"60\">False<br/>friends</th>");
     System.out.println("  <th align=\"left\" width=\"60\">Spell<br/>check*</th>");
     System.out.println("  <th align=\"left\" width=\"60\">Confusion<br/>pairs</th>");
     //System.out.println("  <th valign='bottom' width=\"65\">Auto-<br/>detected</th>");
@@ -78,6 +81,12 @@ public final class RuleOverview {
     System.out.println("</thead>");
     System.out.println("<tbody>");
     final List<Language> sortedLanguages = getSortedLanguages();
+
+    //setup false friends counting
+    final String falseFriendFile = JLanguageTool.getDataBroker().getRulesDir() + File.separator + "false-friends.xml";
+    final String falseFriendRules = StringTools.readStream(Tools.getStream(falseFriendFile), "utf-8")
+      .replaceAll("(?s)<!--.*?-->", "")
+      .replaceAll("(?s)<rules.*?>", "");
 
     int overallJavaCount = 0;
     RuleActivityOverview activity = new RuleActivityOverview();
@@ -93,7 +102,7 @@ public final class RuleOverview {
         variantsText = "<br/><span class='langVariants'>Variants for: " + String.join(", ", variants) + "</span>";
       }
       if (langSpecificWebsites.contains(langCode)) {
-        System.out.print("<td valign=\"top\"><a href=\"https://languagetool.org/" + langCode + "/\">" + lang.getName() + "</a>" + variantsText + "</td>");
+        System.out.print("<td valign=\"top\"><a href=\"../" + langCode + "/\">" + lang.getName() + "</a>" + variantsText + "</td>");
       } else {
         System.out.print("<td valign=\"top\">" + lang.getName() + " " + variantsText + "</td>");
       }
@@ -132,6 +141,8 @@ public final class RuleOverview {
         overallJavaCount++;
       }
 
+      System.out.print("<td valign=\"top\" align=\"right\">" + countFalseFriendRules(falseFriendRules, lang) + "</td>");
+
       SpellcheckSupport spellcheckSupport = spellcheckSupport(lang, sortedLanguages);
       String spellSupportStr = "";
       if (spellcheckSupport == SpellcheckSupport.Full) {
@@ -148,10 +159,10 @@ public final class RuleOverview {
       int width = (int) Math.max(commits * 0.5, 1);
       String images = "";
       if (width > 50) {
-        images += "<img title='" + commits + " commits in the last 6 months' src='images/bar-end.png' width='22' height='10'/>";
+        images += "<img title='" + commits + " commits in the last 6 months' src='../images/bar-end.png' width='22' height='10'/>";
         width = 50;
       }
-      images += "<img title='" + commits + " commits in the last 6 months' src='images/bar.png' width='" + width + "' height='10'/>";
+      images += "<img title='" + commits + " commits in the last 6 months' src='../images/bar.png' width='" + width + "' height='10'/>";
       System.out.print("<td valign=\"top\" align=\"right\"><span style='display:none'>" + commits + "</span>" + images + "</td>");
       
       // maintainer information:
@@ -159,7 +170,7 @@ public final class RuleOverview {
       String maintainerText;
       boolean greyOutMaintainer = false;
       if (lang.getMaintainedState() != LanguageMaintainedState.ActivelyMaintained) {
-        maintainerText = "<span class='maintainerNeeded'><a href='https://dev.languagetool.org/tasks-for-language-maintainers'>Looking for maintainer</a></span> - ";
+        maintainerText = "<span class='maintainerNeeded'><a href='http://wiki.languagetool.org/tasks-for-language-maintainers'>Looking for maintainer</a></span> - ";
         greyOutMaintainer = true;
       } else {
         maintainerText = "";
@@ -229,6 +240,19 @@ public final class RuleOverview {
     return StringUtils.countMatches(xmlRules, "<rule>"); // rules in rule groups have no ID
   }
 
+  private int countFalseFriendRules(String falseFriendRules, Language lang) {
+    int pos = 0;
+    int count = 0;
+    while (true) {
+      pos = falseFriendRules.indexOf("<pattern lang=\"" + lang.getShortCode(), pos + 1);
+      if (pos == -1) {
+        break;
+      }
+      count++;
+    }
+    return count;
+  }
+  
   private SpellcheckSupport spellcheckSupport(Language lang, List<Language> allLanguages) throws IOException {
     if (spellcheckSupport(lang) != SpellcheckSupport.None) {
       return spellcheckSupport(lang);

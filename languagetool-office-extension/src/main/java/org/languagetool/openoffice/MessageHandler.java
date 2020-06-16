@@ -19,6 +19,7 @@
 package org.languagetool.openoffice;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.util.Date;
 
@@ -36,11 +37,15 @@ class MessageHandler {
   
   private static final String logLineBreak = System.lineSeparator();  //  LineBreak in Log-File (MS-Windows compatible)
   
+  private static String homeDir;
+  private static String logFileName;
   private static boolean isOpen = false;
   
   private static boolean testMode;
   
-  MessageHandler() {
+  MessageHandler(String homeDir, String logFileName) {
+    MessageHandler.homeDir = homeDir;
+    MessageHandler.logFileName = logFileName;
     initLogFile();
   }
 
@@ -48,30 +53,25 @@ class MessageHandler {
    * Initialize log-file
    */
   private static void initLogFile() {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(OfficeTools.getLogFilePath()))) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath()))) {
       Date date = new Date();
       bw.write("LT office integration log from " + date + logLineBreak);
-      bw.write(OfficeTools.getJavaInformation() + logLineBreak);
     } catch (Throwable t) {
       showError(t);
     }
   }
   
-  /**
-   * Initialize MessageHandler
-   */
-  static void init() {
+  static void init(String homeDir, String logFileName) {
+    MessageHandler.homeDir = homeDir;
+    MessageHandler.logFileName = logFileName;
     initLogFile();
   }
 
-  /**
-   * Show an error in a dialog
-   */
   static void showError(Throwable e) {
-    printException(e);
     if (testMode) {
       throw new RuntimeException(e);
     }
+    printException(e);
     String msg = "An error has occurred in LanguageTool "
         + JLanguageTool.VERSION + " (" + JLanguageTool.BUILD_DATE + "):\n" + e + "\nStacktrace:\n";
     msg += Tools.getFullStackTrace(e);
@@ -86,10 +86,10 @@ class MessageHandler {
   }
 
   /**
-   * Write to log-file
+   * write to log-file
    */
   static void printToLogFile(String str) {
-    try (BufferedWriter bw = new BufferedWriter(new FileWriter(OfficeTools.getLogFilePath(), true))) {
+    try (BufferedWriter bw = new BufferedWriter(new FileWriter(getLogPath(), true))) {
       bw.write(str + logLineBreak);
     } catch (Throwable t) {
       showError(t);
@@ -103,25 +103,22 @@ class MessageHandler {
    printToLogFile(Tools.getFullStackTrace(t));
   }
 
-  /**
-   * Get the path to log-file
-   *//*
   private static String getLogPath() {
     String xdgDataHome = System.getenv().get("XDG_DATA_HOME");
     String logHome = xdgDataHome != null ? xdgDataHome + "/LanguageTool" : homeDir;
     String path = logHome + "/" + logFileName;
     File parentDir = new File(path).getParentFile();
     if (parentDir != null && !testMode) {
-      if (!parentDir.exists()) {
+      if(!parentDir.exists()) {
         boolean success = parentDir.mkdirs();
-        if (!success) {
+        if(!success) {
           showMessage("Can't create directory: " + parentDir);
         }
       }
     }
     return path;
   }
-  */
+  
   /**
    * Will throw exception instead of showing errors as dialogs - use only for test cases.
    */
@@ -134,20 +131,11 @@ class MessageHandler {
    * @param txt message to be shown
    */
   static void showMessage(String txt) {
-    showMessage(txt, true);
-  }
-
-  static void showMessage(String txt, boolean toLogFile) {
-    if (toLogFile) {
-      printToLogFile(txt);
-    }
+    printToLogFile(txt);
     DialogThread dt = new DialogThread(txt, false);
     dt.run();
   }
 
-  /**
-   * class to run a dialog in a separate thread
-   */
   private static class DialogThread extends Thread {
     private final String text;
     private boolean isException;

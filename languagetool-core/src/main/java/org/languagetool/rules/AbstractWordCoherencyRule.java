@@ -82,10 +82,8 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
               if (StringTools.startsWithUppercase(tmpToken.getToken())) {
                 replacement = StringTools.uppercaseFirstChar(replacement);
               }
-              if (!marked.equalsIgnoreCase(replacement)) {   // see https://github.com/languagetool-org/languagetool/issues/3493
-                ruleMatch.setSuggestedReplacement(replacement);
-                ruleMatches.add(ruleMatch);
-              }
+              ruleMatch.setSuggestedReplacement(replacement);
+              ruleMatches.add(ruleMatch);
               break;
             } else if (getWordMap().containsKey(token)) {
               Set<String> shouldNotAppearSet = getWordMap().get(token);
@@ -96,7 +94,7 @@ public abstract class AbstractWordCoherencyRule extends TextLevelRule {
           }
         }
       }
-      pos += sentence.getCorrectedTextLength();
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }

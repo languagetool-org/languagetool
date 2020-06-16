@@ -31,7 +31,7 @@ import java.util.*;
  * 
  * @author Marcin Miłkowski
  */
-public class DisambiguationPatternRule extends AbstractTokenBasedRule {
+public class DisambiguationPatternRule extends AbstractPatternRule {
 
   /** Possible disambiguator actions. **/
   public enum DisambiguatorAction {
@@ -90,7 +90,8 @@ public class DisambiguationPatternRule extends AbstractTokenBasedRule {
    * @return {@link AnalyzedSentence} Disambiguated sentence (might be unchanged).
    */
   public final AnalyzedSentence replace(AnalyzedSentence sentence) throws IOException {
-    return canBeIgnoredFor(sentence) ? sentence : new DisambiguationPatternRuleReplacer(this).replace(sentence);
+    DisambiguationPatternRuleReplacer replacer = new DisambiguationPatternRuleReplacer(this);
+    return replacer.replace(sentence);
   }
 
   public void setExamples(List<DisambiguatedExample> examples) {

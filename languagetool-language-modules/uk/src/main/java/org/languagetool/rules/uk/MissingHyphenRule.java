@@ -33,6 +33,7 @@ import org.languagetool.rules.Rule;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.WordTagger;
 import org.languagetool.tagging.uk.PosTagHelper;
+import org.languagetool.tools.StringTools;
 
 /**
  *
@@ -77,22 +78,22 @@ public class MissingHyphenRule extends Rule {
       AnalyzedTokenReadings tokenReadings = tokens[i];
       AnalyzedTokenReadings nextTokenReadings = tokens[i + 1];
       
+//      boolean isCapitalized = Character.isUpperCase(tokenReadings.getToken().charAt(0));
+      boolean isCapitalized = StringTools.isCapitalizedWord(tokenReadings.getToken());
 
       if( PosTagHelper.hasPosTagStart(nextTokenReadings, "noun")
           && ! PosTagHelper.hasPosTagPart(nextTokenReadings, "&pron")
           //    && ! PosTagHelper.hasPosTag(nextTokenReadings, Pattern.compile("^(?!noun).*"))
-          && ALL_LOWER.matcher(nextTokenReadings.getCleanToken()).matches() ) {
-
-        boolean isCapitalized = LemmaHelper.isCapitalized(tokenReadings.getCleanToken());
+          && ALL_LOWER.matcher(nextTokenReadings.getToken()).matches() ) {
 
         String extraTag = getPrefixExtraTag(tokenReadings, isCapitalized);
         if ( extraTag != null
-            || (tokenReadings.getCleanToken().toLowerCase().equals("тайм")
+            || (tokenReadings.getToken().toLowerCase().equals("тайм")
                 && LemmaHelper.hasLemma(nextTokenReadings, "аут")) ) {
 
           // всі медіа країни
-          if( "медіа".equalsIgnoreCase(tokenReadings.getCleanToken()) 
-              && nextTokenReadings.getCleanToken().matches("країни|півострова"))
+          if( "медіа".equalsIgnoreCase(tokenReadings.getToken()) 
+              && nextTokenReadings.getToken().matches("країни|півострова"))
             continue;
           
           String suggested;

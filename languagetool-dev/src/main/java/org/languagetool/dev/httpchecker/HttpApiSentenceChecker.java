@@ -25,7 +25,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.StringUtils;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.*;
@@ -66,9 +66,16 @@ class HttpApiSentenceChecker {
     long t1 = System.currentTimeMillis();
     int lines = countLines(input);
     System.out.println(input + " has " + lines + " lines");
-    List<String> inputTexts = splitInput(input, threadCount);
-    List<File> threadFiles = runOnTexts(inputTexts);
-    joinResults(threadFiles, output);
+    List<File> inputFiles = new ArrayList<>();
+    try {
+      inputFiles = splitInput(lines, input, threadCount);
+      List<File> threadFiles = runOnFiles(inputFiles);
+      joinResults(threadFiles, output);
+    } finally {
+      for (File file : inputFiles) {
+        FileUtils.deleteQuietly(file);
+      }
+    }
     long t2 = System.currentTimeMillis();
     Duration duration = Duration.of(t2 - t1, ChronoUnit.MILLIS);
     System.out.println("Runtime: " + formatDuration(duration) + " (h:mm:ss)");
@@ -91,60 +98,54 @@ class HttpApiSentenceChecker {
     return count;
   }
 
-  private List<String> splitInput(File input, int threadCount) throws IOException {
-    List<String> texts = new ArrayList<>();
-    final int batchSize = 10;  // do not modify - this would change the results
+  private List<File> splitInput(int lines, File input, int threadCount) throws IOException {
+    List<File> tempFiles = new ArrayList<>();
+    int batchSize = lines / threadCount;
     System.out.println("Working with " + threadCount + " threads, single batch size: " + batchSize + " lines");
+    int fileCount = 0;
+    int startLine = 0;
     int lineCount = 0;
-    StringBuilder sb = new StringBuilder();
+    File tempFile = getTempFile(fileCount);
+    tempFiles.add(tempFile);
+    FileWriter fw = new FileWriter(tempFile);
     try (Scanner sc = new Scanner(input)) {
       while (sc.hasNextLine()) {
         String line = sc.nextLine();
-        sb.append(line);
-        sb.append("\n");
+        fw.write(line + "\n");
         lineCount++;
         if (lineCount > 0 && lineCount % batchSize == 0) {
-          texts.add(sb.toString());
-          sb = new StringBuilder();
+          fileCount++;
+          fw.close();
+          File destFile = new File(tempFile.getParentFile(), HttpApiSentenceChecker.class.getSimpleName() + "-" + startLine + "-to-" + lineCount + ".json");
+          startLine = lineCount;
+          FileUtils.moveFile(tempFile, destFile);
+          tempFile = getTempFile(fileCount);
+          tempFiles.add(destFile);
+          fw = new FileWriter(tempFile);
         }
       }
     }
-    System.out.println(lineCount + " lines from " + input + " split into " + texts.size() + " text of " + batchSize + " lines each");
-    return texts;
+    fw.close();
+    return tempFiles;
   }
 
-  private List<File> runOnTexts(List<String> texts) throws InterruptedException, ExecutionException {
+  @NotNull
+  private File getTempFile(int fileCount) throws IOException {
+    return File.createTempFile(HttpApiSentenceChecker.class.getSimpleName() + "-split-input-" + fileCount + "-", ".txt");
+  }
+
+  private List<File> runOnFiles(List<File> files) throws InterruptedException, ExecutionException {
     List<File> resultFiles = new ArrayList<>();
     ExecutorService execService = new ForkJoinPool(threadCount, ForkJoinPool.defaultForkJoinWorkerThreadFactory, null, false);
     List<Callable<File>> callables = new ArrayList<>();
     int count = 0;
-    int textsPerThread = texts.size() / threadCount;
-    System.out.println("textsPerThread: " + textsPerThread);
-    // We shouldn't shuffle sentences (would lead to different results), but we can shuffle the batches
-    // in order to get a more or less uniform distribution (i.e. not one thread getting short texts,
-    // another one getting long texts):
-    Collections.shuffle(texts, new Random(123));
-    for (int i = 0; i < threadCount; i++) {
-      List<String> tmpTexts = new ArrayList<>();
-      for (int j = 0; j < textsPerThread; j++) {
-        // TODO: check?
-        if (texts.size() == 0) {
-          System.out.println("No more texts to be collected");
-          break;
-        }
-        tmpTexts.add(texts.remove(0));
+    for (File file : files) {
+      if (file.length() == 0) {
+        continue;
       }
-      callables.add(new CheckCallable(count, baseUrl, token, tmpTexts, langCode, user, password));
-      System.out.println("Created thread " + count + " with " + tmpTexts.size() + " texts");
+      callables.add(new CheckCallable(count, baseUrl, token, file, langCode, user, password));
       count++;
     }
-    if (texts.size() > 0) {
-      System.out.println(texts.size() + " texts remaining, creating another thread for them");
-      callables.add(new CheckCallable(count, baseUrl, token, texts, langCode, user, password));
-    } else {
-      System.out.println("No texts remaining");
-    }
-    System.out.println("Created " + callables.size() + " threads");
     List<Future<File>> futures = execService.invokeAll(callables);
     for (Future<File> future : futures) {
       resultFiles.add(future.get());
@@ -163,18 +164,8 @@ class HttpApiSentenceChecker {
       for (File threadFile : threadFiles) {
         List<String> lines = Files.readAllLines(threadFile.toPath());
         for (String line : lines) {
-          JsonNode node;
-          try {
-            node = mapper.readTree(line);
-          } catch (Exception e) {
-            System.err.println("ERROR: Could not parse line from " + threadFile + ": " + line);
-            throw e;
-          }
-          JsonNode date = node.get("software").get("buildDate");
-          if (date.isNull() && !line.contains(CheckCallable.FAIL_MESSAGE)) {
-            System.err.println("WARNING: 'null' buildDate in " + threadFile + " with " + lines.size() + " lines, line: " + StringUtils.abbreviate(line, 500));
-          }
-          buildDates.add(date.asText());
+          JsonNode node = mapper.readTree(line);
+          buildDates.add(node.get("software").get("buildDate").asText());
           fw.write(line);
           fw.write('\n');
         }
@@ -183,7 +174,7 @@ class HttpApiSentenceChecker {
     }
     if (buildDates.size() > 1) {
       System.err.println("-----------------------------------------------------");
-      System.err.println("WARNING: inconsistent build dates across API servers ('null' can be ignored): Found " + buildDates);
+      System.err.println("WARNING: inconsistent build dates across API servers: Found " + buildDates);
       System.err.println("-----------------------------------------------------");
     } else {
       System.out.println("All requests answered by API servers with build date " + buildDates);
@@ -195,7 +186,7 @@ class HttpApiSentenceChecker {
     Options options = new Options();
     options.addRequiredOption(null, "input", true, "Plain text input file");
     options.addRequiredOption(null, "lang", true, "Language code, e.g. en-US");
-    options.addRequiredOption(null, "threads", true, "Number of threads (NOTE: changing this will change output due to the way input is split)");
+    options.addRequiredOption(null, "threads", true, "Number of threads");
     options.addRequiredOption(null, "output", true, "Output file");
     options.addOption(null, "token", true, "Secret token to skip server's limits");
     options.addOption(null, "url", true, "Base URL, defaults to https://api.languagetool.org");

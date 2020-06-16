@@ -176,7 +176,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
   }
 
   /* 
-   * Set a URL to a synonym dictionary for a token
+   *  set an URL to an synonym dictionary for a token
    */
   protected URL setURL(AnalyzedTokenReadings token ) throws MalformedURLException {
     return null;
@@ -196,7 +196,6 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
     }
     return synonyms;
   }
-
   /**
    * get synonyms for a repeated word
    */
@@ -317,7 +316,7 @@ public abstract class AbstractStyleRepeatedWordRule  extends TextLevelRule {
           } 
         }
       }
-      pos += sentences.get(n).getCorrectedTextLength();
+      pos += sentences.get(n).getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }

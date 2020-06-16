@@ -18,105 +18,49 @@
  */
 package org.languagetool.openoffice;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.languagetool.openoffice.FlatParagraphTools.ParagraphContainer;
-
-import com.sun.star.lang.Locale;
-
 /**
- * Class to store the Text of a LO document (document cache)
+ * Class to store the Text of a LO document 
  * @since 5.0
  * @author Fred Kruse
  */
-public class DocumentCache implements Serializable {
+public class DocumentCache {
   
-  private static final long serialVersionUID = 2L;
+  private static boolean debugMode;         //  should be false except for testing
 
-  private static boolean debugMode;                         //  should be false except for testing
+  List<String> paragraphs = null;            //  stores the flat paragraphs of document
+  List<Integer> headings = null;             //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
+  List<Integer> toTextMapping = new ArrayList<>();  //Mapping from FlatParagraph to DocumentCursor
+  List<Integer> toParaMapping = new ArrayList<>();  //Mapping from DocumentCursor to FlatParagraph
+  int defaultParaCheck;
 
-  private List<String> paragraphs = null;                   //  stores the flat paragraphs of document
-  private List<Integer> chapterBegins = null;               //  stores the paragraphs formated as headings; is used to subdivide the document in chapters
-  private List<SerialLocale> locales = null;                //  stores the language of the paragraphs;
-  private List<int[]> footnotes = null;                     //  stores the footnotes of the paragraphs;
-  private List<Integer> toTextMapping = new ArrayList<>();  //  Mapping from FlatParagraph to DocumentCursor
-  private List<Integer> toParaMapping = new ArrayList<>();  //  Mapping from DocumentCursor to FlatParagraph
-  private int defaultParaCheck;
-  private boolean isReset = false;
-
-  DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck, Locale docLocale) {
+  DocumentCache(DocumentCursorTools docCursor, FlatParagraphTools flatPara, int defaultParaCheck) {
     debugMode = OfficeTools.DEBUG_MODE_DC;
     this.defaultParaCheck = defaultParaCheck;
-    reset(docCursor, flatPara, docLocale);
+    reset(docCursor, flatPara);
   }
   
-  DocumentCache(DocumentCache in) {
-    paragraphs = new ArrayList<String>(in.paragraphs);
-    chapterBegins = new ArrayList<Integer>(in.chapterBegins);
-    locales = new ArrayList<SerialLocale>(in.locales);
-    footnotes = new ArrayList<int[]>(in.footnotes);
-    toTextMapping = new ArrayList<Integer>(in.toTextMapping);
-    toParaMapping = new ArrayList<Integer>(in.toParaMapping);
-    defaultParaCheck = in.defaultParaCheck;
-  }
-  
-  DocumentCache(List<String> paragraphs, List<String> textParagraphs, List<int[]> footnotes, Locale locale) {
-    this.paragraphs = paragraphs;
-    this.footnotes = footnotes;
-    chapterBegins = new ArrayList<Integer>();
-    locales = new ArrayList<SerialLocale>();
-    for (int i = 0; i < paragraphs.size(); i++) {
-      locales.add(new SerialLocale(locale));
+  public void reset(DocumentCursorTools docCursor, FlatParagraphTools flatPara) {
+    List<String> textParas = docCursor.getAllTextParagraphs();
+    if(textParas != null) {
+      headings = docCursor.getParagraphHeadings();
+      paragraphs = flatPara.getAllFlatParagraphs();
     }
-    mapParagraphs(textParagraphs);
-  }
-  
-  /**
-   * reset the document cache
-   * load the actual state of the document into the cache
-   */
-  public synchronized void reset(DocumentCursorTools docCursor, FlatParagraphTools flatPara, Locale docLocale) {
-    try {
-      isReset = true;
-      List<String> textParas = docCursor.getAllTextParagraphs();
-      ParagraphContainer paragraphContainer = null;
-      if (textParas != null) {
-        chapterBegins = docCursor.getParagraphHeadings();
-        paragraphContainer = flatPara.getAllFlatParagraphs(docLocale);
-        if (paragraphContainer == null) {
-          MessageHandler.printToLogFile("paragraphContainer == null - ParagraphCache not initialised");
-          paragraphs = null;
-          isReset = false;
-          return;
-        }
-        paragraphs = paragraphContainer.paragraphs;
-        locales = new ArrayList<SerialLocale>();
-        for (Locale locale :  paragraphContainer.locales) {
-          locales.add(new SerialLocale(locale)) ;
-        }
-        footnotes = paragraphContainer.footnotePositions;
-      }
-      if (paragraphs == null) {
-        MessageHandler.printToLogFile("paragraphs == null - ParagraphCache not initialised");
-        isReset = false;
-        return;
-      }
-      mapParagraphs(textParas);
-    } finally {
-      isReset = false;
+    if(paragraphs == null) {
+      MessageHandler.printToLogFile("paragraphs == null - ParagraphCache not initialised");
+      return;
     }
-  }
-  
-  private void mapParagraphs(List<String> textParas) {
-    if (debugMode) {
+    List<int[]> footnotes = flatPara.getFootnotePositions();
+    
+    if(debugMode) {
       MessageHandler.printToLogFile("\n\nNot mapped paragraphs:");
     }
-    if (textParas != null && !textParas.isEmpty()) {
+    if(textParas != null && !textParas.isEmpty()) {
       int n = 0; 
-      for (int i = 0; i < paragraphs.size(); i++) {
-        if ((footnotes != null && i < footnotes.size() && footnotes.get(i).length > 0)
+      for(int i = 0; i < paragraphs.size(); i++) {
+        if((footnotes != null && i < footnotes.size() && footnotes.get(i).length > 0)
             || (n < textParas.size() && (paragraphs.get(i).equals(textParas.get(n)) 
                 || removeZeroWidthSpace(paragraphs.get(i)).equals(textParas.get(n))))) {
           toTextMapping.add(n);
@@ -124,51 +68,33 @@ public class DocumentCache implements Serializable {
           n++;
         } else {
           toTextMapping.add(-1);
-          if (debugMode) {
+          if(debugMode) {
             MessageHandler.printToLogFile("\nFlat("  + i + "): '" + paragraphs.get(i));
-            if (n < textParas.size()) {
+            if(n < textParas.size()) {
               MessageHandler.printToLogFile("Doc("  + n + "): '" + textParas.get(n));
             }
           }  
         }
       }
-      prepareChapterBegins();
-      isReset = false;
-      if (debugMode) {
+      if(debugMode) {
         MessageHandler.printToLogFile("\n\ntoParaMapping:");
-        for (int i = 0; i < toParaMapping.size(); i++) {
+        for(int i = 0; i < toParaMapping.size(); i++) {
           MessageHandler.printToLogFile("Doc: " + i + " Flat: " + toParaMapping.get(i)
           + OfficeTools.LOG_LINE_BREAK + getTextParagraph(i));
         }
         MessageHandler.printToLogFile("\n\ntoTextMapping:");
-        for (int i = 0; i < toTextMapping.size(); i++) {
-          MessageHandler.printToLogFile("Flat: " + i + " Doc: " + toTextMapping.get(i) + " locale: " + locales.get(i).Language + "-" + locales.get(i).Country);
+        for(int i = 0; i < toTextMapping.size(); i++) {
+          MessageHandler.printToLogFile("Flat: " + i + " Doc: " + toTextMapping.get(i));
+//        if(toTextMapping.get(i) == -1) {
+//          MessageHandler.printToLogFile("'" + paragraphs.get(i) + "'");
+//        }
         }
         MessageHandler.printToLogFile("\n\nheadings:");
-        for (int i = 0; i < chapterBegins.size(); i++) {
-          MessageHandler.printToLogFile("Num: " + i + " Heading: " + chapterBegins.get(i));
+        for(int i = 0; i < headings.size(); i++) {
+          MessageHandler.printToLogFile("Num: " + i + " Heading: " + headings.get(i));
         }
-        MessageHandler.printToLogFile("\nNumber of Flat Paragraphs: " + paragraphs.size());
-        MessageHandler.printToLogFile("Number of Text Paragraphs: " + toParaMapping.size());
-        MessageHandler.printToLogFile("Number of footnotes: " + footnotes.size());
-        MessageHandler.printToLogFile("Number of locales: " + locales.size());
       }
     }
-  }
-  
-  /**
-   * wait till reset is finished
-   */
-  public boolean isFinished() {
-    while (isReset) {
-      try {
-        Thread.sleep(5);
-      } catch (InterruptedException e) {
-        MessageHandler.showError(e);
-        return false;
-      }
-    }
-    return paragraphs == null ? false: true;
   }
   
   /**
@@ -186,60 +112,10 @@ public class DocumentCache implements Serializable {
   }
     
   /**
-   * set Flat Paragraph and Locale at Index
-   */
-  public void setFlatParagraph(int n, String sPara, Locale locale) {
-    paragraphs.set(n, sPara);
-    locales.set(n, new SerialLocale(locale));
-  }
-    
-  /**
    * get Text Paragraph by Index
    */
   public String getTextParagraph(int n) {
     return paragraphs.get(toParaMapping.get(n));
-  }
-  
-  /**
-   * get Number of Flat Paragraph from Number of Text Paragraph
-   */
-  public int getFlatParagraphNumber(int n) {
-    return toParaMapping.get(n);
-  }
-  
-  /**
-   * get Locale of Flat Paragraph by Index
-   */
-  public Locale getFlatParagraphLocale(int n) {
-    return locales.get(n).toLocale();
-  }
-  
-  /**
-   * set Locale of Flat Paragraph by Index
-   */
-  public void setFlatParagraphLocale(int n, Locale locale) {
-    locales.set(n, new SerialLocale(locale));
-  }
-  
-  /**
-   * get Locale of Text Paragraph by Index
-   */
-  public Locale getTextParagraphLocale(int n) {
-    return locales.get(toParaMapping.get(n)).toLocale();
-  }
-  
-  /**
-   * get footnotes of Flat Paragraph by Index
-   */
-  public int[] getFlatParagraphFootnotes(int n) {
-    return footnotes.get(n);
-  }
-  
-  /**
-   * get footnotes of Text Paragraph by Index
-   */
-  public int[] getTextParagraphFootnotes(int n) {
-    return footnotes.get(toParaMapping.get(n));
   }
   
   /**
@@ -257,7 +133,7 @@ public class DocumentCache implements Serializable {
   }
   
   /**
-   * get Number of Text Paragraph from Number of Flat Paragraph
+   * size of document cache (number of all flat paragraphs)
    */
   public int getNumberOfTextParagraph(int numberOfFlatParagraph) {
     return toTextMapping.get(numberOfFlatParagraph);
@@ -271,38 +147,34 @@ public class DocumentCache implements Serializable {
   }
   
   /**
-   * size of text cache (without headers, footnotes, etc.)
-   */
-  public boolean isEqual(int n, String text, Locale locale) {
-    return ((n < 0 || n >= locales.size() || locales.get(n) == null) ? false :
-        (locales.get(n).equalsLocale(locale) && text.equals(paragraphs.get(n))));
-  }
-  
-  /**
    * Gives back the start paragraph for text level check
    */
-  public int getStartOfParaCheck(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue, boolean addParas) {
+  public int getStartOfParaCheck(int numCurPara, int parasToCheck, boolean textIsChanged) {
     if (numCurPara < 0 || toParaMapping.size() <= numCurPara) {
       return -1;
     }
-    if (parasToCheck < -1) {
+    if(parasToCheck < -1) {
       return 0;
     }
-    if (parasToCheck == 0) {
+    if(parasToCheck == 0) {
       return numCurPara;
     }
-    int headingBefore = 0;
-    for (int heading : chapterBegins) {
-      if (heading > numCurPara) {
+    int headingBefore = -1;
+    for(int heading : headings) {
+      if(heading > numCurPara) {
         break;
       } 
       headingBefore = heading;
     }
-    if (headingBefore == numCurPara || parasToCheck < 0 || (useQueue && !textIsChanged)) {
+    if(headingBefore == numCurPara) {
+      return headingBefore;
+    }
+    headingBefore++;
+    if(parasToCheck < 0) {
       return headingBefore;
     }
     int startPos = numCurPara - parasToCheck;
-    if (addParas) {
+    if(textIsChanged) {
       startPos -= parasToCheck;
     }
     if (startPos < headingBefore) {
@@ -314,34 +186,36 @@ public class DocumentCache implements Serializable {
   /**
    * Gives back the end paragraph for text level check
    */
-  public int getEndOfParaCheck(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue, boolean addParas) {
+  public int getEndOfParaCheck(int numCurPara, int parasToCheck, boolean textIsChanged) {
     if (numCurPara < 0 || toParaMapping.size() <= numCurPara) {
       return -1;
     }
-    if (parasToCheck < -1) {
+    int headingAfter = -1;
+    if(parasToCheck < -1) {
       return toParaMapping.size();
     }
-    int headingAfter = -1;
-    if (parasToCheck == 0) {
+    if(parasToCheck == 0) {
       return numCurPara + 1;
     }
-    for (int heading : chapterBegins) {
+    for(int heading : headings) {
       headingAfter = heading;
-      if (heading > numCurPara) {
+      if(heading >= numCurPara) {
         break;
       }
     }
-    if (headingAfter <= numCurPara || headingAfter > toParaMapping.size()) {
+    if(headingAfter == numCurPara) {
+      return headingAfter + 1;
+    }
+    if(headingAfter < numCurPara || headingAfter > toParaMapping.size()) {
       headingAfter = toParaMapping.size();
     }
-    if (parasToCheck < 0 || (useQueue && !textIsChanged)) {
+    if(parasToCheck < 0) {
       return headingAfter;
     }
     int endPos = numCurPara + 1 + parasToCheck;
-    if (!textIsChanged) {
+    if(!textIsChanged) {
       endPos += defaultParaCheck;
-    } 
-    if (addParas) {
+    } else {
       endPos += parasToCheck;
     }
     if (endPos > headingAfter) {
@@ -353,17 +227,15 @@ public class DocumentCache implements Serializable {
   /**
    * Gives Back the full Text as String
    */
-  public String getDocAsString(int numCurPara, int parasToCheck, boolean textIsChanged, boolean useQueue, boolean hasFootnotes) {
-    int startPos = getStartOfParaCheck(numCurPara, parasToCheck, textIsChanged, useQueue, true);
-    int endPos = getEndOfParaCheck(numCurPara, parasToCheck, textIsChanged, useQueue, true);
-    if (startPos < 0 || endPos < 0 || (hasFootnotes && getTextParagraph(startPos).isEmpty() && getTextParagraphFootnotes(startPos).length > 0)) {
+  public String getDocAsString(int numCurPara, int parasToCheck, boolean textIsChanged) {
+    int startPos = getStartOfParaCheck(numCurPara, parasToCheck, textIsChanged);
+    int endPos = getEndOfParaCheck(numCurPara, parasToCheck, textIsChanged);
+    if(startPos < 0 || endPos < 0) {
       return "";
     }
-    StringBuilder docText = new StringBuilder(fixLinebreak(SingleCheck.removeFootnotes(getTextParagraph(startPos), 
-        (hasFootnotes ? getTextParagraphFootnotes(startPos) : null))));
+    StringBuilder docText = new StringBuilder(fixLinebreak(getTextParagraph(startPos)));
     for (int i = startPos + 1; i < endPos; i++) {
-      docText.append(OfficeTools.END_OF_PARAGRAPH).append(fixLinebreak(SingleCheck.removeFootnotes(getTextParagraph(i), 
-          (hasFootnotes ? getTextParagraphFootnotes(i) : null))));
+      docText.append(OfficeTools.END_OF_PARAGRAPH).append(fixLinebreak(getTextParagraph(i)));
     }
     return docText.toString();
   }
@@ -385,12 +257,12 @@ public class DocumentCache implements Serializable {
   /**
    * Gives Back the StartPosition of Paragraph
    */
-  public int getStartOfParagraph(int nPara, int checkedPara, int parasToCheck, boolean textIsChanged, boolean useQueue) {
+  public int getStartOfParagraph(int nPara, int checkedPara, int parasToCheck, boolean textIsChanged) {
     if (nPara < 0 || toParaMapping.size() <= nPara) {
       return -1;
     }
-    int startPos = getStartOfParaCheck(checkedPara, parasToCheck, textIsChanged, useQueue, true);
-    if (startPos < 0) {
+    int startPos = getStartOfParaCheck(checkedPara, parasToCheck, textIsChanged);
+    if(startPos < 0) {
       return -1;
     }
     int pos = 0;
@@ -399,76 +271,6 @@ public class DocumentCache implements Serializable {
     }
     return pos;
   }
-  
-  /**
-   *  Add the next chapter begin after Heading 
-   *  and changes of language to the chapter begins
-   */
-  private void prepareChapterBegins() {
-    List<Integer> prepChBegins = new ArrayList<Integer>(chapterBegins);
-    for (int begin : chapterBegins) {
-      if (!prepChBegins.contains(begin + 1)) {
-        prepChBegins.add(begin + 1);
-      }
-    }
-    if (locales.size() > 0) {
-      SerialLocale lastLocale = locales.get(0);
-      for (int i = 1; i < locales.size(); i++) {
-        if (locales != null && !locales.get(i).equalsLocale(lastLocale)) {
-          int nText = getNumberOfTextParagraph(i);
-          if (nText >= 0) {
-            if (!prepChBegins.contains(nText)) {
-              prepChBegins.add(nText);
-            }
-            lastLocale = locales.get(i);
-            if (debugMode) {
-              MessageHandler.printToLogFile("Paragraph("  + i + "): Locale changed to: " + lastLocale.Language + (lastLocale.Country == null ? "" : ("-" + lastLocale.Country)));
-            }
-          }
-        }
-      }
-    }
-    prepChBegins.sort(null);
-    chapterBegins = prepChBegins;
-  }
 
-  /**
-   * Class of serializable locale
-   * needed to save cache
-   */
-  class SerialLocale implements Serializable {
-     
-    private static final long serialVersionUID = 1L;
-    String Country;
-    String Language;
-    String Variant;
-   
-    SerialLocale(Locale locale) {
-      this.Country = locale.Country;
-      this.Language = locale.Language;
-      this.Variant = locale.Variant;
-    }
-    
-    /**
-     * return the language as Locale
-     */
-    Locale toLocale() {
-      return new Locale(Language, Country, Variant); 
-    }
-
-    /**
-     * True if the Language is the same as Locale
-     */
-    boolean equalsLocale(Locale locale) {
-      return ((locale == null || Language == null || Country == null || Variant == null)? false : 
-          Language.equals(locale.Language) && Country.equals(locale.Country) && Variant.equals(locale.Variant));
-    }
-
-    boolean equalsLocale(SerialLocale locale) {
-      return ((locale == null || Language == null || Country == null || Variant == null)? false : 
-          Language.equals(locale.Language) && Country.equals(locale.Country) && Variant.equals(locale.Variant));
-    }
-
-  }
 
 }

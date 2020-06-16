@@ -47,8 +47,6 @@ public class EnglishSRXSentenceTokenizerTest {
 
     testSplit("This is a sentence. ");
     testSplit("This is a sentence. ", "And this is another one.");
-    testSplit("This is it. ", "and this is another sentence.");
-    testSplit("This is a sentence. ", "and this is another sentence.");
     testSplit("This is a sentence.", "Isn't it?", "Yes, it is.");
     testSplit("This is e.g. Mr. Smith, who talks slowly...",
             "But this is another sentence.");
@@ -64,7 +62,6 @@ public class EnglishSRXSentenceTokenizerTest {
     testSplit("Let's meet at 5 p.m. in the main street.");
     testSplit("James comes from the U.K. where he worked as a programmer.");
     testSplit("Don't split strings like U.S.A. please.");
-    testSplit("Hello ( Hi! ) my name is Chris.");
     testSplit("Don't split strings like U. S. A. either.");
     testSplit("Don't split strings like U.S.A either.");
     testSplit("Don't split... ", "Well you know. ", "Here comes more text.");
@@ -110,18 +107,7 @@ public class EnglishSRXSentenceTokenizerTest {
     testSplit("A test.\u00A0\n", "Another test.");  // try to deal with at least some nbsp that appear in strange places (e.g. Google Docs, web editors)
     testSplit("A test.\u00A0Another test.");  // not clear whether this is the best behavior...
 
-    testSplit("The new Yahoo! product is nice.");
-    testSplit("Yahoo!, what is it?");
-    testSplit("Yahoo!", "What is it?");
-    
     testSplit("This is a sentence.\u0002 ", "And this is another one.");  // footnotes in LibOO/OOo look like this
-    
-    testSplit("Other good editions are in vol. 4.");
-    testSplit("Other good editions are in vol. IX.");
-    testSplit("Other good editions are in vol. I think."); // ambiguous
-    testSplit("Who Shall I Say is Calling & Other Stories S. Deziemianowicz, ed. (2009)");
-    testSplit("Who Shall I Say is Calling & Other Stories S. Deziemianowicz, ed. ", "And this is another one.");
-    testSplit("This is a sentence written by Ed. ", "And this is another one.");
   }
 
   private void testSplit(String... sentences) {
@@ -129,4 +115,3 @@ public class EnglishSRXSentenceTokenizerTest {
   }
   
 }
-

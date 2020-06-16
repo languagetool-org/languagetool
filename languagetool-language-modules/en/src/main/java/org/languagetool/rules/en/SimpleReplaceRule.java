@@ -18,52 +18,38 @@
  */
 package org.languagetool.rules.en;
 
-import org.languagetool.Language;
-import org.languagetool.rules.AbstractSimpleReplaceRule2;
+import org.languagetool.rules.AbstractSimpleReplaceRule;
+import org.languagetool.rules.Categories;
 
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * A rule that matches words which should not be used and suggests
  * correct ones instead. English implementation.
  * Loads the relevant words from <code>rules/en/replace.txt</code>.
  */
-public class SimpleReplaceRule extends AbstractSimpleReplaceRule2 {
+public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
 
+  private static final Map<String, List<String>> wrongWords = loadFromPath("/en/replace.txt", "/en/replace_custom.txt");
   private static final Locale EN_LOCALE = new Locale("EN");
 
-  public SimpleReplaceRule(ResourceBundle messages, Language language) {
-    super(messages, language);
-  }
-
   @Override
-  public List<String> getFileNames() {
-    return Arrays.asList("/en/replace.txt", "/en/replace_custom.txt");
+  protected Map<String, List<String>> getWrongWords() {
+    return wrongWords;
   }
+  
+  public SimpleReplaceRule(final ResourceBundle messages) {
+    super(messages);
+    super.setCategory(Categories.MISC.getCategory(messages));
+    this.setCheckLemmas(false);
+  }  
 
   @Override
   public final String getId() {
     return "EN_SIMPLE_REPLACE";
-  }
-
-  @Override
-  public String getDescription() {
-    return "Checks for wrong words/phrases";
-  }
-
-  @Override
-  public String getShort() {
-    return "Wrong word";
-  }
-
-  @Override
-  public String getMessage() {
-    return "Did you mean $suggestions?";
-  }
-
-  @Override
-  public String getSuggestionsSeparator() {
-    return ", ";
   }
 
   @Override

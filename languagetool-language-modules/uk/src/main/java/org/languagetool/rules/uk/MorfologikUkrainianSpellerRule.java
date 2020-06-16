@@ -19,17 +19,22 @@
 
 package org.languagetool.rules.uk;
 
-import org.languagetool.*;
-import org.languagetool.rules.SuggestedReplacement;
-import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
-import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
-import org.languagetool.tools.StringTools;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
+
+import org.languagetool.AnalyzedSentence;
+import org.languagetool.AnalyzedToken;
+import org.languagetool.AnalyzedTokenReadings;
+import org.languagetool.JLanguageTool;
+import org.languagetool.Language;
+import org.languagetool.UserConfig;
+import org.languagetool.rules.SuggestedReplacement;
+import org.languagetool.rules.spelling.morfologik.MorfologikMultiSpeller;
+import org.languagetool.rules.spelling.morfologik.MorfologikSpellerRule;
+import org.languagetool.tools.StringTools;
 
 public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule {
 
@@ -65,7 +70,10 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   @Override
   protected boolean isMisspelled(MorfologikMultiSpeller speller, String word) {
     if( word.endsWith("-") ) {
-      return !word.startsWith("-") || !INFIX_PATTERN.matcher(word).matches();
+      if( word.startsWith("-") && INFIX_PATTERN.matcher(word).matches() )
+        return false;
+
+      return true;
     }
   
     if( word.endsWith("²") || word.endsWith("³") ) {
@@ -128,7 +136,7 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
 //    return false;
   }
 
-  private static boolean hasGoodTag(AnalyzedTokenReadings tokens) {
+  private boolean hasGoodTag(AnalyzedTokenReadings tokens) {
     for (AnalyzedToken analyzedToken : tokens) {
       String posTag = analyzedToken.getPOSTag();
       if( posTag != null 
@@ -142,8 +150,8 @@ public final class MorfologikUkrainianSpellerRule extends MorfologikSpellerRule 
   }
 
   @Override
-  protected List<SuggestedReplacement> filterSuggestions(List<SuggestedReplacement> suggestions) {
-    suggestions = super.filterSuggestions(suggestions);
+  protected List<SuggestedReplacement> filterSuggestions(List<SuggestedReplacement> suggestions, AnalyzedSentence sentence, int i) {
+    suggestions = super.filterSuggestions(suggestions, sentence, i);
     // do not suggest "кіно прокат, вело- прогулянка...":
     suggestions.removeIf(item -> item.getReplacement().contains(" ") &&
         DO_NOT_SUGGEST_SPACED_PATTERN.matcher(item.getReplacement()).matches() ||

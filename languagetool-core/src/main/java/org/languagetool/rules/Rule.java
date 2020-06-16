@@ -18,8 +18,6 @@
  */
 package org.languagetool.rules;
 
-import com.google.common.base.Suppliers;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.rules.patterns.PatternToken;
@@ -28,7 +26,6 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.function.Supplier;
 
 /**
  * Abstract rule class. A Rule describes a language error and can test whether a
@@ -41,21 +38,13 @@ import java.util.function.Supplier;
  * make sure that their initialization works fast. For example, if a rule needs
  * to load data from disk, it should store it in a static variable to make sure
  * the loading happens only once.
- *
- * Rules also need to make sure their {@code match()} code is stateless, i.e. that
- * its results are not influenced by previous calls to {@code match()} (this is relevant
- * if pipeline caching is used).
- *
+ * 
  * @author Daniel Naber
  */
 public abstract class Rule {
-
   private static final Category MISC = new Category(CategoryIds.MISC, "Miscellaneous");
 
   protected final ResourceBundle messages;
-
-  @Nullable
-  private List<Tag> tags;
 
   private List<CorrectExample> correctExamples;
   private List<IncorrectExample> incorrectExamples;
@@ -111,10 +100,8 @@ public abstract class Rule {
    * Check whether the given sentence matches this error rule, i.e. whether it
    * contains the error detected by this rule. Note that the order in which
    * this method is called is not always guaranteed, i.e. the sentence order in the
-   * text may be different from the order in which you get the sentences (this may be the
+   * text may be different than the order in which you get the sentences (this may be the
    * case when LanguageTool is used as a LibreOffice/OpenOffice add-on, for example).
-   * In other words, implementations must be stateless, so that a previous call to
-   * this method has no influence on later calls.
    *
    * @param sentence a pre-analyzed sentence
    * @return an array of {@link RuleMatch} objects
@@ -207,11 +194,10 @@ public abstract class Rule {
   }
 
   /**
-   * Helper for implementing {@link #getAntiPatterns()}. The result of this method should better be cached, please see
-   * {@link #cacheAntiPatterns} which does that.
+   * Helper for implementing {@link #getAntiPatterns()}.
    * @since 3.1
    */
-  protected static List<DisambiguationPatternRule> makeAntiPatterns(List<List<PatternToken>> patternList, Language language) {
+  protected List<DisambiguationPatternRule> makeAntiPatterns(List<List<PatternToken>> patternList, Language language) {
     List<DisambiguationPatternRule> rules = new ArrayList<>();
     for (List<PatternToken> patternTokens : patternList) {
       rules.add(new DisambiguationPatternRule("INTERNAL_ANTIPATTERN", "(no description)", language,
@@ -219,16 +205,7 @@ public abstract class Rule {
     }
     return rules;
   }
-
-  /**
-   * @return a memoizing supplier that caches the result of {@link #makeAntiPatterns}. It makes sense
-   * to store the returned value, e.g. in a field.
-   * @since 5.2
-   */
-  protected static Supplier<List<DisambiguationPatternRule>> cacheAntiPatterns(Language language, List<List<PatternToken>> antiPatterns) {
-    return Suppliers.memoize(() -> makeAntiPatterns(antiPatterns, language));
-  }
-
+  
   /**
    * Whether this rule can be used for text in the given language.
    * Since LanguageTool 2.6, this also works {@link org.languagetool.rules.patterns.PatternRule}s
@@ -319,7 +296,7 @@ public abstract class Rule {
   /**
    * @return a category (never null since LT 3.4)
    */
-  public Category getCategory() {
+  public final Category getCategory() {
     return category;
   }
 
@@ -482,41 +459,6 @@ public abstract class Rule {
       correctExamples.clear();
     }
     addExamplePair(incorrectSentence, correctSentence);
-  }
-
-  /**
-   * @since 5.1
-   */
-  public void addTags(List<String> tags) {
-    if (tags.isEmpty()) return;
-
-    List<Tag> myTags = this.tags;
-    if (myTags == null) {
-      this.tags = myTags = new ArrayList<>();
-    }
-    for (String tag : tags) {
-      if (myTags.stream().noneMatch(k -> k.name().equals(tag))) {
-        myTags.add(Tag.valueOf(tag));
-      }
-    }
-  }
-
-  /**
-   * @since 5.1
-   */
-  public void setTags(List<Tag> tags) {
-    this.tags = tags.isEmpty() ? null : Objects.requireNonNull(tags);
-  }
-
-  /** @since 5.1 */
-  @NotNull
-  public List<Tag> getTags() {
-    return tags == null ? Collections.emptyList() : tags;
-  }
-
-  /** @since 5.1 */
-  public boolean hasTag(Tag tag) {
-    return tags != null && tags.contains(tag);
   }
 
 }

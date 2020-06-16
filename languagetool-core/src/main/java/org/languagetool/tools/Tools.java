@@ -44,7 +44,7 @@ public final class Tools {
    */
   public static String i18n(ResourceBundle messages, String key, Object... messageArguments) {
     MessageFormat formatter = new MessageFormat("");
-    formatter.applyPattern(messages.getString(key));
+    formatter.applyPattern(messages.getString(key).replaceAll("'", "''"));
     return formatter.format(messageArguments);
   }
 
@@ -64,7 +64,7 @@ public final class Tools {
                                             List<BitextRule> bRules) throws IOException {
     AnalyzedSentence srcText = srcLt.getAnalyzedSentence(src);
     AnalyzedSentence trgText = trgLt.getAnalyzedSentence(trg);
-    List<Rule> nonBitextRules = trgLt.getAllActiveRules();
+    List<Rule> nonBitextRules = trgLt.getAllRules();
     List<RuleMatch> ruleMatches = trgLt.checkAnalyzedSentence(JLanguageTool.ParagraphHandling.NORMAL, nonBitextRules, trgText, true);
     for (BitextRule bRule : bRules) {
       RuleMatch[] curMatch = bRule.match(srcText, trgText);
@@ -290,7 +290,7 @@ public final class Tools {
       for (Rule rule : lt.getAllRules()) {
         if (rule.isDefaultTempOff()) {
           System.out.println("Activating " + rule.getFullId() + ", which is default='temp_off'");
-          lt.enableRule(rule.getFullId());
+          lt.enableRule(rule.getId());
         }
       }
     }
@@ -306,7 +306,7 @@ public final class Tools {
         for (Rule rule : lt.getAllRules()) {
           Category category = rule.getCategory();
           if (category == null || !enabledCategories.contains(category.getId())) {
-            lt.disableRule(rule.getFullId());
+            lt.disableRule(rule.getId());
           }
         }
       }
@@ -323,8 +323,8 @@ public final class Tools {
       if (useEnabledOnly) {
         // disable all rules except those enabled explicitly, if any:
         for (Rule rule : lt.getAllRules()) {
-          if (!(enabledRules.contains(rule.getFullId()) || enabledRules.contains(rule.getId()))) {
-            lt.disableRule(rule.getFullId());
+          if (!enabledRules.contains(rule.getId())) {
+            lt.disableRule(rule.getId());
           }
         }
       }

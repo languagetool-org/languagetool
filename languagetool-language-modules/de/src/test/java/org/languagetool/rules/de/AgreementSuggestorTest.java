@@ -47,7 +47,6 @@ public class AgreementSuggestorTest {
     assertSuggestion("mehrere/mehrer/PRO:IND:NOM:PLU:NEU:B/S Kabels/Kabel/SUB:GEN:SIN:MAS", "[mehrere Kabel]");
     assertSuggestion("mehrere/mehrer/PRO:IND:NOM:PLU:NEU:B/S LAN-Kabels/LAN-Kabel/SUB:GEN:SIN:MAS", "[mehrere LAN-Kabel]");
     assertSuggestion("mehrere/mehrer/PRO:IND:NOM:PLU:NEU:B/S WLAN-LAN-Kabels/WLAN-LAN-Kabel/SUB:GEN:SIN:MAS", "[mehrere WLAN-LAN-Kabel]");
-    assertSuggestion("Ihren/mein/PRO:POS:AKK:SIN:MAS:BEG Verständnis/Verständnis/SUB:NOM:SIN:NEU", "[Ihr Verständnis]");
   }
 
   private void assertSuggestion(String input, String expectedSuggestions) {
@@ -64,7 +63,7 @@ public class AgreementSuggestorTest {
     if (tokenReadings.size() != 2) {
       throw new RuntimeException("Size of input not yet supported: " + tokenReadings.size());
     }
-    AgreementSuggestor suggestor = new AgreementSuggestor(synthesizer, tokenReadings.get(0), tokenReadings.get(1), null);
+    AgreementSuggestor suggestor = new AgreementSuggestor(synthesizer, tokenReadings.get(0), tokenReadings.get(1));
     List<String> suggestions = suggestor.getSuggestions();
     assertThat(suggestions.toString(), is(expectedSuggestions));
   }

@@ -94,26 +94,6 @@ USA
 <rules lang="en-GB" xsi:noNamespaceSchemaLocation="../../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <category id="AMERICAN_ENGLISH" name="American English phrases" type="locale-violation">
-        <rule id="DRIVERS_LICENSE" name="driver's licence/driving licence">
-            <pattern>
-                <token>driver</token>
-                <token>'s</token>
-                <token regexp="yes">licences?</token>
-            </pattern>
-            <message>This term is chiefly North American English. Consider a replacement.</message>
-            <suggestion>driving \4</suggestion>
-            <url>https://www.lexico.com/definition/driving_licence</url>
-            <example correction="driving licence">I've got a full, clean <marker>driver's licence</marker>.</example>
-        </rule>
-        <rule id="EGGPLANT" name="eggplant/aubergine">
-            <pattern>
-                <token regexp="yes">eggplants?</token>
-            </pattern>
-            <message>This term is chiefly North American English. Consider a replacement.</message>
-            <suggestion><match no="1" regexp_match="(?i)eggplant" regexp_replace="aubergine" /></suggestion>
-            <url>https://www.lexico.com/en/definition/eggplant</url>
-            <example correction="aubergines">He loved to eat <marker>eggplants</marker> for breakfast.</example>
-        </rule>
         <rule id="ZIP_CODE_POSTCODE" name="zip code/postcode">
             <pattern>
                 <token>zip</token>
@@ -225,14 +205,16 @@ USA
             </antipattern>
             <antipattern>
                 <token>car</token>
-                <token>'s</token>
+                <token regexp="yes">’|'</token>
+                <token>s</token>
                 <token skip="-1">boot</token>
                 <token regexp="yes">trunks?</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes" skip="-1">trunks?</token>
                 <token>car</token>
-                <token>'s</token>
+                <token regexp="yes">’|'</token>
+                <token>s</token>
                 <token>boot</token>
             </antipattern>
             <antipattern>
@@ -330,11 +312,11 @@ USA
             <url>http://dialectblog.com/2012/07/26/take-have-a-bath/</url>
             <short>Collocation error</short>
             <example correction="had">John <marker>took</marker> a nap after lunch.</example>
-            <example correction="have">You can't <marker>take</marker> your bath now because I'm cleaning the bathroom.</example><!-- LT suggestion is not correct. -->
+            <example correction="have|haven">You can't <marker>take</marker> your bath now because I'm cleaning the bathroom.</example><!-- LT suggestion is not correct. -->
             <example correction="have">Mary will <marker>take</marker> her vacation in Paris.</example>
             <example correction="having">I was thinking about <marker>taking</marker> a rest, but I decided to complete the work.</example>
             <example correction="having">While I was <marker>taking</marker> a bath, I thought about how to lay the bedroom carpet.</example>
-            <example correction="have">Does she <marker>take</marker> a bath in her vacation home or only a shower?</example>
+            <example correction="have|haven">Does she <marker>take</marker> a bath in her vacation home or only a shower?</example>
             <example correction="had">Who <marker>took</marker> a bath in the morning?</example>
             <example>John <marker>had</marker> a nap after lunch.</example>
         </rule>
@@ -352,7 +334,7 @@ USA
             <pattern>
                 <token>anymore</token>
             </pattern>
-            <message>In British English, the spelling '\1' is sometimes considered incorrect. Did you mean <suggestion>any more</suggestion>?</message>
+            <message>In British English, the spelling '\1' is sometimes considered incorrect. Did you mean <suggestion>any more</suggestion>.</message>
             <url>https://www.collinsdictionary.com/dictionary/english/anymore</url>
             <short>AmE/BrE: anymore/any more</short>
             <example correction="any more">I don't want to do this <marker>anymore</marker>.</example>
@@ -413,7 +395,7 @@ USA
                 <token postag_regexp="yes" postag="NNPS?"/>
                 <token postag_regexp="yes" postag="NNPS?"/>
             </antipattern>
-            <rule><!-- id="OXFORD_SPELLING_NOUNS" name="Oxford spelling of nouns (~iz not ~is), **but not CAPITALISATIONS of nouns**"> Always ~isement not ~izement. Always ~ision, not ~izion. -->
+            <rule id="OXFORD_SPELLING_NOUNS" name="Oxford spelling of nouns (~iz not ~is), **but not CAPITALISATIONS of nouns**"><!-- Always ~isement not ~izement. Always ~ision, not ~izion. -->
             <!-- For the suggestion, regexp_match and regexp_replace are sufficient. The token finds an ~is noun that has a singular or plural postag. If the ~is noun has a postag, then the ~iz noun should have that postag. (Possibly, the pairs of words are used differently in different locales, and thus they have different postags.) -->
                 <pattern>
                     <token postag_regexp="yes" postag="NN(:UN?)?|NNS" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)is(ation|er|ability)
@@ -421,7 +403,7 @@ USA
                         <exception regexp="yes">advertiser|merchandisers?</exception><!-- LT gives a spelling error for ~z, but without this exception, the rule finds the ~s word -->
                         </token>
                 </pattern>
-                <message suppress_misspelled="yes">Would you like to use the Oxford spelling <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(ations?|ers?|ability|abilities)" regexp_replace="$1iz$2"/></suggestion>? The spelling '\1' is also correct.</message>
+                <message suppress_misspelled="yes">In British English, for some nouns, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for nouns and thus suggests <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(ations?|ers?|ability|abilities)" regexp_replace="$1iz$2"/></suggestion>.</message>
                 <short>Oxford spelling: nouns</short>
 <!-- ~isation--><example correction="organization">The word '<marker>organisation</marker>' is not the Oxford spelling.</example>
                 <example correction="Organizations">The word '<marker>Organisations</marker>' is not the Oxford spelling.</example>
@@ -459,7 +441,7 @@ USA
                 <example>Make sure that the regexp is correct. These are all ~isability nouns: advisability, disability, disabilities, inadvisability</example>
                 <example>'<marker>MAGNETISABILITY</marker>. All capitalised nouns are out of scope because the suggestion is ~ise.</example>
             </rule>
-            <rule><!-- id="OXFORD_SPELLING_ISE_VERBS" name="Oxford spelling of verbs (~ize not ~ise), **but not CAPITALISED verbs**"> ~yse verbs are not ~yze in BrE: https://www.lexico.com/grammar/ize-ise-or-yse -->
+            <rule id="OXFORD_SPELLING_ISE_VERBS" name="Oxford spelling of verbs (~ize not ~ise), **but not CAPITALISED verbs**"><!-- ~yse verbs are not ~yze in BrE: https://www.lexico.com/grammar/ize-ise-or-yse -->
                 <pattern>
                     <token postag_regexp="yes" postag="VB.*" inflected="yes" regexp="yes">([a-z]+?-?[a-z]+?)ise
                         <exception regexp="yes">(?-i)[A-Z-]+</exception>
@@ -467,7 +449,7 @@ USA
                         </token>
                     <!-- Remove uppercase from the rule: case_sensitive="yes" in the token does not work; (?-i)([a-zA-Z][a-z]+... in the regexp does not work. Use an exception. -->
                 </pattern>
-                <message suppress_misspelled="yes">Would you like to use the Oxford spelling <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(e|es|ed|ing)" regexp_replace="$1iz$2" /></suggestion>? The spelling '\1' is also correct.</message><!-- Cannot use postag_regexp="yes" postag="(VB.*)" postag_replace="$1" because it causes the suggestion to be the same as the target token. -->
+                <message suppress_misspelled="yes">In British English, for some verbs, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for verbs and thus suggests <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(e|es|ed|ing)" regexp_replace="$1iz$2" /></suggestion>.</message><!-- Cannot use postag_regexp="yes" postag="(VB.*)" postag_replace="$1" because it causes the suggestion to be the same as the target token. -->
                 <short>Oxford spelling: ~ise verbs</short>
                 <example correction="organize">The verb '<marker>organise</marker>' is not the Oxford spelling.</example>
                 <example>The word '<marker>organize</marker>' is the Oxford spelling.</example>
@@ -488,13 +470,13 @@ USA
 
                 <example>These verbs are always ~ise: abscise, abscised, abscises, abscising, advertise, advertised, advertises, advertising, advise, advised, advises, advising, affranchise, affranchised, affranchises, affranchising, alias, aliased, aliases, aliasing, appraise, appraised, appraises, appraising, arise, arose, arises, arising, braise, braised, braises, braising, bruise, bruised, bruises, bruising, chastise, chastised, chastises, chastising, circumcise, circumcised, circumcises, circumcising, comprise, comprised, comprises, comprising, compromise, compromised, compromises, compromising, counterpoise, counterpoised, counterpoises, counterpoising, cruise, cruised, cruises, cruising, demise, demised, demises, demising, despise, despised, despises, despising, devise, devised, devises, devising, disenfranchise, disenfranchised, disenfranchises, disenfranchising, disfranchise, disfranchised, disfranchises, disfranchising, disguise, disguised, disguises, disguising, dispraise, dispraised, dispraises, dispraising, enfranchise, enfranchised, enfranchises, enfranchising, equipoise, equipoised, equipoises, equipoising, excise, excised, excises, excising, exercise, exercised, exercises, exercising, franchise, franchised, franchises, franchising, fundraise, fundraised, fundraises, fundraising, improvise, improvised, improvises, improvising, incise, incised, incises, incising, liaise, liaised, liaises, liaising, merchandise, merchandised, merchandises, merchandising, misadvise, misadvised, misadvises, misadvising, misraise, misraised, misraises, misraising, mortise, mortised, mortises, mortising, noise, noised, noises, noising, outraise, outraised, outraises, outraising, overexercise, overexercised, overexercises, overexercising, overpraise, overpraised, overpraises, overpraising, overpromise, overpromised, overpromises, overpromising, paralyse, paralysed, paralyses, paralysing, poise, poised, poises, poising, porpoise, porpoised, porpoises, porpoising, practise, practised, practises, practising, praise, praised, praises, praising, premise, premised, premises, premising, previse, prevised, previses, prevising, prise, prised, prises, prising, promise, promised, promises, promising, raise, raised, raises, raising, readvertise, readvertised, readvertises, readvertising, readvise, readvised, readvises, readvising, reappraise, reappraised, reappraises, reappraising, rearise, rearised, rearises, rearising, reprise, reprised, reprises, reprising, repromise, repromised, repromises, repromising, reraise, reraised, reraises, reraising, re-raise, re-raised, re-raises, re-raising, revise, revised, revises, revising, rise, rose, rises, rising, supervise, supervised, supervises, supervising, surmise, surmised, surmises, surmising, surprise, surprised, surprises, surprising, televise, televised, televises, televising, trellis, trellised, trellises, trellising, underpraise, underpraised, underpraises, underpraising, upraise, upraised, upraises, upraising, uprise, uprose, uprises, uprising, wise, wised, wises, wising</example>
             </rule>
-            <rule><!-- id="OXFORD_SPELLING_ADJECTIVES" name="Oxford spelling of adjectives (~iz not ~is), **but not adjectives in CAPITALS**"> ~isable, ~isational, ~ised, ~ising -->
+            <rule id="OXFORD_SPELLING_ADJECTIVES" name="Oxford spelling of adjectives (~iz not ~is), **but not adjectives in CAPITALS**"><!-- ~isable, ~isational, ~ised, ~ising -->
                 <pattern>
                     <token postag="JJ" regexp="yes">([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)
                         <exception regexp="yes">(?-i)[A-Z-]+</exception>
                         </token>
                 </pattern>
-                <message suppress_misspelled="yes">Would you like to use the Oxford spelling <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)" regexp_replace="$1iz$2"/></suggestion>? The spelling '\1' is also correct.</message>
+                <message suppress_misspelled="yes">In British English, for some adjectives, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for adjectives and thus suggests <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(able|ational|ed|ing)" regexp_replace="$1iz$2"/></suggestion>.</message>
                 <short>Oxford spelling: adjectives</short>
                 <example correction="magnetizable">The adjective '<marker>magnetisable</marker>' is not the Oxford spelling.</example>
                 <example correction="Magnetizable">The adjective '<marker>Magnetisable</marker>' is not the Oxford spelling.</example>
@@ -507,13 +489,13 @@ USA
                 <example>These words are always spelled with ~s (possibly some are AmE only): advisable, advised, advising, bruised, bruising, circumcised, circumcising, compromised, compromising, despisable, devised, devising, disenfranchised, disenfranchising, disguised, disguising, divisible, enfranchised, enfranchising, enterprising, excised, excising, exercisable, exercised, exercising, franchised, franchising, hair-raising, ill-advised, immunocompromised, immunocompromising, improvisational, improvised, improvising, inadvisable, incised, incising, indivisible, invisible, noncompromised, noncompromising, poised, poising, practised, practising, promised, promising, raisable, raised, raising, revised, revising, self-advertising, self-raising, self-rising, supervised, supervising, surprised, surprising, televised, televising, unadvertised, unadvisable, unadvised, unbruised, uncircumcised, uncompromised, uncompromising, undevised, undisguised, unenfranchised, unexcised, unexercised, unfranchised, unimprovised, unincised, unpoised, unpractised, unpromised, unraisable, unraised, unrevised, unsupervised, unsurprised, unsurprising, untelevised, well-advertised</example>
                 <example>For information about the <marker>Conference of Specialised Ministers</marker> refer to www.coe.int/en/web/cm/iguide-chapter6</example><!-- Refer to disambiguation.xml CONFERENCE_OF_SPECIALISED_MINISTERS -->
             </rule>
-            <rule><!-- id="OXFORD_SPELLING_ADVERBS" name="Oxford spelling of adverbs (~iz not ~is), **but not adverbs in CAPITALS**"> ~isably, ~isationally) -->
+            <rule id="OXFORD_SPELLING_ADVERBS" name="Oxford spelling of adverbs (~iz not ~is), **but not adverbs in CAPITALS**"><!-- ~isably, ~isationally) -->
                 <pattern>
                     <token postag="RB" regexp="yes">([a-z]+?-?[a-z]+?)is(ably|ationally)
                         <exception regexp="yes">(?-i)[A-Z-]+</exception>
                         </token>
                 </pattern>
-                <message suppress_misspelled="yes">Would you like to use the Oxford spelling <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(ably|ationally)" regexp_replace="$1iz$2"/></suggestion>? The spelling '\1' is also correct.</message>
+                <message suppress_misspelled="yes">In British English, for some adverbs, both ~s and ~z spellings are possible. By default, the rule for Oxford spelling is on for adverbs and thus suggests <suggestion><match no="1" regexp_match="([a-z]+?-?[a-z]+?)is(ably|ationally)" regexp_replace="$1iz$2"/></suggestion>.</message>
                 <short>Oxford spelling: adverbs</short>
                 <example correction="organizationally">The adverb '<marker>organisationally</marker>' is not the Oxford spelling.</example>
                 <example correction="Organizationally">The adverb '<marker>Organisationally</marker>' is not the Oxford spelling.</example>
@@ -610,43 +592,4 @@ USA
             </rule>
         </rulegroup>
     </category>
-
-    <category id="STYLE" name="Style" type="style">
-        <rule id="FOR_EVER_CA" name="for ever (forever)">
-            <antipattern>
-                <token>ever</token>
-                <token regexp="yes">since|one|body|thing|glades?|bloomers?|changing</token>
-            </antipattern>
-            <antipattern>
-                <token>ever</token>
-                <token postag="JJR" />
-            </antipattern>
-            <antipattern>
-                <token>ever</token>
-                <token regexp="yes">and|&amp;|or</token>
-                <token>ever</token>
-            </antipattern>
-            <pattern>
-                <token>for</token>
-                <token>ever</token>
-            </pattern>
-            <message>It is more common to spell this adverb as one word.</message>
-            <suggestion>forever</suggestion>
-            <url>https://www.lexico.com/definition/forever</url>
-            <example correction="forever">Your texts are stored <marker>for ever</marker>.</example>
-        </rule>
-
-        <rule id="AWAKED" name="awaked (awoke, awoken)"><!-- Premium #1795 -->
-            <pattern>
-                <token>awaked</token>
-            </pattern>
-            <message>Although '\1' is British English, the usual spelling is <suggestion>awoke</suggestion> (past tense) or <suggestion>awoken</suggestion> (past participle).</message>
-            <url>https://www.collinsdictionary.com/dictionary/english/awaked</url>
-            <short>Style: unusual spelling</short>
-            <example correction="awoke|awoken">Such a noise might have <marker>awaked</marker> the dead.</example>
-            <example>Such a noise might have <marker>awoken</marker> the dead.</example>
-        </rule>
-
-    </category>
-
 </rules>

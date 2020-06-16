@@ -16,6 +16,7 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301
  * USA
  */
+
 package org.languagetool.rules;
 
 import java.io.IOException;
@@ -28,6 +29,11 @@ import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.Language;
 import org.languagetool.LinguServices;
 import org.languagetool.UserConfig;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.CategoryId;
+import org.languagetool.rules.ITSIssueType;
+import org.languagetool.rules.RuleMatch;
+import org.languagetool.rules.TextLevelRule;
 import org.languagetool.tools.Tools;
 import org.languagetool.rules.Category.Location;
 
@@ -45,19 +51,19 @@ public class ReadabilityRule extends TextLevelRule {
 
   private final LinguServices linguServices;
   private final Language lang;
-  private final int level;
-  private final boolean tooEasyTest;
+  private int level;
+  private boolean tooEasyTest;
 
   public ReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest) {
-    this(messages, lang, userConfig, tooEasyTest, -1, false);
+    this (messages, lang, userConfig, tooEasyTest, -1, false);
   }
   
   public ReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest, int level) {
-    this(messages, lang, userConfig, tooEasyTest, level, false);
+    this (messages, lang, userConfig, tooEasyTest, level, false);
   }
   
   public ReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, boolean tooEasyTest, boolean defaultOn) {
-    this(messages, lang, userConfig, tooEasyTest, -1, defaultOn);
+    this (messages, lang, userConfig, tooEasyTest, -1, defaultOn);
   }
   
   public ReadabilityRule(ResourceBundle messages, Language lang, UserConfig userConfig, 
@@ -65,7 +71,7 @@ public class ReadabilityRule extends TextLevelRule {
     super(messages);
     super.setCategory(new Category(new CategoryId("TEXT_ANALYSIS"), "Text Analysis", Location.INTERNAL, false));
     setLocQualityIssueType(ITSIssueType.Style);
-    if (!defaultOn) {
+    if(!defaultOn) {
       setDefaultOff();
     }
     this.lang = lang;
@@ -77,13 +83,12 @@ public class ReadabilityRule extends TextLevelRule {
     } else {
       linguServices = null;
     }
-    if (tmpLevel >= 0) {
+    if(tmpLevel >= 0) {
       this.level = tmpLevel;
-    } else if (level >= 0) {
+    } else if(level >= 0) {
       this.level = level;
     } else {
-      this.level = 3;
-//      this.level = (tooEasyTest ? 4 : 2);
+      this.level = (tooEasyTest ? 4 : 2);
     }
   }
   
@@ -93,7 +98,7 @@ public class ReadabilityRule extends TextLevelRule {
   }
 
   public String getId(boolean tooEasyTest) {
-    if (tooEasyTest) {
+    if(tooEasyTest) {
       return "READABILITY_RULE_SIMPLE";
     } else {
       return "READABILITY_RULE_DIFFICULT";
@@ -102,7 +107,7 @@ public class ReadabilityRule extends TextLevelRule {
 
   @Override
   public String getDescription() {
-    if (tooEasyTest) {
+    if(tooEasyTest) {
       return "Readability: Too easy text";
     } else {
       return "Readability: Too difficult text";
@@ -111,8 +116,7 @@ public class ReadabilityRule extends TextLevelRule {
 
   @Override
   public int getDefaultValue() {
-//    return (tooEasyTest ? 4 : 2);
-    return (3);
+    return (tooEasyTest ? 4 : 2);
   }
   
   @Override
@@ -161,7 +165,8 @@ public class ReadabilityRule extends TextLevelRule {
   protected String getMessage(int level, int FRE, int ASL, int ASW) {
     String simple;
     String few;
-    if (tooEasyTest) {
+
+    if(tooEasyTest) {
       simple = "simple";
       few = "few";
     } else {
@@ -175,18 +180,18 @@ public class ReadabilityRule extends TextLevelRule {
   /**
    * get level of readability (0 - 6)
    */
-  private int getReadabilityLevel(double fre) {
-    if (fre < 30) {
+  private int getReadabilityLevel(double FRE) {
+    if (FRE < 30) {
       return 0;
-    } else if (fre < 50) {
+    } else if (FRE < 50) {
       return 1;
-    } else if (fre < 60) {
+    } else if (FRE < 60) { 
       return 2;
-    } else if (fre < 70) {
+    } else if (FRE < 70) {
       return 3;
-    } else if (fre < 80) {
+    } else if (FRE < 80) {
       return 4;
-    } else if (fre < 90) {
+    } else if (FRE < 90) {
       return 5;
     } else {
       return 6;
@@ -197,8 +202,8 @@ public class ReadabilityRule extends TextLevelRule {
    * get Flesch-Reading-Ease (Formula for readability) for English
    * the formula dependence on the language and has to be overridden for every supported language
    */
-  protected double getFleschReadingEase(double asl, double asw) {
-    return 206.835 - ( 1.015 * asl ) - ( 84.6 * asw );
+  protected double getFleschReadingEase(double ASL, double ASW) {
+    return 206.835 - ( 1.015 * ASL ) - ( 84.6 * ASW );
   }
   
   private static boolean isVowel(char c) {
@@ -213,22 +218,22 @@ public class ReadabilityRule extends TextLevelRule {
    * Has to be overridden for every language
    */
   protected int simpleSyllablesCount(String word) {
-    if (word.length() == 0) {
+    if(word.length() == 0) {
       return 0;
     }
-    if (word.length() == 1) {
+    if(word.length() == 1) {
       return 1;
     }
     int nSyllables = 0;
     boolean lastDouble = false;
     for (int i = 0; i < word.length() - 1; i++) {
       char c = word.charAt(i);
-      if (isVowel(c)) {
+      if(isVowel(c)) {
         char cn = word.charAt(i + 1);
-        if (lastDouble) {
+        if(lastDouble) {
           nSyllables++;
           lastDouble = false;
-        } else if (((c == 'e' || c == 'E') && (cn == 'a' || cn == 'o' || cn == 'e' || cn == 'i' || cn == 'y')) ||
+        } else if(((c == 'e' || c == 'E') && (cn == 'a' || cn == 'o' || cn == 'e' || cn == 'i' || cn == 'y')) || 
             ((c == 'a' || c == 'A') && (cn == 'e' || cn == 'i' || cn == 'u')) ||
             ((c == 'o' || c == 'O') && (cn == 'o' || cn == 'i' || cn == 'u' || cn == 'a')) ||
             ((c == 'u' || c == 'U') && (cn == 'i' || cn == 'a')) ||
@@ -245,9 +250,9 @@ public class ReadabilityRule extends TextLevelRule {
     char c = word.charAt(word.length() - 1);
     char cl = word.charAt(word.length() - 2);
     if (cl == 'e' && (c == 's' || c == 'd') || cl == 'u' && c == 'e') {
-      nSyllables--;
+        nSyllables--;
     } else if (isVowel(c) && c != 'e') {
-      nSyllables++;
+        nSyllables++;
     }
     return nSyllables <= 0 ? 1 : nSyllables;
   }
@@ -255,7 +260,7 @@ public class ReadabilityRule extends TextLevelRule {
   @Override
   public RuleMatch[] match(List<AnalyzedSentence> sentences) throws IOException {
     List<RuleMatch> ruleMatches = new ArrayList<>();
-    int nParagraph = 0;
+    String msg;
     int nAllSentences = 0;
     int nAllWords = 0;
     int nAllSyllables = 0;
@@ -268,10 +273,10 @@ public class ReadabilityRule extends TextLevelRule {
     for (int n = 0; n < sentences.size(); n++) {
       AnalyzedSentence sentence = sentences.get(n);
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
-      if (startPos < 0 && tokens.length > 1) {
+      if(startPos < 0 && tokens.length > 1) {
         startPos = pos + tokens[1].getStartPos();
       }
-      if (endPos < 0 && tokens.length > MARK_WORDS) {
+      if(endPos < 0 && tokens.length > MARK_WORDS) {
         endPos = pos + tokens[MARK_WORDS].getEndPos();
       }
       nSentences++;
@@ -279,14 +284,14 @@ public class ReadabilityRule extends TextLevelRule {
         String sToken = token.getToken();
         if (!token.isWhitespace() && !token.isNonWord()) {
           nWords++;
-          if (linguServices == null) {
+          if(linguServices == null) {
             nSyllables += simpleSyllablesCount(sToken);
           } else {
             nSyllables += linguServices.getNumberOfSyllables(sToken, lang.getDefaultLanguageVariant());
           }
         }
       }
-      if (Tools.isParagraphEnd(sentences, n, lang)) {
+      if(Tools.isParagraphEnd(sentences, n, lang)) {
         if (nWords >= MIN_WORDS) {
           /* Equation for readability
            * FRE = Flesch-Reading-Ease
@@ -295,13 +300,13 @@ public class ReadabilityRule extends TextLevelRule {
            * English: FRE = 206,835 - ( 1,015 * ASL ) - ( 84,6 * ASW )
            * German: FRE = 180 - ASL - ( 58,5 * ASW )
            */
-          double asl = (double) nWords / (double) nSentences;
-          double asw = (double) nSyllables / (double) nWords;
-          double fre = getFleschReadingEase(asl, asw);
-          int rLevel = getReadabilityLevel(fre);
+          double ASL = (double) nWords / (double) nSentences;
+          double ASW = (double) nSyllables / (double) nWords;
+          double FRE = getFleschReadingEase(ASL, ASW);
+          int rLevel = getReadabilityLevel(FRE);
           
           if ((tooEasyTest && rLevel > level) || (!tooEasyTest && rLevel < level)) {
-            String msg = getMessage(rLevel, (int) fre, (int) asl, (int) asw);
+            msg = getMessage(rLevel, (int) FRE, (int) ASL, (int) ASW);
             RuleMatch ruleMatch = new RuleMatch(this, sentence, startPos, endPos, msg);
             ruleMatches.add(ruleMatch);
           }
@@ -314,15 +319,14 @@ public class ReadabilityRule extends TextLevelRule {
         nSyllables = 0;
         startPos = -1;
         endPos = -1;
-        nParagraph++;
       }
-      pos += sentence.getCorrectedTextLength();
+      pos += sentence.getText().length();
     }
-    double asl = (double) nAllWords / (double) nAllSentences;
-    double asw = (double) nAllSyllables / (double) nAllWords;
-    double fre = getFleschReadingEase(asl, asw);
-    int rLevel = getReadabilityLevel(fre);
-    if (nParagraph > 1 && (tooEasyTest && rLevel > level) || (!tooEasyTest && rLevel < level)) {
+    double ASL = (double) nAllWords / (double) nAllSentences;
+    double ASW = (double) nAllSyllables / (double) nAllWords;
+    double FRE = getFleschReadingEase(ASL, ASW);
+    int rLevel = getReadabilityLevel(FRE);
+    if ((tooEasyTest && rLevel > level) || (!tooEasyTest && rLevel < level)) {
       return toRuleMatchArray(ruleMatches);
     } else {
       return toRuleMatchArray(new ArrayList<>());
@@ -331,7 +335,7 @@ public class ReadabilityRule extends TextLevelRule {
 
   @Override
   public int minToCheckParagraph() {
-    return -1;
+    return 0;
   }
  
 }

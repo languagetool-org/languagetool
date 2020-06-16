@@ -50,18 +50,12 @@ public class SimpleReplaceBalearicRuleTest {
     // correct sentences:
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Això està força bé.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Joan Navarro no és de Navarra ni de Jerez.")).length);
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Prosper Mérimée.")).length);
 
     // incorrect sentences:
     RuleMatch[] matches = rule.match(langTool.getAnalyzedSentence("El calcul del telefon."));
     assertEquals(2, matches.length);
     assertEquals("càlcul", matches[0].getSuggestedReplacements().get(0));
     assertEquals("telèfon", matches[1].getSuggestedReplacements().get(0));
-    
-    matches = rule.match(langTool.getAnalyzedSentence("EL CALCUL DEL TELEFON."));
-    assertEquals(2, matches.length);
-    assertEquals("CÀLCUL", matches[0].getSuggestedReplacements().get(0));
-    assertEquals("TELÈFON", matches[1].getSuggestedReplacements().get(0));
         
   }
 

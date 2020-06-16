@@ -20,7 +20,6 @@ package org.languagetool.server;
 
 import com.sun.net.httpserver.HttpExchange;
 import org.jetbrains.annotations.NotNull;
-import org.languagetool.CheckResults;
 import org.languagetool.DetectedLanguage;
 import org.languagetool.Language;
 import org.languagetool.Languages;
@@ -51,10 +50,10 @@ class V2TextChecker extends TextChecker {
   }
 
   @Override
-  protected String getResponse(AnnotatedText text, Language usedLang, DetectedLanguage lang, Language motherTongue, List<CheckResults> matches,
-                               List<RuleMatch> hiddenMatches, String incompleteResultsReason, int compactMode, boolean showPremiumHint) {
-    RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer(compactMode, usedLang);
-    return serializer.ruleMatchesToJson2(matches, hiddenMatches, text, CONTEXT_SIZE, lang, incompleteResultsReason, showPremiumHint);
+  protected String getResponse(AnnotatedText text, DetectedLanguage lang, Language motherTongue, List<RuleMatch> matches,
+                               List<RuleMatch> hiddenMatches, String incompleteResultsReason, int compactMode) {
+    RuleMatchesAsJsonSerializer serializer = new RuleMatchesAsJsonSerializer(compactMode);
+    return serializer.ruleMatchesToJson(matches, hiddenMatches, text, CONTEXT_SIZE, lang, incompleteResultsReason);
   }
 
   @NotNull
@@ -102,12 +101,9 @@ class V2TextChecker extends TextChecker {
   @Override
   @NotNull
   protected DetectedLanguage getLanguage(String text, Map<String, String> parameters, List<String> preferredVariants,
-                                         List<String> noopLangs, List<String> preferredLangs, boolean testMode) {
-    if ("true".equals(parameters.get("languageChanged"))) {
-      System.out.println("languageChanged, testMode: " + testMode);
-    }
+                                         List<String> noopLangs, List<String> preferredLangs) {
     String langParam = parameters.get("language");
-    DetectedLanguage detectedLang = detectLanguageOfString(text, null, preferredVariants, noopLangs, preferredLangs, testMode);
+    DetectedLanguage detectedLang = detectLanguageOfString(text, null, preferredVariants, noopLangs, preferredLangs);
     Language givenLang;
     if (getLanguageAutoDetect(parameters)) {
       givenLang = detectedLang.getDetectedLanguage();

@@ -36,7 +36,6 @@ import org.languagetool.tools.Tools;
 import java.io.IOException;
 import java.net.URL;
 import java.util.*;
-import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
@@ -76,15 +75,7 @@ public class SubjectVerbAgreementRule extends Rule {
       // "Zwei Schülern war aufgefallen, dass man im Fernsehen..."
       pos("ZAL"),
       posRegex("SUB:DAT:PLU:.*"),
-      csRegex("war|ist"),
-      new PatternTokenBuilder().posRegex("NEG|PA2:.+").build()
-    ),
-    Arrays.asList(
-      // "Glaubt wirklich jemand, dass gute Fotos keine Arbeit sind?"
-      posRegex("SUB:.*:PLU:.*"),
-      regex("keine|wenig|kaum|viel"),
-      posRegex("SUB:.*:SIN:.*"),
-      token("sind")
+      token("war")
     ),
     Arrays.asList(
       // "Auch die Zehn Gebote sind Ausdruck davon."
@@ -96,15 +87,6 @@ public class SubjectVerbAgreementRule extends Rule {
       // "All diesen Stadtteilen ist die Nähe zum Hamburger Hafen..."
       token("all"),
       tokenRegex("den|diesen"),
-      posRegex("SUB:.*PLU.*"),
-      token("ist"),
-      posRegex("ART:.*"),
-      posRegex("SUB:.*SIN.*")
-    ),
-    Arrays.asList(
-      // "Personen ist der Zugriff auf diese Daten verboten."
-      pos(JLanguageTool.SENTENCE_START_TAGNAME),
-      new PatternTokenBuilder().token("Solchen").min(0).build(),
       posRegex("SUB:.*PLU.*"),
       token("ist"),
       posRegex("ART:.*"),
@@ -169,29 +151,18 @@ public class SubjectVerbAgreementRule extends Rule {
       tokenRegex("d(as|er)|eine?")
     ),
     Arrays.asList(
-      posRegex("SUB:NOM:PLU:.+"),
-      csToken("vor"),
-      csToken("Ort"),
-      tokenRegex("sind|waren")
-    ),
-    Arrays.asList(
       token("zu"),
-      csRegex("Fuß|Hause"),
+      csToken("Fuß"),
       tokenRegex("sind|waren")
-    ),
-    Arrays.asList( //Eltern ist der bisherige Kita-Öffnungsplan zu unkonkret
-      pos(JLanguageTool.SENTENCE_START_TAGNAME),
-      pos("SUB:DAT:PLU:NOG"),
-      tokenRegex("ist|war"),
-      posRegex(".+:NOM:.+")
     )
   );
 
   private final GermanTagger tagger;
-  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
+  private final German language;
 
   public SubjectVerbAgreementRule(ResourceBundle messages, German language) {
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
+    this.language = language;
     tagger = (GermanTagger) language.getTagger();
     for (SingularPluralPair pair : PAIRS) {
       singular.add(pair.singular);
@@ -199,7 +170,6 @@ public class SubjectVerbAgreementRule extends Rule {
     }
     addExamplePair(Example.wrong("Die Autos <marker>ist</marker> schnell."),
                    Example.fixed("Die Autos <marker>sind</marker> schnell."));
-    antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);
   }
 
   @Override
@@ -219,7 +189,7 @@ public class SubjectVerbAgreementRule extends Rule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return antiPatterns.get();
+    return makeAntiPatterns(ANTI_PATTERNS, language);
   }
 
   @Override

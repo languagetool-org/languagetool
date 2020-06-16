@@ -235,7 +235,7 @@ public final class Tools {
    * @param url the URL to be displayed
    * @since 4.1
    */
-  public static void openURL(String url) {
+  static void openURL(String url) {
     try {
       openURL(new URL(url));
     } catch (MalformedURLException ex) {

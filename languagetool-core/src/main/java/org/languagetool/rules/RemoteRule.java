@@ -22,15 +22,15 @@
 package org.languagetool.rules;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import org.jetbrains.annotations.Nullable;
 import org.languagetool.AnalyzedSentence;
-import org.languagetool.Language;
-import org.languagetool.markup.AnnotatedText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ResourceBundle;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -46,83 +46,40 @@ public abstract class RemoteRule extends Rule {
   private static final ConcurrentMap<String, Long> lastFailure = new ConcurrentHashMap<>();
   private static final ConcurrentMap<String, AtomicInteger> consecutiveFailures = new ConcurrentHashMap<>();
   private static final ThreadFactory threadFactory = new ThreadFactoryBuilder()
-    .setNameFormat("remote-rule-pool-%d").setDaemon(true).build();
+    .setNameFormat("remote-rule-pool-{}").setDaemon(true).build();
 
   protected static final List<Runnable> shutdownRoutines = new LinkedList<>();
 
   // needed to run callables with timeout
-  static final ExecutorService executor = Executors.newCachedThreadPool(threadFactory);
-
+  private static final ConcurrentMap<String, ExecutorService> executors = new ConcurrentHashMap<>();
   protected final RemoteRuleConfig serviceConfiguration;
-  protected final boolean inputLogging;
-  private AnnotatedText annotatedText;
-  protected final boolean filterMatches;
-  protected final Language ruleLanguage;
 
-  public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging, @Nullable String ruleId) {
+  public RemoteRule(ResourceBundle messages, RemoteRuleConfig config) {
     super(messages);
     serviceConfiguration = config;
-    this.ruleLanguage = language;
-    this.inputLogging = inputLogging;
-    if (ruleId == null) { // allow both providing rule ID in constructor or overriding getId
-      ruleId = getId();
-    }
-    filterMatches = Boolean.parseBoolean(serviceConfiguration.getOptions().getOrDefault("filterMatches", "false"));
+    String ruleId = getId();
     lastFailure.putIfAbsent(ruleId, 0L);
     consecutiveFailures.putIfAbsent(ruleId, new AtomicInteger());
-  }
-
-  public RemoteRule(Language language, ResourceBundle messages, RemoteRuleConfig config, boolean inputLogging) {
-    this(language, messages, config, inputLogging, null);
+    // TODO maybe use fixed pool, take number of concurrent requests from configuration?
+    executors.putIfAbsent(ruleId, Executors.newCachedThreadPool(threadFactory));
   }
 
   public static void shutdown() {
     shutdownRoutines.forEach(Runnable::run);
   }
 
-  public FutureTask<RemoteRuleResult> run(List<AnalyzedSentence> sentences) {
-    return run(sentences, null);
-  }
-
   protected class RemoteRequest {}
 
-  /**
-   * run local preprocessing steps (or just store sentences)
-   * @param sentences text to process
-   * @param textSessionId session ID for caching, partial rollout, A/B testing
-   * @return parameter for executeRequest/fallbackResults
-   */
-  protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences, @Nullable Long textSessionId);
-
-  /**
-   * @param request returned by prepareRequest
-   * @param timeoutMilliseconds timeout for this operation, <=0 -> unlimited
-   * @return callable that sends request, parses and returns result for this remote rule
-   * @throws TimeoutException if timeout was exceeded
-   */
-  protected abstract Callable<RemoteRuleResult> executeRequest(RemoteRequest request, long timeoutMilliseconds) throws TimeoutException;
-
-  /**
-   * fallback if executeRequest times out or throws an error
-   * @param request returned by prepareRequest
-   * @return local results for this rule
-   */
+  protected abstract RemoteRequest prepareRequest(List<AnalyzedSentence> sentences);
+  protected abstract Callable<RemoteRuleResult> executeRequest(RemoteRequest request);
   protected abstract RemoteRuleResult fallbackResults(RemoteRequest request);
 
-  /**
-   * @param sentences text to check
-   * @param textSessionId ID for texts, should stay constant for a user session; used for A/B tests of experimental rules
-   * @return Future with result
-   */
-  public FutureTask<RemoteRuleResult> run(List<AnalyzedSentence> sentences, @Nullable Long textSessionId) {
-    if (sentences.isEmpty()) {
-      return new FutureTask<>(() -> new RemoteRuleResult(false, true, Collections.emptyList(), sentences));
-    }
+  public FutureTask<List<RuleMatch>> run(List<AnalyzedSentence> sentences) {
     return new FutureTask<>(() -> {
       long startTime = System.nanoTime();
       long characters = sentences.stream().mapToInt(sentence -> sentence.getText().length()).sum();
       String ruleId = getId();
-      RemoteRequest req = prepareRequest(sentences, textSessionId);
+      RemoteRequest req = prepareRequest(sentences);
       RemoteRuleResult result;
 
       if (consecutiveFailures.get(ruleId).get() >= serviceConfiguration.getFall()) {
@@ -130,18 +87,17 @@ public abstract class RemoteRule extends Rule {
         if (failureInterval < serviceConfiguration.getDownMilliseconds()) {
           RemoteRuleMetrics.request(ruleId, 0, 0, characters, RemoteRuleMetrics.RequestResult.DOWN);
           result = fallbackResults(req);
-          return result;
+          return result.getMatches();
         }
       }
       RemoteRuleMetrics.up(ruleId, true);
 
       for (int i = 0; i <= serviceConfiguration.getMaxRetries(); i++) {
+        Callable<RemoteRuleResult> task = executeRequest(req);
         long timeout = serviceConfiguration.getBaseTimeoutMilliseconds() +
           Math.round(characters * serviceConfiguration.getTimeoutPerCharacterMilliseconds());
-        Callable<RemoteRuleResult> task = executeRequest(req, timeout);
-        Future<RemoteRuleResult> future = null;
         try {
-          future = executor.submit(task);
+          Future<RemoteRuleResult> future = executors.get(ruleId).submit(task);
           if (timeout <= 0)  { // for debugging, disable timeout
             result = future.get();
           } else {
@@ -157,35 +113,18 @@ public abstract class RemoteRule extends Rule {
           RemoteRuleMetrics.RequestResult requestResult = result.isRemote() ?
             RemoteRuleMetrics.RequestResult.SUCCESS : RemoteRuleMetrics.RequestResult.SKIPPED;
           RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, requestResult);
-
-          if (filterMatches) {
-            List<RuleMatch> filteredMatches = new ArrayList<>();
-            for (AnalyzedSentence sentence : sentences) {
-              List<RuleMatch> sentenceMatches = result.matchesForSentence(sentence);
-              List<RuleMatch> filteredSentenceMatches = RemoteRuleFilters.filterMatches(
-                ruleLanguage, sentence, sentenceMatches);
-              filteredMatches.addAll(filteredSentenceMatches);
-            }
-            result = new RemoteRuleResult(result.isRemote(), result.isSuccess(), filteredMatches, sentences);
-          }
-
-          return result;
+          return result.getMatches();
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
+          logger.warn("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
+
           RemoteRuleMetrics.RequestResult status;
-          if (e instanceof TimeoutException || e instanceof InterruptedException ||
-            (e.getCause() != null && e.getCause() instanceof TimeoutException)) {
+          if (e instanceof TimeoutException || e instanceof InterruptedException) {
             status = RemoteRuleMetrics.RequestResult.TIMEOUT;
-            logger.warn("Timed out while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
           } else {
             status = RemoteRuleMetrics.RequestResult.ERROR;
-            logger.warn("Error while fetching results for remote rule " + ruleId + ", tried " + (i + 1) + " times, timeout: " + timeout + "ms" , e);
           }
 
           RemoteRuleMetrics.request(ruleId, i, System.nanoTime() - startTime, characters, status);
-        } finally {
-          if (future != null) {
-            future.cancel(true);
-          }
         }
       }
       RemoteRuleMetrics.failures(ruleId, consecutiveFailures.get(ruleId).incrementAndGet());
@@ -197,7 +136,7 @@ public abstract class RemoteRule extends Rule {
         RemoteRuleMetrics.up(ruleId, false);
       }
       result = fallbackResults(req);
-      return result;
+      return result.getMatches();
     });
   }
 
@@ -208,19 +147,14 @@ public abstract class RemoteRule extends Rule {
 
   @Override
   public RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    FutureTask<RemoteRuleResult> task = run(Collections.singletonList(sentence));
+    FutureTask<List<RuleMatch>> task = run(Collections.singletonList(sentence));
     task.run();
     try {
-      return task.get().getMatches().toArray(new RuleMatch[0]);
+      return task.get().toArray(new RuleMatch[0]);
     } catch (InterruptedException | ExecutionException e) {
       logger.warn("Fetching results for remote rule " + getId() + " failed.", e);
       return new RuleMatch[0];
     }
   }
-
-  public RemoteRuleConfig getServiceConfiguration() {
-    return serviceConfiguration;
-  }
-
 
 }

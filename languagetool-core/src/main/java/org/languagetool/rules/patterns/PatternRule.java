@@ -18,10 +18,7 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.languagetool.AnalyzedSentence;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
-import org.languagetool.Language;
+import org.languagetool.*;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
@@ -36,12 +33,17 @@ import java.util.stream.Collectors;
  * 
  * @author Daniel Naber
  */
-public class PatternRule extends AbstractTokenBasedRule {
+public class PatternRule extends AbstractPatternRule {
 
   private final String shortMessage;
 
   // A list of elements as they appear in XML file (phrases count as single tokens in case of matches or skipping).
   private final List<Integer> elementNo;
+
+  // Tokens used for fast checking whether a rule can ever match.
+  private final Set<String> simpleRuleTokens;
+
+  private final Set<String> inflectedRuleTokens;
 
   // This property is used for short-circuiting evaluation of the elementNo list order:
   private final boolean useList;
@@ -73,8 +75,7 @@ public class PatternRule extends AbstractTokenBasedRule {
     int cnt = 0;
     int loopCnt = 0;
     boolean tempUseList = false;
-
-    for (PatternToken pToken : patternTokens) {
+    for (PatternToken pToken : this.patternTokens) {
       if (pToken.isPartOfPhrase()) {
         curName = pToken.getPhraseName();
         if (StringTools.isEmpty(prevName) || prevName.equals(curName)) {
@@ -99,6 +100,8 @@ public class PatternRule extends AbstractTokenBasedRule {
       }
     }
     useList = tempUseList;
+    simpleRuleTokens = getSet(false);
+    inflectedRuleTokens = getSet(true);
   }
   
   public PatternRule(String id, Language language,
@@ -208,11 +211,16 @@ public class PatternRule extends AbstractTokenBasedRule {
 
   @Override
   public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
-    if (canBeIgnoredFor(sentence)) return RuleMatch.EMPTY_ARRAY;
-
     try {
-      RuleMatcher matcher = new PatternRuleMatcher(this, useList);
-      return checkForAntiPatterns(sentence, matcher, matcher.match(sentence));
+      RuleMatcher matcher;
+      if (patternTokens != null) {
+        matcher = new PatternRuleMatcher(this, useList);
+      } else if (regex != null) {
+        matcher = new RegexPatternRule(this.getId(), getDescription(), getMessage(), getShortMessage(), getSuggestionsOutMsg(), language, regex, regexMark);
+      } else {
+        throw new IllegalStateException("Neither pattern tokens nor regex set for rule " + getId());
+      }
+      return matcher.match(getSentenceWithImmunization(sentence));
     } catch (IOException e) {
       throw new IOException("Error analyzing sentence: '" + sentence + "'", e);
     } catch (Exception e) {
@@ -220,14 +228,31 @@ public class PatternRule extends AbstractTokenBasedRule {
     }
   }
 
-  private RuleMatch[] checkForAntiPatterns(AnalyzedSentence sentence, RuleMatcher matcher, RuleMatch[] matches) throws IOException {
-    if (matches != null && matches.length > 0 && !getAntiPatterns().isEmpty()) {
-      AnalyzedSentence immunized = getSentenceWithImmunization(sentence);
-      if (Arrays.stream(immunized.getTokens()).anyMatch(AnalyzedTokenReadings::isImmunized)) {
-        return matcher.match(immunized);
+  /**
+   * A fast check whether this rule can be ignored for the given sentence
+   * because it can never match. Used internally for performance optimization.
+   * @since 2.4
+   */
+  public boolean canBeIgnoredFor(AnalyzedSentence sentence) {
+    return (!simpleRuleTokens.isEmpty() && !sentence.getTokenSet().containsAll(simpleRuleTokens))
+            || (!inflectedRuleTokens.isEmpty() && !sentence.getLemmaSet().containsAll(inflectedRuleTokens));
+  }
+
+  // tokens that just refer to a word - no regex and optionally no inflection etc.
+  private Set<String> getSet(boolean isInflected) {
+    Set<String> set = new HashSet<>();
+    for (PatternToken patternToken : patternTokens) {
+      boolean acceptInflectionValue = isInflected ? patternToken.isInflected() : !patternToken.isInflected();
+      if (acceptInflectionValue && !patternToken.getNegation() && !patternToken.isRegularExpression()
+              && !patternToken.isReferenceElement() && patternToken.getMinOccurrence() > 0) {
+        String str = patternToken.getString();
+        if (!StringTools.isEmpty(str)) {
+          set.add(str.toLowerCase());
+        }
       }
     }
-    return matches;
+    if (set.isEmpty()) return Collections.emptySet();
+    return Collections.unmodifiableSet(set);
   }
 
   List<Integer> getElementNo() {
@@ -238,7 +263,7 @@ public class PatternRule extends AbstractTokenBasedRule {
    * @see org.languagetool.rules.patterns.AbstractPatternRule#getShortMessage()
    */
   @Override
-  public String getShortMessage() {
+  String getShortMessage() {
     return shortMessage;
   }
   

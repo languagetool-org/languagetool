@@ -66,7 +66,8 @@ public class AnnotatedTextTest {
     assertThat(text.getPlainText(), is("hello \n\nmore xxxx text!"));
     assertThat(text.getTextWithMarkup(), is("hello <p>more xxxx text!"));
     ContextTools contextTools = new ContextTools();
-    contextTools.setErrorMarker("#", "#");
+    contextTools.setErrorMarkerStart("#");
+    contextTools.setErrorMarkerEnd("#");
     contextTools.setEscapeHtml(false);
     assertThat(contextTools.getContext(14, 18, text.getTextWithMarkup()), is("hello <p>more #xxxx# text!"));
   }

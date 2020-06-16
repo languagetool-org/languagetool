@@ -19,7 +19,6 @@
 package org.languagetool.language;
 
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.languagetool.*;
 import org.languagetool.languagemodel.LanguageModel;
 import org.languagetool.rules.*;
@@ -30,8 +29,6 @@ import org.languagetool.tagging.disambiguation.rules.it.ItalianRuleDisambiguator
 import org.languagetool.tagging.it.ItalianTagger;
 import org.languagetool.tokenizers.SRXSentenceTokenizer;
 import org.languagetool.tokenizers.SentenceTokenizer;
-import org.languagetool.synthesis.it.ItalianSynthesizer;
-import org.languagetool.synthesis.Synthesizer;
 
 import java.io.File;
 import java.io.IOException;
@@ -118,12 +115,6 @@ public class Italian extends Language implements AutoCloseable {
   @Override
   public Disambiguator createDefaultDisambiguator() {
     return new ItalianRuleDisambiguator();
-  }
-  
-  @Nullable
-  @Override
-  public Synthesizer createDefaultSynthesizer() {
-    return new ItalianSynthesizer(this);
   }
 
   @Override

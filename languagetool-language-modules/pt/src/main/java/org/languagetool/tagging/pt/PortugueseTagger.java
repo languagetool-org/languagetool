@@ -27,6 +27,7 @@ import org.languagetool.chunking.ChunkTag;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tools.StringTools;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -43,6 +44,7 @@ public class PortugueseTagger extends BaseTagger {
 
   private static final Pattern ADJ_PART_FS = Pattern.compile("V.P..SF.|A[QO].[FC][SN].");
   private static final Pattern VERB = Pattern.compile("V.+");
+
   private static final Pattern PREFIXES_FOR_VERBS = Pattern.compile("(auto|re)(...+)",Pattern.CASE_INSENSITIVE|Pattern.UNICODE_CASE);
 
   public PortugueseTagger() {
@@ -55,11 +57,12 @@ public class PortugueseTagger extends BaseTagger {
   }
 
   @Override
-  public List<AnalyzedTokenReadings> tag(List<String> sentenceTokens) {
+  public List<AnalyzedTokenReadings> tag(final List<String> sentenceTokens)
+      throws IOException {
 
-    List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
+    final List<AnalyzedTokenReadings> tokenReadings = new ArrayList<>();
     int pos = 0;
-    IStemmer dictLookup = new DictionaryLookup(getDictionary());
+    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
 
     for (String word : sentenceTokens) {
       // This hack allows all rules and dictionary entries to work with
@@ -71,10 +74,10 @@ public class PortugueseTagger extends BaseTagger {
         }
         word = word.replace("’", "'");
       }
-      List<AnalyzedToken> l = new ArrayList<>();
-      String lowerWord = word.toLowerCase(locale);
-      boolean isLowercase = word.equals(lowerWord);
-      boolean isMixedCase = StringTools.isMixedCase(word);
+      final List<AnalyzedToken> l = new ArrayList<>();
+      final String lowerWord = word.toLowerCase(locale);
+      final boolean isLowercase = word.equals(lowerWord);
+      final boolean isMixedCase = StringTools.isMixedCase(word);
       List<AnalyzedToken> taggerTokens = asAnalyzedTokenListForTaggedWords(word, getWordTagger().tag(word));
       
       // normal case:
@@ -111,18 +114,18 @@ public class PortugueseTagger extends BaseTagger {
 
   @Nullable
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
-    IStemmer dictLookup = new DictionaryLookup(getDictionary());
+    final IStemmer dictLookup = new DictionaryLookup(getDictionary());
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
     //Any well-formed adverb with suffix -mente is tagged as an adverb of manner (RM)
     if (word.endsWith("mente")){
-      String lowerWord = word.toLowerCase(locale);
-      String possibleAdj = lowerWord.replaceAll("^(.+)mente$", "$1");
+      final String lowerWord = word.toLowerCase(locale);
+      final String possibleAdj = lowerWord.replaceAll("^(.+)mente$", "$1");
       List<AnalyzedToken> taggerTokens;
       taggerTokens = asAnalyzedTokenList(lowerWord, dictLookup.lookup(possibleAdj));
       for (AnalyzedToken taggerToken : taggerTokens ) {
-        String posTag = taggerToken.getPOSTag();
+        final String posTag = taggerToken.getPOSTag();
         if (posTag != null) {
-          Matcher m = ADJ_PART_FS.matcher(posTag);
+          final Matcher m = ADJ_PART_FS.matcher(posTag);
           if (m.matches()) {
             additionalTaggedTokens.add(new AnalyzedToken(word, "RM", lowerWord));
             return additionalTaggedTokens;
@@ -133,13 +136,13 @@ public class PortugueseTagger extends BaseTagger {
     //Any well-formed verb with prefixes is tagged as a verb copying the original tags
     Matcher matcher=PREFIXES_FOR_VERBS.matcher(word);
     if (matcher.matches()) {
-      String possibleVerb = matcher.group(2).toLowerCase();
+      final String possibleVerb = matcher.group(2).toLowerCase();
       List<AnalyzedToken> taggerTokens;
       taggerTokens = asAnalyzedTokenList(possibleVerb, dictLookup.lookup(possibleVerb));
       for (AnalyzedToken taggerToken : taggerTokens ) {
-        String posTag = taggerToken.getPOSTag();
+        final String posTag = taggerToken.getPOSTag();
         if (posTag != null) {
-          Matcher m = VERB.matcher(posTag);
+          final Matcher m = VERB.matcher(posTag);
           if (m.matches()) {
             String lemma = matcher.group(1).toLowerCase().concat(taggerToken.getLemma());
             additionalTaggedTokens.add(new AnalyzedToken(word, posTag, lemma));
@@ -151,7 +154,7 @@ public class PortugueseTagger extends BaseTagger {
     return null;
   }
 
-  private void addTokens(List<AnalyzedToken> taggedTokens, List<AnalyzedToken> l) {
+  private void addTokens(final List<AnalyzedToken> taggedTokens, final List<AnalyzedToken> l) {
     if (taggedTokens != null) {
       for (AnalyzedToken at : taggedTokens) {
         l.add(at);

@@ -22,7 +22,6 @@ package org.languagetool.tagging.disambiguation.rules;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import static org.languagetool.JLanguageTool.getDataBroker;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,11 +69,14 @@ public class DisambiguationRuleTest {
       JLanguageTool lt = new JLanguageTool(lang);
       if (!(lt.getLanguage().getDisambiguator() instanceof DemoDisambiguator)) {
         long startTime = System.currentTimeMillis();
-        String name = getDataBroker().getResourceDir() + "/" + lang.getShortCode() + "/disambiguation.xml";
+        String name = JLanguageTool.getDataBroker().getResourceDir() + "/" + lang.getShortCode()
+            + "/disambiguation.xml";
         validateRuleFile(name);
-        List<DisambiguationPatternRule> rules = ruleLoader.getRules(ruleLoader.getClass().getResourceAsStream(name));
+        List<DisambiguationPatternRule> rules = ruleLoader
+            .getRules(ruleLoader.getClass().getResourceAsStream(name));
         for (DisambiguationPatternRule rule : rules) {
-          PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getPatternTokens(), rule.getId(), rule.getSubId(), lang);
+          PatternTestTools.warnIfRegexpSyntaxNotKosher(rule.getPatternTokens(),
+              rule.getId(), rule.getSubId(), lang);
         }
         testDisambiguationRulesFromXML(rules, lt, lang);
         long endTime = System.currentTimeMillis();
@@ -87,7 +89,7 @@ public class DisambiguationRuleTest {
     XMLValidator validator = new XMLValidator();
     try (InputStream stream = this.getClass().getResourceAsStream(filePath)) {
       if (stream != null) {
-        validator.validateWithXmlSchema(filePath, getDataBroker().getResourceDir() + "/disambiguation.xsd");
+        validator.validateWithXmlSchema(filePath, JLanguageTool.getDataBroker().getResourceDir() + "/disambiguation.xsd");
       }
     }
   }
@@ -96,23 +98,17 @@ public class DisambiguationRuleTest {
     if (",[,]".equals(wordForms)) {
       return wordForms;
     }
-    if (wordForms.length()==0) {
-      return wordForms;
-    }
     String word = wordForms.substring(0, wordForms.indexOf('[') + 1);
-    
     String forms = wordForms.substring(wordForms.indexOf('[') + 1, wordForms.length() -1);
     String[] formToSort = forms.split(",");
     Arrays.sort(formToSort);
     return word + String.join(",", Arrays.asList(formToSort)) + "]";
   }
 
-  private void testDisambiguationRulesFromXML(List<DisambiguationPatternRule> rules, JLanguageTool lt, Language lang) throws IOException {
-    int i = 0;
+  private void testDisambiguationRulesFromXML(
+      List<DisambiguationPatternRule> rules,
+      JLanguageTool lt, Language lang) throws IOException {
     for (DisambiguationPatternRule rule : rules) {
-      if (++i % 100 == 0) {
-        System.out.println(i + "...");
-      }
       String id = rule.getId();
       if (rule.getUntouchedExamples() != null) {
         List<String> goodSentences = rule.getUntouchedExamples();

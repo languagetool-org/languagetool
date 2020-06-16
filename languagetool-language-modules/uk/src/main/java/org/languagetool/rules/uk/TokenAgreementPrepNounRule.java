@@ -77,7 +77,7 @@ public class TokenAgreementPrepNounRule extends Rule {
   }
 
   @Override
-  public final RuleMatch[] match(AnalyzedSentence sentence) throws IOException {
+  public final RuleMatch[] match(AnalyzedSentence sentence) {
     List<RuleMatch> ruleMatches = new ArrayList<>();
     AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
 
@@ -143,7 +143,7 @@ public class TokenAgreementPrepNounRule extends Rule {
         if( prep.equals("понад") )
           continue;
 
-        if( Arrays.asList("шляхом", "од", "відповідно").contains(prep) ) {
+        if( prep.equals("шляхом") || prep.equals("од") ) {
           prepTokenReadings = null;
           continue;
         }
@@ -229,7 +229,7 @@ public class TokenAgreementPrepNounRule extends Rule {
           break;
         }
 
-        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, prepTokenReadings, posTagsToFind, sentence, tokens, i);
+        RuleMatch potentialRuleMatch = createRuleMatch(tokenReadings, prepTokenReadings, posTagsToFind, sentence);
         ruleMatches.add(potentialRuleMatch);
       }
       else { // no _v found
@@ -283,7 +283,7 @@ public class TokenAgreementPrepNounRule extends Rule {
     return ! vidminokFound; //false;
   }
 
-  private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings, AnalyzedTokenReadings prepTokenReadings, Set<String> posTagsToFind, AnalyzedSentence sentence, AnalyzedTokenReadings[] tokens, int i) throws IOException {
+  private RuleMatch createRuleMatch(AnalyzedTokenReadings tokenReadings, AnalyzedTokenReadings reqTokenReadings, Set<String> posTagsToFind, AnalyzedSentence sentence) {
     String tokenString = tokenReadings.getToken();
     
     Synthesizer ukrainianSynthesizer = ukrainian.getSynthesizer();
@@ -347,7 +347,7 @@ public class TokenAgreementPrepNounRule extends Rule {
     }
 
     String msg = MessageFormat.format("Прийменник «{0}» вимагає іншого відмінка: {1}, а знайдено: {2}", 
-        prepTokenReadings.getToken(), String.join(", ", reqVidminkyNames), String.join(", ", foundVidminkyNames));
+        reqTokenReadings.getToken(), String.join(", ", reqVidminkyNames), String.join(", ", foundVidminkyNames));
 
     if( tokenString.equals("їх") && requiredPostTagsRegEx != null ) {
       msg += ". Можливо, тут потрібно присвійний займенник «їхній»?";
@@ -359,7 +359,7 @@ public class TokenAgreementPrepNounRule extends Rule {
         throw new RuntimeException(e);
       }
     }
-    else if( prepTokenReadings.getToken().equalsIgnoreCase("о") ) {
+    else if( reqTokenReadings.getToken().equalsIgnoreCase("о") ) {
       for(AnalyzedToken token: tokenReadings.getReadings()) {
         if( PosTagHelper.hasPosTag(token, NOUN_ANIM_V_NAZ_PATTERN) ) {
           msg += ". Можливо, тут «о» — це вигук і потрібно кличний відмінок?";
@@ -377,15 +377,7 @@ public class TokenAgreementPrepNounRule extends Rule {
           }
         }
       }
-    }
-    else if( PosTagHelper.hasPosTagStart(tokens[i-1], "adv")) {
-      String mergedToken = prepTokenReadings.getCleanToken() + tokens[i-1].getCleanToken();
-      List<AnalyzedTokenReadings> mergedTagged = ukrainian.getTagger().tag(Arrays.asList(mergedToken));
-      if( PosTagHelper.hasPosTagStart(mergedTagged.get(0), "adv") ) {
-        msg += ". Можливо, прийменник і прислівник мають бути одним словом?";
-//        suggestions.add(mergedToken);
-      }
-      
+
     }
 
     RuleMatch potentialRuleMatch = new RuleMatch(this, sentence, tokenReadings.getStartPos(), tokenReadings.getEndPos(), msg, getShort());

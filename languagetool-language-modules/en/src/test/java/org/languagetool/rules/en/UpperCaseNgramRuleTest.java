@@ -48,7 +48,7 @@ public class UpperCaseNgramRuleTest {
   }
   private final LanguageModel lm = new FakeLanguageModel(map);
   private final Language lang = Languages.getLanguageForShortCode("en");
-  private final UpperCaseNgramRule rule = new UpperCaseNgramRule(TestTools.getEnglishMessages(), lm, lang, null);
+  private final UpperCaseNgramRule rule = new UpperCaseNgramRule(TestTools.getEnglishMessages(), lm, lang);
   private final JLanguageTool lt = new JLanguageTool(lang);
 
   @Test
@@ -74,17 +74,6 @@ public class UpperCaseNgramRuleTest {
     assertGood("Let's talk to the Onboarding team.");
     assertGood("My name is Gentle.");
     assertGood("They called it Greet.");
-    assertGood("What is Foreshadowing?");
-    assertGood("His name is Carp.");
-    assertGood("Victor or Rabbit as everyone calls him.");
-    assertGood("Think I'm Tripping?");
-    assertGood("Music and Concepts.");
-    assertGood("It is called Ranked mode.");
-    assertGood("I was into Chronicle of a Death Foretold.");
-    assertGood("I talked with Engineering.");
-    assertGood("They used Draft.js to solve it.");
-    assertGood("And mine is Wed.");
-    assertGood("I would support Knicks rather than Hawks.");
     // TODO:
     //assertGood("Best Regards.");
     //assertGood("USB Port.");
@@ -101,7 +90,7 @@ public class UpperCaseNgramRuleTest {
     // FIXME commented out version doesn't work when running tests through maven
     //URL ngramUrl = JLanguageTool.getDataBroker().getFromResourceDirAsUrl("/yy/ngram-index");
     //try (LuceneLanguageModel lm = new LuceneLanguageModel(new File(ngramUrl.toURI()))) {
-    UpperCaseNgramRule rule = new UpperCaseNgramRule(TestTools.getEnglishMessages(), lm, lang, null);
+    UpperCaseNgramRule rule = new UpperCaseNgramRule(TestTools.getEnglishMessages(), lm, lang);
 
     AnalyzedTokenReadings[] tokens1 = lt.getAnalyzedSentence("As with Lifeboat and Rope, the principal characters were ...").getTokens();
     // left:

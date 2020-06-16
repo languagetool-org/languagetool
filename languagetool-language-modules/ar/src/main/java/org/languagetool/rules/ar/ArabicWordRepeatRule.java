@@ -49,7 +49,11 @@ public class ArabicWordRepeatRule extends WordRepeatRule {
     if (wordRepetitionOf("رويدا", tokens, position)) {
       return true;
     }
-    return super.ignore(tokens, position);
+    return false;
+  }
+
+  private boolean wordRepetitionOf(String word, AnalyzedTokenReadings[] tokens, int position) {
+    return position > 0 && tokens[position - 1].getToken().equals(word) && tokens[position].getToken().equals(word);
   }
 
 }

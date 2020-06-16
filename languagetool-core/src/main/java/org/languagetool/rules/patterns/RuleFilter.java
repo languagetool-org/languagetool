@@ -42,11 +42,13 @@ public abstract class RuleFilter {
    * @param patternTokens those tokens of the text that correspond the matched pattern
    * @return {@code null} if this rule match should be removed, or any other RuleMatch (e.g. the one from
    *         the arguments) that properly describes the detected error
+   * @throws IOException 
    */
   @Nullable
   public abstract RuleMatch acceptRuleMatch(RuleMatch match, Map<String, String> arguments, int patternTokenPos, AnalyzedTokenReadings[] patternTokens) throws IOException;
 
-  /** @since 3.2 */
+  /** @throws IOException 
+   * @since 3.2 */
   public boolean matches(Map<String, String> arguments, AnalyzedTokenReadings[] patternTokens, int firstMatchToken) throws IOException {
     RuleMatch fakeMatch = new RuleMatch(new FakeRule(), null, 0, 1, "(internal rule)");
     return acceptRuleMatch(fakeMatch, arguments, firstMatchToken, patternTokens) != null;
@@ -67,7 +69,8 @@ public abstract class RuleFilter {
   }
 
   protected String getOptional(String key, Map<String, String> map) {
-    return map.get(key);
+    String result = map.get(key);
+    return result;
   }
 
 }

@@ -29,7 +29,6 @@ import org.languagetool.tagging.disambiguation.rules.DisambiguationRuleTest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static junit.framework.Assert.fail;
 import static org.junit.Assert.*;
@@ -47,7 +46,6 @@ public class LanguageSpecificTest {
 
   protected void runTests(Language lang, String onlyRunCode, String additionalValidationChars) throws IOException {
     new WordListValidatorTest(additionalValidationChars).testWordListValidity(lang);
-    testNoLineBreaksEtcInMessage(lang);
     testNoQuotesAroundSuggestion(lang);
     testJavaRules(onlyRunCode);
     //testExampleAvailable(onlyRunCode);
@@ -58,37 +56,6 @@ public class LanguageSpecificTest {
       new DisambiguationRuleTest().testDisambiguationRulesFromXML();
     } catch (Exception e) {
       throw new RuntimeException(e);
-    }
-  }
-
-  private void testNoLineBreaksEtcInMessage(Language lang) {
-    if (lang.getMaintainedState() == LanguageMaintainedState.LookingForNewMaintainer) {
-      // avoid printing too many warnings that nobody takes care of
-      System.err.println("Skipping message tests for unmaintained language " + lang);
-      return;
-    }
-    JLanguageTool lt = new JLanguageTool(lang);
-    for (Rule rule : lt.getAllRules()) {
-      if (lang.getShortCode().equals("en") && rule.getId().startsWith("EUPUB_")) {  // ignore, turned off anyway
-        continue;
-      }
-      if (rule instanceof AbstractPatternRule) {
-        AbstractPatternRule pRule = (AbstractPatternRule) rule;
-        String message = pRule.getMessage();
-        String prefix = "*** WARNING: " + lang.getShortCode() + ": " + rule.getFullId() + " from " + pRule.getSourceFile();
-        if (message.contains("\n") || message.contains("\r")) {
-          System.err.println(prefix + " contains line break (\\n or \\r): " + message.replace("\n", "\\n").replace("\r", "\\r"));
-        }
-        if (message.contains("\t")) {
-          System.err.println(prefix + " contains tab (\\t): " + message.replace("\t", "\\t"));
-        }
-        if (message.contains("  ")) {
-          System.err.println(prefix + " contains two consecutive spaces in message: " + message);
-        }
-        if (rule.getDescription().contains("  ")) {
-          System.err.println(prefix + " contains two consecutive spaces in description: " + rule.getDescription());
-        }
-      }
     }
   }
 
@@ -128,10 +95,7 @@ public class LanguageSpecificTest {
   
   private final static Map<String, Integer> idToExpectedMatches = new HashMap<>();
   static {
-    idToExpectedMatches.put("EN_CONSISTENT_APOS", 2);
     idToExpectedMatches.put("STYLE_REPEATED_WORD_RULE_DE", 2);
-    idToExpectedMatches.put("STYLE_REPEATED_SHORT_SENTENCES", 3);
-    idToExpectedMatches.put("STYLE_REPEATED_SENTENCE_BEGINNING", 3);
   }
   private void testJavaRules(String onlyRunCode) throws IOException {
     Map<String,String> idsToClassName = new HashMap<>();
@@ -148,7 +112,6 @@ public class LanguageSpecificTest {
           assertIdUniqueness(idsToClassName, ruleClasses, language, rule);
           assertIdValidity(language, rule);
           assertTrue(rule.supportsLanguage(language));
-          rule.setTags(rule.getTags().stream().filter(k -> !k.equals(Tag.picky)).collect(Collectors.toList()));  // make sure "picky" rules also run
           testExamples(rule, lt);
         }
       }
@@ -261,7 +224,7 @@ public class LanguageSpecificTest {
   private void testCorrectExamples(Rule rule, JLanguageTool lt) throws IOException {
     List<CorrectExample> correctExamples = rule.getCorrectExamples();
     for (CorrectExample correctExample : correctExamples) {
-      String input = ExampleSentence.cleanMarkersInExample(correctExample.getExample());
+      String input = cleanMarkers(correctExample.getExample());
       enableOnlyOneRule(lt, rule);
       List<RuleMatch> ruleMatches = lt.check(input);
       assertEquals("Got unexpected rule match for correct example sentence:\n"
@@ -274,7 +237,7 @@ public class LanguageSpecificTest {
   private void testIncorrectExamples(Rule rule, JLanguageTool lt) throws IOException {
     List<IncorrectExample> incorrectExamples = rule.getIncorrectExamples();
     for (IncorrectExample incorrectExample : incorrectExamples) {
-      String input = ExampleSentence.cleanMarkersInExample(incorrectExample.getExample());
+      String input = cleanMarkers(incorrectExample.getExample());
       enableOnlyOneRule(lt, rule);
       List<RuleMatch> ruleMatches = lt.check(input);
       assertEquals("Did not get the expected rule match for the incorrect example sentence:\n"
@@ -291,17 +254,16 @@ public class LanguageSpecificTest {
     lt.enableRule(ruleToActivate.getId());
   }
 
+  private String cleanMarkers(String example) {
+    return example.replace("<marker>", "").replace("</marker>", "");
+  }
+
   private void countTempOffRules(Language lang) {
     JLanguageTool lt = new JLanguageTool(lang);
     int count = 0;
-    Map<String,Integer> fileToCount = new TreeMap<>();
     for (Rule rule : lt.getAllRules()) {
       if (rule.isDefaultTempOff()) {
         count++;
-        if (rule instanceof AbstractPatternRule) {
-          String sourceFile = ((AbstractPatternRule) rule).getSourceFile();
-          fileToCount.put(sourceFile, fileToCount.getOrDefault(sourceFile, 0) + 1);
-        }
       }
     }
     System.out.println("Number of default='temp_off' rules for " + lang + ": " + count);
@@ -311,10 +273,6 @@ public class LanguageSpecificTest {
       System.err.println("WARNING: " + count + " default='temp_off' rules for " + lang + ", please make sure to turn on these");
       System.err.println("WARNING: rules after they have been tested (or use default='off' to turn them off permanently)");
       System.err.println("WARNING: (this warning appears if there are more than " + limit + " default='temp_off' rules)");
-      System.err.println("WARNING: temp_off rules by file:");
-      for (Map.Entry<String, Integer> entry : fileToCount.entrySet()) {
-        System.err.println("WARNING: " + entry.getValue() + " in " + entry.getKey());
-      }
       System.err.println("################################################################################################");
     }
   }

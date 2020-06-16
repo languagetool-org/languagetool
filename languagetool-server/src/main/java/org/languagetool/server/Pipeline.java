@@ -21,7 +21,10 @@ package org.languagetool.server;
 
 import org.jetbrains.annotations.NotNull;
 import org.languagetool.*;
-import org.languagetool.rules.*;
+import org.languagetool.rules.Category;
+import org.languagetool.rules.CategoryId;
+import org.languagetool.rules.Rule;
+import org.languagetool.rules.RuleMatchFilter;
 import org.languagetool.rules.patterns.AbstractPatternRule;
 import org.xml.sax.SAXException;
 
@@ -74,8 +77,8 @@ class Pipeline extends JLanguageTool {
     return delta > PipelinePool.PIPELINE_EXPIRE_TIME;
   }
 
-  Pipeline(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, GlobalConfig globalConfig, UserConfig userConfig, boolean inputLogging) {
-    super(language, altLanguages, motherTongue, cache, globalConfig, userConfig, inputLogging);
+  Pipeline(Language language, List<Language> altLanguages, Language motherTongue, ResultCache cache, GlobalConfig globalConfig, UserConfig userConfig) {
+    super(language, altLanguages, motherTongue, cache, globalConfig, userConfig);
     lastUsedTimestamp = System.currentTimeMillis();
   }
 
@@ -131,12 +134,6 @@ class Pipeline extends JLanguageTool {
   public void activateRemoteRules(File configFile) throws IOException {
     preventModificationAfterSetup();
     super.activateRemoteRules(configFile);
-  }
-
-  @Override
-  public void activateRemoteRules(List<RemoteRuleConfig> configs) throws IOException {
-    preventModificationAfterSetup();
-    super.activateRemoteRules(configs);
   }
 
   @Override

@@ -18,17 +18,17 @@
  */
 package org.languagetool.rules.patterns;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.languagetool.AnalyzedToken;
-import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.JLanguageTool;
+import org.languagetool.*;
 import org.languagetool.chunking.ChunkTag;
 import org.languagetool.synthesis.Synthesizer;
+import org.languagetool.tools.InterruptibleCharSequence;
 import org.languagetool.tools.StringTools;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A part of a pattern, represents the 'token' element of the {@code grammar.xml}.
@@ -38,11 +38,16 @@ public class PatternToken implements Cloneable {
   /** Matches only tokens without any POS tag. **/
   public static final String UNKNOWN_TAG = "UNKNOWN";
 
-  private final boolean inflected;
+  /** Parameter passed to regular expression matcher to enable case insensitive Unicode matching. */
+  private static final String CASE_INSENSITIVE = "(?iu)";
 
+  private final boolean caseSensitive;
+  private final boolean stringRegExp;
   private List<PatternToken> andGroupList;
   private List<PatternToken> orGroupList;
-  private StringMatcher textMatcher;
+  private final boolean inflected;
+
+  private String stringToken;
   private PosToken posToken;
   private ChunkTag chunkTag;
   private boolean negation;
@@ -50,18 +55,31 @@ public class PatternToken implements Cloneable {
   private boolean whitespaceBefore;
   private boolean isInsideMarker = true;
 
-  private Exceptions exceptions;
+  /**  List of exceptions that are valid for the current token and / or some next tokens. */
+  private List<PatternToken> exceptionList;
 
   /** True if scope=="next". */
   private boolean exceptionValidNext;
 
-  private byte skip;
-  private boolean mayBeOmitted;
-  private byte maxOccurrence = 1;
+  /** True if any exception with a scope=="current" or scope=="next" is set for the element. */
+  private boolean exceptionSet;
+
+  /** True if attribute scope=="previous". */
+  private boolean exceptionValidPrevious;
+
+  /** List of exceptions that are valid for a previous token. */
+  private List<PatternToken> previousExceptionList;
+
+  private int skip;
+  private int minOccurrence = 1;
+  private int maxOccurrence = 1;
+
+  private Pattern pattern;
 
   /** The reference to another element in the pattern. **/
   private Match tokenReference;
-
+  /** True when the element stores a formatted reference to another element of the pattern. */
+  private String referenceString;
   /** String ID of the phrase the element is in. **/
   private String phraseName;
 
@@ -88,12 +106,10 @@ public class PatternToken implements Cloneable {
    * @param inflected true if the check refers to base forms (lemmas), note that {@code token} must be a base form for this to work
    */
   public PatternToken(String token, boolean caseSensitive, boolean regExp, boolean inflected) {
-    this(inflected, StringMatcher.create(normalizeTextPattern(token), regExp, caseSensitive));
-  }
-
-  PatternToken(boolean inflected, @NotNull StringMatcher textMatcher) {
+    this.caseSensitive = caseSensitive;
+    this.stringRegExp = regExp;
     this.inflected = inflected;
-    setTextMatcher(textMatcher);
+    setStringElement(token);
   }
 
   @Override
@@ -112,7 +128,7 @@ public class PatternToken implements Cloneable {
     }
     boolean posNegation = posToken != null && posToken.negation;
     if (testString) {
-      return textMatcher.matches(getTestToken(token)) ^ negation &&
+      return isStringTokenMatched(token) ^ negation &&
              isPosTokenMatched(token) ^ posNegation;
     } else {
       return !negation &&
@@ -126,8 +142,8 @@ public class PatternToken implements Cloneable {
    * @return True if any of the exceptions matches (logical disjunction).
    */
   public boolean isExceptionMatched(AnalyzedToken token) {
-    if (exceptions != null && exceptions.currentAndNext != null) {
-      for (PatternToken testException : exceptions.currentAndNext) {
+    if (exceptionSet) {
+      for (PatternToken testException : exceptionList) {
         if (!testException.exceptionValidNext && testException.isMatched(token)) {
           return true;
         }
@@ -215,8 +231,8 @@ public class PatternToken implements Cloneable {
    * @return True if any of the exceptions matches.
    */
   public boolean isMatchedByScopeNextException(AnalyzedToken token) {
-    if (exceptions != null && exceptions.currentAndNext != null) {
-      for (PatternToken testException : exceptions.currentAndNext) {
+    if (exceptionSet) {
+      for (PatternToken testException : exceptionList) {
         if (testException.exceptionValidNext && testException.isMatched(token)) {
           return true;
         }
@@ -232,8 +248,8 @@ public class PatternToken implements Cloneable {
    * @return True if any of the exceptions matches.
    */
   public boolean isMatchedByPreviousException(AnalyzedToken token) {
-    if (hasPreviousException()) {
-      for (PatternToken testException : exceptions.previous) {
+    if (exceptionValidPrevious) {
+      for (PatternToken testException : previousExceptionList) {
         if (!testException.exceptionValidNext && testException.isMatched(token)) {
           return true;
         }
@@ -275,21 +291,32 @@ public class PatternToken implements Cloneable {
     this.chunkTag = chunkTag;
   }
 
+  @Nullable
   public String getString() {
-    return textMatcher.pattern;
+    return stringToken;
   }
 
   public void setStringElement(String token) {
-    setTextMatcher(StringMatcher.create(normalizeTextPattern(token), isRegularExpression(), isCaseSensitive()));
-  }
-
-  void setTextMatcher(@NotNull StringMatcher matcher) {
-    textMatcher = matcher;
-    testString = !StringTools.isEmpty(matcher.pattern);
-  }
-
-  static String normalizeTextPattern(String token) {
-    return token == null ? "" : StringTools.trimWhitespace(token);
+    if (token != null) {
+      String tok = StringTools.trimWhitespace(token);
+      if (tok.isEmpty()) {
+        stringToken = "";
+      } else {
+        stringToken = tok;
+      }
+    } else {
+      stringToken = null;
+    }
+    testString = !StringTools.isEmpty(stringToken);
+    if (testString && stringRegExp) {
+      String regToken = stringToken;
+      if (!caseSensitive) {
+        regToken = CASE_INSENSITIVE + stringToken;
+      }
+      if (!"\\0".equals(token)) {
+        pattern = Pattern.compile(regToken);
+      }
+    }
   }
 
   /**
@@ -310,14 +337,29 @@ public class PatternToken implements Cloneable {
           String token, boolean regExp, boolean inflected,
           boolean negation, boolean scopeNext, boolean scopePrevious,
           String posToken, boolean posRegExp, boolean posNegation, Boolean caseSensitivity) {
-    PatternToken exception = new PatternToken(token, caseSensitivity == null ? isCaseSensitive() : caseSensitivity, regExp, inflected);
+    PatternToken exception = new PatternToken(token, caseSensitivity == null ? caseSensitive : caseSensitivity, regExp, inflected);
     exception.setNegation(negation);
     exception.setPosToken(new PosToken(posToken, posRegExp, posNegation));
     exception.exceptionValidNext = scopeNext;
-    if (exceptions == null) {
-      exceptions = new Exceptions();
+    setException(exception, scopePrevious);
+  }
+
+  private void setException(PatternToken pToken, boolean scopePrevious) {
+    exceptionValidPrevious |= scopePrevious;
+    if (exceptionList == null && !scopePrevious) {
+      exceptionList = new ArrayList<>();
     }
-    exceptions.addException(exception, scopePrevious);
+    if (previousExceptionList == null && scopePrevious) {
+      previousExceptionList = new ArrayList<>();
+    }
+    if (scopePrevious) {
+      previousExceptionList.add(pToken);
+    } else {
+      if (!exceptionSet) {
+        exceptionSet = true;
+      }
+      exceptionList.add(pToken);
+    }
   }
 
   /**
@@ -327,15 +369,41 @@ public class PatternToken implements Cloneable {
    * @return true if matches
    */
   private boolean isPosTokenMatched(AnalyzedToken token) {
-    PosToken pos = posToken;
-    if (pos == null || pos.posTag == null || pos.posUnknown && token.hasNoTag()) {
+    if (posToken == null || posToken.posTag == null) {
+      // if no POS set defaulting to true
       return true;
     }
-    String tokenPos = token.getPOSTag();
-    if (tokenPos == null) {
-      return false;
+    if (token.getPOSTag() == null) {
+      return posToken.posUnknown && token.hasNoTag();
     }
-    return pos.posPattern != null ? pos.posPattern.matches(tokenPos) : pos.posTag.equals(tokenPos);
+    boolean match;
+    if (posToken.regExp) {
+      Matcher mPos = posToken.posPattern.matcher(token.getPOSTag());
+      match = mPos.matches();
+    } else {
+      match = posToken.posTag.equals(token.getPOSTag());
+    }
+    if (!match && posToken.posUnknown) { // ignore helper tags
+      match = token.hasNoTag();
+    }
+    return match;
+  }
+
+  /**
+   * Tests whether the string token element matches a given token.
+   * @param token {@link AnalyzedToken} to match against.
+   * @return True if matches.
+   */
+  private boolean isStringTokenMatched(AnalyzedToken token) {
+    String testToken = getTestToken(token);
+    if (stringRegExp) {
+      Matcher m = pattern.matcher(new InterruptibleCharSequence(testToken));
+      return m.matches();
+    }
+    if (caseSensitive) {
+      return stringToken.equals(testToken);
+    }
+    return stringToken.equalsIgnoreCase(testToken);
   }
 
   private String getTestToken(AnalyzedToken token) {
@@ -363,7 +431,7 @@ public class PatternToken implements Cloneable {
    * The minimum number of times the element needs to occur.
    */
   public int getMinOccurrence() {
-    return mayBeOmitted ? 0 : 1;
+    return minOccurrence;
   }
 
   /**
@@ -377,10 +445,7 @@ public class PatternToken implements Cloneable {
    * @param i exception scope length.
    */
   public void setSkipNext(int i) {
-    if (i < -1 || i > Byte.MAX_VALUE) {
-      throw new IllegalArgumentException("'skip' should be between -1 and " + Byte.MAX_VALUE);
-    }
-    skip = (byte) i;
+    skip = i;
   }
 
   /**
@@ -391,7 +456,7 @@ public class PatternToken implements Cloneable {
     if (i != 0 && i != 1) {
       throw new IllegalArgumentException("minOccurrences must be 0 or 1: " + i);
     }
-    mayBeOmitted = i == 0;
+    minOccurrence = i;
   }
 
   /**
@@ -402,10 +467,7 @@ public class PatternToken implements Cloneable {
     if (i == 0) {
       throw new IllegalArgumentException("maxOccurrences may not be 0");
     }
-    if (i < -1 || i > Byte.MAX_VALUE) {
-      throw new IllegalArgumentException("maxOccurrences should be between -1 and " + Byte.MAX_VALUE + " but was: " + i);
-    }
-    maxOccurrence = (byte) i;
+    maxOccurrence = i;
   }
 
   /**
@@ -413,7 +475,7 @@ public class PatternToken implements Cloneable {
    * @return True if the element has a previous token matching exception.
    */
   public boolean hasPreviousException() {
-    return exceptions != null && exceptions.previous != null;
+    return exceptionValidPrevious;
   }
 
   /**
@@ -478,15 +540,18 @@ public class PatternToken implements Cloneable {
 
   private void doCompile(AnalyzedTokenReadings token, Synthesizer synth) throws IOException {
     MatchState matchState = tokenReference.createState(synth, token);
+    if (StringTools.isEmpty(referenceString)) {
+      referenceString = stringToken;
+    }
     String reference = "\\" + tokenReference.getTokenRef();
     if (tokenReference.setsPos()) {
       String posReference = matchState.getTargetPosTag();
       if (posReference != null) {
         setPosToken(new PosToken(posReference, tokenReference.posRegExp(), negation));
       }
-      setStringElement(getString().replace(reference, ""));
+      setStringElement(referenceString.replace(reference, ""));
     } else {
-      setStringElement(getString().replace(reference, matchState.toTokenString()));
+      setStringElement(referenceString.replace(reference, matchState.toTokenString()));
     }
   }
 
@@ -511,7 +576,7 @@ public class PatternToken implements Cloneable {
    * @since 2.3
    */
   public boolean isCaseSensitive() {
-    return textMatcher.caseSensitive;
+    return caseSensitive;
   }
 
   /**
@@ -519,7 +584,7 @@ public class PatternToken implements Cloneable {
    * @since 0.9.6
    */
   public boolean isRegularExpression() {
-    return textMatcher.isRegExp;
+    return stringRegExp;
   }
 
   /**
@@ -527,7 +592,7 @@ public class PatternToken implements Cloneable {
    * @since 1.3.0
    */
   public boolean isPOStagRegularExpression() {
-    return posToken != null && posToken.posPattern != null;
+    return posToken != null && posToken.regExp;
   }
 
   /**
@@ -620,7 +685,7 @@ public class PatternToken implements Cloneable {
    * @since 2.5
    */
   public void setUnificationNeutral() {
-    unificationNeutral = true;
+    this.unificationNeutral = true;
   }
 
 
@@ -646,10 +711,11 @@ public class PatternToken implements Cloneable {
    * @param isWhite If true, the space before exception is required.
    */
   public void setExceptionSpaceBefore(boolean isWhite) {
-    if (exceptions != null) {
-      List<PatternToken> list = hasPreviousException() ? exceptions.previous : exceptions.currentAndNext;
-      if (list != null) {
-        list.get(list.size() - 1).setWhitespaceBefore(isWhite);
+    if (previousExceptionList != null && exceptionValidPrevious) {
+      previousExceptionList.get(previousExceptionList.size() - 1).setWhitespaceBefore(isWhite);
+    } else {
+      if (exceptionList != null) {
+        exceptionList.get(exceptionList.size() - 1).setWhitespaceBefore(isWhite);
       }
     }
   }
@@ -662,70 +728,19 @@ public class PatternToken implements Cloneable {
    * @return A List of Exceptions. Used for testing.
    * @since 1.0.0
    */
-  @Nullable
   public List<PatternToken> getExceptionList() {
-    return exceptions == null ? null : exceptions.currentAndNext;
+    return exceptionList;
+  }
+
+  /**
+   * @return List of previous exceptions. Used for testing.
+   */
+  public List<PatternToken> getPreviousExceptionList() {
+    return previousExceptionList;
   }
 
   public boolean hasExceptionList() {
-    return exceptions != null;
-  }
-
-  /**
-   * @return all possible forms that this token pattern can accept, or {@code null} if such set is unknown/unbounded.
-   * This is used internally for performance optimizations.
-   */
-  @Nullable
-  Set<String> calcFormHints() {
-    return calcStringHints(false);
-  }
-
-  /**
-   * @return all possible forms that this token pattern can accept, or {@code null} if such set is unknown/unbounded.
-   * This is used internally for performance optimizations.
-   */
-  @Nullable
-  Set<String> calcLemmaHints() {
-    return calcStringHints(true);
-  }
-
-  private Set<String> calcStringHints(boolean inflected) {
-    Set<String> result = inflected != this.inflected ? null : calcOwnPossibleStringValues();
-    if (result == null) return null;
-
-    if (andGroupList != null) {
-      result = new HashSet<>(result);
-
-      for (PatternToken token : andGroupList) {
-        Set<String> hints = token.calcStringHints(inflected);
-        if (hints != null) {
-          result.retainAll(hints);
-        }
-      }
-    } else if (orGroupList != null) {
-      result = new HashSet<>(result);
-
-      for (PatternToken token : orGroupList) {
-        Set<String> hints = token.calcStringHints(inflected);
-        if (hints == null) return null;
-
-        result.addAll(hints);
-      }
-    }
-
-    return result.isEmpty() ? null : result;
-  }
-
-  @Nullable
-  private Set<String> calcOwnPossibleStringValues() {
-    if (negation || !hasStringThatMustMatch()) {
-      return null;
-    }
-    return textMatcher.getPossibleValues();
-  }
-
-  boolean hasStringThatMustMatch() {
-    return tokenReference == null && !mayBeOmitted && !getString().isEmpty();
+    return exceptionList != null || previousExceptionList != null;
   }
 
   @Override
@@ -734,7 +749,7 @@ public class PatternToken implements Cloneable {
     if (negation) {
       sb.append('!');
     }
-    sb.append(getString());
+    sb.append(stringToken);
     if (phraseName != null) {
       sb.append(" {");
       sb.append(phraseName);
@@ -748,7 +763,6 @@ public class PatternToken implements Cloneable {
       sb.append('/');
       sb.append(chunkTag);
     }
-    List<PatternToken> exceptionList = getExceptionList();
     if (exceptionList != null) {
       sb.append("/exceptions=");
       sb.append(exceptionList);
@@ -759,16 +773,18 @@ public class PatternToken implements Cloneable {
   public static class PosToken {
 
     private final String posTag;
+    private final boolean regExp;
     private final boolean negation;
-    private final StringMatcher posPattern;
+    private final Pattern posPattern;
     private final boolean posUnknown;
 
     public PosToken(String posTag, boolean regExp, boolean negation) {
       this.posTag = posTag;
+      this.regExp = regExp;
       this.negation = negation;
       if (regExp) {
-        posPattern = StringMatcher.create(posTag, true, true);
-        posUnknown = posPattern.matches(UNKNOWN_TAG);
+        posPattern = Pattern.compile(posTag);
+        posUnknown = posPattern.matcher(UNKNOWN_TAG).matches();
       } else {
         posPattern = null;
         posUnknown = UNKNOWN_TAG.equals(posTag);
@@ -780,27 +796,4 @@ public class PatternToken implements Cloneable {
       return posTag;
     }
   }
-
-  private static class Exceptions {
-    /**  List of exceptions that are valid for the current token and / or some next tokens. */
-    private List<PatternToken> currentAndNext;
-
-    /** List of exceptions that are valid for a previous token. */
-    private List<PatternToken> previous;
-
-    private void addException(PatternToken pToken, boolean scopePrevious) {
-      if (scopePrevious) {
-        if (previous == null) {
-          previous = new ArrayList<>();
-        }
-        previous.add(pToken);
-      } else {
-        if (currentAndNext == null) {
-          currentAndNext = new ArrayList<>();
-        }
-        currentAndNext.add(pToken);
-      }
-    }
-  }
-
 }

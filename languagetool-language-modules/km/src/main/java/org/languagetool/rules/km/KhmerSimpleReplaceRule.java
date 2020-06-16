@@ -23,8 +23,6 @@ import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -41,8 +39,8 @@ public class KhmerSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   private static final Locale KM_LOCALE = new Locale("km");  // locale used on case-conversion
   
   @Override
-  public final List<String> getFileNames() {
-    return Collections.singletonList(FILE_NAME);
+  public final String getFileName() {
+    return FILE_NAME;
   }
 
   public KhmerSimpleReplaceRule(ResourceBundle messages) throws IOException {
@@ -66,7 +64,7 @@ public class KhmerSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getMessage() {
+  public String getSuggestion() {
     return " Consider following the spelling of Chuon Nath ";
   }
 

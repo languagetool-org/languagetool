@@ -20,13 +20,14 @@
 package org.languagetool.rules.ar;
 
 import org.languagetool.language.Arabic;
+import org.languagetool.rules.AbstractSimpleReplaceRule;
 import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 
@@ -53,8 +54,8 @@ public class ArabicHomophonesRule extends AbstractSimpleReplaceRule2 {
 
 
   @Override
-  public List<String> getFileNames() {
-    return Collections.singletonList(RESOURCE_FILENAME);
+  public String getFileName() {
+    return RESOURCE_FILENAME;
   }
 
   @Override
@@ -73,7 +74,7 @@ public class ArabicHomophonesRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getMessage() {
+  public String getSuggestion() {
     return "قل $suggestions";
   }
 

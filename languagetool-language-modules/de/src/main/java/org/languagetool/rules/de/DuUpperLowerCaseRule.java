@@ -45,8 +45,10 @@ public class DuUpperLowerCaseRule extends TextLevelRule {
                         "euch", "euer", "eure", "euere", "euren", "eueren", "euern", "eurer", "euerer",
                         "eurem", "euerem", "eures", "eueres")
   );
-  private static final String IHR = "ihr";
-
+  private static final Set<String> ambiguousWords = new HashSet<>(
+          Arrays.asList("ihr", "ihre", "ihren", "ihrem", "ihres", "ihrer")
+  );
+  
   public DuUpperLowerCaseRule(ResourceBundle messages) {
     super(messages);
     super.setCategory(Categories.CASING.getCategory(messages));
@@ -73,15 +75,15 @@ public class DuUpperLowerCaseRule extends TextLevelRule {
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
       for (int i = 0; i < tokens.length; i++) {
-        if (i > 0 && (tokens[i-1].isSentenceStart() || StringUtils.equalsAny(tokens[i-1].getToken(), "\"","„", ":", "»", "“"))) {
+        if (i > 0 && (tokens[i-1].isSentenceStart() || StringUtils.equalsAny(tokens[i-1].getToken(), "\"","„", ":"))) {
           continue;
         }
         AnalyzedTokenReadings token = tokens[i];
         String word = token.getToken();
         String lcWord = word.toLowerCase();
-        if (lowerWords.contains(lcWord) || lcWord.equals(IHR)) {
+        if (lowerWords.contains(lcWord) || ambiguousWords.contains(lcWord)) {
           if (firstUse == null) {
-            if (!word.equals(IHR)) {
+            if (!ambiguousWords.contains(word)) {
               firstUse = word;
             }
           } else {
@@ -90,12 +92,9 @@ public class DuUpperLowerCaseRule extends TextLevelRule {
             String replacement = null;
             if (firstUseIsUpper && !StringTools.startsWithUppercase(word)) {
               replacement =  StringTools.uppercaseFirstChar(word);
-              String prevWord = i > 0 ? tokens[i-1].getToken() : "";
-              if (word.equals(IHR)) {
-                if (!prevWord.matches("aus|bei|beim|binnen|entgegen|fern|entsprechend|gemäß|gegenüber|mit|mitsamt|nach|nahe|nebst|samt|via|zuliebe|von|zu|zur|zuwider")) {
-                  msg = "Vorher wurde bereits '" + firstUse + "' großgeschrieben. " +
-                          "Nur falls es sich hier auch um eine Anrede handelt: Aus Gründen der Einheitlichkeit '" + replacement + "' hier auch großschreiben?";
-                }
+              if (ambiguousWords.contains(word)) {
+                msg = "Vorher wurde bereits '" + firstUse + "' großgeschrieben. " +
+                        "Nur falls es sich hier auch um eine Anrede handelt: Aus Gründen der Einheitlichkeit '" + replacement + "' hier auch großschreiben?";
               } else {
                 msg = "Vorher wurde bereits '" + firstUse + "' großgeschrieben. " +
                         "Aus Gründen der Einheitlichkeit '" + replacement + "' hier auch großschreiben?";
@@ -105,7 +104,7 @@ public class DuUpperLowerCaseRule extends TextLevelRule {
               msg = "Vorher wurde bereits '" + firstUse + "' kleingeschrieben. " +
                       "Aus Gründen der Einheitlichkeit '" + replacement + "' hier auch kleinschreiben?";
             }
-            if (msg != null) {
+            if (replacement != null) {
               RuleMatch ruleMatch = new RuleMatch(this, sentence, pos + token.getStartPos(), pos + token.getEndPos(), msg);
               ruleMatch.setSuggestedReplacement(replacement);
               ruleMatches.add(ruleMatch);
@@ -113,7 +112,7 @@ public class DuUpperLowerCaseRule extends TextLevelRule {
           }
         }
       }
-      pos += sentence.getCorrectedTextLength();
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }

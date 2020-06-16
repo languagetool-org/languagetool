@@ -64,15 +64,6 @@ public class SpanishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     if (superException) {
       return false;
     }
-    
-    if (tokenStr.equals("’") && (tokens[i].hasPosTagStartingWith("N") || tokens[i].hasPosTagStartingWith("A"))  ) {
-      return false;
-    }
-    
-    // Exception for English plural Saxon genitive
-    if (i + 1 < tokens.length && (isQuote(tokenStr)) && "s".equalsIgnoreCase(tokens[i + 1].getToken())) {
-      return false;
-    }
 
     //degrees, minutes, seconds...
     if (("\"".equals(tokenStr) || "'".equals(tokenStr))
@@ -107,10 +98,6 @@ public class SpanishUnpairedBracketsRule extends GenericUnpairedBracketsRule {
     }
 
     return true;
-  }
-  
-  private boolean isQuote(String tokenStr) {
-    return "'".equals(tokenStr) || "’".equals(tokenStr);
   }
 
 }

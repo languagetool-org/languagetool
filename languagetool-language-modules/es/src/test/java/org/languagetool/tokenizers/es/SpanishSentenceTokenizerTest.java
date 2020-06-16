@@ -35,10 +35,6 @@ public class SpanishSentenceTokenizerTest {
     
     // Simple sentences
     testSplit("Esto es una frase. ", "Esto es otra frase.");
-    testSplit("Esto es una frase.[34] ", "Esto es otra frase.");
-    testSplit("¿Nos vamos? ", "Hay que irse.");
-    testSplit("¿Vamos? ", "Hay que irse.");
-    testSplit("¡Corre! ", "Hay que irse.");
     
     // Ellipsis
     testSplit("Entonces... apareció él.");
@@ -79,10 +75,6 @@ public class SpanishSentenceTokenizerTest {
     testSplit("Ahora p. e. esto.");
     testSplit("Son las 5hrs. del domingo.");
     testSplit("Son las 2as. jornadas.");
-    testSplit("En EE.UU. esto no pasa.");
-    testSplit("En EE. UU. esto no pasa.");
-    testSplit("Me voy a EE. UU. ", "Buen viaje.");
-    testSplit("Uno (ca. 2010), dos (c. 2011), tres (ca. XIX), cuatro (c. XX)");
 
     // Exception to abbreviations    
     testSplit("Esto pasa el PP. ", "Pero, por otra parte,");

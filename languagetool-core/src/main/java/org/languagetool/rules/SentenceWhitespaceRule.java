@@ -84,7 +84,7 @@ public class SentenceWhitespaceRule extends TextLevelRule {
         String prevLastToken = tokens[tokens.length-2].getToken();
         prevSentenceEndsWithNumber = StringUtils.isNumeric(prevLastToken);
       }
-      pos += sentence.getCorrectedTextLength();
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }

@@ -43,29 +43,28 @@ public class Main extends WeakBase implements XJobExecutor,
   // Service name required by the OOo API && our own name.
   private static final String[] SERVICE_NAMES = {
           "com.sun.star.linguistic2.Proofreader",
-          OfficeTools.LT_SERVICE_NAME };
+          "org.languagetool.openoffice.Main" };
 
   private XComponentContext xContext;
-  private MultiDocumentsHandler documents;
+  
+  private MultiDocumentsHandler documents = null;
+
 
   public Main(XComponentContext xCompContext) {
     changeContext(xCompContext);
     documents = new MultiDocumentsHandler(xContext, this, this);
   }
 
-  /**
-   * Changes the XComponentContext
-   */
   void changeContext(XComponentContext xCompContext) {
     xContext = xCompContext;
-    if (documents != null) {
+    if(documents != null) {
       documents.setComponentContext(xCompContext);
     }
   }
 
   /**
    * Runs the grammar checker on paragraph text.
-   * interface: XProofreader
+   *
    * @param docID document ID
    * @param paraText paragraph text
    * @param locale Locale the text Locale
@@ -83,7 +82,6 @@ public class Main extends WeakBase implements XJobExecutor,
 
   /**
    * We leave spell checking to OpenOffice/LibreOffice.
-   * interface: XProofreader
    * @return false
    */
   @Override
@@ -93,17 +91,15 @@ public class Main extends WeakBase implements XJobExecutor,
   
   /**
    * @return An array of Locales supported by LT
-   * interface: XProofreader
    */
   @Override
   public final Locale[] getLocales() {
-    return MultiDocumentsHandler.getLocales();
+    return documents.getLocales();
   }
 
   /**
    * @return true if LT supports the language of a given locale
    * @param locale The Locale to check
-   * interface: XProofreader
    */
   @Override
   public final boolean hasLocale(Locale locale) {
@@ -113,7 +109,7 @@ public class Main extends WeakBase implements XJobExecutor,
   /**
    * Add a listener that allow re-checking the document after changing the
    * options in the configuration dialog box.
-   * interface: XLinguServiceEventBroadcaster
+   * 
    * @param eventListener the listener to be added
    * @return true if listener is non-null and has been added, false otherwise
    */
@@ -124,7 +120,7 @@ public class Main extends WeakBase implements XJobExecutor,
 
   /**
    * Remove a listener from the event listeners list.
-   * interface: XLinguServiceEventBroadcaster
+   * 
    * @param eventListener the listener to be removed
    * @return true if listener is non-null and has been removed, false otherwise
    */
@@ -133,26 +129,15 @@ public class Main extends WeakBase implements XJobExecutor,
     return documents.removeLinguServiceEventListener(eventListener);
   }
 
-  /**
-   * Get the names of supported services
-   * interface: XServiceInfo
-   */
   @Override
   public String[] getSupportedServiceNames() {
     return getServiceNames();
   }
 
-  /**
-   * Get the LT service names
-   */
   static String[] getServiceNames() {
     return SERVICE_NAMES;
   }
 
-  /**
-   * Test if the service is supported by LT
-   * interface: XServiceInfo
-   */
   @Override
   public boolean supportsService(String sServiceName) {
     for (String sName : SERVICE_NAMES) {
@@ -163,19 +148,11 @@ public class Main extends WeakBase implements XJobExecutor,
     return false;
   }
 
-  /**
-   * Get the implementation name of the LT service
-   * interface: XServiceInfo
-   */
   @Override
   public String getImplementationName() {
     return Main.class.getName();
   }
 
-  /**
-   * Get XSingleComponentFactory
-   * Default method called by LO/OO extensions
-   */
   public static XSingleComponentFactory __getComponentFactory(String sImplName) {
     SingletonFactory xFactory = null;
     if (sImplName.equals(Main.class.getName())) {
@@ -184,18 +161,10 @@ public class Main extends WeakBase implements XJobExecutor,
     return xFactory;
   }
 
-  /**
-   * Write keys to registry
-   * Default method called by LO/OO extensions
-   */
   public static boolean __writeRegistryServiceInfo(XRegistryKey regKey) {
     return Factory.writeRegistryServiceInfo(Main.class.getName(), Main.getServiceNames(), regKey);
   }
 
-  /**
-   * Triggers a registered event
-   * interface: XJobExecutor
-   */
   @Override
   public void trigger(String sEvent) {
     if (Thread.currentThread().getContextClassLoader() == null) {
@@ -213,16 +182,7 @@ public class Main extends WeakBase implements XJobExecutor,
   }
   
   /**
-   * Give back the MultiDocumentsHandler - use only for test cases.
-   * @since 5.3
-   */
-  MultiDocumentsHandler getMultiDocumentsHandler() {
-    return documents;
-  }
-  
-  /**
    * Called when "Ignore" is selected e.g. in the context menu for an error.
-   * interface: XProofreader
    */
   @Override
   public void ignoreRule(String ruleId, Locale locale) {
@@ -234,25 +194,19 @@ public class Main extends WeakBase implements XJobExecutor,
    * was set in the spelling dialog box or in the context menu.
    * 
    * The rules disabled in the config dialog box are left as intact.
-   * interface: XProofreader
    */
   @Override
   public void resetIgnoreRules() {
     documents.resetIgnoreRules();
   }
 
-  /**
-   * Get the display name of the LT service
-   * Interface: XServiceDisplayName
-   */
   @Override
   public String getServiceDisplayName(Locale locale) {
     return documents.getServiceDisplayName(locale);
   }
 
   /**
-   * Remove internal stored text if document disposes
-   * Interface: XEventListener
+   * remove internal stored text if document disposes
    */
   @Override
   public void disposing(EventObject source) {

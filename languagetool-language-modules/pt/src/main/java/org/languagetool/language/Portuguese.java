@@ -115,7 +115,7 @@ public class Portuguese extends Language implements AutoCloseable {
                     Arrays.asList("[", "(", "{", "\"", "“" /*, "«", "'", "‘" */),
                     Arrays.asList("]", ")", "}", "\"", "”" /*, "»", "'", "’" */)),
             new HunspellRule(messages, this, userConfig, altLanguages),
-            new LongSentenceRule(messages, userConfig, -1, false),
+            new LongSentenceRule(messages, userConfig, -1, true),
             new LongParagraphRule(messages, this, userConfig),
             new UppercaseSentenceStartRule(messages, this,
                 Example.wrong("Esta casa é velha. <marker>foi</marker> construida em 1950."),
@@ -131,7 +131,6 @@ public class Portuguese extends Language implements AutoCloseable {
             new PostReformPortugueseCompoundRule(messages),
             new PortugueseReplaceRule(messages),
             new PortugueseBarbarismsRule(messages, "/pt/barbarisms-pt.txt"),
-            //new PortugueseArchaismsRule(messages, "/pt/archaisms-pt.txt"),   // see https://github.com/languagetool-org/languagetool/issues/3095
             new PortugueseClicheRule(messages),
             new PortugueseFillerWordsRule(messages, this, userConfig),
             new PortugueseRedundancyRule(messages),
@@ -190,36 +189,6 @@ public class Portuguese extends Language implements AutoCloseable {
     }
   }
 
-  /** @since 5.1 */
-  @Override
-  public String getOpeningDoubleQuote() {
-    return "“";
-  }
-
-  /** @since 5.1 */
-  @Override
-  public String getClosingDoubleQuote() {
-    return "”";
-  }
-  
-  /** @since 5.1 */
-  @Override
-  public String getOpeningSingleQuote() {
-    return "‘";
-  }
-
-  /** @since 5.1 */
-  @Override
-  public String getClosingSingleQuote() {
-    return "’";
-  }
-  
-  /** @since 5.1 */
-  @Override
-  public boolean isAdvancedTypographyEnabled() {
-    return true;
-  }
-  
   @Override
   protected int getPriorityForId(String id) {
     switch (id) {
@@ -227,7 +196,6 @@ public class Portuguese extends Language implements AutoCloseable {
       case "DEGREE_MINUTES_SECONDS":    return 30;
       case "INTERJECTIONS_PUNTUATION":  return 20;
       case "CONFUSION_POR":             return 10;
-      case "VERB_COMMA_CONJUNCTION":    return 10; // greater than PORTUGUESE_WORD_REPEAT_RULE
       case "HOMOPHONE_AS_CARD":         return  5;
       case "TODOS_FOLLOWED_BY_NOUN_PLURAL":    return  3;
       case "TODOS_FOLLOWED_BY_NOUN_SINGULAR":  return  2;

@@ -185,7 +185,11 @@ class UndoRedoSupport {
     }
 
     private void updateRedoState() {
-      setEnabled(undoManager.canRedo());
+      if (undoManager.canRedo()) {
+        setEnabled(true);
+      } else {
+        setEnabled(false);
+      }
     }
   }
 }

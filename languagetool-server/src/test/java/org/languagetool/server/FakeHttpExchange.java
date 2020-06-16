@@ -64,7 +64,7 @@ public class FakeHttpExchange extends HttpExchange {
     return bos;
   }
   @Override
-  public void sendResponseHeaders(int i, long l) {
+  public void sendResponseHeaders(int i, long l) throws IOException {
   }
   @Override
   public InetSocketAddress getRemoteAddress() {
@@ -97,7 +97,7 @@ public class FakeHttpExchange extends HttpExchange {
     return null;
   }
 
-  public String getOutput() {
+  public String getOutput() throws UnsupportedEncodingException {
     return new String(bos.toByteArray(), StandardCharsets.UTF_8);
   }
 

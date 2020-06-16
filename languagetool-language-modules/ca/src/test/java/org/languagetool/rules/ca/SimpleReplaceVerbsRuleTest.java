@@ -162,11 +162,6 @@ public class SimpleReplaceVerbsRuleTest {
     
     matches = rule.match(langTool.getAnalyzedSentence("desabasta"));
     assertEquals("desproveeix", matches[0].getSuggestedReplacements().get(0)); 
-    
-    matches = rule.match(langTool.getAnalyzedSentence("sobresegueix"));
-    assertEquals("sobreseu", matches[0].getSuggestedReplacements().get(0));
-    matches = rule.match(langTool.getAnalyzedSentence("sobreseguir"));
-    assertEquals("sobreseure", matches[0].getSuggestedReplacements().get(0));
 
   }
 

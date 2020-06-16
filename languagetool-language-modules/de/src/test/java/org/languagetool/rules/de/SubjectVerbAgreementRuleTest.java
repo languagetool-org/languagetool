@@ -302,8 +302,7 @@ public class SubjectVerbAgreementRuleTest {
         "Knapp acht Monate ist die Niederlage nun her.",
         "Vier Monate ist die Niederlage nun her.",
         "Sie liebt Kunst und Kunst war auch kein Problem, denn er würde das Geld zurückkriegen.",
-        "Bei komplexen und andauernden Störungen ist der Stress-Stoffwechsel des Hundes entgleist.",
-        "Eltern ist der bisherige Kita-Öffnungsplan zu unkonkret"
+        "Bei komplexen und andauernden Störungen ist der Stress-Stoffwechsel des Hundes entgleist."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
@@ -332,7 +331,6 @@ public class SubjectVerbAgreementRuleTest {
   @Test
   public void testRuleWithCorrectPluralVerb() throws IOException {
     List<String> sentences = Arrays.asList(
-        "Glaubt wirklich jemand, dass gute Fotos keine Arbeit sind?",
         "Zwei Schülern war aufgefallen, dass man im Fernsehen dazu nichts mehr sieht.",
         "Auch die Reste eines sehr großen Insektenfressers sind unter den Fossilien.",
         "Eine Persönlichkeit sind Sie selbst.",
@@ -420,9 +418,7 @@ public class SubjectVerbAgreementRuleTest {
         "Die internen Ermittler und auch die Staatsanwaltschaft sind nun am Zug.",
         "Sie sind so erfolgreich, weil sie eine Einheit sind.",
         "Auch Polizisten zu Fuß sind unterwegs.",
-        "Julia sagte, dass Vater und Mutter zu Hause sind.",
-        "Damit müssen sie zurechtkommen, wenn Kinder zu Hause sind.",
-        "Die Züge vor Ort sind nicht klimatisiert."
+        "Julia sagte, dass Vater und Mutter zu Hause sind."
     );
     for (String sentence : sentences) {
       assertGood(sentence);
@@ -434,8 +430,6 @@ public class SubjectVerbAgreementRuleTest {
     // Manchmal sind beide Varianten korrekt:
     // siehe https://dict.leo.org/grammatik/deutsch/Wort/Verb/Kategorien/Numerus-Person/ProblemNum.html
     List<String> sentences = Arrays.asList(
-        "Solchen Personen ist der Zugriff auf diese Daten verboten.",
-        "Personen ist der Zugriff auf diese Daten verboten.",
         "So mancher Mitarbeiter und manche Führungskraft ist im Urlaub.",
         "So mancher Mitarbeiter und manche Führungskraft sind im Urlaub.",
         "Jeder Schüler und jede Schülerin ist mal schlecht gelaunt.",

@@ -43,7 +43,7 @@ public class LanguageDependentFilter implements RuleMatchFilter {
 
   @Override
   public List<RuleMatch> filter(List<RuleMatch> ruleMatches) {
-    if (language.getShortCode().equals("ca")) {
+    if (language.getShortCode() == "ca") {
       // Use typographic apostrophe in suggestions
       CategoryId catID = new CategoryId("DIACRITICS_TRADITIONAL");
       if (this.enabledRules.contains("APOSTROF_TIPOGRAFIC") 
@@ -62,8 +62,8 @@ public class LanguageDependentFilter implements RuleMatchFilter {
               newReplacements.add(s);
             }
           }
-          RuleMatch newMatch = new RuleMatch(rm, newReplacements);
-          newRuleMatches.add(newMatch);
+          RuleMatch newrm = new RuleMatch(rm, newReplacements);
+          newRuleMatches.add(newrm);
         }
         return newRuleMatches;
       }

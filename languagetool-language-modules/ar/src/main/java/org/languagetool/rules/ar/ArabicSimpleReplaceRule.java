@@ -24,8 +24,6 @@ import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -43,8 +41,8 @@ public class ArabicSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public List<String> getFileNames() {
-    return Collections.singletonList(RESOURCE_FILENAME);
+  public String getFileName() {
+    return RESOURCE_FILENAME;
   }
 
   @Override
@@ -79,7 +77,7 @@ public class ArabicSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
    * shown to the user.
    */
   @Override
-  public String getMessage() {
+  public String getSuggestion() {
     return "قل $suggestions";
   }
 

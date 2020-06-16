@@ -21,12 +21,10 @@
 
 package org.languagetool.rules.en;
 
-import org.languagetool.Tag;
 import org.languagetool.rules.AbstractUnitConversionRule;
 
 import java.math.RoundingMode;
 import java.text.NumberFormat;
-import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -42,7 +40,6 @@ public class UnitConversionRule extends AbstractUnitConversionRule {
 
   public UnitConversionRule(ResourceBundle messages) {
     super(messages);
-    setTags(Arrays.asList(Tag.picky));
     format = NumberFormat.getNumberInstance(Locale.ENGLISH);
     format.setMaximumFractionDigits(2);
     format.setRoundingMode(RoundingMode.HALF_UP);

@@ -20,7 +20,6 @@ package org.languagetool.rules;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -67,7 +66,6 @@ public class WordRepeatBeginningRule extends TextLevelRule {
     String beforeLastToken = "";
     List<RuleMatch> ruleMatches = new ArrayList<>();
     int pos = 0;
-    AnalyzedSentence prevSentence = null;
     for (AnalyzedSentence sentence : sentences) {
       AnalyzedTokenReadings[] tokens = sentence.getTokensWithoutWhitespace();
       if (tokens.length > 3) {
@@ -76,13 +74,14 @@ public class WordRepeatBeginningRule extends TextLevelRule {
         // avoid "..." etc. to be matched:
         boolean isWord = true;
         if (token.length() == 1) {
-          if (!Character.isLetter(token.charAt(0))) {
+          char c = token.charAt(0);
+          if (!Character.isLetter(c)) {
             isWord = false;
           }
         }
+
         if (isWord && lastToken.equals(token)
-                && !isException(token) && !isException(tokens[2].getToken()) && !isException(tokens[3].getToken())
-                && prevSentence != null && prevSentence.getText().trim().matches(".+[.?!]$")) {  // no matches for e.g. table cells
+                && !isException(token) && !isException(tokens[2].getToken()) && !isException(tokens[3].getToken())) {
           String shortMsg;
           if (isAdverb(analyzedToken)) {
             shortMsg = messages.getString("desc_repetition_beginning_adv");
@@ -91,29 +90,21 @@ public class WordRepeatBeginningRule extends TextLevelRule {
           } else {
             shortMsg = "";
           }
+
           if (!shortMsg.isEmpty()) {
             String msg = shortMsg + " " + messages.getString("desc_repetition_beginning_thesaurus");
             int startPos = analyzedToken.getStartPos();
             int endPos = startPos + token.length();
             RuleMatch ruleMatch = new RuleMatch(this, sentence, pos+startPos, pos+endPos, msg, shortMsg);
-            List<String> suggestions = getSuggestions(analyzedToken);
-            if (suggestions.size() > 0) {
-              ruleMatch.setSuggestedReplacements(suggestions);
-            }
             ruleMatches.add(ruleMatch);
           }
         }
         beforeLastToken = lastToken;
         lastToken = token;
       }
-      pos += sentence.getCorrectedTextLength();
-      prevSentence = sentence;
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
-  }
-
-  protected List<String> getSuggestions(AnalyzedTokenReadings analyzedToken) {
-    return Collections.emptyList();
   }
 
   @Override

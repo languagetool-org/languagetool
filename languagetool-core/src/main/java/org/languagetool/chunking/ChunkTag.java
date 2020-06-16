@@ -25,28 +25,16 @@ package org.languagetool.chunking;
 public class ChunkTag {
 
   private final String chunkTag;
-  private final boolean isRegexp;
 
   public ChunkTag(String chunkTag) {
-    this(chunkTag, false);
-  }
-
-  /** @since 5.1 */
-  public ChunkTag(String chunkTag, boolean isRegexp) {
     if (chunkTag == null || chunkTag.trim().isEmpty()) {
       throw new IllegalArgumentException("chunkTag cannot be null or empty: '" + chunkTag + "'");
     }
     this.chunkTag = chunkTag;
-    this.isRegexp = isRegexp;
   }
 
   public String getChunkTag() {
     return chunkTag;
-  }
-
-  /** @since 5.1 */
-  public boolean isRegexp() {
-    return isRegexp;
   }
 
   @Override
@@ -64,6 +52,6 @@ public class ChunkTag {
 
   @Override
   public String toString() {
-    return chunkTag + (isRegexp ? "[regex]" : "");
+    return chunkTag;
   }
 }

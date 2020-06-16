@@ -38,9 +38,8 @@ import org.languagetool.tools.Tools;
  */
 public class ParagraphRepeatBeginningRule extends TextLevelRule {
 
-  private static final Pattern QUOTES_REGEX = Pattern.compile("[’'\"„“”»«‚‘›‹()\\[\\]]");
-
   private final Language lang;
+  private static final Pattern QUOTES_REGEX = Pattern.compile("[’'\"„“”»«‚‘›‹()\\[\\]]");
 
   public ParagraphRepeatBeginningRule(ResourceBundle messages, Language lang) {
     super(messages);
@@ -64,7 +63,7 @@ public class ParagraphRepeatBeginningRule extends TextLevelRule {
     return token.hasPosTagStartingWith("DT");
   }
   
-  private int numCharEqualBeginning(AnalyzedTokenReadings[] lastTokens, AnalyzedTokenReadings[] nextTokens) {
+  private int numCharEqualBeginning(AnalyzedTokenReadings[] lastTokens, AnalyzedTokenReadings[] nextTokens) throws IOException {
     if(lastTokens.length < 2 || nextTokens.length < 2 
         || lastTokens[1].isWhitespace() || nextTokens[1].isWhitespace()) {
       return 0;
@@ -84,14 +83,14 @@ public class ParagraphRepeatBeginningRule extends TextLevelRule {
       return 0;
     }
     if (lastTokens.length > nToken + 1 && isArticle(lastTokens[nToken]) && lastToken.equals(nextToken)) {
-      if (nextTokens.length <= nToken + 1) {
+      if(lastTokens.length <= nToken + 1 || nextTokens.length <= nToken + 1) {
         return 0;
       }
       nToken++;
       lastToken = lastTokens[nToken].getToken();
       nextToken = nextTokens[nToken].getToken();
     }
-    if (!Character.isLetter(lastToken.charAt(0))) {
+    if(!Character.isLetter(lastToken.charAt(0))) {
       return 0;
     }
     if (lastToken.equals(nextToken)) {
@@ -111,11 +110,11 @@ public class ParagraphRepeatBeginningRule extends TextLevelRule {
 
     int nextPos = 0;
     int lastPos = 0;
-    int endPos;
+    int endPos = 0;
     AnalyzedSentence lastSentence = sentences.get(0);
     AnalyzedTokenReadings[] lastTokens = lastSentence.getTokensWithoutWhitespace();
-    AnalyzedSentence nextSentence;
-    AnalyzedTokenReadings[] nextTokens;
+    AnalyzedSentence nextSentence = null;
+    AnalyzedTokenReadings[] nextTokens = null;
     
     for (int n = 0; n < sentences.size() - 1; n++) {
       nextPos += sentences.get(n).getText().length();
@@ -125,16 +124,14 @@ public class ParagraphRepeatBeginningRule extends TextLevelRule {
         endPos = numCharEqualBeginning(lastTokens, nextTokens);
         if (endPos > 0) {
           int startPos = lastPos + lastTokens[1].getStartPos();
-          if (startPos < lastPos+endPos) {
-            String msg = messages.getString("repetition_paragraph_beginning_last_msg");
-            RuleMatch ruleMatch = new RuleMatch(this, lastSentence, startPos, lastPos+endPos, msg);
-            ruleMatches.add(ruleMatch);
-            
-            startPos = nextPos + nextTokens[1].getStartPos();
-            msg = messages.getString("repetition_paragraph_beginning_last_msg");
-            ruleMatch = new RuleMatch(this, nextSentence, startPos, nextPos+endPos, msg);
-            ruleMatches.add(ruleMatch);
-          }
+          String msg = messages.getString("repetition_paragraph_beginning_last_msg");
+          RuleMatch ruleMatch = new RuleMatch(this, lastSentence, startPos, lastPos+endPos, msg);
+          ruleMatches.add(ruleMatch);
+          
+          startPos = nextPos + nextTokens[1].getStartPos();
+          msg = messages.getString("repetition_paragraph_beginning_last_msg");
+          ruleMatch = new RuleMatch(this, nextSentence, startPos, nextPos+endPos, msg);
+          ruleMatches.add(ruleMatch);
         }
         lastSentence = nextSentence;
         lastTokens = nextTokens;
@@ -150,3 +147,4 @@ public class ParagraphRepeatBeginningRule extends TextLevelRule {
   }
 
 }  
+  

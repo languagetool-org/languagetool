@@ -25,8 +25,6 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -43,8 +41,8 @@ public class ArabicDarjaRule extends AbstractSimpleReplaceRule2 {
   private static final String FILE_NAME = "/ar/darja.txt";
 
   @Override
-  public final List<String> getFileNames() {
-    return Collections.singletonList(FILE_NAME);
+  public final String getFileName() {
+    return FILE_NAME;
   }
 
   public ArabicDarjaRule(ResourceBundle messages) {
@@ -71,7 +69,7 @@ public class ArabicDarjaRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getMessage() {
+  public String getSuggestion() {
     return "الكلمة عامية  أو أجنبية يفضل أن يقال $suggestions";
   }
 

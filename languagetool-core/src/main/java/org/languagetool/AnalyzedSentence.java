@@ -19,9 +19,7 @@
 package org.languagetool;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
@@ -32,14 +30,13 @@ import java.util.*;
  */
 public final class AnalyzedSentence {
 
-  // objects of this type are cached, so everything needs to be immutable
   private final AnalyzedTokenReadings[] tokens;
   private final AnalyzedTokenReadings[] preDisambigTokens;
   private final AnalyzedTokenReadings[] nonBlankTokens;
   private final AnalyzedTokenReadings[] nonBlankPreDisambigTokens;
   private final int[] whPositions;  // maps positions without whitespace to positions that include whitespaces
-  private final Map<String, List<Integer>> tokenOffsets;
-  private final Map<String, List<Integer>> lemmaOffsets;
+  private final Set<String> tokenSet;
+  private final Set<String> lemmaSet;
 
   /**
    * Creates an AnalyzedSentence from the given {@link AnalyzedTokenReadings}. Whitespace is also a token.
@@ -57,8 +54,8 @@ public final class AnalyzedSentence {
     this.whPositions = mapping;
     this.nonBlankTokens = getNonBlankReadings(tokens, whCounter, nonWhCounter, mapping).toArray(new AnalyzedTokenReadings[0]);
     this.nonBlankPreDisambigTokens = getNonBlankReadings(preDisambigTokens, whCounter, nonWhCounter, mapping).toArray(new AnalyzedTokenReadings[0]);
-    tokenOffsets = indexTokens(nonBlankTokens);
-    lemmaOffsets = indexLemmas(nonBlankTokens);
+    this.tokenSet = getTokenSet(tokens);
+    this.lemmaSet = getLemmaSet(tokens);
   }
 
   @NotNull
@@ -81,41 +78,30 @@ public final class AnalyzedSentence {
     this.whPositions = mapping;
     this.nonBlankTokens = nonBlankTokens;
     this.nonBlankPreDisambigTokens = nonBlankPreDisambigTokens;
-    tokenOffsets = indexTokens(nonBlankTokens);
-    lemmaOffsets = indexLemmas(nonBlankTokens);
+    this.tokenSet = getTokenSet(tokens);
+    this.lemmaSet = getLemmaSet(tokens);
   }
 
-  private static Map<String, List<Integer>> indexTokens(AnalyzedTokenReadings[] tokens) {
-    Map<String, List<Integer>> result = new HashMap<>(tokens.length);
-    for (int i = 0; i < tokens.length; i++) {
-      result.computeIfAbsent(tokens[i].getToken().toLowerCase(), __ -> new ArrayList<>(1)).add(i);
+  private Set<String> getTokenSet(AnalyzedTokenReadings[] tokens) {
+    Set<String> tokenSet = new HashSet<>();
+    for (AnalyzedTokenReadings token : tokens) {
+      tokenSet.add(token.getToken().toLowerCase());
     }
-    return makeUnmodifiable(result);
+    return Collections.unmodifiableSet(tokenSet);
   }
 
-  private static Map<String, List<Integer>> indexLemmas(AnalyzedTokenReadings[] tokens) {
-    Map<String, List<Integer>> result = new HashMap<>(tokens.length);
-    for (int i = 0; i < tokens.length; i++) {
-      AnalyzedTokenReadings tr = tokens[i];
-      int readingsLength = tr.getReadingsLength();
-      for (int j = 0; j < readingsLength; j++) {
-        AnalyzedToken token = tr.getAnalyzedToken(j);
-        String lemma = token.getLemma();
-        String key = (lemma != null ? lemma : token.getToken()).toLowerCase();
-        List<Integer> list = result.computeIfAbsent(key, __ -> new ArrayList<>(1));
-        if (list.isEmpty() || list.get(list.size() - 1) != i) {
-          list.add(i);
+  private Set<String> getLemmaSet(AnalyzedTokenReadings[] tokens) {
+    Set<String> lemmaSet = new HashSet<>();
+    for (AnalyzedTokenReadings token : tokens) {
+      for (AnalyzedToken lemmaTok : token.getReadings()) {
+        if (lemmaTok.getLemma() != null) {
+          lemmaSet.add(lemmaTok.getLemma().toLowerCase());
+        } else {
+          lemmaSet.add(lemmaTok.getToken().toLowerCase());
         }
       }
     }
-    return makeUnmodifiable(result);
-  }
-
-  private static Map<String, List<Integer>> makeUnmodifiable(Map<String, List<Integer>> result) {
-    for (Map.Entry<String, List<Integer>> entry : result.entrySet()) {
-      entry.setValue(Collections.unmodifiableList(entry.getValue()));
-    }
-    return Collections.unmodifiableMap(result);
+    return Collections.unmodifiableSet(lemmaSet);
   }
 
   /**
@@ -194,42 +180,16 @@ public final class AnalyzedSentence {
     return toString(readingDelimiter, false);
   }
 
-  private volatile String text;
-
   /**
    * Return the original text.
    * @since 2.7
    */
   public String getText() {
-    String result = text;
-    if (result == null) {
-      text = result = calcText();
-    }
-    return result;
-  }
-
-  private String calcText() {
     StringBuilder sb = new StringBuilder();
     for (AnalyzedTokenReadings element : tokens) {
       sb.append(element.getToken());
     }
     return sb.toString();
-  }
-
-  /** Text length taking position fixes (for removed soft hyphens etc.) into account, so
-   * this is _not_ always equal to {@code getText()}.
-   * @since 5.1
-   */
-  public int getCorrectedTextLength() {
-    int len = 0;
-    for (int i = 0; i < tokens.length; i++) {
-      AnalyzedTokenReadings element = tokens[i];
-      len += element.getCleanToken().length();
-      if (i == tokens.length - 1) {  // only apply at end, so the position fix at every token doesn't add up
-        len += element.getPosFix();
-      }
-    }
-    return len;
   }
 
   /**
@@ -314,7 +274,7 @@ public final class AnalyzedSentence {
    * @since 2.4
    */
   public Set<String> getTokenSet() {
-    return tokenOffsets.keySet();
+    return tokenSet;
   }
 
   /**
@@ -323,29 +283,7 @@ public final class AnalyzedSentence {
    * @since 2.5
    */
   public Set<String> getLemmaSet() {
-    return lemmaOffsets.keySet();
-  }
-
-  /**
-   * @return all offsets in {@link #getTokensWithoutWhitespace()} where tokens with the given text occur (case-insensitive),
-   * or {@code null} if there are no such occurrences
-   * @since 5.3
-   */
-  @Nullable
-  @ApiStatus.Internal
-  public List<Integer> getTokenOffsets(String token) {
-    return tokenOffsets.get(token);
-  }
-
-  /**
-   * @return all offsets in {@link #getTokensWithoutWhitespace()} where tokens with the given lemma occur (case-insensitive),
-   * or {@code null} if there are no such occurrences
-   * @since 5.3
-   */
-  @Nullable
-  @ApiStatus.Internal
-  public List<Integer> getLemmaOffsets(String token) {
-    return lemmaOffsets.get(token);
+    return lemmaSet;
   }
 
   @SuppressWarnings("ControlFlowStatementWithoutBraces")

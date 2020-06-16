@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.languagetool.AnalyzedToken;
@@ -30,6 +31,7 @@ import org.languagetool.rules.uk.LemmaHelper;
 import org.languagetool.tagging.BaseTagger;
 import org.languagetool.tagging.TaggedWord;
 import org.languagetool.tagging.WordTagger;
+import org.languagetool.tools.StringTools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,7 +43,7 @@ import org.slf4j.LoggerFactory;
  * @author Andriy Rysin
  */
 public class UkrainianTagger extends BaseTagger {
-  private static final Logger logger = LoggerFactory.getLogger(UkrainianTagger.class);
+  private static Logger logger = LoggerFactory.getLogger(UkrainianTagger.class);
 
   private static final Pattern NUMBER = Pattern.compile("[+-±]?[€₴\\$]?[0-9]+(,[0-9]+)?([-–—][0-9]+(,[0-9]+)?)?(%|°С?)?|\\d{1,3}([\\s\u00A0\u202F]\\d{3})+");
   // full latin number regex: M{0,4}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})
@@ -134,34 +136,31 @@ public class UkrainianTagger extends BaseTagger {
         return newTokens.size() > 0 ? newTokens : tokens; 
       }
 
-      if( word.length() > 2 ) {
-        if( word.indexOf('\u2013') > 0
-            && ALT_DASHES_IN_WORD.matcher(word).find() ) {
+      
+      if( word.indexOf('\u2013') > 0
+           && ALT_DASHES_IN_WORD.matcher(word).find() ) {
 
-          word = origWord.replace('\u2013', '-');
+        word = origWord.replace('\u2013', '-');
 
-          List<AnalyzedToken> newTokens = super.getAnalyzedTokens(word);
-//          List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(origWord, word, null, null, null);
+        List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(origWord, word, null, null, null);
 
-          if( newTokens.size() > 0 && ! newTokens.get(0).hasNoTag() ) {
-            newTokens.add(new AnalyzedToken(origWord, null, null));
-            tokens = newTokens;
-          }
+        if( newTokens.size() > 0 ) {
+          tokens = newTokens;
         }
-
-        // try г instead of ґ
-        else if( word.contains("ґ") || word.contains("Ґ") ) {
-          tokens = convertTokens(tokens, word, "ґ", "г", ":alt");
-        }
-        else if( word.contains("ія") ) {
-          tokens = convertTokens(tokens, word, "ія", "іа", ":alt");
-        }
-        else if( word.endsWith("тер") ) {
-          tokens = convertTokens(tokens, word, "тер", "тр", ":alt");
-        }
-        else if( word.contains("льо") ) {
-          tokens = convertTokens(tokens, word, "льо", "ло", ":alt");
-        }
+      }
+      
+      // try г instead of ґ
+      else if( word.contains("ґ") || word.contains("Ґ") ) {
+        tokens = convertTokens(tokens, word, "ґ", "г", ":alt");
+      }
+      else if( word.contains("ія") ) {
+        tokens = convertTokens(tokens, word, "ія", "іа", ":alt");
+      }
+      else if( word.endsWith("тер") ) {
+        tokens = convertTokens(tokens, word, "тер", "тр", ":alt");
+      }
+      else if( word.contains("льо") ) {
+        tokens = convertTokens(tokens, word, "льо", "ло", ":alt");
       }
     }
 
@@ -185,8 +184,8 @@ public class UkrainianTagger extends BaseTagger {
     // Івано-Франківська as adj from івано-франківський
     if( word.indexOf('-') > 1 && ! word.endsWith("-") ) {
       String[] parts = word.split("-");
-      if( Stream.of(parts).allMatch(LemmaHelper::isCapitalized) ) {
-        String lowerCasedWord = word.toLowerCase(); //Stream.of(parts).map(String::toLowerCase).collect(Collectors.joining("-"));
+      if( isAllCapitalized(parts) ) {
+        String lowerCasedWord = Stream.of(parts).map(String::toLowerCase).collect(Collectors.joining("-"));
         List<TaggedWord> wdList = wordTagger.tag(lowerCasedWord);
         if( PosTagHelper.hasPosTagPart2(wdList, "adj") ) {
           List<AnalyzedToken> analyzedTokens = asAnalyzedTokenListForTaggedWordsInternal(word, wdList);
@@ -209,6 +208,14 @@ public class UkrainianTagger extends BaseTagger {
     return tokens;
   }
 
+
+  private static boolean isAllCapitalized(String[] parts) {
+    for (String string : parts) {
+      if( ! StringTools.isCapitalizedWord(string) )
+        return false;
+    }
+    return true;
+  }
 
   private List<AnalyzedToken> convertTokens(List<AnalyzedToken> origTokens, String word, String str, String dictStr, String additionalTag) {
     String adjustedWord = word.replace(str, dictStr);

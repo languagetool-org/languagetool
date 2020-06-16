@@ -74,6 +74,7 @@ public abstract class SpellingCheckRule extends Rule {
   private static final String SPELLING_FILE_VARIANT = null;
   private static final Comparator<String> STRING_LENGTH_COMPARATOR = Comparator.comparingInt(String::length);
 
+  private final UserConfig userConfig;
   private final Set<String> wordsToBeProhibited = new THashSet<>();
 
   private Map<String,Set<String>> wordsToBeIgnoredDictionary = new THashMap<>();
@@ -82,7 +83,7 @@ public abstract class SpellingCheckRule extends Rule {
   private List<DisambiguationPatternRule> antiPatterns = new ArrayList<>();
   private boolean considerIgnoreWords = true;
   private boolean convertsCase = false;
-  protected final Set<String> wordsToBeIgnored = new THashSet<>();
+  protected final Set<String> wordsToBeIgnored = new HashSet<>();
   protected int ignoreWordsWithLength = 0;
 
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig) {
@@ -102,6 +103,7 @@ public abstract class SpellingCheckRule extends Rule {
   public SpellingCheckRule(ResourceBundle messages, Language language, UserConfig userConfig, List<Language> altLanguages, @Nullable LanguageModel languageModel) {
     super(messages);
     this.language = language;
+    this.userConfig = userConfig;
     this.languageModel = languageModel;
     if (userConfig != null) {
       wordsToBeIgnored.addAll(userConfig.getAcceptedWords());
@@ -226,12 +228,12 @@ public abstract class SpellingCheckRule extends Rule {
   // The words' first char serves as key, and the Set<String> contains all Strings starting with this char
   private void updateIgnoredWordDictionary() {
     wordsToBeIgnoredDictionary = wordsToBeIgnored
-      .stream()
-      .collect(Collectors.groupingBy(s -> s.substring(0,1), THashMap::new, Collectors.toCollection(THashSet::new)));
+                                   .stream()
+                                   .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toCollection(THashSet::new)));
     wordsToBeIgnoredDictionaryIgnoreCase = wordsToBeIgnored
-      .stream()
-      .map(String::toLowerCase)
-      .collect(Collectors.groupingBy(s -> s.substring(0,1), THashMap::new, Collectors.toCollection(THashSet::new)));
+                                             .stream()
+                                             .map(String::toLowerCase)
+                                             .collect(Collectors.groupingBy(s -> s.substring(0,1), Collectors.toCollection(THashSet::new)));
   }
 
   /**
@@ -316,15 +318,15 @@ public abstract class SpellingCheckRule extends Rule {
   }
 
 
-  protected static boolean isUrl(String token) {
+  protected boolean isUrl(String token) {
     return WordTokenizer.isUrl(token);
   }
 
-  protected static boolean isEMail(String token) {
+  protected boolean isEMail(String token) {
     return WordTokenizer.isEMail(token);
   }
 
-  protected static <T> List<T> filterDupes(List<T> words) {
+  protected <T> List<T> filterDupes(List<T> words) {
     return words.stream().distinct().collect(Collectors.toList());
   }
 
@@ -410,7 +412,7 @@ public abstract class SpellingCheckRule extends Rule {
    * @since 2.8
    */
   protected List<String> getAdditionalProhibitFileNames() {
-    return Collections.singletonList(language.getShortCode() + CUSTOM_SPELLING_PROHIBIT_FILE);
+    return Arrays.asList(language.getShortCode() + CUSTOM_SPELLING_PROHIBIT_FILE);
   }
 
   /**
@@ -427,7 +429,7 @@ public abstract class SpellingCheckRule extends Rule {
    * Remove prohibited words from suggestions.
    * @since 2.8
    */
-  protected List<SuggestedReplacement> filterSuggestions(List<SuggestedReplacement> suggestions) {
+  protected List<SuggestedReplacement> filterSuggestions(List<SuggestedReplacement> suggestions, AnalyzedSentence sentence, int i) {
     suggestions.removeIf(suggestion -> isProhibited(suggestion.getReplacement()));
     List<SuggestedReplacement> newSuggestions = new ArrayList<>();
     for (SuggestedReplacement suggestion : suggestions) {
@@ -518,8 +520,11 @@ public abstract class SpellingCheckRule extends Rule {
       int i = 0;
       boolean startsLowercase = false;
       for (String part : parts) {
-        if (i == 0 && !part.equals(StringTools.uppercaseFirstChar(part))) {
-          startsLowercase = true;
+        if (i == 0) {
+          String uppercased = StringTools.uppercaseFirstChar(part);
+          if (!uppercased.equals(part)) {
+            startsLowercase = true;
+          }
         }
         patternTokens.add(new PatternTokenBuilder().csToken(part).build());
         i++;
@@ -532,7 +537,7 @@ public abstract class SpellingCheckRule extends Rule {
     this.antiPatterns = makeAntiPatterns(antiPatterns, language);
   }
 
-  private static List<PatternToken> getTokensForSentenceStart(String[] parts) {
+  private List<PatternToken> getTokensForSentenceStart(String[] parts) {
     List<PatternToken> ucPatternTokens = new ArrayList<>();
     int j = 0;
     for (String part : parts) {
@@ -581,7 +586,7 @@ public abstract class SpellingCheckRule extends Rule {
         match = subset.stream().filter(s -> lowerCaseWord.startsWith(s)).max(STRING_LENGTH_COMPARATOR);
       }
     }
-    return match.map(String::length).orElse(0);
+    return match.isPresent() ? match.get().length() : 0;
   }
 
 }

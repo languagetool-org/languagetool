@@ -73,11 +73,13 @@ class DatabaseHandler extends ResultHandler {
     }
     contextTools = new ContextTools();
     contextTools.setContextSize(MAX_CONTEXT_LENGTH);
-    contextTools.setErrorMarker(MARKER_START, MARKER_END);
+    contextTools.setErrorMarkerStart(MARKER_START);
+    contextTools.setErrorMarkerEnd(MARKER_END);
     contextTools.setEscapeHtml(false);
     smallContextTools = new ContextTools();
     smallContextTools.setContextSize(SMALL_CONTEXT_LENGTH);
-    smallContextTools.setErrorMarker(MARKER_START, MARKER_END);
+    smallContextTools.setErrorMarkerStart(MARKER_START);
+    smallContextTools.setErrorMarkerEnd(MARKER_END);
     smallContextTools.setEscapeHtml(false);
   }
 

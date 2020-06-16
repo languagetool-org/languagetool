@@ -1,5 +1,5 @@
 /* LanguageTool, a natural language style checker
- * Copyright (C) 2016 Jaume Ortolà
+ * Copyright (C) 2016 Jaume Ortolà (http://www.languagetool.org)
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -31,7 +31,7 @@ import java.util.List;
  */
 public class CleanOverlappingFilter implements RuleMatchFilter {
 
-  private final Language language;
+  private Language language;
   
   public CleanOverlappingFilter(Language lang) {
     this.language = lang;

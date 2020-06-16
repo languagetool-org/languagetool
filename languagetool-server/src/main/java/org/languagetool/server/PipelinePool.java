@@ -30,20 +30,17 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.languagetool.*;
 import org.languagetool.gui.Configuration;
 import org.languagetool.rules.DictionaryMatchFilter;
-import org.languagetool.rules.RemoteRuleConfig;
 import org.languagetool.tools.Tools;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 /**
  * Caches pre-configured JLanguageTool instances to avoid costly setup time of rules, etc.
@@ -59,14 +56,14 @@ class PipelinePool {
     private final Language lang;
     private final Language motherTongue;
     private final TextChecker.QueryParams query;
-    private final UserConfig userConfig;
+    private final UserConfig user;
     private final GlobalConfig globalConfig;
     
     PipelineSettings(Language lang, Language motherTongue, TextChecker.QueryParams params, GlobalConfig globalConfig, UserConfig userConfig) {
       this.lang = lang;
       this.motherTongue = motherTongue;
       this.query = params;
-      this.userConfig = userConfig;
+      this.user = userConfig;
       this.globalConfig = globalConfig;
     }
 
@@ -77,7 +74,7 @@ class PipelinePool {
         .append(motherTongue)
         .append(query)
         .append(globalConfig)
-        .append(userConfig)
+        .append(user)
         .toHashCode();
     }
 
@@ -93,7 +90,7 @@ class PipelinePool {
         .append(motherTongue, other.motherTongue)
         .append(query, other.query)
         .append(globalConfig, other.globalConfig)
-        .append(userConfig, other.userConfig)
+        .append(user, other.user)
         .isEquals();
     }
 
@@ -104,7 +101,7 @@ class PipelinePool {
         .append("motherTongue", motherTongue)
         .append("query", query)
         .append("globalConfig", globalConfig)
-        .append("user", userConfig)
+        .append("user", user)
         .build();
     }
   }
@@ -168,14 +165,14 @@ class PipelinePool {
       Pipeline pipeline = pipelines.poll();
       if (pipeline == null) {
         //ServerTools.print(String.format("No prepared pipeline found for %s; creating one.", settings));
-        pipeline = createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.userConfig, config.getDisabledRuleIds());
+        pipeline = createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.user, config.getDisabledRuleIds());
       } else {
         pipelinesUsed++;
         //ServerTools.print(String.format("Prepared pipeline found for %s; using it.", settings));
       }
       return pipeline;
     } else {
-      return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.userConfig, config.getDisabledRuleIds());
+      return createPipeline(settings.lang, settings.motherTongue, settings.query, settings.globalConfig, settings.user, config.getDisabledRuleIds());
     }
   }
 
@@ -195,7 +192,7 @@ class PipelinePool {
   Pipeline createPipeline(Language lang, Language motherTongue, TextChecker.QueryParams params, GlobalConfig globalConfig,
                           UserConfig userConfig, List<String> disabledRuleIds)
     throws Exception { // package-private for mocking
-    Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, globalConfig, userConfig, params.inputLogging);
+    Pipeline lt = new Pipeline(lang, params.altLanguages, motherTongue, cache, globalConfig, userConfig);
     lt.setMaxErrorsPerWordRate(config.getMaxErrorsPerWordRate());
     lt.disableRules(disabledRuleIds);
     if (config.getLanguageModelDir() != null) {
@@ -209,25 +206,7 @@ class PipelinePool {
     } else {
       configureFromGUI(lt, lang);
     }
-    if (params.regressionTestMode) {
-      List<RemoteRuleConfig> rules = Collections.emptyList();
-      try {
-        if (config.getRemoteRulesConfigFile() != null) {
-          rules = RemoteRuleConfig.load(config.getRemoteRulesConfigFile());
-        }
-      } catch (Exception e) {
-        logger.error("Could not load remote rule configuration", e);
-      }
-      // modify remote rule configuration: no timeouts, downtime, ...
-      rules = rules.stream().map(c -> {
-        return new RemoteRuleConfig(c.getRuleId(), c.getUrl(), c.getPort(),
-          0, 0L, 0f,
-          0, 0L, c.getOptions());
-      }).collect(Collectors.toList());
-      lt.activateRemoteRules(rules);
-    } else {
-      lt.activateRemoteRules(config.getRemoteRulesConfigFile());
-    }
+    lt.activateRemoteRules(config.getRemoteRulesConfigFile());
     if (params.useQuerySettings) {
       Tools.selectRules(lt, new HashSet<>(params.disabledCategories), new HashSet<>(params.enabledCategories),
         new HashSet<>(params.disabledRules), new HashSet<>(params.enabledRules), params.useEnabledOnly, params.enableTempOffRules);

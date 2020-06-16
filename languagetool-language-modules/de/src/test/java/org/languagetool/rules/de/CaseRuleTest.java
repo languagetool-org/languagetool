@@ -147,7 +147,6 @@ public class CaseRuleTest {
     assertGood("Das schaffen moderne und effizientere E-Autos schneller.");
     assertGood("Das verwalten User.");
     assertGood("Man kann das generalisieren");
-    assertGood("Aber wie wir das machen und sicher gestalten, darauf konzentriert sich unsere Arbeit.");
     assertGood("Vielleicht kann man das erweitern");
     assertGood("Vielleicht soll er das generalisieren");
     assertGood("Wahrscheinlich müssten sie das überarbeiten");
@@ -169,18 +168,6 @@ public class CaseRuleTest {
     assertGood("A) Das Haus");
     assertGood("Rabi und Polykarp Kusch an der Columbia-Universität");
     assertGood("Man geht davon aus, dass es sich dabei nicht um Reinigungsverhalten handelt.");
-    assertGood("Wenn dort oft Gefahren lauern.");
-    assertGood("3b) Den Bereich absichern");
-    assertGood("@booba Da der Holger keine Zeit hat ...");
-    assertGood("Es gibt infizierte Ärzt*innen.");
-    assertGood("WUrzeln");  // to be found by spell checker
-    assertGood("🙂 Übrigens finde ich dein neues Ordnungssystem richtig genial!");
-    assertGood("Ein 10,4 Ah Lithium-Akku");
-    assertGood("14:15 Uhr SpVgg Westheim");
-    assertGood("Unser Wärmestrom-Tarif WärmeKompakt im Detail");  // ignore so we don't suggest "wärmeKompakt" (#3779)
-    assertGood("Autohaus Dornig GmbH");
-    assertGood("Hans Pries GmbH");
-    assertGood("Das Gedicht “Der Panther”.");  // quotes are not correct, but leave that to the quotes rule
 
     // https://github.com/languagetool-org/languagetool/issues/1515:
     assertGood("▶︎ Dies ist ein Test");
@@ -200,7 +187,6 @@ public class CaseRuleTest {
     assertBad("Das machen der Töne ist schwierig.");
     assertBad("Sie Vertraute niemandem.");
     assertBad("Beten Lernt man in Nöten.");
-    assertBad("Ä Was?");
     //assertBad("Ich gehe gerne Joggen.");
     assertBad("Er ist Groß.");
     assertBad("Die Zahl ging auf Über 1.000 zurück.");
@@ -268,7 +254,7 @@ public class CaseRuleTest {
     assertBad("Er sagt, dass Geistliche und weltliche Würdenträger davon betroffen sind.");
     assertBad("Er ist begeistert Von der Fülle.");
     assertBad("Er wohnt Über einer Garage.");
-    //assertBad("„Weißer Rauch“ Über Athen");   // could be title/quote, so not detected
+    assertBad("„Weißer Rauch“ Über Athen");
     assertBad("Die Anderen 90 Prozent waren krank.");
 
     assertGood("Man sagt, Liebe mache blind.");
@@ -356,20 +342,8 @@ public class CaseRuleTest {
     assertGood("Er befürchtet Schlimmeres.");
     assertBad("Bis Bald!");
     assertGood("#4 Aktuelle Situation");
-    assertGood("Er trinkt ein kühles Blondes.");
     assertGood("* [ ] Ein GitHub Markdown Listenpunkt");
     assertGood("Tom ist ein engagierter, gutaussehender Vierzigjähriger, der...");
-    assertGood("a.) Im Zusammenhang mit ...");
-    assertGood("✔︎ Weckt Aufmerksamkeit.");
-    assertGood("Hallo Eckhart,");
-    assertGood("Er kann Polnisch und Urdu.");
-    assertGood("---> Der USB 3.0 Stecker");
-    assertGood("Black Lives Matter");
-    assertGood("== Schrittweise Erklärung");
-    assertGood("Audi A5 Sportback 2.0 TDI");
-    assertGood("§ 1 Allgemeine Bedingungen");
-    assertGood("§1 Allgemeine Bedingungen");
-    assertGood(" Das ist das Aus des Airbus A380.");
 
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");
@@ -409,7 +383,6 @@ public class CaseRuleTest {
     assertGood("Das lesen sie doch sicher in einer Minute durch.");
     assertGood("Das lesen Sie doch sicher in einer Minute durch!");
     assertGood("Formationswasser, das oxidiert war.");
-    assertGood("Um das herauszubekommen diskutieren zwei Experten.");
 
     // Source of the following examples: https://dict.leo.org/grammatik/deutsch/Rechtschreibung/Amtlich/GrossKlein/pgf57-58.html
     assertGood("Das Lesen fällt mir schwer.");

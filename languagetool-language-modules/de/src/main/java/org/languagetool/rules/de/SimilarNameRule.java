@@ -85,7 +85,7 @@ public class SimilarNameRule extends TextLevelRule {
           namesSoFar.add(word);
         }
       }
-      pos += sentence.getCorrectedTextLength();
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }

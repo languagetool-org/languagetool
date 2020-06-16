@@ -31,10 +31,8 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.ResultSet;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNull;
 import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.*;
 
 @Ignore("Slightly unstable because of multithreading/sleeps")
 public class DatabaseLoggerTest {

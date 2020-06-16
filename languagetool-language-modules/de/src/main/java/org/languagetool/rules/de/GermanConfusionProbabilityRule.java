@@ -43,12 +43,6 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
   private static final List<String> EXCEPTIONS = Arrays.asList(
     // Use all-lowercase, matches will be case-insensitive.
     // See https://github.com/languagetool-org/languagetool/issues/1516
-    "du doch trotzdem",
-    "wir stark ausgelastet sind",
-    "wir entwickeln für",
-    "nutzen wir Google",
-    "vertreiben wir",
-    "wir auch nicht",
     ", dir bei",  // "froh, dir bei deiner Arbeit zu helfen"
     "fiel hinaus",
     "setz dir",  // "Setz dir doch bitte einen Termin am Donnerstag"
@@ -80,17 +74,12 @@ public class GermanConfusionProbabilityRule extends ConfusionProbabilityRule {
     "damit wir für",
     "wie finden sie",
     "ach die armen",
-    "wie stehen da die", // vs wir
     "wir würden sie", // vs wird
     "damit wir ihre daten", // vs wird
     "kannst du doch gerne", // vs dich
     "wie ist hier der Stand", // vs Sand
     "wie ist der Stand", // vs Sand
-    "hole dich auch ab", // vs dir
-    "würdest du dich vorstellen", // vs dir
-    "daten wir über", // "welche Daten wir über unsere Nutzer erfassen"
-    "anders seht", // falls ihr das anders seht (weht)
-    "wir ja." // vs wie
+    "anders seht" // falls ihr das anders seht (weht)
   );
 
   public GermanConfusionProbabilityRule(ResourceBundle messages, LanguageModel languageModel, Language language) {

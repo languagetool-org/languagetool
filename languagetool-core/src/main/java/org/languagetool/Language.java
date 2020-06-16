@@ -38,9 +38,7 @@ import org.languagetool.tokenizers.*;
 
 import java.io.*;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Function;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
@@ -67,7 +65,7 @@ public abstract class Language {
   private final Pattern ignoredCharactersRegex = Pattern.compile("[\u00AD]");  // soft hyphen
   
   private List<AbstractPatternRule> patternRules;
-  private final AtomicBoolean noLmWarningPrinted = new AtomicBoolean();
+  private boolean noLmWarningPrinted;
 
   private Disambiguator disambiguator;
   private Tagger tagger;
@@ -170,8 +168,9 @@ public abstract class Language {
       File topIndexDir = new File(indexDir, getShortCode());
       if (topIndexDir.exists()) {
         languageModel = new LuceneLanguageModel(topIndexDir);
-      } else if (noLmWarningPrinted.compareAndSet(false, true)) {
+      } else if (!noLmWarningPrinted) {
         System.err.println("WARN: ngram index dir " + topIndexDir + " not found for " + getName());
+        noLmWarningPrinted = true;
       }
     }
     return languageModel;
@@ -205,7 +204,7 @@ public abstract class Language {
    * Can return non-remote rules (e.g. if configuration missing, or for A/B tests), will be executed normally
    */
   public List<Rule> getRelevantRemoteRules(ResourceBundle messageBundle, List<RemoteRuleConfig> configs,
-                                           GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages, boolean inputLogging)
+                                           GlobalConfig globalConfig, UserConfig userConfig, Language motherTongue, List<Language> altLanguages)
     throws IOException {
     return Collections.emptyList();
   }
@@ -218,7 +217,7 @@ public abstract class Language {
   @Experimental
   public Function<Rule, Rule> getRemoteEnhancedRules(
     ResourceBundle messageBundle, List<RemoteRuleConfig> configs, UserConfig userConfig,
-    Language motherTongue, List<Language> altLanguages, boolean inputLogging) throws IOException {
+    Language motherTongue, List<Language> altLanguages) throws IOException {
     return Function.identity();
   }
 
@@ -323,7 +322,7 @@ public abstract class Language {
   /**
    * Get this language's part-of-speech disambiguator implementation.
    */
-  public synchronized Disambiguator getDisambiguator() {
+  public Disambiguator getDisambiguator() {
     if (disambiguator == null) {
       disambiguator = createDefaultDisambiguator();
     }
@@ -352,7 +351,7 @@ public abstract class Language {
    * Get this language's part-of-speech tagger implementation.
    */
   @NotNull
-  public synchronized Tagger getTagger() {
+  public Tagger getTagger() {
     if (tagger == null) {
       tagger = createDefaultTagger();
     }
@@ -377,7 +376,7 @@ public abstract class Language {
   /**
    * Get this language's sentence tokenizer implementation.
    */
-  public synchronized SentenceTokenizer getSentenceTokenizer() {
+  public SentenceTokenizer getSentenceTokenizer() {
     if (sentenceTokenizer == null) {
       sentenceTokenizer = createDefaultSentenceTokenizer();
     }
@@ -403,7 +402,7 @@ public abstract class Language {
   /**
    * Get this language's word tokenizer implementation.
    */
-  public synchronized Tokenizer getWordTokenizer() {
+  public Tokenizer getWordTokenizer() {
     if (wordTokenizer == null) {
       wordTokenizer = createDefaultWordTokenizer();
     }
@@ -432,7 +431,7 @@ public abstract class Language {
    * @since 2.3
    */
   @Nullable
-  public synchronized Chunker getChunker() {
+  public Chunker getChunker() {
     if (chunker == null) {
       chunker = createDefaultChunker();
     }
@@ -461,7 +460,7 @@ public abstract class Language {
    * @since 2.9
    */
   @Nullable
-  public synchronized Chunker getPostDisambiguationChunker() {
+  public Chunker getPostDisambiguationChunker() {
     if (postDisambiguationChunker == null) {
       postDisambiguationChunker = createDefaultPostDisambiguationChunker();
     }
@@ -489,7 +488,7 @@ public abstract class Language {
    * Get this language's part-of-speech synthesizer implementation or {@code null}.
    */
   @Nullable
-  public synchronized Synthesizer getSynthesizer() {
+  public Synthesizer getSynthesizer() {
     if (synthesizer == null) {
       synthesizer = createDefaultSynthesizer();
     }
@@ -711,9 +710,6 @@ public abstract class Language {
    * @since 3.6
    */
   protected int getPriorityForId(String id) {
-    if (id.equalsIgnoreCase("STYLE")) {  // category
-      return -50;  // don't let style issues hide more important errors
-    }
     return 0;
   }
   
@@ -753,75 +749,6 @@ public abstract class Language {
    */
   public boolean hasNGramFalseFriendRule(Language motherTongue) {
     return false;
-  }
-
-  /** @since 5.1 */
-  public String getOpeningDoubleQuote() {
-    return "\"";
-  }
-
-  /** @since 5.1 */
-  public String getClosingDoubleQuote() {
-    return "\"";
-  }
-  
-  /** @since 5.1 */
-  public String getOpeningSingleQuote() {
-    return "'";
-  }
-
-  /** @since 5.1 */
-  public String getClosingSingleQuote() {
-    return "'";
-  }
-  
-  /** @since 5.1 */
-  public boolean isAdvancedTypographyEnabled() {
-    return false;
-  }
-  
-  /** @since 5.1 */
-  public String toAdvancedTypography(String input) {
-    if (!isAdvancedTypographyEnabled()) {
-      return input;
-    }
-    String output = input;
-    
-    // Ellipsis (for all languages?)
-    output = output.replaceAll("\\.\\.\\.", "…");
-    
-    // non-breaking space
-    output = output.replaceAll("\\b([a-zA-Z]\\.) ([a-zA-Z]\\.)", "$1\u00a0$2");
-    output = output.replaceAll("\\b([a-zA-Z]\\.) ", "$1\u00a0");
-    
-    // Apostrophe
-    final Pattern APOSTROPHE = Pattern.compile("([\\p{L}\\d-])'([\\p{L}«])",
-        Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE);
-    
-    Matcher matcher = APOSTROPHE.matcher(output);
-    output = matcher.replaceAll("$1’$2");
-    
-    // single quotes
-    if (output.startsWith("'")) { 
-      output = output.replaceFirst("'", getOpeningSingleQuote());
-    }
-    if (output.endsWith("'")) { 
-      output = output.substring(0, output.length() - 1 ) + getClosingSingleQuote();
-    }
-    output = output.replaceAll("([\\u202f\\u00a0 «\"\\(])'", "$1" + getOpeningSingleQuote());
-    output = output.replaceAll("'([\u202f\u00a0 !\\?,\\.;:\"\\)])", getClosingSingleQuote() + "$1");
-
-    // double quotes
-    if (output.startsWith("\"")) { 
-      output = output.replaceFirst("\"", getOpeningDoubleQuote());
-    }
-    if (output.endsWith("\"")) { 
-      output = output.substring(0, output.length() - 1 ) + getClosingDoubleQuote();
-    }
-    output = output.replaceAll("([ \\(])\"", "$1" + getOpeningDoubleQuote());
-    output = output.replaceAll("\"([\\u202f\\u00a0 !\\?,\\.;:\\)])", getClosingDoubleQuote() + "$1");   
-    
-    return output;
   }
 
   /**

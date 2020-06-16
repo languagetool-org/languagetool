@@ -43,7 +43,6 @@ public class DuUpperLowerCaseRuleTest {
     assertErrors("Du bist noch jung, du bist noch fit.", 0);
     assertErrors("Aber du bist noch jung, du bist noch fit.", 0);
     assertErrors("Aber du bist noch jung, dir ist das egal.", 0);
-    assertErrors("Hast Du ihre Brieftasche gesehen?", 0);
 
     assertErrors("Aber Du bist noch jung, du bist noch fit.", 1);
     assertErrors("Aber Du bist noch jung, dir ist das egal.", 1);
@@ -70,7 +69,6 @@ public class DuUpperLowerCaseRuleTest {
     assertErrors("\"Du sagtest, du würdest es schaffen!\"", 0);
     assertErrors("Egal, was du tust: Du musst dein Bestes geben.", 0);
     assertErrors("Was auch immer du tust: ICH UND DU KÖNNEN ES SCHAFFEN.", 0);
-    assertErrors("Hast Du die Adresse von ihr?", 0);
   }
 
   private void assertErrors(String input, int expectedMatches) throws IOException {

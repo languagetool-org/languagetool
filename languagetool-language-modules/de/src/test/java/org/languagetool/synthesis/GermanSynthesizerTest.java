@@ -26,8 +26,8 @@ import org.languagetool.Languages;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 
 public class GermanSynthesizerTest {
 
@@ -46,12 +46,10 @@ public class GermanSynthesizerTest {
 
   @Test
   public void testSynthesize() throws IOException {
-    assertThat(synth("Buschfeuer", "SUB:GEN:SIN:NEU"), is("[Buschfeuers]"));
     assertThat(synth("Äußerung", "SUB:NOM:PLU:FEM"), is("[Äußerungen]"));
     assertThat(synth("Äußerung", "SUB:NOM:PLU:MAS"), is("[]"));
     assertThat(synth("Haus", "SUB:AKK:PLU:NEU"), is("[Häuser]"));
     assertThat(synth("Haus", ".*", true), is("[Häuser, Haus, Häusern, Haus, Hause, Häuser, Hauses, Häuser, Haus]"));
-    assertThat(synthesizer.synthesize(new AnalyzedToken("fake", "FAKE", null), "FAKE", false).length, is(0));  // could happen with soft hyphen in the input
   }
 
   @Test
@@ -59,9 +57,7 @@ public class GermanSynthesizerTest {
     assertThat(synth("Regelsystem", "SUB:NOM:PLU:NEU"), is("[Regelsysteme]"));
     assertThat(synth("Regelsystem", "SUB:DAT:PLU:NEU"), is("[Regelsystemen]"));
     assertThat(synth("Regelsystem", ".*:PLU:.*", true), is("[Regelsysteme, Regelsystemen]"));
-    assertThat(synth("Regel-System", ".*:PLU:.*", true), is("[Regelsysteme, Regelsystemen]"));
     assertThat(synth("Kühlschrankversuch", ".*:PLU:.*", true), is("[Kühlschrankversuche, Kühlschrankversuchen]"));
-    assertThat(synth("Kühlschrank-Versuch", ".*:PLU:.*", true), is("[Kühlschrankversuche, Kühlschrankversuchen]"));
   }
 
   @Test

@@ -22,11 +22,12 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.miscellaneous.PerFieldAnalyzerWrapper;
-import org.apache.lucene.document.*;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.document.Field;
+import org.apache.lucene.document.FieldType;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
@@ -39,7 +40,9 @@ import org.languagetool.Languages;
 import org.languagetool.dev.dumpcheck.Sentence;
 import org.languagetool.tokenizers.SentenceTokenizer;
 
-import static org.languagetool.dev.index.Lucene.*;
+import static org.languagetool.dev.index.Lucene.FIELD_NAME;
+import static org.languagetool.dev.index.Lucene.FIELD_NAME_LOWERCASE;
+import static org.languagetool.dev.index.Lucene.SOURCE_FIELD_NAME;
 
 /**
  * A class with a main() method that takes a text file and indexes its sentences, including POS tags
@@ -50,7 +53,6 @@ public class Indexer implements AutoCloseable {
 
   static final String TITLE_FIELD_NAME = "title";
 
-  private final Random random = new Random(4235);
   private final IndexWriter writer;
   private final SentenceTokenizer sentenceTokenizer;
 
@@ -216,8 +218,6 @@ public class Indexer implements AutoCloseable {
       sourceType.setTokenized(false);
       doc.add(new Field(SOURCE_FIELD_NAME, source, sourceType));
     }
-    int rnd = random.nextInt();
-    doc.add(new SortedNumericDocValuesField(RANDOM_FIELD, rnd)); // allow random sorting on search
     writer.addDocument(doc);
   }
 

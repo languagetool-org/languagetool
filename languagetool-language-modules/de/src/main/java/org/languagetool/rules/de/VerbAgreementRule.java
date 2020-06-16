@@ -18,26 +18,32 @@
  */
 package org.languagetool.rules.de;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.ResourceBundle;
+import java.util.Set;
+
 import org.apache.commons.lang3.StringUtils;
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
 import org.languagetool.JLanguageTool;
 import org.languagetool.language.German;
-import org.languagetool.rules.Categories;
-import org.languagetool.rules.Example;
-import org.languagetool.rules.RuleMatch;
-import org.languagetool.rules.TextLevelRule;
+import org.languagetool.rules.*;
 import org.languagetool.rules.patterns.PatternToken;
 import org.languagetool.rules.patterns.PatternTokenBuilder;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 import org.languagetool.tools.StringTools;
-
 import java.io.IOException;
-import java.util.*;
-import java.util.function.Supplier;
 
-import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.*;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.token;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.tokenRegex;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.csToken;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.pos;
+import static org.languagetool.rules.patterns.PatternRuleBuilderHelper.posRegex;
 
 /**
  * Simple agreement checker for German verbs and subject. Checks agreement in:
@@ -201,16 +207,6 @@ public class VerbAgreementRule extends TextLevelRule {
      token("sie"),
      token("hätte"),
      token("ich")
-    ),
-    Arrays.asList( // Geh du mal!
-      pos(JLanguageTool.SENTENCE_START_TAGNAME),
-      posRegex("VER:IMP:SIN.+"),
-      csToken("du"),
-      new PatternTokenBuilder().csToken("?").negate().build()
-    ),
-    Arrays.asList( // -Du fühlst dich unsicher?
-      tokenRegex("[^a-zäöüß]+du"),
-      pos("VER:2:SIN:PRÄ:SFT")
     )
   );
 
@@ -266,14 +262,12 @@ public class VerbAgreementRule extends TextLevelRule {
   ));
   
   private final German language;
-  private final Supplier<List<DisambiguationPatternRule>> antiPatterns;
 
   public VerbAgreementRule(ResourceBundle messages, German language) {
     this.language = language;
     super.setCategory(Categories.GRAMMAR.getCategory(messages));
     addExamplePair(Example.wrong("Ich <marker>bist</marker> über die Entwicklung sehr froh."),
                    Example.fixed("Ich <marker>bin</marker> über die Entwicklung sehr froh."));
-    antiPatterns = cacheAntiPatterns(language, ANTI_PATTERNS);
   }
   
   @Override
@@ -303,7 +297,7 @@ public class VerbAgreementRule extends TextLevelRule {
       }
       partialSentence = new AnalyzedSentence(Arrays.copyOfRange(tokens, idx, tokens.length));
       ruleMatches.addAll(match(partialSentence, pos));
-      pos += sentence.getCorrectedTextLength();
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }
@@ -395,14 +389,12 @@ public class VerbAgreementRule extends TextLevelRule {
       
     // "ich", "du", and "wir" must be subject (no other interpretation possible)
     // "ich", "du", "er", and "wir" must have a matching verb
-
+    
     if (posVer1Sin != -1 && posIch == -1 && !isQuotationMark(tokens[posVer1Sin-1])) { // 1st pers sg verb but no "ich"
       ruleMatches.add(ruleMatchWrongVerb(tokens[posVer1Sin], pos, sentence));
     } else if (posIch > 0 && !isNear(posPossibleVer1Sin, posIch) // check whether verb next to "ich" is 1st pers sg
-               && (tokens[posIch].getToken().equals("ich") || tokens[posIch].getStartPos() <= 1 ||
-                   (tokens[posIch].getToken().equals("Ich") && posIch >= 2 && tokens[posIch-2].getToken().equals(":")) ||
-                   (tokens[posIch].getToken().equals("Ich") && posIch >= 1 && tokens[posIch-1].getToken().equals(":"))) // ignore "lyrisches Ich" etc.
-               && (!isQuotationMark(tokens[posIch-1]) || posIch < 3 || (posIch > 1 && tokens[posIch-2].getToken().equals(":")))) {
+               && (tokens[posIch].getToken().equals("ich") || tokens[posIch].getStartPos() <= 1) // ignore "lyrisches Ich" etc.
+               && (!isQuotationMark(tokens[posIch-1])  || posIch < 3 || (posIch > 1 && tokens[posIch-2].getToken().equals(":")))) {
       int plus1 = ((posIch + 1) == tokens.length) ? 0 : +1; // prevent posIch+1 segfault
       BooleanAndFiniteVerb check = verbDoesMatchPersonAndNumber(tokens[posIch - 1], tokens[posIch + plus1], "1", "SIN", finiteVerb);
       if (!check.verbDoesMatchPersonAndNumber && !nextButOneIsModal(tokens, posIch) && !"äußerst".equals(check.finiteVerb.getToken())) {
@@ -452,7 +444,7 @@ public class VerbAgreementRule extends TextLevelRule {
 
   @Override
   public List<DisambiguationPatternRule> getAntiPatterns() {
-    return antiPatterns.get();
+    return makeAntiPatterns(ANTI_PATTERNS, language);
   }
 
   // avoid false alarm on 'wenn ich sterben sollte ...':

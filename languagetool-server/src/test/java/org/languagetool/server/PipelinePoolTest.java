@@ -21,12 +21,10 @@
 
 package org.languagetool.server;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.*;
 import org.languagetool.markup.AnnotatedTextBuilder;
 
-import java.lang.reflect.Field;
 import java.util.*;
 
 import static org.junit.Assert.assertTrue;
@@ -36,34 +34,6 @@ import static org.mockito.Mockito.*;
 public class PipelinePoolTest {
 
   private final GlobalConfig gConfig = new GlobalConfig();
-
-  @Ignore("Interactive use only")
-  @Test
-  /**
-   * run server, allow to test performance of requests with prewarmed pipelines
-   * stop afterwards using GET http://localhost:8081/v2/stop
-   * then tests if requests created new pipelines
-   */
-  public void testPipelinePrewarming() throws Exception {
-    HTTPServerConfig config = new HTTPServerConfig(HTTPTools.getDefaultPort());
-    config.setPipelineCaching(true);
-    config.setPipelineExpireTime(Integer.MAX_VALUE);
-    config.setPipelinePrewarming(true);
-    config.stoppable = true;
-    HTTPServer server = new HTTPServer(config);
-    LanguageToolHttpHandler handler = server.httpHandler;
-    Field checkerField = LanguageToolHttpHandler.class.getDeclaredField("textCheckerV2");
-    checkerField.setAccessible(true);
-    TextChecker checker = (TextChecker) checkerField.get(handler);
-    PipelinePool pool = spy(checker.pipelinePool);
-    checker.pipelinePool = pool;
-    verify(pool, never()).createPipeline(any(), any(), any(), any(), any(), any());
-    server.run();
-    while (server.isRunning()) {
-      Thread.sleep(1000);
-    }
-    verify(pool, never()).createPipeline(any(), any(), any(), any(), any(), any());
-  }
 
   @Test
   public void testPipelineCreatedAndUsed() throws Exception {
@@ -80,7 +50,7 @@ public class PipelinePoolTest {
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), params, null, null);
     Language lang1 = Languages.getLanguageForShortCode("en-US");
     TextChecker.QueryParams queryParams1 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
-      new LinkedList<>(), new LinkedList<>(), false, false, false, false, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
+      new LinkedList<>(), new LinkedList<>(), false, false, false, false, false, JLanguageTool.Mode.ALL, null);
     UserConfig user1 = new UserConfig();
     
     PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1,
@@ -113,7 +83,7 @@ public class PipelinePoolTest {
     Language lang1 = Languages.getLanguageForShortCode("en-US");
     Language lang2 = Languages.getLanguageForShortCode("de-DE");
     TextChecker.QueryParams queryParams1 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
-      new LinkedList<>(), new LinkedList<>(), false, false, false, false, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
+      new LinkedList<>(), new LinkedList<>(), false, false, false, false, false, JLanguageTool.Mode.ALL, null);
     UserConfig user1 = new UserConfig();
 
     PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1, null, queryParams1, gConfig, user1);
@@ -133,7 +103,7 @@ public class PipelinePoolTest {
     verify(pool).returnPipeline(eq(settings2), notNull());
 
     TextChecker.QueryParams queryParams2 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), Collections.singletonList("DE_CASE"),
-      new LinkedList<>(), new LinkedList<>(), false, true, false, false, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
+      new LinkedList<>(), new LinkedList<>(), false, true, false, false, false, JLanguageTool.Mode.ALL, null);
     Map<String, String> params3 = new HashMap<>();
     params3.put("language", "de-DE");
     params3.put("text", "not used");
@@ -161,7 +131,7 @@ public class PipelinePoolTest {
     Language lang1 = Languages.getLanguageForShortCode("en-US");
     Language lang2 = Languages.getLanguageForShortCode("de-DE");
     TextChecker.QueryParams queryParams1 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
-      new LinkedList<>(), new LinkedList<>(), false, false, false, false, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
+      new LinkedList<>(), new LinkedList<>(), false, false, false, false, false, JLanguageTool.Mode.ALL, null);
     UserConfig user1 = new UserConfig();
     TextChecker checker = new V2TextChecker(config1, false, null, new RequestCounter());
 
@@ -213,7 +183,7 @@ public class PipelinePoolTest {
     checker.checkText(new AnnotatedTextBuilder().addText("Hello World.").build(), new FakeHttpExchange(), params, null, null);
     Language lang1 = Languages.getLanguageForShortCode("en-US");
     TextChecker.QueryParams queryParams1 = new TextChecker.QueryParams(new LinkedList<>(), new LinkedList<>(), new LinkedList<>(),
-      new LinkedList<>(), new LinkedList<>(), false, false, false, false, false, JLanguageTool.Mode.ALL, JLanguageTool.Level.DEFAULT, null);
+      new LinkedList<>(), new LinkedList<>(), false, false, false, false, false, JLanguageTool.Mode.ALL, null);
     UserConfig user1 = new UserConfig();
 
     PipelinePool.PipelineSettings settings1 = new PipelinePool.PipelineSettings(lang1,
@@ -233,7 +203,7 @@ public class PipelinePoolTest {
   @Test
   public void testPipelineMutation() {
     Pipeline pipeline = new Pipeline(Languages.getLanguageForShortCode("en-US"),
-      new ArrayList<>(), null, null, gConfig, null, true);
+      new ArrayList<>(), null, null, gConfig, null);
     pipeline.addRule(null);
     pipeline.setupFinished();
     boolean thrown = false;

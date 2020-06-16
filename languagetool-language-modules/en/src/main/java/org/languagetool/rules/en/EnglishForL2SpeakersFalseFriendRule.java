@@ -34,34 +34,28 @@ import java.util.*;
  */
 public abstract class EnglishForL2SpeakersFalseFriendRule extends ConfusionProbabilityRule {
 
-  private static final Map<Language, List<AbstractPatternRule>> motherTongue2rules = new HashMap<>();
+  private static List<AbstractPatternRule> rules;
 
   private final Language lang;
-  private final Language motherTongue;
 
   public EnglishForL2SpeakersFalseFriendRule(ResourceBundle messages, LanguageModel languageModel, Language motherTongue, Language lang)  {
     super(messages, languageModel, lang, 3);
-    this.lang = Objects.requireNonNull(lang);
-    this.motherTongue = Objects.requireNonNull(motherTongue);
-  }
-
-  private List<AbstractPatternRule> getRules() {
+    this.lang = lang;
     synchronized (this) {
-      if (!motherTongue2rules.containsKey(motherTongue)) {
+      if (rules == null) {
         FalseFriendRuleLoader loader = new FalseFriendRuleLoader("\"{0}\" ({1}) means {2} ({3}).", "Did you maybe mean {0}?");
         try (InputStream is = JLanguageTool.getDataBroker().getFromRulesDirAsStream(JLanguageTool.FALSE_FRIEND_FILE)) {
-          motherTongue2rules.put(motherTongue, loader.getRules(is, lang, motherTongue));
+          rules = loader.getRules(is, lang, motherTongue);
         } catch (Exception e) {
           throw new RuntimeException(e);
         }
       }
     }
-    return motherTongue2rules.get(motherTongue);
   }
 
   @Override
   protected String getMessage(ConfusionString textString, ConfusionString suggestion) {
-    for (AbstractPatternRule rule : getRules()) {
+    for (AbstractPatternRule rule : rules) {
       List<PatternToken> patternTokens = rule.getPatternTokens();
       for (PatternToken patternToken : patternTokens) {
         if (textString.getString().equals(patternToken.getString()) || isBaseformMatch(textString, patternToken)) {

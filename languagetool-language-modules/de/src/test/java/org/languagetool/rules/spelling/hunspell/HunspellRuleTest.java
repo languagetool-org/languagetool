@@ -24,9 +24,12 @@ import org.languagetool.JLanguageTool;
 import org.languagetool.Language;
 import org.languagetool.Languages;
 import org.languagetool.TestTools;
+import org.languagetool.language.AustrianGerman;
 import org.languagetool.language.German;
+import org.languagetool.language.SwissGerman;
 import org.languagetool.rules.RuleMatch;
 import org.languagetool.rules.de.GermanSpellerRule;
+import static org.hamcrest.CoreMatchers.is;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -34,7 +37,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -53,7 +55,7 @@ public class HunspellRuleTest {
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Unter http://foo.org/bar steht dasdassda.")).length);
     
     // check the correct calculation of error position
-    // note that emojis have string length 2 or 3
+    // note that emojis have string length 2
     assertEquals(6 ,rule.match(langTool.getAnalyzedSentence("Hallo men Schatz!"))[0].getFromPos());
     assertEquals(9 ,rule.match(langTool.getAnalyzedSentence("Hallo men Schatz!"))[0].getToPos());
     assertEquals(9 ,rule.match(langTool.getAnalyzedSentence("Hallo 😂 men Schatz!"))[0].getFromPos());
@@ -62,8 +64,6 @@ public class HunspellRuleTest {
     assertEquals(14 ,rule.match(langTool.getAnalyzedSentence("Hallo 😂😂 men Schatz!"))[0].getToPos());
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Mir geht es 😂gut😂.")).length);
     assertEquals(1, rule.match(langTool.getAnalyzedSentence("Mir geht es 😂gtu😂.")).length);
-    assertEquals(10 ,rule.match(langTool.getAnalyzedSentence("Hallo 🗺️ men Schatz!"))[0].getFromPos());
-    assertEquals(13 ,rule.match(langTool.getAnalyzedSentence("Hallo 🗺️ men Schatz!"))[0].getToPos());
   }
 
   @Test
@@ -174,7 +174,7 @@ public class HunspellRuleTest {
     //HunspellRule rule = new HunspellRule(messages, Language.GERMANY_GERMAN);
     //fast:
     CompoundAwareHunspellRule rule = new GermanSpellerRule(messages, (German) Languages.getLanguageForShortCode("de-DE"));
-    rule.ensureInitialized();
+    rule.init();
     String[] words = {"foo", "warmup", "Rechtschreipreform", "Theatrekasse", "Zoobesuck", "Handselvertreter", "Mückenstick", "gewönlich", "Traprennen", "Autoverkehrr"};
     for (String word : words) {
       long startTime = System.currentTimeMillis();

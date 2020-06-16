@@ -87,22 +87,12 @@ public class MorfologikSpeller {
   }
 
   public boolean isMisspelled(String word) {
-    if (word.isEmpty() || SpellingCheckRule.LANGUAGETOOL.equals(word) || SpellingCheckRule.LANGUAGETOOLER.equals(word)) {
-      return false;
-    }
-    synchronized (this) {
-      return speller.isMisspelled(word);
-    }
+    return word.length() > 0 
+            && !SpellingCheckRule.LANGUAGETOOL.equals(word)
+            && !SpellingCheckRule.LANGUAGETOOLER.equals(word)
+            && speller.isMisspelled(word);
   }
 
-  public synchronized List<String> findReplacements(String word) {
-    return speller.findReplacements(word);
-  }
-
-  /**
-   * @deprecated use (or introduce) other methods to this class which would take care of the necessary synchronization
-   */
-  @Deprecated
   public Speller getSpeller() {
     return speller;
   }
@@ -124,30 +114,8 @@ public class MorfologikSpeller {
       suggestions.add(new WeightedSuggestion(runOnCandidate.getWord(), runOnCandidate.getDistance()));
     }
     
-    // all upper-case suggestions if necessary
-    if (dictionary.metadata.isConvertingCase() && StringTools.isAllUppercase(word)) {
-      for (int i = 0; i < suggestions.size(); i++) {
-        WeightedSuggestion sugg = suggestions.get(i);
-        String allUppercase = sugg.getWord().toUpperCase();
-        // do not use capitalized word if it matches the original word or it's mixed case
-        if (allUppercase.equals(word) || StringTools.isMixedCase(suggestions.get(i).getWord())) {
-          allUppercase = sugg.getWord();
-        }
-        // remove duplicates
-        int auxIndex = getSuggestionIndex(suggestions, allUppercase);
-        if (auxIndex > i) {
-          suggestions.remove(auxIndex);
-        }
-        if (auxIndex > -1 && auxIndex < i) {
-          suggestions.remove(i);
-          i--;
-        } else {
-          suggestions.set(i, new WeightedSuggestion(allUppercase, sugg.getWeight()));
-        }
-      }
-    }
     // capitalize suggestions if necessary
-    else if (dictionary.metadata.isConvertingCase() && StringTools.startsWithUppercase(word)) {
+    if (dictionary.metadata.isConvertingCase() && StringTools.startsWithUppercase(word)) {
       for (int i = 0; i < suggestions.size(); i++) {
         WeightedSuggestion sugg = suggestions.get(i);
         String uppercaseFirst = StringTools.uppercaseFirstChar(sugg.getWord());
@@ -196,7 +164,7 @@ public class MorfologikSpeller {
     return "dist=" + maxEditDistance;
   }
 
-  public synchronized int getFrequency(String word) {
+  public int getFrequency(String word) {
     int freq = speller.getFrequency(word);
     if (freq == 0 && !word.equals(word.toLowerCase())) {
       freq = speller.getFrequency(word.toLowerCase());

@@ -26,8 +26,6 @@ import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -49,8 +47,8 @@ public class GalicianBarbarismsRule extends AbstractSimpleReplaceRule2 {
   private static final Locale GL_LOCALE = new Locale("gl");  // locale used on case-conversion
 
   @Override
-  public final List<String> getFileNames() {
-    return Collections.singletonList(FILE_NAME);
+  public final String getFileName() {
+    return FILE_NAME;
   }
 
   public GalicianBarbarismsRule(ResourceBundle messages) throws IOException {
@@ -77,7 +75,7 @@ public class GalicianBarbarismsRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getMessage() {
+  public String getSuggestion() {
     return "'$match' é un xenismo. É preferíbel dicir $suggestions";
   }
 

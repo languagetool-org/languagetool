@@ -61,7 +61,6 @@ public class Searcher {
   private static final boolean WIKITEXT_OUTPUT = false;
   
   private final Directory directory;
-  private final String fieldName;
 
   private int skipHits = 0;
   private int maxHits = 1000;
@@ -69,6 +68,7 @@ public class Searcher {
   private IndexSearcher indexSearcher;
   private DirectoryReader reader;
   private boolean limitSearch = true;
+  private String fieldName;
 
   public Searcher(Directory directory) {
     this(directory, FIELD_NAME_LOWERCASE);
@@ -163,7 +163,7 @@ public class Searcher {
         } else {
           searchThread.join(Integer.MAX_VALUE);
         }
-        //searchThread.interrupt();
+        searchThread.interrupt();
       } catch (InterruptedException e) {
         throw new RuntimeException("Search thread got interrupted for query " + query, e);
       }
@@ -399,7 +399,8 @@ public class Searcher {
     ContextTools contextTools = new ContextTools();
     contextTools.setEscapeHtml(false);
     contextTools.setContextSize(contextSize);
-    contextTools.setErrorMarker("**", "**");
+    contextTools.setErrorMarkerStart("**");
+    contextTools.setErrorMarkerEnd("**");
     return contextTools;
   }
 

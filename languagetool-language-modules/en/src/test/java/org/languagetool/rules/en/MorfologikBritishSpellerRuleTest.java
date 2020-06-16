@@ -86,8 +86,6 @@ public class MorfologikBritishSpellerRuleTest extends AbstractEnglishSpellerRule
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ménage à trois")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("ménage à trois")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("The quid pro quo")).length);
-    // apostrophes
-    assertEquals(0, rule.match(langTool.getAnalyzedSentence("Ma'am, O'Connell, O’Connell, O'Connor, O’Neill")).length);
 
     //incorrect sentences:
 

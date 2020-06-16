@@ -200,7 +200,7 @@ public class IndexerSearcherTest extends LuceneTestCase {
     assertEquals(false, searcherResult.isResultIsTimeLimited());
     assertEquals(1, searcherResult.getMatchingSentences().size());
 
-    searcherResult = errorSearcher.findRuleMatchesOnIndex(getFirstRule("EYE_COMPOUNDS", language), language);
+    searcherResult = errorSearcher.findRuleMatchesOnIndex(getFirstRule("EYE_BROW", language), language);
     assertEquals(1, searcherResult.getCheckedSentences());
     assertEquals(false, searcherResult.isResultIsTimeLimited());
     assertEquals(1, searcherResult.getMatchingSentences().size());
@@ -258,15 +258,15 @@ public class IndexerSearcherTest extends LuceneTestCase {
     createIndex("Daily Bleed's Anarchist Encyclopedia");
     List<PatternToken> elements1 = Arrays.asList(
         new PatternToken("Bleed", false, false, false),
-        new PatternToken("'s", false, false, false)
-        //new PatternToken("s", false, false, false)
+        new PatternToken("'", false, false, false),
+        new PatternToken("s", false, false, false)
         );
     PatternRule rule1 = new PatternRule("RULE1", new English(), elements1, "desc", "msg", "shortMsg");
 
     List<PatternToken> elements2 = Arrays.asList(
         new PatternToken("Bleed", false, false, false),
-        new PatternToken("'x", false, false, false)
-        //new PatternToken("x", false, false, false)
+        new PatternToken("'", false, false, false),
+        new PatternToken("x", false, false, false)
         );
     PatternRule rule2 = new PatternRule("RULE", new English(), elements2, "desc", "msg", "shortMsg");
 

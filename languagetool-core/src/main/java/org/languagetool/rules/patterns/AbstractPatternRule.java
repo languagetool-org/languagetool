@@ -29,10 +29,8 @@ import org.languagetool.rules.RuleMatch;
 import org.languagetool.tagging.disambiguation.rules.DisambiguationPatternRule;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.regex.Pattern;
 
 /**
  * An Abstract Pattern Rule that describes a pattern of words or part-of-speech tags 
@@ -46,6 +44,8 @@ public abstract class AbstractPatternRule extends Rule {
 
   protected final Language language;
   protected final List<PatternToken> patternTokens;
+  protected final Pattern regex;
+  protected final int regexMark;
   protected final boolean testUnification;
   protected final boolean sentStart;
   protected List<Match> suggestionMatches;
@@ -66,20 +66,30 @@ public abstract class AbstractPatternRule extends Rule {
   private final boolean getUnified;
   private final boolean groupsOrUnification;
 
-  protected AbstractPatternRule(String id, String description, Language language) {
-    this(id, description, language, null, false);
+  /**
+   * @since 3.2
+   */
+  public AbstractPatternRule(String id, String description, Language language, Pattern regex, int regexMark) {
+    this(id, description, language, null, regex, regexMark, false);
   }
 
   public AbstractPatternRule(String id, String description, Language language, List<PatternToken> patternTokens, boolean getUnified, String message) {
-    this(id, description, language, patternTokens, getUnified);
+    this(id, description, language, patternTokens, null, 0, getUnified);
     this.message = message;
   }
 
   public AbstractPatternRule(String id, String description, Language language, List<PatternToken> patternTokens, boolean getUnified) {
+    this(id, description, language, patternTokens, null, 0, getUnified);
+  }
+
+  private AbstractPatternRule(String id, String description, Language language, List<PatternToken> patternTokens, Pattern regex, int regexMark, boolean getUnified) {
     this.id = Objects.requireNonNull(id, "id cannot be null");
     this.description = Objects.requireNonNull(description, "description ('name' in XML) cannot be null");
     this.language = Objects.requireNonNull(language, "language cannot be null");
     this.getUnified = getUnified;
+    if (patternTokens == null && regex == null) {
+      throw new IllegalArgumentException("patternTokens and regex cannot both be null");
+    }
     if (patternTokens != null) {
       this.patternTokens = new ArrayList<>(patternTokens);
       testUnification = initUnifier();
@@ -96,7 +106,14 @@ public abstract class AbstractPatternRule extends Rule {
       } else {
         groupsOrUnification = true;
       }
+      this.regex = null;
+      this.regexMark = 0;
     } else {
+      this.regex = regex;
+      if (regexMark < 0) {
+        throw new IllegalArgumentException("mark must be >= 0: " + regexMark);
+      }
+      this.regexMark = regexMark;
       this.patternTokens = null;
       groupsOrUnification = false;
       sentStart = false;
@@ -179,7 +196,6 @@ public abstract class AbstractPatternRule extends Rule {
    * @since 3.2
    * @see #getId()
    */
-  @Override
   public String getFullId() {
     if (subId != null) {
       return id + "[" + subId + "]";
@@ -337,5 +353,4 @@ public abstract class AbstractPatternRule extends Rule {
   String getShortMessage() {
   	return StringUtils.EMPTY;
   }
-
 }

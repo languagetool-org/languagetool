@@ -21,13 +21,11 @@ package org.languagetool.rules;
 import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.languagetool.AnalyzedSentence;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.Tag;
 import org.languagetool.UserConfig;
 
 /**
@@ -43,34 +41,24 @@ public class LongSentenceRule extends Rule {
   protected int maxWords = DEFAULT_MAX_WORDS;
 
   /**
-   * @since 5.1
+   * @since 4.2
    */
-  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive, boolean picky) {
+  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive) {
     super(messages);
     super.setCategory(Categories.STYLE.getCategory(messages));
     if (!defaultActive) {
       setDefaultOff();
     }
-    if (defaultWords > 0) {
+    if(defaultWords > 0) {
       this.maxWords = defaultWords;
     }
     if (userConfig != null) {
       int confWords = userConfig.getConfigValueByID(getId());
-      if (confWords > 0) {
+      if(confWords > 0) {
         this.maxWords = confWords;
       }
     }
     setLocQualityIssueType(ITSIssueType.Style);
-    if (picky) {
-      setTags(Collections.singletonList(Tag.picky));
-    }
-  }
-
-  /**
-   * @since 4.2
-   */
-  public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords, boolean defaultActive) {
-    this(messages, userConfig, defaultWords, defaultActive, false);
   }
 
   /**
@@ -80,6 +68,7 @@ public class LongSentenceRule extends Rule {
   public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords) {
     this(messages, userConfig, defaultWords, DEFAULT_ACTIVATION);
   }
+
 
   /**
    * Creates a rule with default values can be overwritten by configuration settings

@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.junit.Test;
-import org.languagetool.language.GermanyGerman;
 import org.languagetool.rules.RuleMatch;
 
 public class JLanguageToolTest {
@@ -71,16 +70,6 @@ public class JLanguageToolTest {
     assertEquals(3, matches.size());
   }
   
-  @Test
-  public void testAdvancedTypography() {
-    Language lang = new GermanyGerman();
-    assertEquals(lang.toAdvancedTypography("Das ist..."), "Das ist…");
-    assertEquals(lang.toAdvancedTypography("Meinten Sie \"entschieden\" oder \"entscheidend\"?"), "Meinten Sie „entschieden“ oder „entscheidend“?");
-    assertEquals(lang.toAdvancedTypography("Meinten Sie \'entschieden\' oder \'entscheidend\'?"), "Meinten Sie ‚entschieden‘ oder ‚entscheidend‘?");
-    
-    assertEquals(lang.toAdvancedTypography("z. B."), "z.\u00a0B.");
-    assertEquals(lang.toAdvancedTypography("z.B."), "z.\u00a0B.");
-    assertEquals(lang.toAdvancedTypography("i.d.R."), "i.\u00a0d.\u00a0R.");
-    assertEquals(lang.toAdvancedTypography("i. d. R."), "i.\u00a0d.\u00a0R."); 
-  }
+  
+
 }

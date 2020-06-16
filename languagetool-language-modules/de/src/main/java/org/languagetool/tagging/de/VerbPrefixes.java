@@ -20,6 +20,7 @@ package org.languagetool.tagging.de;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -38,7 +39,7 @@ public class VerbPrefixes {
     "dabei", "dafür", "dagegen", "daher", "dahin", "dahinter", "daneben", "daran", "darauf", "darein", "darüber", "darunter",
     "hinter", "dran", "drauf", "drein", "drüber", "drunter",
     "davon", "davor", "dazu", "dazwischen",
-    "durch", "über", "unter", "um", "wider", "wieder", "rüber", "aneinander", "ran", "rauf", "runter", "rein",
+    "durch", "über", "unter", "um", "wider", "wieder",
     // not listed in source above (deutschegrammatik20.de):
     "umher", "ent", "frei", "ver", "zer", "gegen"
   );

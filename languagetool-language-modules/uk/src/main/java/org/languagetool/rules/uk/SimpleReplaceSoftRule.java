@@ -85,7 +85,8 @@ public class SimpleReplaceSoftRule extends AbstractSimpleReplaceRule {
           + ", можливо, ви мали на увазі: " + replaceText + "?";
     }
 
-    return "«" + tokenStr + "» — нерекомендоване слово, кращий варіант: " + replaceText + ".";
+    return tokenStr + " — нерекомендоване слово, кращий варіант: "
+        + replaceText + ".";
   }
 
   @Override

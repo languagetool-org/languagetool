@@ -4,12 +4,12 @@
     <parent>
         <groupId>org.languagetool</groupId>
         <artifactId>languagetool-parent</artifactId>
-        <version>5.3-SNAPSHOT</version>
+        <version>5.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     
     <artifactId>languagetool-core</artifactId>
-    <url>https://www.languagetool.org</url>
+    <url>http://www.languagetool.org</url>
     <name>LanguageTool Style and Grammar Checker Core</name>
     <description>LanguageTool is an Open Source proofreading software for English, French, German, Polish, Romanian, and more than 20 other languages. It finds many errors that a simple spell checker cannot detect like mixing up there/their and it detects some grammar problems.</description>
 
@@ -111,17 +111,17 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.11</version>
+            <version>3.9</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-text</artifactId>
-            <version>1.9</version>
+            <version>1.8</version>
         </dependency>
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
-            <version>30.1-jre</version>
+            <version>28.1-jre</version>
         </dependency>
         <dependency>
             <groupId>org.carrot2</groupId>
@@ -153,7 +153,7 @@
             <!-- needed for building the Morfologik dict at runtime (for ignore.txt) -->
             <groupId>com.carrotsearch</groupId>
             <artifactId>hppc</artifactId>
-            <version>0.8.2</version>
+            <version>0.8.1</version>
         </dependency>
         <dependency>
             <groupId>net.loomchild</groupId>
@@ -187,9 +187,10 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>org.jetbrains</groupId>
+            <!-- also fetched via language-detector, but language-detector might be excluded in some projects: -->
+            <groupId>com.intellij</groupId>
             <artifactId>annotations</artifactId>
-            <version>20.1.0</version>
+            <version>12.0</version>
         </dependency>
         <dependency>
             <groupId>org.apache.lucene</groupId>
@@ -210,13 +211,11 @@
         <dependency>
             <groupId>javax.measure</groupId>
             <artifactId>unit-api</artifactId>
-            <!-- see https://github.com/languagetool-org/languagetool/issues/4088 before you upgrade this -->
             <version>1.0</version>
         </dependency>
         <dependency>
             <groupId>tech.units</groupId>
             <artifactId>indriya</artifactId>
-            <!-- see https://github.com/languagetool-org/languagetool/issues/4088 before you upgrade this -->
             <version>1.3</version>
         </dependency>
 
@@ -240,13 +239,13 @@
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
-            <version>1.7.30</version>
+            <version>1.7.25</version>
         </dependency>
 
         <dependency>
             <groupId>com.gitlab.dumonts</groupId>
             <artifactId>hunspell</artifactId>
-            <version>1.1.1</version>
+            <version>1.1.0</version>
         </dependency>
         
         <dependency>
@@ -254,12 +253,6 @@
             <artifactId>logback-classic</artifactId>
             <version>1.2.3</version>
             <scope>test</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>slf4j-api</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
@@ -267,6 +260,12 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.7</version>
         </dependency>
 
         <dependency>
@@ -280,12 +279,12 @@
         <dependency>
             <groupId>io.prometheus</groupId>
             <artifactId>simpleclient</artifactId>
-            <version>0.10.0</version>
+            <version>0.6.0</version>
         </dependency>
         <dependency>
             <groupId>io.prometheus</groupId>
             <artifactId>simpleclient_guava</artifactId>
-            <version>0.10.0</version>
+            <version>0.6.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>com.google.guava</groupId>
@@ -348,27 +347,22 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-pool2</artifactId>
-            <version>2.9.0</version>
+            <version>2.7.0</version>
         </dependency>
 
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>3.6.28</version>
+            <version>2.28.2</version>
             <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>org.jetbrains.intellij.deps</groupId>
             <artifactId>trove4j</artifactId>
-            <version>1.0.20200330</version>
+            <version>1.0.20190514</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.vdurmont</groupId>
-            <artifactId>emoji-java</artifactId>
-            <version>5.1.1</version>
-        </dependency>
     </dependencies>
 
 </project>

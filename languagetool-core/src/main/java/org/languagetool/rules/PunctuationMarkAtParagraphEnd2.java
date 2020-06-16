@@ -81,7 +81,7 @@ public class PunctuationMarkAtParagraphEnd2 extends TextLevelRule {
         tokenCount = 0;
       }
       sentPos++;
-      pos += sentence.getCorrectedTextLength();
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }

@@ -81,7 +81,7 @@ public class EmptyLineRule extends TextLevelRule {
           }
         }
       }
-      pos += sentence.getCorrectedTextLength();
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }

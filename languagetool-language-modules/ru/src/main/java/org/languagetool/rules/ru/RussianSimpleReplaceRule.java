@@ -22,8 +22,6 @@ import org.languagetool.rules.AbstractSimpleReplaceRule2;
 import org.languagetool.rules.Example;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -31,6 +29,7 @@ import org.languagetool.language.Russian;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.rules.Category;
 import org.languagetool.rules.CategoryId;
+import org.languagetool.rules.CategoryIds;
 
 /**
  * A rule that matches words or phrases which should not be used and suggests
@@ -58,8 +57,8 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public List<String> getFileNames() {
-    return Collections.singletonList("/ru/replace.txt");
+  public String getFileName() {
+    return "/ru/replace.txt";
   }
 
   @Override
@@ -78,7 +77,7 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getMessage() {
+  public String getSuggestion() {
     return "«$match» — просторечие, исправление: $suggestions";
   }
 
@@ -93,3 +92,4 @@ public class RussianSimpleReplaceRule extends AbstractSimpleReplaceRule2 {
   }
 
 }
+ 

@@ -25,8 +25,6 @@ import org.languagetool.rules.Categories;
 import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -56,8 +54,8 @@ public class ArabicRedundancyRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public final List<String> getFileNames() {
-    return Collections.singletonList(FILE_NAME);
+  public final String getFileName() {
+    return FILE_NAME;
   }
 
   @Override
@@ -76,7 +74,7 @@ public class ArabicRedundancyRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getMessage() {
+  public String getSuggestion() {
     return "'$match' تعبير فيه تكرار.في بعض الحالات، يستحسن استعمال $suggestions";
   }
 

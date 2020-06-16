@@ -43,19 +43,16 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
   private final boolean isWhitespace;
   private final boolean isLinebreak;
   private final boolean isSentStart;
-  private final boolean isPosTagUnknown;
 
   private AnalyzedToken[] anTokReadings;
   private int startPos;
-  private int fixPos;
   private String token;
-  private String cleanToken;
   private List<ChunkTag> chunkTags = Collections.emptyList();
   private boolean isSentEnd;
   private boolean isParaEnd;
   private boolean isWhitespaceBefore;
+  private boolean isPosTagUnknown;
   private String whitespaceBeforeChar;
-  private boolean hasTypographicApostrophe = false;
 
   // If true, then the token is marked up as immune against tests:
   // it should never be matched by any rule. Used to have generalized
@@ -95,7 +92,6 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     setNoRealPOStag();
     hasSameLemmas = areLemmasSame();
     whitespaceBeforeChar = "";
-    hasTypographicApostrophe = hasTypographicApostrophe();
   }
   
   // Constructor from a previous AnalyzedTokenReadings with new readings, and annotation of the change  
@@ -115,14 +111,11 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     if (oldAtr.isIgnoredBySpeller()) {
       this.ignoreSpelling();
     }
-    if (oldAtr.hasTypographicApostrophe()) {
-      this.setTypographicApostrophe();
-    }
     this.setHistoricalAnnotations(oldAtr.getHistoricalAnnotations());
     addHistoricalAnnotations(oldAtr.toString(), ruleApplied); 
   }
 
-  public AnalyzedTokenReadings(AnalyzedToken token) {
+  AnalyzedTokenReadings(AnalyzedToken token) {
     this(Collections.singletonList(token), 0);
   }
 
@@ -458,16 +451,6 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
     startPos = position;
   }
 
-  /** @since 5.1 */
-  public void setPosFix(int fix) {
-    fixPos = fix;
-  }
-
-  /** @since 5.1 */
-  public int getPosFix() {
-    return fixPos;
-  }
-
   public String getToken() {
     return token;
   }
@@ -688,7 +671,6 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
       .append(hasSameLemmas, other.hasSameLemmas)
       .append(isIgnoredBySpeller, other.isIgnoredBySpeller)
       .append(token, other.token)
-      .append(hasTypographicApostrophe, other.hasTypographicApostrophe)
       .isEquals();
   }
 
@@ -716,35 +698,5 @@ public final class AnalyzedTokenReadings implements Iterable<AnalyzedToken> {
         throw new UnsupportedOperationException();
       }
     };
-  }
-
-  /**
-   * @since 5.1
-   */
-  @Experimental
-  public void setCleanToken(String cleanToken) {
-    this.cleanToken = cleanToken;
-  }
-
-  /**
-   * @since 5.1
-   */
-  @Experimental
-  public String getCleanToken() {
-    return cleanToken != null ? cleanToken : token;
-  }
-  
-  /**
-   * @since 5.2
-   */
-  public void setTypographicApostrophe() {
-    hasTypographicApostrophe = true;
-  }
-
-  /**
-   * @since 5.2
-   */
-  public boolean hasTypographicApostrophe() {
-    return hasTypographicApostrophe;
   }
 }

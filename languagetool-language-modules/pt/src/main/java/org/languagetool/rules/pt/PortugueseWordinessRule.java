@@ -25,8 +25,7 @@ import org.languagetool.rules.Example;
 import org.languagetool.rules.ITSIssueType;
 import org.languagetool.tools.Tools;
 
-import java.util.Collections;
-import java.util.List;
+import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
 import java.net.URL;
@@ -47,11 +46,11 @@ public class PortugueseWordinessRule extends AbstractSimpleReplaceRule2 {
   private static final Locale PT_LOCALE = new Locale("pt");  // locale used on case-conversion
 
   @Override
-  public List<String> getFileNames() {
-    return Collections.singletonList(FILE_NAME);
+  public final String getFileName() {
+    return FILE_NAME;
   }
 
-  public PortugueseWordinessRule(ResourceBundle messages) {
+  public PortugueseWordinessRule(ResourceBundle messages) throws IOException {
     super(messages, new Portuguese());
     super.setCategory(Categories.REDUNDANCY.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.Style);
@@ -60,7 +59,7 @@ public class PortugueseWordinessRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getId() {
+  public final String getId() {
     return PT_WORDINESS_REPLACE;
   }
 
@@ -75,7 +74,7 @@ public class PortugueseWordinessRule extends AbstractSimpleReplaceRule2 {
   }
 
   @Override
-  public String getMessage() {
+  public String getSuggestion() {
     return "'$match' é uma expressão prolixa. É preferível dizer $suggestions";
   }
 

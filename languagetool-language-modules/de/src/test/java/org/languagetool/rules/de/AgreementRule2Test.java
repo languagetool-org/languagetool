@@ -43,8 +43,7 @@ public class AgreementRule2Test {
     assertGood("\"Kleines Haus am Waldesrand\"");
     assertBad("Wirtschaftlich Wachstum kommt ins Stocken");
     assertGood("Wirtschaftliches Wachstum kommt ins Stocken");
-    assertGood("Unter Berücksichtigung des Übergangs");
-
+    
     assertGood("Wirklich Frieden herrscht aber noch nicht");
     assertBad("Deutscher Taschenbuch");
     assertGood("Deutscher Taschenbuch Verlag expandiert");
@@ -56,10 +55,6 @@ public class AgreementRule2Test {
     assertGood("Gemeinsam Sportler anfeuern.");
     assertGood("Viel Spaß beim Arbeiten");
     assertGood("Ganz Europa stand vor einer Neuordnung.");
-    assertGood("Gesetzlich Versicherte sind davon ausgenommen.");
-    assertGood("Ausreichend Bananen essen.");
-    assertGood("Nachhaltig Yoga praktizieren");
-    assertGood("Überraschend Besuch bekommt er dann von ihr.");
   }
 
   private void assertGood(String s) throws IOException {

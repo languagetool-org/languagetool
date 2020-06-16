@@ -92,7 +92,7 @@ public class CompoundCoherencyRule extends TextLevelRule {
           normToTextOccurrences.putIfAbsent(normToken, l);
         }
       }
-      pos += sentence.getCorrectedTextLength();
+      pos += sentence.getText().length();
     }
     return toRuleMatchArray(ruleMatches);
   }

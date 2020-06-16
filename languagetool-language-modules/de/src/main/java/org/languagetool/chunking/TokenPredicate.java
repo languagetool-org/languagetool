@@ -21,90 +21,87 @@ package org.languagetool.chunking;
 import edu.washington.cs.knowitall.logic.Expression;
 import org.languagetool.AnalyzedToken;
 import org.languagetool.AnalyzedTokenReadings;
-import org.languagetool.rules.patterns.StringMatcher;
 
-import java.util.function.Predicate;
+import java.util.regex.Pattern;
 
 final class TokenPredicate extends Expression.Arg.Pred<ChunkTaggedToken> {
-  private final Predicate<ChunkTaggedToken> predicate;
+
+  private final boolean caseSensitive;
 
   TokenPredicate(String description, boolean caseSensitive) {
     super(description);
-    predicate = compile(description, caseSensitive);
-  }
-
-  private Predicate<ChunkTaggedToken> compile(String description, boolean caseSensitive) {
-    String[] parts = description.split("=");
-    String exprType;
-    String exprValue;
-    if (parts.length == 1) {
-      exprType = "string";
-      exprValue = unquote(parts[0]);
-    } else if (parts.length == 2) {
-      exprType = parts[0];
-      exprValue = unquote(parts[1]);
-    } else {
-      throw new RuntimeException("Could not parse expression: " + getDescription());
-    }
-
-    switch (exprType) {
-      case "string":
-      case "regex":
-      case "regexCS":
-        StringMatcher matcher = StringMatcher.create(exprValue, !"string".equals(exprType), caseSensitive || "regexCS".equals(exprType));
-        return analyzedToken -> matcher.matches(analyzedToken.getToken());
-
-      case "chunk":
-        StringMatcher chunkPattern = StringMatcher.create(exprValue, true, true);
-        return analyzedToken -> {
-          for (ChunkTag chunkTag : analyzedToken.getChunkTags()) {
-            if (chunkPattern.matches(chunkTag.getChunkTag())) {
-              return true;
-            }
-          }
-          return false;
-        };
-
-      case "pos":
-        return analyzedToken -> {
-          AnalyzedTokenReadings readings = analyzedToken.getReadings();
-          if (readings != null) {
-            for (AnalyzedToken token : readings) {
-              if (token.getPOSTag() != null && token.getPOSTag().contains(exprValue)) {
-                return true;
-              }
-            }
-          }
-          return false;
-        };
-
-      case "posre":
-      case "posregex":
-        StringMatcher posPattern = StringMatcher.create(exprValue, true, true);
-        return analyzedToken -> {
-          AnalyzedTokenReadings readings = analyzedToken.getReadings();
-          if (readings != null) {
-            for (AnalyzedToken token : readings) {
-              if (token.getPOSTag() != null && posPattern.matches(token.getPOSTag())) {
-                return true;
-              }
-            }
-          }
-          return false;
-        };
-
-      default:
-        throw new RuntimeException("Expression type not supported: '" + exprType + "'");
-    }
-
-  }
-
-  private static String unquote(String s) {
-    return s.startsWith("'") && s.endsWith("'") ? s.substring(1, s.length() - 1) : s;
+    this.caseSensitive = caseSensitive;
   }
 
   @Override
   public boolean apply(ChunkTaggedToken analyzedToken) {
-    return predicate.test(analyzedToken);
+    String[] parts = getDescription().split("=");
+    String exprType;
+    String exprValue;
+    if (parts.length == 1) {
+      exprType = "string";
+      exprValue = parts[0];
+    } else if (parts.length == 2) {
+      exprType = parts[0];
+      exprValue = parts[1];
+    } else {
+      throw new RuntimeException("Could not parse expression: " + getDescription());
+    }
+    if (exprValue.startsWith("'") && exprValue.endsWith("'")) {
+      exprValue = exprValue.substring(1, exprValue.length()-1);
+    }
+    switch (exprType) {
+
+      case "string":
+        if (caseSensitive) {
+          return analyzedToken.getToken().equals(exprValue);
+        } else {
+          return analyzedToken.getToken().equalsIgnoreCase(exprValue);
+        }
+
+      case "regex":
+        Pattern p1 = caseSensitive ? Pattern.compile(exprValue) : Pattern.compile(exprValue, Pattern.CASE_INSENSITIVE);
+        return p1.matcher(analyzedToken.getToken()).matches();
+
+      case "regexCS":  // case sensitive
+        Pattern p2 = Pattern.compile(exprValue);
+        return p2.matcher(analyzedToken.getToken()).matches();
+
+      case "chunk":
+        Pattern chunkPattern = Pattern.compile(exprValue);
+        for (ChunkTag chunkTag : analyzedToken.getChunkTags()) {
+          if (chunkPattern.matcher(chunkTag.getChunkTag()).matches()) {
+            return true;
+          }
+        }
+        return false;
+
+      case "pos":
+        AnalyzedTokenReadings readings = analyzedToken.getReadings();
+        if (readings != null) {
+          for (AnalyzedToken token : readings) {
+            if (token.getPOSTag() != null && token.getPOSTag().contains(exprValue)) {
+              return true;
+            }
+          }
+        }
+        return false;
+
+      case "posre":
+      case "posregex":
+        Pattern posPattern = Pattern.compile(exprValue);
+        AnalyzedTokenReadings readings2 = analyzedToken.getReadings();
+        if (readings2 != null) {
+          for (AnalyzedToken token : readings2) {
+            if (token.getPOSTag() != null && posPattern.matcher(token.getPOSTag()).matches()) {
+              return true;
+            }
+          }
+        }
+        return false;
+
+      default:
+        throw new RuntimeException("Expression type not supported: '" + exprType + "'");
+    }
   }
 }

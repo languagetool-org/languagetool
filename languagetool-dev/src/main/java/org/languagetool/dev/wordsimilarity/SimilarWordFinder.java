@@ -42,7 +42,7 @@ class SimilarWordFinder {
   private static final KeyboardDistance keyDistance = new GermanQwertzKeyboardDistance();
   //private static final KeyboardDistance keyDistance = new QwertyKeyboardDistance();
 
-  private final KnownPairs knownPairs = new KnownPairs();
+  private KnownPairs knownPairs = new KnownPairs();
 
   private void createIndex(List<String> words, File indexDir) throws IOException {
     FSDirectory dir = FSDirectory.open(indexDir.toPath());
@@ -142,21 +142,23 @@ class SimilarWordFinder {
     return i;
   }
 
-  static class SimWord {
-    private final String word;
-    private final int levenshteinDistance;
+  class SimWord {
+    private String word;
+    private int levenshteinDistance;
+
     SimWord(String word, int levenshteinDistance) {
       this.word = word;
       this.levenshteinDistance = levenshteinDistance;
     }
+
     @Override
     public String toString() {
       return word;
     }
   }
 
-  static class KnownPairs {
-    private final Set<String> set = new HashSet<>();
+  class KnownPairs {
+    private Set<String> set = new HashSet<>();
 
     boolean contains(String word1, String word2) {
       return set.contains(getKey(word1, word2));
@@ -191,7 +193,7 @@ class SimilarWordFinder {
       Files.deleteIfExists(indexDir.toPath());
       simWordFinder.createIndex(words, indexDir);
     } else {
-      System.out.println("Usage 1: " + SimilarWordFinder.class.getSimpleName() + " --index <wordFile> <indexDir>");
+      System.out.println("Usage 1: " + SimilarWordFinder.class.getSimpleName() + " --index <wordFile> <indexFile>");
       System.out.println("Usage 2: " + SimilarWordFinder.class.getSimpleName() + " <words> <indexDir> (as created with usage 1)");
       System.out.println("             <indexDir> as created with usage 1");
       System.out.println("             <words> a comma-separated list of words to search similar words for (no spaces)");

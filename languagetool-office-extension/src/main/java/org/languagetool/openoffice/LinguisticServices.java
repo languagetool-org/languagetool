@@ -48,7 +48,6 @@ import com.sun.star.uno.XComponentContext;
  */
 public class LinguisticServices extends LinguServices {
   
-  private static boolean isSetLt = false;
   private XThesaurus thesaurus = null;
   private XSpellChecker spellChecker = null;
   private XHyphenator hyphenator = null;
@@ -56,35 +55,25 @@ public class LinguisticServices extends LinguServices {
   private boolean noSynonymsAsSuggestions = false;
 
   public LinguisticServices(XComponentContext xContext) {
-    if (xContext != null) {
-      XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext);
-      thesaurus = getThesaurus(mxLinguSvcMgr);
-      spellChecker = getSpellChecker(mxLinguSvcMgr);
-      hyphenator = getHyphenator(mxLinguSvcMgr);
-      synonymsCache = new HashMap<>();
-    }
-  }
-
-  /**
-   * Set Parameter to generate no synonyms (makes some rules faster, but results in no suggestions)
-   */
-  public void setNoSynonymsAsSuggestions (boolean noSynonymsAsSuggestions) {
-    this.noSynonymsAsSuggestions = noSynonymsAsSuggestions;
+    this(xContext, false);
   }
   
-  /**
-   * returns if spell checker can be used
-   * if false initialize LinguisticServices again
-   */
-  public boolean spellCheckerIsActive () {
-    return (spellChecker != null);
+  public LinguisticServices(XComponentContext xContext, boolean noSynonymsAsSuggestions) {
+    if (xContext != null) {
+      XLinguServiceManager mxLinguSvcMgr = GetLinguSvcMgr(xContext);
+      thesaurus = GetThesaurus(mxLinguSvcMgr);
+      spellChecker = GetSpellChecker(mxLinguSvcMgr);
+      hyphenator = GetHyphenator(mxLinguSvcMgr);
+      synonymsCache = new HashMap<String, List<String>>();
+      this.noSynonymsAsSuggestions = noSynonymsAsSuggestions;
+    }
   }
   
   /** 
    * Get the LinguServiceManager to be used for example 
    * to access spell checker, thesaurus and hyphenator
    */
-  private XLinguServiceManager getLinguSvcMgr(XComponentContext xContext) {
+  private XLinguServiceManager GetLinguSvcMgr(XComponentContext xContext) {
     try {
       XMultiComponentFactory xMCF = UnoRuntime.queryInterface(XMultiComponentFactory.class,
           xContext.getServiceManager());
@@ -124,7 +113,7 @@ public class LinguisticServices extends LinguServices {
   /** 
    * Get the Thesaurus to be used.
    */
-  private XThesaurus getThesaurus(XLinguServiceManager mxLinguSvcMgr) {
+  private XThesaurus GetThesaurus(XLinguServiceManager mxLinguSvcMgr) {
     try {
       if (mxLinguSvcMgr != null) {
         return mxLinguSvcMgr.getThesaurus();
@@ -139,7 +128,7 @@ public class LinguisticServices extends LinguServices {
   /** 
    * Get the Hyphenator to be used.
    */
-  private XHyphenator getHyphenator(XLinguServiceManager mxLinguSvcMgr) {
+  private XHyphenator GetHyphenator(XLinguServiceManager mxLinguSvcMgr) {
     try {
       if (mxLinguSvcMgr != null) {
         return mxLinguSvcMgr.getHyphenator();
@@ -154,7 +143,7 @@ public class LinguisticServices extends LinguServices {
   /** 
    * Get the SpellChecker to be used.
    */
-  private XSpellChecker getSpellChecker(XLinguServiceManager mxLinguSvcMgr) {
+  private XSpellChecker GetSpellChecker(XLinguServiceManager mxLinguSvcMgr) {
     try {
       if (mxLinguSvcMgr != null) {
         return mxLinguSvcMgr.getSpellChecker();
@@ -166,34 +155,19 @@ public class LinguisticServices extends LinguServices {
     return null;
   }
 
-  /**
-   * Print text to log file
-   */
   private static void printText(String txt) {
     MessageHandler.printToLogFile(txt);
   }
   
-  /**
-   * Print exception to log file
-   */
   private static void printMessage(Throwable t) {
     MessageHandler.printException(t);
   }
   
-  /**
-   * Get a Locale from a LT defined language
-   */
   public static Locale getLocale(Language lang) {
     Locale locale = new Locale();
     locale.Language = lang.getShortCode();
-    if ((lang.getCountries() == null || lang.getCountries().length != 1) && lang.getDefaultLanguageVariant() != null) {
-      locale.Country = lang.getDefaultLanguageVariant().getCountries()[0];
-    } else if (lang.getCountries() != null && lang.getCountries().length > 0) {
-      locale.Country = lang.getCountries()[0];
-    } else {
-      locale.Country = "";
-    }
-    if (lang.getVariant() == null) {
+    locale.Country = lang.getCountries()[0];
+    if(lang.getVariant() == null) {
       locale.Variant = "";
     } else {
       locale.Variant = lang.getVariant();
@@ -210,13 +184,13 @@ public class LinguisticServices extends LinguServices {
   }
   
   public List<String> getSynonyms(String word, Locale locale) {
-    if (noSynonymsAsSuggestions) {
-      return new ArrayList<>();
+    if (this.noSynonymsAsSuggestions) {
+      return new ArrayList<String>();
     }
     if (synonymsCache.containsKey(word)) {
       return synonymsCache.get(word);
     }
-    List<String> synonyms = new ArrayList<>();
+    List<String> synonyms = new ArrayList<String>();
     try {
       if (thesaurus == null) {
         printText("XThesaurus == null");
@@ -229,7 +203,7 @@ public class LinguisticServices extends LinguServices {
       PropertyValue[] properties = new PropertyValue[0];
       XMeaning[] meanings = thesaurus.queryMeanings(word, locale, properties);
       for (XMeaning meaning : meanings) {
-        if (synonyms.size() >= OfficeTools.MAX_SUGGESTIONS) {
+        if(synonyms.size() >= OfficeTools.MAX_SUGGESTIONS) {
           break;
         }
         String[] singleSynonyms = meaning.querySynonyms();
@@ -253,7 +227,7 @@ public class LinguisticServices extends LinguServices {
   }
   
   public boolean isCorrectSpell(String word, Locale locale) {
-    if (spellChecker == null) {
+    if(spellChecker == null) {
       printText("XSpellChecker == null");
       return false;
     }
@@ -275,16 +249,13 @@ public class LinguisticServices extends LinguServices {
   }
   
   public String[] getSpellAlternatives(String word, Locale locale) {
-    if (spellChecker == null) {
+    if(spellChecker == null) {
       printText("XSpellChecker == null");
       return null;
     }
     PropertyValue[] properties = new PropertyValue[0];
     try {
       XSpellAlternatives spellAlternatives = spellChecker.spell(word, locale, properties);
-      if (spellAlternatives == null) {
-        return null;
-      }
       return spellAlternatives.getAlternatives();
     } catch (Throwable t) {
       // If anything goes wrong, give the user a stack trace
@@ -303,7 +274,7 @@ public class LinguisticServices extends LinguServices {
   }
   
   public int getNumberOfSyllables(String word, Locale locale) {
-    if (hyphenator == null) {
+    if(hyphenator == null) {
       printText("XHyphenator == null");
       return 1;
     }
@@ -320,88 +291,6 @@ public class LinguisticServices extends LinguServices {
       printMessage(t);
       return 1;
     }
-  }
-  
-  /**
-   * Set LT as grammar checker for a specific language
-   * is normally used deactivate lightproof 
-   */
-  public boolean setLtAsGrammarService(XComponentContext xContext, Locale locale) {
-    if (xContext != null) {
-      XLinguServiceManager mxLinguSvcMgr = getLinguSvcMgr(xContext); 
-      if (mxLinguSvcMgr == null) {
-        printText("XLinguServiceManager == null");
-        return false;
-      }
-      Locale[] locales = MultiDocumentsHandler.getLocales();
-      for (Locale loc : locales) {
-        if (OfficeTools.isEqualLocale(locale, loc)) {
-          String[] serviceNames = mxLinguSvcMgr.getConfiguredServices("com.sun.star.linguistic2.Proofreader", locale);
-          if (serviceNames.length == 0) {
-            MessageHandler.printToLogFile("No configured Service for: " + OfficeTools.localeToString(locale));
-          } else {
-            for (String service : serviceNames) {
-              MessageHandler.printToLogFile("Configured Service: " + service + ", " + OfficeTools.localeToString(locale));
-            }
-          }
-          if (serviceNames.length != 1 || !serviceNames[0].equals(OfficeTools.LT_SERVICE_NAME)) {
-            String[] aServiceNames = mxLinguSvcMgr.getAvailableServices("com.sun.star.linguistic2.Proofreader", locale);
-            for (String service : aServiceNames) {
-              MessageHandler.printToLogFile("Available Service: " + service + ", " + OfficeTools.localeToString(locale));
-            }
-            String[] configuredServices = new String[1];
-            configuredServices[0] = new String(OfficeTools.LT_SERVICE_NAME);
-            mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.Proofreader", locale, configuredServices);
-            MessageHandler.printToLogFile("LT set as configured Service for Language: " + OfficeTools.localeToString(locale));
-          }
-          return true;
-        }
-      }
-      MessageHandler.printToLogFile("LT doesn't support language: " + OfficeTools.localeToString(locale));
-    }
-    return false;
-  }
-
-  /**
-   * Set LT as grammar checker for all supported languages
-   * is normally used deactivate lightproof 
-   */
-  public boolean setLtAsGrammarService(XComponentContext xContext) {
-    if (xContext != null) {
-      return setLtAsGrammarService(getLinguSvcMgr(xContext));
-    } else {
-      return false;
-    }
-  }
-
-  /**
-   * Set LT as grammar checker for all supported languages
-   * is normally used deactivate lightproof 
-   */
-  private boolean setLtAsGrammarService(XLinguServiceManager mxLinguSvcMgr) {
-    if (isSetLt) {
-      return true;
-    }
-    if (mxLinguSvcMgr == null) {
-      printText("XLinguServiceManager == null");
-      return false;
-    }
-    isSetLt = true;
-    Locale[] locales = MultiDocumentsHandler.getLocales();
-    for (Locale locale : locales) {
-      String[] serviceNames = mxLinguSvcMgr.getConfiguredServices("com.sun.star.linguistic2.Proofreader", locale);
-      if (serviceNames.length != 1 || !serviceNames[0].equals(OfficeTools.LT_SERVICE_NAME)) {
-        String[] aServiceNames = mxLinguSvcMgr.getAvailableServices("com.sun.star.linguistic2.Proofreader", locale);
-        for (String service : aServiceNames) {
-          MessageHandler.printToLogFile("Available Service: " + service + ", " + OfficeTools.localeToString(locale));
-        }
-        String[] configuredServices = new String[1];
-        configuredServices[0] = new String(OfficeTools.LT_SERVICE_NAME);
-        mxLinguSvcMgr.setConfiguredServices("com.sun.star.linguistic2.Proofreader", locale, configuredServices);
-        MessageHandler.printToLogFile("LT set as configured Service for Language: " + OfficeTools.localeToString(locale));
-      }
-    }
-    return true;
   }
 
 }
