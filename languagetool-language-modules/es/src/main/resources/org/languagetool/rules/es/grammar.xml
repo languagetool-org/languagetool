@@ -6977,6 +6977,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CAMBIOS_NORMA" name="Cambios en las normas lingüísticas">
+        <rulegroup id="ET_ALII" name="et alii">
+            <url>https://es.wikipedia.org/wiki/Et_alii</url>
+            <rule>
+                <pattern>
+                    <token>et</token>
+                    <token>ál</token>
+                    <token>.</token>
+                </pattern>
+                <message>Las locuciones latinas se escriben sin tilde y en cursiva, aunque antiguamente esta expresión se escribía con tilde (et ál.).</message>
+                <suggestion>et al.</suggestion>
+                <example correction="et al.">Juan García <marker>et ál.</marker></example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>et</token>
+                    <token>álii</token>
+                </pattern>
+                <message>Las locuciones latinas se escriben sin tilde y en cursiva, aunque antiguamente esta expresión se escribía con tilde (et álii).</message>
+                <suggestion>et alii</suggestion>
+                <example correction="et alii">Juan García <marker>et álii</marker></example>
+            </rule>
+        </rulegroup>
         <rulegroup id="MONOSILABOS" name="los monosílabos no llevan tilde">
             <!-- the speller gives already good suggestions, but we provide +info -->
             <url>http://aplica.rae.es/orweb/cgi-bin/v.cgi?i=fGOCbZgElkdRTUPr</url>
