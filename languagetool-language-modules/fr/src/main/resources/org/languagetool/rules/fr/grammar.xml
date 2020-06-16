@@ -29217,6 +29217,40 @@ though, and has since been slightly modified)-->
       <example correction="casier|remise|débarras|armoire extérieure"><marker>locker</marker></example>
       <example><marker>remise</marker></example>
     </rule>
+      <rule id="VISIO" name="raccourci visio">
+          <antipattern>
+              <token>visio</token>
+              <token>raconte</token>
+              <token>comment</token>
+          </antipattern>
+          <antipattern>
+              <token>visio</token>
+              <token regexp="yes">Wettini|Rotchari|Baronti|Tnugdali|Edwardi|Fursei|Pauli|Sancti|Bernoldi|Karoli|in|:|de</token>
+          </antipattern>
+          <pattern>
+              <token regexp="yes">en|la|une|des|les|cette|ces</token>
+              <token>visio</token>
+          </pattern>
+          <message>« \1 » est un raccourci familier. Employez <suggestion>visioconférence</suggestion> dans un contexte plus sérieux.</message>
+          <example correction="visioconférence">Nous pourrons régler ce problème dans notre prochain entretien <marker>en visio</marker>.</example>
+          <example>Le but de la Visio Karoli Grossi est clairement de légitimer la succession des Carolingiens.</example>
+          <example>La Visio raconte comment le fier chevalier Tondale...</example>
+      </rule>
+      <rule id="FORM" name="form">
+          <pattern>
+              <token regexp="yes">forms?</token>
+          </pattern>
+          <message>« \1 » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="questionnaire$2"/></suggestion>, <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="formulaire$2"/></suggestion>, <suggestion><match no="1" regexp_match="(form)(s)?" regexp_replace="forme$2"/></suggestion>, <suggestion>mouler</suggestion>.</message>
+          <example correction="questionnaire|formulaire|forme|mouler">Je lui ai donné cette <marker>form</marker> a remplir</example>
+      </rule>
+      <rule id="TEAM" name="team">
+          <pattern>
+              <token regexp="yes">teams?</token>
+          </pattern>
+          <message>« \1 » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(team)(s)?" regexp_replace="équipe$2"/></suggestion>.</message>
+          <example correction="équipe">IL fait partie de la <marker>team</marker> Castor</example>
+          <example correction="équipes">Faites deux <marker>teams</marker>.</example>
+      </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie">
     <rule id="ESPACE_UNITES" name="espace insécable avant les unités (kg, cm, …)">
