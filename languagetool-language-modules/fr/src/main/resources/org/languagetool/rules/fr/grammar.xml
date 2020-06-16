@@ -9150,13 +9150,13 @@ though, and has since been slightly modified)-->
             <exception scope="next" regexp="yes">beaucoup|mille fois</exception>
           </token>
           <marker>
-          <token postag="[JN] .* s" postag_regexp="yes">
+          <token postag="N .* s" postag_regexp="yes"> <!-- removed: J -->
             <exception regexp="yes">allée|avenue|balade|boulevard|chaussée|chemin|cour|impasse|place|route|rue|ruelle|quai|sentier|square|janvier|février|avril|mai|juin|juillet|ao[uû]t|septembre|octobre|novembre|décembre|vendémiaire|brumaire|frimaire|nivôse|pluviôse|ventôse|germinal|floréal|prairial|messidor|thermidor|fructidor|min</exception>
             <exception postag="V.* (sub|ind) .*" postag_regexp="yes"/>
           </token>
         </marker>
         </pattern>
-        <message>« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
+        <message suppress_misspelled="yes">« \1 » et « \2 » ne semblent pas bien accordés en nombre.</message>
         <suggestion><match no="2" postag="(J|N) (.*) s" postag_regexp="yes" postag_replace="$1 $2 p"/></suggestion>
         <example>J’ai 4 enfants.</example>
         <example>20144 Sainte Lucie de Porto-Vecchio</example>
