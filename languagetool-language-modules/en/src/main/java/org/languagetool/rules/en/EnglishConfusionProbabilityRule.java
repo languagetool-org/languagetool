@@ -251,6 +251,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "your troll", // vs you
       "waiste type", // vs waste
       "(wait)",
+      "now ahead of schedule", // vs know
       "of you being her" // vs your
     );
     
