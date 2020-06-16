@@ -54,7 +54,6 @@ public class PortugueseArchaismsRule extends AbstractSimpleReplaceRule2 {
 
   public PortugueseArchaismsRule(ResourceBundle messages, String path) throws IOException {
     super(messages, new Portuguese());
-    setOfficeDefaultOff();  // TODO
     this.path = Objects.requireNonNull(path);
     super.setCategory(Categories.STYLE.getCategory(messages));
     setLocQualityIssueType(ITSIssueType.LocaleViolation);
@@ -69,17 +68,17 @@ public class PortugueseArchaismsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public String getDescription() {
-    return "Palavras de origem estrangeira evitáveis";
+    return "Palavras arcaicas evitáveis";
   }
 
   @Override
   public String getShort() {
-    return "Estrangeirismo";
+    return "Arcaísmo";
   }
 
   @Override
   public String getSuggestion() {
-    return "'$match' é um estrangeirismo. É preferível dizer $suggestions";
+    return "'$match' é um arcaísmo. É preferível dizer $suggestions.";
   }
 
   @Override
@@ -89,7 +88,7 @@ public class PortugueseArchaismsRule extends AbstractSimpleReplaceRule2 {
 
   @Override
   public URL getUrl() {
-    return Tools.getUrl("https://pt.wikipedia.org/wiki/Estrangeirismo");
+    return Tools.getUrl("https://pt.wikipedia.org/wiki/Arca%C3%ADsmo");
   }
 
   @Override
