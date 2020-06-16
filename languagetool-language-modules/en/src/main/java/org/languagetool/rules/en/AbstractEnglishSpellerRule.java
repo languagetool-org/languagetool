@@ -99,7 +99,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     List<SuggestedReplacement> result = super.filterSuggestions(suggestions, sentence, i);
     List<SuggestedReplacement> clean = new ArrayList<>();
     for (SuggestedReplacement suggestion : result) {
-      if (!suggestion.getReplacement().matches(".* (s|t|d|ll|ve)")) {  // e.g. 'timezones' suggests 'timezone s'
+      if (!suggestion.getReplacement().matches(".* (b|c|d|e|f|g|h|j|k|l|m|n|o|p|q|r|s|t|v|w|y|z|ll|ve)")) {  // e.g. 'timezones' suggests 'timezone s'
         clean.add(suggestion);
       }
     }
@@ -132,8 +132,15 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
       List<SuggestedReplacement> cleaned = ruleMatch.getSuggestedReplacementObjects().stream()
         .filter(k -> !k.getReplacement().startsWith("re ") &&
                      !k.getReplacement().startsWith("en ") &&
+                     !k.getReplacement().startsWith("pre ") &&
                      !k.getReplacement().startsWith("inter ") &&
+                     !k.getReplacement().startsWith("sub ") &&
+                     !k.getReplacement().startsWith("auto ") &&
                      !k.getReplacement().endsWith(" able") &&
+                     !k.getReplacement().endsWith(" OO") && // unecessary suggestion (e.g. for "HELLOOO")
+                     !k.getReplacement().endsWith(" HHH") && // unecessary suggestion (e.g. for "OHHHH")
+                     !k.getReplacement().endsWith(" ally") && // adverbs ending in "ally" that LT doesn't know (yet)
+                     !k.getReplacement().endsWith(" ize") && // "advertize"
                      !k.getReplacement().endsWith(" ed"))
         .collect(Collectors.toList());
       ruleMatch.setSuggestedReplacementObjects(cleaned);
@@ -402,6 +409,10 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Monkie", Arrays.asList("Monkey"));
     s.put("monkies", Arrays.asList("monkeys"));
     s.put("Monkies", Arrays.asList("Monkeys"));
+    s.put("Daddys", Arrays.asList("Daddy's", "Daddies"));
+    s.put("Mommys", Arrays.asList("Mommy's", "Mommies"));
+    s.put("daddys", Arrays.asList("daddy's", "daddies"));
+    s.put("mommys", Arrays.asList("mommy's", "mommies"));
     // the replacement pairs would prefer "speak"
     s.put("speach", Arrays.asList("speech"));
     s.put("icecreem", Arrays.asList("ice cream"));
