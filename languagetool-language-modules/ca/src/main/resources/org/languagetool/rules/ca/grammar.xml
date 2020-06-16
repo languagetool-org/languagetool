@@ -30129,6 +30129,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expressions incorrectes" type="grammar">
+        <rule id="RIURE_UNA_MICA" name="*fer uns riures/riure una mica">
+            <pattern>
+                <token inflected="yes">fer</token>
+                <token regexp="yes">uns|unes</token>
+                <token regexp="yes">rises|riures</token>
+            </pattern>
+            <message>Aquesta expressió és un calc del castellà.</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">riure</match> una mica</suggestion>
+            <example correction="riure una mica">Hi vam anar per <marker>fer unes rises</marker>.</example>
+            <example correction="rigut una mica">Hem <marker>fet uns riures</marker>.</example>
+            <example correction="Riguem una mica"><marker>Fem unes rises</marker>.</example>
+        </rule>
+        <rule id="MES_ET_VAL" name="*més et val/val més">
+            <pattern>
+                <token>més</token>
+                <token regexp="yes">em|et|me|te|li|ens|us|els</token>
+                <token regexp="yes">val|valia|valdria</token>
+            </pattern>
+            <message>Expressió no adequada</message>
+            <suggestion>\3 més</suggestion>
+            <suggestion>\3 més que...</suggestion>
+            <suggestion>és millor que...</suggestion>
+            <url>https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&amp;method=detall&amp;input_cercar=val+m%E9s+que+no+ho+facis&amp;numPagina=1&amp;database=FITXES_PUB&amp;idFont=11738&amp;idHit=11738&amp;tipusFont=Fitxes+de+l%27Optimot&amp;numeroResultat=1&amp;databases_avansada=&amp;categories_avansada=&amp;clickLink=detall&amp;titol=Com+es+diu+%27m%E1s+te+vale%27+en+catal%E0%3F+%2F+%C9s+correcte+%27m%E9s+et+val%27+en+catal%E0%3F+%2F+%27m%E9s+et+val+no+fer-ho%27+o+%27val+m%E9s+que+no+ho+facis%27%3F&amp;tematica=&amp;tipusCerca=cerca.fitxes</url>
+            <example correction="Valdria més|Valdria més que...|És millor que..."><marker>Més et valdria</marker> fer-ho d'una altra manera.</example>
+        </rule>
         <rule id="DOBLE_RASER" name="*doble raser">
             <pattern>
                 <token>doble</token>
