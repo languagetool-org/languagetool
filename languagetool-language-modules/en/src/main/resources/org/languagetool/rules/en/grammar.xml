@@ -33556,13 +33556,6 @@ USA
                     <token case_sensitive="yes" skip='1'>May</token>
                     <token postag="VB[DZ]" postag_regexp="yes" regexp="yes" case_sensitive="yes">[a-z]+</token>
                 </antipattern>
-                <antipattern><!-- All he did was ... -->
-                    <token>all</token>
-                    <token min="0">that</token>
-                    <token postag="PRP|NNP|UNKNOWN" postag_regexp="yes" />
-                    <token>did</token>
-                    <token>was</token>
-                </antipattern>
                 <pattern>
                     <token>
                         <exception scope="previous" regexp="yes">than|what</exception>
@@ -33574,12 +33567,14 @@ USA
                             </token>
                     </marker>
                 </pattern>
-                <message>This form is ambiguous and can be used as past tense. Confirm that you are using the intended base form of the main verb after 'to do' as an auxiliary verb.<!-- Did you mean <suggestion><match no="5" postag="VB"/></suggestion>-->.</message>
+                <message>The verb '\3' is both the base form of a verb and the past tense of a different verb. Make sure that '\3' is correct.<!-- Did you mean <suggestion><match no="5" postag="VB"/></suggestion>--></message>
                 <url>https://www.learnenglish.de/grammar/verbtodo.html</url>
                 <!--url>https://en.wikipedia.org/wiki/List_of_English_irregular_verbs</url-->
-                <example correction="">You did <marker>found</marker> it!</example><!-- suggestion mandatorily trigger error and testrule does not accept this -->
+                <short>Possible grammatical problem: use the base form</short>
+                <example correction="">You did <marker>found</marker> it!</example><!-- suggestion mandatorily trigger error and testrule does not accept this --><!-- MFU: This sentence is ambiguous. It is not a grammar error: You did found the company! It wasn't founded by him. -->
                 <!-- TODO improve 'testrules' code to allow this-->
-                <example>The earliest anarchist themes can be found in the 6th century BC, among the works of Taoist ...</example>
+                <example correction="">Several of these students would <marker>found</marker> their own styles of aikido.</example><!-- Ambiguous. People can find their own style, but they can also found their own style. -->
+                <example>The earliest anarchist themes can be <marker>found</marker> in the 6th century BC.</example>
                 <example>...known written evidence of a camera obscura can be found in Aristotle's documentation of such a device in ...</example>
                 <example>...nitor lizards, and numerous other reptiles can be found living among an array of rodents throughout the s...</example>
                 <example>The cakes are marketed and can the found in cities either in Algeria or in Europe or North...</example>
@@ -33609,7 +33604,6 @@ USA
                 <example>...rs and a variety of unique flora and fauna can be found there, including "living fossils" and many endemi...</example>
                 <example>...and diversity of animal life in Azerbaijan can be found in travel notes of Eastern travelers.</example>
                 <example>... the species growing in the whole Caucasus can be found in Azerbaijan.</example>
-                <example type='triggers_error'>Several of these students would found their own styles of aikido.</example><!-- False positive -->
                 <example>... sections with a link to a "Main article" will be found in the linked article.</example>
                 <example>...campaigns, battles, units, and individuals can be found in those articles.</example>
                 <example>The flowchart of "Elegant" can be found at the top of this article.</example>
@@ -33655,6 +33649,8 @@ USA
                 <example>...northernmost, though the domesticated form can be found as far north as Iceland.</example>
                 <example>... prejudice against Jews and their religion can be found in the works of many pagan Greek and Roman writer...</example>
                 <example>All he did was playing golf.</example>
+                <example>Those flips you just did were on point.</example><!-- #3090 -->
+                <example type="triggers_error">Those tests that the technician actually did found the problem.</example><!-- #3090 -->
             </rule>
             <rule>
                 <pattern>
