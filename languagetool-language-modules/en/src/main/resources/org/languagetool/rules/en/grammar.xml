@@ -18176,6 +18176,17 @@ USA
                 <token postag="JJS"/>
                 <token chunk="E-NP-plural">people</token>
             </antipattern>
+            <antipattern><!-- #3089 worst that will happen to most people -->
+                <token chunk="E-NP-singular"/>
+                <token regexp="yes">that|which|who</token>
+                <token min="0" max="2" postag="RB"/>
+                <token postag="MD"/>
+                <token min="0" max="2" postag="RB"/>
+                <token postag_regexp="yes" postag="VBP?"/>
+                <token postag="IN"/>
+                <token postag_regexp="yes" postag="JJS?"/>
+                <token chunk="E-NP-plural">people</token>
+            </antipattern>
             <pattern>
                 <token>people<exception scope="previous" regexp="yes">no|of</exception></token>
                 <token min="0">who</token>
@@ -18205,6 +18216,9 @@ USA
             <example>To criticize people is not good.</example><!-- #2820 -->
             <example>The test for most people is relatively simple.</example><!-- #2755 -->
             <example>Whether the effects will be that extreme for most people is yet to be seen.</example><!-- #2755 -->
+            <example>Again, the worst that will happen to most people is you lose your warts and birthmarks and moles.</example><!-- #3089 -->
+            <example>The worst which might very likely occur to most people is scary.</example><!-- #3089 -->
+            <example>The person who very likely can reply to most people is on holiday.</example><!-- #3089 -->
         </rule>
 
         <rule id="WE_RB_ARE_VB" name="we + ... + are + base form verb (gerund)">
