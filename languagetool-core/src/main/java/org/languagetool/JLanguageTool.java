@@ -897,19 +897,18 @@ public class JLanguageTool {
     List<FutureTask<RemoteRuleResult>> remoteRuleTasks = null;
     List<RemoteRule> remoteRules = new LinkedList<>();
     Map<AnalyzedSentence, List<RuleMatch>> cachedResults = new HashMap<>();
-    Map<AnalyzedSentence, OffsetEntry> matchOffsets = null;
+    Map<AnalyzedSentence, Integer> matchOffset = new HashMap<>();
     if (remoteRulesThreadPool != null && mode != Mode.TEXTLEVEL_ONLY) {
       // trigger remote rules to run on whole text at once, at the start, then we wait for the results
-      matchOffsets = computeOffsets(analyzedSentences);
       remoteRuleTasks = new LinkedList<>();
       checkRemoteRules(remoteRulesThreadPool, allRules, analyzedSentences, mode,
-        remoteRuleTasks, remoteRules, cachedResults, matchOffsets);
+        remoteRuleTasks, remoteRules, cachedResults, matchOffset);
     }
 
     List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules,
       paraMode, annotatedText, listener, mode, level, remoteRulesThreadPool == null);
 
-    fetchRemoteRuleResults(mode, remoteMatches, remoteRuleTasks, remoteRules, cachedResults, matchOffsets, annotatedText);
+    fetchRemoteRuleResults(mode, remoteMatches, remoteRuleTasks, remoteRules, cachedResults, matchOffset);
 
     ruleMatches.addAll(remoteMatches);
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
@@ -927,7 +926,7 @@ public class JLanguageTool {
   protected void fetchRemoteRuleResults(Mode mode, List<RuleMatch> remoteMatches,
                                         List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
                                         Map<AnalyzedSentence, List<RuleMatch>> cachedResults,
-                                        Map<AnalyzedSentence, OffsetEntry> matchOffset, AnnotatedText annotatedText) {
+                                        Map<AnalyzedSentence, Integer> matchOffset) {
     if (remoteRuleTasks != null) {
       // fetch results from remote rules
       for (int i = 0; i < remoteRuleTasks.size(); i++) {
@@ -950,11 +949,9 @@ public class JLanguageTool {
               cacheEntry.put(ruleKey, matches.stream().map(RuleMatch::new).collect(Collectors.toList()));
               // adjust rule match position
               // rules check all sentences batched, but should keep position adjustment logic out of rule
-              OffsetEntry offset = matchOffset.get(sentence);
-              for (int j = 0; j < matches.size(); j++) {
-                matches.set(j, adjustRuleMatchPos(matches.get(j),
-                  offset.charCount, offset.columnCount, offset.lineCount,
-                  sentence.getText(), annotatedText));
+              int sentenceOffset = matchOffset.get(sentence);
+              for (RuleMatch match : matches) {
+                match.setOffsetPosition(match.getFromPos() + sentenceOffset, match.getToPos() + sentenceOffset);
               }
             } else if (cache != null) {
               logger.info("Not caching, fallback results: Remote rule '{}'", ruleKey);
@@ -968,11 +965,11 @@ public class JLanguageTool {
 
       for (AnalyzedSentence cachedSentence : cachedResults.keySet()) {
         List<RuleMatch> cachedMatches = cachedResults.get(cachedSentence);
-        OffsetEntry offset = matchOffset.get(cachedSentence);
+        int sentenceOffset = matchOffset.get(cachedSentence);
         for (RuleMatch cachedMatch : cachedMatches) {
           // clone so that we don't adjust match position for cache
-          RuleMatch match = adjustRuleMatchPos(cachedMatch, offset.charCount, offset.columnCount, offset.lineCount,
-            cachedSentence.getText(), annotatedText);
+          RuleMatch match = new RuleMatch(cachedMatch);
+          match.setOffsetPosition(match.getFromPos() + sentenceOffset, match.getToPos() + sentenceOffset);
           remoteMatches.add(match);
         }
       }
@@ -983,60 +980,16 @@ public class JLanguageTool {
     }
   }
 
-  static class OffsetEntry {
-    final int charCount;
-    final int lineCount;
-    final int columnCount;
-
-    OffsetEntry(int charCount, int lineCount, int columnCount) {
-      this.charCount = charCount;
-      this.lineCount = lineCount;
-      this.columnCount = columnCount;
-    }
-  }
-
-  protected Map<AnalyzedSentence, OffsetEntry> computeOffsets(List<AnalyzedSentence> sentences) {
-    return computeOffsets(sentences, 0, 0, 1);
-  }
-
-  @SuppressWarnings("AssignmentToMethodParameter")
-  protected Map<AnalyzedSentence, OffsetEntry> computeOffsets(List<AnalyzedSentence> sentences,
-                                                              int charCount, int lineCount, int columnCount) {
-    Map<AnalyzedSentence, OffsetEntry> offsets = new HashMap<>();
-
-    for (AnalyzedSentence s: sentences) {
-      String sentence = s.getText();
-      charCount += sentence.length();
-      lineCount += countLineBreaks(sentence);
-
-      // calculate matching column:
-      int lineBreakPos = sentence.lastIndexOf('\n');
-      if (lineBreakPos == -1) {
-        columnCount += sentence.length();
-      } else {
-        if (lineBreakPos == 0) {
-          columnCount = sentence.length();
-          if (!language.getSentenceTokenizer().singleLineBreaksMarksPara()) {
-            columnCount--;
-          }
-        } else {
-          columnCount = sentence.length() - lineBreakPos;
-        }
-      }
-
-      offsets.put(s, new OffsetEntry(charCount, lineCount, columnCount));
-    }
-    return offsets;
-  }
-
   protected void checkRemoteRules(@NotNull ExecutorService remoteRulesThreadPool,
                                   List<Rule> allRules, List<AnalyzedSentence> analyzedSentences, Mode mode,
                                   List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
-                                  Map<AnalyzedSentence, List<RuleMatch>> cachedResults, Map<AnalyzedSentence, OffsetEntry> matchOffset) {
+                                  Map<AnalyzedSentence, List<RuleMatch>> cachedResults, Map<AnalyzedSentence, Integer> matchOffset) {
     List<InputSentence> cacheKeys = new LinkedList<>();
     int offset = 0;
     // prepare keys for caching, offsets for adjusting match positions
     for (AnalyzedSentence s : analyzedSentences) {
+      matchOffset.put(s, offset);
+      offset += s.getText().length();
       InputSentence cacheKey = new InputSentence(s.getText(), language, motherTongue,
         disabledRules, disabledRuleCategories, enabledRules, enabledRuleCategories,
         userConfig, altLanguages, mode);
@@ -1687,12 +1640,7 @@ public class JLanguageTool {
       List<RuleMatch> ruleMatches = new ArrayList<>();
       int i = 0;
       int wordCounter = 0;
-      Map<AnalyzedSentence, OffsetEntry> offsets = computeOffsets(analyzedSentences, charCount, lineCount, columnCount);
       for (AnalyzedSentence analyzedSentence : analyzedSentences) {
-        OffsetEntry offset = offsets.get(analyzedSentence);
-        charCount = offset.charCount;
-        lineCount = offset.lineCount;
-        columnCount = offset.columnCount;
         if (checkCancelledCallback != null && checkCancelledCallback.checkCancelled()) {
           break;
         }
@@ -1734,6 +1682,23 @@ public class JLanguageTool {
                     "% of words seem to have an error). Are you sure you have set the correct text language? Language set: " + JLanguageTool.this.language.getName() +
                     ", text length: " + annotatedText.getPlainText().length());
             //        ", text length: " + annotatedText.getPlainText().length() + ", common word count: " + commonWords.getKnownWordsPerLanguage(annotatedText.getPlainText()));
+          }
+          charCount += sentence.length();
+          lineCount += countLineBreaks(sentence);
+
+          // calculate matching column:
+          int lineBreakPos = sentence.lastIndexOf('\n');
+          if (lineBreakPos == -1) {
+            columnCount += sentence.length();
+          } else {
+            if (lineBreakPos == 0) {
+              columnCount = sentence.length();
+              if (!language.getSentenceTokenizer().singleLineBreaksMarksPara()) {
+                columnCount--;
+              }
+            } else {
+              columnCount = sentence.length() - lineBreakPos;
+            }
           }
         } catch (ErrorRateTooHighException e) {
           throw e;
