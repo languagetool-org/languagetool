@@ -1370,6 +1370,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                     <token>no</token>
                 </antipattern>
+                <antipattern>
+                    <token>¡</token>
+                    <token>que</token>
+                    <token postag="[DAN].*" postag_regexp="yes" min="1" max="3"/>
+                    <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token>¡</token>
                     <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
@@ -1388,8 +1395,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Que venga pronto!</example>
                 <example>¡Que empieze ya!</example>
                 <example>¡Que viva la república!</example>
-                <example type="triggers_error">¡Que Dios afeite a la reina!</example>
+                <example>¡Que Dios afeite a la reina!</example>
                 <example>¡A que no!</example>
+                <example>¡Que Dios nos ayude!</example>
             </rule>
             <rule>
                 <pattern>
@@ -1411,6 +1419,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>como</token>
                     <token>si</token>
                 </antipattern>
+                <antipattern>
+                    <token>como</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token skip="-1">como</token>
+                    <token skip="-1">,</token>
+                    <token postag="V.I.*" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token>¡</token>
                     <token min="0" max="1" postag="CC"/>
@@ -1428,6 +1445,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="cómo">¡Pero <marker>como</marker> no le va a gustar!</example>
                 <example>¡Como si no la conocieras!</example>
                 <example>¡Como siempre, has oído mal!</example>
+                <example>¡Como yo pensaba, estaban equivocados!</example>
             </rule>
         </rulegroup>
         <rulegroup id="SE_CREO" name="confusión: se creo/creó">
@@ -6333,6 +6351,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <message>Esta expresión debe concordar en ǵenero y número.</message>
                 <suggestion><match no="2" postag_regexp="yes" postag="(V.P.*|AQ.*)" postag_replace="V.P..PM|A..MP."/></suggestion>
                 <example correction="previstos">Tenían <marker>previsto</marker> los resultados.</example>
+                <example correction="previstos" type="triggers_error" reason="inverted subject">¿Tienen <marker>previsto</marker> los dioses hacerme una visita?</example>
             </rule>
         </rulegroup>
         <rulegroup id="BUENAS_TARDES" name="concordancia: buenas tardes">
@@ -7123,11 +7142,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token>ano</token>
                     </marker>
-                    <token postag="DN.*|A..[MC][SN].|V.P..SM" postag_regexp="yes"/>
+                    <token postag="DN.*|A..[MC][SN].|V.P..SM" postag_regexp="yes"><exception regexp="yes" inflected="yes">&context_ano;</exception></token>
                 </pattern>
                 <message>¿Quería decir <suggestion>año</suggestion> (=período de doce meses)?</message>
                 <example correction="año">Le operaron el intestino el <marker>ano</marker> pasado.</example>
                 <example correction="año">Le operaron el intestino el <marker>ano</marker> 2010.</example>
+                <example>Sufro de cáncer ano rectal</example>
             </rule>
             <rule>
                 <pattern>
