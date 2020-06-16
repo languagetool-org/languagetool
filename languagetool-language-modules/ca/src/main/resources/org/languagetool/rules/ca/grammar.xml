@@ -44220,6 +44220,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREFERABLE_EXPRESSIONS" name="C7) Expressions preferibles" default="on" type="style">
+        <rule id="EN_BREU" name="en breu">
+            <pattern>
+                <marker>
+                    <token>en</token>
+                    <token>breu</token>
+                </marker>
+                <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
+            </pattern>
+            <message>Alguns llibres d'estil recomanen no abusar d'aquesta expressió.</message>
+            <suggestion>d'ací a poc temps</suggestion>
+            <suggestion>d'aquí a poc temps</suggestion>
+            <suggestion>aviat</suggestion>
+            <suggestion>ben aviat</suggestion>
+            <suggestion>abans de gaire</suggestion>
+            <suggestion>de seguida</suggestion>
+            <short>Expressió preferible</short>
+            <example correction="d'ací a poc temps|d'aquí a poc temps|aviat|ben aviat|abans de gaire|de seguida"><marker>en breu</marker> arribarà</example>
+            <example>d'ací a poc temps</example>
+            <example>en breu temps ho aconseguiren</example>
+        </rule>
         <rulegroup id="POSSESSIU_REDUNDANT" name="possessius redundants">
             <rule>
                 <pattern>
@@ -47729,25 +47749,6 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <suggestion>(ser) un galtes</suggestion>
             <example correction="(tenir) barra|(tenir) la cara gruixuda|(ser) un barrut|(ser) un penques|(ser) un galtes"><marker>cara dura</marker></example>
             <example correction="(tenir) barra|(tenir) la cara gruixuda|(ser) un barrut|(ser) un penques|(ser) un galtes">Tenia una <marker>cara molt dura</marker></example>
-        </rule>
-        <rule id="EN_BREU" name="en breu">
-            <pattern>
-                <marker>
-                    <token>en</token>
-                    <token>breu</token>
-                </marker>
-                <token><exception postag="NC[MC][SN].*" postag_regexp="yes"/></token>
-            </pattern>
-            <message>Val més usar una altra expressió.</message>
-            <suggestion>d'ací a poc temps</suggestion>
-            <suggestion>aviat</suggestion>
-            <suggestion>ben aviat</suggestion>
-            <suggestion>abans de gaire</suggestion>
-            <suggestion>de seguida</suggestion>
-            <short>Expressió preferible</short>
-            <example correction="d'ací a poc temps|aviat|ben aviat|abans de gaire|de seguida"><marker>en breu</marker> arribarà</example>
-            <example>d'ací a poc temps</example>
-            <example>en breu temps ho aconseguiren</example>
         </rule>
         <rule id="MAJOR_MES_GRAN" name="major/més gran">
             <pattern>
