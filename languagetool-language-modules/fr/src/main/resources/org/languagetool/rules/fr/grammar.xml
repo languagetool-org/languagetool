@@ -8738,6 +8738,13 @@ though, and has since been slightly modified)-->
           <message>Vouliez-vous dire <suggestion>et ça</suggestion> ?</message>
           <example correction="et ça">J'en ai pris un <marker>et ca</marker> suffisait pas.</example>
       </rule>
+      <rule id="CEST" name="typo : cest" default="temp_off">
+        <pattern>
+          <token case_sensitive="yes" regexp="yes">[Cc]est</token>
+        </pattern>
+        <message>Vouliez-vous dire <suggestion>c'est</suggestion> ?</message>
+        <example correction="C'est"><marker>Cest</marker> la vie.</example>
+      </rule>
       <rule id="LA_JOURNE" name="typo : la journé">
           <pattern>
               <token regexp="yes">la|une</token>
@@ -31861,14 +31868,14 @@ though, and has since been slightly modified)-->
                 <token>Covid</token>
                 <token>19</token>
             </pattern>
-            <message>Voulez-vous écrire <suggestion>COVID-19</suggestion> ou <suggestion>Covid-19</suggestion> (= coronavirus)?</message>
+            <message>Voulez-vous écrire <suggestion>COVID-19</suggestion> ou <suggestion>Covid-19</suggestion> (= coronavirus) ?</message>
             <example correction="COVID-19|Covid-19">La <marker>COVID 19</marker> est la maladie infectieuse causée par le dernier coronavirus qui a été découvert</example>
         </rule>
         <rule>
             <pattern>
                 <token>Covid19</token>
             </pattern>
-            <message>Voulez-vous écrire <suggestion>COVID-19</suggestion> ou <suggestion>Covid-19</suggestion> (= coronavirus)?</message>
+            <message>Voulez-vous écrire <suggestion>COVID-19</suggestion> ou <suggestion>Covid-19</suggestion> (= coronavirus) ?</message>
             <example correction="COVID-19|Covid-19">La <marker>COVID19</marker> est la maladie infectieuse causée par le dernier coronavirus qui a été découvert</example>
         </rule>
         <rule>
@@ -31876,7 +31883,7 @@ though, and has since been slightly modified)-->
                 <token>corona</token>
                 <token>virus</token>
             </pattern>
-            <message>Voulez-vous écrire <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion>?</message>
+            <message>Voulez-vous écrire <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion> ?</message>
             <example correction="coronavirus">La COVID-19 est la maladie infectieuse causée par le dernier <marker>corona virus</marker> qui a été découvert.</example>
         </rule>
         <rule>
@@ -31885,7 +31892,7 @@ though, and has since been slightly modified)-->
                 <token min="0">-</token>
                 <token>virus</token>
             </pattern>
-            <message>Voulez-vous écrire <suggestion>coronavirus</suggestion>?</message>
+            <message>Voulez-vous écrire <suggestion>coronavirus</suggestion> ?</message>
             <example correction="coronavirus">La COVID-19 est la maladie infectieuse causée par le dernier <marker>corona-virus</marker> qui a été découvert.</example>
         </rule>
     </rulegroup>
@@ -31894,7 +31901,7 @@ though, and has since been slightly modified)-->
             <token>whats</token>
             <token>app</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>WhatsApp</suggestion> (= application mobile)?</message>
+        <message>Voulez-vous écrire <suggestion>WhatsApp</suggestion> (= application mobile) ?</message>
         <url>https://fr.wikipedia.org/wiki/WhatsApp</url>
         <example correction="WhatsApp"><marker>Whats App</marker> est une application mobile.</example>
     </rule>
@@ -31907,7 +31914,7 @@ though, and has since been slightly modified)-->
             <token regexp="yes">E?mm?anue?ll?e?</token>
             <token regexp="yes">Macrone?</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>Emmanuel Macron</suggestion> (= un politicien)?</message>
+        <message>Voulez-vous écrire <suggestion>Emmanuel Macron</suggestion> (= un politicien) ?</message>
         <url>https://fr.wikipedia.org/wiki/Emmanuel_Macron</url>
         <example correction="Emmanuel Macron"><marker>Emanuel Macron</marker> est un politicien.</example>
     </rule>
@@ -31926,7 +31933,7 @@ though, and has since been slightly modified)-->
                     <token regexp="yes">matters?</token>
                 </marker>
             </pattern>
-            <message>Voulez-vous écrire <suggestion>Black Lives Matter</suggestion>?</message>
+            <message>Voulez-vous écrire <suggestion>Black Lives Matter</suggestion> ?</message>
             <suggestion>Black Lives Matter</suggestion>
             <example correction="Black Lives Matter"><marker>Black Lifes Matter</marker> est un mouvement.</example>
         </rule>
@@ -31936,7 +31943,7 @@ though, and has since been slightly modified)-->
             <token>java</token>
             <token>script</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion>JavaScript</suggestion> (= langage de programmation)?</message>
+        <message>Voulez-vous écrire <suggestion>JavaScript</suggestion> (= langage de programmation) ?</message>
         <url>https://fr.wikipedia.org/wiki/JavaScript</url>
         <example correction="JavaScript"><marker>Java Script</marker> est un langage de programmation</example>
     </rule>
@@ -31945,7 +31952,7 @@ though, and has since been slightly modified)-->
             <token>You</token>
             <token>Tube</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= hébergement de vidéos)?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= hébergement de vidéos) ?</message>
         <url>https://fr.wikipedia.org/wiki/YouTube</url>
         <example correction="YouTube"><marker>You tube</marker> est un site web d’hébergement de vidéos.</example>
     </rule>
@@ -31954,7 +31961,7 @@ though, and has since been slightly modified)-->
             <token>Pay</token>
             <token>Pal</token>
         </pattern>
-        <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= service de paiement)?</message>
+        <message>Voulez-vous écrire <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= service de paiement) ?</message>
         <url>https://fr.wikipedia.org/wiki/PayPal</url>
         <example correction="PayPal"><marker>Pay Pal</marker> est une entreprise américaine offrant un système de service de paiement.</example>
     </rule>
