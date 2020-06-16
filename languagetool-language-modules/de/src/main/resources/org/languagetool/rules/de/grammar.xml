@@ -8074,8 +8074,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rule id="EMMANUEL_MACRON" name="Emmanuel Macron">
             <antipattern case_sensitive="yes">
-                <token>Emmanuel</token>
-                <token>Macron</token>
+                <token regexp="yes">Emmanuel|EMMANUEL</token>
+                <token regexp="yes">Macron|MACRON</token>
             </antipattern>
             <pattern>
                 <token regexp="yes">E?mm?anue?ll?e?</token>
@@ -9323,7 +9323,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
-        <rulegroup id="PLUG_IN_HYBRID" name="Plug-in-Hybrid" default="temp_off">
+        <rulegroup id="PLUG_IN_HYBRID" name="Plug-in-Hybrid">
             <url>https://de.wikipedia.org/wiki/Plug-in-Hybrid</url>
             <antipattern case_sensitive="yes">
                 <token regexp="yes">Plug-in-Hybrid(s|e|en)?</token>
@@ -9351,6 +9351,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </pattern>
             <message>Meinten Sie das Nomen <suggestion>Midlife-Crisis</suggestion>?</message>
             <example correction="Midlife-Crisis">Mit 40 bekam er eine <marker>Midlife Crises</marker>.</example>
+        </rule>
+        <rule id="RUND_UM_DIE_UHR_BEWACHUNG" name="Rund-um-die-Uhr-Bewachung" default="temp_off">
+            <pattern>
+                <token>Rund</token>
+                <token>um</token>
+                <token>die</token>
+                <token>Uhr</token>
+                <token>Bewachung</token>
+            </pattern>
+            <message>Meinten Sie das Nomen <suggestion>Rund-um-die-Uhr-Bewachung</suggestion>?</message>
+            <url>https://www.duden.de/suchen/dudenonline/Rund-um-die-Uhr-Bewachung</url>
+            <example correction="Rund-um-die-Uhr-Bewachung">Er ordnete eine <marker>rund um die Uhr Bewachung</marker> an.</example>
         </rule>
         <rule id="EIN_KIND_POLITIK" name="Ein-Kind-Politik"><!-- needs higher prio than DE_AGREEMENT -->
             <pattern>
@@ -33430,6 +33442,21 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
+        <rule id="PERSONA_NON_GRATA" name="Persona non grata" default="temp_off">
+            <antipattern case_sensitive="yes">
+                <token>Persona</token>
+                <token>non</token>
+                <token>grata</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">Persona?s?</token>
+                <token regexp="yes">non?</token>
+                <token regexp="yes">grat(a|er)</token>
+            </pattern>
+            <message>Meinten Sie <suggestion>Persona non grata</suggestion> (= ungewünschte Person)?</message>
+            <url>https://de.wikipedia.org/wiki/Persona_non_grata</url>
+            <example correction="Persona non grata">Als <marker>Person non grata</marker> bezeichnet man den Status einer Person, deren Aufenthalt von der Regierung des Gastlandes per Notifikation nicht mehr geduldet wird.</example>
+        </rule>
         <rule id="WHO_S_WHO" name="Das Who's who">
             <pattern>
                 <token>who</token>
