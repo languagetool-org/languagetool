@@ -33545,10 +33545,9 @@ USA
                 <example type="triggers_error">How would suggesting people actually work?</example>
                 <example type="triggers_error">Or did testing reveal something scary?</example>
             </rule>
-        <rule id='DID_FOUND_AMBIGUOUS' name='Auxiliary verb + ambiguous past tense'>
-
-        <!-- Created by Tiago F. Santos, 2019-09-07 -->
-        <!-- https://forum.languagetool.org/t/en-did-you-found-find-it/4694 -->
+            <rule id="DID_FOUND_AMBIGUOUS" name="Auxiliary verb + ambiguous past tense">
+            <!-- Created by Tiago F. Santos, 2019-09-07 -->
+            <!-- https://forum.languagetool.org/t/en-did-you-found-find-it/4694 -->
                 <antipattern>
                     <token regexp="yes" inflected='yes'>be|get</token>
                     <token>rid</token>
@@ -33564,98 +33563,99 @@ USA
                     <token>did</token>
                     <token>was</token>
                 </antipattern>
-            <pattern>
+                <pattern>
                     <token>
-                      <exception scope="previous" regexp="yes">than|what</exception>
-                      <exception regexp="yes">free|than|wh(?:om?|ich)|a|the|neither|nor</exception></token>
+                        <exception scope="previous" regexp="yes">than|what</exception>
+                        <exception regexp="yes">free|than|wh(?:om?|ich)|a|the|neither|nor</exception></token>
                     <token skip="1" regexp="yes" postag="MD|VBD" postag_regexp="yes">did|will|could|can|should|would|does|ll|shall|cannot|might|may</token>
-                <marker>
-                    <token regexp="yes">&ambiguous_past_tense_forms;
-                      <exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="MD|RB|VBD"/></token>
-                </marker>
-            </pattern>
-            <message>This form is ambiguous and can be used as past tense. Confirm that you are using the intended base form of the main verb after 'to do' as an auxiliary verb.<!-- Did you mean <suggestion><match no="5" postag="VB"/></suggestion>-->.</message>
-            <url>https://www.learnenglish.de/grammar/verbtodo.html</url>
-            <!--url>https://en.wikipedia.org/wiki/List_of_English_irregular_verbs</url-->
-            <example correction="">You did <marker>found</marker> it!</example><!-- suggestion mandatorily trigger error and testrule does not accept this -->
-            <!-- TODO improve 'testrules' code to allow this-->
-            <example>The earliest anarchist themes can be found in the 6th century BC, among the works of Taoist ...</example>
-            <example>...known written evidence of a camera obscura can be found in Aristotle's documentation of such a device in ...</example>
-            <example>...nitor lizards, and numerous other reptiles can be found living among an array of rodents throughout the s...</example>
-            <example>The cakes are marketed and can the found in cities either in Algeria or in Europe or North...</example>
-            <example>The prototype for this model can be found in Bolos of Mendes' second century BCE work, Phys...</example>
-            <example>Another example can be found in the work of Heinrich Khunrath (1560–who ...</example>
-            <example>...of Pagan, Christian, and Jewish alchemists can be found during this period.</example>
-            <example>When I go on vacation, I'll rent a car.</example>
-            <example>...o capture the phenomenon of motion drawing can be found in paleolithic cave paintings, where animals are ...</example>
-            <example>The odds are against me, so I think I'll quit now.</example>
-            <example>...ter as that of "Auld Lang Syne"; the songs can be sung interchangeably.</example>
-            <example>Accordingly, Assistive Technology can be found in sports ranging from local community recreation...</example>
-            <example>It may be found in natural deposits or may be a refined product; ...</example>
-            <example>Take this umbrella with you lest you should get wet and catch cold.</example>
-            <example>...ium, due to its relatively low reactivity, can be found in seawater in large amounts; it is estimated tha...</example>
-            <example>...uct of the alpha decay of actinium-227 and can be found in trace amounts in uranium and thorium minerals....</example>
-            <example>Francium can be found in trace amounts in uranium and thorium minerals;...</example>
-            <example>More local particular weather examples could be found in examples such as the; Azores High, Benguela Cu...</example>
-            <example>Can I rent rackets?</example>
-            <example>... the Northwest a sprinkling of Kimbanguism can be found, spreading from the Congo/Zaire.</example>
-            <example>...tin American countries (especially Brazil) can be found.</example>
-            <example>With more education, he would have found a better job.</example>
-            <example>If I were you, I would quit my job and leave London.</example>
-            <example>Both yellow and white sweet clover can be found throughout the southern and central areas of the ...</example>
-            <example>...found in the wooded regions, and pronghorn can be found in the prairies of southern Alberta.</example>
-            <example>...ty of smaller seed and insect-eating birds can be found.</example>
-            <example>...rmation about the volumes published so far can be found on the webpages of the Einstein Papers Project an...</example>
-            <example>...rs and a variety of unique flora and fauna can be found there, including "living fossils" and many endemi...</example>
-            <example>...and diversity of animal life in Azerbaijan can be found in travel notes of Eastern travelers.</example>
-            <example>... the species growing in the whole Caucasus can be found in Azerbaijan.</example>
-            <example type='triggers_error'>Several of these students would found their own styles of aikido.</example><!-- False positive -->
-            <example>... sections with a link to a "Main article" will be found in the linked article.</example>
-            <example>...campaigns, battles, units, and individuals can be found in those articles.</example>
-            <example>The flowchart of "Elegant" can be found at the top of this article.</example>
-            <example>...o a goal from a vertex in a weighted graph can be found by using the shortest path to the goal from all a...</example>
-            <example>Why did he quit his job?</example>
-            <example>Why did you quit?</example>
-            <example>Up-to-date information on the Asparagales can be found on the Angiosperm Phylogeny Website.</example>
-            <example>The remains of the church of St. Clement can be found today in a building just off Işıklar Caddesi in t...</example>
-            <example>...s, hand-woven carpets and leather products can be found at bargain prices.</example>
-            <example>...any interesting items, not just of copper, can be found here like jewelry, carpets, costumes, antiques an...</example>
-            <example>I simply cannot get rid of this bad cold of mine.</example>
-            <example>How can I quit this job?</example>
-            <example>I cannot dance worth a damn.</example>
-            <example>I give my pledge that I will quit smoking.</example>
-            <example>Jewish schools can be found in the southern suburbs of Amsterdam.</example>
-            <example>A parking garage can be found underneath the square, as well as a supermarket.</example>
-            <example>Such a thing cannot be found everywhere.</example>
-            <example>Many restaurants can be found in Amsterdam as well.</example>
-            <example>...ity, a lot of different ethnic restaurants can be found.</example>
-            <example>Art films can be found at Tuschinski, and the independent The Movies, Ci...</example>
-            <example>The museum can be found in the 19th century building The Iron in the Mota...</example>
-            <example>May 2011 saw record sales for Audi of America with the new Aud...</example>
-            <example>... Geological Survey expects more resources will be found.</example>
-            <example>Likewise, a group of atoms can remain bound to each other by chemical bonds based on the same...</example>
-            <example>...usion principle, in which no two electrons may be found in the same quantum state, bound electrons pair u...</example>
-            <example>Archipelagos may be found isolated in bodies of water or neighboring a larg...</example>
-            <example>...that alternative mathematical systems might exist was very troubling to mathematicians of the 19th cent...</example>
-            <example>Polyacetylenes can be found in Apiaceae vegetables like carrot, celery, fenne...</example>
-            <example>...ring the summer months and where hay barns can be found, and the term "the Alps", referring to the mounta...</example>
-            <example>...e Edelweiss which grows in rocky areas and can be found at altitudes as low as and as high as .</example>
-            <example>...ate in large groups to provide warmth, and can be found in all areas of the Alps, in large colonies they ...</example>
-            <example>...e Alps; they nest high on rocky ledges and can be found at altitudes of .</example>
-            <example>Brown trout can be found in the streams up to the snow line.</example>
-            <example>Scorpions can be found in the Italian Alps.</example>
-            <example>You can get rid of the cold if you take this medicine.</example>
-            <example>It can be found in low densities in star and planetary system for...</example>
-            <example>An account of that night can be found in Kerouac's novel The Dharma Bums, describing ho...</example>
-            <example>You should get rid of these weeds.</example>
-            <example>... and the following elements of a parabasis can be found within them.</example>
-            <example>I would quit before I would do that job in this company.</example>
-            <example>... objective world expecting that humanity would be found to have a special meaning within it.</example>
-            <example>...inally stops - when no further investments can be found which provide adequate returns for speculative bo...</example>
-            <example>...northernmost, though the domesticated form can be found as far north as Iceland.</example>
-            <example>... prejudice against Jews and their religion can be found in the works of many pagan Greek and Roman writer...</example>
-            <example>All he did was playing golf.</example>
-        </rule>
+                    <marker>
+                        <token regexp="yes">&ambiguous_past_tense_forms;
+                            <exception scope="previous" negate_pos="yes" postag_regexp="yes" regexp="yes" postag="MD|RB|VBD"/>
+                            </token>
+                    </marker>
+                </pattern>
+                <message>This form is ambiguous and can be used as past tense. Confirm that you are using the intended base form of the main verb after 'to do' as an auxiliary verb.<!-- Did you mean <suggestion><match no="5" postag="VB"/></suggestion>-->.</message>
+                <url>https://www.learnenglish.de/grammar/verbtodo.html</url>
+                <!--url>https://en.wikipedia.org/wiki/List_of_English_irregular_verbs</url-->
+                <example correction="">You did <marker>found</marker> it!</example><!-- suggestion mandatorily trigger error and testrule does not accept this -->
+                <!-- TODO improve 'testrules' code to allow this-->
+                <example>The earliest anarchist themes can be found in the 6th century BC, among the works of Taoist ...</example>
+                <example>...known written evidence of a camera obscura can be found in Aristotle's documentation of such a device in ...</example>
+                <example>...nitor lizards, and numerous other reptiles can be found living among an array of rodents throughout the s...</example>
+                <example>The cakes are marketed and can the found in cities either in Algeria or in Europe or North...</example>
+                <example>The prototype for this model can be found in Bolos of Mendes' second century BCE work, Phys...</example>
+                <example>Another example can be found in the work of Heinrich Khunrath (1560–who ...</example>
+                <example>...of Pagan, Christian, and Jewish alchemists can be found during this period.</example>
+                <example>When I go on vacation, I'll rent a car.</example>
+                <example>...o capture the phenomenon of motion drawing can be found in paleolithic cave paintings, where animals are ...</example>
+                <example>The odds are against me, so I think I'll quit now.</example>
+                <example>...ter as that of "Auld Lang Syne"; the songs can be sung interchangeably.</example>
+                <example>Accordingly, Assistive Technology can be found in sports ranging from local community recreation...</example>
+                <example>It may be found in natural deposits or may be a refined product; ...</example>
+                <example>Take this umbrella with you lest you should get wet and catch cold.</example>
+                <example>...ium, due to its relatively low reactivity, can be found in seawater in large amounts; it is estimated tha...</example>
+                <example>...uct of the alpha decay of actinium-227 and can be found in trace amounts in uranium and thorium minerals....</example>
+                <example>Francium can be found in trace amounts in uranium and thorium minerals;...</example>
+                <example>More local particular weather examples could be found in examples such as the; Azores High, Benguela Cu...</example>
+                <example>Can I rent rackets?</example>
+                <example>... the Northwest a sprinkling of Kimbanguism can be found, spreading from the Congo/Zaire.</example>
+                <example>...tin American countries (especially Brazil) can be found.</example>
+                <example>With more education, he would have found a better job.</example>
+                <example>If I were you, I would quit my job and leave London.</example>
+                <example>Both yellow and white sweet clover can be found throughout the southern and central areas of the ...</example>
+                <example>...found in the wooded regions, and pronghorn can be found in the prairies of southern Alberta.</example>
+                <example>...ty of smaller seed and insect-eating birds can be found.</example>
+                <example>...rmation about the volumes published so far can be found on the webpages of the Einstein Papers Project an...</example>
+                <example>...rs and a variety of unique flora and fauna can be found there, including "living fossils" and many endemi...</example>
+                <example>...and diversity of animal life in Azerbaijan can be found in travel notes of Eastern travelers.</example>
+                <example>... the species growing in the whole Caucasus can be found in Azerbaijan.</example>
+                <example type='triggers_error'>Several of these students would found their own styles of aikido.</example><!-- False positive -->
+                <example>... sections with a link to a "Main article" will be found in the linked article.</example>
+                <example>...campaigns, battles, units, and individuals can be found in those articles.</example>
+                <example>The flowchart of "Elegant" can be found at the top of this article.</example>
+                <example>...o a goal from a vertex in a weighted graph can be found by using the shortest path to the goal from all a...</example>
+                <example>Why did he quit his job?</example>
+                <example>Why did you quit?</example>
+                <example>Up-to-date information on the Asparagales can be found on the Angiosperm Phylogeny Website.</example>
+                <example>The remains of the church of St. Clement can be found today in a building just off Işıklar Caddesi in t...</example>
+                <example>...s, hand-woven carpets and leather products can be found at bargain prices.</example>
+                <example>...any interesting items, not just of copper, can be found here like jewelry, carpets, costumes, antiques an...</example>
+                <example>I simply cannot get rid of this bad cold of mine.</example>
+                <example>How can I quit this job?</example>
+                <example>I cannot dance worth a damn.</example>
+                <example>I give my pledge that I will quit smoking.</example>
+                <example>Jewish schools can be found in the southern suburbs of Amsterdam.</example>
+                <example>A parking garage can be found underneath the square, as well as a supermarket.</example>
+                <example>Such a thing cannot be found everywhere.</example>
+                <example>Many restaurants can be found in Amsterdam as well.</example>
+                <example>...ity, a lot of different ethnic restaurants can be found.</example>
+                <example>Art films can be found at Tuschinski, and the independent The Movies, Ci...</example>
+                <example>The museum can be found in the 19th century building The Iron in the Mota...</example>
+                <example>May 2011 saw record sales for Audi of America with the new Aud...</example>
+                <example>... Geological Survey expects more resources will be found.</example>
+                <example>Likewise, a group of atoms can remain bound to each other by chemical bonds based on the same...</example>
+                <example>...usion principle, in which no two electrons may be found in the same quantum state, bound electrons pair u...</example>
+                <example>Archipelagos may be found isolated in bodies of water or neighboring a larg...</example>
+                <example>...that alternative mathematical systems might exist was very troubling to mathematicians of the 19th cent...</example>
+                <example>Polyacetylenes can be found in Apiaceae vegetables like carrot, celery, fenne...</example>
+                <example>...ring the summer months and where hay barns can be found, and the term "the Alps", referring to the mounta...</example>
+                <example>...e Edelweiss which grows in rocky areas and can be found at altitudes as low as and as high as .</example>
+                <example>...ate in large groups to provide warmth, and can be found in all areas of the Alps, in large colonies they ...</example>
+                <example>...e Alps; they nest high on rocky ledges and can be found at altitudes of .</example>
+                <example>Brown trout can be found in the streams up to the snow line.</example>
+                <example>Scorpions can be found in the Italian Alps.</example>
+                <example>You can get rid of the cold if you take this medicine.</example>
+                <example>It can be found in low densities in star and planetary system for...</example>
+                <example>An account of that night can be found in Kerouac's novel The Dharma Bums, describing ho...</example>
+                <example>You should get rid of these weeds.</example>
+                <example>... and the following elements of a parabasis can be found within them.</example>
+                <example>I would quit before I would do that job in this company.</example>
+                <example>... objective world expecting that humanity would be found to have a special meaning within it.</example>
+                <example>...inally stops - when no further investments can be found which provide adequate returns for speculative bo...</example>
+                <example>...northernmost, though the domesticated form can be found as far north as Iceland.</example>
+                <example>... prejudice against Jews and their religion can be found in the works of many pagan Greek and Roman writer...</example>
+                <example>All he did was playing golf.</example>
+            </rule>
             <rule>
                 <pattern>
                     <token regexp="yes" postag="MD|VBD" postag_regexp="yes">could|can|should|would|does|ll|must</token>
