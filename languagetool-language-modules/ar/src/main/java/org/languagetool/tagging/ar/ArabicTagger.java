@@ -56,7 +56,7 @@ public class ArabicTagger extends BaseTagger {
       // if not a stop word add more stemming
       if (!isStopWord(taggerTokens)) {
         // test all possible tags
-        addTokens(additionalTags(striped, dictLookup), l);
+        addTokens(additionalTags(word, dictLookup), l);
       }
       if (l.isEmpty()) {
         l.add(new AnalyzedToken(word, null, null));
@@ -69,18 +69,19 @@ public class ArabicTagger extends BaseTagger {
 
   @Nullable
   protected List<AnalyzedToken> additionalTags(String word, IStemmer stemmer) {
+    String striped = word.replaceAll("[" + Arabic.TASHKEEL_CHARS + "]", "");
     List<AnalyzedToken> additionalTaggedTokens = new ArrayList<>();
-    List<Integer> prefix_index_list = getPrefixIndexList(word);
-    List<Integer> suffix_index_list = getSuffixIndexList(word);
+    List<Integer> prefix_index_list = getPrefixIndexList(striped);
+    List<Integer> suffix_index_list = getSuffixIndexList(striped);
 
     for (int i : prefix_index_list) {
       for (int j : suffix_index_list) {
         // avoid default case of returned word as it
-        if ((i == 0) && (j == word.length()))
+        if ((i == 0) && (j == striped.length()))
           continue;
         // get stem return a list, to generate some variants for stems.
-        List<String> stemsList = getStem(word, i, j);
-        List<String> tags = getTags(word, i);
+        List<String> stemsList = getStem(striped, i, j);
+        List<String> tags = getTags(striped, i);
 
         for (String stem : stemsList) {
           List<AnalyzedToken> taggerTokens;

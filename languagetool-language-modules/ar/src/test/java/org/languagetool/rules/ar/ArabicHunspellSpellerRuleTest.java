@@ -33,6 +33,7 @@ public class ArabicHunspellSpellerRuleTest {
   public void testRuleWithArabic() throws Exception {
     ArabicHunspellSpellerRule rule = new ArabicHunspellSpellerRule(TestTools.getMessages("ar"));
     JLanguageTool langTool = new JLanguageTool(Languages.getLanguageForShortCode("ar"));
+
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("السلام عليكم.")).length);
     assertEquals(0, rule.match(langTool.getAnalyzedSentence("والبلاد")).length);
     // ignore URLs:
@@ -80,6 +81,18 @@ public class ArabicHunspellSpellerRuleTest {
     assertThat(matches.length, is(1));
     assertThat(matches[0].getFromPos(), is(12));
     assertThat(matches[0].getToPos(), is(24));
+
+    matches = rule.match(langTool.getAnalyzedSentence("سمّيت الإقتصادي."));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getFromPos(), is(6));
+
+    matches = rule.match(langTool.getAnalyzedSentence("وسمّيت الإقتصادي."));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getFromPos(), is(7));
+
+    matches = rule.match(langTool.getAnalyzedSentence("وسميت الإقتصادي."));
+    assertThat(matches.length, is(1));
+    assertThat(matches[0].getFromPos(), is(6));
   }
 
 }
