@@ -1717,14 +1717,32 @@ title="Easy editing stylesheet" ?>
 		  <token postag='NC[CFM]P000' postag_regexp='yes'/>		  		  
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-04 *END* -->
-<!-- MARCOAGPINTO 2020-06-06 *START* -->
+<!-- MARCOAGPINTO 2020-06-06 + 2020-06-16 *START* -->
 <!-- "5 aceitaram a proposta australiana e 3 prefeririam o paralelo 35° Sul." -->
+<!-- "Sendo o menor índice 3,4%, registado no país." -->
       <antipattern>
 		  <token postag='DA0MS0' postag_regexp='no'/>
+		  <token min="0" postag='AQ0CS0' postag_regexp='no'/>
 		  <token postag='NCMS000' postag_regexp='no'/>		  
 		  <token regexp='yes'>\d.+</token>
       </antipattern>
-<!-- MARCOAGPINTO 2020-06-06 *END* -->
+<!-- MARCOAGPINTO 2020-06-06 + 2020-06-16 *END* -->
+<!-- MARCOAGPINTO 2020-06-16 *START* -->
+<!-- "Sendo o maior 3,4%, registado no país." -->
+<!-- "Sendo a maior 3,4%, registado no país." -->
+      <antipattern>
+		  <token postag='DA0[FM]S0' postag_regexp='yes'/>
+		  <token postag='AQ0CS0' postag_regexp='no'/>		  
+		  <token regexp='yes'>\d.+</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-06-16 *END* -->
+<!-- MARCOAGPINTO 2020-06-16 *START* -->
+<!-- "Em adultos acima de 25 anos era 11,7%." -->
+      <antipattern>
+		  <token postag='V.+' postag_regexp='yes'/>		  
+		  <token regexp='yes'>\d.+</token>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-06-16 *END* -->
 <!-- MARCOAGPINTO 2020-06-06 *START* -->
 <!-- "Para saber mais comandos de IRC, consulte o artigo sobre IRC." -->
 <!-- "Para saber menos comandos de IRC, consulte o artigo sobre IRC." -->
