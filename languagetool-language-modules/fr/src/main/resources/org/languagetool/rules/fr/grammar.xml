@@ -31898,6 +31898,19 @@ though, and has since been slightly modified)-->
         <url>https://fr.wikipedia.org/wiki/WhatsApp</url>
         <example correction="WhatsApp"><marker>Whats App</marker> est une application mobile.</example>
     </rule>
+    <rule id="EMMANUEL_MACRON" name="Emmanuel Macron">
+        <antipattern case_sensitive="yes">
+            <token regexp="yes">Emmanuel|EMMANUEL</token>
+            <token regexp="yes">Macron|MACRON</token>
+        </antipattern>
+        <pattern>
+            <token regexp="yes">E?mm?anue?ll?e?</token>
+            <token regexp="yes">Macrone?</token>
+        </pattern>
+        <message>Voulez-vous écrire <suggestion>Emmanuel Macron</suggestion> (= un politicien)?</message>
+        <url>https://fr.wikipedia.org/wiki/Emmanuel_Macron</url>
+        <example correction="Emmanuel Macron"><marker>Emanuel Macron</marker> est un politicien.</example>
+    </rule>
     <rulegroup id="BLACK_LIVES_MATTER" name="Black Lives Matter">
         <url>https://fr.wikipedia.org/wiki/Black_Lives_Matter</url>
         <antipattern case_sensitive="yes">
