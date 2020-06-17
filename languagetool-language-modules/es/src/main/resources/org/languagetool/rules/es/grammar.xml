@@ -4743,6 +4743,46 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
+        <rulegroup id="LEISMO" name="leísmo" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">le|les</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes" min="0" max="3">tener|haber|que|de|ir|a</token>
+                    <token inflected="yes">dar</token>
+                    <token>de</token>
+                    <token regexp="yes">alta|baja</token>
+                </pattern>
+                <message>Pronombre incorrecto en esta expresión.</message>
+                <suggestion><match no="1" regexp_match="(?iu)le(s?)" regexp_replace="lo$1"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?iu)le(s?)" regexp_replace="la$1"/></suggestion>
+                <url>https://www.fundeu.es/recomendacion/la-dio-de-alta-pero-le-dio-el-alta/</url>
+                <example correction="lo|la">No <marker>le</marker> han dado de alta.</example>
+                <example correction="los|las">No <marker>les</marker> dieron de alta.</example>
+                <example correction="Los|Las"><marker>Les</marker> iban a dar de alta.</example>
+            </rule>
+        </rulegroup>
+        <rulegroup id="LOISMO_LAISMO" name="loísmo, laísmo" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">lo|los|la|las</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes" min="0" max="3">tener|haber|que|de|ir|a</token>
+                    <token inflected="yes">dar</token>
+                    <token regexp="yes">el|la</token>
+                    <token regexp="yes">alta|baja</token>
+                </pattern>
+                <message>Pronombre incorrecto en esta expresión.</message>
+                <suggestion><match no="1" regexp_match="(?iu)l[oa](s?)" regexp_replace="le$1"/></suggestion>
+                <url>https://www.fundeu.es/recomendacion/la-dio-de-alta-pero-le-dio-el-alta/</url>
+                <example correction="le">No <marker>la</marker> han dado el alta.</example>
+                <example correction="les">No <marker>los</marker> dieron el alta.</example>
+                <example correction="les">No <marker>las</marker> dieron la baja.</example>
+                <example correction="Les"><marker>Los</marker> iban a dar el alta.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PARA_QUE_IND" name="para que/qué + v. ind.">
             <rule>
                 <pattern>
