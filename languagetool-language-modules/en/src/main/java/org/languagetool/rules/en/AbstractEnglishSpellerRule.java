@@ -610,8 +610,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
    */
   @Override
   protected List<SuggestedReplacement> getAdditionalTopSuggestions(List<SuggestedReplacement> suggestions, String word) throws IOException {
-
-    if (word.length() < 20 && word.matches("[a-zA-Z-]+.?")) {
+    /*if (word.length() < 20 && word.matches("[a-zA-Z-]+.?")) {
       List<String> prefixes = Arrays.asList("inter", "pre");
       for (String prefix : prefixes) {
         if (word.startsWith(prefix)) {
@@ -623,8 +622,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
           }
         }
       }
-    }
-
+    }*/
     List<String> curatedSuggestions = new ArrayList<>();
     curatedSuggestions.addAll(topSuggestions.getOrDefault(word, Collections.emptyList()));
     curatedSuggestions.addAll(topSuggestionsIgnoreCase.getOrDefault(word.toLowerCase(), Collections.emptyList()));
