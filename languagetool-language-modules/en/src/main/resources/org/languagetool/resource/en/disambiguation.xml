@@ -13,6 +13,7 @@
     <!ENTITY hispanic_nnp "Ciudad|Playa|Casa|Puerto|Avenida|Santiago|Municipio|Paseo|Calle|Días|Di?os|Nacional|Villas|Cinco|Rancho|Cerro|Universidad|Copa|Academia|Plaza|Facultad|Torre|Camino|Club|Tapas|Palma">
     <!ENTITY plural_adjectival_nouns "angry|blind|deaf|destitute|dead|dying|elderly|faithful|homeless|injured|insane|jobless|old|poor|rich|sick|squeamish|wealthy|wicked|wounded|young"><!-- One-word terms only, only after the word 'the': www.oxfordlearnersdictionaries.com/definition/english/rich, www.englishgrammar.org/adjectives-nouns/ -->
     <!ENTITY subordinating_conjunctions "after|although|as|because|before|if|lest|like|once|since|than|that|though|unless|until|whenever|where|whereas|wherever|whether|while|why"><!-- #2988 -->
+     <!ENTITY abbreviated_negated_verbs "ain|aren|isn|wasn|weren|can|couldn|don|doesn|didn|hasn|hadn|haven|mayn|mightn|mustn|needn|oughtn|shan|shouldn|usedn|won|wouldn">
 ]>
 <rules lang="en" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd">
@@ -4240,6 +4241,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="I-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
             <token postag_regexp="yes" postag="VB[ZD]"/>
         </antipattern>
+        <antipattern><!-- #3101 a perfect world spreaders don't -->
+            <token chunk="B-NP-plural" regexp="yes">an?</token>
+            <token chunk="I-NP-plural" postag_regexp="yes" postag="JJR?"/>
+            <token chunk="I-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="E-NP-plural" postag="NNS"/>
+            <token regexp="yes">&abbreviated_negated_verbs;</token><!-- No chunk information for 'don' -->
+            <token regexp="yes">&apostrophe;</token>
+            <token>t</token>
+        </antipattern>
+        <antipattern><!-- #3101 a perfect world technicians wear -->
+            <token chunk="B-NP-plural" regexp="yes">an?</token>
+            <token chunk="I-NP-plural" postag_regexp="yes" postag="JJR?"/>
+            <token chunk="I-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="E-NP-plural" postag="NNS"/>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]?"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -4266,6 +4283,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">A blonde woman laughs and mucks.</example><!-- #2952 -->
         <example type="untouched">A blonde woman laughs.</example><!-- #2952 -->
         <example type="untouched">This makes my skin crawl.</example><!-- #3092 -->
+        <example type="untouched">In a perfect world spreaders don't exist.</example><!-- #3101 -->
+        <example type="untouched">In a perfect world technicians don this equipment for protection.</example><!-- #3101 -->
+        <example type="untouched">In a perfect world technicians wear PPE.</example><!-- #3101 -->
     </rule>
 
     <rule name="required to" id="required_to">
@@ -7496,6 +7516,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token chunk="I-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
             <token postag_regexp="yes" postag="VB[ZD]"/>
         </antipattern>
+        <antipattern><!-- #3101 a perfect world spreaders don't -->
+            <token chunk="B-NP-plural" regexp="yes">an?</token>
+            <token chunk="I-NP-plural" postag_regexp="yes" postag="JJR?"/>
+            <token chunk="I-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="E-NP-plural" postag="NNS"/>
+            <token regexp="yes">&abbreviated_negated_verbs;</token><!-- No chunk information for 'don' -->
+            <token regexp="yes">&apostrophe;</token>
+            <token>t</token>
+        </antipattern>
+        <antipattern><!-- #3101 a perfect world technicians wear -->
+            <token chunk="B-NP-plural" regexp="yes">an?</token>
+            <token chunk="I-NP-plural" postag_regexp="yes" postag="JJR?"/>
+            <token chunk="I-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
+            <token chunk="E-NP-plural" postag="NNS"/>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]?"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -7542,6 +7578,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">We have cards the other wants.</example>
         <example type="untouched">A blonde woman laughs and mucks.</example><!-- #2952 -->
         <example type="untouched">A blonde woman laughs.</example><!-- #2952 -->
+        <example type="untouched">In a perfect world spreaders don't exist.</example><!-- #3101 -->
+        <example type="untouched">In a perfect world technicians don this equipment for protection.</example><!-- #3101 -->
+        <example type="untouched">In a perfect world technicians wear PPE.</example><!-- #3101 -->
     </rule>
 
         <rule id="BENEATH_NOTICE" name="beneath notice">
