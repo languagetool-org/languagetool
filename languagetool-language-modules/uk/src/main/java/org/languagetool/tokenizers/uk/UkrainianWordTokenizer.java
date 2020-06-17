@@ -119,6 +119,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
   private static final Pattern ABBR_DOT_PN_ZAH_PATTERN = Pattern.compile("(пн|пд)\\.(-(зах|сх))\\.");
   private static final Pattern ABBR_DOT_2_SMALL_LETTERS_PATTERN = Pattern.compile("([^а-яіїєґ'-][векнпрстцч]{1,2})\\.([екмнпрстч]{1,2})\\.");
   private static final String ABBR_DOT_2_SMALL_LETTERS_REPL = "$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER;
+  private static final Pattern INVALID_MLN_DOT_PATTERN = Pattern.compile("(млн|млрд)\\.( [а-яіїєґ])");
   
   private static final String ONE_DOT_TWO_REPL = "$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER + "$2";
 
@@ -293,6 +294,7 @@ public class UkrainianWordTokenizer implements Tokenizer {
       text = ABBR_DOT_RED_AVT_PATTERN.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
       text = ABBR_DOT_NON_ENDING_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + BREAKING_PLACEHOLDER);
       text = ABBR_DOT_NON_ENDING_PATTERN_2.matcher(text).replaceAll(ONE_DOT_TWO_REPL);
+      text = INVALID_MLN_DOT_PATTERN.matcher(text).replaceAll("$1" + NON_BREAKING_DOT_SUBST + "$2");
     }
 
     // preserve * inside words (sometimes used instead of apostrophe or to mask profane words)
