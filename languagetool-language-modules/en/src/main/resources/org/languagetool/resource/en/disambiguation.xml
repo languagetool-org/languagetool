@@ -8348,12 +8348,22 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           </pattern>
           <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
         </rule>
-        <rule name="Number of times" id="NUMBER_TIMES">
+        <rule name="Number of times" id="NUMBER_TIMES"><!-- #3111 I did not find a good reference for adverbials of number -->
             <pattern>
-                <token postag="CD"/>
-                <token>times</token>
+                <marker>
+                    <token postag="CD"/>
+                    <token>times</token>
+                </marker>
+                <token postag_regexp="yes" postag="SENT_END|DT"/>
             </pattern>
             <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
+            <example type="ambiguous" inputform="times[time/NNS]" outputform="times[times/RB]">They did it three <marker>times</marker>.</example>
+            <example type="ambiguous" inputform="times[time/VBZ]" outputform="times[times/RB]">They do the tests 4 <marker>times</marker> each year.</example><!-- wrong input tagging -->
+            <example type="untouched">They are the best option 9 times out of ten.</example><!-- #3111 -->
+            <example type="untouched">If the 3 times are all the same, stop the test.</example><!-- #3111 -->
+            <example type="untouched">If the 3 times (as shown in the Test Time column) are the same, stop the test.</example><!-- #3111 -->
+            <example type="untouched">Five times is not sufficient; do more testing.</example><!-- #3111 -->
+            <example type="untouched">They did it four times as quickly as the other team.</example><!-- #3111 I am not sure about this -->
         </rule>
     </rulegroup>
 
