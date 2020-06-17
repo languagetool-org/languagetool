@@ -34,6 +34,7 @@ public class FrenchConfusionProbabilityRule extends ConfusionProbabilityRule {
 
   private static final List<String> EXCEPTIONS = Arrays.asList(
     // Use all-lowercase, matches will be case-insensitive.
+    "se titre",
     "ce jour"
   );
   
