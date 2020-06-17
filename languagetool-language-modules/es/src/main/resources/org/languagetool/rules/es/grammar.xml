@@ -7701,6 +7701,106 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
+        <rulegroup id="INCORRECT_SPACES" name="espacios sobrantes" default="temp_off">
+            <rule>
+                <antipattern>
+                    <token regexp="yes">[-–—]</token>
+                    <token>?</token>
+                </antipattern>
+                <antipattern>
+                    <token spacebefore="yes" regexp="yes">[;:]</token>
+                    <token spacebefore="no" min="0">-</token>
+                    <token spacebefore="no" regexp="yes">[D)\]]</token>
+                </antipattern>
+                <pattern>
+                    <token/>
+                    <!-- <exception regexp="yes">[-–—]</exception> -->
+                    <token spacebefore="yes" regexp="yes">[?!:;’”»]</token>
+                </pattern>
+                <message>Sobra un espacio.</message>
+                <suggestion><match no="1"/><match no="2"/></suggestion>
+                <example correction="decir?">¿Qué quieres <marker>decir ?</marker></example>
+                <example correction="dijo:">Entonces <marker>dijo :</marker> ¡ven!</example>
+                <example>¿Qué importa?...</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">[¿¡‘“«]</token>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>Sobra un espacio.</message>
+                <suggestion><match no="1"/><match no="2"/></suggestion>
+                <example correction="¿Estás"><marker>¿ Estás</marker> seguro?</example>
+                <example>¿Estás seguro?</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token spacebefore="yes">"</token>
+                    <token spacebefore="yes"/>
+                </pattern>
+                <message>Sobra un espacio.</message>
+                <suggestion>\1 \2\3</suggestion>
+                <suggestion>\1\2 \3</suggestion>
+                <example correction="que &quot;sí|que&quot; sí">Dijo <marker>que " sí</marker>".</example>
+                <example>Dijo que "sí".</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token>"</token>
+                        <token spacebefore="yes"/>
+                    </marker>
+                </pattern>
+                <message>Sobra un espacio.</message>
+                <suggestion>\1\2\3</suggestion>
+                <example correction="&quot;Sí"><marker>" Sí</marker>", dijo.</example>
+                <example>"Sí", dijo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token/>
+                        <token spacebefore="yes">"</token>
+                    </marker>
+                    <token postag="_PUNCT.*" postag_regexp="yes"><exception regexp="yes">[\[(¡¿'\-–—]</exception><exception postag="_ellipsis"/></token>
+                </pattern>
+                <message>Sobra un espacio.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="Sí&quot;">"<marker>Sí "</marker>, dijo.</example>
+                <example>Dijo que "sí".</example>
+                <example>Dijo: "... no puede ser".</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token/>
+                    <token postag="SENT_END" spacebefore="yes">"</token>
+                </pattern>
+                <message>Sobra un espacio.</message>
+                <suggestion>\1\2</suggestion>
+                <example correction="Sí&quot;">"<marker>Sí "</marker></example>
+                <example>"Ahora sí"</example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <marker>
+                        <token>;</token>
+                        <token min="0">-</token>
+                        <token>)</token>
+                    </marker>
+                </antipattern>
+                <pattern>
+                    <token>;</token>
+                    <token spacebefore="no"><exception regexp="yes">\s+</exception></token>
+                </pattern>
+                <message>Falta un espacio.</message>
+                <suggestion><match no="1"/> <match no="2"/></suggestion>
+                <example correction="; pero">Vino<marker>;pero</marker> se fue.</example>
+                <example>Vino; pero se fue.</example>
+                <example>No me lo puedo creer ;-)</example>
+            </rule>
+        </rulegroup>
         <rule id="ORDINAL_CHAR" name="carácter equivocado en ordinales">
             <pattern>
                 <token postag="D..MS." postag_regexp="yes"/>
