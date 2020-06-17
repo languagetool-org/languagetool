@@ -352,6 +352,7 @@ public class CaseRuleTest {
     assertGood("---> Der USB 3.0 Stecker");
     assertGood("Black Lives Matter");
     assertGood("== Schrittweise Erklärung");
+    assertGood("Audi A5 Sportback 2.0 TDI");
 
     // uppercased adjective compounds
     assertGood("Er isst UV-bestrahltes Obst.");

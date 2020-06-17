@@ -206,8 +206,13 @@ public class CaseRule extends Rule {
     ),
     // names with english adjectives
     Arrays.asList(
+      token("Smart"),
+      posRegex("SUB.*")
+    ),
+    // names with english adjectives
+    Arrays.asList(
       token("National"),
-      regex("Sales")
+      regex("Sales|University")
     ),
     Arrays.asList(
       // see http://www.lektorenverband.de/die-deutsche-rechtschreibung-was-ist-neu/
@@ -605,6 +610,7 @@ public class CaseRule extends Rule {
    * workaround to avoid false alarms, these words can be added here.
    */
   private static final String[] exceptions = {
+    "Out", // eng
     "Mo",
     "Di",
     "Mi",
