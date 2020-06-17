@@ -902,13 +902,13 @@ public class JLanguageTool {
       // trigger remote rules to run on whole text at once, at the start, then we wait for the results
       remoteRuleTasks = new LinkedList<>();
       checkRemoteRules(remoteRulesThreadPool, allRules, analyzedSentences, mode,
-        remoteRuleTasks, remoteRules, cachedResults, matchOffset);
+        remoteRuleTasks, remoteRules, cachedResults, matchOffset, userConfig.getTextSessionId());
     }
 
     List<RuleMatch> ruleMatches = performCheck(analyzedSentences, sentences, allRules,
       paraMode, annotatedText, listener, mode, level, remoteRulesThreadPool == null);
 
-    fetchRemoteRuleResults(mode, remoteMatches, remoteRuleTasks, remoteRules, cachedResults, matchOffset);
+    fetchRemoteRuleResults(mode, remoteMatches, remoteRuleTasks, remoteRules, cachedResults, matchOffset, annotatedText);
 
     ruleMatches.addAll(remoteMatches);
     ruleMatches = new SameRuleGroupFilter().filter(ruleMatches);
@@ -926,7 +926,8 @@ public class JLanguageTool {
   protected void fetchRemoteRuleResults(Mode mode, List<RuleMatch> remoteMatches,
                                         List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
                                         Map<AnalyzedSentence, List<RuleMatch>> cachedResults,
-                                        Map<AnalyzedSentence, Integer> matchOffset) {
+                                        Map<AnalyzedSentence, Integer> matchOffset,
+                                        AnnotatedText annotatedText) {
     if (remoteRuleTasks != null) {
       // fetch results from remote rules
       for (int i = 0; i < remoteRuleTasks.size(); i++) {
@@ -947,14 +948,23 @@ public class JLanguageTool {
               logger.info("Caching: Remote rule '{}'", ruleKey);
               // clone so that we don't adjust match position for cache
               cacheEntry.put(ruleKey, matches.stream().map(RuleMatch::new).collect(Collectors.toList()));
-              // adjust rule match position
-              // rules check all sentences batched, but should keep position adjustment logic out of rule
-              int sentenceOffset = matchOffset.get(sentence);
-              for (RuleMatch match : matches) {
-                match.setOffsetPosition(match.getFromPos() + sentenceOffset, match.getToPos() + sentenceOffset);
-              }
             } else if (cache != null) {
               logger.info("Not caching, fallback results: Remote rule '{}'", ruleKey);
+            }
+            // adjust rule match position
+            // rules check all sentences batched, but should keep position adjustment logic out of rule
+            int offset = matchOffset.get(sentence);
+            for (int j = 0; j < matches.size(); j++) {
+              RuleMatch match = matches.get(j);
+              int fromPos, toPos;
+              if (annotatedText != null) {
+                fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + offset, false);
+                toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + offset - 1, true) + 1;
+              } else {
+                fromPos = match.getFromPos() + offset;
+                toPos = match.getToPos() + offset;
+              }
+              match.setOffsetPosition(fromPos, toPos);
             }
             remoteMatches.addAll(matches);
           }
@@ -969,7 +979,15 @@ public class JLanguageTool {
         for (RuleMatch cachedMatch : cachedMatches) {
           // clone so that we don't adjust match position for cache
           RuleMatch match = new RuleMatch(cachedMatch);
-          match.setOffsetPosition(match.getFromPos() + sentenceOffset, match.getToPos() + sentenceOffset);
+          int fromPos, toPos;
+          if (annotatedText != null) {
+            fromPos = annotatedText.getOriginalTextPositionFor(match.getFromPos() + sentenceOffset, false);
+            toPos = annotatedText.getOriginalTextPositionFor(match.getToPos() + sentenceOffset - 1, true) + 1;
+          } else {
+            fromPos = match.getFromPos() + sentenceOffset;
+            toPos = match.getToPos() + sentenceOffset;
+          }
+          match.setOffsetPosition(fromPos, toPos);
           remoteMatches.add(match);
         }
       }
@@ -983,7 +1001,7 @@ public class JLanguageTool {
   protected void checkRemoteRules(@NotNull ExecutorService remoteRulesThreadPool,
                                   List<Rule> allRules, List<AnalyzedSentence> analyzedSentences, Mode mode,
                                   List<FutureTask<RemoteRuleResult>> remoteRuleTasks, List<RemoteRule> remoteRules,
-                                  Map<AnalyzedSentence, List<RuleMatch>> cachedResults, Map<AnalyzedSentence, Integer> matchOffset) {
+                                  Map<AnalyzedSentence, List<RuleMatch>> cachedResults, Map<AnalyzedSentence, Integer> matchOffset, Long textSessionId) {
     List<InputSentence> cacheKeys = new LinkedList<>();
     int offset = 0;
     // prepare keys for caching, offsets for adjusting match positions
@@ -995,9 +1013,16 @@ public class JLanguageTool {
         userConfig, altLanguages, mode);
       cacheKeys.add(cacheKey);
     }
+    long rollout = (textSessionId != null) ? (textSessionId % 100) : 0;
     for (Rule r : allRules) {
       if (r instanceof RemoteRule && !ignoreRule(r)) {
         RemoteRule rule = (RemoteRule) r;
+        // textSessionId is cached in pipeline pool, so this is not
+        logger.info("Partial rollout for rule '{}': textSessionId={}, rollout={}, configured={}",
+          rule.getId(), textSessionId, rollout, rule.getServiceConfiguration().getRollout());
+        if (!(rollout < rule.getServiceConfiguration().getRollout())) {
+          continue;
+        }
         remoteRules.add(rule);
         FutureTask<RemoteRuleResult> task;
         if (cache != null) {
