@@ -1462,12 +1462,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </marker>
                     <token negate="yes" regexp="yes">bloc|gros|passant|masse|vogue|suite|.*[ÁáÀàÇçÉéÈèÍíÌìÓóÒòÚúÙù].*</token>
                 </pattern>
-                <message>Möglicher Tippfehler: Meinten Sie evtl. <suggestion>eng</suggestion> oder <suggestion>in</suggestion>?</message>
+                <message>Möglicher Tippfehler: Meinten Sie evtl. <suggestion>eng</suggestion>, <suggestion>ein</suggestion> oder <suggestion>in</suggestion>?</message>
                 <short>Möglicher Tippfehler</short>
                 <example>Das ist <marker>en</marker> vogue jetzt.</example>
                 <example>Das haben wir <marker>en</marker> passant erledigt.</example>
                 <example>Société et pouvoir <marker>en</marker> Algérie</example>
-                <example correction="eng|in">Das ist zu <marker>en</marker>.</example>
+                <example correction="eng|ein|in">Das ist zu <marker>en</marker>.</example>
             </rule>
         </rulegroup>
         <rulegroup id="KOMMA_TLD" name="'example,com (example.com)'">
@@ -4848,6 +4848,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Verwechslungen -->
     <!-- ====================================================================== -->
     <category id="CONFUSED_WORDS" name="Leicht zu verwechselnde Wörter">
+        <rule id="IT-Girl" name="IT-Girl">
+            <pattern>
+                <token regexp="yes" case_sensitive="yes">IT-Girls?</token>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="1" regexp_match="IT" regexp_replace="It" /></suggestion> (= prominente Person)?</message>
+            <url>https://de.wikipedia.org/wiki/It-Girl</url>
+            <example correction="It-Girl">Ein <marker>IT-Girl</marker> ist nach der modernen Definition eine junge oder jüngere Frau, die durch ihr häufiges öffentliches Auftreten in Gesellschaft prominenter Personen und ihre starke Medienpräsenz einer breiten Öffentlichkeit bekannt ist.</example>
+        </rule>
         <rule id="OHMEN" name="Ohmen (Omen)">
             <pattern>
                 <token regexp="yes">gutes|schlechtes</token>
@@ -7732,11 +7740,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="PAY_PAL" name="PayPal">
             <pattern>
                 <token>Pay</token>
-                <token>Pal</token>
+                <token regexp="yes">Pals?</token>
             </pattern>
             <message>Der Name <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= Zahlungsdienstleister) wird als ein Wort geschrieben.</message>
             <url>https://de.wikipedia.org/wiki/PayPal</url>
             <example correction="PayPal">Er zahlte die Ware mit <marker>Pay Pal</marker>.</example>
+        </rule>
+        <rule id="POWER_POINT" name="PowerPoint">
+            <pattern>
+                <token>Power</token>
+                <token regexp="yes">Points?</token>
+            </pattern>
+            <message>Der Name <suggestion><match no="1" case_conversion="startupper" /><match no="2" case_conversion="startupper" /></suggestion> (= Präsentationsprogramm) wird als ein Wort geschrieben.</message>
+            <url>https://de.wikipedia.org/wiki/Microsoft_PowerPoint</url>
+            <example correction="PowerPoint">Er hat eine Präsentation mit <marker>Power Point</marker> gebaut.</example>
         </rule>
         <rule id="BLACK_LIVES_MATTER" name="Black Lives Matter">
             <antipattern case_sensitive="yes">
@@ -9352,7 +9369,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>Meinten Sie das Nomen <suggestion>Midlife-Crisis</suggestion>?</message>
             <example correction="Midlife-Crisis">Mit 40 bekam er eine <marker>Midlife Crises</marker>.</example>
         </rule>
-        <rule id="RUND_UM_DIE_UHR_BEWACHUNG" name="Rund-um-die-Uhr-Bewachung" default="temp_off">
+        <rule id="RUND_UM_DIE_UHR_BEWACHUNG" name="Rund-um-die-Uhr-Bewachung">
             <pattern>
                 <token>Rund</token>
                 <token>um</token>
@@ -33442,7 +33459,7 @@ Andere Projekte</example>
     <!-- Grammatik -->
     <!-- ====================================================================== -->
     <category id="GRAMMAR" name="Grammatik">
-        <rule id="PERSONA_NON_GRATA" name="Persona non grata" default="temp_off">
+        <rule id="PERSONA_NON_GRATA" name="Persona non grata">
             <antipattern case_sensitive="yes">
                 <token>Persona</token>
                 <token>non</token>
@@ -34786,7 +34803,7 @@ Andere Projekte</example>
         </rulegroup>
         <rule id="SEHR_GEEHRTER_NAME" name="Sehr geehrter (Name) -> Herr/Frau (Name)">
             <antipattern>
-                <token regexp="yes">Herr(e?n)?|Hr|Fr|Frau(en)?|Damen?|Kunden?|Kundin|Sponsor(en)?|Redaktion|Mandant([ei]n)?|Mitarbeiter(innen)?|Angestellter?|Anwender|(Fahr|Reise|Flug)?(gast|gäste)|Nutzer(in)?|User|Interessent(en)?|Kollegen?|Kollegin(nen)?|Gastgeber|Professor(en)?|Lehrer(innen)?|Klient(en)?|Partner(in)?|Vertreter(in)?|Fachschaft|Eltern|Familien?|.+beratung|.+manager</token>
+                <token regexp="yes">Herr(e?n)?|Hr|Fr|Frau(en)?|Damen?|Kunden?|Kundin|Kundinnen|Sponsor(en)?|Redaktion|Mandant([ei]n)?|Mitarbeiter(innen)?|Angestellter?|Anwender|(Fahr|Reise|Flug)?(gast|gäste)|Nutzer(in)?|User|Interessent(en|in)?|Kollegen?|Kollegin(nen)?|Gastgeber|Professor(en|in)?|Lehrer(innen)?|Klient(en)?|Partner(in)?|Vertreter(in)?|Fachschaft|Eltern|Familien?|.+beratung|.+manager|.*beirat|.*partner|Support|Präsident|Miss|Händler|Kommiliton.+|X{1,}|Eheleute|Teilnehmer(innen)?|Prof|Investor(en|in)?|Kundenbetreuung</token>
             </antipattern>
             <pattern>
                 <token>Sehr</token>
