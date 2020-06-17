@@ -1414,6 +1414,10 @@ class CompoundTagger {
           right = right.substring(1);
           apo = "'";
         }
+        
+        if( right.length() < 2 )
+          continue;
+          
 
         boolean apoNeeded = false;
         if( "єїюя".indexOf(right.charAt(0)) != -1

@@ -136,31 +136,32 @@ public class UkrainianTagger extends BaseTagger {
         return newTokens.size() > 0 ? newTokens : tokens; 
       }
 
-      
-      if( word.indexOf('\u2013') > 0
-           && ALT_DASHES_IN_WORD.matcher(word).find() ) {
+      if( word.length() > 2 ) {
+        if( word.indexOf('\u2013') > 0
+            && ALT_DASHES_IN_WORD.matcher(word).find() ) {
 
-        word = origWord.replace('\u2013', '-');
+          word = origWord.replace('\u2013', '-');
 
-        List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(origWord, word, null, null, null);
+          List<AnalyzedToken> newTokens = getAdjustedAnalyzedTokens(origWord, word, null, null, null);
 
-        if( newTokens.size() > 0 ) {
-          tokens = newTokens;
+          if( newTokens.size() > 0 ) {
+            tokens = newTokens;
+          }
         }
-      }
-      
-      // try г instead of ґ
-      else if( word.contains("ґ") || word.contains("Ґ") ) {
-        tokens = convertTokens(tokens, word, "ґ", "г", ":alt");
-      }
-      else if( word.contains("ія") ) {
-        tokens = convertTokens(tokens, word, "ія", "іа", ":alt");
-      }
-      else if( word.endsWith("тер") ) {
-        tokens = convertTokens(tokens, word, "тер", "тр", ":alt");
-      }
-      else if( word.contains("льо") ) {
-        tokens = convertTokens(tokens, word, "льо", "ло", ":alt");
+
+        // try г instead of ґ
+        else if( word.contains("ґ") || word.contains("Ґ") ) {
+          tokens = convertTokens(tokens, word, "ґ", "г", ":alt");
+        }
+        else if( word.contains("ія") ) {
+          tokens = convertTokens(tokens, word, "ія", "іа", ":alt");
+        }
+        else if( word.endsWith("тер") ) {
+          tokens = convertTokens(tokens, word, "тер", "тр", ":alt");
+        }
+        else if( word.contains("льо") ) {
+          tokens = convertTokens(tokens, word, "льо", "ло", ":alt");
+        }
       }
     }
 
