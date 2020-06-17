@@ -6623,7 +6623,12 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </antipattern>
         <antipattern><!-- #3088 Tom does exercises every -->
             <token chunk="E-NP-singular" postag_regexp="yes" postag="NN(P|:UN?)?"/>
-            <token>does</token>
+            <token>does</token> 
+            <token chunk="E-NP-plural" postag="NNS"/>
+            <token regexp="yes">each|every</token>
+        </antipattern>
+        <antipattern><!-- #3088 five samples every -->
+            <token postag="CD"/>
             <token chunk="E-NP-plural" postag="NNS"/>
             <token regexp="yes">each|every</token>
         </antipattern>
@@ -6662,6 +6667,8 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">... and there unfortunately being puddles all over the street, we became very wet.</example><!-- Premium #1350 -->
         <example type="untouched">He lives in the woods all by himself.</example><!-- #3047 -->
         <example type="untouched">Tom does exercises every day.</example><!-- #3088 -->
+        <example type="untouched">They do the tests 4 times each year.</example><!-- #3113 -->
+        <example type="untouched">They gave the customers five samples every year.</example><!-- #3113 -->
         <example type="ambiguous" inputform="causes[cause/NNS,cause/VBZ]" outputform="causes[cause/VBZ]">Hard work <marker>causes</marker> an event.</example>
     </rule>
 
@@ -8358,7 +8365,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             </pattern>
             <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
             <example type="ambiguous" inputform="times[time/NNS]" outputform="times[times/RB]">They did it three <marker>times</marker>.</example>
-            <example type="ambiguous" inputform="times[time/VBZ]" outputform="times[times/RB]">They do the tests 4 <marker>times</marker> each year.</example><!-- wrong input tagging -->
+            <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[times/RB]">They do the tests 4 <marker>times</marker> each year.</example>
             <example type="untouched">They are the best option 9 times out of ten.</example><!-- #3111 -->
             <example type="untouched">If the 3 times are all the same, stop the test.</example><!-- #3111 -->
             <example type="untouched">If the 3 times (as shown in the Test Time column) are the same, stop the test.</example><!-- #3111 -->
