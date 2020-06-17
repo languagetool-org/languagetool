@@ -7516,6 +7516,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONTEXT" name="Errores según el contexto">
+        <rule id="COMPRAR_GRASTAR" name="*comprar/gastar en" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected="yes" skip="5">comprar</token>
+                </marker>
+                <token regexp="yes">dólares|euros|millones</token>
+                <token regexp="yes" min="0" max="2">de|dólares|euros</token>
+                <token>en</token>
+            </pattern>
+            <message>Uso impropio del v. 'comprar' (*comprar millones en).</message>
+            <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">gastar</match></suggestion>
+            <suggestion>\1 ... por valor de</suggestion>
+            <url>https://www.fundeu.es/recomendacion/gastar-millones-en-algo-comprar-millones-en-algo/</url>
+            <example correction="gastado|comprado ... por valor de">Ha <marker>comprado</marker> casi 11 millones de dólares en armas.</example>
+            <example correction="Gastó|Compró ... por valor de"><marker>Compró</marker> casi 11 millones de dólares en armas.</example>
+        </rule>
         <rule id="ADOLECER_CARECER" name="*adolecer/carecer" default="temp_off">
             <pattern>
                 <marker>
