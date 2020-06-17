@@ -1532,6 +1532,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
     </rulegroup>
 
+    <rulegroup id="vyrazhaty" name="Виражати">
+      <rule>
+        <pattern>
+          <marker>
+            <token inflected="yes" regexp="yes">виражати|виразити</token>
+          </marker>
+          <token postag_regexp="yes" postag="adj:.:v_zna.*" min="0"/>
+          <token regexp="no">бажання</token>
+        </pattern>
+        <message>Правильно: <suggestion>висловлювати</suggestion></message>
+        <example correction="висловлювати"><marker>виражати</marker> бажання допомогти</example>
+      </rule>
+    </rulegroup>
+
+    <rulegroup id="zazhyvo" name="Заживо">
+      <rule>
+        <pattern>
+          <token inflected="yes" regexp="yes">з?горіти|згоряти|(зі)?гнити|(зі)?гнисти|закопаний|закопати|спалений|с?палити|похований|поховати|замурований|замуровати|зварений|з?варити</token>
+          <marker>
+            <token>заживо</token>
+          </marker>
+        </pattern>
+        <message>«заживо» означає «за життя», правильно: <suggestion>живцем</suggestion></message>
+        <example correction="живцем">згоріти <marker>заживо</marker></example>
+      </rule>
+
+      <rule>
+        <pattern>
+          <marker>
+            <token>заживо</token>
+          </marker>
+          <token inflected="yes" regexp="yes">з?горіти|згоряти|(зі)?гнити|(зі)?гнисти|закопаний|закопати|спалений|с?палити|похований|поховати|замурований|замуровати|зварений|з?варити</token>
+        </pattern>
+        <message>«заживо» означає «за життя», правильно: <suggestion>живцем</suggestion></message>
+        <example correction="живцем"><marker>заживо</marker> закопаний</example>
+      </rule>
+    </rulegroup>
+
     <rulegroup id="PRYTRYMUVATYSIA" name="Притримутися замість дотримуватися">
       <rule>
         <pattern>
@@ -1791,7 +1829,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <token>ситуацій</token>
         </antipattern>
         <pattern>
-          <token regexp="yes" inflected="yes" postag_regexp="yes" postag=".*(v_zna|v_rod).*">.+[аеєя]ння|біда|.*вбивство|вибух|випадок|відмова|вчинок|диверсія|дія|забудова|загроза|замах|злочин|злочинність|катастрофа|конфлікт|криза|насильство|наслідок|нашестя|небезпека|обстріл|пандемія|передача|підрив|провокація|прояв|розвиток|ситуація|скоєння|спроба|тенденція|теракт|торгівля|хвороба
+          <token regexp="yes" inflected="yes" postag_regexp="yes" postag=".*(v_zna|v_rod).*">.+[аеєя]ння|біда|.*вбивство|аварія|вибух|випадок|відмова|вчинок|диверсія|дія|забудова|загроза|замах|злочин|злочинність|катастрофа|конфлікт|криза|насильство|наслідок|нашестя|небезпека|обстріл|пандемія|передача|підрив|провокація|прояв|розвиток|ситуація|скоєння|спроба|тенденція|теракт|торгівля|хвороба
             <exception regexp="yes">видання|відділення|дослідження|зарання|засідання|зрання|командування|населення|оточення|самоврядування|скорочення</exception>
           </token>
           <token postag_regexp="yes" postag="adv.*" min="0"/>
@@ -6085,10 +6123,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           <exception postag_regexp="yes" postag="numr.*pron.*"/> <!--одних|багатьох -->
           <exception>обох</exception>
         </token>
-        <token postag_regexp="yes" postag="noun.*v_rod.*"/>
+        <token postag_regexp="yes" postag="(noun|numr).*v_rod.*"/>
       </pattern>
       <message>Правильно: <suggestion>близько <match no="2"/> <match no="3"/></suggestion></message>
       <example correction="близько п'яти відсотків"><marker>біля п'яти відсотків</marker></example>
+      <example correction="близько 1 млрд."><marker>біля 1 млрд.</marker> осіб</example>
       <example>біля одного воза він зупинився</example>
       <example>біля обох воріт</example>
     </rule>
@@ -6473,6 +6512,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </rule>
       -->
     </rulegroup>
+
+    <rule id="po_pyani" name="По п'яні">
+      <pattern>
+        <token>по</token>
+        <token>п'яні</token>
+      </pattern>
+      <message>Правильно: <suggestion>по п'яному</suggestion></message>
+      <suggestion>напідпитку</suggestion>
+      <suggestion>з п'яних очей</suggestion>
+      <example correction="по п'яному|напідпитку|з п'яних очей">загинув <marker>по п'яні</marker>.</example>
+    </rule>
 
 <!--  Too many false positives with надоїти, moved to replace.txt
     <rule id="nadoyisty" name="Надоїсти">

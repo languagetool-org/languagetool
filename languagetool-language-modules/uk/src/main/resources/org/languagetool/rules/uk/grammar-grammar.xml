@@ -1246,6 +1246,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example correction="Привіт, Василю"><marker>Привіт Василь</marker>!</example>
     </rule>
 
+    <rule id="im_choloviche_prizvysche" name="Ім. + чоловіче прізвище">
+      <pattern>
+        <token>ім.</token>
+        <marker>
+          <token postag_regexp="yes" postag="noun:anim:m:v_naz.*?:lname.*">
+            <exception postag_regexp="yes" postag="noun:anim:m:v_rod.*?:lname.*"/>
+          </token>
+        </marker>
+      </pattern>
+      <message>Чоловіче прізвище відмінюється</message>
+      <suggestion><match no="2" postag_regexp="yes" postag="(noun:anim:m:)v_naz(.*?:lname.*)" postag_replace="$1v_rod.*"/></suggestion>
+      <example correction="Довженка">Кіностудія ім. <marker>Довженко</marker>.</example>      
+    </rule>
+
     <rule id="VIDMINA_CHOLOVICHYH_PRIZVYSCH" name="Відмінювання чоловічих прізвищ">
       <antipattern>
         <token postag_regexp="yes" postag="noun:anim:f.*?:fname.*"/>

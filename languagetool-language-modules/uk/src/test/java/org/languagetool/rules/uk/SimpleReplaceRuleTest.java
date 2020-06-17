@@ -71,6 +71,12 @@ public class SimpleReplaceRuleTest {
     assertEquals(1, matches.length);
     assertEquals(Arrays.asList("Нападник", "Нападальний", "Нападний"), matches[0].getSuggestedReplacements());
 
+    // test enforce list
+    // главком - дуже рідко зустрічається, як загальна назва
+//    matches = rule.match(langTool.getAnalyzedSentence("главком"));
+//    assertEquals(1, matches.length);
+//    assertEquals(Arrays.asList("головком"), matches[0].getSuggestedReplacements());
+
     // test ignoreTagged
     matches = rule.match(langTool.getAnalyzedSentence("щедрота"));
     assertEquals(1, matches.length);
