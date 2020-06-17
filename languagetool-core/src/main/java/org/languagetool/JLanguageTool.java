@@ -1483,7 +1483,8 @@ public class JLanguageTool {
             CommonWords commonWords = new CommonWords();
             throw new ErrorRateTooHighException("Text checking was stopped due to too many errors (more than " + String.format("%.0f", maxErrorsPerWordRate*100) +
                     "% of words seem to have an error). Are you sure you have set the correct text language? Language set: " + JLanguageTool.this.language.getName() +
-                    ", text length: " + annotatedText.getPlainText().length() + ", common word count: " + commonWords.getKnownWordsPerLanguage(annotatedText.getPlainText()));
+                    ", text length: " + annotatedText.getPlainText().length());
+            //        ", text length: " + annotatedText.getPlainText().length() + ", common word count: " + commonWords.getKnownWordsPerLanguage(annotatedText.getPlainText()));
           }
           charCount += sentence.length();
           lineCount += countLineBreaks(sentence);
