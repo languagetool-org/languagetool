@@ -211,16 +211,8 @@ public abstract class GRPCRule extends RemoteRule {
       MLRuleRequest req = (MLRuleRequest) request;
 
       MLServerProto.MatchResponse response = conn.stub.match(req.request);
-      Map<AnalyzedSentence, Integer> offsets = new HashMap<>();
-      int offset = 0;
-      for (int i = 0; i < req.sentences.size(); i++) {
-        AnalyzedSentence sentence = req.sentences.get(i);
-        offsets.put(sentence, offset);
-        offset += sentence.getText().length();
-      }
       List<RuleMatch> matches = Streams.zip(response.getSentenceMatchesList().stream(), req.sentences.stream(), (matchList, sentence) ->
         matchList.getMatchesList().stream().map(match -> {
-            int relativeOffset = offsets.get(sentence);
             GRPCSubRule subRule = new GRPCSubRule(match.getSubId(), match.getRuleDescription());
             String message = match.getMatchDescription();
             String shortMessage = match.getMatchShortDescription();
@@ -230,7 +222,7 @@ public abstract class GRPCRule extends RemoteRule {
             if (message == null || message.isEmpty()) {
               throw new RuntimeException("Missing message for match with ID " + subRule.getId());
             }
-            int start = relativeOffset + match.getOffset();
+            int start = match.getOffset();
             int end = start + match.getLength();
             RuleMatch m = new RuleMatch(subRule, sentence,
                                         start, end,
@@ -240,7 +232,7 @@ public abstract class GRPCRule extends RemoteRule {
           }
         )
       ).flatMap(Function.identity()).collect(Collectors.toList());
-      RemoteRuleResult result = new RemoteRuleResult(true, matches);
+      RemoteRuleResult result = new RemoteRuleResult(true, true, matches);
       return result;
     };
   }
@@ -253,7 +245,7 @@ public abstract class GRPCRule extends RemoteRule {
 
   @Override
   protected RemoteRuleResult fallbackResults(RemoteRule.RemoteRequest request) {
-    return new RemoteRuleResult(false, Collections.emptyList());
+    return new RemoteRuleResult(false, false, Collections.emptyList());
   }
 
   /**

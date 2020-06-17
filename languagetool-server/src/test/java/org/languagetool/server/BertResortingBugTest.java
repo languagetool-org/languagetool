@@ -1,6 +1,6 @@
-/* LanguageTool, a natural language style checker 
+/* LanguageTool, a natural language style checker
  * Copyright (C) 2020 Daniel Naber (http://www.danielnaber.de)
- * 
+ *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
  * License as published by the Free Software Foundation; either
@@ -19,6 +19,7 @@
 package org.languagetool.server;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.Ignore;
 import org.junit.Test;
 import org.languagetool.tools.Tools;
