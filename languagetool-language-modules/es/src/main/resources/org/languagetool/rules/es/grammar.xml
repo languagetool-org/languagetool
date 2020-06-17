@@ -202,6 +202,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rule id="LITROS_POR_METRO" name="litros por *metros/metro cuadrado" default="temp_off">
+            <pattern>
+                <token regexp="yes">.*(litros|gramos|metros)|habitantes</token>
+                <token>por</token>
+                <marker>
+                    <token regexp="yes">.*metros</token>
+                    <token regexp="yes">cuadrados|cúbicos</token>
+                </marker>
+            </pattern>
+            <message>Para indicar intensidades o proporciones el segundo elemento se escribe en singular.</message>
+            <suggestion><match no="3" regexp_match="(?iu)(.*o)s" regexp_replace="$1"/> <match no="4" regexp_match="(?iu)(.*o)s" regexp_replace="$1"/></suggestion>
+            <example correction="metro cuadrado">10 litros por <marker>metros cuadrados</marker></example>
+            <example correction="centímetro cúbico">10 mililitros por <marker>centímetros cúbicos</marker></example>
+            <example correction="kilómetro cuadrado">1000 habitantes por <marker>kilómetros cuadrados</marker></example>
+        </rule>
+        <rule id="EN_LA_MEDIDA_EN_QUE" name="en la medida *de que/en que" default="temp_off">
+            <antipattern>
+                <token>en</token>
+                <token>la</token>
+                <token>medida</token>
+                <token min="0">en</token>
+                <token>que</token>
+            </antipattern>
+            <pattern>
+                <token>en</token>
+                <token min="0">la</token>
+                <token>medida</token>
+                <token regexp="yes" min="0">de|en</token>
+                <token>que</token>
+            </pattern>
+            <message>Expresión incorrecta.</message>
+            <suggestion>en la medida en que</suggestion>
+            <suggestion>en la medida que</suggestion>
+            <url>https://www.fundeu.es/recomendacion/en-la-medida-en-que-mejor-que-en-la-medida-de-que/</url>
+            <example correction="en la medida en que|en la medida que">Tiene sentido <marker>en la medida de que</marker> se entienda.</example>
+            <example correction="en la medida en que|en la medida que">Tiene sentido <marker>en medida de que</marker> se entienda.</example>
+            <example correction="en la medida en que|en la medida que">Tiene sentido <marker>en medida que</marker> se entienda.</example>
+            <example correction="en la medida en que|en la medida que">Tiene sentido <marker>en medida en que</marker> se entienda.</example>
+        </rule>
         <rule id="CUOTA_COTA" name="cuota/cota">
             <pattern>
                 <marker>
@@ -3844,6 +3883,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
+                    <token regexp="yes">super|súper</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">copas?</token>
+                </pattern>
+                <message>Es preferible escribirlo junto.</message>
+                <suggestion>Super<match no="3" case_conversion="alllower"/></suggestion>
+                <url>https://www.fundeu.es/recomendacion/supercopa-en-una-palabra-y-sin-tilde/</url>
+                <example correction="Supercopa">Ganó la <marker>súper-copa</marker></example>
+            </rule>
+            <rule>
+                <pattern>
                     <token>corona</token>
                     <token min="0">-</token>
                     <token>virus</token>
@@ -4019,6 +4069,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="afro$1"/></suggestion>
                 <example correction="afroamericanos">Los <marker>afro-americanos</marker>.</example>
                 <example>Háblame sobre todo esto.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>euro</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">...+</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="euro$1"/></suggestion>
+                <example correction="euromagrebíes">Los <marker>euro-magrebíes</marker>.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>nano</token>
+                    <token min="0">-</token>
+                    <token regexp="yes">...+</token>
+                </pattern>
+                <message suppress_misspelled="yes">Probablemente se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(.+)" regexp_replace="nano$1"/></suggestion>
+                <example correction="nanotecnología">Los <marker>nano-tecnología</marker>.</example>
             </rule>
             <rule>
                 <pattern>
