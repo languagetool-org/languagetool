@@ -7583,6 +7583,45 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">In a perfect world technicians wear PPE.</example><!-- #3101 -->
     </rule>
 
+    <rule id="DT_JJ_NNJJ_NN_VB_APOSTROPHE" name="determiner + adj + noun/adj + noun + verbn't => noun"><!-- #3108 -->
+        <pattern><!-- based on an AP in NNJJ_NN_JJ -->
+            <token chunk="B-NP-plural" postag="DT"/>
+            <token chunk="I-NP-plural" postag_regexp="yes" postag="JJR?"/>
+            <marker>
+                <and>
+                    <token postag_regexp="yes" postag="JJR?"/>
+                    <token chunk="I-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
+                </and>
+            </marker>
+            <token chunk="E-NP-plural" postag="NNS"/>
+            <token regexp="yes">&abbreviated_negated_verbs;</token>
+            <token regexp="yes">&apostrophe;</token>
+            <token>t</token>
+        </pattern>
+        <disambig action="filter" postag="NN.*"/>
+        <example type="ambiguous" inputform="world[world/JJ,world/NN:UN]" outputform="world[world/NN:UN]">In a perfect <marker>world</marker> spreaders don't exist.</example>
+        <example type="untouched">In a perfect world technicians don this equipment for protection.</example>
+    </rule>
+
+    <rule id="DT_JJ_NNJJ_NN_VB" name="determiner + adj + noun/adj + noun + verb => noun"><!-- #3108 -->
+        <pattern><!-- based on an AP in NNJJ_NN_JJ -->
+            <token chunk="B-NP-plural" postag="DT"/>
+            <token chunk="I-NP-plural" postag_regexp="yes" postag="JJR?"/>
+            <marker>
+                <and>
+                    <token postag_regexp="yes" postag="JJR?"/>
+                    <token chunk="I-NP-plural" postag_regexp="yes" postag="NN(:UN?)?"/>
+                </and>
+            </marker>
+            <token chunk="E-NP-plural" postag="NNS"/>
+            <token chunk="B-VP" postag_regexp="yes" postag="VB[PD]?"/>
+        </pattern>
+        <disambig action="filter" postag="NN.*"/>
+        <example type="ambiguous" inputform="world[world/JJ,world/NN:UN]" outputform="world[world/NN:UN]">In a perfect <marker>world</marker> technicians don this equipment.</example>
+        <example type="ambiguous" inputform="world[world/JJ,world/NN:UN]" outputform="world[world/NN:UN]">In a perfect <marker>world</marker> technicians wear PPE.</example>
+        <example type="untouched">In a perfect <marker>world</marker> spreaders don't exist.</example>
+    </rule>
+
         <rule id="BENEATH_NOTICE" name="beneath notice">
             <pattern>
                 <token postag="IN">beneath</token>
