@@ -318,8 +318,28 @@ public class UpperCaseNgramRule extends Rule {
       token("it|him|her|them|that|this"),
       tokenRegex("[A-Z].+")
     ),
+    Arrays.asList( // What is Foreshadowing?
+      tokenRegex("Who|What"),
+      tokenRegex("is|are|was|were"),
+      tokenRegex("[A-Z].+"),
+      token("?")
+    ),
+    Arrays.asList( // His name is Carp.
+      token("name"),
+      tokenRegex("is|was"),
+      tokenRegex("[A-Z].+")
+    ),
+    Arrays.asList( // FDM Group
+      tokenRegex("[A-Z].*"),
+      token("Group")
+    ),
+    Arrays.asList( // Victor or Rabbit as everyone calls him.
+      pos("NNP"),
+      tokenRegex("or|and|&"),
+      tokenRegex("[A-Z].*")
+    ),
     Arrays.asList(
-      tokenRegex("Teams|Maps|Canvas|Remind|Switch") // Microsoft Teams, Google Maps, Remind App, Nintendo Switch (not tagged as NNP)
+      tokenRegex("Teams|Maps|Canvas|Remind|Switch|Gems?") // Microsoft Teams, Google Maps, Remind App, Nintendo Switch (not tagged as NNP), Gems (Ruby Gems)
     )
   );
 
