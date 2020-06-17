@@ -151,7 +151,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     </unification>
        
     <category id="LOGIC" name="Логические ошибки">
-          <rulegroup id="INVALID_DATE" name="Неверная дата, например «31 февраля 2014»">
+          <rulegroup id="INVALID_DATE" name="Неверная дата, например: «31 февраля 2014»">
             <rule>
                 <pattern>
                     <!-- "31 июня 2014 г." -->
@@ -223,7 +223,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Конференция состоится во <marker>вторник, 7.10.2014</marker> г.</example>
             </rule>
         </rulegroup>
-        <rule id="perehodny_peshehod" name="Опечатка «пешеходный переход»">
+        <rule id="perehodny_peshehod" name="Опечатка: «пешеходный переход»">
             <pattern>
 		<token>переходный</token>
                 <token>пешеход</token>
@@ -232,7 +232,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="пешеходный переход"><marker>переходный пешеход</marker></example>
         </rule>
-        <rulegroup id="ne_proronila_ni" name="Опечатка «не проронила и слово»">
+        <rulegroup id="ne_proronila_ni" name="Опечатка: «не проронила и слово»">
          <!-- TODO: add postag for verb - переходный глагол-->   
           <rule>
               <pattern>
@@ -246,7 +246,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="не проронила ни слова">За весь вечер она <marker>не проронила и слово</marker>.</example>
           </rule>
         </rulegroup>
-        <rule id="zakonchit_shkolu" name="Опечатка «закончить/окончить»">
+        <rule id="zakonchit_shkolu" name="Опечатка: «закончить или окончить»">
             <pattern>
 		<token inflected="yes">закончить</token>
                 <token regexp="yes">школу|институт|университет|вуз|курсы|техникум|пту|училище|академию</token>
@@ -255,7 +255,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="окончил университет">В этом году он <marker>закончил университет</marker>.</example>
         </rule>
-        <rulegroup id="dlitelnij_dlinnij" name="Опечатка «длительный/длинный»">
+        <rulegroup id="dlitelnij_dlinnij" name="Опечатка: «длительный» или «длинный»">
            <rule>
             <pattern>
 		<token inflected="yes">длительный</token>
@@ -276,7 +276,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
         
-        <rulegroup id="Vazhno_chto_etogo" name="Опечатка «что этого/что это»">
+        <rulegroup id="Vazhno_chto_etogo" name="Опечатка: «что этого» или «что это»">
           <rule>
             <pattern>
                 <marker>
@@ -306,7 +306,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Важно, что этого удалось добиться для случая изотропных материалов.</example>
           </rule>
         </rulegroup>
-        <rule id="sovestnij_sovmestnij" name="Опечатка «совестный/совместный»">
+        <rule id="sovestnij_sovmestnij" name="Опечатка: «совестный» или «совместный»">
             <pattern>
 		<token inflected="yes">совестный</token>
                 <token inflected="yes" regexp="yes">бизнес|предприятие</token>
@@ -315,7 +315,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="совместное предприятие"><marker>совестное предприятие</marker></example>
         </rule>
-        <rule id="odin_za_odnim" name="Опечатка «один за одним/один за другим»">
+        <rule id="odin_za_odnim" name="Опечатка: «один за одним» или «один за другим»">
             <pattern>
 		<token>один</token>
                 <token>за</token>
@@ -325,7 +325,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Опечатка</short>
             <example correction="один за другим"><marker>один за одним</marker></example>
         </rule>
-        <rule id="Slovosoch_interesnaja_kniga" name="Опечатка «интересная/интересую»">
+        <rule id="Slovosoch_interesnaja_kniga" name="Опечатка: «интересная» или «интересую»">
             <pattern>
 		<token postag="VB:.*" postag_regexp="yes"></token>
                 <token>интересую</token>
@@ -336,7 +336,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="купил интересную книгу"><marker>купил интересую книгу</marker></example>
             <example>прочесть интересную книгу</example>
         </rule>
-        <rule id="V_sortimente" name="Опечатка «в сортименте/в ассортименте»">
+        <rule id="V_sortimente" name="Опечатка: «в сортименте» или «в ассортименте»">
             <pattern>
 		<token skip="1">в</token>
                 <token>сортименте</token>
@@ -348,7 +348,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
              <example correction="в широком ассортименте.">Товары <marker>в широком сортименте.</marker></example>
             <example>Товары в ассортименте.</example>
         </rule>    
-        <rulegroup id="Slovosoch_v_proshlom" name="Опечатка «в прошлом/в пошлом»">
+        <rulegroup id="Slovosoch_v_proshlom" name="Опечатка: «в прошлом» или «в пошлом»">
           <rule>
             <pattern>
 		<marker>
@@ -391,7 +391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="На прошлые"><marker>На пошлые</marker> каникулы мы ездили в горы.</example>
           </rule>                
         </rulegroup>
-	<rulegroup id="na_poverku" name="Логические ошибки «на поверку/на проверку»">
+	<rulegroup id="na_poverku" name="Логические ошибки: «на поверку» или «на проверку»">
             <rule> 
                 <pattern>
                     <token>на</token>
@@ -406,7 +406,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Сдайте тетради на проверку!</example>
             </rule>          
         </rulegroup>
-        <rulegroup id="v_ruchnuju" name="Логические ошибки «в ручную/вручную»">
+        <rulegroup id="v_ruchnuju" name="Логические ошибки: «в ручную» или «вручную»">
             <rule> 
                 <pattern>
                     <token postag="VB.*" postag_regexp="yes"></token>
@@ -433,7 +433,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>И двери открыть вручную.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="INFORMATIVNIJ_INFORMACIONNIJ" name="Логические ошибки «информативный/информационный»">
+        <rulegroup id="INFORMATIVNIJ_INFORMACIONNIJ" name="Логические ошибки: «информативный» или «информационный»">
             <rule>
                 <pattern>
                     <token inflected="yes">информативный</token>
@@ -445,7 +445,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="информационный отдел">По всем вопросам обращайтесь в <marker>информативный отдел</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="VODJANOJ_VODNIJ" name="Логические ошибки «водяной/водный»">
+        <rulegroup id="VODJANOJ_VODNIJ" name="Логические ошибки: «водяной» или «водный»">
             <rule>
                 <pattern>
                     <token inflected="yes">водяной</token>
@@ -468,7 +468,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>                   
         </rulegroup>
         
-	<rulegroup id="obschie_toscki_soprikosnovenija" name="Логические ошибки «общие точки соприкосновения»">
+	<rulegroup id="obschie_toscki_soprikosnovenija" name="Логические ошибки: «общие точки соприкосновения»">
             <rule> 
                 <pattern>
                     <token inflected="yes">общий</token>
@@ -483,7 +483,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
         
-        <rulegroup id="uroven_uvelichilsja" name="Логические ошибки «уровень повысился/увеличился»">
+        <rulegroup id="uroven_uvelichilsja" name="Логические ошибки: «уровень повысился или увеличился»">
             <!--  <token min="0" max="3"></token> - реализовано другим способом skip="3"-->          
             <rule> 
                 <pattern>
@@ -508,7 +508,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Уровень воды в озере понизился.</example>
             </rule>                    
         </rulegroup>
-        <rulegroup id="gerojsky_geroichesky" name="Логические ошибки «геройский/героический»">
+        <rulegroup id="gerojsky_geroichesky" name="Логические ошибки: «геройский» или «героический»">
             <rule> 
                 <pattern>
                    <token inflected="yes">геройский</token>
@@ -520,7 +520,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Героический эпос народов мира.</example>
             </rule> 
         </rulegroup>
-        <rulegroup id="giloj_gilichnij" name="Логические ошибки «жилой/жилищный»">
+        <rulegroup id="giloj_gilichnij" name="Логические ошибки: «жилой» или «жилищный»">
             <rule> 
                 <pattern>
                    <token>жилищный</token>
@@ -542,7 +542,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>жилищный кодекс</example>
             </rule>  
         </rulegroup>
-        <rulegroup id="dvigatel_dvizhetel" name="Устойчивые словосочетания со словами «двигатель/движитель»">
+        <rulegroup id="dvigatel_dvizhetel" name="Устойчивые словосочетания со словами: «двигатель» или «движитель»">
             <rule> 
                 <pattern>
                    <token inflected="yes">движитель</token>
@@ -554,7 +554,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Кооперация и аренда — двигатели перестройки.</example>
             </rule>
         </rulegroup>      
-        <rulegroup id="companija_campanija" name="Логические ошибки «компания/кампания»">
+        <rulegroup id="companija_campanija" name="Логические ошибки: «компания» или «кампания»">
             <rule> 
                 <pattern>
                    <token inflected="yes">производственный</token>
@@ -577,7 +577,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Кампания по сбору урожая.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="economichesky_ekonomichniy" name="Логические ошибки «экономический/экономичный»">      
+        <rulegroup id="economichesky_ekonomichniy" name="Логические ошибки: «экономический» или «экономичный»">      
             <rule> 
                 <pattern>
                    <token inflected="yes" >экономический</token>
@@ -599,7 +599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>На экономическом саммите обсуждались злободневные темы.</example>
             </rule>                
         </rulegroup>
-        <rulegroup id="urovnjat_uravnjat" name="Логические ошибки «уровнять/уравнять»">
+        <rulegroup id="urovnjat_uravnjat" name="Логические ошибки: «уровнять» или «уравнять»">
                 
             <rule> 
                 <pattern>
@@ -623,7 +623,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>уравнять в правах</example>
             </rule>                     
         </rulegroup>
-        <rulegroup id="bolotnij_bolotistiy" name="Логические ошибки «болотный/болотистый»">         
+        <rulegroup id="bolotnij_bolotistiy" name="Логические ошибки: «болотный» или «болотистый»">         
             <rule> 
                 <pattern>
                    <token inflected="yes">болотный</token>
@@ -643,7 +643,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="болотный газ">Из воды выходил <marker>болотистый газ</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="budniy_budnichnij" name="Логические ошибки «будний/будничный»">         
+        <rulegroup id="budniy_budnichnij" name="Логические ошибки: «будний» или «будничный»">         
             <rule> 
                 <pattern>
                    <token inflected="yes">будний</token>
@@ -664,7 +664,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect"><marker>будничный день</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="voinstvujuschij_voinstvennij" name="Логические ошибки «воинственный/воинствующий»">         
+        <rulegroup id="voinstvujuschij_voinstvennij" name="Логические ошибки: «воинственный» или «воинствующий»">         
             <rule> 
                 <pattern>
                    <token inflected="yes">воинствующий</token>
@@ -685,7 +685,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example type="incorrect"><marker>воинственный идеализм</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="vlasti_priderjashie" name="Логические ошибки «власти предержащие»">
+        <rulegroup id="vlasti_priderjashie" name="Логические ошибки: «власти предержащие»">
             <rule> 
                 <pattern>
                     <token>власть</token>
@@ -696,18 +696,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="власти предержащие">Это <marker>власть предержащие</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="tcifra_zanijena" name="Логические ошибки «цифра занижена»">
+        <rulegroup id="tcifra_zanijena" name="Логические ошибки: «цифра занижена»">
             <rule> 
                 <pattern>
                     <token skip="4">цифра</token>
                     <token>занижена</token>
                 </pattern>            
-                <message>Вместо выражения «цифра занижена» необходимо употреблять «количество (значение, ...)  занижено».</message>
+                <message>Вместо выражения: «цифра занижена» необходимо употреблять: «количество (значение, ...)  занижено».</message>
                 <short>Логическая ошибка</short>
                 <example correction="">Эта <marker>цифра в отчёте занижена</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="imeet_mesto" name="Логические ошибки «имеет место»">
+        <rulegroup id="imeet_mesto" name="Логические ошибки: «имеет место»">
             <rule> 
                 <pattern>
                     <token inflected="yes">иметь</token>
@@ -719,7 +719,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="имеет место">Эта ситуация <marker>имеет место быть</marker>.</example>
             </rule>
          </rulegroup>
-         <rulegroup id="sdelat_ukol" name="Логические ошибки «сделать укол»">
+         <rulegroup id="sdelat_ukol" name="Логические ошибки: «сделать укол»">
             <rule> 
                 <pattern>
                     <token>поставить</token>
@@ -730,7 +730,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="сделать укол"><marker>поставить укол</marker></example>
             </rule>
           </rulegroup>
-         <rulegroup id="prinat_tabеletku" name="Логические ошибки «принять таблетку»">
+         <rulegroup id="prinat_tabеletku" name="Логические ошибки: «принять таблетку»">
             <rule> 
                 <pattern>
                     <token>выпить</token>
@@ -741,7 +741,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="принять таблетку"><marker>выпить таблетку</marker></example>
             </rule>
           </rulegroup>
-          <rulegroup id="solnij_instrument" name="Логические ошибки «сольный инструмент»">
+          <rulegroup id="solnij_instrument" name="Логические ошибки: «сольный инструмент»">
             <rule> 
                 <pattern>
                     <token>сольный</token>
@@ -752,7 +752,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="солирующий инструмент"><marker>сольный инструмент</marker></example>
             </rule>
           </rulegroup>
-          <rulegroup id="podvesti_rezultaty" name="Логические ошибки «подвести результаты»">
+          <rulegroup id="podvesti_rezultaty" name="Логические ошибки: «подвести результаты»">
             <rule> 
                 <pattern>
                     <token inflected="yes">подвести</token>
@@ -763,7 +763,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="подвели итоги">Они <marker>подвели результаты</marker> работы организации.</example>
             </rule>
           </rulegroup>
-          <rulegroup id="podvesti_rezume" name="Логические ошибки «подвести резюме»">
+          <rulegroup id="podvesti_rezume" name="Логические ошибки: «подвести резюме»">
             <rule> 
                 <pattern>
                     <token regexp="yes" inflected="yes">подводить|подвести</token>
@@ -775,7 +775,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="вывели резюме">Они <marker>подвели резюме</marker>.</example>
             </rule>
           </rulegroup>
-          <rulegroup id="kavalkada_mashin" name="Логические ошибки «кавалькада машин»">
+          <rulegroup id="kavalkada_mashin" name="Логические ошибки: «кавалькада машин»">
             <rule> 
                 <pattern>
                     <token inflected="yes">кавалькада</token>
@@ -786,7 +786,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="кавалькада|группа всадников">Нам встретилась <marker>кавалькада всадников</marker>.</example>
             </rule>
           </rulegroup>            
-          <rulegroup id="skrepja_serdce" name="Логические ошибки «скрепя сердце»">
+          <rulegroup id="skrepja_serdce" name="Логические ошибки: «скрепя сердце»">
             <rule> 
                 <pattern>
                     <token>скрипя</token>
@@ -797,7 +797,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="скрепя сердце"><marker>скрипя сердцем</marker></example>
             </rule>
           </rulegroup>
-          <rulegroup id="bivshij_biloj" name="Логические ошибки «бывший/былой»">
+          <rulegroup id="bivshij_biloj" name="Логические ошибки: «бывший» или «былой»">
             <rule>  <!--  TODO   add inflected  -->
                 <pattern>
                     <token>былой</token>
@@ -826,7 +826,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="былые заслуги"><marker>бывшие заслуги</marker></example>
             </rule>
           </rulegroup> 
-          <rulegroup id="okazat_zabotu" name="Логические ошибки «оказать заботу»">
+          <rulegroup id="okazat_zabotu" name="Логические ошибки: «оказать заботу»">
             <rule> <!--  TODO   add inflected  -->
                 <pattern>
                     <token>оказать</token>
@@ -873,7 +873,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="проявлю заботу"><marker>окажу заботу</marker></example>
             </rule>
           </rulegroup>
-          <rulegroup id="povisit_svoi_krugozor" name="Логические ошибки «повысить свой кругозор»">
+          <rulegroup id="povisit_svoi_krugozor" name="Логические ошибки: «повысить свой кругозор»">
             <rule>
                 <pattern>
                     <token inflected="yes">повысить</token>
@@ -885,7 +885,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="расширить свой кругозор"><marker>повысить свой кругозор</marker></example>
             </rule>
           </rulegroup>
-          <rulegroup id="predprinjat_meri" name="Логические ошибки «предпринять меры»">
+          <rulegroup id="predprinjat_meri" name="Логические ошибки: «предпринять меры»">
             <rule>
                 <pattern>
                     <token inflected="yes">предпринять</token>
@@ -897,7 +897,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="принял меры"><marker>предпринял меры</marker></example>
             </rule>
           </rulegroup>
-          <rulegroup id="predstavlennie_neudobstva" name="Логические ошибки «представленные неудобства»">
+          <rulegroup id="predstavlennie_neudobstva" name="Логические ошибки: «представленные неудобства»">
             <rule>
                 <pattern>
                     <token regexp="yes">предоставленные|представленные</token>
@@ -918,7 +918,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="доставленные вам неудобства">Мы приносим свои искренние извинения за <marker>представленные вам неудобства</marker>.</example>
             </rule>
           </rulegroup>
-          <rulegroup id="vziskivat_uscherb" name="Логические ошибки «взыскивать ущерб»">
+          <rulegroup id="vziskivat_uscherb" name="Логические ошибки: «взыскивать ущерб»">
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">взыскивать|взыскать</token>
@@ -929,7 +929,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="взыскал деньги за причинённый ущерб"><marker>взыскал ущерб</marker></example>
             </rule>
           </rulegroup>
-            <rulegroup id="sorvat_ovacii" name="Логические ошибки «сорвать овации»">
+            <rulegroup id="sorvat_ovacii" name="Логические ошибки: «сорвать овации»">
             <rule>
                 <pattern>
                     <token inflected="yes">сорвать</token>
@@ -940,7 +940,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="сорвал аплодисменты">Артист <marker>сорвал овации</marker>.</example>
             </rule>
           </rulegroup>
-          <rulegroup id="bolshinstvo_vremeni" name="Логические ошибки «большинство времени»">
+          <rulegroup id="bolshinstvo_vremeni" name="Логические ошибки: «большинство времени»">
             <rule> 
                 <pattern>
                     <token>большинство</token>
@@ -951,7 +951,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="большая часть времени"><marker>большинство времени</marker></example>
             </rule>
           </rulegroup>
-          <rulegroup id="na_ladan_dishit" name="Логические ошибки «на ладан дышит»">
+          <rulegroup id="na_ladan_dishit" name="Логические ошибки: «на ладан дышит»">
             <rule> 
                 <pattern>
                     <token>наладом</token>
@@ -962,7 +962,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="на ладан дышит"><marker>наладом дышит</marker></example>
             </rule>
           </rulegroup>
-          <rulegroup id="sud_da_delo" name="Логические ошибки «суд да дело»">
+          <rulegroup id="sud_da_delo" name="Логические ошибки: «суд да дело»">
             <rule> 
                 <pattern>
                     <token>суть</token>
@@ -974,7 +974,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="суд да дело"><marker>суть да дело</marker></example>
             </rule>
           </rulegroup>
-          <rulegroup id="belogo_kalenija" name="Логические ошибки «довести до белого каления»">
+          <rulegroup id="belogo_kalenija" name="Логические ошибки: «довести до белого каления»">
               <rule> 
                   <pattern>
                       <token inflected="yes">довести</token>
@@ -990,7 +990,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
           </rulegroup>
 
-        <rulegroup id="nе_igraet_nikakogo_znachenija" name="Логические ошибки «не играет никакой роли/не играет никакого значения»">
+        <rulegroup id="nе_igraet_nikakogo_znachenija" name="Логические ошибки: «не играет никакой роли» или «не играет никакого значения»">
             <rule> 
                 <pattern>
                     <token>не</token>
@@ -1019,7 +1019,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>                    
         </rulegroup>
 
-	<rulegroup id="KV" name="Обозначение физических величин «кВ»">
+	<rulegroup id="KV" name="Обозначение физических величин: «кВ»">
             <rule> 
                 <pattern>
                     <token inflected="yes">напряжение</token>
@@ -1032,7 +1032,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="напряжение 220 кВ">Эта линия расчитана на <marker>напряжение 220 кВт</marker>.</example>
             </rule>
        </rulegroup>
-       <rulegroup id="KWT" name="Обозначение физических величин «кВт»">
+       <rulegroup id="KWT" name="Обозначение физических величин: «кВт»">
             <rule> 
                 <pattern>
                     <token inflected="yes">мощность</token>
@@ -1046,7 +1046,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
        </rulegroup>
 
-	<rulegroup id="KWT.H" name="Обозначение физических величин «кВт⋅ч»">
+	<rulegroup id="KWT.H" name="Обозначение физических величин: «кВт⋅ч»">
             <rule> 
                 <pattern>
                     <token>кВт</token>
@@ -1074,7 +1074,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Потребление электроэнергии составило 100 kW·h.</example>
             </rule>           
         </rulegroup>
-        <rulegroup id="А.H" name="Обозначение физических величин «А⋅ч»">
+        <rulegroup id="А.H" name="Обозначение физических величин: «А⋅ч»">
             <rule> 
                 <pattern>
                     <token>А</token>
@@ -1128,7 +1128,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ёмкость аккумулятора составляет 500 mA⋅h.</example>
             </rule>            
         </rulegroup>
-        <rulegroup id="V.А" name="Обозначение физических величин «В⋅А»">
+        <rulegroup id="V.А" name="Обозначение физических величин: «В⋅А»">
             <rule> 
                 <pattern>
                     <token>В</token>
@@ -1167,7 +1167,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Мощность ИБП составляет 500 В⋅А.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="BOLSHAJA_POLOVINA" name="Словосочетание «большая/меньшая половина»">
+        <rulegroup id="BOLSHAJA_POLOVINA" name="Словосочетание: «большая или меньшая половина»">
             <rule>
                 <pattern>
                     <token regexp="yes" >большая|меньшая</token>
@@ -1180,7 +1180,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>меньшая часть</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ISKLUCHIT_ISKLUCHENIE" name="Тавтология «исключить исключение»">
+        <rulegroup id="ISKLUCHIT_ISKLUCHENIE" name="Тавтология: «исключить исключение»">
             <rule> 
                 <pattern>
                     <token inflected="yes" skip="-1">исключить</token>
@@ -1193,7 +1193,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="убрать то исключение"><marker>исключить то исключение</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="POTREBOVAT_TREBOVANIE" name="Тавтология «потребовать требование»">
+        <rulegroup id="POTREBOVAT_TREBOVANIE" name="Тавтология: «потребовать требование»">
             <rule> 
                 <pattern>
                     <token inflected="yes" skip="-1">потребовать</token>
@@ -1206,7 +1206,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="заявить денежное требование"><marker>потребовать денежное требование</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="POJELAT_JELANIE" name="Тавтология «пожелать желание»">
+        <rulegroup id="POJELAT_JELANIE" name="Тавтология: «пожелать желание»">
             <rule> 
                 <pattern>
                     <token inflected="yes" skip="-1">пожелать</token>
@@ -1219,7 +1219,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="загадать заветное желание"><marker>пожелать заветное желание</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="ZAKAZAT_ZAKAZ" name="Тавтология «заказать заказ»">
+        <rulegroup id="ZAKAZAT_ZAKAZ" name="Тавтология: «заказать заказ»">
             <rule> 
                 <pattern>
                     <token inflected="yes" skip="-1" >заказать</token>
@@ -1232,7 +1232,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="сделать важный заказ"><marker>заказать важный заказ</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="PODARIT_PODAROK" name="Тавтология «подарить подарок»">        
+        <rulegroup id="PODARIT_PODAROK" name="Тавтология: «подарить подарок»">        
               <rule> 
                 <pattern>
                     <token inflected="yes" skip="-1">подарить</token>
@@ -1245,7 +1245,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="вручил долгожданный подарок">Он <marker>подарил долгожданный подарок</marker>.</example>
             </rule>
             </rulegroup>   
-           <rulegroup id="SPUSKATSJA_VNIZ" name="Тавтология «спускаться вниз»">
+           <rulegroup id="SPUSKATSJA_VNIZ" name="Тавтология: «спускаться вниз»">
             <rule> 
                 <pattern>
                     <token regexp="yes" inflected="yes" >спускаться|подниматься</token>
@@ -1258,7 +1258,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Он спускался по лестнице.</example>
             </rule>
         </rulegroup>    
-        <rulegroup id="PROGNOZ_NA_BUDUSHEE" name="Тавтология «прогноз на будущее»">
+        <rulegroup id="PROGNOZ_NA_BUDUSHEE" name="Тавтология: «прогноз на будущее»">
             <rule> 
                 <pattern>
                     <token inflected="yes" >прогноз</token>
@@ -1272,7 +1272,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Метеоагенство составило прогноз.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="GLAVNAJA_SUT" name="Тавтология «главная суть»">
+        <rulegroup id="GLAVNAJA_SUT" name="Тавтология: «главная суть»">
             <rule> 
                 <pattern>
                     <token inflected="yes" >главный</token>
@@ -1284,7 +1284,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Суть"><marker>Главная суть</marker> рассказа</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SVOBODNAJA_VAKANSIJA" name="Тавтология «свободная вакансия»">
+        <rulegroup id="SVOBODNAJA_VAKANSIJA" name="Тавтология: «свободная вакансия»">
             <rule> 
                 <pattern>
                     <token inflected="yes" >свободный</token>
@@ -1296,7 +1296,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="вакансия">На сайте размещена <marker>свободная вакансия</marker>.</example>
             </rule>
         </rulegroup>        
-        <rulegroup id="DUMU_DUMAT" name="Тавтология «думу думать»">
+        <rulegroup id="DUMU_DUMAT" name="Тавтология: «думу думать»">
             <rule> 
                 <pattern>
                     <token>думу</token>
@@ -1330,7 +1330,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>    
 
 
-        <rulegroup id="KRUG_KRUGLIJ" name="Тавтология «круг круглый»">
+        <rulegroup id="KRUG_KRUGLIJ" name="Тавтология: «круг круглый»">
             <rule> 
                 <pattern>
                     <token>круг</token>
@@ -1354,7 +1354,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup> 
 
 
-        <rulegroup id="TOLPA_LUDEJ" name="Тавтология «толпа людей»">
+        <rulegroup id="TOLPA_LUDEJ" name="Тавтология: «толпа людей»">
             <rule> 
                 <pattern>
                     <token inflected="yes" >толпа</token>
@@ -1366,7 +1366,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="толпа"><marker>толпа людей</marker></example>
             </rule>
         </rulegroup>    
-        <rulegroup id="LICHNO_JA" name="Тавтология «лично я»">
+        <rulegroup id="LICHNO_JA" name="Тавтология: «лично я»">
             <rule> 
                 <pattern>
                     <token>лично</token>
@@ -1378,7 +1378,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="я"><marker>лично я</marker></example>
             </rule>
         </rulegroup>    
-        <rulegroup id="RIBNAJA_UHA" name="Тавтология «рыбная уха»">
+        <rulegroup id="RIBNAJA_UHA" name="Тавтология: «рыбная уха»">
             <rule> 
                 <pattern>
                     <token inflected="yes" >рыбный</token>
@@ -1390,7 +1390,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="уха"><marker>рыбная уха</marker></example>
             </rule>
         </rulegroup>                       
-        <rulegroup id="VPERVIJE_ZNAKOMITSJA" name="Тавтология «впервые знакомиться»">
+        <rulegroup id="VPERVIJE_ZNAKOMITSJA" name="Тавтология: «впервые знакомиться»">
             <rule> 
                 <pattern>
                     <token inflected="yes" >впервые</token>
@@ -1402,7 +1402,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="знакомиться"><marker>впервые знакомиться</marker></example>
             </rule>
         </rulegroup>                   
-        <rulegroup id="NEMNOGO_PRIOTKRIT" name="Тавтология «немного приоткрыть»">
+        <rulegroup id="NEMNOGO_PRIOTKRIT" name="Тавтология: «немного приоткрыть»">
             <rule> 
                 <pattern>
                     <token>немного</token>
@@ -1414,7 +1414,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="приоткрыть"><marker>немного приоткрыть</marker></example>
             </rule>
         </rulegroup>                                         
-        <rulegroup id="VOZVRASHATSJA_OBRATNO" name="Тавтология «возвращаться обратно»">
+        <rulegroup id="VOZVRASHATSJA_OBRATNO" name="Тавтология: «возвращаться обратно»">
             <rule> 
                 <pattern>
                     <token inflected="yes" >возвращаться</token>                  
@@ -1426,7 +1426,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="возвращаться"><marker>возвращаться обратно</marker></example>
             </rule>
         </rulegroup>  
-        <rulegroup id="CHREZVICHAJNO_GROMADNIJ" name="Тавтология «чрезвычайно громадный»">
+        <rulegroup id="CHREZVICHAJNO_GROMADNIJ" name="Тавтология: «чрезвычайно громадный»">
             <rule> 
                 <pattern>
                     <token>чрезвычайно</token>                  
@@ -1438,7 +1438,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="громадный"><marker>чрезвычайно громадный</marker></example>
             </rule>
         </rulegroup>  
-         <rulegroup id="OCHEN_KROHOTNIJ" name="Тавтология «очень крохотный»">
+         <rulegroup id="OCHEN_KROHOTNIJ" name="Тавтология: «очень крохотный»">
             <rule> 
                 <pattern>
                     <token>очень</token>                  
@@ -1451,7 +1451,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>  
 
-        <rulegroup id="BLIZKIJ_BLIZHNIJ" name="Употребление слов «близкий/ближний»">
+        <rulegroup id="BLIZKIJ_BLIZHNIJ" name="Употребление слов: «близкий» и «ближний»">
             <rule> 
                 <pattern>
                     <token>близкий</token>
@@ -1548,7 +1548,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
                   
-        <rulegroup id="Stolko_mnogo" name="Словосочетание «столько много»">
+        <rulegroup id="Stolko_mnogo" name="Словосочетание: «столько много»">
             <rule> 
                 <pattern>
                     <token>столько</token>
@@ -1572,7 +1572,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
                    
-        <rulegroup id="Logical_reshit_zatanuvshujusa_problemu" name="Логические ошибки «он решит эту затянувшуюся проблему»">
+        <rulegroup id="Logical_reshit_zatanuvshujusa_problemu" name="Логические ошибки: «он решит эту затянувшуюся проблему»">
             <rule> 
                 <pattern>
                     <token>решит</token>
@@ -1599,7 +1599,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Она ускорит затянувшееся решение проблемы.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="Logical_podorojali_ceny" name="Логические ошибки «подорожали цены»">
+        <rulegroup id="Logical_podorojali_ceny" name="Логические ошибки: «подорожали цены»">
           <rule>  
             <pattern>
                 <token>подорожали</token>
@@ -1653,7 +1653,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
           </rule>
         </rulegroup>
         
-        <rule id="Logical_svoja_avtobiographija" name="Логические ошибки «своя автобиография»">
+        <rule id="Logical_svoja_avtobiographija" name="Логические ошибки: «своя автобиография»">
             <pattern>
                 <token inflected="yes">свой</token>
                 <token inflected="yes">автобиография</token>
@@ -1664,7 +1664,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="автобиографию">Автор написал <marker>свою автобиографию</marker>.</example>
             <example>Автор написал автобиографию.</example>
         </rule>
-        <rule id="Logical_vidajuschijsja_as" name="Логические ошибки «выдающийся ас»">
+        <rule id="Logical_vidajuschijsja_as" name="Логические ошибки: «выдающийся ас»">
             <pattern>
                 <token regexp="yes" inflected="yes">выдающийся|лучший</token>
                 <token inflected="yes">ас</token>
@@ -1676,7 +1676,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Этот лётчик - ас.</example>
         </rule>
         
-        <rule id="Logical_sobiratsya_vmeste" name="Логические ошибки «собираться вместе»">
+        <rule id="Logical_sobiratsya_vmeste" name="Логические ошибки: «собираться вместе»">
             <pattern>
                 <token inflected="yes">собираться</token>
                 <token>вместе</token>
@@ -1687,7 +1687,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="собираемся">Мы здесь <marker>собираемся вместе</marker>.</example>
             <example>Мы собираемся здесь.</example>
         </rule>
-          <rule id="Logical_sochetatsja_vmeste" name="Логические ошибки «сочетаться вместе»">
+          <rule id="Logical_sochetatsja_vmeste" name="Логические ошибки: «сочетаться вместе»">
             <pattern>
                 <token inflected="yes">сочетаться</token>
                 <token>вместе</token>
@@ -1698,7 +1698,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="сочетаются">Эти три букета хорошо <marker>сочетаются вместе</marker>.</example>
             <example>Эти три букета хорошо сочетаются.</example>
         </rule>
-         <rule id="Logical_segodnyashnij_den" name="Логические ошибки «сегодняшний день»">
+         <rule id="Logical_segodnyashnij_den" name="Логические ошибки: «сегодняшний день»">
             <pattern>
                 <token>сегодняшний</token>
                 <token>день</token>
@@ -1710,7 +1710,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Ситуация на сегодня.</example>
         </rule>
         
-        <rule id="Logical_sosedstvovat_drug_s_drugom" name="Логические ошибки «соседствовать друг с другом»">
+        <rule id="Logical_sosedstvovat_drug_s_drugom" name="Логические ошибки: «соседствовать друг с другом»">
             <pattern>
                 <token inflected="yes">соседствовать</token>
                 <token>друг</token>
@@ -1725,7 +1725,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         
               
-        <rule id="Tavtology_mestnij_aborigen" name="Тавтология «местный абориген»">
+        <rule id="Tavtology_mestnij_aborigen" name="Тавтология: «местный абориген»">
             <pattern>
                 <token inflected="yes">местный</token>
                 <token inflected="yes">абориген</token>
@@ -1737,7 +1737,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Нас окружили аборигены.</example>           
         </rule>   
         
-          <rule id="Tavtology_nebolshaja_gorstka" name="Тавтология «небольшая горстка»">
+          <rule id="Tavtology_nebolshaja_gorstka" name="Тавтология: «небольшая горстка»">
             <pattern>
                 <token inflected="yes">небольшой</token>
                 <token inflected="yes">горстка</token>
@@ -1749,7 +1749,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>горстка</example>
         </rule>                            
   
-          <rule id="Tavtology_marshrut_sledovanija" name="Тавтология «маршрут следования»">
+          <rule id="Tavtology_marshrut_sledovanija" name="Тавтология: «маршрут следования»">
             <pattern>
                 <token inflected="yes">маршрут</token>
                 <token>следования</token>
@@ -1761,7 +1761,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>маршрут</example>
         </rule>
         
-         <rule id="Tavtology_adres_mestojitelstva" name="Тавтология «адрес местожительства»">
+         <rule id="Tavtology_adres_mestojitelstva" name="Тавтология: «адрес местожительства»">
             <pattern>
                 <token inflected="yes">адрес</token>
                 <token inflected="yes" >местожительство</token>
@@ -1772,7 +1772,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="местожительства"><marker>адрес местожительства</marker></example>
             <example>местожительство</example>
         </rule>
-         <rulegroup id="Tavtology_zaranee_predupredit" name="Тавтология «заранее предупредить»">
+         <rulegroup id="Tavtology_zaranee_predupredit" name="Тавтология: «заранее предупредить»">
            <rule> 
              <pattern>
                 <token inflected="yes">заранее</token>
@@ -1795,7 +1795,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="предупредить"><marker>предупредить заранее</marker></example>
            </rule>
         </rulegroup>
-        <rulegroup id="Tavtology_zaranee_predchuvstvovat" name="Тавтология «заранее предчувствовать»">
+        <rulegroup id="Tavtology_zaranee_predchuvstvovat" name="Тавтология: «заранее предчувствовать»">
            <rule>           
             <pattern>
                 <token inflected="yes">заранее</token>
@@ -1817,7 +1817,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="предчувствовать"><marker>предчувствовать заранее</marker></example>
            </rule>
         </rulegroup>
-        <rule id="Tavtology_prejskurant_cen" name="Тавтология «прейскурант цен»">
+        <rule id="Tavtology_prejskurant_cen" name="Тавтология: «прейскурант цен»">
             <pattern>
                 <token inflected="yes">прейскурант</token>
                 <token inflected="yes">цена</token>
@@ -1828,7 +1828,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="прейскурант"><marker>прейскурант цен</marker></example>
             <example>прейскурант</example>
         </rule>
-        <rule id="Tavtology_upal_vniz" name="Тавтология «упал вниз»">
+        <rule id="Tavtology_upal_vniz" name="Тавтология: «упал вниз»">
             <pattern>
                 <token inflected="yes">упасть</token>
                 <token inflected="yes">вниз</token>
@@ -1839,7 +1839,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="упал"><marker>упал вниз</marker></example>
             <example correction="упасть"><marker>упасть вниз</marker></example>
         </rule>
-        <rule id="Tavtology_tyomnij_mrak" name="Тавтология «тёмный мрак»">
+        <rule id="Tavtology_tyomnij_mrak" name="Тавтология: «тёмный мрак»">
             <pattern>
                 <token inflected="yes" regexp="yes">тёмный|темный</token>
                 <token inflected="yes">мрак</token>
@@ -1849,7 +1849,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Тавтология</short>
             <example correction="мрак"><marker>тёмный мрак</marker></example>
         </rule>
-        <rule id="Tavtology_bespolezno_propadajut" name="Тавтология «бесполезно пропадают»">
+        <rule id="Tavtology_bespolezno_propadajut" name="Тавтология: «бесполезно пропадают»">
             <pattern>
                 <token inflected="yes">бесполезно</token>
                 <token inflected="yes">пропадать</token>
@@ -1859,7 +1859,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Тавтология</short>
             <example correction="пропадают"><marker>бесполезно пропадают</marker></example>
         </rule>
-        <rule id="Tavtology_vernutsja_obratno" name="Тавтология «вернуться обратно»">
+        <rule id="Tavtology_vernutsja_obratno" name="Тавтология: «вернуться обратно»">
             <pattern>
                 <token inflected="yes">вернуться</token>
                 <token>обратно</token>
@@ -1869,7 +1869,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Тавтология</short>
             <example correction="вернуться"><marker>вернуться обратно</marker></example>
         </rule>
-        <rule id="Tavtology_neskolko_pobistree" name="Тавтология «несколько побыстрее»">
+        <rule id="Tavtology_neskolko_pobistree" name="Тавтология: «несколько побыстрее»">
             <pattern>
                 <token>несколько</token>
                 <token>побыстрее</token>
@@ -1879,7 +1879,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Тавтология</short>
             <example correction="побыстрее"><marker>несколько побыстрее</marker></example>
         </rule>
-        <rule id="Tavtology_v_xx_mesjatse" name="Тавтология «в ареле месяце»">
+        <rule id="Tavtology_v_xx_mesjatse" name="Тавтология: «в ареле месяце»">
             <pattern>
                 <token>в</token>
                 <token regexp="yes">январе|феврале|марте|апреле|мае|июне|июле|августе|сентябре|октябре|ноябре|декабре</token>
@@ -1890,7 +1890,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Тавтология</short>
             <example correction="в феврале"><marker>в феврале месяце</marker></example>
         </rule>
-         <rule id="Tavtology_kollega_po_professii" name="Тавтология «коллега по профессии»">
+         <rule id="Tavtology_kollega_po_professii" name="Тавтология: «коллега по профессии»">
             <pattern>
                 <token inflected="yes">коллега</token>
                 <token>по</token>
@@ -1901,7 +1901,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Тавтология</short>
             <example correction="коллега"><marker>коллега по профессии</marker></example>
         </rule>
-        <rule id="Tavtology_plani_na_budushee" name="Тавтология «планы на будущее»">
+        <rule id="Tavtology_plani_na_budushee" name="Тавтология: «планы на будущее»">
             <pattern>
                 <token inflected="yes">план</token>
                 <token>на</token>
@@ -1912,7 +1912,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Тавтология</short>
             <example correction="планы"><marker>планы на будущее</marker></example>
         </rule>
-        <rule id="Tavtology_demobilizovatsja_iz_armii" name="Тавтология «демобилизоваться из армии»">
+        <rule id="Tavtology_demobilizovatsja_iz_armii" name="Тавтология: «демобилизоваться из армии»">
             <pattern>
                 <token inflected="yes">демобилизоваться</token>
                 <token>из</token>
@@ -1923,7 +1923,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Тавтология</short>
             <example correction="демобилизоваться"><marker>демобилизоваться из армии</marker></example>
         </rule>
-        <rule id="Tavtology_prostaivat_bez_dela" name="Тавтология «простаивать без дела»">
+        <rule id="Tavtology_prostaivat_bez_dela" name="Тавтология: «простаивать без дела»">
             <pattern>
                 <token inflected="yes">простаивать</token>
                 <token>без</token>
@@ -1934,7 +1934,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Тавтология</short>
             <example correction="простаивать"><marker>простаивать без дела</marker></example>
         </rule>        
-        <rule id="Tavtology_vremenno_priostanovlen" name="Тавтология «временно приостановить»">
+        <rule id="Tavtology_vremenno_priostanovlen" name="Тавтология: «временно приостановить»">
             <pattern>
                 <token inflected="yes">временно</token>
                 <token inflected="yes">приостановить</token>
@@ -1945,7 +1945,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="приостановлены"><marker>временно приостановлены</marker></example>
             <example>приостановлены</example>
         </rule>     
-         <rule id="Tavtology_mahina" name="Тавтология «огромная махина»">
+         <rule id="Tavtology_mahina" name="Тавтология: «огромная махина»">
             <pattern>
                 <token inflected="yes" regexp="yes">большой|огромный|гигантский</token>
                 <token inflected="yes">махина</token>
@@ -1957,7 +1957,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>махина</example>
         </rule>                            
            
-        <rule id="Tavtology_kivnul_golovoj" name="Тавтология «кивнуть головой»">
+        <rule id="Tavtology_kivnul_golovoj" name="Тавтология: «кивнуть головой»">
             <pattern>
                 <token inflected="yes">кивнуть</token>
                 <token inflected="yes">голова</token>
@@ -1968,7 +1968,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="кивнул"><marker>кивнул головой</marker></example>
             <example>кивнул</example>
         </rule>                            
-         <rule id="Tavtology_polnostju_zavershil" name="Тавтология «полностью завершил»">
+         <rule id="Tavtology_polnostju_zavershil" name="Тавтология: «полностью завершил»">
             <pattern>
                 <token regexp="yes"  inflected="yes">полностью|окончательно</token>
                 <token inflected="yes">завершить</token>
@@ -1979,7 +1979,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="завершил"><marker>полностью завершил</marker></example>
             <example>завершил</example>
         </rule>
-        <rule id="Tavtology_glavnij_lejtmotiv" name="Тавтология «главный лейтмотив»">
+        <rule id="Tavtology_glavnij_lejtmotiv" name="Тавтология: «главный лейтмотив»">
             <pattern>
                 <token inflected="yes">главный</token>
                 <token inflected="yes">лейтмотив</token>
@@ -1990,7 +1990,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="лейтмотив"><marker>главный лейтмотив</marker></example>
             <example>этот лейтмотив</example>
         </rule>
-        <rule id="Tavtology_landshaft_mestnosti" name="Тавтология «ландшафт местности»">
+        <rule id="Tavtology_landshaft_mestnosti" name="Тавтология: «ландшафт местности»">
             <pattern>
                 <token inflected="yes">ландшафт</token>
                 <token inflected="yes">местность</token>
@@ -2001,7 +2001,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="ландшафт"><marker>ландшафт местности</marker></example>
             <example>ландшафт</example>
         </rule>                                                                                                                                                                                                                                                                                                                                                          
-        <rule id="Tavtology_samij_edinstvennij" name="Тавтология «самый единственный»">
+        <rule id="Tavtology_samij_edinstvennij" name="Тавтология: «самый единственный»">
             <pattern>
                 <token regexp="yes"  inflected="yes">несколько|два|самый</token>
                 <token inflected="yes">единственный</token>
@@ -2014,7 +2014,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>                                           
                                                                                                                                       
                                                                               
-        <rule id="Logical_biographia_gizni" name="Логические ошибки «биография жизни»">
+        <rule id="Logical_biographia_gizni" name="Логические ошибки: «биография жизни»">
             <pattern>
                 <token inflected="yes">биография</token>
                 <token inflected="yes">жизнь</token>
@@ -2026,7 +2026,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Биографии различных людей.</example>
         </rule>
                                                                                 
-        <rule id="Logical_prignul_s_parashuta" name="Логические ошибки «прыгать с парашюта»">
+        <rule id="Logical_prignul_s_parashuta" name="Логические ошибки: «прыгать с парашюта»">
             <pattern>
                 <token inflected="yes">прыгнуть</token>
                 <token>с</token>
@@ -2048,7 +2048,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Профессиональный дипломат"><marker>Карьерный дипломат</marker> – это человек, получивший специальное дипломатическое образование.</example>
             <example>Профессиональный дипломат – это человек, получивший специальное дипломатическое образование.</example>
         </rule>   
-        <rulegroup id="Logical_komandirovochnij" name="Логические ошибки «командировочный/командированный»">
+        <rulegroup id="Logical_komandirovochnij" name="Логические ошибки: «командировочный» или «командированный»">
          <rule>         
             <pattern>
                 <token inflected="yes">командировать</token>
@@ -2081,7 +2081,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>командированный сотрудник</example>
         </rule>                   
         </rulegroup>                                          
-        <rule id="Logical_kurica_nasijivaet_jajca" name="Логические ошибки «курица насиживает яйца»">
+        <rule id="Logical_kurica_nasijivaet_jajca" name="Логические ошибки: «курица насиживает яйца»">
             <pattern>
                 <token inflected="yes">курица</token>
                 <token inflected="yes">высиживать</token>
@@ -2094,7 +2094,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="курица насиживала яйца"><marker>курица высиживала яйца</marker></example>
             <example>курица насиживает яйца</example>
         </rule>        
-        <rule id="Logical_samij_gigantskij" name="Логические ошибки «самый гигантский»">
+        <rule id="Logical_samij_gigantskij" name="Логические ошибки: «самый гигантский»">
             <pattern>
                 <token>самый</token>
                 <token>гигантский</token>
@@ -2106,7 +2106,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>самый большой</example>
         </rule>          
                                          
-        <rule id="Logical_govorite_vopros" name="Логические ошибки «говорите вопрос»">
+        <rule id="Logical_govorite_vopros" name="Логические ошибки: «говорите вопрос»">
             <pattern>
                 <token inflected="yes">говорить</token>
                 <token inflected="yes">вопрос</token>
@@ -2122,7 +2122,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule> 
 
         
-        <rule id="Logical_podnjal_tost" name="Логические ошибки «поднял тост»">
+        <rule id="Logical_podnjal_tost" name="Логические ошибки: «поднял тост»">
             <pattern>
                 <token>поднял</token>
                 <token>тост</token>
@@ -2133,7 +2133,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="произнёс тост">Он <marker>поднял тост</marker> за встречу.</example>
             <example>Он произнёс тост за встречу.</example>
         </rule>
-        <rule id="Logical_uluchshenie_otmechennih_nedostatkov" name="Логические ошибки «улучшение отмеченных недостатков»">
+        <rule id="Logical_uluchshenie_otmechennih_nedostatkov" name="Логические ошибки: «улучшение отмеченных недостатков»">
             <pattern>
                 <token>улучшение</token>
                 <token>отмеченных</token>
@@ -2145,7 +2145,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="устранение отмеченных недостатков">Сессия приняла решение, направленное на <marker>улучшение отмеченных недостатков</marker>.</example>
             <example>Сессия приняла решение, направленное на устранение отмеченных недостатков.</example>
         </rule>
-        <rule id="Logical_zalozheno_xx_derevjev" name="Логические ошибки «заложено 30 деревьев»">
+        <rule id="Logical_zalozheno_xx_derevjev" name="Логические ошибки: «заложено 30 деревьев»">
             <pattern>
                 <token>заложено</token>
                 <token></token>
@@ -2157,7 +2157,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="посажено 30 деревьев">В сквере <marker>заложено 30 деревьев</marker>.</example>
             <example>В сквере посажено 30 деревьев.</example>
         </rule>
-        <rule id="V_etoj_svyazy" name="Логические ошибки «в этой связи»">
+        <rule id="V_etoj_svyazy" name="Логические ошибки: «в этой связи»">
             <pattern>
                 <token>в</token>
                 <token>этой</token>
@@ -2170,7 +2170,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>в связи с этим</example>
         </rule>
         
-        <rulegroup id="Logical_skritij_skritnij" name="Логические ошибки «скрытый/скрытный»">
+        <rulegroup id="Logical_skritij_skritnij" name="Логические ошибки: «скрытый» или «скрытный»">
            <!-- скрытый/скрытный   -->
             <rule>      
                 <pattern>
@@ -2199,7 +2199,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>  
         
-        <rulegroup id="Logical_odel_nadel" name="Логические ошибки «одеть/надеть»">
+        <rulegroup id="Logical_odel_nadel" name="Логические ошибки: «одеть» или «надеть»">
             <rule>      
                 <pattern>
                     <token inflected="yes" skip="1">одеть</token>
@@ -2298,7 +2298,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>                     
         </rulegroup>
         
-        <rule id="Linguistics_hrabry" name="Лингвистические ошибки «храбрая (или смелая) мысль, решение, идея»">
+        <rule id="Linguistics_hrabry" name="Лингвистические ошибки: «храбрая (или смелая) мысль, решение, идея»">
             <pattern>
                 <token inflected="yes" >храбрый</token>
                 <token regexp="yes">мысль|решение|идея</token>
@@ -2309,7 +2309,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="смелая идея">Это <marker>храбрая идея</marker>.</example>
             <example>Это смелая идея.</example>
         </rule>
-        <rulegroup default="on" id="Genitsya" name="Ошибки в употреблении: «Жениться»/«выйти замуж»">
+        <rulegroup default="on" id="Genitsya" name="Ошибки в употреблении: «жениться» или «выйти замуж»">
             <rule>
                 <pattern case_sensitive="no">
                     <token>он</token>
@@ -2605,7 +2605,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     	    <short>Пропущена запятая</short>
     	    <example correction="сабель, то есть">К Тамбову подступали две с половиной тысячи <marker>сабель то есть</marker> всего три полка.</example>
     	</rule>
-        <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед «и»/«как» в сложном предложении">
+        <rulegroup default="on" id="Prep_i" name="Пропущена запятая перед «и», «как» в сложном предложении">
             <rule>
             <!--             VB:.*   NN:.*   и      VB:.*   NN:.*     -->
                 <antipattern>
@@ -2732,7 +2732,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
           </rulegroup>
           
-          <rulegroup default="off" id="Prep_i_2" name="Пропущена запятая перед «и»/«как» в сложном предложении 2">
+          <rulegroup default="off" id="Prep_i_2" name="Пропущена запятая перед «и», «как» в сложном предложении 2">
             <!--           NN:.*   VB:.*  и    VB:.*   NN:.*  (много ложных срабатываний, если есть обобщающее слово)  default="temp_off" -->    
             <rule>   
                <antipattern>
@@ -2939,7 +2939,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Эх вы, коты"><marker>Эх вы коты</marker>!</example>
             </rule>
         </rulegroup>
-        <rulegroup id="Privet_druzja" name="Устойчивое выражение «Привет, друзья!»">
+        <rulegroup id="Privet_druzja" name="Устойчивое выражение: «привет, друзья!»">
             <rule>
                 <pattern>              
                     <token>привет</token>
@@ -2951,7 +2951,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Привет, друзья"><marker>Привет друзья</marker>!</example>
             </rule>
         </rulegroup>
-        <rulegroup id="Kak_bi_to_ni_bilo" name="Устойчивое выражение «как бы то ни было», ...">
+        <rulegroup id="Kak_bi_to_ni_bilo" name="Устойчивое выражение: «как бы то ни было», ...">
             <rule>
                 <pattern>              
                     <token>как</token>
@@ -3048,7 +3048,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
         
-        <rulegroup default="off" id="PO_MERE_TOGO_KAK" name="Запятые в оборотах «по мере того как…», …">
+        <rulegroup default="off" id="PO_MERE_TOGO_KAK" name="Запятые в оборотах: «по мере того как…», …">
 <!--   («с того времени как…», «с той поры как…», «по мере того как…»)     -->
             <rule>
                 <pattern case_sensitive="yes">
@@ -3068,7 +3068,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-         <rulegroup default="on" id="TAKIM_KAK" name="Запятые при сравнительных оборотах «таким как»">
+         <rulegroup default="on" id="TAKIM_KAK" name="Запятые при сравнительных оборотах: «таким как»">
  
             <rule>
                 <pattern case_sensitive="yes">
@@ -3082,7 +3082,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ремонт, таким как">Многим домам необходим капитальный <marker>ремонт таким как</marker> пятиэтажки.</example>
             </rule>
          </rulegroup>
-          <rulegroup default="on" id="K_TAKIM_KAK" name="Запятые при сравнительных оборотах «к таким как»">
+          <rulegroup default="on" id="K_TAKIM_KAK" name="Запятые при сравнительных оборотах: «к таким как»">
  
             <rule>
                 <pattern case_sensitive="yes">
@@ -3097,7 +3097,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="творчества, к таким как">Это относится ко многим видам <marker>творчества к таким как</marker> музыка, пение, танцы.</example>
             </rule>
          </rulegroup>
-        <rulegroup default="on" id="KAK_PRAVILO" name="Вводное сочетание «как обычно», «как всегда», ...">
+        <rulegroup default="on" id="KAK_PRAVILO" name="Вводное сочетание: «как обычно», «как всегда», ...">
             <!--Вводное сочетание как обычно, как всегда, как правило, как исключение, как сейчас, как нарочно
 -->
             <rule>
@@ -3186,7 +3186,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             
         </rulegroup>
-        <rulegroup default="on" id="A_NO_DA" name="Союзы «а», «но»">
+        <rulegroup default="on" id="A_NO_DA" name="Союзы: «а», «но»">
             <rule>
                 <pattern case_sensitive="yes">
                     <marker>
@@ -3215,7 +3215,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="мало, но">Она говорила <marker>мало но</marker> толково.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="i_and_i_and_i" name="Союзы «и» + «и» + «и»" default="on">
+        <rulegroup id="i_and_i_and_i" name="Союзы: «и» + «и» + «и»" default="on">
             <rule>  <!--  add unification for noun - done. -->
                 <pattern>
                     <token>и</token>
@@ -3377,7 +3377,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Где это?</example>
             <example>А где мой чай?</example>
         </rule>
-        <rulegroup id="da_and_da" name="Союзы «да» + «да»">
+        <rulegroup id="da_and_da" name="Союзы: «да» + «да»">
             <rule>  <!--  да=и   -->
                 <pattern>
                     <token>да</token>
@@ -3408,7 +3408,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example correction="ни бурных слов, ни пылких признаний, ни клятв">Не было <marker>ни бурных слов ни пылких признаний ни клятв</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="libo_and_libo" name="Союзы «либо» + «либо»">
+        <rulegroup id="libo_and_libo" name="Союзы: «либо» + «либо»">
             <rule>
                 <pattern>
                     <token>либо</token>
@@ -3423,7 +3423,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example correction="либо снег, либо дождь">Весь день идёт <marker>либо снег либо дождь</marker> со снегом.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="ili_and_ili" name="Союзы «или» + «или»">
+        <rulegroup id="ili_and_ili" name="Союзы: «или» + «или»">
             <rule>
                 <pattern>
                     <token>или</token>
@@ -3437,7 +3437,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
               <example correction="или слишком поздно, или рано">Он готов был поверить, что приехал сюда не вовремя — <marker>или слишком поздно или рано</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="to_and_to" name="Союзы «то» + «то»">
+        <rulegroup id="to_and_to" name="Союзы: «то» + «то»">
             <rule>
                 <pattern>
                         <token>то</token>
@@ -3471,7 +3471,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>        
         </rulegroup>
       
-        <rulegroup default="on" id="CHAS_PIK" name="Словосочетание «Час пик»">
+        <rulegroup default="on" id="CHAS_PIK" name="Словосочетание: «час пик»">
             <rule>
                 <pattern case_sensitive="yes">
                     <token>час-пик</token>       
@@ -4037,7 +4037,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=", -">Здорово живешь, соседка<marker> -,</marker> поздоровался Иван.</example>
         </rule>
         
-        <rulegroup default="on" id="Hyphen_and_spaces" name="Пробелы перед/после дефиса">
+        <rulegroup default="on" id="Hyphen_and_spaces" name="Пробелы перед и после дефиса">
             <rule>
                 <pattern case_sensitive="yes">
                     <token regexp="yes">.*[а-яё]</token>
@@ -4101,7 +4101,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="всё:">Удивляло и восхищало в нём <marker>всё :</marker> его манера говорить, его отношение ко всем, всегдашняя приветливость…</example>
             </rule>
         </rulegroup>      
-        <rule id="Teper_tak_kak" name="Цельное выражение «Теперь так как»">
+        <rule id="Teper_tak_kak" name="Цельное выражение: «теперь так как»">
             <pattern>
                     <token>Теперь</token>
                     <token>,</token>
@@ -4114,7 +4114,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Теперь так как.</example>
         </rule>
                                            
-        <rulegroup default="on" id="NO_KAK_POPALO" name="Словосочетания «Что угодно», «как попало»">
+        <rulegroup default="on" id="NO_KAK_POPALO" name="Словосочетания: «что угодно», «как попало»">
             <!--Что угодно, как попало  не выделяются запятыми.
             -->
             <rule>
@@ -4142,7 +4142,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="достать что нужно">Как мне <marker>достать, что нужно</marker>?</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="BUD_CHTO_BUDET" name="Словосочетания «будь что будет», ...">
+        <rulegroup default="on" id="BUD_CHTO_BUDET" name="Словосочетания: «будь что будет», ...">
             <!--"Будь что будет" перед "что" запятая не нужна.
             -->
             <rule>
@@ -4157,7 +4157,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="будь что будет">И <marker>будь, что будет</marker>!</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="CHTO_PRAVDA_TO_PRAVDA" name="Словосочетания «что правда, то правда»">
+        <rulegroup default="on" id="CHTO_PRAVDA_TO_PRAVDA" name="Словосочетания: «что правда, то правда»">
             <!--"Будь что будет" перед "что" запятая не нужна.
             -->
             <rule>
@@ -4647,7 +4647,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>  
         
-        <rulegroup default="on" id="COMPLEX_SOUZ_NO_COMMA" name="Сложные союзы не разделяются «тогда как», «словно как», ...">
+        <rulegroup default="on" id="COMPLEX_SOUZ_NO_COMMA" name="Сложные союзы не разделяются: «тогда как», «словно как», ...">
             <!-- Сложные союзы не разделяются «тогда как», «словно как», ...  ->> запятая не ставится. $ 108 Розенталь -->
             <rule>
                 <pattern>
@@ -4757,7 +4757,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="совсем как">Работа была сделана <marker>совсем, как</marker> попало.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="NO_NE_TO_CHTO" name="Словосочетания «Не то что», «не так чтобы», «не иначе как»">
+        <rulegroup default="on" id="NO_NE_TO_CHTO" name="Словосочетания: «не то что», «не так чтобы», «не иначе как»">
             <!-- Внутри сочетаний не то что, не то (так) чтобы, не иначе как запятая не ставится.
             -->
             <rule>
@@ -5659,7 +5659,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
            <example>двадцати пяти</example>
          </rule>   
         </rulegroup>
-        <rule id="grammar_o_tom_to_chto" name="Грамматические ошибки «о том, то что ...»">
+        <rule id="grammar_o_tom_to_chto" name="Грамматические ошибки: «о том, то что ...»">
             <pattern>
                 <token>о<exception regexp="yes" scope="previous">—|-|,|[!?)»]</exception></token>
                 <token>том</token>
@@ -5718,7 +5718,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>А все ли ошибки найдены?</example>
         </rule>
        
-        <rule id="grammar_bolee_interesnee" name="Грамматические ошибки «более (менее) интереснее, ...»">
+        <rule id="grammar_bolee_interesnee" name="Грамматические ошибки: «более (менее) интереснее, ...»">
             <pattern>
                 <token regexp="yes">более|менее</token>
                 <token postag="ADJ:Comp"><exception  postag="ADJ:.*:.*" postag_regexp="yes"></exception><exception>уже</exception></token>
@@ -5731,7 +5731,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>умнее</example>
         </rule>
        
-         <rule id="grammar_nemnogo_blednovat" name="Грамматические ошибки «немного бледноват»">
+         <rule id="grammar_nemnogo_blednovat" name="Грамматические ошибки: «немного бледноват»">
             <pattern>
                 <token regexp="yes">немного|слегка|чуть-чуть</token>
                 <token postag="ADJ:Short:.*" postag_regexp="yes" regexp="yes">(.*)(оват)</token>
@@ -5754,7 +5754,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="просил прощения">Он <marker>просил прощение</marker>.</example>
       
         </rule>  
-        <rulegroup id="v_svjazi_s" name="Грамматические ошибки «в связи с ...»">
+        <rulegroup id="v_svjazi_s" name="Грамматические ошибки: «в связи с ...»">
           <rule>
             <pattern>
                 <token>в</token>
@@ -5762,7 +5762,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">с|со</token>
                 <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
             </pattern>
-            <message>После словосочетания «в связи с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
+            <message>После словосочетания: «в связи с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
             <short>Требуется творительный падеж</short>
             <example correction="В связи с событием|В связи с событьем"><marker>В связи с событие</marker>.</example>
             <example>В связи с событием.</example>
@@ -5774,13 +5774,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token>с</token>
                 <token inflected="yes">это<exception>этим</exception></token>
             </pattern>
-            <message>После словосочетания «в связи с» необходим творительный падеж: <suggestion>\1 \2 \3 этим</suggestion></message>         
+            <message>После словосочетания: «в связи с» необходим творительный падеж: <suggestion>\1 \2 \3 этим</suggestion></message>         
             <short>Требуется творительный падеж</short>
             <example correction="В связи с этим"><marker>В связи с это</marker> событием.</example>
             <example>В связи с этим событием.</example>
           </rule>
         </rulegroup>
-        <rulegroup id="v_kontakte_s" name="Грамматические ошибки «в контакте с ...»">
+        <rulegroup id="v_kontakte_s" name="Грамматические ошибки: «в контакте с ...»">
           <rule>
             <pattern>
                 <token>в</token>
@@ -5788,13 +5788,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">с|со</token>
                 <token postag_regexp="yes" postag="NN:.*|SENT_END|PARA_END"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*|SENT_END|PARA_END" negate_pos="yes" /></token>
             </pattern>
-            <message>После словосочетания «в контакте с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
+            <message>После словосочетания: «в контакте с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
             <short>Требуется творительный падеж</short>
             <example correction="в контакте с разработчиком">Он постоянно находился <marker>в контакте с разработчик</marker>.</example>
             <example>Он постоянно находился в контакте с разработчиком.</example>
           </rule>
         </rulegroup>
-        <rulegroup id="v_sochetanii_s" name="Грамматические ошибки «в сочетании с ...»">
+        <rulegroup id="v_sochetanii_s" name="Грамматические ошибки: «в сочетании с ...»">
           <rule>
             <pattern>
                 <token>в</token>
@@ -5802,13 +5802,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">с|со</token>
                 <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
             </pattern>
-            <message>После словосочетания «в сочетании с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
+            <message>После словосочетания: «в сочетании с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
             <short>Требуется творительный падеж</short>
             <example correction="в сочетании с молоком">Дыню нельзя употреблять <marker>в сочетании с молока</marker>.</example>
             <example>Дыню нельзя употреблять в сочетании с молоком.</example>
           </rule>
         </rulegroup>
-        <rulegroup id="v_sravnenii_s" name="Грамматические ошибки «в сравнении с ...»">
+        <rulegroup id="v_sravnenii_s" name="Грамматические ошибки: «в сравнении с ...»">
           <rule>
             <pattern>
                 <token>в</token>
@@ -5816,20 +5816,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">с|со</token>
                 <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
             </pattern>
-            <message>После словосочетания «в контакте с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
+            <message>После словосочетания: «в контакте с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3"/> <match no="4" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
             <short>Требуется творительный падеж</short>
-            <example correction="в сравнении со скоростью">Но <marker>в сравнении со скорость</marker> света, скорость «Пионера» выглядит просто черепашьей.</example>
-            <example>Но в сравнении со скоростью света, скорость «Пионера» выглядит просто черепашьей.</example>
+            <example correction="в сравнении со скоростью">Но <marker>в сравнении со скорость</marker> света, скорость: «Пионера» выглядит просто черепашьей.</example>
+            <example>Но в сравнении со скоростью света, скорость: «Пионера» выглядит просто черепашьей.</example>
           </rule>
         </rulegroup>
-        <rulegroup id="naravne_s" name="Грамматические ошибки «наравне с ...»">
+        <rulegroup id="naravne_s" name="Грамматические ошибки: «наравне с ...»">
           <rule>
             <pattern>
                 <token>наравне</token>
                 <token regexp="yes">с|со</token>
                 <token postag_regexp="yes" postag="NN:.*"><exception  postag_regexp="yes" postag="NN:.*:.*:T" /><exception  postag_regexp="yes" postag="NN:.*" negate_pos="yes" /></token>
             </pattern>
-            <message>После словосочетания «наравне с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
+            <message>После словосочетания: «наравне с» необходим творительный падеж: <suggestion><match no="1"/> <match no="2"/> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*):(.*):.*"  postag_replace="NN:$1:$2:$3:T"/></suggestion></message>         
             <short>Требуется творительный падеж</short>
             <example correction="наравне с облаками">Лететь <marker>наравне с облаках</marker>.</example>
             <example>Лететь наравне с облаками.</example>
@@ -5847,7 +5847,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="в противоречие с правилами">Это вступает <marker>в противоречие с правил</marker>.</example>
             <example>Это вступает в противоречие с правилами.</example>
         </rule>                     
-        <rule id="skuchat_za" name="Грамматические ошибки «скучать за ... »">
+        <rule id="skuchat_za" name="Грамматические ошибки: «скучать за ... »">
             <pattern>
                 <token inflected="yes">скучать</token>
                 <token>за</token>
@@ -5857,7 +5857,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>Скучаю за</marker> другом.</example>
             <example>Скучаю по другу.</example>
         </rule>  
-        <rulegroup id="oplachivat_prep" name="Грамматические ошибки «оплачивать за», «оплачивать по»">
+        <rulegroup id="oplachivat_prep" name="Грамматические ошибки: «оплачивать за», «оплачивать по»">
           <rule>
             <pattern>
                 <token inflected="yes" regexp="yes" skip="1">оплатить|оплачивать<exception postag_regexp="yes" postag="PT:.*"></exception></token>
@@ -5883,7 +5883,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Оплачивать картой.</example>
           </rule>
         </rulegroup>
-        <rulegroup id="sojalet_ob_etom" name="Грамматические ошибки «сожалею это», «подтвердить об этом» ">
+        <rulegroup id="sojalet_ob_etom" name="Грамматические ошибки: «сожалею это», «подтвердить об этом» ">
           <!-- TODO: replace "это" -->
           <rule>
              <pattern>
@@ -5906,7 +5906,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="подтвердить это">Кто бы мог <marker>подтвердить об этом</marker>?</example>
           </rule>
         </rulegroup>
-         <rulegroup id="rugat_rugatsja" name="Грамматические ошибки «ругать/ругаться + ...»">
+         <rulegroup id="rugat_rugatsja" name="Грамматические ошибки: «ругать или ругаться + ...»">
            <rule>
              <pattern>
                 <token inflected="yes">ругать</token>
@@ -5931,7 +5931,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Тренер ругался с футболистом.</example>
           </rule>
         </rulegroup>
-        <rulegroup id="udivlyatsja_na" name="Грамматические ошибки «удивляться на ...»">
+        <rulegroup id="udivlyatsja_na" name="Грамматические ошибки: «удивляться на ...»">
           <rule>
              <pattern>
                 <token inflected="yes" >удивляться</token>
@@ -5943,7 +5943,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Я тебе удивляюсь.</example>
           </rule>
         </rulegroup>
-        <rulegroup id="vzjat_s_nego_interview" name="Грамматические ошибки «взять с ... интервью»">
+        <rulegroup id="vzjat_s_nego_interview" name="Грамматические ошибки: «взять с ... интервью»">
           <rule>
              <pattern>
                 <token inflected="yes" >взять</token>
@@ -5958,7 +5958,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Комментатор взял у гостя интервью.</example>
           </rule>
         </rulegroup>
-         <rulegroup  id="znat_cenu" name="Грамматические ошибки «знать цену ...»">
+         <rulegroup  id="znat_cenu" name="Грамматические ошибки: «знать цену ...»">
            <rule>
              <pattern>
                 <token inflected="yes">знать</token>
@@ -6048,7 +6048,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>уверенность в силах</example>
         </rule> 
         
-         <rulegroup id="toska_toskovat" name="«Тоска/тосковать + ...»">
+         <rulegroup id="toska_toskovat" name="«Тоска (тосковать) + ...»">
            <rule>    
             <pattern>
                 <token inflected="yes">тоска</token>
@@ -7257,7 +7257,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
 
-        <rulegroup default="on" id="Oba_obe" name="Числительные «оба/обе»">
+        <rulegroup default="on" id="Oba_obe" name="Числительные «оба» и «обе»">
             <rule>
                 <pattern>
                     <token regexp="yes">оба|обоих|обоим|обоими</token>
@@ -7495,7 +7495,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>        
                 
-        <rulegroup default="on" id="Ne_pril_prich" name="«Не» с прилагательными/причастиями">
+        <rulegroup default="on" id="Ne_pril_prich" name="«Не» с прилагательными и причастиями">
             <rule> <!-- TODO -->
                 <pattern>
                     <token regexp="yes">очень|весьма|крайне|совершенно|вполне|почти|отчасти|совсем|чрезвычайно</token>
@@ -7562,7 +7562,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
             
-        <rule default="temp_off" id="Ne_pril_prich1" name="«Не» с прилагательными/причастиями 1"> 
+        <rule default="temp_off" id="Ne_pril_prich1" name="«Не» с прилагательными и причастиями 1"> 
                 <!-- Его походка медлительна, неуверенна. Это краткое прилагательное, слитное написание НЕ, две буквы НН, зависимых слов нет -->
              <antipattern>   
                     <marker>
@@ -7662,7 +7662,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="не сказал ни слова">За весь вечер он <marker>не сказал и слова</marker>.</example>
             </rule>
         </rulegroup>   
-	<rule id="kak_ni_stranno" name="Опечатка «как ни странно/как не странно»">
+	<rule id="kak_ni_stranno" name="Опечатка: «как ни странно» или «как не странно»">
   	    <pattern>
     		<token>как</token>
     		<token>не</token>
@@ -7672,7 +7672,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
   	     <short>Опечатка</short>
   	     <example correction="как ни странно"><marker>как не странно</marker></example>
 	 </rule>
-         <rulegroup default="on" id="Pravopisanie_s_odnoj" name="Словосочетание  «с одной»">    
+         <rulegroup default="on" id="Pravopisanie_s_odnoj" name="Словосочетание: «с одной»">    
             <rule>
                 <pattern>
                     <marker>
@@ -7687,7 +7687,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Микроскопы Ван Левенгука представляли собой относительно небольшие изделия с одной очень сильной линзой.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="Pravopisanie_po-prezhnemu" name="Правописание слов «по-прежнему» или «по прежнему»">    
+        <rulegroup default="on" id="Pravopisanie_po-prezhnemu" name="Правописание слов: «по-прежнему» или «по прежнему»">    
             <rule>
                 <pattern raw_pos="yes">
                     <marker>
@@ -7795,7 +7795,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
         
-        <rulegroup default="on" id="Pravopisanie_slitno1" name="Правописание слов «наверху», «внизу» ...">
+        <rulegroup default="on" id="Pravopisanie_slitno1" name="Правописание слов: «наверху», «внизу» ...">
     
 
             <rule>
@@ -8017,7 +8017,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="навстречу">Они шли <marker>на встречу</marker> друг другу.</example>
             </rule>        
         </rulegroup>
-        <rulegroup id="TO_JE" name="Правописание «тоже/то же»">
+        <rulegroup id="TO_JE" name="Правописание: «тоже» или «то же»">
           <rule>
             <pattern>
                 <token>тоже<exception postag="NN:.*:.*:.*:.*|PNN:.*" postag_regexp="yes" scope="previous"></exception></token>
@@ -8053,7 +8053,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
          </rule>
         </rulegroup>
  
-        <rulegroup id="TAK_JE" name="Правописание «также/так же»" >
+        <rulegroup id="TAK_JE" name="Правописание «также» или «так же»" >
             <rule>
                 <pattern>
                     <token>также<exception postag="NN:.*:.*:.*:.*" postag_regexp="yes" scope="previous"></exception></token>
@@ -8076,7 +8076,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="так же как">Всё <marker>также как</marker> и было.</example>           
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="i_tak_dalee" name="Словосочетание «и так далее»">
+        <rulegroup default="on" id="i_tak_dalee" name="Словосочетание: «и так далее»">
             <rule>
                 <pattern case_sensitive="no">
                     <token>итак</token>
@@ -8089,7 +8089,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>  
         
-        <rulegroup default="on" id="Vo_chto_by_to_ni_stalo" name="Словосочетание «во что бы то ни стало»">
+        <rulegroup default="on" id="Vo_chto_by_to_ni_stalo" name="Словосочетание: «во что бы то ни стало»">
             <rule>
                 <pattern case_sensitive="no">
                     <token>во</token>
@@ -8519,7 +8519,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rulegroup id="VO_VREMJA" name="Правописание «во время/вовремя»">
+        <rulegroup id="VO_VREMJA" name="Правописание «во время» или «вовремя»">
             <rule>
                 <pattern case_sensitive='yes'>
                     <marker>
@@ -9521,7 +9521,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="на концерт">Он пошёл <marker>в концерт</marker>.</example>
         </rule>
         
-        <rule default="on" id="PREP_Nad_and_Noun" name="Предлоги «над», «перед»  и существительное">
+        <rule default="on" id="PREP_Nad_and_Noun" name="Предлоги: «над», «перед»  и существительное">
             <pattern>
                 <!--              PREP над, перед -> NN:.*:T   -->
                 <token regexp="yes">над|перед</token>
@@ -9530,12 +9530,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Предлоги «над» и «перед» предполагают употребление существительного в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:T"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
+            <message>Предлоги: «над» и «перед» предполагают употребление существительного в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:T"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется творительный падеж</short>
             <example>Перед закатом.</example>
             <example correction="Перед закатом|Закат"><marker>Перед закат</marker>.</example>
         </rule>
-        <rule default="on" id="PREP_Nad_and_ADJ" name="Предлоги «над», «перед» и прилагательное">
+        <rule default="on" id="PREP_Nad_and_ADJ" name="Предлоги: «над», «перед» и прилагательное">
             <pattern>
                 <!--               PREP над, перед -> ADJ:.*:T   -->
                 <token regexp="yes">над|перед</token>
@@ -9545,14 +9545,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="ADJ:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Предлоги «над» и «перед» предполагают употребление прилагательного  в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:T"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
+            <message>Предлоги: «над» и «перед» предполагают употребление прилагательного  в творительном падеже: <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:T"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется творительный падеж</short>
             <example>Перед багровым закатом.</example>
             <example correction="Перед багровым|Багровый"><marker>Перед багровый</marker> закатом.</example>
         </rule>
         
         
-        <rule default="on" id="PREP_cherez_and_Noun" name="Предлоги «сквозь», «через» и существительное">
+        <rule default="on" id="PREP_cherez_and_Noun" name="Предлоги: «сквозь», «через» и существительное">
             <pattern case_sensitive="no">
                 <!--              PREP сквозь, через -> NN:.*:V   -->
                 <token regexp="yes">сквозь|через</token>
@@ -9561,13 +9561,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="NN:.*:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Предлоги «сквозь» и «через» предполагают употребление существительного в винительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
+            <message>Предлоги: «сквозь» и «через» предполагают употребление существительного в винительном падеже: <suggestion><match no="1"></match> <match no="2" postag="NN:(.*):(.*):(.*):.*" postag_regexp="yes" postag_replace="NN:$1:$2:$3:V"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется винительный падеж</short>
             <example>Луч света попал сквозь окно в комнату.</example>
             <example>Через тернии к звёздам.</example>
             <example correction="сквозь окно|окном">Луч света попал <marker>сквозь окном</marker> в комнату.</example>
         </rule>
-        <rule default="on" id="PREP_cherez_and_ADJ" name="Предлоги «сквозь», «через» и прилагательное">
+        <rule default="on" id="PREP_cherez_and_ADJ" name="Предлоги: «сквозь», «через» и прилагательное">
             <pattern>
                 <!--               PREP сквозь, через -> ADJ:.*:V   -->
                 <token regexp="yes">сквозь|через</token>
@@ -9577,7 +9577,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <exception postag="ADJ:.*:.*|SENT_END|PARA_END" negate_pos="yes" postag_regexp="yes"></exception>
                 </token>
             </pattern>
-            <message>Предлоги «сквозь» и «через» предполагают употребление прилагательного в винительном падеже: <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:V"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
+            <message>Предлоги: «сквозь» и «через» предполагают употребление прилагательного в винительном падеже: <suggestion><match no="1"></match> <match no="2" postag="ADJ:(.*):.*" postag_regexp="yes" postag_replace="ADJ:$1:V"></match></suggestion> или <suggestion><match no="2"></match></suggestion></message>
             <short>Требуется винительный падеж</short>
             <example>Луч света попал сквозь стеклянное окно в комнату.</example>
             <example correction="сквозь стеклянного|сквозь стеклянное|сквозь стеклянный|стеклянному">Луч света попал <marker>сквозь стеклянному</marker> окно в комнату.</example>
@@ -9734,7 +9734,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="при исследовательском|исследовательский">Лаборатория была создана <marker>при исследовательский</marker> центре.</example>
         </rule>
         
-        <rule default="on" id="PREP_U_and_Noun" name="Предлоги «у», «без», ...  и существительное">
+        <rule default="on" id="PREP_U_and_Noun" name="Предлоги: «у», «без», ...  и существительное">
             <pattern case_sensitive="no">
                 <!--  PREP у, без, вместо, для, до, из (изо), из-за, из-под, кроме, около, от, против, среди-> NN:.*:R   -->
                 <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
@@ -9751,7 +9751,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="у опушки|опушка">Заросший пруд <marker>у опушка</marker> леса.</example>
             <example correction="у опушек|у опушки|опушка">Заросший пруд <marker>у опушка</marker></example>
         </rule>
-        <rule default="on" id="PREP_U_and_ADJ" name="Предлоги «у», «без», ... и прилагательное">
+        <rule default="on" id="PREP_U_and_ADJ" name="Предлоги: «у», «без», ... и прилагательное">
             <pattern>
                 <!--   PREP у, без вместо для, до, из (изо), из-за, из-под, кроме, около, от, против, среди- -> ADJ:.*:.*:R   -->
                 <token regexp="yes">у|без|вместо|для|до|из|изо|из-за|из-под|кроме|около|от|против|среди</token>
@@ -9947,7 +9947,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Я шёл <marker>по снегом</marker>.</example>
         </rule>
         
-        <rulegroup  id="PREP_V_tom_Noun" name="Предлог «в» + «том/тот» и существительное">
+        <rulegroup  id="PREP_V_tom_Noun" name="Предлог «в» + «том или тот» и существительное">
           <rule> <!-- TODO: -->
             <pattern>
                 <token regexp="yes">в|про<exception scope="previous" regexp="yes">надлежащего|требуемого</exception></token>
@@ -10020,7 +10020,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Предлагаем разобраться в видах соли.</example>
             <example correction="в видах газировки">Предлагаем разобраться <marker>в видах газировка</marker>.</example>
         </rule>
-        <rule id="upravlauchij_NN" name="Словосочетание «управляющий», ... + существительное">
+        <rule id="upravlauchij_NN" name="Словосочетание: «управляющий», ... + существительное">
             <pattern case_sensitive="no">
                 <!--    Управляющий предприятием    NN:.*:.*:T       -->
                 <or>
@@ -10041,7 +10041,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Управляющий предприятием|Управляющий предприятьем"><marker>Управляющий предприятия</marker> общественного питания.</example>
         </rule>
 	
-	<rule default="on" id="plit_lodkoj" name="Словосочетание «плыть лодкой» --> «плыть на лодке»">
+	<rule default="on" id="plit_lodkoj" name="Словосочетание: «плыть лодкой» ► «плыть на лодке»">
             <pattern case_sensitive="no">
                 <!--          -->
                 <token regexp="yes" inflected="yes">летать|плыть</token>
@@ -10098,7 +10098,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
         
         
-        <rule default="on" id="drug_s_drugom" name="Словосочетание «равноправны друг c другом»">
+        <rule default="on" id="drug_s_drugom" name="Словосочетание: «равноправны друг c другом»">
             <pattern case_sensitive="no">
                 <!--   Равноправны друг c другом      -->
                 <token>равноправны</token>
@@ -10121,7 +10121,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Южнокорейский консорциум может поучаствовать в проекте.</example>
             <example correction="поучаствовать">Южнокорейский консорциум может <marker>по участвовать</marker> в проекте.</example>
         </rule>
-        <rule id="Potok_and_Noun" name="Словосочетание «поток» и существительное">
+        <rule id="Potok_and_Noun" name="Словосочетание: «поток» и существительное">
 	        <pattern>
 	        <token inflected="yes" regexp="yes">поток|направление<exception scope="previous" postag="VB:.*" postag_regexp="yes" /><exception regexp="yes">поток(ом|ами)</exception><exception scope="previous" postag="ADJ:.*:P|ADJ:MPR:.*:P" postag_regexp="yes" /><exception regexp="yes">направлен(ии|иях|ия)</exception></token>
                 <token postag_regexp="yes" postag="NN:.*">
@@ -10129,8 +10129,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <exception negate="yes" case_sensitive="yes" regexp="yes">[а-я].*</exception>
                 </token>
             </pattern>
-            <message>После слов «поток» и «направление» существительные употребляются в родительном и творительном падеже.</message>
-            <short>Словосочетание «поток» и существительное</short>
+            <message>После слов: «поток» и «направление» существительные употребляются в родительном и творительном падеже.</message>
+            <short>Словосочетание: «поток» и существительное</short>
             <example correction=""><marker>Направление движению</marker></example>
             <example correction="">По <marker>направлению движению</marker></example>
             <example correction="">Линия <marker>потока энергия</marker></example>
@@ -10142,7 +10142,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Не позднее двух дней со дня направления участнику разъяснения.</example>
         </rule>
         
-        <rule id="Dvigenie_and_Noun" name="Словосочетание «движение» и существительное">
+        <rule id="Dvigenie_and_Noun" name="Словосочетание: «движение» и существительное">
 	    <pattern>
 	        <token postag_regexp="yes" postag="VB:.*" skip="1"/>
                 <marker>
@@ -10154,7 +10154,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     </token>
                 </marker>
             </pattern>
-            <message>После слов «движение» существительные употребляются в родительном или творительном падеже: <suggestion><match no="2"></match> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*)"  postag_replace="NN:$1:(T|R)"></match></suggestion>
+            <message>После слов: «движение» существительные употребляются в родительном или творительном падеже: <suggestion><match no="2"></match> <match no="3" postag_regexp="yes" postag="NN:(.*):(.*)"  postag_replace="NN:$1:(T|R)"></match></suggestion>
             </message>
             <short>Требуется родительный или творительный падеж</short>
             <example correction="движение руки|движение рукой|движение рукою">А теперь совершаем <marker>движение руке</marker> по часовой стрелке.</example>
@@ -10162,7 +10162,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>При движении мать постоянно трогает детёныша хоботом, ногами или хвостом, в зависимости от того, находится ли детёныш перед ней, рядом или за ней.</example>
         </rule>       
                         
-        <rule id="V_TECHENII" name="Словосочетание «в течении реки»">
+        <rule id="V_TECHENII" name="Словосочетание: «в течении реки»">
             <pattern>
                 <token>в</token>
                 <token>течение</token>
@@ -10173,7 +10173,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="в течении реки">Там <marker>в течение реки</marker> много изгибов.</example>
             <example>Там в течении реки много изгибов.</example>
         </rule>
-        <rulegroup id="V_OTLICHIE" name="Словосочетание или производный предлог «в отличие»/«в отличии»">
+        <rulegroup id="V_OTLICHIE" name="Словосочетание или производный предлог: «в отличие» или «в отличии»">
           <rule>  
             <pattern>
                 <token>в</token>
@@ -10196,7 +10196,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="В отличии этих"><marker>В отличие этих</marker> двух аппаратов можно не сомневаться.</example>
           </rule>
         </rulegroup>
-        <rulegroup id="V_TECHENIЕ" name="Словосочетание «в течение времени»">
+        <rulegroup id="V_TECHENIЕ" name="Словосочетание: «в течение времени»">
           <rule>  
             <pattern>
                 <token>в</token>
@@ -10226,7 +10226,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Работа должна быть выполнена в течение 10 дней.</example>
           </rule>
         </rulegroup>
-        <rule id="V_PRODOLJENIЕ" name="Словосочетание «в продолжение (отрезка времени)»">
+        <rule id="V_PRODOLJENIЕ" name="Словосочетание: «в продолжение (отрезка времени)»">
             <pattern>
                 <token>в</token>
                 <token>продолжении</token>
@@ -10326,7 +10326,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Экскурсовод сказал, что Псков же стал провинциальным городом.</example>
             <example>Удалось подобрать ту же цветовую гамму.</example> 
         </rule>
-        <rule id="PARTICLE_JE_J" name="Употребление частиц «же» и «ж»">
+        <rule id="PARTICLE_JE_J" name="Употребление частиц: «же» и «ж»">
             <pattern case_sensitive="yes">
                 <token regexp="yes">[а-яёА-ЯЁ]*[бвгджзйклмнпрстфхчц]</token>
                 <token>ж</token>
@@ -10338,7 +10338,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Иван же не приехал.</example>
             <example>Ольга ж не приехала.</example>
         </rule>
-         <rule id="grammar_s_dnem_rojdenja" name="Просторечие «с днём рожденья»">
+         <rule id="grammar_s_dnem_rojdenja" name="Просторечие: «с днём рожденья»">
             <pattern>
                 <token>с</token>
                 <token regexp="yes">днём|днем</token>
@@ -10349,7 +10349,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="с днём рождения">Поздравляю <marker>с днём рожденья</marker>!</example>
             <example>С днём рождения!</example>
         </rule>
-        <rule id="grammar_tut_zdes"  name="Просторечие «тут», «здесь»" default="off"> <!--  temp_off -->
+        <rule id="grammar_tut_zdes"  name="Просторечие: «тут», «здесь»" default="off"> <!--  temp_off -->
             <pattern>
                 <token>,</token>
                 <marker>
@@ -10498,7 +10498,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
        
-        <rule  id="Tak_kak_to" name="Устойчивое выражение «Так как ..., то»">  
+        <rule  id="Tak_kak_to" name="Устойчивое выражение: «Так как ..., то»">  
              <pattern>             
                  <marker>
                      <token>так</token>
@@ -10513,7 +10513,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
              <example correction="Так как отражение"><marker>Так отражение</marker> от такой границы практически отсутствует, то  распределение поля перед ней с хорошей степенью точности совпадает со случаем "открытых" граничных условий, который тождественен бесконечной среде.</example>
         </rule>          
         
-        <rulegroup default="on" id="bolee_ili_menee_k" name="Словосочетание «более или менее конкретны»">
+        <rulegroup default="on" id="bolee_ili_menee_k" name="Словосочетание: «более или менее конкретны»">
             <rule>
                 <pattern>
                     <token>более</token>
@@ -10528,7 +10528,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         
-        <rule id="Style_imeet_vid" name="Стиль «имеет вид/получается в виде»">
+        <rule id="Style_imeet_vid" name="Стиль: «имеет вид/получается в виде»">
             <pattern>
                 <token>получается</token>
                 <token>в</token>
@@ -10538,7 +10538,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <short>Стиль</short>
             <example correction="имеет вид">Результат вычисления целевой функции <marker>получается в виде</marker> скаляра.</example>
         </rule>
-        <rule id="Style_gipoteza_soglasno_kotoroj" name="Стиль «гипотеза, что для создания»"> <!-- гипотеза, согласно которой -->
+        <rule id="Style_gipoteza_soglasno_kotoroj" name="Стиль: «гипотеза, что для создания»"> <!-- гипотеза, согласно которой -->
             <pattern>
                 <token inflected="yes">гипотеза</token>
                 <token>,</token>
@@ -10576,7 +10576,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         
       
-        <rulegroup default="off" id="O_tom_chto" name="Связка слов «о том, что»">    
+        <rulegroup default="off" id="O_tom_chto" name="Связка слов: «о том, что»">    
             <rule>
                 <!-- о том, что
                 -->
@@ -10586,7 +10586,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>,</token>
                         <token>что</token>
                 </pattern>
-                <message>В большинстве случаев связку слов «о том» можно исключить: <suggestion>\3 \4</suggestion>.</message>
+                <message>В большинстве случаев связку слов: «о том» можно исключить: <suggestion>\3 \4</suggestion>.</message>
                 <short>Избыточность: «о том» можно исключить</short>
                 <example>Помните, что в большинстве случаев связку «о том» можно исключить.</example>
                 <example correction=", что">Помните<marker> о том, что</marker> в большинстве случаев связку «о том» можно исключить.</example>
@@ -10727,7 +10727,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">Кнопка <marker>выбора файла сохранения цвета фона</marker>.</example>
             </rule>
        </rulegroup>
-       <rulegroup default="on" id="kommentirovat_prep" name="Словосочетание «комментировать» + предлог">
+       <rulegroup default="on" id="kommentirovat_prep" name="Словосочетание: «комментировать» + предлог">
             <rule>
                 <pattern>
                     <token inflected="yes">комментировать</token>
@@ -10739,7 +10739,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="">диктор <marker>комментирует об</marker> этом событии.</example>
             </rule>
         </rulegroup>   
-        <rulegroup default="on" id="ugasno_krasivij" name="Словосочетание «ужасно красивый»">
+        <rulegroup default="on" id="ugasno_krasivij" name="Словосочетание: «ужасно красивый»">
             <rule>
                 <pattern>
                     <token>ужасно</token>
@@ -10761,7 +10761,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="очень красива">Она <marker>ужасно красива</marker>.</example>
             </rule>
         </rulegroup>      
-        <rulegroup default="on" id="mankirovat_nn" name="Словосочетание «манкировать» + существительное">
+        <rulegroup default="on" id="mankirovat_nn" name="Словосочетание: «манкировать» + существительное">
             <rule>
                 <pattern>
                     <token inflected="yes">манкировать</token>
@@ -10784,7 +10784,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="манкировать своими обязанностями"><marker>манкировать свои обязанности</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="reczenzija_na" name="Словосочетание «рецензия о»">
+        <rulegroup default="on" id="reczenzija_na" name="Словосочетание: «рецензия о»">
             <rule>
                 <pattern>
                     <token inflected="yes">рецензия</token>
@@ -10800,7 +10800,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>        
                 
                                 
-        <rulegroup default="on" id="pretenzia_na" name="Словосочетание «претензия на»">
+        <rulegroup default="on" id="pretenzia_na" name="Словосочетание: «претензия на»">
             <rule>
                 <pattern>
                     <token inflected="yes">претензия</token>
@@ -10814,7 +10814,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>            
                        
-          <rulegroup default="on" id="predstavlat_soboj" name="Разговорный стиль «представлять из себя»">
+          <rulegroup default="on" id="predstavlat_soboj" name="Разговорный стиль: «представлять из себя»">
             <rule>
                 <pattern>
                     <token inflected="yes">представлять</token>
@@ -10827,7 +10827,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="представляет собой">Летопись <marker>представляет из себя</marker> запись событий.</example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="nagnat_strahu" name="Устойчивые выражения «нагнать страху», «натерпеться страху»">
+        <rulegroup default="on" id="nagnat_strahu" name="Устойчивые выражения: «нагнать страху», «натерпеться страху»">
             <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes">нагнать|натерпеться</token>
@@ -10839,7 +10839,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="нагнал страху">Он <marker>нагнал страха</marker>.</example>
             </rule>
         </rulegroup>
-         <rulegroup default="on" id="skladivaetsja_oschuschenie" name="Устойчивые выражения «складывается ощущение»">
+         <rulegroup default="on" id="skladivaetsja_oschuschenie" name="Устойчивые выражения: «складывается ощущение»">
             <rule>
                 <pattern>
                     <token>складывается</token>
@@ -10861,7 +10861,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="возникало ощущение"><marker>складывалось ощущение</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup default="on" id="ni_v_koem_sluchae" name="Устойчивые выражения «ни в коем случае»">
+        <rulegroup default="on" id="ni_v_koem_sluchae" name="Устойчивые выражения: «ни в коем случае»">
             <rule>
                 <pattern>
                     <token>не</token>
@@ -10875,7 +10875,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="ни в коем случае">Но <marker>не в коем случае</marker> нельзя забывать об этом.</example>
             </rule>
         </rulegroup>
-        <rule id="Logical_bolee_menee" name="Устойчивое выражение «более или менее»">
+        <rule id="Logical_bolee_menee" name="Устойчивое выражение: «более или менее»">
             <pattern>
                 <token>более-менее</token>
             </pattern>
@@ -10885,7 +10885,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="Более или менее"><marker>Более-менее</marker>.</example>
             <example>Более или менее.</example>
         </rule>        
-        <rulegroup id="NI_NA_GRAN" name="Цельное выражение «ни на гран»">
+        <rulegroup id="NI_NA_GRAN" name="Цельное выражение: «ни на гран»">
          <rule>
             <pattern>
                 <token>ни</token>
@@ -10954,7 +10954,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>        
 
-        <rulegroup default="on" id="Prep_Soglasno" name="Предлоги «согласно», «благодаря», «вопреки»">
+        <rulegroup default="on" id="Prep_Soglasno" name="Предлоги: «согласно», «благодаря», «вопреки»">
             <rule>
                 <pattern>
                     <token regexp= "yes" >согласно|благодаря|вопреки</token>
@@ -11310,7 +11310,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Как будто"><marker>Какбудто</marker> время остановилось.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="Defis_to" name="Дефисное правописание «-то», «-либо»">  
+        <rulegroup id="Defis_to" name="Дефисное правописание: «-то», «-либо»">  
             <rule>   
                 <pattern>
                     <marker>
@@ -12247,7 +12247,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>   
         </rulegroup>
 
-        <rulegroup id="skolko_vremeni" name="Словосочетание «сколько времени»">
+        <rulegroup id="skolko_vremeni" name="Словосочетание: «сколько времени»">
             <rule>   
                 <pattern>
                         <token>сколько</token>
@@ -12361,13 +12361,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule> 
         </rulegroup>
 
-        <rulegroup id="Predlogi_iz_s" name="Предлоги «из» и «с»">
+        <rulegroup id="Predlogi_iz_s" name="Предлоги: «из» и «с»">
             <rule>   
                 <pattern>
                        <token>с</token>          
                         <token>школы</token>
                 </pattern>
-                <message>Предлоги «из» и «с» имеют антонимы (для «из» это «в», для «с» это «на»). По этим парам можно определить, какой предлог правильный. Например, если «В школу» – то «ИЗ школы»: <suggestion>из \2</suggestion></message>
+                <message>Предлоги: «из» и «с» имеют антонимы (для «из» это «в», для «с» это «на»). По этим парам можно определить, какой предлог правильный. Например, если «В школу» – то «ИЗ школы»: <suggestion>из \2</suggestion></message>
                 <short>Правильно «из школы»</short>
                 <example correction="из школы">Вернувшись <marker>с школы</marker>, она сразу села читать. </example>
                 <example>Вернувшись из школы, она сразу села читать. </example>
@@ -12377,7 +12377,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>с</token>          
                         <token>командировки</token>
                 </pattern>
-                <message>Предлоги «из» и «с» имеют антонимы (для «из» это «в», для «с» это «на»). По этим парам можно определить, какой предлог правильный. Например, если «В командировку» – то «ИЗ командировки»: <suggestion>из \2</suggestion></message>
+                <message>Предлоги: «из» и «с» имеют антонимы (для «из» это «в», для «с» это «на»). По этим парам можно определить, какой предлог правильный. Например, если «В командировку» – то «ИЗ командировки»: <suggestion>из \2</suggestion></message>
                 <short>Правильно «из командировки»</short>
                 <example correction="из командировки">Они вернулись <marker>с командировки</marker> еще вчера.</example>
                 <example>Они вернулись из командировки еще вчера.</example>
@@ -12387,7 +12387,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>из</token>          
                         <token>Кавказа</token>
                 </pattern>
-                <message>Предлоги «из» и «с» имеют антонимы (для «из» это «в», для «с» это «на»). По этим парам можно определить, какой предлог правильный Например, если «НА Кавказ» – то «С Кавказа»: <suggestion>с \2</suggestion></message>
+                <message>Предлоги: «из» и «с» имеют антонимы (для «из» это «в», для «с» это «на»). По этим парам можно определить, какой предлог правильный Например, если «НА Кавказ» – то «С Кавказа»: <suggestion>с \2</suggestion></message>
                 <short>Правильно «с Кавказа»</short>
                 <example correction="с Кавказа">Мой дед родом <marker>из Кавказа</marker>.</example>
                 <example>Мой дед родом с Кавказа.</example>
@@ -12397,7 +12397,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token>с</token>          
                         <token>армии</token>
                 </pattern>
-                <message>Предлоги «из» и «с» имеют антонимы (для «из» это «в», для «с» это «на»). По этим парам можно определить, какой предлог правильный. Например, если «В армию» – то «ИЗ армии»<suggestion>из \2</suggestion></message>
+                <message>Предлоги: «из» и «с» имеют антонимы (для «из» это «в», для «с» это «на»). По этим парам можно определить, какой предлог правильный. Например, если «В армию» – то «ИЗ армии»<suggestion>из \2</suggestion></message>
                 <short>Правильно «из армии»</short>
                 <example correction="из армии">Он пришел <marker>с армии</marker> на прошлой неделе.</example>
                 <example>Он пришел из армии на прошлой неделе.</example>
@@ -12863,7 +12863,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
         </rulegroup>
 
-        <rulegroup id="Predlogi_vsledstvije_napodobije" name="Предлоги «наподобие»">
+        <rulegroup id="Predlogi_vsledstvije_napodobije" name="Предлоги: «наподобие»">
             <rule>   
                 <pattern>
                         <token>на</token>
