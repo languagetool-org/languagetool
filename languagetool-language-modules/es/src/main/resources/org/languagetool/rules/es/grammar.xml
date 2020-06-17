@@ -5237,9 +5237,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="QUEISMO" name="queismo" type="grammar" default="on">
             <url>https://www.rae.es/dpd/que%C3%ADsmo</url>
             <rule name="Infinitivo tipo convencer + pron.pers + que">
-                <!-- removed: dudar. 'Informar' is transitive in LatAm! -->
+                <!-- removed: dudar, informar. 'Informar' is transitive in LatAm! -->
                 <pattern>
-                    <token regexp="yes" inflected="yes" postag=".*\+P.*" postag_regexp="yes">alegrar|enterar|informar|convencer|hartar|quejar|protestar</token>
+                    <token regexp="yes" inflected="yes" postag=".*\+P.*" postag_regexp="yes">alegrar|enterar|convencer|hartar|quejar|protestar</token>
                     <marker>
                         <token>que</token>
                     </marker>
@@ -5259,15 +5259,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="V.P.*" postag_regexp="yes"><exception scope="previous" inflected="yes">haber</exception></token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">alegrar|enterar|informar|convencer|hartar|quejar|protestar<exception postag="[AN].*" postag_regexp="yes"/></token>
+                    <!-- removed: dudar, informar. 'Informar' is transitive in LatAm! -->
+                    <token regexp="yes" inflected="yes" postag="V.*" postag_regexp="yes">alegrar|enterar|convencer|hartar|quejar|protestar<exception postag="[AN].*" postag_regexp="yes"/></token>
                     <marker>
                         <token>que</token>
                     </marker>
                 </pattern>
                 <message>En este contexto, el verbo va seguido normalmente de la preposición 'de'.</message>
                 <suggestion>de que</suggestion>
-                <example correction="de que">Les informamos <marker>que</marker> es obligatorio.</example>
-                <example correction="de que">Les hemos informado <marker>que</marker> es obligatorio.</example>
+                <example correction="de que">Nos quejamos <marker>que</marker> fuera obligatorio.</example>
+                <!--<example correction="de que">Les hemos informado <marker>que</marker> es obligatorio.</example>-->
                 <example correction="de que">Me harté <marker>que</marker> no cumpliera.</example>
                 <example>Me hartó que no cumpliera.</example>
                 <example>Dudo que él venga.</example>
@@ -7522,7 +7523,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
                 <token regexp="yes">de|del</token>
                 <token postag="D.*" postag_regexp="yes" min="0"/>
-                <token regexp="yes" inflected="yes">afecto|agua|armonía|asidero|barba|barrera|belleza|boca|bondad|brillo|cautela|claridad|coherencia|color|confirmación|conocimiento|diafanidad|dimensión|donaire|empatía|entrenamiento|escrúpulo|explicación|fecha|financiación|firma|fuerza|fundamento|garbo|gracia|honestidad|honor|honra|humanidad|humedad|humildad|identidad|importancia|independencia|información|instrucción|inteligencia|interés|jugo|legislación|legitimación|lenguaje|libertad|luz|lógica|materialidad|moral|motivación|movilidad|movimiento|nacionalidad|necesidad|nutriente|objeto|olor|oreja|personalidad|privilegio|recurso|relevancia|respeto|rigor|rima|sentido|significado|sustancia|tacto|talento|traducción|utilidad|validez|valor|veracidad|vida|virtualidad|virtud|ánimo</token>
+                <token regexp="yes" inflected="yes"
+                    >afecto|agua|armonía|asidero|barba|barrera|belleza|boca|bondad|brillo|cautela|claridad|coherencia|color|confirmación|conocimiento|diafanidad|dimensión|donaire|empatía|entrenamiento|escrúpulo|explicación|fecha|financiación|firma|fuerza|fundamento|garbo|gracia|honestidad|honor|honra|humanidad|humedad|humildad|identidad|importancia|independencia|información|instrucción|inteligencia|interés|jugo|legislación|legitimación|lenguaje|libertad|luz|lógica|materialidad|moral|motivación|movilidad|movimiento|nacionalidad|necesidad|nutriente|objeto|olor|oreja|personalidad|privilegio|recurso|relevancia|respeto|rigor|rima|sentido|significado|sustancia|tacto|talento|traducción|utilidad|validez|valor|veracidad|vida|virtualidad|virtud|ánimo</token>
             </pattern>
             <message>Uso impropio si equivale a <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">carecer</match></suggestion>.</message>
             <url>https://www.rae.es/dpd/adolecer</url>
@@ -7688,6 +7690,101 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="Puntuación">
+        <rulegroup id="COMA_SUBJETO_PREDICADO" name="coma incorrecta entre sujeto y predicado" default="temp_off">
+            <antipattern>
+                <token>es</token>
+                <token>decir</token>
+            </antipattern>
+            <antipattern>
+                <token>está</token>
+                <token>claro</token>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="SENT_START" skip="-1"/>
+                    <token regexp="yes">[!?]</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>,</token>
+                    <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">decir|suponer|afirmar|creer|escribir|pensar|meditar|señalar|asegurar|explicar|contar</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token>,</token>
+                    <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token postag="VA.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">decir|suponer|afirmar|creer|escribir|pensar|meditar|señalar|asegurar|explicar|contar</token>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="_GN_.P" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token postag="V....S." postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <antipattern>
+                <marker>
+                    <token postag="_GN_.S" postag_regexp="yes"/>
+                    <token>,</token>
+                    <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                    <token postag="V....P." postag_regexp="yes"/>
+                </marker>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="D[DAIP].*" postag_regexp="yes"/>
+                        <token max="4" postag="_GN_.*" postag_regexp="yes"><exception postag="V.[IS].*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&expresiones_tiempo;|&unidades_tiempo;|&dias_semana;|&meses_ano;|&estaciones_ano;|&partes_dia;|vez</exception><exception regexp="yes"
+                            >\d+</exception></token>
+                        <token>,</token>
+                        <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                        <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Probablemente sobra la coma entre el sujeto y el predicado.</message>
+                <url>http://www.wikilengua.org/index.php/Coma_de_sujeto</url>
+                <example correction=""><marker>Mi amigo, va</marker> hacia su casa.</example>
+                <example correction=""><marker>Esta discusión bizantina, está</marker> siempre presente.</example>
+                <example>El 1918, partió hacia el sur.</example>
+                <example>El año 1918, partió hacia el sur.</example>
+                <example>En año 1918, partió hacia el sur.</example>
+                <example>Juan, ven aquí.</example>
+                <example>La primavera anterior, había estado en Venecia.</example>
+                <example>Come comida rápida, muere en seguida.</example>
+                <example>Este paisaje, rico en oro, es espectacular.</example>
+                <example>George, te tengo que decir algo.</example>
+                <example>Los otros, venid conmigo.</example>
+                <example>¿Este método, es bastante seguro?</example>
+                <example>El objetivo, dice, es salvar vidas.</example>
+                <example>El objetivo, nos dice, es salvar vidas.</example>
+                <example>El objetivo, nos ha dicho, es salvar vidas.</example>
+                <example>La aplicación, activa desde octubre</example>
+                <example>Los peces marions, susurró.</example>
+                <example>Esta sangre, baja en oxígeno, se suministra al resto del cuerpo.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token regexp="yes" max="3">\p{Lu}.*</token>
+                        <token>,</token>
+                        <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
+                        <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Probablemente sobra la coma entre el sujeto y el predicado.</message>
+                <url>http://www.wikilengua.org/index.php/Coma_de_sujeto</url>
+                <example correction=""><marker>Juan, va</marker> hacia su casa.</example>
+                <example correction=""><marker>Juan García, va</marker> hacia su casa.</example>
+            </rule>
+        </rulegroup>
         <rule id="YA_QUE" name="ya que que (con coma)">
             <!-- a lot of true positives expected -->
             <pattern>
