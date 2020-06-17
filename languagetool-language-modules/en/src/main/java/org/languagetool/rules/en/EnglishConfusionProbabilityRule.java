@@ -154,6 +154,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "way too early", // vs was
       "way too soon", // vs was
       "way too quick", // vs was
+      "way too late", // vs was
       "then,", // vs than
       "then?", // vs than
       "no it doesn", // vs know
@@ -233,13 +234,22 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "the role at", // vs add
       "same false alarm", // vs some
       "why is he relevant", // vs the
+      "why is he famous", // vs the
       "then that would", // vs than
       "was he part of", // vs the
       "is he right now", // vs the
+      "news page",
+      "news pages",
       "news site",
+      "news sites",
       "news website",
+      "news websites",
+      "news channel",
+      "news channels",
       "news organization",
+      "news organizations",
       "news organisation",
+      "news organisations",
       "scene in a movie",
       "mr.bean", // vs been
       "mr. bean", // vs been
@@ -249,9 +259,14 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "had a think",
       "live support", // vs life
       "your troll", // vs you
-      "waiste type", // vs waste
+      "waist type", // vs waste
       "(wait)",
       "now ahead of schedule", // vs know
+      "tag us in", // vs is
+      "your rebuild", // vs you
+      "got to know new", // vs now
+      "to live post", // vs life
+      "sea pineapple", // vs see
       "of you being her" // vs your
     );
     
