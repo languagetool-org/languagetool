@@ -29287,10 +29287,12 @@ though, and has since been slightly modified)-->
         <token regexp="yes">\d+.+</token>
       </antipattern>
       <pattern>
-        <token regexp="yes">\-?(\d+)?\-?\d+([kcmµn]?m|[km]?g|°C|m?l|(kilo|méga|giga|téra|péta)?watt|[TGMK]o|ohms?|kW|[MGTP]W|mph|fps|m²|m³|m?s|[GMkhdcm]N|V|min|px|Mpx|[GM]Hz|[TGMKtgmk]o|mA|Ω|mcg|pts|mAh|gr)</token>
+        <token regexp="yes">\-?(\d+)?\-?[\d\.,]+([kcmµn]?m|[km]?g|°C|m?l|(kilo|méga|giga|téra|péta)?watt|[TGMK]o|ohms?|kW|[MGTP]W|mph|fps|m²|m³|m?s|[GMkhdcm]N|V|min|px|Mpx|[GM]Hz|[TGMKtgmk]o|mA|Ω|mcg|pts|mAh|gr)</token>
       </pattern>
-      <message>Il faut utiliser une espace insécable avant l’unité. Voulez-vous écrire <suggestion><match no="1" regexp_match="(\d+)(.*)" regexp_replace="$1 $2"/></suggestion> ?</message>
+      <message>Il faut utiliser une espace insécable avant l’unité. Voulez-vous écrire <suggestion><match no="1" regexp_match="([\d\.,]+)(.*)" regexp_replace="$1 $2"/></suggestion> ?</message>
       <example correction="80 kg">Je pèse <marker>80kg</marker>.</example>
+      <example correction="80,1 kg">Je pèse <marker>80,1kg</marker>.</example>
+      <example correction="80.1 kg">Je pèse <marker>80.1kg</marker>.</example>
       <example>iPhone 4S</example>
       <example>Le réseau 3G, 3G+ et 4G permettent le désenclavement numérique de la ville de Rodez.</example>
       <example>3M Company, auparavant Minnesota Mining and Manufacturing Company (jusqu'en 2002), est un conglomérat américain basé à Saint Paul (Minnesota).</example>
