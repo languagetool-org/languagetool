@@ -32680,6 +32680,7 @@ USA
             <suggestion><match no="1" regexp_match="(?i)s$" regexp_replace="" />'s</suggestion>
             <example correction="world's">He is the <marker>worlds</marker> best footballer.</example>
         </rule>
+
         <rulegroup id="THE_SUPERLATIVE" name="Zero or indefinite article ('a'/'an') before superlatives">
             <antipattern>
                 <token postag_regexp="yes" postag="PRP\$|WP\$|DT|JJ|C[CD]|:|NNP|POS"/>
@@ -32850,6 +32851,33 @@ USA
                     <token postag="JJ"/>
                     <token postag="JJS">best</token>
                 </antipattern>
+                <antipattern><!-- #3110 are best available 9am/9 to -->
+                    <token inflected="yes">be</token>
+                    <token>best</token>
+                    <token postag="JJ"/>
+                    <token regexp="yes">([1-9]|10|11|12)([ap]m)?</token>
+                    <token>to</token>
+                </antipattern>
+                <antipattern><!-- #3110 are best contactable 09:50 to  -->
+                    <token inflected="yes">be</token>
+                    <token>best</token>
+                    <token postag="JJ"/>
+                    <token regexp="yes">[012]?[0-9]</token>
+                    <token>:</token>
+                    <token regexp="yes">[0-5]?[0-9]</token>
+                    <token>to</token>
+                </antipattern>
+                <antipattern><!-- #3110 are best available 9 a.m. to -->
+                    <token inflected="yes">be</token>
+                    <token>best</token>
+                    <token postag="JJ"/>
+                    <token regexp="yes">([1-9]|10|11|12)</token>
+                    <token regexp="yes">[ap]</token>
+                    <token>.</token>
+                    <token>m</token>
+                    <token min="0" max="1">.</token>
+                    <token>to</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token><exception postag="PRP\$|WP\$|DT|JJ|C[CD]|NNP" postag_regexp="yes"/><exception>s</exception><exception regexp="yes">&apostrophe;</exception><exception>at</exception></token>
@@ -32861,10 +32889,16 @@ USA
                 <message>A determiner is probably missing here: <suggestion>\1 the \2</suggestion>.</message>
                 <short>Grammatical problem: missing determiner</short>
                 <example correction="is the best">The guy <marker>is best</marker> driver.</example>
+                <example correction="re the best">We'<marker>re best</marker> available in the market.</example>
+                <example correction="are the best">They <marker>are best</marker> workers 9 times out of ten.</example>
                 <example>The guy <marker>is the best</marker> driver.</example>
                 <example>He is my best friend.</example>
                 <example>Learn how to best approach the crisis.</example><!-- #2684 -->
                 <example>It is in our economic best interest.</example><!-- #3037 -->
+                <example>We're best available 9am to 6pm CET.</example><!-- #3110 -->
+                <example>We are best available 9 to 6 on weekdays.</example><!-- #3110 -->
+                <example>They're best contactable 09:50 to 18:35 CET.</example><!-- #3110 -->
+                <example>We're best available 9 a.m. to 7 p.m.</example><!-- #3110 -->
             </rule>
         </rulegroup>
 
