@@ -7515,6 +7515,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONTEXT" name="Errores según el contexto">
+        <rule id="ADOLECER_CARECER" name="*adolecer/carecer" default="temp_off">
+            <pattern>
+                <marker>
+                    <token inflected="yes">adolecer</token>
+                </marker>
+                <token regexp="yes">de|del</token>
+                <token postag="D.*" postag_regexp="yes" min="0"/>
+                <token regexp="yes" inflected="yes">afecto|agua|armonía|asidero|barba|barrera|belleza|boca|bondad|brillo|cautela|claridad|coherencia|color|confirmación|conocimiento|diafanidad|dimensión|donaire|empatía|entrenamiento|escrúpulo|explicación|fecha|financiación|firma|fuerza|fundamento|garbo|gracia|honestidad|honor|honra|humanidad|humedad|humildad|identidad|importancia|independencia|información|instrucción|inteligencia|interés|jugo|legislación|legitimación|lenguaje|libertad|luz|lógica|materialidad|moral|motivación|movilidad|movimiento|nacionalidad|necesidad|nutriente|objeto|olor|oreja|personalidad|privilegio|recurso|relevancia|respeto|rigor|rima|sentido|significado|sustancia|tacto|talento|traducción|utilidad|validez|valor|veracidad|vida|virtualidad|virtud|ánimo</token>
+            </pattern>
+            <message>Uso impropio si equivale a <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">carecer</match></suggestion>.</message>
+            <url>https://www.rae.es/dpd/adolecer</url>
+            <example correction="Carecía"><marker>Adolecía</marker> de los recursos adecuados.</example>
+            <example correction="carecido">Han <marker>adolecido</marker> de financiación.</example>
+        </rule>
         <rule id="EN_TANTO" name="en tanto / en cuanto">
             <pattern>
                 <marker>
