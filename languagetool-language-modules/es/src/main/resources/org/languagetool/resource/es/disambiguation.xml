@@ -2342,6 +2342,28 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="V.*"/>
     </rule>
     <!-- IGNORE SPELLING -->
+    <rulegroup id="IGNORE_SOME_ANGLICISMS" name="ignore some common anglicisms if they go with unknown words">
+        <rule>
+            <pattern>
+                <token postag="UNKNOWN"/>
+                <token min="0">-</token>
+                <marker>
+                    <token regexp="yes">online|on-line|website|sport|stock</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token regexp="yes">online|on-line|website|sport|stock</token>
+                </marker>
+                <token min="0">-</token>
+                <token postag="UNKNOWN"/>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+    </rulegroup>
     <rule id="DE_LA_A" name="de la a a la z">
         <pattern case_sensitive="yes">
             <token regexp="yes">de|a|desde|hasta</token>
