@@ -202,6 +202,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
+        <rule id="OBEDIENCIA_DEBIDA" name="obediencia *de vida/debida">
+            <pattern>
+                <token>obediencia</token>
+                <token>de</token>
+                <token>vida</token>
+            </pattern>
+            <message>Expresión incorrecta.</message>
+            <suggestion>obediencia debida</suggestion>
+            <suggestion>obediencia jerárquica</suggestion>
+            <url>https://es.wikipedia.org/wiki/Obediencia_debida</url>
+            <example correction="obediencia debida|obediencia jerárquica">La <marker>obediencia de vida</marker> es una situación en la que una persona tiene la obligación de obedecer a otra.</example>
+        </rule>
         <rule id="LITROS_POR_METRO" name="litros por *metros/metro cuadrado" default="temp_off">
             <pattern>
                 <token regexp="yes">.*(litros|gramos|metros)|habitantes</token>
@@ -3763,7 +3775,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token>agro</token>
                     <token min="0">-</token>
-                    <token regexp="yes" inflected="yes">turismo|exportación|importación|meteorología|industria|geología|ecología|ciudad|biología|alimentación|alimentario|ambiental|climático|ecológico|forestal|industrial|lógico|nómico|pecuario|químico</token>
+                    <token regexp="yes" inflected="yes">turismo|exportación|importación|meteorología|industria|geología|ecología|ciudad|biología|alimentación|alimentario|ambiental|climático|ecológico|forestal|industrial|lógico|nómico|pecuario|químico|tóxico</token>
                 </pattern>
                 <message>Se escribe junto.</message>
                 <suggestion>\1\3</suggestion>
@@ -4786,6 +4798,45 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Lo hecho, hecho está.</example>
             <example>A lo hecho, pecho.</example>
         </rule>
+        <rulegroup id="DESHECHO_DESECHO" name="*deshecho/desecho" default="temp_off">
+            <antipattern>
+                <token inflected="yes">haber</token>
+                <token>deshecho</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes">estar</token>
+                <token regexp="yes">deshechos?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token postag="D..M[SP]." postag_regexp="yes"/>
+                    <marker>
+                        <token regexp="yes">deshechos?</token>
+                    </marker>
+                </pattern>
+                <message>¿Quería decier 'desecho' (=residuo) en vez de 'deshecho' (v. deshacer)?</message>
+                <suggestion><match no="3" regexp_match="(?iu)desh(.*)" regexp_replace="des$1"/></suggestion>
+                <example correction="desechos">Los océanos no procesan todos nuestros <marker>deshechos</marker>.</example>
+                <example correction="desechos">El reciclaje de los <marker>deshechos</marker> industriales.</example>
+                <example>Podría haberse deshecho de todo.</example>
+                <example>Después del maratón, estaban deshechos.</example>
+                <example>Llegaron a casa deshechos por el dolor.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">deshechos?</token>
+                    </marker>
+                    <token inflected="yes" regexp="yes">agroindustrial|agrícola|alimentario|ambiental|animal|automotriz|biodegradable|biológico|biomédico|celular|clínico|común|contaminante|corporal|degradable|doméstico|electrónico|espacial|farmacológico|farmacéutico|ferroso|fisiológico|forestal|gaseoso|generar|histórico|hopitalario|humano|industrial|inerte|infeccioso|inorgánico|líquido|marino|menstrual|metabólico|municipal|natural|nitrogenar|nuclear|orgánico|peligroso|plástico|químico|radiactivo|reciclable|reutilizable|sanitario|sólido|tecnológico|textil|tóxico|urbano|vegetal</token>
+                </pattern>
+                <message>¿Quería decier 'desecho' (=residuo) en vez de 'deshecho' (v. deshacer)?</message>
+                <suggestion><match no="1" regexp_match="(?iu)desh(.*)" regexp_replace="des$1"/></suggestion>
+                <example correction="Desechos"><marker>Deshechos</marker> industriales.</example>
+                <example>Podría haberse deshecho de todo.</example>
+                <example>Después del maratón, estaban deshechos.</example>
+                <example>Llegaron a casa deshechos por el dolor.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="HABER_AVER" name="Uso incorrecto de «haber» por «a ver»">
             <short>Posible confusión del verbo «ver» con el verbo «haber»</short>
             <rule>
@@ -5416,6 +5467,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de que">Nos alegramos <marker>que</marker> haya comida para todos</example>
                 <example correction="de que">Nos hemos alegrado <marker>que</marker> haya comida para todos</example>
                 <example correction="de que">Fue cuando os enterasteis <marker>que</marker> se acabó la temporada.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>a</token>
+                    <token>sabiendas</token>
+                    <token>que</token>
+                </pattern>
+                <message>Esta expresión siempre lleva la preposición 'de'.</message>
+                <suggestion>a sabiendas de que</suggestion>
+                <url>https://www.fundeu.es/recomendacion/a-sabiendas-de-que-no-a-sabiendas-que/</url>
+                <example correction="a sabiendas de que">Lo hizo <marker>a sabiendas que</marker> sería rechazada.</example>
             </rule>
         </rulegroup>
         <rulegroup id="DEQUEISMO" name="dequeísmo" type="grammar" default="on">
@@ -7657,6 +7719,33 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREPOSITIONS" name="Preposiciones">
+        <rulegroup id="DESCONFIAR_DE" name="desconfiar *en/de" default="temp_off">
+            <rule>
+                <pattern>
+                    <token inflected="yes">desconfiar</token>
+                    <token min="0" max="3" postag="RG"/>
+                    <marker>
+                        <token>en</token>
+                        <token>el</token>
+                    </marker>
+                </pattern>
+                <message>Preposición no adecuada para este verbo.</message>
+                <suggestion>del</suggestion>
+                <example correction="del">No desconfíes <marker>en el</marker> sistema.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token inflected="yes">desconfiar</token>
+                    <token min="0" max="3" postag="RG"/>
+                    <marker>
+                        <token>en</token>
+                    </marker>
+                </pattern>
+                <message>Preposición no adecuada para este verbo.</message>
+                <suggestion>de</suggestion>
+                <example correction="de">Desconfiamos <marker>en</marker> los políticos.</example>
+            </rule>
+        </rulegroup>
         <rule id="INSISTIR_DE" name="insistir *de/en">
             <pattern>
                 <token inflected="yes" regexp="yes">insistir|fijar</token>
