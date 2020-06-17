@@ -202,7 +202,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="INCORRECT_EXPRESSIONS" name="Expresiones incorrectas" type="grammar">
-        <rule id="CUOTA_COTA" name="cuota/cota" default="temp_off">
+        <rule id="CUOTA_COTA" name="cuota/cota">
             <pattern>
                 <marker>
                     <token inflected="yes">cuota</token>
@@ -1375,7 +1375,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                     <token postag="[DAN].*" postag_regexp="yes" min="1" max="3"/>
                     <token postag="&pronombre_personal_atono_POS;" postag_regexp="yes" min="0" max="2"/>
-                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
                 </antipattern>
                 <pattern>
                     <token>¡</token>
@@ -1391,6 +1391,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Qué">¡<marker>Que</marker> grande que es!</example>
                 <example correction="qué">¡Pero <marker>que</marker> bonito!</example>
                 <example correction="qué">¡Con <marker>que</marker> seriedad se comporta!</example>
+                <example correction="Qué">¡<marker>Que</marker> ruido extraño!</example>
                 <example>¡Que te diviertas!</example>
                 <example>¡Que venga pronto!</example>
                 <example>¡Que empieze ya!</example>
@@ -1398,6 +1399,22 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Que Dios afeite a la reina!</example>
                 <example>¡A que no!</example>
                 <example>¡Que Dios nos ayude!</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>¡</token>
+                    <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
+                    <marker>
+                        <token>que</token>
+                    </marker>
+                    <token postag="AQ.*|NC.*" postag_regexp="yes"/>
+                    <token inflected="yes">ser</token>
+                </pattern>
+                <message>Si es una exclamación, se escribe con tilde.</message>
+                <!--<url>https://blog.lengua-e.com/2011/que-con-tilde-y-que-sin-tilde/</url>-->
+                <suggestion>qué</suggestion>
+                <example correction="Qué">¡<marker>Que</marker> estúpido es!</example>
+                <example correction="Qué">¡<marker>Que</marker> bonito es!</example>
             </rule>
             <rule>
                 <pattern>
@@ -6288,7 +6305,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
         <rulegroup id="TENER_PREVISTO_EL" name="concordancia: tener/estar previsto el">
             <url>https://www.fundeu.es/recomendacion/dar-por-hecho-femenino-plural/</url>
-            <antipattern> <!-- inverted subject-->
+            <antipattern>
+                <!-- inverted subject-->
                 <token>¿</token>
                 <token inflected="yes">tener</token>
                 <token postag="V.P.*" postag_regexp="yes" inflected="yes">prever</token>
@@ -8164,7 +8182,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category name="repeticiones" id="REPETITIONS">
-        <rulegroup id="REPETEAD_ELEMENTS" name="elementos repetidos incorrectamente" default="temp_off">
+        <rulegroup id="REPETEAD_ELEMENTS" name="elementos repetidos incorrectamente">
             <rule>
                 <antipattern>
                     <marker>
