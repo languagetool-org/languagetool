@@ -1767,7 +1767,7 @@ USA
                         <exception case_sensitive="yes" regexp="yes">[A-Z]+</exception>
                     </token>
                 </marker>
-                <token><exception regexp='yes'>and|of|[,\.;'\?\!]</exception></token>
+                <token><exception regexp='yes'>and|of|[,\.;'\?\!]|macros?|questions?|form</exception></token>
             </pattern>
             <message>Did you mean <suggestion><match no="2"/></suggestion>?</message>
             <short>Probable typo</short>
@@ -8803,8 +8803,10 @@ USA
                     <token>done</token>
                 </antipattern>
                 <antipattern>
+                    <token>your</token>
                     <token regexp="yes">done|sick|tired</token>
                     <token>,</token>
+                    <token min="0">your</token>
                     <token postag="JJ" />
                 </antipattern>
                 <pattern>
@@ -8819,6 +8821,7 @@ USA
                 <example correction="you're">Let me know when <marker>your</marker> done.</example>
                 <example correction="You're"><marker>Your</marker> done when I say you're done.</example>
                 <example>You harmed them with your sick, sick greed.</example>
+                <example>Give me your tired, your poor, your huddled masses.</example>
             </rule>
             <rule>
                 <pattern>
@@ -12522,6 +12525,22 @@ USA
             </pattern>
             <message>The noun <suggestion>step<match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
             <example correction="stepson">She has a <marker>step son</marker> from his previous marriage.</example>
+        </rule>
+        <rule id="SIDE_COMPOUNDS" name="country side (countryside)" default="temp_off">
+            <pattern>
+                <token postag="DT|POS" postag_regexp="yes" />
+                <token postag="JJ.*" postag_regexp="yes" min="0">
+                    <exception regexp="yes">other|opposite|different|right|left</exception>
+                </token>
+                <marker>
+                    <token regexp="yes">country|sea|river|water|road|hill|lake|curb|fire|beach|shore|court|dock</token>
+                    <token>side</token>
+                </marker>
+            </pattern>
+            <message>The noun or adjective <suggestion><match no="3" case_conversion="alllower" />side</suggestion> is spelled as one word.</message>
+            <url>https://www.merriam-webster.com/dictionary/countryside</url>
+            <example correction="countryside">He explored the surrounding <marker>country side</marker>.</example>
+            <example>The Cossacks built 3 bridges and Bohun led 2 thousand cavalry with 2 cannons to the other river side.</example>
         </rule>
         <rule id="THUNDER_COMPOUNDS" name="thunder storm (thunderstorm)">
             <pattern>
@@ -22577,7 +22596,7 @@ USA
                     </marker>
                     <token min="0" regexp="yes">&apostrophe;</token>
                     <token min="0">s</token>
-                    <token regexp="yes">accounts?|repl(y|ies)|trends?|CEO|employees?|engineers?|APIs?|dms?|usages?|usernames?|stock|shareholders?|investors?|users?|founders?|apps?|acquire[ds]?]announce[sd]?|web(site)?|homepage|shares?|released?|introduce[sd]?|feeds?|acquisitions?</token>
+                    <token regexp="yes">accounts?|repl(y|ies)|trends?|C[FTMECO]O|employees?|managers?|engineers?|APIs?|dms?|usages?|usernames?|stock|shareholders?|investors?|users?|founders?|apps?|acquire[ds]?]announce[sd]?|web(site)?|homepage|shares?|released?|introduce[sd]?|feeds?|acquisitions?</token>
                 </pattern>
                 <message>Did you mean <suggestion>Twitter</suggestion> (= microblogging service, capitalized)?</message>
                 <example correction="Twitter">I have a <marker>twitter</marker> account.</example>
@@ -22585,7 +22604,7 @@ USA
             </rule>
             <rule>
                 <pattern>
-                    <token skip="10" regexp="yes">facebook|instagram|whatsapp|tweets?|tweeting|tweeted</token>
+                    <token skip="10" regexp="yes">facebook|instagram|whatsapp|tweets?|tweeting|tweeted|dms?</token>
                     <marker>
                         <token case_sensitive="yes">twitter</token>
                     </marker>
@@ -22598,7 +22617,7 @@ USA
                     <marker>
                         <token skip="10" case_sensitive="yes">twitter</token>
                     </marker>
-                    <token regexp="yes">facebook|instagram|whatsapp|tweets?|tweeting|tweeted</token>
+                    <token regexp="yes">facebook|instagram|whatsapp|tweets?|tweeting|tweeted|dms?</token>
                 </pattern>
                 <message>Did you mean <suggestion>Twitter</suggestion> (= microblogging service, capitalized)?</message>
                 <example correction="Twitter">I'm using <marker>twitter</marker> and Facebook to communicate.</example>
@@ -28752,7 +28771,7 @@ USA
             <example correction="woman">A <marker>women</marker> walked in to the room.</example>
             <example>A <marker>woman</marker> walked into the room.</example>
         </rule>
-        <rule id="HAVE_TWITTER" name="have twitter (have Twitter / have twittered)" default="temp_off"><!-- needs higher PRIO than HAVE_PART_AGREEMENT -->
+        <rule id="HAVE_TWITTER" name="have twitter (have Twitter / have twittered)"><!-- needs higher PRIO than HAVE_PART_AGREEMENT -->
             <pattern>
                 <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                 <token regexp="yes" case_sensitive="yes">twitter|skype|excel|google|zoom|slack|photoshop|sketch</token><!-- nouns that, in lowercase, are verbs -->
@@ -50688,26 +50707,43 @@ The accident victim died from her injuries.
             <message>Did you mean <suggestion>seen</suggestion>?</message>
             <example correction="seen">I have <marker>seem</marker> a lot so far.</example>
         </rule>
-        <rule id="PLANE_PLAIN" name="plain vs plane">
-            <antipattern>
-                <token>plain</token>
-                <token regexp="yes">and|&amp;</token>
-                <token>simple</token>
-            </antipattern>
-            <antipattern>
-                <token>simply</token>
-                <token>the</token>
-            </antipattern>
-            <pattern>
-                <token regexp="yes">pla(ne|in)</token>
-                <token regexp="yes">and|&amp;</token>
-                <token regexp="yes">simpl[ey]</token>
-            </pattern>
-            <message>Did you mean the phrase <suggestion>plain \2 simple</suggestion>?</message>
-            <url>https://www.lexico.com/definition/plain_and_simple</url>
-            <example correction="plain and simple">It works just like that, <marker>plane and simple</marker>.</example>
-            <example>Plain and simply the best SEO plugin.</example>
-        </rule>
+        <rulegroup id="PLANE_PLAIN" name="plain vs plane">
+            <rule>
+                <antipattern>
+                    <token>plain</token>
+                    <token regexp="yes">and|&amp;</token>
+                    <token>simple</token>
+                </antipattern>
+                <antipattern>
+                    <token>simply</token>
+                    <token>the</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">pla(ne|in)</token>
+                    <token regexp="yes">and|&amp;</token>
+                    <token regexp="yes">simpl[ey]</token>
+                </pattern>
+                <message>Did you mean the phrase <suggestion>plain \2 simple</suggestion>?</message>
+                <url>https://www.lexico.com/definition/plain_and_simple</url>
+                <example correction="plain and simple">It works just like that, <marker>plane and simple</marker>.</example>
+                <example>Plain and simply the best SEO plugin.</example>
+            </rule>
+            <rule default="temp_off">
+                <antipattern>
+                    <token>in</token>
+                    <token>plain</token>
+                    <token>sight</token>
+                </antipattern>
+                <pattern>
+                    <token>in</token>
+                    <token regexp="yes">plane|pl?ain</token>
+                    <token regexp="yes">side|sight</token>
+                </pattern>
+                <message>Did you mean the idiom <suggestion>\1 plain sight</suggestion>?</message>
+                <url>https://www.merriam-webster.com/dictionary/in%20plain%20sight</url>
+                <example correction="in plain sight">It was <marker>in plain side</marker>.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="CONFUSION_IT_IS" name="She it (is) happy">
             <rule>
                 <antipattern>
@@ -62080,7 +62116,7 @@ The accident victim died from her injuries.
       <url>https://en.wiktionary.org/wiki/Category:English_childish_terms</url>
       <short>Childish language</short>
     <rule>
-      <regexp>\b(?!(?-i)Dolly|Pooh|Tuppence|Willy)(&childish_terms;)\b</regexp>
+      <regexp>\b(?!(?-i)Dolly|Pooh|Tuppence|Willy|Injun Joe)(&childish_terms;)\b</regexp>
       <message>In some contexts, this is childish language. Consider alternatives.</message>
       <example correction="">The <marker>kitty-cat</marker> is pretty.</example>
       <!-- XXX usage of kitty as shared savings fund or as telnet/ssh client is very stretched, but for expedience purposes let's consider it ok -->
@@ -62090,6 +62126,7 @@ The accident victim died from her injuries.
       <example>..own for his books about the teddy bear Winnie-the-Pooh and for various children's poems.</example>
       <example correction="">The dog wants to <marker>pooh</marker>.</example>
       <example>She threw her clothes willy-nilly into a drawer.</example>
+      <example>Injun Joe</example><!-- https://en.wikipedia.org/wiki/List_of_Tom_Sawyer_characters -->
     </rule>
     <rule default="off">
       <regexp>^(&childish_terms_2;)[\.,;!?]|[\.,;](&childish_terms_2;)[\.,;!?]</regexp>
@@ -62142,7 +62179,7 @@ The accident victim died from her injuries.
         <pattern>
             <token regexp="yes">
                 mama|mummy|momsy|mommy|momma
-                <exception scope="next" regexp="yes">June|Dee|Cass</exception>
+                <exception scope="next" regexp="yes">June|Dee|Cass|Africa</exception>
             </token>
         </pattern>
         <message>In some contexts, this is childish language. Consider alternatives.</message>
