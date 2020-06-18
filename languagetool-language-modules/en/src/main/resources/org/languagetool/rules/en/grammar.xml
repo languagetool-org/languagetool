@@ -26134,7 +26134,7 @@ USA
                 <pattern>
                     <token><exception postag="VB.?|MD|SENT_START" postag_regexp="yes"/></token>
                     <marker>
-                        <token regexp="yes">always|hardly|never|rarely|seldom</token>
+                        <token regexp="yes">always|hardly|never|seldom</token><!-- #3091 removed 'rarely' -->
                     </marker>
                     <token postag="SENT_END" regexp="yes">\p{P}</token><!-- Punctuation character -->
                 </pattern>
@@ -26145,8 +26145,11 @@ USA
                 <example>It's <marker>now or never</marker>.</example>
                 <example>... but <marker>better late than never</marker>.</example>
                 <example>No closing punctuation: He wanted to do it but it never happened</example><!--  #2008 -->
-                <example type="triggers_error">It was an event that occurred <marker>only rarely</marker>.</example><!-- This sounds correct to me (MFU), but I did not find a reference. -->
+                <example>It was an event that occurred <marker>only rarely</marker>.</example><!-- #3091-->
                 <example>Never.</example>
+                <example>I've seen it... rarely.</example><!-- #3091-->
+                <example>We did that task relatively rarely.</example><!-- #3091 -->
+                <example>Do they do it frequently or rarely?</example><!-- #3091 -->
             </rule>
             <rule>
                 <antipattern>
