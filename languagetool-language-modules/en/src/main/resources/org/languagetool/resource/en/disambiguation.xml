@@ -5623,6 +5623,13 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
             <token min="0" max="1" postag="RB"/>
             <token>?</token>
         </antipattern>
+        <antipattern><!-- #3121 the signal and characteristic qualities -->
+            <token postag_regexp="yes" postag="DT|PRP\$"/>
+            <token chunk="E-NP-singular" postag="JJ"/>
+            <token regexp="yes">and|or</token>
+            <token chunk="B-NP-plural" postag="JJ"/>
+            <token chunk="E-NP-plural" postag="NNS"/>
+        </antipattern>
         <pattern>
             <marker>
                 <and>
@@ -5735,6 +5742,7 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         <example type="untouched">Do you think this look nice?</example><!-- #2758 -->
         <example type="untouched">What did he print?</example><!-- #2975 -->
         <example type="untouched">What (in your opinion) can he print?</example><!-- #2975 -->
+        <example type="untouched">Inhumanity is one of the signal and characteristic qualities of humanity.</example><!-- #3121 -->
         <example type="ambiguous" inputform="claim[claim/NN:UN,claim/VB,claim/VBP]" outputform="claim[claim/NN:UN]">Morroco's disputed <marker>claim</marker> to portions of Algeria.</example>
         <example type="ambiguous" inputform="bark[bark/NN:UN,bark/VB,bark/VBP]" outputform="bark[bark/NN:UN]">Remove the old <marker>bark</marker> carefully.</example>
         <example type="ambiguous" inputform="work[work/JJ,work/NN:UN,work/VB,work/VBP]" outputform="work[work/NN:UN]">Does this <marker>work</marker> contain any errors?</example>
