@@ -8356,21 +8356,46 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
           <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
         </rule>
         <rule name="Number of times" id="NUMBER_TIMES"><!-- #3111 I did not find a good reference for adverbials of number -->
+            <antipattern><!-- www.lexico.com/definition/out_of -->
+                <token postag="CD"/>
+                <token>times</token>
+                <token>out</token>
+                <token>of</token>
+            </antipattern>
+            <antipattern><!-- 3 times are / five times is -->
+                <token postag="CD"/>
+                <token>times</token>
+                <token chunk="B-VP" postag_regexp="yes" postag="VB.*"/>
+            </antipattern>
+            <antipattern><!-- the 3 times (as shown -->
+                <token postag_regexp="yes" postag="DT|PRP\$"/>
+                <token postag="CD"/>
+                <token>times</token>
+            </antipattern>
+            <antipattern><!-- Five times four is -->
+                <token postag="CD"/>
+                <token>times</token>
+                <token postag="CD"/>
+            </antipattern>
             <pattern>
                 <marker>
                     <token postag="CD"/>
                     <token>times</token>
                 </marker>
-                <token postag_regexp="yes" postag="SENT_END|DT"/>
             </pattern>
             <disambig action="replace"><wd pos="RB"/><wd pos="RB"/></disambig>
             <example type="ambiguous" inputform="times[time/NNS]" outputform="times[times/RB]">They did it three <marker>times</marker>.</example>
             <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[times/RB]">They do the tests 4 <marker>times</marker> each year.</example>
+            <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[times/RB]">Per head of population, there is five <marker>times</marker> as much venture capital available in...</example><!-- #3118 -->
+            <example type="ambiguous" inputform="times[time/NNS]" outputform="times[times/RB]">You're ten <marker>times</marker> heavier than I am.</example><!-- #3119 -->
+            <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[times/RB]">They did it four <marker>times</marker> as quickly as the other team.</example>
+            <example type="ambiguous" inputform="times[time/NNS,time/VBZ,times/CC]" outputform="times[times/RB]">They did it six <marker>times</marker> as a test.</example><!-- Is this an adverbial of number? -->
             <example type="untouched">They are the best option 9 times out of ten.</example><!-- #3111 -->
             <example type="untouched">If the 3 times are all the same, stop the test.</example><!-- #3111 -->
             <example type="untouched">If the 3 times (as shown in the Test Time column) are the same, stop the test.</example><!-- #3111 -->
             <example type="untouched">Five times is not sufficient; do more testing.</example><!-- #3111 -->
-            <example type="untouched">They did it four times as quickly as the other team.</example><!-- #3111 I am not sure about this -->
+            <example type="untouched">Five times four is twenty.</example>
+            <example type="untouched">Doing the test ten times gives us sufficient data.</example>
         </rule>
     </rulegroup>
 
