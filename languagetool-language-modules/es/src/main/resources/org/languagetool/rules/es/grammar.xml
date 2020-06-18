@@ -216,7 +216,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://es.wikipedia.org/wiki/Obediencia_debida</url>
             <example correction="obediencia debida|obediencia jerárquica">La <marker>obediencia de vida</marker> es una situación en la que una persona tiene la obligación de obedecer a otra.</example>
         </rule>
-        <rule id="LITROS_POR_METRO" name="litros por *metros/metro cuadrado" default="temp_off">
+        <rule id="LITROS_POR_METRO" name="litros por *metros/metro cuadrado">
             <pattern>
                 <token regexp="yes">.*(litros|gramos|metros)|habitantes</token>
                 <token>por</token>
@@ -231,7 +231,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="centímetro cúbico">10 mililitros por <marker>centímetros cúbicos</marker></example>
             <example correction="kilómetro cuadrado">1000 habitantes por <marker>kilómetros cuadrados</marker></example>
         </rule>
-        <rule id="EN_LA_MEDIDA_EN_QUE" name="en la medida *de que/en que" default="temp_off">
+        <rule id="EN_LA_MEDIDA_EN_QUE" name="en la medida *de que/en que">
             <antipattern>
                 <token>en</token>
                 <token>la</token>
@@ -1453,7 +1453,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡A que no!</example>
                 <example>¡Que Dios nos ayude!</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>¡</token>
                     <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
@@ -4085,7 +4085,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="afroamericanos">Los <marker>afro-americanos</marker>.</example>
                 <example>Háblame sobre todo esto.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>euro</token>
                     <token min="0">-</token>
@@ -4095,7 +4095,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(.+)" regexp_replace="euro$1"/></suggestion>
                 <example correction="euromagrebíes">Los <marker>euro-magrebíes</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>nano</token>
                     <token min="0">-</token>
@@ -4877,7 +4877,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="GRAMMAR" name="Gramática" type="grammar">
-        <rulegroup id="LEISMO" name="leísmo" default="temp_off">
+        <rulegroup id="LEISMO" name="leísmo">
             <rule>
                 <pattern>
                     <marker>
@@ -4897,7 +4897,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Los|Las"><marker>Les</marker> iban a dar de alta.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="LOISMO_LAISMO" name="loísmo, laísmo" default="temp_off">
+        <rulegroup id="LOISMO_LAISMO" name="loísmo, laísmo">
             <rule>
                 <pattern>
                     <marker>
@@ -5471,7 +5471,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="de que">Nos hemos alegrado <marker>que</marker> haya comida para todos</example>
                 <example correction="de que">Fue cuando os enterasteis <marker>que</marker> se acabó la temporada.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>a</token>
                     <token>sabiendas</token>
@@ -7661,7 +7661,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="CONTEXT" name="Errores según el contexto">
-        <rule id="COMPRAR_GRASTAR" name="*comprar/gastar en" default="temp_off">
+        <rule id="COMPRAR_GRASTAR" name="*comprar/gastar en">
             <pattern>
                 <marker>
                     <token inflected="yes" skip="5">comprar</token>
@@ -7677,7 +7677,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="gastado|comprado ... por valor de">Ha <marker>comprado</marker> casi 11 millones de dólares en armas.</example>
             <example correction="Gastó|Compró ... por valor de"><marker>Compró</marker> casi 11 millones de dólares en armas.</example>
         </rule>
-        <rule id="ADOLECER_CARECER" name="*adolecer/carecer" default="temp_off">
+        <rule id="ADOLECER_CARECER" name="*adolecer/carecer">
             <pattern>
                 <marker>
                     <token inflected="yes">adolecer</token>
@@ -8046,7 +8046,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Tipografía" type="typographical">
-        <rulegroup id="INCORRECT_SPACES" name="espacios sobrantes" default="temp_off">
+        <rulegroup id="INCORRECT_SPACES" name="espacios sobrantes">
             <rule>
                 <antipattern>
                     <token regexp="yes">[-–—]</token>
@@ -8687,7 +8687,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="SEMANTICS" name="Semàntica" type="inconsistency">
-        <rule id="ANY20011_2011" name="*20011/2011" default="temp_off">
+        <rule id="ANY20011_2011" name="*20011/2011">
             <pattern>
                 <token regexp="yes">de|el|en|a|l|años?|cursos?|académicos?|&meses_ano;|&meses_ano_abrv;</token>
                 <marker>
@@ -8699,7 +8699,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="2014">Es de <marker>20014</marker>.</example>
             <example>Es del 2015.</example>
         </rule>
-        <rulegroup id="DATE_WEEKDAY" name="Fecha incorrecta" default="temp_off">
+        <rulegroup id="DATE_WEEKDAY" name="Fecha incorrecta">
             <rule>
                 <pattern>
                     <!-- "Lunes, 7 de octubre de 2014" -->
