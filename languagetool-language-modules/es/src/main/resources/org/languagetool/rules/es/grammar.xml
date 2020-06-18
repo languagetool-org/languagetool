@@ -4135,6 +4135,31 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="baja$1" case_conversion="alllower"/></suggestion>
                 <example correction="bajacaliforniana">La capital <marker>baja-californiana</marker>.</example>
             </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>ex</token>
+                    <token min="0">-</token>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </pattern>
+                <message suppress_misspelled="yes">Se escribe junto.</message>
+                <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="ex$1" case_conversion="alllower"/></suggestion>
+                <example correction="excolonias">Las <marker>ex-colonias</marker> británicas.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token inflected="yes" regexp="yes" skip="4">quitar|poner|cargar|quedar|colgar|llevar|arrastrar|caer</token>
+                    <marker>
+                        <token regexp="yes">san|sam</token>
+                        <token min="0">-</token>
+                        <token>benito</token>
+                    </marker>
+                </pattern>
+                <message>Se escribe junto en giros como 'quitarse el sambenito', 'cargar con el sambenito'.</message>
+                <suggestion>sambenito</suggestion>
+                <example correction="sambenito">Tuvo que cargar con el <marker>san benito</marker>.</example>
+                <example correction="sambenito">Le pusieron el <marker>san benito</marker>.</example>
+                <example correction="sambenito">Le pusieron aquel <marker>san benito</marker>.</example>
+            </rule>
         </rulegroup>
         <rule id="ALREDEDOR" name="*(a) alrededor">
             <antipattern>
