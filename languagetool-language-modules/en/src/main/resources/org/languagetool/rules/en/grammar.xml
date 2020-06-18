@@ -29411,6 +29411,12 @@ USA
                     <token chunk="I-VP" postag="RB"/>
                     <token chunk="I-VP" regexp="yes">is|was|are|were</token>
                 </antipattern>
+                <antipattern><!-- #3105 to be about romance -->
+                    <token>to</token>
+                    <token>be</token>
+                    <token postag="IN"/>
+                    <token chunk="B-NP-singular" postag_regexp="yes" postag="NN(:UN?)?"/>
+                </antipattern>
                 <pattern>
                     <token inflected="yes">be
                         <exception scope="previous" postag_regexp="yes" postag="VBP?" negate="yes" regexp="yes">ha(?:ve|s)</exception>
@@ -29450,6 +29456,7 @@ USA
                 <example>... these churches are generally <marker>host to</marker> staunch Anglicans who are ...</example>
                 <example>We are also <marker>market leaders</marker>.</example><!-- #2056 -->
                 <example>Joan said kicking people when they were down was her specialty.</example><!--  #2568 -->
+                <example>He wanted it to be about romance and love.</example><!-- #3105 -->
             </rule>
         </rulegroup>
 
