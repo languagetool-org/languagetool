@@ -267,6 +267,7 @@ public class EnglishConfusionProbabilityRule extends ConfusionProbabilityRule {
       "got to know new", // vs now
       "to live post", // vs life
       "sea pineapple", // vs see
+      "the commit", // vs to
       "of you being her" // vs your
     );
     
