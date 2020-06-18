@@ -2915,6 +2915,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El vino 3 tiene nariz balsámica.</example>
                 <example>Como el vino los amores.</example>
                 <example>Andaba el 32º a casi 25 minutos del líder.</example>
+                <example>Editan también el Sport y El Mundo Deportivo.</example>
             </rule>
             <rule id="TU_TILDE" name="tu / tú">
                 <antipattern>
@@ -7877,7 +7878,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="Puntuación">
-        <rulegroup id="COMA_SUBJETO_PREDICADO" name="coma incorrecta entre sujeto y predicado" default="temp_off">
+        <rulegroup id="COMA_SUJETO_PREDICADO" name="coma incorrecta entre sujeto y predicado" default="temp_off">
             <antipattern>
                 <token>es</token>
                 <token>decir</token>
@@ -7955,12 +7956,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La aplicación, activa desde octubre</example>
                 <example>Los peces marions, susurró.</example>
                 <example>Esta sangre, baja en oxígeno, se suministra al resto del cuerpo.</example>
+                <example>Los usuarios, además, pueden publicar comentarios en las historias.</example>
             </rule>
             <rule>
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token regexp="yes" max="3">\p{Lu}.*</token>
+                        <token postag="NP.*" postag_regexp="yes" max="3"/>
                         <token>,</token>
                         <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
                         <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
@@ -7970,6 +7972,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <url>http://www.wikilengua.org/index.php/Coma_de_sujeto</url>
                 <example correction=""><marker>Juan, va</marker> hacia su casa.</example>
                 <example correction=""><marker>Juan García, va</marker> hacia su casa.</example>
+                <example>Mañana, alunizará.</example>
+                <example>Gracias, es todo.</example>
+                <example>No, es de segunda mano.</example>
+                <example>Cansado, se fue a la cama antes de lo normal.</example>
+                <example>Tranquilo, es sólo un espantapájaros.</example>
             </rule>
         </rulegroup>
         <rule id="YA_QUE" name="ya que que (con coma)">
@@ -8729,7 +8736,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">&dias_semana;|&dias_semana_abrv;</token>
                     <token min="0">,</token>
                     <token regexp="yes">\d\d?</token>
-                    <token min="0" regexp="yes">de</token>
+                    <token min="0" regexp="yes">de|del</token>
                     <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
                 </pattern>
                 <filter class="org.languagetool.rules.es.DateCheckFilter" args="month:\5 day:\3 weekDay:\1"/>

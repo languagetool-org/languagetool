@@ -883,6 +883,12 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
+                <token>además</token>
+            </pattern>
+            <disambig action="filter" postag="RG"/>
+        </rule>
+        <rule>
+            <pattern>
                 <marker>
                     <token postag="RG" regexp="yes">demasiado|bastante|poco|tanto|mal|bien|muy</token>
                     <token postag="A.*|V.P.*" postag_regexp="yes"/>
@@ -1785,6 +1791,15 @@ Copyright (C) 2011 Juan Martorell
     <!-- END: nominal groups -->
 
     <rulegroup id="PREPOSICIONES" name="preposiciones">
+        <rule> <!-- ambiguous!! -->
+            <pattern>
+                <marker>
+                    <token postag="SPS00">para<exception scope="previous" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"></exception></token>
+                </marker>
+                <token postag="[PNAD].*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filter" postag="SPS00"/>
+        </rule>
         <rule>
             <pattern>
                 <marker>
