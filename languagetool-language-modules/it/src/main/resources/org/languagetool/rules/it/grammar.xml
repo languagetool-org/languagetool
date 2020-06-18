@@ -1983,5 +1983,78 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Martedì 27 novembre 1922</example>
             </rule>
         </rulegroup>
+        <rulegroup  id="NUMBER_DAYS_MONTH" name="giorni massimi del mese (28, 29, 30, 31)" default="temp_off">
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>31</token>
+                    </marker>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">aprile|apr|giugno|giu|settembre|set|novembre|nov|0?[469]|11</token>
+                </pattern>
+                <message>Il mese «\3» ha solo <suggestion>30</suggestion> giorni.</message>
+                <example correction="30">È nato il <marker>31</marker> settembre.</example>
+                <example correction="30">È nato il  <marker>31</marker>/11/1988.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">3[01]</token>
+                    </marker>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">febbraio|feb|0?2</token>
+                </pattern>
+                <message>Il mese di febbraio ha solo <suggestion>28</suggestion> o <suggestion>29</suggestion> giorni.</message>
+                <example correction="28|29">È nato il <marker>31</marker> febbraio.</example>
+                <example correction="28|29">È nato il <marker>30</marker>/2/1988.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>29</token>
+                    </marker>
+                    <token min="0" regexp="yes">[-/]|de</token>
+                    <token regexp="yes">febbraio|feb|0?2</token>
+                    <token min="0" regexp="yes">[-/]|de|del|da|dal</token>
+                    <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
+                        <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
+                    </token>
+                </pattern>
+                <message>Il mese di febbraio ha solo <suggestion>28</suggestion> giorni, perché l'anno \5 non è un anno bisestile.</message>
+                <example correction="28">El <marker>29</marker> febbraio de 1900.</example>
+                <example correction="28">El <marker>29</marker>/febbraio/1900.</example>
+                <example correction="28">El <marker>29</marker>/02/1900.</example>
+                <example correction="28">El <marker>29</marker>/2/1900.</example>
+                <!-- 2000 is a leap year (divisible by 400) -->
+                <example>El <marker>29</marker> febbraio 2000.</example>
+                <example>El <marker>29</marker>/febbraio/2000.</example>
+                <example>El <marker>29</marker>/02/2000.</example>
+                <example>El <marker>29</marker>/2/2000.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2001.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2002.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2003.</example>
+                <!-- 2004 is a leap year (divisible by 4) -->
+                <example>El <marker>29</marker> febbraio 2004.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2005.</example>
+                <example correction="28">El <marker>29</marker> febbraio del 2006.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2007.</example>
+                <!-- 2008 is a leap year (divisible by 4) -->
+                <example>El <marker>29</marker> febbraio 2008.</example>
+                <example correction="28">El <marker>29</marker> febbraio del 2009.</example>
+                <example correction="28">El <marker>29</marker> febbraio de 2010.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2011.</example>
+                <!-- 2012 is a leap year (divisible by 4) -->
+                <example>El <marker>29</marker> febbraio 2012.</example>
+                <example correction="28">El <marker>29</marker> febbraio del 2014.</example>
+                <example>El <marker>29</marker> febbraio 2016.</example>
+                <example correction="28">El <marker>29</marker> febbraio 2018.</example>
+                <example>El <marker>29</marker> febbraio 2020.</example>
+                <!-- 2100 is not a leap year (divisible by 100) -->
+                <example correction="28">El <marker>29</marker> febbraio del 2100.</example>
+                <!-- TOKENIZER: <example correction="28">El <marker>29</marker>-02-1900</marker></example>
+                <example correction="28">El <marker>29</marker>-feb-2005</marker></example>-->
+                <example>El 29-feb-2004</example>
+            </rule>
+        </rulegroup>
     </category>
 </rules>
