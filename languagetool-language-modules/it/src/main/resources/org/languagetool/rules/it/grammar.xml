@@ -119,6 +119,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
  PB014    We don't need the skip in article rules since we are unifying adj and noun 
  ======== ==================================================================================
 -->
+<!DOCTYPE rules [
+    <!ENTITY days_week "domenica|giovedì|lunedì|martedì|mercoledì|sabato|venerdì">
+    <!ENTITY days_week_abr "do|gi|lu|ma|me|sa|ve">
+    <!ENTITY months_year "gennaio|febbraio|marzo|aprile|maggio|giugno|luglio|agosto|settembre|ottobre|novembre|dicembre">
+    <!ENTITY months_year_abr "gen|feb|mar|apr|mag|giu|lug|ago|set|ott|nov|dic">
+]>
 
 <rules lang="it" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/rules/rules.xsd">
 
@@ -1921,5 +1927,61 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
     </category>
-
+    <category id="SEMANTICS" name="Semantica" type="inconsistency">
+        <rule id="ANNO20011_2011" name="*20011/2011">
+            <pattern>
+                <token regexp="yes">da|dal|del|corso|anno|accademico|&months_year;|&months_year_abr;</token>
+                <marker>
+                    <token regexp="yes">200[12]\d</token>
+                </marker>
+            </pattern>
+            <message>Forse volevi dire <suggestion><match no="2" regexp_match="200(..)" regexp_replace="20$1"/></suggestion>?</message>
+            <example correction="2014">È dal <marker>20014</marker>.</example>
+            <example correction="2014">Del corso <marker>20014</marker>.</example>
+            <example>Es del 2015.</example>
+        </rule>
+        <rulegroup id="DATE_WEEKDAY" name="Data incorrecta">
+            <rule>
+                <pattern>
+                    <token regexp="yes">&days_week;|(&days_week_abr;).*</token>
+                    <token min="0">,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token min="0" regexp="yes">[\.\-/]</token>
+                    <token regexp="yes">&months_year;|&months_year_abr;</token>
+                    <token min="0" regexp="yes">[\.\-/]|del</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </pattern>
+                <filter class="org.languagetool.rules.it.DateCheckFilter" args="year:\7 month:\5 day:\3 weekDay:\1"/>
+                <message>Questa data non è un {day} ma un {realDay}.</message>
+                <!-- TODO: tokenization <example correction=""><marker>Lunedì, 7-ottobre-2014</marker></example> -->
+                <example correction=""><marker>Lunedì 7 ottobre 2014</marker></example>
+                <example><marker>Martedì, 7 ottobre 2014</marker></example>
+                <example correction=""><marker>Lunedì, 7.ott.2014</marker></example>
+                <example correction=""><marker>Lunedì 7/ottobre/2014</marker></example>
+                <example><marker>Martedì, 7 ottobre 2014</marker></example>
+            </rule>
+            <rule>
+                <antipattern>
+                    <token regexp="yes">&months_year;|&months_year_abr;</token>
+                    <token min="0" regexp="yes">[\.\-/]|del</token>
+                    <token regexp="yes">\d\d\d\d</token>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">&days_week;|(&days_week_abr;).*</token>
+                    <token min="0">,</token>
+                    <token regexp="yes">\d\d?</token>
+                    <token min="0" regexp="yes">[\.\-/]</token>
+                    <token regexp="yes">&months_year;|&months_year_abr;</token>
+                </pattern>
+                <filter class="org.languagetool.rules.it.DateCheckFilter" args="month:\5 day:\3 weekDay:\1"/>
+                <message>Se si riferisce all'anno in corso ({currentYear}), questa data non è un {day} ma un {realDay}.</message>
+                <example correction=""><marker>Lunedì 7 ottobre</marker></example>
+                <example correction=""><marker>Lunedì, 7 ottobre</marker></example>
+                <example><marker>Martedì, 7 ottobre</marker></example>
+                <example>Martedì 27 novembre 1922</example>
+                <example>Martedì 27 novembre del 1922</example>
+                <example>Martedì 27 novembre 1922</example>
+            </rule>
+        </rulegroup>
+    </category>
 </rules>
