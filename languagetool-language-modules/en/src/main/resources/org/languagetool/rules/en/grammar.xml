@@ -33799,6 +33799,11 @@ USA
                     <token>so</token>
                     <token chunk="E-NP-plural" postag="NNS"/>
                 </antipattern>
+                <antipattern><!--  #3107 did was amazing -->
+                    <token>did</token>
+                    <token regexp="yes">was|were</token>
+                    <token postag="JJ"/>
+                </antipattern>
                 <pattern>
                     <token><exception scope="previous" regexp="yes">than|what</exception><exception regexp="yes">free|than|wh(?:om?|ich)|a|the|neither|nor</exception></token>
                     <token skip="1" regexp="yes" postag="MD|VBD" postag_regexp="yes">did|will|could|can|should|would|does|ll|shall|cannot|might|may</token>
@@ -33847,6 +33852,10 @@ USA
                 <example>The ability to model and modify systems at will affords science an ethical method of...</example><!-- Premium #999. -->
                 <example>I just did courses that we discussed.</example><!-- #2458 -->
                 <example>I had great trouble getting to sleep last night and probably only did so minutes before the quake.</example><!-- regression 2020-06-11 -->
+                <example>What the offensive line did was amazing.</example><!-- #3107 -->
+                <example>What the team did was amazing.</example><!-- #3107 -->
+                <example>What the offensive line did was interesting.</example><!-- #3107 -->
+                <example>The tests that the technicians sometimes did were fascinating.</example><!-- #3107 -->
                 <example type="triggers_error">John Smith did rewrites.</example><!-- 'rewrite' is transitive (www.ldoceonline.com/dictionary/rewrite). Thus, this sentence must be the correct interpretation (did + NNS). -->
                 <example type="triggers_error">John Smith did rewrites for the editorial department.</example>
                 <example type="triggers_error">Would logs help?</example>
