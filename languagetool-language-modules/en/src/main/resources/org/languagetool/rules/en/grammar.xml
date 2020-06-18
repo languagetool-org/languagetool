@@ -28781,6 +28781,7 @@ USA
             <suggestion>\1 <match no="2" postag="VBN" /></suggestion>
             <example correction="have Twitter|have twittered">I <marker>have twitter</marker>.</example>
         </rule>
+
         <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: 'have' + past/present tense">
             <rule>
                 <antipattern>
@@ -28971,6 +28972,12 @@ USA
                     <token chunk="E-NP-singular" postag="NN:UN?" postag_regexp="yes"/>
                     <token postag="PRP"/>
                 </antipattern>
+                <antipattern><!-- #3100 type I diabetes. The capitalization varies. -->
+                    <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|have</token>
+                    <token>type</token>
+                    <token>I</token>
+                    <token>diabetes</token>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <marker>
@@ -28984,6 +28991,7 @@ USA
                 <example>I have <marker>liked</marker> her since I first met her.</example>
                 <example>Noun: If we have <marker>company</marker> we will break out the beer.</example>
                 <example>Noun: If the members of this club have <marker>company</marker> they must be on their best behaviour.</example>
+                <example>The person has Type I Diabetes.</example><!-- #3100 -->
             </rule>
             <rule>
                 <pattern>
