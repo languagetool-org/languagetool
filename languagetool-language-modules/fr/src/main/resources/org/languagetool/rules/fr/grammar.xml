@@ -18338,7 +18338,8 @@ though, and has since been slightly modified)-->
               <example correction="41 Mo">Ce fichier pèse <marker>41 MB</marker>.</example>
           </rule>
       </rulegroup>
-      <rule id="LEAD" name="lead">
+      <rule id="LEAD" name="lead" default="off"><!-- disabled because of low acceptance (< 1%) / picky -->
+      <!-- TODO: check if "prospect" should be added as a suggestion (https://fr.wiktionary.org/wiki/lead) -->
       <pattern>
         <token>lead</token>
       </pattern>
@@ -18347,6 +18348,10 @@ though, and has since been slightly modified)-->
       <example correction="commandement">Et qui est-ce qui assumera le <marker>lead</marker> de leur équipe ?</example>
     </rule>
     <rule id="FAKE" name="fake">
+      <antipattern>
+        <token>fake</token>
+        <token>news</token>
+      </antipattern>
       <pattern>
         <token>fake</token>
       </pattern>
@@ -18362,24 +18367,49 @@ though, and has since been slightly modified)-->
       <suggestion>magasin</suggestion>
       <example correction="magasin">Dans quel <marker>shop</marker> ils l'ont acheté ?</example>
     </rule>
-    <rule id="COMMUNITY" name="community">
-      <pattern>
-        <token>community</token>
-      </pattern>
-      <message>L'expression « community » est un anglicisme.</message>
-      <suggestion>communauté</suggestion>
-      <example correction="communauté">C'est super populaire dans la <marker>community</marker> gothic-lolita.</example>
-    </rule>
-    <rule id="COMMUNITY_MANAGER" name="community manager">
-      <pattern>
-        <token>community</token>
-        <token>manager</token>
-      </pattern>
-      <message>L'expression « community manager » est un anglicisme.</message>
-      <suggestion>animateur de communauté</suggestion>
-      <example correction="animateur de communauté">Je suis <marker>community manager</marker> pour cette boîte.</example>
-    </rule>
-    <rule id="CALL" name="call">
+    <rulegroup id="COMMUNITY" name="community">
+      <rule>
+        <pattern>
+          <token>community</token>
+          <token regexp="yes">managers?</token>
+        </pattern>
+        <message>L'expression « community manager » est un anglicisme.</message>
+        <suggestion><match no="2" regexp_match="(?i)manager" regexp_replace="animateur" /> de communauté</suggestion>
+        <example correction="animateur de communauté">Je suis <marker>community manager</marker> pour cette boîte.</example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>community</token>
+          <token>management</token>
+        </pattern>
+        <message>L'expression « community management » est un anglicisme.</message>
+        <suggestion>animation de communauté</suggestion>
+        <example correction="animation de communauté"><marker>community management</marker></example>
+      </rule>
+      <rule>
+        <pattern>
+          <token>community</token>
+        </pattern>
+        <message>L'expression « community » est un anglicisme.</message>
+        <suggestion>communauté</suggestion>
+        <example correction="communauté">C'est super populaire dans la <marker>community</marker> gothic-lolita.</example>
+      </rule>
+    </rulegroup>
+    <rule id="CALL" name="call" default="off"><!-- disabled because of low acceptance (2 %) / picky -->
+      <antipattern>
+        <token>call</token>
+        <token>of</token>
+        <token>duty</token>
+      </antipattern>
+      <antipattern>
+        <token>call</token>
+        <token>to</token>
+        <token>action</token>
+      </antipattern>
+      <antipattern>
+        <token>call</token>
+        <token regexp="yes">centers?</token>
+      </antipattern>
       <pattern>
         <token>call</token>
       </pattern>
@@ -18418,6 +18448,11 @@ though, and has since been slightly modified)-->
       <example correction="carte">Je t'envoie la <marker>map</marker> pour t'orienter.</example>
     </rule>
     <rule id="GROUP" name="group">
+      <antipattern>
+        <token>Blue</token>
+        <token>Man</token>
+        <token>Group</token>
+      </antipattern>
       <pattern>
         <token>group</token>
       </pattern>
@@ -24680,6 +24715,11 @@ though, and has since been slightly modified)-->
       <example correction="position de tête"><marker>pole position</marker></example>
     </rule>
     <rule id="OFF" name="off">
+      <antipattern>
+        <token>on</token>
+        <token>/</token>
+        <token>off</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">offs?</token>
       </pattern>
@@ -24687,7 +24727,7 @@ though, and has since been slightly modified)-->
       <example correction="hors champ|libre|de congé|en congé|arrêt|fermé"><marker>off</marker></example>
       <example><marker>hors champ</marker></example>
     </rule>
-    <rule id="PANEL" name="panel">
+    <rule id="PANEL" name="panel" default="off"><!-- disabled because of low acceptance (< 1%) / picky -->
       <pattern>
         <token regexp="yes">panels?</token>
       </pattern>
@@ -24697,10 +24737,14 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="PATCH" name="patch">
       <pattern>
-        <token regexp="yes">patch|patches|patchs</token>
+        <token regexp="yes">
+          patch|patches|patchs
+          <exception case_sensitive="yes">PATCH</exception><!-- HTTP Method -->
+        </token>
       </pattern>
-      <message>« Patch » est un anglicisme. Employez <suggestion>pièce</suggestion> (chambre à air, ballon, morceau de tissu), <suggestion>timbre cutané</suggestion>, <suggestion>correctif</suggestion> (informatique), <suggestion>retouche</suggestion> (informatique), <suggestion>solution temporaire</suggestion>.</message>
+      <message>« Patch » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="pièce" /></suggestion> (chambre à air, ballon, morceau de tissu), <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="timbre" /> <match no="1" regexp_match="(?i)patche?" regexp_replace="cutané" /></suggestion>, <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="correctif" /></suggestion> (informatique), <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="retouche" /></suggestion> (informatique), <suggestion><match no="1" regexp_match="(?i)patche?" regexp_replace="solution" /> temporaire</suggestion>.</message>
       <example correction="pièce|timbre cutané|correctif|retouche|solution temporaire"><marker>patch</marker></example>
+      <example correction="pièces|timbres cutanés|correctifs|retouches|solutions temporaire"><marker>patches</marker></example>
       <example><marker>rustine</marker></example>
     </rule>
     <rule id="MUFFLER" name="muffler">
@@ -24767,10 +24811,14 @@ though, and has since been slightly modified)-->
       <example correction="compteur"><marker>meter</marker></example>
     </rule>
     <rule id="MEETING" name="meeting">
+      <antipattern>
+        <token>Meeting</token>
+        <token>ID</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">meetings?</token>
       </pattern>
-      <message>« Meeting » est un anglicisme. Employez <suggestion>réunion</suggestion>, <suggestion>rencontre</suggestion>.</message>
+      <message>« Meeting » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)meeting?" regexp_replace="réunion" /></suggestion>, <suggestion>rencontre</suggestion>.</message>
       <example correction="réunion|rencontre"><marker>meeting</marker></example>
       <example><marker>réunion</marker></example>
     </rule>
@@ -24782,12 +24830,26 @@ though, and has since been slightly modified)-->
       <example correction="chargeuse"><marker>loader</marker></example>
     </rule>
     <rule id="LIVE" name="live">
+      <antipattern>
+        <token>black</token>
+        <token regexp="yes">lives?</token>
+        <token regexp="yes">matters?</token>
+      </antipattern>
+      <antipattern>
+        <token regexp="yes">xbox|ableton|facebook|quizlet</token>
+        <token>live</token>
+      </antipattern>
+      <antipattern>
+        <token>live</token>
+        <token>nation</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">lives?</token>
       </pattern>
       <message>« Live » est un anglicisme. Employez <suggestion>enregistré devant public</suggestion> (disque), <suggestion>en direct</suggestion>, <suggestion>en concert</suggestion>, <suggestion>en spectacle</suggestion>, <suggestion>en public</suggestion>.</message>
       <example correction="enregistré devant public|en direct|en concert|en spectacle|en public"><marker>live</marker></example>
       <example><marker>en direct</marker></example>
+      <example>Black Lives Matter</example>
     </rule>
     <rule id="LISTING" name="listing">
       <pattern>
@@ -24804,7 +24866,7 @@ though, and has since been slightly modified)-->
       <example correction="monte-charge|pont élévateur|chariot élévateur|prendre en voiture|voiturer|reconduire|ramener|déposer"><marker>lift</marker></example>
       <example><marker>monte-charge</marker></example>
     </rule>
-    <rule id="KIT" name="kit">
+    <rule id="KIT" name="kit" default="off"><!-- disabled because of low acceptance (3%) / picky-->
       <pattern>
         <token regexp="yes">kits?</token>
       </pattern>
@@ -24821,6 +24883,10 @@ though, and has since been slightly modified)-->
       <example><marker>tuyau</marker></example>
     </rule>
     <rule id="FULL" name="full">
+      <antipattern>
+        <token>full</token>
+        <token regexp="yes">HD|House</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">fulls?</token>
       </pattern>
@@ -24829,6 +24895,10 @@ though, and has since been slightly modified)-->
       <example><marker>plein</marker></example>
     </rule>
     <rule id="FUN" name="fun">
+      <antipattern>
+        <token>fun</token>
+        <token regexp="yes">facts?</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">funs?</token>
       </pattern>
@@ -24885,9 +24955,9 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">cookies?</token>
       </pattern>
-      <message>« Cookie » est un anglicisme. Employez <suggestion>biscuit</suggestion>, <suggestion>témoin informatique</suggestion>, <suggestion>témoin</suggestion>.</message>
-      <example correction="biscuit|témoin informatique|témoin"><marker>cookie</marker></example>
-      <example><marker>témoin informatique</marker></example>
+      <message>« Cookie » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)cookie" regexp_replace="biscuit" /></suggestion>, <suggestion><match no="1" regexp_match="(?i)cookie" regexp_replace="témoin" /> de connexion</suggestion>, <suggestion><match no="1" regexp_match="(?i)cookie" regexp_replace="témoin" /></suggestion>.</message>
+      <example correction="biscuit|témoin de connexion|témoin"><marker>cookie</marker></example>
+      <example><marker>témoin de connexion</marker></example>
     </rule>
     <rule id="CORDUROY" name="corduroy">
       <pattern>
@@ -24991,6 +25061,10 @@ though, and has since been slightly modified)-->
       <example><marker>homme de main</marker></example>
     </rule>
     <rule id="BOSS" name="boss">
+      <antipattern>
+        <token>hugo</token>
+        <token>boss</token>
+      </antipattern>
       <pattern>
         <token>boss</token>
       </pattern>
@@ -25067,7 +25141,7 @@ though, and has since been slightly modified)-->
       <message>« Blender » est un anglicisme. Employez <suggestion>mélangeur</suggestion>.</message>
       <example correction="mélangeur"><marker>blender</marker></example>
     </rule>
-    <rule id="BRIEFING" name="briefing">
+    <rule id="BRIEFING" name="briefing" default="off"><!-- disabled because of low acceptance (2 %) / picky -->
       <pattern>
         <token regexp="yes">briefings?</token>
       </pattern>
@@ -25622,21 +25696,29 @@ though, and has since been slightly modified)-->
       <example><marker>entraîneur</marker></example>
     </rule>
     <rule id="GREEN" name="green">
-      <antipattern><!-- https://fr.wikipedia.org/wiki/Green_New_Deal -->
+      <antipattern>
         <token skip="1">Green</token>
-        <token regexp="yes">Deal|Day|Lantern|Boots</token>
+        <token regexp="yes">Deal|Day|Lantern|Boots|Cards?|Awards?|Park|Tea|Book|Bay|Party|Arrow</token>
       </antipattern>
       <pattern>
         <token regexp="yes">greens?</token>
       </pattern>
-      <message>« Green » est un anglicisme. Employez <suggestion>vert</suggestion> (golf).</message>
-      <example correction="vert"><marker>green</marker></example>
+      <message>« Green » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)green" regexp_replace="vert" /></suggestion> ou <suggestion>verte</suggestion>.</message>
+      <example correction="vert|verte"><marker>green</marker></example>
     </rule>
-    <rule id="BACHELOR" name="bachelor">
+    <rule id="BACHELOR" name="bachelor" default="off"><!-- disabled because of low acceptance  (1%) / picky -->
     <antipattern>
-        <token>bachelor</token>
-        <token>of</token>
+        <token regexp="yes">bachelors?</token>
+        <token regexp="yes">of|en|party|à</token>
         <token/>
+    </antipattern>
+    <antipattern>
+        <token regexp="yes" skip="-1">bachelors?</token>
+        <token regexp="yes">masters?</token>
+    </antipattern>
+    <antipattern>
+        <token regexp="yes" skip="-1">masters?</token>
+        <token regexp="yes">bachelors?</token>
     </antipattern>
       <pattern>
         <token regexp="yes">bachelors?</token>
@@ -25652,7 +25734,7 @@ though, and has since been slightly modified)-->
       <example correction="groupe|formation|ensemble|orchestre"><marker>band</marker></example>
       <example><marker>group</marker></example>
     </rule>
-    <rule id="COACHING" name="coaching">
+    <rule id="COACHING" name="coaching" default="off"><!-- disabled because of low acceptance (3.5 %) / picky -->
       <pattern>
         <token regexp="yes">coachings?</token>
       </pattern>
@@ -25704,8 +25786,8 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">tokens?</token>
       </pattern>
-      <message>« Token » est un anglicisme. Employez <suggestion>jeton</suggestion> (pièce ronde et plate) <suggestion>sou</suggestion> (monnaie).</message>
-      <example correction="jeton|sou"><marker>token</marker></example>
+      <message>« Token » est un anglicisme. Employez <suggestion>jeton</suggestion> (pièce ronde et plate), <suggestion>sou</suggestion> (monnaie) ou <suggestion>lexème</suggestion>.</message>
+      <example correction="jeton|sou|lexème"><marker>token</marker></example>
       <example><marker>sou</marker></example>
     </rule>
     <rule id="PER_CAPITA" name="per capita">
@@ -25812,10 +25894,14 @@ though, and has since been slightly modified)-->
       <message>« Peeling » est un anglicisme. Employez <suggestion>dermabrasion</suggestion>.</message>
       <example correction="dermabrasion"><marker>peeling</marker></example>
     </rule>
-    <rule id="DRIVE" name="drive">
+    <rule id="DRIVE" name="drive" default="off"><!-- disabled because of low acceptance  (1%) / picky -->
     <antipattern>
-        <token>google</token>
+        <token regexp="yes">google|connected|one|rodeo|leclerc</token>
         <token>drive</token>
+    </antipattern>
+    <antipattern case_sensitive="yes"><!-- possible street name -->
+      <token postag="UNKNOWN" regexp="yes">[A-Z].*</token>
+      <token>Drive</token>
     </antipattern>
       <pattern>
         <token regexp="yes">drives?</token>
@@ -25823,6 +25909,7 @@ though, and has since been slightly modified)-->
       <message>« Drive » est un anglicisme. Employez <suggestion>coup de départ</suggestion> (golf), <suggestion>coup droit</suggestion> (tennis), <suggestion>énergie</suggestion>, <suggestion>détermination</suggestion>, <suggestion>motivation</suggestion>, <suggestion>feu sacré</suggestion> (sens figuré), <suggestion>position marche</suggestion> (transmission automatique), <suggestion>marche avant</suggestion> (transmission automatique).</message>
       <example correction="coup de départ|coup droit|énergie|détermination|motivation|feu sacré|position marche|marche avant"><marker>drive</marker></example>
       <example><marker>coup de départ</marker></example>
+      <example>22 Clayton Drive</example>
     </rule>
     <rulegroup id="DRIVING_RANGE" name="driving range">
       <rule>
@@ -26023,7 +26110,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes" case_sensitive="yes">job|jobs<exception scope="previous">Steve</exception></token>
       </pattern>
-      <message>« Job » est un anglicisme. Employez <suggestion>emploi</suggestion>, <suggestion>boulot</suggestion>, <suggestion>tâche</suggestion>, <suggestion>ouvrage</suggestion>.</message>
+      <message>« Job » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)job" regexp_replace="emploi" /></suggestion>, <suggestion><match no="1" regexp_match="(?i)job" regexp_replace="boulot" /></suggestion>, <suggestion><match no="1" regexp_match="(?i)job" regexp_replace="tâche" /></suggestion>, <suggestion><match no="1" regexp_match="(?i)job" regexp_replace="ouvrage" /></suggestion>.</message>
       <example correction="emploi|boulot|tâche|ouvrage"><marker>job</marker></example>
       <example><marker>boulot</marker></example>
       <example>Steve <marker>Jobs</marker>, le pionnier de l’ordinateur conçu comme une prison cool, mise au point pour supprimer leur liberté aux idiots, est mort.</example>
@@ -26372,11 +26459,16 @@ though, and has since been slightly modified)-->
       </rule>
     </rulegroup>
     <rule id="LAB" name="lab">
+      <antipattern>
+        <token regexp="yes" skip="1">Phoenix|Dorma|Porsche</token>
+        <token regexp="yes">Labs?</token>
+      </antipattern>
       <pattern>
-        <token regexp="yes">lab|labs</token>
+        <token regexp="yes">labs?</token>
       </pattern>
-      <message>« Lab » est un anglicisme. Employez <suggestion>labo</suggestion>.</message>
+      <message>« Lab » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)ab" regexp_replace="abo" /></suggestion>.</message>
       <example correction="labo"><marker>lab</marker></example>
+      <example>Porsche Digital Labs</example>
     </rule>
     <rule id="COVER" name="cover">
       <pattern>
@@ -27127,6 +27219,11 @@ though, and has since been slightly modified)-->
       <example><marker>vol nolisé</marker></example>
     </rule>
     <rule id="HEY" name="hey">
+      <antipattern>
+        <token>hey</token>
+        <token>.</token>
+        <token>com</token>
+      </antipattern>
       <pattern>
         <token>hey</token>
       </pattern>
@@ -28069,12 +28166,12 @@ though, and has since been slightly modified)-->
     <rule id="BUG" name="bug">
       <antipattern>
         <token>Bugs</token>
-        <token>Bunny</token>
+        <token regexp="yes">Bunny|Moran</token>
       </antipattern>
       <pattern>
         <token regexp="yes">bugs?</token>
       </pattern>
-      <message>« Bug » est un anglicisme. Employez <suggestion>bogue</suggestion>.</message>
+      <message>« Bug » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)bug" regexp_replace="bogue" /></suggestion>.</message>
       <example correction="bogue"><marker>bug</marker></example>
       <example>Bugs Bunny</example>
     </rule>
@@ -28139,7 +28236,7 @@ though, and has since been slightly modified)-->
       <pattern>
         <token regexp="yes">spams?</token>
       </pattern>
-      <message>« Spam » est un anglicisme. Employez <suggestion>pourriel</suggestion>.</message>
+      <message>« Spam » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)spam" regexp_replace="pourriel" /></suggestion>.</message>
       <example correction="pourriel"><marker>spam</marker>.</example>
     </rule>
     <rule id="EMAIL" name="email" default="off">
