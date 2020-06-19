@@ -29492,14 +29492,16 @@ though, and has since been slightly modified)-->
       <rule default="temp_off">
         <!-- if the word exists in the dictionar without hyphen suggest the change-->
         <pattern>
-          <token regexp="yes">.+-.+</token>
+          <token regexp="yes">(géo-|nord-|sud-|néo-|méga-|ultra-|pro-|inter-|micro-|macro-|sous-|haut-|auto-|ré-|pré-|super-|vice-|hyper-|proto-|grand-|pseudo-).+</token>
         </pattern>
         <message suppress_misspelled="yes">Le mot <suggestion><match no="1" regexp_match="-" regexp_replace=""/></suggestion> s’écrit sans trait d’union</message>
         <example correction="néorural">Le <marker>néo-rural</marker></example>
         <example correction="géopolitique">La <marker>géo-politique</marker></example>
         <example correction="géostationnaire">Un satellite <marker>géo-stationnaire</marker></example>
-        <example correction="postimpressionnisme">Le <marker>post-impressionnisme</marker>.</example> 
+        <!--<example correction="postimpressionnisme">Le <marker>post-impressionnisme</marker>.</example>--> 
         <example>Le néo-impressionnisme</example>
+        <example>Combien donne-t-on en pourboire en Espagne ?</example>
+        <example>Elle est tombée malade ce week-end.</example>
       </rule>
       <rule>
         <pattern>
