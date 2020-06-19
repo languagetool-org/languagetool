@@ -62,6 +62,11 @@ public class PostponedAdjectiveConcordanceRuleTest {
     assertCorrect("Salió de casa temprano para llegar a tiempo");
     assertCorrect("Él cría vacas y caballos");
     assertCorrect("Juan cría vacas y caballos");
+    assertCorrect("Ni siquiera sabe escribir su propio nombre.");
+    assertCorrect("El hechizo solo dura hasta la medianoche.");
+    assertCorrect("Te miras al espejo, no te agrada lo que este refleja.");
+    assertCorrect("Para ser cada día mejores.");
+    assertCorrect("Todo el mundo habla de los niños soldado de África");
     /*
      * Una piedra rodante no junta musgo"
      */
@@ -74,6 +79,10 @@ public class PostponedAdjectiveConcordanceRuleTest {
     assertIncorrect("La casa de pueblo blancas");
     assertIncorrect("La casa de pueblo blancos");
     assertIncorrect("Un loro puede imitar el habla humano.");
+    
+    // Triggers error:
+    // Él vino a casa desesperado.
+    // Vino a América impulsado por la fibre del oro.
     
   }
 
