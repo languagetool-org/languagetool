@@ -2114,6 +2114,39 @@ RB => Règles Brutes
       </pattern>
       <disambig action="ignore_spelling"/>
     </rule>
+      <rule>
+      <!-- list items, 1.1b, 2-, -->
+      <pattern>
+        <marker>
+          <token regexp="yes">\d{1,3}</token>
+          <token min="0">.</token>
+          <token spacebefore="no">-</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <!-- list items, 1.1-, 2.1-, -->
+      <pattern>
+        <marker>
+          <token regexp="yes">\d{1,3}\.\d{1,3}[a-z]?</token>
+          <token spacebefore="no">-</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
+    <rule>
+      <!-- list items, 1.1.a- -->
+      <pattern>
+        <marker>
+          <token regexp="yes">\d{1,3}\.\d{1,3}</token>
+          <token spacebefore="no">.</token>
+          <token spacebefore="no" regexp="yes">[a-z]</token>
+          <token spacebefore="no">-</token>
+        </marker>
+      </pattern>
+      <disambig action="ignore_spelling"/>
+    </rule>
     <rule>
       <!-- 5e, 6e, ... -->
       <pattern>
