@@ -1059,6 +1059,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Cuando lo casaron se sintió libre.</example>
                 <!-- TODO: Matemáticas no es solo memorizar las formulas.-->
             </rule>
+            <rule default="temp_off">
+                <!--memorizar las formulas -->
+                <pattern>
+                    <token postag="V.[NIS].*" postag_regexp="yes"/>
+                    <token postag="D[^RTEN].*" postag_regexp="yes"><exception>lo</exception></token>
+                    <marker>
+                        <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token min="0" max="2" postag_regexp="yes" postag="RN|&pronombre_personal_atono_POS;"/>
+                    <token postag="V.[SI].*" postag_regexp="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:NC.* gendernumber_from:1"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="fórmulas">No es solo memorizar las <marker>formulas</marker>.</example>
+                <example correction="fórmulas">Memorizarás las <marker>formulas</marker>.</example>
+                <example correction="máquina">Wspere unos segundos antes de parar la <marker>maquina</marker> para que quede bien.</example>
+                <example>Cuando lo casaron se sintió libre.</example>
+
+            </rule>
             <rule>
                 <!-- Una nueva formula que -->
                 <pattern>
@@ -2213,8 +2233,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>Dios</token>
-                <token regexp="yes">te|me|nos|os|le|lo|la</token>
-                <token regexp="yes">salve|libre|perdone|pague</token>
+                <token regexp="yes" min="0">te|me|nos|os|le|lo|la</token>
+                <token regexp="yes">salve|libre|perdone|pague|ayude</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">te|me|nos|os|le|lo|la</token>
@@ -4855,7 +4875,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token regexp="yes">deshechos?</token>
                     </marker>
-                    <token inflected="yes" regexp="yes">agroindustrial|agrícola|alimentario|ambiental|animal|automotriz|biodegradable|biológico|biomédico|celular|clínico|común|contaminante|corporal|degradable|doméstico|electrónico|espacial|farmacológico|farmacéutico|ferroso|fisiológico|forestal|gaseoso|generar|histórico|hopitalario|humano|industrial|inerte|infeccioso|inorgánico|líquido|marino|menstrual|metabólico|municipal|natural|nitrogenar|nuclear|orgánico|peligroso|plástico|químico|radiactivo|reciclable|reutilizable|sanitario|sólido|tecnológico|textil|tóxico|urbano|vegetal</token>
+                    <token inflected="yes" regexp="yes"
+                        >agroindustrial|agrícola|alimentario|ambiental|animal|automotriz|biodegradable|biológico|biomédico|celular|clínico|común|contaminante|corporal|degradable|doméstico|electrónico|espacial|farmacológico|farmacéutico|ferroso|fisiológico|forestal|gaseoso|generar|histórico|hopitalario|humano|industrial|inerte|infeccioso|inorgánico|líquido|marino|menstrual|metabólico|municipal|natural|nitrogenar|nuclear|orgánico|peligroso|plástico|químico|radiactivo|reciclable|reutilizable|sanitario|sólido|tecnológico|textil|tóxico|urbano|vegetal</token>
                 </pattern>
                 <message>¿Quería decir 'desecho' (residuo) en vez de 'deshecho' (del v. 'deshacer')?</message>
                 <suggestion><match no="1" regexp_match="(?iu)desh(.*)" regexp_replace="des$1"/></suggestion>
@@ -7689,7 +7710,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="COMPRAR_GRASTAR" name="*comprar/gastar en">
             <pattern>
                 <marker>
-                    <token inflected="yes" skip="5">comprar</token>
+                    <token inflected="yes" skip="5">comprar<exception scope="next">por</exception></token>
                 </marker>
                 <token regexp="yes">dólares|euros|millones</token>
                 <token regexp="yes" min="0" max="2">de|dólares|euros</token>
@@ -7701,6 +7722,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.fundeu.es/recomendacion/gastar-millones-en-algo-comprar-millones-en-algo/</url>
             <example correction="gastado|comprado ... por valor de">Ha <marker>comprado</marker> casi 11 millones de dólares en armas.</example>
             <example correction="Gastó|Compró ... por valor de"><marker>Compró</marker> casi 11 millones de dólares en armas.</example>
+            <example>Se pueden comprar ya por 18 euros en las taquillas.</example>
         </rule>
         <rule id="ADOLECER_CARECER" name="*adolecer/carecer">
             <pattern>
@@ -7903,7 +7925,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="PUNCTUATION" name="Puntuación">
-        <rulegroup id="COMA_SUJETO_PREDICADO" name="coma incorrecta entre sujeto y predicado" default="temp_off">
+        <rulegroup id="COMA_SUJETO_PREDICADO" name="coma incorrecta entre sujeto y predicado">
             <antipattern>
                 <token>es</token>
                 <token>decir</token>
@@ -7987,21 +8009,50 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <pattern>
                     <token postag="SENT_START"/>
                     <marker>
-                        <token postag="NP.*" postag_regexp="yes" max="3"/>
+                        <token postag="NP.*" postag_regexp="yes" max="3"><exception postag="AO.*|V.[MI].*" postag_regexp="yes"/></token>
                         <token>,</token>
-                        <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/>
-                        <token postag="V.I.*" postag_regexp="yes"><exception postag="_possible_NP|N.*|V.P.*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/></token>
+                        <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"><exception>te</exception></token>
+                        <token postag="V.I..S." postag_regexp="yes"><exception postag="_possible_NP|N.*|V.[MP].*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception>hay</exception></token>
                     </marker>
                 </pattern>
                 <message>Probablemente sobra la coma entre el sujeto y el predicado.</message>
                 <url>http://www.wikilengua.org/index.php/Coma_de_sujeto</url>
                 <example correction=""><marker>Juan, va</marker> hacia su casa.</example>
                 <example correction=""><marker>Juan García, va</marker> hacia su casa.</example>
+                <example correction=""><marker>Julio Andrade, fundó</marker> con Isaac J. Barrera el periódico.</example>
                 <example>Mañana, alunizará.</example>
                 <example>Gracias, es todo.</example>
                 <example>No, es de segunda mano.</example>
                 <example>Cansado, se fue a la cama antes de lo normal.</example>
                 <example>Tranquilo, es sólo un espantapájaros.</example>
+                <example>Bill, abre la puerta.</example>
+                <example>Jim, cierra la ventana.</example>
+                <example>Segundo, recibe una violenta oposición.</example>
+                <example>Mira, está lloviendo.</example>
+                <example>Louis, vienen tus amigos.</example>
+                <example>Tom, hay algo que quiero darte.</example>
+                <example>Mira, se le rompió la fuente a esa señora.</example>
+                <example>Tom, te llama tu mamá.</example>
+                <example>Mary, venga, deja de protestar.</example>
+                <example>Ricardo, ora por mi.</example>
+                <example>María, me gustan mucho las enumeraciones.</example>
+                <example>Tom, te llama mamá.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token postag="SENT_START"/>
+                    <marker>
+                        <token postag="PD.*" postag_regexp="yes"/>
+                        <token>,</token>
+                    </marker>
+                    <token min="0" max="2" postag="&pronombre_personal_atono_POS;" postag_regexp="yes"><exception>te</exception></token>
+                    <token postag="V.I...." postag_regexp="yes"><exception postag="_possible_NP|N.*|V.[MP].*|V.I.[12][PS].*|AQ.*" postag_regexp="yes"/><exception>hay</exception></token>
+                </pattern>
+                <message>Probablemente sobra la coma entre el sujeto y el predicado.</message>
+                <suggestion>\2</suggestion>
+                <url>http://www.wikilengua.org/index.php/Coma_de_sujeto</url>
+                <example correction="Éstas"><marker>Éstas,</marker> se dividen en tres.</example>
+                <example correction="Estas"><marker>Esas,</marker> se dividen en tres.</example>
             </rule>
         </rulegroup>
         <rule id="YA_QUE" name="ya que que (con coma)">
@@ -8720,7 +8771,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </marker>
             </pattern>
             <message>¿Quería decir <suggestion><match no="2" regexp_match="200(..)" regexp_replace="20$1"/></suggestion>?</message>
-            <example correction="2014">Es del año  <marker>20014</marker>.</example>
+            <example correction="2014">Es del año <marker>20014</marker>.</example>
             <example correction="2014">Es de <marker>20014</marker>.</example>
             <example>Es del 2015.</example>
         </rule>
@@ -8748,13 +8799,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                        <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
-                        <token regexp="yes">de|del</token>
-                        <token regexp="yes">\d\d\d\d</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
+                    <token regexp="yes">de|del</token>
+                    <token regexp="yes">\d\d\d\d</token>
                 </antipattern>
                 <antipattern>
-                        <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
-                        <token regexp="yes">\d\d\d\d</token>
+                    <token regexp="yes">&meses_ano;|&meses_ano_abrv;</token>
+                    <token regexp="yes">\d\d\d\d</token>
                 </antipattern>
                 <pattern>
                     <!-- "Lunes, 7 de octubre " -->
@@ -8790,7 +8841,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Martes, 7 oct 2014</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup  id="NUMBER_DAYS_MONTH" name="día máximo del mes (28, 29, 30, 31)" default="temp_off">
+        <rulegroup id="NUMBER_DAYS_MONTH" name="día máximo del mes (28, 29, 30, 31)" default="temp_off">
             <antipattern>
                 <token regexp="yes">\d+</token>
                 <token regexp="yes">28|29|30|31</token>
@@ -8827,9 +8878,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token min="0" regexp="yes">[-/]|de</token>
                     <token regexp="yes">febrero|feb|0?2</token>
                     <token min="0" regexp="yes">[-/]|de|del</token>
-                    <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
-                        <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
-                    </token>
+                    <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048]) <exception regexp="yes">[13579][26]00|[2468][048]00</exception> </token>
                 </pattern>
                 <message>El mes de febrero solo tiene <suggestion>28</suggestion> días, porque el año \5 no es bisiexto.</message>
                 <example correction="28">El <marker>29</marker> de febrero de 1900.</example>
