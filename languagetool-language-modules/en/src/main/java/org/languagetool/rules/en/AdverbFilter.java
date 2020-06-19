@@ -215,6 +215,7 @@ public class AdverbFilter extends RuleFilter {
     put("equally", "equal");
     put("strongly", "strong");
     put("purposely", "intentional");
+    put("thoroughly", "thorough");
 
     // TODO: add more or maybe use https://github.com/simplenlg/simplenlg?
     //put("", "");
