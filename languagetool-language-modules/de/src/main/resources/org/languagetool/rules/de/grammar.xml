@@ -7859,13 +7859,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup id="SOVIEL" name="so viel (soviel)">
+            <url>https://www.korrekturen.de/wortliste/soviel.shtml</url>
             <rule>
+                <antipattern>
+                    <token>soviel</token>
+                    <token skip="6">wie</token>
+                    <token regexp="yes">bedeute(t|n)|hei(ß|ss)(t|en)</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes" skip="1">bedeutet|hei(ß|ss)t</token>
+                    <token>soviel</token>
+                    <token>wie</token>
+                </antipattern>
                 <pattern>
                     <marker><token>soviel</token></marker>
                     <token>wie</token>
                 </pattern>
                 <message>Meinten Sie <suggestion>so viel</suggestion>?</message>
                 <example correction="so viel">Er verdient <marker>soviel</marker> wie ich.</example>
+                <example>Der Name bedeutet soviel wie „Brunnen an der Esche“.</example>
+                <example>Einer Auffassung zufolge soll die erste Silbe aus dem mittelniederdeutschen „kurren, korren“ gebildet worden sein, was soviel wie das Murmeln eines Baches bedeutet.</example>
             </rule>
             <rule>
                 <pattern>
