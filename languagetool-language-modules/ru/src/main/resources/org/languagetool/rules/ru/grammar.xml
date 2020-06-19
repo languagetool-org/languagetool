@@ -5286,6 +5286,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Чтобы полететь на луну, нужен корабль.</example>
             <example>Чтобы закончить раньше (если вы не хотите).</example>
         </rule>
+             
+        <rule id="PUNCT_OBR" name="punct_obr" default="temp_off">
+            <pattern>
+                <token postag="NN:(Name|Patr):.*" postag_regexp="yes"></token>
+                <token postag="VB:IMP:TRANS:PFV:.*:P2" postag_regexp="yes"></token>
+            </pattern>
+            <message>Запятая при обращении: <suggestion>\1, \2</suggestion></message>
+            <short>Запятая при обращении</short>
+            <example correction="Иван, принесите"><marker>Иван принесите</marker> ведёрко.</example>
+            <example correction="Иван, принеси"><marker>Иван принеси</marker> ведёрко.</example>
+            <example>Иван, принеси ведёрко.</example>
+        </rule>
     </category>
     <category id="TYPOGRAPHY" name="Типографика">     
         
