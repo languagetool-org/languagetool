@@ -11136,4 +11136,27 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
     </rulegroup>
 
+    <rulegroup id="PROPER_NOUN_HALLOWE_EN" name="Proper noun: Hallowe'en"><!-- www.lexico.com/definition/halloween -->
+        <rule><!-- POS -->
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Hallowe</token>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no">en</token>
+                </marker>
+            </pattern>
+            <disambig action="replace"><wd pos="NNP"/><wd pos="NNP"/><wd pos="NNP"/></disambig>
+        </rule>
+        <rule><!-- Spelling -->
+            <pattern>
+                <marker>
+                    <token case_sensitive="yes">Hallowe</token>
+                    <token spacebefore="no" regexp="yes">['’]</token>
+                    <token spacebefore="no">en</token>
+                </marker>
+            </pattern>
+            <disambig action="ignore_spelling"></disambig>
+        </rule>
+    </rulegroup>
+
 </rules>
