@@ -3718,6 +3718,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.fundeu.es/recomendacion/curriculo-o-curriculum-con-tilde-pero-curriculum-vitae/</url>
             <example correction="curriculum vitae|currículums|currículos">Los <marker>currículums vitae</marker>.</example>
         </rule>
+        <rule id="SEPARADO" name="palabras que se escriben separadas" default="temp_off">
+            <!-- if added to spelling rule, we could make suggestions for the word -->
+            <pattern>
+                <token regexp="yes">[\d\.,]+\p{L}\p{L}\p{L}\p{L}+</token>
+            </pattern>
+            <message>Probablemente falta un espacio.</message>
+            <suggestion><match no="1" regexp_match="([\d\.,]+)([a-záéíóúüñ]+)" regexp_replace="$1 $2"/></suggestion>
+            <example correction="2000 euros">Son <marker>2000euros</marker>.</example>
+            <example correction="5000 habitantes">Es un pueblo de <marker>5000habitantes</marker>.</example>
+            <example>A las 5hrs</example>
+            <example>Mide 5cm.</example>
+        </rule>
         <rulegroup id="NO_SEPARADO" name="palabras no separadas">
             <rule>
                 <pattern>
