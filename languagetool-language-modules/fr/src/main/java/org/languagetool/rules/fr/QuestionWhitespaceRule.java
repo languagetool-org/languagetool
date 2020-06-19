@@ -76,6 +76,16 @@ public class QuestionWhitespaceRule extends Rule {
         new PatternTokenBuilder().tokenRegex("[a-z0-9]{2}").build(),
         new PatternTokenBuilder().token(":").build(),
         new PatternTokenBuilder().tokenRegex("[a-z0-9]{2}").build()
+      ),
+      Arrays.asList( // csv markup (not sure why we need this, but there were a lot of users ignoring this specific case)
+        new PatternTokenBuilder().token(";").build(),
+        new PatternTokenBuilder().tokenRegex(".+").setIsWhiteSpaceBefore(false).build(),
+        new PatternTokenBuilder().token(";").setIsWhiteSpaceBefore(false).build()
+      ),
+      Arrays.asList( // csv markup (not sure why we need this, but there were a lot of users ignoring this specific case)
+        new PatternTokenBuilder().tokenRegex(".+").setIsWhiteSpaceBefore(false).build(),
+        new PatternTokenBuilder().token(";").setIsWhiteSpaceBefore(false).build(),
+        new PatternTokenBuilder().tokenRegex(".+").setIsWhiteSpaceBefore(false).build()
       )
     );
 

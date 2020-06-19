@@ -26460,7 +26460,7 @@ though, and has since been slightly modified)-->
     </rulegroup>
     <rule id="LAB" name="lab">
       <antipattern>
-        <token regexp="yes" skip="1">Phoenix|Dorma|Porsche</token>
+        <token regexp="yes" skip="1">Phoenix|Dorma|Porsche|Inequality</token>
         <token regexp="yes">Labs?</token>
       </antipattern>
       <pattern>
@@ -26541,18 +26541,18 @@ though, and has since been slightly modified)-->
     </rule>
     <rule id="TRAIL" name="trail">
       <pattern>
-        <token regexp="yes">trail|trails</token>
+        <token regexp="yes">trails?</token>
       </pattern>
-      <message>« Trail » est un anglicisme. Employez <suggestion>chemin</suggestion>, <suggestion>sentier</suggestion>, <suggestion>piste</suggestion>.</message>
+      <message>« Trail » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)trail" regexp_replace="chemin" /></suggestion>, <suggestion><match no="1" regexp_match="(?i)trail" regexp_replace="sentier" /></suggestion>, <suggestion><match no="1" regexp_match="(?i)trail" regexp_replace="piste" /></suggestion>.</message>
       <example correction="chemin|sentier|piste"><marker>trail</marker></example>
       <example><marker>piste</marker></example>
     </rule>
     <rule id="TRAILER" name="trailer">
       <pattern>
-        <token regexp="yes">trailer|trailers</token>
+        <token regexp="yes">trailers?</token>
       </pattern>
-      <message>« Trailer » est un anglicisme. Employez <suggestion>remorque</suggestion> (derrière une voiture), <suggestion>van</suggestion> (pour les chevaux).</message>
-      <example correction="remorque|van"><marker>trailer</marker></example>
+      <message>« Trailer » est un anglicisme. Employez <suggestion><match no="1" regexp_match="(?i)trailer" regexp_replace="bande-annonce" /></suggestion> (cinéma), <suggestion><match no="1" regexp_match="(?i)trailer" regexp_replace="remorque" /></suggestion> (derrière une voiture) ou <suggestion><match no="1" regexp_match="(?i)trailer" regexp_replace="van" /></suggestion> (pour les chevaux).</message>
+      <example correction="bande-annonce|remorque|van"><marker>trailer</marker></example>
       <example><marker>remorque</marker></example>
     </rule>
     <rulegroup id="FREE-FOR-ALL" name="free-for-all">
@@ -29384,7 +29384,7 @@ though, and has since been slightly modified)-->
         <token regexp="yes">\d+.+</token>
       </antipattern>
       <pattern>
-        <token regexp="yes">[\d\.,]+([kcmµn]?m|[km]?g|°C|m?l|(kilo|méga|giga|téra|péta)?watt|[TGMK]o|ohms?|kW|[MGTP]W|mph|fps|m²|m³|m2|m3|euros?|ans|frs?|F|[mcd]?[lL]|m?s|[GMkhdcm]N|V|min|px|Mpx|[GM]Hz|[TGMKtgmk]o|mA|Ω|mcg|pts|mAh|gr)</token>
+        <token regexp="yes">[\d\.,]+([kcmµn]?m|[km]?g|°C|m?l|(kilo|méga|giga|téra|péta)?watt|[TGMK]o|ohms?|kW|[MGTP]W|mph|fps|m²|m³|m2|m3|euros?|ans|frs?|F|[mcd]?[lL]|m?s|[GMkhdcm]N|V|min|px|Mpx|[GM]?Hz|[TGMKtgmk]o|mA|Ω|mcg|pts|mAh|gr)</token>
       </pattern>
       <message>Il faut utiliser une espace insécable avant l’unité. Voulez-vous écrire <suggestion><match no="1" regexp_match="([\d\.,]+)(.*)" regexp_replace="$1 $2"/></suggestion> ?</message>
       <example correction="80 kg">Je pèse <marker>80kg</marker>.</example>
