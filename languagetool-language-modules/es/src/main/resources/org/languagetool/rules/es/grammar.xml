@@ -1067,15 +1067,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <marker>
                         <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                     </marker>
-                    <token min="0" max="2" postag_regexp="yes" postag="RN|&pronombre_personal_atono_POS;"/>
-                    <token postag="V.[SI].*" postag_regexp="yes"/>
                 </pattern>
-                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:NC.* gendernumber_from:1"/>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\3 postag:NC.* gendernumber_from:3"/>
                 <message>Si es adjetivo o nombre, se escribe con tilde.</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="fórmulas">No es solo memorizar las <marker>formulas</marker>.</example>
                 <example correction="fórmulas">Memorizarás las <marker>formulas</marker>.</example>
-                <example correction="máquina">Wspere unos segundos antes de parar la <marker>maquina</marker> para que quede bien.</example>
+                <example correction="máquina">Espere unos segundos antes de parar la <marker>maquina</marker> para que quede bien.</example>
                 <example>Cuando lo casaron se sintió libre.</example>
 
             </rule>
@@ -4155,7 +4153,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="baja$1" case_conversion="alllower"/></suggestion>
                 <example correction="bajacaliforniana">La capital <marker>baja-californiana</marker>.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>ex</token>
                     <token min="0">-</token>
@@ -4165,7 +4163,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="3" regexp_match="(?iu)(.+)" regexp_replace="ex$1" case_conversion="alllower"/></suggestion>
                 <example correction="excolonias">Las <marker>ex-colonias</marker> británicas.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token inflected="yes" regexp="yes" skip="4">quitar|poner|cargar|quedar|colgar|llevar|arrastrar|caer</token>
                     <marker>
@@ -4846,7 +4844,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Lo hecho, hecho está.</example>
             <example>A lo hecho, pecho.</example>
         </rule>
-        <rulegroup id="DESHECHO_DESECHO" name="*deshecho/desecho" default="temp_off">
+        <rulegroup id="DESHECHO_DESECHO" name="*deshecho/desecho">
             <antipattern>
                 <token inflected="yes">haber</token>
                 <token>deshecho</token>
@@ -7769,7 +7767,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>
     </category>
     <category id="PREPOSITIONS" name="Preposiciones">
-        <rulegroup id="DESCONFIAR_DE" name="desconfiar *en/de" default="temp_off">
+        <rulegroup id="DESCONFIAR_DE" name="desconfiar *en/de">
             <rule>
                 <pattern>
                     <token inflected="yes">desconfiar</token>
@@ -8052,7 +8050,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>\2</suggestion>
                 <url>http://www.wikilengua.org/index.php/Coma_de_sujeto</url>
                 <example correction="Éstas"><marker>Éstas,</marker> se dividen en tres.</example>
-                <example correction="Estas"><marker>Esas,</marker> se dividen en tres.</example>
+                <example correction="Esas"><marker>Esas,</marker> se dividen en tres.</example>
             </rule>
         </rulegroup>
         <rule id="YA_QUE" name="ya que que (con coma)">
@@ -8841,7 +8839,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Martes, 7 oct 2014</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup id="NUMBER_DAYS_MONTH" name="día máximo del mes (28, 29, 30, 31)" default="temp_off">
+        <rulegroup id="NUMBER_DAYS_MONTH" name="día máximo del mes (28, 29, 30, 31)">
             <antipattern>
                 <token regexp="yes">\d+</token>
                 <token regexp="yes">28|29|30|31</token>
