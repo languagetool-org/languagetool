@@ -1596,15 +1596,6 @@ USA
                 <example>I live in Los Angeles, CA.</example>
             </rule>
         </rulegroup>
-        <rule id="EYE_COMPOUNDS" name="eye brow/lash/lid/sight/sore (eyebrow/eyelash/eyelid/eyesight/eyesore)">
-            <pattern>
-                <token>eye</token>
-                <token inflected="yes" regexp="yes">brow|lash|sight|sore|lid</token>
-            </pattern>
-            <message>This word is usually spelt together: <suggestion><match no="1" /><match no="2" case_conversion="startlower" /></suggestion>.</message>
-            <short>Possible typo</short>
-            <example correction="eyelids">Calcium deposits on <marker>eye lids</marker></example>
-        </rule>
         <rulegroup id="FROM_FORM" name="from/form">
             <rule>
                 <pattern>
@@ -8412,7 +8403,7 @@ USA
             </antipattern>
             <antipattern>
                 <token skip="1">you</token>
-                <token regexp="yes">two|three|four|guys|experts|dudes|girls|boys|ladies|brothers|sisters|sweeties?|wives|folks?|gentlemen|gents|lads|geniuses|humans|bastards|morons|douchebags|idiots|kids|weirdos?|skanks?|traitors?|fuckers?|dicks?|devs?|developers?|people</token>
+                <token regexp="yes">two|sir|three|four|russians|jews|guys|gals|experts|dudes|girls|boys|ladies|brothers|sisters|sweeties?|wives|folks?|gentlemen|gents|lads|geniuses|humans|bastards|morons|douchebags|idiots|kids|weirdos?|skanks?|traitors?|fuckers?|dicks?|devs?|developers?|people</token>
             </antipattern>
             <rule><!-- Would you driver pick us up? -->
                 <antipattern><!-- different error -->
@@ -8478,7 +8469,7 @@ USA
                     <token postag="VB.*" postag_regexp="yes" />
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">if|when</token>
+                    <token regexp="yes">if|when|once</token>
                     <marker>
                         <token>you</token>
                     </marker>
@@ -8508,6 +8499,32 @@ USA
                 <example>Not earning miles when you fly is like keeping your money under a mattress instead of in a savings account.</example>
                 <example>Which if you recall was the best?</example>
                 <example type="triggers_error">The feeling that you have when you drive is wonderful.</example>
+            </rule>
+            <rule default="temp_off"><!-- <You> information is good -->
+                <pattern>
+                    <token postag="SENT_START" />
+                    <marker>
+                        <token>you</token>
+                    </marker>
+                    <token postag="JJ" min="0">
+                        <exception postag="VB.*" postag_regexp="yes" />
+                    </token>
+                    <token postag="NN.*" postag_regexp="yes">
+                        <exception inflected="yes" regexp="yes">be|have</exception>
+                        <exception postag="RB|MD" postag_regexp="yes" />
+                        <exception regexp="yes" inflected="yes">mean|say|want|think|believe|get|know</exception>
+                        <exception regexp="yes">cant|wont</exception><!-- different error -->
+                    </token>
+                    <token inflected="yes" regexp="yes">
+                        be|have
+                        <exception>be</exception>
+                    </token>
+                </pattern>
+                <message>Did you mean <suggestion>your</suggestion>?</message>
+                <example correction="Your"><marker>You</marker> information was helpful.</example>
+                <example correction="Your"><marker>You</marker> new coat is dirty.</example>
+                <example>You better be careful.</example>
+                <example>You sir are a gentleman and a scholar.</example>
             </rule>
             <rule><!-- I think <your> nice -->
                 <antipattern>
@@ -12513,7 +12530,7 @@ USA
                 </marker>
                 <token min="0" regexp="yes">so|very|really|not|totally|even|pretty|absolutely|still|extremely|kinda|almost|too</token>
                 <token regexp="yes">&short_adjectives;|&optional_short_adjectives;|awesome|beautiful|ready|(im)?possible|different|wrong|fine|ok(ay)?|(al)?right|available|ready|dangerous|enough|sexy|delicious|excellent|annoying|(in)?correct</token>
-                <token regexp="yes">to|for|\.|!|,|because|but|in|on|with(out)?|t?here</token>
+                <token regexp="yes">to|for|\.|!|,|because|but|in|on|with(out)?|at|t?here|from</token>
             </pattern>
             <message>Did you mean <suggestion><match no="2" postag="VBZ" /></suggestion>?</message>
             <example correction="Sounds"><marker>Sound</marker> great!</example>
@@ -12526,7 +12543,47 @@ USA
             <message>The noun <suggestion>step<match no="2" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
             <example correction="stepson">She has a <marker>step son</marker> from his previous marriage.</example>
         </rule>
-        <rule id="SIDE_COMPOUNDS" name="country side (countryside)" default="temp_off">
+        <rule id="EYE_COMPOUNDS" name="eye brow/lash/lid/sight/sore (eyebrow/eyelash/eyelid/eyesight/eyesore)">
+            <pattern>
+                <token>eye</token>
+                <token inflected="yes" regexp="yes">brow|lash|sight|sore|lid</token>
+            </pattern>
+            <message>This word is usually spelt together: <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion>.</message>
+            <short>Possible typo</short>
+            <example correction="eyelids">Calcium deposits on <marker>eye lids</marker></example>
+        </rule>
+        <rule id="LIGHT_COMPOUNDS" name="day light (daylight)" default="temp_off">
+            <antipattern case_sensitive="yes"><!-- company names -->
+                <token>Gas</token>
+                <token>Light</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">main|wall</token>
+                <token>street</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token regexp="yes">[A-Z].*</token>
+                <token>street</token>
+            </antipattern>
+            <antipattern>
+                <token>lights</token>
+                <token regexp="yes">the|an?|my|y?our|their|his|her|its|these|those|this</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="1">an?|one</token>
+                <token>lights</token>
+            </antipattern>
+            <pattern>
+                <token regexp="yes">day|flash|spot|sun|gas|candle|star|sky|street|lime|flood|earth|torch</token>
+                <token regexp="yes">lights?</token>
+            </pattern>
+            <message>This word is usually spelt together: <suggestion><match no="1" /><match no="2" case_conversion="alllower" /></suggestion>.</message>
+            <short>Possible typo</short>
+            <example correction="daylight">Vampires try to avoid the <marker>day light</marker>.</example>
+            <example>The flash lights the entire photo studio.</example>
+            <example>Sun lights the landscape, pain illuminates the soul.</example>
+        </rule>
+        <rule id="SIDE_COMPOUNDS" name="country side (countryside)">
             <pattern>
                 <token postag="DT|POS" postag_regexp="yes" />
                 <token postag="JJ.*" postag_regexp="yes" min="0">
@@ -12605,6 +12662,10 @@ USA
             <example correction="stalemate">The game ended in a <marker>stale mate</marker>.</example>
         </rule>
         <rule id="PRINT_COMPOUNDS" name="foot print (footprint)">
+            <antipattern>
+                <token regexp="yes" skip="1">an?|one</token>
+                <token>prints</token>
+            </antipattern>
             <pattern>
                 <token regexp="yes">foot|thumb|voice|blue|finger|news</token>
                 <token regexp="yes">prints?</token>
@@ -12626,7 +12687,7 @@ USA
             <antipattern><!-- https://hpletconnect.energytransfer.com/ -->
                 <token regexp="yes">houston|olympic|canyon|oasis|panhandle|foothills|williams</token>
                 <token>pipe</token>
-                <token>line</token>
+                <token regexp="yes">lines?</token>
             </antipattern>
             <antipattern><!-- https://hpletconnect.energytransfer.com/ -->
                 <token>pipe</token>
@@ -12640,7 +12701,7 @@ USA
                 <token>pipe</token>
             </antipattern>
             <pattern>
-                <token regexp="yes">dead|guide|border|pipe|base|head</token>
+                <token regexp="yes">dead|guide|border|pipe|base|head|stream|blood</token>
                 <token regexp="yes">lines?</token>
             </pattern>
             <message>This is normally spelled as one word.</message>
@@ -12663,6 +12724,10 @@ USA
                 <token>law</token>
                 <token regexp="yes">suits?</token>
                 <token regexp="yes">the|an?|his|her|their|my|y?our</token>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes" skip="1">an?|one</token>
+                <token>suits</token>
             </antipattern>
             <pattern>
                 <token>law</token>
@@ -12714,6 +12779,11 @@ USA
             <example>The bishops made Bernard secretary of the council, and charged him with drawing up the synodal statutes.</example>
         </rule>
         <rule id="MARK_COMPOUNDS" name="trade mark (trademark)">
+            <antipattern>
+                <token>trade</token>
+                <token>marks</token>
+                <token>act</token>
+            </antipattern>
             <antipattern>
                 <token>marks</token>
                 <token regexp="yes">the|an?</token>
@@ -12843,6 +12913,15 @@ USA
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
             <example correction="software">He installed the <marker>soft ware</marker> on his computer.</example>
         </rule>
+        <rule id="HAIR_COMPOUNDS" name="hair style (hairstyle)">
+            <pattern>
+                <token>hair</token>
+                <token regexp="yes">styles?|bands?|care|brush(es)?|cloths?|balls?</token>
+            </pattern>
+            <message>This is normally spelled as one word.</message>
+            <suggestion>hair<match no="2" case_conversion="alllower" /></suggestion>
+            <example correction="hairstyle">Look, I have a new <marker>hair style</marker>.</example>
+        </rule>
         <rule id="PLACE_COMPOUNDS" name="market place (marketplace)">
             <pattern>
                 <token regexp="yes">market|birth</token>
@@ -12914,8 +12993,8 @@ USA
             <pattern>
                 <token>up</token>
                 <token inflected="yes" regexp="yes">
-                    date|load|sell|coming|grade|hold|lift|set|start|side|time|roar
-                    <exception regexp="yes">timing|timed</exception>
+                    date|load|sell|coming|grade|hold|lift|set|start|side|time|roar|trend|size
+                    <exception regexp="yes">timing|timed|trending|trended</exception>
                 </token>
             </pattern>
             <message suppress_misspelled="yes">This word is normally spelled as one. Did you mean <suggestion>up<match no="2" case_conversion="alllower" /></suggestion>?</message>
@@ -12923,13 +13002,13 @@ USA
             <example>We ended up selling 131 boxes at the booth on Saturday.</example>
             <example>I am setting up time for Rick to interview these candidates next Monday.</example>
         </rule>
-        <rule id="DOWN_COMPOUND" name="up date (update)">
+        <rule id="DOWN_COMPOUND" name="down load (down load)">
             <antipattern case_sensitive="yes">
                 <token>Down</token>
                 <token>Beat</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes" regexp="yes">hold|lay|shut|cut|bring|come|close|drill|run|jump|fall|hike</token>
+                <token inflected="yes" regexp="yes">hold|lay|shut|cut|bring|come|close|drill|run|jump|fall|hike|take</token>
                 <token min="0" regexp="yes">it(self)?|that|this|th[oe]se|them|him|her|us</token>
                 <token>down</token>
             </antipattern>
@@ -12946,8 +13025,8 @@ USA
             <pattern>
                 <token>down</token>
                 <token inflected="yes" regexp="yes">
-                    load|grade|side|play|beat|fall|size|time
-                    <exception regexp="yes">timing|timed|fell|falling</exception>
+                    load|grade|side|play|beat|fall|size|time|trend
+                    <exception regexp="yes">timing|timed|fell|falling|trending|trended</exception>
                 </token>
             </pattern>
             <message suppress_misspelled="yes">This word is normally spelled as one. Did you mean <suggestion>down<match no="2" case_conversion="alllower" /></suggestion>?</message>
@@ -12983,7 +13062,7 @@ USA
                 <token>out</token>
             </antipattern>
             <antipattern>
-                <token inflected="yes">roll</token>
+                <token inflected="yes" regexp="yes">roll|knock</token>
                 <token>out</token>
             </antipattern>
             <antipattern>
@@ -12995,7 +13074,7 @@ USA
                 <token postag="JJ.*" postag_regexp="yes" min="0" />
                 <marker>
                     <token>out</token>
-                    <token regexp="yes">breaks?|dated|looks?|comes?|puts?|laws?|calls?|lines?|sides?|backs?|casts?|liners?|bound|standing</token>
+                    <token regexp="yes">breaks?|dated|looks?|comes?|puts?|laws?|calls?|lines?|sides?|backs?|casts?|liners?|bound|standing|rage[ds]?|raging</token>
                 </marker>
             </pattern>
             <message>The word <suggestion>out<match no="4" case_conversion="alllower" /></suggestion> is spelled as one word.</message>
@@ -13063,6 +13142,12 @@ USA
                 <token>earth</token>
                 <token>house</token>
                 <token>hold</token>
+            </antipattern>
+            <antipattern case_sensitive="yes">
+                <token />
+                <token />
+                <token regexp="yes">House|HOUSE</token>
+                <token>holds</token>
             </antipattern>
             <pattern>
                 <token>house</token>
@@ -13230,7 +13315,7 @@ USA
             </antipattern>
             <pattern>
                 <token>super</token>
-                <token regexp="yes">markets?|moons?|delegates?|tankers?|glues?|spreaders?|hero(es)?|chargers?</token>
+                <token regexp="yes">markets?|moons?|delegates?|tankers?|glues?|spreaders?|hero(es)?|chargers?|models?</token>
             </pattern>
             <message>This noun is normally spelled as one word.</message>
             <suggestion><match no="1" case_conversion="alllower" /><match no="2" case_conversion="alllower" /></suggestion>
@@ -13347,7 +13432,7 @@ USA
             </antipattern>
             <antipattern>
                 <token>way</token>
-                <token regexp="yes">too|back|ahead|behind|before|after|off|out|in|up|into|down|over|under|from</token>
+                <token regexp="yes">too|back|ahead|behind|before|after|off|out|in|up|into|down|over|under|from|past</token>
             </antipattern>
             <antipattern>
                 <token>way</token>
@@ -13423,7 +13508,7 @@ USA
             </antipattern>
             <pattern>
                 <!-- TODO: friendship (My friend ships ...) -->
-                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee|citizen|scholar|owner|controller|dictator|champion|fellow|censor</token>
+                <token regexp="yes">space|relation|intern|member|leader|mentor|flag|town|trainee|citizen|scholar|owner|controller|dictator|champion|fellow|censor|apprentice</token>
                 <token regexp="yes">ships?</token>
             </pattern>
             <message>This noun is normally spelled as one.</message>
@@ -13736,7 +13821,9 @@ USA
             <rule>
                 <pattern>
                     <token>under</token>
-                    <token inflected="yes" regexp="yes">appreciate|estimate|achieve|whelm|line|rate|report|represent|mine|score|stand|go|take|cut|lie</token>
+                    <token inflected="yes" regexp="yes">
+                        appreciate|estimate|achieve|whelm|line|rate|report|represent|mine|score|stand|go|take|cut|lie
+                    </token>
                 </pattern>
                 <message>This is normally spelled as one word.</message>
                 <suggestion>under<match no="2" case_conversion="alllower" /></suggestion>
@@ -13754,7 +13841,7 @@ USA
             <rule>
                 <pattern>
                     <token>under</token>
-                    <token regexp="yes">pants|water|neath</token>
+                    <token regexp="yes">pants|water|neath|wear</token>
                 </pattern>
                 <message>This is normally spelled as one word.</message>
                 <suggestion>under<match no="2" case_conversion="alllower" /></suggestion>
@@ -13763,7 +13850,7 @@ USA
         </rulegroup>
         <rulegroup id="OVER_COMPOUNDS" name="over complicated (overcomplicated)">
             <antipattern>
-                <token skip="-1" inflected="yes" regexp="yes">prefer|wear|advantage|recommend|bend|lean|roll|jump|retain|take|convern</token>
+                <token skip="-1" inflected="yes" regexp="yes">hang|prefer|wear|advantage|recommend|bend|lean|roll|jump|retain|take|convern</token>
                 <token>over</token>
             </antipattern>
             <antipattern>
@@ -13803,11 +13890,24 @@ USA
                 <token inflected="yes" skip="-1">charge</token>
                 <token regexp="yes">rates?</token>
             </antipattern>
+            <antipattern case_sensitive="yes">
+                <token>over</token>
+                <token>React</token>
+            </antipattern>
+            <antipattern>
+                <token>react</token>
+                <token regexp="yes">framework|js|plugins?|librar(y|ies)|code|components?|javascript</token>
+            </antipattern>
+            <antipattern>
+                <token>react</token>
+                <token>.</token>
+                <token regexp="yes">com|js</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>over</token>
                     <token inflected="yes" regexp="yes">
-                        complicate|think|come|estimate|haul|flow|kill|look|whelm|reach|see|view|wear|rate|take
+                        complicate|think|come|estimate|haul|flow|kill|look|whelm|reach|see|view|wear|rate|take|size|sizing|sized|react
                         <exception postag="VBG" /><!-- see [3] -->
                     </token>
                 </pattern>
@@ -13821,6 +13921,7 @@ USA
                 <example>A mother was leaning over looking for meat and turned around to find her 4 yr.</example>
                 <example>PUC retains jurisdiction over rates.</example>
                 <example>We can take over reports on storage inventory.</example>
+                <example>Just to comment, our add-on is built over React framework.</example>
             </rule>
             <rule>
                 <pattern>
@@ -14301,6 +14402,20 @@ USA
             </rule>
         </rulegroup>
         <rulegroup id="IT_ITS" name="confusion of 'it' and 'its'"><!-- needs higher prio than PRP_VB, PRP_VBZ and PRP_JJ, but less than PRP_PORTRAIT  -->
+            <rule>
+                <pattern>   
+                    <token>times</token>
+                    <marker>
+                        <token>it</token>
+                        <token regexp="yes" min="0">&apostrophe;</token>
+                        <token min="0">s</token>
+                    </marker>
+                    <token min="0">original</token>
+                    <token regexp="yes">size|weight|width|volume|length|height</token>
+                </pattern>
+                <message>It seems that the possessive pronoun <suggestion>its</suggestion> fits better in this context. Please verify.</message>
+                <example correction="its">It increased to ten times <marker>it</marker> size.</example>
+            </rule>
             <rule><!--- "... Google and it new service" -->
                 <antipattern>
                     <token>it</token>
@@ -19306,7 +19421,7 @@ USA
             </antipattern>
             <antipattern> <!-- "Please click the unsubscribe link at the end of the mail" (TODO: we should probably have a rule that suggests putting the verb in quotes) -->
                 <token postag="VBP?" postag_regexp="yes" />
-                <token regexp="yes">CTAs?|commands?|queues?|buttons?|events?|macros?|links?|teasers?|attributes?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?|modes?|screens?|errors?|tools?|operations?</token>
+                <token regexp="yes">CTAs?|files?|teams?|commands?|queues?|buttons?|events?|macros?|links?|teasers?|attributes?|icons?|keys?|functions?|functionalit(y|ies)|methods?|features?|page|parameters?|options?|steps?|columns?|plans?|sections?|signals?|actions?|process(es)?|modes?|screens?|errors?|tools?|operations?</token>
             </antipattern>
             <antipattern> <!-- this is better covered by rule ALTER_BOY -->
                 <token regexp="yes">at|to|worship(s|ped)?|around</token>
@@ -22563,7 +22678,7 @@ USA
                 <example correction="Google">He was searching on <marker>goggle</marker>.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="TWITTER" name="twitter (Twitter)" default="temp_off">
+        <rulegroup id="TWITTER" name="twitter (Twitter)">
             <rule>
                 <pattern>
                     <token regexp="yes">on|via|at</token>
@@ -22596,7 +22711,7 @@ USA
                     </marker>
                     <token min="0" regexp="yes">&apostrophe;</token>
                     <token min="0">s</token>
-                    <token regexp="yes">accounts?|repl(y|ies)|trends?|C[FTMECO]O|employees?|managers?|engineers?|APIs?|dms?|usages?|usernames?|stock|shareholders?|investors?|users?|founders?|apps?|acquire[ds]?]announce[sd]?|web(site)?|homepage|shares?|released?|introduce[sd]?|feeds?|acquisitions?</token>
+                    <token regexp="yes">accounts?|repl(y|ies)|trends?|profiles?|avatar|C[FTMECO]O|employees?|managers?|engineers?|APIs?|dms?|usages?|usernames?|stock|shareholders?|investors?|users?|founders?|apps?|acquire[ds]?]announce[sd]?|web(site)?|homepage|shares?|released?|introduce[sd]?|feeds?|acquisitions?|bots?</token>
                 </pattern>
                 <message>Did you mean <suggestion>Twitter</suggestion> (= microblogging service, capitalized)?</message>
                 <example correction="Twitter">I have a <marker>twitter</marker> account.</example>
@@ -23353,6 +23468,15 @@ USA
             <url>https://en.wikipedia.org/wiki/Mercedes-Benz</url>
             <example correction="Mercedes-Benz"><marker>Mercedes Benz</marker> is a German car brand.</example>
         </rule>
+        <rule id="ROLLS_ROYCE" name="Rolls Royce (Rolls-Royce)">
+            <pattern case_sensitive="no">
+                <token>Rolls</token>
+                <token>Royce</token>
+            </pattern>
+            <message>This car brand is normally spelled with a hyphen <suggestion>Rolls-Royce</suggestion>.</message>
+            <url>https://en.wikipedia.org/wiki/Rolls-Royce</url>
+            <example correction="Rolls-Royce"><marker>Rolls Royce</marker> is a British car brand.</example>
+        </rule>
         <rule id="JAY_Z" name="Jay Z (Jay-Z)">
             <pattern case_sensitive="no">
                 <token>Jay</token>
@@ -23471,6 +23595,27 @@ USA
             <url>https://en.wikipedia.org/wiki/McDonald%27s</url>
             <example correction="McDonald's">I always eat lunch at <marker>Mcdonalds</marker>.</example>
         </rule>
+        <rule id="VICTORIAS_SECRET" name="Victoria's Secret" default="temp_off">
+            <pattern>
+                <token regexp="yes">Victorias?</token>
+                <token>
+                    Secret
+                    <exception scope="next">&apostrophe;</exception>
+                </token>
+            </pattern>
+            <message>Did you mean the lingerie company <suggestion>Victoria's Secret</suggestion> (capitalized and spelled with a possessive apostrophe)?</message>
+            <url>https://en.wikipedia.org/wiki/Victoria's_Secret</url>
+            <example correction="Victoria's Secret">She is wearing hear new <marker>Victorias Secret</marker> underwear.</example>
+        </rule>
+        <rule id="UNCLE_BENS" name="UNCLE_BENS" default="temp_off">
+            <pattern>
+                <token>Uncle</token>
+                <token>Bens</token>
+            </pattern>
+            <message>Did you mean the rice brand <suggestion>Uncle Ben's</suggestion> (capitalized and spelled with a possessive apostrophe)?</message>
+            <url>https://en.wikipedia.org/wiki/Uncle_Ben's</url>
+            <example correction="Uncle Ben's">I like to eat <marker>Uncle Bens</marker> rice.</example>
+        </rule>
         <rule id="KELLOGGS" name="Kellogg's">
             <pattern>
                 <token regexp="yes">Kell?ogg?s</token>
@@ -23563,9 +23708,9 @@ USA
         <rule id="FORREST_GUMP" name="Forest (Forrest) Gump">
             <pattern>
                 <token>forest</token>
-                <token>gump</token>
+                <token regexp="yes">gump|mars|griffin|tucker</token>
             </pattern>
-            <message>Did you mean <suggestion>Forrest Gump</suggestion> (= movie)?</message>
+            <message>Did you mean the person <suggestion>Forrest <match no="2" case_conversion="startupper" /></suggestion>?</message>
             <url>https://en.wikipedia.org/wiki/Forrest_Gump</url>
             <example correction="Forrest Gump">He watched <marker>forest gump</marker> in his favorite cinema.</example>
         </rule>
@@ -23995,6 +24140,35 @@ USA
             <suggestion>\1-\2 \3</suggestion>
             <example correction="one-night stand">Tom and Mary had a <marker>one night stand</marker>.</example>
         </rule>
+        <rulegroup id="IN_APP_HYPHEN" name="missing hyphen in 'in app'" default="temp_off">
+            <url>https://www.lexico.com/en/definition/in-app</url>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token>in</token>
+                        <token>app</token>
+                    </marker>
+                    <token regexp="yes">purchases?|cameras?</token>
+                </pattern>
+                <message>The adjective <suggestion>\1-\2</suggestion> is spelled with a hyphen.</message>
+                <example correction="in-app">They earned all their money through <marker>in app</marker> purchases.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token regexp="yes">the|an?|my|y?our|their|his|of|its|through|at|for|from</token>
+                    <token postag="JJ.*" postag_regexp="yes" min="0">
+                        <exception regexp="yes">logged|signed</exception>
+                    </token>
+                    <marker>
+                        <token>in</token>
+                        <token>app</token>
+                    </marker>
+                </pattern>
+                <message>The adjective <suggestion>\3-\4</suggestion> is spelled with a hyphen.</message>
+                <example correction="in-app">Most of their revenue came from <marker>in app</marker> purchases.</example>
+                <example>Only Tech Support can knock out a logged in App session.</example>
+            </rule>
+        </rulegroup>
         <rule id="RUNNER_UP_HYPHEN" name="runnner-up">
             <antipattern>
                 <token>up</token>
@@ -24015,7 +24189,7 @@ USA
             <example>They chased the runners up the hill.</example>
             <example>Tom pulled his knees up to his chest.</example>
         </rule>
-        <rulegroup id="HOW_TO_HYPHEN" name="the how to (how-to)" default="temp_off">
+        <rulegroup id="HOW_TO_HYPHEN" name="the how to (how-to)">
             <url>https://www.merriam-webster.com/dictionary/how-to</url>
             <rule>
                 <antipattern>
@@ -28775,16 +28949,20 @@ USA
             <example>A <marker>woman</marker> walked into the room.</example>
         </rule>
         <rule id="HAVE_TWITTER" name="have twitter (have Twitter / have twittered)"><!-- needs higher PRIO than HAVE_PART_AGREEMENT -->
+            <antipattern>
+                <token skip="6">visa</token>
+                <token regexp="yes">requirements|restrictions|approvals|processes|rejections</token>
+            </antipattern>
             <pattern>
-                <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
-                <token regexp="yes" case_sensitive="yes">twitter|skype|excel|google|zoom|slack|photoshop|sketch</token><!-- nouns that, in lowercase, are verbs -->
+                <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve|used?</token>
+                <token regexp="yes" case_sensitive="yes">twitter|skype|excel|google|zoom|slack|photoshop|sketch|visa</token><!-- nouns that, in lowercase, are verbs -->
             </pattern>
             <message>Did you mean the proper noun or did you want to use it as a verb?</message>
             <suggestion>\1 <match no="2" case_conversion="startupper" /></suggestion>
             <suggestion>\1 <match no="2" postag="VBN" /></suggestion>
             <example correction="have Twitter|have twittered">I <marker>have twitter</marker>.</example>
+            <example>Some countries also have visa and/or health requirements.</example>
         </rule>
-
         <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: 'have' + past/present tense">
             <rule>
                 <antipattern>
@@ -34804,6 +34982,16 @@ USA
             </pattern>
             <message>Did you mean <suggestion>didn't</suggestion>?</message>
             <example correction="didn't">He <marker>dint</marker> know about it.</example>
+        </rule>
+        <rule id="I_EM" name="I em (am)">
+            <pattern>
+                <marker>
+                    <token>I</token>
+                    <token>em</token>
+                </marker>
+            </pattern>
+            <message>Did you mean <suggestion>I am</suggestion>?</message>
+            <example correction="I am"><marker>I em</marker> very happy.</example>
         </rule>
         <rule id="ANI_T" name="he ani't (ani't)">
             <pattern>
@@ -46650,21 +46838,35 @@ The accident victim died from her injuries.
       <example>Mary was asked to dances occasionally.</example>
     </rule>
     <rule id='AT_IN_THE_KITCHEN' name='Collocation: at/in the room'>
+        <antipattern>
+            <token>room</token>
+            <token regexp="yes">tables?|doors?|windows?|pressure</token>
+        </antipattern>
+        <antipattern>
+            <token>kitchen</token>
+            <token regexp="yes">counters?|sinks?|tables?|island|door</token>
+        </antipattern>
+        <antipattern>
+            <token>kitchen</token>
+            <token regexp="yes">counters?|sinks?|tables?|island|door</token>
+        </antipattern>
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
       <pattern>
         <token>
-            <exception inflected="yes" regexp='yes'>look|shoot</exception>
+            <exception inflected="yes" regexp='yes'>look|shoot|stare|point|glance|howl</exception>
         </token>
         <marker>
           <token>at</token>
           <token>the</token>
           <token regexp="yes">living(room)?|kitchen|bedroom|dining|room|bathroom|attic|ballroom|cellar|hall|pantry|toilet</token><!--|library|office-->
         </marker>
-        <token><exception>table</exception></token>
+        <token><exception regexp="yes">tables?|&apostrophe;</exception></token>
       </pattern>
       <message>This is a collocation error. Use "in" for rooms. Revise: <suggestion>in \3 \4</suggestion>.</message>
       <example correction="in the kitchen">The plant is <marker>at the kitchen</marker>.</example>
       <example>He sat at the dining table.</example>
+      <example>He was sitting at the kitchen counter.</example>
+      <example>He was sitting at the kitchen's table.</example>
     </rule>
     <rule id='INVOICE_OF_FOR' name='Collocation: invoice of/for'>
     <!-- Created by Nicholas Walker (Bokomaru), 2018-05-16 -->
@@ -50746,7 +50948,7 @@ The accident victim died from her injuries.
                 <example correction="plain and simple">It works just like that, <marker>plane and simple</marker>.</example>
                 <example>Plain and simply the best SEO plugin.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <antipattern>
                     <token>in</token>
                     <token>plain</token>
@@ -51421,13 +51623,14 @@ The accident victim died from her injuries.
                 <pattern>
                     <token regexp="yes" case_sensitive="yes" postag="PRP">I|[Yy]ou|[Ww]e|[Tt]hey|[Hh]e|[Ss]he|[Ii]t</token>
                     <marker>
-                        <token>one</token>
+                        <token regexp="yes">ones?</token>
                     </marker>
                     <token postag="VBD" />
                 </pattern>
                 <message>Did you mean <suggestion>once</suggestion>?</message>
                 <example correction="once">I <marker>one</marker> had a car.</example>
                 <example correction="once">I have built up my strength far from what it <marker>one</marker> was.</example>
+                <example correction="once">She <marker>ones</marker> told me a story.</example>
             </rule>
             <rule>
                 <pattern>
