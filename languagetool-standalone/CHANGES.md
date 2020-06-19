@@ -56,6 +56,12 @@
   * added and improved rules
   * new tagger dictionary by Jaume Ortolà, LGPL, source: https://github.com/jaumeortola/spanish-dict-tools
 
+#### Ukrainian
+  * dictionary update, including many rare and slang words
+  * new rules
+  * tokenization and tagging improvements
+  * disambiguation improvements
+
 #### General
   * added `replace_custom.txt` for several languages so users can have their own very simple replace
     rules without worrying about updates (they still need to copy the file to the new LT version, though).
