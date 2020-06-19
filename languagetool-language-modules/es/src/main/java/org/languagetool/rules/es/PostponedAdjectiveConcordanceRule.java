@@ -124,6 +124,7 @@ public class PostponedAdjectiveConcordanceRule extends Rule {
                    Example.fixed("Análisis <marker>clínicos</marker>."));
     addExamplePair(Example.wrong("Tengo dos mesas <marker>blancos</marker>."),
                    Example.fixed("Tengo dos mesas <marker>blancas</marker>."));
+    this.setDefaultTempOff();
   }
 
   @Override
