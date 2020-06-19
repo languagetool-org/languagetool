@@ -56,7 +56,8 @@ public class SimpleReplaceVerbsRule extends AbstractSimpleReplaceRule {
 
   private static final String endings = "a|aba|abais|aban|abas|ad|ada|adas|ado|ados|amos|an|ando|ar|ara|"
       + "arais|aran|aras|are|areis|aremos|aren|ares|aron|ará|arán|arás|aré|aréis|aría|aríais|aríamos|arían|"
-      + "arías|as|ase|aseis|asen|ases|aste|asteis|e|emos|en|es|o|ábamos|áis|áramos|áremos|ásemos|é|éis|ó";
+      + "arías|as|ase|aseis|asen|ases|aste|asteis|e|emos|en|es|o|ábamos|áis|áramos|áremos|ásemos|é|éis|ó|"
+      + "arse|arme|arte|arlos|arles|arlas|arnos|aros";
   private static final Pattern desinencies_1conj_0 = Pattern.compile("(.+?)(" + endings + ")");
   private static final Pattern desinencies_1conj_1 = Pattern.compile("(.+)(" + endings + ")");
   private SpanishTagger tagger;
