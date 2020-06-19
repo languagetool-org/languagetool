@@ -179,7 +179,7 @@ public class CaseRule extends Rule {
     ),
     // names with english adjectives
     Arrays.asList(
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive"),
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend"),
       pos("UNKNOWN")
     ),
     Arrays.asList(
@@ -202,7 +202,7 @@ public class CaseRule extends Rule {
     // names with english adjectives
     Arrays.asList(
       pos("UNKNOWN"),
-      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive")
+      regex("Digital|Global|Smart|International|Trade|Private|Live|Urban|Man|Total|Native|Imperial|Modern|Responsive|Simple|Legend")
     ),
     // names with english adjectives
     Arrays.asList(
@@ -502,12 +502,16 @@ public class CaseRule extends Rule {
       csToken("Time")
     ),
     Arrays.asList( // Hey Süßer,
-      regex("Hey|Hi|Hallo|Na"),
+      regex("Hey|Hi|Hallo|Na|Moin|Servus"),
       regex("Süßer?|Hübscher?"),
       pos("PKT")
     ),
+    Arrays.asList( // Hey Matt (name),
+      regex("Hey|Hi|Hallo|Na|Moin|Servus"),
+      regex("Matt"),
+    ),
     Arrays.asList( // Hey mein Süßer,
-      regex("Hey|Hi|Hallo|Na"),
+      regex("Hey|Hi|Hallo|Na|Moin|Servus"),
       regex("du|meine?"),
       regex("Süßer?|Hübscher?"),
       pos("PKT")
