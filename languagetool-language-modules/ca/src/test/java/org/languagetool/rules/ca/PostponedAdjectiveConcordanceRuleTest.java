@@ -32,14 +32,14 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Jaume Ortolà
  */
-public class ComplexAdjectiveConcordanceRuleTest {
+public class PostponedAdjectiveConcordanceRuleTest {
 
-  private ComplexAdjectiveConcordanceRule rule;
+  private PostponedAdjectiveConcordanceRule rule;
   private JLanguageTool langTool;
 
   @Before
   public void setUp() throws IOException {
-    rule = new ComplexAdjectiveConcordanceRule(TestTools.getEnglishMessages());
+    rule = new PostponedAdjectiveConcordanceRule(TestTools.getEnglishMessages());
     langTool = new JLanguageTool(new Catalan());
   }
 

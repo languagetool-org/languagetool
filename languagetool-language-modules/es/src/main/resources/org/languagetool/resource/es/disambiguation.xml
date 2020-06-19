@@ -2064,6 +2064,62 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="remove" postag="D.*"/>
     </rule>
+    
+    <rulegroup id="Nom_AdjNotAgrees" name="nombre + adjectivo que no ha concordado">
+        <rule>
+            <pattern>
+                <token postag="N.*" postag_regexp="yes"><exception postag="V.*|A.*|complement.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">palabra|término|expresión|vocablo|nombre|tipo|denominación</exception></token>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.+</exception></token>
+                        <token postag="V.P.*|AQ.*" postag_regexp="yes"><exception postag="_GN.*|SPS00|V.[GMIS].*|CC|RG.*" postag_regexp="yes"/></token>
+                        <!--  exc. just allà -->
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.P.*|AQ.*"/>
+        </rule>
+        <rule>
+            <!-- problema: poden crear de forma espontània parells electró-positró. -->
+            <pattern>
+                <and>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="_GN_.*" postag_regexp="yes"/>
+                </and>
+                <and>
+                    <token postag="A.*" postag_regexp="yes"/>
+                    <token postag="_GN_.*" postag_regexp="yes"/>
+                </and>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="V.P.*|AQ.*" postag_regexp="yes"><exception postag="_GN.*|SPS00|V.[GMIS].*|CC|RG.*" postag_regexp="yes"/></token>
+                        <!--  exc. just allà -->
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.P.*|AQ.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <unify>
+                    <feature id="numero"/>
+                    <feature id="genero"/>
+                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="RG_anteposat"/>
+                    <token postag="A.*" postag_regexp="yes"/>
+                </unify>
+                <marker>
+                    <and>
+                        <token postag="N.*" postag_regexp="yes"/>
+                        <token postag="V.P.*|AQ.*" postag_regexp="yes"><exception postag="_GN.*|SPS00|V.[GMIS].*|CC|RG.*" postag_regexp="yes"/></token>
+                        <!--  exc. just allà -->
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="V.P.*|AQ.*"/>
+        </rule>
+    </rulegroup>
 
 
     <rule id="tanto_no_det" name="tanto: no determinant">
