@@ -2070,6 +2070,18 @@ RB => Règles Brutes
         * 10m2
     -->
     <rule>
+      <pattern>
+        <token regexp="yes">([01]?\d|2[0-3])h[0-5]?\d(min|m)([0-5]?\ds)?</token>
+      </pattern>
+      <disambig action="ignore_spelling"></disambig>
+    </rule>
+    <rule>
+      <pattern>
+        <token regexp="yes">[0-5]?\d(min|m)[0-5]?\ds</token>
+      </pattern>
+      <disambig action="ignore_spelling"></disambig>
+    </rule>
+    <rule>
       <pattern><!-- inch 5'20 (Canadians colloquially use feet and inches, see https://www.tripadvisor.com/Travel-g153339-c15311/Canada:Metric.System.html) -->
         <token regexp="yes">\d+</token>
         <token spacebefore="no">'</token>

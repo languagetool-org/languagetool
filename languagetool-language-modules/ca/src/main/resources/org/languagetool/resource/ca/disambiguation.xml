@@ -7391,7 +7391,7 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <token postag="A.*" postag_regexp="yes" inflected="yes">doble</token>
             <token postag="N.*" postag_regexp="yes" inflected="yes">moral</token>
         </pattern>
-        <disambig action="filterall"></disambig>
+        <disambig action="filterall"/>
     </rule>
     <rule id="alt_baix" name="alt/baix adjectius davant de nom">
         <pattern>
@@ -15712,6 +15712,20 @@ Copyright (C) 2012 Jaume Ortolà i Font
             <disambig action="add">
                 <wd pos="NPCN000"/>
             </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="ignore_numbers" name="ignore spelling numbers">
+        <rule>
+            <pattern>
+                <token regexp="yes">([01]?\d|2[0-3])h[0-5]?\d(min|m)([0-5]?\ds)?</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">[0-5]?\d(min|m)[0-5]?\ds</token>
+            </pattern>
+            <disambig action="ignore_spelling"/>
         </rule>
     </rulegroup>
     <rulegroup id="onomatopeies" name="algunes onomatopeies">
