@@ -8336,6 +8336,21 @@ though, and has since been slightly modified)-->
               <message>Confusion possible : "a" est une conjuguaison du verbe avoir. Vouliez-vous dire <suggestion>à</suggestion>.</message>
               <example correction="à">Nous pouvons mettre au point des projets complexes dû <marker>a</marker> nos connaissances et expériences.</example>
           </rule>
+          <rule>
+              <antipattern>
+                  <token>à</token>
+                  <token regexp="yes">c[oô]té</token>
+              </antipattern>
+              <pattern>
+                  <token>mais</token>
+                  <marker>
+                      <token>à</token>
+                  </marker>
+                  <token postag="V.* ppa m s" postag_regexp="yes"/>
+              </pattern>
+              <message>« \1 » et « \2 » ne peuvent ici pas se suivre. Veuillez vérifier.</message>
+              <example correction="">Mais <marker>à</marker> causé énormément</example>
+          </rule>
       </rulegroup>
       <rulegroup id="AN_ANNEE" name="Confusion an/année">
           <rule>
