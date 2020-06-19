@@ -29,9 +29,6 @@ import org.languagetool.AnalyzedToken;
 import org.languagetool.Language;
 import org.languagetool.synthesis.BaseSynthesizer;
 
-import morfologik.stemming.IStemmer;
-import morfologik.stemming.WordData;
-
 /**
  * Catalan word form synthesizer.
  * 
@@ -99,13 +96,12 @@ public class CatalanSynthesizer extends BaseSynthesizer {
       p = Pattern.compile(posTag);
     }
     List<String> results = new ArrayList<>();
-    IStemmer synthesizer = createStemmer();
     
     for (String tag : possibleTags) {
       Matcher m = p.matcher(tag);
       if (m.matches()) {
         if (addDt) {
-          lookupWithEl(token.getLemma(), tag, prep, results, synthesizer);
+          lookupWithEl(token.getLemma(), tag, prep, results);
         } else {
           results.addAll(lookup(token.getLemma(), tag));
         }
@@ -187,16 +183,14 @@ public class CatalanSynthesizer extends BaseSynthesizer {
    * @param lemma the lemma to be inflected.
    * @param posTag the desired part-of-speech tag.
    * @param results the list to collect the inflected forms.
-   * @param synthesizer the stemmer to use.
    */
-  private void lookupWithEl(String lemma, String posTag, String prep, List<String> results, IStemmer synthesizer) {
-    List<WordData> wordForms = synthesizer.lookup(lemma + "|" + posTag);
+  private void lookupWithEl(String lemma, String posTag, String prep, List<String> results) {
+    List<String> wordForms = lookup(lemma, posTag);
     Matcher mMS = pMS.matcher(posTag);
     Matcher mFS = pFS.matcher(posTag);
     Matcher mMP = pMP.matcher(posTag);
     Matcher mFP = pFP.matcher(posTag);
-    for (WordData wd : wordForms) {
-      String word = wd.getStem().toString();
+    for (String word : wordForms) {
       if (mMS.matches()) {
         Matcher mMascYes = pMascYes.matcher(word);
         Matcher mMascNo = pMascNo.matcher(word);

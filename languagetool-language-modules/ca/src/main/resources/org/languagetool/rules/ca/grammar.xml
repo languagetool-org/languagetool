@@ -238,6 +238,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
         </rulegroup>
         <rulegroup  id="NUMBER_DAYS_MONTH" name="dia màxim del mes (28, 29, 30, 31)" default="temp_off">
+            <antipattern>
+                <token regexp="yes">\d+</token>
+                <token regexp="yes">28|29|30|31</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <marker>
@@ -2284,7 +2288,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token postag="A.*" postag_regexp="yes">bon</token>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">bon|bones</token>
                     <token postag="N.MP.*" postag_regexp="yes"><exception postag="N.CN.*|V.[PIS].*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Error de concordança.</message>
@@ -2292,6 +2296,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion suppress_misspelled="yes">bons <match no="2" postag="N.[MC][PN].*" postag_regexp="yes"/></suggestion>
                 <short>Error de concordança</short>
                 <example correction="Bon amic|Bons amics"><marker>Bon amics</marker>.</example>
+                <example correction="bon costum|bons costums">Contrària a les <marker>bones costums</marker>.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -2416,7 +2421,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <marker>
                             <token postag="V.P.*" postag_regexp="yes"><exception postag="_GV_|V.[MIS].*|RG|ignore_concordance|complement.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes"
                                 >titular|a?nomenar|dir|denominar|plegats|cognomenar|declarar|morir|incloure|esmentar</exception><exception>mes</exception></token>
-                            <token postag="N.M.*" postag_regexp="yes"><exception postag="_GN_.*|A.*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/></token>
+                            <token postag="N.M.*" postag_regexp="yes"><exception postag="_GN_.*|A.*|ignore_concordance|.*LOC_ADV.*" postag_regexp="yes"/><exception regexp="yes">&dies_setmana;</exception></token>
                         </marker>
                     </unify>
                 </pattern>
@@ -2439,6 +2444,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Encara que hi ha hagut intents de vincular-los</example>
                 <example>que les fetes anys abans a Ferrer de Poblenou</example>
                 <example>Igualada deu la seva existència a les contradiccions.</example>
+                <example>que s'havien de sumar als quatre atesos diumenge</example>
             </rule>
             <rule>
                 <antipattern>
