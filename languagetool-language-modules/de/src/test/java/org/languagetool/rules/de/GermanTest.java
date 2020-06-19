@@ -176,7 +176,7 @@ public class GermanTest extends LanguageSpecificTest {
 
   // only works for e.g.: foo|baß|bla
   private boolean containsSwitzerlandSpelling(String pattern) {
-    String[] parts = pattern.split("\\|");
+    String[] parts = pattern.split("[|()]");
     for (String part : parts) {
       if (part.contains("ß")) {
         if (!cleanSyntax(pattern).contains(cleanSyntax(part).replace("ß", "ss"))) {
