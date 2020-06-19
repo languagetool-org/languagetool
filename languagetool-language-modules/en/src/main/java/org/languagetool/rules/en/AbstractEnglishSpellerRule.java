@@ -136,6 +136,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
                      !k.getReplacement().startsWith("inter ") &&
                      !k.getReplacement().startsWith("sub ") &&
                      !k.getReplacement().startsWith("auto ") &&
+                     !k.getReplacement().startsWith("dis ") &&
                      !k.getReplacement().endsWith(" able") &&
                      !k.getReplacement().endsWith(" OO") && // unecessary suggestion (e.g. for "HELLOOO")
                      !k.getReplacement().endsWith(" HHH") && // unecessary suggestion (e.g. for "OHHHH")
@@ -601,6 +602,7 @@ public abstract class AbstractEnglishSpellerRule extends MorfologikSpellerRule {
     s.put("Wierd", Arrays.asList("Weird"));
     s.put("hiphop", Arrays.asList("hip-hop"));
     s.put("HipHop", Arrays.asList("Hip-Hop"));
+    s.put("gove", Arrays.asList("love", "give", "gave", "move"));
 
     return s;
   }
