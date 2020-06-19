@@ -27,6 +27,7 @@ Copyright (C) 2011 Juan Martorell
     <!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las">
     <!ENTITY nombre_fem_el "África|aguadulce|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
     <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
+    <!ENTITY denominacion "palabra|término|expresión|vocablo|nombre|tipo|denominación">
 
 ]>
 
@@ -905,6 +906,12 @@ Copyright (C) 2011 Juan Martorell
             </pattern>
             <disambig action="filterall"/>
         </rule>
+        <rule>
+            <pattern>
+                <token>temprano<exception postag="_GN_MS"/></token>
+            </pattern>
+            <disambig action="filter" postag="RG"/>
+        </rule>
     </rulegroup>
 
     <rulegroup id="no" name="no">
@@ -1364,7 +1371,7 @@ Copyright (C) 2011 Juan Martorell
             <token postag="V.[SI].*" postag_regexp="yes"/>
         </pattern>
         <disambig action="filter" postag="RG"/>
-    </rule>
+    </rule> 
 
     <rulegroup id="verbnoun_verb" name="verb/noun + verb">
         <antipattern>
@@ -1494,13 +1501,37 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token inflected="yes" regexp="yes">y|o</token>
+                <token inflected="yes" regexp="yes">y|o|nada</token>
             </pattern>
             <disambig action="remove" postag="NC.*"/>
         </rule>
         <rule>
             <pattern>
                 <token>hemos</token>
+            </pattern>
+            <disambig action="remove" postag="NC.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">ser<exception postag="D..MS." postag_regexp="yes"/></token>
+            </pattern>
+            <disambig action="remove" postag="NC.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">habla<exception postag="D..FS." postag_regexp="yes" scope="previous"/><exception scope="previous">el</exception></token>
+            </pattern>
+            <disambig action="remove" postag="NC.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">hablas<exception postag="D..FP." postag_regexp="yes" scope="previous"/></token>
+            </pattern>
+            <disambig action="remove" postag="NC.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token regexp="yes">haces<exception postag="D..MP." postag_regexp="yes" scope="previous"/></token>
             </pattern>
             <disambig action="remove" postag="NC.*"/>
         </rule>
@@ -2065,10 +2096,35 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="D.*"/>
     </rule>
     
+    <rule id="noun_nounverb" name="noun + verb/noun">
+        <pattern>
+            <token postag="N.*" postag_regexp="yes"><exception postag="V.*|D.*|A.*|V.P.*|_GV_|C.*|RG.*|complement|.*LOC.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&denominacion;|numeral</exception></token>
+            <marker>
+                <and>
+                    <token postag="V.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception></token>
+                    <token postag="N.*" postag_regexp="yes"><exception postag="_GN_.*|A.*|V.P.*|PX.*|VMIP1S0.?" postag_regexp="yes"/></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N.*"/>
+    </rule>
+    <rule id="el_cria" name="él cría">
+        <pattern>
+            <token regexp="yes">él|ella</token>
+            <marker>
+                <and>
+                    <token postag="V...3S.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.*</exception></token>
+                    <token postag="N.*" postag_regexp="yes"><exception postag="_GN_.*|A.*|V.P.*|PX.*|VMIP1S0.?" postag_regexp="yes"/></token>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="N.*"/>
+    </rule>
+    
     <rulegroup id="Nom_AdjNotAgrees" name="nombre + adjectivo que no ha concordado">
         <rule>
             <pattern>
-                <token postag="N.*" postag_regexp="yes"><exception postag="V.*|A.*|complement.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">palabra|término|expresión|vocablo|nombre|tipo|denominación</exception></token>
+                <token postag="N.*" postag_regexp="yes"><exception postag="V.*|A.*|complement.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">&denominacion;</exception></token>
                 <marker>
                     <and>
                         <token postag="N.*" postag_regexp="yes"><exception regexp="yes">\p{Lu}.+</exception></token>
@@ -2080,7 +2136,6 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="filter" postag="V.P.*|AQ.*"/>
         </rule>
         <rule>
-            <!-- problema: poden crear de forma espontània parells electró-positró. -->
             <pattern>
                 <and>
                     <token postag="N.*" postag_regexp="yes"/>

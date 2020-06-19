@@ -51,6 +51,20 @@ public class PostponedAdjectiveConcordanceRuleTest {
     assertCorrect("La casa del pueblo blanco.");
     assertCorrect("La casa de pueblo blanca.");
     assertCorrect("La casa de pueblo blanco.");
+    assertCorrect("Debes aprender a ser cuidadosa."); 
+    assertCorrect("No encontré nada nuevo.");
+    assertCorrect("Si no ocurre nada imprevisto, mañana podré verte.");
+    assertCorrect("No habla solamente inglés, también habla francés.");
+    assertCorrect("Algunas personas mueren de hambre incluso en medio de la abundancia.");
+    assertCorrect("No leen muchos libros debido a la televisión.");
+    assertCorrect("¿Hablas italiano?");
+    assertCorrect("Dices una cosa y después haces otra.");
+    assertCorrect("Salió de casa temprano para llegar a tiempo");
+    assertCorrect("Él cría vacas y caballos");
+    assertCorrect("Juan cría vacas y caballos");
+    /*
+     * Una piedra rodante no junta musgo"
+     */
     
     assertIncorrect("Análisis clínica.");
     assertIncorrect("Estas son las sillas blancos de las que te hablé.");
@@ -59,6 +73,7 @@ public class PostponedAdjectiveConcordanceRuleTest {
     assertIncorrect("La casa del pueblo blancos");
     assertIncorrect("La casa de pueblo blancas");
     assertIncorrect("La casa de pueblo blancos");
+    assertIncorrect("Un loro puede imitar el habla humano.");
     
   }
 

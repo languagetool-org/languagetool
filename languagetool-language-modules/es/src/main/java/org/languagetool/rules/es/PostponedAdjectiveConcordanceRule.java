@@ -106,7 +106,7 @@ public class PostponedAdjectiveConcordanceRule extends Rule {
   private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|del|en|sobre|a|entre|por|com|sin|contra");
   private static final Pattern VERB = Pattern.compile("V.[^P].*|_GV_");
   private static final Pattern GV = Pattern.compile("_GV_");
-  private static final Pattern EXCEPCIONS_PARTICIPI = Pattern.compile("atès|atés|atesa|atesos|ateses|donat|donats|donada|donades");
+  private static final Pattern EXCEPCIONS_PARTICIPI = Pattern.compile("incluso");
   private static final Pattern EXCEPCIONS_PREVIA = Pattern.compile("términos?|palabras?|vocablos?|expresión|expresiones|nombres?|tipps?|denominación|denominaciones");
   private static final Pattern EXCEPCIONS_PREVIA_POSTAG = Pattern.compile("_loc_meitat");
   private static final Pattern TOPONIM = Pattern.compile("NP..G..");
@@ -170,6 +170,9 @@ public class PostponedAdjectiveConcordanceRule extends Rule {
         /* SOME EXCEPTIONS */
         // per molt lleuger
         if (prevPrevToken.equals("por") && prevToken.equals("muy")) {
+          continue goToNextToken;
+        }
+        if (token.equals("debido") && nextToken.equals("a")) {
           continue goToNextToken;
         }
         // esquerra-dreta
