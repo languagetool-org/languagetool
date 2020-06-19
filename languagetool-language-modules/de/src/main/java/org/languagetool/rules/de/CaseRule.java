@@ -508,7 +508,7 @@ public class CaseRule extends Rule {
     ),
     Arrays.asList( // Hey Matt (name),
       regex("Hey|Hi|Hallo|Na|Moin|Servus"),
-      regex("Matt"),
+      regex("Matt")
     ),
     Arrays.asList( // Hey mein Süßer,
       regex("Hey|Hi|Hallo|Na|Moin|Servus"),
