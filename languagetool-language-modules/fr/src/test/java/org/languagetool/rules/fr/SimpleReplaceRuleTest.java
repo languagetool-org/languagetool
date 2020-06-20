@@ -59,8 +59,7 @@ public class SimpleReplaceRuleTest {
     matches = rule.match(langTool.getAnalyzedSentence("Cest la vie"));
     assertEquals(1, matches.length);
     assertEquals("C'est", matches[0].getSuggestedReplacements().get(0));
-    
-    
+ 
 
   }
 
