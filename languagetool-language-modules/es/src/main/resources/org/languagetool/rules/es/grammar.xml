@@ -1472,6 +1472,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>¡Que Dios afeite a la reina!</example>
                 <example>¡A que no!</example>
                 <example>¡Que Dios nos ayude!</example>
+                <example>¡Que Dios salve la reina!</example>
+                <example>¡Que Dios derrame sus bendiciones sobre esta familia!</example>
+                <example>El ladrón entró en la casa bajo el manto de la noche.</example>
             </rule>
             <rule>
                 <pattern>
@@ -3012,6 +3015,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="mí">Ella estaba cerca de <marker>mi</marker>.</example>
                 <example correction="mí">Se rio a pesar de <marker>mi</marker>.</example>
                 <example correction="mí">En lo que a <marker>mi</marker> respecta.</example>
+                <example correction="mí">¿Qué significa para <marker>mi</marker> ser padre o madre?</example>
                 <example>Me voy a mi casa.</example>
                 <example>Mi gran amigo Pedro.</example>
                 <example>a mi mejor amiga</example>
@@ -3022,6 +3026,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>A pesar de mi poco conocimiento</example>
                 <example>el abrazo de mi nietito</example>
                 <example>Lo hizo en mi contra.</example>
+                <example>Le odio con cada fibra de mi ser.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ESTA_TILDE" name="*esta/está">
@@ -3032,6 +3037,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token postag="V.[SIGN].*|V.P..SF" postag_regexp="yes"/>
                 <token>esta</token>
+            </antipattern>
+            <antipattern>
+                <token>esta</token>
+                <token postag="_GN_FS|NCFS000|AQ.[FC]S." postag_regexp="yes"/>
+                <token postag="_GN_FS|NCFS000|AQ.[FC]S." postag_regexp="yes"/>
             </antipattern>
             <rule>
                 <!-- está + participio-->
@@ -3051,6 +3061,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Al ser esta superada.</example>
                 <example>Siendo esta formada por varios miembros</example>
                 <example>cuando sea esta formada por varios miembros</example>
+                <example>entre él y esta querida hija</example>
                 <!-- <example>Al verse esta superada.</example> better disambiguation needed-->
             </rule>
             <rule>
@@ -6725,11 +6736,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token>debido</token>
-                <token>a</token>
+                <token regexp="yes">debido|junto</token>
+                <token regexp="yes">a|al</token>
             </antipattern>
             <antipattern>
-                <token regexp="yes">seguro|mayor|menor</token>
+                <token regexp="yes">seguro|mayor|menor|puesto</token>
                 <token>que</token>
             </antipattern>
             <antipattern>
@@ -6746,7 +6757,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token>a</token>
+                <token regexp="yes" inflected="yes">ir|venir|entrar</token>
+                <token regexp="yes">a|en</token>
+                <token postag="DA.*" postag_regexp="yes" min="0"/>
                 <token>casa</token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
@@ -6760,10 +6773,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes">
                     <exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/>
                     <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception>
+                    <exception regexp="yes">\p{Lu}.*</exception>
                 </token>
             </pattern>
             <filter class="org.languagetool.rules.es.PostponedAdjectiveConcordanceFilter" args="key:value"/>
-            <message>Revise la concordancia de la palabra \1.</message>
+            <message>Revise la concordancia de la palabra «\1».</message>
             <example correction="">La casa del pueblo <marker>blancas</marker>.</example>
             <example correction="">Análisis <marker>clínica</marker>.</example>
             <example correction="">Estas son las sillas <marker>blancos</marker> de las que te hablé.</example>
@@ -6773,6 +6787,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">La casa de pueblo <marker>blancas</marker>.</example>
             <example correction="">La casa de pueblo <marker>blancos</marker>.</example>
             <example correction="">Un loro puede imitar el habla <marker>humano</marker>.</example>
+            <example correction="">en un restaurante <marker>lujosa</marker></example>
+            <example correction="">en un restaurante solemnemente <marker>decorada</marker></example>
+            <example>en un restaurante lujosa y solemnemente decorado</example>
             <example>Estas son las sillas blancas de las que te hablé.</example>
             <example>La casa del pueblo blanca.</example>
             <example>La casa del pueblo blanco.</example>
@@ -6799,6 +6816,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Una piedra rodante no junta musgo.</example>
             <example>Una piedra rodante junta musgo.</example>
             <example>Salía cada semana cansado de todo.</example>
+            <example>La señorita Sato es la nueva secretaria del presidente.</example>
+            <example>con brazos y piernas largos</example>
+            <example>No va a haber Nueva China sin el partido comunista.</example>
+            <example>No va a haber nuevas pruebas.</example>
+            <example>Los hombres y mujeres pioneros tuvieron una vida ardua.</example>
+            <example>el nombre de usuario y la contraseña correctos</example>
+            <example>Solo quiero decir buena suerte.</example>
+            <example>¡Qué tristeza ver ciertas cosas!</example>
+            <example>Somos rubias.</example>
         </rule>
     </category>
     <category id="AGREEMENT_VERBS" name="Concordancia sujeto/predicado" type="inconsistency" default="on">
@@ -7475,6 +7501,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>este</suggestion>?</message>
             <example correction="este">En <marker>esto</marker> campo es el mejor.</example>
         </rule>-->
+        <rule id="ENSERIO" name="enserio / en serio" default="temp_off">
+            <pattern>
+                <token>enserio</token>
+            </pattern>
+            <message>¿Quería decir <suggestion>en serio</suggestion> (locución adverbial)? "Enserio" es una forma del verbo enseriar.</message>
+            <example correction="en serio">¿Lo dices <marker>enserio</marker>?</example>
+        </rule>
         <rule id="SON_CON" name="confusión son/con" default="temp_off">
             <pattern>
                 <token inflected="yes">cumplir</token>

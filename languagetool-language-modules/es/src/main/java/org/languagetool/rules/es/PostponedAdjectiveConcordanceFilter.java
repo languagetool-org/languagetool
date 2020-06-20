@@ -88,7 +88,7 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern CONJUNCIO = Pattern.compile("C.|.*LOC_CONJ.*");
   private static final Pattern PUNTUACIO = Pattern.compile("_PUNCT.*");
   private static final Pattern LOC_ADV = Pattern.compile(".*LOC_ADV.*");
-  private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile("RG_anteposat");
+  private static final Pattern ADVERBIS_ACCEPTATS = Pattern.compile("RG");
   private static final Pattern COORDINACIO = Pattern.compile(",|y|e|o|u");
   private static final Pattern COORDINACIO_IONI = Pattern.compile("y|e|o|u|ni");
   private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|SP\\+DA|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*");
