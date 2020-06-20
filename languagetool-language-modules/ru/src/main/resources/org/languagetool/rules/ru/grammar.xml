@@ -3212,7 +3212,27 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Она говорила мало, но толково.</example>
                 <example correction="мало, но">Она говорила <marker>мало но</marker> толково.</example>
             </rule>
-        </rulegroup>
+        </rulegroup>       
+        <rulegroup default="temp_off" id="CHTO_COMMA" name="Союз: «что»">
+            <rule>
+                <antipattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">&pnct;<exception postag="SENT_START"></exception></token>
+                    <token skip="-1">что</token>
+                    <token>что</token>
+                </antipattern>                     
+                <pattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">&pnct;<exception postag="SENT_START"></exception><exception postag_regexp="yes"  postag="CONJ|PARTICLE|PREP|ADV|VB:.*|PNN.*"></exception></token>
+                    <token>что<exception scope="next" regexp="yes">&pnct;</exception><exception scope="next" >угодно</exception></token>
+                </pattern>
+                <message>Пропущена запятая: <suggestion>\1, \2</suggestion>.</message>
+                
+                <short>Пропущена запятая</short>
+                <example>Известно, что на улице красивый вид.</example>
+                <example>Слепой лошади что кивай, что подмигивай.</example>
+                <example>Говорите что угодно.</example>
+                <example correction="Известно, что"><marker>Известно что</marker> на улице красивый вид.</example>
+            </rule>
+        </rulegroup>       
         <rulegroup id="i_and_i_and_i" name="Союзы: «и» + «и» + «и»" default="on">
             <rule>  <!--  add unification for noun - done. -->
                 <pattern>
