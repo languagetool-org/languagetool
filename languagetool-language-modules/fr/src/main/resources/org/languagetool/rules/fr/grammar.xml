@@ -8744,13 +8744,6 @@ though, and has since been slightly modified)-->
           <message>Vouliez-vous dire <suggestion>et ça</suggestion> ?</message>
           <example correction="et ça">J'en ai pris un <marker>et ca</marker> suffisait pas.</example>
       </rule>
-      <rule id="CEST" name="typo : cest">
-        <pattern>
-          <token case_sensitive="yes" regexp="yes">[Cc]est</token>
-        </pattern>
-        <message>Vouliez-vous dire <suggestion>c'est</suggestion> ?</message>
-        <example correction="C'est"><marker>Cest</marker> la vie.</example>
-      </rule>
       <rule id="LA_JOURNE" name="typo : la journé">
           <pattern>
               <token regexp="yes">la|une</token>
@@ -29365,9 +29358,17 @@ though, and has since been slightly modified)-->
       </rule>
   </category>
   <category id="CAT_TYPOGRAPHIE" name="Typographie">
+    <rule id="_3G" name="3 g / 3G" default="temp_off">
+      <pattern>
+        <token regexp="yes" case_sensitive="yes">[345]g</token>
+      </pattern>
+      <message>Vouliez-vous dire <suggestion><match no="1" regexp_match="(.)g" regexp_replace="$1 g"/></suggestion> (grammes) o <suggestion><match no="1" regexp_match="(.)g" regexp_replace="$1G"/></suggestion> (standard pour la téléphonie mobile) ?</message>
+      <example correction="4 g|4G">Les technoligies <marker>4g</marker>.</example>
+      <example correction="3 g|3G"><marker>3g</marker> de sel.</example>
+    </rule>
     <rule id="ESPACE_UNITES" name="espace insécable avant les unités (kg, cm, …)">
-      <antipattern case_sensitive="yes"><!-- 3G -->
-        <token regexp="yes">\d+[GMSv]</token>
+      <antipattern case_sensitive="yes">
+        <token regexp="yes" case_sensitive="yes">\d+[GMSv]|[345][gG]</token>
       </antipattern>
       <antipattern><!-- 70s show -->
         <token regexp="yes">\d{2}s</token>
