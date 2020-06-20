@@ -450,16 +450,16 @@ title="Easy editing stylesheet" ?>
 		  <token postag='SPS00' postag_regexp='no'/>	  		  
       </antipattern>	
 <!-- MARCOAGPINTO 2020-05-22 *END* -->
-<!-- MARCOAGPINTO 2020-05-30 *START* -->
+<!-- MARCOAGPINTO 2020-05-30 + 2020-06-20 *START* -->
 <!-- "Ele tinha duas irmãs: Marjorie, cinco anos mais velha, e Avril, cinco anos mais jovem." -->
 <!-- "Ele tinha duas irmãs: Marjorie, cinco anos mais velha, e Avril, vários anos mais jovem." -->
       <antipattern>
-          <token postag='Z0CP0|DI0MP0|PI0MP000' postag_regexp='yes'/>
+          <token postag='Z0[MC]P0|DI0MP0|PI0MP000' postag_regexp='yes'/>
           <token postag='NCMP000' postag_regexp='no'/>
           <token postag='NCMS000|NCMN000' postag_regexp='yes'/>
           <token postag='AQ0[CFM]S0' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2020-05-30 *END* -->
+<!-- MARCOAGPINTO 2020-05-30 + 2020-06-20 *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -772,6 +772,21 @@ title="Easy editing stylesheet" ?>
 		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-14 *END* -->
+<!-- MARCOAGPINTO 2020-06-20 *START* -->
+<!-- "Segure o ovo direito ou vai quebrá-lo." -->
+<!-- "Segure os ovos direito ou vai quebrá-los." -->
+<!-- "Segure a caneta direito ou vai quebrá-la." -->
+<!-- "Segure as canetas direito ou vai quebrá-las." -->
+<!-- "Segure o agente direito ou vai quebrá-lo." -->
+<!-- "Segure os agentes direito ou vai quebrá-los." -->
+      <antipattern>
+		  <token postag='VMSP3S0|VMP00SF|VMM0[23]S0|VMI[SP]3S0|VM[IS]P1S0|VMG0000' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag="SPS00|CS|I|PT0CN000|RG"/></token>
+		  <token postag='DA0[FM][SP]0' postag_regexp='yes'/>
+		  <token postag='NC[CFM][SP]000' postag_regexp='yes'/>
+		  <token postag='AQ0MS0' postag_regexp='no'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-06-20 *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>o|e|de|&hifen;</token> <!-- MARCOAGPINTO 2019-12-31 -->
         <marker>
@@ -1483,16 +1498,16 @@ title="Easy editing stylesheet" ?>
           <token postag='DI0MS0' postag_regexp='no'/>		  
       </antipattern>
 <!-- MARCOAGPINTO 2020-05-23 *END* -->
-<!-- MARCOAGPINTO 2020-05-30 *START* -->
+<!-- MARCOAGPINTO 2020-05-30 + 2020-06-20 *START* -->
 <!-- "Ele tinha duas irmãs: Marjorie, cinco anos mais velha, e Avril, cinco anos mais jovem." -->
 <!-- "Ele tinha duas irmãs: Marjorie, cinco anos mais velha, e Avril, vários anos mais jovem." -->
       <antipattern>
-          <token postag='Z0CP0|DI0MP0|PI0MP000' postag_regexp='yes'/>
+          <token postag='Z0[MC]P0|DI0MP0|PI0MP000' postag_regexp='yes'/>
           <token postag='NCMP000' postag_regexp='no'/>
           <token postag='NCMS000|NCMN000' postag_regexp='yes'/>
           <token postag='AQ0[CFM]S0' postag_regexp='yes'/>
       </antipattern>
-<!-- MARCOAGPINTO 2020-05-30 *END* -->
+<!-- MARCOAGPINTO 2020-05-30 + 2020-06-20 *END* -->
 <!-- MARCOAGPINTO 2020-06-02 *START* -->
 <!-- "Foram substituídos em posteriores textos ecológicos um texto posterior." -->
       <antipattern>
@@ -1526,6 +1541,21 @@ title="Easy editing stylesheet" ?>
 		  <token regexp='yes'>pela|por|da|de</token>
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-17 *END* -->
+<!-- MARCOAGPINTO 2020-06-20 *START* -->
+<!-- "Segure o ovo direito ou vai quebrá-lo." -->
+<!-- "Segure os ovos direito ou vai quebrá-los." -->
+<!-- "Segure a caneta direito ou vai quebrá-la." -->
+<!-- "Segure as canetas direito ou vai quebrá-las." -->
+<!-- "Segure o agente direito ou vai quebrá-lo." -->
+<!-- "Segure os agentes direito ou vai quebrá-los." -->
+      <antipattern>
+		  <token postag='VMSP3S0|VMP00SF|VMM0[23]S0|VMI[SP]3S0|VM[IS]P1S0|VMG0000' postag_regexp='yes'>
+			<exception postag_regexp='yes' postag="SPS00|CS|I|PT0CN000|RG"/></token>
+		  <token postag='DA0[FM][SP]0' postag_regexp='yes'/>
+		  <token postag='NC[CFM][SP]000' postag_regexp='yes'/>
+		  <token postag='AQ0MS0' postag_regexp='no'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-06-20 *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
