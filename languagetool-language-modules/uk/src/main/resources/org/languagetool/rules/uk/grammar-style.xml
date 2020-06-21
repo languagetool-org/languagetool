@@ -1722,7 +1722,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </antipattern>
       <pattern>
         <token postag_regexp="yes" postag="verb.*short.*">
-          <exception regexp="yes">бува|зна|[ву]?мить|занять|стать|постать|повість|знать|чуть|нить</exception>
+          <exception regexp="yes">бува|зна|[ву]?мить|занять|стать|постать|повість|знать|чуть|нить|понять</exception>
           <exception case_sensitive="yes" regexp="yes">Міша|Кива|Чита</exception>
           <exception postag_regexp="yes" postag="verb.*:3(?!.*short).*|verb.*impr.*"/>
         </token>
@@ -1784,6 +1784,34 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       </pattern>
       <message>Ця форма обмежена усним та поетичним мовленням.</message>
       <example correction="">все <marker>'дно</marker>.</example>
+    </rule>
+
+    <rule id="archaism" name="Архаїзми">
+      <antipattern>
+        <token case_sensitive="yes" regexp="yes">Мо|Сю</token>
+        <token case_sensitive="yes" regexp="yes">[А-ЯІЇЄҐ][а-яіїєґ'-]+</token>
+      </antipattern>
+      <pattern>
+        <token postag_regexp="yes" postag=".*:arch.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag=".*:arch.*"/>
+        </token>
+      </pattern>
+      <message>Це слово є застарілим, архаїчним або діалектним.</message>
+      <example correction="">І <marker>сього</marker> дня.</example>
+      <example>довгу</example>
+      <example>Анголи</example>
+      <example>китаянку Сю Ян</example>
+      <example>бігуна Мо Кейна</example>
+    </rule>
+
+    <rule id="vulgar" name="Вульгаризми">
+      <pattern>
+        <token postag_regexp="yes" postag=".*:vulg.*">
+          <exception negate_pos="yes" postag_regexp="yes" postag=".*:vulg.*"/>
+        </token>
+      </pattern>
+      <message>Це слово є вульгарним.</message>
+      <example correction="">все до <marker>сраки</marker>.</example>
     </rule>
 
     <rule id="u_znak_vdiachnosti" name="У знак вдячності">
