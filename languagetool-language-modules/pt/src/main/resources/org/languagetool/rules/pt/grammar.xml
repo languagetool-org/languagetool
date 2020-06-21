@@ -1602,6 +1602,16 @@ title="Easy editing stylesheet" ?>
 		  <token postag='VMP00SM' postag_regexp='no'/>
       </antipattern>	
 <!-- MARCOAGPINTO 2020-05-16 *END* -->
+<!-- MARCOAGPINTO 2020-06-21 *START* -->
+<!-- "Quando vimos a imagem defunta de Senna, tudo o que nos veio à mente foi tristeza." -->
+      <antipattern>  
+		  <token postag='CS|P[ERT]0CN000' postag_regexp='yes'/>
+		  <token postag='PP1CP000|PP3MPA00' postag_regexp='yes'/>
+		  <token postag='V.+' postag_regexp='yes'>
+			<exception postag_regexp='no' postag='VMIP1S0'></exception>
+		  </token>	
+      </antipattern>
+<!-- MARCOAGPINTO 2020-06-21 *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
@@ -1848,6 +1858,26 @@ title="Easy editing stylesheet" ?>
 		  <token postag='VMI[FPS]1P0' postag_regexp='yes'/>
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-18 *END* -->
+<!-- MARCOAGPINTO 2020-06-21 *START* -->
+<!-- "A mulher sentiu-se tímida em relação ao padre momentos antes de se confessar." -->
+<!-- "A mulher sentiu-se tímida em relação ao agente momentos antes de se confessar." -->
+<!-- "A mulher sentiu-se tímida em relação à freira momentos antes de se confessar." -->
+      <antipattern>
+		  <token postag='NC[CFM]S000' postag_regexp='yes'/>
+		  <token postag='NCMP000' postag_regexp='no'/>
+		  <token postag='RG' postag_regexp='no'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-06-21 *END* -->
+<!-- MARCOAGPINTO 2020-06-21 *START* -->
+<!-- "O mendigo vendeu ao homem jornais antigos." -->
+<!-- "O mendigo vendeu à mulher jornais antigos." -->
+<!-- "O mendigo vendeu à agente jornais antigos." -->
+      <antipattern>  
+		  <token postag='NC[CFM]S000' postag_regexp='yes'/>
+		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
+		  <token postag='AQ0[CFM]P0' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-06-21 *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>e|ou|&hifen;</token>
         <marker>
@@ -2260,6 +2290,20 @@ title="Easy editing stylesheet" ?>
 		  <token regexp='yes'>pela|por|da|de</token>
       </antipattern>
 <!-- MARCOAGPINTO 2020-06-17 *END* -->
+<!-- MARCOAGPINTO 2020-06-21 *START* -->
+<!-- "Ele proporcionou às crianças comida, roupa e sapatos." -->
+<!-- "Ele proporcionou às agentes comida, roupa e sapatos." -->
+<!-- "Ele proporcionou aos polícias comida, roupa e sapatos." -->
+<!-- "Ele proporcionou a crianças comida, roupa e sapatos." -->
+<!-- "Ele proporcionou a agentes comida, roupa e sapatos." -->
+<!-- "Ele proporcionou a polícias comida, roupa e sapatos." -->
+      <antipattern>
+		  <token postag='V.+' postag_regexp='yes'/>
+		  <token regexp='yes'>a|às|aos</token>
+		  <token postag='NC[CFM]P000' postag_regexp='yes'/>
+		  <token postag='NC[CFM]S000' postag_regexp='yes'/>
+      </antipattern>
+<!-- MARCOAGPINTO 2020-06-21 *END* -->
       <pattern>
           <token negate='yes' regexp='yes'>&hifen;</token>
         <marker>
