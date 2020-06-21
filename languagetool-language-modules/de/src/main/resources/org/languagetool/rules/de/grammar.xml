@@ -140,6 +140,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Tippfehler -->
     <!-- ====================================================================== -->
     <category id="TYPOS" name="Mögliche Tippfehler">
+        <rule id="GESETZT_GESETZ" name="Gesetzt (Gesetz)" default="temp_off">
+            <antipattern>
+                <token postag="SENT_START" />
+                <token regexp="yes" min="0">\p{P}|\></token>
+                <token>Gesetzt</token>
+            </antipattern>
+            <pattern>
+                <token case_sensitive="yes">Gesetzt</token>
+            </pattern>
+            <message>Meinten Sie das Nomen <suggestion>Gesetz</suggestion>?</message>
+            <example correction="Gesetz">Er wurde beschuldigt, das <marker>Gesetzt</marker> gebrochen zu haben.</example>
+            <example>- Gesetzt wird damit:</example>
+        </rule>
         <rule id="ENTSCHEIDEN_ENTSCHEIDEND" name="entscheiden(d)">
             <pattern case_sensitive="yes">
                 <token inflected="yes" skip="1">sein<exception scope="next">zu</exception><exception postag="PKT" scope="next"/></token>
