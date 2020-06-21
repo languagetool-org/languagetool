@@ -51,6 +51,8 @@ import org.slf4j.LoggerFactory;
  * @author Andriy Rysin
  */
 public class TokenAgreementAdjNounRule extends Rule {
+  static final List<String> FAKE_FEM_LIST = Arrays.asList("ступінь", "степінь", "продаж", "собака", "дріб", "ярмарок", "нежить", "рукопис", "накип", "насип", "путь");
+
   private static Logger logger = LoggerFactory.getLogger(TokenAgreementAdjNounRule.class);
 
   static final Pattern ADJ_INFLECTION_PATTERN = Pattern.compile(":([mfnp]):(v_...)(:r(in)?anim)?");
@@ -117,16 +119,17 @@ public class TokenAgreementAdjNounRule extends Rule {
             || PosTagHelper.hasPosTagPart(tokens[i+1], "<") )
           continue;
 
-        //TODO: TEMP?
+//        if( LemmaHelper.hasLemma(tokens[i], Arrays.asList("червоний", "правий", "місцевий", "найсильніший", "найкращі"), ":p:")
+//            || LemmaHelper.hasLemma(tokens[i], Arrays.asList("новенький", "головний", "вибраний", "більший", "побачений", "подібний"), ":n:")
+//            || LemmaHelper.hasLemma(tokens[i], Arrays.asList("державний"), ":f:") ) {
+//          adjTokenReadings.clear();
+//          break;
+//        }
 
-        if( LemmaHelper.hasLemma(tokens[i], Arrays.asList("червоний", "правий", "місцевий", "найсильніший", "найкращі"), ":p:")
-            || LemmaHelper.hasLemma(tokens[i], Arrays.asList("новенький", "головний", "вибраний", "більший", "побачений", "подібний"), ":n:")
-            || LemmaHelper.hasLemma(tokens[i], Arrays.asList("державний"), ":f:") ) {
+        if ( LemmaHelper.hasLemma(tokens[i], Arrays.asList("подібний"), ":n:") ) {
           adjTokenReadings.clear();
           break;
         }
-
-
 
         for (AnalyzedToken token: tokenReadings) {
           String adjPosTag = token.getPOSTag();
@@ -140,7 +143,8 @@ public class TokenAgreementAdjNounRule extends Rule {
             adjTokenReadings.add(token);
             adjAnalyzedTokenReadings = tokenReadings;
           }
-          else {
+          else if( ! LemmaHelper.hasLemma(tokenReadings, Arrays.asList("другий"), "adj:f:")
+                || ! LemmaHelper.hasLemma(tokens[i+1], FAKE_FEM_LIST, "noun:inanim:m:") ) {
             adjTokenReadings.clear();
             break;
           }
