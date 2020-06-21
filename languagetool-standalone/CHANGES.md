@@ -33,6 +33,11 @@
 #### Persian
   * commented out rules that caused many false alarms
 
+#### Portuguese
+  * added and improved rules
+  * added words and POS data
+  * fixed tons of false positives
+
 #### Russian
   * added and improved rules
   * added new Java rules
