@@ -8500,7 +8500,7 @@ USA
                 <example>Which if you recall was the best?</example>
                 <example type="triggers_error">The feeling that you have when you drive is wonderful.</example>
             </rule>
-            <rule default="temp_off"><!-- <You> information is good -->
+            <rule><!-- <You> information is good -->
                 <pattern>
                     <token postag="SENT_START" />
                     <marker>
@@ -10259,7 +10259,8 @@ USA
             <example>He'd want to wake up early.</example>
         </rule>
         <!-- flashpoint::word=flash point -->
-        <rule id="FLASHPOINT" name="flashpoint (flash point)">
+        <rule id="FLASHPOINT" name="flashpoint (flash point)" default="off">
+            <!-- Webster only knows "flash point", lexico knows "flashpoint" -->
             <pattern>
                 <token>flashpoint</token>
             </pattern>
@@ -12552,7 +12553,7 @@ USA
             <short>Possible typo</short>
             <example correction="eyelids">Calcium deposits on <marker>eye lids</marker></example>
         </rule>
-        <rule id="LIGHT_COMPOUNDS" name="day light (daylight)" default="temp_off">
+        <rule id="LIGHT_COMPOUNDS" name="day light (daylight)">
             <antipattern case_sensitive="yes"><!-- company names -->
                 <token>Gas</token>
                 <token>Light</token>
@@ -12590,7 +12591,7 @@ USA
                     <exception regexp="yes">other|opposite|different|right|left</exception>
                 </token>
                 <marker>
-                    <token regexp="yes">country|sea|river|water|road|hill|lake|curb|fire|beach|shore|court|dock</token>
+                    <token regexp="yes">country|sea|river|water|road|hill|lake|curb|fire|beach|shore|court|dock|broad</token>
                     <token>side</token>
                 </marker>
             </pattern>
@@ -12628,17 +12629,18 @@ USA
                     <token>on</token>
                 </antipattern>
                 <pattern>
-                    <token regexp="yes">the|an?|my|of|in|y?our|his|her|their</token>
+                    <token regexp="yes">the|an?|my|of|in|y?our|his|their</token>
                     <token postag="JJ" min="0" />
                     <marker>
                         <token>on</token>
-                        <token>board</token>
+                        <token regexp="yes">board|stage</token>
                     </marker>
                 </pattern>
                 <message>The adjective <suggestion>onboard</suggestion> is spelled as one word.</message>
                 <url>https://www.merriam-webster.com/dictionary/onboard</url>
                 <example correction="onboard">The car comes with an <marker>on board</marker> computer.</example>
                 <example>Dr. Hellofs has excellent teaching ratings, and I'm pleased to have her on board.</example>
+                <example>Give it to her on stage #5</example>
             </rule>
         </rulegroup>
         <rule id="HEAD_COMPOUNDS" name="head shot (thunderstorm)">
@@ -12994,7 +12996,7 @@ USA
                 <token>up</token>
                 <token inflected="yes" regexp="yes">
                     date|load|sell|coming|grade|hold|lift|set|start|side|time|roar|trend|size
-                    <exception regexp="yes">timing|timed|trending|trended</exception>
+                    <exception regexp="yes">timing|timed|trending|trended|roared|roaring</exception>
                 </token>
             </pattern>
             <message suppress_misspelled="yes">This word is normally spelled as one. Did you mean <suggestion>up<match no="2" case_conversion="alllower" /></suggestion>?</message>
@@ -13352,6 +13354,11 @@ USA
                 <token regexp="yes">fox|mercury|cnn|bbc|nyt|abc|msnbc|nbc|rt|google|msn|yahoo</token>
                 <token>news</token>
             </antipattern>
+            <antipattern>
+                <token>news</token>
+                <token postag="VBZ" />
+                <token regexp="yes">us|him|her|his|y?our|my|them|their|the|an?</token>
+            </antipattern>
             <pattern>
                 <token>news</token>
                 <token regexp="yes">papers?|letters?|readers?|rooms?|agents?|dealers?|groups?|hounds?|makers?|reels?|wom[ea]n|wires?|stands?</token>
@@ -13362,6 +13369,7 @@ USA
             <example>The onboard announcements are by BBC News reader (and tram enthusiast) Nicholas Owen.</example>
             <example>The News Letter, the oldest English-language newspaper in the world still in publication.</example>
             <example>Fox News (officially known as the Fox News Channel, commonly abbreviated to FNC) is a United States pay television news channel owned by the Fox News Group, a division of Fox.</example>
+            <example>The news hounds us</example>
         </rule>
         <rule id="WIDE_COMPOUNDS" name="wide spread (widespread)">
             <antipattern>
@@ -13850,7 +13858,7 @@ USA
         </rulegroup>
         <rulegroup id="OVER_COMPOUNDS" name="over complicated (overcomplicated)">
             <antipattern>
-                <token skip="-1" inflected="yes" regexp="yes">hang|prefer|wear|advantage|recommend|bend|lean|roll|jump|retain|take|convern</token>
+                <token skip="-1" inflected="yes" regexp="yes">han[dg]|prefer|wear|advantage|recommend|bend|lean|roll|jump|retain|take|convern|prevail</token>
                 <token>over</token>
             </antipattern>
             <antipattern>
@@ -13903,11 +13911,17 @@ USA
                 <token>.</token>
                 <token regexp="yes">com|js</token>
             </antipattern>
+            <antipattern>
+                <token inflected="yes">lose</token>
+                <token>control</token>
+                <token>over</token>
+            </antipattern>
             <rule>
                 <pattern>
                     <token>over</token>
                     <token inflected="yes" regexp="yes">
-                        complicate|think|come|estimate|haul|flow|kill|look|whelm|reach|see|view|wear|rate|take|size|sizing|sized|react
+                        complicate|think|come|estimate|haul|flow|kill|look|whelm|reach|see|view|wear|rate|take|size|sizing|sized|react|power|load
+                        <exception regexp="yes">power|load</exception>
                         <exception postag="VBG" /><!-- see [3] -->
                     </token>
                 </pattern>
@@ -13922,6 +13936,7 @@ USA
                 <example>PUC retains jurisdiction over rates.</example>
                 <example>We can take over reports on storage inventory.</example>
                 <example>Just to comment, our add-on is built over React framework.</example>
+                <example>It is 10% over load.</example>
             </rule>
             <rule>
                 <pattern>
@@ -22817,9 +22832,9 @@ USA
                 <pattern>
                     <token>
                         Google
-                        <exception scope="previous" regexp="yes">to|can(not)?|t|[cw]ould|should|must|please</exception>
+                        <exception scope="previous" regexp="yes">to|can(not)?|t|[cw]ould|will|should|must|please</exception>
                     </token>
-                    <token case_sensitive="yes" regexp="yes">assistant|analytics|mail|ads|adsense|inc|maps|groups|earth|drive|docs|translate|chrome(cast)?|classroom|flights|glass|hangouts|news|pixel|pay|scholar|pixelbooks?|stadia|duo|nest</token>
+                    <token case_sensitive="yes" regexp="yes">assistant|analytics|mail|ads|adsense|admob|inc|maps|groups|earth|drive|docs|translate|chrome(cast)?|classroom|flights|glass|hangouts|news|pixel|pay|scholar|pixelbooks?|stadia|duo|nest</token>
                 </pattern>
                 <message>Did you mean <suggestion><match no="1" case_conversion="startupper" /> <match no="2" case_conversion="startupper" /></suggestion>?</message>
                 <example correction="Google Analytics">We use <marker>Google analytics</marker>.</example>
@@ -23595,19 +23610,19 @@ USA
             <url>https://en.wikipedia.org/wiki/McDonald%27s</url>
             <example correction="McDonald's">I always eat lunch at <marker>Mcdonalds</marker>.</example>
         </rule>
-        <rule id="VICTORIAS_SECRET" name="Victoria's Secret" default="temp_off">
+        <rule id="VICTORIAS_SECRET" name="Victoria's Secret">
             <pattern>
                 <token regexp="yes">Victorias?</token>
                 <token>
                     Secret
-                    <exception scope="next">&apostrophe;</exception>
+                    <exception scope="next" regexp="yes">&apostrophe;</exception>
                 </token>
             </pattern>
             <message>Did you mean the lingerie company <suggestion>Victoria's Secret</suggestion> (capitalized and spelled with a possessive apostrophe)?</message>
             <url>https://en.wikipedia.org/wiki/Victoria's_Secret</url>
             <example correction="Victoria's Secret">She is wearing hear new <marker>Victorias Secret</marker> underwear.</example>
         </rule>
-        <rule id="UNCLE_BENS" name="UNCLE_BENS" default="temp_off">
+        <rule id="UNCLE_BENS" name="UNCLE_BENS">
             <pattern>
                 <token>Uncle</token>
                 <token>Bens</token>
@@ -23802,7 +23817,7 @@ USA
             <url>https://en.wikipedia.org/wiki/Kim_Jong-un</url>
             <rule>
                 <pattern>
-                    <token regexp="yes">[yj]ong</token>
+                    <token regexp="yes">[yj][ou]ng</token>
                     <token>un</token>
                 </pattern>
                 <message>Did you mean <suggestion>Jong-un</suggestion> (= person from North Korea)?</message>
@@ -24140,7 +24155,7 @@ USA
             <suggestion>\1-\2 \3</suggestion>
             <example correction="one-night stand">Tom and Mary had a <marker>one night stand</marker>.</example>
         </rule>
-        <rulegroup id="IN_APP_HYPHEN" name="missing hyphen in 'in app'" default="temp_off">
+        <rulegroup id="IN_APP_HYPHEN" name="missing hyphen in 'in app'">
             <url>https://www.lexico.com/en/definition/in-app</url>
             <rule>
                 <pattern>
@@ -55101,6 +55116,18 @@ The accident victim died from her injuries.
                 <message>Did you mean <suggestion>too</suggestion>?</message>
                 <example correction="too">Did you have a great day <marker>to</marker>?</example>
                 <example>Do you know the guys Tom is talking to?</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <marker>
+                        <token>way</token>
+                        <token>to</token>
+                    </marker>
+                    <token>many</token>
+                    <token>times</token>
+                </pattern>
+                <message>Did you mean <suggestion>\1 too</suggestion>?</message>
+                <example correction="way too">I have seen it <marker>way to</marker> many times.</example>
             </rule>
         </rulegroup>
 
