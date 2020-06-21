@@ -214,13 +214,25 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token><exception>el</exception></token>
+                <token><exception regexp="yes">el|los|un</exception></token>
                 <marker>
                     <token>mi</token>
                 </marker>
                 <token><exception regexp="yes">mayor|menor</exception></token>
             </pattern>
             <disambig action="remove" postag="N.*"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="PREFIXES" name="prefijos">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>paleo</token>
+                </marker>
+                <token spacebefore="no">-</token>
+                <token postag="[NA].*" postag_regexp="yes" spacebefore="no"/>
+            </pattern>
+            <disambig action="replace" postag="RG"/>
         </rule>
     </rulegroup>
     <rulegroup id="NUMERALS" name="numerales">
@@ -902,6 +914,56 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
             </pattern>
             <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <marker>
+                    <token inflected="yes" regexp="yes">modelo|base</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token inflected="yes">serie</token>
+                </marker>
+                <token regexp="yes" case_sensitive="yes">[\d\.]+|[A-Z]\d*</token>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="NC.*" postag_regexp="yes"/>
+                <marker>
+                    <token inflected="yes">sede</token>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+    </rulegroup>
+    <rulegroup id="causa_efecto" name="causa-efecto (noun not verb)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token>causa</token>
+                </marker>
+                <token regexp="yes">[/\-yo]</token>
+                <token>efecto</token>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">binomio|relación|conexión|ratio|asociación|aleación</token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </marker>
+                <token regexp="yes">[/yo-]</token>
+                <token postag="N.*" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
         </rule>
     </rulegroup>
 

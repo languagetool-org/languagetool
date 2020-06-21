@@ -25,7 +25,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY adverbio_lugar "detr&#225;s|delante|debajo|encima|cerca">
 <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
 <!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las">
-<!ENTITY nombre_fem_el "abra|África|aguadulce|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
+<!--aguadulce, aguasal, aguaviva-->
+<!ENTITY nombre_fem_el "abra|África|acta|afta|agua|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
 <!ENTITY dias_semana_may "Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo">
 <!ENTITY dias_semana "lunes|martes|miércoles|jueves|viernes|sábado|domingo">
 <!ENTITY dias_semana_abrv "lu|ma|mi|ju|vi|sa|do">
@@ -1634,6 +1635,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Un grande gozo siento en mí.</example>
                 <example>Su finado marido era violinista.</example>
                 <example>La enfermera promedio duerme menos de 5 horas por día.</example>
+                <example>El alfabeto paleo-hebraico proviene del fenicio.</example>
+                <example>El objeto modelo es cualquier representación esquemática de un objeto.</example>
             </rule>
         </rulegroup>
         <rule id="PROMEDIO" name="promedio/promedió" default="temp_off">
@@ -1641,7 +1644,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <marker>
                     <token>promedio<exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>
                 </marker>
-                <token postag="DN.*" postag_regexp="yes"/>
+                <token postag="DN.*" postag_regexp="yes"><exception regexp="yes">[12]\d\d\d</exception></token>
             </pattern>
             <message>Si el verbo es en pasado, falta un acento.</message>
             <suggestion>promedió</suggestion>
@@ -2379,6 +2382,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Muchas gracias y disculpe las molestias.</example>
             <example>Ni siquiera sabe escribir su propio nombre.</example>
             <example>El hombre llevaba un revólver calibre 38 largo por si acaso.</example>
+            <example>Las plantas del género Securinega produce alcaloides con el esqueleto base.</example>
+            <example>Servicio de cercanías con trenes serie 2500.</example>
+            <example>Los hechos son axiomas base que se consideran como verdaderos.</example>
+            <example>Cambios en el Consejo General y aprobación del texto base del estatuto de autonomía.</example>
+            <example>asociación cobre-indio-selenio</example>
+            <example>Puerto serie RS232C</example>
+            <example>se añade directamente al número base de la CDU.</example>
             <!--<example>Cada uno exprese su opinión.</example>
                 ambigous: ¡Sí! ¡Gane dos veces seguidas! -->
         </rule>
@@ -3040,8 +3050,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>esta</token>
-                <token postag="_GN_FS|NCFS000|AQ.[FC]S." postag_regexp="yes"/>
-                <token postag="_GN_FS|NCFS000|AQ.[FC]S." postag_regexp="yes"/>
+                <token postag="NCFS000|AQ.[FC]S." postag_regexp="yes"/>
+                <token postag="NCFS000|AQ.[FC]S." postag_regexp="yes"/>
             </antipattern>
             <rule>
                 <!-- está + participio-->
@@ -3056,6 +3066,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Está"><marker>Esta</marker> cansado.</example>
                 <example correction="Está"><marker>Esta</marker> muy cansado.</example>
                 <example correction="Está"><marker>Esta</marker> agotado.</example>
+                <example correction="está">Los mismos principios de que <marker>esta</marker> provista tal rama.</example>
                 <example>Esta revista es antigua.</example>
                 <example>Esta comida es buena.</example>
                 <example>Al ser esta superada.</example>
@@ -3099,6 +3110,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Está"><marker>Esta</marker> en la guardería.</example>
                 <example correction="Está"><marker>Esta</marker> en aquella.</example>
                 <example correction="está">Lo que <marker>esta</marker> aquí.</example>
+                <example correction="está">En un pequeño promontorio <marker>esta</marker> la Catedral.</example>
                 <example>Sustituye a esta en la jerarquía.</example>
                 <example>aunque esta en realidad no lo sea</example>
                 <example>Tras esta en 1954</example>
@@ -6766,15 +6778,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token>a</token>
                 <token postag="D.*" postag_regexp="yes" min="0"/>
-                <token postag="NP..G.*" postag_regexp="yes" min="1" max="3"></token>
+                <token postag="NP..G.*" postag_regexp="yes" min="1" max="3"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes">
-                    <exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/>
-                    <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception>
-                    <exception regexp="yes">\p{Lu}.*</exception>
-                </token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"> <exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception> <exception regexp="yes">\p{Lu}.*</exception> </token>
             </pattern>
             <filter class="org.languagetool.rules.es.PostponedAdjectiveConcordanceFilter" args="key:value"/>
             <message>Revise la concordancia de la palabra «\1».</message>
@@ -6795,7 +6803,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>La casa del pueblo blanco.</example>
             <example>La casa de pueblo blanca.</example>
             <example>La casa de pueblo blanco.</example>
-            <example>Debes aprender a ser cuidadosa.</example> 
+            <example>Debes aprender a ser cuidadosa.</example>
             <example>No encontré nada nuevo.</example>
             <example>Si no ocurre nada imprevisto, mañana podré verte.</example>
             <example>No habla solamente inglés, también habla francés.</example>
@@ -8620,7 +8628,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rulegroup id="ABREV_ORDINALES" name="abreviatura de ordinales" default="on">
             <rule>
                 <pattern>
-                    <token regexp="yes">1e?ro|2do|3e?ro|4to|5to|6to|7mo|8vo|9no</token>
+                    <token regexp="yes">1e?ro|2n?do|3e?ro|4r?to|5n?to|6x?to|7mo|8vo|9no</token>
                     <token>.<exception postag="SENT_END"/></token>
                 </pattern>
                 <message>Abreviatura de número ordinal.</message>
@@ -8630,7 +8638,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">1e?ra|2da|3e?ra|4ta|5ta|6ta|7ma|8va|9na</token>
+                    <token regexp="yes">1e?ra|2n?da|3e?ra|4r?ta|5n?ta|6x?ta|7ma|8va|9na</token>
                     <token>.<exception postag="SENT_END"/></token>
                 </pattern>
                 <message>Abreviatura de número ordinal.</message>
@@ -8650,7 +8658,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">1e?ro|2do|3e?ro|4to|5to|6to|7mo|8vo|9no</token>
+                    <token regexp="yes">1e?ro|2n?do|3e?ro|4r?to|5n?to|6x?to|7mo|8vo|9no</token>
                 </pattern>
                 <message>Abreviatura de número ordinal.</message>
                 <suggestion><match no="1" regexp_match="(\d).+" regexp_replace="$1.º"/></suggestion>
@@ -8659,7 +8667,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <pattern>
-                    <token regexp="yes">1e?ra|2da|3e?ra|4ta|5ta|6ta|7ma|8va|9na</token>
+                    <token regexp="yes">1e?ra|2n?da|3e?ra|4r?ta|5n?ta|6x?ta|7ma|8va|9na</token>
                 </pattern>
                 <message>Abreviatura de número ordinal.</message>
                 <suggestion><match no="1" regexp_match="(\d).+" regexp_replace="$1.ª"/></suggestion>
