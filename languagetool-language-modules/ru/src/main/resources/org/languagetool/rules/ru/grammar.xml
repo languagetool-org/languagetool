@@ -5305,23 +5305,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction=""><marker>Чтобы полететь на луну нужен</marker> корабль.</example>
             <example>Чтобы полететь на луну, нужен корабль.</example>
             <example>Чтобы закончить раньше (если вы не хотите).</example>
-        </rule>
-             
-        <rule id="PUNCT_OBR" name="Запятая при обращении" default="temp_off">
-            <pattern>
-                <token postag="NN:(Name|Patr):.*" postag_regexp="yes"></token>
-                <token postag="VB:IMP:TRANS:PFV:.*:P2" postag_regexp="yes"></token>
+        </rule>            
+        <rule id="PUNCT_OBR" name="Запятая при обращении" default="on">  <!-- default="temp_off" -->
+            <pattern case_sensitive="yes">
+                <token postag="NN:(Name|Patr):.*" postag_regexp="yes" regexp="yes" >[А-ЯЁ][а-яё]*<exception negate_pos="yes"  postag="NN:(Name|Patr):.*" postag_regexp="yes" /></token>
+                <token postag="VB:IMP:TRANS:PFV:.*:P2" postag_regexp="yes"><exception negate_pos="yes"  postag="VB:.*" postag_regexp="yes" /></token>
             </pattern>
             <message>Запятая при обращении: <suggestion>\1, \2</suggestion></message>
             <short>Запятая при обращении</short>
             <example correction="Иван, принесите"><marker>Иван принесите</marker> ведёрко.</example>
             <example correction="Иван, принеси"><marker>Иван принеси</marker> ведёрко.</example>
             <example>Иван, принеси ведёрко.</example>
+            <example>Сейчас я иду домой.</example>
+            <example>Ильин день у православных.</example>
         </rule>
     </category>
     <category id="TYPOGRAPHY" name="Типографика">     
         
-        <rulegroup default="off" id="DOUBL_KAVITCHKI" name="Двойные кавычки">
+        <rulegroup default="on" id="DOUBL_KAVITCHKI" name="Двойные кавычки">  <!-- default="off" -->
             <rule>
                <pattern>
                 <token>«</token>
