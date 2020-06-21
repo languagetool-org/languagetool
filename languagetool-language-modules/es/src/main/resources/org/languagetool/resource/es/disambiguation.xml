@@ -28,7 +28,7 @@ Copyright (C) 2011 Juan Martorell
     <!ENTITY nombre_fem_el "África|aguadulce|acta|afta|agua|aguasal|aguaviva|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
     <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
     <!ENTITY denominacion "elemento|palabra|término|expresión|vocablo|nombre|tipo|denominación">
-
+    <!ENTITY nombre_seguidode_nombrepropio "calle|copa|casa|abad|informe|señor|señora|estándar|tipo|dirección|imperio|profeta|balneario|proyecto|corriente|lago|monte|padre|premio|caso|carrera|concurso|cuadro|mesa|novela|obra|río|estilo|programa|orquesta|escuela|registro|finca|sonda|rosa|tema">
 ]>
 
 <rules lang="es" xsi:noNamespaceSchemaLocation="../../../../../../../../../languagetool-core/src/main/resources/org/languagetool/resource/disambiguation.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -890,6 +890,15 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
+                <token inflected="yes" regexp="yes">color|modo|tipo</token>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes"/>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token inflected="yes">tratamiento</token>
                 <marker>
                     <token inflected="yes">aumento</token>
@@ -919,7 +928,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token postag="NC.*" postag_regexp="yes"/>
                 <marker>
-                    <token inflected="yes" regexp="yes">modelo|base</token>
+                    <token inflected="yes" regexp="yes">modelo|base|pivote</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="N.*"/>
@@ -964,6 +973,54 @@ Copyright (C) 2011 Juan Martorell
                 <token postag="N.*" postag_regexp="yes"/>
             </pattern>
             <disambig action="remove" postag="V.*"/>
+        </rule>
+    </rulegroup>
+    
+    <rulegroup id="nombre_seguidode_nombrepropio" name="nombre seguido de nombre propio: calle Ayacuco">
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">&nombre_seguidode_nombrepropio;</token>
+                <marker>
+                    <and>
+                        <token postag="V.*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
+                        <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="[^V].*"/>
+            <example type="untouched">Amb qui es <marker>casa</marker> Lídia?</example>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">&nombre_seguidode_nombrepropio;</token>
+                </marker>
+                <token regexp="yes">\p{Lu}.+</token>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" regexp="yes">&nombre_seguidode_nombrepropio;</token>
+                <token regexp="yes">['"‘“«] </token>
+                <marker>
+                    <and>
+                        <token postag="V.*" postag_regexp="yes" regexp="yes">\p{Lu}.+</token>
+                        <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
+                    </and>
+                </marker>
+            </pattern>
+            <disambig action="filter" postag="[^V].*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">&nombre_seguidode_nombrepropio;</token>
+                </marker>
+                <token regexp="yes">['"‘“«] </token>
+                <token regexp="yes">\p{Lu}.+</token>
+            </pattern>
+            <disambig action="filter" postag="N.*"/>
         </rule>
     </rulegroup>
 
@@ -1358,12 +1415,32 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="V.[^NGP].*"/>
     </rule>
 
-    <rule id="not_verb" name="not verb">
-        <pattern>
-            <token regexp="yes">mamá|cinco</token>
-        </pattern>
-        <disambig action="remove" postag="V.*"/>
-    </rule>
+    <rulegroup id="not_verb" name="not verb">
+        <rule>
+            <pattern>
+                <token regexp="yes">mamá|cinco</token>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+                <marker>
+                    <token>así</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule id="serie" name="serie (noun)">
+            <pattern>
+                <marker>
+                    <token postag="NC.*" postag_regexp="yes">serie</token>
+                </marker>
+                <token regexp="yes">de|del</token>
+            </pattern>
+            <disambig action="remove" postag="V.*"></disambig>
+        </rule>
+    </rulegroup>
 
     <rule id="un_not_verb" name="un + not verb">
         <pattern>
@@ -2270,7 +2347,7 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|era|eras|ver|pasa|pasas|son<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>

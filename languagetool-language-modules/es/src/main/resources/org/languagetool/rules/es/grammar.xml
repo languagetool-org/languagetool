@@ -1070,14 +1070,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                         <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                     </marker>
                 </pattern>
-                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\3 postag:NC.* gendernumber_from:3"/>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\3 postag:NC.* gendernumber_from:2"/>
                 <message>Si es adjetivo o nombre, se escribe con tilde.</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="fórmulas">No es solo memorizar las <marker>formulas</marker>.</example>
                 <example correction="fórmulas">Memorizarás las <marker>formulas</marker>.</example>
                 <example correction="máquina">Espere unos segundos antes de parar la <marker>maquina</marker> para que quede bien.</example>
                 <example>Cuando lo casaron se sintió libre.</example>
-
+                <example>Así la llamaron los ingleses.</example>
             </rule>
             <rule>
                 <!-- Una nueva formula que -->
@@ -1639,7 +1639,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>El objeto modelo es cualquier representación esquemática de un objeto.</example>
             </rule>
         </rulegroup>
-        <rule id="PROMEDIO" name="promedio/promedió" default="temp_off">
+        <rule id="PROMEDIO" name="promedio/promedió">
             <pattern>
                 <marker>
                     <token>promedio<exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>
@@ -2389,6 +2389,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>asociación cobre-indio-selenio</example>
             <example>Puerto serie RS232C</example>
             <example>se añade directamente al número base de la CDU.</example>
+            <example>configuró la pantalla en modo deporte</example>
             <!--<example>Cada uno exprese su opinión.</example>
                 ambigous: ¡Sí! ¡Gane dos veces seguidas! -->
         </rule>
@@ -2543,6 +2544,25 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Página"><marker>Pagina</marker> 34.</example>
                 <example>Este libro lo pagina con el programa de edición.</example>
                 <example>Se pagina al final del diseño.</example>
+            </rule>
+            <rule id="LIQUIDA" name="liquida/líquida" default="temp_off">
+                <antipattern>
+                    <token postag="P.*" postag_regexp="yes"/>
+                    <token regexp="yes">liquidas?|liquido</token>
+                </antipattern>
+                <antipattern>
+                    <token regexp="yes">liquidas?|liquido</token>
+                    <token postag="D.*" postag_regexp="yes"/>
+                </antipattern>
+                <pattern>
+                    <token regexp="yes">liquidas?|liquido</token>
+                </pattern>
+                <message>Si es sustantivo o adjetivo, lleva tilde. Correcto si es del v. 'liquidar'.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(l)i(.*)" regexp_replace="$1í$2"/></suggestion>
+                <example correction="Líquida"><marker>Liquida</marker> quiere decir cuantificable.</example>
+                <example correction="líquido">Eso quiere decir <marker>liquido</marker>.</example>
+                <example>Ahora liquido la deuda.</example>
+                <example>Le liquidas las deudas.</example>
             </rule>
             <rule id="NUMERO" name="numero/número">
                 <antipattern>
@@ -3012,11 +3032,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="A.*|V.P.*|N.*" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
-                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"/>
+                    <token postag="SPS00|LOC_PREP" postag_regexp="yes"><exception>con</exception></token>
                     <marker>
                         <token>mi</token>
                     </marker>
-                    <token><exception postag="N.*|A.*|V.P.*|UNKNOWN" postag_regexp="yes"/></token>
+                    <token><exception postag="N.*|A.*|V.P.*|UNKNOWN|DN.*" postag_regexp="yes"/></token>
                 </pattern>
                 <message>Si es pronombre, se escribe con tilde.</message>
                 <suggestion>mí</suggestion>
@@ -3037,6 +3057,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>el abrazo de mi nietito</example>
                 <example>Lo hizo en mi contra.</example>
                 <example>Le odio con cada fibra de mi ser.</example>
+                <example>Con mi 1,80 m.</example>
             </rule>
         </rulegroup>
         <rulegroup id="ESTA_TILDE" name="*esta/está">
@@ -3067,6 +3088,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="Está"><marker>Esta</marker> muy cansado.</example>
                 <example correction="Está"><marker>Esta</marker> agotado.</example>
                 <example correction="está">Los mismos principios de que <marker>esta</marker> provista tal rama.</example>
+                <example correction="está">La persona no <marker>esta</marker> dispuesta a renunciar.</example>
                 <example>Esta revista es antigua.</example>
                 <example>Esta comida es buena.</example>
                 <example>Al ser esta superada.</example>
@@ -3767,7 +3789,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <url>https://www.fundeu.es/recomendacion/curriculo-o-curriculum-con-tilde-pero-curriculum-vitae/</url>
             <example correction="curriculum vitae|currículums|currículos">Los <marker>currículums vitae</marker>.</example>
         </rule>
-        <rulegroup id="SEPARADO" name="palabras que se escriben separadas" default="temp_off">
+        <rulegroup id="SEPARADO" name="palabras que se escriben separadas">
             <!-- if added to spelling rule, we could make suggestions for the word -->
             <antipattern>
                 <token/>
@@ -3776,7 +3798,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">[\d\.,ºª]+\p{L}{3,}<exception regexp="yes">\d+hrs</exception></token>
+                    <token regexp="yes">[\d\.,ºª]+\p{L}{3,}<exception regexp="yes">\d+(hrs|grs)</exception><exception case_sensitive="yes" regexp="yes">\d+[A-Z]+</exception></token>
                 </pattern>
                 <message>Probablemente falta un espacio.</message>
                 <suggestion><match no="1" regexp_match="(?iu)([\d\.,ºª]+)(\p{L}{3,})" regexp_replace="$1 $2"/></suggestion>
@@ -6486,6 +6508,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion>los</suggestion>
                 <example correction="los">Cumplir dos de <marker>las</marker> tres preceptos.</example>
                 <example>De las 16 restantes.</example>
+                <example>Las dos somos estudiantes.</example>
             </rule>
             <rule id="LOS_NUMBER_FEMALE" name="'los tres preguntas' etcétera">
                 <pattern>
@@ -7509,14 +7532,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <message>¿Quería decir <suggestion>este</suggestion>?</message>
             <example correction="este">En <marker>esto</marker> campo es el mejor.</example>
         </rule>-->
-        <rule id="ENSERIO" name="enserio / en serio" default="temp_off">
+        <rule id="ENSERIO" name="enserio / en serio">
             <pattern>
                 <token>enserio</token>
             </pattern>
             <message>¿Quería decir <suggestion>en serio</suggestion> (locución adverbial)? "Enserio" es una forma del verbo enseriar.</message>
             <example correction="en serio">¿Lo dices <marker>enserio</marker>?</example>
         </rule>
-        <rule id="SON_CON" name="confusión son/con" default="temp_off">
+        <rule id="SON_CON" name="confusión son/con">
             <pattern>
                 <token inflected="yes">cumplir</token>
                 <marker>
@@ -8982,6 +9005,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>No que no pudiese ser.</example>
                 <example>Una persona que no te entiende no tiene por qué ser idiota.</example>
                 <example>No puedes no verlo.</example>
+            </rule>
+            <rule default="temp_off">
+                <pattern>
+                    <token>a</token>
+                    <token postag="DP.*" postag_regexp="yes"/>
+                    <token><match no="0"></match></token>
+                </pattern>
+                <message>Repetición probablemente incorrecta.</message>
+                <suggestion>\1 \2</suggestion>
+                <example correction="a mi">Vuelvo <marker>a mi a</marker> madriguera.</example>
             </rule>
         </rulegroup>
     </category>
