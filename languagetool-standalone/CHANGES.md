@@ -41,8 +41,13 @@
 #### Russian
   * added and improved rules
   * added new Java rules
-  * rebuilt and improved main spellchecker dictionary
-  * new variant (only yo "ё") spellchecker dictionary and new java rule for it (off by default)
+  * rebuilt and improved main spellchecker dictionary, added many new words
+  * new variant (only yo "ё") spellchecker dictionary and new java rule for it (set off by default)
+  * new filter's arguments: prefix and suffix to be used for matching the part-of-speech of parts of words 
+    with prefix and suffix added to original token, e.g.:
+```xml
+       <filter class="org.languagetool.rules.ru.RussianPartialPosTagFilter" 
+                args="no:2 regexp:(.*) postag_regexp:(ADV) prefix:не suffix:  "/>  
 
 #### Slovak
   * commented out rules that caused many false alarms
