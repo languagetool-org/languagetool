@@ -3213,7 +3213,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="мало, но">Она говорила <marker>мало но</marker> толково.</example>
             </rule>
         </rulegroup>       
-        <rulegroup default="temp_off" id="CHTO_COMMA" name="Союз: «что»">
+        <rulegroup default="on" id="CHTO_COMMA" name="Союз: «что»">  <!-- default="temp_off"-->
             <rule>
                 <antipattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">&pnct;<exception postag="SENT_START"></exception></token>
@@ -3221,8 +3221,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>что</token>
                 </antipattern>                     
                 <pattern case_sensitive="yes">
-                    <token negate="yes" regexp="yes">&pnct;<exception postag="SENT_START"></exception><exception postag_regexp="yes"  postag="CONJ|PARTICLE|PREP|ADV|VB:.*|PNN.*|UNKNOWN"></exception></token>
-                    <token>что<exception scope="next" regexp="yes">&pnct;</exception><exception scope="next" >угодно</exception></token>
+                    <token negate="yes" regexp="yes">&pnct;<exception postag="SENT_START"></exception><exception postag_regexp="yes"  postag="CONJ|PARTICLE|PREP|ADV|VB:.*|PNN.*|UNKNOWN|ADJ:MPR:.*|ADJ:Sup:.*|DPT:.*"></exception></token>  <!-- ADJ:Short:.* -->
+                    <token>что<exception scope="next" regexp="yes">&pnct;</exception><exception scope="next" regexp="yes">угодно|ли</exception></token>
                 </pattern>
                 <message>Пропущена запятая: <suggestion>\1, \2</suggestion>.</message>
                 
@@ -3230,7 +3230,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Известно, что на улице красивый вид.</example>
                 <example>Слепой лошади что кивай, что подмигивай.</example>
                 <example>Говорите что угодно.</example>
+                <example>Не похоже, что погода сегодня улучшится.</example>
                 <example correction="Известно, что"><marker>Известно что</marker> на улице красивый вид.</example>
+                <example correction="известно, что">Хорошо <marker>известно что</marker> пауки не являются насекомыми.</example>
             </rule>
         </rulegroup>       
         <rulegroup id="i_and_i_and_i" name="Союзы: «и» + «и» + «и»" default="on">
