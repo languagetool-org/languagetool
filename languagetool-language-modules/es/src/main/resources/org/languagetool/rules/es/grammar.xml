@@ -1860,6 +1860,44 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La continua tensión.</example>
             </rule>
         </rulegroup>
+        <rulegroup id="SABIA" name="sabia/sabía" default="temp_off">
+            <antipattern>
+                <token postag="RG"/>
+                <token regexp="yes">sabias?</token>
+            </antipattern>
+            <antipattern>
+                <token postag="V.[IS].*" postag_regexp="yes"/>
+                <token regexp="yes">sabias?</token>
+            </antipattern>
+            <rule>
+                <pattern>
+                    <token regexp="yes">&pronombre_personal_atono;<exception>la</exception></token>
+                    <marker>
+                        <token regexp="yes">sabia|sabias</token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'saber', se escribe con tilde. Correcto si es adjetivo.</message>
+                <suggestion><match no="2" regexp_match="(?iu)(sab)i(as?)" regexp_replace="$1í$2"/></suggestion>
+                <example correction="sabía">Se <marker>sabia</marker> igual.</example>
+                <example correction="sabías">¿Lo <marker>sabias</marker>?</example>
+                <example>Has tomado una sabia decisión.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token regexp="yes">sabia|sabias<exception postag="_GN_F." postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Si es del v. 'saber', se escribe con tilde. Correcto si es adjetivo.</message>
+                <suggestion><match no="1" regexp_match="(?iu)(sab)i(as?)" regexp_replace="$1í$2"/></suggestion>
+                <example correction="Sabía"><marker>Sabia</marker> que vendría.</example>
+                <example correction="sabía">¿Quién <marker>sabia</marker> lo que pasaría?</example>
+                <example>Ha sido una sabia decisión.</example>
+                <example>Es muy sabia.</example>
+                <example>Es extraordinariamente sabia.</example>
+                <example>Es sabia como su hermano.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="TENIA" name="tenia/tenía" default="on">
             <rule>
                 <pattern>
