@@ -30277,6 +30277,10 @@ though, and has since been slightly modified)-->
       <example>Mon ex-femme habite près de chez moi.</example>
     </rule>
     <rule id="SEMI" name="semi + trait d’union">
+      <antipattern>
+        <token>mi</token>
+        <token>bémol</token>
+      </antipattern>
       <pattern>
         <token regexp="yes">semi|mi</token>
         <token postag="[JN].*|V ppa.*" postag_regexp="yes"/>
@@ -30284,8 +30288,8 @@ though, and has since been slightly modified)-->
       <message>« \1 \2 » est une erreur de typographie. Employez <suggestion>\1-\2</suggestion>.</message>
       <example correction="semi-automatique">La procédure est <marker>semi automatique</marker>.</example>
       <example>La procédure est semi-automatique.</example>
+      <example>Dans la tonalité de mi bémol</example>
     </rule>
-
     <rule id="APOS_QU" name="qu il → qu’il">
       <pattern>
         <token regexp="yes">qu|lorsqu|puisqu|presqu|jusqu|aujourd|entr</token>
