@@ -3451,7 +3451,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="esté">Cuando <marker>este</marker> disponible.</example>
                 <example correction="esté">Que <marker>este</marker> muy bonito.</example>
                 <example correction="esté">que <marker>este</marker> preciosa.</example>
-                <example correction="esté">Cuando tu cuenta <marker>este</marker> vacía.</example>
+                <!-- ambiguous <example correction="esté">Cuando tu cuenta <marker>este</marker> vacía.</example>-->
                 <example>se cree que este mismo papa estuvo interesado</example>
                 <example>Te miras al espejo, no te agrada lo que este refleja.</example>
             </rule>
@@ -6894,10 +6894,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes">ir|venir|entrar|volver|salir</token>
+                <token regexp="yes" inflected="yes">ir|venir|entrar|volver|salir|estar|levantar</token>
                 <token regexp="yes">a|en|de</token>
                 <token postag="DA.*" postag_regexp="yes" min="0"/>
-                <token>casa</token>
+                <token regexp="yes">casa|cama</token>
                 <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
@@ -6927,9 +6927,18 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token regexp="yes" inflected="yes">.*metro</token>
+                <token regexp="yes">más|menos</token>
+                <token regexp="yes" inflected="yes">alto|bajo</token>
+            </antipattern>
+            <antipattern>
+                <token>tan</token>
+                <token>rápido</token>
+            </antipattern>
             <pattern>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception><exception regexp="yes">\p{Lu}.*</exception></token>
-            </pattern>
+            </pattern>    
             <filter class="org.languagetool.rules.es.PostponedAdjectiveConcordanceFilter" args="key:value"/>
             <message>Revise la concordancia de la palabra «\1».</message>
             <example correction="">La casa del pueblo <marker>blancas</marker>.</example>
@@ -6943,6 +6952,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Un loro puede imitar el habla <marker>humano</marker>.</example>
             <example correction="">en un restaurante <marker>lujosa</marker></example>
             <example correction="">en un restaurante solemnemente <marker>decorada</marker></example>
+            <example correction="">¿Cuál es el más <marker>calurosa</marker> de todas las estaciones?</example>
             <example>El contacto con la cultura y la historia japonesas.</example>
             <example>en un restaurante lujosa y solemnemente decorado</example>
             <example>Estas son las sillas blancas de las que te hablé.</example>
@@ -6997,6 +7007,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>No sales feo en las fotos.</example>
             <example>Donde manda patrón no manda marinero.</example>
             <example>¿Me puedes dejar el ordenador media hora?</example>
+            <example>Estaban en cama profundamente dormidos.</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
                 Soy cualquier cosa menos mentiroso. 
@@ -7006,6 +7017,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 No puedo hacer el trabajo sola.
                 han aprendido esta lengua solos,
                 A menos que tomes una decisión rápido,
+                Escribí la composición apurado,
+                Mis parlantes son un juguete comparados con los tuyos.
                 -->
         </rule>
     </category>
