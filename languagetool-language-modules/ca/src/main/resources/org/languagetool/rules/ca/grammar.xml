@@ -237,7 +237,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example><marker>Dimarts, 7 oct 2014</marker></example>
             </rule>
         </rulegroup>
-        <rulegroup  id="NUMBER_DAYS_MONTH" name="dia màxim del mes (28, 29, 30, 31)">
+        <rulegroup id="NUMBER_DAYS_MONTH" name="dia màxim del mes (28, 29, 30, 31)">
             <antipattern>
                 <token regexp="yes">\d+</token>
                 <token regexp="yes">28|29|30|31</token>
@@ -275,9 +275,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">febrer|feb|0?2</token>
                     <token min="0" regexp="yes">[-/]|de</token>
                     <token min="0">l</token>
-                    <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048])
-                        <exception regexp="yes">[13579][26]00|[2468][048]00</exception>
-                    </token>
+                    <token regexp="yes">\d\d(00|\d[13579]|[02468][26]|[13579][048]) <exception regexp="yes">[13579][26]00|[2468][048]00</exception> </token>
                 </pattern>
                 <message>El mes de febrer sols té <suggestion>28</suggestion> dies, perquè l'any \5 no és de traspàs.</message>
                 <example correction="28">El <marker>29</marker> de febrer de 1900.</example>
@@ -13246,6 +13244,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="CONFUSIONS" name="Z1) Confusions" type="grammar">
+        <rule id="RES_AFER" name="res *afer/a fer">
+            <pattern>
+                <token>res</token>
+                <marker>
+                    <token>afer</token>
+                </marker>
+            </pattern>
+            <message>¿Volíeu dir <suggestion>a fer</suggestion>?</message>
+            <example correction="a fer">No hi ha res <marker>afer</marker>.</example>
+        </rule>
         <rule id="ENA_EN" name="ena / en">
             <pattern>
                 <marker>
@@ -15638,25 +15646,39 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="espases">Aquestes boniques <marker>espasses</marker>.</example>
             <example>El mal de cap no li espassa.</example>
         </rule>
-        <rule id="CONTAR_COMPTAR_AMB" name="contar/comptar amb">
+        <rulegroup id="CONTAR_COMPTAR_AMB" name="contar/comptar amb">
             <antipattern>
                 <marker>
                     <token skip="1">amb</token>
                     <token regexp="yes">detall|enginy|gràcia|humor</token>
                 </marker>
             </antipattern>
-            <pattern>
-                <marker>
-                    <token inflected="yes">contar<exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/><exception>contes</exception></token>
-                </marker>
-                <token>amb</token>
-            </pattern>
-            <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">comptar</match></suggestion> en comptes de \1 (=relatar)?</message>
-            <example correction="Compta"><marker>Conta</marker> amb 3.000 habitants.</example>
-            <example correction="compta">Ell <marker>conta</marker> amb el nostre suport.</example>
-            <example>Li conta amb qui havia fugit.</example>
-            <example>Les hi ha contades amb tot detall.</example>
-        </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">contar<exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/><exception>contes</exception></token>
+                    </marker>
+                    <token>amb</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">comptar</match></suggestion> en comptes de \1 (=relatar)?</message>
+                <example correction="Compta"><marker>Conta</marker> amb 3.000 habitants.</example>
+                <example correction="compta">Ell <marker>conta</marker> amb el nostre suport.</example>
+                <example>Li conta amb qui havia fugit.</example>
+                <example>Les hi ha contades amb tot detall.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <marker>
+                        <token inflected="yes">contar<exception scope="previous" postag="&pronom_feble;" postag_regexp="yes"/><exception>contes</exception></token>
+                    </marker>
+                    <token postag="DN.*" postag_regexp="yes"/>
+                    <token inflected="yes" regexp="yes">any|habitant</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion><match no="1" postag="(V.*)" postag_regexp="yes" postag_replace="$1">comptar</match></suggestion> en comptes de \1 (=relatar)?</message>
+                <example correction="Comptava"><marker>Contava</marker> 3.000 habitants.</example>
+                <example correction="Comptava"><marker>Contava</marker> vuitanta-quatre anys.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="PARIS" name="Paris/París" default="on">
             <antipattern>
                 <token postag="SENT_START" skip="-1"/>
@@ -53786,8 +53808,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token postag="P0.*" postag_regexp="yes"/>
                     <token postag="VA.*" postag_regexp="yes"/>
                     <and>
-                      <token inflected="yes">riure</token>
-                      <token postag="_reflexiu"/>
+                        <token inflected="yes">riure</token>
+                        <token postag="_reflexiu"/>
                     </and>
                 </pattern>
                 <message>El verb 'riure' sols pot ser reflexiu si va acompanyat d'un complement amb "de" (riure's de, riure-se'n).</message>
@@ -53834,7 +53856,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Ens en vam riure molt.</example>
                 <example>Val més riure't de tu mateix.</example>
             </rule>
-            <rule> <!--catch all rule-->
+            <rule>
+                <!--catch all rule-->
                 <pattern>
                     <and>
                         <token inflected="yes">riure</token>
