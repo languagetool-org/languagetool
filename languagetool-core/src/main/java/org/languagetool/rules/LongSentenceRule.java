@@ -49,12 +49,12 @@ public class LongSentenceRule extends Rule {
     if (!defaultActive) {
       setDefaultOff();
     }
-    if(defaultWords > 0) {
+    if (defaultWords > 0) {
       this.maxWords = defaultWords;
     }
     if (userConfig != null) {
       int confWords = userConfig.getConfigValueByID(getId());
-      if(confWords > 0) {
+      if (confWords > 0) {
         this.maxWords = confWords;
       }
     }
@@ -68,7 +68,6 @@ public class LongSentenceRule extends Rule {
   public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords) {
     this(messages, userConfig, defaultWords, DEFAULT_ACTIVATION);
   }
-
 
   /**
    * Creates a rule with default values can be overwritten by configuration settings

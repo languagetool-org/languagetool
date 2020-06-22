@@ -48,12 +48,12 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
     if (defaultActive) {
       setDefaultOn();
     }
-    if(defaultWords > 0) {
+    if (defaultWords > 0) {
       this.maxWords = defaultWords;
     }
     if (userConfig != null) {
       int confWords = userConfig.getConfigValueByID(getId());
-      if(confWords > 0) {
+      if (confWords > 0) {
         this.maxWords = confWords;
       }
     }
@@ -66,7 +66,6 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
   public LongSentenceRule(ResourceBundle messages, UserConfig userConfig, int defaultWords) {
     this(messages, userConfig, defaultWords, DEFAULT_ACTIVATION);
   }
-
 
   /**
    * Creates a rule with default values can be overwritten by configuration settings
@@ -94,12 +93,11 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
   private boolean isWordCount(String tokenText) {
     if (tokenText.length() > 0) {
       char firstChar = tokenText.charAt(0);
-      if (((firstChar >= 'A' && firstChar <= 'Z')
-                || (firstChar >= 'a' && firstChar <= 'z')
-                || firstChar == 'ä' || firstChar == 'ö' || firstChar == 'ü'
-                || firstChar == 'Ä' || firstChar == 'Ö' || firstChar == 'Ü' 
-                || firstChar == 'ß')) {
-      return true;
+      if ((firstChar >= 'A' && firstChar <= 'Z') ||
+          (firstChar >= 'a' && firstChar <= 'z') ||
+          firstChar == 'ä' || firstChar == 'ö' || firstChar == 'ü' || firstChar == 'Ä' ||
+          firstChar == 'Ö' || firstChar == 'Ü' || firstChar == 'ß') {
+        return true;
       }
     } 
     return false;
@@ -123,7 +121,7 @@ public class LongSentenceRule extends org.languagetool.rules.LongSentenceRule {
               && !tokens[i].getToken().equals("\n\r")
               ) {
         if (isWordCount(tokens[i].getToken())) {
-          if(numWords == maxWords) {
+          if (numWords == maxWords) {
             fromPos.add(tokens[i].getStartPos());
             toPos.add(tokens[i].getEndPos());
           }
