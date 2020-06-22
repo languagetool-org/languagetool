@@ -6404,7 +6404,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>expresando ambas positividad</example>
                 <example>Tanto mayores serán los beneficios.</example>
                 <example>el buen comportamiento de unos recompensa el mal comportamiento de otros</example>
-                <example correction="mucha física|muchas físicas" type="triggers_error" reason="ambiguous">no he estudiado <marker>mucho física</marker></example>
+                <example>No he estudiado <marker>mucho física</marker>.</example>
                 <example>Por todo América.</example>
                 <example>Mil quinientas cincuenta y una bombillas.</example>
                 <example>Me gusta mucho Mary.</example>
@@ -6859,17 +6859,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token postag="DI0[FC]S0|AO.*" postag_regexp="yes"/>
-                <token regexp="yes">vez|semana</token>
+                <token postag="D[NI].*|AO.*" postag_regexp="yes"/>
+                <token regexp="yes" inflected="yes">vez|&unidades_tiempo;</token>
+                <token min="0" max="3" postag="RG|LOC_ADV" postag_regexp="yes"></token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token postag="DI0[CM]S0|AO.*" postag_regexp="yes"/>
-                <token regexp="yes">día|año|mes|siglo</token>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
-            </antipattern>
-            <antipattern>
-                <token regexp="yes">debido|junto</token>
+                <token regexp="yes">debido|junto|justo</token>
                 <token regexp="yes">a|al</token>
             </antipattern>
             <antipattern>
@@ -6902,8 +6898,16 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="NP..G.*" postag_regexp="yes" min="1" max="3"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
+            <antipattern>
+                <token regexp="yes">satélite|clave|líder|bomba|miembro</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="2" regexp="yes">llevar|pasar</token>
+                <token inflected="yes" regexp="yes">&unidades_tiempo;</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
             <pattern>
-                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"> <exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception> <exception regexp="yes">\p{Lu}.*</exception> </token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="_GN_.*|ignore_concordance|AQ.CN.|_GV_" postag_regexp="yes"/> <exception regexp="yes">primero|juntos|juntas|dado|dada|dados|dadas|incluso</exception><exception regexp="yes">\p{Lu}.*</exception></token>
             </pattern>
             <filter class="org.languagetool.rules.es.PostponedAdjectiveConcordanceFilter" args="key:value"/>
             <message>Revise la concordancia de la palabra «\1».</message>
@@ -6954,6 +6958,24 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Solo quiero decir buena suerte.</example>
             <example>¡Qué tristeza ver ciertas cosas!</example>
             <example>Somos rubias.</example>
+            <example>aunque sean un poco extremas.</example>
+            <example>Estados miembros, estados miembro.</example>
+            <example>Países satélites, países satélite.</example>
+            <example>Mi madre lleva dos días enferma.</example>
+            <example>Construí una casa justo al lado de la jungla.</example>
+            <example>Falta poco para que llegue la primavera.</example>
+            <example>¿Usted enseña español?</example>
+            <example>¿Juan enseña español?</example>
+            <example>Es dos veces más grande que la de él.</example>
+            <example>La bomba fue desactivada justo minutos antes.</example>
+            <example>quedan un tanto apretados</example>
+            <!-- 
+                Ella fue al concierto acompañada de una amiga.
+                
+                 siempre esperan el autobús formados en fila. 
+                 Él se unió a los partisanos muy joven.
+                Él se giró hacia sus acusadores enfadado.
+                -->
         </rule>
     </category>
     <category id="AGREEMENT_VERBS" name="Concordancia sujeto/predicado" type="inconsistency" default="on">
