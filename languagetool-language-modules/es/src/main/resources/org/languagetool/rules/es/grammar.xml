@@ -6869,6 +6869,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token regexp="yes">a|al</token>
             </antipattern>
             <antipattern>
+                <token>justo</token>
+                <token>en</token>
+            </antipattern>
+            <antipattern>
                 <token regexp="yes">seguro|mayor|menor|puesto</token>
                 <token>que</token>
             </antipattern>
@@ -6886,10 +6890,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
-                <token regexp="yes" inflected="yes">ir|venir|entrar</token>
+                <token regexp="yes" inflected="yes">ir|venir|entrar|volver</token>
                 <token regexp="yes">a|en</token>
                 <token postag="DA.*" postag_regexp="yes" min="0"/>
                 <token>casa</token>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
@@ -6904,6 +6909,17 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <antipattern>
                 <token inflected="yes" skip="2" regexp="yes">llevar|pasar</token>
                 <token inflected="yes" regexp="yes">&unidades_tiempo;</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
+            </antipattern>
+            <antipattern>
+                <token regexp="yes">la|su</token>
+                <token>mayoría</token>
+            </antipattern>
+            <antipattern>
+                <token inflected="yes" skip="4">dar</token>
+                <token>por</token>
+                <token postag="V.P.*|AQ.*" postag_regexp="yes" inflected="yes" regexp="yes">hacer|bueno|válido|sentar|descontar|suponer</token>
+                <token min="0" max="4" postag="RG|LOC_ADV" postag_regexp="yes"/>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <pattern>
@@ -6969,12 +6985,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>Es dos veces más grande que la de él.</example>
             <example>La bomba fue desactivada justo minutos antes.</example>
             <example>quedan un tanto apretados</example>
+            <example>Una capacidad de dar las cosas por hecho casi infinita.</example>
+            <example>Vuelve a casa tan rápido como puedas.</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
-                
+                Soy cualquier cosa menos mentiroso. 
                  siempre esperan el autobús formados en fila. 
                  Él se unió a los partisanos muy joven.
                 Él se giró hacia sus acusadores enfadado.
+                No puedo hacer el trabajo sola.
                 -->
         </rule>
     </category>
