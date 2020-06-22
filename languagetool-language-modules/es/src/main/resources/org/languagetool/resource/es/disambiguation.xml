@@ -1048,6 +1048,12 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
+                <token>dan<exception postag="D..MS.|AO0MS0" postag_regexp="yes" scope="previous"/></token>
+            </pattern>
+            <disambig action="remove" postag="NC.*"/>
+        </rule>
+        <rule>
+            <pattern>
                 <token>son<exception scope="previous" regexp="yes">un|el|este|de|del|al</exception><exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="remove" postag="NC.*"/>
@@ -1076,6 +1082,12 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <token>haces<exception postag="D..MP." postag_regexp="yes" scope="previous"/></token>
+            </pattern>
+            <disambig action="remove" postag="NC.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token>haz<exception postag="D..MS." postag_regexp="yes" scope="previous"/></token>
             </pattern>
             <disambig action="remove" postag="NC.*"/>
         </rule>
@@ -1337,6 +1349,31 @@ Copyright (C) 2011 Juan Martorell
                 <marker>
                     <token postag="SPS00">en</token>
                     <token postag="NCFS000">marcha</token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GV_"/>
+                <wd pos="_GV_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+    <rulegroup id="dar_a_luz" name="dar a luz (verb)">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="V.*" postag_regexp="yes" inflected="yes">dar</token>
+                    <token postag="SPS00">a</token>
+                    <token postag="NCFS000">luz</token>
+                </marker>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token postag="V.*" postag_regexp="yes" inflected="yes">dar</token>
+                <marker>
+                    <token postag="SPS00">a</token>
+                    <token postag="NCFS000">luz</token>
                 </marker>
             </pattern>
             <disambig action="add">
@@ -1783,6 +1820,15 @@ Copyright (C) 2011 Juan Martorell
                 <token><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
                 <marker>
                     <token>así</token>
+                </marker>
+            </pattern>
+            <disambig action="remove" postag="V.*"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token><exception postag="&pronombre_personal_atono_POS;" postag_regexp="yes"/></token>
+                <marker>
+                    <token regexp="yes">comidas?</token>
                 </marker>
             </pattern>
             <disambig action="remove" postag="V.*"/>
@@ -2412,6 +2458,7 @@ Copyright (C) 2011 Juan Martorell
 
     <rule id="NOMBRE_PROPIOS" name="nombres propios">
         <pattern>
+            <token><exception postag="SENT_START"/><exception regexp="yes">[—–\-]</exception><exception regexp="yes">[¿¡"'«»‘“:]</exception></token>
             <token postag="NP.*" postag_regexp="yes"><exception postag="SENT_START" scope="previous"/></token>
         </pattern>
         <disambig action="filter" postag="NP.*"/>
