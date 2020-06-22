@@ -4767,6 +4767,28 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rulegroup>
     </category>
     <category id="VERBS" name="Verbs" type="grammar">
+        <rulegroup id="NO_IMPERATIU" name="imperatiu incorrecte" default="off">
+            <rule>
+                <pattern>
+                    <token>queda</token>
+                    <token>'n</token>
+                </pattern>
+                <message>¿Volíeu dir <suggestion>queden</suggestion>?</message>
+                <example correction="Queden"><marker>Queda'n</marker> poques entrades.</example>
+            </rule>
+            <rule>
+                <pattern>
+                    <token>no</token>
+                    <marker>
+                        <token postag="V.M.*" postag_regexp="yes"><exception postag="V.[SI].*" postag_regexp="yes"/></token>
+                    </marker>
+                </pattern>
+                <message>Una frase negativa no es construeix amb la forma verbal d'imperatiu.</message>
+                <example correction="">No <marker>porta</marker>'n res.</example>
+                <example correction="">No <marker>queda</marker>'n solucions.</example>
+                <example>Porta'n tres.</example>
+            </rule>
+        </rulegroup>
         <rulegroup id="VENIR_NO_REFLEXIU" name="v. venir no és reflexiu">
             <rule>
                 <pattern>
