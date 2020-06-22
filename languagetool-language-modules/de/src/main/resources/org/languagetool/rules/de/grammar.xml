@@ -4864,14 +4864,26 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         <rule id="SICH_AUSDRUCKEN" name="sich ausdrucken (ausdrücken)">
             <pattern>
                 <token postag="PRO:REF:AKK.*" postag_regexp="yes" />
-                <token postag="ADJ:PRD:GRU.*" postag_regexp="yes" />
+                <token min="0">nicht</token>
+                <token postag="(ADV:|ADJ:PRD:GRU).*" postag_regexp="yes" max="2"/>
                 <marker>
                     <token inflected="yes">ausdrucken</token>
                 </marker>
             </pattern>
-            <message>Meinten Sie <suggestion><match no="3" regexp_match="dru" regexp_replace="drü" /></suggestion>?</message>
+            <message>Meinten Sie <suggestion><match no="4" regexp_match="dru" regexp_replace="drü" /></suggestion>?</message>
+            <example correction="ausgedrückt">Da habe ich mich nicht klar genug <marker>ausgedruckt</marker>.</example>
             <example correction="ausgedrückt">Da habe ich mich ungeschickt <marker>ausgedruckt</marker>.</example>
             <example>Das habe ich mir sofort <marker>ausgedruckt</marker>.</example>
+        </rule>
+        <rule id="ARRANGIERT_ENGAGIERT" name="sozial arrangiert (engagiert)">
+            <pattern>
+                <token>sozial</token>
+                <marker>
+                    <token regexp="yes">arrangiert(e[mnrs]?)?</token>
+                </marker>
+            </pattern>
+            <message>Meinten Sie <suggestion><match no="2" regexp_match="arrangiert" regexp_replace="engagiert" /></suggestion>?</message>
+            <example correction="engagiert">Sie ist sozial <marker>arrangiert</marker>.</example>
         </rule>
         <rule id="IT-Girl" name="IT-Girl">
             <pattern>
