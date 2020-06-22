@@ -3219,6 +3219,15 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token negate="yes" regexp="yes">&pnct;<exception postag="SENT_START"></exception></token>
                     <token skip="-1">что</token>
                     <token>что</token>
+                </antipattern>
+                <antipattern case_sensitive="yes">
+                    <token negate="yes" regexp="yes">&pnct;
+                        <exception postag="SENT_START"></exception>
+                    </token>
+                    <token skip="-1">что<exception scope="next" regexp="yes" >&pnct;</exception>
+                        <exception scope="next" regexp="yes">угодно|ли</exception>
+                    </token>
+                    <token postag="VB:Fut:.*:P3" postag_regexp="yes"></token>
                 </antipattern>                     
                 <pattern case_sensitive="yes">
                     <token negate="yes" regexp="yes">&pnct;<exception postag="SENT_START"></exception><exception postag_regexp="yes"  postag="CONJ|PARTICLE|PREP|ADV|VB:.*|PNN.*|UNKNOWN|ADJ:MPR:.*|ADJ:Sup:.*|DPT:.*"></exception></token>  <!-- ADJ:Short:.* -->
@@ -3231,6 +3240,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Слепой лошади что кивай, что подмигивай.</example>
                 <example>Говорите что угодно.</example>
                 <example>Не похоже, что погода сегодня улучшится.</example>
+                <example>Ежели кто стоя на карауле что украдет, много или мало, оный имеет быть повешен.</example>
                 <example correction="Известно, что"><marker>Известно что</marker> на улице красивый вид.</example>
                 <example correction="известно, что">Хорошо <marker>известно что</marker> пауки не являются насекомыми.</example>
             </rule>
