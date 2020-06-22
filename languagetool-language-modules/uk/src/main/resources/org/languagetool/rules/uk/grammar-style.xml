@@ -1987,17 +1987,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 
 
     <rule id="cholovik_with_numr" name="«Чоловік» з числівниками">
+      <antipattern>
+        <token regexp="yes">чоловік[аи]?</token>
+        <token min="0" max="2"/>
+        <token regexp="yes">жінок|жінки|жінка</token>
+      </antipattern>
       <pattern>
         <token postag=".*num.*" postag_regexp="yes">
-          <exception inflected="yes" regexp="yes">один|обидва</exception>
+          <exception inflected="yes" regexp="yes">один|обидва|два</exception>
           <exception postag_regexp="yes" postag="adj:m:.*"/>
         </token>
         <marker>
-          <token regexp="yes" skip="-1">чоловік|чоловіка|чоловіки
-            <exception scope="next" regexp="yes">жінок|жінки|жінка</exception>
+          <token regexp="yes">чоловік[аи]?
           </token>
         </marker>
-        <token postag="SENT_END"/>
       </pattern>
       <message>Деякі мовні стилісти радять вживати «осіб»: \1 <suggestion>осіб</suggestion></message>
       <url>http://mova.kreschatic.kiev.ua/32.php</url>
@@ -2007,6 +2010,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
       <example>791 чоловік, 43 жінки</example>
       <example>Один чоловік сказав мені таке...</example>
       <example>Її першого чоловіка.</example>
+      <example>3703 чоловіки та 114 жінок</example>
+      <example>два чоловіки й жінка</example>
     </rule>
 
     <rule id="viyskova_pidgotovka" name="Військова підготовка">

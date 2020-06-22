@@ -126,7 +126,9 @@ public class SimpleReplaceRule extends AbstractSimpleReplaceRule {
         matches.add(match);
       }
       else {
-        if( PosTagHelper.hasPosTagPart(tokenReadings, ":bad") && ! PosTagHelper.hasPosTagStart(tokenReadings, "number") ) {
+        if( PosTagHelper.hasPosTagPart(tokenReadings, ":bad") 
+            && ! PosTagHelper.hasPosTagStart(tokenReadings, "number")
+            && ! "чоловік".equalsIgnoreCase(tokenReadings.getToken()) ) {
 //          try {
             String msg = "Неправильно написане слово.";
 

@@ -230,7 +230,7 @@
   <rule name="Чоловік - множина" id="cholovik_plural_1">
     <antipattern>
       <token>чоловік</token>
-      <token/>
+      <token min="0" max="2"/>
       <token>жінок</token>
     </antipattern>
     <pattern>
@@ -1523,25 +1523,6 @@
     <example type="untouched">Чули її добре.</example>
   </rule>
 
-  <rule name="Ізюм" id="CAPITAL_LETTER_IZUM">
-    <pattern>
-      <token>
-        <exception postag="SENT_START"/>
-      </token>
-      <marker>
-        <and>
-          <token inflected="yes">Ізюм</token>
-          <token inflected="yes">ізюм</token>
-        </and>
-      </marker>
-    </pattern>
-    <disambig action="filter" postag="noun.*:prop:geo"/>
-    <example type="ambiguous"
-        inputform="Ізюму[Ізюм/noun:inanim:m:v_dav:prop:geo,Ізюм/noun:inanim:m:v_rod:prop:geo:ua_2019,ізюм/noun:inanim:m:v_dav:bad,ізюм/noun:inanim:m:v_rod:bad]"
-        outputform="Ізюму[Ізюм/noun:inanim:m:v_dav:prop:geo]">Приїхав з <marker>Ізюму</marker>.</example>
-    <example type="untouched">вироби з ізюму.</example>
-  </rule>
-
   <rule name="Велика літера всередині речення" id="CAPITAL_LETTER_INSIDE_SENTENCE">
     <!-- поки лише для слова, що створює проблему -->
     <pattern case_sensitive="yes">
@@ -1560,6 +1541,25 @@
         outputform="Авт[авто/noun:inanim:p:v_rod:alt,автор/noun:inanim:m:v_naz:abbr]">перерозподіл (власності. — <marker>Авт</marker>. ).</example>
     <example type="untouched">під час аварій власних авт чи мотоциклів.</example>
     <example type="untouched">Авт не було зовсім.</example>
+  </rule>
+
+  <rule name="Ізюм" id="CAPITAL_LETTER_IZUM">
+    <pattern>
+      <token>
+        <exception postag="SENT_START"/>
+      </token>
+      <marker>
+        <and>
+          <token inflected="yes">Ізюм</token>
+          <token inflected="yes">ізюм</token>
+        </and>
+      </marker>
+    </pattern>
+    <disambig action="filter" postag="noun.*:prop:geo"/>
+    <example type="ambiguous"
+        inputform="Ізюму[Ізюм/noun:inanim:m:v_dav:prop:geo,Ізюм/noun:inanim:m:v_rod:prop:geo:ua_2019,ізюм/noun:inanim:m:v_dav:bad,ізюм/noun:inanim:m:v_rod:bad]"
+        outputform="Ізюму[Ізюм/noun:inanim:m:v_dav:prop:geo]">Приїхав з <marker>Ізюму</marker>.</example>
+    <example type="untouched">вироби з ізюму.</example>
   </rule>
 
   <rule name="Петра з українськими прізвищами" id="PETRA_FNAME_MASC">
@@ -1620,6 +1620,7 @@
             >До <marker>Кот</marker> д'Івуара</example>
     <example type="untouched">Приїхав Василь Кот.</example>
   </rule>
+
   <rule name="Кот д'Івуар" id="DIS_KOT_D_IVUAR2">
     <pattern case_sensitive="yes">
       <marker>
@@ -2224,6 +2225,21 @@
         outputform="Ван[ван/part:pers]"
             >для <marker>Ван</marker> Гаала</example>
     <example type="untouched">В Ван приїхав султан.</example>
+  </rule>
+
+  <rule name="Сполучник та частка 'да'" id="conj_or_part_da">
+    <pattern>
+      <marker>
+        <token>да</token>
+      </marker>
+      <token regexp="yes">Вінчі|[ГҐ]амм?а|Сілва|Караваджо|Палестр[іи]на</token>
+    </pattern>
+    <disambig postag="part:pers"/>
+    <example type="ambiguous"
+        inputform="да[да/part:bad]"
+        outputform="да[да/part:pers]"
+            >Васко <marker>да</marker> Гамма</example>
+    <example type="untouched">відповів йому «да».</example>
   </rule>
 
   <!-- TODO: this rule may be a bit too greedy, but most of the time it's right -->
