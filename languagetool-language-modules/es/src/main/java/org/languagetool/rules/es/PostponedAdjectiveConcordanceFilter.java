@@ -93,9 +93,9 @@ public class PostponedAdjectiveConcordanceFilter extends RuleFilter {
   private static final Pattern COORDINACIO_IONI = Pattern.compile("y|e|o|u|ni");
   private static final Pattern KEEP_COUNT = Pattern.compile("A.*|N.*|D[NAIDP].*|SPS.*|SP\\+DA|.*LOC_ADV.*|V.P.*|_PUNCT.*|.*LOC_ADJ.*|PX.*");
   private static final Pattern KEEP_COUNT2 = Pattern.compile(",|y|o|ni"); // |\\d+%?|%
-  private static final Pattern STOP_COUNT = Pattern.compile(";");
+  private static final Pattern STOP_COUNT = Pattern.compile(";|lo");
   private static final Pattern PREPOSICIONS = Pattern.compile("SPS.*");
-  private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|del|en|sobre|a|entre|por|com|sin|contra");
+  private static final Pattern PREPOSICIO_CANVI_NIVELL = Pattern.compile("de|del|en|sobre|a|entre|por|con|sin|contra");
   private static final Pattern VERB = Pattern.compile("V.[^P].*|_GV_");
   private static final Pattern GV = Pattern.compile("_GV_");
 

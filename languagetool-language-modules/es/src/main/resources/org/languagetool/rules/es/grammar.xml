@@ -1370,6 +1370,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token>que</token>
                     <token>no</token>
                 </antipattern>
+                <antipattern>
+                    <token>que</token>
+                    <token>si</token>
+                </antipattern>
                 <pattern>
                     <token>¿</token>
                     <token min="0" max="2" postag="SPS00|CC" postag_regexp="yes"/>
@@ -6870,7 +6874,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>justo</token>
-                <token>en</token>
+                <token regexp="yes">en|antes|después</token>
             </antipattern>
             <antipattern>
                 <token regexp="yes">seguro|mayor|menor|puesto</token>
@@ -6908,12 +6912,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token inflected="yes" skip="2" regexp="yes">llevar|pasar</token>
-                <token inflected="yes" regexp="yes">&unidades_tiempo;</token>
+                <token inflected="yes" regexp="yes">&unidades_tiempo;&partes_dia;</token>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token regexp="yes">la|su</token>
                 <token>mayoría</token>
+                <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"/>
             </antipattern>
             <antipattern>
                 <token inflected="yes" skip="4">dar</token>
@@ -6938,6 +6943,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example correction="">Un loro puede imitar el habla <marker>humano</marker>.</example>
             <example correction="">en un restaurante <marker>lujosa</marker></example>
             <example correction="">en un restaurante solemnemente <marker>decorada</marker></example>
+            <example>El contacto con la cultura y la historia japonesas.</example>
             <example>en un restaurante lujosa y solemnemente decorado</example>
             <example>Estas son las sillas blancas de las que te hablé.</example>
             <example>La casa del pueblo blanca.</example>
@@ -6987,6 +6993,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <example>quedan un tanto apretados</example>
             <example>Una capacidad de dar las cosas por hecho casi infinita.</example>
             <example>Vuelve a casa tan rápido como puedas.</example>
+            <example>Eran en su mayoría jóvenes.</example>
+            <example>No sales feo en las fotos.</example>
+            <example>Donde manda patrón no manda marinero.</example>
+            <example>¿Me puedes dejar el ordenador media hora?</example>
             <!-- 
                 Ella fue al concierto acompañada de una amiga.
                 Soy cualquier cosa menos mentiroso. 
@@ -6994,6 +7004,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                  Él se unió a los partisanos muy joven.
                 Él se giró hacia sus acusadores enfadado.
                 No puedo hacer el trabajo sola.
+                A menos que tomes una decisión rápido,
                 -->
         </rule>
     </category>

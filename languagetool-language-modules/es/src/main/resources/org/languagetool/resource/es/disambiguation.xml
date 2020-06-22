@@ -1048,7 +1048,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token>son<exception scope="previous" regexp="yes">un|el|este|de|del</exception><exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>
+                <token>son<exception scope="previous" regexp="yes">un|el|este|de|del|al</exception><exception scope="previous" postag="SPS00|LOC_PREP" postag_regexp="yes"/></token>
             </pattern>
             <disambig action="remove" postag="NC.*"/>
         </rule>
@@ -1069,13 +1069,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token regexp="yes">habla|ese|a<exception postag="D..FS." postag_regexp="yes" scope="previous"/><exception scope="previous">el</exception></token>
-            </pattern>
-            <disambig action="remove" postag="NC.*"/>
-        </rule>
-        <rule>
-            <pattern>
-                <token>hablas<exception postag="D..FP." postag_regexp="yes" scope="previous"/></token>
+                <token regexp="yes">ese|a<exception postag="D..FS." postag_regexp="yes" scope="previous"/><exception scope="previous">el</exception></token>
             </pattern>
             <disambig action="remove" postag="NC.*"/>
         </rule>
@@ -1264,13 +1258,25 @@ Copyright (C) 2011 Juan Martorell
         </disambig>
     </rule>
 
-    <rule id="HABER_PARTICIPO" name=" haver + participio">
-        <pattern>
-            <token inflected="yes" postag="VA.*" postag_regexp="yes">haber</token>
-            <token postag="V.P..SM" postag_regexp="yes"/>
-        </pattern>
-        <disambig action="filterall"/>
-    </rule>
+    <rulegroup id="HABER_PARTICIPO" name=" haver + participio">
+        <rule>
+            <pattern>
+                <token inflected="yes" postag="VA.*" postag_regexp="yes">haber</token>
+                <token postag="V.P..SM" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="filterall"/>
+        </rule>
+        <rule>
+            <pattern>
+                <token inflected="yes" postag="VA.*" postag_regexp="yes">haber</token>
+                <token postag="V.P..SM" postag_regexp="yes"/>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GV_"/>
+                <wd pos="_GV_"/>
+            </disambig>
+        </rule>
+    </rulegroup>
     <rule id="el_haya" name="el haya">
         <pattern>
             <token regexp="yes">el|al|del|un|algún|ningún</token>
@@ -1617,7 +1623,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token postag="N.*|_GN_.*|RG.*|V.[SI].*|PI.*|_PUNCT.*" postag_regexp="yes"/>
                 <marker>
-                    <token postag="RG_before" postag_regexp="yes"/>
+                    <token postag="RG_before"/>
                 </marker>
                 <token postag="AQ.*|V.P.*|PX.*" postag_regexp="yes"><exception postag="N.[MC][SN].*" postag_regexp="yes"/></token>
             </pattern>
@@ -2460,17 +2466,6 @@ Copyright (C) 2011 Juan Martorell
         <disambig action="remove" postag="A.*"/>
     </rule>
 
-    <rule id="not_adj_no_agreement2" name="not adjective if no agreement">
-        <pattern>
-            <marker>
-                <and>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">mal|solo<exception postag="_GN_.*" postag_regexp="yes"/></token>
-                    <token postag="N.*|RG" postag_regexp="yes"/>
-                </and>
-            </marker>
-        </pattern>
-        <disambig action="remove" postag="A.*"/>
-    </rule>
 
     <rule id="not_participle" name="not participle">
         <antipattern>
@@ -2587,6 +2582,69 @@ Copyright (C) 2011 Juan Martorell
         </rule>
     </rulegroup>
 
+    <rulegroup id="AdjNom" name="adj + nom">
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="A..[MC][SN0].*|V.P..SM|PX.[MC][SN0].*" postag_regexp="yes"><exception postag="AQ0CN0|_GV_|N.CN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|voler|saber</exception></token>
+                    <token postag="N.[MC][SN0].*" postag_regexp="yes"><exception regexp="yes">ens|estic|tant|cap</exception><exception postag="DN.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GN_MS"/>
+                <wd pos="_GN_MS"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="A..[FC][SN0].*|V.P..SF|PX.[FC][SN0].*" postag_regexp="yes"><exception postag="AQ0CN0|_GV_|N.CN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|voler|saber</exception></token>
+                    <token postag="N.[FC][SN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/><exception regexp="yes">parla|cap</exception></token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GN_FS"/>
+                <wd pos="_GN_FS"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="A..[MC][PN0].*|V.P..PM|PX.[MC][PN0].*" postag_regexp="yes"><exception postag="AQ0CN0|_GV_|N.CN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|voler|saber</exception></token>
+                    <token postag="N.[MC][PN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GN_MP"/>
+                <wd pos="_GN_MP"/>
+            </disambig>
+        </rule>
+        <rule>
+            <pattern>
+                <marker>
+                    <token postag="A..[FC][PN0].*|V.P..PF|PX.[FC][PN0].*" postag_regexp="yes"><exception postag="AQ0CN0|_GV_|N.CN.*" postag_regexp="yes"/><exception inflected="yes" regexp="yes">poder|voler|saber</exception></token>
+                    <token postag="N.[FC][PN0].*" postag_regexp="yes"><exception postag="DN.*" postag_regexp="yes"/></token>
+                </marker>
+            </pattern>
+            <disambig action="add">
+                <wd pos="_GN_FP"/>
+                <wd pos="_GN_FP"/>
+            </disambig>
+        </rule>
+    </rulegroup>
+
+    <rule id="not_adj_no_agreement2" name="not adjective if no agreement">
+        <pattern>
+            <marker>
+                <and>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">mal|solo|mejor<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="N.*|RG" postag_regexp="yes"/>
+                </and>
+            </marker>
+        </pattern>
+        <disambig action="remove" postag="A.*"/>
+    </rule>
+
     <rule id="la_not_noun" name="la not noun">
         <pattern>
             <token>la<exception postag="_GN_MS"/></token>
@@ -2621,7 +2679,7 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="N.*" postag_regexp="yes" regexp="yes">cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|queda|quedas<exception postag="_GN_.*" postag_regexp="yes"/></token>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">cuestas?|hablas?|cortas?|enseñas?|haya|sí|era|si|solo|son|e|la|las|u|hoy|mañana|ayer|ambos|sino|este|vaya|vayas|eras|ver|pasa|pasas|queda|quedas<exception postag="_GN_.*" postag_regexp="yes"/></token>
                     <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
@@ -2633,7 +2691,8 @@ Copyright (C) 2011 Juan Martorell
         <pattern>
             <marker>
                 <and>
-                    <token postag="A.*" postag_regexp="yes" regexp="yes">tardo|tardas?|cortas?|duro|dura|duras|cojo|coja|cojas|quedo|queda|quedas|despierto|despiertas?|paso|pasas|pasa<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[NMIS].*" postag_regexp="yes"/></token>
+                    <token postag="A.*" postag_regexp="yes" regexp="yes">tardo|tardas?|cortas?|duro|dura|duras|cojo|coja|cojas|quedo|queda|quedas|despierto|despiertas?|paso|pasas|pasa<exception postag="_GN_.*" postag_regexp="yes"/><exception scope="previous" postag="V.[NMIS].*" postag_regexp="yes"
+                        /></token>
                     <token postag="V.*" postag_regexp="yes" negate_pos="yes"/>
                 </and>
             </marker>
@@ -2763,6 +2822,38 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
             </pattern>
             <disambig action="filter" postag="V.P.*|AQ.*"/>
+        </rule>
+    </rulegroup>
+
+    <rulegroup id="verb_adjective" name="verb + adjective">
+        <!-- El riu passa engorjat. Viatges sola. Ronda amagat. -->
+        <rule>
+            <pattern>
+                <token><exception postag="D[^R]..S." postag_regexp="yes"/></token>
+                <marker>
+                    <and>
+                        <token postag="NC.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="VM[IS]..S." postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token postag="A...S.|V.P..S." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="NC.*"/>
+            <example type="untouched">Allí brolla una deu càrstica.</example>
+        </rule>
+        <rule>
+            <!-- hi ha cap cas? -->
+            <pattern>
+                <token><exception postag="D[^R]..P." postag_regexp="yes"/></token>
+                <marker>
+                    <and>
+                        <token postag="NC.*" postag_regexp="yes"><exception postag="_GN_.*" postag_regexp="yes"/></token>
+                        <token postag="VM[IS]..P." postag_regexp="yes"/>
+                    </and>
+                </marker>
+                <token postag="A...P.|V.P..P." postag_regexp="yes"/>
+            </pattern>
+            <disambig action="remove" postag="NC.*"/>
         </rule>
     </rulegroup>
 
