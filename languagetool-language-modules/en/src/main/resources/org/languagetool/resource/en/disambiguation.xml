@@ -6399,6 +6399,16 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </rule>
 
     <rule name="as" id="AS_ADVERB">
+        <antipattern><!-- #3143 as we speak -->
+            <token>as</token>
+            <token regexp="yes">I|you|we|they</token>
+            <token postag_regexp="yes" postag="VB[PD]"/>
+        </antipattern>
+        <antipattern><!-- #3143 as he tells -->
+            <token>as</token>
+            <token regexp="yes">s?he|it</token>
+            <token postag_regexp="yes" postag="VB[ZD]"/>
+        </antipattern>
         <pattern>
             <token postag="JJ"/>
             <marker>
@@ -6407,6 +6417,9 @@ Incorrectly touched. <example type="untouched">Incorrect grammar. Those present 
         </pattern>
         <disambig postag="RB"/>
         <example type="untouched">They are wed as gods.</example>
+        <example type="untouched">... someone, somewhere, is sending an e-mail as we speak.</example><!-- #3143 -->
+        <example type="untouched">He is not such a fool as you assumed him to be.</example><!-- #3143 -->
+        <example type="untouched">It is fantastic as he tells me constantly.</example><!-- #3143 -->
         <example type="ambiguous" inputform="as[as/CC,as/IN,as/RB]" outputform="as[as/RB]">He is as tall <marker>as</marker> my friend.</example>
     </rule>
 
