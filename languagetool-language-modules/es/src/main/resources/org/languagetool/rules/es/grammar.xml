@@ -25,6 +25,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
 <!ENTITY adverbio_lugar "detr&#225;s|delante|debajo|encima|cerca">
 <!ENTITY pronombre_personal_atono_POS "PP3..A.*|PP[123]C[SP][0D]00|P0[123].*">
 <!ENTITY pronombre_personal_atono "me|te|se|nos|os|le|les|lo|los|la|las">
+<!ENTITY pronombre_personal_no_articulo "me|te|se|nos|os|le|les|lo|los">
 <!--aguadulce, aguasal, aguaviva-->
 <!ENTITY nombre_fem_el "abra|África|acta|afta|agua|ala|alba|alga|algia|alma|alta|alza|ama|anca|ancla|ansia|ara|arca|archa|aria|arma|arpa|arria|arte|asa|ascua|asma|aspa|asta|aula|aura|ave|aya|haba|habla|hacha|hada|hambre|hampa|haya|ágata|ágora|águila|álgebra|áncora|ánfora|ánima|área|árnica">
 <!ENTITY dias_semana_may "Lunes|Martes|Miércoles|Jueves|Viernes|Sábado|Domingo">
@@ -1251,15 +1252,20 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule default="temp_off">
                 <!-- Only noun + adj: with 2 errors: alivian la nauseas matutinas-->
                 <pattern>
+                    <token><exception regexp="yes">&pronombre_personal_no_articulo;</exception></token>
                     <marker>
-                        <token><exception postag="RG|LOC_ADV|[NA].*" postag_regexp="yes"/></token>
+                        <token><exception postag="RG|LOC_ADV|[NA].*" postag_regexp="yes"/><exception>practico</exception></token>
                     </marker>
-                    <token postag="AQ.*" postag_regexp="yes"/>
+                    <token postag="AQ..P." postag_regexp="yes"/>
                 </pattern>
-                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:[AN].* gendernumber_from:2"/>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\2 postag:N.* gendernumber_from:3"/>
                 <message>Si es adjetivo o nombre, se escribe con tilde.</message>
                 <suggestion>{suggestion}</suggestion>
                 <example correction="náuseas">Alivia la <marker>nauseas</marker> matutinas.</example>
+                <example>Se rio feliz.</example>
+                <example>Ellos le llamaron cobarde.</example>
+                <example>Ellos llamaron pirata al presidente Roosevelt.</example>
+                <example>¿A quién le envió rosas?</example>
             </rule>
         </rulegroup>
         <rule id="DIACRITICS_CONDICIONAL" name="secundaria/secundaría">
@@ -2802,7 +2808,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </rule>
             <rule>
                 <antipattern>
-                    <token regexp="yes">le|les|lo|los|la|las|os</token>
+                    <token regexp="yes">le|les|lo|los|la|las|os|te|me</token>
                     <token>incomodo</token>
                 </antipattern>
                 <pattern>
@@ -2812,6 +2818,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <suggestion><match no="1" regexp_match="(?i)(inc)o(.*)" regexp_replace="$1ó$2"/></suggestion>
                 <example correction="incómodos">Son <marker>incomodos</marker>.</example>
                 <example>Disculpen si les incomodo.</example>
+                <example>Está claro que te incomodo.</example>
             </rule>
             <rule>
                 <antipattern>
@@ -3161,8 +3168,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <antipattern>
                 <token>esta</token>
-                <token postag="NCFS000|AQ.[FC]S." postag_regexp="yes"/>
-                <token postag="NCFS000|AQ.[FC]S." postag_regexp="yes"/>
+                <token postag="NCFS000|AQ.[FC]S.|V.P..SF" postag_regexp="yes"/>
+                <token postag="NCFS000|AQ.[FC]S.|V.P..SF" postag_regexp="yes"/>
             </antipattern>
             <rule>
                 <!-- está + participio-->
@@ -3185,6 +3192,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Siendo esta formada por varios miembros</example>
                 <example>cuando sea esta formada por varios miembros</example>
                 <example>entre él y esta querida hija</example>
+                <example>Esta pretendida polémica</example>
                 <!-- <example>Al verse esta superada.</example> better disambiguation needed-->
             </rule>
             <rule>
