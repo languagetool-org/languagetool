@@ -60121,6 +60121,9 @@ The accident victim died from her injuries.
         </rule>
         <rule id="FIRST_OF_ALL" name="first of all (first)">
             <!-- Created by Tiago F. Santos 24-09-2019 -->
+            <antipattern><!-- #3141 first of all the students -->
+                <token chunk="B-NP-plural">all</token>
+            </antipattern>
             <pattern>
                 <marker>
                     <token>first</token>
@@ -60134,7 +60137,11 @@ The accident victim died from her injuries.
             <message>This phrase is redundant. Consider using <suggestion>first</suggestion>.</message>
             <short>Redundant phrase</short>
             <example correction="First"><marker>First of all</marker>, let us review what has been done.</example>
+            <example><marker>First</marker>, let us review what has been done.</example>
             <example>He was the first of all who participated.</example>
+            <example>My son is the first of all the students at this school.</example><!-- #3141 -->
+            <example>"A" is the first of all letters -- God is the first of everything in the ...</example><!-- #3141 -->
+            <example>Illusion is the first of all pleasures.</example><!-- #3141 -->
         </rule>
         <rule id="FOCUS_IN" name="focus in (focus)">
         <!-- Created by Tiago F. Santos 24-09-2019 -->
