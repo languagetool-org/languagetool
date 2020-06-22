@@ -1014,7 +1014,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             <rule>
                 <!-- Un termino -->
                 <pattern>
-                    <token postag="D[^RTEN].*" postag_regexp="yes"> <exception regexp="yes">el|lo|la</exception> <exception postag="PP.*" postag_regexp="yes"/> </token>
+                    <token postag="D[^RTEN].*" postag_regexp="yes"><exception regexp="yes">el|lo|la</exception><exception postag="PP.*" postag_regexp="yes"/> </token>
                     <marker>
                         <token><exception postag="D.*|V.N.*|[NA].*|V.P.*" postag_regexp="yes"/></token>
                     </marker>
@@ -1033,6 +1033,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="módulo">Organizar un <marker>modulo</marker> sobre capacitación.</example>
                 <example correction="fábricas">Salía de esas <marker>fabricas</marker> a un precio bajo.</example>
                 <example correction="filósofo">Fue un <marker>filosofo</marker> estrambótico</example>
+                <example correction="título">¿Por qué le pondría ese <marker>titulo</marker>?</example>
                 <example>¿Por qué decimos esto?</example>
                 <example>La enmienda n.º 4 duplica gran parte.</example>
                 <example>¿Dónde está tu mama, niño?</example>
@@ -1246,6 +1247,19 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example correction="explícito">Fue mucho más <marker>explicito</marker>.</example>
                 <example>Ella es demasiado baja.</example>
                 <example>En el estado opera el nepotismo.</example>
+            </rule>
+            <rule default="temp_off">
+                <!-- Only noun + adj: with 2 errors: alivian la nauseas matutinas-->
+                <pattern>
+                    <marker>
+                        <token><exception postag="RG|LOC_ADV|[NA].*" postag_regexp="yes"/></token>
+                    </marker>
+                    <token postag="AQ.*" postag_regexp="yes"/>
+                </pattern>
+                <filter class="org.languagetool.rules.es.ConfusionCheckFilter" args="form:\1 postag:[AN].* gendernumber_from:2"/>
+                <message>Si es adjetivo o nombre, se escribe con tilde.</message>
+                <suggestion>{suggestion}</suggestion>
+                <example correction="náuseas">Alivia la <marker>nauseas</marker> matutinas.</example>
             </rule>
         </rulegroup>
         <rule id="DIACRITICS_CONDICIONAL" name="secundaria/secundaría">
@@ -1783,6 +1797,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Que a los menos importantes se los nombre primero.</example>
                 <example>Está mal que no se lo perdones.</example>
                 <example>Dime si se lo vas a dar o no.</example>
+                <example>Hoy es el día en que se casa Ken.</example>
             </rule>
             <rule>
                 <pattern>
@@ -1860,7 +1875,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>La continua tensión.</example>
             </rule>
         </rulegroup>
-        <rulegroup id="SABIA" name="sabia/sabía" default="temp_off">
+        <rulegroup id="SABIA" name="sabia/sabía">
             <antipattern>
                 <token postag="RG"/>
                 <token regexp="yes">sabias?</token>
@@ -1883,6 +1898,38 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Has tomado una sabia decisión.</example>
             </rule>
             <rule>
+                <antipattern>
+                    <token>sabia</token>
+                    <token postag="NCFS000"/>
+                </antipattern>
+                <antipattern>
+                    <token>sabias</token>
+                    <token postag="NCFP000"/>
+                </antipattern>
+                <antipattern>
+                    <token>sabia</token>
+                    <token regexp="yes">,|y|o|e|u|ni</token>
+                    <token postag="AQ0[CF][SN]0" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token>sabias</token>
+                    <token regexp="yes">,|y|o|e|u|ni</token>
+                    <token postag="AQ0[CF][PN]0" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern>
+                    <token postag="AQ0[CF][SN]0" postag_regexp="yes"/>
+                    <token regexp="yes">,|y|o|e|u|ni</token>
+                    <token>sabia</token>
+                </antipattern>
+                <antipattern>
+                    <token postag="AQ0[CF][PN]0" postag_regexp="yes"/>
+                    <token regexp="yes">,|y|o|e|u|ni</token>
+                    <token>sabias</token>
+                </antipattern>
+                <antipattern>
+                    <token>sabias</token>
+                    <token>como</token>
+                </antipattern>
                 <pattern>
                     <marker>
                         <token regexp="yes">sabia|sabias<exception postag="_GN_F." postag_regexp="yes"/></token>
@@ -1896,6 +1943,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Es muy sabia.</example>
                 <example>Es extraordinariamente sabia.</example>
                 <example>Es sabia como su hermano.</example>
+                <example>sabia dosificación de la expectativa</example>
+                <example>sabias palabras del presidente</example>
+                <example>Fuerte es el alma, y sabia y bella.</example>
+                <example>Son bellas y sabias.</example>
+                <example>Y <marker>sabias</marker> como los hombres.</example>
             </rule>
         </rulegroup>
         <rulegroup id="TENIA" name="tenia/tenía" default="on">
@@ -2583,7 +2635,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Este libro lo pagina con el programa de edición.</example>
                 <example>Se pagina al final del diseño.</example>
             </rule>
-            <rule id="LIQUIDA" name="liquida/líquida" default="temp_off">
+            <rule id="LIQUIDA" name="liquida/líquida">
                 <antipattern>
                     <token postag="P.*" postag_regexp="yes"/>
                     <token regexp="yes">liquidas?|liquido</token>
@@ -2779,7 +2831,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                     <token regexp="yes">dolar(es)?</token>
                 </pattern>
                 <message>El nombre de la moneda se escribe con tilde.</message>
-                <suggestion><match no="1" regexp_match="(?i)(d)o(l.*)" regexp_replace="$1ó$2"/></suggestion>
+                <suggestion><match no="1" regexp_match="(?i)(d)o(l.*)" regexp_replace="$1ó$2" case_conversion="preserve"/></suggestion>
                 <example correction="dólares">¿Cuántos <marker>dolares</marker> cuesta?</example>
             </rule>
             <rule>
@@ -3836,7 +3888,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
             </antipattern>
             <rule>
                 <pattern>
-                    <token regexp="yes">[\d\.,ºª]+\p{L}{3,}<exception regexp="yes">\d+(hrs|grs)</exception><exception case_sensitive="yes" regexp="yes">\d+[A-Z]+</exception></token>
+                    <token postag="UNKNOWN" regexp="yes">[\d\.,ºª]+\p{L}{3,}<exception regexp="yes">\d+(hrs|grs)</exception><exception case_sensitive="yes" regexp="yes">\d+[A-Z]+</exception></token>
                 </pattern>
                 <message>Probablemente falta un espacio.</message>
                 <suggestion><match no="1" regexp_match="(?iu)([\d\.,ºª]+)(\p{L}{3,})" regexp_replace="$1 $2"/></suggestion>
@@ -9044,11 +9096,11 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Una persona que no te entiende no tiene por qué ser idiota.</example>
                 <example>No puedes no verlo.</example>
             </rule>
-            <rule default="temp_off">
+            <rule>
                 <pattern>
                     <token>a</token>
                     <token postag="DP.*" postag_regexp="yes"/>
-                    <token><match no="0"></match></token>
+                    <token><match no="0"/></token>
                 </pattern>
                 <message>Repetición probablemente incorrecta.</message>
                 <suggestion>\1 \2</suggestion>

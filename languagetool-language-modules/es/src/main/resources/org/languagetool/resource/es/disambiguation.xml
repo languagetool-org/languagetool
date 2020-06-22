@@ -63,17 +63,6 @@ Copyright (C) 2011 Juan Martorell
     </rulegroup>-->
 
 
-
-    <rule id="not_noun" name="not noun">
-        <pattern>
-            <and>
-                <token postag="N.*" postag_regexp="yes" regexp="yes">no|eres|lo|los|de|restante|restantes</token>
-                <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
-            </and>
-        </pattern>
-        <disambig action="remove" postag="N.*"/>
-    </rule>
-
     <rulegroup id="LOC_ADV" name="locuciones adverbiales">
         <rule id="pese_a" name="pese a">
             <pattern>
@@ -892,7 +881,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token inflected="yes" regexp="yes">color|modo|tipo</token>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes"/>
+                    <token postag="N.*" postag_regexp="yes"><exception>son</exception><exception postag="SPS00|LOC.*" postag_regexp="yes"/></token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="N.*"/>
@@ -928,7 +917,7 @@ Copyright (C) 2011 Juan Martorell
             <pattern>
                 <token postag="NC.*" postag_regexp="yes"/>
                 <marker>
-                    <token inflected="yes" regexp="yes">modelo|base|pivote</token>
+                    <token inflected="yes" regexp="yes">modelo|base|pivote|prototipo</token>
                 </marker>
             </pattern>
             <disambig action="filter" postag="N.*"/>
@@ -975,7 +964,7 @@ Copyright (C) 2011 Juan Martorell
             <disambig action="remove" postag="V.*"/>
         </rule>
     </rulegroup>
-    
+
     <rulegroup id="nombre_seguidode_nombrepropio" name="nombre seguido de nombre propio: calle Ayacuco">
         <rule>
             <pattern>
@@ -993,7 +982,7 @@ Copyright (C) 2011 Juan Martorell
         <rule>
             <pattern>
                 <marker>
-                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">&nombre_seguidode_nombrepropio;</token>
+                    <token postag="N.*" postag_regexp="yes" inflected="yes" regexp="yes">&nombre_seguidode_nombrepropio;<exception postag_regexp="yes" postag="&pronombre_personal_atono_POS;" scope="previous"/></token>
                 </marker>
                 <token regexp="yes">\p{Lu}.+</token>
             </pattern>
@@ -1438,7 +1427,7 @@ Copyright (C) 2011 Juan Martorell
                 </marker>
                 <token regexp="yes">de|del</token>
             </pattern>
-            <disambig action="remove" postag="V.*"></disambig>
+            <disambig action="remove" postag="V.*"/>
         </rule>
     </rulegroup>
 
@@ -1722,7 +1711,16 @@ Copyright (C) 2011 Juan Martorell
         </pattern>
         <disambig action="filter" postag="PI0CS000"/>
     </rule>
-    <rulegroup id="no_nombre" name="no nombre: todo, no">
+    <rulegroup id="not_noun" name="not noun">
+        <rule>
+            <pattern>
+                <and>
+                    <token postag="N.*" postag_regexp="yes" regexp="yes">no|eres|lo|los|de|restante|restantes</token>
+                    <token postag="N.*" postag_regexp="yes" negate_pos="yes"/>
+                </and>
+            </pattern>
+            <disambig action="remove" postag="N.*"/>
+        </rule>
         <rule>
             <pattern>
                 <token inflected="yes" regexp="yes">todo|no|pronto<exception postag="D.*" postag_regexp="yes" scope="previous"/></token>
@@ -1758,7 +1756,7 @@ Copyright (C) 2011 Juan Martorell
         </rule>
         <rule>
             <pattern>
-                <token>habla<exception postag="D..FS." postag_regexp="yes" scope="previous"/><exception scope="previous">el</exception></token>
+                <token regexp="yes">habla|ese<exception postag="D..FS." postag_regexp="yes" scope="previous"/><exception scope="previous">el</exception></token>
             </pattern>
             <disambig action="remove" postag="NC.*"/>
         </rule>
