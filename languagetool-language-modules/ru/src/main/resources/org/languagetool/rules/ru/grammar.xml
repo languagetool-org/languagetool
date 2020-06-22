@@ -5310,7 +5310,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
         </rule>            
         <rule id="PUNCT_OBR" name="Запятая при обращении" default="on">  <!-- default="temp_off" -->
             <pattern case_sensitive="yes">
-                <token postag="NN:(Name|Patr):.*" postag_regexp="yes" regexp="yes" >[А-ЯЁ][а-яё]*<exception negate_pos="yes"  postag="NN:(Name|Patr):.*" postag_regexp="yes" /></token>
+                <token postag="NN:(Name|Patr):.*" postag_regexp="yes" regexp="yes" >[А-ЯЁ][а-яё]*<exception negate_pos="yes"  postag="NN:(Name|Patr):.*" postag_regexp="yes" /><exception scope="previous">и</exception></token>
                 <token postag="VB:IMP:TRANS:PFV:.*:P2" postag_regexp="yes"><exception negate_pos="yes"  postag="VB:.*" postag_regexp="yes" /></token>
             </pattern>
             <message>Запятая при обращении: <suggestion>\1, \2</suggestion></message>
@@ -7494,7 +7494,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 </antipattern>
                 <pattern>
                     <marker>         
-                        <token>не<exception scope="previous" regexp="yes">ни(.*)|отнюдь|вовсе|далеко|–|-|—|это|эти|эта|этот|тот|та|те|да|а</exception><exception scope="previous" postag_regexp="yes" postag="ADV" /></token>
+                        <token>не<exception scope="previous" regexp="yes">ни(.*)|отнюдь|вовсе|далеко|–|-|—|это|эти|эта|этот|тот|та|те|да|а</exception>
+                            <exception scope="previous" postag_regexp="yes" postag="ADV" />
+                            <exception scope="previous">но</exception>
+                        </token>
                         <token postag="ADV"  regexp="yes">(.*)[о]<exception regexp="yes">заново|настолько|несколько|одиноко|особенно|особо|специально</exception><exception scope="next" regexp="yes">,|а|да|иной|иное|иные|иная</exception><exception scope="next" postag_regexp="yes" postag="CONJ|ADV"></exception><exception postag="PARTICLE"></exception></token>
                     </marker>                        
                 </pattern>
@@ -7507,6 +7510,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
                 <example>Она начала играть в волейбол не столько из интереса, сколько из тщеславия.</example>
                 <example>Сегодня не особо ветрено.</example>
                 <example>Это не ново.</example>
+                <example>Достаточно A, но не достаточно B.</example>
                 <example>Красное больше не модно.</example>
                 <example>Дома сидеть невесело.</example>
                 <example>Отрасли промышленности с большим вложением капитала, совершенно не обязательно требуют вложения знаний.</example>
