@@ -28983,6 +28983,7 @@ USA
             <example correction="have Twitter|have twittered">I <marker>have twitter</marker>.</example>
             <example>Some countries also have visa and/or health requirements.</example>
         </rule>
+
         <rulegroup id="HAVE_PART_AGREEMENT" name="Agreement: 'have' + past/present tense">
             <rule>
                 <antipattern>
@@ -29117,6 +29118,11 @@ USA
                     <token chunk="I-NP-plural" postag="NN(:UN?)?" postag_regexp="yes"/>
                     <token chunk="E-NP-plural" postag="NNS"/>
                 </antipattern>
+                <antipattern><!-- #3125 have hot water -->
+                    <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|have</token>
+                    <token chunk="B-NP-singular" postag="JJ"/>
+                    <token chunk="E-NP-singular" postag="NN(:UN?)?" postag_regexp="yes"/>
+                </antipattern>
                 <pattern>
                     <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|(?:ha)?ve</token>
                     <token postag="RB">
@@ -29149,6 +29155,7 @@ USA
                 <example>... are diffusible ligands and thus can have long range effects.</example>
                 <example>You don't have enough push.</example>
                 <example>You should have enough sense not to drink, at least during your illness.</example>
+                <example>We have hot water.</example><!-- #3125 -->
 <!-- False negative --><example>... but had there <marker>was</marker> sufficient information, we could have...</example>
             </rule>
             <rule>
