@@ -18601,9 +18601,10 @@ though, and has since been slightly modified)-->
         <message>« Plume-fontaine » est un anglicisme (fountain pen). Employez <suggestion>stylo <match no="1" regexp_match="fontaine(s)?" regexp_replace="plume$1"/></suggestion>, <suggestion>stylo à <match no="1" regexp_match="fontaine(s)?" regexp_replace="plume$1"/></suggestion>.</message>
         <example correction="stylo plume|stylo à plume"><marker>plume-fontaine</marker></example>
         <example correction="stylo plume|stylo à plume"><marker>plume fontaine</marker></example>
+        <example correction="stylo plumes|stylo à plumes"><marker>plumes fontaines</marker></example>
         <example><marker>stylo plume</marker></example>
     </rule>
-    <rulegroup id="POPCORN" name="popcorn">
+    <rulegroup id="POPCORN" name="popcorn" default="off"> <!-- too picky -->
       <rule>
         <pattern>
           <token regexp="yes">pops?[-‑‐]?corns?</token>
@@ -18639,9 +18640,10 @@ though, and has since been slightly modified)-->
         <pattern>
           <token regexp="yes">roast-?beefs?</token>
         </pattern>
-        <message>« Roast beef » est un anglicisme. Employez <suggestion>rôti de bœuf</suggestion>, <suggestion>rosbif</suggestion>.</message>
+        <message>« Roast beef » est un anglicisme. Employez <suggestion><match no="1" regexp_match=".*beef(s)?" regexp_replace="rôti$1"/> de bœuf</suggestion>, <suggestion><match no="1" regexp_match=".*beef(s)?" regexp_replace="rosbif$1"/></suggestion>.</message>
         <example correction="rôti de bœuf|rosbif"><marker>roastbeef</marker></example>
         <example correction="rôti de bœuf|rosbif"><marker>roast-beef</marker></example>
+        <example correction="rôtis de bœuf|rosbifs"><marker>roast-beefs</marker></example>
         <example><marker>rôti de bœuf</marker></example>
       </rule>
     </rulegroup>
@@ -18658,8 +18660,9 @@ though, and has since been slightly modified)-->
         <token>or</token>
         <token regexp="yes">solides?</token>
       </pattern>
-      <message>« Or solide » est un anglicisme (solide gold). Employez <suggestion>or massif</suggestion>.</message>
+      <message>« Or solide » est un anglicisme (solid gold). Employez <suggestion>or <match no="2" regexp_match="solide(s)?" regexp_replace="massif$1"/></suggestion>.</message>
       <example correction="or massif"><marker>or solide</marker></example>
+        <example correction="or massifs"><marker>or solides</marker></example>
     </rule>
     <rule id="EXERCICE_DE_FEU" name="exercice de feu">
       <pattern>
@@ -18667,8 +18670,9 @@ though, and has since been slightly modified)-->
         <token>de</token>
         <token regexp="yes">feux?</token>
       </pattern>
-      <message>« Exercice de feu » est un anglicisme. Employez <suggestion>exercice d’évacuation</suggestion>.</message>
+      <message>« Exercice de feu » est un anglicisme. Employez <suggestion><match no="1" regexp_match="exercise(s)?" regexp_replace="exercice$1"/> d’évacuation</suggestion>.</message>
       <example correction="exercice d’évacuation"><marker>exercice de feu</marker></example>
+        <example correction="exercices d’évacuation"><marker>exercices de feux</marker></example>
     </rule>
     <rule id="RESISTANT_AU_FEU" name="résistant au feu">
       <pattern>
@@ -18676,8 +18680,9 @@ though, and has since been slightly modified)-->
         <token>au</token>
         <token regexp="yes">feux?</token>
       </pattern>
-      <message>« Résistant au feu » est un anglicisme (fire-resistant). Employez <suggestion>ignifuge</suggestion>, <suggestion>réfractaire</suggestion>.</message>
+      <message>« Résistant au feu » est un anglicisme (fire-resistant). Employez <suggestion><match no="1" regexp_match="résistante?(s)?" regexp_replace="ignifuge$1"/></suggestion>, <suggestion><match no="1" regexp_match="résistante?(s)?" regexp_replace="réfractaire$1"/></suggestion>.</message>
       <example correction="ignifuge|réfractaire"><marker>résistant au feu</marker></example>
+      <example correction="ignifuges|réfractaires"><marker>résistants au feu</marker></example>
       <example><marker>ignifuge</marker></example>
     </rule>
     <rule id="PERE_LEGAL" name="père légal">
