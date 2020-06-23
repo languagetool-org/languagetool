@@ -9390,6 +9390,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
     <!-- Siehe auch ../../resource/de/compounds.txt -->
     <!-- ====================================================================== -->
     <category id="COMPOUNDING" name="Getrennt- und Zusammenschreibung">
+        <rule id="FEST_COMPOUNDS" name="fest genommen (festgenommen)" default="temp_off">
+            <pattern>
+                <token>fest</token>
+                <token inflected="yes" regexp="yes">nehmen|halten</token>
+            </pattern>
+            <message>Das Verb <suggestion>fest<match no="2" case_conversion="alllower" /></suggestion> wird zusammengeschrieben.</message>
+            <example correction="festgenommen">Der Dieb wurde auf der Flucht von der Polizei <marker>fest genommen</marker>.</example>
+        </rule>
         <rulegroup id="NO_GO" name="No-Go">
             <rule>
                 <pattern>
