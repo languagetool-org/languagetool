@@ -29198,6 +29198,11 @@ USA
                 <antipattern><!-- #3125 have hot water -->
                     <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|have</token>
                     <token chunk="B-NP-singular" postag="JJ"/>
+                    <token chunk="E-NP-singular" postag="NN:UN?" postag_regexp="yes"/>
+                </antipattern>
+                <antipattern><!-- 'Same' as a pronoun: www.lexico.com/definition/same. Ignore the missing 'the': have same cap -->
+                    <token regexp="yes" postag="VB.?" postag_regexp="yes">ha[ds]|have</token>
+                    <token>same</token>
                     <token chunk="E-NP-singular" postag="NN(:UN?)?" postag_regexp="yes"/>
                 </antipattern>
                 <pattern>
@@ -29217,6 +29222,7 @@ USA
                 <example correction="written">I must have always <marker>wrote</marker> that.</example>
                 <example correction="rained">It has often <marker>rain</marker> this summer.</example>
                 <example correction="been">Had there <marker>was</marker> a problem, you could have...</example>
+                <example correction="spoked|spoken">After we had last <marker>spoke</marker>, in November, I was contacted by the...</example><!-- spoke/E-NP-singular -->
                 <example>I have already <marker>forgotten</marker> their names.</example>
                 <example>I have always done that.</example>
                 <example>I have nothing better to do.</example>
@@ -29233,6 +29239,10 @@ USA
                 <example>You don't have enough push.</example>
                 <example>You should have enough sense not to drink, at least during your illness.</example>
                 <example>We have hot water.</example><!-- #3125 -->
+                <example>... from the sponsors and investors who have firsthand experience in issuing and investing in debt.</example>
+                <example>Do you have hard evidence?</example>
+                <example>FERC should have same cap they allow for New York.</example>
+                <example>... and we will not have hard copy for roughly 30 days.</example>
 <!-- False negative --><example>... but had there <marker>was</marker> sufficient information, we could have...</example>
             </rule>
             <rule>
